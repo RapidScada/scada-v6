@@ -9,11 +9,3 @@ The goals of the development:
 * The code system for objects, devices and tags.
 * Clearify the source code and the configuration database.
 * .NET Core support.
-
-Работа с большими объёмами данных до 1 млн. тегов
-Устранение проблем производительности при построении графиков
-Гибкая работа с архивами
-Иерархия объектов и прав
-Кодирование объектов, КП и тегов
-Очистка кода и базы конфигурации
-Поддержка .NET Core
