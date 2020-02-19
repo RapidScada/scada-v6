@@ -7,5 +7,5 @@ The goals of the development:
 * Flexible archives.
 * Hierarchical objects and rights.
 * The code system for objects, devices and tags.
-* Clearify the source code and the configuration database.
+* Clear the source code and the configuration database.
 * .NET Core support.
