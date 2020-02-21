@@ -64,9 +64,12 @@ namespace Scada
                     else
                         Thread.Sleep(ScadaUtils.ThreadDelay);
                 }
-            }));
+            }))
+            {
+                IsBackground = true,
+                Priority = ThreadPriority.BelowNormal
+            };
 
-            thread.Priority = ThreadPriority.BelowNormal;
             thread.Start();
         }
 
