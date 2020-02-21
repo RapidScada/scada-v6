@@ -1,0 +1,28 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <OutputType>Exe</OutputType>
+    <TargetFramework>netcoreapp2.1</TargetFramework>
+    <RootNamespace>Scada.Server.App</RootNamespace>
+    <Version>6.0.0</Version>
+    <Authors>Mikhail Shiryaev</Authors>
+    <Company>Rapid Software LLC</Company>
+    <Product>Rapid SCADA</Product>
+    <Copyright>Copyright © 2004-2020</Copyright>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\ScadaServerCommon\ScadaServerCommon.csproj" />
+    <ProjectReference Include="..\ScadaServerEngine\ScadaServerEngine.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Reference Include="Log">
+      <HintPath>..\..\..\Log\Log\bin\Release\netstandard2.0\Log.dll</HintPath>
+    </Reference>
+    <Reference Include="ScadaData">
+      <HintPath>..\..\..\ScadaData\ScadaData\bin\Release\netstandard2.0\ScadaData.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+
+</Project>

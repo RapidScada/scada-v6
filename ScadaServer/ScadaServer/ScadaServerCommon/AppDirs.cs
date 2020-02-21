@@ -53,6 +53,12 @@ namespace Scada.Server
         public string ExeDir { get; protected set; }
 
         /// <summary>
+        /// Gets the command directory.
+        /// </summary>
+        /// <remarks>This directory is used by the console application.</remarks>
+        public string CmdDir { get; protected set; }
+
+        /// <summary>
         /// Gets the directory of the application configuration.
         /// </summary>
         public string ConfigDir { get; protected set; }
@@ -101,6 +107,7 @@ namespace Scada.Server
         public void Init(string exeDir)
         {
             ExeDir = ScadaUtils.NormalDir(exeDir);
+            CmdDir = ExeDir + "Cmd" + Path.DirectorySeparatorChar;
             ConfigDir = ExeDir + "Config" + Path.DirectorySeparatorChar;
             LangDir = ExeDir + "Lang" + Path.DirectorySeparatorChar;
             LogDir = ExeDir + "Log" + Path.DirectorySeparatorChar;

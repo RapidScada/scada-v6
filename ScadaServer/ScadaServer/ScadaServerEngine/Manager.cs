@@ -48,8 +48,15 @@ namespace Scada.Server.Engine
         {
             log = new LogStub();
             coreLogic = null;
+            AppDirs = new AppDirs();
             AppDomain.CurrentDomain.UnhandledException += OnUnhandledException;
         }
+
+
+        /// <summary>
+        /// Gets the application directories.
+        /// </summary>
+        public AppDirs AppDirs { get; private set; }
 
 
         /// <summary>
@@ -84,22 +91,21 @@ namespace Scada.Server.Engine
         /// </summary>
         public bool StartService()
         {
-            AppDirs appDirs = new AppDirs();
             string exeDir = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location);
-            appDirs.Init(exeDir);
+            AppDirs.Init(exeDir);
 
-            log = new LogFile(LogFormat.Full, appDirs.LogDir + ServerUtils.LogFileName);
+            log = new LogFile(LogFormat.Full, AppDirs.LogDir + ServerUtils.LogFileName);
             log.WriteBreak();
             log.WriteAction(string.Format(Locale.IsRussian ?
                 "Сервер {0} запущен" :
                 "Server {0} started", ServerUtils.AppVersion));
 
-            if (appDirs.Exist)
+            if (AppDirs.Exist)
             {
-                LocalizeApp(appDirs.LangDir);
-                string configFileName = appDirs.ConfigDir + ServerConfig.DefaultFileName;
+                LocalizeApp(AppDirs.LangDir);
+                string configFileName = AppDirs.ConfigDir + ServerConfig.DefaultFileName;
                 ServerConfig config = new ServerConfig();
-                coreLogic = new CoreLogic(config, appDirs, log);
+                coreLogic = new CoreLogic(config, AppDirs, log);
 
                 if (config.Load(configFileName, out string errMsg) &&
                     coreLogic.StartProcessing())
@@ -116,7 +122,7 @@ namespace Scada.Server.Engine
                 log.WriteError(string.Format(Locale.IsRussian ?
                     "Необходимые директории не существуют:{0}{1}" :
                     "The required directories do not exist:{0}{1}",
-                    Environment.NewLine, string.Join(Environment.NewLine, appDirs.GetRequiredDirs())));
+                    Environment.NewLine, string.Join(Environment.NewLine, AppDirs.GetRequiredDirs())));
             }
 
             log.WriteError(Locale.IsRussian ?

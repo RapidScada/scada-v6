@@ -172,7 +172,7 @@ namespace Scada.Server.Engine
                     }
                     else
                     {
-                        thread.Abort();
+                        thread.Abort(); // not supported on .NET Core
                         log.WriteAction(Locale.IsRussian ?
                             "Обработка логики прервана" :
                             "Logic processing is aborted");

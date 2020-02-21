@@ -82,7 +82,7 @@ namespace Scada
         /// <summary>
         /// Gets the dictionary file name depending on the selected culture.
         /// </summary>
-        public static string GetDictFileName(string directory, string fileNamePrefix)
+        private static string GetDictFileName(string directory, string fileNamePrefix)
         {
             return Path.Combine(directory, fileNamePrefix + "." + Culture.Name + ".xml");
         }
@@ -140,14 +140,6 @@ namespace Scada
             }
         }
 
-        /// <summary>
-        /// Gets the dictionary by the specified key or an empty dictionary if the key is not found.
-        /// </summary>
-        public static LocaleDict GetDictionary(string key)
-        {
-            return Dictionaries.TryGetValue(key, out LocaleDict dict) ? dict : new LocaleDict(key);
-        }
-
 
         /// <summary>
         /// Sets the culture.
@@ -175,6 +167,14 @@ namespace Scada
         public static bool LoadDictionaries(string directory, string fileNamePrefix, out string errMsg)
         {
             return LoadDictionaries(GetDictFileName(directory, fileNamePrefix), out errMsg);
+        }
+
+        /// <summary>
+        /// Gets the dictionary by the specified key or an empty dictionary if the key is not found.
+        /// </summary>
+        public static LocaleDict GetDictionary(string key)
+        {
+            return Dictionaries.TryGetValue(key, out LocaleDict dict) ? dict : new LocaleDict(key);
         }
     }
 }

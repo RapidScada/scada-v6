@@ -174,7 +174,7 @@ namespace Scada.Log
                     // check file size
                     FileInfo fileInfo = new FileInfo(FileName);
 
-                    if (fileInfo.Length > Capacity)
+                    if (fileInfo.Exists && fileInfo.Length > Capacity)
                     {
                         // rename the file
                         string bakFileName = FileName + ".bak";
