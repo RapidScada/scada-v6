@@ -53,5 +53,14 @@ namespace Scada
         /// Gets the phrases contained in the dictionary.
         /// </summary>
         public Dictionary<string, string> Phrases { get; private set; }
+
+
+        /// <summary>
+        /// Gets the phrase associated with the specified key or an empty phrase if the key is not found.
+        /// </summary>
+        public string GetPhrase(string key)
+        {
+            return Phrases.TryGetValue(key, out string phrase) ? phrase : "[" + key + "]";
+        }
     }
 }

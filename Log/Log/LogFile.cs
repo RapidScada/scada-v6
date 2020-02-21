@@ -33,7 +33,7 @@ namespace Scada.Log
     /// Represents a log file.
     /// <para>Представляет файл журнала.</para>
     /// </summary>
-    public class Log : ILog
+    public class LogFile : ILog
     {
         /// <summary>
         /// The default log file capacity, 1 MB.
@@ -59,7 +59,7 @@ namespace Scada.Log
         /// <summary>
         /// Initializes a new instance of the class.
         /// </summary>
-        public Log(LogFormat logFormat, string fileName = "")
+        public LogFile(LogFormat logFormat, string fileName = "")
         {
             this.logFormat = logFormat;
             writeLock = new object();

@@ -26,6 +26,8 @@
 using System;
 using System.Collections.Generic;
 using System.Globalization;
+using System.IO;
+using System.Xml;
 
 namespace Scada
 {
@@ -76,7 +78,77 @@ namespace Scada
                 (cultureInfo.Name.Equals("ru", StringComparison.OrdinalIgnoreCase) || 
                 cultureInfo.Name.StartsWith("ru-", StringComparison.OrdinalIgnoreCase));
         }
-        
+
+        /// <summary>
+        /// Gets the dictionary file name depending on the selected culture.
+        /// </summary>
+        public static string GetDictFileName(string directory, string fileNamePrefix)
+        {
+            return Path.Combine(directory, fileNamePrefix + "." + Culture.Name + ".xml");
+        }
+
+        /// <summary>
+        /// Loads dictionaries from the specified file.
+        /// </summary>
+        /// <remarks>
+        /// If several dictionaries have the same key, they are merged.
+        /// If several phrases within a dictionary have the same key, the last value is taken.
+        /// </remarks>
+        private static bool LoadDictionaries(string fileName, out string errMsg)
+        {
+            if (File.Exists(fileName))
+            {
+                try
+                {
+                    XmlDocument xmlDoc = new XmlDocument();
+                    xmlDoc.Load(fileName);
+
+                    foreach (XmlElement dictElem in xmlDoc.DocumentElement.SelectNodes("Dictionary"))
+                    {
+                        string dictKey = dictElem.GetAttribute("key");
+
+                        if (!Dictionaries.TryGetValue(dictKey, out LocaleDict dict))
+                        {
+                            dict = new LocaleDict(dictKey);
+                            Dictionaries.Add(dictKey, dict);
+                        }
+
+                        foreach (XmlElement phraseElem in dictElem.SelectNodes("Phrase"))
+                        {
+                            string phraseKey = phraseElem.GetAttribute("key");
+                            dict.Phrases[phraseKey] = phraseElem.InnerText;
+                        }
+                    }
+
+                    errMsg = "";
+                    return true;
+                }
+                catch (Exception ex)
+                {
+                    errMsg = string.Format(IsRussian ?
+                        "Ошибка при загрузке словарей из файла {0}: {1}" :
+                        "Error loading dictionaries from file {0}: {1}", fileName, ex.Message);
+                    return false;
+                }
+            }
+            else
+            {
+                errMsg = string.Format(IsRussian ?
+                    "Не найден файл словарей: {0}" :
+                    "Dictionary file not found: {0}", fileName);
+                return false;
+            }
+        }
+
+        /// <summary>
+        /// Gets the dictionary by the specified key or an empty dictionary if the key is not found.
+        /// </summary>
+        public static LocaleDict GetDictionary(string key)
+        {
+            return Dictionaries.TryGetValue(key, out LocaleDict dict) ? dict : new LocaleDict(key);
+        }
+
+
         /// <summary>
         /// Sets the culture.
         /// </summary>
@@ -95,6 +167,14 @@ namespace Scada
             {
                 IsRussian = CultureIsRussian(Culture);
             }
+        }
+
+        /// <summary>
+        /// Loads dictionaries of the selected culture.
+        /// </summary>
+        public static bool LoadDictionaries(string directory, string fileNamePrefix, out string errMsg)
+        {
+            return LoadDictionaries(GetDictFileName(directory, fileNamePrefix), out errMsg);
         }
     }
 }

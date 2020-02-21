@@ -36,6 +36,30 @@ namespace Scada
     public static partial class ScadaUtils
     {
         /// <summary>
+        /// The delay in thread iteration to save resources, ms.
+        /// </summary>
+        public const int ThreadDelay = 100;
+
+
+        /// <summary>
+        /// Adds a directory separator to the directory name if necessary.
+        /// </summary>
+        public static string NormalDir(string path)
+        {
+            path = path == null ? "" : path.Trim();
+            int lastIndex = path.Length - 1;
+
+            if (lastIndex >= 0 && 
+                path[lastIndex] != Path.DirectorySeparatorChar &&
+                path[lastIndex] != Path.AltDirectorySeparatorChar)
+            {
+                path += Path.DirectorySeparatorChar;
+            }
+
+            return path;
+        }
+
+        /// <summary>
         /// Identifies a nullable type.
         /// </summary>
         public static bool IsNullable(this Type type)
