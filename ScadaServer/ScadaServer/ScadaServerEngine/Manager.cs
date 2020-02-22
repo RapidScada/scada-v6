@@ -96,6 +96,10 @@ namespace Scada.Server.Engine
 
             log = new LogFile(LogFormat.Full, AppDirs.LogDir + ServerUtils.LogFileName);
             log.WriteBreak();
+
+            if (!Locale.LoadCulture(Path.Combine(exeDir, "..", ScadaUtils.ScadaConfigFileName), out string errMsg))
+                log.WriteError(errMsg);
+
             log.WriteAction(string.Format(Locale.IsRussian ?
                 "Сервер {0} запущен" :
                 "Server {0} started", ServerUtils.AppVersion));
@@ -107,7 +111,7 @@ namespace Scada.Server.Engine
                 ServerConfig config = new ServerConfig();
                 coreLogic = new CoreLogic(config, AppDirs, log);
 
-                if (config.Load(configFileName, out string errMsg) &&
+                if (config.Load(configFileName, out errMsg) &&
                     coreLogic.StartProcessing())
                 {
                     return true;
