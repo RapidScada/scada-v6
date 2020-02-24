@@ -25,6 +25,7 @@
 
 using System;
 using System.IO;
+using System.Runtime.InteropServices;
 using System.Runtime.Serialization.Formatters.Binary;
 
 namespace Scada
@@ -43,6 +44,14 @@ namespace Scada
         /// The delay in thread iteration to save resources, ms.
         /// </summary>
         public const int ThreadDelay = 100;
+        /// <summary>
+        /// Determines that the application is running on Windows.
+        /// </summary>
+        public static readonly bool IsRunningOnWin = RuntimeInformation.IsOSPlatform(OSPlatform.Windows);
+        /// <summary>
+        /// Determines that the application is running on .NET Core.
+        /// </summary>
+        public static readonly bool IsRunningOnCore = RuntimeInformation.FrameworkDescription.StartsWith(".NET Core");
 
 
         /// <summary>

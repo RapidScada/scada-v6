@@ -27,6 +27,7 @@ using Scada.Log;
 using Scada.Server.Config;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Text;
 using System.Threading;
 
@@ -39,16 +40,44 @@ namespace Scada.Server.Engine
     internal class CoreLogic
     {
         /// <summary>
+        /// The application work states.
+        /// </summary>
+        private enum WorkState
+        {
+            Undefined = 0,
+            Normal = 1,
+            Error = 2,
+            Terminated = 3
+        }
+
+
+        /// <summary>
         /// The waiting time to stop the thread, ms.
         /// </summary>
         private const int WaitForStop = 10000;
+        /// <summary>
+        /// The period of writing application info.
+        /// </summary>
+        private static readonly TimeSpan WriteInfoPeriod = TimeSpan.FromSeconds(1);
+        /// <summary>
+        /// The work state names in English.
+        /// </summary>
+        private static readonly string[] WorkStateNamesEn = { "Undefined", "Normal", "Error", "Terminated" };
+        /// <summary>
+        /// The work state names in Russian.
+        /// </summary>
+        private static readonly string[] WorkStateNamesRu = { "не определено", "норма", "ошибка", "завершено" };
 
-        private readonly ServerConfig config; // the server configuration
-        private readonly AppDirs appDirs;     // the application directories
-        private readonly ILog log;            // the application log
+        private readonly ServerConfig config;  // the server configuration
+        private readonly AppDirs appDirs;      // the application directories
+        private readonly ILog log;             // the application log
+        private readonly string infoFileName;  // the full file name to write application information
 
-        private Thread thread;                // the working thread of the logic
-        private volatile bool terminated;     // necessary to stop the thread
+        private Thread thread;                 // the working thread of the logic
+        private volatile bool terminated;      // necessary to stop the thread
+        private DateTime utcStartDT;           // the UTC start time
+        private DateTime startDT;              // the local start time
+        private WorkState workState;           // the work state
 
 
         /// <summary>
@@ -59,9 +88,13 @@ namespace Scada.Server.Engine
             this.config = config ?? throw new ArgumentNullException("config");
             this.appDirs = appDirs ?? throw new ArgumentNullException("appDirs");
             this.log = log ?? throw new ArgumentNullException("log");
+            infoFileName = appDirs.LogDir + ServerUtils.InfoFileName;
 
             thread = null;
             terminated = false;
+            utcStartDT = DateTime.MinValue;
+            startDT = DateTime.MinValue;
+            workState = WorkState.Undefined;
         }
 
 
@@ -71,10 +104,10 @@ namespace Scada.Server.Engine
         private void PrepareProcessing()
         {
             terminated = false;
-            //utcStartDT = DateTime.UtcNow;
-            //startDT = utcStartDT.ToLocalTime();
-            //workState = WorkState.Normal;
-            //WriteInfo();
+            utcStartDT = DateTime.UtcNow;
+            startDT = utcStartDT.ToLocalTime();
+            workState = WorkState.Normal;
+            WriteInfo();
         }
 
         /// <summary>
@@ -84,13 +117,23 @@ namespace Scada.Server.Engine
         {
             try
             {
+                DateTime writeInfoDT = DateTime.MinValue; // the timestamp of writing application info
+
                 while (!terminated)
                 {
                     try
                     {
-                        log.WriteAction("Iteration...");
-                        Thread.Sleep(1000);
-                        //Thread.Sleep(ScadaUtils.ThreadDelay);
+                        DateTime utcNow = DateTime.UtcNow;
+
+                        // write application info
+                        if (utcNow - writeInfoDT >= WriteInfoPeriod)
+                        {
+                            writeInfoDT = utcNow;
+                            WriteInfo();
+                            log.WriteAction("Iteration...");
+                        }
+
+                        Thread.Sleep(ScadaUtils.ThreadDelay);
                     }
                     catch (ThreadAbortException)
                     {
@@ -106,10 +149,63 @@ namespace Scada.Server.Engine
             }
             finally
             {
-                //workState = WorkState.Terminated;
-                //WriteInfo();
+                workState = WorkState.Terminated;
+                WriteInfo();
             }
         }
+
+        /// <summary>
+        /// Writes application information to the file.
+        /// </summary>
+        private void WriteInfo()
+        {
+            try
+            {
+                // prepare information
+                StringBuilder sbInfo = new StringBuilder();
+                TimeSpan workSpan = DateTime.UtcNow - utcStartDT;
+                string workSpanStr = workSpan.Days > 0 ?
+                    workSpan.ToString(@"d\.hh\:mm\:ss") :
+                    workSpan.ToString(@"hh\:mm\:ss");
+
+                if (Locale.IsRussian)
+                {
+                    sbInfo
+                        .AppendLine("Сервер")
+                        .AppendLine("------")
+                        .Append("Запуск       : ").AppendLine(startDT.ToLocalizedString())
+                        .Append("Время работы : ").AppendLine(workSpanStr)
+                        .Append("Состояние    : ").AppendLine(WorkStateNamesRu[(int)workState])
+                        .Append("Версия       : ").AppendLine(ServerUtils.AppVersion);
+                }
+                else
+                {
+                    sbInfo
+                        .AppendLine("Server")
+                        .AppendLine("------")
+                        .Append("Started        : ").AppendLine(startDT.ToLocalizedString())
+                        .Append("Execution time : ").AppendLine(workSpanStr)
+                        .Append("State          : ").AppendLine(WorkStateNamesEn[(int)workState])
+                        .Append("Version        : ").AppendLine(ServerUtils.AppVersion);
+                }
+
+                // write to file
+                using (StreamWriter writer = new StreamWriter(infoFileName, false, Encoding.UTF8))
+                {
+                    writer.Write(sbInfo.ToString());
+                }
+            }
+            catch (ThreadAbortException)
+            {
+            }
+            catch (Exception ex)
+            {
+                log.WriteException(ex, Locale.IsRussian ?
+                    "Ошибка при записи в файл информации о работе приложения" :
+                    "Error writing application information to the file");
+            }
+        }
+
 
         /// <summary>
         /// Starts processing logic.
@@ -145,11 +241,11 @@ namespace Scada.Server.Engine
             }
             finally
             {
-                //if (thread == null)
-                //{
-                //    workState = WorkState.Error;
-                //    WriteInfo();
-                //}
+                if (thread == null)
+                {
+                    workState = WorkState.Error;
+                    WriteInfo();
+                }
             }
         }
 
@@ -170,6 +266,12 @@ namespace Scada.Server.Engine
                             "Обработка логики остановлена" :
                             "Logic processing is stopped");
                     }
+                    else if (ScadaUtils.IsRunningOnCore)
+                    {
+                        log.WriteAction(Locale.IsRussian ?
+                            "Не удалось остановить обработку логики за установленное время" :
+                            "Unable to stop logic processing for a specified time");
+                    }
                     else
                     {
                         thread.Abort(); // not supported on .NET Core
@@ -183,8 +285,8 @@ namespace Scada.Server.Engine
             }
             catch (Exception ex)
             {
-                //workState = WorkState.Error;
-                //WriteInfo();
+                workState = WorkState.Error;
+                WriteInfo();
                 log.WriteException(ex, Locale.IsRussian ?
                     "Ошибка при остановке обработки логики" :
                     "Error stopping logic processing");
