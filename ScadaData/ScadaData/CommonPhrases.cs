@@ -33,6 +33,10 @@ namespace Scada
     /// </summary>
     public static class CommonPhrases
     {
+        // Scada.Format
+        public static string NotNumber { get; private set; }
+        public static string NotHexadecimal { get; private set; }
+
         // Scada.Xml
         public static string IncorrectXmlNodeVal { get; private set; }
         public static string IncorrectXmlAttrVal { get; private set; }
@@ -40,7 +44,11 @@ namespace Scada
 
         public static void Init()
         {
-            LocaleDict dict = Locale.GetDictionary("Scada.Xml");
+            LocaleDict dict = Locale.GetDictionary("Scada.Format");
+            NotNumber = dict.GetPhrase("NotNumber");
+            NotHexadecimal = dict.GetPhrase("NotHexadecimal");
+
+            dict = Locale.GetDictionary("Scada.Xml");
             IncorrectXmlNodeVal = dict.GetPhrase("IncorrectXmlNodeVal");
             IncorrectXmlAttrVal = dict.GetPhrase("IncorrectXmlAttrVal");
             IncorrectXmlParamVal = dict.GetPhrase("IncorrectXmlParamVal");

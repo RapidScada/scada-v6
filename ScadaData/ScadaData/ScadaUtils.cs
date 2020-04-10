@@ -24,9 +24,11 @@
  */
 
 using System;
+using System.Globalization;
 using System.IO;
 using System.Runtime.InteropServices;
 using System.Runtime.Serialization.Formatters.Binary;
+using System.Text;
 
 namespace Scada
 {
@@ -55,6 +57,26 @@ namespace Scada
 
 
         /// <summary>
+        /// Removes white space characters from the string.
+        /// </summary>
+        private static string RemoveWhiteSpace(string s)
+        {
+            StringBuilder sb = new StringBuilder();
+
+            if (s != null)
+            {
+                foreach (char c in s)
+                {
+                    if (!char.IsWhiteSpace(c))
+                        sb.Append(c);
+                }
+            }
+
+            return sb.ToString();
+        }
+
+
+        /// <summary>
         /// Adds a directory separator to the directory name if necessary.
         /// </summary>
         public static string NormalDir(string path)
@@ -70,6 +92,83 @@ namespace Scada
             }
 
             return path;
+        }
+        
+        /// <summary>
+        /// Converts the array of bytes to a hexadecimal string.
+        /// </summary>
+        public static string BytesToHex(byte[] bytes)
+        {
+            return BytesToHex(bytes, 0, bytes == null ? 0 : bytes.Length);
+        }
+
+        /// <summary>
+        /// Converts the array of bytes to a hexadecimal string.
+        /// </summary>
+        public static string BytesToHex(byte[] bytes, int index, int count)
+        {
+            StringBuilder sb = new StringBuilder();
+
+            for (int i = index, endIdx = index + count; i < endIdx; i++)
+            {
+                sb.Append(bytes[i].ToString("X2"));
+            }
+
+            return sb.ToString();
+        }
+
+        /// <summary>
+        /// Converts the string of hexadecimal numbers to an array of bytes.
+        /// </summary>
+        public static bool HexToBytes(string s, int stringIndex, byte[] buffer, int bufferIndex, int byteCount)
+        {
+            int lastIndex = s == null ? 0 : s.Length - 1;
+            int bytesConverted = 0;
+
+            while (stringIndex < lastIndex && bytesConverted < byteCount)
+            {
+                if (byte.TryParse(s.Substring(stringIndex, 2), NumberStyles.AllowHexSpecifier, 
+                    CultureInfo.InvariantCulture.NumberFormat, out byte val))
+                {
+                    buffer[bufferIndex] = val;
+                    bufferIndex++;
+                    bytesConverted++;
+                    stringIndex += 2;
+                }
+                else
+                {
+                    return false;
+                }
+            }
+
+            return bytesConverted > 0;
+        }
+
+        /// <summary>
+        /// Converts the string of hexadecimal numbers to an array of bytes.
+        /// </summary>
+        public static bool HexToBytes(string s, out byte[] bytes, bool skipWhiteSpace = false)
+        {
+            if (skipWhiteSpace)
+                s = RemoveWhiteSpace(s);
+
+            int strLen = s == null ? 0 : s.Length;
+            int bufLen = strLen / 2;
+            bytes = new byte[bufLen];
+            return HexToBytes(s, 0, bytes, 0, bufLen);
+        }
+
+        /// <summary>
+        /// Converts the string of hexadecimal numbers to an array of bytes.
+        /// </summary>
+        public static byte[] HexToBytes(string s, bool skipWhiteSpace = false, bool throwOnFail = false)
+        {
+            if (HexToBytes(s, out byte[] bytes, skipWhiteSpace))
+                return bytes;
+            else if (throwOnFail)
+                throw new FormatException(CommonPhrases.NotHexadecimal);
+            else
+                return null;
         }
 
         /// <summary>
