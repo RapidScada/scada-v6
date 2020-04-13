@@ -55,7 +55,7 @@ namespace Scada
             terminated = false;
             FileFound = false;
 
-            thread = new Thread(new ThreadStart(() =>
+            thread = new Thread(() =>
             {
                 while (!(terminated || FileFound))
                 {
@@ -64,7 +64,7 @@ namespace Scada
                     else
                         Thread.Sleep(ScadaUtils.ThreadDelay);
                 }
-            }))
+            })
             {
                 IsBackground = true,
                 Priority = ThreadPriority.BelowNormal

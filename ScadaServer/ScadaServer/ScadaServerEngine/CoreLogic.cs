@@ -220,7 +220,7 @@ namespace Scada.Server.Engine
                         "Запуск обработки логики" :
                         "Start logic processing");
                     PrepareProcessing();
-                    thread = new Thread(new ThreadStart(Execute));
+                    thread = new Thread(Execute);
                     thread.Start();
                 }
                 else

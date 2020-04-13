@@ -24,9 +24,9 @@
  */
 
 using System;
-using System.Collections.Generic;
+using System.Net;
 using System.Net.Sockets;
-using System.Text;
+using System.Threading;
 
 namespace Scada.Server
 {
@@ -34,19 +34,61 @@ namespace Scada.Server
     /// Represents a client connected to a server.
     /// <para>Представляет клиента, подключенного к серверу.</para>
     /// </summary>
-    public class ConnectedClient
+    public sealed class ConnectedClient
     {
+        /// <summary>
+        /// Necessary to stop the thread.
+        /// </summary>
+        public volatile bool Terminated;
+
+
         /// <summary>
         /// Initializes a new instance of the class.
         /// </summary>
-        public ConnectedClient(TcpClient tcpClient)
+        public ConnectedClient(TcpClient tcpClient, Thread thread)
         {
+            Terminated = false;
             TcpClient = tcpClient ?? throw new ArgumentNullException("tcpClient");
+            NetStream = tcpClient.GetStream();
+            Address = ((IPEndPoint)TcpClient.Client.RemoteEndPoint).Address.ToString();
+            Thread = thread ?? throw new ArgumentNullException("thread");
+            ActivityTime = DateTime.UtcNow;
         }
+
 
         /// <summary>
         /// Gets the client connection.
         /// </summary>
-        public TcpClient TcpClient { get; protected set; }
+        public TcpClient TcpClient { get; private set; }
+
+        /// <summary>
+        /// Gets the stream for network access.
+        /// </summary>
+        public NetworkStream NetStream { get; private set; }
+
+        /// <summary>
+        /// Gets the IP address of the client.
+        /// </summary>
+        public string Address { get; private set; }
+
+        /// <summary>
+        /// Gets the tread associated with the client.
+        /// </summary>
+        public Thread Thread { get; private set; }
+
+        /// <summary>
+        /// Gets or sets the time of last activity (UTC).
+        /// </summary>
+        public DateTime ActivityTime { get; set; }
+
+
+        /// <summary>
+        /// Disconnects the client.
+        /// </summary>
+        public void Disconnect()
+        {
+            NetStream.Close();
+            TcpClient.Close();
+        }
     }
 }
