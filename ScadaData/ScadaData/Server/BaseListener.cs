@@ -155,7 +155,8 @@ namespace Scada.Server
                     if (client.TcpClient.Available > 0)
                     {
                         // receive data
-                        //client.ActivityTime = DateTime.UtcNow;
+                        client.ActivityTime = DateTime.UtcNow;
+                        ReceiveData(client);
                     }
 
                     Thread.Sleep(ScadaUtils.ThreadDelay);
@@ -217,6 +218,14 @@ namespace Scada.Server
                     "Ошибка при отключении всех клиентов" :
                     "Error disconnecting all clients");
             }
+        }
+
+        /// <summary>
+        /// Receives data from the client.
+        /// </summary>
+        protected void ReceiveData(ConnectedClient client)
+        {
+
         }
 
 
