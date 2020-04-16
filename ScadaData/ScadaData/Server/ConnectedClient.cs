@@ -37,6 +37,15 @@ namespace Scada.Server
     public sealed class ConnectedClient
     {
         /// <summary>
+        /// The input buffer length, 1 MB.
+        /// </summary>
+        public const int InBufLenght = 1048576;
+        /// <summary>
+        /// The output buffer length, 1 MB.
+        /// </summary>
+        public const int OutBufLenght = 1048576;
+
+        /// <summary>
         /// Necessary to stop the thread.
         /// </summary>
         public volatile bool Terminated;
@@ -53,6 +62,9 @@ namespace Scada.Server
             Address = ((IPEndPoint)TcpClient.Client.RemoteEndPoint).Address.ToString();
             Thread = thread ?? throw new ArgumentNullException("thread");
             ActivityTime = DateTime.UtcNow;
+            SessionID = 0;
+            InBuf = new byte[InBufLenght];
+            OutBuf = new byte[OutBufLenght];
         }
 
 
@@ -81,6 +93,21 @@ namespace Scada.Server
         /// </summary>
         public DateTime ActivityTime { get; set; }
 
+        /// <summary>
+        /// Gets or sets the session ID.
+        /// </summary>
+        public long SessionID { get; set; }
+
+        /// <summary>
+        /// Gets the input data buffer.
+        /// </summary>
+        public byte[] InBuf { get; private set; }
+
+        /// <summary>
+        /// Gets the output data buffer.
+        /// </summary>
+        public byte[] OutBuf { get; private set; }
+
 
         /// <summary>
         /// Disconnects the client.
@@ -89,6 +116,39 @@ namespace Scada.Server
         {
             NetStream.Close();
             TcpClient.Close();
+        }
+
+        /// <summary>
+        /// Reads a large amount of data into the input buffer.
+        /// </summary>
+        public int ReadData(int offset, int size)
+        {
+            int bytesRead = 0;
+            int timeout = TcpClient.ReceiveTimeout;
+            DateTime startDT = DateTime.UtcNow;
+
+            do
+            {
+                bytesRead += NetStream.Read(InBuf, bytesRead + offset, size - bytesRead);
+            } while (bytesRead < size && (DateTime.UtcNow - startDT).TotalMilliseconds <= timeout);
+
+            return bytesRead;
+        }
+
+        /// <summary>
+        /// Gets the existing or creates a new input buffer.
+        /// </summary>
+        public byte[] GetInBuf(int length)
+        {
+            return length <= InBufLenght ? InBuf : new byte[length];
+        }
+
+        /// <summary>
+        /// Gets the existing or creates a new output buffer.
+        /// </summary>
+        public byte[] GetOutBuf(int length)
+        {
+            return length <= OutBufLenght ? OutBuf : new byte[length];
         }
     }
 }

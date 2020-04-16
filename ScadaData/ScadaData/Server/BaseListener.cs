@@ -39,6 +39,10 @@ namespace Scada.Server
     public abstract class BaseListener
     {
         /// <summary>
+        /// The maximum number of client connections.
+        /// </summary>
+        protected const int MaxConnections = 100;
+        /// <summary>
         /// The period after which an inactive client is disconnected.
         /// </summary>
         protected static readonly TimeSpan DisconnectPeriod = TimeSpan.FromSeconds(60);
@@ -95,7 +99,7 @@ namespace Scada.Server
                 try
                 {
                     // connect new clients
-                    while (tcpListener.Pending() && !terminated)
+                    while (tcpListener.Pending() && clients.Count < MaxConnections && !terminated)
                     {
                         TcpClient tcpClient = tcpListener.AcceptTcpClient();
                         tcpClient.SendTimeout = listenerOptions.Timeout;
@@ -225,6 +229,79 @@ namespace Scada.Server
         /// </summary>
         protected void ReceiveData(ConnectedClient client)
         {
+            try
+            {
+                const int MinPacketLength = 16;
+                bool formatError = true;
+                string errDescr = "";
+                byte[] inBuf = client.InBuf;
+                int bytesRead = client.NetStream.Read(inBuf, 0, MinPacketLength);
+
+                if (bytesRead == MinPacketLength)
+                {
+                    int dataLength = BitConverter.ToInt32(inBuf, 2);
+                    long sessionID = BitConverter.ToInt64(inBuf, 6);
+
+                    if (dataLength + 6 > inBuf.Length)
+                    {
+                        errDescr = Locale.IsRussian ?
+                            "длина данных слишком велика" :
+                            "data length is too big";
+                    }
+                    else if (client.SessionID != 0 && client.SessionID != sessionID)
+                    {
+                        errDescr = Locale.IsRussian ?
+                            "неверный идентификатор сессии" :
+                            "incorrect session ID";
+                    }
+                    else
+                    {
+                        // read the rest of the data
+                        int bytesToRead = dataLength - 8;
+                        bytesRead = bytesToRead > 0 ? client.ReadData(16, bytesToRead) : 0;
+
+                        if (bytesRead == bytesToRead)
+                        {
+                            formatError = false;
+                            ProcessRequest(client);
+                        }
+                        else
+                        {
+                            errDescr = Locale.IsRussian ?
+                                "не удалось прочитать все данные" :
+                                "unable to read all data";
+                        }
+                    }
+                }
+
+                if (formatError)
+                {
+                    log.WriteError(string.Format(Locale.IsRussian ?
+                        "Некорректный формат данных, полученных от клиента {0}: {1}" :
+                        "Incorrect format of data received from the client {0}: {1}",
+                        client.Address, errDescr));
+
+                    // clear the stream by receiving available data
+                    if (client.NetStream.DataAvailable)
+                        client.NetStream.Read(inBuf, 0, inBuf.Length);
+                }
+            }
+            catch (Exception ex)
+            {
+                log.WriteException(ex, Locale.IsRussian ?
+                    "Ошибка при приёме данных от клиента {0}" :
+                    "Error receiving data from the client {0}", client.Address);
+            }
+        }
+
+        /// <summary>
+        /// Processes an incoming request already stored in the client input buffer.
+        /// </summary>
+        protected void ProcessRequest(ConnectedClient client)
+        {
+            byte[] inBuf = client.InBuf;
+            ushort transactionID = BitConverter.ToUInt16(inBuf, 0);
+            ushort functionID = BitConverter.ToUInt16(inBuf, 14);
 
         }
 
