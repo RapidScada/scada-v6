@@ -24,6 +24,7 @@
  */
 
 using Scada.Log;
+using Scada.Protocol;
 using System;
 using System.Collections.Generic;
 using System.Net;
@@ -231,24 +232,29 @@ namespace Scada.Server
         {
             try
             {
-                const int MinPacketLength = 16;
                 bool formatError = true;
                 string errDescr = "";
                 byte[] inBuf = client.InBuf;
-                int bytesRead = client.NetStream.Read(inBuf, 0, MinPacketLength);
+                int bytesRead = client.NetStream.Read(inBuf, 0, ProtocolUtils.HeaderLength);
 
-                if (bytesRead == MinPacketLength)
+                if (bytesRead == ProtocolUtils.HeaderLength)
                 {
-                    int dataLength = BitConverter.ToInt32(inBuf, 2);
-                    long sessionID = BitConverter.ToInt64(inBuf, 6);
+                    DataPacket request = new DataPacket
+                    {
+                        TransactionID = BitConverter.ToUInt16(inBuf, 0),
+                        DataLength = BitConverter.ToInt32(inBuf, 2),
+                        SessionID = BitConverter.ToInt64(inBuf, 6),
+                        FunctionID = BitConverter.ToUInt16(inBuf, 14),
+                        Buffer = inBuf
+                    };
 
-                    if (dataLength + 6 > inBuf.Length)
+                    if (request.DataLength + 6 > inBuf.Length)
                     {
                         errDescr = Locale.IsRussian ?
                             "длина данных слишком велика" :
                             "data length is too big";
                     }
-                    else if (client.SessionID != 0 && client.SessionID != sessionID)
+                    else if (client.SessionID != 0 && client.SessionID != request.SessionID)
                     {
                         errDescr = Locale.IsRussian ?
                             "неверный идентификатор сессии" :
@@ -257,13 +263,13 @@ namespace Scada.Server
                     else
                     {
                         // read the rest of the data
-                        int bytesToRead = dataLength - 8;
-                        bytesRead = bytesToRead > 0 ? client.ReadData(16, bytesToRead) : 0;
+                        int bytesToRead = request.DataLength - 8;
+                        bytesRead = bytesToRead > 0 ? client.ReadData(ProtocolUtils.HeaderLength, bytesToRead) : 0;
 
                         if (bytesRead == bytesToRead)
                         {
                             formatError = false;
-                            ProcessRequest(client);
+                            ProcessRequest(client, request);
                         }
                         else
                         {
@@ -297,12 +303,47 @@ namespace Scada.Server
         /// <summary>
         /// Processes an incoming request already stored in the client input buffer.
         /// </summary>
-        protected void ProcessRequest(ConnectedClient client)
+        protected void ProcessRequest(ConnectedClient client, DataPacket request)
         {
-            byte[] inBuf = client.InBuf;
-            ushort transactionID = BitConverter.ToUInt16(inBuf, 0);
-            ushort functionID = BitConverter.ToUInt16(inBuf, 14);
+            // process standard request
+            ResponsePacket response = null; // response to send
+            bool handled = true;            // request was handled
 
+            switch (request.FunctionID)
+            {
+                case FunctionID.CreateSession:
+                    break;
+
+                default:
+                    handled = false;
+                    break;
+            }
+
+            // process custom request
+            if (!handled)
+            {
+                ProcessCustomRequest(client, request, out response, out handled);
+
+                if (!handled)
+                {
+                    response = new ResponsePacket(request, client.OutBuf);
+                    response.SetError(ErrorCode.IllegalFunction);
+                }
+            }
+
+            // send response
+            if (response != null)
+                client.NetStream.Write(response.Buffer, 0, response.BufferLength);
+        }
+
+        /// <summary>
+        /// Processes an incoming request by a derived class.
+        /// </summary>
+        protected virtual void ProcessCustomRequest(ConnectedClient client, DataPacket request, 
+            out ResponsePacket response, out bool handled)
+        {
+            response = null;
+            handled = false;
         }
 
 
