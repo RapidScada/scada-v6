@@ -23,6 +23,9 @@
  * Modified : 2020
  */
 
+using System;
+using System.Text;
+
 namespace Scada.Protocol
 {
     /// <summary>
@@ -39,5 +42,26 @@ namespace Scada.Protocol
         /// The index of the function arguments in the data packet.
         /// </summary>
         public const int ArgumentIndex = 16;
+
+        /// <summary>
+        /// Encodes and copies the string to the buffer.
+        /// </summary>
+        public static void CopyString(string s, byte[] buffer, int index, out int requiredLenght)
+        {
+            int stringLength = s == null ? 0 : s.Length;
+
+            if (stringLength > 0)
+            {
+                BitConverter.GetBytes(stringLength).CopyTo(buffer, index);
+                Encoding.Unicode.GetBytes(s).CopyTo(buffer, index + 2);
+            }
+            else
+            {
+                buffer[index] = 0;
+                buffer[index + 1] = 0;
+            }
+
+            requiredLenght = stringLength * 2 + 2;
+        }
     }
 }

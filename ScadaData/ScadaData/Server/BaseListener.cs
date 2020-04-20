@@ -26,6 +26,7 @@
 using Scada.Log;
 using Scada.Protocol;
 using System;
+using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Net;
 using System.Net.Sockets;
@@ -43,6 +44,10 @@ namespace Scada.Server
         /// The maximum number of client connections.
         /// </summary>
         protected const int MaxConnections = 100;
+        /// <summary>
+        /// The maximum number of attempts to get a unique session ID.
+        /// </summary>
+        private const int MaxGetSessionIDAttempts = 100;
         /// <summary>
         /// The period after which an inactive client is disconnected.
         /// </summary>
@@ -66,6 +71,10 @@ namespace Scada.Server
         /// </summary>
         protected List<ConnectedClient> clients;
         /// <summary>
+        /// The active sessions.
+        /// </summary>
+        protected ConcurrentDictionary<long, ConnectedClient> sessions;
+        /// <summary>
         /// The working thread of the listener.
         /// </summary>
         protected Thread thread;
@@ -85,6 +94,7 @@ namespace Scada.Server
 
             tcpListener = null;
             clients = null;
+            sessions = null;
             thread = null;
             terminated = false;
         }
@@ -127,6 +137,7 @@ namespace Scada.Server
                         {
                             DisconnectClient(client);
                             clients.RemoveAt(clientIndex);
+                            sessions.TryRemove(client.SessionID, out ConnectedClient value);
                         }
                         else
                         {
@@ -312,6 +323,11 @@ namespace Scada.Server
             switch (request.FunctionID)
             {
                 case FunctionID.CreateSession:
+                    CreateSession(client, request, out response);
+                    break;
+
+                case FunctionID.Login:
+                    Login(client, request, out response);
                     break;
 
                 default:
@@ -334,6 +350,71 @@ namespace Scada.Server
             // send response
             if (response != null)
                 client.NetStream.Write(response.Buffer, 0, response.BufferLength);
+        }
+
+        /// <summary>
+        /// Creates a new session.
+        /// </summary>
+        protected void CreateSession(ConnectedClient client, DataPacket request, out ResponsePacket response)
+        {
+            response = new ResponsePacket(request, client.OutBuf);
+
+            if (client.SessionID == 0)
+            {
+                long sessionID = ScadaUtils.GetRandomLong();
+                int attemptNum = 0;
+                bool duplicated;
+
+                while (duplicated = sessionID == 0 || 
+                    ++attemptNum <= MaxGetSessionIDAttempts && !sessions.TryAdd(sessionID, client))
+                {
+                    sessionID = ScadaUtils.GetRandomLong();
+                }
+
+                if (duplicated)
+                {
+                    // unable to find free session ID
+                    response.SetError(ErrorCode.InvalidOperation);
+                }
+                else
+                {
+                    // prepare successful response
+                    client.SessionID = sessionID;
+                    response.SessionID = sessionID;
+
+                    ProtocolUtils.CopyString(GetServerName(), response.Buffer, ProtocolUtils.ArgumentIndex, 
+                        out int requiredLenght);
+                    response.ArgumentLength = requiredLenght;
+                    response.Encode();
+                }
+            }
+            else
+            {
+                // session already created
+                response.SetError(ErrorCode.InvalidOperation);
+            }
+        }
+
+        /// <summary>
+        /// Performs a login function.
+        /// </summary>
+        protected void Login(ConnectedClient client, DataPacket request, out ResponsePacket response)
+        {
+            response = new ResponsePacket(request, client.OutBuf);
+        }
+
+        /// <summary>
+        /// Gets the server name and version.
+        /// </summary>
+        protected abstract string GetServerName();
+
+        /// <summary>
+        /// Validates the username and password.
+        /// </summary>
+        protected virtual bool ValidateUser(string username, string password, out string errMsg)
+        {
+            errMsg = "";
+            return true;
         }
 
         /// <summary>
@@ -364,6 +445,7 @@ namespace Scada.Server
                     tcpListener.Start();
 
                     clients = new List<ConnectedClient>();
+                    sessions = new ConcurrentDictionary<long, ConnectedClient>();
                     terminated = false;
                     thread = new Thread(Execute);
                     thread.Start();
@@ -406,6 +488,7 @@ namespace Scada.Server
 
                     tcpListener = null;
                     clients = null;
+                    sessions = null;
                     thread = null;
 
                     log.WriteAction(Locale.IsRussian ?
