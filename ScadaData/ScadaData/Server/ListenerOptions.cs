@@ -38,6 +38,7 @@ namespace Scada.Server
         {
             Port = 10000;
             Timeout = 10000;
+            SecretKey = null;
         }
 
 
@@ -50,5 +51,10 @@ namespace Scada.Server
         /// Gets or sets the send and receive timeout.
         /// </summary>
         public int Timeout { get; set; }
+
+        /// <summary>
+        /// Gets or sets the secret key for password encryption.
+        /// </summary>
+        public byte[] SecretKey { get; set; }
     }
 }

@@ -72,13 +72,17 @@ namespace Scada.Protocol
         public byte[] Buffer { get; set; }
 
         /// <summary>
-        /// Gets the used buffer length.
+        /// Gets or sets the used buffer length.
         /// </summary>
         public int BufferLength
         {
             get
             {
                 return DataLength + 6;
+            }
+            set
+            {
+                DataLength = value - 6;
             }
         }
     }

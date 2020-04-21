@@ -371,35 +371,49 @@ namespace Scada.Server
         /// </summary>
         protected void ProcessRequest(ConnectedClient client, DataPacket request)
         {
-            // process standard request
             ResponsePacket response = null; // response to send
-            bool handled = true;            // request was handled
 
-            switch (request.FunctionID)
+            try
             {
-                case FunctionID.GetSessionInfo:
-                    GetSessionInfo(client, request, out response);
-                    break;
+                // process standard request
+                bool handled = true; // request was handled
 
-                case FunctionID.Login:
-                    Login(client, request, out response);
-                    break;
+                switch (request.FunctionID)
+                {
+                    case FunctionID.GetSessionInfo:
+                        GetSessionInfo(client, request, out response);
+                        break;
 
-                default:
-                    handled = false;
-                    break;
-            }
+                    case FunctionID.Login:
+                        Login(client, request, out response);
+                        break;
 
-            // process custom request
-            if (!handled)
-            {
-                ProcessCustomRequest(client, request, out response, out handled);
+                    default:
+                        handled = false;
+                        break;
+                }
 
+                // process custom request
                 if (!handled)
                 {
-                    response = new ResponsePacket(request, client.OutBuf);
-                    response.SetError(ErrorCode.IllegalFunction);
+                    ProcessCustomRequest(client, request, out response, out handled);
+
+                    if (!handled)
+                    {
+                        response = new ResponsePacket(request, client.OutBuf);
+                        response.SetError(ErrorCode.IllegalFunction);
+                    }
                 }
+            }
+            catch (Exception ex)
+            {
+                log.WriteException(ex, Locale.IsRussian ?
+                    "Ошибка при обработке запроса 0x{0} для клиента {1}" :
+                    "Error processing request 0x{0} for the client {1}", 
+                    request.FunctionID.ToString("X4"), client.Address);
+
+                response = new ResponsePacket(request, client.OutBuf);
+                response.SetError(ErrorCode.InternalServerError);
             }
 
             // send response
@@ -413,8 +427,8 @@ namespace Scada.Server
         protected void GetSessionInfo(ConnectedClient client, DataPacket request, out ResponsePacket response)
         {
             response = new ResponsePacket(request, client.OutBuf) { SessionID = client.SessionID };
-            ProtocolUtils.CopyString(GetServerName(), response.Buffer, ProtocolUtils.ArgumentIndex, out int lenght);
-            response.ArgumentLength = lenght;
+            ProtocolUtils.CopyString(GetServerName(), response.Buffer, ProtocolUtils.ArgumentIndex, out int endIndex);
+            response.BufferLength = endIndex;
             response.Encode();
         }
 
@@ -423,7 +437,43 @@ namespace Scada.Server
         /// </summary>
         protected void Login(ConnectedClient client, DataPacket request, out ResponsePacket response)
         {
-            response = new ResponsePacket(request, client.OutBuf);
+            byte[] outBuf = client.OutBuf;
+            int index = ProtocolUtils.ArgumentIndex;
+            string username = ProtocolUtils.GetString(outBuf, index, out index);
+            string encryptedPassword = ProtocolUtils.GetString(outBuf, index, out index);
+            string instance = ProtocolUtils.GetString(outBuf, index, out index);
+            string password = ProtocolUtils.DecryptPassword(encryptedPassword, client.SessionID,
+                listenerOptions.SecretKey);
+
+            response = new ResponsePacket(request, outBuf);
+            index = ProtocolUtils.ArgumentIndex;
+
+            if (ValidateUser(client, username, password, instance, out int roleID, out string errMsg))
+            {
+                outBuf[index] = 1;
+                BitConverter.GetBytes(roleID).CopyTo(outBuf, index + 1);
+                ProtocolUtils.CopyString("", outBuf, index + 5, out index);
+            }
+            else
+            {
+                outBuf[index++] = 0;
+                outBuf[index++] = 0;
+                outBuf[index++] = 0;
+                outBuf[index++] = 0;
+                outBuf[index++] = 0;
+                ProtocolUtils.CopyString(errMsg, outBuf, index, out index);
+            }
+
+            response.BufferLength = index;
+            response.Encode();
+        }
+
+        /// <summary>
+        /// Protects the application from brute force attacks.
+        /// </summary>
+        protected bool ProtectBruteForce()
+        {
+            return true;
         }
 
         /// <summary>
@@ -434,8 +484,13 @@ namespace Scada.Server
         /// <summary>
         /// Validates the username and password.
         /// </summary>
-        protected virtual bool ValidateUser(string username, string password, out string errMsg)
+        protected virtual bool ValidateUser(ConnectedClient client, string username, string password, string instance,
+            out int roleID, out string errMsg)
         {
+            client.LoggedOn = true;
+            client.Username = username;
+
+            roleID = 0;
             errMsg = "";
             return true;
         }

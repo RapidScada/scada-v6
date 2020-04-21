@@ -46,22 +46,71 @@ namespace Scada.Protocol
         /// <summary>
         /// Encodes and copies the string to the buffer.
         /// </summary>
-        public static void CopyString(string s, byte[] buffer, int index, out int requiredLenght)
+        public static void CopyString(string s, byte[] buffer, int startIndex, out int endIndex)
         {
             int stringLength = s == null ? 0 : s.Length;
 
             if (stringLength > 0)
             {
-                BitConverter.GetBytes(stringLength).CopyTo(buffer, index);
-                Encoding.Unicode.GetBytes(s).CopyTo(buffer, index + 2);
+                BitConverter.GetBytes(stringLength).CopyTo(buffer, startIndex);
+                Encoding.Unicode.GetBytes(s).CopyTo(buffer, startIndex + 2);
             }
             else
             {
-                buffer[index] = 0;
-                buffer[index + 1] = 0;
+                buffer[startIndex] = 0;
+                buffer[startIndex + 1] = 0;
             }
 
-            requiredLenght = stringLength * 2 + 2;
+            endIndex = startIndex + stringLength * 2 + 2;
+        }
+
+        /// <summary>
+        /// Gets the string from the buffer.
+        /// </summary>
+        public static string GetString(byte[] buffer, int startIndex, out int endIndex)
+        {
+            int stringLength = BitConverter.ToUInt16(buffer, startIndex);
+            int dataLength = stringLength * 2;
+            startIndex += 2;
+            endIndex = startIndex + dataLength;
+            return dataLength > 0 ? Encoding.Unicode.GetString(buffer, startIndex, dataLength) : "";
+        }
+
+        /// <summary>
+        /// Creates an initialization vector based on the session ID.
+        /// </summary>
+        private static byte[] CreateIV(long sessionID)
+        {
+            byte[] iv = new byte[ScadaUtils.IVSize];
+            byte[] sessBuf = BitConverter.GetBytes(sessionID);
+            int sessBufLen = sessBuf.Length;
+
+            for (int i = 0; i < ScadaUtils.IVSize; i++)
+            {
+                iv[i] = sessBuf[i % sessBufLen];
+            }
+
+            return iv;
+        }
+
+        /// <summary>
+        /// Encrypts the password.
+        /// </summary>
+        public static string EncryptPassword(string password, long sessionID, byte[] secretKey)
+        {
+            return secretKey == null ?
+                password :
+                ScadaUtils.Encrypt(password, secretKey, CreateIV(sessionID));
+        }
+
+        /// <summary>
+        /// Decrypts the password.
+        /// </summary>
+        public static string DecryptPassword(string encryptedPassword, long sessionID, byte[] secretKey)
+        {
+            return secretKey == null ?
+                encryptedPassword :
+                ScadaUtils.Decrypt(encryptedPassword, secretKey, CreateIV(sessionID));
         }
     }
 }
