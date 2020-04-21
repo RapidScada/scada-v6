@@ -54,19 +54,27 @@ namespace Scada.Server
         /// <summary>
         /// Initializes a new instance of the class.
         /// </summary>
-        public ConnectedClient(TcpClient tcpClient, Thread thread)
+        public ConnectedClient()
         {
             Terminated = false;
-            TcpClient = tcpClient ?? throw new ArgumentNullException("tcpClient");
-            NetStream = tcpClient.GetStream();
-            Address = ((IPEndPoint)TcpClient.Client.RemoteEndPoint).Address.ToString();
-            Thread = thread ?? throw new ArgumentNullException("thread");
-            ActivityTime = DateTime.UtcNow;
             SessionID = 0;
-            InBuf = new byte[InBufLenght];
-            OutBuf = new byte[OutBufLenght];
+            TcpClient = null;
+            NetStream = null;
+            Address = null;
+            Thread = null;
+            ActivityTime = DateTime.MinValue;
+            InBuf = null;
+            OutBuf = null;
+            LoggedOn = false;
+            Username = "";
+            RoleID = 0;
         }
 
+
+        /// <summary>
+        /// Gets or sets the session ID.
+        /// </summary>
+        public long SessionID { get; set; }
 
         /// <summary>
         /// Gets the client connection.
@@ -91,12 +99,7 @@ namespace Scada.Server
         /// <summary>
         /// Gets or sets the time of last activity (UTC).
         /// </summary>
-        public DateTime ActivityTime { get; set; }
-
-        /// <summary>
-        /// Gets or sets the session ID.
-        /// </summary>
-        public long SessionID { get; set; }
+        public DateTime ActivityTime { get; private set; }
 
         /// <summary>
         /// Gets the input data buffer.
@@ -108,14 +111,67 @@ namespace Scada.Server
         /// </summary>
         public byte[] OutBuf { get; private set; }
 
+        /// <summary>
+        /// Gets or sets a value indicating whether a user is logged on.
+        /// </summary>
+        public bool LoggedOn { get; set; }
+
+        /// <summary>
+        /// Get or sets the username.
+        /// </summary>
+        public string Username { get; set; }
+
+        /// <summary>
+        /// Get or sets the user role ID.
+        /// </summary>
+        public int RoleID { get; set; }
+
+
+        /// <summary>
+        /// Initializes the client.
+        /// </summary>
+        public void Init(TcpClient tcpClient, Thread thread)
+        {
+            TcpClient = tcpClient ?? throw new ArgumentNullException("tcpClient");
+            NetStream = tcpClient.GetStream();
+            Address = ((IPEndPoint)TcpClient.Client.RemoteEndPoint).Address.ToString();
+            Thread = thread ?? throw new ArgumentNullException("thread");
+            ActivityTime = DateTime.UtcNow;
+            InBuf = new byte[InBufLenght];
+            OutBuf = new byte[OutBufLenght];
+        }
+
+        /// <summary>
+        /// Blocks the calling thread until the client thread terminates.
+        /// </summary>
+        public void JoinThread()
+        {
+            Thread?.Join();
+        }
 
         /// <summary>
         /// Disconnects the client.
         /// </summary>
         public void Disconnect()
         {
-            NetStream.Close();
-            TcpClient.Close();
+            try
+            {
+                NetStream?.Close();
+                TcpClient?.Close();
+            }
+            finally
+            {
+                NetStream = null;
+                TcpClient = null;
+            }
+        }
+
+        /// <summary>
+        /// Registers the client activity.
+        /// </summary>
+        public void RegisterActivity()
+        {
+            ActivityTime = DateTime.UtcNow;
         }
 
         /// <summary>

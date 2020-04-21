@@ -41,17 +41,21 @@ namespace Scada.Server
     public abstract class BaseListener
     {
         /// <summary>
-        /// The maximum number of client connections.
+        /// The maximum number of client sessions.
         /// </summary>
-        protected const int MaxConnections = 100;
+        protected const int MaxSessionCount = 100;
         /// <summary>
         /// The maximum number of attempts to get a unique session ID.
         /// </summary>
         private const int MaxGetSessionIDAttempts = 100;
         /// <summary>
-        /// The period after which an inactive client is disconnected.
+        /// The period of disconnection of inactive clients.
         /// </summary>
-        protected static readonly TimeSpan DisconnectPeriod = TimeSpan.FromSeconds(60);
+        private static readonly TimeSpan DisconnectPeriod = TimeSpan.FromSeconds(5);
+        /// <summary>
+        /// The time after which an inactive client is disconnected.
+        /// </summary>
+        protected static readonly TimeSpan ClientLifetime = TimeSpan.FromSeconds(60);
 
         /// <summary>
         /// The listener options.
@@ -67,13 +71,9 @@ namespace Scada.Server
         /// </summary>
         protected TcpListener tcpListener;
         /// <summary>
-        /// The connected clients.
+        /// The connected clients accessed by session ID.
         /// </summary>
-        protected List<ConnectedClient> clients;
-        /// <summary>
-        /// The active sessions.
-        /// </summary>
-        protected ConcurrentDictionary<long, ConnectedClient> sessions;
+        protected ConcurrentDictionary<long, ConnectedClient> clients;
         /// <summary>
         /// The working thread of the listener.
         /// </summary>
@@ -94,7 +94,6 @@ namespace Scada.Server
 
             tcpListener = null;
             clients = null;
-            sessions = null;
             thread = null;
             terminated = false;
         }
@@ -105,44 +104,34 @@ namespace Scada.Server
         /// </summary>
         protected void Execute()
         {
+            DateTime disconnectDT = DateTime.MinValue;
+
             while (!terminated)
             {
                 try
                 {
                     // connect new clients
-                    while (tcpListener.Pending() && clients.Count < MaxConnections && !terminated)
+                    while (tcpListener.Pending() && !terminated && 
+                        CreateSession(out ConnectedClient client))
                     {
                         TcpClient tcpClient = tcpListener.AcceptTcpClient();
                         tcpClient.SendTimeout = listenerOptions.Timeout;
                         tcpClient.ReceiveTimeout = listenerOptions.Timeout;
 
                         Thread clientTread = new Thread(ClientExecute);
-                        ConnectedClient client = new ConnectedClient(tcpClient, clientTread);
-                        log.WriteAction(string.Format(Locale.IsRussian ? 
+                        client.Init(tcpClient, clientTread);
+                        log.WriteAction(string.Format(Locale.IsRussian ?
                             "Клиент {0} подключился" :
                             "Client {0} connected", client.Address));
-                        clients.Add(client);
                         clientTread.Start(client);
                     }
 
                     // disconnect inactive clients
-                    int clientIndex = 0;
                     DateTime utcNow = DateTime.UtcNow;
-
-                    while (clientIndex < clients.Count && !terminated)
+                    if (utcNow - disconnectDT >= DisconnectPeriod)
                     {
-                        ConnectedClient client = clients[clientIndex];
-
-                        if (utcNow - client.ActivityTime > DisconnectPeriod)
-                        {
-                            DisconnectClient(client);
-                            clients.RemoveAt(clientIndex);
-                            sessions.TryRemove(client.SessionID, out ConnectedClient value);
-                        }
-                        else
-                        {
-                            clientIndex++;
-                        }
+                        disconnectDT = utcNow;
+                        RemoveInactiveSessions();
                     }
 
                     Thread.Sleep(ScadaUtils.ThreadDelay);
@@ -170,8 +159,7 @@ namespace Scada.Server
                 {
                     if (client.TcpClient.Available > 0)
                     {
-                        // receive data
-                        client.ActivityTime = DateTime.UtcNow;
+                        client.RegisterActivity();
                         ReceiveData(client);
                     }
 
@@ -188,6 +176,70 @@ namespace Scada.Server
         }
 
         /// <summary>
+        /// Creates a new session.
+        /// </summary>
+        protected bool CreateSession(out ConnectedClient client)
+        {
+            long sessionID = 0;
+            bool sessionOK = false;
+            client = null;
+
+            if (clients.Count < MaxSessionCount)
+            {
+                client = new ConnectedClient();
+                sessionID = ScadaUtils.GetRandomLong();
+                int attemptNum = 0;
+                bool duplicated;
+
+                while (duplicated = sessionID == 0 ||
+                    ++attemptNum <= MaxGetSessionIDAttempts && !clients.TryAdd(sessionID, client))
+                {
+                    sessionID = ScadaUtils.GetRandomLong();
+                }
+
+                sessionOK = !duplicated;
+            }
+
+            if (sessionOK)
+            {
+                log.WriteAction(string.Format(Locale.IsRussian ?
+                    "Создана сессия с ид. {0}" :
+                    "Session with ID {0} created", sessionID));
+                client.SessionID = sessionID;
+                return true;
+            }
+            else
+            {
+                log.WriteError(Locale.IsRussian ?
+                    "Не удалось создать сессию" :
+                    "Unable to create session");
+                client = null;
+                return false;
+            }
+        }
+
+        /// <summary>
+        /// Removes the inactive sessions.
+        /// </summary>
+        protected void RemoveInactiveSessions()
+        {
+            DateTime utcNow = DateTime.UtcNow;
+            List<long> keysToRemove = new List<long>();
+
+            foreach (KeyValuePair<long, ConnectedClient> pair in clients)
+            {
+                if (utcNow - pair.Value.ActivityTime > ClientLifetime)
+                    keysToRemove.Add(pair.Key);
+            }
+
+            foreach (long key in keysToRemove)
+            {
+                if (clients.TryRemove(key, out ConnectedClient value))
+                    DisconnectClient(value);
+            }
+        }
+
+        /// <summary>
         /// Disconnects the client.
         /// </summary>
         protected void DisconnectClient(ConnectedClient client)
@@ -195,7 +247,7 @@ namespace Scada.Server
             try
             {
                 client.Terminated = true;
-                client.Thread.Join();
+                client.JoinThread();
                 client.Disconnect();
 
                 log.WriteAction(string.Format(Locale.IsRussian ?
@@ -217,14 +269,16 @@ namespace Scada.Server
         {
             try
             {
-                foreach (ConnectedClient client in clients)
+                ICollection<ConnectedClient> clientList = clients.Values; // make a snapshot
+
+                foreach (ConnectedClient client in clientList)
                 {
                     client.Terminated = true;
                 }
 
-                foreach (ConnectedClient client in clients)
+                foreach (ConnectedClient client in clientList)
                 {
-                    client.Thread.Join();
+                    client.JoinThread();
                     client.Disconnect();
                 }
             }
@@ -265,7 +319,8 @@ namespace Scada.Server
                             "длина данных слишком велика" :
                             "data length is too big";
                     }
-                    else if (client.SessionID != 0 && client.SessionID != request.SessionID)
+                    else if (!(request.SessionID == 0 && request.FunctionID == FunctionID.GetSessionInfo ||
+                        request.SessionID != 0 && request.SessionID == client.SessionID))
                     {
                         errDescr = Locale.IsRussian ?
                             "неверный идентификатор сессии" :
@@ -322,8 +377,8 @@ namespace Scada.Server
 
             switch (request.FunctionID)
             {
-                case FunctionID.CreateSession:
-                    CreateSession(client, request, out response);
+                case FunctionID.GetSessionInfo:
+                    GetSessionInfo(client, request, out response);
                     break;
 
                 case FunctionID.Login:
@@ -353,46 +408,14 @@ namespace Scada.Server
         }
 
         /// <summary>
-        /// Creates a new session.
+        /// Gets the information about the current session.
         /// </summary>
-        protected void CreateSession(ConnectedClient client, DataPacket request, out ResponsePacket response)
+        protected void GetSessionInfo(ConnectedClient client, DataPacket request, out ResponsePacket response)
         {
-            response = new ResponsePacket(request, client.OutBuf);
-
-            if (client.SessionID == 0)
-            {
-                long sessionID = ScadaUtils.GetRandomLong();
-                int attemptNum = 0;
-                bool duplicated;
-
-                while (duplicated = sessionID == 0 || 
-                    ++attemptNum <= MaxGetSessionIDAttempts && !sessions.TryAdd(sessionID, client))
-                {
-                    sessionID = ScadaUtils.GetRandomLong();
-                }
-
-                if (duplicated)
-                {
-                    // unable to find free session ID
-                    response.SetError(ErrorCode.InvalidOperation);
-                }
-                else
-                {
-                    // prepare successful response
-                    client.SessionID = sessionID;
-                    response.SessionID = sessionID;
-
-                    ProtocolUtils.CopyString(GetServerName(), response.Buffer, ProtocolUtils.ArgumentIndex, 
-                        out int requiredLenght);
-                    response.ArgumentLength = requiredLenght;
-                    response.Encode();
-                }
-            }
-            else
-            {
-                // session already created
-                response.SetError(ErrorCode.InvalidOperation);
-            }
+            response = new ResponsePacket(request, client.OutBuf) { SessionID = client.SessionID };
+            ProtocolUtils.CopyString(GetServerName(), response.Buffer, ProtocolUtils.ArgumentIndex, out int lenght);
+            response.ArgumentLength = lenght;
+            response.Encode();
         }
 
         /// <summary>
@@ -444,8 +467,7 @@ namespace Scada.Server
                     tcpListener = new TcpListener(IPAddress.Any, listenerOptions.Port);
                     tcpListener.Start();
 
-                    clients = new List<ConnectedClient>();
-                    sessions = new ConcurrentDictionary<long, ConnectedClient>();
+                    clients = new ConcurrentDictionary<long, ConnectedClient>();
                     terminated = false;
                     thread = new Thread(Execute);
                     thread.Start();
@@ -488,7 +510,6 @@ namespace Scada.Server
 
                     tcpListener = null;
                     clients = null;
-                    sessions = null;
                     thread = null;
 
                     log.WriteAction(Locale.IsRussian ?

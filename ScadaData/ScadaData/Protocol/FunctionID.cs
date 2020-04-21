@@ -33,7 +33,7 @@ namespace Scada.Protocol
     /// </summary>
     public static class FunctionID
     {
-        public const ushort CreateSession = 0x0001;
+        public const ushort GetSessionInfo = 0x0001;
         public const ushort Login = 0x0002;
         public const ushort GetStatus = 0x0003;
         public const ushort TerminateSession = 0x0004;
