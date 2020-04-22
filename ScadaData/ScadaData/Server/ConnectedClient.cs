@@ -65,7 +65,7 @@ namespace Scada.Server
             ActivityTime = DateTime.MinValue;
             InBuf = null;
             OutBuf = null;
-            LoggedOn = false;
+            IsLoggedIn = false;
             Username = "";
             RoleID = 0;
         }
@@ -112,9 +112,9 @@ namespace Scada.Server
         public byte[] OutBuf { get; private set; }
 
         /// <summary>
-        /// Gets or sets a value indicating whether a user is logged on.
+        /// Gets or sets a value indicating whether a user is logged in.
         /// </summary>
-        public bool LoggedOn { get; set; }
+        public bool IsLoggedIn { get; set; }
 
         /// <summary>
         /// Get or sets the username.

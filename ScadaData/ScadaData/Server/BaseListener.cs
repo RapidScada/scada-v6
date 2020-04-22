@@ -47,7 +47,19 @@ namespace Scada.Server
         /// <summary>
         /// The maximum number of attempts to get a unique session ID.
         /// </summary>
-        private const int MaxGetSessionIDAttempts = 100;
+        protected const int MaxGetSessionIDAttempts = 100;
+        /// <summary>
+        /// The delay of communication if an invalid password is detected, ms.
+        /// </summary>
+        protected const int WrongPasswordDelay = 500;
+        /// <summary>
+        /// The maximum number of unsuccessful login attempts per minute.
+        /// </summary>
+        protected const int MaxLoginPerMinute = 100;
+        /// <summary>
+        /// The duration of login blocking for security reasons, min.
+        /// </summary>
+        protected const int LoginBlockDuration = 1;
         /// <summary>
         /// The period of disconnection of inactive clients.
         /// </summary>
@@ -75,6 +87,14 @@ namespace Scada.Server
         /// </summary>
         protected ConcurrentDictionary<long, ConnectedClient> clients;
         /// <summary>
+        /// The queue for protection against password brute forcing.
+        /// </summary>
+        protected Queue<DateTime> protectionQueue;
+        /// <summary>
+        /// The login unblocking time.
+        /// </summary>
+        protected DateTime loginUnblockDT;
+        /// <summary>
         /// The working thread of the listener.
         /// </summary>
         protected Thread thread;
@@ -94,10 +114,41 @@ namespace Scada.Server
 
             tcpListener = null;
             clients = null;
+            protectionQueue = null;
+            loginUnblockDT = DateTime.MinValue;
             thread = null;
             terminated = false;
         }
 
+
+        /// <summary>
+        /// Prepares the listener for operating.
+        /// </summary>
+        protected void PrepareListener()
+        {
+            tcpListener = new TcpListener(IPAddress.Any, listenerOptions.Port);
+            tcpListener.Start();
+
+            clients = new ConcurrentDictionary<long, ConnectedClient>();
+            protectionQueue = new Queue<DateTime>();
+            loginUnblockDT = DateTime.MinValue;
+            terminated = false;
+        }
+
+        /// <summary>
+        /// Finalizes the listener operating.
+        /// </summary>
+        protected void FinalizeListener()
+        {
+            tcpListener.Stop();
+            DisconnectAll();
+            tcpListener = null;
+
+            clients = null;
+            protectionQueue = null;
+            loginUnblockDT = DateTime.MinValue;
+            thread = null;
+        }
 
         /// <summary>
         /// Work cycle running in a separate thread.
@@ -388,6 +439,14 @@ namespace Scada.Server
                         Login(client, request, out response);
                         break;
 
+                    case FunctionID.GetStatus:
+                        GetStatus(client, request, out response);
+                        break;
+
+                    case FunctionID.TerminateSession:
+                        TerminateSession(client, request, out response);
+                        break;
+
                     default:
                         handled = false;
                         break;
@@ -448,7 +507,8 @@ namespace Scada.Server
             response = new ResponsePacket(request, outBuf);
             index = ProtocolUtils.ArgumentIndex;
 
-            if (ValidateUser(client, username, password, instance, out int roleID, out string errMsg))
+            if (ProtectBruteForce(out string errMsg) &&
+                ValidateUser(client, username, password, instance, out int roleID, out errMsg))
             {
                 outBuf[index] = 1;
                 BitConverter.GetBytes(roleID).CopyTo(outBuf, index + 1);
@@ -462,18 +522,97 @@ namespace Scada.Server
                 outBuf[index++] = 0;
                 outBuf[index++] = 0;
                 ProtocolUtils.CopyString(errMsg, outBuf, index, out index);
+
+                RegisterUnsuccessfulLogin();
+                Thread.Sleep(WrongPasswordDelay);
             }
 
             response.BufferLength = index;
             response.Encode();
         }
-
+        
         /// <summary>
         /// Protects the application from brute force attacks.
         /// </summary>
-        protected bool ProtectBruteForce()
+        protected bool ProtectBruteForce(out string errMsg)
         {
-            return true;
+            // remove outdated login attempts
+            DateTime utcNow = DateTime.UtcNow;
+            DateTime startDT = utcNow.AddMinutes(-1);
+            int loginCount;
+
+            lock (protectionQueue)
+            {
+                while (protectionQueue.Count > 0)
+                {
+                    DateTime loginDT = protectionQueue.Peek();
+
+                    if (loginDT < startDT)
+                        protectionQueue.Dequeue();
+                    else
+                        break;
+                }
+
+                loginCount = protectionQueue.Count;
+            }
+
+            // block or unblock login
+            if (loginUnblockDT > DateTime.MinValue)
+            {
+                if (loginCount <= MaxLoginPerMinute && utcNow <= loginUnblockDT)
+                {
+                    loginUnblockDT = DateTime.MinValue;
+                    log.WriteAction(Locale.IsRussian ?
+                        "Вход в систему разблокирован" :
+                        "Login unblocked");
+                }
+            }
+            else if (loginCount > MaxLoginPerMinute)
+            {
+                loginUnblockDT = utcNow.AddMinutes(LoginBlockDuration);
+                log.WriteError(string.Format(Locale.IsRussian ?
+                    "Вход в систему заблокирован до {0} в целях безопасности" :
+                    "Login blocked until {0} for security reasons",
+                    loginUnblockDT.ToLocalizedTimeString()));
+            }
+
+            if (loginUnblockDT > DateTime.MinValue)
+            {
+                errMsg = Locale.IsRussian ?
+                    "Вход в систему заблокирован в целях безопасности" :
+                    "Login blocked until for security reasons";
+                return false;
+            }
+            else
+            {
+                errMsg = "";
+                return true;
+            }
+        }
+
+        /// <summary>
+        /// Registers an unsuccessful login attempt.
+        /// </summary>
+        protected void RegisterUnsuccessfulLogin()
+        {
+            lock (protectionQueue)
+            {
+                protectionQueue.Enqueue(DateTime.UtcNow);
+            }
+        }
+
+        /// <summary>
+        /// Gets the server and the session status.
+        /// </summary>
+        protected void GetStatus(ConnectedClient client, DataPacket request, out ResponsePacket response)
+        {
+            byte[] outBuf = client.OutBuf;
+            response = new ResponsePacket(request, outBuf);
+            int index = ProtocolUtils.ArgumentIndex;
+            outBuf[index] = (byte)(ServerIsReady() ? 1 : 0);
+            outBuf[index + 1] = (byte)(client.IsLoggedIn ? 1 : 0);
+            response.ArgumentLength = 2;
+            response.Encode();
         }
 
         /// <summary>
@@ -482,17 +621,37 @@ namespace Scada.Server
         protected abstract string GetServerName();
 
         /// <summary>
+        /// Gets a value indicating whether the server is ready.
+        /// </summary>
+        protected virtual bool ServerIsReady()
+        {
+            return true;
+        }
+
+        /// <summary>
         /// Validates the username and password.
         /// </summary>
         protected virtual bool ValidateUser(ConnectedClient client, string username, string password, string instance,
             out int roleID, out string errMsg)
         {
-            client.LoggedOn = true;
+            client.IsLoggedIn = true;
             client.Username = username;
 
             roleID = 0;
             errMsg = "";
             return true;
+        }
+
+        /// <summary>
+        /// Terminates the client session.
+        /// </summary>
+        protected void TerminateSession(ConnectedClient client, DataPacket request, out ResponsePacket response)
+        {
+            if (clients.TryRemove(client.SessionID, out ConnectedClient value))
+                DisconnectClient(value);
+
+            response = new ResponsePacket(request, client.OutBuf) { ArgumentLength = 0 };
+            response.Encode();
         }
 
         /// <summary>
@@ -519,11 +678,7 @@ namespace Scada.Server
                         "Запуск прослушивателя" :
                         "Start listener");
 
-                    tcpListener = new TcpListener(IPAddress.Any, listenerOptions.Port);
-                    tcpListener.Start();
-
-                    clients = new ConcurrentDictionary<long, ConnectedClient>();
-                    terminated = false;
+                    PrepareListener();
                     thread = new Thread(Execute);
                     thread.Start();
                 }
@@ -560,12 +715,7 @@ namespace Scada.Server
 
                     terminated = true;
                     thread.Join();
-                    tcpListener.Stop();
-                    DisconnectAll();
-
-                    tcpListener = null;
-                    clients = null;
-                    thread = null;
+                    FinalizeListener();
 
                     log.WriteAction(Locale.IsRussian ?
                         "Прослушиватель остановлен" :
