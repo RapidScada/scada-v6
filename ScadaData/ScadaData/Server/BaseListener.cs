@@ -28,6 +28,7 @@ using Scada.Protocol;
 using System;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
+using System.IO;
 using System.Net;
 using System.Net.Sockets;
 using System.Threading;
@@ -447,6 +448,14 @@ namespace Scada.Server
                         TerminateSession(client, request, out response);
                         break;
 
+                    case FunctionID.GetFileInfo:
+                        GetFileInfo(client, request, out response);
+                        break;
+
+                    case FunctionID.DownloadFile:
+                        DownloadFile(client, request);
+                        break;
+
                     default:
                         handled = false;
                         break;
@@ -472,7 +481,7 @@ namespace Scada.Server
                     request.FunctionID.ToString("X4"), client.Address);
 
                 response = new ResponsePacket(request, client.OutBuf);
-                response.SetError(ErrorCode.InternalServerError);
+                response.SetError(ex is ProtocolException pe ? pe.ErrorCode : ErrorCode.InternalServerError);
             }
 
             // send response
@@ -496,14 +505,15 @@ namespace Scada.Server
         /// </summary>
         protected void Login(ConnectedClient client, DataPacket request, out ResponsePacket response)
         {
-            byte[] outBuf = client.OutBuf;
+            byte[] inBuf = client.InBuf;
             int index = ProtocolUtils.ArgumentIndex;
-            string username = ProtocolUtils.GetString(outBuf, index, out index);
-            string encryptedPassword = ProtocolUtils.GetString(outBuf, index, out index);
-            string instance = ProtocolUtils.GetString(outBuf, index, out index);
+            string username = ProtocolUtils.GetString(inBuf, index, out index);
+            string encryptedPassword = ProtocolUtils.GetString(inBuf, index, out index);
+            string instance = ProtocolUtils.GetString(inBuf, index, out index);
             string password = ProtocolUtils.DecryptPassword(encryptedPassword, client.SessionID,
                 listenerOptions.SecretKey);
 
+            byte[] outBuf = client.OutBuf;
             response = new ResponsePacket(request, outBuf);
             index = ProtocolUtils.ArgumentIndex;
 
@@ -616,6 +626,115 @@ namespace Scada.Server
         }
 
         /// <summary>
+        /// Terminates the client session.
+        /// </summary>
+        protected void TerminateSession(ConnectedClient client, DataPacket request, out ResponsePacket response)
+        {
+            if (clients.TryRemove(client.SessionID, out ConnectedClient value))
+                DisconnectClient(value);
+
+            response = new ResponsePacket(request, client.OutBuf) { ArgumentLength = 0 };
+            response.Encode();
+        }
+
+        /// <summary>
+        /// Gets the information about the file.
+        /// </summary>
+        protected void GetFileInfo(ConnectedClient client, DataPacket request, out ResponsePacket response)
+        {
+            int index = ProtocolUtils.ArgumentIndex;
+            string fileName = GetFileName(client.InBuf, index, out index);
+            FileInfo fileInfo = new FileInfo(fileName);
+            byte[] outBuf = client.OutBuf;
+            response = new ResponsePacket(request, outBuf);
+            index = ProtocolUtils.ArgumentIndex;
+
+            if (fileInfo.Exists)
+            {
+                outBuf[index] = 1;
+                BitConverter.GetBytes(fileInfo.LastWriteTimeUtc.Ticks).CopyTo(outBuf, index + 1);
+                BitConverter.GetBytes(fileInfo.Length).CopyTo(outBuf, index + 9);
+            }
+            else
+            {
+                Array.Clear(outBuf, index, 17);
+            }
+
+            response.ArgumentLength = 17;
+            response.Encode();
+        }
+
+        /// <summary>
+        /// Downloads the file.
+        /// </summary>
+        protected void DownloadFile(ConnectedClient client, DataPacket request)
+        {
+            byte[] inBuf = client.InBuf;
+            int index = ProtocolUtils.ArgumentIndex;
+            string fileName = GetFileName(inBuf, index, out index);
+            long offset = BitConverter.ToInt64(inBuf, index);
+            SeekOrigin origin = inBuf[index + 8] == 0 ? SeekOrigin.Begin : SeekOrigin.End;
+            int count = BitConverter.ToInt32(inBuf, index + 9);
+            DateTime newerThan = ProtocolUtils.GetTime(inBuf, index + 13, out index);
+
+            FileInfo fileInfo = new FileInfo(fileName);
+            byte[] outBuf = client.OutBuf;
+            int blockNumber = 1;
+            int blockCount = 1;
+            int dataLength = 0;
+
+            if (!fileInfo.Exists)
+            {
+                ResponsePacket response = new ResponsePacket(request, outBuf);
+                index = ProtocolUtils.ArgumentIndex;
+                BitConverter.GetBytes(blockNumber).CopyTo(outBuf, index);
+                BitConverter.GetBytes(blockCount).CopyTo(outBuf, index + 4);
+                outBuf[index + 5] = 0;
+                outBuf[index + 6] = (byte)FileReadingResult.FileNotFound;
+                BitConverter.GetBytes(dataLength).CopyTo(outBuf, index + 7);
+                response.Encode();
+                client.NetStream.Write(response.Buffer, 0, response.BufferLength);
+            }
+            else if (fileInfo.LastAccessTimeUtc <= newerThan)
+            {
+
+            }
+            else
+            {
+                try
+                {
+                    using (FileStream stream =
+                        new FileStream(fileName, FileMode.Open, FileAccess.Read, FileShare.ReadWrite))
+                    {
+                        // set file reading position
+                        if (offset > 0)
+                        {
+                            offset = Math.Min(offset, stream.Length);
+                            stream.Seek(origin == SeekOrigin.Begin ? offset : -offset, origin);
+                        }
+                    }
+                }
+                catch (IOException ex)
+                {
+                    log.WriteException(ex, Locale.IsRussian ?
+                        "Ошибка при чтении из файла для клиента {0}" :
+                        "Error reading from file for the client {1}", client.Address);
+                }
+            }
+        }
+
+        /// <summary>
+        /// Gets the file name from the buffer.
+        /// </summary>
+        protected string GetFileName(byte[] buffer, int startIndex, out int endIndex)
+        {
+            ushort directoryID = BitConverter.ToUInt16(buffer, startIndex);
+            string path = ProtocolUtils.GetString(buffer, startIndex + 2, out endIndex);
+            return Path.Combine(GetDirectory(directoryID), path);
+        }
+
+
+        /// <summary>
         /// Gets the server name and version.
         /// </summary>
         protected abstract string GetServerName();
@@ -643,15 +762,11 @@ namespace Scada.Server
         }
 
         /// <summary>
-        /// Terminates the client session.
+        /// Gets the directory name by ID.
         /// </summary>
-        protected void TerminateSession(ConnectedClient client, DataPacket request, out ResponsePacket response)
+        protected virtual string GetDirectory(ushort directoryID)
         {
-            if (clients.TryRemove(client.SessionID, out ConnectedClient value))
-                DisconnectClient(value);
-
-            response = new ResponsePacket(request, client.OutBuf) { ArgumentLength = 0 };
-            response.Encode();
+            throw new ProtocolException(ErrorCode.InvalidOperation);
         }
 
         /// <summary>

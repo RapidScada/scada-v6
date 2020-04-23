@@ -43,6 +43,7 @@ namespace Scada.Protocol
         /// </summary>
         public const int ArgumentIndex = 16;
 
+
         /// <summary>
         /// Encodes and copies the string to the buffer.
         /// </summary>
@@ -74,6 +75,24 @@ namespace Scada.Protocol
             startIndex += 2;
             endIndex = startIndex + dataLength;
             return dataLength > 0 ? Encoding.Unicode.GetString(buffer, startIndex, dataLength) : "";
+        }
+
+        /// <summary>
+        /// Encodes and copies the date and time to the buffer.
+        /// </summary>
+        public static void CopyTime(DateTime dateTime, byte[] buffer, int startIndex, out int endIndex)
+        {
+            endIndex = startIndex + 8;
+            BitConverter.GetBytes(dateTime.Ticks).CopyTo(buffer, startIndex);
+        }
+
+        /// <summary>
+        /// Gets the date and time from the buffer.
+        /// </summary>
+        public static DateTime GetTime(byte[] buffer, int startIndex, out int endIndex)
+        {
+            endIndex = startIndex + 8;
+            return new DateTime(BitConverter.ToInt64(buffer, startIndex), DateTimeKind.Utc);
         }
 
         /// <summary>

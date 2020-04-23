@@ -16,30 +16,35 @@
  * 
  * Product  : Rapid SCADA
  * Module   : ScadaData
- * Summary  : Specifies the function IDs of the application protocol
+ * Summary  : Represents errors that occur during communication between applications
  * 
  * Author   : Mikhail Shiryaev
  * Created  : 2020
  * Modified : 2020
  */
 
-#pragma warning disable 1591 // Missing XML comment for publicly visible type or member
+using System;
 
 namespace Scada.Protocol
 {
     /// <summary>
-    /// Specifies the function IDs of the application protocol.
-    /// <para>Задает идентификаторы функций протокола приложения.</para>
+    /// Represents errors that occur during communication between applications.
+    /// <para>Представляет ошибки, возникающие во время обмена данными между приложениями.</para>
     /// </summary>
-    public static class FunctionID
+    public class ProtocolException : Exception
     {
-        public const ushort GetSessionInfo = 0x0001;
-        public const ushort Login = 0x0002;
-        public const ushort GetStatus = 0x0003;
-        public const ushort TerminateSession = 0x0004;
+        /// <summary>
+        /// Initializes a new instance of the class.
+        /// </summary>
+        public ProtocolException(ErrorCode errorCode)
+            : base()
+        {
+            ErrorCode = errorCode;
+        }
 
-        public const ushort GetFileInfo = 0x0101;
-        public const ushort DownloadFile = 0x0102;
-        public const ushort UploadFile = 0x0103;
+        /// <summary>
+        /// Gets the error code.
+        /// </summary>
+        public ErrorCode ErrorCode { get; protected set; }
     }
 }

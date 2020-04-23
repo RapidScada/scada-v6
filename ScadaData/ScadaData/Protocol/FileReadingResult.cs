@@ -16,7 +16,7 @@
  * 
  * Product  : Rapid SCADA
  * Module   : ScadaData
- * Summary  : Specifies the function IDs of the application protocol
+ * Summary  : Specifies the results of reading from a file
  * 
  * Author   : Mikhail Shiryaev
  * Created  : 2020
@@ -28,18 +28,14 @@
 namespace Scada.Protocol
 {
     /// <summary>
-    /// Specifies the function IDs of the application protocol.
-    /// <para>Задает идентификаторы функций протокола приложения.</para>
+    /// Specifies the results of reading from a file.
+    /// <para>Задает результаты чтения из файла.</para>
     /// </summary>
-    public static class FunctionID
+    public enum FileReadingResult : byte
     {
-        public const ushort GetSessionInfo = 0x0001;
-        public const ushort Login = 0x0002;
-        public const ushort GetStatus = 0x0003;
-        public const ushort TerminateSession = 0x0004;
-
-        public const ushort GetFileInfo = 0x0101;
-        public const ushort DownloadFile = 0x0102;
-        public const ushort UploadFile = 0x0103;
+        Successful = 0x00,
+        FileNotFound = 0x01,
+        FileReadError = 0x02,
+        FileOutdated = 0x03
     }
 }
