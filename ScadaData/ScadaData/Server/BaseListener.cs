@@ -185,14 +185,15 @@ namespace Scada.Server
                         disconnectDT = utcNow;
                         RemoveInactiveSessions();
                     }
-
-                    Thread.Sleep(ScadaUtils.ThreadDelay);
                 }
                 catch (Exception ex)
                 {
                     log.WriteException(ex, Locale.IsRussian ?
                         "Ошибка в цикле работы прослушивателя" :
                         "Error in the listener work cycle");
+                }
+                finally
+                {
                     Thread.Sleep(ScadaUtils.ThreadDelay);
                 }
             }
@@ -207,23 +208,8 @@ namespace Scada.Server
 
             while (!client.Terminated)
             {
-                try
-                {
-                    if (client.TcpClient.Available > 0)
-                    {
-                        client.RegisterActivity();
-                        ReceiveData(client);
-                    }
-
-                    Thread.Sleep(ScadaUtils.ThreadDelay);
-                }
-                catch (Exception ex)
-                {
-                    log.WriteException(ex, Locale.IsRussian ?
-                        "Ошибка в цикле работы клиента {0}" :
-                        "Error in the client {0} work cycle", client.Address);
-                    Thread.Sleep(ScadaUtils.ThreadDelay);
-                }
+                ReceiveData(client);
+                Thread.Sleep(ScadaUtils.ThreadDelay);
             }
         }
 
@@ -349,65 +335,11 @@ namespace Scada.Server
         {
             try
             {
-                bool formatError = true;
-                string errDescr = "";
-                byte[] inBuf = client.InBuf;
-                int bytesRead = client.NetStream.Read(inBuf, 0, ProtocolUtils.HeaderLength);
-
-                if (bytesRead == ProtocolUtils.HeaderLength)
+                if (client.NetStream.DataAvailable && 
+                    ReceiveDataPacket(client, out DataPacket request))
                 {
-                    DataPacket request = new DataPacket
-                    {
-                        TransactionID = BitConverter.ToUInt16(inBuf, 0),
-                        DataLength = BitConverter.ToInt32(inBuf, 2),
-                        SessionID = BitConverter.ToInt64(inBuf, 6),
-                        FunctionID = BitConverter.ToUInt16(inBuf, 14),
-                        Buffer = inBuf
-                    };
-
-                    if (request.DataLength + 6 > inBuf.Length)
-                    {
-                        errDescr = Locale.IsRussian ?
-                            "длина данных слишком велика" :
-                            "data length is too big";
-                    }
-                    else if (!(request.SessionID == 0 && request.FunctionID == FunctionID.GetSessionInfo ||
-                        request.SessionID != 0 && request.SessionID == client.SessionID))
-                    {
-                        errDescr = Locale.IsRussian ?
-                            "неверный идентификатор сессии" :
-                            "incorrect session ID";
-                    }
-                    else
-                    {
-                        // read the rest of the data
-                        int bytesToRead = request.DataLength - 8;
-                        bytesRead = bytesToRead > 0 ? client.ReadData(ProtocolUtils.HeaderLength, bytesToRead) : 0;
-
-                        if (bytesRead == bytesToRead)
-                        {
-                            formatError = false;
-                            ProcessRequest(client, request);
-                        }
-                        else
-                        {
-                            errDescr = Locale.IsRussian ?
-                                "не удалось прочитать все данные" :
-                                "unable to read all data";
-                        }
-                    }
-                }
-
-                if (formatError)
-                {
-                    log.WriteError(string.Format(Locale.IsRussian ?
-                        "Некорректный формат данных, полученных от клиента {0}: {1}" :
-                        "Incorrect format of data received from the client {0}: {1}",
-                        client.Address, errDescr));
-
-                    // clear the stream by receiving available data
-                    if (client.NetStream.DataAvailable)
-                        client.NetStream.Read(inBuf, 0, inBuf.Length);
+                    client.RegisterActivity();
+                    ProcessRequest(client, request);
                 }
             }
             catch (Exception ex)
@@ -416,6 +348,82 @@ namespace Scada.Server
                     "Ошибка при приёме данных от клиента {0}" :
                     "Error receiving data from the client {0}", client.Address);
             }
+        }
+
+        /// <summary>
+        /// Receives a data packet from the client.
+        /// </summary>
+        protected bool ReceiveDataPacket(ConnectedClient client, out DataPacket dataPacket)
+        {
+            bool formatError = true;
+            string errDescr = "";
+            byte[] inBuf = client.InBuf;
+            int bytesRead = client.NetStream.Read(inBuf, 0, ProtocolUtils.HeaderLength);
+            dataPacket = null;
+
+            if (bytesRead == ProtocolUtils.HeaderLength)
+            {
+                DataPacket request = new DataPacket
+                {
+                    TransactionID = BitConverter.ToUInt16(inBuf, 0),
+                    DataLength = BitConverter.ToInt32(inBuf, 2),
+                    SessionID = BitConverter.ToInt64(inBuf, 6),
+                    FunctionID = BitConverter.ToUInt16(inBuf, 14),
+                    Buffer = inBuf
+                };
+
+                if (request.DataLength + 6 > inBuf.Length)
+                {
+                    errDescr = Locale.IsRussian ?
+                        "длина данных слишком велика" :
+                        "data length is too big";
+                }
+                else if (!(request.SessionID == 0 && request.FunctionID == FunctionID.GetSessionInfo ||
+                    request.SessionID != 0 && request.SessionID == client.SessionID))
+                {
+                    errDescr = Locale.IsRussian ?
+                        "неверный идентификатор сессии" :
+                        "incorrect session ID";
+                }
+                else
+                {
+                    // read the rest of the data
+                    int bytesToRead = request.DataLength - 8;
+                    bytesRead = bytesToRead > 0 ? client.ReadData(ProtocolUtils.HeaderLength, bytesToRead) : 0;
+
+                    if (bytesRead == bytesToRead)
+                    {
+                        formatError = false;
+                        dataPacket = request;
+                    }
+                    else
+                    {
+                        errDescr = Locale.IsRussian ?
+                            "не удалось прочитать все данные" :
+                            "unable to read all data";
+                    }
+                }
+            }
+            else
+            {
+                errDescr = Locale.IsRussian ?
+                    "не удалось прочитать заголовок пакета данных" :
+                    "unable to read data packet header";
+            }
+
+            if (formatError)
+            {
+                log.WriteError(string.Format(Locale.IsRussian ?
+                    "Некорректный формат данных, полученных от клиента {0}: {1}" :
+                    "Incorrect format of data received from the client {0}: {1}",
+                    client.Address, errDescr));
+
+                // clear the stream by receiving available data
+                if (client.NetStream.DataAvailable)
+                    client.NetStream.Read(inBuf, 0, inBuf.Length);
+            }
+
+            return dataPacket != null;
         }
 
         /// <summary>
@@ -454,6 +462,10 @@ namespace Scada.Server
 
                     case FunctionID.DownloadFile:
                         DownloadFile(client, request);
+                        break;
+
+                    case FunctionID.UploadFile:
+                        UploadFile(client, request, out response);
                         break;
 
                     default:
@@ -665,6 +677,16 @@ namespace Scada.Server
         }
 
         /// <summary>
+        /// Gets the file name from the buffer.
+        /// </summary>
+        protected string GetFileName(byte[] buffer, int startIndex, out int endIndex)
+        {
+            ushort directoryID = BitConverter.ToUInt16(buffer, startIndex);
+            string path = ProtocolUtils.GetString(buffer, startIndex + 2, out endIndex);
+            return Path.Combine(GetDirectory(directoryID), path);
+        }
+
+        /// <summary>
         /// Downloads the file.
         /// </summary>
         protected void DownloadFile(ConnectedClient client, DataPacket request)
@@ -676,63 +698,189 @@ namespace Scada.Server
             SeekOrigin origin = inBuf[index + 8] == 0 ? SeekOrigin.Begin : SeekOrigin.End;
             int count = BitConverter.ToInt32(inBuf, index + 9);
             DateTime newerThan = ProtocolUtils.GetTime(inBuf, index + 13, out index);
-
             FileInfo fileInfo = new FileInfo(fileName);
-            byte[] outBuf = client.OutBuf;
-            int blockNumber = 1;
-            int blockCount = 1;
-            int dataLength = 0;
 
             if (!fileInfo.Exists)
             {
-                ResponsePacket response = new ResponsePacket(request, outBuf);
-                index = ProtocolUtils.ArgumentIndex;
-                BitConverter.GetBytes(blockNumber).CopyTo(outBuf, index);
-                BitConverter.GetBytes(blockCount).CopyTo(outBuf, index + 4);
-                outBuf[index + 5] = 0;
-                outBuf[index + 6] = (byte)FileReadingResult.FileNotFound;
-                BitConverter.GetBytes(dataLength).CopyTo(outBuf, index + 7);
-                response.Encode();
-                client.NetStream.Write(response.Buffer, 0, response.BufferLength);
+                ResponsePacket response = CreateDownloadResponse(request, client.OutBuf, 
+                    1, 1, FileReadingResult.FileNotFound, 0);
+                client.SendResponse(response);
             }
             else if (fileInfo.LastAccessTimeUtc <= newerThan)
             {
-
+                ResponsePacket response = CreateDownloadResponse(request, client.OutBuf,
+                    1, 1, FileReadingResult.FileOutdated, 0);
+                client.SendResponse(response);
             }
             else
             {
-                try
+                using (FileStream stream =
+                    new FileStream(fileName, FileMode.Open, FileAccess.Read, FileShare.ReadWrite))
                 {
-                    using (FileStream stream =
-                        new FileStream(fileName, FileMode.Open, FileAccess.Read, FileShare.ReadWrite))
+                    // set file reading position
+                    if (offset > 0)
                     {
-                        // set file reading position
-                        if (offset > 0)
-                        {
-                            offset = Math.Min(offset, stream.Length);
-                            stream.Seek(origin == SeekOrigin.Begin ? offset : -offset, origin);
-                        }
+                        offset = Math.Min(offset, stream.Length);
+                        stream.Seek(origin == SeekOrigin.Begin ? offset : -offset, origin);
                     }
-                }
-                catch (IOException ex)
-                {
-                    log.WriteException(ex, Locale.IsRussian ?
-                        "Ошибка при чтении из файла для клиента {0}" :
-                        "Error reading from file for the client {1}", client.Address);
+
+                    // prepare for reading
+                    const int BytesToRead = ConnectedClient.OutBufLenght - 23;
+                    byte[] outBuf = client.OutBuf;
+                    int blockNumber = 1;
+                    int blockCount = (int)Math.Ceiling((double)(stream.Length / BytesToRead));
+                    bool endOfFile = false;
+
+                    while (!endOfFile)
+                    {
+                        if (client.Terminated)
+                        {
+                            throw new ProtocolException(ErrorCode.InvalidOperation, Locale.IsRussian ?
+                                "Операция отменена." :
+                                "Operation cancelled.");
+                        }
+
+                        // read from file
+                        int bytesRead = stream.Read(outBuf, 29, BytesToRead);
+                        endOfFile = bytesRead < BytesToRead;
+
+                        // send response
+                        ResponsePacket response = CreateDownloadResponse(request, outBuf, blockNumber, blockCount,
+                            endOfFile ? FileReadingResult.EndOfFile : FileReadingResult.Successful, bytesRead);
+                        client.SendResponse(response);
+                        blockNumber++;
+                    }
                 }
             }
         }
 
         /// <summary>
-        /// Gets the file name from the buffer.
+        /// Creates a response to the file download request.
         /// </summary>
-        protected string GetFileName(byte[] buffer, int startIndex, out int endIndex)
+        protected ResponsePacket CreateDownloadResponse(DataPacket request, byte[] outBuf, 
+            int blockNumber, int blockCount, FileReadingResult fileReadingResult, int bytesRead)
         {
-            ushort directoryID = BitConverter.ToUInt16(buffer, startIndex);
-            string path = ProtocolUtils.GetString(buffer, startIndex + 2, out endIndex);
-            return Path.Combine(GetDirectory(directoryID), path);
+            ResponsePacket response = new ResponsePacket(request, outBuf);
+            int index = ProtocolUtils.ArgumentIndex;
+            BitConverter.GetBytes(blockNumber).CopyTo(outBuf, index);
+            BitConverter.GetBytes(blockCount).CopyTo(outBuf, index + 4);
+            outBuf[index + 8] = (byte)FileReadingResult.FileNotFound;
+            BitConverter.GetBytes(bytesRead).CopyTo(outBuf, index + 9);
+            response.ArgumentLength = 13 + bytesRead;
+            response.Encode();
+            return response;
         }
 
+        /// <summary>
+        /// Uploads the file.
+        /// </summary>
+        protected void UploadFile(ConnectedClient client, DataPacket request, out ResponsePacket response)
+        {
+            DecodeUploadPacket(request, out int blockNumber, out int blockCount,
+                out bool endOfFile, out string fileName, out int bytesToWrite, out int endIndex);
+
+            log.WriteAction(string.Format(Locale.IsRussian ?
+                "Получение файла {0}" :
+                "Receiving the file {0}", fileName));
+
+            if (blockNumber != 1)
+            {
+                throw new ProtocolException(ErrorCode.IllegalFunctionArguments, Locale.IsRussian ?
+                    "Неверный номер блока." :
+                    "Invalid block number.");
+            }
+
+            Directory.CreateDirectory(Path.GetDirectoryName(fileName));
+
+            try
+            {
+                using (FileStream stream =
+                    new FileStream(fileName, FileMode.CreateNew, FileAccess.Write, FileShare.ReadWrite))
+                {
+                    while (!endOfFile && !client.Terminated)
+                    {
+                        // write to destination file
+                        stream.Write(client.InBuf, endIndex, bytesToWrite);
+
+                        // wait for data
+                        DateTime endWaitingDT = DateTime.UtcNow.AddMilliseconds(client.TcpClient.ReceiveTimeout);
+                        while (!client.NetStream.DataAvailable && DateTime.UtcNow <= endWaitingDT)
+                        {
+                            Thread.Sleep(ScadaUtils.ThreadDelay);
+                        }
+
+                        // receive next data packet
+                        if (ReceiveDataPacket(client, out DataPacket dataPacket))
+                        {
+                            DecodeUploadPacket(dataPacket, out int newBlockNumber, out blockCount,
+                                out endOfFile, out fileName, out bytesToWrite, out endIndex);
+
+                            if (dataPacket.TransactionID != request.TransactionID)
+                            {
+                                throw new ProtocolException(ErrorCode.InvalidOperation, Locale.IsRussian ?
+                                    "Неверный идентификатор транзакции." :
+                                    "Invalid transaction ID.");
+                            }
+
+                            if (dataPacket.FunctionID != FunctionID.UploadFile)
+                            {
+                                throw new ProtocolException(ErrorCode.InvalidOperation, Locale.IsRussian ?
+                                    "Ожидалась операция передачи файла." :
+                                    "File upload operation expected.");
+                            }
+
+                            if (blockNumber + 1 != newBlockNumber)
+                            {
+                                throw new ProtocolException(ErrorCode.IllegalFunctionArguments, Locale.IsRussian ?
+                                    "Неверный номер блока." :
+                                    "Invalid block number.");
+                            }
+
+                            blockNumber = newBlockNumber;
+                        }
+                        else
+                        {
+                            throw new ProtocolException(ErrorCode.InvalidOperation, Locale.IsRussian ?
+                                "Данные файла отсутствуют." :
+                                "No file data.");
+                        }
+                    }
+                }
+
+                if (client.Terminated)
+                {
+                    throw new ProtocolException(ErrorCode.InvalidOperation, Locale.IsRussian ?
+                        "Операция отменена." :
+                        "Operation cancelled.");
+                }
+            }
+            catch
+            {
+                // delete file in case of error
+                try { File.Delete(fileName); }
+                catch { }
+                throw;
+            }
+
+            response = new ResponsePacket(request, client.OutBuf) { ArgumentLength = 0 };
+            response.Encode();
+        }
+
+        /// <summary>
+        /// Decodes the file upload data packet.
+        /// </summary>
+        protected void DecodeUploadPacket(DataPacket dataPacket, out int blockNumber, out int blockCount,
+            out bool endOfFile, out string fileName, out int bytesToWrite, out int endIndex)
+        {
+            byte[] buffer = dataPacket.Buffer;
+            int index = ProtocolUtils.ArgumentIndex;
+            blockNumber = BitConverter.ToInt32(buffer, index);
+            blockCount = BitConverter.ToInt32(buffer, index + 4);
+            endOfFile = buffer[8] > 0;
+            fileName = GetFileName(buffer, index + 9, out index);
+            bytesToWrite = BitConverter.ToInt32(buffer, index);
+            endIndex = index + 4;
+        }
 
         /// <summary>
         /// Gets the server name and version.
@@ -766,7 +914,9 @@ namespace Scada.Server
         /// </summary>
         protected virtual string GetDirectory(ushort directoryID)
         {
-            throw new ProtocolException(ErrorCode.InvalidOperation);
+            throw new ProtocolException(ErrorCode.InvalidOperation, Locale.IsRussian ?
+                "Операция не реализована." :
+                "Operation is not implemented.");
         }
 
         /// <summary>

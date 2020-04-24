@@ -43,6 +43,16 @@ namespace Scada.Protocol
         }
 
         /// <summary>
+        /// Initializes a new instance of the class.
+        /// </summary>
+        public ProtocolException(ErrorCode errorCode, string message)
+            : base(message)
+        {
+            ErrorCode = errorCode;
+        }
+
+
+        /// <summary>
         /// Gets the error code.
         /// </summary>
         public ErrorCode ErrorCode { get; protected set; }

@@ -23,6 +23,7 @@
  * Modified : 2020
  */
 
+using Scada.Protocol;
 using System;
 using System.Net;
 using System.Net.Sockets;
@@ -189,6 +190,14 @@ namespace Scada.Server
             } while (bytesRead < size && (DateTime.UtcNow - startDT).TotalMilliseconds <= timeout);
 
             return bytesRead;
+        }
+
+        /// <summary>
+        /// Sends the response.
+        /// </summary>
+        public void SendResponse(ResponsePacket response)
+        {
+            NetStream.Write(response.Buffer, 0, response.BufferLength);
         }
 
         /// <summary>
