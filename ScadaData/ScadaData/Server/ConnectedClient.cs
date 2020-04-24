@@ -38,15 +38,6 @@ namespace Scada.Server
     public sealed class ConnectedClient
     {
         /// <summary>
-        /// The input buffer length, 1 MB.
-        /// </summary>
-        public const int InBufLenght = 1048576;
-        /// <summary>
-        /// The output buffer length, 1 MB.
-        /// </summary>
-        public const int OutBufLenght = 1048576;
-
-        /// <summary>
         /// Necessary to stop the thread.
         /// </summary>
         public volatile bool Terminated;
@@ -138,8 +129,8 @@ namespace Scada.Server
             Address = ((IPEndPoint)TcpClient.Client.RemoteEndPoint).Address.ToString();
             Thread = thread ?? throw new ArgumentNullException("thread");
             ActivityTime = DateTime.UtcNow;
-            InBuf = new byte[InBufLenght];
-            OutBuf = new byte[OutBufLenght];
+            InBuf = new byte[ProtocolUtils.BufferLenght];
+            OutBuf = new byte[ProtocolUtils.BufferLenght];
         }
 
         /// <summary>
@@ -205,7 +196,7 @@ namespace Scada.Server
         /// </summary>
         public byte[] GetInBuf(int length)
         {
-            return length <= InBufLenght ? InBuf : new byte[length];
+            return length <= InBuf.Length ? InBuf : new byte[length];
         }
 
         /// <summary>
@@ -213,7 +204,7 @@ namespace Scada.Server
         /// </summary>
         public byte[] GetOutBuf(int length)
         {
-            return length <= OutBufLenght ? OutBuf : new byte[length];
+            return length <= OutBuf.Length ? OutBuf : new byte[length];
         }
     }
 }

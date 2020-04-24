@@ -725,7 +725,7 @@ namespace Scada.Server
                     }
 
                     // prepare for reading
-                    const int BytesToRead = ConnectedClient.OutBufLenght - 23;
+                    const int BytesToRead = ProtocolUtils.BufferLenght - 23;
                     byte[] outBuf = client.OutBuf;
                     int blockNumber = 1;
                     int blockCount = (int)Math.Ceiling((double)(stream.Length / BytesToRead));
@@ -780,8 +780,15 @@ namespace Scada.Server
                 out bool endOfFile, out string fileName, out int bytesToWrite, out int endIndex);
 
             log.WriteAction(string.Format(Locale.IsRussian ?
-                "Получение файла {0}" :
+                "Приём файла {0}" :
                 "Receiving the file {0}", fileName));
+
+            if (!AcceptFileUpload(fileName))
+            {
+                throw new ProtocolException(ErrorCode.InvalidOperation, Locale.IsRussian ?
+                    "Файл отклонён." :
+                    "File rejected.");
+            }
 
             if (blockNumber != 1)
             {
@@ -917,6 +924,14 @@ namespace Scada.Server
             throw new ProtocolException(ErrorCode.InvalidOperation, Locale.IsRussian ?
                 "Операция не реализована." :
                 "Operation is not implemented.");
+        }
+
+        /// <summary>
+        /// Accepts or rejects the file upload.
+        /// </summary>
+        protected virtual bool AcceptFileUpload(string fileName)
+        {
+            return true;
         }
 
         /// <summary>

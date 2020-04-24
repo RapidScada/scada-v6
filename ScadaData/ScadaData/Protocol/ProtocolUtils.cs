@@ -35,6 +35,10 @@ namespace Scada.Protocol
     public static class ProtocolUtils
     {
         /// <summary>
+        /// The input and output buffer length, 1 MB.
+        /// </summary>
+        public const int BufferLenght = 1048576;
+        /// <summary>
         /// The packet header length.
         /// </summary>
         public const int HeaderLength = 14;

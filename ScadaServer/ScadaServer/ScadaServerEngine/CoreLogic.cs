@@ -78,6 +78,7 @@ namespace Scada.Server.Engine
         private DateTime utcStartDT;           // the UTC start time
         private DateTime startDT;              // the local start time
         private WorkState workState;           // the work state
+        private ServerListener listener;       // the TCP listener
 
 
         /// <summary>
@@ -95,6 +96,7 @@ namespace Scada.Server.Engine
             utcStartDT = DateTime.MinValue;
             startDT = DateTime.MinValue;
             workState = WorkState.Undefined;
+            listener = null;
         }
 
 
@@ -107,6 +109,7 @@ namespace Scada.Server.Engine
             utcStartDT = DateTime.UtcNow;
             startDT = utcStartDT.ToLocalTime();
             workState = WorkState.Normal;
+            listener = new ServerListener(this, config.ListenerOptions, log);
             WriteInfo();
         }
 
@@ -220,8 +223,12 @@ namespace Scada.Server.Engine
                         "Запуск обработки логики" :
                         "Start logic processing");
                     PrepareProcessing();
-                    thread = new Thread(Execute);
-                    thread.Start();
+
+                    if (listener.Start())
+                    {
+                        thread = new Thread(Execute);
+                        thread.Start();
+                    }
                 }
                 else
                 {
@@ -230,7 +237,7 @@ namespace Scada.Server.Engine
                         "Logic processing is already started");
                 }
 
-                return true;
+                return thread != null;
             }
             catch (Exception ex)
             {
@@ -256,6 +263,14 @@ namespace Scada.Server.Engine
         {
             try
             {
+                // stop listener
+                if (listener != null)
+                {
+                    listener.Stop();
+                    listener = null;
+                }
+
+                // stop logic processing
                 if (thread != null)
                 {
                     terminated = true;

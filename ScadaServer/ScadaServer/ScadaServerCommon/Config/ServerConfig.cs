@@ -40,6 +40,22 @@ namespace Scada.Server.Config
         /// </summary>
         public const string DefaultFileName = "ScadaServerConfig.xml";
 
+
+        /// <summary>
+        /// Initializes a new instance of the class.
+        /// </summary>
+        public ServerConfig()
+        {
+            ListenerOptions = new ListenerOptions();
+        }
+
+
+        /// <summary>
+        /// Gets the listener options.
+        /// </summary>
+        public ListenerOptions ListenerOptions { get; private set; }
+
+
         /// <summary>
         /// Loads the configuration from the specified file.
         /// </summary>
