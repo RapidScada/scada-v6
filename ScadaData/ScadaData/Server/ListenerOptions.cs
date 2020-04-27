@@ -23,6 +23,9 @@
  * Modified : 2020
  */
 
+using System;
+using System.Xml;
+
 namespace Scada.Server
 {
     /// <summary>
@@ -56,5 +59,35 @@ namespace Scada.Server
         /// Gets or sets the secret key for password encryption.
         /// </summary>
         public byte[] SecretKey { get; set; }
+        
+        
+        /// <summary>
+        /// Loads the options from the XML node.
+        /// </summary>
+        public void LoadFromXml(XmlNode xmlNode)
+        {
+            if (xmlNode == null)
+                throw new ArgumentNullException("xmlNode");
+
+            Port = xmlNode.GetChildAsInt("Port");
+            Timeout = xmlNode.GetChildAsInt("Timeout");
+            SecretKey = ScadaUtils.HexToBytes(xmlNode.GetChildAsString("SecretKey"));
+
+            if (SecretKey.Length != ScadaUtils.SecretKeySize)
+                throw new ScadaException(string.Format(CommonPhrases.IncorrectXmlNodeVal, "SecretKey"));
+        }
+
+        /// <summary>
+        /// Saves the options into the XML node.
+        /// </summary>
+        public void SaveToXml(XmlElement xmlElem)
+        {
+            if (xmlElem == null)
+                throw new ArgumentNullException("xmlElem");
+
+            xmlElem.AppendElem("Port", Port);
+            xmlElem.AppendElem("Timeout", Timeout);
+            xmlElem.AppendElem("SecretKey", ScadaUtils.BytesToHex(SecretKey));
+        }
     }
 }

@@ -33,6 +33,12 @@ namespace Scada
     /// </summary>
     public static class CommonPhrases
     {
+        // Scada.Files
+        public static string FileNotFound { get; private set; }
+        public static string NamedFileNotFound { get; private set; }
+        public static string LoadAppConfigError { get; private set; }
+        public static string SaveAppConfigError { get; private set; }
+
         // Scada.Format
         public static string NotNumber { get; private set; }
         public static string NotHexadecimal { get; private set; }
@@ -45,6 +51,12 @@ namespace Scada
         public static void Init()
         {
             LocaleDict dict = Locale.GetDictionary("Scada.Format");
+            FileNotFound = dict.GetPhrase("FileNotFound");
+            NamedFileNotFound = dict.GetPhrase("NamedFileNotFound");
+            LoadAppConfigError = dict.GetPhrase("LoadAppConfigError");
+            SaveAppConfigError = dict.GetPhrase("SaveAppConfigError");
+
+            dict = Locale.GetDictionary("Scada.Format");
             NotNumber = dict.GetPhrase("NotNumber");
             NotHexadecimal = dict.GetPhrase("NotHexadecimal");
 

@@ -1,5 +1,11 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <ScadaDataDictionaries>
+  <Dictionary key="Scada.Files">
+    <Phrase key="FileNotFound">File not found.</Phrase>
+    <Phrase key="NamedFileNotFound">File {0} not found.</Phrase>
+    <Phrase key="LoadAppConfigError">Error loading application configuration</Phrase>
+    <Phrase key="SaveAppConfigError">Error saving application configuration</Phrase>
+  </Dictionary>
   <Dictionary key="Scada.Format">
     <Phrase key="NotNumber">String is not a number.</Phrase>
     <Phrase key="NotHexadecimal">String is not hexadecimal.</Phrase>

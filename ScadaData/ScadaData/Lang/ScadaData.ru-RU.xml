@@ -1,5 +1,11 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <ScadaDataDictionaries>
+  <Dictionary key="Scada.Files">
+    <Phrase key="FileNotFound">Не найден файл.</Phrase>
+    <Phrase key="NamedFileNotFound">Файл {0} не найден.</Phrase>
+    <Phrase key="LoadAppConfigError">Ошибка при загрузке конфигурации приложения</Phrase>
+    <Phrase key="SaveAppConfigError">Ошибка при сохранении конфигурации приложения</Phrase>
+  </Dictionary>
   <Dictionary key="Scada.Format">
     <Phrase key="NotNumber">Строка не является числом.</Phrase>
     <Phrase key="NotHexadecimal">Строка не является 16-ричной записью.</Phrase>

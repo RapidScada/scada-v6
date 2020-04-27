@@ -25,7 +25,9 @@
 
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Text;
+using System.Xml;
 
 namespace Scada.Server.Config
 {
@@ -46,7 +48,7 @@ namespace Scada.Server.Config
         /// </summary>
         public ServerConfig()
         {
-            ListenerOptions = new ListenerOptions();
+            SetToDefault();
         }
 
 
@@ -57,12 +59,40 @@ namespace Scada.Server.Config
 
 
         /// <summary>
+        /// Sets the default values.
+        /// </summary>
+        private void SetToDefault()
+        {
+            ListenerOptions = new ListenerOptions();
+        }
+
+        /// <summary>
         /// Loads the configuration from the specified file.
         /// </summary>
         public bool Load(string fileName, out string errMsg)
         {
-            errMsg = "";
-            return true;
+            try
+            {
+                SetToDefault();
+
+                if (!File.Exists(fileName))
+                    throw new FileNotFoundException(string.Format(CommonPhrases.NamedFileNotFound, fileName));
+
+                XmlDocument xmlDoc = new XmlDocument();
+                xmlDoc.Load(fileName);
+                XmlElement rootElem = xmlDoc.DocumentElement;
+
+                if (rootElem.SelectSingleNode("ListenerOptions") is XmlNode listenerOptionsNode)
+                    ListenerOptions.LoadFromXml(listenerOptionsNode);
+
+                errMsg = "";
+                return true;
+            }
+            catch (Exception ex)
+            {
+                errMsg = CommonPhrases.LoadAppConfigError + ": " + ex.Message;
+                return false;
+            }
         }
     }
 }
