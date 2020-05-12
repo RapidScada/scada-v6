@@ -57,29 +57,6 @@ namespace Scada.Protocol
 
 
         /// <summary>
-        /// Encodes the response properties and writes them to the buffer.
-        /// </summary>
-        public void Encode()
-        {
-            if (Buffer != null)
-            {
-                BitConverter.GetBytes(TransactionID).CopyTo(Buffer, 0);
-                BitConverter.GetBytes(DataLength).CopyTo(Buffer, 2);
-                BitConverter.GetBytes(SessionID).CopyTo(Buffer, 6);
-
-                if (ErrorCode == ErrorCode.NoError)
-                {
-                    BitConverter.GetBytes(FunctionID).CopyTo(Buffer, 14);
-                }
-                else
-                {
-                    BitConverter.GetBytes(FunctionID | 0x1000).CopyTo(Buffer, 14);
-                    Buffer[ProtocolUtils.ArgumentIndex] = (byte)ErrorCode;
-                }
-            }
-        }
-
-        /// <summary>
         /// Sets the error code and updates the buffer data.
         /// </summary>
         public void SetError(ErrorCode errorCode)
@@ -87,6 +64,20 @@ namespace Scada.Protocol
             ErrorCode = errorCode;
             ArgumentLength = 1;
             Encode();
+        }
+
+        /// <summary>
+        /// Encodes the response properties and writes them to the buffer.
+        /// </summary>
+        public override void Encode()
+        {
+            base.Encode();
+
+            if (Buffer != null && ErrorCode > ErrorCode.NoError)
+            {
+                BitConverter.GetBytes(FunctionID | 0x1000).CopyTo(Buffer, 14);
+                Buffer[ProtocolUtils.ArgumentIndex] = (byte)ErrorCode;
+            }
         }
     }
 }

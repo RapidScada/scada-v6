@@ -25,10 +25,9 @@
 
 using Scada.Protocol;
 using System;
-using System.Collections.Generic;
 using System.Net;
 using System.Net.Sockets;
-using System.Text;
+using static Scada.Protocol.ProtocolUtils;
 
 namespace Scada.Client
 {
@@ -59,6 +58,10 @@ namespace Scada.Client
         /// The stream for network access.
         /// </summary>
         protected NetworkStream netStream;
+        /// <summary>
+        /// The transaction ID counter.
+        /// </summary>
+        protected ushort transactionID;
 
 
         /// <summary>
@@ -67,11 +70,12 @@ namespace Scada.Client
         public BaseClient(ConnectionOptions connectionOptions)
         {
             this.connectionOptions = connectionOptions ?? throw new ArgumentNullException("connectionOptions");
-            inBuf = new byte[ProtocolUtils.BufferLenght];
-            outBuf = new byte[ProtocolUtils.BufferLenght];
+            inBuf = new byte[BufferLenght];
+            outBuf = new byte[BufferLenght];
 
             tcpClient = null;
             netStream = null;
+            transactionID = 0;
 
             SessionID = 0;
             ServerName = "";
@@ -119,25 +123,50 @@ namespace Scada.Client
         }
 
         /// <summary>
+        /// Creates a new data packet for request.
+        /// </summary>
+        protected DataPacket CreateRequest(ushort functionID, int dataLength)
+        {
+            return new DataPacket
+            {
+                TransactionID = ++transactionID,
+                DataLength = dataLength,
+                SessionID = SessionID,
+                FunctionID = functionID,
+                Buffer = inBuf
+            };
+        }
+
+        /// <summary>
+        /// Sends the request to the server.
+        /// </summary>
+        protected void SendRequest(DataPacket request)
+        {
+            request.Encode();
+            netStream.Write(request.Buffer, 0, request.BufferLength);
+        }
+
+        /// <summary>
+        /// Receives a response from the server.
+        /// </summary>
+        protected DataPacket ReceiveResponse()
+        {
+            throw new NotImplementedException();
+        }
+
+        /// <summary>
         /// Gets the server and the session status.
         /// </summary>
         public void GetStatus(out bool serverIsReady, out bool userIsLoggedIn)
         {
             RestoreConnection();
 
-            DataPacket request = new DataPacket
-            {
-                TransactionID = 0,
-                DataLength = 10,
-                SessionID = SessionID,
-                FunctionID = FunctionID.GetStatus,
-                Buffer = inBuf
-            };
+            DataPacket request = CreateRequest(FunctionID.GetStatus, 10);
+            SendRequest(request);
 
-            netStream.Write(request.Buffer, 0, request.BufferLength);
-
-            serverIsReady = true;
-            userIsLoggedIn = true;
+            DataPacket response = ReceiveResponse();
+            serverIsReady = outBuf[ArgumentIndex] > 0;
+            userIsLoggedIn = outBuf[ArgumentIndex + 1] > 0;
         }
     }
 }

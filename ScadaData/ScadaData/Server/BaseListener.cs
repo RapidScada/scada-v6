@@ -32,6 +32,7 @@ using System.IO;
 using System.Net;
 using System.Net.Sockets;
 using System.Threading;
+using static Scada.Protocol.ProtocolUtils;
 
 namespace Scada.Server
 {
@@ -358,10 +359,10 @@ namespace Scada.Server
             bool formatError = true;
             string errDescr = "";
             byte[] inBuf = client.InBuf;
-            int bytesRead = client.NetStream.Read(inBuf, 0, ProtocolUtils.HeaderLength);
+            int bytesRead = client.NetStream.Read(inBuf, 0, HeaderLength);
             dataPacket = null;
 
-            if (bytesRead == ProtocolUtils.HeaderLength)
+            if (bytesRead == HeaderLength)
             {
                 DataPacket request = new DataPacket
                 {
@@ -389,7 +390,7 @@ namespace Scada.Server
                 {
                     // read the rest of the data
                     int bytesToRead = request.DataLength - 8;
-                    bytesRead = bytesToRead > 0 ? client.ReadData(ProtocolUtils.HeaderLength, bytesToRead) : 0;
+                    bytesRead = bytesToRead > 0 ? client.ReadData(HeaderLength, bytesToRead) : 0;
 
                     if (bytesRead == bytesToRead)
                     {
@@ -507,7 +508,7 @@ namespace Scada.Server
         protected void GetSessionInfo(ConnectedClient client, DataPacket request, out ResponsePacket response)
         {
             response = new ResponsePacket(request, client.OutBuf) { SessionID = client.SessionID };
-            ProtocolUtils.CopyString(GetServerName(), response.Buffer, ProtocolUtils.ArgumentIndex, out int endIndex);
+            CopyString(GetServerName(), response.Buffer, ArgumentIndex, out int endIndex);
             response.BufferLength = endIndex;
             response.Encode();
         }
@@ -518,23 +519,22 @@ namespace Scada.Server
         protected void Login(ConnectedClient client, DataPacket request, out ResponsePacket response)
         {
             byte[] inBuf = client.InBuf;
-            int index = ProtocolUtils.ArgumentIndex;
-            string username = ProtocolUtils.GetString(inBuf, index, out index);
-            string encryptedPassword = ProtocolUtils.GetString(inBuf, index, out index);
-            string instance = ProtocolUtils.GetString(inBuf, index, out index);
-            string password = ProtocolUtils.DecryptPassword(encryptedPassword, client.SessionID,
-                listenerOptions.SecretKey);
+            int index = ArgumentIndex;
+            string username = GetString(inBuf, index, out index);
+            string encryptedPassword = GetString(inBuf, index, out index);
+            string instance = GetString(inBuf, index, out index);
+            string password = DecryptPassword(encryptedPassword, client.SessionID, listenerOptions.SecretKey);
 
             byte[] outBuf = client.OutBuf;
             response = new ResponsePacket(request, outBuf);
-            index = ProtocolUtils.ArgumentIndex;
+            index = ArgumentIndex;
 
             if (ProtectBruteForce(out string errMsg) &&
                 ValidateUser(client, username, password, instance, out int roleID, out errMsg))
             {
                 outBuf[index] = 1;
                 BitConverter.GetBytes(roleID).CopyTo(outBuf, index + 1);
-                ProtocolUtils.CopyString("", outBuf, index + 5, out index);
+                CopyString("", outBuf, index + 5, out index);
             }
             else
             {
@@ -543,7 +543,7 @@ namespace Scada.Server
                 outBuf[index++] = 0;
                 outBuf[index++] = 0;
                 outBuf[index++] = 0;
-                ProtocolUtils.CopyString(errMsg, outBuf, index, out index);
+                CopyString(errMsg, outBuf, index, out index);
 
                 RegisterUnsuccessfulLogin();
                 Thread.Sleep(WrongPasswordDelay);
@@ -630,9 +630,8 @@ namespace Scada.Server
         {
             byte[] outBuf = client.OutBuf;
             response = new ResponsePacket(request, outBuf);
-            int index = ProtocolUtils.ArgumentIndex;
-            outBuf[index] = (byte)(ServerIsReady() ? 1 : 0);
-            outBuf[index + 1] = (byte)(client.IsLoggedIn ? 1 : 0);
+            outBuf[ArgumentIndex] = (byte)(ServerIsReady() ? 1 : 0);
+            outBuf[ArgumentIndex + 1] = (byte)(client.IsLoggedIn ? 1 : 0);
             response.ArgumentLength = 2;
             response.Encode();
         }
@@ -654,22 +653,20 @@ namespace Scada.Server
         /// </summary>
         protected void GetFileInfo(ConnectedClient client, DataPacket request, out ResponsePacket response)
         {
-            int index = ProtocolUtils.ArgumentIndex;
-            string fileName = GetFileName(client.InBuf, index, out index);
+            string fileName = GetFileName(client.InBuf, ArgumentIndex, out int index);
             FileInfo fileInfo = new FileInfo(fileName);
             byte[] outBuf = client.OutBuf;
             response = new ResponsePacket(request, outBuf);
-            index = ProtocolUtils.ArgumentIndex;
 
             if (fileInfo.Exists)
             {
-                outBuf[index] = 1;
-                BitConverter.GetBytes(fileInfo.LastWriteTimeUtc.Ticks).CopyTo(outBuf, index + 1);
-                BitConverter.GetBytes(fileInfo.Length).CopyTo(outBuf, index + 9);
+                outBuf[ArgumentIndex] = 1;
+                BitConverter.GetBytes(fileInfo.LastWriteTimeUtc.Ticks).CopyTo(outBuf, ArgumentIndex + 1);
+                BitConverter.GetBytes(fileInfo.Length).CopyTo(outBuf, ArgumentIndex + 9);
             }
             else
             {
-                Array.Clear(outBuf, index, 17);
+                Array.Clear(outBuf, ArgumentIndex, 17);
             }
 
             response.ArgumentLength = 17;
@@ -682,7 +679,7 @@ namespace Scada.Server
         protected string GetFileName(byte[] buffer, int startIndex, out int endIndex)
         {
             ushort directoryID = BitConverter.ToUInt16(buffer, startIndex);
-            string path = ProtocolUtils.GetString(buffer, startIndex + 2, out endIndex);
+            string path = GetString(buffer, startIndex + 2, out endIndex);
             return Path.Combine(GetDirectory(directoryID), path);
         }
 
@@ -692,12 +689,11 @@ namespace Scada.Server
         protected void DownloadFile(ConnectedClient client, DataPacket request)
         {
             byte[] inBuf = client.InBuf;
-            int index = ProtocolUtils.ArgumentIndex;
-            string fileName = GetFileName(inBuf, index, out index);
+            string fileName = GetFileName(inBuf, ArgumentIndex, out int index);
             long offset = BitConverter.ToInt64(inBuf, index);
             SeekOrigin origin = inBuf[index + 8] == 0 ? SeekOrigin.Begin : SeekOrigin.End;
             int count = BitConverter.ToInt32(inBuf, index + 9);
-            DateTime newerThan = ProtocolUtils.GetTime(inBuf, index + 13, out index);
+            DateTime newerThan = GetTime(inBuf, index + 13, out index);
             FileInfo fileInfo = new FileInfo(fileName);
 
             if (!fileInfo.Exists)
@@ -725,7 +721,7 @@ namespace Scada.Server
                     }
 
                     // prepare for reading
-                    const int BytesToRead = ProtocolUtils.BufferLenght - 23;
+                    const int BytesToRead = BufferLenght - 23;
                     byte[] outBuf = client.OutBuf;
                     int blockNumber = 1;
                     int blockCount = (int)Math.Ceiling((double)(stream.Length / BytesToRead));
@@ -761,7 +757,7 @@ namespace Scada.Server
             int blockNumber, int blockCount, FileReadingResult fileReadingResult, int bytesRead)
         {
             ResponsePacket response = new ResponsePacket(request, outBuf);
-            int index = ProtocolUtils.ArgumentIndex;
+            int index = ArgumentIndex;
             BitConverter.GetBytes(blockNumber).CopyTo(outBuf, index);
             BitConverter.GetBytes(blockCount).CopyTo(outBuf, index + 4);
             outBuf[index + 8] = (byte)FileReadingResult.FileNotFound;
@@ -880,7 +876,7 @@ namespace Scada.Server
             out bool endOfFile, out string fileName, out int bytesToWrite, out int endIndex)
         {
             byte[] buffer = dataPacket.Buffer;
-            int index = ProtocolUtils.ArgumentIndex;
+            int index = ArgumentIndex;
             blockNumber = BitConverter.ToInt32(buffer, index);
             blockCount = BitConverter.ToInt32(buffer, index + 4);
             endOfFile = buffer[8] > 0;

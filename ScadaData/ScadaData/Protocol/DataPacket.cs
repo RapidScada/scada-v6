@@ -23,6 +23,8 @@
  * Modified : 2020
  */
 
+using System;
+
 namespace Scada.Protocol
 {
     /// <summary>
@@ -83,6 +85,21 @@ namespace Scada.Protocol
             set
             {
                 DataLength = value - 6;
+            }
+        }
+
+
+        /// <summary>
+        /// Encodes the data packet properties and writes them to the buffer.
+        /// </summary>
+        public virtual void Encode()
+        {
+            if (Buffer != null)
+            {
+                BitConverter.GetBytes(TransactionID).CopyTo(Buffer, 0);
+                BitConverter.GetBytes(DataLength).CopyTo(Buffer, 2);
+                BitConverter.GetBytes(SessionID).CopyTo(Buffer, 6);
+                BitConverter.GetBytes(FunctionID).CopyTo(Buffer, 14);
             }
         }
     }
