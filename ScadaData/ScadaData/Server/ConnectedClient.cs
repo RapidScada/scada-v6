@@ -171,16 +171,7 @@ namespace Scada.Server
         /// </summary>
         public int ReadData(int offset, int size)
         {
-            int bytesRead = 0;
-            int timeout = TcpClient.ReceiveTimeout;
-            DateTime startDT = DateTime.UtcNow;
-
-            do
-            {
-                bytesRead += NetStream.Read(InBuf, bytesRead + offset, size - bytesRead);
-            } while (bytesRead < size && (DateTime.UtcNow - startDT).TotalMilliseconds <= timeout);
-
-            return bytesRead;
+            return ProtocolUtils.ReadData(NetStream, TcpClient.ReceiveTimeout, InBuf, offset, size);
         }
 
         /// <summary>

@@ -24,6 +24,7 @@
  */
 
 using System;
+using System.Net.Sockets;
 using System.Text;
 
 namespace Scada.Protocol
@@ -134,6 +135,38 @@ namespace Scada.Protocol
             return secretKey == null ?
                 encryptedPassword :
                 ScadaUtils.Decrypt(encryptedPassword, secretKey, CreateIV(sessionID));
+        }
+
+        /// <summary>
+        /// Reads a large amount of data into the buffer.
+        /// </summary>
+        public static int ReadData(NetworkStream netStream, int timeout, byte[] buffer, int offset, int size)
+        {
+            if (size > 0)
+            {
+                int bytesRead = 0;
+                DateTime startDT = DateTime.UtcNow;
+
+                do
+                {
+                    bytesRead += netStream.Read(buffer, bytesRead + offset, size - bytesRead);
+                } while (bytesRead < size && (DateTime.UtcNow - startDT).TotalMilliseconds <= timeout);
+
+                return bytesRead;
+            }
+            else
+            {
+                return 0;
+            }
+        }
+
+        /// <summary>
+        /// Clears the stream by receiving available data.
+        /// </summary>
+        public static void ClearNetStream(NetworkStream netStream, byte[] buffer)
+        {
+            if (netStream.DataAvailable)
+                netStream.Read(buffer, 0, buffer.Length);
         }
     }
 }

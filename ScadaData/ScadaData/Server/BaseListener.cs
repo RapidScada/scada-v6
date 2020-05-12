@@ -390,7 +390,7 @@ namespace Scada.Server
                 {
                     // read the rest of the data
                     int bytesToRead = request.DataLength - 8;
-                    bytesRead = bytesToRead > 0 ? client.ReadData(HeaderLength, bytesToRead) : 0;
+                    bytesRead = client.ReadData(HeaderLength, bytesToRead);
 
                     if (bytesRead == bytesToRead)
                     {
@@ -419,9 +419,7 @@ namespace Scada.Server
                     "Incorrect format of data received from the client {0}: {1}",
                     client.Address, errDescr));
 
-                // clear the stream by receiving available data
-                if (client.NetStream.DataAvailable)
-                    client.NetStream.Read(inBuf, 0, inBuf.Length);
+                ClearNetStream(client.NetStream, inBuf);
             }
 
             return dataPacket != null;

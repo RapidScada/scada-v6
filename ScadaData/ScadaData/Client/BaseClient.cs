@@ -113,13 +113,45 @@ namespace Scada.Client
 
             netStream = tcpClient.GetStream();
         }
-        
+
+        /// <summary>
+        /// Disconnects from the server.
+        /// </summary>
+        protected void Disconnect()
+        {
+            if (tcpClient != null)
+            {
+                if (netStream != null)
+                {
+                    ClearNetStream(netStream, inBuf); // to disconnect correctly
+                    netStream.Close();
+                    netStream = null;
+                }
+
+                tcpClient.Close();
+                tcpClient = null;
+
+                SessionID = 0;
+                ServerName = "";
+            }
+        }
+
         /// <summary>
         /// Restores a connection with the server.
         /// </summary>
         protected void RestoreConnection()
         {
+            Disconnect();
+            Connect();
 
+            GetSessionInfo(out long sessionID, out string serverName);
+            SessionID = sessionID;
+            ServerName = serverName;
+
+            Login(out bool loggedIn, out int userRole, out string errorMessage);
+
+            if (!loggedIn)
+                throw new ScadaException(errorMessage);
         }
 
         /// <summary>
@@ -133,7 +165,7 @@ namespace Scada.Client
                 DataLength = dataLength,
                 SessionID = SessionID,
                 FunctionID = functionID,
-                Buffer = inBuf
+                Buffer = outBuf
             };
         }
 
@@ -149,9 +181,112 @@ namespace Scada.Client
         /// <summary>
         /// Receives a response from the server.
         /// </summary>
-        protected DataPacket ReceiveResponse()
+        protected DataPacket ReceiveResponse(DataPacket request)
         {
-            throw new NotImplementedException();
+            DataPacket response = null;
+            bool formatError = true;
+            string errDescr = "";
+            int bytesRead = netStream.Read(inBuf, 0, HeaderLength);
+
+            if (bytesRead == HeaderLength)
+            {
+                response = new DataPacket
+                {
+                    TransactionID = BitConverter.ToUInt16(inBuf, 0),
+                    DataLength = BitConverter.ToInt32(inBuf, 2),
+                    SessionID = BitConverter.ToInt64(inBuf, 6),
+                    FunctionID = BitConverter.ToUInt16(inBuf, 14),
+                    Buffer = inBuf
+                };
+
+                if (response.DataLength + 6 > inBuf.Length)
+                {
+                    errDescr = Locale.IsRussian ?
+                        "длина данных слишком велика" :
+                        "data length is too big";
+                }
+                else if (response.TransactionID != request.TransactionID)
+                {
+                    errDescr = Locale.IsRussian ?
+                        "неверный идентификатор транзакции" :
+                        "incorrect transaction ID";
+                }
+                else if (response.SessionID != SessionID && SessionID != 0)
+                {
+                    errDescr = Locale.IsRussian ?
+                        "неверный идентификатор сессии" :
+                        "incorrect session ID";
+                }
+                else if (response.FunctionID != request.FunctionID)
+                {
+                    errDescr = Locale.IsRussian ?
+                        "неверный идентификатор функции" :
+                        "incorrect function ID";
+                }
+                else
+                {
+                    // read the rest of the data
+                    int bytesToRead = response.DataLength - 8;
+                    bytesRead = ReadData(netStream, tcpClient.ReceiveTimeout, inBuf, HeaderLength, bytesToRead);
+
+                    if (bytesRead == bytesToRead)
+                    {
+                        formatError = false;
+                    }
+                    else
+                    {
+                        errDescr = Locale.IsRussian ?
+                            "не удалось прочитать все данные" :
+                            "unable to read all data";
+                    }
+                }
+            }
+            else
+            {
+                errDescr = Locale.IsRussian ?
+                    "не удалось прочитать заголовок пакета данных" :
+                    "unable to read data packet header";
+            }
+
+            if (formatError)
+            {
+                throw new ScadaException(string.Format(Locale.IsRussian ?
+                    "Некорректный формат данных, полученных от сервера: {0}" :
+                    "Incorrect format of data received from the server: {0}", errDescr));
+            }
+
+            return response;
+        }
+
+        /// <summary>
+        /// Gets the information about the current session.
+        /// </summary>
+        protected void GetSessionInfo(out long sessionID, out string serverName)
+        {
+            DataPacket request = CreateRequest(FunctionID.GetSessionInfo, 10);
+            SendRequest(request);
+
+            DataPacket response = ReceiveResponse(request);
+            sessionID = response.SessionID;
+            serverName = GetString(inBuf, ArgumentIndex, out int index);
+        }
+
+        /// <summary>
+        /// Logins to the server.
+        /// </summary>
+        protected void Login(out bool loggedIn, out int userRole, out string errorMessage)
+        {
+            DataPacket request = CreateRequest(FunctionID.GetSessionInfo, 10);
+            CopyString(connectionOptions.User, outBuf, ArgumentIndex, out int index);
+            CopyString(EncryptPassword(connectionOptions.Password, SessionID, connectionOptions.SecretKey),
+                outBuf, index, out index);
+            CopyString(connectionOptions.Instance, outBuf, index, out index);
+            SendRequest(request);
+
+            DataPacket response = ReceiveResponse(request);
+            loggedIn = inBuf[ArgumentIndex] > 0;
+            userRole = BitConverter.ToInt32(inBuf, ArgumentIndex + 1);
+            errorMessage = GetString(inBuf, ArgumentIndex + 5, out index);
         }
 
         /// <summary>
@@ -164,9 +299,9 @@ namespace Scada.Client
             DataPacket request = CreateRequest(FunctionID.GetStatus, 10);
             SendRequest(request);
 
-            DataPacket response = ReceiveResponse();
-            serverIsReady = outBuf[ArgumentIndex] > 0;
-            userIsLoggedIn = outBuf[ArgumentIndex + 1] > 0;
+            DataPacket response = ReceiveResponse(request);
+            serverIsReady = inBuf[ArgumentIndex] > 0;
+            userIsLoggedIn = inBuf[ArgumentIndex + 1] > 0;
         }
     }
 }

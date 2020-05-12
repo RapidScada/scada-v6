@@ -43,7 +43,9 @@ namespace Scada.Client
             Port = 10000;
             User = "guest";
             Password = "12345";
+            Instance = "";
             Timeout = 10000;
+            SecretKey = null;
         }
 
 
@@ -68,9 +70,19 @@ namespace Scada.Client
         public string Password { get; set; }
 
         /// <summary>
+        /// Gets or sets the system instance name.
+        /// </summary>
+        public string Instance { get; set; }
+
+        /// <summary>
         /// Gets or sets the send and receive timeout, ms.
         /// </summary>
         public int Timeout { get; set; }
+
+        /// <summary>
+        /// Gets or sets the secret key for password encryption.
+        /// </summary>
+        public byte[] SecretKey { get; set; }
 
 
         /// <summary>
@@ -85,7 +97,12 @@ namespace Scada.Client
             Port = xmlNode.GetChildAsInt("Port");
             User = xmlNode.GetChildAsString("User");
             Password = ScadaUtils.Decrypt(xmlNode.GetChildAsString("Password"));
+            Instance = xmlNode.GetChildAsString("Instance");
             Timeout = xmlNode.GetChildAsInt("Timeout");
+            SecretKey = ScadaUtils.HexToBytes(xmlNode.GetChildAsString("SecretKey"));
+
+            if (SecretKey.Length != ScadaUtils.SecretKeySize)
+                throw new ScadaException(string.Format(CommonPhrases.IncorrectXmlNodeVal, "SecretKey"));
         }
 
         /// <summary>
@@ -100,7 +117,9 @@ namespace Scada.Client
             xmlElem.AppendElem("Port", Port);
             xmlElem.AppendElem("User", User);
             xmlElem.AppendElem("Password", ScadaUtils.Encrypt(Password));
+            xmlElem.AppendElem("Instance", Instance);
             xmlElem.AppendElem("Timeout", Timeout);
+            xmlElem.AppendElem("SecretKey", ScadaUtils.BytesToHex(SecretKey));
         }
     }
 }
