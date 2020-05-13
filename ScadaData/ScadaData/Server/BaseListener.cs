@@ -359,10 +359,11 @@ namespace Scada.Server
             bool formatError = true;
             string errDescr = "";
             byte[] inBuf = client.InBuf;
-            int bytesRead = client.NetStream.Read(inBuf, 0, HeaderLength);
+            int bytesToRead = HeaderLength + 2;
+            int bytesRead = client.NetStream.Read(inBuf, 0, bytesToRead);
             dataPacket = null;
 
-            if (bytesRead == HeaderLength)
+            if (bytesRead == bytesToRead)
             {
                 DataPacket request = new DataPacket
                 {
@@ -389,8 +390,8 @@ namespace Scada.Server
                 else
                 {
                     // read the rest of the data
-                    int bytesToRead = request.DataLength - 8;
-                    bytesRead = client.ReadData(HeaderLength, bytesToRead);
+                    bytesToRead = request.DataLength - 10;
+                    bytesRead = client.ReadData(HeaderLength + 2, bytesToRead);
 
                     if (bytesRead == bytesToRead)
                     {

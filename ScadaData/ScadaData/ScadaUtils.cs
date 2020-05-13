@@ -118,6 +118,46 @@ namespace Scada
         }
 
         /// <summary>
+        /// Converts the array of bytes to a user friendly string.
+        /// </summary>
+        public static string BytesToString(byte[] bytes, int index, int count, 
+            bool hexFormat = true, bool skipNonPrinting = false)
+        {
+            StringBuilder sb = new StringBuilder();
+
+            if (hexFormat)
+            {
+                for (int i = index, lastIdx = index + count - 1; i <= lastIdx; i++)
+                {
+                    sb.Append(bytes[i].ToString("X2"));
+                    if (i < lastIdx)
+                        sb.Append(" ");
+                }
+            }
+            else
+            {
+                bool notSkip = !skipNonPrinting;
+                for (int i = index, endIdx = index + count; i < endIdx; i++)
+                {
+                    byte b = bytes[i];
+
+                    if (b >= 32)
+                    {
+                        sb.Append(Encoding.Default.GetString(bytes, i, 1));
+                    }
+                    else if (notSkip)
+                    {
+                        sb.Append("<");
+                        sb.Append(b.ToString("X2"));
+                        sb.Append(">");
+                    }
+                }
+            }
+
+            return sb.ToString();
+        }
+
+        /// <summary>
         /// Converts the string of hexadecimal numbers to an array of bytes.
         /// </summary>
         public static bool HexToBytes(string s, int stringIndex, byte[] buffer, int bufferIndex, int byteCount)

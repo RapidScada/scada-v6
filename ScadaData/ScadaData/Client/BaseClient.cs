@@ -23,6 +23,7 @@
  * Modified : 2020
  */
 
+using Scada.Log;
 using Scada.Protocol;
 using System;
 using System.Net;
@@ -37,6 +38,11 @@ namespace Scada.Client
     /// </summary>
     public abstract class BaseClient
     {
+        /// <summary>
+        /// The maximum number of packet bytes to write to the communication log.
+        /// </summary>
+        protected const int MaxLoggingSize = 100;
+
         /// <summary>
         /// The connection options.
         /// </summary>
@@ -77,11 +83,23 @@ namespace Scada.Client
             netStream = null;
             transactionID = 0;
 
+            CommLog = null;
+            ClientState = ClientState.Disconnected;
             SessionID = 0;
             ServerName = "";
         }
 
-        
+
+        /// <summary>
+        /// Gets the sets the detailed communication log.
+        /// </summary>
+        public ILog CommLog { get; set; }
+
+        /// <summary>
+        /// Gets the client communication state.
+        /// </summary>
+        public ClientState ClientState { get; protected set; }
+
         /// <summary>
         /// Gets the session ID.
         /// </summary>
@@ -106,12 +124,15 @@ namespace Scada.Client
             };
 
             // connect
+            CommLog?.WriteAction("Connect to " + connectionOptions.Host);
+
             if (IPAddress.TryParse(connectionOptions.Host, out IPAddress address))
                 tcpClient.Connect(address, connectionOptions.Port);
             else
                 tcpClient.Connect(connectionOptions.Host, connectionOptions.Port);
 
             netStream = tcpClient.GetStream();
+            ClientState = ClientState.Connected;
         }
 
         /// <summary>
@@ -121,6 +142,8 @@ namespace Scada.Client
         {
             if (tcpClient != null)
             {
+                CommLog?.WriteAction("Disconnect");
+
                 if (netStream != null)
                 {
                     ClearNetStream(netStream, inBuf); // to disconnect correctly
@@ -131,6 +154,7 @@ namespace Scada.Client
                 tcpClient.Close();
                 tcpClient = null;
 
+                ClientState = ClientState.Disconnected;
                 SessionID = 0;
                 ServerName = "";
             }
@@ -141,23 +165,54 @@ namespace Scada.Client
         /// </summary>
         protected void RestoreConnection()
         {
-            Disconnect();
-            Connect();
+            bool connectNeeded = false;
 
-            GetSessionInfo(out long sessionID, out string serverName);
-            SessionID = sessionID;
-            ServerName = serverName;
+            if (ClientState >= ClientState.LoggedIn)
+            {
 
-            Login(out bool loggedIn, out int userRole, out string errorMessage);
+            }
+            else
+            {
+                connectNeeded = true;
+            }
 
-            if (!loggedIn)
-                throw new ScadaException(errorMessage);
+            if (connectNeeded)
+            {
+                Disconnect();
+                Connect();
+
+                GetSessionInfo(out long sessionID, out string serverName);
+                SessionID = sessionID;
+                ServerName = serverName;
+
+                Login(out bool loggedIn, out int userRole, out string errorMessage);
+
+                if (loggedIn)
+                {
+                    ClientState = ClientState.LoggedIn;
+                    CommLog?.WriteAction("User is logged in");
+                }
+                else
+                {
+                    throw new ScadaException(errorMessage);
+                }
+            }
+            else if (ClientState >= ClientState.LoggedIn)
+            {
+                ClearNetStream(netStream, inBuf);
+            }
+            else
+            {
+                throw new ScadaException(Locale.IsRussian ?
+                    "Клиент не вошёл в систему. Попробуйте позже." :
+                    "Client is not logged in. Try again later.");
+            }
         }
 
         /// <summary>
         /// Creates a new data packet for request.
         /// </summary>
-        protected DataPacket CreateRequest(ushort functionID, int dataLength)
+        protected DataPacket CreateRequest(ushort functionID, int dataLength = 0)
         {
             return new DataPacket
             {
@@ -176,6 +231,7 @@ namespace Scada.Client
         {
             request.Encode();
             netStream.Write(request.Buffer, 0, request.BufferLength);
+            CommLog?.WriteAction(BuildWritingText(request.Buffer, 0, request.BufferLength));
         }
 
         /// <summary>
@@ -186,9 +242,11 @@ namespace Scada.Client
             DataPacket response = null;
             bool formatError = true;
             string errDescr = "";
-            int bytesRead = netStream.Read(inBuf, 0, HeaderLength);
+            int bytesToRead = HeaderLength + 2;
+            int bytesRead = netStream.Read(inBuf, 0, bytesToRead);
+            CommLog?.WriteAction(BuildReadingText(inBuf, 0, bytesToRead, bytesRead));
 
-            if (bytesRead == HeaderLength)
+            if (bytesRead == bytesToRead)
             {
                 response = new DataPacket
                 {
@@ -226,8 +284,9 @@ namespace Scada.Client
                 else
                 {
                     // read the rest of the data
-                    int bytesToRead = response.DataLength - 8;
-                    bytesRead = ReadData(netStream, tcpClient.ReceiveTimeout, inBuf, HeaderLength, bytesToRead);
+                    bytesToRead = response.DataLength - 10;
+                    bytesRead = ReadData(netStream, tcpClient.ReceiveTimeout, inBuf, HeaderLength + 2, bytesToRead);
+                    CommLog?.WriteAction(BuildReadingText(inBuf, HeaderLength + 2, bytesToRead, bytesRead));
 
                     if (bytesRead == bytesToRead)
                     {
@@ -259,6 +318,26 @@ namespace Scada.Client
         }
 
         /// <summary>
+        /// Builds text for reading logging.
+        /// </summary>
+        protected string BuildReadingText(byte[] buffer, int index, int bytesToRead, int bytesRead)
+        {
+            return "Receive (" + bytesRead + "/" + bytesToRead + "): " +
+                ScadaUtils.BytesToString(buffer, index, Math.Min(bytesRead, MaxLoggingSize)) +
+                (bytesRead <= MaxLoggingSize ? "" : "...");
+        }
+
+        /// <summary>
+        /// Builds text for writing logging.
+        /// </summary>
+        protected string BuildWritingText(byte[] buffer, int index, int bytesToWrite)
+        {
+            return "Send (" + bytesToWrite + "): " + 
+                ScadaUtils.BytesToString(buffer, index, Math.Min(bytesToWrite, MaxLoggingSize)) +
+                (bytesToWrite <= MaxLoggingSize ? "" : "...");
+        }
+
+        /// <summary>
         /// Gets the information about the current session.
         /// </summary>
         protected void GetSessionInfo(out long sessionID, out string serverName)
@@ -276,11 +355,12 @@ namespace Scada.Client
         /// </summary>
         protected void Login(out bool loggedIn, out int userRole, out string errorMessage)
         {
-            DataPacket request = CreateRequest(FunctionID.GetSessionInfo, 10);
+            DataPacket request = CreateRequest(FunctionID.Login);
             CopyString(connectionOptions.User, outBuf, ArgumentIndex, out int index);
             CopyString(EncryptPassword(connectionOptions.Password, SessionID, connectionOptions.SecretKey),
                 outBuf, index, out index);
             CopyString(connectionOptions.Instance, outBuf, index, out index);
+            request.BufferLength = index;
             SendRequest(request);
 
             DataPacket response = ReceiveResponse(request);
