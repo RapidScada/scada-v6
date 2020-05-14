@@ -42,7 +42,7 @@ namespace Scada.Log
         /// <summary>
         /// The timestamp format.
         /// </summary>
-        private const string TimestampFormat = "yyyy'-'MM'-'dd' 'HH':'mm':'ss";
+        private const string DefaultTimestampFormat = "yyyy'-'MM'-'dd' 'HH':'mm':'ss";
         /// <summary>
         /// The log divider.
         /// </summary>
@@ -67,6 +67,7 @@ namespace Scada.Log
             FileName = fileName;
             Encoding = Encoding.UTF8;
             Capacity = DefaultCapacity;
+            TimestampFormat = DefaultTimestampFormat;
             CompName = Environment.MachineName;
             Username = Environment.UserName;
         }
@@ -86,6 +87,11 @@ namespace Scada.Log
         /// Gets or sets the log capacity.
         /// </summary>
         public int Capacity { get; set; }
+
+        /// <summary>
+        /// Gets or sets the timestamp format.
+        /// </summary>
+        public string TimestampFormat { get; set; }
 
         /// <summary>
         /// Gets the computer name.

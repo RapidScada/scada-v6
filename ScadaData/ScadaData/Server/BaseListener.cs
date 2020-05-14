@@ -93,7 +93,7 @@ namespace Scada.Server
         /// </summary>
         protected Queue<DateTime> protectionQueue;
         /// <summary>
-        /// The login unblocking time.
+        /// The login unblocking time (UTC).
         /// </summary>
         protected DateTime loginUnblockDT;
         /// <summary>
@@ -453,7 +453,7 @@ namespace Scada.Server
                         break;
 
                     case FunctionID.TerminateSession:
-                        TerminateSession(client, request, out response);
+                        TerminateSession(client, request);
                         break;
 
                     case FunctionID.GetFileInfo:
@@ -638,13 +638,15 @@ namespace Scada.Server
         /// <summary>
         /// Terminates the client session.
         /// </summary>
-        protected void TerminateSession(ConnectedClient client, DataPacket request, out ResponsePacket response)
+        protected void TerminateSession(ConnectedClient client, DataPacket request)
         {
             if (clients.TryRemove(client.SessionID, out ConnectedClient value))
+            {
+                ResponsePacket response = new ResponsePacket(request, client.OutBuf) { ArgumentLength = 0 };
+                response.Encode();
+                client.SendResponse(response);
                 DisconnectClient(value);
-
-            response = new ResponsePacket(request, client.OutBuf) { ArgumentLength = 0 };
-            response.Encode();
+            }
         }
 
         /// <summary>
@@ -679,7 +681,7 @@ namespace Scada.Server
         {
             ushort directoryID = BitConverter.ToUInt16(buffer, startIndex);
             string path = GetString(buffer, startIndex + 2, out endIndex);
-            return Path.Combine(GetDirectory(directoryID), path);
+            return Path.Combine(GetDirectory(directoryID), ScadaUtils.NormalPathSeparators(path));
         }
 
         /// <summary>
@@ -720,10 +722,13 @@ namespace Scada.Server
                     }
 
                     // prepare for reading
-                    const int BytesToRead = BufferLenght - 23;
-                    byte[] outBuf = client.OutBuf;
+                    const int BlockCapacity = BufferLenght - 23;
+                    long bytesToReadTotal = count > 0 ? 
+                        Math.Min(count, stream.Length - stream.Position) : stream.Length;
+                    long bytesReadTotal = 0;
                     int blockNumber = 1;
-                    int blockCount = (int)Math.Ceiling((double)(stream.Length / BytesToRead));
+                    int blockCount = (int)Math.Ceiling((double)(bytesToReadTotal / BlockCapacity));
+                    byte[] outBuf = client.OutBuf;
                     bool endOfFile = false;
 
                     while (!endOfFile)
@@ -736,8 +741,10 @@ namespace Scada.Server
                         }
 
                         // read from file
-                        int bytesRead = stream.Read(outBuf, 29, BytesToRead);
-                        endOfFile = bytesRead < BytesToRead;
+                        int bytesToRead = (int)Math.Min(bytesToReadTotal - bytesReadTotal, BlockCapacity);
+                        int bytesRead = stream.Read(outBuf, 29, bytesToRead);
+                        bytesReadTotal += bytesRead;
+                        endOfFile = bytesRead < bytesToRead || bytesReadTotal == bytesToReadTotal;
 
                         // send response
                         ResponsePacket response = CreateDownloadResponse(request, outBuf, blockNumber, blockCount,
@@ -797,7 +804,7 @@ namespace Scada.Server
             try
             {
                 using (FileStream stream =
-                    new FileStream(fileName, FileMode.CreateNew, FileAccess.Write, FileShare.ReadWrite))
+                    new FileStream(fileName, FileMode.Create, FileAccess.Write, FileShare.ReadWrite))
                 {
                     while (!endOfFile && !client.Terminated)
                     {

@@ -93,7 +93,15 @@ namespace Scada
 
             return path;
         }
-        
+
+        /// <summary>
+        /// Normalizes path separators according to the operating system.
+        /// </summary>
+        public static string NormalPathSeparators(string path)
+        {
+            return path.Replace(Path.AltDirectorySeparatorChar, Path.DirectorySeparatorChar);
+        }
+
         /// <summary>
         /// Converts the array of bytes to a hexadecimal string.
         /// </summary>

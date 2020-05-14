@@ -25,6 +25,8 @@
 
 #pragma warning disable 1591 // Missing XML comment for publicly visible type or member
 
+using System.Collections.Generic;
+
 namespace Scada.Protocol
 {
     /// <summary>
@@ -41,5 +43,25 @@ namespace Scada.Protocol
         public const ushort GetFileInfo = 0x0101;
         public const ushort DownloadFile = 0x0102;
         public const ushort UploadFile = 0x0103;
+
+        private static readonly Dictionary<ushort, string> FunctionNames = new Dictionary<ushort, string>
+        {
+            { GetSessionInfo, "GetSessionInfo" },
+            { Login, "Login" },
+            { GetStatus, "GetStatus" },
+            { TerminateSession, "TerminateSession" },
+            { GetFileInfo, "GetFileInfo" },
+            { DownloadFile, "DownloadFile" },
+            { UploadFile, "UploadFile" }
+        };
+
+        /// <summary>
+        /// Gets the function name by ID.
+        /// </summary>
+        public static string GetName(ushort functionID)
+        {
+            return FunctionNames.TryGetValue(functionID, out string name) ?
+                name : "Unknown";
+        }
     }
 }

@@ -26,6 +26,7 @@
 using Scada.Log;
 using Scada.Protocol;
 using System;
+using System.IO;
 using System.Net;
 using System.Net.Sockets;
 using static Scada.Protocol.ProtocolUtils;
@@ -42,6 +43,14 @@ namespace Scada.Client
         /// The maximum number of packet bytes to write to the communication log.
         /// </summary>
         protected const int MaxLoggingSize = 100;
+        /// <summary>
+        /// The period when reconnection is allowed.
+        /// </summary>
+        protected readonly TimeSpan ReconnectPeriod = TimeSpan.FromSeconds(5);
+        /// <summary>
+        /// The period of checking connection.
+        /// </summary>
+        protected readonly TimeSpan PingPeriod = TimeSpan.FromSeconds(30);
 
         /// <summary>
         /// The connection options.
@@ -68,6 +77,14 @@ namespace Scada.Client
         /// The transaction ID counter.
         /// </summary>
         protected ushort transactionID;
+        /// <summary>
+        /// The connection attempt time (UTC).
+        /// </summary>
+        protected DateTime connAttemptDT;
+        /// <summary>
+        /// The last successful response time (UTC).
+        /// </summary>
+        protected DateTime responseDT;
 
 
         /// <summary>
@@ -82,6 +99,8 @@ namespace Scada.Client
             tcpClient = null;
             netStream = null;
             transactionID = 0;
+            connAttemptDT = DateTime.MinValue;
+            responseDT = DateTime.MinValue;
 
             CommLog = null;
             ClientState = ClientState.Disconnected;
@@ -165,19 +184,34 @@ namespace Scada.Client
         /// </summary>
         protected void RestoreConnection()
         {
+            DateTime utcNow = DateTime.UtcNow;
             bool connectNeeded = false;
 
             if (ClientState >= ClientState.LoggedIn)
             {
-
+                if (utcNow - responseDT > PingPeriod)
+                {
+                    try
+                    {
+                        // check connection
+                        DataPacket request = CreateRequest(FunctionID.GetStatus, 10);
+                        SendRequest(request);
+                        ReceiveResponse(request);
+                    }
+                    catch
+                    {
+                        connectNeeded = true;
+                    }
+                }
             }
-            else
+            else if (utcNow - connAttemptDT > ReconnectPeriod)
             {
                 connectNeeded = true;
             }
 
             if (connectNeeded)
             {
+                connAttemptDT = utcNow;
                 Disconnect();
                 Connect();
 
@@ -231,7 +265,12 @@ namespace Scada.Client
         {
             request.Encode();
             netStream.Write(request.Buffer, 0, request.BufferLength);
-            CommLog?.WriteAction(BuildWritingText(request.Buffer, 0, request.BufferLength));
+
+            if (CommLog != null)
+            {
+                CommLog.WriteAction(FunctionID.GetName(request.FunctionID));
+                CommLog.WriteAction(BuildWritingText(request.Buffer, 0, request.BufferLength));
+            }
         }
 
         /// <summary>
@@ -275,7 +314,7 @@ namespace Scada.Client
                         "неверный идентификатор сессии" :
                         "incorrect session ID";
                 }
-                else if (response.FunctionID != request.FunctionID)
+                else if ((response.FunctionID & 0x7FFF) != request.FunctionID)
                 {
                     errDescr = Locale.IsRussian ?
                         "неверный идентификатор функции" :
@@ -291,6 +330,15 @@ namespace Scada.Client
                     if (bytesRead == bytesToRead)
                     {
                         formatError = false;
+                        responseDT = DateTime.UtcNow;
+
+                        // handle error response
+                        if ((response.FunctionID & 0x1000) > 0)
+                        {
+                            ErrorCode errorCode = (ErrorCode)inBuf[ArgumentIndex];
+                            CommLog?.WriteError(errorCode.ToString());
+                            throw new ProtocolException(errorCode);
+                        }
                     }
                     else
                     {
@@ -324,7 +372,8 @@ namespace Scada.Client
         {
             return "Receive (" + bytesRead + "/" + bytesToRead + "): " +
                 ScadaUtils.BytesToString(buffer, index, Math.Min(bytesRead, MaxLoggingSize)) +
-                (bytesRead <= MaxLoggingSize ? "" : "...");
+                (bytesRead <= MaxLoggingSize ? "" : "...") +
+                (bytesToRead > 0 ? "" : "no data");
         }
 
         /// <summary>
@@ -382,6 +431,70 @@ namespace Scada.Client
             DataPacket response = ReceiveResponse(request);
             serverIsReady = inBuf[ArgumentIndex] > 0;
             userIsLoggedIn = inBuf[ArgumentIndex + 1] > 0;
+        }
+
+        /// <summary>
+        /// Terminates the client session.
+        /// </summary>
+        public void TerminateSession()
+        {
+            RestoreConnection();
+            DataPacket request = CreateRequest(FunctionID.TerminateSession, 10);
+            SendRequest(request);
+            ReceiveResponse(request);
+            Disconnect();
+        }
+
+        /// <summary>
+        /// Gets the information about the file.
+        /// </summary>
+        public void GetFileInfo(ushort directoryID, string path, 
+            out bool fileExists, out DateTime fileAge, out long fileLength)
+        {
+            RestoreConnection();
+
+            DataPacket request = CreateRequest(FunctionID.GetFileInfo);
+            BitConverter.GetBytes(directoryID).CopyTo(outBuf, ArgumentIndex);
+            CopyString(path, outBuf, ArgumentIndex + 2, out int index);
+            request.ArgumentLength = index;
+            SendRequest(request);
+
+            DataPacket response = ReceiveResponse(request);
+            fileExists = inBuf[ArgumentIndex] > 0;
+            fileAge = GetTime(inBuf, ArgumentIndex + 1, out index);
+            fileLength = BitConverter.ToInt64(inBuf, index);
+        }
+
+        /// <summary>
+        /// Downloads the file.
+        /// </summary>
+        public void DownloadFile(ushort directoryID, string path, 
+            long offset, bool readFromEnd, int count, DateTime newerThan, Stream inputStream)
+        {
+            if (inputStream == null)
+                throw new ArgumentNullException("inputStream");
+
+            RestoreConnection();
+
+            DataPacket request = CreateRequest(FunctionID.DownloadFile);
+            BitConverter.GetBytes(directoryID).CopyTo(outBuf, ArgumentIndex);
+            CopyString(path, outBuf, ArgumentIndex + 2, out int index);
+            BitConverter.GetBytes(offset).CopyTo(outBuf, index);
+            outBuf[index + 8] = (byte)(readFromEnd ? 1 : 0);
+            BitConverter.GetBytes(count).CopyTo(outBuf, index + 9);
+            CopyTime(newerThan, outBuf, index + 13, out index);
+            request.ArgumentLength = index;
+            SendRequest(request);
+
+            DataPacket response = ReceiveResponse(request);
+        }
+
+        /// <summary>
+        /// Uploads the file.
+        /// </summary>
+        public void UploadFile(string fileName)
+        {
+
         }
     }
 }
