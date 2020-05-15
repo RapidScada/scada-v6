@@ -16,7 +16,7 @@
  * 
  * Product  : Rapid SCADA
  * Module   : ScadaData
- * Summary  : Represents errors that occur during communication between applications
+ * Summary  : Provides data for the Progress event
  * 
  * Author   : Mikhail Shiryaev
  * Created  : 2020
@@ -25,36 +25,43 @@
 
 using System;
 
-namespace Scada.Protocol
+namespace Scada.Client
 {
     /// <summary>
-    /// Represents errors that occur during communication between applications.
-    /// <para>Представляет ошибки, возникающие во время обмена данными между приложениями.</para>
+    /// Provides data for the Progress event.
+    /// <para>Предоставляет данные для события Progress.</para>
     /// </summary>
-    public class ProtocolException : Exception
+    public class ProgressEventArgs : EventArgs
     {
         /// <summary>
         /// Initializes a new instance of the class.
         /// </summary>
-        public ProtocolException(ErrorCode errorCode)
-            : base(errorCode.ToString())
+        public ProgressEventArgs(int blockNumber, int blockCount)
         {
-            ErrorCode = errorCode;
-        }
-
-        /// <summary>
-        /// Initializes a new instance of the class.
-        /// </summary>
-        public ProtocolException(ErrorCode errorCode, string message)
-            : base(message)
-        {
-            ErrorCode = errorCode;
+            BlockNumber = blockNumber;
+            BlockCount = blockCount;
         }
 
 
         /// <summary>
-        /// Gets the error code.
+        /// Gets the block number.
         /// </summary>
-        public ErrorCode ErrorCode { get; protected set; }
+        public int BlockNumber { get; protected set; }
+
+        /// <summary>
+        /// Gets the block count.
+        /// </summary>
+        public int BlockCount { get; protected set; }
+
+        /// <summary>
+        /// Gets the percentage of completion.
+        /// </summary>
+        public double Progress
+        {
+            get
+            {
+                return 100.0 * BlockNumber / BlockCount;
+            }
+        }
     }
 }

@@ -692,8 +692,8 @@ namespace Scada.Server
             byte[] inBuf = client.InBuf;
             string fileName = GetFileName(inBuf, ArgumentIndex, out int index);
             long offset = BitConverter.ToInt64(inBuf, index);
-            SeekOrigin origin = inBuf[index + 8] == 0 ? SeekOrigin.Begin : SeekOrigin.End;
-            int count = BitConverter.ToInt32(inBuf, index + 9);
+            int count = BitConverter.ToInt32(inBuf, index + 8);
+            SeekOrigin origin = inBuf[index + 12] == 0 ? SeekOrigin.Begin : SeekOrigin.End;
             DateTime newerThan = GetTime(inBuf, index + 13, out index);
             FileInfo fileInfo = new FileInfo(fileName);
 
@@ -722,12 +722,13 @@ namespace Scada.Server
                     }
 
                     // prepare for reading
-                    const int BlockCapacity = BufferLenght - 23;
+                    const int FileDataIndex = ArgumentIndex + 13;
+                    const int BlockCapacity = BufferLenght - FileDataIndex;
                     long bytesToReadTotal = count > 0 ? 
                         Math.Min(count, stream.Length - stream.Position) : stream.Length;
                     long bytesReadTotal = 0;
                     int blockNumber = 1;
-                    int blockCount = (int)Math.Ceiling((double)(bytesToReadTotal / BlockCapacity));
+                    int blockCount = (int)Math.Ceiling((double)bytesToReadTotal / BlockCapacity);
                     byte[] outBuf = client.OutBuf;
                     bool endOfFile = false;
 
@@ -742,7 +743,7 @@ namespace Scada.Server
 
                         // read from file
                         int bytesToRead = (int)Math.Min(bytesToReadTotal - bytesReadTotal, BlockCapacity);
-                        int bytesRead = stream.Read(outBuf, 29, bytesToRead);
+                        int bytesRead = stream.Read(outBuf, FileDataIndex, bytesToRead);
                         bytesReadTotal += bytesRead;
                         endOfFile = bytesRead < bytesToRead || bytesReadTotal == bytesToReadTotal;
 
@@ -766,7 +767,7 @@ namespace Scada.Server
             int index = ArgumentIndex;
             BitConverter.GetBytes(blockNumber).CopyTo(outBuf, index);
             BitConverter.GetBytes(blockCount).CopyTo(outBuf, index + 4);
-            outBuf[index + 8] = (byte)FileReadingResult.FileNotFound;
+            outBuf[index + 8] = (byte)fileReadingResult;
             BitConverter.GetBytes(bytesRead).CopyTo(outBuf, index + 9);
             response.ArgumentLength = 13 + bytesRead;
             response.Encode();
@@ -779,7 +780,7 @@ namespace Scada.Server
         protected void UploadFile(ConnectedClient client, DataPacket request, out ResponsePacket response)
         {
             DecodeUploadPacket(request, out int blockNumber, out int blockCount,
-                out bool endOfFile, out string fileName, out int bytesToWrite, out int endIndex);
+                out bool endOfFile, out string fileName, out int bytesToWrite, out int fileDataIndex);
 
             log.WriteAction(string.Format(Locale.IsRussian ?
                 "Приём файла {0}" :
@@ -806,11 +807,11 @@ namespace Scada.Server
                 using (FileStream stream =
                     new FileStream(fileName, FileMode.Create, FileAccess.Write, FileShare.ReadWrite))
                 {
+                    // write to destination file
+                    stream.Write(client.InBuf, fileDataIndex, bytesToWrite);
+
                     while (!endOfFile && !client.Terminated)
                     {
-                        // write to destination file
-                        stream.Write(client.InBuf, endIndex, bytesToWrite);
-
                         // wait for data
                         DateTime endWaitingDT = DateTime.UtcNow.AddMilliseconds(client.TcpClient.ReceiveTimeout);
                         while (!client.NetStream.DataAvailable && DateTime.UtcNow <= endWaitingDT)
@@ -822,7 +823,7 @@ namespace Scada.Server
                         if (ReceiveDataPacket(client, out DataPacket dataPacket))
                         {
                             DecodeUploadPacket(dataPacket, out int newBlockNumber, out blockCount,
-                                out endOfFile, out fileName, out bytesToWrite, out endIndex);
+                                out endOfFile, out fileName, out bytesToWrite, out fileDataIndex);
 
                             if (dataPacket.TransactionID != request.TransactionID)
                             {
@@ -838,14 +839,15 @@ namespace Scada.Server
                                     "File upload operation expected.");
                             }
 
-                            if (blockNumber + 1 != newBlockNumber)
+                            if (++blockNumber != newBlockNumber)
                             {
                                 throw new ProtocolException(ErrorCode.IllegalFunctionArguments, Locale.IsRussian ?
                                     "Неверный номер блока." :
                                     "Invalid block number.");
                             }
 
-                            blockNumber = newBlockNumber;
+                            // write to destination file
+                            stream.Write(client.InBuf, fileDataIndex, bytesToWrite);
                         }
                         else
                         {
@@ -879,16 +881,16 @@ namespace Scada.Server
         /// Decodes the file upload data packet.
         /// </summary>
         protected void DecodeUploadPacket(DataPacket dataPacket, out int blockNumber, out int blockCount,
-            out bool endOfFile, out string fileName, out int bytesToWrite, out int endIndex)
+            out bool endOfFile, out string fileName, out int bytesToWrite, out int fileDataIndex)
         {
             byte[] buffer = dataPacket.Buffer;
             int index = ArgumentIndex;
             blockNumber = BitConverter.ToInt32(buffer, index);
             blockCount = BitConverter.ToInt32(buffer, index + 4);
-            endOfFile = buffer[8] > 0;
+            endOfFile = buffer[index + 8] > 0;
             fileName = GetFileName(buffer, index + 9, out index);
             bytesToWrite = BitConverter.ToInt32(buffer, index);
-            endIndex = index + 4;
+            fileDataIndex = index + 4;
         }
 
         /// <summary>

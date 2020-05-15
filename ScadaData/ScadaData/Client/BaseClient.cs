@@ -246,11 +246,14 @@ namespace Scada.Client
         /// <summary>
         /// Creates a new data packet for request.
         /// </summary>
-        protected DataPacket CreateRequest(ushort functionID, int dataLength = 0)
+        protected DataPacket CreateRequest(ushort functionID, int dataLength = 0, bool nextTransaction = true)
         {
+            if (nextTransaction)
+                transactionID++;
+
             return new DataPacket
             {
-                TransactionID = ++transactionID,
+                TransactionID = transactionID,
                 DataLength = dataLength,
                 SessionID = SessionID,
                 FunctionID = functionID,
@@ -333,7 +336,7 @@ namespace Scada.Client
                         responseDT = DateTime.UtcNow;
 
                         // handle error response
-                        if ((response.FunctionID & 0x1000) > 0)
+                        if ((response.FunctionID & 0x8000) > 0)
                         {
                             ErrorCode errorCode = (ErrorCode)inBuf[ArgumentIndex];
                             CommLog?.WriteError(errorCode.ToString());
@@ -419,6 +422,14 @@ namespace Scada.Client
         }
 
         /// <summary>
+        /// Raises the Progress event.
+        /// </summary>
+        protected void OnProgress(int blockNumber, int blockCount)
+        {
+            Progress?.Invoke(this, new ProgressEventArgs(blockNumber, blockCount));
+        }
+
+        /// <summary>
         /// Gets the server and the session status.
         /// </summary>
         public void GetStatus(out bool serverIsReady, out bool userIsLoggedIn)
@@ -454,8 +465,7 @@ namespace Scada.Client
             RestoreConnection();
 
             DataPacket request = CreateRequest(FunctionID.GetFileInfo);
-            BitConverter.GetBytes(directoryID).CopyTo(outBuf, ArgumentIndex);
-            CopyString(path, outBuf, ArgumentIndex + 2, out int index);
+            CopyFileName(directoryID, path, outBuf, ArgumentIndex, out int index);
             request.ArgumentLength = index;
             SendRequest(request);
 
@@ -468,33 +478,134 @@ namespace Scada.Client
         /// <summary>
         /// Downloads the file.
         /// </summary>
-        public void DownloadFile(ushort directoryID, string path, 
-            long offset, bool readFromEnd, int count, DateTime newerThan, Stream inputStream)
+        public void DownloadFile(ushort directoryID, string path, long offset, int count, bool readFromEnd, 
+            DateTime newerThan, Func<Stream> createStreamFunc, out FileReadingResult readingResult, out Stream stream)
         {
-            if (inputStream == null)
-                throw new ArgumentNullException("inputStream");
+            if (createStreamFunc == null)
+                throw new ArgumentNullException("createStreamFunc");
 
             RestoreConnection();
 
             DataPacket request = CreateRequest(FunctionID.DownloadFile);
-            BitConverter.GetBytes(directoryID).CopyTo(outBuf, ArgumentIndex);
-            CopyString(path, outBuf, ArgumentIndex + 2, out int index);
+            CopyFileName(directoryID, path, outBuf, ArgumentIndex, out int index);
             BitConverter.GetBytes(offset).CopyTo(outBuf, index);
-            outBuf[index + 8] = (byte)(readFromEnd ? 1 : 0);
-            BitConverter.GetBytes(count).CopyTo(outBuf, index + 9);
+            BitConverter.GetBytes(count).CopyTo(outBuf, index + 8);
+            outBuf[index + 12] = (byte)(readFromEnd ? 1 : 0);
             CopyTime(newerThan, outBuf, index + 13, out index);
             request.ArgumentLength = index;
             SendRequest(request);
 
-            DataPacket response = ReceiveResponse(request);
+            int prevBlockNumber = 0;
+            readingResult = FileReadingResult.Successful;
+            stream = null;
+
+            try
+            {
+                while (readingResult == FileReadingResult.Successful)
+                {
+                    DataPacket response = ReceiveResponse(request);
+                    int blockNumber = BitConverter.ToInt32(inBuf, ArgumentIndex);
+                    int blockCount = BitConverter.ToInt32(inBuf, ArgumentIndex + 4);
+                    readingResult = (FileReadingResult)inBuf[ArgumentIndex + 8];
+
+                    if (blockNumber != prevBlockNumber + 1)
+                    {
+                        throw new ProtocolException(ErrorCode.IllegalFunctionArguments, Locale.IsRussian ?
+                            "Неверный номер блока." :
+                            "Invalid block number.");
+                    }
+                    else if (readingResult == FileReadingResult.Successful ||
+                        readingResult == FileReadingResult.EndOfFile)
+                    {
+                        if (stream == null)
+                            stream = createStreamFunc();
+
+                        int bytesToWrite = BitConverter.ToInt32(inBuf, ArgumentIndex + 9);
+                        stream.Write(inBuf, ArgumentIndex + 13, bytesToWrite);
+                    }
+
+                    prevBlockNumber = blockNumber;
+                    OnProgress(blockNumber, blockCount);
+                }
+            }
+            catch
+            {
+                stream?.Dispose();
+                stream = null;
+                throw;
+            }
+        }
+
+        /// <summary>
+        /// Downloads the file.
+        /// </summary>
+        public void DownloadFile(ushort directoryID, string path, long offset, int count, bool readFromEnd,
+            DateTime newerThan, string destFileName, out FileReadingResult readingResult)
+        {
+            DownloadFile(directoryID, path, offset, count, readFromEnd, newerThan,
+                () => { return new FileStream(destFileName, FileMode.Create, FileAccess.Write, FileShare.Read); },
+                out readingResult, out Stream stream);
+            stream?.Dispose();
         }
 
         /// <summary>
         /// Uploads the file.
         /// </summary>
-        public void UploadFile(string fileName)
+        public void UploadFile(string srcFileName, ushort directoryID, string path)
         {
+            if (!File.Exists(srcFileName))
+                throw new ScadaException(CommonPhrases.FileNotFound);
 
+            RestoreConnection();
+            DataPacket request = null;
+
+            using (FileStream stream =
+                new FileStream(srcFileName, FileMode.Open, FileAccess.Read, FileShare.ReadWrite))
+            {
+                int fileDataIndex = ArgumentIndex + 17 + (path ?? "").Length * 2;
+                int blockCapacity = BufferLenght - fileDataIndex;
+                long bytesToReadTotal = stream.Length;
+                long bytesReadTotal = 0;
+                int blockNumber = 0;
+                int blockCount = (int)Math.Ceiling((double)bytesToReadTotal / blockCapacity);
+                bool endOfFile = false;
+                transactionID++;
+
+                while (!endOfFile)
+                {
+                    // read from file
+                    int bytesToRead = (int)Math.Min(bytesToReadTotal - bytesReadTotal, blockCapacity);
+                    int bytesRead = stream.Read(outBuf, fileDataIndex, bytesToRead);
+                    bytesReadTotal += bytesRead;
+                    endOfFile = bytesRead < bytesToRead || bytesReadTotal == bytesToReadTotal;
+
+                    // send data
+                    request = CreateRequest(FunctionID.UploadFile, 0, false);
+                    BitConverter.GetBytes(++blockNumber).CopyTo(outBuf, ArgumentIndex);
+                    BitConverter.GetBytes(blockCount).CopyTo(outBuf, ArgumentIndex + 4);
+                    outBuf[ArgumentIndex + 8] = (byte)(endOfFile ? 1 : 0);
+                    CopyFileName(directoryID, path, outBuf, ArgumentIndex + 9, out int index);
+                    BitConverter.GetBytes(bytesRead).CopyTo(outBuf, index);
+                    request.BufferLength = fileDataIndex + bytesRead;
+                    SendRequest(request);
+                    OnProgress(blockNumber, blockCount);
+
+                    if (blockNumber == 1)
+                    {
+                        path = "";
+                        fileDataIndex = ArgumentIndex + 17;
+                    }
+                }
+            }
+
+            if (request != null)
+                ReceiveResponse(request);
         }
+
+
+        /// <summary>
+        /// Occurs during the progress of a long-term operation.
+        /// </summary>
+        public event EventHandler<ProgressEventArgs> Progress;
     }
 }

@@ -75,7 +75,7 @@ namespace Scada.Protocol
 
             if (Buffer != null && ErrorCode > ErrorCode.NoError)
             {
-                BitConverter.GetBytes(FunctionID | 0x1000).CopyTo(Buffer, 14);
+                BitConverter.GetBytes(FunctionID | 0x8000).CopyTo(Buffer, 14);
                 Buffer[ProtocolUtils.ArgumentIndex] = (byte)ErrorCode;
             }
         }

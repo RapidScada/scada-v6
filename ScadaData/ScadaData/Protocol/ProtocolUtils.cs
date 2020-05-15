@@ -56,15 +56,19 @@ namespace Scada.Protocol
         {
             int stringLength = s == null ? 0 : s.Length;
 
-            if (stringLength > 0)
-            {
-                BitConverter.GetBytes(stringLength).CopyTo(buffer, startIndex);
-                Encoding.Unicode.GetBytes(s).CopyTo(buffer, startIndex + 2);
-            }
-            else
+            if (stringLength == 0)
             {
                 buffer[startIndex] = 0;
                 buffer[startIndex + 1] = 0;
+            }
+            else if (stringLength > ushort.MaxValue)
+            {
+                throw new ScadaException("Maximum string length exceeded.");
+            }
+            else
+            {
+                BitConverter.GetBytes((ushort)stringLength).CopyTo(buffer, startIndex);
+                Encoding.Unicode.GetBytes(s).CopyTo(buffer, startIndex + 2);
             }
 
             endIndex = startIndex + stringLength * 2 + 2;
@@ -98,6 +102,16 @@ namespace Scada.Protocol
         {
             endIndex = startIndex + 8;
             return new DateTime(BitConverter.ToInt64(buffer, startIndex), DateTimeKind.Utc);
+        }
+
+        /// <summary>
+        /// Encodes and copies the file name to the buffer.
+        /// </summary>
+        public static void CopyFileName(ushort directoryID, string path, 
+            byte[] buffer, int startIndex, out int endIndex)
+        {
+            BitConverter.GetBytes(directoryID).CopyTo(buffer, startIndex);
+            CopyString(path, buffer, startIndex + 2, out endIndex);
         }
 
         /// <summary>
