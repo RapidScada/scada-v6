@@ -23,9 +23,9 @@
  * Modified : 2020
  */
 
+using Scada.Data.Models;
 using System;
 using System.Collections.Generic;
-using System.Text;
 
 namespace Scada.Server.Engine
 {
@@ -42,18 +42,28 @@ namespace Scada.Server.Engine
 
 
         /// <summary>
-        /// Deletes the outdates data from the archive.
+        /// Gets the event by ID.
         /// </summary>
-        void DeleteOutdatedData();
+        Event GetEvent(long eventID);
+
+        /// <summary>
+        /// Gets the events.
+        /// </summary>
+        ICollection<Event> GetEvents(DateTime startTime, DateTime endTime, object filter, object range);
 
         /// <summary>
         /// Writes the event.
         /// </summary>
-        void WriteEvent(object ev);
+        void WriteEvent(Event ev);
 
         /// <summary>
         /// Acknowledges the event.
         /// </summary>
         void AckEvent(long eventID, DateTime timestamp, int userID);
+
+        /// <summary>
+        /// Deletes the outdates data from the archive.
+        /// </summary>
+        void DeleteOutdatedData();
     }
 }

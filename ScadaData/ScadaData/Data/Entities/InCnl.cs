@@ -52,7 +52,7 @@ namespace Scada.Data.Entities
 
         public string TagCode { get; set; }
 
-        public bool FormulaUsed { get; set; }
+        public bool FormulaEnabled { get; set; }
 
         public string Formula { get; set; }
 

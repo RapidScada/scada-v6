@@ -23,9 +23,9 @@
  * Modified : 2020
  */
 
+using Scada.Data.Models;
 using System;
 using System.Collections.Generic;
-using System.Text;
 
 namespace Scada.Server.Engine
 {
@@ -40,15 +40,30 @@ namespace Scada.Server.Engine
         /// </summary>
         TimeSpan CleanupPeriod { get; }
 
-        
+
         /// <summary>
-        /// Deletes the outdates data from the archive.
+        /// Gets the trend of the specified input channel.
         /// </summary>
-        void DeleteOutdatedData();
+        Trend GetTrend(int cnlNum, DateTime startTime, DateTime endTime);
+
+        /// <summary>
+        /// Gets the trends of the specified input channels.
+        /// </summary>
+        TrendBundle GetTrends(IList<int> cnlNums, DateTime startTime, DateTime endTime);
+
+        /// <summary>
+        /// Gets the slice of the specified input channels at the timestamp.
+        /// </summary>
+        object GetSlice(IList<int> cnlNums, DateTime timestamp);
 
         /// <summary>
         /// Writes the slice of data having the single timestamp.
         /// </summary>
         void WriteSlice(DateTime timestamp, object slice);
+
+        /// <summary>
+        /// Deletes the outdates data from the archive.
+        /// </summary>
+        void DeleteOutdatedData();
     }
 }

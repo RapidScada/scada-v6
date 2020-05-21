@@ -50,11 +50,15 @@ namespace Scada.Data.Entities
 
         public int? CmdNum { get; set; }
 
-        public int? CmdValID { get; set; }
+        public string CmdCode { get; set; }
 
-        public bool FormulaUsed { get; set; }
+        public bool FormulaEnabled { get; set; }
 
         public string Formula { get; set; }
+
+        public int? FormatID { get; set; }
+
+        public int? CmdValID { get; set; }
 
         public bool EventEnabled { get; set; }
     }
