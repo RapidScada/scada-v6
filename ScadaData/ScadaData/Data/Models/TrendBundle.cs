@@ -19,13 +19,12 @@
  * Summary  : Represents a bundle of trends having a single timeline
  * 
  * Author   : Mikhail Shiryaev
- * Created  : 2020
+ * Created  : 2016
  * Modified : 2020
  */
 
 using System;
 using System.Collections.Generic;
-using System.Text;
 
 namespace Scada.Data.Models
 {
@@ -35,5 +34,41 @@ namespace Scada.Data.Models
     /// </summary>
     public class TrendBundle
     {
+        /// <summary>
+        /// Represents a list of data points.
+        /// <para>Представляет список точек данных.</para>
+        /// </summary>
+        public class DataPointList: List<CnlData>
+        {
+        }
+
+
+        /// <summary>
+        /// Initializes a new instance of the class.
+        /// </summary>
+        public TrendBundle()
+            : this(0)
+        {
+        }
+
+        /// <summary>
+        /// Initializes a new instance of the class.
+        /// </summary>
+        public TrendBundle(int capacity)
+        {
+            Timestamps = new List<DateTime>(capacity);
+            Trends = new List<DataPointList>();
+        }
+
+
+        /// <summary>
+        /// Gets the timestamps common for all trends.
+        /// </summary>
+        public List<DateTime> Timestamps { get; protected set; }
+
+        /// <summary>
+        /// Gets the trends having the same number of points.
+        /// </summary>
+        public List<DataPointList> Trends { get; protected set; }
     }
 }

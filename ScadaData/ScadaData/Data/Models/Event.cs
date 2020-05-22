@@ -23,6 +23,10 @@
  * Modified : 2020
  */
 
+#pragma warning disable 1591 // Missing XML comment for publicly visible type or member
+
+using System;
+
 namespace Scada.Data.Models
 {
     /// <summary>
@@ -31,9 +35,42 @@ namespace Scada.Data.Models
     /// </summary>
     public class Event
     {
-        /// <summary>
-        /// Gets or sets the event ID.
-        /// </summary>
         public long EventID { get; set; }
+
+        public DateTime Timestamp { get; set; }
+
+        public bool Hiddem { get; set; }
+
+        public int CnlNum { get; set; }
+
+        public int OutCnlNum { get; set; }
+
+        public int ObjNum { get; set; }
+
+        public int DeviceNum { get; set; }
+
+        public double PrevCnlVal { get; set; }
+
+        public int PrevCnlStat { get; set; }
+
+        public double CnlVal { get; set; }
+
+        public int CnlStat { get; set; }
+
+        public int Severity { get; set; }
+
+        public bool AckRequired { get; set; }
+
+        public bool Ack { get; set; }
+
+        public DateTime AckTimestamp { get; set; }
+
+        public int AckUserID { get; set; }
+
+        public EventTextFormat TextFormat { get; set; }
+
+        public string Descr { get; set; }
+
+        public byte[] Data { get; set; }
     }
 }

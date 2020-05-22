@@ -16,49 +16,34 @@
  * 
  * Product  : Rapid SCADA
  * Module   : ScadaData
- * Summary  : Represents a trend of input channel data
+ * Summary  : Specifies the event text formats
  * 
  * Author   : Mikhail Shiryaev
- * Created  : 2006
+ * Created  : 2020
  * Modified : 2020
  */
-
-using System.Collections.Generic;
 
 namespace Scada.Data.Models
 {
     /// <summary>
-    /// Represents a trend of input channel data.
-    /// <para>Представляет тренд данных входного канала.</para>
+    /// Specifies the event text formats.
+    /// <para>Задает форматы текста событий.</para>
     /// </summary>
-    public class Trend
+    public enum EventTextFormat
     {
         /// <summary>
-        /// Initializes a new instance of the class.
+        /// Displays automatically generated text and description.
         /// </summary>
-        public Trend(int cnlNum)
-            : this(cnlNum, 0)
-        {
-        }
+        Default = 0,
 
         /// <summary>
-        /// Initializes a new instance of the class.
+        /// Displays only automatically generated text.
         /// </summary>
-        public Trend(int cnlNum, int capacity)
-        {
-            CnlNum = cnlNum;
-            Points = new List<TrendPoint>(capacity);
-        }
-
+        AutoText = 1,
 
         /// <summary>
-        /// Gets the input channel number of the trend.
+        /// Displays only description.
         /// </summary>
-        public int CnlNum { get; protected set; }
-
-        /// <summary>
-        /// Gets the trend points.
-        /// </summary>
-        public List<TrendPoint> Points { get; protected set; }
+        Description = 2
     }
 }
