@@ -38,11 +38,12 @@ namespace Scada.Log
         /// <summary>
         /// The default log file capacity, 1 MB.
         /// </summary>
-        private const int DefaultCapacity = 1048576;
+        public const int DefaultCapacity = 1048576;
         /// <summary>
         /// The timestamp format.
         /// </summary>
-        private const string DefaultTimestampFormat = "yyyy'-'MM'-'dd' 'HH':'mm':'ss";
+        public const string DefaultTimestampFormat = "yyyy'-'MM'-'dd' 'HH':'mm':'ss";
+
         /// <summary>
         /// The log divider.
         /// </summary>

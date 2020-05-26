@@ -51,11 +51,30 @@ namespace Scada.Server.Config
             SetToDefault();
         }
 
+        /// <summary>
+        /// Gets the general options.
+        /// </summary>
+        public GeneralOptions GeneralOptions { get; private set; }
 
         /// <summary>
         /// Gets the listener options.
         /// </summary>
         public ListenerOptions ListenerOptions { get; private set; }
+
+        /// <summary>
+        /// Gets the path options.
+        /// </summary>
+        public PathOptions PathOptions { get; private set; }
+
+        /// <summary>
+        /// Gets the archives.
+        /// </summary>
+        public List<ArchiveConfig> Archives { get; private set; }
+
+        /// <summary>
+        /// Gets the file names of the enabled modules.
+        /// </summary>
+        public List<string> ModuleFileNames { get; private set; }
 
 
         /// <summary>
@@ -63,7 +82,11 @@ namespace Scada.Server.Config
         /// </summary>
         private void SetToDefault()
         {
+            GeneralOptions = new GeneralOptions();
             ListenerOptions = new ListenerOptions();
+            PathOptions = new PathOptions();
+            Archives = new List<ArchiveConfig>();
+            ModuleFileNames = new List<string>();
         }
 
         /// <summary>
