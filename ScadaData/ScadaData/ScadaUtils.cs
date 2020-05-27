@@ -103,6 +103,22 @@ namespace Scada
         }
 
         /// <summary>
+        /// Removes file name suffixes that follow the first dot.
+        /// </summary>
+        public static string RemoveFileNameSuffixes(string fileName)
+        {
+            if (string.IsNullOrEmpty(fileName))
+            {
+                return "";
+            }
+            else
+            {
+                int dotIndex = fileName.IndexOf('.');
+                return dotIndex >= 0 ? fileName.Substring(0, dotIndex) : fileName;
+            }
+        }
+
+        /// <summary>
         /// Converts the array of bytes to a hexadecimal string.
         /// </summary>
         public static string BytesToHex(byte[] bytes)

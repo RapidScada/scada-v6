@@ -26,7 +26,6 @@
 using System;
 using System.Collections.Generic;
 using System.IO;
-using System.Text;
 using System.Xml;
 
 namespace Scada.Server.Config
@@ -105,8 +104,33 @@ namespace Scada.Server.Config
                 xmlDoc.Load(fileName);
                 XmlElement rootElem = xmlDoc.DocumentElement;
 
+                if (rootElem.SelectSingleNode("GeneralOptions") is XmlNode generalOptionsNode)
+                    GeneralOptions.LoadFromXml(generalOptionsNode);
+
                 if (rootElem.SelectSingleNode("ListenerOptions") is XmlNode listenerOptionsNode)
                     ListenerOptions.LoadFromXml(listenerOptionsNode);
+
+                if (rootElem.SelectSingleNode("PathOptions") is XmlNode pathOptionsNode)
+                    PathOptions.LoadFromXml(pathOptionsNode);
+
+                if (rootElem.SelectSingleNode("Archives") is XmlNode archivesNode)
+                {
+                    foreach (XmlElement archiveElem in archivesNode.SelectNodes("Archive"))
+                    {
+                        ArchiveConfig archiveConfig = new ArchiveConfig();
+                        archiveConfig.LoadFromXml(archiveElem);
+                        Archives.Add(archiveConfig);
+                    }
+                }
+
+                if (rootElem.SelectSingleNode("Modules") is XmlNode modulesNode)
+                {
+                    foreach (XmlElement moduleElem in modulesNode.SelectNodes("Module"))
+                    {
+                        ModuleFileNames.Add(ScadaUtils.RemoveFileNameSuffixes(moduleElem.GetAttribute("fileName")));
+                    }
+                }
+
 
                 errMsg = "";
                 return true;
@@ -114,6 +138,47 @@ namespace Scada.Server.Config
             catch (Exception ex)
             {
                 errMsg = CommonPhrases.LoadAppConfigError + ": " + ex.Message;
+                return false;
+            }
+        }
+
+        /// <summary>
+        /// Saves the configuration to the specified file.
+        /// </summary>
+        public bool Save(string fileName, out string errMsg)
+        {
+            try
+            {
+                XmlDocument xmlDoc = new XmlDocument();
+                XmlDeclaration xmlDecl = xmlDoc.CreateXmlDeclaration("1.0", "utf-8", null);
+                xmlDoc.AppendChild(xmlDecl);
+
+                XmlElement rootElem = xmlDoc.CreateElement("ScadaServerConfig");
+                xmlDoc.AppendChild(rootElem);
+
+                GeneralOptions.SaveToXml(rootElem.AppendElem("GeneralOptions"));
+                ListenerOptions.SaveToXml(rootElem.AppendElem("ListenerOptions"));
+                PathOptions.SaveToXml(rootElem.AppendElem("PathOptions"));
+
+                XmlElement archivesElem = rootElem.AppendElem("Archives");
+                foreach (ArchiveConfig archiveConfig in Archives)
+                {
+                    archiveConfig.SaveToXml(archivesElem.AppendElem("Archive"));
+                }
+
+                XmlElement modulesElem = rootElem.AppendElem("Modules");
+                foreach (string moduleFileName in ModuleFileNames)
+                {
+                    modulesElem.AppendElem("Module").SetAttribute("fileName", moduleFileName);
+                }
+
+                xmlDoc.Save(fileName);
+                errMsg = "";
+                return true;
+            }
+            catch (Exception ex)
+            {
+                errMsg = CommonPhrases.SaveAppConfigError + ": " + ex.Message;
                 return false;
             }
         }

@@ -16,28 +16,28 @@
     <ViewDir>C:\SCADA\Views\</ViewDir>
   </PathOptions>
   <Archives>
-    <Archive active="true" code="Cur" name="Current Data">
-      <Param name="IsCopy" value="false" />
-      <Param name="WritingPeriod" value="1" />
-      <Param name="WritingUnit" value="Second" />
+    <Archive active="true" code="Cur" name="Current Data" kind="Current" dll="">
+      <Option name="IsCopy" value="false" />
+      <Option name="WritingPeriod" value="1" />
+      <Option name="WritingUnit" value="Second" />
     </Archive>
-    <Archive active="true" code="Min" name="Minute Archive">
-      <Param name="IsCopy" value="false" />
-      <Param name="WritingPeriod" value="1" />
-      <Param name="WritingUnit" value="Minute" />
-      <Param name="StoragePeriod" value="365" />
-      <Param name="TrendWeight" value="0" />
+    <Archive active="true" code="Min" name="Minute Archive" kind="Historical" dll="">
+      <Option name="IsCopy" value="false" />
+      <Option name="WritingPeriod" value="1" />
+      <Option name="WritingUnit" value="Minute" />
+      <Option name="StoragePeriod" value="365" />
+      <Option name="TrendWeight" value="0" />
     </Archive>
-    <Archive active="true" code="Hour" name="Hourly Archive">
-      <Param name="IsCopy" value="false" />
-      <Param name="WritingPeriod" value="1" />
-      <Param name="WritingUnit" value="Hour" />
-      <Param name="StoragePeriod" value="365" />
-      <Param name="TrendWeight" value="0" />
+    <Archive active="true" code="Hour" name="Hourly Archive" kind="Historical" dll="">
+      <Option name="IsCopy" value="false" />
+      <Option name="WritingPeriod" value="1" />
+      <Option name="WritingUnit" value="Hour" />
+      <Option name="StoragePeriod" value="365" />
+      <Option name="TrendWeight" value="0" />
     </Archive>
-    <Archive active="true" code="Events" name="Event Archive">
-      <Param name="IsCopy" value="false" />
-      <Param name="StoragePeriod" value="365" />
+    <Archive active="true" code="Events" name="Event Archive" kind="Events" dll="">
+      <Option name="IsCopy" value="false" />
+      <Option name="StoragePeriod" value="365" />
     </Archive>
   </Archives>
   <Modules />

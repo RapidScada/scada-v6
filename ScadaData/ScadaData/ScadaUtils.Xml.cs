@@ -97,14 +97,14 @@ namespace Scada
         }
 
         /// <summary>
-        /// Creates and appends to the parent a new XML element of the parameter 
+        /// Creates and appends to the parent a new XML element of the option 
         /// with the specified name, value and description.
         /// </summary>
-        public static XmlElement AppendParamElem(this XmlElement parentXmlElem, string paramName, object value,
+        public static XmlElement AppendOptionElem(this XmlElement parentXmlElem, string optionName, object value,
             string descr = "")
         {
-            XmlElement paramElem = parentXmlElem.OwnerDocument.CreateElement("Param");
-            paramElem.SetAttribute("name", paramName);
+            XmlElement paramElem = parentXmlElem.OwnerDocument.CreateElement("Option");
+            paramElem.SetAttribute("name", optionName);
             paramElem.SetAttribute("value", XmlValToStr(value));
             if (!string.IsNullOrEmpty(descr))
                 paramElem.SetAttribute("descr", descr);
@@ -112,21 +112,21 @@ namespace Scada
         }
 
         /// <summary>
-        /// Creates and appends to the parent a new XML element of the parameter 
+        /// Creates and appends to the parent a new XML element of the option 
         /// with the specified name, value and description.
         /// </summary>
-        public static XmlElement AppendParamElem(this XmlElement parentXmlElem, string paramName, object value,
+        public static XmlElement AppendOptionElem(this XmlElement parentXmlElem, string optionName, object value,
             string descrRu, string descrEn)
         {
-            return parentXmlElem.AppendParamElem(paramName, value, Locale.IsRussian ? descrRu : descrEn);
+            return parentXmlElem.AppendOptionElem(optionName, value, Locale.IsRussian ? descrRu : descrEn);
         }
 
         /// <summary>
-        /// Finds an XML element of the parameter having the specified name.
+        /// Finds an XML element of the option having the specified name.
         /// </summary>
-        public static XmlElement GetParamElem(this XmlElement parentXmlElem, string paramName)
+        public static XmlElement GetOptionElem(this XmlElement parentXmlElem, string optionName)
         {
-            XmlNodeList xmlNodes = parentXmlElem.SelectNodes(string.Format("Param[@name='{0}'][1]", paramName));
+            XmlNodeList xmlNodes = parentXmlElem.SelectNodes(string.Format("Option[@name='{0}'][1]", optionName));
             return xmlNodes.Count > 0 ? xmlNodes[0] as XmlElement : null;
         }
 
