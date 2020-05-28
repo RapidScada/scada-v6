@@ -16,29 +16,24 @@
  * 
  * Product  : Rapid SCADA
  * Module   : ScadaServerCommon
- * Summary  : Specifies the archive kinds
+ * Summary  : Represents the base class for archive user interface
  * 
  * Author   : Mikhail Shiryaev
  * Created  : 2020
  * Modified : 2020
  */
 
-#pragma warning disable 1591 // Missing XML comment for publicly visible type or member
+using System;
+using System.Collections.Generic;
+using System.Text;
 
-namespace Scada.Server.Config
+namespace Scada.Server.Archives
 {
     /// <summary>
-    /// Specifies the archive kinds.
-    /// <para>Задает виды архивов.</para>
+    /// Represents the base class for archive user interface.
+    /// <para>Представляет базовый класс пользовательского интерфейса архива.</para>
     /// </summary>
-    public enum ArcKind
+    public abstract class ArchiveView
     {
-        Unspecified,
-
-        Current,
-
-        Historical,
-
-        Events
     }
 }

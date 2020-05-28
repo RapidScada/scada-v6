@@ -23,9 +23,9 @@
  * Modified : 2020
  */
 
-using System;
-using System.Collections.Generic;
-using System.Text;
+using Scada.Client;
+using Scada.Server.Archives;
+using Scada.Server.Config;
 
 namespace Scada.Server.Modules
 {
@@ -35,5 +35,58 @@ namespace Scada.Server.Modules
     /// </summary>
     public abstract class ModuleView
     {
+        /// <summary>
+        /// Initializes a new instance of the class.
+        /// </summary>
+        public ModuleView()
+        {
+            Config = null;
+            AppDirs = null;
+            ScadaClient = null;
+            CanShowProperties = false;
+        }
+
+
+        /// <summary>
+        /// Gets or sets the server configuration.
+        /// </summary>
+        public ServerConfig Config { get; set; }
+
+        /// <summary>
+        /// Gets or sets the application directories.
+        /// </summary>
+        public ServerDirs AppDirs { get; set; }
+
+        /// <summary>
+        /// Gets or sets the client.
+        /// </summary>
+        public ScadaClient ScadaClient { get; set; }
+
+        /// <summary>
+        /// Gets a value indicating whether the module can show a properties dialog box.
+        /// </summary>
+        public bool CanShowProperties { get; protected set; }
+
+        /// <summary>
+        /// Gets the module description.
+        /// </summary>
+        public abstract string Descr { get; }
+
+
+        /// <summary>
+        /// Indicates whether the module can create an archive of the specified kind.
+        /// </summary>
+        public virtual bool CanCreateArchive(ArchiveKind kind)
+        {
+            return false;
+        }
+
+        /// <summary>
+        /// Shows a modal dialog box for editing module properties.
+        /// </summary>
+        public virtual bool ShowProperties()
+        {
+            return false;
+        }
     }
 }

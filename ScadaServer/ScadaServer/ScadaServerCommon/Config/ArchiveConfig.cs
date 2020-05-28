@@ -23,6 +23,7 @@
  * Modified : 2020
  */
 
+using Scada.Server.Archives;
 using System;
 using System.Collections.Generic;
 using System.Xml;
@@ -42,7 +43,7 @@ namespace Scada.Server.Config
         {
             Code = "";
             Name = "";
-            Kind = ArcKind.Unspecified;
+            Kind = ArchiveKind.Unspecified;
             Options = new SortedList<string, string>();
         }
 
@@ -60,7 +61,7 @@ namespace Scada.Server.Config
         /// <summary>
         /// Gets or sets the archive kind.
         /// </summary>
-        public ArcKind Kind { get; set; }
+        public ArchiveKind Kind { get; set; }
 
         /// <summary>
         /// Gets or sets the name of the DLL that implementats the archive.
@@ -83,7 +84,7 @@ namespace Scada.Server.Config
 
             Code = xmlElem.GetAttrAsString("code");
             Name = xmlElem.GetAttrAsString("name");
-            Kind = xmlElem.GetAttrAsEnum("kind", ArcKind.Unspecified);
+            Kind = xmlElem.GetAttrAsEnum("kind", ArchiveKind.Unspecified);
             Dll = ScadaUtils.RemoveFileNameSuffixes(xmlElem.GetAttrAsString("dll"));
 
             foreach (XmlElement optionElem in xmlElem.SelectNodes("Option"))

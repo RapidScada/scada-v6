@@ -69,7 +69,7 @@ namespace Scada.Server.Engine
         private static readonly string[] WorkStateNamesRu = { "не определено", "норма", "ошибка", "завершено" };
 
         private readonly ServerConfig config;  // the server configuration
-        private readonly AppDirs appDirs;      // the application directories
+        private readonly ServerDirs appDirs;   // the application directories
         private readonly ILog log;             // the application log
         private readonly string infoFileName;  // the full file name to write application information
 
@@ -84,7 +84,7 @@ namespace Scada.Server.Engine
         /// <summary>
         /// Initializes a new instance of the class.
         /// </summary>
-        public CoreLogic(ServerConfig config, AppDirs appDirs, ILog log)
+        public CoreLogic(ServerConfig config, ServerDirs appDirs, ILog log)
         {
             this.config = config ?? throw new ArgumentNullException("config");
             this.appDirs = appDirs ?? throw new ArgumentNullException("appDirs");

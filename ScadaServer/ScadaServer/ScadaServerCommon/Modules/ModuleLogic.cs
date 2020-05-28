@@ -23,6 +23,9 @@
  * Modified : 2020
  */
 
+using Scada.Log;
+using Scada.Server.Archives;
+using Scada.Server.Config;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -35,5 +38,63 @@ namespace Scada.Server.Modules
     /// </summary>
     public abstract class ModuleLogic
     {
+        /// <summary>
+        /// Initializes a new instance of the class.
+        /// </summary>
+        public ModuleLogic()
+        {
+            Config = null;
+            AppDirs = null;
+            Log = null;
+        }
+
+
+        /// <summary>
+        /// Gets or sets the server configuration.
+        /// </summary>
+        public ServerConfig Config { get; set; }
+
+        /// <summary>
+        /// Gets or sets the application directories.
+        /// </summary>
+        public ServerDirs AppDirs { get; set; }
+
+        /// <summary>
+        /// Gets or sets the application log.
+        /// </summary>
+        public ILog Log { get; set; }
+
+        /// <summary>
+        /// Gets or sets the server access object.
+        /// </summary>
+        public IServerAccess ServerAccess { get; set; }
+
+        /// <summary>
+        /// Gets the module code.
+        /// </summary>
+        public abstract string Code { get; }
+
+
+        /// <summary>
+        /// Creates a new archive of the specified kind.
+        /// </summary>
+        public virtual ArchiveLogic CreateArchive(ArchiveKind kind)
+        {
+            return null;
+        }
+
+        /// <summary>
+        /// Performs actions when starting the server.
+        /// </summary>
+        public virtual void OnServerStart()
+        {
+        }
+
+        /// <summary>
+        /// Performs actions when the server stops.
+        /// </summary>
+        public virtual void OnServerStop()
+        {
+        }
     }
 }

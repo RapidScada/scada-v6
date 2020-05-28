@@ -15,7 +15,7 @@
  * 
  * 
  * Product  : Rapid SCADA
- * Module   : ScadaServerCommon
+ * Module   : ScadaData
  * Summary  : Represents application directories
  * 
  * Author   : Mikhail Shiryaev
@@ -25,7 +25,7 @@
 
 using System.IO;
 
-namespace Scada.Server
+namespace Scada
 {
     /// <summary>
     /// Represents application directories.
@@ -42,8 +42,8 @@ namespace Scada.Server
             ConfigDir = "";
             LangDir = "";
             LogDir = "";
-            ModDir = "";
             StorageDir = "";
+            TempDir = "";
         }
 
 
@@ -74,14 +74,14 @@ namespace Scada.Server
         public string LogDir { get; protected set; }
 
         /// <summary>
-        /// Gets the modules directory.
-        /// </summary>
-        public string ModDir { get; protected set; }
-
-        /// <summary>
         /// Gets the storage directory.
         /// </summary>
         public string StorageDir { get; protected set; }
+
+        /// <summary>
+        /// Gets the directory of temporary files.
+        /// </summary>
+        public string TempDir { get; protected set; }
 
         /// <summary>
         /// Checks that the directories exist.
@@ -104,23 +104,23 @@ namespace Scada.Server
         /// <summary>
         /// Initializes the directories based on the directory of the executable file.
         /// </summary>
-        public void Init(string exeDir)
+        public virtual void Init(string exeDir)
         {
             ExeDir = ScadaUtils.NormalDir(exeDir);
             CmdDir = ExeDir + "Cmd" + Path.DirectorySeparatorChar;
             ConfigDir = ExeDir + "Config" + Path.DirectorySeparatorChar;
             LangDir = ExeDir + "Lang" + Path.DirectorySeparatorChar;
             LogDir = ExeDir + "Log" + Path.DirectorySeparatorChar;
-            ModDir = ExeDir + "Mod" + Path.DirectorySeparatorChar;
             StorageDir = ExeDir + "Storage" + Path.DirectorySeparatorChar;
+            TempDir = ExeDir + "Temp" + Path.DirectorySeparatorChar;
         }
 
         /// <summary>
         /// Gets the directories required for Server.
         /// </summary>
-        public string[] GetRequiredDirs()
+        public virtual string[] GetRequiredDirs()
         {
-            return new string[] { ConfigDir, LangDir, LogDir, ModDir, StorageDir };
+            return new string[0];
         }
     }
 }

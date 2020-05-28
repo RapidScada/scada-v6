@@ -48,7 +48,7 @@ namespace Scada.Server.Engine
         {
             log = new LogStub();
             coreLogic = null;
-            AppDirs = new AppDirs();
+            AppDirs = new ServerDirs();
             AppDomain.CurrentDomain.UnhandledException += OnUnhandledException;
         }
 
@@ -56,7 +56,7 @@ namespace Scada.Server.Engine
         /// <summary>
         /// Gets the application directories.
         /// </summary>
-        public AppDirs AppDirs { get; private set; }
+        public ServerDirs AppDirs { get; private set; }
 
 
         /// <summary>

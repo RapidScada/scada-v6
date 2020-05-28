@@ -50,6 +50,7 @@ namespace Scada.Server.Config
             SetToDefault();
         }
 
+
         /// <summary>
         /// Gets the general options.
         /// </summary>
