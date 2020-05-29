@@ -23,9 +23,9 @@
  * Modified : 2020
  */
 
+using Scada.Config;
 using Scada.Server.Archives;
 using System;
-using System.Collections.Generic;
 using System.Xml;
 
 namespace Scada.Server.Config
@@ -44,7 +44,7 @@ namespace Scada.Server.Config
             Code = "";
             Name = "";
             Kind = ArchiveKind.Unspecified;
-            Options = new SortedList<string, string>();
+            CustomOptions = new CustomOptions();
         }
 
 
@@ -64,14 +64,14 @@ namespace Scada.Server.Config
         public ArchiveKind Kind { get; set; }
 
         /// <summary>
-        /// Gets or sets the name of the DLL that implementats the archive.
+        /// Gets or sets the name of the DLL that implements the archive.
         /// </summary>
         public string Dll { get; set; }
 
         /// <summary>
-        /// Gets the archive options accessed by name.
+        /// Gets the archive options.
         /// </summary>
-        public SortedList<string, string> Options { get; private set; }
+        public CustomOptions CustomOptions { get; private set; }
 
 
         /// <summary>
@@ -86,11 +86,7 @@ namespace Scada.Server.Config
             Name = xmlElem.GetAttrAsString("name");
             Kind = xmlElem.GetAttrAsEnum("kind", ArchiveKind.Unspecified);
             Dll = ScadaUtils.RemoveFileNameSuffixes(xmlElem.GetAttrAsString("dll"));
-
-            foreach (XmlElement optionElem in xmlElem.SelectNodes("Option"))
-            {
-                Options[optionElem.GetAttrAsString("name")] = optionElem.GetAttrAsString("value");
-            }
+            CustomOptions.LoadFromXml(xmlElem);
         }
 
         /// <summary>
@@ -105,11 +101,7 @@ namespace Scada.Server.Config
             xmlElem.SetAttribute("name", Name);
             xmlElem.SetAttribute("kind", Kind);
             xmlElem.SetAttribute("dll", Dll);
-
-            foreach (KeyValuePair<string, string> pair in Options)
-            {
-                xmlElem.AppendOptionElem(pair.Key, pair.Value);
-            }
+            CustomOptions.SaveToXml(xmlElem);
         }
     }
 }

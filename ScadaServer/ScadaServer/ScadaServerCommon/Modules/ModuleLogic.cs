@@ -19,7 +19,7 @@
  * Summary  : Represents the base class for server module logic
  * 
  * Author   : Mikhail Shiryaev
- * Created  : 2020
+ * Created  : 2013
  * Modified : 2020
  */
 
@@ -65,7 +65,7 @@ namespace Scada.Server.Modules
         public ILog Log { get; set; }
 
         /// <summary>
-        /// Gets or sets the server access object.
+        /// Gets or sets the server access object. May be IServerContext
         /// </summary>
         public IServerAccess ServerAccess { get; set; }
 

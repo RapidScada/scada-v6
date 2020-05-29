@@ -19,7 +19,7 @@
  * Summary  : Represents server configuration
  * 
  * Author   : Mikhail Shiryaev
- * Created  : 2020
+ * Created  : 2013
  * Modified : 2020
  */
 
@@ -67,7 +67,7 @@ namespace Scada.Server.Config
         public PathOptions PathOptions { get; private set; }
 
         /// <summary>
-        /// Gets the archives.
+        /// Gets the configuration of the archives.
         /// </summary>
         public List<ArchiveConfig> Archives { get; private set; }
 
@@ -131,7 +131,6 @@ namespace Scada.Server.Config
                         ModuleFileNames.Add(ScadaUtils.RemoveFileNameSuffixes(moduleElem.GetAttribute("fileName")));
                     }
                 }
-
 
                 errMsg = "";
                 return true;

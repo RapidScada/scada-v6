@@ -46,6 +46,7 @@ namespace Scada.Comm.Config
             DetailedLog = true;
         }
 
+
         /// <summary>
         /// Gets or sets the number of retries of the request in case of an error.
         /// </summary>
