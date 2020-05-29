@@ -5,6 +5,8 @@ VisualStudioVersion = 15.0.28307.1062
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ScadaCommCommon", "ScadaCommCommon\ScadaCommCommon.csproj", "{20911928-25D1-4E9B-A1D8-75E57B2F8814}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ScadaCommSvc", "ScadaCommSvc\ScadaCommSvc.csproj", "{300D114C-AE78-4DB8-9986-2B4B078FBA2D}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -15,6 +17,10 @@ Global
 		{20911928-25D1-4E9B-A1D8-75E57B2F8814}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{20911928-25D1-4E9B-A1D8-75E57B2F8814}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{20911928-25D1-4E9B-A1D8-75E57B2F8814}.Release|Any CPU.Build.0 = Release|Any CPU
+		{300D114C-AE78-4DB8-9986-2B4B078FBA2D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{300D114C-AE78-4DB8-9986-2B4B078FBA2D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{300D114C-AE78-4DB8-9986-2B4B078FBA2D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{300D114C-AE78-4DB8-9986-2B4B078FBA2D}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
