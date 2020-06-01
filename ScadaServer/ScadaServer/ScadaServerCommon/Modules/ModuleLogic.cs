@@ -38,36 +38,39 @@ namespace Scada.Server.Modules
     /// </summary>
     public abstract class ModuleLogic
     {
+        private IServerContext serverContext; // the server context
+
+
         /// <summary>
         /// Initializes a new instance of the class.
         /// </summary>
         public ModuleLogic()
         {
-            Config = null;
-            AppDirs = null;
+            serverContext = null;
             Log = null;
         }
 
 
         /// <summary>
-        /// Gets or sets the server configuration.
+        /// Gets or sets the module log.
         /// </summary>
-        public ServerConfig Config { get; set; }
+        protected ILog Log { get; set; }
 
         /// <summary>
-        /// Gets or sets the application directories.
+        /// Gets or sets the server context.
         /// </summary>
-        public ServerDirs AppDirs { get; set; }
-
-        /// <summary>
-        /// Gets or sets the application log.
-        /// </summary>
-        public ILog Log { get; set; }
-
-        /// <summary>
-        /// Gets or sets the server access object. May be IServerContext
-        /// </summary>
-        public IServerAccess ServerAccess { get; set; }
+        public IServerContext ServerContext
+        {
+            get
+            {
+                return serverContext;
+            }
+            set
+            {
+                serverContext = value ?? throw new ArgumentNullException();
+                Log = serverContext.Log;
+            }
+        }
 
         /// <summary>
         /// Gets the module code.
