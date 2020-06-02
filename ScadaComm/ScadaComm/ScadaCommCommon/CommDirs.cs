@@ -15,8 +15,8 @@
  * 
  * 
  * Product  : Rapid SCADA
- * Module   : ScadaServerCommon
- * Summary  : Represents directories of the Server application
+ * Module   : ScadaCommCommon
+ * Summary  : Represents directories of the Communicator application
  * 
  * Author   : Mikhail Shiryaev
  * Created  : 2015
@@ -25,28 +25,28 @@
 
 using System.IO;
 
-namespace Scada.Server
+namespace Scada.Comm
 {
     /// <summary>
-    /// Represents directories of the Server application.
-    /// <para>Представляет директории приложения Сервер.</para>
+    /// Represents directories of the Communicator application.
+    /// <para>Представляет директории приложения Коммуникатор.</para>
     /// </summary>
-    public class ServerDirs : AppDirs
+    public class CommDirs : AppDirs
     {
         /// <summary>
         /// Initializes a new instance of the class.
         /// </summary>
-        public ServerDirs()
+        public CommDirs()
             : base()
         {
-            ModDir = "";
+            DrvDir = "";
         }
 
 
         /// <summary>
-        /// Gets the directory of modules.
+        /// Gets the directory of drivers.
         /// </summary>
-        public string ModDir { get; protected set; }
+        public string DrvDir { get; protected set; }
 
 
         /// <summary>
@@ -55,7 +55,7 @@ namespace Scada.Server
         public override void Init(string exeDir)
         {
             base.Init(exeDir);
-            ModDir = ExeDir + "Mod" + Path.DirectorySeparatorChar;
+            DrvDir = ExeDir + "Drv" + Path.DirectorySeparatorChar;
         }
 
         /// <summary>
@@ -63,7 +63,7 @@ namespace Scada.Server
         /// </summary>
         public override string[] GetRequiredDirs()
         {
-            return new string[] { ConfigDir, LangDir, LogDir, ModDir, StorageDir };
+            return new string[] { CmdDir, ConfigDir, LangDir, LogDir, DrvDir, StorageDir };
         }
     }
 }

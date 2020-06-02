@@ -23,6 +23,7 @@
  * Modified : 2020
  */
 
+using Scada.Data.Models;
 using Scada.Protocol;
 using System;
 using System.Collections.Generic;
@@ -49,7 +50,7 @@ namespace Scada.Agent
         /// <summary>
         /// Sends the command to the service.
         /// </summary>
-        bool ControlService(ServiceApp serviceApp, ServiceCommand command);
+        bool ControlService(ServiceApp serviceApp, ServiceCommand cmd);
 
         /// <summary>
         /// Gets the current status of the specified service.
@@ -75,5 +76,10 @@ namespace Scada.Agent
         /// Reads the rest of the text file.
         /// </summary>
         bool ReadTextFile(RelativePath path, long offsetFromEnd, ref DateTime newerThan, out ICollection<string> lines);
+
+        /// <summary>
+        /// Sends the telecontrol command.
+        /// </summary>
+        void SendCommand(ServiceApp serviceApp, TeleCommand cmd);
     }
 }

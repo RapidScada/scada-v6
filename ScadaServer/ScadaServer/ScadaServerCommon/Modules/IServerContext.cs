@@ -27,8 +27,6 @@ using Scada.Data.Models;
 using Scada.Log;
 using Scada.Server.Config;
 using System;
-using System.Collections.Generic;
-using System.Text;
 
 namespace Scada.Server.Modules
 {
@@ -39,9 +37,9 @@ namespace Scada.Server.Modules
     public interface IServerContext
     {
         /// <summary>
-        /// Gets the tables of the configuration database.
+        /// Gets the configuration database cache.
         /// </summary>
-        object BaseTables { get; }
+        BaseDataSet BaseDataSet { get; }
 
         /// <summary>
         /// Gets the server configuration.
@@ -107,6 +105,6 @@ namespace Scada.Server.Modules
         /// <summary>
         /// Sends the telecontrol command.
         /// </summary>
-        void SendCommand(object cmd, out object result);
+        CommandResult SendCommand(TeleCommand cmd);
     }
 }

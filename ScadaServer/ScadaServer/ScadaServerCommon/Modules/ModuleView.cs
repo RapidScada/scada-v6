@@ -23,7 +23,9 @@
  * Modified : 2020
  */
 
+using Scada.Agent;
 using Scada.Client;
+using Scada.Data.Models;
 using Scada.Server.Archives;
 using Scada.Server.Config;
 
@@ -40,12 +42,19 @@ namespace Scada.Server.Modules
         /// </summary>
         public ModuleView()
         {
+            BaseDataSet = null;
             Config = null;
             AppDirs = null;
             ScadaClient = null;
+            AgentClient = null;
             CanShowProperties = false;
         }
 
+
+        /// <summary>
+        /// Gets the configuration database cache.
+        /// </summary>
+        public BaseDataSet BaseDataSet { get; }
 
         /// <summary>
         /// Gets or sets the server configuration.
@@ -58,9 +67,16 @@ namespace Scada.Server.Modules
         public ServerDirs AppDirs { get; set; }
 
         /// <summary>
-        /// Gets or sets the client.
+        /// Gets or sets the client to interact with the server.
         /// </summary>
+        /// <remarks>Null allowed.</remarks>
         public ScadaClient ScadaClient { get; set; }
+
+        /// <summary>
+        /// Gets or sets the client to interact with the agent.
+        /// </summary>
+        /// <remarks>Null allowed.</remarks>
+        public IAgentClient AgentClient { get; set; }
 
         /// <summary>
         /// Gets a value indicating whether the module can show a properties dialog box.
@@ -79,6 +95,14 @@ namespace Scada.Server.Modules
         public virtual bool CanCreateArchive(ArchiveKind kind)
         {
             return false;
+        }
+
+        /// <summary>
+        /// Creates a new archive user interface of the specified kind.
+        /// </summary>
+        public virtual ArchiveView CreateArchiveView(ArchiveKind kind)
+        {
+            return null;
         }
 
         /// <summary>

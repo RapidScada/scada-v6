@@ -1,5 +1,30 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <ScadaDataDictionaries>
+  <Dictionary key="Scada.ConfigBase">
+    <Phrase key="ArchiveTable">Archive</Phrase>
+    <Phrase key="CmdTypeTable">Command types</Phrase>
+    <Phrase key="CmdValTable">Command values</Phrase>
+    <Phrase key="CnlStatusTable">Channel statuses</Phrase>
+    <Phrase key="CnlTypeTable">Channel types</Phrase>
+    <Phrase key="CommLineTable">Communication lines</Phrase>
+    <Phrase key="DataTypeTable">Data types</Phrase>
+    <Phrase key="DeviceTable">Devices</Phrase>
+    <Phrase key="DevTypeTable">Device types</Phrase>
+    <Phrase key="FormatTable">Formats</Phrase>
+    <Phrase key="InCnlTable">Input channels</Phrase>
+    <Phrase key="LimTable">Limits</Phrase>
+    <Phrase key="ObjTable">Objects</Phrase>
+    <Phrase key="ObjRightTable">Object rights</Phrase>
+    <Phrase key="OutCnlTable">Output channels</Phrase>
+    <Phrase key="QuantityTable">Quantities</Phrase>
+    <Phrase key="RoleTable">Roles</Phrase>
+    <Phrase key="RoleRefTable">Role inheritance</Phrase>
+    <Phrase key="ScriptTable">Scripts</Phrase>
+    <Phrase key="UnitTable">Units</Phrase>
+    <Phrase key="UserTable">Users</Phrase>
+    <Phrase key="ViewTable">Views</Phrase>
+    <Phrase key="ViewTypeTable">View types</Phrase>
+  </Dictionary>
   <Dictionary key="Scada.Files">
     <Phrase key="FileNotFound">File not found.</Phrase>
     <Phrase key="NamedFileNotFound">File {0} not found.</Phrase>

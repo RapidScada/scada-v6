@@ -33,6 +33,31 @@ namespace Scada
     /// </summary>
     public static class CommonPhrases
     {
+        // Scada.ConfigBase
+        public static string ArchiveTable { get; private set; }
+        public static string CmdTypeTable { get; private set; }
+        public static string CmdValTable { get; private set; }
+        public static string CnlStatusTable { get; private set; }
+        public static string CnlTypeTable { get; private set; }
+        public static string CommLineTable { get; private set; }
+        public static string DataTypeTable { get; private set; }
+        public static string DeviceTable { get; private set; }
+        public static string DevTypeTable { get; private set; }
+        public static string FormatTable { get; private set; }
+        public static string InCnlTable { get; private set; }
+        public static string LimTable { get; private set; }
+        public static string ObjTable { get; private set; }
+        public static string ObjRightTable { get; private set; }
+        public static string OutCnlTable { get; private set; }
+        public static string QuantityTable { get; private set; }
+        public static string RoleTable { get; private set; }
+        public static string RoleRefTable { get; private set; }
+        public static string ScriptTable { get; private set; }
+        public static string UnitTable { get; private set; }
+        public static string UserTable { get; private set; }
+        public static string ViewTable { get; private set; }
+        public static string ViewTypeTable { get; private set; }
+
         // Scada.Files
         public static string FileNotFound { get; private set; }
         public static string NamedFileNotFound { get; private set; }
@@ -50,7 +75,32 @@ namespace Scada
 
         public static void Init()
         {
-            LocaleDict dict = Locale.GetDictionary("Scada.Format");
+            LocaleDict dict = Locale.GetDictionary("Scada.ConfigBase");
+            ArchiveTable = dict.GetPhrase("ArchiveTable");
+            CmdTypeTable = dict.GetPhrase("CmdTypeTable");
+            CmdValTable = dict.GetPhrase("CmdValTable");
+            CnlStatusTable = dict.GetPhrase("CnlStatusTable");
+            CnlTypeTable = dict.GetPhrase("CnlTypeTable");
+            CommLineTable = dict.GetPhrase("CommLineTable");
+            DataTypeTable = dict.GetPhrase("DataTypeTable");
+            DeviceTable = dict.GetPhrase("DeviceTable");
+            DevTypeTable = dict.GetPhrase("DevTypeTable");
+            FormatTable = dict.GetPhrase("FormatTable");
+            InCnlTable = dict.GetPhrase("InCnlTable");
+            LimTable = dict.GetPhrase("LimTable");
+            ObjTable = dict.GetPhrase("ObjTable");
+            ObjRightTable = dict.GetPhrase("ObjRightTable");
+            OutCnlTable = dict.GetPhrase("OutCnlTable");
+            QuantityTable = dict.GetPhrase("QuantityTable");
+            RoleTable = dict.GetPhrase("RoleTable");
+            RoleRefTable = dict.GetPhrase("RoleRefTable");
+            ScriptTable = dict.GetPhrase("ScriptTable");
+            UnitTable = dict.GetPhrase("UnitTable");
+            UserTable = dict.GetPhrase("UserTable");
+            ViewTable = dict.GetPhrase("ViewTable");
+            ViewTypeTable = dict.GetPhrase("ViewTypeTable");
+
+            dict = Locale.GetDictionary("Scada.Format");
             FileNotFound = dict.GetPhrase("FileNotFound");
             NamedFileNotFound = dict.GetPhrase("NamedFileNotFound");
             LoadAppConfigError = dict.GetPhrase("LoadAppConfigError");

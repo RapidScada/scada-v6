@@ -1,5 +1,30 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <ScadaDataDictionaries>
+  <Dictionary key="Scada.ConfigBase">
+    <Phrase key="ArchiveTable">Архивы</Phrase>
+    <Phrase key="CmdTypeTable">Типы команд</Phrase>
+    <Phrase key="CmdValTable">Значения команд</Phrase>
+    <Phrase key="CnlStatusTable">Статусы каналов</Phrase>
+    <Phrase key="CnlTypeTable">Типы каналов</Phrase>
+    <Phrase key="CommLineTable">Линии связи</Phrase>
+    <Phrase key="DataTypeTable">Типы данных</Phrase>
+    <Phrase key="DeviceTable">КП</Phrase>
+    <Phrase key="DevTypeTable">Типы КП</Phrase>
+    <Phrase key="FormatTable">Форматы</Phrase>
+    <Phrase key="InCnlTable">Входные каналы</Phrase>
+    <Phrase key="LimTable">Лимиты</Phrase>
+    <Phrase key="ObjTable">Объекты</Phrase>
+    <Phrase key="ObjRightTable">Права на объекты</Phrase>
+    <Phrase key="OutCnlTable">Каналы управления</Phrase>
+    <Phrase key="QuantityTable">Величины</Phrase>
+    <Phrase key="RoleTable">Роли</Phrase>
+    <Phrase key="RoleRefTable">Наследование ролей</Phrase>
+    <Phrase key="ScriptTable">Скрипты</Phrase>
+    <Phrase key="UnitTable">Размерности</Phrase>
+    <Phrase key="UserTable">Пользователи</Phrase>
+    <Phrase key="ViewTable">Представления</Phrase>
+    <Phrase key="ViewTypeTable">Типы представлений</Phrase>
+  </Dictionary>
   <Dictionary key="Scada.Files">
     <Phrase key="FileNotFound">Не найден файл.</Phrase>
     <Phrase key="NamedFileNotFound">Файл {0} не найден.</Phrase>
