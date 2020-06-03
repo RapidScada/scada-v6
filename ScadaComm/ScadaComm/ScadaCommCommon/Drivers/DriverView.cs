@@ -23,9 +23,11 @@
  * Modified : 2020
  */
 
-using System;
-using System.Collections.Generic;
-using System.Text;
+using Scada.Agent;
+using Scada.Client;
+using Scada.Comm.Channels;
+using Scada.Comm.Config;
+using Scada.Data.Models;
 
 namespace Scada.Comm.Drivers
 {
@@ -35,5 +37,93 @@ namespace Scada.Comm.Drivers
     /// </summary>
     public abstract class DriverView
     {
+        /// <summary>
+        /// Initializes a new instance of the class.
+        /// </summary>
+        public DriverView()
+        {
+            BaseDataSet = null;
+            AppConfig = null;
+            AppDirs = null;
+            ScadaClient = null;
+            AgentClient = null;
+            CanCreateChannel = false;
+            CanCreateDevice = false;
+            CanShowProperties = false;
+        }
+
+
+        /// <summary>
+        /// Gets or sets the configuration database cache.
+        /// </summary>
+        public BaseDataSet BaseDataSet { get; set; }
+
+        /// <summary>
+        /// Gets or sets the application configuration.
+        /// </summary>
+        /// <remarks>Do not modify the configuration.</remarks>
+        public CommConfig AppConfig { get; set; }
+
+        /// <summary>
+        /// Gets or sets the application directories.
+        /// </summary>
+        public CommDirs AppDirs { get; set; }
+
+        /// <summary>
+        /// Gets or sets the client to interact with the server.
+        /// </summary>
+        /// <remarks>Null allowed.</remarks>
+        public ScadaClient ScadaClient { get; set; }
+
+        /// <summary>
+        /// Gets or sets the client to interact with the agent.
+        /// </summary>
+        /// <remarks>Null allowed.</remarks>
+        public IAgentClient AgentClient { get; set; }
+
+        /// <summary>
+        /// Gets a value indicating whether the driver can create a communication channel.
+        /// </summary>
+        public bool CanCreateChannel { get; protected set; }
+
+        /// <summary>
+        /// Gets a value indicating whether the driver can create a device.
+        /// </summary>
+        public bool CanCreateDevice { get; protected set; }
+
+        /// <summary>
+        /// Gets a value indicating whether the driver can show a properties dialog box.
+        /// </summary>
+        public bool CanShowProperties { get; protected set; }
+
+        /// <summary>
+        /// Gets the driver description.
+        /// </summary>
+        public abstract string Descr { get; }
+
+
+        /// <summary>
+        /// Creates a new user interface of a communication channel.
+        /// </summary>
+        public virtual ChannelView CreateChannelView()
+        {
+            return null;
+        }
+
+        /// <summary>
+        /// Creates a new user interface of a device.
+        /// </summary>
+        public virtual DeviceView CreateDeviceView(int deviceNum)
+        {
+            return null;
+        }
+
+        /// <summary>
+        /// Shows a modal dialog box for editing driver properties.
+        /// </summary>
+        public virtual bool ShowProperties()
+        {
+            return false;
+        }
     }
 }

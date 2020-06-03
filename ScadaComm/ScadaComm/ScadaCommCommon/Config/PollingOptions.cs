@@ -38,11 +38,11 @@ namespace Scada.Comm.Config
         /// <summary>
         /// The default request timeout, ms.
         /// </summary>
-        public int DefaultTimeout = 1000;
+        public const int DefaultTimeout = 1000;
         /// <summary>
         /// The default delay after request, ms.
         /// </summary>
-        public int DefaultDelay = 200;
+        public const int DefaultDelay = 200;
 
         /// <summary>
         /// Initializes a new instance of the class.
@@ -132,6 +132,14 @@ namespace Scada.Comm.Config
             xmlElem.SetAttribute("period", Period);
             xmlElem.SetAttribute("cmdLine", CmdLine);
             CustomOptions.SaveToXml(xmlElem);
+        }
+
+        /// <summary>
+        /// Creates default polling options.
+        /// </summary>
+        public static PollingOptions CreateDefault()
+        {
+            return new PollingOptions(DefaultTimeout, DefaultDelay);
         }
     }
 }

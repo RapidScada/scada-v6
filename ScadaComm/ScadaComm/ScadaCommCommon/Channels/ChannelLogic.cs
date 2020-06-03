@@ -4,7 +4,7 @@ using System.Text;
 
 namespace Scada.Comm.Channels
 {
-    class ChannelLogic
+    public class ChannelLogic
     {
     }
 }

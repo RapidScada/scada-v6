@@ -16,7 +16,7 @@
  * 
  * Product  : Rapid SCADA
  * Module   : ScadaCommCommon
- * Summary  : Defines functionality to access the Communicator features
+ * Summary  : Defines functionality to access the communication line features
  * 
  * Author   : Mikhail Shiryaev
  * Created  : 2020
@@ -26,44 +26,36 @@
 using Scada.Comm.Config;
 using Scada.Data.Models;
 using Scada.Log;
+using System;
 using System.Collections.Generic;
+using System.Text;
 
 namespace Scada.Comm.Drivers
 {
     /// <summary>
-    /// Defines functionality to access the Communicator features.
-    /// <para>Определяет функциональность для доступа к функциям Коммуникатора.</para>
+    /// Defines functionality to access the communication line features.
+    /// <para>Определяет функциональность для доступа к функциям линии связи.</para>
     /// </summary>
-    public interface ICommContext
+    public interface ILineContext
     {
         /// <summary>
-        /// Gets the configuration database cache.
+        /// Gets the communication line configuration.
         /// </summary>
-        BaseDataSet BaseDataSet { get; }
+        LineConfig LineConfig { get; }
 
         /// <summary>
-        /// Gets the application configuration.
-        /// </summary>
-        CommConfig AppConfig { get; }
-
-        /// <summary>
-        /// Gets the application directories.
-        /// </summary>
-        CommDirs AppDirs { get; }
-
-        /// <summary>
-        /// Gets the application log.
+        /// Gets the communication line log.
         /// </summary>
         ILog Log { get; }
 
         /// <summary>
-        /// Gets the application level shared data.
+        /// Gets the shared data of the communication line.
         /// </summary>
         IDictionary<string, object> SharedData { get; }
 
 
         /// <summary>
-        /// Sends the telecontrol command to the current application.
+        /// Sends the telecontrol command to the current communication line.
         /// </summary>
         void SendCommand(TeleCommand cmd);
     }

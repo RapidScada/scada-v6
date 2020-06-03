@@ -51,12 +51,12 @@ namespace Scada.Comm.Config
 
 
         /// <summary>
-        /// Gets or sets a value indicating whether the line is active.
+        /// Gets or sets a value indicating whether the device is active.
         /// </summary>
         public bool Active { get; set; }
 
         /// <summary>
-        /// Gets or sets a value indicating whether the line is bound to the server.
+        /// Gets or sets a value indicating whether the device is bound to the server.
         /// </summary>
         public bool IsBound { get; set; }
 

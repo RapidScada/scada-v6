@@ -23,9 +23,9 @@
  * Modified : 2020
  */
 
+using Scada.Comm.Channels;
+using Scada.Log;
 using System;
-using System.Collections.Generic;
-using System.Text;
 
 namespace Scada.Comm.Drivers
 {
@@ -35,5 +35,74 @@ namespace Scada.Comm.Drivers
     /// </summary>
     public abstract class DriverLogic
     {
+        private ICommContext commContext; // the Communicator context
+
+
+        /// <summary>
+        /// Initializes a new instance of the class.
+        /// </summary>
+        public DriverLogic()
+        {
+            commContext = null;
+            Log = null;
+        }
+
+
+        /// <summary>
+        /// Gets or sets the driver log.
+        /// </summary>
+        protected ILog Log { get; set; }
+
+        /// <summary>
+        /// Gets or sets the Communicator context.
+        /// </summary>
+        public ICommContext CommContext
+        {
+            get
+            {
+                return commContext;
+            }
+            set
+            {
+                commContext = value ?? throw new ArgumentNullException();
+                Log = commContext.Log;
+            }
+        }
+
+        /// <summary>
+        /// Gets the driver code.
+        /// </summary>
+        public abstract string Code { get; }
+
+
+        /// <summary>
+        /// Creates a new communication channel.
+        /// </summary>
+        public virtual ChannelLogic CreateChannel()
+        {
+            return null;
+        }
+
+        /// <summary>
+        /// Creates a new device.
+        /// </summary>
+        public virtual DeviceLogic CreateDevice(int deviceNum)
+        {
+            return null;
+        }
+
+        /// <summary>
+        /// Performs actions when starting the service.
+        /// </summary>
+        public virtual void OnServiceStart()
+        {
+        }
+
+        /// <summary>
+        /// Performs actions when the service stops.
+        /// </summary>
+        public virtual void OnServiceStop()
+        {
+        }
     }
 }
