@@ -43,7 +43,7 @@ namespace Scada.Server.Modules
         public ModuleView()
         {
             BaseDataSet = null;
-            Config = null;
+            AppConfig = null;
             AppDirs = null;
             ScadaClient = null;
             AgentClient = null;
@@ -57,9 +57,10 @@ namespace Scada.Server.Modules
         public BaseDataSet BaseDataSet { get; }
 
         /// <summary>
-        /// Gets or sets the server configuration.
+        /// Gets or sets the application configuration.
         /// </summary>
-        public ServerConfig Config { get; set; }
+        /// <remarks>Do not modify the configuration.</remarks>
+        public ServerConfig AppConfig { get; set; }
 
         /// <summary>
         /// Gets or sets the application directories.

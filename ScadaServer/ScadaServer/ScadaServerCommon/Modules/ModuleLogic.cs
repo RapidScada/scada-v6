@@ -38,7 +38,7 @@ namespace Scada.Server.Modules
     /// </summary>
     public abstract class ModuleLogic
     {
-        private IServerContext serverContext; // the server context
+        private IServerContext appContext; // the application context
 
 
         /// <summary>
@@ -46,7 +46,7 @@ namespace Scada.Server.Modules
         /// </summary>
         public ModuleLogic()
         {
-            serverContext = null;
+            appContext = null;
             Log = null;
         }
 
@@ -57,18 +57,18 @@ namespace Scada.Server.Modules
         protected ILog Log { get; set; }
 
         /// <summary>
-        /// Gets or sets the server context.
+        /// Gets or sets the application context.
         /// </summary>
-        public IServerContext ServerContext
+        public IServerContext AppContext
         {
             get
             {
-                return serverContext;
+                return appContext;
             }
             set
             {
-                serverContext = value ?? throw new ArgumentNullException();
-                Log = serverContext.Log;
+                appContext = value ?? throw new ArgumentNullException();
+                Log = appContext.Log;
             }
         }
 
@@ -87,16 +87,16 @@ namespace Scada.Server.Modules
         }
 
         /// <summary>
-        /// Performs actions when starting the server.
+        /// Performs actions when starting the service.
         /// </summary>
-        public virtual void OnServerStart()
+        public virtual void OnServiceStart()
         {
         }
 
         /// <summary>
-        /// Performs actions when the server stops.
+        /// Performs actions when the service stops.
         /// </summary>
-        public virtual void OnServerStop()
+        public virtual void OnServiceStop()
         {
         }
     }

@@ -27,6 +27,7 @@ using Scada.Data.Models;
 using Scada.Log;
 using Scada.Server.Config;
 using System;
+using System.Collections.Generic;
 
 namespace Scada.Server.Modules
 {
@@ -42,9 +43,9 @@ namespace Scada.Server.Modules
         BaseDataSet BaseDataSet { get; }
 
         /// <summary>
-        /// Gets the server configuration.
+        /// Gets the application configuration.
         /// </summary>
-        ServerConfig Config { get; }
+        ServerConfig AppConfig { get; }
 
         /// <summary>
         /// Gets the application directories.
@@ -55,6 +56,11 @@ namespace Scada.Server.Modules
         /// Gets the application log.
         /// </summary>
         ILog Log { get; }
+
+        /// <summary>
+        /// Gets the application level shared data.
+        /// </summary>
+        IDictionary<string, object> SharedData { get; }
 
 
         /// <summary>
@@ -105,6 +111,6 @@ namespace Scada.Server.Modules
         /// <summary>
         /// Sends the telecontrol command.
         /// </summary>
-        CommandResult SendCommand(TeleCommand cmd);
+        void SendCommand(TeleCommand cmd);
     }
 }
