@@ -23,9 +23,6 @@
  * Modified : 2020
  */
 
-using Scada.Agent;
-using Scada.Client;
-using Scada.Data.Models;
 using Scada.Server.Archives;
 using Scada.Server.Config;
 
@@ -35,54 +32,23 @@ namespace Scada.Server.Modules
     /// Represents the base class for server module user interface.
     /// <para>Представляет базовый класс пользовательского интерфейса серверного модуля.</para>
     /// </summary>
-    public abstract class ModuleView
+    public abstract class ModuleView : LibraryView
     {
         /// <summary>
         /// Initializes a new instance of the class.
         /// </summary>
         public ModuleView()
+            : base()
         {
-            BaseDataSet = null;
             AppConfig = null;
-            AppDirs = null;
-            ScadaClient = null;
-            AgentClient = null;
-            CanShowProperties = false;
         }
 
-
-        /// <summary>
-        /// Gets the configuration database cache.
-        /// </summary>
-        public BaseDataSet BaseDataSet { get; }
 
         /// <summary>
         /// Gets or sets the application configuration.
         /// </summary>
         /// <remarks>Do not modify the configuration.</remarks>
         public ServerConfig AppConfig { get; set; }
-
-        /// <summary>
-        /// Gets or sets the application directories.
-        /// </summary>
-        public ServerDirs AppDirs { get; set; }
-
-        /// <summary>
-        /// Gets or sets the client to interact with the server.
-        /// </summary>
-        /// <remarks>Null allowed.</remarks>
-        public ScadaClient ScadaClient { get; set; }
-
-        /// <summary>
-        /// Gets or sets the client to interact with the agent.
-        /// </summary>
-        /// <remarks>Null allowed.</remarks>
-        public IAgentClient AgentClient { get; set; }
-
-        /// <summary>
-        /// Gets a value indicating whether the module can show a properties dialog box.
-        /// </summary>
-        public bool CanShowProperties { get; protected set; }
 
         /// <summary>
         /// Gets the module description.
@@ -104,14 +70,6 @@ namespace Scada.Server.Modules
         public virtual ArchiveView CreateArchiveView(ArchiveKind kind)
         {
             return null;
-        }
-
-        /// <summary>
-        /// Shows a modal dialog box for editing module properties.
-        /// </summary>
-        public virtual bool ShowProperties()
-        {
-            return false;
         }
     }
 }

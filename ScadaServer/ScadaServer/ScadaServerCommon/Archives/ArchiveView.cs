@@ -23,6 +23,7 @@
  * Modified : 2020
  */
 
+using Scada.Server.Config;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -33,7 +34,21 @@ namespace Scada.Server.Archives
     /// Represents the base class for archive user interface.
     /// <para>Представляет базовый класс пользовательского интерфейса архива.</para>
     /// </summary>
-    public abstract class ArchiveView
+    public abstract class ArchiveView : LibraryView
     {
+        /// <summary>
+        /// Initializes a new instance of the class.
+        /// </summary>
+        public ArchiveView()
+            : base()
+        {
+            AppConfig = null;
+        }
+
+        /// <summary>
+        /// Gets or sets the application configuration.
+        /// </summary>
+        /// <remarks>Do not modify the configuration.</remarks>
+        public ServerConfig AppConfig { get; set; }
     }
 }
