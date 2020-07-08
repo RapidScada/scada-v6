@@ -79,6 +79,8 @@ namespace Scada.Server.Engine
         private DateTime startDT;              // the local start time
         private WorkState workState;           // the work state
         private ServerListener listener;       // the TCP listener
+        private ArchiveHolder archiveHolder;   // holds archives
+        private ModuleHolder moduleHolder;     // holds modules
 
 
         /// <summary>
@@ -97,6 +99,8 @@ namespace Scada.Server.Engine
             startDT = DateTime.MinValue;
             workState = WorkState.Undefined;
             listener = null;
+            archiveHolder = null;
+            moduleHolder = null;
         }
 
 
@@ -110,6 +114,8 @@ namespace Scada.Server.Engine
             startDT = utcStartDT.ToLocalTime();
             workState = WorkState.Normal;
             listener = new ServerListener(this, config.ListenerOptions, log);
+            archiveHolder = new ArchiveHolder();
+            moduleHolder = new ModuleHolder();
             WriteInfo();
         }
 
