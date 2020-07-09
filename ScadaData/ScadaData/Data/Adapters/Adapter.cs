@@ -15,38 +15,42 @@
  * 
  * 
  * Product  : Rapid SCADA
- * Module   : ScadaServerEngine
- * Summary  : Holds archives classified by archive kinds
+ * Module   : ScadaData
+ * Summary  : Represents a mechanism to read data from a source and write data to the source
  * 
  * Author   : Mikhail Shiryaev
  * Created  : 2020
  * Modified : 2020
  */
 
-using Scada.Server.Archives;
-using System.Collections.Generic;
+using System.IO;
 
-namespace Scada.Server.Engine
+namespace Scada.Data.Adapters
 {
     /// <summary>
-    /// Holds archives classified by archive kinds.
-    /// <para>Содержит архивы, классифицированные по видам.</para>
+    /// Represents a mechanism to read data from a source and write data to the source.
+    /// <para>Представляет механизм для чтения данных из источника и записи данных в источник.</para>
     /// </summary>
-    internal class ArchiveHolder
+    public abstract class Adapter
     {
         /// <summary>
-        /// Gets the current archives.
+        /// Initializes a new instance of the class.
         /// </summary>
-        public List<CurrentArchiveLogic> CurrentArchives { get; private set; }
+        public Adapter()
+        {
+            FileName = "";
+            Stream = null;
+        }
+
 
         /// <summary>
-        /// Gets the historical archives.
+        /// Gets or sets the table file name.
         /// </summary>
-        public List<HistoricalArchiveLogic> HistoricalArchives { get; private set; }
+        public string FileName { get; set; }
 
         /// <summary>
-        /// Gets the event archives.
+        /// Gets or sets the input and output stream.
         /// </summary>
-        public List<EventArchiveLogic> EventArchives { get; private set; }
+        public Stream Stream { get; set; }
     }
 }

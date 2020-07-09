@@ -24,6 +24,7 @@
  */
 
 using System;
+using System.IO;
 using System.Xml;
 
 namespace Scada.Server.Config
@@ -76,6 +77,32 @@ namespace Scada.Server.Config
         /// </summary>
         public string ViewDir { get; set; }
 
+
+        /// <summary>
+        /// Checks that the directories exist.
+        /// </summary>
+        public bool CheckExistence(out string errMsg)
+        {
+            if (Directory.Exists(ArcDir) &&
+                Directory.Exists(ArcCopyDir) &&
+                Directory.Exists(BaseDir) &&
+                Directory.Exists(ViewDir))
+            {
+                errMsg = "";
+                return true;
+            }
+            else
+            {
+                errMsg = (Locale.IsRussian ?
+                    "Директории данных не существуют:" :
+                    "Data directories do not exist:") + Environment.NewLine +
+                    ArcDir + Environment.NewLine +
+                    ArcCopyDir + Environment.NewLine +
+                    BaseDir + Environment.NewLine +
+                    ViewDir;
+                return false;
+            }
+        }
 
         /// <summary>
         /// Loads the options from the XML node.

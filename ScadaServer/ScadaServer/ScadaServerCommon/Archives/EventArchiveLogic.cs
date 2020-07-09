@@ -23,9 +23,9 @@
  * Modified : 2020
  */
 
+using Scada.Data.Models;
 using System;
 using System.Collections.Generic;
-using System.Text;
 
 namespace Scada.Server.Archives
 {
@@ -35,5 +35,29 @@ namespace Scada.Server.Archives
     /// </summary>
     public abstract class EventArchiveLogic : ArchiveLogic
     {
+        /// <summary>
+        /// Gets the event by ID.
+        /// </summary>
+        public abstract Event GetEvent(long eventID);
+
+        /// <summary>
+        /// Gets the events.
+        /// </summary>
+        public abstract ICollection<Event> GetEvents(DateTime startTime, DateTime endTime, object filter, object range);
+
+        /// <summary>
+        /// Writes the event.
+        /// </summary>
+        public abstract void WriteEvent(Event ev);
+
+        /// <summary>
+        /// Acknowledges the event.
+        /// </summary>
+        public abstract void AckEvent(long eventID, DateTime timestamp, int userID);
+
+        /// <summary>
+        /// Deletes the outdates data from the archive.
+        /// </summary>
+        public abstract void DeleteOutdatedData();
     }
 }

@@ -23,9 +23,8 @@
  * Modified : 2020
  */
 
-using System;
+using Scada.Data.Models;
 using System.Collections.Generic;
-using System.Text;
 
 namespace Scada.Server.Archives
 {
@@ -35,5 +34,14 @@ namespace Scada.Server.Archives
     /// </summary>
     public abstract class CurrentArchiveLogic : ArchiveLogic
     {
+        /// <summary>
+        /// Gets the slice of the specified input channels.
+        /// </summary>
+        public abstract Slice GetSlice(IList<int> cnlNums);
+
+        /// <summary>
+        /// Writes the slice of current data.
+        /// </summary>
+        public abstract void WriteSlice(Slice slice);
     }
 }

@@ -23,9 +23,9 @@
  * Modified : 2020
  */
 
+using Scada.Data.Models;
 using System;
 using System.Collections.Generic;
-using System.Text;
 
 namespace Scada.Server.Archives
 {
@@ -35,5 +35,29 @@ namespace Scada.Server.Archives
     /// </summary>
     public abstract class HistoricalArchiveLogic : ArchiveLogic
     {
+        /// <summary>
+        /// Gets the trend of the specified input channel.
+        /// </summary>
+        public abstract Trend GetTrend(int cnlNum, DateTime startTime, DateTime endTime);
+
+        /// <summary>
+        /// Gets the trends of the specified input channels.
+        /// </summary>
+        public abstract TrendBundle GetTrends(IList<int> cnlNums, DateTime startTime, DateTime endTime);
+
+        /// <summary>
+        /// Gets the slice of the specified input channels at the timestamp.
+        /// </summary>
+        public abstract Slice GetSlice(IList<int> cnlNums, DateTime timestamp);
+
+        /// <summary>
+        /// Writes the slice of data.
+        /// </summary>
+        public abstract void WriteSlice(Slice slice);
+
+        /// <summary>
+        /// Deletes the outdates data from the archive.
+        /// </summary>
+        public abstract void DeleteOutdatedData();
     }
 }

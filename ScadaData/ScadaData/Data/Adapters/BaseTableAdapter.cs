@@ -15,38 +15,36 @@
  * 
  * 
  * Product  : Rapid SCADA
- * Module   : ScadaServerEngine
- * Summary  : Holds archives classified by archive kinds
+ * Module   : ScadaData
+ * Summary  : Represents a mechanism to read and write the configuration database tables
  * 
  * Author   : Mikhail Shiryaev
  * Created  : 2020
  * Modified : 2020
  */
 
-using Scada.Server.Archives;
-using System.Collections.Generic;
+using Scada.Data.Tables;
 
-namespace Scada.Server.Engine
+namespace Scada.Data.Adapters
 {
     /// <summary>
-    /// Holds archives classified by archive kinds.
-    /// <para>Содержит архивы, классифицированные по видам.</para>
+    /// Represents a mechanism to read and write the configuration database tables.
+    /// <para>Представляет механизм для чтения и записи таблиц базы конфигурации.</para>
     /// </summary>
-    internal class ArchiveHolder
+    public class BaseTableAdapter : Adapter
     {
         /// <summary>
-        /// Gets the current archives.
+        /// Fills the specified table by reading data from the configuration database.
         /// </summary>
-        public List<CurrentArchiveLogic> CurrentArchives { get; private set; }
+        public void Fill(IBaseTable baseTable)
+        {
+        }
 
         /// <summary>
-        /// Gets the historical archives.
+        /// Updates the configuration database by writing data of the specified table.
         /// </summary>
-        public List<HistoricalArchiveLogic> HistoricalArchives { get; private set; }
-
-        /// <summary>
-        /// Gets the event archives.
-        /// </summary>
-        public List<EventArchiveLogic> EventArchives { get; private set; }
+        public void Update(IBaseTable baseTable)
+        {
+        }
     }
 }

@@ -104,7 +104,7 @@ namespace Scada.Server.Engine
                 "Сервер {0} запущен" :
                 "Server {0} started", ServerUtils.AppVersion));
 
-            if (AppDirs.Exist)
+            if (AppDirs.CheckExistence(out errMsg))
             {
                 LocalizeApp(AppDirs.LangDir);
                 string configFileName = AppDirs.ConfigDir + ServerConfig.DefaultFileName;
@@ -123,10 +123,7 @@ namespace Scada.Server.Engine
             }
             else
             {
-                log.WriteError(string.Format(Locale.IsRussian ?
-                    "Необходимые директории не существуют:{0}{1}" :
-                    "The required directories do not exist:{0}{1}",
-                    Environment.NewLine, string.Join(Environment.NewLine, AppDirs.GetRequiredDirs())));
+                log.WriteError(errMsg);
             }
 
             log.WriteError(Locale.IsRussian ?

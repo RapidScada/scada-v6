@@ -23,6 +23,7 @@
  * Modified : 2020
  */
 
+using System;
 using System.IO;
 
 namespace Scada
@@ -100,6 +101,26 @@ namespace Scada
             }
         }
 
+
+        /// <summary>
+        /// Checks that the directories exist.
+        /// </summary>
+        public bool CheckExistence(out string errMsg)
+        {
+            if (Exist)
+            {
+                errMsg = "";
+                return true;
+            }
+            else
+            {
+                errMsg = string.Format(Locale.IsRussian ?
+                    "Директории приложения не существуют:{0}{1}" :
+                    "Application directories do not exist:{0}{1}",
+                    Environment.NewLine, string.Join(Environment.NewLine, GetRequiredDirs()));
+                return false;
+            }
+        }
 
         /// <summary>
         /// Initializes the directories based on the directory of the executable file.

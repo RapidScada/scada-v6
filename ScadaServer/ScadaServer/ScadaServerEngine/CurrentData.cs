@@ -16,7 +16,7 @@
  * 
  * Product  : Rapid SCADA
  * Module   : ScadaServerEngine
- * Summary  : Defines functionality of an event archive
+ * Summary  : Represents current data of the input channels
  * 
  * Author   : Mikhail Shiryaev
  * Created  : 2020
@@ -25,45 +25,45 @@
 
 using Scada.Data.Models;
 using System;
-using System.Collections.Generic;
 
 namespace Scada.Server.Engine
 {
     /// <summary>
-    /// Defines functionality of an event archive.
-    /// <para>Определяет функциональность архива событий.</para>
+    /// Represents current data of the input channels.
+    /// <para>Представляет текущие данные входных каналов.</para>
     /// </summary>
-    public interface IEventArchive
+    internal class CurrentData
     {
         /// <summary>
-        /// Gets the required cleanup period for outdated data.
+        /// Initializes a new instance of the class.
         /// </summary>
-        TimeSpan CleanupPeriod { get; }
+        public CurrentData(int cnlCnt)
+        {
+            CurCnlData = new CnlData[cnlCnt];
+            PrevCnlData = new CnlData[cnlCnt];
+            CurTimestamps = new DateTime[cnlCnt];
+            PrevTimestamps = new DateTime[cnlCnt];
+        }
 
+        
+        /// <summary>
+        /// Gets the current channel data.
+        /// </summary>
+        public CnlData[] CurCnlData { get; private set; }
+        
+        /// <summary>
+        /// Gets the previous channel data.
+        /// </summary>
+        public CnlData[] PrevCnlData { get; private set; }
 
         /// <summary>
-        /// Gets the event by ID.
+        /// Gets the timestamps of the current channel data.
         /// </summary>
-        Event GetEvent(long eventID);
+        public DateTime[] CurTimestamps { get; private set; }
 
         /// <summary>
-        /// Gets the events.
+        /// Gets the timestamps of the previous channel data.
         /// </summary>
-        ICollection<Event> GetEvents(DateTime startTime, DateTime endTime, object filter, object range);
-
-        /// <summary>
-        /// Writes the event.
-        /// </summary>
-        void WriteEvent(Event ev);
-
-        /// <summary>
-        /// Acknowledges the event.
-        /// </summary>
-        void AckEvent(long eventID, DateTime timestamp, int userID);
-
-        /// <summary>
-        /// Deletes the outdates data from the archive.
-        /// </summary>
-        void DeleteOutdatedData();
+        public DateTime[] PrevTimestamps { get; private set; }
     }
 }

@@ -15,7 +15,7 @@
  * 
  * 
  * Product  : Rapid SCADA
- * Module   : ScadaServerCommon
+ * Module   : ScadaServerEngine
  * Summary  : Holds active modules and helps to call their methods
  * 
  * Author   : Mikhail Shiryaev
@@ -23,7 +23,9 @@
  * Modified : 2020
  */
 
+using Scada.Log;
 using Scada.Server.Modules;
+using System;
 using System.Collections.Generic;
 
 namespace Scada.Server.Engine
@@ -34,9 +36,69 @@ namespace Scada.Server.Engine
     /// </summary>
     internal class ModuleHolder
     {
+        private static readonly string ErrorInModule = Locale.IsRussian ?
+            "Error calling the {0} method of the {1} module" :
+            "Ошибка при вызове метода {0} модуля {1}";
+
+        private readonly ILog log; // the application log
+
+
+        /// <summary>
+        /// Initializes a new instance of the class.
+        /// </summary>
+        public ModuleHolder(ILog log)
+        {
+            this.log = log ?? throw new ArgumentNullException("log");
+            Modules = new List<ModuleLogic>();
+        }
+
+
         /// <summary>
         /// Gets the modules.
         /// </summary>
         public List<ModuleLogic> Modules { get; private set; }
+
+
+        /// <summary>
+        /// Calls the OnServiceStart method of the modules.
+        /// </summary>
+        public void CallOnServiceStart()
+        {
+            lock (Modules)
+            {
+                foreach (ModuleLogic moduleLogic in Modules)
+                {
+                    try
+                    {
+                        moduleLogic.OnServiceStart();
+                    }
+                    catch (Exception ex)
+                    {
+                        log.WriteException(ex, ErrorInModule, "OnServiceStart", moduleLogic.Code);
+                    }
+                }
+            }
+        }
+
+        /// <summary>
+        /// Calls the OnServiceStop method of the modules.
+        /// </summary>
+        public void CallOnServiceStop()
+        {
+            lock (Modules)
+            {
+                foreach (ModuleLogic moduleLogic in Modules)
+                {
+                    try
+                    {
+                        moduleLogic.OnServiceStop();
+                    }
+                    catch (Exception ex)
+                    {
+                        log.WriteException(ex, ErrorInModule, "OnServiceStop", moduleLogic.Code);
+                    }
+                }
+            }
+        }
     }
 }

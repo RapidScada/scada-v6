@@ -23,6 +23,10 @@
  * Modified : 2020
  */
 
+using Scada.Data.Adapters;
+using Scada.Data.Entities;
+using Scada.Data.Models;
+using Scada.Data.Tables;
 using Scada.Log;
 using Scada.Server.Config;
 using System;
@@ -48,6 +52,14 @@ namespace Scada.Server.Engine
             Normal = 1,
             Error = 2,
             Terminated = 3
+        }
+
+        /// <summary>
+        /// Represents metadata about an input channel.
+        /// </summary>
+        private class InCnlTag
+        {
+            public InCnl InCnl { get; set; }
         }
 
 
@@ -79,6 +91,9 @@ namespace Scada.Server.Engine
         private DateTime startDT;              // the local start time
         private WorkState workState;           // the work state
         private ServerListener listener;       // the TCP listener
+        private BaseDataSet baseDataSet;       // the configuration database
+        private List<InCnlTag> inCnlTags;      // the metadata about the input channels
+        private CurrentData currentData;       // the current data of the input channels
         private ArchiveHolder archiveHolder;   // holds archives
         private ModuleHolder moduleHolder;     // holds modules
 
@@ -99,6 +114,9 @@ namespace Scada.Server.Engine
             startDT = DateTime.MinValue;
             workState = WorkState.Undefined;
             listener = null;
+            baseDataSet = null;
+            inCnlTags = null;
+            currentData = null;
             archiveHolder = null;
             moduleHolder = null;
         }
@@ -114,9 +132,44 @@ namespace Scada.Server.Engine
             startDT = utcStartDT.ToLocalTime();
             workState = WorkState.Normal;
             listener = new ServerListener(this, config.ListenerOptions, log);
+            baseDataSet = new BaseDataSet();
             archiveHolder = new ArchiveHolder();
-            moduleHolder = new ModuleHolder();
+            moduleHolder = new ModuleHolder(log);
             WriteInfo();
+        }
+
+        /// <summary>
+        /// Reads the configuration database from files.
+        /// </summary>
+        private bool ReadBase()
+        {
+            string tableName = Locale.IsRussian ? "неопределено" : "undefined";
+
+            try
+            {
+                BaseTableAdapter adapter = new BaseTableAdapter();
+
+                foreach (IBaseTable baseTable in baseDataSet.AllTables)
+                {
+                    tableName = baseTable.Name;
+                    adapter.FileName = Path.Combine(config.PathOptions.BaseDir, tableName.ToLowerInvariant() + ".dat");
+                    adapter.Fill(baseTable);
+                }
+
+                log.WriteAction(string.Format(Locale.IsRussian ?
+                    "База конфигурации считана успешно. Количество активных входных каналов: {0}" :
+                    "The configuration database has been read successfully. Number of active input channels: {0}",
+                    baseDataSet.InCnlTable.ItemCount));
+
+                return true;
+            }
+            catch (Exception ex)
+            {
+                log.WriteException(ex, Locale.IsRussian ?
+                    "Error reading the configuration database. Table name is {0}" :
+                    "Ошибка при чтении базы конфигурации. Имя таблицы {0}", tableName);
+                return false;
+            }
         }
 
         /// <summary>
@@ -127,6 +180,10 @@ namespace Scada.Server.Engine
             try
             {
                 DateTime writeInfoDT = DateTime.MinValue; // the timestamp of writing application info
+                moduleHolder.CallOnServiceStart();
+
+                int cnlCnt = baseDataSet.InCnlTable.ItemCount;
+                currentData = new CurrentData(cnlCnt);
 
                 while (!terminated)
                 {
@@ -158,6 +215,7 @@ namespace Scada.Server.Engine
             }
             finally
             {
+                moduleHolder.CallOnServiceStop();
                 workState = WorkState.Terminated;
                 WriteInfo();
             }
@@ -230,10 +288,16 @@ namespace Scada.Server.Engine
                         "Start logic processing");
                     PrepareProcessing();
 
-                    if (listener.Start())
+                    if (config.PathOptions.CheckExistence(out string errMsg) &&
+                        ReadBase() &&
+                        listener.Start())
                     {
                         thread = new Thread(Execute);
                         thread.Start();
+                    }
+                    else if (!string.IsNullOrEmpty(errMsg))
+                    {
+                        log.WriteError(errMsg);
                     }
                 }
                 else
