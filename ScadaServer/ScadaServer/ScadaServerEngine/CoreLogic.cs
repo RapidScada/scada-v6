@@ -80,22 +80,23 @@ namespace Scada.Server.Engine
         /// </summary>
         private static readonly string[] WorkStateNamesRu = { "не определено", "норма", "ошибка", "завершено" };
 
-        private readonly ServerConfig config;  // the server configuration
-        private readonly ServerDirs appDirs;   // the application directories
-        private readonly ILog log;             // the application log
-        private readonly string infoFileName;  // the full file name to write application information
+        private readonly ServerConfig config; // the server configuration
+        private readonly ServerDirs appDirs;  // the application directories
+        private readonly ILog log;            // the application log
+        private readonly string infoFileName; // the full file name to write application information
 
-        private Thread thread;                 // the working thread of the logic
-        private volatile bool terminated;      // necessary to stop the thread
-        private DateTime utcStartDT;           // the UTC start time
-        private DateTime startDT;              // the local start time
-        private WorkState workState;           // the work state
-        private ServerListener listener;       // the TCP listener
-        private BaseDataSet baseDataSet;       // the configuration database
-        private List<InCnlTag> inCnlTags;      // the metadata about the input channels
-        private CurrentData currentData;       // the current data of the input channels
-        private ArchiveHolder archiveHolder;   // holds archives
-        private ModuleHolder moduleHolder;     // holds modules
+        private Thread thread;                // the working thread of the logic
+        private volatile bool terminated;     // necessary to stop the thread
+        private DateTime utcStartDT;          // the UTC start time
+        private DateTime startDT;             // the local start time
+        private WorkState workState;          // the work state
+
+        private ServerListener listener;      // the TCP listener
+        private ModuleHolder moduleHolder;    // holds modules
+        private ArchiveHolder archiveHolder;  // holds archives
+        private BaseDataSet baseDataSet;      // the configuration database
+        private List<InCnlTag> cnlTags;       // the metadata about the input channels
+        private CurrentData curData;          // the current data of the input channels
 
 
         /// <summary>
@@ -113,29 +114,58 @@ namespace Scada.Server.Engine
             utcStartDT = DateTime.MinValue;
             startDT = DateTime.MinValue;
             workState = WorkState.Undefined;
+
             listener = null;
-            baseDataSet = null;
-            inCnlTags = null;
-            currentData = null;
-            archiveHolder = null;
             moduleHolder = null;
+            archiveHolder = null;
+            baseDataSet = null;
+            cnlTags = null;
+            curData = null;
         }
 
 
         /// <summary>
         /// Prepares the logic processing.
         /// </summary>
-        private void PrepareProcessing()
+        private bool PrepareProcessing(out string errMsg)
         {
+            errMsg = "";
             terminated = false;
             utcStartDT = DateTime.UtcNow;
             startDT = utcStartDT.ToLocalTime();
             workState = WorkState.Normal;
-            listener = new ServerListener(this, config.ListenerOptions, log);
-            baseDataSet = new BaseDataSet();
-            archiveHolder = new ArchiveHolder();
-            moduleHolder = new ModuleHolder(log);
             WriteInfo();
+
+            if (!config.PathOptions.CheckExistence(out errMsg))
+                return false;
+
+            InitModules();
+            InitArchives();
+
+            if (!ReadBase())
+                return false;
+
+            InitCnlTags();
+            curData = new CurrentData(cnlTags.Count);
+
+            listener = new ServerListener(this, config.ListenerOptions, log);
+            return true;
+        }
+
+        /// <summary>
+        /// Initializes modules.
+        /// </summary>
+        private void InitModules()
+        {
+            moduleHolder = new ModuleHolder(log);
+        }
+
+        /// <summary>
+        /// Initializes archives.
+        /// </summary>
+        private void InitArchives()
+        {
+            archiveHolder = new ArchiveHolder(log);
         }
 
         /// <summary>
@@ -147,6 +177,7 @@ namespace Scada.Server.Engine
 
             try
             {
+                baseDataSet = new BaseDataSet();
                 BaseTableAdapter adapter = new BaseTableAdapter();
 
                 foreach (IBaseTable baseTable in baseDataSet.AllTables)
@@ -156,10 +187,9 @@ namespace Scada.Server.Engine
                     adapter.Fill(baseTable);
                 }
 
-                log.WriteAction(string.Format(Locale.IsRussian ?
-                    "База конфигурации считана успешно. Количество активных входных каналов: {0}" :
-                    "The configuration database has been read successfully. Number of active input channels: {0}",
-                    baseDataSet.InCnlTable.ItemCount));
+                log.WriteAction(Locale.IsRussian ?
+                    "База конфигурации считана успешно" :
+                    "The configuration database has been read successfully");
 
                 return true;
             }
@@ -173,6 +203,29 @@ namespace Scada.Server.Engine
         }
 
         /// <summary>
+        /// Initializes metadata about the input channels.
+        /// </summary>
+        private void InitCnlTags()
+        {
+            cnlTags = new List<InCnlTag>();
+
+            foreach (InCnl inCnl in baseDataSet.InCnlTable.EnumerateItems())
+            {
+                if (inCnl.Active)
+                {
+                    cnlTags.Add(new InCnlTag
+                    {
+                        InCnl = inCnl
+                    });
+                }
+            }
+
+            log.WriteInfo(string.Format(Locale.IsRussian ?
+                "Количество активных входных каналов: {0}" :
+                "Number of active input channels: {0}", cnlTags.Count));
+        }
+
+        /// <summary>
         /// Work cycle running in a separate thread.
         /// </summary>
         private void Execute()
@@ -181,9 +234,6 @@ namespace Scada.Server.Engine
             {
                 DateTime writeInfoDT = DateTime.MinValue; // the timestamp of writing application info
                 moduleHolder.CallOnServiceStart();
-
-                int cnlCnt = baseDataSet.InCnlTable.ItemCount;
-                currentData = new CurrentData(cnlCnt);
 
                 while (!terminated)
                 {
@@ -286,10 +336,8 @@ namespace Scada.Server.Engine
                     log.WriteAction(Locale.IsRussian ?
                         "Запуск обработки логики" :
                         "Start logic processing");
-                    PrepareProcessing();
-
-                    if (config.PathOptions.CheckExistence(out string errMsg) &&
-                        ReadBase() &&
+                    
+                    if (PrepareProcessing(out string errMsg) && 
                         listener.Start())
                     {
                         thread = new Thread(Execute);

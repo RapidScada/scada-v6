@@ -23,7 +23,9 @@
  * Modified : 2020
  */
 
+using Scada.Log;
 using Scada.Server.Archives;
+using System;
 using System.Collections.Generic;
 
 namespace Scada.Server.Engine
@@ -34,6 +36,21 @@ namespace Scada.Server.Engine
     /// </summary>
     internal class ArchiveHolder
     {
+        private readonly ILog log; // the application log
+
+
+        /// <summary>
+        /// Initializes a new instance of the class.
+        /// </summary>
+        public ArchiveHolder(ILog log)
+        {
+            this.log = log ?? throw new ArgumentNullException("log");
+            CurrentArchives = new List<CurrentArchiveLogic>();
+            HistoricalArchives = new List<HistoricalArchiveLogic>();
+            EventArchives = new List<EventArchiveLogic>();
+        }
+
+
         /// <summary>
         /// Gets the current archives.
         /// </summary>
