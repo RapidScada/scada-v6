@@ -246,7 +246,6 @@ namespace Scada.Server.Engine
                         {
                             writeInfoDT = utcNow;
                             WriteInfo();
-                            log.WriteAction("Iteration...");
                         }
 
                         Thread.Sleep(ScadaUtils.ThreadDelay);
