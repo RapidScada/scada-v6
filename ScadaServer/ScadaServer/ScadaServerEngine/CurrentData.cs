@@ -65,5 +65,18 @@ namespace Scada.Server.Engine
         /// Gets the timestamps of the previous channel data.
         /// </summary>
         public DateTime[] PrevTimestamps { get; private set; }
+
+
+        /// <summary>
+        /// Sets the current data of the channel.
+        /// </summary>
+        public void SetData(DateTime nowDT, int cnlIndex, CnlData cnlData)
+        {
+            PrevTimestamps[cnlIndex] = CurTimestamps[cnlIndex];
+            PrevCnlData[cnlIndex] = CurCnlData[cnlIndex];
+
+            CurTimestamps[cnlIndex] = nowDT;
+            CurCnlData[cnlIndex] = cnlData;
+        }
     }
 }

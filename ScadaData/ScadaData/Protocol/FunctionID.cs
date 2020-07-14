@@ -44,6 +44,12 @@ namespace Scada.Protocol
         public const ushort DownloadFile = 0x0102;
         public const ushort UploadFile = 0x0103;
 
+        public const ushort GetCurrentData = 0x0201;
+        public const ushort GetTrends = 0x0202;
+        public const ushort GetSlices = 0x0203;
+        public const ushort WriteCurrentData = 0x0204;
+        public const ushort WriteArchiveData = 0x0205;
+
         private static readonly Dictionary<ushort, string> FunctionNames = new Dictionary<ushort, string>
         {
             { GetSessionInfo, "GetSessionInfo" },
@@ -52,7 +58,12 @@ namespace Scada.Protocol
             { TerminateSession, "TerminateSession" },
             { GetFileInfo, "GetFileInfo" },
             { DownloadFile, "DownloadFile" },
-            { UploadFile, "UploadFile" }
+            { UploadFile, "UploadFile" },
+            { GetCurrentData, "GetCurrentData" },
+            { GetTrends, "GetTrends" },
+            { GetSlices, "GetSlices" },
+            { WriteCurrentData, "WriteCurrentData" },
+            { WriteArchiveData, "WriteArchiveData" }
         };
 
         /// <summary>

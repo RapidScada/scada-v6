@@ -642,7 +642,7 @@ namespace Scada.Server
         {
             if (clients.TryRemove(client.SessionID, out ConnectedClient value))
             {
-                ResponsePacket response = new ResponsePacket(request, client.OutBuf) { ArgumentLength = 0 };
+                ResponsePacket response = new ResponsePacket(request, client.OutBuf);
                 response.Encode();
                 client.SendResponse(response);
                 DisconnectClient(value);
@@ -873,7 +873,7 @@ namespace Scada.Server
                 throw;
             }
 
-            response = new ResponsePacket(request, client.OutBuf) { ArgumentLength = 0 };
+            response = new ResponsePacket(request, client.OutBuf);
             response.Encode();
         }
 
@@ -939,7 +939,7 @@ namespace Scada.Server
         }
 
         /// <summary>
-        /// Processes an incoming request by a derived class.
+        /// Processes the incoming request by a derived class.
         /// </summary>
         protected virtual void ProcessCustomRequest(ConnectedClient client, DataPacket request, 
             out ResponsePacket response, out bool handled)

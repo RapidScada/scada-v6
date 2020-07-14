@@ -59,6 +59,7 @@ namespace Scada.Server.Engine
         /// </summary>
         private class InCnlTag
         {
+            public int Index { get; set; }
             public InCnl InCnl { get; set; }
         }
 
@@ -91,12 +92,12 @@ namespace Scada.Server.Engine
         private DateTime startDT;             // the local start time
         private WorkState workState;          // the work state
 
-        private ServerListener listener;      // the TCP listener
-        private ModuleHolder moduleHolder;    // holds modules
-        private ArchiveHolder archiveHolder;  // holds archives
-        private BaseDataSet baseDataSet;      // the configuration database
-        private List<InCnlTag> cnlTags;       // the metadata about the input channels
-        private CurrentData curData;          // the current data of the input channels
+        private ServerListener listener;           // the TCP listener
+        private ModuleHolder moduleHolder;         // holds modules
+        private ArchiveHolder archiveHolder;       // holds archives
+        private BaseDataSet baseDataSet;           // the configuration database
+        private Dictionary<int, InCnlTag> cnlTags; // the metadata about the input channels accessed by channel numbers
+        private CurrentData curData;               // the current data of the input channels
 
 
         /// <summary>
@@ -121,6 +122,18 @@ namespace Scada.Server.Engine
             baseDataSet = null;
             cnlTags = null;
             curData = null;
+        }
+
+
+        /// <summary>
+        /// Gets a value indicating whether the server is ready.
+        /// </summary>
+        public bool IsReady
+        {
+            get
+            {
+                return thread != null;
+            }
         }
 
 
@@ -207,14 +220,16 @@ namespace Scada.Server.Engine
         /// </summary>
         private void InitCnlTags()
         {
-            cnlTags = new List<InCnlTag>();
+            cnlTags = new Dictionary<int, InCnlTag>();
+            int index = 0;
 
             foreach (InCnl inCnl in baseDataSet.InCnlTable.EnumerateItems())
             {
                 if (inCnl.Active)
                 {
-                    cnlTags.Add(new InCnlTag
+                    cnlTags.Add(inCnl.CnlNum, new InCnlTag
                     {
+                        Index = index++,
                         InCnl = inCnl
                     });
                 }
@@ -422,6 +437,57 @@ namespace Scada.Server.Engine
                 log.WriteException(ex, Locale.IsRussian ?
                     "Ошибка при остановке обработки логики" :
                     "Error stopping logic processing");
+            }
+        }
+
+        /// <summary>
+        /// Gets the current data.
+        /// </summary>
+        public CnlData[] GetCurrentData(int cnlSetID, out bool cnlSetFound)
+        {
+            cnlSetFound = false;
+            return new CnlData[0];
+        }
+
+        /// <summary>
+        /// Gets the current data.
+        /// </summary>
+        public CnlData[] GetCurrentData(int[] cnlNums, bool useCache, out int cnlSetID)
+        {
+            cnlSetID = 0;
+            return new CnlData[0];
+        }
+
+        /// <summary>
+        /// Writes the current data.
+        /// </summary>
+        public void WriteCurrentData(int deviceNum, int[] cnlNums, CnlData[] cnlData)
+        {
+            if (cnlNums == null)
+                throw new ArgumentNullException("cnlNums");
+            if (cnlData == null)
+                throw new ArgumentNullException("cnlData");
+
+            try
+            {
+                lock (curData)
+                {
+                    DateTime utcNow = DateTime.UtcNow;
+
+                    for (int i = 0, cnlCnt = cnlNums.Length; i < cnlCnt; i++)
+                    {
+                        if (cnlTags.TryGetValue(cnlNums[i], out InCnlTag cnlTag))
+                        {
+                            curData.SetData(utcNow, cnlTag.Index, cnlData[i]);
+                        }
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                log.WriteException(ex, Locale.IsRussian ?
+                    "Ошибка при записи текущих данных" :
+                    "Error writing the current data");
             }
         }
     }

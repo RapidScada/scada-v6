@@ -23,6 +23,7 @@
  * Modified : 2020
  */
 
+using Scada.Data.Models;
 using System;
 using System.Net.Sockets;
 using System.Text;
@@ -75,7 +76,7 @@ namespace Scada.Protocol
         }
 
         /// <summary>
-        /// Gets the string from the buffer.
+        /// Gets a string from the buffer.
         /// </summary>
         public static string GetString(byte[] buffer, int startIndex, out int endIndex)
         {
@@ -96,7 +97,7 @@ namespace Scada.Protocol
         }
 
         /// <summary>
-        /// Gets the date and time from the buffer.
+        /// Gets date and time from the buffer.
         /// </summary>
         public static DateTime GetTime(byte[] buffer, int startIndex, out int endIndex)
         {
@@ -112,6 +113,56 @@ namespace Scada.Protocol
         {
             BitConverter.GetBytes(directoryID).CopyTo(buffer, startIndex);
             CopyString(path, buffer, startIndex + 2, out endIndex);
+        }
+
+        /// <summary>
+        /// Encodes and copies the array of integers to the buffer.
+        /// </summary>
+        public static void CopyIntArray(int[] srcArray, byte[] buffer, int startIndex, out int endIndex)
+        {
+            int arrayLength = srcArray.Length;
+            BitConverter.GetBytes(arrayLength).CopyTo(buffer, startIndex);
+            Buffer.BlockCopy(srcArray, 0, buffer, startIndex + 4, arrayLength);
+            endIndex = startIndex + arrayLength * 4 + 4;
+        }
+
+        /// <summary>
+        /// Gets an array of integers from the buffer.
+        /// </summary>
+        public static int[] GetIntArray(byte[] buffer, int startIndex, out int endIndex)
+        {
+            int arrayLength = BitConverter.ToInt32(buffer, startIndex);
+            int dataLength = arrayLength * 4;
+            startIndex += 4;
+            endIndex = startIndex + dataLength;
+
+            if (arrayLength > 0)
+            {
+                int[] array = new int[arrayLength];
+                Buffer.BlockCopy(buffer, startIndex, array, 0, dataLength);
+                return array;
+            }
+            else
+            {
+                return new int[0];
+            }
+        }
+
+        /// <summary>
+        /// Encodes and copies the channel data array to the buffer.
+        /// </summary>
+        public static void CopyCnlDataArray(CnlData[] srcArray, byte[] buffer, int startIndex, out int endIndex)
+        {
+            BitConverter.GetBytes(srcArray.Length).CopyTo(buffer, startIndex);
+            endIndex = startIndex + 4;
+
+            foreach (CnlData cnlData in srcArray)
+            {
+                BitConverter.GetBytes(cnlData.Val).CopyTo(buffer, endIndex);
+                endIndex += 8;
+                BitConverter.GetBytes(cnlData.Stat).CopyTo(buffer, endIndex);
+                endIndex += 4;
+            }
         }
 
         /// <summary>

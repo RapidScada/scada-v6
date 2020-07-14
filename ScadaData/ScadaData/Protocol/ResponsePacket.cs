@@ -42,7 +42,7 @@ namespace Scada.Protocol
                 throw new ArgumentNullException("request");
 
             TransactionID = request.TransactionID;
-            DataLength = 0;
+            DataLength = 10; // no arguments
             SessionID = request.SessionID;
             FunctionID = request.FunctionID;
             Buffer = buffer;
