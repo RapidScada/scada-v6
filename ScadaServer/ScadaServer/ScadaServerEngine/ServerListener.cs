@@ -57,27 +57,24 @@ namespace Scada.Server.Engine
         {
             byte[] buffer = request.Buffer;
             int index = ArgumentIndex;
-            int cnlSetID = BitConverter.ToInt32(buffer, index);
+            int cnlListID = BitConverter.ToInt32(buffer, index);
             CnlData[] cnlData;
-            bool cnlSetFound;
 
-            if (cnlSetID > 0)
+            if (cnlListID > 0)
             {
-                cnlData = coreLogic.GetCurrentData(cnlSetID, out cnlSetFound);
+                cnlData = coreLogic.GetCurrentData(cnlListID);
             }
             else
             {
                 int[] cnlNums = GetIntArray(buffer, index + 8, out index);
                 bool useCache = buffer[index] > 0;
-                cnlData = coreLogic.GetCurrentData(cnlNums, useCache, out cnlSetID);
-                cnlSetFound = true;
+                cnlData = coreLogic.GetCurrentData(cnlNums, useCache, out cnlListID);
             }
 
             byte[] outBuf = client.OutBuf;
             response = new ResponsePacket(request, outBuf);
-            BitConverter.GetBytes(cnlSetID).CopyTo(outBuf, ArgumentIndex);
-            outBuf[ArgumentIndex + 4] = (byte)(cnlSetFound ? 1 : 0);
-            CopyCnlDataArray(cnlData, outBuf, ArgumentIndex + 5, out index);
+            BitConverter.GetBytes(cnlData == null ? 0 : cnlListID).CopyTo(outBuf, ArgumentIndex);
+            CopyCnlDataArray(cnlData, outBuf, ArgumentIndex + 4, out index);
             response.BufferLength = index;
             response.Encode();
         }

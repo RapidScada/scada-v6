@@ -120,9 +120,12 @@ namespace Scada.Protocol
         /// </summary>
         public static void CopyIntArray(int[] srcArray, byte[] buffer, int startIndex, out int endIndex)
         {
-            int arrayLength = srcArray.Length;
+            int arrayLength = srcArray == null ? 0 : srcArray.Length;
             BitConverter.GetBytes(arrayLength).CopyTo(buffer, startIndex);
-            Buffer.BlockCopy(srcArray, 0, buffer, startIndex + 4, arrayLength);
+
+            if (srcArray != null)
+                Buffer.BlockCopy(srcArray, 0, buffer, startIndex + 4, arrayLength);
+
             endIndex = startIndex + arrayLength * 4 + 4;
         }
 
@@ -153,15 +156,19 @@ namespace Scada.Protocol
         /// </summary>
         public static void CopyCnlDataArray(CnlData[] srcArray, byte[] buffer, int startIndex, out int endIndex)
         {
-            BitConverter.GetBytes(srcArray.Length).CopyTo(buffer, startIndex);
+            int arrayLength = srcArray == null ? 0 : srcArray.Length;
+            BitConverter.GetBytes(arrayLength).CopyTo(buffer, startIndex);
             endIndex = startIndex + 4;
 
-            foreach (CnlData cnlData in srcArray)
+            if (srcArray != null)
             {
-                BitConverter.GetBytes(cnlData.Val).CopyTo(buffer, endIndex);
-                endIndex += 8;
-                BitConverter.GetBytes(cnlData.Stat).CopyTo(buffer, endIndex);
-                endIndex += 4;
+                foreach (CnlData cnlData in srcArray)
+                {
+                    BitConverter.GetBytes(cnlData.Val).CopyTo(buffer, endIndex);
+                    endIndex += 8;
+                    BitConverter.GetBytes(cnlData.Stat).CopyTo(buffer, endIndex);
+                    endIndex += 4;
+                }
             }
         }
 

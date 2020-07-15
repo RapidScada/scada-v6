@@ -54,15 +54,6 @@ namespace Scada.Server.Engine
             Terminated = 3
         }
 
-        /// <summary>
-        /// Represents metadata about an input channel.
-        /// </summary>
-        private class InCnlTag
-        {
-            public int Index { get; set; }
-            public InCnl InCnl { get; set; }
-        }
-
 
         /// <summary>
         /// The waiting time to stop the thread, ms.
@@ -92,12 +83,13 @@ namespace Scada.Server.Engine
         private DateTime startDT;             // the local start time
         private WorkState workState;          // the work state
 
-        private ServerListener listener;           // the TCP listener
-        private ModuleHolder moduleHolder;         // holds modules
-        private ArchiveHolder archiveHolder;       // holds archives
-        private BaseDataSet baseDataSet;           // the configuration database
-        private Dictionary<int, InCnlTag> cnlTags; // the metadata about the input channels accessed by channel numbers
-        private CurrentData curData;               // the current data of the input channels
+        private ServerListener listener;         // the TCP listener
+        private ModuleHolder moduleHolder;       // holds modules
+        private ArchiveHolder archiveHolder;     // holds archives
+        private BaseDataSet baseDataSet;         // the configuration database
+        private Dictionary<int, CnlTag> cnlTags; // the metadata about the input channels accessed by channel numbers
+        private CurrentData curData;             // the current data of the input channels
+        private ServerCache serverCache;         // the server level cache
 
 
         /// <summary>
@@ -122,6 +114,7 @@ namespace Scada.Server.Engine
             baseDataSet = null;
             cnlTags = null;
             curData = null;
+            serverCache = null;
         }
 
 
@@ -161,6 +154,7 @@ namespace Scada.Server.Engine
             InitCnlTags();
             curData = new CurrentData(cnlTags.Count);
 
+            serverCache = new ServerCache();
             listener = new ServerListener(this, config.ListenerOptions, log);
             return true;
         }
@@ -220,19 +214,13 @@ namespace Scada.Server.Engine
         /// </summary>
         private void InitCnlTags()
         {
-            cnlTags = new Dictionary<int, InCnlTag>();
+            cnlTags = new Dictionary<int, CnlTag>();
             int index = 0;
 
             foreach (InCnl inCnl in baseDataSet.InCnlTable.EnumerateItems())
             {
                 if (inCnl.Active)
-                {
-                    cnlTags.Add(inCnl.CnlNum, new InCnlTag
-                    {
-                        Index = index++,
-                        InCnl = inCnl
-                    });
-                }
+                    cnlTags.Add(inCnl.CnlNum, new CnlTag(index++, inCnl));
             }
 
             log.WriteInfo(string.Format(Locale.IsRussian ?
@@ -443,19 +431,84 @@ namespace Scada.Server.Engine
         /// <summary>
         /// Gets the current data.
         /// </summary>
-        public CnlData[] GetCurrentData(int cnlSetID, out bool cnlSetFound)
+        public CnlData[] GetCurrentData(int cnlListID)
         {
-            cnlSetFound = false;
-            return new CnlData[0];
+            CnlData[] cnlDataArr = null;
+
+            try
+            {
+                CnlListItem cnlListItem = serverCache.CnlListCache.Get(cnlListID);
+
+                if (cnlListItem != null)
+                {
+                    int cnlCnt = cnlListItem.CnlTags.Count;
+                    cnlDataArr = new CnlData[cnlCnt];
+
+                    for (int i = 0; i < cnlCnt; i++)
+                    {
+                        CnlTag cnlTag = cnlListItem.CnlTags[i];
+                        cnlDataArr[i] = curData.CurCnlData[cnlTag.Index];
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                log.WriteException(ex, Locale.IsRussian ?
+                    "Ошибка при получении текущих данных" :
+                    "Error getting current data");
+            }
+
+            return cnlDataArr;
         }
 
         /// <summary>
         /// Gets the current data.
         /// </summary>
-        public CnlData[] GetCurrentData(int[] cnlNums, bool useCache, out int cnlSetID)
+        public CnlData[] GetCurrentData(int[] cnlNums, bool useCache, out int cnlListID)
         {
-            cnlSetID = 0;
-            return new CnlData[0];
+            if (cnlNums == null)
+                throw new ArgumentNullException("cnlNums");
+
+            int cnlCnt = cnlNums.Length;
+            CnlData[] cnlDataArr = new CnlData[cnlCnt];
+            cnlListID = 0;
+
+            try
+            {
+                CnlListItem cnlListItem = null;
+
+                if (useCache)
+                {
+                    // TODO: get ID
+                    cnlListItem = new CnlListItem(cnlListID, cnlCnt);
+                    serverCache.CnlListCache.Add(cnlListID, cnlListItem);
+                }
+
+                lock (curData)
+                {
+                    for (int i = 0; i < cnlCnt; i++)
+                    {
+                        if (cnlTags.TryGetValue(cnlNums[i], out CnlTag cnlTag))
+                        {
+                            cnlDataArr[i] = curData.CurCnlData[cnlTag.Index];
+                            cnlListItem?.CnlTags.Add(cnlTag);
+                        }
+                        else
+                        {
+                            cnlDataArr[i] = CnlData.Empty;
+                            cnlListItem?.CnlTags.Add(new CnlTag(-1, null));
+                        }
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                log.WriteException(ex, Locale.IsRussian ?
+                    "Ошибка при получении текущих данных" :
+                    "Error getting current data");
+            }
+
+            return cnlDataArr;
         }
 
         /// <summary>
@@ -476,7 +529,7 @@ namespace Scada.Server.Engine
 
                     for (int i = 0, cnlCnt = cnlNums.Length; i < cnlCnt; i++)
                     {
-                        if (cnlTags.TryGetValue(cnlNums[i], out InCnlTag cnlTag))
+                        if (cnlTags.TryGetValue(cnlNums[i], out CnlTag cnlTag))
                         {
                             curData.SetData(utcNow, cnlTag.Index, cnlData[i]);
                         }
@@ -487,7 +540,7 @@ namespace Scada.Server.Engine
             {
                 log.WriteException(ex, Locale.IsRussian ?
                     "Ошибка при записи текущих данных" :
-                    "Error writing the current data");
+                    "Error writing current data");
             }
         }
     }
