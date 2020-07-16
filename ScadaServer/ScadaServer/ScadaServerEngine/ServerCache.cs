@@ -23,6 +23,8 @@
  * Modified : 2020
  */
 
+using System;
+
 namespace Scada.Server.Engine
 {
     /// <summary>
@@ -32,16 +34,33 @@ namespace Scada.Server.Engine
     internal class ServerCache
     {
         /// <summary>
+        /// Determines how long a channel list is stored in the cache.
+        /// </summary>
+        private static readonly TimeSpan CnlListExpiration = TimeSpan.FromMinutes(1);
+
+        private long maxCnlListID; // the maximum channel list ID
+
+
+        /// <summary>
         /// Initializes a new instance of the class.
         /// </summary>
         public ServerCache()
         {
-            CnlListCache = new MemoryCache<int, CnlListItem>();
+            maxCnlListID = 0;
+            CnlListCache = new MemoryCache<long, CnlListItem>(CnlListExpiration);
         }
 
         /// <summary>
         /// Gets the cache containing channel lists accessed by list IDs.
         /// </summary>
-        public MemoryCache<int, CnlListItem> CnlListCache { get; private set; }
+        public MemoryCache<long, CnlListItem> CnlListCache { get; private set; }
+
+        /// <summary>
+        /// Gets the next channel list ID.
+        /// </summary>
+        public long GetNextCnlListID()
+        {
+            return ++maxCnlListID;
+        }
     }
 }

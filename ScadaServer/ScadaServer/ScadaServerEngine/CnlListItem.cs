@@ -36,7 +36,7 @@ namespace Scada.Server.Engine
         /// <summary>
         /// Initializes a new instance of the class.
         /// </summary>
-        public CnlListItem(int cnlListID, int capacity)
+        public CnlListItem(long cnlListID, int capacity)
         {
             CnlListID = cnlListID;
             CnlTags = new List<CnlTag>(capacity);
@@ -46,7 +46,7 @@ namespace Scada.Server.Engine
         /// <summary>
         /// Gets the channel list ID.
         /// </summary>
-        public int CnlListID { get; private set; }
+        public long CnlListID { get; private set; }
 
         /// <summary>
         /// Gets the input channel tags.

@@ -429,9 +429,19 @@ namespace Scada.Server.Engine
         }
 
         /// <summary>
+        /// Validates the username and password.
+        /// </summary>
+        public bool ValidateUser(string username, string password, out int roleID, out string errMsg)
+        {
+            roleID = 0;
+            errMsg = "";
+            return true;
+        }
+
+        /// <summary>
         /// Gets the current data.
         /// </summary>
-        public CnlData[] GetCurrentData(int cnlListID)
+        public CnlData[] GetCurrentData(long cnlListID)
         {
             CnlData[] cnlDataArr = null;
 
@@ -464,7 +474,7 @@ namespace Scada.Server.Engine
         /// <summary>
         /// Gets the current data.
         /// </summary>
-        public CnlData[] GetCurrentData(int[] cnlNums, bool useCache, out int cnlListID)
+        public CnlData[] GetCurrentData(int[] cnlNums, bool useCache, out long cnlListID)
         {
             if (cnlNums == null)
                 throw new ArgumentNullException("cnlNums");
@@ -479,7 +489,7 @@ namespace Scada.Server.Engine
 
                 if (useCache)
                 {
-                    // TODO: get ID
+                    cnlListID = serverCache.GetNextCnlListID();
                     cnlListItem = new CnlListItem(cnlListID, cnlCnt);
                     serverCache.CnlListCache.Add(cnlListID, cnlListItem);
                 }

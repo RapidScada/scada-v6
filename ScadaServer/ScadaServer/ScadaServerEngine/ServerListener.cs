@@ -23,6 +23,7 @@
  * Modified : 2020
  */
 
+using Scada.Data.Const;
 using Scada.Data.Models;
 using Scada.Log;
 using Scada.Protocol;
@@ -57,7 +58,7 @@ namespace Scada.Server.Engine
         {
             byte[] buffer = request.Buffer;
             int index = ArgumentIndex;
-            int cnlListID = BitConverter.ToInt32(buffer, index);
+            long cnlListID = BitConverter.ToInt64(buffer, index);
             CnlData[] cnlData;
 
             if (cnlListID > 0)
@@ -74,7 +75,7 @@ namespace Scada.Server.Engine
             byte[] outBuf = client.OutBuf;
             response = new ResponsePacket(request, outBuf);
             BitConverter.GetBytes(cnlData == null ? 0 : cnlListID).CopyTo(outBuf, ArgumentIndex);
-            CopyCnlDataArray(cnlData, outBuf, ArgumentIndex + 4, out index);
+            CopyCnlDataArray(cnlData, outBuf, ArgumentIndex + 8, out index);
             response.BufferLength = index;
             response.Encode();
         }
@@ -130,13 +131,50 @@ namespace Scada.Server.Engine
         protected override bool ValidateUser(ConnectedClient client, string username, string password, string instance,
             out int roleID, out string errMsg)
         {
-            // TODO: only the application role is acceptable
-            client.IsLoggedIn = true;
-            client.Username = username;
+            if (coreLogic.ValidateUser(username, password, out roleID, out errMsg))
+            {
+                if (client.IsLoggedIn)
+                {
+                    log.WriteAction(string.Format(Locale.IsRussian ?
+                        "Проверка имени и пароля пользователя {0} успешна" :
+                        "Checking username and password of the user {0} is successful", username));
+                    return true;
+                }
+                else if (roleID == RoleID.Application)
+                {
+                    log.WriteAction(string.Format(Locale.IsRussian ?
+                        "Пользователь {0} успешно аутентифицирован" :
+                        "The user {0} is successfully authenticated", username));
 
-            roleID = 0;
-            errMsg = "";
-            return true;
+                    client.IsLoggedIn = true;
+                    client.Username = username;
+                    return true;
+                }
+                else
+                {
+                    log.WriteAction(string.Format(Locale.IsRussian ?
+                        "Пользователь {0} имеет недостаточно прав. Требуется роль Приложение" :
+                        "The user {0} has insufficient rights. The Application role required", username));
+                    return false;
+                }
+            }
+            else
+            {
+                if (client.IsLoggedIn)
+                {
+                    log.WriteAction(string.Format(Locale.IsRussian ?
+                        "Проверка имени и пароля пользователя {0} с отрицательным результатом" :
+                        "Checking username and password of the user {0} is not successful", username));
+                    return false;
+                }
+                else
+                {
+                    log.WriteAction(string.Format(Locale.IsRussian ?
+                        "Неудачная попытка аутентификации пользователя {0}" :
+                        "Unsuccessful attempt to authenticate the user {0}", username));
+                    return false;
+                }
+            }
         }
 
         /// <summary>
