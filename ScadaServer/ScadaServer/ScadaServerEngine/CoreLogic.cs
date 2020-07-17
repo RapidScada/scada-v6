@@ -24,6 +24,7 @@
  */
 
 using Scada.Data.Adapters;
+using Scada.Data.Const;
 using Scada.Data.Entities;
 using Scada.Data.Models;
 using Scada.Data.Tables;
@@ -88,6 +89,7 @@ namespace Scada.Server.Engine
         private ArchiveHolder archiveHolder;     // holds archives
         private BaseDataSet baseDataSet;         // the configuration database
         private Dictionary<int, CnlTag> cnlTags; // the metadata about the input channels accessed by channel numbers
+        private Dictionary<string, User> users;  // the users accessed by names
         private CurrentData curData;             // the current data of the input channels
         private ServerCache serverCache;         // the server level cache
 
@@ -113,6 +115,7 @@ namespace Scada.Server.Engine
             archiveHolder = null;
             baseDataSet = null;
             cnlTags = null;
+            users = null;
             curData = null;
             serverCache = null;
         }
@@ -152,8 +155,9 @@ namespace Scada.Server.Engine
                 return false;
 
             InitCnlTags();
-            curData = new CurrentData(cnlTags.Count);
+            InitUsers();
 
+            curData = new CurrentData(cnlTags.Count);
             serverCache = new ServerCache();
             listener = new ServerListener(this, config.ListenerOptions, log);
             return true;
@@ -226,6 +230,19 @@ namespace Scada.Server.Engine
             log.WriteInfo(string.Format(Locale.IsRussian ?
                 "Количество активных входных каналов: {0}" :
                 "Number of active input channels: {0}", cnlTags.Count));
+        }
+
+        /// <summary>
+        /// Initializes the user dictionary.
+        /// </summary>
+        private void InitUsers()
+        {
+            users = new Dictionary<string, User>(baseDataSet.UserTable.ItemCount);
+
+            foreach (User user in baseDataSet.UserTable.EnumerateItems())
+            {
+                users[user.Name.ToLowerInvariant()] = user;
+            }
         }
 
         /// <summary>
@@ -433,9 +450,23 @@ namespace Scada.Server.Engine
         /// </summary>
         public bool ValidateUser(string username, string password, out int roleID, out string errMsg)
         {
-            roleID = 0;
-            errMsg = "";
-            return true;
+            try
+            {
+                // TODO: check user
+                roleID = RoleID.Administrator;
+                errMsg = "";
+                return true;
+            }
+            catch (Exception ex)
+            {
+                roleID = RoleID.Disabled;
+                errMsg = Locale.IsRussian ?
+                    "Ошибка при проверке пользователя" :
+                    "Error validating user";
+
+                log.WriteException(ex, errMsg);
+                return false;
+            }
         }
 
         /// <summary>

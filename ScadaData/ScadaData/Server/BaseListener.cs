@@ -435,6 +435,14 @@ namespace Scada.Server
 
             try
             {
+                // check whether the client is logged in
+                if (!client.IsLoggedIn && FunctionID.RequiresLoggedIn(request.FunctionID))
+                {
+                    throw new ProtocolException(ErrorCode.AccessDenied, Locale.IsRussian ?
+                        "Требуется вход в систему." :
+                        "Login required.");
+                }
+
                 // process standard request
                 bool handled = true; // request was handled
 
@@ -480,8 +488,9 @@ namespace Scada.Server
 
                     if (!handled)
                     {
-                        response = new ResponsePacket(request, client.OutBuf);
-                        response.SetError(ErrorCode.IllegalFunction);
+                        throw new ProtocolException(ErrorCode.IllegalFunction, Locale.IsRussian ?
+                            "Недопустимая функция." :
+                            "Illegal function.");
                     }
                 }
             }

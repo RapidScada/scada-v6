@@ -74,5 +74,13 @@ namespace Scada.Protocol
             return FunctionNames.TryGetValue(functionID, out string name) ?
                 name : "Unknown";
         }
+
+        /// <summary>
+        /// Determines whether the function requires a client to be logged in.
+        /// </summary>
+        public static bool RequiresLoggedIn(uint functionID)
+        {
+            return functionID > TerminateSession;
+        }
     }
 }
