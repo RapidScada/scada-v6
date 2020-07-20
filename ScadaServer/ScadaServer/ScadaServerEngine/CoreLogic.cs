@@ -224,7 +224,19 @@ namespace Scada.Server.Engine
             foreach (InCnl inCnl in baseDataSet.InCnlTable.EnumerateItems())
             {
                 if (inCnl.Active)
-                    cnlTags.Add(inCnl.CnlNum, new CnlTag(index++, inCnl));
+                {
+                    int cnlNum = inCnl.CnlNum;
+                    cnlTags.Add(cnlNum, new CnlTag(index++, inCnl));
+
+                    // add channel tags if one channel row defines multiple channels
+                    if (inCnl.DataLen > 1)
+                    {
+                        for (int i = 1, cnt = inCnl.DataLen.Value; i < cnt; i++)
+                        {
+                            cnlTags.Add(++cnlNum, new CnlTag(index++, inCnl));
+                        }
+                    }
+                }
             }
 
             log.WriteInfo(string.Format(Locale.IsRussian ?

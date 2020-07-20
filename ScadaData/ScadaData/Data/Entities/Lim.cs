@@ -38,6 +38,12 @@ namespace Scada.Data.Entities
     {
         public int LimID { get; set; }
 
+        public string Name { get; set; }
+
+        public bool IsBoundToCnl { get; set; }
+
+        public bool IsShared { get; set; }
+
         public double? LoLo { get; set; }
 
         public double? Low { get; set; }
