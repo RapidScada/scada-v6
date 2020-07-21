@@ -22,6 +22,10 @@ namespace Scada
         /// </summary>
         private static readonly byte[] DefaultIV = new byte[IVSize] {
             0xA5, 0x5C, 0x5A, 0x7B, 0x40, 0xD4, 0x2D, 0x33, 0xA4, 0x6F, 0xF7, 0x84, 0x94, 0x1C, 0x47, 0x85 };
+        /// <summary>
+        /// The password hash salt.
+        /// </summary>
+        private const string PasswordSalt = "aEGnwn3CCSFdth7kNXc3";
 
         /// <summary>
         /// The secret key size in bytes.
@@ -166,6 +170,19 @@ namespace Scada
             {
                 alg?.Clear();
             }
+        }
+
+        /// <summary>
+        /// Gets the password hash.
+        /// </summary>
+        public static string GetPasswordHash(int itemKey, string password)
+        {
+            if (string.IsNullOrEmpty(password))
+                return "";
+
+            string hash1 = ComputeHash(password);
+            string hash2 = ComputeHash(BitConverter.GetBytes(itemKey));
+            return ComputeHash(hash1 + hash2 + PasswordSalt);
         }
     }
 }

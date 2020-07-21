@@ -219,21 +219,22 @@ namespace Scada.Server.Engine
         private void InitCnlTags()
         {
             cnlTags = new Dictionary<int, CnlTag>();
+            int cnlNum = 0;
             int index = 0;
 
             foreach (InCnl inCnl in baseDataSet.InCnlTable.EnumerateItems())
             {
-                if (inCnl.Active)
+                if (inCnl.Active && inCnl.CnlNum >= cnlNum)
                 {
-                    int cnlNum = inCnl.CnlNum;
-                    cnlTags.Add(cnlNum, new CnlTag(index++, inCnl));
+                    cnlNum = inCnl.CnlNum;
+                    cnlTags.Add(cnlNum++, new CnlTag(index++, inCnl));
 
                     // add channel tags if one channel row defines multiple channels
                     if (inCnl.DataLen > 1)
                     {
                         for (int i = 1, cnt = inCnl.DataLen.Value; i < cnt; i++)
                         {
-                            cnlTags.Add(++cnlNum, new CnlTag(index++, inCnl));
+                            cnlTags.Add(cnlNum++, new CnlTag(index++, inCnl));
                         }
                     }
                 }
@@ -464,10 +465,41 @@ namespace Scada.Server.Engine
         {
             try
             {
-                // TODO: check user
-                roleID = RoleID.Administrator;
-                errMsg = "";
-                return true;
+                if (string.IsNullOrEmpty(username) || string.IsNullOrEmpty(password))
+                {
+                    roleID = RoleID.Disabled;
+                    errMsg = Locale.IsRussian ?
+                        "Имя пользователя или пароль не может быть пустым" :
+                        "Username or password can not be empty";
+                    return false;
+                }
+
+                if (users.TryGetValue(username.ToLowerInvariant(), out User user) &&
+                    user.Password == ScadaUtils.GetPasswordHash(user.UserID, password))
+                {
+                    roleID = user.RoleID;
+
+                    if (roleID > RoleID.Disabled)
+                    {
+                        errMsg = "";
+                        return true;
+                    }
+                    else
+                    {
+                        errMsg = Locale.IsRussian ?
+                            "Пользователь отключен" :
+                            "Account is disabled";
+                        return false;
+                    }
+                }
+                else
+                {
+                    roleID = RoleID.Disabled;
+                    errMsg = Locale.IsRussian ?
+                        "Неверное имя пользователя или пароль" :
+                        "Invalid username or password";
+                    return false;
+                }
             }
             catch (Exception ex)
             {

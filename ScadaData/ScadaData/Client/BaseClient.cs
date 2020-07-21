@@ -466,7 +466,7 @@ namespace Scada.Client
 
             DataPacket request = CreateRequest(FunctionID.GetFileInfo);
             CopyFileName(directoryID, path, outBuf, ArgumentIndex, out int index);
-            request.ArgumentLength = index;
+            request.ArgumentLength = index; // TODO: test, may be BufferLength
             SendRequest(request);
 
             DataPacket response = ReceiveResponse(request);
@@ -492,7 +492,7 @@ namespace Scada.Client
             BitConverter.GetBytes(count).CopyTo(outBuf, index + 8);
             outBuf[index + 12] = (byte)(readFromEnd ? 1 : 0);
             CopyTime(newerThan, outBuf, index + 13, out index);
-            request.ArgumentLength = index;
+            request.ArgumentLength = index; // TODO: test, may be BufferLength
             SendRequest(request);
 
             int prevBlockNumber = 0;

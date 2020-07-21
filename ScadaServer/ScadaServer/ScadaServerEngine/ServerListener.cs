@@ -163,15 +163,15 @@ namespace Scada.Server.Engine
                 if (client.IsLoggedIn)
                 {
                     log.WriteAction(string.Format(Locale.IsRussian ?
-                        "Проверка имени и пароля пользователя {0} с отрицательным результатом" :
-                        "Checking username and password of the user {0} is not successful", username));
+                        "Проверка имени и пароля пользователя {0} с отрицательным результатом: {1}" :
+                        "Checking username and password of the user {0} is not successful: {1}", username, errMsg));
                     return false;
                 }
                 else
                 {
                     log.WriteAction(string.Format(Locale.IsRussian ?
-                        "Неудачная попытка аутентификации пользователя {0}" :
-                        "Unsuccessful attempt to authenticate the user {0}", username));
+                        "Неудачная попытка аутентификации пользователя {0}: {1}" :
+                        "Unsuccessful attempt to authenticate the user {0}: {1}", username, errMsg));
                     return false;
                 }
             }

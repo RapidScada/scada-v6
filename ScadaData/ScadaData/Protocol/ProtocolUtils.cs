@@ -51,6 +51,23 @@ namespace Scada.Protocol
 
 
         /// <summary>
+        /// Creates an initialization vector based on the session ID.
+        /// </summary>
+        private static byte[] CreateIV(long sessionID)
+        {
+            byte[] iv = new byte[ScadaUtils.IVSize];
+            byte[] sessBuf = BitConverter.GetBytes(sessionID);
+            int sessBufLen = sessBuf.Length;
+
+            for (int i = 0; i < ScadaUtils.IVSize; i++)
+            {
+                iv[i] = sessBuf[i % sessBufLen];
+            }
+
+            return iv;
+        }
+
+        /// <summary>
         /// Encodes and copies the string to the buffer.
         /// </summary>
         public static void CopyString(string s, byte[] buffer, int startIndex, out int endIndex)
@@ -173,20 +190,31 @@ namespace Scada.Protocol
         }
 
         /// <summary>
-        /// Creates an initialization vector based on the session ID.
+        /// Gets a channel data array from the buffer.
         /// </summary>
-        private static byte[] CreateIV(long sessionID)
+        public static CnlData[] GetCnlDataArray(byte[] buffer, int startIndex, out int endIndex)
         {
-            byte[] iv = new byte[ScadaUtils.IVSize];
-            byte[] sessBuf = BitConverter.GetBytes(sessionID);
-            int sessBufLen = sessBuf.Length;
+            int arrayLength = BitConverter.ToInt32(buffer, startIndex);
+            endIndex = startIndex + 4;
 
-            for (int i = 0; i < ScadaUtils.IVSize; i++)
+            if (arrayLength > 0)
             {
-                iv[i] = sessBuf[i % sessBufLen];
-            }
+                CnlData[] array = new CnlData[arrayLength];
 
-            return iv;
+                for (int i = 0; i < arrayLength; i++)
+                {
+                    array[i] = new CnlData(
+                        BitConverter.ToDouble(buffer, endIndex),
+                        BitConverter.ToInt32(buffer, endIndex + 8));
+                    endIndex += 12;
+                }
+
+                return array;
+            }
+            else
+            {
+                return new CnlData[0];
+            }
         }
 
         /// <summary>
