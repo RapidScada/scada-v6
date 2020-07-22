@@ -540,17 +540,14 @@ namespace Scada.Server
             if (ProtectBruteForce(out string errMsg) &&
                 ValidateUser(client, username, password, instance, out int roleID, out errMsg))
             {
-                outBuf[index] = 1;
-                BitConverter.GetBytes(roleID).CopyTo(outBuf, index + 1);
-                CopyString("", outBuf, index + 5, out index);
+                CopyBool(true, outBuf, index, out index);
+                CopyInt32(roleID, outBuf, index, out index);
+                CopyString("", outBuf, index, out index);
             }
             else
             {
-                outBuf[index++] = 0;
-                outBuf[index++] = 0;
-                outBuf[index++] = 0;
-                outBuf[index++] = 0;
-                outBuf[index++] = 0;
+                CopyBool(false, outBuf, index, out index);
+                CopyInt32(0, outBuf, index, out index);
                 CopyString(errMsg, outBuf, index, out index);
 
                 RegisterUnsuccessfulLogin();
@@ -670,9 +667,9 @@ namespace Scada.Server
 
             if (fileInfo.Exists)
             {
-                outBuf[ArgumentIndex] = 1;
-                BitConverter.GetBytes(fileInfo.LastWriteTimeUtc.Ticks).CopyTo(outBuf, ArgumentIndex + 1);
-                BitConverter.GetBytes(fileInfo.Length).CopyTo(outBuf, ArgumentIndex + 9);
+                CopyBool(true, outBuf, ArgumentIndex, out index);
+                CopyTime(fileInfo.LastWriteTimeUtc, outBuf, index, out index);
+                CopyInt64(fileInfo.Length, outBuf, index, out index);
             }
             else
             {
@@ -773,11 +770,10 @@ namespace Scada.Server
             int blockNumber, int blockCount, FileReadingResult fileReadingResult, int bytesRead)
         {
             ResponsePacket response = new ResponsePacket(request, outBuf);
-            int index = ArgumentIndex;
-            BitConverter.GetBytes(blockNumber).CopyTo(outBuf, index);
-            BitConverter.GetBytes(blockCount).CopyTo(outBuf, index + 4);
-            outBuf[index + 8] = (byte)fileReadingResult;
-            BitConverter.GetBytes(bytesRead).CopyTo(outBuf, index + 9);
+            CopyInt32(blockNumber, outBuf, ArgumentIndex, out int index);
+            CopyInt32(blockCount, outBuf, index, out index);
+            CopyByte((byte)fileReadingResult, outBuf, index, out index);
+            CopyInt32(bytesRead, outBuf, index, out index);
             response.ArgumentLength = 13 + bytesRead;
             response.Encode();
             return response;

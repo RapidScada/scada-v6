@@ -466,7 +466,7 @@ namespace Scada.Client
 
             DataPacket request = CreateRequest(FunctionID.GetFileInfo);
             CopyFileName(directoryID, path, outBuf, ArgumentIndex, out int index);
-            request.ArgumentLength = index; // TODO: test, may be BufferLength
+            request.BufferLength = index;
             SendRequest(request);
 
             DataPacket response = ReceiveResponse(request);
@@ -488,11 +488,11 @@ namespace Scada.Client
 
             DataPacket request = CreateRequest(FunctionID.DownloadFile);
             CopyFileName(directoryID, path, outBuf, ArgumentIndex, out int index);
-            BitConverter.GetBytes(offset).CopyTo(outBuf, index);
-            BitConverter.GetBytes(count).CopyTo(outBuf, index + 8);
-            outBuf[index + 12] = (byte)(readFromEnd ? 1 : 0);
-            CopyTime(newerThan, outBuf, index + 13, out index);
-            request.ArgumentLength = index; // TODO: test, may be BufferLength
+            CopyInt64(offset, outBuf, index, out index);
+            CopyInt32(count, outBuf, index, out index);
+            CopyBool(readFromEnd, outBuf, index, out index);
+            CopyTime(newerThan, outBuf, index + 1, out index);
+            request.BufferLength = index;
             SendRequest(request);
 
             int prevBlockNumber = 0;
@@ -562,7 +562,7 @@ namespace Scada.Client
             using (FileStream stream =
                 new FileStream(srcFileName, FileMode.Open, FileAccess.Read, FileShare.ReadWrite))
             {
-                int fileDataIndex = ArgumentIndex + 17 + (path ?? "").Length * 2;
+                int fileDataIndex = ArgumentIndex + 17 + MeasureString(path);
                 int blockCapacity = BufferLenght - fileDataIndex;
                 long bytesToReadTotal = stream.Length;
                 long bytesReadTotal = 0;
@@ -581,11 +581,11 @@ namespace Scada.Client
 
                     // send data
                     request = CreateRequest(FunctionID.UploadFile, 0, false);
-                    BitConverter.GetBytes(++blockNumber).CopyTo(outBuf, ArgumentIndex);
-                    BitConverter.GetBytes(blockCount).CopyTo(outBuf, ArgumentIndex + 4);
-                    outBuf[ArgumentIndex + 8] = (byte)(endOfFile ? 1 : 0);
-                    CopyFileName(directoryID, path, outBuf, ArgumentIndex + 9, out int index);
-                    BitConverter.GetBytes(bytesRead).CopyTo(outBuf, index);
+                    CopyInt32(++blockNumber, outBuf, ArgumentIndex, out int index);
+                    CopyInt32(blockCount, outBuf, index, out index);
+                    CopyBool(endOfFile, outBuf, index, out index);
+                    CopyFileName(directoryID, path, outBuf, index, out index);
+                    CopyInt32(bytesRead, outBuf, index, out index);
                     request.BufferLength = fileDataIndex + bytesRead;
                     SendRequest(request);
                     OnProgress(blockNumber, blockCount);

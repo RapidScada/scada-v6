@@ -68,6 +68,70 @@ namespace Scada.Protocol
         }
 
         /// <summary>
+        /// Copies the 8-bit unsigned integer to the buffer.
+        /// </summary>
+        public static void CopyByte(byte value, byte[] buffer, int startIndex, out int endIndex)
+        {
+            buffer[startIndex] = value;
+            endIndex = startIndex + 1;
+        }
+
+        /// <summary>
+        /// Copies the boolean value to the buffer.
+        /// </summary>
+        public static void CopyBool(bool value, byte[] buffer, int startIndex, out int endIndex)
+        {
+            buffer[startIndex] = (byte)(value ? 1 : 0);
+            endIndex = startIndex + 1;
+        }
+
+        /// <summary>
+        /// Copies the 16-bit unsigned integer to the buffer.
+        /// </summary>
+        public static void CopyUInt16(ushort value, byte[] buffer, int startIndex, out int endIndex)
+        {
+            buffer[startIndex++] = (byte)(value >> 8);
+            buffer[startIndex++] = (byte)value;
+            endIndex = startIndex;
+        }
+
+        /// <summary>
+        /// Copies the 32-bit signed integer to the buffer.
+        /// </summary>
+        public static void CopyInt32(int value, byte[] buffer, int startIndex, out int endIndex)
+        {
+            buffer[startIndex++] = (byte)(value >> 24);
+            buffer[startIndex++] = (byte)(value >> 16);
+            buffer[startIndex++] = (byte)(value >> 8);
+            buffer[startIndex++] = (byte)value;
+            endIndex = startIndex;
+        }
+
+        /// <summary>
+        /// Copies the 64-bit signed integer to the buffer.
+        /// </summary>
+        public static void CopyInt64(long value, byte[] buffer, int startIndex, out int endIndex)
+        {
+            buffer[startIndex++] = (byte)(value >> 56);
+            buffer[startIndex++] = (byte)(value >> 48);
+            buffer[startIndex++] = (byte)(value >> 40);
+            buffer[startIndex++] = (byte)(value >> 32);
+            buffer[startIndex++] = (byte)(value >> 24);
+            buffer[startIndex++] = (byte)(value >> 16);
+            buffer[startIndex++] = (byte)(value >> 8);
+            buffer[startIndex++] = (byte)value;
+            endIndex = startIndex;
+        }
+
+        /// <summary>
+        /// Copies the double-precision floating point value to the buffer.
+        /// </summary>
+        public static void CopyDouble(double value, byte[] buffer, int startIndex, out int endIndex)
+        {
+            CopyInt64(BitConverter.DoubleToInt64Bits(value), buffer, startIndex, out endIndex);
+        }
+
+        /// <summary>
         /// Encodes and copies the string to the buffer.
         /// </summary>
         public static void CopyString(string s, byte[] buffer, int startIndex, out int endIndex)
@@ -78,18 +142,40 @@ namespace Scada.Protocol
             {
                 buffer[startIndex] = 0;
                 buffer[startIndex + 1] = 0;
-            }
-            else if (stringLength > ushort.MaxValue)
-            {
-                throw new ScadaException("Maximum string length exceeded.");
+                endIndex = startIndex + 2;
             }
             else
             {
-                BitConverter.GetBytes((ushort)stringLength).CopyTo(buffer, startIndex);
-                Encoding.Unicode.GetBytes(s).CopyTo(buffer, startIndex + 2);
-            }
+                byte[] stringData = Encoding.UTF8.GetBytes(s);
+                int dataLength = stringData.Length;
 
-            endIndex = startIndex + stringLength * 2 + 2;
+                if (dataLength > ushort.MaxValue)
+                    throw new ScadaException("String length exceeded.");
+
+                CopyUInt16((ushort)dataLength, buffer, startIndex, out startIndex);
+                stringData.CopyTo(buffer, startIndex);
+                endIndex = startIndex + dataLength;
+            }
+        }
+
+        /// <summary>
+        /// Gets the required size in a buffer to store the string.
+        /// </summary>
+        public static int MeasureString(string s)
+        {
+            if (string.IsNullOrEmpty(s))
+            {
+                return 2;
+            }
+            else
+            {
+                int dataLength = Encoding.UTF8.GetBytes(s).Length;
+
+                if (dataLength > ushort.MaxValue)
+                    throw new ScadaException("String length exceeded.");
+
+                return dataLength + 2;
+            }
         }
 
         /// <summary>
@@ -97,11 +183,10 @@ namespace Scada.Protocol
         /// </summary>
         public static string GetString(byte[] buffer, int startIndex, out int endIndex)
         {
-            int stringLength = BitConverter.ToUInt16(buffer, startIndex);
-            int dataLength = stringLength * 2;
+            int dataLength = BitConverter.ToUInt16(buffer, startIndex);
             startIndex += 2;
             endIndex = startIndex + dataLength;
-            return dataLength > 0 ? Encoding.Unicode.GetString(buffer, startIndex, dataLength) : "";
+            return dataLength > 0 ? Encoding.UTF8.GetString(buffer, startIndex, dataLength) : "";
         }
 
         /// <summary>
@@ -109,8 +194,7 @@ namespace Scada.Protocol
         /// </summary>
         public static void CopyTime(DateTime dateTime, byte[] buffer, int startIndex, out int endIndex)
         {
-            endIndex = startIndex + 8;
-            BitConverter.GetBytes(dateTime.Ticks).CopyTo(buffer, startIndex);
+            CopyInt64(dateTime.Ticks, buffer, startIndex, out endIndex);
         }
 
         /// <summary>
@@ -128,8 +212,8 @@ namespace Scada.Protocol
         public static void CopyFileName(ushort directoryID, string path, 
             byte[] buffer, int startIndex, out int endIndex)
         {
-            BitConverter.GetBytes(directoryID).CopyTo(buffer, startIndex);
-            CopyString(path, buffer, startIndex + 2, out endIndex);
+            CopyUInt16(directoryID, buffer, startIndex, out startIndex);
+            CopyString(path, buffer, startIndex, out endIndex);
         }
 
         /// <summary>
@@ -138,12 +222,12 @@ namespace Scada.Protocol
         public static void CopyIntArray(int[] srcArray, byte[] buffer, int startIndex, out int endIndex)
         {
             int arrayLength = srcArray == null ? 0 : srcArray.Length;
-            BitConverter.GetBytes(arrayLength).CopyTo(buffer, startIndex);
+            CopyInt32(arrayLength, buffer, startIndex, out startIndex);
 
             if (srcArray != null)
-                Buffer.BlockCopy(srcArray, 0, buffer, startIndex + 4, arrayLength);
+                Buffer.BlockCopy(srcArray, 0, buffer, startIndex, arrayLength);
 
-            endIndex = startIndex + arrayLength * 4 + 4;
+            endIndex = startIndex + arrayLength * 4 ;
         }
 
         /// <summary>
@@ -174,19 +258,18 @@ namespace Scada.Protocol
         public static void CopyCnlDataArray(CnlData[] srcArray, byte[] buffer, int startIndex, out int endIndex)
         {
             int arrayLength = srcArray == null ? 0 : srcArray.Length;
-            BitConverter.GetBytes(arrayLength).CopyTo(buffer, startIndex);
-            endIndex = startIndex + 4;
+            CopyInt32(arrayLength, buffer, startIndex, out startIndex);
 
             if (srcArray != null)
             {
                 foreach (CnlData cnlData in srcArray)
                 {
-                    BitConverter.GetBytes(cnlData.Val).CopyTo(buffer, endIndex);
-                    endIndex += 8;
-                    BitConverter.GetBytes(cnlData.Stat).CopyTo(buffer, endIndex);
-                    endIndex += 4;
+                    CopyDouble(cnlData.Val, buffer, startIndex, out startIndex);
+                    CopyInt32(cnlData.Stat, buffer, startIndex, out startIndex);
                 }
             }
+
+            endIndex = startIndex;
         }
 
         /// <summary>

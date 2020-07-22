@@ -23,8 +23,6 @@
  * Modified : 2020
  */
 
-using System;
-
 namespace Scada.Protocol
 {
     /// <summary>
@@ -96,10 +94,10 @@ namespace Scada.Protocol
         {
             if (Buffer != null)
             {
-                BitConverter.GetBytes(TransactionID).CopyTo(Buffer, 0);
-                BitConverter.GetBytes(DataLength).CopyTo(Buffer, 2);
-                BitConverter.GetBytes(SessionID).CopyTo(Buffer, 6);
-                BitConverter.GetBytes(FunctionID).CopyTo(Buffer, 14);
+                ProtocolUtils.CopyUInt16(TransactionID, Buffer, 0, out int index);
+                ProtocolUtils.CopyInt32(DataLength, Buffer, index, out index);
+                ProtocolUtils.CopyInt64(SessionID, Buffer, index, out index);
+                ProtocolUtils.CopyUInt16(FunctionID, Buffer, index, out index);
             }
         }
     }

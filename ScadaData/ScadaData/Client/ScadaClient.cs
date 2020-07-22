@@ -53,13 +53,13 @@ namespace Scada.Client
             RestoreConnection();
 
             DataPacket request = CreateRequest(FunctionID.GetCurrentData);
-            BitConverter.GetBytes(cnlListID).CopyTo(outBuf, ArgumentIndex);
-            request.ArgumentLength = 8;
+            CopyInt64(cnlListID, outBuf, ArgumentIndex, out int index);
+            request.ArgumentLength = index;
             SendRequest(request);
 
             DataPacket response = ReceiveResponse(request);
             cnlListID = BitConverter.ToInt64(inBuf, ArgumentIndex);
-            return cnlListID > 0 ? GetCnlDataArray(inBuf, ArgumentIndex + 8, out int index) : null;
+            return cnlListID > 0 ? GetCnlDataArray(inBuf, ArgumentIndex + 8, out index) : null;
         }
 
         /// <summary>
@@ -73,9 +73,9 @@ namespace Scada.Client
             RestoreConnection();
 
             DataPacket request = CreateRequest(FunctionID.GetCurrentData);
-            BitConverter.GetBytes((long)0).CopyTo(outBuf, ArgumentIndex);
-            CopyIntArray(cnlNums, outBuf, ArgumentIndex + 8, out int index);
-            outBuf[index++] = (byte)(useCache ? 1 : 0);
+            CopyInt64(0, outBuf, ArgumentIndex, out int index);
+            CopyIntArray(cnlNums, outBuf, index, out index);
+            CopyBool(useCache, outBuf, index, out index);
             request.BufferLength = index;
             SendRequest(request);
 
@@ -106,18 +106,17 @@ namespace Scada.Client
             RestoreConnection();
 
             DataPacket request = CreateRequest(FunctionID.WriteCurrentData);
-            int index = ArgumentIndex;
-            BitConverter.GetBytes(deviceNum).CopyTo(outBuf, index);
+            CopyInt32(deviceNum, outBuf, ArgumentIndex, out int index);
 
             int cnlCnt = cnlNums.Length;
-            BitConverter.GetBytes(cnlCnt).CopyTo(outBuf, index + 4);
+            CopyInt32(cnlCnt, outBuf, index, out index);
 
-            for (int i = 0, idx1 = index + 8, idx2 = idx1 + cnlCnt * 4; i < cnlCnt; i++, idx1 += 4, idx2 += 12)
+            for (int i = 0, idx1 = index + 8, idx2 = idx1 + cnlCnt * 4; i < cnlCnt; i++)
             {
                 CnlData cnlDataElem = cnlData[i];
-                BitConverter.GetBytes(cnlNums[i]).CopyTo(outBuf, idx1);
-                BitConverter.GetBytes(cnlDataElem.Val).CopyTo(outBuf, idx2);
-                BitConverter.GetBytes(cnlDataElem.Stat).CopyTo(outBuf, idx2 + 8);
+                CopyInt32(cnlNums[i], outBuf, idx1, out idx1);
+                CopyDouble(cnlDataElem.Val, outBuf, idx2, out idx2);
+                CopyInt32(cnlDataElem.Stat, outBuf, idx2, out idx2);
             }
 
             request.ArgumentLength = cnlCnt * 16 + 8;
