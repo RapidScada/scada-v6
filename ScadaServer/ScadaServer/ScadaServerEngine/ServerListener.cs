@@ -28,6 +28,7 @@ using Scada.Data.Models;
 using Scada.Log;
 using Scada.Protocol;
 using System;
+using static Scada.BinaryConverter;
 using static Scada.Protocol.ProtocolUtils;
 
 namespace Scada.Server.Engine
@@ -58,7 +59,7 @@ namespace Scada.Server.Engine
         {
             byte[] buffer = request.Buffer;
             int index = ArgumentIndex;
-            long cnlListID = BitConverter.ToInt64(buffer, index);
+            long cnlListID = GetInt64(buffer, ref index);
             CnlData[] cnlData;
 
             if (cnlListID > 0)
@@ -67,15 +68,16 @@ namespace Scada.Server.Engine
             }
             else
             {
-                int[] cnlNums = GetIntArray(buffer, index + 8, out index);
+                int[] cnlNums = GetIntArray(buffer, ref index);
                 bool useCache = buffer[index] > 0;
                 cnlData = coreLogic.GetCurrentData(cnlNums, useCache, out cnlListID);
             }
 
             byte[] outBuf = client.OutBuf;
             response = new ResponsePacket(request, outBuf);
-            BitConverter.GetBytes(cnlData == null ? 0 : cnlListID).CopyTo(outBuf, ArgumentIndex);
-            CopyCnlDataArray(cnlData, outBuf, ArgumentIndex + 8, out index);
+            index = ArgumentIndex;
+            CopyInt64(cnlData == null ? 0 : cnlListID, outBuf, ref index);
+            CopyCnlDataArray(cnlData, outBuf, ref index);
             response.BufferLength = index;
             response.Encode();
         }
