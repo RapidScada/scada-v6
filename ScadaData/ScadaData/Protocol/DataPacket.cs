@@ -94,10 +94,10 @@ namespace Scada.Protocol
         {
             if (Buffer != null)
             {
-                ProtocolUtils.CopyUInt16(TransactionID, Buffer, 0, out int index);
-                ProtocolUtils.CopyInt32(DataLength, Buffer, index, out index);
-                ProtocolUtils.CopyInt64(SessionID, Buffer, index, out index);
-                ProtocolUtils.CopyUInt16(FunctionID, Buffer, index, out index);
+                BinaryConverter.CopyUInt16(TransactionID, Buffer, 0);
+                BinaryConverter.CopyInt32(DataLength, Buffer, 2);
+                BinaryConverter.CopyInt64(SessionID, Buffer, 6);
+                BinaryConverter.CopyUInt16(FunctionID, Buffer, 14);
             }
         }
     }

@@ -29,6 +29,7 @@ using System;
 using System.IO;
 using System.Net;
 using System.Net.Sockets;
+using static Scada.BinaryConverter;
 using static Scada.Protocol.ProtocolUtils;
 
 namespace Scada.Client
@@ -399,7 +400,7 @@ namespace Scada.Client
 
             DataPacket response = ReceiveResponse(request);
             sessionID = response.SessionID;
-            serverName = GetString(inBuf, ArgumentIndex, out int index);
+            serverName = GetString(inBuf, ArgumentIndex);
         }
 
         /// <summary>
@@ -408,17 +409,19 @@ namespace Scada.Client
         protected void Login(out bool loggedIn, out int userRole, out string errorMessage)
         {
             DataPacket request = CreateRequest(FunctionID.Login);
-            CopyString(connectionOptions.User, outBuf, ArgumentIndex, out int index);
-            CopyString(EncryptPassword(connectionOptions.Password, SessionID, connectionOptions.SecretKey),
-                outBuf, index, out index);
-            CopyString(connectionOptions.Instance, outBuf, index, out index);
+            int index = ArgumentIndex;
+            CopyString(connectionOptions.User, outBuf, ref index);
+            CopyString(EncryptPassword(connectionOptions.Password, SessionID, connectionOptions.SecretKey), 
+                outBuf, ref index);
+            CopyString(connectionOptions.Instance, outBuf, ref index);
             request.BufferLength = index;
             SendRequest(request);
 
             DataPacket response = ReceiveResponse(request);
-            loggedIn = inBuf[ArgumentIndex] > 0;
-            userRole = BitConverter.ToInt32(inBuf, ArgumentIndex + 1);
-            errorMessage = GetString(inBuf, ArgumentIndex + 5, out index);
+            index = ArgumentIndex;
+            loggedIn = GetBool(inBuf, ref index);
+            userRole = GetInt32(inBuf, ref index);
+            errorMessage = GetString(inBuf, index);
         }
 
         /// <summary>
@@ -465,14 +468,16 @@ namespace Scada.Client
             RestoreConnection();
 
             DataPacket request = CreateRequest(FunctionID.GetFileInfo);
-            CopyFileName(directoryID, path, outBuf, ArgumentIndex, out int index);
+            int index = ArgumentIndex;
+            CopyFileName(directoryID, path, outBuf, ref index);
             request.BufferLength = index;
             SendRequest(request);
 
             DataPacket response = ReceiveResponse(request);
-            fileExists = inBuf[ArgumentIndex] > 0;
-            fileAge = GetTime(inBuf, ArgumentIndex + 1, out index);
-            fileLength = BitConverter.ToInt64(inBuf, index);
+            index = ArgumentIndex;
+            fileExists = GetBool(inBuf, ref index);
+            fileAge = GetTime(inBuf, ref index);
+            fileLength = GetInt64(inBuf, ref index);
         }
 
         /// <summary>
@@ -487,11 +492,12 @@ namespace Scada.Client
             RestoreConnection();
 
             DataPacket request = CreateRequest(FunctionID.DownloadFile);
-            CopyFileName(directoryID, path, outBuf, ArgumentIndex, out int index);
-            CopyInt64(offset, outBuf, index, out index);
-            CopyInt32(count, outBuf, index, out index);
-            CopyBool(readFromEnd, outBuf, index, out index);
-            CopyTime(newerThan, outBuf, index + 1, out index);
+            int index = ArgumentIndex;
+            CopyFileName(directoryID, path, outBuf, ref index);
+            CopyInt64(offset, outBuf, ref index);
+            CopyInt32(count, outBuf, ref index);
+            CopyBool(readFromEnd, outBuf, ref index);
+            CopyTime(newerThan, outBuf, ref index);
             request.BufferLength = index;
             SendRequest(request);
 
@@ -504,9 +510,10 @@ namespace Scada.Client
                 while (readingResult == FileReadingResult.Successful)
                 {
                     DataPacket response = ReceiveResponse(request);
-                    int blockNumber = BitConverter.ToInt32(inBuf, ArgumentIndex);
-                    int blockCount = BitConverter.ToInt32(inBuf, ArgumentIndex + 4);
-                    readingResult = (FileReadingResult)inBuf[ArgumentIndex + 8];
+                    index = ArgumentIndex;
+                    int blockNumber = GetInt32(inBuf, ref index);
+                    int blockCount = GetInt32(inBuf, ref index);
+                    readingResult = (FileReadingResult)GetByte(inBuf, ref index);
 
                     if (blockNumber != prevBlockNumber + 1)
                     {
@@ -520,8 +527,8 @@ namespace Scada.Client
                         if (stream == null)
                             stream = createStreamFunc();
 
-                        int bytesToWrite = BitConverter.ToInt32(inBuf, ArgumentIndex + 9);
-                        stream.Write(inBuf, ArgumentIndex + 13, bytesToWrite);
+                        int bytesToWrite = GetInt32(inBuf, ref index);
+                        stream.Write(inBuf, index, bytesToWrite);
                     }
 
                     prevBlockNumber = blockNumber;
@@ -581,11 +588,12 @@ namespace Scada.Client
 
                     // send data
                     request = CreateRequest(FunctionID.UploadFile, 0, false);
-                    CopyInt32(++blockNumber, outBuf, ArgumentIndex, out int index);
-                    CopyInt32(blockCount, outBuf, index, out index);
-                    CopyBool(endOfFile, outBuf, index, out index);
-                    CopyFileName(directoryID, path, outBuf, index, out index);
-                    CopyInt32(bytesRead, outBuf, index, out index);
+                    int index = ArgumentIndex;
+                    CopyInt32(++blockNumber, outBuf, ref index);
+                    CopyInt32(blockCount, outBuf, ref index);
+                    CopyBool(endOfFile, outBuf, ref index);
+                    CopyFileName(directoryID, path, outBuf, ref index);
+                    CopyInt32(bytesRead, outBuf, ref index);
                     request.BufferLength = fileDataIndex + bytesRead;
                     SendRequest(request);
                     OnProgress(blockNumber, blockCount);

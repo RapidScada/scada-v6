@@ -26,6 +26,7 @@
 using Scada.Data.Models;
 using Scada.Protocol;
 using System;
+using static Scada.BinaryConverter;
 using static Scada.Protocol.ProtocolUtils;
 
 namespace Scada.Client
@@ -53,13 +54,14 @@ namespace Scada.Client
             RestoreConnection();
 
             DataPacket request = CreateRequest(FunctionID.GetCurrentData);
-            CopyInt64(cnlListID, outBuf, ArgumentIndex, out int index);
-            request.ArgumentLength = index;
+            CopyInt64(cnlListID, outBuf, ArgumentIndex);
+            request.ArgumentLength = 8;
             SendRequest(request);
 
             DataPacket response = ReceiveResponse(request);
-            cnlListID = BitConverter.ToInt64(inBuf, ArgumentIndex);
-            return cnlListID > 0 ? GetCnlDataArray(inBuf, ArgumentIndex + 8, out index) : null;
+            int index = ArgumentIndex;
+            cnlListID = GetInt64(inBuf, ref index);
+            return cnlListID > 0 ? GetCnlDataArray(inBuf, ref index) : null;
         }
 
         /// <summary>
@@ -73,15 +75,17 @@ namespace Scada.Client
             RestoreConnection();
 
             DataPacket request = CreateRequest(FunctionID.GetCurrentData);
-            CopyInt64(0, outBuf, ArgumentIndex, out int index);
-            CopyIntArray(cnlNums, outBuf, index, out index);
-            CopyBool(useCache, outBuf, index, out index);
+            int index = ArgumentIndex;
+            CopyInt64(0, outBuf, ref index);
+            CopyIntArray(cnlNums, outBuf, ref index);
+            CopyBool(useCache, outBuf, ref index);
             request.BufferLength = index;
             SendRequest(request);
 
             DataPacket response = ReceiveResponse(request);
-            cnlListID = BitConverter.ToInt64(inBuf, ArgumentIndex);
-            CnlData[] cnlData = GetCnlDataArray(inBuf, ArgumentIndex + 8, out index);
+            index = ArgumentIndex;
+            cnlListID = GetInt64(inBuf, ref index);
+            CnlData[] cnlData = GetCnlDataArray(inBuf, ref index);
 
             if (cnlData.Length != cnlNums.Length)
             {
@@ -106,17 +110,18 @@ namespace Scada.Client
             RestoreConnection();
 
             DataPacket request = CreateRequest(FunctionID.WriteCurrentData);
-            CopyInt32(deviceNum, outBuf, ArgumentIndex, out int index);
+            int index = ArgumentIndex;
+            CopyInt32(deviceNum, outBuf, ref index);
 
             int cnlCnt = cnlNums.Length;
-            CopyInt32(cnlCnt, outBuf, index, out index);
+            CopyInt32(cnlCnt, outBuf, ref index);
 
-            for (int i = 0, idx1 = index + 8, idx2 = idx1 + cnlCnt * 4; i < cnlCnt; i++)
+            for (int i = 0, idx1 = index, idx2 = index + cnlCnt * 4; i < cnlCnt; i++)
             {
                 CnlData cnlDataElem = cnlData[i];
-                CopyInt32(cnlNums[i], outBuf, idx1, out idx1);
-                CopyDouble(cnlDataElem.Val, outBuf, idx2, out idx2);
-                CopyInt32(cnlDataElem.Stat, outBuf, idx2, out idx2);
+                CopyInt32(cnlNums[i], outBuf, ref idx1);
+                CopyDouble(cnlDataElem.Val, outBuf, ref idx2);
+                CopyInt32(cnlDataElem.Stat, outBuf, ref idx2);
             }
 
             request.ArgumentLength = cnlCnt * 16 + 8;
