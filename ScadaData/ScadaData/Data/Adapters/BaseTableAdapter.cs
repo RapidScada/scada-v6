@@ -28,6 +28,7 @@ using System;
 using System.ComponentModel;
 using System.IO;
 using System.Text;
+using static Scada.BinaryConverter;
 
 namespace Scada.Data.Adapters
 {
@@ -45,6 +46,41 @@ namespace Scada.Data.Adapters
             /// <summary>
             /// Initializes a new instance of the class.
             /// </summary>
+            public FieldDef(string name, byte dataType, bool allowNull)
+            {
+                Name = name ?? throw new ArgumentNullException("name");
+                DataType = dataType;
+                AllowNull = allowNull;
+
+                switch (dataType)
+                {
+                    case DataTypeID.Integer:
+                        DataSize = sizeof(int);
+                        DefaultValue = 0;
+                        break;
+                    case DataTypeID.Double:
+                        DataSize = sizeof(double);
+                        DefaultValue = 0.0;
+                        break;
+                    case DataTypeID.Boolean:
+                        DataSize = 1;
+                        DefaultValue = false;
+                        break;
+                    case DataTypeID.DateTime:
+                        DataSize = sizeof(long);
+                        DefaultValue = (long)0;
+                        break;
+                    case DataTypeID.String:
+                        DataSize = 0;
+                        DefaultValue = "";
+                        break;
+                    default:
+                        throw new ArgumentException("Data type is not supported.");
+                }
+            }
+            /// <summary>
+            /// Initializes a new instance of the class.
+            /// </summary>
             public FieldDef(string name, Type type, bool allowNull)
             {
                 if (name == null)
@@ -59,26 +95,31 @@ namespace Scada.Data.Adapters
                 {
                     DataType = DataTypeID.Integer;
                     DataSize = sizeof(int);
+                    DefaultValue = 0;
                 }
                 else if (type == typeof(double))
                 {
                     DataType = DataTypeID.Double;
                     DataSize = sizeof(double);
+                    DefaultValue = 0.0;
                 }
                 else if (type == typeof(bool))
                 {
                     DataType = DataTypeID.Boolean;
                     DataSize = 1;
+                    DefaultValue = false;
                 }
                 else if (type == typeof(DateTime))
                 {
                     DataType = DataTypeID.DateTime;
                     DataSize = sizeof(long);
+                    DefaultValue = (long)0;
                 }
                 else if (type == typeof(string))
                 {
                     DataType = DataTypeID.String;
                     DataSize = 0;
+                    DefaultValue = "";
                 }
                 else
                 {
@@ -102,6 +143,10 @@ namespace Scada.Data.Adapters
             /// Gets or sets a value indicating whether null values are possible.
             /// </summary>
             public bool AllowNull { get; set; }
+            /// <summary>
+            /// Gets the default field value.
+            /// </summary>
+            public object DefaultValue { get; protected set; }
         }
 
         /// <summary>
@@ -145,6 +190,10 @@ namespace Scada.Data.Adapters
         /// </summary>
         protected const ushort MinorVersion = 0;
         /// <summary>
+        /// The header size in a file.
+        /// </summary>
+        protected const int HeaderSize = 20;
+        /// <summary>
         /// The field definition size in a file.
         /// </summary>
         protected const int FieldDefSize = 60;
@@ -174,7 +223,7 @@ namespace Scada.Data.Adapters
             buffer[nameLength + 2] = fieldDef.DataType;
             buffer[nameLength + 3] = (byte)(fieldDef.AllowNull ? 1 : 0);
             ushort crc = CalcCRC16(buffer, 0, FieldDefSize - 2);
-            BinaryConverter.CopyUInt16(crc, buffer, FieldDefSize - 2);
+            CopyUInt16(crc, buffer, FieldDefSize - 2);
             writer.Write(buffer);
         }
 
@@ -183,25 +232,22 @@ namespace Scada.Data.Adapters
         /// </summary>
         protected byte[] GetFieldData(FieldDef fieldDef, object value, byte[] buffer)
         {
-            if (value == null)
-                throw new ArgumentNullException("value");
-
             if (fieldDef.DataSize > 0 && (buffer == null || buffer.Length != fieldDef.DataSize))
                 buffer = new byte[fieldDef.DataSize];
 
             switch (fieldDef.DataType)
             {
                 case DataTypeID.Integer:
-                    BinaryConverter.CopyInt32((int)value, buffer, 0);
+                    CopyInt32((int)value, buffer, 0);
                     break;
                 case DataTypeID.Double:
-                    BinaryConverter.CopyDouble((double)value, buffer, 0);
+                    CopyDouble((double)value, buffer, 0);
                     break;
                 case DataTypeID.Boolean:
                     buffer[0] = (byte)value;
                     break;
                 case DataTypeID.DateTime:
-                    BinaryConverter.CopyTime((DateTime)value, buffer, 0);
+                    CopyTime((DateTime)value, buffer, 0);
                     break;
                 case DataTypeID.String:
                     buffer = Encoding.UTF8.GetBytes((string)value);
@@ -217,10 +263,144 @@ namespace Scada.Data.Adapters
         }
 
         /// <summary>
+        /// Gets the field value from the buffer.
+        /// </summary>
+        protected object GetFieldValue(int dataType, int dataSize, byte[] buffer, ref int index)
+        {
+            switch (dataType)
+            {
+                case DataTypeID.Integer:
+                    return GetInt32(buffer, ref index);
+                case DataTypeID.Double:
+                    return GetDouble(buffer, ref index);
+                case DataTypeID.Boolean:
+                    return GetByte(buffer, ref index);
+                case DataTypeID.DateTime:
+                    return GetTime(buffer, ref index);
+                case DataTypeID.String:
+                    string s = Encoding.UTF8.GetString(buffer, index, dataSize);
+                    index += dataSize;
+                    return s;
+                default:
+                    return null;
+            }
+        }
+
+
+        /// <summary>
         /// Fills the specified table by reading data from the configuration database.
         /// </summary>
         public void Fill(IBaseTable baseTable)
         {
+            if (baseTable == null)
+                throw new ArgumentNullException("baseTable");
+
+            Stream stream = null;
+            BinaryReader reader = null;
+
+            baseTable.ClearItems();
+            baseTable.IndexesEnabled = false;
+
+            try
+            {
+                stream = Stream ?? new FileStream(FileName, FileMode.Create, FileAccess.Write, FileShare.ReadWrite);
+                reader = new BinaryReader(stream, Encoding.UTF8, Stream != null);
+
+                // read and check header
+                byte[] buffer = new byte[Math.Max(HeaderSize, FieldDefSize)];
+                int bytesRead = reader.Read(buffer, 0, HeaderSize);
+
+                if (bytesRead == 0)
+                    return; // table is empty
+                if (bytesRead < HeaderSize)
+                    throw new ScadaException("Unexpected end of stream.");
+
+                int index = 0;
+                if (GetUInt16(buffer, ref index) != TableType)
+                    throw new ScadaException("Invalid table type.");
+
+                if (GetUInt16(buffer, ref index) != MajorVersion)
+                    throw new ScadaException("Incompatible format version.");
+
+                index += 2; // skip minor version
+                int fieldCount = GetUInt16(buffer, ref index);
+
+                // read field definitions
+                FieldDef[] fieldDefs = new FieldDef[fieldCount];
+                PropertyDescriptorCollection allProps = TypeDescriptor.GetProperties(baseTable.ItemType);
+                PropertyDescriptor[] props = new PropertyDescriptor[fieldCount];
+
+                for (int i = 0; i < fieldCount; i++)
+                {
+                    bytesRead = reader.Read(buffer, 0, FieldDefSize);
+
+                    if (bytesRead < FieldDefSize)
+                        throw new ScadaException("Unexpected end of stream.");
+
+                    if (CalcCRC16(buffer, 0, FieldDefSize - 2) != BitConverter.ToUInt16(buffer, FieldDefSize - 2))
+                        throw new ScadaException("Field definition CRC error.");
+
+                    index = 0;
+                    int nameLength = buffer[index++];
+                    string fieldName = Encoding.ASCII.GetString(buffer, index, nameLength);
+                    index += nameLength;
+
+                    fieldDefs[i] = new FieldDef(
+                        fieldName, 
+                        GetByte(buffer, ref index), 
+                        GetBool(buffer, ref index));
+
+                    props[i] = allProps[fieldName]; // get a property that match the field definition
+                }
+
+                // read rows
+                while (true)
+                {
+                    if (reader.ReadUInt16() != RowMarker)
+                        throw new ScadaException("Row marker not found.");
+
+                    int rowDataSize = reader.ReadInt32();
+                    int fullRowSize = rowDataSize + 8;
+
+                    if (buffer.Length < fullRowSize)
+                        buffer = new byte[fullRowSize * 2];
+
+                    bytesRead = reader.Read(buffer, 6, rowDataSize);
+
+                    if (bytesRead < rowDataSize)
+                        throw new ScadaException("Unexpected end of stream.");
+
+                    if (CalcCRC16(buffer, 0, fullRowSize - 2) != BitConverter.ToUInt16(buffer, fullRowSize - 2))
+                        throw new ScadaException("Row CRC error.");
+
+                    // read fields
+                    object item = baseTable.NewItem();
+                    index = 6;
+
+                    for (int i = 0; i < fieldCount; i++)
+                    {
+                        FieldDef fieldDef = fieldDefs[i];
+                        PropertyDescriptor prop = props[i];
+                        bool isNull = GetBool(buffer, ref index);
+                        int dataSize = fieldDef.DataSize > 0 ? fieldDef.DataSize : GetUInt16(buffer, ref index);
+                        object value = isNull ? null : GetFieldValue(fieldDef.DataType, dataSize, buffer, ref index);
+
+                        if (prop != null)
+                            prop.SetValue(item, value ?? (fieldDef.AllowNull ? null : fieldDef.DefaultValue));
+                    }
+
+                    baseTable.AddObject(item);
+                }
+            }
+            catch (EndOfStreamException)
+            {
+                // normal file ending case
+            }
+            finally
+            {
+                reader?.Close();
+                baseTable.IndexesEnabled = true;
+            }
         }
 
         /// <summary>
@@ -253,7 +433,7 @@ namespace Scada.Data.Adapters
                 {
                     // create and write field definitions
                     FieldDef[] fieldDefs = new FieldDef[fieldCount];
-                    byte[] fieldDefBuf = new byte[FieldDefSize];
+                    byte[] buffer = new byte[FieldDefSize];
 
                     for (int i = 0; i < fieldCount; i++)
                     {
@@ -266,11 +446,10 @@ namespace Scada.Data.Adapters
                             isNullable || prop.PropertyType.IsClass);
 
                         fieldDefs[i] = fieldDef;
-                        WriteFieldDef(fieldDef, writer, fieldDefBuf);
+                        WriteFieldDef(fieldDef, writer, buffer);
                     }
 
                     // write rows
-                    byte[] rowBuf = EmptyBuffer;
                     byte[][] rowData = new byte[fieldCount][];
                     bool[] isNullArr = new bool[fieldCount];
 
@@ -302,38 +481,38 @@ namespace Scada.Data.Adapters
                         // copy row data to the buffer
                         int fullRowSize = rowDataSize + 8;
 
-                        if (rowBuf.Length < fullRowSize)
-                            rowBuf = new byte[fullRowSize * 2];
+                        if (buffer.Length < fullRowSize)
+                            buffer = new byte[fullRowSize * 2];
 
                         int copyIndex = 0;
-                        BinaryConverter.CopyUInt16(RowMarker, rowBuf, ref copyIndex);
-                        BinaryConverter.CopyInt32(rowDataSize, rowBuf, ref copyIndex);
+                        CopyUInt16(RowMarker, buffer, ref copyIndex);
+                        CopyInt32(rowDataSize, buffer, ref copyIndex);
 
                         for (int i = 0; i < fieldCount; i++)
                         {
                             if (isNullArr[i])
                             {
-                                rowBuf[copyIndex++] = 1;
+                                buffer[copyIndex++] = 1;
                             }
                             else
                             {
-                                rowBuf[copyIndex++] = 0;
+                                buffer[copyIndex++] = 0;
                                 FieldDef fieldDef = fieldDefs[i];
                                 byte[] fieldData = rowData[i];
 
                                 if (fieldDef.DataSize <= 0)
-                                    BinaryConverter.CopyUInt16((ushort)fieldData.Length, rowBuf, ref copyIndex);
+                                    CopyUInt16((ushort)fieldData.Length, buffer, ref copyIndex);
 
-                                fieldData.CopyTo(rowBuf, copyIndex);
+                                fieldData.CopyTo(buffer, copyIndex);
                                 copyIndex += fieldData.Length;
                             }
                         }
 
-                        ushort crc = CalcCRC16(rowBuf, 0, fullRowSize - 2);
-                        BinaryConverter.CopyUInt16(crc, rowBuf, fullRowSize - 2);
+                        ushort crc = CalcCRC16(buffer, 0, fullRowSize - 2);
+                        CopyUInt16(crc, buffer, fullRowSize - 2);
 
                         // write row data
-                        writer.Write(rowBuf, 0, fullRowSize);
+                        writer.Write(buffer, 0, fullRowSize);
                     }
                 }
             }
