@@ -66,8 +66,8 @@ namespace Scada.Data.Entities
 
         public int? LimID { get; set; }
 
-        public uint ArchiveMask { get; set; }
+        public int ArchiveMask { get; set; }
 
-        public uint EventMask { get; set; }
+        public int EventMask { get; set; }
     }
 }

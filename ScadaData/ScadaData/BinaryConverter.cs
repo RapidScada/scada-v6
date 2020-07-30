@@ -46,9 +46,17 @@ namespace Scada
         /// <summary>
         /// Copies the boolean value to the buffer.
         /// </summary>
+        public static void CopyBool(bool value, byte[] buffer, int index)
+        {
+            buffer[index] = (byte)(value ? 1 : 0);
+        }
+
+        /// <summary>
+        /// Copies the boolean value to the buffer.
+        /// </summary>
         public static void CopyBool(bool value, byte[] buffer, ref int index)
         {
-            buffer[index++] = (byte)(value ? 1 : 0);
+            CopyBool(value, buffer, index++);
         }
 
         /// <summary>

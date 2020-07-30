@@ -184,7 +184,7 @@ namespace Scada.Server.Engine
         /// </summary>
         private bool ReadBase()
         {
-            string tableName = Locale.IsRussian ? "неопределено" : "undefined";
+            string tableName = Locale.IsRussian ? "неопределена" : "undefined";
 
             try
             {
@@ -207,8 +207,8 @@ namespace Scada.Server.Engine
             catch (Exception ex)
             {
                 log.WriteException(ex, Locale.IsRussian ?
-                    "Error reading the configuration database. Table name is {0}" :
-                    "Ошибка при чтении базы конфигурации. Имя таблицы {0}", tableName);
+                    "Ошибка при чтении базы конфигурации, таблица {0}" :
+                    "Error reading the configuration database, the {0} table", tableName);
                 return false;
             }
         }

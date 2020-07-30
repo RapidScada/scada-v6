@@ -46,7 +46,7 @@ namespace Scada.Data.Entities
 
         public string BackColor { get; set; }
 
-        public int Severity { get; set; }
+        public int? Severity { get; set; }
 
         public string Descr { get; set; }
     }

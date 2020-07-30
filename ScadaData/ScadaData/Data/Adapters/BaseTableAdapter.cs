@@ -75,7 +75,7 @@ namespace Scada.Data.Adapters
                         DefaultValue = "";
                         break;
                     default:
-                        throw new ArgumentException("Data type is not supported.");
+                        throw new ArgumentException(string.Format("Data type {0} is not supported.", dataType));
                 }
             }
             /// <summary>
@@ -87,6 +87,8 @@ namespace Scada.Data.Adapters
                     throw new ArgumentNullException("name");
                 if (name.Length > MaxFieldNameLength)
                     throw new ArgumentException("Name length exceeded.");
+                if (type == null)
+                    throw new ArgumentNullException("type");
 
                 Name = name;
                 AllowNull = allowNull;
@@ -123,7 +125,7 @@ namespace Scada.Data.Adapters
                 }
                 else
                 {
-                    throw new ArgumentException("Data type is not supported.");
+                    throw new ArgumentException(string.Format("Data type {0} is not supported.", type.FullName));
                 }
             }
 
@@ -244,7 +246,7 @@ namespace Scada.Data.Adapters
                     CopyDouble((double)value, buffer, 0);
                     break;
                 case DataTypeID.Boolean:
-                    buffer[0] = (byte)value;
+                    CopyBool((bool)value, buffer, 0);
                     break;
                 case DataTypeID.DateTime:
                     CopyTime((DateTime)value, buffer, 0);
@@ -274,7 +276,7 @@ namespace Scada.Data.Adapters
                 case DataTypeID.Double:
                     return GetDouble(buffer, ref index);
                 case DataTypeID.Boolean:
-                    return GetByte(buffer, ref index);
+                    return GetBool(buffer, ref index);
                 case DataTypeID.DateTime:
                     return GetTime(buffer, ref index);
                 case DataTypeID.String:
@@ -303,7 +305,7 @@ namespace Scada.Data.Adapters
 
             try
             {
-                stream = Stream ?? new FileStream(FileName, FileMode.Create, FileAccess.Write, FileShare.ReadWrite);
+                stream = Stream ?? new FileStream(FileName, FileMode.Open, FileAccess.Read, FileShare.ReadWrite);
                 reader = new BinaryReader(stream, Encoding.UTF8, Stream != null);
 
                 // read and check header
