@@ -367,7 +367,7 @@ namespace Scada.Data.Adapters
                 case DataTypeID.DateTime:
                     return GetTime(buffer, ref index);
                 case DataTypeID.String:
-                    string s = Encoding.UTF8.GetString(buffer, index, dataSize);
+                    string s = dataSize > 0 ? Encoding.UTF8.GetString(buffer, index, dataSize) : "";
                     index += dataSize;
                     return s;
                 default:
@@ -380,9 +380,15 @@ namespace Scada.Data.Adapters
         /// </summary>
         protected object GetFieldValueIfExists(FieldDef fieldDef, byte[] buffer, ref int index)
         {
-            bool isNull = GetBool(buffer, ref index);
-            int dataSize = fieldDef.DataSize > 0 ? fieldDef.DataSize : GetUInt16(buffer, ref index);
-            return isNull ? null : GetFieldValue(fieldDef.DataType, dataSize, buffer, ref index);
+            if (GetBool(buffer, ref index)) // value is null
+            {
+                return null;
+            }
+            else
+            {
+                int dataSize = fieldDef.DataSize > 0 ? fieldDef.DataSize : GetUInt16(buffer, ref index);
+                return GetFieldValue(fieldDef.DataType, dataSize, buffer, ref index);
+            }
         }
 
 

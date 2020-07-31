@@ -532,7 +532,7 @@ namespace Scada.Server.Engine
                     for (int i = 0; i < cnlCnt; i++)
                     {
                         CnlTag cnlTag = cnlListItem.CnlTags[i];
-                        cnlDataArr[i] = curData.CurCnlData[cnlTag.Index];
+                        cnlDataArr[i] = cnlTag.Index >= 0 ? curData.CurCnlData[cnlTag.Index] : CnlData.Empty;
                     }
                 }
             }

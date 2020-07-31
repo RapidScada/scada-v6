@@ -197,12 +197,14 @@ namespace Scada
         public static void CopyIntArray(int[] srcArray, byte[] buffer, ref int index)
         {
             int arrayLength = srcArray == null ? 0 : srcArray.Length;
-            CopyInt32(arrayLength, buffer, index);
+            CopyInt32(arrayLength, buffer, ref index);
 
             if (srcArray != null)
-                Buffer.BlockCopy(srcArray, 0, buffer, index + 4, arrayLength);
-
-            index += 4 + arrayLength * 4;
+            {
+                int dataLength = arrayLength * 4;
+                Buffer.BlockCopy(srcArray, 0, buffer, index, dataLength);
+                index += dataLength;
+            }
         }
 
         /// <summary>
@@ -315,13 +317,12 @@ namespace Scada
         /// </summary>
         public static int[] GetIntArray(byte[] buffer, ref int index)
         {
-            int arrayLength = BitConverter.ToInt32(buffer, index);
-            int dataLength = arrayLength * 4;
-            index += 4;
+            int arrayLength = GetInt32(buffer, ref index);
 
             if (arrayLength > 0)
             {
                 int[] array = new int[arrayLength];
+                int dataLength = arrayLength * 4;
                 Buffer.BlockCopy(buffer, index, array, 0, dataLength);
                 index += dataLength;
                 return array;

@@ -154,6 +154,9 @@ namespace Scada.Server.Engine
                 }
                 else
                 {
+                    errMsg = Locale.IsRussian ?
+                        "Недостаточно прав" :
+                        "Insufficient rights";
                     log.WriteAction(string.Format(Locale.IsRussian ?
                         "Пользователь {0} имеет недостаточно прав. Требуется роль Приложение" :
                         "The user {0} has insufficient rights. The Application role required", username));
