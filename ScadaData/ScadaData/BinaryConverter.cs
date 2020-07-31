@@ -33,6 +33,7 @@ namespace Scada
     /// Converts base data types to an array of bytes and vice versa.
     /// <para>Преобразует базовые типы данных в массив байтов и наоборот.</para>
     /// </summary>
+    /// <remarks>BinaryConverter uses little endian format.</remarks>
     public static class BinaryConverter
     {
         /// <summary>
@@ -64,8 +65,8 @@ namespace Scada
         /// </summary>
         public static void CopyUInt16(ushort value, byte[] buffer, int index)
         {
-            buffer[index++] = (byte)(value >> 8);
             buffer[index++] = (byte)value;
+            buffer[index++] = (byte)(value >> 8);
         }
 
         /// <summary>
@@ -82,10 +83,10 @@ namespace Scada
         /// </summary>
         public static void CopyInt32(int value, byte[] buffer, int index)
         {
-            buffer[index++] = (byte)(value >> 24);
-            buffer[index++] = (byte)(value >> 16);
-            buffer[index++] = (byte)(value >> 8);
             buffer[index++] = (byte)value;
+            buffer[index++] = (byte)(value >> 8);
+            buffer[index++] = (byte)(value >> 16);
+            buffer[index++] = (byte)(value >> 24);
         }
 
         /// <summary>
@@ -102,14 +103,14 @@ namespace Scada
         /// </summary>
         public static void CopyInt64(long value, byte[] buffer, int index)
         {
-            buffer[index++] = (byte)(value >> 56);
-            buffer[index++] = (byte)(value >> 48);
-            buffer[index++] = (byte)(value >> 40);
-            buffer[index++] = (byte)(value >> 32);
-            buffer[index++] = (byte)(value >> 24);
-            buffer[index++] = (byte)(value >> 16);
-            buffer[index++] = (byte)(value >> 8);
             buffer[index++] = (byte)value;
+            buffer[index++] = (byte)(value >> 8);
+            buffer[index++] = (byte)(value >> 16);
+            buffer[index++] = (byte)(value >> 24);
+            buffer[index++] = (byte)(value >> 32);
+            buffer[index++] = (byte)(value >> 40);
+            buffer[index++] = (byte)(value >> 48);
+            buffer[index++] = (byte)(value >> 56);
         }
 
         /// <summary>
