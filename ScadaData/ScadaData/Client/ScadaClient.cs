@@ -100,7 +100,7 @@ namespace Scada.Client
         /// <summary>
         /// Writes the current data.
         /// </summary>
-        public void WriteCurrentData(int deviceNum, int[] cnlNums, CnlData[] cnlData)
+        public void WriteCurrentData(int deviceNum, int[] cnlNums, CnlData[] cnlData, bool applyFormulas)
         {
             if (cnlNums == null)
                 throw new ArgumentNullException("cnlNums");
@@ -124,7 +124,9 @@ namespace Scada.Client
                 CopyInt32(cnlDataElem.Stat, outBuf, ref idx2);
             }
 
-            request.ArgumentLength = cnlCnt * 16 + 8;
+            index += cnlCnt * 16;
+            CopyBool(applyFormulas, outBuf, ref index);
+            request.BufferLength = index;
             SendRequest(request);
             ReceiveResponse(request);
         }

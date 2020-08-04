@@ -355,6 +355,14 @@ namespace Scada.Server.Engine
             }
         }
 
+        /// <summary>
+        /// Calculates the input channel data if a channel formula is set and enabled.
+        /// </summary>
+        private void CalcCnlData(CnlTag cnlTag, CnlData curCnlData, ref CnlData newCnlData)
+        {
+
+        }
+
 
         /// <summary>
         /// Starts processing logic.
@@ -599,7 +607,7 @@ namespace Scada.Server.Engine
         /// <summary>
         /// Writes the current data.
         /// </summary>
-        public void WriteCurrentData(int deviceNum, int[] cnlNums, CnlData[] cnlData)
+        public void WriteCurrentData(int deviceNum, int[] cnlNums, CnlData[] cnlData, bool applyFormulas)
         {
             if (cnlNums == null)
                 throw new ArgumentNullException("cnlNums");
@@ -616,7 +624,10 @@ namespace Scada.Server.Engine
                     {
                         if (cnlTags.TryGetValue(cnlNums[i], out CnlTag cnlTag))
                         {
-                            curData.SetData(utcNow, cnlTag.Index, cnlData[i]);
+                            CnlData curCnlData = curData.CurCnlData[cnlTag.Index];
+                            CnlData newCnlData = cnlData[i];
+                            CalcCnlData(cnlTag, curCnlData, ref newCnlData);
+                            curData.SetData(utcNow, cnlTag.Index, newCnlData);
                         }
                     }
                 }

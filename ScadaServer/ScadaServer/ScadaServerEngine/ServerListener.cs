@@ -69,7 +69,7 @@ namespace Scada.Server.Engine
             else
             {
                 int[] cnlNums = GetIntArray(buffer, ref index);
-                bool useCache = buffer[index] > 0;
+                bool useCache = GetBool(buffer, ref index);
                 cnlData = coreLogic.GetCurrentData(cnlNums, useCache, out cnlListID);
             }
 
@@ -89,21 +89,23 @@ namespace Scada.Server.Engine
         {
             byte[] buffer = request.Buffer;
             int index = ArgumentIndex;
-            int deviceNum = BitConverter.ToInt32(buffer, index);
-            int cnlCnt = BitConverter.ToInt32(buffer, index + 4);
+            int deviceNum = GetInt32(buffer, ref index);
+            int cnlCnt = GetInt32(buffer, ref index);
 
             int[] cnlNums = new int[cnlCnt];
             CnlData[] cnlData = new CnlData[cnlCnt];
 
-            for (int i = 0, idx1 = index + 8, idx2 = idx1 + cnlCnt * 4; i < cnlCnt; i++, idx1 += 4, idx2 += 12)
+            for (int i = 0, idx1 = index, idx2 = idx1 + cnlCnt * 4; i < cnlCnt; i++)
             {
-                cnlNums[i] = BitConverter.ToInt32(buffer, idx1);
+                cnlNums[i] = GetInt32(buffer, ref idx1);
                 cnlData[i] = new CnlData(
-                    BitConverter.ToDouble(buffer, idx2),
-                    BitConverter.ToInt32(buffer, idx2 + 8));
+                    GetDouble(buffer, ref idx2),
+                    GetInt32(buffer, ref idx2));
             }
 
-            coreLogic.WriteCurrentData(deviceNum, cnlNums, cnlData);
+            index += cnlCnt * 16;
+            bool applyFormulas = buffer[index] > 0;
+            coreLogic.WriteCurrentData(deviceNum, cnlNums, cnlData, applyFormulas);
 
             response = new ResponsePacket(request, client.OutBuf);
             response.Encode();
