@@ -179,6 +179,7 @@ namespace Scada.Server
         /// </summary>
         public void SendResponse(ResponsePacket response)
         {
+            response.Encode();
             NetStream.Write(response.Buffer, 0, response.BufferLength);
         }
 

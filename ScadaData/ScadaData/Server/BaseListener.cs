@@ -508,7 +508,7 @@ namespace Scada.Server
 
             // send response
             if (response != null)
-                client.NetStream.Write(response.Buffer, 0, response.BufferLength);
+                client.SendResponse(response);
         }
 
         /// <summary>
@@ -520,7 +520,6 @@ namespace Scada.Server
             int index = ArgumentIndex;
             CopyString(GetServerName(), response.Buffer, ref index);
             response.BufferLength = index;
-            response.Encode();
         }
 
         /// <summary>
@@ -557,7 +556,6 @@ namespace Scada.Server
             }
 
             response.BufferLength = index;
-            response.Encode();
         }
         
         /// <summary>
@@ -637,10 +635,10 @@ namespace Scada.Server
         {
             byte[] outBuf = client.OutBuf;
             response = new ResponsePacket(request, outBuf);
-            outBuf[ArgumentIndex] = (byte)(ServerIsReady() ? 1 : 0);
-            outBuf[ArgumentIndex + 1] = (byte)(client.IsLoggedIn ? 1 : 0);
-            response.ArgumentLength = 2;
-            response.Encode();
+            int index = ArgumentIndex;
+            CopyBool(ServerIsReady(), outBuf, ref index);
+            CopyBool(client.IsLoggedIn, outBuf, ref index);
+            response.BufferLength = index;
         }
 
         /// <summary>
@@ -651,7 +649,6 @@ namespace Scada.Server
             if (clients.TryRemove(client.SessionID, out ConnectedClient value))
             {
                 ResponsePacket response = new ResponsePacket(request, client.OutBuf);
-                response.Encode();
                 client.SendResponse(response);
                 DisconnectClient(value);
             }
@@ -681,7 +678,6 @@ namespace Scada.Server
             }
 
             response.ArgumentLength = 17;
-            response.Encode();
         }
 
         /// <summary>
@@ -781,7 +777,6 @@ namespace Scada.Server
             CopyByte((byte)fileReadingResult, outBuf, ref index);
             CopyInt32(bytesRead, outBuf, ref index);
             response.ArgumentLength = 13 + bytesRead;
-            response.Encode();
             return response;
         }
 
@@ -790,118 +785,136 @@ namespace Scada.Server
         /// </summary>
         protected void UploadFile(ConnectedClient client, DataPacket request, out ResponsePacket response)
         {
-            DecodeUploadPacket(request, out int blockNumber, out int blockCount,
-                out bool endOfFile, out string fileName, out int bytesToWrite, out int fileDataIndex);
+            DecodeUploadPacket(request, out int blockNumber, out int blockCount, out string fileName, 
+                out bool endOfFile, out int bytesToWrite, out int fileDataIndex);
 
-            log.WriteAction(string.Format(Locale.IsRussian ?
-                "Приём файла {0}" :
-                "Receiving the file {0}", fileName));
-
-            if (!AcceptFileUpload(fileName))
-            {
-                throw new ProtocolException(ErrorCode.InvalidOperation, Locale.IsRussian ?
-                    "Файл отклонён." :
-                    "File rejected.");
-            }
-
-            if (blockNumber != 1)
+            if (blockNumber != 0)
             {
                 throw new ProtocolException(ErrorCode.IllegalFunctionArguments, Locale.IsRussian ?
                     "Неверный номер блока." :
                     "Invalid block number.");
             }
 
-            Directory.CreateDirectory(Path.GetDirectoryName(fileName));
+            // check whether file is accepted
+            bool fileAccepted = AcceptFileUpload(fileName);
+            response = new ResponsePacket(request, client.OutBuf) { ArgumentLength = 1 };
+            CopyBool(fileAccepted, client.OutBuf, ArgumentIndex);
+            client.SendResponse(response);
 
-            try
+            // receive file
+            if (fileAccepted)
             {
-                using (FileStream stream =
-                    new FileStream(fileName, FileMode.Create, FileAccess.Write, FileShare.ReadWrite))
+                log.WriteAction(string.Format(Locale.IsRussian ?
+                    "Приём файла {0}" :
+                    "Receiving the file {0}", fileName));
+
+                response = new ResponsePacket(request, client.OutBuf);
+                Directory.CreateDirectory(Path.GetDirectoryName(fileName));
+
+                try
                 {
-                    // write to destination file
-                    stream.Write(client.InBuf, fileDataIndex, bytesToWrite);
-
-                    while (!endOfFile && !client.Terminated)
+                    using (FileStream stream =
+                        new FileStream(fileName, FileMode.Create, FileAccess.Write, FileShare.ReadWrite))
                     {
-                        // wait for data
-                        DateTime endWaitingDT = DateTime.UtcNow.AddMilliseconds(client.TcpClient.ReceiveTimeout);
-                        while (!client.NetStream.DataAvailable && DateTime.UtcNow <= endWaitingDT)
+                        while (!endOfFile && !client.Terminated)
                         {
-                            Thread.Sleep(ScadaUtils.ThreadDelay);
-                        }
+                            // wait for data
+                            DateTime endWaitingDT = DateTime.UtcNow.AddMilliseconds(client.TcpClient.ReceiveTimeout);
+                            while (!client.NetStream.DataAvailable && DateTime.UtcNow <= endWaitingDT)
+                            {
+                                Thread.Sleep(ScadaUtils.ThreadDelay);
+                            }
 
-                        // receive next data packet
-                        if (ReceiveDataPacket(client, out DataPacket dataPacket))
-                        {
-                            DecodeUploadPacket(dataPacket, out int newBlockNumber, out blockCount,
-                                out endOfFile, out fileName, out bytesToWrite, out fileDataIndex);
+                            // receive next data packet
+                            if (ReceiveDataPacket(client, out DataPacket dataPacket))
+                            {
+                                DecodeUploadPacket(dataPacket, out int newBlockNumber, out blockCount, out string s,
+                                    out endOfFile, out bytesToWrite, out fileDataIndex);
 
-                            if (dataPacket.TransactionID != request.TransactionID)
+                                if (dataPacket.TransactionID != request.TransactionID)
+                                {
+                                    throw new ProtocolException(ErrorCode.InvalidOperation, Locale.IsRussian ?
+                                        "Неверный идентификатор транзакции." :
+                                        "Invalid transaction ID.");
+                                }
+
+                                if (dataPacket.FunctionID != FunctionID.UploadFile)
+                                {
+                                    throw new ProtocolException(ErrorCode.InvalidOperation, Locale.IsRussian ?
+                                        "Ожидалась операция передачи файла." :
+                                        "File upload operation expected.");
+                                }
+
+                                if (++blockNumber != newBlockNumber)
+                                {
+                                    throw new ProtocolException(ErrorCode.IllegalFunctionArguments, Locale.IsRussian ?
+                                        "Неверный номер блока." :
+                                        "Invalid block number.");
+                                }
+
+                                // write to destination file
+                                stream.Write(client.InBuf, fileDataIndex, bytesToWrite);
+                            }
+                            else
                             {
                                 throw new ProtocolException(ErrorCode.InvalidOperation, Locale.IsRussian ?
-                                    "Неверный идентификатор транзакции." :
-                                    "Invalid transaction ID.");
+                                    "Данные файла отсутствуют." :
+                                    "No file data.");
                             }
-
-                            if (dataPacket.FunctionID != FunctionID.UploadFile)
-                            {
-                                throw new ProtocolException(ErrorCode.InvalidOperation, Locale.IsRussian ?
-                                    "Ожидалась операция передачи файла." :
-                                    "File upload operation expected.");
-                            }
-
-                            if (++blockNumber != newBlockNumber)
-                            {
-                                throw new ProtocolException(ErrorCode.IllegalFunctionArguments, Locale.IsRussian ?
-                                    "Неверный номер блока." :
-                                    "Invalid block number.");
-                            }
-
-                            // write to destination file
-                            stream.Write(client.InBuf, fileDataIndex, bytesToWrite);
-                        }
-                        else
-                        {
-                            throw new ProtocolException(ErrorCode.InvalidOperation, Locale.IsRussian ?
-                                "Данные файла отсутствуют." :
-                                "No file data.");
                         }
                     }
-                }
 
-                if (client.Terminated)
+                    if (client.Terminated)
+                    {
+                        throw new ProtocolException(ErrorCode.InvalidOperation, Locale.IsRussian ?
+                            "Операция отменена." :
+                            "Operation cancelled.");
+                    }
+                }
+                catch
                 {
-                    throw new ProtocolException(ErrorCode.InvalidOperation, Locale.IsRussian ?
-                        "Операция отменена." :
-                        "Operation cancelled.");
+                    // delete file in case of error
+                    try { File.Delete(fileName); }
+                    catch { }
+                    throw;
                 }
             }
-            catch
+            else
             {
-                // delete file in case of error
-                try { File.Delete(fileName); }
-                catch { }
-                throw;
+                log.WriteAction(string.Format(Locale.IsRussian ?
+                    "Файл {0} отклонён" :
+                    "File {0} rejected", fileName));
+                response = null;
             }
-
-            response = new ResponsePacket(request, client.OutBuf);
-            response.Encode();
         }
 
         /// <summary>
         /// Decodes the file upload data packet.
         /// </summary>
-        protected void DecodeUploadPacket(DataPacket dataPacket, out int blockNumber, out int blockCount,
-            out bool endOfFile, out string fileName, out int bytesToWrite, out int fileDataIndex)
+        protected void DecodeUploadPacket(DataPacket dataPacket, 
+            out int blockNumber, out int blockCount, out string fileName,
+            out bool endOfFile, out int bytesToWrite, out int fileDataIndex)
         {
             byte[] buffer = dataPacket.Buffer;
             int index = ArgumentIndex;
             blockNumber = GetInt32(buffer, ref index);
-            blockCount = GetInt32(buffer, ref index);
-            endOfFile = GetBool(buffer, ref index);
-            fileName = GetFileName(buffer, ref index);
-            bytesToWrite = GetInt32(buffer, ref index);
-            fileDataIndex = index;
+
+            if (blockNumber == 0)
+            {
+                blockCount = GetInt32(buffer, ref index);
+                fileName = GetFileName(buffer, ref index);
+                endOfFile = false;
+                bytesToWrite = 0;
+                fileDataIndex = -1;
+            }
+            else
+            {
+                blockCount = 0;
+                fileName = "";
+                endOfFile = GetBool(buffer, ref index);
+                bytesToWrite = GetInt32(buffer, ref index);
+                fileDataIndex = index;
+            }
         }
 
         /// <summary>

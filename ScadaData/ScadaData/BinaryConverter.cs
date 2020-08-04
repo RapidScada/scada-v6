@@ -360,25 +360,5 @@ namespace Scada
                 return new CnlData[0];
             }
         }
-
-        /// <summary>
-        /// Gets the required size in a buffer to store the string.
-        /// </summary>
-        public static int MeasureString(string s)
-        {
-            if (string.IsNullOrEmpty(s))
-            {
-                return 2;
-            }
-            else
-            {
-                int dataLength = Encoding.UTF8.GetBytes(s).Length;
-
-                if (dataLength > ushort.MaxValue)
-                    throw new ArgumentException("String length exceeded.");
-
-                return dataLength + 2;
-            }
-        }
     }
 }

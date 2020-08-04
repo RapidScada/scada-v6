@@ -558,56 +558,64 @@ namespace Scada.Client
         /// <summary>
         /// Uploads the file.
         /// </summary>
-        public void UploadFile(string srcFileName, ushort directoryID, string path)
+        public void UploadFile(string srcFileName, ushort directoryID, string path, out bool fileAccepted)
         {
             if (!File.Exists(srcFileName))
                 throw new ScadaException(CommonPhrases.FileNotFound);
 
             RestoreConnection();
-            DataPacket request = null;
 
             using (FileStream stream =
                 new FileStream(srcFileName, FileMode.Open, FileAccess.Read, FileShare.ReadWrite))
             {
-                int fileDataIndex = ArgumentIndex + 17 + MeasureString(path);
-                int blockCapacity = BufferLenght - fileDataIndex;
+                // request permission to upload file
+                const int FileDataIndex = ArgumentIndex + 9;
+                const int BlockCapacity = BufferLenght - FileDataIndex;
                 long bytesToReadTotal = stream.Length;
-                long bytesReadTotal = 0;
-                int blockNumber = 0;
-                int blockCount = (int)Math.Ceiling((double)bytesToReadTotal / blockCapacity);
-                bool endOfFile = false;
-                transactionID++;
+                int blockCount = (int)Math.Ceiling((double)bytesToReadTotal / BlockCapacity);
 
-                while (!endOfFile)
+                DataPacket request = CreateRequest(FunctionID.UploadFile);
+                int index = ArgumentIndex;
+                CopyInt32(0, outBuf, ref index);
+                CopyInt32(blockCount, outBuf, ref index);
+                CopyFileName(directoryID, path, outBuf, ref index);
+                request.BufferLength = index;
+                SendRequest(request);
+
+                DataPacket response = ReceiveResponse(request);
+                fileAccepted = inBuf[ArgumentIndex] > 0;
+
+                // upload file
+                if (fileAccepted)
                 {
-                    // read from file
-                    int bytesToRead = (int)Math.Min(bytesToReadTotal - bytesReadTotal, blockCapacity);
-                    int bytesRead = stream.Read(outBuf, fileDataIndex, bytesToRead);
-                    bytesReadTotal += bytesRead;
-                    endOfFile = bytesRead < bytesToRead || bytesReadTotal == bytesToReadTotal;
+                    int blockNumber = 0;
+                    long bytesReadTotal = 0;
+                    bool endOfFile = false;
+                    request = null;
 
-                    // send data
-                    request = CreateRequest(FunctionID.UploadFile, 0, false);
-                    int index = ArgumentIndex;
-                    CopyInt32(++blockNumber, outBuf, ref index);
-                    CopyInt32(blockCount, outBuf, ref index);
-                    CopyBool(endOfFile, outBuf, ref index);
-                    CopyFileName(directoryID, path, outBuf, ref index);
-                    CopyInt32(bytesRead, outBuf, ref index);
-                    request.BufferLength = fileDataIndex + bytesRead;
-                    SendRequest(request);
-                    OnProgress(blockNumber, blockCount);
-
-                    if (blockNumber == 1)
+                    while (!endOfFile)
                     {
-                        path = "";
-                        fileDataIndex = ArgumentIndex + 17;
+                        // read from file
+                        int bytesToRead = (int)Math.Min(bytesToReadTotal - bytesReadTotal, BlockCapacity);
+                        int bytesRead = stream.Read(outBuf, FileDataIndex, bytesToRead);
+                        bytesReadTotal += bytesRead;
+                        endOfFile = bytesRead < bytesToRead || bytesReadTotal == bytesToReadTotal;
+
+                        // send data
+                        request = CreateRequest(FunctionID.UploadFile, 0, false);
+                        index = ArgumentIndex;
+                        CopyInt32(++blockNumber, outBuf, ref index);
+                        CopyBool(endOfFile, outBuf, ref index);
+                        CopyInt32(bytesRead, outBuf, ref index);
+                        request.BufferLength = FileDataIndex + bytesRead;
+                        SendRequest(request);
+                        OnProgress(blockNumber, blockCount);
                     }
+
+                    if (request != null)
+                        ReceiveResponse(request);
                 }
             }
-
-            if (request != null)
-                ReceiveResponse(request);
         }
 
 
