@@ -187,7 +187,7 @@ namespace Scada.Server.Engine
         /// </summary>
         protected override string GetDirectory(ushort directoryID)
         {
-            return @"C:\SCADA\";
+            return @"C:\SCADA-v6\";
         }
 
         /// <summary>
