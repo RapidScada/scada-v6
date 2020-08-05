@@ -24,6 +24,7 @@
  */
 
 using Scada.Data.Entities;
+using System;
 
 namespace Scada.Server.Engine
 {
@@ -40,6 +41,7 @@ namespace Scada.Server.Engine
         {
             Index = index;
             InCnl = inCnl;
+            CalcCnlDataFunc = null;
         }
 
 
@@ -52,5 +54,10 @@ namespace Scada.Server.Engine
         /// Gets or sets the input channel entity.
         /// </summary>
         public InCnl InCnl { get; set; }
+
+        /// <summary>
+        /// Gets or sets the function that calculates input channel data.
+        /// </summary>
+        public Func<object> CalcCnlDataFunc { get; set; }
     }
 }

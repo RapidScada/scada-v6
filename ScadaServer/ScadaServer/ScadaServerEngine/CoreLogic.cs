@@ -90,6 +90,7 @@ namespace Scada.Server.Engine
         private BaseDataSet baseDataSet;         // the configuration database
         private Dictionary<int, CnlTag> cnlTags; // the metadata about the input channels accessed by channel numbers
         private Dictionary<string, User> users;  // the users accessed by names
+        private Calculator calc;                 // provides work with scripts and formulas
         private CurrentData curData;             // the current data of the input channels
         private ServerCache serverCache;         // the server level cache
 
@@ -116,6 +117,7 @@ namespace Scada.Server.Engine
             baseDataSet = null;
             cnlTags = null;
             users = null;
+            calc = null;
             curData = null;
             serverCache = null;
         }
@@ -156,6 +158,9 @@ namespace Scada.Server.Engine
 
             InitCnlTags();
             InitUsers();
+
+            if (!InitCalculator())
+                return false;
 
             curData = new CurrentData(cnlTags.Count);
             serverCache = new ServerCache();
@@ -259,6 +264,15 @@ namespace Scada.Server.Engine
         }
 
         /// <summary>
+        /// Initializes the calculator.
+        /// </summary>
+        private bool InitCalculator()
+        {
+            calc = new Calculator(log);
+            return calc.CompileScripts(baseDataSet);
+        }
+
+        /// <summary>
         /// Work cycle running in a separate thread.
         /// </summary>
         private void Execute()
@@ -358,9 +372,9 @@ namespace Scada.Server.Engine
         /// <summary>
         /// Calculates the input channel data if a channel formula is set and enabled.
         /// </summary>
-        private void CalcCnlData(CnlTag cnlTag, CnlData curCnlData, ref CnlData newCnlData)
+        private CnlData CalcCnlData(CnlTag cnlTag, CnlData curCnlData, CnlData initialCnlData)
         {
-
+            return initialCnlData;
         }
 
 
@@ -625,8 +639,7 @@ namespace Scada.Server.Engine
                         if (cnlTags.TryGetValue(cnlNums[i], out CnlTag cnlTag))
                         {
                             CnlData curCnlData = curData.CurCnlData[cnlTag.Index];
-                            CnlData newCnlData = cnlData[i];
-                            CalcCnlData(cnlTag, curCnlData, ref newCnlData);
+                            CnlData newCnlData = CalcCnlData(cnlTag, curCnlData, cnlData[i]);
                             curData.SetData(utcNow, cnlTag.Index, newCnlData);
                         }
                     }
