@@ -268,8 +268,8 @@ namespace Scada.Server.Engine
         /// </summary>
         private bool InitCalculator()
         {
-            calc = new Calculator(log);
-            return calc.CompileScripts(baseDataSet);
+            calc = new Calculator(appDirs, log);
+            return calc.CompileScripts(baseDataSet, cnlTags);
         }
 
         /// <summary>
