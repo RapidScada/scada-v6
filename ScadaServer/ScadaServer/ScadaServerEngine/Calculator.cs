@@ -26,6 +26,7 @@
 using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.CSharp;
 using Microsoft.CodeAnalysis.Emit;
+using Scada.Data.Const;
 using Scada.Data.Entities;
 using Scada.Data.Models;
 using Scada.Data.Tables;
@@ -60,6 +61,7 @@ namespace Scada.Server.Engine
 
         private readonly ServerDirs appDirs; // the application directories
         private readonly ILog log;           // the application log
+        private readonly byte[] valueBuffer; // the buffer for converting channel values
 
 
         /// <summary>
@@ -69,6 +71,7 @@ namespace Scada.Server.Engine
         {
             this.appDirs = appDirs ?? throw new ArgumentNullException("appDirs");
             this.log = log ?? throw new ArgumentNullException("log");
+            valueBuffer = new byte[8];
         }
 
 
@@ -83,6 +86,12 @@ namespace Scada.Server.Engine
             outCnlClassNames = new Dictionary<int, string>();
 
             StringBuilder sourceCode = new StringBuilder();
+            sourceCode.AppendLine("using System;");
+            sourceCode.AppendLine("using System.Collections.Generic;");
+            sourceCode.AppendLine("using System.IO;");
+            sourceCode.AppendLine("using System.Linq;");
+            sourceCode.AppendLine("using System.Text;");
+            sourceCode.AppendLine("using static System.Math;");
             sourceCode.AppendLine("namespace Scada.Server.Engine {");
 
             // add scripts
@@ -330,23 +339,61 @@ namespace Scada.Server.Engine
         /// Calculates the input channel data.
         /// </summary>
         public CnlData CalcCnlData(CalcEngine calcEngine, Func<object> calcCnlDataFunc, 
-            int cnlNum, CnlData initialCnlData)
+            int cnlNum, int dataTypeID, CnlData initialCnlData)
         {
             if (calcEngine != null && calcCnlDataFunc != null)
             {
-                object cnlDataObj = calcCnlDataFunc();
-                CnlData newCnlData = CnlData.Empty;
-
-                if (cnlDataObj is double cnlVal)
+                try
                 {
-                    newCnlData = new CnlData(cnlVal, initialCnlData.Stat);
-                }
-                else if (cnlDataObj is CnlData cnlData)
-                {
-                    newCnlData = cnlData;
-                }
+                    calcEngine.BeginCalcCnlData(cnlNum, initialCnlData);
+                    object cnlDataObj = calcCnlDataFunc();
+                    CnlData newCnlData = CnlData.Empty;
 
-                return newCnlData;
+                    if (cnlDataObj is CnlData cnlData)
+                    {
+                        newCnlData = cnlData;
+                    }
+                    else if (dataTypeID == DataTypeID.Double)
+                    {
+                        newCnlData = new CnlData(Convert.ToDouble(cnlDataObj), initialCnlData.Stat);
+                    }
+                    else
+                    {
+                        Array.Clear(valueBuffer, 0, valueBuffer.Length);
+
+                        switch (dataTypeID)
+                        {
+                            case DataTypeID.Int64:
+                                BinaryConverter.CopyInt64(Convert.ToInt64(cnlDataObj), valueBuffer, 0);
+                                break;
+                            case DataTypeID.UInt64:
+                                BinaryConverter.CopyInt64((long)Convert.ToUInt64(cnlDataObj), valueBuffer, 0);
+                                break;
+                            case DataTypeID.ASCII:
+                                string s1 = Convert.ToString(cnlDataObj);
+                                int len1 = Math.Min(8, s1.Length);
+                                Encoding.ASCII.GetBytes(s1, 0, len1, valueBuffer, 0);
+                                break;
+                            case DataTypeID.Unicode:
+                                string s2 = Convert.ToString(cnlDataObj);
+                                int len2 = Math.Min(4, s2.Length);
+                                Encoding.Unicode.GetBytes(s2, 0, len2, valueBuffer, 0);
+                                break;
+                        }
+
+                        newCnlData = new CnlData(BitConverter.ToDouble(valueBuffer, 0), initialCnlData.Stat);
+                    }
+
+                    return newCnlData;
+                }
+                catch
+                {
+                    return new CnlData(initialCnlData.Val, CnlStatusID.FormulaError);
+                }
+                finally
+                {
+                    calcEngine.EndCalcCnlData();
+                }
             }
             else
             {

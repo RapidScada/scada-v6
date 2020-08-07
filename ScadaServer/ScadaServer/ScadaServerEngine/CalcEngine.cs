@@ -23,9 +23,9 @@
  * Modified : 2020
  */
 
+using Scada.Data.Models;
 using System;
-using System.Collections.Generic;
-using System.Text;
+using System.Threading;
 
 namespace Scada.Server.Engine
 {
@@ -35,5 +35,325 @@ namespace Scada.Server.Engine
     /// </summary>
     public abstract class CalcEngine
     {
+        /// <summary>
+        /// The calculation context.
+        /// </summary>
+        protected ICalcContext calcContext;
+        /// <summary>
+        /// The channel number for which the formula is calculated.
+        /// </summary>
+        protected int cnlNum;
+        /// <summary>
+        /// The input channel data transmitted to the server before the calculation.
+        /// </summary>
+        protected CnlData initialCnlData;
+
+
+        /// <summary>
+        /// Initializes a new instance of the class.
+        /// </summary>
+        public CalcEngine()
+        {
+            calcContext = null;
+            cnlNum = 0;
+            initialCnlData = CnlData.Empty;
+        }
+
+
+        /// <summary>
+        /// Performs the necessary actions before the calculation.
+        /// </summary>
+        public void BeginCalculation(ICalcContext calcContext)
+        {
+            Monitor.Enter(this);
+            this.calcContext = calcContext;
+        }
+
+        /// <summary>
+        /// Performs the necessary actions after the calculation.
+        /// </summary>
+        public void EndCalculation()
+        {
+            calcContext = null;
+            Monitor.Exit(this);
+        }
+
+        /// <summary>
+        /// Performs the necessary actions before the calculation of the input channel data.
+        /// </summary>
+        public void BeginCalcCnlData(int cnlNum, CnlData initialCnlData)
+        {
+            this.cnlNum = cnlNum;
+            this.initialCnlData = initialCnlData;
+        }
+
+        /// <summary>
+        /// Performs the necessary actions after the calculation of the input channel data.
+        /// </summary>
+        public void EndCalcCnlData()
+        {
+            cnlNum = 0;
+            initialCnlData = CnlData.Empty;
+        }
+
+
+        /// <summary>
+        /// Gets the calculation context.
+        /// </summary>
+        public ICalcContext Context
+        {
+            get
+            {
+                return calcContext;
+            }
+        }
+
+        /// <summary>
+        /// Gets the channel number for which the formula is calculated.
+        /// </summary>
+        public int CnlNum
+        {
+            get
+            {
+                return cnlNum;
+            }
+        }
+
+        /// <summary>
+        /// Gets the input channel value transmitted to the server before the calculation.
+        /// </summary>
+        public double Cnl
+        {
+            get
+            {
+                return initialCnlData.Val;
+            }
+        }
+
+        /// <summary>
+        /// Gets the input channel value transmitted to the server before the calculation.
+        /// </summary>
+        public double CnlVal
+        {
+            get
+            {
+                return initialCnlData.Val;
+            }
+        }
+
+        /// <summary>
+        /// Gets the input channel status transmitted to the server before the calculation.
+        /// </summary>
+        public int CnlStat
+        {
+            get
+            {
+                return initialCnlData.Stat;
+            }
+        }
+
+        /// <summary>
+        /// Gets the input channel data transmitted to the server before the calculation.
+        /// </summary>
+        public CnlData CnlData
+        {
+            get
+            {
+                return initialCnlData;
+            }
+        }
+
+
+        /// <summary>
+        /// Gets the specified channel number for updating numbers on cloning.
+        /// </summary>
+        public int N(int n)
+        {
+            return n;
+        }
+
+        /// <summary>
+        /// Gets the current value of the formula channel.
+        /// </summary>
+        public double Val()
+        {
+            return Data(cnlNum).Val;
+        }
+
+        /// <summary>
+        /// Gets the current value of the channel n.
+        /// </summary>
+        public double Val(int n)
+        {
+            return Data(n).Val;
+        }
+
+        /// <summary>
+        /// Sets the current value of the channel n.
+        /// </summary>
+        public double SetVal(int n, double val)
+        {
+            if (calcContext == null)
+            {
+                return double.NaN;
+            }
+            else
+            {
+                calcContext.SetCnlData(n, new CnlData(val, Stat(n)));
+                return val;
+            }
+        }
+
+        /// <summary>
+        /// Gets the current status of the formula channel.
+        /// </summary>
+        public int Stat()
+        {
+            return Data(cnlNum).Stat;
+        }
+
+        /// <summary>
+        /// Gets the current status of the channel n.
+        /// </summary>
+        public int Stat(int n)
+        {
+            return Data(n).Stat;
+        }
+
+        /// <summary>
+        /// Sets the current status of the channel n.
+        /// </summary>
+        public int SetStat(int n, int stat)
+        {
+            if (calcContext == null)
+            {
+                return 0;
+            }
+            else
+            {
+                calcContext.SetCnlData(n, new CnlData(Val(n), stat));
+                return stat;
+            }
+        }
+
+        /// <summary>
+        /// Gets the current data of the formula channel.
+        /// </summary>
+        public CnlData Data()
+        {
+            return Data(cnlNum);
+        }
+
+        /// <summary>
+        /// Gets the current data of the channel n.
+        /// </summary>
+        public CnlData Data(int n)
+        {
+            return calcContext == null ? CnlData.Empty : calcContext.GetCnlData(n);
+        }
+
+        /// <summary>
+        /// Sets the current data of the channel n.
+        /// </summary>
+        public double SetData(int n, double val, int stat)
+        {
+            if (calcContext == null)
+            {
+                return double.NaN;
+            }
+            else
+            {
+                calcContext.SetCnlData(n, new CnlData(val, stat));
+                return val;
+            }
+        }
+
+        /// <summary>
+        /// Sets the current data of the channel n.
+        /// </summary>
+        public double SetData(int n, CnlData cnlData)
+        {
+            if (calcContext == null)
+            {
+                return double.NaN;
+            }
+            else
+            {
+                calcContext.SetCnlData(n, cnlData);
+                return cnlData.Val;
+            }
+        }
+
+        /// <summary>
+        /// Gets the previous value of the formula channel.
+        /// </summary>
+        public double PrevVal()
+        {
+            return PrevData(cnlNum).Val;
+        }
+
+        /// <summary>
+        /// Gets the previous value of the channel n.
+        /// </summary>
+        public double PrevVal(int n)
+        {
+            return PrevData(n).Val;
+        }
+
+        /// <summary>
+        /// Gets the previous status of the formula channel.
+        /// </summary>
+        public int PrevStat()
+        {
+            return PrevData(cnlNum).Stat;
+        }
+
+        /// <summary>
+        /// Gets the previous status of the channel n.
+        /// </summary>
+        public int PrevStat(int n)
+        {
+            return PrevData(n).Stat;
+        }
+
+        /// <summary>
+        /// Gets the previous data of the channel n.
+        /// </summary>
+        public CnlData PrevData(int n)
+        {
+            return calcContext == null ? CnlData.Empty : calcContext.GetPrevCnlData(n);
+        }
+
+        /// <summary>
+        /// Gets the current timestamp of the formula channel.
+        /// </summary>
+        public DateTime Time()
+        {
+            return Time(cnlNum);
+        }
+
+        /// <summary>
+        /// Gets the current timestamp of the channel n.
+        /// </summary>
+        public DateTime Time(int n)
+        {
+            return calcContext == null ? DateTime.MinValue : calcContext.GetCnlTime(n);
+        }
+
+        /// <summary>
+        /// Gets the previous timestamp of the formula channel.
+        /// </summary>
+        public DateTime PrevTime()
+        {
+            return PrevTime(cnlNum);
+        }
+
+        /// <summary>
+        /// Gets the previous timestamp of the channel n.
+        /// </summary>
+        public DateTime PrevTime(int n)
+        {
+            return calcContext == null ? DateTime.MinValue : calcContext.GetPrevCnlTime(n);
+        }
     }
 }
