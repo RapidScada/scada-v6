@@ -664,20 +664,22 @@ namespace Scada.Server
             FileInfo fileInfo = new FileInfo(fileName);
             byte[] outBuf = client.OutBuf;
             response = new ResponsePacket(request, outBuf);
+            index = ArgumentIndex;
 
             if (fileInfo.Exists)
             {
-                index = ArgumentIndex;
                 CopyBool(true, outBuf, ref index);
                 CopyTime(fileInfo.LastWriteTimeUtc, outBuf, ref index);
                 CopyInt64(fileInfo.Length, outBuf, ref index);
             }
             else
             {
-                Array.Clear(outBuf, ArgumentIndex, 17);
+                CopyBool(false, outBuf, ref index);
+                CopyTime(DateTime.MinValue, outBuf, ref index);
+                CopyInt64(0, outBuf, ref index);
             }
 
-            response.ArgumentLength = 17;
+            response.BufferLength = index;
         }
 
         /// <summary>
@@ -685,7 +687,7 @@ namespace Scada.Server
         /// </summary>
         protected string GetFileName(byte[] buffer, ref int index)
         {
-            ushort directoryID = GetUInt16(buffer, ref index);
+            int directoryID = GetInt32(buffer, ref index);
             string path = GetString(buffer, ref index);
             return Path.Combine(GetDirectory(directoryID), ScadaUtils.NormalPathSeparators(path));
         }
@@ -707,13 +709,13 @@ namespace Scada.Server
             if (!fileInfo.Exists)
             {
                 ResponsePacket response = CreateDownloadResponse(request, client.OutBuf, 
-                    1, 1, FileReadingResult.FileNotFound, 0);
+                    1, 1, DateTime.MinValue, FileReadingResult.FileNotFound, 0);
                 client.SendResponse(response);
             }
             else if (fileInfo.LastAccessTimeUtc <= newerThan)
             {
                 ResponsePacket response = CreateDownloadResponse(request, client.OutBuf,
-                    1, 1, FileReadingResult.FileOutdated, 0);
+                    1, 1, fileInfo.LastAccessTimeUtc, FileReadingResult.FileOutdated, 0);
                 client.SendResponse(response);
             }
             else
@@ -736,6 +738,7 @@ namespace Scada.Server
                     long bytesReadTotal = 0;
                     int blockNumber = 1;
                     int blockCount = (int)Math.Ceiling((double)bytesToReadTotal / BlockCapacity);
+                    DateTime fileAge = File.GetLastWriteTimeUtc(fileName);
                     byte[] outBuf = client.OutBuf;
                     bool endOfFile = false;
 
@@ -755,7 +758,8 @@ namespace Scada.Server
                         endOfFile = bytesRead < bytesToRead || bytesReadTotal == bytesToReadTotal;
 
                         // send response
-                        ResponsePacket response = CreateDownloadResponse(request, outBuf, blockNumber, blockCount,
+                        ResponsePacket response = CreateDownloadResponse(
+                            request, outBuf, blockNumber, blockCount, fileAge, 
                             endOfFile ? FileReadingResult.EndOfFile : FileReadingResult.Successful, bytesRead);
                         client.SendResponse(response);
                         blockNumber++;
@@ -768,12 +772,13 @@ namespace Scada.Server
         /// Creates a response to the file download request.
         /// </summary>
         protected ResponsePacket CreateDownloadResponse(DataPacket request, byte[] outBuf, 
-            int blockNumber, int blockCount, FileReadingResult fileReadingResult, int bytesRead)
+            int blockNumber, int blockCount, DateTime fileAge, FileReadingResult fileReadingResult, int bytesRead)
         {
             ResponsePacket response = new ResponsePacket(request, outBuf);
             int index = ArgumentIndex;
             CopyInt32(blockNumber, outBuf, ref index);
             CopyInt32(blockCount, outBuf, ref index);
+            CopyTime(fileAge, outBuf, ref index);
             CopyByte((byte)fileReadingResult, outBuf, ref index);
             CopyInt32(bytesRead, outBuf, ref index);
             response.ArgumentLength = 13 + bytesRead;
@@ -947,7 +952,7 @@ namespace Scada.Server
         /// <summary>
         /// Gets the directory name by ID.
         /// </summary>
-        protected virtual string GetDirectory(ushort directoryID)
+        protected virtual string GetDirectory(int directoryID)
         {
             throw new ProtocolException(ErrorCode.InvalidOperation, Locale.IsRussian ?
                 "Операция не реализована." :

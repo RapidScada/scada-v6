@@ -462,7 +462,7 @@ namespace Scada.Client
         /// <summary>
         /// Gets the information about the file.
         /// </summary>
-        public void GetFileInfo(ushort directoryID, string path, 
+        public void GetFileInfo(int directoryID, string path, 
             out bool fileExists, out DateTime fileAge, out long fileLength)
         {
             RestoreConnection();
@@ -483,8 +483,9 @@ namespace Scada.Client
         /// <summary>
         /// Downloads the file.
         /// </summary>
-        public void DownloadFile(ushort directoryID, string path, long offset, int count, bool readFromEnd, 
-            DateTime newerThan, Func<Stream> createStreamFunc, out FileReadingResult readingResult, out Stream stream)
+        public void DownloadFile(int directoryID, string path, long offset, int count, bool readFromEnd,
+            DateTime newerThan, Func<Stream> createStreamFunc, 
+            out DateTime fileAge, out FileReadingResult readingResult, out Stream stream)
         {
             if (createStreamFunc == null)
                 throw new ArgumentNullException("createStreamFunc");
@@ -502,6 +503,7 @@ namespace Scada.Client
             SendRequest(request);
 
             int prevBlockNumber = 0;
+            fileAge = DateTime.MinValue;
             readingResult = FileReadingResult.Successful;
             stream = null;
 
@@ -513,6 +515,7 @@ namespace Scada.Client
                     index = ArgumentIndex;
                     int blockNumber = GetInt32(inBuf, ref index);
                     int blockCount = GetInt32(inBuf, ref index);
+                    fileAge = GetTime(inBuf, ref index);
                     readingResult = (FileReadingResult)GetByte(inBuf, ref index);
 
                     if (blockNumber != prevBlockNumber + 1)
@@ -546,19 +549,19 @@ namespace Scada.Client
         /// <summary>
         /// Downloads the file.
         /// </summary>
-        public void DownloadFile(ushort directoryID, string path, long offset, int count, bool readFromEnd,
-            DateTime newerThan, string destFileName, out FileReadingResult readingResult)
+        public void DownloadFile(int directoryID, string path, long offset, int count, bool readFromEnd,
+            DateTime newerThan, string destFileName, out DateTime fileAge, out FileReadingResult readingResult)
         {
             DownloadFile(directoryID, path, offset, count, readFromEnd, newerThan,
                 () => { return new FileStream(destFileName, FileMode.Create, FileAccess.Write, FileShare.Read); },
-                out readingResult, out Stream stream);
+                out fileAge, out readingResult, out Stream stream);
             stream?.Dispose();
         }
 
         /// <summary>
         /// Uploads the file.
         /// </summary>
-        public void UploadFile(string srcFileName, ushort directoryID, string path, out bool fileAccepted)
+        public void UploadFile(string srcFileName, int directoryID, string path, out bool fileAccepted)
         {
             if (!File.Exists(srcFileName))
                 throw new ScadaException(CommonPhrases.FileNotFound);

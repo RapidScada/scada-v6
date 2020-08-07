@@ -185,9 +185,9 @@ namespace Scada
         /// <summary>
         /// Encodes and copies the file name to the buffer.
         /// </summary>
-        public static void CopyFileName(ushort directoryID, string path, byte[] buffer, ref int index)
+        public static void CopyFileName(int directoryID, string path, byte[] buffer, ref int index)
         {
-            CopyUInt16(directoryID, buffer, ref index);
+            CopyInt32(directoryID, buffer, ref index);
             CopyString(path, buffer, ref index);
         }
 
