@@ -162,7 +162,7 @@ namespace Scada.Server.Engine
             if (!InitCalculator())
                 return false;
 
-            curData = new CurrentData(cnlTags.Count);
+            curData = new CurrentData(cnlTags);
             serverCache = new ServerCache();
             listener = new ServerListener(this, config.ListenerOptions, log);
             return true;
@@ -281,6 +281,7 @@ namespace Scada.Server.Engine
             {
                 DateTime writeInfoDT = DateTime.MinValue; // the timestamp of writing application info
                 moduleHolder.CallOnServiceStart();
+                calc.InitScripts();
 
                 while (!terminated)
                 {
@@ -311,6 +312,7 @@ namespace Scada.Server.Engine
             }
             finally
             {
+                calc.FinalizeScripts();
                 moduleHolder.CallOnServiceStop();
                 workState = WorkState.Terminated;
                 WriteInfo();
@@ -374,7 +376,8 @@ namespace Scada.Server.Engine
         /// </summary>
         private CnlData CalcCnlData(CnlTag cnlTag, CnlData curCnlData, CnlData initialCnlData)
         {
-            return initialCnlData;
+            return calc.CalcCnlData(cnlTag.CalcEngine, cnlTag.CalcCnlDataFunc, cnlTag.InCnl.CnlNum,
+                cnlTag.InCnl.DataTypeID ?? DataTypeID.Double, initialCnlData);
         }
 
 
@@ -630,6 +633,8 @@ namespace Scada.Server.Engine
 
             try
             {
+                calc.BeginCalculation(curData);
+
                 lock (curData)
                 {
                     DateTime utcNow = DateTime.UtcNow;
@@ -640,7 +645,7 @@ namespace Scada.Server.Engine
                         {
                             CnlData curCnlData = curData.CurCnlData[cnlTag.Index];
                             CnlData newCnlData = CalcCnlData(cnlTag, curCnlData, cnlData[i]);
-                            curData.SetData(utcNow, cnlTag.Index, newCnlData);
+                            curData.SetCurCnlData(utcNow, cnlTag.Index, newCnlData);
                         }
                     }
                 }
@@ -650,6 +655,10 @@ namespace Scada.Server.Engine
                 log.WriteException(ex, Locale.IsRussian ?
                     "Ошибка при записи текущих данных" :
                     "Error writing current data");
+            }
+            finally
+            {
+                calc.EndCalculation();
             }
         }
     }

@@ -23,9 +23,10 @@
  * Modified : 2020
  */
 
+using Scada.Data.Const;
 using Scada.Data.Models;
 using System;
-using System.Threading;
+using System.Text;
 
 namespace Scada.Server.Engine
 {
@@ -36,6 +37,10 @@ namespace Scada.Server.Engine
     public abstract class CalcEngine
     {
         /// <summary>
+        /// The buffer for converting channel values
+        /// </summary>
+        protected readonly byte[] valueBuffer;
+        /// <summary>
         /// The calculation context.
         /// </summary>
         protected ICalcContext calcContext;
@@ -43,6 +48,10 @@ namespace Scada.Server.Engine
         /// The channel number for which the formula is calculated.
         /// </summary>
         protected int cnlNum;
+        /// <summary>
+        /// The data type ID of the channel for which the formula is calculated.
+        /// </summary>
+        protected int dataTypeID;
         /// <summary>
         /// The input channel data transmitted to the server before the calculation.
         /// </summary>
@@ -54,46 +63,9 @@ namespace Scada.Server.Engine
         /// </summary>
         public CalcEngine()
         {
-            calcContext = null;
-            cnlNum = 0;
-            initialCnlData = CnlData.Empty;
-        }
-
-
-        /// <summary>
-        /// Performs the necessary actions before the calculation.
-        /// </summary>
-        public void BeginCalculation(ICalcContext calcContext)
-        {
-            Monitor.Enter(this);
-            this.calcContext = calcContext;
-        }
-
-        /// <summary>
-        /// Performs the necessary actions after the calculation.
-        /// </summary>
-        public void EndCalculation()
-        {
-            calcContext = null;
-            Monitor.Exit(this);
-        }
-
-        /// <summary>
-        /// Performs the necessary actions before the calculation of the input channel data.
-        /// </summary>
-        public void BeginCalcCnlData(int cnlNum, CnlData initialCnlData)
-        {
-            this.cnlNum = cnlNum;
-            this.initialCnlData = initialCnlData;
-        }
-
-        /// <summary>
-        /// Performs the necessary actions after the calculation of the input channel data.
-        /// </summary>
-        public void EndCalcCnlData()
-        {
-            cnlNum = 0;
-            initialCnlData = CnlData.Empty;
+            valueBuffer = new byte[8];
+            EndCalcCnlData();
+            EndCalculation();
         }
 
 
@@ -116,6 +88,17 @@ namespace Scada.Server.Engine
             get
             {
                 return cnlNum;
+            }
+        }
+
+        /// <summary>
+        /// Gets the data type ID of the channel for which the formula is calculated.
+        /// </summary>
+        public int CnlDataType
+        {
+            get
+            {
+                return dataTypeID;
             }
         }
 
@@ -165,6 +148,105 @@ namespace Scada.Server.Engine
 
 
         /// <summary>
+        /// Converts the specifined object into a channel value.
+        /// </summary>
+        protected double ToCnlVal(object obj)
+        {
+            if (dataTypeID == DataTypeID.Double)
+            {
+                return Convert.ToDouble(obj);
+            }
+            else
+            {
+                Array.Clear(valueBuffer, 0, valueBuffer.Length);
+
+                switch (dataTypeID)
+                {
+                    case DataTypeID.Int64:
+                        BinaryConverter.CopyInt64(Convert.ToInt64(obj), valueBuffer, 0);
+                        break;
+                    case DataTypeID.UInt64:
+                        BinaryConverter.CopyInt64((long)Convert.ToUInt64(obj), valueBuffer, 0);
+                        break;
+                    case DataTypeID.ASCII:
+                        string s1 = Convert.ToString(obj);
+                        int len1 = Math.Min(8, s1.Length);
+                        Encoding.ASCII.GetBytes(s1, 0, len1, valueBuffer, 0);
+                        break;
+                    case DataTypeID.Unicode:
+                        string s2 = Convert.ToString(obj);
+                        int len2 = Math.Min(4, s2.Length);
+                        Encoding.Unicode.GetBytes(s2, 0, len2, valueBuffer, 0);
+                        break;
+                }
+
+                return BitConverter.ToDouble(valueBuffer, 0);
+            }
+        }
+
+        /// <summary>
+        /// Converts the specifined object into a channel data instance.
+        /// </summary>
+        protected CnlData ToCnlData(object obj)
+        {
+            return obj is CnlData cnlData ? 
+                cnlData : 
+                new CnlData(ToCnlVal(obj), initialCnlData.Stat);
+        }
+
+
+        /// <summary>
+        /// Initializes the scripts.
+        /// </summary>
+        public virtual void InitScripts()
+        {
+        }
+
+        /// <summary>
+        /// Finalizes the scripts.
+        /// </summary>
+        public virtual void FinalizeScripts()
+        {
+        }
+
+        /// <summary>
+        /// Performs the necessary actions before the calculation.
+        /// </summary>
+        public void BeginCalculation(ICalcContext calcContext)
+        {
+            this.calcContext = calcContext;
+        }
+
+        /// <summary>
+        /// Performs the necessary actions after the calculation.
+        /// </summary>
+        public void EndCalculation()
+        {
+            calcContext = null;
+        }
+
+        /// <summary>
+        /// Performs the necessary actions before the calculation of the input channel data.
+        /// </summary>
+        public void BeginCalcCnlData(int cnlNum, int dataTypeID, CnlData initialCnlData)
+        {
+            this.cnlNum = cnlNum;
+            this.dataTypeID = dataTypeID;
+            this.initialCnlData = initialCnlData;
+        }
+
+        /// <summary>
+        /// Performs the necessary actions after the calculation of the input channel data.
+        /// </summary>
+        public void EndCalcCnlData()
+        {
+            cnlNum = 0;
+            dataTypeID = 0;
+            initialCnlData = CnlData.Empty;
+        }
+
+
+        /// <summary>
         /// Gets the specified channel number for updating numbers on cloning.
         /// </summary>
         public int N(int n)
@@ -173,7 +255,7 @@ namespace Scada.Server.Engine
         }
 
         /// <summary>
-        /// Gets the current value of the formula channel.
+        /// Gets the actual value of the formula input channel.
         /// </summary>
         public double Val()
         {
@@ -181,7 +263,7 @@ namespace Scada.Server.Engine
         }
 
         /// <summary>
-        /// Gets the current value of the channel n.
+        /// Gets the actual value of the input channel n.
         /// </summary>
         public double Val(int n)
         {
@@ -189,7 +271,7 @@ namespace Scada.Server.Engine
         }
 
         /// <summary>
-        /// Sets the current value of the channel n.
+        /// Sets the value of the input channel n.
         /// </summary>
         public double SetVal(int n, double val)
         {
@@ -205,7 +287,7 @@ namespace Scada.Server.Engine
         }
 
         /// <summary>
-        /// Gets the current status of the formula channel.
+        /// Gets the actual status of the formula input channel.
         /// </summary>
         public int Stat()
         {
@@ -213,7 +295,7 @@ namespace Scada.Server.Engine
         }
 
         /// <summary>
-        /// Gets the current status of the channel n.
+        /// Gets the actual status of the input channel n.
         /// </summary>
         public int Stat(int n)
         {
@@ -221,7 +303,7 @@ namespace Scada.Server.Engine
         }
 
         /// <summary>
-        /// Sets the current status of the channel n.
+        /// Sets the status of the input channel n.
         /// </summary>
         public int SetStat(int n, int stat)
         {
@@ -237,7 +319,7 @@ namespace Scada.Server.Engine
         }
 
         /// <summary>
-        /// Gets the current data of the formula channel.
+        /// Gets the actual data of the formula input channel.
         /// </summary>
         public CnlData Data()
         {
@@ -245,7 +327,7 @@ namespace Scada.Server.Engine
         }
 
         /// <summary>
-        /// Gets the current data of the channel n.
+        /// Gets the actual data of the input channel n.
         /// </summary>
         public CnlData Data(int n)
         {
@@ -253,7 +335,7 @@ namespace Scada.Server.Engine
         }
 
         /// <summary>
-        /// Sets the current data of the channel n.
+        /// Sets the data of the input channel n.
         /// </summary>
         public double SetData(int n, double val, int stat)
         {
@@ -269,7 +351,7 @@ namespace Scada.Server.Engine
         }
 
         /// <summary>
-        /// Sets the current data of the channel n.
+        /// Sets the data of the channel n.
         /// </summary>
         public double SetData(int n, CnlData cnlData)
         {
@@ -285,7 +367,15 @@ namespace Scada.Server.Engine
         }
 
         /// <summary>
-        /// Gets the previous value of the formula channel.
+        /// Creates a new channel data instance.
+        /// </summary>
+        public CnlData NewData(double val, int stat)
+        {
+            return new CnlData(val, stat);
+        }
+
+        /// <summary>
+        /// Gets the previous value of the formula input channel.
         /// </summary>
         public double PrevVal()
         {
@@ -293,7 +383,7 @@ namespace Scada.Server.Engine
         }
 
         /// <summary>
-        /// Gets the previous value of the channel n.
+        /// Gets the previous value of the input channel n.
         /// </summary>
         public double PrevVal(int n)
         {
@@ -301,7 +391,7 @@ namespace Scada.Server.Engine
         }
 
         /// <summary>
-        /// Gets the previous status of the formula channel.
+        /// Gets the previous status of the formula input channel.
         /// </summary>
         public int PrevStat()
         {
@@ -309,7 +399,7 @@ namespace Scada.Server.Engine
         }
 
         /// <summary>
-        /// Gets the previous status of the channel n.
+        /// Gets the previous status of the input channel n.
         /// </summary>
         public int PrevStat(int n)
         {
@@ -317,7 +407,7 @@ namespace Scada.Server.Engine
         }
 
         /// <summary>
-        /// Gets the previous data of the channel n.
+        /// Gets the previous data of the input channel n.
         /// </summary>
         public CnlData PrevData(int n)
         {
@@ -325,7 +415,7 @@ namespace Scada.Server.Engine
         }
 
         /// <summary>
-        /// Gets the current timestamp of the formula channel.
+        /// Gets the actual timestamp of the formula input channel.
         /// </summary>
         public DateTime Time()
         {
@@ -333,7 +423,7 @@ namespace Scada.Server.Engine
         }
 
         /// <summary>
-        /// Gets the current timestamp of the channel n.
+        /// Gets the input timestamp of the input channel n.
         /// </summary>
         public DateTime Time(int n)
         {
@@ -341,7 +431,7 @@ namespace Scada.Server.Engine
         }
 
         /// <summary>
-        /// Gets the previous timestamp of the formula channel.
+        /// Gets the previous timestamp of the formula input channel.
         /// </summary>
         public DateTime PrevTime()
         {
@@ -349,7 +439,7 @@ namespace Scada.Server.Engine
         }
 
         /// <summary>
-        /// Gets the previous timestamp of the channel n.
+        /// Gets the previous timestamp of the input channel n.
         /// </summary>
         public DateTime PrevTime(int n)
         {

@@ -123,7 +123,7 @@ namespace Scada
         }
 
         /// <summary>
-        /// Copies the double-precision floating point value to the buffer.
+        /// Copies the double-precision floating point number to the buffer.
         /// </summary>
         public static void CopyDouble(double value, byte[] buffer, int index)
         {
@@ -273,7 +273,7 @@ namespace Scada
         }
 
         /// <summary>
-        /// Gets a double-precision floating point value from the buffer.
+        /// Gets a double-precision floating point number from the buffer.
         /// </summary>
         public static double GetDouble(byte[] buffer, ref int index)
         {

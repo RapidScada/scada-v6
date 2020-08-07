@@ -37,6 +37,7 @@ using System.IO;
 using System.Linq;
 using System.Reflection;
 using System.Text;
+using System.Threading;
 
 namespace Scada.Server.Engine
 {
@@ -59,9 +60,9 @@ namespace Scada.Server.Engine
         /// </summary>
         private const string SourceCodeFileName = "CalcEngine.cs";
 
-        private readonly ServerDirs appDirs; // the application directories
-        private readonly ILog log;           // the application log
-        private readonly byte[] valueBuffer; // the buffer for converting channel values
+        private readonly ServerDirs appDirs;  // the application directories
+        private readonly ILog log;            // the application log
+        private List<CalcEngine> calcEngines; // the objects that calculate channel data
 
 
         /// <summary>
@@ -71,7 +72,7 @@ namespace Scada.Server.Engine
         {
             this.appDirs = appDirs ?? throw new ArgumentNullException("appDirs");
             this.log = log ?? throw new ArgumentNullException("log");
-            valueBuffer = new byte[8];
+            calcEngines = null;
         }
 
 
@@ -86,6 +87,7 @@ namespace Scada.Server.Engine
             outCnlClassNames = new Dictionary<int, string>();
 
             StringBuilder sourceCode = new StringBuilder();
+            sourceCode.AppendLine("using Scada.Data.Const;");
             sourceCode.AppendLine("using System;");
             sourceCode.AppendLine("using System.Collections.Generic;");
             sourceCode.AppendLine("using System.IO;");
@@ -161,16 +163,15 @@ namespace Scada.Server.Engine
         /// </summary>
         private void AddInCnlMethod(StringBuilder sourceCode, int cnlNum, string formula)
         {
+            sourceCode.Append("public CnlData CalcCnlData").Append(cnlNum).Append("() ");
             int semicolonIndex = formula.IndexOf(';');
 
             if (semicolonIndex < 0)
             {
                 sourceCode
-                    .Append("public object CalcCnlData")
-                    .Append(cnlNum)
-                    .Append("() { return ")
+                    .Append("{ return ToCnlData(")
                     .Append(formula.Trim())
-                    .AppendLine("; }");
+                    .AppendLine("); }");
             }
             else
             {
@@ -184,13 +185,11 @@ namespace Scada.Server.Engine
                     statFormula = "CnlStat";
 
                 sourceCode
-                    .Append("public object CalcCnlData")
-                    .Append(cnlNum)
-                    .Append("() { return new CnlData(")
+                    .Append("{ return new CnlData(ToCnlVal(")
                     .Append(valFormula)
-                    .Append(", ")
+                    .Append("), Convert.ToInt32(")
                     .Append(statFormula)
-                    .AppendLine("); }");
+                    .AppendLine(")); }");
             }
         }
 
@@ -256,6 +255,7 @@ namespace Scada.Server.Engine
             Dictionary<int, string> inCnlClassNames, Dictionary<int, string> outCnlClassNames)
         {
             Dictionary<string, CalcEngine> calcEngineMap = new Dictionary<string, CalcEngine>();
+            calcEngines = new List<CalcEngine>();
 
             foreach (CnlTag cnlTag in cnlTags.Values)
             {
@@ -266,11 +266,12 @@ namespace Scada.Server.Engine
                         Type calcEngineClass = assembly.GetType("Scada.Server.Engine." + className);
                         calcEngine = (CalcEngine)Activator.CreateInstance(calcEngineClass);
                         calcEngineMap.Add(className, calcEngine);
+                        calcEngines.Add(calcEngine);
                     }
 
                     cnlTag.CalcEngine = calcEngine;
-                    cnlTag.CalcCnlDataFunc = (Func<object>)Delegate.CreateDelegate(
-                        typeof(Func<object>), calcEngine, "CalcCnlData" + cnlTag.InCnl.CnlNum, false, true);
+                    cnlTag.CalcCnlDataFunc = (Func<CnlData>)Delegate.CreateDelegate(
+                        typeof(Func<CnlData>), calcEngine, "CalcCnlData" + cnlTag.InCnl.CnlNum, false, true);
                 }
             }
         }
@@ -336,55 +337,103 @@ namespace Scada.Server.Engine
         }
 
         /// <summary>
+        /// Initializes the scripts.
+        /// </summary>
+        public void InitScripts()
+        {
+            try
+            {
+                foreach (CalcEngine calcEngine in calcEngines)
+                {
+                    calcEngine.InitScripts();
+                }
+            }
+            catch (Exception ex)
+            {
+                log.WriteException(ex, Locale.IsRussian ?
+                    "Ошибка при инициализации скриптов" :
+                    "Error initializing the scripts");
+            }
+        }
+
+        /// <summary>
+        /// Finalizes the scripts.
+        /// </summary>
+        public void FinalizeScripts()
+        {
+            try
+            {
+                foreach (CalcEngine calcEngine in calcEngines)
+                {
+                    calcEngine.FinalizeScripts();
+                }
+            }
+            catch (Exception ex)
+            {
+                log.WriteException(ex, Locale.IsRussian ?
+                    "Ошибка при завершении скриптов" :
+                    "Error finalizing the scripts");
+            }
+        }
+
+        /// <summary>
+        /// Performs the necessary actions before the calculation.
+        /// </summary>
+        public void BeginCalculation(ICalcContext calcContext)
+        {
+            try
+            {
+                Monitor.Enter(this);
+
+                foreach (CalcEngine calcEngine in calcEngines)
+                {
+                    calcEngine.BeginCalculation(calcContext);
+                }
+            }
+            catch (Exception ex)
+            {
+                log.WriteException(ex, Locale.IsRussian ?
+                    "Ошибка при выполнении действий перед расчётом" :
+                    "Error performing actions before the calculation");
+            }
+        }
+
+        /// <summary>
+        /// Performs the necessary actions after the calculation.
+        /// </summary>
+        public void EndCalculation()
+        {
+            try
+            {
+                foreach (CalcEngine calcEngine in calcEngines)
+                {
+                    calcEngine.EndCalculation();
+                }
+            }
+            catch (Exception ex)
+            {
+                log.WriteException(ex, Locale.IsRussian ?
+                    "Ошибка при выполнении действий после расчёта" :
+                    "Error performing actions after the calculation");
+            }
+            finally
+            {
+                Monitor.Exit(this);
+            }
+        }
+
+        /// <summary>
         /// Calculates the input channel data.
         /// </summary>
-        public CnlData CalcCnlData(CalcEngine calcEngine, Func<object> calcCnlDataFunc, 
+        public CnlData CalcCnlData(CalcEngine calcEngine, Func<CnlData> calcCnlDataFunc,
             int cnlNum, int dataTypeID, CnlData initialCnlData)
         {
             if (calcEngine != null && calcCnlDataFunc != null)
             {
                 try
                 {
-                    calcEngine.BeginCalcCnlData(cnlNum, initialCnlData);
-                    object cnlDataObj = calcCnlDataFunc();
-                    CnlData newCnlData = CnlData.Empty;
-
-                    if (cnlDataObj is CnlData cnlData)
-                    {
-                        newCnlData = cnlData;
-                    }
-                    else if (dataTypeID == DataTypeID.Double)
-                    {
-                        newCnlData = new CnlData(Convert.ToDouble(cnlDataObj), initialCnlData.Stat);
-                    }
-                    else
-                    {
-                        Array.Clear(valueBuffer, 0, valueBuffer.Length);
-
-                        switch (dataTypeID)
-                        {
-                            case DataTypeID.Int64:
-                                BinaryConverter.CopyInt64(Convert.ToInt64(cnlDataObj), valueBuffer, 0);
-                                break;
-                            case DataTypeID.UInt64:
-                                BinaryConverter.CopyInt64((long)Convert.ToUInt64(cnlDataObj), valueBuffer, 0);
-                                break;
-                            case DataTypeID.ASCII:
-                                string s1 = Convert.ToString(cnlDataObj);
-                                int len1 = Math.Min(8, s1.Length);
-                                Encoding.ASCII.GetBytes(s1, 0, len1, valueBuffer, 0);
-                                break;
-                            case DataTypeID.Unicode:
-                                string s2 = Convert.ToString(cnlDataObj);
-                                int len2 = Math.Min(4, s2.Length);
-                                Encoding.Unicode.GetBytes(s2, 0, len2, valueBuffer, 0);
-                                break;
-                        }
-
-                        newCnlData = new CnlData(BitConverter.ToDouble(valueBuffer, 0), initialCnlData.Stat);
-                    }
-
-                    return newCnlData;
+                    calcEngine.BeginCalcCnlData(cnlNum, dataTypeID, initialCnlData);
+                    return calcCnlDataFunc();
                 }
                 catch
                 {

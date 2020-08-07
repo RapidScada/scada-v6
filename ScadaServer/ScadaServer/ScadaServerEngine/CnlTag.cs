@@ -24,6 +24,7 @@
  */
 
 using Scada.Data.Entities;
+using Scada.Data.Models;
 using System;
 
 namespace Scada.Server.Engine
@@ -64,6 +65,6 @@ namespace Scada.Server.Engine
         /// <summary>
         /// Gets or sets the function that calculates channel data.
         /// </summary>
-        public Func<object> CalcCnlDataFunc { get; set; }
+        public Func<CnlData> CalcCnlDataFunc { get; set; }
     }
 }

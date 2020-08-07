@@ -48,6 +48,8 @@ namespace Scada.Data.Entities
 
         public int? DeviceNum { get; set; }
 
+        public int? DataTypeID { get; set; }
+
         public int? DataLen { get; set; }
 
         public int? TagNum { get; set; }

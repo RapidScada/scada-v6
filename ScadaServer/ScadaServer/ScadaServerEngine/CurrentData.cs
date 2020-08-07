@@ -25,6 +25,7 @@
 
 using Scada.Data.Models;
 using System;
+using System.Collections.Generic;
 
 namespace Scada.Server.Engine
 {
@@ -32,13 +33,19 @@ namespace Scada.Server.Engine
     /// Represents current data of the input channels.
     /// <para>Представляет текущие данные входных каналов.</para>
     /// </summary>
-    internal class CurrentData
+    internal class CurrentData : ICalcContext
     {
+        private readonly Dictionary<int, CnlTag> cnlTags; // the metadata about the input channels
+
+
         /// <summary>
         /// Initializes a new instance of the class.
         /// </summary>
-        public CurrentData(int cnlCnt)
+        public CurrentData(Dictionary<int, CnlTag> cnlTags)
         {
+            this.cnlTags = cnlTags ?? throw new ArgumentNullException("cnlTags");
+
+            int cnlCnt = cnlTags.Count;
             CurCnlData = new CnlData[cnlCnt];
             PrevCnlData = new CnlData[cnlCnt];
             CurTimestamps = new DateTime[cnlCnt];
@@ -68,15 +75,67 @@ namespace Scada.Server.Engine
 
 
         /// <summary>
-        /// Sets the current data of the channel.
+        /// Sets the current input channel data.
         /// </summary>
-        public void SetData(DateTime nowDT, int cnlIndex, CnlData cnlData)
+        public void SetCurCnlData(DateTime nowDT, int cnlIndex, CnlData cnlData)
         {
             PrevTimestamps[cnlIndex] = CurTimestamps[cnlIndex];
             PrevCnlData[cnlIndex] = CurCnlData[cnlIndex];
 
             CurTimestamps[cnlIndex] = nowDT;
             CurCnlData[cnlIndex] = cnlData;
+        }
+
+        /// <summary>
+        /// Gets the actual data of the input channel.
+        /// </summary>
+        CnlData ICalcContext.GetCnlData(int cnlNum)
+        {
+            return cnlTags.TryGetValue(cnlNum, out CnlTag cnlTag) ?
+                CurCnlData[cnlTag.Index] :
+                CnlData.Empty;
+        }
+
+        /// <summary>
+        /// Gets the previous data of the input channel, if applicable.
+        /// </summary>
+        CnlData ICalcContext.GetPrevCnlData(int cnlNum)
+        {
+            return cnlTags.TryGetValue(cnlNum, out CnlTag cnlTag) ?
+                PrevCnlData[cnlTag.Index] :
+                CnlData.Empty;
+        }
+
+        /// <summary>
+        /// Gets the actual timestamp of the input channel.
+        /// </summary>
+        DateTime ICalcContext.GetCnlTime(int cnlNum)
+        {
+            return cnlTags.TryGetValue(cnlNum, out CnlTag cnlTag) ?
+                CurTimestamps[cnlTag.Index] :
+                DateTime.MinValue;
+        }
+
+        /// <summary>
+        /// Gets the previous timestamp of the input channel, if applicable.
+        /// </summary>
+        DateTime ICalcContext.GetPrevCnlTime(int cnlNum)
+        {
+            return cnlTags.TryGetValue(cnlNum, out CnlTag cnlTag) ?
+                PrevTimestamps[cnlTag.Index] :
+                DateTime.MinValue;
+        }
+
+        /// <summary>
+        /// Sets the input channel data.
+        /// </summary>
+        void ICalcContext.SetCnlData(int cnlNum, CnlData cnlData)
+        {
+            if (cnlTags.TryGetValue(cnlNum, out CnlTag cnlTag))
+            {
+                SetCurCnlData(DateTime.UtcNow, cnlTag.Index, cnlData);
+                // TODO: generate events
+            }
         }
     }
 }
