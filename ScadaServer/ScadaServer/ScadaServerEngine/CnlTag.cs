@@ -57,6 +57,7 @@ namespace Scada.Server.Engine
             CnlNum = cnlNum;
             InCnl = inCnl;
             Lim = lim;
+            LimCnlIndex = null;
             CalcEngine = null;
             CalcCnlDataFunc = null;
         }
@@ -82,6 +83,11 @@ namespace Scada.Server.Engine
         /// Gets the input channel limits.
         /// </summary>
         public Lim Lim { get; private set; }
+
+        /// <summary>
+        /// Gets or sets the input channel indices that define limits of this channel.
+        /// </summary>
+        public LimCnlIndex LimCnlIndex { get; set; }
 
         /// <summary>
         /// Gets or sets the object that calculates channel data.

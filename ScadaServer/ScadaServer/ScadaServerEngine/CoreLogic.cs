@@ -223,7 +223,9 @@ namespace Scada.Server.Engine
         /// </summary>
         private void InitCnlTags()
         {
+            // create channel tags
             cnlTags = new Dictionary<int, CnlTag>();
+            List<CnlTag> limTags = new List<CnlTag>();
             int cnlNum = 0;
             int index = 0;
 
@@ -233,17 +235,43 @@ namespace Scada.Server.Engine
                 {
                     cnlNum = inCnl.CnlNum;
                     Lim lim = inCnl.LimID.HasValue ? baseDataSet.LimTable.GetItem(inCnl.LimID.Value) : null;
-                    cnlTags.Add(cnlNum, new CnlTag(index++, cnlNum++, inCnl, lim));
+                    CnlTag cnlTag = new CnlTag(index++, cnlNum++, inCnl, lim);
+                    cnlTags.Add(cnlNum, cnlTag);
+
+                    if (lim != null && lim.IsBoundToCnl)
+                        limTags.Add(cnlTag);
 
                     // add channel tags if one channel row defines multiple channels
                     if (inCnl.DataLen > 1)
                     {
                         for (int i = 1, cnt = inCnl.DataLen.Value; i < cnt; i++)
                         {
-                            cnlTags.Add(cnlNum, new CnlTag(index++, cnlNum++, inCnl, lim));
+                            cnlTag = new CnlTag(index++, cnlNum++, inCnl, lim);
+                            cnlTags.Add(cnlNum, cnlTag);
+
+                            if (lim != null && lim.IsBoundToCnl)
+                                limTags.Add(cnlTag);
                         }
                     }
                 }
+            }
+
+            // find channel indices for limits
+            int FindIndex(double? n)
+            {
+                return n.HasValue && !double.IsNaN(n.Value) && cnlTags.TryGetValue((int)n, out CnlTag t) ?
+                    t.Index : -1;
+            }
+
+            foreach (CnlTag cnlTag in limTags)
+            {
+                cnlTag.LimCnlIndex = new LimCnlIndex
+                {
+                    LoLo = FindIndex(cnlTag.Lim.LoLo),
+                    Low = FindIndex(cnlTag.Lim.Low),
+                    High = FindIndex(cnlTag.Lim.High),
+                    HiHi = FindIndex(cnlTag.Lim.HiHi),
+                };
             }
 
             log.WriteInfo(string.Format(Locale.IsRussian ?
@@ -375,7 +403,7 @@ namespace Scada.Server.Engine
         /// <summary>
         /// Updates the input channel status after formula calculation.
         /// </summary>
-        private void UpdateCnlStatus(InCnl inCnl, Lim lim, ref CnlData cnlData)
+        private void UpdateCnlStatus(CnlTag cnlTag, ref CnlData cnlData, CnlData prevCnlData)
         {
             if (cnlData.Stat == CnlStatusID.Defined)
             {
@@ -384,28 +412,70 @@ namespace Scada.Server.Engine
                     // set undefined status if value is not a number
                     cnlData.Stat = CnlStatusID.Undefined;
                 }
-                else if (lim != null)
+                else if (cnlTag.Lim != null)
                 {
                     // set status depending on channel limits
-                    cnlData.Stat = CnlStatusID.Normal;
+                    GetCnlLimits(cnlTag, out double lolo, out double low, out double high, out double hihi);
+                    cnlData.Stat = GetCnlStatus(cnlData.Val, lolo, low, high, hihi);
+                    int prevStat = prevCnlData.Stat;
 
-                    //if (inCnl.LimLow < inCnl.LimHigh)
-                    //{
-                    //    if (cnlData.Val < inCnl.LimLow)
-                    //        cnlData.Stat = CnlStatusID.Low;
-                    //    else if (cnlData.Val > inCnl.LimHigh)
-                    //        cnlData.Stat = CnlStatusID.High;
-                    //}
-
-                    //if (inCnl.LimLowCrash < inCnl.LimHighCrash)
-                    //{
-                    //    if (cnlData.Val < inCnl.LimLowCrash)
-                    //        cnlData.Stat = CnlStatusID.ExtremelyLow;
-                    //    else if (cnlData.Val > inCnl.LimHighCrash)
-                    //        cnlData.Stat = CnlStatusID.ExtremelyHigh;
-                    //}
+                    if (cnlData.Stat == CnlStatusID.Normal && 
+                        (prevStat == CnlStatusID.ExtremelyLow || prevStat == CnlStatusID.Low || 
+                        prevStat == CnlStatusID.High || prevStat == CnlStatusID.ExtremelyHigh))
+                    {
+                        double deadband = cnlTag.Lim.Deadband ?? 0;
+                        cnlData.Stat = GetCnlStatus(cnlData.Val,
+                            lolo + deadband, low + deadband, 
+                            high - deadband, hihi - deadband);
+                    }
                 }
             }
+        }
+
+        /// <summary>
+        /// Get the input channel limits.
+        /// </summary>
+        private void GetCnlLimits(CnlTag cnlTag, out double lolo, out double low, out double high, out double hihi)
+        {
+            double GetLimit(int cnlIndex)
+            {
+                CnlData limData = cnlIndex >= 0 ? curData.CnlData[cnlIndex] : CnlData.Empty;
+                return limData.Stat > 0 ? limData.Val : double.NaN;
+            }
+
+            if (cnlTag.Lim.IsBoundToCnl)
+            {
+                LimCnlIndex limCnlIndex = cnlTag.LimCnlIndex;
+                lolo = GetLimit(limCnlIndex.LoLo);
+                low = GetLimit(limCnlIndex.Low);
+                high = GetLimit(limCnlIndex.High);
+                hihi = GetLimit(limCnlIndex.HiHi);
+            }
+            else
+            {
+                Lim lim = cnlTag.Lim;
+                lolo = lim.LoLo ?? double.NaN;
+                low = lim.Low ?? double.NaN;
+                high = lim.High ?? double.NaN;
+                hihi = lim.HiHi ?? double.NaN;
+            }
+        }
+
+        /// <summary>
+        /// Get the input channel status depending on whether the channel value is within the limits.
+        /// </summary>
+        private int GetCnlStatus(double cnlVal, double lolo, double low, double high, double hihi)
+        {
+            if (cnlVal < lolo)
+                return CnlStatusID.ExtremelyLow;
+            else if (cnlVal < low)
+                return CnlStatusID.Low;
+            else if (cnlVal > hihi)
+                return CnlStatusID.ExtremelyHigh;
+            else if (cnlVal > high)
+                return CnlStatusID.High;
+            else
+                return CnlStatusID.Normal;
         }
 
         /// <summary>
@@ -703,7 +773,7 @@ namespace Scada.Server.Engine
         void ICnlDataChangeHandler.HandleCurDataChanged(CnlTag cnlTag, ref CnlData cnlData, CnlData prevCnlData,
             DateTime timestamp, DateTime prevTimestamp)
         {
-            UpdateCnlStatus(cnlTag.InCnl, cnlTag.Lim, ref cnlData);
+            UpdateCnlStatus(cnlTag, ref cnlData, prevCnlData);
             GenerateEvent(cnlTag.InCnl, cnlData, prevCnlData);
         }
     }
