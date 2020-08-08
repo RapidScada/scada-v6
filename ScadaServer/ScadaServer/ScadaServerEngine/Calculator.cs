@@ -88,6 +88,7 @@ namespace Scada.Server.Engine
 
             StringBuilder sourceCode = new StringBuilder();
             sourceCode.AppendLine("using Scada.Data.Const;");
+            sourceCode.AppendLine("using Scada.Data.Models;");
             sourceCode.AppendLine("using System;");
             sourceCode.AppendLine("using System.Collections.Generic;");
             sourceCode.AppendLine("using System.IO;");
@@ -425,15 +426,14 @@ namespace Scada.Server.Engine
         /// <summary>
         /// Calculates the input channel data.
         /// </summary>
-        public CnlData CalcCnlData(CalcEngine calcEngine, Func<CnlData> calcCnlDataFunc,
-            int cnlNum, int dataTypeID, CnlData initialCnlData)
+        public CnlData CalcCnlData(CnlTag cnlTag, CnlData initialCnlData)
         {
-            if (calcEngine != null && calcCnlDataFunc != null)
+            if (cnlTag != null && cnlTag.CalcEngine != null && cnlTag.CalcCnlDataFunc != null)
             {
                 try
                 {
-                    calcEngine.BeginCalcCnlData(cnlNum, dataTypeID, initialCnlData);
-                    return calcCnlDataFunc();
+                    cnlTag.CalcEngine.BeginCalcCnlData(cnlTag.CnlNum, cnlTag.InCnl, initialCnlData);
+                    return cnlTag.CalcCnlDataFunc();
                 }
                 catch
                 {
@@ -441,7 +441,7 @@ namespace Scada.Server.Engine
                 }
                 finally
                 {
-                    calcEngine.EndCalcCnlData();
+                    cnlTag.CalcEngine.EndCalcCnlData();
                 }
             }
             else

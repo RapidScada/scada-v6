@@ -16,62 +16,55 @@
  * 
  * Product  : Rapid SCADA
  * Module   : ScadaServerEngine
- * Summary  : Represents metadata about an input channel
+ * Summary  : Provides data for the CnlDataChanged event
  * 
  * Author   : Mikhail Shiryaev
  * Created  : 2020
  * Modified : 2020
  */
 
-using Scada.Data.Entities;
 using Scada.Data.Models;
 using System;
 
 namespace Scada.Server.Engine
 {
     /// <summary>
-    /// Represents metadata about an input channel.
-    /// <para>Представляет метаданные входного канала.</para>
+    /// Provides data for the CnlDataChanged event.
+    /// <para>Предоставляет данные для события CnlDataChanged.</para>
     /// </summary>
-    internal class CnlTag
+    internal class CnlDataChangedEventArgs : EventArgs
     {
         /// <summary>
         /// Initializes a new instance of the class.
         /// </summary>
-        public CnlTag(int index, int cnlNum, InCnl inCnl)
+        public CnlDataChangedEventArgs(CnlData cnlData, CnlData prevCnlData, 
+            DateTime timestamp, DateTime prevTimestamp)
         {
-            Index = index;
-            CnlNum = cnlNum;
-            InCnl = inCnl;
-            CalcEngine = null;
-            CalcCnlDataFunc = null;
+            CnlData = cnlData;
+            PrevCnlData = prevCnlData;
+            Timestamp = timestamp;
+            PrevTimestamp = prevTimestamp;
         }
 
 
         /// <summary>
-        /// Gets the index among the active input channels.
+        /// Gets or sets the actual data of the input channel.
         /// </summary>
-        public int Index { get; private set; }
+        public CnlData CnlData { get; set; }
 
         /// <summary>
-        /// Gets the actual input channel number. 
-        /// It differs from InCnl.CnlNum if the channel data length is greater than 1.
+        /// Gets the previous data of the input channel.
         /// </summary>
-        public int CnlNum { get; private set; }
+        public CnlData PrevCnlData { get; private set; }
 
         /// <summary>
-        /// Gets the input channel entity.
+        /// Gets the actual timestamp of the input channel.
         /// </summary>
-        public InCnl InCnl { get; private set; }
+        public DateTime Timestamp { get; private set; }
 
         /// <summary>
-        /// Gets or sets the object that calculates channel data.
+        /// Gets the previous timestamp of the input channel.
         /// </summary>
-        public CalcEngine CalcEngine { get; set; }
-
-        /// <summary>
-        /// Gets or sets the function that calculates channel data.
-        /// </summary>
-        public Func<CnlData> CalcCnlDataFunc { get; set; }
+        public DateTime PrevTimestamp { get; private set; }
     }
 }

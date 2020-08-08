@@ -46,44 +46,63 @@ namespace Scada.Server.Engine
             this.cnlTags = cnlTags ?? throw new ArgumentNullException("cnlTags");
 
             int cnlCnt = cnlTags.Count;
-            CurCnlData = new CnlData[cnlCnt];
+            CnlData = new CnlData[cnlCnt];
             PrevCnlData = new CnlData[cnlCnt];
-            CurTimestamps = new DateTime[cnlCnt];
+            Timestamps = new DateTime[cnlCnt];
             PrevTimestamps = new DateTime[cnlCnt];
         }
 
-        
+
         /// <summary>
-        /// Gets the current channel data.
+        /// Gets the current data of the input channels.
         /// </summary>
-        public CnlData[] CurCnlData { get; private set; }
-        
+        public CnlData[] CnlData { get; private set; }
+
         /// <summary>
-        /// Gets the previous channel data.
+        /// Gets the previous data of the input channels.
         /// </summary>
         public CnlData[] PrevCnlData { get; private set; }
 
         /// <summary>
-        /// Gets the timestamps of the current channel data.
+        /// Gets the current timestamps of the input channels.
         /// </summary>
-        public DateTime[] CurTimestamps { get; private set; }
+        public DateTime[] Timestamps { get; private set; }
 
         /// <summary>
-        /// Gets the timestamps of the previous channel data.
+        /// Gets the previous timestamps of the input channels.
         /// </summary>
         public DateTime[] PrevTimestamps { get; private set; }
 
+
+        /// <summary>
+        /// Raises the CnlDataChanged event.
+        /// </summary>
+        private void OnCnlDataChanged(ref CnlData cnlData, CnlData prevCnlData, DateTime timestamp, DateTime prevTimestamp)
+        {
+            if (CnlDataChanged != null)
+            {
+                CnlDataChangedEventArgs eventArgs = new CnlDataChangedEventArgs(cnlData, prevCnlData, timestamp, prevTimestamp);
+                CnlDataChanged(this, eventArgs);
+
+                if (cnlData != eventArgs.CnlData)
+                    cnlData = eventArgs.CnlData;
+            }
+        }
 
         /// <summary>
         /// Sets the current input channel data.
         /// </summary>
         public void SetCurCnlData(DateTime nowDT, int cnlIndex, CnlData cnlData)
         {
-            PrevTimestamps[cnlIndex] = CurTimestamps[cnlIndex];
-            PrevCnlData[cnlIndex] = CurCnlData[cnlIndex];
+            DateTime prevTimestamp = Timestamps[cnlIndex];
+            CnlData prevCnlData = CnlData[cnlIndex];
+            OnCnlDataChanged(ref cnlData, prevCnlData, nowDT, prevTimestamp);
 
-            CurTimestamps[cnlIndex] = nowDT;
-            CurCnlData[cnlIndex] = cnlData;
+            PrevTimestamps[cnlIndex] = prevTimestamp;
+            PrevCnlData[cnlIndex] = prevCnlData;
+
+            Timestamps[cnlIndex] = nowDT;
+            CnlData[cnlIndex] = cnlData;
         }
 
         /// <summary>
@@ -92,8 +111,8 @@ namespace Scada.Server.Engine
         CnlData ICalcContext.GetCnlData(int cnlNum)
         {
             return cnlTags.TryGetValue(cnlNum, out CnlTag cnlTag) ?
-                CurCnlData[cnlTag.Index] :
-                CnlData.Empty;
+                CnlData[cnlTag.Index] :
+                Data.Models.CnlData.Empty;
         }
 
         /// <summary>
@@ -103,7 +122,7 @@ namespace Scada.Server.Engine
         {
             return cnlTags.TryGetValue(cnlNum, out CnlTag cnlTag) ?
                 PrevCnlData[cnlTag.Index] :
-                CnlData.Empty;
+                Data.Models.CnlData.Empty;
         }
 
         /// <summary>
@@ -112,7 +131,7 @@ namespace Scada.Server.Engine
         DateTime ICalcContext.GetCnlTime(int cnlNum)
         {
             return cnlTags.TryGetValue(cnlNum, out CnlTag cnlTag) ?
-                CurTimestamps[cnlTag.Index] :
+                Timestamps[cnlTag.Index] :
                 DateTime.MinValue;
         }
 
@@ -132,10 +151,13 @@ namespace Scada.Server.Engine
         void ICalcContext.SetCnlData(int cnlNum, CnlData cnlData)
         {
             if (cnlTags.TryGetValue(cnlNum, out CnlTag cnlTag))
-            {
                 SetCurCnlData(DateTime.UtcNow, cnlTag.Index, cnlData);
-                // TODO: generate events
-            }
         }
+
+
+        /// <summary>
+        /// Occurs when the input channel data changes.
+        /// </summary>
+        public event EventHandler<CnlDataChangedEventArgs> CnlDataChanged;
     }
 }

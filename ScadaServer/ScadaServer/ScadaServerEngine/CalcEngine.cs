@@ -24,6 +24,7 @@
  */
 
 using Scada.Data.Const;
+using Scada.Data.Entities;
 using Scada.Data.Models;
 using System;
 using System.Text;
@@ -49,9 +50,9 @@ namespace Scada.Server.Engine
         /// </summary>
         protected int cnlNum;
         /// <summary>
-        /// The data type ID of the channel for which the formula is calculated.
+        /// The input channel entity for which the formula is calculated.
         /// </summary>
-        protected int dataTypeID;
+        protected InCnl inCnl;
         /// <summary>
         /// The input channel data transmitted to the server before the calculation.
         /// </summary>
@@ -92,13 +93,13 @@ namespace Scada.Server.Engine
         }
 
         /// <summary>
-        /// Gets the data type ID of the channel for which the formula is calculated.
+        /// Gets the input channel entity for which the formula is calculated.
         /// </summary>
-        public int CnlDataType
+        public InCnl InCnl
         {
             get
             {
-                return dataTypeID;
+                return inCnl;
             }
         }
 
@@ -152,6 +153,8 @@ namespace Scada.Server.Engine
         /// </summary>
         protected double ToCnlVal(object obj)
         {
+            int dataTypeID = inCnl?.DataTypeID ?? DataTypeID.Double;
+
             if (dataTypeID == DataTypeID.Double)
             {
                 return Convert.ToDouble(obj);
@@ -228,10 +231,10 @@ namespace Scada.Server.Engine
         /// <summary>
         /// Performs the necessary actions before the calculation of the input channel data.
         /// </summary>
-        public void BeginCalcCnlData(int cnlNum, int dataTypeID, CnlData initialCnlData)
+        public void BeginCalcCnlData(int cnlNum, InCnl inCnl, CnlData initialCnlData)
         {
             this.cnlNum = cnlNum;
-            this.dataTypeID = dataTypeID;
+            this.inCnl = inCnl;
             this.initialCnlData = initialCnlData;
         }
 
@@ -241,7 +244,7 @@ namespace Scada.Server.Engine
         public void EndCalcCnlData()
         {
             cnlNum = 0;
-            dataTypeID = 0;
+            inCnl = null;
             initialCnlData = CnlData.Empty;
         }
 

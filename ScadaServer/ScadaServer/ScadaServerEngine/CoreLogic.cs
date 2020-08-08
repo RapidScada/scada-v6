@@ -163,6 +163,7 @@ namespace Scada.Server.Engine
                 return false;
 
             curData = new CurrentData(cnlTags);
+            curData.CnlDataChanged += CurData_CnlDataChanged;
             serverCache = new ServerCache();
             listener = new ServerListener(this, config.ListenerOptions, log);
             return true;
@@ -232,14 +233,14 @@ namespace Scada.Server.Engine
                 if (inCnl.Active && inCnl.CnlNum >= cnlNum)
                 {
                     cnlNum = inCnl.CnlNum;
-                    cnlTags.Add(cnlNum++, new CnlTag(index++, inCnl));
+                    cnlTags.Add(cnlNum, new CnlTag(index++, cnlNum++, inCnl));
 
                     // add channel tags if one channel row defines multiple channels
                     if (inCnl.DataLen > 1)
                     {
                         for (int i = 1, cnt = inCnl.DataLen.Value; i < cnt; i++)
                         {
-                            cnlTags.Add(cnlNum++, new CnlTag(index++, inCnl));
+                            cnlTags.Add(cnlNum, new CnlTag(index++, cnlNum++, inCnl));
                         }
                     }
                 }
@@ -372,12 +373,12 @@ namespace Scada.Server.Engine
         }
 
         /// <summary>
-        /// Calculates the input channel data if a channel formula is set and enabled.
+        /// Handles the input channel data changes.
         /// </summary>
-        private CnlData CalcCnlData(CnlTag cnlTag, CnlData curCnlData, CnlData initialCnlData)
+        private void CurData_CnlDataChanged(object sender, CnlDataChangedEventArgs e)
         {
-            return calc.CalcCnlData(cnlTag.CalcEngine, cnlTag.CalcCnlDataFunc, cnlTag.InCnl.CnlNum,
-                cnlTag.InCnl.DataTypeID ?? DataTypeID.Double, initialCnlData);
+            // TODO: update status
+            // TODO: write events
         }
 
 
@@ -557,7 +558,7 @@ namespace Scada.Server.Engine
                     for (int i = 0; i < cnlCnt; i++)
                     {
                         CnlTag cnlTag = cnlListItem.CnlTags[i];
-                        cnlDataArr[i] = cnlTag.Index >= 0 ? curData.CurCnlData[cnlTag.Index] : CnlData.Empty;
+                        cnlDataArr[i] = cnlTag.Index >= 0 ? curData.CnlData[cnlTag.Index] : CnlData.Empty;
                     }
                 }
             }
@@ -600,13 +601,13 @@ namespace Scada.Server.Engine
                     {
                         if (cnlTags.TryGetValue(cnlNums[i], out CnlTag cnlTag))
                         {
-                            cnlDataArr[i] = curData.CurCnlData[cnlTag.Index];
+                            cnlDataArr[i] = curData.CnlData[cnlTag.Index];
                             cnlListItem?.CnlTags.Add(cnlTag);
                         }
                         else
                         {
                             cnlDataArr[i] = CnlData.Empty;
-                            cnlListItem?.CnlTags.Add(new CnlTag(-1, null));
+                            cnlListItem?.CnlTags.Add(new CnlTag(-1, 0, null));
                         }
                     }
                 }
@@ -643,8 +644,7 @@ namespace Scada.Server.Engine
                     {
                         if (cnlTags.TryGetValue(cnlNums[i], out CnlTag cnlTag))
                         {
-                            CnlData curCnlData = curData.CurCnlData[cnlTag.Index];
-                            CnlData newCnlData = CalcCnlData(cnlTag, curCnlData, cnlData[i]);
+                            CnlData newCnlData = calc.CalcCnlData(cnlTag, cnlData[i]);
                             curData.SetCurCnlData(utcNow, cnlTag.Index, newCnlData);
                         }
                     }
