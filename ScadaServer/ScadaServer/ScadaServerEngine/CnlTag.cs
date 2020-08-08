@@ -38,11 +38,25 @@ namespace Scada.Server.Engine
         /// <summary>
         /// Initializes a new instance of the class.
         /// </summary>
-        public CnlTag(int index, int cnlNum, InCnl inCnl)
+        public CnlTag()
+        {
+            Index = -1;
+            CnlNum = 0;
+            InCnl = null;
+            Lim = null;
+            CalcEngine = null;
+            CalcCnlDataFunc = null;
+        }
+
+        /// <summary>
+        /// Initializes a new instance of the class.
+        /// </summary>
+        public CnlTag(int index, int cnlNum, InCnl inCnl, Lim lim)
         {
             Index = index;
             CnlNum = cnlNum;
             InCnl = inCnl;
+            Lim = lim;
             CalcEngine = null;
             CalcCnlDataFunc = null;
         }
@@ -63,6 +77,11 @@ namespace Scada.Server.Engine
         /// Gets the input channel entity.
         /// </summary>
         public InCnl InCnl { get; private set; }
+
+        /// <summary>
+        /// Gets the input channel limits.
+        /// </summary>
+        public Lim Lim { get; private set; }
 
         /// <summary>
         /// Gets or sets the object that calculates channel data.

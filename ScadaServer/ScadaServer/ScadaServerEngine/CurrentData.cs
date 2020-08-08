@@ -35,14 +35,16 @@ namespace Scada.Server.Engine
     /// </summary>
     internal class CurrentData : ICalcContext
     {
-        private readonly Dictionary<int, CnlTag> cnlTags; // the metadata about the input channels
+        private readonly ICnlDataChangeHandler cnlDataChangeHandler; // handles data changes
+        private readonly Dictionary<int, CnlTag> cnlTags;            // the metadata about the input channels
 
 
         /// <summary>
         /// Initializes a new instance of the class.
         /// </summary>
-        public CurrentData(Dictionary<int, CnlTag> cnlTags)
+        public CurrentData(ICnlDataChangeHandler cnlDataChangeHandler, Dictionary<int, CnlTag> cnlTags)
         {
+            this.cnlDataChangeHandler = cnlDataChangeHandler ?? throw new ArgumentNullException("cnlDataChangeHandler");
             this.cnlTags = cnlTags ?? throw new ArgumentNullException("cnlTags");
 
             int cnlCnt = cnlTags.Count;
@@ -75,28 +77,14 @@ namespace Scada.Server.Engine
 
 
         /// <summary>
-        /// Raises the CnlDataChanged event.
-        /// </summary>
-        private void OnCnlDataChanged(ref CnlData cnlData, CnlData prevCnlData, DateTime timestamp, DateTime prevTimestamp)
-        {
-            if (CnlDataChanged != null)
-            {
-                CnlDataChangedEventArgs eventArgs = new CnlDataChangedEventArgs(cnlData, prevCnlData, timestamp, prevTimestamp);
-                CnlDataChanged(this, eventArgs);
-
-                if (cnlData != eventArgs.CnlData)
-                    cnlData = eventArgs.CnlData;
-            }
-        }
-
-        /// <summary>
         /// Sets the current input channel data.
         /// </summary>
-        public void SetCurCnlData(DateTime nowDT, int cnlIndex, CnlData cnlData)
+        public void SetCurCnlData(CnlTag cnlTag, CnlData cnlData, DateTime nowDT)
         {
+            int cnlIndex = cnlTag.Index;
             DateTime prevTimestamp = Timestamps[cnlIndex];
             CnlData prevCnlData = CnlData[cnlIndex];
-            OnCnlDataChanged(ref cnlData, prevCnlData, nowDT, prevTimestamp);
+            cnlDataChangeHandler.HandleCurDataChanged(cnlTag, ref cnlData, prevCnlData, nowDT, prevTimestamp);
 
             PrevTimestamps[cnlIndex] = prevTimestamp;
             PrevCnlData[cnlIndex] = prevCnlData;
@@ -151,13 +139,7 @@ namespace Scada.Server.Engine
         void ICalcContext.SetCnlData(int cnlNum, CnlData cnlData)
         {
             if (cnlTags.TryGetValue(cnlNum, out CnlTag cnlTag))
-                SetCurCnlData(DateTime.UtcNow, cnlTag.Index, cnlData);
+                SetCurCnlData(cnlTag, cnlData, DateTime.UtcNow);
         }
-
-
-        /// <summary>
-        /// Occurs when the input channel data changes.
-        /// </summary>
-        public event EventHandler<CnlDataChangedEventArgs> CnlDataChanged;
     }
 }

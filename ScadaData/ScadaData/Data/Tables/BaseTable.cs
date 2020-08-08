@@ -227,6 +227,15 @@ namespace Scada.Data.Tables
         }
 
         /// <summary>
+        /// Gets the item with the specified key, or null if the specified key is not found.
+        /// </summary>
+        public T GetItem(int key)
+        {
+            Items.TryGetValue(key, out T value);
+            return value;
+        }
+
+        /// <summary>
         /// Removes an item with the specified primary key.
         /// </summary>
         public void RemoveItem(int key)

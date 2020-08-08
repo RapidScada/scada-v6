@@ -42,7 +42,7 @@ namespace Scada.Server.Engine
     /// Implements of the core server logic.
     /// <para>Реализует основную логику сервера.</para>
     /// </summary>
-    internal class CoreLogic
+    internal class CoreLogic : ICnlDataChangeHandler
     {
         /// <summary>
         /// The application work states.
@@ -162,8 +162,7 @@ namespace Scada.Server.Engine
             if (!InitCalculator())
                 return false;
 
-            curData = new CurrentData(cnlTags);
-            curData.CnlDataChanged += CurData_CnlDataChanged;
+            curData = new CurrentData(this, cnlTags);
             serverCache = new ServerCache();
             listener = new ServerListener(this, config.ListenerOptions, log);
             return true;
@@ -233,14 +232,15 @@ namespace Scada.Server.Engine
                 if (inCnl.Active && inCnl.CnlNum >= cnlNum)
                 {
                     cnlNum = inCnl.CnlNum;
-                    cnlTags.Add(cnlNum, new CnlTag(index++, cnlNum++, inCnl));
+                    Lim lim = inCnl.LimID.HasValue ? baseDataSet.LimTable.GetItem(inCnl.LimID.Value) : null;
+                    cnlTags.Add(cnlNum, new CnlTag(index++, cnlNum++, inCnl, lim));
 
                     // add channel tags if one channel row defines multiple channels
                     if (inCnl.DataLen > 1)
                     {
                         for (int i = 1, cnt = inCnl.DataLen.Value; i < cnt; i++)
                         {
-                            cnlTags.Add(cnlNum, new CnlTag(index++, cnlNum++, inCnl));
+                            cnlTags.Add(cnlNum, new CnlTag(index++, cnlNum++, inCnl, lim));
                         }
                     }
                 }
@@ -373,12 +373,47 @@ namespace Scada.Server.Engine
         }
 
         /// <summary>
-        /// Handles the input channel data changes.
+        /// Updates the input channel status after formula calculation.
         /// </summary>
-        private void CurData_CnlDataChanged(object sender, CnlDataChangedEventArgs e)
+        private void UpdateCnlStatus(InCnl inCnl, Lim lim, ref CnlData cnlData)
         {
-            // TODO: update status
-            // TODO: write events
+            if (cnlData.Stat == CnlStatusID.Defined)
+            {
+                if (double.IsNaN(cnlData.Val))
+                {
+                    // set undefined status if value is not a number
+                    cnlData.Stat = CnlStatusID.Undefined;
+                }
+                else if (lim != null)
+                {
+                    // set status depending on channel limits
+                    cnlData.Stat = CnlStatusID.Normal;
+
+                    //if (inCnl.LimLow < inCnl.LimHigh)
+                    //{
+                    //    if (cnlData.Val < inCnl.LimLow)
+                    //        cnlData.Stat = CnlStatusID.Low;
+                    //    else if (cnlData.Val > inCnl.LimHigh)
+                    //        cnlData.Stat = CnlStatusID.High;
+                    //}
+
+                    //if (inCnl.LimLowCrash < inCnl.LimHighCrash)
+                    //{
+                    //    if (cnlData.Val < inCnl.LimLowCrash)
+                    //        cnlData.Stat = CnlStatusID.ExtremelyLow;
+                    //    else if (cnlData.Val > inCnl.LimHighCrash)
+                    //        cnlData.Stat = CnlStatusID.ExtremelyHigh;
+                    //}
+                }
+            }
+        }
+
+        /// <summary>
+        /// Generates an event and adds it to the event queue.
+        /// </summary>
+        private void GenerateEvent(InCnl inCnl, CnlData cnlData, CnlData prevCnlData)
+        {
+
         }
 
 
@@ -607,7 +642,7 @@ namespace Scada.Server.Engine
                         else
                         {
                             cnlDataArr[i] = CnlData.Empty;
-                            cnlListItem?.CnlTags.Add(new CnlTag(-1, 0, null));
+                            cnlListItem?.CnlTags.Add(new CnlTag());
                         }
                     }
                 }
@@ -645,7 +680,7 @@ namespace Scada.Server.Engine
                         if (cnlTags.TryGetValue(cnlNums[i], out CnlTag cnlTag))
                         {
                             CnlData newCnlData = calc.CalcCnlData(cnlTag, cnlData[i]);
-                            curData.SetCurCnlData(utcNow, cnlTag.Index, newCnlData);
+                            curData.SetCurCnlData(cnlTag, newCnlData, utcNow);
                         }
                     }
                 }
@@ -660,6 +695,16 @@ namespace Scada.Server.Engine
             {
                 calc.EndCalculation();
             }
+        }
+
+        /// <summary>
+        /// Handles the changes of the current input channel data.
+        /// </summary>
+        void ICnlDataChangeHandler.HandleCurDataChanged(CnlTag cnlTag, ref CnlData cnlData, CnlData prevCnlData,
+            DateTime timestamp, DateTime prevTimestamp)
+        {
+            UpdateCnlStatus(cnlTag.InCnl, cnlTag.Lim, ref cnlData);
+            GenerateEvent(cnlTag.InCnl, cnlData, prevCnlData);
         }
     }
 }
