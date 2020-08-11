@@ -95,6 +95,7 @@ namespace Scada.Server.Engine
             sourceCode.AppendLine("using System.Linq;");
             sourceCode.AppendLine("using System.Text;");
             sourceCode.AppendLine("using static System.Math;");
+            sourceCode.AppendLine();
             sourceCode.AppendLine("namespace Scada.Server.Engine {");
 
             // add scripts
@@ -102,10 +103,12 @@ namespace Scada.Server.Engine
 
             foreach (Script script in scriptTable.EnumerateItems())
             {
-                sourceCode.AppendLine(script.Source);
+                sourceCode
+                    .Append("/********** ").Append(script.Name).AppendLine(" **********/")
+                    .AppendLine(script.Source);
             }
 
-            sourceCode.AppendLine("}");
+            sourceCode.AppendLine("}").AppendLine();
 
             // definitions for creating classes that implement formulas
             int cnlCnt = 0;
@@ -122,7 +125,7 @@ namespace Scada.Server.Engine
                     classCnt++;
                     cnlCnt = 0;
                     className = "Formulas" + classCnt;
-                    sourceCode.AppendFormat("public class {0} : Scripts {", className).AppendLine();
+                    sourceCode.Append("public class ").Append(className).AppendLine(" : Scripts {");
                 }
             }
 
@@ -177,7 +180,7 @@ namespace Scada.Server.Engine
             else
             {
                 string valFormula = formula.Substring(0, semicolonIndex).Trim();
-                string statFormula = formula.Substring(semicolonIndex).Trim();
+                string statFormula = formula.Substring(semicolonIndex + 1).Trim();
 
                 if (valFormula == "")
                     valFormula = "CnlVal";
@@ -221,11 +224,16 @@ namespace Scada.Server.Engine
         /// </summary>
         private Compilation PrepareCompilation(string sourceCode)
         {
+            string dotnetDir = Path.GetDirectoryName(typeof(object).Assembly.Location);
+
             SortedSet<string> refPaths = new SortedSet<string>
             {
+                Path.Combine(dotnetDir, "netstandard.dll"),
+                Path.Combine(dotnetDir, "System.Runtime.dll"),
                 typeof(object).Assembly.Location,
                 typeof(File).Assembly.Location,
                 typeof(Math).Assembly.Location,
+                typeof(Enumerable).Assembly.Location,
                 typeof(CalcEngine).Assembly.Location,
                 typeof(ScadaUtils).Assembly.Location
             };

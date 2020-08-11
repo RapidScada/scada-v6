@@ -235,8 +235,8 @@ namespace Scada.Server.Engine
                 {
                     cnlNum = inCnl.CnlNum;
                     Lim lim = inCnl.LimID.HasValue ? baseDataSet.LimTable.GetItem(inCnl.LimID.Value) : null;
-                    CnlTag cnlTag = new CnlTag(index++, cnlNum++, inCnl, lim);
-                    cnlTags.Add(cnlNum, cnlTag);
+                    CnlTag cnlTag = new CnlTag(index++, cnlNum, inCnl, lim);
+                    cnlTags.Add(cnlNum++, cnlTag);
 
                     if (lim != null && lim.IsBoundToCnl)
                         limTags.Add(cnlTag);
@@ -246,8 +246,8 @@ namespace Scada.Server.Engine
                     {
                         for (int i = 1, cnt = inCnl.DataLen.Value; i < cnt; i++)
                         {
-                            cnlTag = new CnlTag(index++, cnlNum++, inCnl, lim);
-                            cnlTags.Add(cnlNum, cnlTag);
+                            cnlTag = new CnlTag(index++, cnlNum, inCnl, lim);
+                            cnlTags.Add(cnlNum++, cnlTag);
 
                             if (lim != null && lim.IsBoundToCnl)
                                 limTags.Add(cnlTag);

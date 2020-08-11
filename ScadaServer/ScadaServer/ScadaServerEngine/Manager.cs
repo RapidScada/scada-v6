@@ -91,6 +91,10 @@ namespace Scada.Server.Engine
         /// </summary>
         public bool StartService()
         {
+#if DEBUG
+            System.Diagnostics.Debugger.Launch();
+#endif
+
             string exeDir = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location);
             AppDirs.Init(exeDir);
 
