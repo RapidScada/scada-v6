@@ -48,6 +48,8 @@ namespace Scada.Data.Entities
 
         public int? Severity { get; set; }
 
+        public bool AckRequired { get; set; }
+
         public string Descr { get; set; }
     }
 }

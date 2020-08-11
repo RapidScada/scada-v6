@@ -32,9 +32,9 @@ namespace Scada.Data.Models
     public enum EventTextFormat
     {
         /// <summary>
-        /// Displays automatically generated text and description.
+        /// Joins automatically generated text and custom text.
         /// </summary>
-        Default = 0,
+        Full = 0,
 
         /// <summary>
         /// Displays only automatically generated text.
@@ -42,8 +42,8 @@ namespace Scada.Data.Models
         AutoText = 1,
 
         /// <summary>
-        /// Displays only description.
+        /// Displays only custom text.
         /// </summary>
-        Description = 2
+        CustomText = 2
     }
 }

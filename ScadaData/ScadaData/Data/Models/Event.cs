@@ -39,7 +39,7 @@ namespace Scada.Data.Models
 
         public DateTime Timestamp { get; set; }
 
-        public bool Hiddem { get; set; }
+        public bool Hidden { get; set; }
 
         public int CnlNum { get; set; }
 
@@ -69,7 +69,7 @@ namespace Scada.Data.Models
 
         public EventTextFormat TextFormat { get; set; }
 
-        public string Descr { get; set; }
+        public string Text { get; set; }
 
         public byte[] Data { get; set; }
     }

@@ -65,6 +65,10 @@ namespace Scada.Server.Engine
         /// </summary>
         private static readonly TimeSpan WriteInfoPeriod = TimeSpan.FromSeconds(1);
         /// <summary>
+        /// Generates parts of event IDs.
+        /// </summary>
+        private static readonly Random EventIDGenerator = new Random();
+        /// <summary>
         /// The work state names in English.
         /// </summary>
         private static readonly string[] WorkStateNamesEn = { "Undefined", "Normal", "Error", "Terminated" };
@@ -481,9 +485,46 @@ namespace Scada.Server.Engine
         /// <summary>
         /// Generates an event and adds it to the event queue.
         /// </summary>
-        private void GenerateEvent(InCnl inCnl, CnlData cnlData, CnlData prevCnlData)
+        private void GenerateEvent(CnlTag cnlTag, CnlData cnlData, CnlData prevCnlData)
         {
+            // TODO: check event mask of the channel
+            InCnl inCnl = cnlTag.InCnl;
+            CnlStatus cnlStatus = baseDataSet.CnlStatusTable.GetItem(cnlData.Stat);
 
+            Event ev = new Event
+            {
+                EventID = GenerateEventID(),
+                Timestamp = DateTime.UtcNow,
+                Hidden = false,
+                CnlNum = cnlTag.CnlNum,
+                OutCnlNum = 0,
+                ObjNum = inCnl.ObjNum ?? 0,
+                DeviceNum = inCnl.DeviceNum ?? 0,
+                PrevCnlVal = prevCnlData.Val,
+                PrevCnlStat = prevCnlData.Stat,
+                CnlVal = cnlData.Val,
+                CnlStat = cnlData.Stat,
+                Severity = cnlStatus?.Severity ?? 0,
+                AckRequired = cnlStatus?.AckRequired ?? false,
+                Ack = false,
+                AckTimestamp = DateTime.MinValue,
+                AckUserID = 0,
+                TextFormat = EventTextFormat.Full,
+                Text = "",
+                Data = null
+            };
+
+            // TODO: write event to archives
+            log.WriteAction(string.Format("Created event with ID = {0}, CnlNum = {1}", ev.EventID, ev.CnlNum));
+        }
+
+        /// <summary>
+        /// Generates a globally unique event ID.
+        /// </summary>
+        private long GenerateEventID()
+        {
+            long unixTime = DateTimeOffset.Now.ToUnixTimeSeconds();
+            return (unixTime << 32) + EventIDGenerator.Next();
         }
 
 
@@ -774,7 +815,7 @@ namespace Scada.Server.Engine
             DateTime timestamp, DateTime prevTimestamp)
         {
             UpdateCnlStatus(cnlTag, ref cnlData, prevCnlData);
-            GenerateEvent(cnlTag.InCnl, cnlData, prevCnlData);
+            GenerateEvent(cnlTag, cnlData, prevCnlData);
         }
     }
 }
