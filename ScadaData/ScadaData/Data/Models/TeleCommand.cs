@@ -39,8 +39,9 @@ namespace Scada.Data.Models
         public TeleCommand()
         {
             CreationTime = DateTime.UtcNow;
-            CmdTypeID = 0;
             OutCnlNum = 0;
+            CmdTypeID = 0;
+            ObjNum = 0;
             DeviceNum = 0;
             CmdNum = 0;
             CmdVal = 0.0;
@@ -55,14 +56,19 @@ namespace Scada.Data.Models
         public DateTime CreationTime { get; protected set; }
 
         /// <summary>
+        /// Gets or sets the output channel number.
+        /// </summary>
+        public int OutCnlNum { get; set; }
+
+        /// <summary>
         /// Gets or sets the command type ID.
         /// </summary>
         public int CmdTypeID { get; set; }
 
         /// <summary>
-        /// Gets or sets the output channel number.
+        /// Gets or sets the object number.
         /// </summary>
-        public int OutCnlNum { get; set; }
+        public int ObjNum { get; set; }
 
         /// <summary>
         /// Gets or sets the device number.
