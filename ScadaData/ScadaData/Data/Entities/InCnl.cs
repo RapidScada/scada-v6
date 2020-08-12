@@ -70,6 +70,6 @@ namespace Scada.Data.Entities
 
         public int ArchiveMask { get; set; }
 
-        public int EventMask { get; set; }
+        public int? EventMask { get; set; }
     }
 }
