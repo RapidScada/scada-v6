@@ -178,15 +178,12 @@ namespace Scada.Client
             int index = ArgumentIndex;
             lastCommandID = GetInt64(inBuf, ref index);
 
-            if (lastCommandID == 0)
-            {
-                return null;
-            }
-            else
+            if (lastCommandID > 0)
             {
                 return new TeleCommand
                 {
                     CommandID = lastCommandID,
+                    CreationTime = GetTime(inBuf, ref index),
                     UserID = GetInt32(inBuf, ref index),
                     OutCnlNum = GetInt32(inBuf, ref index),
                     CmdTypeID = GetInt32(inBuf, ref index),
@@ -197,6 +194,10 @@ namespace Scada.Client
                     CmdVal = GetDouble(inBuf, ref index),
                     CmdData = GetByteArray(inBuf, ref index)
                 };
+            }
+            else
+            {
+                return null;
             }
         }
 

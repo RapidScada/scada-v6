@@ -27,7 +27,9 @@ using Scada.Data.Const;
 using Scada.Data.Models;
 using Scada.Log;
 using Scada.Protocol;
+using Scada.Server.Config;
 using System;
+using System.Collections.Generic;
 using static Scada.BinaryConverter;
 using static Scada.Protocol.ProtocolUtils;
 
@@ -40,17 +42,27 @@ namespace Scada.Server.Engine
     internal class ServerListener : BaseListener
     {
         private readonly CoreLogic coreLogic; // the server logic instance
+        private readonly ServerConfig config; // the server configuration
 
 
         /// <summary>
         /// Initializes a new instance of the class.
         /// </summary>
-        public ServerListener(CoreLogic coreLogic, ListenerOptions listenerOptions, ILog log)
-            : base(listenerOptions, log)
+        public ServerListener(CoreLogic coreLogic, ServerConfig config, ILog log)
+            : base(config.ListenerOptions, log)
         {
             this.coreLogic = coreLogic ?? throw new ArgumentNullException("coreLogic");
+            this.config = config ?? throw new ArgumentNullException("config");
         }
 
+
+        /// <summary>
+        /// Gets the client tag or creates it if necessary.
+        /// </summary>
+        protected ClientTag GetClientTag(ConnectedClient client)
+        {
+            return client.Tag as ClientTag ?? throw new InvalidOperationException("Client tag must not be null.");
+        }
 
         /// <summary>
         /// Gets the current data.
@@ -79,7 +91,6 @@ namespace Scada.Server.Engine
             CopyInt64(cnlData == null ? 0 : cnlListID, outBuf, ref index);
             CopyCnlDataArray(cnlData, outBuf, ref index);
             response.BufferLength = index;
-            response.Encode();
         }
 
         /// <summary>
@@ -108,7 +119,6 @@ namespace Scada.Server.Engine
             coreLogic.WriteCurrentData(deviceNum, cnlNums, cnlData, applyFormulas);
 
             response = new ResponsePacket(request, client.OutBuf);
-            response.Encode();
         }
 
         /// <summary>
@@ -135,7 +145,6 @@ namespace Scada.Server.Engine
             CopyBool(commandResult.IsSuccessful, outBuf, ref index);
             CopyString(commandResult.ErrorMessage, outBuf, ref index);
             response.BufferLength = index;
-            response.Encode();
         }
 
         /// <summary>
@@ -143,7 +152,34 @@ namespace Scada.Server.Engine
         /// </summary>
         protected void GetCommand(ConnectedClient client, DataPacket request, out ResponsePacket response)
         {
-            response = null;
+            byte[] buffer = request.Buffer;
+            long commandToRemove = BitConverter.ToInt64(buffer, ArgumentIndex);
+            TeleCommand command = GetClientTag(client).GetCommand(commandToRemove);
+
+            byte[] outBuf = client.OutBuf;
+            response = new ResponsePacket(request, outBuf);
+            int index = ArgumentIndex;
+
+            if (command == null)
+            {
+                CopyInt64(0, outBuf, ref index);
+            }
+            else
+            {
+                CopyInt64(command.CommandID, outBuf, ref index);
+                CopyTime(command.CreationTime, outBuf, ref index);
+                CopyInt32(command.UserID, outBuf, ref index);
+                CopyInt32(command.OutCnlNum, outBuf, ref index);
+                CopyInt32(command.CmdTypeID, outBuf, ref index);
+                CopyInt32(command.ObjNum, outBuf, ref index);
+                CopyInt32(command.DeviceNum, outBuf, ref index);
+                CopyInt32(command.CmdNum, outBuf, ref index);
+                CopyString(command.CmdCode, outBuf, ref index);
+                CopyDouble(command.CmdVal, outBuf, ref index);
+                CopyByteArray(command.CmdData, outBuf, ref index);
+            }
+
+            response.BufferLength = index;
         }
 
         /// <summary>
@@ -151,7 +187,8 @@ namespace Scada.Server.Engine
         /// </summary>
         protected void DisableCommands(ConnectedClient client, DataPacket request, out ResponsePacket response)
         {
-            response = null;
+            GetClientTag(client).DisableCommands();
+            response = new ResponsePacket(request, client.OutBuf);
         }
 
         /// <summary>
@@ -232,7 +269,19 @@ namespace Scada.Server.Engine
         /// </summary>
         protected override string GetDirectory(int directoryID)
         {
-            return @"C:\SCADA-v6\";
+            switch (directoryID)
+            {
+                case (int)TopFolder.Archive:
+                    return config.PathOptions.ArcDir;
+                case (int)TopFolder.ArchiveCopy:
+                    return config.PathOptions.ArcCopyDir;
+                case (int)TopFolder.Base:
+                    return config.PathOptions.BaseDir;
+                case (int)TopFolder.View:
+                    return config.PathOptions.ViewDir;
+                default:
+                    throw new ScadaException("Directory not supported.");
+            }
         }
 
         /// <summary>
@@ -277,6 +326,25 @@ namespace Scada.Server.Engine
                 default:
                     handled = false;
                     break;
+            }
+        }
+
+        /// <summary>
+        /// Performs actions when initializing the connected client.
+        /// </summary>
+        protected override void OnClientInit(ConnectedClient client)
+        {
+            client.Tag = new ClientTag();
+        }
+
+        /// <summary>
+        /// Enqueues the command to be transferred to the connected cliens.
+        /// </summary>
+        public void EnqueueCommand(TeleCommand command)
+        {
+            foreach (KeyValuePair<long, ConnectedClient> pair in clients)
+            {
+                GetClientTag(pair.Value).AddCommand(command);
             }
         }
     }

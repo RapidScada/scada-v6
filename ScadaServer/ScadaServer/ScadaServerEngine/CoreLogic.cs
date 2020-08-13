@@ -164,7 +164,7 @@ namespace Scada.Server.Engine
 
             curData = new CurrentData(this, cnlTags);
             serverCache = new ServerCache();
-            listener = new ServerListener(this, config.ListenerOptions, log);
+            listener = new ServerListener(this, config, log);
             return true;
         }
 

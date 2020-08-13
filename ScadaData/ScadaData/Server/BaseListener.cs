@@ -174,6 +174,7 @@ namespace Scada.Server
 
                         Thread clientTread = new Thread(ClientExecute);
                         client.Init(tcpClient, clientTread);
+                        OnClientInit(client);
                         log.WriteAction(string.Format(Locale.IsRussian ?
                             "Клиент {0} подключился" :
                             "Client {0} connected", client.Address));
@@ -975,6 +976,13 @@ namespace Scada.Server
         {
             response = null;
             handled = false;
+        }
+
+        /// <summary>
+        /// Performs actions when initializing the connected client.
+        /// </summary>
+        protected virtual void OnClientInit(ConnectedClient client)
+        {
         }
 
 

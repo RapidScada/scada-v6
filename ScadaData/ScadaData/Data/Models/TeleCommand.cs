@@ -39,7 +39,7 @@ namespace Scada.Data.Models
         public TeleCommand()
         {
             CommandID = 0;
-            CreationTime = DateTime.UtcNow;
+            CreationTime = DateTime.MinValue;
             UserID = 0;
             OutCnlNum = 0;
             CmdTypeID = 0;
@@ -83,7 +83,7 @@ namespace Scada.Data.Models
         /// <summary>
         /// Gets or sets the creation time of the command (UTC).
         /// </summary>
-        public DateTime CreationTime { get; protected set; }
+        public DateTime CreationTime { get; set; }
 
         /// <summary>
         /// Gets or sets the ID of the user who is sending the command.

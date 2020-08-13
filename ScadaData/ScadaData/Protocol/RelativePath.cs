@@ -86,5 +86,16 @@ namespace Scada.Protocol
         {
             return (byte)TopFolder | ((byte)AppFolder << 8);
         }
+
+        /// <summary>
+        /// Returns a relative path corresponding to the directory ID.
+        /// </summary>
+        public static RelativePath FromDirectoryID(int directoryID)
+        {
+            return new RelativePath(
+                (TopFolder)(byte)directoryID,
+                (AppFolder)(byte)(directoryID >> 8),
+                "");
+        }
     }
 }
