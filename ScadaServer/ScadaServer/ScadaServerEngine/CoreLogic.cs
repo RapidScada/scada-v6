@@ -65,10 +65,6 @@ namespace Scada.Server.Engine
         /// </summary>
         private static readonly TimeSpan WriteInfoPeriod = TimeSpan.FromSeconds(1);
         /// <summary>
-        /// Generates parts of event IDs.
-        /// </summary>
-        private static readonly Random EventIDGenerator = new Random();
-        /// <summary>
         /// The work state names in English.
         /// </summary>
         private static readonly string[] WorkStateNamesEn = { "Undefined", "Normal", "Error", "Terminated" };
@@ -505,7 +501,7 @@ namespace Scada.Server.Engine
 
                     Event ev = new Event
                     {
-                        EventID = GenerateEventID(),
+                        EventID = ScadaUtils.GenerateUniqueID(),
                         Timestamp = DateTime.UtcNow,
                         Hidden = false,
                         CnlNum = cnlTag.CnlNum,
@@ -530,15 +526,6 @@ namespace Scada.Server.Engine
                     log.WriteAction(string.Format("Created event with ID = {0}, CnlNum = {1}", ev.EventID, ev.CnlNum));
                 }
             }
-        }
-
-        /// <summary>
-        /// Generates a globally unique event ID.
-        /// </summary>
-        private long GenerateEventID()
-        {
-            long unixTime = DateTimeOffset.Now.ToUnixTimeSeconds();
-            return (unixTime << 32) + EventIDGenerator.Next();
         }
 
 
@@ -820,6 +807,14 @@ namespace Scada.Server.Engine
             {
                 calc.EndCalculation();
             }
+        }
+
+        /// <summary>
+        /// Sends the telecontrol command.
+        /// </summary>
+        public void SendCommand(TeleCommand command, out CommandResult commandResult)
+        {
+            commandResult = new CommandResult();
         }
 
         /// <summary>

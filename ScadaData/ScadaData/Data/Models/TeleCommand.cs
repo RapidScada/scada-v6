@@ -38,22 +38,57 @@ namespace Scada.Data.Models
         /// </summary>
         public TeleCommand()
         {
+            CommandID = 0;
             CreationTime = DateTime.UtcNow;
+            UserID = 0;
             OutCnlNum = 0;
             CmdTypeID = 0;
             ObjNum = 0;
             DeviceNum = 0;
             CmdNum = 0;
+            CmdCode = "";
             CmdVal = 0.0;
             CmdData = null;
             RecursionLevel = 0;
         }
 
+        /// <summary>
+        /// Initializes a new instance of the class.
+        /// </summary>
+        public TeleCommand(int outCnlNum, double cmdVal, int userID)
+            : this()
+        {
+            OutCnlNum = outCnlNum;
+            CmdVal = cmdVal;
+            UserID = userID;
+        }
+
+        /// <summary>
+        /// Initializes a new instance of the class.
+        /// </summary>
+        public TeleCommand(int outCnlNum, byte[] cmdData, int userID)
+            : this()
+        {
+            OutCnlNum = outCnlNum;
+            CmdData = cmdData;
+            UserID = userID;
+        }
+
+
+        /// <summary>
+        /// Gets or sets the server-assigned command ID.
+        /// </summary>
+        public long CommandID { get; set; }
 
         /// <summary>
         /// Gets or sets the creation time of the command (UTC).
         /// </summary>
         public DateTime CreationTime { get; protected set; }
+
+        /// <summary>
+        /// Gets or sets the ID of the user who is sending the command.
+        /// </summary>
+        public int UserID { get; set; }
 
         /// <summary>
         /// Gets or sets the output channel number.
@@ -83,7 +118,7 @@ namespace Scada.Data.Models
         /// <summary>
         /// Gets or sets the command code.
         /// </summary>
-        public int CmdCode { get; set; }
+        public string CmdCode { get; set; }
 
         /// <summary>
         /// Gets or sets the command value.

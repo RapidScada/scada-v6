@@ -60,6 +60,7 @@ namespace Scada.Server
             IsLoggedIn = false;
             Username = "";
             RoleID = 0;
+            Tag = null;
         }
 
 
@@ -117,6 +118,11 @@ namespace Scada.Server
         /// Get or sets the user role ID.
         /// </summary>
         public int RoleID { get; set; }
+        
+        /// <summary>
+        /// Gets or sets the object that contains data related to the client.
+        /// </summary>
+        public object Tag { get; set; }
 
 
         /// <summary>

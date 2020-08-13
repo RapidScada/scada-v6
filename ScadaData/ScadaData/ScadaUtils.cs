@@ -45,6 +45,10 @@ namespace Scada
         /// </summary>
         public const int ThreadDelay = 100;
         /// <summary>
+        /// Generates parts of unique IDs.
+        /// </summary>
+        private static readonly Random UniqueIDGenerator = new Random();
+        /// <summary>
         /// Determines that the application is running on Windows.
         /// </summary>
         public static readonly bool IsRunningOnWin = RuntimeInformation.IsOSPlatform(OSPlatform.Windows);
@@ -128,6 +132,15 @@ namespace Scada
         public static T DeepClone<T>(T obj, SerializationBinder binder = null)
         {
             return (T)DeepClone((object)obj, binder);
+        }
+
+        /// <summary>
+        /// Generates a positive globally unique ID.
+        /// </summary>
+        public static long GenerateUniqueID()
+        {
+            long unixTime = DateTimeOffset.Now.ToUnixTimeSeconds();
+            return ((unixTime << 32) + UniqueIDGenerator.Next(1, int.MaxValue)) & 0x7FFFFFFFFFFFFFFF;
         }
     }
 }

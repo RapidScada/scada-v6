@@ -112,6 +112,49 @@ namespace Scada.Server.Engine
         }
 
         /// <summary>
+        /// Sends the telecontrol command.
+        /// </summary>
+        protected void SendCommand(ConnectedClient client, DataPacket request, out ResponsePacket response)
+        {
+            byte[] buffer = request.Buffer;
+            int index = ArgumentIndex;
+
+            TeleCommand command = new TeleCommand
+            {
+                UserID = GetInt32(buffer, ref index),
+                OutCnlNum = GetInt32(buffer, ref index),
+                CmdVal = GetDouble(buffer, ref index),
+                CmdData = GetByteArray(buffer, ref index)
+            };
+
+            coreLogic.SendCommand(command, out CommandResult commandResult);
+
+            byte[] outBuf = client.OutBuf;
+            response = new ResponsePacket(request, outBuf);
+            index = ArgumentIndex;
+            CopyBool(commandResult.IsSuccessful, outBuf, ref index);
+            CopyString(commandResult.ErrorMessage, outBuf, ref index);
+            response.BufferLength = index;
+            response.Encode();
+        }
+
+        /// <summary>
+        /// Gets a telecontrol command from the server queue.
+        /// </summary>
+        protected void GetCommand(ConnectedClient client, DataPacket request, out ResponsePacket response)
+        {
+            response = null;
+        }
+
+        /// <summary>
+        /// Disables commands for the client.
+        /// </summary>
+        protected void DisableCommands(ConnectedClient client, DataPacket request, out ResponsePacket response)
+        {
+            response = null;
+        }
+
+        /// <summary>
         /// Gets the server name and version.
         /// </summary>
         protected override string GetServerName()
@@ -217,6 +260,18 @@ namespace Scada.Server.Engine
 
                 case FunctionID.WriteCurrentData:
                     WriteCurrentData(client, request, out response);
+                    break;
+
+                case FunctionID.SendCommand:
+                    SendCommand(client, request, out response);
+                    break;
+
+                case FunctionID.GetCommand:
+                    GetCommand(client, request, out response);
+                    break;
+
+                case FunctionID.DisableCommands:
+                    DisableCommands(client, request, out response);
                     break;
 
                 default:

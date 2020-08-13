@@ -192,6 +192,21 @@ namespace Scada
         }
 
         /// <summary>
+        /// Encodes and copies the array of bytes to the buffer.
+        /// </summary>
+        public static void CopyByteArray(byte[] srcArray, byte[] buffer, ref int index)
+        {
+            int arrayLength = srcArray == null ? 0 : srcArray.Length;
+            CopyInt32(arrayLength, buffer, ref index);
+
+            if (srcArray != null)
+            {
+                Buffer.BlockCopy(srcArray, 0, buffer, index, arrayLength);
+                index += arrayLength;
+            }
+        }
+
+        /// <summary>
         /// Encodes and copies the array of integers to the buffer.
         /// </summary>
         public static void CopyIntArray(int[] srcArray, byte[] buffer, ref int index)
@@ -310,6 +325,26 @@ namespace Scada
             DateTime value = new DateTime(BitConverter.ToInt64(buffer, index), DateTimeKind.Utc);
             index += 8;
             return value;
+        }
+
+        /// <summary>
+        /// Gets an array of bytes from the buffer.
+        /// </summary>
+        public static byte[] GetByteArray(byte[] buffer, ref int index)
+        {
+            int arrayLength = GetInt32(buffer, ref index);
+
+            if (arrayLength > 0)
+            {
+                byte[] array = new byte[arrayLength];
+                Buffer.BlockCopy(buffer, index, array, 0, arrayLength);
+                index += arrayLength;
+                return array;
+            }
+            else
+            {
+                return new byte[0];
+            }
         }
 
         /// <summary>

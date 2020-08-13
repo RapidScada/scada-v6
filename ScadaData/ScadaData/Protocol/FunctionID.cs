@@ -50,6 +50,10 @@ namespace Scada.Protocol
         public const ushort WriteCurrentData = 0x0204;
         public const ushort WriteArchiveData = 0x0205;
 
+        public const ushort SendCommand = 0x0401;
+        public const ushort GetCommand = 0x0402;
+        public const ushort DisableCommands = 0x0403;
+
         private static readonly Dictionary<ushort, string> FunctionNames = new Dictionary<ushort, string>
         {
             { GetSessionInfo, "GetSessionInfo" },
@@ -63,7 +67,10 @@ namespace Scada.Protocol
             { GetTrends, "GetTrends" },
             { GetSlices, "GetSlices" },
             { WriteCurrentData, "WriteCurrentData" },
-            { WriteArchiveData, "WriteArchiveData" }
+            { WriteArchiveData, "WriteArchiveData" },
+            { SendCommand, "SendCommand" },
+            { GetCommand, "GetCommand" },
+            { DisableCommands, "DisableCommands" }
         };
 
         /// <summary>

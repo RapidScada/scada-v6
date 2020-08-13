@@ -38,11 +38,18 @@ namespace Scada.Client
     public class ScadaClient : BaseClient
     {
         /// <summary>
+        /// The ID of the last command received.
+        /// </summary>
+        protected long lastCommandID;
+
+
+        /// <summary>
         /// Initializes a new instance of the class.
         /// </summary>
         public ScadaClient(ConnectionOptions connectionOptions)
             : base(connectionOptions)
         {
+            lastCommandID = 0;
         }
 
 
@@ -127,6 +134,79 @@ namespace Scada.Client
             index += cnlCnt * 16;
             CopyBool(applyFormulas, outBuf, ref index);
             request.BufferLength = index;
+            SendRequest(request);
+            ReceiveResponse(request);
+        }
+
+        /// <summary>
+        /// Sends the telecontrol command.
+        /// </summary>
+        public void SendCommand(TeleCommand command, out CommandResult commandResult)
+        {
+            RestoreConnection();
+
+            DataPacket request = CreateRequest(FunctionID.SendCommand);
+            int index = ArgumentIndex;
+            CopyInt32(command.UserID, outBuf, ref index);
+            CopyInt32(command.OutCnlNum, outBuf, ref index);
+            CopyDouble(command.CmdVal, outBuf, ref index);
+            CopyByteArray(command.CmdData, outBuf, ref index);
+            request.BufferLength = index;
+            SendRequest(request);
+
+            DataPacket response = ReceiveResponse(request);
+            commandResult = new CommandResult
+            {
+                IsSuccessful = inBuf[ArgumentIndex] > 0,
+                ErrorMessage = GetString(inBuf, ArgumentIndex + 1)
+            };
+        }
+
+        /// <summary>
+        /// Gets a telecontrol command from the server queue.
+        /// </summary>
+        public TeleCommand GetCommand()
+        {
+            RestoreConnection();
+
+            DataPacket request = CreateRequest(FunctionID.GetCommand);
+            CopyInt64(lastCommandID, outBuf, ArgumentIndex);
+            request.ArgumentLength = 8;
+            SendRequest(request);
+
+            DataPacket response = ReceiveResponse(request);
+            int index = ArgumentIndex;
+            lastCommandID = GetInt64(inBuf, ref index);
+
+            if (lastCommandID == 0)
+            {
+                return null;
+            }
+            else
+            {
+                return new TeleCommand
+                {
+                    CommandID = lastCommandID,
+                    UserID = GetInt32(inBuf, ref index),
+                    OutCnlNum = GetInt32(inBuf, ref index),
+                    CmdTypeID = GetInt32(inBuf, ref index),
+                    ObjNum = GetInt32(inBuf, ref index),
+                    DeviceNum = GetInt32(inBuf, ref index),
+                    CmdNum = GetInt32(inBuf, ref index),
+                    CmdCode = GetString(inBuf, ref index),
+                    CmdVal = GetDouble(inBuf, ref index),
+                    CmdData = GetByteArray(inBuf, ref index)
+                };
+            }
+        }
+
+        /// <summary>
+        /// Disables commands for the client.
+        /// </summary>
+        public void DisableCommands()
+        {
+            RestoreConnection();
+            DataPacket request = CreateRequest(FunctionID.DisableCommands, 10);
             SendRequest(request);
             ReceiveResponse(request);
         }
