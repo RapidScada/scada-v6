@@ -56,7 +56,7 @@ namespace Scada.Server.Engine
         /// <summary>
         /// Gets the modules.
         /// </summary>
-        public List<ModuleLogic> Modules { get; private set; }
+        public List<ModuleLogic> Modules { get; }
 
 
         /// <summary>

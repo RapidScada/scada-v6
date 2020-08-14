@@ -55,7 +55,7 @@ namespace Scada.Server.Engine
         {
             Index = index;
             CnlNum = cnlNum;
-            InCnl = inCnl;
+            InCnl = inCnl ?? throw new ArgumentNullException("inCnl");
             Lim = lim;
             LimCnlIndex = null;
             CalcEngine = null;
@@ -66,23 +66,23 @@ namespace Scada.Server.Engine
         /// <summary>
         /// Gets the index among the active input channels.
         /// </summary>
-        public int Index { get; private set; }
+        public int Index { get; }
 
         /// <summary>
         /// Gets the actual input channel number. 
         /// It differs from InCnl.CnlNum if the channel data length is greater than 1.
         /// </summary>
-        public int CnlNum { get; private set; }
+        public int CnlNum { get; }
 
         /// <summary>
         /// Gets the input channel entity.
         /// </summary>
-        public InCnl InCnl { get; private set; }
+        public InCnl InCnl { get; }
 
         /// <summary>
         /// Gets the input channel limits.
         /// </summary>
-        public Lim Lim { get; private set; }
+        public Lim Lim { get; }
 
         /// <summary>
         /// Gets or sets the input channel indices that define limits of this channel.

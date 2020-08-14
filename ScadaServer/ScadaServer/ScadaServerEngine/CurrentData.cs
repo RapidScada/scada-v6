@@ -58,22 +58,22 @@ namespace Scada.Server.Engine
         /// <summary>
         /// Gets the current data of the input channels.
         /// </summary>
-        public CnlData[] CnlData { get; private set; }
+        public CnlData[] CnlData { get; }
 
         /// <summary>
         /// Gets the previous data of the input channels.
         /// </summary>
-        public CnlData[] PrevCnlData { get; private set; }
+        public CnlData[] PrevCnlData { get; }
 
         /// <summary>
         /// Gets the current timestamps of the input channels.
         /// </summary>
-        public DateTime[] Timestamps { get; private set; }
+        public DateTime[] Timestamps { get; }
 
         /// <summary>
         /// Gets the previous timestamps of the input channels.
         /// </summary>
-        public DateTime[] PrevTimestamps { get; private set; }
+        public DateTime[] PrevTimestamps { get; }
 
 
         /// <summary>

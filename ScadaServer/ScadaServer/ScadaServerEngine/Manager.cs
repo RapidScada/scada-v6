@@ -56,7 +56,7 @@ namespace Scada.Server.Engine
         /// <summary>
         /// Gets the application directories.
         /// </summary>
-        public ServerDirs AppDirs { get; private set; }
+        public ServerDirs AppDirs { get; }
 
 
         /// <summary>

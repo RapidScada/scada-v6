@@ -71,7 +71,7 @@ namespace Scada.Server.Config
         /// <summary>
         /// Gets the archive options.
         /// </summary>
-        public CustomOptions CustomOptions { get; private set; }
+        public CustomOptions CustomOptions { get; }
 
 
         /// <summary>

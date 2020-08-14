@@ -54,16 +54,16 @@ namespace Scada.Server.Engine
         /// <summary>
         /// Gets the current archives.
         /// </summary>
-        public List<CurrentArchiveLogic> CurrentArchives { get; private set; }
+        public List<CurrentArchiveLogic> CurrentArchives { get; }
 
         /// <summary>
         /// Gets the historical archives.
         /// </summary>
-        public List<HistoricalArchiveLogic> HistoricalArchives { get; private set; }
+        public List<HistoricalArchiveLogic> HistoricalArchives { get; }
 
         /// <summary>
         /// Gets the event archives.
         /// </summary>
-        public List<EventArchiveLogic> EventArchives { get; private set; }
+        public List<EventArchiveLogic> EventArchives { get; }
     }
 }

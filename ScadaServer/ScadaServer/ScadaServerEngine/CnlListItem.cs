@@ -46,11 +46,11 @@ namespace Scada.Server.Engine
         /// <summary>
         /// Gets the channel list ID.
         /// </summary>
-        public long CnlListID { get; private set; }
+        public long CnlListID { get; }
 
         /// <summary>
         /// Gets the input channel tags.
         /// </summary>
-        public List<CnlTag> CnlTags { get; private set; }
+        public List<CnlTag> CnlTags { get; }
     }
 }
