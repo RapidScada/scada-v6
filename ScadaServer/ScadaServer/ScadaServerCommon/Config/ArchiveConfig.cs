@@ -69,7 +69,7 @@ namespace Scada.Server.Config
         public string Dll { get; set; }
 
         /// <summary>
-        /// Gets the archive options.
+        /// Gets the custom options.
         /// </summary>
         public CustomOptions CustomOptions { get; }
 

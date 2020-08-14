@@ -84,15 +84,16 @@ namespace Scada.Server.Engine
         private DateTime startDT;             // the local start time
         private WorkState workState;          // the work state
 
-        private ServerListener listener;         // the TCP listener
-        private ModuleHolder moduleHolder;       // holds modules
-        private ArchiveHolder archiveHolder;     // holds archives
-        private BaseDataSet baseDataSet;         // the configuration database
-        private Dictionary<int, CnlTag> cnlTags; // the metadata about the input channels accessed by channel numbers
-        private Dictionary<string, User> users;  // the users accessed by names
-        private Calculator calc;                 // provides work with scripts and formulas
-        private CurrentData curData;             // the current data of the input channels
-        private ServerCache serverCache;         // the server level cache
+        private ServerListener listener;      // the TCP listener
+        private ModuleHolder moduleHolder;    // holds modules
+        private ArchiveHolder archiveHolder;  // holds archives
+        private BaseDataSet baseDataSet;      // the configuration database
+        private Dictionary<int, CnlTag> cnlTags;       // the metadata about the input channels accessed by channel numbers
+        private Dictionary<int, OutCnlTag> outCnlTags; // the metadata about the output channels accessed by channel numbers
+        private Dictionary<string, User> users;        // the users accessed by names
+        private Calculator calc;              // provides work with scripts and formulas
+        private CurrentData curData;          // the current data of the input channels
+        private ServerCache serverCache;      // the server level cache
 
 
         /// <summary>
@@ -116,6 +117,7 @@ namespace Scada.Server.Engine
             archiveHolder = null;
             baseDataSet = null;
             cnlTags = null;
+            outCnlTags = null;
             users = null;
             calc = null;
             curData = null;
@@ -157,6 +159,7 @@ namespace Scada.Server.Engine
                 return false;
 
             InitCnlTags();
+            InitOutCnlTags();
             InitUsers();
 
             if (!InitCalculator())
@@ -280,6 +283,24 @@ namespace Scada.Server.Engine
         }
 
         /// <summary>
+        /// Initializes metadata about the output channels.
+        /// </summary>
+        private void InitOutCnlTags()
+        {
+            outCnlTags = new Dictionary<int, OutCnlTag>();
+
+            foreach (OutCnl outCnl in baseDataSet.OutCnlTable.EnumerateItems())
+            {
+                if (outCnl.Active)
+                    outCnlTags.Add(outCnl.OutCnlNum, new OutCnlTag(outCnl));
+            }
+
+            log.WriteInfo(string.Format(Locale.IsRussian ?
+                "Количество активных каналов управления: {0}" :
+                "Number of active output channels: {0}", outCnlTags.Count));
+        }
+
+        /// <summary>
         /// Initializes the user dictionary.
         /// </summary>
         private void InitUsers()
@@ -298,7 +319,7 @@ namespace Scada.Server.Engine
         private bool InitCalculator()
         {
             calc = new Calculator(appDirs, log);
-            return calc.CompileScripts(baseDataSet, cnlTags);
+            return calc.CompileScripts(baseDataSet, cnlTags, outCnlTags);
         }
 
         /// <summary>
@@ -814,7 +835,85 @@ namespace Scada.Server.Engine
         /// </summary>
         public void SendCommand(TeleCommand command, out CommandResult commandResult)
         {
+            if (command == null)
+                throw new ArgumentNullException("command");
+
+            // TODO: check user rights to send command
             commandResult = new CommandResult();
+
+            try
+            {
+                int outCnlNum = command.OutCnlNum;
+                log.WriteAction(string.Format(Locale.IsRussian ?
+                    "Отправка команды на канал управления {0} пользователем с ид. {1}" :
+                    "Send command to the output channel {0} by the user with ID {1}", outCnlNum, command.UserID));
+                calc.BeginCalculation(curData);
+
+                if (outCnlTags.TryGetValue(outCnlNum, out OutCnlTag outCnlTag))
+                {
+                    OutCnl outCnl = outCnlTag.OutCnl;
+                    command.CommandID = ScadaUtils.GenerateUniqueID();
+                    command.CreationTime = DateTime.UtcNow;
+                    command.CmdTypeID = outCnl.CmdTypeID;
+                    command.ObjNum = outCnl.ObjNum ?? 0;
+                    command.DeviceNum = outCnl.DeviceNum ?? 0;
+                    command.CmdNum = outCnl.CmdNum ?? 0;
+                    command.CmdCode = outCnl.CmdCode;
+
+                    double cmdVal;
+                    byte[] cmdData;
+
+                    lock (curData)
+                    {
+                        commandResult.IsSuccessful = calc.CalcCmdData(outCnlTag, command.CmdVal, command.CmdData,
+                            out cmdVal, out cmdData, out string errMsg);
+                        commandResult.ErrorMessage = errMsg;
+                    }
+
+                    if (commandResult.IsSuccessful)
+                    {
+                        if (double.IsNaN(cmdVal) && cmdData == null)
+                        {
+                            log.WriteAction(Locale.IsRussian ?
+                                "Команда отменена" :
+                                "Command canceled");
+                        }
+                        else
+                        {
+                            command.CmdVal = cmdVal;
+                            command.CmdData = cmdData;
+                            listener.EnqueueCommand(command);
+                            log.WriteAction(Locale.IsRussian ?
+                                "Команда поставлена в очередь на отправку клиентам" :
+                                "Command is queued to be sent to clients");
+                        }
+                    }
+                    else
+                    {
+                        log.WriteError(string.Format(Locale.IsRussian ?
+                            "Ошибка при вычислении данных команды: {0}" :
+                            "Error calculating command data: {0}", commandResult.ErrorMessage));
+                    }
+                }
+                else
+                {
+                    commandResult.ErrorMessage = string.Format(Locale.IsRussian ?
+                        "Канал управления {0} не найден" :
+                        "Output channel {0} not found", outCnlNum);
+                    log.WriteError(commandResult.ErrorMessage);
+                }
+            }
+            catch (Exception ex)
+            {
+                commandResult.ErrorMessage = ex.Message;
+                log.WriteException(ex, Locale.IsRussian ?
+                    "Ошибка при отправке команды" :
+                    "Error sending command");
+            }
+            finally
+            {
+                calc.EndCalculation();
+            }
         }
 
         /// <summary>

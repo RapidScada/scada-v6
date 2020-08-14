@@ -46,7 +46,7 @@ namespace Scada.Server.Engine
         /// </summary>
         protected ICalcContext calcContext;
         /// <summary>
-        /// The channel number for which the formula is calculated.
+        /// The input channel number for which the formula is calculated.
         /// </summary>
         protected int cnlNum;
         /// <summary>
@@ -57,6 +57,22 @@ namespace Scada.Server.Engine
         /// The input channel data transmitted to the server before the calculation.
         /// </summary>
         protected CnlData initialCnlData;
+        /// <summary>
+        /// The output channel number for which the formula is calculated.
+        /// </summary>
+        protected int outCnlNum;
+        /// <summary>
+        /// The output channel entity for which the formula is calculated.
+        /// </summary>
+        protected OutCnl outCnl;
+        /// <summary>
+        /// The command value transmitted to the server before the calculation.
+        /// </summary>
+        protected double initialCmdVal;
+        /// <summary>
+        /// The command data transmitted to the server before the calculation.
+        /// </summary>
+        protected byte[] initialCmdData;
 
 
         /// <summary>
@@ -66,6 +82,7 @@ namespace Scada.Server.Engine
         {
             valueBuffer = new byte[8];
             EndCalcCnlData();
+            EndCalcCmdData();
             EndCalculation();
         }
 
@@ -82,7 +99,7 @@ namespace Scada.Server.Engine
         }
 
         /// <summary>
-        /// Gets the channel number for which the formula is calculated.
+        /// Gets the input channel number for which the formula is calculated.
         /// </summary>
         public int CnlNum
         {
@@ -144,6 +161,61 @@ namespace Scada.Server.Engine
             get
             {
                 return initialCnlData;
+            }
+        }
+
+        /// <summary>
+        /// Gets the output channel number for which the formula is calculated.
+        /// </summary>
+        public int OutCnlNum
+        {
+            get
+            {
+                return outCnlNum;
+            }
+        }
+
+        /// <summary>
+        /// Gets the output channel entity for which the formula is calculated.
+        /// </summary>
+        public OutCnl OutCnl
+        {
+            get
+            {
+                return outCnl;
+            }
+        }
+
+        /// <summary>
+        /// Gets the command value transmitted to the server before the calculation.
+        /// </summary>
+        public double Cmd
+        {
+            get
+            {
+                return initialCmdVal;
+            }
+        }
+
+        /// <summary>
+        /// Gets the command value transmitted to the server before the calculation.
+        /// </summary>
+        public double CmdVal
+        {
+            get
+            {
+                return initialCmdVal;
+            }
+        }
+
+        /// <summary>
+        /// Gets the command data transmitted to the server before the calculation.
+        /// </summary>
+        public byte[] CmdData
+        {
+            get
+            {
+                return initialCmdData;
             }
         }
 
@@ -246,6 +318,28 @@ namespace Scada.Server.Engine
             cnlNum = 0;
             inCnl = null;
             initialCnlData = CnlData.Empty;
+        }
+
+        /// <summary>
+        /// Performs the necessary actions before the calculation of the command data.
+        /// </summary>
+        public void BeginCalcCmdData(int outCnlNum, OutCnl outCnl, double initialCmdVal, byte[] initialCmdData)
+        {
+            this.outCnlNum = outCnlNum;
+            this.outCnl = outCnl;
+            this.initialCmdVal = initialCmdVal;
+            this.initialCmdData = initialCmdData;
+        }
+
+        /// <summary>
+        /// Performs the necessary actions after the calculation of the command data.
+        /// </summary>
+        public void EndCalcCmdData()
+        {
+            outCnlNum = 0;
+            outCnl = null;
+            initialCmdVal = double.NaN;
+            initialCmdData = null;
         }
 
 

@@ -260,27 +260,47 @@ namespace Scada.Server.Engine
         /// <summary>
         /// Retrieve methods for getting channel data from the assembly.
         /// </summary>
-        private void RetrieveMethods(Assembly assembly, Dictionary<int, CnlTag> cnlTags,
+        private void RetrieveMethods(Assembly assembly, 
+            Dictionary<int, CnlTag> cnlTags, Dictionary<int, OutCnlTag> outCnlTags,
             Dictionary<int, string> inCnlClassNames, Dictionary<int, string> outCnlClassNames)
         {
             Dictionary<string, CalcEngine> calcEngineMap = new Dictionary<string, CalcEngine>();
             calcEngines = new List<CalcEngine>();
 
+            CalcEngine GetCalcEngine(string className)
+            {
+                if (!calcEngineMap.TryGetValue(className, out CalcEngine calcEngine))
+                {
+                    Type calcEngineClass = assembly.GetType("Scada.Server.Engine." + className);
+                    calcEngine = (CalcEngine)Activator.CreateInstance(calcEngineClass);
+                    calcEngineMap.Add(className, calcEngine);
+                    calcEngines.Add(calcEngine);
+                }
+
+                return calcEngine;
+            }
+
+            // input channel tags
             foreach (CnlTag cnlTag in cnlTags.Values)
             {
                 if (inCnlClassNames.TryGetValue(cnlTag.InCnl.CnlNum, out string className))
                 {
-                    if (!calcEngineMap.TryGetValue(className, out CalcEngine calcEngine))
-                    {
-                        Type calcEngineClass = assembly.GetType("Scada.Server.Engine." + className);
-                        calcEngine = (CalcEngine)Activator.CreateInstance(calcEngineClass);
-                        calcEngineMap.Add(className, calcEngine);
-                        calcEngines.Add(calcEngine);
-                    }
-
+                    CalcEngine calcEngine = GetCalcEngine(className);
                     cnlTag.CalcEngine = calcEngine;
                     cnlTag.CalcCnlDataFunc = (Func<CnlData>)Delegate.CreateDelegate(
                         typeof(Func<CnlData>), calcEngine, "CalcCnlData" + cnlTag.InCnl.CnlNum, false, true);
+                }
+            }
+
+            // output channel tags
+            foreach (OutCnlTag outCnlTag in outCnlTags.Values)
+            {
+                if (inCnlClassNames.TryGetValue(outCnlTag.OutCnl.OutCnlNum, out string className))
+                {
+                    CalcEngine calcEngine = GetCalcEngine(className);
+                    outCnlTag.CalcEngine = calcEngine;
+                    outCnlTag.CalcCmdDataFunc = (Func<object>)Delegate.CreateDelegate(
+                        typeof(Func<object>), calcEngine, "CalcCmdData" + outCnlTag.OutCnl.OutCnlNum, false, true);
                 }
             }
         }
@@ -288,7 +308,8 @@ namespace Scada.Server.Engine
         /// <summary>
         /// Compiles the scripts and formulas.
         /// </summary>
-        public bool CompileScripts(BaseDataSet baseDataSet, Dictionary<int, CnlTag> cnlTags)
+        public bool CompileScripts(BaseDataSet baseDataSet, 
+            Dictionary<int, CnlTag> cnlTags, Dictionary<int, OutCnlTag> outCnlTags)
         {
             try
             {
@@ -309,7 +330,7 @@ namespace Scada.Server.Engine
                     if (result.Success)
                     {
                         Assembly assembly = Assembly.Load(memoryStream.ToArray());
-                        RetrieveMethods(assembly, cnlTags, inCnlClassNames, outCnlClassNames);
+                        RetrieveMethods(assembly, cnlTags, outCnlTags, inCnlClassNames, outCnlClassNames);
 
                         log.WriteAction(Locale.IsRussian ?
                             "Исходный код скриптов и формул скомпилирован успешно" :
@@ -455,6 +476,53 @@ namespace Scada.Server.Engine
             else
             {
                 return initialCnlData;
+            }
+        }
+
+        /// <summary>
+        /// Calculates the command data.
+        /// </summary>
+        public bool CalcCmdData(OutCnlTag outCnlTag, double initialCmdVal, byte[] initialCmdData,
+            out double cmdVal, out byte[] cmdData, out string errMsg)
+        {
+            if (outCnlTag != null && outCnlTag.CalcEngine != null && outCnlTag.CalcCmdDataFunc != null)
+            {
+                try
+                {
+                    outCnlTag.CalcEngine.BeginCalcCmdData(outCnlTag.OutCnl.OutCnlNum, 
+                        outCnlTag.OutCnl, initialCmdVal, initialCmdData);
+                    object result = outCnlTag.CalcCmdDataFunc();
+                    cmdVal = double.NaN;
+                    cmdData = null;
+
+                    if (result is byte[] bytes)
+                        cmdData = bytes;
+                    else if (result is string str)
+                        cmdData = Encoding.UTF8.GetBytes(str);
+                    else if (result != null)
+                        cmdVal = Convert.ToDouble(result);
+
+                    errMsg = "";
+                    return true;
+                }
+                catch (Exception ex)
+                {
+                    cmdVal = double.NaN;
+                    cmdData = null;
+                    errMsg = ex.Message;
+                    return false;
+                }
+                finally
+                {
+                    outCnlTag.CalcEngine.EndCalcCmdData();
+                }
+            }
+            else
+            {
+                cmdVal = initialCmdVal;
+                cmdData = initialCmdData;
+                errMsg = "";
+                return true;
             }
         }
     }
