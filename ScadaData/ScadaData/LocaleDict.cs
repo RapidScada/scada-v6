@@ -47,12 +47,12 @@ namespace Scada
         /// <summary>
         /// Gets the dictionary key.
         /// </summary>
-        public string Key { get; private set; }
+        public string Key { get; }
 
         /// <summary>
         /// Gets the phrases contained in the dictionary.
         /// </summary>
-        public Dictionary<string, string> Phrases { get; private set; }
+        public Dictionary<string, string> Phrases { get; }
 
 
         /// <summary>

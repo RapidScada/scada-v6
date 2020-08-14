@@ -52,6 +52,6 @@ namespace Scada.Agent
         /// <summary>
         /// Gets the ignored paths.
         /// </summary>
-        public ICollection<RelativePath> IgnoredPaths { get; private set; }
+        public ICollection<RelativePath> IgnoredPaths { get; }
     }
 }

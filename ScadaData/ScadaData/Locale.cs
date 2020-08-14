@@ -66,7 +66,7 @@ namespace Scada
         /// <summary>
         /// Gets the loaded dictionaries.
         /// </summary>
-        public static Dictionary<string, LocaleDict> Dictionaries { get; private set; }
+        public static Dictionary<string, LocaleDict> Dictionaries { get; }
 
 
         /// <summary>

@@ -52,7 +52,7 @@ namespace Scada
             /// <summary>
             /// Gets the item key.
             /// </summary>
-            public TKey Key { get; protected set; }
+            public TKey Key { get; }
             /// <summary>
             /// Gets the item value.
             /// </summary>
@@ -99,12 +99,12 @@ namespace Scada
         /// Gets a value that indicates whether a cache entry should be evicted
         /// if it has not been accessed in a given span of time.
         /// </summary>
-        public TimeSpan SlidingExpiration { get; protected set; }
+        public TimeSpan SlidingExpiration { get; }
 
         /// <summary>
         /// Gets the maximum number of entries that can be stored in the cache.
         /// </summary>
-        public int Capacity { get; protected set; }
+        public int Capacity { get; }
 
 
         /// <summary>

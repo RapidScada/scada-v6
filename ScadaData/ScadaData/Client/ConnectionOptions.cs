@@ -32,6 +32,7 @@ namespace Scada.Client
     /// Represents client connection options.
     /// <para>Представляет параметры соединения клиента.</para>
     /// </summary>
+    [Serializable]
     public class ConnectionOptions
     {
         /// <summary>
