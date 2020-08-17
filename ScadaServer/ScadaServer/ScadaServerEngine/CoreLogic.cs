@@ -91,6 +91,7 @@ namespace Scada.Server.Engine
         private Dictionary<int, CnlTag> cnlTags;       // the metadata about the input channels accessed by channel numbers
         private Dictionary<int, OutCnlTag> outCnlTags; // the metadata about the output channels accessed by channel numbers
         private Dictionary<string, User> users;        // the users accessed by names
+        private ObjSecurity objSecurity;      // provides access control
         private Calculator calc;              // provides work with scripts and formulas
         private CurrentData curData;          // the current data of the input channels
         private ServerCache serverCache;      // the server level cache
@@ -119,6 +120,7 @@ namespace Scada.Server.Engine
             cnlTags = null;
             outCnlTags = null;
             users = null;
+            objSecurity = null;
             calc = null;
             curData = null;
             serverCache = null;
@@ -161,6 +163,7 @@ namespace Scada.Server.Engine
             InitCnlTags();
             InitOutCnlTags();
             InitUsers();
+            InitObjSecurity();
 
             if (!InitCalculator())
                 return false;
@@ -311,6 +314,15 @@ namespace Scada.Server.Engine
             {
                 users[user.Name.ToLowerInvariant()] = user;
             }
+        }
+
+        /// <summary>
+        /// Initializes the object security instance.
+        /// </summary>
+        private void InitObjSecurity()
+        {
+            objSecurity = new ObjSecurity();
+            objSecurity.Init(baseDataSet);
         }
 
         /// <summary>
@@ -655,13 +667,15 @@ namespace Scada.Server.Engine
         /// <summary>
         /// Validates the username and password.
         /// </summary>
-        public bool ValidateUser(string username, string password, out int roleID, out string errMsg)
+        public bool ValidateUser(string username, string password, out int userID, out int roleID, out string errMsg)
         {
+            userID = 0;
+            roleID = RoleID.Disabled;
+
             try
             {
                 if (string.IsNullOrEmpty(username) || string.IsNullOrEmpty(password))
                 {
-                    roleID = RoleID.Disabled;
                     errMsg = Locale.IsRussian ?
                         "Имя пользователя или пароль не может быть пустым" :
                         "Username or password can not be empty";
@@ -671,6 +685,7 @@ namespace Scada.Server.Engine
                 if (users.TryGetValue(username.ToLowerInvariant(), out User user) &&
                     user.Password == ScadaUtils.GetPasswordHash(user.UserID, password))
                 {
+                    userID = user.UserID;
                     roleID = user.RoleID;
 
                     if (roleID > RoleID.Disabled)
@@ -688,7 +703,6 @@ namespace Scada.Server.Engine
                 }
                 else
                 {
-                    roleID = RoleID.Disabled;
                     errMsg = Locale.IsRussian ?
                         "Неверное имя пользователя или пароль" :
                         "Invalid username or password";
@@ -697,7 +711,6 @@ namespace Scada.Server.Engine
             }
             catch (Exception ex)
             {
-                roleID = RoleID.Disabled;
                 errMsg = Locale.IsRussian ?
                     "Ошибка при проверке пользователя" :
                     "Error validating user";
@@ -838,47 +851,70 @@ namespace Scada.Server.Engine
             if (command == null)
                 throw new ArgumentNullException("command");
 
-            // TODO: check user rights to send command
             commandResult = new CommandResult();
 
             try
             {
                 int outCnlNum = command.OutCnlNum;
+                int userID = command.UserID;
                 log.WriteAction(string.Format(Locale.IsRussian ?
                     "Отправка команды на канал управления {0} пользователем с ид. {1}" :
-                    "Send command to the output channel {0} by the user with ID {1}", outCnlNum, command.UserID));
-                calc.BeginCalculation(curData);
+                    "Send command to the output channel {0} by the user with ID {1}", outCnlNum, userID));
 
-                if (outCnlTags.TryGetValue(outCnlNum, out OutCnlTag outCnlTag))
+                if (!baseDataSet.UserTable.Items.TryGetValue(userID, out User user))
+                {
+                    commandResult.ErrorMessage = string.Format(Locale.IsRussian ?
+                        "Пользователь {0} не найден" :
+                        "User {0} not found", userID);
+                    log.WriteError(commandResult.ErrorMessage);
+                }
+                else if (!outCnlTags.TryGetValue(outCnlNum, out OutCnlTag outCnlTag))
+                {
+                    commandResult.ErrorMessage = string.Format(Locale.IsRussian ?
+                        "Канал управления {0} не найден" :
+                        "Output channel {0} not found", outCnlNum);
+                    log.WriteError(commandResult.ErrorMessage);
+                }
+                else
                 {
                     OutCnl outCnl = outCnlTag.OutCnl;
-                    command.CommandID = ScadaUtils.GenerateUniqueID();
-                    command.CreationTime = DateTime.UtcNow;
-                    command.CmdTypeID = outCnl.CmdTypeID;
-                    command.ObjNum = outCnl.ObjNum ?? 0;
-                    command.DeviceNum = outCnl.DeviceNum ?? 0;
-                    command.CmdNum = outCnl.CmdNum ?? 0;
-                    command.CmdCode = outCnl.CmdCode;
+                    int objNum = outCnlTag.OutCnl.ObjNum ?? 0;
 
-                    double cmdVal;
-                    byte[] cmdData;
-
-                    lock (curData)
+                    if (!objSecurity.GetRights(user.RoleID, objNum).ControlRight)
                     {
-                        commandResult.IsSuccessful = calc.CalcCmdData(outCnlTag, command.CmdVal, command.CmdData,
-                            out cmdVal, out cmdData, out string errMsg);
-                        commandResult.ErrorMessage = errMsg;
+                        commandResult.ErrorMessage = string.Format(Locale.IsRussian ?
+                            "Недостаточно прав пользователя с ролью {0} на управление объектом {1}" :
+                            "Insufficient rights of user with role {0} to control object {1}", user.RoleID, objNum);
+                        log.WriteError(commandResult.ErrorMessage);
                     }
-
-                    if (commandResult.IsSuccessful)
+                    else
                     {
-                        if (double.IsNaN(cmdVal) && cmdData == null)
+                        command.CommandID = ScadaUtils.GenerateUniqueID();
+                        command.CreationTime = DateTime.UtcNow;
+                        command.CmdTypeID = outCnl.CmdTypeID;
+                        command.ObjNum = objNum;
+                        command.DeviceNum = outCnl.DeviceNum ?? 0;
+                        command.CmdNum = outCnl.CmdNum ?? 0;
+                        command.CmdCode = outCnl.CmdCode;
+
+                        double cmdVal;
+                        byte[] cmdData;
+
+                        try
                         {
-                            log.WriteAction(Locale.IsRussian ?
-                                "Команда отменена" :
-                                "Command canceled");
+                            calc.BeginCalculation(curData);
+                            Monitor.Enter(curData);
+                            commandResult.IsSuccessful = calc.CalcCmdData(outCnlTag, command.CmdVal, command.CmdData,
+                                out cmdVal, out cmdData, out string errMsg);
+                            commandResult.ErrorMessage = errMsg;
                         }
-                        else
+                        finally
+                        {
+                            Monitor.Exit(curData);
+                            calc.EndCalculation();
+                        }
+
+                        if (commandResult.IsSuccessful)
                         {
                             command.CmdVal = cmdVal;
                             command.CmdData = cmdData;
@@ -887,20 +923,13 @@ namespace Scada.Server.Engine
                                 "Команда поставлена в очередь на отправку клиентам" :
                                 "Command is queued to be sent to clients");
                         }
+                        else
+                        {
+                            log.WriteAction(string.Format(Locale.IsRussian ?
+                                "Невозможно отправить команду: {0}" :
+                                "Unable to send command: {0}", commandResult.ErrorMessage));
+                        }
                     }
-                    else
-                    {
-                        log.WriteError(string.Format(Locale.IsRussian ?
-                            "Ошибка при вычислении данных команды: {0}" :
-                            "Error calculating command data: {0}", commandResult.ErrorMessage));
-                    }
-                }
-                else
-                {
-                    commandResult.ErrorMessage = string.Format(Locale.IsRussian ?
-                        "Канал управления {0} не найден" :
-                        "Output channel {0} not found", outCnlNum);
-                    log.WriteError(commandResult.ErrorMessage);
                 }
             }
             catch (Exception ex)
@@ -909,10 +938,6 @@ namespace Scada.Server.Engine
                 log.WriteException(ex, Locale.IsRussian ?
                     "Ошибка при отправке команды" :
                     "Error sending command");
-            }
-            finally
-            {
-                calc.EndCalculation();
             }
         }
 

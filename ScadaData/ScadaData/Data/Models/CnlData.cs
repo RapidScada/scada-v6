@@ -34,7 +34,7 @@ namespace Scada.Data.Models
     public struct CnlData
     {
         /// <summary>
-        /// Represents empty input channel data.
+        /// Represents an empty input channel data.
         /// </summary>
         public static readonly CnlData Empty = new CnlData(0.0, 0);
 

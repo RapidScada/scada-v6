@@ -299,13 +299,7 @@ namespace Scada.Data.Tables
             if (Indexes.TryGetValue(columnName, out index))
             {
                 if (!index.IsReady)
-                {
-                    index.IsReady = true;
-                    foreach (KeyValuePair<int, T> pair in Items)
-                    {
-                        index.AddToIndex(pair.Value, pair.Key);
-                    }
-                }
+                    index.AddRangeToIndex(Items);
 
                 return true;
             }

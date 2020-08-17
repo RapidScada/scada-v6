@@ -311,6 +311,13 @@ namespace Scada.Server.Engine
         public bool CompileScripts(BaseDataSet baseDataSet, 
             Dictionary<int, CnlTag> cnlTags, Dictionary<int, OutCnlTag> outCnlTags)
         {
+            if (baseDataSet == null)
+                throw new ArgumentNullException("baseDataSet");
+            if (cnlTags == null)
+                throw new ArgumentNullException("cnlTags");
+            if (outCnlTags == null)
+                throw new ArgumentNullException("outCnlTags");
+
             try
             {
                 log.WriteAction(Locale.IsRussian ?
@@ -502,8 +509,18 @@ namespace Scada.Server.Engine
                     else if (result != null)
                         cmdVal = Convert.ToDouble(result);
 
-                    errMsg = "";
-                    return true;
+                    if (double.IsNaN(cmdVal) && cmdData == null)
+                    {
+                        errMsg = Locale.IsRussian ?
+                            "Команда отменена" :
+                            "Command canceled";
+                        return false;
+                    }
+                    else
+                    {
+                        errMsg = "";
+                        return true;
+                    }
                 }
                 catch (Exception ex)
                 {

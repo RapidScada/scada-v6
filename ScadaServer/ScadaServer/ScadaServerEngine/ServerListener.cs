@@ -137,6 +137,9 @@ namespace Scada.Server.Engine
                 CmdData = GetByteArray(buffer, ref index)
             };
 
+            if (command.UserID <= 0)
+                command.UserID = client.UserID;
+
             coreLogic.SendCommand(command, out CommandResult commandResult);
 
             byte[] outBuf = client.OutBuf;
@@ -213,9 +216,9 @@ namespace Scada.Server.Engine
         /// Validates the username and password.
         /// </summary>
         protected override bool ValidateUser(ConnectedClient client, string username, string password, string instance,
-            out int roleID, out string errMsg)
+            out int userID, out int roleID, out string errMsg)
         {
-            if (coreLogic.ValidateUser(username, password, out roleID, out errMsg))
+            if (coreLogic.ValidateUser(username, password, out userID, out roleID, out errMsg))
             {
                 if (client.IsLoggedIn)
                 {

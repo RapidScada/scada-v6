@@ -221,7 +221,7 @@ namespace Scada.Client
                 SessionID = sessionID;
                 ServerName = serverName;
 
-                Login(out bool loggedIn, out int userRole, out string errorMessage);
+                Login(out bool loggedIn, out int userID, out int roleID, out string errorMessage);
 
                 if (loggedIn)
                 {
@@ -407,7 +407,7 @@ namespace Scada.Client
         /// <summary>
         /// Logins to the server.
         /// </summary>
-        protected void Login(out bool loggedIn, out int userRole, out string errorMessage)
+        protected void Login(out bool loggedIn, out int userID, out int roleID, out string errorMessage)
         {
             DataPacket request = CreateRequest(FunctionID.Login);
             int index = ArgumentIndex;
@@ -421,7 +421,8 @@ namespace Scada.Client
             DataPacket response = ReceiveResponse(request);
             index = ArgumentIndex;
             loggedIn = GetBool(inBuf, ref index);
-            userRole = GetInt32(inBuf, ref index);
+            userID = GetInt32(inBuf, ref index);
+            roleID = GetInt32(inBuf, ref index);
             errorMessage = GetString(inBuf, index);
         }
 

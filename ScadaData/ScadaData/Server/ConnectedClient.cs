@@ -59,6 +59,7 @@ namespace Scada.Server
             OutBuf = null;
             IsLoggedIn = false;
             Username = "";
+            UserID = 0;
             RoleID = 0;
             Tag = null;
         }
@@ -113,6 +114,11 @@ namespace Scada.Server
         /// Get or sets the username.
         /// </summary>
         public string Username { get; set; }
+
+        /// <summary>
+        /// Get or sets the user ID.
+        /// </summary>
+        public int UserID { get; set; }
 
         /// <summary>
         /// Get or sets the user role ID.

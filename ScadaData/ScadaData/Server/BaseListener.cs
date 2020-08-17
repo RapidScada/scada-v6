@@ -540,15 +540,17 @@ namespace Scada.Server
             index = ArgumentIndex;
 
             if (ProtectBruteForce(out string errMsg) &&
-                ValidateUser(client, username, password, instance, out int roleID, out errMsg))
+                ValidateUser(client, username, password, instance, out int userID, out int roleID, out errMsg))
             {
                 CopyBool(true, outBuf, ref index);
+                CopyInt32(userID, outBuf, ref index);
                 CopyInt32(roleID, outBuf, ref index);
                 CopyString("", outBuf, ref index);
             }
             else
             {
                 CopyBool(false, outBuf, ref index);
+                CopyInt32(0, outBuf, ref index);
                 CopyInt32(0, outBuf, ref index);
                 CopyString(errMsg, outBuf, ref index);
 
@@ -940,11 +942,12 @@ namespace Scada.Server
         /// Validates the username and password.
         /// </summary>
         protected virtual bool ValidateUser(ConnectedClient client, string username, string password, string instance,
-            out int roleID, out string errMsg)
+            out int userID, out int roleID, out string errMsg)
         {
             client.IsLoggedIn = true;
             client.Username = username;
 
+            userID = 0;
             roleID = 0;
             errMsg = "";
             return true;
