@@ -186,11 +186,11 @@ namespace Scada.Server.Engine
         }
 
         /// <summary>
-        /// Disables commands for the client.
+        /// Disables getting commands for the client.
         /// </summary>
-        protected void DisableCommands(ConnectedClient client, DataPacket request, out ResponsePacket response)
+        protected void DisableGettingCommands(ConnectedClient client, DataPacket request, out ResponsePacket response)
         {
-            GetClientTag(client).DisableCommands();
+            GetClientTag(client).DisableGettingCommands();
             response = new ResponsePacket(request, client.OutBuf);
         }
 
@@ -235,6 +235,8 @@ namespace Scada.Server.Engine
 
                     client.IsLoggedIn = true;
                     client.Username = username;
+                    client.UserID = userID;
+                    client.RoleID = roleID;
                     return true;
                 }
                 else
@@ -322,8 +324,8 @@ namespace Scada.Server.Engine
                     GetCommand(client, request, out response);
                     break;
 
-                case FunctionID.DisableCommands:
-                    DisableCommands(client, request, out response);
+                case FunctionID.DisableGettingCommands:
+                    DisableGettingCommands(client, request, out response);
                     break;
 
                 default:

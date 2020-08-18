@@ -150,13 +150,13 @@ namespace Scada.Server.Engine
             rightsMatrix = new Dictionary<int, RightsByObj>(baseDataSet.RoleTable.ItemCount);
 
             // create indexes
-            TableIndex roleRef_childRoleIndex = new TableIndex("ChildRoleID", typeof(Role));
+            TableIndex roleRef_childRoleIndex = new TableIndex("ChildRoleID", typeof(RoleRef));
             roleRef_childRoleIndex.AddRangeToIndex(baseDataSet.RoleRefTable.Items);
 
-            TableIndex objRight_roleIndex = new TableIndex("RoleID", typeof(Role));
+            TableIndex objRight_roleIndex = new TableIndex("RoleID", typeof(ObjRight));
             objRight_roleIndex.AddRangeToIndex(baseDataSet.ObjRightTable.Items);
 
-            TableIndex obj_parentObjIndex = new TableIndex("ParentObjNum", typeof(Role));
+            TableIndex obj_parentObjIndex = new TableIndex("ParentObjNum", typeof(Obj));
             obj_parentObjIndex.AddRangeToIndex(baseDataSet.ObjTable.Items);
 
             // fill rights

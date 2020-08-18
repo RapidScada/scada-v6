@@ -52,7 +52,7 @@ namespace Scada.Protocol
 
         public const ushort SendCommand = 0x0401;
         public const ushort GetCommand = 0x0402;
-        public const ushort DisableCommands = 0x0403;
+        public const ushort DisableGettingCommands = 0x0403;
 
         private static readonly Dictionary<ushort, string> FunctionNames = new Dictionary<ushort, string>
         {
@@ -70,7 +70,7 @@ namespace Scada.Protocol
             { WriteArchiveData, "WriteArchiveData" },
             { SendCommand, "SendCommand" },
             { GetCommand, "GetCommand" },
-            { DisableCommands, "DisableCommands" }
+            { DisableGettingCommands, "DisableGettingCommands" }
         };
 
         /// <summary>

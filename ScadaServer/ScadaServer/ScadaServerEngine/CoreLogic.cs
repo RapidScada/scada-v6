@@ -512,7 +512,7 @@ namespace Scada.Server.Engine
         }
 
         /// <summary>
-        /// Generates an event and adds it to the event queue.
+        /// Generates an event based on input channel data.
         /// </summary>
         private void GenerateEvent(CnlTag cnlTag, CnlData cnlData, CnlData prevCnlData)
         {
@@ -558,6 +558,41 @@ namespace Scada.Server.Engine
                     // TODO: write event to archives
                     log.WriteAction(string.Format("Created event with ID = {0}, CnlNum = {1}", ev.EventID, ev.CnlNum));
                 }
+            }
+        }
+
+        /// <summary>
+        /// Generates an event based on the command.
+        /// </summary>
+        private void GenerateEvent(OutCnlTag outCnlTag, TeleCommand command)
+        {
+            if (outCnlTag.OutCnl.EventEnabled)
+            {
+                Event ev = new Event
+                {
+                    EventID = ScadaUtils.GenerateUniqueID(),
+                    Timestamp = DateTime.UtcNow,
+                    Hidden = false,
+                    CnlNum = 0,
+                    OutCnlNum = command.OutCnlNum,
+                    ObjNum = command.ObjNum,
+                    DeviceNum = command.DeviceNum,
+                    PrevCnlVal = 0.0,
+                    PrevCnlStat = 0,
+                    CnlVal = command.CmdVal,
+                    CnlStat = 0,
+                    Severity = 0,
+                    AckRequired = false,
+                    Ack = false,
+                    AckTimestamp = DateTime.MinValue,
+                    AckUserID = 0,
+                    TextFormat = EventTextFormat.Full,
+                    Text = "",
+                    Data = command.CmdData
+                };
+
+                // TODO: write event to archives
+                log.WriteAction(string.Format("Created event with ID = {0}, OutCnlNum = {1}", ev.EventID, ev.OutCnlNum));
             }
         }
 
@@ -919,6 +954,7 @@ namespace Scada.Server.Engine
                             command.CmdVal = cmdVal;
                             command.CmdData = cmdData;
                             listener.EnqueueCommand(command);
+                            GenerateEvent(outCnlTag, command);
                             log.WriteAction(Locale.IsRussian ?
                                 "Команда поставлена в очередь на отправку клиентам" :
                                 "Command is queued to be sent to clients");

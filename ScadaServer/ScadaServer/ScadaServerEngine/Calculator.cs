@@ -295,7 +295,7 @@ namespace Scada.Server.Engine
             // output channel tags
             foreach (OutCnlTag outCnlTag in outCnlTags.Values)
             {
-                if (inCnlClassNames.TryGetValue(outCnlTag.OutCnl.OutCnlNum, out string className))
+                if (outCnlClassNames.TryGetValue(outCnlTag.OutCnl.OutCnlNum, out string className))
                 {
                     CalcEngine calcEngine = GetCalcEngine(className);
                     outCnlTag.CalcEngine = calcEngine;

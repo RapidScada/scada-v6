@@ -202,12 +202,12 @@ namespace Scada.Client
         }
 
         /// <summary>
-        /// Disables commands for the client.
+        /// Disables getting commands for the client.
         /// </summary>
-        public void DisableCommands()
+        public void DisableGettingCommands()
         {
             RestoreConnection();
-            DataPacket request = CreateRequest(FunctionID.DisableCommands, 10);
+            DataPacket request = CreateRequest(FunctionID.DisableGettingCommands, 10);
             SendRequest(request);
             ReceiveResponse(request);
         }

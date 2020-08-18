@@ -41,7 +41,7 @@ namespace Scada.Server.Engine
         private static readonly TimeSpan CommandLifetime = TimeSpan.FromSeconds(60);
 
         private readonly Queue<TeleCommand> commands; // the command queue
-        private bool commandsDisabled; // commands are disabled for the client
+        private bool commandsDisabled; // getting commands is disabled for the client
 
 
         /// <summary>
@@ -98,14 +98,15 @@ namespace Scada.Server.Engine
         }
 
         /// <summary>
-        /// Disables commands for the client.
+        /// Disables getting commands for the client.
         /// </summary>
-        public void DisableCommands()
+        public void DisableGettingCommands()
         {
             lock (commands)
             {
-                commands.Clear();
                 commandsDisabled = true;
+                commands.Clear();
+                commands.TrimExcess();
             }
         }
     }
