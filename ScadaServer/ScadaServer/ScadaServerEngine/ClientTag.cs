@@ -55,6 +55,18 @@ namespace Scada.Server.Engine
 
 
         /// <summary>
+        /// Removes outdated commands.
+        /// </summary>
+        private void RemoveOutdatedCommands()
+        {
+            DateTime utcNow = DateTime.UtcNow;
+            while (commands.Count > 0 && utcNow - commands.Peek().CreationTime > CommandLifetime)
+            {
+                commands.Dequeue();
+            }
+        }
+
+        /// <summary>
         /// Adds the command to the end of the queue.
         /// </summary>
         public void AddCommand(TeleCommand command)
@@ -63,6 +75,7 @@ namespace Scada.Server.Engine
             {
                 lock (commands)
                 {
+                    RemoveOutdatedCommands();
                     commands.Enqueue(command);
                 }
             }
@@ -81,13 +94,7 @@ namespace Scada.Server.Engine
                     if (commandToRemove > 0 && commands.Count > 0 && commands.Peek().CommandID == commandToRemove)
                         commands.Dequeue();
 
-                    // remove outdated commands
-                    DateTime utcNow = DateTime.UtcNow;
-                    while (commands.Count > 0 && utcNow - commands.Peek().CreationTime > CommandLifetime)
-                    {
-                        commands.Dequeue();
-                    }
-
+                    RemoveOutdatedCommands();
                     return commands.Count > 0 ? commands.Peek() : null;
                 }
                 else

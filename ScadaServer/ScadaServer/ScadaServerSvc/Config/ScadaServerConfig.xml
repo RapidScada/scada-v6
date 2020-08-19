@@ -1,6 +1,7 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <ScadaServerConfig>
   <GeneralOptions>
+    <UnrelIfInactive>300</UnrelIfInactive>
     <TrendArcCode>Min</TrendArcCode>
     <MaxLogSize>1048576</MaxLogSize>
   </GeneralOptions>

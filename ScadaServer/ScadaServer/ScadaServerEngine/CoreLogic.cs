@@ -61,6 +61,10 @@ namespace Scada.Server.Engine
         /// </summary>
         private const int WaitForStop = 10000;
         /// <summary>
+        /// The maximum number of input channel tags to process when checking inactivity per iteration.
+        /// </summary>
+        private const int MaxUnrelCnlTagCount = 1000;
+        /// <summary>
         /// The period of writing application info.
         /// </summary>
         private static readonly TimeSpan WriteInfoPeriod = TimeSpan.FromSeconds(1);
@@ -89,6 +93,7 @@ namespace Scada.Server.Engine
         private ArchiveHolder archiveHolder;  // holds archives
         private BaseDataSet baseDataSet;      // the configuration database
         private Dictionary<int, CnlTag> cnlTags;       // the metadata about the input channels accessed by channel numbers
+        private List<CnlTag> cnlTagList;               // the list of the same input channel tags
         private Dictionary<int, OutCnlTag> outCnlTags; // the metadata about the output channels accessed by channel numbers
         private Dictionary<string, User> users;        // the users accessed by names
         private ObjSecurity objSecurity;      // provides access control
@@ -118,6 +123,7 @@ namespace Scada.Server.Engine
             archiveHolder = null;
             baseDataSet = null;
             cnlTags = null;
+            cnlTagList = null;
             outCnlTags = null;
             users = null;
             objSecurity = null;
@@ -231,9 +237,21 @@ namespace Scada.Server.Engine
         {
             // create channel tags
             cnlTags = new Dictionary<int, CnlTag>();
+            cnlTagList = new List<CnlTag>();
             List<CnlTag> limTags = new List<CnlTag>();
-            int cnlNum = 0;
             int index = 0;
+            int cnlNum = 0;
+
+            // add new channel tag to collections
+            void AddCnlTag(InCnl inCnl, Lim lim)
+            {
+                CnlTag cnlTag = new CnlTag(index++, cnlNum, inCnl, lim);
+                cnlTags.Add(cnlNum++, cnlTag);
+                cnlTagList.Add(cnlTag);
+
+                if (lim != null && lim.IsBoundToCnl)
+                    limTags.Add(cnlTag);
+            }
 
             foreach (InCnl inCnl in baseDataSet.InCnlTable.EnumerateItems())
             {
@@ -241,22 +259,14 @@ namespace Scada.Server.Engine
                 {
                     cnlNum = inCnl.CnlNum;
                     Lim lim = inCnl.LimID.HasValue ? baseDataSet.LimTable.GetItem(inCnl.LimID.Value) : null;
-                    CnlTag cnlTag = new CnlTag(index++, cnlNum, inCnl, lim);
-                    cnlTags.Add(cnlNum++, cnlTag);
-
-                    if (lim != null && lim.IsBoundToCnl)
-                        limTags.Add(cnlTag);
+                    AddCnlTag(inCnl, lim);
 
                     // add channel tags if one channel row defines multiple channels
                     if (inCnl.DataLen > 1)
                     {
                         for (int i = 1, cnt = inCnl.DataLen.Value; i < cnt; i++)
                         {
-                            cnlTag = new CnlTag(index++, cnlNum, inCnl, lim);
-                            cnlTags.Add(cnlNum++, cnlTag);
-
-                            if (lim != null && lim.IsBoundToCnl)
-                                limTags.Add(cnlTag);
+                            AddCnlTag(inCnl, lim);
                         }
                     }
                 }
@@ -341,6 +351,7 @@ namespace Scada.Server.Engine
         {
             try
             {
+                int unrelCnlTagIndex = 0; // the index of the input channel tag which is checked for inactivity
                 DateTime writeInfoDT = DateTime.MinValue; // the timestamp of writing application info
                 moduleHolder.CallOnServiceStart();
                 calc.InitScripts();
@@ -349,7 +360,9 @@ namespace Scada.Server.Engine
                 {
                     try
                     {
+                        // set status of inactive input channels to unreliable
                         DateTime utcNow = DateTime.UtcNow;
+                        SetUnreliable(ref unrelCnlTagIndex, utcNow);
 
                         // write application info
                         if (utcNow - writeInfoDT >= WriteInfoPeriod)
@@ -378,6 +391,39 @@ namespace Scada.Server.Engine
                 moduleHolder.CallOnServiceStop();
                 workState = WorkState.Terminated;
                 WriteInfo();
+            }
+        }
+
+        /// <summary>
+        /// Sets status of inactive input channels to unreliable.
+        /// </summary>
+        private void SetUnreliable(ref int cnlTagIndex, DateTime nowDT)
+        {
+            int unrelIfInactive = config.GeneralOptions.UnrelIfInactive;
+
+            if (unrelIfInactive > 0)
+            {
+                lock (curData)
+                {
+                    for (int i = 0, cnt = cnlTagList.Count; i < MaxUnrelCnlTagCount && cnlTagIndex < cnt; i++)
+                    {
+                        CnlTag cnlTag = cnlTagList[cnlTagIndex++];
+
+                        if (cnlTag.InCnl.CnlTypeID == CnlTypeID.Measured)
+                        {
+                            CnlData cnlData = curData.CnlData[cnlTag.Index];
+
+                            if (cnlData.Stat > CnlStatusID.Undefined && cnlData.Stat != CnlStatusID.Unreliable &&
+                                (nowDT - curData.Timestamps[cnlTag.Index]).TotalSeconds > unrelIfInactive)
+                            {
+                                curData.SetCurCnlData(cnlTag, new CnlData(cnlData.Val, CnlStatusID.Unreliable), nowDT);
+                            }
+                        }
+                    }
+
+                    if (cnlTagIndex >= cnlTagList.Count)
+                        cnlTagIndex = 0;
+                }
             }
         }
 
