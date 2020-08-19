@@ -61,9 +61,9 @@ namespace Scada.Server.Engine
         /// </summary>
         private const int WaitForStop = 10000;
         /// <summary>
-        /// The maximum number of input channel tags to process when checking inactivity per iteration.
+        /// The maximum number of input channel tags to process per iteration when checking activity.
         /// </summary>
-        private const int MaxUnrelCnlTagCount = 1000;
+        private const int MaxTagCountToCheckActivity = 1000;
         /// <summary>
         /// The period of writing application info.
         /// </summary>
@@ -351,7 +351,7 @@ namespace Scada.Server.Engine
         {
             try
             {
-                int unrelCnlTagIndex = 0; // the index of the input channel tag which is checked for inactivity
+                int checkActivityTagIndex = 0; // the index of the input channel tag which is checked for activity
                 DateTime writeInfoDT = DateTime.MinValue; // the timestamp of writing application info
                 moduleHolder.CallOnServiceStart();
                 calc.InitScripts();
@@ -362,7 +362,7 @@ namespace Scada.Server.Engine
                     {
                         // set status of inactive input channels to unreliable
                         DateTime utcNow = DateTime.UtcNow;
-                        SetUnreliable(ref unrelCnlTagIndex, utcNow);
+                        SetUnreliable(ref checkActivityTagIndex, utcNow);
 
                         // write application info
                         if (utcNow - writeInfoDT >= WriteInfoPeriod)
@@ -397,7 +397,7 @@ namespace Scada.Server.Engine
         /// <summary>
         /// Sets status of inactive input channels to unreliable.
         /// </summary>
-        private void SetUnreliable(ref int cnlTagIndex, DateTime nowDT)
+        private void SetUnreliable(ref int tagIndex, DateTime nowDT)
         {
             int unrelIfInactive = config.GeneralOptions.UnrelIfInactive;
 
@@ -405,9 +405,9 @@ namespace Scada.Server.Engine
             {
                 lock (curData)
                 {
-                    for (int i = 0, cnt = cnlTagList.Count; i < MaxUnrelCnlTagCount && cnlTagIndex < cnt; i++)
+                    for (int i = 0, cnt = cnlTagList.Count; i < MaxTagCountToCheckActivity && tagIndex < cnt; i++)
                     {
-                        CnlTag cnlTag = cnlTagList[cnlTagIndex++];
+                        CnlTag cnlTag = cnlTagList[tagIndex++];
 
                         if (cnlTag.InCnl.CnlTypeID == CnlTypeID.Measured)
                         {
@@ -421,8 +421,8 @@ namespace Scada.Server.Engine
                         }
                     }
 
-                    if (cnlTagIndex >= cnlTagList.Count)
-                        cnlTagIndex = 0;
+                    if (tagIndex >= cnlTagList.Count)
+                        tagIndex = 0;
                 }
             }
         }
