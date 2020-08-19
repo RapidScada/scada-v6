@@ -61,9 +61,9 @@ namespace Scada.Server.Engine
         /// </summary>
         private const int WaitForStop = 10000;
         /// <summary>
-        /// The maximum number of input channel tags to process per iteration when checking activity.
+        /// The maximum number of input channels to process per iteration when checking activity.
         /// </summary>
-        private const int MaxTagCountToCheckActivity = 1000;
+        private const int MaxCnlCountToCheckActivity = 1000;
         /// <summary>
         /// The period of writing application info.
         /// </summary>
@@ -360,9 +360,9 @@ namespace Scada.Server.Engine
                 {
                     try
                     {
-                        // set status of inactive input channels to unreliable
+                        // check activity of input channels
                         DateTime utcNow = DateTime.UtcNow;
-                        SetUnreliable(ref checkActivityTagIndex, utcNow);
+                        CheckActivity(ref checkActivityTagIndex, utcNow);
 
                         // write application info
                         if (utcNow - writeInfoDT >= WriteInfoPeriod)
@@ -395,9 +395,9 @@ namespace Scada.Server.Engine
         }
 
         /// <summary>
-        /// Sets status of inactive input channels to unreliable.
+        /// Checks the activity of input channels and sets status of inactive input channels to unreliable.
         /// </summary>
-        private void SetUnreliable(ref int tagIndex, DateTime nowDT)
+        private void CheckActivity(ref int tagIndex, DateTime nowDT)
         {
             int unrelIfInactive = config.GeneralOptions.UnrelIfInactive;
 
@@ -405,7 +405,7 @@ namespace Scada.Server.Engine
             {
                 lock (curData)
                 {
-                    for (int i = 0, cnt = cnlTagList.Count; i < MaxTagCountToCheckActivity && tagIndex < cnt; i++)
+                    for (int i = 0, cnt = cnlTagList.Count; i < MaxCnlCountToCheckActivity && tagIndex < cnt; i++)
                     {
                         CnlTag cnlTag = cnlTagList[tagIndex++];
 
