@@ -43,21 +43,16 @@ namespace Scada.Server.Archives
         /// <summary>
         /// Gets the trends of the specified input channels.
         /// </summary>
-        public abstract TrendBundle GetTrends(IList<int> cnlNums, DateTime startTime, DateTime endTime);
+        public abstract TrendBundle GetTrends(ICollection<int> cnlNums, DateTime startTime, DateTime endTime);
 
         /// <summary>
         /// Gets the slice of the specified input channels at the timestamp.
         /// </summary>
-        public abstract Slice GetSlice(IList<int> cnlNums, DateTime timestamp);
+        public abstract Slice GetSlice(ICollection<int> cnlNums, DateTime timestamp);
 
         /// <summary>
         /// Writes the slice of data.
         /// </summary>
         public abstract void WriteSlice(Slice slice);
-
-        /// <summary>
-        /// Deletes the outdates data from the archive.
-        /// </summary>
-        public abstract void DeleteOutdatedData();
     }
 }

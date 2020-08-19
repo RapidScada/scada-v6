@@ -37,7 +37,7 @@ namespace Scada.Server.Archives
         /// <summary>
         /// Gets the slice of the specified input channels.
         /// </summary>
-        public abstract Slice GetSlice(IList<int> cnlNums);
+        public abstract Slice GetSlice(ICollection<int> cnlNums);
 
         /// <summary>
         /// Writes the slice of current data.

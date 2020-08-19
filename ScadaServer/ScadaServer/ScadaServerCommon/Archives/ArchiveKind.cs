@@ -34,11 +34,8 @@ namespace Scada.Server.Archives
     public enum ArchiveKind
     {
         Unspecified,
-
         Current,
-
         Historical,
-
         Events
     }
 }

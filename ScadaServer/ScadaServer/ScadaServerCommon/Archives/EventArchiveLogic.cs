@@ -54,10 +54,5 @@ namespace Scada.Server.Archives
         /// Acknowledges the event.
         /// </summary>
         public abstract void AckEvent(long eventID, DateTime timestamp, int userID);
-
-        /// <summary>
-        /// Deletes the outdates data from the archive.
-        /// </summary>
-        public abstract void DeleteOutdatedData();
     }
 }

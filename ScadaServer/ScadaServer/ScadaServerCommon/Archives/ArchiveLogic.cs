@@ -24,8 +24,6 @@
  */
 
 using System;
-using System.Collections.Generic;
-using System.Text;
 
 namespace Scada.Server.Archives
 {
@@ -44,6 +42,13 @@ namespace Scada.Server.Archives
             {
                 return TimeSpan.FromDays(1);
             }
+        }
+
+        /// <summary>
+        /// Deletes the outdates data from the archive.
+        /// </summary>
+        public virtual void DeleteOutdatedData()
+        {
         }
     }
 }

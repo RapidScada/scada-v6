@@ -66,7 +66,7 @@ namespace Scada.Data.Models
         /// </summary>
         public override bool Equals(object obj)
         {
-            return this is CnlData cnlData && this == cnlData;
+            return obj is CnlData cnlData && this == cnlData;
         }
 
         /// <summary>
