@@ -23,6 +23,7 @@
  * Modified : 2020
  */
 
+using Scada.Data.Models;
 using Scada.Log;
 using Scada.Server.Archives;
 using System;
@@ -65,5 +66,46 @@ namespace Scada.Server.Engine
         /// Gets the event archives.
         /// </summary>
         public List<EventArchiveLogic> EventArchives { get; }
+
+
+        /// <summary>
+        /// Calls the ProcessData method of the current and histrical archives.
+        /// </summary>
+        public void ProcessData(ICurrentData curData)
+        {
+
+        }
+
+        /// <summary>
+        /// Calls the WriteSlice method of the histrical archives.
+        /// </summary>
+        public void WriteSlice(Slice slice)
+        {
+
+        }
+
+        /// <summary>
+        /// Calls the WriteEvent method of the event archives.
+        /// </summary>
+        public void WriteEvent(Event ev)
+        {
+            log.WriteAction(string.Format("Created event with ID = {0}, CnlNum = {1}, OutCnlNum = {2}", 
+                ev.EventID, ev.CnlNum, ev.OutCnlNum));
+        }
+
+        /// <summary>
+        /// Calls the AckEvent method of the event archives.
+        /// </summary>
+        public void AckEvent(long eventID, DateTime timestamp, int userID)
+        {
+
+        }
+
+        /// <summary>
+        /// Calls the DeleteOutdatedData method of the archives.
+        /// </summary>
+        public virtual void DeleteOutdatedData()
+        {
+        }
     }
 }

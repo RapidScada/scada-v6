@@ -54,5 +54,10 @@ namespace Scada.Server.Archives
         /// Writes the slice of data.
         /// </summary>
         public abstract void WriteSlice(Slice slice);
+
+        /// <summary>
+        /// Processes new data.
+        /// </summary>
+        public abstract void ProcessData(ICurrentData curData);
     }
 }

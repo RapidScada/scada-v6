@@ -57,7 +57,7 @@ namespace Scada.Data.Models
         public int CnlNum { get; protected set; }
 
         /// <summary>
-        /// Gets the trend points.
+        /// Gets the trend points ordered by timestamps.
         /// </summary>
         public List<TrendPoint> Points { get; protected set; }
     }

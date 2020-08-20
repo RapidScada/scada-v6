@@ -58,7 +58,7 @@ namespace Scada
             /// </summary>
             public TValue Value { get; set; }            
             /// <summary>
-            /// Gets or sets the time (UTC) that the current item was last accessed.
+            /// Gets or sets the time (UTC) when the current item was last accessed.
             /// </summary>
             public DateTime LastAccessTime { get; set; }
         }

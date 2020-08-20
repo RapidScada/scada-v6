@@ -24,8 +24,10 @@
  */
 
 using Scada.Data.Models;
+using Scada.Server.Archives;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace Scada.Server.Engine
 {
@@ -33,10 +35,11 @@ namespace Scada.Server.Engine
     /// Represents current data of the input channels.
     /// <para>Представляет текущие данные входных каналов.</para>
     /// </summary>
-    internal class CurrentData : ICalcContext
+    internal class CurrentData : ICurrentData, ICalcContext
     {
         private readonly ICnlDataChangeHandler cnlDataChangeHandler; // handles data changes
         private readonly Dictionary<int, CnlTag> cnlTags;            // the metadata about the input channels
+        private CnlData[] cnlDataCopy;                               // the copy of channel data
 
 
         /// <summary>
@@ -47,6 +50,10 @@ namespace Scada.Server.Engine
             this.cnlDataChangeHandler = cnlDataChangeHandler ?? throw new ArgumentNullException("cnlDataChangeHandler");
             this.cnlTags = cnlTags ?? throw new ArgumentNullException("cnlTags");
 
+            cnlDataCopy = null;
+            Timestamp = DateTime.MinValue;
+            CnlNums = cnlTags.Select(t => t.Value.CnlNum).ToArray();
+
             int cnlCnt = cnlTags.Count;
             CnlData = new CnlData[cnlCnt];
             PrevCnlData = new CnlData[cnlCnt];
@@ -54,6 +61,16 @@ namespace Scada.Server.Engine
             PrevTimestamps = new DateTime[cnlCnt];
         }
 
+
+        /// <summary>
+        /// Gets the current timestamp.
+        /// </summary>
+        public DateTime Timestamp { get; private set; }
+
+        /// <summary>
+        /// Gets the input channel numbers.
+        /// </summary>
+        public int[] CnlNums { get; }
 
         /// <summary>
         /// Gets the current data of the input channels.
@@ -91,6 +108,25 @@ namespace Scada.Server.Engine
 
             Timestamps[cnlIndex] = nowDT;
             CnlData[cnlIndex] = cnlData;
+        }
+
+        /// <summary>
+        /// Prepares the instance for a new iteration of data processing.
+        /// </summary>
+        public void PrepareIteration(DateTime nowDT)
+        {
+            cnlDataCopy = null;
+            Timestamp = nowDT;
+        }
+
+        /// <summary>
+        /// Creates a copy of the input channel data.
+        /// </summary>
+        CnlData[] ICurrentData.CloneCnlData()
+        {
+            if (cnlDataCopy == null)
+                cnlDataCopy = (CnlData[])CnlData.Clone();
+            return cnlDataCopy;
         }
 
         /// <summary>

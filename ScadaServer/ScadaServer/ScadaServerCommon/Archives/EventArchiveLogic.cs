@@ -24,6 +24,7 @@
  */
 
 using Scada.Data.Models;
+using Scada.Data.Tables;
 using System;
 using System.Collections.Generic;
 
@@ -43,7 +44,7 @@ namespace Scada.Server.Archives
         /// <summary>
         /// Gets the events.
         /// </summary>
-        public abstract ICollection<Event> GetEvents(DateTime startTime, DateTime endTime, object filter, object range);
+        public abstract ICollection<Event> GetEvents(DateTime startTime, DateTime endTime, EventFilter filter);
 
         /// <summary>
         /// Writes the event.

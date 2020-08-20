@@ -15,33 +15,25 @@
  * 
  * 
  * Product  : Rapid SCADA
- * Module   : ScadaServerCommon
- * Summary  : Represents the base class for current data archive logic
+ * Module   : ScadaData
+ * Summary  : Represents a filter for selecting events
  * 
  * Author   : Mikhail Shiryaev
  * Created  : 2020
  * Modified : 2020
  */
 
-using Scada.Data.Models;
+using System;
 using System.Collections.Generic;
+using System.Text;
 
-namespace Scada.Server.Archives
+namespace Scada.Data.Tables
 {
     /// <summary>
-    /// Represents the base class for current data archive logic.
-    /// <para>Представляет базовый класс логики архива текщих данных.</para>
+    /// Represents a filter for selecting events.
+    /// <para>Представляет фильтр для выбора событий.</para>
     /// </summary>
-    public abstract class CurrentArchiveLogic : ArchiveLogic
+    public class EventFilter
     {
-        /// <summary>
-        /// Gets the slice of the specified input channels.
-        /// </summary>
-        public abstract Slice GetSlice(ICollection<int> cnlNums);
-
-        /// <summary>
-        /// Processes new data.
-        /// </summary>
-        public abstract void ProcessData(ICurrentData curData);
     }
 }

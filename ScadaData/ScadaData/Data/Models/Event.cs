@@ -23,8 +23,6 @@
  * Modified : 2020
  */
 
-#pragma warning disable 1591 // Missing XML comment for publicly visible type or member
-
 using System;
 
 namespace Scada.Data.Models
@@ -35,42 +33,126 @@ namespace Scada.Data.Models
     /// </summary>
     public class Event
     {
+        /// <summary>
+        /// Initializes a new instance of the class.
+        /// </summary>
+        public Event()
+        {
+            EventID = 0;
+            Timestamp = DateTime.MinValue;
+            Hidden = false;
+            CnlNum = 0;
+            OutCnlNum = 0;
+            ObjNum = 0;
+            DeviceNum = 0;
+            PrevCnlVal = 0.0;
+            PrevCnlStat = 0;
+            CnlVal = 0.0;
+            CnlStat = 0;
+            Severity = 0;
+            AckRequired = false;
+            Ack = false;
+            AckTimestamp = DateTime.MinValue;
+            AckUserID = 0;
+            TextFormat = EventTextFormat.Full;
+            Text = "";
+            Data = null;
+        }
+
+
+        /// <summary>
+        /// Gets or sets the server-assigned event ID.
+        /// </summary>
         public long EventID { get; set; }
 
+        /// <summary>
+        /// Gets or sets the event timestamp (UTC).
+        /// </summary>
         public DateTime Timestamp { get; set; }
 
+        /// <summary>
+        /// Gets or sets a value indicating whether the event should be hidden in UI.
+        /// </summary>
         public bool Hidden { get; set; }
 
+        /// <summary>
+        /// Gets or sets the input channel number.
+        /// </summary>
         public int CnlNum { get; set; }
 
+        /// <summary>
+        /// Gets or sets the output channel number.
+        /// </summary>
         public int OutCnlNum { get; set; }
 
+        /// <summary>
+        /// Gets or sets the object number.
+        /// </summary>
         public int ObjNum { get; set; }
 
+        /// <summary>
+        /// Gets or sets the device number.
+        /// </summary>
         public int DeviceNum { get; set; }
 
+        /// <summary>
+        /// Gets or sets the previos value of the input channel number.
+        /// </summary>
         public double PrevCnlVal { get; set; }
 
+        /// <summary>
+        /// Gets or sets the previos status of the input channel number.
+        /// </summary>
         public int PrevCnlStat { get; set; }
 
+        /// <summary>
+        /// Gets or sets the current value of the input channel number.
+        /// </summary>
         public double CnlVal { get; set; }
 
+        /// <summary>
+        /// Gets or sets the current status of the input channel number.
+        /// </summary>
         public int CnlStat { get; set; }
 
+        /// <summary>
+        /// Gets or sets the event severity.
+        /// </summary>
         public int Severity { get; set; }
 
+        /// <summary>
+        /// Gets or sets a value indicating whether the event should be acknowledged.
+        /// </summary>
         public bool AckRequired { get; set; }
 
+        /// <summary>
+        /// Gets or sets a value indicating whether the event is acknowledged.
+        /// </summary>
         public bool Ack { get; set; }
 
+        /// <summary>
+        /// Gets or sets the timestamp when the event was acknowledged.
+        /// </summary>
         public DateTime AckTimestamp { get; set; }
 
+        /// <summary>
+        /// Gets or sets the user ID who acknowledged the event.
+        /// </summary>
         public int AckUserID { get; set; }
 
+        /// <summary>
+        /// Gets or sets the text format.
+        /// </summary>
         public EventTextFormat TextFormat { get; set; }
 
+        /// <summary>
+        /// Gets or sets the custom text.
+        /// </summary>
         public string Text { get; set; }
 
+        /// <summary>
+        /// Gets or sets the custom data.
+        /// </summary>
         public byte[] Data { get; set; }
     }
 }

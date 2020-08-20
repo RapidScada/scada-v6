@@ -364,6 +364,19 @@ namespace Scada.Server.Engine
                         DateTime utcNow = DateTime.UtcNow;
                         CheckActivity(ref checkActivityTagIndex, utcNow);
 
+                        lock (curData)
+                        {
+                            // calculate input channel data
+                            // ...
+
+                            // process data by archives
+                            curData.PrepareIteration(utcNow);
+                            archiveHolder.ProcessData(curData);
+                        }
+
+                        // delete the outdated data from archives
+                        archiveHolder.DeleteOutdatedData();
+
                         // write application info
                         if (utcNow - writeInfoDT >= WriteInfoPeriod)
                         {
@@ -578,13 +591,11 @@ namespace Scada.Server.Engine
                 {
                     CnlStatus cnlStatus = baseDataSet.CnlStatusTable.GetItem(cnlData.Stat);
 
-                    Event ev = new Event
+                    archiveHolder.WriteEvent(new Event
                     {
                         EventID = ScadaUtils.GenerateUniqueID(),
                         Timestamp = DateTime.UtcNow,
-                        Hidden = false,
                         CnlNum = cnlTag.CnlNum,
-                        OutCnlNum = 0,
                         ObjNum = inCnl.ObjNum ?? 0,
                         DeviceNum = inCnl.DeviceNum ?? 0,
                         PrevCnlVal = prevCnlData.Val,
@@ -592,17 +603,8 @@ namespace Scada.Server.Engine
                         CnlVal = cnlData.Val,
                         CnlStat = cnlStat,
                         Severity = cnlStatus?.Severity ?? 0,
-                        AckRequired = cnlStatus?.AckRequired ?? false,
-                        Ack = false,
-                        AckTimestamp = DateTime.MinValue,
-                        AckUserID = 0,
-                        TextFormat = EventTextFormat.Full,
-                        Text = "",
-                        Data = null
-                    };
-
-                    // TODO: write event to archives
-                    log.WriteAction(string.Format("Created event with ID = {0}, CnlNum = {1}", ev.EventID, ev.CnlNum));
+                        AckRequired = cnlStatus?.AckRequired ?? false
+                    });
                 }
             }
         }
@@ -614,31 +616,16 @@ namespace Scada.Server.Engine
         {
             if (outCnlTag.OutCnl.EventEnabled)
             {
-                Event ev = new Event
+                archiveHolder.WriteEvent(new Event
                 {
                     EventID = ScadaUtils.GenerateUniqueID(),
                     Timestamp = DateTime.UtcNow,
-                    Hidden = false,
-                    CnlNum = 0,
                     OutCnlNum = command.OutCnlNum,
                     ObjNum = command.ObjNum,
                     DeviceNum = command.DeviceNum,
-                    PrevCnlVal = 0.0,
-                    PrevCnlStat = 0,
                     CnlVal = command.CmdVal,
-                    CnlStat = 0,
-                    Severity = 0,
-                    AckRequired = false,
-                    Ack = false,
-                    AckTimestamp = DateTime.MinValue,
-                    AckUserID = 0,
-                    TextFormat = EventTextFormat.Full,
-                    Text = "",
                     Data = command.CmdData
-                };
-
-                // TODO: write event to archives
-                log.WriteAction(string.Format("Created event with ID = {0}, OutCnlNum = {1}", ev.EventID, ev.OutCnlNum));
+                });
             }
         }
 
