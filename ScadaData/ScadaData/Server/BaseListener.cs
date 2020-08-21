@@ -165,7 +165,7 @@ namespace Scada.Server
                 try
                 {
                     // connect new clients
-                    while (tcpListener.Pending() && !terminated && 
+                    while (tcpListener.Pending() && !terminated && ServerIsReady() && 
                         CreateSession(out ConnectedClient client))
                     {
                         TcpClient tcpClient = tcpListener.AcceptTcpClient();

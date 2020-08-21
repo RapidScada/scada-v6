@@ -142,5 +142,23 @@ namespace Scada
             long unixTime = DateTimeOffset.Now.ToUnixTimeSeconds();
             return ((unixTime << 32) + UniqueIDGenerator.Next(1, int.MaxValue)) & 0x7FFFFFFFFFFFFFFF;
         }
+
+        /// <summary>
+        /// Checks whether the specified bit of the integer number is set.
+        /// </summary>
+        public static bool BitIsSet(this int number, int bit)
+        {
+            return ((number >> bit) & 0x01) > 0;
+        }
+
+        /// <summary>
+        /// Sets the specified bit of the integer number.
+        /// </summary>
+        public static int SetBit(this int number, int bit, bool value)
+        {
+            return value ?
+                number | (1 << bit) :
+                number & ~(1 << bit);
+        }
     }
 }

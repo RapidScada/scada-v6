@@ -35,9 +35,9 @@ namespace Scada.Server.Archives
     public abstract class CurrentArchiveLogic : ArchiveLogic
     {
         /// <summary>
-        /// Gets the slice of the specified input channels.
+        /// Reads the current data.
         /// </summary>
-        public abstract Slice GetSlice(ICollection<int> cnlNums);
+        public abstract void ReadData(ICurrentData curData);
 
         /// <summary>
         /// Processes new data.

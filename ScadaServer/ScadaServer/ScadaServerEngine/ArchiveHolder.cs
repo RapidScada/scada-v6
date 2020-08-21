@@ -69,7 +69,15 @@ namespace Scada.Server.Engine
 
 
         /// <summary>
-        /// Calls the ProcessData method of the current and histrical archives.
+        /// Calls the ReadCurData method of the current archives until a successful result is obtained.
+        /// </summary>
+        public void ReadCurData(ICurrentData curData)
+        {
+
+        }
+
+        /// <summary>
+        /// Calls the ProcessData method of the current and historical archives.
         /// </summary>
         public void ProcessData(ICurrentData curData)
         {
@@ -77,9 +85,9 @@ namespace Scada.Server.Engine
         }
 
         /// <summary>
-        /// Calls the WriteSlice method of the histrical archives.
+        /// Calls the WriteSlice method of the historical archives.
         /// </summary>
-        public void WriteSlice(Slice slice)
+        public void WriteSlice(Slice slice, int archiveMask)
         {
 
         }
@@ -87,7 +95,7 @@ namespace Scada.Server.Engine
         /// <summary>
         /// Calls the WriteEvent method of the event archives.
         /// </summary>
-        public void WriteEvent(Event ev)
+        public void WriteEvent(Event ev, int archiveMask)
         {
             log.WriteAction(string.Format("Created event with ID = {0}, CnlNum = {1}, OutCnlNum = {2}", 
                 ev.EventID, ev.CnlNum, ev.OutCnlNum));

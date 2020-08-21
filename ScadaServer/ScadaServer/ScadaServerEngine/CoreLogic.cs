@@ -93,12 +93,14 @@ namespace Scada.Server.Engine
         private ArchiveHolder archiveHolder;  // holds archives
         private BaseDataSet baseDataSet;      // the configuration database
         private Dictionary<int, CnlTag> cnlTags;       // the metadata about the input channels accessed by channel numbers
-        private List<CnlTag> cnlTagList;               // the list of the same input channel tags
+        private List<CnlTag> measCnlTags;              // the list of the input channel tags of the measured type
+        private List<CnlTag> calcCnlTags;              // the list of the input channel tags of the calculated type
         private Dictionary<int, OutCnlTag> outCnlTags; // the metadata about the output channels accessed by channel numbers
         private Dictionary<string, User> users;        // the users accessed by names
         private ObjSecurity objSecurity;      // provides access control
         private Calculator calc;              // provides work with scripts and formulas
         private CurrentData curData;          // the current data of the input channels
+        private Queue<Event> events;          // the just generated events
         private ServerCache serverCache;      // the server level cache
 
 
@@ -123,12 +125,14 @@ namespace Scada.Server.Engine
             archiveHolder = null;
             baseDataSet = null;
             cnlTags = null;
-            cnlTagList = null;
+            measCnlTags = null;
+            calcCnlTags = null;
             outCnlTags = null;
             users = null;
             objSecurity = null;
             calc = null;
             curData = null;
+            events = null;
             serverCache = null;
         }
 
@@ -140,7 +144,7 @@ namespace Scada.Server.Engine
         {
             get
             {
-                return thread != null;
+                return workState == WorkState.Normal;
             }
         }
 
@@ -154,7 +158,7 @@ namespace Scada.Server.Engine
             terminated = false;
             utcStartDT = DateTime.UtcNow;
             startDT = utcStartDT.ToLocalTime();
-            workState = WorkState.Normal;
+            workState = WorkState.Undefined;
             WriteInfo();
 
             if (!config.PathOptions.CheckExistence(out errMsg))
@@ -175,6 +179,7 @@ namespace Scada.Server.Engine
                 return false;
 
             curData = new CurrentData(this, cnlTags);
+            events = new Queue<Event>();
             serverCache = new ServerCache();
             listener = new ServerListener(this, config, log);
             return true;
@@ -237,7 +242,8 @@ namespace Scada.Server.Engine
         {
             // create channel tags
             cnlTags = new Dictionary<int, CnlTag>();
-            cnlTagList = new List<CnlTag>();
+            measCnlTags = new List<CnlTag>();
+            calcCnlTags = new List<CnlTag>();
             List<CnlTag> limTags = new List<CnlTag>();
             int index = 0;
             int cnlNum = 0;
@@ -247,7 +253,11 @@ namespace Scada.Server.Engine
             {
                 CnlTag cnlTag = new CnlTag(index++, cnlNum, inCnl, lim);
                 cnlTags.Add(cnlNum++, cnlTag);
-                cnlTagList.Add(cnlTag);
+
+                if (inCnl.CnlTypeID == CnlTypeID.Measured)
+                    measCnlTags.Add(cnlTag);
+                else if (inCnl.CnlTypeID == CnlTypeID.Calculated)
+                    calcCnlTags.Add(cnlTag);
 
                 if (lim != null && lim.IsBoundToCnl)
                     limTags.Add(cnlTag);
@@ -353,26 +363,33 @@ namespace Scada.Server.Engine
             {
                 int checkActivityTagIndex = 0; // the index of the input channel tag which is checked for activity
                 DateTime writeInfoDT = DateTime.MinValue; // the timestamp of writing application info
+
                 moduleHolder.CallOnServiceStart();
+                archiveHolder.ReadCurData(curData);
                 calc.InitScripts();
+                workState = WorkState.Normal;
 
                 while (!terminated)
                 {
                     try
                     {
-                        // check activity of input channels
                         DateTime utcNow = DateTime.UtcNow;
-                        CheckActivity(ref checkActivityTagIndex, utcNow);
 
                         lock (curData)
                         {
+                            // check activity of input channels
+                            CheckActivity(ref checkActivityTagIndex, utcNow);
+
                             // calculate input channel data
-                            // ...
+                            CalcCnlData(utcNow);
 
                             // process data by archives
                             curData.PrepareIteration(utcNow);
                             archiveHolder.ProcessData(curData);
                         }
+
+                        // process events without blocking current data
+                        ProcessEvents();
 
                         // delete the outdated data from archives
                         archiveHolder.DeleteOutdatedData();
@@ -416,26 +433,59 @@ namespace Scada.Server.Engine
 
             if (unrelIfInactive > 0)
             {
-                lock (curData)
+                for (int i = 0, cnt = measCnlTags.Count; i < MaxCnlCountToCheckActivity && tagIndex < cnt; i++)
                 {
-                    for (int i = 0, cnt = cnlTagList.Count; i < MaxCnlCountToCheckActivity && tagIndex < cnt; i++)
+                    CnlTag cnlTag = measCnlTags[tagIndex++];
+
+                    if (cnlTag.InCnl.CnlTypeID == CnlTypeID.Measured)
                     {
-                        CnlTag cnlTag = cnlTagList[tagIndex++];
+                        CnlData cnlData = curData.CnlData[cnlTag.Index];
 
-                        if (cnlTag.InCnl.CnlTypeID == CnlTypeID.Measured)
+                        if (cnlData.Stat > CnlStatusID.Undefined && cnlData.Stat != CnlStatusID.Unreliable &&
+                            (nowDT - curData.Timestamps[cnlTag.Index]).TotalSeconds > unrelIfInactive)
                         {
-                            CnlData cnlData = curData.CnlData[cnlTag.Index];
-
-                            if (cnlData.Stat > CnlStatusID.Undefined && cnlData.Stat != CnlStatusID.Unreliable &&
-                                (nowDT - curData.Timestamps[cnlTag.Index]).TotalSeconds > unrelIfInactive)
-                            {
-                                curData.SetCurCnlData(cnlTag, new CnlData(cnlData.Val, CnlStatusID.Unreliable), nowDT);
-                            }
+                            curData.SetCurCnlData(cnlTag, new CnlData(cnlData.Val, CnlStatusID.Unreliable), nowDT);
                         }
                     }
+                }
 
-                    if (tagIndex >= cnlTagList.Count)
-                        tagIndex = 0;
+                if (tagIndex >= measCnlTags.Count)
+                    tagIndex = 0;
+            }
+        }
+
+        /// <summary>
+        /// Calculates the input channels of the calculated type.
+        /// </summary>
+        private void CalcCnlData(DateTime nowDT)
+        {
+            try
+            {
+                calc.BeginCalculation(curData);
+
+                foreach (CnlTag cnlTag in calcCnlTags)
+                {
+                    CnlData newCnlData = calc.CalcCnlData(cnlTag, curData.CnlData[cnlTag.Index]);
+                    curData.SetCurCnlData(cnlTag, newCnlData, nowDT);
+                }
+            }
+            finally
+            {
+                calc.EndCalculation();
+            }
+        }
+
+        /// <summary>
+        /// Processes the events from the queue.
+        /// </summary>
+        private void ProcessEvents()
+        {
+            lock (events)
+            {
+                while (events.Count > 0)
+                {
+                    Event ev = events.Dequeue();
+                    archiveHolder.WriteEvent(ev, ArchiveMask.Default);
                 }
             }
         }
@@ -591,7 +641,7 @@ namespace Scada.Server.Engine
                 {
                     CnlStatus cnlStatus = baseDataSet.CnlStatusTable.GetItem(cnlData.Stat);
 
-                    archiveHolder.WriteEvent(new Event
+                    EnqueueEvent(new Event
                     {
                         EventID = ScadaUtils.GenerateUniqueID(),
                         Timestamp = DateTime.UtcNow,
@@ -616,7 +666,7 @@ namespace Scada.Server.Engine
         {
             if (outCnlTag.OutCnl.EventEnabled)
             {
-                archiveHolder.WriteEvent(new Event
+                EnqueueEvent(new Event
                 {
                     EventID = ScadaUtils.GenerateUniqueID(),
                     Timestamp = DateTime.UtcNow,
@@ -626,6 +676,17 @@ namespace Scada.Server.Engine
                     CnlVal = command.CmdVal,
                     Data = command.CmdData
                 });
+            }
+        }
+
+        /// <summary>
+        /// Adds the event to the queue.
+        /// </summary>
+        private void EnqueueEvent(Event ev)
+        {
+            lock (events)
+            {
+                events.Enqueue(ev);
             }
         }
 
@@ -893,7 +954,10 @@ namespace Scada.Server.Engine
                     {
                         if (cnlTags.TryGetValue(cnlNums[i], out CnlTag cnlTag))
                         {
-                            CnlData newCnlData = calc.CalcCnlData(cnlTag, cnlData[i]);
+                            CnlData newCnlData = applyFormulas && cnlTag.InCnl.FormulaEnabled &&
+                                cnlTag.InCnl.CnlTypeID == CnlTypeID.Measured ?
+                                calc.CalcCnlData(cnlTag, cnlData[i]) :
+                                cnlData[i];
                             curData.SetCurCnlData(cnlTag, newCnlData, utcNow);
                         }
                     }
@@ -909,6 +973,116 @@ namespace Scada.Server.Engine
             {
                 calc.EndCalculation();
             }
+        }
+        
+        /// <summary>
+        /// Writes the archive data.
+        /// </summary>
+        public void WriteArchiveData(Slice slice, int archiveMask, bool applyFormulas)
+        {
+            try
+            {
+                // TODO: write archive data
+                Slice fullSlice = null;
+
+                for (int i = 0, cnlCnt = slice.CnlNums.Length; i < cnlCnt; i++)
+                {
+                    if (cnlTags.TryGetValue(slice.CnlNums[i], out CnlTag cnlTag))
+                    {
+                        CnlData newCnlData = applyFormulas && cnlTag.InCnl.FormulaEnabled && 
+                            cnlTag.InCnl.CnlTypeID == CnlTypeID.Measured ?
+                            calc.CalcCnlData(cnlTag, slice.CnlData[i]) : 
+                            slice.CnlData[i];
+
+                        if (newCnlData.Stat == CnlStatusID.Defined)
+                            newCnlData.Stat = CnlStatusID.Archival;
+
+                        int destIndex = 0;// fullSlice.GenCnlIndex(cnlTag.CnlNum);
+                        fullSlice.CnlData[destIndex] = newCnlData;
+                    }
+                }
+
+                // calculate input channels of the calculated type
+                for (int i = 0, cnlCnt = fullSlice.CnlNums.Length; i < cnlCnt; i++)
+                {
+                    if (cnlTags.TryGetValue(fullSlice.CnlNums[i], out CnlTag cnlTag) &&
+                        cnlTag.InCnl.CnlTypeID == CnlTypeID.Calculated)
+                    {
+                        CnlData newCnlData = calc.CalcCnlData(cnlTag, fullSlice.CnlData[i]);
+                        fullSlice.CnlData[i] = newCnlData;
+                    }
+                }
+
+                archiveHolder.WriteSlice(fullSlice, archiveMask);
+            }
+            catch (Exception ex)
+            {
+                log.WriteException(ex, Locale.IsRussian ?
+                    "Ошибка при записи текущих данных" :
+                    "Error writing archive data");
+            }
+        }
+
+        /// <summary>
+        /// Writes the event.
+        /// </summary>
+        public void WriteEvent(Event ev, int archiveMask)
+        {
+            if (ev == null)
+                throw new ArgumentNullException("ev");
+
+            try
+            {
+                ev.EventID = ScadaUtils.GenerateUniqueID();
+
+                if (ev.CnlNum > 0 && cnlTags.TryGetValue(ev.CnlNum, out CnlTag cnlTag))
+                {
+                    // set missing event properties
+                    InCnl inCnl = cnlTag.InCnl;
+
+                    if (ev.ObjNum <= 0)
+                        ev.ObjNum = inCnl.ObjNum ?? 0;
+
+                    if (ev.DeviceNum <= 0)
+                        ev.DeviceNum = inCnl.DeviceNum ?? 0;
+
+                    if (baseDataSet.CnlStatusTable.GetItem(ev.CnlStat) is CnlStatus cnlStatus)
+                    {
+                        if (ev.Severity <= 0)
+                            ev.Severity = cnlStatus.Severity ?? 0;
+
+                        if (!ev.AckRequired)
+                            ev.AckRequired = cnlStatus.AckRequired;
+                    }
+                }
+                else if (ev.OutCnlNum > 0 && outCnlTags.TryGetValue(ev.OutCnlNum, out OutCnlTag outCnlTag))
+                {
+                    // set missing event properties
+                    OutCnl outCnl = outCnlTag.OutCnl;
+
+                    if (ev.ObjNum <= 0)
+                        ev.ObjNum = outCnl.ObjNum ?? 0;
+
+                    if (ev.DeviceNum <= 0)
+                        ev.DeviceNum = outCnl.DeviceNum ?? 0;
+                }
+
+                archiveHolder.WriteEvent(ev, archiveMask);
+            }
+            catch (Exception ex)
+            {
+                log.WriteException(ex, Locale.IsRussian ?
+                    "Ошибка при записи события" :
+                    "Error writing event");
+            }
+        }
+
+        /// <summary>
+        /// Acknowledges the event.
+        /// </summary>
+        public void AckEvent(long eventID, DateTime timestamp, int userID)
+        {
+            archiveHolder.AckEvent(eventID, timestamp, userID);
         }
 
         /// <summary>

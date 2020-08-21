@@ -56,16 +56,16 @@ namespace Scada.Data.Models
         /// <summary>
         /// Initializes a new instance of the structure.
         /// </summary>
-        public EventMask(int? mask)
+        public EventMask(int? value)
         {
-            Mask = mask ?? 0;
+            Value = value ?? 0;
         }
 
 
         /// <summary>
         /// Gets the mask value.
         /// </summary>
-        public int Mask { get; private set; }
+        public int Value { get; private set; }
 
         /// <summary>
         /// Gets or sets a value indicating whether events are enabled for the channel.
@@ -74,11 +74,11 @@ namespace Scada.Data.Models
         {
             get
             {
-                return BitIsSet(EnabledBit);
+                return Value.BitIsSet(EnabledBit);
             }
             set
             {
-                SetBit(EnabledBit, value);
+                Value = Value.SetBit(EnabledBit, value);
             }
         }
 
@@ -89,11 +89,11 @@ namespace Scada.Data.Models
         {
             get
             {
-                return BitIsSet(BeepBit);
+                return Value.BitIsSet(BeepBit);
             }
             set
             {
-                SetBit(BeepBit, value);
+                Value = Value.SetBit(BeepBit, value);
             }
         }
 
@@ -104,11 +104,11 @@ namespace Scada.Data.Models
         {
             get
             {
-                return BitIsSet(CnlDataChangeBit);
+                return Value.BitIsSet(CnlDataChangeBit);
             }
             set
             {
-                SetBit(CnlDataChangeBit, value);
+                Value = Value.SetBit(CnlDataChangeBit, value);
             }
         }
 
@@ -119,11 +119,11 @@ namespace Scada.Data.Models
         {
             get
             {
-                return BitIsSet(CnlStatusChangeBit);
+                return Value.BitIsSet(CnlStatusChangeBit);
             }
             set
             {
-                SetBit(CnlStatusChangeBit, value);
+                Value = Value.SetBit(CnlStatusChangeBit, value);
             }
         }
 
@@ -134,31 +134,12 @@ namespace Scada.Data.Models
         {
             get
             {
-                return BitIsSet(CnlUndefinedBit);
+                return Value.BitIsSet(CnlUndefinedBit);
             }
             set
             {
-                SetBit(CnlUndefinedBit, value);
+                Value = Value.SetBit(CnlUndefinedBit, value);
             }
-        }
-
-
-        /// <summary>
-        /// Checks whether the mask bit is set.
-        /// </summary>
-        private bool BitIsSet(int bit)
-        {
-            return ((Mask >> bit) & 0x01) > 0;
-        }
-
-        /// <summary>
-        /// Sets the specified mask bit.
-        /// </summary>
-        private void SetBit(int bit, bool value)
-        {
-            Mask = value ?
-                Mask | (1 << bit) :
-                Mask & ~(1 << bit);
         }
     }
 }
