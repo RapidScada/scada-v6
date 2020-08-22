@@ -23,7 +23,9 @@
  * Modified : 2020
  */
 
+using Scada.Data.Models;
 using Scada.Log;
+using Scada.Server.Archives;
 using Scada.Server.Modules;
 using System;
 using System.Collections.Generic;
@@ -62,7 +64,7 @@ namespace Scada.Server.Engine
         /// <summary>
         /// Calls the OnServiceStart method of the modules.
         /// </summary>
-        public void CallOnServiceStart()
+        public void OnServiceStart()
         {
             lock (Modules)
             {
@@ -83,7 +85,7 @@ namespace Scada.Server.Engine
         /// <summary>
         /// Calls the OnServiceStop method of the modules.
         /// </summary>
-        public void CallOnServiceStop()
+        public void OnServiceStop()
         {
             lock (Modules)
             {
@@ -99,6 +101,76 @@ namespace Scada.Server.Engine
                     }
                 }
             }
+        }
+
+        /// <summary>
+        /// Calls the OnIteration method of the modules.
+        /// </summary>
+        public void OnIteration()
+        {
+
+        }
+
+        /// <summary>
+        /// Calls the OnCurrentDataProcessing method of the modules.
+        /// </summary>
+        public void OnCurrentDataProcessing(int deviceNum, int[] cnlNums, CnlData[] cnlData)
+        {
+        }
+
+        /// <summary>
+        /// Calls the OnCurrentDataProcessed method of the modules.
+        /// </summary>
+        public void OnCurrentDataProcessed(int deviceNum, int[] cnlNums, CnlData[] cnlData)
+        {
+        }
+
+        /// <summary>
+        /// Calls the OnHistoricalDataProcessing method of the modules.
+        /// </summary>
+        public void OnHistoricalDataProcessing(int deviceNum, Slice slice)
+        {
+        }
+
+        /// <summary>
+        /// Calls the OnHistoricalDataProcessed method of the modules.
+        /// </summary>
+        public void OnHistoricalDataProcessed(int deviceNum)
+        {
+        }
+
+        /// <summary>
+        /// Calls the OnEvent method of the modules.
+        /// </summary>
+        public void OnEvent(Event ev)
+        {
+        }
+
+        /// <summary>
+        /// Calls the OnEventAck method of the modules.
+        /// </summary>
+        public void OnEventAck(long eventID, DateTime timestamp, int userID)
+        {
+        }
+
+        /// <summary>
+        /// Calls the OnCommand method of the modules.
+        /// </summary>
+        public void OnCommand(TeleCommand command, CommandResult commandResult)
+        {
+        }
+
+        /// <summary>
+        /// Calls the ValidateUser method of the modules until a user is handled.
+        /// </summary>
+        public bool ValidateUser(string username, string password, 
+            out int userID, out int roleID, out string errMsg, out bool handled)
+        {
+            userID = 0;
+            roleID = 0;
+            errMsg = "";
+            handled = false;
+            return false;
         }
     }
 }

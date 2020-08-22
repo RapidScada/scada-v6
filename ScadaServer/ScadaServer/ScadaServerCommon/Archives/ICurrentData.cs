@@ -66,6 +66,11 @@ namespace Scada.Server.Archives
 
 
         /// <summary>
+        /// Gets the index of the specified input channel, or -1 if the channel not found.
+        /// </summary>
+        int GetCnlIndex(int cnlNum);
+
+        /// <summary>
         /// Creates a copy of the input channel data.
         /// </summary>
         /// <remarks>Use this method to avoid blocking the current data instance in case of long processing.</remarks>

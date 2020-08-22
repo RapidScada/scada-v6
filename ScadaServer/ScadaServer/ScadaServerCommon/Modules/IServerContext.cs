@@ -81,17 +81,17 @@ namespace Scada.Server.Modules
         /// <summary>
         /// Gets a trend of the input channel from the specified archive.
         /// </summary>
-        Trend GetTrend(DateTime startTime, DateTime endTime, int cnlNum, string arcCode);
+        Trend GetTrend(int cnlNum, DateTime startTime, DateTime endTime, int archiveBit);
 
         /// <summary>
         /// Gets a slice of the input channels from the specified archive.
         /// </summary>
-        Slice GetSlice(DateTime timestamp, int[] cnlNums, string arcCode);
+        Slice GetSlice(int[] cnlNums, DateTime timestamp, int archiveBit);
 
         /// <summary>
         /// Gets the timestamps available in the specified archive.
         /// </summary>
-        DateTime[] GetTimestamps(DateTime startTime, DateTime endTime, string arcCode);
+        DateTime[] GetTimestamps(DateTime startTime, DateTime endTime, int archiveBit);
 
         /// <summary>
         /// Writes the current data of the input channel.
@@ -99,18 +99,23 @@ namespace Scada.Server.Modules
         bool WriteCurrentData(int cnlNum, CnlData cnlData);
 
         /// <summary>
-        /// Writes the historical data of the input channel.
+        /// Writes the current data of the input channels.
         /// </summary>
-        bool WriteHistoricalData(int cnlNum, DateTime timestamp, CnlData cnlData);
+        bool WriteCurrentData(int deviceNum, int[] cnlNums, CnlData[] cnlData, bool applyFormulas);
+
+        /// <summary>
+        /// Writes the historical data.
+        /// </summary>
+        bool WriteHistoricalData(int deviceNum, Slice slice, int archiveMask, bool applyFormulas);
 
         /// <summary>
         /// Writes the event.
         /// </summary>
-        bool WriteEvent(Event ev);
+        bool WriteEvent(Event ev, int archiveMask);
 
         /// <summary>
         /// Sends the telecontrol command.
         /// </summary>
-        void SendCommand(TeleCommand cmd);
+        void SendCommand(TeleCommand command, out CommandResult commandResult);
     }
 }

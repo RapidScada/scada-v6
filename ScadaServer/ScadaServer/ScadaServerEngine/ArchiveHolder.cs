@@ -23,6 +23,7 @@
  * Modified : 2020
  */
 
+using Scada.Data.Const;
 using Scada.Data.Models;
 using Scada.Log;
 using Scada.Server.Archives;
@@ -69,9 +70,9 @@ namespace Scada.Server.Engine
 
 
         /// <summary>
-        /// Calls the ReadCurData method of the current archives until a successful result is obtained.
+        /// Calls the ReadCurrentData method of the current archives until a successful result is obtained.
         /// </summary>
-        public void ReadCurData(ICurrentData curData)
+        public void ReadCurrentData(ICurrentData curData)
         {
 
         }
@@ -85,11 +86,55 @@ namespace Scada.Server.Engine
         }
 
         /// <summary>
-        /// Calls the WriteSlice method of the historical archives.
+        /// Writes the slice of input channels to the historical archives, performing calculations.
         /// </summary>
-        public void WriteSlice(Slice slice, int archiveMask)
+        public void WriteSlice(Slice slice, int archiveMask, bool applyFormulas)
         {
+            // TODO: write slice to archives
+            Calculator calc = null;
+            Dictionary<int, CnlTag> cnlTags = null;
+            List<CnlTag> calcCnlTags = null;
+            HistoricalArchiveLogic archiveLogic = null;
 
+            DateTime timestamp = slice.Timestamp;
+            calc.BeginCalculation(new ArchiveCalcContext(archiveLogic, timestamp));
+            archiveLogic.BeginUpdate();
+
+            // calculate input channels which are written
+            for (int i = 0, cnlCnt = slice.CnlNums.Length; i < cnlCnt; i++)
+            {
+                int cnlNum = slice.CnlNums[i];
+
+                if (cnlTags.TryGetValue(cnlNum, out CnlTag cnlTag))
+                {
+                    CnlData newCnlData = slice.CnlData[i];
+
+                    if (applyFormulas && cnlTag.InCnl.FormulaEnabled &&
+                        cnlTag.InCnl.CnlTypeID == CnlTypeID.Measured)
+                    {
+                        newCnlData = calc.CalcCnlData(cnlTag, newCnlData);
+                    }
+
+                    archiveLogic.WriteCnlData(cnlNum, timestamp, newCnlData);
+                }
+            }
+
+            // calculate input channels of the calculated type
+            foreach (CnlTag cnlTag in calcCnlTags)
+            {
+                CnlData arcCnlData = archiveLogic.GetCnlData(cnlTag.CnlNum, timestamp);
+                CnlData newCnlData = calc.CalcCnlData(cnlTag, arcCnlData);
+
+                if (arcCnlData != newCnlData)
+                    archiveLogic.WriteCnlData(cnlTag.CnlNum, timestamp, newCnlData);
+            }
+
+            // update channel status according to limits and other conditions, similar to CoreLogic.UpdateCnlStatus
+            //if (newCnlData.Stat == CnlStatusID.Defined)
+            //    newCnlData.Stat = CnlStatusID.Archival;
+
+            archiveLogic.EndUpdate();
+            calc.EndCalculation();
         }
 
         /// <summary>

@@ -120,6 +120,14 @@ namespace Scada.Server.Engine
         }
 
         /// <summary>
+        /// Gets the index of the specified input channel, or -1 if the channel not found.
+        /// </summary>
+        int ICurrentData.GetCnlIndex(int cnlNum)
+        {
+            return cnlTags.TryGetValue(cnlNum, out CnlTag cnlTag) ? cnlTag.Index : -1;
+        }
+
+        /// <summary>
         /// Creates a copy of the input channel data.
         /// </summary>
         CnlData[] ICurrentData.CloneCnlData()

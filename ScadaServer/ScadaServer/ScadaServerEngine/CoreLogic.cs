@@ -364,8 +364,8 @@ namespace Scada.Server.Engine
                 int checkActivityTagIndex = 0; // the index of the input channel tag which is checked for activity
                 DateTime writeInfoDT = DateTime.MinValue; // the timestamp of writing application info
 
-                moduleHolder.CallOnServiceStart();
-                archiveHolder.ReadCurData(curData);
+                moduleHolder.OnServiceStart();
+                archiveHolder.ReadCurrentData(curData);
                 calc.InitScripts();
                 workState = WorkState.Normal;
 
@@ -391,7 +391,8 @@ namespace Scada.Server.Engine
                         // process events without blocking current data
                         ProcessEvents();
 
-                        // delete the outdated data from archives
+                        // process modules and archives
+                        moduleHolder.OnIteration();
                         archiveHolder.DeleteOutdatedData();
 
                         // write application info
@@ -418,7 +419,7 @@ namespace Scada.Server.Engine
             finally
             {
                 calc.FinalizeScripts();
-                moduleHolder.CallOnServiceStop();
+                moduleHolder.OnServiceStop();
                 workState = WorkState.Terminated;
                 WriteInfo();
             }
@@ -485,6 +486,7 @@ namespace Scada.Server.Engine
                 while (events.Count > 0)
                 {
                     Event ev = events.Dequeue();
+                    moduleHolder.OnEvent(ev);
                     archiveHolder.WriteEvent(ev, ArchiveMask.Default);
                 }
             }
@@ -811,6 +813,14 @@ namespace Scada.Server.Engine
                     return false;
                 }
 
+                // validate by modules
+                bool userIsValid = moduleHolder.ValidateUser(username, password, 
+                    out userID, out roleID, out errMsg, out bool handled);
+
+                if (handled)
+                    return userIsValid;
+
+                // validate by the configuration database
                 if (users.TryGetValue(username.ToLowerInvariant(), out User user) &&
                     user.Password == ScadaUtils.GetPasswordHash(user.UserID, password))
                 {
@@ -944,6 +954,7 @@ namespace Scada.Server.Engine
 
             try
             {
+                moduleHolder.OnCurrentDataProcessing(deviceNum, cnlNums, cnlData);
                 calc.BeginCalculation(curData);
 
                 lock (curData)
@@ -954,10 +965,15 @@ namespace Scada.Server.Engine
                     {
                         if (cnlTags.TryGetValue(cnlNums[i], out CnlTag cnlTag))
                         {
-                            CnlData newCnlData = applyFormulas && cnlTag.InCnl.FormulaEnabled &&
-                                cnlTag.InCnl.CnlTypeID == CnlTypeID.Measured ?
-                                calc.CalcCnlData(cnlTag, cnlData[i]) :
-                                cnlData[i];
+                            CnlData newCnlData = cnlData[i];
+
+                            if (applyFormulas && cnlTag.InCnl.FormulaEnabled && 
+                                cnlTag.InCnl.CnlTypeID == CnlTypeID.Measured)
+                            {
+                                newCnlData = calc.CalcCnlData(cnlTag, newCnlData);
+                                cnlData[i] = newCnlData;
+                            }
+
                             curData.SetCurCnlData(cnlTag, newCnlData, utcNow);
                         }
                     }
@@ -972,55 +988,18 @@ namespace Scada.Server.Engine
             finally
             {
                 calc.EndCalculation();
+                moduleHolder.OnCurrentDataProcessed(deviceNum, cnlNums, cnlData);
             }
         }
-        
+
         /// <summary>
-        /// Writes the archive data.
+        /// Writes the historical data.
         /// </summary>
-        public void WriteArchiveData(Slice slice, int archiveMask, bool applyFormulas)
+        public void WriteHistoricalData(int deviceNum, Slice slice, int archiveMask, bool applyFormulas)
         {
-            try
-            {
-                // TODO: write archive data
-                Slice fullSlice = null;
-
-                for (int i = 0, cnlCnt = slice.CnlNums.Length; i < cnlCnt; i++)
-                {
-                    if (cnlTags.TryGetValue(slice.CnlNums[i], out CnlTag cnlTag))
-                    {
-                        CnlData newCnlData = applyFormulas && cnlTag.InCnl.FormulaEnabled && 
-                            cnlTag.InCnl.CnlTypeID == CnlTypeID.Measured ?
-                            calc.CalcCnlData(cnlTag, slice.CnlData[i]) : 
-                            slice.CnlData[i];
-
-                        if (newCnlData.Stat == CnlStatusID.Defined)
-                            newCnlData.Stat = CnlStatusID.Archival;
-
-                        int destIndex = 0;// fullSlice.GenCnlIndex(cnlTag.CnlNum);
-                        fullSlice.CnlData[destIndex] = newCnlData;
-                    }
-                }
-
-                // calculate input channels of the calculated type
-                for (int i = 0, cnlCnt = fullSlice.CnlNums.Length; i < cnlCnt; i++)
-                {
-                    if (cnlTags.TryGetValue(fullSlice.CnlNums[i], out CnlTag cnlTag) &&
-                        cnlTag.InCnl.CnlTypeID == CnlTypeID.Calculated)
-                    {
-                        CnlData newCnlData = calc.CalcCnlData(cnlTag, fullSlice.CnlData[i]);
-                        fullSlice.CnlData[i] = newCnlData;
-                    }
-                }
-
-                archiveHolder.WriteSlice(fullSlice, archiveMask);
-            }
-            catch (Exception ex)
-            {
-                log.WriteException(ex, Locale.IsRussian ?
-                    "Ошибка при записи текущих данных" :
-                    "Error writing archive data");
-            }
+            moduleHolder.OnHistoricalDataProcessing(deviceNum, slice);
+            archiveHolder.WriteSlice(slice, archiveMask, applyFormulas);
+            moduleHolder.OnHistoricalDataProcessed(deviceNum);
         }
 
         /// <summary>
@@ -1067,6 +1046,7 @@ namespace Scada.Server.Engine
                         ev.DeviceNum = outCnl.DeviceNum ?? 0;
                 }
 
+                moduleHolder.OnEvent(ev);
                 archiveHolder.WriteEvent(ev, archiveMask);
             }
             catch (Exception ex)
@@ -1082,6 +1062,7 @@ namespace Scada.Server.Engine
         /// </summary>
         public void AckEvent(long eventID, DateTime timestamp, int userID)
         {
+            moduleHolder.OnEventAck(eventID, timestamp, userID);
             archiveHolder.AckEvent(eventID, timestamp, userID);
         }
 
@@ -1155,6 +1136,8 @@ namespace Scada.Server.Engine
                             Monitor.Exit(curData);
                             calc.EndCalculation();
                         }
+
+                        moduleHolder.OnCommand(command, commandResult);
 
                         if (commandResult.IsSuccessful)
                         {

@@ -36,6 +36,11 @@ namespace Scada.Server.Archives
     public abstract class HistoricalArchiveLogic : ArchiveLogic
     {
         /// <summary>
+        /// Gets the input channel data.
+        /// </summary>
+        public abstract CnlData GetCnlData(int cnlNum, DateTime timestamp);
+
+        /// <summary>
         /// Gets the trend of the specified input channel.
         /// </summary>
         public abstract Trend GetTrend(int cnlNum, DateTime startTime, DateTime endTime);
@@ -51,13 +56,28 @@ namespace Scada.Server.Archives
         public abstract Slice GetSlice(ICollection<int> cnlNums, DateTime timestamp);
 
         /// <summary>
-        /// Writes the slice of data.
+        /// Gets the available timestamps.
         /// </summary>
-        public abstract void WriteSlice(Slice slice);
+        public abstract DateTime[] GetTimestamps(DateTime startTime, DateTime endTime);
+
+        /// <summary>
+        /// Maintains performance when data is written one at a time.
+        /// </summary>
+        public abstract void BeginUpdate();
+
+        /// <summary>
+        /// Completes the update operation.
+        /// </summary>
+        public abstract void EndUpdate();
 
         /// <summary>
         /// Processes new data.
         /// </summary>
         public abstract void ProcessData(ICurrentData curData);
+
+        /// <summary>
+        /// Writes the input channel data.
+        /// </summary>
+        public abstract void WriteCnlData(int cnlNum, DateTime timestamp, CnlData cnlData);
     }
 }
