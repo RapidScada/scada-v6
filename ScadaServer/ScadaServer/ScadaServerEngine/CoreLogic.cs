@@ -997,6 +997,9 @@ namespace Scada.Server.Engine
         /// </summary>
         public void WriteHistoricalData(int deviceNum, Slice slice, int archiveMask, bool applyFormulas)
         {
+            if (slice == null)
+                throw new ArgumentNullException("slice");
+
             moduleHolder.OnHistoricalDataProcessing(deviceNum, slice);
             archiveHolder.WriteSlice(slice, archiveMask, applyFormulas);
             moduleHolder.OnHistoricalDataProcessed(deviceNum);

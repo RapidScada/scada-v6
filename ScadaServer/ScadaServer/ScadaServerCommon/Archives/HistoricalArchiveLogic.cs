@@ -76,6 +76,11 @@ namespace Scada.Server.Archives
         public abstract void ProcessData(ICurrentData curData);
 
         /// <summary>
+        /// Accepts or rejects data with the specified timestamp.
+        /// </summary>
+        public abstract bool AcceptData(DateTime timestamp);
+
+        /// <summary>
         /// Writes the input channel data.
         /// </summary>
         public abstract void WriteCnlData(int cnlNum, DateTime timestamp, CnlData cnlData);
