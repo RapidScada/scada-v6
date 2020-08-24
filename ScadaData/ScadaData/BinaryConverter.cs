@@ -235,7 +235,7 @@ namespace Scada
                 foreach (CnlData cnlData in srcArray)
                 {
                     CopyDouble(cnlData.Val, buffer, ref index);
-                    CopyInt32(cnlData.Stat, buffer, ref index);
+                    CopyUInt16((ushort)cnlData.Stat, buffer, ref index);
                 }
             }
         }
@@ -384,8 +384,8 @@ namespace Scada
                 {
                     array[i] = new CnlData(
                         BitConverter.ToDouble(buffer, index),
-                        BitConverter.ToInt32(buffer, index + 8));
-                    index += 12;
+                        BitConverter.ToUInt16(buffer, index + 8));
+                    index += 10;
                 }
 
                 return array;

@@ -128,10 +128,10 @@ namespace Scada.Client
                 CnlData cnlDataElem = cnlData[i];
                 CopyInt32(cnlNums[i], outBuf, ref idx1);
                 CopyDouble(cnlDataElem.Val, outBuf, ref idx2);
-                CopyInt32(cnlDataElem.Stat, outBuf, ref idx2);
+                CopyUInt16((ushort)cnlDataElem.Stat, outBuf, ref idx2);
             }
 
-            index += cnlCnt * 16;
+            index += cnlCnt * 14;
             CopyBool(applyFormulas, outBuf, ref index);
             request.BufferLength = index;
             SendRequest(request);
