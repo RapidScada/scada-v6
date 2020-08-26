@@ -46,9 +46,14 @@ namespace Scada.Protocol
 
         public const ushort GetCurrentData = 0x0201;
         public const ushort GetTrends = 0x0202;
-        public const ushort GetSlices = 0x0203;
+        public const ushort GetSlice = 0x0203;
         public const ushort WriteCurrentData = 0x0204;
-        public const ushort WriteArchiveData = 0x0205;
+        public const ushort WriteHistoricalData = 0x0205;
+
+        public const ushort GetEventByID = 0x0301;
+        public const ushort GetEvents = 0x0302;
+        public const ushort WriteEvent = 0x0303;
+        public const ushort AckEvent = 0x0304;
 
         public const ushort SendCommand = 0x0401;
         public const ushort GetCommand = 0x0402;
@@ -65,9 +70,13 @@ namespace Scada.Protocol
             { UploadFile, "UploadFile" },
             { GetCurrentData, "GetCurrentData" },
             { GetTrends, "GetTrends" },
-            { GetSlices, "GetSlices" },
+            { GetSlice, "GetSlice" },
             { WriteCurrentData, "WriteCurrentData" },
-            { WriteArchiveData, "WriteArchiveData" },
+            { WriteHistoricalData, "WriteHistoricalData" },
+            { GetEventByID, "GetEventByID" },
+            { GetEvents, "GetEvents" },
+            { WriteEvent, "WriteEvent" },
+            { AckEvent, "AckEvent" },
             { SendCommand, "SendCommand" },
             { GetCommand, "GetCommand" },
             { DisableGettingCommands, "DisableGettingCommands" }

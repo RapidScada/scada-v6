@@ -24,8 +24,10 @@
  */
 
 using Scada.Data.Models;
+using Scada.Data.Tables;
 using Scada.Protocol;
 using System;
+using System.Collections.Generic;
 using static Scada.BinaryConverter;
 using static Scada.Protocol.ProtocolUtils;
 
@@ -52,6 +54,16 @@ namespace Scada.Client
             lastCommandID = 0;
         }
 
+
+        /// <summary>
+        /// Throws an exception when data size in a data packet does not match.
+        /// </summary>
+        protected void ThrowDataSizeException()
+        {
+            throw new ProtocolException(ErrorCode.IllegalFunctionArguments, Locale.IsRussian ?
+                "Неверный размер данных." :
+                "Invalid data size.");
+        }
 
         /// <summary>
         /// Gets the current data.
@@ -95,13 +107,69 @@ namespace Scada.Client
             CnlData[] cnlData = GetCnlDataArray(inBuf, ref index);
 
             if (cnlData.Length != cnlNums.Length)
-            {
-                throw new ProtocolException(ErrorCode.IllegalFunctionArguments, Locale.IsRussian ?
-                    "Неверный размер данных." :
-                    "Invalid data size.");
-            }
+                ThrowDataSizeException();
 
             return cnlData;
+        }
+
+        /// <summary>
+        /// Gets the trends of the specified input channels.
+        /// </summary>
+        public TrendBundle GetTrends(int[] cnlNums, DateTime startTime, DateTime endTime, int archiveBit)
+        {
+            return null;
+        }
+
+        /// <summary>
+        /// Gets the slice of the specified input channels at the timestamp.
+        /// </summary>
+        public Slice GetSlice(int[] cnlNums, DateTime timestamp, int archiveBit)
+        {
+            RestoreConnection();
+
+            DataPacket request = CreateRequest(FunctionID.GetEventByID);
+            int index = ArgumentIndex;
+            CopyIntArray(cnlNums, outBuf, ref index);
+            CopyTime(timestamp, outBuf, ref index);
+            CopyByte((byte)archiveBit, outBuf, ref index);
+            request.BufferLength = index;
+            SendRequest(request);
+
+            DataPacket response = ReceiveResponse(request);
+            index = ArgumentIndex;
+            CnlData[] cnlData = GetCnlDataArray(inBuf, ref index);
+
+            if (cnlData.Length != cnlNums.Length)
+                ThrowDataSizeException();
+
+            return new Slice(timestamp, cnlNums, cnlData);
+        }
+
+        /// <summary>
+        /// Gets the event by ID.
+        /// </summary>
+        public Event GetEventByID(long eventID, int archiveBit)
+        {
+            RestoreConnection();
+
+            DataPacket request = CreateRequest(FunctionID.GetEventByID);
+            int index = ArgumentIndex;
+            CopyInt64(eventID, outBuf, ref index);
+            CopyByte((byte)archiveBit, outBuf, ref index);
+            request.BufferLength = index;
+            SendRequest(request);
+
+            DataPacket response = ReceiveResponse(request);
+            index = ArgumentIndex;
+            return GetEvent(inBuf, ref index);
+        }
+
+        /// <summary>
+        /// Gets the events.
+        /// </summary>
+        public ICollection<Event> GetEvents(DateTime startTime, DateTime endTime, DataFilter filter, int archiveBit)
+        {
+            return null;
         }
 
         /// <summary>
@@ -134,6 +202,59 @@ namespace Scada.Client
             index += cnlCnt * 14;
             CopyBool(applyFormulas, outBuf, ref index);
             request.BufferLength = index;
+            SendRequest(request);
+            ReceiveResponse(request);
+        }
+
+        /// <summary>
+        /// Writes the historical data.
+        /// </summary>
+        public void WriteHistoricalData(int deviceNum, Slice slice, int archiveMask, bool applyFormulas)
+        {
+            if (slice == null)
+                throw new ArgumentNullException("slice");
+
+            RestoreConnection();
+
+            DataPacket request = CreateRequest(FunctionID.WriteHistoricalData);
+            int index = ArgumentIndex;
+            CopyInt32(deviceNum, outBuf, ref index);
+            CopyTime(slice.Timestamp, outBuf, ref index);
+
+            int cnlCnt = slice.CnlNums.Length;
+            CopyInt32(cnlCnt, outBuf, ref index);
+
+            for (int i = 0, idx1 = index, idx2 = index + cnlCnt * 4; i < cnlCnt; i++)
+            {
+                CnlData cnlDataElem = slice.CnlData[i];
+                CopyInt32(slice.CnlNums[i], outBuf, ref idx1);
+                CopyDouble(cnlDataElem.Val, outBuf, ref idx2);
+                CopyUInt16((ushort)cnlDataElem.Stat, outBuf, ref idx2);
+            }
+
+            index += cnlCnt * 14;
+            CopyInt32(archiveMask, outBuf, ref index);
+            CopyBool(applyFormulas, outBuf, ref index);
+            request.BufferLength = index;
+            SendRequest(request);
+            ReceiveResponse(request);
+        }
+
+        /// <summary>
+        /// Writes the event.
+        /// </summary>
+        public void WriteEvent(Event ev, int archiveMask)
+        {
+            if (ev == null)
+                throw new ArgumentNullException("ev");
+
+            RestoreConnection();
+
+            DataPacket request = CreateRequest(FunctionID.WriteEvent);
+            int index = ArgumentIndex;
+            CopyEvent(ev, outBuf, ref index);
+            request.BufferLength = index;
+
             SendRequest(request);
             ReceiveResponse(request);
         }

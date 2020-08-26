@@ -335,20 +335,20 @@ namespace Scada.Data.Tables
         /// <summary>
         /// Selects the items that match the specified filter.
         /// </summary>
-        public IEnumerable SelectItems(TableFilter tableFilter, bool indexRequired = false)
+        public IEnumerable SelectItems(TableFilter filter, bool indexRequired = false)
         {
-            if (tableFilter == null)
-                throw new ArgumentNullException("tableFilter");
+            if (filter == null)
+                throw new ArgumentNullException("filter");
 
             // find the property used by the filter
-            PropertyDescriptor filterProp = TypeDescriptor.GetProperties(ItemType)[tableFilter.ColumnName];
+            PropertyDescriptor filterProp = TypeDescriptor.GetProperties(ItemType)[filter.ColumnName];
             if (filterProp == null)
                 throw new ArgumentException("The filter property not found.");
 
             // get the matched items
-            if (TryGetIndex(tableFilter.ColumnName, out TableIndex index))
+            if (TryGetIndex(filter.ColumnName, out TableIndex index))
             {
-                int indexKey = tableFilter.Value == null ? 0 : (int)tableFilter.Value;
+                int indexKey = filter.Argument == null ? 0 : (int)filter.Argument;
 
                 foreach (object item in index.SelectItems(indexKey))
                 {
@@ -361,12 +361,12 @@ namespace Scada.Data.Tables
             }
             else
             {
-                object filterVal = tableFilter.Value;
+                object filterArg = filter.Argument;
 
                 foreach (T item in Items.Values)
                 {
-                    object val = filterProp.GetValue(item);
-                    if (Equals(val, filterVal))
+                    object propVal = filterProp.GetValue(item);
+                    if (Equals(propVal, filterArg))
                         yield return item;
                 }
             }

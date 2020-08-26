@@ -36,6 +36,30 @@ namespace Scada.Data.Models
     public class Slice
     {
         /// <summary>
+        /// Initializes a new instance of the class.
+        /// </summary>
+        public Slice(DateTime timestamp, int cnlCnt)
+        {
+            Timestamp = timestamp;
+            CnlNums = new int[cnlCnt];
+            CnlData = new CnlData[cnlCnt];
+        }
+
+        /// <summary>
+        /// Initializes a new instance of the class.
+        /// </summary>
+        public Slice(DateTime timestamp, int[] cnlNums, CnlData[] cnlData)
+        {
+            Timestamp = timestamp;
+            CnlNums = cnlNums ?? throw new ArgumentNullException("cnlNums");
+            CnlData = cnlData ?? throw new ArgumentNullException("cnlData");
+
+            if (cnlNums.Length != cnlData.Length)
+                throw new ArgumentException("Invalid data size.");
+        }
+
+
+        /// <summary>
         /// Gets or sets the timestamp.
         /// </summary>
         public DateTime Timestamp { get; set; }
@@ -43,11 +67,11 @@ namespace Scada.Data.Models
         /// <summary>
         /// Gets the input channel numbers.
         /// </summary>
-        public int[] CnlNums { get; protected set; }
+        public int[] CnlNums { get; }
 
         /// <summary>
         /// Gets the channel data corresponding to the channel numbers.
         /// </summary>
-        public CnlData[] CnlData { get; protected set; }
+        public CnlData[] CnlData { get; }
     }
 }

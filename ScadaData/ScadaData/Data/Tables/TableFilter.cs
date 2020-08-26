@@ -42,10 +42,10 @@ namespace Scada.Data.Tables
         /// <summary>
         /// Initializes a new instance of the class.
         /// </summary>
-        public TableFilter(string columnName, object value)
+        public TableFilter(string columnName, object argument)
         {
             ColumnName = columnName;
-            Value = value;
+            Argument = argument;
             Title = "";
         }
 
@@ -56,9 +56,9 @@ namespace Scada.Data.Tables
         public string ColumnName { get; set; }
 
         /// <summary>
-        /// Gets or sets the filter value.
+        /// Gets or sets the filter argument.
         /// </summary>
-        public object Value { get; set; }
+        public object Argument { get; set; }
 
         /// <summary>
         /// Gets or sets the filter title for displaying.
@@ -72,7 +72,7 @@ namespace Scada.Data.Tables
         public override string ToString()
         {
             return string.IsNullOrEmpty(Title) ?
-                ColumnName + " = " + Value :
+                ColumnName + " = " + Argument :
                 Title;
         }
     }

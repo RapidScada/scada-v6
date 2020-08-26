@@ -16,49 +16,50 @@
  * 
  * Product  : Rapid SCADA
  * Module   : ScadaData
- * Summary  : Represents a trend of input channel data
+ * Summary  : Represents a filter condition
  * 
  * Author   : Mikhail Shiryaev
- * Created  : 2006
+ * Created  : 2020
  * Modified : 2020
  */
 
-using System.Collections.Generic;
+using System.ComponentModel;
 
-namespace Scada.Data.Models
+namespace Scada.Data.Tables
 {
     /// <summary>
-    /// Represents a trend of input channel data.
-    /// <para>Представляет тренд данных входного канала.</para>
+    /// Represents a filter condition.
+    /// <para>Представляет условие фильтра.</para>
     /// </summary>
-    public class Trend
+    public class FilterCondition
     {
         /// <summary>
-        /// Initializes a new instance of the class.
+        /// Gets or sets the column name to filter.
         /// </summary>
-        public Trend(int cnlNum)
-            : this(cnlNum, 0)
+        public string ColumnName { get; set; }
+
+        /// <summary>
+        /// Gets or sets the column property.
+        /// </summary>
+        public PropertyDescriptor ColumnProperty { get; set; }
+
+        /// <summary>
+        /// Gets or sets the filter operator.
+        /// </summary>
+        public FilterOperator Operator { get; set; }
+
+        /// <summary>
+        /// Gets or sets the filter argument.
+        /// </summary>
+        public object Argument { get; set; }
+
+
+        /// <summary>
+        /// Checks if the specified value satisfies the condition.
+        /// </summary>
+        public bool IsSatisfied(object value)
         {
+            return false;
         }
-
-        /// <summary>
-        /// Initializes a new instance of the class.
-        /// </summary>
-        public Trend(int cnlNum, int capacity)
-        {
-            CnlNum = cnlNum;
-            Points = new List<TrendPoint>(capacity);
-        }
-
-
-        /// <summary>
-        /// Gets the input channel number of the trend.
-        /// </summary>
-        public int CnlNum { get; }
-
-        /// <summary>
-        /// Gets the trend points ordered by timestamps.
-        /// </summary>
-        public List<TrendPoint> Points { get; }
     }
 }

@@ -24,6 +24,7 @@
  */
 
 using Scada.Data.Models;
+using Scada.Data.Tables;
 using Scada.Log;
 using Scada.Server.Config;
 using System;
@@ -79,39 +80,49 @@ namespace Scada.Server.Modules
         Slice GetCurrentData(int[] cnlNums);
 
         /// <summary>
-        /// Gets a trend of the input channel from the specified archive.
+        /// Gets the trend of the specified input channel.
         /// </summary>
         Trend GetTrend(int cnlNum, DateTime startTime, DateTime endTime, int archiveBit);
 
         /// <summary>
-        /// Gets a slice of the input channels from the specified archive.
+        /// Gets the slice of the specified input channels at the timestamp.
         /// </summary>
         Slice GetSlice(int[] cnlNums, DateTime timestamp, int archiveBit);
 
         /// <summary>
-        /// Gets the timestamps available in the specified archive.
+        /// Gets the available timestamps.
         /// </summary>
         DateTime[] GetTimestamps(DateTime startTime, DateTime endTime, int archiveBit);
 
         /// <summary>
+        /// Gets the event by ID.
+        /// </summary>
+        Event GetEventByID(long eventID, int archiveBit);
+
+        /// <summary>
+        /// Gets the events.
+        /// </summary>
+        ICollection<Event> GetEvents(DateTime startTime, DateTime endTime, DataFilter filter, int archiveBit);
+
+        /// <summary>
         /// Writes the current data of the input channel.
         /// </summary>
-        bool WriteCurrentData(int cnlNum, CnlData cnlData);
+        void WriteCurrentData(int cnlNum, CnlData cnlData);
 
         /// <summary>
         /// Writes the current data of the input channels.
         /// </summary>
-        bool WriteCurrentData(int deviceNum, int[] cnlNums, CnlData[] cnlData, bool applyFormulas);
+        void WriteCurrentData(int deviceNum, int[] cnlNums, CnlData[] cnlData, bool applyFormulas);
 
         /// <summary>
         /// Writes the historical data.
         /// </summary>
-        bool WriteHistoricalData(int deviceNum, Slice slice, int archiveMask, bool applyFormulas);
+        void WriteHistoricalData(int deviceNum, Slice slice, int archiveMask, bool applyFormulas);
 
         /// <summary>
         /// Writes the event.
         /// </summary>
-        bool WriteEvent(Event ev, int archiveMask);
+        void WriteEvent(Event ev, int archiveMask);
 
         /// <summary>
         /// Sends the telecontrol command.

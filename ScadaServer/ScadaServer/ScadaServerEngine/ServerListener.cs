@@ -111,13 +111,53 @@ namespace Scada.Server.Engine
                 cnlNums[i] = GetInt32(buffer, ref idx1);
                 cnlData[i] = new CnlData(
                     GetDouble(buffer, ref idx2),
-                    GetInt32(buffer, ref idx2));
+                    GetUInt16(buffer, ref idx2));
             }
 
-            index += cnlCnt * 16;
+            index += cnlCnt * 14;
             bool applyFormulas = buffer[index] > 0;
             coreLogic.WriteCurrentData(deviceNum, cnlNums, cnlData, applyFormulas);
 
+            response = new ResponsePacket(request, client.OutBuf);
+        }
+
+        /// <summary>
+        /// Writes the historical data.
+        /// </summary>
+        protected void WriteHistoricalData(ConnectedClient client, DataPacket request, out ResponsePacket response)
+        {
+            byte[] buffer = request.Buffer;
+            int index = ArgumentIndex;
+            int deviceNum = GetInt32(buffer, ref index);
+            DateTime timestamp = GetTime(buffer, ref index);
+            int cnlCnt = GetInt32(buffer, ref index);
+            Slice slice = new Slice(timestamp, cnlCnt);
+
+            for (int i = 0, idx1 = index, idx2 = idx1 + cnlCnt * 4; i < cnlCnt; i++)
+            {
+                slice.CnlNums[i] = GetInt32(buffer, ref idx1);
+                slice.CnlData[i] = new CnlData(
+                    GetDouble(buffer, ref idx2),
+                    GetUInt16(buffer, ref idx2));
+            }
+
+            index += cnlCnt * 14;
+            int archiveMask = GetInt32(buffer, ref index);
+            bool applyFormulas = buffer[index] > 0;
+            coreLogic.WriteHistoricalData(deviceNum, slice, archiveMask, applyFormulas);
+
+            response = new ResponsePacket(request, client.OutBuf);
+        }
+
+        /// <summary>
+        /// Writes the event.
+        /// </summary>
+        protected void WriteEvent(ConnectedClient client, DataPacket request, out ResponsePacket response)
+        {
+            int index = ArgumentIndex;
+            Event ev = GetEvent(request.Buffer, ref index);
+            int archiveMask = GetInt32(request.Buffer, ref index);
+            coreLogic.WriteEvent(ev, archiveMask);
             response = new ResponsePacket(request, client.OutBuf);
         }
 

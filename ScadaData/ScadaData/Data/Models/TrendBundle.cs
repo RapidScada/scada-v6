@@ -64,11 +64,11 @@ namespace Scada.Data.Models
         /// <summary>
         /// Gets the ordered timestamps common for all trends.
         /// </summary>
-        public List<DateTime> Timestamps { get; protected set; }
+        public List<DateTime> Timestamps { get; }
 
         /// <summary>
         /// Gets the trends having the same number of points.
         /// </summary>
-        public List<DataPointList> Trends { get; protected set; }
+        public List<DataPointList> Trends { get; }
     }
 }

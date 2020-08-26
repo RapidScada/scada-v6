@@ -39,12 +39,12 @@ namespace Scada.Server.Archives
         /// <summary>
         /// Gets the event by ID.
         /// </summary>
-        public abstract Event GetEvent(long eventID);
+        public abstract Event GetEventByID(long eventID);
 
         /// <summary>
         /// Gets the events.
         /// </summary>
-        public abstract ICollection<Event> GetEvents(DateTime startTime, DateTime endTime, EventFilter filter);
+        public abstract ICollection<Event> GetEvents(DateTime startTime, DateTime endTime, DataFilter filter);
 
         /// <summary>
         /// Writes the event.

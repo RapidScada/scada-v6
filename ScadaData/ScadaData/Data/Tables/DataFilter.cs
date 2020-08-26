@@ -16,7 +16,7 @@
  * 
  * Product  : Rapid SCADA
  * Module   : ScadaData
- * Summary  : Represents a filter for selecting events
+ * Summary  : Represents a filter for selecting arbitrary data
  * 
  * Author   : Mikhail Shiryaev
  * Created  : 2020
@@ -30,10 +30,14 @@ using System.Text;
 namespace Scada.Data.Tables
 {
     /// <summary>
-    /// Represents a filter for selecting events.
-    /// <para>Представляет фильтр для выбора событий.</para>
+    /// Represents a filter for selecting arbitrary data.
+    /// <para>Представляет фильтр для выбора произвольных данных.</para>
     /// </summary>
-    public class EventFilter
+    public class DataFilter
     {
+        /// <summary>
+        /// Gets the filter conditions.
+        /// </summary>
+        public List<FilterCondition> Conditions { get; }
     }
 }

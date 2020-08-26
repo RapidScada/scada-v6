@@ -240,6 +240,32 @@ namespace Scada
             }
         }
 
+        /// <summary>
+        /// Copies the event to the buffer.
+        /// </summary>
+        public static void CopyEvent(Event ev, byte[] buffer, ref int index)
+        {
+            CopyInt64(ev.EventID, buffer, ref index);
+            CopyTime(ev.Timestamp, buffer, ref index);
+            CopyBool(ev.Hidden, buffer, ref index);
+            CopyInt32(ev.CnlNum, buffer, ref index);
+            CopyInt32(ev.OutCnlNum, buffer, ref index);
+            CopyInt32(ev.ObjNum, buffer, ref index);
+            CopyInt32(ev.DeviceNum, buffer, ref index);
+            CopyDouble(ev.PrevCnlVal, buffer, ref index);
+            CopyUInt16((ushort)ev.PrevCnlStat, buffer, ref index);
+            CopyDouble(ev.CnlVal, buffer, ref index);
+            CopyUInt16((ushort)ev.CnlStat, buffer, ref index);
+            CopyUInt16((ushort)ev.Severity, buffer, ref index);
+            CopyBool(ev.AckRequired, buffer, ref index);
+            CopyBool(ev.Ack, buffer, ref index);
+            CopyTime(ev.AckTimestamp, buffer, ref index);
+            CopyInt32(ev.AckUserID, buffer, ref index);
+            CopyByte((byte)ev.TextFormat, buffer, ref index);
+            CopyString(ev.Text, buffer, ref index);
+            CopyByteArray(ev.Data, buffer, ref index);
+        }
+
 
         /// <summary>
         /// Gets a 8-bit unsigned integer from the buffer.
@@ -394,6 +420,34 @@ namespace Scada
             {
                 return new CnlData[0];
             }
+        }
+
+        /// <summary>
+        /// Gets an event from the buffer.
+        /// </summary>
+        public static Event GetEvent(byte[] buffer, ref int index)
+        {
+            Event ev = new Event();
+            ev.EventID = GetInt64(buffer, ref index);
+            ev.Timestamp = GetTime(buffer, ref index);
+            ev.Hidden = GetBool(buffer, ref index);
+            ev.CnlNum = GetInt32(buffer, ref index);
+            ev.OutCnlNum = GetInt32(buffer, ref index);
+            ev.ObjNum = GetInt32(buffer, ref index);
+            ev.DeviceNum = GetInt32(buffer, ref index);
+            ev.PrevCnlVal = GetDouble(buffer, ref index);
+            ev.PrevCnlStat = GetUInt16(buffer, ref index);
+            ev.CnlVal = GetDouble(buffer, ref index);
+            ev.CnlStat = GetUInt16(buffer, ref index);
+            ev.Severity = GetUInt16(buffer, ref index);
+            ev.AckRequired = GetBool(buffer, ref index);
+            ev.Ack = GetBool(buffer, ref index);
+            ev.AckTimestamp = GetTime(buffer, ref index);
+            ev.AckUserID = GetInt32(buffer, ref index);
+            ev.TextFormat = (EventTextFormat)GetByte(buffer, ref index);
+            ev.Text = GetString(buffer, ref index);
+            ev.Data = GetByteArray(buffer, ref index);
+            return ev;
         }
     }
 }

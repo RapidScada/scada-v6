@@ -23,8 +23,6 @@
  * Modified : 2020
  */
 
-#pragma warning disable 1591 // Missing XML comment for publicly visible type or member
-
 namespace Scada.Protocol
 {
     /// <summary>
@@ -33,11 +31,34 @@ namespace Scada.Protocol
     /// </summary>
     public enum ErrorCode : byte
     {
+        /// <summary>
+        /// No error occured.
+        /// </summary>
         NoError = 0x00,
+
+        /// <summary>
+        /// Function not supported.
+        /// </summary>
         IllegalFunction = 0x01,
+
+        /// <summary>
+        /// Some function arguments are not valid.
+        /// </summary>
         IllegalFunctionArguments = 0x02,
+
+        /// <summary>
+        /// Function is not available due to security reasons.
+        /// </summary>
         AccessDenied = 0x03,
+
+        /// <summary>
+        /// Function call is invalid for the current state of the client or server.
+        /// </summary>
         InvalidOperation = 0x04,
+
+        /// <summary>
+        /// Error while processing the operation.
+        /// </summary>
         InternalServerError = 0x05
     }
 }
