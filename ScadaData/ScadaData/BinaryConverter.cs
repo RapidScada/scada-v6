@@ -183,6 +183,15 @@ namespace Scada
         }
 
         /// <summary>
+        /// Encodes and copies the input channel data to the buffer.
+        /// </summary>
+        public static void CopyCnlData(CnlData cnlData, byte[] buffer, ref int index)
+        {
+            CopyDouble(cnlData.Val, buffer, ref index);
+            CopyUInt16((ushort)cnlData.Stat, buffer, ref index);
+        }
+
+        /// <summary>
         /// Encodes and copies the file name to the buffer.
         /// </summary>
         public static void CopyFileName(int directoryID, string path, byte[] buffer, ref int index)
@@ -234,8 +243,7 @@ namespace Scada
             {
                 foreach (CnlData cnlData in srcArray)
                 {
-                    CopyDouble(cnlData.Val, buffer, ref index);
-                    CopyUInt16((ushort)cnlData.Stat, buffer, ref index);
+                    CopyCnlData(cnlData, buffer, ref index);
                 }
             }
         }
@@ -351,6 +359,16 @@ namespace Scada
             DateTime value = new DateTime(BitConverter.ToInt64(buffer, index), DateTimeKind.Utc);
             index += 8;
             return value;
+        }
+
+        /// <summary>
+        /// Gets an input channel data from the buffer.
+        /// </summary>
+        public static CnlData GetCnlData(byte[] buffer, ref int index)
+        {
+            return new CnlData(
+                GetDouble(buffer, ref index),
+                GetUInt16(buffer, ref index));
         }
 
         /// <summary>

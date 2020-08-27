@@ -25,6 +25,7 @@
 
 using Scada.Data.Const;
 using Scada.Data.Models;
+using Scada.Data.Tables;
 using Scada.Log;
 using Scada.Protocol;
 using Scada.Server.Config;
@@ -41,17 +42,24 @@ namespace Scada.Server.Engine
     /// </summary>
     internal class ServerListener : BaseListener
     {
-        private readonly CoreLogic coreLogic; // the server logic instance
-        private readonly ServerConfig config; // the server configuration
+        /// <summary>
+        /// The maximum number of events in one block.
+        /// </summary>
+        private const int EventBlockCapacity = 1000;
+
+        private readonly CoreLogic coreLogic;         // the server logic instance
+        private readonly ArchiveHolder archiveHolder; // holds archives
+        private readonly ServerConfig config;         // the server configuration
 
 
         /// <summary>
         /// Initializes a new instance of the class.
         /// </summary>
-        public ServerListener(CoreLogic coreLogic, ServerConfig config, ILog log)
+        public ServerListener(CoreLogic coreLogic, ArchiveHolder archiveHolder, ServerConfig config, ILog log)
             : base(config.ListenerOptions, log)
         {
             this.coreLogic = coreLogic ?? throw new ArgumentNullException("coreLogic");
+            this.archiveHolder = archiveHolder ?? throw new ArgumentNullException("archiveHolder");
             this.config = config ?? throw new ArgumentNullException("config");
         }
 
@@ -94,6 +102,141 @@ namespace Scada.Server.Engine
         }
 
         /// <summary>
+        /// Gets the trends of the specified input channels.
+        /// </summary>
+        protected void GetTrends(ConnectedClient client, DataPacket request)
+        {
+            byte[] buffer = request.Buffer;
+            int index = ArgumentIndex;
+            int[] cnlNums = GetIntArray(buffer, ref index);
+            DateTime startTime = GetTime(buffer, ref index);
+            DateTime endTime = GetTime(buffer, ref index);
+            int archiveBit = GetByte(buffer, ref index);
+
+            TrendBundle trendBundle = archiveHolder.GetTrends(cnlNums, startTime, endTime, archiveBit);
+            List<DateTime> timestamps = trendBundle.Timestamps;
+            int totalPointCount = timestamps.Count;
+            int blockCapacity = (BufferLenght - ArgumentIndex - 16) / (8 + cnlNums.Length * 10);
+            int blockCount = (int)Math.Ceiling((double)totalPointCount / blockCapacity);
+            int pointIndex = 0;
+            buffer = client.OutBuf;
+
+            for (int blockNumber = 1; blockNumber <= blockCount; blockNumber++)
+            {
+                ResponsePacket response = new ResponsePacket(request, buffer);
+                index = ArgumentIndex;
+                CopyInt32(blockNumber, buffer, ref index);
+                CopyInt32(blockCount, buffer, ref index);
+                CopyInt32(totalPointCount, buffer, ref index);
+
+                int pointCount = Math.Min(totalPointCount - pointIndex, blockCapacity); // points in this block
+                CopyInt32(pointCount, buffer, ref index);
+
+                for (int i = 0, ptIdx = pointIndex; i < pointCount; i++, ptIdx++)
+                {
+                    CopyTime(timestamps[ptIdx], buffer, ref index);
+                }
+
+                foreach (TrendBundle.PointList trend in trendBundle.Trends)
+                {
+                    for (int i = 0, ptIdx = pointIndex; i < pointCount; i++, ptIdx++)
+                    {
+                        CopyCnlData(trend[ptIdx], buffer, ref index);
+                    }
+                }
+
+                pointIndex += pointCount;
+                response.BufferLength = index;
+                client.SendResponse(response);
+            }
+        }
+
+        /// <summary>
+        /// Gets the slice of the specified input channels at the timestamp.
+        /// </summary>
+        protected void GetSlice(ConnectedClient client, DataPacket request, out ResponsePacket response)
+        {
+            byte[] buffer = request.Buffer;
+            int index = ArgumentIndex;
+            int[] cnlNums = GetIntArray(buffer, ref index);
+            DateTime timestamp = GetTime(buffer, ref index);
+            int archiveBit = GetByte(buffer, ref index);
+
+            Slice slice = archiveHolder.GetSlice(cnlNums, timestamp, archiveBit);
+            response = new ResponsePacket(request, client.OutBuf);
+            index = ArgumentIndex;
+            CopyCnlDataArray(slice.CnlData, client.OutBuf, ref index);
+            response.BufferLength = index;
+        }
+
+        /// <summary>
+        /// Gets the event by ID.
+        /// </summary>
+        protected void GetEventByID(ConnectedClient client, DataPacket request, out ResponsePacket response)
+        {
+            byte[] buffer = request.Buffer;
+            int index = ArgumentIndex;
+            long eventID = GetInt64(buffer, ref index);
+            int archiveBit = GetByte(buffer, ref index);
+
+            Event ev = archiveHolder.GetEventByID(eventID, archiveBit);
+            response = new ResponsePacket(request, client.OutBuf);
+            index = ArgumentIndex;
+
+            if (ev == null)
+            {
+                CopyBool(false, buffer, ref index);
+            }
+            else
+            {
+                CopyBool(true, buffer, ref index);
+                CopyEvent(ev, buffer, ref index);
+            }
+
+            response.BufferLength = index;
+        }
+
+        /// <summary>
+        /// Gets the events.
+        /// </summary>
+        protected void GetEvents(ConnectedClient client, DataPacket request)
+        {
+            byte[] buffer = request.Buffer;
+            int index = ArgumentIndex;
+            DateTime startTime = GetTime(buffer, ref index);
+            DateTime endTime = GetTime(buffer, ref index);
+            DataFilter dataFilter = new DataFilter(); // TODO: get event filter
+            int archiveBit = GetByte(buffer, ref index);
+
+            List<Event> events = archiveHolder.GetEvents(startTime, endTime, dataFilter, archiveBit);
+            int totalEventCount = events.Count;
+            int blockCount = (int)Math.Ceiling((double)totalEventCount / EventBlockCapacity);
+            int eventIndex = 0;
+            buffer = client.OutBuf;
+
+            for (int blockNumber = 1; blockNumber <= blockCount; blockNumber++)
+            {
+                ResponsePacket response = new ResponsePacket(request, buffer);
+                index = ArgumentIndex;
+                CopyInt32(blockNumber, buffer, ref index);
+                CopyInt32(blockCount, buffer, ref index);
+                CopyInt32(totalEventCount, buffer, ref index);
+
+                int eventCount = Math.Min(totalEventCount - eventIndex, EventBlockCapacity); // events in this block
+                CopyInt32(eventCount, buffer, ref index);
+
+                for (int i = 0; i < eventCount; i++)
+                {
+                    CopyEvent(events[eventIndex], buffer, ref index);
+                    eventIndex++;
+                }
+
+                response.BufferLength = index;
+                client.SendResponse(response);
+            }
+        }
+
+        /// <summary>
         /// Writes the current data.
         /// </summary>
         protected void WriteCurrentData(ConnectedClient client, DataPacket request, out ResponsePacket response)
@@ -109,9 +252,7 @@ namespace Scada.Server.Engine
             for (int i = 0, idx1 = index, idx2 = idx1 + cnlCnt * 4; i < cnlCnt; i++)
             {
                 cnlNums[i] = GetInt32(buffer, ref idx1);
-                cnlData[i] = new CnlData(
-                    GetDouble(buffer, ref idx2),
-                    GetUInt16(buffer, ref idx2));
+                cnlData[i] = GetCnlData(buffer, ref idx2);
             }
 
             index += cnlCnt * 14;
@@ -136,9 +277,7 @@ namespace Scada.Server.Engine
             for (int i = 0, idx1 = index, idx2 = idx1 + cnlCnt * 4; i < cnlCnt; i++)
             {
                 slice.CnlNums[i] = GetInt32(buffer, ref idx1);
-                slice.CnlData[i] = new CnlData(
-                    GetDouble(buffer, ref idx2),
-                    GetUInt16(buffer, ref idx2));
+                slice.CnlData[i] = GetCnlData(buffer, ref idx2);
             }
 
             index += cnlCnt * 14;
@@ -158,6 +297,20 @@ namespace Scada.Server.Engine
             Event ev = GetEvent(request.Buffer, ref index);
             int archiveMask = GetInt32(request.Buffer, ref index);
             coreLogic.WriteEvent(ev, archiveMask);
+            response = new ResponsePacket(request, client.OutBuf);
+        }
+
+        /// <summary>
+        /// Acknowledges the event.
+        /// </summary>
+        protected void AckEvent(ConnectedClient client, DataPacket request, out ResponsePacket response)
+        {
+            byte[] buffer = request.Buffer;
+            int index = ArgumentIndex;
+            long eventID = GetInt64(buffer, ref index);
+            DateTime timestamp = GetTime(buffer, ref index);
+            int userID = GetInt32(buffer, ref index);
+            coreLogic.AckEvent(eventID, timestamp, userID);
             response = new ResponsePacket(request, client.OutBuf);
         }
 
@@ -182,11 +335,11 @@ namespace Scada.Server.Engine
 
             coreLogic.SendCommand(command, out CommandResult commandResult);
 
-            byte[] outBuf = client.OutBuf;
-            response = new ResponsePacket(request, outBuf);
+            buffer = client.OutBuf;
+            response = new ResponsePacket(request, buffer);
             index = ArgumentIndex;
-            CopyBool(commandResult.IsSuccessful, outBuf, ref index);
-            CopyString(commandResult.ErrorMessage, outBuf, ref index);
+            CopyBool(commandResult.IsSuccessful, buffer, ref index);
+            CopyString(commandResult.ErrorMessage, buffer, ref index);
             response.BufferLength = index;
         }
 
@@ -199,27 +352,27 @@ namespace Scada.Server.Engine
             long commandToRemove = BitConverter.ToInt64(buffer, ArgumentIndex);
             TeleCommand command = GetClientTag(client).GetCommand(commandToRemove);
 
-            byte[] outBuf = client.OutBuf;
-            response = new ResponsePacket(request, outBuf);
+            buffer = client.OutBuf;
+            response = new ResponsePacket(request, buffer);
             int index = ArgumentIndex;
 
             if (command == null)
             {
-                CopyInt64(0, outBuf, ref index);
+                CopyInt64(0, buffer, ref index);
             }
             else
             {
-                CopyInt64(command.CommandID, outBuf, ref index);
-                CopyTime(command.CreationTime, outBuf, ref index);
-                CopyInt32(command.UserID, outBuf, ref index);
-                CopyInt32(command.OutCnlNum, outBuf, ref index);
-                CopyInt32(command.CmdTypeID, outBuf, ref index);
-                CopyInt32(command.ObjNum, outBuf, ref index);
-                CopyInt32(command.DeviceNum, outBuf, ref index);
-                CopyInt32(command.CmdNum, outBuf, ref index);
-                CopyString(command.CmdCode, outBuf, ref index);
-                CopyDouble(command.CmdVal, outBuf, ref index);
-                CopyByteArray(command.CmdData, outBuf, ref index);
+                CopyInt64(command.CommandID, buffer, ref index);
+                CopyTime(command.CreationTime, buffer, ref index);
+                CopyInt32(command.UserID, buffer, ref index);
+                CopyInt32(command.OutCnlNum, buffer, ref index);
+                CopyInt32(command.CmdTypeID, buffer, ref index);
+                CopyInt32(command.ObjNum, buffer, ref index);
+                CopyInt32(command.DeviceNum, buffer, ref index);
+                CopyInt32(command.CmdNum, buffer, ref index);
+                CopyString(command.CmdCode, buffer, ref index);
+                CopyDouble(command.CmdVal, buffer, ref index);
+                CopyByteArray(command.CmdData, buffer, ref index);
             }
 
             response.BufferLength = index;
@@ -350,6 +503,22 @@ namespace Scada.Server.Engine
             {
                 case FunctionID.GetCurrentData:
                     GetCurrentData(client, request, out response);
+                    break;
+
+                case FunctionID.GetTrends:
+                    GetTrends(client, request);
+                    break;
+
+                case FunctionID.GetSlice:
+                    GetSlice(client, request, out response);
+                    break;
+
+                case FunctionID.GetEventByID:
+                    GetEventByID(client, request, out response);
+                    break;
+
+                case FunctionID.GetEvents:
+                    GetEvents(client, request);
                     break;
 
                 case FunctionID.WriteCurrentData:

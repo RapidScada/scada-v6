@@ -25,6 +25,7 @@
 
 using System;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace Scada.Data.Models
 {
@@ -38,28 +39,55 @@ namespace Scada.Data.Models
         /// Represents a list of data points.
         /// <para>Представляет список точек данных.</para>
         /// </summary>
-        public class DataPointList: List<CnlData>
+        public class PointList: List<CnlData>
         {
+            /// <summary>
+            /// Initializes a new instance of the class.
+            /// </summary>
+            public PointList(int capacity)
+                : base(capacity)
+            {
+            }
         }
 
 
         /// <summary>
         /// Initializes a new instance of the class.
         /// </summary>
-        public TrendBundle()
-            : this(0)
+        public TrendBundle(int cnlCnt, int trendCapacity)
         {
+            CnlNums = new int[cnlCnt];
+            Timestamps = new List<DateTime>(trendCapacity);
+            Trends = new List<PointList>(cnlCnt);
+
+            for (int i = 0; i < cnlCnt; i++)
+            {
+                Trends.Add(new PointList(trendCapacity));
+            }
         }
 
         /// <summary>
         /// Initializes a new instance of the class.
         /// </summary>
-        public TrendBundle(int capacity)
+        public TrendBundle(int[] cnlNums, int trendCapacity)
         {
-            Timestamps = new List<DateTime>(capacity);
-            Trends = new List<DataPointList>();
+            CnlNums = cnlNums ?? throw new ArgumentNullException("cnlNums");
+            int cnlCnt = CnlNums.Length;
+
+            Timestamps = new List<DateTime>(trendCapacity);
+            Trends = new List<PointList>(cnlCnt);
+
+            for (int i = 0; i < cnlCnt; i++)
+            {
+                Trends.Add(new PointList(trendCapacity));
+            }
         }
 
+
+        /// <summary>
+        /// Gets the input channel numbers.
+        /// </summary>
+        public int[] CnlNums { get; }
 
         /// <summary>
         /// Gets the ordered timestamps common for all trends.
@@ -69,6 +97,6 @@ namespace Scada.Data.Models
         /// <summary>
         /// Gets the trends having the same number of points.
         /// </summary>
-        public List<DataPointList> Trends { get; }
+        public List<PointList> Trends { get; }
     }
 }

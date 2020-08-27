@@ -116,5 +116,25 @@ namespace Scada.Protocol
             if (netStream.DataAvailable)
                 netStream.Read(buffer, 0, buffer.Length);
         }
+
+        /// <summary>
+        /// Throws an exception when block number in a data packet is not sequential.
+        /// </summary>
+        public static void ThrowBlockNumberException()
+        {
+            throw new ProtocolException(ErrorCode.IllegalFunctionArguments, Locale.IsRussian ?
+                "Неверный номер блока." :
+                "Invalid block number.");
+        }
+
+        /// <summary>
+        /// Throws an exception when data size in a data packet does not match.
+        /// </summary>
+        public static void ThrowDataSizeException()
+        {
+            throw new ProtocolException(ErrorCode.IllegalFunctionArguments, Locale.IsRussian ?
+                "Неверный размер данных." :
+                "Invalid data size.");
+        }
     }
 }

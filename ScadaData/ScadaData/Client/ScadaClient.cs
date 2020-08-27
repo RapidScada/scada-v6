@@ -56,16 +56,6 @@ namespace Scada.Client
 
 
         /// <summary>
-        /// Throws an exception when data size in a data packet does not match.
-        /// </summary>
-        protected void ThrowDataSizeException()
-        {
-            throw new ProtocolException(ErrorCode.IllegalFunctionArguments, Locale.IsRussian ?
-                "Неверный размер данных." :
-                "Invalid data size.");
-        }
-
-        /// <summary>
         /// Gets the current data.
         /// </summary>
         public CnlData[] GetCurrentData(ref long cnlListID)
@@ -117,7 +107,169 @@ namespace Scada.Client
         /// </summary>
         public TrendBundle GetTrends(int[] cnlNums, DateTime startTime, DateTime endTime, int archiveBit)
         {
-            return null;
+            RestoreConnection();
+
+            DataPacket request = CreateRequest(FunctionID.GetTrends);
+            int index = ArgumentIndex;
+            CopyIntArray(cnlNums, outBuf, ref index);
+            CopyTime(startTime, outBuf, ref index);
+            CopyTime(endTime, outBuf, ref index);
+            CopyByte((byte)archiveBit, outBuf, ref index);
+            request.BufferLength = index;
+            SendRequest(request);
+
+            TrendBundle trendBundle = null;
+            int prevBlockNumber = 0;
+            int blockNumber = 0;
+            int blockCount = int.MaxValue;
+            int totalPointCount = 0;
+
+            while (blockNumber < blockCount)
+            {
+                DataPacket response = ReceiveResponse(request);
+                index = ArgumentIndex;
+                blockNumber = GetInt32(inBuf, ref index);
+                blockCount = GetInt32(inBuf, ref index);
+                totalPointCount = GetInt32(inBuf, ref index);
+                int pointCount = GetInt32(inBuf, ref index);
+
+                if (blockNumber != prevBlockNumber + 1)
+                    ThrowBlockNumberException();
+
+                if (trendBundle == null)
+                    trendBundle = new TrendBundle(cnlNums, totalPointCount);
+
+                for (int i = 0; i < pointCount; i++)
+                {
+                    trendBundle.Timestamps.Add(GetTime(inBuf, ref index));
+                }
+
+                foreach (TrendBundle.PointList trend in trendBundle.Trends)
+                {
+                    for (int i = 0; i < pointCount; i++)
+                    {
+                        trend.Add(new CnlData(
+                            GetDouble(inBuf, ref index),
+                            GetUInt16(inBuf, ref index)));
+                    }
+                }
+
+                prevBlockNumber = blockNumber;
+                OnProgress(blockNumber, blockCount);
+            }
+
+            if (trendBundle.Timestamps.Count != totalPointCount)
+                ThrowDataSizeException();
+
+            return trendBundle;
+        }
+
+        /// <summary>
+        /// Gets the trend of the specified input channel.
+        /// </summary>
+        public Trend GetTrend(int cnlNum, DateTime startTime, DateTime endTime, int archiveBit)
+        {
+            RestoreConnection();
+
+            DataPacket request = CreateRequest(FunctionID.GetTrends);
+            int index = ArgumentIndex;
+            CopyInt32(1, outBuf, ref index);
+            CopyInt32(cnlNum, outBuf, ref index);
+            CopyTime(startTime, outBuf, ref index);
+            CopyTime(endTime, outBuf, ref index);
+            CopyByte((byte)archiveBit, outBuf, ref index);
+            request.BufferLength = index;
+            SendRequest(request);
+
+            Trend trend = null;
+            int prevBlockNumber = 0;
+            int blockNumber = 0;
+            int blockCount = int.MaxValue;
+            int totalPointCount = 0;
+
+            while (blockNumber < blockCount)
+            {
+                DataPacket response = ReceiveResponse(request);
+                index = ArgumentIndex;
+                blockNumber = GetInt32(inBuf, ref index);
+                blockCount = GetInt32(inBuf, ref index);
+                totalPointCount = GetInt32(inBuf, ref index);
+                int pointCount = GetInt32(inBuf, ref index);
+
+                if (blockNumber != prevBlockNumber + 1)
+                    ThrowBlockNumberException();
+
+                if (trend == null)
+                    trend = new Trend(cnlNum, totalPointCount);
+
+                for (int i = 0, idx1 = index, idx2 = idx1 + pointCount * 8; i < pointCount; i++)
+                {
+                    trend.Points.Add(new TrendPoint(
+                        GetTime(inBuf, ref idx1),
+                        GetDouble(inBuf, ref idx2),
+                        GetUInt16(inBuf, ref idx2)));
+                }
+
+                prevBlockNumber = blockNumber;
+                OnProgress(blockNumber, blockCount);
+            }
+
+            if (trend.Points.Count != totalPointCount)
+                ThrowDataSizeException();
+
+            return trend;
+        }
+
+        /// <summary>
+        /// Gets the available timestamps.
+        /// </summary>
+        public List<DateTime> GetTimestamps(DateTime startTime, DateTime endTime, int archiveBit)
+        {
+            RestoreConnection();
+
+            DataPacket request = CreateRequest(FunctionID.GetTrends);
+            int index = ArgumentIndex;
+            CopyInt32(0, outBuf, ref index);
+            CopyTime(startTime, outBuf, ref index);
+            CopyTime(endTime, outBuf, ref index);
+            CopyByte((byte)archiveBit, outBuf, ref index);
+            request.BufferLength = index;
+            SendRequest(request);
+
+            List<DateTime> timestamps = null;
+            int prevBlockNumber = 0;
+            int blockNumber = 0;
+            int blockCount = int.MaxValue;
+            int totalPointCount = 0;
+
+            while (blockNumber < blockCount)
+            {
+                DataPacket response = ReceiveResponse(request);
+                index = ArgumentIndex;
+                blockNumber = GetInt32(inBuf, ref index);
+                blockCount = GetInt32(inBuf, ref index);
+                totalPointCount = GetInt32(inBuf, ref index);
+                int pointCount = GetInt32(inBuf, ref index);
+
+                if (blockNumber != prevBlockNumber + 1)
+                    ThrowBlockNumberException();
+
+                if (timestamps == null)
+                    timestamps = new List<DateTime>(totalPointCount);
+
+                for (int i = 0; i < pointCount; i++)
+                {
+                    timestamps.Add(GetTime(inBuf, ref index));
+                }
+
+                prevBlockNumber = blockNumber;
+                OnProgress(blockNumber, blockCount);
+            }
+
+            if (timestamps.Count != totalPointCount)
+                ThrowDataSizeException();
+
+            return timestamps;
         }
 
         /// <summary>
@@ -160,16 +312,60 @@ namespace Scada.Client
             SendRequest(request);
 
             DataPacket response = ReceiveResponse(request);
-            index = ArgumentIndex;
-            return GetEvent(inBuf, ref index);
+            index = ArgumentIndex;            
+            return GetBool(inBuf, ref index) ? GetEvent(inBuf, ref index) : null;
         }
 
         /// <summary>
         /// Gets the events.
         /// </summary>
-        public ICollection<Event> GetEvents(DateTime startTime, DateTime endTime, DataFilter filter, int archiveBit)
+        public List<Event> GetEvents(DateTime startTime, DateTime endTime, DataFilter filter, int archiveBit)
         {
-            return null;
+            RestoreConnection();
+
+            DataPacket request = CreateRequest(FunctionID.GetEvents);
+            int index = ArgumentIndex;
+            CopyTime(startTime, outBuf, ref index);
+            CopyTime(endTime, outBuf, ref index);
+            // TODO: copy data filter
+            CopyByte((byte)archiveBit, outBuf, ref index);
+            request.BufferLength = index;
+            SendRequest(request);
+
+            List<Event> events = null;
+            int prevBlockNumber = 0;
+            int blockNumber = 0;
+            int blockCount = int.MaxValue;
+            int totalEventCount = 0;
+
+            while (blockNumber < blockCount)
+            {
+                DataPacket response = ReceiveResponse(request);
+                index = ArgumentIndex;
+                blockNumber = GetInt32(inBuf, ref index);
+                blockCount = GetInt32(inBuf, ref index);
+                totalEventCount = GetInt32(inBuf, ref index);
+                int eventCount = GetInt32(inBuf, ref index);
+
+                if (blockNumber != prevBlockNumber + 1)
+                    ThrowBlockNumberException();
+
+                if (events == null)
+                    events = new List<Event>(totalEventCount);
+
+                for (int i = 0; i < eventCount; i++)
+                {
+                    events.Add(GetEvent(inBuf, ref index));
+                }
+
+                prevBlockNumber = blockNumber;
+                OnProgress(blockNumber, blockCount);
+            }
+
+            if (events.Count != totalEventCount)
+                ThrowDataSizeException();
+
+            return events;
         }
 
         /// <summary>
@@ -195,8 +391,7 @@ namespace Scada.Client
             {
                 CnlData cnlDataElem = cnlData[i];
                 CopyInt32(cnlNums[i], outBuf, ref idx1);
-                CopyDouble(cnlDataElem.Val, outBuf, ref idx2);
-                CopyUInt16((ushort)cnlDataElem.Stat, outBuf, ref idx2);
+                CopyCnlData(cnlDataElem, outBuf, ref idx2);
             }
 
             index += cnlCnt * 14;
@@ -228,8 +423,7 @@ namespace Scada.Client
             {
                 CnlData cnlDataElem = slice.CnlData[i];
                 CopyInt32(slice.CnlNums[i], outBuf, ref idx1);
-                CopyDouble(cnlDataElem.Val, outBuf, ref idx2);
-                CopyUInt16((ushort)cnlDataElem.Stat, outBuf, ref idx2);
+                CopyCnlData(cnlDataElem, outBuf, ref idx2);
             }
 
             index += cnlCnt * 14;
@@ -253,6 +447,24 @@ namespace Scada.Client
             DataPacket request = CreateRequest(FunctionID.WriteEvent);
             int index = ArgumentIndex;
             CopyEvent(ev, outBuf, ref index);
+            request.BufferLength = index;
+
+            SendRequest(request);
+            ReceiveResponse(request);
+        }
+
+        /// <summary>
+        /// Acknowledges the event.
+        /// </summary>
+        public void AckEvent(long eventID, DateTime timestamp, int userID)
+        {
+            RestoreConnection();
+
+            DataPacket request = CreateRequest(FunctionID.AckEvent);
+            int index = ArgumentIndex;
+            CopyInt64(eventID, outBuf, ref index);
+            CopyTime(timestamp, outBuf, ref index);
+            CopyInt32(userID, outBuf, ref index);
             request.BufferLength = index;
 
             SendRequest(request);

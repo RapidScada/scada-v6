@@ -23,9 +23,7 @@
  * Modified : 2020
  */
 
-using System;
 using System.Collections.Generic;
-using System.Text;
 
 namespace Scada.Data.Tables
 {
@@ -35,6 +33,33 @@ namespace Scada.Data.Tables
     /// </summary>
     public class DataFilter
     {
+        /// <summary>
+        /// Initializes a new instance of the class.
+        /// </summary>
+        public DataFilter()
+        {
+            Limit = 0;
+            Offset = 0;
+            OriginBegin = true;
+            Conditions = new List<FilterCondition>();
+        }
+
+
+        /// <summary>
+        /// Gets or sets the limit on the number of selected items.
+        /// </summary>
+        public int Limit { get; set; }
+
+        /// <summary>
+        /// Gets or sets the number of selected items to skip.
+        /// </summary>
+        public int Offset { get; set; }
+
+        /// <summary>
+        /// Gets or sets a value whether to get a limited number of items from the beginning or from the end.
+        /// </summary>
+        public bool OriginBegin { get; set; }
+
         /// <summary>
         /// Gets the filter conditions.
         /// </summary>

@@ -25,6 +25,7 @@
 
 using Scada.Data.Const;
 using Scada.Data.Models;
+using Scada.Data.Tables;
 using Scada.Log;
 using Scada.Server.Archives;
 using System;
@@ -86,11 +87,59 @@ namespace Scada.Server.Engine
         }
 
         /// <summary>
+        /// Gets the trends of the specified input channels.
+        /// </summary>
+        public TrendBundle GetTrends(int[] cnlNums, DateTime startTime, DateTime endTime, int archiveBit)
+        {
+            return null;
+        }
+
+        /// <summary>
+        /// Gets the trend of the specified input channel.
+        /// </summary>
+        public Trend GetTrend(int cnlNum, DateTime startTime, DateTime endTime, int archiveBit)
+        {
+            return null;
+        }
+
+        /// <summary>
+        /// Gets the available timestamps.
+        /// </summary>
+        public List<DateTime> GetTimestamps(DateTime startTime, DateTime endTime, int archiveBit)
+        {
+            return null;
+        }
+
+        /// <summary>
+        /// Gets the slice of the specified input channels at the timestamp.
+        /// </summary>
+        public Slice GetSlice(int[] cnlNums, DateTime timestamp, int archiveBit)
+        {
+            return null;
+        }
+
+        /// <summary>
+        /// Gets the event by ID.
+        /// </summary>
+        public Event GetEventByID(long eventID, int archiveBit)
+        {
+            return null;
+        }
+
+        /// <summary>
+        /// Gets the events.
+        /// </summary>
+        public List<Event> GetEvents(DateTime startTime, DateTime endTime, DataFilter filter, int archiveBit)
+        {
+            return null;
+        }
+
+        /// <summary>
         /// Writes the slice of input channels to the historical archives, performing calculations.
         /// </summary>
         public void WriteSlice(Slice slice, int archiveMask, bool applyFormulas)
         {
-            // TODO: write slice to archives
+            // TODO: write slice to archives, likely move to CoreLogic
             Calculator calc = null;
             Dictionary<int, CnlTag> cnlTags = null;
             List<CnlTag> calcCnlTags = null;

@@ -521,12 +521,9 @@ namespace Scada.Client
                     readingResult = (FileReadingResult)GetByte(inBuf, ref index);
 
                     if (blockNumber != prevBlockNumber + 1)
-                    {
-                        throw new ProtocolException(ErrorCode.IllegalFunctionArguments, Locale.IsRussian ?
-                            "Неверный номер блока." :
-                            "Invalid block number.");
-                    }
-                    else if (readingResult == FileReadingResult.Successful ||
+                        ThrowBlockNumberException();
+
+                    if (readingResult == FileReadingResult.Successful ||
                         readingResult == FileReadingResult.EndOfFile)
                     {
                         if (stream == null)

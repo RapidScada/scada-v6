@@ -360,23 +360,23 @@ namespace Scada.Server
         {
             bool formatError = true;
             string errDescr = "";
-            byte[] inBuf = client.InBuf;
+            byte[] buffer = client.InBuf;
             int bytesToRead = HeaderLength + 2;
-            int bytesRead = client.NetStream.Read(inBuf, 0, bytesToRead);
+            int bytesRead = client.NetStream.Read(buffer, 0, bytesToRead);
             dataPacket = null;
 
             if (bytesRead == bytesToRead)
             {
                 DataPacket request = new DataPacket
                 {
-                    TransactionID = BitConverter.ToUInt16(inBuf, 0),
-                    DataLength = BitConverter.ToInt32(inBuf, 2),
-                    SessionID = BitConverter.ToInt64(inBuf, 6),
-                    FunctionID = BitConverter.ToUInt16(inBuf, 14),
-                    Buffer = inBuf
+                    TransactionID = BitConverter.ToUInt16(buffer, 0),
+                    DataLength = BitConverter.ToInt32(buffer, 2),
+                    SessionID = BitConverter.ToInt64(buffer, 6),
+                    FunctionID = BitConverter.ToUInt16(buffer, 14),
+                    Buffer = buffer
                 };
 
-                if (request.DataLength + 6 > inBuf.Length)
+                if (request.DataLength + 6 > buffer.Length)
                 {
                     errDescr = Locale.IsRussian ?
                         "длина данных слишком велика" :
@@ -422,7 +422,7 @@ namespace Scada.Server
                     "Incorrect format of data received from the client {0}: {1}",
                     client.Address, errDescr));
 
-                ClearNetStream(client.NetStream, inBuf);
+                ClearNetStream(client.NetStream, buffer);
             }
 
             return dataPacket != null;
@@ -528,31 +528,31 @@ namespace Scada.Server
         /// </summary>
         protected void Login(ConnectedClient client, DataPacket request, out ResponsePacket response)
         {
-            byte[] inBuf = client.InBuf;
+            byte[] buffer = client.InBuf;
             int index = ArgumentIndex;
-            string username = GetString(inBuf, ref index);
-            string encryptedPassword = GetString(inBuf, ref index);
-            string instance = GetString(inBuf, ref index);
+            string username = GetString(buffer, ref index);
+            string encryptedPassword = GetString(buffer, ref index);
+            string instance = GetString(buffer, ref index);
             string password = DecryptPassword(encryptedPassword, client.SessionID, listenerOptions.SecretKey);
 
-            byte[] outBuf = client.OutBuf;
-            response = new ResponsePacket(request, outBuf);
+            buffer = client.OutBuf;
+            response = new ResponsePacket(request, buffer);
             index = ArgumentIndex;
 
             if (ProtectBruteForce(out string errMsg) &&
                 ValidateUser(client, username, password, instance, out int userID, out int roleID, out errMsg))
             {
-                CopyBool(true, outBuf, ref index);
-                CopyInt32(userID, outBuf, ref index);
-                CopyInt32(roleID, outBuf, ref index);
-                CopyString("", outBuf, ref index);
+                CopyBool(true, buffer, ref index);
+                CopyInt32(userID, buffer, ref index);
+                CopyInt32(roleID, buffer, ref index);
+                CopyString("", buffer, ref index);
             }
             else
             {
-                CopyBool(false, outBuf, ref index);
-                CopyInt32(0, outBuf, ref index);
-                CopyInt32(0, outBuf, ref index);
-                CopyString(errMsg, outBuf, ref index);
+                CopyBool(false, buffer, ref index);
+                CopyInt32(0, buffer, ref index);
+                CopyInt32(0, buffer, ref index);
+                CopyString(errMsg, buffer, ref index);
 
                 RegisterUnsuccessfulLogin();
                 Thread.Sleep(WrongPasswordDelay);
@@ -700,13 +700,13 @@ namespace Scada.Server
         /// </summary>
         protected void DownloadFile(ConnectedClient client, DataPacket request)
         {
-            byte[] inBuf = client.InBuf;
+            byte[] buffer = client.InBuf;
             int index = ArgumentIndex;
-            string fileName = GetFileName(inBuf, ref index);
-            long offset = GetInt64(inBuf, ref index);
-            int count = GetInt32(inBuf, ref index);
-            SeekOrigin origin = inBuf[index++] == 0 ? SeekOrigin.Begin : SeekOrigin.End;
-            DateTime newerThan = GetTime(inBuf, ref index);
+            string fileName = GetFileName(buffer, ref index);
+            long offset = GetInt64(buffer, ref index);
+            int count = GetInt32(buffer, ref index);
+            SeekOrigin origin = buffer[index++] == 0 ? SeekOrigin.Begin : SeekOrigin.End;
+            DateTime newerThan = GetTime(buffer, ref index);
             FileInfo fileInfo = new FileInfo(fileName);
 
             if (!fileInfo.Exists)
@@ -734,15 +734,13 @@ namespace Scada.Server
                     }
 
                     // prepare for reading
-                    const int FileDataIndex = ArgumentIndex + 13;
+                    const int FileDataIndex = ArgumentIndex + 17;
                     const int BlockCapacity = BufferLenght - FileDataIndex;
-                    long bytesToReadTotal = count > 0 ? 
-                        Math.Min(count, stream.Length - stream.Position) : stream.Length;
+                    long bytesToReadTotal = count > 0 ? Math.Min(count, stream.Length - stream.Position) : stream.Length;
                     long bytesReadTotal = 0;
                     int blockNumber = 1;
                     int blockCount = (int)Math.Ceiling((double)bytesToReadTotal / BlockCapacity);
                     DateTime fileAge = File.GetLastWriteTimeUtc(fileName);
-                    byte[] outBuf = client.OutBuf;
                     bool endOfFile = false;
 
                     while (!endOfFile)
@@ -756,13 +754,13 @@ namespace Scada.Server
 
                         // read from file
                         int bytesToRead = (int)Math.Min(bytesToReadTotal - bytesReadTotal, BlockCapacity);
-                        int bytesRead = stream.Read(outBuf, FileDataIndex, bytesToRead);
+                        int bytesRead = stream.Read(client.OutBuf, FileDataIndex, bytesToRead);
                         bytesReadTotal += bytesRead;
                         endOfFile = bytesRead < bytesToRead || bytesReadTotal == bytesToReadTotal;
 
                         // send response
                         ResponsePacket response = CreateDownloadResponse(
-                            request, outBuf, blockNumber, blockCount, fileAge, 
+                            request, client.OutBuf, blockNumber, blockCount, fileAge, 
                             endOfFile ? FileReadingResult.EndOfFile : FileReadingResult.Successful, bytesRead);
                         client.SendResponse(response);
                         blockNumber++;
@@ -774,17 +772,17 @@ namespace Scada.Server
         /// <summary>
         /// Creates a response to the file download request.
         /// </summary>
-        protected ResponsePacket CreateDownloadResponse(DataPacket request, byte[] outBuf, 
+        protected ResponsePacket CreateDownloadResponse(DataPacket request, byte[] buffer, 
             int blockNumber, int blockCount, DateTime fileAge, FileReadingResult fileReadingResult, int bytesRead)
         {
-            ResponsePacket response = new ResponsePacket(request, outBuf);
+            ResponsePacket response = new ResponsePacket(request, buffer);
             int index = ArgumentIndex;
-            CopyInt32(blockNumber, outBuf, ref index);
-            CopyInt32(blockCount, outBuf, ref index);
-            CopyTime(fileAge, outBuf, ref index);
-            CopyByte((byte)fileReadingResult, outBuf, ref index);
-            CopyInt32(bytesRead, outBuf, ref index);
-            response.ArgumentLength = 13 + bytesRead;
+            CopyInt32(blockNumber, buffer, ref index);
+            CopyInt32(blockCount, buffer, ref index);
+            CopyTime(fileAge, buffer, ref index);
+            CopyByte((byte)fileReadingResult, buffer, ref index);
+            CopyInt32(bytesRead, buffer, ref index);
+            response.BufferLength = index;
             return response;
         }
 
@@ -797,11 +795,7 @@ namespace Scada.Server
                 out bool endOfFile, out int bytesToWrite, out int fileDataIndex);
 
             if (blockNumber != 0)
-            {
-                throw new ProtocolException(ErrorCode.IllegalFunctionArguments, Locale.IsRussian ?
-                    "Неверный номер блока." :
-                    "Invalid block number.");
-            }
+                ThrowBlockNumberException();
 
             // check whether file is accepted
             bool fileAccepted = AcceptFileUpload(fileName);
@@ -854,11 +848,7 @@ namespace Scada.Server
                                 }
 
                                 if (++blockNumber != newBlockNumber)
-                                {
-                                    throw new ProtocolException(ErrorCode.IllegalFunctionArguments, Locale.IsRussian ?
-                                        "Неверный номер блока." :
-                                        "Invalid block number.");
-                                }
+                                    ThrowBlockNumberException();
 
                                 // write to destination file
                                 stream.Write(client.InBuf, fileDataIndex, bytesToWrite);

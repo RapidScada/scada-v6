@@ -36,14 +36,6 @@ namespace Scada.Data.Models
         /// <summary>
         /// Initializes a new instance of the class.
         /// </summary>
-        public Trend(int cnlNum)
-            : this(cnlNum, 0)
-        {
-        }
-
-        /// <summary>
-        /// Initializes a new instance of the class.
-        /// </summary>
         public Trend(int cnlNum, int capacity)
         {
             CnlNum = cnlNum;

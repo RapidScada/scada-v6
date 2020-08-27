@@ -181,7 +181,7 @@ namespace Scada.Server.Engine
             curData = new CurrentData(this, cnlTags);
             events = new Queue<Event>();
             serverCache = new ServerCache();
-            listener = new ServerListener(this, config, log);
+            listener = new ServerListener(this, archiveHolder, config, log);
             return true;
         }
 
