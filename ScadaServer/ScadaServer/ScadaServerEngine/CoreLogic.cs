@@ -181,7 +181,7 @@ namespace Scada.Server.Engine
             curData = new CurrentData(this, cnlTags);
             events = new Queue<Event>();
             serverCache = new ServerCache();
-            listener = new ServerListener(this, archiveHolder, config, log);
+            listener = new ServerListener(this, archiveHolder, serverCache, config, log);
             return true;
         }
 
@@ -862,39 +862,6 @@ namespace Scada.Server.Engine
         /// <summary>
         /// Gets the current data.
         /// </summary>
-        public CnlData[] GetCurrentData(long cnlListID)
-        {
-            CnlData[] cnlDataArr = null;
-
-            try
-            {
-                CnlListItem cnlListItem = serverCache.CnlListCache.Get(cnlListID);
-
-                if (cnlListItem != null)
-                {
-                    int cnlCnt = cnlListItem.CnlTags.Count;
-                    cnlDataArr = new CnlData[cnlCnt];
-
-                    for (int i = 0; i < cnlCnt; i++)
-                    {
-                        CnlTag cnlTag = cnlListItem.CnlTags[i];
-                        cnlDataArr[i] = cnlTag.Index >= 0 ? curData.CnlData[cnlTag.Index] : CnlData.Empty;
-                    }
-                }
-            }
-            catch (Exception ex)
-            {
-                log.WriteException(ex, Locale.IsRussian ?
-                    "Ошибка при получении текущих данных" :
-                    "Error getting current data");
-            }
-
-            return cnlDataArr;
-        }
-
-        /// <summary>
-        /// Gets the current data.
-        /// </summary>
         public CnlData[] GetCurrentData(int[] cnlNums, bool useCache, out long cnlListID)
         {
             if (cnlNums == null)
@@ -910,7 +877,7 @@ namespace Scada.Server.Engine
 
                 if (useCache)
                 {
-                    cnlListID = serverCache.GetNextCnlListID();
+                    cnlListID = serverCache.GetNextID();
                     cnlListItem = new CnlListItem(cnlListID, cnlCnt);
                     serverCache.CnlListCache.Add(cnlListID, cnlListItem);
                 }
@@ -929,6 +896,39 @@ namespace Scada.Server.Engine
                             cnlDataArr[i] = CnlData.Empty;
                             cnlListItem?.CnlTags.Add(new CnlTag());
                         }
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                log.WriteException(ex, Locale.IsRussian ?
+                    "Ошибка при получении текущих данных" :
+                    "Error getting current data");
+            }
+
+            return cnlDataArr;
+        }
+
+        /// <summary>
+        /// Gets the current data.
+        /// </summary>
+        public CnlData[] GetCurrentData(long cnlListID)
+        {
+            CnlData[] cnlDataArr = null;
+
+            try
+            {
+                CnlListItem cnlListItem = serverCache.CnlListCache.Get(cnlListID);
+
+                if (cnlListItem != null)
+                {
+                    int cnlCnt = cnlListItem.CnlTags.Count;
+                    cnlDataArr = new CnlData[cnlCnt];
+
+                    for (int i = 0; i < cnlCnt; i++)
+                    {
+                        CnlTag cnlTag = cnlListItem.CnlTags[i];
+                        cnlDataArr[i] = cnlTag.Index >= 0 ? curData.CnlData[cnlTag.Index] : CnlData.Empty;
                     }
                 }
             }

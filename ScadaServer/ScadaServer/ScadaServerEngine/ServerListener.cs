@@ -49,17 +49,20 @@ namespace Scada.Server.Engine
 
         private readonly CoreLogic coreLogic;         // the server logic instance
         private readonly ArchiveHolder archiveHolder; // holds archives
+        private readonly ServerCache serverCache;     // the server level cache
         private readonly ServerConfig config;         // the server configuration
 
 
         /// <summary>
         /// Initializes a new instance of the class.
         /// </summary>
-        public ServerListener(CoreLogic coreLogic, ArchiveHolder archiveHolder, ServerConfig config, ILog log)
+        public ServerListener(CoreLogic coreLogic, ArchiveHolder archiveHolder, ServerCache serverCache, 
+            ServerConfig config, ILog log)
             : base(config.ListenerOptions, log)
         {
             this.coreLogic = coreLogic ?? throw new ArgumentNullException("coreLogic");
             this.archiveHolder = archiveHolder ?? throw new ArgumentNullException("archiveHolder");
+            this.serverCache = serverCache ?? throw new ArgumentNullException("serverCache");
             this.config = config ?? throw new ArgumentNullException("config");
         }
 
@@ -85,18 +88,21 @@ namespace Scada.Server.Engine
             if (cnlListID > 0)
             {
                 cnlData = coreLogic.GetCurrentData(cnlListID);
+
+                if (cnlData == null)
+                    cnlListID = 0;
             }
             else
             {
-                int[] cnlNums = GetIntArray(buffer, ref index);
                 bool useCache = GetBool(buffer, ref index);
+                int[] cnlNums = GetIntArray(buffer, ref index);
                 cnlData = coreLogic.GetCurrentData(cnlNums, useCache, out cnlListID);
             }
 
             byte[] outBuf = client.OutBuf;
             response = new ResponsePacket(request, outBuf);
             index = ArgumentIndex;
-            CopyInt64(cnlData == null ? 0 : cnlListID, outBuf, ref index);
+            CopyInt64(cnlListID, outBuf, ref index);
             CopyCnlDataArray(cnlData, outBuf, ref index);
             response.BufferLength = index;
         }
@@ -205,10 +211,33 @@ namespace Scada.Server.Engine
             int index = ArgumentIndex;
             DateTime startTime = GetTime(buffer, ref index);
             DateTime endTime = GetTime(buffer, ref index);
-            DataFilter dataFilter = new DataFilter(); // TODO: get event filter
+            long dataFilterID = GetInt64(buffer, ref index);
+            DataFilter dataFilter = null;
+
+            if (dataFilterID > 0)
+            {
+                dataFilter = serverCache.DataFilterCache.Get(dataFilterID);
+
+                if (dataFilter == null)
+                    dataFilterID = 0;
+            }
+            else
+            {
+                bool useCache = GetBool(buffer, ref index);
+                dataFilter = GetDataFilter(typeof(Event), buffer, ref index);
+
+                if (useCache)
+                {
+                    dataFilterID = serverCache.GetNextID();
+                    serverCache.DataFilterCache.Add(dataFilterID, dataFilter);
+                }
+            }
+
             int archiveBit = GetByte(buffer, ref index);
 
-            List<Event> events = archiveHolder.GetEvents(startTime, endTime, dataFilter, archiveBit);
+            List<Event> events = dataFilter == null ?
+                new List<Event>() :
+                archiveHolder.GetEvents(startTime, endTime, dataFilter, archiveBit);
             int totalEventCount = events.Count;
             int blockCount = (int)Math.Ceiling((double)totalEventCount / EventBlockCapacity);
             int eventIndex = 0;
@@ -220,6 +249,7 @@ namespace Scada.Server.Engine
                 index = ArgumentIndex;
                 CopyInt32(blockNumber, buffer, ref index);
                 CopyInt32(blockCount, buffer, ref index);
+                CopyInt64(dataFilterID, buffer, ref index);
                 CopyInt32(totalEventCount, buffer, ref index);
 
                 int eventCount = Math.Min(totalEventCount - eventIndex, EventBlockCapacity); // events in this block

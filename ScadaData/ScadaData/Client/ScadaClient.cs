@@ -56,21 +56,47 @@ namespace Scada.Client
 
 
         /// <summary>
-        /// Gets the current data.
+        /// Receives requested events.
         /// </summary>
-        public CnlData[] GetCurrentData(ref long cnlListID)
+        protected List<Event> ReceiveEvents(DataPacket request, out long filterID)
         {
-            RestoreConnection();
+            List<Event> events = null;
+            filterID = 0;
 
-            DataPacket request = CreateRequest(FunctionID.GetCurrentData);
-            CopyInt64(cnlListID, outBuf, ArgumentIndex);
-            request.ArgumentLength = 8;
-            SendRequest(request);
+            int prevBlockNumber = 0;
+            int blockNumber = 0;
+            int blockCount = int.MaxValue;
+            int totalEventCount = 0;
 
-            DataPacket response = ReceiveResponse(request);
-            int index = ArgumentIndex;
-            cnlListID = GetInt64(inBuf, ref index);
-            return cnlListID > 0 ? GetCnlDataArray(inBuf, ref index) : null;
+            while (blockNumber < blockCount)
+            {
+                DataPacket response = ReceiveResponse(request);
+                int index = ArgumentIndex;
+                blockNumber = GetInt32(inBuf, ref index);
+                blockCount = GetInt32(inBuf, ref index);
+                filterID = GetInt64(inBuf, ref index);
+                totalEventCount = GetInt32(inBuf, ref index);
+                int eventCount = GetInt32(inBuf, ref index);
+
+                if (blockNumber != prevBlockNumber + 1)
+                    ThrowBlockNumberException();
+
+                if (events == null)
+                    events = new List<Event>(totalEventCount);
+
+                for (int i = 0; i < eventCount; i++)
+                {
+                    events.Add(GetEvent(inBuf, ref index));
+                }
+
+                prevBlockNumber = blockNumber;
+                OnProgress(blockNumber, blockCount);
+            }
+
+            if (events.Count != totalEventCount)
+                ThrowDataSizeException();
+
+            return events;
         }
 
         /// <summary>
@@ -86,8 +112,8 @@ namespace Scada.Client
             DataPacket request = CreateRequest(FunctionID.GetCurrentData);
             int index = ArgumentIndex;
             CopyInt64(0, outBuf, ref index);
-            CopyIntArray(cnlNums, outBuf, ref index);
             CopyBool(useCache, outBuf, ref index);
+            CopyIntArray(cnlNums, outBuf, ref index);
             request.BufferLength = index;
             SendRequest(request);
 
@@ -100,6 +126,24 @@ namespace Scada.Client
                 ThrowDataSizeException();
 
             return cnlData;
+        }
+
+        /// <summary>
+        /// Gets the current data.
+        /// </summary>
+        public CnlData[] GetCurrentData(ref long cnlListID)
+        {
+            RestoreConnection();
+
+            DataPacket request = CreateRequest(FunctionID.GetCurrentData);
+            CopyInt64(cnlListID, outBuf, ArgumentIndex);
+            request.ArgumentLength = 8;
+            SendRequest(request);
+
+            DataPacket response = ReceiveResponse(request);
+            int index = ArgumentIndex;
+            cnlListID = GetInt64(inBuf, ref index);
+            return cnlListID > 0 ? GetCnlDataArray(inBuf, ref index) : null;
         }
 
         /// <summary>
@@ -319,7 +363,8 @@ namespace Scada.Client
         /// <summary>
         /// Gets the events.
         /// </summary>
-        public List<Event> GetEvents(DateTime startTime, DateTime endTime, DataFilter filter, int archiveBit)
+        public List<Event> GetEvents(DateTime startTime, DateTime endTime, DataFilter filter, int archiveBit, 
+            bool useCache, out long filterID)
         {
             RestoreConnection();
 
@@ -327,45 +372,33 @@ namespace Scada.Client
             int index = ArgumentIndex;
             CopyTime(startTime, outBuf, ref index);
             CopyTime(endTime, outBuf, ref index);
-            // TODO: copy data filter
+            CopyInt64(0, outBuf, ref index);
+            CopyBool(useCache, outBuf, ref index);
+            CopyDataFilter(filter, outBuf, ref index);
             CopyByte((byte)archiveBit, outBuf, ref index);
             request.BufferLength = index;
             SendRequest(request);
 
-            List<Event> events = null;
-            int prevBlockNumber = 0;
-            int blockNumber = 0;
-            int blockCount = int.MaxValue;
-            int totalEventCount = 0;
+            return ReceiveEvents(request, out filterID);
+        }
 
-            while (blockNumber < blockCount)
-            {
-                DataPacket response = ReceiveResponse(request);
-                index = ArgumentIndex;
-                blockNumber = GetInt32(inBuf, ref index);
-                blockCount = GetInt32(inBuf, ref index);
-                totalEventCount = GetInt32(inBuf, ref index);
-                int eventCount = GetInt32(inBuf, ref index);
+        /// <summary>
+        /// Gets the events.
+        /// </summary>
+        public List<Event> GetEvents(DateTime startTime, DateTime endTime, ref long filterID, int archiveBit)
+        {
+            RestoreConnection();
 
-                if (blockNumber != prevBlockNumber + 1)
-                    ThrowBlockNumberException();
+            DataPacket request = CreateRequest(FunctionID.GetEvents);
+            int index = ArgumentIndex;
+            CopyTime(startTime, outBuf, ref index);
+            CopyTime(endTime, outBuf, ref index);
+            CopyInt64(filterID, outBuf, ref index);
+            CopyByte((byte)archiveBit, outBuf, ref index);
+            request.BufferLength = index;
+            SendRequest(request);
 
-                if (events == null)
-                    events = new List<Event>(totalEventCount);
-
-                for (int i = 0; i < eventCount; i++)
-                {
-                    events.Add(GetEvent(inBuf, ref index));
-                }
-
-                prevBlockNumber = blockNumber;
-                OnProgress(blockNumber, blockCount);
-            }
-
-            if (events.Count != totalEventCount)
-                ThrowDataSizeException();
-
-            return events;
+            return ReceiveEvents(request, out filterID);
         }
 
         /// <summary>

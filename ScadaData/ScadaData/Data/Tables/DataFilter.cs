@@ -23,7 +23,9 @@
  * Modified : 2020
  */
 
+using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 
 namespace Scada.Data.Tables
 {
@@ -34,16 +36,30 @@ namespace Scada.Data.Tables
     public class DataFilter
     {
         /// <summary>
+        /// The collection of properties for the item type.
+        /// </summary>
+        protected PropertyDescriptorCollection itemProperties;
+
+
+        /// <summary>
         /// Initializes a new instance of the class.
         /// </summary>
-        public DataFilter()
+        public DataFilter(Type itemType)
         {
+            ItemType = itemType ?? throw new ArgumentNullException("itemType");
+            itemProperties = TypeDescriptor.GetProperties(itemType);
+
             Limit = 0;
             Offset = 0;
             OriginBegin = true;
             Conditions = new List<FilterCondition>();
         }
 
+
+        /// <summary>
+        /// Gets the type of the filtered items.
+        /// </summary>
+        public Type ItemType { get; }
 
         /// <summary>
         /// Gets or sets the limit on the number of selected items.
@@ -64,5 +80,17 @@ namespace Scada.Data.Tables
         /// Gets the filter conditions.
         /// </summary>
         public List<FilterCondition> Conditions { get; }
+
+
+        /// <summary>
+        /// Adds a new filter condition.
+        /// </summary>
+        public FilterCondition AddCondition(string columnName, FilterOperator filterOperator, params object[] args)
+        {
+            FilterCondition condition = 
+                new FilterCondition(columnName, itemProperties[columnName], filterOperator, args);
+            Conditions.Add(condition);
+            return condition;
+        }
     }
 }

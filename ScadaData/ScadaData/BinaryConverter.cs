@@ -24,7 +24,10 @@
  */
 
 using Scada.Data.Models;
+using Scada.Data.Tables;
 using System;
+using System.Collections;
+using System.Collections.Generic;
 using System.Text;
 
 namespace Scada
@@ -232,6 +235,46 @@ namespace Scada
         }
 
         /// <summary>
+        /// Encodes and copies the collection of integers to the buffer.
+        /// </summary>
+        public static void CopyIntCollection(ICollection<int> values, byte[] buffer, ref int index)
+        {
+            if (values == null)
+            {
+                CopyInt32(0, buffer, ref index);
+            }
+            else
+            {
+                CopyInt32(values.Count, buffer, ref index);
+
+                foreach (int value in values)
+                {
+                    CopyInt32(value, buffer, ref index);
+                }
+            }
+        }
+
+        /// <summary>
+        /// Encodes and copies the collection of double-precision floating point numbers to the buffer.
+        /// </summary>
+        public static void CopyDoubleCollection(ICollection<double> values, byte[] buffer, ref int index)
+        {
+            if (values == null)
+            {
+                CopyInt32(0, buffer, ref index);
+            }
+            else
+            {
+                CopyInt32(values.Count, buffer, ref index);
+
+                foreach (double value in values)
+                {
+                    CopyDouble(value, buffer, ref index);
+                }
+            }
+        }
+
+        /// <summary>
         /// Encodes and copies the channel data array to the buffer.
         /// </summary>
         public static void CopyCnlDataArray(CnlData[] srcArray, byte[] buffer, ref int index)
@@ -253,25 +296,76 @@ namespace Scada
         /// </summary>
         public static void CopyEvent(Event ev, byte[] buffer, ref int index)
         {
-            CopyInt64(ev.EventID, buffer, ref index);
-            CopyTime(ev.Timestamp, buffer, ref index);
-            CopyBool(ev.Hidden, buffer, ref index);
-            CopyInt32(ev.CnlNum, buffer, ref index);
-            CopyInt32(ev.OutCnlNum, buffer, ref index);
-            CopyInt32(ev.ObjNum, buffer, ref index);
-            CopyInt32(ev.DeviceNum, buffer, ref index);
-            CopyDouble(ev.PrevCnlVal, buffer, ref index);
-            CopyUInt16((ushort)ev.PrevCnlStat, buffer, ref index);
-            CopyDouble(ev.CnlVal, buffer, ref index);
-            CopyUInt16((ushort)ev.CnlStat, buffer, ref index);
-            CopyUInt16((ushort)ev.Severity, buffer, ref index);
-            CopyBool(ev.AckRequired, buffer, ref index);
-            CopyBool(ev.Ack, buffer, ref index);
-            CopyTime(ev.AckTimestamp, buffer, ref index);
-            CopyInt32(ev.AckUserID, buffer, ref index);
-            CopyByte((byte)ev.TextFormat, buffer, ref index);
-            CopyString(ev.Text, buffer, ref index);
-            CopyByteArray(ev.Data, buffer, ref index);
+            if (ev != null)
+            {
+                CopyInt64(ev.EventID, buffer, ref index);
+                CopyTime(ev.Timestamp, buffer, ref index);
+                CopyBool(ev.Hidden, buffer, ref index);
+                CopyInt32(ev.CnlNum, buffer, ref index);
+                CopyInt32(ev.OutCnlNum, buffer, ref index);
+                CopyInt32(ev.ObjNum, buffer, ref index);
+                CopyInt32(ev.DeviceNum, buffer, ref index);
+                CopyDouble(ev.PrevCnlVal, buffer, ref index);
+                CopyUInt16((ushort)ev.PrevCnlStat, buffer, ref index);
+                CopyDouble(ev.CnlVal, buffer, ref index);
+                CopyUInt16((ushort)ev.CnlStat, buffer, ref index);
+                CopyUInt16((ushort)ev.Severity, buffer, ref index);
+                CopyBool(ev.AckRequired, buffer, ref index);
+                CopyBool(ev.Ack, buffer, ref index);
+                CopyTime(ev.AckTimestamp, buffer, ref index);
+                CopyInt32(ev.AckUserID, buffer, ref index);
+                CopyByte((byte)ev.TextFormat, buffer, ref index);
+                CopyString(ev.Text, buffer, ref index);
+                CopyByteArray(ev.Data, buffer, ref index);
+            }
+        }
+
+        /// <summary>
+        /// Copies the data filter to the buffer.
+        /// </summary>
+        public static void CopyDataFilter(DataFilter filter, byte[] buffer, ref int index)
+        {
+            if (filter != null)
+            {
+                CopyInt32(filter.Limit, buffer, ref index);
+                CopyInt32(filter.Offset, buffer, ref index);
+                CopyBool(filter.OriginBegin, buffer, ref index);
+                CopyInt32(filter.Conditions.Count, buffer, ref index);
+
+                foreach (FilterCondition condition in filter.Conditions)
+                {
+                    CopyString(condition.ColumnName, buffer, ref index);
+                    CopyByte((byte)condition.DataType, buffer, ref index);
+
+                    switch (condition.DataType)
+                    {
+                        case ColumnDataType.Integer:
+                        case ColumnDataType.Boolean:
+                            if (condition.Argument is ICollection<int> intCollection)
+                            {
+                                CopyIntCollection(intCollection, buffer, ref index);
+                            }
+                            else if (condition.Argument is int intVal)
+                            {
+                                CopyInt32(1, buffer, ref index);
+                                CopyInt32(intVal, buffer, ref index);
+                            }
+                            break;
+
+                        case ColumnDataType.Double:
+                            if (condition.Argument is ICollection<double> doubleCollection)
+                            {
+                                CopyDoubleCollection(doubleCollection, buffer, ref index);
+                            }
+                            else if (condition.Argument is double doubleVal)
+                            {
+                                CopyInt32(1, buffer, ref index);
+                                CopyDouble(doubleVal, buffer, ref index);
+                            }
+                            break;
+                    }
+                }
+            }
         }
 
 
@@ -413,6 +507,27 @@ namespace Scada
         }
 
         /// <summary>
+        /// Gets an array of double-precision floating point numbers from the buffer.
+        /// </summary>
+        public static double[] GetDoubleArray(byte[] buffer, ref int index)
+        {
+            int arrayLength = GetInt32(buffer, ref index);
+
+            if (arrayLength > 0)
+            {
+                double[] array = new double[arrayLength];
+                int dataLength = arrayLength * 8;
+                Buffer.BlockCopy(buffer, index, array, 0, dataLength);
+                index += dataLength;
+                return array;
+            }
+            else
+            {
+                return new double[0];
+            }
+        }
+
+        /// <summary>
         /// Gets a channel data array from the buffer.
         /// </summary>
         public static CnlData[] GetCnlDataArray(byte[] buffer, ref int index)
@@ -445,27 +560,66 @@ namespace Scada
         /// </summary>
         public static Event GetEvent(byte[] buffer, ref int index)
         {
-            Event ev = new Event();
-            ev.EventID = GetInt64(buffer, ref index);
-            ev.Timestamp = GetTime(buffer, ref index);
-            ev.Hidden = GetBool(buffer, ref index);
-            ev.CnlNum = GetInt32(buffer, ref index);
-            ev.OutCnlNum = GetInt32(buffer, ref index);
-            ev.ObjNum = GetInt32(buffer, ref index);
-            ev.DeviceNum = GetInt32(buffer, ref index);
-            ev.PrevCnlVal = GetDouble(buffer, ref index);
-            ev.PrevCnlStat = GetUInt16(buffer, ref index);
-            ev.CnlVal = GetDouble(buffer, ref index);
-            ev.CnlStat = GetUInt16(buffer, ref index);
-            ev.Severity = GetUInt16(buffer, ref index);
-            ev.AckRequired = GetBool(buffer, ref index);
-            ev.Ack = GetBool(buffer, ref index);
-            ev.AckTimestamp = GetTime(buffer, ref index);
-            ev.AckUserID = GetInt32(buffer, ref index);
-            ev.TextFormat = (EventTextFormat)GetByte(buffer, ref index);
-            ev.Text = GetString(buffer, ref index);
-            ev.Data = GetByteArray(buffer, ref index);
-            return ev;
+            return new Event
+            {
+                EventID = GetInt64(buffer, ref index),
+                Timestamp = GetTime(buffer, ref index),
+                Hidden = GetBool(buffer, ref index),
+                CnlNum = GetInt32(buffer, ref index),
+                OutCnlNum = GetInt32(buffer, ref index),
+                ObjNum = GetInt32(buffer, ref index),
+                DeviceNum = GetInt32(buffer, ref index),
+                PrevCnlVal = GetDouble(buffer, ref index),
+                PrevCnlStat = GetUInt16(buffer, ref index),
+                CnlVal = GetDouble(buffer, ref index),
+                CnlStat = GetUInt16(buffer, ref index),
+                Severity = GetUInt16(buffer, ref index),
+                AckRequired = GetBool(buffer, ref index),
+                Ack = GetBool(buffer, ref index),
+                AckTimestamp = GetTime(buffer, ref index),
+                AckUserID = GetInt32(buffer, ref index),
+                TextFormat = (EventTextFormat)GetByte(buffer, ref index),
+                Text = GetString(buffer, ref index),
+                Data = GetByteArray(buffer, ref index)
+            };
+        }
+
+        /// <summary>
+        /// Gets a data filter from the buffer.
+        /// </summary>
+        public static DataFilter GetDataFilter(Type itemType, byte[] buffer, ref int index)
+        {
+            DataFilter filter = new DataFilter(itemType)
+            {
+                Limit = GetInt32(buffer, ref index),
+                Offset = GetInt32(buffer, ref index),
+                OriginBegin = GetBool(buffer, ref index)
+            };
+
+            int conditionCount = GetInt32(buffer, ref index);
+
+            for (int i = 0; i < conditionCount; i++)
+            {
+                string columnName = GetString(buffer, ref index);
+                FilterOperator filterOperator = (FilterOperator)GetByte(buffer, ref index);
+                ColumnDataType dataType = (ColumnDataType)GetByte(buffer, ref index);
+                IList args = null;
+                
+                switch (dataType)
+                {
+                    case ColumnDataType.Integer:
+                    case ColumnDataType.Boolean:
+                        args = GetIntArray(buffer, ref index);
+                        break;
+                    case ColumnDataType.Double:
+                        args = GetDoubleArray(buffer, ref index);
+                        break;
+                }
+
+                filter.AddCondition(columnName, filterOperator, args);
+            }
+
+            return filter;
         }
     }
 }

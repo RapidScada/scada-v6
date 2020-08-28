@@ -23,6 +23,7 @@
  * Modified : 2020
  */
 
+using Scada.Data.Tables;
 using System;
 
 namespace Scada.Server.Engine
@@ -34,11 +35,11 @@ namespace Scada.Server.Engine
     internal class ServerCache
     {
         /// <summary>
-        /// Determines how long a channel list is stored in the cache.
+        /// Determines how long an item is stored in the cache.
         /// </summary>
-        private static readonly TimeSpan CnlListExpiration = TimeSpan.FromMinutes(1);
+        private static readonly TimeSpan CacheExpiration = TimeSpan.FromMinutes(1);
 
-        private long maxCnlListID; // the maximum channel list ID
+        private long maxItemID; // the maximum cache item ID
 
 
         /// <summary>
@@ -46,9 +47,11 @@ namespace Scada.Server.Engine
         /// </summary>
         public ServerCache()
         {
-            maxCnlListID = 0;
-            CnlListCache = new MemoryCache<long, CnlListItem>(CnlListExpiration);
+            maxItemID = 0;
+            CnlListCache = new MemoryCache<long, CnlListItem>(CacheExpiration);
+            DataFilterCache = new MemoryCache<long, DataFilter>(CacheExpiration);
         }
+
 
         /// <summary>
         /// Gets the cache containing channel lists accessed by list IDs.
@@ -56,11 +59,17 @@ namespace Scada.Server.Engine
         public MemoryCache<long, CnlListItem> CnlListCache { get; }
 
         /// <summary>
-        /// Gets the next channel list ID.
+        /// Gets the cache containing data filters.
         /// </summary>
-        public long GetNextCnlListID()
+        public MemoryCache<long, DataFilter> DataFilterCache { get; }
+
+
+        /// <summary>
+        /// Gets the next cache item ID.
+        /// </summary>
+        public long GetNextID()
         {
-            return ++maxCnlListID;
+            return ++maxItemID;
         }
     }
 }
