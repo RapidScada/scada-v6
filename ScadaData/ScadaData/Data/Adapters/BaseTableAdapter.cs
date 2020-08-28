@@ -49,34 +49,37 @@ namespace Scada.Data.Adapters
             /// </summary>
             public FieldDef(string name, byte dataType, bool allowNull)
             {
+                if (!Enum.IsDefined(typeof(ColumnDataType), dataType))
+                    throw new ArgumentException(string.Format("Data type {0} is not defined.", dataType));
+
                 Name = name ?? throw new ArgumentNullException("name");
-                DataType = dataType;
+                DataType = (ColumnDataType)dataType;
                 AllowNull = allowNull;
 
-                switch (dataType)
+                switch (DataType)
                 {
-                    case DataTypeID.Integer:
+                    case ColumnDataType.Integer:
                         DataSize = sizeof(int);
                         DefaultValue = 0;
                         break;
-                    case DataTypeID.Double:
+                    case ColumnDataType.Double:
                         DataSize = sizeof(double);
                         DefaultValue = 0.0;
                         break;
-                    case DataTypeID.Boolean:
+                    case ColumnDataType.Boolean:
                         DataSize = 1;
                         DefaultValue = false;
                         break;
-                    case DataTypeID.DateTime:
+                    case ColumnDataType.DateTime:
                         DataSize = sizeof(long);
                         DefaultValue = (long)0;
                         break;
-                    case DataTypeID.String:
+                    case ColumnDataType.String:
                         DataSize = 0;
                         DefaultValue = "";
                         break;
                     default:
-                        throw new ArgumentException(string.Format("Data type {0} is not supported.", dataType));
+                        throw new ArgumentException(string.Format("Data type {0} is not supported.", DataType));
                 }
             }
             /// <summary>
@@ -96,31 +99,31 @@ namespace Scada.Data.Adapters
 
                 if (type == typeof(int))
                 {
-                    DataType = DataTypeID.Integer;
+                    DataType = ColumnDataType.Integer;
                     DataSize = sizeof(int);
                     DefaultValue = 0;
                 }
                 else if (type == typeof(double))
                 {
-                    DataType = DataTypeID.Double;
+                    DataType = ColumnDataType.Double;
                     DataSize = sizeof(double);
                     DefaultValue = 0.0;
                 }
                 else if (type == typeof(bool))
                 {
-                    DataType = DataTypeID.Boolean;
+                    DataType = ColumnDataType.Boolean;
                     DataSize = 1;
                     DefaultValue = false;
                 }
                 else if (type == typeof(DateTime))
                 {
-                    DataType = DataTypeID.DateTime;
+                    DataType = ColumnDataType.DateTime;
                     DataSize = sizeof(long);
                     DefaultValue = (long)0;
                 }
                 else if (type == typeof(string))
                 {
-                    DataType = DataTypeID.String;
+                    DataType = ColumnDataType.String;
                     DataSize = 0;
                     DefaultValue = "";
                 }
@@ -137,7 +140,7 @@ namespace Scada.Data.Adapters
             /// <summary>
             /// Gets or sets the data type.
             /// </summary>
-            public byte DataType { get; set; }
+            public ColumnDataType DataType { get; set; }
             /// <summary>
             /// Gets or sets the data size if it is fixed.
             /// </summary>
@@ -150,33 +153,6 @@ namespace Scada.Data.Adapters
             /// Gets the default field value.
             /// </summary>
             public object DefaultValue { get; protected set; }
-        }
-
-        /// <summary>
-        /// Specifies the data type IDs.
-        /// </summary>
-        protected static class DataTypeID
-        {
-            /// <summary>
-            /// Integer data type.
-            /// </summary>
-            public const byte Integer = 0;
-            /// <summary>
-            /// Floating point data type.
-            /// </summary>
-            public const byte Double = 1;
-            /// <summary>
-            /// Logical data type.
-            /// </summary>
-            public const byte Boolean = 2;
-            /// <summary>
-            /// Date and time.
-            /// </summary>
-            public const byte DateTime = 3;
-            /// <summary>
-            /// String data type.
-            /// </summary>
-            public const byte String = 4;
         }
 
 
@@ -309,7 +285,7 @@ namespace Scada.Data.Adapters
             int nameLength = fieldDef.Name.Length;
             buffer[0] = (byte)nameLength;
             Encoding.ASCII.GetBytes(fieldDef.Name).CopyTo(buffer, 1);
-            buffer[MaxFieldNameLength + 1] = fieldDef.DataType;
+            buffer[MaxFieldNameLength + 1] = (byte)fieldDef.DataType;
             buffer[MaxFieldNameLength + 2] = (byte)(fieldDef.AllowNull ? 1 : 0);
             ushort crc = CalcCRC16(buffer, 0, FieldDefSize - 2);
             CopyUInt16(crc, buffer, FieldDefSize - 2);
@@ -326,19 +302,19 @@ namespace Scada.Data.Adapters
 
             switch (fieldDef.DataType)
             {
-                case DataTypeID.Integer:
+                case ColumnDataType.Integer:
                     CopyInt32((int)value, buffer, 0);
                     break;
-                case DataTypeID.Double:
+                case ColumnDataType.Double:
                     CopyDouble((double)value, buffer, 0);
                     break;
-                case DataTypeID.Boolean:
+                case ColumnDataType.Boolean:
                     CopyBool((bool)value, buffer, 0);
                     break;
-                case DataTypeID.DateTime:
+                case ColumnDataType.DateTime:
                     CopyTime((DateTime)value, buffer, 0);
                     break;
-                case DataTypeID.String:
+                case ColumnDataType.String:
                     buffer = Encoding.UTF8.GetBytes((string)value);
                     if (buffer.Length > MaxFieldLenght)
                         throw new ArgumentException("String length exceeded.");
@@ -354,19 +330,19 @@ namespace Scada.Data.Adapters
         /// <summary>
         /// Gets the field value from the buffer.
         /// </summary>
-        protected object GetFieldValue(int dataType, int dataSize, byte[] buffer, ref int index)
+        protected object GetFieldValue(ColumnDataType dataType, int dataSize, byte[] buffer, ref int index)
         {
             switch (dataType)
             {
-                case DataTypeID.Integer:
+                case ColumnDataType.Integer:
                     return GetInt32(buffer, ref index);
-                case DataTypeID.Double:
+                case ColumnDataType.Double:
                     return GetDouble(buffer, ref index);
-                case DataTypeID.Boolean:
+                case ColumnDataType.Boolean:
                     return GetBool(buffer, ref index);
-                case DataTypeID.DateTime:
+                case ColumnDataType.DateTime:
                     return GetTime(buffer, ref index);
-                case DataTypeID.String:
+                case ColumnDataType.String:
                     string s = dataSize > 0 ? Encoding.UTF8.GetString(buffer, index, dataSize) : "";
                     index += dataSize;
                     return s;
@@ -500,19 +476,19 @@ namespace Scada.Data.Adapters
 
                         switch (fieldDef.DataType)
                         {
-                            case DataTypeID.Integer:
+                            case ColumnDataType.Integer:
                                 column.DataType = typeof(int);
                                 break;
-                            case DataTypeID.Double:
+                            case ColumnDataType.Double:
                                 column.DataType = typeof(double);
                                 break;
-                            case DataTypeID.Boolean:
+                            case ColumnDataType.Boolean:
                                 column.DataType = typeof(bool);
                                 break;
-                            case DataTypeID.DateTime:
+                            case ColumnDataType.DateTime:
                                 column.DataType = typeof(DateTime);
                                 break;
-                            case DataTypeID.String:
+                            case ColumnDataType.String:
                                 column.DataType = typeof(string);
                                 break;
                         }

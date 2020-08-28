@@ -44,6 +44,11 @@ namespace Scada.Data.Tables
         public PropertyDescriptor ColumnProperty { get; set; }
 
         /// <summary>
+        /// Gets or sets the column data type.
+        /// </summary>
+        public ColumnDataType DataType { get; set; }
+
+        /// <summary>
         /// Gets or sets the filter operator.
         /// </summary>
         public FilterOperator Operator { get; set; }
@@ -55,9 +60,9 @@ namespace Scada.Data.Tables
 
 
         /// <summary>
-        /// Checks if the specified value satisfies the condition.
+        /// Checks if the specified item satisfies the condition.
         /// </summary>
-        public bool IsSatisfied(object value)
+        public bool IsSatisfied(object item)
         {
             return false;
         }

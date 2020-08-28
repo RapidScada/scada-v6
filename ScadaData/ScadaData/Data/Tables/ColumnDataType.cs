@@ -16,7 +16,7 @@
  * 
  * Product  : Rapid SCADA
  * Module   : ScadaData
- * Summary  : Specifies the filter operators
+ * Summary  : Specifies the data type IDs for columns in the application tables
  * 
  * Author   : Mikhail Shiryaev
  * Created  : 2020
@@ -28,13 +28,16 @@
 namespace Scada.Data.Tables
 {
     /// <summary>
-    /// Specifies the filter operators.
-    /// <para>Задает операторы фильтра.</para>
+    /// Specifies the data type IDs for columns in the application tables.
+    /// <para>Задает идентификаторы типов данных для столбцов в таблицах приложений.</para>
     /// </summary>
-    public enum FilterOperator : byte
+    public enum ColumnDataType
     {
-        Equals = 0,
-        In = 1,
-        Between = 2
+        Undefined = 0,
+        Integer = 1,
+        Double = 2,
+        Boolean = 3,
+        DateTime = 4,
+        String = 5
     }
 }
