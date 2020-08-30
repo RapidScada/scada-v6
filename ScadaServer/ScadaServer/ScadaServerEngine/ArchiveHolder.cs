@@ -87,6 +87,13 @@ namespace Scada.Server.Engine
         }
 
         /// <summary>
+        /// Calls the DeleteOutdatedData method of the archives.
+        /// </summary>
+        public void DeleteOutdatedData()
+        {
+        }
+
+        /// <summary>
         /// Gets the trends of the specified input channels.
         /// </summary>
         public TrendBundle GetTrends(int[] cnlNums, DateTime startTime, DateTime endTime, int archiveBit)
@@ -147,7 +154,7 @@ namespace Scada.Server.Engine
         /// </summary>
         public void WriteSlice(Slice slice, int archiveMask, bool applyFormulas)
         {
-            // TODO: write slice to archives, likely move to CoreLogic
+            // TODO: write slice to archives, move the method to CoreLogic
             Calculator calc = null;
             Dictionary<int, CnlTag> cnlTags = null;
             List<CnlTag> calcCnlTags = null;
@@ -158,6 +165,7 @@ namespace Scada.Server.Engine
             archiveLogic.BeginUpdate();
 
             // calculate input channels which are written
+            // TODO: get channel tags once for all archives, copy them to a temporary array
             for (int i = 0, cnlCnt = slice.CnlNums.Length; i < cnlCnt; i++)
             {
                 int cnlNum = slice.CnlNums[i];
@@ -195,7 +203,7 @@ namespace Scada.Server.Engine
         }
 
         /// <summary>
-        /// Calls the WriteEvent method of the event archives.
+        /// Writes the event.
         /// </summary>
         public void WriteEvent(Event ev, int archiveMask)
         {
@@ -204,18 +212,11 @@ namespace Scada.Server.Engine
         }
 
         /// <summary>
-        /// Calls the AckEvent method of the event archives.
+        /// Acknowledges the event.
         /// </summary>
         public void AckEvent(long eventID, DateTime timestamp, int userID)
         {
 
-        }
-
-        /// <summary>
-        /// Calls the DeleteOutdatedData method of the archives.
-        /// </summary>
-        public virtual void DeleteOutdatedData()
-        {
         }
     }
 }

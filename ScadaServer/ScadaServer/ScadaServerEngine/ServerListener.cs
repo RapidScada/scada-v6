@@ -555,6 +555,10 @@ namespace Scada.Server.Engine
                     GetSlice(client, request, out response);
                     break;
 
+                case FunctionID.GetLastWriteTime:
+                    GetLastWriteTime(client, request, out response);
+                    break;
+
                 case FunctionID.GetEventByID:
                     GetEventByID(client, request, out response);
                     break;
