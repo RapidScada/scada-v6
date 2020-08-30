@@ -176,6 +176,18 @@ namespace Scada.Server.Engine
         }
 
         /// <summary>
+        /// Gets the time (UTC) when when the archive was last written to.
+        /// </summary>
+        protected void GetLastWriteTime(ConnectedClient client, DataPacket request, out ResponsePacket response)
+        {
+            int archiveBit = request.Buffer[ArgumentIndex];
+            DateTime lastWriteTime = archiveHolder.GetLastWriteTime(archiveBit);
+
+            response = new ResponsePacket(request, client.OutBuf) { ArgumentLength = 8 };
+            CopyTime(lastWriteTime, client.OutBuf, ArgumentIndex);
+        }
+
+        /// <summary>
         /// Gets the event by ID.
         /// </summary>
         protected void GetEventByID(ConnectedClient client, DataPacket request, out ResponsePacket response)

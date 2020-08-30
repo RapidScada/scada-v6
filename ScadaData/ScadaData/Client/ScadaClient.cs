@@ -342,6 +342,24 @@ namespace Scada.Client
         }
 
         /// <summary>
+        /// Gets the time (UTC) when when the archive was last written to.
+        /// </summary>
+        public DateTime GetLastWriteTime(int archiveBit)
+        {
+            RestoreConnection();
+
+            DataPacket request = CreateRequest(FunctionID.GetFileInfo);
+            int index = ArgumentIndex;
+            outBuf[ArgumentIndex] = (byte)archiveBit;
+            request.ArgumentLength = 1;
+            SendRequest(request);
+
+            DataPacket response = ReceiveResponse(request);
+            index = ArgumentIndex;
+            return GetTime(inBuf, ref index);
+        }
+
+        /// <summary>
         /// Gets the event by ID.
         /// </summary>
         public Event GetEventByID(long eventID, int archiveBit)

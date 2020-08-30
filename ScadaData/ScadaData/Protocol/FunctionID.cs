@@ -47,8 +47,9 @@ namespace Scada.Protocol
         public const ushort GetCurrentData = 0x0201;
         public const ushort GetTrends = 0x0202;
         public const ushort GetSlice = 0x0203;
-        public const ushort WriteCurrentData = 0x0204;
-        public const ushort WriteHistoricalData = 0x0205;
+        public const ushort GetLastWriteTime = 0x0204;
+        public const ushort WriteCurrentData = 0x0205;
+        public const ushort WriteHistoricalData = 0x0206;
 
         public const ushort GetEventByID = 0x0301;
         public const ushort GetEvents = 0x0302;
@@ -71,6 +72,7 @@ namespace Scada.Protocol
             { GetCurrentData, "GetCurrentData" },
             { GetTrends, "GetTrends" },
             { GetSlice, "GetSlice" },
+            { GetLastWriteTime, "GetLastWriteTime" },
             { WriteCurrentData, "WriteCurrentData" },
             { WriteHistoricalData, "WriteHistoricalData" },
             { GetEventByID, "GetEventByID" },

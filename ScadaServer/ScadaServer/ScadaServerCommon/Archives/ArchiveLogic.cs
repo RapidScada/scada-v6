@@ -34,25 +34,24 @@ namespace Scada.Server.Archives
     public abstract class ArchiveLogic
     {
         /// <summary>
-        /// Gets the input channel numbers that are stored in the archive.
+        /// Initializes a new instance of the class.
         /// </summary>
-        public int[] CnlNums { get; protected set; }
+        protected ArchiveLogic()
+        {
+            LastWriteTime = DateTime.MinValue;
+            CleanupPeriod = TimeSpan.FromDays(1);
+        }
+
 
         /// <summary>
         /// Gets the time (UTC) when when the archive was last written to.
         /// </summary>
-        public abstract DateTime LastWriteTime { get; protected set; }
+        public DateTime LastWriteTime { get; protected set; }
 
         /// <summary>
         /// Gets the required cleanup period for outdated data.
         /// </summary>
-        public virtual TimeSpan CleanupPeriod
-        {
-            get
-            {
-                return TimeSpan.FromDays(1);
-            }
-        }
+        public TimeSpan CleanupPeriod { get; protected set; }
 
 
         /// <summary>
