@@ -37,6 +37,15 @@ namespace Scada.Server.Archives
     public abstract class EventArchiveLogic : ArchiveLogic
     {
         /// <summary>
+        /// Initializes a new instance of the class.
+        /// </summary>
+        public EventArchiveLogic(string code)
+            : base(code)
+        {
+        }
+
+        
+        /// <summary>
         /// Gets the event by ID.
         /// </summary>
         public abstract Event GetEventByID(long eventID);

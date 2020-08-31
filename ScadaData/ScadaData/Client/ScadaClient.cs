@@ -499,9 +499,13 @@ namespace Scada.Client
             int index = ArgumentIndex;
             CopyEvent(ev, outBuf, ref index);
             request.BufferLength = index;
-
             SendRequest(request);
-            ReceiveResponse(request);
+
+            DataPacket response = ReceiveResponse(request);
+            long eventID = BitConverter.ToInt64(inBuf, ArgumentIndex);
+
+            if (eventID > 0)
+                ev.EventID = eventID;
         }
 
         /// <summary>
@@ -539,11 +543,17 @@ namespace Scada.Client
             SendRequest(request);
 
             DataPacket response = ReceiveResponse(request);
+            index = ArgumentIndex;
+            long commandID = GetInt64(inBuf, ref index);
+
             commandResult = new CommandResult
             {
-                IsSuccessful = inBuf[ArgumentIndex] > 0,
-                ErrorMessage = GetString(inBuf, ArgumentIndex + 1)
+                IsSuccessful = GetBool(inBuf, ref index),
+                ErrorMessage = GetString(inBuf, ref index)
             };
+
+            if (commandID > 0 && commandResult.IsSuccessful)
+                command.CommandID = commandID;
         }
 
         /// <summary>

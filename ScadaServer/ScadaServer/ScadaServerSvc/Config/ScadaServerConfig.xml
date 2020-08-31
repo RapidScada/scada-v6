@@ -2,7 +2,6 @@
 <ScadaServerConfig>
   <GeneralOptions>
     <UnrelIfInactive>300</UnrelIfInactive>
-    <TrendArcCode>Min</TrendArcCode>
     <MaxLogSize>1048576</MaxLogSize>
   </GeneralOptions>
   <ListenerOptions>
@@ -27,14 +26,12 @@
       <Option name="WritingPeriod" value="1" />
       <Option name="WritingUnit" value="Minute" />
       <Option name="StoragePeriod" value="365" />
-      <Option name="TrendWeight" value="0" />
     </Archive>
     <Archive active="true" code="Hour" name="Hourly Archive" kind="Historical" dll="">
       <Option name="IsCopy" value="false" />
       <Option name="WritingPeriod" value="1" />
       <Option name="WritingUnit" value="Hour" />
       <Option name="StoragePeriod" value="365" />
-      <Option name="TrendWeight" value="0" />
     </Archive>
     <Archive active="true" code="Events" name="Event Archive" kind="Events" dll="">
       <Option name="IsCopy" value="false" />

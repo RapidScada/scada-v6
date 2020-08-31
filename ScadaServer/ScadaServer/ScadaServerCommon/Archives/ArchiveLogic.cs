@@ -36,17 +36,29 @@ namespace Scada.Server.Archives
         /// <summary>
         /// Initializes a new instance of the class.
         /// </summary>
-        protected ArchiveLogic()
+        protected ArchiveLogic(string code)
         {
+            Code = code ?? throw new ArgumentNullException("code");
             LastWriteTime = DateTime.MinValue;
+            LastCleanupTime = DateTime.MinValue;
             CleanupPeriod = TimeSpan.FromDays(1);
         }
 
 
         /// <summary>
+        /// Gets the archive code.
+        /// </summary>
+        public string Code { get; }
+
+        /// <summary>
         /// Gets the time (UTC) when when the archive was last written to.
         /// </summary>
         public DateTime LastWriteTime { get; protected set; }
+
+        /// <summary>
+        /// Gets or sets the time (UTC) when when the archive was last cleaned up.
+        /// </summary>
+        public DateTime LastCleanupTime { get; set; }
 
         /// <summary>
         /// Gets the required cleanup period for outdated data.

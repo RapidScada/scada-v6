@@ -25,7 +25,6 @@
 
 using Scada.Data.Models;
 using Scada.Log;
-using Scada.Server.Archives;
 using Scada.Server.Modules;
 using System;
 using System.Collections.Generic;
@@ -108,7 +107,20 @@ namespace Scada.Server.Engine
         /// </summary>
         public void OnIteration()
         {
-
+            lock (Modules)
+            {
+                foreach (ModuleLogic moduleLogic in Modules)
+                {
+                    try
+                    {
+                        moduleLogic.OnIteration();
+                    }
+                    catch (Exception ex)
+                    {
+                        log.WriteException(ex, ErrorInModule, "OnIteration", moduleLogic.Code);
+                    }
+                }
+            }
         }
 
         /// <summary>
@@ -116,6 +128,20 @@ namespace Scada.Server.Engine
         /// </summary>
         public void OnCurrentDataProcessing(int deviceNum, int[] cnlNums, CnlData[] cnlData)
         {
+            lock (Modules)
+            {
+                foreach (ModuleLogic moduleLogic in Modules)
+                {
+                    try
+                    {
+                        moduleLogic.OnCurrentDataProcessing(deviceNum, cnlNums, cnlData);
+                    }
+                    catch (Exception ex)
+                    {
+                        log.WriteException(ex, ErrorInModule, "OnCurrentDataProcessing", moduleLogic.Code);
+                    }
+                }
+            }
         }
 
         /// <summary>
@@ -123,6 +149,20 @@ namespace Scada.Server.Engine
         /// </summary>
         public void OnCurrentDataProcessed(int deviceNum, int[] cnlNums, CnlData[] cnlData)
         {
+            lock (Modules)
+            {
+                foreach (ModuleLogic moduleLogic in Modules)
+                {
+                    try
+                    {
+                        moduleLogic.OnCurrentDataProcessed(deviceNum, cnlNums, cnlData);
+                    }
+                    catch (Exception ex)
+                    {
+                        log.WriteException(ex, ErrorInModule, "OnCurrentDataProcessed", moduleLogic.Code);
+                    }
+                }
+            }
         }
 
         /// <summary>
@@ -130,13 +170,41 @@ namespace Scada.Server.Engine
         /// </summary>
         public void OnHistoricalDataProcessing(int deviceNum, Slice slice)
         {
+            lock (Modules)
+            {
+                foreach (ModuleLogic moduleLogic in Modules)
+                {
+                    try
+                    {
+                        moduleLogic.OnHistoricalDataProcessing(deviceNum, slice);
+                    }
+                    catch (Exception ex)
+                    {
+                        log.WriteException(ex, ErrorInModule, "OnHistoricalDataProcessing", moduleLogic.Code);
+                    }
+                }
+            }
         }
 
         /// <summary>
         /// Calls the OnHistoricalDataProcessed method of the modules.
         /// </summary>
-        public void OnHistoricalDataProcessed(int deviceNum)
+        public void OnHistoricalDataProcessed(int deviceNum, Slice slice)
         {
+            lock (Modules)
+            {
+                foreach (ModuleLogic moduleLogic in Modules)
+                {
+                    try
+                    {
+                        moduleLogic.OnHistoricalDataProcessed(deviceNum, slice);
+                    }
+                    catch (Exception ex)
+                    {
+                        log.WriteException(ex, ErrorInModule, "OnHistoricalDataProcessed", moduleLogic.Code);
+                    }
+                }
+            }
         }
 
         /// <summary>
@@ -144,6 +212,20 @@ namespace Scada.Server.Engine
         /// </summary>
         public void OnEvent(Event ev)
         {
+            lock (Modules)
+            {
+                foreach (ModuleLogic moduleLogic in Modules)
+                {
+                    try
+                    {
+                        moduleLogic.OnEvent(ev);
+                    }
+                    catch (Exception ex)
+                    {
+                        log.WriteException(ex, ErrorInModule, "OnEvent", moduleLogic.Code);
+                    }
+                }
+            }
         }
 
         /// <summary>
@@ -151,6 +233,20 @@ namespace Scada.Server.Engine
         /// </summary>
         public void OnEventAck(long eventID, DateTime timestamp, int userID)
         {
+            lock (Modules)
+            {
+                foreach (ModuleLogic moduleLogic in Modules)
+                {
+                    try
+                    {
+                        moduleLogic.OnEventAck(eventID, timestamp, userID);
+                    }
+                    catch (Exception ex)
+                    {
+                        log.WriteException(ex, ErrorInModule, "OnEventAck", moduleLogic.Code);
+                    }
+                }
+            }
         }
 
         /// <summary>
@@ -158,6 +254,20 @@ namespace Scada.Server.Engine
         /// </summary>
         public void OnCommand(TeleCommand command, CommandResult commandResult)
         {
+            lock (Modules)
+            {
+                foreach (ModuleLogic moduleLogic in Modules)
+                {
+                    try
+                    {
+                        moduleLogic.OnCommand(command, commandResult);
+                    }
+                    catch (Exception ex)
+                    {
+                        log.WriteException(ex, ErrorInModule, "OnCommand", moduleLogic.Code);
+                    }
+                }
+            }
         }
 
         /// <summary>
@@ -170,6 +280,26 @@ namespace Scada.Server.Engine
             roleID = 0;
             errMsg = "";
             handled = false;
+
+            lock (Modules)
+            {
+                foreach (ModuleLogic moduleLogic in Modules)
+                {
+                    try
+                    {
+                        bool userIsValid = moduleLogic.ValidateUser(username, password, 
+                            out userID, out roleID, out errMsg, out handled);
+
+                        if (handled)
+                            return userIsValid;
+                    }
+                    catch (Exception ex)
+                    {
+                        log.WriteException(ex, ErrorInModule, "OnCommand", moduleLogic.Code);
+                    }
+                }
+            }
+
             return false;
         }
     }

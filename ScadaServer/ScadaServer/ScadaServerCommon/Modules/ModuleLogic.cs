@@ -23,12 +23,10 @@
  * Modified : 2020
  */
 
+using Scada.Data.Models;
 using Scada.Log;
 using Scada.Server.Archives;
-using Scada.Server.Config;
 using System;
-using System.Collections.Generic;
-using System.Text;
 
 namespace Scada.Server.Modules
 {
@@ -98,6 +96,76 @@ namespace Scada.Server.Modules
         /// </summary>
         public virtual void OnServiceStop()
         {
+        }
+
+        /// <summary>
+        /// Performs actions on a new iteration of the main operating cycle.
+        /// </summary>
+        public virtual void OnIteration()
+        {
+        }
+
+        /// <summary>
+        /// Performs actions after receiving and before processing new current data.
+        /// </summary>
+        public virtual void OnCurrentDataProcessing(int deviceNum, int[] cnlNums, CnlData[] cnlData)
+        {
+
+        }
+
+        /// <summary>
+        /// Performs actions after receiving and processing new current data.
+        /// </summary>
+        public virtual void OnCurrentDataProcessed(int deviceNum, int[] cnlNums, CnlData[] cnlData)
+        {
+        }
+
+        /// <summary>
+        /// Performs actions after receiving and before processing new historical data.
+        /// </summary>
+        public virtual void OnHistoricalDataProcessing(int deviceNum, Slice slice)
+        {
+        }
+
+        /// <summary>
+        /// Performs actions after receiving and processing new historical data.
+        /// </summary>
+        public virtual void OnHistoricalDataProcessed(int deviceNum, Slice slice)
+        {
+        }
+
+        /// <summary>
+        /// Performs actions after creating and before writing an event.
+        /// </summary>
+        public virtual void OnEvent(Event ev)
+        {
+        }
+
+        /// <summary>
+        /// Performs actions when acknowledging an event.
+        /// </summary>
+        public virtual void OnEventAck(long eventID, DateTime timestamp, int userID)
+        {
+        }
+
+        /// <summary>
+        /// Performs actions after receiving and before enqueuing a telecontrol command.
+        /// </summary>
+        public virtual void OnCommand(TeleCommand command, CommandResult commandResult)
+        {
+        }
+
+        /// <summary>
+        /// Validates the username and password.
+        /// </summary>
+        public virtual bool ValidateUser(string username, string password,
+            out int userID, out int roleID, out string errMsg, out bool handled)
+        {
+            userID = 0;
+            roleID = 0;
+            errMsg = "";
+            handled = false;
+            return false;
         }
     }
 }

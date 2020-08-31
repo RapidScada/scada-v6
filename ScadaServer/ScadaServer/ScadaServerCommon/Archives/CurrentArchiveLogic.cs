@@ -35,9 +35,18 @@ namespace Scada.Server.Archives
     public abstract class CurrentArchiveLogic : ArchiveLogic
     {
         /// <summary>
+        /// Initializes a new instance of the class.
+        /// </summary>
+        public CurrentArchiveLogic(string code)
+            : base(code)
+        {
+        }
+
+
+        /// <summary>
         /// Reads the current data.
         /// </summary>
-        public abstract void ReadData(ICurrentData curData);
+        public abstract bool ReadData(ICurrentData curData);
 
         /// <summary>
         /// Processes new data.

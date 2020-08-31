@@ -29,6 +29,7 @@ using Scada.Data.Tables;
 using Scada.Log;
 using Scada.Server.Archives;
 using System;
+using System.Collections;
 using System.Collections.Generic;
 
 namespace Scada.Server.Engine
@@ -39,7 +40,12 @@ namespace Scada.Server.Engine
     /// </summary>
     internal class ArchiveHolder
     {
-        private readonly ILog log; // the application log
+        private static readonly string ErrorInArchive = Locale.IsRussian ?
+            "Ошибка при вызове метода {0} архива {1}" :
+            "Error calling the {0} method of the {1} archive";
+
+        private readonly ILog log;                // the application log
+        private readonly ArchiveLogic[] arcByBit; // the archives accessed by bit number
 
 
         /// <summary>
@@ -48,6 +54,8 @@ namespace Scada.Server.Engine
         public ArchiveHolder(ILog log)
         {
             this.log = log ?? throw new ArgumentNullException("log");
+            arcByBit = new ArchiveLogic[ServerUtils.MaxArchiveCount];
+
             CurrentArchives = new List<CurrentArchiveLogic>();
             HistoricalArchives = new List<HistoricalArchiveLogic>();
             EventArchives = new List<EventArchiveLogic>();
@@ -75,7 +83,21 @@ namespace Scada.Server.Engine
         /// </summary>
         public void ReadCurrentData(ICurrentData curData)
         {
-
+            lock (CurrentArchives)
+            {
+                foreach (CurrentArchiveLogic archiveLogic in CurrentArchives)
+                {
+                    try
+                    {
+                        if (archiveLogic.ReadData(curData))
+                            return;
+                    }
+                    catch (Exception ex)
+                    {
+                        log.WriteException(ex, ErrorInArchive, "ReadCurrentData", archiveLogic.Code);
+                    }
+                }
+            }
         }
 
         /// <summary>
@@ -83,7 +105,35 @@ namespace Scada.Server.Engine
         /// </summary>
         public void ProcessData(ICurrentData curData)
         {
+            lock (CurrentArchives)
+            {
+                foreach (CurrentArchiveLogic archiveLogic in CurrentArchives)
+                {
+                    try
+                    {
+                        archiveLogic.ProcessData(curData);
+                    }
+                    catch (Exception ex)
+                    {
+                        log.WriteException(ex, ErrorInArchive, "ProcessData", archiveLogic.Code);
+                    }
+                }
+            }
 
+            lock (CurrentArchives)
+            {
+                foreach (HistoricalArchiveLogic archiveLogic in HistoricalArchives)
+                {
+                    try
+                    {
+                        archiveLogic.ProcessData(curData);
+                    }
+                    catch (Exception ex)
+                    {
+                        log.WriteException(ex, ErrorInArchive, "ProcessData", archiveLogic.Code);
+                    }
+                }
+            }
         }
 
         /// <summary>
@@ -91,6 +141,58 @@ namespace Scada.Server.Engine
         /// </summary>
         public void DeleteOutdatedData()
         {
+            DateTime utcNow = DateTime.UtcNow;
+
+            void DoCleanup(IList archives)
+            {
+                lock (archives)
+                {
+                    foreach (ArchiveLogic archiveLogic in archives)
+                    {
+                        try
+                        {
+                            if (utcNow - archiveLogic.LastCleanupTime > archiveLogic.CleanupPeriod)
+                            {
+                                archiveLogic.LastCleanupTime = utcNow;
+                                archiveLogic.DeleteOutdatedData();
+                            }
+                        }
+                        catch (Exception ex)
+                        {
+                            log.WriteException(ex, ErrorInArchive, "DeleteOutdatedData", archiveLogic.Code);
+                        }
+                    }
+                }
+            }
+
+            DoCleanup(CurrentArchives);
+            DoCleanup(HistoricalArchives);
+            DoCleanup(EventArchives);
+        }
+
+        /// <summary>
+        /// Calls the EndUpdate method of the specified archive.
+        /// </summary>
+        public void EndUpdate(HistoricalArchiveLogic archiveLogic)
+        {
+            try
+            {
+                archiveLogic.EndUpdate();
+            }
+            catch (Exception ex)
+            {
+                log.WriteException(ex, ErrorInArchive, "EndUpdate", archiveLogic.Code);
+            }
+        }
+
+        /// <summary>
+        /// Gets an archive by the specified bit number.
+        /// </summary>
+        public bool GetArchive<T>(int archiveBit, out T archiveLogic) where T : ArchiveLogic
+        {
+            archiveLogic = 0 <= archiveBit && archiveBit < ServerUtils.MaxArchiveCount ? 
+                arcByBit[archiveBit] as T : null;
+            return archiveLogic != null;
         }
 
         /// <summary>
@@ -98,7 +200,19 @@ namespace Scada.Server.Engine
         /// </summary>
         public TrendBundle GetTrends(int[] cnlNums, DateTime startTime, DateTime endTime, int archiveBit)
         {
-            return null;
+            if (GetArchive(archiveBit, out HistoricalArchiveLogic archiveLogic))
+            {
+                try
+                {
+                    return archiveLogic.GetTrends(cnlNums, startTime, endTime);
+                }
+                catch (Exception ex)
+                {
+                    log.WriteException(ex, ErrorInArchive, "GetTrends", archiveLogic.Code);
+                }
+            }
+
+            return new TrendBundle(cnlNums, 0);
         }
 
         /// <summary>
@@ -106,7 +220,19 @@ namespace Scada.Server.Engine
         /// </summary>
         public Trend GetTrend(int cnlNum, DateTime startTime, DateTime endTime, int archiveBit)
         {
-            return null;
+            if (GetArchive(archiveBit, out HistoricalArchiveLogic archiveLogic))
+            {
+                try
+                {
+                    return archiveLogic.GetTrend(cnlNum, startTime, endTime);
+                }
+                catch (Exception ex)
+                {
+                    log.WriteException(ex, ErrorInArchive, "GetTrend", archiveLogic.Code);
+                }
+            }
+
+            return new Trend(cnlNum, 0);
         }
 
         /// <summary>
@@ -114,7 +240,19 @@ namespace Scada.Server.Engine
         /// </summary>
         public List<DateTime> GetTimestamps(DateTime startTime, DateTime endTime, int archiveBit)
         {
-            return null;
+            if (GetArchive(archiveBit, out HistoricalArchiveLogic archiveLogic))
+            {
+                try
+                {
+                    return archiveLogic.GetTimestamps(startTime, endTime);
+                }
+                catch (Exception ex)
+                {
+                    log.WriteException(ex, ErrorInArchive, "GetTimestamps", archiveLogic.Code);
+                }
+            }
+
+            return new List<DateTime>();
         }
 
         /// <summary>
@@ -122,15 +260,28 @@ namespace Scada.Server.Engine
         /// </summary>
         public Slice GetSlice(int[] cnlNums, DateTime timestamp, int archiveBit)
         {
-            return null;
+            if (GetArchive(archiveBit, out HistoricalArchiveLogic archiveLogic))
+            {
+                try
+                {
+                    return archiveLogic.GetSlice(cnlNums, timestamp);
+                }
+                catch (Exception ex)
+                {
+                    log.WriteException(ex, ErrorInArchive, "GetSlice", archiveLogic.Code);
+                }
+            }
+
+            return new Slice(timestamp, cnlNums, new CnlData[cnlNums.Length]);
         }
-        
+
         /// <summary>
         /// Gets the time (UTC) when when the archive was last written to.
         /// </summary>
         public DateTime GetLastWriteTime(int archiveBit)
         {
-            return DateTime.MinValue;
+            return GetArchive(archiveBit, out ArchiveLogic archiveLogic) ?
+                archiveLogic.LastWriteTime : DateTime.MinValue;
         }
 
         /// <summary>
@@ -138,6 +289,18 @@ namespace Scada.Server.Engine
         /// </summary>
         public Event GetEventByID(long eventID, int archiveBit)
         {
+            if (GetArchive(archiveBit, out EventArchiveLogic archiveLogic))
+            {
+                try
+                {
+                    return archiveLogic.GetEventByID(eventID);
+                }
+                catch (Exception ex)
+                {
+                    log.WriteException(ex, ErrorInArchive, "GetEventByID", archiveLogic.Code);
+                }
+            }
+
             return null;
         }
 
@@ -146,60 +309,19 @@ namespace Scada.Server.Engine
         /// </summary>
         public List<Event> GetEvents(DateTime startTime, DateTime endTime, DataFilter filter, int archiveBit)
         {
-            return null;
-        }
-
-        /// <summary>
-        /// Writes the slice of input channels to the historical archives, performing calculations.
-        /// </summary>
-        public void WriteSlice(Slice slice, int archiveMask, bool applyFormulas)
-        {
-            // TODO: write slice to archives, move the method to CoreLogic
-            Calculator calc = null;
-            Dictionary<int, CnlTag> cnlTags = null;
-            List<CnlTag> calcCnlTags = null;
-            HistoricalArchiveLogic archiveLogic = null;
-
-            DateTime timestamp = slice.Timestamp;
-            calc.BeginCalculation(new ArchiveCalcContext(archiveLogic, timestamp));
-            archiveLogic.BeginUpdate();
-
-            // calculate input channels which are written
-            // TODO: get channel tags once for all archives, copy them to a temporary array
-            for (int i = 0, cnlCnt = slice.CnlNums.Length; i < cnlCnt; i++)
+            if (GetArchive(archiveBit, out EventArchiveLogic archiveLogic))
             {
-                int cnlNum = slice.CnlNums[i];
-
-                if (cnlTags.TryGetValue(cnlNum, out CnlTag cnlTag))
+                try
                 {
-                    CnlData newCnlData = slice.CnlData[i];
-
-                    if (applyFormulas && cnlTag.InCnl.FormulaEnabled &&
-                        cnlTag.InCnl.CnlTypeID == CnlTypeID.Measured)
-                    {
-                        newCnlData = calc.CalcCnlData(cnlTag, newCnlData);
-                    }
-
-                    archiveLogic.WriteCnlData(cnlNum, timestamp, newCnlData);
+                    return archiveLogic.GetEvents(startTime, endTime, filter);
+                }
+                catch (Exception ex)
+                {
+                    log.WriteException(ex, ErrorInArchive, "GetEvents", archiveLogic.Code);
                 }
             }
 
-            // calculate input channels of the calculated type
-            foreach (CnlTag cnlTag in calcCnlTags)
-            {
-                CnlData arcCnlData = archiveLogic.GetCnlData(cnlTag.CnlNum, timestamp);
-                CnlData newCnlData = calc.CalcCnlData(cnlTag, arcCnlData);
-
-                if (arcCnlData != newCnlData)
-                    archiveLogic.WriteCnlData(cnlTag.CnlNum, timestamp, newCnlData);
-            }
-
-            // update channel status according to limits and other conditions, similar to CoreLogic.UpdateCnlStatus
-            //if (newCnlData.Stat == CnlStatusID.Defined)
-            //    newCnlData.Stat = CnlStatusID.Archival;
-
-            archiveLogic.EndUpdate();
-            calc.EndCalculation();
+            return new List<Event>();
         }
 
         /// <summary>
@@ -207,8 +329,20 @@ namespace Scada.Server.Engine
         /// </summary>
         public void WriteEvent(Event ev, int archiveMask)
         {
-            log.WriteAction(string.Format("Created event with ID = {0}, CnlNum = {1}, OutCnlNum = {2}", 
-                ev.EventID, ev.CnlNum, ev.OutCnlNum));
+            for (int archiveBit = 0; archiveBit < ServerUtils.MaxArchiveCount; archiveBit++)
+            {
+                if (archiveMask.BitIsSet(archiveBit) && GetArchive(archiveBit, out EventArchiveLogic archiveLogic))
+                {
+                    try
+                    {
+                        archiveLogic.WriteEvent(ev);
+                    }
+                    catch (Exception ex)
+                    {
+                        log.WriteException(ex, ErrorInArchive, "WriteEvent", archiveLogic.Code);
+                    }
+                }
+            }
         }
 
         /// <summary>
@@ -216,7 +350,20 @@ namespace Scada.Server.Engine
         /// </summary>
         public void AckEvent(long eventID, DateTime timestamp, int userID)
         {
-
+            for (int archiveBit = 0; archiveBit < ServerUtils.MaxArchiveCount; archiveBit++)
+            {
+                if (GetArchive(archiveBit, out EventArchiveLogic archiveLogic))
+                {
+                    try
+                    {
+                        archiveLogic.AckEvent(eventID, timestamp, userID);
+                    }
+                    catch (Exception ex)
+                    {
+                        log.WriteException(ex, ErrorInArchive, "AckEvent", archiveLogic.Code);
+                    }
+                }
+            }
         }
     }
 }

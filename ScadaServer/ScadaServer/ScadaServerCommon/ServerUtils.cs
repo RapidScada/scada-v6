@@ -43,5 +43,9 @@ namespace Scada.Server
         /// The application information file name.
         /// </summary>
         public const string InfoFileName = "ScadaServer.txt";
+        /// <summary>
+        /// The maximum number of archives.
+        /// </summary>
+        public const int MaxArchiveCount = 31;
     }
 }

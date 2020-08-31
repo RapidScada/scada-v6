@@ -29,6 +29,7 @@ using Scada.Data.Entities;
 using Scada.Data.Models;
 using Scada.Data.Tables;
 using Scada.Log;
+using Scada.Server.Archives;
 using Scada.Server.Config;
 using System;
 using System.Collections.Generic;
@@ -45,9 +46,9 @@ namespace Scada.Server.Engine
     internal class CoreLogic : ICnlDataChangeHandler
     {
         /// <summary>
-        /// The application work states.
+        /// The service statuses.
         /// </summary>
-        private enum WorkState
+        private enum ServiceStatus
         {
             Undefined = 0,
             Normal = 1,
@@ -69,13 +70,13 @@ namespace Scada.Server.Engine
         /// </summary>
         private static readonly TimeSpan WriteInfoPeriod = TimeSpan.FromSeconds(1);
         /// <summary>
-        /// The work state names in English.
+        /// The service status names in English.
         /// </summary>
-        private static readonly string[] WorkStateNamesEn = { "Undefined", "Normal", "Error", "Terminated" };
+        private static readonly string[] StatusNamesEn = { "Undefined", "Normal", "Error", "Terminated" };
         /// <summary>
-        /// The work state names in Russian.
+        /// The service status names in Russian.
         /// </summary>
-        private static readonly string[] WorkStateNamesRu = { "не определено", "норма", "ошибка", "завершено" };
+        private static readonly string[] StatusNamesRu = { "не определено", "норма", "ошибка", "завершено" };
 
         private readonly ServerConfig config; // the server configuration
         private readonly ServerDirs appDirs;  // the application directories
@@ -86,17 +87,17 @@ namespace Scada.Server.Engine
         private volatile bool terminated;     // necessary to stop the thread
         private DateTime utcStartDT;          // the UTC start time
         private DateTime startDT;             // the local start time
-        private WorkState workState;          // the work state
+        private ServiceStatus serviceStatus;  // the current service status
 
         private ServerListener listener;      // the TCP listener
         private ModuleHolder moduleHolder;    // holds modules
         private ArchiveHolder archiveHolder;  // holds archives
         private BaseDataSet baseDataSet;      // the configuration database
-        private Dictionary<int, CnlTag> cnlTags;       // the metadata about the input channels accessed by channel numbers
+        private Dictionary<int, CnlTag> cnlTags;       // the metadata about the input channels accessed by channel number
         private List<CnlTag> measCnlTags;              // the list of the input channel tags of the measured type
         private List<CnlTag> calcCnlTags;              // the list of the input channel tags of the calculated type
-        private Dictionary<int, OutCnlTag> outCnlTags; // the metadata about the output channels accessed by channel numbers
-        private Dictionary<string, User> users;        // the users accessed by names
+        private Dictionary<int, OutCnlTag> outCnlTags; // the metadata about the output channels accessed by channel number
+        private Dictionary<string, User> users;        // the users accessed by name
         private ObjSecurity objSecurity;      // provides access control
         private Calculator calc;              // provides work with scripts and formulas
         private CurrentData curData;          // the current data of the input channels
@@ -118,7 +119,7 @@ namespace Scada.Server.Engine
             terminated = false;
             utcStartDT = DateTime.MinValue;
             startDT = DateTime.MinValue;
-            workState = WorkState.Undefined;
+            serviceStatus = ServiceStatus.Undefined;
 
             listener = null;
             moduleHolder = null;
@@ -144,7 +145,7 @@ namespace Scada.Server.Engine
         {
             get
             {
-                return workState == WorkState.Normal;
+                return serviceStatus == ServiceStatus.Normal;
             }
         }
 
@@ -158,7 +159,7 @@ namespace Scada.Server.Engine
             terminated = false;
             utcStartDT = DateTime.UtcNow;
             startDT = utcStartDT.ToLocalTime();
-            workState = WorkState.Undefined;
+            serviceStatus = ServiceStatus.Undefined;
             WriteInfo();
 
             if (!config.PathOptions.CheckExistence(out errMsg))
@@ -355,7 +356,7 @@ namespace Scada.Server.Engine
         }
 
         /// <summary>
-        /// Work cycle running in a separate thread.
+        /// Operating cycle running in a separate thread.
         /// </summary>
         private void Execute()
         {
@@ -367,7 +368,7 @@ namespace Scada.Server.Engine
                 moduleHolder.OnServiceStart();
                 archiveHolder.ReadCurrentData(curData);
                 calc.InitScripts();
-                workState = WorkState.Normal;
+                serviceStatus = ServiceStatus.Normal;
 
                 while (!terminated)
                 {
@@ -420,7 +421,7 @@ namespace Scada.Server.Engine
             {
                 calc.FinalizeScripts();
                 moduleHolder.OnServiceStop();
-                workState = WorkState.Terminated;
+                serviceStatus = ServiceStatus.Terminated;
                 WriteInfo();
             }
         }
@@ -486,6 +487,11 @@ namespace Scada.Server.Engine
                 while (events.Count > 0)
                 {
                     Event ev = events.Dequeue();
+
+                    log.WriteAction(string.Format(
+                        "Event with ID {0}, input channel {1} and output channel {2} generated",
+                        ev.EventID, ev.CnlNum, ev.OutCnlNum));
+
                     moduleHolder.OnEvent(ev);
                     archiveHolder.WriteEvent(ev, ArchiveMask.Default);
                 }
@@ -513,7 +519,7 @@ namespace Scada.Server.Engine
                         .AppendLine("------")
                         .Append("Запуск       : ").AppendLine(startDT.ToLocalizedString())
                         .Append("Время работы : ").AppendLine(workSpanStr)
-                        .Append("Состояние    : ").AppendLine(WorkStateNamesRu[(int)workState])
+                        .Append("Статус       : ").AppendLine(StatusNamesRu[(int)serviceStatus])
                         .Append("Версия       : ").AppendLine(ServerUtils.AppVersion);
                 }
                 else
@@ -523,7 +529,7 @@ namespace Scada.Server.Engine
                         .AppendLine("------")
                         .Append("Started        : ").AppendLine(startDT.ToLocalizedString())
                         .Append("Execution time : ").AppendLine(workSpanStr)
-                        .Append("State          : ").AppendLine(WorkStateNamesEn[(int)workState])
+                        .Append("Status         : ").AppendLine(StatusNamesEn[(int)serviceStatus])
                         .Append("Version        : ").AppendLine(ServerUtils.AppVersion);
                 }
 
@@ -545,7 +551,7 @@ namespace Scada.Server.Engine
         }
 
         /// <summary>
-        /// Updates the input channel status after formula calculation.
+        /// Updates the input channel status after formula calculation for the current data.
         /// </summary>
         private void UpdateCnlStatus(CnlTag cnlTag, ref CnlData cnlData, CnlData prevCnlData)
         {
@@ -577,7 +583,33 @@ namespace Scada.Server.Engine
         }
 
         /// <summary>
-        /// Get the input channel limits.
+        /// Updates the input channel status after formula calculation for the archive at the timestamp.
+        /// </summary>
+        private void UpdateCnlStatus(HistoricalArchiveLogic archiveLogic, DateTime timestamp, 
+            CnlTag cnlTag, ref CnlData cnlData)
+        {
+            if (cnlData.Stat == CnlStatusID.Defined)
+            {
+                if (double.IsNaN(cnlData.Val))
+                {
+                    cnlData.Stat = CnlStatusID.Undefined;
+                }
+                else if (cnlTag.Lim == null)
+                {
+                    if (cnlTag.InCnl.CnlTypeID == CnlTypeID.Measured)
+                        cnlData.Stat = CnlStatusID.Archival;
+                }
+                else
+                {
+                    GetCnlLimits(archiveLogic, timestamp, cnlTag, 
+                        out double lolo, out double low, out double high, out double hihi);
+                    cnlData.Stat = GetCnlStatus(cnlData.Val, lolo, low, high, hihi);
+                }
+            }
+        }
+
+        /// <summary>
+        /// Get the input channel limits for the current data.
         /// </summary>
         private void GetCnlLimits(CnlTag cnlTag, out double lolo, out double low, out double high, out double hihi)
         {
@@ -602,6 +634,33 @@ namespace Scada.Server.Engine
                 low = lim.Low ?? double.NaN;
                 high = lim.High ?? double.NaN;
                 hihi = lim.HiHi ?? double.NaN;
+            }
+        }
+
+        /// <summary>
+        /// Get the input channel limits for the archive at the timestamp.
+        /// </summary>
+        private void GetCnlLimits(HistoricalArchiveLogic archiveLogic, DateTime timestamp, CnlTag cnlTag, 
+            out double lolo, out double low, out double high, out double hihi)
+        {
+            double GetLimit(double cnlNum)
+            {
+                CnlData limData = cnlNum > 0 ? archiveLogic.GetCnlData((int)cnlNum, timestamp) : CnlData.Empty;
+                return limData.Stat > 0 ? limData.Val : double.NaN;
+            }
+
+            Lim lim = cnlTag.Lim;
+            lolo = lim.LoLo ?? double.NaN;
+            low = lim.Low ?? double.NaN;
+            high = lim.High ?? double.NaN;
+            hihi = lim.HiHi ?? double.NaN;
+
+            if (cnlTag.Lim.IsBoundToCnl)
+            {
+                lolo = GetLimit(lolo);
+                low = GetLimit(low);
+                high = GetLimit(high);
+                hihi = GetLimit(hihi);
             }
         }
 
@@ -737,7 +796,7 @@ namespace Scada.Server.Engine
             {
                 if (thread == null)
                 {
-                    workState = WorkState.Error;
+                    serviceStatus = ServiceStatus.Error;
                     WriteInfo();
                 }
             }
@@ -787,7 +846,7 @@ namespace Scada.Server.Engine
             }
             catch (Exception ex)
             {
-                workState = WorkState.Error;
+                serviceStatus = ServiceStatus.Error;
                 WriteInfo();
                 log.WriteException(ex, Locale.IsRussian ?
                     "Ошибка при остановке обработки логики" :
@@ -1000,9 +1059,88 @@ namespace Scada.Server.Engine
             if (slice == null)
                 throw new ArgumentNullException("slice");
 
-            moduleHolder.OnHistoricalDataProcessing(deviceNum, slice);
-            archiveHolder.WriteSlice(slice, archiveMask, applyFormulas);
-            moduleHolder.OnHistoricalDataProcessed(deviceNum);
+            try
+            {
+                moduleHolder.OnHistoricalDataProcessing(deviceNum, slice);
+                DateTime timestamp = slice.Timestamp;
+
+                // find input channel tags of the slice
+                int cnlCnt = slice.CnlNums.Length;
+                CnlTag[] sliceCnlTags = new CnlTag[cnlCnt];
+
+                for (int i = 0; i < cnlCnt; i++)
+                {
+                    cnlTags.TryGetValue(slice.CnlNums[i], out CnlTag cnlTag);
+                    sliceCnlTags[i] = cnlTag;
+                }
+
+                for (int archiveBit = 0; archiveBit < ServerUtils.MaxArchiveCount; archiveBit++)
+                {
+                    if (archiveMask.BitIsSet(archiveBit) && 
+                        archiveHolder.GetArchive(archiveBit, out HistoricalArchiveLogic archiveLogic) &&
+                        archiveLogic.AcceptData(timestamp))
+                    {
+                        try
+                        {
+                            calc.BeginCalculation(new ArchiveCalcContext(archiveLogic, timestamp));
+                            archiveLogic.BeginUpdate();
+
+                            // calculate input channels which are written
+                            for (int i = 0; i < cnlCnt; i++)
+                            {
+                                CnlTag cnlTag = sliceCnlTags[i];
+
+                                if (cnlTag != null)
+                                {
+                                    CnlData newCnlData = slice.CnlData[i];
+
+                                    if (applyFormulas && cnlTag.InCnl.FormulaEnabled &&
+                                        cnlTag.InCnl.CnlTypeID == CnlTypeID.Measured)
+                                    {
+                                        newCnlData = calc.CalcCnlData(cnlTag, newCnlData);
+                                        UpdateCnlStatus(archiveLogic, timestamp, cnlTag, ref newCnlData);
+                                        slice.CnlData[i] = newCnlData;
+                                    }
+
+                                    archiveLogic.WriteCnlData(cnlTag.CnlNum, timestamp, newCnlData);
+                                }
+                            }
+
+                            // calculate input channels of the calculated type
+                            foreach (CnlTag cnlTag in calcCnlTags)
+                            {
+                                CnlData arcCnlData = archiveLogic.GetCnlData(cnlTag.CnlNum, timestamp);
+                                CnlData newCnlData = calc.CalcCnlData(cnlTag, arcCnlData);
+                                UpdateCnlStatus(archiveLogic, timestamp, cnlTag, ref newCnlData);
+
+                                if (arcCnlData != newCnlData)
+                                    archiveLogic.WriteCnlData(cnlTag.CnlNum, timestamp, newCnlData);
+                            }
+                        }
+                        catch (Exception ex)
+                        {
+                            log.WriteException(ex, string.Format(Locale.IsRussian ?
+                                "Ошибка при записи исторических данных в архив {0}" :
+                                "Error writing historical data to the {1} archive", archiveLogic.Code));
+                        }
+                        finally
+                        {
+                            archiveHolder.EndUpdate(archiveLogic);
+                            calc.EndCalculation();
+                        }
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                log.WriteException(ex, Locale.IsRussian ?
+                    "Ошибка при записи исторических данных" :
+                    "Error writing historical data");
+            }
+            finally
+            {
+                moduleHolder.OnHistoricalDataProcessed(deviceNum, slice);
+            }
         }
 
         /// <summary>
@@ -1049,6 +1187,10 @@ namespace Scada.Server.Engine
                         ev.DeviceNum = outCnl.DeviceNum ?? 0;
                 }
 
+                log.WriteAction(string.Format(
+                    "Event with ID {0}, input channel {1} and output channel {2} received",
+                    ev.EventID, ev.CnlNum, ev.OutCnlNum));
+
                 moduleHolder.OnEvent(ev);
                 archiveHolder.WriteEvent(ev, archiveMask);
             }
@@ -1065,6 +1207,7 @@ namespace Scada.Server.Engine
         /// </summary>
         public void AckEvent(long eventID, DateTime timestamp, int userID)
         {
+            log.WriteAction(string.Format("Acknowledge event with ID {0}", eventID));
             moduleHolder.OnEventAck(eventID, timestamp, userID);
             archiveHolder.AckEvent(eventID, timestamp, userID);
         }

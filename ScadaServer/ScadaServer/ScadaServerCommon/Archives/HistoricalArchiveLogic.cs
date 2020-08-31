@@ -36,6 +36,15 @@ namespace Scada.Server.Archives
     public abstract class HistoricalArchiveLogic : ArchiveLogic
     {
         /// <summary>
+        /// Initializes a new instance of the class.
+        /// </summary>
+        public HistoricalArchiveLogic(string code)
+            : base(code)
+        {
+        }
+
+
+        /// <summary>
         /// Gets the input channel data.
         /// </summary>
         public abstract CnlData GetCnlData(int cnlNum, DateTime timestamp);
@@ -61,16 +70,6 @@ namespace Scada.Server.Archives
         public abstract Slice GetSlice(int[] cnlNums, DateTime timestamp);
 
         /// <summary>
-        /// Maintains performance when data is written one at a time.
-        /// </summary>
-        public abstract void BeginUpdate();
-
-        /// <summary>
-        /// Completes the update operation.
-        /// </summary>
-        public abstract void EndUpdate();
-
-        /// <summary>
         /// Processes new data.
         /// </summary>
         public abstract void ProcessData(ICurrentData curData);
@@ -79,6 +78,16 @@ namespace Scada.Server.Archives
         /// Accepts or rejects data with the specified timestamp.
         /// </summary>
         public abstract bool AcceptData(DateTime timestamp);
+
+        /// <summary>
+        /// Maintains performance when data is written one at a time.
+        /// </summary>
+        public abstract void BeginUpdate();
+
+        /// <summary>
+        /// Completes the update operation.
+        /// </summary>
+        public abstract void EndUpdate();
 
         /// <summary>
         /// Writes the input channel data.

@@ -41,7 +41,6 @@ namespace Scada.Server.Config
         public GeneralOptions()
         {
             UnrelIfInactive = 300;
-            TrendArcCode = "";
             MaxLogSize = LogFile.DefaultCapacity;
         }
 
@@ -50,11 +49,6 @@ namespace Scada.Server.Config
         /// Gets or sets the time after which an inactive input channel is marked as unreliable, sec.
         /// </summary>
         public int UnrelIfInactive { get; set; }
-
-        /// <summary>
-        /// Gets or sets the code of the archive that is used by default for trends.
-        /// </summary>
-        public string TrendArcCode { get; set; }
 
         /// <summary>
         /// Gets or sets the maximum log file size.
@@ -71,7 +65,6 @@ namespace Scada.Server.Config
                 throw new ArgumentNullException("xmlNode");
 
             UnrelIfInactive = xmlNode.GetChildAsInt("UnrelIfInactive", UnrelIfInactive);
-            TrendArcCode = xmlNode.GetChildAsString("TrendArcCode");
             MaxLogSize = xmlNode.GetChildAsInt("MaxLogSize", MaxLogSize);
         }
 
@@ -83,7 +76,7 @@ namespace Scada.Server.Config
             if (xmlElem == null)
                 throw new ArgumentNullException("xmlElem");
 
-            xmlElem.AppendElem("TrendArcCode", TrendArcCode);
+            xmlElem.AppendElem("UnrelIfInactive", UnrelIfInactive);
             xmlElem.AppendElem("MaxLogSize", MaxLogSize);
         }
     }

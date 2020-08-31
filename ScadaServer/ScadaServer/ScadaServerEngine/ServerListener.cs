@@ -339,7 +339,9 @@ namespace Scada.Server.Engine
             Event ev = GetEvent(request.Buffer, ref index);
             int archiveMask = GetInt32(request.Buffer, ref index);
             coreLogic.WriteEvent(ev, archiveMask);
-            response = new ResponsePacket(request, client.OutBuf);
+
+            response = new ResponsePacket(request, client.OutBuf) { ArgumentLength = 8 } ;
+            CopyInt64(ev.EventID, client.OutBuf, ArgumentIndex);
         }
 
         /// <summary>
@@ -380,6 +382,7 @@ namespace Scada.Server.Engine
             buffer = client.OutBuf;
             response = new ResponsePacket(request, buffer);
             index = ArgumentIndex;
+            CopyInt64(command.CommandID, buffer, ref index);
             CopyBool(commandResult.IsSuccessful, buffer, ref index);
             CopyString(commandResult.ErrorMessage, buffer, ref index);
             response.BufferLength = index;
