@@ -488,7 +488,8 @@ namespace Scada.Server.Engine
                 {
                     Event ev = events.Dequeue();
 
-                    log.WriteAction(string.Format(
+                    log.WriteAction(string.Format(Locale.IsRussian ?
+                        "Создано событие с ид. {0}, входным каналом {1} и выходным каналом {2}" :
                         "Event with ID {0}, input channel {1} and output channel {2} generated",
                         ev.EventID, ev.CnlNum, ev.OutCnlNum));
 
@@ -1187,7 +1188,8 @@ namespace Scada.Server.Engine
                         ev.DeviceNum = outCnl.DeviceNum ?? 0;
                 }
 
-                log.WriteAction(string.Format(
+                log.WriteAction(string.Format(Locale.IsRussian ?
+                    "Получено событие с ид. {0}, входным каналом {1} и выходным каналом {2}" :
                     "Event with ID {0}, input channel {1} and output channel {2} received",
                     ev.EventID, ev.CnlNum, ev.OutCnlNum));
 
@@ -1207,7 +1209,9 @@ namespace Scada.Server.Engine
         /// </summary>
         public void AckEvent(long eventID, DateTime timestamp, int userID)
         {
-            log.WriteAction(string.Format("Acknowledge event with ID {0}", eventID));
+            log.WriteAction(string.Format(Locale.IsRussian ?
+                "Квитирование события с ид. {0}" :
+                "Acknowledge event with ID {0}", eventID));
             moduleHolder.OnEventAck(eventID, timestamp, userID);
             archiveHolder.AckEvent(eventID, timestamp, userID);
         }

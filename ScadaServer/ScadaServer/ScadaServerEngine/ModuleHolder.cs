@@ -41,7 +41,8 @@ namespace Scada.Server.Engine
             "Error calling the {0} method of the {1} module" :
             "Ошибка при вызове метода {0} модуля {1}";
 
-        private readonly ILog log; // the application log
+        private readonly ILog log;          // the application log
+        private readonly object moduleLock; // synchronizes access to the modules
 
 
         /// <summary>
@@ -50,14 +51,22 @@ namespace Scada.Server.Engine
         public ModuleHolder(ILog log)
         {
             this.log = log ?? throw new ArgumentNullException("log");
+            moduleLock = new object();
+
             Modules = new List<ModuleLogic>();
+            LogicModules = new List<ModuleLogic>();
         }
 
 
         /// <summary>
-        /// Gets the modules.
+        /// Gets all the modules.
         /// </summary>
         public List<ModuleLogic> Modules { get; }
+
+        /// <summary>
+        /// Gets the modules that have only a logical purpose.
+        /// </summary>
+        public List<ModuleLogic> LogicModules { get; }
 
 
         /// <summary>
@@ -65,7 +74,7 @@ namespace Scada.Server.Engine
         /// </summary>
         public void OnServiceStart()
         {
-            lock (Modules)
+            lock (moduleLock)
             {
                 foreach (ModuleLogic moduleLogic in Modules)
                 {
@@ -86,7 +95,7 @@ namespace Scada.Server.Engine
         /// </summary>
         public void OnServiceStop()
         {
-            lock (Modules)
+            lock (moduleLock)
             {
                 foreach (ModuleLogic moduleLogic in Modules)
                 {
@@ -107,9 +116,9 @@ namespace Scada.Server.Engine
         /// </summary>
         public void OnIteration()
         {
-            lock (Modules)
+            lock (moduleLock)
             {
-                foreach (ModuleLogic moduleLogic in Modules)
+                foreach (ModuleLogic moduleLogic in LogicModules)
                 {
                     try
                     {
@@ -128,9 +137,9 @@ namespace Scada.Server.Engine
         /// </summary>
         public void OnCurrentDataProcessing(int deviceNum, int[] cnlNums, CnlData[] cnlData)
         {
-            lock (Modules)
+            lock (moduleLock)
             {
-                foreach (ModuleLogic moduleLogic in Modules)
+                foreach (ModuleLogic moduleLogic in LogicModules)
                 {
                     try
                     {
@@ -149,9 +158,9 @@ namespace Scada.Server.Engine
         /// </summary>
         public void OnCurrentDataProcessed(int deviceNum, int[] cnlNums, CnlData[] cnlData)
         {
-            lock (Modules)
+            lock (moduleLock)
             {
-                foreach (ModuleLogic moduleLogic in Modules)
+                foreach (ModuleLogic moduleLogic in LogicModules)
                 {
                     try
                     {
@@ -170,9 +179,9 @@ namespace Scada.Server.Engine
         /// </summary>
         public void OnHistoricalDataProcessing(int deviceNum, Slice slice)
         {
-            lock (Modules)
+            lock (moduleLock)
             {
-                foreach (ModuleLogic moduleLogic in Modules)
+                foreach (ModuleLogic moduleLogic in LogicModules)
                 {
                     try
                     {
@@ -191,9 +200,9 @@ namespace Scada.Server.Engine
         /// </summary>
         public void OnHistoricalDataProcessed(int deviceNum, Slice slice)
         {
-            lock (Modules)
+            lock (moduleLock)
             {
-                foreach (ModuleLogic moduleLogic in Modules)
+                foreach (ModuleLogic moduleLogic in LogicModules)
                 {
                     try
                     {
@@ -212,9 +221,9 @@ namespace Scada.Server.Engine
         /// </summary>
         public void OnEvent(Event ev)
         {
-            lock (Modules)
+            lock (moduleLock)
             {
-                foreach (ModuleLogic moduleLogic in Modules)
+                foreach (ModuleLogic moduleLogic in LogicModules)
                 {
                     try
                     {
@@ -233,9 +242,9 @@ namespace Scada.Server.Engine
         /// </summary>
         public void OnEventAck(long eventID, DateTime timestamp, int userID)
         {
-            lock (Modules)
+            lock (moduleLock)
             {
-                foreach (ModuleLogic moduleLogic in Modules)
+                foreach (ModuleLogic moduleLogic in LogicModules)
                 {
                     try
                     {
@@ -254,9 +263,9 @@ namespace Scada.Server.Engine
         /// </summary>
         public void OnCommand(TeleCommand command, CommandResult commandResult)
         {
-            lock (Modules)
+            lock (moduleLock)
             {
-                foreach (ModuleLogic moduleLogic in Modules)
+                foreach (ModuleLogic moduleLogic in LogicModules)
                 {
                     try
                     {
@@ -281,9 +290,9 @@ namespace Scada.Server.Engine
             errMsg = "";
             handled = false;
 
-            lock (Modules)
+            lock (moduleLock)
             {
-                foreach (ModuleLogic moduleLogic in Modules)
+                foreach (ModuleLogic moduleLogic in LogicModules)
                 {
                     try
                     {
