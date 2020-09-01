@@ -922,6 +922,29 @@ namespace Scada.Server.Engine
         /// <summary>
         /// Gets the current data.
         /// </summary>
+        public CnlData GetCurrentData(int cnlNum)
+        {
+            try
+            {
+                lock (curData)
+                {
+                    if (cnlTags.TryGetValue(cnlNum, out CnlTag cnlTag))
+                        return curData.CnlData[cnlTag.Index];
+                }
+            }
+            catch (Exception ex)
+            {
+                log.WriteException(ex, Locale.IsRussian ?
+                    "Ошибка при получении текущих данных" :
+                    "Error getting current data");
+            }
+
+            return CnlData.Empty;
+        }
+
+        /// <summary>
+        /// Gets the current data.
+        /// </summary>
         public CnlData[] GetCurrentData(int[] cnlNums, bool useCache, out long cnlListID)
         {
             if (cnlNums == null)

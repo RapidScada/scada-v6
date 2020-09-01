@@ -52,7 +52,7 @@ namespace Scada.Server.Engine
         /// <summary>
         /// Gets the actual data of the input channel.
         /// </summary>
-        CnlData ICalcContext.GetCnlData(int cnlNum)
+        public CnlData GetCnlData(int cnlNum)
         {
             return archiveLogic.GetCnlData(cnlNum, timestamp);
         }
@@ -60,7 +60,7 @@ namespace Scada.Server.Engine
         /// <summary>
         /// Gets the previous data of the input channel, if applicable.
         /// </summary>
-        CnlData ICalcContext.GetPrevCnlData(int cnlNum)
+        public CnlData GetPrevCnlData(int cnlNum)
         {
             return CnlData.Empty;
         }
@@ -68,7 +68,7 @@ namespace Scada.Server.Engine
         /// <summary>
         /// Gets the actual timestamp of the input channel.
         /// </summary>
-        DateTime ICalcContext.GetCnlTime(int cnlNum)
+        public DateTime GetCnlTime(int cnlNum)
         {
             return timestamp;
         }
@@ -76,7 +76,7 @@ namespace Scada.Server.Engine
         /// <summary>
         /// Gets the previous timestamp of the input channel, if applicable.
         /// </summary>
-        DateTime ICalcContext.GetPrevCnlTime(int cnlNum)
+        public DateTime GetPrevCnlTime(int cnlNum)
         {
             return DateTime.MinValue;
         }
@@ -84,7 +84,7 @@ namespace Scada.Server.Engine
         /// <summary>
         /// Sets the input channel data.
         /// </summary>
-        void ICalcContext.SetCnlData(int cnlNum, CnlData cnlData)
+        public void SetCnlData(int cnlNum, CnlData cnlData)
         {
             archiveLogic.WriteCnlData(cnlNum, timestamp, cnlData);
         }
