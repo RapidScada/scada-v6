@@ -41,22 +41,16 @@ namespace Scada.Comm.Drivers
         /// <summary>
         /// Initializes a new instance of the class.
         /// </summary>
-        public DriverLogic()
+        public DriverLogic(ICommContext commContext)
         {
-            commContext = null;
-            Log = null;
+            CommContext = commContext ?? throw new ArgumentNullException("commContext");
         }
 
 
         /// <summary>
-        /// Gets or sets the driver log.
-        /// </summary>
-        protected ILog Log { get; set; }
-
-        /// <summary>
         /// Gets or sets the Communicator context.
         /// </summary>
-        public ICommContext CommContext
+        protected ICommContext CommContext
         {
             get
             {
@@ -68,6 +62,11 @@ namespace Scada.Comm.Drivers
                 Log = commContext.Log;
             }
         }
+
+        /// <summary>
+        /// Gets or sets the driver log.
+        /// </summary>
+        protected ILog Log { get; set; }
 
         /// <summary>
         /// Gets the driver code.

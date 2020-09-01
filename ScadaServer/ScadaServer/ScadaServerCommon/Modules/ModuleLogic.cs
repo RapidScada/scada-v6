@@ -42,22 +42,17 @@ namespace Scada.Server.Modules
         /// <summary>
         /// Initializes a new instance of the class.
         /// </summary>
-        public ModuleLogic()
+        public ModuleLogic(IServerContext serverContext)
         {
-            appContext = null;
-            Log = null;
+            AppContext = serverContext ?? throw new ArgumentNullException("serverContext");
+            ModulePurposes = ModulePurposes.Logic;
         }
 
 
         /// <summary>
-        /// Gets or sets the module log.
-        /// </summary>
-        protected ILog Log { get; set; }
-
-        /// <summary>
         /// Gets or sets the application context.
         /// </summary>
-        public IServerContext AppContext
+        protected IServerContext AppContext
         {
             get
             {
@@ -69,6 +64,16 @@ namespace Scada.Server.Modules
                 Log = appContext.Log;
             }
         }
+
+        /// <summary>
+        /// Gets or sets the module log.
+        /// </summary>
+        protected ILog Log { get; set; }
+
+        /// <summary>
+        /// Gets the module purposes.
+        /// </summary>
+        public ModulePurposes ModulePurposes { get; }
 
         /// <summary>
         /// Gets the module code.
