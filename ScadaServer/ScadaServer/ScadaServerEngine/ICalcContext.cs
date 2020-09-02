@@ -35,6 +35,11 @@ namespace Scada.Server.Engine
     public interface ICalcContext
     {
         /// <summary>
+        /// Gets the timestamp of the calculated data (UTC).
+        /// </summary>
+        DateTime Timestamp { get; }
+
+        /// <summary>
         /// Gets the actual data of the input channel.
         /// </summary>
         CnlData GetCnlData(int cnlNum);

@@ -44,15 +44,15 @@ namespace Scada.Server.Modules
         /// </summary>
         public ModuleLogic(IServerContext serverContext)
         {
-            AppContext = serverContext ?? throw new ArgumentNullException("serverContext");
+            ServerContext = serverContext ?? throw new ArgumentNullException("serverContext");
             ModulePurposes = ModulePurposes.Logic;
         }
 
 
         /// <summary>
-        /// Gets or sets the application context.
+        /// Gets or sets the server context.
         /// </summary>
-        protected IServerContext AppContext
+        protected IServerContext ServerContext
         {
             get
             {

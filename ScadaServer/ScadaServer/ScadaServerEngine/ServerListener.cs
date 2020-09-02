@@ -50,20 +50,17 @@ namespace Scada.Server.Engine
         private readonly CoreLogic coreLogic;         // the server logic instance
         private readonly ArchiveHolder archiveHolder; // holds archives
         private readonly ServerCache serverCache;     // the server level cache
-        private readonly ServerConfig config;         // the server configuration
 
 
         /// <summary>
         /// Initializes a new instance of the class.
         /// </summary>
-        public ServerListener(CoreLogic coreLogic, ArchiveHolder archiveHolder, ServerCache serverCache, 
-            ServerConfig config, ILog log)
-            : base(config.ListenerOptions, log)
+        public ServerListener(CoreLogic coreLogic, ArchiveHolder archiveHolder, ServerCache serverCache)
+            : base(coreLogic?.Config.ListenerOptions, coreLogic?.Log)
         {
             this.coreLogic = coreLogic ?? throw new ArgumentNullException("coreLogic");
             this.archiveHolder = archiveHolder ?? throw new ArgumentNullException("archiveHolder");
             this.serverCache = serverCache ?? throw new ArgumentNullException("serverCache");
-            this.config = config ?? throw new ArgumentNullException("config");
         }
 
 
@@ -512,16 +509,18 @@ namespace Scada.Server.Engine
         /// </summary>
         protected override string GetDirectory(int directoryID)
         {
+            PathOptions pathOptions = coreLogic.Config.PathOptions;
+
             switch (directoryID)
             {
                 case (int)TopFolder.Archive:
-                    return config.PathOptions.ArcDir;
+                    return pathOptions.ArcDir;
                 case (int)TopFolder.ArchiveCopy:
-                    return config.PathOptions.ArcCopyDir;
+                    return pathOptions.ArcCopyDir;
                 case (int)TopFolder.Base:
-                    return config.PathOptions.BaseDir;
+                    return pathOptions.BaseDir;
                 case (int)TopFolder.View:
-                    return config.PathOptions.ViewDir;
+                    return pathOptions.ViewDir;
                 default:
                     throw new ScadaException("Directory not supported.");
             }

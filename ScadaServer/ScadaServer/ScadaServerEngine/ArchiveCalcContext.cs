@@ -36,7 +36,6 @@ namespace Scada.Server.Engine
     internal class ArchiveCalcContext : ICalcContext
     {
         private readonly HistoricalArchiveLogic archiveLogic; // the historical archive logic
-        private readonly DateTime timestamp;                  // the calculated data timestamp
 
 
         /// <summary>
@@ -45,16 +44,21 @@ namespace Scada.Server.Engine
         public ArchiveCalcContext(HistoricalArchiveLogic archiveLogic, DateTime timestamp)
         {
             this.archiveLogic = archiveLogic ?? throw new ArgumentNullException("archiveLogic");
-            this.timestamp = timestamp;
+            Timestamp = timestamp;
         }
 
+
+        /// <summary>
+        /// Gets the timestamp of the calculated data.
+        /// </summary>
+        public DateTime Timestamp { get; }
 
         /// <summary>
         /// Gets the actual data of the input channel.
         /// </summary>
         public CnlData GetCnlData(int cnlNum)
         {
-            return archiveLogic.GetCnlData(cnlNum, timestamp);
+            return archiveLogic.GetCnlData(cnlNum, Timestamp);
         }
 
         /// <summary>
@@ -70,7 +74,7 @@ namespace Scada.Server.Engine
         /// </summary>
         public DateTime GetCnlTime(int cnlNum)
         {
-            return timestamp;
+            return Timestamp;
         }
 
         /// <summary>
@@ -86,7 +90,7 @@ namespace Scada.Server.Engine
         /// </summary>
         public void SetCnlData(int cnlNum, CnlData cnlData)
         {
-            archiveLogic.WriteCnlData(cnlNum, timestamp, cnlData);
+            archiveLogic.WriteCnlData(cnlNum, Timestamp, cnlData);
         }
     }
 }

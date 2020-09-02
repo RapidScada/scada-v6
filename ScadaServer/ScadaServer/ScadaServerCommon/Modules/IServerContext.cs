@@ -39,11 +39,6 @@ namespace Scada.Server.Modules
     public interface IServerContext
     {
         /// <summary>
-        /// Gets the configuration database cache.
-        /// </summary>
-        BaseDataSet BaseDataSet { get; }
-
-        /// <summary>
         /// Gets the application configuration.
         /// </summary>
         ServerConfig AppConfig { get; }
@@ -59,15 +54,20 @@ namespace Scada.Server.Modules
         ILog Log { get; }
 
         /// <summary>
+        /// Gets the configuration database cache.
+        /// </summary>
+        BaseDataSet BaseDataSet { get; }
+
+        /// <summary>
+        /// Gets the active input channel numbers.
+        /// </summary>
+        int[] CnlNums { get; }
+
+        /// <summary>
         /// Gets the application level shared data.
         /// </summary>
         IDictionary<string, object> SharedData { get; }
 
-
-        /// <summary>
-        /// Gets the active channel numbers.
-        /// </summary>
-        int[] GetCnlNums();
 
         /// <summary>
         /// Gets the current data of the input channel.
@@ -77,7 +77,12 @@ namespace Scada.Server.Modules
         /// <summary>
         /// Gets the current data of the input channels.
         /// </summary>
-        Slice GetCurrentData(int[] cnlNums);
+        CnlData[] GetCurrentData(int[] cnlNums, bool useCache, out long cnlListID);
+
+        /// <summary>
+        /// Gets the current data of the cached input channel list.
+        /// </summary>
+        CnlData[] GetCurrentData(long cnlListID);
 
         /// <summary>
         /// Gets the trends of the specified input channels.

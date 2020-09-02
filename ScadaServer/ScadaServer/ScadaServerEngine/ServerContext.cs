@@ -55,38 +55,35 @@ namespace Scada.Server.Engine
 
 
         /// <summary>
-        /// Gets the configuration database cache.
-        /// </summary>
-        public BaseDataSet BaseDataSet { get; }
-
-        /// <summary>
         /// Gets the application configuration.
         /// </summary>
-        public ServerConfig AppConfig { get; }
+        public ServerConfig AppConfig { get => coreLogic.Config; }
 
         /// <summary>
         /// Gets the application directories.
         /// </summary>
-        public ServerDirs AppDirs { get; }
+        public ServerDirs AppDirs { get => coreLogic.AppDirs; }
 
         /// <summary>
         /// Gets the application log.
         /// </summary>
-        public ILog Log { get; }
+        public ILog Log { get => coreLogic.Log; }
+
+        /// <summary>
+        /// Gets the configuration database cache.
+        /// </summary>
+        public BaseDataSet BaseDataSet { get => coreLogic.BaseDataSet; }
+
+        /// <summary>
+        /// Gets the active input channel numbers.
+        /// </summary>
+        public int[] CnlNums { get => coreLogic.CnlNums; }
 
         /// <summary>
         /// Gets the application level shared data.
         /// </summary>
         public IDictionary<string, object> SharedData { get; }
 
-
-        /// <summary>
-        /// Gets the active channel numbers.
-        /// </summary>
-        public int[] GetCnlNums()
-        {
-            return null;
-        }
 
         /// <summary>
         /// Gets the current data of the input channel.
@@ -99,10 +96,17 @@ namespace Scada.Server.Engine
         /// <summary>
         /// Gets the current data of the input channels.
         /// </summary>
-        public Slice GetCurrentData(int[] cnlNums)
+        public CnlData[] GetCurrentData(int[] cnlNums, bool useCache, out long cnlListID)
         {
-            CnlData[] cnlData = coreLogic.GetCurrentData(cnlNums, false, out long cnlListID);
-            return null;
+            return coreLogic.GetCurrentData(cnlNums, useCache, out cnlListID);
+        }
+
+        /// <summary>
+        /// Gets the current data of the cached input channel list.
+        /// </summary>
+        public CnlData[] GetCurrentData(long cnlListID)
+        {
+            return coreLogic.GetCurrentData(cnlListID);
         }
 
         /// <summary>

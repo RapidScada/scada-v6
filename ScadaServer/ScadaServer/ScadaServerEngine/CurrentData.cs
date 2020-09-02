@@ -63,9 +63,9 @@ namespace Scada.Server.Engine
 
 
         /// <summary>
-        /// Gets the current timestamp.
+        /// Gets or sets the current timestamp (UTC).
         /// </summary>
-        public DateTime Timestamp { get; private set; }
+        public DateTime Timestamp { get; set; }
 
         /// <summary>
         /// Gets the input channel numbers.
@@ -183,7 +183,7 @@ namespace Scada.Server.Engine
         void ICalcContext.SetCnlData(int cnlNum, CnlData cnlData)
         {
             if (cnlTags.TryGetValue(cnlNum, out CnlTag cnlTag))
-                SetCurCnlData(cnlTag, cnlData, DateTime.UtcNow);
+                SetCurCnlData(cnlTag, cnlData, Timestamp);
         }
     }
 }

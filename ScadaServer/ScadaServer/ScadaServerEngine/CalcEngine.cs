@@ -99,6 +99,17 @@ namespace Scada.Server.Engine
         }
 
         /// <summary>
+        /// Gets the timestamp of the calculated data (UTC).
+        /// </summary>
+        public DateTime Timestamp
+        {
+            get
+            {
+                return calcContext == null ? DateTime.MinValue : calcContext.Timestamp;
+            }
+        }
+
+        /// <summary>
         /// Gets the input channel number for which the formula is calculated.
         /// </summary>
         public int CnlNum

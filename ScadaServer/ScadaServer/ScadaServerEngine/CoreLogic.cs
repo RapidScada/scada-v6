@@ -78,9 +78,6 @@ namespace Scada.Server.Engine
         /// </summary>
         private static readonly string[] StatusNamesRu = { "не определено", "норма", "ошибка", "завершено" };
 
-        private readonly ServerConfig config; // the server configuration
-        private readonly ServerDirs appDirs;  // the application directories
-        private readonly ILog log;            // the application log
         private readonly string infoFileName; // the full file name to write application information
 
         private Thread thread;                // the working thread of the logic
@@ -92,7 +89,6 @@ namespace Scada.Server.Engine
         private ServerListener listener;      // the TCP listener
         private ModuleHolder moduleHolder;    // holds modules
         private ArchiveHolder archiveHolder;  // holds archives
-        private BaseDataSet baseDataSet;      // the configuration database
         private Dictionary<int, CnlTag> cnlTags;       // the metadata about the input channels accessed by channel number
         private List<CnlTag> measCnlTags;              // the list of the input channel tags of the measured type
         private List<CnlTag> calcCnlTags;              // the list of the input channel tags of the calculated type
@@ -110,9 +106,11 @@ namespace Scada.Server.Engine
         /// </summary>
         public CoreLogic(ServerConfig config, ServerDirs appDirs, ILog log)
         {
-            this.config = config ?? throw new ArgumentNullException("config");
-            this.appDirs = appDirs ?? throw new ArgumentNullException("appDirs");
-            this.log = log ?? throw new ArgumentNullException("log");
+            Config = config ?? throw new ArgumentNullException("config");
+            AppDirs = appDirs ?? throw new ArgumentNullException("appDirs");
+            Log = log ?? throw new ArgumentNullException("log");
+            BaseDataSet = null;
+
             infoFileName = appDirs.LogDir + ServerUtils.InfoFileName;
 
             thread = null;
@@ -124,7 +122,6 @@ namespace Scada.Server.Engine
             listener = null;
             moduleHolder = null;
             archiveHolder = null;
-            baseDataSet = null;
             cnlTags = null;
             measCnlTags = null;
             calcCnlTags = null;
@@ -137,6 +134,31 @@ namespace Scada.Server.Engine
             serverCache = null;
         }
 
+
+        /// <summary>
+        /// Gets the server configuration.
+        /// </summary>
+        public ServerConfig Config { get; }
+
+        /// <summary>
+        /// Gets the application directories.
+        /// </summary>
+        public ServerDirs AppDirs { get; }
+
+        /// <summary>
+        /// Gets the application log.
+        /// </summary>
+        public ILog Log { get; }
+
+        /// <summary>
+        /// Gets the configuration database.
+        /// </summary>
+        public BaseDataSet BaseDataSet { get; private set; }
+
+        /// <summary>
+        /// Gets the active input channel numbers.
+        /// </summary>
+        public int[] CnlNums { get => curData?.CnlNums; }
 
         /// <summary>
         /// Gets a value indicating whether the server is ready.
@@ -162,7 +184,7 @@ namespace Scada.Server.Engine
             serviceStatus = ServiceStatus.Undefined;
             WriteInfo();
 
-            if (!config.PathOptions.CheckExistence(out errMsg))
+            if (!Config.PathOptions.CheckExistence(out errMsg))
                 return false;
 
             InitModules();
@@ -182,7 +204,7 @@ namespace Scada.Server.Engine
             curData = new CurrentData(this, cnlTags);
             events = new Queue<Event>();
             serverCache = new ServerCache();
-            listener = new ServerListener(this, archiveHolder, serverCache, config, log);
+            listener = new ServerListener(this, archiveHolder, serverCache);
             return true;
         }
 
@@ -191,7 +213,7 @@ namespace Scada.Server.Engine
         /// </summary>
         private void InitModules()
         {
-            moduleHolder = new ModuleHolder(log);
+            moduleHolder = new ModuleHolder(Log);
         }
 
         /// <summary>
@@ -199,7 +221,7 @@ namespace Scada.Server.Engine
         /// </summary>
         private void InitArchives()
         {
-            archiveHolder = new ArchiveHolder(log);
+            archiveHolder = new ArchiveHolder(Log);
         }
 
         /// <summary>
@@ -211,17 +233,17 @@ namespace Scada.Server.Engine
 
             try
             {
-                baseDataSet = new BaseDataSet();
+                BaseDataSet = new BaseDataSet();
                 BaseTableAdapter adapter = new BaseTableAdapter();
 
-                foreach (IBaseTable baseTable in baseDataSet.AllTables)
+                foreach (IBaseTable baseTable in BaseDataSet.AllTables)
                 {
                     tableName = baseTable.Name;
-                    adapter.FileName = Path.Combine(config.PathOptions.BaseDir, tableName.ToLowerInvariant() + ".dat");
+                    adapter.FileName = Path.Combine(Config.PathOptions.BaseDir, tableName.ToLowerInvariant() + ".dat");
                     adapter.Fill(baseTable);
                 }
 
-                log.WriteAction(Locale.IsRussian ?
+                Log.WriteAction(Locale.IsRussian ?
                     "База конфигурации считана успешно" :
                     "The configuration database has been read successfully");
 
@@ -229,7 +251,7 @@ namespace Scada.Server.Engine
             }
             catch (Exception ex)
             {
-                log.WriteException(ex, Locale.IsRussian ?
+                Log.WriteException(ex, Locale.IsRussian ?
                     "Ошибка при чтении базы конфигурации, таблица {0}" :
                     "Error reading the configuration database, the {0} table", tableName);
                 return false;
@@ -264,12 +286,12 @@ namespace Scada.Server.Engine
                     limTags.Add(cnlTag);
             }
 
-            foreach (InCnl inCnl in baseDataSet.InCnlTable.EnumerateItems())
+            foreach (InCnl inCnl in BaseDataSet.InCnlTable.EnumerateItems())
             {
                 if (inCnl.Active && inCnl.CnlNum >= cnlNum)
                 {
                     cnlNum = inCnl.CnlNum;
-                    Lim lim = inCnl.LimID.HasValue ? baseDataSet.LimTable.GetItem(inCnl.LimID.Value) : null;
+                    Lim lim = inCnl.LimID.HasValue ? BaseDataSet.LimTable.GetItem(inCnl.LimID.Value) : null;
                     AddCnlTag(inCnl, lim);
 
                     // add channel tags if one channel row defines multiple channels
@@ -301,7 +323,7 @@ namespace Scada.Server.Engine
                 };
             }
 
-            log.WriteInfo(string.Format(Locale.IsRussian ?
+            Log.WriteInfo(string.Format(Locale.IsRussian ?
                 "Количество активных входных каналов: {0}" :
                 "Number of active input channels: {0}", cnlTags.Count));
         }
@@ -313,13 +335,13 @@ namespace Scada.Server.Engine
         {
             outCnlTags = new Dictionary<int, OutCnlTag>();
 
-            foreach (OutCnl outCnl in baseDataSet.OutCnlTable.EnumerateItems())
+            foreach (OutCnl outCnl in BaseDataSet.OutCnlTable.EnumerateItems())
             {
                 if (outCnl.Active)
                     outCnlTags.Add(outCnl.OutCnlNum, new OutCnlTag(outCnl));
             }
 
-            log.WriteInfo(string.Format(Locale.IsRussian ?
+            Log.WriteInfo(string.Format(Locale.IsRussian ?
                 "Количество активных каналов управления: {0}" :
                 "Number of active output channels: {0}", outCnlTags.Count));
         }
@@ -329,9 +351,9 @@ namespace Scada.Server.Engine
         /// </summary>
         private void InitUsers()
         {
-            users = new Dictionary<string, User>(baseDataSet.UserTable.ItemCount);
+            users = new Dictionary<string, User>(BaseDataSet.UserTable.ItemCount);
 
-            foreach (User user in baseDataSet.UserTable.EnumerateItems())
+            foreach (User user in BaseDataSet.UserTable.EnumerateItems())
             {
                 users[user.Name.ToLowerInvariant()] = user;
             }
@@ -343,7 +365,7 @@ namespace Scada.Server.Engine
         private void InitObjSecurity()
         {
             objSecurity = new ObjSecurity();
-            objSecurity.Init(baseDataSet);
+            objSecurity.Init(BaseDataSet);
         }
 
         /// <summary>
@@ -351,8 +373,8 @@ namespace Scada.Server.Engine
         /// </summary>
         private bool InitCalculator()
         {
-            calc = new Calculator(appDirs, log);
-            return calc.CompileScripts(baseDataSet, cnlTags, outCnlTags);
+            calc = new Calculator(AppDirs, Log);
+            return calc.CompileScripts(BaseDataSet, cnlTags, outCnlTags);
         }
 
         /// <summary>
@@ -378,6 +400,9 @@ namespace Scada.Server.Engine
 
                         lock (curData)
                         {
+                            // prepare current data for new iteration
+                            curData.PrepareIteration(utcNow);
+
                             // check activity of input channels
                             CheckActivity(ref checkActivityTagIndex, utcNow);
 
@@ -385,7 +410,6 @@ namespace Scada.Server.Engine
                             CalcCnlData(utcNow);
 
                             // process data by archives
-                            curData.PrepareIteration(utcNow);
                             archiveHolder.ProcessData(curData);
                         }
 
@@ -410,7 +434,7 @@ namespace Scada.Server.Engine
                     }
                     catch (Exception ex)
                     {
-                        log.WriteException(ex, Locale.IsRussian ?
+                        Log.WriteException(ex, Locale.IsRussian ?
                             "Ошибка в цикле работы приложения" :
                             "Error in the application work cycle");
                         Thread.Sleep(ScadaUtils.ThreadDelay);
@@ -431,7 +455,7 @@ namespace Scada.Server.Engine
         /// </summary>
         private void CheckActivity(ref int tagIndex, DateTime nowDT)
         {
-            int unrelIfInactive = config.GeneralOptions.UnrelIfInactive;
+            int unrelIfInactive = Config.GeneralOptions.UnrelIfInactive;
 
             if (unrelIfInactive > 0)
             {
@@ -488,7 +512,7 @@ namespace Scada.Server.Engine
                 {
                     Event ev = events.Dequeue();
 
-                    log.WriteAction(string.Format(Locale.IsRussian ?
+                    Log.WriteAction(string.Format(Locale.IsRussian ?
                         "Создано событие с ид. {0}, входным каналом {1} и выходным каналом {2}" :
                         "Event with ID {0}, input channel {1} and output channel {2} generated",
                         ev.EventID, ev.CnlNum, ev.OutCnlNum));
@@ -545,7 +569,7 @@ namespace Scada.Server.Engine
             }
             catch (Exception ex)
             {
-                log.WriteException(ex, Locale.IsRussian ?
+                Log.WriteException(ex, Locale.IsRussian ?
                     "Ошибка при записи в файл информации о работе приложения" :
                     "Error writing application information to the file");
             }
@@ -701,7 +725,7 @@ namespace Scada.Server.Engine
                     (cnlStat == CnlStatusID.Undefined && prevStat > CnlStatusID.Undefined ||
                     cnlStat > CnlStatusID.Undefined && prevStat == CnlStatusID.Undefined))
                 {
-                    CnlStatus cnlStatus = baseDataSet.CnlStatusTable.GetItem(cnlData.Stat);
+                    CnlStatus cnlStatus = BaseDataSet.CnlStatusTable.GetItem(cnlData.Stat);
 
                     EnqueueEvent(new Event
                     {
@@ -762,7 +786,7 @@ namespace Scada.Server.Engine
             {
                 if (thread == null)
                 {
-                    log.WriteAction(Locale.IsRussian ?
+                    Log.WriteAction(Locale.IsRussian ?
                         "Запуск обработки логики" :
                         "Start logic processing");
                     
@@ -774,12 +798,12 @@ namespace Scada.Server.Engine
                     }
                     else if (!string.IsNullOrEmpty(errMsg))
                     {
-                        log.WriteError(errMsg);
+                        Log.WriteError(errMsg);
                     }
                 }
                 else
                 {
-                    log.WriteAction(Locale.IsRussian ?
+                    Log.WriteAction(Locale.IsRussian ?
                         "Обработка логики уже запущена" :
                         "Logic processing is already started");
                 }
@@ -788,7 +812,7 @@ namespace Scada.Server.Engine
             }
             catch (Exception ex)
             {
-                log.WriteException(ex, Locale.IsRussian ?
+                Log.WriteException(ex, Locale.IsRussian ?
                     "Ошибка при запуске обработки логики" :
                     "Error starting logic processing");
                 return false;
@@ -824,20 +848,20 @@ namespace Scada.Server.Engine
 
                     if (thread.Join(WaitForStop))
                     {
-                        log.WriteAction(Locale.IsRussian ?
+                        Log.WriteAction(Locale.IsRussian ?
                             "Обработка логики остановлена" :
                             "Logic processing is stopped");
                     }
                     else if (ScadaUtils.IsRunningOnCore)
                     {
-                        log.WriteAction(Locale.IsRussian ?
+                        Log.WriteAction(Locale.IsRussian ?
                             "Не удалось остановить обработку логики за установленное время" :
                             "Unable to stop logic processing for a specified time");
                     }
                     else
                     {
                         thread.Abort(); // not supported on .NET Core
-                        log.WriteAction(Locale.IsRussian ?
+                        Log.WriteAction(Locale.IsRussian ?
                             "Обработка логики прервана" :
                             "Logic processing is aborted");
                     }
@@ -849,7 +873,7 @@ namespace Scada.Server.Engine
             {
                 serviceStatus = ServiceStatus.Error;
                 WriteInfo();
-                log.WriteException(ex, Locale.IsRussian ?
+                Log.WriteException(ex, Locale.IsRussian ?
                     "Ошибка при остановке обработки логики" :
                     "Error stopping logic processing");
             }
@@ -914,13 +938,13 @@ namespace Scada.Server.Engine
                     "Ошибка при проверке пользователя" :
                     "Error validating user";
 
-                log.WriteException(ex, errMsg);
+                Log.WriteException(ex, errMsg);
                 return false;
             }
         }
 
         /// <summary>
-        /// Gets the current data.
+        /// Gets the current data of the input channel.
         /// </summary>
         public CnlData GetCurrentData(int cnlNum)
         {
@@ -934,16 +958,16 @@ namespace Scada.Server.Engine
             }
             catch (Exception ex)
             {
-                log.WriteException(ex, Locale.IsRussian ?
-                    "Ошибка при получении текущих данных" :
-                    "Error getting current data");
+                Log.WriteException(ex, Locale.IsRussian ?
+                    "Ошибка при получении текущих данных входного канала" :
+                    "Error getting current data of the input channel");
             }
 
             return CnlData.Empty;
         }
 
         /// <summary>
-        /// Gets the current data.
+        /// Gets the current data of the input channels.
         /// </summary>
         public CnlData[] GetCurrentData(int[] cnlNums, bool useCache, out long cnlListID)
         {
@@ -984,16 +1008,16 @@ namespace Scada.Server.Engine
             }
             catch (Exception ex)
             {
-                log.WriteException(ex, Locale.IsRussian ?
-                    "Ошибка при получении текущих данных" :
-                    "Error getting current data");
+                Log.WriteException(ex, Locale.IsRussian ?
+                    "Ошибка при получении текущих данных входных каналов" :
+                    "Error getting current data of the input channels");
             }
 
             return cnlDataArr;
         }
 
         /// <summary>
-        /// Gets the current data.
+        /// Gets the current data of the cached input channel list.
         /// </summary>
         public CnlData[] GetCurrentData(long cnlListID)
         {
@@ -1017,9 +1041,9 @@ namespace Scada.Server.Engine
             }
             catch (Exception ex)
             {
-                log.WriteException(ex, Locale.IsRussian ?
-                    "Ошибка при получении текущих данных" :
-                    "Error getting current data");
+                Log.WriteException(ex, Locale.IsRussian ?
+                    "Ошибка при получении текущих данных кэшированного списка входных каналов" :
+                    "Error getting current data of the cached input channel list");
             }
 
             return cnlDataArr;
@@ -1043,6 +1067,7 @@ namespace Scada.Server.Engine
                 lock (curData)
                 {
                     DateTime utcNow = DateTime.UtcNow;
+                    curData.Timestamp = utcNow;
 
                     for (int i = 0, cnlCnt = cnlNums.Length; i < cnlCnt; i++)
                     {
@@ -1064,7 +1089,7 @@ namespace Scada.Server.Engine
             }
             catch (Exception ex)
             {
-                log.WriteException(ex, Locale.IsRussian ?
+                Log.WriteException(ex, Locale.IsRussian ?
                     "Ошибка при записи текущих данных" :
                     "Error writing current data");
             }
@@ -1143,7 +1168,7 @@ namespace Scada.Server.Engine
                         }
                         catch (Exception ex)
                         {
-                            log.WriteException(ex, string.Format(Locale.IsRussian ?
+                            Log.WriteException(ex, string.Format(Locale.IsRussian ?
                                 "Ошибка при записи исторических данных в архив {0}" :
                                 "Error writing historical data to the {1} archive", archiveLogic.Code));
                         }
@@ -1157,7 +1182,7 @@ namespace Scada.Server.Engine
             }
             catch (Exception ex)
             {
-                log.WriteException(ex, Locale.IsRussian ?
+                Log.WriteException(ex, Locale.IsRussian ?
                     "Ошибка при записи исторических данных" :
                     "Error writing historical data");
             }
@@ -1190,7 +1215,7 @@ namespace Scada.Server.Engine
                     if (ev.DeviceNum <= 0)
                         ev.DeviceNum = inCnl.DeviceNum ?? 0;
 
-                    if (baseDataSet.CnlStatusTable.GetItem(ev.CnlStat) is CnlStatus cnlStatus)
+                    if (BaseDataSet.CnlStatusTable.GetItem(ev.CnlStat) is CnlStatus cnlStatus)
                     {
                         if (ev.Severity <= 0)
                             ev.Severity = cnlStatus.Severity ?? 0;
@@ -1211,7 +1236,7 @@ namespace Scada.Server.Engine
                         ev.DeviceNum = outCnl.DeviceNum ?? 0;
                 }
 
-                log.WriteAction(string.Format(Locale.IsRussian ?
+                Log.WriteAction(string.Format(Locale.IsRussian ?
                     "Получено событие с ид. {0}, входным каналом {1} и выходным каналом {2}" :
                     "Event with ID {0}, input channel {1} and output channel {2} received",
                     ev.EventID, ev.CnlNum, ev.OutCnlNum));
@@ -1221,7 +1246,7 @@ namespace Scada.Server.Engine
             }
             catch (Exception ex)
             {
-                log.WriteException(ex, Locale.IsRussian ?
+                Log.WriteException(ex, Locale.IsRussian ?
                     "Ошибка при записи события" :
                     "Error writing event");
             }
@@ -1232,7 +1257,7 @@ namespace Scada.Server.Engine
         /// </summary>
         public void AckEvent(long eventID, DateTime timestamp, int userID)
         {
-            log.WriteAction(string.Format(Locale.IsRussian ?
+            Log.WriteAction(string.Format(Locale.IsRussian ?
                 "Квитирование события с ид. {0}" :
                 "Acknowledge event with ID {0}", eventID));
             moduleHolder.OnEventAck(eventID, timestamp, userID);
@@ -1253,23 +1278,23 @@ namespace Scada.Server.Engine
             {
                 int outCnlNum = command.OutCnlNum;
                 int userID = command.UserID;
-                log.WriteAction(string.Format(Locale.IsRussian ?
+                Log.WriteAction(string.Format(Locale.IsRussian ?
                     "Отправка команды на канал управления {0} пользователем с ид. {1}" :
                     "Send command to the output channel {0} by the user with ID {1}", outCnlNum, userID));
 
-                if (!baseDataSet.UserTable.Items.TryGetValue(userID, out User user))
+                if (!BaseDataSet.UserTable.Items.TryGetValue(userID, out User user))
                 {
                     commandResult.ErrorMessage = string.Format(Locale.IsRussian ?
                         "Пользователь {0} не найден" :
                         "User {0} not found", userID);
-                    log.WriteError(commandResult.ErrorMessage);
+                    Log.WriteError(commandResult.ErrorMessage);
                 }
                 else if (!outCnlTags.TryGetValue(outCnlNum, out OutCnlTag outCnlTag))
                 {
                     commandResult.ErrorMessage = string.Format(Locale.IsRussian ?
                         "Канал управления {0} не найден" :
                         "Output channel {0} not found", outCnlNum);
-                    log.WriteError(commandResult.ErrorMessage);
+                    Log.WriteError(commandResult.ErrorMessage);
                 }
                 else
                 {
@@ -1281,7 +1306,7 @@ namespace Scada.Server.Engine
                         commandResult.ErrorMessage = string.Format(Locale.IsRussian ?
                             "Недостаточно прав пользователя с ролью {0} на управление объектом {1}" :
                             "Insufficient rights of user with role {0} to control object {1}", user.RoleID, objNum);
-                        log.WriteError(commandResult.ErrorMessage);
+                        Log.WriteError(commandResult.ErrorMessage);
                     }
                     else
                     {
@@ -1300,6 +1325,7 @@ namespace Scada.Server.Engine
                         {
                             calc.BeginCalculation(curData);
                             Monitor.Enter(curData);
+                            curData.Timestamp = command.CreationTime;
                             commandResult.IsSuccessful = calc.CalcCmdData(outCnlTag, command.CmdVal, command.CmdData,
                                 out cmdVal, out cmdData, out string errMsg);
                             commandResult.ErrorMessage = errMsg;
@@ -1318,13 +1344,13 @@ namespace Scada.Server.Engine
                             command.CmdData = cmdData;
                             listener.EnqueueCommand(command);
                             GenerateEvent(outCnlTag, command);
-                            log.WriteAction(Locale.IsRussian ?
+                            Log.WriteAction(Locale.IsRussian ?
                                 "Команда поставлена в очередь на отправку клиентам" :
                                 "Command is queued to be sent to clients");
                         }
                         else
                         {
-                            log.WriteAction(string.Format(Locale.IsRussian ?
+                            Log.WriteAction(string.Format(Locale.IsRussian ?
                                 "Невозможно отправить команду: {0}" :
                                 "Unable to send command: {0}", commandResult.ErrorMessage));
                         }
@@ -1334,7 +1360,7 @@ namespace Scada.Server.Engine
             catch (Exception ex)
             {
                 commandResult.ErrorMessage = ex.Message;
-                log.WriteException(ex, Locale.IsRussian ?
+                Log.WriteException(ex, Locale.IsRussian ?
                     "Ошибка при отправке команды" :
                     "Error sending command");
             }
