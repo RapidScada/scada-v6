@@ -26,6 +26,7 @@
 using Scada.Data.Models;
 using Scada.Log;
 using Scada.Server.Archives;
+using Scada.Server.Config;
 using System;
 
 namespace Scada.Server.Modules
@@ -36,34 +37,21 @@ namespace Scada.Server.Modules
     /// </summary>
     public abstract class ModuleLogic
     {
-        private IServerContext appContext; // the application context
-
-
         /// <summary>
         /// Initializes a new instance of the class.
         /// </summary>
         public ModuleLogic(IServerContext serverContext)
         {
             ServerContext = serverContext ?? throw new ArgumentNullException("serverContext");
+            Log = serverContext.Log;
             ModulePurposes = ModulePurposes.Logic;
         }
 
 
         /// <summary>
-        /// Gets or sets the server context.
+        /// Gets the server context.
         /// </summary>
-        protected IServerContext ServerContext
-        {
-            get
-            {
-                return appContext;
-            }
-            set
-            {
-                appContext = value ?? throw new ArgumentNullException();
-                Log = appContext.Log;
-            }
-        }
+        protected IServerContext ServerContext { get; }
 
         /// <summary>
         /// Gets or sets the module log.
@@ -82,9 +70,9 @@ namespace Scada.Server.Modules
 
 
         /// <summary>
-        /// Creates a new archive of the specified kind.
+        /// Creates a new archive logic.
         /// </summary>
-        public virtual ArchiveLogic CreateArchive(ArchiveKind kind)
+        public virtual ArchiveLogic CreateArchive(ArchiveConfig archiveConfig)
         {
             return null;
         }

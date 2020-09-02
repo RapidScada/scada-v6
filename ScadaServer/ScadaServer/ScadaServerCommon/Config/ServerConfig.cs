@@ -72,9 +72,9 @@ namespace Scada.Server.Config
         public List<ArchiveConfig> Archives { get; private set; }
 
         /// <summary>
-        /// Gets the file names of the enabled modules.
+        /// Gets the codes of the enabled modules.
         /// </summary>
-        public List<string> ModuleFileNames { get; private set; }
+        public List<string> ModuleCodes { get; private set; }
 
 
         /// <summary>
@@ -86,7 +86,7 @@ namespace Scada.Server.Config
             ListenerOptions = new ListenerOptions();
             PathOptions = new PathOptions();
             Archives = new List<ArchiveConfig>();
-            ModuleFileNames = new List<string>();
+            ModuleCodes = new List<string>();
         }
 
         /// <summary>
@@ -114,6 +114,19 @@ namespace Scada.Server.Config
                 if (rootElem.SelectSingleNode("PathOptions") is XmlNode pathOptionsNode)
                     PathOptions.LoadFromXml(pathOptionsNode);
 
+                HashSet<string> moduleCodes = new HashSet<string>();
+
+                if (rootElem.SelectSingleNode("Modules") is XmlNode modulesNode)
+                {
+                    foreach (XmlElement moduleElem in modulesNode.SelectNodes("Module"))
+                    {
+                        string moduleCode = ScadaUtils.RemoveFileNameSuffixes(moduleElem.GetAttribute("code"));
+
+                        if (moduleCodes.Add(moduleCode))
+                            ModuleCodes.Add(moduleCode);
+                    }
+                }
+
                 if (rootElem.SelectSingleNode("Archives") is XmlNode archivesNode)
                 {
                     foreach (XmlElement archiveElem in archivesNode.SelectNodes("Archive"))
@@ -121,14 +134,9 @@ namespace Scada.Server.Config
                         ArchiveConfig archiveConfig = new ArchiveConfig();
                         archiveConfig.LoadFromXml(archiveElem);
                         Archives.Add(archiveConfig);
-                    }
-                }
 
-                if (rootElem.SelectSingleNode("Modules") is XmlNode modulesNode)
-                {
-                    foreach (XmlElement moduleElem in modulesNode.SelectNodes("Module"))
-                    {
-                        ModuleFileNames.Add(ScadaUtils.RemoveFileNameSuffixes(moduleElem.GetAttribute("fileName")));
+                        if (moduleCodes.Add(archiveConfig.Module))
+                            ModuleCodes.Add(archiveConfig.Module);
                     }
                 }
 
@@ -160,16 +168,16 @@ namespace Scada.Server.Config
                 ListenerOptions.SaveToXml(rootElem.AppendElem("ListenerOptions"));
                 PathOptions.SaveToXml(rootElem.AppendElem("PathOptions"));
 
+                XmlElement modulesElem = rootElem.AppendElem("Modules");
+                foreach (string moduleCode in ModuleCodes)
+                {
+                    modulesElem.AppendElem("Module").SetAttribute("code", moduleCode);
+                }
+
                 XmlElement archivesElem = rootElem.AppendElem("Archives");
                 foreach (ArchiveConfig archiveConfig in Archives)
                 {
                     archiveConfig.SaveToXml(archivesElem.AppendElem("Archive"));
-                }
-
-                XmlElement modulesElem = rootElem.AppendElem("Modules");
-                foreach (string moduleFileName in ModuleFileNames)
-                {
-                    modulesElem.AppendElem("Module").SetAttribute("fileName", moduleFileName);
                 }
 
                 xmlDoc.Save(fileName);

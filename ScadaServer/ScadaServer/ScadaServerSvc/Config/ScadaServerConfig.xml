@@ -15,28 +15,32 @@
     <BaseDir>C:\SCADA\BaseDAT\</BaseDir>
     <ViewDir>C:\SCADA\Views\</ViewDir>
   </PathOptions>
+  <Modules>
+    <Module code="ModArcBasic" />
+  </Modules>
   <Archives>
-    <Archive active="true" code="Cur" name="Current Data" kind="Current" dll="">
+    <Archive active="true" code="Cur" name="Current Data" kind="Current" module="ModArcBasic">
       <Option name="IsCopy" value="false" />
       <Option name="WritingPeriod" value="1" />
       <Option name="WritingUnit" value="Second" />
     </Archive>
-    <Archive active="true" code="Min" name="Minute Archive" kind="Historical" dll="">
+    <Archive active="true" code="Min" name="Minute Archive" kind="Historical" module="ModArcBasic">
       <Option name="IsCopy" value="false" />
       <Option name="WritingPeriod" value="1" />
       <Option name="WritingUnit" value="Minute" />
+      <Option name="WritingMode" value="Auto" />
       <Option name="StoragePeriod" value="365" />
     </Archive>
-    <Archive active="true" code="Hour" name="Hourly Archive" kind="Historical" dll="">
+    <Archive active="true" code="Hour" name="Hourly Archive" kind="Historical" module="ModArcBasic">
       <Option name="IsCopy" value="false" />
       <Option name="WritingPeriod" value="1" />
       <Option name="WritingUnit" value="Hour" />
+      <Option name="WritingMode" value="Auto" />
       <Option name="StoragePeriod" value="365" />
     </Archive>
-    <Archive active="true" code="Events" name="Event Archive" kind="Events" dll="">
+    <Archive active="true" code="Events" name="Event Archive" kind="Events" module="ModArcBasic">
       <Option name="IsCopy" value="false" />
       <Option name="StoragePeriod" value="365" />
     </Archive>
   </Archives>
-  <Modules />
 </ScadaServerConfig>

@@ -41,8 +41,11 @@ namespace Scada.Server.Engine
             "Error calling the {0} method of the {1} module" :
             "Ошибка при вызове метода {0} модуля {1}";
 
-        private readonly ILog log;          // the application log
-        private readonly object moduleLock; // synchronizes access to the modules
+        private readonly ILog log;                       // the application log
+        private readonly List<ModuleLogic> modules;      // all the modules
+        private readonly List<ModuleLogic> logicModules; // the modules that have only a logical purpose
+        private readonly Dictionary<string, ModuleLogic> moduleMap; // the modules accessed by code
+        private readonly object moduleLock;              // synchronizes access to the modules
 
 
         /// <summary>
@@ -51,23 +54,35 @@ namespace Scada.Server.Engine
         public ModuleHolder(ILog log)
         {
             this.log = log ?? throw new ArgumentNullException("log");
+            modules = new List<ModuleLogic>();
+            logicModules = new List<ModuleLogic>();
+            moduleMap = new Dictionary<string, ModuleLogic>();
             moduleLock = new object();
-
-            Modules = new List<ModuleLogic>();
-            LogicModules = new List<ModuleLogic>();
         }
 
 
         /// <summary>
-        /// Gets all the modules.
+        /// Adds the specified module to the lists.
         /// </summary>
-        public List<ModuleLogic> Modules { get; }
+        public void AddModule(ModuleLogic moduleLogic)
+        {
+            if (moduleLogic == null)
+                throw new ArgumentNullException("moduleLogic");
+
+            modules.Add(moduleLogic);
+            moduleMap[moduleLogic.Code] = moduleLogic;
+
+            if (moduleLogic.ModulePurposes.HasFlag(ModulePurposes.Logic))
+                logicModules.Add(moduleLogic);
+        }
 
         /// <summary>
-        /// Gets the modules that have only a logical purpose.
+        /// Gets the module by code.
         /// </summary>
-        public List<ModuleLogic> LogicModules { get; }
-
+        public bool GetModule(string moduleCode, out ModuleLogic moduleLogic)
+        {
+            return moduleMap.TryGetValue(moduleCode, out moduleLogic);
+        }
 
         /// <summary>
         /// Calls the OnServiceStart method of the modules.
@@ -76,7 +91,7 @@ namespace Scada.Server.Engine
         {
             lock (moduleLock)
             {
-                foreach (ModuleLogic moduleLogic in Modules)
+                foreach (ModuleLogic moduleLogic in modules)
                 {
                     try
                     {
@@ -97,7 +112,7 @@ namespace Scada.Server.Engine
         {
             lock (moduleLock)
             {
-                foreach (ModuleLogic moduleLogic in Modules)
+                foreach (ModuleLogic moduleLogic in modules)
                 {
                     try
                     {
@@ -118,7 +133,7 @@ namespace Scada.Server.Engine
         {
             lock (moduleLock)
             {
-                foreach (ModuleLogic moduleLogic in LogicModules)
+                foreach (ModuleLogic moduleLogic in logicModules)
                 {
                     try
                     {
@@ -139,7 +154,7 @@ namespace Scada.Server.Engine
         {
             lock (moduleLock)
             {
-                foreach (ModuleLogic moduleLogic in LogicModules)
+                foreach (ModuleLogic moduleLogic in logicModules)
                 {
                     try
                     {
@@ -160,7 +175,7 @@ namespace Scada.Server.Engine
         {
             lock (moduleLock)
             {
-                foreach (ModuleLogic moduleLogic in LogicModules)
+                foreach (ModuleLogic moduleLogic in logicModules)
                 {
                     try
                     {
@@ -181,7 +196,7 @@ namespace Scada.Server.Engine
         {
             lock (moduleLock)
             {
-                foreach (ModuleLogic moduleLogic in LogicModules)
+                foreach (ModuleLogic moduleLogic in logicModules)
                 {
                     try
                     {
@@ -202,7 +217,7 @@ namespace Scada.Server.Engine
         {
             lock (moduleLock)
             {
-                foreach (ModuleLogic moduleLogic in LogicModules)
+                foreach (ModuleLogic moduleLogic in logicModules)
                 {
                     try
                     {
@@ -223,7 +238,7 @@ namespace Scada.Server.Engine
         {
             lock (moduleLock)
             {
-                foreach (ModuleLogic moduleLogic in LogicModules)
+                foreach (ModuleLogic moduleLogic in logicModules)
                 {
                     try
                     {
@@ -244,7 +259,7 @@ namespace Scada.Server.Engine
         {
             lock (moduleLock)
             {
-                foreach (ModuleLogic moduleLogic in LogicModules)
+                foreach (ModuleLogic moduleLogic in logicModules)
                 {
                     try
                     {
@@ -265,7 +280,7 @@ namespace Scada.Server.Engine
         {
             lock (moduleLock)
             {
-                foreach (ModuleLogic moduleLogic in LogicModules)
+                foreach (ModuleLogic moduleLogic in logicModules)
                 {
                     try
                     {
@@ -292,7 +307,7 @@ namespace Scada.Server.Engine
 
             lock (moduleLock)
             {
-                foreach (ModuleLogic moduleLogic in LogicModules)
+                foreach (ModuleLogic moduleLogic in logicModules)
                 {
                     try
                     {

@@ -44,8 +44,11 @@ namespace Scada.Server.Engine
             "Ошибка при вызове метода {0} архива {1}" :
             "Error calling the {0} method of the {1} archive";
 
-        private readonly ILog log;                // the application log
-        private readonly ArchiveLogic[] arcByBit; // the archives accessed by bit number
+        private readonly ILog log; // the application log
+        private readonly List<CurrentArchiveLogic> currentArchives;       // the current archives
+        private readonly List<HistoricalArchiveLogic> historicalArchives; // the historical archives
+        private readonly List<EventArchiveLogic> eventArchives;           // the event archives
+        private readonly ArchiveLogic[] arcByBit;                         // the archives accessed by bit number
 
 
         /// <summary>
@@ -54,38 +57,52 @@ namespace Scada.Server.Engine
         public ArchiveHolder(ILog log)
         {
             this.log = log ?? throw new ArgumentNullException("log");
+            currentArchives = new List<CurrentArchiveLogic>();
+            historicalArchives = new List<HistoricalArchiveLogic>();
+            eventArchives = new List<EventArchiveLogic>();
             arcByBit = new ArchiveLogic[ServerUtils.MaxArchiveCount];
-
-            CurrentArchives = new List<CurrentArchiveLogic>();
-            HistoricalArchives = new List<HistoricalArchiveLogic>();
-            EventArchives = new List<EventArchiveLogic>();
         }
 
 
         /// <summary>
-        /// Gets the current archives.
+        /// Adds the specified archive to the lists.
         /// </summary>
-        public List<CurrentArchiveLogic> CurrentArchives { get; }
+        public void AddArchive(ArchiveLogic archiveLogic, int archiveBit)
+        {
+            if (archiveLogic == null)
+                throw new ArgumentNullException("archiveLogic");
+
+            if (archiveLogic is CurrentArchiveLogic currentArchiveLogic)
+                currentArchives.Add(currentArchiveLogic);
+            else if (archiveLogic is HistoricalArchiveLogic historicalArchiveLogic)
+                historicalArchives.Add(historicalArchiveLogic);
+            else if (archiveLogic is EventArchiveLogic eventArchiveLogic)
+                eventArchives.Add(eventArchiveLogic);
+
+            if (0 <= archiveBit && archiveBit < ServerUtils.MaxArchiveCount)
+                arcByBit[archiveBit] = archiveLogic;
+            else
+                throw new ScadaException("Archive bit is out of range.");
+        }
 
         /// <summary>
-        /// Gets the historical archives.
+        /// Gets an archive by the specified bit number.
         /// </summary>
-        public List<HistoricalArchiveLogic> HistoricalArchives { get; }
-
-        /// <summary>
-        /// Gets the event archives.
-        /// </summary>
-        public List<EventArchiveLogic> EventArchives { get; }
-
+        public bool GetArchive<T>(int archiveBit, out T archiveLogic) where T : ArchiveLogic
+        {
+            archiveLogic = 0 <= archiveBit && archiveBit < ServerUtils.MaxArchiveCount ?
+                arcByBit[archiveBit] as T : null;
+            return archiveLogic != null;
+        }
 
         /// <summary>
         /// Calls the ReadCurrentData method of the current archives until a successful result is obtained.
         /// </summary>
         public void ReadCurrentData(ICurrentData curData)
         {
-            lock (CurrentArchives)
+            lock (currentArchives)
             {
-                foreach (CurrentArchiveLogic archiveLogic in CurrentArchives)
+                foreach (CurrentArchiveLogic archiveLogic in currentArchives)
                 {
                     try
                     {
@@ -105,9 +122,9 @@ namespace Scada.Server.Engine
         /// </summary>
         public void ProcessData(ICurrentData curData)
         {
-            lock (CurrentArchives)
+            lock (currentArchives)
             {
-                foreach (CurrentArchiveLogic archiveLogic in CurrentArchives)
+                foreach (CurrentArchiveLogic archiveLogic in currentArchives)
                 {
                     try
                     {
@@ -120,9 +137,9 @@ namespace Scada.Server.Engine
                 }
             }
 
-            lock (CurrentArchives)
+            lock (currentArchives)
             {
-                foreach (HistoricalArchiveLogic archiveLogic in HistoricalArchives)
+                foreach (HistoricalArchiveLogic archiveLogic in historicalArchives)
                 {
                     try
                     {
@@ -165,9 +182,9 @@ namespace Scada.Server.Engine
                 }
             }
 
-            DoCleanup(CurrentArchives);
-            DoCleanup(HistoricalArchives);
-            DoCleanup(EventArchives);
+            DoCleanup(currentArchives);
+            DoCleanup(historicalArchives);
+            DoCleanup(eventArchives);
         }
 
         /// <summary>
@@ -183,16 +200,6 @@ namespace Scada.Server.Engine
             {
                 log.WriteException(ex, ErrorInArchive, "EndUpdate", archiveLogic.Code);
             }
-        }
-
-        /// <summary>
-        /// Gets an archive by the specified bit number.
-        /// </summary>
-        public bool GetArchive<T>(int archiveBit, out T archiveLogic) where T : ArchiveLogic
-        {
-            archiveLogic = 0 <= archiveBit && archiveBit < ServerUtils.MaxArchiveCount ? 
-                arcByBit[archiveBit] as T : null;
-            return archiveLogic != null;
         }
 
         /// <summary>

@@ -65,9 +65,9 @@ namespace Scada.Server.Modules
         }
 
         /// <summary>
-        /// Creates a new archive user interface of the specified kind.
+        /// Creates a new archive user interface.
         /// </summary>
-        public virtual ArchiveView CreateArchiveView(ArchiveKind kind)
+        public virtual ArchiveView CreateArchiveView(ArchiveConfig archiveConfig)
         {
             return null;
         }

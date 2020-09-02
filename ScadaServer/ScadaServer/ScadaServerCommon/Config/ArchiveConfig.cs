@@ -64,9 +64,9 @@ namespace Scada.Server.Config
         public ArchiveKind Kind { get; set; }
 
         /// <summary>
-        /// Gets or sets the name of the DLL that implements the archive.
+        /// Gets or sets the code of the module that implements the archive.
         /// </summary>
-        public string Dll { get; set; }
+        public string Module { get; set; }
 
         /// <summary>
         /// Gets the custom options.
@@ -85,7 +85,7 @@ namespace Scada.Server.Config
             Code = xmlElem.GetAttrAsString("code");
             Name = xmlElem.GetAttrAsString("name");
             Kind = xmlElem.GetAttrAsEnum("kind", ArchiveKind.Unspecified);
-            Dll = ScadaUtils.RemoveFileNameSuffixes(xmlElem.GetAttrAsString("dll"));
+            Module = ScadaUtils.RemoveFileNameSuffixes(xmlElem.GetAttrAsString("module"));
             CustomOptions.LoadFromXml(xmlElem);
         }
 
@@ -100,7 +100,7 @@ namespace Scada.Server.Config
             xmlElem.SetAttribute("code", Code);
             xmlElem.SetAttribute("name", Name);
             xmlElem.SetAttribute("kind", Kind);
-            xmlElem.SetAttribute("dll", Dll);
+            xmlElem.SetAttribute("module", Module);
             CustomOptions.SaveToXml(xmlElem);
         }
     }

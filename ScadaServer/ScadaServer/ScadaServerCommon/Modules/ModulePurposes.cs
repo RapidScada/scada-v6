@@ -15,7 +15,7 @@
  * 
  * 
  * Product  : Rapid SCADA
- * Module   : ScadaServerEngine
+ * Module   : ScadaServerCommon
  * Summary  : Specifies the module purposes
  * 
  * Author   : Mikhail Shiryaev

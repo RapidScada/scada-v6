@@ -31,6 +31,7 @@ using Scada.Data.Tables;
 using Scada.Log;
 using Scada.Server.Archives;
 using Scada.Server.Config;
+using Scada.Server.Modules;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -86,19 +87,19 @@ namespace Scada.Server.Engine
         private DateTime startDT;             // the local start time
         private ServiceStatus serviceStatus;  // the current service status
 
-        private ServerListener listener;      // the TCP listener
-        private ModuleHolder moduleHolder;    // holds modules
-        private ArchiveHolder archiveHolder;  // holds archives
         private Dictionary<int, CnlTag> cnlTags;       // the metadata about the input channels accessed by channel number
         private List<CnlTag> measCnlTags;              // the list of the input channel tags of the measured type
         private List<CnlTag> calcCnlTags;              // the list of the input channel tags of the calculated type
         private Dictionary<int, OutCnlTag> outCnlTags; // the metadata about the output channels accessed by channel number
         private Dictionary<string, User> users;        // the users accessed by name
         private ObjSecurity objSecurity;      // provides access control
+        private ModuleHolder moduleHolder;    // holds modules
+        private ArchiveHolder archiveHolder;  // holds archives
         private Calculator calc;              // provides work with scripts and formulas
         private CurrentData curData;          // the current data of the input channels
         private Queue<Event> events;          // the just generated events
         private ServerCache serverCache;      // the server level cache
+        private ServerListener listener;      // the TCP listener
 
 
         /// <summary>
@@ -119,19 +120,19 @@ namespace Scada.Server.Engine
             startDT = DateTime.MinValue;
             serviceStatus = ServiceStatus.Undefined;
 
-            listener = null;
-            moduleHolder = null;
-            archiveHolder = null;
             cnlTags = null;
             measCnlTags = null;
             calcCnlTags = null;
             outCnlTags = null;
             users = null;
             objSecurity = null;
+            moduleHolder = null;
+            archiveHolder = null;
             calc = null;
             curData = null;
             events = null;
             serverCache = null;
+            listener = null;
         }
 
 
@@ -187,9 +188,6 @@ namespace Scada.Server.Engine
             if (!Config.PathOptions.CheckExistence(out errMsg))
                 return false;
 
-            InitModules();
-            InitArchives();
-
             if (!ReadBase())
                 return false;
 
@@ -197,6 +195,8 @@ namespace Scada.Server.Engine
             InitOutCnlTags();
             InitUsers();
             InitObjSecurity();
+            InitModules();
+            InitArchives();
 
             if (!InitCalculator())
                 return false;
@@ -206,22 +206,6 @@ namespace Scada.Server.Engine
             serverCache = new ServerCache();
             listener = new ServerListener(this, archiveHolder, serverCache);
             return true;
-        }
-
-        /// <summary>
-        /// Initializes modules.
-        /// </summary>
-        private void InitModules()
-        {
-            moduleHolder = new ModuleHolder(Log);
-        }
-
-        /// <summary>
-        /// Initializes archives.
-        /// </summary>
-        private void InitArchives()
-        {
-            archiveHolder = new ArchiveHolder(Log);
         }
 
         /// <summary>
@@ -366,6 +350,81 @@ namespace Scada.Server.Engine
         {
             objSecurity = new ObjSecurity();
             objSecurity.Init(BaseDataSet);
+        }
+
+        /// <summary>
+        /// Initializes modules.
+        /// </summary>
+        private void InitModules()
+        {
+            moduleHolder = new ModuleHolder(Log);
+            archiveHolder = new ArchiveHolder(Log);
+            ServerContext serverContext = new ServerContext(this, archiveHolder);
+
+            foreach (string moduleCode in Config.ModuleCodes)
+            {
+                if (ModuleFactory.GetModuleLogic(AppDirs.ModDir, moduleCode, serverContext,
+                    out ModuleLogic moduleLogic, out string message))
+                {
+                    Log.WriteAction(message);
+                    moduleHolder.AddModule(moduleLogic);
+                }
+                else
+                {
+                    Log.WriteError(message);
+                }
+            }
+        }
+
+        /// <summary>
+        /// Initializes archives.
+        /// </summary>
+        private void InitArchives()
+        {
+            // create map of archives accessed by code
+            Dictionary<string, Archive> arcByCode = new Dictionary<string, Archive>();
+
+            foreach (Archive archive in BaseDataSet.ArchiveTable.EnumerateItems())
+            {
+                arcByCode[archive.Code] = archive;
+            }
+
+            // create archives
+            foreach (ArchiveConfig archiveConfig in Config.Archives)
+            {
+                try
+                {
+                    if (moduleHolder.GetModule(archiveConfig.Module, out ModuleLogic moduleLogic) &&
+                        moduleLogic.ModulePurposes.HasFlag(ModulePurposes.Archive) &&
+                        moduleLogic.CreateArchive(archiveConfig) is ArchiveLogic archiveLogic)
+                    {
+                        if (arcByCode.TryGetValue(archiveLogic.Code, out Archive archive))
+                        {
+                            archiveHolder.AddArchive(archiveLogic, archive.Bit);
+                        }
+                        else
+                        {
+                            Log.WriteError(string.Format(Locale.IsRussian ?
+                                "Архив {0} не найден в базе конфигурации" :
+                                "Archive {0} not found in the configuration database", archiveConfig.Code));
+                        }
+                    }
+                    else
+                    {
+                        Log.WriteError(string.Format(Locale.IsRussian ?
+                            "Не удалось создать архив {0} из модуля {1}" :
+                            "Unable to create archive {0} from module {1}", 
+                            archiveConfig.Code, archiveConfig.Module));
+                    }
+                }
+                catch (Exception ex)
+                {
+                    Log.WriteException(ex, string.Format(Locale.IsRussian ?
+                        "Ошибка при создании архива {0} из модуля {1}" :
+                        "Error creating archive {0} from module {1}", 
+                        archiveConfig.Code, archiveConfig.Module));
+                }
+            }
         }
 
         /// <summary>
