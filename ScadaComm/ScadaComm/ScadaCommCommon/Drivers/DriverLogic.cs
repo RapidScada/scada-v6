@@ -64,7 +64,7 @@ namespace Scada.Comm.Drivers
         /// <summary>
         /// Creates a new communication channel.
         /// </summary>
-        public virtual ChannelLogic CreateChannel()
+        public virtual ChannelLogic CreateChannel(string typeName)
         {
             return null;
         }

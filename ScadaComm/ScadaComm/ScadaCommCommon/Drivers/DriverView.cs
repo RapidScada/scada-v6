@@ -70,7 +70,7 @@ namespace Scada.Comm.Drivers
         /// <summary>
         /// Creates a new user interface of a communication channel.
         /// </summary>
-        public virtual ChannelView CreateChannelView()
+        public virtual ChannelView CreateChannelView(string typeName)
         {
             return null;
         }
