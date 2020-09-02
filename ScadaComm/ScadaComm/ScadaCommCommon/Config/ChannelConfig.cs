@@ -41,7 +41,7 @@ namespace Scada.Comm.Config
         public ChannelConfig()
         {
             TypeName = "";
-            Dll = "";
+            Driver = "";
             CustomOptions = new CustomOptions();
         }
 
@@ -52,9 +52,9 @@ namespace Scada.Comm.Config
         public string TypeName { get; set; }
 
         /// <summary>
-        /// Gets or sets the name of the DLL that implements the channel.
+        /// Gets or sets the code of the driver that implements the channel.
         /// </summary>
-        public string Dll { get; set; }
+        public string Driver { get; set; }
 
         /// <summary>
         /// Gets the custom options.
@@ -71,7 +71,7 @@ namespace Scada.Comm.Config
                 throw new ArgumentNullException("xmlElem");
 
             TypeName = xmlElem.GetAttrAsString("type");
-            Dll = xmlElem.GetAttrAsString("dll");
+            Driver = xmlElem.GetAttrAsString("driver");
             CustomOptions.LoadFromXml(xmlElem);
         }
 
@@ -84,7 +84,7 @@ namespace Scada.Comm.Config
                 throw new ArgumentNullException("xmlElem");
 
             xmlElem.SetAttribute("type", TypeName);
-            xmlElem.SetAttribute("dll", Dll);
+            xmlElem.SetAttribute("driver", Driver);
             CustomOptions.SaveToXml(xmlElem);
         }
     }

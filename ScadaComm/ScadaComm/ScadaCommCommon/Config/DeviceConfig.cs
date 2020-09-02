@@ -43,7 +43,7 @@ namespace Scada.Comm.Config
             IsBound = true;
             DeviceNum = 0;
             Name = "";
-            Dll = "";
+            Driver = "";
             NumAddress = 0;
             StrAddress = "";
             PollingOptions = new PollingOptions();
@@ -71,9 +71,9 @@ namespace Scada.Comm.Config
         public string Name { get; set; }
 
         /// <summary>
-        /// Gets or sets the name of the DLL that implements the device protocol.
+        /// Gets or sets the code of the driver that implements the device protocol.
         /// </summary>
-        public string Dll { get; set; }
+        public string Driver { get; set; }
 
         /// <summary>
         /// Gets or sets the numeric address.
@@ -103,7 +103,7 @@ namespace Scada.Comm.Config
             IsBound = xmlElem.GetAttrAsBool("isBound");
             DeviceNum = xmlElem.GetAttrAsInt("number");
             Name = xmlElem.GetAttrAsString("name");
-            Dll = xmlElem.GetAttrAsString("dll");
+            Driver = xmlElem.GetAttrAsString("driver");
             NumAddress = xmlElem.GetAttrAsInt("numAddress");
             StrAddress = xmlElem.GetAttrAsString("strAddress");
             PollingOptions.LoadFromXml(xmlElem);
@@ -121,7 +121,7 @@ namespace Scada.Comm.Config
             xmlElem.SetAttribute("isBound", IsBound);
             xmlElem.SetAttribute("number", DeviceNum);
             xmlElem.SetAttribute("name", Name);
-            xmlElem.SetAttribute("dll", Dll);
+            xmlElem.SetAttribute("driver", Driver);
             xmlElem.SetAttribute("numAddress", NumAddress);
             xmlElem.SetAttribute("strAddress", StrAddress);
             PollingOptions.SaveToXml(xmlElem);

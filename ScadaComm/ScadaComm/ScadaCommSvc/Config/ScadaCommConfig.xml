@@ -24,7 +24,7 @@
         <PollAfterCmd>true</PollAfterCmd>
         <DetailedLog>true</DetailedLog>
       </LineOptions>
-      <Channel type="TcpClient" dll="">
+      <Channel type="TcpClient" driver="DrvCnlBasic">
         <Option name="Behavior" value="Master" />
         <Option name="ConnMode" value="Individual" />
         <Option name="IpAddress" value="" />
@@ -34,8 +34,8 @@
         <Option name="TransMode" value="TCP" />
       </CustomOptions>
       <DevicePolling>
-        <Device active="true" isBound="true" number="11" name="ADAM-6015 Server room" dll="DrvModbus.dll" numAddress="1" strAddress="127.0.0.1" timeout="1000" delay="200" time="00:00:00" period="00:00:00" cmdLine="KpModbus_Adam6015.xml" />
-        <Device active="true" isBound="true" number="12" name="Test Device" dll="DrvTest.dll" numAddress="0" strAddress="" timeout="1000" delay="200" time="00:00:00" period="00:00:00" cmdLine="">
+        <Device active="true" isBound="true" number="11" name="ADAM-6015 Server room" driver="DrvModbus" numAddress="1" strAddress="127.0.0.1" timeout="1000" delay="200" time="00:00:00" period="00:00:00" cmdLine="DrvModbus_Adam6015.xml" />
+        <Device active="true" isBound="true" number="12" name="Test Device" driver="DrvTest" numAddress="0" strAddress="" timeout="1000" delay="200" time="00:00:00" period="00:00:00" cmdLine="">
           <Option name="MyOption" value="Abc" />
         </Device>
       </DevicePolling>
