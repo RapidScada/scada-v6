@@ -25,7 +25,7 @@
 
 #pragma warning disable 1591 // Missing XML comment for publicly visible type or member
 
-namespace Scada
+namespace Scada.Server
 {
     /// <summary>
     /// The phrases used by the server and its modules.

@@ -41,8 +41,8 @@ namespace Scada.Server.Modules
         public static bool GetModuleLogic(string directory, string moduleCode, IServerContext serverContext,
             out ModuleLogic moduleLogic, out string message)
         {
-            string fileName = Path.Combine(directory, moduleCode + ".dll");
-            string typeName = string.Format("Scada.Server.Modules.{0}.{0}Logic", moduleCode);
+            string fileName = Path.Combine(directory, moduleCode + ".Logic.dll");
+            string typeName = string.Format("Scada.Server.Modules.{0}.Logic.{0}Logic", moduleCode);
 
             try
             {
