@@ -37,11 +37,6 @@ namespace Scada.Comm.Drivers
     public interface ICommContext
     {
         /// <summary>
-        /// Gets the configuration database cache.
-        /// </summary>
-        BaseDataSet BaseDataSet { get; }
-
-        /// <summary>
         /// Gets the application configuration.
         /// </summary>
         CommConfig AppConfig { get; }
@@ -55,6 +50,11 @@ namespace Scada.Comm.Drivers
         /// Gets the application log.
         /// </summary>
         ILog Log { get; }
+
+        /// <summary>
+        /// Gets the configuration database cache.
+        /// </summary>
+        BaseDataSet BaseDataSet { get; }
 
         /// <summary>
         /// Gets the application level shared data.
