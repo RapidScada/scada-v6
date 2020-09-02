@@ -459,14 +459,14 @@ namespace Scada.Server.Engine
                 {
                     log.WriteAction(string.Format(Locale.IsRussian ?
                         "Проверка имени и пароля пользователя {0} успешна" :
-                        "Checking username and password of the user {0} is successful", username));
+                        "Checking username and password for user {0} is successful", username));
                     return true;
                 }
                 else if (roleID == RoleID.Application)
                 {
                     log.WriteAction(string.Format(Locale.IsRussian ?
                         "Пользователь {0} успешно аутентифицирован" :
-                        "The user {0} is successfully authenticated", username));
+                        "User {0} is successfully authenticated", username));
 
                     client.IsLoggedIn = true;
                     client.Username = username;
@@ -479,9 +479,9 @@ namespace Scada.Server.Engine
                     errMsg = Locale.IsRussian ?
                         "Недостаточно прав" :
                         "Insufficient rights";
-                    log.WriteAction(string.Format(Locale.IsRussian ?
+                    log.WriteError(string.Format(Locale.IsRussian ?
                         "Пользователь {0} имеет недостаточно прав. Требуется роль Приложение" :
-                        "The user {0} has insufficient rights. The Application role required", username));
+                        "User {0} has insufficient rights. The Application role required", username));
                     return false;
                 }
             }
@@ -489,16 +489,16 @@ namespace Scada.Server.Engine
             {
                 if (client.IsLoggedIn)
                 {
-                    log.WriteAction(string.Format(Locale.IsRussian ?
-                        "Проверка имени и пароля пользователя {0} с отрицательным результатом: {1}" :
-                        "Checking username and password of the user {0} is not successful: {1}", username, errMsg));
+                    log.WriteError(string.Format(Locale.IsRussian ?
+                        "Результат проверки имени и пароля пользователя {0} отрицательный: {1}" :
+                        "Checking username and password for user {0} is not successful: {1}", username, errMsg));
                     return false;
                 }
                 else
                 {
-                    log.WriteAction(string.Format(Locale.IsRussian ?
-                        "Неудачная попытка аутентификации пользователя {0}: {1}" :
-                        "Unsuccessful attempt to authenticate the user {0}: {1}", username, errMsg));
+                    log.WriteError(string.Format(Locale.IsRussian ?
+                        "Ошибка аутентификации пользователя {0}: {1}" :
+                        "Authentication failed for user {0}: {1}", username, errMsg));
                     return false;
                 }
             }

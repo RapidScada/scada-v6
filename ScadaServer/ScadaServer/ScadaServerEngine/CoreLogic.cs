@@ -401,6 +401,9 @@ namespace Scada.Server.Engine
                         if (arcByCode.TryGetValue(archiveLogic.Code, out Archive archive))
                         {
                             archiveHolder.AddArchive(archiveLogic, archive.Bit);
+                            Log.WriteAction(string.Format(Locale.IsRussian ?
+                                "Архив {0} инициализирован успешно" :
+                                "Archive {0} initialized successfully", archiveConfig.Code));
                         }
                         else
                         {
@@ -412,16 +415,16 @@ namespace Scada.Server.Engine
                     else
                     {
                         Log.WriteError(string.Format(Locale.IsRussian ?
-                            "Не удалось создать архив {0} из модуля {1}" :
-                            "Unable to create archive {0} from module {1}", 
+                            "Не удалось создать архив {0} с помощью модуля {1}" :
+                            "Unable to create archive {0} with the module {1}", 
                             archiveConfig.Code, archiveConfig.Module));
                     }
                 }
                 catch (Exception ex)
                 {
                     Log.WriteException(ex, string.Format(Locale.IsRussian ?
-                        "Ошибка при создании архива {0} из модуля {1}" :
-                        "Error creating archive {0} from module {1}", 
+                        "Ошибка при создании архива {0} с помощью модуля {1}" :
+                        "Error creating archive {0} with the module {1}", 
                         archiveConfig.Code, archiveConfig.Module));
                 }
             }
