@@ -157,10 +157,6 @@ namespace Scada.Data.Adapters
 
 
         /// <summary>
-        /// The table type.
-        /// </summary>
-        protected const ushort TableType = 2;
-        /// <summary>
         /// The major version number.
         /// </summary>
         protected const ushort MajorVersion = 4;
@@ -207,7 +203,7 @@ namespace Scada.Data.Adapters
                 throw new ScadaException("Unexpected end of stream.");
 
             int index = 0;
-            if (GetUInt16(buffer, ref index) != TableType)
+            if (GetUInt16(buffer, ref index) != TableType.BaseTable)
                 throw new ScadaException("Invalid table type.");
 
             if (GetUInt16(buffer, ref index) != MajorVersion)
@@ -549,7 +545,7 @@ namespace Scada.Data.Adapters
                 writer = new BinaryWriter(stream, Encoding.UTF8, Stream != null);
 
                 // write header
-                writer.Write(TableType);
+                writer.Write(TableType.BaseTable);
                 writer.Write(MajorVersion);
                 writer.Write(MinorVersion);
 
