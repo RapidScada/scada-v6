@@ -522,7 +522,9 @@ namespace Scada.Server.Engine
                 case (int)TopFolder.View:
                     return pathOptions.ViewDir;
                 default:
-                    throw new ScadaException("Directory not supported.");
+                    throw new ProtocolException(ErrorCode.IllegalFunctionArguments, Locale.IsRussian ?
+                        "Директория не поддерживается." :
+                        "Directory not supported.");
             }
         }
 

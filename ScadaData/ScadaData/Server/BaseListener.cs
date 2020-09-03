@@ -734,7 +734,7 @@ namespace Scada.Server
                     }
 
                     // prepare for reading
-                    const int FileDataIndex = ArgumentIndex + 17;
+                    const int FileDataIndex = ArgumentIndex + 21;
                     const int BlockCapacity = BufferLenght - FileDataIndex;
                     long bytesToReadTotal = count > 0 ? Math.Min(count, stream.Length - stream.Position) : stream.Length;
                     long bytesReadTotal = 0;
@@ -782,7 +782,7 @@ namespace Scada.Server
             CopyTime(fileAge, buffer, ref index);
             CopyByte((byte)fileReadingResult, buffer, ref index);
             CopyInt32(bytesRead, buffer, ref index);
-            response.BufferLength = index;
+            response.BufferLength = index + bytesRead;
             return response;
         }
 
@@ -808,7 +808,7 @@ namespace Scada.Server
             {
                 log.WriteAction(string.Format(Locale.IsRussian ?
                     "Приём файла {0}" :
-                    "Receiving the file {0}", fileName));
+                    "Receive file {0}", fileName));
 
                 response = new ResponsePacket(request, client.OutBuf);
                 Directory.CreateDirectory(Path.GetDirectoryName(fileName));
@@ -880,8 +880,8 @@ namespace Scada.Server
             else
             {
                 log.WriteAction(string.Format(Locale.IsRussian ?
-                    "Файл {0} отклонён" :
-                    "File {0} rejected", fileName));
+                    "Загрузка файла отклонена. Имя файла: {0}" :
+                    "File upload rejected. File name: {0}", fileName));
                 response = null;
             }
         }

@@ -464,14 +464,14 @@ namespace Scada.Client
         /// <summary>
         /// Gets the information about the file.
         /// </summary>
-        public void GetFileInfo(int directoryID, string path, 
+        public void GetFileInfo(RelativePath relativePath, 
             out bool fileExists, out DateTime fileAge, out long fileLength)
         {
             RestoreConnection();
 
             DataPacket request = CreateRequest(FunctionID.GetFileInfo);
             int index = ArgumentIndex;
-            CopyFileName(directoryID, path, outBuf, ref index);
+            CopyFileName(relativePath.GetDirectoryID(), relativePath.Path, outBuf, ref index);
             request.BufferLength = index;
             SendRequest(request);
 
@@ -485,7 +485,7 @@ namespace Scada.Client
         /// <summary>
         /// Downloads the file.
         /// </summary>
-        public void DownloadFile(int directoryID, string path, long offset, int count, bool readFromEnd,
+        public void DownloadFile(RelativePath relativePath, long offset, int count, bool readFromEnd,
             DateTime newerThan, Func<Stream> createStreamFunc, 
             out DateTime fileAge, out FileReadingResult readingResult, out Stream stream)
         {
@@ -496,7 +496,7 @@ namespace Scada.Client
 
             DataPacket request = CreateRequest(FunctionID.DownloadFile);
             int index = ArgumentIndex;
-            CopyFileName(directoryID, path, outBuf, ref index);
+            CopyFileName(relativePath.GetDirectoryID(), relativePath.Path, outBuf, ref index);
             CopyInt64(offset, outBuf, ref index);
             CopyInt32(count, outBuf, ref index);
             CopyBool(readFromEnd, outBuf, ref index);
@@ -548,10 +548,10 @@ namespace Scada.Client
         /// <summary>
         /// Downloads the file.
         /// </summary>
-        public void DownloadFile(int directoryID, string path, long offset, int count, bool readFromEnd,
+        public void DownloadFile(RelativePath relativePath, long offset, int count, bool readFromEnd,
             DateTime newerThan, string destFileName, out DateTime fileAge, out FileReadingResult readingResult)
         {
-            DownloadFile(directoryID, path, offset, count, readFromEnd, newerThan,
+            DownloadFile(relativePath, offset, count, readFromEnd, newerThan,
                 () => { return new FileStream(destFileName, FileMode.Create, FileAccess.Write, FileShare.Read); },
                 out fileAge, out readingResult, out Stream stream);
             stream?.Dispose();
@@ -560,7 +560,7 @@ namespace Scada.Client
         /// <summary>
         /// Uploads the file.
         /// </summary>
-        public void UploadFile(string srcFileName, int directoryID, string path, out bool fileAccepted)
+        public void UploadFile(string srcFileName, RelativePath destPath, out bool fileAccepted)
         {
             if (!File.Exists(srcFileName))
                 throw new ScadaException(CommonPhrases.FileNotFound);
@@ -580,7 +580,7 @@ namespace Scada.Client
                 int index = ArgumentIndex;
                 CopyInt32(0, outBuf, ref index);
                 CopyInt32(blockCount, outBuf, ref index);
-                CopyFileName(directoryID, path, outBuf, ref index);
+                CopyFileName(destPath.GetDirectoryID(), destPath.Path, outBuf, ref index);
                 request.BufferLength = index;
                 SendRequest(request);
 

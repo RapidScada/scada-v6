@@ -46,15 +46,26 @@ namespace Scada.Server.Modules
 
             try
             {
-                Assembly assembly = Assembly.LoadFile(fileName);
-                Type type = assembly.GetType(typeName, true);
-                moduleLogic = (ModuleLogic)Activator.CreateInstance(type, serverContext);
+                if (File.Exists(fileName))
+                {
+                    Assembly assembly = Assembly.LoadFile(fileName);
+                    Type type = assembly.GetType(typeName, true);
+                    moduleLogic = (ModuleLogic)Activator.CreateInstance(type, serverContext);
 
-                message = string.Format(Locale.IsRussian ?
-                    "Загружен модуль {0} {1} из файла {2}" :
-                    "Loaded module {0} {1} from file {2}", 
-                    moduleCode, assembly.GetName().Version, fileName);
-                return true;
+                    message = string.Format(Locale.IsRussian ?
+                        "Загружен модуль {0} {1} из файла {2}" :
+                        "Loaded module {0} {1} from file {2}",
+                        moduleCode, assembly.GetName().Version, fileName);
+                    return true;
+                }
+                else
+                {
+                    moduleLogic = null;
+                    message = string.Format(Locale.IsRussian ?
+                        "Невозможно создать модуль {0}. Файл {1} не найден" :
+                        "Unable to create module {0}. File {1} not found", moduleCode, fileName);
+                    return false;
+                }
             }
             catch (Exception ex)
             {
