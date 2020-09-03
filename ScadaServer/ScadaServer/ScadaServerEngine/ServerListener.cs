@@ -425,6 +425,9 @@ namespace Scada.Server.Engine
         /// </summary>
         protected void DisableGettingCommands(ConnectedClient client, DataPacket request, out ResponsePacket response)
         {
+            log.WriteAction(string.Format(Locale.IsRussian ?
+                "Отключение получения команд для пользователя {1}" :
+                "Disable getting commands for the user {1}", client.Username));
             GetClientTag(client).DisableGettingCommands();
             response = new ResponsePacket(request, client.OutBuf);
         }

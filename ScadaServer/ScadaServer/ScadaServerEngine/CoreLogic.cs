@@ -79,27 +79,27 @@ namespace Scada.Server.Engine
         /// </summary>
         private static readonly string[] StatusNamesRu = { "не определено", "норма", "ошибка", "завершено" };
 
-        private readonly string infoFileName; // the full file name to write application information
+        private readonly string infoFileName;    // the full file name to write application information
 
-        private Thread thread;                // the working thread of the logic
-        private volatile bool terminated;     // necessary to stop the thread
-        private DateTime utcStartDT;          // the UTC start time
-        private DateTime startDT;             // the local start time
-        private ServiceStatus serviceStatus;  // the current service status
+        private Thread thread;                   // the working thread of the logic
+        private volatile bool terminated;        // necessary to stop the thread
+        private DateTime utcStartDT;             // the UTC start time
+        private DateTime startDT;                // the local start time
+        private ServiceStatus serviceStatus;     // the current service status
 
-        private Dictionary<int, CnlTag> cnlTags;       // the metadata about the input channels accessed by channel number
-        private List<CnlTag> measCnlTags;              // the list of the input channel tags of the measured type
-        private List<CnlTag> calcCnlTags;              // the list of the input channel tags of the calculated type
+        private Dictionary<int, CnlTag> cnlTags; // the metadata about the input channels accessed by channel number
+        private List<CnlTag> measCnlTags;        // the list of the input channel tags of the measured type
+        private List<CnlTag> calcCnlTags;        // the list of the input channel tags of the calculated type
         private Dictionary<int, OutCnlTag> outCnlTags; // the metadata about the output channels accessed by channel number
-        private Dictionary<string, User> users;        // the users accessed by name
-        private ObjSecurity objSecurity;      // provides access control
-        private ModuleHolder moduleHolder;    // holds modules
-        private ArchiveHolder archiveHolder;  // holds archives
-        private Calculator calc;              // provides work with scripts and formulas
-        private CurrentData curData;          // the current data of the input channels
-        private Queue<Event> events;          // the just generated events
-        private ServerCache serverCache;      // the server level cache
-        private ServerListener listener;      // the TCP listener
+        private Dictionary<string, User> users;  // the users accessed by name
+        private ObjSecurity objSecurity;         // provides access control
+        private Calculator calc;                 // provides work with scripts and formulas
+        private ModuleHolder moduleHolder;       // holds modules
+        private ArchiveHolder archiveHolder;     // holds archives
+        private ServerCache serverCache;         // the server level cache
+        private ServerListener listener;         // the TCP listener
+        private CurrentData curData;             // the current data of the input channels
+        private Queue<Event> events;             // the just generated events
 
 
         /// <summary>
@@ -195,16 +195,19 @@ namespace Scada.Server.Engine
             InitOutCnlTags();
             InitUsers();
             InitObjSecurity();
-            InitModules();
-            InitArchives();
 
             if (!InitCalculator())
                 return false;
 
-            curData = new CurrentData(this, cnlTags);
-            events = new Queue<Event>();
+            moduleHolder = new ModuleHolder(Log);
+            archiveHolder = new ArchiveHolder(Log);
             serverCache = new ServerCache();
             listener = new ServerListener(this, archiveHolder, serverCache);
+            curData = new CurrentData(this, cnlTags);
+            events = new Queue<Event>();
+
+            InitModules();
+            InitArchives();
             return true;
         }
 
@@ -353,13 +356,20 @@ namespace Scada.Server.Engine
         }
 
         /// <summary>
+        /// Initializes the calculator.
+        /// </summary>
+        private bool InitCalculator()
+        {
+            calc = new Calculator(AppDirs, Log);
+            return calc.CompileScripts(BaseDataSet, cnlTags, outCnlTags);
+        }
+
+        /// <summary>
         /// Initializes modules.
         /// </summary>
         private void InitModules()
         {
-            moduleHolder = new ModuleHolder(Log);
-            archiveHolder = new ArchiveHolder(Log);
-            ServerContext serverContext = new ServerContext(this, archiveHolder);
+            ServerContext serverContext = new ServerContext(this, archiveHolder, listener);
 
             foreach (string moduleCode in Config.ModuleCodes)
             {
@@ -428,15 +438,6 @@ namespace Scada.Server.Engine
                         archiveConfig.Code, archiveConfig.Module));
                 }
             }
-        }
-
-        /// <summary>
-        /// Initializes the calculator.
-        /// </summary>
-        private bool InitCalculator()
-        {
-            calc = new Calculator(AppDirs, Log);
-            return calc.CompileScripts(BaseDataSet, cnlTags, outCnlTags);
         }
 
         /// <summary>
@@ -576,7 +577,7 @@ namespace Scada.Server.Engine
 
                     Log.WriteAction(string.Format(Locale.IsRussian ?
                         "Создано событие с ид. {0}, входным каналом {1} и выходным каналом {2}" :
-                        "Event with ID {0}, input channel {1} and output channel {2} generated",
+                        "Generated event with ID {0}, input channel {1} and output channel {2}",
                         ev.EventID, ev.CnlNum, ev.OutCnlNum));
 
                     moduleHolder.OnEvent(ev);
@@ -1300,7 +1301,7 @@ namespace Scada.Server.Engine
 
                 Log.WriteAction(string.Format(Locale.IsRussian ?
                     "Получено событие с ид. {0}, входным каналом {1} и выходным каналом {2}" :
-                    "Event with ID {0}, input channel {1} and output channel {2} received",
+                    "Received event with ID {0}, input channel {1} and output channel {2}",
                     ev.EventID, ev.CnlNum, ev.OutCnlNum));
 
                 moduleHolder.OnEvent(ev);
@@ -1334,15 +1335,15 @@ namespace Scada.Server.Engine
             if (command == null)
                 throw new ArgumentNullException("command");
 
-            commandResult = new CommandResult();
+            commandResult = new CommandResult(false);
 
             try
             {
                 int outCnlNum = command.OutCnlNum;
                 int userID = command.UserID;
                 Log.WriteAction(string.Format(Locale.IsRussian ?
-                    "Отправка команды на канал управления {0} пользователем с ид. {1}" :
-                    "Send command to the output channel {0} by the user with ID {1}", outCnlNum, userID));
+                    "Команда на канал управления {0} от пользователя с ид. {1}" :
+                    "Command to the output channel {0} from the user with ID {1}", outCnlNum, userID));
 
                 if (!BaseDataSet.UserTable.Items.TryGetValue(userID, out User user))
                 {

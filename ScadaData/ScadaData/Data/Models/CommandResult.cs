@@ -40,6 +40,15 @@ namespace Scada.Data.Models
             ErrorMessage = "";
         }
 
+        /// <summary>
+        /// Initializes a new instance of the class.
+        /// </summary>
+        public CommandResult(bool isSuccessful)
+        {
+            IsSuccessful = isSuccessful;
+            ErrorMessage = "";
+        }
+
 
         /// <summary>
         /// Gets or sets a value indicating whether the command is processed successfully.

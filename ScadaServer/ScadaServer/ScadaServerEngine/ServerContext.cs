@@ -41,15 +41,17 @@ namespace Scada.Server.Engine
     {
         private readonly CoreLogic coreLogic;         // the server logic instance
         private readonly ArchiveHolder archiveHolder; // holds archives
+        private readonly ServerListener listener;     // the TCP listener
 
 
         /// <summary>
         /// Initializes a new instance of the class.
         /// </summary>
-        public ServerContext(CoreLogic coreLogic, ArchiveHolder archiveHolder)
+        public ServerContext(CoreLogic coreLogic, ArchiveHolder archiveHolder, ServerListener listener)
         {
             this.coreLogic = coreLogic ?? throw new ArgumentNullException("coreLogic");
             this.archiveHolder = archiveHolder ?? throw new ArgumentNullException("archiveHolder");
+            this.listener = listener ?? throw new ArgumentNullException("listener");
             SharedData = new SortedDictionary<string, object>();
         }
 
@@ -194,7 +196,17 @@ namespace Scada.Server.Engine
         /// </summary>
         public void SendCommand(TeleCommand command, out CommandResult commandResult)
         {
-            coreLogic.SendCommand(command, out commandResult);
+            if (command.OutCnlNum > 0)
+            {
+                // validate and send command
+                coreLogic.SendCommand(command, out commandResult);
+            }
+            else
+            {
+                // pass command directly to clients
+                listener.EnqueueCommand(command);
+                commandResult = new CommandResult(true);
+            }
         }
     }
 }
