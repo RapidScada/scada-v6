@@ -238,7 +238,7 @@ namespace Scada.Data.Adapters
         /// </summary>
         public static int ReadData(BinaryReader reader, byte[] buffer, int index, int count, bool throwOnFail)
         {
-            int bytesRead = reader.Read(buffer, 0, count);
+            int bytesRead = reader.Read(buffer, index, count);
 
             if (bytesRead < count)
                 throw new ScadaException("Unexpected end of stream.");

@@ -179,7 +179,7 @@ namespace Scada.Data.Adapters
         }
 
         /// <summary>
-        /// Gets a single slice from the slice table.
+        /// Reads a single slice from the slice table.
         /// </summary>
         public Slice ReadSingleSlice()
         {
