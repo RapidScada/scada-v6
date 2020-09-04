@@ -180,10 +180,6 @@ namespace Scada.Data.Adapters
         /// The maximum length allowed for a field value.
         /// </summary>
         protected const int MaxFieldLenght = ushort.MaxValue;
-        /// <summary>
-        /// Indicates the beginning of a row.
-        /// </summary>
-        protected const ushort RowMarker = 0x0E0E;
 
 
         /// <summary>
@@ -223,12 +219,9 @@ namespace Scada.Data.Adapters
 
             for (int i = 0; i < fieldCount; i++)
             {
-                int bytesRead = reader.Read(buffer, 0, FieldDefSize);
+                ReadData(reader, buffer, 0, FieldDefSize, true);
 
-                if (bytesRead < FieldDefSize)
-                    throw new ScadaException("Unexpected end of stream.");
-
-                if (CalcCRC16(buffer, 0, FieldDefSize - 2) != BitConverter.ToUInt16(buffer, FieldDefSize - 2))
+                if (CRC16(buffer, 0, FieldDefSize - 2) != BitConverter.ToUInt16(buffer, FieldDefSize - 2))
                     throw new ScadaException("Field definition CRC error.");
 
                 int index = 0;
@@ -250,25 +243,19 @@ namespace Scada.Data.Adapters
         /// </summary>
         protected void ReadRowToBuffer(BinaryReader reader, ref byte[] buffer)
         {
-            if (reader.ReadUInt16() != RowMarker)
+            if (reader.ReadUInt16() != BlockMarker)
                 throw new ScadaException("Row marker not found.");
 
             int rowDataSize = reader.ReadInt32();
             int fullRowSize = rowDataSize + 6;
-
-            if (buffer.Length < fullRowSize)
-                buffer = new byte[fullRowSize * 2];
-
-            int bytesRead = reader.Read(buffer, 6, rowDataSize);
-
-            if (bytesRead < rowDataSize)
-                throw new ScadaException("Unexpected end of stream.");
+            ResizeBuffer(ref buffer, fullRowSize, 2);
+            ReadData(reader, buffer, 6, rowDataSize, true);
 
             // copy values to the buffer to calculate CRC
-            CopyUInt16(RowMarker, buffer, 0);
+            CopyUInt16(BlockMarker, buffer, 0);
             CopyInt32(rowDataSize, buffer, 2);
 
-            if (CalcCRC16(buffer, 0, fullRowSize - 2) != BitConverter.ToUInt16(buffer, fullRowSize - 2))
+            if (CRC16(buffer, 0, fullRowSize - 2) != BitConverter.ToUInt16(buffer, fullRowSize - 2))
                 throw new ScadaException("Row CRC error.");
         }
 
@@ -283,7 +270,7 @@ namespace Scada.Data.Adapters
             Encoding.ASCII.GetBytes(fieldDef.Name).CopyTo(buffer, 1);
             buffer[MaxFieldNameLength + 1] = (byte)fieldDef.DataType;
             buffer[MaxFieldNameLength + 2] = (byte)(fieldDef.AllowNull ? 1 : 0);
-            ushort crc = CalcCRC16(buffer, 0, FieldDefSize - 2);
+            ushort crc = CRC16(buffer, 0, FieldDefSize - 2);
             CopyUInt16(crc, buffer, FieldDefSize - 2);
             writer.Write(buffer, 0, FieldDefSize);
         }
@@ -375,13 +362,14 @@ namespace Scada.Data.Adapters
             Stream stream = null;
             BinaryReader reader = null;
 
-            baseTable.ClearItems();
-            baseTable.IndexesEnabled = false;
-
             try
             {
                 stream = Stream ?? new FileStream(FileName, FileMode.Open, FileAccess.Read, FileShare.ReadWrite);
                 reader = new BinaryReader(stream, Encoding.UTF8, Stream != null);
+
+                // prepare table
+                baseTable.ClearItems();
+                baseTable.IndexesEnabled = false;
 
                 // read header
                 byte[] buffer = new byte[Math.Max(HeaderSize, FieldDefSize)];
@@ -445,14 +433,15 @@ namespace Scada.Data.Adapters
             Stream stream = null;
             BinaryReader reader = null;
 
-            dataTable.Rows.Clear();
-            dataTable.BeginLoadData();
-            dataTable.DefaultView.Sort = "";
-
             try
             {
                 stream = Stream ?? new FileStream(FileName, FileMode.Open, FileAccess.Read, FileShare.ReadWrite);
                 reader = new BinaryReader(stream, Encoding.UTF8, Stream != null);
+
+                // prepare table
+                dataTable.Rows.Clear();
+                dataTable.BeginLoadData();
+                dataTable.DefaultView.Sort = "";
 
                 // read header
                 byte[] buffer = new byte[Math.Max(HeaderSize, FieldDefSize)];
@@ -605,12 +594,9 @@ namespace Scada.Data.Adapters
 
                         // copy row data to the buffer
                         int fullRowSize = rowDataSize + 6;
-
-                        if (buffer.Length < fullRowSize)
-                            buffer = new byte[fullRowSize * 2];
-
                         int copyIndex = 0;
-                        CopyUInt16(RowMarker, buffer, ref copyIndex);
+                        ResizeBuffer(ref buffer, fullRowSize, 2);
+                        CopyUInt16(BlockMarker, buffer, ref copyIndex);
                         CopyInt32(rowDataSize, buffer, ref copyIndex);
 
                         for (int i = 0; i < fieldCount; i++)
@@ -633,7 +619,7 @@ namespace Scada.Data.Adapters
                             }
                         }
 
-                        ushort crc = CalcCRC16(buffer, 0, fullRowSize - 2);
+                        ushort crc = CRC16(buffer, 0, fullRowSize - 2);
                         CopyUInt16(crc, buffer, fullRowSize - 2);
 
                         // write row data

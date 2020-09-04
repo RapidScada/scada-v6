@@ -450,7 +450,7 @@ namespace Scada
         /// </summary>
         public static DateTime GetTime(byte[] buffer, ref int index)
         {
-            DateTime value = new DateTime(BitConverter.ToInt64(buffer, index), DateTimeKind.Utc);
+            DateTime value = ScadaUtils.TicksToTime(BitConverter.ToInt64(buffer, index));
             index += 8;
             return value;
         }

@@ -144,6 +144,14 @@ namespace Scada
         }
 
         /// <summary>
+        /// Converts the number of ticks to a date and time.
+        /// </summary>
+        public static DateTime TicksToTime(long ticks)
+        {
+            return new DateTime(ticks, DateTimeKind.Utc);
+        }
+
+        /// <summary>
         /// Converts the specified value to a string representation using the selected culture.
         /// </summary>
         public static string ToLocalizedString(this DateTime dateTime)
