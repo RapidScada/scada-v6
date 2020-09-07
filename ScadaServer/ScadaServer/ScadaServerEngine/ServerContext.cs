@@ -59,27 +59,27 @@ namespace Scada.Server.Engine
         /// <summary>
         /// Gets the application configuration.
         /// </summary>
-        public ServerConfig AppConfig { get => coreLogic.Config; }
+        public ServerConfig AppConfig => coreLogic.Config;
 
         /// <summary>
         /// Gets the application directories.
         /// </summary>
-        public ServerDirs AppDirs { get => coreLogic.AppDirs; }
+        public ServerDirs AppDirs => coreLogic.AppDirs;
 
         /// <summary>
         /// Gets the application log.
         /// </summary>
-        public ILog Log { get => coreLogic.Log; }
+        public ILog Log => coreLogic.Log;
 
         /// <summary>
         /// Gets the configuration database cache.
         /// </summary>
-        public BaseDataSet BaseDataSet { get => coreLogic.BaseDataSet; }
+        public BaseDataSet BaseDataSet => coreLogic.BaseDataSet;
 
         /// <summary>
         /// Gets the active input channel numbers.
         /// </summary>
-        public int[] CnlNums { get => coreLogic.CnlNums; }
+        public int[] CnlNums => coreLogic.CnlNums;
 
         /// <summary>
         /// Gets the application level shared data.

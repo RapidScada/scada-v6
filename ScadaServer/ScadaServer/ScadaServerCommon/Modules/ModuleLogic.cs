@@ -44,7 +44,6 @@ namespace Scada.Server.Modules
         {
             ServerContext = serverContext ?? throw new ArgumentNullException("serverContext");
             Log = serverContext.Log;
-            ModulePurposes = ModulePurposes.Logic;
         }
 
 
@@ -59,14 +58,20 @@ namespace Scada.Server.Modules
         protected ILog Log { get; set; }
 
         /// <summary>
-        /// Gets the module purposes.
-        /// </summary>
-        public ModulePurposes ModulePurposes { get; }
-
-        /// <summary>
         /// Gets the module code.
         /// </summary>
         public abstract string Code { get; }
+
+        /// <summary>
+        /// Gets the module purposes.
+        /// </summary>
+        public virtual ModulePurposes ModulePurposes
+        {
+            get
+            {
+                return ModulePurposes.Logic;
+            }
+        }
 
 
         /// <summary>

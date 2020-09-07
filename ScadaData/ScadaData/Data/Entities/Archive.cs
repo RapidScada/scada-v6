@@ -42,6 +42,8 @@ namespace Scada.Data.Entities
 
         public string Code { get; set; }
 
+        public bool IsDefault { get; set; }
+
         public int Bit { get; set; }
 
         public string Descr { get; set; }

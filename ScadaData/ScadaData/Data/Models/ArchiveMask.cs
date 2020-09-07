@@ -59,7 +59,7 @@ namespace Scada.Data.Models
         /// <summary>
         /// The mask indicating to select default archives.
         /// </summary>
-        public const int Default = 0;
+        public const int Default = -1;
         /// <summary>
         /// The mask indicating to select all archives.
         /// </summary>

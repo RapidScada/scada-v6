@@ -159,7 +159,7 @@ namespace Scada.Server.Engine
         /// <summary>
         /// Gets the active input channel numbers.
         /// </summary>
-        public int[] CnlNums { get => curData?.CnlNums; }
+        public int[] CnlNums => curData?.CnlNums;
 
         /// <summary>
         /// Gets a value indicating whether the server is ready.
