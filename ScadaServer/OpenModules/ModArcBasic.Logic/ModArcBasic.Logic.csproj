@@ -1,0 +1,17 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netstandard2.0</TargetFramework>
+    <RootNamespace>Scada.Server.Modules.ModArcBasic.Logic</RootNamespace>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Reference Include="ScadaData">
+      <HintPath>..\..\..\ScadaData\ScadaData\bin\Release\netstandard2.0\ScadaData.dll</HintPath>
+    </Reference>
+    <Reference Include="ScadaServerCommon">
+      <HintPath>..\..\ScadaServer\ScadaServerCommon\bin\Release\netstandard2.0\ScadaServerCommon.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+
+</Project>
