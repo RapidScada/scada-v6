@@ -69,12 +69,12 @@ namespace Scada.Server.Modules.ModArcBasic.Logic
         /// <summary>
         /// Creates a new archive logic.
         /// </summary>
-        public override ArchiveLogic CreateArchive(ArchiveConfig archiveConfig)
+        public override ArchiveLogic CreateArchive(ArchiveConfig archiveConfig, int[] cnlNums)
         {
             switch (archiveConfig.Kind)
             {
                 case ArchiveKind.Current:
-                    return new BasicCAL(archiveConfig);
+                    return new BasicCAL(archiveConfig, cnlNums, ServerContext.AppConfig.PathOptions);
                 default:
                     return null;
             }

@@ -23,9 +23,14 @@
  * Modified : 2020
  */
 
+using Scada.Config;
+using Scada.Data.Adapters;
+using Scada.Data.Models;
 using Scada.Server.Archives;
 using Scada.Server.Config;
 using System;
+using System.Collections.Generic;
+using System.IO;
 
 namespace Scada.Server.Modules.ModArcBasic.Logic
 {
@@ -36,21 +41,87 @@ namespace Scada.Server.Modules.ModArcBasic.Logic
     internal class BasicCAL : CurrentArchiveLogic
     {
         /// <summary>
+        /// Represents archive options.
+        /// </summary>
+        private class ArchiveOptions
+        {
+            /// <summary>
+            /// Initializes a new instance of the class.
+            /// </summary>
+            public ArchiveOptions(CustomOptions options)
+            {
+                IsCopy = options.GetValueAsBool("IsCopy");
+                WritingPeriod = options.GetValueAsInt("WritingPeriod", 10);
+            }
+
+            /// <summary>
+            /// Gets or sets a value indicating whether the archive stores a copy of the data.
+            /// </summary>
+            public bool IsCopy { get; set; }
+            /// <summary>
+            /// Gets the period of writing data to a file, sec.
+            /// </summary>
+            public int WritingPeriod { get; set; }
+        }
+
+        /// <summary>
+        /// The current data file name.
+        /// </summary>
+        private const string CurDataFileName = "current.dat";
+
+        private readonly ArchiveOptions options;    // the archive options
+        private readonly SliceTableAdapter adapter; // reads and writes current data
+        private byte[] sliceBuffer;                 // the buffer for writing slices
+
+
+        /// <summary>
         /// Initializes a new instance of the class.
         /// </summary>
-        public BasicCAL(ArchiveConfig archiveConfig)
-            : base(archiveConfig?.Code)
+        public BasicCAL(ArchiveConfig archiveConfig, int[] cnlNums, PathOptions pathOptions)
+            : base(archiveConfig, cnlNums)
         {
-
+            options = new ArchiveOptions(archiveConfig.CustomOptions);
+            adapter = new SliceTableAdapter { FileName = GetCurDataPath(pathOptions) };
+            sliceBuffer = null;
         }
 
 
         /// <summary>
+        /// Gets the full file name of the current data file.
+        /// </summary>
+        private string GetCurDataPath(PathOptions pathOptions)
+        {
+            string arcDir = options.IsCopy ? pathOptions.ArcCopyDir : pathOptions.ArcDir;
+            return Path.Combine(arcDir, Code, CurDataFileName);
+        }
+
+        /// <summary>
         /// Reads the current data.
         /// </summary>
-        public override bool ReadData(ICurrentData curData)
+        public override void ReadData(ICurrentData curData, out bool completed)
         {
-            throw new NotImplementedException();
+            if (File.Exists(adapter.FileName))
+            {
+                Slice slice = adapter.ReadSingleSlice();
+
+                for (int i = 0, cnlCnt = slice.CnlNums.Length; i < cnlCnt; i++)
+                {
+                    int cnlNum = slice.CnlNums[i];
+                    int cnlIndex = curData.GetCnlIndex(cnlNum);
+
+                    if (cnlIndex >= 0)
+                    {
+                        curData.Timestamps[cnlIndex] = slice.Timestamp;
+                        curData.CnlData[cnlIndex] = slice.CnlData[i];
+                    }
+                }
+
+                completed = true;
+            }
+            else
+            {
+                completed = false;
+            }
         }
 
         /// <summary>
@@ -58,7 +129,18 @@ namespace Scada.Server.Modules.ModArcBasic.Logic
         /// </summary>
         public override void ProcessData(ICurrentData curData)
         {
-            throw new NotImplementedException();
+            int cnlCnt = CnlNums.Length;
+            CnlData[] cnlData = null;
+            Slice slice = new Slice(curData.Timestamp, CnlNums, cnlData);
+            int[] cnlIndeces = null;
+
+            for (int i = 0; i < cnlCnt; i++)
+            {
+                int cnlIndex = cnlIndeces[i];
+                cnlData[i] = curData.CnlData[cnlIndex];
+            }
+
+            adapter.WriteSingleSlice(slice, ref sliceBuffer);
         }
     }
 }
