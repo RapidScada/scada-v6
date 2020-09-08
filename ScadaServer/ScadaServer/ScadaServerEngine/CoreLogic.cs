@@ -406,7 +406,7 @@ namespace Scada.Server.Engine
                 {
                     if (moduleHolder.GetModule(archiveConfig.Module, out ModuleLogic moduleLogic) &&
                         moduleLogic.ModulePurposes.HasFlag(ModulePurposes.Archive) &&
-                        moduleLogic.CreateArchive(archiveConfig) is ArchiveLogic archiveLogic)
+                        moduleLogic.CreateArchive(archiveConfig, null) is ArchiveLogic archiveLogic) // TODO: inCnls
                     {
                         if (arcByCode.TryGetValue(archiveLogic.Code, out Archive archive))
                         {

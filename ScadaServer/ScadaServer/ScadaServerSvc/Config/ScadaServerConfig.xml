@@ -22,7 +22,6 @@
     <Archive active="true" code="Cur" name="Current Data" kind="Current" module="ModArcBasic">
       <Option name="IsCopy" value="false" />
       <Option name="WritingPeriod" value="1" />
-      <Option name="WritingUnit" value="Second" />
     </Archive>
     <Archive active="true" code="Min" name="Minute Archive" kind="Historical" module="ModArcBasic">
       <Option name="IsCopy" value="false" />

@@ -25,6 +25,7 @@
 
 using Scada.Data.Models;
 using Scada.Data.Tables;
+using Scada.Server.Config;
 using System;
 using System.Collections.Generic;
 
@@ -39,8 +40,8 @@ namespace Scada.Server.Archives
         /// <summary>
         /// Initializes a new instance of the class.
         /// </summary>
-        public EventArchiveLogic(string code)
-            : base(code)
+        public EventArchiveLogic(ArchiveConfig archiveConfig, int[] cnlNums)
+            : base(archiveConfig, cnlNums)
         {
         }
 

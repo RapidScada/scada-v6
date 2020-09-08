@@ -96,7 +96,7 @@ namespace Scada.Server.Engine
         }
 
         /// <summary>
-        /// Calls the ReadCurrentData method of the current archives until a successful result is obtained.
+        /// Calls the ReadCurrentData method of the current archives.
         /// </summary>
         public void ReadCurrentData(ICurrentData curData)
         {
@@ -106,7 +106,9 @@ namespace Scada.Server.Engine
                 {
                     try
                     {
-                        if (archiveLogic.ReadData(curData))
+                        archiveLogic.ReadData(curData, out bool completed);
+
+                        if (completed)
                             return;
                     }
                     catch (Exception ex)
@@ -115,6 +117,10 @@ namespace Scada.Server.Engine
                     }
                 }
             }
+
+            log.WriteError(Locale.IsRussian ?
+                "Не удалось считать текущие данные" :
+                "Unable to read current data");
         }
 
         /// <summary>

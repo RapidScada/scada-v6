@@ -77,7 +77,7 @@ namespace Scada.Server.Modules
         /// <summary>
         /// Creates a new archive logic.
         /// </summary>
-        public virtual ArchiveLogic CreateArchive(ArchiveConfig archiveConfig)
+        public virtual ArchiveLogic CreateArchive(ArchiveConfig archiveConfig, int[] cnlNums)
         {
             return null;
         }

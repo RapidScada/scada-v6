@@ -23,6 +23,7 @@
  * Modified : 2020
  */
 
+using Scada.Server.Config;
 using System;
 
 namespace Scada.Server.Archives
@@ -36,9 +37,10 @@ namespace Scada.Server.Archives
         /// <summary>
         /// Initializes a new instance of the class.
         /// </summary>
-        protected ArchiveLogic(string code)
+        protected ArchiveLogic(ArchiveConfig archiveConfig, int[] cnlNums)
         {
-            Code = code ?? throw new ArgumentNullException("code");
+            ArchiveConfig = archiveConfig ?? throw new ArgumentNullException("archiveConfig");
+            CnlNums = cnlNums ?? throw new ArgumentNullException("archiveConfig");
             LastWriteTime = DateTime.MinValue;
             LastCleanupTime = DateTime.MinValue;
             CleanupPeriod = TimeSpan.FromDays(1);
@@ -46,9 +48,26 @@ namespace Scada.Server.Archives
 
 
         /// <summary>
+        /// Gets the archive configuration.
+        /// </summary>
+        protected ArchiveConfig ArchiveConfig { get; }
+
+        /// <summary>
+        /// Gets the input channel numbers processed by the archive.
+        /// </summary>
+        /// <remarks>Channel numbers are sorted and unique.</remarks>
+        protected int[] CnlNums { get; }
+
+        /// <summary>
         /// Gets the archive code.
         /// </summary>
-        public string Code { get; }
+        public string Code
+        {
+            get
+            {
+                return ArchiveConfig.Code;
+            }
+        }
 
         /// <summary>
         /// Gets the time (UTC) when when the archive was last written to.

@@ -23,8 +23,7 @@
  * Modified : 2020
  */
 
-using Scada.Data.Models;
-using System.Collections.Generic;
+using Scada.Server.Config;
 
 namespace Scada.Server.Archives
 {
@@ -37,8 +36,8 @@ namespace Scada.Server.Archives
         /// <summary>
         /// Initializes a new instance of the class.
         /// </summary>
-        public CurrentArchiveLogic(string code)
-            : base(code)
+        public CurrentArchiveLogic(ArchiveConfig archiveConfig, int[] cnlNums)
+            : base(archiveConfig, cnlNums)
         {
         }
 
@@ -46,7 +45,7 @@ namespace Scada.Server.Archives
         /// <summary>
         /// Reads the current data.
         /// </summary>
-        public abstract bool ReadData(ICurrentData curData);
+        public abstract void ReadData(ICurrentData curData, out bool completed);
 
         /// <summary>
         /// Processes new data.
