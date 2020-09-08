@@ -24,6 +24,7 @@
  */
 
 using Scada.Data.Const;
+using Scada.Data.Entities;
 using Scada.Data.Models;
 using Scada.Data.Tables;
 using Scada.Log;
@@ -48,6 +49,7 @@ namespace Scada.Server.Engine
         private readonly List<CurrentArchiveLogic> currentArchives;       // the current archives
         private readonly List<HistoricalArchiveLogic> historicalArchives; // the historical archives
         private readonly List<EventArchiveLogic> eventArchives;           // the event archives
+        private readonly List<EventArchiveLogic> defaultEventArchives;    // the default event archives
         private readonly ArchiveLogic[] arcByBit;                         // the archives accessed by bit number
 
 
@@ -60,29 +62,56 @@ namespace Scada.Server.Engine
             currentArchives = new List<CurrentArchiveLogic>();
             historicalArchives = new List<HistoricalArchiveLogic>();
             eventArchives = new List<EventArchiveLogic>();
+            defaultEventArchives = new List<EventArchiveLogic>();
             arcByBit = new ArchiveLogic[ServerUtils.MaxArchiveCount];
+            DefaultArchiveMask = 0;
         }
+
+
+        /// <summary>
+        /// Gets the archive mask that defines the default archives.
+        /// </summary>
+        public int DefaultArchiveMask { get; private set; }
 
 
         /// <summary>
         /// Adds the specified archive to the lists.
         /// </summary>
-        public void AddArchive(ArchiveLogic archiveLogic, int archiveBit)
+        public void AddArchive(Archive archiveEntity, ArchiveLogic archiveLogic)
         {
+            if (archiveEntity == null)
+                throw new ArgumentNullException("archiveEntity");
             if (archiveLogic == null)
                 throw new ArgumentNullException("archiveLogic");
 
+            // add archive to the corresponding list
             if (archiveLogic is CurrentArchiveLogic currentArchiveLogic)
+            {
                 currentArchives.Add(currentArchiveLogic);
+            }
             else if (archiveLogic is HistoricalArchiveLogic historicalArchiveLogic)
+            {
                 historicalArchives.Add(historicalArchiveLogic);
+            }
             else if (archiveLogic is EventArchiveLogic eventArchiveLogic)
+            {
                 eventArchives.Add(eventArchiveLogic);
+
+                if (archiveEntity.IsDefault)
+                    defaultEventArchives.Add(eventArchiveLogic);
+            }
+
+            // add archive to array by bit number
+            int archiveBit = archiveEntity.Bit;
 
             if (0 <= archiveBit && archiveBit < ServerUtils.MaxArchiveCount)
                 arcByBit[archiveBit] = archiveLogic;
             else
                 throw new ScadaException("Archive bit is out of range.");
+
+            // build default archive mask
+            if (archiveEntity.IsDefault)
+                DefaultArchiveMask.SetBit(archiveEntity.Bit, true);
         }
 
         /// <summary>
@@ -342,17 +371,33 @@ namespace Scada.Server.Engine
         /// </summary>
         public void WriteEvent(Event ev, int archiveMask)
         {
-            for (int archiveBit = 0; archiveBit < ServerUtils.MaxArchiveCount; archiveBit++)
+            void DoWriteEvent(EventArchiveLogic archiveLogic)
             {
-                if (archiveMask.BitIsSet(archiveBit) && GetArchive(archiveBit, out EventArchiveLogic archiveLogic))
+                try
                 {
-                    try
+                    archiveLogic.WriteEvent(ev);
+                }
+                catch (Exception ex)
+                {
+                    log.WriteException(ex, ErrorInArchive, "WriteEvent", archiveLogic.Code);
+                }
+            }
+
+            if (archiveMask == ArchiveMask.Default)
+            {
+                foreach (EventArchiveLogic archiveLogic in defaultEventArchives)
+                {
+                    DoWriteEvent(archiveLogic);
+                }
+            }
+            else
+            {
+                for (int archiveBit = 0; archiveBit < ServerUtils.MaxArchiveCount; archiveBit++)
+                {
+                    if (archiveMask.BitIsSet(archiveBit) &&
+                        GetArchive(archiveBit, out EventArchiveLogic archiveLogic))
                     {
-                        archiveLogic.WriteEvent(ev);
-                    }
-                    catch (Exception ex)
-                    {
-                        log.WriteException(ex, ErrorInArchive, "WriteEvent", archiveLogic.Code);
+                        DoWriteEvent(archiveLogic);
                     }
                 }
             }
@@ -363,18 +408,15 @@ namespace Scada.Server.Engine
         /// </summary>
         public void AckEvent(long eventID, DateTime timestamp, int userID)
         {
-            for (int archiveBit = 0; archiveBit < ServerUtils.MaxArchiveCount; archiveBit++)
+            foreach (EventArchiveLogic archiveLogic in eventArchives)
             {
-                if (GetArchive(archiveBit, out EventArchiveLogic archiveLogic))
+                try
                 {
-                    try
-                    {
-                        archiveLogic.AckEvent(eventID, timestamp, userID);
-                    }
-                    catch (Exception ex)
-                    {
-                        log.WriteException(ex, ErrorInArchive, "AckEvent", archiveLogic.Code);
-                    }
+                    archiveLogic.AckEvent(eventID, timestamp, userID);
+                }
+                catch (Exception ex)
+                {
+                    log.WriteException(ex, ErrorInArchive, "AckEvent", archiveLogic.Code);
                 }
             }
         }

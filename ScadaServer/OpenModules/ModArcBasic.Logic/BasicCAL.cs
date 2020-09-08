@@ -29,7 +29,6 @@ using Scada.Data.Models;
 using Scada.Server.Archives;
 using Scada.Server.Config;
 using System;
-using System.Collections.Generic;
 using System.IO;
 
 namespace Scada.Server.Modules.ModArcBasic.Logic
@@ -71,7 +70,10 @@ namespace Scada.Server.Modules.ModArcBasic.Logic
 
         private readonly ArchiveOptions options;    // the archive options
         private readonly SliceTableAdapter adapter; // reads and writes current data
-        private byte[] sliceBuffer;                 // the buffer for writing slices
+        private readonly Slice slice;   // the slice for writing
+        private byte[] sliceBuffer;     // the buffer for writing slices
+        private DateTime nextWriteTime; // the next time to write the current data
+        private int[] cnlIndices;       // the indexes that map the input channels
 
 
         /// <summary>
@@ -82,7 +84,10 @@ namespace Scada.Server.Modules.ModArcBasic.Logic
         {
             options = new ArchiveOptions(archiveConfig.CustomOptions);
             adapter = new SliceTableAdapter { FileName = GetCurDataPath(pathOptions) };
+            slice = new Slice(DateTime.MinValue, cnlNums, new CnlData[cnlNums.Length]);
             sliceBuffer = null;
+            nextWriteTime = GetNextWriteTime(DateTime.UtcNow);
+            cnlIndices = null;
         }
 
 
@@ -94,6 +99,37 @@ namespace Scada.Server.Modules.ModArcBasic.Logic
             string arcDir = options.IsCopy ? pathOptions.ArcCopyDir : pathOptions.ArcDir;
             return Path.Combine(arcDir, Code, CurDataFileName);
         }
+
+        /// <summary>
+        /// Gets the next time to write the current data.
+        /// </summary>
+        private DateTime GetNextWriteTime(DateTime nowDT)
+        {
+            int period = options.WritingPeriod;
+            return period > 0 ?
+                nowDT.Date.AddSeconds(((int)nowDT.TimeOfDay.TotalSeconds / period + 1) * period) :
+                nowDT;
+        }
+
+        /// <summary>
+        /// Gets the indexes that map the archive input channels to all channels.
+        /// </summary>
+        private int[] GetCnlIndices(ICurrentData curData)
+        {
+            if (cnlIndices == null)
+            {
+                int cnlCnt = CnlNums.Length;
+                cnlIndices = new int[cnlCnt];
+
+                for (int i = 0; i < cnlCnt; i++)
+                {
+                    cnlIndices[i] = curData.GetCnlIndex(CnlNums[i]);
+                }
+            }
+
+            return cnlIndices;
+        }
+
 
         /// <summary>
         /// Reads the current data.
@@ -129,18 +165,22 @@ namespace Scada.Server.Modules.ModArcBasic.Logic
         /// </summary>
         public override void ProcessData(ICurrentData curData)
         {
-            int cnlCnt = CnlNums.Length;
-            CnlData[] cnlData = null;
-            Slice slice = new Slice(curData.Timestamp, CnlNums, cnlData);
-            int[] cnlIndeces = null;
+            DateTime nowDT = curData.Timestamp;
 
-            for (int i = 0; i < cnlCnt; i++)
+            if (nextWriteTime <= nowDT)
             {
-                int cnlIndex = cnlIndeces[i];
-                cnlData[i] = curData.CnlData[cnlIndex];
-            }
+                nextWriteTime = GetNextWriteTime(nowDT);
+                slice.Timestamp = nowDT;
+                int[] cnlIndices = GetCnlIndices(curData);
 
-            adapter.WriteSingleSlice(slice, ref sliceBuffer);
+                for (int i = 0, cnlCnt = CnlNums.Length; i < cnlCnt; i++)
+                {
+                    int cnlIndex = cnlIndices[i];
+                    slice.CnlData[i] = curData.CnlData[cnlIndex];
+                }
+
+                adapter.WriteSingleSlice(slice, ref sliceBuffer);
+            }
         }
     }
 }

@@ -57,6 +57,15 @@ namespace Scada.Server.Engine
             Terminated = 3
         }
 
+        /// <summary>
+        /// Represents an event to be written to archives.
+        /// </summary>
+        private class EventItem
+        {
+            public Event Event { get; set; }
+            public int ArchiveMask { get; set; }
+        }
+
 
         /// <summary>
         /// The waiting time to stop the thread, ms.
@@ -99,7 +108,7 @@ namespace Scada.Server.Engine
         private ServerCache serverCache;         // the server level cache
         private ServerListener listener;         // the TCP listener
         private CurrentData curData;             // the current data of the input channels
-        private Queue<Event> events;             // the just generated events
+        private Queue<EventItem> events;         // the just generated events
 
 
         /// <summary>
@@ -204,7 +213,7 @@ namespace Scada.Server.Engine
             serverCache = new ServerCache();
             listener = new ServerListener(this, archiveHolder, serverCache);
             curData = new CurrentData(this, cnlTags);
-            events = new Queue<Event>();
+            events = new Queue<EventItem>();
 
             InitModules();
             InitArchives();
@@ -396,21 +405,31 @@ namespace Scada.Server.Engine
 
             foreach (Archive archive in BaseDataSet.ArchiveTable.EnumerateItems())
             {
-                arcByCode[archive.Code] = archive;
+                if (!string.IsNullOrEmpty(archive.Code))
+                {
+                    arcByCode[archive.Code] = archive;
+                }
             }
 
             // create archives
             foreach (ArchiveConfig archiveConfig in Config.Archives)
             {
-                try
+                if (archiveConfig.Active)
                 {
-                    if (moduleHolder.GetModule(archiveConfig.Module, out ModuleLogic moduleLogic) &&
-                        moduleLogic.ModulePurposes.HasFlag(ModulePurposes.Archive) &&
-                        moduleLogic.CreateArchive(archiveConfig, null) is ArchiveLogic archiveLogic) // TODO: inCnls
+                    try
                     {
-                        if (arcByCode.TryGetValue(archiveLogic.Code, out Archive archive))
+                        if (!arcByCode.TryGetValue(archiveConfig.Code, out Archive archiveEntity))
                         {
-                            archiveHolder.AddArchive(archiveLogic, archive.Bit);
+                            Log.WriteError(string.Format(Locale.IsRussian ?
+                                "Архив {0} не найден в базе конфигурации" :
+                                "Archive {0} not found in the configuration database", archiveConfig.Code));
+                        }
+                        else if (moduleHolder.GetModule(archiveConfig.Module, out ModuleLogic moduleLogic) &&
+                            moduleLogic.ModulePurposes.HasFlag(ModulePurposes.Archive) &&
+                            moduleLogic.CreateArchive(archiveConfig, GetProcessedCnlNums(archiveEntity)) is
+                            ArchiveLogic archiveLogic)
+                        {
+                            archiveHolder.AddArchive(archiveEntity, archiveLogic);
                             Log.WriteAction(string.Format(Locale.IsRussian ?
                                 "Архив {0} инициализирован успешно" :
                                 "Archive {0} initialized successfully", archiveConfig.Code));
@@ -418,26 +437,47 @@ namespace Scada.Server.Engine
                         else
                         {
                             Log.WriteError(string.Format(Locale.IsRussian ?
-                                "Архив {0} не найден в базе конфигурации" :
-                                "Archive {0} not found in the configuration database", archiveConfig.Code));
+                                "Не удалось создать архив {0} с помощью модуля {1}" :
+                                "Unable to create archive {0} with the module {1}",
+                                archiveConfig.Code, archiveConfig.Module));
                         }
                     }
-                    else
+                    catch (Exception ex)
                     {
-                        Log.WriteError(string.Format(Locale.IsRussian ?
-                            "Не удалось создать архив {0} с помощью модуля {1}" :
-                            "Unable to create archive {0} with the module {1}", 
+                        Log.WriteException(ex, string.Format(Locale.IsRussian ?
+                            "Ошибка при создании архива {0} с помощью модуля {1}" :
+                            "Error creating archive {0} with the module {1}",
                             archiveConfig.Code, archiveConfig.Module));
                     }
                 }
-                catch (Exception ex)
+            }
+        }
+
+        /// <summary>
+        /// Gets the input channel numbers processed by the archive.
+        /// </summary>
+        private int[] GetProcessedCnlNums(Archive archive)
+        {
+            List<int> cnlNums = new List<int>(cnlTags.Count);
+            bool isDefault = archive.IsDefault;
+            int archiveBit = archive.Bit;
+
+            foreach (CnlTag cnlTag in cnlTags.Values)
+            {
+                int? archiveMask = cnlTag.InCnl.ArchiveMask;
+
+                if (archiveMask.HasValue)
                 {
-                    Log.WriteException(ex, string.Format(Locale.IsRussian ?
-                        "Ошибка при создании архива {0} с помощью модуля {1}" :
-                        "Error creating archive {0} with the module {1}", 
-                        archiveConfig.Code, archiveConfig.Module));
+                    if (archiveMask.Value.BitIsSet(archiveBit))
+                        cnlNums.Add(cnlTag.CnlNum);
+                }
+                else if (isDefault)
+                {
+                    cnlNums.Add(cnlTag.CnlNum);
                 }
             }
+
+            return cnlNums.ToArray();
         }
 
         /// <summary>
@@ -573,7 +613,8 @@ namespace Scada.Server.Engine
             {
                 while (events.Count > 0)
                 {
-                    Event ev = events.Dequeue();
+                    EventItem eventItem = events.Dequeue();
+                    Event ev = eventItem.Event;
 
                     Log.WriteAction(string.Format(Locale.IsRussian ?
                         "Создано событие с ид. {0}, входным каналом {1} и выходным каналом {2}" :
@@ -581,7 +622,7 @@ namespace Scada.Server.Engine
                         ev.EventID, ev.CnlNum, ev.OutCnlNum));
 
                     moduleHolder.OnEvent(ev);
-                    archiveHolder.WriteEvent(ev, ArchiveMask.Default);
+                    archiveHolder.WriteEvent(ev, eventItem.ArchiveMask);
                 }
             }
         }
@@ -803,7 +844,7 @@ namespace Scada.Server.Engine
                         CnlStat = cnlStat,
                         Severity = cnlStatus?.Severity ?? 0,
                         AckRequired = cnlStatus?.AckRequired ?? false
-                    });
+                    }, inCnl.ArchiveMask ?? ArchiveMask.Default);
                 }
             }
         }
@@ -824,18 +865,18 @@ namespace Scada.Server.Engine
                     DeviceNum = command.DeviceNum,
                     CnlVal = command.CmdVal,
                     Data = command.CmdData
-                });
+                }, ArchiveMask.Default);
             }
         }
 
         /// <summary>
         /// Adds the event to the queue.
         /// </summary>
-        private void EnqueueEvent(Event ev)
+        private void EnqueueEvent(Event ev, int archiveMask)
         {
             lock (events)
             {
-                events.Enqueue(ev);
+                events.Enqueue(new EventItem { Event = ev, ArchiveMask = archiveMask });
             }
         }
 
@@ -1175,6 +1216,9 @@ namespace Scada.Server.Engine
             {
                 moduleHolder.OnHistoricalDataProcessing(deviceNum, slice);
                 DateTime timestamp = slice.Timestamp;
+
+                if (archiveMask == ArchiveMask.Default)
+                    archiveMask = archiveHolder.DefaultArchiveMask;
 
                 // find input channel tags of the slice
                 int cnlCnt = slice.CnlNums.Length;

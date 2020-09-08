@@ -60,9 +60,9 @@ namespace Scada.Data.Models
 
 
         /// <summary>
-        /// Gets the timestamp.
+        /// Gets or sets the timestamp.
         /// </summary>
-        public DateTime Timestamp { get; }
+        public DateTime Timestamp { get; set; }
 
         /// <summary>
         /// Gets the input channel numbers.

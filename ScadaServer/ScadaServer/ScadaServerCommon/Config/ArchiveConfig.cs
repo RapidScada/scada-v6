@@ -41,12 +41,18 @@ namespace Scada.Server.Config
         /// </summary>
         public ArchiveConfig()
         {
+            Active = false;
             Code = "";
             Name = "";
             Kind = ArchiveKind.Unspecified;
             CustomOptions = new CustomOptions();
         }
 
+
+        /// <summary>
+        /// Gets or sets a value indicating whether the archive is active.
+        /// </summary>
+        public bool Active { get; set; }
 
         /// <summary>
         /// Gets or sets the archive code.
@@ -82,6 +88,7 @@ namespace Scada.Server.Config
             if (xmlElem == null)
                 throw new ArgumentNullException("xmlElem");
 
+            Active = xmlElem.GetAttrAsBool("active");
             Code = xmlElem.GetAttrAsString("code");
             Name = xmlElem.GetAttrAsString("name");
             Kind = xmlElem.GetAttrAsEnum("kind", ArchiveKind.Unspecified);
@@ -97,6 +104,7 @@ namespace Scada.Server.Config
             if (xmlElem == null)
                 throw new ArgumentNullException("xmlElem");
 
+            xmlElem.SetAttribute("active", Active);
             xmlElem.SetAttribute("code", Code);
             xmlElem.SetAttribute("name", Name);
             xmlElem.SetAttribute("kind", Kind);
