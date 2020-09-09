@@ -100,7 +100,7 @@ namespace Scada
             ViewTable = dict.GetPhrase("ViewTable");
             ViewTypeTable = dict.GetPhrase("ViewTypeTable");
 
-            dict = Locale.GetDictionary("Scada.Format");
+            dict = Locale.GetDictionary("Scada.Files");
             FileNotFound = dict.GetPhrase("FileNotFound");
             NamedFileNotFound = dict.GetPhrase("NamedFileNotFound");
             LoadAppConfigError = dict.GetPhrase("LoadAppConfigError");

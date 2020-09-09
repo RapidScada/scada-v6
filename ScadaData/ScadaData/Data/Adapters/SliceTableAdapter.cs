@@ -270,7 +270,7 @@ namespace Scada.Data.Adapters
                 writer = new BinaryWriter(stream, Encoding.UTF8, Stream != null);
 
                 // write header
-                writer.Write(TableType.BaseTable);
+                writer.Write(TableType.SliceTable);
                 writer.Write(MajorVersion);
                 writer.Write(MinorVersion);
                 writer.Write(ReserveBuffer, 0, 14);
