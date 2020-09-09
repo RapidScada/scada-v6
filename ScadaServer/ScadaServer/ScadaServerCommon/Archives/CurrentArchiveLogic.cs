@@ -48,6 +48,11 @@ namespace Scada.Server.Archives
         public abstract void ReadData(ICurrentData curData, out bool completed);
 
         /// <summary>
+        /// Writes the current data.
+        /// </summary>
+        public abstract void WriteData(ICurrentData curData);
+
+        /// <summary>
         /// Processes new data.
         /// </summary>
         public abstract void ProcessData(ICurrentData curData);

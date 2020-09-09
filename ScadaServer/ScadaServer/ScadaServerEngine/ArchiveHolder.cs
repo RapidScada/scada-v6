@@ -125,7 +125,7 @@ namespace Scada.Server.Engine
         }
 
         /// <summary>
-        /// Calls the ReadCurrentData method of the current archives.
+        /// Calls the ReadData method of the current archives.
         /// </summary>
         public void ReadCurrentData(ICurrentData curData)
         {
@@ -142,7 +142,7 @@ namespace Scada.Server.Engine
                     }
                     catch (Exception ex)
                     {
-                        log.WriteException(ex, ErrorInArchive, "ReadCurrentData", archiveLogic.Code);
+                        log.WriteException(ex, ErrorInArchive, "ReadData", archiveLogic.Code);
                     }
                 }
             }
@@ -150,6 +150,27 @@ namespace Scada.Server.Engine
             log.WriteError(Locale.IsRussian ?
                 "Не удалось считать текущие данные" :
                 "Unable to read current data");
+        }
+
+        /// <summary>
+        /// Calls the WriteData method of the current archives.
+        /// </summary>
+        public void WriteCurrentData(ICurrentData curData)
+        {
+            lock (currentArchives)
+            {
+                foreach (CurrentArchiveLogic archiveLogic in currentArchives)
+                {
+                    try
+                    {
+                        archiveLogic.WriteData(curData);
+                    }
+                    catch (Exception ex)
+                    {
+                        log.WriteException(ex, ErrorInArchive, "WriteData", archiveLogic.Code);
+                    }
+                }
+            }
         }
 
         /// <summary>

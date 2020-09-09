@@ -71,7 +71,6 @@ namespace Scada.Server.Modules.ModArcBasic.Logic
         private readonly ArchiveOptions options;    // the archive options
         private readonly SliceTableAdapter adapter; // reads and writes current data
         private readonly Slice slice;   // the slice for writing
-        private byte[] sliceBuffer;     // the buffer for writing slices
         private DateTime nextWriteTime; // the next time to write the current data
         private int[] cnlIndices;       // the indexes that map the input channels
 
@@ -85,7 +84,6 @@ namespace Scada.Server.Modules.ModArcBasic.Logic
             options = new ArchiveOptions(archiveConfig.CustomOptions);
             adapter = new SliceTableAdapter { FileName = GetCurDataPath(pathOptions) };
             slice = new Slice(DateTime.MinValue, cnlNums, new CnlData[cnlNums.Length]);
-            sliceBuffer = null;
             nextWriteTime = GetNextWriteTime(DateTime.UtcNow);
             cnlIndices = null;
         }
@@ -97,7 +95,9 @@ namespace Scada.Server.Modules.ModArcBasic.Logic
         private string GetCurDataPath(PathOptions pathOptions)
         {
             string arcDir = options.IsCopy ? pathOptions.ArcCopyDir : pathOptions.ArcDir;
-            return Path.Combine(arcDir, Code, CurDataFileName);
+            string curDataDir = Path.Combine(arcDir, Code);
+            Directory.CreateDirectory(curDataDir);
+            return Path.Combine(curDataDir, CurDataFileName);
         }
 
         /// <summary>
@@ -161,25 +161,31 @@ namespace Scada.Server.Modules.ModArcBasic.Logic
         }
 
         /// <summary>
+        /// Writes the current data.
+        /// </summary>
+        public override void WriteData(ICurrentData curData)
+        {
+            slice.Timestamp = curData.Timestamp;
+            int[] cnlIndices = GetCnlIndices(curData);
+
+            for (int i = 0, cnlCnt = CnlNums.Length; i < cnlCnt; i++)
+            {
+                int cnlIndex = cnlIndices[i];
+                slice.CnlData[i] = curData.CnlData[cnlIndex];
+            }
+
+            adapter.WriteSingleSlice(slice);
+        }
+
+        /// <summary>
         /// Processes new data.
         /// </summary>
         public override void ProcessData(ICurrentData curData)
         {
-            DateTime nowDT = curData.Timestamp;
-
-            if (nextWriteTime <= nowDT)
+            if (nextWriteTime <= curData.Timestamp)
             {
-                nextWriteTime = GetNextWriteTime(nowDT);
-                slice.Timestamp = nowDT;
-                int[] cnlIndices = GetCnlIndices(curData);
-
-                for (int i = 0, cnlCnt = CnlNums.Length; i < cnlCnt; i++)
-                {
-                    int cnlIndex = cnlIndices[i];
-                    slice.CnlData[i] = curData.CnlData[cnlIndex];
-                }
-
-                adapter.WriteSingleSlice(slice, ref sliceBuffer);
+                nextWriteTime = GetNextWriteTime(curData.Timestamp);
+                WriteData(curData);
             }
         }
     }

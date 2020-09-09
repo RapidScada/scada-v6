@@ -52,6 +52,11 @@ namespace Scada.Data.Adapters
         /// </summary>
         protected const int HeaderSize = 20;
 
+        /// <summary>
+        /// The buffer for writing slices.
+        /// </summary>
+        protected byte[] sliceBuffer = null;
+
 
         /// <summary>
         /// Reads and validates the table header.
@@ -251,7 +256,7 @@ namespace Scada.Data.Adapters
         /// <summary>
         /// Writes the single slice to the slice table.
         /// </summary>
-        public void WriteSingleSlice(Slice slice, ref byte[] buffer)
+        public void WriteSingleSlice(Slice slice)
         {
             if (slice == null)
                 throw new ArgumentNullException("slice");
@@ -273,7 +278,8 @@ namespace Scada.Data.Adapters
                 // write slice
                 int cnlCnt = slice.CnlNums.Length;
                 int sliceSize = cnlCnt > 0 ? cnlCnt * 14 + 18 : 14;
-                ResizeBuffer(ref buffer, sliceSize);
+                ResizeBuffer(ref sliceBuffer, sliceSize);
+                byte[] buffer = sliceBuffer;
 
                 int index = 0;
                 CopyUInt16(BlockMarker, buffer, ref index);
