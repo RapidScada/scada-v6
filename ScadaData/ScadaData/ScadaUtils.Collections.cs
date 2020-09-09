@@ -22,8 +22,7 @@ namespace Scada
         public static string GetValueAsString(this IDictionary<string, string> dictionary, 
             string key, string defaultValue = "")
         {
-            return dictionary.TryGetValue(key, out string val) ?
-                val : defaultValue;
+            return dictionary.TryGetValue(key, out string val) ? val : defaultValue;
         }
 
         /// <summary>
@@ -32,8 +31,14 @@ namespace Scada
         public static bool GetValueAsBool(this IDictionary<string, string> dictionary, 
             string key, bool defaultValue = false)
         {
-            return dictionary.TryGetValue(key, out string valStr) && bool.TryParse(valStr, out bool val) ?
-                val : defaultValue;
+            try
+            {
+                return dictionary.TryGetValue(key, out string valStr) ? bool.Parse(valStr) : defaultValue;
+            }
+            catch (FormatException)
+            {
+                throw NewFormatException(key);
+            }
         }
 
         /// <summary>
@@ -42,8 +47,14 @@ namespace Scada
         public static int GetValueAsInt(this IDictionary<string, string> dictionary, 
             string key, int defaultValue = 0)
         {
-            return dictionary.TryGetValue(key, out string valStr) && int.TryParse(valStr, out int val) ?
-                val : defaultValue;
+            try
+            {
+                return dictionary.TryGetValue(key, out string valStr) ? int.Parse(valStr) : defaultValue;
+            }
+            catch (FormatException)
+            {
+                throw NewFormatException(key);
+            }
         }
 
         /// <summary>
@@ -52,9 +63,32 @@ namespace Scada
         public static double GetValueAsDouble(this IDictionary<string, string> dictionary, 
             string key, double defaultValue = 0)
         {
-            return dictionary.TryGetValue(key, out string valStr) && 
-                double.TryParse(valStr, NumberStyles.Float, NumberFormatInfo.InvariantInfo, out double val) ?
-                val : defaultValue;
+            try
+            {
+                return dictionary.TryGetValue(key, out string valStr) ? 
+                    double.Parse(valStr, NumberStyles.Float, NumberFormatInfo.InvariantInfo) : defaultValue;
+            }
+            catch (FormatException)
+            {
+                throw NewFormatException(key);
+            }
+        }
+
+        /// <summary>
+        /// Gets the child XML node value as an enumeration element.
+        /// </summary>
+        public static T GetValueAsEnum<T>(this IDictionary<string, string> dictionary,
+            string key, T defaultValue = default(T)) where T : struct
+        {
+            try
+            {
+                return dictionary.TryGetValue(key, out string valStr) ? 
+                    (T)Enum.Parse(typeof(T), valStr, true) : defaultValue;
+            }
+            catch (FormatException)
+            {
+                throw NewFormatException(key);
+            }
         }
 
         /// <summary>

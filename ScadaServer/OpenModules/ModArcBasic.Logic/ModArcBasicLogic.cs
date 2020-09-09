@@ -75,6 +75,8 @@ namespace Scada.Server.Modules.ModArcBasic.Logic
             {
                 case ArchiveKind.Current:
                     return new BasicCAL(archiveConfig, cnlNums, ServerContext.AppConfig.PathOptions);
+                case ArchiveKind.Historical:
+                    return new BasicHAL(archiveConfig, cnlNums, ServerContext.AppConfig.PathOptions);
                 default:
                     return null;
             }

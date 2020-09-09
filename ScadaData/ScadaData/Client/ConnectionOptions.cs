@@ -103,7 +103,7 @@ namespace Scada.Client
             SecretKey = ScadaUtils.HexToBytes(xmlNode.GetChildAsString("SecretKey"));
 
             if (SecretKey.Length != ScadaUtils.SecretKeySize)
-                throw new ScadaException(string.Format(CommonPhrases.IncorrectXmlNodeVal, "SecretKey"));
+                throw new ScadaException(string.Format(CommonPhrases.InvalidParamVal, "SecretKey"));
         }
 
         /// <summary>

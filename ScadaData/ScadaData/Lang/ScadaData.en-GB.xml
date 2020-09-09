@@ -34,10 +34,6 @@
   <Dictionary key="Scada.Format">
     <Phrase key="NotNumber">String is not a number.</Phrase>
     <Phrase key="NotHexadecimal">String is not hexadecimal.</Phrase>
-  </Dictionary>
-  <Dictionary key="Scada.Xml">
-    <Phrase key="IncorrectXmlNodeVal">Incorrect value of XML node &quot;{0}&quot;.</Phrase>
-    <Phrase key="IncorrectXmlAttrVal">Incorrect value of XML attribute &quot;{0}&quot;.</Phrase>
-    <Phrase key="IncorrectXmlParamVal">Incorrect value of the parameter &quot;{0}&quot;.</Phrase>
+    <Phrase key="InvalidParamVal">Invalid value of the &quot;{0}&quot; parameter.</Phrase>
   </Dictionary>
 </ScadaDataDictionaries>

@@ -7,23 +7,6 @@ namespace Scada
 	partial class ScadaUtils
 	{
         /// <summary>
-        /// Creates a new FormatException for the XML node.
-        /// </summary>
-        private static FormatException NewXmlNodeFormatException(string nodeName)
-        {
-            return new FormatException(string.Format(CommonPhrases.IncorrectXmlNodeVal, nodeName));
-        }
-
-        /// <summary>
-        /// Creates a new FormatException for the XML attribute.
-        /// </summary>
-        private static FormatException NewXmlAttrFormatException(string attrName)
-        {
-            return new FormatException(string.Format(CommonPhrases.IncorrectXmlAttrVal, attrName));
-        }
-
-
-        /// <summary>
         /// Converts the value to be written to an XML file into a string.
         /// </summary>
         public static string XmlValToStr(object value)
@@ -152,7 +135,7 @@ namespace Scada
             }
             catch (FormatException)
             {
-                throw NewXmlNodeFormatException(childNodeName);
+                throw NewFormatException(childNodeName);
             }
         }
 
@@ -168,7 +151,7 @@ namespace Scada
             }
             catch (FormatException)
             {
-                throw NewXmlNodeFormatException(childNodeName);
+                throw NewFormatException(childNodeName);
             }
         }
 
@@ -184,7 +167,7 @@ namespace Scada
             }
             catch (FormatException)
             {
-                throw NewXmlNodeFormatException(childNodeName);
+                throw NewFormatException(childNodeName);
             }
         }
 
@@ -200,7 +183,7 @@ namespace Scada
             }
             catch (FormatException)
             {
-                throw NewXmlNodeFormatException(childNodeName);
+                throw NewFormatException(childNodeName);
             }
         }
 
@@ -216,7 +199,7 @@ namespace Scada
             }
             catch (FormatException)
             {
-                throw NewXmlNodeFormatException(childNodeName);
+                throw NewFormatException(childNodeName);
             }
         }
 
@@ -248,7 +231,7 @@ namespace Scada
             }
             catch (FormatException)
             {
-                throw NewXmlNodeFormatException(childNodeName);
+                throw NewFormatException(childNodeName);
             }
         }
 
@@ -273,7 +256,7 @@ namespace Scada
             }
             catch (FormatException)
             {
-                throw NewXmlNodeFormatException(childNodeName);
+                throw NewFormatException(childNodeName);
             }
         }
 
@@ -307,7 +290,7 @@ namespace Scada
             }
             catch (FormatException)
             {
-                throw NewXmlAttrFormatException(attrName);
+                throw NewFormatException(attrName);
             }
         }
 
@@ -323,7 +306,7 @@ namespace Scada
             }
             catch (FormatException)
             {
-                throw NewXmlAttrFormatException(attrName);
+                throw NewFormatException(attrName);
             }
         }
 
@@ -339,7 +322,7 @@ namespace Scada
             }
             catch (FormatException)
             {
-                throw NewXmlAttrFormatException(attrName);
+                throw NewFormatException(attrName);
             }
         }
 
@@ -355,7 +338,7 @@ namespace Scada
             }
             catch (FormatException)
             {
-                throw NewXmlAttrFormatException(attrName);
+                throw NewFormatException(attrName);
             }
         }
 
@@ -371,7 +354,7 @@ namespace Scada
             }
             catch (FormatException)
             {
-                throw NewXmlAttrFormatException(attrName);
+                throw NewFormatException(attrName);
             }
         }
 
@@ -403,7 +386,7 @@ namespace Scada
             }
             catch (FormatException)
             {
-                throw NewXmlAttrFormatException(attrName);
+                throw NewFormatException(attrName);
             }
         }
 
@@ -428,7 +411,7 @@ namespace Scada
             }
             catch (FormatException)
             {
-                throw NewXmlAttrFormatException(attrName);
+                throw NewFormatException(attrName);
             }
         }
     }

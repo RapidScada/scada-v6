@@ -67,11 +67,7 @@ namespace Scada
         // Scada.Format
         public static string NotNumber { get; private set; }
         public static string NotHexadecimal { get; private set; }
-
-        // Scada.Xml
-        public static string IncorrectXmlNodeVal { get; private set; }
-        public static string IncorrectXmlAttrVal { get; private set; }
-        public static string IncorrectXmlParamVal { get; private set; }
+        public static string InvalidParamVal { get; private set; }
 
         public static void Init()
         {
@@ -109,11 +105,7 @@ namespace Scada
             dict = Locale.GetDictionary("Scada.Format");
             NotNumber = dict.GetPhrase("NotNumber");
             NotHexadecimal = dict.GetPhrase("NotHexadecimal");
-
-            dict = Locale.GetDictionary("Scada.Xml");
-            IncorrectXmlNodeVal = dict.GetPhrase("IncorrectXmlNodeVal");
-            IncorrectXmlAttrVal = dict.GetPhrase("IncorrectXmlAttrVal");
-            IncorrectXmlParamVal = dict.GetPhrase("IncorrectXmlParamVal");
+            InvalidParamVal = dict.GetPhrase("InvalidParamVal");
         }
     }
 }

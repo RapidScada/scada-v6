@@ -57,6 +57,13 @@ namespace Scada
         /// </summary>
         public static readonly bool IsRunningOnCore = RuntimeInformation.FrameworkDescription.StartsWith(".NET Core");
 
+        /// <summary>
+        /// Creates a new FormatException for the specified parameter.
+        /// </summary>
+        private static FormatException NewFormatException(string paramName)
+        {
+            return new FormatException(string.Format(CommonPhrases.InvalidParamVal, paramName));
+        }
 
         /// <summary>
         /// Adds a directory separator to the directory name if necessary.
