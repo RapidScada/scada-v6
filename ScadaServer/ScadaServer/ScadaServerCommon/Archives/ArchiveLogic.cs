@@ -25,6 +25,7 @@
 
 using Scada.Server.Config;
 using System;
+using System.Threading;
 
 namespace Scada.Server.Archives
 {
@@ -84,17 +85,22 @@ namespace Scada.Server.Archives
         /// </summary>
         public TimeSpan CleanupPeriod { get; protected set; }
 
+
         /// <summary>
-        /// Gets an object that can be used to synchronize access to the archive.
+        /// Acquires an exclusive lock on the archive.
         /// </summary>
-        public object SyncRoot
+        public virtual void Lock()
         {
-            get
-            {
-                return this;
-            }
+            Monitor.Enter(this);
         }
 
+        /// <summary>
+        /// Releases an exclusive lock on the archive.
+        /// </summary>
+        public virtual void Unlock()
+        {
+            Monitor.Exit(this);
+        }
 
         /// <summary>
         /// Makes the archive ready for operating.

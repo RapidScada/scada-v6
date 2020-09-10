@@ -135,14 +135,16 @@ namespace Scada.Server.Engine
             {
                 try
                 {
-                    lock (archiveLogic.SyncRoot)
-                    {
-                        archiveLogic.MakeReady();
-                    }
+                    archiveLogic.Lock();
+                    archiveLogic.MakeReady();
                 }
                 catch (Exception ex)
                 {
                     log.WriteException(ex, ErrorInArchive, "MakeReady", archiveLogic.Code);
+                }
+                finally
+                {
+                    Unlock(archiveLogic);
                 }
             }
         }
@@ -158,18 +160,21 @@ namespace Scada.Server.Engine
             {
                 try
                 {
-                    lock (archiveLogic.SyncRoot)
+                    archiveLogic.Lock();
+
+                    if (utcNow - archiveLogic.LastCleanupTime > archiveLogic.CleanupPeriod)
                     {
-                        if (utcNow - archiveLogic.LastCleanupTime > archiveLogic.CleanupPeriod)
-                        {
-                            archiveLogic.LastCleanupTime = utcNow;
-                            archiveLogic.DeleteOutdatedData();
-                        }
+                        archiveLogic.LastCleanupTime = utcNow;
+                        archiveLogic.DeleteOutdatedData();
                     }
                 }
                 catch (Exception ex)
                 {
                     log.WriteException(ex, ErrorInArchive, "DeleteOutdatedData", archiveLogic.Code);
+                }
+                finally
+                {
+                    Unlock(archiveLogic);
                 }
             }
         }
@@ -183,17 +188,19 @@ namespace Scada.Server.Engine
             {
                 try
                 {
-                    lock (archiveLogic.SyncRoot)
-                    {
-                        archiveLogic.ReadData(curData, out bool completed);
+                    archiveLogic.Lock();
+                    archiveLogic.ReadData(curData, out bool completed);
 
-                        if (completed)
-                            return;
-                    }
+                    if (completed)
+                        return;
                 }
                 catch (Exception ex)
                 {
                     log.WriteException(ex, ErrorInArchive, "ReadData", archiveLogic.Code);
+                }
+                finally
+                {
+                    Unlock(archiveLogic);
                 }
             }
 
@@ -211,14 +218,16 @@ namespace Scada.Server.Engine
             {
                 try
                 {
-                    lock (archiveLogic.SyncRoot)
-                    {
-                        archiveLogic.WriteData(curData);
-                    }
+                    archiveLogic.Lock();
+                    archiveLogic.WriteData(curData);
                 }
                 catch (Exception ex)
                 {
                     log.WriteException(ex, ErrorInArchive, "WriteData", archiveLogic.Code);
+                }
+                finally
+                {
+                    Unlock(archiveLogic);
                 }
             }
         }
@@ -232,14 +241,16 @@ namespace Scada.Server.Engine
             {
                 try
                 {
-                    lock (archiveLogic.SyncRoot)
-                    {
-                        archiveLogic.ProcessData(curData);
-                    }
+                    archiveLogic.Lock();
+                    archiveLogic.ProcessData(curData);
                 }
                 catch (Exception ex)
                 {
                     log.WriteException(ex, ErrorInArchive, "ProcessData", archiveLogic.Code);
+                }
+                finally
+                {
+                    Unlock(archiveLogic);
                 }
             }
 
@@ -247,14 +258,16 @@ namespace Scada.Server.Engine
             {
                 try
                 {
-                    lock (archiveLogic.SyncRoot)
-                    {
-                        archiveLogic.ProcessData(curData);
-                    }
+                    archiveLogic.Lock();
+                    archiveLogic.ProcessData(curData);
                 }
                 catch (Exception ex)
                 {
                     log.WriteException(ex, ErrorInArchive, "ProcessData", archiveLogic.Code);
+                }
+                finally
+                {
+                    Unlock(archiveLogic);
                 }
             }
         }
@@ -266,14 +279,31 @@ namespace Scada.Server.Engine
         {
             try
             {
-                lock (archiveLogic.SyncRoot)
-                {
-                    archiveLogic.EndUpdate(deviceNum);
-                }
+                archiveLogic.Lock();
+                archiveLogic.EndUpdate(deviceNum);
             }
             catch (Exception ex)
             {
                 log.WriteException(ex, ErrorInArchive, "EndUpdate", archiveLogic.Code);
+            }
+            finally
+            {
+                Unlock(archiveLogic);
+            }
+        }
+
+        /// <summary>
+        /// Calls the Unlock method of the specified archive.
+        /// </summary>
+        public void Unlock(ArchiveLogic archiveLogic)
+        {
+            try
+            {
+                archiveLogic.Unlock();
+            }
+            catch (Exception ex)
+            {
+                log.WriteException(ex, ErrorInArchive, "Unlock", archiveLogic.Code);
             }
         }
 
@@ -286,14 +316,16 @@ namespace Scada.Server.Engine
             {
                 try
                 {
-                    lock (archiveLogic.SyncRoot)
-                    {
-                        return archiveLogic.GetTrends(cnlNums, startTime, endTime);
-                    }
+                    archiveLogic.Lock();
+                    return archiveLogic.GetTrends(cnlNums, startTime, endTime);
                 }
                 catch (Exception ex)
                 {
                     log.WriteException(ex, ErrorInArchive, "GetTrends", archiveLogic.Code);
+                }
+                finally
+                {
+                    Unlock(archiveLogic);
                 }
             }
 
@@ -309,14 +341,16 @@ namespace Scada.Server.Engine
             {
                 try
                 {
-                    lock (archiveLogic.SyncRoot)
-                    {
-                        return archiveLogic.GetTrend(cnlNum, startTime, endTime);
-                    }
+                    archiveLogic.Lock();
+                    return archiveLogic.GetTrend(cnlNum, startTime, endTime);
                 }
                 catch (Exception ex)
                 {
                     log.WriteException(ex, ErrorInArchive, "GetTrend", archiveLogic.Code);
+                }
+                finally
+                {
+                    Unlock(archiveLogic);
                 }
             }
 
@@ -332,14 +366,16 @@ namespace Scada.Server.Engine
             {
                 try
                 {
-                    lock (archiveLogic.SyncRoot)
-                    {
-                        return archiveLogic.GetTimestamps(startTime, endTime);
-                    }
+                    archiveLogic.Lock();
+                    return archiveLogic.GetTimestamps(startTime, endTime);
                 }
                 catch (Exception ex)
                 {
                     log.WriteException(ex, ErrorInArchive, "GetTimestamps", archiveLogic.Code);
+                }
+                finally
+                {
+                    Unlock(archiveLogic);
                 }
             }
 
@@ -355,14 +391,16 @@ namespace Scada.Server.Engine
             {
                 try
                 {
-                    lock (archiveLogic.SyncRoot)
-                    {
-                        return archiveLogic.GetSlice(cnlNums, timestamp);
-                    }
+                    archiveLogic.Lock();
+                    return archiveLogic.GetSlice(cnlNums, timestamp);
                 }
                 catch (Exception ex)
                 {
                     log.WriteException(ex, ErrorInArchive, "GetSlice", archiveLogic.Code);
+                }
+                finally
+                {
+                    Unlock(archiveLogic);
                 }
             }
 
@@ -376,9 +414,14 @@ namespace Scada.Server.Engine
         {
             if (GetArchive(archiveBit, out ArchiveLogic archiveLogic))
             {
-                lock (archiveLogic.SyncRoot)
+                try
                 {
+                    archiveLogic.Lock();
                     return archiveLogic.LastWriteTime;
+                }
+                finally
+                {
+                    Unlock(archiveLogic);
                 }
             }
             else
@@ -396,14 +439,16 @@ namespace Scada.Server.Engine
             {
                 try
                 {
-                    lock (archiveLogic.SyncRoot)
-                    {
-                        return archiveLogic.GetEventByID(eventID);
-                    }
+                    archiveLogic.Lock();
+                    return archiveLogic.GetEventByID(eventID);
                 }
                 catch (Exception ex)
                 {
                     log.WriteException(ex, ErrorInArchive, "GetEventByID", archiveLogic.Code);
+                }
+                finally
+                {
+                    Unlock(archiveLogic);
                 }
             }
 
@@ -419,14 +464,16 @@ namespace Scada.Server.Engine
             {
                 try
                 {
-                    lock (archiveLogic.SyncRoot)
-                    {
-                        return archiveLogic.GetEvents(startTime, endTime, filter);
-                    }
+                    archiveLogic.Lock();
+                    return archiveLogic.GetEvents(startTime, endTime, filter);
                 }
                 catch (Exception ex)
                 {
                     log.WriteException(ex, ErrorInArchive, "GetEvents", archiveLogic.Code);
+                }
+                finally
+                {
+                    Unlock(archiveLogic);
                 }
             }
 
@@ -442,14 +489,16 @@ namespace Scada.Server.Engine
             {
                 try
                 {
-                    lock (archiveLogic.SyncRoot)
-                    {
-                        archiveLogic.WriteEvent(ev);
-                    }
+                    archiveLogic.Lock();
+                    archiveLogic.WriteEvent(ev);
                 }
                 catch (Exception ex)
                 {
                     log.WriteException(ex, ErrorInArchive, "WriteEvent", archiveLogic.Code);
+                }
+                finally
+                {
+                    Unlock(archiveLogic);
                 }
             }
 
@@ -482,14 +531,16 @@ namespace Scada.Server.Engine
             {
                 try
                 {
-                    lock (archiveLogic.SyncRoot)
-                    {
-                        archiveLogic.AckEvent(eventID, timestamp, userID);
-                    }
+                    archiveLogic.Lock();
+                    archiveLogic.AckEvent(eventID, timestamp, userID);
                 }
                 catch (Exception ex)
                 {
                     log.WriteException(ex, ErrorInArchive, "AckEvent", archiveLogic.Code);
+                }
+                finally
+                {
+                    Unlock(archiveLogic);
                 }
             }
         }

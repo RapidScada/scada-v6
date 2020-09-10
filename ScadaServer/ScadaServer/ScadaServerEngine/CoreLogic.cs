@@ -1241,7 +1241,7 @@ namespace Scada.Server.Engine
                         try
                         {
                             calc.BeginCalculation(new ArchiveCalcContext(archiveLogic, timestamp));
-                            Monitor.Enter(archiveLogic.SyncRoot);
+                            archiveLogic.Lock();
                             archiveLogic.BeginUpdate(deviceNum);
 
                             // calculate input channels which are written
@@ -1285,7 +1285,7 @@ namespace Scada.Server.Engine
                         finally
                         {
                             archiveHolder.EndUpdate(archiveLogic, deviceNum);
-                            Monitor.Exit(archiveLogic.SyncRoot);
+                            archiveHolder.Unlock(archiveLogic);
                             calc.EndCalculation();
                         }
                     }
