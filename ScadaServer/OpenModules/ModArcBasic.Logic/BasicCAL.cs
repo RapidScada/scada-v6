@@ -95,9 +95,7 @@ namespace Scada.Server.Modules.ModArcBasic.Logic
         private string GetCurDataPath(PathOptions pathOptions)
         {
             string arcDir = options.IsCopy ? pathOptions.ArcCopyDir : pathOptions.ArcDir;
-            string curDataDir = Path.Combine(arcDir, Code);
-            Directory.CreateDirectory(curDataDir);
-            return Path.Combine(curDataDir, CurDataFileName);
+            return Path.Combine(arcDir, Code, CurDataFileName);
         }
 
         /// <summary>
@@ -130,6 +128,14 @@ namespace Scada.Server.Modules.ModArcBasic.Logic
             return cnlIndices;
         }
 
+
+        /// <summary>
+        /// Makes the archive ready for operating.
+        /// </summary>
+        public override void MakeReady()
+        {
+            Directory.CreateDirectory(Path.GetDirectoryName(adapter.FileName));
+        }
 
         /// <summary>
         /// Reads the current data.

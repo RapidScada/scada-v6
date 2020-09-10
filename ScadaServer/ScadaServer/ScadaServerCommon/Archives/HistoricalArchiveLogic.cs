@@ -83,12 +83,12 @@ namespace Scada.Server.Archives
         /// <summary>
         /// Maintains performance when data is written one at a time.
         /// </summary>
-        public abstract void BeginUpdate();
+        public abstract void BeginUpdate(int deviceNum);
 
         /// <summary>
         /// Completes the update operation.
         /// </summary>
-        public abstract void EndUpdate();
+        public abstract void EndUpdate(int deviceNum);
 
         /// <summary>
         /// Writes the input channel data.

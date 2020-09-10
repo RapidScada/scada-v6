@@ -84,6 +84,24 @@ namespace Scada.Server.Archives
         /// </summary>
         public TimeSpan CleanupPeriod { get; protected set; }
 
+        /// <summary>
+        /// Gets an object that can be used to synchronize access to the archive.
+        /// </summary>
+        public object SyncRoot
+        {
+            get
+            {
+                return this;
+            }
+        }
+
+
+        /// <summary>
+        /// Makes the archive ready for operating.
+        /// </summary>
+        public virtual void MakeReady()
+        {
+        }
 
         /// <summary>
         /// Deletes the outdated data from the archive.

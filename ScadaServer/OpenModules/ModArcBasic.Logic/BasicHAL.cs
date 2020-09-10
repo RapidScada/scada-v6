@@ -147,14 +147,14 @@ namespace Scada.Server.Modules.ModArcBasic.Logic
         /// <summary>
         /// Maintains performance when data is written one at a time.
         /// </summary>
-        public override void BeginUpdate()
+        public override void BeginUpdate(int deviceNum)
         {
         }
 
         /// <summary>
         /// Completes the update operation.
         /// </summary>
-        public override void EndUpdate()
+        public override void EndUpdate(int deviceNum)
         {
         }
 

@@ -32,6 +32,7 @@ using Scada.Server.Archives;
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Threading;
 
 namespace Scada.Server.Engine
 {
@@ -46,6 +47,7 @@ namespace Scada.Server.Engine
             "Error calling the {0} method of the {1} archive";
 
         private readonly ILog log; // the application log
+        private readonly List<ArchiveLogic> allArchives;                  // the all archives
         private readonly List<CurrentArchiveLogic> currentArchives;       // the current archives
         private readonly List<HistoricalArchiveLogic> historicalArchives; // the historical archives
         private readonly List<EventArchiveLogic> eventArchives;           // the event archives
@@ -59,6 +61,7 @@ namespace Scada.Server.Engine
         public ArchiveHolder(ILog log)
         {
             this.log = log ?? throw new ArgumentNullException("log");
+            allArchives = new List<ArchiveLogic>();
             currentArchives = new List<CurrentArchiveLogic>();
             historicalArchives = new List<HistoricalArchiveLogic>();
             eventArchives = new List<EventArchiveLogic>();
@@ -85,6 +88,8 @@ namespace Scada.Server.Engine
                 throw new ArgumentNullException("archiveLogic");
 
             // add archive to the corresponding list
+            allArchives.Add(archiveLogic);
+
             if (archiveLogic is CurrentArchiveLogic currentArchiveLogic)
             {
                 currentArchives.Add(currentArchiveLogic);
@@ -125,25 +130,73 @@ namespace Scada.Server.Engine
         }
 
         /// <summary>
+        /// Calls the MakeReady method of the archives.
+        /// </summary>
+        public void MakeReady()
+        {
+            foreach (ArchiveLogic archiveLogic in allArchives)
+            {
+                try
+                {
+                    lock (archiveLogic.SyncRoot)
+                    {
+                        archiveLogic.MakeReady();
+                    }
+                }
+                catch (Exception ex)
+                {
+                    log.WriteException(ex, ErrorInArchive, "MakeReady", archiveLogic.Code);
+                }
+            }
+        }
+
+        /// <summary>
+        /// Calls the DeleteOutdatedData method of the archives.
+        /// </summary>
+        public void DeleteOutdatedData()
+        {
+            DateTime utcNow = DateTime.UtcNow;
+
+            foreach (ArchiveLogic archiveLogic in allArchives)
+            {
+                try
+                {
+                    lock (archiveLogic.SyncRoot)
+                    {
+                        if (utcNow - archiveLogic.LastCleanupTime > archiveLogic.CleanupPeriod)
+                        {
+                            archiveLogic.LastCleanupTime = utcNow;
+                            archiveLogic.DeleteOutdatedData();
+                        }
+                    }
+                }
+                catch (Exception ex)
+                {
+                    log.WriteException(ex, ErrorInArchive, "DeleteOutdatedData", archiveLogic.Code);
+                }
+            }
+        }
+
+        /// <summary>
         /// Calls the ReadData method of the current archives.
         /// </summary>
         public void ReadCurrentData(ICurrentData curData)
         {
-            lock (currentArchives)
+            foreach (CurrentArchiveLogic archiveLogic in currentArchives)
             {
-                foreach (CurrentArchiveLogic archiveLogic in currentArchives)
+                try
                 {
-                    try
+                    lock (archiveLogic.SyncRoot)
                     {
                         archiveLogic.ReadData(curData, out bool completed);
 
                         if (completed)
                             return;
                     }
-                    catch (Exception ex)
-                    {
-                        log.WriteException(ex, ErrorInArchive, "ReadData", archiveLogic.Code);
-                    }
+                }
+                catch (Exception ex)
+                {
+                    log.WriteException(ex, ErrorInArchive, "ReadData", archiveLogic.Code);
                 }
             }
 
@@ -157,18 +210,18 @@ namespace Scada.Server.Engine
         /// </summary>
         public void WriteCurrentData(ICurrentData curData)
         {
-            lock (currentArchives)
+            foreach (CurrentArchiveLogic archiveLogic in currentArchives)
             {
-                foreach (CurrentArchiveLogic archiveLogic in currentArchives)
+                try
                 {
-                    try
+                    lock (archiveLogic.SyncRoot)
                     {
                         archiveLogic.WriteData(curData);
                     }
-                    catch (Exception ex)
-                    {
-                        log.WriteException(ex, ErrorInArchive, "WriteData", archiveLogic.Code);
-                    }
+                }
+                catch (Exception ex)
+                {
+                    log.WriteException(ex, ErrorInArchive, "WriteData", archiveLogic.Code);
                 }
             }
         }
@@ -178,79 +231,48 @@ namespace Scada.Server.Engine
         /// </summary>
         public void ProcessData(ICurrentData curData)
         {
-            lock (currentArchives)
+            foreach (CurrentArchiveLogic archiveLogic in currentArchives)
             {
-                foreach (CurrentArchiveLogic archiveLogic in currentArchives)
+                try
                 {
-                    try
+                    lock (archiveLogic.SyncRoot)
                     {
                         archiveLogic.ProcessData(curData);
                     }
-                    catch (Exception ex)
-                    {
-                        log.WriteException(ex, ErrorInArchive, "ProcessData", archiveLogic.Code);
-                    }
+                }
+                catch (Exception ex)
+                {
+                    log.WriteException(ex, ErrorInArchive, "ProcessData", archiveLogic.Code);
                 }
             }
 
-            lock (currentArchives)
+            foreach (HistoricalArchiveLogic archiveLogic in historicalArchives)
             {
-                foreach (HistoricalArchiveLogic archiveLogic in historicalArchives)
+                try
                 {
-                    try
+                    lock (archiveLogic.SyncRoot)
                     {
                         archiveLogic.ProcessData(curData);
                     }
-                    catch (Exception ex)
-                    {
-                        log.WriteException(ex, ErrorInArchive, "ProcessData", archiveLogic.Code);
-                    }
                 }
-            }
-        }
-
-        /// <summary>
-        /// Calls the DeleteOutdatedData method of the archives.
-        /// </summary>
-        public void DeleteOutdatedData()
-        {
-            DateTime utcNow = DateTime.UtcNow;
-
-            void DoCleanup(IList archives)
-            {
-                lock (archives)
+                catch (Exception ex)
                 {
-                    foreach (ArchiveLogic archiveLogic in archives)
-                    {
-                        try
-                        {
-                            if (utcNow - archiveLogic.LastCleanupTime > archiveLogic.CleanupPeriod)
-                            {
-                                archiveLogic.LastCleanupTime = utcNow;
-                                archiveLogic.DeleteOutdatedData();
-                            }
-                        }
-                        catch (Exception ex)
-                        {
-                            log.WriteException(ex, ErrorInArchive, "DeleteOutdatedData", archiveLogic.Code);
-                        }
-                    }
+                    log.WriteException(ex, ErrorInArchive, "ProcessData", archiveLogic.Code);
                 }
             }
-
-            DoCleanup(currentArchives);
-            DoCleanup(historicalArchives);
-            DoCleanup(eventArchives);
         }
 
         /// <summary>
         /// Calls the EndUpdate method of the specified archive.
         /// </summary>
-        public void EndUpdate(HistoricalArchiveLogic archiveLogic)
+        public void EndUpdate(HistoricalArchiveLogic archiveLogic, int deviceNum)
         {
             try
             {
-                archiveLogic.EndUpdate();
+                lock (archiveLogic.SyncRoot)
+                {
+                    archiveLogic.EndUpdate(deviceNum);
+                }
             }
             catch (Exception ex)
             {
@@ -267,7 +289,10 @@ namespace Scada.Server.Engine
             {
                 try
                 {
-                    return archiveLogic.GetTrends(cnlNums, startTime, endTime);
+                    lock (archiveLogic.SyncRoot)
+                    {
+                        return archiveLogic.GetTrends(cnlNums, startTime, endTime);
+                    }
                 }
                 catch (Exception ex)
                 {
@@ -287,7 +312,10 @@ namespace Scada.Server.Engine
             {
                 try
                 {
-                    return archiveLogic.GetTrend(cnlNum, startTime, endTime);
+                    lock (archiveLogic.SyncRoot)
+                    {
+                        return archiveLogic.GetTrend(cnlNum, startTime, endTime);
+                    }
                 }
                 catch (Exception ex)
                 {
@@ -307,7 +335,10 @@ namespace Scada.Server.Engine
             {
                 try
                 {
-                    return archiveLogic.GetTimestamps(startTime, endTime);
+                    lock (archiveLogic.SyncRoot)
+                    {
+                        return archiveLogic.GetTimestamps(startTime, endTime);
+                    }
                 }
                 catch (Exception ex)
                 {
@@ -327,7 +358,10 @@ namespace Scada.Server.Engine
             {
                 try
                 {
-                    return archiveLogic.GetSlice(cnlNums, timestamp);
+                    lock (archiveLogic.SyncRoot)
+                    {
+                        return archiveLogic.GetSlice(cnlNums, timestamp);
+                    }
                 }
                 catch (Exception ex)
                 {
@@ -343,8 +377,17 @@ namespace Scada.Server.Engine
         /// </summary>
         public DateTime GetLastWriteTime(int archiveBit)
         {
-            return GetArchive(archiveBit, out ArchiveLogic archiveLogic) ?
-                archiveLogic.LastWriteTime : DateTime.MinValue;
+            if (GetArchive(archiveBit, out ArchiveLogic archiveLogic))
+            {
+                lock (archiveLogic.SyncRoot)
+                {
+                    return archiveLogic.LastWriteTime;
+                }
+            }
+            else
+            {
+                return DateTime.MinValue;
+            }
         }
 
         /// <summary>
@@ -356,7 +399,10 @@ namespace Scada.Server.Engine
             {
                 try
                 {
-                    return archiveLogic.GetEventByID(eventID);
+                    lock (archiveLogic.SyncRoot)
+                    {
+                        return archiveLogic.GetEventByID(eventID);
+                    }
                 }
                 catch (Exception ex)
                 {
@@ -376,7 +422,10 @@ namespace Scada.Server.Engine
             {
                 try
                 {
-                    return archiveLogic.GetEvents(startTime, endTime, filter);
+                    lock (archiveLogic.SyncRoot)
+                    {
+                        return archiveLogic.GetEvents(startTime, endTime, filter);
+                    }
                 }
                 catch (Exception ex)
                 {
@@ -396,7 +445,10 @@ namespace Scada.Server.Engine
             {
                 try
                 {
-                    archiveLogic.WriteEvent(ev);
+                    lock (archiveLogic.SyncRoot)
+                    {
+                        archiveLogic.WriteEvent(ev);
+                    }
                 }
                 catch (Exception ex)
                 {
@@ -433,7 +485,10 @@ namespace Scada.Server.Engine
             {
                 try
                 {
-                    archiveLogic.AckEvent(eventID, timestamp, userID);
+                    lock (archiveLogic.SyncRoot)
+                    {
+                        archiveLogic.AckEvent(eventID, timestamp, userID);
+                    }
                 }
                 catch (Exception ex)
                 {

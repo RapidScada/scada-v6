@@ -491,6 +491,7 @@ namespace Scada.Server.Engine
                 DateTime writeInfoDT = DateTime.MinValue; // the timestamp of writing application info
 
                 moduleHolder.OnServiceStart();
+                archiveHolder.MakeReady();
                 archiveHolder.ReadCurrentData(curData);
                 calc.InitScripts();
                 serviceStatus = ServiceStatus.Normal;
@@ -1240,7 +1241,8 @@ namespace Scada.Server.Engine
                         try
                         {
                             calc.BeginCalculation(new ArchiveCalcContext(archiveLogic, timestamp));
-                            archiveLogic.BeginUpdate();
+                            Monitor.Enter(archiveLogic.SyncRoot);
+                            archiveLogic.BeginUpdate(deviceNum);
 
                             // calculate input channels which are written
                             for (int i = 0; i < cnlCnt; i++)
@@ -1282,7 +1284,8 @@ namespace Scada.Server.Engine
                         }
                         finally
                         {
-                            archiveHolder.EndUpdate(archiveLogic);
+                            archiveHolder.EndUpdate(archiveLogic, deviceNum);
+                            Monitor.Exit(archiveLogic.SyncRoot);
                             calc.EndCalculation();
                         }
                     }
