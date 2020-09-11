@@ -43,6 +43,10 @@ namespace Scada.Server.Engine
             "Ошибка при вызове метода {0} архива {1}" :
             "Error calling the {0} method of the {1} archive";
 
+        private static readonly string NullNotAllowed = Locale.IsRussian ?
+            "Результат метода не может быть null." :
+            "Method result must not be null.";
+
         private readonly ILog log; // the application log
         private readonly List<ArchiveLogic> allArchives;                  // the all archives
         private readonly List<CurrentArchiveLogic> currentArchives;       // the current archives
@@ -317,7 +321,8 @@ namespace Scada.Server.Engine
                 try
                 {
                     archiveLogic.Lock();
-                    return archiveLogic.GetTrends(cnlNums, startTime, endTime);
+                    return archiveLogic.GetTrends(cnlNums, startTime, endTime) ?? 
+                        throw new ScadaException(NullNotAllowed);
                 }
                 catch (Exception ex)
                 {
@@ -342,7 +347,8 @@ namespace Scada.Server.Engine
                 try
                 {
                     archiveLogic.Lock();
-                    return archiveLogic.GetTrend(cnlNum, startTime, endTime);
+                    return archiveLogic.GetTrend(cnlNum, startTime, endTime) ??
+                        throw new ScadaException(NullNotAllowed);
                 }
                 catch (Exception ex)
                 {
@@ -367,7 +373,8 @@ namespace Scada.Server.Engine
                 try
                 {
                     archiveLogic.Lock();
-                    return archiveLogic.GetTimestamps(startTime, endTime);
+                    return archiveLogic.GetTimestamps(startTime, endTime) ??
+                        throw new ScadaException(NullNotAllowed);
                 }
                 catch (Exception ex)
                 {
@@ -392,7 +399,8 @@ namespace Scada.Server.Engine
                 try
                 {
                     archiveLogic.Lock();
-                    return archiveLogic.GetSlice(cnlNums, timestamp);
+                    return archiveLogic.GetSlice(cnlNums, timestamp) ??
+                        throw new ScadaException(NullNotAllowed);
                 }
                 catch (Exception ex)
                 {
@@ -465,7 +473,8 @@ namespace Scada.Server.Engine
                 try
                 {
                     archiveLogic.Lock();
-                    return archiveLogic.GetEvents(startTime, endTime, filter);
+                    return archiveLogic.GetEvents(startTime, endTime, filter) ??
+                        throw new ScadaException(NullNotAllowed);
                 }
                 catch (Exception ex)
                 {

@@ -89,6 +89,20 @@ namespace Scada.Server.Modules.ModArcBasic.Logic
 
 
         /// <summary>
+        /// Makes the archive ready for operating.
+        /// </summary>
+        public override void MakeReady()
+        {
+        }
+
+        /// <summary>
+        /// Deletes the outdated data from the archive.
+        /// </summary>
+        public override void DeleteOutdatedData()
+        {
+        }
+
+        /// <summary>
         /// Gets the input channel data.
         /// </summary>
         public override CnlData GetCnlData(int cnlNum, DateTime timestamp)
@@ -101,7 +115,7 @@ namespace Scada.Server.Modules.ModArcBasic.Logic
         /// </summary>
         public override TrendBundle GetTrends(int[] cnlNums, DateTime startTime, DateTime endTime)
         {
-            return null;
+            return new TrendBundle(cnlNums, 0);
         }
 
         /// <summary>
@@ -109,7 +123,7 @@ namespace Scada.Server.Modules.ModArcBasic.Logic
         /// </summary>
         public override Trend GetTrend(int cnlNum, DateTime startTime, DateTime endTime)
         {
-            return null;
+            return new Trend(cnlNum, 0);
         }
 
         /// <summary>
@@ -117,7 +131,7 @@ namespace Scada.Server.Modules.ModArcBasic.Logic
         /// </summary>
         public override List<DateTime> GetTimestamps(DateTime startTime, DateTime endTime)
         {
-            return null;
+            return new List<DateTime>();
         }
 
         /// <summary>
@@ -125,7 +139,7 @@ namespace Scada.Server.Modules.ModArcBasic.Logic
         /// </summary>
         public override Slice GetSlice(int[] cnlNums, DateTime timestamp)
         {
-            return null;
+            return new Slice(timestamp, cnlNums, new CnlData[cnlNums.Length]);
         }
 
         /// <summary>
