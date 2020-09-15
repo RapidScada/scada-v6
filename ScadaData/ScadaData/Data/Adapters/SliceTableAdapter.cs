@@ -16,7 +16,7 @@
  * 
  * Product  : Rapid SCADA
  * Module   : ScadaData
- * Summary  : Represents a mechanism to read and write the configuration database tables
+ * Summary  : Represents a mechanism to read and write slice tables
  * 
  * Author   : Mikhail Shiryaev
  * Created  : 2020

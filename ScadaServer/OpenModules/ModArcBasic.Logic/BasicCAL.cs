@@ -72,7 +72,7 @@ namespace Scada.Server.Modules.ModArcBasic.Logic
         private readonly SliceTableAdapter adapter; // reads and writes current data
         private readonly Slice slice;   // the slice for writing
         private DateTime nextWriteTime; // the next time to write the current data
-        private int[] cnlIndices;       // the indexes that map the input channels
+        private int[] cnlIndices;       // the indices that map the input channels
 
 
         /// <summary>
@@ -84,7 +84,7 @@ namespace Scada.Server.Modules.ModArcBasic.Logic
             options = new ArchiveOptions(archiveConfig.CustomOptions);
             adapter = new SliceTableAdapter { FileName = GetCurDataPath(pathOptions) };
             slice = new Slice(DateTime.MinValue, cnlNums, new CnlData[cnlNums.Length]);
-            nextWriteTime = GetNextWriteTime(DateTime.UtcNow);
+            nextWriteTime = GetNextWriteTime(DateTime.UtcNow, options.WritingPeriod);
             cnlIndices = null;
         }
 
@@ -97,37 +97,6 @@ namespace Scada.Server.Modules.ModArcBasic.Logic
             string arcDir = options.IsCopy ? pathOptions.ArcCopyDir : pathOptions.ArcDir;
             return Path.Combine(arcDir, Code, CurDataFileName);
         }
-
-        /// <summary>
-        /// Gets the next time to write the current data.
-        /// </summary>
-        private DateTime GetNextWriteTime(DateTime nowDT)
-        {
-            int period = options.WritingPeriod;
-            return period > 0 ?
-                nowDT.Date.AddSeconds(((int)nowDT.TimeOfDay.TotalSeconds / period + 1) * period) :
-                nowDT;
-        }
-
-        /// <summary>
-        /// Gets the indexes that map the archive input channels to all channels.
-        /// </summary>
-        private int[] GetCnlIndices(ICurrentData curData)
-        {
-            if (cnlIndices == null)
-            {
-                int cnlCnt = CnlNums.Length;
-                cnlIndices = new int[cnlCnt];
-
-                for (int i = 0; i < cnlCnt; i++)
-                {
-                    cnlIndices[i] = curData.GetCnlIndex(CnlNums[i]);
-                }
-            }
-
-            return cnlIndices;
-        }
-
 
         /// <summary>
         /// Makes the archive ready for operating.
@@ -172,7 +141,7 @@ namespace Scada.Server.Modules.ModArcBasic.Logic
         public override void WriteData(ICurrentData curData)
         {
             slice.Timestamp = curData.Timestamp;
-            int[] cnlIndices = GetCnlIndices(curData);
+            InitCnlIndices(curData, ref cnlIndices);
 
             for (int i = 0, cnlCnt = CnlNums.Length; i < cnlCnt; i++)
             {
@@ -190,7 +159,7 @@ namespace Scada.Server.Modules.ModArcBasic.Logic
         {
             if (nextWriteTime <= curData.Timestamp)
             {
-                nextWriteTime = GetNextWriteTime(curData.Timestamp);
+                nextWriteTime = GetNextWriteTime(curData.Timestamp, options.WritingPeriod);
                 WriteData(curData);
             }
         }

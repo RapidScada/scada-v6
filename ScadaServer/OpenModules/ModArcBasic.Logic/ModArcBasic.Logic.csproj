@@ -11,6 +11,9 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Reference Include="Log">
+      <HintPath>..\..\..\Log\Log\bin\Release\netstandard2.0\Log.dll</HintPath>
+    </Reference>
     <Reference Include="ScadaData">
       <HintPath>..\..\..\ScadaData\ScadaData\bin\Release\netstandard2.0\ScadaData.dll</HintPath>
     </Reference>

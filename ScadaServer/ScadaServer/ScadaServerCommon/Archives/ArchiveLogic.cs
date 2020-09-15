@@ -87,6 +87,33 @@ namespace Scada.Server.Archives
 
 
         /// <summary>
+        /// Gets the next time to write data to the archive.
+        /// </summary>
+        protected DateTime GetNextWriteTime(DateTime nowDT, int writingPeriod)
+        {
+            return writingPeriod > 0 ?
+                nowDT.Date.AddSeconds(((int)nowDT.TimeOfDay.TotalSeconds / writingPeriod + 1) * writingPeriod) :
+                nowDT;
+        }
+
+        /// <summary>
+        /// Initializes the indices that map the archive input channels to all channels.
+        /// </summary>
+        protected void InitCnlIndices(ICurrentData curData, ref int[] indices)
+        {
+            if (indices == null)
+            {
+                int cnlCnt = CnlNums.Length;
+                indices = new int[cnlCnt];
+
+                for (int i = 0; i < cnlCnt; i++)
+                {
+                    indices[i] = curData.GetCnlIndex(CnlNums[i]);
+                }
+            }
+        }
+
+        /// <summary>
         /// Acquires an exclusive lock on the archive.
         /// </summary>
         public virtual void Lock()

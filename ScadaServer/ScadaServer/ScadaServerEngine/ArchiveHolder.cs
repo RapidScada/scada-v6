@@ -47,7 +47,7 @@ namespace Scada.Server.Engine
             "Результат метода не может быть null." :
             "Method result must not be null.";
 
-        private readonly ILog log; // the application log
+        private readonly ILog log;                                        // the application log
         private readonly List<ArchiveLogic> allArchives;                  // the all archives
         private readonly List<CurrentArchiveLogic> currentArchives;       // the current archives
         private readonly List<HistoricalArchiveLogic> historicalArchives; // the historical archives
@@ -279,12 +279,12 @@ namespace Scada.Server.Engine
         /// <summary>
         /// Calls the EndUpdate method of the specified archive.
         /// </summary>
-        public void EndUpdate(HistoricalArchiveLogic archiveLogic, int deviceNum)
+        public void EndUpdate(HistoricalArchiveLogic archiveLogic, int deviceNum, DateTime timestamp)
         {
             try
             {
                 archiveLogic.Lock();
-                archiveLogic.EndUpdate(deviceNum);
+                archiveLogic.EndUpdate(deviceNum, timestamp);
             }
             catch (Exception ex)
             {

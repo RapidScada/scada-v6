@@ -25,10 +25,12 @@
 
 using Scada.Config;
 using Scada.Data.Models;
+using Scada.Log;
 using Scada.Server.Archives;
 using Scada.Server.Config;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Text;
 
 namespace Scada.Server.Modules.ModArcBasic.Logic
@@ -73,18 +75,56 @@ namespace Scada.Server.Modules.ModArcBasic.Logic
             /// </summary>
             public WritingMode WritingMode { get; set; }
             /// <summary>
-            /// Gets the data storage period.
+            /// Gets the data storage period in days.
             /// </summary>
             public int StoragePeriod { get; set; }
         }
 
 
+        private readonly ILog log;               // the application log
+        private readonly ArchiveOptions options; // the archive options
+        private readonly string arcDir;          // the archive directory
+        private readonly int writingPeriod;      // the writing period in seconds
+        private DateTime nextWriteTime;          // the next time to write data to the archive
+
+
         /// <summary>
         /// Initializes a new instance of the class.
         /// </summary>
-        public BasicHAL(ArchiveConfig archiveConfig, int[] cnlNums, PathOptions pathOptions)
+        public BasicHAL(ArchiveConfig archiveConfig, int[] cnlNums, PathOptions pathOptions, ILog log)
             : base(archiveConfig, cnlNums)
         {
+            this.log = log ?? throw new ArgumentNullException("log");
+            options = new ArchiveOptions(archiveConfig.CustomOptions);
+            arcDir = options.IsCopy ? pathOptions.ArcCopyDir : pathOptions.ArcDir;
+            writingPeriod = GetWritingPeriodInSec(options);
+            nextWriteTime = options.WritingMode == WritingMode.Auto ? 
+                GetNextWriteTime(DateTime.UtcNow, writingPeriod) : DateTime.MinValue;
+        }
+
+
+        /// <summary>
+        /// Gets the writing period in seconds.
+        /// </summary>
+        private int GetWritingPeriodInSec(ArchiveOptions options)
+        {
+            switch (options.WritingUnit)
+            {
+                case TimeUnit.Minute:
+                    return options.WritingPeriod * 60;
+                case TimeUnit.Hour:
+                    return options.WritingPeriod * 1440;
+                default: // TimeUnit.Second
+                    return options.WritingPeriod;
+            }
+        }
+
+        /// <summary>
+        /// Gets the trend table directory corresponding to the specified stamp.
+        /// </summary>
+        private string GetTrendTableDirectory(DateTime dateTime)
+        {
+            return Code + dateTime.AddDays(-options.StoragePeriod).ToString("yyyyMMdd");
         }
 
 
@@ -93,6 +133,7 @@ namespace Scada.Server.Modules.ModArcBasic.Logic
         /// </summary>
         public override void MakeReady()
         {
+            Directory.CreateDirectory(arcDir);
         }
 
         /// <summary>
@@ -100,6 +141,25 @@ namespace Scada.Server.Modules.ModArcBasic.Logic
         /// </summary>
         public override void DeleteOutdatedData()
         {
+            DirectoryInfo arcDirInfo = new DirectoryInfo(arcDir);
+
+            if (arcDirInfo.Exists)
+            {
+                DateTime minDT = DateTime.UtcNow.AddDays(-options.StoragePeriod);
+                string minDirName = GetTrendTableDirectory(minDT);
+
+                log.WriteAction(string.Format(Locale.IsRussian ?
+                    "Удаление устаревших данных из архива {0}, которые старше {1}" :
+                    "Delete outdated data from the {0} archive older than {1}",
+                    Code, minDT.ToLocalizedDateString()));
+
+                foreach (DirectoryInfo dirInfo in
+                    arcDirInfo.EnumerateDirectories(Code + "*", SearchOption.TopDirectoryOnly))
+                {
+                    if (string.CompareOrdinal(dirInfo.Name, minDirName) < 0)
+                        dirInfo.Delete(true);
+                }
+            }
         }
 
         /// <summary>
@@ -147,7 +207,11 @@ namespace Scada.Server.Modules.ModArcBasic.Logic
         /// </summary>
         public override void ProcessData(ICurrentData curData)
         {
+            if (options.WritingMode == WritingMode.Auto && nextWriteTime <= curData.Timestamp)
+            {
+                nextWriteTime = GetNextWriteTime(curData.Timestamp, writingPeriod);
 
+            }
         }
 
         /// <summary>
@@ -155,20 +219,20 @@ namespace Scada.Server.Modules.ModArcBasic.Logic
         /// </summary>
         public override bool AcceptData(DateTime timestamp)
         {
-            return false;
+            return (int)Math.Round(timestamp.TimeOfDay.TotalMilliseconds) % (writingPeriod * 1000) == 0;
         }
 
         /// <summary>
         /// Maintains performance when data is written one at a time.
         /// </summary>
-        public override void BeginUpdate(int deviceNum)
+        public override void BeginUpdate(int deviceNum, DateTime timestamp)
         {
         }
 
         /// <summary>
         /// Completes the update operation.
         /// </summary>
-        public override void EndUpdate(int deviceNum)
+        public override void EndUpdate(int deviceNum, DateTime timestamp)
         {
         }
 
