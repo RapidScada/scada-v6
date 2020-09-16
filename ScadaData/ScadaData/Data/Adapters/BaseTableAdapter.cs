@@ -221,7 +221,7 @@ namespace Scada.Data.Adapters
             {
                 ReadData(reader, buffer, 0, FieldDefSize, true);
 
-                if (CRC16(buffer, 0, FieldDefSize - 2) != BitConverter.ToUInt16(buffer, FieldDefSize - 2))
+                if (ScadaUtils.CRC16(buffer, 0, FieldDefSize - 2) != BitConverter.ToUInt16(buffer, FieldDefSize - 2))
                     throw new ScadaException("Field definition CRC error.");
 
                 int index = 0;
@@ -255,7 +255,7 @@ namespace Scada.Data.Adapters
             CopyUInt16(BlockMarker, buffer, 0);
             CopyInt32(rowDataSize, buffer, 2);
 
-            if (CRC16(buffer, 0, fullRowSize - 2) != BitConverter.ToUInt16(buffer, fullRowSize - 2))
+            if (ScadaUtils.CRC16(buffer, 0, fullRowSize - 2) != BitConverter.ToUInt16(buffer, fullRowSize - 2))
                 throw new ScadaException("Row CRC error.");
         }
 
@@ -270,7 +270,7 @@ namespace Scada.Data.Adapters
             Encoding.ASCII.GetBytes(fieldDef.Name).CopyTo(buffer, 1);
             buffer[MaxFieldNameLength + 1] = (byte)fieldDef.DataType;
             buffer[MaxFieldNameLength + 2] = (byte)(fieldDef.AllowNull ? 1 : 0);
-            ushort crc = CRC16(buffer, 0, FieldDefSize - 2);
+            ushort crc = ScadaUtils.CRC16(buffer, 0, FieldDefSize - 2);
             CopyUInt16(crc, buffer, FieldDefSize - 2);
             writer.Write(buffer, 0, FieldDefSize);
         }
@@ -619,7 +619,7 @@ namespace Scada.Data.Adapters
                             }
                         }
 
-                        ushort crc = CRC16(buffer, 0, fullRowSize - 2);
+                        ushort crc = ScadaUtils.CRC16(buffer, 0, fullRowSize - 2);
                         CopyUInt16(crc, buffer, fullRowSize - 2);
 
                         // write row data

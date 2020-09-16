@@ -23,6 +23,7 @@
  * Modified : 2020
  */
 
+using Scada.Data.Models;
 using Scada.Server.Config;
 using System;
 using System.Threading;
@@ -99,17 +100,31 @@ namespace Scada.Server.Archives
         /// <summary>
         /// Initializes the indices that map the archive input channels to all channels.
         /// </summary>
-        protected void InitCnlIndices(ICurrentData curData, ref int[] indices)
+        protected void InitCnlIndices(ICurrentData curData, ref int[] cnlIndices)
         {
-            if (indices == null)
+            if (cnlIndices == null)
             {
                 int cnlCnt = CnlNums.Length;
-                indices = new int[cnlCnt];
+                cnlIndices = new int[cnlCnt];
 
                 for (int i = 0; i < cnlCnt; i++)
                 {
-                    indices[i] = curData.GetCnlIndex(CnlNums[i]);
+                    cnlIndices[i] = curData.GetCnlIndex(CnlNums[i]);
                 }
+            }
+        }
+
+        /// <summary>
+        /// Copies the input channel data to the slice.
+        /// </summary>
+        protected void CopyCnlData(ICurrentData curData, Slice slice, int[] cnlIndices)
+        {
+            slice.Timestamp = curData.Timestamp;
+
+            for (int i = 0, cnlCnt = CnlNums.Length; i < cnlCnt; i++)
+            {
+                int cnlIndex = cnlIndices[i];
+                slice.CnlData[i] = curData.CnlData[cnlIndex];
             }
         }
 

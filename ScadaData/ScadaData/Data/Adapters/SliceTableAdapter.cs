@@ -139,7 +139,7 @@ namespace Scada.Data.Adapters
                             cnlNums = new int[cnlCnt];
                             Buffer.BlockCopy(buffer, 0, cnlNums, 0, cnlNumsSize);
 
-                            if (CRC32(buffer, 0, cnlNumsSize) != BitConverter.ToUInt32(buffer, cnlNumsSize))
+                            if (ScadaUtils.CRC32(buffer, 0, cnlNumsSize) != BitConverter.ToUInt32(buffer, cnlNumsSize))
                                 throw new ScadaException("CRC error.");
                         }
                         else if (cnlCnt < 0) // channel numbers are the same
@@ -219,7 +219,7 @@ namespace Scada.Data.Adapters
                     int[] cnlNums = new int[cnlCnt];
                     Buffer.BlockCopy(buffer, 0, cnlNums, 0, cnlNumsSize);
 
-                    if (CRC32(buffer, 0, cnlNumsSize) != BitConverter.ToUInt32(buffer, cnlNumsSize))
+                    if (ScadaUtils.CRC32(buffer, 0, cnlNumsSize) != BitConverter.ToUInt32(buffer, cnlNumsSize))
                         throw new ScadaException("CRC error.");
 
                     // read channel data
@@ -290,7 +290,7 @@ namespace Scada.Data.Adapters
                 {
                     int dataLength = cnlCnt * 4;
                     Buffer.BlockCopy(slice.CnlNums, 0, buffer, index, dataLength);
-                    uint crc = CRC32(buffer, index, dataLength);
+                    uint crc = ScadaUtils.CRC32(buffer, index, dataLength);
                     index += dataLength;
                     CopyInt32((int)crc, buffer, ref index);
 

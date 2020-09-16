@@ -140,15 +140,8 @@ namespace Scada.Server.Modules.ModArcBasic.Logic
         /// </summary>
         public override void WriteData(ICurrentData curData)
         {
-            slice.Timestamp = curData.Timestamp;
             InitCnlIndices(curData, ref cnlIndices);
-
-            for (int i = 0, cnlCnt = CnlNums.Length; i < cnlCnt; i++)
-            {
-                int cnlIndex = cnlIndices[i];
-                slice.CnlData[i] = curData.CnlData[cnlIndex];
-            }
-
+            CopyCnlData(curData, slice, cnlIndices);
             adapter.WriteSingleSlice(slice);
         }
 

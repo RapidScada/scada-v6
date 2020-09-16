@@ -24,14 +24,15 @@
  */
 
 using Scada.Config;
+using Scada.Data.Adapters;
 using Scada.Data.Models;
+using Scada.Data.Tables;
 using Scada.Log;
 using Scada.Server.Archives;
 using Scada.Server.Config;
 using System;
 using System.Collections.Generic;
 using System.IO;
-using System.Text;
 
 namespace Scada.Server.Modules.ModArcBasic.Logic
 {
@@ -81,11 +82,15 @@ namespace Scada.Server.Modules.ModArcBasic.Logic
         }
 
 
-        private readonly ILog log;               // the application log
-        private readonly ArchiveOptions options; // the archive options
-        private readonly string arcDir;          // the archive directory
-        private readonly int writingPeriod;      // the writing period in seconds
-        private DateTime nextWriteTime;          // the next time to write data to the archive
+        private readonly ILog log;                  // the application log
+        private readonly ArchiveOptions options;    // the archive options
+        private readonly CnlNumList cnlNumList;     // the list of the input channel numbers processed by the archive
+        private readonly TrendTableAdapter adapter; // reads and writes historical data
+        private readonly Slice slice;               // the slice for writing
+        private readonly int writingPeriod;         // the writing period in seconds
+        private DateTime nextWriteTime;             // the next time to write data to the archive
+        private int[] cnlIndices;                   // the indices that map the input channels
+        private TrendTable updatedTable;            // the trend table that is currently being updated
 
 
         /// <summary>
@@ -96,10 +101,18 @@ namespace Scada.Server.Modules.ModArcBasic.Logic
         {
             this.log = log ?? throw new ArgumentNullException("log");
             options = new ArchiveOptions(archiveConfig.CustomOptions);
-            arcDir = options.IsCopy ? pathOptions.ArcCopyDir : pathOptions.ArcDir;
+            cnlNumList = new CnlNumList(0, cnlNums);
+            adapter = new TrendTableAdapter
+            {
+                ParentDirectory = options.IsCopy ? pathOptions.ArcCopyDir : pathOptions.ArcDir,
+                ArchiveCode = Code
+            };
+            slice = new Slice(DateTime.MinValue, cnlNums, new CnlData[cnlNums.Length]);
             writingPeriod = GetWritingPeriodInSec(options);
             nextWriteTime = options.WritingMode == WritingMode.Auto ? 
                 GetNextWriteTime(DateTime.UtcNow, writingPeriod) : DateTime.MinValue;
+            cnlIndices = null;
+            updatedTable = null;
         }
 
 
@@ -120,11 +133,22 @@ namespace Scada.Server.Modules.ModArcBasic.Logic
         }
 
         /// <summary>
-        /// Gets the trend table directory corresponding to the specified stamp.
+        /// Gets the trend table from the cache, creating a table if necessary.
         /// </summary>
-        private string GetTrendTableDirectory(DateTime dateTime)
+        private TrendTable GetTrendTable(DateTime timestamp)
         {
-            return Code + dateTime.AddDays(-options.StoragePeriod).ToString("yyyyMMdd");
+            // TODO: use cache
+            // TODO: keep today's table available
+            DateTime tableDate = timestamp.Date;
+
+            if (updatedTable != null && updatedTable.TableDate == tableDate)
+            {
+                return updatedTable;
+            }
+            else
+            {
+                return new TrendTable(tableDate, writingPeriod) { CnlNumList = cnlNumList };
+            }
         }
 
 
@@ -133,7 +157,7 @@ namespace Scada.Server.Modules.ModArcBasic.Logic
         /// </summary>
         public override void MakeReady()
         {
-            Directory.CreateDirectory(arcDir);
+            Directory.CreateDirectory(adapter.ParentDirectory);
         }
 
         /// <summary>
@@ -141,12 +165,12 @@ namespace Scada.Server.Modules.ModArcBasic.Logic
         /// </summary>
         public override void DeleteOutdatedData()
         {
-            DirectoryInfo arcDirInfo = new DirectoryInfo(arcDir);
+            DirectoryInfo arcDirInfo = new DirectoryInfo(adapter.ParentDirectory);
 
             if (arcDirInfo.Exists)
             {
                 DateTime minDT = DateTime.UtcNow.AddDays(-options.StoragePeriod);
-                string minDirName = GetTrendTableDirectory(minDT);
+                string minDirName = TrendTableAdapter.GetTableDirectory(Code, minDT);
 
                 log.WriteAction(string.Format(Locale.IsRussian ?
                     "Удаление устаревших данных из архива {0}, которые старше {1}" :
@@ -210,7 +234,10 @@ namespace Scada.Server.Modules.ModArcBasic.Logic
             if (options.WritingMode == WritingMode.Auto && nextWriteTime <= curData.Timestamp)
             {
                 nextWriteTime = GetNextWriteTime(curData.Timestamp, writingPeriod);
-
+                TrendTable trendTable = GetTrendTable(curData.Timestamp);
+                InitCnlIndices(curData, ref cnlIndices);
+                CopyCnlData(curData, slice, cnlIndices);
+                adapter.WriteSlice(trendTable, slice);
             }
         }
 
@@ -227,6 +254,7 @@ namespace Scada.Server.Modules.ModArcBasic.Logic
         /// </summary>
         public override void BeginUpdate(int deviceNum, DateTime timestamp)
         {
+            updatedTable = GetTrendTable(timestamp);
         }
 
         /// <summary>
@@ -234,6 +262,7 @@ namespace Scada.Server.Modules.ModArcBasic.Logic
         /// </summary>
         public override void EndUpdate(int deviceNum, DateTime timestamp)
         {
+            updatedTable = null;
         }
 
         /// <summary>
@@ -241,7 +270,8 @@ namespace Scada.Server.Modules.ModArcBasic.Logic
         /// </summary>
         public override void WriteCnlData(int cnlNum, DateTime timestamp, CnlData cnlData)
         {
-
+            TrendTable trendTable = GetTrendTable(timestamp);
+            adapter.WriteCnlData(trendTable, cnlNum, cnlData);
         }
     }
 }
