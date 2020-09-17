@@ -36,15 +36,12 @@ namespace Scada.Data.Tables
         /// <summary>
         /// Initializes a new instance of the class.
         /// </summary>
-        public TrendTablePage(TrendTable trendTable)
+        public TrendTablePage(int pageNumber, TrendTable trendTable, TrendTableMeta meta)
         {
             IsReady = false;
+            PageNumber = pageNumber;
             TrendTable = trendTable ?? throw new ArgumentNullException("trendTable");
-            PageNumber = 0;
-            MinTimestamp = DateTime.MinValue;
-            MaxTimestamp = DateTime.MinValue;
-            WritingPeriod = 0;
-            PageCapacity = 0;
+            Metadata = meta ?? throw new ArgumentNullException("meta");
             CnlNumList = null;
         }
 
@@ -55,34 +52,19 @@ namespace Scada.Data.Tables
         public bool IsReady { get; set; }
 
         /// <summary>
+        /// Gets the page number in the table.
+        /// </summary>
+        public int PageNumber { get; }
+
+        /// <summary>
         /// Gets the parent trend table that the page belongs to.
         /// </summary>
         public TrendTable TrendTable { get; }
 
         /// <summary>
-        /// Gets or sets the page number in the table.
+        /// Gets the page metadata.
         /// </summary>
-        public int PageNumber { get; set; }
-
-        /// <summary>
-        /// Gets or sets the minumum timestamp of the page data.
-        /// </summary>
-        public DateTime MinTimestamp { get; set; }
-
-        /// <summary>
-        /// Gets or sets the maximum timestamp of the page data.
-        /// </summary>
-        public DateTime MaxTimestamp { get; set; }
-
-        /// <summary>
-        /// Gets or sets the writing period in seconds.
-        /// </summary>
-        public int WritingPeriod { get; set; }
-
-        /// <summary>
-        /// Gets or sets the page capacity.
-        /// </summary>
-        public int PageCapacity { get; set; }
+        public TrendTableMeta Metadata { get; }
 
         /// <summary>
         /// Gets or sets the list of input channel numbers whose data is stored in the page.

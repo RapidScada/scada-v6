@@ -262,7 +262,7 @@ namespace Scada.Data.Adapters
         /// <summary>
         /// Writes the field definintion using the specified writer.
         /// </summary>
-        protected void WriteFieldDef(FieldDef fieldDef, BinaryWriter writer, byte[] buffer)
+        protected void WriteFieldDef(BinaryWriter writer, FieldDef fieldDef, byte[] buffer)
         {
             Array.Clear(buffer, 0, FieldDefSize);
             int nameLength = fieldDef.Name.Length;
@@ -560,7 +560,7 @@ namespace Scada.Data.Adapters
                             isNullable || prop.PropertyType.IsClass);
 
                         fieldDefs[i] = fieldDef;
-                        WriteFieldDef(fieldDef, writer, buffer);
+                        WriteFieldDef(writer, fieldDef, buffer);
                     }
 
                     // write rows

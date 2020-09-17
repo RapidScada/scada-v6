@@ -46,6 +46,17 @@ namespace Scada.Data.Tables
             CRC = CalculateCRC();
         }
 
+        /// <summary>
+        /// Initializes a new instance of the class.
+        /// </summary>
+        public CnlNumList(long listID, int[] cnlNums, uint crc)
+        {
+            ListID = listID > 0 ? listID : ScadaUtils.GenerateUniqueID();
+            CnlNums = cnlNums ?? throw new ArgumentNullException("cnlNums");
+            CnlIndices = CreateCnlIndices();
+            CRC = crc;
+        }
+
 
         /// <summary>
         /// Gets the list ID.
@@ -102,7 +113,7 @@ namespace Scada.Data.Tables
         {
             if (list == null)
                 return false;
-            else if (list.ListID == ListID || list.CnlNums == CnlNums)
+            else if (list == this || list.ListID == ListID || list.CnlNums == CnlNums)
                 return true;
             else if (list.CRC == CRC)
                 return list.CnlNums.SequenceEqual(CnlNums);

@@ -47,12 +47,27 @@ namespace Scada.Data.Tables
         /// <summary>
         /// Initializes a new instance of the class.
         /// </summary>
+        public TrendTable()
+        {
+            IsReady = false;
+            TableDate = DateTime.MinValue;
+            WritingPeriod = 0;
+            PageCapacity = 0;
+            Metadata = null;
+            Pages = null;
+            CnlNumList = null;
+        }
+
+        /// <summary>
+        /// Initializes a new instance of the class.
+        /// </summary>
         public TrendTable(DateTime tableDate, int writingPeriod)
         {
             IsReady = false;
             TableDate = tableDate;
             WritingPeriod = writingPeriod;
             PageCapacity = GetPageCapacity();
+            Metadata = CreateMetadata();
             Pages = CreatePages();
             CnlNumList = null;
         }
@@ -66,22 +81,27 @@ namespace Scada.Data.Tables
         /// <summary>
         /// Gets the date of the data stored in the table.
         /// </summary>
-        public DateTime TableDate { get; }
+        public DateTime TableDate { get; protected set; }
 
         /// <summary>
         /// Gets the writing period in seconds.
         /// </summary>
-        public int WritingPeriod { get; }
+        public int WritingPeriod { get; protected set; }
 
         /// <summary>
         /// Gets the page capacity.
         /// </summary>
-        public int PageCapacity { get; }
+        public int PageCapacity { get; protected set; }
+
+        /// <summary>
+        /// Gets the table metadata.
+        /// </summary>
+        public TrendTableMeta Metadata { get; protected set; }
 
         /// <summary>
         /// Gets the pages that store the table data.
         /// </summary>
-        public List<TrendTablePage> Pages { get; }
+        public List<TrendTablePage> Pages { get; protected set; }
 
         /// <summary>
         /// Gets or sets the list of input channel numbers for newly added pages.
@@ -110,6 +130,20 @@ namespace Scada.Data.Tables
         }
 
         /// <summary>
+        /// Creates the metadata.
+        /// </summary>
+        protected TrendTableMeta CreateMetadata()
+        {
+            return new TrendTableMeta
+            {
+                MinTimestamp = TableDate,
+                MaxTimestamp = TableDate.AddDays(1.0),
+                WritingPeriod = WritingPeriod,
+                PageCapacity = PageCapacity
+            };
+        }
+
+        /// <summary>
         /// Creates the pages.
         /// </summary>
         protected List<TrendTablePage> CreatePages()
@@ -125,14 +159,14 @@ namespace Scada.Data.Tables
                 DateTime nextTimestamp = timestamp.AddSeconds(WritingPeriod);
                 int pageCapacity = Math.Min(PageCapacity, periodsPerDay - tableCapacity);
 
-                Pages.Add(new TrendTablePage(this)
-                {
-                    PageNumber = pageNumber,
-                    MinTimestamp = timestamp,
-                    MaxTimestamp = nextTimestamp,
-                    WritingPeriod = WritingPeriod,
-                    PageCapacity = pageCapacity
-                });
+                Pages.Add(new TrendTablePage(pageNumber, this,
+                    new TrendTableMeta
+                    {
+                        MinTimestamp = timestamp,
+                        MaxTimestamp = nextTimestamp,
+                        WritingPeriod = WritingPeriod,
+                        PageCapacity = pageCapacity
+                    }));
 
                 timestamp = nextTimestamp;
                 tableCapacity += pageCapacity;
@@ -146,26 +180,46 @@ namespace Scada.Data.Tables
         /// </summary>
         protected bool AcceptData(DateTime timestamp)
         {
-            return timestamp.Date == TableDate && 
+            return TableDate > DateTime.MinValue && timestamp.Date == TableDate && WritingPeriod > 0 &&
                 (int)Math.Round(timestamp.TimeOfDay.TotalMilliseconds) % (WritingPeriod * 1000) == 0;
+        }
+
+        /// <summary>
+        /// Sets the table metadata.
+        /// </summary>
+        public void SetMetadata(TrendTableMeta meta)
+        {
+            if (meta == null)
+                throw new ArgumentNullException("meta");
+
+            TableDate = meta.MinTimestamp.Date;
+            WritingPeriod = meta.WritingPeriod;
+            PageCapacity = meta.PageCapacity;
+            Metadata = meta;
+            Pages = CreatePages();
         }
 
         /// <summary>
         /// Gets the data position depending on the timestamp.
         /// </summary>
-        public void GetDataPosition(DateTime timestamp, out int pageNumber, out int indexWithinPage)
+        public bool GetDataPosition(DateTime timestamp, out TrendTablePage page, out int indexWithinPage)
         {
             if (AcceptData(timestamp))
             {
                 int indexWithinTable = (int)Math.Round(timestamp.TimeOfDay.TotalSeconds) / WritingPeriod;
-                pageNumber = indexWithinTable / PageCapacity + 1;
-                indexWithinPage = indexWithinTable % PageCapacity;
+                int pageIndex = indexWithinTable / PageCapacity + 1;
+
+                if (0 <= pageIndex && pageIndex < Pages.Count)
+                {
+                    page = Pages[pageIndex];
+                    indexWithinPage = indexWithinTable % PageCapacity;
+                    return true;
+                }
             }
-            else
-            {
-                pageNumber = 0;
-                indexWithinPage = 0;
-            }
+
+            page = null;
+            indexWithinPage = 0;
+            return false;
         }
     }
 }

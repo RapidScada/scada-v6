@@ -271,7 +271,7 @@ namespace Scada.Server.Modules.ModArcBasic.Logic
         public override void WriteCnlData(int cnlNum, DateTime timestamp, CnlData cnlData)
         {
             TrendTable trendTable = GetTrendTable(timestamp);
-            adapter.WriteCnlData(trendTable, cnlNum, cnlData);
+            adapter.WriteCnlData(trendTable, cnlNum, timestamp, cnlData);
         }
     }
 }
