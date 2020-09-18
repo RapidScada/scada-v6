@@ -148,12 +148,17 @@ namespace Scada.Server.Modules.ModArcBasic.Logic
         /// <summary>
         /// Processes new data.
         /// </summary>
-        public override void ProcessData(ICurrentData curData)
+        public override bool ProcessData(ICurrentData curData)
         {
             if (nextWriteTime <= curData.Timestamp)
             {
                 nextWriteTime = GetNextWriteTime(curData.Timestamp, options.WritingPeriod);
                 WriteData(curData);
+                return true;
+            }
+            else
+            {
+                return false;
             }
         }
     }

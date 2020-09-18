@@ -43,6 +43,7 @@ namespace Scada.Server.Archives
         {
             ArchiveConfig = archiveConfig ?? throw new ArgumentNullException("archiveConfig");
             CnlNums = cnlNums ?? throw new ArgumentNullException("archiveConfig");
+            IsReady = false;
             LastWriteTime = DateTime.MinValue;
             LastCleanupTime = DateTime.MinValue;
             CleanupPeriod = TimeSpan.FromDays(1);
@@ -72,9 +73,14 @@ namespace Scada.Server.Archives
         }
 
         /// <summary>
-        /// Gets the time (UTC) when when the archive was last written to.
+        /// Gets or sets a value indicating whether the archive is ready for reading and writing.
         /// </summary>
-        public DateTime LastWriteTime { get; protected set; }
+        public bool IsReady { get; set; }
+
+        /// <summary>
+        /// Gets or sets the time (UTC) when when the archive was last written to.
+        /// </summary>
+        public DateTime LastWriteTime { get; set; }
 
         /// <summary>
         /// Gets or sets the time (UTC) when when the archive was last cleaned up.

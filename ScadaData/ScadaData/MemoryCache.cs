@@ -177,7 +177,7 @@ namespace Scada
         }
 
         /// <summary>
-        /// Gets an entry from the cache.
+        /// Gets an entry from the cache, or null if the specified key is not found.
         /// </summary>
         public TValue Get(TKey key)
         {

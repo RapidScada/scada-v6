@@ -60,6 +60,7 @@ namespace Scada.Data.Adapters
         {
             ParentDirectory = null;
             ArchiveCode = "";
+            CnlNumCache = null;
         }
 
 
@@ -83,17 +84,11 @@ namespace Scada.Data.Adapters
         /// </summary>
         public string ArchiveCode { get; set;  }
 
-
         /// <summary>
-        /// Gets the full path of the trend table.
+        /// Gets or sets the cache containing lists of channel numbers accessed by list IDs.
         /// </summary>
-        protected string GetTablePath(TrendTable trendTable)
-        {
-            if (string.IsNullOrEmpty(ParentDirectory) || string.IsNullOrEmpty(ArchiveCode))
-                throw new ScadaException("Failed to get the trend table path.");
+        public MemoryCache<long, CnlNumList> CnlNumCache { get; set; }
 
-            return Path.Combine(ParentDirectory, GetTableDirectory(ArchiveCode, trendTable.TableDate));
-        }
 
         /// <summary>
         /// Reads metadata using the specified reader.
@@ -134,6 +129,9 @@ namespace Scada.Data.Adapters
         /// </summary>
         protected TrendTableMeta ReadMetadata(string fileName, byte[] buffer)
         {
+            if (!File.Exists(FileName))
+                return null;
+
             using (FileStream stream = new FileStream(FileName, FileMode.Open, FileAccess.Read, FileShare.ReadWrite))
             {
                 using (BinaryReader reader = new BinaryReader(stream, Encoding.UTF8, false))
@@ -148,17 +146,14 @@ namespace Scada.Data.Adapters
         /// </summary>
         protected void WriteMetadata(BinaryWriter writer, TrendTableMeta meta)
         {
-            if (meta != null)
-            {
-                writer.Write(TableType.TrendTable);
-                writer.Write(MajorVersion);
-                writer.Write(MinorVersion);
-                writer.Write(meta.MinTimestamp.Ticks);
-                writer.Write(meta.MaxTimestamp.Ticks);
-                writer.Write(meta.WritingPeriod);
-                writer.Write(meta.PageCapacity);
-                writer.Write(ReserveBuffer, 0, 20);
-            }
+            writer.Write(TableType.TrendTable);
+            writer.Write(MajorVersion);
+            writer.Write(MinorVersion);
+            writer.Write(meta.MinTimestamp.Ticks);
+            writer.Write(meta.MaxTimestamp.Ticks);
+            writer.Write(meta.WritingPeriod);
+            writer.Write(meta.PageCapacity);
+            writer.Write(ReserveBuffer, 0, 20);
         }
 
         /// <summary>
@@ -166,6 +161,8 @@ namespace Scada.Data.Adapters
         /// </summary>
         protected void WriteMetadata(string fileName, TrendTableMeta meta)
         {
+            Directory.CreateDirectory(Path.GetDirectoryName(FileName));
+
             using (FileStream stream = new FileStream(FileName, FileMode.Create, FileAccess.Write, FileShare.ReadWrite))
             {
                 using (BinaryWriter writer = new BinaryWriter(stream, Encoding.UTF8, false))
@@ -178,22 +175,31 @@ namespace Scada.Data.Adapters
         /// <summary>
         /// Reads channel numbers.
         /// </summary>
-        protected CnlNumList ReadCnlNums(BinaryReader reader)
+        protected CnlNumList ReadCnlNums(BinaryReader reader, bool useCache)
         {
-            long listID = reader.ReadInt64(); // TODO: find list in cache
-            int cnlCnt = reader.ReadInt32();
+            long listID = reader.ReadInt64();
+            CnlNumList cnlNumList = useCache && CnlNumCache != null ? CnlNumCache.Get(listID) : null;
 
-            int bufferLength = cnlCnt * 4 + 4;
-            byte[] buffer = new byte[bufferLength];
-            ReadData(reader, buffer, 0, bufferLength, true);
-            uint crc = BitConverter.ToUInt32(buffer, bufferLength - 4);
+            if (cnlNumList == null)
+            {
+                int cnlCnt = reader.ReadInt32();
+                int bufferLength = cnlCnt * 4 + 4;
+                byte[] buffer = new byte[bufferLength];
+                ReadData(reader, buffer, 0, bufferLength, true);
+                uint crc = BitConverter.ToUInt32(buffer, bufferLength - 4);
 
-            if (ScadaUtils.CRC32(buffer, 0, bufferLength - 4) != crc)
-                throw new ScadaException("Channel list CRC error.");
+                if (ScadaUtils.CRC32(buffer, 0, bufferLength - 4) != crc)
+                    throw new ScadaException("Channel list CRC error.");
 
-            int[] cnlNums = new int[cnlCnt];
-            Buffer.BlockCopy(buffer, 0, cnlNums, 0, bufferLength);
-            return new CnlNumList(listID, cnlNums, crc);
+                int[] cnlNums = new int[cnlCnt];
+                Buffer.BlockCopy(buffer, 0, cnlNums, 0, bufferLength);
+                cnlNumList = new CnlNumList(listID, cnlNums, crc);
+
+                if (useCache && CnlNumCache != null)
+                    CnlNumCache.Add(listID, cnlNumList);
+            }
+
+            return cnlNumList;
         }
 
         /// <summary>
@@ -201,19 +207,63 @@ namespace Scada.Data.Adapters
         /// </summary>
         protected void WriteCnlNums(BinaryWriter writer, CnlNumList cnlNumList)
         {
-            if (cnlNumList != null)
-            {
-                int bufferLength = cnlNumList.CnlNums.Length * 4 + 16;
-                byte[] buffer = new byte[bufferLength];
+            int bufferLength = cnlNumList.CnlNums.Length * 4 + 16;
+            byte[] buffer = new byte[bufferLength];
 
-                int index = 0;
-                CopyInt64(cnlNumList.ListID, buffer, ref index);
-                CopyIntArray(cnlNumList.CnlNums, buffer, ref index);
-                CopyInt32((int)cnlNumList.CRC, buffer, ref index);
-                writer.Write(buffer, 0, bufferLength);
-            }
+            int index = 0;
+            CopyInt64(cnlNumList.ListID, buffer, ref index);
+            CopyIntArray(cnlNumList.CnlNums, buffer, ref index);
+            CopyInt32((int)cnlNumList.CRC, buffer, ref index);
+            writer.Write(buffer, 0, bufferLength);
         }
 
+        /// <summary>
+        /// Allocates a new page on disk.
+        /// </summary>
+        protected void AllocateNewPage(Stream stream, BinaryWriter writer, TrendTablePage page)
+        {
+            if (page.Metadata == null)
+                throw new ScadaException("Page metadata must not be null.");
+
+            if (page.CnlNumList == null)
+                throw new ScadaException("Page channel numbers must not be null.");
+
+            int capacity = page.Metadata.PageCapacity;
+            int cnlCnt = page.CnlNumList.CnlNums.Length;
+            long flagsPosition = HeaderSize + cnlCnt * 4 + 16;
+            long pageSize = flagsPosition + capacity * (cnlCnt * 10 + 1);
+            stream.SetLength(pageSize);
+            WriteMetadata(writer, page.Metadata);
+            WriteCnlNums(writer, page.CnlNumList);
+            writer.Write(new byte[capacity], 0, capacity); // data availability flags
+        }
+
+
+        /// <summary>
+        /// Reads metadata from the file.
+        /// </summary>
+        public TrendTableMeta ReadMetadata(string fileName)
+        {
+            return File.Exists(FileName) ? ReadMetadata(fileName, new byte[HeaderSize]) : null;
+        }
+
+        /// <summary>
+        /// Reads channel numbers.
+        /// </summary>
+        public CnlNumList ReadCnlNums(string fileName)
+        {
+            if (!File.Exists(FileName))
+                return null;
+
+            using (FileStream stream = new FileStream(FileName, FileMode.Open, FileAccess.Read, FileShare.ReadWrite))
+            {
+                using (BinaryReader reader = new BinaryReader(stream, Encoding.UTF8, false))
+                {
+                    stream.Position = HeaderSize;
+                    return ReadCnlNums(reader, false);
+                }
+            }
+        }
 
         /// <summary>
         /// Writes the specified slice to the trend table.
@@ -222,6 +272,7 @@ namespace Scada.Data.Adapters
         {
             if (trendTable == null)
                 throw new ArgumentNullException("trendTable");
+
             if (slice == null)
                 throw new ArgumentNullException("slice");
 
@@ -238,14 +289,15 @@ namespace Scada.Data.Adapters
 
             if (!trendTable.IsReady)
             {
-                string metaFileName = GetMetaFileName(ArchiveCode, tableDate);
+                string metaFileName = Path.Combine(ParentDirectory, 
+                    GetTableDirectory(ArchiveCode, tableDate), GetMetaFileName(ArchiveCode, tableDate));
                 TrendTableMeta tableMeta = ReadMetadata(metaFileName, buffer);
 
                 if (trendTable.Metadata == null)
                 {
                     if (tableMeta == null)
                         throw new ScadaException("Unable to get table metadata.");
-                    else if (!trendTable.Metadata.Equals(tableMeta))
+                    else
                         trendTable.SetMetadata(tableMeta);
                 }
                 else
@@ -268,7 +320,7 @@ namespace Scada.Data.Adapters
 
                 try
                 {
-                    string pageFileName = GetPageFileName(ArchiveCode, tableDate, page.PageNumber);
+                    string pageFileName = GetPagePath(page);
                     stream = new FileStream(pageFileName, FileMode.OpenOrCreate, FileAccess.ReadWrite, FileShare.ReadWrite);
                     reader = new BinaryReader(stream, Encoding.UTF8, false);
                     writer = new BinaryWriter(stream, Encoding.UTF8, false);
@@ -280,15 +332,12 @@ namespace Scada.Data.Adapters
 
                         if (pageMeta == null)
                         {
-                            // initialize new page
                             page.CnlNumList = trendTable.CnlNumList;
-                            stream.SetLength(0); // TODO: set proper length
-                            WriteMetadata(writer, page.Metadata);
-                            WriteCnlNums(writer, page.CnlNumList);
+                            AllocateNewPage(stream, writer, page);
                         }
                         else if (page.Metadata.Equals(pageMeta))
                         {
-                            page.CnlNumList = ReadCnlNums(reader);
+                            page.CnlNumList = ReadCnlNums(reader, true);
                         }
                         else
                         {
@@ -297,6 +346,9 @@ namespace Scada.Data.Adapters
 
                         trendTable.IsReady = true;
                     }
+
+                    if (page.Metadata == null)
+                        throw new ScadaException("Page metadata must not be null.");
 
                     if (page.CnlNumList == null)
                         throw new ScadaException("Page channel numbers must not be null.");
@@ -355,11 +407,75 @@ namespace Scada.Data.Adapters
         }
 
         /// <summary>
+        /// Updates the table structure on disk according to the specified table and copies the existing table data.
+        /// </summary>
+        public void UpdateTableStructure(TrendTable trendTable)
+        {
+            if (trendTable == null)
+                throw new ArgumentNullException("trendTable");
+
+            if (trendTable.Metadata == null)
+                throw new ScadaException("Table metadata must not be null.");
+
+            //WriteMetadata(metaFileName, trendTable.Metadata);
+        }
+
+        /// <summary>
+        /// Updates the page structure on disk according to the specified page and copies the existing page data.
+        /// </summary>
+        public void UpdatePageStructure(TrendTablePage page)
+        {
+
+        }
+
+        /// <summary>
+        /// Gets the full path of the trend table.
+        /// </summary>
+        protected string GetTablePath(TrendTable trendTable)
+        {
+            if (trendTable == null)
+                throw new ArgumentNullException("trendTable");
+
+            if (string.IsNullOrEmpty(ParentDirectory) || string.IsNullOrEmpty(ArchiveCode))
+                throw new ScadaException("Failed to get the trend table path.");
+
+            return Path.Combine(ParentDirectory, GetTableDirectory(ArchiveCode, trendTable.TableDate));
+        }
+
+        /// <summary>
+        /// Gets the full path of the metadata file.
+        /// </summary>
+        public string GetMetaPath(TrendTable trendTable)
+        {
+            return Path.Combine(GetTablePath(trendTable), GetMetaFileName(ArchiveCode, trendTable.TableDate));
+        }
+
+        /// <summary>
+        /// Gets the full path of the page file.
+        /// </summary>
+        public string GetPagePath(TrendTablePage page)
+        {
+            if (page == null)
+                throw new ArgumentNullException("page");
+
+            return Path.Combine(GetTablePath(page.TrendTable), 
+                GetPageFileName(ArchiveCode, page.TrendTable.TableDate, page.PageNumber));
+        }
+
+        /// <summary>
         /// Gets the trend table directory corresponding to the specified archive and date.
         /// </summary>
         public static string GetTableDirectory(string archiveCode, DateTime tableDate)
         {
             return archiveCode + tableDate.ToString("yyyyMMdd");
+        }
+
+        /// <summary>
+        /// Gets the metadata file name corresponding to the specified archive and date.
+        /// </summary>
+        public static string GetMetaFileName(string archiveCode, DateTime tableDate)
+        {
+            return archiveCode.ToLowerInvariant() + tableDate.ToString("yyyyMMdd") + "_meta.dat";
         }
 
         /// <summary>
@@ -369,14 +485,6 @@ namespace Scada.Data.Adapters
         {
             return archiveCode.ToLowerInvariant() + tableDate.ToString("yyyyMMdd") + 
                 "_" + pageNumber.ToString("D4") + ".dat";
-        }
-
-        /// <summary>
-        /// Gets the metadata file name corresponding to the specified archive and date.
-        /// </summary>
-        public static string GetMetaFileName(string archiveCode, DateTime tableDate)
-        {
-            return archiveCode.ToLowerInvariant() + tableDate.ToString("yyyyMMdd") + "_meta.dat";
         }
     }
 }

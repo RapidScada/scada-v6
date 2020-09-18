@@ -55,6 +55,7 @@ namespace Scada.Server.Archives
         /// <summary>
         /// Processes new data.
         /// </summary>
-        public abstract void ProcessData(ICurrentData curData);
+        /// <remarks>Returns true if the data has been written to the archive.</remarks>
+        public abstract bool ProcessData(ICurrentData curData);
     }
 }

@@ -84,12 +84,14 @@ namespace Scada.Server.Modules.ModArcBasic.Logic
 
         private readonly ILog log;                  // the application log
         private readonly ArchiveOptions options;    // the archive options
-        private readonly CnlNumList cnlNumList;     // the list of the input channel numbers processed by the archive
+        private readonly MemoryCache<DateTime, TrendTable> tableCache; // the cache containing trend tables
         private readonly TrendTableAdapter adapter; // reads and writes historical data
         private readonly Slice slice;               // the slice for writing
         private readonly int writingPeriod;         // the writing period in seconds
         private DateTime nextWriteTime;             // the next time to write data to the archive
         private int[] cnlIndices;                   // the indices that map the input channels
+        private CnlNumList cnlNumList;              // the list of the input channel numbers processed by the archive
+        private TrendTable currentTable;            // the today's trend table
         private TrendTable updatedTable;            // the trend table that is currently being updated
 
 
@@ -101,17 +103,20 @@ namespace Scada.Server.Modules.ModArcBasic.Logic
         {
             this.log = log ?? throw new ArgumentNullException("log");
             options = new ArchiveOptions(archiveConfig.CustomOptions);
-            cnlNumList = new CnlNumList(0, cnlNums);
+            tableCache = new MemoryCache<DateTime, TrendTable>(ModUtils.CacheExpiration, ModUtils.CacheCapacity);
             adapter = new TrendTableAdapter
             {
                 ParentDirectory = options.IsCopy ? pathOptions.ArcCopyDir : pathOptions.ArcDir,
-                ArchiveCode = Code
+                ArchiveCode = Code,
+                CnlNumCache = new MemoryCache<long, CnlNumList>(ModUtils.CacheExpiration, ModUtils.CacheCapacity)
             };
             slice = new Slice(DateTime.MinValue, cnlNums, new CnlData[cnlNums.Length]);
             writingPeriod = GetWritingPeriodInSec(options);
             nextWriteTime = options.WritingMode == WritingMode.Auto ? 
                 GetNextWriteTime(DateTime.UtcNow, writingPeriod) : DateTime.MinValue;
             cnlIndices = null;
+            cnlNumList = new CnlNumList(cnlNums);
+            currentTable = null;
             updatedTable = null;
         }
 
@@ -133,21 +138,51 @@ namespace Scada.Server.Modules.ModArcBasic.Logic
         }
 
         /// <summary>
+        /// Gets the today's trend table, creating it if necessary.
+        /// </summary>
+        private TrendTable GetCurrentTrendTable(DateTime nowDT)
+        {
+            DateTime today = nowDT.Date;
+
+            if (currentTable == null)
+            {
+                currentTable = new TrendTable(today, writingPeriod) { CnlNumList = cnlNumList };
+            }
+            else if (currentTable.TableDate != today) // current date is changed
+            {
+                tableCache.Add(currentTable.TableDate, currentTable);
+                currentTable = new TrendTable(today, writingPeriod) { CnlNumList = cnlNumList };
+            }
+
+            return currentTable;
+        }
+
+        /// <summary>
         /// Gets the trend table from the cache, creating a table if necessary.
         /// </summary>
         private TrendTable GetTrendTable(DateTime timestamp)
         {
-            // TODO: use cache
-            // TODO: keep today's table available
             DateTime tableDate = timestamp.Date;
 
-            if (updatedTable != null && updatedTable.TableDate == tableDate)
+            if (currentTable != null && currentTable.TableDate == tableDate)
+            {
+                return currentTable;
+            }
+            else if (updatedTable != null && updatedTable.TableDate == tableDate)
             {
                 return updatedTable;
             }
             else
             {
-                return new TrendTable(tableDate, writingPeriod) { CnlNumList = cnlNumList };
+                TrendTable trendTable = tableCache.Get(tableDate);
+
+                if (trendTable == null)
+                {
+                    trendTable = new TrendTable(tableDate, writingPeriod) { CnlNumList = cnlNumList };
+                    tableCache.Add(tableDate, trendTable);
+                }
+
+                return trendTable;
             }
         }
 
@@ -157,7 +192,59 @@ namespace Scada.Server.Modules.ModArcBasic.Logic
         /// </summary>
         public override void MakeReady()
         {
+            // create archive directory
             Directory.CreateDirectory(adapter.ParentDirectory);
+
+            // check and update structure of the today's trend table
+            DateTime utcNow = DateTime.UtcNow;
+            DateTime tableDate = utcNow.Date;
+            string tableDirectory = Path.Combine(adapter.ParentDirectory, 
+                TrendTableAdapter.GetTableDirectory(Code, tableDate));
+
+            if (Directory.Exists(tableDirectory))
+            {
+                TrendTable trendTable = new TrendTable(tableDate, writingPeriod) { CnlNumList = cnlNumList };
+                string metaFileName = adapter.GetMetaPath(trendTable);
+                TrendTableMeta tableMeta = adapter.ReadMetadata(metaFileName);
+
+                if (tableMeta == null)
+                {
+                    // existing table is invalid and should be deleted
+                    Directory.Delete(tableDirectory, true);
+                }
+                else if (trendTable.Metadata.Equals(tableMeta))
+                {
+                    if (trendTable.GetPage(utcNow, out TrendTablePage page))
+                    {
+                        string pageFileName = adapter.GetPagePath(page);
+                        CnlNumList cnlNums = adapter.ReadCnlNums(pageFileName);
+
+                        if (cnlNums == null)
+                        {
+                            // make sure that there is no page file
+                            File.Delete(pageFileName);
+                        }
+                        else if (cnlNums.Equals(cnlNumList))
+                        {
+                            // use existing list ID
+                            cnlNumList = new CnlNumList(cnlNums.ListID, cnlNumList);
+                        }
+                        else
+                        {
+                            // update one page
+                            adapter.UpdatePageStructure(page);
+                        }
+                    }
+                }
+                else
+                {
+                    // update whole table
+                    adapter.UpdateTableStructure(trendTable);
+                }
+
+                currentTable = trendTable;
+                adapter.CnlNumCache.Add(cnlNumList.ListID, cnlNumList);
+            }
         }
 
         /// <summary>
@@ -229,15 +316,20 @@ namespace Scada.Server.Modules.ModArcBasic.Logic
         /// <summary>
         /// Processes new data.
         /// </summary>
-        public override void ProcessData(ICurrentData curData)
+        public override bool ProcessData(ICurrentData curData)
         {
             if (options.WritingMode == WritingMode.Auto && nextWriteTime <= curData.Timestamp)
             {
                 nextWriteTime = GetNextWriteTime(curData.Timestamp, writingPeriod);
-                TrendTable trendTable = GetTrendTable(curData.Timestamp);
+                TrendTable trendTable = GetCurrentTrendTable(curData.Timestamp);
                 InitCnlIndices(curData, ref cnlIndices);
                 CopyCnlData(curData, slice, cnlIndices);
                 adapter.WriteSlice(trendTable, slice);
+                return true;
+            }
+            else
+            {
+                return false;
             }
         }
 
@@ -246,7 +338,8 @@ namespace Scada.Server.Modules.ModArcBasic.Logic
         /// </summary>
         public override bool AcceptData(DateTime timestamp)
         {
-            return (int)Math.Round(timestamp.TimeOfDay.TotalMilliseconds) % (writingPeriod * 1000) == 0;
+            return writingPeriod > 0 &&
+                (int)Math.Round(timestamp.TimeOfDay.TotalMilliseconds) % (writingPeriod * 1000) == 0;
         }
 
         /// <summary>

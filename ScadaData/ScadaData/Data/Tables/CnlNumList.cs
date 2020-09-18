@@ -38,9 +38,17 @@ namespace Scada.Data.Tables
         /// <summary>
         /// Initializes a new instance of the class.
         /// </summary>
+        public CnlNumList(int[] cnlNums)
+            : this(ScadaUtils.GenerateUniqueID(), cnlNums)
+        {
+        }
+
+        /// <summary>
+        /// Initializes a new instance of the class.
+        /// </summary>
         public CnlNumList(long listID, int[] cnlNums)
         {
-            ListID = listID > 0 ? listID : ScadaUtils.GenerateUniqueID();
+            ListID = listID;
             CnlNums = cnlNums ?? throw new ArgumentNullException("cnlNums");
             CnlIndices = CreateCnlIndices();
             CRC = CalculateCRC();
@@ -51,10 +59,24 @@ namespace Scada.Data.Tables
         /// </summary>
         public CnlNumList(long listID, int[] cnlNums, uint crc)
         {
-            ListID = listID > 0 ? listID : ScadaUtils.GenerateUniqueID();
+            ListID = listID;
             CnlNums = cnlNums ?? throw new ArgumentNullException("cnlNums");
             CnlIndices = CreateCnlIndices();
             CRC = crc;
+        }
+
+        /// <summary>
+        /// Initializes a new instance of the class.
+        /// </summary>
+        public CnlNumList(long listID, CnlNumList sourceList)
+        {
+            if (sourceList == null)
+                throw new ArgumentNullException("sourceList");
+
+            ListID = listID;
+            CnlNums = sourceList.CnlNums;
+            CnlIndices = sourceList.CnlIndices;
+            CRC = sourceList.CRC;
         }
 
 

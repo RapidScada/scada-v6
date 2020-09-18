@@ -104,7 +104,7 @@ namespace Scada.Data.Tables
         public List<TrendTablePage> Pages { get; protected set; }
 
         /// <summary>
-        /// Gets or sets the list of input channel numbers for newly added pages.
+        /// Gets or sets the list of input channel numbers for newly allocated pages.
         /// </summary>
         public CnlNumList CnlNumList { get; set; }
 
@@ -114,6 +114,10 @@ namespace Scada.Data.Tables
         /// </summary>
         protected int GetPageCapacity()
         {
+            if (WritingPeriod <= 0)
+            {
+                throw new ScadaException("Writing period must be greater than zero.");
+            }
             if (WritingPeriod >= SecondsPerDay)
             {
                 return 1;
@@ -207,7 +211,7 @@ namespace Scada.Data.Tables
             if (AcceptData(timestamp))
             {
                 int indexWithinTable = (int)Math.Round(timestamp.TimeOfDay.TotalSeconds) / WritingPeriod;
-                int pageIndex = indexWithinTable / PageCapacity + 1;
+                int pageIndex = indexWithinTable / PageCapacity;
 
                 if (0 <= pageIndex && pageIndex < Pages.Count)
                 {
@@ -219,6 +223,27 @@ namespace Scada.Data.Tables
 
             page = null;
             indexWithinPage = 0;
+            return false;
+        }
+
+        /// <summary>
+        /// Gets the page whose time interval contains the specified timestamp.
+        /// </summary>
+        public bool GetPage(DateTime timestamp, out TrendTablePage page)
+        {
+            if (TableDate > DateTime.MinValue && timestamp.Date == TableDate && WritingPeriod > 0)
+            {
+                int indexWithinTable = (int)Math.Round(timestamp.TimeOfDay.TotalSeconds) / WritingPeriod;
+                int pageIndex = indexWithinTable / PageCapacity;
+
+                if (0 <= pageIndex && pageIndex < Pages.Count)
+                {
+                    page = Pages[pageIndex];
+                    return true;
+                }
+            }
+
+            page = null;
             return false;
         }
     }
