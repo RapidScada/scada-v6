@@ -152,8 +152,15 @@ namespace Scada.Data.Tables
         /// </summary>
         protected List<TrendTablePage> CreatePages()
         {
-            int periodsPerDay = SecondsPerDay / WritingPeriod;
-            int pageCount = (int)Math.Ceiling((double)periodsPerDay / PageCapacity);
+            int periodsPerDay = 0;
+            int pageCount = 0;
+
+            if (WritingPeriod > 0 && PageCapacity > 0)
+            {
+                periodsPerDay = SecondsPerDay / WritingPeriod;
+                pageCount = (int)Math.Ceiling((double)periodsPerDay / PageCapacity);
+            }
+
             List<TrendTablePage> pages = new List<TrendTablePage>(pageCount);
             DateTime timestamp = TableDate;
             int tableCapacity = 0;
@@ -182,10 +189,11 @@ namespace Scada.Data.Tables
         /// <summary>
         /// Accepts or rejects data with the specified timestamp.
         /// </summary>
-        protected bool AcceptData(DateTime timestamp)
+        protected bool AcceptData(DateTime timestamp, bool exactMatch)
         {
-            return TableDate > DateTime.MinValue && timestamp.Date == TableDate && WritingPeriod > 0 &&
-                (int)Math.Round(timestamp.TimeOfDay.TotalMilliseconds) % (WritingPeriod * 1000) == 0;
+            return TableDate > DateTime.MinValue && timestamp.Date == TableDate && 
+                WritingPeriod > 0 && PageCapacity > 0 &&
+                (!exactMatch || (int)Math.Round(timestamp.TimeOfDay.TotalMilliseconds) % (WritingPeriod * 1000) == 0);
         }
 
         /// <summary>
@@ -208,7 +216,7 @@ namespace Scada.Data.Tables
         /// </summary>
         public bool GetDataPosition(DateTime timestamp, out TrendTablePage page, out int indexWithinPage)
         {
-            if (AcceptData(timestamp))
+            if (AcceptData(timestamp, true))
             {
                 int indexWithinTable = (int)Math.Round(timestamp.TimeOfDay.TotalSeconds) / WritingPeriod;
                 int pageIndex = indexWithinTable / PageCapacity;
@@ -231,7 +239,7 @@ namespace Scada.Data.Tables
         /// </summary>
         public bool GetPage(DateTime timestamp, out TrendTablePage page)
         {
-            if (TableDate > DateTime.MinValue && timestamp.Date == TableDate && WritingPeriod > 0)
+            if (AcceptData(timestamp, false))
             {
                 int indexWithinTable = (int)Math.Round(timestamp.TimeOfDay.TotalSeconds) / WritingPeriod;
                 int pageIndex = indexWithinTable / PageCapacity;

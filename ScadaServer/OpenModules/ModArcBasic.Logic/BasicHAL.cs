@@ -198,48 +198,54 @@ namespace Scada.Server.Modules.ModArcBasic.Logic
             // check and update structure of the today's trend table
             DateTime utcNow = DateTime.UtcNow;
             DateTime tableDate = utcNow.Date;
-            string tableDirectory = Path.Combine(adapter.ParentDirectory, 
+            string tableDir = Path.Combine(adapter.ParentDirectory, 
                 TrendTableAdapter.GetTableDirectory(Code, tableDate));
 
-            if (Directory.Exists(tableDirectory))
+            if (Directory.Exists(tableDir))
             {
                 TrendTable trendTable = new TrendTable(tableDate, writingPeriod) { CnlNumList = cnlNumList };
                 string metaFileName = adapter.GetMetaPath(trendTable);
-                TrendTableMeta tableMeta = adapter.ReadMetadata(metaFileName);
+                TrendTableMeta srcTableMeta = adapter.ReadMetadata(metaFileName);
 
-                if (tableMeta == null)
+                if (srcTableMeta == null)
                 {
                     // existing table is invalid and should be deleted
-                    Directory.Delete(tableDirectory, true);
+                    Directory.Delete(tableDir, true);
                 }
-                else if (trendTable.Metadata.Equals(tableMeta))
+                else if (srcTableMeta.Equals(trendTable.Metadata))
                 {
                     if (trendTable.GetPage(utcNow, out TrendTablePage page))
                     {
                         string pageFileName = adapter.GetPagePath(page);
-                        CnlNumList cnlNums = adapter.ReadCnlNums(pageFileName);
+                        CnlNumList srcCnlNums = adapter.ReadCnlNums(pageFileName);
 
-                        if (cnlNums == null)
+                        if (srcCnlNums == null)
                         {
                             // make sure that there is no page file
                             File.Delete(pageFileName);
                         }
-                        else if (cnlNums.Equals(cnlNumList))
+                        else if (srcCnlNums.Equals(cnlNumList))
                         {
                             // use existing list ID
-                            cnlNumList = new CnlNumList(cnlNums.ListID, cnlNumList);
+                            cnlNumList = new CnlNumList(srcCnlNums.ListID, cnlNumList);
                         }
                         else
                         {
                             // update one page
-                            adapter.UpdatePageStructure(page);
+                            log.WriteAction(string.Format(Locale.IsRussian ?
+                                "Обновление номеров каналов страницы {0}" :
+                                "Update channel numbers of the page {0}", pageFileName));
+                            adapter.UpdatePageChannels(page, srcCnlNums);
                         }
                     }
                 }
                 else
                 {
                     // update whole table
-                    adapter.UpdateTableStructure(trendTable);
+                    log.WriteAction(string.Format(Locale.IsRussian ?
+                        "Обновление структуры таблицы {0}" :
+                        "Update structure of the table {0}", tableDir));
+                    adapter.UpdateTableStructure(trendTable, srcTableMeta);
                 }
 
                 currentTable = trendTable;
