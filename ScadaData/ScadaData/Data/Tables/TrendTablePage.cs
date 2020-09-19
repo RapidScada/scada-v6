@@ -49,6 +49,7 @@ namespace Scada.Data.Tables
         /// <summary>
         /// Gets or sets a value indicating whether the page is ready for reading and writing.
         /// </summary>
+        /// <remarks>This means that the object in memory and the files on disk match.</remarks>
         public bool IsReady { get; set; }
 
         /// <summary>

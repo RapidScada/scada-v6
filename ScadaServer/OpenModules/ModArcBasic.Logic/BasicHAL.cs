@@ -88,6 +88,7 @@ namespace Scada.Server.Modules.ModArcBasic.Logic
         private readonly TrendTableAdapter adapter; // reads and writes historical data
         private readonly Slice slice;               // the slice for writing
         private readonly int writingPeriod;         // the writing period in seconds
+
         private DateTime nextWriteTime;             // the next time to write data to the archive
         private int[] cnlIndices;                   // the indices that map the input channels
         private CnlNumList cnlNumList;              // the list of the input channel numbers processed by the archive
@@ -112,6 +113,7 @@ namespace Scada.Server.Modules.ModArcBasic.Logic
             };
             slice = new Slice(DateTime.MinValue, cnlNums, new CnlData[cnlNums.Length]);
             writingPeriod = GetWritingPeriodInSec(options);
+
             nextWriteTime = options.WritingMode == WritingMode.Auto ? 
                 GetNextWriteTime(DateTime.UtcNow, writingPeriod) : DateTime.MinValue;
             cnlIndices = null;
@@ -147,11 +149,13 @@ namespace Scada.Server.Modules.ModArcBasic.Logic
             if (currentTable == null)
             {
                 currentTable = new TrendTable(today, writingPeriod) { CnlNumList = cnlNumList };
+                currentTable.SetDefaultMetadata();
             }
             else if (currentTable.TableDate != today) // current date is changed
             {
                 tableCache.Add(currentTable.TableDate, currentTable);
                 currentTable = new TrendTable(today, writingPeriod) { CnlNumList = cnlNumList };
+                currentTable.SetDefaultMetadata();
             }
 
             return currentTable;
@@ -192,29 +196,27 @@ namespace Scada.Server.Modules.ModArcBasic.Logic
         /// </summary>
         public override void MakeReady()
         {
-            // create archive directory
+            // create the archive directory
             Directory.CreateDirectory(adapter.ParentDirectory);
 
-            // check and update structure of the today's trend table
+            // check and update the today's trend table
             DateTime utcNow = DateTime.UtcNow;
-            DateTime tableDate = utcNow.Date;
-            string tableDir = Path.Combine(adapter.ParentDirectory, 
-                TrendTableAdapter.GetTableDirectory(Code, tableDate));
+            currentTable = GetCurrentTrendTable(utcNow);
+            string tableDir = adapter.GetTablePath(currentTable);
+            string metaFileName = adapter.GetMetaPath(currentTable);
 
             if (Directory.Exists(tableDir))
             {
-                TrendTable trendTable = new TrendTable(tableDate, writingPeriod) { CnlNumList = cnlNumList };
-                string metaFileName = adapter.GetMetaPath(trendTable);
                 TrendTableMeta srcTableMeta = adapter.ReadMetadata(metaFileName);
 
                 if (srcTableMeta == null)
                 {
-                    // existing table is invalid and should be deleted
+                    // the existing table is invalid and should be deleted
                     Directory.Delete(tableDir, true);
                 }
-                else if (srcTableMeta.Equals(trendTable.Metadata))
+                else if (srcTableMeta.Equals(currentTable.Metadata))
                 {
-                    if (trendTable.GetPage(utcNow, out TrendTablePage page))
+                    if (currentTable.GetPage(utcNow, out TrendTablePage page))
                     {
                         string pageFileName = adapter.GetPagePath(page);
                         CnlNumList srcCnlNums = adapter.ReadCnlNums(pageFileName);
@@ -226,12 +228,12 @@ namespace Scada.Server.Modules.ModArcBasic.Logic
                         }
                         else if (srcCnlNums.Equals(cnlNumList))
                         {
-                            // use existing list ID
+                            // re-create the channel list to use the existing list ID
                             cnlNumList = new CnlNumList(srcCnlNums.ListID, cnlNumList);
                         }
                         else
                         {
-                            // update one page
+                            // update the current page
                             log.WriteAction(string.Format(Locale.IsRussian ?
                                 "Обновление номеров каналов страницы {0}" :
                                 "Update channel numbers of the page {0}", pageFileName));
@@ -241,16 +243,23 @@ namespace Scada.Server.Modules.ModArcBasic.Logic
                 }
                 else
                 {
-                    // update whole table
+                    // updating the entire table structure would take too long, so just backup the table
                     log.WriteAction(string.Format(Locale.IsRussian ?
-                        "Обновление структуры таблицы {0}" :
-                        "Update structure of the table {0}", tableDir));
-                    adapter.UpdateTableStructure(trendTable, srcTableMeta);
+                        "Резервное копирование таблицы {0}" :
+                        "Backup the table {0}", tableDir));
+                    adapter.BackupTable(currentTable);
                 }
-
-                currentTable = trendTable;
-                adapter.CnlNumCache.Add(cnlNumList.ListID, cnlNumList);
             }
+
+            // create an empty table if it does not exist
+            if (!Directory.Exists(tableDir))
+            {
+                adapter.WriteMetadata(metaFileName, currentTable.Metadata);
+                currentTable.IsReady = true;
+            }
+
+            // add the archive channel list to the cache
+            adapter.CnlNumCache.Add(cnlNumList.ListID, cnlNumList);
         }
 
         /// <summary>
@@ -292,7 +301,46 @@ namespace Scada.Server.Modules.ModArcBasic.Logic
         /// </summary>
         public override TrendBundle GetTrends(int[] cnlNums, DateTime startTime, DateTime endTime)
         {
-            return new TrendBundle(cnlNums, 0);
+            DateTime startDate = startTime.Date;
+            DateTime endDate = endTime.Date;
+            DateTime date = startDate;
+            List<TrendBundle> bundles = new List<TrendBundle>();
+            int totalCapacity = 0;
+
+            while (date <= endDate)
+            {
+                TrendTable trendTable = GetTrendTable(date);
+                TrendBundle bundle = adapter.ReadTrends(trendTable, cnlNums, startTime, endTime);
+                bundles.Add(bundle);
+                totalCapacity += bundle.Timestamps.Count;
+                date = date.AddDays(1.0);
+            }
+
+            if (bundles.Count <= 0)
+            {
+                return new TrendBundle(cnlNums, 0);
+            }
+            else if (bundles.Count == 1)
+            {
+                return bundles[0];
+            }
+            else
+            {
+                // unite bundles
+                TrendBundle unitedBundle = new TrendBundle(cnlNums, totalCapacity);
+
+                foreach (TrendBundle bundle in bundles)
+                {
+                    unitedBundle.Timestamps.AddRange(bundle.Timestamps);
+
+                    for (int i = 0, trendCnt = unitedBundle.Trends.Count; i < trendCnt; i++)
+                    {
+                        unitedBundle.Trends[i].AddRange(bundle.Trends[i]);
+                    }
+                }
+
+                return unitedBundle;
+            }
         }
 
         /// <summary>

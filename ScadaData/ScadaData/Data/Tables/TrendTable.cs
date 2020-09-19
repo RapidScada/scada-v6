@@ -52,7 +52,6 @@ namespace Scada.Data.Tables
             IsReady = false;
             TableDate = DateTime.MinValue;
             WritingPeriod = 0;
-            PageCapacity = 0;
             Metadata = null;
             Pages = null;
             CnlNumList = null;
@@ -62,20 +61,17 @@ namespace Scada.Data.Tables
         /// Initializes a new instance of the class.
         /// </summary>
         public TrendTable(DateTime tableDate, int writingPeriod)
+            : this()
         {
-            IsReady = false;
             TableDate = tableDate;
             WritingPeriod = writingPeriod;
-            PageCapacity = GetPageCapacity();
-            Metadata = CreateMetadata();
-            Pages = CreatePages();
-            CnlNumList = null;
         }
 
 
         /// <summary>
         /// Gets or sets a value indicating whether the table is ready for reading and writing.
         /// </summary>
+        /// <remarks>This means that the object in memory and the files on disk match.</remarks>
         public bool IsReady { get; set; }
 
         /// <summary>
@@ -87,11 +83,6 @@ namespace Scada.Data.Tables
         /// Gets the writing period in seconds.
         /// </summary>
         public int WritingPeriod { get; protected set; }
-
-        /// <summary>
-        /// Gets the page capacity.
-        /// </summary>
-        public int PageCapacity { get; protected set; }
 
         /// <summary>
         /// Gets the table metadata.
@@ -134,20 +125,6 @@ namespace Scada.Data.Tables
         }
 
         /// <summary>
-        /// Creates the metadata.
-        /// </summary>
-        protected TrendTableMeta CreateMetadata()
-        {
-            return new TrendTableMeta
-            {
-                MinTimestamp = TableDate,
-                MaxTimestamp = TableDate.AddDays(1.0),
-                WritingPeriod = WritingPeriod,
-                PageCapacity = PageCapacity
-            };
-        }
-
-        /// <summary>
         /// Creates the pages.
         /// </summary>
         protected List<TrendTablePage> CreatePages()
@@ -155,10 +132,10 @@ namespace Scada.Data.Tables
             int periodsPerDay = 0;
             int pageCount = 0;
 
-            if (WritingPeriod > 0 && PageCapacity > 0)
+            if (Metadata != null && Metadata.WritingPeriod > 0 && Metadata.PageCapacity > 0)
             {
-                periodsPerDay = SecondsPerDay / WritingPeriod;
-                pageCount = (int)Math.Ceiling((double)periodsPerDay / PageCapacity);
+                periodsPerDay = SecondsPerDay / Metadata.WritingPeriod;
+                pageCount = (int)Math.Ceiling((double)periodsPerDay / Metadata.PageCapacity);
             }
 
             List<TrendTablePage> pages = new List<TrendTablePage>(pageCount);
@@ -168,7 +145,7 @@ namespace Scada.Data.Tables
             for (int pageNumber = 1; pageNumber <= pageCount; pageNumber++)
             {
                 DateTime nextTimestamp = timestamp.AddSeconds(WritingPeriod);
-                int pageCapacity = Math.Min(PageCapacity, periodsPerDay - tableCapacity);
+                int pageCapacity = pageNumber < pageCount ? Metadata.PageCapacity : periodsPerDay - tableCapacity;
 
                 Pages.Add(new TrendTablePage(pageNumber, this,
                     new TrendTableMeta
@@ -192,8 +169,24 @@ namespace Scada.Data.Tables
         protected bool AcceptData(DateTime timestamp, bool exactMatch)
         {
             return TableDate > DateTime.MinValue && timestamp.Date == TableDate && 
-                WritingPeriod > 0 && PageCapacity > 0 &&
+                Metadata != null && Metadata.WritingPeriod > 0 && Metadata.PageCapacity > 0 &&
                 (!exactMatch || (int)Math.Round(timestamp.TimeOfDay.TotalMilliseconds) % (WritingPeriod * 1000) == 0);
+        }
+
+        /// <summary>
+        /// Sets the table metadata based on the table date and writing period.
+        /// </summary>
+        public void SetDefaultMetadata()
+        {
+            Metadata = new TrendTableMeta
+            {
+                MinTimestamp = TableDate,
+                MaxTimestamp = TableDate.AddDays(1.0),
+                WritingPeriod = WritingPeriod,
+                PageCapacity = GetPageCapacity()
+            };
+
+            Pages = CreatePages();
         }
 
         /// <summary>
@@ -206,7 +199,6 @@ namespace Scada.Data.Tables
 
             TableDate = meta.MinTimestamp.Date;
             WritingPeriod = meta.WritingPeriod;
-            PageCapacity = meta.PageCapacity;
             Metadata = meta;
             Pages = CreatePages();
         }
@@ -219,12 +211,12 @@ namespace Scada.Data.Tables
             if (AcceptData(timestamp, true))
             {
                 int indexWithinTable = (int)Math.Round(timestamp.TimeOfDay.TotalSeconds) / WritingPeriod;
-                int pageIndex = indexWithinTable / PageCapacity;
+                int pageIndex = indexWithinTable / Metadata.PageCapacity;
 
                 if (0 <= pageIndex && pageIndex < Pages.Count)
                 {
                     page = Pages[pageIndex];
-                    indexWithinPage = indexWithinTable % PageCapacity;
+                    indexWithinPage = indexWithinTable % Metadata.PageCapacity;
                     return true;
                 }
             }
@@ -242,7 +234,7 @@ namespace Scada.Data.Tables
             if (AcceptData(timestamp, false))
             {
                 int indexWithinTable = (int)Math.Round(timestamp.TimeOfDay.TotalSeconds) / WritingPeriod;
-                int pageIndex = indexWithinTable / PageCapacity;
+                int pageIndex = indexWithinTable / Metadata.PageCapacity;
 
                 if (0 <= pageIndex && pageIndex < Pages.Count)
                 {

@@ -96,7 +96,7 @@ namespace Scada.Data.Adapters
                 stream = Stream ?? new FileStream(FileName, FileMode.Open, FileAccess.Read, FileShare.ReadWrite);
                 reader = new BinaryReader(stream, Encoding.UTF8, Stream != null);
 
-                // prepare data table
+                // prepare the data table
                 dataTable.Rows.Clear();
                 dataTable.BeginLoadData();
                 dataTable.DefaultView.Sort = "";

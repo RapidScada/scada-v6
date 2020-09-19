@@ -379,7 +379,7 @@ namespace Scada.Data.Adapters
                 // read field definitions
                 FieldDef[] fieldDefs = ReadFieldDefs(reader, buffer, fieldCount);
 
-                // map field definitions and entity properties
+                // map the field definitions and entity properties
                 PropertyDescriptorCollection allProps = TypeDescriptor.GetProperties(baseTable.ItemType);
                 PropertyDescriptor[] props = new PropertyDescriptor[fieldCount];
 
