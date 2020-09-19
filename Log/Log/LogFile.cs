@@ -155,7 +155,12 @@ namespace Scada.Log
         /// </summary>
         public void WriteException(Exception ex, string errMsg = "", params object[] args)
         {
-            if (string.IsNullOrEmpty(errMsg))
+            if (ex == null)
+            {
+                WriteAction(args == null || args.Length == 0 ? errMsg : string.Format(errMsg, args), 
+                    LogActType.Exception);
+            }
+            else if (string.IsNullOrEmpty(errMsg))
             {
                 WriteAction(ex.ToString(), LogActType.Exception);
             }
