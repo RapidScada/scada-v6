@@ -319,9 +319,9 @@ namespace Scada.Server.Engine
                 };
             }
 
-            Log.WriteInfo(string.Format(Locale.IsRussian ?
+            Log.WriteInfo(Locale.IsRussian ?
                 "Количество активных входных каналов: {0}" :
-                "Number of active input channels: {0}", cnlTags.Count));
+                "Number of active input channels: {0}", cnlTags.Count);
         }
 
         /// <summary>
@@ -337,9 +337,9 @@ namespace Scada.Server.Engine
                     outCnlTags.Add(outCnl.OutCnlNum, new OutCnlTag(outCnl));
             }
 
-            Log.WriteInfo(string.Format(Locale.IsRussian ?
+            Log.WriteInfo(Locale.IsRussian ?
                 "Количество активных каналов управления: {0}" :
-                "Number of active output channels: {0}", outCnlTags.Count));
+                "Number of active output channels: {0}", outCnlTags.Count);
         }
 
         /// <summary>
@@ -420,9 +420,9 @@ namespace Scada.Server.Engine
                     {
                         if (!arcByCode.TryGetValue(archiveConfig.Code, out Archive archiveEntity))
                         {
-                            Log.WriteError(string.Format(Locale.IsRussian ?
+                            Log.WriteError(Locale.IsRussian ?
                                 "Архив {0} не найден в базе конфигурации" :
-                                "Archive {0} not found in the configuration database", archiveConfig.Code));
+                                "Archive {0} not found in the configuration database", archiveConfig.Code);
                         }
                         else if (moduleHolder.GetModule(archiveConfig.Module, out ModuleLogic moduleLogic) &&
                             moduleLogic.ModulePurposes.HasFlag(ModulePurposes.Archive) &&
@@ -430,24 +430,24 @@ namespace Scada.Server.Engine
                             ArchiveLogic archiveLogic)
                         {
                             archiveHolder.AddArchive(archiveEntity, archiveLogic);
-                            Log.WriteAction(string.Format(Locale.IsRussian ?
+                            Log.WriteAction(Locale.IsRussian ?
                                 "Архив {0} инициализирован успешно" :
-                                "Archive {0} initialized successfully", archiveConfig.Code));
+                                "Archive {0} initialized successfully", archiveConfig.Code);
                         }
                         else
                         {
-                            Log.WriteError(string.Format(Locale.IsRussian ?
+                            Log.WriteError(Locale.IsRussian ?
                                 "Не удалось создать архив {0} с помощью модуля {1}" :
                                 "Unable to create archive {0} with the module {1}",
-                                archiveConfig.Code, archiveConfig.Module));
+                                archiveConfig.Code, archiveConfig.Module);
                         }
                     }
                     catch (Exception ex)
                     {
-                        Log.WriteException(ex, string.Format(Locale.IsRussian ?
+                        Log.WriteException(ex, Locale.IsRussian ?
                             "Ошибка при создании архива {0} с помощью модуля {1}" :
                             "Error creating archive {0} with the module {1}",
-                            archiveConfig.Code, archiveConfig.Module));
+                            archiveConfig.Code, archiveConfig.Module);
                     }
                 }
             }
@@ -618,10 +618,10 @@ namespace Scada.Server.Engine
                     EventItem eventItem = events.Dequeue();
                     Event ev = eventItem.Event;
 
-                    Log.WriteAction(string.Format(Locale.IsRussian ?
+                    Log.WriteAction(Locale.IsRussian ?
                         "Создано событие с ид. {0}, входным каналом {1} и выходным каналом {2}" :
                         "Generated event with ID {0}, input channel {1} and output channel {2}",
-                        ev.EventID, ev.CnlNum, ev.OutCnlNum));
+                        ev.EventID, ev.CnlNum, ev.OutCnlNum);
 
                     moduleHolder.OnEvent(ev);
                     archiveHolder.WriteEvent(ev, eventItem.ArchiveMask);
@@ -1278,9 +1278,9 @@ namespace Scada.Server.Engine
                         }
                         catch (Exception ex)
                         {
-                            Log.WriteException(ex, string.Format(Locale.IsRussian ?
+                            Log.WriteException(ex, Locale.IsRussian ?
                                 "Ошибка при записи исторических данных в архив {0}" :
-                                "Error writing historical data to the {1} archive", archiveLogic.Code));
+                                "Error writing historical data to the {1} archive", archiveLogic.Code);
                         }
                         finally
                         {
@@ -1347,10 +1347,10 @@ namespace Scada.Server.Engine
                         ev.DeviceNum = outCnl.DeviceNum ?? 0;
                 }
 
-                Log.WriteAction(string.Format(Locale.IsRussian ?
+                Log.WriteAction(Locale.IsRussian ?
                     "Получено событие с ид. {0}, входным каналом {1} и выходным каналом {2}" :
                     "Received event with ID {0}, input channel {1} and output channel {2}",
-                    ev.EventID, ev.CnlNum, ev.OutCnlNum));
+                    ev.EventID, ev.CnlNum, ev.OutCnlNum);
 
                 moduleHolder.OnEvent(ev);
                 archiveHolder.WriteEvent(ev, archiveMask);
@@ -1368,9 +1368,9 @@ namespace Scada.Server.Engine
         /// </summary>
         public void AckEvent(long eventID, DateTime timestamp, int userID)
         {
-            Log.WriteAction(string.Format(Locale.IsRussian ?
+            Log.WriteAction(Locale.IsRussian ?
                 "Квитирование события с ид. {0}" :
-                "Acknowledge event with ID {0}", eventID));
+                "Acknowledge event with ID {0}", eventID);
             moduleHolder.OnEventAck(eventID, timestamp, userID);
             archiveHolder.AckEvent(eventID, timestamp, userID);
         }
@@ -1389,9 +1389,9 @@ namespace Scada.Server.Engine
             {
                 int outCnlNum = command.OutCnlNum;
                 int userID = command.UserID;
-                Log.WriteAction(string.Format(Locale.IsRussian ?
+                Log.WriteAction(Locale.IsRussian ?
                     "Команда на канал управления {0} от пользователя с ид. {1}" :
-                    "Command to the output channel {0} from the user with ID {1}", outCnlNum, userID));
+                    "Command to the output channel {0} from the user with ID {1}", outCnlNum, userID);
 
                 if (!BaseDataSet.UserTable.Items.TryGetValue(userID, out User user))
                 {
@@ -1461,9 +1461,9 @@ namespace Scada.Server.Engine
                         }
                         else
                         {
-                            Log.WriteAction(string.Format(Locale.IsRussian ?
+                            Log.WriteAction(Locale.IsRussian ?
                                 "Невозможно отправить команду: {0}" :
-                                "Unable to send command: {0}", commandResult.ErrorMessage));
+                                "Unable to send command: {0}", commandResult.ErrorMessage);
                         }
                     }
                 }

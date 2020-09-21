@@ -80,9 +80,9 @@ namespace Scada.Server.Engine
         private void OnUnhandledException(object sender, UnhandledExceptionEventArgs args)
         {
             Exception ex = args.ExceptionObject as Exception;
-            log.WriteException(ex, string.Format(Locale.IsRussian ?
+            log.WriteException(ex, Locale.IsRussian ?
                 "Необработанное исключение" :
-                "Unhandled exception"));
+                "Unhandled exception");
         }
 
 
@@ -104,9 +104,9 @@ namespace Scada.Server.Engine
             if (!Locale.LoadCulture(Path.Combine(exeDir, "..", ScadaUtils.ScadaConfigFileName), out string errMsg))
                 log.WriteError(errMsg);
 
-            log.WriteAction(string.Format(Locale.IsRussian ?
+            log.WriteAction(Locale.IsRussian ?
                 "Сервер {0} запущен" :
-                "Server {0} started", ServerUtils.AppVersion));
+                "Server {0} started", ServerUtils.AppVersion);
 
             if (AppDirs.CheckExistence(out errMsg))
             {
