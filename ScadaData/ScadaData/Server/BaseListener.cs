@@ -175,9 +175,9 @@ namespace Scada.Server
                         Thread clientTread = new Thread(ClientExecute);
                         client.Init(tcpClient, clientTread);
                         OnClientInit(client);
-                        log.WriteAction(string.Format(Locale.IsRussian ?
+                        log.WriteAction(Locale.IsRussian ?
                             "Клиент {0} подключился" :
-                            "Client {0} connected", client.Address));
+                            "Client {0} connected", client.Address);
                         clientTread.Start(client);
                     }
 
@@ -243,9 +243,9 @@ namespace Scada.Server
 
             if (sessionOK)
             {
-                log.WriteAction(string.Format(Locale.IsRussian ?
+                log.WriteAction(Locale.IsRussian ?
                     "Создана сессия с ид. {0}" :
-                    "Session with ID {0} created", sessionID));
+                    "Session with ID {0} created", sessionID);
                 client.SessionID = sessionID;
                 return true;
             }
@@ -291,9 +291,9 @@ namespace Scada.Server
                 client.JoinThread();
                 client.Disconnect();
 
-                log.WriteAction(string.Format(Locale.IsRussian ?
+                log.WriteAction(Locale.IsRussian ?
                     "Клиент {0} отключился" :
-                    "Client {0} disconnected", client.Address));
+                    "Client {0} disconnected", client.Address);
             }
             catch (Exception ex)
             {
@@ -417,10 +417,10 @@ namespace Scada.Server
 
             if (formatError)
             {
-                log.WriteError(string.Format(Locale.IsRussian ?
+                log.WriteError(Locale.IsRussian ?
                     "Некорректный формат данных, полученных от клиента {0}: {1}" :
                     "Incorrect format of data received from the client {0}: {1}",
-                    client.Address, errDescr));
+                    client.Address, errDescr);
 
                 ClearNetStream(client.NetStream, buffer);
             }
@@ -600,10 +600,10 @@ namespace Scada.Server
             else if (loginCount > MaxLoginPerMinute)
             {
                 loginUnblockDT = utcNow.AddMinutes(LoginBlockDuration);
-                log.WriteError(string.Format(Locale.IsRussian ?
+                log.WriteError(Locale.IsRussian ?
                     "Вход в систему заблокирован до {0} в целях безопасности" :
                     "Login blocked until {0} for security reasons",
-                    loginUnblockDT.ToLocalizedTimeString()));
+                    loginUnblockDT.ToLocalizedTimeString());
             }
 
             if (loginUnblockDT > DateTime.MinValue)
@@ -806,9 +806,9 @@ namespace Scada.Server
             // receive file
             if (fileAccepted)
             {
-                log.WriteAction(string.Format(Locale.IsRussian ?
+                log.WriteAction(Locale.IsRussian ?
                     "Приём файла {0}" :
-                    "Receive file {0}", fileName));
+                    "Receive file {0}", fileName);
 
                 response = new ResponsePacket(request, client.OutBuf);
                 Directory.CreateDirectory(Path.GetDirectoryName(fileName));
@@ -879,9 +879,9 @@ namespace Scada.Server
             }
             else
             {
-                log.WriteAction(string.Format(Locale.IsRussian ?
+                log.WriteAction(Locale.IsRussian ?
                     "Загрузка файла отклонена. Имя файла: {0}" :
-                    "File upload rejected. File name: {0}", fileName));
+                    "File upload rejected. File name: {0}", fileName);
                 response = null;
             }
         }
