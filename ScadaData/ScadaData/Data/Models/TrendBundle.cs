@@ -25,7 +25,6 @@
 
 using System;
 using System.Collections.Generic;
-using System.Linq;
 
 namespace Scada.Data.Models
 {
@@ -36,15 +35,15 @@ namespace Scada.Data.Models
     public class TrendBundle
     {
         /// <summary>
-        /// Represents a list of data points.
-        /// <para>Представляет список точек данных.</para>
+        /// Represents a list of input channel data.
+        /// <para>Представляет список данных входных каналов.</para>
         /// </summary>
-        public class PointList: List<CnlData>
+        public class CnlDataList: List<CnlData>
         {
             /// <summary>
             /// Initializes a new instance of the class.
             /// </summary>
-            public PointList(int capacity)
+            public CnlDataList(int capacity)
                 : base(capacity)
             {
             }
@@ -58,11 +57,11 @@ namespace Scada.Data.Models
         {
             CnlNums = new int[cnlCnt];
             Timestamps = new List<DateTime>(trendCapacity);
-            Trends = new List<PointList>(cnlCnt);
+            Trends = new List<CnlDataList>(cnlCnt);
 
             for (int i = 0; i < cnlCnt; i++)
             {
-                Trends.Add(new PointList(trendCapacity));
+                Trends.Add(new CnlDataList(trendCapacity));
             }
         }
 
@@ -75,11 +74,11 @@ namespace Scada.Data.Models
             int cnlCnt = CnlNums.Length;
 
             Timestamps = new List<DateTime>(trendCapacity);
-            Trends = new List<PointList>(cnlCnt);
+            Trends = new List<CnlDataList>(cnlCnt);
 
             for (int i = 0; i < cnlCnt; i++)
             {
-                Trends.Add(new PointList(trendCapacity));
+                Trends.Add(new CnlDataList(trendCapacity));
             }
         }
 
@@ -97,6 +96,6 @@ namespace Scada.Data.Models
         /// <summary>
         /// Gets the trends having the same number of points.
         /// </summary>
-        public List<PointList> Trends { get; }
+        public List<CnlDataList> Trends { get; }
     }
 }

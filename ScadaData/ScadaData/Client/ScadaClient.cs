@@ -188,7 +188,7 @@ namespace Scada.Client
                     trendBundle.Timestamps.Add(GetTime(inBuf, ref index));
                 }
 
-                foreach (TrendBundle.PointList trend in trendBundle.Trends)
+                foreach (TrendBundle.CnlDataList trend in trendBundle.Trends)
                 {
                     for (int i = 0; i < pointCount; i++)
                     {
