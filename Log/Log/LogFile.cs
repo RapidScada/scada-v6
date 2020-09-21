@@ -49,9 +49,9 @@ namespace Scada.Log
         /// </summary>
         private static readonly string Divider = new string('-', 80);
         /// <summary>
-        /// The action type names.
+        /// The message type names.
         /// </summary>
-        private static readonly string[] ActTypeNames = { "INF", "ACT", "ERR", "EXC" };
+        private static readonly string[] MessageTypeNames = { "INF", "ACT", "WARN", "ERR", "EXC" };
 
         private readonly LogFormat logFormat; // the log format
         private readonly object writeLock;    // synchronizes writing to the log file
@@ -106,9 +106,17 @@ namespace Scada.Log
 
 
         /// <summary>
-        /// Writes action of the specified type to the log.
+        /// Formats the specified text with the specified arguments.
         /// </summary>
-        public void WriteAction(string text, LogActType actType)
+        private string FormatText(string text, object[] args)
+        {
+            return args == null || args.Length == 0 ? text : string.Format(text, args);
+        }
+
+        /// <summary>
+        /// Writes the message of the specified type to the log.
+        /// </summary>
+        public void WriteMessage(string text, LogMessageType messageType)
         {
             StringBuilder sb = new StringBuilder(DateTime.Now.ToString(TimestampFormat));
 
@@ -121,7 +129,7 @@ namespace Scada.Log
                 WriteLine(sb.Append(" <")
                     .Append(CompName).Append("><")
                     .Append(Username).Append("><")
-                    .Append(ActTypeNames[(int)actType]).Append("> ")
+                    .Append(MessageTypeNames[(int)messageType]).Append("> ")
                     .Append(text).ToString());
             }
         }
@@ -129,48 +137,51 @@ namespace Scada.Log
         /// <summary>
         /// Writes the informational message to the log.
         /// </summary>
-        public void WriteInfo(string text)
+        public void WriteInfo(string text, params object[] args)
         {
-            WriteAction(text, LogActType.Info);
+            WriteMessage(FormatText(text, args), LogMessageType.Info);
         }
 
         /// <summary>
         /// Writes the action to the log.
         /// </summary>
-        public void WriteAction(string text)
+        public void WriteAction(string text, params object[] args)
         {
-            WriteAction(text, LogActType.Action);
+            WriteMessage(FormatText(text, args), LogMessageType.Action);
+        }
+
+        /// <summary>
+        /// Writes the warning message to the log.
+        /// </summary>
+        public void WriteWarning(string text, params object[] args)
+        {
+            WriteMessage(FormatText(text, args), LogMessageType.Warning);
         }
 
         /// <summary>
         /// Writes the error to the log.
         /// </summary>
-        public void WriteError(string text)
+        public void WriteError(string text, params object[] args)
         {
-            WriteAction(text, LogActType.Error);
+            WriteMessage(FormatText(text, args), LogMessageType.Error);
         }
 
         /// <summary>
         /// Writes the exception to the log.
         /// </summary>
-        public void WriteException(Exception ex, string errMsg = "", params object[] args)
+        public void WriteException(Exception ex, string text = "", params object[] args)
         {
             if (ex == null)
             {
-                WriteAction(args == null || args.Length == 0 ? errMsg : string.Format(errMsg, args), 
-                    LogActType.Exception);
+                WriteMessage(FormatText(text, args), LogMessageType.Exception);
             }
-            else if (string.IsNullOrEmpty(errMsg))
+            else if (string.IsNullOrEmpty(text))
             {
-                WriteAction(ex.ToString(), LogActType.Exception);
+                WriteMessage(ex.ToString(), LogMessageType.Exception);
             }
             else
             {
-                WriteAction(new StringBuilder()
-                    .Append(args == null || args.Length == 0 ? errMsg : string.Format(errMsg, args))
-                    .AppendLine(":")
-                    .Append(ex.ToString()).ToString(),
-                    LogActType.Exception);
+                WriteMessage(FormatText(text, args) + ":" + Environment.NewLine + ex, LogMessageType.Exception);
             }
         }
 

@@ -34,29 +34,34 @@ namespace Scada.Log
     public interface ILog
     {
         /// <summary>
-        /// Writes action of the specified type to the log.
+        /// Writes the message of the specified type to the log.
         /// </summary>
-        void WriteAction(string text, LogActType actType);
+        void WriteMessage(string text, LogMessageType messageType);
 
         /// <summary>
         /// Writes the informational message to the log.
         /// </summary>
-        void WriteInfo(string text);
+        void WriteInfo(string text, params object[] args);
 
         /// <summary>
         /// Writes the action to the log.
         /// </summary>
-        void WriteAction(string text);
+        void WriteAction(string text, params object[] args);
+
+        /// <summary>
+        /// Writes the warning message to the log.
+        /// </summary>
+        void WriteWarning(string text, params object[] args);
 
         /// <summary>
         /// Writes the error to the log.
         /// </summary>
-        void WriteError(string text);
+        void WriteError(string text, params object[] args);
 
         /// <summary>
         /// Writes the exception to the log.
         /// </summary>
-        void WriteException(Exception ex, string errMsg = "", params object[] args);
+        void WriteException(Exception ex, string text = "", params object[] args);
 
         /// <summary>
         /// Writes the specified line to the log.

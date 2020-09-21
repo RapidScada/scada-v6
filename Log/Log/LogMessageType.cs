@@ -26,10 +26,10 @@
 namespace Scada.Log
 {
     /// <summary>
-    /// Specifies the log action types.
-    /// <para>Задает типы действий журнала.</para>
+    /// Specifies the log message types.
+    /// <para>Задает типы сообщений журнала.</para>
     /// </summary>
-    public enum LogActType
+    public enum LogMessageType
     {
         /// <summary>
         /// Informational message.
@@ -40,6 +40,11 @@ namespace Scada.Log
         /// Action performed.
         /// </summary>
         Action,
+
+        /// <summary>
+        /// Warning message.
+        /// </summary>
+        Warning,
 
         /// <summary>
         /// Error occurred.

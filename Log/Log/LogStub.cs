@@ -34,37 +34,44 @@ namespace Scada.Log
     public class LogStub : ILog
     {
         /// <summary>
-        /// Writes action of the specified type to the log.
+        /// Writes the message of the specified type to the log.
         /// </summary>
-        public void WriteAction(string text, LogActType actType)
+        public void WriteMessage(string text, LogMessageType messageType)
         {
         }
 
         /// <summary>
         /// Writes the informational message to the log.
         /// </summary>
-        public void WriteInfo(string text)
+        public void WriteInfo(string text, params object[] args)
         {
         }
 
         /// <summary>
         /// Writes the action to the log.
         /// </summary>
-        public void WriteAction(string text)
+        public void WriteAction(string text, params object[] args)
+        {
+        }
+
+        /// <summary>
+        /// Writes the warning message to the log.
+        /// </summary>
+        public void WriteWarning(string text, params object[] args)
         {
         }
 
         /// <summary>
         /// Writes the error to the log.
         /// </summary>
-        public void WriteError(string text)
+        public void WriteError(string text, params object[] args)
         {
         }
 
         /// <summary>
         /// Writes the exception to the log.
         /// </summary>
-        public void WriteException(Exception ex, string errMsg = "", params object[] args)
+        public void WriteException(Exception ex, string text = "", params object[] args)
         {
         }
 
