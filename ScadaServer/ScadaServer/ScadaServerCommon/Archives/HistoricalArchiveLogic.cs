@@ -46,11 +46,6 @@ namespace Scada.Server.Archives
 
 
         /// <summary>
-        /// Gets the input channel data.
-        /// </summary>
-        public abstract CnlData GetCnlData(int cnlNum, DateTime timestamp);
-
-        /// <summary>
         /// Gets the trends of the specified input channels.
         /// </summary>
         public abstract TrendBundle GetTrends(int[] cnlNums, DateTime startTime, DateTime endTime);
@@ -69,6 +64,11 @@ namespace Scada.Server.Archives
         /// Gets the slice of the specified input channels at the timestamp.
         /// </summary>
         public abstract Slice GetSlice(int[] cnlNums, DateTime timestamp);
+
+        /// <summary>
+        /// Gets the input channel data.
+        /// </summary>
+        public abstract CnlData GetCnlData(int cnlNum, DateTime timestamp);
 
         /// <summary>
         /// Processes new data.

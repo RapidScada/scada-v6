@@ -26,6 +26,7 @@
 using Scada.Data.Models;
 using Scada.Data.Tables;
 using System;
+using System.Collections.Generic;
 using System.IO;
 using System.Text;
 using static Scada.BinaryConverter;
@@ -97,6 +98,14 @@ namespace Scada.Data.Adapters
         {
             return HeaderSize + cnlCnt * 4 + 16;
         }
+        
+        /// <summary>
+        /// Gets the file position of the data availability flag.
+        /// </summary>
+        protected long GetFlagPosition(int cnlCnt, int indexInPage)
+        {
+            return HeaderSize + cnlCnt * 4 + 16 + indexInPage;
+        }
 
         /// <summary>
         /// Gets the file position of the trend data.
@@ -107,11 +116,53 @@ namespace Scada.Data.Adapters
         }
 
         /// <summary>
+        /// Gets the file position of the input channel data.
+        /// </summary>
+        protected long GetDataPosition(int cnlCnt, int pageCapacity, int cnlIndex, int indexInPage)
+        {
+            return GetFlagsPosition(cnlCnt) + pageCapacity + 10 * (pageCapacity * cnlIndex + indexInPage);
+        }
+
+        /// <summary>
         /// Gets the page size on disk.
         /// </summary>
         protected long GetPageSize(int cnlCnt, int pageCapacity)
         {
             return GetFlagsPosition(cnlCnt) + pageCapacity * (cnlCnt * 10 + 1);
+        }
+
+        /// <summary>
+        /// Gets the data position of the specified period within the table.
+        /// </summary>
+        protected bool GetDataPosition(TrendTable trendTable, DateTime startTime, DateTime endTime,
+            out int startPageIndex, out int startIndexInPage, out int endPageIndex, out int endIndexInPage, 
+            out int pointCount)
+        {
+            TrendTableMeta tableMeta = trendTable.Metadata;
+
+            if (startTime < tableMeta.MinTimestamp)
+                startTime = tableMeta.MinTimestamp;
+
+            if (endTime > tableMeta.MaxTimestamp)
+                endTime = tableMeta.MaxTimestamp;
+
+            if (startTime <= endTime &&
+                trendTable.GetDataPosition(startTime, PositionKind.Ceiling, out TrendTablePage startPage, out startIndexInPage) &&
+                trendTable.GetDataPosition(endTime, PositionKind.Floor, out TrendTablePage endPage, out endIndexInPage))
+            {
+                startPageIndex = startPage.PageIndex;
+                endPageIndex = endPage.PageIndex;
+                pointCount = tableMeta.PageCapacity * (endPageIndex - startPageIndex) + 
+                    endIndexInPage - startIndexInPage + 1;
+                return true;
+            }
+
+            startPageIndex = -1;
+            startIndexInPage = -1;
+            endPageIndex = -1;
+            endIndexInPage = -1;
+            pointCount = 0;
+            return false;
         }
 
         /// <summary>
@@ -210,6 +261,16 @@ namespace Scada.Data.Adapters
         }
 
         /// <summary>
+        /// Reads the input channel data from the current stream position.
+        /// </summary>
+        protected CnlData ReadCnlData(BinaryReader reader)
+        {
+            double val = reader.ReadDouble();
+            int stat = reader.ReadUInt16();
+            return new CnlData(val, stat);
+        }
+
+        /// <summary>
         /// Writes the input channel data to the current stream position.
         /// </summary>
         protected void WriteCnlData(BinaryWriter writer, CnlData cnlData)
@@ -292,6 +353,18 @@ namespace Scada.Data.Adapters
 
                 return page.IsReady;
             }
+        }
+
+        /// <summary>
+        /// Validates that the table properties are initialized.
+        /// </summary>
+        protected void ValidateTable(TrendTable trendTable)
+        {
+            if (trendTable.Metadata == null)
+                throw new ScadaException("Table metadata must not be null.");
+
+            if (trendTable.CnlNumList == null)
+                throw new ScadaException("Table channel numbers must not be null.");
         }
 
         /// <summary>
@@ -399,27 +472,16 @@ namespace Scada.Data.Adapters
             if (trendTable == null)
                 throw new ArgumentNullException("trendTable");
 
-            if (MakeTableReady(trendTable, false))
+            if (cnlNums == null)
+                throw new ArgumentNullException("cnlNums");
+
+            if (MakeTableReady(trendTable, false) && GetDataPosition(trendTable, startTime, endTime,
+                out int startPageIndex, out int startIndexInPage, out int endPageIndex, out int endIndexInPage,
+                out int pointCount))
             {
-                TrendTableMeta tableMeta = trendTable.Metadata;
-
-                if (startTime < tableMeta.MinTimestamp)
-                    startTime = tableMeta.MinTimestamp;
-
-                if (endTime > tableMeta.MaxTimestamp)
-                    endTime = tableMeta.MaxTimestamp;
-
-                int startPageIndex = 0;
-                int endPageIndex = 0;
-                int pointIndex = 0;
-                int trendCapacity = 0;
-                TrendBundle trendBundle = new TrendBundle(cnlNums, trendCapacity);
-                byte[] buffer = new byte[tableMeta.PageCapacity * 10];
-
-                void FillWithEmptyData()
-                {
-                    pointIndex += tableMeta.PageCapacity;
-                }
+                TrendBundle trendBundle = new TrendBundle(cnlNums, pointCount);
+                byte[] flagBuffer = new byte[trendTable.Metadata.PageCapacity];
+                byte[] dataBuffer = new byte[trendTable.Metadata.PageCapacity * 10];
 
                 for (int pageIndex = startPageIndex; pageIndex <= endPageIndex; pageIndex++)
                 {
@@ -427,56 +489,67 @@ namespace Scada.Data.Adapters
                     string pageFileName = GetPagePath(page);
 
                     if (!File.Exists(pageFileName))
-                    {
-                        FillWithEmptyData();
                         continue;
-                    }
 
+                    // read data from the page
                     Stream stream = null;
                     BinaryReader reader = null;
 
                     try
                     {
-                        stream = new FileStream(pageFileName, FileMode.Open, FileAccess.ReadWrite, FileShare.ReadWrite);
+                        stream = new FileStream(pageFileName, FileMode.Open, FileAccess.Read, FileShare.ReadWrite);
                         reader = new BinaryReader(stream, Encoding.UTF8, false);
 
                         if (MakePageReady(page, false, reader, null))
                         {
-                            int writingPeriod = page.Metadata.WritingPeriod;
                             int pageCapacity = page.Metadata.PageCapacity;
                             int pageCnlCnt = page.CnlNumList.CnlNums.Length;
-                            int startPointIndex = 0;
-                            int pointsToRead = 0;
+                            int startPointIndex = pageIndex == startPageIndex ? startIndexInPage : 0;
+                            int endPointIndex = pageIndex == endPageIndex ? endIndexInPage : pageCapacity - 1;
+                            int pointsToRead = endPointIndex - startPointIndex + 1;
+
+                            // read data availability flags
+                            stream.Position = GetFlagPosition(pageCnlCnt, startPointIndex);
+                            ReadData(reader, flagBuffer, 0, pointsToRead, true);
+
+                            // create timestamps
+                            int writingPeriod = page.Metadata.WritingPeriod;
                             DateTime timestamp = page.Metadata.MinTimestamp.AddSeconds(startPointIndex * writingPeriod);
 
-                            for (int n = 0; n < pointsToRead; n++)
+                            for (int i = 0; i < pointsToRead; i++)
                             {
-                                trendBundle.Timestamps[pointIndex + n] = timestamp;
+                                if (flagBuffer[i] > 0)
+                                    trendBundle.Timestamps.Add(timestamp);
+
                                 timestamp = timestamp.AddSeconds(writingPeriod);
                             }
 
-                            for (int i = 0, cnlCnt = cnlNums.Length; i < cnlCnt; i++)
+                            // read trends
+                            for (int trendIndex = 0, cnlCnt = cnlNums.Length; trendIndex < cnlCnt; trendIndex++)
                             {
-                                if (page.CnlNumList.CnlIndices.TryGetValue(cnlNums[i], out int cnlIndex))
+                                TrendBundle.CnlDataList trend = trendBundle.Trends[trendIndex];
+
+                                if (page.GetCnlIndex(cnlNums[trendIndex], out int cnlIndex))
                                 {
-                                    stream.Position = GetTrendPosition(pageCnlCnt, pageCapacity, cnlIndex) + 
-                                        startPointIndex * 10;
-                                    ReadData(reader, buffer, 0, pointsToRead * 10, true);
-                                    TrendBundle.CnlDataList trend = trendBundle.Trends[i];
+                                    stream.Position = GetDataPosition(pageCnlCnt, pageCapacity, cnlIndex, startPointIndex);
+                                    ReadData(reader, dataBuffer, 0, pointsToRead * 10, true);
                                     int bufferIndex = 0;
 
                                     for (int n = 0; n < pointsToRead; n++)
                                     {
-                                        trend[pointIndex + n] = GetCnlData(buffer, ref bufferIndex);
+                                        if (flagBuffer[n] > 0)
+                                            trend.Add(GetCnlData(dataBuffer, ref bufferIndex));
+                                    }
+                                }
+                                else
+                                {
+                                    for (int i = 0; i < pointsToRead; i++)
+                                    {
+                                        if (flagBuffer[i] > 0)
+                                            trend.Add(CnlData.Empty);
                                     }
                                 }
                             }
-
-                            pointIndex += pageCapacity;
-                        }
-                        else
-                        {
-                            FillWithEmptyData();
                         }
                     }
                     finally
@@ -489,8 +562,277 @@ namespace Scada.Data.Adapters
             }
             else
             {
-                return new TrendBundle(cnlNums, 0);
+                return new TrendBundle(cnlNums, 0); // empty trends
             }
+        }
+
+        /// <summary>
+        /// Reads the trend of the specified input channel from the trend table.
+        /// </summary>
+        public Trend ReadTrend(TrendTable trendTable, int cnlNum, DateTime startTime, DateTime endTime)
+        {
+            if (trendTable == null)
+                throw new ArgumentNullException("trendTable");
+
+            if (MakeTableReady(trendTable, false) && GetDataPosition(trendTable, startTime, endTime,
+                out int startPageIndex, out int startIndexInPage, out int endPageIndex, out int endIndexInPage,
+                out int pointCount))
+            {
+                Trend trend = new Trend(cnlNum, pointCount);
+                byte[] flagBuffer = new byte[trendTable.Metadata.PageCapacity];
+                byte[] dataBuffer = new byte[trendTable.Metadata.PageCapacity * 10];
+
+                for (int pageIndex = startPageIndex; pageIndex <= endPageIndex; pageIndex++)
+                {
+                    TrendTablePage page = trendTable.Pages[pageIndex];
+                    string pageFileName = GetPagePath(page);
+
+                    if (!File.Exists(pageFileName))
+                        continue;
+
+                    // read data from the page
+                    Stream stream = null;
+                    BinaryReader reader = null;
+
+                    try
+                    {
+                        stream = new FileStream(pageFileName, FileMode.Open, FileAccess.Read, FileShare.ReadWrite);
+                        reader = new BinaryReader(stream, Encoding.UTF8, false);
+
+                        if (MakePageReady(page, false, reader, null))
+                        {
+                            int pageCapacity = page.Metadata.PageCapacity;
+                            int pageCnlCnt = page.CnlNumList.CnlNums.Length;
+                            int startPointIndex = pageIndex == startPageIndex ? startIndexInPage : 0;
+                            int endPointIndex = pageIndex == endPageIndex ? endIndexInPage : pageCapacity - 1;
+                            int pointsToRead = endPointIndex - startPointIndex + 1;
+
+                            // read data availability flags
+                            stream.Position = GetFlagPosition(pageCnlCnt, startPointIndex);
+                            ReadData(reader, flagBuffer, 0, pointsToRead, true);
+
+                            // read trend
+                            int writingPeriod = page.Metadata.WritingPeriod;
+                            DateTime timestamp = page.Metadata.MinTimestamp.AddSeconds(startPointIndex * writingPeriod);
+
+                            if (page.GetCnlIndex(cnlNum, out int cnlIndex))
+                            {
+                                stream.Position = GetDataPosition(pageCnlCnt, pageCapacity, cnlIndex, startPointIndex);
+                                ReadData(reader, dataBuffer, 0, pointsToRead * 10, true);
+                                int bufferIndex = 0;
+
+                                for (int i = 0; i < pointsToRead; i++)
+                                {
+                                    if (flagBuffer[i] > 0)
+                                    {
+                                        trend.Points.Add(new TrendPoint(timestamp,
+                                            GetDouble(dataBuffer, ref bufferIndex),
+                                            GetUInt16(dataBuffer, ref bufferIndex)));
+                                    }
+
+                                    timestamp = timestamp.AddSeconds(writingPeriod);
+                                }
+                            }
+                            else
+                            {
+                                for (int i = 0; i < pointsToRead; i++)
+                                {
+                                    if (flagBuffer[i] > 0)
+                                        trend.Points.Add(new TrendPoint(timestamp, 0.0, 0));
+
+                                    timestamp = timestamp.AddSeconds(writingPeriod);
+                                }
+                            }
+                        }
+                    }
+                    finally
+                    {
+                        reader?.Close();
+                    }
+                }
+
+                return trend;
+            }
+            else
+            {
+                return new Trend(cnlNum, 0); // empty trend
+            }
+        }
+
+        /// <summary>
+        /// Reads the available timestamps from the trend table.
+        /// </summary>
+        public List<DateTime> ReadTimestamps(TrendTable trendTable, DateTime startTime, DateTime endTime)
+        {
+            if (trendTable == null)
+                throw new ArgumentNullException("trendTable");
+
+            if (MakeTableReady(trendTable, false) && GetDataPosition(trendTable, startTime, endTime,
+                out int startPageIndex, out int startIndexInPage, out int endPageIndex, out int endIndexInPage,
+                out int pointCount))
+            {
+                List<DateTime> timestamps = new List<DateTime>(pointCount);
+                byte[] flagBuffer = new byte[trendTable.Metadata.PageCapacity];
+
+                for (int pageIndex = startPageIndex; pageIndex <= endPageIndex; pageIndex++)
+                {
+                    TrendTablePage page = trendTable.Pages[pageIndex];
+                    string pageFileName = GetPagePath(page);
+
+                    if (!File.Exists(pageFileName))
+                        continue;
+
+                    // read data from the page
+                    Stream stream = null;
+                    BinaryReader reader = null;
+
+                    try
+                    {
+                        stream = new FileStream(pageFileName, FileMode.Open, FileAccess.Read, FileShare.ReadWrite);
+                        reader = new BinaryReader(stream, Encoding.UTF8, false);
+
+                        if (MakePageReady(page, false, reader, null))
+                        {
+                            int pageCapacity = page.Metadata.PageCapacity;
+                            int pageCnlCnt = page.CnlNumList.CnlNums.Length;
+                            int startPointIndex = pageIndex == startPageIndex ? startIndexInPage : 0;
+                            int endPointIndex = pageIndex == endPageIndex ? endIndexInPage : pageCapacity - 1;
+                            int pointsToRead = endPointIndex - startPointIndex + 1;
+
+                            // read data availability flags
+                            stream.Position = GetFlagPosition(pageCnlCnt, startPointIndex);
+                            ReadData(reader, flagBuffer, 0, pointsToRead, true);
+
+                            // create timestamps
+                            int writingPeriod = page.Metadata.WritingPeriod;
+                            DateTime timestamp = page.Metadata.MinTimestamp.AddSeconds(startPointIndex * writingPeriod);
+
+                            for (int i = 0; i < pointsToRead; i++)
+                            {
+                                if (flagBuffer[i] > 0)
+                                    timestamps.Add(timestamp);
+
+                                timestamp = timestamp.AddSeconds(writingPeriod);
+                            }
+                        }
+                    }
+                    finally
+                    {
+                        reader?.Close();
+                    }
+                }
+
+                return timestamps;
+            }
+            else
+            {
+                return new List<DateTime>(); // no timestamps
+            }
+        }
+
+        /// <summary>
+        /// Reads the slice of the specified input channels from the trend table.
+        /// </summary>
+        public Slice ReadSlice(TrendTable trendTable, int[] cnlNums, DateTime timestamp)
+        {
+            if (trendTable == null)
+                throw new ArgumentNullException("trendTable");
+
+            if (cnlNums == null)
+                throw new ArgumentNullException("cnlNums");
+
+            if (MakeTableReady(trendTable, false) &&
+                trendTable.GetDataPosition(timestamp, PositionKind.Exact, out TrendTablePage page, out int indexInPage))
+            {
+                Slice slice = new Slice(timestamp, cnlNums);
+                string pageFileName = GetPagePath(page);
+
+                if (File.Exists(pageFileName))
+                {
+                    // read data from the page
+                    Stream stream = null;
+                    BinaryReader reader = null;
+
+                    try
+                    {
+                        stream = new FileStream(pageFileName, FileMode.Open, FileAccess.Read, FileShare.ReadWrite);
+                        reader = new BinaryReader(stream, Encoding.UTF8, false);
+
+                        if (MakePageReady(page, false, reader, null))
+                        {
+                            // read data availability flag
+                            int pageCapacity = page.Metadata.PageCapacity;
+                            stream.Position = GetFlagPosition(pageCapacity, indexInPage);
+                            
+                            if (reader.ReadBoolean())
+                            {
+                                // read input channel data
+                                int pageCnlCnt = page.CnlNumList.CnlNums.Length;
+
+                                for (int i = 0, cnlCnt = cnlNums.Length; i < cnlCnt; i++)
+                                {
+                                    if (page.GetCnlIndex(cnlNums[i], out int cnlIndex))
+                                    {
+                                        stream.Position = GetDataPosition(pageCnlCnt, pageCapacity, cnlIndex, indexInPage);
+                                        slice.CnlData[i] = ReadCnlData(reader);
+                                    }
+                                }
+                            }
+                        }
+                    }
+                    finally
+                    {
+                        reader?.Close();
+                    }
+                }
+
+                return slice;
+            }
+            else
+            {
+                return new Slice(timestamp, cnlNums); // empty slice
+            }
+        }
+
+        /// <summary>
+        /// Reads the input channel data from the trend table.
+        /// </summary>
+        public CnlData ReadCnlData(TrendTable trendTable, int cnlNum, DateTime timestamp)
+        {
+            if (trendTable == null)
+                throw new ArgumentNullException("trendTable");
+
+            if (MakeTableReady(trendTable, false) &&
+                trendTable.GetDataPosition(timestamp, PositionKind.Exact, out TrendTablePage page, out int indexInPage))
+            {
+                string pageFileName = GetPagePath(page);
+
+                if (File.Exists(pageFileName))
+                {
+                    Stream stream = null;
+                    BinaryReader reader = null;
+
+                    try
+                    {
+                        stream = new FileStream(pageFileName, FileMode.Open, FileAccess.Read, FileShare.ReadWrite);
+                        reader = new BinaryReader(stream, Encoding.UTF8, false);
+
+                        if (MakePageReady(page, false, reader, null) &&
+                            page.GetCnlIndex(cnlNum, out int cnlIndex))
+                        {
+                            stream.Position = GetDataPosition(page.CnlNumList.CnlNums.Length, 
+                                page.Metadata.PageCapacity, cnlIndex, indexInPage);
+                            return ReadCnlData(reader);
+                        }
+                    }
+                    finally
+                    {
+                        reader?.Close();
+                    }
+                }
+            }
+
+            return CnlData.Empty;
         }
 
         /// <summary>
@@ -504,11 +846,9 @@ namespace Scada.Data.Adapters
             if (slice == null)
                 throw new ArgumentNullException("slice");
 
-            if (trendTable.TableDate != slice.Timestamp.Date)
-                throw new ScadaException("Table date mismatch.");
-
             if (MakeTableReady(trendTable, true) &&
-                trendTable.GetDataPosition(slice.Timestamp, out TrendTablePage page, out int indexWithinPage))
+                trendTable.GetDataPosition(slice.Timestamp, PositionKind.Exact, 
+                out TrendTablePage page, out int indexInPage))
             {
                 Stream stream = null;
                 BinaryReader reader = null;
@@ -526,18 +866,17 @@ namespace Scada.Data.Adapters
 
                     // write data availability flag
                     int pageCnlCnt = page.CnlNumList.CnlNums.Length;
-                    stream.Position = GetFlagsPosition(pageCnlCnt) + indexWithinPage;
+                    stream.Position = GetFlagPosition(pageCnlCnt, indexInPage);
                     writer.Write(true);
 
                     // write channel data
                     int pageCapacity = page.Metadata.PageCapacity;
-                    int cnlDataOffset = indexWithinPage * 10;
 
                     if (slice.CnlNums == page.CnlNumList.CnlNums)
                     {
                         for (int i = 0, cnlCnt = slice.CnlNums.Length; i < cnlCnt; i++)
                         {
-                            stream.Position = GetTrendPosition(pageCnlCnt, pageCapacity, i) + cnlDataOffset;
+                            stream.Position = GetDataPosition(pageCnlCnt, pageCapacity, i, indexInPage);
                             WriteCnlData(writer, slice.CnlData[i]);
                         }
                     }
@@ -545,9 +884,9 @@ namespace Scada.Data.Adapters
                     {
                         for (int i = 0, cnlCnt = slice.CnlNums.Length; i < cnlCnt; i++)
                         {
-                            if (page.CnlNumList.CnlIndices.TryGetValue(slice.CnlNums[i], out int cnlIndex))
+                            if (page.GetCnlIndex(slice.CnlNums[i], out int cnlIndex))
                             {
-                                stream.Position = GetTrendPosition(pageCnlCnt, pageCapacity, cnlIndex) + cnlDataOffset;
+                                stream.Position = GetDataPosition(pageCnlCnt, pageCapacity, cnlIndex, indexInPage);
                                 WriteCnlData(writer, slice.CnlData[i]);
                             }
                         }
@@ -561,7 +900,7 @@ namespace Scada.Data.Adapters
             }
             else
             {
-                throw new ScadaException("Failed to write the slice.");
+                throw new ScadaException("Failed to write slice.");
             }
         }
 
@@ -572,6 +911,47 @@ namespace Scada.Data.Adapters
         {
             if (trendTable == null)
                 throw new ArgumentNullException("trendTable");
+
+            if (MakeTableReady(trendTable, true) &&
+                trendTable.GetDataPosition(timestamp, PositionKind.Exact, out TrendTablePage page, out int indexInPage))
+            {
+                Stream stream = null;
+                BinaryReader reader = null;
+                BinaryWriter writer = null;
+
+                try
+                {
+                    string pageFileName = GetPagePath(page);
+                    stream = new FileStream(pageFileName, FileMode.OpenOrCreate, FileAccess.ReadWrite, FileShare.ReadWrite);
+                    reader = new BinaryReader(stream, Encoding.UTF8, false);
+                    writer = new BinaryWriter(stream, Encoding.UTF8, false);
+
+                    // make the page ready
+                    MakePageReady(page, true, reader, writer);
+
+                    // write data availability flag
+                    int pageCnlCnt = page.CnlNumList.CnlNums.Length;
+                    stream.Position = GetFlagPosition(pageCnlCnt, indexInPage);
+                    writer.Write(true);
+
+                    // write channel data
+                    if (page.GetCnlIndex(cnlNum, out int cnlIndex))
+                    {
+                        stream.Position = GetDataPosition(pageCnlCnt, 
+                            page.Metadata.PageCapacity, cnlIndex, indexInPage);
+                        WriteCnlData(writer, cnlData);
+                    }
+                }
+                finally
+                {
+                    reader?.Close();
+                    writer?.Close();
+                }
+            }
+            else
+            {
+                throw new ScadaException("Failed to write input channel data.");
+            }
         }
 
         /// <summary>
@@ -585,12 +965,7 @@ namespace Scada.Data.Adapters
             if (srcTableMeta == null)
                 throw new ArgumentNullException("srcTableMeta");
 
-            if (trendTable.Metadata == null)
-                throw new ScadaException("Table metadata must not be null.");
-
-            if (trendTable.CnlNumList == null)
-                throw new ScadaException("Table channel numbers must not be null.");
-
+            ValidateTable(trendTable);
             string tableDir = GetTablePath(trendTable);
 
             if (Directory.Exists(tableDir))
@@ -618,113 +993,113 @@ namespace Scada.Data.Adapters
                     string srcPageFileName = Path.Combine(srcTableDir, 
                         GetPageFileName(ArchiveCode, srcTable.TableDate, srcPage.PageNumber));
 
-                    if (File.Exists(srcPageFileName))
+                    if (!File.Exists(srcPageFileName))
+                        continue;
+
+                    Stream inStream = null;
+                    Stream outStream = null;
+                    BinaryReader reader = null;
+                    BinaryWriter writer = null;
+
+                    void OpenOrCreatePage(TrendTablePage destPage)
                     {
-                        Stream inStream = null;
-                        Stream outStream = null;
-                        BinaryReader reader = null;
-                        BinaryWriter writer = null;
+                        writer?.Close();
+                        outStream = new FileStream(GetPagePath(destPage), 
+                            FileMode.OpenOrCreate, FileAccess.Write, FileShare.ReadWrite);
+                        writer = new BinaryWriter(outStream, Encoding.UTF8, false);
 
-                        void OpenOrCreatePage(TrendTablePage destPage)
+                        if (!destPage.IsReady)
                         {
-                            writer?.Close();
-                            outStream = new FileStream(GetPagePath(destPage), 
-                                FileMode.OpenOrCreate, FileAccess.Write, FileShare.ReadWrite);
-                            writer = new BinaryWriter(outStream, Encoding.UTF8, false);
+                            AllocateNewPage(writer, destPage);
+                            destPage.IsReady = true;
+                        }
+                    }
 
-                            if (!destPage.IsReady)
-                            {
-                                AllocateNewPage(writer, destPage);
-                                destPage.IsReady = true;
-                            }
+                    try
+                    {
+                        inStream = new FileStream(srcPageFileName, FileMode.Open, FileAccess.Read, FileShare.ReadWrite);
+                        reader = new BinaryReader(inStream, Encoding.UTF8, false);
+
+                        TrendTableMeta srcPageMeta = ReadMetadata(reader);
+                        CnlNumList srcCnlNums = ReadCnlNums(reader, true);
+
+                        if (!srcPage.Metadata.Equals(srcPageMeta))
+                            throw new ScadaException("Invalid page metadata.");
+
+                        // get timestamps
+                        srcPageCapacity = srcPageMeta.PageCapacity;
+                        int srcWritingPeriod = srcPageMeta.WritingPeriod;
+                        DateTime timestamp = srcPageMeta.MinTimestamp;
+
+                        for (int i = 0; i < srcPageCapacity; i++)
+                        {
+                            timestamps[i] = timestamp;
+                            timestamp = timestamp.AddSeconds(srcWritingPeriod);
                         }
 
-                        try
+                        // copy trends
+                        Array.Clear(dataAvailable, 0, srcPageCapacity);
+                        int srcCnlCnt = srcCnlNums.CnlNums.Length;
+                        int trendDataSize = srcPageCapacity * 10;
+
+                        for (int destCnlIndex = 0; destCnlIndex < destCnlCnt; destCnlIndex++)
                         {
-                            inStream = new FileStream(srcPageFileName, FileMode.Open, FileAccess.Read, FileShare.ReadWrite);
-                            reader = new BinaryReader(inStream, Encoding.UTF8, false);
-
-                            TrendTableMeta srcPageMeta = ReadMetadata(reader);
-                            CnlNumList srcCnlNums = ReadCnlNums(reader, true);
-
-                            if (!srcPageMeta.Equals(srcPage.Metadata))
-                                throw new ScadaException("Invalid page metadata.");
-
-                            // get timestamps
-                            srcPageCapacity = srcPageMeta.PageCapacity;
-                            int srcWritingPeriod = srcPageMeta.WritingPeriod;
-                            DateTime timestamp = srcPageMeta.MinTimestamp;
-
-                            for (int i = 0; i < srcPageCapacity; i++)
+                            if (srcCnlNums.CnlIndices.TryGetValue(destCnlNums.CnlNums[destCnlIndex], 
+                                out int srcCnlIndex))
                             {
-                                timestamps[i] = timestamp;
-                                timestamp = timestamp.AddSeconds(srcWritingPeriod);
-                            }
+                                // read a trend from the source page
+                                inStream.Position = GetTrendPosition(srcCnlCnt, srcPageCapacity, srcCnlIndex);
+                                ReadData(reader, buffer, 0, trendDataSize, true);
+                                int bufferIndex = 0;
 
-                            // copy trends
-                            Array.Clear(dataAvailable, 0, srcPageCapacity);
-                            int srcCnlCnt = srcCnlNums.CnlNums.Length;
-                            int trendDataSize = srcPageCapacity * 10;
-
-                            for (int destCnlIndex = 0; destCnlIndex < destCnlCnt; destCnlIndex++)
-                            {
-                                if (srcCnlNums.CnlIndices.TryGetValue(destCnlNums.CnlNums[destCnlIndex], 
-                                    out int srcCnlIndex))
+                                for (int i = 0; i < srcPageCapacity; i++)
                                 {
-                                    // read a trend from the source page
-                                    inStream.Position = GetTrendPosition(srcCnlCnt, srcPageCapacity, srcCnlIndex);
-                                    ReadData(reader, buffer, 0, trendDataSize, true);
-                                    int bufferIndex = 0;
+                                    CnlData cnlData = GetCnlData(buffer, ref bufferIndex);
+                                    dataAvailable[i] = dataAvailable[i] || cnlData.Stat > 0;
+                                    cnlDataArr[i] = cnlData;
+                                }
 
-                                    for (int i = 0; i < srcPageCapacity; i++)
+                                // write the trend to the destination table
+                                for (int i = 0, prevPageNumber = 0; i < srcPageCapacity; i++)
+                                {
+                                    if (trendTable.GetDataPosition(timestamps[i], PositionKind.Exact,
+                                        out TrendTablePage destPage, out int indexInPage))
                                     {
-                                        CnlData cnlData = GetCnlData(buffer, ref bufferIndex);
-                                        dataAvailable[i] = dataAvailable[i] || cnlData.Stat > 0;
-                                        cnlDataArr[i] = cnlData;
-                                    }
-
-                                    // write the trend to the destination table
-                                    for (int i = 0, prevPageNumber = 0; i < srcPageCapacity; i++)
-                                    {
-                                        if (trendTable.GetDataPosition(timestamps[i], 
-                                            out TrendTablePage destPage, out int indexWithinPage))
+                                        if (destPage.PageNumber > prevPageNumber)
                                         {
-                                            if (destPage.PageNumber > prevPageNumber)
-                                            {
-                                                prevPageNumber = destPage.PageNumber;
-                                                OpenOrCreatePage(destPage);
-                                            }
-
-                                            outStream.Position = GetTrendPosition(destCnlCnt, 
-                                                destPage.Metadata.PageCapacity, destCnlIndex) + 10 * indexWithinPage;
-                                            WriteCnlData(writer, cnlDataArr[i]);
+                                            prevPageNumber = destPage.PageNumber;
+                                            OpenOrCreatePage(destPage);
                                         }
-                                    }
-                                }
-                            }
 
-                            // write data availability flags
-                            for (int i = 0, prevPageNumber = 0; i < srcPageCapacity; i++)
-                            {
-                                if (trendTable.GetDataPosition(timestamps[i],
-                                    out TrendTablePage destPage, out int indexWithinPage))
-                                {
-                                    if (destPage.PageNumber > prevPageNumber)
-                                    {
-                                        prevPageNumber = destPage.PageNumber;
-                                        OpenOrCreatePage(destPage);
+                                        outStream.Position = GetDataPosition(destCnlCnt, 
+                                            destPage.Metadata.PageCapacity, destCnlIndex, indexInPage);
+                                        WriteCnlData(writer, cnlDataArr[i]);
                                     }
-
-                                    outStream.Position = GetFlagsPosition(destCnlCnt) + indexWithinPage;
-                                    writer.Write(dataAvailable[i]);
                                 }
                             }
                         }
-                        finally
+
+                        // write data availability flags
+                        for (int i = 0, prevPageNumber = 0; i < srcPageCapacity; i++)
                         {
-                            reader?.Close();
-                            writer?.Close();
+                            if (trendTable.GetDataPosition(timestamps[i], PositionKind.Exact,
+                                out TrendTablePage destPage, out int indexInPage))
+                            {
+                                if (destPage.PageNumber > prevPageNumber)
+                                {
+                                    prevPageNumber = destPage.PageNumber;
+                                    OpenOrCreatePage(destPage);
+                                }
+
+                                outStream.Position = GetFlagPosition(destCnlCnt, indexInPage);
+                                writer.Write(dataAvailable[i]);
+                            }
                         }
+                    }
+                    finally
+                    {
+                        reader?.Close();
+                        writer?.Close();
                     }
                 }
 
@@ -833,7 +1208,7 @@ namespace Scada.Data.Adapters
             }
 
             if (backupTableDir == "")
-                throw new ScadaException("Failed to backup the table.");
+                throw new ScadaException("Failed to backup table.");
             else
                 Directory.Move(origTableDir, backupTableDir);
         }

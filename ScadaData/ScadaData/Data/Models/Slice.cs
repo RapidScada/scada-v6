@@ -48,6 +48,16 @@ namespace Scada.Data.Models
         /// <summary>
         /// Initializes a new instance of the class.
         /// </summary>
+        public Slice(DateTime timestamp, int[] cnlNums)
+        {
+            Timestamp = timestamp;
+            CnlNums = cnlNums ?? throw new ArgumentNullException("cnlNums");
+            CnlData = new CnlData[cnlNums.Length];
+        }
+
+        /// <summary>
+        /// Initializes a new instance of the class.
+        /// </summary>
         public Slice(DateTime timestamp, int[] cnlNums, CnlData[] cnlData)
         {
             Timestamp = timestamp;

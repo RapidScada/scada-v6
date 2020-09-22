@@ -40,6 +40,7 @@ namespace Scada.Data.Tables
         {
             IsReady = false;
             PageNumber = pageNumber;
+            PageIndex = pageNumber - 1;
             TrendTable = trendTable ?? throw new ArgumentNullException("trendTable");
             Metadata = meta ?? throw new ArgumentNullException("meta");
             CnlNumList = null;
@@ -58,6 +59,11 @@ namespace Scada.Data.Tables
         public int PageNumber { get; }
 
         /// <summary>
+        /// Gets the page index in the table.
+        /// </summary>
+        public int PageIndex { get; }
+
+        /// <summary>
         /// Gets the parent trend table that the page belongs to.
         /// </summary>
         public TrendTable TrendTable { get; }
@@ -71,5 +77,22 @@ namespace Scada.Data.Tables
         /// Gets or sets the list of input channel numbers whose data is stored in the page.
         /// </summary>
         public CnlNumList CnlNumList { get; set; }
+
+
+        /// <summary>
+        /// Gets the index of the specified input channel.
+        /// </summary>
+        public bool GetCnlIndex(int cnlNum, out int cnlIndex)
+        {
+            if (CnlNumList == null)
+            {
+                cnlIndex = 0;
+                return false;
+            }
+            else
+            {
+                return CnlNumList.CnlIndices.TryGetValue(cnlNum, out cnlIndex);
+            }
+        }
     }
 }

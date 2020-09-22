@@ -52,6 +52,7 @@ namespace Scada.Data.Tables
             IsReady = false;
             TableDate = DateTime.MinValue;
             WritingPeriod = 0;
+            TableCapacity = 0;
             Metadata = null;
             Pages = null;
             CnlNumList = null;
@@ -65,6 +66,7 @@ namespace Scada.Data.Tables
         {
             TableDate = tableDate;
             WritingPeriod = writingPeriod;
+            TableCapacity = GetTableCapacity();
         }
 
 
@@ -85,6 +87,11 @@ namespace Scada.Data.Tables
         public int WritingPeriod { get; protected set; }
 
         /// <summary>
+        /// Gets or sets the table capacity.
+        /// </summary>
+        public int TableCapacity { get; set; }
+
+        /// <summary>
         /// Gets the table metadata.
         /// </summary>
         public TrendTableMeta Metadata { get; protected set; }
@@ -99,6 +106,17 @@ namespace Scada.Data.Tables
         /// </summary>
         public CnlNumList CnlNumList { get; set; }
 
+
+        /// <summary>
+        /// Gets the table capacity depending on the writing period.
+        /// </summary>
+        protected int GetTableCapacity()
+        {
+            if (WritingPeriod <= 0)
+                throw new ScadaException("Writing period must be greater than zero.");
+
+            return SecondsPerDay / WritingPeriod;
+        }
 
         /// <summary>
         /// Gets the page capacity depending on the writing period.
@@ -129,23 +147,17 @@ namespace Scada.Data.Tables
         /// </summary>
         protected List<TrendTablePage> CreatePages()
         {
-            int periodsPerDay = 0;
-            int pageCount = 0;
-
-            if (Metadata != null && Metadata.WritingPeriod > 0 && Metadata.PageCapacity > 0)
-            {
-                periodsPerDay = SecondsPerDay / Metadata.WritingPeriod;
-                pageCount = (int)Math.Ceiling((double)periodsPerDay / Metadata.PageCapacity);
-            }
+            int pageCount = Metadata != null && Metadata.PageCapacity > 0 ?
+                (int)Math.Ceiling((double)TableCapacity / Metadata.PageCapacity) : 0;
 
             List<TrendTablePage> pages = new List<TrendTablePage>(pageCount);
             DateTime timestamp = TableDate;
-            int tableCapacity = 0;
+            int capacityCounter = 0;
 
             for (int pageNumber = 1; pageNumber <= pageCount; pageNumber++)
             {
                 DateTime nextTimestamp = timestamp.AddSeconds(WritingPeriod);
-                int pageCapacity = pageNumber < pageCount ? Metadata.PageCapacity : periodsPerDay - tableCapacity;
+                int pageCapacity = pageNumber < pageCount ? Metadata.PageCapacity : TableCapacity - capacityCounter;
 
                 Pages.Add(new TrendTablePage(pageNumber, this,
                     new TrendTableMeta
@@ -157,7 +169,7 @@ namespace Scada.Data.Tables
                     }));
 
                 timestamp = nextTimestamp;
-                tableCapacity += pageCapacity;
+                capacityCounter += pageCapacity;
             }
 
             return Pages;
@@ -168,9 +180,11 @@ namespace Scada.Data.Tables
         /// </summary>
         protected bool AcceptData(DateTime timestamp, bool exactMatch)
         {
-            return TableDate > DateTime.MinValue && timestamp.Date == TableDate && 
-                Metadata != null && Metadata.WritingPeriod > 0 && Metadata.PageCapacity > 0 &&
-                (!exactMatch || (int)Math.Round(timestamp.TimeOfDay.TotalMilliseconds) % (WritingPeriod * 1000) == 0);
+            return TableDate > DateTime.MinValue &&
+                Metadata != null && Metadata.MinTimestamp <= timestamp && timestamp <= Metadata.MaxTimestamp &&
+                Metadata.WritingPeriod > 0 && Metadata.PageCapacity > 0 &&
+                (!exactMatch || timestamp < Metadata.MaxTimestamp && 
+                (int)Math.Round(timestamp.TimeOfDay.TotalMilliseconds) % (WritingPeriod * 1000) == 0);
         }
 
         /// <summary>
@@ -199,6 +213,7 @@ namespace Scada.Data.Tables
 
             TableDate = meta.MinTimestamp.Date;
             WritingPeriod = meta.WritingPeriod;
+            TableCapacity = GetTableCapacity();
             Metadata = meta;
             Pages = CreatePages();
         }
@@ -206,44 +221,41 @@ namespace Scada.Data.Tables
         /// <summary>
         /// Gets the data position depending on the timestamp.
         /// </summary>
-        public bool GetDataPosition(DateTime timestamp, out TrendTablePage page, out int indexWithinPage)
+        public bool GetDataPosition(DateTime timestamp, PositionKind positionKind, 
+            out TrendTablePage page, out int indexInPage)
         {
-            if (AcceptData(timestamp, true))
+            if (AcceptData(timestamp, positionKind == PositionKind.Exact))
             {
-                int indexWithinTable = (int)Math.Round(timestamp.TimeOfDay.TotalSeconds) / WritingPeriod;
+                int indexWithinTable;
+
+                switch (positionKind)
+                {
+                    case PositionKind.Floor:
+                        indexWithinTable = (int)(timestamp.TimeOfDay.TotalSeconds / WritingPeriod);
+                        break;
+                    case PositionKind.Ceiling:
+                        indexWithinTable = (int)Math.Ceiling(timestamp.TimeOfDay.TotalSeconds / WritingPeriod);
+                        break;
+                    default: // PositionKind.Exact:
+                        indexWithinTable = (int)Math.Round(timestamp.TimeOfDay.TotalSeconds) / WritingPeriod;
+                        break;
+                }
+
+                if (indexWithinTable >= TableCapacity)
+                    indexWithinTable = TableCapacity - 1;
+
                 int pageIndex = indexWithinTable / Metadata.PageCapacity;
 
                 if (0 <= pageIndex && pageIndex < Pages.Count)
                 {
                     page = Pages[pageIndex];
-                    indexWithinPage = indexWithinTable % Metadata.PageCapacity;
+                    indexInPage = indexWithinTable % Metadata.PageCapacity;
                     return true;
                 }
             }
 
             page = null;
-            indexWithinPage = 0;
-            return false;
-        }
-
-        /// <summary>
-        /// Gets the page whose time interval contains the specified timestamp.
-        /// </summary>
-        public bool GetPage(DateTime timestamp, out TrendTablePage page)
-        {
-            if (AcceptData(timestamp, false))
-            {
-                int indexWithinTable = (int)Math.Round(timestamp.TimeOfDay.TotalSeconds) / WritingPeriod;
-                int pageIndex = indexWithinTable / Metadata.PageCapacity;
-
-                if (0 <= pageIndex && pageIndex < Pages.Count)
-                {
-                    page = Pages[pageIndex];
-                    return true;
-                }
-            }
-
-            page = null;
+            indexInPage = -1;
             return false;
         }
     }

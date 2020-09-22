@@ -140,7 +140,7 @@ namespace Scada.Server.Engine
                     CopyTime(timestamps[ptIdx], buffer, ref index);
                 }
 
-                foreach (TrendBundle.PointList trend in trendBundle.Trends)
+                foreach (TrendBundle.CnlDataList trend in trendBundle.Trends)
                 {
                     for (int i = 0, ptIdx = pointIndex; i < pointCount; i++, ptIdx++)
                     {

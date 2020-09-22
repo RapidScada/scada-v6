@@ -216,7 +216,8 @@ namespace Scada.Server.Modules.ModArcBasic.Logic
                 }
                 else if (srcTableMeta.Equals(currentTable.Metadata))
                 {
-                    if (currentTable.GetPage(utcNow, out TrendTablePage page))
+                    if (currentTable.GetDataPosition(utcNow, PositionKind.Ceiling,
+                        out TrendTablePage page, out int indexInPage))
                     {
                         string pageFileName = adapter.GetPagePath(page);
                         CnlNumList srcCnlNums = adapter.ReadCnlNums(pageFileName);
@@ -289,21 +290,12 @@ namespace Scada.Server.Modules.ModArcBasic.Logic
         }
 
         /// <summary>
-        /// Gets the input channel data.
-        /// </summary>
-        public override CnlData GetCnlData(int cnlNum, DateTime timestamp)
-        {
-            return CnlData.Empty;
-        }
-
-        /// <summary>
         /// Gets the trends of the specified input channels.
         /// </summary>
         public override TrendBundle GetTrends(int[] cnlNums, DateTime startTime, DateTime endTime)
         {
-            DateTime startDate = startTime.Date;
+            DateTime date = startTime.Date;
             DateTime endDate = endTime.Date;
-            DateTime date = startDate;
             List<TrendBundle> bundles = new List<TrendBundle>();
             int totalCapacity = 0;
 
@@ -348,7 +340,40 @@ namespace Scada.Server.Modules.ModArcBasic.Logic
         /// </summary>
         public override Trend GetTrend(int cnlNum, DateTime startTime, DateTime endTime)
         {
-            return new Trend(cnlNum, 0);
+            DateTime date = startTime.Date;
+            DateTime endDate = endTime.Date;
+            List<Trend> trends = new List<Trend>();
+            int totalCapacity = 0;
+
+            while (date <= endDate)
+            {
+                TrendTable trendTable = GetTrendTable(date);
+                Trend trend = adapter.ReadTrend(trendTable, cnlNum, startTime, endTime);
+                trends.Add(trend);
+                totalCapacity += trend.Points.Count;
+                date = date.AddDays(1.0);
+            }
+
+            if (trends.Count <= 0)
+            {
+                return new Trend(cnlNum, 0);
+            }
+            else if (trends.Count == 1)
+            {
+                return trends[0];
+            }
+            else
+            {
+                // unite trends
+                Trend unitedTrend = new Trend(cnlNum, totalCapacity);
+
+                foreach (Trend trend in trends)
+                {
+                    unitedTrend.Points.AddRange(trend.Points);
+                }
+
+                return unitedTrend;
+            }
         }
 
         /// <summary>
@@ -356,7 +381,40 @@ namespace Scada.Server.Modules.ModArcBasic.Logic
         /// </summary>
         public override List<DateTime> GetTimestamps(DateTime startTime, DateTime endTime)
         {
-            return new List<DateTime>();
+            DateTime date = startTime.Date;
+            DateTime endDate = endTime.Date;
+            List<List<DateTime>> listOfTimestamps = new List<List<DateTime>>();
+            int totalCapacity = 0;
+
+            while (date <= endDate)
+            {
+                TrendTable trendTable = GetTrendTable(date);
+                List<DateTime> timestamps = adapter.ReadTimestamps(trendTable, startTime, endTime);
+                listOfTimestamps.Add(timestamps);
+                totalCapacity += timestamps.Count;
+                date = date.AddDays(1.0);
+            }
+
+            if (listOfTimestamps.Count <= 0)
+            {
+                return new List<DateTime>();
+            }
+            else if (listOfTimestamps.Count == 1)
+            {
+                return listOfTimestamps[0];
+            }
+            else
+            {
+                // unite trends
+                List<DateTime> unitedTimestamps = new List<DateTime>(totalCapacity);
+
+                foreach (List<DateTime> timestamps in listOfTimestamps)
+                {
+                    unitedTimestamps.AddRange(timestamps);
+                }
+
+                return unitedTimestamps;
+            }
         }
 
         /// <summary>
@@ -364,7 +422,15 @@ namespace Scada.Server.Modules.ModArcBasic.Logic
         /// </summary>
         public override Slice GetSlice(int[] cnlNums, DateTime timestamp)
         {
-            return new Slice(timestamp, cnlNums, new CnlData[cnlNums.Length]);
+            return adapter.ReadSlice(GetTrendTable(timestamp), cnlNums, timestamp);
+        }
+
+        /// <summary>
+        /// Gets the input channel data.
+        /// </summary>
+        public override CnlData GetCnlData(int cnlNum, DateTime timestamp)
+        {
+            return adapter.ReadCnlData(GetTrendTable(timestamp), cnlNum, timestamp);
         }
 
         /// <summary>
@@ -417,8 +483,7 @@ namespace Scada.Server.Modules.ModArcBasic.Logic
         /// </summary>
         public override void WriteCnlData(int cnlNum, DateTime timestamp, CnlData cnlData)
         {
-            TrendTable trendTable = GetTrendTable(timestamp);
-            adapter.WriteCnlData(trendTable, cnlNum, timestamp, cnlData);
+            adapter.WriteCnlData(GetTrendTable(timestamp), cnlNum, timestamp, cnlData);
         }
     }
 }
