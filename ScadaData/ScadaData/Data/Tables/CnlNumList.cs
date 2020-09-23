@@ -124,7 +124,7 @@ namespace Scada.Data.Tables
         {
             int dataLength = CnlNums.Length * 4;
             byte[] buffer = new byte[dataLength];
-            Buffer.BlockCopy(buffer, 0, CnlNums, 0, dataLength);
+            Buffer.BlockCopy(CnlNums, 0, buffer, 0, dataLength);
             return ScadaUtils.CRC32(buffer, 0, dataLength);
         }
 

@@ -107,11 +107,11 @@ namespace Scada.Server.Modules.ModArcBasic.Logic
             tableCache = new MemoryCache<DateTime, TrendTable>(ModUtils.CacheExpiration, ModUtils.CacheCapacity);
             adapter = new TrendTableAdapter
             {
-                ParentDirectory = options.IsCopy ? pathOptions.ArcCopyDir : pathOptions.ArcDir,
+                ParentDirectory = Path.Combine(options.IsCopy ? pathOptions.ArcCopyDir : pathOptions.ArcDir, Code),
                 ArchiveCode = Code,
                 CnlNumCache = new MemoryCache<long, CnlNumList>(ModUtils.CacheExpiration, ModUtils.CacheCapacity)
             };
-            slice = new Slice(DateTime.MinValue, cnlNums, new CnlData[cnlNums.Length]);
+            slice = new Slice(DateTime.MinValue, cnlNums);
             writingPeriod = GetWritingPeriodInSec(options);
 
             nextWriteTime = options.WritingMode == WritingMode.Auto ? 
@@ -440,10 +440,12 @@ namespace Scada.Server.Modules.ModArcBasic.Logic
         {
             if (options.WritingMode == WritingMode.Auto && nextWriteTime <= curData.Timestamp)
             {
-                nextWriteTime = GetNextWriteTime(curData.Timestamp, writingPeriod);
-                TrendTable trendTable = GetCurrentTrendTable(curData.Timestamp);
+                DateTime writeTime = GetClosestWriteTime(curData.Timestamp, writingPeriod);
+                nextWriteTime = writeTime.AddSeconds(writingPeriod);
+                TrendTable trendTable = GetCurrentTrendTable(writeTime);
                 InitCnlIndices(curData, ref cnlIndices);
                 CopyCnlData(curData, slice, cnlIndices);
+                slice.Timestamp = writeTime;
                 adapter.WriteSlice(trendTable, slice);
                 return true;
             }

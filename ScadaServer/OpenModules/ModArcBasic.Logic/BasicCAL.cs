@@ -83,7 +83,7 @@ namespace Scada.Server.Modules.ModArcBasic.Logic
         {
             options = new ArchiveOptions(archiveConfig.CustomOptions);
             adapter = new SliceTableAdapter { FileName = GetCurDataPath(pathOptions) };
-            slice = new Slice(DateTime.MinValue, cnlNums, new CnlData[cnlNums.Length]);
+            slice = new Slice(DateTime.MinValue, cnlNums);
             nextWriteTime = GetNextWriteTime(DateTime.UtcNow, options.WritingPeriod);
             cnlIndices = null;
         }

@@ -42,7 +42,7 @@ namespace Scada.Server.Archives
         protected ArchiveLogic(ArchiveConfig archiveConfig, int[] cnlNums)
         {
             ArchiveConfig = archiveConfig ?? throw new ArgumentNullException("archiveConfig");
-            CnlNums = cnlNums ?? throw new ArgumentNullException("archiveConfig");
+            CnlNums = cnlNums ?? throw new ArgumentNullException("cnlNums");
             IsReady = false;
             LastWriteTime = DateTime.MinValue;
             LastCleanupTime = DateTime.MinValue;
@@ -94,13 +94,23 @@ namespace Scada.Server.Archives
 
 
         /// <summary>
-        /// Gets the next time to write data to the archive.
+        /// Gets the closest time to write data to the archive, less than or equal to the specified timestamp.
         /// </summary>
-        protected DateTime GetNextWriteTime(DateTime nowDT, int writingPeriod)
+        protected DateTime GetClosestWriteTime(DateTime timestamp, int writingPeriod)
         {
             return writingPeriod > 0 ?
-                nowDT.Date.AddSeconds(((int)nowDT.TimeOfDay.TotalSeconds / writingPeriod + 1) * writingPeriod) :
-                nowDT;
+                timestamp.Date.AddSeconds((int)timestamp.TimeOfDay.TotalSeconds / writingPeriod * writingPeriod) :
+                timestamp;
+        }
+
+        /// <summary>
+        /// Gets the next time to write data to the archive, greater than or equal to the specified timestamp.
+        /// </summary>
+        protected DateTime GetNextWriteTime(DateTime timestamp, int writingPeriod)
+        {
+            return writingPeriod > 0 ?
+                timestamp.Date.AddSeconds(((int)timestamp.TimeOfDay.TotalSeconds / writingPeriod + 1) * writingPeriod) :
+                timestamp;
         }
 
         /// <summary>
@@ -121,16 +131,18 @@ namespace Scada.Server.Archives
         }
 
         /// <summary>
-        /// Copies the input channel data to the slice.
+        /// Copies the current input channel data to the slice.
         /// </summary>
         protected void CopyCnlData(ICurrentData curData, Slice slice, int[] cnlIndices)
         {
             slice.Timestamp = curData.Timestamp;
 
-            for (int i = 0, cnlCnt = CnlNums.Length; i < cnlCnt; i++)
+            if (slice.CnlNums == CnlNums)
             {
-                int cnlIndex = cnlIndices[i];
-                slice.CnlData[i] = curData.CnlData[cnlIndex];
+                for (int i = 0, cnlCnt = CnlNums.Length; i < cnlCnt; i++)
+                {
+                    slice.CnlData[i] = curData.CnlData[cnlIndices[i]];
+                }
             }
         }
 

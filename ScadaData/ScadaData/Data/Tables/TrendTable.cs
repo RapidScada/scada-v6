@@ -156,10 +156,10 @@ namespace Scada.Data.Tables
 
             for (int pageNumber = 1; pageNumber <= pageCount; pageNumber++)
             {
-                DateTime nextTimestamp = timestamp.AddSeconds(WritingPeriod);
                 int pageCapacity = pageNumber < pageCount ? Metadata.PageCapacity : TableCapacity - capacityCounter;
+                DateTime nextTimestamp = timestamp.AddSeconds(WritingPeriod * pageCapacity);
 
-                Pages.Add(new TrendTablePage(pageNumber, this,
+                pages.Add(new TrendTablePage(pageNumber, this,
                     new TrendTableMeta
                     {
                         MinTimestamp = timestamp,
@@ -172,7 +172,7 @@ namespace Scada.Data.Tables
                 capacityCounter += pageCapacity;
             }
 
-            return Pages;
+            return pages;
         }
 
         /// <summary>
@@ -227,17 +227,19 @@ namespace Scada.Data.Tables
             if (AcceptData(timestamp, positionKind == PositionKind.Exact))
             {
                 int indexWithinTable;
+                double timeOfDay = timestamp < Metadata.MaxTimestamp ? 
+                    timestamp.TimeOfDay.TotalSeconds : SecondsPerDay;
 
                 switch (positionKind)
                 {
                     case PositionKind.Floor:
-                        indexWithinTable = (int)(timestamp.TimeOfDay.TotalSeconds / WritingPeriod);
+                        indexWithinTable = (int)(timeOfDay / WritingPeriod);
                         break;
                     case PositionKind.Ceiling:
-                        indexWithinTable = (int)Math.Ceiling(timestamp.TimeOfDay.TotalSeconds / WritingPeriod);
+                        indexWithinTable = (int)Math.Ceiling(timeOfDay / WritingPeriod);
                         break;
                     default: // PositionKind.Exact:
-                        indexWithinTable = (int)Math.Round(timestamp.TimeOfDay.TotalSeconds) / WritingPeriod;
+                        indexWithinTable = (int)Math.Round(timeOfDay) / WritingPeriod;
                         break;
                 }
 
