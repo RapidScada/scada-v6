@@ -114,25 +114,26 @@ namespace Scada.Server.Engine
         /// <summary>
         /// Gets the trends of the specified input channels.
         /// </summary>
-        public TrendBundle GetTrends(int[] cnlNums, DateTime startTime, DateTime endTime, int archiveBit)
+        public TrendBundle GetTrends(int[] cnlNums, DateTime startTime, DateTime endTime, bool endInclusive,
+            int archiveBit)
         {
-            return archiveHolder.GetTrends(cnlNums, startTime, endTime, archiveBit);
+            return archiveHolder.GetTrends(cnlNums, startTime, endTime, endInclusive, archiveBit);
         }
 
         /// <summary>
         /// Gets the trend of the specified input channel.
         /// </summary>
-        public Trend GetTrend(int cnlNum, DateTime startTime, DateTime endTime, int archiveBit)
+        public Trend GetTrend(int cnlNum, DateTime startTime, DateTime endTime, bool endInclusive, int archiveBit)
         {
-            return archiveHolder.GetTrend(cnlNum, startTime, endTime, archiveBit);
+            return archiveHolder.GetTrend(cnlNum, startTime, endTime, endInclusive, archiveBit);
         }
 
         /// <summary>
         /// Gets the available timestamps.
         /// </summary>
-        public List<DateTime> GetTimestamps(DateTime startTime, DateTime endTime, int archiveBit)
+        public List<DateTime> GetTimestamps(DateTime startTime, DateTime endTime, bool endInclusive, int archiveBit)
         {
-            return archiveHolder.GetTimestamps(startTime, endTime, archiveBit);
+            return archiveHolder.GetTimestamps(startTime, endTime, endInclusive, archiveBit);
         }
 
         /// <summary>
@@ -154,9 +155,10 @@ namespace Scada.Server.Engine
         /// <summary>
         /// Gets the events.
         /// </summary>
-        public List<Event> GetEvents(DateTime startTime, DateTime endTime, DataFilter filter, int archiveBit)
+        public List<Event> GetEvents(DateTime startTime, DateTime endTime, bool endInclusive, 
+            DataFilter filter, int archiveBit)
         {
-            return archiveHolder.GetEvents(startTime, endTime, filter, archiveBit);
+            return archiveHolder.GetEvents(startTime, endTime, endInclusive, filter, archiveBit);
         }
 
         /// <summary>

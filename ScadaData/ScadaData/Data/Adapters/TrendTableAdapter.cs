@@ -134,7 +134,7 @@ namespace Scada.Data.Adapters
         /// <summary>
         /// Gets the data position of the specified period within the table.
         /// </summary>
-        protected bool GetDataPosition(TrendTable trendTable, DateTime startTime, DateTime endTime,
+        protected bool GetDataPosition(TrendTable trendTable, DateTime startTime, DateTime endTime, bool endInclusive,
             out int startPageIndex, out int startIndexInPage, out int endPageIndex, out int endIndexInPage, 
             out int pointCount)
         {
@@ -147,12 +147,14 @@ namespace Scada.Data.Adapters
                 endTime = tableMeta.MaxTimestamp;
 
             if (startTime <= endTime &&
-                trendTable.GetDataPosition(startTime, PositionKind.Ceiling, out TrendTablePage startPage, out startIndexInPage) &&
-                trendTable.GetDataPosition(endTime, PositionKind.Floor, out TrendTablePage endPage, out endIndexInPage))
+                trendTable.GetDataPosition(startTime, PositionKind.Ceiling,
+                    out TrendTablePage startPage, out startIndexInPage) &&
+                trendTable.GetDataPosition(endTime, endInclusive ? PositionKind.Floor : PositionKind.FloorExclusive,
+                    out TrendTablePage endPage, out endIndexInPage))
             {
                 startPageIndex = startPage.PageIndex;
                 endPageIndex = endPage.PageIndex;
-                pointCount = tableMeta.PageCapacity * (endPageIndex - startPageIndex) + 
+                pointCount = tableMeta.PageCapacity * (endPageIndex - startPageIndex) +
                     endIndexInPage - startIndexInPage + 1;
                 return true;
             }
@@ -467,7 +469,8 @@ namespace Scada.Data.Adapters
         /// <summary>
         /// Reads the trends of the specified input channels from the trend table.
         /// </summary>
-        public TrendBundle ReadTrends(TrendTable trendTable, int[] cnlNums, DateTime startTime, DateTime endTime)
+        public TrendBundle ReadTrends(TrendTable trendTable, int[] cnlNums, 
+            DateTime startTime, DateTime endTime, bool endInclusive)
         {
             if (trendTable == null)
                 throw new ArgumentNullException("trendTable");
@@ -475,7 +478,7 @@ namespace Scada.Data.Adapters
             if (cnlNums == null)
                 throw new ArgumentNullException("cnlNums");
 
-            if (MakeTableReady(trendTable, false) && GetDataPosition(trendTable, startTime, endTime,
+            if (MakeTableReady(trendTable, false) && GetDataPosition(trendTable, startTime, endTime, endInclusive,
                 out int startPageIndex, out int startIndexInPage, out int endPageIndex, out int endIndexInPage,
                 out int pointCount))
             {
@@ -571,12 +574,13 @@ namespace Scada.Data.Adapters
         /// <summary>
         /// Reads the trend of the specified input channel from the trend table.
         /// </summary>
-        public Trend ReadTrend(TrendTable trendTable, int cnlNum, DateTime startTime, DateTime endTime)
+        public Trend ReadTrend(TrendTable trendTable, int cnlNum, 
+            DateTime startTime, DateTime endTime, bool endInclusive)
         {
             if (trendTable == null)
                 throw new ArgumentNullException("trendTable");
 
-            if (MakeTableReady(trendTable, false) && GetDataPosition(trendTable, startTime, endTime,
+            if (MakeTableReady(trendTable, false) && GetDataPosition(trendTable, startTime, endTime, endInclusive,
                 out int startPageIndex, out int startIndexInPage, out int endPageIndex, out int endIndexInPage,
                 out int pointCount))
             {
@@ -665,12 +669,13 @@ namespace Scada.Data.Adapters
         /// <summary>
         /// Reads the available timestamps from the trend table.
         /// </summary>
-        public List<DateTime> ReadTimestamps(TrendTable trendTable, DateTime startTime, DateTime endTime)
+        public List<DateTime> ReadTimestamps(TrendTable trendTable, 
+            DateTime startTime, DateTime endTime, bool endInclusive)
         {
             if (trendTable == null)
                 throw new ArgumentNullException("trendTable");
 
-            if (MakeTableReady(trendTable, false) && GetDataPosition(trendTable, startTime, endTime,
+            if (MakeTableReady(trendTable, false) && GetDataPosition(trendTable, startTime, endTime, endInclusive,
                 out int startPageIndex, out int startIndexInPage, out int endPageIndex, out int endIndexInPage,
                 out int pointCount))
             {

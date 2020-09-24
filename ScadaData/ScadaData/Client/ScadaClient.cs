@@ -149,7 +149,8 @@ namespace Scada.Client
         /// <summary>
         /// Gets the trends of the specified input channels.
         /// </summary>
-        public TrendBundle GetTrends(int[] cnlNums, DateTime startTime, DateTime endTime, int archiveBit)
+        public TrendBundle GetTrends(int[] cnlNums, DateTime startTime, DateTime endTime, bool endInclusive,
+            int archiveBit)
         {
             RestoreConnection();
 
@@ -158,6 +159,7 @@ namespace Scada.Client
             CopyIntArray(cnlNums, outBuf, ref index);
             CopyTime(startTime, outBuf, ref index);
             CopyTime(endTime, outBuf, ref index);
+            CopyBool(endInclusive, outBuf, ref index);
             CopyByte((byte)archiveBit, outBuf, ref index);
             request.BufferLength = index;
             SendRequest(request);
@@ -211,7 +213,7 @@ namespace Scada.Client
         /// <summary>
         /// Gets the trend of the specified input channel.
         /// </summary>
-        public Trend GetTrend(int cnlNum, DateTime startTime, DateTime endTime, int archiveBit)
+        public Trend GetTrend(int cnlNum, DateTime startTime, DateTime endTime, bool endInclusive, int archiveBit)
         {
             RestoreConnection();
 
@@ -221,6 +223,7 @@ namespace Scada.Client
             CopyInt32(cnlNum, outBuf, ref index);
             CopyTime(startTime, outBuf, ref index);
             CopyTime(endTime, outBuf, ref index);
+            CopyBool(endInclusive, outBuf, ref index);
             CopyByte((byte)archiveBit, outBuf, ref index);
             request.BufferLength = index;
             SendRequest(request);
@@ -267,7 +270,7 @@ namespace Scada.Client
         /// <summary>
         /// Gets the available timestamps.
         /// </summary>
-        public List<DateTime> GetTimestamps(DateTime startTime, DateTime endTime, int archiveBit)
+        public List<DateTime> GetTimestamps(DateTime startTime, DateTime endTime, bool endInclusive, int archiveBit)
         {
             RestoreConnection();
 
@@ -276,6 +279,7 @@ namespace Scada.Client
             CopyInt32(0, outBuf, ref index);
             CopyTime(startTime, outBuf, ref index);
             CopyTime(endTime, outBuf, ref index);
+            CopyBool(endInclusive, outBuf, ref index);
             CopyByte((byte)archiveBit, outBuf, ref index);
             request.BufferLength = index;
             SendRequest(request);
@@ -381,8 +385,8 @@ namespace Scada.Client
         /// <summary>
         /// Gets the events.
         /// </summary>
-        public List<Event> GetEvents(DateTime startTime, DateTime endTime, DataFilter filter, int archiveBit, 
-            bool useCache, out long filterID)
+        public List<Event> GetEvents(DateTime startTime, DateTime endTime, bool endInclusive,
+            DataFilter filter, int archiveBit, bool useCache, out long filterID)
         {
             RestoreConnection();
 
@@ -390,6 +394,7 @@ namespace Scada.Client
             int index = ArgumentIndex;
             CopyTime(startTime, outBuf, ref index);
             CopyTime(endTime, outBuf, ref index);
+            CopyBool(endInclusive, outBuf, ref index);
             CopyInt64(0, outBuf, ref index);
             CopyBool(useCache, outBuf, ref index);
             CopyDataFilter(filter, outBuf, ref index);
@@ -403,7 +408,8 @@ namespace Scada.Client
         /// <summary>
         /// Gets the events.
         /// </summary>
-        public List<Event> GetEvents(DateTime startTime, DateTime endTime, ref long filterID, int archiveBit)
+        public List<Event> GetEvents(DateTime startTime, DateTime endTime, bool endInclusive, 
+            ref long filterID, int archiveBit)
         {
             RestoreConnection();
 
@@ -411,6 +417,7 @@ namespace Scada.Client
             int index = ArgumentIndex;
             CopyTime(startTime, outBuf, ref index);
             CopyTime(endTime, outBuf, ref index);
+            CopyBool(endInclusive, outBuf, ref index);
             CopyInt64(filterID, outBuf, ref index);
             CopyByte((byte)archiveBit, outBuf, ref index);
             request.BufferLength = index;

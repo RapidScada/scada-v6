@@ -292,15 +292,15 @@ namespace Scada.Server.Modules.ModArcBasic.Logic
         /// <summary>
         /// Gets the trends of the specified input channels.
         /// </summary>
-        public override TrendBundle GetTrends(int[] cnlNums, DateTime startTime, DateTime endTime)
+        public override TrendBundle GetTrends(int[] cnlNums, DateTime startTime, DateTime endTime, bool endInclusive)
         {
             List<TrendBundle> bundles = new List<TrendBundle>();
             int totalCapacity = 0;
 
-            foreach (DateTime date in EnumerateDates(startTime, endTime))
+            foreach (DateTime date in EnumerateDates(startTime, endTime, endInclusive))
             {
                 TrendTable trendTable = GetTrendTable(date);
-                TrendBundle bundle = adapter.ReadTrends(trendTable, cnlNums, startTime, endTime);
+                TrendBundle bundle = adapter.ReadTrends(trendTable, cnlNums, startTime, endTime, endInclusive);
                 bundles.Add(bundle);
                 totalCapacity += bundle.Timestamps.Count;
             }
@@ -335,15 +335,15 @@ namespace Scada.Server.Modules.ModArcBasic.Logic
         /// <summary>
         /// Gets the trend of the specified input channel.
         /// </summary>
-        public override Trend GetTrend(int cnlNum, DateTime startTime, DateTime endTime)
+        public override Trend GetTrend(int cnlNum, DateTime startTime, DateTime endTime, bool endInclusive)
         {
             List<Trend> trends = new List<Trend>();
             int totalCapacity = 0;
 
-            foreach (DateTime date in EnumerateDates(startTime, endTime))
+            foreach (DateTime date in EnumerateDates(startTime, endTime, endInclusive))
             {
                 TrendTable trendTable = GetTrendTable(date);
-                Trend trend = adapter.ReadTrend(trendTable, cnlNum, startTime, endTime);
+                Trend trend = adapter.ReadTrend(trendTable, cnlNum, startTime, endTime, endInclusive);
                 trends.Add(trend);
                 totalCapacity += trend.Points.Count;
             }
@@ -373,15 +373,15 @@ namespace Scada.Server.Modules.ModArcBasic.Logic
         /// <summary>
         /// Gets the available timestamps.
         /// </summary>
-        public override List<DateTime> GetTimestamps(DateTime startTime, DateTime endTime)
+        public override List<DateTime> GetTimestamps(DateTime startTime, DateTime endTime, bool endInclusive)
         {
             List<List<DateTime>> listOfTimestamps = new List<List<DateTime>>();
             int totalCapacity = 0;
 
-            foreach (DateTime date in EnumerateDates(startTime, endTime))
+            foreach (DateTime date in EnumerateDates(startTime, endTime, endInclusive))
             {
                 TrendTable trendTable = GetTrendTable(date);
-                List<DateTime> timestamps = adapter.ReadTimestamps(trendTable, startTime, endTime);
+                List<DateTime> timestamps = adapter.ReadTimestamps(trendTable, startTime, endTime, endInclusive);
                 listOfTimestamps.Add(timestamps);
                 totalCapacity += timestamps.Count;
             }

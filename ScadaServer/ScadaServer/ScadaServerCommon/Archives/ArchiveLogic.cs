@@ -35,10 +35,6 @@ namespace Scada.Server.Archives
     /// Represents the base class for archive logic.
     /// <para>Представляет базовый класс логики архива.</para>
     /// </summary>
-    /// <remarks>
-    /// If a method defined in a derived archive class requires a time period from startTime to endTime,
-    /// startTime is taken inclusively, and endTime is taken exclusively.
-    /// </remarks>
     public abstract class ArchiveLogic
     {
         /// <summary>
@@ -158,13 +154,19 @@ namespace Scada.Server.Archives
         /// <summary>
         /// Returns an enumerable collection of dates in the specified time interval.
         /// </summary>
-        protected IEnumerable<DateTime> EnumerateDates(DateTime startTime, DateTime endTime)
+        protected IEnumerable<DateTime> EnumerateDates(DateTime startTime, DateTime endTime, bool endInclusive)
         {
-            // startTime is taken inclusively, and endTime is taken exclusively
-            if (startTime < endTime)
+            if (endInclusive)
+            {
+                for (DateTime date = startTime.Date; date <= endTime; date = date.AddDays(1.0))
+                {
+                    yield return date;
+                }
+            }
+            else
             {
                 for (DateTime date = startTime.Date; date < endTime; date = date.AddDays(1.0))
-                {                    
+                {
                     yield return date;
                 }
             }

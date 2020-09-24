@@ -114,9 +114,10 @@ namespace Scada.Server.Engine
             int[] cnlNums = GetIntArray(buffer, ref index);
             DateTime startTime = GetTime(buffer, ref index);
             DateTime endTime = GetTime(buffer, ref index);
+            bool endInclusive = GetBool(buffer, ref index);
             int archiveBit = GetByte(buffer, ref index);
 
-            TrendBundle trendBundle = archiveHolder.GetTrends(cnlNums, startTime, endTime, archiveBit);
+            TrendBundle trendBundle = archiveHolder.GetTrends(cnlNums, startTime, endTime, endInclusive, archiveBit);
             List<DateTime> timestamps = trendBundle.Timestamps;
             int totalPointCount = timestamps.Count;
             int blockCapacity = (BufferLenght - ArgumentIndex - 16) / (8 + cnlNums.Length * 10);
@@ -220,6 +221,7 @@ namespace Scada.Server.Engine
             int index = ArgumentIndex;
             DateTime startTime = GetTime(buffer, ref index);
             DateTime endTime = GetTime(buffer, ref index);
+            bool endInclusive = GetBool(buffer, ref index);
             long dataFilterID = GetInt64(buffer, ref index);
             DataFilter dataFilter = null;
 
@@ -246,7 +248,7 @@ namespace Scada.Server.Engine
 
             List<Event> events = dataFilter == null ?
                 new List<Event>() :
-                archiveHolder.GetEvents(startTime, endTime, dataFilter, archiveBit);
+                archiveHolder.GetEvents(startTime, endTime, endInclusive, dataFilter, archiveBit);
             int totalEventCount = events.Count;
             int blockCount = (int)Math.Ceiling((double)totalEventCount / EventBlockCapacity);
             int eventIndex = 0;

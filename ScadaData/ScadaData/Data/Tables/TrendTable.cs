@@ -239,6 +239,9 @@ namespace Scada.Data.Tables
                 {
                     case PositionKind.Floor:
                         indexWithinTable = (int)(timeOfDay / WritingPeriod);
+                        break;
+                    case PositionKind.FloorExclusive:
+                        indexWithinTable = (int)(timeOfDay / WritingPeriod);
                         if (isExactMatch)
                             indexWithinTable--;
                         break;

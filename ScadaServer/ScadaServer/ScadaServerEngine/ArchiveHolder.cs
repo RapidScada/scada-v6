@@ -351,14 +351,15 @@ namespace Scada.Server.Engine
         /// <summary>
         /// Gets the trends of the specified input channels.
         /// </summary>
-        public TrendBundle GetTrends(int[] cnlNums, DateTime startTime, DateTime endTime, int archiveBit)
+        public TrendBundle GetTrends(int[] cnlNums, DateTime startTime, DateTime endTime, bool endInclusive,
+            int archiveBit)
         {
             if (GetArchive(archiveBit, out HistoricalArchiveLogic archiveLogic))
             {
                 try
                 {
                     archiveLogic.Lock();
-                    return archiveLogic.GetTrends(cnlNums, startTime, DefineTime(endTime)) ?? 
+                    return archiveLogic.GetTrends(cnlNums, startTime, DefineTime(endTime), endInclusive) ??
                         throw new ScadaException(NullNotAllowed);
                 }
                 catch (Exception ex)
@@ -377,14 +378,14 @@ namespace Scada.Server.Engine
         /// <summary>
         /// Gets the trend of the specified input channel.
         /// </summary>
-        public Trend GetTrend(int cnlNum, DateTime startTime, DateTime endTime, int archiveBit)
+        public Trend GetTrend(int cnlNum, DateTime startTime, DateTime endTime, bool endInclusive, int archiveBit)
         {
             if (GetArchive(archiveBit, out HistoricalArchiveLogic archiveLogic))
             {
                 try
                 {
                     archiveLogic.Lock();
-                    return archiveLogic.GetTrend(cnlNum, startTime, endTime) ??
+                    return archiveLogic.GetTrend(cnlNum, startTime, endTime, endInclusive) ??
                         throw new ScadaException(NullNotAllowed);
                 }
                 catch (Exception ex)
@@ -403,14 +404,14 @@ namespace Scada.Server.Engine
         /// <summary>
         /// Gets the available timestamps.
         /// </summary>
-        public List<DateTime> GetTimestamps(DateTime startTime, DateTime endTime, int archiveBit)
+        public List<DateTime> GetTimestamps(DateTime startTime, DateTime endTime, bool endInclusive, int archiveBit)
         {
             if (GetArchive(archiveBit, out HistoricalArchiveLogic archiveLogic))
             {
                 try
                 {
                     archiveLogic.Lock();
-                    return archiveLogic.GetTimestamps(startTime, DefineTime(endTime)) ??
+                    return archiveLogic.GetTimestamps(startTime, DefineTime(endTime), endInclusive) ??
                         throw new ScadaException(NullNotAllowed);
                 }
                 catch (Exception ex)
@@ -503,14 +504,15 @@ namespace Scada.Server.Engine
         /// <summary>
         /// Gets the events.
         /// </summary>
-        public List<Event> GetEvents(DateTime startTime, DateTime endTime, DataFilter filter, int archiveBit)
+        public List<Event> GetEvents(DateTime startTime, DateTime endTime, bool endInclusive,
+            DataFilter filter, int archiveBit)
         {
             if (GetArchive(archiveBit, out EventArchiveLogic archiveLogic))
             {
                 try
                 {
                     archiveLogic.Lock();
-                    return archiveLogic.GetEvents(startTime, DefineTime(endTime), filter) ??
+                    return archiveLogic.GetEvents(startTime, DefineTime(endTime), endInclusive, filter) ??
                         throw new ScadaException(NullNotAllowed);
                 }
                 catch (Exception ex)

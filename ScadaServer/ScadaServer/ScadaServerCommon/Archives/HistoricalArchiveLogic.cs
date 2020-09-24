@@ -48,17 +48,17 @@ namespace Scada.Server.Archives
         /// <summary>
         /// Gets the trends of the specified input channels.
         /// </summary>
-        public abstract TrendBundle GetTrends(int[] cnlNums, DateTime startTime, DateTime endTime);
+        public abstract TrendBundle GetTrends(int[] cnlNums, DateTime startTime, DateTime endTime, bool endInclusive);
 
         /// <summary>
         /// Gets the trend of the specified input channel.
         /// </summary>
-        public abstract Trend GetTrend(int cnlNum, DateTime startTime, DateTime endTime);
+        public abstract Trend GetTrend(int cnlNum, DateTime startTime, DateTime endTime, bool endInclusive);
 
         /// <summary>
         /// Gets the available timestamps.
         /// </summary>
-        public abstract List<DateTime> GetTimestamps(DateTime startTime, DateTime endTime);
+        public abstract List<DateTime> GetTimestamps(DateTime startTime, DateTime endTime, bool endInclusive);
 
         /// <summary>
         /// Gets the slice of the specified input channels at the timestamp.

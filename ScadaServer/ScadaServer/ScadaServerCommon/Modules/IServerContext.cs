@@ -87,17 +87,17 @@ namespace Scada.Server.Modules
         /// <summary>
         /// Gets the trends of the specified input channels.
         /// </summary>
-        TrendBundle GetTrends(int[] cnlNums, DateTime startTime, DateTime endTime, int archiveBit);
+        TrendBundle GetTrends(int[] cnlNums, DateTime startTime, DateTime endTime, bool endInclusive, int archiveBit);
 
         /// <summary>
         /// Gets the trend of the specified input channel.
         /// </summary>
-        Trend GetTrend(int cnlNum, DateTime startTime, DateTime endTime, int archiveBit);
+        Trend GetTrend(int cnlNum, DateTime startTime, DateTime endTime, bool endInclusive, int archiveBit);
 
         /// <summary>
         /// Gets the available timestamps.
         /// </summary>
-        List<DateTime> GetTimestamps(DateTime startTime, DateTime endTime, int archiveBit);
+        List<DateTime> GetTimestamps(DateTime startTime, DateTime endTime, bool endInclusive, int archiveBit);
 
         /// <summary>
         /// Gets the slice of the specified input channels at the timestamp.
@@ -112,7 +112,8 @@ namespace Scada.Server.Modules
         /// <summary>
         /// Gets the events.
         /// </summary>
-        List<Event> GetEvents(DateTime startTime, DateTime endTime, DataFilter filter, int archiveBit);
+        List<Event> GetEvents(DateTime startTime, DateTime endTime, bool endInclusive, 
+            DataFilter filter, int archiveBit);
 
         /// <summary>
         /// Writes the current data of the input channel.
