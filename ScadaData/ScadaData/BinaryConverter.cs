@@ -325,7 +325,14 @@ namespace Scada
         /// </summary>
         public static void CopyDataFilter(DataFilter filter, byte[] buffer, ref int index)
         {
-            if (filter != null)
+            if (filter == null)
+            {
+                CopyInt32(0, buffer, ref index);    // limit
+                CopyInt32(0, buffer, ref index);    // offset
+                CopyBool(false, buffer, ref index); // origing from begin
+                CopyInt32(0, buffer, ref index);    // conditions count
+            }
+            else
             {
                 CopyInt32(filter.Limit, buffer, ref index);
                 CopyInt32(filter.Offset, buffer, ref index);
