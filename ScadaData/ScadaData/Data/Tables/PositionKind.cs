@@ -37,12 +37,12 @@ namespace Scada.Data.Tables
         Exact,
 
         /// <summary>
-        /// The closest data position that is less than or equal to the actual position.
+        /// The exclusive closest data position that is less than the actual position.
         /// </summary>
         Floor,
 
         /// <summary>
-        /// The closest data position that is greater than or equal to the actual position.
+        /// The inclusive closest data position that is greater than or equal to the actual position.
         /// </summary>
         Ceiling
     }

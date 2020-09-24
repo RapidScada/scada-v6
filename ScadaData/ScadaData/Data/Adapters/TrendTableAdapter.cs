@@ -226,16 +226,16 @@ namespace Scada.Data.Adapters
             if (cnlNumList == null)
             {
                 int cnlCnt = reader.ReadInt32();
-                int bufferLength = cnlCnt * 4 + 4;
-                byte[] buffer = new byte[bufferLength];
-                ReadData(reader, buffer, 0, bufferLength, true);
-                uint crc = BitConverter.ToUInt32(buffer, bufferLength - 4);
+                int dataLength = cnlCnt * 4;
+                byte[] buffer = new byte[dataLength + 4];
+                ReadData(reader, buffer, 0, buffer.Length, true);
+                uint crc = BitConverter.ToUInt32(buffer, dataLength);
 
-                if (ScadaUtils.CRC32(buffer, 0, bufferLength - 4) != crc)
+                if (ScadaUtils.CRC32(buffer, 0, dataLength) != crc)
                     throw new ScadaException("Channel list CRC error.");
 
                 int[] cnlNums = new int[cnlCnt];
-                Buffer.BlockCopy(buffer, 0, cnlNums, 0, bufferLength);
+                Buffer.BlockCopy(buffer, 0, cnlNums, 0, dataLength);
                 cnlNumList = new CnlNumList(listID, cnlNums, crc);
 
                 if (useCache && CnlNumCache != null)
@@ -539,6 +539,8 @@ namespace Scada.Data.Adapters
                                     {
                                         if (flagBuffer[n] > 0)
                                             trend.Add(GetCnlData(dataBuffer, ref bufferIndex));
+                                        else
+                                            bufferIndex += 10;
                                     }
                                 }
                                 else
@@ -626,11 +628,12 @@ namespace Scada.Data.Adapters
                                     if (flagBuffer[i] > 0)
                                     {
                                         trend.Points.Add(new TrendPoint(timestamp,
-                                            GetDouble(dataBuffer, ref bufferIndex),
-                                            GetUInt16(dataBuffer, ref bufferIndex)));
+                                            BitConverter.ToDouble(dataBuffer, bufferIndex),
+                                            BitConverter.ToUInt16(dataBuffer, bufferIndex + 8)));
                                     }
 
                                     timestamp = timestamp.AddSeconds(writingPeriod);
+                                    bufferIndex += 10;
                                 }
                             }
                             else
@@ -638,7 +641,7 @@ namespace Scada.Data.Adapters
                                 for (int i = 0; i < pointsToRead; i++)
                                 {
                                     if (flagBuffer[i] > 0)
-                                        trend.Points.Add(new TrendPoint(timestamp, 0.0, 0));
+                                        trend.Points.Add(new TrendPoint(timestamp));
 
                                     timestamp = timestamp.AddSeconds(writingPeriod);
                                 }
@@ -761,13 +764,13 @@ namespace Scada.Data.Adapters
                         if (MakePageReady(page, false, reader, null))
                         {
                             // read data availability flag
-                            int pageCapacity = page.Metadata.PageCapacity;
-                            stream.Position = GetFlagPosition(pageCapacity, indexInPage);
+                            int pageCnlCnt = page.CnlNumList.CnlNums.Length;
+                            stream.Position = GetFlagPosition(pageCnlCnt, indexInPage);
                             
                             if (reader.ReadBoolean())
                             {
                                 // read input channel data
-                                int pageCnlCnt = page.CnlNumList.CnlNums.Length;
+                                int pageCapacity = page.Metadata.PageCapacity;
 
                                 for (int i = 0, cnlCnt = cnlNums.Length; i < cnlCnt; i++)
                                 {

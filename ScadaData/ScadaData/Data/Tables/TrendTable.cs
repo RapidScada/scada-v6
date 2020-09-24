@@ -178,13 +178,18 @@ namespace Scada.Data.Tables
         /// <summary>
         /// Accepts or rejects data with the specified timestamp.
         /// </summary>
-        protected bool AcceptData(DateTime timestamp, bool exactMatch)
+        protected bool AcceptData(DateTime timestamp, bool exactMatchRequired, out bool isExactMatch)
         {
-            return TableDate > DateTime.MinValue &&
-                Metadata != null && Metadata.MinTimestamp <= timestamp && timestamp <= Metadata.MaxTimestamp &&
-                Metadata.WritingPeriod > 0 && Metadata.PageCapacity > 0 &&
-                (!exactMatch || timestamp < Metadata.MaxTimestamp && 
-                (int)Math.Round(timestamp.TimeOfDay.TotalMilliseconds) % (WritingPeriod * 1000) == 0);
+            if (!(TableDate > DateTime.MinValue &&
+                Metadata != null && Metadata.WritingPeriod > 0 && Metadata.PageCapacity > 0 &&
+                Metadata.MinTimestamp <= timestamp && timestamp <= Metadata.MaxTimestamp))
+            {
+                isExactMatch = false;
+                return false;
+            }
+
+            isExactMatch = (int)Math.Round(timestamp.TimeOfDay.TotalMilliseconds) % (WritingPeriod * 1000) == 0;
+            return !exactMatchRequired || isExactMatch && timestamp < Metadata.MaxTimestamp;
         }
 
         /// <summary>
@@ -224,7 +229,7 @@ namespace Scada.Data.Tables
         public bool GetDataPosition(DateTime timestamp, PositionKind positionKind, 
             out TrendTablePage page, out int indexInPage)
         {
-            if (AcceptData(timestamp, positionKind == PositionKind.Exact))
+            if (AcceptData(timestamp, positionKind == PositionKind.Exact, out bool isExactMatch))
             {
                 int indexWithinTable;
                 double timeOfDay = timestamp < Metadata.MaxTimestamp ? 
@@ -234,16 +239,20 @@ namespace Scada.Data.Tables
                 {
                     case PositionKind.Floor:
                         indexWithinTable = (int)(timeOfDay / WritingPeriod);
+                        if (isExactMatch)
+                            indexWithinTable--;
                         break;
                     case PositionKind.Ceiling:
                         indexWithinTable = (int)Math.Ceiling(timeOfDay / WritingPeriod);
                         break;
                     default: // PositionKind.Exact:
-                        indexWithinTable = (int)Math.Round(timeOfDay) / WritingPeriod;
+                        indexWithinTable = (int)Math.Round(timeOfDay / WritingPeriod);
                         break;
                 }
 
-                if (indexWithinTable >= TableCapacity)
+                if (indexWithinTable < 0)
+                    indexWithinTable = 0;
+                else if (indexWithinTable >= TableCapacity)
                     indexWithinTable = TableCapacity - 1;
 
                 int pageIndex = indexWithinTable / Metadata.PageCapacity;

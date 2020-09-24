@@ -294,18 +294,15 @@ namespace Scada.Server.Modules.ModArcBasic.Logic
         /// </summary>
         public override TrendBundle GetTrends(int[] cnlNums, DateTime startTime, DateTime endTime)
         {
-            DateTime date = startTime.Date;
-            DateTime endDate = endTime.Date;
             List<TrendBundle> bundles = new List<TrendBundle>();
             int totalCapacity = 0;
 
-            while (date <= endDate)
+            foreach (DateTime date in EnumerateDates(startTime, endTime))
             {
                 TrendTable trendTable = GetTrendTable(date);
                 TrendBundle bundle = adapter.ReadTrends(trendTable, cnlNums, startTime, endTime);
                 bundles.Add(bundle);
                 totalCapacity += bundle.Timestamps.Count;
-                date = date.AddDays(1.0);
             }
 
             if (bundles.Count <= 0)
@@ -340,18 +337,15 @@ namespace Scada.Server.Modules.ModArcBasic.Logic
         /// </summary>
         public override Trend GetTrend(int cnlNum, DateTime startTime, DateTime endTime)
         {
-            DateTime date = startTime.Date;
-            DateTime endDate = endTime.Date;
             List<Trend> trends = new List<Trend>();
             int totalCapacity = 0;
 
-            while (date <= endDate)
+            foreach (DateTime date in EnumerateDates(startTime, endTime))
             {
                 TrendTable trendTable = GetTrendTable(date);
                 Trend trend = adapter.ReadTrend(trendTable, cnlNum, startTime, endTime);
                 trends.Add(trend);
                 totalCapacity += trend.Points.Count;
-                date = date.AddDays(1.0);
             }
 
             if (trends.Count <= 0)
@@ -381,18 +375,15 @@ namespace Scada.Server.Modules.ModArcBasic.Logic
         /// </summary>
         public override List<DateTime> GetTimestamps(DateTime startTime, DateTime endTime)
         {
-            DateTime date = startTime.Date;
-            DateTime endDate = endTime.Date;
             List<List<DateTime>> listOfTimestamps = new List<List<DateTime>>();
             int totalCapacity = 0;
 
-            while (date <= endDate)
+            foreach (DateTime date in EnumerateDates(startTime, endTime))
             {
                 TrendTable trendTable = GetTrendTable(date);
                 List<DateTime> timestamps = adapter.ReadTimestamps(trendTable, startTime, endTime);
                 listOfTimestamps.Add(timestamps);
                 totalCapacity += timestamps.Count;
-                date = date.AddDays(1.0);
             }
 
             if (listOfTimestamps.Count <= 0)

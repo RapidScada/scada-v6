@@ -26,6 +26,7 @@
 using Scada.Data.Models;
 using Scada.Server.Config;
 using System;
+using System.Collections.Generic;
 using System.Threading;
 
 namespace Scada.Server.Archives
@@ -34,6 +35,10 @@ namespace Scada.Server.Archives
     /// Represents the base class for archive logic.
     /// <para>Представляет базовый класс логики архива.</para>
     /// </summary>
+    /// <remarks>
+    /// If a method defined in a derived archive class requires a time period from startTime to endTime,
+    /// startTime is taken inclusively, and endTime is taken exclusively.
+    /// </remarks>
     public abstract class ArchiveLogic
     {
         /// <summary>
@@ -131,17 +136,36 @@ namespace Scada.Server.Archives
         }
 
         /// <summary>
-        /// Copies the current input channel data to the slice.
+        /// Copies the current data to the slice that contains the archive input channels.
         /// </summary>
         protected void CopyCnlData(ICurrentData curData, Slice slice, int[] cnlIndices)
         {
-            slice.Timestamp = curData.Timestamp;
-
             if (slice.CnlNums == CnlNums)
             {
+                slice.Timestamp = curData.Timestamp;
+
                 for (int i = 0, cnlCnt = CnlNums.Length; i < cnlCnt; i++)
                 {
                     slice.CnlData[i] = curData.CnlData[cnlIndices[i]];
+                }
+            }
+            else
+            {
+                throw new ScadaException("Inappropriate slice.");
+            }
+        }
+
+        /// <summary>
+        /// Returns an enumerable collection of dates in the specified time interval.
+        /// </summary>
+        protected IEnumerable<DateTime> EnumerateDates(DateTime startTime, DateTime endTime)
+        {
+            // startTime is taken inclusively, and endTime is taken exclusively
+            if (startTime < endTime)
+            {
+                for (DateTime date = startTime.Date; date < endTime; date = date.AddDays(1.0))
+                {                    
+                    yield return date;
                 }
             }
         }

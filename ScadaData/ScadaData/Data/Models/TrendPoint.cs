@@ -36,6 +36,16 @@ namespace Scada.Data.Models
         /// <summary>
         /// Initializes a new instance of the structure.
         /// </summary>
+        public TrendPoint(DateTime timestamp)
+        {
+            Timestamp = timestamp;
+            Val = 0.0;
+            Stat = 0;
+        }
+
+        /// <summary>
+        /// Initializes a new instance of the structure.
+        /// </summary>
         public TrendPoint(DateTime timestamp, double val, int stat)
         {
             Timestamp = timestamp;

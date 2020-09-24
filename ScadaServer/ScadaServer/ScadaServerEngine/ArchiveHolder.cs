@@ -79,6 +79,14 @@ namespace Scada.Server.Engine
 
 
         /// <summary>
+        /// Returns the specified time itself or the current time if the specified time is undefined.
+        /// </summary>
+        private DateTime DefineTime(DateTime dateTime)
+        {
+            return dateTime == DateTime.MinValue ? DateTime.UtcNow : dateTime;
+        }
+
+        /// <summary>
         /// Adds the specified archive to the lists.
         /// </summary>
         public void AddArchive(Archive archiveEntity, ArchiveLogic archiveLogic)
@@ -350,7 +358,7 @@ namespace Scada.Server.Engine
                 try
                 {
                     archiveLogic.Lock();
-                    return archiveLogic.GetTrends(cnlNums, startTime, endTime) ?? 
+                    return archiveLogic.GetTrends(cnlNums, startTime, DefineTime(endTime)) ?? 
                         throw new ScadaException(NullNotAllowed);
                 }
                 catch (Exception ex)
@@ -402,7 +410,7 @@ namespace Scada.Server.Engine
                 try
                 {
                     archiveLogic.Lock();
-                    return archiveLogic.GetTimestamps(startTime, endTime) ??
+                    return archiveLogic.GetTimestamps(startTime, DefineTime(endTime)) ??
                         throw new ScadaException(NullNotAllowed);
                 }
                 catch (Exception ex)
@@ -502,7 +510,7 @@ namespace Scada.Server.Engine
                 try
                 {
                     archiveLogic.Lock();
-                    return archiveLogic.GetEvents(startTime, endTime, filter) ??
+                    return archiveLogic.GetEvents(startTime, DefineTime(endTime), filter) ??
                         throw new ScadaException(NullNotAllowed);
                 }
                 catch (Exception ex)
