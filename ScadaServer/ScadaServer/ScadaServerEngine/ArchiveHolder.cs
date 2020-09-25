@@ -125,7 +125,7 @@ namespace Scada.Server.Engine
 
             // build default archive mask
             if (archiveEntity.IsDefault)
-                DefaultArchiveMask.SetBit(archiveEntity.Bit, true);
+                DefaultArchiveMask = DefaultArchiveMask.SetBit(archiveEntity.Bit, true);
         }
 
         /// <summary>
@@ -298,7 +298,8 @@ namespace Scada.Server.Engine
                     try
                     {
                         archiveLogic.Lock();
-                        archiveLogic.ProcessData(curData);
+                        if (archiveLogic.ProcessData(curData))
+                            archiveLogic.LastWriteTime = curData.Timestamp;
                     }
                     catch (Exception ex)
                     {

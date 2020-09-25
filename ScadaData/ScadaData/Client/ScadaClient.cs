@@ -327,7 +327,7 @@ namespace Scada.Client
         {
             RestoreConnection();
 
-            DataPacket request = CreateRequest(FunctionID.GetEventByID);
+            DataPacket request = CreateRequest(FunctionID.GetSlice);
             int index = ArgumentIndex;
             CopyIntArray(cnlNums, outBuf, ref index);
             CopyTime(timestamp, outBuf, ref index);
@@ -352,78 +352,13 @@ namespace Scada.Client
         {
             RestoreConnection();
 
-            DataPacket request = CreateRequest(FunctionID.GetFileInfo);
-            int index = ArgumentIndex;
+            DataPacket request = CreateRequest(FunctionID.GetLastWriteTime);
             outBuf[ArgumentIndex] = (byte)archiveBit;
             request.ArgumentLength = 1;
             SendRequest(request);
 
             DataPacket response = ReceiveResponse(request);
-            index = ArgumentIndex;
-            return GetTime(inBuf, ref index);
-        }
-
-        /// <summary>
-        /// Gets the event by ID.
-        /// </summary>
-        public Event GetEventByID(long eventID, int archiveBit)
-        {
-            RestoreConnection();
-
-            DataPacket request = CreateRequest(FunctionID.GetEventByID);
-            int index = ArgumentIndex;
-            CopyInt64(eventID, outBuf, ref index);
-            CopyByte((byte)archiveBit, outBuf, ref index);
-            request.BufferLength = index;
-            SendRequest(request);
-
-            DataPacket response = ReceiveResponse(request);
-            index = ArgumentIndex;            
-            return GetBool(inBuf, ref index) ? GetEvent(inBuf, ref index) : null;
-        }
-
-        /// <summary>
-        /// Gets the events.
-        /// </summary>
-        public List<Event> GetEvents(DateTime startTime, DateTime endTime, bool endInclusive,
-            DataFilter filter, int archiveBit, bool useCache, out long filterID)
-        {
-            RestoreConnection();
-
-            DataPacket request = CreateRequest(FunctionID.GetEvents);
-            int index = ArgumentIndex;
-            CopyTime(startTime, outBuf, ref index);
-            CopyTime(endTime, outBuf, ref index);
-            CopyBool(endInclusive, outBuf, ref index);
-            CopyInt64(0, outBuf, ref index);
-            CopyBool(useCache, outBuf, ref index);
-            CopyDataFilter(filter, outBuf, ref index);
-            CopyByte((byte)archiveBit, outBuf, ref index);
-            request.BufferLength = index;
-            SendRequest(request);
-
-            return ReceiveEvents(request, out filterID);
-        }
-
-        /// <summary>
-        /// Gets the events.
-        /// </summary>
-        public List<Event> GetEvents(DateTime startTime, DateTime endTime, bool endInclusive, 
-            ref long filterID, int archiveBit)
-        {
-            RestoreConnection();
-
-            DataPacket request = CreateRequest(FunctionID.GetEvents);
-            int index = ArgumentIndex;
-            CopyTime(startTime, outBuf, ref index);
-            CopyTime(endTime, outBuf, ref index);
-            CopyBool(endInclusive, outBuf, ref index);
-            CopyInt64(filterID, outBuf, ref index);
-            CopyByte((byte)archiveBit, outBuf, ref index);
-            request.BufferLength = index;
-            SendRequest(request);
-
-            return ReceiveEvents(request, out filterID);
+            return GetTime(inBuf, ArgumentIndex);
         }
 
         /// <summary>
@@ -490,6 +425,69 @@ namespace Scada.Client
             request.BufferLength = index;
             SendRequest(request);
             ReceiveResponse(request);
+        }
+
+        /// <summary>
+        /// Gets the event by ID.
+        /// </summary>
+        public Event GetEventByID(long eventID, int archiveBit)
+        {
+            RestoreConnection();
+
+            DataPacket request = CreateRequest(FunctionID.GetEventByID);
+            int index = ArgumentIndex;
+            CopyInt64(eventID, outBuf, ref index);
+            CopyByte((byte)archiveBit, outBuf, ref index);
+            request.BufferLength = index;
+            SendRequest(request);
+
+            DataPacket response = ReceiveResponse(request);
+            index = ArgumentIndex;            
+            return GetBool(inBuf, ref index) ? GetEvent(inBuf, ref index) : null;
+        }
+
+        /// <summary>
+        /// Gets the events.
+        /// </summary>
+        public List<Event> GetEvents(DateTime startTime, DateTime endTime, bool endInclusive,
+            DataFilter filter, int archiveBit, bool useCache, out long filterID)
+        {
+            RestoreConnection();
+
+            DataPacket request = CreateRequest(FunctionID.GetEvents);
+            int index = ArgumentIndex;
+            CopyTime(startTime, outBuf, ref index);
+            CopyTime(endTime, outBuf, ref index);
+            CopyBool(endInclusive, outBuf, ref index);
+            CopyInt64(0, outBuf, ref index);
+            CopyBool(useCache, outBuf, ref index);
+            CopyDataFilter(filter, outBuf, ref index);
+            CopyByte((byte)archiveBit, outBuf, ref index);
+            request.BufferLength = index;
+            SendRequest(request);
+
+            return ReceiveEvents(request, out filterID);
+        }
+
+        /// <summary>
+        /// Gets the events.
+        /// </summary>
+        public List<Event> GetEvents(DateTime startTime, DateTime endTime, bool endInclusive, 
+            ref long filterID, int archiveBit)
+        {
+            RestoreConnection();
+
+            DataPacket request = CreateRequest(FunctionID.GetEvents);
+            int index = ArgumentIndex;
+            CopyTime(startTime, outBuf, ref index);
+            CopyTime(endTime, outBuf, ref index);
+            CopyBool(endInclusive, outBuf, ref index);
+            CopyInt64(filterID, outBuf, ref index);
+            CopyByte((byte)archiveBit, outBuf, ref index);
+            request.BufferLength = index;
+            SendRequest(request);
+
+            return ReceiveEvents(request, out filterID);
         }
 
         /// <summary>

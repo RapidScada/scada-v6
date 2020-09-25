@@ -455,6 +455,14 @@ namespace Scada
         /// <summary>
         /// Gets date and time from the buffer.
         /// </summary>
+        public static DateTime GetTime(byte[] buffer, int index)
+        {
+            return ScadaUtils.TicksToTime(BitConverter.ToInt64(buffer, index));
+        }
+
+        /// <summary>
+        /// Gets date and time from the buffer.
+        /// </summary>
         public static DateTime GetTime(byte[] buffer, ref int index)
         {
             DateTime value = ScadaUtils.TicksToTime(BitConverter.ToInt64(buffer, index));

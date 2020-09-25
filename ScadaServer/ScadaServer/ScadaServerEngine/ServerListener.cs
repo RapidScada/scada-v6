@@ -121,7 +121,7 @@ namespace Scada.Server.Engine
             List<DateTime> timestamps = trendBundle.Timestamps;
             int totalPointCount = timestamps.Count;
             int blockCapacity = (BufferLenght - ArgumentIndex - 16) / (8 + cnlNums.Length * 10);
-            int blockCount = (int)Math.Ceiling((double)totalPointCount / blockCapacity);
+            int blockCount = totalPointCount > 0 ? (int)Math.Ceiling((double)totalPointCount / blockCapacity) : 1;
             int pointIndex = 0;
             buffer = client.OutBuf;
 
@@ -186,6 +186,58 @@ namespace Scada.Server.Engine
         }
 
         /// <summary>
+        /// Writes the current data.
+        /// </summary>
+        protected void WriteCurrentData(ConnectedClient client, DataPacket request, out ResponsePacket response)
+        {
+            byte[] buffer = request.Buffer;
+            int index = ArgumentIndex;
+            int deviceNum = GetInt32(buffer, ref index);
+            int cnlCnt = GetInt32(buffer, ref index);
+
+            int[] cnlNums = new int[cnlCnt];
+            CnlData[] cnlData = new CnlData[cnlCnt];
+
+            for (int i = 0, idx1 = index, idx2 = idx1 + cnlCnt * 4; i < cnlCnt; i++)
+            {
+                cnlNums[i] = GetInt32(buffer, ref idx1);
+                cnlData[i] = GetCnlData(buffer, ref idx2);
+            }
+
+            index += cnlCnt * 14;
+            bool applyFormulas = buffer[index] > 0;
+            coreLogic.WriteCurrentData(deviceNum, cnlNums, cnlData, applyFormulas);
+
+            response = new ResponsePacket(request, client.OutBuf);
+        }
+
+        /// <summary>
+        /// Writes the historical data.
+        /// </summary>
+        protected void WriteHistoricalData(ConnectedClient client, DataPacket request, out ResponsePacket response)
+        {
+            byte[] buffer = request.Buffer;
+            int index = ArgumentIndex;
+            int deviceNum = GetInt32(buffer, ref index);
+            DateTime timestamp = GetTime(buffer, ref index);
+            int cnlCnt = GetInt32(buffer, ref index);
+            Slice slice = new Slice(timestamp, cnlCnt);
+
+            for (int i = 0, idx1 = index, idx2 = idx1 + cnlCnt * 4; i < cnlCnt; i++)
+            {
+                slice.CnlNums[i] = GetInt32(buffer, ref idx1);
+                slice.CnlData[i] = GetCnlData(buffer, ref idx2);
+            }
+
+            index += cnlCnt * 14;
+            int archiveMask = GetInt32(buffer, ref index);
+            bool applyFormulas = buffer[index] > 0;
+            coreLogic.WriteHistoricalData(deviceNum, slice, archiveMask, applyFormulas);
+
+            response = new ResponsePacket(request, client.OutBuf);
+        }
+
+        /// <summary>
         /// Gets the event by ID.
         /// </summary>
         protected void GetEventByID(ConnectedClient client, DataPacket request, out ResponsePacket response)
@@ -196,7 +248,8 @@ namespace Scada.Server.Engine
             int archiveBit = GetByte(buffer, ref index);
 
             Event ev = archiveHolder.GetEventByID(eventID, archiveBit);
-            response = new ResponsePacket(request, client.OutBuf);
+            buffer = client.OutBuf;
+            response = new ResponsePacket(request, buffer);
             index = ArgumentIndex;
 
             if (ev == null)
@@ -250,7 +303,7 @@ namespace Scada.Server.Engine
                 new List<Event>() :
                 archiveHolder.GetEvents(startTime, endTime, endInclusive, dataFilter, archiveBit);
             int totalEventCount = events.Count;
-            int blockCount = (int)Math.Ceiling((double)totalEventCount / EventBlockCapacity);
+            int blockCount = totalEventCount > 0 ? (int)Math.Ceiling((double)totalEventCount / EventBlockCapacity) : 1;
             int eventIndex = 0;
             buffer = client.OutBuf;
 
@@ -275,58 +328,6 @@ namespace Scada.Server.Engine
                 response.BufferLength = index;
                 client.SendResponse(response);
             }
-        }
-
-        /// <summary>
-        /// Writes the current data.
-        /// </summary>
-        protected void WriteCurrentData(ConnectedClient client, DataPacket request, out ResponsePacket response)
-        {
-            byte[] buffer = request.Buffer;
-            int index = ArgumentIndex;
-            int deviceNum = GetInt32(buffer, ref index);
-            int cnlCnt = GetInt32(buffer, ref index);
-
-            int[] cnlNums = new int[cnlCnt];
-            CnlData[] cnlData = new CnlData[cnlCnt];
-
-            for (int i = 0, idx1 = index, idx2 = idx1 + cnlCnt * 4; i < cnlCnt; i++)
-            {
-                cnlNums[i] = GetInt32(buffer, ref idx1);
-                cnlData[i] = GetCnlData(buffer, ref idx2);
-            }
-
-            index += cnlCnt * 14;
-            bool applyFormulas = buffer[index] > 0;
-            coreLogic.WriteCurrentData(deviceNum, cnlNums, cnlData, applyFormulas);
-
-            response = new ResponsePacket(request, client.OutBuf);
-        }
-
-        /// <summary>
-        /// Writes the historical data.
-        /// </summary>
-        protected void WriteHistoricalData(ConnectedClient client, DataPacket request, out ResponsePacket response)
-        {
-            byte[] buffer = request.Buffer;
-            int index = ArgumentIndex;
-            int deviceNum = GetInt32(buffer, ref index);
-            DateTime timestamp = GetTime(buffer, ref index);
-            int cnlCnt = GetInt32(buffer, ref index);
-            Slice slice = new Slice(timestamp, cnlCnt);
-
-            for (int i = 0, idx1 = index, idx2 = idx1 + cnlCnt * 4; i < cnlCnt; i++)
-            {
-                slice.CnlNums[i] = GetInt32(buffer, ref idx1);
-                slice.CnlData[i] = GetCnlData(buffer, ref idx2);
-            }
-
-            index += cnlCnt * 14;
-            int archiveMask = GetInt32(buffer, ref index);
-            bool applyFormulas = buffer[index] > 0;
-            coreLogic.WriteHistoricalData(deviceNum, slice, archiveMask, applyFormulas);
-
-            response = new ResponsePacket(request, client.OutBuf);
         }
 
         /// <summary>
@@ -568,6 +569,14 @@ namespace Scada.Server.Engine
                     GetLastWriteTime(client, request, out response);
                     break;
 
+                case FunctionID.WriteCurrentData:
+                    WriteCurrentData(client, request, out response);
+                    break;
+
+                case FunctionID.WriteHistoricalData:
+                    WriteHistoricalData(client, request, out response);
+                    break;
+
                 case FunctionID.GetEventByID:
                     GetEventByID(client, request, out response);
                     break;
@@ -576,8 +585,12 @@ namespace Scada.Server.Engine
                     GetEvents(client, request);
                     break;
 
-                case FunctionID.WriteCurrentData:
-                    WriteCurrentData(client, request, out response);
+                case FunctionID.WriteEvent:
+                    WriteEvent(client, request, out response);
+                    break;
+
+                case FunctionID.AckEvent:
+                    AckEvent(client, request, out response);
                     break;
 
                 case FunctionID.SendCommand:
