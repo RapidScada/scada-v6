@@ -26,9 +26,11 @@
 using Scada.Config;
 using Scada.Data.Adapters;
 using Scada.Data.Models;
+using Scada.Log;
 using Scada.Server.Archives;
 using Scada.Server.Config;
 using System;
+using System.Diagnostics;
 using System.IO;
 
 namespace Scada.Server.Modules.ModArcBasic.Logic
@@ -51,6 +53,7 @@ namespace Scada.Server.Modules.ModArcBasic.Logic
             {
                 IsCopy = options.GetValueAsBool("IsCopy");
                 WritingPeriod = options.GetValueAsInt("WritingPeriod", 10);
+                LogEnabled = options.GetValueAsBool("LogEnabled");
             }
 
             /// <summary>
@@ -61,6 +64,10 @@ namespace Scada.Server.Modules.ModArcBasic.Logic
             /// Gets the period of writing data to a file, sec.
             /// </summary>
             public int WritingPeriod { get; set; }
+            /// <summary>
+            /// Gets or sets a value indicating whether to write the archive log.
+            /// </summary>
+            public bool LogEnabled { get; set; }
         }
 
         /// <summary>
@@ -69,8 +76,11 @@ namespace Scada.Server.Modules.ModArcBasic.Logic
         private const string CurDataFileName = "current.dat";
 
         private readonly ArchiveOptions options;    // the archive options
+        private readonly ILog arcLog;               // the archive log
+        private readonly Stopwatch stopwatch;       // measures the time of operations
         private readonly SliceTableAdapter adapter; // reads and writes current data
-        private readonly Slice slice;   // the slice for writing
+        private readonly Slice slice;               // the slice for writing
+
         private DateTime nextWriteTime; // the next time to write the current data
         private int[] cnlIndices;       // the indices that map the input channels
 
@@ -78,12 +88,16 @@ namespace Scada.Server.Modules.ModArcBasic.Logic
         /// <summary>
         /// Initializes a new instance of the class.
         /// </summary>
-        public BasicCAL(ArchiveConfig archiveConfig, int[] cnlNums, PathOptions pathOptions)
+        public BasicCAL(ArchiveConfig archiveConfig, int[] cnlNums, ServerConfig serverConfig, ServerDirs serverDirs)
             : base(archiveConfig, cnlNums)
         {
             options = new ArchiveOptions(archiveConfig.CustomOptions);
-            adapter = new SliceTableAdapter { FileName = GetCurDataPath(pathOptions) };
+            arcLog = options.LogEnabled ? 
+                ModUtils.CreateArchiveLog(serverDirs.LogDir, Code, serverConfig.GeneralOptions.MaxLogSize) : null;
+            stopwatch = new Stopwatch();
+            adapter = new SliceTableAdapter { FileName = GetCurDataPath(serverConfig.PathOptions) };
             slice = new Slice(DateTime.MinValue, cnlNums);
+
             nextWriteTime = GetNextWriteTime(DateTime.UtcNow, options.WritingPeriod);
             cnlIndices = null;
         }
@@ -113,6 +127,7 @@ namespace Scada.Server.Modules.ModArcBasic.Logic
         {
             if (File.Exists(adapter.FileName))
             {
+                stopwatch.Restart();
                 Slice slice = adapter.ReadSingleSlice();
 
                 for (int i = 0, cnlCnt = slice.CnlNums.Length; i < cnlCnt; i++)
@@ -128,6 +143,11 @@ namespace Scada.Server.Modules.ModArcBasic.Logic
                 }
 
                 completed = true;
+                stopwatch.Stop();
+                arcLog?.WriteAction(Locale.IsRussian ?
+                    "Чтение среза длины {0} успешно завершено за {1} мс" :
+                    "Reading a slice of length {0} completed successfully in {1} ms",
+                    slice.CnlNums.Length, stopwatch.ElapsedMilliseconds);
             }
             else
             {
@@ -140,9 +160,16 @@ namespace Scada.Server.Modules.ModArcBasic.Logic
         /// </summary>
         public override void WriteData(ICurrentData curData)
         {
+            stopwatch.Restart();
             InitCnlIndices(curData, ref cnlIndices);
             CopyCnlData(curData, slice, cnlIndices);
             adapter.WriteSingleSlice(slice);
+
+            stopwatch.Stop();
+            arcLog?.WriteAction(Locale.IsRussian ?
+                "Запись среза длины {0} успешно завершена за {1} мс" :
+                "Writing a slice of length {0} completed successfully in {1} ms",
+                slice.CnlNums.Length, stopwatch.ElapsedMilliseconds);
         }
 
         /// <summary>

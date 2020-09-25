@@ -32,6 +32,7 @@ using Scada.Server.Archives;
 using Scada.Server.Config;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.IO;
 
 namespace Scada.Server.Modules.ModArcBasic.Logic
@@ -57,6 +58,7 @@ namespace Scada.Server.Modules.ModArcBasic.Logic
                 WritingUnit = options.GetValueAsEnum("WritingUnit", TimeUnit.Minute);
                 WritingMode = options.GetValueAsEnum("WritingMode", WritingMode.Auto);
                 StoragePeriod = options.GetValueAsInt("StoragePeriod", 365);
+                LogEnabled = options.GetValueAsBool("LogEnabled");
             }
 
             /// <summary>
@@ -79,13 +81,18 @@ namespace Scada.Server.Modules.ModArcBasic.Logic
             /// Gets the data storage period in days.
             /// </summary>
             public int StoragePeriod { get; set; }
+            /// <summary>
+            /// Gets or sets a value indicating whether to write the archive log.
+            /// </summary>
+            public bool LogEnabled { get; set; }
         }
 
-
-        private readonly ILog log;                  // the application log
         private readonly ArchiveOptions options;    // the archive options
-        private readonly MemoryCache<DateTime, TrendTable> tableCache; // the cache containing trend tables
+        private readonly ILog appLog;               // the application log
+        private readonly ILog arcLog;               // the archive log
+        private readonly Stopwatch stopwatch;       // measures the time of operations
         private readonly TrendTableAdapter adapter; // reads and writes historical data
+        private readonly MemoryCache<DateTime, TrendTable> tableCache; // the cache containing trend tables
         private readonly Slice slice;               // the slice for writing
         private readonly int writingPeriod;         // the writing period in seconds
 
@@ -99,18 +106,22 @@ namespace Scada.Server.Modules.ModArcBasic.Logic
         /// <summary>
         /// Initializes a new instance of the class.
         /// </summary>
-        public BasicHAL(ArchiveConfig archiveConfig, int[] cnlNums, PathOptions pathOptions, ILog log)
+        public BasicHAL(ArchiveConfig archiveConfig, int[] cnlNums, 
+            ServerConfig serverConfig, ServerDirs serverDirs, ILog log) 
             : base(archiveConfig, cnlNums)
         {
-            this.log = log ?? throw new ArgumentNullException("log");
             options = new ArchiveOptions(archiveConfig.CustomOptions);
-            tableCache = new MemoryCache<DateTime, TrendTable>(ModUtils.CacheExpiration, ModUtils.CacheCapacity);
+            appLog = log ?? throw new ArgumentNullException("log");
+            arcLog = options.LogEnabled ? 
+                ModUtils.CreateArchiveLog(serverDirs.LogDir, Code, serverConfig.GeneralOptions.MaxLogSize) : null;
+            stopwatch = new Stopwatch();
             adapter = new TrendTableAdapter
             {
-                ParentDirectory = Path.Combine(options.IsCopy ? pathOptions.ArcCopyDir : pathOptions.ArcDir, Code),
+                ParentDirectory = GetArchivePath(serverConfig.PathOptions),
                 ArchiveCode = Code,
                 CnlNumCache = new MemoryCache<long, CnlNumList>(ModUtils.CacheExpiration, ModUtils.CacheCapacity)
             };
+            tableCache = new MemoryCache<DateTime, TrendTable>(ModUtils.CacheExpiration, ModUtils.CacheCapacity);
             slice = new Slice(DateTime.MinValue, cnlNums);
             writingPeriod = GetWritingPeriodInSec(options);
 
@@ -122,6 +133,15 @@ namespace Scada.Server.Modules.ModArcBasic.Logic
             updatedTable = null;
         }
 
+
+        /// <summary>
+        /// Gets the full path of the archive.
+        /// </summary>
+        private string GetArchivePath(PathOptions pathOptions)
+        {
+            string arcDir = options.IsCopy ? pathOptions.ArcCopyDir : pathOptions.ArcDir;
+            return Path.Combine(arcDir, Code);
+        }
 
         /// <summary>
         /// Gets the writing period in seconds.
@@ -235,9 +255,9 @@ namespace Scada.Server.Modules.ModArcBasic.Logic
                         else
                         {
                             // update the current page
-                            log.WriteAction(string.Format(Locale.IsRussian ?
+                            appLog.WriteAction(Locale.IsRussian ?
                                 "Обновление номеров каналов страницы {0}" :
-                                "Update channel numbers of the page {0}", pageFileName));
+                                "Update channel numbers of the page {0}", pageFileName);
                             adapter.UpdatePageChannels(page, srcCnlNums);
                         }
                     }
@@ -245,9 +265,9 @@ namespace Scada.Server.Modules.ModArcBasic.Logic
                 else
                 {
                     // updating the entire table structure would take too long, so just backup the table
-                    log.WriteAction(string.Format(Locale.IsRussian ?
+                    appLog.WriteAction(Locale.IsRussian ?
                         "Резервное копирование таблицы {0}" :
-                        "Backup the table {0}", tableDir));
+                        "Backup the table {0}", tableDir);
                     adapter.BackupTable(currentTable);
                 }
             }
@@ -275,10 +295,10 @@ namespace Scada.Server.Modules.ModArcBasic.Logic
                 DateTime minDT = DateTime.UtcNow.AddDays(-options.StoragePeriod);
                 string minDirName = TrendTableAdapter.GetTableDirectory(Code, minDT);
 
-                log.WriteAction(string.Format(Locale.IsRussian ?
+                appLog.WriteAction(Locale.IsRussian ?
                     "Удаление устаревших данных из архива {0}, которые старше {1}" :
                     "Delete outdated data from the {0} archive older than {1}",
-                    Code, minDT.ToLocalizedDateString()));
+                    Code, minDT.ToLocalizedDateString());
 
                 foreach (DirectoryInfo dirInfo in
                     arcDirInfo.EnumerateDirectories(Code + "*", SearchOption.TopDirectoryOnly))
@@ -294,6 +314,8 @@ namespace Scada.Server.Modules.ModArcBasic.Logic
         /// </summary>
         public override TrendBundle GetTrends(int[] cnlNums, DateTime startTime, DateTime endTime, bool endInclusive)
         {
+            stopwatch.Restart();
+            TrendBundle trendBundle;
             List<TrendBundle> bundles = new List<TrendBundle>();
             int totalCapacity = 0;
 
@@ -307,29 +329,35 @@ namespace Scada.Server.Modules.ModArcBasic.Logic
 
             if (bundles.Count <= 0)
             {
-                return new TrendBundle(cnlNums, 0);
+                trendBundle = new TrendBundle(cnlNums, 0);
             }
             else if (bundles.Count == 1)
             {
-                return bundles[0];
+                trendBundle = bundles[0];
             }
             else
             {
                 // unite bundles
-                TrendBundle unitedBundle = new TrendBundle(cnlNums, totalCapacity);
+                trendBundle = new TrendBundle(cnlNums, totalCapacity);
 
                 foreach (TrendBundle bundle in bundles)
                 {
-                    unitedBundle.Timestamps.AddRange(bundle.Timestamps);
+                    trendBundle.Timestamps.AddRange(bundle.Timestamps);
 
-                    for (int i = 0, trendCnt = unitedBundle.Trends.Count; i < trendCnt; i++)
+                    for (int i = 0, trendCnt = trendBundle.Trends.Count; i < trendCnt; i++)
                     {
-                        unitedBundle.Trends[i].AddRange(bundle.Trends[i]);
+                        trendBundle.Trends[i].AddRange(bundle.Trends[i]);
                     }
                 }
-
-                return unitedBundle;
             }
+
+            stopwatch.Stop();
+            arcLog?.WriteAction(Locale.IsRussian ?
+                "Чтение трендов длины {0} успешно завершено за {1} мс" :
+                "Reading trends of length {0} completed successfully in {1} ms",
+                trendBundle.Timestamps.Count, stopwatch.ElapsedMilliseconds);
+
+            return trendBundle;
         }
 
         /// <summary>
@@ -337,6 +365,8 @@ namespace Scada.Server.Modules.ModArcBasic.Logic
         /// </summary>
         public override Trend GetTrend(int cnlNum, DateTime startTime, DateTime endTime, bool endInclusive)
         {
+            stopwatch.Restart();
+            Trend resultTrend;
             List<Trend> trends = new List<Trend>();
             int totalCapacity = 0;
 
@@ -350,24 +380,30 @@ namespace Scada.Server.Modules.ModArcBasic.Logic
 
             if (trends.Count <= 0)
             {
-                return new Trend(cnlNum, 0);
+                resultTrend = new Trend(cnlNum, 0);
             }
             else if (trends.Count == 1)
             {
-                return trends[0];
+                resultTrend = trends[0];
             }
             else
             {
                 // unite trends
-                Trend unitedTrend = new Trend(cnlNum, totalCapacity);
+                resultTrend = new Trend(cnlNum, totalCapacity);
 
                 foreach (Trend trend in trends)
                 {
-                    unitedTrend.Points.AddRange(trend.Points);
+                    resultTrend.Points.AddRange(trend.Points);
                 }
-
-                return unitedTrend;
             }
+
+            stopwatch.Stop();
+            arcLog?.WriteAction(Locale.IsRussian ?
+                "Чтение тренда длины {0} успешно завершено за {1} мс" :
+                "Reading a trend of length {0} completed successfully in {1} ms",
+                resultTrend.Points.Count, stopwatch.ElapsedMilliseconds);
+
+            return resultTrend;
         }
 
         /// <summary>
@@ -375,6 +411,8 @@ namespace Scada.Server.Modules.ModArcBasic.Logic
         /// </summary>
         public override List<DateTime> GetTimestamps(DateTime startTime, DateTime endTime, bool endInclusive)
         {
+            stopwatch.Restart();
+            List<DateTime> resultTimestamps;
             List<List<DateTime>> listOfTimestamps = new List<List<DateTime>>();
             int totalCapacity = 0;
 
@@ -388,24 +426,30 @@ namespace Scada.Server.Modules.ModArcBasic.Logic
 
             if (listOfTimestamps.Count <= 0)
             {
-                return new List<DateTime>();
+                resultTimestamps = new List<DateTime>();
             }
             else if (listOfTimestamps.Count == 1)
             {
-                return listOfTimestamps[0];
+                resultTimestamps = listOfTimestamps[0];
             }
             else
             {
-                // unite trends
-                List<DateTime> unitedTimestamps = new List<DateTime>(totalCapacity);
+                // unite timestamps
+                resultTimestamps = new List<DateTime>(totalCapacity);
 
                 foreach (List<DateTime> timestamps in listOfTimestamps)
                 {
-                    unitedTimestamps.AddRange(timestamps);
+                    resultTimestamps.AddRange(timestamps);
                 }
-
-                return unitedTimestamps;
             }
+
+            stopwatch.Stop();
+            arcLog?.WriteAction(Locale.IsRussian ?
+                "Чтение меток времени длины {0} успешно завершено за {1} мс" :
+                "Reading timestamps of length {0} completed successfully in {1} ms",
+                resultTimestamps.Count, stopwatch.ElapsedMilliseconds);
+
+            return resultTimestamps;
         }
 
         /// <summary>
@@ -413,7 +457,14 @@ namespace Scada.Server.Modules.ModArcBasic.Logic
         /// </summary>
         public override Slice GetSlice(int[] cnlNums, DateTime timestamp)
         {
-            return adapter.ReadSlice(GetTrendTable(timestamp), cnlNums, timestamp);
+            stopwatch.Restart();
+            Slice slice = adapter.ReadSlice(GetTrendTable(timestamp), cnlNums, timestamp);
+            stopwatch.Stop();
+            arcLog?.WriteAction(Locale.IsRussian ?
+                "Чтение среза длины {0} успешно завершено за {1} мс" :
+                "Reading a slice of length {0} completed successfully in {1} ms",
+                slice.CnlNums.Length, stopwatch.ElapsedMilliseconds);
+            return slice;
         }
 
         /// <summary>
@@ -433,11 +484,19 @@ namespace Scada.Server.Modules.ModArcBasic.Logic
             {
                 DateTime writeTime = GetClosestWriteTime(curData.Timestamp, writingPeriod);
                 nextWriteTime = writeTime.AddSeconds(writingPeriod);
+
+                stopwatch.Restart();
                 TrendTable trendTable = GetCurrentTrendTable(writeTime);
                 InitCnlIndices(curData, ref cnlIndices);
                 CopyCnlData(curData, slice, cnlIndices);
                 slice.Timestamp = writeTime;
                 adapter.WriteSlice(trendTable, slice);
+
+                stopwatch.Stop();
+                arcLog?.WriteAction(Locale.IsRussian ?
+                    "Запись среза длины {0} успешно завершена за {1} мс" :
+                    "Writing a slice of length {0} completed successfully in {1} ms",
+                    slice.CnlNums.Length, stopwatch.ElapsedMilliseconds);
                 return true;
             }
             else
@@ -460,6 +519,7 @@ namespace Scada.Server.Modules.ModArcBasic.Logic
         /// </summary>
         public override void BeginUpdate(int deviceNum, DateTime timestamp)
         {
+            stopwatch.Restart();
             updatedTable = GetTrendTable(timestamp);
         }
 
@@ -469,6 +529,11 @@ namespace Scada.Server.Modules.ModArcBasic.Logic
         public override void EndUpdate(int deviceNum, DateTime timestamp)
         {
             updatedTable = null;
+            stopwatch.Stop();
+            arcLog?.WriteAction(Locale.IsRussian ?
+                "Обновление данных успешно завершено за {1} мс" :
+                "Data update completed successfully in {0} ms",
+                slice.CnlNums.Length, stopwatch.ElapsedMilliseconds);
         }
 
         /// <summary>

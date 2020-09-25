@@ -50,7 +50,7 @@ namespace Scada.Server.Modules.ModArcBasic.Logic
         {
             get
             {
-                return "ModArcBasic";
+                return ModUtils.ModCode;
             }
         }
 
@@ -74,9 +74,9 @@ namespace Scada.Server.Modules.ModArcBasic.Logic
             switch (archiveConfig.Kind)
             {
                 case ArchiveKind.Current:
-                    return new BasicCAL(archiveConfig, cnlNums, ServerContext.AppConfig.PathOptions);
+                    return new BasicCAL(archiveConfig, cnlNums, ServerContext.AppConfig, ServerContext.AppDirs);
                 case ArchiveKind.Historical:
-                    return new BasicHAL(archiveConfig, cnlNums, ServerContext.AppConfig.PathOptions, Log);
+                    return new BasicHAL(archiveConfig, cnlNums, ServerContext.AppConfig, ServerContext.AppDirs, Log);
                 default:
                     return null;
             }

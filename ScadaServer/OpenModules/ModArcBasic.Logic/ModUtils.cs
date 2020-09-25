@@ -23,7 +23,9 @@
  * Modified : 2020
  */
 
+using Scada.Log;
 using System;
+using System.IO;
 
 namespace Scada.Server.Modules.ModArcBasic.Logic
 {
@@ -34,13 +36,27 @@ namespace Scada.Server.Modules.ModArcBasic.Logic
     internal static class ModUtils
     {
         /// <summary>
+        /// The module code.
+        /// </summary>
+        public const string ModCode = "ModArcBasic";
+        /// <summary>
+        ///  The maximum number of entries that can be stored in the cache.
+        /// </summary>
+        public const int CacheCapacity = 100;
+        /// <summary>
         /// Determines how long an item is stored in the cache.
         /// </summary>
         public static readonly TimeSpan CacheExpiration = TimeSpan.FromMinutes(1);
 
         /// <summary>
-        ///  The maximum number of entries that can be stored in the cache.
+        /// Creates the archive log.
         /// </summary>
-        public const int CacheCapacity = 100;
+        public static ILog CreateArchiveLog(string logDir, string archiveCode, int capacity)
+        {
+            return new LogFile(LogFormat.Simple, Path.Combine(logDir, ModCode + "_" + archiveCode + ".log"))
+            {
+                Capacity = capacity
+            };
+        }
     }
 }

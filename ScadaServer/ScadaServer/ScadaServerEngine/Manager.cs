@@ -37,7 +37,7 @@ namespace Scada.Server.Engine
     /// </summary>
     public class Manager
     {
-        private ILog log;            // the application log
+        private LogFile log;         // the application log
         private CoreLogic coreLogic; // the server logic instance
 
 
@@ -98,7 +98,7 @@ namespace Scada.Server.Engine
             string exeDir = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location);
             AppDirs.Init(exeDir);
 
-            log = new LogFile(LogFormat.Full, AppDirs.LogDir + ServerUtils.LogFileName);
+            log = new LogFile(LogFormat.Full, AppDirs.LogDir + ServerUtils.LogFileName) { Capacity = int.MaxValue };
             log.WriteBreak();
 
             if (!Locale.LoadCulture(Path.Combine(exeDir, "..", ScadaUtils.ScadaConfigFileName), out string errMsg))
@@ -118,6 +118,7 @@ namespace Scada.Server.Engine
                 if (config.Load(configFileName, out errMsg) &&
                     coreLogic.StartProcessing())
                 {
+                    log.Capacity = config.GeneralOptions.MaxLogSize;
                     return true;
                 }
                 else if (!string.IsNullOrEmpty(errMsg))
