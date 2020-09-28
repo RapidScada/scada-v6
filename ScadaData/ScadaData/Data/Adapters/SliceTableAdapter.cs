@@ -81,7 +81,7 @@ namespace Scada.Data.Adapters
         }
 
         /// <summary>
-        /// Fills the specified data table by reading data from the slice table.
+        /// Fills the specified table by reading data from a file or stream.
         /// </summary>
         public void Fill(DataTable dataTable)
         {
@@ -184,7 +184,7 @@ namespace Scada.Data.Adapters
         }
 
         /// <summary>
-        /// Reads a single slice from the slice table.
+        /// Reads a single slice from a file or stream.
         /// </summary>
         public Slice ReadSingleSlice()
         {
@@ -254,7 +254,7 @@ namespace Scada.Data.Adapters
         }
 
         /// <summary>
-        /// Writes the single slice to the slice table.
+        /// Writes the single slice to a file or stream.
         /// </summary>
         public void WriteSingleSlice(Slice slice)
         {

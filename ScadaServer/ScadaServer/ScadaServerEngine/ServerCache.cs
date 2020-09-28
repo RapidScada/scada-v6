@@ -54,7 +54,7 @@ namespace Scada.Server.Engine
 
 
         /// <summary>
-        /// Gets the cache containing channel lists accessed by list IDs.
+        /// Gets the cache containing channel lists accessed by list ID.
         /// </summary>
         public MemoryCache<long, CnlListItem> CnlListCache { get; }
 

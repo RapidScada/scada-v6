@@ -68,7 +68,7 @@ namespace Scada.Data.Tables
         /// <summary>
         /// Gets the table name.
         /// </summary>
-        public string Name { get; protected set; }
+        public string Name { get; }
 
         /// <summary>
         /// Gets the primary key of the table.
@@ -139,22 +139,22 @@ namespace Scada.Data.Tables
         /// Gets the table items sorted by primary key.
         /// </summary>
         /// <remarks>Do not change items directly to avoid data corruption.</remarks>
-        public SortedDictionary<int, T> Items { get; protected set; }
+        public SortedDictionary<int, T> Items { get; }
 
         /// <summary>
         /// Gets the table indexes accessed by column name.
         /// </summary>
-        public Dictionary<string, TableIndex> Indexes { get; protected set; }
+        public Dictionary<string, TableIndex> Indexes { get; }
 
         /// <summary>
         /// Gets the tables that this table depends on (foreign keys).
         /// </summary>
-        public List<TableRelation> DependsOn { get; protected set; }
+        public List<TableRelation> DependsOn { get; }
 
         /// <summary>
         /// Gets the tables that depend on this table.
         /// </summary>
-        public List<TableRelation> Dependent { get; protected set; }
+        public List<TableRelation> Dependent { get; }
 
         /// <summary>
         /// Gets or sets a value indicating whether the table was modified.

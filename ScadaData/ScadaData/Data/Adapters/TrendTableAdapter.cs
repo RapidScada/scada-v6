@@ -86,7 +86,7 @@ namespace Scada.Data.Adapters
         public string ArchiveCode { get; set;  }
 
         /// <summary>
-        /// Gets or sets the cache containing lists of channel numbers accessed by list IDs.
+        /// Gets or sets the cache containing lists of channel numbers accessed by list ID.
         /// </summary>
         public MemoryCache<long, CnlNumList> CnlNumCache { get; set; }
 

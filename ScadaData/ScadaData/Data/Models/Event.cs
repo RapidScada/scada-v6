@@ -57,6 +57,7 @@ namespace Scada.Data.Models
             TextFormat = EventTextFormat.Full;
             Text = "";
             Data = null;
+            Position = -1;
         }
 
 
@@ -154,5 +155,10 @@ namespace Scada.Data.Models
         /// Gets or sets the custom data.
         /// </summary>
         public byte[] Data { get; set; }
+
+        /// <summary>
+        /// Gets or sets the event position in a file or stream.
+        /// </summary>
+        public long Position { get; set; }
     }
 }
