@@ -267,6 +267,14 @@ namespace Scada
         }
 
         /// <summary>
+        /// Retrieves the time encoded in the ID.
+        /// </summary>
+        public static DateTime RetrieveTimeFromID(long id)
+        {
+            return DateTimeOffset.FromUnixTimeSeconds(id >> 32).UtcDateTime;
+        }
+
+        /// <summary>
         /// Checks whether the specified bit of the integer number is set.
         /// </summary>
         public static bool BitIsSet(this int number, int bit)

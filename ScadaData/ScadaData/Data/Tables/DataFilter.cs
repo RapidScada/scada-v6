@@ -92,5 +92,34 @@ namespace Scada.Data.Tables
             Conditions.Add(condition);
             return condition;
         }
+
+        /// <summary>
+        /// Checks if the specified item satisfies all the conditions.
+        /// </summary>
+        public bool IsSatisfied(object item)
+        {
+            if (item != null && item.GetType() == ItemType)
+            {
+                foreach (FilterCondition condition in Conditions)
+                {
+                    if (!condition.IsSatisfied(condition.ColumnProperty.GetValue(item)))
+                        return false;
+                }
+
+                return true;
+            }
+            else
+            {
+                return false;
+            }
+        }
+
+        /// <summary>
+        /// Creates a shallow copy of the current object.
+        /// </summary>
+        public DataFilter ShallowCopy()
+        {
+            return (DataFilter)MemberwiseClone();
+        }
     }
 }

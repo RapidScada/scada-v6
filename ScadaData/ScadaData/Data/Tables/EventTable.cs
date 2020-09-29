@@ -26,7 +26,6 @@
 using Scada.Data.Models;
 using System;
 using System.Collections.Generic;
-using System.Text;
 
 namespace Scada.Data.Tables
 {
@@ -36,6 +35,32 @@ namespace Scada.Data.Tables
     /// </summary>
     public class EventTable
     {
+        /// <summary>
+        /// Defines a method that compares two events by timestamp.
+        /// </summary>
+        protected class EventTimeComparer : IComparer<Event>
+        {
+            /// <summary>
+            /// Compares two events.
+            /// </summary>
+            public int Compare(Event x, Event y)
+            {
+                DateTime t1 = x == null ? DateTime.MinValue : x.Timestamp;
+                DateTime t2 = y == null ? DateTime.MinValue : y.Timestamp;
+                return DateTime.Compare(t1, t2);
+            }
+        }
+
+
+        /// <summary>
+        /// Compares events by timestamp.
+        /// </summary>
+        protected static readonly EventTimeComparer EventComparer = new EventTimeComparer();
+        /// <summary>
+        /// The event object to use for searching.
+        /// </summary>
+        protected static readonly Event EventToFind = new Event();
+
         /// <summary>
         /// The events accessed by ID.
         /// </summary>
@@ -49,6 +74,8 @@ namespace Scada.Data.Tables
         {
             eventsByID = null;
             TableDate = DateTime.MinValue;
+            FileName = "";
+            FileAge = DateTime.MinValue;
             Events = new List<Event>();
         }
 
@@ -68,10 +95,31 @@ namespace Scada.Data.Tables
         public DateTime TableDate { get; }
 
         /// <summary>
+        /// Gets or sets the full file name of the table.
+        /// </summary>
+        public string FileName { get; set; }
+
+        /// <summary>
+        /// Gets or sets the time (UTC) when the table file was last written to.
+        /// </summary>
+        public DateTime FileAge { get; set; }
+
+        /// <summary>
         /// Gets the events sorted by timestamp.
         /// </summary>
         public List<Event> Events { get; }
 
+
+        /// <summary>
+        /// Finds the index of the event with the specified timestamp, 
+        /// or finds the insertion index if no such event exists.
+        /// </summary>
+        protected int FindEventIndex(DateTime timestamp)
+        {
+            EventToFind.Timestamp = timestamp;
+            int index = Events.BinarySearch(EventToFind, EventComparer);
+            return index >= 0 ? index : ~index;
+        }
 
         /// <summary>
         /// Clears events before loading new data.
@@ -88,7 +136,9 @@ namespace Scada.Data.Tables
         /// </summary>
         public void EndLoadData()
         {
-
+            Events.Sort(EventComparer);
+            eventsByID = new Dictionary<long, Event>(Events.Count);
+            Events.ForEach(ev => eventsByID.Add(ev.EventID, ev));
         }
 
         /// <summary>
@@ -97,6 +147,141 @@ namespace Scada.Data.Tables
         public Event GetEventByID(long eventID)
         {
             return eventsByID != null && eventsByID.TryGetValue(eventID, out Event ev) ? ev : null;
+        }
+
+        /// <summary>
+        /// Selects the events that match the specified filter.
+        /// </summary>
+        public IEnumerable<Event> SelectEvents(DateTime startTime, DateTime endTime, bool endInclusive, 
+            DataFilter filter)
+        {
+            if (Events.Count == 0)
+                yield break;
+
+            DateTime minEventTime = Events[0].Timestamp;
+            DateTime maxEventTime = Events[Events.Count - 1].Timestamp;
+
+            if (filter == null)
+            {
+                if (startTime <= minEventTime && (maxEventTime < endTime || maxEventTime == endTime && endInclusive))
+                {
+                    // select all events
+                    foreach (Event ev in Events)
+                    {
+                        yield return ev;
+                    }
+                }
+                else
+                {
+                    // select all events for the specified period
+                    int startIndex = startTime <= minEventTime ? 0 : FindEventIndex(startTime);
+
+                    for (int i = startIndex, cnt = Events.Count; i < cnt; i++)
+                    {
+                        Event ev = Events[i];
+                        DateTime timestamp = ev.Timestamp;
+
+                        if (startTime <= timestamp)
+                        {
+                            if (timestamp < endTime || timestamp == endTime && endInclusive)
+                                yield return ev;
+                            else
+                                break;
+                        }
+                    }
+                }
+            }
+            else
+            {
+                int limit = filter.Limit > 0 ? filter.Limit : int.MaxValue;
+                int satisfiedCount = 0;
+                int addedCount = 0;
+
+                if (filter.OriginBegin)
+                {
+                    // select filtered events for the specified period
+                    int startIndex = startTime <= minEventTime ? 0 : FindEventIndex(startTime);
+
+                    for (int i = startIndex, cnt = Events.Count; i < cnt; i++)
+                    {
+                        Event ev = Events[i];
+                        DateTime timestamp = ev.Timestamp;
+
+                        if (startTime <= timestamp)
+                        {
+                            if (timestamp < endTime || timestamp == endTime && endInclusive)
+                            {
+                                if (filter.IsSatisfied(ev) && ++satisfiedCount > filter.Offset)
+                                {
+                                    yield return ev;
+                                    addedCount++;
+
+                                    if (addedCount >= limit)
+                                        break;
+                                }
+                            }
+                            else
+                            {
+                                break;
+                            }
+                        }
+                    }
+                }
+                else
+                {
+                    // select filtered events for the specified period from the end of the table in reverse order
+                    int endIndex = maxEventTime <= endTime ? Events.Count - 1 : FindEventIndex(endTime);
+
+                    for (int i = endIndex; i >= 0; i--)
+                    {
+                        Event ev = Events[i];
+                        DateTime timestamp = ev.Timestamp;
+
+                        if (timestamp < endTime || timestamp == endTime && endInclusive)
+                        {
+                            if (startTime <= timestamp)
+                            {
+                                if (filter.IsSatisfied(ev) && ++satisfiedCount > filter.Offset)
+                                {
+                                    yield return ev;
+                                    addedCount++;
+
+                                    if (addedCount >= limit)
+                                        break;
+                                }
+                            }
+                            else
+                            {
+                                break;
+                            }
+                        }
+                    }
+                }
+            }
+        }
+
+        /// <summary>
+        /// Adds the specified event to the table, keeping the events sorted.
+        /// </summary>
+        public bool AddEvent(Event ev)
+        {
+            if (ev == null)
+                throw new ArgumentNullException("ev");
+
+            if (eventsByID != null && !eventsByID.ContainsKey(ev.EventID))
+            {
+                int index = Events.BinarySearch(ev, EventComparer);
+                if (index < 0)
+                    index = ~index;
+
+                Events.Insert(index, ev);
+                eventsByID.Add(ev.EventID, ev);
+                return true;
+            }
+            else
+            {
+                return false;
+            }
         }
     }
 }

@@ -34,8 +34,22 @@ namespace Scada.Data.Adapters
     /// Represents a mechanism to read and write event tables.
     /// <para>Представляет механизм для чтения и записи таблиц событий.</para>
     /// </summary>
-    public class EventTableAdapter
+    public class EventTableAdapter : Adapter
     {
+        /// <summary>
+        /// The major version number.
+        /// </summary>
+        protected const ushort MajorVersion = 4;
+        /// <summary>
+        /// The minor version number.
+        /// </summary>
+        protected const ushort MinorVersion = 0;
+        /// <summary>
+        /// The header size in a file.
+        /// </summary>
+        protected const int HeaderSize = 20;
+
+
         /// <summary>
         /// Fills the specified table by reading data from a file or stream.
         /// </summary>
