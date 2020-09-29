@@ -23,13 +23,13 @@
  * Modified : 2020
  */
 
-using Scada.Config;
 using Scada.Data.Adapters;
 using Scada.Data.Models;
 using Scada.Data.Tables;
 using Scada.Log;
 using Scada.Server.Archives;
 using Scada.Server.Config;
+using Scada.Server.Modules.ModArcBasic.Logic.Options;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
@@ -43,51 +43,7 @@ namespace Scada.Server.Modules.ModArcBasic.Logic
     /// </summary>
     internal class BasicHAL : HistoricalArchiveLogic
     {
-        /// <summary>
-        /// Represents archive options.
-        /// </summary>
-        private class ArchiveOptions
-        {
-            /// <summary>
-            /// Initializes a new instance of the class.
-            /// </summary>
-            public ArchiveOptions(CustomOptions options)
-            {
-                IsCopy = options.GetValueAsBool("IsCopy");
-                WritingPeriod = options.GetValueAsInt("WritingPeriod", 1);
-                WritingUnit = options.GetValueAsEnum("WritingUnit", TimeUnit.Minute);
-                WritingMode = options.GetValueAsEnum("WritingMode", WritingMode.Auto);
-                StoragePeriod = options.GetValueAsInt("StoragePeriod", 365);
-                LogEnabled = options.GetValueAsBool("LogEnabled");
-            }
-
-            /// <summary>
-            /// Gets or sets a value indicating whether the archive stores a copy of the data.
-            /// </summary>
-            public bool IsCopy { get; set; }
-            /// <summary>
-            /// Gets the period of writing data to a file.
-            /// </summary>
-            public int WritingPeriod { get; set; }
-            /// <summary>
-            /// Gets the unit of measure for the writing period.
-            /// </summary>
-            public TimeUnit WritingUnit { get; set; }
-            /// <summary>
-            /// Gets the writing mode.
-            /// </summary>
-            public WritingMode WritingMode { get; set; }
-            /// <summary>
-            /// Gets the data storage period in days.
-            /// </summary>
-            public int StoragePeriod { get; set; }
-            /// <summary>
-            /// Gets or sets a value indicating whether to write the archive log.
-            /// </summary>
-            public bool LogEnabled { get; set; }
-        }
-
-        private readonly ArchiveOptions options;    // the archive options
+        private readonly BasicHAO archiveOptions;   // the archive options
         private readonly ILog appLog;               // the application log
         private readonly ILog arcLog;               // the archive log
         private readonly Stopwatch stopwatch;       // measures the time of operations
@@ -96,11 +52,11 @@ namespace Scada.Server.Modules.ModArcBasic.Logic
         private readonly Slice slice;               // the slice for writing
         private readonly int writingPeriod;         // the writing period in seconds
 
-        private DateTime nextWriteTime;             // the next time to write data to the archive
-        private int[] cnlIndices;                   // the indices that map the input channels
-        private CnlNumList cnlNumList;              // the list of the input channel numbers processed by the archive
-        private TrendTable currentTable;            // the today's trend table
-        private TrendTable updatedTable;            // the trend table that is currently being updated
+        private DateTime nextWriteTime;  // the next time to write data to the archive
+        private int[] cnlIndices;        // the indices that map the input channels
+        private CnlNumList cnlNumList;   // the list of the input channel numbers processed by the archive
+        private TrendTable currentTable; // the today's trend table
+        private TrendTable updatedTable; // the trend table that is currently being updated
 
 
         /// <summary>
@@ -110,22 +66,22 @@ namespace Scada.Server.Modules.ModArcBasic.Logic
             ServerConfig serverConfig, ServerDirs serverDirs, ILog log) 
             : base(archiveConfig, cnlNums)
         {
-            options = new ArchiveOptions(archiveConfig.CustomOptions);
+            archiveOptions = new BasicHAO(archiveConfig.CustomOptions);
             appLog = log ?? throw new ArgumentNullException("log");
-            arcLog = options.LogEnabled ? 
+            arcLog = archiveOptions.LogEnabled ? 
                 ModUtils.CreateArchiveLog(serverDirs.LogDir, Code, serverConfig.GeneralOptions.MaxLogSize) : null;
             stopwatch = new Stopwatch();
             adapter = new TrendTableAdapter
             {
-                ParentDirectory = GetArchivePath(serverConfig.PathOptions),
+                ParentDirectory = ModUtils.GetArchivePath(serverConfig.PathOptions, archiveOptions.IsCopy, Code),
                 ArchiveCode = Code,
                 CnlNumCache = new MemoryCache<long, CnlNumList>(ModUtils.CacheExpiration, ModUtils.CacheCapacity)
             };
             tableCache = new MemoryCache<DateTime, TrendTable>(ModUtils.CacheExpiration, ModUtils.CacheCapacity);
             slice = new Slice(DateTime.MinValue, cnlNums);
-            writingPeriod = GetWritingPeriodInSec(options);
+            writingPeriod = GetWritingPeriodInSec(archiveOptions);
 
-            nextWriteTime = options.WritingMode == WritingMode.Auto ? 
+            nextWriteTime = archiveOptions.WritingMode == WritingMode.Auto ? 
                 GetNextWriteTime(DateTime.UtcNow, writingPeriod) : DateTime.MinValue;
             cnlIndices = null;
             cnlNumList = new CnlNumList(cnlNums);
@@ -135,27 +91,18 @@ namespace Scada.Server.Modules.ModArcBasic.Logic
 
 
         /// <summary>
-        /// Gets the full path of the archive.
-        /// </summary>
-        private string GetArchivePath(PathOptions pathOptions)
-        {
-            string arcDir = options.IsCopy ? pathOptions.ArcCopyDir : pathOptions.ArcDir;
-            return Path.Combine(arcDir, Code);
-        }
-
-        /// <summary>
         /// Gets the writing period in seconds.
         /// </summary>
-        private int GetWritingPeriodInSec(ArchiveOptions options)
+        private int GetWritingPeriodInSec(BasicHAO archiveOptions)
         {
-            switch (options.WritingUnit)
+            switch (archiveOptions.WritingUnit)
             {
                 case TimeUnit.Minute:
-                    return options.WritingPeriod * 60;
+                    return archiveOptions.WritingPeriod * 60;
                 case TimeUnit.Hour:
-                    return options.WritingPeriod * 1440;
+                    return archiveOptions.WritingPeriod * 1440;
                 default: // TimeUnit.Second
-                    return options.WritingPeriod;
+                    return archiveOptions.WritingPeriod;
             }
         }
 
@@ -292,7 +239,7 @@ namespace Scada.Server.Modules.ModArcBasic.Logic
 
             if (arcDirInfo.Exists)
             {
-                DateTime minDT = DateTime.UtcNow.AddDays(-options.StoragePeriod);
+                DateTime minDT = DateTime.UtcNow.AddDays(-archiveOptions.StoragePeriod);
                 string minDirName = TrendTableAdapter.GetTableDirectory(Code, minDT);
 
                 appLog.WriteAction(Locale.IsRussian ?
@@ -480,7 +427,7 @@ namespace Scada.Server.Modules.ModArcBasic.Logic
         /// </summary>
         public override bool ProcessData(ICurrentData curData)
         {
-            if (options.WritingMode == WritingMode.Auto && nextWriteTime <= curData.Timestamp)
+            if (archiveOptions.WritingMode == WritingMode.Auto && nextWriteTime <= curData.Timestamp)
             {
                 DateTime writeTime = GetClosestWriteTime(curData.Timestamp, writingPeriod);
                 nextWriteTime = writeTime.AddSeconds(writingPeriod);
@@ -531,9 +478,9 @@ namespace Scada.Server.Modules.ModArcBasic.Logic
             updatedTable = null;
             stopwatch.Stop();
             arcLog?.WriteAction(Locale.IsRussian ?
-                "Обновление данных успешно завершено за {1} мс" :
+                "Обновление данных успешно завершено за {0} мс" :
                 "Data update completed successfully in {0} ms",
-                slice.CnlNums.Length, stopwatch.ElapsedMilliseconds);
+                stopwatch.ElapsedMilliseconds);
         }
 
         /// <summary>

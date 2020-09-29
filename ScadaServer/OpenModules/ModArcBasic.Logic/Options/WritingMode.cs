@@ -23,7 +23,7 @@
  * Modified : 2020
  */
 
-namespace Scada.Server.Modules.ModArcBasic.Logic
+namespace Scada.Server.Modules.ModArcBasic.Logic.Options
 {
     /// <summary>
     /// Specifies the data writing modes.

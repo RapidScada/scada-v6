@@ -23,12 +23,12 @@
  * Modified : 2020
  */
 
-using Scada.Config;
 using Scada.Data.Adapters;
 using Scada.Data.Models;
 using Scada.Log;
 using Scada.Server.Archives;
 using Scada.Server.Config;
+using Scada.Server.Modules.ModArcBasic.Logic.Options;
 using System;
 using System.Diagnostics;
 using System.IO;
@@ -37,45 +37,16 @@ namespace Scada.Server.Modules.ModArcBasic.Logic
 {
     /// <summary>
     /// Implements the current data archive logic.
-    /// <para>Реализует логику архива текщих данных.</para>
+    /// <para>Реализует логику архива текущих данных.</para>
     /// </summary>
     internal class BasicCAL : CurrentArchiveLogic
     {
-        /// <summary>
-        /// Represents archive options.
-        /// </summary>
-        private class ArchiveOptions
-        {
-            /// <summary>
-            /// Initializes a new instance of the class.
-            /// </summary>
-            public ArchiveOptions(CustomOptions options)
-            {
-                IsCopy = options.GetValueAsBool("IsCopy");
-                WritingPeriod = options.GetValueAsInt("WritingPeriod", 10);
-                LogEnabled = options.GetValueAsBool("LogEnabled");
-            }
-
-            /// <summary>
-            /// Gets or sets a value indicating whether the archive stores a copy of the data.
-            /// </summary>
-            public bool IsCopy { get; set; }
-            /// <summary>
-            /// Gets the period of writing data to a file, sec.
-            /// </summary>
-            public int WritingPeriod { get; set; }
-            /// <summary>
-            /// Gets or sets a value indicating whether to write the archive log.
-            /// </summary>
-            public bool LogEnabled { get; set; }
-        }
-
         /// <summary>
         /// The current data file name.
         /// </summary>
         private const string CurDataFileName = "current.dat";
 
-        private readonly ArchiveOptions options;    // the archive options
+        private readonly BasicCAO options;          // the archive options
         private readonly ILog arcLog;               // the archive log
         private readonly Stopwatch stopwatch;       // measures the time of operations
         private readonly SliceTableAdapter adapter; // reads and writes current data
@@ -91,7 +62,7 @@ namespace Scada.Server.Modules.ModArcBasic.Logic
         public BasicCAL(ArchiveConfig archiveConfig, int[] cnlNums, ServerConfig serverConfig, ServerDirs serverDirs)
             : base(archiveConfig, cnlNums)
         {
-            options = new ArchiveOptions(archiveConfig.CustomOptions);
+            options = new BasicCAO(archiveConfig.CustomOptions);
             arcLog = options.LogEnabled ? 
                 ModUtils.CreateArchiveLog(serverDirs.LogDir, Code, serverConfig.GeneralOptions.MaxLogSize) : null;
             stopwatch = new Stopwatch();

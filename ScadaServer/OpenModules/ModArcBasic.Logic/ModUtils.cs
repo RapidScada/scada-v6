@@ -24,6 +24,7 @@
  */
 
 using Scada.Log;
+using Scada.Server.Config;
 using System;
 using System.IO;
 
@@ -57,6 +58,15 @@ namespace Scada.Server.Modules.ModArcBasic.Logic
             {
                 Capacity = capacity
             };
+        }
+
+        /// <summary>
+        /// Gets the full path of the archive.
+        /// </summary>
+        public static string GetArchivePath(PathOptions pathOptions, bool isCopy, string archiveCode)
+        {
+            string arcDir = isCopy ? pathOptions.ArcCopyDir : pathOptions.ArcDir;
+            return Path.Combine(arcDir, archiveCode);
         }
     }
 }
