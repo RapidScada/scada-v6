@@ -79,12 +79,12 @@ namespace Scada.Server.Archives
         public bool IsReady { get; set; }
 
         /// <summary>
-        /// Gets or sets the time (UTC) when when the archive was last written to.
+        /// Gets or sets the time (UTC) when the archive was last written to.
         /// </summary>
         public DateTime LastWriteTime { get; set; }
 
         /// <summary>
-        /// Gets or sets the time (UTC) when when the archive was last cleaned up.
+        /// Gets or sets the time (UTC) when the archive was last cleaned up.
         /// </summary>
         public DateTime LastCleanupTime { get; set; }
 

@@ -174,7 +174,7 @@ namespace Scada.Server.Engine
         }
 
         /// <summary>
-        /// Gets the time (UTC) when when the archive was last written to.
+        /// Gets the time (UTC) when the archive was last written to.
         /// </summary>
         protected void GetLastWriteTime(ConnectedClient client, DataPacket request, out ResponsePacket response)
         {
