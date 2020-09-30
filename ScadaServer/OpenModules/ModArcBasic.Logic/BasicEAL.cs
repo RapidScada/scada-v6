@@ -288,6 +288,7 @@ namespace Scada.Server.Modules.ModArcBasic.Logic
             if (ev != null)
             {
                 stopwatch.Restart();
+                ev.Ack = true;
                 ev.AckTimestamp = timestamp;
                 ev.AckUserID = userID;
 
