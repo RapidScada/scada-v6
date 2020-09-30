@@ -523,19 +523,22 @@ namespace Scada.Data.Adapters
                 // write event
                 byte[] buffer = new byte[EventSize];
                 CopyEvent(ev, textExists, dataExists, buffer, out int textSize, out int dataSize);
-                stream.Seek(ev.Position, SeekOrigin.Begin);
-                writer.Write(buffer);
 
-                if (updateText && textExists)
+                if (stream.Seek(ev.Position, SeekOrigin.Begin) == ev.Position)
                 {
-                    stream.Seek(textPosition, SeekOrigin.Begin);
-                    WriteEventText(writer, ev.Text, textSize, buffer);
-                }
+                    writer.Write(buffer);
 
-                if (updateData && dataExists)
-                {
-                    stream.Seek(dataPosition, SeekOrigin.Begin);
-                    WriteEventData(writer, ev.Data, dataSize, buffer);
+                    if (updateText && textExists)
+                    {
+                        stream.Seek(textPosition, SeekOrigin.Begin);
+                        WriteEventText(writer, ev.Text, textSize, buffer);
+                    }
+
+                    if (updateData && dataExists)
+                    {
+                        stream.Seek(dataPosition, SeekOrigin.Begin);
+                        WriteEventData(writer, ev.Data, dataSize, buffer);
+                    }
                 }
             }
             finally
@@ -566,22 +569,25 @@ namespace Scada.Data.Adapters
                 reader = new BinaryReader(stream, Encoding.UTF8, Stream != null);
                 writer = new BinaryWriter(stream, Encoding.UTF8, Stream != null);
 
-                // read the existing event
+                // read the existing event into the buffer
                 byte[] buffer = new byte[EventSize];
-                stream.Seek(ev.Position, SeekOrigin.Begin);
-                ReadData(reader, buffer, 0, EventSize, true);
 
-                // update the event
-                int index = 57;
-                CopyBool(ev.Ack, buffer, ref index);
-                CopyTime(ev.AckTimestamp, buffer, ref index);
-                CopyInt32(ev.AckUserID, buffer, ref index);
-                ushort crc = ScadaUtils.CRC16(buffer, 0, EventSize - 2);
-                CopyUInt16(crc, buffer, EventSize - 2);
+                if (stream.Seek(ev.Position, SeekOrigin.Begin) == ev.Position &&
+                    ReadEvent(reader, buffer, out int index) &&
+                    GetInt64(buffer, ref index) == ev.EventID)
+                {
+                    // update the event in the buffer
+                    index = 57;
+                    CopyBool(ev.Ack, buffer, ref index);
+                    CopyTime(ev.AckTimestamp, buffer, ref index);
+                    CopyInt32(ev.AckUserID, buffer, ref index);
+                    ushort crc = ScadaUtils.CRC16(buffer, 0, EventSize - 2);
+                    CopyUInt16(crc, buffer, EventSize - 2);
 
-                // write the updated event
-                stream.Seek(ev.Position, SeekOrigin.Begin);
-                writer.Write(buffer);
+                    // write the updated buffer
+                    stream.Seek(ev.Position, SeekOrigin.Begin);
+                    writer.Write(buffer);
+                }
             }
             finally
             {
