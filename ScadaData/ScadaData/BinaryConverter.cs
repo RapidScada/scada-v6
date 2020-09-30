@@ -156,14 +156,12 @@ namespace Scada
             }
             else
             {
-                byte[] stringData = Encoding.UTF8.GetBytes(s);
-                int dataLength = stringData.Length;
+                int dataLength = Encoding.UTF8.GetBytes(s, 0, s.Length, buffer, index);
 
                 if (dataLength > ushort.MaxValue)
                     throw new ArgumentException("String length exceeded.");
 
                 CopyUInt16((ushort)dataLength, buffer, ref index);
-                stringData.CopyTo(buffer, index);
                 index += dataLength;
             }
         }

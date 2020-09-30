@@ -124,11 +124,10 @@ namespace Scada.Data.Tables
         /// <summary>
         /// Clears events before loading new data.
         /// </summary>
-        public void BeginLoadData(int capacity)
+        public void BeginLoadData()
         {
             eventsByID = null;
             Events.Clear();
-            Events.Capacity = capacity;
         }
 
         /// <summary>

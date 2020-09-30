@@ -34,6 +34,10 @@ namespace Scada.Data.Adapters
     public abstract class Adapter
     {
         /// <summary>
+        /// Indicates the beginning of a new block in a file.
+        /// </summary>
+        protected const ushort BlockMarker = 0x0E0E;
+        /// <summary>
         /// The maximum size of a reserve area in a file.
         /// </summary>
         protected const int MaxReserveSize = 100;
@@ -45,10 +49,6 @@ namespace Scada.Data.Adapters
         /// The buffer containing empty data.
         /// </summary>
         protected static byte[] ReserveBuffer = new byte[MaxReserveSize];
-        /// <summary>
-        /// Indicates the beginning of a new block in a file.
-        /// </summary>
-        protected const ushort BlockMarker = 0x0E0E;
 
 
         /// <summary>
@@ -88,7 +88,7 @@ namespace Scada.Data.Adapters
         {
             int bytesRead = reader.Read(buffer, index, count);
 
-            if (bytesRead < count)
+            if (throwOnFail && bytesRead < count)
                 throw new ScadaException("Unexpected end of stream.");
 
             return bytesRead;
