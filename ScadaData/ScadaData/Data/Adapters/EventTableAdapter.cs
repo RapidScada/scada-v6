@@ -171,6 +171,18 @@ namespace Scada.Data.Adapters
         }
 
         /// <summary>
+        /// Reads the table header.
+        /// </summary>
+        protected void WriteHeader(BinaryWriter writer)
+        {
+            writer.Write(TableType.EventTable);
+            writer.Write(MajorVersion);
+            writer.Write(MinorVersion);
+            writer.Write((ushort)EventSize);
+            writer.Write(ReserveBuffer, 0, 12);
+        }
+
+        /// <summary>
         /// Copies the event to the buffer.
         /// </summary>
         protected void CopyEvent(Event ev, bool textExists, bool dataExists, 
@@ -204,7 +216,7 @@ namespace Scada.Data.Adapters
             CopyByte((byte)dataSize, buffer, ref index);
             Array.Clear(buffer, index, EventSize - index - 2);
             ushort crc = ScadaUtils.CRC16(buffer, 0, EventSize - 2);
-            CopyUInt16(crc, buffer, ref index);
+            CopyUInt16(crc, buffer, EventSize - 2);
         }
 
         /// <summary>
@@ -269,7 +281,7 @@ namespace Scada.Data.Adapters
                 eventTable.Events.Capacity = EstimateCapacity(stream.Length);
 
                 // read header
-                byte[] buffer = new byte[Math.Min(HeaderSize, EventSize)];
+                byte[] buffer = new byte[Math.Max(HeaderSize, EventSize)];
                 if (!ReadHeader(reader, buffer))
                     return;
 
@@ -366,7 +378,7 @@ namespace Scada.Data.Adapters
                 }
 
                 // read header
-                byte[] buffer = new byte[Math.Min(HeaderSize, EventSize)];
+                byte[] buffer = new byte[Math.Max(HeaderSize, EventSize)];
                 if (!ReadHeader(reader, buffer))
                     return;
 
@@ -434,14 +446,26 @@ namespace Scada.Data.Adapters
                 stream = Stream ?? new FileStream(FileName, FileMode.OpenOrCreate, FileAccess.Write, FileShare.ReadWrite);
                 writer = new BinaryWriter(stream, Encoding.UTF8, Stream != null);
 
-                // set the proper writing position
-                stream.Seek(0, SeekOrigin.End);
-                long position = stream.Position;
-                long eventIndex = (position - HeaderSize) / EventSize;
-                long offset = eventIndex * EventSize;
+                long position = stream.Seek(0, SeekOrigin.End);
 
-                if (position != offset)
-                    stream.Seek(offset, SeekOrigin.Begin);
+                if (position >= HeaderSize)
+                {
+                    // set the proper writing position
+                    long eventIndex = (position - HeaderSize) / EventSize;
+                    long offset = HeaderSize + eventIndex * EventSize;
+
+                    if (position != offset)
+                        position = stream.Seek(offset, SeekOrigin.Begin);
+                }
+                else
+                {
+                    // write header
+                    if (position > 0)
+                        stream.Seek(0, SeekOrigin.Begin);
+
+                    WriteHeader(writer);
+                    position = HeaderSize;
+                }
 
                 // write event
                 byte[] buffer = new byte[EventSize];
@@ -577,7 +601,7 @@ namespace Scada.Data.Adapters
                     GetInt64(buffer, ref index) == ev.EventID)
                 {
                     // update the event in the buffer
-                    index = 57;
+                    index = 58;
                     CopyBool(ev.Ack, buffer, ref index);
                     CopyTime(ev.AckTimestamp, buffer, ref index);
                     CopyInt32(ev.AckUserID, buffer, ref index);

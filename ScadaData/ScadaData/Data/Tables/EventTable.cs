@@ -72,7 +72,7 @@ namespace Scada.Data.Tables
         /// </summary>
         public EventTable()
         {
-            eventsByID = null;
+            eventsByID = new Dictionary<long, Event>();
             TableDate = DateTime.MinValue;
             FileName = "";
             FileAge = DateTime.MinValue;
