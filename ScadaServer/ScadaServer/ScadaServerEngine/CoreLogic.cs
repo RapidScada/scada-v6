@@ -1017,7 +1017,7 @@ namespace Scada.Server.Engine
                     userID = user.UserID;
                     roleID = user.RoleID;
 
-                    if (roleID > RoleID.Disabled)
+                    if (user.Enabled && roleID > RoleID.Disabled)
                     {
                         errMsg = "";
                         return true;

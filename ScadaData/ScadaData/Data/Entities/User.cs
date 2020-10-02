@@ -38,6 +38,8 @@ namespace Scada.Data.Entities
     {
         public int UserID { get; set; }
 
+        public bool Enabled { get; set; }
+
         public string Name { get; set; }
 
         public string Password { get; set; }
