@@ -33,9 +33,9 @@ namespace Scada.Protocol
     /// </summary>
     public enum FileReadingResult : byte
     {
-        Successful = 0x00,
-        EndOfFile = 0x01,
-        FileNotFound = 0x02,
-        FileOutdated = 0x03
+        Successful = 0,
+        EndOfFile = 1,
+        FileNotFound = 2,
+        FileOutdated = 3
     }
 }

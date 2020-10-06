@@ -30,6 +30,7 @@ using Scada.Log;
 using Scada.Server.Archives;
 using System;
 using System.Collections.Generic;
+using System.Text;
 
 namespace Scada.Server.Engine
 {
@@ -201,6 +202,50 @@ namespace Scada.Server.Engine
                     {
                         Unlock(archiveLogic);
                     }
+                }
+            }
+        }
+
+        /// <summary>
+        /// Appends information about the archives to the string builder.
+        /// </summary>
+        public void AppendInfo(StringBuilder sb)
+        {
+            if (allArchives.Count > 0)
+            {
+                string header = Locale.IsRussian ?
+                    "Архивы (" + allArchives.Count + ")" :
+                    "Archives (" + allArchives.Count + ")";
+                sb
+                    .AppendLine(header)
+                    .AppendLine(new string('-', header.Length));
+
+                foreach (ArchiveLogic archiveLogic in allArchives)
+                {
+                    try
+                    {
+                        // no archive lock here
+                        archiveLogic.AppendInfo(sb);
+                    }
+                    catch (Exception ex)
+                    {
+                        log.WriteException(ex, ErrorInArchive, "AppendInfo", archiveLogic.Code);
+                    }
+                }
+            }
+            else
+            {
+                if (Locale.IsRussian)
+                {
+                    sb.AppendLine("Архивы");
+                    sb.AppendLine("------");
+                    sb.AppendLine("Нет");
+                }
+                else
+                {
+                    sb.AppendLine("Archives");
+                    sb.AppendLine("--------");
+                    sb.AppendLine("No");
                 }
             }
         }

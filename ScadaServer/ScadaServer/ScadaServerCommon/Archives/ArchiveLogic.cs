@@ -27,6 +27,7 @@ using Scada.Data.Models;
 using Scada.Server.Config;
 using System;
 using System.Collections.Generic;
+using System.Text;
 using System.Threading;
 
 namespace Scada.Server.Archives
@@ -200,6 +201,21 @@ namespace Scada.Server.Archives
         /// </summary>
         public virtual void DeleteOutdatedData()
         {
+        }
+
+        /// <summary>
+        /// Appends information about the archive to the string builder.
+        /// </summary>
+        public virtual void AppendInfo(StringBuilder sb)
+        {
+            sb.Append("[").Append(ArchiveConfig.Code).Append("] ").Append(ArchiveConfig.Name).Append(" : ");
+
+            if (Locale.IsRussian)
+                sb.Append(IsReady ? "готовность" : "не готов");
+            else
+                sb.Append(IsReady ? "Ready" : "Not Ready");
+
+            sb.AppendLine();
         }
     }
 }

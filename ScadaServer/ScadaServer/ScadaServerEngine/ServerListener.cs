@@ -24,6 +24,7 @@
  */
 
 using Scada.Data.Const;
+using Scada.Data.Entities;
 using Scada.Data.Models;
 using Scada.Data.Tables;
 using Scada.Log;
@@ -617,6 +618,15 @@ namespace Scada.Server.Engine
         protected override void OnClientInit(ConnectedClient client)
         {
             client.Tag = new ClientTag();
+        }
+
+        /// <summary>
+        /// Gets the role name of the connected client.
+        /// </summary>
+        protected override string GetRoleName(ConnectedClient client)
+        {
+            Role role = client == null ? null : coreLogic.BaseDataSet.RoleTable.GetItem(client.RoleID);
+            return role == null ? "" : role.Name;
         }
 
         /// <summary>

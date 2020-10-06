@@ -7,6 +7,16 @@ namespace Scada
     partial class ScadaUtils
     {
         /// <summary>
+        /// The service status names in English.
+        /// </summary>
+        private static readonly string[] ServiceStatusNamesEn = { "Undefined", "Normal", "Error", "Terminated" };
+        /// <summary>
+        /// The service status names in Russian.
+        /// </summary>
+        private static readonly string[] ServiceStatusNamesRu = { "не определено", "норма", "ошибка", "завершено" };
+
+
+        /// <summary>
         /// Removes white space characters from the string.
         /// </summary>
         private static string RemoveWhiteSpace(string s)
@@ -173,6 +183,39 @@ namespace Scada
         public static string ToLocalizedTimeString(this DateTime dateTime)
         {
             return dateTime.ToString("T", Locale.Culture);
+        }
+
+        /// <summary>
+        /// Converts the service status to a string.
+        /// </summary>
+        public static string ToString(this ServiceStatus serviceStatus, bool isRussian)
+        {
+            return isRussian ?
+                ServiceStatusNamesRu[(int)serviceStatus] :
+                ServiceStatusNamesEn[(int)serviceStatus];
+        }
+
+        /// <summary>
+        /// Converts the string to a service status.
+        /// </summary>
+        public static ServiceStatus ParseServiceStatus(string s)
+        {
+            ServiceStatus serviceStatus = ServiceStatus.Undefined;
+
+            if (!string.IsNullOrEmpty(s))
+            {
+                for (int i = 1, len = ServiceStatusNamesEn.Length; i < len; i++)
+                {
+                    if (s.Equals(ServiceStatusNamesEn[i], StringComparison.OrdinalIgnoreCase) ||
+                        s.Equals(ServiceStatusNamesRu[i], StringComparison.OrdinalIgnoreCase))
+                    {
+                        serviceStatus = (ServiceStatus)i;
+                        break;
+                    }
+                }
+            }
+
+            return serviceStatus;
         }
     }
 }

@@ -25,17 +25,17 @@
 
 #pragma warning disable 1591 // Missing XML comment for publicly visible type or member
 
-namespace Scada.Agent
+namespace Scada
 {
     /// <summary>
     /// Specifies the service statuses.
     /// <para>Определяет статусы службы.</para>
     /// </summary>
-    public enum ServiceStatus
+    public enum ServiceStatus : byte
     {
-        Undefined,
-        Normal,
-        Stopped,
-        Error
+        Undefined = 0,
+        Normal = 1,
+        Error = 2,
+        Terminated = 3
     }
 }

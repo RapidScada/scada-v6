@@ -31,6 +31,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Net;
 using System.Net.Sockets;
+using System.Text;
 using System.Threading;
 using static Scada.BinaryConverter;
 using static Scada.Protocol.ProtocolUtils;
@@ -978,6 +979,14 @@ namespace Scada.Server
         {
         }
 
+        /// <summary>
+        /// Gets the role name of the connected client.
+        /// </summary>
+        protected virtual string GetRoleName(ConnectedClient client)
+        {
+            return client == null ? "" : client.RoleID.ToString();
+        }
+
 
         /// <summary>
         /// Starts listening.
@@ -1041,6 +1050,55 @@ namespace Scada.Server
                 log.WriteException(ex, Locale.IsRussian ?
                     "Ошибка при остановке прослушивателя" :
                     "Error stopping listener");
+            }
+        }
+
+        /// <summary>
+        /// Appends information about the connected clients to the string builder.
+        /// </summary>
+        public void AppendClientInfo(StringBuilder sb)
+        {
+            ICollection<ConnectedClient> clientList = clients.Values; // make a snapshot
+
+            if (clientList.Count > 0)
+            {
+                string header = Locale.IsRussian ?
+                    "Подключенные клиенты (" + clientList.Count + ")" :
+                    "Connected Clients (" + clientList.Count + ")";
+                sb
+                    .AppendLine(header)
+                    .AppendLine(new string('-', header.Length));
+
+                foreach (ConnectedClient client in clientList)
+                {
+                    sb.Append("[").Append(client.SessionID).Append("] ").Append(client.Address);
+
+                    if (client.IsLoggedIn)
+                    {
+                        sb.Append("; ").Append(client.Username);
+                        string roleName = GetRoleName(client);
+
+                        if (!string.IsNullOrEmpty(roleName))
+                            sb.Append(" (").Append(roleName).Append(")");
+                    }
+
+                    sb.Append("; ").Append(client.ActivityTime.ToLocalizedString());
+                }
+            }
+            else
+            {
+                if (Locale.IsRussian)
+                {
+                    sb.AppendLine("Подключенные клиенты");
+                    sb.AppendLine("--------------------");
+                    sb.AppendLine("Нет");
+                }
+                else
+                {
+                    sb.AppendLine("Connected Clients");
+                    sb.AppendLine("-----------------");
+                    sb.AppendLine("No");
+                }
             }
         }
     }

@@ -47,17 +47,6 @@ namespace Scada.Server.Engine
     internal class CoreLogic : ICnlDataChangeHandler
     {
         /// <summary>
-        /// The service statuses.
-        /// </summary>
-        private enum ServiceStatus
-        {
-            Undefined = 0,
-            Normal = 1,
-            Error = 2,
-            Terminated = 3
-        }
-
-        /// <summary>
         /// Represents an event to be written to archives.
         /// </summary>
         private class EventItem
@@ -79,14 +68,6 @@ namespace Scada.Server.Engine
         /// The period of writing application info.
         /// </summary>
         private static readonly TimeSpan WriteInfoPeriod = TimeSpan.FromSeconds(1);
-        /// <summary>
-        /// The service status names in English.
-        /// </summary>
-        private static readonly string[] StatusNamesEn = { "Undefined", "Normal", "Error", "Terminated" };
-        /// <summary>
-        /// The service status names in Russian.
-        /// </summary>
-        private static readonly string[] StatusNamesRu = { "не определено", "норма", "ошибка", "завершено" };
 
         private readonly string infoFileName;    // the full file name to write application information
 
@@ -650,7 +631,7 @@ namespace Scada.Server.Engine
                         .AppendLine("------")
                         .Append("Запуск       : ").AppendLine(startDT.ToLocalizedString())
                         .Append("Время работы : ").AppendLine(workSpanStr)
-                        .Append("Статус       : ").AppendLine(StatusNamesRu[(int)serviceStatus])
+                        .Append("Статус       : ").AppendLine(serviceStatus.ToString(true))
                         .Append("Версия       : ").AppendLine(ServerUtils.AppVersion);
                 }
                 else
@@ -660,8 +641,20 @@ namespace Scada.Server.Engine
                         .AppendLine("------")
                         .Append("Started        : ").AppendLine(startDT.ToLocalizedString())
                         .Append("Execution time : ").AppendLine(workSpanStr)
-                        .Append("Status         : ").AppendLine(StatusNamesEn[(int)serviceStatus])
+                        .Append("Status         : ").AppendLine(serviceStatus.ToString(false))
                         .Append("Version        : ").AppendLine(ServerUtils.AppVersion);
+                }
+
+                if (archiveHolder != null)
+                {
+                    sbInfo.AppendLine();
+                    archiveHolder.AppendInfo(sbInfo);
+                }
+
+                if (listener != null)
+                {
+                    sbInfo.AppendLine();
+                    listener.AppendClientInfo(sbInfo);
                 }
 
                 // write to file
