@@ -33,6 +33,7 @@ using Scada.Data.Tables;
 using Scada.Log;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Reflection;
@@ -231,9 +232,10 @@ namespace Scada.Server.Engine
                 Path.Combine(dotnetDir, "netstandard.dll"),
                 Path.Combine(dotnetDir, "System.Runtime.dll"),
                 typeof(object).Assembly.Location,
+                typeof(Enumerable).Assembly.Location,
                 typeof(File).Assembly.Location,
                 typeof(Math).Assembly.Location,
-                typeof(Enumerable).Assembly.Location,
+                typeof(Stopwatch).Assembly.Location,
                 typeof(CalcEngine).Assembly.Location,
                 typeof(ScadaUtils).Assembly.Location
             };

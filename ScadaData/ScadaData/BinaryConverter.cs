@@ -156,7 +156,7 @@ namespace Scada
             }
             else
             {
-                int dataLength = Encoding.UTF8.GetBytes(s, 0, s.Length, buffer, index);
+                int dataLength = Encoding.UTF8.GetBytes(s, 0, s.Length, buffer, index + 2);
 
                 if (dataLength > ushort.MaxValue)
                     throw new ArgumentException("String length exceeded.");

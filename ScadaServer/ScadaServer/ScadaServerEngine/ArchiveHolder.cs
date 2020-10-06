@@ -55,6 +55,7 @@ namespace Scada.Server.Engine
         private readonly List<EventArchiveLogic> eventArchives;           // the event archives
         private readonly List<EventArchiveLogic> defaultEventArchives;    // the default event archives
         private readonly ArchiveLogic[] arcByBit;                         // the archives accessed by bit number
+        private int maxArcTitleLength;                                    // the maximum length of archive title
 
 
         /// <summary>
@@ -69,6 +70,7 @@ namespace Scada.Server.Engine
             eventArchives = new List<EventArchiveLogic>();
             defaultEventArchives = new List<EventArchiveLogic>();
             arcByBit = new ArchiveLogic[ServerUtils.MaxArchiveCount];
+            maxArcTitleLength = 0;
             DefaultArchiveMask = 0;
         }
 
@@ -127,6 +129,10 @@ namespace Scada.Server.Engine
             // build default archive mask
             if (archiveEntity.IsDefault)
                 DefaultArchiveMask = DefaultArchiveMask.SetBit(archiveEntity.Bit, true);
+
+            // calculate maximum title length
+            if (maxArcTitleLength < archiveLogic.Title.Length)
+                maxArcTitleLength = archiveLogic.Title.Length;
         }
 
         /// <summary>
@@ -146,6 +152,40 @@ namespace Scada.Server.Engine
             {
                 archiveLogic = null;
                 return false;
+            }
+        }
+
+        /// <summary>
+        /// Appends information about the archives to the string builder.
+        /// </summary>
+        public void AppendInfo(StringBuilder sb)
+        {
+            string header = Locale.IsRussian ?
+                "Архивы (" + allArchives.Count + ")" :
+                "Archives (" + allArchives.Count + ")";
+
+            sb
+                .AppendLine(header)
+                .Append('-', header.Length).AppendLine();
+
+            if (allArchives.Count > 0)
+            {
+                foreach (ArchiveLogic archiveLogic in allArchives)
+                {
+                    sb
+                        .Append(archiveLogic.Title)
+                        .Append(' ', maxArcTitleLength - archiveLogic.Title.Length)
+                        .Append(" : ");
+
+                    if (Locale.IsRussian)
+                        sb.AppendLine(archiveLogic.IsReady ? "готовность" : "не готов");
+                    else
+                        sb.AppendLine(archiveLogic.IsReady ? "Ready" : "Not Ready");
+                }
+            }
+            else
+            {
+                sb.AppendLine(Locale.IsRussian ? "Архивов нет" : "No archives");
             }
         }
 
@@ -202,50 +242,6 @@ namespace Scada.Server.Engine
                     {
                         Unlock(archiveLogic);
                     }
-                }
-            }
-        }
-
-        /// <summary>
-        /// Appends information about the archives to the string builder.
-        /// </summary>
-        public void AppendInfo(StringBuilder sb)
-        {
-            if (allArchives.Count > 0)
-            {
-                string header = Locale.IsRussian ?
-                    "Архивы (" + allArchives.Count + ")" :
-                    "Archives (" + allArchives.Count + ")";
-                sb
-                    .AppendLine(header)
-                    .AppendLine(new string('-', header.Length));
-
-                foreach (ArchiveLogic archiveLogic in allArchives)
-                {
-                    try
-                    {
-                        // no archive lock here
-                        archiveLogic.AppendInfo(sb);
-                    }
-                    catch (Exception ex)
-                    {
-                        log.WriteException(ex, ErrorInArchive, "AppendInfo", archiveLogic.Code);
-                    }
-                }
-            }
-            else
-            {
-                if (Locale.IsRussian)
-                {
-                    sb.AppendLine("Архивы");
-                    sb.AppendLine("------");
-                    sb.AppendLine("Нет");
-                }
-                else
-                {
-                    sb.AppendLine("Archives");
-                    sb.AppendLine("--------");
-                    sb.AppendLine("No");
                 }
             }
         }

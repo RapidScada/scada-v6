@@ -76,6 +76,7 @@ namespace Scada.Server.Engine
         private DateTime utcStartDT;             // the UTC start time
         private DateTime startDT;                // the local start time
         private ServiceStatus serviceStatus;     // the current service status
+        private int lastInfoLength;              // the last info text length
 
         private Dictionary<int, CnlTag> cnlTags; // the metadata about the input channels accessed by channel number
         private List<CnlTag> measCnlTags;        // the list of the input channel tags of the measured type
@@ -109,6 +110,7 @@ namespace Scada.Server.Engine
             utcStartDT = DateTime.MinValue;
             startDT = DateTime.MinValue;
             serviceStatus = ServiceStatus.Undefined;
+            lastInfoLength = 0;
 
             cnlTags = null;
             measCnlTags = null;
@@ -618,7 +620,7 @@ namespace Scada.Server.Engine
             try
             {
                 // prepare information
-                StringBuilder sbInfo = new StringBuilder();
+                StringBuilder sb = new StringBuilder((int)(lastInfoLength * 1.1));
                 TimeSpan workSpan = DateTime.UtcNow - utcStartDT;
                 string workSpanStr = workSpan.Days > 0 ?
                     workSpan.ToString(@"d\.hh\:mm\:ss") :
@@ -626,7 +628,7 @@ namespace Scada.Server.Engine
 
                 if (Locale.IsRussian)
                 {
-                    sbInfo
+                    sb
                         .AppendLine("Сервер")
                         .AppendLine("------")
                         .Append("Запуск       : ").AppendLine(startDT.ToLocalizedString())
@@ -636,7 +638,7 @@ namespace Scada.Server.Engine
                 }
                 else
                 {
-                    sbInfo
+                    sb
                         .AppendLine("Server")
                         .AppendLine("------")
                         .Append("Started        : ").AppendLine(startDT.ToLocalizedString())
@@ -647,20 +649,22 @@ namespace Scada.Server.Engine
 
                 if (archiveHolder != null)
                 {
-                    sbInfo.AppendLine();
-                    archiveHolder.AppendInfo(sbInfo);
+                    sb.AppendLine();
+                    archiveHolder.AppendInfo(sb);
                 }
 
                 if (listener != null)
                 {
-                    sbInfo.AppendLine();
-                    listener.AppendClientInfo(sbInfo);
+                    sb.AppendLine();
+                    listener.AppendClientInfo(sb);
                 }
+
+                lastInfoLength = sb.Length;
 
                 // write to file
                 using (StreamWriter writer = new StreamWriter(infoFileName, false, Encoding.UTF8))
                 {
-                    writer.Write(sbInfo.ToString());
+                    writer.Write(sb.ToString());
                 }
             }
             catch (ThreadAbortException)

@@ -45,6 +45,8 @@ namespace Scada.Server.Archives
         {
             ArchiveConfig = archiveConfig ?? throw new ArgumentNullException("archiveConfig");
             CnlNums = cnlNums ?? throw new ArgumentNullException("cnlNums");
+            Code = ArchiveConfig.Code;
+            Title = string.Format("[{0}] {1}", Code, ArchiveConfig.Name);
             IsReady = false;
             LastWriteTime = DateTime.MinValue;
             LastCleanupTime = DateTime.MinValue;
@@ -66,13 +68,12 @@ namespace Scada.Server.Archives
         /// <summary>
         /// Gets the archive code.
         /// </summary>
-        public string Code
-        {
-            get
-            {
-                return ArchiveConfig.Code;
-            }
-        }
+        public string Code { get; }
+
+        /// <summary>
+        /// Gets the archive name.
+        /// </summary>
+        public string Title { get; }
 
         /// <summary>
         /// Gets or sets a value indicating whether the archive is ready for reading and writing.
@@ -201,21 +202,6 @@ namespace Scada.Server.Archives
         /// </summary>
         public virtual void DeleteOutdatedData()
         {
-        }
-
-        /// <summary>
-        /// Appends information about the archive to the string builder.
-        /// </summary>
-        public virtual void AppendInfo(StringBuilder sb)
-        {
-            sb.Append("[").Append(ArchiveConfig.Code).Append("] ").Append(ArchiveConfig.Name).Append(" : ");
-
-            if (Locale.IsRussian)
-                sb.Append(IsReady ? "готовность" : "не готов");
-            else
-                sb.Append(IsReady ? "Ready" : "Not Ready");
-
-            sb.AppendLine();
         }
     }
 }
