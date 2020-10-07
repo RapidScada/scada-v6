@@ -525,7 +525,7 @@ namespace Scada.Server.Engine
         }
 
         /// <summary>
-        /// Gets the input timestamp of the input channel n.
+        /// Gets the actual timestamp of the input channel n.
         /// </summary>
         public DateTime Time(int n)
         {
@@ -546,6 +546,28 @@ namespace Scada.Server.Engine
         public DateTime PrevTime(int n)
         {
             return calcContext == null ? DateTime.MinValue : calcContext.GetPrevCnlTime(n);
+        }
+
+        /// <summary>
+        /// Gets the derivative of the input channel n.
+        /// </summary>
+        public double Deriv(int n)
+        {
+            if (calcContext == null)
+            {
+                return double.NaN;
+            }
+            else
+            {
+                CnlData actualData = calcContext.GetCnlData(n);
+                DateTime actualTime = calcContext.GetCnlTime(n);
+                CnlData prevData = calcContext.GetPrevCnlData(n);
+                DateTime prevTime = calcContext.GetPrevCnlTime(n);
+
+                return actualData.Stat > CnlStatusID.Defined && prevData.Stat > CnlStatusID.Defined && 
+                    actualTime > prevTime && prevTime > DateTime.MinValue ?
+                    (actualData.Val - prevData.Val) / (actualTime - prevTime).TotalSeconds : double.NaN;
+            }
         }
     }
 }
