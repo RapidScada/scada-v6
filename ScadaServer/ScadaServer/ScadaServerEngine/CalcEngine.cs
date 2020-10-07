@@ -132,7 +132,7 @@ namespace Scada.Server.Engine
         }
 
         /// <summary>
-        /// Gets the current offset of the input channel if the input channel represents an array.
+        /// Gets the current offset of the processed channel if the input channel represents an array.
         /// </summary>
         public int CnlOffset
         {
