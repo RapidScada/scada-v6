@@ -236,37 +236,28 @@ namespace Scada.Server.Engine
         /// </summary>
         protected double ToCnlVal(object obj)
         {
-            int dataTypeID = inCnl?.DataTypeID ?? DataTypeID.Double;
-
-            if (dataTypeID == DataTypeID.Double)
+            switch (inCnl?.DataTypeID ?? DataTypeID.Double)
             {
-                return Convert.ToDouble(obj);
-            }
-            else
-            {
-                Array.Clear(valueBuffer, 0, valueBuffer.Length);
+                case DataTypeID.Double:
+                    return Convert.ToDouble(obj);
 
-                switch (dataTypeID)
-                {
-                    case DataTypeID.Int64:
-                        BinaryConverter.CopyInt64(Convert.ToInt64(obj), valueBuffer, 0);
-                        break;
-                    case DataTypeID.UInt64:
-                        BinaryConverter.CopyInt64((long)Convert.ToUInt64(obj), valueBuffer, 0);
-                        break;
-                    case DataTypeID.ASCII:
-                        string s1 = Convert.ToString(obj);
-                        int len1 = Math.Min(8, s1.Length);
-                        Encoding.ASCII.GetBytes(s1, 0, len1, valueBuffer, 0);
-                        break;
-                    case DataTypeID.Unicode:
-                        string s2 = Convert.ToString(obj);
-                        int len2 = Math.Min(4, s2.Length);
-                        Encoding.Unicode.GetBytes(s2, 0, len2, valueBuffer, 0);
-                        break;
-                }
+                case DataTypeID.Int64:
+                    return BitConverter.Int64BitsToDouble(Convert.ToInt64(obj));
 
-                return BitConverter.ToDouble(valueBuffer, 0);
+                case DataTypeID.ASCII:
+                    string s1 = Convert.ToString(obj);
+                    Array.Clear(valueBuffer, 0, valueBuffer.Length);
+                    Encoding.ASCII.GetBytes(s1, 0, Math.Min(8, s1.Length), valueBuffer, 0);
+                    return BitConverter.ToDouble(valueBuffer, 0);
+
+                case DataTypeID.Unicode:
+                    string s2 = Convert.ToString(obj);
+                    Array.Clear(valueBuffer, 0, valueBuffer.Length);
+                    Encoding.Unicode.GetBytes(s2, 0, Math.Min(4, s2.Length), valueBuffer, 0);
+                    return BitConverter.ToDouble(valueBuffer, 0);
+
+                default:
+                    return 0;
             }
         }
 
@@ -275,9 +266,12 @@ namespace Scada.Server.Engine
         /// </summary>
         protected CnlData ToCnlData(object obj)
         {
-            return obj is CnlData cnlData ? 
-                cnlData : 
-                new CnlData(ToCnlVal(obj), initialCnlData.Stat);
+            if (obj == null)
+                return CnlData.Empty;
+            else if (obj is CnlData cnlData)
+                return cnlData;
+            else
+                return new CnlData(ToCnlVal(obj), initialCnlData.Stat);
         }
 
 

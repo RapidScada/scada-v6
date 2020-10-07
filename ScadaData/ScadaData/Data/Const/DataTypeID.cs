@@ -35,8 +35,7 @@ namespace Scada.Data.Const
     {
         public const int Double = 0;
         public const int Int64 = 1;
-        public const int UInt64 = 2;
-        public const int ASCII = 3;
-        public const int Unicode = 4;
+        public const int ASCII = 2;
+        public const int Unicode = 3;
     }
 }
