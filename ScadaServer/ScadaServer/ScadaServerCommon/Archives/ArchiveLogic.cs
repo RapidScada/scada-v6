@@ -198,6 +198,13 @@ namespace Scada.Server.Archives
         }
 
         /// <summary>
+        /// Closes the archive.
+        /// </summary>
+        public virtual void Close()
+        {
+        }
+
+        /// <summary>
         /// Deletes the outdated data from the archive.
         /// </summary>
         public virtual void DeleteOutdatedData()

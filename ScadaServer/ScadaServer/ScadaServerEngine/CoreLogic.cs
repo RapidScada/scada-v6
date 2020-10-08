@@ -532,6 +532,7 @@ namespace Scada.Server.Engine
             {
                 calc.FinalizeScripts();
                 archiveHolder.WriteCurrentData(curData);
+                archiveHolder.Close();
                 moduleHolder.OnServiceStop();
                 serviceStatus = ServiceStatus.Terminated;
                 WriteInfo();

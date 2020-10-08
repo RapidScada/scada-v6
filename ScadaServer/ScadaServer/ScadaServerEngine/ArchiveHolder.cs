@@ -214,6 +214,30 @@ namespace Scada.Server.Engine
         }
 
         /// <summary>
+        /// Calls the Close method of the archives.
+        /// </summary>
+        public void Close()
+        {
+            foreach (ArchiveLogic archiveLogic in allArchives)
+            {
+                try
+                {
+                    archiveLogic.Lock();
+                    archiveLogic.Close();
+                    archiveLogic.IsReady = false;
+                }
+                catch (Exception ex)
+                {
+                    log.WriteException(ex, ErrorInArchive, "Close", archiveLogic.Code);
+                }
+                finally
+                {
+                    Unlock(archiveLogic);
+                }
+            }
+        }
+
+        /// <summary>
         /// Calls the DeleteOutdatedData method of the archives.
         /// </summary>
         public void DeleteOutdatedData()
