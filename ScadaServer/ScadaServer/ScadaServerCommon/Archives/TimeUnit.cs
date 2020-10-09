@@ -15,30 +15,26 @@
  * 
  * 
  * Product  : Rapid SCADA
- * Module   : ModArcBasic
- * Summary  : Specifies the data writing modes
+ * Module   : ScadaServerCommon
+ * Summary  : Specifies the time units
  * 
  * Author   : Mikhail Shiryaev
  * Created  : 2020
  * Modified : 2020
  */
 
-namespace Scada.Server.Modules.ModArcBasic.Logic.Options
+#pragma warning disable 1591 // Missing XML comment for publicly visible type or member
+
+namespace Scada.Server.Archives
 {
     /// <summary>
-    /// Specifies the data writing modes.
-    /// <para>Задает режимы записи данных.</para>
+    /// Specifies the time units.
+    /// <para>Задает единицы измерения времени.</para>
     /// </summary>
-    internal enum WritingMode
+    public enum TimeUnit
     {
-        /// <summary>
-        /// Appends current data to a historical archive with a specified period.
-        /// </summary>
-        Auto,
-
-        /// <summary>
-        /// Writes data to a historical archive only on explicit request.
-        /// </summary>
-        OnRequest
+        Second,
+        Minute,
+        Hour
     }
 }

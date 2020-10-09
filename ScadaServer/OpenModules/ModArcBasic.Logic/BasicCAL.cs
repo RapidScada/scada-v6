@@ -59,14 +59,13 @@ namespace Scada.Server.Modules.ModArcBasic.Logic
         /// <summary>
         /// Initializes a new instance of the class.
         /// </summary>
-        public BasicCAL(ArchiveConfig archiveConfig, int[] cnlNums, ServerConfig serverConfig, ServerDirs serverDirs)
-            : base(archiveConfig, cnlNums)
+        public BasicCAL(IArchiveContext archiveContext, ArchiveConfig archiveConfig, int[] cnlNums)
+            : base(archiveContext, archiveConfig, cnlNums)
         {
             options = new BasicCAO(archiveConfig.CustomOptions);
-            arcLog = options.LogEnabled ? 
-                ModUtils.CreateArchiveLog(serverDirs.LogDir, Code, serverConfig.GeneralOptions.MaxLogSize) : null;
+            arcLog = options.LogEnabled ? CreateLog(ModUtils.ModCode) : null;
             stopwatch = new Stopwatch();
-            adapter = new SliceTableAdapter { FileName = GetCurDataPath(serverConfig.PathOptions) };
+            adapter = new SliceTableAdapter { FileName = GetCurDataPath(archiveContext.AppConfig.PathOptions) };
             slice = new Slice(DateTime.MinValue, cnlNums);
 
             nextWriteTime = GetNextWriteTime(DateTime.UtcNow, options.WritingPeriod);

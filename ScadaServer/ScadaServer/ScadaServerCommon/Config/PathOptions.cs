@@ -105,6 +105,14 @@ namespace Scada.Server.Config
         }
 
         /// <summary>
+        /// Gets the root directory of the archive or its copy.
+        /// </summary>
+        public string GetArcDir(bool isCopy)
+        {
+            return isCopy ? ArcCopyDir : ArcDir;
+        }
+
+        /// <summary>
         /// Loads the options from the XML node.
         /// </summary>
         public void LoadFromXml(XmlNode xmlNode)

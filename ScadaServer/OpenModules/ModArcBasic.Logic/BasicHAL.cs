@@ -62,24 +62,22 @@ namespace Scada.Server.Modules.ModArcBasic.Logic
         /// <summary>
         /// Initializes a new instance of the class.
         /// </summary>
-        public BasicHAL(ArchiveConfig archiveConfig, int[] cnlNums, 
-            ServerConfig serverConfig, ServerDirs serverDirs, ILog log) 
-            : base(archiveConfig, cnlNums)
+        public BasicHAL(IArchiveContext archiveContext, ArchiveConfig archiveConfig, int[] cnlNums) 
+            : base(archiveContext, archiveConfig, cnlNums)
         {
             archiveOptions = new BasicHAO(archiveConfig.CustomOptions);
-            appLog = log ?? throw new ArgumentNullException("log");
-            arcLog = archiveOptions.LogEnabled ? 
-                ModUtils.CreateArchiveLog(serverDirs.LogDir, Code, serverConfig.GeneralOptions.MaxLogSize) : null;
+            appLog = archiveContext.Log;
+            arcLog = archiveOptions.LogEnabled ? CreateLog(ModUtils.ModCode) : null;
             stopwatch = new Stopwatch();
             adapter = new TrendTableAdapter
             {
-                ParentDirectory = ModUtils.GetArchivePath(serverConfig.PathOptions, archiveOptions.IsCopy, Code),
+                ParentDirectory = Path.Combine(archiveContext.AppConfig.PathOptions.GetArcDir(archiveOptions.IsCopy), Code),
                 ArchiveCode = Code,
                 CnlNumCache = new MemoryCache<long, CnlNumList>(ModUtils.CacheExpiration, ModUtils.CacheCapacity)
             };
             tableCache = new MemoryCache<DateTime, TrendTable>(ModUtils.CacheExpiration, ModUtils.CacheCapacity);
             slice = new Slice(DateTime.MinValue, cnlNums);
-            writingPeriod = GetWritingPeriodInSec(archiveOptions);
+            writingPeriod = GetPeriodInSec(archiveOptions.WritingPeriod, archiveOptions.WritingUnit);
 
             nextWriteTime = archiveOptions.WritingMode == WritingMode.Auto ? 
                 GetNextWriteTime(DateTime.UtcNow, writingPeriod) : DateTime.MinValue;
@@ -89,22 +87,6 @@ namespace Scada.Server.Modules.ModArcBasic.Logic
             updatedTable = null;
         }
 
-
-        /// <summary>
-        /// Gets the writing period in seconds.
-        /// </summary>
-        private int GetWritingPeriodInSec(BasicHAO archiveOptions)
-        {
-            switch (archiveOptions.WritingUnit)
-            {
-                case TimeUnit.Minute:
-                    return archiveOptions.WritingPeriod * 60;
-                case TimeUnit.Hour:
-                    return archiveOptions.WritingPeriod * 1440;
-                default: // TimeUnit.Second
-                    return archiveOptions.WritingPeriod;
-            }
-        }
 
         /// <summary>
         /// Gets the today's trend table, creating it if necessary.
@@ -457,8 +439,7 @@ namespace Scada.Server.Modules.ModArcBasic.Logic
         /// </summary>
         public override bool AcceptData(DateTime timestamp)
         {
-            return writingPeriod > 0 &&
-                (int)Math.Round(timestamp.TimeOfDay.TotalMilliseconds) % (writingPeriod * 1000) == 0;
+            return TimeIsMultipleOfPeriod(timestamp, writingPeriod);
         }
 
         /// <summary>

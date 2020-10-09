@@ -24,9 +24,11 @@
  */
 
 using Scada.Data.Models;
+using Scada.Log;
 using Scada.Server.Config;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Text;
 using System.Threading;
 
@@ -41,8 +43,9 @@ namespace Scada.Server.Archives
         /// <summary>
         /// Initializes a new instance of the class.
         /// </summary>
-        protected ArchiveLogic(ArchiveConfig archiveConfig, int[] cnlNums)
+        protected ArchiveLogic(IArchiveContext archiveContext, ArchiveConfig archiveConfig, int[] cnlNums)
         {
+            ArchiveContext = archiveContext ?? throw new ArgumentNullException("archiveContext");
             ArchiveConfig = archiveConfig ?? throw new ArgumentNullException("archiveConfig");
             CnlNums = cnlNums ?? throw new ArgumentNullException("cnlNums");
             Code = ArchiveConfig.Code;
@@ -53,6 +56,11 @@ namespace Scada.Server.Archives
             CleanupPeriod = TimeSpan.FromDays(1);
         }
 
+
+        /// <summary>
+        /// Gets the archive context.
+        /// </summary>
+        protected IArchiveContext ArchiveContext { get; }
 
         /// <summary>
         /// Gets the archive configuration.
@@ -97,22 +105,58 @@ namespace Scada.Server.Archives
 
 
         /// <summary>
+        /// Creates the archive log.
+        /// </summary>
+        protected ILog CreateLog(string moduleCode)
+        {
+            return new LogFile(LogFormat.Simple)
+            {
+                FileName = Path.Combine(ArchiveContext.AppDirs.LogDir, moduleCode + "_" + Code + ".log"),
+                Capacity = ArchiveContext.AppConfig.GeneralOptions.MaxLogSize
+            };
+        }
+
+        /// <summary>
+        /// Gets the time period in seconds.
+        /// </summary>
+        protected int GetPeriodInSec(int period, TimeUnit timeUnit)
+        {
+            switch (timeUnit)
+            {
+                case TimeUnit.Minute:
+                    return period * 60;
+                case TimeUnit.Hour:
+                    return period * 1440;
+                default: // TimeUnit.Second
+                    return period;
+            }
+        }
+
+        /// <summary>
+        /// Checks that the timestamp is a multiple of the period.
+        /// </summary>
+        protected bool TimeIsMultipleOfPeriod(DateTime timestamp, int period)
+        {
+            return period > 0 && (int)Math.Round(timestamp.TimeOfDay.TotalMilliseconds) % (period * 1000) == 0;
+        }
+
+        /// <summary>
         /// Gets the closest time to write data to the archive, less than or equal to the specified timestamp.
         /// </summary>
-        protected DateTime GetClosestWriteTime(DateTime timestamp, int writingPeriod)
+        protected DateTime GetClosestWriteTime(DateTime timestamp, int period)
         {
-            return writingPeriod > 0 ?
-                timestamp.Date.AddSeconds((int)timestamp.TimeOfDay.TotalSeconds / writingPeriod * writingPeriod) :
+            return period > 0 ?
+                timestamp.Date.AddSeconds((int)timestamp.TimeOfDay.TotalSeconds / period * period) :
                 timestamp;
         }
 
         /// <summary>
         /// Gets the next time to write data to the archive, greater than or equal to the specified timestamp.
         /// </summary>
-        protected DateTime GetNextWriteTime(DateTime timestamp, int writingPeriod)
+        protected DateTime GetNextWriteTime(DateTime timestamp, int period)
         {
-            return writingPeriod > 0 ?
-                timestamp.Date.AddSeconds(((int)timestamp.TimeOfDay.TotalSeconds / writingPeriod + 1) * writingPeriod) :
+            return period > 0 ?
+                timestamp.Date.AddSeconds(((int)timestamp.TimeOfDay.TotalSeconds / period + 1) * period) :
                 timestamp;
         }
 

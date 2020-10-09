@@ -69,16 +69,17 @@ namespace Scada.Server.Modules.ModArcBasic.Logic
         /// <summary>
         /// Creates a new archive logic.
         /// </summary>
-        public override ArchiveLogic CreateArchive(ArchiveConfig archiveConfig, int[] cnlNums)
+        public override ArchiveLogic CreateArchive(IArchiveContext archiveContext, ArchiveConfig archiveConfig, 
+            int[] cnlNums)
         {
             switch (archiveConfig.Kind)
             {
                 case ArchiveKind.Current:
-                    return new BasicCAL(archiveConfig, cnlNums, ServerContext.AppConfig, ServerContext.AppDirs);
+                    return new BasicCAL(archiveContext, archiveConfig, cnlNums);
                 case ArchiveKind.Historical:
-                    return new BasicHAL(archiveConfig, cnlNums, ServerContext.AppConfig, ServerContext.AppDirs, Log);
+                    return new BasicHAL(archiveContext, archiveConfig, cnlNums);
                 case ArchiveKind.Events:
-                    return new BasicEAL(archiveConfig, cnlNums, ServerContext.AppConfig, ServerContext.AppDirs, Log);
+                    return new BasicEAL(archiveContext, archiveConfig, cnlNums);
                 default:
                     return null;
             }

@@ -48,25 +48,5 @@ namespace Scada.Server.Modules.ModArcBasic.Logic
         /// Determines how long an item is stored in the cache.
         /// </summary>
         public static readonly TimeSpan CacheExpiration = TimeSpan.FromMinutes(1);
-
-        /// <summary>
-        /// Creates the archive log.
-        /// </summary>
-        public static ILog CreateArchiveLog(string logDir, string archiveCode, int capacity)
-        {
-            return new LogFile(LogFormat.Simple, Path.Combine(logDir, ModCode + "_" + archiveCode + ".log"))
-            {
-                Capacity = capacity
-            };
-        }
-
-        /// <summary>
-        /// Gets the full path of the archive.
-        /// </summary>
-        public static string GetArchivePath(PathOptions pathOptions, bool isCopy, string archiveCode)
-        {
-            string arcDir = isCopy ? pathOptions.ArcCopyDir : pathOptions.ArcDir;
-            return Path.Combine(arcDir, archiveCode);
-        }
     }
 }

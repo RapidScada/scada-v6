@@ -16,46 +16,49 @@
  * 
  * Product  : Rapid SCADA
  * Module   : ScadaServerCommon
- * Summary  : Represents the base class for current data archive logic
+ * Summary  : Defines functionality to access the archive environment
  * 
  * Author   : Mikhail Shiryaev
  * Created  : 2020
  * Modified : 2020
  */
 
+using Scada.Data.Models;
+using Scada.Log;
 using Scada.Server.Config;
+using System.Collections.Generic;
 
 namespace Scada.Server.Archives
 {
     /// <summary>
-    /// Represents the base class for current data archive logic.
-    /// <para>Представляет базовый класс логики архива текщих данных.</para>
+    /// Defines functionality to access the archive environment.
+    /// <para>Определяет функциональность для доступа к окружению архива.</para>
     /// </summary>
-    public abstract class CurrentArchiveLogic : ArchiveLogic
+    public interface IArchiveContext
     {
         /// <summary>
-        /// Initializes a new instance of the class.
+        /// Gets the application configuration.
         /// </summary>
-        public CurrentArchiveLogic(IArchiveContext archiveContext, ArchiveConfig archiveConfig, int[] cnlNums)
-            : base(archiveContext, archiveConfig, cnlNums)
-        {
-        }
-
+        ServerConfig AppConfig { get; }
 
         /// <summary>
-        /// Reads the current data.
+        /// Gets the application directories.
         /// </summary>
-        public abstract void ReadData(ICurrentData curData, out bool completed);
+        ServerDirs AppDirs { get; }
 
         /// <summary>
-        /// Writes the current data.
+        /// Gets the application log.
         /// </summary>
-        public abstract void WriteData(ICurrentData curData);
+        ILog Log { get; }
 
         /// <summary>
-        /// Processes new data.
+        /// Gets the configuration database cache.
         /// </summary>
-        /// <remarks>Returns true if the data has been written to the archive.</remarks>
-        public abstract bool ProcessData(ICurrentData curData);
+        BaseDataSet BaseDataSet { get; }
+
+        /// <summary>
+        /// Gets the application level shared data.
+        /// </summary>
+        IDictionary<string, object> SharedData { get; }
     }
 }

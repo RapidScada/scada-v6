@@ -24,6 +24,7 @@
  */
 
 using Scada.Config;
+using Scada.Server.Archives;
 
 namespace Scada.Server.Modules.ModArcBasic.Logic.Options
 {

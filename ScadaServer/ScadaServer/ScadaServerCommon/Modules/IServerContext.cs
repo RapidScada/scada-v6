@@ -16,7 +16,7 @@
  * 
  * Product  : Rapid SCADA
  * Module   : ScadaServerCommon
- * Summary  : Defines functionality to access the server features
+ * Summary  : Defines functionality to access the server environment
  * 
  * Author   : Mikhail Shiryaev
  * Created  : 2020
@@ -33,8 +33,8 @@ using System.Collections.Generic;
 namespace Scada.Server.Modules
 {
     /// <summary>
-    /// Defines functionality to access the server features.
-    /// <para>Определяет функциональность для доступа к функциям сервера.</para>
+    /// Defines functionality to access the server environment.
+    /// <para>Определяет функциональность для доступа к окружению сервера.</para>
     /// </summary>
     public interface IServerContext
     {

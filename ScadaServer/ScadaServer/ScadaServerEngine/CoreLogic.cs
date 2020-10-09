@@ -87,6 +87,7 @@ namespace Scada.Server.Engine
         private Calculator calc;                 // provides work with scripts and formulas
         private ModuleHolder moduleHolder;       // holds modules
         private ArchiveHolder archiveHolder;     // holds archives
+        private SortedDictionary<string, object> sharedData; // the server level shared data
         private ServerCache serverCache;         // the server level cache
         private ServerListener listener;         // the TCP listener
         private CurrentData curData;             // the current data of the input channels
@@ -120,6 +121,7 @@ namespace Scada.Server.Engine
             objSecurity = null;
             moduleHolder = null;
             archiveHolder = null;
+            sharedData = null;
             calc = null;
             curData = null;
             events = null;
@@ -193,6 +195,7 @@ namespace Scada.Server.Engine
 
             moduleHolder = new ModuleHolder(Log);
             archiveHolder = new ArchiveHolder(Log);
+            sharedData = new SortedDictionary<string, object>();
             serverCache = new ServerCache();
             listener = new ServerListener(this, archiveHolder, serverCache);
             curData = new CurrentData(this, cnlTags);
@@ -361,7 +364,7 @@ namespace Scada.Server.Engine
         /// </summary>
         private void InitModules()
         {
-            ServerContext serverContext = new ServerContext(this, archiveHolder, listener);
+            ServerContext serverContext = new ServerContext(this, archiveHolder, listener, sharedData);
 
             foreach (string moduleCode in Config.ModuleCodes)
             {
@@ -395,6 +398,8 @@ namespace Scada.Server.Engine
             }
 
             // create archives
+            ArchiveContext archiveContext = new ArchiveContext(this, sharedData);
+
             foreach (ArchiveConfig archiveConfig in Config.Archives)
             {
                 if (archiveConfig.Active)
@@ -409,7 +414,7 @@ namespace Scada.Server.Engine
                         }
                         else if (moduleHolder.GetModule(archiveConfig.Module, out ModuleLogic moduleLogic) &&
                             moduleLogic.ModulePurposes.HasFlag(ModulePurposes.Archive) &&
-                            moduleLogic.CreateArchive(archiveConfig, GetProcessedCnlNums(archiveEntity)) is
+                            moduleLogic.CreateArchive(archiveContext, archiveConfig, GetProcessedCnls(archiveEntity)) is
                             ArchiveLogic archiveLogic)
                         {
                             archiveHolder.AddArchive(archiveEntity, archiveLogic);
@@ -439,7 +444,7 @@ namespace Scada.Server.Engine
         /// <summary>
         /// Gets the input channel numbers processed by the archive.
         /// </summary>
-        private int[] GetProcessedCnlNums(Archive archive)
+        private int[] GetProcessedCnls(Archive archive)
         {
             List<int> cnlNums = new List<int>(cnlTags.Count);
             bool isDefault = archive.IsDefault;

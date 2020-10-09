@@ -39,8 +39,8 @@ namespace Scada.Server.Archives
         /// <summary>
         /// Initializes a new instance of the class.
         /// </summary>
-        public HistoricalArchiveLogic(ArchiveConfig archiveConfig, int[] cnlNums)
-            : base(archiveConfig, cnlNums)
+        public HistoricalArchiveLogic(IArchiveContext archiveContext, ArchiveConfig archiveConfig, int[] cnlNums)
+            : base(archiveContext, archiveConfig, cnlNums)
         {
         }
 

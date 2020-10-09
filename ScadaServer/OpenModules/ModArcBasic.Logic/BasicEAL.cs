@@ -58,17 +58,15 @@ namespace Scada.Server.Modules.ModArcBasic.Logic
         /// <summary>
         /// Initializes a new instance of the class.
         /// </summary>
-        public BasicEAL(ArchiveConfig archiveConfig, int[] cnlNums, 
-            ServerConfig serverConfig, ServerDirs serverDirs, ILog log)
-            : base(archiveConfig, cnlNums)
+        public BasicEAL(IArchiveContext archiveContext, ArchiveConfig archiveConfig, int[] cnlNums)
+            : base(archiveContext, archiveConfig, cnlNums)
         {
             archiveOptions = new BasicEAO(archiveConfig.CustomOptions);
-            appLog = log ?? throw new ArgumentNullException("log");
-            arcLog = archiveOptions.LogEnabled ?
-                ModUtils.CreateArchiveLog(serverDirs.LogDir, Code, serverConfig.GeneralOptions.MaxLogSize) : null;
+            appLog = archiveContext.Log;
+            arcLog = archiveOptions.LogEnabled ? CreateLog(ModUtils.ModCode) : null;
             stopwatch = new Stopwatch();
             adapter = new EventTableAdapter();
-            archivePath = ModUtils.GetArchivePath(serverConfig.PathOptions, archiveOptions.IsCopy, Code);
+            archivePath = Path.Combine(archiveContext.AppConfig.PathOptions.GetArcDir(archiveOptions.IsCopy), Code);
             tableCache = new MemoryCache<DateTime, EventTable>(ModUtils.CacheExpiration, ModUtils.CacheCapacity);
 
             currentTable = null;

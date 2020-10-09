@@ -16,7 +16,7 @@
  * 
  * Product  : Rapid SCADA
  * Module   : ScadaServerEngine
- * Summary  : Implements the server context interface for accessing the server features
+ * Summary  : Implements the server context interface for accessing the server environment
  * 
  * Author   : Mikhail Shiryaev
  * Created  : 2020
@@ -34,8 +34,8 @@ using System.Collections.Generic;
 namespace Scada.Server.Engine
 {
     /// <summary>
-    /// Implements the server context interface for accessing the server features.
-    /// <para>Реализует интерфейс контекста сервера для доступа к функциям сервера.</para>
+    /// Implements the server context interface for accessing the server environment.
+    /// <para>Реализует интерфейс контекста сервера для доступа к окружению сервера.</para>
     /// </summary>
     internal class ServerContext : IServerContext
     {
@@ -47,12 +47,13 @@ namespace Scada.Server.Engine
         /// <summary>
         /// Initializes a new instance of the class.
         /// </summary>
-        public ServerContext(CoreLogic coreLogic, ArchiveHolder archiveHolder, ServerListener listener)
+        public ServerContext(CoreLogic coreLogic, ArchiveHolder archiveHolder, ServerListener listener, 
+            IDictionary<string, object> sharedData)
         {
             this.coreLogic = coreLogic ?? throw new ArgumentNullException("coreLogic");
             this.archiveHolder = archiveHolder ?? throw new ArgumentNullException("archiveHolder");
             this.listener = listener ?? throw new ArgumentNullException("listener");
-            SharedData = new SortedDictionary<string, object>();
+            SharedData = sharedData ?? throw new ArgumentNullException("sharedData");
         }
 
 
