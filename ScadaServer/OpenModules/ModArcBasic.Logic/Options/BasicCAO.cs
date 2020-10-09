@@ -50,7 +50,7 @@ namespace Scada.Server.Modules.ModArcBasic.Logic.Options
         public bool IsCopy { get; set; }
 
         /// <summary>
-        /// Gets the period of writing data to a file, sec.
+        /// Gets or sets the period of writing data to a file, sec.
         /// </summary>
         public int WritingPeriod { get; set; }
 

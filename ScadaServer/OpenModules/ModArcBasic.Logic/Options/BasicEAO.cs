@@ -50,7 +50,7 @@ namespace Scada.Server.Modules.ModArcBasic.Logic.Options
         public bool IsCopy { get; set; }
 
         /// <summary>
-        /// Gets the data storage period in days.
+        /// Gets or sets the data storage period in days.
         /// </summary>
         public int StoragePeriod { get; set; }
 

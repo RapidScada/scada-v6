@@ -43,7 +43,7 @@ namespace Scada.Server.Modules.ModArcBasic.Logic
     /// </summary>
     internal class BasicHAL : HistoricalArchiveLogic
     {
-        private readonly BasicHAO archiveOptions;   // the archive options
+        private readonly BasicHAO options;          // the archive options
         private readonly ILog appLog;               // the application log
         private readonly ILog arcLog;               // the archive log
         private readonly Stopwatch stopwatch;       // measures the time of operations
@@ -65,21 +65,21 @@ namespace Scada.Server.Modules.ModArcBasic.Logic
         public BasicHAL(IArchiveContext archiveContext, ArchiveConfig archiveConfig, int[] cnlNums) 
             : base(archiveContext, archiveConfig, cnlNums)
         {
-            archiveOptions = new BasicHAO(archiveConfig.CustomOptions);
+            options = new BasicHAO(archiveConfig.CustomOptions);
             appLog = archiveContext.Log;
-            arcLog = archiveOptions.LogEnabled ? CreateLog(ModUtils.ModCode) : null;
+            arcLog = options.LogEnabled ? CreateLog(ModUtils.ModCode) : null;
             stopwatch = new Stopwatch();
             adapter = new TrendTableAdapter
             {
-                ParentDirectory = Path.Combine(archiveContext.AppConfig.PathOptions.GetArcDir(archiveOptions.IsCopy), Code),
+                ParentDirectory = Path.Combine(archiveContext.AppConfig.PathOptions.GetArcDir(options.IsCopy), Code),
                 ArchiveCode = Code,
                 CnlNumCache = new MemoryCache<long, CnlNumList>(ModUtils.CacheExpiration, ModUtils.CacheCapacity)
             };
             tableCache = new MemoryCache<DateTime, TrendTable>(ModUtils.CacheExpiration, ModUtils.CacheCapacity);
             slice = new Slice(DateTime.MinValue, cnlNums);
-            writingPeriod = GetPeriodInSec(archiveOptions.WritingPeriod, archiveOptions.WritingUnit);
+            writingPeriod = GetPeriodInSec(options.WritingPeriod, options.WritingUnit);
 
-            nextWriteTime = archiveOptions.WritingMode == WritingMode.Auto ? 
+            nextWriteTime = options.WritingMode == WritingMode.Auto ? 
                 GetNextWriteTime(DateTime.UtcNow, writingPeriod) : DateTime.MinValue;
             cnlIndices = null;
             cnlNumList = new CnlNumList(cnlNums);
@@ -221,7 +221,7 @@ namespace Scada.Server.Modules.ModArcBasic.Logic
 
             if (arcDirInfo.Exists)
             {
-                DateTime minDT = DateTime.UtcNow.AddDays(-archiveOptions.StoragePeriod);
+                DateTime minDT = DateTime.UtcNow.AddDays(-options.StoragePeriod);
                 string minDirName = TrendTableAdapter.GetTableDirectory(Code, minDT);
 
                 appLog.WriteAction(Locale.IsRussian ?
@@ -409,7 +409,7 @@ namespace Scada.Server.Modules.ModArcBasic.Logic
         /// </summary>
         public override bool ProcessData(ICurrentData curData)
         {
-            if (archiveOptions.WritingMode == WritingMode.Auto && nextWriteTime <= curData.Timestamp)
+            if (options.WritingMode == WritingMode.Auto && nextWriteTime <= curData.Timestamp)
             {
                 DateTime writeTime = GetClosestWriteTime(curData.Timestamp, writingPeriod);
                 nextWriteTime = writeTime.AddSeconds(writingPeriod);

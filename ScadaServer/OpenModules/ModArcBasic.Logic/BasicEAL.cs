@@ -43,7 +43,7 @@ namespace Scada.Server.Modules.ModArcBasic.Logic
     /// </summary>
     internal class BasicEAL : EventArchiveLogic
     {
-        private readonly BasicEAO archiveOptions;   // the archive options
+        private readonly BasicEAO options;          // the archive options
         private readonly ILog appLog;               // the application log
         private readonly ILog arcLog;               // the archive log
         private readonly Stopwatch stopwatch;       // measures the time of operations
@@ -61,12 +61,12 @@ namespace Scada.Server.Modules.ModArcBasic.Logic
         public BasicEAL(IArchiveContext archiveContext, ArchiveConfig archiveConfig, int[] cnlNums)
             : base(archiveContext, archiveConfig, cnlNums)
         {
-            archiveOptions = new BasicEAO(archiveConfig.CustomOptions);
+            options = new BasicEAO(archiveConfig.CustomOptions);
             appLog = archiveContext.Log;
-            arcLog = archiveOptions.LogEnabled ? CreateLog(ModUtils.ModCode) : null;
+            arcLog = options.LogEnabled ? CreateLog(ModUtils.ModCode) : null;
             stopwatch = new Stopwatch();
             adapter = new EventTableAdapter();
-            archivePath = Path.Combine(archiveContext.AppConfig.PathOptions.GetArcDir(archiveOptions.IsCopy), Code);
+            archivePath = Path.Combine(archiveContext.AppConfig.PathOptions.GetArcDir(options.IsCopy), Code);
             tableCache = new MemoryCache<DateTime, EventTable>(ModUtils.CacheExpiration, ModUtils.CacheCapacity);
 
             currentTable = null;
@@ -158,7 +158,7 @@ namespace Scada.Server.Modules.ModArcBasic.Logic
 
             if (arcDirInfo.Exists)
             {
-                DateTime minDT = DateTime.UtcNow.AddDays(-archiveOptions.StoragePeriod);
+                DateTime minDT = DateTime.UtcNow.AddDays(-options.StoragePeriod);
                 string minFileName = EventTableAdapter.GetTableFileName(Code, minDT);
 
                 appLog.WriteAction(Locale.IsRussian ?

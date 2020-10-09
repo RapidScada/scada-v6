@@ -23,10 +23,7 @@
  * Modified : 2020
  */
 
-using Scada.Log;
-using Scada.Server.Config;
 using System;
-using System.IO;
 
 namespace Scada.Server.Modules.ModArcBasic.Logic
 {

@@ -54,22 +54,22 @@ namespace Scada.Server.Modules.ModArcBasic.Logic.Options
         public bool IsCopy { get; set; }
 
         /// <summary>
-        /// Gets the period of writing data to a file, sec.
+        /// Gets or sets the period of writing data to a file, sec.
         /// </summary>
         public int WritingPeriod { get; set; }
 
         /// <summary>
-        /// Gets the unit of measure for the writing period.
+        /// Gets or sets the unit of measure for the writing period.
         /// </summary>
         public TimeUnit WritingUnit { get; set; }
 
         /// <summary>
-        /// Gets the writing mode.
+        /// Gets or sets the writing mode.
         /// </summary>
         public WritingMode WritingMode { get; set; }
 
         /// <summary>
-        /// Gets the data storage period in days.
+        /// Gets or sets the data storage period in days.
         /// </summary>
         public int StoragePeriod { get; set; }
 
