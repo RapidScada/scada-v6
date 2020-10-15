@@ -151,12 +151,14 @@ namespace Scada.Data.Tables
         /// <summary>
         /// Selects the events that match the specified filter.
         /// </summary>
-        public IEnumerable<Event> SelectEvents(DateTime startTime, DateTime endTime, bool endInclusive, 
-            DataFilter filter)
+        public IEnumerable<Event> SelectEvents(TimeRange timeRange, DataFilter filter)
         {
             if (Events.Count == 0)
                 yield break;
 
+            DateTime startTime = timeRange.StartTime;
+            DateTime endTime = timeRange.EndTime;
+            bool endInclusive = timeRange.EndInclusive;
             DateTime minEventTime = Events[0].Timestamp;
             DateTime maxEventTime = Events[Events.Count - 1].Timestamp;
 

@@ -43,7 +43,6 @@ namespace Scada.Data.Models
         /// Initializes a new instance of the structure.
         /// </summary>
         public CnlData(double val, int stat)
-            : this()
         {
             Val = val;
             Stat = stat;

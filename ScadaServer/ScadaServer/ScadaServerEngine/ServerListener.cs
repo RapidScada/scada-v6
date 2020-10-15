@@ -113,12 +113,10 @@ namespace Scada.Server.Engine
             byte[] buffer = request.Buffer;
             int index = ArgumentIndex;
             int[] cnlNums = GetIntArray(buffer, ref index);
-            DateTime startTime = GetTime(buffer, ref index);
-            DateTime endTime = GetTime(buffer, ref index);
-            bool endInclusive = GetBool(buffer, ref index);
+            TimeRange timeRange = GetTimeRange(buffer, ref index);
             int archiveBit = GetByte(buffer, ref index);
 
-            TrendBundle trendBundle = archiveHolder.GetTrends(cnlNums, startTime, endTime, endInclusive, archiveBit);
+            TrendBundle trendBundle = archiveHolder.GetTrends(cnlNums, timeRange, archiveBit);
             List<DateTime> timestamps = trendBundle.Timestamps;
             int totalPointCount = timestamps.Count;
             int blockCapacity = (BufferLenght - ArgumentIndex - 16) / (8 + cnlNums.Length * 10);
@@ -273,9 +271,7 @@ namespace Scada.Server.Engine
         {
             byte[] buffer = request.Buffer;
             int index = ArgumentIndex;
-            DateTime startTime = GetTime(buffer, ref index);
-            DateTime endTime = GetTime(buffer, ref index);
-            bool endInclusive = GetBool(buffer, ref index);
+            TimeRange timeRange = GetTimeRange(buffer, ref index);
             long dataFilterID = GetInt64(buffer, ref index);
             DataFilter dataFilter = null;
 
@@ -302,7 +298,7 @@ namespace Scada.Server.Engine
 
             List<Event> events = dataFilter == null ?
                 new List<Event>() :
-                archiveHolder.GetEvents(startTime, endTime, endInclusive, dataFilter, archiveBit);
+                archiveHolder.GetEvents(timeRange, dataFilter, archiveBit);
             int totalEventCount = events.Count;
             int blockCount = totalEventCount > 0 ? (int)Math.Ceiling((double)totalEventCount / EventBlockCapacity) : 1;
             int eventIndex = 0;

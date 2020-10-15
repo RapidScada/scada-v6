@@ -82,11 +82,12 @@ namespace Scada.Server.Engine
 
 
         /// <summary>
-        /// Returns the specified time itself or the current time if the specified time is undefined.
+        /// Sets the end time to the the current time if it is undefined.
         /// </summary>
-        private DateTime DefineTime(DateTime dateTime)
+        private void DefineEndTime(ref TimeRange timeRange)
         {
-            return dateTime == DateTime.MinValue ? DateTime.UtcNow : dateTime;
+            if (timeRange.EndTime == DateTime.MinValue)
+                timeRange.EndTime = DateTime.UtcNow;
         }
 
         /// <summary>
@@ -417,16 +418,15 @@ namespace Scada.Server.Engine
         /// <summary>
         /// Gets the trends of the specified input channels.
         /// </summary>
-        public TrendBundle GetTrends(int[] cnlNums, DateTime startTime, DateTime endTime, bool endInclusive,
-            int archiveBit)
+        public TrendBundle GetTrends(int[] cnlNums, TimeRange timeRange, int archiveBit)
         {
             if (GetArchive(archiveBit, out HistoricalArchiveLogic archiveLogic))
             {
                 try
                 {
                     archiveLogic.Lock();
-                    return archiveLogic.GetTrends(cnlNums, startTime, DefineTime(endTime), endInclusive) ??
-                        throw new ScadaException(NullNotAllowed);
+                    DefineEndTime(ref timeRange);
+                    return archiveLogic.GetTrends(cnlNums, timeRange) ?? throw new ScadaException(NullNotAllowed);
                 }
                 catch (Exception ex)
                 {
@@ -444,15 +444,15 @@ namespace Scada.Server.Engine
         /// <summary>
         /// Gets the trend of the specified input channel.
         /// </summary>
-        public Trend GetTrend(int cnlNum, DateTime startTime, DateTime endTime, bool endInclusive, int archiveBit)
+        public Trend GetTrend(int cnlNum, TimeRange timeRange, int archiveBit)
         {
             if (GetArchive(archiveBit, out HistoricalArchiveLogic archiveLogic))
             {
                 try
                 {
                     archiveLogic.Lock();
-                    return archiveLogic.GetTrend(cnlNum, startTime, endTime, endInclusive) ??
-                        throw new ScadaException(NullNotAllowed);
+                    DefineEndTime(ref timeRange);
+                    return archiveLogic.GetTrend(cnlNum, timeRange) ?? throw new ScadaException(NullNotAllowed);
                 }
                 catch (Exception ex)
                 {
@@ -470,15 +470,15 @@ namespace Scada.Server.Engine
         /// <summary>
         /// Gets the available timestamps.
         /// </summary>
-        public List<DateTime> GetTimestamps(DateTime startTime, DateTime endTime, bool endInclusive, int archiveBit)
+        public List<DateTime> GetTimestamps(TimeRange timeRange, int archiveBit)
         {
             if (GetArchive(archiveBit, out HistoricalArchiveLogic archiveLogic))
             {
                 try
                 {
                     archiveLogic.Lock();
-                    return archiveLogic.GetTimestamps(startTime, DefineTime(endTime), endInclusive) ??
-                        throw new ScadaException(NullNotAllowed);
+                    DefineEndTime(ref timeRange);
+                    return archiveLogic.GetTimestamps(timeRange) ?? throw new ScadaException(NullNotAllowed);
                 }
                 catch (Exception ex)
                 {
@@ -570,16 +570,15 @@ namespace Scada.Server.Engine
         /// <summary>
         /// Gets the events.
         /// </summary>
-        public List<Event> GetEvents(DateTime startTime, DateTime endTime, bool endInclusive,
-            DataFilter filter, int archiveBit)
+        public List<Event> GetEvents(TimeRange timeRange, DataFilter filter, int archiveBit)
         {
             if (GetArchive(archiveBit, out EventArchiveLogic archiveLogic))
             {
                 try
                 {
                     archiveLogic.Lock();
-                    return archiveLogic.GetEvents(startTime, DefineTime(endTime), endInclusive, filter) ??
-                        throw new ScadaException(NullNotAllowed);
+                    DefineEndTime(ref timeRange);
+                    return archiveLogic.GetEvents(timeRange, filter) ?? throw new ScadaException(NullNotAllowed);
                 }
                 catch (Exception ex)
                 {

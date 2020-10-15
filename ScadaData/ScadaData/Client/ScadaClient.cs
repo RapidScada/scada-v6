@@ -149,17 +149,14 @@ namespace Scada.Client
         /// <summary>
         /// Gets the trends of the specified input channels.
         /// </summary>
-        public TrendBundle GetTrends(int[] cnlNums, DateTime startTime, DateTime endTime, bool endInclusive,
-            int archiveBit)
+        public TrendBundle GetTrends(int[] cnlNums, TimeRange timeRange, int archiveBit)
         {
             RestoreConnection();
 
             DataPacket request = CreateRequest(FunctionID.GetTrends);
             int index = ArgumentIndex;
             CopyIntArray(cnlNums, outBuf, ref index);
-            CopyTime(startTime, outBuf, ref index);
-            CopyTime(endTime, outBuf, ref index);
-            CopyBool(endInclusive, outBuf, ref index);
+            CopyTimeRange(timeRange, outBuf, ref index);
             CopyByte((byte)archiveBit, outBuf, ref index);
             request.BufferLength = index;
             SendRequest(request);
@@ -213,7 +210,7 @@ namespace Scada.Client
         /// <summary>
         /// Gets the trend of the specified input channel.
         /// </summary>
-        public Trend GetTrend(int cnlNum, DateTime startTime, DateTime endTime, bool endInclusive, int archiveBit)
+        public Trend GetTrend(int cnlNum, TimeRange timeRange, int archiveBit)
         {
             RestoreConnection();
 
@@ -221,9 +218,7 @@ namespace Scada.Client
             int index = ArgumentIndex;
             CopyInt32(1, outBuf, ref index);
             CopyInt32(cnlNum, outBuf, ref index);
-            CopyTime(startTime, outBuf, ref index);
-            CopyTime(endTime, outBuf, ref index);
-            CopyBool(endInclusive, outBuf, ref index);
+            CopyTimeRange(timeRange, outBuf, ref index);
             CopyByte((byte)archiveBit, outBuf, ref index);
             request.BufferLength = index;
             SendRequest(request);
@@ -270,16 +265,14 @@ namespace Scada.Client
         /// <summary>
         /// Gets the available timestamps.
         /// </summary>
-        public List<DateTime> GetTimestamps(DateTime startTime, DateTime endTime, bool endInclusive, int archiveBit)
+        public List<DateTime> GetTimestamps(TimeRange timeRange, int archiveBit)
         {
             RestoreConnection();
 
             DataPacket request = CreateRequest(FunctionID.GetTrends);
             int index = ArgumentIndex;
             CopyInt32(0, outBuf, ref index);
-            CopyTime(startTime, outBuf, ref index);
-            CopyTime(endTime, outBuf, ref index);
-            CopyBool(endInclusive, outBuf, ref index);
+            CopyTimeRange(timeRange, outBuf, ref index);
             CopyByte((byte)archiveBit, outBuf, ref index);
             request.BufferLength = index;
             SendRequest(request);
@@ -449,16 +442,14 @@ namespace Scada.Client
         /// <summary>
         /// Gets the events.
         /// </summary>
-        public List<Event> GetEvents(DateTime startTime, DateTime endTime, bool endInclusive,
-            DataFilter filter, int archiveBit, bool useCache, out long filterID)
+        public List<Event> GetEvents(TimeRange timeRange, DataFilter filter, int archiveBit, 
+            bool useCache, out long filterID)
         {
             RestoreConnection();
 
             DataPacket request = CreateRequest(FunctionID.GetEvents);
             int index = ArgumentIndex;
-            CopyTime(startTime, outBuf, ref index);
-            CopyTime(endTime, outBuf, ref index);
-            CopyBool(endInclusive, outBuf, ref index);
+            CopyTimeRange(timeRange, outBuf, ref index);
             CopyInt64(0, outBuf, ref index);
             CopyBool(useCache, outBuf, ref index);
             CopyDataFilter(filter, outBuf, ref index);
@@ -472,16 +463,13 @@ namespace Scada.Client
         /// <summary>
         /// Gets the events.
         /// </summary>
-        public List<Event> GetEvents(DateTime startTime, DateTime endTime, bool endInclusive, 
-            ref long filterID, int archiveBit)
+        public List<Event> GetEvents(TimeRange timeRange, ref long filterID, int archiveBit)
         {
             RestoreConnection();
 
             DataPacket request = CreateRequest(FunctionID.GetEvents);
             int index = ArgumentIndex;
-            CopyTime(startTime, outBuf, ref index);
-            CopyTime(endTime, outBuf, ref index);
-            CopyBool(endInclusive, outBuf, ref index);
+            CopyTimeRange(timeRange, outBuf, ref index);
             CopyInt64(filterID, outBuf, ref index);
             CopyByte((byte)archiveBit, outBuf, ref index);
             request.BufferLength = index;

@@ -54,8 +54,7 @@ namespace Scada.Server.Archives
         /// <summary>
         /// Gets the events.
         /// </summary>
-        public abstract List<Event> GetEvents(DateTime startTime, DateTime endTime, bool endInclusive,
-            DataFilter filter);
+        public abstract List<Event> GetEvents(TimeRange timeRange, DataFilter filter);
 
         /// <summary>
         /// Writes the event.

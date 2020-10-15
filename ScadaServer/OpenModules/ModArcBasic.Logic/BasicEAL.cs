@@ -187,11 +187,10 @@ namespace Scada.Server.Modules.ModArcBasic.Logic
         /// <summary>
         /// Gets the events.
         /// </summary>
-        public override List<Event> GetEvents(DateTime startTime, DateTime endTime, bool endInclusive, 
-            DataFilter filter)
+        public override List<Event> GetEvents(TimeRange timeRange, DataFilter filter)
         {
             // simple cases
-            List<DateTime> dates = new List<DateTime>(EnumerateDates(startTime, endTime, endInclusive));
+            List<DateTime> dates = new List<DateTime>(EnumerateDates(timeRange));
 
             if (dates.Count == 0)
                 return new List<Event>();
@@ -199,7 +198,7 @@ namespace Scada.Server.Modules.ModArcBasic.Logic
             if (dates.Count == 1)
             {
                 EventTable eventTable = GetEventTable(dates[0]);
-                return new List<Event>(eventTable.SelectEvents(startTime, endTime, endInclusive, filter));
+                return new List<Event>(eventTable.SelectEvents(timeRange, filter));
             }
 
             // full case
@@ -210,7 +209,7 @@ namespace Scada.Server.Modules.ModArcBasic.Logic
                 foreach (DateTime date in dates)
                 {
                     EventTable eventTable = GetEventTable(date);
-                    events.AddRange(eventTable.SelectEvents(startTime, endTime, endInclusive, null));
+                    events.AddRange(eventTable.SelectEvents(timeRange, null));
                 }
             }
             else
@@ -230,7 +229,7 @@ namespace Scada.Server.Modules.ModArcBasic.Logic
                 {
                     EventTable eventTable = GetEventTable(date);
 
-                    foreach (Event ev in eventTable.SelectEvents(startTime, endTime, endInclusive, filterCopy))
+                    foreach (Event ev in eventTable.SelectEvents(timeRange, filterCopy))
                     {
                         if (++selectedCount > filter.Offset)
                         {

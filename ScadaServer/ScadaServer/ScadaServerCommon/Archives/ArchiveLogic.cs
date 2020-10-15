@@ -200,18 +200,18 @@ namespace Scada.Server.Archives
         /// <summary>
         /// Returns an enumerable collection of dates in the specified time interval.
         /// </summary>
-        protected IEnumerable<DateTime> EnumerateDates(DateTime startTime, DateTime endTime, bool endInclusive)
+        protected IEnumerable<DateTime> EnumerateDates(TimeRange timeRange)
         {
-            if (endInclusive)
+            if (timeRange.EndInclusive)
             {
-                for (DateTime date = startTime.Date; date <= endTime; date = date.AddDays(1.0))
+                for (DateTime date = timeRange.StartTime.Date; date <= timeRange.EndTime; date = date.AddDays(1.0))
                 {
                     yield return date;
                 }
             }
             else
             {
-                for (DateTime date = startTime.Date; date < endTime; date = date.AddDays(1.0))
+                for (DateTime date = timeRange.StartTime.Date; date < timeRange.EndTime; date = date.AddDays(1.0))
                 {
                     yield return date;
                 }

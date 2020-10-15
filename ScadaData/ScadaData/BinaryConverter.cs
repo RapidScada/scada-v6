@@ -167,7 +167,7 @@ namespace Scada
         }
 
         /// <summary>
-        /// Encodes and copies the date and time to the buffer.
+        /// Copies the date and time to the buffer.
         /// </summary>
         public static void CopyTime(DateTime dateTime, byte[] buffer, int index)
         {
@@ -175,7 +175,7 @@ namespace Scada
         }
 
         /// <summary>
-        /// Encodes and copies the date and time to the buffer.
+        /// Copies the date and time to the buffer.
         /// </summary>
         public static void CopyTime(DateTime dateTime, byte[] buffer, ref int index)
         {
@@ -184,7 +184,7 @@ namespace Scada
         }
 
         /// <summary>
-        /// Encodes and copies the input channel data to the buffer.
+        /// Copies the input channel data to the buffer.
         /// </summary>
         public static void CopyCnlData(CnlData cnlData, byte[] buffer, ref int index)
         {
@@ -193,7 +193,17 @@ namespace Scada
         }
 
         /// <summary>
-        /// Encodes and copies the file name to the buffer.
+        /// Copies the time range to the buffer.
+        /// </summary>
+        public static void CopyTimeRange(TimeRange timeRange, byte[] buffer, ref int index)
+        {
+            CopyTime(timeRange.StartTime, buffer, ref index);
+            CopyTime(timeRange.EndTime, buffer, ref index);
+            CopyBool(timeRange.EndInclusive, buffer, ref index);
+        }
+
+        /// <summary>
+        /// Copies the file name to the buffer.
         /// </summary>
         public static void CopyFileName(int directoryID, string path, byte[] buffer, ref int index)
         {
@@ -202,7 +212,7 @@ namespace Scada
         }
 
         /// <summary>
-        /// Encodes and copies the array of bytes to the buffer.
+        /// Copies the array of bytes to the buffer.
         /// </summary>
         public static void CopyByteArray(byte[] srcArray, byte[] buffer, ref int index)
         {
@@ -217,7 +227,7 @@ namespace Scada
         }
 
         /// <summary>
-        /// Encodes and copies the array of integers to the buffer.
+        /// Copies the array of integers to the buffer.
         /// </summary>
         public static void CopyIntArray(int[] srcArray, byte[] buffer, ref int index)
         {
@@ -233,7 +243,7 @@ namespace Scada
         }
 
         /// <summary>
-        /// Encodes and copies the collection of integers to the buffer.
+        /// Copies the collection of integers to the buffer.
         /// </summary>
         public static void CopyIntCollection(ICollection<int> values, byte[] buffer, ref int index)
         {
@@ -253,7 +263,7 @@ namespace Scada
         }
 
         /// <summary>
-        /// Encodes and copies the collection of double-precision floating point numbers to the buffer.
+        /// Copies the collection of double-precision floating point numbers to the buffer.
         /// </summary>
         public static void CopyDoubleCollection(ICollection<double> values, byte[] buffer, ref int index)
         {
@@ -273,7 +283,7 @@ namespace Scada
         }
 
         /// <summary>
-        /// Encodes and copies the channel data array to the buffer.
+        /// Copies the channel data array to the buffer.
         /// </summary>
         public static void CopyCnlDataArray(CnlData[] srcArray, byte[] buffer, ref int index)
         {
@@ -476,6 +486,17 @@ namespace Scada
             return new CnlData(
                 GetDouble(buffer, ref index),
                 GetUInt16(buffer, ref index));
+        }
+
+        /// <summary>
+        /// Gets an time range from the buffer.
+        /// </summary>
+        public static TimeRange GetTimeRange(byte[] buffer, ref int index)
+        {
+            return new TimeRange(
+                GetTime(buffer, ref index),
+                GetTime(buffer, ref index),
+                GetBool(buffer, ref index));
         }
 
         /// <summary>
