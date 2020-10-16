@@ -99,7 +99,7 @@ namespace Scada.Server.Engine
                     }
                     catch (Exception ex)
                     {
-                        log.WriteException(ex, ErrorInModule, "OnServiceStart", moduleLogic.Code);
+                        log.WriteException(ex, ErrorInModule, nameof(OnServiceStart), moduleLogic.Code);
                     }
                 }
             }
@@ -120,7 +120,7 @@ namespace Scada.Server.Engine
                     }
                     catch (Exception ex)
                     {
-                        log.WriteException(ex, ErrorInModule, "OnServiceStop", moduleLogic.Code);
+                        log.WriteException(ex, ErrorInModule, nameof(OnServiceStop), moduleLogic.Code);
                     }
                 }
             }
@@ -141,7 +141,7 @@ namespace Scada.Server.Engine
                     }
                     catch (Exception ex)
                     {
-                        log.WriteException(ex, ErrorInModule, "OnIteration", moduleLogic.Code);
+                        log.WriteException(ex, ErrorInModule, nameof(OnIteration), moduleLogic.Code);
                     }
                 }
             }
@@ -162,7 +162,7 @@ namespace Scada.Server.Engine
                     }
                     catch (Exception ex)
                     {
-                        log.WriteException(ex, ErrorInModule, "OnCurrentDataProcessing", moduleLogic.Code);
+                        log.WriteException(ex, ErrorInModule, nameof(OnCurrentDataProcessing), moduleLogic.Code);
                     }
                 }
             }
@@ -183,7 +183,7 @@ namespace Scada.Server.Engine
                     }
                     catch (Exception ex)
                     {
-                        log.WriteException(ex, ErrorInModule, "OnCurrentDataProcessed", moduleLogic.Code);
+                        log.WriteException(ex, ErrorInModule, nameof(OnCurrentDataProcessed), moduleLogic.Code);
                     }
                 }
             }
@@ -204,7 +204,7 @@ namespace Scada.Server.Engine
                     }
                     catch (Exception ex)
                     {
-                        log.WriteException(ex, ErrorInModule, "OnHistoricalDataProcessing", moduleLogic.Code);
+                        log.WriteException(ex, ErrorInModule, nameof(OnHistoricalDataProcessing), moduleLogic.Code);
                     }
                 }
             }
@@ -225,7 +225,7 @@ namespace Scada.Server.Engine
                     }
                     catch (Exception ex)
                     {
-                        log.WriteException(ex, ErrorInModule, "OnHistoricalDataProcessed", moduleLogic.Code);
+                        log.WriteException(ex, ErrorInModule, nameof(OnHistoricalDataProcessed), moduleLogic.Code);
                     }
                 }
             }
@@ -246,7 +246,7 @@ namespace Scada.Server.Engine
                     }
                     catch (Exception ex)
                     {
-                        log.WriteException(ex, ErrorInModule, "OnEvent", moduleLogic.Code);
+                        log.WriteException(ex, ErrorInModule, nameof(OnEvent), moduleLogic.Code);
                     }
                 }
             }
@@ -267,7 +267,7 @@ namespace Scada.Server.Engine
                     }
                     catch (Exception ex)
                     {
-                        log.WriteException(ex, ErrorInModule, "OnEventAck", moduleLogic.Code);
+                        log.WriteException(ex, ErrorInModule, nameof(OnEventAck), moduleLogic.Code);
                     }
                 }
             }
@@ -288,7 +288,7 @@ namespace Scada.Server.Engine
                     }
                     catch (Exception ex)
                     {
-                        log.WriteException(ex, ErrorInModule, "OnCommand", moduleLogic.Code);
+                        log.WriteException(ex, ErrorInModule, nameof(OnCommand), moduleLogic.Code);
                     }
                 }
             }
@@ -319,7 +319,7 @@ namespace Scada.Server.Engine
                     }
                     catch (Exception ex)
                     {
-                        log.WriteException(ex, ErrorInModule, "OnCommand", moduleLogic.Code);
+                        log.WriteException(ex, ErrorInModule, nameof(ValidateUser), moduleLogic.Code);
                     }
                 }
             }
