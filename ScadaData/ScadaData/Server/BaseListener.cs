@@ -518,9 +518,11 @@ namespace Scada.Server
         /// </summary>
         protected void GetSessionInfo(ConnectedClient client, DataPacket request, out ResponsePacket response)
         {
-            response = new ResponsePacket(request, client.OutBuf) { SessionID = client.SessionID };
+            byte[] outBuf = client.OutBuf;
+            response = new ResponsePacket(request, outBuf) { SessionID = client.SessionID };
             int index = ArgumentIndex;
-            CopyString(GetServerName(), response.Buffer, ref index);
+            CopyUInt16(ProtocolVersion, outBuf, ref index);
+            CopyString(GetServerName(), outBuf, ref index);
             response.BufferLength = index;
         }
 

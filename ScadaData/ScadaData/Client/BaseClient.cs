@@ -217,9 +217,16 @@ namespace Scada.Client
                 Disconnect();
                 Connect();
 
-                GetSessionInfo(out long sessionID, out string serverName);
+                GetSessionInfo(out long sessionID, out ushort protocolVersion, out string serverName);
                 SessionID = sessionID;
                 ServerName = serverName;
+
+                if (protocolVersion != ProtocolVersion)
+                {
+                    throw new ScadaException(Locale.IsRussian ?
+                        "Несовместимая версия протокола." :
+                        "Incompatible protocol version.");
+                }
 
                 Login(out bool loggedIn, out int userID, out int roleID, out string errorMessage);
 
@@ -394,14 +401,16 @@ namespace Scada.Client
         /// <summary>
         /// Gets the information about the current session.
         /// </summary>
-        protected void GetSessionInfo(out long sessionID, out string serverName)
+        protected void GetSessionInfo(out long sessionID, out ushort protocolVersion, out string serverName)
         {
             DataPacket request = CreateRequest(FunctionID.GetSessionInfo, 10);
             SendRequest(request);
 
             DataPacket response = ReceiveResponse(request);
             sessionID = response.SessionID;
-            serverName = GetString(inBuf, ArgumentIndex);
+            int index = ArgumentIndex;
+            protocolVersion = GetUInt16(inBuf, ref index);
+            serverName = GetString(inBuf, ref index);
         }
 
         /// <summary>

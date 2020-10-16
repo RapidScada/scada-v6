@@ -35,6 +35,10 @@ namespace Scada.Protocol
     public static class ProtocolUtils
     {
         /// <summary>
+        /// Contains the major and minor protocol version.
+        /// </summary>
+        public const ushort ProtocolVersion = 0x0300;
+        /// <summary>
         /// The input and output buffer length, 1 MB.
         /// </summary>
         public const int BufferLenght = 1048576;
