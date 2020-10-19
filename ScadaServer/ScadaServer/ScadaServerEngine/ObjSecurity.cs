@@ -144,7 +144,7 @@ namespace Scada.Server.Engine
         public void Init(BaseDataSet baseDataSet)
         {
             if (baseDataSet == null)
-                throw new ArgumentNullException("baseDataSet");
+                throw new ArgumentNullException(nameof(baseDataSet));
 
             // initialize rights matrix
             rightsMatrix = new Dictionary<int, RightsByObj>(baseDataSet.RoleTable.ItemCount);

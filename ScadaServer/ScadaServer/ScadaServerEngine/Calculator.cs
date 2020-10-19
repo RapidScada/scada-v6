@@ -71,8 +71,8 @@ namespace Scada.Server.Engine
         /// </summary>
         public Calculator(ServerDirs appDirs, ILog log)
         {
-            this.appDirs = appDirs ?? throw new ArgumentNullException("appDirs");
-            this.log = log ?? throw new ArgumentNullException("log");
+            this.appDirs = appDirs ?? throw new ArgumentNullException(nameof(appDirs));
+            this.log = log ?? throw new ArgumentNullException(nameof(log));
             calcEngines = null;
         }
 
@@ -314,11 +314,11 @@ namespace Scada.Server.Engine
             Dictionary<int, CnlTag> cnlTags, Dictionary<int, OutCnlTag> outCnlTags)
         {
             if (baseDataSet == null)
-                throw new ArgumentNullException("baseDataSet");
+                throw new ArgumentNullException(nameof(baseDataSet));
             if (cnlTags == null)
-                throw new ArgumentNullException("cnlTags");
+                throw new ArgumentNullException(nameof(cnlTags));
             if (outCnlTags == null)
-                throw new ArgumentNullException("outCnlTags");
+                throw new ArgumentNullException(nameof(outCnlTags));
 
             try
             {

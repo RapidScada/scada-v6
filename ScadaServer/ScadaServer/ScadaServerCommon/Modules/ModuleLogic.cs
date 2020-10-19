@@ -42,7 +42,7 @@ namespace Scada.Server.Modules
         /// </summary>
         public ModuleLogic(IServerContext serverContext)
         {
-            ServerContext = serverContext ?? throw new ArgumentNullException("serverContext");
+            ServerContext = serverContext ?? throw new ArgumentNullException(nameof(serverContext));
             Log = serverContext.Log;
         }
 

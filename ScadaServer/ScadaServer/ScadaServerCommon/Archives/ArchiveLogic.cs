@@ -45,9 +45,9 @@ namespace Scada.Server.Archives
         /// </summary>
         protected ArchiveLogic(IArchiveContext archiveContext, ArchiveConfig archiveConfig, int[] cnlNums)
         {
-            ArchiveContext = archiveContext ?? throw new ArgumentNullException("archiveContext");
-            ArchiveConfig = archiveConfig ?? throw new ArgumentNullException("archiveConfig");
-            CnlNums = cnlNums ?? throw new ArgumentNullException("cnlNums");
+            ArchiveContext = archiveContext ?? throw new ArgumentNullException(nameof(archiveContext));
+            ArchiveConfig = archiveConfig ?? throw new ArgumentNullException(nameof(archiveConfig));
+            CnlNums = cnlNums ?? throw new ArgumentNullException(nameof(cnlNums));
             Code = ArchiveConfig.Code;
             Title = string.Format("[{0}] {1}", Code, ArchiveConfig.Name);
             IsReady = false;

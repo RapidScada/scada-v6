@@ -62,7 +62,7 @@ namespace Scada.Server.Config
         public void LoadFromXml(XmlNode xmlNode)
         {
             if (xmlNode == null)
-                throw new ArgumentNullException("xmlNode");
+                throw new ArgumentNullException(nameof(xmlNode));
 
             UnrelIfInactive = xmlNode.GetChildAsInt("UnrelIfInactive", UnrelIfInactive);
             MaxLogSize = xmlNode.GetChildAsInt("MaxLogSize", MaxLogSize);
@@ -74,7 +74,7 @@ namespace Scada.Server.Config
         public void SaveToXml(XmlElement xmlElem)
         {
             if (xmlElem == null)
-                throw new ArgumentNullException("xmlElem");
+                throw new ArgumentNullException(nameof(xmlElem));
 
             xmlElem.AppendElem("UnrelIfInactive", UnrelIfInactive);
             xmlElem.AppendElem("MaxLogSize", MaxLogSize);

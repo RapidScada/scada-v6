@@ -43,7 +43,7 @@ namespace Scada.Server.Engine
         /// </summary>
         public ArchiveCalcContext(HistoricalArchiveLogic archiveLogic, DateTime timestamp)
         {
-            this.archiveLogic = archiveLogic ?? throw new ArgumentNullException("archiveLogic");
+            this.archiveLogic = archiveLogic ?? throw new ArgumentNullException(nameof(archiveLogic));
             Timestamp = timestamp;
         }
 

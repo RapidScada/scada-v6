@@ -53,7 +53,7 @@ namespace Scada.Server.Engine
         /// </summary>
         public ModuleHolder(ILog log)
         {
-            this.log = log ?? throw new ArgumentNullException("log");
+            this.log = log ?? throw new ArgumentNullException(nameof(log));
             modules = new List<ModuleLogic>();
             logicModules = new List<ModuleLogic>();
             moduleMap = new Dictionary<string, ModuleLogic>();
@@ -67,7 +67,7 @@ namespace Scada.Server.Engine
         public void AddModule(ModuleLogic moduleLogic)
         {
             if (moduleLogic == null)
-                throw new ArgumentNullException("moduleLogic");
+                throw new ArgumentNullException(nameof(moduleLogic));
 
             modules.Add(moduleLogic);
             moduleMap[moduleLogic.Code] = moduleLogic;

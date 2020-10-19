@@ -59,9 +59,9 @@ namespace Scada.Server.Engine
         public ServerListener(CoreLogic coreLogic, ArchiveHolder archiveHolder, ServerCache serverCache)
             : base(coreLogic?.Config.ListenerOptions, coreLogic?.Log)
         {
-            this.coreLogic = coreLogic ?? throw new ArgumentNullException("coreLogic");
-            this.archiveHolder = archiveHolder ?? throw new ArgumentNullException("archiveHolder");
-            this.serverCache = serverCache ?? throw new ArgumentNullException("serverCache");
+            this.coreLogic = coreLogic ?? throw new ArgumentNullException(nameof(coreLogic));
+            this.archiveHolder = archiveHolder ?? throw new ArgumentNullException(nameof(archiveHolder));
+            this.serverCache = serverCache ?? throw new ArgumentNullException(nameof(serverCache));
         }
 
 

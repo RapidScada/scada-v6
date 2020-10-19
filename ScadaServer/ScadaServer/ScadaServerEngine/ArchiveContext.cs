@@ -46,8 +46,8 @@ namespace Scada.Server.Engine
         /// </summary>
         public ArchiveContext(CoreLogic coreLogic, IDictionary<string, object> sharedData)
         {
-            this.coreLogic = coreLogic ?? throw new ArgumentNullException("coreLogic");
-            SharedData = sharedData ?? throw new ArgumentNullException("sharedData");
+            this.coreLogic = coreLogic ?? throw new ArgumentNullException(nameof(coreLogic));
+            SharedData = sharedData ?? throw new ArgumentNullException(nameof(sharedData));
         }
 
 

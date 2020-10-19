@@ -39,7 +39,7 @@ namespace Scada.Server.Engine
         /// </summary>
         public OutCnlTag(OutCnl outCnl)
         {
-            OutCnl = outCnl ?? throw new ArgumentNullException("outCnl");
+            OutCnl = outCnl ?? throw new ArgumentNullException(nameof(outCnl));
             CalcEngine = null;
             CalcCmdDataFunc = null;
         }

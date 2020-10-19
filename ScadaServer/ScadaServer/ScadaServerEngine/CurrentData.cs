@@ -47,8 +47,10 @@ namespace Scada.Server.Engine
         /// </summary>
         public CurrentData(ICnlDataChangeHandler cnlDataChangeHandler, Dictionary<int, CnlTag> cnlTags)
         {
-            this.cnlDataChangeHandler = cnlDataChangeHandler ?? throw new ArgumentNullException("cnlDataChangeHandler");
-            this.cnlTags = cnlTags ?? throw new ArgumentNullException("cnlTags");
+            this.cnlDataChangeHandler = cnlDataChangeHandler ?? 
+                throw new ArgumentNullException(nameof(cnlDataChangeHandler));
+            this.cnlTags = cnlTags ?? 
+                throw new ArgumentNullException(nameof(cnlTags));
 
             cnlDataCopy = null;
             Timestamp = DateTime.MinValue;

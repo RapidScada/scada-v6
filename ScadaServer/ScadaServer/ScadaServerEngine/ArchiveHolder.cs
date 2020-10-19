@@ -63,7 +63,7 @@ namespace Scada.Server.Engine
         /// </summary>
         public ArchiveHolder(ILog log)
         {
-            this.log = log ?? throw new ArgumentNullException("log");
+            this.log = log ?? throw new ArgumentNullException(nameof(log));
             allArchives = new List<ArchiveLogic>();
             currentArchives = new List<CurrentArchiveLogic>();
             historicalArchives = new List<HistoricalArchiveLogic>();
@@ -96,9 +96,9 @@ namespace Scada.Server.Engine
         public void AddArchive(Archive archiveEntity, ArchiveLogic archiveLogic)
         {
             if (archiveEntity == null)
-                throw new ArgumentNullException("archiveEntity");
+                throw new ArgumentNullException(nameof(archiveEntity));
             if (archiveLogic == null)
-                throw new ArgumentNullException("archiveLogic");
+                throw new ArgumentNullException(nameof(archiveLogic));
 
             // add archive to the corresponding list
             allArchives.Add(archiveLogic);

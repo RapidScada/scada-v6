@@ -50,10 +50,10 @@ namespace Scada.Server.Engine
         public ServerContext(CoreLogic coreLogic, ArchiveHolder archiveHolder, ServerListener listener, 
             IDictionary<string, object> sharedData)
         {
-            this.coreLogic = coreLogic ?? throw new ArgumentNullException("coreLogic");
-            this.archiveHolder = archiveHolder ?? throw new ArgumentNullException("archiveHolder");
-            this.listener = listener ?? throw new ArgumentNullException("listener");
-            SharedData = sharedData ?? throw new ArgumentNullException("sharedData");
+            this.coreLogic = coreLogic ?? throw new ArgumentNullException(nameof(coreLogic));
+            this.archiveHolder = archiveHolder ?? throw new ArgumentNullException(nameof(archiveHolder));
+            this.listener = listener ?? throw new ArgumentNullException(nameof(listener));
+            SharedData = sharedData ?? throw new ArgumentNullException(nameof(sharedData));
         }
 
 

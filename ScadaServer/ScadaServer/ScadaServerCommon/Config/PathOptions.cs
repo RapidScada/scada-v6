@@ -118,7 +118,7 @@ namespace Scada.Server.Config
         public void LoadFromXml(XmlNode xmlNode)
         {
             if (xmlNode == null)
-                throw new ArgumentNullException("xmlNode");
+                throw new ArgumentNullException(nameof(xmlNode));
 
             ArcDir = ScadaUtils.NormalDir(xmlNode.GetChildAsString("ArcDir"));
             ArcCopyDir = ScadaUtils.NormalDir(xmlNode.GetChildAsString("ArcCopyDir"));
@@ -132,7 +132,7 @@ namespace Scada.Server.Config
         public void SaveToXml(XmlElement xmlElem)
         {
             if (xmlElem == null)
-                throw new ArgumentNullException("xmlElem");
+                throw new ArgumentNullException(nameof(xmlElem));
 
             xmlElem.AppendElem("ArcDir", ArcDir);
             xmlElem.AppendElem("ArcCopyDir", ArcCopyDir);

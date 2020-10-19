@@ -99,9 +99,9 @@ namespace Scada.Server.Engine
         /// </summary>
         public CoreLogic(ServerConfig config, ServerDirs appDirs, ILog log)
         {
-            Config = config ?? throw new ArgumentNullException("config");
-            AppDirs = appDirs ?? throw new ArgumentNullException("appDirs");
-            Log = log ?? throw new ArgumentNullException("log");
+            Config = config ?? throw new ArgumentNullException(nameof(config));
+            AppDirs = appDirs ?? throw new ArgumentNullException(nameof(appDirs));
+            Log = log ?? throw new ArgumentNullException(nameof(log));
             BaseDataSet = null;
 
             infoFileName = appDirs.LogDir + ServerUtils.InfoFileName;
@@ -1081,7 +1081,7 @@ namespace Scada.Server.Engine
         public CnlData[] GetCurrentData(int[] cnlNums, bool useCache, out long cnlListID)
         {
             if (cnlNums == null)
-                throw new ArgumentNullException("cnlNums");
+                throw new ArgumentNullException(nameof(cnlNums));
 
             int cnlCnt = cnlNums.Length;
             CnlData[] cnlDataArr = new CnlData[cnlCnt];
@@ -1164,9 +1164,9 @@ namespace Scada.Server.Engine
         public void WriteCurrentData(int deviceNum, int[] cnlNums, CnlData[] cnlData, bool applyFormulas)
         {
             if (cnlNums == null)
-                throw new ArgumentNullException("cnlNums");
+                throw new ArgumentNullException(nameof(cnlNums));
             if (cnlData == null)
-                throw new ArgumentNullException("cnlData");
+                throw new ArgumentNullException(nameof(cnlData));
 
             try
             {
@@ -1215,7 +1215,7 @@ namespace Scada.Server.Engine
         public void WriteHistoricalData(int deviceNum, Slice slice, int archiveMask, bool applyFormulas)
         {
             if (slice == null)
-                throw new ArgumentNullException("slice");
+                throw new ArgumentNullException(nameof(slice));
 
             try
             {
@@ -1312,7 +1312,7 @@ namespace Scada.Server.Engine
         public void WriteEvent(Event ev, int archiveMask)
         {
             if (ev == null)
-                throw new ArgumentNullException("ev");
+                throw new ArgumentNullException(nameof(ev));
 
             try
             {
@@ -1384,7 +1384,7 @@ namespace Scada.Server.Engine
         public void SendCommand(TeleCommand command, out CommandResult commandResult)
         {
             if (command == null)
-                throw new ArgumentNullException("command");
+                throw new ArgumentNullException(nameof(command));
 
             commandResult = new CommandResult(false);
 

@@ -55,7 +55,7 @@ namespace Scada.Server.Engine
         {
             Index = index;
             CnlNum = cnlNum;
-            InCnl = inCnl ?? throw new ArgumentNullException("inCnl");
+            InCnl = inCnl ?? throw new ArgumentNullException(nameof(inCnl));
             Lim = lim;
             LimCnlIndex = null;
             CalcEngine = null;
