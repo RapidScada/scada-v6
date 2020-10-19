@@ -114,9 +114,7 @@ namespace Scada.Server.Modules.ModArcBasic.Logic
 
                 completed = true;
                 stopwatch.Stop();
-                arcLog?.WriteAction(Locale.IsRussian ?
-                    "Чтение среза длины {0} успешно завершено за {1} мс" :
-                    "Reading a slice of length {0} completed successfully in {1} ms",
+                arcLog?.WriteAction(ServerPhrases.ReadingSliceCompleted, 
                     slice.CnlNums.Length, stopwatch.ElapsedMilliseconds);
             }
             else
@@ -136,9 +134,7 @@ namespace Scada.Server.Modules.ModArcBasic.Logic
             adapter.WriteSingleSlice(slice);
 
             stopwatch.Stop();
-            arcLog?.WriteAction(Locale.IsRussian ?
-                "Запись среза длины {0} успешно завершена за {1} мс" :
-                "Writing a slice of length {0} completed successfully in {1} ms",
+            arcLog?.WriteAction(ServerPhrases.WritingSliceCompleted,
                 slice.CnlNums.Length, stopwatch.ElapsedMilliseconds);
         }
 

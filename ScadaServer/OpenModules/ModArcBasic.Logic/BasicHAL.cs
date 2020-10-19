@@ -223,11 +223,7 @@ namespace Scada.Server.Modules.ModArcBasic.Logic
             {
                 DateTime minDT = DateTime.UtcNow.AddDays(-options.StoragePeriod);
                 string minDirName = TrendTableAdapter.GetTableDirectory(Code, minDT);
-
-                appLog.WriteAction(Locale.IsRussian ?
-                    "Удаление устаревших данных из архива {0}, которые старше {1}" :
-                    "Delete outdated data from the {0} archive older than {1}",
-                    Code, minDT.ToLocalizedDateString());
+                appLog.WriteAction(ServerPhrases.DeleteOutdatedData, Code, minDT.ToLocalizedDateString());
 
                 foreach (DirectoryInfo dirInfo in
                     arcDirInfo.EnumerateDirectories(Code + "*", SearchOption.TopDirectoryOnly))
@@ -281,11 +277,8 @@ namespace Scada.Server.Modules.ModArcBasic.Logic
             }
 
             stopwatch.Stop();
-            arcLog?.WriteAction(Locale.IsRussian ?
-                "Чтение трендов длины {0} успешно завершено за {1} мс" :
-                "Reading trends of length {0} completed successfully in {1} ms",
+            arcLog?.WriteAction(ServerPhrases.ReadingTrendsCompleted, 
                 trendBundle.Timestamps.Count, stopwatch.ElapsedMilliseconds);
-
             return trendBundle;
         }
 
@@ -327,11 +320,8 @@ namespace Scada.Server.Modules.ModArcBasic.Logic
             }
 
             stopwatch.Stop();
-            arcLog?.WriteAction(Locale.IsRussian ?
-                "Чтение тренда длины {0} успешно завершено за {1} мс" :
-                "Reading a trend of length {0} completed successfully in {1} ms",
+            arcLog?.WriteAction(ServerPhrases.ReadingTrendCompleted,
                 resultTrend.Points.Count, stopwatch.ElapsedMilliseconds);
-
             return resultTrend;
         }
 
@@ -373,11 +363,8 @@ namespace Scada.Server.Modules.ModArcBasic.Logic
             }
 
             stopwatch.Stop();
-            arcLog?.WriteAction(Locale.IsRussian ?
-                "Чтение меток времени длины {0} успешно завершено за {1} мс" :
-                "Reading timestamps of length {0} completed successfully in {1} ms",
+            arcLog?.WriteAction(ServerPhrases.ReadingTimestampsCompleted,
                 resultTimestamps.Count, stopwatch.ElapsedMilliseconds);
-
             return resultTimestamps;
         }
 
@@ -389,9 +376,7 @@ namespace Scada.Server.Modules.ModArcBasic.Logic
             stopwatch.Restart();
             Slice slice = adapter.ReadSlice(GetTrendTable(timestamp), cnlNums, timestamp);
             stopwatch.Stop();
-            arcLog?.WriteAction(Locale.IsRussian ?
-                "Чтение среза длины {0} успешно завершено за {1} мс" :
-                "Reading a slice of length {0} completed successfully in {1} ms",
+            arcLog?.WriteAction(ServerPhrases.ReadingSliceCompleted, 
                 slice.CnlNums.Length, stopwatch.ElapsedMilliseconds);
             return slice;
         }
@@ -422,9 +407,7 @@ namespace Scada.Server.Modules.ModArcBasic.Logic
                 adapter.WriteSlice(trendTable, slice);
 
                 stopwatch.Stop();
-                arcLog?.WriteAction(Locale.IsRussian ?
-                    "Запись среза длины {0} успешно завершена за {1} мс" :
-                    "Writing a slice of length {0} completed successfully in {1} ms",
+                arcLog?.WriteAction(ServerPhrases.WritingSliceCompleted,
                     slice.CnlNums.Length, stopwatch.ElapsedMilliseconds);
                 return true;
             }
@@ -458,10 +441,7 @@ namespace Scada.Server.Modules.ModArcBasic.Logic
         {
             updatedTable = null;
             stopwatch.Stop();
-            arcLog?.WriteAction(Locale.IsRussian ?
-                "Обновление данных успешно завершено за {0} мс" :
-                "Data update completed successfully in {0} ms",
-                stopwatch.ElapsedMilliseconds);
+            arcLog?.WriteAction(ServerPhrases.UpdateCompleted, stopwatch.ElapsedMilliseconds);
         }
 
         /// <summary>
