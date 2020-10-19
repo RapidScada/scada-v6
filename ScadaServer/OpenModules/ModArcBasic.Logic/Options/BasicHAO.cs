@@ -25,6 +25,7 @@
 
 using Scada.Config;
 using Scada.Server.Archives;
+using System;
 
 namespace Scada.Server.Modules.ModArcBasic.Logic.Options
 {
@@ -39,6 +40,9 @@ namespace Scada.Server.Modules.ModArcBasic.Logic.Options
         /// </summary>
         public BasicHAO(CustomOptions options)
         {
+            if (options == null)
+                throw new ArgumentNullException(nameof(options));
+
             IsCopy = options.GetValueAsBool("IsCopy");
             WritingPeriod = options.GetValueAsInt("WritingPeriod", 10);
             WritingUnit = options.GetValueAsEnum("WritingUnit", TimeUnit.Minute);

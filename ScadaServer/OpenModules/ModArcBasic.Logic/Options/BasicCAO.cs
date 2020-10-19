@@ -23,6 +23,7 @@
  * Modified : 2020
  */
 
+using System;
 using Scada.Config;
 
 namespace Scada.Server.Modules.ModArcBasic.Logic.Options
@@ -38,6 +39,9 @@ namespace Scada.Server.Modules.ModArcBasic.Logic.Options
         /// </summary>
         public BasicCAO(CustomOptions options)
         {
+            if (options == null)
+                throw new ArgumentNullException(nameof(options));
+
             IsCopy = options.GetValueAsBool("IsCopy");
             WritingPeriod = options.GetValueAsInt("WritingPeriod", 10);
             LogEnabled = options.GetValueAsBool("LogEnabled");

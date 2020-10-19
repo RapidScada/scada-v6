@@ -24,6 +24,7 @@
  */
 
 using Scada.Config;
+using System;
 
 namespace Scada.Server.Modules.ModArcBasic.Logic.Options
 {
@@ -38,6 +39,9 @@ namespace Scada.Server.Modules.ModArcBasic.Logic.Options
         /// </summary>
         public BasicEAO(CustomOptions options)
         {
+            if (options == null)
+                throw new ArgumentNullException(nameof(options));
+
             IsCopy = options.GetValueAsBool("IsCopy");
             StoragePeriod = options.GetValueAsInt("StoragePeriod", 365);
             LogEnabled = options.GetValueAsBool("LogEnabled");
