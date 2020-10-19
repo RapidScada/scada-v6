@@ -40,6 +40,7 @@ namespace Scada.Server
         public static string ReadingTimestampsCompleted { get; private set; }
         public static string ReadingSliceCompleted { get; private set; }
         public static string WritingSliceCompleted { get; private set; }
+        public static string WritingPointsCompleted { get; private set; }
         public static string UpdateCompleted { get; private set; }
         public static string ReadingEventsCompleted { get; private set; }
         public static string ReadingEventCompleted { get; private set; }
@@ -59,8 +60,9 @@ namespace Scada.Server
                 ReadingTimestampsCompleted = "Чтение меток времени длины {0} успешно завершено за {1} мс";
                 ReadingSliceCompleted = "Чтение среза длины {0} успешно завершено за {1} мс";
                 WritingSliceCompleted = "Запись среза длины {0} успешно завершена за {1} мс";
+                WritingPointsCompleted = "Запись {0} точек данных успешно завершена за {1} мс";
                 UpdateCompleted = "Обновление данных успешно завершено за {0} мс";
-                ReadingEventsCompleted = "Чтение событий в количестве {0} успешно завершено за {1} мс";
+                ReadingEventsCompleted = "Чтение {0} событий успешно завершено за {1} мс";
                 ReadingEventCompleted = "Чтение события успешно завершено за {0} мс";
                 WritingEventCompleted = "Запись события успешно завершена за {0} мс";
                 AckEventCompleted = "Квитирование события успешно завершено за {0} мс";
@@ -73,8 +75,9 @@ namespace Scada.Server
                 ReadingTimestampsCompleted = "Reading timestamps of length {0} completed successfully in {1} ms";
                 ReadingSliceCompleted = "Reading a slice of length {0} completed successfully in {1} ms";
                 WritingSliceCompleted = "Writing a slice of length {0} completed successfully in {1} ms";
+                WritingPointsCompleted = "Writing of {0} data points completed successfully in {1} ms";
                 UpdateCompleted = "Data update completed successfully in {0} ms";
-                ReadingEventsCompleted = "Reading events in the amount of {0} completed successfully in {1} ms";
+                ReadingEventsCompleted = "Reading of {0} events completed successfully in {1} ms";
                 ReadingEventCompleted = "Reading an event completed successfully in {0} ms";
                 WritingEventCompleted = "Event writing completed successfully in {0} ms";
                 AckEventCompleted = "Event acknowledgment completed successfully in {0} ms";
