@@ -39,7 +39,7 @@ namespace Scada.Protocol
         public ResponsePacket(DataPacket request, byte[] buffer)
         {
             if (request == null)
-                throw new ArgumentNullException("request");
+                throw new ArgumentNullException(nameof(request));
 
             TransactionID = request.TransactionID;
             DataLength = 10; // no arguments

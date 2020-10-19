@@ -70,7 +70,7 @@ namespace Scada.Data.Models
         /// </summary>
         public TrendBundle(int[] cnlNums, int trendCapacity)
         {
-            CnlNums = cnlNums ?? throw new ArgumentNullException("cnlNums");
+            CnlNums = cnlNums ?? throw new ArgumentNullException(nameof(cnlNums));
             int cnlCnt = CnlNums.Length;
 
             Timestamps = new List<DateTime>(trendCapacity);

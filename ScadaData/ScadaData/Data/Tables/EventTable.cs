@@ -267,7 +267,7 @@ namespace Scada.Data.Tables
         public bool AddEvent(Event ev)
         {
             if (ev == null)
-                throw new ArgumentNullException("ev");
+                throw new ArgumentNullException(nameof(ev));
 
             if (eventsByID != null && !eventsByID.ContainsKey(ev.EventID))
             {

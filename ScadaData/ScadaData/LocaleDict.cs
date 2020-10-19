@@ -39,7 +39,7 @@ namespace Scada
         /// </summary>
         public LocaleDict(string key)
         {
-            Key = key ?? throw new ArgumentNullException("key");
+            Key = key ?? throw new ArgumentNullException(nameof(key));
             Phrases = new Dictionary<string, string>();
         }
 

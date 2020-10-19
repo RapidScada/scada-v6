@@ -50,7 +50,7 @@ namespace Scada.Data.Tables
             if (string.IsNullOrEmpty(columnName))
                 throw new ArgumentException("Column name must not be empty.", "columnName");
             if (itemType == null)
-                throw new ArgumentNullException("itemType");
+                throw new ArgumentNullException(nameof(itemType));
 
             indexProp = GetIndexProp(columnName, itemType);
             ColumnName = columnName;
@@ -117,7 +117,7 @@ namespace Scada.Data.Tables
         public void AddToIndex(object item, int itemKey)
         {
             if (item == null)
-                throw new ArgumentNullException("item");
+                throw new ArgumentNullException(nameof(item));
 
             int indexKey = GetIndexKey(item);
 
@@ -149,7 +149,7 @@ namespace Scada.Data.Tables
         public void RemoveFromIndex(object item, int itemKey)
         {
             if (item == null)
-                throw new ArgumentNullException("item");
+                throw new ArgumentNullException(nameof(item));
 
             int indexKey = GetIndexKey(item);
 

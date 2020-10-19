@@ -67,7 +67,7 @@ namespace Scada.Server
         public void LoadFromXml(XmlNode xmlNode)
         {
             if (xmlNode == null)
-                throw new ArgumentNullException("xmlNode");
+                throw new ArgumentNullException(nameof(xmlNode));
 
             Port = xmlNode.GetChildAsInt("Port");
             Timeout = xmlNode.GetChildAsInt("Timeout");
@@ -83,7 +83,7 @@ namespace Scada.Server
         public void SaveToXml(XmlElement xmlElem)
         {
             if (xmlElem == null)
-                throw new ArgumentNullException("xmlElem");
+                throw new ArgumentNullException(nameof(xmlElem));
 
             xmlElem.AppendElem("Port", Port);
             xmlElem.AppendElem("Timeout", Timeout);

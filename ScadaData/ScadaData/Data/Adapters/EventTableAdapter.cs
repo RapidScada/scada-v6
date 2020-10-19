@@ -266,7 +266,7 @@ namespace Scada.Data.Adapters
         public void Fill(EventTable eventTable)
         {
             if (eventTable == null)
-                throw new ArgumentNullException("eventTable");
+                throw new ArgumentNullException(nameof(eventTable));
 
             Stream stream = null;
             BinaryReader reader = null;
@@ -337,7 +337,7 @@ namespace Scada.Data.Adapters
         public void Fill(DataTable dataTable)
         {
             if (dataTable == null)
-                throw new ArgumentNullException("dataTable");
+                throw new ArgumentNullException(nameof(dataTable));
 
             Stream stream = null;
             BinaryReader reader = null;
@@ -436,7 +436,7 @@ namespace Scada.Data.Adapters
         public void AppendEvent(Event ev)
         {
             if (ev == null)
-                throw new ArgumentNullException("ev");
+                throw new ArgumentNullException(nameof(ev));
 
             Stream stream = null;
             BinaryWriter writer = null;
@@ -491,7 +491,7 @@ namespace Scada.Data.Adapters
         public void UpdateEvent(Event ev, bool updateText, bool updateData)
         {
             if (ev == null)
-                throw new ArgumentNullException("ev");
+                throw new ArgumentNullException(nameof(ev));
 
             if (ev.Position < 0)
                 throw new ScadaException("Event position is undefined.");
@@ -578,7 +578,7 @@ namespace Scada.Data.Adapters
         public void WriteEventAck(Event ev)
         {
             if (ev == null)
-                throw new ArgumentNullException("ev");
+                throw new ArgumentNullException(nameof(ev));
 
             if (ev.Position < 0)
                 throw new ScadaException("Event position is undefined.");

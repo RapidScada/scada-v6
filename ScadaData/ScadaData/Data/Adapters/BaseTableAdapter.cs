@@ -52,7 +52,7 @@ namespace Scada.Data.Adapters
                 if (!Enum.IsDefined(typeof(ColumnDataType), dataType))
                     throw new ArgumentException(string.Format("Data type {0} is not defined.", dataType));
 
-                Name = name ?? throw new ArgumentNullException("name");
+                Name = name ?? throw new ArgumentNullException(nameof(name));
                 DataType = (ColumnDataType)dataType;
                 AllowNull = allowNull;
 
@@ -88,11 +88,11 @@ namespace Scada.Data.Adapters
             public FieldDef(string name, Type type, bool allowNull)
             {
                 if (name == null)
-                    throw new ArgumentNullException("name");
+                    throw new ArgumentNullException(nameof(name));
                 if (name.Length > MaxFieldNameLength)
                     throw new ArgumentException("Name length exceeded.");
                 if (type == null)
-                    throw new ArgumentNullException("type");
+                    throw new ArgumentNullException(nameof(type));
 
                 Name = name;
                 AllowNull = allowNull;
@@ -357,7 +357,7 @@ namespace Scada.Data.Adapters
         public void Fill(IBaseTable baseTable)
         {
             if (baseTable == null)
-                throw new ArgumentNullException("baseTable");
+                throw new ArgumentNullException(nameof(baseTable));
 
             Stream stream = null;
             BinaryReader reader = null;
@@ -428,7 +428,7 @@ namespace Scada.Data.Adapters
         public void Fill(DataTable dataTable)
         {
             if (dataTable == null)
-                throw new ArgumentNullException("dataTable");
+                throw new ArgumentNullException(nameof(dataTable));
 
             Stream stream = null;
             BinaryReader reader = null;
@@ -523,7 +523,7 @@ namespace Scada.Data.Adapters
         public void Update(IBaseTable baseTable)
         {
             if (baseTable == null)
-                throw new ArgumentNullException("baseTable");
+                throw new ArgumentNullException(nameof(baseTable));
 
             Stream stream = null;
             BinaryWriter writer = null;

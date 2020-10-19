@@ -51,7 +51,7 @@ namespace Scada.Data.Models
         public Slice(DateTime timestamp, int[] cnlNums)
         {
             Timestamp = timestamp;
-            CnlNums = cnlNums ?? throw new ArgumentNullException("cnlNums");
+            CnlNums = cnlNums ?? throw new ArgumentNullException(nameof(cnlNums));
             CnlData = new CnlData[cnlNums.Length];
         }
 
@@ -61,8 +61,8 @@ namespace Scada.Data.Models
         public Slice(DateTime timestamp, int[] cnlNums, CnlData[] cnlData)
         {
             Timestamp = timestamp;
-            CnlNums = cnlNums ?? throw new ArgumentNullException("cnlNums");
-            CnlData = cnlData ?? throw new ArgumentNullException("cnlData");
+            CnlNums = cnlNums ?? throw new ArgumentNullException(nameof(cnlNums));
+            CnlData = cnlData ?? throw new ArgumentNullException(nameof(cnlData));
 
             if (cnlNums.Length != cnlData.Length)
                 throw new ArgumentException("Invalid data size.");

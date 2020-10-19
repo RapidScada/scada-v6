@@ -41,8 +41,8 @@ namespace Scada.Data.Tables
             IsReady = false;
             PageNumber = pageNumber;
             PageIndex = pageNumber - 1;
-            TrendTable = trendTable ?? throw new ArgumentNullException("trendTable");
-            Metadata = meta ?? throw new ArgumentNullException("meta");
+            TrendTable = trendTable ?? throw new ArgumentNullException(nameof(trendTable));
+            Metadata = meta ?? throw new ArgumentNullException(nameof(meta));
             CnlNumList = null;
         }
 

@@ -46,7 +46,7 @@ namespace Scada.Data.Tables
         /// </summary>
         public DataFilter(Type itemType)
         {
-            ItemType = itemType ?? throw new ArgumentNullException("itemType");
+            ItemType = itemType ?? throw new ArgumentNullException(nameof(itemType));
             itemProperties = TypeDescriptor.GetProperties(itemType);
 
             Limit = 0;

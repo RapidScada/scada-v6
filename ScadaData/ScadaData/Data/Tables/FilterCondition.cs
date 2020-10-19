@@ -42,8 +42,8 @@ namespace Scada.Data.Tables
         public FilterCondition(string columnName, PropertyDescriptor columnProperty, 
             FilterOperator filterOperator, params object[] args)
         {
-            ColumnName = columnName ?? throw new ArgumentNullException("columnName");
-            ColumnProperty = columnProperty ?? throw new ArgumentNullException("columnProperty");
+            ColumnName = columnName ?? throw new ArgumentNullException(nameof(columnName));
+            ColumnProperty = columnProperty ?? throw new ArgumentNullException(nameof(columnProperty));
 
             Type columnType = columnProperty.PropertyType.IsNullable() ?
                 Nullable.GetUnderlyingType(columnProperty.PropertyType) : columnProperty.PropertyType;
@@ -95,7 +95,7 @@ namespace Scada.Data.Tables
         public void SetArgument(params object[] args)
         {
             if (args == null)
-                throw new ArgumentNullException("args");
+                throw new ArgumentNullException(nameof(args));
 
             bool argumentIsSet = true;
 

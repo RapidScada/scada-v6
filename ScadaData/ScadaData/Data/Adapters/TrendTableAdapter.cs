@@ -471,10 +471,10 @@ namespace Scada.Data.Adapters
         public TrendBundle ReadTrends(TrendTable trendTable, int[] cnlNums, TimeRange timeRange)
         {
             if (trendTable == null)
-                throw new ArgumentNullException("trendTable");
+                throw new ArgumentNullException(nameof(trendTable));
 
             if (cnlNums == null)
-                throw new ArgumentNullException("cnlNums");
+                throw new ArgumentNullException(nameof(cnlNums));
 
             if (MakeTableReady(trendTable, false) && GetDataPosition(trendTable, timeRange,
                 out int startPageIndex, out int startIndexInPage, out int endPageIndex, out int endIndexInPage,
@@ -575,7 +575,7 @@ namespace Scada.Data.Adapters
         public Trend ReadTrend(TrendTable trendTable, int cnlNum, TimeRange timeRange)
         {
             if (trendTable == null)
-                throw new ArgumentNullException("trendTable");
+                throw new ArgumentNullException(nameof(trendTable));
 
             if (MakeTableReady(trendTable, false) && GetDataPosition(trendTable, timeRange,
                 out int startPageIndex, out int startIndexInPage, out int endPageIndex, out int endIndexInPage,
@@ -669,7 +669,7 @@ namespace Scada.Data.Adapters
         public List<DateTime> ReadTimestamps(TrendTable trendTable, TimeRange timeRange)
         {
             if (trendTable == null)
-                throw new ArgumentNullException("trendTable");
+                throw new ArgumentNullException(nameof(trendTable));
 
             if (MakeTableReady(trendTable, false) && GetDataPosition(trendTable, timeRange,
                 out int startPageIndex, out int startIndexInPage, out int endPageIndex, out int endIndexInPage,
@@ -740,10 +740,10 @@ namespace Scada.Data.Adapters
         public Slice ReadSlice(TrendTable trendTable, int[] cnlNums, DateTime timestamp)
         {
             if (trendTable == null)
-                throw new ArgumentNullException("trendTable");
+                throw new ArgumentNullException(nameof(trendTable));
 
             if (cnlNums == null)
-                throw new ArgumentNullException("cnlNums");
+                throw new ArgumentNullException(nameof(cnlNums));
 
             if (MakeTableReady(trendTable, false) &&
                 trendTable.GetDataPosition(timestamp, PositionKind.Exact, out TrendTablePage page, out int indexInPage))
@@ -804,7 +804,7 @@ namespace Scada.Data.Adapters
         public CnlData ReadCnlData(TrendTable trendTable, int cnlNum, DateTime timestamp)
         {
             if (trendTable == null)
-                throw new ArgumentNullException("trendTable");
+                throw new ArgumentNullException(nameof(trendTable));
 
             if (MakeTableReady(trendTable, false) &&
                 trendTable.GetDataPosition(timestamp, PositionKind.Exact, out TrendTablePage page, out int indexInPage))
@@ -845,10 +845,10 @@ namespace Scada.Data.Adapters
         public void WriteSlice(TrendTable trendTable, Slice slice)
         {
             if (trendTable == null)
-                throw new ArgumentNullException("trendTable");
+                throw new ArgumentNullException(nameof(trendTable));
 
             if (slice == null)
-                throw new ArgumentNullException("slice");
+                throw new ArgumentNullException(nameof(slice));
 
             if (MakeTableReady(trendTable, true) &&
                 trendTable.GetDataPosition(slice.Timestamp, PositionKind.Exact, 
@@ -914,7 +914,7 @@ namespace Scada.Data.Adapters
         public void WriteCnlData(TrendTable trendTable, int cnlNum, DateTime timestamp, CnlData cnlData)
         {
             if (trendTable == null)
-                throw new ArgumentNullException("trendTable");
+                throw new ArgumentNullException(nameof(trendTable));
 
             if (MakeTableReady(trendTable, true) &&
                 trendTable.GetDataPosition(timestamp, PositionKind.Exact, out TrendTablePage page, out int indexInPage))
@@ -964,10 +964,10 @@ namespace Scada.Data.Adapters
         public void UpdateTableStructure(TrendTable trendTable, TrendTableMeta srcTableMeta)
         {
             if (trendTable == null)
-                throw new ArgumentNullException("trendTable");
+                throw new ArgumentNullException(nameof(trendTable));
 
             if (srcTableMeta == null)
-                throw new ArgumentNullException("srcTableMeta");
+                throw new ArgumentNullException(nameof(srcTableMeta));
 
             ValidateTable(trendTable);
             string tableDir = GetTablePath(trendTable);
@@ -1123,10 +1123,10 @@ namespace Scada.Data.Adapters
         public void UpdatePageChannels(TrendTablePage page, CnlNumList srcCnlNums)
         {
             if (page == null)
-                throw new ArgumentNullException("page");
+                throw new ArgumentNullException(nameof(page));
 
             if (srcCnlNums == null)
-                throw new ArgumentNullException("srcCnlNums");
+                throw new ArgumentNullException(nameof(srcCnlNums));
 
             string pageFileName = GetPagePath(page);
 
@@ -1223,7 +1223,7 @@ namespace Scada.Data.Adapters
         public string GetTablePath(TrendTable trendTable)
         {
             if (trendTable == null)
-                throw new ArgumentNullException("trendTable");
+                throw new ArgumentNullException(nameof(trendTable));
 
             if (trendTable.TableDate == DateTime.MinValue)
                 throw new ScadaException("Table date must be defined.");
@@ -1251,7 +1251,7 @@ namespace Scada.Data.Adapters
         public string GetPagePath(TrendTablePage page)
         {
             if (page == null)
-                throw new ArgumentNullException("page");
+                throw new ArgumentNullException(nameof(page));
 
             return Path.Combine(GetTablePath(page.TrendTable), 
                 GetPageFileName(ArchiveCode, page.TrendTable.TableDate, page.PageNumber));

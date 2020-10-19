@@ -214,7 +214,7 @@ namespace Scada.Data.Tables
         public void SetMetadata(TrendTableMeta meta)
         {
             if (meta == null)
-                throw new ArgumentNullException("meta");
+                throw new ArgumentNullException(nameof(meta));
 
             TableDate = meta.MinTimestamp.Date;
             WritingPeriod = meta.WritingPeriod;

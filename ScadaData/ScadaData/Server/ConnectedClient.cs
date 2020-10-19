@@ -136,10 +136,10 @@ namespace Scada.Server
         /// </summary>
         public void Init(TcpClient tcpClient, Thread thread)
         {
-            TcpClient = tcpClient ?? throw new ArgumentNullException("tcpClient");
+            TcpClient = tcpClient ?? throw new ArgumentNullException(nameof(tcpClient));
             NetStream = tcpClient.GetStream();
             Address = ((IPEndPoint)TcpClient.Client.RemoteEndPoint).Address.ToString();
-            Thread = thread ?? throw new ArgumentNullException("thread");
+            Thread = thread ?? throw new ArgumentNullException(nameof(thread));
             ActivityTime = DateTime.UtcNow;
             InBuf = new byte[ProtocolUtils.BufferLenght];
             OutBuf = new byte[ProtocolUtils.BufferLenght];

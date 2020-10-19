@@ -92,7 +92,7 @@ namespace Scada.Client
         public void LoadFromXml(XmlNode xmlNode)
         {
             if (xmlNode == null)
-                throw new ArgumentNullException("xmlNode");
+                throw new ArgumentNullException(nameof(xmlNode));
 
             Host = xmlNode.GetChildAsString("Host");
             Port = xmlNode.GetChildAsInt("Port");
@@ -112,7 +112,7 @@ namespace Scada.Client
         public void SaveToXml(XmlElement xmlElem)
         {
             if (xmlElem == null)
-                throw new ArgumentNullException("xmlElem");
+                throw new ArgumentNullException(nameof(xmlElem));
 
             xmlElem.AppendElem("Host", Host);
             xmlElem.AppendElem("Port", Port);

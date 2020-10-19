@@ -94,7 +94,7 @@ namespace Scada.Client
         /// </summary>
         public BaseClient(ConnectionOptions connectionOptions)
         {
-            this.connectionOptions = connectionOptions ?? throw new ArgumentNullException("connectionOptions");
+            this.connectionOptions = connectionOptions ?? throw new ArgumentNullException(nameof(connectionOptions));
             inBuf = new byte[BufferLenght];
             outBuf = new byte[BufferLenght];
 
@@ -499,7 +499,7 @@ namespace Scada.Client
             out DateTime fileAge, out FileReadingResult readingResult, out Stream stream)
         {
             if (createStreamFunc == null)
-                throw new ArgumentNullException("createStreamFunc");
+                throw new ArgumentNullException(nameof(createStreamFunc));
 
             RestoreConnection();
 

@@ -41,7 +41,7 @@ namespace Scada.Config
         public void LoadFromXml(XmlNode xmlNode)
         {
             if (xmlNode == null)
-                throw new ArgumentNullException("xmlNode");
+                throw new ArgumentNullException(nameof(xmlNode));
 
             foreach (XmlElement optionElem in xmlNode.SelectNodes("Option"))
             {
@@ -55,7 +55,7 @@ namespace Scada.Config
         public void SaveToXml(XmlElement xmlElem)
         {
             if (xmlElem == null)
-                throw new ArgumentNullException("xmlElem");
+                throw new ArgumentNullException(nameof(xmlElem));
 
             foreach (KeyValuePair<string, string> pair in this)
             {

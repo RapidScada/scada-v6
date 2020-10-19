@@ -51,7 +51,7 @@ namespace Scada
         /// </summary>
         public FileListener(string fileName)
         {
-            this.fileName = fileName ?? throw new ArgumentNullException("fileName");
+            this.fileName = fileName ?? throw new ArgumentNullException(nameof(fileName));
             terminated = false;
             FileFound = false;
 

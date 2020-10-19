@@ -38,9 +38,9 @@ namespace Scada.Data.Tables
         /// </summary>
         public TableRelation(IBaseTable parentTable, IBaseTable childTable, string childColumn)
         {
-            ParentTable = parentTable ?? throw new ArgumentNullException("parentTable");
-            ChildTable = childTable ?? throw new ArgumentNullException("childTable");
-            ChildColumn = childColumn ?? throw new ArgumentNullException("childColumn");
+            ParentTable = parentTable ?? throw new ArgumentNullException(nameof(parentTable));
+            ChildTable = childTable ?? throw new ArgumentNullException(nameof(childTable));
+            ChildColumn = childColumn ?? throw new ArgumentNullException(nameof(childColumn));
         }
 
 

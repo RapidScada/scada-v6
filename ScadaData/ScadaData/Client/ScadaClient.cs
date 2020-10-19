@@ -105,7 +105,7 @@ namespace Scada.Client
         public CnlData[] GetCurrentData(int[] cnlNums, bool useCache, out long cnlListID)
         {
             if (cnlNums == null)
-                throw new ArgumentNullException("cnlNums");
+                throw new ArgumentNullException(nameof(cnlNums));
 
             RestoreConnection();
 
@@ -360,9 +360,9 @@ namespace Scada.Client
         public void WriteCurrentData(int deviceNum, int[] cnlNums, CnlData[] cnlData, bool applyFormulas)
         {
             if (cnlNums == null)
-                throw new ArgumentNullException("cnlNums");
+                throw new ArgumentNullException(nameof(cnlNums));
             if (cnlData == null)
-                throw new ArgumentNullException("cnlData");
+                throw new ArgumentNullException(nameof(cnlData));
 
             RestoreConnection();
 
@@ -393,7 +393,7 @@ namespace Scada.Client
         public void WriteHistoricalData(int deviceNum, Slice slice, int archiveMask, bool applyFormulas)
         {
             if (slice == null)
-                throw new ArgumentNullException("slice");
+                throw new ArgumentNullException(nameof(slice));
 
             RestoreConnection();
 
@@ -484,7 +484,7 @@ namespace Scada.Client
         public void WriteEvent(Event ev, int archiveMask)
         {
             if (ev == null)
-                throw new ArgumentNullException("ev");
+                throw new ArgumentNullException(nameof(ev));
 
             RestoreConnection();
 

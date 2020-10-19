@@ -86,7 +86,7 @@ namespace Scada.Data.Adapters
         public void Fill(DataTable dataTable)
         {
             if (dataTable == null)
-                throw new ArgumentNullException("dataTable");
+                throw new ArgumentNullException(nameof(dataTable));
 
             Stream stream = null;
             BinaryReader reader = null;
@@ -259,7 +259,7 @@ namespace Scada.Data.Adapters
         public void WriteSingleSlice(Slice slice)
         {
             if (slice == null)
-                throw new ArgumentNullException("slice");
+                throw new ArgumentNullException(nameof(slice));
 
             Stream stream = null;
             BinaryWriter writer = null;

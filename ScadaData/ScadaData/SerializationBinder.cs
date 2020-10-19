@@ -54,7 +54,7 @@ namespace Scada
         public SerializationBinder(Assembly assembly)
             : base()
         {
-            this.assembly = assembly ?? throw new ArgumentNullException("assembly");
+            this.assembly = assembly ?? throw new ArgumentNullException(nameof(assembly));
             InitResolvers();
         }
 

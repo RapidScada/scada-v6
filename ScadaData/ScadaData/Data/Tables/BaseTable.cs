@@ -338,7 +338,7 @@ namespace Scada.Data.Tables
         public IEnumerable SelectItems(TableFilter filter, bool indexRequired = false)
         {
             if (filter == null)
-                throw new ArgumentNullException("filter");
+                throw new ArgumentNullException(nameof(filter));
 
             // find the property used by the filter
             PropertyDescriptor filterProp = TypeDescriptor.GetProperties(ItemType)[filter.ColumnName];

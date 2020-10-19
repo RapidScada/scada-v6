@@ -113,8 +113,8 @@ namespace Scada.Server
         /// </summary>
         public BaseListener(ListenerOptions listenerOptions, ILog log)
         {
-            this.listenerOptions = listenerOptions ?? throw new ArgumentNullException("listenerOptions");
-            this.log = log ?? throw new ArgumentNullException("log");
+            this.listenerOptions = listenerOptions ?? throw new ArgumentNullException(nameof(listenerOptions));
+            this.log = log ?? throw new ArgumentNullException(nameof(log));
 
             tcpListener = null;
             clients = null;
