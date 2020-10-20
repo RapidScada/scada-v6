@@ -40,6 +40,24 @@ namespace Scada
         /// </summary>
         private const int TimeDiscreteness = 10;
 
+
+        /// <summary>
+        /// Creates a new trend bundle containing the specified trend.
+        /// </summary>
+        private static TrendBundle CreateTrendBundle(Trend trend)
+        {
+            TrendBundle trendBundle = new TrendBundle(new int[] { trend.CnlNum }, trend.Points.Count);
+            TrendBundle.CnlDataList destTrend = trendBundle.Trends[0];
+
+            foreach (TrendPoint trendPoint in trend.Points)
+            {
+                trendBundle.Timestamps.Add(trendPoint.Timestamp);
+                destTrend.Add(new CnlData(trendPoint.Val, trendPoint.Stat));
+            }
+
+            return trendBundle;
+        }
+
         /// <summary>
         /// Merges the trends providing a single timeline.
         /// </summary>
@@ -48,7 +66,16 @@ namespace Scada
             if (trends == null)
                 throw new ArgumentNullException(nameof(trends));
 
+            // simple cases first
             int cnlCnt = trends.Count;
+
+            if (cnlCnt == 0)
+                return new TrendBundle(0, 0);
+
+            if (cnlCnt == 1)
+                return CreateTrendBundle(trends[0]);
+
+            // full case
             int maxTrendCapacity = 0;
             int[] cnlNums = new int[cnlCnt];
             int[] trendPositions = new int[cnlCnt]; // trend reading positions

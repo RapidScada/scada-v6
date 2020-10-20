@@ -82,6 +82,24 @@ namespace Scada.Data.Models
             }
         }
 
+        /// <summary>
+        /// Initializes a new instance of the class.
+        /// </summary>
+        public TrendBundle(int[] cnlNums, List<DateTime> timestamps)
+        {
+            CnlNums = cnlNums ?? throw new ArgumentNullException(nameof(cnlNums));
+            Timestamps = timestamps ?? throw new ArgumentNullException(nameof(timestamps));
+
+            int cnlCnt = CnlNums.Length;
+            int trendCapacity = timestamps.Count;
+            Trends = new List<CnlDataList>(cnlCnt);
+
+            for (int i = 0; i < cnlCnt; i++)
+            {
+                Trends.Add(new CnlDataList(trendCapacity));
+            }
+        }
+
 
         /// <summary>
         /// Gets the input channel numbers.
