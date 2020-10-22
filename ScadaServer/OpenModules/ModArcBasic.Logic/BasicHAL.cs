@@ -52,12 +52,11 @@ namespace Scada.Server.Modules.ModArcBasic.Logic
         private readonly Slice slice;               // the slice for writing
         private readonly int writingPeriod;         // the writing period in seconds
 
-        private DateTime nextWriteTime;    // the next time to write data to the archive
-        private DateTime closestWriteTime; // the calculated closest time to write data
-        private int[] cnlIndices;          // the indices that map the input channels
-        private CnlNumList cnlNumList;     // the list of the input channel numbers processed by the archive
-        private TrendTable currentTable;   // the today's trend table
-        private TrendTable updatedTable;   // the trend table that is currently being updated
+        private DateTime nextWriteTime;  // the next time to write data to the archive
+        private int[] cnlIndices;        // the indices that map the input channels
+        private CnlNumList cnlNumList;   // the list of the input channel numbers processed by the archive
+        private TrendTable currentTable; // the today's trend table
+        private TrendTable updatedTable; // the trend table that is currently being updated
 
 
         /// <summary>
@@ -81,7 +80,6 @@ namespace Scada.Server.Modules.ModArcBasic.Logic
             writingPeriod = GetPeriodInSec(options.WritingPeriod, options.WritingUnit);
 
             nextWriteTime = DateTime.MinValue;
-            closestWriteTime = DateTime.MinValue;
             cnlIndices = null;
             cnlNumList = new CnlNumList(cnlNums);
             currentTable = null;
@@ -444,12 +442,21 @@ namespace Scada.Server.Modules.ModArcBasic.Logic
         /// <summary>
         /// Accepts or rejects data with the specified timestamp.
         /// </summary>
-        public override bool AcceptData(DateTime timestamp)
+        public override bool AcceptData(ref DateTime timestamp)
         {
             if (options.PullToPeriod > 0)
             {
-                closestWriteTime = GetClosestWriteTime(timestamp, writingPeriod);
-                return (timestamp - closestWriteTime).TotalSeconds <= options.PullToPeriod;
+                DateTime closestTime = GetClosestWriteTime(timestamp, writingPeriod);
+
+                if ((timestamp - closestTime).TotalSeconds <= options.PullToPeriod)
+                {
+                    timestamp = closestTime;
+                    return true;
+                }
+                else
+                {
+                    return false;
+                }
             }
             else
             {
@@ -481,9 +488,6 @@ namespace Scada.Server.Modules.ModArcBasic.Logic
         /// </summary>
         public override void WriteCnlData(int cnlNum, DateTime timestamp, CnlData cnlData)
         {
-            if (options.PullToPeriod > 0)
-                timestamp = closestWriteTime;
-
             adapter.WriteCnlData(GetTrendTable(timestamp), cnlNum, timestamp, cnlData);
         }
     }

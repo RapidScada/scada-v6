@@ -79,7 +79,8 @@ namespace Scada.Server.Archives
         /// <summary>
         /// Accepts or rejects data with the specified timestamp.
         /// </summary>
-        public abstract bool AcceptData(DateTime timestamp);
+        /// <remarks>The timestamp can be adjusted by the archive.</remarks>
+        public abstract bool AcceptData(ref DateTime timestamp);
 
         /// <summary>
         /// Maintains performance when data is written one at a time.

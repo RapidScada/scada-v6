@@ -1239,7 +1239,7 @@ namespace Scada.Server.Engine
                 {
                     if (archiveMask.BitIsSet(archiveBit) && 
                         archiveHolder.GetArchive(archiveBit, out HistoricalArchiveLogic archiveLogic) &&
-                        archiveLogic.AcceptData(timestamp))
+                        archiveLogic.AcceptData(ref timestamp))
                     {
                         try
                         {
