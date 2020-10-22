@@ -52,11 +52,12 @@ namespace Scada.Server.Modules.ModArcBasic.Logic
         private readonly Slice slice;               // the slice for writing
         private readonly int writingPeriod;         // the writing period in seconds
 
-        private DateTime nextWriteTime;  // the next time to write data to the archive
-        private int[] cnlIndices;        // the indices that map the input channels
-        private CnlNumList cnlNumList;   // the list of the input channel numbers processed by the archive
-        private TrendTable currentTable; // the today's trend table
-        private TrendTable updatedTable; // the trend table that is currently being updated
+        private DateTime nextWriteTime;    // the next time to write data to the archive
+        private DateTime closestWriteTime; // the calculated closest time to write data
+        private int[] cnlIndices;          // the indices that map the input channels
+        private CnlNumList cnlNumList;     // the list of the input channel numbers processed by the archive
+        private TrendTable currentTable;   // the today's trend table
+        private TrendTable updatedTable;   // the trend table that is currently being updated
 
 
         /// <summary>
@@ -79,14 +80,94 @@ namespace Scada.Server.Modules.ModArcBasic.Logic
             slice = new Slice(DateTime.MinValue, cnlNums);
             writingPeriod = GetPeriodInSec(options.WritingPeriod, options.WritingUnit);
 
-            nextWriteTime = options.WritingMode == WritingMode.Auto ? 
-                GetNextWriteTime(DateTime.UtcNow, writingPeriod) : DateTime.MinValue;
+            nextWriteTime = DateTime.MinValue;
+            closestWriteTime = DateTime.MinValue;
             cnlIndices = null;
             cnlNumList = new CnlNumList(cnlNums);
             currentTable = null;
             updatedTable = null;
         }
 
+
+        /// <summary>
+        /// Validates the archive options and throws an exception on fail.
+        /// </summary>
+        private void ValidateOptions()
+        {
+            if (options.WritingPeriod <= 0)
+                throw new ScadaException(ServerPhrases.InvalidWritingPeriod);
+
+            if (options.WritingMode != WritingMode.AutoWithPeriod && 
+                options.WritingMode != WritingMode.OnDemandWithPeriod)
+                throw new ScadaException(ServerPhrases.WritingModeNotSupported);
+        }
+
+        /// <summary>
+        /// Checks and updates the today's trend table.
+        /// </summary>
+        private void CheckCurrentTrendTable(DateTime nowDT)
+        {
+            currentTable = GetCurrentTrendTable(nowDT);
+            string tableDir = adapter.GetTablePath(currentTable);
+            string metaFileName = adapter.GetMetaPath(currentTable);
+
+            if (Directory.Exists(tableDir))
+            {
+                TrendTableMeta srcTableMeta = adapter.ReadMetadata(metaFileName);
+
+                if (srcTableMeta == null)
+                {
+                    // the existing table is invalid and should be deleted
+                    Directory.Delete(tableDir, true);
+                }
+                else if (srcTableMeta.Equals(currentTable.Metadata))
+                {
+                    if (currentTable.GetDataPosition(nowDT, PositionKind.Ceiling,
+                        out TrendTablePage page, out int indexInPage))
+                    {
+                        string pageFileName = adapter.GetPagePath(page);
+                        CnlNumList srcCnlNums = adapter.ReadCnlNums(pageFileName);
+
+                        if (srcCnlNums == null)
+                        {
+                            // make sure that there is no page file
+                            File.Delete(pageFileName);
+                        }
+                        else if (srcCnlNums.Equals(cnlNumList))
+                        {
+                            // re-create the channel list to use the existing list ID
+                            cnlNumList = new CnlNumList(srcCnlNums.ListID, cnlNumList);
+                        }
+                        else
+                        {
+                            // update the current page
+                            appLog.WriteAction(Locale.IsRussian ?
+                                "Обновление номеров каналов страницы {0}" :
+                                "Update channel numbers of the page {0}", pageFileName);
+                            adapter.UpdatePageChannels(page, srcCnlNums);
+                        }
+                    }
+                }
+                else
+                {
+                    // updating the entire table structure would take too long, so just backup the table
+                    appLog.WriteAction(Locale.IsRussian ?
+                        "Резервное копирование таблицы {0}" :
+                        "Backup the table {0}", tableDir);
+                    adapter.BackupTable(currentTable);
+                }
+            }
+
+            // create an empty table if it does not exist
+            if (!Directory.Exists(tableDir))
+            {
+                adapter.WriteMetadata(metaFileName, currentTable.Metadata);
+                currentTable.IsReady = true;
+            }
+
+            // add the archive channel list to the cache
+            adapter.CnlNumCache.Add(cnlNumList.ListID, cnlNumList);
+        }
 
         /// <summary>
         /// Gets the today's trend table, creating it if necessary.
@@ -145,71 +226,14 @@ namespace Scada.Server.Modules.ModArcBasic.Logic
         /// </summary>
         public override void MakeReady()
         {
-            // create the archive directory
+            ValidateOptions();
             Directory.CreateDirectory(adapter.ParentDirectory);
 
-            // check and update the today's trend table
             DateTime utcNow = DateTime.UtcNow;
-            currentTable = GetCurrentTrendTable(utcNow);
-            string tableDir = adapter.GetTablePath(currentTable);
-            string metaFileName = adapter.GetMetaPath(currentTable);
+            CheckCurrentTrendTable(utcNow);
 
-            if (Directory.Exists(tableDir))
-            {
-                TrendTableMeta srcTableMeta = adapter.ReadMetadata(metaFileName);
-
-                if (srcTableMeta == null)
-                {
-                    // the existing table is invalid and should be deleted
-                    Directory.Delete(tableDir, true);
-                }
-                else if (srcTableMeta.Equals(currentTable.Metadata))
-                {
-                    if (currentTable.GetDataPosition(utcNow, PositionKind.Ceiling,
-                        out TrendTablePage page, out int indexInPage))
-                    {
-                        string pageFileName = adapter.GetPagePath(page);
-                        CnlNumList srcCnlNums = adapter.ReadCnlNums(pageFileName);
-
-                        if (srcCnlNums == null)
-                        {
-                            // make sure that there is no page file
-                            File.Delete(pageFileName);
-                        }
-                        else if (srcCnlNums.Equals(cnlNumList))
-                        {
-                            // re-create the channel list to use the existing list ID
-                            cnlNumList = new CnlNumList(srcCnlNums.ListID, cnlNumList);
-                        }
-                        else
-                        {
-                            // update the current page
-                            appLog.WriteAction(Locale.IsRussian ?
-                                "Обновление номеров каналов страницы {0}" :
-                                "Update channel numbers of the page {0}", pageFileName);
-                            adapter.UpdatePageChannels(page, srcCnlNums);
-                        }
-                    }
-                }
-                else
-                {
-                    // updating the entire table structure would take too long, so just backup the table
-                    appLog.WriteAction(Locale.IsRussian ?
-                        "Резервное копирование таблицы {0}" :
-                        "Backup the table {0}", tableDir);
-                    adapter.BackupTable(currentTable);
-                }
-            }
-
-            // create an empty table if it does not exist
-            if (!Directory.Exists(tableDir))
-            {
-                adapter.WriteMetadata(metaFileName, currentTable.Metadata);
-                currentTable.IsReady = true;
-            }
-
-            // add the archive channel list to the cache
-            adapter.CnlNumCache.Add(cnlNumList.ListID, cnlNumList);
+            if (options.WritingMode == WritingMode.AutoWithPeriod)
+                nextWriteTime = GetNextWriteTime(utcNow, writingPeriod);
         }
 
         /// <summary>
@@ -394,7 +418,7 @@ namespace Scada.Server.Modules.ModArcBasic.Logic
         /// </summary>
         public override bool ProcessData(ICurrentData curData)
         {
-            if (options.WritingMode == WritingMode.Auto && nextWriteTime <= curData.Timestamp)
+            if (options.WritingMode == WritingMode.AutoWithPeriod && nextWriteTime <= curData.Timestamp)
             {
                 DateTime writeTime = GetClosestWriteTime(curData.Timestamp, writingPeriod);
                 nextWriteTime = writeTime.AddSeconds(writingPeriod);
@@ -422,7 +446,15 @@ namespace Scada.Server.Modules.ModArcBasic.Logic
         /// </summary>
         public override bool AcceptData(DateTime timestamp)
         {
-            return TimeIsMultipleOfPeriod(timestamp, writingPeriod);
+            if (options.PullToPeriod > 0)
+            {
+                closestWriteTime = GetClosestWriteTime(timestamp, writingPeriod);
+                return (timestamp - closestWriteTime).TotalSeconds <= options.PullToPeriod;
+            }
+            else
+            {
+                return TimeIsMultipleOfPeriod(timestamp, writingPeriod);
+            }
         }
 
         /// <summary>
@@ -449,6 +481,9 @@ namespace Scada.Server.Modules.ModArcBasic.Logic
         /// </summary>
         public override void WriteCnlData(int cnlNum, DateTime timestamp, CnlData cnlData)
         {
+            if (options.PullToPeriod > 0)
+                timestamp = closestWriteTime;
+
             adapter.WriteCnlData(GetTrendTable(timestamp), cnlNum, timestamp, cnlData);
         }
     }

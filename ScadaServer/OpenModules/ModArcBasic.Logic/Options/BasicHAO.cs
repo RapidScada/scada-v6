@@ -46,7 +46,8 @@ namespace Scada.Server.Modules.ModArcBasic.Logic.Options
             IsCopy = options.GetValueAsBool("IsCopy");
             WritingPeriod = options.GetValueAsInt("WritingPeriod", 10);
             WritingUnit = options.GetValueAsEnum("WritingUnit", TimeUnit.Minute);
-            WritingMode = options.GetValueAsEnum("WritingMode", WritingMode.Auto);
+            WritingMode = options.GetValueAsEnum("WritingMode", WritingMode.AutoWithPeriod);
+            PullToPeriod = options.GetValueAsInt("PullToPeriod", 0);
             StoragePeriod = options.GetValueAsInt("StoragePeriod", 365);
             LogEnabled = options.GetValueAsBool("LogEnabled");
         }
@@ -71,6 +72,11 @@ namespace Scada.Server.Modules.ModArcBasic.Logic.Options
         /// Gets or sets the writing mode.
         /// </summary>
         public WritingMode WritingMode { get; set; }
+
+        /// <summary>
+        /// Gets or sets the possible deviation of timestamps from the writing period, in seconds.
+        /// </summary>
+        public int PullToPeriod { get; set; }
 
         /// <summary>
         /// Gets or sets the data storage period in days.

@@ -68,7 +68,7 @@ namespace Scada.Server.Modules.ModArcBasic.Logic
             adapter = new SliceTableAdapter { FileName = GetCurDataPath(archiveContext.AppConfig.PathOptions) };
             slice = new Slice(DateTime.MinValue, cnlNums);
 
-            nextWriteTime = GetNextWriteTime(DateTime.UtcNow, options.WritingPeriod);
+            nextWriteTime = DateTime.MinValue;
             cnlIndices = null;
         }
 
@@ -88,6 +88,7 @@ namespace Scada.Server.Modules.ModArcBasic.Logic
         public override void MakeReady()
         {
             Directory.CreateDirectory(Path.GetDirectoryName(adapter.FileName));
+            nextWriteTime = GetNextWriteTime(DateTime.UtcNow, options.WritingPeriod);
         }
 
         /// <summary>

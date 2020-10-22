@@ -28,7 +28,8 @@
       <Option name="IsCopy" value="false" />
       <Option name="WritingPeriod" value="1" />
       <Option name="WritingUnit" value="Minute" />
-      <Option name="WritingMode" value="Auto" />
+      <Option name="WritingMode" value="AutoWithPeriod" />
+      <Option name="PullToPeriod" value="0" />
       <Option name="StoragePeriod" value="365" />
       <Option name="LogEnabled" value="false" />
     </Archive>
@@ -36,7 +37,8 @@
       <Option name="IsCopy" value="false" />
       <Option name="WritingPeriod" value="1" />
       <Option name="WritingUnit" value="Hour" />
-      <Option name="WritingMode" value="Auto" />
+      <Option name="WritingMode" value="AutoWithPeriod" />
+      <Option name="PullToPeriod" value="0" />
       <Option name="StoragePeriod" value="365" />
       <Option name="LogEnabled" value="false" />
     </Archive>

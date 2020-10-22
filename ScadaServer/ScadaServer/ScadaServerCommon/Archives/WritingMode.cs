@@ -34,11 +34,21 @@ namespace Scada.Server.Archives
         /// <summary>
         /// Appends current data to a historical archive with a specified period.
         /// </summary>
-        Auto,
+        AutoWithPeriod,
 
         /// <summary>
-        /// Writes data to a historical archive only on explicit request.
+        /// Appends current data to a historical archive when data changes.
         /// </summary>
-        OnRequest
+        AutoOnChange,
+
+        /// <summary>
+        /// Writes data to a historical archive on explicit demand with a period check.
+        /// </summary>
+        OnDemandWithPeriod,
+
+        /// <summary>
+        /// Writes data to a historical archive on explicit demand.
+        /// </summary>
+        OnDemand
     }
 }

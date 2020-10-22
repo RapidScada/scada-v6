@@ -38,6 +38,8 @@ namespace Scada.Server
         public static string SaveModuleConfigError { get; private set; }
 
         // Archives
+        public static string InvalidWritingPeriod { get; private set; }
+        public static string WritingModeNotSupported { get; private set; }
         public static string DeleteOutdatedData { get; private set; }
         public static string ReadingTrendsCompleted { get; private set; }
         public static string ReadingTrendCompleted { get; private set; }
@@ -61,6 +63,8 @@ namespace Scada.Server
             // set phrases depending on locale
             if (Locale.IsRussian)
             {
+                InvalidWritingPeriod = "Период записи должен быть положительным.";
+                WritingModeNotSupported = "Режим записи не поддерживается архивом {0}.";
                 DeleteOutdatedData = "Удаление устаревших данных из архива {0}, которые старше {1}";
                 ReadingTrendsCompleted = "Чтение трендов длины {0} успешно завершено за {1} мс";
                 ReadingTrendCompleted = "Чтение тренда длины {0} успешно завершено за {1} мс";
@@ -76,6 +80,8 @@ namespace Scada.Server
             }
             else
             {
+                InvalidWritingPeriod = "Writing period must be positive.";
+                WritingModeNotSupported = "Writing mode is not supported by the {0} archive.";
                 DeleteOutdatedData = "Delete outdated data from the {0} archive older than {1}";
                 ReadingTrendsCompleted = "Reading trends of length {0} completed successfully in {1} ms";
                 ReadingTrendCompleted = "Reading a trend of length {0} completed successfully in {1} ms";
