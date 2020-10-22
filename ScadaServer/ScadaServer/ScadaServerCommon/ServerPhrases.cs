@@ -34,6 +34,8 @@ namespace Scada.Server
     public static class ServerPhrases
     {
         // Scada.Server.Modules
+        public static string LoadModuleConfigError { get; private set; }
+        public static string SaveModuleConfigError { get; private set; }
 
         // Archives
         public static string DeleteOutdatedData { get; private set; }
@@ -52,6 +54,9 @@ namespace Scada.Server
         public static void Init()
         {
             // load phrases from dictionaries
+            LocaleDict dict = Locale.GetDictionary("Scada.Server.Modules");
+            LoadModuleConfigError = dict.GetPhrase("LoadModuleConfigError");
+            SaveModuleConfigError = dict.GetPhrase("SaveModuleConfigError");
 
             // set phrases depending on locale
             if (Locale.IsRussian)

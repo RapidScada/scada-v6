@@ -1,3 +1,7 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <ScadaServerDictionaries>
+  <Dictionary key="Scada.Server.Modules">
+    <Phrase key="LoadModuleConfigError">Error loading module configuration</Phrase>
+    <Phrase key="SaveModuleConfigError">Error saving module configuration</Phrase>
+  </Dictionary>
 </ScadaServerDictionaries>
