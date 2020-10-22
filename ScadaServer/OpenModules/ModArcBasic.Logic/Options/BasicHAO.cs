@@ -44,9 +44,9 @@ namespace Scada.Server.Modules.ModArcBasic.Logic.Options
                 throw new ArgumentNullException(nameof(options));
 
             IsCopy = options.GetValueAsBool("IsCopy");
+            WritingMode = options.GetValueAsEnum("WritingMode", WritingMode.AutoWithPeriod);
             WritingPeriod = options.GetValueAsInt("WritingPeriod", 10);
             WritingUnit = options.GetValueAsEnum("WritingUnit", TimeUnit.Minute);
-            WritingMode = options.GetValueAsEnum("WritingMode", WritingMode.AutoWithPeriod);
             PullToPeriod = options.GetValueAsInt("PullToPeriod", 0);
             StoragePeriod = options.GetValueAsInt("StoragePeriod", 365);
             LogEnabled = options.GetValueAsBool("LogEnabled");
@@ -59,6 +59,11 @@ namespace Scada.Server.Modules.ModArcBasic.Logic.Options
         public bool IsCopy { get; set; }
 
         /// <summary>
+        /// Gets or sets the writing mode.
+        /// </summary>
+        public WritingMode WritingMode { get; set; }
+
+        /// <summary>
         /// Gets or sets the period of writing data to a file, sec.
         /// </summary>
         public int WritingPeriod { get; set; }
@@ -67,11 +72,6 @@ namespace Scada.Server.Modules.ModArcBasic.Logic.Options
         /// Gets or sets the unit of measure for the writing period.
         /// </summary>
         public TimeUnit WritingUnit { get; set; }
-
-        /// <summary>
-        /// Gets or sets the writing mode.
-        /// </summary>
-        public WritingMode WritingMode { get; set; }
 
         /// <summary>
         /// Gets or sets the possible deviation of timestamps from the writing period, in seconds.

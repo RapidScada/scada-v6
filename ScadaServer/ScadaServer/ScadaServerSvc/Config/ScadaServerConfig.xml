@@ -26,18 +26,18 @@
     </Archive>
     <Archive active="true" code="Min" name="Minute Archive" kind="Historical" module="ModArcBasic">
       <Option name="IsCopy" value="false" />
+      <Option name="WritingMode" value="AutoWithPeriod" />
       <Option name="WritingPeriod" value="1" />
       <Option name="WritingUnit" value="Minute" />
-      <Option name="WritingMode" value="AutoWithPeriod" />
       <Option name="PullToPeriod" value="0" />
       <Option name="StoragePeriod" value="365" />
       <Option name="LogEnabled" value="false" />
     </Archive>
     <Archive active="true" code="Hour" name="Hourly Archive" kind="Historical" module="ModArcBasic">
       <Option name="IsCopy" value="false" />
+      <Option name="WritingMode" value="AutoWithPeriod" />
       <Option name="WritingPeriod" value="1" />
       <Option name="WritingUnit" value="Hour" />
-      <Option name="WritingMode" value="AutoWithPeriod" />
       <Option name="PullToPeriod" value="0" />
       <Option name="StoragePeriod" value="365" />
       <Option name="LogEnabled" value="false" />

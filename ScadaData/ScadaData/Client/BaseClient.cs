@@ -369,9 +369,9 @@ namespace Scada.Client
 
             if (formatError)
             {
-                throw new ScadaException(string.Format(Locale.IsRussian ?
+                throw new ScadaException(Locale.IsRussian ?
                     "Некорректный формат данных, полученных от сервера: {0}" :
-                    "Incorrect format of data received from the server: {0}", errDescr));
+                    "Incorrect format of data received from the server: {0}", errDescr);
             }
 
             return response;

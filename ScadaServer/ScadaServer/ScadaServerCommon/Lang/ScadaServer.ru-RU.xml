@@ -3,5 +3,6 @@
   <Dictionary key="Scada.Server.Modules">
     <Phrase key="LoadModuleConfigError">Ошибка при загрузке конфигурации модуля</Phrase>
     <Phrase key="SaveModuleConfigError">Ошибка при сохранении конфигурации модуля</Phrase>
+    <Phrase key="ConnectionNotFound">Соединение &quot;{0}&quot; не найдено.</Phrase>
   </Dictionary>
 </ScadaServerDictionaries>

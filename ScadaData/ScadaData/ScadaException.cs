@@ -56,5 +56,13 @@ namespace Scada
             : base(message, innerException)
         {
         }
+
+        /// <summary>
+        /// Initializes a new instance of the class.
+        /// </summary>
+        public ScadaException(string message, params object[] args)
+            : base(string.Format(message, args))
+        {
+        }
     }
 }
