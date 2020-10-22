@@ -50,7 +50,7 @@ namespace Scada.Server.Modules.ModArcBasic.Logic
         {
             get
             {
-                return ModUtils.ModCode;
+                return ModuleUtils.ModuleCode;
             }
         }
 

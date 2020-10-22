@@ -63,7 +63,7 @@ namespace Scada.Server.Modules.ModArcBasic.Logic
             : base(archiveContext, archiveConfig, cnlNums)
         {
             options = new BasicCAO(archiveConfig.CustomOptions);
-            arcLog = options.LogEnabled ? CreateLog(ModUtils.ModCode) : null;
+            arcLog = options.LogEnabled ? CreateLog(ModuleUtils.ModuleCode) : null;
             stopwatch = new Stopwatch();
             adapter = new SliceTableAdapter { FileName = GetCurDataPath(archiveContext.AppConfig.PathOptions) };
             slice = new Slice(DateTime.MinValue, cnlNums);

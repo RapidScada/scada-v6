@@ -31,12 +31,12 @@ namespace Scada.Server.Modules.ModArcBasic.Logic
     /// The class provides helper methods for the module.
     /// <para>Класс, предоставляющий вспомогательные методы для модуля.</para>
     /// </summary>
-    internal static class ModUtils
+    internal static class ModuleUtils
     {
         /// <summary>
         /// The module code.
         /// </summary>
-        public const string ModCode = "ModArcBasic";
+        public const string ModuleCode = "ModArcBasic";
         /// <summary>
         ///  The maximum number of entries that can be stored in the cache.
         /// </summary>

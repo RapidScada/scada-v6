@@ -33,6 +33,8 @@ namespace Scada.Server
     /// </summary>
     public static class ServerPhrases
     {
+        // Scada.Server.Modules
+
         // Archives
         public static string DeleteOutdatedData { get; private set; }
         public static string ReadingTrendsCompleted { get; private set; }

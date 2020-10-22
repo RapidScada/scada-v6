@@ -63,11 +63,11 @@ namespace Scada.Server.Modules.ModArcBasic.Logic
         {
             options = new BasicEAO(archiveConfig.CustomOptions);
             appLog = archiveContext.Log;
-            arcLog = options.LogEnabled ? CreateLog(ModUtils.ModCode) : null;
+            arcLog = options.LogEnabled ? CreateLog(ModuleUtils.ModuleCode) : null;
             stopwatch = new Stopwatch();
             adapter = new EventTableAdapter();
             archivePath = Path.Combine(archiveContext.AppConfig.PathOptions.GetArcDir(options.IsCopy), Code);
-            tableCache = new MemoryCache<DateTime, EventTable>(ModUtils.CacheExpiration, ModUtils.CacheCapacity);
+            tableCache = new MemoryCache<DateTime, EventTable>(ModuleUtils.CacheExpiration, ModuleUtils.CacheCapacity);
 
             currentTable = null;
             lastTable = null;

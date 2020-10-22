@@ -67,15 +67,15 @@ namespace Scada.Server.Modules.ModArcBasic.Logic
         {
             options = new BasicHAO(archiveConfig.CustomOptions);
             appLog = archiveContext.Log;
-            arcLog = options.LogEnabled ? CreateLog(ModUtils.ModCode) : null;
+            arcLog = options.LogEnabled ? CreateLog(ModuleUtils.ModuleCode) : null;
             stopwatch = new Stopwatch();
             adapter = new TrendTableAdapter
             {
                 ParentDirectory = Path.Combine(archiveContext.AppConfig.PathOptions.GetArcDir(options.IsCopy), Code),
                 ArchiveCode = Code,
-                CnlNumCache = new MemoryCache<long, CnlNumList>(ModUtils.CacheExpiration, ModUtils.CacheCapacity)
+                CnlNumCache = new MemoryCache<long, CnlNumList>(ModuleUtils.CacheExpiration, ModuleUtils.CacheCapacity)
             };
-            tableCache = new MemoryCache<DateTime, TrendTable>(ModUtils.CacheExpiration, ModUtils.CacheCapacity);
+            tableCache = new MemoryCache<DateTime, TrendTable>(ModuleUtils.CacheExpiration, ModuleUtils.CacheCapacity);
             slice = new Slice(DateTime.MinValue, cnlNums);
             writingPeriod = GetPeriodInSec(options.WritingPeriod, options.WritingUnit);
 
