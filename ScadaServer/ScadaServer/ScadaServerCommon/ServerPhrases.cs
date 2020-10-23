@@ -39,6 +39,7 @@ namespace Scada.Server
         public static string ConnectionNotFound { get; private set; }
 
         // Archives
+        public static string ArchiveMessage { get; private set; }
         public static string InvalidWritingPeriod { get; private set; }
         public static string WritingModeNotSupported { get; private set; }
         public static string WritingModeIsSlow { get; private set; }
@@ -66,6 +67,7 @@ namespace Scada.Server
             // set phrases depending on locale
             if (Locale.IsRussian)
             {
+                ArchiveMessage = "Архив {0}: {1}";
                 InvalidWritingPeriod = "Период записи должен быть положительным.";
                 WritingModeNotSupported = "Режим записи не поддерживается архивом {0}.";
                 WritingModeIsSlow = "Выбранный режим записи может снизить производительность";
@@ -84,6 +86,7 @@ namespace Scada.Server
             }
             else
             {
+                ArchiveMessage = "Archive {0}: {1}";
                 InvalidWritingPeriod = "Writing period must be positive.";
                 WritingModeNotSupported = "Writing mode is not supported by the {0} archive.";
                 WritingModeIsSlow = "The selected writing mode may decrease performance";
