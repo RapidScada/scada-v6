@@ -43,6 +43,7 @@ namespace Scada.Server.Modules
         public ModuleLogic(IServerContext serverContext)
         {
             ServerContext = serverContext ?? throw new ArgumentNullException(nameof(serverContext));
+            AppDirs = serverContext.AppDirs;
             Log = serverContext.Log;
         }
 
@@ -51,6 +52,11 @@ namespace Scada.Server.Modules
         /// Gets the server context.
         /// </summary>
         protected IServerContext ServerContext { get; }
+
+        /// <summary>
+        /// Gets the application directories.
+        /// </summary>
+        protected ServerDirs AppDirs { get; }
 
         /// <summary>
         /// Gets or sets the module log.
