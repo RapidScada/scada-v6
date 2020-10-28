@@ -48,6 +48,7 @@ namespace Scada.Server
         public static string ReadingTrendCompleted { get; private set; }
         public static string ReadingTimestampsCompleted { get; private set; }
         public static string ReadingSliceCompleted { get; private set; }
+        public static string ReadingPointsCompleted { get; private set; }
         public static string WritingSliceCompleted { get; private set; }
         public static string WritingPointsCompleted { get; private set; }
         public static string UpdateCompleted { get; private set; }
@@ -76,6 +77,7 @@ namespace Scada.Server
                 ReadingTrendCompleted = "Чтение тренда длины {0} успешно завершено за {1} мс";
                 ReadingTimestampsCompleted = "Чтение меток времени длины {0} успешно завершено за {1} мс";
                 ReadingSliceCompleted = "Чтение среза длины {0} успешно завершено за {1} мс";
+                ReadingPointsCompleted = "Чтение {0} точек данных успешно завершено за {1} мс";
                 WritingSliceCompleted = "Запись среза длины {0} успешно завершена за {1} мс";
                 WritingPointsCompleted = "Запись {0} точек данных успешно завершена за {1} мс";
                 UpdateCompleted = "Обновление данных успешно завершено за {0} мс";
@@ -95,6 +97,7 @@ namespace Scada.Server
                 ReadingTrendCompleted = "Reading a trend of length {0} completed successfully in {1} ms";
                 ReadingTimestampsCompleted = "Reading timestamps of length {0} completed successfully in {1} ms";
                 ReadingSliceCompleted = "Reading a slice of length {0} completed successfully in {1} ms";
+                ReadingPointsCompleted = "Reading of {0} data points completed successfully in {1} ms";
                 WritingSliceCompleted = "Writing a slice of length {0} completed successfully in {1} ms";
                 WritingPointsCompleted = "Writing of {0} data points completed successfully in {1} ms";
                 UpdateCompleted = "Data update completed successfully in {0} ms";
