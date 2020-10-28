@@ -160,18 +160,18 @@ namespace Scada.Server.Archives
         }
 
         /// <summary>
-        /// Initializes the indices that map the archive input channels to all channels.
+        /// Initializes the indexes that map the archive input channels to all channels.
         /// </summary>
-        protected void InitCnlIndices(ICurrentData curData, ref int[] cnlIndices)
+        protected void InitCnlIndexes(ICurrentData curData, ref int[] cnlIndexes)
         {
-            if (cnlIndices == null)
+            if (cnlIndexes == null)
             {
                 int cnlCnt = CnlNums.Length;
-                cnlIndices = new int[cnlCnt];
+                cnlIndexes = new int[cnlCnt];
 
                 for (int i = 0; i < cnlCnt; i++)
                 {
-                    cnlIndices[i] = curData.GetCnlIndex(CnlNums[i]);
+                    cnlIndexes[i] = curData.GetCnlIndex(CnlNums[i]);
                 }
             }
         }
@@ -179,7 +179,7 @@ namespace Scada.Server.Archives
         /// <summary>
         /// Copies the current data to the slice that contains the archive input channels.
         /// </summary>
-        protected void CopyCnlData(ICurrentData curData, Slice slice, int[] cnlIndices)
+        protected void CopyCnlData(ICurrentData curData, Slice slice, int[] cnlIndexes)
         {
             if (slice.CnlNums == CnlNums)
             {
@@ -187,7 +187,7 @@ namespace Scada.Server.Archives
 
                 for (int i = 0, cnlCnt = CnlNums.Length; i < cnlCnt; i++)
                 {
-                    slice.CnlData[i] = curData.CnlData[cnlIndices[i]];
+                    slice.CnlData[i] = curData.CnlData[cnlIndexes[i]];
                 }
             }
             else

@@ -53,7 +53,7 @@ namespace Scada.Server.Modules.ModArcBasic.Logic
         private readonly Slice slice;               // the slice for writing
 
         private DateTime nextWriteTime; // the next time to write the current data
-        private int[] cnlIndices;       // the indices that map the input channels
+        private int[] cnlIndexes;       // the indexes that map the input channels
 
 
         /// <summary>
@@ -69,7 +69,7 @@ namespace Scada.Server.Modules.ModArcBasic.Logic
             slice = new Slice(DateTime.MinValue, cnlNums);
 
             nextWriteTime = DateTime.MinValue;
-            cnlIndices = null;
+            cnlIndexes = null;
         }
 
 
@@ -130,8 +130,8 @@ namespace Scada.Server.Modules.ModArcBasic.Logic
         public override void WriteData(ICurrentData curData)
         {
             stopwatch.Restart();
-            InitCnlIndices(curData, ref cnlIndices);
-            CopyCnlData(curData, slice, cnlIndices);
+            InitCnlIndexes(curData, ref cnlIndexes);
+            CopyCnlData(curData, slice, cnlIndexes);
             adapter.WriteSingleSlice(slice);
 
             stopwatch.Stop();

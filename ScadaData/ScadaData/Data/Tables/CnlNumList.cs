@@ -50,7 +50,7 @@ namespace Scada.Data.Tables
         {
             ListID = listID;
             CnlNums = cnlNums ?? throw new ArgumentNullException(nameof(cnlNums));
-            CnlIndices = CreateCnlIndices();
+            CnlIndexes = CreateCnlIndexes();
             CRC = CalculateCRC();
         }
 
@@ -61,7 +61,7 @@ namespace Scada.Data.Tables
         {
             ListID = listID;
             CnlNums = cnlNums ?? throw new ArgumentNullException(nameof(cnlNums));
-            CnlIndices = CreateCnlIndices();
+            CnlIndexes = CreateCnlIndexes();
             CRC = crc;
         }
 
@@ -75,7 +75,7 @@ namespace Scada.Data.Tables
 
             ListID = listID;
             CnlNums = sourceList.CnlNums;
-            CnlIndices = sourceList.CnlIndices;
+            CnlIndexes = sourceList.CnlIndexes;
             CRC = sourceList.CRC;
         }
 
@@ -91,9 +91,9 @@ namespace Scada.Data.Tables
         public int[] CnlNums { get; }
 
         /// <summary>
-        /// Gets the input channel indices accessed by channel number.
+        /// Gets the input channel indexes accessed by channel number.
         /// </summary>
-        public Dictionary<int, int> CnlIndices { get; }
+        public Dictionary<int, int> CnlIndexes { get; }
 
         /// <summary>
         /// Gets the 32-bit CRC of the channel numbers.
@@ -102,19 +102,19 @@ namespace Scada.Data.Tables
 
 
         /// <summary>
-        /// Creates the input channel indices.
+        /// Creates the input channel indexes.
         /// </summary>
-        protected Dictionary<int, int> CreateCnlIndices()
+        protected Dictionary<int, int> CreateCnlIndexes()
         {
             int cnlCnt = CnlNums.Length;
-            Dictionary<int, int> cnlIndices = new Dictionary<int, int>(cnlCnt);
+            Dictionary<int, int> cnlIndexes = new Dictionary<int, int>(cnlCnt);
 
             for (int i = 0; i < cnlCnt; i++)
             {
-                cnlIndices[CnlNums[i]] = i;
+                cnlIndexes[CnlNums[i]] = i;
             }
 
-            return cnlIndices;
+            return cnlIndexes;
         }
 
         /// <summary>

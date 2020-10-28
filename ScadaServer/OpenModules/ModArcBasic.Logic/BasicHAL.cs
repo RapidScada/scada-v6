@@ -53,7 +53,7 @@ namespace Scada.Server.Modules.ModArcBasic.Logic
         private readonly int writingPeriod;         // the writing period in seconds
 
         private DateTime nextWriteTime;  // the next time to write data to the archive
-        private int[] cnlIndices;        // the indices that map the input channels
+        private int[] cnlIndexes;        // the indexes that map the input channels
         private CnlNumList cnlNumList;   // the list of the input channel numbers processed by the archive
         private TrendTable currentTable; // the today's trend table
         private TrendTable updatedTable; // the trend table that is currently being updated
@@ -80,7 +80,7 @@ namespace Scada.Server.Modules.ModArcBasic.Logic
             writingPeriod = GetPeriodInSec(options.WritingPeriod, options.WritingUnit);
 
             nextWriteTime = DateTime.MinValue;
-            cnlIndices = null;
+            cnlIndexes = null;
             cnlNumList = new CnlNumList(cnlNums);
             currentTable = null;
             updatedTable = null;
@@ -423,8 +423,8 @@ namespace Scada.Server.Modules.ModArcBasic.Logic
 
                 stopwatch.Restart();
                 TrendTable trendTable = GetCurrentTrendTable(writeTime);
-                InitCnlIndices(curData, ref cnlIndices);
-                CopyCnlData(curData, slice, cnlIndices);
+                InitCnlIndexes(curData, ref cnlIndexes);
+                CopyCnlData(curData, slice, cnlIndexes);
                 slice.Timestamp = writeTime;
                 adapter.WriteSlice(trendTable, slice);
 

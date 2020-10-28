@@ -91,7 +91,7 @@ namespace Scada.Data.Tables
             }
             else
             {
-                return CnlNumList.CnlIndices.TryGetValue(cnlNum, out cnlIndex);
+                return CnlNumList.CnlIndexes.TryGetValue(cnlNum, out cnlIndex);
             }
         }
     }

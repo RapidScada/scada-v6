@@ -287,7 +287,7 @@ namespace Scada.Server.Engine
                 }
             }
 
-            // find channel indices for limits
+            // find channel indexes for limits
             int FindIndex(double? n)
             {
                 return n.HasValue && !double.IsNaN(n.Value) && cnlTags.TryGetValue((int)n, out CnlTag t) ?

@@ -85,7 +85,7 @@ namespace Scada.Server.Engine
         public Lim Lim { get; }
 
         /// <summary>
-        /// Gets or sets the input channel indices that define limits of this channel.
+        /// Gets or sets the input channel indexes that define limits of this channel.
         /// </summary>
         public LimCnlIndex LimCnlIndex { get; set; }
 

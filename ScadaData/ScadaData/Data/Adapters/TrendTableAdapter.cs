@@ -1048,7 +1048,7 @@ namespace Scada.Data.Adapters
 
                         for (int destCnlIndex = 0; destCnlIndex < destCnlCnt; destCnlIndex++)
                         {
-                            if (srcCnlNums.CnlIndices.TryGetValue(destCnlNums.CnlNums[destCnlIndex], 
+                            if (srcCnlNums.CnlIndexes.TryGetValue(destCnlNums.CnlNums[destCnlIndex], 
                                 out int srcCnlIndex))
                             {
                                 // read a trend from the source page
@@ -1165,7 +1165,7 @@ namespace Scada.Data.Adapters
                     // copy trends
                     for (int destCnlIndex = 0; destCnlIndex < destCnlCnt; destCnlIndex++)
                     {
-                        if (srcCnlNums.CnlIndices.TryGetValue(destCnlNums.CnlNums[destCnlIndex], out int srcCnlIndex))
+                        if (srcCnlNums.CnlIndexes.TryGetValue(destCnlNums.CnlNums[destCnlIndex], out int srcCnlIndex))
                         {
                             inStream.Position = GetTrendPosition(srcCnlCnt, pageCapacity, srcCnlIndex);
                             ReadData(reader, buffer, 0, trendDataSize, true);
