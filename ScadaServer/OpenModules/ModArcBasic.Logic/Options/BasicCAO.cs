@@ -23,8 +23,8 @@
  * Modified : 2020
  */
 
-using System;
 using Scada.Config;
+using Scada.Server.Archives;
 
 namespace Scada.Server.Modules.ModArcBasic.Logic.Options
 {
@@ -32,35 +32,20 @@ namespace Scada.Server.Modules.ModArcBasic.Logic.Options
     /// Represents options of a current data archive.
     /// <para>Представляет параметры архива текущих данных.</para>
     /// </summary>
-    internal class BasicCAO
+    internal class BasicCAO : CurrentArchiveOptions
     {
         /// <summary>
         /// Initializes a new instance of the class.
         /// </summary>
         public BasicCAO(CustomOptions options)
+            : base(options)
         {
-            if (options == null)
-                throw new ArgumentNullException(nameof(options));
-
             IsCopy = options.GetValueAsBool("IsCopy");
-            WritingPeriod = options.GetValueAsInt("WritingPeriod", 10);
-            LogEnabled = options.GetValueAsBool("LogEnabled");
         }
-
 
         /// <summary>
         /// Gets or sets a value indicating whether the archive stores a copy of the data.
         /// </summary>
         public bool IsCopy { get; set; }
-
-        /// <summary>
-        /// Gets or sets the period of writing data to a file, sec.
-        /// </summary>
-        public int WritingPeriod { get; set; }
-
-        /// <summary>
-        /// Gets or sets a value indicating whether to write the archive log.
-        /// </summary>
-        public bool LogEnabled { get; set; }
     }
 }

@@ -15,8 +15,8 @@
  * 
  * 
  * Product  : Rapid SCADA
- * Module   : ModArcBasic
- * Summary  : Represents options of a historical data archive
+ * Module   : ScadaServerCommon
+ * Summary  : Represents options of an event archive
  * 
  * Author   : Mikhail Shiryaev
  * Created  : 2020
@@ -24,28 +24,37 @@
  */
 
 using Scada.Config;
-using Scada.Server.Archives;
+using System;
 
-namespace Scada.Server.Modules.ModArcBasic.Logic.Options
+namespace Scada.Server.Archives
 {
     /// <summary>
-    /// Represents options of a historical data archive.
-    /// <para>Представляет параметры архива исторических данных.</para>
+    /// Represents options of an event archive.
+    /// <para>Представляет параметры архива событий.</para>
     /// </summary>
-    internal class BasicHAO : HistoricalArchiveOptions
+    public abstract class EventArchiveOptions
     {
         /// <summary>
         /// Initializes a new instance of the class.
         /// </summary>
-        public BasicHAO(CustomOptions options)
-            : base(options)
+        public EventArchiveOptions(CustomOptions options)
         {
-            IsCopy = options.GetValueAsBool("IsCopy");
+            if (options == null)
+                throw new ArgumentNullException(nameof(options));
+
+            StoragePeriod = options.GetValueAsInt("StoragePeriod", 365);
+            LogEnabled = options.GetValueAsBool("LogEnabled");
         }
 
+
         /// <summary>
-        /// Gets or sets a value indicating whether the archive stores a copy of the data.
+        /// Gets or sets the data storage period in days.
         /// </summary>
-        public bool IsCopy { get; set; }
+        public int StoragePeriod { get; set; }
+
+        /// <summary>
+        /// Gets or sets a value indicating whether to write the archive log.
+        /// </summary>
+        public bool LogEnabled { get; set; }
     }
 }

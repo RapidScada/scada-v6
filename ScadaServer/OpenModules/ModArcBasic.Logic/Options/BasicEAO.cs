@@ -24,7 +24,7 @@
  */
 
 using Scada.Config;
-using System;
+using Scada.Server.Archives;
 
 namespace Scada.Server.Modules.ModArcBasic.Logic.Options
 {
@@ -32,35 +32,20 @@ namespace Scada.Server.Modules.ModArcBasic.Logic.Options
     /// Represents options of an event archive.
     /// <para>Представляет параметры архива событий.</para>
     /// </summary>
-    internal class BasicEAO
+    internal class BasicEAO : EventArchiveOptions
     {
         /// <summary>
         /// Initializes a new instance of the class.
         /// </summary>
         public BasicEAO(CustomOptions options)
+            : base(options)
         {
-            if (options == null)
-                throw new ArgumentNullException(nameof(options));
-
             IsCopy = options.GetValueAsBool("IsCopy");
-            StoragePeriod = options.GetValueAsInt("StoragePeriod", 365);
-            LogEnabled = options.GetValueAsBool("LogEnabled");
         }
-
 
         /// <summary>
         /// Gets or sets a value indicating whether the archive stores a copy of the data.
         /// </summary>
         public bool IsCopy { get; set; }
-
-        /// <summary>
-        /// Gets or sets the data storage period in days.
-        /// </summary>
-        public int StoragePeriod { get; set; }
-
-        /// <summary>
-        /// Gets or sets a value indicating whether to write the archive log.
-        /// </summary>
-        public bool LogEnabled { get; set; }
     }
 }

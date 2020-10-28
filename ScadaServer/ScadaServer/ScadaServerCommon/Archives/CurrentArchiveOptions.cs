@@ -15,37 +15,46 @@
  * 
  * 
  * Product  : Rapid SCADA
- * Module   : ModArcBasic
- * Summary  : Represents options of a historical data archive
+ * Module   : ScadaServerCommon
+ * Summary  : Represents options of a current data archive
  * 
  * Author   : Mikhail Shiryaev
  * Created  : 2020
  * Modified : 2020
  */
 
+using System;
 using Scada.Config;
-using Scada.Server.Archives;
 
-namespace Scada.Server.Modules.ModArcBasic.Logic.Options
+namespace Scada.Server.Archives
 {
     /// <summary>
-    /// Represents options of a historical data archive.
-    /// <para>Представляет параметры архива исторических данных.</para>
+    /// Represents options of a current data archive.
+    /// <para>Представляет параметры архива текущих данных.</para>
     /// </summary>
-    internal class BasicHAO : HistoricalArchiveOptions
+    public abstract class CurrentArchiveOptions
     {
         /// <summary>
         /// Initializes a new instance of the class.
         /// </summary>
-        public BasicHAO(CustomOptions options)
-            : base(options)
+        public CurrentArchiveOptions(CustomOptions options)
         {
-            IsCopy = options.GetValueAsBool("IsCopy");
+            if (options == null)
+                throw new ArgumentNullException(nameof(options));
+
+            WritingPeriod = options.GetValueAsInt("WritingPeriod", 10);
+            LogEnabled = options.GetValueAsBool("LogEnabled");
         }
 
+
         /// <summary>
-        /// Gets or sets a value indicating whether the archive stores a copy of the data.
+        /// Gets or sets the period of writing data to a file, sec.
         /// </summary>
-        public bool IsCopy { get; set; }
+        public int WritingPeriod { get; set; }
+
+        /// <summary>
+        /// Gets or sets a value indicating whether to write the archive log.
+        /// </summary>
+        public bool LogEnabled { get; set; }
     }
 }
