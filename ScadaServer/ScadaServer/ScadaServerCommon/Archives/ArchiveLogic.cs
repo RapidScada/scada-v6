@@ -29,6 +29,7 @@ using Scada.Server.Config;
 using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Text;
 using System.Threading;
 
 namespace Scada.Server.Archives
@@ -101,6 +102,19 @@ namespace Scada.Server.Archives
         /// Gets the required cleanup period for outdated data.
         /// </summary>
         public TimeSpan CleanupPeriod { get; protected set; }
+
+        /// <summary>
+        /// Gets the current archive status as text.
+        /// </summary>
+        public virtual string StatusText
+        {
+            get
+            {
+                return Locale.IsRussian ?
+                    (IsReady ? "готовность" : "не готов") :
+                    (IsReady ? "Ready" : "Not Ready");
+            }
+        }
 
 
         /// <summary>

@@ -176,12 +176,8 @@ namespace Scada.Server.Engine
                     sb
                         .Append(archiveLogic.Title)
                         .Append(' ', maxArcTitleLength - archiveLogic.Title.Length)
-                        .Append(" : ");
-
-                    if (Locale.IsRussian)
-                        sb.AppendLine(archiveLogic.IsReady ? "готовность" : "не готов");
-                    else
-                        sb.AppendLine(archiveLogic.IsReady ? "Ready" : "Not Ready");
+                        .Append(" : ")
+                        .AppendLine(archiveLogic.StatusText);
                 }
             }
             else
