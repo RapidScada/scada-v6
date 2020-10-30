@@ -37,6 +37,8 @@ namespace Scada.Server
         public static string LoadModuleConfigError { get; private set; }
         public static string SaveModuleConfigError { get; private set; }
         public static string ConnectionNotFound { get; private set; }
+        public static string ReadDbError { get; private set; }
+        public static string WriteDbError { get; private set; }
 
         // Archives
         public static string ArchiveMessage { get; private set; }
@@ -52,6 +54,7 @@ namespace Scada.Server
         public static string WritingSliceCompleted { get; private set; }
         public static string WritingPointsCompleted { get; private set; }
         public static string QueueingPointsCompleted { get; private set; }
+        public static string QueueBecameEmpty { get; private set; }
         public static string PointsWereLost { get; private set; }
         public static string UpdateCompleted { get; private set; }
         public static string ReadingEventsCompleted { get; private set; }
@@ -66,6 +69,8 @@ namespace Scada.Server
             LoadModuleConfigError = dict.GetPhrase("LoadModuleConfigError");
             SaveModuleConfigError = dict.GetPhrase("SaveModuleConfigError");
             ConnectionNotFound = dict.GetPhrase("ConnectionNotFound");
+            ReadDbError = dict.GetPhrase("ReadDbError");
+            WriteDbError = dict.GetPhrase("WriteDbError");
 
             // set phrases depending on locale
             if (Locale.IsRussian)
@@ -83,6 +88,7 @@ namespace Scada.Server
                 WritingSliceCompleted = "Запись среза длины {0} успешно завершена за {1} мс";
                 WritingPointsCompleted = "Запись {0} точек данных успешно завершена за {1} мс";
                 QueueingPointsCompleted = "Постановка в очередь {0} точек данных успешно завершена за {1} мс";
+                QueueBecameEmpty = "Очередь данных стала пустой";
                 PointsWereLost = "{0} точек данных были потеряны";
                 UpdateCompleted = "Обновление данных успешно завершено за {0} мс";
                 ReadingEventsCompleted = "Чтение {0} событий успешно завершено за {1} мс";
@@ -105,6 +111,7 @@ namespace Scada.Server
                 WritingSliceCompleted = "Writing a slice of length {0} completed successfully in {1} ms";
                 WritingPointsCompleted = "Writing of {0} data points completed successfully in {1} ms";
                 QueueingPointsCompleted = "Enqueueing of {0} data points completed successfully in {1} ms";
+                QueueBecameEmpty = "The data queue has become empty";
                 PointsWereLost = "{0} data points were lost";
                 UpdateCompleted = "Data update completed successfully in {0} ms";
                 ReadingEventsCompleted = "Reading of {0} events completed successfully in {1} ms";
