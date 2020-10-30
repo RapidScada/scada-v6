@@ -154,6 +154,24 @@ namespace Scada.Server.Archives
         }
 
         /// <summary>
+        /// Pulls a timestamp to the closest periodic timestamp within the specified range.
+        /// </summary>
+        protected bool PullTimeToPeriod(ref DateTime timestamp, int period, int pullingRange)
+        {
+            DateTime closestTime = GetClosestWriteTime(timestamp, period);
+
+            if ((timestamp - closestTime).TotalSeconds <= pullingRange)
+            {
+                timestamp = closestTime;
+                return true;
+            }
+            else
+            {
+                return false;
+            }
+        }
+
+        /// <summary>
         /// Gets the closest time to write data to the archive, less than or equal to the specified timestamp.
         /// </summary>
         protected DateTime GetClosestWriteTime(DateTime timestamp, int period)

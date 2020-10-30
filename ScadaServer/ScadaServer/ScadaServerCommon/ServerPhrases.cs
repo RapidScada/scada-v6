@@ -52,6 +52,7 @@ namespace Scada.Server
         public static string WritingSliceCompleted { get; private set; }
         public static string WritingPointsCompleted { get; private set; }
         public static string QueueingPointsCompleted { get; private set; }
+        public static string PointsWereLost { get; private set; }
         public static string UpdateCompleted { get; private set; }
         public static string ReadingEventsCompleted { get; private set; }
         public static string ReadingEventCompleted { get; private set; }
@@ -82,6 +83,7 @@ namespace Scada.Server
                 WritingSliceCompleted = "Запись среза длины {0} успешно завершена за {1} мс";
                 WritingPointsCompleted = "Запись {0} точек данных успешно завершена за {1} мс";
                 QueueingPointsCompleted = "Постановка в очередь {0} точек данных успешно завершена за {1} мс";
+                PointsWereLost = "{0} точек данных были потеряны";
                 UpdateCompleted = "Обновление данных успешно завершено за {0} мс";
                 ReadingEventsCompleted = "Чтение {0} событий успешно завершено за {1} мс";
                 ReadingEventCompleted = "Чтение события успешно завершено за {0} мс";
@@ -103,6 +105,7 @@ namespace Scada.Server
                 WritingSliceCompleted = "Writing a slice of length {0} completed successfully in {1} ms";
                 WritingPointsCompleted = "Writing of {0} data points completed successfully in {1} ms";
                 QueueingPointsCompleted = "Enqueueing of {0} data points completed successfully in {1} ms";
+                PointsWereLost = "{0} data points were lost";
                 UpdateCompleted = "Data update completed successfully in {0} ms";
                 ReadingEventsCompleted = "Reading of {0} events completed successfully in {1} ms";
                 ReadingEventCompleted = "Reading an event completed successfully in {0} ms";

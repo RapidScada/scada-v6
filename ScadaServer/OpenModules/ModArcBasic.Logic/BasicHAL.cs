@@ -444,24 +444,9 @@ namespace Scada.Server.Modules.ModArcBasic.Logic
         /// </summary>
         public override bool AcceptData(ref DateTime timestamp)
         {
-            if (options.PullToPeriod > 0)
-            {
-                DateTime closestTime = GetClosestWriteTime(timestamp, writingPeriod);
-
-                if ((timestamp - closestTime).TotalSeconds <= options.PullToPeriod)
-                {
-                    timestamp = closestTime;
-                    return true;
-                }
-                else
-                {
-                    return false;
-                }
-            }
-            else
-            {
-                return TimeIsMultipleOfPeriod(timestamp, writingPeriod);
-            }
+            return options.PullToPeriod > 0 ?
+                PullTimeToPeriod(ref timestamp, writingPeriod, options.PullToPeriod) :
+                TimeIsMultipleOfPeriod(timestamp, writingPeriod);
         }
 
         /// <summary>
