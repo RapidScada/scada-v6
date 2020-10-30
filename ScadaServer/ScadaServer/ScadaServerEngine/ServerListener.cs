@@ -155,6 +155,29 @@ namespace Scada.Server.Engine
         }
 
         /// <summary>
+        /// Gets the available timestamps.
+        /// </summary>
+        protected void GetTimestamps(ConnectedClient client, DataPacket request, out ResponsePacket response)
+        {
+            byte[] buffer = request.Buffer;
+            int index = ArgumentIndex;
+            TimeRange timeRange = GetTimeRange(buffer, ref index);
+            int archiveBit = GetByte(buffer, ref index);
+
+            List<DateTime> timestamps = archiveHolder.GetTimestamps(timeRange, archiveBit);
+            response = new ResponsePacket(request, client.OutBuf);
+            index = ArgumentIndex;
+            CopyInt32(timestamps.Count, buffer, ref index);
+
+            foreach (DateTime timestamp in timestamps)
+            {
+                CopyTime(timestamp, buffer, ref index);
+            }
+
+            response.BufferLength = index;
+        }
+
+        /// <summary>
         /// Gets the slice of the specified input channels at the timestamp.
         /// </summary>
         protected void GetSlice(ConnectedClient client, DataPacket request, out ResponsePacket response)
@@ -556,6 +579,10 @@ namespace Scada.Server.Engine
 
                 case FunctionID.GetTrends:
                     GetTrends(client, request);
+                    break;
+
+                case FunctionID.GetTimestamps:
+                    GetTimestamps(client, request, out response);
                     break;
 
                 case FunctionID.GetSlice:

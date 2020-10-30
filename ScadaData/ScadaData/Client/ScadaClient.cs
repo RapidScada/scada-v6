@@ -269,46 +269,22 @@ namespace Scada.Client
         {
             RestoreConnection();
 
-            DataPacket request = CreateRequest(FunctionID.GetTrends);
+            DataPacket request = CreateRequest(FunctionID.GetTimestamps);
             int index = ArgumentIndex;
-            CopyInt32(0, outBuf, ref index);
             CopyTimeRange(timeRange, outBuf, ref index);
             CopyByte((byte)archiveBit, outBuf, ref index);
             request.BufferLength = index;
             SendRequest(request);
 
-            List<DateTime> timestamps = null;
-            int prevBlockNumber = 0;
-            int blockNumber = 0;
-            int blockCount = int.MaxValue;
-            int totalPointCount = 0;
+            DataPacket response = ReceiveResponse(request);
+            index = ArgumentIndex;
+            int timestampCount = GetInt32(inBuf, ref index);
+            List<DateTime> timestamps = new List<DateTime>(timestampCount);
 
-            while (blockNumber < blockCount)
+            for (int i = 0; i < timestampCount; i++)
             {
-                DataPacket response = ReceiveResponse(request);
-                index = ArgumentIndex;
-                blockNumber = GetInt32(inBuf, ref index);
-                blockCount = GetInt32(inBuf, ref index);
-                totalPointCount = GetInt32(inBuf, ref index);
-                int pointCount = GetInt32(inBuf, ref index);
-
-                if (blockNumber != prevBlockNumber + 1)
-                    ThrowBlockNumberException();
-
-                if (timestamps == null)
-                    timestamps = new List<DateTime>(totalPointCount);
-
-                for (int i = 0; i < pointCount; i++)
-                {
-                    timestamps.Add(GetTime(inBuf, ref index));
-                }
-
-                prevBlockNumber = blockNumber;
-                OnProgress(blockNumber, blockCount);
+                timestamps.Add(GetTime(inBuf, ref index));
             }
-
-            if (timestamps.Count != totalPointCount)
-                ThrowDataSizeException();
 
             return timestamps;
         }

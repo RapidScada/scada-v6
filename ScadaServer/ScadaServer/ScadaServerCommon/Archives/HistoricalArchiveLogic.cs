@@ -46,6 +46,22 @@ namespace Scada.Server.Archives
 
 
         /// <summary>
+        /// Gets the trends one by one and merges them.
+        /// </summary>
+        protected TrendBundle MergeTrends(int[] cnlNums, TimeRange timeRange)
+        {
+            int cnlCnt = cnlNums.Length;
+            Trend[] trends = new Trend[cnlCnt];
+
+            for (int i = 0; i < cnlCnt; i++)
+            {
+                trends[i] = GetTrend(cnlNums[i], timeRange);
+            }
+
+            return TrendHelper.MergeTrends(trends);
+        }
+
+        /// <summary>
         /// Gets the trends of the specified input channels.
         /// </summary>
         public abstract TrendBundle GetTrends(int[] cnlNums, TimeRange timeRange);

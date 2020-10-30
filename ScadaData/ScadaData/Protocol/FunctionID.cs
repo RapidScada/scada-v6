@@ -46,10 +46,11 @@ namespace Scada.Protocol
 
         public const ushort GetCurrentData = 0x0201;
         public const ushort GetTrends = 0x0202;
-        public const ushort GetSlice = 0x0203;
-        public const ushort GetLastWriteTime = 0x0204;
-        public const ushort WriteCurrentData = 0x0205;
-        public const ushort WriteHistoricalData = 0x0206;
+        public const ushort GetTimestamps = 0x0203;
+        public const ushort GetSlice = 0x0204;
+        public const ushort GetLastWriteTime = 0x0205;
+        public const ushort WriteCurrentData = 0x0206;
+        public const ushort WriteHistoricalData = 0x0207;
 
         public const ushort GetEventByID = 0x0301;
         public const ushort GetEvents = 0x0302;
@@ -62,26 +63,27 @@ namespace Scada.Protocol
 
         private static readonly Dictionary<ushort, string> FunctionNames = new Dictionary<ushort, string>
         {
-            { GetSessionInfo, "GetSessionInfo" },
-            { Login, "Login" },
-            { GetStatus, "GetStatus" },
-            { TerminateSession, "TerminateSession" },
-            { GetFileInfo, "GetFileInfo" },
-            { DownloadFile, "DownloadFile" },
-            { UploadFile, "UploadFile" },
-            { GetCurrentData, "GetCurrentData" },
-            { GetTrends, "GetTrends" },
-            { GetSlice, "GetSlice" },
-            { GetLastWriteTime, "GetLastWriteTime" },
-            { WriteCurrentData, "WriteCurrentData" },
-            { WriteHistoricalData, "WriteHistoricalData" },
-            { GetEventByID, "GetEventByID" },
-            { GetEvents, "GetEvents" },
-            { WriteEvent, "WriteEvent" },
-            { AckEvent, "AckEvent" },
-            { SendCommand, "SendCommand" },
-            { GetCommand, "GetCommand" },
-            { DisableGettingCommands, "DisableGettingCommands" }
+            { GetSessionInfo, nameof(GetSessionInfo) },
+            { Login, nameof(Login) },
+            { GetStatus, nameof(GetStatus) },
+            { TerminateSession, nameof(TerminateSession) },
+            { GetFileInfo, nameof(GetFileInfo) },
+            { DownloadFile, nameof(DownloadFile) },
+            { UploadFile, nameof(UploadFile) },
+            { GetCurrentData, nameof(GetCurrentData) },
+            { GetTrends, nameof(GetTrends) },
+            { GetTimestamps, nameof(GetTimestamps) },
+            { GetSlice, nameof(GetSlice) },
+            { GetLastWriteTime, nameof(GetLastWriteTime) },
+            { WriteCurrentData, nameof(WriteCurrentData) },
+            { WriteHistoricalData, nameof(WriteHistoricalData) },
+            { GetEventByID, nameof(GetEventByID) },
+            { GetEvents, nameof(GetEvents) },
+            { WriteEvent, nameof(WriteEvent) },
+            { AckEvent, nameof(AckEvent) },
+            { SendCommand, nameof(SendCommand) },
+            { GetCommand, nameof(GetCommand) },
+            { DisableGettingCommands, nameof(DisableGettingCommands) }
         };
 
         /// <summary>

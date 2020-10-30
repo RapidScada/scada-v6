@@ -416,6 +416,12 @@ namespace Scada.Server.Engine
         /// </summary>
         public TrendBundle GetTrends(int[] cnlNums, TimeRange timeRange, int archiveBit)
         {
+            if (cnlNums == null)
+                throw new ArgumentNullException(nameof(cnlNums));
+
+            if (cnlNums.Length == 0)
+                return new TrendBundle(cnlNums, 0);
+
             if (GetArchive(archiveBit, out HistoricalArchiveLogic archiveLogic))
             {
                 try
@@ -494,6 +500,12 @@ namespace Scada.Server.Engine
         /// </summary>
         public Slice GetSlice(int[] cnlNums, DateTime timestamp, int archiveBit)
         {
+            if (cnlNums == null)
+                throw new ArgumentNullException(nameof(cnlNums));
+
+            if (cnlNums.Length == 0)
+                return new Slice(timestamp, cnlNums);
+
             if (GetArchive(archiveBit, out HistoricalArchiveLogic archiveLogic))
             {
                 try
