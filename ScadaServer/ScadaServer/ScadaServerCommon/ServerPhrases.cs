@@ -111,7 +111,7 @@ namespace Scada.Server
                 WritingSliceCompleted = "Writing a slice of length {0} completed successfully in {1} ms";
                 WritingPointsCompleted = "Writing of {0} data points completed successfully in {1} ms";
                 QueueingPointsCompleted = "Enqueueing of {0} data points completed successfully in {1} ms";
-                QueueBecameEmpty = "The data queue has become empty";
+                QueueBecameEmpty = "Data queue has become empty";
                 PointsWereLost = "{0} data points were lost";
                 UpdateCompleted = "Data update completed successfully in {0} ms";
                 ReadingEventsCompleted = "Reading of {0} events completed successfully in {1} ms";
