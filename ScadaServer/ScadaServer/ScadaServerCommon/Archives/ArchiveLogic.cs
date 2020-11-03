@@ -192,6 +192,22 @@ namespace Scada.Server.Archives
         }
 
         /// <summary>
+        /// Gets the indexes of the input channels in the specified array.
+        /// </summary>
+        protected Dictionary<int, int> GetCnlIndexes(int[] cnlNums)
+        {
+            int cnlCnt = cnlNums.Length;
+            Dictionary<int, int> indexes = new Dictionary<int, int>(cnlCnt);
+
+            for (int i = 0; i < cnlCnt; i++)
+            {
+                indexes[cnlNums[i]] = i;
+            }
+
+            return indexes;
+        }
+
+        /// <summary>
         /// Initializes the indexes that map the archive input channels to all channels.
         /// </summary>
         protected void InitCnlIndexes(ICurrentData curData, ref int[] cnlIndexes)
