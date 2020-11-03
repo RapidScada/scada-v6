@@ -165,7 +165,8 @@ namespace Scada.Server.Engine
             int archiveBit = GetByte(buffer, ref index);
 
             List<DateTime> timestamps = archiveHolder.GetTimestamps(timeRange, archiveBit);
-            response = new ResponsePacket(request, client.OutBuf);
+            buffer = client.OutBuf;
+            response = new ResponsePacket(request, buffer);
             index = ArgumentIndex;
             CopyInt32(timestamps.Count, buffer, ref index);
 
