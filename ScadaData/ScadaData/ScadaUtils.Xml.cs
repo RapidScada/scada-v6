@@ -95,16 +95,6 @@ namespace Scada
         }
 
         /// <summary>
-        /// Creates and appends to the parent a new XML element of the option 
-        /// with the specified name, value and description.
-        /// </summary>
-        public static XmlElement AppendOptionElem(this XmlElement parentXmlElem, string optionName, object value,
-            string descrRu, string descrEn)
-        {
-            return parentXmlElem.AppendOptionElem(optionName, value, Locale.IsRussian ? descrRu : descrEn);
-        }
-
-        /// <summary>
         /// Finds an XML element of the option having the specified name.
         /// </summary>
         public static XmlElement GetOptionElem(this XmlElement parentXmlElem, string optionName)
