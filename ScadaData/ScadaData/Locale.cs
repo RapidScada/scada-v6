@@ -225,7 +225,7 @@ namespace Scada
         }
 
         /// <summary>
-        /// Gets the dictionary by the specified key or an empty dictionary if the key is not found.
+        /// Gets the dictionary by the specified key, or an empty dictionary if the key is not found.
         /// </summary>
         public static LocaleDict GetDictionary(string key)
         {
