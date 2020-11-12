@@ -4,8 +4,8 @@ using System.Xml;
 
 namespace Scada
 {
-	partial class ScadaUtils
-	{
+    partial class ScadaUtils
+    {
         /// <summary>
         /// Converts the value to be written to an XML file into a string.
         /// </summary>
