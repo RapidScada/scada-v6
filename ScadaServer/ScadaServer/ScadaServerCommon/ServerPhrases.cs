@@ -60,7 +60,10 @@ namespace Scada.Server
         public static string ReadingEventsCompleted { get; private set; }
         public static string ReadingEventCompleted { get; private set; }
         public static string WritingEventCompleted { get; private set; }
+        public static string QueueingEventCompleted { get; private set; }
+        public static string EventsWereLost { get; private set; }
         public static string AckEventCompleted { get; private set; }
+        public static string AckEventNotFound { get; private set; }
 
         public static void Init()
         {
@@ -94,7 +97,10 @@ namespace Scada.Server
                 ReadingEventsCompleted = "Чтение {0} событий успешно завершено за {1} мс";
                 ReadingEventCompleted = "Чтение события успешно завершено за {0} мс";
                 WritingEventCompleted = "Запись события успешно завершена за {0} мс";
+                QueueingEventCompleted = "Постановка события в очередь успешно завершена за {0} мс";
+                EventsWereLost = "{0} событий были потеряны";
                 AckEventCompleted = "Квитирование события успешно завершено за {0} мс";
+                AckEventNotFound = "Квитируемое событие с идентификатором {0} не найдено";
             }
             else
             {
@@ -117,7 +123,10 @@ namespace Scada.Server
                 ReadingEventsCompleted = "Reading of {0} events completed successfully in {1} ms";
                 ReadingEventCompleted = "Reading an event completed successfully in {0} ms";
                 WritingEventCompleted = "Event writing completed successfully in {0} ms";
+                QueueingEventCompleted = "Enqueueing an event completed successfully in {0} ms";
+                EventsWereLost = "{0} events were lost";
                 AckEventCompleted = "Event acknowledgment completed successfully in {0} ms";
+                AckEventNotFound = "Acknowledged event with ID {0} not found";
             }
         }
     }

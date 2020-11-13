@@ -835,11 +835,12 @@ namespace Scada.Server.Engine
                     cnlStat > CnlStatusID.Undefined && prevStat == CnlStatusID.Undefined))
                 {
                     CnlStatus cnlStatus = BaseDataSet.CnlStatusTable.GetItem(cnlData.Stat);
+                    DateTime utcNow = DateTime.UtcNow;
 
                     EnqueueEvent(new Event
                     {
-                        EventID = ScadaUtils.GenerateUniqueID(),
-                        Timestamp = DateTime.UtcNow,
+                        EventID = ScadaUtils.GenerateUniqueID(utcNow),
+                        Timestamp = utcNow,
                         CnlNum = cnlTag.CnlNum,
                         ObjNum = inCnl.ObjNum ?? 0,
                         DeviceNum = inCnl.DeviceNum ?? 0,
@@ -861,10 +862,12 @@ namespace Scada.Server.Engine
         {
             if (outCnlTag.OutCnl.EventEnabled)
             {
+                DateTime utcNow = DateTime.UtcNow;
+
                 EnqueueEvent(new Event
                 {
-                    EventID = ScadaUtils.GenerateUniqueID(),
-                    Timestamp = DateTime.UtcNow,
+                    EventID = ScadaUtils.GenerateUniqueID(utcNow),
+                    Timestamp = utcNow,
                     OutCnlNum = command.OutCnlNum,
                     ObjNum = command.ObjNum,
                     DeviceNum = command.DeviceNum,
@@ -1316,7 +1319,7 @@ namespace Scada.Server.Engine
 
             try
             {
-                ev.EventID = ScadaUtils.GenerateUniqueID();
+                ev.EventID = ScadaUtils.GenerateUniqueID(ev.Timestamp);
 
                 if (ev.CnlNum > 0 && cnlTags.TryGetValue(ev.CnlNum, out CnlTag cnlTag))
                 {
@@ -1424,8 +1427,9 @@ namespace Scada.Server.Engine
                     }
                     else
                     {
-                        command.CommandID = ScadaUtils.GenerateUniqueID();
-                        command.CreationTime = DateTime.UtcNow;
+                        DateTime utcNow = DateTime.UtcNow;
+                        command.CommandID = ScadaUtils.GenerateUniqueID(utcNow);
+                        command.CreationTime = utcNow;
                         command.CmdTypeID = outCnl.CmdTypeID;
                         command.ObjNum = objNum;
                         command.DeviceNum = outCnl.DeviceNum ?? 0;
