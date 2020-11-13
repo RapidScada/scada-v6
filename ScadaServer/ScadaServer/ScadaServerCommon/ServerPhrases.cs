@@ -99,8 +99,8 @@ namespace Scada.Server
                 WritingEventCompleted = "Запись события успешно завершена за {0} мс";
                 QueueingEventCompleted = "Постановка события в очередь успешно завершена за {0} мс";
                 EventsWereLost = "{0} событий были потеряны";
-                AckEventCompleted = "Квитирование события успешно завершено за {0} мс";
-                AckEventNotFound = "Квитируемое событие с идентификатором {0} не найдено";
+                AckEventCompleted = "Квитирование события с ид. {0} успешно завершено за {1} мс";
+                AckEventNotFound = "Квитируемое событие с ид. {0} не найдено";
             }
             else
             {
@@ -125,7 +125,7 @@ namespace Scada.Server
                 WritingEventCompleted = "Event writing completed successfully in {0} ms";
                 QueueingEventCompleted = "Enqueueing an event completed successfully in {0} ms";
                 EventsWereLost = "{0} events were lost";
-                AckEventCompleted = "Event acknowledgment completed successfully in {0} ms";
+                AckEventCompleted = "Acknowledging an event with ID {0} completed successfully in {1} ms";
                 AckEventNotFound = "Acknowledged event with ID {0} not found";
             }
         }
