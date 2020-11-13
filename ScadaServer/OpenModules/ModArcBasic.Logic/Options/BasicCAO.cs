@@ -37,7 +37,7 @@ namespace Scada.Server.Modules.ModArcBasic.Logic.Options
         /// <summary>
         /// Initializes a new instance of the class.
         /// </summary>
-        public BasicCAO(CustomOptions options)
+        public BasicCAO(OptionList options)
             : base(options)
         {
             IsCopy = options.GetValueAsBool("IsCopy");

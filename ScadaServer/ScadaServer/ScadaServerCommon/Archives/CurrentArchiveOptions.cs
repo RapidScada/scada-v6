@@ -37,7 +37,7 @@ namespace Scada.Server.Archives
         /// <summary>
         /// Initializes a new instance of the class.
         /// </summary>
-        public CurrentArchiveOptions(CustomOptions options)
+        public CurrentArchiveOptions(OptionList options)
         {
             if (options == null)
                 throw new ArgumentNullException(nameof(options));

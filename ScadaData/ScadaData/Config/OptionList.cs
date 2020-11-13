@@ -16,7 +16,7 @@
  * 
  * Product  : Rapid SCADA
  * Module   : ScadaData
- * Summary  : Represents custom options
+ * Summary  : Represents a list of custom options
  * 
  * Author   : Mikhail Shiryaev
  * Created  : 2020
@@ -30,10 +30,10 @@ using System.Xml;
 namespace Scada.Config
 {
     /// <summary>
-    /// Represents custom options.
-    /// <para>Представляет пользовательские параметры.</para>
+    /// Represents a list of custom options.
+    /// <para>Представляет список пользовательских параметров.</para>
     /// </summary>
-    public class CustomOptions : SortedList<string, string>
+    public class OptionList : SortedList<string, string>
     {
         /// <summary>
         /// Loads the options from the XML node.

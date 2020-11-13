@@ -45,7 +45,7 @@ namespace Scada.Server.Config
             Code = "";
             Name = "";
             Kind = ArchiveKind.Unspecified;
-            CustomOptions = new CustomOptions();
+            CustomOptions = new OptionList();
         }
 
 
@@ -77,7 +77,7 @@ namespace Scada.Server.Config
         /// <summary>
         /// Gets the custom options.
         /// </summary>
-        public CustomOptions CustomOptions { get; }
+        public OptionList CustomOptions { get; }
 
 
         /// <summary>
