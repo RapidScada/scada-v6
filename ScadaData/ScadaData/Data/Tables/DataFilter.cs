@@ -24,8 +24,10 @@
  */
 
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.ComponentModel;
+using System.Data.Common;
 
 namespace Scada.Data.Tables
 {
@@ -85,12 +87,20 @@ namespace Scada.Data.Tables
         /// <summary>
         /// Adds a new filter condition.
         /// </summary>
-        public FilterCondition AddCondition(string columnName, FilterOperator filterOperator, params object[] args)
+        public FilterCondition AddCondition(string columnName, FilterOperator filterOperator, IList args)
         {
             FilterCondition condition = 
                 new FilterCondition(columnName, itemProperties[columnName], filterOperator, args);
             Conditions.Add(condition);
             return condition;
+        }
+
+        /// <summary>
+        /// Adds a new filter condition.
+        /// </summary>
+        public FilterCondition AddCondition(string columnName, FilterOperator filterOperator, params object[] args)
+        {
+            return AddCondition(columnName, filterOperator, args as IList);
         }
 
         /// <summary>
@@ -112,6 +122,29 @@ namespace Scada.Data.Tables
             {
                 return false;
             }
+        }
+
+        /// <summary>
+        /// Gets the SQL filter expression.
+        /// </summary>
+        public string GetSqlFilter(Dictionary<string, string> columnNameMap, string prefix, string suffix, 
+            Func<DbParameter> createParamFunc, out List<DbParameter> dbParams)
+        {
+            if (createParamFunc == null)
+                throw new ArgumentNullException(nameof(createParamFunc));
+            if (columnNameMap == null)
+                throw new ArgumentNullException(nameof(columnNameMap));
+
+            List<string> filters = new List<string>();
+            dbParams = new List<DbParameter>();
+
+            foreach (FilterCondition condition in Conditions)
+            {
+                if (columnNameMap.TryGetValue(condition.ColumnName, out string dbColumnName))
+                    filters.Add(condition.GetSqlFilter(dbColumnName, createParamFunc, dbParams));
+            }
+
+            return filters.Count > 0 ? prefix + string.Join(" AND ", filters) + suffix : "";
         }
 
         /// <summary>

@@ -27,6 +27,9 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.ComponentModel;
+using System.Data;
+using System.Data.Common;
+using System.Text;
 
 namespace Scada.Data.Tables
 {
@@ -40,7 +43,7 @@ namespace Scada.Data.Tables
         /// Initializes a new instance of the class.
         /// </summary>
         public FilterCondition(string columnName, PropertyDescriptor columnProperty, 
-            FilterOperator filterOperator, params object[] args)
+            FilterOperator filterOperator, IList args)
         {
             ColumnName = columnName ?? throw new ArgumentNullException(nameof(columnName));
             ColumnProperty = columnProperty ?? throw new ArgumentNullException(nameof(columnProperty));
@@ -92,7 +95,7 @@ namespace Scada.Data.Tables
         /// <summary>
         /// Sets the filter argument.
         /// </summary>
-        public void SetArgument(params object[] args)
+        protected void SetArgument(IList args)
         {
             if (args == null)
                 throw new ArgumentNullException(nameof(args));
@@ -102,7 +105,7 @@ namespace Scada.Data.Tables
             switch (Operator)
             {
                 case FilterOperator.Equals:
-                    if (args.Length < 1)
+                    if (args.Count < 1)
                         throw new ArgumentException("Argument is required.", "args");
 
                     object arg = args[0];
@@ -149,7 +152,7 @@ namespace Scada.Data.Tables
                     break;
 
                 case FilterOperator.Between:
-                    if (args.Length < 2)
+                    if (args.Count < 2)
                         throw new ArgumentException("Two arguments are required.", "args");
 
                     object beginArg = args[0];
@@ -230,6 +233,78 @@ namespace Scada.Data.Tables
             }
 
             return false;
+        }
+
+        /// <summary>
+        /// Gets the SQL filter expression.
+        /// </summary>
+        public string GetSqlFilter(string dbColumnName, Func<DbParameter> createParamFunc, List<DbParameter> dbParams)
+        {
+            if (dbColumnName == null)
+                throw new ArgumentNullException(nameof(dbColumnName));
+            if (createParamFunc == null)
+                throw new ArgumentNullException(nameof(createParamFunc));
+            if (dbParams == null)
+                throw new ArgumentNullException(nameof(dbParams));
+
+            void AddParam(string name, object value)
+            {
+                DbParameter param = createParamFunc();
+                param.ParameterName = name;
+                
+                switch (DataType)
+                {
+                    case ColumnDataType.Integer:
+                        param.DbType = DbType.Int32;
+                        param.Value = Convert.ToInt32(value);
+                        break;
+                    case ColumnDataType.Boolean:
+                        param.DbType = DbType.Boolean;
+                        param.Value = Convert.ToBoolean(value);
+                        break;
+                    case ColumnDataType.Double:
+                        param.DbType = DbType.Double;
+                        param.Value = Convert.ToDouble(value);
+                        break;
+                }
+
+                dbParams.Add(param);
+            }
+
+            switch (Operator)
+            {
+                case FilterOperator.Equals:
+                    AddParam(ColumnName, Argument);
+                    return $"{dbColumnName} = @{ColumnName}";
+
+                case FilterOperator.In:
+                    StringBuilder sbFilter = new StringBuilder("(");
+                    int paramIndex = 0;
+
+                    foreach (object paramValue in (IEnumerable)Argument)
+                    {
+                        if (paramIndex > 0)
+                            sbFilter.Append(" OR ");
+
+                        string paramName = ColumnName + "_" + paramIndex;
+                        AddParam(paramName, paramValue);
+                        sbFilter.Append($"{dbColumnName} = @{paramName}");
+                        paramIndex++;
+                    }
+
+                    sbFilter.Append(")");
+                    return paramIndex > 0 ? sbFilter.ToString() : "false";
+
+                case FilterOperator.Between:
+                    string beginParamName = ColumnName + "_Begin";
+                    string endParamName = ColumnName + "_End";
+                    IList args = (IList)Argument;
+                    AddParam(beginParamName, args[0]);
+                    AddParam(endParamName, args[1]);
+                    return $"@{beginParamName} <= {dbColumnName} AND {dbColumnName} <= @{endParamName}";
+            }
+
+            return "false";
         }
     }
 }

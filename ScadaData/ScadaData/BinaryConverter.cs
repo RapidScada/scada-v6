@@ -350,6 +350,7 @@ namespace Scada
                 foreach (FilterCondition condition in filter.Conditions)
                 {
                     CopyString(condition.ColumnName, buffer, ref index);
+                    CopyByte((byte)condition.Operator, buffer, ref index);
                     CopyByte((byte)condition.DataType, buffer, ref index);
 
                     switch (condition.DataType)
@@ -638,7 +639,7 @@ namespace Scada
                 FilterOperator filterOperator = (FilterOperator)GetByte(buffer, ref index);
                 ColumnDataType dataType = (ColumnDataType)GetByte(buffer, ref index);
                 IList args = null;
-                
+
                 switch (dataType)
                 {
                     case ColumnDataType.Integer:
