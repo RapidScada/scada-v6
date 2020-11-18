@@ -88,7 +88,7 @@ namespace Scada.Data.Adapters
             if (dataTable == null)
                 throw new ArgumentNullException(nameof(dataTable));
 
-            Stream stream = null;
+            Stream stream;
             BinaryReader reader = null;
 
             try
@@ -188,7 +188,7 @@ namespace Scada.Data.Adapters
         /// </summary>
         public Slice ReadSingleSlice()
         {
-            Stream stream = null;
+            Stream stream;
             BinaryReader reader = null;
 
             try
@@ -261,7 +261,7 @@ namespace Scada.Data.Adapters
             if (slice == null)
                 throw new ArgumentNullException(nameof(slice));
 
-            Stream stream = null;
+            Stream stream;
             BinaryWriter writer = null;
 
             try

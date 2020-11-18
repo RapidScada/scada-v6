@@ -244,7 +244,7 @@ namespace Scada.Data.Adapters
         /// <summary>
         /// Writes the event text.
         /// </summary>
-        protected void WriteEventData(BinaryWriter writer, byte[] data, int dataSize, byte[] buffer)
+        protected void WriteEventData(BinaryWriter writer, byte[] data, int dataSize)
         {
             writer.Write(DataMarker);
 
@@ -438,7 +438,7 @@ namespace Scada.Data.Adapters
             if (ev == null)
                 throw new ArgumentNullException(nameof(ev));
 
-            Stream stream = null;
+            Stream stream;
             BinaryWriter writer = null;
 
             try
@@ -477,7 +477,7 @@ namespace Scada.Data.Adapters
                     WriteEventText(writer, ev.Text, textSize, buffer);
 
                 if (dataSize > 0)
-                    WriteEventData(writer, ev.Data, dataSize, buffer);
+                    WriteEventData(writer, ev.Data, dataSize);
             }
             finally
             {
@@ -561,7 +561,7 @@ namespace Scada.Data.Adapters
                     if (updateData && dataExists)
                     {
                         stream.Seek(dataPosition, SeekOrigin.Begin);
-                        WriteEventData(writer, ev.Data, dataSize, buffer);
+                        WriteEventData(writer, ev.Data, dataSize);
                     }
                 }
             }

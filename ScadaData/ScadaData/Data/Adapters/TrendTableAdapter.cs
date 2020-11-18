@@ -68,12 +68,12 @@ namespace Scada.Data.Adapters
         /// <summary>
         /// Hides the FileName property.
         /// </summary>
-        private new string FileName { get; set; }
+        protected new string FileName { get; set; }
 
         /// <summary>
         /// Hides the Stream property.
         /// </summary>
-        private new Stream Stream { get; set; }
+        protected new Stream Stream { get; set; }
 
         /// <summary>
         /// Gets or sets the parent directory of the table.
@@ -493,7 +493,7 @@ namespace Scada.Data.Adapters
                         continue;
 
                     // read data from the page
-                    Stream stream = null;
+                    Stream stream;
                     BinaryReader reader = null;
 
                     try
@@ -594,7 +594,7 @@ namespace Scada.Data.Adapters
                         continue;
 
                     // read data from the page
-                    Stream stream = null;
+                    Stream stream;
                     BinaryReader reader = null;
 
                     try
@@ -687,7 +687,7 @@ namespace Scada.Data.Adapters
                         continue;
 
                     // read data from the page
-                    Stream stream = null;
+                    Stream stream;
                     BinaryReader reader = null;
 
                     try
@@ -754,7 +754,7 @@ namespace Scada.Data.Adapters
                 if (File.Exists(pageFileName))
                 {
                     // read data from the page
-                    Stream stream = null;
+                    Stream stream;
                     BinaryReader reader = null;
 
                     try
@@ -813,7 +813,7 @@ namespace Scada.Data.Adapters
 
                 if (File.Exists(pageFileName))
                 {
-                    Stream stream = null;
+                    Stream stream;
                     BinaryReader reader = null;
 
                     try
@@ -854,7 +854,7 @@ namespace Scada.Data.Adapters
                 trendTable.GetDataPosition(slice.Timestamp, PositionKind.Exact, 
                 out TrendTablePage page, out int indexInPage))
             {
-                Stream stream = null;
+                Stream stream;
                 BinaryReader reader = null;
                 BinaryWriter writer = null;
 
@@ -919,7 +919,7 @@ namespace Scada.Data.Adapters
             if (MakeTableReady(trendTable, true) &&
                 trendTable.GetDataPosition(timestamp, PositionKind.Exact, out TrendTablePage page, out int indexInPage))
             {
-                Stream stream = null;
+                Stream stream;
                 BinaryReader reader = null;
                 BinaryWriter writer = null;
 

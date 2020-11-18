@@ -359,7 +359,7 @@ namespace Scada.Data.Adapters
             if (baseTable == null)
                 throw new ArgumentNullException(nameof(baseTable));
 
-            Stream stream = null;
+            Stream stream;
             BinaryReader reader = null;
 
             try
@@ -430,7 +430,7 @@ namespace Scada.Data.Adapters
             if (dataTable == null)
                 throw new ArgumentNullException(nameof(dataTable));
 
-            Stream stream = null;
+            Stream stream;
             BinaryReader reader = null;
 
             try
@@ -525,7 +525,7 @@ namespace Scada.Data.Adapters
             if (baseTable == null)
                 throw new ArgumentNullException(nameof(baseTable));
 
-            Stream stream = null;
+            Stream stream;
             BinaryWriter writer = null;
 
             try
