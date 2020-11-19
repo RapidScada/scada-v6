@@ -23,9 +23,10 @@
  * Modified : 2020
  */
 
+using Scada.Comm.Engine;
 using System.ServiceProcess;
 
-namespace ScadaCommSvc
+namespace Scada.Comm.Svc
 {
     /// <summary>
     /// Implements the ScadaCommSvc service.
@@ -33,21 +34,27 @@ namespace ScadaCommSvc
     /// </summary>
     public partial class SvcMain : ServiceBase
     {
+        private readonly Manager manager;
+
         public SvcMain()
         {
             InitializeComponent();
+            manager = new Manager();
         }
 
         protected override void OnStart(string[] args)
         {
+            manager.StartService();
         }
 
         protected override void OnStop()
         {
+            manager.StopService();
         }
 
         protected override void OnShutdown()
         {
+            manager.StopService();
         }
     }
 }

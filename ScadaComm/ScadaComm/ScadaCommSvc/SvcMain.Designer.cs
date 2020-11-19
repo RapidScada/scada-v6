@@ -1,4 +1,4 @@
-﻿namespace ScadaCommSvc
+﻿namespace Scada.Comm.Svc
 {
     partial class SvcMain
     {

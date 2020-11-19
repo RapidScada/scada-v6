@@ -99,7 +99,7 @@ namespace Scada.Comm.Config
         public void LoadFromXml(XmlElement xmlElem)
         {
             if (xmlElem == null)
-                throw new ArgumentNullException("xmlElem");
+                throw new ArgumentNullException(nameof(xmlElem));
 
             Active = xmlElem.GetAttrAsBool("active");
             IsBound = xmlElem.GetAttrAsBool("isBound");
@@ -132,7 +132,7 @@ namespace Scada.Comm.Config
         public void SaveToXml(XmlElement xmlElem)
         {
             if (xmlElem == null)
-                throw new ArgumentNullException("xmlElem");
+                throw new ArgumentNullException(nameof(xmlElem));
 
             xmlElem.SetAttribute("active", Active);
             xmlElem.SetAttribute("isBound", IsBound);

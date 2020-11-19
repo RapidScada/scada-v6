@@ -74,7 +74,7 @@ namespace Scada.Comm.Config
         public void LoadFromXml(XmlNode xmlNode)
         {
             if (xmlNode == null)
-                throw new ArgumentNullException("xmlNode");
+                throw new ArgumentNullException(nameof(xmlNode));
 
             InteractWithServer = xmlNode.GetChildAsBool("InteractWithServer");
             SendModifiedData = xmlNode.GetChildAsBool("SendModifiedData");
@@ -88,7 +88,7 @@ namespace Scada.Comm.Config
         public void SaveToXml(XmlElement xmlElem)
         {
             if (xmlElem == null)
-                throw new ArgumentNullException("xmlElem");
+                throw new ArgumentNullException(nameof(xmlElem));
 
             xmlElem.AppendElem("InteractWithServer", InteractWithServer);
             xmlElem.AppendElem("SendModifiedData", SendModifiedData);

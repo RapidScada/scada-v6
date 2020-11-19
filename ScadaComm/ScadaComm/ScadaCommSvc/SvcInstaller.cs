@@ -26,7 +26,7 @@
 using Scada.Svc;
 using System.ComponentModel;
 
-namespace Scada.Server.Svc
+namespace Scada.Comm.Svc
 {
     /// <summary>
     /// Service installer.

@@ -108,7 +108,7 @@ namespace Scada.Comm.Config
         public void LoadFromXml(XmlElement xmlElem)
         {
             if (xmlElem == null)
-                throw new ArgumentNullException("xmlElem");
+                throw new ArgumentNullException(nameof(xmlElem));
 
             Timeout = xmlElem.GetAttrAsInt("timeout", DefaultTimeout);
             Delay = xmlElem.GetAttrAsInt("delay", DefaultDelay);
@@ -124,7 +124,7 @@ namespace Scada.Comm.Config
         public void SaveToXml(XmlElement xmlElem)
         {
             if (xmlElem == null)
-                throw new ArgumentNullException("xmlElem");
+                throw new ArgumentNullException(nameof(xmlElem));
 
             xmlElem.SetAttribute("timeout", Timeout);
             xmlElem.SetAttribute("delay", Delay);

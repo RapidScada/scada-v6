@@ -40,7 +40,8 @@ namespace Scada.Comm.Drivers
         /// </summary>
         public DriverLogic(ICommContext commContext)
         {
-            CommContext = commContext ?? throw new ArgumentNullException("commContext");
+            CommContext = commContext ?? throw new ArgumentNullException(nameof(commContext));
+            AppDirs = commContext.AppDirs;
             Log = commContext.Log;
         }
 
@@ -49,6 +50,11 @@ namespace Scada.Comm.Drivers
         /// Gets the Communicator context.
         /// </summary>
         protected ICommContext CommContext { get; }
+
+        /// <summary>
+        /// Gets the application directories.
+        /// </summary>
+        protected CommDirs AppDirs { get; }
 
         /// <summary>
         /// Gets or sets the driver log.

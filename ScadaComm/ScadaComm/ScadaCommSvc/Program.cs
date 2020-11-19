@@ -25,7 +25,7 @@
 
 using System.ServiceProcess;
 
-namespace ScadaCommSvc
+namespace Scada.Comm.Svc
 {
     static class Program
     {

@@ -68,7 +68,7 @@ namespace Scada.Comm.Config
         public void LoadFromXml(XmlElement xmlElem)
         {
             if (xmlElem == null)
-                throw new ArgumentNullException("xmlElem");
+                throw new ArgumentNullException(nameof(xmlElem));
 
             TypeName = xmlElem.GetAttrAsString("type");
             Driver = xmlElem.GetAttrAsString("driver");
@@ -81,7 +81,7 @@ namespace Scada.Comm.Config
         public void SaveToXml(XmlElement xmlElem)
         {
             if (xmlElem == null)
-                throw new ArgumentNullException("xmlElem");
+                throw new ArgumentNullException(nameof(xmlElem));
 
             xmlElem.SetAttribute("type", TypeName);
             xmlElem.SetAttribute("driver", Driver);

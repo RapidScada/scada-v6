@@ -33,7 +33,7 @@ namespace Scada.Comm.Drivers
     /// Represents an output channel prototype.
     /// <para>Представляет прототип канала управления.</para>
     /// </summary>
-    public class OutCnlPrototype : InCnl
+    public class OutCnlPrototype : OutCnl
     {
         public Format Format { get; set; }
 

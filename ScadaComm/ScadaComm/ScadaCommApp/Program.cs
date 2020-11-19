@@ -23,9 +23,13 @@
  * Modified : 2020
  */
 
+using Scada;
+using Scada.Comm.Engine;
 using System;
+using System.IO;
+using System.Threading;
 
-namespace ScadaCommApp
+namespace Scada.Comm.App
 {
     /// <summary>
     /// The Communicator cross-platform console application.
@@ -35,7 +39,28 @@ namespace ScadaCommApp
     {
         static void Main(string[] args)
         {
-            Console.WriteLine("Hello World!");
+            // start the service
+            Console.WriteLine("Starting Communicator...");
+            Manager manager = new Manager();
+
+            if (manager.StartService())
+                Console.WriteLine("Communicator is started successfully");
+            else
+                Console.WriteLine("Communicator is started with errors");
+
+            // stop the service if 'x' is pressed or a stop file exists
+            Console.WriteLine("Press 'x' or create 'commstop' file to stop Communicator");
+            FileListener stopFileListener = new FileListener(Path.Combine(manager.AppDirs.CmdDir, "commstop"));
+
+            while (!(Console.KeyAvailable && Console.ReadKey(true).Key == ConsoleKey.X || stopFileListener.FileFound))
+            {
+                Thread.Sleep(ScadaUtils.ThreadDelay);
+            }
+
+            manager.StopService();
+            stopFileListener.Terminate();
+            stopFileListener.DeleteFile();
+            Console.WriteLine("Communicator is stopped");
         }
     }
 }
