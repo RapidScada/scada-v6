@@ -98,7 +98,7 @@ namespace Scada.Server.Engine
             string exeDir = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location);
             AppDirs.Init(exeDir);
 
-            LogFile logFile = new LogFile(LogFormat.Full, AppDirs.LogDir + ServerUtils.LogFileName)
+            LogFile logFile = new LogFile(LogFormat.Full, Path.Combine(AppDirs.LogDir, ServerUtils.LogFileName))
             {
                 Capacity = int.MaxValue
             };
