@@ -42,7 +42,7 @@ namespace Scada.Comm.Config
         {
             TypeName = "";
             Driver = "";
-            CustomOptions = new CustomOptions();
+            CustomOptions = new OptionList();
         }
 
         
@@ -59,7 +59,7 @@ namespace Scada.Comm.Config
         /// <summary>
         /// Gets the custom options.
         /// </summary>
-        public CustomOptions CustomOptions { get; private set; }
+        public OptionList CustomOptions { get; private set; }
 
 
         /// <summary>

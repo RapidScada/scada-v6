@@ -47,7 +47,7 @@ namespace Scada.Comm.Config
             Name = "";
             LineOptions = new LineOptions();
             Channel = new ChannelConfig();
-            CustomOptions = new CustomOptions();
+            CustomOptions = new OptionList();
             DevicePolling = new List<DeviceConfig>();
         }
 
@@ -85,7 +85,7 @@ namespace Scada.Comm.Config
         /// <summary>
         /// Gets the custom options.
         /// </summary>
-        public CustomOptions CustomOptions { get; private set; }
+        public OptionList CustomOptions { get; private set; }
 
         /// <summary>
         /// Gets the polling sequence of the devices.
@@ -113,7 +113,7 @@ namespace Scada.Comm.Config
                 Channel.LoadFromXml(channelElem);
 
             if (xmlElem.SelectSingleNode("CustomOptions") is XmlNode customOptionsNode)
-                CustomOptions.LoadFromXml(xmlElem);
+                CustomOptions.LoadFromXml(customOptionsNode);
 
             if (xmlElem.SelectSingleNode("DevicePolling") is XmlNode devicePollingNode)
             {
