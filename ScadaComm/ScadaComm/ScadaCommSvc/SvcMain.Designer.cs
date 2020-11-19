@@ -1,6 +1,6 @@
 ﻿namespace ScadaCommSvc
 {
-    partial class Service1
+    partial class SvcMain
     {
         /// <summary> 
         /// Required designer variable.

@@ -15,8 +15,8 @@
  * 
  * 
  * Product  : Rapid SCADA
- * Module   : Server Service
- * Summary  : The Communicator service for Windows
+ * Module   : Communicator Service
+ * Summary  : Implements the ScadaCommSvc service
  * 
  * Author   : Mikhail Shiryaev
  * Created  : 2006
@@ -27,19 +27,27 @@ using System.ServiceProcess;
 
 namespace ScadaCommSvc
 {
-    static class Program
+    /// <summary>
+    /// Implements the ScadaCommSvc service.
+    /// <para>Реализует службу ScadaCommSvc.</para>
+    /// </summary>
+    public partial class SvcMain : ServiceBase
     {
-        /// <summary>
-        /// The main entry point for the application.
-        /// </summary>
-        static void Main()
+        public SvcMain()
         {
-            ServiceBase[] ServicesToRun;
-            ServicesToRun = new ServiceBase[]
-            {
-                new SvcMain()
-            };
-            ServiceBase.Run(ServicesToRun);
+            InitializeComponent();
+        }
+
+        protected override void OnStart(string[] args)
+        {
+        }
+
+        protected override void OnStop()
+        {
+        }
+
+        protected override void OnShutdown()
+        {
         }
     }
 }

@@ -15,31 +15,33 @@
  * 
  * 
  * Product  : Rapid SCADA
- * Module   : Server Service
- * Summary  : The Communicator service for Windows
+ * Module   : Communicator Service
+ * Summary  : Service installer
  * 
  * Author   : Mikhail Shiryaev
- * Created  : 2006
+ * Created  : 2016
  * Modified : 2020
  */
 
-using System.ServiceProcess;
+using Scada.Svc;
+using System.ComponentModel;
 
-namespace ScadaCommSvc
+namespace Scada.Server.Svc
 {
-    static class Program
+    /// <summary>
+    /// Service installer.
+    /// <para>Инсталлятор службы.</para>
+    /// </summary>
+    [RunInstaller(true)]
+    public class SvcInstaller : BaseSvcInstaller
     {
         /// <summary>
-        /// The main entry point for the application.
+        /// Initializes a new instance of the class.
         /// </summary>
-        static void Main()
+        public SvcInstaller()
         {
-            ServiceBase[] ServicesToRun;
-            ServicesToRun = new ServiceBase[]
-            {
-                new SvcMain()
-            };
-            ServiceBase.Run(ServicesToRun);
+            Init("ScadaCommService",
+                "Rapid SCADA Communicator polls controllers and transmits data to the Server application.");
         }
     }
 }
