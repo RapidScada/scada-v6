@@ -23,12 +23,11 @@
  * Modified : 2020
  */
 
+using Scada.Comm.Config;
 using Scada.Log;
 using System;
-using System.Collections.Generic;
 using System.IO;
 using System.Reflection;
-using System.Text;
 
 namespace Scada.Comm.Engine
 {
@@ -38,7 +37,8 @@ namespace Scada.Comm.Engine
     /// </summary>
     public class Manager
     {
-        private ILog log; // the application log
+        private ILog log;            // the application log
+        private CoreLogic coreLogic; // the Communicator logic instance
 
 
         /// <summary>
@@ -47,6 +47,7 @@ namespace Scada.Comm.Engine
         public Manager()
         {
             log = new LogStub();
+            coreLogic = null;
             AppDirs = new CommDirs();
             AppDomain.CurrentDomain.UnhandledException += OnUnhandledException;
         }
@@ -70,7 +71,7 @@ namespace Scada.Comm.Engine
                 log.WriteError(errMsg);
 
             CommonPhrases.Init();
-            //CommPhrases.Init();
+            CommPhrases.Init();
         }
 
         /// <summary>
@@ -78,10 +79,7 @@ namespace Scada.Comm.Engine
         /// </summary>
         private void OnUnhandledException(object sender, UnhandledExceptionEventArgs args)
         {
-            Exception ex = args.ExceptionObject as Exception;
-            log.WriteException(ex, Locale.IsRussian ?
-                "Необработанное исключение" :
-                "Unhandled exception");
+            log.WriteException(args.ExceptionObject as Exception, CommonPhrases.UnhandledException);
         }
 
 
@@ -112,6 +110,30 @@ namespace Scada.Comm.Engine
                 "Коммуникатор {0} запущен" :
                 "Communicator {0} started", CommUtils.AppVersion);
 
+            if (AppDirs.CheckExistence(out errMsg))
+            {
+                LocalizeApp(AppDirs.LangDir);
+                string configFileName = Path.Combine(AppDirs.ConfigDir, CommConfig.DefaultFileName);
+                CommConfig config = new CommConfig();
+                coreLogic = new CoreLogic(config, AppDirs, log);
+
+                if (config.Load(configFileName, out errMsg) &&
+                    coreLogic.StartProcessing())
+                {
+                    logFile.Capacity = config.GeneralOptions.MaxLogSize;
+                    return true;
+                }
+                else if (!string.IsNullOrEmpty(errMsg))
+                {
+                    log.WriteError(errMsg);
+                }
+            }
+            else
+            {
+                log.WriteError(errMsg);
+            }
+
+            log.WriteError(CommonPhrases.ExecutionImpossible);
             return false;
         }
 
@@ -120,6 +142,8 @@ namespace Scada.Comm.Engine
         /// </summary>
         public void StopService()
         {
+            coreLogic?.StopProcessing();
+
             log.WriteAction(Locale.IsRussian ?
                 "Коммуникатор остановлен" :
                 "Communicator is stopped");
