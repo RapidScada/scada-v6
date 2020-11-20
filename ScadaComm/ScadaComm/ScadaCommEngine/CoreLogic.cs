@@ -28,6 +28,7 @@ using Scada.Log;
 using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Text;
 using System.Threading;
 
 namespace Scada.Comm.Engine
@@ -43,15 +44,16 @@ namespace Scada.Comm.Engine
         /// </summary>
         private static readonly TimeSpan WriteInfoPeriod = TimeSpan.FromSeconds(1);
 
-        private readonly string infoFileName;    // the full file name to write application information
+        private readonly string infoFileName; // the full file name to write application information
 
-        private Thread thread;                   // the working thread of the logic
-        private volatile bool terminated;        // necessary to stop the thread
-        private DateTime utcStartDT;             // the UTC start time
-        private DateTime startDT;                // the local start time
-        private ServiceStatus serviceStatus;     // the current service status
+        private Thread thread;                // the working thread of the logic
+        private volatile bool terminated;     // necessary to stop the thread
+        private DateTime utcStartDT;          // the UTC start time
+        private DateTime startDT;             // the local start time
+        private ServiceStatus serviceStatus;  // the current service status
+        private int lastInfoLength;           // the last info text length
 
-        private List<CommLine> commLines; // the active communication lines
+        private List<CommLine> commLines;     // the active communication lines
 
 
         /// <summary>
@@ -71,6 +73,7 @@ namespace Scada.Comm.Engine
             utcStartDT = DateTime.MinValue;
             startDT = DateTime.MinValue;
             serviceStatus = ServiceStatus.Undefined;
+            lastInfoLength = 0;
 
             commLines = null;
         }
@@ -98,11 +101,130 @@ namespace Scada.Comm.Engine
 
 
         /// <summary>
+        /// Prepares the logic processing.
+        /// </summary>
+        private void PrepareProcessing()
+        {
+            terminated = false;
+            utcStartDT = DateTime.UtcNow;
+            startDT = utcStartDT.ToLocalTime();
+            serviceStatus = ServiceStatus.Undefined;
+            WriteInfo();
+        }
+
+        /// <summary>
         /// Operating cycle running in a separate thread.
         /// </summary>
         private void Execute()
         {
+            try
+            {
+                DateTime writeInfoDT = DateTime.MinValue; // the timestamp of writing application info
+                serviceStatus = ServiceStatus.Normal;
 
+                while (!terminated)
+                {
+                    try
+                    {
+                        DateTime utcNow = DateTime.UtcNow;
+
+                        // write application info
+                        if (utcNow - writeInfoDT >= WriteInfoPeriod)
+                        {
+                            writeInfoDT = utcNow;
+                            WriteInfo();
+                        }
+
+                        Thread.Sleep(ScadaUtils.ThreadDelay);
+                    }
+                    catch (Exception ex)
+                    {
+                        Log.WriteException(ex, CommonPhrases.LogicCycleError);
+                        Thread.Sleep(ScadaUtils.ThreadDelay);
+                    }
+                }
+            }
+            finally
+            {
+                serviceStatus = ServiceStatus.Terminated;
+                WriteInfo();
+            }
+        }
+
+        /// <summary>
+        /// Writes application information to the file.
+        /// </summary>
+        private void WriteInfo()
+        {
+            try
+            {
+                // prepare information
+                StringBuilder sb = new StringBuilder((int)(lastInfoLength * 1.1));
+                TimeSpan workSpan = DateTime.UtcNow - utcStartDT;
+                string workSpanStr = workSpan.Days > 0 ?
+                    workSpan.ToString(@"d\.hh\:mm\:ss") :
+                    workSpan.ToString(@"hh\:mm\:ss");
+
+                if (Locale.IsRussian)
+                {
+                    sb
+                        .AppendLine("Коммуникатор")
+                        .AppendLine("------------")
+                        .Append("Запуск       : ").AppendLine(startDT.ToLocalizedString())
+                        .Append("Время работы : ").AppendLine(workSpanStr)
+                        .Append("Статус       : ").AppendLine(serviceStatus.ToString(true))
+                        .Append("Версия       : ").AppendLine(CommUtils.AppVersion);
+                }
+                else
+                {
+                    sb
+                        .AppendLine("Communicator")
+                        .AppendLine("------------")
+                        .Append("Started        : ").AppendLine(startDT.ToLocalizedString())
+                        .Append("Execution time : ").AppendLine(workSpanStr)
+                        .Append("Status         : ").AppendLine(serviceStatus.ToString(false))
+                        .Append("Version        : ").AppendLine(CommUtils.AppVersion);
+                }
+
+                if (commLines != null)
+                {
+                    lock (commLines)
+                    {
+                        string header = Locale.IsRussian ?
+                            "Линии связи (" + commLines.Count + ")" :
+                            "Communication Lines (" + commLines.Count + ")";
+
+                        sb
+                            .AppendLine()
+                            .AppendLine(header)
+                            .Append('-', header.Length).AppendLine();
+
+                        if (commLines.Count > 0)
+                        {
+                            foreach (CommLine commLine in commLines)
+                            {
+                                // TODO: print line info
+                            }
+                        }
+                        else
+                        {
+                            sb.AppendLine(Locale.IsRussian ? "Линий нет" : "No lines");
+                        }
+                    }
+                }
+
+                lastInfoLength = sb.Length;
+
+                // write to file
+                using (StreamWriter writer = new StreamWriter(infoFileName, false, Encoding.UTF8))
+                {
+                    writer.Write(sb.ToString());
+                }
+            }
+            catch (Exception ex)
+            {
+                Log.WriteException(ex, CommonPhrases.WriteInfoError);
+            }
         }
 
 
@@ -111,7 +233,35 @@ namespace Scada.Comm.Engine
         /// </summary>
         public bool StartProcessing()
         {
-            return false;
+            try
+            {
+                if (thread == null)
+                {
+                    Log.WriteAction(CommonPhrases.StartLogic);
+                    PrepareProcessing();
+                    thread = new Thread(Execute);
+                    thread.Start();
+                }
+                else
+                {
+                    Log.WriteAction(CommonPhrases.LogicIsAlreadyStarted);
+                }
+
+                return thread != null;
+            }
+            catch (Exception ex)
+            {
+                Log.WriteException(ex, CommonPhrases.StartLogicError);
+                return false;
+            }
+            finally
+            {
+                if (thread == null)
+                {
+                    serviceStatus = ServiceStatus.Error;
+                    WriteInfo();
+                }
+            }
         }
 
         /// <summary>
@@ -119,7 +269,26 @@ namespace Scada.Comm.Engine
         /// </summary>
         public void StopProcessing()
         {
+            try
+            {
+                if (thread != null)
+                {
+                    terminated = true;
 
+                    if (thread.Join(ScadaUtils.ThreadWait))
+                        Log.WriteAction(CommonPhrases.LogicIsStopped);
+                    else
+                        Log.WriteAction(CommonPhrases.UnableToStopLogic);
+
+                    thread = null;
+                }
+            }
+            catch (Exception ex)
+            {
+                serviceStatus = ServiceStatus.Error;
+                WriteInfo();
+                Log.WriteException(ex, CommonPhrases.StopLogicError);
+            }
         }
     }
 }
