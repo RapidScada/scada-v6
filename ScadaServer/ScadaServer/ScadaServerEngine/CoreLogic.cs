@@ -675,9 +675,7 @@ namespace Scada.Server.Engine
             }
             catch (Exception ex)
             {
-                Log.WriteException(ex, Locale.IsRussian ?
-                    "Ошибка при записи в файл информации о работе приложения" :
-                    "Error writing application information to the file");
+                Log.WriteException(ex, CommonPhrases.WriteInfoError);
             }
         }
 
