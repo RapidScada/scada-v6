@@ -10,6 +10,7 @@
     <Phrase key="UnableToStopLogic">Не удалось остановить обработку логики за установленное время</Phrase>
     <Phrase key="StopLogicError">Ошибка при остановке обработки логики</Phrase>
     <Phrase key="LogicCycleError">Ошибка в цикле работы логики</Phrase>
+    <Phrase key="WriteInfoError">Ошибка при записи в файл информации о работе приложения</Phrase>
   </Dictionary>
   <Dictionary key="Scada.ConfigBase">
     <Phrase key="ArchiveTable">Архивы</Phrase>

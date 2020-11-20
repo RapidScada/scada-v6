@@ -43,6 +43,7 @@ namespace Scada
         public static string UnableToStopLogic { get; private set; }
         public static string StopLogicError { get; private set; }
         public static string LogicCycleError { get; private set; }
+        public static string WriteInfoError { get; private set; }
 
         // Scada.ConfigBase
         public static string ArchiveTable { get; private set; }
@@ -107,6 +108,7 @@ namespace Scada
             UnableToStopLogic = dict.GetPhrase("UnableToStopLogic");
             StopLogicError = dict.GetPhrase("StopLogicError");
             LogicCycleError = dict.GetPhrase("LogicCycleError");
+            WriteInfoError = dict.GetPhrase("WriteInfoError");
 
             dict = Locale.GetDictionary("Scada.ConfigBase");
             ArchiveTable = dict.GetPhrase("ArchiveTable");
