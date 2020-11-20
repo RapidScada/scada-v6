@@ -33,6 +33,17 @@ namespace Scada
     /// </summary>
     public static class CommonPhrases
     {
+        // Scada.Application
+        public static string UnhandledException { get; private set; }
+        public static string ExecutionImpossible { get; private set; }
+        public static string StartLogic { get; private set; }
+        public static string LogicIsAlreadyStarted { get; private set; }
+        public static string StartLogicError { get; private set; }
+        public static string LogicIsStopped { get; private set; }
+        public static string UnableToStopLogic { get; private set; }
+        public static string StopLogicError { get; private set; }
+        public static string LogicCycleError { get; private set; }
+
         // Scada.ConfigBase
         public static string ArchiveTable { get; private set; }
         public static string CmdTypeTable { get; private set; }
@@ -69,9 +80,35 @@ namespace Scada
         public static string NotHexadecimal { get; private set; }
         public static string InvalidParamVal { get; private set; }
 
+        static CommonPhrases()
+        {
+            // the phrases below may be required before loading dictionaries
+            if (Locale.IsRussian)
+            {
+                UnhandledException = "Unhandled exception";
+                ExecutionImpossible = "Normal program execution is impossible";
+            }
+            else
+            {
+                UnhandledException = "Необработанное исключение";
+                ExecutionImpossible = "Нормальная работа программы невозможна";
+            }
+        }
+
         public static void Init()
         {
-            LocaleDict dict = Locale.GetDictionary("Scada.ConfigBase");
+            LocaleDict dict = Locale.GetDictionary("Scada.Application");
+            UnhandledException = dict.GetPhrase("UnhandledException");
+            ExecutionImpossible = dict.GetPhrase("ExecutionImpossible");
+            StartLogic = dict.GetPhrase("StartLogic");
+            LogicIsAlreadyStarted = dict.GetPhrase("LogicIsAlreadyStarted");
+            StartLogicError = dict.GetPhrase("StartLogicError");
+            LogicIsStopped = dict.GetPhrase("LogicIsStopped");
+            UnableToStopLogic = dict.GetPhrase("UnableToStopLogic");
+            StopLogicError = dict.GetPhrase("StopLogicError");
+            LogicCycleError = dict.GetPhrase("LogicCycleError");
+
+            dict = Locale.GetDictionary("Scada.ConfigBase");
             ArchiveTable = dict.GetPhrase("ArchiveTable");
             CmdTypeTable = dict.GetPhrase("CmdTypeTable");
             CmdValTable = dict.GetPhrase("CmdValTable");

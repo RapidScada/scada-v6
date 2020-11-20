@@ -44,10 +44,9 @@ namespace Scada.Server.Engine
         /// <summary>
         /// Initializes a new instance of the class.
         /// </summary>
-        public ArchiveContext(CoreLogic coreLogic, IDictionary<string, object> sharedData)
+        public ArchiveContext(CoreLogic coreLogic)
         {
             this.coreLogic = coreLogic ?? throw new ArgumentNullException(nameof(coreLogic));
-            SharedData = sharedData ?? throw new ArgumentNullException(nameof(sharedData));
         }
 
 
@@ -74,6 +73,6 @@ namespace Scada.Server.Engine
         /// <summary>
         /// Gets the application level shared data.
         /// </summary>
-        public IDictionary<string, object> SharedData { get; }
+        public IDictionary<string, object> SharedData => coreLogic.SharedData;
     }
 }

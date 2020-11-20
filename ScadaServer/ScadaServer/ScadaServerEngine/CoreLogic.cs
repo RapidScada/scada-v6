@@ -57,10 +57,6 @@ namespace Scada.Server.Engine
 
 
         /// <summary>
-        /// The waiting time to stop the thread, ms.
-        /// </summary>
-        private const int WaitForStop = 10000;
-        /// <summary>
         /// The maximum number of input channels to process per iteration when checking activity.
         /// </summary>
         private const int MaxCnlCountToCheckActivity = 1000;
@@ -87,7 +83,6 @@ namespace Scada.Server.Engine
         private Calculator calc;                 // provides work with scripts and formulas
         private ModuleHolder moduleHolder;       // holds modules
         private ArchiveHolder archiveHolder;     // holds archives
-        private SortedDictionary<string, object> sharedData; // the server level shared data
         private ServerCache serverCache;         // the server level cache
         private ServerListener listener;         // the TCP listener
         private CurrentData curData;             // the current data of the input channels
@@ -103,8 +98,9 @@ namespace Scada.Server.Engine
             AppDirs = appDirs ?? throw new ArgumentNullException(nameof(appDirs));
             Log = log ?? throw new ArgumentNullException(nameof(log));
             BaseDataSet = null;
+            SharedData = null;
 
-            infoFileName = appDirs.LogDir + ServerUtils.InfoFileName;
+            infoFileName = Path.Combine(appDirs.LogDir, ServerUtils.InfoFileName);
 
             thread = null;
             terminated = false;
@@ -121,7 +117,6 @@ namespace Scada.Server.Engine
             objSecurity = null;
             moduleHolder = null;
             archiveHolder = null;
-            sharedData = null;
             calc = null;
             curData = null;
             events = null;
@@ -156,6 +151,11 @@ namespace Scada.Server.Engine
         public int[] CnlNums => curData?.CnlNums;
 
         /// <summary>
+        /// Gets the application level shared data.
+        /// </summary>
+        public SortedDictionary<string, object> SharedData { get; private set; }
+
+        /// <summary>
         /// Gets a value indicating whether the server is ready.
         /// </summary>
         public bool IsReady
@@ -172,7 +172,6 @@ namespace Scada.Server.Engine
         /// </summary>
         private bool PrepareProcessing(out string errMsg)
         {
-            errMsg = "";
             terminated = false;
             utcStartDT = DateTime.UtcNow;
             startDT = utcStartDT.ToLocalTime();
@@ -193,9 +192,9 @@ namespace Scada.Server.Engine
             if (!InitCalculator())
                 return false;
 
+            SharedData = new SortedDictionary<string, object>();
             moduleHolder = new ModuleHolder(Log);
             archiveHolder = new ArchiveHolder(Log);
-            sharedData = new SortedDictionary<string, object>();
             serverCache = new ServerCache();
             listener = new ServerListener(this, archiveHolder, serverCache);
             curData = new CurrentData(this, cnlTags);
@@ -364,7 +363,7 @@ namespace Scada.Server.Engine
         /// </summary>
         private void InitModules()
         {
-            ServerContext serverContext = new ServerContext(this, archiveHolder, listener, sharedData);
+            ServerContext serverContext = new ServerContext(this, archiveHolder, listener);
 
             foreach (string moduleCode in Config.ModuleCodes)
             {
@@ -398,7 +397,7 @@ namespace Scada.Server.Engine
             }
 
             // create archives
-            ArchiveContext archiveContext = new ArchiveContext(this, sharedData);
+            ArchiveContext archiveContext = new ArchiveContext(this);
 
             foreach (ArchiveConfig archiveConfig in Config.Archives)
             {
@@ -526,9 +525,7 @@ namespace Scada.Server.Engine
                     }
                     catch (Exception ex)
                     {
-                        Log.WriteException(ex, Locale.IsRussian ?
-                            "Ошибка в цикле работы приложения" :
-                            "Error in the application work cycle");
+                        Log.WriteException(ex, CommonPhrases.LogicCycleError);
                         Thread.Sleep(ScadaUtils.ThreadDelay);
                     }
                 }
@@ -898,12 +895,9 @@ namespace Scada.Server.Engine
             {
                 if (thread == null)
                 {
-                    Log.WriteAction(Locale.IsRussian ?
-                        "Запуск обработки логики" :
-                        "Start logic processing");
+                    Log.WriteAction(CommonPhrases.StartLogic);
                     
-                    if (PrepareProcessing(out string errMsg) && 
-                        listener.Start())
+                    if (PrepareProcessing(out string errMsg) && listener.Start())
                     {
                         thread = new Thread(Execute);
                         thread.Start();
@@ -915,18 +909,14 @@ namespace Scada.Server.Engine
                 }
                 else
                 {
-                    Log.WriteAction(Locale.IsRussian ?
-                        "Обработка логики уже запущена" :
-                        "Logic processing is already started");
+                    Log.WriteAction(CommonPhrases.LogicIsAlreadyStarted);
                 }
 
                 return thread != null;
             }
             catch (Exception ex)
             {
-                Log.WriteException(ex, Locale.IsRussian ?
-                    "Ошибка при запуске обработки логики" :
-                    "Error starting logic processing");
+                Log.WriteException(ex, CommonPhrases.StartLogicError);
                 return false;
             }
             finally
@@ -958,17 +948,13 @@ namespace Scada.Server.Engine
                 {
                     terminated = true;
 
-                    if (thread.Join(WaitForStop))
+                    if (thread.Join(ScadaUtils.ThreadWait))
                     {
-                        Log.WriteAction(Locale.IsRussian ?
-                            "Обработка логики остановлена" :
-                            "Logic processing is stopped");
+                        Log.WriteAction(CommonPhrases.LogicIsStopped);
                     }
                     else if (ScadaUtils.IsRunningOnCore)
                     {
-                        Log.WriteAction(Locale.IsRussian ?
-                            "Не удалось остановить обработку логики за установленное время" :
-                            "Unable to stop logic processing for a specified time");
+                        Log.WriteAction(CommonPhrases.UnableToStopLogic);
                     }
                     else
                     {
@@ -985,9 +971,7 @@ namespace Scada.Server.Engine
             {
                 serviceStatus = ServiceStatus.Error;
                 WriteInfo();
-                Log.WriteException(ex, Locale.IsRussian ?
-                    "Ошибка при остановке обработки логики" :
-                    "Error stopping logic processing");
+                Log.WriteException(ex, CommonPhrases.StopLogicError);
             }
         }
 

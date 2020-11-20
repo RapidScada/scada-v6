@@ -67,7 +67,7 @@ namespace Scada.Server
 
         public static void Init()
         {
-            // load phrases from dictionaries
+            // load phrases from dictionaries, because the service user interface is multilingual
             LocaleDict dict = Locale.GetDictionary("Scada.Server.Modules");
             LoadModuleConfigError = dict.GetPhrase("LoadModuleConfigError");
             SaveModuleConfigError = dict.GetPhrase("SaveModuleConfigError");
@@ -75,7 +75,7 @@ namespace Scada.Server
             ReadDbError = dict.GetPhrase("ReadDbError");
             WriteDbError = dict.GetPhrase("WriteDbError");
 
-            // set phrases depending on locale
+            // set phrases depending on locale, because the service logic supports only 2 languaages
             if (Locale.IsRussian)
             {
                 ArchiveMessage = "Архив {0}: {1}";

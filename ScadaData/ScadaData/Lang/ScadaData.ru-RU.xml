@@ -1,5 +1,16 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <ScadaDataDictionaries>
+  <Dictionary key="Scada.Application">
+    <Phrase key="UnhandledException">Необработанное исключение</Phrase>
+    <Phrase key="ExecutionImpossible">Нормальная работа программы невозможна</Phrase>
+    <Phrase key="StartLogic">Запуск обработки логики</Phrase>
+    <Phrase key="LogicIsAlreadyStarted">Обработка логики уже запущена</Phrase>
+    <Phrase key="StartLogicError">Ошибка при запуске обработки логики</Phrase>
+    <Phrase key="LogicIsStopped">Обработка логики остановлена</Phrase>
+    <Phrase key="UnableToStopLogic">Не удалось остановить обработку логики за установленное время</Phrase>
+    <Phrase key="StopLogicError">Ошибка при остановке обработки логики</Phrase>
+    <Phrase key="LogicCycleError">Ошибка в цикле работы логики</Phrase>
+  </Dictionary>
   <Dictionary key="Scada.ConfigBase">
     <Phrase key="ArchiveTable">Архивы</Phrase>
     <Phrase key="CmdTypeTable">Типы команд</Phrase>

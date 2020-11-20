@@ -79,10 +79,7 @@ namespace Scada.Server.Engine
         /// </summary>
         private void OnUnhandledException(object sender, UnhandledExceptionEventArgs args)
         {
-            Exception ex = args.ExceptionObject as Exception;
-            log.WriteException(ex, Locale.IsRussian ?
-                "Необработанное исключение" :
-                "Unhandled exception");
+            log.WriteException(args.ExceptionObject as Exception, CommonPhrases.UnhandledException);
         }
 
 
@@ -116,7 +113,7 @@ namespace Scada.Server.Engine
             if (AppDirs.CheckExistence(out errMsg))
             {
                 LocalizeApp(AppDirs.LangDir);
-                string configFileName = AppDirs.ConfigDir + ServerConfig.DefaultFileName;
+                string configFileName = Path.Combine(AppDirs.ConfigDir, ServerConfig.DefaultFileName);
                 ServerConfig config = new ServerConfig();
                 coreLogic = new CoreLogic(config, AppDirs, log);
 
@@ -136,9 +133,7 @@ namespace Scada.Server.Engine
                 log.WriteError(errMsg);
             }
 
-            log.WriteError(Locale.IsRussian ?
-                "Нормальная работа программы невозможна" :
-                "Normal program execution is impossible");
+            log.WriteError(CommonPhrases.ExecutionImpossible);
             return false;
         }
 
