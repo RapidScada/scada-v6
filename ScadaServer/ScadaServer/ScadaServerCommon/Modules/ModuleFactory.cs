@@ -62,8 +62,8 @@ namespace Scada.Server.Modules
                 {
                     moduleLogic = null;
                     message = string.Format(Locale.IsRussian ?
-                        "Невозможно создать модуль {0}. Файл {1} не найден" :
-                        "Unable to create module {0}. File {1} not found", moduleCode, fileName);
+                        "Невозможно создать логику модуля {0}. Файл {1} не найден" :
+                        "Unable to create module logic {0}. File {1} not found", moduleCode, fileName);
                     return false;
                 }
             }

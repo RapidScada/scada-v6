@@ -16,7 +16,7 @@
  * 
  * Product  : Rapid SCADA
  * Module   : ScadaServerEngine
- * Summary  : Implements the server context interface for accessing the server environment
+ * Summary  : Implements the server context interface for accessing the application environment
  * 
  * Author   : Mikhail Shiryaev
  * Created  : 2020
@@ -34,8 +34,8 @@ using System.Collections.Generic;
 namespace Scada.Server.Engine
 {
     /// <summary>
-    /// Implements the server context interface for accessing the server environment.
-    /// <para>Реализует интерфейс контекста сервера для доступа к окружению сервера.</para>
+    /// Implements the server context interface for accessing the application environment.
+    /// <para>Реализует интерфейс контекста сервера для доступа к окружению приложения.</para>
     /// </summary>
     internal class ServerContext : IServerContext
     {
