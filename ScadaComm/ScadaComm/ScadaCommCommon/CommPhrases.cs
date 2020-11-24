@@ -33,9 +33,20 @@ namespace Scada.Comm
     /// </summary>
     public static class CommPhrases
     {
+        // Drivers
+        public static string ErrorInDriver { get; private set; }
+
         public static void Init()
         {
-
+            // set phrases depending on locale, because the service logic supports only 2 languaages
+            if (Locale.IsRussian)
+            {
+                ErrorInDriver = "Ошибка при вызове метода {0} драйвера {1}";
+            }
+            else
+            {
+                ErrorInDriver = "Error calling the {0} method of the {1} driver";
+            }
         }
     }
 }

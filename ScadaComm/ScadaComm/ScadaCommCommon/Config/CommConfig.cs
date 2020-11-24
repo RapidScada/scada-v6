@@ -66,6 +66,11 @@ namespace Scada.Comm.Config
         /// Gets the configuration of the lines.
         /// </summary>
         public List<LineConfig> Lines { get; private set; }
+        
+        /// <summary>
+        /// Gets the codes of the drivers used.
+        /// </summary>
+        public List<string> DriverCodes { get; private set; }
 
 
         /// <summary>
@@ -76,6 +81,26 @@ namespace Scada.Comm.Config
             GeneralOptions = new GeneralOptions();
             ConnectionOptions = new ConnectionOptions();
             Lines = new List<LineConfig>();
+            DriverCodes = new List<string>();
+        }
+
+        /// <summary>
+        /// Fills the list of driver codes.
+        /// </summary>
+        private void FillDriverCodes()
+        {
+            HashSet<string> driverCodes = new HashSet<string>();
+
+            foreach (LineConfig lineConfig in Lines)
+            {
+                foreach (DeviceConfig deviceConfig in lineConfig.DevicePolling)
+                {
+                    if (driverCodes.Add(deviceConfig.Driver.ToLowerInvariant()))
+                        DriverCodes.Add(deviceConfig.Driver);
+                }
+            }
+
+            DriverCodes.Sort();
         }
 
         /// <summary>
@@ -110,6 +135,7 @@ namespace Scada.Comm.Config
                     }
                 }
 
+                FillDriverCodes();
                 errMsg = "";
                 return true;
             }

@@ -24,8 +24,10 @@
  */
 
 using Scada.Comm.Config;
+using Scada.Comm.Drivers;
 using Scada.Log;
 using System;
+using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.IO;
 using System.Text;
@@ -53,6 +55,7 @@ namespace Scada.Comm.Engine
         private ServiceStatus serviceStatus;  // the current service status
         private int lastInfoLength;           // the last info text length
 
+        private DriverHolder driverHolder;    // holds drivers
         private List<CommLine> commLines;     // the active communication lines
 
 
@@ -75,6 +78,7 @@ namespace Scada.Comm.Engine
             serviceStatus = ServiceStatus.Undefined;
             lastInfoLength = 0;
 
+            driverHolder = null;
             commLines = null;
         }
 
@@ -97,7 +101,7 @@ namespace Scada.Comm.Engine
         /// <summary>
         /// Gets the application level shared data.
         /// </summary>
-        public SortedDictionary<string, object> SharedData { get; private set; }
+        public ConcurrentDictionary<string, object> SharedData { get; private set; }
 
 
         /// <summary>
@@ -110,6 +114,30 @@ namespace Scada.Comm.Engine
             startDT = utcStartDT.ToLocalTime();
             serviceStatus = ServiceStatus.Undefined;
             WriteInfo();
+            InitDrivers();
+        }
+
+        /// <summary>
+        /// Initializes drivers.
+        /// </summary>
+        private void InitDrivers()
+        {
+            driverHolder = new DriverHolder(Log);
+            CommContext commContext = new CommContext(this);
+
+            foreach (string driverCode in Config.DriverCodes)
+            {
+                if (DriverFactory.GetDriverLogic(AppDirs.DrvDir, driverCode, commContext,
+                    out DriverLogic driverLogic, out string message))
+                {
+                    Log.WriteAction(message);
+                    driverHolder.AddDriver(driverLogic);
+                }
+                else
+                {
+                    Log.WriteError(message);
+                }
+            }
         }
 
         /// <summary>

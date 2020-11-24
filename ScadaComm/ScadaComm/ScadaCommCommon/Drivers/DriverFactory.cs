@@ -62,8 +62,8 @@ namespace Scada.Comm.Drivers
                 {
                     driverLogic = null;
                     message = string.Format(Locale.IsRussian ?
-                        "Невозможно создать драйвер {0}. Файл {1} не найден" :
-                        "Unable to create driver {0}. File {1} not found", driverCode, fileName);
+                        "Невозможно создать логику драйвера {0}. Файл {1} не найден" :
+                        "Unable to create driver logic {0}. File {1} not found", driverCode, fileName);
                     return false;
                 }
             }
