@@ -36,11 +36,15 @@ namespace Scada.Comm.Engine
     /// </summary>
     internal class CommLine
     {
+        private readonly CoreLogic coreLogic; // the Communicator logic instance
+
+
         /// <summary>
         /// Initializes a new instance of the class.
         /// </summary>
-        public CommLine(LineConfig lineConfig)
+        private CommLine(LineConfig lineConfig, CoreLogic coreLogic)
         {
+            this.coreLogic = coreLogic ?? throw new ArgumentNullException(nameof(coreLogic));
             LineConfig = lineConfig ?? throw new ArgumentNullException(nameof(lineConfig));
         }
 
@@ -49,6 +53,17 @@ namespace Scada.Comm.Engine
         /// Gets the communication line configuration.
         /// </summary>
         public LineConfig LineConfig { get; }
+
+        /// <summary>
+        /// Gets a value indicating whether the communication line is terminated.
+        /// </summary>
+        public bool IsTerminated
+        {
+            get
+            {
+                return true;
+            }
+        }
 
 
         /// <summary>
@@ -60,11 +75,20 @@ namespace Scada.Comm.Engine
         }
 
         /// <summary>
-        /// Stops the communication line.
+        /// Begins termination process of the communication line.
         /// </summary>
-        public void Stop()
+        public void Terminate()
         {
 
+        }
+
+        /// <summary>
+        /// Creates a communication line, communication channel and devices.
+        /// </summary>
+        public static CommLine Create(LineConfig lineConfig, CoreLogic coreLogic, DriverHolder driverHolder)
+        {
+            CommLine commLine = new CommLine(lineConfig, coreLogic);
+            return commLine;
         }
     }
 }

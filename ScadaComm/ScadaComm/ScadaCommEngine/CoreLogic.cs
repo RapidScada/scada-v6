@@ -30,6 +30,7 @@ using Scada.Log;
 using System;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.IO;
 using System.Text;
 using System.Threading;
@@ -65,8 +66,8 @@ namespace Scada.Comm.Engine
         private ServiceStatus serviceStatus;  // the current service status
         private int lastInfoLength;           // the last info text length
 
-        private DriverHolder driverHolder;    // holds drivers
         private List<CommLine> commLines;     // the active communication lines
+        private DriverHolder driverHolder;    // holds drivers
 
 
         /// <summary>
@@ -89,8 +90,8 @@ namespace Scada.Comm.Engine
             serviceStatus = ServiceStatus.Undefined;
             lastInfoLength = 0;
 
-            driverHolder = null;
             commLines = null;
+            driverHolder = null;
         }
 
 
@@ -132,6 +133,8 @@ namespace Scada.Comm.Engine
             WriteInfo();
 
             BaseDataSet = null;
+            SharedData = new ConcurrentDictionary<string, object>();
+            commLines = new List<CommLine>(Config.Lines.Count);
             InitDrivers();
         }
 
@@ -224,6 +227,7 @@ namespace Scada.Comm.Engine
             }
             finally
             {
+                StopLines();
                 serviceStatus = ServiceStatus.Terminated;
                 WriteInfo();
             }
@@ -234,7 +238,7 @@ namespace Scada.Comm.Engine
         /// </summary>
         private bool ReceiveBase()
         {
-            return false;
+            return true;
         }
 
         /// <summary>
@@ -242,13 +246,12 @@ namespace Scada.Comm.Engine
         /// </summary>
         private void CreateLines()
         {
-            commLines = new List<CommLine>(Config.Lines.Count);
-
             foreach (LineConfig lineConfig in Config.Lines)
             {
                 try
                 {
-                    commLines.Add(new CommLine(lineConfig));
+                    if (lineConfig.Active)
+                        commLines.Add(CommLine.Create(lineConfig, this, driverHolder));
                 }
                 catch (Exception ex)
                 {
@@ -267,6 +270,10 @@ namespace Scada.Comm.Engine
         {
             try
             {
+                Log.WriteAction(Locale.IsRussian ?
+                    "Запуск линий связи" :
+                    "Start communication lines");
+
                 foreach (CommLine commLine in commLines)
                 {
                     if (!commLine.Start())
@@ -283,6 +290,56 @@ namespace Scada.Comm.Engine
                 Log.WriteException(ex, Locale.IsRussian ?
                     "Ошибка при запуске линий связи" :
                     "Error starting communication lines");
+            }
+        }
+
+        /// <summary>
+        /// Stops communication lines.
+        /// </summary>
+        private void StopLines()
+        {
+            try
+            {
+                Log.WriteAction(Locale.IsRussian ?
+                    "Остановка линий связи" :
+                    "Stop communication lines");
+
+                foreach (CommLine commLine in commLines)
+                {
+                    commLine.Terminate();
+                }
+
+                // waiting for all lines to terminate
+                Stopwatch stopwatch = Stopwatch.StartNew();
+                bool linesTerminated;
+
+                do
+                {
+                    linesTerminated = true;
+
+                    foreach (CommLine commLine in commLines)
+                    {
+                        if (!commLine.IsTerminated)
+                        {
+                            linesTerminated = false;
+                            Thread.Sleep(ScadaUtils.ThreadDelay);
+                            break;
+                        }
+                    }
+                } while (!linesTerminated && stopwatch.ElapsedMilliseconds <= ScadaUtils.ThreadWait);
+
+                if (!linesTerminated)
+                {
+                    Log.WriteWarning(Locale.IsRussian ?
+                        "Некоторые линии связи всё ещё работают" :
+                        "Some communication lines are still working");
+                }
+            }
+            catch (Exception ex)
+            {
+                Log.WriteException(ex, Locale.IsRussian ?
+                    "Ошибка при остановке линий связи" :
+                    "Error stopping communication lines");
             }
         }
 
