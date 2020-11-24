@@ -33,6 +33,7 @@ using Scada.Server.Archives;
 using Scada.Server.Config;
 using Scada.Server.Modules;
 using System;
+using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.IO;
 using System.Text;
@@ -153,7 +154,7 @@ namespace Scada.Server.Engine
         /// <summary>
         /// Gets the application level shared data.
         /// </summary>
-        public SortedDictionary<string, object> SharedData { get; private set; }
+        public ConcurrentDictionary<string, object> SharedData { get; private set; }
 
         /// <summary>
         /// Gets a value indicating whether the server is ready.
@@ -192,7 +193,7 @@ namespace Scada.Server.Engine
             if (!InitCalculator())
                 return false;
 
-            SharedData = new SortedDictionary<string, object>();
+            SharedData = new ConcurrentDictionary<string, object>();
             moduleHolder = new ModuleHolder(Log);
             archiveHolder = new ArchiveHolder(Log);
             serverCache = new ServerCache();

@@ -40,14 +40,6 @@ namespace Scada.Server.Engine
     /// </summary>
     internal class ArchiveHolder
     {
-        private static readonly string ErrorInArchive = Locale.IsRussian ?
-            "Ошибка при вызове метода {0} архива {1}" :
-            "Error calling the {0} method of the {1} archive";
-
-        private static readonly string NullNotAllowed = Locale.IsRussian ?
-            "Результат метода не может быть null." :
-            "Method result must not be null.";
-
         private readonly ILog log;                                        // the application log
         private readonly List<ArchiveLogic> allArchives;                  // the all archives
         private readonly List<CurrentArchiveLogic> currentArchives;       // the current archives
@@ -201,7 +193,7 @@ namespace Scada.Server.Engine
                 }
                 catch (Exception ex)
                 {
-                    log.WriteException(ex, ErrorInArchive, nameof(MakeReady), archiveLogic.Code);
+                    log.WriteException(ex, ServerPhrases.ErrorInArchive, nameof(MakeReady), archiveLogic.Code);
                 }
                 finally
                 {
@@ -225,7 +217,7 @@ namespace Scada.Server.Engine
                 }
                 catch (Exception ex)
                 {
-                    log.WriteException(ex, ErrorInArchive, nameof(Close), archiveLogic.Code);
+                    log.WriteException(ex, ServerPhrases.ErrorInArchive, nameof(Close), archiveLogic.Code);
                 }
                 finally
                 {
@@ -257,7 +249,8 @@ namespace Scada.Server.Engine
                     }
                     catch (Exception ex)
                     {
-                        log.WriteException(ex, ErrorInArchive, nameof(DeleteOutdatedData), archiveLogic.Code);
+                        log.WriteException(ex, ServerPhrases.ErrorInArchive, 
+                            nameof(DeleteOutdatedData), archiveLogic.Code);
                     }
                     finally
                     {
@@ -286,7 +279,8 @@ namespace Scada.Server.Engine
                     }
                     catch (Exception ex)
                     {
-                        log.WriteException(ex, ErrorInArchive, nameof(ReadCurrentData), archiveLogic.Code);
+                        log.WriteException(ex, ServerPhrases.ErrorInArchive, 
+                            nameof(ReadCurrentData), archiveLogic.Code);
                     }
                     finally
                     {
@@ -317,7 +311,8 @@ namespace Scada.Server.Engine
                     }
                     catch (Exception ex)
                     {
-                        log.WriteException(ex, ErrorInArchive, nameof(WriteCurrentData), archiveLogic.Code);
+                        log.WriteException(ex, ServerPhrases.ErrorInArchive, 
+                            nameof(WriteCurrentData), archiveLogic.Code);
                     }
                     finally
                     {
@@ -344,7 +339,7 @@ namespace Scada.Server.Engine
                     }
                     catch (Exception ex)
                     {
-                        log.WriteException(ex, ErrorInArchive, nameof(ProcessData), archiveLogic.Code);
+                        log.WriteException(ex, ServerPhrases.ErrorInArchive, nameof(ProcessData), archiveLogic.Code);
                     }
                     finally
                     {
@@ -365,7 +360,7 @@ namespace Scada.Server.Engine
                     }
                     catch (Exception ex)
                     {
-                        log.WriteException(ex, ErrorInArchive, nameof(ProcessData), archiveLogic.Code);
+                        log.WriteException(ex, ServerPhrases.ErrorInArchive, nameof(ProcessData), archiveLogic.Code);
                     }
                     finally
                     {
@@ -388,7 +383,7 @@ namespace Scada.Server.Engine
             }
             catch (Exception ex)
             {
-                log.WriteException(ex, ErrorInArchive, nameof(EndUpdate), archiveLogic.Code);
+                log.WriteException(ex, ServerPhrases.ErrorInArchive, nameof(EndUpdate), archiveLogic.Code);
             }
             finally
             {
@@ -407,7 +402,7 @@ namespace Scada.Server.Engine
             }
             catch (Exception ex)
             {
-                log.WriteException(ex, ErrorInArchive, nameof(Unlock), archiveLogic.Code);
+                log.WriteException(ex, ServerPhrases.ErrorInArchive, nameof(Unlock), archiveLogic.Code);
             }
         }
 
@@ -428,11 +423,12 @@ namespace Scada.Server.Engine
                 {
                     archiveLogic.Lock();
                     DefineEndTime(ref timeRange);
-                    return archiveLogic.GetTrends(cnlNums, timeRange) ?? throw new ScadaException(NullNotAllowed);
+                    return archiveLogic.GetTrends(cnlNums, timeRange) ?? 
+                        throw new ScadaException(ServerPhrases.NullResultNotAllowed);
                 }
                 catch (Exception ex)
                 {
-                    log.WriteException(ex, ErrorInArchive, nameof(GetTrends), archiveLogic.Code);
+                    log.WriteException(ex, ServerPhrases.ErrorInArchive, nameof(GetTrends), archiveLogic.Code);
                 }
                 finally
                 {
@@ -454,11 +450,12 @@ namespace Scada.Server.Engine
                 {
                     archiveLogic.Lock();
                     DefineEndTime(ref timeRange);
-                    return archiveLogic.GetTrend(cnlNum, timeRange) ?? throw new ScadaException(NullNotAllowed);
+                    return archiveLogic.GetTrend(cnlNum, timeRange) ?? 
+                        throw new ScadaException(ServerPhrases.NullResultNotAllowed);
                 }
                 catch (Exception ex)
                 {
-                    log.WriteException(ex, ErrorInArchive, nameof(GetTrend), archiveLogic.Code);
+                    log.WriteException(ex, ServerPhrases.ErrorInArchive, nameof(GetTrend), archiveLogic.Code);
                 }
                 finally
                 {
@@ -480,11 +477,12 @@ namespace Scada.Server.Engine
                 {
                     archiveLogic.Lock();
                     DefineEndTime(ref timeRange);
-                    return archiveLogic.GetTimestamps(timeRange) ?? throw new ScadaException(NullNotAllowed);
+                    return archiveLogic.GetTimestamps(timeRange) ?? 
+                        throw new ScadaException(ServerPhrases.NullResultNotAllowed);
                 }
                 catch (Exception ex)
                 {
-                    log.WriteException(ex, ErrorInArchive, nameof(GetTimestamps), archiveLogic.Code);
+                    log.WriteException(ex, ServerPhrases.ErrorInArchive, nameof(GetTimestamps), archiveLogic.Code);
                 }
                 finally
                 {
@@ -512,11 +510,11 @@ namespace Scada.Server.Engine
                 {
                     archiveLogic.Lock();
                     return archiveLogic.GetSlice(cnlNums, timestamp) ??
-                        throw new ScadaException(NullNotAllowed);
+                        throw new ScadaException(ServerPhrases.NullResultNotAllowed);
                 }
                 catch (Exception ex)
                 {
-                    log.WriteException(ex, ErrorInArchive, nameof(GetSlice), archiveLogic.Code);
+                    log.WriteException(ex, ServerPhrases.ErrorInArchive, nameof(GetSlice), archiveLogic.Code);
                 }
                 finally
                 {
@@ -564,7 +562,7 @@ namespace Scada.Server.Engine
                 }
                 catch (Exception ex)
                 {
-                    log.WriteException(ex, ErrorInArchive, nameof(GetEventByID), archiveLogic.Code);
+                    log.WriteException(ex, ServerPhrases.ErrorInArchive, nameof(GetEventByID), archiveLogic.Code);
                 }
                 finally
                 {
@@ -586,11 +584,12 @@ namespace Scada.Server.Engine
                 {
                     archiveLogic.Lock();
                     DefineEndTime(ref timeRange);
-                    return archiveLogic.GetEvents(timeRange, filter) ?? throw new ScadaException(NullNotAllowed);
+                    return archiveLogic.GetEvents(timeRange, filter) ?? 
+                        throw new ScadaException(ServerPhrases.NullResultNotAllowed);
                 }
                 catch (Exception ex)
                 {
-                    log.WriteException(ex, ErrorInArchive, nameof(GetEvents), archiveLogic.Code);
+                    log.WriteException(ex, ServerPhrases.ErrorInArchive, nameof(GetEvents), archiveLogic.Code);
                 }
                 finally
                 {
@@ -616,7 +615,7 @@ namespace Scada.Server.Engine
                 }
                 catch (Exception ex)
                 {
-                    log.WriteException(ex, ErrorInArchive, nameof(WriteEvent), archiveLogic.Code);
+                    log.WriteException(ex, ServerPhrases.ErrorInArchive, nameof(WriteEvent), archiveLogic.Code);
                 }
                 finally
                 {
@@ -662,7 +661,7 @@ namespace Scada.Server.Engine
                     }
                     catch (Exception ex)
                     {
-                        log.WriteException(ex, ErrorInArchive, nameof(AckEvent), archiveLogic.Code);
+                        log.WriteException(ex, ServerPhrases.ErrorInArchive, nameof(AckEvent), archiveLogic.Code);
                     }
                     finally
                     {

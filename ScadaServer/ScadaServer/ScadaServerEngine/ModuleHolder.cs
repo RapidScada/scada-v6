@@ -37,10 +37,6 @@ namespace Scada.Server.Engine
     /// </summary>
     internal class ModuleHolder
     {
-        private static readonly string ErrorInModule = Locale.IsRussian ?
-            "Error calling the {0} method of the {1} module" :
-            "Ошибка при вызове метода {0} модуля {1}";
-
         private readonly ILog log;                       // the application log
         private readonly List<ModuleLogic> modules;      // all the modules
         private readonly List<ModuleLogic> logicModules; // the modules that have only a logical purpose
@@ -99,7 +95,7 @@ namespace Scada.Server.Engine
                     }
                     catch (Exception ex)
                     {
-                        log.WriteException(ex, ErrorInModule, nameof(OnServiceStart), moduleLogic.Code);
+                        log.WriteException(ex, ServerPhrases.ErrorInModule, nameof(OnServiceStart), moduleLogic.Code);
                     }
                 }
             }
@@ -120,7 +116,7 @@ namespace Scada.Server.Engine
                     }
                     catch (Exception ex)
                     {
-                        log.WriteException(ex, ErrorInModule, nameof(OnServiceStop), moduleLogic.Code);
+                        log.WriteException(ex, ServerPhrases.ErrorInModule, nameof(OnServiceStop), moduleLogic.Code);
                     }
                 }
             }
@@ -141,7 +137,7 @@ namespace Scada.Server.Engine
                     }
                     catch (Exception ex)
                     {
-                        log.WriteException(ex, ErrorInModule, nameof(OnIteration), moduleLogic.Code);
+                        log.WriteException(ex, ServerPhrases.ErrorInModule, nameof(OnIteration), moduleLogic.Code);
                     }
                 }
             }
@@ -162,7 +158,8 @@ namespace Scada.Server.Engine
                     }
                     catch (Exception ex)
                     {
-                        log.WriteException(ex, ErrorInModule, nameof(OnCurrentDataProcessing), moduleLogic.Code);
+                        log.WriteException(ex, ServerPhrases.ErrorInModule, 
+                            nameof(OnCurrentDataProcessing), moduleLogic.Code);
                     }
                 }
             }
@@ -183,7 +180,8 @@ namespace Scada.Server.Engine
                     }
                     catch (Exception ex)
                     {
-                        log.WriteException(ex, ErrorInModule, nameof(OnCurrentDataProcessed), moduleLogic.Code);
+                        log.WriteException(ex, ServerPhrases.ErrorInModule, 
+                            nameof(OnCurrentDataProcessed), moduleLogic.Code);
                     }
                 }
             }
@@ -204,7 +202,8 @@ namespace Scada.Server.Engine
                     }
                     catch (Exception ex)
                     {
-                        log.WriteException(ex, ErrorInModule, nameof(OnHistoricalDataProcessing), moduleLogic.Code);
+                        log.WriteException(ex, ServerPhrases.ErrorInModule, 
+                            nameof(OnHistoricalDataProcessing), moduleLogic.Code);
                     }
                 }
             }
@@ -225,7 +224,8 @@ namespace Scada.Server.Engine
                     }
                     catch (Exception ex)
                     {
-                        log.WriteException(ex, ErrorInModule, nameof(OnHistoricalDataProcessed), moduleLogic.Code);
+                        log.WriteException(ex, ServerPhrases.ErrorInModule, 
+                            nameof(OnHistoricalDataProcessed), moduleLogic.Code);
                     }
                 }
             }
@@ -246,7 +246,7 @@ namespace Scada.Server.Engine
                     }
                     catch (Exception ex)
                     {
-                        log.WriteException(ex, ErrorInModule, nameof(OnEvent), moduleLogic.Code);
+                        log.WriteException(ex, ServerPhrases.ErrorInModule, nameof(OnEvent), moduleLogic.Code);
                     }
                 }
             }
@@ -267,7 +267,7 @@ namespace Scada.Server.Engine
                     }
                     catch (Exception ex)
                     {
-                        log.WriteException(ex, ErrorInModule, nameof(OnEventAck), moduleLogic.Code);
+                        log.WriteException(ex, ServerPhrases.ErrorInModule, nameof(OnEventAck), moduleLogic.Code);
                     }
                 }
             }
@@ -288,7 +288,7 @@ namespace Scada.Server.Engine
                     }
                     catch (Exception ex)
                     {
-                        log.WriteException(ex, ErrorInModule, nameof(OnCommand), moduleLogic.Code);
+                        log.WriteException(ex, ServerPhrases.ErrorInModule, nameof(OnCommand), moduleLogic.Code);
                     }
                 }
             }
@@ -319,7 +319,7 @@ namespace Scada.Server.Engine
                     }
                     catch (Exception ex)
                     {
-                        log.WriteException(ex, ErrorInModule, nameof(ValidateUser), moduleLogic.Code);
+                        log.WriteException(ex, ServerPhrases.ErrorInModule, nameof(ValidateUser), moduleLogic.Code);
                     }
                 }
             }

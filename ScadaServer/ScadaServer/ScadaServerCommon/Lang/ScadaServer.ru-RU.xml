@@ -4,7 +4,5 @@
     <Phrase key="LoadModuleConfigError">Ошибка при загрузке конфигурации модуля</Phrase>
     <Phrase key="SaveModuleConfigError">Ошибка при сохранении конфигурации модуля</Phrase>
     <Phrase key="ConnectionNotFound">Соединение &quot;{0}&quot; не найдено.</Phrase>
-    <Phrase key="ReadDbError">Ошибка при чтении из базы данных</Phrase>
-    <Phrase key="WriteDbError">Ошибка при записи в базу данных</Phrase>
   </Dictionary>
 </ScadaServerDictionaries>

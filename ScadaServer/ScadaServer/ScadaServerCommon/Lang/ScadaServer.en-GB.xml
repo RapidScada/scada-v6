@@ -4,7 +4,5 @@
     <Phrase key="LoadModuleConfigError">Error loading module configuration</Phrase>
     <Phrase key="SaveModuleConfigError">Error saving module configuration</Phrase>
     <Phrase key="ConnectionNotFound">Connection &quot;{0}&quot; not found.</Phrase>
-    <Phrase key="ReadDbError">Error reading from database</Phrase>
-    <Phrase key="WriteDbError">Error writing to database</Phrase>
   </Dictionary>
 </ScadaServerDictionaries>

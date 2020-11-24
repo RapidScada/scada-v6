@@ -37,11 +37,11 @@ namespace Scada.Server
         public static string LoadModuleConfigError { get; private set; }
         public static string SaveModuleConfigError { get; private set; }
         public static string ConnectionNotFound { get; private set; }
-        public static string ReadDbError { get; private set; }
-        public static string WriteDbError { get; private set; }
 
         // Archives
         public static string ArchiveMessage { get; private set; }
+        public static string ErrorInArchive { get; private set; }
+        public static string NullResultNotAllowed { get; private set; }
         public static string InvalidWritingPeriod { get; private set; }
         public static string WritingModeNotSupported { get; private set; }
         public static string WritingModeIsSlow { get; private set; }
@@ -65,6 +65,11 @@ namespace Scada.Server
         public static string AckEventCompleted { get; private set; }
         public static string AckEventNotFound { get; private set; }
 
+        // Modules
+        public static string ErrorInModule { get; private set; }
+        public static string ReadDbError { get; private set; }
+        public static string WriteDbError { get; private set; }
+
         public static void Init()
         {
             // load phrases from dictionaries, because the service user interface is multilingual
@@ -72,13 +77,13 @@ namespace Scada.Server
             LoadModuleConfigError = dict.GetPhrase("LoadModuleConfigError");
             SaveModuleConfigError = dict.GetPhrase("SaveModuleConfigError");
             ConnectionNotFound = dict.GetPhrase("ConnectionNotFound");
-            ReadDbError = dict.GetPhrase("ReadDbError");
-            WriteDbError = dict.GetPhrase("WriteDbError");
 
             // set phrases depending on locale, because the service logic supports only 2 languaages
             if (Locale.IsRussian)
             {
                 ArchiveMessage = "Архив {0}: {1}";
+                ErrorInArchive = "Ошибка при вызове метода {0} архива {1}";
+                NullResultNotAllowed = "Результат метода не может быть null.";
                 InvalidWritingPeriod = "Период записи должен быть положительным.";
                 WritingModeNotSupported = "Режим записи не поддерживается архивом {0}.";
                 WritingModeIsSlow = "Выбранный режим записи может снизить производительность";
@@ -101,10 +106,16 @@ namespace Scada.Server
                 EventsWereLost = "{0} событий были потеряны";
                 AckEventCompleted = "Квитирование события с ид. {0} успешно завершено за {1} мс";
                 AckEventNotFound = "Квитируемое событие с ид. {0} не найдено";
+
+                ErrorInModule = "Ошибка при вызове метода {0} модуля {1}";
+                ReadDbError = "Ошибка при чтении из базы данных";
+                WriteDbError = "Ошибка при записи в базу данных";
             }
             else
             {
                 ArchiveMessage = "Archive {0}: {1}";
+                ErrorInArchive = "Error calling the {0} method of the {1} archive";
+                NullResultNotAllowed = "Method result must not be null.";
                 InvalidWritingPeriod = "Writing period must be positive.";
                 WritingModeNotSupported = "Writing mode is not supported by the {0} archive.";
                 WritingModeIsSlow = "The selected writing mode may decrease performance";
@@ -127,6 +138,10 @@ namespace Scada.Server
                 EventsWereLost = "{0} events were lost";
                 AckEventCompleted = "Acknowledging an event with ID {0} completed successfully in {1} ms";
                 AckEventNotFound = "Acknowledged event with ID {0} not found";
+
+                ErrorInModule = "Error calling the {0} method of the {1} module";
+                ReadDbError = "Error reading from database";
+                WriteDbError = "Error writing to database";
             }
         }
     }
