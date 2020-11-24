@@ -41,16 +41,22 @@ namespace Scada.Comm.Engine
         /// </summary>
         public CommLine(LineConfig lineConfig)
         {
-
+            LineConfig = lineConfig ?? throw new ArgumentNullException(nameof(lineConfig));
         }
+
+
+        /// <summary>
+        /// Gets the communication line configuration.
+        /// </summary>
+        public LineConfig LineConfig { get; }
 
 
         /// <summary>
         /// Starts the communication line.
         /// </summary>
-        public void Start()
+        public bool Start()
         {
-
+            return false;
         }
 
         /// <summary>

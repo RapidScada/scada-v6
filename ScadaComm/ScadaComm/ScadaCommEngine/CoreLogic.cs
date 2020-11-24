@@ -265,9 +265,24 @@ namespace Scada.Comm.Engine
         /// </summary>
         private void StartLines()
         {
-            foreach (CommLine commLine in commLines)
+            try
             {
-                commLine.Start();
+                foreach (CommLine commLine in commLines)
+                {
+                    if (!commLine.Start())
+                    {
+                        Log.WriteError(Locale.IsRussian ?
+                            "Не удалось запустить линию связи [{0}] {1}" :
+                            "Failed to start communication line [{0}] {1}",
+                            commLine.LineConfig.CommLineNum, commLine.LineConfig.Name);
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                Log.WriteException(ex, Locale.IsRussian ?
+                    "Ошибка при запуске линий связи" :
+                    "Error starting communication lines");
             }
         }
 
