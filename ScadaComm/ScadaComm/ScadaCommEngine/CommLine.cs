@@ -43,5 +43,22 @@ namespace Scada.Comm.Engine
         {
 
         }
+
+
+        /// <summary>
+        /// Starts the communication line.
+        /// </summary>
+        public void Start()
+        {
+
+        }
+
+        /// <summary>
+        /// Stops the communication line.
+        /// </summary>
+        public void Stop()
+        {
+
+        }
     }
 }

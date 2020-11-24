@@ -25,6 +25,7 @@
 
 using Scada.Comm.Config;
 using Scada.Comm.Drivers;
+using Scada.Data.Models;
 using Scada.Log;
 using System;
 using System.Collections.Concurrent;
@@ -41,6 +42,15 @@ namespace Scada.Comm.Engine
     /// </summary>
     internal class CoreLogic
     {
+        /// <summary>
+        /// Specifies the execution steps.
+        /// </summary>
+        private enum ExecutionStep { ReceiveBase, StartLines, MainWork }
+
+        /// <summary>
+        /// The period of attempts to receive the configuration database.
+        /// </summary>
+        private static readonly TimeSpan ReceiveBasePeriod = TimeSpan.FromSeconds(10);
         /// <summary>
         /// The period of writing application info.
         /// </summary>
@@ -67,6 +77,7 @@ namespace Scada.Comm.Engine
             Config = config ?? throw new ArgumentNullException(nameof(config));
             AppDirs = appDirs ?? throw new ArgumentNullException(nameof(appDirs));
             Log = log ?? throw new ArgumentNullException(nameof(log));
+            BaseDataSet = null;
             SharedData = null;
 
             infoFileName = Path.Combine(appDirs.LogDir, CommUtils.InfoFileName);
@@ -99,6 +110,11 @@ namespace Scada.Comm.Engine
         public ILog Log { get; }
 
         /// <summary>
+        /// Gets the configuration database.
+        /// </summary>
+        public BaseDataSet BaseDataSet { get; private set; }
+
+        /// <summary>
         /// Gets the application level shared data.
         /// </summary>
         public ConcurrentDictionary<string, object> SharedData { get; private set; }
@@ -114,6 +130,8 @@ namespace Scada.Comm.Engine
             startDT = utcStartDT.ToLocalTime();
             serviceStatus = ServiceStatus.Undefined;
             WriteInfo();
+
+            BaseDataSet = null;
             InitDrivers();
         }
 
@@ -147,7 +165,10 @@ namespace Scada.Comm.Engine
         {
             try
             {
-                DateTime writeInfoDT = DateTime.MinValue; // the timestamp of writing application info
+                ExecutionStep executionStep = Config.GeneralOptions.InteractWithServer ? 
+                    ExecutionStep.ReceiveBase : ExecutionStep.StartLines;
+                DateTime receiveBaseDT = DateTime.MinValue;
+                DateTime writeInfoDT = DateTime.MinValue;
                 serviceStatus = ServiceStatus.Normal;
 
                 while (!terminated)
@@ -155,6 +176,35 @@ namespace Scada.Comm.Engine
                     try
                     {
                         DateTime utcNow = DateTime.UtcNow;
+
+                        switch (executionStep)
+                        {
+                            case ExecutionStep.MainWork:
+                                break;
+
+                            case ExecutionStep.ReceiveBase:
+                                if (utcNow - receiveBaseDT >= ReceiveBasePeriod)
+                                {
+                                    receiveBaseDT = utcNow;
+
+                                    if (ReceiveBase())
+                                    {
+                                        executionStep = ExecutionStep.StartLines;
+                                        serviceStatus = ServiceStatus.Normal;
+                                    }
+                                    else
+                                    {
+                                        serviceStatus = ServiceStatus.Error;
+                                    }
+                                }
+                                break;
+
+                            case ExecutionStep.StartLines:
+                                CreateLines();
+                                StartLines();
+                                executionStep = ExecutionStep.MainWork;
+                                break;
+                        }
 
                         // write application info
                         if (utcNow - writeInfoDT >= WriteInfoPeriod)
@@ -176,6 +226,48 @@ namespace Scada.Comm.Engine
             {
                 serviceStatus = ServiceStatus.Terminated;
                 WriteInfo();
+            }
+        }
+
+        /// <summary>
+        /// Receives the configuration database.
+        /// </summary>
+        private bool ReceiveBase()
+        {
+            return false;
+        }
+
+        /// <summary>
+        /// Creates communication lines.
+        /// </summary>
+        private void CreateLines()
+        {
+            commLines = new List<CommLine>(Config.Lines.Count);
+
+            foreach (LineConfig lineConfig in Config.Lines)
+            {
+                try
+                {
+                    commLines.Add(new CommLine(lineConfig));
+                }
+                catch (Exception ex)
+                {
+                    Log.WriteException(ex, Locale.IsRussian ?
+                        "Ошибка при создании линии связи [{0}] {1}" :
+                        "Error creating communication line [{0}] {1}", 
+                        lineConfig.CommLineNum, lineConfig.Name);
+                }
+            }
+        }
+
+        /// <summary>
+        /// Starts communication lines.
+        /// </summary>
+        private void StartLines()
+        {
+            foreach (CommLine commLine in commLines)
+            {
+                commLine.Start();
             }
         }
 

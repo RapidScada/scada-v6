@@ -54,6 +54,7 @@ namespace Scada.Comm.Drivers
         /// <summary>
         /// Gets the configuration database cache.
         /// </summary>
+        /// <remarks>Can be null.</remarks>
         BaseDataSet BaseDataSet { get; }
 
         /// <summary>

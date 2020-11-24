@@ -61,13 +61,13 @@ namespace Scada
         /// <summary>
         /// Gets or sets the client to interact with the server.
         /// </summary>
-        /// <remarks>Null allowed.</remarks>
+        /// <remarks>Can be null.</remarks>
         public ScadaClient ScadaClient { get; set; }
 
         /// <summary>
         /// Gets or sets the client to interact with the agent.
         /// </summary>
-        /// <remarks>Null allowed.</remarks>
+        /// <remarks>Can be null.</remarks>
         public IAgentClient AgentClient { get; set; }
 
         /// <summary>

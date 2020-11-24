@@ -69,7 +69,7 @@ namespace Scada.Comm.Engine
         /// <summary>
         /// Gets the configuration database cache.
         /// </summary>
-        public BaseDataSet BaseDataSet => null;
+        public BaseDataSet BaseDataSet => coreLogic.BaseDataSet;
 
         /// <summary>
         /// Gets the application level shared data.
