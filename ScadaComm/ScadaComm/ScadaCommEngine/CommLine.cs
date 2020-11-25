@@ -24,9 +24,10 @@
  */
 
 using Scada.Comm.Config;
+using Scada.Comm.Drivers;
 using System;
 using System.Collections.Generic;
-using System.Text;
+using System.Threading;
 
 namespace Scada.Comm.Engine
 {
@@ -38,6 +39,11 @@ namespace Scada.Comm.Engine
     {
         private readonly CoreLogic coreLogic; // the Communicator logic instance
 
+        private Thread thread;                // the working thread of the communication line
+        private volatile bool terminated;     // necessary to stop the thread
+        private volatile CommLineStatus lineStatus; // the current communication line status
+        private List<DeviceLogic> devices;    // the list of devices
+
 
         /// <summary>
         /// Initializes a new instance of the class.
@@ -46,6 +52,11 @@ namespace Scada.Comm.Engine
         {
             this.coreLogic = coreLogic ?? throw new ArgumentNullException(nameof(coreLogic));
             LineConfig = lineConfig ?? throw new ArgumentNullException(nameof(lineConfig));
+
+            thread = null;
+            terminated = false;
+            lineStatus = CommLineStatus.Undefined;
+            devices = new List<DeviceLogic>();
         }
 
 
@@ -61,7 +72,7 @@ namespace Scada.Comm.Engine
         {
             get
             {
-                return true;
+                return lineStatus == CommLineStatus.Terminated;
             }
         }
 
