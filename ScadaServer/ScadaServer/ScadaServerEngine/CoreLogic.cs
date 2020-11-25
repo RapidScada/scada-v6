@@ -228,7 +228,6 @@ namespace Scada.Server.Engine
                 Log.WriteAction(Locale.IsRussian ?
                     "База конфигурации считана успешно" :
                     "The configuration database has been read successfully");
-
                 return true;
             }
             catch (Exception ex)
