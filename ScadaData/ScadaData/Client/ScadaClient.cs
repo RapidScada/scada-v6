@@ -23,6 +23,7 @@
  * Modified : 2020
  */
 
+using Scada.Data.Adapters;
 using Scada.Data.Models;
 using Scada.Data.Tables;
 using Scada.Protocol;
@@ -105,9 +106,32 @@ namespace Scada.Client
         /// </summary>
         public bool DownloadBaseTable(IBaseTable baseTable)
         {
-            //RelativePath path = new RelativePath(TopFolder.Base, AppFolder.Root, baseTable.Name.ToLowerInvariant() + ".dat");
-            //DownloadFile(path, 0, 0, false, DateTime.MinValue, null, out DateTime _, out FileReadingResult readingResult, out Stream stream);
-            return false;
+            if (baseTable == null)
+                throw new ArgumentNullException(nameof(baseTable));
+
+            DownloadFile(
+                new RelativePath(TopFolder.Base, AppFolder.Root, baseTable.FileNameDat), 
+                0, 0, false, DateTime.MinValue, () => { return new MemoryStream(); }, 
+                out _, out FileReadingResult readingResult, out Stream stream);
+
+            try
+            {
+                if (readingResult == FileReadingResult.EndOfFile && stream != null)
+                {
+                    stream.Position = 0;
+                    BaseTableAdapter adapter = new BaseTableAdapter() { Stream = stream };
+                    adapter.Fill(baseTable);
+                    return true;
+                }
+                else
+                {
+                    return false;
+                }
+            }
+            finally
+            {
+                stream?.Dispose();
+            }
         }
 
         /// <summary>

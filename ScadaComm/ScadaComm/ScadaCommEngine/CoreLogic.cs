@@ -23,9 +23,11 @@
  * Modified : 2020
  */
 
+using Scada.Client;
 using Scada.Comm.Config;
 using Scada.Comm.Drivers;
 using Scada.Data.Models;
+using Scada.Data.Tables;
 using Scada.Log;
 using System;
 using System.Collections.Concurrent;
@@ -66,6 +68,7 @@ namespace Scada.Comm.Engine
         private ServiceStatus serviceStatus;  // the current service status
         private int lastInfoLength;           // the last info text length
 
+        private ScadaClient scadaClient;      // communicates with the Server service
         private List<CommLine> commLines;     // the active communication lines
         private DriverHolder driverHolder;    // holds drivers
 
@@ -90,6 +93,7 @@ namespace Scada.Comm.Engine
             serviceStatus = ServiceStatus.Undefined;
             lastInfoLength = 0;
 
+            scadaClient = null;
             commLines = null;
             driverHolder = null;
         }
@@ -134,8 +138,24 @@ namespace Scada.Comm.Engine
 
             BaseDataSet = null;
             SharedData = new ConcurrentDictionary<string, object>();
+            scadaClient = Config.GeneralOptions.InteractWithServer ? 
+                new ScadaClient(Config.ConnectionOptions) { CommLog = CreateClientLog() } : null;
             commLines = new List<CommLine>(Config.Lines.Count);
             InitDrivers();
+        }
+
+        /// <summary>
+        /// Creates a client communication log file.
+        /// </summary>
+        private ILog CreateClientLog()
+        {
+            return Config.GeneralOptions.ClientLogEnabled ?
+                new LogFile(LogFormat.Simple)
+                {
+                    FileName = Path.Combine(AppDirs.LogDir, CommUtils.ClientLogFileName),
+                    TimestampFormat = LogFile.DefaultTimestampFormat + "'.'ff"
+                } : 
+                null;
         }
 
         /// <summary>
@@ -238,7 +258,34 @@ namespace Scada.Comm.Engine
         /// </summary>
         private bool ReceiveBase()
         {
-            return true;
+            string tableName = Locale.IsRussian ? "неопределена" : "undefined";
+
+            try
+            {
+                Log.WriteAction(Locale.IsRussian ?
+                    "Приём базы конфигурации" :
+                    "Receive the configuration database");
+
+                BaseDataSet = new BaseDataSet();
+
+                foreach (IBaseTable baseTable in BaseDataSet.AllTables)
+                {
+                    tableName = baseTable.Name;
+                    scadaClient.DownloadBaseTable(baseTable);
+                }
+
+                Log.WriteAction(Locale.IsRussian ?
+                    "База конфигурации получена успешно" :
+                    "The configuration database has been received successfully");
+                return true;
+            }
+            catch (Exception ex)
+            {
+                Log.WriteException(ex, Locale.IsRussian ?
+                    "Ошибка при приёме базы конфигурации, таблица {0}" :
+                    "Error receiving the configuration database, the {0} table", tableName);
+                return false;
+            }
         }
 
         /// <summary>

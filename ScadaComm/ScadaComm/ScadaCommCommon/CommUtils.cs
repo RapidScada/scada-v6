@@ -43,5 +43,9 @@ namespace Scada.Comm
         /// The application information file name.
         /// </summary>
         public const string InfoFileName = "ScadaComm.txt";
+        /// <summary>
+        /// The client communication log file name.
+        /// </summary>
+        public const string ClientLogFileName = "ScadaComm_Client.log";
     }
 }

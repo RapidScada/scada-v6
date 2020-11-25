@@ -43,6 +43,7 @@ namespace Scada.Comm.Config
             InteractWithServer = true;
             SendModifiedData = true;
             SendAllDataPeriod = 60;
+            ClientLogEnabled = false;
             MaxLogSize = LogFile.DefaultCapacity;
         }
 
@@ -63,6 +64,11 @@ namespace Scada.Comm.Config
         public int SendAllDataPeriod { get; set; }
 
         /// <summary>
+        /// Gets or sets a value indicating whether to write client communication log.
+        /// </summary>
+        public bool ClientLogEnabled { get; set; }
+
+        /// <summary>
         /// Gets or sets the maximum log file size.
         /// </summary>
         public int MaxLogSize { get; set; }
@@ -79,6 +85,7 @@ namespace Scada.Comm.Config
             InteractWithServer = xmlNode.GetChildAsBool("InteractWithServer");
             SendModifiedData = xmlNode.GetChildAsBool("SendModifiedData");
             SendAllDataPeriod = xmlNode.GetChildAsInt("SendAllDataPeriod");
+            ClientLogEnabled = xmlNode.GetChildAsBool("ClientLogEnabled");
             MaxLogSize = xmlNode.GetChildAsInt("MaxLogSize", MaxLogSize);
         }
 
@@ -93,6 +100,7 @@ namespace Scada.Comm.Config
             xmlElem.AppendElem("InteractWithServer", InteractWithServer);
             xmlElem.AppendElem("SendModifiedData", SendModifiedData);
             xmlElem.AppendElem("SendAllDataPeriod", SendAllDataPeriod);
+            xmlElem.AppendElem("ClientLogEnabled", ClientLogEnabled);
             xmlElem.AppendElem("MaxLogSize", MaxLogSize);
         }
     }

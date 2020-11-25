@@ -4,6 +4,7 @@
     <InteractWithServer>true</InteractWithServer>
     <SendModifiedData>true</SendModifiedData>
     <SendAllDataPeriod>60</SendAllDataPeriod>
+    <ClientLogEnabled>false</ClientLogEnabled>
     <MaxLogSize>1048576</MaxLogSize>
   </GeneralOptions>
   <ConnectionOptions>
