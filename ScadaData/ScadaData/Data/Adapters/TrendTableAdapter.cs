@@ -83,7 +83,7 @@ namespace Scada.Data.Adapters
         /// <summary>
         /// Gets or sets the archive code.
         /// </summary>
-        public string ArchiveCode { get; set;  }
+        public string ArchiveCode { get; set; }
 
         /// <summary>
         /// Gets or sets the cache containing lists of channel numbers accessed by list ID.
@@ -98,7 +98,7 @@ namespace Scada.Data.Adapters
         {
             return HeaderSize + cnlCnt * 4 + 16;
         }
-        
+
         /// <summary>
         /// Gets the file position of the data availability flag.
         /// </summary>
@@ -139,15 +139,15 @@ namespace Scada.Data.Adapters
             out int pointCount)
         {
             TrendTableMeta tableMeta = trendTable.Metadata;
-            DateTime startTime = timeRange.StartTime < tableMeta.MinTimestamp ? 
+            DateTime startTime = timeRange.StartTime < tableMeta.MinTimestamp ?
                 tableMeta.MinTimestamp : timeRange.StartTime;
-            DateTime endTime = timeRange.EndTime > tableMeta.MaxTimestamp ? 
+            DateTime endTime = timeRange.EndTime > tableMeta.MaxTimestamp ?
                 tableMeta.MaxTimestamp : timeRange.EndTime;
 
             if (startTime <= endTime &&
                 trendTable.GetDataPosition(startTime, PositionKind.Ceiling,
                     out TrendTablePage startPage, out startIndexInPage) &&
-                trendTable.GetDataPosition(endTime, 
+                trendTable.GetDataPosition(endTime,
                     timeRange.EndInclusive ? PositionKind.Floor : PositionKind.FloorExclusive,
                     out TrendTablePage endPage, out endIndexInPage))
             {
@@ -767,7 +767,7 @@ namespace Scada.Data.Adapters
                             // read data availability flag
                             int pageCnlCnt = page.CnlNumList.CnlNums.Length;
                             stream.Position = GetFlagPosition(pageCnlCnt, indexInPage);
-                            
+
                             if (reader.ReadBoolean())
                             {
                                 // read input channel data
@@ -824,7 +824,7 @@ namespace Scada.Data.Adapters
                         if (MakePageReady(page, false, reader, null) &&
                             page.GetCnlIndex(cnlNum, out int cnlIndex))
                         {
-                            stream.Position = GetDataPosition(page.CnlNumList.CnlNums.Length, 
+                            stream.Position = GetDataPosition(page.CnlNumList.CnlNums.Length,
                                 page.Metadata.PageCapacity, cnlIndex, indexInPage);
                             return ReadCnlData(reader);
                         }
@@ -851,7 +851,7 @@ namespace Scada.Data.Adapters
                 throw new ArgumentNullException(nameof(slice));
 
             if (MakeTableReady(trendTable, true) &&
-                trendTable.GetDataPosition(slice.Timestamp, PositionKind.Exact, 
+                trendTable.GetDataPosition(slice.Timestamp, PositionKind.Exact,
                 out TrendTablePage page, out int indexInPage))
             {
                 Stream stream;
@@ -941,7 +941,7 @@ namespace Scada.Data.Adapters
                     // write channel data
                     if (page.GetCnlIndex(cnlNum, out int cnlIndex))
                     {
-                        stream.Position = GetDataPosition(pageCnlCnt, 
+                        stream.Position = GetDataPosition(pageCnlCnt,
                             page.Metadata.PageCapacity, cnlIndex, indexInPage);
                         WriteCnlData(writer, cnlData);
                     }
@@ -994,7 +994,7 @@ namespace Scada.Data.Adapters
 
                 foreach (TrendTablePage srcPage in srcTable.Pages)
                 {
-                    string srcPageFileName = Path.Combine(srcTableDir, 
+                    string srcPageFileName = Path.Combine(srcTableDir,
                         GetPageFileName(ArchiveCode, srcTable.TableDate, srcPage.PageNumber));
 
                     if (!File.Exists(srcPageFileName))
@@ -1008,7 +1008,7 @@ namespace Scada.Data.Adapters
                     void OpenOrCreatePage(TrendTablePage destPage)
                     {
                         writer?.Close();
-                        outStream = new FileStream(GetPagePath(destPage), 
+                        outStream = new FileStream(GetPagePath(destPage),
                             FileMode.OpenOrCreate, FileAccess.Write, FileShare.ReadWrite);
                         writer = new BinaryWriter(outStream, Encoding.UTF8, false);
 
@@ -1048,7 +1048,7 @@ namespace Scada.Data.Adapters
 
                         for (int destCnlIndex = 0; destCnlIndex < destCnlCnt; destCnlIndex++)
                         {
-                            if (srcCnlNums.CnlIndexes.TryGetValue(destCnlNums.CnlNums[destCnlIndex], 
+                            if (srcCnlNums.CnlIndexes.TryGetValue(destCnlNums.CnlNums[destCnlIndex],
                                 out int srcCnlIndex))
                             {
                                 // read a trend from the source page
@@ -1075,7 +1075,7 @@ namespace Scada.Data.Adapters
                                             OpenOrCreatePage(destPage);
                                         }
 
-                                        outStream.Position = GetDataPosition(destCnlCnt, 
+                                        outStream.Position = GetDataPosition(destCnlCnt,
                                             destPage.Metadata.PageCapacity, destCnlIndex, indexInPage);
                                         WriteCnlData(writer, cnlDataArr[i]);
                                     }
@@ -1253,7 +1253,7 @@ namespace Scada.Data.Adapters
             if (page == null)
                 throw new ArgumentNullException(nameof(page));
 
-            return Path.Combine(GetTablePath(page.TrendTable), 
+            return Path.Combine(GetTablePath(page.TrendTable),
                 GetPageFileName(ArchiveCode, page.TrendTable.TableDate, page.PageNumber));
         }
 
@@ -1278,7 +1278,7 @@ namespace Scada.Data.Adapters
         /// </summary>
         public static string GetPageFileName(string archiveCode, DateTime tableDate, int pageNumber)
         {
-            return archiveCode.ToLowerInvariant() + tableDate.ToString("yyyyMMdd") + 
+            return archiveCode.ToLowerInvariant() + tableDate.ToString("yyyyMMdd") +
                 "_" + pageNumber.ToString("D4") + ".dat";
         }
     }

@@ -393,7 +393,7 @@ namespace Scada.Client
         /// </summary>
         protected string BuildWritingText(byte[] buffer, int index, int bytesToWrite)
         {
-            return "Send (" + bytesToWrite + "): " + 
+            return "Send (" + bytesToWrite + "): " +
                 ScadaUtils.BytesToString(buffer, index, Math.Min(bytesToWrite, MaxLoggingSize)) +
                 (bytesToWrite <= MaxLoggingSize ? "" : "...");
         }
@@ -421,7 +421,7 @@ namespace Scada.Client
             DataPacket request = CreateRequest(FunctionID.Login);
             int index = ArgumentIndex;
             CopyString(connectionOptions.User, outBuf, ref index);
-            CopyString(EncryptPassword(connectionOptions.Password, SessionID, connectionOptions.SecretKey), 
+            CopyString(EncryptPassword(connectionOptions.Password, SessionID, connectionOptions.SecretKey),
                 outBuf, ref index);
             CopyString(connectionOptions.Instance, outBuf, ref index);
             request.BufferLength = index;
@@ -473,7 +473,7 @@ namespace Scada.Client
         /// <summary>
         /// Gets the information about the file.
         /// </summary>
-        public void GetFileInfo(RelativePath relativePath, 
+        public void GetFileInfo(RelativePath relativePath,
             out bool fileExists, out DateTime fileAge, out long fileLength)
         {
             RestoreConnection();
@@ -495,7 +495,7 @@ namespace Scada.Client
         /// Downloads the file.
         /// </summary>
         public void DownloadFile(RelativePath relativePath, long offset, int count, bool readFromEnd,
-            DateTime newerThan, Func<Stream> createStreamFunc, 
+            DateTime newerThan, Func<Stream> createStreamFunc,
             out DateTime fileAge, out FileReadingResult readingResult, out Stream stream)
         {
             if (createStreamFunc == null)

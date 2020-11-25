@@ -75,7 +75,7 @@ namespace Scada
         private static bool CultureIsRussian(CultureInfo cultureInfo)
         {
             return cultureInfo != null &&
-                (cultureInfo.Name.Equals("ru", StringComparison.OrdinalIgnoreCase) || 
+                (cultureInfo.Name.Equals("ru", StringComparison.OrdinalIgnoreCase) ||
                 cultureInfo.Name.StartsWith("ru-", StringComparison.OrdinalIgnoreCase));
         }
 
@@ -148,7 +148,7 @@ namespace Scada
         {
             try
             {
-                Culture = string.IsNullOrEmpty(cultureName) ? 
+                Culture = string.IsNullOrEmpty(cultureName) ?
                     DefaultCulture : CultureInfo.GetCultureInfo(cultureName);
             }
             catch

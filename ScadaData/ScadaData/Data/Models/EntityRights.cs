@@ -51,7 +51,7 @@ namespace Scada.Data.Models
             ViewRight = viewRight;
             ControlRight = ctrlRight;
         }
-        
+
         /// <summary>
         /// Initializes a new instance of the structure.
         /// </summary>

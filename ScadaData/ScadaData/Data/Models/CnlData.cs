@@ -59,7 +59,7 @@ namespace Scada.Data.Models
         /// </summary>
         public int Stat { get; set; }
 
-        
+
         /// <summary>
         /// Determines whether the specified object is equal to the current object.
         /// </summary>

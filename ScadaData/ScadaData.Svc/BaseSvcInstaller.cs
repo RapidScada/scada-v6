@@ -71,7 +71,7 @@ namespace Scada.Svc
                 Username = null
             };
 
-            Installers.AddRange(new Installer[] {serviceInstaller, serviceProcessInstaller});
+            Installers.AddRange(new Installer[] { serviceInstaller, serviceProcessInstaller });
         }
     }
 }

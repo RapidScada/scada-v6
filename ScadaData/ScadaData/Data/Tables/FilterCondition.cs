@@ -42,7 +42,7 @@ namespace Scada.Data.Tables
         /// <summary>
         /// Initializes a new instance of the class.
         /// </summary>
-        public FilterCondition(string columnName, PropertyDescriptor columnProperty, 
+        public FilterCondition(string columnName, PropertyDescriptor columnProperty,
             FilterOperator filterOperator, IList args)
         {
             ColumnName = columnName ?? throw new ArgumentNullException(nameof(columnName));
@@ -251,7 +251,7 @@ namespace Scada.Data.Tables
             {
                 DbParameter param = createParamFunc();
                 param.ParameterName = name;
-                
+
                 switch (DataType)
                 {
                     case ColumnDataType.Integer:

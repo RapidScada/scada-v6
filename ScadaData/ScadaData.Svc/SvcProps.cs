@@ -90,7 +90,7 @@ namespace Scada.Svc
         public bool LoadFromFile()
         {
             string fileName = Path.Combine(
-                Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location), 
+                Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location),
                 SvcPropsFileName);
 
             if (File.Exists(fileName))

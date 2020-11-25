@@ -193,7 +193,7 @@ namespace Scada
             path = path == null ? "" : path.Trim();
             int lastIndex = path.Length - 1;
 
-            if (lastIndex >= 0 && 
+            if (lastIndex >= 0 &&
                 path[lastIndex] != Path.DirectorySeparatorChar &&
                 path[lastIndex] != Path.AltDirectorySeparatorChar)
             {

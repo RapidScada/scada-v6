@@ -236,7 +236,7 @@ namespace Scada
         /// <summary>
         /// Gets the child XML node value as an enumeration element.
         /// </summary>
-        public static T GetChildAsEnum<T>(this XmlNode parentXmlNode, string childNodeName, 
+        public static T GetChildAsEnum<T>(this XmlNode parentXmlNode, string childNodeName,
             T defaultVal = default(T)) where T : struct
         {
             try
@@ -275,7 +275,7 @@ namespace Scada
         {
             try
             {
-                return xmlElem.HasAttribute(attrName) ? 
+                return xmlElem.HasAttribute(attrName) ?
                     bool.Parse(xmlElem.GetAttribute(attrName)) : defaultVal;
             }
             catch (FormatException)
@@ -291,7 +291,7 @@ namespace Scada
         {
             try
             {
-                return xmlElem.HasAttribute(attrName) ? 
+                return xmlElem.HasAttribute(attrName) ?
                     int.Parse(xmlElem.GetAttribute(attrName)) : defaultVal;
             }
             catch (FormatException)
@@ -323,7 +323,7 @@ namespace Scada
         {
             try
             {
-                return xmlElem.HasAttribute(attrName) ? 
+                return xmlElem.HasAttribute(attrName) ?
                     XmlParseDouble(xmlElem.GetAttribute(attrName)) : defaultVal;
             }
             catch (FormatException)
@@ -391,12 +391,12 @@ namespace Scada
         /// <summary>
         /// Gets the XML attribute value as an enumeration element.
         /// </summary>
-        public static T GetAttrAsEnum<T>(this XmlElement xmlElem, string attrName, 
+        public static T GetAttrAsEnum<T>(this XmlElement xmlElem, string attrName,
             T defaultVal = default(T)) where T : struct
         {
             try
             {
-                return xmlElem.HasAttribute(attrName) ? 
+                return xmlElem.HasAttribute(attrName) ?
                     XmlParseEnum<T>(xmlElem.GetAttribute(attrName)) : defaultVal;
             }
             catch (FormatException)

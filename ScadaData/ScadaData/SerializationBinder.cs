@@ -84,7 +84,7 @@ namespace Scada
         {
             return string.Equals(assemblyName, assembly.FullName, StringComparison.Ordinal) ?
                 assembly.GetType(typeName, true, false) :
-                Type.GetType(string.Format("{0}, {1}", typeName, assemblyName), 
+                Type.GetType(string.Format("{0}, {1}", typeName, assemblyName),
                     assemblyResolver, typeResolver, true, false);
         }
     }

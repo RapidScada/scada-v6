@@ -44,7 +44,7 @@ namespace Scada.Data.Tables
         /// Gets the primary key of the table.
         /// </summary>
         string PrimaryKey { get; }
-        
+
         /// <summary>
         /// Gets or sets the table title.
         /// </summary>

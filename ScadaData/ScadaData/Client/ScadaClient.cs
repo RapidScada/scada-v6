@@ -28,6 +28,7 @@ using Scada.Data.Tables;
 using Scada.Protocol;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using static Scada.BinaryConverter;
 using static Scada.Protocol.ProtocolUtils;
 
@@ -97,6 +98,16 @@ namespace Scada.Client
                 ThrowDataSizeException();
 
             return events;
+        }
+
+        /// <summary>
+        /// Downloads the table of the configuration database.
+        /// </summary>
+        public bool DownloadBaseTable(IBaseTable baseTable)
+        {
+            RelativePath path = new RelativePath(TopFolder.Base, AppFolder.Root, baseTable.Name.ToLowerInvariant() + ".dat");
+            DownloadFile(path, 0, 0, false, DateTime.MinValue, null, out DateTime _, out FileReadingResult readingResult, out Stream stream);
+            return false;
         }
 
         /// <summary>
@@ -411,14 +422,14 @@ namespace Scada.Client
             SendRequest(request);
 
             DataPacket response = ReceiveResponse(request);
-            index = ArgumentIndex;            
+            index = ArgumentIndex;
             return GetBool(inBuf, ref index) ? GetEvent(inBuf, ref index) : null;
         }
 
         /// <summary>
         /// Gets the events.
         /// </summary>
-        public List<Event> GetEvents(TimeRange timeRange, DataFilter filter, int archiveBit, 
+        public List<Event> GetEvents(TimeRange timeRange, DataFilter filter, int archiveBit,
             bool useCache, out long filterID)
         {
             RestoreConnection();

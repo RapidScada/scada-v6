@@ -89,7 +89,7 @@ namespace Scada.Data.Tables
         /// </summary>
         public FilterCondition AddCondition(string columnName, FilterOperator filterOperator, IList args)
         {
-            FilterCondition condition = 
+            FilterCondition condition =
                 new FilterCondition(columnName, itemProperties[columnName], filterOperator, args);
             Conditions.Add(condition);
             return condition;
@@ -127,7 +127,7 @@ namespace Scada.Data.Tables
         /// <summary>
         /// Gets the SQL filter expression.
         /// </summary>
-        public string GetSqlFilter(Dictionary<string, string> columnNameMap, string prefix, string suffix, 
+        public string GetSqlFilter(Dictionary<string, string> columnNameMap, string prefix, string suffix,
             Func<DbParameter> createParamFunc, out List<DbParameter> dbParams)
         {
             if (createParamFunc == null)

@@ -226,13 +226,13 @@ namespace Scada.Data.Tables
         /// <summary>
         /// Gets the data position depending on the timestamp.
         /// </summary>
-        public bool GetDataPosition(DateTime timestamp, PositionKind positionKind, 
+        public bool GetDataPosition(DateTime timestamp, PositionKind positionKind,
             out TrendTablePage page, out int indexInPage)
         {
             if (AcceptData(timestamp, positionKind == PositionKind.Exact, out bool isExactMatch))
             {
                 int indexWithinTable;
-                double timeOfDay = timestamp < Metadata.MaxTimestamp ? 
+                double timeOfDay = timestamp < Metadata.MaxTimestamp ?
                     timestamp.TimeOfDay.TotalSeconds : SecondsPerDay;
 
                 switch (positionKind)

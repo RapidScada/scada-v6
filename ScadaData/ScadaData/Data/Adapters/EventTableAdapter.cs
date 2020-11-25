@@ -185,7 +185,7 @@ namespace Scada.Data.Adapters
         /// <summary>
         /// Copies the event to the buffer.
         /// </summary>
-        protected void CopyEvent(Event ev, bool textExists, bool dataExists, 
+        protected void CopyEvent(Event ev, bool textExists, bool dataExists,
             byte[] buffer, out int textSize, out int dataSize)
         {
             textSize = ev.Text == null ? 0 : Math.Min(ev.Text.Length, MaxTextSize);
@@ -224,8 +224,8 @@ namespace Scada.Data.Adapters
         /// </summary>
         protected void CopyEvent(Event ev, byte[] buffer, out int textSize, out int dataSize)
         {
-            CopyEvent(ev, 
-                ev.Text != null && ev.Text.Length > 0, 
+            CopyEvent(ev,
+                ev.Text != null && ev.Text.Length > 0,
                 ev.Data != null && ev.Data.Length > 0,
                 buffer, out textSize, out dataSize);
         }
@@ -346,7 +346,7 @@ namespace Scada.Data.Adapters
             {
                 stream = Stream ?? new FileStream(FileName, FileMode.Open, FileAccess.Read, FileShare.ReadWrite);
                 reader = new BinaryReader(stream, Encoding.UTF8, Stream != null);
-                
+
                 // prepare table
                 dataTable.Rows.Clear();
                 dataTable.BeginLoadData();

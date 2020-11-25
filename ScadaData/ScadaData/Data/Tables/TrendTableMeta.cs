@@ -49,17 +49,17 @@ namespace Scada.Data.Tables
         /// Gets or sets the minumum timestamp.
         /// </summary>
         public DateTime MinTimestamp { get; set; }
-        
+
         /// <summary>
         /// Gets or sets the maximum timestamp.
         /// </summary>
         public DateTime MaxTimestamp { get; set; }
-        
+
         /// <summary>
         /// Gets or sets the writing period in seconds.
         /// </summary>
         public int WritingPeriod { get; set; }
-        
+
         /// <summary>
         /// Gets or sets the page capacity.
         /// </summary>
@@ -71,11 +71,11 @@ namespace Scada.Data.Tables
         /// </summary>
         public bool Equals(TrendTableMeta meta)
         {
-            return meta == this || 
-                meta != null && 
-                meta.MinTimestamp == MinTimestamp && 
-                meta.MaxTimestamp == MaxTimestamp && 
-                meta.WritingPeriod == WritingPeriod && 
+            return meta == this ||
+                meta != null &&
+                meta.MinTimestamp == MinTimestamp &&
+                meta.MaxTimestamp == MaxTimestamp &&
+                meta.WritingPeriod == WritingPeriod &&
                 meta.PageCapacity == PageCapacity;
         }
     }

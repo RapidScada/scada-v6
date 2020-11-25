@@ -19,7 +19,7 @@ namespace Scada
         /// <summary>
         /// Gets the value associated with the specified key as a string.
         /// </summary>
-        public static string GetValueAsString(this IDictionary<string, string> dictionary, 
+        public static string GetValueAsString(this IDictionary<string, string> dictionary,
             string key, string defaultValue = "")
         {
             return dictionary.TryGetValue(key, out string val) ? val : defaultValue;
@@ -28,7 +28,7 @@ namespace Scada
         /// <summary>
         /// Gets the value associated with the specified key as a boolean.
         /// </summary>
-        public static bool GetValueAsBool(this IDictionary<string, string> dictionary, 
+        public static bool GetValueAsBool(this IDictionary<string, string> dictionary,
             string key, bool defaultValue = false)
         {
             try
@@ -44,7 +44,7 @@ namespace Scada
         /// <summary>
         /// Gets the value associated with the specified key as an integer.
         /// </summary>
-        public static int GetValueAsInt(this IDictionary<string, string> dictionary, 
+        public static int GetValueAsInt(this IDictionary<string, string> dictionary,
             string key, int defaultValue = 0)
         {
             try
@@ -60,12 +60,12 @@ namespace Scada
         /// <summary>
         /// Gets the value associated with the specified key as a double.
         /// </summary>
-        public static double GetValueAsDouble(this IDictionary<string, string> dictionary, 
+        public static double GetValueAsDouble(this IDictionary<string, string> dictionary,
             string key, double defaultValue = 0)
         {
             try
             {
-                return dictionary.TryGetValue(key, out string valStr) ? 
+                return dictionary.TryGetValue(key, out string valStr) ?
                     double.Parse(valStr, NumberStyles.Float, NumberFormatInfo.InvariantInfo) : defaultValue;
             }
             catch (FormatException)
@@ -82,7 +82,7 @@ namespace Scada
         {
             try
             {
-                return dictionary.TryGetValue(key, out string valStr) ? 
+                return dictionary.TryGetValue(key, out string valStr) ?
                     (T)Enum.Parse(typeof(T), valStr, true) : defaultValue;
             }
             catch (FormatException)

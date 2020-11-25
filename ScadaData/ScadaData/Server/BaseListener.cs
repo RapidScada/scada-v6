@@ -166,7 +166,7 @@ namespace Scada.Server
                 try
                 {
                     // connect new clients
-                    while (tcpListener.Pending() && !terminated && ServerIsReady() && 
+                    while (tcpListener.Pending() && !terminated && ServerIsReady() &&
                         CreateSession(out ConnectedClient client))
                     {
                         TcpClient tcpClient = tcpListener.AcceptTcpClient();
@@ -339,7 +339,7 @@ namespace Scada.Server
         {
             try
             {
-                if (client.NetStream.DataAvailable && 
+                if (client.NetStream.DataAvailable &&
                     ReceiveDataPacket(client, out DataPacket request))
                 {
                     client.RegisterActivity();
@@ -501,7 +501,7 @@ namespace Scada.Server
             {
                 log.WriteException(ex, Locale.IsRussian ?
                     "Ошибка при обработке запроса 0x{0} для клиента {1}" :
-                    "Error processing request 0x{0} for the client {1}", 
+                    "Error processing request 0x{0} for the client {1}",
                     request.FunctionID.ToString("X4"), client.Address);
 
                 response = new ResponsePacket(request, client.OutBuf);
@@ -563,7 +563,7 @@ namespace Scada.Server
 
             response.BufferLength = index;
         }
-        
+
         /// <summary>
         /// Protects the application from brute force attacks.
         /// </summary>
@@ -714,7 +714,7 @@ namespace Scada.Server
 
             if (!fileInfo.Exists)
             {
-                ResponsePacket response = CreateDownloadResponse(request, client.OutBuf, 
+                ResponsePacket response = CreateDownloadResponse(request, client.OutBuf,
                     1, 1, DateTime.MinValue, FileReadingResult.FileNotFound, 0);
                 client.SendResponse(response);
             }
@@ -763,7 +763,7 @@ namespace Scada.Server
 
                         // send response
                         ResponsePacket response = CreateDownloadResponse(
-                            request, client.OutBuf, blockNumber, blockCount, fileAge, 
+                            request, client.OutBuf, blockNumber, blockCount, fileAge,
                             endOfFile ? FileReadingResult.EndOfFile : FileReadingResult.Successful, bytesRead);
                         client.SendResponse(response);
                         blockNumber++;
@@ -775,7 +775,7 @@ namespace Scada.Server
         /// <summary>
         /// Creates a response to the file download request.
         /// </summary>
-        protected ResponsePacket CreateDownloadResponse(DataPacket request, byte[] buffer, 
+        protected ResponsePacket CreateDownloadResponse(DataPacket request, byte[] buffer,
             int blockNumber, int blockCount, DateTime fileAge, FileReadingResult fileReadingResult, int bytesRead)
         {
             ResponsePacket response = new ResponsePacket(request, buffer);
@@ -794,7 +794,7 @@ namespace Scada.Server
         /// </summary>
         protected void UploadFile(ConnectedClient client, DataPacket request, out ResponsePacket response)
         {
-            DecodeUploadPacket(request, out int blockNumber, out int blockCount, out string fileName, 
+            DecodeUploadPacket(request, out int blockNumber, out int blockCount, out string fileName,
                 out bool endOfFile, out int bytesToWrite, out int fileDataIndex);
 
             if (blockNumber != 0)
@@ -892,7 +892,7 @@ namespace Scada.Server
         /// <summary>
         /// Decodes the file upload data packet.
         /// </summary>
-        protected void DecodeUploadPacket(DataPacket dataPacket, 
+        protected void DecodeUploadPacket(DataPacket dataPacket,
             out int blockNumber, out int blockCount, out string fileName,
             out bool endOfFile, out int bytesToWrite, out int fileDataIndex)
         {
@@ -967,7 +967,7 @@ namespace Scada.Server
         /// <summary>
         /// Processes the incoming request by a derived class.
         /// </summary>
-        protected virtual void ProcessCustomRequest(ConnectedClient client, DataPacket request, 
+        protected virtual void ProcessCustomRequest(ConnectedClient client, DataPacket request,
             out ResponsePacket response, out bool handled)
         {
             response = null;

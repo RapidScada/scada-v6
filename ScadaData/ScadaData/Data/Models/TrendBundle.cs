@@ -38,7 +38,7 @@ namespace Scada.Data.Models
         /// Represents a list of input channel data.
         /// <para>Представляет список данных входных каналов.</para>
         /// </summary>
-        public class CnlDataList: List<CnlData>
+        public class CnlDataList : List<CnlData>
         {
             /// <summary>
             /// Initializes a new instance of the class.

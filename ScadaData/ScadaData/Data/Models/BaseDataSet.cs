@@ -25,9 +25,6 @@
 
 using Scada.Data.Entities;
 using Scada.Data.Tables;
-using System;
-using System.Collections.Generic;
-using System.Text;
 
 namespace Scada.Data.Models
 {

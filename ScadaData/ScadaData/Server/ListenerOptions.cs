@@ -59,8 +59,8 @@ namespace Scada.Server
         /// Gets or sets the secret key for password encryption.
         /// </summary>
         public byte[] SecretKey { get; set; }
-        
-        
+
+
         /// <summary>
         /// Loads the options from the XML node.
         /// </summary>
