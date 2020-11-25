@@ -40,6 +40,7 @@ namespace Scada.Data.Models
         public BaseDataSet()
         {
             CreateAllTables();
+            AddRelations();
         }
 
 
@@ -195,6 +196,62 @@ namespace Scada.Data.Models
                 ViewTable = new BaseTable<View>("View", "ViewID", CommonPhrases.ViewTable),
                 ViewTypeTable = new BaseTable<ViewType>("ViewType", "ViewTypeID", CommonPhrases.ViewTypeTable)
             };
+        }
+
+        /// <summary>
+        /// Adds relations between the tables.
+        /// </summary>
+        protected void AddRelations()
+        {
+            // object table
+            AddRelation(ObjTable, ObjTable, "ParentObjNum");
+
+            // device table
+            AddRelation(DevTypeTable, DeviceTable, "DevTypeID");
+            AddRelation(CommLineTable, DeviceTable, "CommLineNum");
+
+            // input channel table
+            AddRelation(CnlTypeTable, InCnlTable, "CnlTypeID");
+            AddRelation(ObjTable, InCnlTable, "ObjNum");
+            AddRelation(DeviceTable, InCnlTable, "DeviceNum");
+            AddRelation(DataTypeTable, InCnlTable, "DataTypeID");
+            AddRelation(FormatTable, InCnlTable, "FormatID");
+            AddRelation(QuantityTable, InCnlTable, "QuantityID");
+            AddRelation(UnitTable, InCnlTable, "UnitID");
+            AddRelation(LimTable, InCnlTable, "LimID");
+
+            // output channel table
+            AddRelation(CmdTypeTable, OutCnlTable, "CmdTypeID");
+            AddRelation(ObjTable, OutCnlTable, "ObjNum");
+            AddRelation(DeviceTable, OutCnlTable, "DeviceNum");
+            AddRelation(FormatTable, OutCnlTable, "FormatID");
+            AddRelation(CmdValTable, OutCnlTable, "CmdValID");
+
+            // view table
+            AddRelation(ViewTypeTable, ViewTable, "ViewTypeID");
+            AddRelation(ObjTable, ViewTable, "ObjNum");
+
+            // user table
+            AddRelation(RoleTable, UserTable, "RoleID");
+
+            // object right table
+            AddRelation(ObjTable, ObjRightTable, "ObjNum");
+            AddRelation(RoleTable, ObjRightTable, "RoleID");
+
+            // role inheritance table
+            AddRelation(RoleTable, RoleRefTable, "ParentRoleID");
+            AddRelation(RoleTable, RoleRefTable, "ChildRoleID");
+        }
+
+        /// <summary>
+        /// Adds a relation to the configuration database.
+        /// </summary>
+        protected void AddRelation(IBaseTable parentTable, IBaseTable childTable, string childColumn)
+        {
+            TableRelation relation = new TableRelation(parentTable, childTable, childColumn);
+            childTable.AddIndex(childColumn);
+            childTable.DependsOn.Add(relation);
+            parentTable.Dependent.Add(relation);
         }
     }
 }
