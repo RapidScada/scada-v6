@@ -427,7 +427,7 @@ namespace Scada.Client
             request.BufferLength = index;
             SendRequest(request);
 
-            DataPacket response = ReceiveResponse(request);
+            ReceiveResponse(request);
             index = ArgumentIndex;
             loggedIn = GetBool(inBuf, ref index);
             userID = GetInt32(inBuf, ref index);
@@ -453,7 +453,7 @@ namespace Scada.Client
             DataPacket request = CreateRequest(FunctionID.GetStatus, 10);
             SendRequest(request);
 
-            DataPacket response = ReceiveResponse(request);
+            ReceiveResponse(request);
             serverIsReady = inBuf[ArgumentIndex] > 0;
             userIsLoggedIn = inBuf[ArgumentIndex + 1] > 0;
         }
@@ -484,7 +484,7 @@ namespace Scada.Client
             request.BufferLength = index;
             SendRequest(request);
 
-            DataPacket response = ReceiveResponse(request);
+            ReceiveResponse(request);
             index = ArgumentIndex;
             fileExists = GetBool(inBuf, ref index);
             fileAge = GetTime(inBuf, ref index);
@@ -522,7 +522,7 @@ namespace Scada.Client
             {
                 while (readingResult == FileReadingResult.Successful)
                 {
-                    DataPacket response = ReceiveResponse(request);
+                    ReceiveResponse(request);
                     index = ArgumentIndex;
                     int blockNumber = GetInt32(inBuf, ref index);
                     int blockCount = GetInt32(inBuf, ref index);
@@ -593,7 +593,7 @@ namespace Scada.Client
                 request.BufferLength = index;
                 SendRequest(request);
 
-                DataPacket response = ReceiveResponse(request);
+                ReceiveResponse(request);
                 fileAccepted = inBuf[ArgumentIndex] > 0;
 
                 // upload file

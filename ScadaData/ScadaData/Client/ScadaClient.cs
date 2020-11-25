@@ -71,7 +71,7 @@ namespace Scada.Client
 
             while (blockNumber < blockCount)
             {
-                DataPacket response = ReceiveResponse(request);
+                ReceiveResponse(request);
                 int index = ArgumentIndex;
                 blockNumber = GetInt32(inBuf, ref index);
                 blockCount = GetInt32(inBuf, ref index);
@@ -105,8 +105,8 @@ namespace Scada.Client
         /// </summary>
         public bool DownloadBaseTable(IBaseTable baseTable)
         {
-            RelativePath path = new RelativePath(TopFolder.Base, AppFolder.Root, baseTable.Name.ToLowerInvariant() + ".dat");
-            DownloadFile(path, 0, 0, false, DateTime.MinValue, null, out DateTime _, out FileReadingResult readingResult, out Stream stream);
+            //RelativePath path = new RelativePath(TopFolder.Base, AppFolder.Root, baseTable.Name.ToLowerInvariant() + ".dat");
+            //DownloadFile(path, 0, 0, false, DateTime.MinValue, null, out DateTime _, out FileReadingResult readingResult, out Stream stream);
             return false;
         }
 
@@ -128,7 +128,7 @@ namespace Scada.Client
             request.BufferLength = index;
             SendRequest(request);
 
-            DataPacket response = ReceiveResponse(request);
+            ReceiveResponse(request);
             index = ArgumentIndex;
             cnlListID = GetInt64(inBuf, ref index);
             CnlData[] cnlData = GetCnlDataArray(inBuf, ref index);
@@ -151,7 +151,7 @@ namespace Scada.Client
             request.ArgumentLength = 8;
             SendRequest(request);
 
-            DataPacket response = ReceiveResponse(request);
+            ReceiveResponse(request);
             int index = ArgumentIndex;
             cnlListID = GetInt64(inBuf, ref index);
             return cnlListID > 0 ? GetCnlDataArray(inBuf, ref index) : null;
@@ -180,7 +180,7 @@ namespace Scada.Client
 
             while (blockNumber < blockCount)
             {
-                DataPacket response = ReceiveResponse(request);
+                ReceiveResponse(request);
                 index = ArgumentIndex;
                 blockNumber = GetInt32(inBuf, ref index);
                 blockCount = GetInt32(inBuf, ref index);
@@ -242,7 +242,7 @@ namespace Scada.Client
 
             while (blockNumber < blockCount)
             {
-                DataPacket response = ReceiveResponse(request);
+                ReceiveResponse(request);
                 index = ArgumentIndex;
                 blockNumber = GetInt32(inBuf, ref index);
                 blockCount = GetInt32(inBuf, ref index);
@@ -287,7 +287,7 @@ namespace Scada.Client
             request.BufferLength = index;
             SendRequest(request);
 
-            DataPacket response = ReceiveResponse(request);
+            ReceiveResponse(request);
             index = ArgumentIndex;
             int timestampCount = GetInt32(inBuf, ref index);
             List<DateTime> timestamps = new List<DateTime>(timestampCount);
@@ -315,7 +315,7 @@ namespace Scada.Client
             request.BufferLength = index;
             SendRequest(request);
 
-            DataPacket response = ReceiveResponse(request);
+            ReceiveResponse(request);
             index = ArgumentIndex;
             CnlData[] cnlData = GetCnlDataArray(inBuf, ref index);
 
@@ -337,7 +337,7 @@ namespace Scada.Client
             request.ArgumentLength = 1;
             SendRequest(request);
 
-            DataPacket response = ReceiveResponse(request);
+            ReceiveResponse(request);
             return GetTime(inBuf, ArgumentIndex);
         }
 
@@ -421,7 +421,7 @@ namespace Scada.Client
             request.BufferLength = index;
             SendRequest(request);
 
-            DataPacket response = ReceiveResponse(request);
+            ReceiveResponse(request);
             index = ArgumentIndex;
             return GetBool(inBuf, ref index) ? GetEvent(inBuf, ref index) : null;
         }
@@ -478,10 +478,11 @@ namespace Scada.Client
             DataPacket request = CreateRequest(FunctionID.WriteEvent);
             int index = ArgumentIndex;
             CopyEvent(ev, outBuf, ref index);
+            CopyInt32(archiveMask, outBuf, ref index);
             request.BufferLength = index;
             SendRequest(request);
 
-            DataPacket response = ReceiveResponse(request);
+            ReceiveResponse(request);
             long eventID = BitConverter.ToInt64(inBuf, ArgumentIndex);
 
             if (eventID > 0)
@@ -522,7 +523,7 @@ namespace Scada.Client
             request.BufferLength = index;
             SendRequest(request);
 
-            DataPacket response = ReceiveResponse(request);
+            ReceiveResponse(request);
             index = ArgumentIndex;
             long commandID = GetInt64(inBuf, ref index);
 
@@ -548,7 +549,7 @@ namespace Scada.Client
             request.ArgumentLength = 8;
             SendRequest(request);
 
-            DataPacket response = ReceiveResponse(request);
+            ReceiveResponse(request);
             int index = ArgumentIndex;
             lastCommandID = GetInt64(inBuf, ref index);
 

@@ -53,7 +53,7 @@ namespace Scada.Data.Tables
         /// </summary>
         public BaseTable(string name, string primaryKey, string title)
         {
-            Name = name;
+            Name = name ?? throw new ArgumentNullException(nameof(name));
             PrimaryKey = primaryKey;
             Title = title;
             Items = new SortedDictionary<int, T>();
@@ -82,15 +82,15 @@ namespace Scada.Data.Tables
             protected set
             {
                 if (string.IsNullOrEmpty(value))
-                    throw new ArgumentException("The primary key can not be empty.");
+                    throw new ArgumentException("Primary key must not be empty.");
 
                 PropertyDescriptor prop = TypeDescriptor.GetProperties(typeof(T))[value];
 
                 if (prop == null)
-                    throw new ArgumentException("The primary key property not found.");
+                    throw new ArgumentException("Primary key property not found.");
 
                 if (prop.PropertyType != typeof(int))
-                    throw new ArgumentException("The primary key must be an integer.");
+                    throw new ArgumentException("Primary key must be an integer.");
 
                 primaryKey = value;
                 primaryKeyProp = prop;
@@ -110,6 +110,17 @@ namespace Scada.Data.Tables
             get
             {
                 return Name + ".xml";
+            }
+        }
+
+        /// <summary>
+        /// Gets the short file name of the table in DAT format.
+        /// </summary>
+        public string FileNameDat
+        {
+            get
+            {
+                return Name.ToLowerInvariant() + ".dat";
             }
         }
 

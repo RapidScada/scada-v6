@@ -56,6 +56,11 @@ namespace Scada.Data.Tables
         string FileName { get; }
 
         /// <summary>
+        /// Gets the short file name of the table in DAT format.
+        /// </summary>
+        string FileNameDat { get; }
+
+        /// <summary>
         /// Gets the type of the table items.
         /// </summary>
         Type ItemType { get; }

@@ -221,7 +221,7 @@ namespace Scada.Server.Engine
                 foreach (IBaseTable baseTable in BaseDataSet.AllTables)
                 {
                     tableName = baseTable.Name;
-                    adapter.FileName = Path.Combine(Config.PathOptions.BaseDir, tableName.ToLowerInvariant() + ".dat");
+                    adapter.FileName = Path.Combine(Config.PathOptions.BaseDir, baseTable.FileNameDat);
                     adapter.Fill(baseTable);
                 }
 
