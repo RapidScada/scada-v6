@@ -34,8 +34,10 @@ namespace Scada
     public enum ServiceStatus : byte
     {
         Undefined = 0,
-        Normal = 1,
-        Error = 2,
-        Terminated = 3
+        Starting = 1,
+        Normal = 2,
+        Error = 3,
+        Terminating = 4,
+        Terminated = 5
     }
 }

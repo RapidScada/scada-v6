@@ -65,6 +65,14 @@ namespace Scada.Comm.Engine
         }
 
         /// <summary>
+        /// Gets the driver by code.
+        /// </summary>
+        public bool GetDriver(string driverCode, out DriverLogic driverLogic)
+        {
+            return driverMap.TryGetValue(driverCode, out driverLogic);
+        }
+
+        /// <summary>
         /// Calls the OnServiceStart method of the drivers.
         /// </summary>
         public void OnServiceStart()

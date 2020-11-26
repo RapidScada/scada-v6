@@ -24,6 +24,7 @@
  */
 
 using Scada.Comm.Config;
+using Scada.Data.Models;
 using Scada.Log;
 using System;
 using System.Collections.Generic;
@@ -194,6 +195,13 @@ namespace Scada.Comm.Drivers
         /// Performs actions when terminating a communication line.
         /// </summary>
         public virtual void OnCommLineTerminate()
+        {
+        }
+
+        /// <summary>
+        /// Binds the device to the configuration database.
+        /// </summary>
+        public virtual void Bind(BaseDataSet baseDataSet)
         {
         }
     }

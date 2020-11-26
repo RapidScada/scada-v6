@@ -67,6 +67,7 @@ namespace Scada.Comm.Engine
         private DateTime startDT;             // the local start time
         private ServiceStatus serviceStatus;  // the current service status
         private int lastInfoLength;           // the last info text length
+        private int maxLineTitleLength;       // the maximum length of communication line title
 
         private ScadaClient scadaClient;      // communicates with the Server service
         private List<CommLine> commLines;     // the active communication lines
@@ -92,6 +93,7 @@ namespace Scada.Comm.Engine
             startDT = DateTime.MinValue;
             serviceStatus = ServiceStatus.Undefined;
             lastInfoLength = 0;
+            maxLineTitleLength = 0;
 
             scadaClient = null;
             commLines = null;
@@ -133,7 +135,7 @@ namespace Scada.Comm.Engine
             terminated = false;
             utcStartDT = DateTime.UtcNow;
             startDT = utcStartDT.ToLocalTime();
-            serviceStatus = ServiceStatus.Undefined;
+            serviceStatus = ServiceStatus.Starting;
             WriteInfo();
 
             BaseDataSet = null;
@@ -192,6 +194,8 @@ namespace Scada.Comm.Engine
                     ExecutionStep.ReceiveBase : ExecutionStep.StartLines;
                 DateTime receiveBaseDT = DateTime.MinValue;
                 DateTime writeInfoDT = DateTime.MinValue;
+
+                driverHolder.OnServiceStart();
                 serviceStatus = ServiceStatus.Normal;
 
                 while (!terminated)
@@ -248,6 +252,7 @@ namespace Scada.Comm.Engine
             finally
             {
                 StopLines();
+                driverHolder.OnServiceStop();
                 serviceStatus = ServiceStatus.Terminated;
                 WriteInfo();
             }
@@ -293,12 +298,20 @@ namespace Scada.Comm.Engine
         /// </summary>
         private void CreateLines()
         {
+            maxLineTitleLength = 0;
+
             foreach (LineConfig lineConfig in Config.Lines)
             {
                 try
                 {
                     if (lineConfig.Active)
-                        commLines.Add(CommLine.Create(lineConfig, this, driverHolder));
+                    {
+                        CommLine commLine = CommLine.Create(lineConfig, this, driverHolder);
+                        commLines.Add(commLine);
+
+                        if (maxLineTitleLength < commLine.Title.Length)
+                            maxLineTitleLength = commLine.Title.Length;
+                    }
                 }
                 catch (Exception ex)
                 {
@@ -440,7 +453,11 @@ namespace Scada.Comm.Engine
                         {
                             foreach (CommLine commLine in commLines)
                             {
-                                // TODO: print line info
+                                sb
+                                    .Append(commLine.Title)
+                                    .Append(' ', maxLineTitleLength - commLine.Title.Length)
+                                    .Append(" : ")
+                                    .AppendLine(commLine.LineStatus.ToString(Locale.IsRussian));
                             }
                         }
                         else
@@ -511,6 +528,7 @@ namespace Scada.Comm.Engine
                 if (thread != null)
                 {
                     terminated = true;
+                    serviceStatus = ServiceStatus.Terminating;
 
                     if (thread.Join(ScadaUtils.ThreadWait))
                         Log.WriteAction(CommonPhrases.LogicIsStopped);

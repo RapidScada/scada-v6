@@ -24,6 +24,7 @@
  */
 
 using Scada.Comm.Channels;
+using Scada.Comm.Config;
 using Scada.Log;
 using System;
 
@@ -70,7 +71,7 @@ namespace Scada.Comm.Drivers
         /// <summary>
         /// Creates a new communication channel.
         /// </summary>
-        public virtual ChannelLogic CreateChannel(string typeName)
+        public virtual ChannelLogic CreateChannel(ILineContext lineContext, ChannelConfig channelConfig)
         {
             return null;
         }
@@ -78,7 +79,7 @@ namespace Scada.Comm.Drivers
         /// <summary>
         /// Creates a new device.
         /// </summary>
-        public virtual DeviceLogic CreateDevice(int deviceNum)
+        public virtual DeviceLogic CreateDevice(ILineContext lineContext, DeviceConfig deviceConfig)
         {
             return null;
         }

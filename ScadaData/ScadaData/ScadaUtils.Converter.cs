@@ -9,11 +9,11 @@ namespace Scada
         /// <summary>
         /// The service status names in English.
         /// </summary>
-        private static readonly string[] ServiceStatusNamesEn = { "Undefined", "Normal", "Error", "Terminated" };
+        private static readonly string[] ServiceStatusNamesEn = { "Undefined", "Starting", "Normal", "Error", "Terminating", "Terminated" };
         /// <summary>
         /// The service status names in Russian.
         /// </summary>
-        private static readonly string[] ServiceStatusNamesRu = { "не определено", "норма", "ошибка", "завершено" };
+        private static readonly string[] ServiceStatusNamesRu = { "не определён", "запуск", "норма", "ошибка", "завершение", "завершён" };
 
 
         /// <summary>
