@@ -25,8 +25,12 @@
 
 using Scada.Comm.Config;
 using Scada.Comm.Drivers;
+using Scada.Data.Models;
+using Scada.Log;
 using System;
+using System.Collections.Concurrent;
 using System.Collections.Generic;
+using System.IO;
 using System.Threading;
 
 namespace Scada.Comm.Engine
@@ -35,9 +39,10 @@ namespace Scada.Comm.Engine
     /// Represents a communication line.
     /// <para>Представляет линию связи.</para>
     /// </summary>
-    internal class CommLine
+    internal class CommLine : ILineContext
     {
         private readonly CoreLogic coreLogic; // the Communicator logic instance
+        private readonly string infoFileName; // the full file name to write communication line information
 
         private Thread thread;                // the working thread of the communication line
         private volatile bool terminated;     // necessary to stop the thread
@@ -51,12 +56,20 @@ namespace Scada.Comm.Engine
         private CommLine(LineConfig lineConfig, CoreLogic coreLogic)
         {
             this.coreLogic = coreLogic ?? throw new ArgumentNullException(nameof(coreLogic));
-            LineConfig = lineConfig ?? throw new ArgumentNullException(nameof(lineConfig));
+            infoFileName = Path.Combine(coreLogic.AppDirs.LogDir, CommUtils.GetLineLogFileName(CommLineNum, ".txt"));
 
             thread = null;
             terminated = false;
             lineStatus = CommLineStatus.Undefined;
             devices = new List<DeviceLogic>();
+
+            LineConfig = lineConfig ?? throw new ArgumentNullException(nameof(lineConfig));
+            SharedData = null;
+            Log = new LogFile(LogFormat.Full)
+            {
+                FileName = Path.Combine(coreLogic.AppDirs.LogDir, CommUtils.GetLineLogFileName(CommLineNum, ".log")),
+                Capacity = coreLogic.Config.GeneralOptions.MaxLogSize
+            };
         }
 
 
@@ -64,6 +77,38 @@ namespace Scada.Comm.Engine
         /// Gets the communication line configuration.
         /// </summary>
         public LineConfig LineConfig { get; }
+
+        /// <summary>
+        /// Gets the communication line number.
+        /// </summary>
+        public int CommLineNum
+        {
+            get
+            {
+                return LineConfig.CommLineNum;
+            }
+        }
+
+        /// <summary>
+        /// Gets the communication line title.
+        /// </summary>
+        public string Title
+        {
+            get
+            {
+                return CommUtils.GetLineTitle(LineConfig.CommLineNum, LineConfig.Name);
+            }
+        }
+
+        /// <summary>
+        /// Gets the communication line log.
+        /// </summary>
+        public ILog Log { get; }
+
+        /// <summary>
+        /// Gets the shared data of the communication line.
+        /// </summary>
+        public IDictionary<string, object> SharedData { get; private set; }
 
         /// <summary>
         /// Gets a value indicating whether the communication line is terminated.
@@ -78,17 +123,67 @@ namespace Scada.Comm.Engine
 
 
         /// <summary>
+        /// Operating cycle running in a separate thread.
+        /// </summary>
+        private void Execute()
+        {
+
+        }
+
+        /// <summary>
         /// Starts the communication line.
         /// </summary>
         public bool Start()
         {
-            return false;
+            try
+            {
+                if (thread == null)
+                {
+                    Log.WriteAction(Locale.IsRussian ? 
+                        "Запуск линии связи {0}" :
+                        "Start communication line {0}", Title);
+                    //PrepareProcessing();
+                    thread = new Thread(Execute);
+                    thread.Start();
+                }
+                else
+                {
+                    Log.WriteAction(Locale.IsRussian ?
+                        "Линия связи {0} уже запущена" :
+                        "Communication line {0} is already started", Title);
+                }
+
+                return thread != null;
+            }
+            catch (Exception ex)
+            {
+                Log.WriteException(ex, Locale.IsRussian ?
+                    "Ошибка при запуске линии связи {0}" :
+                    "Error starting communication line {0}", Title);
+                return false;
+            }
+            finally
+            {
+                if (thread == null)
+                {
+                    lineStatus = CommLineStatus.Error;
+                    //WriteInfo();
+                }
+            }
         }
 
         /// <summary>
         /// Begins termination process of the communication line.
         /// </summary>
         public void Terminate()
+        {
+            terminated = true;
+        }
+
+        /// <summary>
+        /// Sends the telecontrol command to the current communication line.
+        /// </summary>
+        public void SendCommand(TeleCommand cmd)
         {
 
         }

@@ -47,5 +47,21 @@ namespace Scada.Comm
         /// The client communication log file name.
         /// </summary>
         public const string ClientLogFileName = "ScadaComm_Client.log";
+
+        /// <summary>
+        /// Gets the communication line title.
+        /// </summary>
+        public static string GetLineTitle(int commLineNum, string name)
+        {
+            return $"[{commLineNum}] {name}";
+        }
+
+        /// <summary>
+        /// Gets the name of the communication line log file.
+        /// </summary>
+        public static string GetLineLogFileName(int commLineNum, string extenstion)
+        {
+            return "line" + commLineNum.ToString("D3") + extenstion;
+        }
     }
 }

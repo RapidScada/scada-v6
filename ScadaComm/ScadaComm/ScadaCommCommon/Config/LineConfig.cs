@@ -73,6 +73,17 @@ namespace Scada.Comm.Config
         public string Name { get; set; }
 
         /// <summary>
+        /// Gets the line title.
+        /// </summary>
+        public string Title
+        {
+            get
+            {
+                return CommUtils.GetLineTitle(CommLineNum, Name);
+            }
+        }
+
+        /// <summary>
         /// Gets the line options.
         /// </summary>
         public LineOptions LineOptions { get; private set; }

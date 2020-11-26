@@ -44,6 +44,11 @@ namespace Scada.Comm.Drivers
         LineConfig LineConfig { get; }
 
         /// <summary>
+        /// Gets the communication line number.
+        /// </summary>
+        int CommLineNum { get; }
+
+        /// <summary>
         /// Gets the communication line log.
         /// </summary>
         ILog Log { get; }

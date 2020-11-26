@@ -303,9 +303,8 @@ namespace Scada.Comm.Engine
                 catch (Exception ex)
                 {
                     Log.WriteException(ex, Locale.IsRussian ?
-                        "Ошибка при создании линии связи [{0}] {1}" :
-                        "Error creating communication line [{0}] {1}", 
-                        lineConfig.CommLineNum, lineConfig.Name);
+                        "Ошибка при создании линии связи {0}" :
+                        "Error creating communication line {0}", lineConfig.Title);
                 }
             }
         }
@@ -326,9 +325,8 @@ namespace Scada.Comm.Engine
                     if (!commLine.Start())
                     {
                         Log.WriteError(Locale.IsRussian ?
-                            "Не удалось запустить линию связи [{0}] {1}" :
-                            "Failed to start communication line [{0}] {1}",
-                            commLine.LineConfig.CommLineNum, commLine.LineConfig.Name);
+                            "Не удалось запустить линию связи {0}" :
+                            "Failed to start communication line {0}", commLine.Title);
                     }
                 }
             }
