@@ -79,7 +79,7 @@ namespace Scada.Server.Archives
         public string Code { get; }
 
         /// <summary>
-        /// Gets the archive name.
+        /// Gets the archive title.
         /// </summary>
         public string Title { get; }
 

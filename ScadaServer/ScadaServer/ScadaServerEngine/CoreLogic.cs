@@ -176,7 +176,7 @@ namespace Scada.Server.Engine
             terminated = false;
             utcStartDT = DateTime.UtcNow;
             startDT = utcStartDT.ToLocalTime();
-            serviceStatus = ServiceStatus.Undefined;
+            serviceStatus = ServiceStatus.Starting;
             WriteInfo();
 
             if (!Config.PathOptions.CheckExistence(out errMsg))
@@ -945,6 +945,7 @@ namespace Scada.Server.Engine
                 if (thread != null)
                 {
                     terminated = true;
+                    serviceStatus = ServiceStatus.Terminating;
 
                     if (thread.Join(ScadaUtils.ThreadWait))
                     {
