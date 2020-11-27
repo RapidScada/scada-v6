@@ -249,6 +249,10 @@ namespace Scada.Comm.Engine
                     }
                 }
             }
+            catch (Exception ex)
+            {
+                Log.WriteException(ex, CommonPhrases.ThreadFatalError);
+            }
             finally
             {
                 StopLines();

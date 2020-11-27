@@ -55,6 +55,14 @@ namespace Scada.Comm
         {
             return $"[{commLineNum}] {name}";
         }
+        
+        /// <summary>
+        /// Gets the device title.
+        /// </summary>
+        public static string GetDeviceTitle(int deviceNum, string name)
+        {
+            return $"[{deviceNum}] {name}";
+        }
 
         /// <summary>
         /// Gets the name of the communication line log file.
@@ -62,6 +70,14 @@ namespace Scada.Comm
         public static string GetLineLogFileName(int commLineNum, string extenstion)
         {
             return "line" + commLineNum.ToString("D3") + extenstion;
+        }
+
+        /// <summary>
+        /// Gets the name of the device log file.
+        /// </summary>
+        public static string GetDeviceLogFileName(int deviceNum, string extenstion)
+        {
+            return "device" + deviceNum.ToString("D3") + extenstion;
         }
     }
 }

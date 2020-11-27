@@ -36,16 +36,23 @@ namespace Scada.Comm
         // Drivers
         public static string ErrorInDriver { get; private set; }
 
+        public static string ErrorInChannel { get; private set; }
+        public static string ErrorInDevice { get; private set; }
+
         public static void Init()
         {
             // set phrases depending on locale, because the service logic supports only 2 languaages
             if (Locale.IsRussian)
             {
                 ErrorInDriver = "Ошибка при вызове метода {0} драйвера {1}";
+                ErrorInChannel = "Ошибка при вызове метода {0} канала связи {1}";
+                ErrorInDevice = "Ошибка при вызове метода {0} КП {1}";
             }
             else
             {
                 ErrorInDriver = "Error calling the {0} method of the {1} driver";
+                ErrorInChannel = "Error calling the {0} method of the {1} communication channel";
+                ErrorInDevice = "Error calling the {0} method of the {1} device";
             }
         }
     }

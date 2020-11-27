@@ -43,13 +43,21 @@ namespace Scada.Comm.Engine
     /// </summary>
     internal class CommLine : ILineContext
     {
-        private readonly CoreLogic coreLogic;       // the Communicator logic instance
-        private readonly string infoFileName;       // the full file name to write communication line information
+        /// <summary>
+        /// The period of attempts to start the communication channel.
+        /// </summary>
+        private static readonly TimeSpan StartChannelPeriod = TimeSpan.FromSeconds(10);
 
-        private Thread thread;                      // the working thread of the communication line
-        private volatile bool terminated;           // necessary to stop the thread
-        private volatile ServiceStatus lineStatus;  // the current communication line status
-        private int lastInfoLength;                 // the last info text length
+        private readonly CoreLogic coreLogic;         // the Communicator logic instance
+        private readonly string infoFileName;         // the full file name to write communication line information
+        private readonly List<DeviceWrapper> devices; // the devices to poll
+
+        private Thread thread;                     // the working thread of the communication line
+        private volatile bool terminated;          // necessary to stop the thread
+        private volatile ServiceStatus lineStatus; // the current communication line status
+        private int lastInfoLength;                // the last info text length
+        private int maxDeviceTitleLength;          // the maximum length of device title
+        private ChannelWrapper channel;            // the communication channel
 
 
         /// <summary>
@@ -60,15 +68,16 @@ namespace Scada.Comm.Engine
             LineConfig = lineConfig ?? throw new ArgumentNullException(nameof(lineConfig));
             this.coreLogic = coreLogic ?? throw new ArgumentNullException(nameof(coreLogic));
             infoFileName = Path.Combine(coreLogic.AppDirs.LogDir, CommUtils.GetLineLogFileName(CommLineNum, ".txt"));
+            devices = new List<DeviceWrapper>();
 
             thread = null;
             terminated = false;
             lineStatus = ServiceStatus.Undefined;
             lastInfoLength = 0;
+            maxDeviceTitleLength = 0;
+            channel = null;
 
-            Channel = null;
-            Devices = new List<DeviceLogic>();
-            Title = CommUtils.GetLineTitle(CommLineNum, LineConfig.Name);
+            Title = CommUtils.GetLineTitle(CommLineNum, lineConfig.Name);
             SharedData = null;
             Log = new LogFile(LogFormat.Full)
             {
@@ -77,16 +86,6 @@ namespace Scada.Comm.Engine
             };
         }
 
-
-        /// <summary>
-        /// Gets or sets the communication channel.
-        /// </summary>
-        private ChannelLogic Channel { get; set; }
-
-        /// <summary>
-        /// Gets the devices.
-        /// </summary>
-        private List<DeviceLogic> Devices { get; }
 
         /// <summary>
         /// Gets the communication line configuration.
@@ -131,7 +130,7 @@ namespace Scada.Comm.Engine
         }
 
         /// <summary>
-        /// Gets a value indicating whether the communication line is terminated.
+        /// Gets a value indicating whether the communication line is completely terminated.
         /// </summary>
         public bool IsTerminated
         {
@@ -143,25 +142,28 @@ namespace Scada.Comm.Engine
 
 
         /// <summary>
-        /// Binds the communication line to the configuration database.
-        /// </summary>
-        private void BindToBase(BaseDataSet baseDataSet)
-        {
-            foreach (DeviceLogic deviceLogic in Devices)
-            {
-                deviceLogic.Bind(baseDataSet);
-            }
-        }
-
-        /// <summary>
         /// Prepares the communication line for start.
         /// </summary>
-        private void Prepare()
+        private bool Prepare(out string errMsg)
         {
             terminated = false;
             lineStatus = ServiceStatus.Starting;
             SharedData = new ConcurrentDictionary<string, object>();
             WriteInfo();
+
+            if (devices.Count > 0)
+            {
+                devices.ForEach(d => WriteDeviceInfo(d));
+                errMsg = "";
+                return true;
+            }
+            else
+            {
+                errMsg = Locale.IsRussian ?
+                    "Работа линии связи невозможна из-за отсутствия КП" :
+                    "Communication line execution is impossible due to lack of devices";
+                return false;
+            }
         }
 
         /// <summary>
@@ -171,21 +173,23 @@ namespace Scada.Comm.Engine
         {
             try
             {
-                //Devices.ForEach(d => d.OnCommLineStart());
+                StartChannel();
+                devices.ForEach(d => d.OnCommLineStart());
 
-                // bind to the configuration database
-                //if (lineConfig.IsBound && coreLogic.BaseDataSet != null)
-                //    commLine.BindToBase(coreLogic.BaseDataSet);
+                if (coreLogic.BaseDataSet != null)
+                    devices.ForEach(d => d.Bind(coreLogic.BaseDataSet));
 
                 lineStatus = ServiceStatus.Normal;
-
-                while (!terminated)
-                {
-                    Thread.Sleep(ScadaUtils.ThreadDelay);
-                }
+                LineCycle();
+            }
+            catch (Exception ex)
+            {
+                Log.WriteException(ex, CommonPhrases.ThreadFatalError);
             }
             finally
             {
+                devices.ForEach(d => d.OnCommLineTerminate());
+                channel.Stop();
                 lineStatus = ServiceStatus.Terminated;
                 WriteInfo();
 
@@ -195,7 +199,40 @@ namespace Scada.Comm.Engine
                 Log.WriteBreak();
             }
         }
-        
+
+        /// <summary>
+        /// Starts the communication channel.
+        /// </summary>
+        private void StartChannel()
+        {
+            DateTime attempDT = DateTime.MinValue;
+
+            while (!terminated)
+            {
+                DateTime utcNow = DateTime.UtcNow;
+
+                if (utcNow - attempDT >= StartChannelPeriod)
+                {
+                    attempDT = utcNow;
+                    if (channel.Start())
+                        break;
+                }
+
+                Thread.Sleep(ScadaUtils.ThreadDelay);
+            }
+        }
+
+        /// <summary>
+        /// Working cycle of the communication line.
+        /// </summary>
+        private void LineCycle()
+        {
+            while (!terminated)
+            {
+                Thread.Sleep(ScadaUtils.ThreadDelay);
+            }
+        }
+
         /// <summary>
         /// Writes application information to the file.
         /// </summary>
@@ -211,11 +248,39 @@ namespace Scada.Comm.Engine
 
                 if (Locale.IsRussian)
                 {
-                    sb.Append("Статус : ").AppendLine(lineStatus.ToString(true));
+                    sb.Append("Статус      : ").AppendLine(lineStatus.ToString(true));
+                    sb.Append("Канал связи : ").AppendLine(channel.ChannelLogic.StatusText);
                 }
                 else
                 {
-                    sb.Append("Status : ").AppendLine(lineStatus.ToString(false));
+                    sb.Append("Status                : ").AppendLine(lineStatus.ToString(false));
+                    sb.Append("Communication channel : ").AppendLine(channel.ChannelLogic.StatusText);
+                }
+
+                string header = Locale.IsRussian ?
+                    "КП (" + devices.Count + ")" :
+                    "Devices (" + devices.Count + ")";
+
+                sb
+                    .AppendLine()
+                    .AppendLine(header)
+                    .Append('-', header.Length).AppendLine();
+
+                if (devices.Count > 0)
+                {
+                    foreach (DeviceWrapper deviceWrapper in devices)
+                    {
+                        DeviceLogic deviceLogic = deviceWrapper.DeviceLogic;
+                        sb
+                            .Append(deviceLogic.Title)
+                            .Append(' ', maxDeviceTitleLength - deviceLogic.Title.Length)
+                            .Append(" : ")
+                            .AppendLine(deviceLogic.StatusText);
+                    }
+                }
+                else
+                {
+                    sb.AppendLine(Locale.IsRussian ? "КП нет" : "No devices");
                 }
 
                 lastInfoLength = sb.Length;
@@ -234,6 +299,27 @@ namespace Scada.Comm.Engine
             }
         }
 
+        /// <summary>
+        /// Writes device information to the file.
+        /// </summary>
+        private void WriteDeviceInfo(DeviceWrapper deviceWrapper)
+        {
+            try
+            {
+                using (StreamWriter writer = new StreamWriter(deviceWrapper.InfoFileName, false, Encoding.UTF8))
+                {
+                    writer.Write(deviceWrapper.DeviceLogic.GetInfo());
+                }
+            }
+            catch (Exception ex)
+            {
+                Log.WriteException(ex, Locale.IsRussian ?
+                    "Ошибка при записи в файл информации о работе КП {0}" :
+                    "Error writing device {0} information to the file", 
+                    deviceWrapper.DeviceLogic.Title);
+            }
+        }
+
 
         /// <summary>
         /// Starts the communication line.
@@ -248,9 +334,16 @@ namespace Scada.Comm.Engine
                     Log.WriteAction(Locale.IsRussian ? 
                         "Запуск линии связи {0}" :
                         "Start communication line {0}", Title);
-                    Prepare();
-                    thread = new Thread(Execute);
-                    thread.Start();
+
+                    if (Prepare(out string errMsg))
+                    {
+                        thread = new Thread(Execute);
+                        thread.Start();
+                    }
+                    else if (!string.IsNullOrEmpty(errMsg))
+                    {
+                        Log.WriteError(errMsg);
+                    }
                 }
                 else
                 {
@@ -283,6 +376,11 @@ namespace Scada.Comm.Engine
         /// </summary>
         public void Terminate()
         {
+            foreach (DeviceWrapper deviceWrapper in devices)
+            {
+                deviceWrapper.DeviceLogic.Terminate();
+            }
+
             terminated = true;
         }
 
@@ -303,18 +401,21 @@ namespace Scada.Comm.Engine
             CommLine commLine = new CommLine(lineConfig, coreLogic);
 
             // create communication channel
-            if (!string.IsNullOrEmpty(lineConfig.Channel.TypeName))
+            if (string.IsNullOrEmpty(lineConfig.Channel.TypeName))
             {
-                if (driverHolder.GetDriver(lineConfig.Channel.Driver, out DriverLogic driverLogic))
-                {
-                    commLine.Channel = driverLogic.CreateChannel(commLine, lineConfig.Channel);
-                }
-                else
-                {
-                    throw new ScadaException(Locale.IsRussian ?
-                        "Драйвер для создания канала связи не найден." :
-                        "Driver for creating communication channel not found.");
-                }
+                ChannelLogic channelLogic = new ChannelLogic(commLine, lineConfig.Channel);
+                commLine.channel = new ChannelWrapper(channelLogic, commLine.Log);
+            }
+            else if (driverHolder.GetDriver(lineConfig.Channel.Driver, out DriverLogic driverLogic))
+            {
+                ChannelLogic channelLogic = driverLogic.CreateChannel(commLine, lineConfig.Channel);
+                commLine.channel = new ChannelWrapper(channelLogic, commLine.Log);
+            }
+            else
+            {
+                throw new ScadaException(Locale.IsRussian ?
+                    "Драйвер для создания канала связи не найден." :
+                    "Driver for creating communication channel not found.");
             }
 
             // create devices
@@ -323,7 +424,15 @@ namespace Scada.Comm.Engine
                 if (driverHolder.GetDriver(deviceConfig.Driver, out DriverLogic driverLogic))
                 {
                     DeviceLogic deviceLogic = driverLogic.CreateDevice(commLine, deviceConfig);
-                    commLine.Devices.Add(deviceLogic);
+
+                    commLine.devices.Add(new DeviceWrapper(deviceLogic, commLine.Log)
+                    {
+                        InfoFileName = Path.Combine(coreLogic.AppDirs.LogDir, 
+                            CommUtils.GetDeviceLogFileName(deviceLogic.DeviceNum, ".txt"))
+                    });
+
+                    if (commLine.maxDeviceTitleLength < deviceLogic.Title.Length)
+                        commLine.maxDeviceTitleLength = deviceLogic.Title.Length;
                 }
             }
 
