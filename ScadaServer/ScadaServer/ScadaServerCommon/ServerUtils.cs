@@ -47,5 +47,13 @@ namespace Scada.Server
         /// The maximum number of archives.
         /// </summary>
         public const int MaxArchiveCount = 31;
+
+        /// <summary>
+        /// Gets the archive title.
+        /// </summary>
+        public static string GetArchiveTitle(string code, string name)
+        {
+            return $"[{code}] {name}";
+        }
     }
 }

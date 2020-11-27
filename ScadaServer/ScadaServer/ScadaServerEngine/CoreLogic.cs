@@ -530,6 +530,13 @@ namespace Scada.Server.Engine
                     }
                 }
             }
+            catch (ThreadAbortException)
+            {
+            }
+            catch (Exception ex)
+            {
+                Log.WriteException(ex, CommonPhrases.ThreadFatalError);
+            }
             finally
             {
                 calc.FinalizeScripts();
