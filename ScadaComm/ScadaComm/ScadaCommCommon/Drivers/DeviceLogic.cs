@@ -59,6 +59,8 @@ namespace Scada.Comm.Drivers
 
             CanSendCommands = false;
             ConnectionRequired = false;
+            LastSessionTime = DateTime.MinValue;
+            LastCommandTime = DateTime.MinValue;
 
             terminated = false;
         }
@@ -144,6 +146,16 @@ namespace Scada.Comm.Drivers
         /// Gets a value indicating whether a connection is required to communicate with the device.
         /// </summary>
         public bool ConnectionRequired { get; protected set; }
+
+        /// <summary>
+        /// Gets the time (UTC) of the last device session.
+        /// </summary>
+        public DateTime LastSessionTime { get; protected set; }
+
+        /// <summary>
+        /// Gets the time (UTC) of the last device command.
+        /// </summary>
+        public DateTime LastCommandTime { get; protected set; }
 
         /// <summary>
         /// Gets the current device status as text.

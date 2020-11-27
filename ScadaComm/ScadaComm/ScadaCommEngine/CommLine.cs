@@ -153,7 +153,7 @@ namespace Scada.Comm.Engine
 
             if (devices.Count > 0)
             {
-                devices.ForEach(d => WriteDeviceInfo(d));
+                devices.ForEach(d => d.WriteInfo());
                 errMsg = "";
                 return true;
             }
@@ -223,14 +223,81 @@ namespace Scada.Comm.Engine
         }
 
         /// <summary>
-        /// Working cycle of the communication line.
+        /// Work cycle of the communication line.
         /// </summary>
         private void LineCycle()
         {
+            int deviceCnt = devices.Count;
+
             while (!terminated)
             {
-                Thread.Sleep(ScadaUtils.ThreadDelay);
+                try
+                {
+                    DateTime utcNow = DateTime.UtcNow;
+                    int deviceIndex = 0;
+
+                    while (!terminated && deviceIndex < deviceCnt)
+                    {
+                        DeviceWrapper deviceWrapper = devices[deviceIndex];
+
+                        if (CheckSessionIsRequired(deviceWrapper.DeviceLogic, utcNow))
+                        {
+
+                        }
+
+                        deviceIndex++;
+                    }
+
+                    Thread.Sleep(ScadaUtils.ThreadDelay);
+                }
+                catch (Exception ex)
+                {
+                    Log.WriteException(ex, Locale.IsRussian ?
+                        "Ошибка в цикле работы линии связи" :
+                        "Error in the communication line work cycle");
+                    Thread.Sleep(ScadaUtils.ThreadDelay);
+                }
             }
+        }
+
+        /// <summary>
+        /// Checks if a device polling session of the device is required.
+        /// </summary>
+        private bool CheckSessionIsRequired(DeviceLogic deviceLogic, DateTime utcNow)
+        {
+            PollingOptions pollingOptions = deviceLogic.PollingOptions;
+            bool timeIsSet = pollingOptions.Time > TimeSpan.Zero;
+            bool periodIsSet = pollingOptions.Period > TimeSpan.Zero;
+
+            if (timeIsSet || periodIsSet)
+            {
+                DateTime localNow = utcNow.ToLocalTime();
+                DateTime nowDate = localNow.Date;
+                TimeSpan nowTime = localNow.TimeOfDay;
+                DateTime lastSessionDate = deviceLogic.LastSessionTime.Date;
+                TimeSpan lastSessionTime = deviceLogic.LastSessionTime.TimeOfDay;
+
+                if (periodIsSet)
+                {
+                    // periodic polling
+                    double timeInSec = pollingOptions.Time.TotalSeconds;
+                    double periodInSec = pollingOptions.Period.TotalSeconds;
+                    int n = (int)((nowTime.TotalSeconds - timeInSec) / periodInSec) + 1;
+
+                    return pollingOptions.Time <= nowTime /*time to poll*/ &&
+                        (lastSessionTime.TotalSeconds <= n * periodInSec + timeInSec ||
+                        lastSessionTime > nowTime /*session was yesterday*/);
+                }
+                else if (timeIsSet)
+                {
+                    // polling once a day at a specified time
+                    return pollingOptions.Time <= nowTime /*time to poll*/ &&
+                        (lastSessionDate < nowDate || lastSessionTime < pollingOptions.Time /*after an extra poll*/);
+                }
+            }
+
+            // continuous cyclic polling
+            return true;
         }
 
         /// <summary>
@@ -299,27 +366,6 @@ namespace Scada.Comm.Engine
             }
         }
 
-        /// <summary>
-        /// Writes device information to the file.
-        /// </summary>
-        private void WriteDeviceInfo(DeviceWrapper deviceWrapper)
-        {
-            try
-            {
-                using (StreamWriter writer = new StreamWriter(deviceWrapper.InfoFileName, false, Encoding.UTF8))
-                {
-                    writer.Write(deviceWrapper.DeviceLogic.GetInfo());
-                }
-            }
-            catch (Exception ex)
-            {
-                Log.WriteException(ex, Locale.IsRussian ?
-                    "Ошибка при записи в файл информации о работе КП {0}" :
-                    "Error writing device {0} information to the file", 
-                    deviceWrapper.DeviceLogic.Title);
-            }
-        }
-
 
         /// <summary>
         /// Starts the communication line.
@@ -376,11 +422,7 @@ namespace Scada.Comm.Engine
         /// </summary>
         public void Terminate()
         {
-            foreach (DeviceWrapper deviceWrapper in devices)
-            {
-                deviceWrapper.DeviceLogic.Terminate();
-            }
-
+            devices.ForEach(d => d.DeviceLogic.Terminate());
             terminated = true;
         }
 

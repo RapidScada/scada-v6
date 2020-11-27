@@ -51,7 +51,7 @@ namespace Scada.Comm.Config
         {
             Timeout = 0;
             Delay = 0;
-            Time = DateTime.MinValue;
+            Time = TimeSpan.Zero;
             Period = TimeSpan.Zero;
             CmdLine = "";
             CustomOptions = new OptionList();
@@ -64,7 +64,7 @@ namespace Scada.Comm.Config
         {
             Timeout = timeout;
             Delay = delay;
-            Time = DateTime.MinValue;
+            Time = TimeSpan.Zero;
             Period = TimeSpan.Zero;
             CmdLine = "";
             CustomOptions = new OptionList();
@@ -84,7 +84,7 @@ namespace Scada.Comm.Config
         /// <summary>
         /// Gets or sets the polling time.
         /// </summary>
-        public DateTime Time { get; set; }
+        public TimeSpan Time { get; set; }
 
         /// <summary>
         /// Gets or sets the polling period.
@@ -112,7 +112,7 @@ namespace Scada.Comm.Config
 
             Timeout = xmlElem.GetAttrAsInt("timeout", DefaultTimeout);
             Delay = xmlElem.GetAttrAsInt("delay", DefaultDelay);
-            Time = xmlElem.GetAttrAsDateTime("time");
+            Time = xmlElem.GetAttrAsTimeSpan("time");
             Period = xmlElem.GetAttrAsTimeSpan("period");
             CmdLine = xmlElem.GetAttrAsString("cmdLine");
             CustomOptions.LoadFromXml(xmlElem);

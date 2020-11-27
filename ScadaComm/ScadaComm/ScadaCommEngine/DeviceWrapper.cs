@@ -27,6 +27,8 @@ using Scada.Comm.Drivers;
 using Scada.Data.Models;
 using Scada.Log;
 using System;
+using System.IO;
+using System.Text;
 
 namespace Scada.Comm.Engine
 {
@@ -104,6 +106,56 @@ namespace Scada.Comm.Engine
             catch (Exception ex)
             {
                 log.WriteException(ex, CommPhrases.ErrorInDevice, nameof(Bind), DeviceLogic.Title);
+            }
+        }
+
+        /// <summary>
+        /// Calls the Session method of the device.
+        /// </summary>
+        public void Session()
+        {
+            try
+            {
+                DeviceLogic.Session();
+            }
+            catch (Exception ex)
+            {
+                log.WriteException(ex, CommPhrases.ErrorInDevice, nameof(Session), DeviceLogic.Title);
+            }
+        }
+
+        /// <summary>
+        /// Calls the SendCommand method of the device.
+        /// </summary>
+        public void SendCommand(TeleCommand cmd)
+        {
+            try
+            {
+                DeviceLogic.SendCommand(cmd);
+            }
+            catch (Exception ex)
+            {
+                log.WriteException(ex, CommPhrases.ErrorInDevice, nameof(SendCommand), DeviceLogic.Title);
+            }
+        }
+
+        /// <summary>
+        /// Writes device information to the file.
+        /// </summary>
+        public void WriteInfo()
+        {
+            try
+            {
+                using (StreamWriter writer = new StreamWriter(InfoFileName, false, Encoding.UTF8))
+                {
+                    writer.Write(DeviceLogic.GetInfo());
+                }
+            }
+            catch (Exception ex)
+            {
+                log.WriteException(ex, Locale.IsRussian ?
+                    "Ошибка при записи в файл информации о работе КП {0}" :
+                    "Error writing device {0} information to the file", DeviceLogic.Title);
             }
         }
     }
