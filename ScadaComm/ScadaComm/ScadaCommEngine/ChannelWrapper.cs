@@ -24,6 +24,7 @@
  */
 
 using Scada.Comm.Channels;
+using Scada.Comm.Drivers;
 using Scada.Log;
 using System;
 
@@ -83,6 +84,36 @@ namespace Scada.Comm.Engine
             catch (Exception ex)
             {
                 log.WriteException(ex, CommPhrases.ErrorInChannel, nameof(Stop), ChannelLogic.Title);
+            }
+        }
+
+        /// <summary>
+        /// Calls the BeforeSession method of the communication channel.
+        /// </summary>
+        public void BeforeSession(DeviceLogic deviceLogic)
+        {
+            try
+            {
+                ChannelLogic.BeforeSession(deviceLogic);
+            }
+            catch (Exception ex)
+            {
+                log.WriteException(ex, CommPhrases.ErrorInChannel, nameof(BeforeSession), ChannelLogic.Title);
+            }
+        }
+
+        /// <summary>
+        /// Calls the AfterSession method of the communication channel.
+        /// </summary>
+        public void AfterSession(DeviceLogic deviceLogic)
+        {
+            try
+            {
+                ChannelLogic.AfterSession(deviceLogic);
+            }
+            catch (Exception ex)
+            {
+                log.WriteException(ex, CommPhrases.ErrorInChannel, nameof(AfterSession), ChannelLogic.Title);
             }
         }
     }

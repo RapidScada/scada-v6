@@ -47,10 +47,19 @@ namespace Scada.Comm.Engine
         /// The period of attempts to start the communication channel.
         /// </summary>
         private static readonly TimeSpan StartChannelPeriod = TimeSpan.FromSeconds(10);
+        /// <summary>
+        /// The minimum delay after polling cycle, ms.
+        /// </summary>
+        private const int MinCycleDelay = 50;
+        /// <summary>
+        /// The delay after empty polling cycle, ms.
+        /// </summary>
+        private const int EmptyCycleDelay = 200;
 
         private readonly CoreLogic coreLogic;         // the Communicator logic instance
         private readonly string infoFileName;         // the full file name to write communication line information
         private readonly List<DeviceWrapper> devices; // the devices to poll
+        private readonly Queue<TeleCommand> commands; // the command queue
 
         private Thread thread;                     // the working thread of the communication line
         private volatile bool terminated;          // necessary to stop the thread
@@ -69,6 +78,7 @@ namespace Scada.Comm.Engine
             this.coreLogic = coreLogic ?? throw new ArgumentNullException(nameof(coreLogic));
             infoFileName = Path.Combine(coreLogic.AppDirs.LogDir, CommUtils.GetLineLogFileName(CommLineNum, ".txt"));
             devices = new List<DeviceWrapper>();
+            commands = new Queue<TeleCommand>();
 
             thread = null;
             terminated = false;
@@ -176,7 +186,7 @@ namespace Scada.Comm.Engine
                 StartChannel();
                 devices.ForEach(d => d.OnCommLineStart());
 
-                if (coreLogic.BaseDataSet != null)
+                if (LineConfig.IsBound && coreLogic.BaseDataSet != null)
                     devices.ForEach(d => d.Bind(coreLogic.BaseDataSet));
 
                 lineStatus = ServiceStatus.Normal;
@@ -227,7 +237,9 @@ namespace Scada.Comm.Engine
         /// </summary>
         private void LineCycle()
         {
+            int cycleDelay = Math.Min(MinCycleDelay, LineConfig.LineOptions.CycleDelay);
             int deviceCnt = devices.Count;
+            bool skipUnableMsg = false;
 
             while (!terminated)
             {
@@ -235,20 +247,56 @@ namespace Scada.Comm.Engine
                 {
                     DateTime utcNow = DateTime.UtcNow;
                     int deviceIndex = 0;
+                    int requiredSessionCnt = 0;
+                    int actualSessionCnt = 0;
 
                     while (!terminated && deviceIndex < deviceCnt)
                     {
                         DeviceWrapper deviceWrapper = devices[deviceIndex];
+                        DeviceLogic deviceLogic = deviceWrapper.DeviceLogic;
 
-                        if (CheckSessionIsRequired(deviceWrapper.DeviceLogic, utcNow))
+                        if (CheckSessionIsRequired(deviceLogic, utcNow))
                         {
+                            channel.BeforeSession(deviceLogic);
 
+                            if (!deviceLogic.ConnectionRequired ||
+                                deviceLogic.Connection != null && deviceLogic.Connection.Connected)
+                            {
+                                deviceWrapper.Session();
+                                actualSessionCnt++;
+                            }
+                            else
+                            {
+                                deviceWrapper.InvalidateData();
+
+                                if (!skipUnableMsg)
+                                {
+                                    Log.WriteLine();
+                                    Log.WriteAction(string.Format(Locale.IsRussian ?
+                                        "Невозможно выполнить сеанс связи с {0}, т.к. соединение не установлено" :
+                                        "Unable to communicate with {0} because connection is not established",
+                                        deviceLogic.Title));
+                                }
+                            }
+
+                            channel.AfterSession(deviceLogic);
+                            requiredSessionCnt++;
                         }
 
                         deviceIndex++;
                     }
 
-                    Thread.Sleep(ScadaUtils.ThreadDelay);
+                    if (actualSessionCnt > 0)
+                    {
+                        skipUnableMsg = false;
+                        Thread.Sleep(cycleDelay);
+                    }
+                    else
+                    {
+                        if (requiredSessionCnt > 0)
+                            skipUnableMsg = true;
+                        Thread.Sleep(EmptyCycleDelay);
+                    }
                 }
                 catch (Exception ex)
                 {
@@ -427,11 +475,33 @@ namespace Scada.Comm.Engine
         }
 
         /// <summary>
-        /// Sends the telecontrol command to the current communication line.
+        /// Enqueues the telecontrol command.
         /// </summary>
-        public void SendCommand(TeleCommand cmd)
+        public void EnqueueCommand(TeleCommand cmd)
         {
-
+            try
+            {
+                if (LineConfig.LineOptions.CmdEnabled)
+                {
+                    lock (commands)
+                    {
+                        commands.Enqueue(cmd);
+                    }
+                }
+                else
+                {
+                    Log.WriteLine();
+                    Log.WriteAction(Locale.IsRussian ?
+                        "Выполнение команды не разрешено в конфигурации линии связи" :
+                        "Command execution is disabled in communication line configuration");
+                }
+            }
+            catch (Exception ex)
+            {
+                Log.WriteException(ex, Locale.IsRussian ?
+                    "Ошибка при постановке команды в очередь" :
+                    "Error enqueuing command");
+            }
         }
 
         /// <summary>

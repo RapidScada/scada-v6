@@ -23,6 +23,7 @@
  * Modified : 2020
  */
 
+using Scada.Comm.Channels;
 using Scada.Comm.Config;
 using Scada.Data.Models;
 using Scada.Log;
@@ -37,6 +38,7 @@ namespace Scada.Comm.Drivers
     public abstract class DeviceLogic
     {
         private volatile bool terminated; // necessary to stop the current operation
+        private Connection connection;    // the device connection
 
 
         /// <summary>
@@ -63,6 +65,7 @@ namespace Scada.Comm.Drivers
             LastCommandTime = DateTime.MinValue;
 
             terminated = false;
+            connection = null;
         }
 
 
@@ -148,6 +151,22 @@ namespace Scada.Comm.Drivers
         public bool ConnectionRequired { get; protected set; }
 
         /// <summary>
+        /// Gets or sets the connection.
+        /// </summary>
+        public Connection Connection
+        {
+            get
+            {
+                return connection;
+            }
+            set
+            {
+                connection = value ?? ConnectionStub.Instance;
+                OnConnectionSet();
+            }
+        }
+
+        /// <summary>
         /// Gets the time (UTC) of the last device session.
         /// </summary>
         public DateTime LastSessionTime { get; protected set; }
@@ -186,6 +205,13 @@ namespace Scada.Comm.Drivers
         }
 
         /// <summary>
+        /// Performs actions after setting the connection.
+        /// </summary>
+        public virtual void OnConnectionSet()
+        {
+        }
+
+        /// <summary>
         /// Binds the device to the configuration database.
         /// </summary>
         public virtual void Bind(BaseDataSet baseDataSet)
@@ -206,6 +232,13 @@ namespace Scada.Comm.Drivers
         public virtual void SendCommand(TeleCommand cmd)
         {
 
+        }
+
+        /// <summary>
+        /// Sets the current data to undefined.
+        /// </summary>
+        public virtual void InvalidateData()
+        {
         }
 
         /// <summary>

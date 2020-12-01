@@ -60,8 +60,8 @@ namespace Scada.Comm.Drivers
 
 
         /// <summary>
-        /// Sends the telecontrol command to the current communication line.
+        /// Enqueues the telecontrol command.
         /// </summary>
-        void SendCommand(TeleCommand cmd);
+        void EnqueueCommand(TeleCommand cmd);
     }
 }

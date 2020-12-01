@@ -140,6 +140,21 @@ namespace Scada.Comm.Engine
         }
 
         /// <summary>
+        /// Calls the InvalidateData method of the device.
+        /// </summary>
+        public void InvalidateData()
+        {
+            try
+            {
+                DeviceLogic.InvalidateData();
+            }
+            catch (Exception ex)
+            {
+                log.WriteException(ex, CommPhrases.ErrorInDevice, nameof(InvalidateData), DeviceLogic.Title);
+            }
+        }
+
+        /// <summary>
         /// Writes device information to the file.
         /// </summary>
         public void WriteInfo()
