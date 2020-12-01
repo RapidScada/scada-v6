@@ -53,6 +53,10 @@ namespace Scada
         /// </summary>
         private static readonly Random UniqueIDGenerator = new Random();
         /// <summary>
+        /// The time after which a command is ignored.
+        /// </summary>
+        public static readonly TimeSpan CommandLifetime = TimeSpan.FromSeconds(60);
+        /// <summary>
         /// Determines that the application is running on Windows.
         /// </summary>
         public static readonly bool IsRunningOnWin = RuntimeInformation.IsOSPlatform(OSPlatform.Windows);

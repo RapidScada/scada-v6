@@ -35,11 +35,6 @@ namespace Scada.Server.Engine
     /// </summary>
     internal class ClientTag
     {
-        /// <summary>
-        /// The time after which a command is removed from the queue.
-        /// </summary>
-        private static readonly TimeSpan CommandLifetime = TimeSpan.FromSeconds(60);
-
         private readonly Queue<TeleCommand> commands; // the command queue
         private bool commandsDisabled; // getting commands is disabled for the client
 
@@ -60,7 +55,7 @@ namespace Scada.Server.Engine
         private void RemoveOutdatedCommands()
         {
             DateTime utcNow = DateTime.UtcNow;
-            while (commands.Count > 0 && utcNow - commands.Peek().CreationTime > CommandLifetime)
+            while (commands.Count > 0 && utcNow - commands.Peek().CreationTime > ScadaUtils.CommandLifetime)
             {
                 commands.Dequeue();
             }

@@ -239,6 +239,9 @@ namespace Scada.Comm.Engine
         {
             int cycleDelay = Math.Min(MinCycleDelay, LineConfig.LineOptions.CycleDelay);
             int deviceCnt = devices.Count;
+            int deviceIndex = 0;
+            int requiredSessionCnt = 0;
+            int actualSessionCnt = 0;
             bool skipUnableMsg = false;
 
             while (!terminated)
@@ -246,56 +249,63 @@ namespace Scada.Comm.Engine
                 try
                 {
                     DateTime utcNow = DateTime.UtcNow;
-                    int deviceIndex = 0;
-                    int requiredSessionCnt = 0;
-                    int actualSessionCnt = 0;
 
-                    while (!terminated && deviceIndex < deviceCnt)
+                    // commands
+                    while (DequeueCommand(out TeleCommand cmd))
                     {
-                        DeviceWrapper deviceWrapper = devices[deviceIndex];
-                        DeviceLogic deviceLogic = deviceWrapper.DeviceLogic;
 
-                        if (CheckSessionIsRequired(deviceLogic, utcNow))
+                    }
+
+                    // session
+                    DeviceWrapper deviceWrapper = devices[deviceIndex];
+                    DeviceLogic deviceLogic = deviceWrapper.DeviceLogic;
+
+                    if (CheckSessionIsRequired(deviceLogic, utcNow))
+                    {
+                        channel.BeforeSession(deviceLogic);
+
+                        if (!deviceLogic.ConnectionRequired ||
+                            deviceLogic.Connection != null && deviceLogic.Connection.Connected)
                         {
-                            channel.BeforeSession(deviceLogic);
+                            deviceWrapper.Session();
+                            actualSessionCnt++;
+                        }
+                        else
+                        {
+                            deviceWrapper.InvalidateData();
 
-                            if (!deviceLogic.ConnectionRequired ||
-                                deviceLogic.Connection != null && deviceLogic.Connection.Connected)
+                            if (!skipUnableMsg)
                             {
-                                deviceWrapper.Session();
-                                actualSessionCnt++;
+                                Log.WriteLine();
+                                Log.WriteAction(string.Format(Locale.IsRussian ?
+                                    "Невозможно выполнить сеанс связи с {0}, т.к. соединение не установлено" :
+                                    "Unable to communicate with {0} because connection is not established",
+                                    deviceLogic.Title));
                             }
-                            else
-                            {
-                                deviceWrapper.InvalidateData();
-
-                                if (!skipUnableMsg)
-                                {
-                                    Log.WriteLine();
-                                    Log.WriteAction(string.Format(Locale.IsRussian ?
-                                        "Невозможно выполнить сеанс связи с {0}, т.к. соединение не установлено" :
-                                        "Unable to communicate with {0} because connection is not established",
-                                        deviceLogic.Title));
-                                }
-                            }
-
-                            channel.AfterSession(deviceLogic);
-                            requiredSessionCnt++;
                         }
 
-                        deviceIndex++;
+                        channel.AfterSession(deviceLogic);
+                        requiredSessionCnt++;
                     }
 
-                    if (actualSessionCnt > 0)
+                    if (++deviceIndex >= deviceCnt)
                     {
-                        skipUnableMsg = false;
-                        Thread.Sleep(cycleDelay);
-                    }
-                    else
-                    {
-                        if (requiredSessionCnt > 0)
-                            skipUnableMsg = true;
-                        Thread.Sleep(EmptyCycleDelay);
+                        // line cycle ended
+                        if (actualSessionCnt > 0)
+                        {
+                            skipUnableMsg = false;
+                            Thread.Sleep(cycleDelay);
+                        }
+                        else
+                        {
+                            if (requiredSessionCnt > 0)
+                                skipUnableMsg = true;
+                            Thread.Sleep(EmptyCycleDelay);
+                        }
+
+                        deviceIndex = 0;
+                        requiredSessionCnt = 0;
+                        actualSessionCnt = 0;
                     }
                 }
                 catch (Exception ex)
@@ -306,6 +316,15 @@ namespace Scada.Comm.Engine
                     Thread.Sleep(ScadaUtils.ThreadDelay);
                 }
             }
+        }
+
+        /// <summary>
+        /// Removes, validates and returns the command at the beginning of the queue.
+        /// </summary>
+        private bool DequeueCommand(out TeleCommand cmd)
+        {
+            cmd = null;
+            return false;
         }
 
         /// <summary>
