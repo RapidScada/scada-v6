@@ -61,10 +61,6 @@ namespace Scada.Server.Engine
         /// The maximum number of input channels to process per iteration when checking activity.
         /// </summary>
         private const int MaxCnlCountToCheckActivity = 1000;
-        /// <summary>
-        /// The period of writing application info.
-        /// </summary>
-        private static readonly TimeSpan WriteInfoPeriod = TimeSpan.FromSeconds(1);
 
         private readonly string infoFileName;    // the full file name to write application information
 
@@ -512,7 +508,7 @@ namespace Scada.Server.Engine
                         archiveHolder.DeleteOutdatedData();
 
                         // write application info
-                        if (utcNow - writeInfoDT >= WriteInfoPeriod)
+                        if (utcNow - writeInfoDT >= ScadaUtils.WriteInfoPeriod)
                         {
                             writeInfoDT = utcNow;
                             WriteInfo();

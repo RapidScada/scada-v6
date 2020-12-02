@@ -53,6 +53,10 @@ namespace Scada
         /// </summary>
         private static readonly Random UniqueIDGenerator = new Random();
         /// <summary>
+        /// The period of writing information about the service status.
+        /// </summary>
+        public static readonly TimeSpan WriteInfoPeriod = TimeSpan.FromSeconds(1);
+        /// <summary>
         /// The time after which a command is ignored.
         /// </summary>
         public static readonly TimeSpan CommandLifetime = TimeSpan.FromSeconds(60);
