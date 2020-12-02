@@ -163,7 +163,7 @@ namespace Scada.Comm.Engine
 
             if (devices.Count > 0)
             {
-                devices.ForEach(d => d.WriteInfo());
+                WriteDeviceInfo();
                 errMsg = "";
                 return true;
             }
@@ -202,6 +202,7 @@ namespace Scada.Comm.Engine
                 channel.Stop();
                 lineStatus = ServiceStatus.Terminated;
                 WriteInfo();
+                WriteDeviceInfo();
 
                 Log.WriteAction(Locale.IsRussian ?
                     "Линия связи {0} остановлена" :
@@ -243,22 +244,45 @@ namespace Scada.Comm.Engine
             int requiredSessionCnt = 0;
             int actualSessionCnt = 0;
             bool skipUnableMsg = false;
+            DateTime writeInfoDT = DateTime.MinValue;
 
             while (!terminated)
             {
                 try
                 {
                     DateTime utcNow = DateTime.UtcNow;
+                    DeviceWrapper deviceWrapper;
+                    DeviceLogic deviceLogic;
 
                     // commands
-                    while (DequeueCommand(out TeleCommand cmd))
+                    while (DequeueCommand(out TeleCommand cmd, out deviceWrapper))
                     {
+                        deviceLogic = deviceWrapper.DeviceLogic;
+                        channel.BeforeSession(deviceLogic);
 
+                        if (!deviceLogic.ConnectionRequired ||
+                            deviceLogic.Connection != null && deviceLogic.Connection.Connected)
+                        {
+                            deviceWrapper.SendCommand(cmd);
+
+                            if (LineConfig.LineOptions.PollAfterCmd)
+                                PollWithPriority(deviceWrapper);
+                        }
+                        else
+                        {
+                            Log.WriteLine();
+                            Log.WriteAction(string.Format(Locale.IsRussian ?
+                                "Невозможно отправить команду {0}, т.к. соединение не установлено" :
+                                "Unable to send command to {0} because connection is not established",
+                                deviceLogic.Title));
+                        }
+
+                        channel.AfterSession(deviceLogic);
                     }
 
                     // session
-                    DeviceWrapper deviceWrapper = devices[deviceIndex];
-                    DeviceLogic deviceLogic = deviceWrapper.DeviceLogic;
+                    deviceWrapper = SelectDevice(ref deviceIndex);
+                    deviceLogic = deviceWrapper.DeviceLogic;
 
                     if (CheckSessionIsRequired(deviceLogic, utcNow))
                     {
@@ -288,7 +312,15 @@ namespace Scada.Comm.Engine
                         requiredSessionCnt++;
                     }
 
-                    if (++deviceIndex >= deviceCnt)
+                    // write line and devices info
+                    if (utcNow - writeInfoDT >= ScadaUtils.WriteInfoPeriod)
+                    {
+                        writeInfoDT = utcNow;
+                        WriteInfo();
+                        WriteDeviceInfo();
+                    }
+
+                    if (deviceIndex >= deviceCnt)
                     {
                         // line cycle ended
                         if (actualSessionCnt > 0)
@@ -321,10 +353,29 @@ namespace Scada.Comm.Engine
         /// <summary>
         /// Removes, validates and returns the command at the beginning of the queue.
         /// </summary>
-        private bool DequeueCommand(out TeleCommand cmd)
+        private bool DequeueCommand(out TeleCommand cmd, out DeviceWrapper deviceWrapper)
         {
             cmd = null;
+            deviceWrapper = null;
             return false;
+        }
+
+        /// <summary>
+        /// Schedules a priority poll the device.
+        /// </summary>
+        private void PollWithPriority(DeviceWrapper deviceWrapper)
+        {
+
+        }
+
+        /// <summary>
+        /// Selects a device to poll.
+        /// </summary>
+        private DeviceWrapper SelectDevice(ref int deviceIndex)
+        {
+            DeviceWrapper deviceWrapper = devices[deviceIndex];
+            deviceIndex++;
+            return deviceWrapper;
         }
 
         /// <summary>
@@ -431,6 +482,14 @@ namespace Scada.Comm.Engine
                     "Ошибка при записи в файл информации о работе линии связи" :
                     "Error writing communication line information to the file");
             }
+        }
+
+        /// <summary>
+        /// Writes device information to appropriate files.
+        /// </summary>
+        private void WriteDeviceInfo()
+        {
+            devices.ForEach(d => d.WriteInfo());
         }
 
 

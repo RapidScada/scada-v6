@@ -54,10 +54,6 @@ namespace Scada.Comm.Engine
         /// The period of attempts to receive the configuration database.
         /// </summary>
         private static readonly TimeSpan ReceiveBasePeriod = TimeSpan.FromSeconds(10);
-        /// <summary>
-        /// The period of writing application info.
-        /// </summary>
-        private static readonly TimeSpan WriteInfoPeriod = TimeSpan.FromSeconds(1);
 
         private readonly string infoFileName; // the full file name to write application information
 
@@ -234,7 +230,7 @@ namespace Scada.Comm.Engine
                         }
 
                         // write application info
-                        if (utcNow - writeInfoDT >= WriteInfoPeriod)
+                        if (utcNow - writeInfoDT >= ScadaUtils.WriteInfoPeriod)
                         {
                             writeInfoDT = utcNow;
                             WriteInfo();
