@@ -126,10 +126,10 @@ namespace Scada.Log
             }
             else
             {
-                WriteLine(sb.Append(" <")
-                    .Append(CompName).Append("><")
-                    .Append(Username).Append("><")
-                    .Append(MessageTypeNames[(int)messageType]).Append("> ")
+                WriteLine(sb.Append(" [")
+                    .Append(CompName).Append("][")
+                    .Append(Username).Append("][")
+                    .Append(MessageTypeNames[(int)messageType]).Append("] ")
                     .Append(text).ToString());
             }
         }
