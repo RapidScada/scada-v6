@@ -50,7 +50,7 @@ namespace Scada.Comm.Drivers
             LineContext = lineContext ?? throw new ArgumentNullException(nameof(lineContext));
             DeviceConfig = deviceConfig ?? throw new ArgumentNullException(nameof(deviceConfig));
             AppDirs = commContext.AppDirs;
-            Log = lineContext.Log;
+            Log = lineContext.LineConfig.LineOptions.DetailedLog ? lineContext.Log : new LogStub();
             IsBound = lineContext.LineConfig.IsBound && deviceConfig.IsBound;
             DeviceNum = deviceConfig.DeviceNum;
             Title = CommUtils.GetDeviceTitle(DeviceNum, deviceConfig.Name);

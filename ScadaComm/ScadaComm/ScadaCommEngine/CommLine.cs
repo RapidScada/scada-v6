@@ -26,6 +26,7 @@
 using Scada.Comm.Channels;
 using Scada.Comm.Config;
 using Scada.Comm.Drivers;
+using Scada.Data.Const;
 using Scada.Data.Models;
 using Scada.Log;
 using System;
@@ -59,7 +60,9 @@ namespace Scada.Comm.Engine
         private readonly CoreLogic coreLogic;         // the Communicator logic instance
         private readonly string infoFileName;         // the full file name to write communication line information
         private readonly List<DeviceWrapper> devices; // the devices to poll
-        private readonly Queue<TeleCommand> commands; // the command queue
+        private readonly Dictionary<int, DeviceWrapper> deviceMap; // the devices accessed by device number
+        private readonly Queue<TeleCommand> commands;       // the command queue
+        private readonly Queue<DeviceWrapper> priorityPoll; // the priority poll queue
 
         private Thread thread;                     // the working thread of the communication line
         private volatile bool terminated;          // necessary to stop the thread
@@ -78,7 +81,9 @@ namespace Scada.Comm.Engine
             this.coreLogic = coreLogic ?? throw new ArgumentNullException(nameof(coreLogic));
             infoFileName = Path.Combine(coreLogic.AppDirs.LogDir, CommUtils.GetLineLogFileName(CommLineNum, ".txt"));
             devices = new List<DeviceWrapper>();
+            deviceMap = new Dictionary<int, DeviceWrapper>();
             commands = new Queue<TeleCommand>();
+            priorityPoll = new Queue<DeviceWrapper>();
 
             thread = null;
             terminated = false;
@@ -152,6 +157,27 @@ namespace Scada.Comm.Engine
 
 
         /// <summary>
+        /// Adds the device to the communication line.
+        /// </summary>
+        private void AddDevice(DeviceLogic deviceLogic)
+        {
+            if (!deviceMap.ContainsKey(deviceLogic.DeviceNum))
+            {
+                DeviceWrapper deviceWrapper = new DeviceWrapper(deviceLogic, Log)
+                {
+                    InfoFileName = Path.Combine(coreLogic.AppDirs.LogDir,
+                        CommUtils.GetDeviceLogFileName(deviceLogic.DeviceNum, ".txt"))
+                };
+
+                devices.Add(deviceWrapper);
+                deviceMap.Add(deviceLogic.DeviceNum, deviceWrapper);
+
+                if (maxDeviceTitleLength < deviceLogic.Title.Length)
+                    maxDeviceTitleLength = deviceLogic.Title.Length;
+            }
+        }
+
+        /// <summary>
         /// Prepares the communication line for start.
         /// </summary>
         private bool Prepare(out string errMsg)
@@ -160,10 +186,10 @@ namespace Scada.Comm.Engine
             lineStatus = ServiceStatus.Starting;
             SharedData = new ConcurrentDictionary<string, object>();
             WriteInfo();
+            WriteDeviceInfo();
 
             if (devices.Count > 0)
             {
-                WriteDeviceInfo();
                 errMsg = "";
                 return true;
             }
@@ -188,6 +214,13 @@ namespace Scada.Comm.Engine
 
                 if (LineConfig.IsBound && coreLogic.BaseDataSet != null)
                     devices.ForEach(d => d.Bind(coreLogic.BaseDataSet));
+
+                if (!LineConfig.LineOptions.DetailedLog)
+                {
+                    Log.WriteInfo(Locale.IsRussian ?
+                        "Детальный журнал отключен" :
+                        "Detailed log is disabled");
+                }
 
                 lineStatus = ServiceStatus.Normal;
                 LineCycle();
@@ -255,7 +288,7 @@ namespace Scada.Comm.Engine
                     DeviceLogic deviceLogic;
 
                     // commands
-                    while (DequeueCommand(out TeleCommand cmd, out deviceWrapper))
+                    while (DequeueCommand(utcNow, out TeleCommand cmd, out deviceWrapper))
                     {
                         deviceLogic = deviceWrapper.DeviceLogic;
                         channel.BeforeSession(deviceLogic);
@@ -272,8 +305,8 @@ namespace Scada.Comm.Engine
                         {
                             Log.WriteLine();
                             Log.WriteAction(string.Format(Locale.IsRussian ?
-                                "Невозможно отправить команду {0}, т.к. соединение не установлено" :
-                                "Unable to send command to {0} because connection is not established",
+                                "Невозможно отправить команду КП {0}, т.к. соединение не установлено" :
+                                "Unable to send command to the device {0} because connection is not established",
                                 deviceLogic.Title));
                         }
 
@@ -302,8 +335,8 @@ namespace Scada.Comm.Engine
                             {
                                 Log.WriteLine();
                                 Log.WriteAction(string.Format(Locale.IsRussian ?
-                                    "Невозможно выполнить сеанс связи с {0}, т.к. соединение не установлено" :
-                                    "Unable to communicate with {0} because connection is not established",
+                                    "Невозможно выполнить сеанс связи с КП {0}, т.к. соединение не установлено" :
+                                    "Unable to communicate with the device {0} because connection is not established",
                                     deviceLogic.Title));
                             }
                         }
@@ -353,11 +386,58 @@ namespace Scada.Comm.Engine
         /// <summary>
         /// Removes, validates and returns the command at the beginning of the queue.
         /// </summary>
-        private bool DequeueCommand(out TeleCommand cmd, out DeviceWrapper deviceWrapper)
+        private bool DequeueCommand(DateTime utcNow, out TeleCommand cmd, out DeviceWrapper deviceWrapper)
         {
+            bool queueIsNotEmpty = true;
+            bool commandIsValid = false;
             cmd = null;
             deviceWrapper = null;
-            return false;
+
+            while (queueIsNotEmpty && !commandIsValid)
+            {
+                lock (commands)
+                {
+                    queueIsNotEmpty = commands.Count > 0;
+                    cmd = queueIsNotEmpty ? commands.Dequeue() : null;
+                }
+
+                if (cmd != null)
+                {
+                    if (cmd.CmdTypeID != CmdTypeID.Standard)
+                    {
+                        Log.WriteError(Locale.IsRussian ?
+                            "Команда с недопустимым типом {0}, отклонена" :
+                            "Command with invalid type {0} is rejected", cmd.CmdTypeID);
+                    }
+                    else if (utcNow - cmd.CreationTime > ScadaUtils.CommandLifetime)
+                    {
+                        Log.WriteError(Locale.IsRussian ?
+                            "Устаревшая команда для КП {0} отклонена" :
+                            "Outdated command to the device {0} is rejected", cmd.DeviceNum);
+                    }
+                    else if (!deviceMap.TryGetValue(cmd.DeviceNum, out deviceWrapper))
+                    {
+                        Log.WriteError(Locale.IsRussian ?
+                            "Команда с недопустимым КП {0}, отклонена" :
+                            "Command with invalid device {0} is rejected", cmd.DeviceNum);
+                    }
+                    else
+                    {
+                        commandIsValid = true;
+                    }
+                }
+            }
+
+            if (commandIsValid)
+            {
+                return true;
+            }
+            else
+            {
+                cmd = null;
+                deviceWrapper = null;
+                return false;
+            }
         }
 
         /// <summary>
@@ -365,7 +445,25 @@ namespace Scada.Comm.Engine
         /// </summary>
         private void PollWithPriority(DeviceWrapper deviceWrapper)
         {
+            lock (priorityPoll)
+            {
+                // check if the device poll is already enqueued
+                int deviceNum = deviceWrapper.DeviceLogic.DeviceNum;
+                bool deviceFound = false;
 
+                foreach (DeviceWrapper d in priorityPoll)
+                {
+                    if (d.DeviceLogic.DeviceNum == deviceNum)
+                    {
+                        deviceFound = true;
+                        break;
+                    }
+                }
+
+                // enqueue a poll
+                if (!deviceFound)
+                    priorityPoll.Enqueue(deviceWrapper);
+            }
         }
 
         /// <summary>
@@ -373,9 +471,12 @@ namespace Scada.Comm.Engine
         /// </summary>
         private DeviceWrapper SelectDevice(ref int deviceIndex)
         {
-            DeviceWrapper deviceWrapper = devices[deviceIndex];
-            deviceIndex++;
-            return deviceWrapper;
+            lock (priorityPoll)
+            {
+                return priorityPoll.Count > 0 ?
+                    priorityPoll.Dequeue() :
+                    devices[deviceIndex++];
+            }
         }
 
         /// <summary>
@@ -614,15 +715,7 @@ namespace Scada.Comm.Engine
                 if (driverHolder.GetDriver(deviceConfig.Driver, out DriverLogic driverLogic))
                 {
                     DeviceLogic deviceLogic = driverLogic.CreateDevice(commLine, deviceConfig);
-
-                    commLine.devices.Add(new DeviceWrapper(deviceLogic, commLine.Log)
-                    {
-                        InfoFileName = Path.Combine(coreLogic.AppDirs.LogDir, 
-                            CommUtils.GetDeviceLogFileName(deviceLogic.DeviceNum, ".txt"))
-                    });
-
-                    if (commLine.maxDeviceTitleLength < deviceLogic.Title.Length)
-                        commLine.maxDeviceTitleLength = deviceLogic.Title.Length;
+                    commLine.AddDevice(deviceLogic);
                 }
             }
 
