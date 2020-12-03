@@ -24,7 +24,7 @@
  */
 
 using Scada.Comm.Channels;
-using Scada.Comm.Drivers;
+using Scada.Comm.Devices;
 using Scada.Log;
 using System;
 

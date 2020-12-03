@@ -23,7 +23,7 @@
  * Modified : 2020
  */
 
-using Scada.Comm.Drivers;
+using Scada.Comm.Devices;
 using Scada.Data.Models;
 using Scada.Log;
 using System;

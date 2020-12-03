@@ -16,27 +16,44 @@
  * 
  * Product  : Rapid SCADA
  * Module   : ScadaCommCommon
- * Summary  : Represents an output channel prototype
+ * Summary  : Represents a set of device tags
  * 
  * Author   : Mikhail Shiryaev
  * Created  : 2020
  * Modified : 2020
  */
 
-#pragma warning disable 1591 // Missing XML comment for publicly visible type or member
+using System;
+using System.Collections.Generic;
+using System.Text;
 
-using Scada.Data.Entities;
-
-namespace Scada.Comm.Drivers
+namespace Scada.Comm.Devices
 {
     /// <summary>
-    /// Represents an output channel prototype.
-    /// <para>Представляет прототип канала управления.</para>
+    /// Represents a set of device tags.
+    /// <para>Представляет набор тегов КП.</para>
     /// </summary>
-    public class OutCnlPrototype : OutCnl
+    public class DeviceTags
     {
-        public Format Format { get; set; }
+        /// <summary>
+        /// Initializes a new instance of the class.
+        /// </summary>
+        public DeviceTags()
+        {
+            TagGroups = new List<TagGroup>();
+        }
 
-        public string CmdValCode { get; set; }
+        /// <summary>
+        /// Gets the tag groups.
+        /// </summary>
+        public List<TagGroup> TagGroups { get; }
+
+        /// <summary>
+        /// Adds the tag group and calculates the tag indexes.
+        /// </summary>
+        public void AddGroup(TagGroup tagGroup)
+        {
+
+        }
     }
 }

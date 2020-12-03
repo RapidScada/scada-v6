@@ -27,7 +27,7 @@
 
 using Scada.Data.Entities;
 
-namespace Scada.Comm.Drivers
+namespace Scada.Comm.Devices
 {
     /// <summary>
     /// Represents an input channel prototype.

@@ -25,6 +25,7 @@
 
 using Scada.Comm.Channels;
 using Scada.Comm.Config;
+using Scada.Comm.Devices;
 using Scada.Comm.Drivers;
 using Scada.Data.Const;
 using Scada.Data.Models;
@@ -271,7 +272,7 @@ namespace Scada.Comm.Engine
         /// </summary>
         private void LineCycle()
         {
-            int cycleDelay = Math.Min(MinCycleDelay, LineConfig.LineOptions.CycleDelay);
+            int cycleDelay = Math.Max(MinCycleDelay, LineConfig.LineOptions.CycleDelay);
             int deviceCnt = devices.Count;
             int deviceIndex = 0;
             int requiredSessionCnt = 0;

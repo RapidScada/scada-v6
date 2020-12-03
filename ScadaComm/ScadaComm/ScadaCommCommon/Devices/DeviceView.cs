@@ -26,7 +26,7 @@
 using Scada.Comm.Config;
 using System.Collections.Generic;
 
-namespace Scada.Comm.Drivers
+namespace Scada.Comm.Devices
 {
     /// <summary>
     /// Represents the base class for device user interface.

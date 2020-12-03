@@ -25,6 +25,7 @@
 
 using Scada.Comm.Channels;
 using Scada.Comm.Config;
+using Scada.Comm.Devices;
 using Scada.Log;
 using System;
 

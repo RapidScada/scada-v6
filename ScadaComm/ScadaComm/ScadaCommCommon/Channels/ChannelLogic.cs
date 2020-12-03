@@ -24,6 +24,7 @@
  */
 
 using Scada.Comm.Config;
+using Scada.Comm.Devices;
 using Scada.Comm.Drivers;
 using System;
 

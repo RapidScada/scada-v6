@@ -25,11 +25,12 @@
 
 using Scada.Comm.Channels;
 using Scada.Comm.Config;
+using Scada.Comm.Drivers;
 using Scada.Data.Models;
 using Scada.Log;
 using System;
 
-namespace Scada.Comm.Drivers
+namespace Scada.Comm.Devices
 {
     /// <summary>
     /// Represents the base class for device logic.
@@ -63,6 +64,8 @@ namespace Scada.Comm.Drivers
             ConnectionRequired = false;
             LastSessionTime = DateTime.MinValue;
             LastCommandTime = DateTime.MinValue;
+            DeviceTags = new DeviceTags();
+            DeviceData = new DeviceData();
 
             terminated = false;
             connection = null;
@@ -175,6 +178,16 @@ namespace Scada.Comm.Drivers
         /// Gets the time (UTC) of the last device command.
         /// </summary>
         public DateTime LastCommandTime { get; protected set; }
+
+        /// <summary>
+        /// Gets the device tags.
+        /// </summary>
+        public DeviceTags DeviceTags { get; }
+
+        /// <summary>
+        /// Gets the device data.
+        /// </summary>
+        public DeviceData DeviceData { get; }
 
         /// <summary>
         /// Gets the current device status as text.
