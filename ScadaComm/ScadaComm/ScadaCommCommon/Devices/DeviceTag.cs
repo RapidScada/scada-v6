@@ -23,6 +23,8 @@
  * Modified : 2020
  */
 
+using Scada.Data.Entities;
+
 namespace Scada.Comm.Devices
 {
     /// <summary>
@@ -45,11 +47,12 @@ namespace Scada.Comm.Devices
         public DeviceTag(string code, string name)
         {
             Index = -1;
-            TagNum = 0;
             Code = code;
             Name = name;
-            CnlNum = 0;
+            DataType = TagDataType.Double;
             DataLen = 1;
+            Format = null;
+            InCnl = null;
             Aux = null;
         }
 
@@ -60,9 +63,15 @@ namespace Scada.Comm.Devices
         public int Index { get; set; }
 
         /// <summary>
-        /// Gets or sets the tag number.
+        /// Gets the tag number.
         /// </summary>
-        public int TagNum { get; set; }
+        public int TagNum
+        {
+            get
+            {
+                return Index + 1;
+            }
+        }
 
         /// <summary>
         /// Gets or sets the tag code.
@@ -75,14 +84,24 @@ namespace Scada.Comm.Devices
         public string Name { get; set; }
 
         /// <summary>
-        /// Gets or sets the input channel number bound to the tag.
+        /// Gets or sets the tag data type.
         /// </summary>
-        public int CnlNum { get; set; }
+        public TagDataType DataType { get; set; }
 
         /// <summary>
         /// Gets or sets the number of data elements stored in the tag value.
         /// </summary>
         public int DataLen { get; set; }
+
+        /// <summary>
+        /// Gets or sets the display format of the tag.
+        /// </summary>
+        public TagFormat Format { get; set; }
+
+        /// <summary>
+        /// Gets or sets the input channel bound to the tag.
+        /// </summary>
+        public InCnl InCnl { get; set; }
 
         /// <summary>
         /// Gets or sets the auxiliary object that contains data about the device tag.

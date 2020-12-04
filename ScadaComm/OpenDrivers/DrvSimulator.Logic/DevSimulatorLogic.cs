@@ -58,36 +58,8 @@ namespace Scada.Comm.Drivers.DrvSimulator.Logic
             : base(commContext, lineContext, deviceConfig)
         {
             CanSendCommands = true;
-            InitDeviceTags();
         }
 
-
-        /// <summary>
-        /// Initializes the device tags.
-        /// </summary>
-        private void InitDeviceTags()
-        {
-            TagGroup tagGroup = new TagGroup("Inputs");
-            DeviceTags.AddGroup(tagGroup);
-
-            tagGroup = new TagGroup("Outputs");
-            DeviceTags.AddGroup(tagGroup);
-
-            /*List<TagGroup> tagGroups = new List<TagGroup>();
-
-            TagGroup tagGroup = new TagGroup("Inputs");
-            tagGroup.KPTags.Add(new KPTag(1, "Sine"));
-            tagGroup.KPTags.Add(new KPTag(2, "Square"));
-            tagGroup.KPTags.Add(new KPTag(3, "Triangle"));
-            tagGroups.Add(tagGroup);
-
-            tagGroup = new TagGroup("Outputs");
-            tagGroup.KPTags.Add(new KPTag(4, "Relay State"));
-            tagGroup.KPTags.Add(new KPTag(5, "Analog Output"));
-            tagGroups.Add(tagGroup);
-
-            InitKPTags(tagGroups);*/
-        }
 
         /// <summary>
         /// Simulates reading input values.
@@ -104,15 +76,31 @@ namespace Scada.Comm.Drivers.DrvSimulator.Logic
             double y2 = Frac(x / SquarePeriod) <= 0.5 ? 1 : 0;
             double y3 = Frac(x / TrianglePeriod) <= 0.5 ? x % TrianglePeriod : TrianglePeriod - x % TrianglePeriod;
 
-            /*Log.WriteLine(KPTags[0].Name + " = " + y1);
-            Log.WriteLine(KPTags[1].Name + " = " + y2);
-            Log.WriteLine(KPTags[2].Name + " = " + y3);
+            Log.WriteLine(DeviceTags[0].Name + " = " + y1);
+            Log.WriteLine(DeviceTags[1].Name + " = " + y2);
+            Log.WriteLine(DeviceTags[2].Name + " = " + y3);
 
-            SetCurData(0, y1, BaseValues.CnlStatuses.Defined);
-            SetCurData(1, y2, BaseValues.CnlStatuses.Defined);
-            SetCurData(2, y3, BaseValues.CnlStatuses.Defined);*/
+            DeviceData.Set(0, y1);
+            DeviceData.Set(1, y2);
+            DeviceData.Set(2, y3);
         }
 
+        /// <summary>
+        /// Initializes the device tags.
+        /// </summary>
+        public override void InitDeviceTags()
+        {
+            TagGroup tagGroup = new TagGroup("Inputs");
+            tagGroup.AddTag("Sin", "Sine");
+            tagGroup.AddTag("Sqr", "Square").Format = TagFormat.OffOn;
+            tagGroup.AddTag("Tr", "Triangle");
+            DeviceTags.AddGroup(tagGroup);
+
+            tagGroup = new TagGroup("Outputs");
+            tagGroup.AddTag("DO", "Relay State").Format = TagFormat.OffOn;
+            tagGroup.AddTag("AO", "Analog Output");
+            DeviceTags.AddGroup(tagGroup);
+        }
 
         /// <summary>
         /// Performs a communication session.
@@ -122,7 +110,7 @@ namespace Scada.Comm.Drivers.DrvSimulator.Logic
             base.Session();
             SimulateInputs();
             Thread.Sleep(PollingOptions.Delay);
-            //CalcSessStats();
+            FinishSession();
         }
 
         /// <summary>
@@ -130,7 +118,30 @@ namespace Scada.Comm.Drivers.DrvSimulator.Logic
         /// </summary>
         public override void SendCommand(TeleCommand cmd)
         {
+            base.SendCommand(cmd);
 
+            if (cmd.CmdCode == "DO" || cmd.CmdNum == 4)
+            {
+                double relayVal = cmd.CmdVal > 0 ? 1 : 0;
+                Log.WriteLine(Locale.IsRussian ?
+                    "Установить состояние реле в {0}" :
+                    "Set the relay state to {0}", relayVal);
+                DeviceData.Set(3, relayVal);
+            }
+            else if (cmd.CmdCode == "AO" || cmd.CmdNum == 5)
+            {
+                Log.WriteLine(Locale.IsRussian ?
+                    "Установить аналоговый выход в {0}" :
+                    "Set the analog output to {0}", cmd.CmdVal);
+                DeviceData.Set(4, cmd.CmdVal);
+            }
+            else
+            {
+                LastRequestOK = false;
+                Log.WriteLine(CommPhrases.InvalidCommand);
+            }
+
+            FinishCommand();
         }
     }
 }

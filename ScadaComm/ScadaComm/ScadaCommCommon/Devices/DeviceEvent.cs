@@ -16,66 +16,56 @@
  * 
  * Product  : Rapid SCADA
  * Module   : ScadaCommCommon
- * Summary  : Represents a device tag
+ * Summary  : Represents an event created by a device driver
  * 
  * Author   : Mikhail Shiryaev
  * Created  : 2020
  * Modified : 2020
  */
 
-using System.Collections.Generic;
+using Scada.Data.Models;
 
 namespace Scada.Comm.Devices
 {
     /// <summary>
-    /// Represents a group of device tags.
-    /// <para>Представляет группу тегов КП.</para>
+    /// Represents an event created by a device driver.
+    /// <para>Представляет событие, созданное драйвером КП.</para>
     /// </summary>
-    public class TagGroup
+    public class DeviceEvent : Event
     {
         /// <summary>
         /// Initializes a new instance of the class.
         /// </summary>
-        public TagGroup()
-            : this("")
+        public DeviceEvent()
+            : this(null)
         {
         }
 
         /// <summary>
         /// Initializes a new instance of the class.
         /// </summary>
-        public TagGroup(string name)
+        public DeviceEvent(DeviceTag deviceTag)
+            : base()
         {
-            Name = name;
-            Hidden = false;
-            DeviceTags = new List<DeviceTag>();
+            DeviceTag = deviceTag;
+            ArchiveMask = Scada.Data.Models.ArchiveMask.Default;
+            Descr = "";
         }
 
 
         /// <summary>
-        /// Gets or sets the group name.
+        /// Gets or sets the device tag, the event relates.
         /// </summary>
-        public string Name { get; set; }
+        public DeviceTag DeviceTag { get; set; }
 
         /// <summary>
-        /// Gets or sets a value indicating whether the group appears in the device information.
+        /// Gets or sets the mask that identifies the target archives.
         /// </summary>
-        public bool Hidden { get; set; }
+        public int ArchiveMask { get; set; }
 
         /// <summary>
-        /// Gets the device tags.
+        /// Gets or sets the description to display.
         /// </summary>
-        public List<DeviceTag> DeviceTags { get; }
-
-
-        /// <summary>
-        /// Adds a new tag to the group.
-        /// </summary>
-        public DeviceTag AddTag(string code, string name)
-        {
-            DeviceTag deviceTag = new DeviceTag(code, name);
-            DeviceTags.Add(deviceTag);
-            return deviceTag;
-        }
+        public string Descr { get; set; }
     }
 }

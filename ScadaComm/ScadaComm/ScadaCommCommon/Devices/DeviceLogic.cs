@@ -29,6 +29,7 @@ using Scada.Comm.Drivers;
 using Scada.Data.Models;
 using Scada.Log;
 using System;
+using System.Threading;
 
 namespace Scada.Comm.Devices
 {
@@ -52,6 +53,7 @@ namespace Scada.Comm.Devices
             DeviceConfig = deviceConfig ?? throw new ArgumentNullException(nameof(deviceConfig));
             AppDirs = commContext.AppDirs;
             Log = lineContext.LineConfig.LineOptions.DetailedLog ? lineContext.Log : new LogStub();
+            LastRequestOK = false;
             IsBound = lineContext.LineConfig.IsBound && deviceConfig.IsBound;
             DeviceNum = deviceConfig.DeviceNum;
             Title = CommUtils.GetDeviceTitle(DeviceNum, deviceConfig.Name);
@@ -107,6 +109,11 @@ namespace Scada.Comm.Devices
                 return terminated;
             }
         }
+
+        /// <summary>
+        /// Gets or sets a value indicating whether the last request to the device was successful.
+        /// </summary>
+        protected bool LastRequestOK { get; set; }
 
         /// <summary>
         /// Gets a value indicating whether the device is bound to the server.
@@ -204,6 +211,36 @@ namespace Scada.Comm.Devices
 
 
         /// <summary>
+        /// Checks that a request should be attempted.
+        /// </summary>
+        protected bool RequestNeeded(ref int tryNum)
+        {
+            return !LastRequestOK && tryNum < ReqRetries && !IsTerminated;
+        }
+
+        /// <summary>
+        /// Completes a request.
+        /// </summary>
+        protected void FinishRequest()
+        {
+            Thread.Sleep(PollingOptions.Delay);
+        }
+
+        /// <summary>
+        /// Completes a session.
+        /// </summary>
+        protected void FinishSession()
+        {
+        }
+
+        /// <summary>
+        /// Completes a telecontrol command.
+        /// </summary>
+        protected void FinishCommand()
+        {
+        }
+
+        /// <summary>
         /// Performs actions when starting a communication line.
         /// </summary>
         public virtual void OnCommLineStart()
@@ -225,6 +262,29 @@ namespace Scada.Comm.Devices
         }
 
         /// <summary>
+        /// Initializes the device tags.
+        /// </summary>
+        public virtual void InitDeviceTags()
+        {
+        }
+
+        /// <summary>
+        /// Initializes the device data.
+        /// </summary>
+        public virtual void InitDeviceData()
+        {
+            DeviceData.Init(DeviceTags);
+        }
+        
+        /// <summary>
+        /// Sets the current data to undefined.
+        /// </summary>
+        public virtual void InvalidateData()
+        {
+            DeviceData.Invalidate();
+        }
+
+        /// <summary>
         /// Binds the device to the configuration database.
         /// </summary>
         public virtual void Bind(BaseDataSet baseDataSet)
@@ -236,7 +296,8 @@ namespace Scada.Comm.Devices
         /// </summary>
         public virtual void Session()
         {
-
+            LastSessionTime = DateTime.UtcNow;
+            LastRequestOK = true;
         }
 
         /// <summary>
@@ -244,14 +305,8 @@ namespace Scada.Comm.Devices
         /// </summary>
         public virtual void SendCommand(TeleCommand cmd)
         {
-
-        }
-
-        /// <summary>
-        /// Sets the current data to undefined.
-        /// </summary>
-        public virtual void InvalidateData()
-        {
+            LastCommandTime = DateTime.UtcNow;
+            LastRequestOK = true;
         }
 
         /// <summary>

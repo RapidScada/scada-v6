@@ -211,7 +211,13 @@ namespace Scada.Comm.Engine
             try
             {
                 StartChannel();
-                devices.ForEach(d => d.OnCommLineStart());
+
+                foreach (DeviceWrapper deviceWrapper in devices)
+                {
+                    deviceWrapper.OnCommLineStart();
+                    deviceWrapper.InitDeviceTags();
+                    deviceWrapper.InitDeviceData();
+                }
 
                 if (LineConfig.IsBound && coreLogic.BaseDataSet != null)
                     devices.ForEach(d => d.Bind(coreLogic.BaseDataSet));
@@ -421,6 +427,11 @@ namespace Scada.Comm.Engine
                         Log.WriteError(Locale.IsRussian ?
                             "Команда с недопустимым КП {0}, отклонена" :
                             "Command with invalid device {0} is rejected", cmd.DeviceNum);
+                    } else if (!deviceWrapper.DeviceLogic.CanSendCommands)
+                    {
+                        Log.WriteError(Locale.IsRussian ?
+                            "КП {0} не поддерживает отправку команд" :
+                            "The device {0} does not support sending commands");
                     }
                     else
                     {

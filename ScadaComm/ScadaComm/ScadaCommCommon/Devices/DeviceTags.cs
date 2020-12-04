@@ -35,13 +35,20 @@ namespace Scada.Comm.Devices
     /// </summary>
     public class DeviceTags
     {
+        private readonly List<DeviceTag> tags;                    // the list of all device tags
+        private readonly Dictionary<string, DeviceTag> tagByCode; // the device tags accessed by code
+
+
         /// <summary>
         /// Initializes a new instance of the class.
         /// </summary>
         public DeviceTags()
         {
+            tags = new List<DeviceTag>();
+            tagByCode = new Dictionary<string, DeviceTag>();
             TagGroups = new List<TagGroup>();
         }
+
 
         /// <summary>
         /// Gets the tag groups.
@@ -49,11 +56,43 @@ namespace Scada.Comm.Devices
         public List<TagGroup> TagGroups { get; }
 
         /// <summary>
+        /// Gets the device tag at the specified index.
+        /// </summary>
+        public DeviceTag this[int index]
+        {
+            get
+            {
+                return tags[index];
+            }
+        }
+
+        /// <summary>
+        /// Gets the device tag with the specified code.
+        /// </summary>
+        public DeviceTag this[string code]
+        {
+            get
+            {
+                return tagByCode[code];
+            }
+        }
+
+
+        /// <summary>
         /// Adds the tag group and calculates the tag indexes.
         /// </summary>
         public void AddGroup(TagGroup tagGroup)
         {
+            int tagIndex = tags.Count;
 
+            foreach (DeviceTag deviceTag in tagGroup.DeviceTags)
+            {
+                deviceTag.Index = tagIndex++;
+                tags.Add(deviceTag);
+
+                if (!string.IsNullOrEmpty(deviceTag.Code) && !tagByCode.ContainsKey(deviceTag.Code))
+                    tagByCode.Add(deviceTag.Code, deviceTag);
+            }
         }
     }
 }

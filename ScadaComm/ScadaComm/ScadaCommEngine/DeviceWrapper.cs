@@ -94,6 +94,51 @@ namespace Scada.Comm.Engine
         }
 
         /// <summary>
+        /// Calls the InitDeviceTags method of the device.
+        /// </summary>
+        public void InitDeviceTags()
+        {
+            try
+            {
+                DeviceLogic.InitDeviceTags();
+            }
+            catch (Exception ex)
+            {
+                log.WriteException(ex, CommPhrases.ErrorInDevice, nameof(InitDeviceTags), DeviceLogic.Title);
+            }
+        }
+
+        /// <summary>
+        /// Calls the InitDeviceData method of the device.
+        /// </summary>
+        public void InitDeviceData()
+        {
+            try
+            {
+                DeviceLogic.InitDeviceData();
+            }
+            catch (Exception ex)
+            {
+                log.WriteException(ex, CommPhrases.ErrorInDevice, nameof(InitDeviceData), DeviceLogic.Title);
+            }
+        }
+
+        /// <summary>
+        /// Calls the InvalidateData method of the device.
+        /// </summary>
+        public void InvalidateData()
+        {
+            try
+            {
+                DeviceLogic.InvalidateData();
+            }
+            catch (Exception ex)
+            {
+                log.WriteException(ex, CommPhrases.ErrorInDevice, nameof(InvalidateData), DeviceLogic.Title);
+            }
+        }
+
+        /// <summary>
         /// Calls the Bind method of the device.
         /// </summary>
         public void Bind(BaseDataSet baseDataSet)
@@ -136,21 +181,6 @@ namespace Scada.Comm.Engine
             catch (Exception ex)
             {
                 log.WriteException(ex, CommPhrases.ErrorInDevice, nameof(SendCommand), DeviceLogic.Title);
-            }
-        }
-
-        /// <summary>
-        /// Calls the InvalidateData method of the device.
-        /// </summary>
-        public void InvalidateData()
-        {
-            try
-            {
-                DeviceLogic.InvalidateData();
-            }
-            catch (Exception ex)
-            {
-                log.WriteException(ex, CommPhrases.ErrorInDevice, nameof(InvalidateData), DeviceLogic.Title);
             }
         }
 

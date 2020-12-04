@@ -16,66 +16,60 @@
  * 
  * Product  : Rapid SCADA
  * Module   : ScadaCommCommon
- * Summary  : Represents a device tag
+ * Summary  : Represents a slice of archive data created by a device driver
  * 
  * Author   : Mikhail Shiryaev
  * Created  : 2020
  * Modified : 2020
  */
 
-using System.Collections.Generic;
+using Scada.Data.Models;
+using System;
 
 namespace Scada.Comm.Devices
 {
     /// <summary>
-    /// Represents a group of device tags.
-    /// <para>Представляет группу тегов КП.</para>
+    /// Represents a slice of archive data created by a device driver.
+    /// <para>Представляет срез архивных данных, созданный драйвером устройства.</para>
     /// </summary>
-    public class TagGroup
+    public class DeviceSlice
     {
         /// <summary>
         /// Initializes a new instance of the class.
         /// </summary>
-        public TagGroup()
-            : this("")
+        public DeviceSlice(DateTime timestamp, int tagCnt)
         {
-        }
-
-        /// <summary>
-        /// Initializes a new instance of the class.
-        /// </summary>
-        public TagGroup(string name)
-        {
-            Name = name;
-            Hidden = false;
-            DeviceTags = new List<DeviceTag>();
+            Timestamp = timestamp;
+            DeviceTags = new DeviceTag[tagCnt];
+            CnlData = new CnlData[tagCnt];
+            ArchiveMask = Data.Models.ArchiveMask.Default;
+            Descr = "";
         }
 
 
         /// <summary>
-        /// Gets or sets the group name.
+        /// Gets or sets the timestamp.
         /// </summary>
-        public string Name { get; set; }
+        public DateTime Timestamp { get; set; }
 
         /// <summary>
-        /// Gets or sets a value indicating whether the group appears in the device information.
+        /// Gets the device tags whose data is included in the slice.
         /// </summary>
-        public bool Hidden { get; set; }
+        public DeviceTag[] DeviceTags { get; }
 
         /// <summary>
-        /// Gets the device tags.
+        /// Gets the channel data corresponding to the device tags.
         /// </summary>
-        public List<DeviceTag> DeviceTags { get; }
-
+        public CnlData[] CnlData { get; }
 
         /// <summary>
-        /// Adds a new tag to the group.
+        /// Gets or sets the mask that identifies the target archives.
         /// </summary>
-        public DeviceTag AddTag(string code, string name)
-        {
-            DeviceTag deviceTag = new DeviceTag(code, name);
-            DeviceTags.Add(deviceTag);
-            return deviceTag;
-        }
+        public int ArchiveMask { get; set; }
+
+        /// <summary>
+        /// Gets or sets the description to display.
+        /// </summary>
+        public string Descr { get; set; }
     }
 }
