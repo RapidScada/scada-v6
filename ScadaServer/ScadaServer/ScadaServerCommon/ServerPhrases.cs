@@ -78,7 +78,7 @@ namespace Scada.Server
             SaveModuleConfigError = dict.GetPhrase("SaveModuleConfigError");
             ConnectionNotFound = dict.GetPhrase("ConnectionNotFound");
 
-            // set phrases depending on locale, because the service logic supports only 2 languaages
+            // set phrases depending on locale, because the service logic supports only 2 languages
             if (Locale.IsRussian)
             {
                 ArchiveMessage = "Архив {0}: {1}";
