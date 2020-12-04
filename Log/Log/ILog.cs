@@ -66,7 +66,7 @@ namespace Scada.Log
         /// <summary>
         /// Writes the specified line to the log.
         /// </summary>
-        void WriteLine(string text = "");
+        void WriteLine(string text = "", params object[] args);
 
         /// <summary>
         /// Writes a divider to the log.

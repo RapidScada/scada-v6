@@ -78,7 +78,7 @@ namespace Scada.Log
         /// <summary>
         /// Writes the specified line to the log.
         /// </summary>
-        public void WriteLine(string text = "")
+        public void WriteLine(string text = "", params object[] args)
         {
         }
 

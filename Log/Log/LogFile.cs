@@ -188,7 +188,7 @@ namespace Scada.Log
         /// <summary>
         /// Writes the specified line to the log.
         /// </summary>
-        public void WriteLine(string text = "")
+        public void WriteLine(string text = "", params object[] args)
         {
             try
             {
@@ -208,7 +208,7 @@ namespace Scada.Log
                     // write text
                     using (StreamWriter writer = new StreamWriter(FileName, true, Encoding))
                     {
-                        writer.WriteLine(text);
+                        writer.WriteLine(FormatText(text, args));
                         writer.Flush();
                     }
                 }
