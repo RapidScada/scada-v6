@@ -44,6 +44,7 @@ namespace Scada.Comm.Devices
             CnlData = new CnlData[tagCnt];
             ArchiveMask = Data.Models.ArchiveMask.Default;
             Descr = "";
+            DataSentCallback = null;
         }
 
 
@@ -71,5 +72,10 @@ namespace Scada.Comm.Devices
         /// Gets or sets the description to display.
         /// </summary>
         public string Descr { get; set; }
+
+        /// <summary>
+        /// Gets or sets the method that is executed when the slice is successfully sent.
+        /// </summary>
+        public Action<DeviceSlice> DataSentCallback { get; set; }
     }
 }

@@ -24,6 +24,7 @@
  */
 
 using Scada.Data.Models;
+using System;
 
 namespace Scada.Comm.Devices
 {
@@ -50,6 +51,7 @@ namespace Scada.Comm.Devices
             DeviceTag = deviceTag;
             ArchiveMask = Scada.Data.Models.ArchiveMask.Default;
             Descr = "";
+            DataSentCallback = null;
         }
 
 
@@ -67,5 +69,10 @@ namespace Scada.Comm.Devices
         /// Gets or sets the description to display.
         /// </summary>
         public string Descr { get; set; }
+
+        /// <summary>
+        /// Gets or sets the method that is executed when the event is successfully sent.
+        /// </summary>
+        public Action<DeviceEvent> DataSentCallback { get; set; }
     }
 }
