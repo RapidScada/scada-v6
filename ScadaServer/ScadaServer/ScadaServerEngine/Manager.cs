@@ -46,7 +46,7 @@ namespace Scada.Server.Engine
         /// </summary>
         public Manager()
         {
-            log = new LogStub();
+            log = LogStub.Instance;
             coreLogic = null;
             AppDirs = new ServerDirs();
             AppDomain.CurrentDomain.UnhandledException += OnUnhandledException;
