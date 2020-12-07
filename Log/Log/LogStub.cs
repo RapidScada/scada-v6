@@ -34,6 +34,12 @@ namespace Scada.Log
     public class LogStub : ILog
     {
         /// <summary>
+        /// The log stub instance.
+        /// </summary>
+        public static readonly LogStub Instance = new LogStub();
+
+
+        /// <summary>
         /// Writes the message of the specified type to the log.
         /// </summary>
         public void WriteMessage(string text, LogMessageType messageType)
