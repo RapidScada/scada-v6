@@ -5,7 +5,11 @@ VisualStudioVersion = 16.0.30717.126
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "DrvSimulator", "DrvSimulator", "{AC204E06-2ED1-4E19-9B95-5237F44B3454}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DrvSimulator.Logic", "DrvSimulator.Logic\DrvSimulator.Logic.csproj", "{48043839-37E7-40AE-92E2-A31A79204CF5}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DrvSimulator.Logic", "DrvSimulator.Logic\DrvSimulator.Logic.csproj", "{48043839-37E7-40AE-92E2-A31A79204CF5}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "DrvCnlBasic", "DrvCnlBasic", "{7DC12A37-79AF-43ED-AB94-7FE254FA0C46}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DrvCnlBasic.Logic", "DrvCnlBasic.Logic\DrvCnlBasic.Logic.csproj", "{742E7F8C-FF6A-4893-B6A8-D800985F6543}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -17,12 +21,17 @@ Global
 		{48043839-37E7-40AE-92E2-A31A79204CF5}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{48043839-37E7-40AE-92E2-A31A79204CF5}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{48043839-37E7-40AE-92E2-A31A79204CF5}.Release|Any CPU.Build.0 = Release|Any CPU
+		{742E7F8C-FF6A-4893-B6A8-D800985F6543}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{742E7F8C-FF6A-4893-B6A8-D800985F6543}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{742E7F8C-FF6A-4893-B6A8-D800985F6543}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{742E7F8C-FF6A-4893-B6A8-D800985F6543}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
 		{48043839-37E7-40AE-92E2-A31A79204CF5} = {AC204E06-2ED1-4E19-9B95-5237F44B3454}
+		{742E7F8C-FF6A-4893-B6A8-D800985F6543} = {7DC12A37-79AF-43ED-AB94-7FE254FA0C46}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {961AA4C1-5D08-4B24-AE6B-99F3AB1A7AEF}
