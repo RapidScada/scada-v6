@@ -52,7 +52,7 @@ namespace Scada.Comm.Devices
             LineContext = lineContext ?? throw new ArgumentNullException(nameof(lineContext));
             DeviceConfig = deviceConfig ?? throw new ArgumentNullException(nameof(deviceConfig));
             AppDirs = commContext.AppDirs;
-            Log = lineContext.LineConfig.LineOptions.DetailedLog ? lineContext.Log : new LogStub();
+            Log = lineContext.LineConfig.LineOptions.DetailedLog ? lineContext.Log : LogStub.Instance;
             LastRequestOK = false;
             IsBound = lineContext.LineConfig.IsBound && deviceConfig.IsBound;
             DeviceNum = deviceConfig.DeviceNum;

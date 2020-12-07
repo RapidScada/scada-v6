@@ -26,6 +26,7 @@
 using Scada.Comm.Config;
 using Scada.Comm.Devices;
 using Scada.Comm.Drivers;
+using Scada.Log;
 using System;
 
 namespace Scada.Comm.Channels
@@ -44,6 +45,7 @@ namespace Scada.Comm.Channels
         {
             LineContext = lineContext ?? throw new ArgumentNullException(nameof(lineContext));
             ChannelConfig = channelConfig ?? throw new ArgumentNullException(nameof(channelConfig));
+            Log = lineContext.Log;
             Title = channelConfig.TypeName;
         }
 
@@ -57,6 +59,22 @@ namespace Scada.Comm.Channels
         /// Gets the communication channel configuration.
         /// </summary>
         protected ChannelConfig ChannelConfig { get; }
+
+        /// <summary>
+        /// Gets the communication line log.
+        /// </summary>
+        protected ILog Log { get; }
+
+        /// <summary>
+        /// Gets the channel behavior.
+        /// </summary>
+        protected virtual ChannelBehavior Behavior
+        {
+            get
+            {
+                return ChannelBehavior.Master;
+            }
+        }
 
         /// <summary>
         /// Gets the communication channel title.

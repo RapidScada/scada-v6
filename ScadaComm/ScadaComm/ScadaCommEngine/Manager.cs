@@ -46,7 +46,7 @@ namespace Scada.Comm.Engine
         /// </summary>
         public Manager()
         {
-            log = new LogStub();
+            log = LogStub.Instance;
             coreLogic = null;
             AppDirs = new CommDirs();
             AppDomain.CurrentDomain.UnhandledException += OnUnhandledException;
