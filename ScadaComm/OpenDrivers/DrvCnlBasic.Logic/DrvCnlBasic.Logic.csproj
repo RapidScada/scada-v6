@@ -11,6 +11,10 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="System.IO.Ports" Version="5.0.0" />
+  </ItemGroup>
+
+  <ItemGroup>
     <Reference Include="Log">
       <HintPath>..\..\..\Log\Log\bin\Release\netstandard2.0\Log.dll</HintPath>
     </Reference>

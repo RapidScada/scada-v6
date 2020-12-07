@@ -16,7 +16,7 @@
  * 
  * Product  : Rapid SCADA
  * Module   : DrvCnlBasic
- * Summary  : Implements the driver logic
+ * Summary  : Implements serial port channel logic
  * 
  * Author   : Mikhail Shiryaev
  * Created  : 2020
@@ -25,49 +25,51 @@
 
 using Scada.Comm.Channels;
 using Scada.Comm.Config;
-using System;
-using System.Collections.Generic;
-using System.Text;
+using Scada.Comm.Drivers.DrvCnlBasic.Logic.Options;
 
 namespace Scada.Comm.Drivers.DrvCnlBasic.Logic
 {
     /// <summary>
-    /// Implements the driver logic.
-    /// <para>Реализует логику драйвера.</para>
+    /// Implements serial port channel logic.
+    /// <para>Реализует логику канала последовательного порта.</para>
     /// </summary>
-    public class DrvCnlBasicLogic : DriverLogic
+    internal class SerialChannelLogic : ChannelLogic
     {
+        private readonly SerialChannelOptions options; // the channel options
+
+
         /// <summary>
         /// Initializes a new instance of the class.
         /// </summary>
-        public DrvCnlBasicLogic(ICommContext commContext)
-            : base(commContext)
+        public SerialChannelLogic(ILineContext lineContext, ChannelConfig channelConfig)
+            : base(lineContext, channelConfig)
         {
+            options = new SerialChannelOptions(channelConfig.CustomOptions);
         }
 
+
         /// <summary>
-        /// Gets the driver code.
+        /// Gets the channel behavior.
         /// </summary>
-        public override string Code
+        protected override ChannelBehavior Behavior
         {
             get
             {
-                return "DrvCnlBasic";
+                return options.Behavior;
             }
         }
 
+
         /// <summary>
-        /// Creates a new communication channel.
+        /// Opens the serial port.
         /// </summary>
-        public override ChannelLogic CreateChannel(ILineContext lineContext, ChannelConfig channelConfig)
+        protected void OpenSerialPort()
         {
-            switch (channelConfig.TypeName)
-            {
-                case ChannelTypeName.Serial:
-                    return new SerialChannelLogic(lineContext, channelConfig);
-                default:
-                    return null;
-            }
+            Log.WriteLine();
+            /*Log.WriteLine(Locale.IsRussian ?
+                "{0} Открытие последовательного порта {1}" :
+                "{0} Open serial port {1}", CommUtils.GetNowDT(), serialConn.SerialPort.PortName);
+            serialConn.Open();*/
         }
     }
 }
