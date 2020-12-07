@@ -40,6 +40,8 @@ namespace Scada.Data.Entities
 
         public string Name { get; set; }
 
+        public string Code { get; set; }
+
         public bool IsNumber { get; set; }
 
         public bool IsEnum { get; set; }

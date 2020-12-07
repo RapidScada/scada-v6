@@ -58,8 +58,6 @@ namespace Scada.Data.Entities
 
         public int? FormatID { get; set; }
 
-        public int? CmdValID { get; set; }
-
         public bool EventEnabled { get; set; }
     }
 }

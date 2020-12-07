@@ -55,11 +55,6 @@ namespace Scada.Data.Models
         public BaseTable<CmdType> CmdTypeTable { get; protected set; }
 
         /// <summary>
-        /// Gets the command value table.
-        /// </summary>
-        public BaseTable<CmdVal> CmdValTable { get; protected set; }
-
-        /// <summary>
         /// Gets the input channel status table.
         /// </summary>
         public BaseTable<CnlStatus> CnlStatusTable { get; protected set; }
@@ -174,7 +169,6 @@ namespace Scada.Data.Models
             {
                 ArchiveTable = new BaseTable<Archive>("Archive", "ArchiveID", CommonPhrases.ArchiveTable),
                 CmdTypeTable = new BaseTable<CmdType>("CmdType", "CmdTypeID", CommonPhrases.CmdTypeTable),
-                CmdValTable = new BaseTable<CmdVal>("CmdVal", "CmdValID", CommonPhrases.CmdValTable),
                 CnlStatusTable = new BaseTable<CnlStatus>("CnlStatus", "CnlStatusID", CommonPhrases.CnlStatusTable),
                 CnlTypeTable = new BaseTable<CnlType>("CnlType", "CnlTypeID", CommonPhrases.CnlTypeTable),
                 CommLineTable = new BaseTable<CommLine>("CommLine", "CommLineNum", CommonPhrases.CommLineTable),
@@ -225,7 +219,6 @@ namespace Scada.Data.Models
             AddRelation(ObjTable, OutCnlTable, "ObjNum");
             AddRelation(DeviceTable, OutCnlTable, "DeviceNum");
             AddRelation(FormatTable, OutCnlTable, "FormatID");
-            AddRelation(CmdValTable, OutCnlTable, "CmdValID");
 
             // view table
             AddRelation(ViewTypeTable, ViewTable, "ViewTypeID");
