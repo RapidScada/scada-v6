@@ -28,6 +28,7 @@ using Scada.Comm.Devices;
 using Scada.Comm.Drivers;
 using Scada.Log;
 using System;
+using System.Collections.Generic;
 
 namespace Scada.Comm.Channels
 {
@@ -96,9 +97,120 @@ namespace Scada.Comm.Channels
 
 
         /// <summary>
+        /// Checks that all devices on the communication line support the channel behavior.
+        /// </summary>
+        protected void CheckBehaviorSupport()
+        {
+            HashSet<string> deviceTypeNames = new HashSet<string>();
+
+            foreach (DeviceLogic deviceLogic in LineContext.EnumerateDevices())
+            {
+                deviceTypeNames.Add(deviceLogic.GetType().FullName);
+
+                if (!deviceLogic.CheckBehaviorSupport(Behavior))
+                {
+                    throw new ScadaException(Locale.IsRussian ?
+                        "Поведение {0} канала связи не поддерживается КП {1}." :
+                        "{0} behavior of the communication channel is not supprted by the device {1}",
+                        Behavior, deviceLogic.Title);
+                }
+            }
+
+            if (Behavior == ChannelBehavior.Slave && deviceTypeNames.Count > 1)
+            {
+                Log.WriteWarning(Locale.IsRussian ?
+                    "Не рекомендуется использовать КП разных типов на одной линии связи" :
+                    "It is not recommended to use devices of different types on the same communication line");
+            }
+        }
+
+        /// <summary>
+        /// Sets the connection for all devices on the communication line.
+        /// </summary>
+        protected void SetDeviceConnection(Connection conn)
+        {
+            foreach (DeviceLogic deviceLogic in LineContext.EnumerateDevices())
+            {
+                deviceLogic.Connection = conn;
+            }
+        }
+
+        /// <summary>
+        /// Receives an unread incoming request.
+        /// </summary>
+        protected bool ReceiveIncomingRequest(Connection conn, IncomingRequestArgs requestArgs)
+        {
+            DeviceLogic currentDevice = null;
+
+            try
+            {
+                requestArgs.SetToDefault();
+
+                foreach (DeviceLogic deviceLogic in LineContext.EnumerateDevices())
+                {
+                    currentDevice = deviceLogic;
+                    deviceLogic.ReceiveIncomingRequest(conn, requestArgs);
+
+                    if (!requestArgs.NextDevice)
+                        break;
+                }
+
+                return !requestArgs.HasError;
+            }
+            catch (Exception ex)
+            {
+                Log.WriteException(ex, Locale.IsRussian ?
+                    "Ошибка при приёме входящего запроса КП {0}" :
+                    "Error receiving incoming request by the device {0}", 
+                    currentDevice?.Title ?? "null");
+                return false;
+            }
+        }
+
+        /// <summary>
+        /// Processes the incoming request that has already been read.
+        /// </summary>
+        protected bool ProcessIncomingRequest(byte[] buffer, int offset, int count, IncomingRequestArgs requestArgs)
+        {
+            DeviceLogic currentDevice = null;
+
+            try
+            {
+                requestArgs.SetToDefault();
+
+                foreach (DeviceLogic deviceLogic in LineContext.EnumerateDevices())
+                {
+                    currentDevice = deviceLogic;
+                    deviceLogic.ProcessIncomingRequest(buffer, offset, count, requestArgs);
+
+                    if (!requestArgs.NextDevice)
+                        break;
+                }
+
+                return !requestArgs.HasError;
+            }
+            catch (Exception ex)
+            {
+                Log.WriteException(ex, Locale.IsRussian ?
+                    "Ошибка при обработке входящего запроса  КП {0}" :
+                    "Error processing incoming request by the device {0}",
+                    currentDevice?.Title ?? "null");
+                return false;
+            }
+        }
+
+        /// <summary>
+        /// Makes the communication channel ready for operating.
+        /// </summary>
+        /// <remarks>If an exception occurs, the communication line will not be started.</remarks>
+        public virtual void MakeReady()
+        {
+        }
+
+        /// <summary>
         /// Starts the communication channel.
         /// </summary>
-        /// <remarks>In case of an exception, the communication channel is restarted.</remarks>
+        /// <remarks>If an exception occurs, the communication channel is restarted.</remarks>
         public virtual void Start()
         {
         }

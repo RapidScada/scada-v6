@@ -24,11 +24,10 @@
  */
 
 using Scada.Comm.Config;
+using Scada.Comm.Devices;
 using Scada.Data.Models;
 using Scada.Log;
-using System;
 using System.Collections.Generic;
-using System.Text;
 
 namespace Scada.Comm.Drivers
 {
@@ -63,5 +62,10 @@ namespace Scada.Comm.Drivers
         /// Enqueues the telecontrol command.
         /// </summary>
         void EnqueueCommand(TeleCommand cmd);
+
+        /// <summary>
+        /// Returns an enumerable collection of the devices.
+        /// </summary>
+        IEnumerable<DeviceLogic> EnumerateDevices();
     }
 }

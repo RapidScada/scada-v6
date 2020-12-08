@@ -23,9 +23,9 @@
  * Modified : 2020
  */
 
+using Scada.Log;
 using System;
 using System.Collections.Generic;
-using System.Text;
 
 namespace Scada.Comm.Channels
 {
@@ -36,6 +36,47 @@ namespace Scada.Comm.Channels
     public abstract class Connection
     {
         /// <summary>
+        /// The delay for data accumulation in the internal connection buffer, ms.
+        /// </summary>
+        protected const int DataAccumDelay = 10;
+        /// <summary>
+        /// The default timeout for read operations, ms.
+        /// </summary>
+        protected const int DefaultReadTimeout = 5000;
+        /// <summary>
+        /// The default timeout for write operations, ms.
+        /// </summary>
+        protected const int DefaultWriteTimeout = 5000;
+
+
+        /// <summary>
+        /// Initializes a new instance of the class.
+        /// </summary>
+        public Connection(ILog log)
+        {
+            Log = log;
+            ProtocolFormat = ProtocolFormat.Hex;
+            RemoteAddress = "";
+            NewLine = Environment.NewLine;
+        }
+
+
+        /// <summary>
+        /// Gets the communication line log.
+        /// </summary>
+        protected ILog Log { get; }
+
+        /// <summary>
+        /// Gets or sets the format of communication protocol data packets.
+        /// </summary>
+        public ProtocolFormat ProtocolFormat { get; set; }
+        
+        /// <summary>
+        /// Gets or sets the remote address of the connection.
+        /// </summary>
+        public string RemoteAddress { get; set; }
+
+        /// <summary>
         /// Gets a value indicating whether the connection is established.
         /// </summary>
         public virtual bool Connected
@@ -44,6 +85,147 @@ namespace Scada.Comm.Channels
             {
                 return true;
             }
+        }
+
+        /// <summary>
+        /// Gets or sets the end of a line in text mode.
+        /// </summary>
+        public virtual string NewLine { get; set; }
+
+
+        /// <summary>
+        /// Builds a log text about reading data.
+        /// </summary>
+        protected static string BuildReadLogText(byte[] buffer, int offset, int count, int readCnt, ProtocolFormat format)
+        {
+            return $"{CommPhrases.ReceiveNotation} ({readCnt}/{count}): " +
+                ScadaUtils.BytesToString(buffer, offset, readCnt, format == ProtocolFormat.Hex);
+        }
+
+        /// <summary>
+        /// Builds a log text about reading data.
+        /// </summary>
+        protected static string BuildReadLogText(byte[] buffer, int offset, int readCnt, ProtocolFormat format)
+        {
+            return $"{CommPhrases.ReceiveNotation} ({readCnt}): " +
+                ScadaUtils.BytesToString(buffer, offset, readCnt, format == ProtocolFormat.Hex);
+        }
+
+        /// <summary>
+        /// Builds a log text about reading lines.
+        /// </summary>
+        protected static string BuildReadLinesLogText(List<string> lines)
+        {
+            return CommPhrases.ReceiveNotation + ": " + (lines.Count > 0 ? 
+                string.Join(Environment.NewLine, lines) : 
+                (Locale.IsRussian ? "нет данных" : "no data"));
+        }
+
+        /// <summary>
+        /// Builds a log text about writing data.
+        /// </summary>
+        protected static string BuildWriteLogText(byte[] buffer, int offset, int count, ProtocolFormat format)
+        {
+            return $"{CommPhrases.SendNotation} ({count}): " +
+                ScadaUtils.BytesToString(buffer, offset, count, format == ProtocolFormat.Hex);
+        }
+
+        /// <summary>
+        /// Reads data.
+        /// </summary>
+        /// <returns>The number of bytes read.</returns>
+        public abstract int Read(byte[] buffer, int offset, int count, int timeout, 
+            ProtocolFormat format, out string logText);
+
+        /// <summary>
+        /// Reads and logs data.
+        /// </summary>
+        public virtual int Read(byte[] buffer, int offset, int count, int timeout)
+        {
+            int readCnt = Read(buffer, offset, count, timeout, ProtocolFormat, out string logText);
+            Log?.WriteLine(logText);
+            return readCnt;
+        }
+
+        /// <summary>
+        /// Reads data with the stop condition.
+        /// </summary>
+        public abstract int Read(byte[] buffer, int offset, int maxCount, int timeout, BinStopCondition stopCond,
+            out bool stopReceived, ProtocolFormat format, out string logText);
+
+        /// <summary>
+        /// Reads and logs data with the stop condition.
+        /// </summary>
+        public virtual int Read(byte[] buffer, int offset, int maxCount, int timeout, BinStopCondition stopCond,
+            out bool stopReceived)
+        {
+            int readCnt = Read(buffer, offset, maxCount, timeout, stopCond, 
+                out stopReceived, ProtocolFormat, out string logText);
+            Log?.WriteLine(logText);
+            return readCnt;
+        }
+
+        /// <summary>
+        /// Reads lines.
+        /// </summary>
+        public abstract List<string> ReadLines(int timeout, TextStopCondition stopCond, 
+            out bool stopReceived, out string logText);
+
+        /// <summary>
+        /// Reads and logs lines.
+        /// </summary>
+        public virtual List<string> ReadLines(int timeout, TextStopCondition stopCond, out bool stopReceived)
+        {
+            List<string> lines = ReadLines(timeout, stopCond, out stopReceived, out string logText);
+            Log?.WriteLine(logText);
+            return lines;
+        }
+
+        /// <summary>
+        /// Reads one line.
+        /// </summary>
+        public virtual string ReadLine(int timeout, out string logText)
+        {
+            List<string> lines = ReadLines(timeout, TextStopCondition.OneLine, out _, out logText);
+            return lines.Count > 0 ? lines[0] : null;
+        }
+
+        /// <summary>
+        /// Reads and logs one line.
+        /// </summary>
+        public virtual string ReadLine(int timeout)
+        {
+            List<string> lines = ReadLines(timeout, TextStopCondition.OneLine, out _, out string logText);
+            Log?.WriteLine(logText);
+            return lines.Count > 0 ? lines[0] : null;
+        }
+
+        /// <summary>
+        /// Writes the specified data.
+        /// </summary>
+        public abstract void Write(byte[] buffer, int offset, int count, ProtocolFormat format, out string logText);
+
+        /// <summary>
+        /// Writes and logs the specified data.
+        /// </summary>
+        public virtual void Write(byte[] buffer, int offset, int count)
+        {
+            Write(buffer, offset, count, ProtocolFormat, out string logText);
+            Log?.WriteLine(logText);
+        }
+
+        /// <summary>
+        /// Writes the specified line.
+        /// </summary>
+        public abstract void WriteLine(string text, out string logText);
+
+        /// <summary>
+        /// Writes and logs the specified line.
+        /// </summary>
+        public virtual void WriteLine(string text)
+        {
+            WriteLine(text, out string logText);
+            Log?.WriteLine(logText);
         }
     }
 }

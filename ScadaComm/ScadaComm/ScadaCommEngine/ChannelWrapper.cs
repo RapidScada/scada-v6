@@ -65,6 +65,11 @@ namespace Scada.Comm.Engine
                 ChannelLogic.Start();
                 return true;
             }
+            catch (ScadaException ex)
+            {
+                log.WriteError(ex.Message);
+                return false;
+            }
             catch (Exception ex)
             {
                 log.WriteException(ex, CommPhrases.ErrorInChannel, nameof(Start), ChannelLogic.Title);
@@ -81,6 +86,10 @@ namespace Scada.Comm.Engine
             {
                 ChannelLogic.Stop();
             }
+            catch (ScadaException ex)
+            {
+                log.WriteError(ex.Message);
+            }
             catch (Exception ex)
             {
                 log.WriteException(ex, CommPhrases.ErrorInChannel, nameof(Stop), ChannelLogic.Title);
@@ -96,6 +105,10 @@ namespace Scada.Comm.Engine
             {
                 ChannelLogic.BeforeSession(deviceLogic);
             }
+            catch (ScadaException ex)
+            {
+                log.WriteError(ex.Message);
+            }
             catch (Exception ex)
             {
                 log.WriteException(ex, CommPhrases.ErrorInChannel, nameof(BeforeSession), ChannelLogic.Title);
@@ -110,6 +123,10 @@ namespace Scada.Comm.Engine
             try
             {
                 ChannelLogic.AfterSession(deviceLogic);
+            }
+            catch (ScadaException ex)
+            {
+                log.WriteError(ex.Message);
             }
             catch (Exception ex)
             {

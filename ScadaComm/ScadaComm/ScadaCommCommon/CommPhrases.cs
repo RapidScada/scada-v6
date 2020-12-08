@@ -33,13 +33,24 @@ namespace Scada.Comm
     /// </summary>
     public static class CommPhrases
     {
-        // Drivers
+        // Engine
         public static string ErrorInDriver { get; private set; }
         public static string ErrorInChannel { get; private set; }
         public static string ErrorInDevice { get; private set; }
+
+        // Devices
         public static string InvalidCommand { get; private set; }
         public static string Off { get; private set; }
         public static string On { get; private set; }
+
+        // Channels
+        public static string SendNotation { get; private set; }
+        public static string ReceiveNotation { get; private set; }
+        public static string ReadDataError { get; private set; }
+        public static string ReadDataStopCondError { get; private set; }
+        public static string ReadLinesError { get; private set; }
+        public static string WriteDataError { get; private set; }
+        public static string WriteLineError { get; private set; }
 
         public static void Init()
         {
@@ -49,18 +60,36 @@ namespace Scada.Comm
                 ErrorInDriver = "Ошибка при вызове метода {0} драйвера {1}";
                 ErrorInChannel = "Ошибка при вызове метода {0} канала связи {1}";
                 ErrorInDevice = "Ошибка при вызове метода {0} КП {1}";
+
                 InvalidCommand = "Ошибка: недопустимая команда";
                 Off = "Откл";
                 On = "Вкл";
+
+                SendNotation = "Отправка";
+                ReceiveNotation = "Приём";
+                ReadDataError = "Ошибка при считывании данных";
+                ReadDataStopCondError = "Ошибка при считывании данных с условием остановки";
+                ReadLinesError = "Ошибка при считывании строк";
+                WriteDataError = "Ошибка при записи данных";
+                WriteLineError = "Ошибка при записи строки";
             }
             else
             {
                 ErrorInDriver = "Error calling the {0} method of the {1} driver";
                 ErrorInChannel = "Error calling the {0} method of the {1} communication channel";
                 ErrorInDevice = "Error calling the {0} method of the {1} device";
+
                 InvalidCommand = "Error: invalid command";
                 Off = "Off";
                 On = "On";
+
+                SendNotation = "Send";
+                ReceiveNotation = "Receive";
+                ReadDataError = "Error reading data";
+                ReadDataStopCondError = "Error reading data with stop condition";
+                ReadLinesError = "Error reading lines";
+                WriteDataError = "Error writing data";
+                WriteLineError = "Error writing line";
             }
         }
     }

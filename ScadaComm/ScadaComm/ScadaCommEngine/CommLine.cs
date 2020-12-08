@@ -696,6 +696,17 @@ namespace Scada.Comm.Engine
         }
 
         /// <summary>
+        /// Returns an enumerable collection of the devices.
+        /// </summary>
+        public IEnumerable<DeviceLogic> EnumerateDevices()
+        {
+            foreach (DeviceWrapper deviceWrapper in devices)
+            {
+                yield return deviceWrapper.DeviceLogic;
+            }
+        }
+
+        /// <summary>
         /// Creates a communication line, communication channel and devices.
         /// </summary>
         public static CommLine Create(LineConfig lineConfig, CoreLogic coreLogic, DriverHolder driverHolder)
@@ -730,6 +741,9 @@ namespace Scada.Comm.Engine
                     commLine.AddDevice(deviceLogic);
                 }
             }
+
+            // prepare channel after adding devices
+            commLine.channel.ChannelLogic.MakeReady();
 
             return commLine;
         }

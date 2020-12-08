@@ -1,0 +1,305 @@
+﻿/*
+ * Copyright 2020 Mikhail Shiryaev
+ * 
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ * 
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ * 
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ * 
+ * 
+ * Product  : Rapid SCADA
+ * Module   : DrvCnlBasic
+ * Summary  : Implements serial port connection
+ * 
+ * Author   : Mikhail Shiryaev
+ * Created  : 2015
+ * Modified : 2020
+ */
+
+using Scada.Comm.Channels;
+using Scada.Log;
+using System;
+using System.Collections.Generic;
+using System.Diagnostics;
+using System.IO.Ports;
+using System.Threading;
+
+namespace Scada.Comm.Drivers.DrvCnlBasic.Logic
+{
+    /// <summary>
+    /// Implements serial port connection.
+    /// <para>Реализует соединение через последовательный порт.</para>
+    /// </summary>
+    internal class SerialConnection : Connection
+    {
+        /// <summary>
+        /// Port reopening interval.
+        /// </summary>
+        protected static readonly TimeSpan ReopenAfter = TimeSpan.FromSeconds(5);
+
+        protected DateTime openFailDT; // the time of unsuccessful attempt to open port
+
+
+        /// <summary>
+        /// Initializes a new instance of the class.
+        /// </summary>
+        public SerialConnection(ILog log, SerialPort serialPort)
+            : base(log)
+        {
+            openFailDT = DateTime.MinValue;
+
+            SerialPort = serialPort ?? throw new ArgumentNullException(nameof(serialPort));
+            SerialPort.WriteTimeout = DefaultWriteTimeout;
+            WriteError = false;
+        }
+
+
+        /// <summary>
+        /// Gets or sets the end of a line in text mode.
+        /// </summary>
+        public override string NewLine
+        {
+            get
+            {
+                return SerialPort == null ? Environment.NewLine : SerialPort.NewLine;
+            }
+            set
+            {
+                if (SerialPort != null)
+                    SerialPort.NewLine = value;
+            }
+        }
+
+        /// <summary>
+        /// Gets the serial port.
+        /// </summary>
+        public SerialPort SerialPort { get; }
+
+        /// <summary>
+        /// Gets a value indicating whether a port write error has occurred.
+        /// </summary>
+        public bool WriteError { get; protected set; }
+
+
+        /// <summary>
+        /// Opens the connection.
+        /// </summary>
+        public void Open()
+        {
+            WriteError = false;
+
+            if (DateTime.UtcNow - openFailDT >= ReopenAfter)
+            {
+                try
+                {
+                    SerialPort.Open();
+                    openFailDT = DateTime.MinValue;
+                }
+                catch (Exception ex)
+                {
+                    openFailDT = DateTime.UtcNow; // get the time again, because the Open method can take a long time
+                    throw new ScadaException((Locale.IsRussian ?
+                        "Ошибка при открытии последовательного порта: " :
+                        "Error opening serial port: ") + ex.Message, ex);
+                }
+            }
+            else
+            {
+                throw new ScadaException(Locale.IsRussian ?
+                    "Попытка открытия последовательного порта может быть не ранее, чем через {0} с после предыдущей." :
+                    "An attempt to open serial port can not be earlier than {0} seconds after the previous one.",
+                    ReopenAfter);
+            }
+        }
+
+        /// <summary>
+        /// Closes the connection.
+        /// </summary>
+        public void Close()
+        {
+            SerialPort.Close();
+        }
+
+        /// <summary>
+        /// Discards data from the serial driver's receive buffer.
+        /// </summary>
+        public void DiscardInBuffer()
+        {
+            SerialPort.DiscardInBuffer();
+        }
+
+        /// <summary>
+        /// Reads data.
+        /// </summary>
+        public override int Read(byte[] buffer, int offset, int count, int timeout,
+            ProtocolFormat format, out string logText)
+        {
+            try
+            {
+                // this read method avoids ObjectDisposedException when the thread is aborted
+                int readCnt = 0;
+                SerialPort.ReadTimeout = 0;
+                Stopwatch stopwatch = Stopwatch.StartNew();
+
+                while (readCnt < count && stopwatch.ElapsedMilliseconds <= timeout)
+                {
+                    try { readCnt += SerialPort.Read(buffer, offset + readCnt, count - readCnt); }
+                    catch (TimeoutException) { }
+
+                    // accumulate data in the port buffer
+                    if (readCnt < count)
+                        Thread.Sleep(DataAccumDelay);
+                }
+
+                logText = BuildReadLogText(buffer, offset, count, readCnt, format);
+                return readCnt;
+            }
+            catch (Exception ex)
+            {
+                throw new ScadaException(CommPhrases.ReadDataError + ": " + ex.Message, ex);
+            }
+        }
+
+        /// <summary>
+        /// Reads data with the stop condition.
+        /// </summary>
+        public override int Read(byte[] buffer, int offset, int maxCount, int timeout, BinStopCondition stopCond,
+            out bool stopReceived, ProtocolFormat format, out string logText)
+        {
+            try
+            {
+                int readCnt = 0;
+                int curInd = offset;
+                stopReceived = false;
+                SerialPort.ReadTimeout = 0;
+                Stopwatch stopwatch = Stopwatch.StartNew();
+
+                while (readCnt < maxCount && !stopReceived && stopwatch.ElapsedMilliseconds <= timeout)
+                {
+                    bool readOk;
+                    try { readOk = SerialPort.Read(buffer, curInd, 1) > 0; }
+                    catch (TimeoutException) { readOk = false; }
+
+                    if (readOk)
+                    {
+                        stopReceived = stopCond.CheckCondition(buffer, curInd);
+                        curInd++;
+                        readCnt++;
+                    }
+                    else
+                    {
+                        Thread.Sleep(DataAccumDelay);
+                    }
+                }
+
+                logText = BuildReadLogText(buffer, offset, readCnt, format);
+                return readCnt;
+            }
+            catch (Exception ex)
+            {
+                throw new ScadaException(CommPhrases.ReadDataStopCondError + ": " + ex.Message, ex);
+            }
+        }
+
+        /// <summary>
+        /// Reads lines.
+        /// </summary>
+        public override List<string> ReadLines(int timeout, TextStopCondition stopCond,
+            out bool stopReceived, out string logText)
+        {
+            try
+            {
+                List<string> lines = new List<string>();
+                stopReceived = false;
+                SerialPort.ReadTimeout = ScadaUtils.IsRunningOnWin ? 0 : timeout; // TODO: check on Linux
+                Stopwatch stopwatch = Stopwatch.StartNew();
+
+                while (!stopReceived && stopwatch.ElapsedMilliseconds <= timeout)
+                {
+                    string line;
+                    try { line = SerialPort.ReadLine().Trim(); }
+                    catch (TimeoutException) { line = ""; }
+
+                    if (line != "")
+                    {
+                        lines.Add(line);
+                        stopReceived = stopCond.CheckCondition(lines, line);
+                    }
+
+                    if (!stopReceived)
+                        Thread.Sleep(DataAccumDelay);
+                }
+
+                logText = BuildReadLinesLogText(lines);
+                return lines;
+            }
+            catch (Exception ex)
+            {
+                throw new ScadaException(CommPhrases.ReadLinesError + ": " + ex.Message, ex);
+            }
+        }
+
+        /// <summary>
+        /// Writes the specified data.
+        /// </summary>
+        public override void Write(byte[] buffer, int offset, int count, ProtocolFormat format, out string logText)
+        {
+            try
+            {
+                SerialPort.DiscardInBuffer();
+                SerialPort.DiscardOutBuffer();
+
+                try
+                {
+                    SerialPort.Write(buffer, offset, count);
+                    logText = BuildWriteLogText(buffer, offset, count, format);
+                    WriteError = false;
+                }
+                catch (TimeoutException ex)
+                {
+                    logText = CommPhrases.WriteDataError + ": " + ex.Message;
+                }
+            }
+            catch (Exception ex)
+            {
+                WriteError = true;
+                throw new ScadaException(CommPhrases.WriteDataError + ": " + ex.Message, ex);
+            }
+        }
+
+        /// <summary>
+        /// Writes the specified line.
+        /// </summary>
+        public override void WriteLine(string text, out string logText)
+        {
+            try
+            {
+                SerialPort.DiscardInBuffer();
+                SerialPort.DiscardOutBuffer();
+
+                try
+                {
+                    SerialPort.WriteLine(text);
+                    logText = CommPhrases.SendNotation + ": " + text;
+                    WriteError = false;
+                }
+                catch (TimeoutException ex)
+                {
+                    logText = CommPhrases.WriteDataError + ": " + ex.Message;
+                }
+            }
+            catch (Exception ex)
+            {
+                WriteError = true;
+                throw new ScadaException(CommPhrases.WriteLineError + ": " + ex.Message, ex);
+            }
+        }
+    }
+}

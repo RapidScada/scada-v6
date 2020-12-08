@@ -262,6 +262,14 @@ namespace Scada.Comm.Devices
         }
 
         /// <summary>
+        /// Checks that the device supports the specified channel behavior.
+        /// </summary>
+        public virtual bool CheckBehaviorSupport(ChannelBehavior behavior)
+        {
+            return behavior == ChannelBehavior.Master;
+        }
+
+        /// <summary>
         /// Initializes the device tags.
         /// </summary>
         public virtual void InitDeviceTags()
@@ -307,6 +315,23 @@ namespace Scada.Comm.Devices
         {
             LastCommandTime = DateTime.UtcNow;
             LastRequestOK = true;
+        }
+
+        /// <summary>
+        /// Receives an unread incoming request.
+        /// </summary>
+        public virtual void ReceiveIncomingRequest(Connection conn, IncomingRequestArgs requestArgs)
+        {
+
+        }
+
+        /// <summary>
+        /// Processes the incoming request that has already been read.
+        /// </summary>
+        public virtual void ProcessIncomingRequest(byte[] buffer, int offset, int count, 
+            IncomingRequestArgs requestArgs)
+        {
+
         }
 
         /// <summary>

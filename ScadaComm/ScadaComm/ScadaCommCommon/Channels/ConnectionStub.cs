@@ -23,6 +23,8 @@
  * Modified : 2020
  */
 
+using System.Collections.Generic;
+
 namespace Scada.Comm.Channels
 {
     /// <summary>
@@ -35,5 +37,63 @@ namespace Scada.Comm.Channels
         /// The connection stub instance.
         /// </summary>
         public static readonly ConnectionStub Instance = new ConnectionStub();
+
+
+        /// <summary>
+        /// Initializes a new instance of the class.
+        /// </summary>
+        public ConnectionStub()
+            : base(null)
+        {
+        }
+
+
+        /// <summary>
+        /// Reads data.
+        /// </summary>
+        public override int Read(byte[] buffer, int offset, int count, int timeout, 
+            ProtocolFormat format, out string logText)
+        {
+            logText = "";
+            return 0;
+        }
+
+        /// <summary>
+        /// Reads data with the stop condition.
+        /// </summary>
+        public override int Read(byte[] buffer, int offset, int maxCount, int timeout, BinStopCondition stopCond,
+            out bool stopReceived, ProtocolFormat format, out string logText)
+        {
+            stopReceived = false;
+            logText = "";
+            return 0;
+        }
+
+        /// <summary>
+        /// Reads lines.
+        /// </summary>
+        public override List<string> ReadLines(int timeout, TextStopCondition stopCond,
+            out bool stopReceived, out string logText)
+        {
+            stopReceived = false;
+            logText = "";
+            return new List<string>();
+        }
+
+        /// <summary>
+        /// Writes the specified data.
+        /// </summary>
+        public override void Write(byte[] buffer, int offset, int count, ProtocolFormat format, out string logText)
+        {
+            logText = "";
+        }
+
+        /// <summary>
+        /// Writes the specified line.
+        /// </summary>
+        public override void WriteLine(string text, out string logText)
+        {
+            logText = "";
+        }
     }
 }
