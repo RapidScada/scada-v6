@@ -347,5 +347,25 @@ namespace Scada
 
             return crc ^ 0xFFFFFFFF;
         }
+
+        /// <summary>
+        /// Retrieves the hostname and port number from the specified address string.
+        /// </summary>
+        public static void RetrieveHostAndPort(string address, int defaultPort, out string host, out int port)
+        {
+            int ind = address.IndexOf(':');
+
+            if (ind >= 0)
+            {
+                host = address.Substring(0, ind);
+                if (!int.TryParse(address.Substring(ind + 1), out port))
+                    port = defaultPort;
+            }
+            else
+            {
+                host = address;
+                port = defaultPort;
+            }
+        }
     }
 }

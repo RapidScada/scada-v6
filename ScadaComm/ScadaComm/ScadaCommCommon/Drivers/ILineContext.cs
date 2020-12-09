@@ -65,14 +65,14 @@ namespace Scada.Comm.Drivers
         void EnqueueCommand(TeleCommand cmd);
 
         /// <summary>
-        /// Returns an enumerable collection of the devices.
+        /// Selects all devices on the communication line.
         /// </summary>
-        IEnumerable<DeviceLogic> EnumerateDevices();
+        IEnumerable<DeviceLogic> SelectDevices();
 
         /// <summary>
-        /// Returns an enumerable collection of the devices that satisfy the condition.
+        /// Selects devices on the communication line that satisfy the condition.
         /// </summary>
-        IEnumerable<DeviceLogic> EnumerateDevices(Func<DeviceLogic, bool> predicate);
+        IEnumerable<DeviceLogic> SelectDevices(Func<DeviceLogic, bool> predicate);
 
         /// <summary>
         /// Gets the device by numeric address.

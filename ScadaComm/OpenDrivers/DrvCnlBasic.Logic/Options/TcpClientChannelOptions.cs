@@ -16,7 +16,7 @@
  * 
  * Product  : Rapid SCADA
  * Module   : DrvCnlBasic
- * Summary  : Represents UDP channel options
+ * Summary  : Represents TCP client channel options
  * 
  * Author   : Mikhail Shiryaev
  * Created  : 2020
@@ -25,45 +25,48 @@
 
 using Scada.Comm.Channels;
 using Scada.Config;
-using System;
-using System.Collections.Generic;
-using System.Text;
 
 namespace Scada.Comm.Drivers.DrvCnlBasic.Logic.Options
 {
     /// <summary>
-    /// Represents UDP channel options.
-    /// <para>Представляет параметры канала UDP.</para>
+    /// Represents TCP client channel options.
+    /// <para>Представляет параметры канала TCP-клиент.</para>
     /// </summary>
-    public class UdpChannelOptions
+    public class TcpClientChannelOptions
     {
         /// <summary>
         /// Initializes a new instance of the class.
         /// </summary>
-        public UdpChannelOptions(OptionList options)
+        public TcpClientChannelOptions(OptionList options)
         {
-            LocalUdpPort = options.GetValueAsInt("LocalUdpPort", 1);
-            RemoteUdpPort = options.GetValueAsInt("RemoteUdpPort", 1);
-            RemoteIpAddress = options.GetValueAsString("RemoteIpAddress");
+            Host = options.GetValueAsString("Host");
+            TcpPort = options.GetValueAsInt("TcpPort", 502); // Modbus port
+            ReconnectAfter = options.GetValueAsInt("ReconnectAfter", 5);
+            StayConnected = options.GetValueAsBool("StayConnected", true);
             Behavior = options.GetValueAsEnum("Behavior", ChannelBehavior.Master);
-            DeviceMapping = options.GetValueAsEnum("DeviceMapping", DeviceMapping.ByIPAddress);
+            ConnectionMode = options.GetValueAsEnum("ConnectionMode", ConnectionMode.Individual);
         }
 
 
         /// <summary>
-        /// Gets or sets the local UDP port.
+        /// Gets or sets the remote host.
         /// </summary>
-        public int LocalUdpPort { get; set; }
+        public string Host { get; set; }
 
         /// <summary>
-        /// Gets or sets the remote UDP port.
+        /// Gets or sets the default remote TCP port.
         /// </summary>
-        public int RemoteUdpPort { get; set; }
+        public int TcpPort { get; set; }
 
         /// <summary>
-        /// Gets or sets the default remote IP address.
+        /// Gets or sets the reconnect interval in seconds.
         /// </summary>
-        public string RemoteIpAddress { get; set; }
+        public int ReconnectAfter { get; set; }
+
+        /// <summary>
+        /// Gets or sets a value indicating whether to keep a connection open after a session.
+        /// </summary>
+        public bool StayConnected { get; set; }
 
         /// <summary>
         /// Gets or sets the channel behavior.
@@ -71,8 +74,8 @@ namespace Scada.Comm.Drivers.DrvCnlBasic.Logic.Options
         public ChannelBehavior Behavior { get; set; }
 
         /// <summary>
-        /// Gets or sets the device mapping mode.
+        /// Gets or sets the connection mode.
         /// </summary>
-        public DeviceMapping DeviceMapping { get; set; }
+        public ConnectionMode ConnectionMode { get; set; }
     }
 }

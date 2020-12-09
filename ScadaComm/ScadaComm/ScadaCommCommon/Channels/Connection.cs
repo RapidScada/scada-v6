@@ -58,8 +58,8 @@ namespace Scada.Comm.Channels
             Log = log;
             ProtocolFormat = ProtocolFormat.Hex;
             RemoteAddress = "";
-            Encoding = Encoding.ASCII;
             NewLine = Environment.NewLine;
+            Encoding = Encoding.ASCII;
         }
 
 
@@ -79,11 +79,6 @@ namespace Scada.Comm.Channels
         public string RemoteAddress { get; set; }
 
         /// <summary>
-        /// Gets or sets the byte encoding for pre- and post-transmission conversion of text.
-        /// </summary>
-        public Encoding Encoding { get; set; }
-
-        /// <summary>
         /// Gets a value indicating whether the connection is established.
         /// </summary>
         public virtual bool Connected
@@ -93,6 +88,11 @@ namespace Scada.Comm.Channels
                 return true;
             }
         }
+
+        /// <summary>
+        /// Gets or sets the byte encoding for pre- and post-transmission conversion of text.
+        /// </summary>
+        public virtual Encoding Encoding { get; set; }
 
         /// <summary>
         /// Gets or sets the end of a line in text mode.

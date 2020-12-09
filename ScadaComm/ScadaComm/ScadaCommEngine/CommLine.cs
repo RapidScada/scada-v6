@@ -34,6 +34,7 @@ using System;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 using System.Text;
 using System.Threading;
 
@@ -706,29 +707,19 @@ namespace Scada.Comm.Engine
         }
 
         /// <summary>
-        /// Returns an enumerable collection of the devices.
+        /// Selects all devices on the communication line.
         /// </summary>
-        public IEnumerable<DeviceLogic> EnumerateDevices()
+        public IEnumerable<DeviceLogic> SelectDevices()
         {
-            foreach (DeviceWrapper deviceWrapper in devices)
-            {
-                yield return deviceWrapper.DeviceLogic;
-            }
+            return devices.Select(dw => dw.DeviceLogic);
         }
 
         /// <summary>
-        /// Returns an enumerable collection of the devices that satisfy the condition.
+        /// Selects devices on the communication line that satisfy the condition.
         /// </summary>
-        public IEnumerable<DeviceLogic> EnumerateDevices(Func<DeviceLogic, bool> predicate)
+        public IEnumerable<DeviceLogic> SelectDevices(Func<DeviceLogic, bool> predicate)
         {
-            if (predicate == null)
-                throw new ArgumentNullException(nameof(predicate));
-
-            foreach (DeviceWrapper deviceWrapper in devices)
-            {
-                if (predicate(deviceWrapper.DeviceLogic))
-                    yield return deviceWrapper.DeviceLogic;
-            }
+            return devices.Select(dw => dw.DeviceLogic).Where(predicate);
         }
 
         /// <summary>

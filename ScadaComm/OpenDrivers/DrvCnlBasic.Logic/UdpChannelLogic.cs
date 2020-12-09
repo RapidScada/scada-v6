@@ -28,7 +28,6 @@ using Scada.Comm.Config;
 using Scada.Comm.Devices;
 using Scada.Comm.Drivers.DrvCnlBasic.Logic.Options;
 using System;
-using System.Linq;
 using System.Net;
 using System.Net.Sockets;
 
@@ -41,8 +40,10 @@ namespace Scada.Comm.Drivers.DrvCnlBasic.Logic
     public class UdpChannelLogic : ChannelLogic
     {
         protected readonly UdpChannelOptions options; // the channel options
-        protected UdpConnection udpConn;    // the UDP connection
-        protected volatile bool terminated; // necessary to stop receiving data
+
+        protected UdpConnection udpConn;       // the UDP connection
+        protected DeviceDictionary deviceDict; // the devices grouped by string address
+        protected volatile bool terminated;    // necessary to stop receiving data
 
 
         /// <summary>
@@ -52,7 +53,9 @@ namespace Scada.Comm.Drivers.DrvCnlBasic.Logic
             : base(lineContext, channelConfig)
         {
             options = new UdpChannelOptions(channelConfig.CustomOptions);
+
             udpConn = null;
+            deviceDict = null;
             terminated = false;
         }
 
@@ -75,7 +78,7 @@ namespace Scada.Comm.Drivers.DrvCnlBasic.Logic
         {
             get
             {
-                return udpConn == null ? base.StatusText : "UDP";
+                return "UDP";
             }
         }
 
@@ -140,24 +143,24 @@ namespace Scada.Comm.Drivers.DrvCnlBasic.Logic
 
             if (buf != null && !terminated)
             {
-                if (options.Mapping == DeviceMapping.ByIPAddress)
+                if (options.DeviceMapping == DeviceMapping.ByIPAddress)
                 {
-                    if (LineContext.GetDevice(udpConn.RemoteAddress, out DeviceLogic deviceLogic))
+                    if (deviceDict.GetDevices(udpConn.RemoteAddress, out DeviceDictionary.DeviceList devices))
                     {
-                        // process the incoming request for the specified device
-                        ProcessIncomingRequest(deviceLogic, buf, 0, buf.Length, new IncomingRequestArgs());
+                        // process the incoming request for the devices with the specified IP address
+                        ProcessIncomingRequest(devices, buf, 0, buf.Length, new IncomingRequestArgs());
                     }
                     else
                     {
                         Log.WriteError(Locale.IsRussian ?
-                            "Не удалось найти КП по IP-адресу {0}" :
-                            "Unable to find device by IP address {0}", udpConn.RemoteAddress);
+                            "Не удалось найти ни одного КП по IP-адресу {0}" :
+                            "Unable to find any device by IP address {0}", udpConn.RemoteAddress);
                     }
                 }
-                else if (options.Mapping == DeviceMapping.ByDriver)
+                else if (options.DeviceMapping == DeviceMapping.ByDriver)
                 {
                     // process the incoming request for any device
-                    ProcessIncomingRequest(buf, 0, buf.Length, new IncomingRequestArgs());
+                    ProcessIncomingRequest(LineContext.SelectDevices(), buf, 0, buf.Length, new IncomingRequestArgs());
                 }
             }
 
@@ -173,7 +176,7 @@ namespace Scada.Comm.Drivers.DrvCnlBasic.Logic
         {
             CheckBehaviorSupport();
 
-            if (options.Mapping == DeviceMapping.ByFirstPacket)
+            if (options.DeviceMapping == DeviceMapping.ByFirstPacket)
             {
                 throw new ScadaException(Locale.IsRussian ?
                     "Режим сопоставления устройств не поддерживается." :
@@ -197,6 +200,9 @@ namespace Scada.Comm.Drivers.DrvCnlBasic.Logic
 
             if (Behavior == ChannelBehavior.Slave)
             {
+                deviceDict = new DeviceDictionary();
+                deviceDict.AddRange(LineContext.SelectDevices());
+
                 Log.WriteAction(Locale.IsRussian ?
                     "Запуск приёма данных по UDP на порту {0}" :
                     "Start receiving data via UDP on port {0}", options.LocalUdpPort);

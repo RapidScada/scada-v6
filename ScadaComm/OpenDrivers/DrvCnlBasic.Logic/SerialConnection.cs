@@ -29,6 +29,7 @@ using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO.Ports;
+using System.Text;
 using System.Threading;
 
 namespace Scada.Comm.Drivers.DrvCnlBasic.Logic
@@ -40,7 +41,7 @@ namespace Scada.Comm.Drivers.DrvCnlBasic.Logic
     internal class SerialConnection : Connection
     {
         /// <summary>
-        /// Port reopening interval.
+        /// The port reopening interval.
         /// </summary>
         protected static readonly TimeSpan ReopenAfter = TimeSpan.FromSeconds(5);
 
@@ -57,7 +58,6 @@ namespace Scada.Comm.Drivers.DrvCnlBasic.Logic
 
             SerialPort = serialPort ?? throw new ArgumentNullException(nameof(serialPort));
             SerialPort.WriteTimeout = DefaultWriteTimeout;
-            SerialPort.Encoding = Encoding;
             WriteError = false;
         }
 
@@ -99,6 +99,22 @@ namespace Scada.Comm.Drivers.DrvCnlBasic.Logic
             }
         }
 
+        /// <summary>
+        /// Gets or sets the byte encoding for pre- and post-transmission conversion of text.
+        /// </summary>
+        public override Encoding Encoding
+        {
+            get
+            {
+                return SerialPort == null ? Encoding.ASCII : SerialPort.Encoding;
+            }
+            set
+            {
+                if (SerialPort != null)
+                    SerialPort.Encoding = value;
+            }
+        }
+
 
         /// <summary>
         /// Opens the connection.
@@ -116,7 +132,8 @@ namespace Scada.Comm.Drivers.DrvCnlBasic.Logic
                 }
                 catch (Exception ex)
                 {
-                    openFailDT = DateTime.UtcNow; // get the time again, because the Open method can take a long time
+                    // get the time again, because the Open method can take a long time
+                    openFailDT = DateTime.UtcNow;
                     throw new ScadaException((Locale.IsRussian ?
                         "Ошибка при открытии последовательного порта: " :
                         "Error opening serial port: ") + ex.Message, ex);
@@ -136,7 +153,14 @@ namespace Scada.Comm.Drivers.DrvCnlBasic.Logic
         /// </summary>
         public void Close()
         {
-            SerialPort.Close();
+            try
+            {
+                SerialPort.Close();
+            }
+            catch (Exception ex)
+            {
+                Log.WriteException(ex);
+            }
         }
 
         /// <summary>
@@ -144,7 +168,14 @@ namespace Scada.Comm.Drivers.DrvCnlBasic.Logic
         /// </summary>
         public void DiscardInBuffer()
         {
-            SerialPort.DiscardInBuffer();
+            try
+            {
+                SerialPort.DiscardInBuffer();
+            }
+            catch (Exception ex)
+            {
+                Log.WriteException(ex);
+            }
         }
 
         /// <summary>

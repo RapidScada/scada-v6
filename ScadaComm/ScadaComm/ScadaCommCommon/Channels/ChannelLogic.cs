@@ -40,6 +40,16 @@ namespace Scada.Comm.Channels
     public class ChannelLogic
     {
         /// <summary>
+        /// The delay in thread iteration for master, ms.
+        /// </summary>
+        protected const int MasterThreadDelay = 100;
+        /// <summary>
+        /// The delay in thread iteration for slave, ms.
+        /// </summary>
+        protected const int SlaveThreadDelay = 10;
+
+
+        /// <summary>
         /// Initializes a new instance of the class.
         /// </summary>
         public ChannelLogic(ILineContext lineContext, ChannelConfig channelConfig)
@@ -103,7 +113,7 @@ namespace Scada.Comm.Channels
         {
             HashSet<string> deviceTypeNames = new HashSet<string>();
 
-            foreach (DeviceLogic deviceLogic in LineContext.EnumerateDevices())
+            foreach (DeviceLogic deviceLogic in LineContext.SelectDevices())
             {
                 deviceTypeNames.Add(deviceLogic.GetType().FullName);
 
@@ -129,7 +139,7 @@ namespace Scada.Comm.Channels
         /// </summary>
         protected void SetDeviceConnection(Connection conn)
         {
-            foreach (DeviceLogic deviceLogic in LineContext.EnumerateDevices())
+            foreach (DeviceLogic deviceLogic in LineContext.SelectDevices())
             {
                 deviceLogic.Connection = conn;
             }
@@ -138,7 +148,8 @@ namespace Scada.Comm.Channels
         /// <summary>
         /// Receives an unread incoming request for the specified device.
         /// </summary>
-        protected bool ReceiveIncomingRequest(DeviceLogic deviceLogic, Connection conn, IncomingRequestArgs requestArgs)
+        protected bool ReceiveIncomingRequest(DeviceLogic deviceLogic, Connection conn, 
+            IncomingRequestArgs requestArgs)
         {
             try
             {
@@ -155,13 +166,14 @@ namespace Scada.Comm.Channels
         }
 
         /// <summary>
-        /// Receives an unread incoming request for any device.
+        /// Receives an unread incoming request for specified devices.
         /// </summary>
-        protected bool ReceiveIncomingRequest(Connection conn, IncomingRequestArgs requestArgs)
+        protected bool ReceiveIncomingRequest(IEnumerable<DeviceLogic> devices, Connection conn, 
+            IncomingRequestArgs requestArgs)
         {
             requestArgs.SetToDefault();
 
-            foreach (DeviceLogic deviceLogic in LineContext.EnumerateDevices())
+            foreach (DeviceLogic deviceLogic in devices)
             {
                 ReceiveIncomingRequest(deviceLogic, conn, requestArgs);
 
@@ -175,7 +187,7 @@ namespace Scada.Comm.Channels
         /// <summary>
         /// Processes the incoming request just read for the specified device.
         /// </summary>
-        protected bool ProcessIncomingRequest(DeviceLogic deviceLogic, byte[] buffer, int offset, int count, 
+        protected bool ProcessIncomingRequest(DeviceLogic deviceLogic, byte[] buffer, int offset, int count,
             IncomingRequestArgs requestArgs)
         {
             try
@@ -193,13 +205,14 @@ namespace Scada.Comm.Channels
         }
 
         /// <summary>
-        /// Processes the incoming request just read for any device.
+        /// Processes the incoming request just read for specified devices.
         /// </summary>
-        protected bool ProcessIncomingRequest(byte[] buffer, int offset, int count, IncomingRequestArgs requestArgs)
+        protected bool ProcessIncomingRequest(IEnumerable<DeviceLogic> devices, byte[] buffer, int offset, int count,
+            IncomingRequestArgs requestArgs)
         {
             requestArgs.SetToDefault();
 
-            foreach (DeviceLogic deviceLogic in LineContext.EnumerateDevices())
+            foreach (DeviceLogic deviceLogic in devices)
             {
                 ProcessIncomingRequest(deviceLogic, buffer, offset, count, requestArgs);
 

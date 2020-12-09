@@ -89,19 +89,17 @@ namespace Scada.Comm.Drivers.DrvCnlBasic.Logic
         {
             get
             {
-                if (serialConn == null)
+                if (Locale.IsRussian)
                 {
-                    return base.StatusText;
-                }
-                else if (Locale.IsRussian)
-                {
-                    return serialConn.SerialPort.PortName +
-                        (serialConn.SerialPort.IsOpen ? ", открыт" : ", закрыт");
+                    return serialConn == null ?
+                        "Последовательный порт" :
+                        serialConn.SerialPort.PortName + (serialConn.Connected ? ", открыт" : ", закрыт");
                 } 
                 else
                 {
-                    return serialConn.SerialPort.PortName +
-                        (serialConn.SerialPort.IsOpen ? ", open" : ", closed");
+                    return serialConn == null ?
+                        "Serial port" :
+                        serialConn.SerialPort.PortName + (serialConn.Connected ? ", open" : ", closed");
                 }
             }
         }
@@ -154,7 +152,7 @@ namespace Scada.Comm.Drivers.DrvCnlBasic.Logic
 
                     if (prevReadCnt == readCnt && readCnt > 0 || readCnt == SlaveInBufLen)
                     {
-                        if (!ProcessIncomingRequest(buffer, 0, readCnt, requestArgs))
+                        if (!ProcessIncomingRequest(LineContext.SelectDevices(), buffer, 0, readCnt, requestArgs))
                             serialConn.DiscardInBuffer();
                         readCnt = 0;
                     }
@@ -175,19 +173,8 @@ namespace Scada.Comm.Drivers.DrvCnlBasic.Logic
         /// </summary>
         protected void SerialPort_DataReceived(object sender, SerialDataReceivedEventArgs e)
         {
-            if (!ReceiveIncomingRequest(serialConn, requestArgs))
-            {
-                try
-                {
-                    serialConn.DiscardInBuffer();
-                }
-                catch (Exception ex)
-                {
-                    Log.WriteException(ex, Locale.IsRussian ?
-                        "Ошибка при сбросе входного буфера" :
-                        "Error discarding input buffer");
-                }
-            }
+            if (!ReceiveIncomingRequest(LineContext.SelectDevices(), serialConn, requestArgs))
+                serialConn.DiscardInBuffer();
         }
 
 
