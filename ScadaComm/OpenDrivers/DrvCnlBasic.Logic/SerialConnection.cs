@@ -57,9 +57,31 @@ namespace Scada.Comm.Drivers.DrvCnlBasic.Logic
 
             SerialPort = serialPort ?? throw new ArgumentNullException(nameof(serialPort));
             SerialPort.WriteTimeout = DefaultWriteTimeout;
+            SerialPort.Encoding = Encoding;
             WriteError = false;
         }
 
+
+        /// <summary>
+        /// Gets the serial port.
+        /// </summary>
+        public SerialPort SerialPort { get; }
+
+        /// <summary>
+        /// Gets a value indicating whether a port write error has occurred.
+        /// </summary>
+        public bool WriteError { get; protected set; }
+
+        /// <summary>
+        /// Gets a value indicating whether the connection is established.
+        /// </summary>
+        public override bool Connected
+        {
+            get
+            {
+                return SerialPort.IsOpen;
+            }
+        }
 
         /// <summary>
         /// Gets or sets the end of a line in text mode.
@@ -76,16 +98,6 @@ namespace Scada.Comm.Drivers.DrvCnlBasic.Logic
                     SerialPort.NewLine = value;
             }
         }
-
-        /// <summary>
-        /// Gets the serial port.
-        /// </summary>
-        public SerialPort SerialPort { get; }
-
-        /// <summary>
-        /// Gets a value indicating whether a port write error has occurred.
-        /// </summary>
-        public bool WriteError { get; protected set; }
 
 
         /// <summary>
@@ -153,7 +165,7 @@ namespace Scada.Comm.Drivers.DrvCnlBasic.Logic
                     try { readCnt += SerialPort.Read(buffer, offset + readCnt, count - readCnt); }
                     catch (TimeoutException) { }
 
-                    // accumulate data in the port buffer
+                    // accumulate data in the internal port buffer
                     if (readCnt < count)
                         Thread.Sleep(DataAccumDelay);
                 }

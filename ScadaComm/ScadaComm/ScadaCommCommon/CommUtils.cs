@@ -23,6 +23,8 @@
  * Modified : 2020
  */
 
+using System.Text;
+
 namespace Scada.Comm
 {
     /// <summary>
@@ -78,6 +80,30 @@ namespace Scada.Comm
         public static string GetDeviceLogFileName(int deviceNum, string extenstion)
         {
             return "device" + deviceNum.ToString("D3") + extenstion;
+        }
+
+        /// <summary>
+        /// Determines whether the end of the string builder matches the specified string.
+        /// </summary>
+        public static bool EndsWith(this StringBuilder sb, string value)
+        {
+            int sbInd = sb.Length - 1;
+            int valLen = value.Length;
+            int valInd = valLen - 1;
+
+            for (int i = 0; i < valLen; i++)
+            {
+                if (sbInd <= 0)
+                    return false;
+
+                if (sb[sbInd] != value[valInd])
+                    return false;
+
+                sbInd--;
+                valInd--;
+            }
+
+            return true;
         }
     }
 }

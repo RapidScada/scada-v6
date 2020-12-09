@@ -26,6 +26,7 @@
 using Scada.Log;
 using System;
 using System.Collections.Generic;
+using System.Text;
 
 namespace Scada.Comm.Channels
 {
@@ -57,6 +58,7 @@ namespace Scada.Comm.Channels
             Log = log;
             ProtocolFormat = ProtocolFormat.Hex;
             RemoteAddress = "";
+            Encoding = Encoding.ASCII;
             NewLine = Environment.NewLine;
         }
 
@@ -75,6 +77,11 @@ namespace Scada.Comm.Channels
         /// Gets or sets the remote address of the connection.
         /// </summary>
         public string RemoteAddress { get; set; }
+
+        /// <summary>
+        /// Gets or sets the byte encoding for pre- and post-transmission conversion of text.
+        /// </summary>
+        public Encoding Encoding { get; set; }
 
         /// <summary>
         /// Gets a value indicating whether the connection is established.

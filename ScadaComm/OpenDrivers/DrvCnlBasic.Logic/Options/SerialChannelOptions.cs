@@ -33,7 +33,7 @@ namespace Scada.Comm.Drivers.DrvCnlBasic.Logic.Options
     /// Represents options of a serial port channel.
     /// <para>Представляет параметры канала последовательного порта.</para>
     /// </summary>
-    internal class SerialChannelOptions
+    public class SerialChannelOptions
     {
         /// <summary>
         /// Initializes a new instance of the class.
