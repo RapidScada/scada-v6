@@ -136,67 +136,78 @@ namespace Scada.Comm.Channels
         }
 
         /// <summary>
-        /// Receives an unread incoming request.
+        /// Receives an unread incoming request for the specified device.
         /// </summary>
-        protected bool ReceiveIncomingRequest(Connection conn, IncomingRequestArgs requestArgs)
+        protected bool ReceiveIncomingRequest(DeviceLogic deviceLogic, Connection conn, IncomingRequestArgs requestArgs)
         {
-            DeviceLogic currentDevice = null;
-
             try
             {
-                requestArgs.SetToDefault();
-
-                foreach (DeviceLogic deviceLogic in LineContext.EnumerateDevices())
-                {
-                    currentDevice = deviceLogic;
-                    deviceLogic.ReceiveIncomingRequest(conn, requestArgs);
-
-                    if (!requestArgs.NextDevice)
-                        break;
-                }
-
+                deviceLogic.ReceiveIncomingRequest(conn, requestArgs);
                 return !requestArgs.HasError;
             }
             catch (Exception ex)
             {
                 Log.WriteException(ex, Locale.IsRussian ?
                     "Ошибка при приёме входящего запроса КП {0}" :
-                    "Error receiving incoming request by the device {0}", 
-                    currentDevice?.Title ?? "null");
+                    "Error receiving incoming request for the device {0}", deviceLogic.Title);
                 return false;
             }
         }
 
         /// <summary>
-        /// Processes the incoming request that has already been read.
+        /// Receives an unread incoming request for any device.
         /// </summary>
-        protected bool ProcessIncomingRequest(byte[] buffer, int offset, int count, IncomingRequestArgs requestArgs)
+        protected bool ReceiveIncomingRequest(Connection conn, IncomingRequestArgs requestArgs)
         {
-            DeviceLogic currentDevice = null;
+            requestArgs.SetToDefault();
 
+            foreach (DeviceLogic deviceLogic in LineContext.EnumerateDevices())
+            {
+                ReceiveIncomingRequest(deviceLogic, conn, requestArgs);
+
+                if (!requestArgs.NextDevice)
+                    break;
+            }
+
+            return !requestArgs.HasError;
+        }
+
+        /// <summary>
+        /// Processes the incoming request just read for the specified device.
+        /// </summary>
+        protected bool ProcessIncomingRequest(DeviceLogic deviceLogic, byte[] buffer, int offset, int count, 
+            IncomingRequestArgs requestArgs)
+        {
             try
             {
-                requestArgs.SetToDefault();
-
-                foreach (DeviceLogic deviceLogic in LineContext.EnumerateDevices())
-                {
-                    currentDevice = deviceLogic;
-                    deviceLogic.ProcessIncomingRequest(buffer, offset, count, requestArgs);
-
-                    if (!requestArgs.NextDevice)
-                        break;
-                }
-
+                deviceLogic.ProcessIncomingRequest(buffer, offset, count, requestArgs);
                 return !requestArgs.HasError;
             }
             catch (Exception ex)
             {
                 Log.WriteException(ex, Locale.IsRussian ?
-                    "Ошибка при обработке входящего запроса  КП {0}" :
-                    "Error processing incoming request by the device {0}",
-                    currentDevice?.Title ?? "null");
+                    "Ошибка при обработке входящего запроса КП {0}" :
+                    "Error processing incoming request for the device {0}", deviceLogic.Title);
                 return false;
             }
+        }
+
+        /// <summary>
+        /// Processes the incoming request just read for any device.
+        /// </summary>
+        protected bool ProcessIncomingRequest(byte[] buffer, int offset, int count, IncomingRequestArgs requestArgs)
+        {
+            requestArgs.SetToDefault();
+
+            foreach (DeviceLogic deviceLogic in LineContext.EnumerateDevices())
+            {
+                ProcessIncomingRequest(deviceLogic, buffer, offset, count, requestArgs);
+
+                if (!requestArgs.NextDevice)
+                    break;
+            }
+
+            return !requestArgs.HasError;
         }
 
         /// <summary>

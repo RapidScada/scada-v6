@@ -64,6 +64,7 @@ namespace Scada.Comm.Devices
 
             CanSendCommands = false;
             ConnectionRequired = false;
+            DeviceStatus = DeviceStatus.Undefined;
             LastSessionTime = DateTime.MinValue;
             LastCommandTime = DateTime.MinValue;
             DeviceTags = new DeviceTags();
@@ -177,6 +178,11 @@ namespace Scada.Comm.Devices
         }
 
         /// <summary>
+        /// Gets the current device status.
+        /// </summary>
+        public DeviceStatus DeviceStatus { get; protected set; }
+
+        /// <summary>
         /// Gets the time (UTC) of the last device session.
         /// </summary>
         public DateTime LastSessionTime { get; protected set; }
@@ -203,9 +209,7 @@ namespace Scada.Comm.Devices
         {
             get
             {
-                return Locale.IsRussian ?
-                    "Не определён" :
-                    "Undefined";
+                return DeviceStatus.ToString(Locale.IsRussian);
             }
         }
 

@@ -61,7 +61,9 @@ namespace Scada.Comm.Engine
         private readonly CoreLogic coreLogic;         // the Communicator logic instance
         private readonly string infoFileName;         // the full file name to write communication line information
         private readonly List<DeviceWrapper> devices; // the devices to poll
-        private readonly Dictionary<int, DeviceWrapper> deviceMap; // the devices accessed by device number
+        private readonly Dictionary<int, DeviceWrapper> deviceMap;        // the devices accessed by device number
+        private readonly Dictionary<int, DeviceLogic> deviceByNumAddr;    // the devices accessed by numeric address
+        private readonly Dictionary<string, DeviceLogic> deviceByStrAddr; // the devices accessed by string address
         private readonly Queue<TeleCommand> commands;       // the command queue
         private readonly Queue<DeviceWrapper> priorityPoll; // the priority poll queue
 
@@ -83,6 +85,8 @@ namespace Scada.Comm.Engine
             infoFileName = Path.Combine(coreLogic.AppDirs.LogDir, CommUtils.GetLineLogFileName(CommLineNum, ".txt"));
             devices = new List<DeviceWrapper>();
             deviceMap = new Dictionary<int, DeviceWrapper>();
+            deviceByNumAddr = new Dictionary<int, DeviceLogic>();
+            deviceByStrAddr = new Dictionary<string, DeviceLogic>();
             commands = new Queue<TeleCommand>();
             priorityPoll = new Queue<DeviceWrapper>();
 
@@ -172,6 +176,12 @@ namespace Scada.Comm.Engine
 
                 devices.Add(deviceWrapper);
                 deviceMap.Add(deviceLogic.DeviceNum, deviceWrapper);
+
+                if (deviceLogic.NumAddress > 0)
+                    deviceByNumAddr[deviceLogic.NumAddress] = deviceLogic;
+
+                if (!string.IsNullOrEmpty(deviceLogic.StrAddress))
+                    deviceByStrAddr[deviceLogic.StrAddress] = deviceLogic;
 
                 if (maxDeviceTitleLength < deviceLogic.Title.Length)
                     maxDeviceTitleLength = deviceLogic.Title.Length;
@@ -704,6 +714,37 @@ namespace Scada.Comm.Engine
             {
                 yield return deviceWrapper.DeviceLogic;
             }
+        }
+
+        /// <summary>
+        /// Returns an enumerable collection of the devices that satisfy the condition.
+        /// </summary>
+        public IEnumerable<DeviceLogic> EnumerateDevices(Func<DeviceLogic, bool> predicate)
+        {
+            if (predicate == null)
+                throw new ArgumentNullException(nameof(predicate));
+
+            foreach (DeviceWrapper deviceWrapper in devices)
+            {
+                if (predicate(deviceWrapper.DeviceLogic))
+                    yield return deviceWrapper.DeviceLogic;
+            }
+        }
+
+        /// <summary>
+        /// Gets the device by numeric address.
+        /// </summary>
+        public bool GetDevice(int numAddress, out DeviceLogic deviceLogic)
+        {
+            return deviceByNumAddr.TryGetValue(numAddress, out deviceLogic);
+        }
+
+        /// <summary>
+        /// Gets the device by string address.
+        /// </summary>
+        public bool GetDevice(string strAddress, out DeviceLogic deviceLogic)
+        {
+            return deviceByStrAddr.TryGetValue(strAddress, out deviceLogic);
         }
 
         /// <summary>

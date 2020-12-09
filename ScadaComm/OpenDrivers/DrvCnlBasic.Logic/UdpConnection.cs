@@ -106,7 +106,7 @@ namespace Scada.Comm.Drivers.DrvCnlBasic.Logic
         /// <summary>
         /// Creates an endpoint of the remote host.
         /// </summary>
-        protected IPEndPoint CreateIPEndPoint()
+        protected IPEndPoint CreateRemoteEndPoint()
         {
             return new IPEndPoint(IPAddress.Parse(RemoteAddress), RemotePort);
         }
@@ -197,7 +197,7 @@ namespace Scada.Comm.Drivers.DrvCnlBasic.Logic
             try
             {
                 int readCnt = 0;
-                IPEndPoint endPoint = CreateIPEndPoint();
+                IPEndPoint endPoint = CreateRemoteEndPoint();
                 UdpClient.Client.ReceiveTimeout = DatagramReceiveTimeout;
                 Stopwatch stopwatch = Stopwatch.StartNew();
 
@@ -246,7 +246,7 @@ namespace Scada.Comm.Drivers.DrvCnlBasic.Logic
             try
             {
                 int readCnt = 0;
-                IPEndPoint endPoint = CreateIPEndPoint();
+                IPEndPoint endPoint = CreateRemoteEndPoint();
                 stopReceived = false;
                 UdpClient.Client.ReceiveTimeout = DatagramReceiveTimeout;
                 Stopwatch stopwatch = Stopwatch.StartNew();
@@ -304,7 +304,7 @@ namespace Scada.Comm.Drivers.DrvCnlBasic.Logic
             {
                 List<string> lines = new List<string>();
                 stopReceived = false;
-                IPEndPoint endPoint = CreateIPEndPoint();
+                IPEndPoint endPoint = CreateRemoteEndPoint();
                 UdpClient.Client.ReceiveTimeout = DatagramReceiveTimeout;
                 Stopwatch stopwatch = Stopwatch.StartNew();
 

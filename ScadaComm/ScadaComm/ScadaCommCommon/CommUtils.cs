@@ -23,6 +23,7 @@
  * Modified : 2020
  */
 
+using Scada.Comm.Devices;
 using System.Text;
 
 namespace Scada.Comm
@@ -33,6 +34,15 @@ namespace Scada.Comm
     /// </summary>
     public static class CommUtils
     {
+        /// <summary>
+        /// The device status names in English.
+        /// </summary>
+        private static readonly string[] DeviceStatusNamesEn = { "Undefined", "Normal", "Error" };
+        /// <summary>
+        /// The device status names in Russian.
+        /// </summary>
+        private static readonly string[] DeviceStatusNamesRu = { "не определён", "норма", "ошибка" };
+
         /// <summary>
         /// The application version.
         /// </summary>
@@ -80,6 +90,16 @@ namespace Scada.Comm
         public static string GetDeviceLogFileName(int deviceNum, string extenstion)
         {
             return "device" + deviceNum.ToString("D3") + extenstion;
+        }
+
+        /// <summary>
+        /// Converts the device status to a string.
+        /// </summary>
+        public static string ToString(this DeviceStatus deviceStatus, bool isRussian)
+        {
+            return isRussian ?
+                DeviceStatusNamesRu[(int)deviceStatus] :
+                DeviceStatusNamesEn[(int)deviceStatus];
         }
 
         /// <summary>

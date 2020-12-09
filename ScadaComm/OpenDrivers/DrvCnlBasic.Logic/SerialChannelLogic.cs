@@ -245,6 +245,7 @@ namespace Scada.Comm.Drivers.DrvCnlBasic.Logic
 
             serialConn.SerialPort.DataReceived -= SerialPort_DataReceived;
             SetDeviceConnection(null);
+            CloseSerialPort();
         }
 
         /// <summary>

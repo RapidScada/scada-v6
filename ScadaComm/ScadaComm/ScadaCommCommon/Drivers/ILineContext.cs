@@ -27,6 +27,7 @@ using Scada.Comm.Config;
 using Scada.Comm.Devices;
 using Scada.Data.Models;
 using Scada.Log;
+using System;
 using System.Collections.Generic;
 
 namespace Scada.Comm.Drivers
@@ -67,5 +68,20 @@ namespace Scada.Comm.Drivers
         /// Returns an enumerable collection of the devices.
         /// </summary>
         IEnumerable<DeviceLogic> EnumerateDevices();
+
+        /// <summary>
+        /// Returns an enumerable collection of the devices that satisfy the condition.
+        /// </summary>
+        IEnumerable<DeviceLogic> EnumerateDevices(Func<DeviceLogic, bool> predicate);
+
+        /// <summary>
+        /// Gets the device by numeric address.
+        /// </summary>
+        bool GetDevice(int numAddress, out DeviceLogic deviceLogic);
+
+        /// <summary>
+        /// Gets the device by string address.
+        /// </summary>
+        bool GetDevice(string strAddress, out DeviceLogic deviceLogic);
     }
 }
