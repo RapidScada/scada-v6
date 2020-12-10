@@ -85,7 +85,7 @@ namespace Scada
 
                     if (b >= 32)
                     {
-                        sb.Append(Encoding.Default.GetString(bytes, i, 1));
+                        sb.Append(Encoding.ASCII.GetString(bytes, i, 1));
                     }
                     else if (notSkip)
                     {

@@ -322,7 +322,7 @@ namespace Scada.Comm.Devices
         }
 
         /// <summary>
-        /// Receives an unread incoming request.
+        /// Receives an unread incoming request in slave mode.
         /// </summary>
         public virtual void ReceiveIncomingRequest(Connection conn, IncomingRequestArgs requestArgs)
         {
@@ -330,7 +330,7 @@ namespace Scada.Comm.Devices
         }
 
         /// <summary>
-        /// Processes the incoming request that has already been read.
+        /// Processes the incoming request that has already been read in slave mode.
         /// </summary>
         public virtual void ProcessIncomingRequest(byte[] buffer, int offset, int count, 
             IncomingRequestArgs requestArgs)

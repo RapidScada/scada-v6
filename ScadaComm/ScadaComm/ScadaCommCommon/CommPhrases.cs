@@ -51,6 +51,7 @@ namespace Scada.Comm
         public static string ReadLinesError { get; private set; }
         public static string WriteDataError { get; private set; }
         public static string WriteLineError { get; private set; }
+        public static string UnableFindDevice { get; private set; }
 
         public static void Init()
         {
@@ -72,6 +73,7 @@ namespace Scada.Comm
                 ReadLinesError = "Ошибка при считывании строк";
                 WriteDataError = "Ошибка при записи данных";
                 WriteLineError = "Ошибка при записи строки";
+                UnableFindDevice = "Не удалось найти ни одного КП с адресом {0}";
             }
             else
             {
@@ -90,6 +92,7 @@ namespace Scada.Comm
                 ReadLinesError = "Error reading lines";
                 WriteDataError = "Error writing data";
                 WriteLineError = "Error writing line";
+                UnableFindDevice = "Unable to find any device with address {0}";
             }
         }
     }

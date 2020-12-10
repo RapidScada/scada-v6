@@ -57,9 +57,9 @@ namespace Scada.Comm.Drivers.DrvCnlBasic.Logic
         public UdpConnection(ILog log, UdpClient udpClient, int localPort, int remotePort)
             : base(log)
         {
+            InternalInit(udpClient);
             LocalPort = localPort;
             RemotePort = remotePort;
-            InternalInit(udpClient);
         }
 
 
@@ -100,6 +100,7 @@ namespace Scada.Comm.Drivers.DrvCnlBasic.Logic
             bufReadPos = 0;
 
             UdpClient = udpClient ?? throw new ArgumentNullException(nameof(udpClient));
+            UdpClient.Client.ReceiveTimeout = DefaultReadTimeout;
             UdpClient.Client.SendTimeout = DefaultWriteTimeout;
         }
 
@@ -162,21 +163,14 @@ namespace Scada.Comm.Drivers.DrvCnlBasic.Logic
             }
             catch (Exception ex)
             {
-                Log.WriteException(ex);
+                Log.WriteException(ex, Locale.IsRussian ?
+                    "Ошибка при отключении" :
+                    "Error disconnecting");
             }
             finally
             {
                 connected = false;
             }
-        }
-
-        /// <summary>
-        /// Creates a new or repairs the connection.
-        /// </summary>
-        public void Renew()
-        {
-            Close();
-            InternalInit(new UdpClient(LocalPort));
         }
 
         /// <summary>
@@ -186,6 +180,15 @@ namespace Scada.Comm.Drivers.DrvCnlBasic.Logic
         {
             datagramBuf = null;
             bufReadPos = 0;
+        }
+
+        /// <summary>
+        /// Receives a datagram from a remote host asynchronously.
+        /// </summary>
+        public IAsyncResult BeginReceive(Action<IAsyncResult> callback)
+        {
+            UdpClient.Client.ReceiveTimeout = DatagramReceiveTimeout;
+            return UdpClient.BeginReceive(new AsyncCallback(callback), null);
         }
 
         /// <summary>
@@ -211,7 +214,7 @@ namespace Scada.Comm.Drivers.DrvCnlBasic.Logic
                     {
                         int requiredCnt = count - readCnt; // left to read
                         int copyCnt = Math.Min(datagram.Length - readPos, requiredCnt);
-                        Array.Copy(datagram, readPos, buffer, readCnt + offset, copyCnt);
+                        Buffer.BlockCopy(datagram, readPos, buffer, readCnt + offset, copyCnt);
                         readCnt += copyCnt;
                         readPos += copyCnt;
                     }
@@ -273,7 +276,7 @@ namespace Scada.Comm.Drivers.DrvCnlBasic.Logic
                         // copy received data to the buffer
                         int requiredCnt = stopReceived ? stopCodeInd - readCnt + 1 : maxCount - readCnt;
                         int copyCnt = Math.Min(datagram.Length - readPos, requiredCnt);
-                        Array.Copy(datagram, readPos, buffer, readCnt + offset, copyCnt);
+                        Buffer.BlockCopy(datagram, readPos, buffer, readCnt + offset, copyCnt);
                         readCnt += copyCnt;
                         readPos += copyCnt;
                     }

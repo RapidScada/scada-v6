@@ -49,6 +49,18 @@ namespace Scada.Comm.Channels
 
 
         /// <summary>
+        /// Gets a value indicating whether the connection is established.
+        /// </summary>
+        public override bool Connected
+        {
+            get
+            {
+                return false;
+            }
+        }
+
+
+        /// <summary>
         /// Reads data.
         /// </summary>
         public override int Read(byte[] buffer, int offset, int count, int timeout, 

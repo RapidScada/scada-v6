@@ -39,7 +39,7 @@ namespace Scada.Comm.Channels
         /// <summary>
         /// A device sends an identification packet before communication.
         /// </summary>
-        ByFirstPacket,
+        ByHelloPacket,
 
         /// <summary>
         /// A device is identified by a driver as a result of parsing a data packet.

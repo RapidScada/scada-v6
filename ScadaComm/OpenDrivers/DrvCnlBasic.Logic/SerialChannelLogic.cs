@@ -40,16 +40,12 @@ namespace Scada.Comm.Drivers.DrvCnlBasic.Logic
     internal class SerialChannelLogic : ChannelLogic
     {
         /// <summary>
-        /// The length of the input buffer in slave mode, 10 kB.
-        /// </summary>
-        protected const int SlaveInBufLen = 10240;
-        /// <summary>
         /// The maximum time allowed to elapse before the arrival of the next byte, ms.
         /// </summary>
         protected const int ReadIntervalTimeout = 100;
 
         protected readonly SerialChannelOptions options;    // the channel options
-        protected readonly IncomingRequestArgs requestArgs; // the incoming request data
+        protected readonly IncomingRequestArgs requestArgs; // the incoming request arguments
 
         protected SerialConnection serialConn; // the serial connection
         protected Thread thread;               // the thread for receiving data in slave mode
@@ -135,35 +131,27 @@ namespace Scada.Comm.Drivers.DrvCnlBasic.Logic
         /// <remarks>This method works in a separate thread. It is used on Linux.</remarks>
         protected void ListenSerialPort()
         {
-            byte[] buffer = new byte[SlaveInBufLen];
-            int readCnt = 0;
-            int prevReadCnt = 0;
-
             while (!terminated)
             {
                 try
                 {
-                    serialConn.SerialPort.ReadTimeout = 0;
-
-                    try { readCnt += serialConn.SerialPort.Read(buffer, readCnt, SlaveInBufLen - readCnt); }
-                    catch (TimeoutException) { }
-
-                    Thread.Sleep(ReadIntervalTimeout);
-
-                    if (prevReadCnt == readCnt && readCnt > 0 || readCnt == SlaveInBufLen)
+                    lock (serialConn)
                     {
-                        if (!ProcessIncomingRequest(LineContext.SelectDevices(), buffer, 0, readCnt, requestArgs))
+                        if (serialConn.Connected && serialConn.SerialPort.BytesToRead > 0 &&
+                            !ReceiveIncomingRequest(LineContext.SelectDevices(), serialConn, requestArgs))
+                        {
                             serialConn.DiscardInBuffer();
-                        readCnt = 0;
+                        }
                     }
 
-                    prevReadCnt = readCnt;
+                    Thread.Sleep(SlaveThreadDelay);
                 }
                 catch (Exception ex)
                 {
                     Log.WriteException(ex, Locale.IsRussian ?
                         "Ошибка при прослушивании последовательного порта" :
                         "Error listening to the serial port");
+                    Thread.Sleep(ScadaUtils.ThreadDelay);
                 }
             }
         }
@@ -173,8 +161,11 @@ namespace Scada.Comm.Drivers.DrvCnlBasic.Logic
         /// </summary>
         protected void SerialPort_DataReceived(object sender, SerialDataReceivedEventArgs e)
         {
-            if (!ReceiveIncomingRequest(LineContext.SelectDevices(), serialConn, requestArgs))
-                serialConn.DiscardInBuffer();
+            lock (serialConn)
+            {
+                if (!ReceiveIncomingRequest(LineContext.SelectDevices(), serialConn, requestArgs))
+                    serialConn.DiscardInBuffer();
+            }
         }
 
 
@@ -240,8 +231,10 @@ namespace Scada.Comm.Drivers.DrvCnlBasic.Logic
         /// </summary>
         public override void BeforeSession(DeviceLogic deviceLogic)
         {
-            // open the port if it is closed
-            if (serialConn != null && !serialConn.Connected)
+            if (Behavior == ChannelBehavior.Slave)
+                Monitor.Enter(serialConn.SyncRoot);
+
+            if (!serialConn.Connected)
                 OpenSerialPort();
         }
 
@@ -250,9 +243,11 @@ namespace Scada.Comm.Drivers.DrvCnlBasic.Logic
         /// </summary>
         public override void AfterSession(DeviceLogic deviceLogic)
         {
-            // close the port in case of write error
-            if (serialConn != null && serialConn.Connected && serialConn.WriteError)
+            if (serialConn.Connected && serialConn.WriteError)
                 CloseSerialPort();
+
+            if (Behavior == ChannelBehavior.Slave)
+                Monitor.Exit(serialConn.SyncRoot);
         }
     }
 }

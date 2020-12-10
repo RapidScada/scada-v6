@@ -235,12 +235,13 @@ namespace Scada.Comm.Engine
                             writeInfoDT = utcNow;
                             WriteInfo();
                         }
-
-                        Thread.Sleep(ScadaUtils.ThreadDelay);
                     }
                     catch (Exception ex)
                     {
                         Log.WriteException(ex, CommonPhrases.LogicCycleError);
+                    }
+                    finally
+                    {
                         Thread.Sleep(ScadaUtils.ThreadDelay);
                     }
                 }

@@ -52,8 +52,7 @@ namespace Scada.Comm.Drivers.DrvCnlBasic.Logic
         /// </summary>
         protected const int MaxLineLength = 1024;
 
-        protected DateTime connFailDT;       // the time of unsuccessful attempt to connect
-        protected List<DeviceLogic> devices; // the devices bound to the connection
+        protected DateTime connFailDT; // the time of unsuccessful attempt to connect
 
 
         /// <summary>
@@ -63,9 +62,12 @@ namespace Scada.Comm.Drivers.DrvCnlBasic.Logic
             : base(log)
         {
             connFailDT = DateTime.MinValue;
-            devices = new List<DeviceLogic>();
-            ReconnectAfter = 0;
+
             InternalInit(tcpClient);
+            ReconnectAfter = 0;
+            JustConnected = true;
+            CloseMark = false;
+            BoundDevices = new List<DeviceLogic>();
         }
 
 
@@ -85,35 +87,29 @@ namespace Scada.Comm.Drivers.DrvCnlBasic.Logic
         public int RemotePort { get; protected set; }
 
         /// <summary>
-        /// Gets or sets the reconnect interval in seconds.
-        /// </summary>
-        public int ReconnectAfter { get; set; }
-
-        /// <summary>
         /// Gets the time of the last activity (UTC).
         /// </summary>
         public DateTime ActivityTime { get; protected set; }
 
         /// <summary>
+        /// Gets or sets the reconnect interval in seconds.
+        /// </summary>
+        public int ReconnectAfter { get; set; }
+
+        /// <summary>
         /// Gets or sets a value indicating whether the connection has just been established and no data has been exchanged.
         /// </summary>
-        public bool JustConnected { get; set; }
+        public bool JustConnected { get; protected set; }
 
         /// <summary>
-        /// Gets or sets a value indicating whether the connection is broken and should be closed.
+        /// Gets or sets a value indicating whether the connection should be closed.
         /// </summary>
-        public bool Broken { get; set; }
+        public bool CloseMark { get; set; }
 
         /// <summary>
-        /// Gets the bound devices.
+        /// Gets the devices bound to the connection.
         /// </summary>
-        public IEnumerable<DeviceLogic> BoundDevices
-        {
-            get
-            {
-                return devices;
-            }
-        }
+        public List<DeviceLogic> BoundDevices { get; }
 
         /// <summary>
         /// Gets a value indicating whether the connection is established.
@@ -135,9 +131,7 @@ namespace Scada.Comm.Drivers.DrvCnlBasic.Logic
             TcpClient = tcpClient ?? throw new ArgumentNullException(nameof(tcpClient));
             TakeNetStream();
             TakeRemoteAddress();
-            ActivityTime = DateTime.Now;
-            JustConnected = true;
-            Broken = false;
+            ActivityTime = DateTime.UtcNow;
         }
 
         /// <summary>
@@ -148,8 +142,8 @@ namespace Scada.Comm.Drivers.DrvCnlBasic.Logic
             if (TcpClient.Connected)
             {
                 NetStream = TcpClient.GetStream();
-                NetStream.WriteTimeout = DefaultWriteTimeout;
                 NetStream.ReadTimeout = DefaultReadTimeout;
+                NetStream.WriteTimeout = DefaultWriteTimeout;
             }
             else
             {
@@ -181,6 +175,7 @@ namespace Scada.Comm.Drivers.DrvCnlBasic.Logic
         protected void UpdateActivityTime()
         {
             ActivityTime = DateTime.UtcNow;
+            JustConnected = false;
         }
 
 
@@ -225,12 +220,9 @@ namespace Scada.Comm.Drivers.DrvCnlBasic.Logic
         /// </summary>
         public void Close()
         {
-            lock (devices)
+            foreach (DeviceLogic deviceLogic in BoundDevices)
             {
-                foreach (DeviceLogic deviceLogic in devices)
-                {
-                    deviceLogic.Connection = null;
-                }
+                deviceLogic.Connection = null;
             }
 
             Disconnect();
@@ -248,7 +240,9 @@ namespace Scada.Comm.Drivers.DrvCnlBasic.Logic
             }
             catch (Exception ex)
             {
-                Log.WriteException(ex);
+                Log.WriteException(ex, Locale.IsRussian ?
+                    "Ошибка при отключении" :
+                    "Error disconnecting");
             }
         }
 
@@ -264,11 +258,12 @@ namespace Scada.Comm.Drivers.DrvCnlBasic.Logic
         /// <summary>
         /// Reads the currently available data.
         /// </summary>
-        public int ReadAvailable(byte[] buffer, int offset, ProtocolFormat format, out string logText)
+        public int ReadAvailable(byte[] buffer, int offset, int maxCount, ProtocolFormat format, out string logText)
         {
             try
             {
-                int count = Math.Min(TcpClient.Available, buffer.Length - offset);
+                int count = Math.Min(TcpClient.Available, maxCount);
+                NetStream.ReadTimeout = DefaultReadTimeout;
                 int readCnt = NetStream.DataAvailable ? NetStream.Read(buffer, offset, count) : 0;
                 logText = BuildReadLogText(buffer, offset, count, readCnt, format);
 
@@ -310,21 +305,8 @@ namespace Scada.Comm.Drivers.DrvCnlBasic.Logic
         {
             if (deviceLogic != null)
             {
-                lock (devices)
-                {
-                    devices.Add(deviceLogic);
-                }
-            }
-        }
-
-        /// <summary>
-        /// Clears the bound devices.
-        /// </summary>
-        public void ClearBoundDevices()
-        {
-            lock (devices)
-            {
-                devices.Clear();
+                deviceLogic.Connection = this;
+                BoundDevices.Add(deviceLogic);
             }
         }
 

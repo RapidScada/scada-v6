@@ -36,9 +36,9 @@ namespace Scada.Comm.Channels
     public class DeviceDictionary
     {
         /// <summary>
-        /// Represents a list of device logic instances.
+        /// Represents a group of devics with the same string address.
         /// </summary>
-        public class DeviceList : List<DeviceLogic>
+        public class DeviceGroup : List<DeviceLogic>
         {
         }
 
@@ -48,14 +48,14 @@ namespace Scada.Comm.Channels
         /// </summary>
         public DeviceDictionary()
         {
-            DeviceMap = new Dictionary<string, DeviceList>();
+            DeviceGroups = new Dictionary<string, DeviceGroup>();
         }
 
 
         /// <summary>
-        /// Gets the devices accessed by string address.
+        /// Gets the device groups accessed by string address.
         /// </summary>
-        public Dictionary<string, DeviceList> DeviceMap { get; }
+        public Dictionary<string, DeviceGroup> DeviceGroups { get; }
 
 
         /// <summary>
@@ -70,10 +70,10 @@ namespace Scada.Comm.Channels
             {
                 if (!string.IsNullOrEmpty(deviceLogic.StrAddress))
                 {
-                    if (!DeviceMap.TryGetValue(deviceLogic.StrAddress, out DeviceList deviceList))
+                    if (!DeviceGroups.TryGetValue(deviceLogic.StrAddress, out DeviceGroup deviceList))
                     {
-                        deviceList = new DeviceList();
-                        DeviceMap.Add(deviceLogic.StrAddress, deviceList);
+                        deviceList = new DeviceGroup();
+                        DeviceGroups.Add(deviceLogic.StrAddress, deviceList);
                     }
 
                     deviceList.Add(deviceLogic);
@@ -82,11 +82,22 @@ namespace Scada.Comm.Channels
         }
 
         /// <summary>
-        /// Gets the devices with the specified string address.
+        /// Gets the device group with the specified string address.
         /// </summary>
-        public bool GetDevices(string strAddress, out DeviceList devices)
+        public bool GetDeviceGroup(string strAddress, out DeviceGroup deviceGroup)
         {
-            return DeviceMap.TryGetValue(strAddress, out devices);
+            return DeviceGroups.TryGetValue(strAddress, out deviceGroup);
+        }
+
+        /// <summary>
+        /// Selects the device groups.
+        /// </summary>
+        public IEnumerable<DeviceGroup> SelectDeviceGroups()
+        {
+            foreach (DeviceGroup deviceGroup in DeviceGroups.Values)
+            {
+                yield return deviceGroup;
+            }
         }
     }
 }

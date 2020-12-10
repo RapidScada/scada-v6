@@ -41,16 +41,11 @@ namespace Scada.Comm.Drivers.DrvCnlBasic.Logic
     /// </summary>
     public class TcpClientChannel : ChannelLogic
     {
-        /// <summary>
-        /// The length of the input buffer in slave mode, 10 kB.
-        /// </summary>
-        protected const int SlaveInBufLen = 10240;
-
         protected readonly TcpClientChannelOptions options; // the channel options
-        protected readonly DeviceDictionary deviceDict;     // the devices grouped by string address
 
         protected List<TcpConnection> indivConnList; // the individual connections
         protected TcpConnection sharedConn;          // the shared connection
+        protected TcpConnection currentConn;         // the connection used for the current session
         protected Thread thread;                     // the thread for receiving data in slave mode
         protected volatile bool terminated;          // necessary to stop the thread
 
@@ -62,10 +57,10 @@ namespace Scada.Comm.Drivers.DrvCnlBasic.Logic
             : base(lineContext, channelConfig)
         {
             options = new TcpClientChannelOptions(channelConfig.CustomOptions);
-            deviceDict = new DeviceDictionary();
 
             indivConnList = null;
             sharedConn = null;
+            currentConn = null;
             thread = null;
             terminated = false;
         }
@@ -110,31 +105,34 @@ namespace Scada.Comm.Drivers.DrvCnlBasic.Logic
         /// </summary>
         protected void ListenIndividualConn()
         {
-            try
-            {
-                IncomingRequestArgs requestArgs = new IncomingRequestArgs();
-                byte[] buffer = new byte[SlaveInBufLen];
+            IncomingRequestArgs requestArgs = new IncomingRequestArgs();
+            byte[] buffer = new byte[InBufferLenght];
 
-                while (!terminated)
+            while (!terminated)
+            {
+                try
                 {
                     foreach (TcpConnection conn in indivConnList)
                     {
-                        if (sharedConn.TcpClient.Available > 0 &&
-                            !ReceiveIncomingRequest(conn.BoundDevices, conn, requestArgs))
+                        lock (conn)
                         {
-                            sharedConn.ClearNetStream(buffer);
+                            if (conn.Connected && conn.TcpClient.Available > 0 &&
+                                !ReceiveIncomingRequest(conn.BoundDevices, conn, requestArgs))
+                            {
+                                sharedConn.ClearNetStream(buffer);
+                            }
                         }
                     }
 
                     Thread.Sleep(SlaveThreadDelay);
                 }
-            }
-            catch (Exception ex)
-            {
-                // this exception should never happen
-                Log.WriteException(ex, Locale.IsRussian ?
-                    "Неустранимая ошибка при приёме данных через индивидуальное соединение." :
-                    "Fatal error while receiving data over an individual connection.");
+                catch (Exception ex)
+                {
+                    Log.WriteException(ex, Locale.IsRussian ?
+                        "Ошибка при приёме данных через индивидуальное соединение" :
+                        "Error receiving data over an individual connection");
+                    Thread.Sleep(ScadaUtils.ThreadDelay);
+                }
             }
         }
 
@@ -143,28 +141,31 @@ namespace Scada.Comm.Drivers.DrvCnlBasic.Logic
         /// </summary>
         protected void ListenSharedConn()
         {
-            try
-            {
-                IncomingRequestArgs requestArgs = new IncomingRequestArgs();
-                byte[] buffer = new byte[SlaveInBufLen];
+            IncomingRequestArgs requestArgs = new IncomingRequestArgs();
+            byte[] buffer = new byte[InBufferLenght];
 
-                while (!terminated)
+            while (!terminated)
+            {
+                try
                 {
-                    if (sharedConn.TcpClient.Available > 0 &&
-                        !ReceiveIncomingRequest(LineContext.SelectDevices(), sharedConn, requestArgs))
+                    lock (sharedConn)
                     {
-                        sharedConn.ClearNetStream(buffer);
+                        if (sharedConn.Connected && sharedConn.TcpClient.Available > 0 &&
+                            !ReceiveIncomingRequest(LineContext.SelectDevices(), sharedConn, requestArgs))
+                        {
+                            sharedConn.ClearNetStream(buffer);
+                        }
                     }
 
                     Thread.Sleep(SlaveThreadDelay);
                 }
-            }
-            catch (Exception ex)
-            {
-                // this exception should never happen
-                Log.WriteException(ex, Locale.IsRussian ?
-                    "Неустранимая ошибка при приёме данных через общее соединение." :
-                    "Fatal error while receiving data over a shared connection.");
+                catch (Exception ex)
+                {
+                    Log.WriteException(ex, Locale.IsRussian ?
+                        "Ошибка при приёме данных через общее соединение" :
+                        "Error receiving data over a shared connection");
+                    Thread.Sleep(ScadaUtils.ThreadDelay);
+                }
             }
         }
 
@@ -175,13 +176,14 @@ namespace Scada.Comm.Drivers.DrvCnlBasic.Logic
         public override void MakeReady()
         {
             CheckBehaviorSupport();
-            deviceDict.AddRange(LineContext.SelectDevices());
 
             if (options.ConnectionMode == ConnectionMode.Individual)
             {
                 indivConnList = new List<TcpConnection>();
+                DeviceDictionary deviceDict = new DeviceDictionary();
+                deviceDict.AddRange(LineContext.SelectDevices());
 
-                foreach (DeviceDictionary.DeviceList deviceList in deviceDict.DeviceMap.Values)
+                foreach (DeviceDictionary.DeviceGroup deviceGroup in deviceDict.SelectDeviceGroups())
                 {
                     TcpConnection conn = new TcpConnection(Log, new TcpClient())
                     {
@@ -190,7 +192,7 @@ namespace Scada.Comm.Drivers.DrvCnlBasic.Logic
 
                     indivConnList.Add(conn);
 
-                    foreach (DeviceLogic deviceLogic in deviceList)
+                    foreach (DeviceLogic deviceLogic in deviceGroup)
                     {
                         conn.BindDevice(deviceLogic);
                         deviceLogic.Connection = conn;
@@ -203,6 +205,8 @@ namespace Scada.Comm.Drivers.DrvCnlBasic.Logic
                 {
                     ReconnectAfter = options.ReconnectAfter
                 };
+
+                SetDeviceConnection(sharedConn);
             }
         }
 
@@ -253,38 +257,46 @@ namespace Scada.Comm.Drivers.DrvCnlBasic.Logic
         /// </summary>
         public override void BeforeSession(DeviceLogic deviceLogic)
         {
-            // connect if disconnected
-            if (deviceLogic.Connection is TcpConnection conn && !conn.Connected)
+            currentConn = deviceLogic.Connection as TcpConnection;
+
+            if (currentConn != null)
             {
-                // get host and port
-                string host;
-                int port;
+                if (Behavior == ChannelBehavior.Slave)
+                    Monitor.Enter(currentConn.SyncRoot);
 
-                if (conn == sharedConn)
+                // connect if disconnected
+                if (!currentConn.Connected)
                 {
-                    host = options.Host;
-                    port = options.TcpPort;
-                }
-                else if (conn.RemotePort > 0)
-                {
-                    host = conn.RemoteAddress;
-                    port = conn.RemotePort;
-                }
-                else
-                {
-                    ScadaUtils.RetrieveHostAndPort(deviceLogic.StrAddress, options.TcpPort, out host, out port);
-                }
+                    // get host and port
+                    string host;
+                    int port;
 
-                // connect
-                Log.WriteLine();
-                Log.WriteAction(Locale.IsRussian ?
-                    "Соединение с {0}:{1}" :
-                    "Connect to {0}:{1}", host, port);
+                    if (currentConn == sharedConn)
+                    {
+                        host = options.Host;
+                        port = options.TcpPort;
+                    }
+                    else if (currentConn.RemotePort > 0)
+                    {
+                        host = currentConn.RemoteAddress;
+                        port = currentConn.RemotePort;
+                    }
+                    else
+                    {
+                        ScadaUtils.RetrieveHostAndPort(deviceLogic.StrAddress, options.TcpPort, out host, out port);
+                    }
 
-                if (conn.NetStream != null) // connection was already open but broken
-                    conn.Renew();
+                    // connect
+                    Log.WriteLine();
+                    Log.WriteAction(Locale.IsRussian ?
+                        "Соединение с {0}:{1}" :
+                        "Connect to {0}:{1}", host, port);
 
-                conn.Open(host, port);
+                    if (currentConn.NetStream != null) // connection was already open but broken
+                        currentConn.Renew();
+
+                    currentConn.Open(host, port);
+                }
             }
         }
 
@@ -293,15 +305,21 @@ namespace Scada.Comm.Drivers.DrvCnlBasic.Logic
         /// </summary>
         public override void AfterSession(DeviceLogic deviceLogic)
         {
-            // disconnect according to the options, or in case of error
-            if ((!options.StayConnected || deviceLogic.DeviceStatus == DeviceStatus.Error) &&
-                deviceLogic.Connection is TcpConnection conn && conn.Connected)
+            if (currentConn != null)
             {
-                Log.WriteLine();
-                Log.WriteAction(Locale.IsRussian ?
-                    "Отключение от {0}" :
-                    "Disconnect from {0}", conn.RemoteAddress);
-                conn.Disconnect();
+                // disconnect according to the options, or in case of error
+                if ((!options.StayConnected || deviceLogic.DeviceStatus == DeviceStatus.Error) && 
+                    currentConn.Connected)
+                {
+                    Log.WriteLine();
+                    Log.WriteAction(Locale.IsRussian ?
+                        "Отключение от {0}" :
+                        "Disconnect from {0}", currentConn.RemoteAddress);
+                    currentConn.Disconnect();
+                }
+
+                if (Behavior == ChannelBehavior.Slave)
+                    Monitor.Exit(currentConn.SyncRoot);
             }
         }
     }

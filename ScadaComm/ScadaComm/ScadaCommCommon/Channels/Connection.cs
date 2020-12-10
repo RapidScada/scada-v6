@@ -64,6 +64,17 @@ namespace Scada.Comm.Channels
 
 
         /// <summary>
+        /// Gets an object that can be used to synchronize access to the connection.
+        /// </summary>
+        public object SyncRoot
+        {
+            get
+            {
+                return this;
+            }
+        }
+
+        /// <summary>
         /// Gets the communication line log.
         /// </summary>
         protected ILog Log { get; }
@@ -81,13 +92,7 @@ namespace Scada.Comm.Channels
         /// <summary>
         /// Gets a value indicating whether the connection is established.
         /// </summary>
-        public virtual bool Connected
-        {
-            get
-            {
-                return true;
-            }
-        }
+        public abstract bool Connected { get; }
 
         /// <summary>
         /// Gets or sets the byte encoding for pre- and post-transmission conversion of text.

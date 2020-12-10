@@ -23,6 +23,8 @@
  * Modified : 2020
  */
 
+using System.Collections.Generic;
+
 namespace Scada.Comm.Devices
 {
     /// <summary>
@@ -36,6 +38,7 @@ namespace Scada.Comm.Devices
         /// </summary>
         public IncomingRequestArgs()
         {
+            TargetDevices = new List<DeviceLogic>();
             SetToDefault();
         }
 
@@ -46,9 +49,9 @@ namespace Scada.Comm.Devices
         public bool HasError { get; set; }
 
         /// <summary>
-        /// Gets or sets the device that corresponds the request.
+        /// Gets the devices that corresponds the request.
         /// </summary>
-        public DeviceLogic TargetDevice { get; set; }
+        public List<DeviceLogic> TargetDevices { get; }
 
         /// <summary>
         /// Gets or sets a value that indicates whether execute the same method for the next device.
@@ -67,7 +70,7 @@ namespace Scada.Comm.Devices
         public void SetToDefault()
         {
             HasError = false;
-            TargetDevice = null;
+            TargetDevices.Clear();
             NextDevice = false;
             Tag = null;
         }

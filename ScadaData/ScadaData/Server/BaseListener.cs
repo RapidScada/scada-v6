@@ -1072,7 +1072,6 @@ namespace Scada.Server
 
             if (clientList.Count > 0)
             {
-
                 foreach (ConnectedClient client in clientList)
                 {
                     sb.Append("[").Append(client.SessionID).Append("] ").Append(client.Address);

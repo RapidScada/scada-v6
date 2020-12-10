@@ -40,13 +40,13 @@ namespace Scada.Comm.Channels
     public class ChannelLogic
     {
         /// <summary>
-        /// The delay in thread iteration for master, ms.
+        /// The length of the input buffer, 10 kB.
         /// </summary>
-        protected const int MasterThreadDelay = 100;
+        protected const int InBufferLenght = 10240;
         /// <summary>
         /// The delay in thread iteration for slave, ms.
         /// </summary>
-        protected const int SlaveThreadDelay = 10;
+        protected const int SlaveThreadDelay = 20;
 
 
         /// <summary>
