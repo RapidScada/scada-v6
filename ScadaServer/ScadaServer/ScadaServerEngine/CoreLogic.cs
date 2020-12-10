@@ -513,8 +513,6 @@ namespace Scada.Server.Engine
                             writeInfoDT = utcNow;
                             WriteInfo();
                         }
-
-                        Thread.Sleep(ScadaUtils.ThreadDelay);
                     }
                     catch (ThreadAbortException)
                     {
@@ -522,6 +520,9 @@ namespace Scada.Server.Engine
                     catch (Exception ex)
                     {
                         Log.WriteException(ex, CommonPhrases.LogicCycleError);
+                    }
+                    finally
+                    {
                         Thread.Sleep(ScadaUtils.ThreadDelay);
                     }
                 }
