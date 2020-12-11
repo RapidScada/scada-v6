@@ -24,6 +24,7 @@
  */
 
 using Scada.Data.Entities;
+using System;
 
 namespace Scada.Comm.Devices
 {
@@ -51,6 +52,7 @@ namespace Scada.Comm.Devices
             Name = name;
             DataType = TagDataType.Double;
             DataLen = 1;
+            DataIndex = -1;
             Format = null;
             InCnl = null;
             Aux = null;
@@ -92,6 +94,22 @@ namespace Scada.Comm.Devices
         /// Gets or sets the number of data elements stored in the tag value.
         /// </summary>
         public int DataLen { get; set; }
+
+        /// <summary>
+        /// Gets the normalized data length.
+        /// </summary>
+        public int DataLength
+        {
+            get
+            {
+                return Math.Max(DataLen, 1);
+            }
+        }
+
+        /// <summary>
+        /// Gets or sets the starting index of the raw tag data.
+        /// </summary>
+        public int DataIndex { get; set; }
 
         /// <summary>
         /// Gets or sets the display format of the tag.

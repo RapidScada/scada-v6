@@ -59,6 +59,10 @@ namespace Scada.Comm
         /// The client communication log file name.
         /// </summary>
         public const string ClientLogFileName = "ScadaComm_Client.log";
+        /// <summary>
+        /// The predefined tag code for device status.
+        /// </summary>
+        public const string StatusTagCode = "Status";
 
         /// <summary>
         /// Gets the communication line title.

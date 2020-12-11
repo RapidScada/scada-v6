@@ -37,11 +37,11 @@ namespace Scada.Comm.Devices
         /// <summary>
         /// Initializes a new instance of the class.
         /// </summary>
-        public DeviceSlice(DateTime timestamp, int tagCnt)
+        public DeviceSlice(DateTime timestamp, int tagCount, int dataLength)
         {
             Timestamp = timestamp;
-            DeviceTags = new DeviceTag[tagCnt];
-            CnlData = new CnlData[tagCnt];
+            DeviceTags = new DeviceTag[tagCount];
+            CnlData = new CnlData[dataLength];
             ArchiveMask = Data.Models.ArchiveMask.Default;
             Descr = "";
             DataSentCallback = null;

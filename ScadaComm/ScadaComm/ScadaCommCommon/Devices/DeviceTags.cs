@@ -23,9 +23,8 @@
  * Modified : 2020
  */
 
-using System;
+using System.Collections;
 using System.Collections.Generic;
-using System.Text;
 
 namespace Scada.Comm.Devices
 {
@@ -33,9 +32,9 @@ namespace Scada.Comm.Devices
     /// Represents a set of device tags.
     /// <para>Представляет набор тегов КП.</para>
     /// </summary>
-    public class DeviceTags
+    public class DeviceTags : IEnumerable<DeviceTag>
     {
-        private readonly List<DeviceTag> tags;                    // the list of all device tags
+        private readonly List<DeviceTag> deviceTags;              // the list of all device tags
         private readonly Dictionary<string, DeviceTag> tagByCode; // the device tags accessed by code
 
 
@@ -44,9 +43,10 @@ namespace Scada.Comm.Devices
         /// </summary>
         public DeviceTags()
         {
-            tags = new List<DeviceTag>();
+            deviceTags = new List<DeviceTag>();
             tagByCode = new Dictionary<string, DeviceTag>();
             TagGroups = new List<TagGroup>();
+            StatusTag = null;
         }
 
 
@@ -56,18 +56,18 @@ namespace Scada.Comm.Devices
         public List<TagGroup> TagGroups { get; }
 
         /// <summary>
-        /// Gets the device tag at the specified index.
+        /// Gets the device tag at the specified index, or throws an exception if the specified index is out of range.
         /// </summary>
         public DeviceTag this[int index]
         {
             get
             {
-                return tags[index];
+                return deviceTags[index];
             }
         }
 
         /// <summary>
-        /// Gets the device tag with the specified code.
+        /// Gets the device tag with the specified code, or throws an exception if the specified key is not found.
         /// </summary>
         public DeviceTag this[string code]
         {
@@ -77,22 +77,72 @@ namespace Scada.Comm.Devices
             }
         }
 
+        /// <summary>
+        /// Gets the tag corresponding to the device status.
+        /// </summary>
+        public DeviceTag StatusTag { get; private set; }
+
+        /// <summary>
+        /// Gets the number of device tags.
+        /// </summary>
+        public int Count
+        {
+            get
+            {
+                return deviceTags.Count;
+            }
+        }
+
 
         /// <summary>
         /// Adds the tag group and calculates the tag indexes.
         /// </summary>
         public void AddGroup(TagGroup tagGroup)
         {
-            int tagIndex = tags.Count;
+            int tagIndex = deviceTags.Count;
 
             foreach (DeviceTag deviceTag in tagGroup.DeviceTags)
             {
                 deviceTag.Index = tagIndex++;
-                tags.Add(deviceTag);
+                deviceTags.Add(deviceTag);
 
                 if (!string.IsNullOrEmpty(deviceTag.Code) && !tagByCode.ContainsKey(deviceTag.Code))
                     tagByCode.Add(deviceTag.Code, deviceTag);
             }
+        }
+
+        /// <summary>
+        /// Adds the status tag.
+        /// </summary>
+        public void AddStatusTag()
+        {
+            TagGroup tagGroup = new TagGroup { Hidden = true };
+            StatusTag = tagGroup.AddTag(CommUtils.StatusTagCode, CommUtils.StatusTagCode);
+            AddGroup(tagGroup);
+        }
+
+        /// <summary>
+        /// Determines whether a tag with the specified code exists.
+        /// </summary>
+        public bool ContainsTag(string tagCode)
+        {
+            return tagByCode.ContainsKey(tagCode);
+        }
+
+        /// <summary>
+        /// Returns an enumerator that iterates through the device tags.
+        /// </summary>
+        public IEnumerator<DeviceTag> GetEnumerator()
+        {
+            return deviceTags.GetEnumerator();
+        }
+
+        /// <summary>
+        /// Returns an enumerator that iterates through the device tags.
+        /// </summary>
+        IEnumerator IEnumerable.GetEnumerator()
+        {
+            return deviceTags.GetEnumerator();
         }
     }
 }

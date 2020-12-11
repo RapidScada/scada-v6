@@ -69,6 +69,7 @@ namespace Scada.Comm.Devices
             LastCommandTime = DateTime.MinValue;
             DeviceTags = new DeviceTags();
             DeviceData = new DeviceData();
+            DeviceStats = new DeviceStats();
 
             terminated = false;
             connection = null;
@@ -203,6 +204,11 @@ namespace Scada.Comm.Devices
         public DeviceData DeviceData { get; }
 
         /// <summary>
+        /// Gets the device statistics.
+        /// </summary>
+        public DeviceStats DeviceStats { get; }
+
+        /// <summary>
         /// Gets the current device status as text.
         /// </summary>
         public virtual string StatusText
@@ -228,6 +234,11 @@ namespace Scada.Comm.Devices
         protected void FinishRequest()
         {
             Thread.Sleep(PollingOptions.Delay);
+
+            DeviceStats.RequestCount++;
+
+            if (!LastRequestOK)
+                DeviceStats.RequestErrors++;
         }
 
         /// <summary>
@@ -235,6 +246,19 @@ namespace Scada.Comm.Devices
         /// </summary>
         protected void FinishSession()
         {
+            DeviceStats.SessionCount++;
+
+            if (LastRequestOK)
+            {
+                DeviceStatus = DeviceStatus.Normal;
+            }
+            else
+            {
+                DeviceStats.SessionErrors++;
+                DeviceStatus = DeviceStatus.Error;
+            }
+
+            DeviceData.SetStatusTag(DeviceStatus);
         }
 
         /// <summary>
@@ -242,6 +266,19 @@ namespace Scada.Comm.Devices
         /// </summary>
         protected void FinishCommand()
         {
+            DeviceStats.CommandCount++;
+
+            if (LastRequestOK)
+            {
+                DeviceStatus = DeviceStatus.Normal;
+            }
+            else
+            {
+                DeviceStats.CommandErrors++;
+                DeviceStatus = DeviceStatus.Error;
+            }
+
+            DeviceData.SetStatusTag(DeviceStatus);
         }
 
         /// <summary>
@@ -285,6 +322,7 @@ namespace Scada.Comm.Devices
         /// </summary>
         public virtual void InitDeviceData()
         {
+            DeviceTags.AddStatusTag();
             DeviceData.Init(DeviceTags);
         }
         
