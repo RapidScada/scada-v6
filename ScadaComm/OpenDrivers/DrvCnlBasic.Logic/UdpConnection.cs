@@ -54,11 +54,10 @@ namespace Scada.Comm.Drivers.DrvCnlBasic.Logic
         /// <summary>
         /// Initializes a new instance of the class.
         /// </summary>
-        public UdpConnection(ILog log, UdpClient udpClient, int localPort, int remotePort)
+        public UdpConnection(ILog log, UdpClient udpClient, int remotePort)
             : base(log)
         {
             InternalInit(udpClient);
-            LocalPort = localPort;
             RemotePort = remotePort;
         }
 
@@ -67,11 +66,6 @@ namespace Scada.Comm.Drivers.DrvCnlBasic.Logic
         /// Gets the UDP client.
         /// </summary>
         public UdpClient UdpClient { get; protected set; }
-
-        /// <summary>
-        /// Gets the local UDP port.
-        /// </summary>
-        public int LocalPort { get; protected set; }
 
         /// <summary>
         /// Gets or sets the remote UDP port.
@@ -185,10 +179,19 @@ namespace Scada.Comm.Drivers.DrvCnlBasic.Logic
         /// <summary>
         /// Receives a datagram from a remote host asynchronously.
         /// </summary>
-        public IAsyncResult BeginReceive(Action<IAsyncResult> callback)
+        public void BeginReceive(Action<IAsyncResult> callback)
         {
-            UdpClient.Client.ReceiveTimeout = DatagramReceiveTimeout;
-            return UdpClient.BeginReceive(new AsyncCallback(callback), null);
+            try
+            {
+                UdpClient.Client.ReceiveTimeout = DatagramReceiveTimeout;
+                UdpClient.BeginReceive(new AsyncCallback(callback), null);
+            }
+            catch (Exception ex)
+            {
+                Log.WriteException(ex, Locale.IsRussian ?
+                    "Ошибка при запуске приёма данных" :
+                    "Error starting receiving data");
+            }
         }
 
         /// <summary>

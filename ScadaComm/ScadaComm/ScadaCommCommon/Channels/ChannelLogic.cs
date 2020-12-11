@@ -29,6 +29,7 @@ using Scada.Comm.Drivers;
 using Scada.Log;
 using System;
 using System.Collections.Generic;
+using System.Text;
 
 namespace Scada.Comm.Channels
 {
@@ -258,6 +259,14 @@ namespace Scada.Comm.Channels
         /// </summary>
         public virtual void AfterSession(DeviceLogic deviceLogic)
         {
+        }
+
+        /// <summary>
+        /// Appends information about the communication channel to the string builder.
+        /// </summary>
+        public virtual bool AppendInfo(StringBuilder sb)
+        {
+            return false;
         }
     }
 }

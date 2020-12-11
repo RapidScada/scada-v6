@@ -248,7 +248,7 @@ namespace Scada.Comm.Drivers.DrvCnlBasic.Logic
             else
             {
                 SetDeviceConnection(null);
-                sharedConn?.Close();
+                sharedConn?.Disconnect();
             }
         }
 

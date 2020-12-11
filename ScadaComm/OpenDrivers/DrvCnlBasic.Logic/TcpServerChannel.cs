@@ -31,6 +31,7 @@ using System;
 using System.Collections.Generic;
 using System.Net;
 using System.Net.Sockets;
+using System.Text;
 using System.Threading;
 
 namespace Scada.Comm.Drivers.DrvCnlBasic.Logic
@@ -219,7 +220,7 @@ namespace Scada.Comm.Drivers.DrvCnlBasic.Logic
                     if (deviceLogic.Connection is TcpConnection existingConn)
                     {
                         existingConn.CloseMark = true;
-                        existingConn.BoundDevices.Clear();
+                        existingConn.ClearBoundDevices();
                     }
                 }
             }
@@ -338,7 +339,8 @@ namespace Scada.Comm.Drivers.DrvCnlBasic.Logic
             CheckBehaviorSupport();
             tcpListener = new TcpListener(IPAddress.Any, options.TcpPort);
 
-            if (options.DeviceMapping == DeviceMapping.ByIPAddress)
+            if (options.DeviceMapping == DeviceMapping.ByIPAddress ||
+                options.DeviceMapping == DeviceMapping.ByHelloPacket)
             {
                 deviceDict = new DeviceDictionary();
                 deviceDict.AddRange(LineContext.SelectDevices());
@@ -412,6 +414,75 @@ namespace Scada.Comm.Drivers.DrvCnlBasic.Logic
                     Monitor.Exit(currentConn.SyncRoot);
                 }
             }
+        }
+
+        /// <summary>
+        /// Appends information about the communication channel to the string builder.
+        /// </summary>
+        public override bool AppendInfo(StringBuilder sb)
+        {
+            TcpConnection[] connArr;
+
+            lock (connList)
+            {
+                connArr = connList.ToArray(); // make a snapshot
+            }
+
+            string header = Locale.IsRussian ?
+                "Подключенные клиенты (" + connArr.Length + ")" :
+                "Connected Clients (" + connArr.Length + ")";
+
+            sb.AppendLine(header);
+            sb.Append('-', header.Length).AppendLine();
+
+            if (connArr.Length > 0)
+            {
+                foreach (TcpConnection conn in connArr)
+                {
+                    sb.Append(conn.RemoteAddress).Append("; ");
+                    IReadOnlyCollection<DeviceLogic> boundDevices = conn.BoundDevices;
+
+                    if (boundDevices.Count > 0)
+                    {
+                        if (options.ConnectionMode == ConnectionMode.Individual)
+                        {
+                            bool first = true;
+
+                            foreach (DeviceLogic deviceLogic in boundDevices)
+                            {
+                                if (first)
+                                    first = false;
+                                else
+                                    sb.Append(", ");
+
+                                sb.Append(deviceLogic.Title);
+                            }
+                        }
+                        else
+                        {
+                            sb.AppendLine(Locale.IsRussian ?
+                                "Все КП привязаны" :
+                                "All devices are bound");
+                        }
+                    }
+                    else
+                    {
+                        sb.AppendLine(Locale.IsRussian ? 
+                            "Привязанные КП отсутствуют" : 
+                            "No bound devices");
+                    }
+
+                    sb.Append("; ").Append(conn.ActivityTime.ToLocalizedTimeString());
+                }
+            }
+            else
+            {
+                sb.AppendLine(Locale.IsRussian ? 
+                    "Клиентов нет" : 
+                    "No clients");
+            }
+
+            return true;
         }
     }
 }

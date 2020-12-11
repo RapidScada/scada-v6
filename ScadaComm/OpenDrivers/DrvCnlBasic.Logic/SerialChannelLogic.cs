@@ -156,18 +156,6 @@ namespace Scada.Comm.Drivers.DrvCnlBasic.Logic
             }
         }
 
-        /// <summary>
-        /// Process data has been received through the port.
-        /// </summary>
-        protected void SerialPort_DataReceived(object sender, SerialDataReceivedEventArgs e)
-        {
-            lock (serialConn)
-            {
-                if (!ReceiveIncomingRequest(LineContext.SelectDevices(), serialConn, requestArgs))
-                    serialConn.DiscardInBuffer();
-            }
-        }
-
 
         /// <summary>
         /// Makes the communication channel ready for operating.
@@ -195,17 +183,9 @@ namespace Scada.Comm.Drivers.DrvCnlBasic.Logic
 
             if (Behavior == ChannelBehavior.Slave)
             {
-                if (ScadaUtils.IsRunningOnWin)
-                {
-                    // TODO: check DataReceived event on Linux
-                    serialConn.SerialPort.DataReceived += SerialPort_DataReceived;
-                }
-                else
-                {
-                    terminated = false;
-                    thread = new Thread(ListenSerialPort);
-                    thread.Start();
-                }
+                terminated = false;
+                thread = new Thread(ListenSerialPort);
+                thread.Start();
             }
         }
 
@@ -221,7 +201,6 @@ namespace Scada.Comm.Drivers.DrvCnlBasic.Logic
                 thread = null;
             }
 
-            serialConn.SerialPort.DataReceived -= SerialPort_DataReceived;
             SetDeviceConnection(null);
             CloseSerialPort();
         }

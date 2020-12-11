@@ -551,29 +551,30 @@ namespace Scada.Comm.Engine
             {
                 // prepare information
                 StringBuilder sb = new StringBuilder((int)(lastInfoLength * 1.1));
-                sb
-                    .AppendLine(Title)
-                    .Append('-', Title.Length).AppendLine();
+                sb.AppendLine(Title);
+                sb.Append('-', Title.Length).AppendLine();
+                string deviceHeader;
 
                 if (Locale.IsRussian)
                 {
                     sb.Append("Статус      : ").AppendLine(lineStatus.ToString(true));
                     sb.Append("Канал связи : ").AppendLine(channel.ChannelLogic.StatusText);
+                    deviceHeader = $"КП ({devices.Count})";
                 }
                 else
                 {
                     sb.Append("Status                : ").AppendLine(lineStatus.ToString(false));
                     sb.Append("Communication channel : ").AppendLine(channel.ChannelLogic.StatusText);
+                    deviceHeader = $"Devices ({devices.Count})";
                 }
 
-                string header = Locale.IsRussian ?
-                    "КП (" + devices.Count + ")" :
-                    "Devices (" + devices.Count + ")";
+                sb.AppendLine();
 
-                sb
-                    .AppendLine()
-                    .AppendLine(header)
-                    .Append('-', header.Length).AppendLine();
+                if (channel.ChannelLogic.AppendInfo(sb))
+                    sb.AppendLine();
+
+                sb.AppendLine(deviceHeader);
+                sb.Append('-', deviceHeader.Length).AppendLine();
 
                 if (devices.Count > 0)
                 {

@@ -52,7 +52,9 @@ namespace Scada.Comm.Drivers.DrvCnlBasic.Logic
         /// </summary>
         protected const int MaxLineLength = 1024;
 
-        protected DateTime connFailDT; // the time of unsuccessful attempt to connect
+        protected readonly List<DeviceLogic> boundDevices; // the devices bound to the connection
+        protected DeviceLogic[] devicesCopy; // the shallow copy of the bound devices
+        protected DateTime connFailDT;       // the time of unsuccessful attempt to connect
 
 
         /// <summary>
@@ -61,13 +63,14 @@ namespace Scada.Comm.Drivers.DrvCnlBasic.Logic
         public TcpConnection(ILog log, TcpClient tcpClient)
             : base(log)
         {
+            boundDevices = new List<DeviceLogic>();
+            devicesCopy = null;
             connFailDT = DateTime.MinValue;
 
             InternalInit(tcpClient);
             ReconnectAfter = 0;
             JustConnected = true;
             CloseMark = false;
-            BoundDevices = new List<DeviceLogic>();
         }
 
 
@@ -109,7 +112,19 @@ namespace Scada.Comm.Drivers.DrvCnlBasic.Logic
         /// <summary>
         /// Gets the devices bound to the connection.
         /// </summary>
-        public List<DeviceLogic> BoundDevices { get; }
+        public IReadOnlyCollection<DeviceLogic> BoundDevices
+        {
+            get
+            {
+                lock (boundDevices)
+                {
+                    if (devicesCopy == null)
+                        devicesCopy = boundDevices.ToArray();
+
+                    return devicesCopy;
+                }
+            }
+        }
 
         /// <summary>
         /// Gets a value indicating whether the connection is established.
@@ -306,7 +321,24 @@ namespace Scada.Comm.Drivers.DrvCnlBasic.Logic
             if (deviceLogic != null)
             {
                 deviceLogic.Connection = this;
-                BoundDevices.Add(deviceLogic);
+
+                lock (boundDevices)
+                {
+                    boundDevices.Add(deviceLogic);
+                    devicesCopy = null;
+                }
+            }
+        }
+
+        /// <summary>
+        /// Clears the devices bound to the connection.
+        /// </summary>
+        public void ClearBoundDevices()
+        {
+            lock (boundDevices)
+            {
+                boundDevices.Clear();
+                devicesCopy = null;
             }
         }
 

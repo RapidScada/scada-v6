@@ -40,18 +40,14 @@ namespace Scada.Comm.Drivers.DrvCnlBasic.Logic
     /// </summary>
     public class UdpChannelLogic : ChannelLogic
     {
-        /// <summary>
-        /// The delay while waiting for a lock, ms.
-        /// </summary>
-        protected const int LockDelay = SlaveThreadDelay / 2;
-
         protected readonly UdpChannelOptions options;       // the channel options
         protected readonly IncomingRequestArgs requestArgs; // the incoming request arguments
+        protected readonly object deviceLock;               // syncronizes access to devices
 
-        protected UdpConnection udpConn;        // the UDP connection
+        protected UdpConnection masterConn;     // the UDP connection for polling
+        protected UdpConnection slaveConn;      // the UDP connection for listening
         protected DeviceDictionary deviceDict;  // the devices grouped by string address
         protected volatile bool terminated;     // necessary to stop receiving data
-        protected volatile bool waitingForData; // asynchronous receive in progress
 
 
         /// <summary>
@@ -62,11 +58,12 @@ namespace Scada.Comm.Drivers.DrvCnlBasic.Logic
         {
             options = new UdpChannelOptions(channelConfig.CustomOptions);
             requestArgs = new IncomingRequestArgs();
+            deviceLock = new object();
 
-            udpConn = null;
+            masterConn = null;
+            slaveConn = null;
             deviceDict = null;
             terminated = false;
-            waitingForData = false;
         }
 
 
@@ -94,28 +91,6 @@ namespace Scada.Comm.Drivers.DrvCnlBasic.Logic
 
 
         /// <summary>
-        /// Starts receiving data by UDP.
-        /// </summary>
-        protected void StartUdpReceive()
-        {
-            try
-            {
-                lock (udpConn)
-                {
-                    waitingForData = true;
-                    udpConn.BeginReceive(UdpReceiveCallback);
-                }
-            }
-            catch (Exception ex)
-            {
-                waitingForData = false;
-                Log.WriteException(ex, Locale.IsRussian ?
-                    "Ошибка при запуске приёма данных" :
-                    "Error starting to receive data");
-            }
-        }
-
-        /// <summary>
         /// Process data received by UDP.
         /// </summary>
         protected void UdpReceiveCallback(IAsyncResult ar)
@@ -127,15 +102,15 @@ namespace Scada.Comm.Drivers.DrvCnlBasic.Logic
                 try
                 {
                     IPEndPoint remoteEP = new IPEndPoint(IPAddress.Any, 0);
-                    buf = udpConn.UdpClient.EndReceive(ar, ref remoteEP);
-                    udpConn.RemoteAddress = remoteEP.Address.ToString();
-                    udpConn.RemotePort = remoteEP.Port;
+                    buf = slaveConn.UdpClient.EndReceive(ar, ref remoteEP);
+                    slaveConn.RemoteAddress = remoteEP.Address.ToString();
+                    slaveConn.RemotePort = remoteEP.Port;
 
                     Log.WriteLine();
                     Log.WriteAction(Locale.IsRussian ?
                         "Получены данные от {0}:{1}" :
                         "Data received from {0}:{1}",
-                        udpConn.RemoteAddress, udpConn.RemotePort);
+                        slaveConn.RemoteAddress, slaveConn.RemotePort);
 
                     if (buf == null)
                     {
@@ -156,32 +131,33 @@ namespace Scada.Comm.Drivers.DrvCnlBasic.Logic
             {
                 if (options.DeviceMapping == DeviceMapping.ByIPAddress)
                 {
-                    if (deviceDict.GetDeviceGroup(udpConn.RemoteAddress, out DeviceDictionary.DeviceGroup deviceGroup))
+                    if (deviceDict.GetDeviceGroup(slaveConn.RemoteAddress, 
+                        out DeviceDictionary.DeviceGroup deviceGroup))
                     {
-                        // process the incoming request for the devices with the specified IP address
-                        ProcessIncomingRequest(deviceGroup, buf, 0, buf.Length, requestArgs);
+                        lock (deviceLock)
+                        {
+                            // process the incoming request for the devices with the specified IP address
+                            ProcessIncomingRequest(deviceGroup, buf, 0, buf.Length, requestArgs);
+                        }
                     }
                     else
                     {
-                        Log.WriteError(CommPhrases.UnableFindDevice, udpConn.RemoteAddress);
+                        Log.WriteError(CommPhrases.UnableFindDevice, slaveConn.RemoteAddress);
                     }
                 }
                 else if (options.DeviceMapping == DeviceMapping.ByDriver)
                 {
-                    // process the incoming request for any device
-                    ProcessIncomingRequest(LineContext.SelectDevices(), buf, 0, buf.Length, requestArgs);
+                    lock (deviceLock)
+                    {
+                        // process the incoming request for any device
+                        ProcessIncomingRequest(LineContext.SelectDevices(), buf, 0, buf.Length, requestArgs);
+                    }
                 }
             }
 
-            waitingForData = false;
-
             if (!terminated)
-            {
-                Thread.Sleep(SlaveThreadDelay);
-                StartUdpReceive();
-            }
+                slaveConn.BeginReceive(UdpReceiveCallback);
         }
-
 
         /// <summary>
         /// Makes the communication channel ready for operating.
@@ -210,22 +186,32 @@ namespace Scada.Comm.Drivers.DrvCnlBasic.Logic
         /// </summary>
         public override void Start()
         {
-            udpConn = new UdpConnection(Log, new UdpClient(options.LocalUdpPort), 
-                options.LocalUdpPort, options.RemoteUdpPort);
-            SetDeviceConnection(udpConn);
+            // close connections in case of restart
+            masterConn?.Close();
+            slaveConn?.Close();
 
-            Log.WriteAction(Locale.IsRussian ?
-                "Локальный UDP-порт {0} открыт" :
-                "Local UDP port {0} is open", options.LocalUdpPort);
-
-            if (Behavior == ChannelBehavior.Slave)
+            if (Behavior == ChannelBehavior.Master)
             {
+                masterConn = new UdpConnection(Log, new UdpClient(options.LocalUdpPort), options.RemoteUdpPort);
+                slaveConn = null;
+            }
+            else
+            {
+                masterConn = new UdpConnection(Log, new UdpClient(), options.RemoteUdpPort); // auto assign local port
+                slaveConn = new UdpConnection(Log, new UdpClient(options.LocalUdpPort), options.RemoteUdpPort);
+
+                Log.WriteAction(Locale.IsRussian ?
+                    "Локальный UDP-порт {0} открыт" :
+                    "Local UDP port {0} is open", options.LocalUdpPort);
+
                 Log.WriteAction(Locale.IsRussian ?
                     "Запуск приёма данных по UDP на порту {0}" :
                     "Start receiving data via UDP on port {0}", options.LocalUdpPort);
                 terminated = false;
-                StartUdpReceive();
+                slaveConn.BeginReceive(UdpReceiveCallback);
             }
+
+            SetDeviceConnection(masterConn);
         }
 
         /// <summary>
@@ -235,7 +221,8 @@ namespace Scada.Comm.Drivers.DrvCnlBasic.Logic
         {
             terminated = true;
             SetDeviceConnection(null);
-            udpConn?.Close();
+            masterConn?.Close();
+            slaveConn?.Close();
 
             Log.WriteLine();
             Log.WriteAction(Locale.IsRussian ?
@@ -253,25 +240,20 @@ namespace Scada.Comm.Drivers.DrvCnlBasic.Logic
                 // update host and port of the connection
                 if (string.IsNullOrEmpty(deviceLogic.StrAddress))
                 {
-                    udpConn.RemoteAddress = options.RemoteIpAddress;
-                    udpConn.RemotePort = options.RemoteUdpPort;
+                    masterConn.RemoteAddress = options.RemoteIpAddress;
+                    masterConn.RemotePort = options.RemoteUdpPort;
                 }
                 else
                 {
                     ScadaUtils.RetrieveHostAndPort(deviceLogic.StrAddress, options.RemoteUdpPort,
                         out string host, out int port);
-                    udpConn.RemoteAddress = host;
-                    udpConn.RemotePort = port;
+                    masterConn.RemoteAddress = host;
+                    masterConn.RemotePort = port;
                 }
             }
             else
             {
-                while (waitingForData)
-                {
-                    Thread.Sleep(LockDelay);
-                }
-
-                Monitor.Enter(udpConn.SyncRoot);
+                Monitor.Enter(deviceLock);
             }
         }
 
@@ -283,11 +265,11 @@ namespace Scada.Comm.Drivers.DrvCnlBasic.Logic
             if (Behavior == ChannelBehavior.Master)
             {
                 if (deviceLogic.DeviceStatus == DeviceStatus.Error)
-                    udpConn.ClearDatagramBuffer();
+                    masterConn.ClearDatagramBuffer();
             }
             else
             {
-                Monitor.Exit(udpConn.SyncRoot);
+                Monitor.Exit(deviceLock);
             }
         }
     }

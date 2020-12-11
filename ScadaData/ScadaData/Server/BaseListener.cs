@@ -1066,9 +1066,8 @@ namespace Scada.Server
                 "Подключенные клиенты (" + clientList.Count + ")" :
                 "Connected Clients (" + clientList.Count + ")";
 
-            sb
-                .AppendLine(header)
-                .Append('-', header.Length).AppendLine();
+            sb.AppendLine(header);
+            sb.Append('-', header.Length).AppendLine();
 
             if (clientList.Count > 0)
             {
@@ -1090,7 +1089,9 @@ namespace Scada.Server
             }
             else
             {
-                sb.AppendLine(Locale.IsRussian ? "Клиентов нет" : "No clients");
+                sb.AppendLine(Locale.IsRussian ? 
+                    "Клиентов нет" : 
+                    "No clients");
             }
         }
     }
