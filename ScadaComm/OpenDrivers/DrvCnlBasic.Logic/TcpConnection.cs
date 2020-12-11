@@ -144,15 +144,15 @@ namespace Scada.Comm.Drivers.DrvCnlBasic.Logic
         protected void InternalInit(TcpClient tcpClient)
         {
             TcpClient = tcpClient ?? throw new ArgumentNullException(nameof(tcpClient));
-            TakeNetStream();
-            TakeRemoteAddress();
+            DefineNetStream();
+            DefineRemoteAddress();
             ActivityTime = DateTime.UtcNow;
         }
 
         /// <summary>
         /// Defines the data stream of the TCP client.
         /// </summary>
-        protected void TakeNetStream()
+        protected void DefineNetStream()
         {
             if (TcpClient.Connected)
             {
@@ -169,7 +169,7 @@ namespace Scada.Comm.Drivers.DrvCnlBasic.Logic
         /// <summary>
         /// Defines the remote address of the connection.
         /// </summary>
-        protected void TakeRemoteAddress()
+        protected void DefineRemoteAddress()
         {
             try 
             {
@@ -208,8 +208,8 @@ namespace Scada.Comm.Drivers.DrvCnlBasic.Logic
                     else
                         TcpClient.Connect(host, port);
 
-                    TakeNetStream();
-                    TakeRemoteAddress();
+                    DefineNetStream();
+                    DefineRemoteAddress();
                     connFailDT = DateTime.MinValue;
                 }
                 catch (Exception ex)
