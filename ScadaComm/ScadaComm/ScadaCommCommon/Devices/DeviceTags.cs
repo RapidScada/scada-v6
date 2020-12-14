@@ -124,9 +124,34 @@ namespace Scada.Comm.Devices
         /// <summary>
         /// Determines whether a tag with the specified code exists.
         /// </summary>
-        public bool ContainsTag(string tagCode)
+        public bool ContainsTag(string code)
         {
-            return tagByCode.ContainsKey(tagCode);
+            return tagByCode.ContainsKey(code);
+        }
+
+        /// <summary>
+        /// Gets the device tag at the specified index.
+        /// </summary>
+        public bool TryGetTag(int index, out DeviceTag deviceTag)
+        {
+            if (0 <= index && index < deviceTags.Count)
+            {
+                deviceTag = deviceTags[index];
+                return true;
+            }
+            else
+            {
+                deviceTag = null;
+                return false;
+            }
+        }
+
+        /// <summary>
+        /// Gets the device tag with the specified code.
+        /// </summary>
+        public bool TryGetTag(string code, out DeviceTag deviceTag)
+        {
+            return tagByCode.TryGetValue(code, out deviceTag);
         }
 
         /// <summary>

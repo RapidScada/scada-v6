@@ -26,7 +26,10 @@
 using Scada.Comm.Channels;
 using Scada.Comm.Config;
 using Scada.Comm.Drivers;
+using Scada.Data.Const;
+using Scada.Data.Entities;
 using Scada.Data.Models;
+using Scada.Data.Tables;
 using Scada.Log;
 using System;
 using System.Threading;
@@ -339,6 +342,31 @@ namespace Scada.Comm.Devices
         /// </summary>
         public virtual void Bind(BaseDataSet baseDataSet)
         {
+            foreach (InCnl inCnl in baseDataSet.InCnlTable.SelectItems(new TableFilter("DeviceNum", DeviceNum), true))
+            {
+                if (inCnl.Active && inCnl.CnlTypeID == CnlTypeID.Measured)
+                {
+                    DeviceTag deviceTag = null;
+
+                    if (!string.IsNullOrEmpty(inCnl.TagCode))
+                    {
+                        // find tag by code
+                        DeviceTags.TryGetTag(inCnl.TagCode, out deviceTag);
+                    }
+                    else if (inCnl.TagNum > 0)
+                    {
+                        // find tag by index
+                        DeviceTags.TryGetTag(inCnl.TagNum.Value - 1, out deviceTag);
+                    }
+
+                    // check match and bind tag
+                    if (deviceTag != null && (int)deviceTag.DataType == inCnl.DataTypeID && 
+                        deviceTag.DataLength == Math.Max(inCnl.DataLen ?? 1, 1))
+                    {
+                        deviceTag.InCnl = inCnl;
+                    }
+                }
+            }
         }
 
         /// <summary>
