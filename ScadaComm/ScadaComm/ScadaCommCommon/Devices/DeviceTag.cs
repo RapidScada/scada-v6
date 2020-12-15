@@ -107,6 +107,17 @@ namespace Scada.Comm.Devices
         }
 
         /// <summary>
+        /// Gets a value indicating whether to expand displayed data of the tag.
+        /// </summary>
+        public bool ExpandData
+        {
+            get
+            {
+                return DataLength > 1 && (DataType == TagDataType.Double || DataType == TagDataType.Int64);
+            }
+        }
+
+        /// <summary>
         /// Gets or sets the starting index of the raw tag data.
         /// </summary>
         public int DataIndex { get; set; }

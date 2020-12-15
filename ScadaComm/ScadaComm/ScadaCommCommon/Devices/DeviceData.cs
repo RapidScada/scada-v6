@@ -71,30 +71,11 @@ namespace Scada.Comm.Devices
         {
             get
             {
-                if (rawData == null)
-                {
-                    return CnlData.Empty;
-                }
-                else
-                {
-                    lock (curDataLock)
-                    {
-                        DeviceTag deviceTag = deviceTags[tagIndex];
-                        return rawData[deviceTag.DataIndex];
-                    }
-                }
+                return GetCnlData(tagIndex, 0);
             }
             set
             {
-                if (rawData != null)
-                {
-                    lock (curDataLock)
-                    {
-                        DeviceTag deviceTag = deviceTags[tagIndex];
-                        modifiedFlags[tagIndex] = rawData[deviceTag.DataIndex] != value;
-                        rawData[deviceTag.DataIndex] = value;
-                    }
-                }
+                SetCnlData(tagIndex, 0, value);
             }
         }
 
@@ -105,30 +86,189 @@ namespace Scada.Comm.Devices
         {
             get
             {
-                if (rawData == null)
-                {
-                    return CnlData.Empty;
-                }
-                else
-                {
-                    lock (curDataLock)
-                    {
-                        DeviceTag deviceTag = deviceTags[tagCode];
-                        return rawData[deviceTag.DataIndex];
-                    }
-                }
+                DeviceTag deviceTag = deviceTags[tagCode];
+                return GetCnlData(deviceTag.Index, 0);
             }
             set
             {
-                if (rawData != null)
+                DeviceTag deviceTag = deviceTags[tagCode];
+                SetCnlData(deviceTag.Index, 0, value);
+            }
+        }
+
+
+        /// <summary>
+        /// Gets the data for the device tag at the specified index.
+        /// </summary>
+        private CnlData GetCnlData(int tagIndex, int offset)
+        {
+            if (rawData == null)
+            {
+                return CnlData.Empty;
+            }
+            else
+            {
+                lock (curDataLock)
                 {
-                    lock (curDataLock)
+                    DeviceTag deviceTag = deviceTags[tagIndex];
+                    return rawData[deviceTag.DataIndex + offset];
+                }
+            }
+        }
+
+        /// <summary>
+        /// Sets the data for the device tag at the specified index.
+        /// </summary>
+        private void SetCnlData(int tagIndex, int offset, CnlData value)
+        {
+            if (rawData != null)
+            {
+                lock (curDataLock)
+                {
+                    DeviceTag deviceTag = deviceTags[tagIndex];
+
+                    if (rawData[deviceTag.DataIndex + offset] != value)
+                        modifiedFlags[tagIndex] = true;
+
+                    rawData[deviceTag.DataIndex + offset] = value;
+                }
+            }
+        }
+
+        /// <summary>
+        /// Sets the display values of the tags.
+        /// </summary>
+        private void SetDisplayValues()
+        {
+            foreach (DeviceTag deviceTag in deviceTags)
+            {
+                int tagIndex = deviceTag.Index;
+                dataView.SetDisplayValue(tagIndex, 0, FormatTagData(deviceTag));
+
+                if (deviceTag.ExpandData)
+                {
+                    for (int i = 0, len = deviceTag.DataLength; i < len; i++)
                     {
-                        DeviceTag deviceTag = deviceTags[tagCode];
-                        modifiedFlags[deviceTag.Index] = rawData[deviceTag.DataIndex] != value;
-                        rawData[deviceTag.DataIndex] = value;
+                        CnlData cnlData = GetCnlData(tagIndex, i);
+                        dataView.SetDisplayValue(tagIndex, i + 1, FormatNumericData(deviceTag, cnlData));
                     }
                 }
+            }
+        }
+
+        /// <summary>
+        /// Converts the current tag data to a string value.
+        /// </summary>
+        private string FormatTagData(DeviceTag deviceTag)
+        {
+            int tagIndex = deviceTag.Index;
+            CnlData cnlData = this[tagIndex];
+
+            if (cnlData.IsUndefined)
+            {
+                return CommonPhrases.UndefinedSign;
+            }
+            else
+            {
+                switch (deviceTag.DataType)
+                {
+                    case TagDataType.Double:
+                        return deviceTag.DataLength > 1 ? "Double[]" : FormatNumericData(deviceTag, cnlData);
+
+                    case TagDataType.Int64:
+                        return deviceTag.DataLength > 1 ? "Int64[]" : FormatNumericData(deviceTag, cnlData);
+
+                    case TagDataType.ASCII:
+                        return GetAscii(tagIndex);
+
+                    case TagDataType.Unicode:
+                        return GetUnicode(tagIndex);
+
+                    default:
+                        return "";
+                }
+            }
+        }
+
+        /// <summary>
+        /// Converts the current tag data with a numeric data type to a string value.
+        /// </summary>
+        private string FormatNumericData(DeviceTag deviceTag, CnlData cnlData)
+        {
+            if (cnlData.IsUndefined)
+                return CommonPhrases.UndefinedSign;
+
+            const string DefaultFormat = "N3";
+
+            try
+            {
+                TagFormat tagFormat = deviceTag.Format;
+
+                if (tagFormat == null)
+                {
+                    return deviceTag.DataType == TagDataType.Int64 ?
+                        BitConverter.DoubleToInt64Bits(cnlData.Val).ToString() :
+                        cnlData.Val.ToString(DefaultFormat);
+                }
+                else
+                {
+                    string FormatEnum(int val)
+                    {
+                        string[] enumValues = tagFormat.EnumValues;
+
+                        if (enumValues == null)
+                            return val.ToString();
+                        else if (val < 0)
+                            return enumValues[0];
+                        else if (val >= enumValues.Length)
+                            return enumValues[enumValues.Length - 1];
+                        else
+                            return enumValues[val];
+                    }
+
+                    if (deviceTag.DataType == TagDataType.Int64)
+                    {
+                        long longVal = BitConverter.DoubleToInt64Bits(cnlData.Val);
+
+                        switch (tagFormat.FormatType)
+                        {
+                            case TagFormatType.Enum:
+                                return FormatEnum((int)longVal);
+
+                            case TagFormatType.Date:
+                                DateTime dt = new DateTime(longVal, DateTimeKind.Utc).ToLocalTime();
+                                return string.IsNullOrEmpty(tagFormat.Format) ?
+                                    dt.ToLocalizedString() : dt.ToString(tagFormat.Format);
+
+                            default:
+                                return string.IsNullOrEmpty(tagFormat.Format) ?
+                                    longVal.ToString() : longVal.ToString(tagFormat.Format);
+                        }
+                    }
+                    else
+                    {
+                        double doubleVal = cnlData.Val;
+
+                        switch (tagFormat.FormatType)
+                        {
+                            case TagFormatType.Enum:
+                                return FormatEnum((int)doubleVal);
+
+                            case TagFormatType.Date:
+                                DateTime dt = DateTime.FromOADate(doubleVal);
+                                return string.IsNullOrEmpty(tagFormat.Format) ?
+                                    dt.ToLocalizedString() : dt.ToString(tagFormat.Format);
+
+                            default:
+                                return string.IsNullOrEmpty(tagFormat.Format) ?
+                                    doubleVal.ToString() : doubleVal.ToString(tagFormat.Format);
+                        }
+                    }
+                }
+            }
+            catch
+            {
+                return cnlData.Val.ToString(DefaultFormat);
             }
         }
 
@@ -149,6 +289,7 @@ namespace Scada.Comm.Devices
 
             modifiedFlags = new bool[deviceTags.Count];
             rawData = new CnlData[dataLength];
+            dataView.PrepareCurData(deviceTags);
         }
 
         /// <summary>
@@ -157,7 +298,7 @@ namespace Scada.Comm.Devices
         public double Get(int tagIndex)
         {
             CnlData cnlData = this[tagIndex];
-            return cnlData.Stat > CnlStatusID.Undefined ? cnlData.Val : 0.0;
+            return cnlData.IsDefined ? cnlData.Val : 0.0;
         }
 
         /// <summary>
@@ -166,7 +307,7 @@ namespace Scada.Comm.Devices
         public double Get(string tagCode)
         {
             CnlData cnlData = this[tagCode];
-            return cnlData.Stat > CnlStatusID.Undefined ? cnlData.Val : 0.0;
+            return cnlData.IsDefined ? cnlData.Val : 0.0;
         }
 
         /// <summary>
@@ -175,7 +316,7 @@ namespace Scada.Comm.Devices
         public long GetInt64(int tagIndex)
         {
             CnlData cnlData = this[tagIndex];
-            return cnlData.Stat > CnlStatusID.Undefined ? BitConverter.DoubleToInt64Bits(cnlData.Val) : 0;
+            return cnlData.IsDefined ? BitConverter.DoubleToInt64Bits(cnlData.Val) : 0;
         }
 
         /// <summary>
@@ -184,7 +325,7 @@ namespace Scada.Comm.Devices
         public long GetInt64(string tagCode)
         {
             CnlData cnlData = this[tagCode];
-            return cnlData.Stat > CnlStatusID.Undefined ? BitConverter.DoubleToInt64Bits(cnlData.Val) : 0;
+            return cnlData.IsDefined ? BitConverter.DoubleToInt64Bits(cnlData.Val) : 0;
         }
 
         /// <summary>
@@ -199,7 +340,8 @@ namespace Scada.Comm.Devices
 
                 for (int i = 0; i < arrayLength; i++)
                 {
-                    array[i] = Get(tagIndex++);
+                    CnlData cnlData = GetCnlData(tagIndex, i);
+                    array[i] = cnlData.IsDefined ? cnlData.Val : 0.0;
                 }
 
                 return array;
@@ -220,11 +362,18 @@ namespace Scada.Comm.Devices
         /// </summary>
         public byte[] GetByteArray(int tagIndex)
         {
-            double[] doubleArray = GetDoubleArray(tagIndex);
-            int dataLength = doubleArray.Length * 8;
-            byte[] byteArray = new byte[dataLength];
-            Buffer.BlockCopy(doubleArray, 0, byteArray, 0, dataLength);
-            return byteArray;
+            if (deviceTags[tagIndex].DataLength > 1)
+            {
+                double[] doubleArray = GetDoubleArray(tagIndex);
+                int dataLength = doubleArray.Length * 8;
+                byte[] byteArray = new byte[dataLength];
+                Buffer.BlockCopy(doubleArray, 0, byteArray, 0, dataLength);
+                return byteArray;
+            }
+            else
+            {
+                return BitConverter.GetBytes(Get(tagIndex));
+            }
         }
 
         /// <summary>
@@ -331,26 +480,14 @@ namespace Scada.Comm.Devices
         {
             lock (curDataLock)
             {
-                DeviceTag deviceTag = deviceTags[tagIndex];
-                int idx = deviceTag.DataIndex;
-                int len = deviceTag.DataLength;
+                int dataLen = deviceTags[tagIndex].DataLength;
                 int valLen = vals.Length;
-                bool modified = false;
 
-                for (int i = 0; i < len; i++)
+                for (int i = 0; i < dataLen; i++)
                 {
                     CnlData cnlData = new CnlData(i < valLen ? vals[i] : 0.0, stat);
-
-                    if (rawData[idx] != cnlData)
-                    {
-                        rawData[idx] = cnlData;
-                        modified = true;
-                    }
-
-                    idx++;
+                    SetCnlData(tagIndex, i, cnlData);
                 }
-
-                modifiedFlags[tagIndex] = modified;
             }
         }
 
@@ -659,6 +796,7 @@ namespace Scada.Comm.Devices
         /// </summary>
         public void AppendInfo(StringBuilder sb)
         {
+            SetDisplayValues();
             dataView.AppendCurrentDataInfo(sb);
             dataView.AppendHistoricalDataInfo(sb);
             dataView.AppendEventInfo(sb);

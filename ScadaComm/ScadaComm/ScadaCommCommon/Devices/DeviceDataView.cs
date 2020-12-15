@@ -44,9 +44,11 @@ namespace Scada.Comm.Devices
             public Row(int cellCount)
             {
                 IsEmpty = true;
+                IsSubheader = false;
                 Cells = new string[cellCount];
             }
             public bool IsEmpty { get; set; }
+            public bool IsSubheader { get; set; }
             public string[] Cells { get; }
         }
 
@@ -58,9 +60,11 @@ namespace Scada.Comm.Devices
             public Column()
             {
                 AlignLeft = true;
+                VarWidth = true;
                 Width = -1;
             }
             public bool AlignLeft { get; set; }
+            public bool VarWidth { get; set; }
             public int Width { get; set; }
         }
 
@@ -86,6 +90,13 @@ namespace Scada.Comm.Devices
             }
             public Column[] Columns { get; }
             public Row[] Rows { get; }
+            public void ResetColumnWidths()
+            {
+                foreach (Column column in Columns)
+                {
+                    column.Width = -1;
+                }
+            }
         }
 
         /// <summary>
@@ -99,6 +110,9 @@ namespace Scada.Comm.Devices
         private readonly Table sliceTable;            // the historical data prepared for display
         private readonly Table eventTable;            // the events prepared for display
         private readonly Table commandTable;          // the commands prepared for display
+
+        private Table curDataTable;      // the current data prepared for display
+        private int[] curDataRowIndexes; // the map between tag indexes and row indexes
 
 
         /// <summary>
@@ -115,6 +129,9 @@ namespace Scada.Comm.Devices
             eventTable = new Table(3, rowCnt);
             commandTable = new Table(2, rowCnt);
             InitTableHeaders();
+
+            curDataTable = null;
+            curDataRowIndexes = null;
         }
 
 
@@ -190,7 +207,249 @@ namespace Scada.Comm.Devices
         /// </summary>
         private void AppendTable(StringBuilder sb, Table table)
         {
+            // calculate column widths
+            int totalWidth = 0;
 
+            for (int colIdx = 0, colCnt = table.Columns.Length; colIdx < colCnt; colIdx++)
+            {
+                CalculateColumnWidth(table, colIdx);
+                totalWidth += table.Columns[colIdx].Width;
+            }
+
+            // build break line
+            StringBuilder sbBreakLine = new StringBuilder("+-");
+
+            for (int colIdx = 0, lastIdx = table.Columns.Length - 1; colIdx <= lastIdx; colIdx++)
+            {
+                sbBreakLine
+                    .Append('-', table.Columns[colIdx].Width)
+                    .Append(colIdx < lastIdx ? "-+-" : "-+");
+            }
+
+            string breakLine = sbBreakLine.ToString();
+
+            // build table
+            for (int rowIdx = 0, rowCnt = table.Rows.Length; rowIdx < rowCnt; rowIdx++)
+            {
+                Row row = table.Rows[rowIdx];
+
+                if (row.IsEmpty)
+                {
+                    // do nothing
+                }
+                else if (row.IsSubheader)
+                {
+                    string cellText = row.Cells[0] ?? "";
+                    sb.Append("| *** ").Append(cellText);
+                    int spaceLength = totalWidth - cellText.Length - 10;
+
+                    if (spaceLength > 0)
+                        sb.Append('*', spaceLength);
+
+                    sb.AppendLine("*** |").AppendLine(breakLine);
+                }
+                else
+                {
+                    sb.Append("| ");
+
+                    for (int colIdx = 0, lastIdx = table.Columns.Length - 1; colIdx <= lastIdx; colIdx++)
+                    {
+                        Column column = table.Columns[colIdx];
+                        string cellText = row.Cells[colIdx] ?? "";
+
+                        if (cellText.Length < column.Width)
+                            sb.Append(column.AlignLeft ? cellText.PadLeft(column.Width) : cellText.PadRight(column.Width));
+                        else
+                            sb.Append(cellText);
+
+                        if (colIdx < lastIdx)
+                            sb.Append(" | ");
+                    }
+
+                    sb.AppendLine(" |").AppendLine(breakLine);
+                }
+            }
+        }
+
+        /// <summary>
+        /// Calculates the column width.
+        /// </summary>
+        private void CalculateColumnWidth(Table table, int colIndex)
+        {
+            Column column = table.Columns[colIndex];
+
+            if (column.Width < 0 || column.VarWidth)
+            {
+                int maxWidth = 0;
+
+                for (int rowIdx = 0, rowCnt = table.Rows.Length; rowIdx < rowCnt; rowIdx++)
+                {
+                    Row row = table.Rows[rowIdx];
+                    if (!row.IsEmpty && !row.IsSubheader)
+                    {
+                        int cellWidth = (row.Cells[colIndex] ?? "").Length;
+
+                        if (maxWidth < cellWidth)
+                            maxWidth = cellWidth;
+                    }
+                }
+
+                column.Width = maxWidth;
+            }
+        }
+
+        /// <summary>
+        /// Updates the column cells by padding them with spaces for a specified total length.
+        /// </summary>
+        /// <remarks>To improve performance.</remarks>
+        private void PadColumn(Table table, int colIndex)
+        {
+            CalculateColumnWidth(table, colIndex);
+            Column column = table.Columns[colIndex];
+            bool alignLeft = column.AlignLeft;
+            int columnWidth = column.Width;
+
+            for (int rowIdx = 0, rowCnt = table.Rows.Length; rowIdx < rowCnt; rowIdx++)
+            {
+                Row row = table.Rows[rowIdx];
+
+                if (!row.IsEmpty && !row.IsSubheader)
+                {
+                    string cellText = row.Cells[colIndex] ?? "";
+
+                    if (cellText.Length < columnWidth)
+                        row.Cells[colIndex] = alignLeft ? cellText.PadLeft(columnWidth) : cellText.PadRight(columnWidth);
+                }
+            }
+        }
+
+
+        /// <summary>
+        /// Prepares the current data for display.
+        /// </summary>
+        public void PrepareCurData(DeviceTags deviceTags)
+        {
+            if (deviceTags == null)
+                throw new ArgumentNullException(nameof(deviceTags));
+
+            // calculate row count
+            int rowCount = 0;
+            bool flattenGroups = deviceTags.TagGroups.Count == 1 && string.IsNullOrEmpty(deviceTags.TagGroups[0].Name);
+
+            foreach (TagGroup tagGroup in deviceTags.TagGroups)
+            {
+                if (!tagGroup.Hidden)
+                {
+                    if (!flattenGroups)
+                        rowCount++;
+
+                    foreach (DeviceTag deviceTag in tagGroup.DeviceTags)
+                    {
+                        rowCount++;
+
+                        if (deviceTag.ExpandData)
+                            rowCount += deviceTag.DataLength;
+                    }
+                }
+            }
+
+            // initialize table
+            if (rowCount > 0)
+            {
+                curDataTable = new Table(5, rowCount);
+                curDataTable.Columns[3].VarWidth = true;
+                curDataRowIndexes = new int[deviceTags.Count];
+
+                if (Locale.IsRussian)
+                {
+                    Row headerRow = curDataTable.Rows[0];
+                    headerRow.Cells[0] = "Номер";
+                    headerRow.Cells[1] = "Код";
+                    headerRow.Cells[2] = "Наименование";
+                    headerRow.Cells[3] = "Значение";
+                    headerRow.Cells[4] = "Канал";
+                }
+                else
+                {
+                    Row headerRow = curDataTable.Rows[0];
+                    headerRow.Cells[0] = "#";
+                    headerRow.Cells[1] = "Code";
+                    headerRow.Cells[2] = "Name";
+                    headerRow.Cells[3] = "Value";
+                    headerRow.Cells[4] = "Channel";
+                }
+
+                int rowIndex = 0;
+
+                foreach (TagGroup tagGroup in deviceTags.TagGroups)
+                {
+                    if (tagGroup.Hidden)
+                    {
+                        foreach (DeviceTag deviceTag in tagGroup.DeviceTags)
+                        {
+                            curDataRowIndexes[deviceTag.Index] = -1;
+                        }
+                    }
+                    else
+                    {
+                        if (!flattenGroups)
+                        {
+                            Row row = curDataTable.Rows[rowIndex++];
+                            row.IsSubheader = true;
+                            row.Cells[0] = tagGroup.Name;
+                        }
+
+                        foreach (DeviceTag deviceTag in tagGroup.DeviceTags)
+                        {
+                            curDataRowIndexes[deviceTag.Index] = rowIndex;
+                            int dataLen = deviceTag.DataLength;
+                            int cnlNum = deviceTag.InCnl == null ? 0 : deviceTag.InCnl.CnlNum;
+
+                            Row row = curDataTable.Rows[rowIndex++];
+                            row.Cells[0] = deviceTag.TagNum.ToString();
+                            row.Cells[1] = deviceTag.Code;
+                            row.Cells[2] = deviceTag.Name;
+
+                            if (cnlNum > 0)
+                            {
+                                row.Cells[4] = dataLen > 1 ? 
+                                    cnlNum + "-" + (cnlNum + dataLen - 1) : cnlNum.ToString();
+                            }
+
+                            if (deviceTag.ExpandData)
+                            {
+                                for (int i = 0, lastIdx = dataLen - 1; i < lastIdx; i++)
+                                {
+                                    row = curDataTable.Rows[rowIndex++];
+                                    row.Cells[2] = deviceTag.Name + "[" + i + "]";
+
+                                    if (cnlNum > 0)
+                                        row.Cells[4] = (cnlNum + i).ToString();
+                                }
+                            }
+                        }
+                    }
+                }
+
+                PadColumn(curDataTable, 0);
+                PadColumn(curDataTable, 1);
+                PadColumn(curDataTable, 2);
+                PadColumn(curDataTable, 4);
+            }
+        }
+
+        /// <summary>
+        /// Sets the display value of the tag.
+        /// </summary>
+        public void SetDisplayValue(int tagIndex, int offset, string displayValue)
+        {
+            if (curDataTable != null)
+            {
+                int rowIndex = curDataRowIndexes[tagIndex] + offset;
+
+                if (rowIndex >= 0)
+                    curDataTable.Rows[rowIndex].Cells[3] = displayValue;
+            }
         }
 
         /// <summary>
@@ -209,6 +468,7 @@ namespace Scada.Comm.Devices
                 }
 
                 slices.Enqueue(deviceSlice);
+                sliceTable.ResetColumnWidths();
             }
         }
 
@@ -228,6 +488,7 @@ namespace Scada.Comm.Devices
                 }
 
                 events.Enqueue(deviceEvent);
+                eventTable.ResetColumnWidths();
             }
         }
 
@@ -247,6 +508,7 @@ namespace Scada.Comm.Devices
                 }
 
                 commands.Enqueue(cmd);
+                commandTable.ResetColumnWidths();
             }
         }
 
@@ -258,6 +520,19 @@ namespace Scada.Comm.Devices
             if (sb == null)
                 throw new ArgumentNullException(nameof(sb));
 
+            if (curDataTable != null && curDataTable.Rows.Length > 1)
+            {
+                sb.AppendLine(Locale.IsRussian ?
+                    "Текущие данные" :
+                    "Current Data");
+                AppendTable(sb, curDataTable);
+            }
+            else
+            {
+                sb.AppendLine(Locale.IsRussian ?
+                    "Теги КП отсутствуют" :
+                    "No device tags");
+            }
         }
 
         /// <summary>
@@ -271,6 +546,9 @@ namespace Scada.Comm.Devices
             if (slices.Count > 0)
             {
                 sb.AppendLine();
+                sb.AppendLine(Locale.IsRussian ?
+                    "Недавние архивные данные" :
+                    "Recent Historical Data");
 
                 lock (slices)
                 {
@@ -304,6 +582,9 @@ namespace Scada.Comm.Devices
             if (events.Count > 0)
             {
                 sb.AppendLine();
+                sb.AppendLine(Locale.IsRussian ?
+                    "Недавние события" :
+                    "Recent Events");
 
                 lock (events)
                 {
@@ -338,6 +619,9 @@ namespace Scada.Comm.Devices
             if (commands.Count > 0)
             {
                 sb.AppendLine();
+                sb.AppendLine(Locale.IsRussian ?
+                    "Недавние команды" :
+                    "Recent Commands");
 
                 lock (commands)
                 {

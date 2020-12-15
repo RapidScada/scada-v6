@@ -45,6 +45,7 @@
     <Phrase key="SaveAppConfigError">Ошибка при сохранении конфигурации приложения</Phrase>
   </Dictionary>
   <Dictionary key="Scada.Format">
+    <Phrase key="UndefinedSign">---</Phrase>
     <Phrase key="NotNumber">Строка не является числом.</Phrase>
     <Phrase key="NotHexadecimal">Строка не является 16-ричной записью.</Phrase>
     <Phrase key="InvalidParamVal">Некорректное значение параметра &quot;{0}&quot;.</Phrase>

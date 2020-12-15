@@ -23,6 +23,7 @@
  * Modified : 2020
  */
 
+using Scada.Data.Const;
 using System;
 
 namespace Scada.Data.Models
@@ -58,6 +59,28 @@ namespace Scada.Data.Models
         /// Gets or sets the channel status.
         /// </summary>
         public int Stat { get; set; }
+
+        /// <summary>
+        /// Gets a value indicating whether the channel data has one of the defined statuses.
+        /// </summary>
+        public bool IsDefined
+        {
+            get
+            {
+                return Stat > CnlStatusID.Undefined;
+            }
+        }
+
+        /// <summary>
+        /// Gets a value indicating whether the channel data has the undefined status.
+        /// </summary>
+        public bool IsUndefined
+        {
+            get
+            {
+                return Stat <= CnlStatusID.Undefined;
+            }
+        }
 
 
         /// <summary>

@@ -78,6 +78,7 @@ namespace Scada
         public static string SaveAppConfigError { get; private set; }
 
         // Scada.Format
+        public static string UndefinedSign { get; private set; }
         public static string NotNumber { get; private set; }
         public static string NotHexadecimal { get; private set; }
         public static string InvalidParamVal { get; private set; }
@@ -144,6 +145,7 @@ namespace Scada
             SaveAppConfigError = dict.GetPhrase("SaveAppConfigError");
 
             dict = Locale.GetDictionary("Scada.Format");
+            UndefinedSign = dict.GetPhrase("UndefinedSign");
             NotNumber = dict.GetPhrase("NotNumber");
             NotHexadecimal = dict.GetPhrase("NotHexadecimal");
             InvalidParamVal = dict.GetPhrase("InvalidParamVal");
