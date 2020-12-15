@@ -100,6 +100,7 @@ namespace Scada.Comm.Devices
         public void AddGroup(TagGroup tagGroup)
         {
             int tagIndex = deviceTags.Count;
+            TagGroups.Add(tagGroup);
 
             foreach (DeviceTag deviceTag in tagGroup.DeviceTags)
             {

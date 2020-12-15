@@ -100,7 +100,7 @@ namespace Scada.Comm.Engine
 
             Title = CommUtils.GetLineTitle(CommLineNum, lineConfig.Name);
             SharedData = null;
-            Log = new LogFile(LogFormat.Full)
+            Log = new LogFile(LogFormat.Simple)
             {
                 FileName = Path.Combine(coreLogic.AppDirs.LogDir, CommUtils.GetLineLogFileName(CommLineNum, ".log")),
                 Capacity = coreLogic.Config.GeneralOptions.MaxLogSize

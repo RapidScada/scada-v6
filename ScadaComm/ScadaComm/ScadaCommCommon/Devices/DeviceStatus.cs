@@ -34,7 +34,7 @@ namespace Scada.Comm.Devices
     public enum DeviceStatus
     {
         Undefined = 0,
-        Normal = 2,
-        Error = 3,
+        Normal = 1,
+        Error = 2,
     }
 }

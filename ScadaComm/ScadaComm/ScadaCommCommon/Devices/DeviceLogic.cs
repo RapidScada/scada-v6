@@ -60,7 +60,7 @@ namespace Scada.Comm.Devices
             AppDirs = commContext.AppDirs;
             Log = lineContext.LineConfig.LineOptions.DetailedLog ? lineContext.Log : LogStub.Instance;
             AssemblyName asmName = GetType().Assembly.GetName();
-            AssemblyName = asmName.Name + " " + asmName.Version;
+            DriverName = ScadaUtils.RemoveFileNameSuffixes(asmName.Name) + " " + asmName.Version;
             LastRequestOK = false;
             ReqRetries = lineContext.LineConfig.LineOptions.ReqRetries;
             IsBound = lineContext.LineConfig.IsBound && deviceConfig.IsBound;
@@ -110,9 +110,9 @@ namespace Scada.Comm.Devices
         protected ILog Log { get; }
 
         /// <summary>
-        /// Gets the display name of the driver assembly.
+        /// Gets the display name of the driver.
         /// </summary>
-        protected string AssemblyName { get; }
+        protected string DriverName { get; }
 
         /// <summary>
         /// Gets a value indicating whether to stop the current operation.
@@ -386,6 +386,11 @@ namespace Scada.Comm.Devices
         {
             LastSessionTime = DateTime.UtcNow;
             LastRequestOK = true;
+
+            Log.WriteLine();
+            Log.WriteAction(Locale.IsRussian ?
+                "Сеанс связи с КП {0}" :
+                "Session with the device {0}", Title);
         }
 
         /// <summary>
@@ -396,6 +401,11 @@ namespace Scada.Comm.Devices
             LastCommandTime = DateTime.UtcNow;
             LastRequestOK = true;
             DeviceData.RegisterCommand(cmd);
+
+            Log.WriteLine();
+            Log.WriteAction(Locale.IsRussian ?
+                "Команда КП {0}" :
+                "Command to the device {0}", Title);
         }
 
         /// <summary>
@@ -441,7 +451,7 @@ namespace Scada.Comm.Devices
 
             if (Locale.IsRussian)
             {
-                sb.Append("Драйвер       : ").AppendLine(AssemblyName);
+                sb.Append("Драйвер       : ").AppendLine(DriverName);
                 sb.Append("Состояние     : ").AppendLine(DeviceStatus.ToString());
                 sb.Append("Время сеанса  : ").AppendLine(TimeToStringRu(LastSessionTime));
                 sb.Append("Время команды : ").AppendLine(TimeToStringRu(LastCommandTime));
@@ -452,7 +462,7 @@ namespace Scada.Comm.Devices
             }
             else
             {
-                sb.Append("Driver       : ").AppendLine(AssemblyName);
+                sb.Append("Driver       : ").AppendLine(DriverName);
                 sb.Append("Status       : ").AppendLine(DeviceStatus.ToString());
                 sb.Append("Session time : ").AppendLine(TimeToStringEn(LastSessionTime));
                 sb.Append("Command time : ").AppendLine(TimeToStringEn(LastCommandTime));

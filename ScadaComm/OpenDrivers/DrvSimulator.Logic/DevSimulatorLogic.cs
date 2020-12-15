@@ -109,7 +109,7 @@ namespace Scada.Comm.Drivers.DrvSimulator.Logic
         {
             base.Session();
             SimulateInputs();
-            Thread.Sleep(PollingOptions.Delay);
+            FinishRequest();
             FinishSession();
         }
 

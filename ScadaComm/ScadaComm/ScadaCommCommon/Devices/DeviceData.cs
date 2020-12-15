@@ -140,17 +140,20 @@ namespace Scada.Comm.Devices
         /// </summary>
         private void SetDisplayValues()
         {
-            foreach (DeviceTag deviceTag in deviceTags)
+            if (deviceTags != null)
             {
-                int tagIndex = deviceTag.Index;
-                dataView.SetDisplayValue(tagIndex, 0, FormatTagData(deviceTag));
-
-                if (deviceTag.ExpandData)
+                foreach (DeviceTag deviceTag in deviceTags)
                 {
-                    for (int i = 0, len = deviceTag.DataLength; i < len; i++)
+                    int tagIndex = deviceTag.Index;
+                    dataView.SetDisplayValue(tagIndex, 0, FormatTagData(deviceTag));
+
+                    if (deviceTag.ExpandData)
                     {
-                        CnlData cnlData = GetCnlData(tagIndex, i);
-                        dataView.SetDisplayValue(tagIndex, i + 1, FormatNumericData(deviceTag, cnlData));
+                        for (int i = 0, len = deviceTag.DataLength; i < len; i++)
+                        {
+                            CnlData cnlData = GetCnlData(tagIndex, i);
+                            dataView.SetDisplayValue(tagIndex, i + 1, FormatNumericData(deviceTag, cnlData));
+                        }
                     }
                 }
             }

@@ -43,7 +43,7 @@ namespace Scada.Comm.Devices
         {
             public Row(int cellCount)
             {
-                IsEmpty = true;
+                IsEmpty = false;
                 IsSubheader = false;
                 Cells = new string[cellCount];
             }
@@ -208,12 +208,12 @@ namespace Scada.Comm.Devices
         private void AppendTable(StringBuilder sb, Table table)
         {
             // calculate column widths
-            int totalWidth = 0;
+            int totalWidth = 1;
 
-            for (int colIdx = 0, colCnt = table.Columns.Length; colIdx < colCnt; colIdx++)
+            for (int colIdx = 0, lastIdx = table.Columns.Length - 1; colIdx <= lastIdx; colIdx++)
             {
                 CalculateColumnWidth(table, colIdx);
-                totalWidth += table.Columns[colIdx].Width;
+                totalWidth += table.Columns[colIdx].Width + 3;
             }
 
             // build break line
@@ -229,45 +229,57 @@ namespace Scada.Comm.Devices
             string breakLine = sbBreakLine.ToString();
 
             // build table
+            sb.AppendLine(breakLine);
+
             for (int rowIdx = 0, rowCnt = table.Rows.Length; rowIdx < rowCnt; rowIdx++)
             {
                 Row row = table.Rows[rowIdx];
 
                 if (row.IsEmpty)
-                {
-                    // do nothing
-                }
-                else if (row.IsSubheader)
+                    continue;
+
+                sb.Append("| ");
+
+                if (row.IsSubheader)
                 {
                     string cellText = row.Cells[0] ?? "";
-                    sb.Append("| *** ").Append(cellText);
-                    int spaceLength = totalWidth - cellText.Length - 10;
+                    int asteriskCnt = totalWidth - cellText.Length - 6;
 
-                    if (spaceLength > 0)
-                        sb.Append('*', spaceLength);
-
-                    sb.AppendLine("*** |").AppendLine(breakLine);
+                    if (asteriskCnt > 0)
+                    {
+                        int prefixLength = asteriskCnt / 2;
+                        int suffixLength = asteriskCnt - prefixLength;
+                        sb.Append('*', prefixLength).Append(' ');
+                        sb.Append(cellText);
+                        sb.Append(' ').Append('*', suffixLength);
+                    }
+                    else if (asteriskCnt == 0)
+                    {
+                        sb.Append(cellText);
+                    }
+                    else
+                    {
+                        sb.Append(cellText.Substring(0, totalWidth - 4));
+                    }
                 }
                 else
                 {
-                    sb.Append("| ");
-
                     for (int colIdx = 0, lastIdx = table.Columns.Length - 1; colIdx <= lastIdx; colIdx++)
                     {
                         Column column = table.Columns[colIdx];
                         string cellText = row.Cells[colIdx] ?? "";
 
                         if (cellText.Length < column.Width)
-                            sb.Append(column.AlignLeft ? cellText.PadLeft(column.Width) : cellText.PadRight(column.Width));
+                            sb.Append(column.AlignLeft ? cellText.PadRight(column.Width) : cellText.PadLeft(column.Width));
                         else
                             sb.Append(cellText);
 
                         if (colIdx < lastIdx)
                             sb.Append(" | ");
                     }
-
-                    sb.AppendLine(" |").AppendLine(breakLine);
                 }
+
+                sb.AppendLine(" |").AppendLine(breakLine);
             }
         }
 
@@ -318,7 +330,7 @@ namespace Scada.Comm.Devices
                     string cellText = row.Cells[colIndex] ?? "";
 
                     if (cellText.Length < columnWidth)
-                        row.Cells[colIndex] = alignLeft ? cellText.PadLeft(columnWidth) : cellText.PadRight(columnWidth);
+                        row.Cells[colIndex] = alignLeft ? cellText.PadRight(columnWidth) : cellText.PadLeft(columnWidth);
                 }
             }
         }
@@ -333,7 +345,7 @@ namespace Scada.Comm.Devices
                 throw new ArgumentNullException(nameof(deviceTags));
 
             // calculate row count
-            int rowCount = 0;
+            int rowCount = 1;
             bool flattenGroups = deviceTags.TagGroups.Count == 1 && string.IsNullOrEmpty(deviceTags.TagGroups[0].Name);
 
             foreach (TagGroup tagGroup in deviceTags.TagGroups)
@@ -354,10 +366,11 @@ namespace Scada.Comm.Devices
             }
 
             // initialize table
-            if (rowCount > 0)
+            if (rowCount > 1)
             {
                 curDataTable = new Table(5, rowCount);
                 curDataTable.Columns[3].VarWidth = true;
+                curDataTable.Columns[3].AlignLeft = false;
                 curDataRowIndexes = new int[deviceTags.Count];
 
                 if (Locale.IsRussian)
@@ -379,7 +392,7 @@ namespace Scada.Comm.Devices
                     headerRow.Cells[4] = "Channel";
                 }
 
-                int rowIndex = 0;
+                int rowIndex = 1;
 
                 foreach (TagGroup tagGroup in deviceTags.TagGroups)
                 {
