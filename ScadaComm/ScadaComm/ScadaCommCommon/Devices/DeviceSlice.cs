@@ -49,7 +49,7 @@ namespace Scada.Comm.Devices
 
 
         /// <summary>
-        /// Gets or sets the timestamp.
+        /// Gets or sets the timestamp (UTC).
         /// </summary>
         public DateTime Timestamp { get; set; }
 

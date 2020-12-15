@@ -38,8 +38,9 @@ namespace Scada.Comm.Devices
     /// <remarks>The class is thread safe.</remarks>
     public class DeviceData
     {
-        private readonly Queue<DeviceSlice> slices; // the archive data queue
+        private readonly Queue<DeviceSlice> slices; // the historical data queue
         private readonly Queue<DeviceEvent> events; // the event queue
+        private readonly DeviceDataView dataView;   // converts data to a string representation
         private readonly object curDataLock;        // syncronizes access to current data
 
         private DeviceTags deviceTags; // the device tags
@@ -54,6 +55,7 @@ namespace Scada.Comm.Devices
         {
             slices = new Queue<DeviceSlice>();
             events = new Queue<DeviceEvent>();
+            dataView = new DeviceDataView();
             curDataLock = new object();
 
             deviceTags = null;
@@ -588,6 +590,8 @@ namespace Scada.Comm.Devices
             {
                 slices.Enqueue(deviceSlice);
             }
+
+            dataView.AddSlice(deviceSlice);
         }
 
         /// <summary>
@@ -620,6 +624,8 @@ namespace Scada.Comm.Devices
             {
                 events.Enqueue(deviceEvent);
             }
+
+            dataView.AddEvent(deviceEvent);
         }
 
         /// <summary>
@@ -638,6 +644,25 @@ namespace Scada.Comm.Devices
                     destination.Add(deviceEvent);
                 }
             }
+        }
+
+        /// <summary>
+        /// Registers the telecontrol command for display.
+        /// </summary>
+        public void RegisterCommand(TeleCommand cmd)
+        {
+            dataView.AddCommand(cmd);
+        }
+
+        /// <summary>
+        /// Appends a string representation of the device data to the string builder.
+        /// </summary>
+        public void AppendInfo(StringBuilder sb)
+        {
+            dataView.AppendCurrentDataInfo(sb);
+            dataView.AppendHistoricalDataInfo(sb);
+            dataView.AppendEventInfo(sb);
+            dataView.AppendCommandInfo(sb);
         }
     }
 }

@@ -125,5 +125,14 @@ namespace Scada.Comm.Devices
         /// Gets or sets the auxiliary object that contains data about the device tag.
         /// </summary>
         public object Aux { get; set; }
+
+
+        /// <summary>
+        /// Returns a string that represents the current object.
+        /// </summary>
+        public override string ToString()
+        {
+            return string.IsNullOrEmpty(Code) ? Code : TagNum.ToString();
+        }
     }
 }

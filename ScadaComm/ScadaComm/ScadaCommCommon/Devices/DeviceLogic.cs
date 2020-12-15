@@ -32,6 +32,8 @@ using Scada.Data.Models;
 using Scada.Data.Tables;
 using Scada.Log;
 using System;
+using System.Reflection;
+using System.Text;
 using System.Threading;
 
 namespace Scada.Comm.Devices
@@ -44,6 +46,7 @@ namespace Scada.Comm.Devices
     {
         private volatile bool terminated; // necessary to stop the current operation
         private Connection connection;    // the device connection
+        private int lastInfoLength;       // the last info text length
 
 
         /// <summary>
@@ -56,15 +59,16 @@ namespace Scada.Comm.Devices
             DeviceConfig = deviceConfig ?? throw new ArgumentNullException(nameof(deviceConfig));
             AppDirs = commContext.AppDirs;
             Log = lineContext.LineConfig.LineOptions.DetailedLog ? lineContext.Log : LogStub.Instance;
+            AssemblyName asmName = GetType().Assembly.GetName();
+            AssemblyName = asmName.Name + " " + asmName.Version;
             LastRequestOK = false;
+            ReqRetries = lineContext.LineConfig.LineOptions.ReqRetries;
             IsBound = lineContext.LineConfig.IsBound && deviceConfig.IsBound;
             DeviceNum = deviceConfig.DeviceNum;
             Title = CommUtils.GetDeviceTitle(DeviceNum, deviceConfig.Name);
             NumAddress = deviceConfig.NumAddress;
             StrAddress = deviceConfig.StrAddress;
             PollingOptions = deviceConfig.PollingOptions;
-            ReqRetries = lineContext.LineConfig.LineOptions.ReqRetries;
-
             CanSendCommands = false;
             ConnectionRequired = false;
             DeviceStatus = DeviceStatus.Undefined;
@@ -76,13 +80,14 @@ namespace Scada.Comm.Devices
 
             terminated = false;
             connection = null;
+            lastInfoLength = 0;
         }
 
 
         /// <summary>
         /// Gets the application context.
         /// </summary>
-        public ICommContext CommContext { get; }
+        protected ICommContext CommContext { get; }
 
         /// <summary>
         /// Gets the communication line context.
@@ -105,6 +110,11 @@ namespace Scada.Comm.Devices
         protected ILog Log { get; }
 
         /// <summary>
+        /// Gets the display name of the driver assembly.
+        /// </summary>
+        protected string AssemblyName { get; }
+
+        /// <summary>
         /// Gets a value indicating whether to stop the current operation.
         /// </summary>
         protected bool IsTerminated
@@ -119,6 +129,11 @@ namespace Scada.Comm.Devices
         /// Gets or sets a value indicating whether the last request to the device was successful.
         /// </summary>
         protected bool LastRequestOK { get; set; }
+
+        /// <summary>
+        /// Gets or sets the number of retries of the request in case of an error.
+        /// </summary>
+        protected int ReqRetries { get; }
 
         /// <summary>
         /// Gets a value indicating whether the device is bound to the server.
@@ -149,11 +164,6 @@ namespace Scada.Comm.Devices
         /// Gets the polling options.
         /// </summary>
         public PollingOptions PollingOptions { get; }
-
-        /// <summary>
-        /// Gets or sets the number of retries of the request in case of an error.
-        /// </summary>
-        public int ReqRetries { get; }
 
         /// <summary>
         /// Gets a value indicating whether the device can send telecontrol commands.
@@ -385,6 +395,7 @@ namespace Scada.Comm.Devices
         {
             LastCommandTime = DateTime.UtcNow;
             LastRequestOK = true;
+            DeviceData.RegisterCommand(cmd);
         }
 
         /// <summary>
@@ -409,7 +420,52 @@ namespace Scada.Comm.Devices
         /// </summary>
         public virtual string GetInfo()
         {
-            return Title;
+            StringBuilder sb = new StringBuilder((int)(lastInfoLength * 1.1));
+            sb.AppendLine(Title);
+            sb.Append('-', Title.Length).AppendLine();
+
+            string TimeToStringRu(DateTime dateTime)
+            {
+                return dateTime > DateTime.MinValue ? dateTime.ToLocalTime().ToLocalizedString() : "неопределено";
+            };
+
+            string TimeToStringEn(DateTime dateTime)
+            {
+                return dateTime > DateTime.MinValue ? dateTime.ToLocalTime().ToLocalizedString() : "Undefined";
+            };
+
+            void AppendStats(string caption, int total, int errors)
+            {
+                sb.Append(caption).Append(total).Append(" / ").Append(errors).AppendLine();
+            }
+
+            if (Locale.IsRussian)
+            {
+                sb.Append("Драйвер       : ").AppendLine(AssemblyName);
+                sb.Append("Состояние     : ").AppendLine(DeviceStatus.ToString());
+                sb.Append("Время сеанса  : ").AppendLine(TimeToStringRu(LastSessionTime));
+                sb.Append("Время команды : ").AppendLine(TimeToStringRu(LastCommandTime));
+                sb.AppendLine();
+                AppendStats("Сеансы  (всего / ошибок) : ", DeviceStats.SessionCount, DeviceStats.SessionErrors);
+                AppendStats("Команды (всего / ошибок) : ", DeviceStats.CommandCount, DeviceStats.CommandErrors);
+                AppendStats("Запросы (всего / ошибок) : ", DeviceStats.RequestCount, DeviceStats.RequestErrors);
+            }
+            else
+            {
+                sb.Append("Driver       : ").AppendLine(AssemblyName);
+                sb.Append("Status       : ").AppendLine(DeviceStatus.ToString());
+                sb.Append("Session time : ").AppendLine(TimeToStringEn(LastSessionTime));
+                sb.Append("Command time : ").AppendLine(TimeToStringEn(LastCommandTime));
+                sb.AppendLine();
+                AppendStats("Sessions (total / errors) : ", DeviceStats.SessionCount, DeviceStats.SessionErrors);
+                AppendStats("Commands (total / errors) : ", DeviceStats.CommandCount, DeviceStats.CommandErrors);
+                AppendStats("Requests (total / errors) : ", DeviceStats.RequestCount, DeviceStats.RequestErrors);
+            }
+
+            sb.AppendLine();
+            DeviceData.AppendInfo(sb);
+            lastInfoLength = sb.Length;
+            return sb.ToString();
         }
 
         /// <summary>
