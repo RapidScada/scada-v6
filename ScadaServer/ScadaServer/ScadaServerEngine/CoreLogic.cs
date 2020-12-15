@@ -562,7 +562,7 @@ namespace Scada.Server.Engine
                     {
                         CnlData cnlData = curData.CnlData[cnlTag.Index];
 
-                        if (cnlData.Stat > CnlStatusID.Undefined && cnlData.Stat != CnlStatusID.Unreliable &&
+                        if (cnlData.IsDefined && cnlData.Stat != CnlStatusID.Unreliable &&
                             (nowDT - curData.Timestamps[cnlTag.Index]).TotalSeconds > unrelIfInactive)
                         {
                             curData.SetCurCnlData(cnlTag, new CnlData(cnlData.Val, CnlStatusID.Unreliable), nowDT);
@@ -824,14 +824,10 @@ namespace Scada.Server.Engine
 
             if (eventMask.Enabled)
             {
-                int cnlStat = cnlData.Stat;
-                int prevStat = prevCnlData.Stat;
-
                 if (eventMask.CnlDataChange && cnlData != prevCnlData ||
-                    eventMask.CnlStatusChange && cnlStat != prevStat ||
+                    eventMask.CnlStatusChange && cnlData.Stat != prevCnlData.Stat ||
                     eventMask.CnlUndefined &&
-                    (cnlStat == CnlStatusID.Undefined && prevStat > CnlStatusID.Undefined ||
-                    cnlStat > CnlStatusID.Undefined && prevStat == CnlStatusID.Undefined))
+                    (cnlData.IsUndefined && prevCnlData.IsDefined || cnlData.IsDefined && prevCnlData.IsUndefined))
                 {
                     CnlStatus cnlStatus = BaseDataSet.CnlStatusTable.GetItem(cnlData.Stat);
                     DateTime utcNow = DateTime.UtcNow;
@@ -844,9 +840,9 @@ namespace Scada.Server.Engine
                         ObjNum = inCnl.ObjNum ?? 0,
                         DeviceNum = inCnl.DeviceNum ?? 0,
                         PrevCnlVal = prevCnlData.Val,
-                        PrevCnlStat = prevStat,
+                        PrevCnlStat = prevCnlData.Stat,
                         CnlVal = cnlData.Val,
-                        CnlStat = cnlStat,
+                        CnlStat = cnlData.Stat,
                         Severity = cnlStatus?.Severity ?? 0,
                         AckRequired = cnlStatus?.AckRequired ?? false
                     }, inCnl.ArchiveMask ?? ArchiveMask.Default);
