@@ -261,7 +261,11 @@ namespace Scada.Comm.Devices
         {
             DeviceStats.SessionCount++;
 
-            if (LastRequestOK)
+            if (IsTerminated)
+            {
+                DeviceStatus = DeviceStatus.Undefined;
+            }
+            else if (LastRequestOK)
             {
                 DeviceStatus = DeviceStatus.Normal;
             }
@@ -281,7 +285,11 @@ namespace Scada.Comm.Devices
         {
             DeviceStats.CommandCount++;
 
-            if (LastRequestOK)
+            if (IsTerminated)
+            {
+                DeviceStatus = DeviceStatus.Undefined;
+            }
+            else if (LastRequestOK)
             {
                 DeviceStatus = DeviceStatus.Normal;
             }
@@ -484,6 +492,7 @@ namespace Scada.Comm.Devices
         public void Terminate()
         {
             terminated = true;
+            DeviceStatus = DeviceStatus.Undefined;
         }
     }
 }
