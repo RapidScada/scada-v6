@@ -25,7 +25,9 @@
 
 using Scada.Client;
 using Scada.Comm.Config;
+using Scada.Comm.Devices;
 using Scada.Comm.Drivers;
+using Scada.Data.Const;
 using Scada.Data.Models;
 using Scada.Data.Tables;
 using Scada.Log;
@@ -65,7 +67,7 @@ namespace Scada.Comm.Engine
         private int lastInfoLength;           // the last info text length
         private int maxLineTitleLength;       // the maximum length of communication line title
 
-        private ScadaClient scadaClient;      // communicates with the Server service
+        private ScadaClient scadaClient;      // communicates with the server
         private List<CommLine> commLines;     // the active communication lines
         private DriverHolder driverHolder;    // holds drivers
 
@@ -186,7 +188,8 @@ namespace Scada.Comm.Engine
         {
             try
             {
-                ExecutionStep executionStep = Config.GeneralOptions.InteractWithServer ? 
+                bool interactWithServer = Config.GeneralOptions.InteractWithServer;
+                ExecutionStep executionStep = interactWithServer ? 
                     ExecutionStep.ReceiveBase : ExecutionStep.StartLines;
                 DateTime receiveBaseDT = DateTime.MinValue;
                 DateTime writeInfoDT = DateTime.MinValue;
@@ -203,6 +206,8 @@ namespace Scada.Comm.Engine
                         switch (executionStep)
                         {
                             case ExecutionStep.MainWork:
+                                if (interactWithServer)
+                                    ReceiveCommands();
                                 break;
 
                             case ExecutionStep.ReceiveBase:
@@ -260,7 +265,7 @@ namespace Scada.Comm.Engine
         }
 
         /// <summary>
-        /// Receives the configuration database.
+        /// Receives the configuration database from the server.
         /// </summary>
         private bool ReceiveBase()
         {
@@ -399,6 +404,39 @@ namespace Scada.Comm.Engine
                 Log.WriteException(ex, Locale.IsRussian ?
                     "Ошибка при остановке линий связи" :
                     "Error stopping communication lines");
+            }
+        }
+
+        /// <summary>
+        /// Receives telecontrol commands from the server.
+        /// </summary>
+        private void ReceiveCommands()
+        {
+            try
+            {
+                const int MaxCommandCount = 100;
+                int commandCount = 0;
+
+                while (scadaClient.GetCommand() is TeleCommand command)
+                {
+                    if (command.CmdTypeID == CmdTypeID.Standard)
+                    {
+
+                    }
+                    else if (command.CmdTypeID == CmdTypeID.AppCommand)
+                    {
+
+                    }
+
+                    if (++commandCount == MaxCommandCount)
+                        break;
+                }
+            }
+            catch (Exception ex)
+            {
+                Log.WriteException(ex, Locale.IsRussian ?
+                    "Ошибка при приёме команд ТУ" :
+                    "Error receiving telecontrol commands");
             }
         }
 
@@ -545,6 +583,30 @@ namespace Scada.Comm.Engine
                 WriteInfo();
                 Log.WriteException(ex, CommonPhrases.StopLogicError);
             }
+        }
+
+        /// <summary>
+        /// Adds the slice of the current data to the queue for transfer to the server.
+        /// </summary>
+        public void EnqueueCurrentData(DeviceSlice deviceSlice)
+        {
+
+        }
+
+        /// <summary>
+        /// Adds the slice of historical data to the queue for transfer to the server.
+        /// </summary>
+        public void EnqueueHistoricalData(DeviceSlice deviceSlice)
+        {
+
+        }
+
+        /// <summary>
+        /// Adds the event to the queue for transfer to the server.
+        /// </summary>
+        public void EnqueueEvent(DeviceEvent deviceEvent)
+        {
+
         }
     }
 }

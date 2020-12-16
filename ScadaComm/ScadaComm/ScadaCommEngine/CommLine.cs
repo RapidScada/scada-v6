@@ -295,6 +295,10 @@ namespace Scada.Comm.Engine
             int requiredSessionCnt = 0;
             int actualSessionCnt = 0;
             bool skipUnableMsg = false;
+            TimeSpan sendAllDataPeriod = TimeSpan.FromSeconds(coreLogic.Config.GeneralOptions.SendAllDataPeriod);
+            bool sendAllDataAlways = !coreLogic.Config.GeneralOptions.SendModifiedData;
+            bool sendAllDataWithPeriod = sendAllDataPeriod > TimeSpan.Zero;
+            DateTime sendAllDataDT = DateTime.MinValue;
             DateTime writeInfoDT = DateTime.MinValue;
 
             while (!terminated)
@@ -334,9 +338,17 @@ namespace Scada.Comm.Engine
                     // session
                     deviceWrapper = SelectDevice(ref deviceIndex);
                     deviceLogic = deviceWrapper.DeviceLogic;
+                    bool sendAllData = false;
+                    
+                    if (sendAllDataAlways || sendAllDataWithPeriod && (utcNow - sendAllDataDT >= sendAllDataPeriod))
+                    {
+                        sendAllData = true;
+                        sendAllDataDT = utcNow;
+                    }
 
                     if (CheckSessionIsRequired(deviceLogic, utcNow))
                     {
+                        requiredSessionCnt++;
                         channel.BeforeSession(deviceLogic);
 
                         if (!deviceLogic.ConnectionRequired ||
@@ -360,7 +372,11 @@ namespace Scada.Comm.Engine
                         }
 
                         channel.AfterSession(deviceLogic);
-                        requiredSessionCnt++;
+                        TransferDeviceData(deviceLogic, sendAllData);
+                    }
+                    else if (sendAllData)
+                    {
+                        TransferDeviceData(deviceLogic, true);
                     }
 
                     // write line and devices info
@@ -543,6 +559,28 @@ namespace Scada.Comm.Engine
         }
 
         /// <summary>
+        /// Transfers data from the device to the server.
+        /// </summary>
+        private void TransferDeviceData(DeviceLogic deviceLogic, bool allData)
+        {
+            DeviceData deviceData = deviceLogic.DeviceData;
+
+            coreLogic.EnqueueCurrentData(allData ? 
+                deviceData.GetCurrentData() : 
+                deviceData.GetModifiedData());
+
+            while (deviceData.DequeueSlice(out DeviceSlice deviceSlice))
+            {
+                coreLogic.EnqueueHistoricalData(deviceSlice);
+            }
+
+            while (deviceData.DequeueEvent(out DeviceEvent deviceEvent))
+            {
+                coreLogic.EnqueueEvent(deviceEvent);
+            }
+        }
+
+        /// <summary>
         /// Writes application information to the file.
         /// </summary>
         private void WriteInfo()
@@ -678,7 +716,7 @@ namespace Scada.Comm.Engine
         }
 
         /// <summary>
-        /// Enqueues the telecontrol command.
+        /// Adds the telecontrol command to the queue.
         /// </summary>
         public void EnqueueCommand(TeleCommand cmd)
         {

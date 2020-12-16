@@ -719,7 +719,7 @@ namespace Scada.Comm.Devices
         }
 
         /// <summary>
-        /// Adds the archive slice to the queue.
+        /// Adds the slice of historical data to the queue.
         /// </summary>
         public void EnqueueSlice(DeviceSlice deviceSlice)
         {
@@ -735,19 +735,21 @@ namespace Scada.Comm.Devices
         }
 
         /// <summary>
-        /// Removes the archive slices from the queue and adds them to the desctination.
+        /// Removes and returns the slice of historical data at the beginning of the queue.
         /// </summary>
-        public void DequeueSlices(List<DeviceSlice> destination)
+        public bool DequeueSlice(out DeviceSlice deviceSlice)
         {
-            if (destination == null)
-                throw new ArgumentNullException(nameof(destination));
-
             lock (slices)
             {
-                while (slices.Count > 0)
+                if (slices.Count > 0)
                 {
-                    DeviceSlice deviceSlice = slices.Dequeue();
-                    destination.Add(deviceSlice);
+                    deviceSlice = slices.Dequeue();
+                    return true;
+                }
+                else
+                {
+                    deviceSlice = null;
+                    return false;
                 }
             }
         }
@@ -769,19 +771,21 @@ namespace Scada.Comm.Devices
         }
 
         /// <summary>
-        /// Removes the device events from the queue and adds them to the desctination.
+        /// Removes and returns the device event at the beginning of the queue.
         /// </summary>
-        public void DequeueEvents(List<DeviceEvent> destination)
+        public bool DequeueEvent(out DeviceEvent deviceEvent)
         {
-            if (destination == null)
-                throw new ArgumentNullException(nameof(destination));
-
             lock (events)
             {
-                while (events.Count > 0)
+                if (events.Count > 0)
                 {
-                    DeviceEvent deviceEvent = events.Dequeue();
-                    destination.Add(deviceEvent);
+                    deviceEvent = events.Dequeue();
+                    return true;
+                }
+                else
+                {
+                    deviceEvent = null;
+                    return false;
                 }
             }
         }
