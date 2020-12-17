@@ -724,9 +724,12 @@ namespace Scada.Comm.Engine
             {
                 if (LineConfig.LineOptions.CmdEnabled)
                 {
-                    lock (commands)
+                    if (deviceMap.ContainsKey(cmd.DeviceNum))
                     {
-                        commands.Enqueue(cmd);
+                        lock (commands)
+                        {
+                            commands.Enqueue(cmd);
+                        }
                     }
                 }
                 else

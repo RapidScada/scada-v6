@@ -417,16 +417,9 @@ namespace Scada.Comm.Engine
                 const int MaxCommandCount = 100;
                 int commandCount = 0;
 
-                while (scadaClient.GetCommand() is TeleCommand command)
+                while (scadaClient.GetCommand() is TeleCommand cmd)
                 {
-                    if (command.CmdTypeID == CmdTypeID.Standard)
-                    {
-
-                    }
-                    else if (command.CmdTypeID == CmdTypeID.AppCommand)
-                    {
-
-                    }
+                    ProcessCommand(cmd, Locale.IsRussian ? "Сервер" : "Server");
 
                     if (++commandCount == MaxCommandCount)
                         break;
@@ -582,6 +575,32 @@ namespace Scada.Comm.Engine
                 serviceStatus = ServiceStatus.Error;
                 WriteInfo();
                 Log.WriteException(ex, CommonPhrases.StopLogicError);
+            }
+        }
+
+        /// <summary>
+        /// Processes the telecontrol command.
+        /// </summary>
+        public void ProcessCommand(TeleCommand cmd, string source)
+        {
+            if (cmd.CmdTypeID == CmdTypeID.Standard)
+            {
+                Log.WriteAction(Locale.IsRussian ?
+                    "Команда на КП {0} от источника {1}" :
+                    "Command to the device {0} from the source {1}", cmd.DeviceNum, source);
+
+                foreach (CommLine commLine in commLines)
+                {
+                    commLine.EnqueueCommand(cmd);
+                }
+            }
+            else if (cmd.CmdTypeID == CmdTypeID.AppCommand)
+            {
+                Log.WriteAction(Locale.IsRussian ?
+                    "Команда приложению {0} от источника {1}" :
+                    "Application command {0} from the source {1}", cmd.CmdCode, source);
+
+                // TODO: app commands
             }
         }
 
