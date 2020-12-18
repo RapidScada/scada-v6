@@ -66,6 +66,6 @@ namespace Scada.Comm.Drivers
         /// <summary>
         /// Sends the telecontrol command to the current application.
         /// </summary>
-        void SendCommand(TeleCommand cmd);
+        void SendCommand(TeleCommand cmd, string source);
     }
 }

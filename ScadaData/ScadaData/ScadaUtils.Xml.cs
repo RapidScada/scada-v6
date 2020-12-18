@@ -15,12 +15,12 @@ namespace Scada
                 return "";
             else if (value is bool)
                 return value.ToString().ToLowerInvariant();
-            else if (value is double)
-                return ((double)value).ToString(NumberFormatInfo.InvariantInfo);
-            else if (value is DateTime)
-                return ((DateTime)value).ToString(DateTimeFormatInfo.InvariantInfo);
-            else if (value is TimeSpan)
-                return ((TimeSpan)value).ToString("", DateTimeFormatInfo.InvariantInfo);
+            else if (value is double doubleValue)
+                return doubleValue.ToString(NumberFormatInfo.InvariantInfo);
+            else if (value is DateTime dateTime)
+                return dateTime.ToString(DateTimeFormatInfo.InvariantInfo);
+            else if (value is TimeSpan timeSpan)
+                return timeSpan.ToString("", DateTimeFormatInfo.InvariantInfo);
             else
                 return value.ToString();
         }
@@ -237,7 +237,7 @@ namespace Scada
         /// Gets the child XML node value as an enumeration element.
         /// </summary>
         public static T GetChildAsEnum<T>(this XmlNode parentXmlNode, string childNodeName,
-            T defaultVal = default(T)) where T : struct
+            T defaultVal = default) where T : struct
         {
             try
             {
@@ -392,7 +392,7 @@ namespace Scada
         /// Gets the XML attribute value as an enumeration element.
         /// </summary>
         public static T GetAttrAsEnum<T>(this XmlElement xmlElem, string attrName,
-            T defaultVal = default(T)) where T : struct
+            T defaultVal = default) where T : struct
         {
             try
             {

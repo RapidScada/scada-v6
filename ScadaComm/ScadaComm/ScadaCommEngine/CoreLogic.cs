@@ -69,6 +69,7 @@ namespace Scada.Comm.Engine
 
         private ScadaClient scadaClient;      // communicates with the server
         private List<CommLine> commLines;     // the active communication lines
+        private CommandReader commandReader;  // reads telecontrol commands from files
         private DriverHolder driverHolder;    // holds drivers
 
 
@@ -95,6 +96,7 @@ namespace Scada.Comm.Engine
 
             scadaClient = null;
             commLines = null;
+            commandReader = null;
             driverHolder = null;
         }
 
@@ -141,6 +143,8 @@ namespace Scada.Comm.Engine
             scadaClient = Config.GeneralOptions.InteractWithServer ? 
                 new ScadaClient(Config.ConnectionOptions) { CommLog = CreateClientLog() } : null;
             commLines = new List<CommLine>(Config.Lines.Count);
+            commandReader = Config.GeneralOptions.CmdEnabled && Config.GeneralOptions.FileCmdEnabled ? 
+                new CommandReader(this) : null;
             InitDrivers();
         }
 
@@ -188,8 +192,7 @@ namespace Scada.Comm.Engine
         {
             try
             {
-                bool interactWithServer = Config.GeneralOptions.InteractWithServer;
-                ExecutionStep executionStep = interactWithServer ? 
+                ExecutionStep executionStep = Config.GeneralOptions.InteractWithServer ? 
                     ExecutionStep.ReceiveBase : ExecutionStep.StartLines;
                 DateTime receiveBaseDT = DateTime.MinValue;
                 DateTime writeInfoDT = DateTime.MinValue;
@@ -206,8 +209,11 @@ namespace Scada.Comm.Engine
                         switch (executionStep)
                         {
                             case ExecutionStep.MainWork:
-                                if (interactWithServer)
-                                    ReceiveCommands();
+                                if (Config.GeneralOptions.InteractWithServer)
+                                {
+                                    if (Config.GeneralOptions.CmdEnabled)
+                                        ReceiveCommands();
+                                }
                                 break;
 
                             case ExecutionStep.ReceiveBase:
@@ -230,6 +236,7 @@ namespace Scada.Comm.Engine
                             case ExecutionStep.StartLines:
                                 CreateLines();
                                 StartLines();
+                                commandReader?.Start();
                                 executionStep = ExecutionStep.MainWork;
                                 break;
                         }
@@ -257,6 +264,7 @@ namespace Scada.Comm.Engine
             }
             finally
             {
+                commandReader?.Stop();
                 StopLines();
                 driverHolder.OnServiceStop();
                 serviceStatus = ServiceStatus.Terminated;
@@ -583,11 +591,19 @@ namespace Scada.Comm.Engine
         /// </summary>
         public void ProcessCommand(TeleCommand cmd, string source)
         {
-            if (cmd.CmdTypeID == CmdTypeID.Standard)
+            if (DateTime.UtcNow - cmd.CreationTime > ScadaUtils.CommandLifetime)
+            {
+                Log.WriteError(Locale.IsRussian ?
+                    "Устаревшая команда с ид. {0} от источника {1} отклонена" :
+                    "Outdated command with ID {0} from the source {1} is rejected", 
+                    cmd.CommandID, source);
+            }
+            else if (cmd.CmdTypeID == CmdTypeID.Standard)
             {
                 Log.WriteAction(Locale.IsRussian ?
-                    "Команда на КП {0} от источника {1}" :
-                    "Command to the device {0} from the source {1}", cmd.DeviceNum, source);
+                    "Команда с ид. {0} на КП {1} от источника {2}" :
+                    "Command with ID {0} to the device {1} from the source {2}", 
+                    cmd.CommandID, cmd.DeviceNum, source);
 
                 foreach (CommLine commLine in commLines)
                 {
@@ -597,8 +613,9 @@ namespace Scada.Comm.Engine
             else if (cmd.CmdTypeID == CmdTypeID.AppCommand)
             {
                 Log.WriteAction(Locale.IsRussian ?
-                    "Команда приложению {0} от источника {1}" :
-                    "Application command {0} from the source {1}", cmd.CmdCode, source);
+                    "Команда приложению {0} с ид. {1} от источника {2}" :
+                    "Application command {0} with ID {1} from the source {2}", 
+                    cmd.CmdCode, cmd.CommandID, source);
 
                 // TODO: app commands
             }

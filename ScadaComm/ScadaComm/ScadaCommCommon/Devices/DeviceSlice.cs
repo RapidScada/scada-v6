@@ -45,6 +45,7 @@ namespace Scada.Comm.Devices
             ArchiveMask = Data.Models.ArchiveMask.Default;
             Descr = "";
             DataSentCallback = null;
+            FailedToSendCallback = null;
         }
 
 
@@ -77,5 +78,10 @@ namespace Scada.Comm.Devices
         /// Gets or sets the method that is executed when the slice is successfully sent.
         /// </summary>
         public Action<DeviceSlice> DataSentCallback { get; set; }
+
+        /// <summary>
+        /// Gets or sets the method that is executed when the slice could not be sent.
+        /// </summary>
+        public Action<DeviceSlice> FailedToSendCallback { get; set; }
     }
 }

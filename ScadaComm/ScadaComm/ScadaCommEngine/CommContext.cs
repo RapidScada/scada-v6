@@ -80,9 +80,9 @@ namespace Scada.Comm.Engine
         /// <summary>
         /// Sends the telecontrol command to the current application.
         /// </summary>
-        public void SendCommand(TeleCommand cmd)
+        public void SendCommand(TeleCommand cmd, string source)
         {
-            // TODO: send command
+            coreLogic.ProcessCommand(cmd, source);
         }
     }
 }

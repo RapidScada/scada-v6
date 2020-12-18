@@ -43,6 +43,8 @@ namespace Scada.Comm.Config
             InteractWithServer = true;
             SendModifiedData = true;
             SendAllDataPeriod = 60;
+            CmdEnabled = true;
+            FileCmdEnabled = true;
             ClientLogEnabled = false;
             MaxLogSize = LogFile.DefaultCapacity;
         }
@@ -62,6 +64,16 @@ namespace Scada.Comm.Config
         /// Gets or sets the period of sending all device tags, sec.
         /// </summary>
         public int SendAllDataPeriod { get; set; }
+
+        /// <summary>
+        /// Gets or sets a value indicating whether commands are enabled.
+        /// </summary>
+        public bool CmdEnabled { get; set; }
+
+        /// <summary>
+        /// Gets or sets a value indicating whether file commands are enabled.
+        /// </summary>
+        public bool FileCmdEnabled { get; set; }
 
         /// <summary>
         /// Gets or sets a value indicating whether to write client communication log.
@@ -85,6 +97,8 @@ namespace Scada.Comm.Config
             InteractWithServer = xmlNode.GetChildAsBool("InteractWithServer");
             SendModifiedData = xmlNode.GetChildAsBool("SendModifiedData");
             SendAllDataPeriod = xmlNode.GetChildAsInt("SendAllDataPeriod");
+            CmdEnabled = xmlNode.GetChildAsBool("CmdEnabled");
+            FileCmdEnabled = xmlNode.GetChildAsBool("FileCmdEnabled");
             ClientLogEnabled = xmlNode.GetChildAsBool("ClientLogEnabled");
             MaxLogSize = xmlNode.GetChildAsInt("MaxLogSize", MaxLogSize);
         }
@@ -100,6 +114,8 @@ namespace Scada.Comm.Config
             xmlElem.AppendElem("InteractWithServer", InteractWithServer);
             xmlElem.AppendElem("SendModifiedData", SendModifiedData);
             xmlElem.AppendElem("SendAllDataPeriod", SendAllDataPeriod);
+            xmlElem.AppendElem("CmdEnabled", CmdEnabled);
+            xmlElem.AppendElem("FileCmdEnabled", FileCmdEnabled);
             xmlElem.AppendElem("ClientLogEnabled", ClientLogEnabled);
             xmlElem.AppendElem("MaxLogSize", MaxLogSize);
         }

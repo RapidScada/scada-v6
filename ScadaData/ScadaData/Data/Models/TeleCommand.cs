@@ -24,6 +24,9 @@
  */
 
 using System;
+using System.Globalization;
+using System.IO;
+using System.Text;
 
 namespace Scada.Data.Models
 {
@@ -134,5 +137,129 @@ namespace Scada.Data.Models
         /// Gets or sets the recursion level if the command is sent programmatically.
         /// </summary>
         public int RecursionLevel { get; set; }
+
+
+        /// <summary>
+        /// Loads the command from the specified file.
+        /// </summary>
+        public bool Load(string fileName, out string errMsg)
+        {
+            try
+            {
+                string[] lines = File.ReadAllLines(fileName, Encoding.UTF8);
+                
+                if (lines.Length >= 2 &&
+                    lines[0] == "[TeleCommand]" &&
+                    lines[lines.Length - 1] == "End=")
+                {
+                    foreach (string line in lines)
+                    {
+                        int equalIdx = line.IndexOf('=');
+
+                        if (equalIdx > 0)
+                        {
+                            string name = line.Substring(0, equalIdx).Trim();
+                            string value = line.Substring(equalIdx + 1).Trim();
+
+                            switch (name)
+                            {
+                                case "CommandID": 
+                                    CommandID = long.Parse(value);
+                                    break;
+                                case "CreationTime":
+                                    CreationTime = DateTime.Parse(value, DateTimeFormatInfo.InvariantInfo);
+                                    break;
+                                case "UserID":
+                                    UserID = int.Parse(value);
+                                    break;
+                                case "OutCnlNum":
+                                    OutCnlNum = int.Parse(value);
+                                    break;
+                                case "CmdTypeID":
+                                    CmdTypeID = int.Parse(value);
+                                    break;
+                                case "ObjNum":
+                                    ObjNum = int.Parse(value);
+                                    break;
+                                case "DeviceNum":
+                                    DeviceNum = int.Parse(value);
+                                    break;
+                                case "CmdNum":
+                                    CmdNum = int.Parse(value);
+                                    break;
+                                case "CmdCode":
+                                    CmdCode = value;
+                                    break;
+                                case "CmdVal":
+                                    CmdVal = double.Parse(value, NumberFormatInfo.InvariantInfo);
+                                    break;
+                                case "CmdData":
+                                    CmdData = ScadaUtils.HexToBytes(value, false, true);
+                                    break;
+                                case "RecursionLevel":
+                                    RecursionLevel = int.Parse(value);
+                                    break;
+                            }
+                        }
+                    }
+
+                    errMsg = "";
+                    return true;
+                }
+                else
+                {
+                    errMsg = Locale.IsRussian ?
+                        "Ошибка при загрузке команды ТУ: неверный формат файла" :
+                        "Error loading telecontrol command: invalid file format";
+                    return false;
+                }
+            }
+            catch (Exception ex)
+            {
+                errMsg = string.Format(Locale.IsRussian ?
+                    "Ошибка при загрузке команды ТУ: " :
+                    "Error loading telecontrol command: ") + ex.Message;
+                return false;
+            }
+        }
+
+        /// <summary>
+        /// Saves the command to the specified file.
+        /// </summary>
+        public bool Save(string fileName, out string errMsg)
+        {
+            try
+            {
+                StringBuilder sb = new StringBuilder("[TeleCommand]")
+                    .Append("CommandID=").AppendLine(CommandID.ToString())
+                    .Append("CreationTime=").AppendLine(CreationTime.ToString(DateTimeFormatInfo.InvariantInfo))
+                    .Append("UserID=").AppendLine(UserID.ToString())
+                    .Append("OutCnlNum=").AppendLine(OutCnlNum.ToString())
+                    .Append("CmdTypeID=").AppendLine(CmdTypeID.ToString())
+                    .Append("ObjNum=").AppendLine(ObjNum.ToString())
+                    .Append("DeviceNum=").AppendLine(DeviceNum.ToString())
+                    .Append("CmdNum=").AppendLine(CmdNum.ToString())
+                    .Append("CmdCode=").AppendLine("CmdCode")
+                    .Append("CmdVal=").AppendLine(CmdVal.ToString(NumberFormatInfo.InvariantInfo))
+                    .Append("CmdData=").AppendLine(ScadaUtils.BytesToHex(CmdData))
+                    .Append("RecursionLevel=").AppendLine(RecursionLevel.ToString())
+                    .AppendLine("End=");
+
+                using (StreamWriter writer = new StreamWriter(fileName, false, Encoding.UTF8))
+                {
+                    writer.Write(sb.ToString());
+                }
+
+                errMsg = "";
+                return false;
+            }
+            catch (Exception ex)
+            {
+                errMsg = string.Format(Locale.IsRussian ?
+                    "Ошибка при сохранении команды ТУ: " :
+                    "Error saving telecontrol command: ") + ex.Message;
+                return false;
+            }
+        }
     }
 }
