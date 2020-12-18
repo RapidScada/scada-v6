@@ -112,13 +112,13 @@ namespace Scada.Server.Engine
             outCnlTags = null;
             users = null;
             objSecurity = null;
+            calc = null;
             moduleHolder = null;
             archiveHolder = null;
-            calc = null;
-            curData = null;
-            events = null;
             serverCache = null;
             listener = null;
+            curData = null;
+            events = null;
         }
 
 
