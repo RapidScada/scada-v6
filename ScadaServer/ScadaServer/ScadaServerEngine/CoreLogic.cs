@@ -609,7 +609,7 @@ namespace Scada.Server.Engine
                     Event ev = eventItem.Event;
 
                     Log.WriteAction(Locale.IsRussian ?
-                        "Создано событие с ид. {0}, входным каналом {1} и выходным каналом {2}" :
+                        "Создано событие с ид. {0}, входным каналом {1} и каналом управления {2}" :
                         "Generated event with ID {0}, input channel {1} and output channel {2}",
                         ev.EventID, ev.CnlNum, ev.OutCnlNum);
 
@@ -1337,7 +1337,7 @@ namespace Scada.Server.Engine
                 }
 
                 Log.WriteAction(Locale.IsRussian ?
-                    "Получено событие с ид. {0}, входным каналом {1} и выходным каналом {2}" :
+                    "Получено событие с ид. {0}, входным каналом {1} и каналом управления {2}" :
                     "Received event with ID {0}, input channel {1} and output channel {2}",
                     ev.EventID, ev.CnlNum, ev.OutCnlNum);
 
