@@ -31,11 +31,11 @@ namespace Scada.Comm
     /// Specifies the application commands supported by Communicator.
     /// <para>Задает команды приложения, поддерживаемые Коммуникатором.</para>
     /// </summary>
-    public class CommCommands
+    public static class CommCommands
     {
-        public string StartLine = "Comm.StartLine";
-        public string StopLine = "Comm.StopLine";
-        public string RestartLine = "Comm.RestartLine";
-        public string PollDevice = "Comm.PollDevice";
+        public const string StartLine = "Comm.StartLine";
+        public const string StopLine = "Comm.StopLine";
+        public const string RestartLine = "Comm.RestartLine";
+        public const string PollDevice = "Comm.PollDevice";
     }
 }

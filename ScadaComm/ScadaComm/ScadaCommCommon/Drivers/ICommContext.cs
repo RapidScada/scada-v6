@@ -24,6 +24,7 @@
  */
 
 using Scada.Comm.Config;
+using Scada.Comm.Devices;
 using Scada.Data.Models;
 using Scada.Log;
 using System.Collections.Generic;
@@ -67,5 +68,20 @@ namespace Scada.Comm.Drivers
         /// Sends the telecontrol command to the current application.
         /// </summary>
         void SendCommand(TeleCommand cmd, string source);
+
+        /// <summary>
+        /// Gets all communication lines.
+        /// </summary>
+        ILineContext[] GetCommLines();
+
+        /// <summary>
+        /// Gets the communication line by line number.
+        /// </summary>
+        bool GetCommLine(int commLineNum, out ILineContext lineContext);
+
+        /// <summary>
+        /// Gets the device by device number.
+        /// </summary>
+        bool GetDevice(int deviceNum, out DeviceLogic deviceLogic);
     }
 }

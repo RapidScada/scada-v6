@@ -45,8 +45,22 @@ namespace Scada.Comm.Engine
     /// Implements of the core Communicator logic.
     /// <para>Реализует основную логику Коммуникатора.</para>
     /// </summary>
-    internal class CoreLogic
+    internal class CoreLogic : ICommContext
     {
+        /// <summary>
+        /// Represents information associated with a device.
+        /// </summary>
+        private class DeviceItem
+        {
+            public DeviceItem(DeviceLogic deviceLogic, CommLine commLine)
+            {
+                Device = deviceLogic;
+                Line = commLine;
+            }
+            public DeviceLogic Device { get; set; }
+            public CommLine Line { get; set; }
+        }
+
         /// <summary>
         /// Specifies the execution steps.
         /// </summary>
@@ -67,8 +81,10 @@ namespace Scada.Comm.Engine
         private int lastInfoLength;           // the last info text length
         private int maxLineTitleLength;       // the maximum length of communication line title
 
-        private ScadaClient scadaClient;      // communicates with the server
         private List<CommLine> commLines;     // the active communication lines
+        private Dictionary<int, CommLine> commLineMap; // the communication lines accessed by line number
+        private Dictionary<int, DeviceItem> deviceMap; // the devices accessed by device number
+        private ScadaClient scadaClient;      // communicates with the server
         private CommandReader commandReader;  // reads telecontrol commands from files
         private DriverHolder driverHolder;    // holds drivers
 
@@ -94,8 +110,10 @@ namespace Scada.Comm.Engine
             lastInfoLength = 0;
             maxLineTitleLength = 0;
 
-            scadaClient = null;
             commLines = null;
+            commLineMap = null;
+            deviceMap = null;
+            scadaClient = null;
             commandReader = null;
             driverHolder = null;
         }
@@ -124,7 +142,12 @@ namespace Scada.Comm.Engine
         /// <summary>
         /// Gets the application level shared data.
         /// </summary>
-        public ConcurrentDictionary<string, object> SharedData { get; private set; }
+        public IDictionary<string, object> SharedData { get; private set; }
+
+        /// <summary>
+        /// Gets the application configuration.
+        /// </summary>
+        CommConfig ICommContext.AppConfig => Config;
 
 
         /// <summary>
@@ -140,9 +163,12 @@ namespace Scada.Comm.Engine
 
             BaseDataSet = null;
             SharedData = new ConcurrentDictionary<string, object>();
+
+            commLines = new List<CommLine>(Config.Lines.Count);
+            commLineMap = new Dictionary<int, CommLine>();
+            deviceMap = new Dictionary<int, DeviceItem>();
             scadaClient = Config.GeneralOptions.InteractWithServer ? 
                 new ScadaClient(Config.ConnectionOptions) { CommLog = CreateClientLog() } : null;
-            commLines = new List<CommLine>(Config.Lines.Count);
             commandReader = Config.GeneralOptions.CmdEnabled && Config.GeneralOptions.FileCmdEnabled ? 
                 new CommandReader(this) : null;
             InitDrivers();
@@ -168,11 +194,10 @@ namespace Scada.Comm.Engine
         private void InitDrivers()
         {
             driverHolder = new DriverHolder(Log);
-            CommContext commContext = new CommContext(this);
 
             foreach (string driverCode in Config.DriverCodes)
             {
-                if (DriverFactory.GetDriverLogic(AppDirs.DrvDir, driverCode, commContext,
+                if (DriverFactory.GetDriverLogic(AppDirs.DrvDir, driverCode, this,
                     out DriverLogic driverLogic, out string message))
                 {
                     Log.WriteAction(message);
@@ -318,10 +343,17 @@ namespace Scada.Comm.Engine
             {
                 try
                 {
-                    if (lineConfig.Active)
+                    if (lineConfig.Active && !commLineMap.ContainsKey(lineConfig.CommLineNum))
                     {
                         CommLine commLine = CommLine.Create(lineConfig, this, driverHolder);
                         commLines.Add(commLine);
+                        commLineMap.Add(lineConfig.CommLineNum, commLine);
+
+                        foreach (DeviceLogic deviceLogic in commLine.SelectDevices())
+                        {
+                            // only one device instance is possible
+                            deviceMap.Add(deviceLogic.DeviceNum, new DeviceItem(deviceLogic, commLine));
+                        }
 
                         if (maxLineTitleLength < commLine.Title.Length)
                             maxLineTitleLength = commLine.Title.Length;
@@ -591,33 +623,61 @@ namespace Scada.Comm.Engine
         /// </summary>
         public void ProcessCommand(TeleCommand cmd, string source)
         {
-            if (DateTime.UtcNow - cmd.CreationTime > ScadaUtils.CommandLifetime)
+            try
             {
-                Log.WriteError(Locale.IsRussian ?
-                    "Устаревшая команда с ид. {0} от источника {1} отклонена" :
-                    "Outdated command with ID {0} from the source {1} is rejected", 
-                    cmd.CommandID, source);
-            }
-            else if (cmd.CmdTypeID == CmdTypeID.Standard)
-            {
-                Log.WriteAction(Locale.IsRussian ?
-                    "Команда с ид. {0} на КП {1} от источника {2}" :
-                    "Command with ID {0} to the device {1} from the source {2}", 
-                    cmd.CommandID, cmd.DeviceNum, source);
-
-                foreach (CommLine commLine in commLines)
+                if (DateTime.UtcNow - cmd.CreationTime > ScadaUtils.CommandLifetime)
                 {
-                    commLine.EnqueueCommand(cmd);
+                    Log.WriteError(Locale.IsRussian ?
+                        "Устаревшая команда с ид. {0} от источника {1} отклонена" :
+                        "Outdated command with ID {0} from the source {1} is rejected",
+                        cmd.CommandID, source);
+                }
+                else if (cmd.CmdTypeID == CmdTypeID.Standard)
+                {
+                    Log.WriteAction(Locale.IsRussian ?
+                        "Команда с ид. {0} на КП {1} от источника {2}" :
+                        "Command with ID {0} to the device {1} from the source {2}",
+                        cmd.CommandID, cmd.DeviceNum, source);
+
+                    if (deviceMap.TryGetValue(cmd.DeviceNum, out DeviceItem deviceItem))
+                        deviceItem.Line.EnqueueCommand(cmd);
+                }
+                else if (cmd.CmdTypeID == CmdTypeID.AppCommand)
+                {
+                    Log.WriteAction(Locale.IsRussian ?
+                        "Команда приложению {0} с ид. {1} от источника {2}" :
+                        "Application command {0} with ID {1} from the source {2}",
+                        cmd.CmdCode, cmd.CommandID, source);
+
+                    switch (cmd.CmdCode)
+                    {
+                        case CommCommands.StartLine:
+                            break;
+
+                        case CommCommands.StopLine:
+                            break;
+
+                        case CommCommands.RestartLine:
+                            break;
+
+                        case CommCommands.PollDevice:
+                            if (deviceMap.TryGetValue(cmd.DeviceNum, out DeviceItem deviceItem))
+                                deviceItem.Line.PollWithPriority(cmd.DeviceNum);
+                            break;
+
+                        default:
+                            Log.WriteError(Locale.IsRussian ?
+                                "Неизвестная команда" :
+                                "Unknown command");
+                            break;
+                    }
                 }
             }
-            else if (cmd.CmdTypeID == CmdTypeID.AppCommand)
+            catch (Exception ex)
             {
-                Log.WriteAction(Locale.IsRussian ?
-                    "Команда приложению {0} с ид. {1} от источника {2}" :
-                    "Application command {0} with ID {1} from the source {2}", 
-                    cmd.CmdCode, cmd.CommandID, source);
-
-                // TODO: app commands
+                Log.WriteException(ex, Locale.IsRussian ?
+                    "Ошибка при обработке команды ТУ" :
+                    "Error processing telecontrol command");
             }
         }
 
@@ -643,6 +703,64 @@ namespace Scada.Comm.Engine
         public void EnqueueEvent(DeviceEvent deviceEvent)
         {
 
+        }
+
+        /// <summary>
+        /// Checks if the device with the specified number exists.
+        /// </summary>
+        public bool DeviceExists(int deviceNum)
+        {
+            return deviceMap != null && deviceMap.ContainsKey(deviceNum);
+        }
+
+        /// <summary>
+        /// Sends the telecontrol command to the current application.
+        /// </summary>
+        void ICommContext.SendCommand(TeleCommand cmd, string source)
+        {
+            ProcessCommand(cmd, source);
+        }
+
+        /// <summary>
+        /// Gets all communication lines.
+        /// </summary>
+        ILineContext[] ICommContext.GetCommLines()
+        {
+            return commLines.ToArray();
+        }
+
+        /// <summary>
+        /// Gets the communication line by line number.
+        /// </summary>
+        bool ICommContext.GetCommLine(int commLineNum, out ILineContext lineContext)
+        {
+            if (commLineMap.TryGetValue(commLineNum, out CommLine commLine))
+            {
+                lineContext = commLine;
+                return true;
+            }
+            else
+            {
+                lineContext = null;
+                return false;
+            }
+        }
+
+        /// <summary>
+        /// Gets the device by device number.
+        /// </summary>
+        bool ICommContext.GetDevice(int deviceNum, out DeviceLogic deviceLogic)
+        {
+            if (deviceMap.TryGetValue(deviceNum, out DeviceItem deviceItem))
+            {
+                deviceLogic = deviceItem.Device;
+                return true;
+            }
+            else
+            {
+                deviceLogic = null;
+                return false;
+            }
         }
     }
 }

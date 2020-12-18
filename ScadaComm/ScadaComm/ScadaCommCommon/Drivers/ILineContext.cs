@@ -75,13 +75,18 @@ namespace Scada.Comm.Drivers
         IEnumerable<DeviceLogic> SelectDevices(Func<DeviceLogic, bool> predicate);
 
         /// <summary>
+        /// Gets the device by device number.
+        /// </summary>
+        bool GetDevice(int deviceNum, out DeviceLogic deviceLogic);
+
+        /// <summary>
         /// Gets the device by numeric address.
         /// </summary>
-        bool GetDevice(int numAddress, out DeviceLogic deviceLogic);
+        bool GetDeviceByAddress(int numAddress, out DeviceLogic deviceLogic);
 
         /// <summary>
         /// Gets the device by string address.
         /// </summary>
-        bool GetDevice(string strAddress, out DeviceLogic deviceLogic);
+        bool GetDeviceByAddress(string strAddress, out DeviceLogic deviceLogic);
     }
 }

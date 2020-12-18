@@ -163,7 +163,7 @@ namespace Scada.Comm.Engine
 
 
         /// <summary>
-        /// Adds the device to the communication line.
+        /// Adds the device to the communication line, eliminating duplication of devices.
         /// </summary>
         private void AddDevice(DeviceLogic deviceLogic)
         {
@@ -720,32 +720,29 @@ namespace Scada.Comm.Engine
         /// </summary>
         public void EnqueueCommand(TeleCommand cmd)
         {
-            try
+            if (LineConfig.LineOptions.CmdEnabled)
             {
-                if (LineConfig.LineOptions.CmdEnabled)
+                lock (commands)
                 {
-                    if (deviceMap.ContainsKey(cmd.DeviceNum))
-                    {
-                        lock (commands)
-                        {
-                            commands.Enqueue(cmd);
-                        }
-                    }
-                }
-                else
-                {
-                    Log.WriteLine();
-                    Log.WriteAction(Locale.IsRussian ?
-                        "Выполнение команды не разрешено в конфигурации линии связи" :
-                        "Command execution is disabled in communication line configuration");
+                    commands.Enqueue(cmd);
                 }
             }
-            catch (Exception ex)
+            else
             {
-                Log.WriteException(ex, Locale.IsRussian ?
-                    "Ошибка при постановке команды в очередь" :
-                    "Error enqueuing command");
+                Log.WriteLine();
+                Log.WriteAction(Locale.IsRussian ?
+                    "Выполнение команды не разрешено в конфигурации линии связи" :
+                    "Command execution is disabled in communication line configuration");
             }
+        }
+
+        /// <summary>
+        /// Schedules a priority poll the device.
+        /// </summary>
+        public void PollWithPriority(int deviceNum)
+        {
+            if (deviceMap.TryGetValue(deviceNum, out DeviceWrapper deviceWrapper))
+                PollWithPriority(deviceWrapper);
         }
 
         /// <summary>
@@ -759,15 +756,32 @@ namespace Scada.Comm.Engine
         /// <summary>
         /// Selects devices on the communication line that satisfy the condition.
         /// </summary>
-        public IEnumerable<DeviceLogic> SelectDevices(Func<DeviceLogic, bool> predicate)
+        IEnumerable<DeviceLogic> ILineContext.SelectDevices(Func<DeviceLogic, bool> predicate)
         {
             return devices.Select(dw => dw.DeviceLogic).Where(predicate);
         }
 
         /// <summary>
+        /// Gets the device by device number.
+        /// </summary>
+        bool ILineContext.GetDevice(int deviceNum, out DeviceLogic deviceLogic)
+        {
+            if (deviceMap.TryGetValue(deviceNum, out DeviceWrapper deviceWrapper))
+            {
+                deviceLogic = deviceWrapper.DeviceLogic;
+                return true;
+            }
+            else
+            {
+                deviceLogic = null;
+                return true;
+            }
+        }
+
+        /// <summary>
         /// Gets the device by numeric address.
         /// </summary>
-        public bool GetDevice(int numAddress, out DeviceLogic deviceLogic)
+        bool ILineContext.GetDeviceByAddress(int numAddress, out DeviceLogic deviceLogic)
         {
             return deviceByNumAddr.TryGetValue(numAddress, out deviceLogic);
         }
@@ -775,7 +789,7 @@ namespace Scada.Comm.Engine
         /// <summary>
         /// Gets the device by string address.
         /// </summary>
-        public bool GetDevice(string strAddress, out DeviceLogic deviceLogic)
+        bool ILineContext.GetDeviceByAddress(string strAddress, out DeviceLogic deviceLogic)
         {
             return deviceByStrAddr.TryGetValue(strAddress, out deviceLogic);
         }
@@ -809,7 +823,8 @@ namespace Scada.Comm.Engine
             // create devices
             foreach (DeviceConfig deviceConfig in lineConfig.DevicePolling)
             {
-                if (driverHolder.GetDriver(deviceConfig.Driver, out DriverLogic driverLogic))
+                if (deviceConfig.Active && !coreLogic.DeviceExists(deviceConfig.DeviceNum) &&
+                    driverHolder.GetDriver(deviceConfig.Driver, out DriverLogic driverLogic))
                 {
                     DeviceLogic deviceLogic = driverLogic.CreateDevice(commLine, deviceConfig);
                     commLine.AddDevice(deviceLogic);
