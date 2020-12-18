@@ -60,11 +60,6 @@ namespace Scada.Comm.Drivers
 
 
         /// <summary>
-        /// Enqueues the telecontrol command.
-        /// </summary>
-        void EnqueueCommand(TeleCommand cmd);
-
-        /// <summary>
         /// Selects all devices on the communication line.
         /// </summary>
         IEnumerable<DeviceLogic> SelectDevices();
@@ -88,5 +83,10 @@ namespace Scada.Comm.Drivers
         /// Gets the device by string address.
         /// </summary>
         bool GetDeviceByAddress(string strAddress, out DeviceLogic deviceLogic);
+
+        /// <summary>
+        /// Enqueues the telecontrol command.
+        /// </summary>
+        void EnqueueCommand(TeleCommand cmd);
     }
 }

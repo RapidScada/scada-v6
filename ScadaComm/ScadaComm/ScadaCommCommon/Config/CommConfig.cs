@@ -179,5 +179,50 @@ namespace Scada.Comm.Config
                 return false;
             }
         }
+
+        /// <summary>
+        /// Loads the communication line configuration from the specified file.
+        /// </summary>
+        public static bool LoadLineConfig(string fileName, int commLineNum, out LineConfig lineConfig, out string errMsg)
+        {
+            try
+            {
+                if (!File.Exists(fileName))
+                    throw new FileNotFoundException(string.Format(CommonPhrases.NamedFileNotFound, fileName));
+
+                XmlDocument xmlDoc = new XmlDocument();
+                xmlDoc.Load(fileName);
+                lineConfig = null;
+
+                if (xmlDoc.DocumentElement.SelectSingleNode("Lines") is XmlNode linesNode)
+                {
+                    foreach (XmlElement lineElem in linesNode.SelectNodes($"Line[@number={commLineNum}]"))
+                    {
+                        lineConfig = new LineConfig();
+                        lineConfig.LoadFromXml(lineElem);
+                        break;
+                    }
+                }
+
+                if (lineConfig == null)
+                {
+                    errMsg = string.Format(Locale.IsRussian ?
+                        "Конфигурация линии связи {0} не найдена" :
+                        "Communication line {0} configuration not found", commLineNum);
+                    return false;
+                }
+                else
+                {
+                    errMsg = "";
+                    return true;
+                }
+            }
+            catch (Exception ex)
+            {
+                lineConfig = null;
+                errMsg = CommonPhrases.LoadAppConfigError + ": " + ex.Message;
+                return false;
+            }
+        }
     }
 }

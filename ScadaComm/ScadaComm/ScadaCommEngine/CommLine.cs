@@ -711,8 +711,26 @@ namespace Scada.Comm.Engine
         /// </summary>
         public void Terminate()
         {
-            devices.ForEach(d => d.DeviceLogic.Terminate());
-            terminated = true;
+            try
+            {
+                if (thread == null)
+                {
+                    lineStatus = ServiceStatus.Terminated;
+                    WriteInfo();
+                }
+                else
+                {
+                    terminated = true;
+                    lineStatus = ServiceStatus.Terminating;
+                    devices.ForEach(d => d.DeviceLogic.Terminate());
+                }
+            }
+            catch (Exception ex)
+            {
+                Log.WriteException(ex, Locale.IsRussian ?
+                    "Ошибка при завершении связи {0}" :
+                    "Error terminating communication line {0}", Title);
+            }
         }
 
         /// <summary>

@@ -65,11 +65,6 @@ namespace Scada.Comm.Drivers
 
 
         /// <summary>
-        /// Sends the telecontrol command to the current application.
-        /// </summary>
-        void SendCommand(TeleCommand cmd, string source);
-
-        /// <summary>
         /// Gets all communication lines.
         /// </summary>
         ILineContext[] GetCommLines();
@@ -83,5 +78,10 @@ namespace Scada.Comm.Drivers
         /// Gets the device by device number.
         /// </summary>
         bool GetDevice(int deviceNum, out DeviceLogic deviceLogic);
+
+        /// <summary>
+        /// Sends the telecontrol command to the current application.
+        /// </summary>
+        void SendCommand(TeleCommand cmd, string source);
     }
 }

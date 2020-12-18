@@ -72,6 +72,7 @@ namespace Scada.Comm.Engine
         private static readonly TimeSpan ReceiveBasePeriod = TimeSpan.FromSeconds(10);
 
         private readonly string infoFileName; // the full file name to write application information
+        private readonly object commLineLock; // syncronizes access to communication lines
 
         private Thread thread;                // the working thread of the logic
         private volatile bool terminated;     // necessary to stop the thread
@@ -101,6 +102,7 @@ namespace Scada.Comm.Engine
             SharedData = null;
 
             infoFileName = Path.Combine(appDirs.LogDir, CommUtils.InfoFileName);
+            commLineLock = new object();
 
             thread = null;
             terminated = false;
@@ -108,7 +110,7 @@ namespace Scada.Comm.Engine
             startDT = DateTime.MinValue;
             serviceStatus = ServiceStatus.Undefined;
             lastInfoLength = 0;
-            maxLineTitleLength = 0;
+            maxLineTitleLength = -1;
 
             commLines = null;
             commLineMap = null;
@@ -246,7 +248,7 @@ namespace Scada.Comm.Engine
                                 {
                                     receiveBaseDT = utcNow;
 
-                                    if (ReceiveBase())
+                                    if (ReceiveBase(scadaClient))
                                     {
                                         executionStep = ExecutionStep.StartLines;
                                         serviceStatus = ServiceStatus.Normal;
@@ -300,7 +302,7 @@ namespace Scada.Comm.Engine
         /// <summary>
         /// Receives the configuration database from the server.
         /// </summary>
-        private bool ReceiveBase()
+        private bool ReceiveBase(ScadaClient scadaClient)
         {
             string tableName = Locale.IsRussian ? "неопределена" : "undefined";
 
@@ -310,9 +312,9 @@ namespace Scada.Comm.Engine
                     "Приём базы конфигурации" :
                     "Receive the configuration database");
 
-                BaseDataSet = new BaseDataSet();
+                BaseDataSet baseDataSet = new BaseDataSet();
 
-                foreach (IBaseTable baseTable in BaseDataSet.AllTables)
+                foreach (IBaseTable baseTable in baseDataSet.AllTables)
                 {
                     tableName = baseTable.Name;
                     scadaClient.DownloadBaseTable(baseTable);
@@ -321,6 +323,7 @@ namespace Scada.Comm.Engine
                 Log.WriteAction(Locale.IsRussian ?
                     "База конфигурации получена успешно" :
                     "The configuration database has been received successfully");
+                BaseDataSet = baseDataSet;
                 return true;
             }
             catch (Exception ex)
@@ -341,30 +344,39 @@ namespace Scada.Comm.Engine
 
             foreach (LineConfig lineConfig in Config.Lines)
             {
-                try
-                {
-                    if (lineConfig.Active && !commLineMap.ContainsKey(lineConfig.CommLineNum))
-                    {
-                        CommLine commLine = CommLine.Create(lineConfig, this, driverHolder);
-                        commLines.Add(commLine);
-                        commLineMap.Add(lineConfig.CommLineNum, commLine);
+                if (lineConfig.Active && !commLineMap.ContainsKey(lineConfig.CommLineNum))
+                    CreateLine(lineConfig);
+            }
+        }
 
-                        foreach (DeviceLogic deviceLogic in commLine.SelectDevices())
-                        {
-                            // only one device instance is possible
-                            deviceMap.Add(deviceLogic.DeviceNum, new DeviceItem(deviceLogic, commLine));
-                        }
+        /// <summary>
+        /// Creates a communication line according the specified configuration.
+        /// </summary>
+        private CommLine CreateLine(LineConfig lineConfig)
+        {
+            try
+            {
+                CommLine commLine = CommLine.Create(lineConfig, this, driverHolder);
+                commLines.Add(commLine);
+                commLineMap.Add(lineConfig.CommLineNum, commLine);
 
-                        if (maxLineTitleLength < commLine.Title.Length)
-                            maxLineTitleLength = commLine.Title.Length;
-                    }
-                }
-                catch (Exception ex)
+                foreach (DeviceLogic deviceLogic in commLine.SelectDevices())
                 {
-                    Log.WriteException(ex, Locale.IsRussian ?
-                        "Ошибка при создании линии связи {0}" :
-                        "Error creating communication line {0}", lineConfig.Title);
+                    // only one device instance is possible
+                    deviceMap.Add(deviceLogic.DeviceNum, new DeviceItem(deviceLogic, commLine));
                 }
+
+                if (maxLineTitleLength < commLine.Title.Length)
+                    maxLineTitleLength = commLine.Title.Length;
+
+                return commLine;
+            }
+            catch (Exception ex)
+            {
+                Log.WriteException(ex, Locale.IsRussian ?
+                    "Ошибка при создании линии связи {0}" :
+                    "Error creating communication line {0}", lineConfig.Title);
+                return null;
             }
         }
 
@@ -448,6 +460,189 @@ namespace Scada.Comm.Engine
         }
 
         /// <summary>
+        /// Starts the specified communication line.
+        /// </summary>
+        private void StartLine(int commLineNum)
+        {
+            lock (commLineLock)
+            {
+                if (commLineMap.TryGetValue(commLineNum, out CommLine commLine))
+                {
+                    Log.WriteError(Locale.IsRussian ?
+                        "Линия связи {0} уже существует" :
+                        "Communication line {0} already exists", commLine.Title);
+                }
+                else
+                {
+                    new Thread(() => DoStartLine(commLineNum)).Start();
+                }
+            }
+        }
+
+        /// <summary>
+        /// Stops the specified communication line.
+        /// </summary>
+        private void StopLine(int commLineNum)
+        {
+            lock (commLineLock)
+            {
+                if (commLineMap.TryGetValue(commLineNum, out CommLine commLine))
+                {
+                    if (commLine.LineStatus == ServiceStatus.Normal ||
+                        commLine.LineStatus == ServiceStatus.Error)
+                    {
+                        new Thread(() => DoStopLine(commLine)).Start();
+                    }
+                    else
+                    {
+                        Log.WriteError(Locale.IsRussian ?
+                            "Невозможно остановить линию связи {0}, потому что её состояние {1}" :
+                            "Unable to stop communication line {0} because its state is {1}",
+                            commLine.Title, commLine.LineStatus.ToString(Locale.IsRussian));
+                    }
+                }
+            }
+        }
+
+        /// <summary>
+        /// Restarts the specified communication line.
+        /// </summary>
+        private void RestartLine(int commLineNum)
+        {
+            lock (commLineLock)
+            {
+                bool lineExists = commLineMap.TryGetValue(commLineNum, out CommLine commLine);
+
+                if (!lineExists ||
+                    commLine.LineStatus == ServiceStatus.Normal ||
+                    commLine.LineStatus == ServiceStatus.Error)
+                {
+                    new Thread(() =>
+                    {
+                        if (lineExists)
+                            DoStopLine(commLine);
+
+                        if (!lineExists || commLine.IsTerminated)
+                            DoStartLine(commLine.CommLineNum);
+                    }).Start();
+                }
+                else
+                {
+                    Log.WriteError(Locale.IsRussian ?
+                        "Невозможно перезапустить линию связи {0}, потому что её состояние {1}" :
+                        "Unable to restart communication line {0} because its state is {1}",
+                        commLine.Title, commLine.LineStatus.ToString(Locale.IsRussian));
+                }
+            }
+        }
+
+        /// <summary>
+        /// Performs a start operation of the communication line.
+        /// </summary>
+        private void DoStartLine(int commLineNum)
+        {
+            try
+            {
+                if (!CommConfig.LoadLineConfig(Path.Combine(AppDirs.ConfigDir, CommConfig.DefaultFileName),
+                    commLineNum, out LineConfig lineConfig, out string errMsg))
+                {
+                    Log.WriteError(errMsg);
+                }
+                else if (!lineConfig.Active)
+                {
+                    Log.WriteError(Locale.IsRussian ?
+                        "Невозможно запустить линию связи {0}, потому что она не активна" :
+                        "Unable to start communication line {0} because it is inactive", lineConfig.Title);
+                }
+                else
+                {
+                    CommLine commLine;
+
+                    lock (commLineLock)
+                    {
+                        commLine = commLineMap.ContainsKey(lineConfig.CommLineNum) ? null : CreateLine(lineConfig);
+                    }
+
+                    if (commLine != null)
+                    {
+                        Log.WriteAction(Locale.IsRussian ?
+                        "Запуск линии связи {0}" :
+                        "Start communication line {0}", commLine.Title);
+
+                        if (Config.GeneralOptions.InteractWithServer)
+                            ReceiveBase(new ScadaClient(Config.ConnectionOptions)); // use a new client
+
+                        if (!commLine.Start())
+                        {
+                            Log.WriteError(Locale.IsRussian ?
+                                "Не удалось запустить линию связи {0}" :
+                                "Failed to start communication line {0}", commLine.Title);
+                        }
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                Log.WriteException(ex, Locale.IsRussian ?
+                    "Ошибка при запуске линии связи {0}" :
+                    "Error starting communication line {0}", commLineNum);
+            }
+        }
+
+        /// <summary>
+        /// Performs a stop operation of the communication line.
+        /// </summary>
+        private void DoStopLine(CommLine commLine)
+        {
+            try
+            {
+                Log.WriteAction(Locale.IsRussian ?
+                    "Остановка линии связи {0}" :
+                    "Stop communication line {0}", commLine.Title);
+
+                commLine.Terminate();
+                Stopwatch stopwatch = Stopwatch.StartNew();
+
+                while (!commLine.IsTerminated && stopwatch.ElapsedMilliseconds <= ScadaUtils.ThreadWait)
+                {
+                    Thread.Sleep(ScadaUtils.ThreadDelay);
+                }
+
+                if (commLine.IsTerminated)
+                {
+                    Log.WriteAction(Locale.IsRussian ?
+                        "Линия связи {0} остановлена" :
+                        "Communication line {0} is stopped", commLine.Title);
+
+                    // remove the line and its devices from the lists
+                    lock (commLineLock)
+                    {
+                        maxLineTitleLength = -1; // reset max length
+                        commLines.Remove(commLine);
+                        commLineMap.Remove(commLine.CommLineNum);
+
+                        foreach (DeviceLogic deviceLogic in commLine.SelectDevices())
+                        {
+                            deviceMap.Remove(deviceLogic.DeviceNum);
+                        }
+                    }
+                }
+                else
+                {
+                    Log.WriteError(Locale.IsRussian ?
+                        "Не удалось остановить линию связи {0}" :
+                        "Failed to stop communication line {0}", commLine.Title);
+                }
+            }
+            catch (Exception ex)
+            {
+                Log.WriteException(ex, Locale.IsRussian ?
+                    "Ошибка при остановке линии связи {0}" :
+                    "Error stopping communication line {0}", commLine.Title);
+            }
+        }
+
+        /// <summary>
         /// Receives telecontrol commands from the server.
         /// </summary>
         private void ReceiveCommands()
@@ -470,6 +665,26 @@ namespace Scada.Comm.Engine
                 Log.WriteException(ex, Locale.IsRussian ?
                     "Ошибка при приёме команд ТУ" :
                     "Error receiving telecontrol commands");
+            }
+        }
+
+        /// <summary>
+        /// Gets the communication line of the specified device.
+        /// </summary>
+        private bool GetDeviceLine(int deviceNum, out CommLine commLine)
+        {
+            lock (commLineLock)
+            {
+                if (deviceMap.TryGetValue(deviceNum, out DeviceItem deviceItem))
+                {
+                    commLine = deviceItem.Line;
+                    return true;
+                }
+                else
+                {
+                    commLine = null;
+                    return false;
+                }
             }
         }
 
@@ -510,7 +725,7 @@ namespace Scada.Comm.Engine
 
                 if (commLines != null)
                 {
-                    lock (commLines)
+                    lock (commLineLock)
                     {
                         string header = Locale.IsRussian ?
                             "Линии связи (" + commLines.Count + ")" :
@@ -523,6 +738,12 @@ namespace Scada.Comm.Engine
 
                         if (commLines.Count > 0)
                         {
+                            if (maxLineTitleLength < 0)
+                            {
+                                maxLineTitleLength = 0;
+                                commLines.ForEach(l => maxLineTitleLength = Math.Max(maxLineTitleLength, l.Title.Length));
+                            }
+
                             foreach (CommLine commLine in commLines)
                             {
                                 sb
@@ -639,8 +860,8 @@ namespace Scada.Comm.Engine
                         "Command with ID {0} to the device {1} from the source {2}",
                         cmd.CommandID, cmd.DeviceNum, source);
 
-                    if (deviceMap.TryGetValue(cmd.DeviceNum, out DeviceItem deviceItem))
-                        deviceItem.Line.EnqueueCommand(cmd);
+                    if (GetDeviceLine(cmd.DeviceNum, out CommLine commLine))
+                        commLine.EnqueueCommand(cmd);
                 }
                 else if (cmd.CmdTypeID == CmdTypeID.AppCommand)
                 {
@@ -652,17 +873,20 @@ namespace Scada.Comm.Engine
                     switch (cmd.CmdCode)
                     {
                         case CommCommands.StartLine:
+                            StartLine((int)cmd.CmdVal);
                             break;
 
                         case CommCommands.StopLine:
+                            StopLine((int)cmd.CmdVal);
                             break;
 
                         case CommCommands.RestartLine:
+                            RestartLine((int)cmd.CmdVal);
                             break;
 
                         case CommCommands.PollDevice:
-                            if (deviceMap.TryGetValue(cmd.DeviceNum, out DeviceItem deviceItem))
-                                deviceItem.Line.PollWithPriority(cmd.DeviceNum);
+                            if (GetDeviceLine(cmd.DeviceNum, out CommLine commLine))
+                                commLine.PollWithPriority(cmd.DeviceNum);
                             break;
 
                         default:
@@ -710,15 +934,7 @@ namespace Scada.Comm.Engine
         /// </summary>
         public bool DeviceExists(int deviceNum)
         {
-            return deviceMap != null && deviceMap.ContainsKey(deviceNum);
-        }
-
-        /// <summary>
-        /// Sends the telecontrol command to the current application.
-        /// </summary>
-        void ICommContext.SendCommand(TeleCommand cmd, string source)
-        {
-            ProcessCommand(cmd, source);
+            return deviceMap.ContainsKey(deviceNum);
         }
 
         /// <summary>
@@ -726,7 +942,10 @@ namespace Scada.Comm.Engine
         /// </summary>
         ILineContext[] ICommContext.GetCommLines()
         {
-            return commLines.ToArray();
+            lock (commLineLock)
+            {
+                return commLines.ToArray();
+            }
         }
 
         /// <summary>
@@ -734,15 +953,18 @@ namespace Scada.Comm.Engine
         /// </summary>
         bool ICommContext.GetCommLine(int commLineNum, out ILineContext lineContext)
         {
-            if (commLineMap.TryGetValue(commLineNum, out CommLine commLine))
+            lock (commLineLock)
             {
-                lineContext = commLine;
-                return true;
-            }
-            else
-            {
-                lineContext = null;
-                return false;
+                if (commLineMap.TryGetValue(commLineNum, out CommLine commLine))
+                {
+                    lineContext = commLine;
+                    return true;
+                }
+                else
+                {
+                    lineContext = null;
+                    return false;
+                }
             }
         }
 
@@ -751,16 +973,27 @@ namespace Scada.Comm.Engine
         /// </summary>
         bool ICommContext.GetDevice(int deviceNum, out DeviceLogic deviceLogic)
         {
-            if (deviceMap.TryGetValue(deviceNum, out DeviceItem deviceItem))
+            lock (commLineLock)
             {
-                deviceLogic = deviceItem.Device;
-                return true;
+                if (deviceMap.TryGetValue(deviceNum, out DeviceItem deviceItem))
+                {
+                    deviceLogic = deviceItem.Device;
+                    return true;
+                }
+                else
+                {
+                    deviceLogic = null;
+                    return false;
+                }
             }
-            else
-            {
-                deviceLogic = null;
-                return false;
-            }
+        }
+
+        /// <summary>
+        /// Sends the telecontrol command to the current application.
+        /// </summary>
+        void ICommContext.SendCommand(TeleCommand cmd, string source)
+        {
+            ProcessCommand(cmd, source);
         }
     }
 }
