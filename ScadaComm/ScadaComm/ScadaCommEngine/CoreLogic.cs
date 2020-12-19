@@ -38,6 +38,7 @@ using System.Diagnostics;
 using System.IO;
 using System.Text;
 using System.Threading;
+using System.Threading.Tasks;
 
 namespace Scada.Comm.Engine
 {
@@ -474,7 +475,7 @@ namespace Scada.Comm.Engine
                 }
                 else
                 {
-                    new Thread(() => DoStartLine(commLineNum)).Start();
+                    Task.Run(() => DoStartLine(commLineNum));
                 }
             }
         }
@@ -491,7 +492,7 @@ namespace Scada.Comm.Engine
                     if (commLine.LineStatus == ServiceStatus.Normal ||
                         commLine.LineStatus == ServiceStatus.Error)
                     {
-                        new Thread(() => DoStopLine(commLine)).Start();
+                        Task.Run(() => DoStopLine(commLine));
                     }
                     else
                     {
@@ -517,14 +518,14 @@ namespace Scada.Comm.Engine
                     commLine.LineStatus == ServiceStatus.Normal ||
                     commLine.LineStatus == ServiceStatus.Error)
                 {
-                    new Thread(() =>
+                    Task.Run(() =>
                     {
                         if (lineExists)
                             DoStopLine(commLine);
 
                         if (!lineExists || commLine.IsTerminated)
                             DoStartLine(commLine.CommLineNum);
-                    }).Start();
+                    });
                 }
                 else
                 {
