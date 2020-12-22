@@ -79,6 +79,6 @@ namespace Scada.Comm.Devices
         /// <summary>
         /// Gets or sets the method that is executed when the event could not be sent.
         /// </summary>
-        public Action<DeviceSlice> FailedToSendCallback { get; set; }
+        public Action<DeviceEvent> FailedToSendCallback { get; set; }
     }
 }

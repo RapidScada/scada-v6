@@ -87,6 +87,7 @@ namespace Scada.Comm.Engine
         private Dictionary<int, CommLine> commLineMap; // the communication lines accessed by line number
         private Dictionary<int, DeviceItem> deviceMap; // the devices accessed by device number
         private ScadaClient scadaClient;      // communicates with the server
+        private DataQueue dataQueue;          // transfers data to the server
         private CommandReader commandReader;  // reads telecontrol commands from files
         private DriverHolder driverHolder;    // holds drivers
 
@@ -117,6 +118,7 @@ namespace Scada.Comm.Engine
             commLineMap = null;
             deviceMap = null;
             scadaClient = null;
+            dataQueue = null;
             commandReader = null;
             driverHolder = null;
         }
@@ -170,8 +172,18 @@ namespace Scada.Comm.Engine
             commLines = new List<CommLine>(Config.Lines.Count);
             commLineMap = new Dictionary<int, CommLine>();
             deviceMap = new Dictionary<int, DeviceItem>();
-            scadaClient = Config.GeneralOptions.InteractWithServer ? 
-                new ScadaClient(Config.ConnectionOptions) { CommLog = CreateClientLog() } : null;
+
+            if (Config.GeneralOptions.InteractWithServer)
+            {
+                scadaClient = new ScadaClient(Config.ConnectionOptions) { CommLog = CreateClientLog() };
+                dataQueue = new DataQueue(Config.GeneralOptions, scadaClient, Log);
+            }
+            else
+            {
+                scadaClient = null;
+                dataQueue = null;
+            }
+
             commandReader = Config.GeneralOptions.CmdEnabled && Config.GeneralOptions.FileCmdEnabled ? 
                 new CommandReader(this) : null;
             InitDrivers();
@@ -237,10 +249,12 @@ namespace Scada.Comm.Engine
                         switch (executionStep)
                         {
                             case ExecutionStep.MainWork:
-                                if (Config.GeneralOptions.InteractWithServer)
+                                if (scadaClient != null && scadaClient.IsReady)
                                 {
                                     if (Config.GeneralOptions.CmdEnabled)
                                         ReceiveCommands();
+
+                                    dataQueue.TransferData();
                                 }
                                 break;
 
@@ -711,7 +725,20 @@ namespace Scada.Comm.Engine
                         .Append("Запуск       : ").AppendLine(startDT.ToLocalizedString())
                         .Append("Время работы : ").AppendLine(workSpanStr)
                         .Append("Статус       : ").AppendLine(serviceStatus.ToString(true))
-                        .Append("Версия       : ").AppendLine(CommUtils.AppVersion);
+                        .Append("Версия       : ").AppendLine(CommUtils.AppVersion)
+                        .AppendLine()
+                        .AppendLine("Передача данных")
+                        .AppendLine("---------------");
+
+                    if (scadaClient == null)
+                    {
+                        sb.Append("Соединение : не используется");
+                    }
+                    else
+                    {
+                        sb.Append("Соединение              : ").AppendLine(scadaClient.ClientState.ToString(true));
+                        dataQueue.AppendInfo(sb);
+                    }
                 }
                 else
                 {
@@ -721,7 +748,20 @@ namespace Scada.Comm.Engine
                         .Append("Started        : ").AppendLine(startDT.ToLocalizedString())
                         .Append("Execution time : ").AppendLine(workSpanStr)
                         .Append("Status         : ").AppendLine(serviceStatus.ToString(false))
-                        .Append("Version        : ").AppendLine(CommUtils.AppVersion);
+                        .Append("Version        : ").AppendLine(CommUtils.AppVersion)
+                        .AppendLine()
+                        .AppendLine("Data Transfer")
+                        .AppendLine("-------------");
+
+                    if (scadaClient == null)
+                    {
+                        sb.Append("Connection : Not Used");
+                    }
+                    else
+                    {
+                        sb.Append("Connection            : ").AppendLine(scadaClient.ClientState.ToString(false));
+                        dataQueue.AppendInfo(sb);
+                    }
                 }
 
                 if (commLines != null)
@@ -911,7 +951,7 @@ namespace Scada.Comm.Engine
         /// </summary>
         public void EnqueueCurrentData(DeviceSlice deviceSlice)
         {
-
+            dataQueue?.EnqueueCurrentData(deviceSlice);
         }
 
         /// <summary>
@@ -919,7 +959,7 @@ namespace Scada.Comm.Engine
         /// </summary>
         public void EnqueueHistoricalData(DeviceSlice deviceSlice)
         {
-
+            dataQueue?.EnqueueHistoricalData(deviceSlice);
         }
 
         /// <summary>
@@ -927,7 +967,7 @@ namespace Scada.Comm.Engine
         /// </summary>
         public void EnqueueEvent(DeviceEvent deviceEvent)
         {
-
+            dataQueue?.EnqueueEvent(deviceEvent);
         }
 
         /// <summary>

@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Scada.Client;
+using System;
 using System.Globalization;
 using System.Text;
 
@@ -14,6 +15,14 @@ namespace Scada
         /// The service status names in Russian.
         /// </summary>
         private static readonly string[] ServiceStatusNamesRu = { "не определён", "запуск", "норма", "ошибка", "завершение", "завершён" };
+        /// <summary>
+        /// The client state names in English.
+        /// </summary>
+        private static readonly string[] ClientStateNamesEn = { "Disconnected", "Connected", "Logged In" };
+        /// <summary>
+        /// The client state names in Russian.
+        /// </summary>
+        private static readonly string[] ClientStateNamesRu = { "соединение не установлено", "соединение установлено", "вход выполнен" };
 
 
         /// <summary>
@@ -193,6 +202,16 @@ namespace Scada
             return isRussian ?
                 ServiceStatusNamesRu[(int)serviceStatus] :
                 ServiceStatusNamesEn[(int)serviceStatus];
+        }
+
+        /// <summary>
+        /// Converts the client state to a string.
+        /// </summary>
+        public static string ToString(this ClientState clientState, bool isRussian)
+        {
+            return isRussian ?
+                ClientStateNamesRu[(int)clientState] :
+                ClientStateNamesEn[(int)clientState];
         }
 
         /// <summary>

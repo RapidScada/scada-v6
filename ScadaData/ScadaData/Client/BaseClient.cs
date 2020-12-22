@@ -122,6 +122,17 @@ namespace Scada.Client
         public ClientState ClientState { get; protected set; }
 
         /// <summary>
+        /// Gets a value indicating whether the client is ready for communication.
+        /// </summary>
+        public bool IsReady
+        {
+            get
+            {
+                return ClientState >= ClientState.LoggedIn || DateTime.UtcNow - connAttemptDT > ReconnectPeriod;
+            }
+        }
+
+        /// <summary>
         /// Gets the session ID.
         /// </summary>
         public long SessionID { get; protected set; }
@@ -228,7 +239,7 @@ namespace Scada.Client
                         "Incompatible protocol version.");
                 }
 
-                Login(out bool loggedIn, out int userID, out int roleID, out string errorMessage);
+                Login(out bool loggedIn, out _, out _, out string errorMessage);
 
                 if (loggedIn)
                 {

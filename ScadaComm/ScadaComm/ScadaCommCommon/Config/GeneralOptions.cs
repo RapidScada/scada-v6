@@ -41,6 +41,9 @@ namespace Scada.Comm.Config
         public GeneralOptions()
         {
             InteractWithServer = true;
+            MaxQueueSize = 1000;
+            MaxCurDataAge = 60;
+            DataLifetime = 3600;
             SendModifiedData = true;
             SendAllDataPeriod = 60;
             CmdEnabled = true;
@@ -54,6 +57,21 @@ namespace Scada.Comm.Config
         /// Gets or sets a value indicating whether to interact with the server.
         /// </summary>
         public bool InteractWithServer { get; set; }
+
+        /// <summary>
+        /// Gets or sets the maximum queue size.
+        /// </summary>
+        public int MaxQueueSize { get; set; }
+
+        /// <summary>
+        /// Gets or sets the maximum time after which the current data is sent as historical, in seconds.
+        /// </summary>
+        public int MaxCurDataAge { get; set; }
+
+        /// <summary>
+        /// Gets or sets the data lifetime in the queue, in seconds.
+        /// </summary>
+        public int DataLifetime { get; set; }
 
         /// <summary>
         /// Gets or sets a value indicating whether to send only modified data of device tags.
@@ -95,6 +113,9 @@ namespace Scada.Comm.Config
                 throw new ArgumentNullException(nameof(xmlNode));
 
             InteractWithServer = xmlNode.GetChildAsBool("InteractWithServer");
+            MaxQueueSize = xmlNode.GetChildAsInt("MaxQueueSize");
+            MaxCurDataAge = xmlNode.GetChildAsInt("MaxCurDataAge");
+            DataLifetime = xmlNode.GetChildAsInt("DataLifetime");
             SendModifiedData = xmlNode.GetChildAsBool("SendModifiedData");
             SendAllDataPeriod = xmlNode.GetChildAsInt("SendAllDataPeriod");
             CmdEnabled = xmlNode.GetChildAsBool("CmdEnabled");
@@ -112,6 +133,9 @@ namespace Scada.Comm.Config
                 throw new ArgumentNullException(nameof(xmlElem));
 
             xmlElem.AppendElem("InteractWithServer", InteractWithServer);
+            xmlElem.AppendElem("MaxQueueSize", MaxQueueSize);
+            xmlElem.AppendElem("MaxCurDataAge", MaxCurDataAge);
+            xmlElem.AppendElem("DataLifetime", DataLifetime);
             xmlElem.AppendElem("SendModifiedData", SendModifiedData);
             xmlElem.AppendElem("SendAllDataPeriod", SendAllDataPeriod);
             xmlElem.AppendElem("CmdEnabled", CmdEnabled);
