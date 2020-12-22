@@ -30,6 +30,7 @@ using Scada.Log;
 using System;
 using System.Collections.Generic;
 using System.Text;
+using System.Threading;
 
 namespace Scada.Comm.Engine
 {
@@ -62,6 +63,10 @@ namespace Scada.Comm.Engine
         /// The number of queue items to send when performing a data transfer operation.
         /// </summary>
         private const int BundleSize = 10;
+        /// <summary>
+        /// The delay in case of a data transfer error, ms.
+        /// </summary>
+        private const int ErrorDelay = 1000;
 
         private readonly TimeSpan maxCurDataAge;  // determines sending current data as historical
         private readonly TimeSpan dataLifetime;   // the data lifetime in the queue
@@ -123,60 +128,89 @@ namespace Scada.Comm.Engine
         /// </summary>
         private void TransferEvents()
         {
-            try
+            for (int i = 0; i < BundleSize; i++)
             {
-                for (int i = 0; i < BundleSize; i++)
+                // retrieve an event from the queue
+                QueueItem<DeviceEvent> queueItem;
+                DeviceEvent deviceEvent;
+
+                lock (eventQueue)
                 {
-                    /*
-                    // retrieve an event from the queue
-                    QueueItem<EventTableLight.Event> queueItem;
-                    EventTableLight.Event ev;
-
-                    lock (eventQueue)
+                    if (eventQueue.Count > 0)
                     {
-                        if (eventQueue.Count > 0)
-                        {
-                            queueItem = eventQueue.Dequeue();
-                            ev = queueItem.Value;
-                        }
-                        else
-                        {
-                            break;
-                        }
-                    }
-
-                    // export the event
-                    if (DateTime.UtcNow - queueItem.Timestamp > maxWaitingTime)
-                    {
-                        eventStats.SkippedItems++;
-                        log.WriteError(string.Format(Localization.UseRussian ?
-                            "Устаревшее событие за {0} не экспортировано" :
-                            "The outdated event for {0} is not exported",
-                            ev.DateTime.ToLocalizedString()));
-                    }
-                    else if (serverComm.SendEvent(ev, out bool sendingResult) && sendingResult)
-                    {
-                        eventStats.ExportedItems++;
-                        eventStats.ErrorState = false;
+                        queueItem = eventQueue.Dequeue();
+                        deviceEvent = queueItem.Value;
                     }
                     else
                     {
+                        break;
+                    }
+                }
+
+                // export the event
+                if (DateTime.UtcNow - queueItem.CreationTime > dataLifetime)
+                {
+                    log.WriteError(Locale.IsRussian ?
+                        "Устаревшее событие удалено из очереди" :
+                        "Outdated event removed from the queue");
+
+                    eventSkipped++;
+                    CallFailedToSend(deviceEvent);
+                }
+                else if (deviceEvent.DeviceTag?.InCnl != null)
+                {
+                    try
+                    {
+                        deviceEvent.CnlNum = deviceEvent.DeviceTag.InCnl.CnlNum;
+                        scadaClient.WriteEvent(deviceEvent, deviceEvent.ArchiveMask);
+                        CallDataSent(deviceEvent);
+                    }
+                    catch (Exception ex)
+                    {
+                        log.WriteException(ex, Locale.IsRussian ?
+                            "Ошибка при передаче события" :
+                            "Error transferring event");
+
                         // return the unsent event to the queue
                         lock (eventQueue)
                         {
                             eventQueue.Enqueue(queueItem);
                         }
 
-                        eventStats.ErrorState = true;
                         Thread.Sleep(ErrorDelay);
-                    }*/
+                        break;
+                    }
                 }
+            }
+        }
+
+        /// <summary>
+        /// Calls the DataSentCallback method of the device slice.
+        /// </summary>
+        private void CallDataSent(DeviceSlice deviceSlice)
+        {
+            try
+            {
+                deviceSlice.DataSentCallback?.Invoke(deviceSlice);
             }
             catch (Exception ex)
             {
-                log.WriteException(ex, Locale.IsRussian ?
-                    "Ошибка при передаче событий" :
-                    "Error transferring events");
+                log.WriteException(ex);
+            }
+        }
+
+        /// <summary>
+        /// Calls the DataSentCallback method of the device event.
+        /// </summary>
+        private void CallDataSent(DeviceEvent deviceEvent)
+        {
+            try
+            {
+                deviceEvent.DataSentCallback?.Invoke(deviceEvent);
+            }
+            catch (Exception ex)
+            {
+                log.WriteException(ex);
             }
         }
 
@@ -249,10 +283,10 @@ namespace Scada.Comm.Engine
                 }
                 else
                 {
-                    log.WriteError(string.Format(Locale.IsRussian ?
+                    log.WriteError(Locale.IsRussian ?
                         "Невозможно добавить архивные данные в очередь. Максимальный размер очереди {0} превышен" :
                         "Unable to enqueue historical data. The maximum size of the queue {0} is exceeded",
-                        maxQueueSize));
+                        maxQueueSize);
 
                     histDataSkipped++;
                     CallFailedToSend(deviceSlice);
@@ -276,10 +310,10 @@ namespace Scada.Comm.Engine
                 }
                 else
                 {
-                    log.WriteError(string.Format(Locale.IsRussian ?
+                    log.WriteError(Locale.IsRussian ?
                         "Невозможно добавить событие в очередь. Максимальный размер очереди {0} превышен" :
                         "Unable to enqueue an event. The maximum size of the queue {0} is exceeded",
-                        maxQueueSize));
+                        maxQueueSize);
 
                     eventSkipped++;
                     CallFailedToSend(deviceEvent);
@@ -292,9 +326,18 @@ namespace Scada.Comm.Engine
         /// </summary>
         public void TransferData()
         {
-            TransferCurrentData();
-            TransferHistoricalData();
-            TransferEvents();
+            try
+            {
+                TransferCurrentData();
+                TransferHistoricalData();
+                TransferEvents();
+            }
+            catch (Exception ex)
+            {
+                log.WriteException(ex, Locale.IsRussian ?
+                    "Ошибка при передаче данных" :
+                    "Error transferring data");
+            }
         }
 
         /// <summary>
