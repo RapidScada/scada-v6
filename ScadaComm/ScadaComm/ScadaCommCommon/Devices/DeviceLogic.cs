@@ -339,26 +339,9 @@ namespace Scada.Comm.Devices
         }
 
         /// <summary>
-        /// Initializes the device data.
+        /// Binds the device tags to the configuration database.
         /// </summary>
-        public virtual void InitDeviceData()
-        {
-            DeviceTags.AddStatusTag();
-            DeviceData.Init(DeviceTags);
-        }
-        
-        /// <summary>
-        /// Sets the current data to undefined.
-        /// </summary>
-        public virtual void InvalidateData()
-        {
-            DeviceData.Invalidate();
-        }
-
-        /// <summary>
-        /// Binds the device to the configuration database.
-        /// </summary>
-        public virtual void Bind(BaseDataSet baseDataSet)
+        public virtual void BindDeviceTags(BaseDataSet baseDataSet)
         {
             foreach (InCnl inCnl in baseDataSet.InCnlTable.SelectItems(new TableFilter("DeviceNum", DeviceNum), true))
             {
@@ -378,13 +361,31 @@ namespace Scada.Comm.Devices
                     }
 
                     // check match and bind tag
-                    if (deviceTag != null && (int)deviceTag.DataType == inCnl.DataTypeID && 
+                    if (deviceTag != null &&
+                        (int)deviceTag.DataType == (inCnl.DataTypeID ?? DataTypeID.Double) &&
                         deviceTag.DataLength == Math.Max(inCnl.DataLen ?? 1, 1))
                     {
                         deviceTag.InCnl = inCnl;
                     }
                 }
             }
+        }
+
+        /// <summary>
+        /// Initializes the device data.
+        /// </summary>
+        public virtual void InitDeviceData()
+        {
+            DeviceTags.AddStatusTag();
+            DeviceData.Init(DeviceTags);
+        }
+        
+        /// <summary>
+        /// Sets the current data to undefined.
+        /// </summary>
+        public virtual void InvalidateData()
+        {
+            DeviceData.Invalidate();
         }
 
         /// <summary>

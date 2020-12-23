@@ -371,6 +371,7 @@ namespace Scada.Comm.Devices
                 curDataTable = new Table(5, rowCount);
                 curDataTable.Columns[3].VarWidth = true;
                 curDataTable.Columns[3].AlignLeft = false;
+                curDataTable.Columns[4].AlignLeft = false;
                 curDataRowIndexes = new int[deviceTags.Count];
 
                 if (Locale.IsRussian)

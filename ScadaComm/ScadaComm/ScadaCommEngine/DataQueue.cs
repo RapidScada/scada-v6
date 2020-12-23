@@ -151,13 +151,6 @@ namespace Scada.Comm.Engine
                             scadaClient.WriteHistoricalData(deviceSlice.DeviceNum, slice, deviceSlice.ArchiveMask, true);
                         else
                             scadaClient.WriteCurrentData(deviceSlice.DeviceNum, slice.CnlNums, slice.CnlData, true);
-
-                        // remove the slice from the queue
-                        lock (curDataQueue)
-                        {
-                            if (curDataQueue.Count > 0 && curDataQueue.Peek() == queueItem)
-                                curDataQueue.Dequeue();
-                        }
                     }
                     catch (Exception ex)
                     {
@@ -166,8 +159,15 @@ namespace Scada.Comm.Engine
                             "Error transferring current data");
 
                         Thread.Sleep(ErrorDelay);
-                        break;
+                        break; // the slice is not removed from the queue
                     }
+                }
+
+                // remove the slice from the queue
+                lock (curDataQueue)
+                {
+                    if (curDataQueue.Count > 0 && curDataQueue.Peek() == queueItem)
+                        curDataQueue.Dequeue();
                 }
             }
         }
@@ -520,29 +520,29 @@ namespace Scada.Comm.Engine
             {
                 sb.Append("Очередь текущих данных  : ")
                     .Append(curDataQueue.Count).Append(" из ").Append(maxQueueSize)
-                    .Append(", пропущено ").Append(curDataSkipped);
+                    .Append(", пропущено ").Append(curDataSkipped).AppendLine();
 
                 sb.Append("Очередь архивных данных : ")
                     .Append(histDataQueue.Count).Append(" из ").Append(maxQueueSize)
-                    .Append(", пропущено ").Append(histDataSkipped);
+                    .Append(", пропущено ").Append(histDataSkipped).AppendLine();
 
                 sb.Append("Очередь событий         : ")
                     .Append(eventQueue.Count).Append(" из ").Append(maxQueueSize)
-                    .Append(", пропущено ").Append(eventSkipped);
+                    .Append(", пропущено ").Append(eventSkipped).AppendLine();
             }
             else
             {
                 sb.Append("Current data queue    : ")
                     .Append(curDataQueue.Count).Append(" of ").Append(maxQueueSize)
-                    .Append(", skipped ").Append(curDataSkipped);
+                    .Append(", skipped ").Append(curDataSkipped).AppendLine();
 
                 sb.Append("Historical data queue : ")
                     .Append(histDataQueue.Count).Append(" of ").Append(maxQueueSize)
-                    .Append(", skipped ").Append(histDataSkipped);
+                    .Append(", skipped ").Append(histDataSkipped).AppendLine();
 
-                sb.Append("Event queue             : ")
+                sb.Append("Event queue           : ")
                     .Append(eventQueue.Count).Append(" of ").Append(maxQueueSize)
-                    .Append(", skipped ").Append(eventSkipped);
+                    .Append(", skipped ").Append(eventSkipped).AppendLine();
             }
         }
     }

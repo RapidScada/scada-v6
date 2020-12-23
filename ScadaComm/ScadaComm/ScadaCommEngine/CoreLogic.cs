@@ -309,6 +309,7 @@ namespace Scada.Comm.Engine
                 commandReader?.Stop();
                 StopLines();
                 driverHolder.OnServiceStop();
+                TerminateClientSession();
                 serviceStatus = ServiceStatus.Terminated;
                 WriteInfo();
             }
@@ -684,6 +685,24 @@ namespace Scada.Comm.Engine
         }
 
         /// <summary>
+        /// Terminates the client session.
+        /// </summary>
+        private void TerminateClientSession()
+        {
+            try
+            {
+                if (scadaClient != null && scadaClient.IsReady)
+                    scadaClient.TerminateSession();
+            }
+            catch (Exception ex)
+            {
+                Log.WriteException(ex, Locale.IsRussian ?
+                    "Ошибка при завершении сессии клиента" :
+                    "Error terminating client session");
+            }
+        }
+
+        /// <summary>
         /// Gets the communication line of the specified device.
         /// </summary>
         private bool GetDeviceLine(int deviceNum, out CommLine commLine)
@@ -732,7 +751,7 @@ namespace Scada.Comm.Engine
 
                     if (scadaClient == null)
                     {
-                        sb.Append("Соединение : не используется");
+                        sb.AppendLine("Соединение : не используется");
                     }
                     else
                     {
@@ -755,7 +774,7 @@ namespace Scada.Comm.Engine
 
                     if (scadaClient == null)
                     {
-                        sb.Append("Connection : Not Used");
+                        sb.AppendLine("Connection : Not Used");
                     }
                     else
                     {

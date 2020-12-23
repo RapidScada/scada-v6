@@ -109,6 +109,22 @@ namespace Scada.Comm.Engine
         }
 
         /// <summary>
+        /// Calls the BindDeviceTags method of the device.
+        /// </summary>
+        public void BindDeviceTags(BaseDataSet baseDataSet)
+        {
+            try
+            {
+                if (DeviceLogic.IsBound && baseDataSet != null)
+                    DeviceLogic.BindDeviceTags(baseDataSet);
+            }
+            catch (Exception ex)
+            {
+                log.WriteException(ex, CommPhrases.ErrorInDevice, nameof(BindDeviceTags), DeviceLogic.Title);
+            }
+        }
+
+        /// <summary>
         /// Calls the InitDeviceData method of the device.
         /// </summary>
         public void InitDeviceData()
@@ -135,22 +151,6 @@ namespace Scada.Comm.Engine
             catch (Exception ex)
             {
                 log.WriteException(ex, CommPhrases.ErrorInDevice, nameof(InvalidateData), DeviceLogic.Title);
-            }
-        }
-
-        /// <summary>
-        /// Calls the Bind method of the device.
-        /// </summary>
-        public void Bind(BaseDataSet baseDataSet)
-        {
-            try
-            {
-                if (DeviceLogic.IsBound)
-                    DeviceLogic.Bind(baseDataSet);
-            }
-            catch (Exception ex)
-            {
-                log.WriteException(ex, CommPhrases.ErrorInDevice, nameof(Bind), DeviceLogic.Title);
             }
         }
 
