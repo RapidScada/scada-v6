@@ -42,6 +42,7 @@ namespace Scada.Comm.Devices
             Timestamp = timestamp;
             DeviceTags = new DeviceTag[tagCount];
             CnlData = new CnlData[dataLength];
+            DeviceNum = 0;
             ArchiveMask = Data.Models.ArchiveMask.Default;
             Descr = "";
             DataSentCallback = null;
@@ -63,6 +64,11 @@ namespace Scada.Comm.Devices
         /// Gets the channel data corresponding to the device tags.
         /// </summary>
         public CnlData[] CnlData { get; }
+
+        /// <summary>
+        /// Gets or sets the device number.
+        /// </summary>
+        public int DeviceNum { get; set; }
 
         /// <summary>
         /// Gets or sets the mask that identifies the target archives.

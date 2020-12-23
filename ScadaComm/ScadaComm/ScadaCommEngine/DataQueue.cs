@@ -26,6 +26,7 @@
 using Scada.Client;
 using Scada.Comm.Config;
 using Scada.Comm.Devices;
+using Scada.Data.Models;
 using Scada.Log;
 using System;
 using System.Collections.Generic;
@@ -112,7 +113,63 @@ namespace Scada.Comm.Engine
         /// </summary>
         private void TransferCurrentData()
         {
+            for (int i = 0; i < BundleSize; i++)
+            {
+                // get a slice from the queue without removing it
+                QueueItem<DeviceSlice> queueItem;
+                DeviceSlice deviceSlice;
 
+                lock (curDataQueue)
+                {
+                    if (curDataQueue.Count > 0)
+                    {
+                        queueItem = curDataQueue.Peek();
+                        deviceSlice = queueItem.Value;
+                    }
+                    else
+                    {
+                        break;
+                    }
+                }
+
+                // export the slice
+                DateTime utcNow = DateTime.UtcNow;
+
+                if (utcNow - queueItem.CreationTime > dataLifetime)
+                {
+                    log.WriteError(Locale.IsRussian ?
+                        "Устаревшие текущие данные удалены из очереди" :
+                        "Outdated current data removed from the queue");
+
+                    curDataSkipped++;
+                }
+                else if (ConvertSlice(deviceSlice, out Slice slice))
+                {
+                    try
+                    {
+                        if (utcNow - queueItem.CreationTime > maxCurDataAge)
+                            scadaClient.WriteHistoricalData(deviceSlice.DeviceNum, slice, deviceSlice.ArchiveMask, true);
+                        else
+                            scadaClient.WriteCurrentData(deviceSlice.DeviceNum, slice.CnlNums, slice.CnlData, true);
+
+                        // remove the slice from the queue
+                        lock (curDataQueue)
+                        {
+                            if (curDataQueue.Count > 0 && curDataQueue.Peek() == queueItem)
+                                curDataQueue.Dequeue();
+                        }
+                    }
+                    catch (Exception ex)
+                    {
+                        log.WriteException(ex, Locale.IsRussian ?
+                            "Ошибка при передаче текущих данных" :
+                            "Error transferring current data");
+
+                        Thread.Sleep(ErrorDelay);
+                        break;
+                    }
+                }
+            }
         }
 
         /// <summary>
@@ -120,7 +177,59 @@ namespace Scada.Comm.Engine
         /// </summary>
         private void TransferHistoricalData()
         {
+            for (int i = 0; i < BundleSize; i++)
+            {
+                // retrieve a slice from the queue
+                QueueItem<DeviceSlice> queueItem;
+                DeviceSlice deviceSlice;
 
+                lock (histDataQueue)
+                {
+                    if (histDataQueue.Count > 0)
+                    {
+                        queueItem = histDataQueue.Dequeue();
+                        deviceSlice = queueItem.Value;
+                    }
+                    else
+                    {
+                        break;
+                    }
+                }
+
+                // export the slice
+                if (DateTime.UtcNow - queueItem.CreationTime > dataLifetime)
+                {
+                    log.WriteError(Locale.IsRussian ?
+                        "Устаревшие архивные данные удалены из очереди" :
+                        "Outdated historical data removed from the queue");
+
+                    histDataSkipped++;
+                    CallFailedToSend(deviceSlice);
+                }
+                else if (ConvertSlice(deviceSlice, out Slice slice))
+                {
+                    try
+                    {
+                        scadaClient.WriteHistoricalData(deviceSlice.DeviceNum, slice, deviceSlice.ArchiveMask, true);
+                        CallDataSent(deviceSlice);
+                    }
+                    catch (Exception ex)
+                    {
+                        log.WriteException(ex, Locale.IsRussian ?
+                            "Ошибка при передаче архивных данных" :
+                            "Error transferring historical data");
+
+                        // return the unsent slice to the queue
+                        lock (histDataQueue)
+                        {
+                            histDataQueue.Enqueue(queueItem);
+                        }
+
+                        Thread.Sleep(ErrorDelay);
+                        break;
+                    }
+                }
+            }
         }
 
         /// <summary>
@@ -181,6 +290,65 @@ namespace Scada.Comm.Engine
                         break;
                     }
                 }
+            }
+        }
+
+        /// <summary>
+        /// Converts the device slice to a general purpose slice.
+        /// </summary>
+        private bool ConvertSlice(DeviceSlice srcSlice, out Slice destSlice)
+        {
+            try
+            {
+                int srcDataLength = srcSlice.CnlData.Length;
+                int destDataLength = 0;
+                List<int> cnlNums = new List<int>(srcDataLength);
+
+                foreach (DeviceTag deviceTag in srcSlice.DeviceTags)
+                {
+                    if (deviceTag.InCnl != null)
+                    {
+                        cnlNums.Add(deviceTag.InCnl.CnlNum);
+                        destDataLength += deviceTag.DataLength;
+                    }
+                }
+
+                if (destDataLength == 0)
+                {
+                    destSlice = null;
+                    return false;
+                }
+                else if (destDataLength == srcDataLength)
+                {
+                    destSlice = new Slice(srcSlice.Timestamp, cnlNums.ToArray(), srcSlice.CnlData);
+                    return true;
+                }
+                else
+                {
+                    CnlData[] destCnlData = new CnlData[destDataLength];
+                    int dataIndex = 0;
+
+                    foreach (DeviceTag deviceTag in srcSlice.DeviceTags)
+                    {
+                        if (deviceTag.InCnl != null)
+                        {
+                            int tagDataLength = deviceTag.DataLength;
+                            Array.Copy(srcSlice.CnlData, deviceTag.DataIndex, destCnlData, dataIndex, tagDataLength);
+                            dataIndex += tagDataLength;
+                        }
+                    }
+
+                    destSlice = new Slice(srcSlice.Timestamp, cnlNums.ToArray(), destCnlData);
+                    return true;
+                }
+            }
+            catch (Exception ex)
+            {
+                log.WriteException(ex, Locale.IsRussian ?
+                    "Ошибка при конвертировании среза от устройства {0}" :
+                    "Error converting slice from the device {0}", srcSlice.DeviceNum);
+                destSlice = null;
+                return false;
             }
         }
 

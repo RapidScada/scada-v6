@@ -38,6 +38,7 @@ namespace Scada.Comm.Devices
     /// <remarks>The class is thread safe.</remarks>
     public class DeviceData
     {
+        private readonly int deviceNum;             // the device number
         private readonly Queue<DeviceSlice> slices; // the historical data queue
         private readonly Queue<DeviceEvent> events; // the event queue
         private readonly DeviceDataView dataView;   // converts data to a string representation
@@ -51,8 +52,9 @@ namespace Scada.Comm.Devices
         /// <summary>
         /// Initializes a new instance of the class.
         /// </summary>
-        public DeviceData()
+        public DeviceData(int deviceNum)
         {
+            this.deviceNum = deviceNum;
             slices = new Queue<DeviceSlice>();
             events = new Queue<DeviceEvent>();
             dataView = new DeviceDataView();
@@ -652,7 +654,11 @@ namespace Scada.Comm.Devices
         {
             lock (curDataLock)
             {
-                DeviceSlice deviceSlice = new DeviceSlice(DateTime.UtcNow, deviceTags.Count, rawData.Length);
+                DeviceSlice deviceSlice = new DeviceSlice(DateTime.UtcNow, deviceTags.Count, rawData.Length)
+                {
+                    DeviceNum = deviceNum
+                };
+
                 int tagIndex = 0;
                 int dataIndex = 0;
 
@@ -693,7 +699,11 @@ namespace Scada.Comm.Devices
                     }
                 }
 
-                DeviceSlice deviceSlice = new DeviceSlice(DateTime.UtcNow, tagCount, dataLength);
+                DeviceSlice deviceSlice = new DeviceSlice(DateTime.UtcNow, tagCount, dataLength)
+                {
+                    DeviceNum = deviceNum
+                };
+
                 int tagIndex = 0;
                 int dataIndex = 0;
 
@@ -726,12 +736,13 @@ namespace Scada.Comm.Devices
             if (deviceSlice == null)
                 throw new ArgumentNullException(nameof(deviceSlice));
 
+            deviceSlice.DeviceNum = deviceNum;
+            dataView.AddSlice(deviceSlice);
+
             lock (slices)
             {
                 slices.Enqueue(deviceSlice);
             }
-
-            dataView.AddSlice(deviceSlice);
         }
 
         /// <summary>
@@ -762,12 +773,13 @@ namespace Scada.Comm.Devices
             if (deviceEvent == null)
                 throw new ArgumentNullException(nameof(deviceEvent));
 
+            deviceEvent.DeviceNum = deviceNum;
+            dataView.AddEvent(deviceEvent);
+
             lock (events)
             {
                 events.Enqueue(deviceEvent);
             }
-
-            dataView.AddEvent(deviceEvent);
         }
 
         /// <summary>
