@@ -200,7 +200,7 @@ namespace Scada.Client
             DateTime utcNow = DateTime.UtcNow;
             bool connectNeeded = false;
 
-            if (ClientState >= ClientState.LoggedIn)
+            if (ClientState == ClientState.LoggedIn)
             {
                 if (utcNow - responseDT > PingPeriod)
                 {
@@ -222,44 +222,52 @@ namespace Scada.Client
                 connectNeeded = true;
             }
 
-            if (connectNeeded)
+            try
             {
-                connAttemptDT = utcNow;
-                Disconnect();
-                Connect();
-
-                GetSessionInfo(out long sessionID, out ushort protocolVersion, out string serverName);
-                SessionID = sessionID;
-                ServerName = serverName;
-
-                if (protocolVersion != ProtocolVersion)
+                if (connectNeeded)
                 {
-                    throw new ScadaException(Locale.IsRussian ?
-                        "Несовместимая версия протокола." :
-                        "Incompatible protocol version.");
+                    connAttemptDT = utcNow;
+                    Disconnect();
+                    Connect();
+
+                    GetSessionInfo(out long sessionID, out ushort protocolVersion, out string serverName);
+                    SessionID = sessionID;
+                    ServerName = serverName;
+
+                    if (protocolVersion != ProtocolVersion)
+                    {
+                        throw new ScadaException(Locale.IsRussian ?
+                            "Несовместимая версия протокола." :
+                            "Incompatible protocol version.");
+                    }
+
+                    Login(out bool loggedIn, out _, out _, out string errorMessage);
+
+                    if (loggedIn)
+                    {
+                        ClientState = ClientState.LoggedIn;
+                        CommLog?.WriteAction("User is logged in");
+                    }
+                    else
+                    {
+                        throw new ScadaException(errorMessage);
+                    }
                 }
-
-                Login(out bool loggedIn, out _, out _, out string errorMessage);
-
-                if (loggedIn)
+                else if (ClientState >= ClientState.LoggedIn)
                 {
-                    ClientState = ClientState.LoggedIn;
-                    CommLog?.WriteAction("User is logged in");
+                    ClearNetStream(netStream, inBuf);
                 }
                 else
                 {
-                    throw new ScadaException(errorMessage);
+                    throw new ScadaException(Locale.IsRussian ?
+                        "Клиент не вошёл в систему. Попробуйте позже." :
+                        "Client is not logged in. Try again later.");
                 }
             }
-            else if (ClientState >= ClientState.LoggedIn)
+            catch
             {
-                ClearNetStream(netStream, inBuf);
-            }
-            else
-            {
-                throw new ScadaException(Locale.IsRussian ?
-                    "Клиент не вошёл в систему. Попробуйте позже." :
-                    "Client is not logged in. Try again later.");
+                ClientState = ClientState.Error;
+                throw;
             }
         }
 

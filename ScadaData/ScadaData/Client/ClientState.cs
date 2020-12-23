@@ -44,6 +44,11 @@ namespace Scada.Client
         /// <summary>
         /// A client is authenticated successfully.
         /// </summary>
-        LoggedIn
+        LoggedIn,
+
+        /// <summary>
+        /// A communication error has occurred.
+        /// </summary>
+        Error
     }
 }

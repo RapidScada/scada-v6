@@ -10,19 +10,23 @@ namespace Scada
         /// <summary>
         /// The service status names in English.
         /// </summary>
-        private static readonly string[] ServiceStatusNamesEn = { "Undefined", "Starting", "Normal", "Error", "Terminating", "Terminated" };
+        private static readonly string[] ServiceStatusNamesEn = 
+            { "Undefined", "Starting", "Normal", "Error", "Terminating", "Terminated" };
         /// <summary>
         /// The service status names in Russian.
         /// </summary>
-        private static readonly string[] ServiceStatusNamesRu = { "не определён", "запуск", "норма", "ошибка", "завершение", "завершён" };
+        private static readonly string[] ServiceStatusNamesRu = 
+            { "не определён", "запуск", "норма", "ошибка", "завершение", "завершён" };
         /// <summary>
         /// The client state names in English.
         /// </summary>
-        private static readonly string[] ClientStateNamesEn = { "Disconnected", "Connected", "Logged In" };
+        private static readonly string[] ClientStateNamesEn = 
+            { "Disconnected", "Connected", "Logged In", "Error" };
         /// <summary>
         /// The client state names in Russian.
         /// </summary>
-        private static readonly string[] ClientStateNamesRu = { "соединение не установлено", "соединение установлено", "вход выполнен" };
+        private static readonly string[] ClientStateNamesRu = 
+            { "соединение не установлено", "соединение установлено", "вход выполнен", "ошибка" };
 
 
         /// <summary>
