@@ -536,6 +536,7 @@ namespace Scada.Server.Engine
             }
             finally
             {
+                WriteInfo();
                 calc.FinalizeScripts();
                 archiveHolder.WriteCurrentData(curData);
                 archiveHolder.Close();
@@ -1157,28 +1158,26 @@ namespace Scada.Server.Engine
             try
             {
                 moduleHolder.OnCurrentDataProcessing(deviceNum, cnlNums, cnlData);
+                Monitor.Enter(curData);
                 calc.BeginCalculation(curData);
 
-                lock (curData)
+                DateTime utcNow = DateTime.UtcNow;
+                curData.Timestamp = utcNow;
+
+                for (int i = 0, cnlCnt = cnlNums.Length; i < cnlCnt; i++)
                 {
-                    DateTime utcNow = DateTime.UtcNow;
-                    curData.Timestamp = utcNow;
-
-                    for (int i = 0, cnlCnt = cnlNums.Length; i < cnlCnt; i++)
+                    if (cnlTags.TryGetValue(cnlNums[i], out CnlTag cnlTag))
                     {
-                        if (cnlTags.TryGetValue(cnlNums[i], out CnlTag cnlTag))
+                        CnlData newCnlData = cnlData[i];
+
+                        if (applyFormulas && cnlTag.InCnl.FormulaEnabled && 
+                            cnlTag.InCnl.CnlTypeID == CnlTypeID.Measured)
                         {
-                            CnlData newCnlData = cnlData[i];
-
-                            if (applyFormulas && cnlTag.InCnl.FormulaEnabled && 
-                                cnlTag.InCnl.CnlTypeID == CnlTypeID.Measured)
-                            {
-                                newCnlData = calc.CalcCnlData(cnlTag, newCnlData);
-                                cnlData[i] = newCnlData;
-                            }
-
-                            curData.SetCurCnlData(cnlTag, newCnlData, utcNow);
+                            newCnlData = calc.CalcCnlData(cnlTag, newCnlData);
+                            cnlData[i] = newCnlData;
                         }
+
+                        curData.SetCurCnlData(cnlTag, newCnlData, utcNow);
                     }
                 }
             }
@@ -1191,6 +1190,7 @@ namespace Scada.Server.Engine
             finally
             {
                 calc.EndCalculation();
+                Monitor.Exit(curData);
                 moduleHolder.OnCurrentDataProcessed(deviceNum, cnlNums, cnlData);
             }
         }
@@ -1229,9 +1229,9 @@ namespace Scada.Server.Engine
                     {
                         try
                         {
-                            calc.BeginCalculation(new ArchiveCalcContext(archiveLogic, timestamp));
                             archiveLogic.Lock();
                             archiveLogic.BeginUpdate(deviceNum, timestamp);
+                            calc.BeginCalculation(new ArchiveCalcContext(archiveLogic, timestamp));
 
                             // calculate input channels which are written
                             for (int i = 0; i < cnlCnt; i++)
@@ -1273,9 +1273,9 @@ namespace Scada.Server.Engine
                         }
                         finally
                         {
+                            calc.EndCalculation();
                             archiveHolder.EndUpdate(archiveLogic, deviceNum, timestamp);
                             archiveHolder.Unlock(archiveLogic);
-                            calc.EndCalculation();
                         }
                     }
                 }
@@ -1424,8 +1424,8 @@ namespace Scada.Server.Engine
 
                         try
                         {
-                            calc.BeginCalculation(curData);
                             Monitor.Enter(curData);
+                            calc.BeginCalculation(curData);
                             curData.Timestamp = command.CreationTime;
                             commandResult.IsSuccessful = calc.CalcCmdData(outCnlTag, command.CmdVal, command.CmdData,
                                 out cmdVal, out cmdData, out string errMsg);
@@ -1433,8 +1433,8 @@ namespace Scada.Server.Engine
                         }
                         finally
                         {
-                            Monitor.Exit(curData);
                             calc.EndCalculation();
+                            Monitor.Exit(curData);
                         }
 
                         moduleHolder.OnCommand(command, commandResult);
