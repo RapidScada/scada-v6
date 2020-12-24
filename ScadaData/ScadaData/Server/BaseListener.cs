@@ -1060,16 +1060,17 @@ namespace Scada.Server
         /// </summary>
         public void AppendClientInfo(StringBuilder sb)
         {
-            ICollection<ConnectedClient> clientList = clients.Values; // make a snapshot
+            ICollection<ConnectedClient> clientList = clients?.Values; // make a snapshot
+            int clientCount = clientList == null ? 0 : clientList.Count;
 
             string header = Locale.IsRussian ?
-                "Подключенные клиенты (" + clientList.Count + ")" :
-                "Connected Clients (" + clientList.Count + ")";
+                "Подключенные клиенты (" + clientCount + ")" :
+                "Connected Clients (" + clientCount + ")";
 
             sb.AppendLine(header);
             sb.Append('-', header.Length).AppendLine();
 
-            if (clientList.Count > 0)
+            if (clientCount > 0)
             {
                 foreach (ConnectedClient client in clientList)
                 {
@@ -1084,7 +1085,7 @@ namespace Scada.Server
                             sb.Append(" (").Append(roleName).Append(")");
                     }
 
-                    sb.Append("; ").Append(client.ActivityTime.ToLocalizedTimeString());
+                    sb.Append("; ").Append(client.ActivityTime.ToLocalTime().ToLocalizedTimeString());
                 }
             }
             else
