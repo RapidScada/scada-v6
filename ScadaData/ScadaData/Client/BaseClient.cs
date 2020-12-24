@@ -128,7 +128,7 @@ namespace Scada.Client
         {
             get
             {
-                return ClientState >= ClientState.LoggedIn || DateTime.UtcNow - connAttemptDT > ReconnectPeriod;
+                return ClientState == ClientState.LoggedIn || DateTime.UtcNow - connAttemptDT > ReconnectPeriod;
             }
         }
 
@@ -253,7 +253,7 @@ namespace Scada.Client
                         throw new ScadaException(errorMessage);
                     }
                 }
-                else if (ClientState >= ClientState.LoggedIn)
+                else if (ClientState == ClientState.LoggedIn)
                 {
                     ClearNetStream(netStream, inBuf);
                 }
