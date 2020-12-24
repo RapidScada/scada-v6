@@ -294,13 +294,21 @@ namespace Scada.Client
         /// </summary>
         protected void SendRequest(DataPacket request)
         {
-            request.Encode();
-            netStream.Write(request.Buffer, 0, request.BufferLength);
-
-            if (CommLog != null)
+            try
             {
-                CommLog.WriteAction(FunctionID.GetName(request.FunctionID));
-                CommLog.WriteAction(BuildWritingText(request.Buffer, 0, request.BufferLength));
+                request.Encode();
+                netStream.Write(request.Buffer, 0, request.BufferLength);
+
+                if (CommLog != null)
+                {
+                    CommLog.WriteAction(FunctionID.GetName(request.FunctionID));
+                    CommLog.WriteAction(BuildWritingText(request.Buffer, 0, request.BufferLength));
+                }
+            }
+            catch (IOException)
+            {
+                ClientState = ClientState.Error;
+                throw;
             }
         }
 
@@ -313,8 +321,18 @@ namespace Scada.Client
             bool formatError = true;
             string errDescr = "";
             int bytesToRead = HeaderLength + 2;
-            int bytesRead = netStream.Read(inBuf, 0, bytesToRead);
-            CommLog?.WriteAction(BuildReadingText(inBuf, 0, bytesToRead, bytesRead));
+            int bytesRead;
+
+            try 
+            { 
+                bytesRead = netStream.Read(inBuf, 0, bytesToRead);
+                CommLog?.WriteAction(BuildReadingText(inBuf, 0, bytesToRead, bytesRead));
+            }
+            catch (IOException)
+            { 
+                ClientState = ClientState.Error; 
+                throw; 
+            }
 
             if (bytesRead == bytesToRead)
             {

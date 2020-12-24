@@ -246,6 +246,13 @@ namespace Scada.Comm.Engine
                     {
                         DateTime utcNow = DateTime.UtcNow;
 
+                        // write application info
+                        if (utcNow - writeInfoDT >= ScadaUtils.WriteInfoPeriod)
+                        {
+                            writeInfoDT = utcNow;
+                            WriteInfo();
+                        }
+
                         switch (executionStep)
                         {
                             case ExecutionStep.MainWork:
@@ -282,13 +289,6 @@ namespace Scada.Comm.Engine
                                 executionStep = ExecutionStep.MainWork;
                                 break;
                         }
-
-                        // write application info
-                        if (utcNow - writeInfoDT >= ScadaUtils.WriteInfoPeriod)
-                        {
-                            writeInfoDT = utcNow;
-                            WriteInfo();
-                        }
                     }
                     catch (Exception ex)
                     {
@@ -306,6 +306,7 @@ namespace Scada.Comm.Engine
             }
             finally
             {
+                WriteInfo();
                 commandReader?.Stop();
                 StopLines();
                 driverHolder.OnServiceStop();
