@@ -104,7 +104,8 @@ namespace Scada.Data.Models
         /// </summary>
         public static bool operator ==(CnlData x, CnlData y)
         {
-            return x.Val == y.Val && x.Stat == y.Stat;
+            // double.Equals() is needed for comparing double.NaN
+            return x.Val.Equals(y.Val) && x.Stat == y.Stat;
         }
 
         /// <summary>

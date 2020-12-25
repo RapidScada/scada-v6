@@ -826,6 +826,7 @@ namespace Scada.Server.Engine
             if (eventMask.Enabled)
             {
                 if (eventMask.CnlDataChange && cnlData != prevCnlData ||
+                    eventMask.CnlValueChange && !cnlData.Val.Equals(prevCnlData.Val) /*NaN == NaN*/ ||
                     eventMask.CnlStatusChange && cnlData.Stat != prevCnlData.Stat ||
                     eventMask.CnlUndefined &&
                     (cnlData.IsUndefined && prevCnlData.IsDefined || cnlData.IsDefined && prevCnlData.IsUndefined))

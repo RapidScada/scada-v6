@@ -44,13 +44,17 @@ namespace Scada.Data.Models
         /// </summary>
         public const int CnlDataChangeBit = 2;
         /// <summary>
+        /// The bit indicating whether an event should be raised when channel value changes.
+        /// </summary>
+        public const int CnlValueChangeBit = 3;
+        /// <summary>
         /// The bit indicating whether an event should be raised when channel status changes.
         /// </summary>
-        public const int CnlStatusChangeBit = 3;
+        public const int CnlStatusChangeBit = 4;
         /// <summary>
         /// The bit indicating whether an event should be raised when the channel becomes undefined, or vice versa.
         /// </summary>
-        public const int CnlUndefinedBit = 4;
+        public const int CnlUndefinedBit = 5;
 
 
         /// <summary>
@@ -109,6 +113,21 @@ namespace Scada.Data.Models
             set
             {
                 Value = Value.SetBit(CnlDataChangeBit, value);
+            }
+        }
+
+        /// <summary>
+        /// Gets or sets a value indicating whether an event should be raised when channel value changes.
+        /// </summary>
+        public bool CnlValueChange
+        {
+            get
+            {
+                return Value.BitIsSet(CnlValueChangeBit);
+            }
+            set
+            {
+                Value = Value.SetBit(CnlValueChangeBit, value);
             }
         }
 
