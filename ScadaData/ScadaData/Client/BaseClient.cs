@@ -480,6 +480,7 @@ namespace Scada.Client
             Progress?.Invoke(this, new ProgressEventArgs(blockNumber, blockCount));
         }
 
+
         /// <summary>
         /// Gets the server and the session status.
         /// </summary>
@@ -504,6 +505,14 @@ namespace Scada.Client
             DataPacket request = CreateRequest(FunctionID.TerminateSession, 10);
             SendRequest(request);
             ReceiveResponse(request);
+            Disconnect();
+        }
+
+        /// <summary>
+        /// Closes the client connection without notifying the server.
+        /// </summary>
+        public void Close()
+        {
             Disconnect();
         }
 

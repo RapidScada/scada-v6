@@ -310,7 +310,7 @@ namespace Scada.Comm.Engine
                 commandReader?.Stop();
                 StopLines();
                 driverHolder.OnServiceStop();
-                TerminateClientSession();
+                CloseClient();
                 serviceStatus = ServiceStatus.Terminated;
                 WriteInfo();
             }
@@ -686,20 +686,19 @@ namespace Scada.Comm.Engine
         }
 
         /// <summary>
-        /// Terminates the client session.
+        /// Closes the client session.
         /// </summary>
-        private void TerminateClientSession()
+        private void CloseClient()
         {
             try
             {
-                if (scadaClient != null && scadaClient.IsReady)
-                    scadaClient.TerminateSession();
+                scadaClient?.Close();
             }
             catch (Exception ex)
             {
                 Log.WriteException(ex, Locale.IsRussian ?
-                    "Ошибка при завершении сессии клиента" :
-                    "Error terminating client session");
+                    "Ошибка при закрытии сессии клиента" :
+                    "Error closing client session");
             }
         }
 

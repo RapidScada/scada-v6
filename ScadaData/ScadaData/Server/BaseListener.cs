@@ -270,7 +270,7 @@ namespace Scada.Server
 
             foreach (KeyValuePair<long, ConnectedClient> pair in clients)
             {
-                if (utcNow - pair.Value.ActivityTime > ClientLifetime)
+                if (utcNow - pair.Value.ActivityTime > ClientLifetime || pair.Value.Terminated)
                     keysToRemove.Add(pair.Key);
             }
 
@@ -652,12 +652,9 @@ namespace Scada.Server
         /// </summary>
         protected void TerminateSession(ConnectedClient client, DataPacket request)
         {
-            if (clients.TryRemove(client.SessionID, out ConnectedClient value))
-            {
-                ResponsePacket response = new ResponsePacket(request, client.OutBuf);
-                client.SendResponse(response);
-                DisconnectClient(value);
-            }
+            ResponsePacket response = new ResponsePacket(request, client.OutBuf);
+            client.SendResponse(response);
+            client.Terminated = true;
         }
 
         /// <summary>
