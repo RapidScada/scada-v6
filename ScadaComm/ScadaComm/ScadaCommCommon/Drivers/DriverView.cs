@@ -44,6 +44,7 @@ namespace Scada.Comm.Drivers
             AppConfig = null;
             CanCreateChannel = false;
             CanCreateDevice = false;
+            CanCreateDataSource = false;
         }
 
 
@@ -62,6 +63,11 @@ namespace Scada.Comm.Drivers
         /// Gets a value indicating whether the driver can create a device.
         /// </summary>
         public bool CanCreateDevice { get; protected set; }
+
+        /// <summary>
+        /// Gets a value indicating whether the driver can create a data source.
+        /// </summary>
+        public bool CanCreateDataSource { get; protected set; }
 
         /// <summary>
         /// Gets the driver description.
