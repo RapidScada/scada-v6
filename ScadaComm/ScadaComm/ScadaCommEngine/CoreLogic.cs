@@ -964,7 +964,13 @@ namespace Scada.Comm.Engine
         {
             try
             {
-                if (DateTime.UtcNow - cmd.CreationTime > ScadaUtils.CommandLifetime)
+                if (!Config.GeneralOptions.CmdEnabled)
+                {
+                    Log.WriteError(Locale.IsRussian ?
+                        "Невозможно обработать команду, потому что команды отключены" :
+                        "Unable to process command because commands are disabled");
+                }
+                else if (DateTime.UtcNow - cmd.CreationTime > ScadaUtils.CommandLifetime)
                 {
                     Log.WriteError(Locale.IsRussian ?
                         "Устаревшая команда с ид. {0} от источника {1} отклонена" :
