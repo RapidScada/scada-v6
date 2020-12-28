@@ -22,6 +22,13 @@
     <SecretKey>0E063D581B1DB27B8E984993DED65CE99284A706756C706C7F3B12C44BD55D4D</SecretKey>
   </ConnectionOptions>
   <DataSources>
+    <DataSource active="true" code="ScadaServer" name="Rapid SCADA Server" driver="DrvDsScadaServer">
+      <Option name="Connection" value="Default Connection" />
+      <Option name="MaxQueueSize" value="1000" />
+      <Option name="MaxCurDataAge" value="60" />
+      <Option name="DataLifetime" value="3600" />
+      <Option name="DeviceFilter" value="" />
+    </DataSource>
     <DataSource active="false" code="OpcUaServer" name="OPC UA Server" driver="DrvDsOpcUaServer">
       <Option name="MyOption" value="0" />
     </DataSource>
