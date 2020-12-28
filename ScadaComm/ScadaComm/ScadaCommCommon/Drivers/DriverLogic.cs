@@ -25,6 +25,7 @@
 
 using Scada.Comm.Channels;
 using Scada.Comm.Config;
+using Scada.Comm.DataSources;
 using Scada.Comm.Devices;
 using Scada.Log;
 using System;
@@ -81,6 +82,14 @@ namespace Scada.Comm.Drivers
         /// Creates a new device.
         /// </summary>
         public virtual DeviceLogic CreateDevice(ILineContext lineContext, DeviceConfig deviceConfig)
+        {
+            return null;
+        }
+
+        /// <summary>
+        /// Creates a new data source.
+        /// </summary>
+        public virtual DataSourceLogic CreateDataSource(ICommContext commContext, DataSourceConfig dataSourceConfig)
         {
             return null;
         }

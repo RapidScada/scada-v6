@@ -37,6 +37,7 @@ namespace Scada.Comm
         public static string ErrorInDriver { get; private set; }
         public static string ErrorInChannel { get; private set; }
         public static string ErrorInDevice { get; private set; }
+        public static string ErrorInDataSource { get; private set; }
 
         // Devices
         public static string InvalidCommand { get; private set; }
@@ -61,6 +62,7 @@ namespace Scada.Comm
                 ErrorInDriver = "Ошибка при вызове метода {0} драйвера {1}";
                 ErrorInChannel = "Ошибка при вызове метода {0} канала связи {1}";
                 ErrorInDevice = "Ошибка при вызове метода {0} КП {1}";
+                ErrorInDataSource = "Ошибка при вызове метода {0} источника данных {1}";
 
                 InvalidCommand = "Ошибка: недопустимая команда";
                 Off = "Откл";
@@ -80,6 +82,7 @@ namespace Scada.Comm
                 ErrorInDriver = "Error calling the {0} method of the {1} driver";
                 ErrorInChannel = "Error calling the {0} method of the {1} communication channel";
                 ErrorInDevice = "Error calling the {0} method of the {1} device";
+                ErrorInDataSource = "Error calling the {0} method of the {1} data source";
 
                 InvalidCommand = "Error: invalid command";
                 Off = "Off";

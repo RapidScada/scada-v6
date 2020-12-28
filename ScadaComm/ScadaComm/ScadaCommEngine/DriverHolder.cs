@@ -60,8 +60,11 @@ namespace Scada.Comm.Engine
             if (driverLogic == null)
                 throw new ArgumentNullException(nameof(driverLogic));
 
+            if (driverMap.ContainsKey(driverLogic.Code))
+                throw new ScadaException("Driver already exists.");
+
             drivers.Add(driverLogic);
-            driverMap[driverLogic.Code] = driverLogic;
+            driverMap.Add(driverLogic.Code, driverLogic);
         }
 
         /// <summary>

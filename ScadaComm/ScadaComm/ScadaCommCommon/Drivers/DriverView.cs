@@ -25,6 +25,7 @@
 
 using Scada.Comm.Channels;
 using Scada.Comm.Config;
+using Scada.Comm.DataSources;
 using Scada.Comm.Devices;
 
 namespace Scada.Comm.Drivers
@@ -69,17 +70,25 @@ namespace Scada.Comm.Drivers
 
 
         /// <summary>
-        /// Creates a new user interface of a communication channel.
+        /// Creates a new communication channel user interface.
         /// </summary>
-        public virtual ChannelView CreateChannelView(string typeName)
+        public virtual ChannelView CreateChannelView(ChannelConfig channelConfig)
         {
             return null;
         }
 
         /// <summary>
-        /// Creates a new user interface of a device.
+        /// Creates a new device user interface.
         /// </summary>
-        public virtual DeviceView CreateDeviceView(int deviceNum)
+        public virtual DeviceView CreateDeviceView(DeviceConfig deviceConfig)
+        {
+            return null;
+        }
+
+        /// <summary>
+        /// Creates a new data source user interface.
+        /// </summary>
+        public virtual DataSourceView CreateDataSourceView(DataSourceConfig dataSourceConfig)
         {
             return null;
         }

@@ -25,6 +25,7 @@
 
 using Scada.Client;
 using Scada.Comm.Config;
+using Scada.Comm.DataSources;
 using Scada.Comm.Devices;
 using Scada.Comm.Drivers;
 using Scada.Data.Const;
@@ -83,13 +84,14 @@ namespace Scada.Comm.Engine
         private int lastInfoLength;           // the last info text length
         private int maxLineTitleLength;       // the maximum length of communication line title
 
-        private List<CommLine> commLines;     // the active communication lines
+        private List<CommLine> commLines;              // the active communication lines
         private Dictionary<int, CommLine> commLineMap; // the communication lines accessed by line number
         private Dictionary<int, DeviceItem> deviceMap; // the devices accessed by device number
-        private ScadaClient scadaClient;      // communicates with the server
-        private DataQueue dataQueue;          // transfers data to the server
-        private CommandReader commandReader;  // reads telecontrol commands from files
-        private DriverHolder driverHolder;    // holds drivers
+        private ScadaClient scadaClient;               // communicates with the server
+        private DataQueue dataQueue;                   // transfers data to the server
+        private CommandReader commandReader;           // reads telecontrol commands from files
+        private DriverHolder driverHolder;             // holds drivers
+        private DataSourceHolder dataSourceHolder;     // holds data sources
 
 
         /// <summary>
@@ -121,6 +123,7 @@ namespace Scada.Comm.Engine
             dataQueue = null;
             commandReader = null;
             driverHolder = null;
+            dataSourceHolder = null;
         }
 
 
@@ -187,6 +190,7 @@ namespace Scada.Comm.Engine
             commandReader = Config.GeneralOptions.CmdEnabled && Config.GeneralOptions.FileCmdEnabled ? 
                 new CommandReader(this) : null;
             InitDrivers();
+            InitDataSources();
         }
 
         /// <summary>
@@ -226,6 +230,52 @@ namespace Scada.Comm.Engine
         }
 
         /// <summary>
+        /// Initializes data sources.
+        /// </summary>
+        private void InitDataSources()
+        {
+            dataSourceHolder = new DataSourceHolder(Log);
+
+            foreach (DataSourceConfig dataSourceConfig in Config.DataSources)
+            {
+                if (dataSourceConfig.Active)
+                {
+                    try
+                    {
+                        if (dataSourceHolder.DataSourceExists(dataSourceConfig.Code))
+                        {
+                            Log.WriteError(Locale.IsRussian ?
+                                "Источник данных {0} дублируется" :
+                                "Data source {0} is duplicated", dataSourceConfig.Code);
+                        }
+                        else if (driverHolder.GetDriver(dataSourceConfig.Driver, out DriverLogic driverLogic) &&
+                            driverLogic.CreateDataSource(this, dataSourceConfig) is DataSourceLogic dataSourceLogic)
+                        {
+                            dataSourceHolder.AddDataSource(dataSourceLogic);
+                            Log.WriteAction(Locale.IsRussian ?
+                                "Источник данных {0} инициализирован успешно" :
+                                "Data source {0} initialized successfully", dataSourceLogic.Code);
+                        }
+                        else
+                        {
+                            Log.WriteError(Locale.IsRussian ?
+                                "Не удалось создать источник данных {0} с помощью драйвера {1}" :
+                                "Unable to create data source {0} with the driver {1}",
+                                dataSourceConfig.Code, dataSourceConfig.Driver);
+                        }
+                    }
+                    catch (Exception ex)
+                    {
+                        Log.WriteException(ex, Locale.IsRussian ?
+                            "Ошибка при создании источника данных {0} с помощью драйвера {1}" :
+                            "Error creating data source {0} with the driver {1}",
+                            dataSourceConfig.Code, dataSourceConfig.Driver);
+                    }
+                }
+            }
+        }
+
+        /// <summary>
         /// Operating cycle running in a separate thread.
         /// </summary>
         private void Execute()
@@ -238,6 +288,7 @@ namespace Scada.Comm.Engine
                 DateTime writeInfoDT = DateTime.MinValue;
 
                 driverHolder.OnServiceStart();
+                dataSourceHolder.MakeReady();
                 serviceStatus = ServiceStatus.Normal;
 
                 while (!terminated)
@@ -309,6 +360,7 @@ namespace Scada.Comm.Engine
                 WriteInfo();
                 commandReader?.Stop();
                 StopLines();
+                dataSourceHolder.Close();
                 driverHolder.OnServiceStop();
                 CloseClient();
                 serviceStatus = ServiceStatus.Terminated;
@@ -783,6 +835,12 @@ namespace Scada.Comm.Engine
                     }
                 }
 
+                if (dataSourceHolder != null)
+                {
+                    sb.AppendLine();
+                    dataSourceHolder.AppendInfo(sb);
+                }
+
                 if (commLines != null)
                 {
                     lock (commLineLock)
@@ -971,6 +1029,7 @@ namespace Scada.Comm.Engine
         public void EnqueueCurrentData(DeviceSlice deviceSlice)
         {
             dataQueue?.EnqueueCurrentData(deviceSlice);
+            dataSourceHolder.WriteCurrentData(deviceSlice);
         }
 
         /// <summary>
@@ -979,6 +1038,7 @@ namespace Scada.Comm.Engine
         public void EnqueueHistoricalData(DeviceSlice deviceSlice)
         {
             dataQueue?.EnqueueHistoricalData(deviceSlice);
+            dataSourceHolder.WriteHistoricalData(deviceSlice);
         }
 
         /// <summary>
@@ -987,10 +1047,11 @@ namespace Scada.Comm.Engine
         public void EnqueueEvent(DeviceEvent deviceEvent)
         {
             dataQueue?.EnqueueEvent(deviceEvent);
+            dataSourceHolder.WriteEvent(deviceEvent);
         }
 
         /// <summary>
-        /// Checks if the device with the specified number exists.
+        /// Checks if a device with the specified number exists.
         /// </summary>
         public bool DeviceExists(int deviceNum)
         {

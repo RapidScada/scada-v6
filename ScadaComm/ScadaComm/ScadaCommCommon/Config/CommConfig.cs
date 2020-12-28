@@ -63,6 +63,11 @@ namespace Scada.Comm.Config
         public ConnectionOptions ConnectionOptions { get; private set; }
 
         /// <summary>
+        /// Gets the configuration of the data sources.
+        /// </summary>
+        public List<DataSourceConfig> DataSources { get; private set; }
+
+        /// <summary>
         /// Gets the configuration of the lines.
         /// </summary>
         public List<LineConfig> Lines { get; private set; }
@@ -80,6 +85,7 @@ namespace Scada.Comm.Config
         {
             GeneralOptions = new GeneralOptions();
             ConnectionOptions = new ConnectionOptions();
+            DataSources = new List<DataSourceConfig>();
             Lines = new List<LineConfig>();
             DriverCodes = new List<string>();
         }
@@ -90,6 +96,12 @@ namespace Scada.Comm.Config
         private void FillDriverCodes()
         {
             HashSet<string> driverCodes = new HashSet<string>();
+
+            foreach (DataSourceConfig dataSourceConfig in DataSources)
+            {
+                if (driverCodes.Add(dataSourceConfig.Driver.ToLowerInvariant()))
+                    DriverCodes.Add(dataSourceConfig.Driver);
+            }
 
             foreach (LineConfig lineConfig in Lines)
             {
@@ -124,6 +136,16 @@ namespace Scada.Comm.Config
 
                 if (rootElem.SelectSingleNode("ConnectionOptions") is XmlNode connectionOptionsNode)
                     ConnectionOptions.LoadFromXml(connectionOptionsNode);
+
+                if (rootElem.SelectSingleNode("DataSources") is XmlNode dataSourcesNode)
+                {
+                    foreach (XmlElement dataSourceElem in dataSourcesNode.SelectNodes("DataSource"))
+                    {
+                        DataSourceConfig dataSourceConfig = new DataSourceConfig();
+                        dataSourceConfig.LoadFromXml(dataSourceElem);
+                        DataSources.Add(dataSourceConfig);
+                    }
+                }
 
                 if (rootElem.SelectSingleNode("Lines") is XmlNode linesNode)
                 {
@@ -162,6 +184,12 @@ namespace Scada.Comm.Config
 
                 GeneralOptions.SaveToXml(rootElem.AppendElem("GeneralOptions"));
                 ConnectionOptions.SaveToXml(rootElem.AppendElem("ConnectionOptions"));
+
+                XmlElement dataSourcesElem = rootElem.AppendElem("DataSources");
+                foreach (DataSourceConfig dataSourceConfig in DataSources)
+                {
+                    dataSourceConfig.SaveToXml(dataSourcesElem.AppendElem("DataSource"));
+                }
 
                 XmlElement linesElem = rootElem.AppendElem("Lines");
                 foreach (LineConfig lineConfig in Lines)

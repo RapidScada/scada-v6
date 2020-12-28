@@ -81,6 +81,14 @@ namespace Scada.Comm
         }
 
         /// <summary>
+        /// Gets the data source title.
+        /// </summary>
+        public static string GetDataSourceTitle(string code, string name)
+        {
+            return $"[{code}] {name}";
+        }
+
+        /// <summary>
         /// Gets the name of the communication line log file.
         /// </summary>
         public static string GetLineLogFileName(int commLineNum, string extenstion)

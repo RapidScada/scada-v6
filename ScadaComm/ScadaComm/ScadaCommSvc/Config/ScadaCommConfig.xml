@@ -21,6 +21,11 @@
     <Timeout>10000</Timeout>
     <SecretKey>0E063D581B1DB27B8E984993DED65CE99284A706756C706C7F3B12C44BD55D4D</SecretKey>
   </ConnectionOptions>
+  <DataSources>
+    <DataSource active="true" code="OpcUaServer" name="OPC UA Server" driver="DrvDsOpcUaServer">
+      <Option name="MyOption" value="0" />
+    </DataSource>
+  </DataSources>
   <Lines>
     <Line active="true" isBound="true" number="1" name="My Line">
       <LineOptions>

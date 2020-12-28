@@ -16,7 +16,7 @@
  * 
  * Product  : Rapid SCADA
  * Module   : ScadaCommCommon
- * Summary  : Represents a slice of archive data created by a device driver
+ * Summary  : Represents a slice of current or historical data created by a device driver
  * 
  * Author   : Mikhail Shiryaev
  * Created  : 2020
@@ -29,8 +29,8 @@ using System;
 namespace Scada.Comm.Devices
 {
     /// <summary>
-    /// Represents a slice of archive data created by a device driver.
-    /// <para>Представляет срез архивных данных, созданный драйвером устройства.</para>
+    /// Represents a slice of current or historical data created by a device driver.
+    /// <para>Представляет срез текущих или архивных данных, созданный драйвером устройства.</para>
     /// </summary>
     public class DeviceSlice
     {
