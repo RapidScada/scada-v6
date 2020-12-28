@@ -65,8 +65,11 @@ namespace Scada.Server.Engine
             if (moduleLogic == null)
                 throw new ArgumentNullException(nameof(moduleLogic));
 
+            if (moduleMap.ContainsKey(moduleLogic.Code))
+                throw new ScadaException("Module already exists.");
+
             modules.Add(moduleLogic);
-            moduleMap[moduleLogic.Code] = moduleLogic;
+            moduleMap.Add(moduleLogic.Code, moduleLogic);
 
             if (moduleLogic.ModulePurposes.HasFlag(ModulePurposes.Logic))
                 logicModules.Add(moduleLogic);

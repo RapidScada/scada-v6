@@ -45,6 +45,7 @@ namespace Scada.Server.Config
             Code = "";
             Name = "";
             Kind = ArchiveKind.Unspecified;
+            Module = "";
             CustomOptions = new OptionList();
         }
 

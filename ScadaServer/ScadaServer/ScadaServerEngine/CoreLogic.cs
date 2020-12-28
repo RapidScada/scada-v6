@@ -401,7 +401,13 @@ namespace Scada.Server.Engine
                 {
                     try
                     {
-                        if (!arcByCode.TryGetValue(archiveConfig.Code, out Archive archiveEntity))
+                        if (archiveHolder.ArchiveExists(archiveConfig.Code))
+                        {
+                            Log.WriteError(Locale.IsRussian ?
+                                "Архив {0} дублируется" :
+                                "Archive {0} is duplicated", archiveConfig.Code);
+                        }
+                        else if (!arcByCode.TryGetValue(archiveConfig.Code, out Archive archiveEntity))
                         {
                             Log.WriteError(Locale.IsRussian ?
                                 "Архив {0} не найден в базе конфигурации" :

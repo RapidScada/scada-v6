@@ -41,13 +41,14 @@ namespace Scada.Server.Engine
     internal class ArchiveHolder
     {
         private readonly ILog log;                                        // the application log
-        private readonly List<ArchiveLogic> allArchives;                  // the all archives
+        private readonly List<ArchiveLogic> allArchives;                  // all the archives
         private readonly List<CurrentArchiveLogic> currentArchives;       // the current archives
         private readonly List<HistoricalArchiveLogic> historicalArchives; // the historical archives
         private readonly List<EventArchiveLogic> eventArchives;           // the event archives
         private readonly List<EventArchiveLogic> defaultEventArchives;    // the default event archives
+        private readonly Dictionary<string, ArchiveLogic> archiveMap;     // the archives accessed by code
         private readonly ArchiveLogic[] arcByBit;                         // the archives accessed by bit number
-        private int maxArcTitleLength;                                    // the maximum length of archive title
+        private int maxTitleLength;                                       // the maximum length of archive title
 
 
         /// <summary>
@@ -61,8 +62,9 @@ namespace Scada.Server.Engine
             historicalArchives = new List<HistoricalArchiveLogic>();
             eventArchives = new List<EventArchiveLogic>();
             defaultEventArchives = new List<EventArchiveLogic>();
+            archiveMap = new Dictionary<string, ArchiveLogic>();
             arcByBit = new ArchiveLogic[ServerUtils.MaxArchiveCount];
-            maxArcTitleLength = 0;
+            maxTitleLength = 0;
             DefaultArchiveMask = 0;
         }
 
@@ -81,6 +83,14 @@ namespace Scada.Server.Engine
             if (timeRange.EndTime == DateTime.MinValue)
                 timeRange.EndTime = DateTime.UtcNow;
         }
+        
+        /// <summary>
+        /// Checks if an archive with the specified code exists.
+        /// </summary>
+        public bool ArchiveExists(string code)
+        {
+            return archiveMap.ContainsKey(code);
+        }
 
         /// <summary>
         /// Adds the specified archive to the lists.
@@ -92,8 +102,12 @@ namespace Scada.Server.Engine
             if (archiveLogic == null)
                 throw new ArgumentNullException(nameof(archiveLogic));
 
-            // add archive to the corresponding list
+            // add archive to the corresponding lists
+            if (archiveMap.ContainsKey(archiveLogic.Code))
+                throw new ScadaException("Archive already exists.");
+
             allArchives.Add(archiveLogic);
+            archiveMap.Add(archiveLogic.Code, archiveLogic);
 
             if (archiveLogic is CurrentArchiveLogic currentArchiveLogic)
             {
@@ -124,8 +138,8 @@ namespace Scada.Server.Engine
                 DefaultArchiveMask = DefaultArchiveMask.SetBit(archiveEntity.Bit, true);
 
             // calculate maximum title length
-            if (maxArcTitleLength < archiveLogic.Title.Length)
-                maxArcTitleLength = archiveLogic.Title.Length;
+            if (maxTitleLength < archiveLogic.Title.Length)
+                maxTitleLength = archiveLogic.Title.Length;
         }
 
         /// <summary>
@@ -167,7 +181,7 @@ namespace Scada.Server.Engine
                 {
                     sb
                         .Append(archiveLogic.Title)
-                        .Append(' ', maxArcTitleLength - archiveLogic.Title.Length)
+                        .Append(' ', maxTitleLength - archiveLogic.Title.Length)
                         .Append(" : ")
                         .AppendLine(archiveLogic.StatusText);
                 }

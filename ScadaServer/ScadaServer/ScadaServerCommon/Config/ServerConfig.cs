@@ -129,15 +129,11 @@ namespace Scada.Server.Config
 
                 if (rootElem.SelectSingleNode("Archives") is XmlNode archivesNode)
                 {
-                    HashSet<string> archiveCodes = new HashSet<string>();
-
                     foreach (XmlElement archiveElem in archivesNode.SelectNodes("Archive"))
                     {
                         ArchiveConfig archiveConfig = new ArchiveConfig();
                         archiveConfig.LoadFromXml(archiveElem);
-
-                        if (archiveCodes.Add(archiveConfig.Code.ToLowerInvariant()))
-                            Archives.Add(archiveConfig);
+                        Archives.Add(archiveConfig);
 
                         if (moduleCodes.Add(archiveConfig.Module.ToLowerInvariant()))
                             ModuleCodes.Add(archiveConfig.Module);
