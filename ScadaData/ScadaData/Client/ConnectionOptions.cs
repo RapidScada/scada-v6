@@ -40,6 +40,7 @@ namespace Scada.Client
         /// </summary>
         public ConnectionOptions()
         {
+            Name = "";
             Host = "localhost";
             Port = 10000;
             User = "guest";
@@ -49,6 +50,11 @@ namespace Scada.Client
             SecretKey = null;
         }
 
+
+        /// <summary>
+        /// Gets or sets the connection name.
+        /// </summary>
+        public string Name { get; set; }
 
         /// <summary>
         /// Gets or sets the server host or IP address.
@@ -94,6 +100,7 @@ namespace Scada.Client
             if (xmlNode == null)
                 throw new ArgumentNullException(nameof(xmlNode));
 
+            Name = xmlNode.GetChildAsString("Name");
             Host = xmlNode.GetChildAsString("Host");
             Port = xmlNode.GetChildAsInt("Port", Port);
             User = xmlNode.GetChildAsString("User");
@@ -114,6 +121,7 @@ namespace Scada.Client
             if (xmlElem == null)
                 throw new ArgumentNullException(nameof(xmlElem));
 
+            xmlElem.AppendElem("Name", Name);
             xmlElem.AppendElem("Host", Host);
             xmlElem.AppendElem("Port", Port);
             xmlElem.AppendElem("User", User);

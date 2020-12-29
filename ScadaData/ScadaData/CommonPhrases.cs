@@ -45,6 +45,7 @@ namespace Scada
         public static string LogicCycleError { get; private set; }
         public static string ThreadFatalError { get; private set; }
         public static string WriteInfoError { get; private set; }
+        public static string ConnectionNotFound { get; private set; }
 
         // Scada.ConfigBase
         public static string ArchiveTable { get; private set; }
@@ -112,6 +113,7 @@ namespace Scada
             LogicCycleError = dict.GetPhrase("LogicCycleError");
             ThreadFatalError = dict.GetPhrase("ThreadFatalError");
             WriteInfoError = dict.GetPhrase("WriteInfoError");
+            ConnectionNotFound = dict.GetPhrase("ConnectionNotFound");
 
             dict = Locale.GetDictionary("Scada.ConfigBase");
             ArchiveTable = dict.GetPhrase("ArchiveTable");

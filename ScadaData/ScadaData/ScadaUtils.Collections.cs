@@ -1,19 +1,33 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Globalization;
+using System.Text;
 
 namespace Scada
 {
     partial class ScadaUtils
     {
         /// <summary>
-        /// The separator of array elements.
+        /// The array separator used for parsing.
         /// </summary>
-        private static readonly char[] ArraySeparator = { ';', ',', ' ' };
+        private static readonly char[] ParseArraySeparator = { ';', ',', ' ' };
         /// <summary>
-        /// The preferred array separator.
+        /// The array separator used for display.
         /// </summary>
-        private static string PreferredSeparator = ",";
+        private static readonly string DisplayArraySeparator = ",";
+        /// <summary>
+        /// The range separator used for parsing.
+        /// </summary>
+        private static readonly char[] ParseRangeSeparator = new char[] { ',' };
+        /// <summary>
+        /// The range separator used for display.
+        /// </summary>
+        private const string DisplayRangeSeparator = ", ";
+        /// <summary>
+        /// The range dash used for parsing and display.
+        /// </summary>
+        private const char RangeDash = '-';
+
 
 
         /// <summary>
@@ -78,7 +92,7 @@ namespace Scada
         /// Gets the child XML node value as an enumeration element.
         /// </summary>
         public static T GetValueAsEnum<T>(this IDictionary<string, string> dictionary,
-            string key, T defaultValue = default(T)) where T : struct
+            string key, T defaultValue = default) where T : struct
         {
             try
             {
@@ -98,7 +112,7 @@ namespace Scada
         {
             try
             {
-                string[] elems = (s ?? "").Split(ArraySeparator, StringSplitOptions.RemoveEmptyEntries);
+                string[] elems = (s ?? "").Split(ParseArraySeparator, StringSplitOptions.RemoveEmptyEntries);
                 int len = elems.Length;
                 int[] arr = new int[len];
 
@@ -111,7 +125,7 @@ namespace Scada
             }
             catch (FormatException ex)
             {
-                throw new FormatException("The specified string is not array of integers.", ex);
+                throw new FormatException("The specified string is not an array of integers.", ex);
             }
         }
 
@@ -122,7 +136,7 @@ namespace Scada
         {
             try
             {
-                string[] elems = (s ?? "").Split(ArraySeparator, StringSplitOptions.RemoveEmptyEntries);
+                string[] elems = (s ?? "").Split(ParseArraySeparator, StringSplitOptions.RemoveEmptyEntries);
                 int len = elems.Length;
                 HashSet<int> hashSet = new HashSet<int>();
 
@@ -135,7 +149,84 @@ namespace Scada
             }
             catch (FormatException ex)
             {
-                throw new FormatException("The specified string is not set of integers.", ex);
+                throw new FormatException("The specified string is not a set of integers.", ex);
+            }
+        }
+
+        /// <summary>
+        /// Converts the string representation of an integer range to a collection.
+        /// </summary>
+        public static ICollection<int> ParseRange(string s, bool allowEmpty, bool unique, bool throwOnFail = true)
+        {
+            if (ParseRange(s, allowEmpty, unique, out ICollection<int> collection))
+                return collection;
+            else if (throwOnFail)
+                throw new FormatException("The specified string is not a valid range of integers.");
+            else
+                return null;
+        }
+
+        /// <summary>
+        /// Converts the string representation of an integer range to a collection.
+        /// </summary>
+        /// <remarks>For example: 1-5, 10</remarks>
+        public static bool ParseRange(string s, bool allowEmpty, bool unique, out ICollection<int> collection)
+        {
+            collection = null;
+            string[] parts = (s ?? "").Split(ParseRangeSeparator, StringSplitOptions.RemoveEmptyEntries);
+            List<int> list = new List<int>();
+            HashSet<int> set = unique ? new HashSet<int>() : null;
+
+            foreach (string part in parts)
+            {
+                if (!string.IsNullOrWhiteSpace(part))
+                {
+                    int dashInd = part.IndexOf(RangeDash);
+
+                    if (dashInd >= 0)
+                    {
+                        // two numbers separated by a dash
+                        string s1 = part.Substring(0, dashInd);
+                        string s2 = part.Substring(dashInd + 1);
+
+                        if (int.TryParse(s1, out int n1) && int.TryParse(s2, out int n2))
+                        {
+                            for (int n = n1; n <= n2; n++)
+                            {
+                                if (set == null || set.Add(n))
+                                    list.Add(n);
+                            }
+                        }
+                        else
+                        {
+                            return false;
+                        }
+                    }
+                    else
+                    {
+                        // single number
+                        if (int.TryParse(part, out int n))
+                        {
+                            if (set == null || set.Add(n))
+                                list.Add(n);
+                        }
+                        else
+                        {
+                            return false;
+                        }
+                    }
+                }
+            }
+
+            if (allowEmpty || list.Count > 0)
+            {
+                list.Sort();
+                collection = list;
+                return true;
+            }
+            else
+            {
+                return false;
             }
         }
 
@@ -144,7 +235,55 @@ namespace Scada
         /// </summary>
         public static string IntCollectionToStr(ICollection<int> collection)
         {
-            return collection == null ? "" : string.Join(PreferredSeparator, collection);
+            return collection == null ? "" : string.Join(DisplayArraySeparator, collection);
+        }
+
+        /// <summary>
+        /// Converts the collection of integers to a user friendly range representation.
+        /// </summary>
+        /// <remarks>For example: 1-5, 10</remarks>
+        public static string RangeToStr(ICollection<int> collection)
+        {
+            if (collection == null)
+                throw new ArgumentNullException("collection");
+
+            List<int> list = new List<int>(collection);
+            list.Sort();
+
+            StringBuilder sb = new StringBuilder();
+            int prevNum = int.MinValue; // the previous number
+            int bufNum = int.MinValue;  // the number in the buffer for output
+
+            for (int i = 0, last = list.Count - 1; i <= last; i++)
+            {
+                int curNum = list[i];
+
+                if (bufNum == int.MinValue)
+                    bufNum = curNum;
+
+                if (prevNum == curNum - 1)
+                {
+                    if (i < last)
+                        bufNum = curNum;
+                    else
+                        sb.Append(RangeDash).Append(curNum);
+                }
+                else
+                {
+                    if (bufNum != curNum)
+                        sb.Append(RangeDash).Append(bufNum);
+
+                    if (i > 0)
+                        sb.Append(DisplayRangeSeparator);
+
+                    sb.Append(curNum);
+                    bufNum = int.MinValue;
+                }
+
+                prevNum = curNum;
+            }
+
+            return sb.ToString();
         }
     }
 }

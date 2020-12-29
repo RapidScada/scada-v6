@@ -997,8 +997,8 @@ namespace Scada.Server
                 if (thread == null)
                 {
                     log.WriteAction(Locale.IsRussian ?
-                        "Запуск прослушивателя" :
-                        "Start listener");
+                        "Запуск прослушивателя на порту {0}" :
+                        "Start listener on port {0}", listenerOptions.Port);
 
                     PrepareListener();
                     thread = new Thread(Execute);

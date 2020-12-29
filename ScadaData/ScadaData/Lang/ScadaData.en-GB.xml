@@ -12,6 +12,7 @@
     <Phrase key="LogicCycleError">Error in the logic work cycle</Phrase>
     <Phrase key="ThreadFatalError">Fatal error in thread</Phrase>
     <Phrase key="WriteInfoError">Error writing application information to the file</Phrase>
+    <Phrase key="ConnectionNotFound">Connection &quot;{0}&quot; not found.</Phrase>
   </Dictionary>
   <Dictionary key="Scada.ConfigBase">
     <Phrase key="ArchiveTable">Archive</Phrase>
