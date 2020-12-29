@@ -48,13 +48,8 @@ namespace Scada.Comm.Config
         /// Initializes a new instance of the class.
         /// </summary>
         public PollingOptions()
+            : this(DefaultTimeout, DefaultDelay)
         {
-            Timeout = 0;
-            Delay = 0;
-            Time = TimeSpan.Zero;
-            Period = TimeSpan.Zero;
-            CmdLine = "";
-            CustomOptions = new OptionList();
         }
 
         /// <summary>
@@ -110,11 +105,11 @@ namespace Scada.Comm.Config
             if (xmlElem == null)
                 throw new ArgumentNullException(nameof(xmlElem));
 
-            Timeout = xmlElem.GetAttrAsInt("timeout", DefaultTimeout);
-            Delay = xmlElem.GetAttrAsInt("delay", DefaultDelay);
-            Time = xmlElem.GetAttrAsTimeSpan("time");
-            Period = xmlElem.GetAttrAsTimeSpan("period");
-            CmdLine = xmlElem.GetAttrAsString("cmdLine");
+            Timeout = xmlElem.GetAttrAsInt("timeout", Timeout);
+            Delay = xmlElem.GetAttrAsInt("delay", Delay);
+            Time = xmlElem.GetAttrAsTimeSpan("time", Time);
+            Period = xmlElem.GetAttrAsTimeSpan("period", Period);
+            CmdLine = xmlElem.GetAttrAsString("cmdLine", CmdLine);
             CustomOptions.LoadFromXml(xmlElem);
         }
 

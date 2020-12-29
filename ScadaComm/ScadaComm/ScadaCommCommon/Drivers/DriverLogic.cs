@@ -71,6 +71,14 @@ namespace Scada.Comm.Drivers
 
 
         /// <summary>
+        /// Creates a new data source.
+        /// </summary>
+        public virtual DataSourceLogic CreateDataSource(ICommContext commContext, DataSourceConfig dataSourceConfig)
+        {
+            return null;
+        }
+
+        /// <summary>
         /// Creates a new communication channel.
         /// </summary>
         public virtual ChannelLogic CreateChannel(ILineContext lineContext, ChannelConfig channelConfig)
@@ -82,14 +90,6 @@ namespace Scada.Comm.Drivers
         /// Creates a new device.
         /// </summary>
         public virtual DeviceLogic CreateDevice(ILineContext lineContext, DeviceConfig deviceConfig)
-        {
-            return null;
-        }
-
-        /// <summary>
-        /// Creates a new data source.
-        /// </summary>
-        public virtual DataSourceLogic CreateDataSource(ICommContext commContext, DataSourceConfig dataSourceConfig)
         {
             return null;
         }

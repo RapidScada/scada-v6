@@ -112,15 +112,15 @@ namespace Scada.Comm.Config
             if (xmlNode == null)
                 throw new ArgumentNullException(nameof(xmlNode));
 
-            InteractWithServer = xmlNode.GetChildAsBool("InteractWithServer");
-            MaxQueueSize = xmlNode.GetChildAsInt("MaxQueueSize");
-            MaxCurDataAge = xmlNode.GetChildAsInt("MaxCurDataAge");
-            DataLifetime = xmlNode.GetChildAsInt("DataLifetime");
-            SendModifiedData = xmlNode.GetChildAsBool("SendModifiedData");
-            SendAllDataPeriod = xmlNode.GetChildAsInt("SendAllDataPeriod");
-            CmdEnabled = xmlNode.GetChildAsBool("CmdEnabled");
-            FileCmdEnabled = xmlNode.GetChildAsBool("FileCmdEnabled");
-            ClientLogEnabled = xmlNode.GetChildAsBool("ClientLogEnabled");
+            InteractWithServer = xmlNode.GetChildAsBool("InteractWithServer", InteractWithServer);
+            MaxQueueSize = xmlNode.GetChildAsInt("MaxQueueSize", MaxQueueSize);
+            MaxCurDataAge = xmlNode.GetChildAsInt("MaxCurDataAge", MaxCurDataAge);
+            DataLifetime = xmlNode.GetChildAsInt("DataLifetime", DataLifetime);
+            SendModifiedData = xmlNode.GetChildAsBool("SendModifiedData", SendModifiedData);
+            SendAllDataPeriod = xmlNode.GetChildAsInt("SendAllDataPeriod", SendAllDataPeriod);
+            CmdEnabled = xmlNode.GetChildAsBool("CmdEnabled", CmdEnabled);
+            FileCmdEnabled = xmlNode.GetChildAsBool("FileCmdEnabled", FileCmdEnabled);
+            ClientLogEnabled = xmlNode.GetChildAsBool("ClientLogEnabled", ClientLogEnabled);
             MaxLogSize = xmlNode.GetChildAsInt("MaxLogSize", MaxLogSize);
         }
 

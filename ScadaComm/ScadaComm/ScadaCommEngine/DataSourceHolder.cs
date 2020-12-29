@@ -25,6 +25,7 @@
 
 using Scada.Comm.DataSources;
 using Scada.Comm.Devices;
+using Scada.Data.Models;
 using Scada.Log;
 using System;
 using System.Collections.Generic;
@@ -151,6 +152,31 @@ namespace Scada.Comm.Engine
         }
 
         /// <summary>
+        /// Calls the ReadBase method of the data sources.
+        /// </summary>
+        public bool ReadBase(out BaseDataSet baseDataSet)
+        {
+            foreach (DataSourceLogic dataSourceLogic in dataSources)
+            {
+                try
+                {
+                    if (dataSourceLogic.IsReady)
+                    {
+                        if (dataSourceLogic.ReadBase(out baseDataSet))
+                            return true;
+                    }
+                }
+                catch (Exception ex)
+                {
+                    log.WriteException(ex, CommPhrases.ErrorInDataSource, nameof(ReadBase), dataSourceLogic.Code);
+                }
+            }
+
+            baseDataSet = null;
+            return false;
+        }
+
+        /// <summary>
         /// Calls the WriteCurrentData method of the data sources.
         /// </summary>
         public void WriteCurrentData(DeviceSlice deviceSlice)
@@ -159,7 +185,8 @@ namespace Scada.Comm.Engine
             {
                 try
                 {
-                    dataSourceLogic.WriteCurrentData(deviceSlice);
+                    if (dataSourceLogic.IsReady)
+                        dataSourceLogic.WriteCurrentData(deviceSlice);
                 }
                 catch (Exception ex)
                 {
@@ -178,7 +205,8 @@ namespace Scada.Comm.Engine
             {
                 try
                 {
-                    dataSourceLogic.WriteHistoricalData(deviceSlice);
+                    if (dataSourceLogic.IsReady)
+                        dataSourceLogic.WriteHistoricalData(deviceSlice);
                 }
                 catch (Exception ex)
                 {
@@ -197,7 +225,8 @@ namespace Scada.Comm.Engine
             {
                 try
                 {
-                    dataSourceLogic.WriteEvent(deviceEvent);
+                    if (dataSourceLogic.IsReady)
+                        dataSourceLogic.WriteEvent(deviceEvent);
                 }
                 catch (Exception ex)
                 {

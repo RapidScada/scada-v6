@@ -962,6 +962,9 @@ namespace Scada.Comm.Engine
         /// </summary>
         public void ProcessCommand(TeleCommand cmd, string source)
         {
+            if (cmd == null)
+                throw new ArgumentNullException(nameof(cmd));
+
             try
             {
                 if (!Config.GeneralOptions.CmdEnabled)
@@ -1034,6 +1037,9 @@ namespace Scada.Comm.Engine
         /// </summary>
         public void EnqueueCurrentData(DeviceSlice deviceSlice)
         {
+            if (deviceSlice == null)
+                throw new ArgumentNullException(nameof(deviceSlice));
+
             dataQueue?.EnqueueCurrentData(deviceSlice);
             dataSourceHolder.WriteCurrentData(deviceSlice);
         }
@@ -1043,6 +1049,9 @@ namespace Scada.Comm.Engine
         /// </summary>
         public void EnqueueHistoricalData(DeviceSlice deviceSlice)
         {
+            if (deviceSlice == null)
+                throw new ArgumentNullException(nameof(deviceSlice));
+
             dataQueue?.EnqueueHistoricalData(deviceSlice);
             dataSourceHolder.WriteHistoricalData(deviceSlice);
         }
@@ -1052,6 +1061,9 @@ namespace Scada.Comm.Engine
         /// </summary>
         public void EnqueueEvent(DeviceEvent deviceEvent)
         {
+            if (deviceEvent == null)
+                throw new ArgumentNullException(nameof(deviceEvent));
+
             dataQueue?.EnqueueEvent(deviceEvent);
             dataSourceHolder.WriteEvent(deviceEvent);
         }

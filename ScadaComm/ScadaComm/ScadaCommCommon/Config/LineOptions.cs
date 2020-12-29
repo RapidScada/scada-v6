@@ -82,10 +82,10 @@ namespace Scada.Comm.Config
                 throw new ArgumentNullException(nameof(xmlNode));
 
             ReqRetries = xmlNode.GetChildAsInt("ReqRetries", ReqRetries);
-            CycleDelay = xmlNode.GetChildAsInt("CycleDelay");
-            CmdEnabled = xmlNode.GetChildAsBool("CmdEnabled");
-            PollAfterCmd = xmlNode.GetChildAsBool("PollAfterCmd");
-            DetailedLog = xmlNode.GetChildAsBool("DetailedLog");
+            CycleDelay = xmlNode.GetChildAsInt("CycleDelay", CycleDelay);
+            CmdEnabled = xmlNode.GetChildAsBool("CmdEnabled", CmdEnabled);
+            PollAfterCmd = xmlNode.GetChildAsBool("PollAfterCmd", PollAfterCmd);
+            DetailedLog = xmlNode.GetChildAsBool("DetailedLog", DetailedLog);
         }
 
         /// <summary>

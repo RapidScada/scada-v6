@@ -39,10 +39,8 @@ namespace Scada.Comm
         public static string ErrorInDevice { get; private set; }
         public static string ErrorInDataSource { get; private set; }
 
-        // Devices
-        public static string InvalidCommand { get; private set; }
-        public static string Off { get; private set; }
-        public static string On { get; private set; }
+        // Data sources
+        public static string DataSourceMessage { get; private set; }
 
         // Channels
         public static string SendNotation { get; private set; }
@@ -54,6 +52,11 @@ namespace Scada.Comm
         public static string WriteLineError { get; private set; }
         public static string UnableFindDevice { get; private set; }
 
+        // Devices
+        public static string InvalidCommand { get; private set; }
+        public static string Off { get; private set; }
+        public static string On { get; private set; }
+
         public static void Init()
         {
             // set phrases depending on locale, because the service logic supports only 2 languages
@@ -64,9 +67,7 @@ namespace Scada.Comm
                 ErrorInDevice = "Ошибка при вызове метода {0} КП {1}";
                 ErrorInDataSource = "Ошибка при вызове метода {0} источника данных {1}";
 
-                InvalidCommand = "Ошибка: недопустимая команда";
-                Off = "Откл";
-                On = "Вкл";
+                DataSourceMessage = "Источник данных {0}: {1}";
 
                 SendNotation = "Отправка";
                 ReceiveNotation = "Приём";
@@ -76,6 +77,10 @@ namespace Scada.Comm
                 WriteDataError = "Ошибка при записи данных";
                 WriteLineError = "Ошибка при записи строки";
                 UnableFindDevice = "Не удалось найти ни одного КП с адресом {0}";
+
+                InvalidCommand = "Ошибка: недопустимая команда";
+                Off = "Откл";
+                On = "Вкл";
             }
             else
             {
@@ -84,9 +89,7 @@ namespace Scada.Comm
                 ErrorInDevice = "Error calling the {0} method of the {1} device";
                 ErrorInDataSource = "Error calling the {0} method of the {1} data source";
 
-                InvalidCommand = "Error: invalid command";
-                Off = "Off";
-                On = "On";
+                DataSourceMessage = "Data source {0}: {1}";
 
                 SendNotation = "Send";
                 ReceiveNotation = "Receive";
@@ -96,6 +99,10 @@ namespace Scada.Comm
                 WriteDataError = "Error writing data";
                 WriteLineError = "Error writing line";
                 UnableFindDevice = "Unable to find any device with address {0}";
+
+                InvalidCommand = "Error: invalid command";
+                Off = "Off";
+                On = "On";
             }
         }
     }

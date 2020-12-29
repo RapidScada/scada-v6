@@ -26,6 +26,7 @@
 using Scada.Comm.Config;
 using Scada.Comm.Devices;
 using Scada.Comm.Drivers;
+using Scada.Data.Models;
 using System;
 
 namespace Scada.Comm.DataSources
@@ -100,6 +101,15 @@ namespace Scada.Comm.DataSources
         /// </summary>
         public virtual void Close()
         {
+        }
+
+        /// <summary>
+        /// Reads the configuration database.
+        /// </summary>
+        public virtual bool ReadBase(out BaseDataSet baseDataSet)
+        {
+            baseDataSet = null;
+            return false;
         }
 
         /// <summary>

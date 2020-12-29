@@ -28,6 +28,7 @@
       <Option name="MaxCurDataAge" value="60" />
       <Option name="DataLifetime" value="3600" />
       <Option name="DeviceFilter" value="" />
+      <Option name="ClientLogEnabled" value="false" />
     </DataSource>
     <DataSource active="false" code="OpcUaServer" name="OPC UA Server" driver="DrvDsOpcUaServer">
       <Option name="MyOption" value="0" />
