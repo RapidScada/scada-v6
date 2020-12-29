@@ -95,11 +95,11 @@ namespace Scada.Client
                 throw new ArgumentNullException(nameof(xmlNode));
 
             Host = xmlNode.GetChildAsString("Host");
-            Port = xmlNode.GetChildAsInt("Port");
+            Port = xmlNode.GetChildAsInt("Port", Port);
             User = xmlNode.GetChildAsString("User");
             Password = ScadaUtils.Decrypt(xmlNode.GetChildAsString("Password"));
             Instance = xmlNode.GetChildAsString("Instance");
-            Timeout = xmlNode.GetChildAsInt("Timeout");
+            Timeout = xmlNode.GetChildAsInt("Timeout", Timeout);
             SecretKey = ScadaUtils.HexToBytes(xmlNode.GetChildAsString("SecretKey"));
 
             if (SecretKey.Length != ScadaUtils.SecretKeySize)

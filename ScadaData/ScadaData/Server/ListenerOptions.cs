@@ -69,8 +69,8 @@ namespace Scada.Server
             if (xmlNode == null)
                 throw new ArgumentNullException(nameof(xmlNode));
 
-            Port = xmlNode.GetChildAsInt("Port");
-            Timeout = xmlNode.GetChildAsInt("Timeout");
+            Port = xmlNode.GetChildAsInt("Port", Port);
+            Timeout = xmlNode.GetChildAsInt("Timeout", Timeout);
             SecretKey = ScadaUtils.HexToBytes(xmlNode.GetChildAsString("SecretKey"));
 
             if (SecretKey.Length != ScadaUtils.SecretKeySize)
