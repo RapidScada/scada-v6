@@ -38,9 +38,12 @@ namespace Scada.Server
         public static string SaveModuleConfigError { get; private set; }
         public static string ConnectionNotFound { get; private set; }
 
+        // Engine
+        public static string ErrorInArchive { get; private set; }
+        public static string ErrorInModule { get; private set; }
+
         // Archives
         public static string ArchiveMessage { get; private set; }
-        public static string ErrorInArchive { get; private set; }
         public static string NullResultNotAllowed { get; private set; }
         public static string InvalidWritingPeriod { get; private set; }
         public static string WritingModeNotSupported { get; private set; }
@@ -66,7 +69,6 @@ namespace Scada.Server
         public static string AckEventNotFound { get; private set; }
 
         // Modules
-        public static string ErrorInModule { get; private set; }
         public static string ReadDbError { get; private set; }
         public static string WriteDbError { get; private set; }
 
@@ -81,8 +83,10 @@ namespace Scada.Server
             // set phrases depending on locale, because the service logic supports only 2 languages
             if (Locale.IsRussian)
             {
-                ArchiveMessage = "Архив {0}: {1}";
                 ErrorInArchive = "Ошибка при вызове метода {0} архива {1}";
+                ErrorInModule = "Ошибка при вызове метода {0} модуля {1}";
+
+                ArchiveMessage = "Архив {0}: {1}";
                 NullResultNotAllowed = "Результат метода не может быть null.";
                 InvalidWritingPeriod = "Период записи должен быть положительным.";
                 WritingModeNotSupported = "Режим записи не поддерживается архивом {0}.";
@@ -107,14 +111,15 @@ namespace Scada.Server
                 AckEventCompleted = "Квитирование события с ид. {0} успешно завершено за {1} мс";
                 AckEventNotFound = "Квитируемое событие с ид. {0} не найдено";
 
-                ErrorInModule = "Ошибка при вызове метода {0} модуля {1}";
                 ReadDbError = "Ошибка при чтении из базы данных";
                 WriteDbError = "Ошибка при записи в базу данных";
             }
             else
             {
-                ArchiveMessage = "Archive {0}: {1}";
                 ErrorInArchive = "Error calling the {0} method of the {1} archive";
+                ErrorInModule = "Error calling the {0} method of the {1} module";
+
+                ArchiveMessage = "Archive {0}: {1}";
                 NullResultNotAllowed = "Method result must not be null.";
                 InvalidWritingPeriod = "Writing period must be positive.";
                 WritingModeNotSupported = "Writing mode is not supported by the {0} archive.";
@@ -139,7 +144,6 @@ namespace Scada.Server
                 AckEventCompleted = "Acknowledging an event with ID {0} completed successfully in {1} ms";
                 AckEventNotFound = "Acknowledged event with ID {0} not found";
 
-                ErrorInModule = "Error calling the {0} method of the {1} module";
                 ReadDbError = "Error reading from database";
                 WriteDbError = "Error writing to database";
             }
