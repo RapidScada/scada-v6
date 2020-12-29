@@ -3,6 +3,5 @@
   <Dictionary key="Scada.Server.Modules">
     <Phrase key="LoadModuleConfigError">Error loading module configuration</Phrase>
     <Phrase key="SaveModuleConfigError">Error saving module configuration</Phrase>
-    <Phrase key="ConnectionNotFound">Connection &quot;{0}&quot; not found.</Phrase>
   </Dictionary>
 </ScadaServerDictionaries>

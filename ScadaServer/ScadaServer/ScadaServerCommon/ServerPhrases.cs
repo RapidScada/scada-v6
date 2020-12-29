@@ -36,7 +36,6 @@ namespace Scada.Server
         // Scada.Server.Modules
         public static string LoadModuleConfigError { get; private set; }
         public static string SaveModuleConfigError { get; private set; }
-        public static string ConnectionNotFound { get; private set; }
 
         // Engine
         public static string ErrorInArchive { get; private set; }
@@ -78,7 +77,6 @@ namespace Scada.Server
             LocaleDict dict = Locale.GetDictionary("Scada.Server.Modules");
             LoadModuleConfigError = dict.GetPhrase("LoadModuleConfigError");
             SaveModuleConfigError = dict.GetPhrase("SaveModuleConfigError");
-            ConnectionNotFound = dict.GetPhrase("ConnectionNotFound");
 
             // set phrases depending on locale, because the service logic supports only 2 languages
             if (Locale.IsRussian)
