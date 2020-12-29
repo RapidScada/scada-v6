@@ -46,7 +46,6 @@ namespace Scada.Comm.DataSources
             CommContext = commContext ?? throw new ArgumentNullException(nameof(commContext));
             DataSourceConfig = dataSourceConfig ?? throw new ArgumentNullException(nameof(dataSourceConfig));
             Code = dataSourceConfig.Code;
-            Name = dataSourceConfig.Name;
             Title = CommUtils.GetDataSourceTitle(Code, dataSourceConfig.Name);
             IsReady = false;
         }
@@ -66,11 +65,6 @@ namespace Scada.Comm.DataSources
         /// Gets the data source code.
         /// </summary>
         public string Code { get; }
-
-        /// <summary>
-        /// Gets the data source name.
-        /// </summary>
-        public string Name { get; }
 
         /// <summary>
         /// Gets the data source title.

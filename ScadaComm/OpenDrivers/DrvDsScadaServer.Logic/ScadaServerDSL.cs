@@ -671,8 +671,8 @@ namespace Scada.Comm.Drivers.DrvDsScadaServer.Logic
         {
             sb
                 .AppendLine()
-                .AppendLine(Name)
-                .Append('-', Name.Length).AppendLine();
+                .AppendLine(DataSourceConfig.Name)
+                .Append('-', DataSourceConfig.Name.Length).AppendLine();
 
             if (Locale.IsRussian)
             {
