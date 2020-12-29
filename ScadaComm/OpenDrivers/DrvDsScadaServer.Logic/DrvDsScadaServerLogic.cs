@@ -49,7 +49,7 @@ namespace Scada.Comm.Drivers.DrvDsScadaServer.Logic
         {
             get
             {
-                return "DrvDsScadaServer";
+                return DriverUtils.DriverCode;
             }
         }
 
