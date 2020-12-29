@@ -1,34 +1,32 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <ScadaCommConfig>
   <GeneralOptions>
-    <InteractWithServer>true</InteractWithServer>
-    <MaxQueueSize>1000</MaxQueueSize>
-    <MaxCurDataAge>60</MaxCurDataAge>
-    <DataLifetime>3600</DataLifetime>
     <SendModifiedData>true</SendModifiedData>
     <SendAllDataPeriod>60</SendAllDataPeriod>
     <CmdEnabled>true</CmdEnabled>
     <FileCmdEnabled>true</FileCmdEnabled>
-    <ClientLogEnabled>false</ClientLogEnabled>
     <MaxLogSize>1048576</MaxLogSize>
   </GeneralOptions>
-  <ConnectionOptions>
-    <Host>localhost</Host>
-    <Port>10000</Port>
-    <User>ScadaComm</User>
-    <Password>672C3165774A308878A00927A987C759</Password>
-    <Instance></Instance>
-    <Timeout>10000</Timeout>
-    <SecretKey>0E063D581B1DB27B8E984993DED65CE99284A706756C706C7F3B12C44BD55D4D</SecretKey>
-  </ConnectionOptions>
+  <Connections>
+    <Connection>
+      <Name>Default Connection</Name>
+      <Host>localhost</Host>
+      <Port>10000</Port>
+      <User>ScadaComm</User>
+      <Password>672C3165774A308878A00927A987C759</Password>
+      <Instance></Instance>
+      <Timeout>10000</Timeout>
+      <SecretKey>0E063D581B1DB27B8E984993DED65CE99284A706756C706C7F3B12C44BD55D4D</SecretKey>
+    </Connection>
+  </Connections>
   <DataSources>
-    <DataSource active="true" code="ScadaServer" name="Rapid SCADA Server" driver="DrvDsScadaServer">
+    <DataSource active="true" code="ScadaServer" name="Server Data Source" driver="DrvDsScadaServer">
       <Option name="Connection" value="Default Connection" />
+      <Option name="ClientLogEnabled" value="false" />
       <Option name="MaxQueueSize" value="1000" />
       <Option name="MaxCurDataAge" value="60" />
       <Option name="DataLifetime" value="3600" />
       <Option name="DeviceFilter" value="" />
-      <Option name="ClientLogEnabled" value="false" />
     </DataSource>
     <DataSource active="false" code="OpcUaServer" name="OPC UA Server" driver="DrvDsOpcUaServer">
       <Option name="MyOption" value="0" />

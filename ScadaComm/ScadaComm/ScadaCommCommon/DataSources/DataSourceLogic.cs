@@ -28,6 +28,7 @@ using Scada.Comm.Devices;
 using Scada.Comm.Drivers;
 using Scada.Data.Models;
 using System;
+using System.Text;
 
 namespace Scada.Comm.DataSources
 {
@@ -45,6 +46,7 @@ namespace Scada.Comm.DataSources
             CommContext = commContext ?? throw new ArgumentNullException(nameof(commContext));
             DataSourceConfig = dataSourceConfig ?? throw new ArgumentNullException(nameof(dataSourceConfig));
             Code = dataSourceConfig.Code;
+            Name = dataSourceConfig.Name;
             Title = CommUtils.GetDataSourceTitle(Code, dataSourceConfig.Name);
             IsReady = false;
         }
@@ -64,6 +66,11 @@ namespace Scada.Comm.DataSources
         /// Gets the data source code.
         /// </summary>
         public string Code { get; }
+
+        /// <summary>
+        /// Gets the data source name.
+        /// </summary>
+        public string Name { get; }
 
         /// <summary>
         /// Gets the data source title.
@@ -93,6 +100,13 @@ namespace Scada.Comm.DataSources
         /// Makes the data source ready for operating.
         /// </summary>
         public virtual void MakeReady()
+        {
+        }
+
+        /// <summary>
+        /// Starts the data source.
+        /// </summary>
+        public virtual void Start()
         {
         }
 
@@ -130,6 +144,13 @@ namespace Scada.Comm.DataSources
         /// Writes the event.
         /// </summary>
         public virtual void WriteEvent(DeviceEvent deviceEvent)
+        {
+        }
+
+        /// <summary>
+        /// Appends information about the data source to the string builder.
+        /// </summary>
+        public virtual void AppendInfo(StringBuilder sb)
         {
         }
     }

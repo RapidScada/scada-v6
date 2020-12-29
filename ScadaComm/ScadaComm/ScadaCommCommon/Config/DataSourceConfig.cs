@@ -85,7 +85,7 @@ namespace Scada.Comm.Config
             Active = xmlElem.GetAttrAsBool("active");
             Code = xmlElem.GetAttrAsString("code");
             Name = xmlElem.GetAttrAsString("name");
-            Driver = ScadaUtils.RemoveFileNameSuffixes(xmlElem.GetAttrAsString("module"));
+            Driver = ScadaUtils.RemoveFileNameSuffixes(xmlElem.GetAttrAsString("driver"));
             CustomOptions.LoadFromXml(xmlElem);
         }
 

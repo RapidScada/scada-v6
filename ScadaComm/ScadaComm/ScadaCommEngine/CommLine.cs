@@ -607,13 +607,12 @@ namespace Scada.Comm.Engine
                     deviceHeader = $"Devices ({devices.Count})";
                 }
 
-                sb.AppendLine();
 
-                if (channel.ChannelLogic.AppendInfo(sb))
-                    sb.AppendLine();
-
-                sb.AppendLine(deviceHeader);
-                sb.Append('-', deviceHeader.Length).AppendLine();
+                channel.ChannelLogic.AppendInfo(sb);
+                sb
+                    .AppendLine()
+                    .AppendLine(deviceHeader)
+                    .Append('-', deviceHeader.Length).AppendLine();
 
                 if (devices.Count > 0)
                 {

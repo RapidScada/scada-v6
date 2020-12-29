@@ -66,12 +66,12 @@ namespace Scada.Comm.Engine
         /// <summary>
         /// Specifies the execution steps.
         /// </summary>
-        private enum ExecutionStep { ReceiveBase, StartLines, MainWork }
+        private enum ExecutionStep { ReadBase, StartLines, MainWork }
 
         /// <summary>
-        /// The period of attempts to receive the configuration database.
+        /// The period of attempts to read the configuration database.
         /// </summary>
-        private static readonly TimeSpan ReceiveBasePeriod = TimeSpan.FromSeconds(10);
+        private static readonly TimeSpan ReadBasePeriod = TimeSpan.FromSeconds(10);
 
         private readonly string infoFileName; // the full file name to write application information
         private readonly object commLineLock; // syncronizes access to communication lines
@@ -87,8 +87,6 @@ namespace Scada.Comm.Engine
         private List<CommLine> commLines;              // the active communication lines
         private Dictionary<int, CommLine> commLineMap; // the communication lines accessed by line number
         private Dictionary<int, DeviceItem> deviceMap; // the devices accessed by device number
-        private ScadaClient scadaClient;               // communicates with the server
-        private DataQueue dataQueue;                   // transfers data to the server
         private CommandReader commandReader;           // reads telecontrol commands from files
         private DriverHolder driverHolder;             // holds drivers
         private DataSourceHolder dataSourceHolder;     // holds data sources
@@ -119,8 +117,6 @@ namespace Scada.Comm.Engine
             commLines = null;
             commLineMap = null;
             deviceMap = null;
-            scadaClient = null;
-            dataQueue = null;
             commandReader = null;
             driverHolder = null;
             dataSourceHolder = null;
@@ -175,36 +171,10 @@ namespace Scada.Comm.Engine
             commLines = new List<CommLine>(Config.Lines.Count);
             commLineMap = new Dictionary<int, CommLine>();
             deviceMap = new Dictionary<int, DeviceItem>();
-
-            if (Config.GeneralOptions.InteractWithServer)
-            {
-                scadaClient = new ScadaClient(Config.ConnectionOptions) { CommLog = CreateClientLog() };
-                dataQueue = new DataQueue(Config.GeneralOptions, scadaClient, Log);
-            }
-            else
-            {
-                scadaClient = null;
-                dataQueue = null;
-            }
-
             commandReader = Config.GeneralOptions.CmdEnabled && Config.GeneralOptions.FileCmdEnabled ? 
                 new CommandReader(this) : null;
             InitDrivers();
             InitDataSources();
-        }
-
-        /// <summary>
-        /// Creates a client communication log file.
-        /// </summary>
-        private ILog CreateClientLog()
-        {
-            return Config.GeneralOptions.ClientLogEnabled ?
-                new LogFile(LogFormat.Simple)
-                {
-                    FileName = Path.Combine(AppDirs.LogDir, CommUtils.ClientLogFileName),
-                    TimestampFormat = LogFile.DefaultTimestampFormat + "'.'ff"
-                } : 
-                null;
         }
 
         /// <summary>
@@ -283,8 +253,8 @@ namespace Scada.Comm.Engine
             try
             {
                 ExecutionStep executionStep = Config.GeneralOptions.InteractWithServer ? 
-                    ExecutionStep.ReceiveBase : ExecutionStep.StartLines;
-                DateTime receiveBaseDT = DateTime.MinValue;
+                    ExecutionStep.ReadBase : ExecutionStep.StartLines;
+                DateTime readBaseDT = DateTime.MinValue;
                 DateTime writeInfoDT = DateTime.MinValue;
 
                 driverHolder.OnServiceStart();
@@ -297,32 +267,20 @@ namespace Scada.Comm.Engine
                     {
                         DateTime utcNow = DateTime.UtcNow;
 
-                        // write application info
-                        if (utcNow - writeInfoDT >= ScadaUtils.WriteInfoPeriod)
-                        {
-                            writeInfoDT = utcNow;
-                            WriteInfo();
-                        }
-
                         switch (executionStep)
                         {
                             case ExecutionStep.MainWork:
-                                if (scadaClient != null && scadaClient.IsReady)
-                                {
-                                    if (Config.GeneralOptions.CmdEnabled)
-                                        ReceiveCommands();
-
-                                    dataQueue.TransferData();
-                                }
+                                // do nothing
                                 break;
 
-                            case ExecutionStep.ReceiveBase:
-                                if (utcNow - receiveBaseDT >= ReceiveBasePeriod)
+                            case ExecutionStep.ReadBase:
+                                if (utcNow - readBaseDT >= ReadBasePeriod)
                                 {
-                                    receiveBaseDT = utcNow;
+                                    readBaseDT = utcNow;
 
-                                    if (ReceiveBase(scadaClient))
+                                    if (dataSourceHolder.ReadBase(out BaseDataSet baseDataSet))
                                     {
+                                        BaseDataSet = baseDataSet;
                                         executionStep = ExecutionStep.StartLines;
                                         serviceStatus = ServiceStatus.Normal;
                                     }
@@ -336,9 +294,17 @@ namespace Scada.Comm.Engine
                             case ExecutionStep.StartLines:
                                 CreateLines();
                                 StartLines();
+                                dataSourceHolder.Start();
                                 commandReader?.Start();
                                 executionStep = ExecutionStep.MainWork;
                                 break;
+                        }
+
+                        // write application info
+                        if (utcNow - writeInfoDT >= ScadaUtils.WriteInfoPeriod)
+                        {
+                            writeInfoDT = utcNow;
+                            WriteInfo();
                         }
                     }
                     catch (Exception ex)
@@ -362,45 +328,8 @@ namespace Scada.Comm.Engine
                 StopLines();
                 dataSourceHolder.Close();
                 driverHolder.OnServiceStop();
-                CloseClient();
                 serviceStatus = ServiceStatus.Terminated;
                 WriteInfo();
-            }
-        }
-
-        /// <summary>
-        /// Receives the configuration database from the server.
-        /// </summary>
-        private bool ReceiveBase(ScadaClient scadaClient)
-        {
-            string tableName = Locale.IsRussian ? "неопределена" : "undefined";
-
-            try
-            {
-                Log.WriteAction(Locale.IsRussian ?
-                    "Приём базы конфигурации" :
-                    "Receive the configuration database");
-
-                BaseDataSet baseDataSet = new BaseDataSet();
-
-                foreach (IBaseTable baseTable in baseDataSet.AllTables)
-                {
-                    tableName = baseTable.Name;
-                    scadaClient.DownloadBaseTable(baseTable);
-                }
-
-                Log.WriteAction(Locale.IsRussian ?
-                    "База конфигурации получена успешно" :
-                    "The configuration database has been received successfully");
-                BaseDataSet = baseDataSet;
-                return true;
-            }
-            catch (Exception ex)
-            {
-                Log.WriteException(ex, Locale.IsRussian ?
-                    "Ошибка при приёме базы конфигурации, таблица {0}" :
-                    "Error receiving the configuration database, the {0} table", tableName);
-                return false;
             }
         }
 
@@ -635,11 +564,11 @@ namespace Scada.Comm.Engine
                     if (commLine != null)
                     {
                         Log.WriteAction(Locale.IsRussian ?
-                        "Запуск линии связи {0}" :
-                        "Start communication line {0}", commLine.Title);
+                            "Запуск линии связи {0}" :
+                            "Start communication line {0}", commLine.Title);
 
-                        if (Config.GeneralOptions.InteractWithServer)
-                            ReceiveBase(new ScadaClient(Config.ConnectionOptions)); // use a new client
+                        if (dataSourceHolder.ReadBase(out BaseDataSet baseDataSet))
+                            BaseDataSet = baseDataSet;
 
                         if (!commLine.Start())
                         {
@@ -712,49 +641,6 @@ namespace Scada.Comm.Engine
         }
 
         /// <summary>
-        /// Receives telecontrol commands from the server.
-        /// </summary>
-        private void ReceiveCommands()
-        {
-            try
-            {
-                const int MaxCommandCount = 100;
-                int commandCount = 0;
-
-                while (scadaClient.GetCommand() is TeleCommand cmd)
-                {
-                    ProcessCommand(cmd, Locale.IsRussian ? "Сервер" : "Server");
-
-                    if (++commandCount == MaxCommandCount)
-                        break;
-                }
-            }
-            catch (Exception ex)
-            {
-                Log.WriteException(ex, Locale.IsRussian ?
-                    "Ошибка при приёме команд ТУ" :
-                    "Error receiving telecontrol commands");
-            }
-        }
-
-        /// <summary>
-        /// Closes the client session.
-        /// </summary>
-        private void CloseClient()
-        {
-            try
-            {
-                scadaClient?.Close();
-            }
-            catch (Exception ex)
-            {
-                Log.WriteException(ex, Locale.IsRussian ?
-                    "Ошибка при закрытии сессии клиента" :
-                    "Error closing client session");
-            }
-        }
-
-        /// <summary>
         /// Gets the communication line of the specified device.
         /// </summary>
         private bool GetDeviceLine(int deviceNum, out CommLine commLine)
@@ -796,20 +682,7 @@ namespace Scada.Comm.Engine
                         .Append("Запуск       : ").AppendLine(startDT.ToLocalizedString())
                         .Append("Время работы : ").AppendLine(workSpanStr)
                         .Append("Статус       : ").AppendLine(serviceStatus.ToString(true))
-                        .Append("Версия       : ").AppendLine(CommUtils.AppVersion)
-                        .AppendLine()
-                        .AppendLine("Передача данных")
-                        .AppendLine("---------------");
-
-                    if (scadaClient == null)
-                    {
-                        sb.AppendLine("Соединение : не используется");
-                    }
-                    else
-                    {
-                        sb.Append("Соединение              : ").AppendLine(scadaClient.ClientState.ToString(true));
-                        dataQueue.AppendInfo(sb);
-                    }
+                        .Append("Версия       : ").AppendLine(CommUtils.AppVersion);
                 }
                 else
                 {
@@ -819,27 +692,11 @@ namespace Scada.Comm.Engine
                         .Append("Started        : ").AppendLine(startDT.ToLocalizedString())
                         .Append("Execution time : ").AppendLine(workSpanStr)
                         .Append("Status         : ").AppendLine(serviceStatus.ToString(false))
-                        .Append("Version        : ").AppendLine(CommUtils.AppVersion)
-                        .AppendLine()
-                        .AppendLine("Data Transfer")
-                        .AppendLine("-------------");
-
-                    if (scadaClient == null)
-                    {
-                        sb.AppendLine("Connection : Not Used");
-                    }
-                    else
-                    {
-                        sb.Append("Connection            : ").AppendLine(scadaClient.ClientState.ToString(false));
-                        dataQueue.AppendInfo(sb);
-                    }
+                        .Append("Version        : ").AppendLine(CommUtils.AppVersion);
                 }
 
                 if (dataSourceHolder != null)
-                {
-                    sb.AppendLine();
                     dataSourceHolder.AppendInfo(sb);
-                }
 
                 if (commLines != null)
                 {
@@ -1040,7 +897,6 @@ namespace Scada.Comm.Engine
             if (deviceSlice == null)
                 throw new ArgumentNullException(nameof(deviceSlice));
 
-            dataQueue?.EnqueueCurrentData(deviceSlice);
             dataSourceHolder.WriteCurrentData(deviceSlice);
         }
 
@@ -1052,7 +908,6 @@ namespace Scada.Comm.Engine
             if (deviceSlice == null)
                 throw new ArgumentNullException(nameof(deviceSlice));
 
-            dataQueue?.EnqueueHistoricalData(deviceSlice);
             dataSourceHolder.WriteHistoricalData(deviceSlice);
         }
 
@@ -1064,7 +919,6 @@ namespace Scada.Comm.Engine
             if (deviceEvent == null)
                 throw new ArgumentNullException(nameof(deviceEvent));
 
-            dataQueue?.EnqueueEvent(deviceEvent);
             dataSourceHolder.WriteEvent(deviceEvent);
         }
 

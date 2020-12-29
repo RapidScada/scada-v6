@@ -419,7 +419,7 @@ namespace Scada.Comm.Drivers.DrvCnlBasic.Logic
         /// <summary>
         /// Appends information about the communication channel to the string builder.
         /// </summary>
-        public override bool AppendInfo(StringBuilder sb)
+        public override void AppendInfo(StringBuilder sb)
         {
             TcpConnection[] connArr;
 
@@ -432,8 +432,10 @@ namespace Scada.Comm.Drivers.DrvCnlBasic.Logic
                 "Подключенные клиенты (" + connArr.Length + ")" :
                 "Connected Clients (" + connArr.Length + ")";
 
-            sb.AppendLine(header);
-            sb.Append('-', header.Length).AppendLine();
+            sb
+                .AppendLine()
+                .AppendLine(header)
+                .Append('-', header.Length).AppendLine();
 
             if (connArr.Length > 0)
             {
@@ -481,8 +483,6 @@ namespace Scada.Comm.Drivers.DrvCnlBasic.Logic
                     "Клиентов нет" : 
                     "No clients");
             }
-
-            return true;
         }
     }
 }

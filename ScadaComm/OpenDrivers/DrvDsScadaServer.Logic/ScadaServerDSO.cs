@@ -24,6 +24,7 @@
  */
 
 using Scada.Config;
+using System.Collections.Generic;
 
 namespace Scada.Comm.Drivers.DrvDsScadaServer.Logic
 {
@@ -38,12 +39,25 @@ namespace Scada.Comm.Drivers.DrvDsScadaServer.Logic
         /// </summary>
         public ScadaServerDSO(OptionList options)
         {
+            Connection = options.GetValueAsString("Connection");
+            ClientLogEnabled = options.GetValueAsBool("ClientLogEnabled", false);
             MaxQueueSize = options.GetValueAsInt("MaxQueueSize", 1000);
             MaxCurDataAge = options.GetValueAsInt("MaxCurDataAge", 60);
             DataLifetime = options.GetValueAsInt("DataLifetime", 3600);
-            ClientLogEnabled = options.GetValueAsBool("ClientLogEnabled", false);
+            DeviceFilter = new List<int>();
+            DeviceFilter.AddRange(ScadaUtils.ParseRange(options.GetValueAsString("DeviceFilter"), true, true));
         }
 
+
+        /// <summary>
+        /// Gets or sets the connection name.
+        /// </summary>
+        public string Connection { get; set; }
+
+        /// <summary>
+        /// Gets or sets a value indicating whether to write client communication log.
+        /// </summary>
+        public bool ClientLogEnabled { get; set; }
 
         /// <summary>
         /// Gets or sets the maximum queue size.
@@ -61,8 +75,8 @@ namespace Scada.Comm.Drivers.DrvDsScadaServer.Logic
         public int DataLifetime { get; set; }
 
         /// <summary>
-        /// Gets or sets a value indicating whether to write client communication log.
+        /// Gets the device IDs that filter data sent to the server.
         /// </summary>
-        public bool ClientLogEnabled { get; set; }
+        public List<int> DeviceFilter { get; private set; }
     }
 }

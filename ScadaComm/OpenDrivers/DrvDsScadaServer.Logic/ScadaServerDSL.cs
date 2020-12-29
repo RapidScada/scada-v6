@@ -33,6 +33,7 @@ using Scada.Log;
 using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Text;
 using System.Threading;
 
 namespace Scada.Comm.Drivers.DrvDsScadaServer.Logic
@@ -56,16 +57,18 @@ namespace Scada.Comm.Drivers.DrvDsScadaServer.Logic
         /// </summary>
         private const int ErrorDelay = 1000;
 
-        private readonly ScadaServerDSO options;  // the data source options
-        private readonly TimeSpan maxCurDataAge;  // determines sending current data as historical
-        private readonly TimeSpan dataLifetime;   // the data lifetime in the queue
-        private readonly ILog log;                // the application log
+        private readonly ScadaServerDSO options;    // the data source options
+        private readonly TimeSpan maxCurDataAge;    // determines sending current data as historical
+        private readonly TimeSpan dataLifetime;     // the data lifetime in the queue
+        private readonly HashSet<int> deviceFilter; // the device IDs to filter data
+        private readonly ILog log;                  // the application log
 
         private readonly int maxQueueSize;                            // the maximum queue size
         private readonly Queue<QueueItem<DeviceSlice>> curDataQueue;  // the current data queue
         private readonly Queue<QueueItem<DeviceSlice>> histDataQueue; // the historical data queue
         private readonly Queue<QueueItem<DeviceEvent>> eventQueue;    // the event queue
 
+        private ConnectionOptions connOptions; // the connection options
         private ScadaClient scadaClient;  // communicates with the server
         private Thread thread;            // the thread for communication with the server
         private volatile bool terminated; // necessary to stop the thread
@@ -83,6 +86,7 @@ namespace Scada.Comm.Drivers.DrvDsScadaServer.Logic
             options = new ScadaServerDSO(dataSourceConfig.CustomOptions);
             maxCurDataAge = TimeSpan.FromSeconds(options.MaxCurDataAge);
             dataLifetime = TimeSpan.FromSeconds(options.DataLifetime);
+            deviceFilter = options.DeviceFilter.Count > 0 ? new HashSet<int>(options.DeviceFilter) : null;
             log = commContext.Log;
 
             maxQueueSize = Math.Max(options.MaxQueueSize, MinQueueSize);
@@ -90,6 +94,7 @@ namespace Scada.Comm.Drivers.DrvDsScadaServer.Logic
             histDataQueue = new Queue<QueueItem<DeviceSlice>>(maxQueueSize);
             eventQueue = new Queue<QueueItem<DeviceEvent>>(maxQueueSize);
 
+            connOptions = null;
             scadaClient = null;
             thread = null;
             terminated = false;
@@ -100,24 +105,24 @@ namespace Scada.Comm.Drivers.DrvDsScadaServer.Logic
 
 
         /// <summary>
-        /// Creates a client.
+        /// Creates a client communication log file.
         /// </summary>
-        private ScadaClient CreateClient(bool createLog)
+        private ILog CreateClientLog()
         {
-            // TODO: get connection by name
-            ScadaClient scadaClient = new ScadaClient(CommContext.AppConfig.ConnectionOptions);
-
-            if (createLog)
+            return new LogFile(LogFormat.Simple)
             {
-                scadaClient.CommLog = new LogFile(LogFormat.Simple)
-                {
-                    FileName = Path.Combine(CommContext.AppDirs.LogDir, CommUtils.ClientLogFileName),
-                    TimestampFormat = LogFile.DefaultTimestampFormat + "'.'ff",
-                    Capacity = CommContext.AppConfig.GeneralOptions.MaxLogSize
-                };
-            }
+                FileName = Path.Combine(CommContext.AppDirs.LogDir, CommUtils.ClientLogFileName),
+                TimestampFormat = LogFile.DefaultTimestampFormat + "'.'ff",
+                Capacity = CommContext.AppConfig.GeneralOptions.MaxLogSize
+            };
+        }
 
-            return scadaClient;
+        /// <summary>
+        /// Checks if the device filter allows the specified device number.
+        /// </summary>
+        private bool CheckDeviceFilter(int deviceNum)
+        {
+            return deviceFilter == null || deviceFilter.Contains(deviceNum);
         }
 
         /// <summary>
@@ -401,7 +406,7 @@ namespace Scada.Comm.Drivers.DrvDsScadaServer.Logic
             }
             catch (Exception ex)
             {
-                log.WriteException(ex, string.Format(CommPhrases.DataSourceMessage, Code, Locale.IsRussian ?
+                log.WriteException(ex, CommPhrases.DataSourceMessage, Code, string.Format(Locale.IsRussian ?
                     "Ошибка при конвертировании среза от устройства {0}" :
                     "Error converting slice from the device {0}", srcSlice.DeviceNum));
                 destSlice = null;
@@ -504,7 +509,19 @@ namespace Scada.Comm.Drivers.DrvDsScadaServer.Logic
         /// </summary>
         public override void MakeReady()
         {
-            scadaClient = CreateClient(options.ClientLogEnabled);
+            if (!CommContext.AppConfig.Connections.TryGetValue(options.Connection, out connOptions))
+                throw new ScadaException(CommonPhrases.ConnectionNotFound, options.Connection);
+        }
+
+        /// <summary>
+        /// Starts the data source.
+        /// </summary>
+        public override void Start()
+        {
+            scadaClient = new ScadaClient(connOptions);
+
+            if (options.ClientLogEnabled)
+                scadaClient.CommLog = CreateClientLog();
 
             terminated = false;
             thread = new Thread(Execute);
@@ -522,6 +539,8 @@ namespace Scada.Comm.Drivers.DrvDsScadaServer.Logic
                 thread.Join();
                 thread = null;
             }
+
+            scadaClient?.Close();
         }
 
         /// <summary>
@@ -529,7 +548,13 @@ namespace Scada.Comm.Drivers.DrvDsScadaServer.Logic
         /// </summary>
         public override bool ReadBase(out BaseDataSet baseDataSet)
         {
-            // TODO: check options.DeviceFilter == null
+            // do not read the configuration database from the server that likely contains partial data
+            if (deviceFilter != null)
+            {
+                baseDataSet = null;
+                return false;
+            }
+
             string tableName = Locale.IsRussian ? "неопределена" : "undefined";
 
             try
@@ -538,7 +563,7 @@ namespace Scada.Comm.Drivers.DrvDsScadaServer.Logic
                     "Приём базы конфигурации" :
                     "Receive the configuration database");
 
-                ScadaClient localClient = CreateClient(false);
+                ScadaClient localClient = new ScadaClient(connOptions);
                 baseDataSet = new BaseDataSet();
 
                 foreach (IBaseTable baseTable in baseDataSet.AllTables)
@@ -555,7 +580,7 @@ namespace Scada.Comm.Drivers.DrvDsScadaServer.Logic
             }
             catch (Exception ex)
             {
-                log.WriteException(ex, string.Format(CommPhrases.DataSourceMessage, Code, Locale.IsRussian ?
+                log.WriteException(ex, CommPhrases.DataSourceMessage, Code, string.Format(Locale.IsRussian ?
                     "Ошибка при приёме базы конфигурации, таблица {0}" :
                     "Error receiving the configuration database, the {0} table", tableName));
                 baseDataSet = null;
@@ -568,17 +593,20 @@ namespace Scada.Comm.Drivers.DrvDsScadaServer.Logic
         /// </summary>
         public override void WriteCurrentData(DeviceSlice deviceSlice)
         {
-            lock (curDataQueue)
+            if (CheckDeviceFilter(deviceSlice.DeviceNum))
             {
-                // remove current data from the beginning of the queue
-                while (curDataQueue.Count >= maxQueueSize)
+                lock (curDataQueue)
                 {
-                    curDataQueue.Dequeue();
-                    curDataSkipped++;
-                }
+                    // remove current data from the beginning of the queue
+                    while (curDataQueue.Count >= maxQueueSize)
+                    {
+                        curDataQueue.Dequeue();
+                        curDataSkipped++;
+                    }
 
-                // append current data
-                curDataQueue.Enqueue(new QueueItem<DeviceSlice>(deviceSlice.Timestamp, deviceSlice));
+                    // append current data
+                    curDataQueue.Enqueue(new QueueItem<DeviceSlice>(deviceSlice.Timestamp, deviceSlice));
+                }
             }
         }
 
@@ -587,21 +615,24 @@ namespace Scada.Comm.Drivers.DrvDsScadaServer.Logic
         /// </summary>
         public override void WriteHistoricalData(DeviceSlice deviceSlice)
         {
-            lock (histDataQueue)
+            if (CheckDeviceFilter(deviceSlice.DeviceNum))
             {
-                if (histDataQueue.Count < maxQueueSize)
+                lock (histDataQueue)
                 {
-                    histDataQueue.Enqueue(new QueueItem<DeviceSlice>(DateTime.UtcNow, deviceSlice));
-                }
-                else
-                {
-                    log.WriteError(CommPhrases.DataSourceMessage, Code, string.Format(Locale.IsRussian ?
-                        "Невозможно добавить архивные данные в очередь. Максимальный размер очереди {0} превышен" :
-                        "Unable to enqueue historical data. The maximum size of the queue {0} is exceeded",
-                        maxQueueSize));
+                    if (histDataQueue.Count < maxQueueSize)
+                    {
+                        histDataQueue.Enqueue(new QueueItem<DeviceSlice>(DateTime.UtcNow, deviceSlice));
+                    }
+                    else
+                    {
+                        log.WriteError(CommPhrases.DataSourceMessage, Code, string.Format(Locale.IsRussian ?
+                            "Невозможно добавить архивные данные в очередь. Максимальный размер очереди {0} превышен" :
+                            "Unable to enqueue historical data. The maximum size of the queue {0} is exceeded",
+                            maxQueueSize));
 
-                    histDataSkipped++;
-                    CallFailedToSend(deviceSlice);
+                        histDataSkipped++;
+                        CallFailedToSend(deviceSlice);
+                    }
                 }
             }
         }
@@ -611,22 +642,75 @@ namespace Scada.Comm.Drivers.DrvDsScadaServer.Logic
         /// </summary>
         public override void WriteEvent(DeviceEvent deviceEvent)
         {
-            lock (eventQueue)
+            if (CheckDeviceFilter(deviceEvent.DeviceNum))
             {
-                if (eventQueue.Count < maxQueueSize)
+                lock (eventQueue)
                 {
-                    eventQueue.Enqueue(new QueueItem<DeviceEvent>(DateTime.UtcNow, deviceEvent));
-                }
-                else
-                {
-                    log.WriteError(CommPhrases.DataSourceMessage, Code, string.Format(Locale.IsRussian ?
-                        "Невозможно добавить событие в очередь. Максимальный размер очереди {0} превышен" :
-                        "Unable to enqueue an event. The maximum size of the queue {0} is exceeded",
-                        maxQueueSize));
+                    if (eventQueue.Count < maxQueueSize)
+                    {
+                        eventQueue.Enqueue(new QueueItem<DeviceEvent>(DateTime.UtcNow, deviceEvent));
+                    }
+                    else
+                    {
+                        log.WriteError(CommPhrases.DataSourceMessage, Code, string.Format(Locale.IsRussian ?
+                            "Невозможно добавить событие в очередь. Максимальный размер очереди {0} превышен" :
+                            "Unable to enqueue an event. The maximum size of the queue {0} is exceeded",
+                            maxQueueSize));
 
-                    eventSkipped++;
-                    CallFailedToSend(deviceEvent);
+                        eventSkipped++;
+                        CallFailedToSend(deviceEvent);
+                    }
                 }
+            }
+        }
+
+        /// <summary>
+        /// Appends information about the queue to the string builder.
+        /// </summary>
+        public override void AppendInfo(StringBuilder sb)
+        {
+            sb
+                .AppendLine()
+                .AppendLine(Name)
+                .Append('-', Name.Length).AppendLine();
+
+            if (Locale.IsRussian)
+            {
+                if (scadaClient == null)
+                    sb.Append("Соединение              : не используется").AppendLine();
+                else
+                    sb.Append("Соединение              : ").AppendLine(scadaClient.ClientState.ToString(true));
+
+                sb.Append("Очередь текущих данных  : ")
+                    .Append(curDataQueue.Count).Append(" из ").Append(maxQueueSize)
+                    .Append(", пропущено ").Append(curDataSkipped).AppendLine();
+
+                sb.Append("Очередь архивных данных : ")
+                    .Append(histDataQueue.Count).Append(" из ").Append(maxQueueSize)
+                    .Append(", пропущено ").Append(histDataSkipped).AppendLine();
+
+                sb.Append("Очередь событий         : ")
+                    .Append(eventQueue.Count).Append(" из ").Append(maxQueueSize)
+                    .Append(", пропущено ").Append(eventSkipped).AppendLine();
+            }
+            else
+            {
+                if (scadaClient == null)
+                    sb.Append("Connection            : Not Used").AppendLine();
+                else
+                    sb.Append("Connection            : ").AppendLine(scadaClient.ClientState.ToString(false));
+
+                sb.Append("Current data queue    : ")
+                    .Append(curDataQueue.Count).Append(" of ").Append(maxQueueSize)
+                    .Append(", skipped ").Append(curDataSkipped).AppendLine();
+
+                sb.Append("Historical data queue : ")
+                    .Append(histDataQueue.Count).Append(" of ").Append(maxQueueSize)
+                    .Append(", skipped ").Append(histDataSkipped).AppendLine();
+
+                sb.Append("Event queue           : ")
+                    .Append(eventQueue.Count).Append(" of ").Append(maxQueueSize)
+                    .Append(", skipped ").Append(eventSkipped).AppendLine();
             }
         }
     }

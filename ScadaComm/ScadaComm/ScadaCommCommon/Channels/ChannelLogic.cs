@@ -264,9 +264,8 @@ namespace Scada.Comm.Channels
         /// <summary>
         /// Appends information about the communication channel to the string builder.
         /// </summary>
-        public virtual bool AppendInfo(StringBuilder sb)
+        public virtual void AppendInfo(StringBuilder sb)
         {
-            return false;
         }
     }
 }

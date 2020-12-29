@@ -93,6 +93,7 @@ namespace Scada.Comm.Engine
                 "Data Sources (" + dataSources.Count + ")";
 
             sb
+                .AppendLine()
                 .AppendLine(header)
                 .Append('-', header.Length).AppendLine();
 
@@ -105,6 +106,11 @@ namespace Scada.Comm.Engine
                         .Append(' ', maxTitleLength - dataSourceLogic.Title.Length)
                         .Append(" : ")
                         .AppendLine(dataSourceLogic.StatusText);
+                }
+
+                foreach (DataSourceLogic dataSourceLogic in dataSources)
+                {
+                    dataSourceLogic.AppendInfo(sb);
                 }
             }
             else
@@ -128,6 +134,25 @@ namespace Scada.Comm.Engine
                 catch (Exception ex)
                 {
                     log.WriteException(ex, CommPhrases.ErrorInDataSource, nameof(MakeReady), dataSourceLogic.Code);
+                }
+            }
+        }
+
+        /// <summary>
+        /// Calls the Start method of the data sources.
+        /// </summary>
+        public void Start()
+        {
+            foreach (DataSourceLogic dataSourceLogic in dataSources)
+            {
+                try
+                {
+                    if (dataSourceLogic.IsReady)
+                        dataSourceLogic.Start();
+                }
+                catch (Exception ex)
+                {
+                    log.WriteException(ex, CommPhrases.ErrorInDataSource, nameof(Start), dataSourceLogic.Code);
                 }
             }
         }
