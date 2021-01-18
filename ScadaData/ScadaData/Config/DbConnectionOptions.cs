@@ -1,5 +1,5 @@
 ﻿/*
- * Copyright 2020 Mikhail Shiryaev
+ * Copyright 2021 Mikhail Shiryaev
  * 
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -20,7 +20,7 @@
  * 
  * Author   : Mikhail Shiryaev
  * Created  : 2020
- * Modified : 2020
+ * Modified : 2021
  */
 
 using System;
@@ -40,6 +40,8 @@ namespace Scada.Config
         public DbConnectionOptions()
         {
             Name = "";
+            DBMS = "";
+            KnownDBMS = KnownDBMS.Undefined;
             Server = "";
             Database = "";
             Username = "";
@@ -52,6 +54,16 @@ namespace Scada.Config
         /// Gets or sets the connection name.
         /// </summary>
         public string Name { get; set; }
+
+        /// <summary>
+        /// Gets or sets the database management system.
+        /// </summary>
+        public string DBMS { get; set; }
+
+        /// <summary>
+        /// Gets or sets the database management system, if it is one of the known DBMSs.
+        /// </summary>
+        public KnownDBMS KnownDBMS { get; set; }
 
         /// <summary>
         /// Gets or sets the server host.
@@ -88,6 +100,8 @@ namespace Scada.Config
                 throw new ArgumentNullException(nameof(xmlNode));
 
             Name = xmlNode.GetChildAsString("Name");
+            DBMS = xmlNode.GetChildAsString("DBMS");
+            KnownDBMS = Enum.TryParse(DBMS, true, out KnownDBMS knownDBMS) ? knownDBMS : KnownDBMS.Undefined;
             Server = xmlNode.GetChildAsString("Server");
             Database = xmlNode.GetChildAsString("Database");
             Username = xmlNode.GetChildAsString("Username");
@@ -104,6 +118,7 @@ namespace Scada.Config
                 throw new ArgumentNullException(nameof(xmlElem));
 
             xmlElem.AppendElem("Name", Name);
+            xmlElem.AppendElem("DBMS", DBMS);
             xmlElem.AppendElem("Server", Server);
             xmlElem.AppendElem("Database", Database);
             xmlElem.AppendElem("Username", Username);
