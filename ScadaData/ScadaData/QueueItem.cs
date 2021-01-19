@@ -15,7 +15,7 @@
  * 
  * 
  * Product  : Rapid SCADA
- * Module   : DrvDsScadaServer
+ * Module   : ScadaData
  * Summary  : Represents a queue item
  * 
  * Author   : Mikhail Shiryaev
@@ -25,13 +25,13 @@
 
 using System;
 
-namespace Scada.Comm.Drivers.DrvDsScadaServer.Logic
+namespace Scada
 {
     /// <summary>
     /// Represents a queue item.
     /// <para>Представляет элемент очереди.</para>
     /// </summary>
-    internal class QueueItem<T> where T : class
+    public class QueueItem<T> where T : class
     {
         /// <summary>
         /// Initializes a new instance of the class.
