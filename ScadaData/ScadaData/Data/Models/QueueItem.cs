@@ -25,7 +25,7 @@
 
 using System;
 
-namespace Scada
+namespace Scada.Data.Models
 {
     /// <summary>
     /// Represents a queue item.
