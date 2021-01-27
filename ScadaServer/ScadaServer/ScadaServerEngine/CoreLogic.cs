@@ -1,5 +1,5 @@
 ﻿/*
- * Copyright 2020 Mikhail Shiryaev
+ * Copyright 2021 Mikhail Shiryaev
  * 
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -20,7 +20,7 @@
  * 
  * Author   : Mikhail Shiryaev
  * Created  : 2020
- * Modified : 2020
+ * Modified : 2021
  */
 
 using Scada.Data.Adapters;
@@ -56,6 +56,16 @@ namespace Scada.Server.Engine
             public int ArchiveMask { get; set; }
         }
 
+        /// <summary>
+        /// Represents a preprocessed command to send.
+        /// </summary>
+        private class CommandItem
+        {
+            public OutCnlTag OutCnlTag { get; set; }
+            public TeleCommand Command { get; set; }
+            public CommandResult Result { get; set; }
+        }
+
 
         /// <summary>
         /// The maximum number of input channels to process per iteration when checking activity.
@@ -84,6 +94,7 @@ namespace Scada.Server.Engine
         private ServerListener listener;         // the TCP listener
         private CurrentData curData;             // the current data of the input channels
         private Queue<EventItem> events;         // the just generated events
+        private Queue<CommandItem> commands;     // the preprocessed commands that have not yet been sent
 
 
         /// <summary>
@@ -119,6 +130,7 @@ namespace Scada.Server.Engine
             listener = null;
             curData = null;
             events = null;
+            commands = null;
         }
 
 
@@ -196,6 +208,7 @@ namespace Scada.Server.Engine
             listener = new ServerListener(this, archiveHolder, serverCache);
             curData = new CurrentData(this, cnlTags);
             events = new Queue<EventItem>();
+            commands = new Queue<CommandItem>();
 
             InitModules();
             InitArchives();
@@ -506,8 +519,9 @@ namespace Scada.Server.Engine
                             archiveHolder.ProcessData(curData);
                         }
 
-                        // process events without blocking current data
+                        // process events and commands without blocking current data
                         ProcessEvents();
+                        ProcessCommands();
 
                         // process modules and archives
                         moduleHolder.OnIteration();
@@ -608,20 +622,66 @@ namespace Scada.Server.Engine
         /// </summary>
         private void ProcessEvents()
         {
-            lock (events)
+            while (true)
             {
-                while (events.Count > 0)
+                EventItem eventItem;
+                Event ev;
+
+                lock (events)
                 {
-                    EventItem eventItem = events.Dequeue();
-                    Event ev = eventItem.Event;
+                    if (events.Count > 0)
+                    {
+                        eventItem = events.Dequeue();
+                        ev = eventItem.Event;
+                    }
+                    else
+                    {
+                        break;
+                    }
+                }
 
+                Log.WriteAction(Locale.IsRussian ?
+                    "Создано событие с ид. {0}, входным каналом {1} и каналом управления {2}" :
+                    "Created event with ID {0}, input channel {1} and output channel {2}",
+                    ev.EventID, ev.CnlNum, ev.OutCnlNum);
+
+                moduleHolder.OnEvent(ev);
+                archiveHolder.WriteEvent(ev, eventItem.ArchiveMask);
+            }
+        }
+
+        /// <summary>
+        /// Processes the commands from the queue.
+        /// </summary>
+        private void ProcessCommands()
+        {
+            while (true)
+            {
+                CommandItem commandItem;
+
+                lock (commands)
+                {
+                    if (commands.Count > 0)
+                        commandItem = commands.Dequeue();
+                    else
+                        break;
+                }
+
+                moduleHolder.OnCommand(commandItem.Command, commandItem.Result);
+
+                if (commandItem.Result.IsSuccessful)
+                {
+                    listener.EnqueueCommand(commandItem.Command);
+                    GenerateEvent(commandItem.OutCnlTag, commandItem.Command);
                     Log.WriteAction(Locale.IsRussian ?
-                        "Создано событие с ид. {0}, входным каналом {1} и каналом управления {2}" :
-                        "Generated event with ID {0}, input channel {1} and output channel {2}",
-                        ev.EventID, ev.CnlNum, ev.OutCnlNum);
-
-                    moduleHolder.OnEvent(ev);
-                    archiveHolder.WriteEvent(ev, eventItem.ArchiveMask);
+                        "Команда поставлена в очередь на отправку клиентам" :
+                        "Command is queued to be sent to clients");
+                }
+                else
+                {
+                    Log.WriteAction(Locale.IsRussian ?
+                        "Невозможно отправить команду: {0}" :
+                        "Unable to send command: {0}", commandItem.Result.ErrorMessage);
                 }
             }
         }
@@ -1343,13 +1403,7 @@ namespace Scada.Server.Engine
                         ev.DeviceNum = outCnl.DeviceNum ?? 0;
                 }
 
-                Log.WriteAction(Locale.IsRussian ?
-                    "Получено событие с ид. {0}, входным каналом {1} и каналом управления {2}" :
-                    "Received event with ID {0}, input channel {1} and output channel {2}",
-                    ev.EventID, ev.CnlNum, ev.OutCnlNum);
-
-                moduleHolder.OnEvent(ev);
-                archiveHolder.WriteEvent(ev, archiveMask);
+                EnqueueEvent(ev, archiveMask);
             }
             catch (Exception ex)
             {
@@ -1426,17 +1480,23 @@ namespace Scada.Server.Engine
                         command.CmdNum = outCnl.CmdNum ?? 0;
                         command.CmdCode = outCnl.CmdCode;
 
-                        double cmdVal;
-                        byte[] cmdData;
-
                         try
                         {
                             Monitor.Enter(curData);
                             calc.BeginCalculation(curData);
                             curData.Timestamp = command.CreationTime;
-                            commandResult.IsSuccessful = calc.CalcCmdData(outCnlTag, command.CmdVal, command.CmdData,
-                                out cmdVal, out cmdData, out string errMsg);
-                            commandResult.ErrorMessage = errMsg;
+
+                            if (calc.CalcCmdData(outCnlTag, command.CmdVal, command.CmdData, 
+                                out double cmdVal, out byte[] cmdData, out string errMsg))
+                            {
+                                commandResult.IsSuccessful = true;
+                                command.CmdVal = cmdVal;
+                                command.CmdData = cmdData;
+                            }
+                            else
+                            {
+                                commandResult.ErrorMessage = errMsg;
+                            }
                         }
                         finally
                         {
@@ -1444,23 +1504,14 @@ namespace Scada.Server.Engine
                             Monitor.Exit(curData);
                         }
 
-                        moduleHolder.OnCommand(command, commandResult);
-
-                        if (commandResult.IsSuccessful)
+                        lock (commands)
                         {
-                            command.CmdVal = cmdVal;
-                            command.CmdData = cmdData;
-                            listener.EnqueueCommand(command);
-                            GenerateEvent(outCnlTag, command);
-                            Log.WriteAction(Locale.IsRussian ?
-                                "Команда поставлена в очередь на отправку клиентам" :
-                                "Command is queued to be sent to clients");
-                        }
-                        else
-                        {
-                            Log.WriteAction(Locale.IsRussian ?
-                                "Невозможно отправить команду: {0}" :
-                                "Unable to send command: {0}", commandResult.ErrorMessage);
+                            commands.Enqueue(new CommandItem
+                            {
+                                OutCnlTag = outCnlTag,
+                                Command = command,
+                                Result = commandResult
+                            });
                         }
                     }
                 }
