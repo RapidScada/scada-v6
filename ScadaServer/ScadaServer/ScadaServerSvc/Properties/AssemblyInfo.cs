@@ -10,7 +10,7 @@ using System.Runtime.InteropServices;
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("Rapid Software LLC")]
 [assembly: AssemblyProduct("Rapid SCADA")]
-[assembly: AssemblyCopyright("Copyright © 2004-2020")]
+[assembly: AssemblyCopyright("Copyright © 2004-2021")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
 

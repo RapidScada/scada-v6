@@ -7,7 +7,7 @@
     <Product>Rapid SCADA</Product>
     <Company>Rapid Software LLC</Company>
     <Authors>Mikhail Shiryaev</Authors>
-    <Copyright>Copyright © 2013-2020</Copyright>
+    <Copyright>Copyright © 2013-2021</Copyright>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
