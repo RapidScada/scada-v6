@@ -93,7 +93,7 @@ namespace Scada.Server.Engine
         private ServerCache serverCache;         // the server level cache
         private ServerListener listener;         // the TCP listener
         private CurrentData curData;             // the current data of the input channels
-        private Queue<EventItem> events;         // the just generated events
+        private Queue<EventItem> events;         // the just created events
         private Queue<CommandItem> commands;     // the preprocessed commands that have not yet been sent
 
 
