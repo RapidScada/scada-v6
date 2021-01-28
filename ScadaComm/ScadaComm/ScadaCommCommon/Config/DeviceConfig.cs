@@ -1,5 +1,5 @@
 ﻿/*
- * Copyright 2020 Mikhail Shiryaev
+ * Copyright 2021 Mikhail Shiryaev
  * 
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -20,7 +20,7 @@
  * 
  * Author   : Mikhail Shiryaev
  * Created  : 2020
- * Modified : 2020
+ * Modified : 2021
  */
 
 using System;
@@ -56,7 +56,7 @@ namespace Scada.Comm.Config
         public bool Active { get; set; }
 
         /// <summary>
-        /// Gets or sets a value indicating whether the device is bound to the server.
+        /// Gets or sets a value indicating whether the device is bound to the configuration database.
         /// </summary>
         public bool IsBound { get; set; }
 

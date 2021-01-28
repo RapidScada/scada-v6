@@ -1,5 +1,5 @@
 ﻿/*
- * Copyright 2020 Mikhail Shiryaev
+ * Copyright 2021 Mikhail Shiryaev
  * 
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -20,7 +20,7 @@
  * 
  * Author   : Mikhail Shiryaev
  * Created  : 2006
- * Modified : 2020
+ * Modified : 2021
  */
 
 using Scada.Comm.Channels;
@@ -136,7 +136,7 @@ namespace Scada.Comm.Devices
         protected int ReqRetries { get; }
 
         /// <summary>
-        /// Gets a value indicating whether the device is bound to the server.
+        /// Gets a value indicating whether the device is bound to the configuration database.
         /// </summary>
         public bool IsBound { get; }
 

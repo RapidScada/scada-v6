@@ -1,5 +1,5 @@
 ﻿/*
- * Copyright 2020 Mikhail Shiryaev
+ * Copyright 2021 Mikhail Shiryaev
  * 
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -20,17 +20,15 @@
  * 
  * Author   : Mikhail Shiryaev
  * Created  : 2020
- * Modified : 2020
+ * Modified : 2021
  */
 
-using Scada.Client;
 using Scada.Comm.Config;
 using Scada.Comm.DataSources;
 using Scada.Comm.Devices;
 using Scada.Comm.Drivers;
 using Scada.Data.Const;
 using Scada.Data.Models;
-using Scada.Data.Tables;
 using Scada.Log;
 using System;
 using System.Collections.Concurrent;
@@ -252,7 +250,7 @@ namespace Scada.Comm.Engine
         {
             try
             {
-                ExecutionStep executionStep = Config.GeneralOptions.InteractWithServer ? 
+                ExecutionStep executionStep = Config.GeneralOptions.IsBound ? 
                     ExecutionStep.ReadBase : ExecutionStep.StartLines;
                 DateTime readBaseDT = DateTime.MinValue;
                 DateTime writeInfoDT = DateTime.MinValue;
@@ -274,7 +272,15 @@ namespace Scada.Comm.Engine
                                 break;
 
                             case ExecutionStep.ReadBase:
-                                if (utcNow - readBaseDT >= ReadBasePeriod)
+                                if (dataSourceHolder.Count == 0)
+                                {
+                                    Log.WriteError(Locale.IsRussian ?
+                                        "Невозможно запустить линии связи, потому что отсутствуют активные источники данных" :
+                                        "Unable to start communication lines because active data sources are missed");
+                                    executionStep = ExecutionStep.MainWork;
+                                    serviceStatus = ServiceStatus.Error;
+                                }
+                                else if (utcNow - readBaseDT >= ReadBasePeriod)
                                 {
                                     readBaseDT = utcNow;
 
@@ -286,6 +292,9 @@ namespace Scada.Comm.Engine
                                     }
                                     else
                                     {
+                                        Log.WriteError(Locale.IsRussian ?
+                                            "Невозможно запустить линии связи, потому что база конфигурации не получена" :
+                                            "Unable to start communication lines because the configuration database is not received");
                                         serviceStatus = ServiceStatus.Error;
                                     }
                                 }

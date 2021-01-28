@@ -99,7 +99,7 @@ namespace Scada.Comm.Config
 
             foreach (DataSourceConfig dataSourceConfig in DataSources)
             {
-                if (driverCodes.Add(dataSourceConfig.Driver.ToLowerInvariant()))
+                if (dataSourceConfig.Active && driverCodes.Add(dataSourceConfig.Driver.ToLowerInvariant()))
                     DriverCodes.Add(dataSourceConfig.Driver);
             }
 
@@ -107,7 +107,7 @@ namespace Scada.Comm.Config
             {
                 foreach (DeviceConfig deviceConfig in lineConfig.DevicePolling)
                 {
-                    if (driverCodes.Add(deviceConfig.Driver.ToLowerInvariant()))
+                    if (deviceConfig.Active && driverCodes.Add(deviceConfig.Driver.ToLowerInvariant()))
                         DriverCodes.Add(deviceConfig.Driver);
                 }
             }

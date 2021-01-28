@@ -1,5 +1,5 @@
 ﻿/*
- * Copyright 2020 Mikhail Shiryaev
+ * Copyright 2021 Mikhail Shiryaev
  * 
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -20,7 +20,7 @@
  * 
  * Author   : Mikhail Shiryaev
  * Created  : 2020
- * Modified : 2020
+ * Modified : 2021
  */
 
 using Scada.Log;
@@ -40,38 +40,19 @@ namespace Scada.Comm.Config
         /// </summary>
         public GeneralOptions()
         {
-            InteractWithServer = true;
-            MaxQueueSize = 1000;
-            MaxCurDataAge = 60;
-            DataLifetime = 3600;
+            IsBound = true;
             SendModifiedData = true;
             SendAllDataPeriod = 60;
             CmdEnabled = true;
             FileCmdEnabled = true;
-            ClientLogEnabled = false;
             MaxLogSize = LogFile.DefaultCapacity;
         }
 
 
         /// <summary>
-        /// Gets or sets a value indicating whether to interact with the server.
+        /// Gets or sets a value indicating whether the line is bound to the configuration database.
         /// </summary>
-        public bool InteractWithServer { get; set; }
-
-        /// <summary>
-        /// Gets or sets the maximum queue size.
-        /// </summary>
-        public int MaxQueueSize { get; set; }
-
-        /// <summary>
-        /// Gets or sets the maximum time after which the current data is sent as historical, in seconds.
-        /// </summary>
-        public int MaxCurDataAge { get; set; }
-
-        /// <summary>
-        /// Gets or sets the data lifetime in the queue, in seconds.
-        /// </summary>
-        public int DataLifetime { get; set; }
+        public bool IsBound { get; set; }
 
         /// <summary>
         /// Gets or sets a value indicating whether to send only modified data of device tags.
@@ -94,11 +75,6 @@ namespace Scada.Comm.Config
         public bool FileCmdEnabled { get; set; }
 
         /// <summary>
-        /// Gets or sets a value indicating whether to write client communication log.
-        /// </summary>
-        public bool ClientLogEnabled { get; set; }
-
-        /// <summary>
         /// Gets or sets the maximum log file size.
         /// </summary>
         public int MaxLogSize { get; set; }
@@ -112,15 +88,11 @@ namespace Scada.Comm.Config
             if (xmlNode == null)
                 throw new ArgumentNullException(nameof(xmlNode));
 
-            InteractWithServer = xmlNode.GetChildAsBool("InteractWithServer", InteractWithServer);
-            MaxQueueSize = xmlNode.GetChildAsInt("MaxQueueSize", MaxQueueSize);
-            MaxCurDataAge = xmlNode.GetChildAsInt("MaxCurDataAge", MaxCurDataAge);
-            DataLifetime = xmlNode.GetChildAsInt("DataLifetime", DataLifetime);
+            IsBound = xmlNode.GetChildAsBool("IsBound", IsBound);
             SendModifiedData = xmlNode.GetChildAsBool("SendModifiedData", SendModifiedData);
             SendAllDataPeriod = xmlNode.GetChildAsInt("SendAllDataPeriod", SendAllDataPeriod);
             CmdEnabled = xmlNode.GetChildAsBool("CmdEnabled", CmdEnabled);
             FileCmdEnabled = xmlNode.GetChildAsBool("FileCmdEnabled", FileCmdEnabled);
-            ClientLogEnabled = xmlNode.GetChildAsBool("ClientLogEnabled", ClientLogEnabled);
             MaxLogSize = xmlNode.GetChildAsInt("MaxLogSize", MaxLogSize);
         }
 
@@ -132,15 +104,11 @@ namespace Scada.Comm.Config
             if (xmlElem == null)
                 throw new ArgumentNullException(nameof(xmlElem));
 
-            xmlElem.AppendElem("InteractWithServer", InteractWithServer);
-            xmlElem.AppendElem("MaxQueueSize", MaxQueueSize);
-            xmlElem.AppendElem("MaxCurDataAge", MaxCurDataAge);
-            xmlElem.AppendElem("DataLifetime", DataLifetime);
+            xmlElem.AppendElem("IsBound", IsBound);
             xmlElem.AppendElem("SendModifiedData", SendModifiedData);
             xmlElem.AppendElem("SendAllDataPeriod", SendAllDataPeriod);
             xmlElem.AppendElem("CmdEnabled", CmdEnabled);
             xmlElem.AppendElem("FileCmdEnabled", FileCmdEnabled);
-            xmlElem.AppendElem("ClientLogEnabled", ClientLogEnabled);
             xmlElem.AppendElem("MaxLogSize", MaxLogSize);
         }
     }

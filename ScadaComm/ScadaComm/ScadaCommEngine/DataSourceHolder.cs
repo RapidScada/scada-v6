@@ -58,6 +58,18 @@ namespace Scada.Comm.Engine
 
 
         /// <summary>
+        /// Gets the number of data sources.
+        /// </summary>
+        public int Count
+        {
+            get
+            {
+                return dataSources.Count;
+            }
+        }
+
+
+        /// <summary>
         /// Checks if a data source with the specified code exists.
         /// </summary>
         public bool DataSourceExists(string code)
