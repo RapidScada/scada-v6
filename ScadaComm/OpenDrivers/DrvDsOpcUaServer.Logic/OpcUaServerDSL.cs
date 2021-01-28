@@ -16,7 +16,7 @@
  * 
  * Product  : Rapid SCADA
  * Module   : DrvDsOpcUaServer
- * Summary  : Implements the driver logic
+ * Summary  : Implements the data source logic
  * 
  * Author   : Mikhail Shiryaev
  * Created  : 2021
@@ -25,40 +25,46 @@
 
 using Scada.Comm.Config;
 using Scada.Comm.DataSources;
+using System;
+using System.Collections.Generic;
+using System.Text;
 
 namespace Scada.Comm.Drivers.DrvDsOpcUaServer.Logic
 {
     /// <summary>
-    /// Implements the driver logic.
-    /// <para>Реализует логику драйвера.</para>
+    /// Implements the data source logic.
+    /// <para>Реализует логику источника данных.</para>
     /// </summary>
-    public class DrvDsOpcUaServerLogic : DriverLogic
+    internal class OpcUaServerDSL : DataSourceLogic
     {
         /// <summary>
         /// Initializes a new instance of the class.
         /// </summary>
-        public DrvDsOpcUaServerLogic(ICommContext commContext)
-            : base(commContext)
+        public OpcUaServerDSL(ICommContext commContext, DataSourceConfig dataSourceConfig)
+            : base(commContext, dataSourceConfig)
+        {
+        }
+
+
+        /// <summary>
+        /// Makes the data source ready for operating.
+        /// </summary>
+        public override void MakeReady()
         {
         }
 
         /// <summary>
-        /// Gets the driver code.
+        /// Starts the data source.
         /// </summary>
-        public override string Code
+        public override void Start()
         {
-            get
-            {
-                return DriverUtils.DriverCode;
-            }
         }
 
         /// <summary>
-        /// Creates a new data source.
+        /// Closes the data source.
         /// </summary>
-        public override DataSourceLogic CreateDataSource(ICommContext commContext, DataSourceConfig dataSourceConfig)
+        public override void Close()
         {
-            return new OpcUaServerDSL(commContext, dataSourceConfig);
         }
     }
 }
