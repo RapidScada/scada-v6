@@ -23,11 +23,17 @@
  * Modified : 2021
  */
 
+using Opc.Ua;
+using Opc.Ua.Configuration;
 using Scada.Comm.Config;
 using Scada.Comm.DataSources;
+using Scada.Log;
 using System;
 using System.Collections.Generic;
+using System.IO;
+using System.Linq;
 using System.Text;
+using System.Threading.Tasks;
 
 namespace Scada.Comm.Drivers.DrvDsOpcUaServer.Logic
 {
@@ -37,12 +43,91 @@ namespace Scada.Comm.Drivers.DrvDsOpcUaServer.Logic
     /// </summary>
     internal class OpcUaServerDSL : DataSourceLogic
     {
+        private readonly ILog dsLog; // the data source log
+
+        private ApplicationInstance opcApp;
+        private CustomServer opcServer;
+
+
         /// <summary>
         /// Initializes a new instance of the class.
         /// </summary>
         public OpcUaServerDSL(ICommContext commContext, DataSourceConfig dataSourceConfig)
             : base(commContext, dataSourceConfig)
         {
+            dsLog = CreateLog(DriverUtils.DriverCode);
+        }
+
+
+        /// <summary>
+        /// Prepares OPC UA server for operating.
+        /// </summary>
+        private async Task PrepareOpcServer()
+        {
+            opcApp = new ApplicationInstance
+            {
+                ApplicationName = DataSourceConfig.Name,
+                ApplicationType = ApplicationType.Server,
+                ConfigSectionName = "Scada.Comm.Drivers.DrvDsOpcUaServer"
+            };
+
+            // load the application configuration
+            string configFileName = Path.Combine(CommContext.AppDirs.ConfigDir, DriverUtils.DriverCode + ".xml");
+            ApplicationConfiguration opcConfig = await opcApp.LoadApplicationConfiguration(configFileName, false);
+
+            // check the application certificate
+            bool haveAppCertificate = await opcApp.CheckApplicationInstanceCertificate(false, 
+                CertificateFactory.DefaultKeySize, CertificateFactory.DefaultLifeTime);
+
+            if (!haveAppCertificate)
+            {
+                throw new ScadaException(Locale.IsRussian ?
+                    "Сертификат экземпляра приложения недействителен!" :
+                    "Application instance certificate invalid!");
+            }
+
+            if (!opcConfig.SecurityConfiguration.AutoAcceptUntrustedCertificates)
+                opcConfig.CertificateValidator.CertificateValidation += CertificateValidator_CertificateValidation;
+
+            opcServer = new CustomServer();
+        }
+
+        /// <summary>
+        /// Starts OPC UA server.
+        /// </summary>
+        private async Task StartOpcServer()
+        {
+            await opcApp.Start(opcServer);
+            dsLog.WriteAction("OPC UA server started");
+
+            // print endpoint info
+            IEnumerable<string> endpointUrls = opcServer.GetEndpoints().Select(e => e.EndpointUrl).Distinct();
+            foreach (string endpointUrl in endpointUrls)
+            {
+                dsLog.WriteAction(endpointUrl);
+            }
+        }
+
+        /// <summary>
+        /// Stops and disposes OPC UA server.
+        /// </summary>
+        private void StopOpcServer()
+        {
+            opcServer.Stop();
+            dsLog.WriteAction("OPC UA server stopped");
+        }
+
+        /// <summary>
+        /// Validates the certificate.
+        /// </summary>
+        private void CertificateValidator_CertificateValidation(CertificateValidator sender, 
+            CertificateValidationEventArgs e)
+        {
+            if (e.Error.StatusCode == StatusCodes.BadCertificateUntrusted)
+            {
+                e.Accept = true;
+                dsLog.WriteAction("Accepted certificate: {0}", e.Certificate.Subject);
+            }
         }
 
 
@@ -51,6 +136,8 @@ namespace Scada.Comm.Drivers.DrvDsOpcUaServer.Logic
         /// </summary>
         public override void MakeReady()
         {
+            dsLog.WriteBreak();
+            PrepareOpcServer().Wait();
         }
 
         /// <summary>
@@ -58,6 +145,7 @@ namespace Scada.Comm.Drivers.DrvDsOpcUaServer.Logic
         /// </summary>
         public override void Start()
         {
+            StartOpcServer().Wait();
         }
 
         /// <summary>
@@ -65,6 +153,8 @@ namespace Scada.Comm.Drivers.DrvDsOpcUaServer.Logic
         /// </summary>
         public override void Close()
         {
+            StopOpcServer();
+            dsLog.WriteBreak();
         }
     }
 }
