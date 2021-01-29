@@ -118,7 +118,7 @@ namespace Scada.Server.Archives
 
 
         /// <summary>
-        /// Creates the archive log.
+        /// Creates a log file of the archive.
         /// </summary>
         protected ILog CreateLog(string moduleCode)
         {
