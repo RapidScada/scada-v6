@@ -25,6 +25,7 @@
 
 using Opc.Ua;
 using Opc.Ua.Server;
+using Scada.Log;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -37,13 +38,20 @@ namespace Scada.Comm.Drivers.DrvDsOpcUaServer.Logic
     /// </summary>
     internal class CustomServer : StandardServer
     {
+        private readonly ILog log;
+
+        public CustomServer(ILog log)
+        {
+            this.log = log ?? throw new ArgumentNullException(nameof(log));
+        }
+
         /// <summary>
         /// Creates the master node manager for the server.
         /// </summary>
         protected override MasterNodeManager CreateMasterNodeManager(IServerInternal server, ApplicationConfiguration configuration)
         {
             return new MasterNodeManager(server, configuration, null,
-                new INodeManager[] { new NodeManager(server, configuration) });
+                new INodeManager[] { new NodeManager(server, configuration, log) });
         }
     }
 }

@@ -25,6 +25,7 @@
 
 using Opc.Ua;
 using Opc.Ua.Configuration;
+using Opc.Ua.Server;
 using Scada.Comm.Config;
 using Scada.Comm.DataSources;
 using Scada.Log;
@@ -89,7 +90,8 @@ namespace Scada.Comm.Drivers.DrvDsOpcUaServer.Logic
             if (!opcConfig.SecurityConfiguration.AutoAcceptUntrustedCertificates)
                 opcConfig.CertificateValidator.CertificateValidation += CertificateValidator_CertificateValidation;
 
-            opcServer = new CustomServer();
+            // create server
+            opcServer = new CustomServer(dsLog);
         }
 
         /// <summary>
@@ -106,6 +108,16 @@ namespace Scada.Comm.Drivers.DrvDsOpcUaServer.Logic
             {
                 dsLog.WriteAction(endpointUrl);
             }
+
+            // add event handlers
+            ISessionManager sessionManager = opcServer.CurrentInstance.SessionManager;
+            sessionManager.SessionActivated += SessionManager_SessionEvent;
+            sessionManager.SessionClosing += SessionManager_SessionEvent;
+            sessionManager.SessionCreated += SessionManager_SessionEvent;
+
+            ISubscriptionManager subscriptionManager = opcServer.CurrentInstance.SubscriptionManager;
+            subscriptionManager.SubscriptionCreated += SubscriptionManager_SubscriptionEvent;
+            subscriptionManager.SubscriptionDeleted += SubscriptionManager_SubscriptionEvent;
         }
 
         /// <summary>
@@ -130,6 +142,21 @@ namespace Scada.Comm.Drivers.DrvDsOpcUaServer.Logic
             }
         }
 
+        /// <summary>
+        /// Logs the session event.
+        /// </summary>
+        private void SessionManager_SessionEvent(Session session, SessionEventReason reason)
+        {
+            dsLog.WriteAction("{0}: {1}", session.SessionDiagnostics.SessionName, reason);
+        }
+
+        /// <summary>
+        /// Logs the subscription event.
+        /// </summary>
+        private void SubscriptionManager_SubscriptionEvent(Subscription subscription, bool deleted)
+        {
+            dsLog.WriteAction("{0}: deleted = {1}", subscription.Id, deleted);
+        }
 
         /// <summary>
         /// Makes the data source ready for operating.
