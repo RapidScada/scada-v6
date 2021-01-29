@@ -1,5 +1,5 @@
 ﻿/*
- * Copyright 2020 Mikhail Shiryaev
+ * Copyright 2021 Mikhail Shiryaev
  * 
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -20,14 +20,16 @@
  * 
  * Author   : Mikhail Shiryaev
  * Created  : 2020
- * Modified : 2020
+ * Modified : 2021
  */
 
 using Scada.Comm.Config;
 using Scada.Comm.Devices;
 using Scada.Comm.Drivers;
 using Scada.Data.Models;
+using Scada.Log;
 using System;
+using System.IO;
 using System.Text;
 
 namespace Scada.Comm.DataSources
@@ -89,6 +91,18 @@ namespace Scada.Comm.DataSources
             }
         }
 
+
+        /// <summary>
+        /// Creates a log file of the data source.
+        /// </summary>
+        protected ILog CreateLog(string driverCode)
+        {
+            return new LogFile(LogFormat.Simple)
+            {
+                FileName = Path.Combine(CommContext.AppDirs.LogDir, driverCode + "_" + Code + ".log"),
+                Capacity = CommContext.AppConfig.GeneralOptions.MaxLogSize
+            };
+        }
 
         /// <summary>
         /// Makes the data source ready for operating.
