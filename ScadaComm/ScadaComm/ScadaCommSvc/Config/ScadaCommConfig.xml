@@ -30,7 +30,8 @@
       <Option name="DeviceFilter" value="" />
     </DataSource>
     <DataSource active="false" code="OpcUaServer" name="OPC UA Server" driver="DrvDsOpcUaServer">
-      <Option name="MyOption" value="0" />
+      <Option name="ConfigFileName" value="" />
+      <Option name="DeviceFilter" value="" />
     </DataSource>
   </DataSources>
   <Lines>
