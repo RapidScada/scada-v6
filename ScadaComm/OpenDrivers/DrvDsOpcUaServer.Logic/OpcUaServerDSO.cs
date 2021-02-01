@@ -16,28 +16,43 @@
  * 
  * Product  : Rapid SCADA
  * Module   : DrvDsOpcUaServer
- * Summary  : The class provides helper methods for the driver
+ * Summary  : Represents data source options
  * 
  * Author   : Mikhail Shiryaev
  * Created  : 2021
  * Modified : 2021
  */
 
+using Scada.Config;
+using System.Collections.Generic;
+
 namespace Scada.Comm.Drivers.DrvDsOpcUaServer.Logic
 {
     /// <summary>
-    /// The class provides helper methods for the driver.
-    /// <para>Класс, предоставляющий вспомогательные методы для драйвера.</para>
+    /// Represents data source options.
+    /// <para>Представляет параметры источника данных.</para>
     /// </summary>
-    internal static class DriverUtils
+    internal class OpcUaServerDSO
     {
         /// <summary>
-        /// The driver code.
+        /// Initializes a new instance of the class.
         /// </summary>
-        public const string DriverCode = "DrvDsOpcUaServer";
+        public OpcUaServerDSO(OptionList options)
+        {
+            ConfigFileName = options.GetValueAsString("ConfigFileName");
+            DeviceFilter = new List<int>();
+            DeviceFilter.AddRange(ScadaUtils.ParseRange(options.GetValueAsString("DeviceFilter"), true, true));
+        }
+
+
         /// <summary>
-        /// The default filename of the OPC UA server configuration.
+        /// Gets or sets the connection name.
         /// </summary>
-        public const string DefaultConfigFileName = DriverCode + ".xml";
+        public string ConfigFileName { get; set; }
+
+        /// <summary>
+        /// Gets the device IDs that filter data sent to the server.
+        /// </summary>
+        public List<int> DeviceFilter { get; private set; }
     }
 }

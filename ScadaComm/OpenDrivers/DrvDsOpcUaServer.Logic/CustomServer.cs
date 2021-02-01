@@ -27,8 +27,6 @@ using Opc.Ua;
 using Opc.Ua.Server;
 using Scada.Log;
 using System;
-using System.Collections.Generic;
-using System.Text;
 
 namespace Scada.Comm.Drivers.DrvDsOpcUaServer.Logic
 {
@@ -38,10 +36,17 @@ namespace Scada.Comm.Drivers.DrvDsOpcUaServer.Logic
     /// </summary>
     internal class CustomServer : StandardServer
     {
-        private readonly ILog log;
+        private readonly ICommContext commContext; // the application context
+        private readonly OpcUaServerDSO options;   // the data source options
+        private readonly ILog log;                 // the data source log
 
-        public CustomServer(ILog log)
+        /// <summary>
+        /// Initializes a new instance of the class.
+        /// </summary>
+        public CustomServer(ICommContext commContext, OpcUaServerDSO options, ILog log)
         {
+            this.commContext = commContext ?? throw new ArgumentNullException(nameof(commContext));
+            this.options = options ?? throw new ArgumentNullException(nameof(options));
             this.log = log ?? throw new ArgumentNullException(nameof(log));
         }
 
@@ -51,7 +56,7 @@ namespace Scada.Comm.Drivers.DrvDsOpcUaServer.Logic
         protected override MasterNodeManager CreateMasterNodeManager(IServerInternal server, ApplicationConfiguration configuration)
         {
             return new MasterNodeManager(server, configuration, null,
-                new INodeManager[] { new NodeManager(server, configuration, log) });
+                new INodeManager[] { new NodeManager(server, configuration, commContext, options, log) });
         }
     }
 }

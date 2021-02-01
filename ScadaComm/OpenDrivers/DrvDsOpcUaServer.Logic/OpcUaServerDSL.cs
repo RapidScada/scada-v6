@@ -44,7 +44,8 @@ namespace Scada.Comm.Drivers.DrvDsOpcUaServer.Logic
     /// </summary>
     internal class OpcUaServerDSL : DataSourceLogic
     {
-        private readonly ILog dsLog; // the data source log
+        private readonly OpcUaServerDSO options; // the data source options
+        private readonly ILog dsLog;             // the data source log
 
         private ApplicationInstance opcApp;
         private CustomServer opcServer;
@@ -56,6 +57,7 @@ namespace Scada.Comm.Drivers.DrvDsOpcUaServer.Logic
         public OpcUaServerDSL(ICommContext commContext, DataSourceConfig dataSourceConfig)
             : base(commContext, dataSourceConfig)
         {
+            options = new OpcUaServerDSO(dataSourceConfig.CustomOptions);
             dsLog = CreateLog(DriverUtils.DriverCode);
         }
 
@@ -65,6 +67,7 @@ namespace Scada.Comm.Drivers.DrvDsOpcUaServer.Logic
         /// </summary>
         private async Task PrepareOpcServer()
         {
+            // create OPC application instance
             opcApp = new ApplicationInstance
             {
                 ApplicationName = DataSourceConfig.Name,
@@ -73,8 +76,10 @@ namespace Scada.Comm.Drivers.DrvDsOpcUaServer.Logic
             };
 
             // load the application configuration
-            string configFileName = Path.Combine(CommContext.AppDirs.ConfigDir, DriverUtils.DriverCode + ".xml");
-            ApplicationConfiguration opcConfig = await opcApp.LoadApplicationConfiguration(configFileName, false);
+            string configFileName = string.IsNullOrEmpty(options.ConfigFileName) ? 
+                DriverUtils.DefaultConfigFileName : options.ConfigFileName;
+            string configFilePath = Path.Combine(CommContext.AppDirs.ConfigDir, configFileName);
+            ApplicationConfiguration opcConfig = await opcApp.LoadApplicationConfiguration(configFilePath, false);
 
             // check the application certificate
             bool haveAppCertificate = await opcApp.CheckApplicationInstanceCertificate(false, 
@@ -90,7 +95,7 @@ namespace Scada.Comm.Drivers.DrvDsOpcUaServer.Logic
             if (!opcConfig.SecurityConfiguration.AutoAcceptUntrustedCertificates)
                 opcConfig.CertificateValidator.CertificateValidation += CertificateValidator_CertificateValidation;
 
-            // create server
+            // create OPC server
             opcServer = new CustomServer(dsLog);
         }
 
@@ -100,14 +105,26 @@ namespace Scada.Comm.Drivers.DrvDsOpcUaServer.Logic
         private async Task StartOpcServer()
         {
             await opcApp.Start(opcServer);
-            dsLog.WriteAction("OPC UA server started");
 
-            // print endpoint info
-            IEnumerable<string> endpointUrls = opcServer.GetEndpoints().Select(e => e.EndpointUrl).Distinct();
-            foreach (string endpointUrl in endpointUrls)
+            StringBuilder sbStartInfo = new StringBuilder("OPC UA server started. ");
+            EndpointDescriptionCollection endpoints = opcServer.GetEndpoints();
+
+            if (endpoints.Count > 0)
             {
-                dsLog.WriteAction(endpointUrl);
+                // print endpoint info
+                sbStartInfo.AppendLine("Endpoints:");
+
+                foreach (string endpointUrl in endpoints.Select(e => e.EndpointUrl).Distinct())
+                {
+                    sbStartInfo.Append("    ").AppendLine(endpointUrl);
+                }
             }
+            else
+            {
+                sbStartInfo.AppendLine("No endpoints");
+            }
+
+            dsLog.WriteAction(sbStartInfo.ToString());
 
             // add event handlers
             ISessionManager sessionManager = opcServer.CurrentInstance.SessionManager;
@@ -157,6 +174,7 @@ namespace Scada.Comm.Drivers.DrvDsOpcUaServer.Logic
         {
             dsLog.WriteAction("{0}: deleted = {1}", subscription.Id, deleted);
         }
+
 
         /// <summary>
         /// Makes the data source ready for operating.

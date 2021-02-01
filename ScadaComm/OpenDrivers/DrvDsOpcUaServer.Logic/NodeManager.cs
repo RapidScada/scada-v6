@@ -43,7 +43,9 @@ namespace Scada.Comm.Drivers.DrvDsOpcUaServer.Logic
         /// </summary>
         private const string NamespaceUri = "http://rapidscada.org/RapidScada/DrvDsOpcUaServer";
 
-        private readonly ILog log;
+        private readonly ICommContext commContext; // the application context
+        private readonly OpcUaServerDSO options;   // the data source options
+        private readonly ILog log; // the data source log
 
         private List<BaseDataVariableState> variables;
         private Random random = new Random();
@@ -53,9 +55,12 @@ namespace Scada.Comm.Drivers.DrvDsOpcUaServer.Logic
         /// <summary>
         /// Initializes a new instance of the class.
         /// </summary>
-        public NodeManager(IServerInternal server, ApplicationConfiguration configuration, ILog log)
+        public NodeManager(IServerInternal server, ApplicationConfiguration configuration,
+            ICommContext commContext, OpcUaServerDSO options, ILog log)
             : base(server, configuration, NamespaceUri)
         {
+            this.commContext = commContext ?? throw new ArgumentNullException(nameof(commContext));
+            this.options = options ?? throw new ArgumentNullException(nameof(options));
             this.log = log ?? throw new ArgumentNullException(nameof(log));
         }
 
