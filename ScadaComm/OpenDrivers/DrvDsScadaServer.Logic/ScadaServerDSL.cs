@@ -334,7 +334,7 @@ namespace Scada.Comm.Drivers.DrvDsScadaServer.Logic
                     {
                         deviceEvent.CnlNum = deviceEvent.DeviceTag.InCnl.CnlNum;
                         scadaClient.WriteEvent(deviceEvent, deviceEvent.ArchiveMask);
-                        CallDataSent(deviceEvent);
+                        CallEventSent(deviceEvent);
                     }
                     catch (Exception ex)
                     {
@@ -421,7 +421,7 @@ namespace Scada.Comm.Drivers.DrvDsScadaServer.Logic
         {
             try
             {
-                deviceSlice.DataSentCallback?.Invoke(deviceSlice);
+                deviceSlice.DataSentCallback?.Invoke(Code, deviceSlice);
             }
             catch (Exception ex)
             {
@@ -434,17 +434,17 @@ namespace Scada.Comm.Drivers.DrvDsScadaServer.Logic
         /// <summary>
         /// Calls the DataSentCallback method of the device event.
         /// </summary>
-        private void CallDataSent(DeviceEvent deviceEvent)
+        private void CallEventSent(DeviceEvent deviceEvent)
         {
             try
             {
-                deviceEvent.DataSentCallback?.Invoke(deviceEvent);
+                deviceEvent.EventSentCallback?.Invoke(Code, deviceEvent);
             }
             catch (Exception ex)
             {
                 log.WriteException(ex, CommPhrases.DataSourceMessage, Code, Locale.IsRussian ?
-                    "Ошибка при вызове метода события DataSentCallback" :
-                    "Error calling the DataSentCallback method of the event");
+                    "Ошибка при вызове метода события EventSentCallback" :
+                    "Error calling the EventSentCallback method of the event");
             }
         }
 
@@ -455,7 +455,7 @@ namespace Scada.Comm.Drivers.DrvDsScadaServer.Logic
         {
             try
             {
-                deviceSlice.FailedToSendCallback?.Invoke(deviceSlice);
+                deviceSlice.FailedToSendCallback?.Invoke(Code, deviceSlice);
             }
             catch (Exception ex)
             {
@@ -472,7 +472,7 @@ namespace Scada.Comm.Drivers.DrvDsScadaServer.Logic
         {
             try
             {
-                deviceEvent.FailedToSendCallback?.Invoke(deviceEvent);
+                deviceEvent.FailedToSendCallback?.Invoke(Code, deviceEvent);
             }
             catch (Exception ex)
             {
