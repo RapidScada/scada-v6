@@ -48,6 +48,8 @@ namespace Scada.Comm.Drivers.DrvDsOpcUaServer.Logic
             this.commContext = commContext ?? throw new ArgumentNullException(nameof(commContext));
             this.options = options ?? throw new ArgumentNullException(nameof(options));
             this.log = log ?? throw new ArgumentNullException(nameof(log));
+            
+            NodeManager = null;
         }
 
         /// <summary>

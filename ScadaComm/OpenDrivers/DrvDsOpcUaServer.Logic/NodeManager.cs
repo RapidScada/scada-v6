@@ -228,6 +228,18 @@ namespace Scada.Comm.Drivers.DrvDsOpcUaServer.Logic
             }
         }
 
+
+
+        /// <summary>
+        /// Writes the slice of the current data.
+        /// </summary>
+        public void WriteCurrentData(DeviceSlice deviceSlice)
+        {
+            if (deviceSlice == null)
+                throw new ArgumentNullException(nameof(deviceSlice));
+
+        }
+
         /// <summary>
         /// Does any initialization required before the address space can be used.
         /// </summary>

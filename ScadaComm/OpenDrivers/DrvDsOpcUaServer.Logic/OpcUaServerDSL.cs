@@ -141,8 +141,11 @@ namespace Scada.Comm.Drivers.DrvDsOpcUaServer.Logic
         /// </summary>
         private void StopOpcServer()
         {
-            opcServer.Stop();
-            dsLog.WriteAction("OPC UA server stopped");
+            if (opcServer != null)
+            {
+                opcServer.Stop();
+                dsLog.WriteAction("OPC UA server stopped");
+            }
         }
 
         /// <summary>
@@ -214,6 +217,7 @@ namespace Scada.Comm.Drivers.DrvDsOpcUaServer.Logic
         /// </summary>
         public override void WriteCurrentData(DeviceSlice deviceSlice)
         {
+            opcServer?.NodeManager?.WriteCurrentData(deviceSlice);
         }
     }
 }
