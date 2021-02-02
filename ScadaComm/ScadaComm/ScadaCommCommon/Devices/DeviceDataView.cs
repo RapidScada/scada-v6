@@ -1,5 +1,5 @@
 ﻿/*
- * Copyright 2020 Mikhail Shiryaev
+ * Copyright 2021 Mikhail Shiryaev
  * 
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -20,7 +20,7 @@
  * 
  * Author   : Mikhail Shiryaev
  * Created  : 2020
- * Modified : 2020
+ * Modified : 2021
  */
 
 using Scada.Data.Models;
@@ -346,13 +346,12 @@ namespace Scada.Comm.Devices
 
             // calculate row count
             int rowCount = 1;
-            bool flattenGroups = deviceTags.TagGroups.Count == 1 && string.IsNullOrEmpty(deviceTags.TagGroups[0].Name);
 
             foreach (TagGroup tagGroup in deviceTags.TagGroups)
             {
                 if (!tagGroup.Hidden)
                 {
-                    if (!flattenGroups)
+                    if (!deviceTags.FlattenGroups)
                         rowCount++;
 
                     foreach (DeviceTag deviceTag in tagGroup.DeviceTags)
@@ -406,7 +405,7 @@ namespace Scada.Comm.Devices
                     }
                     else
                     {
-                        if (!flattenGroups)
+                        if (!deviceTags.FlattenGroups)
                         {
                             Row row = curDataTable.Rows[rowIndex++];
                             row.IsSubheader = true;
