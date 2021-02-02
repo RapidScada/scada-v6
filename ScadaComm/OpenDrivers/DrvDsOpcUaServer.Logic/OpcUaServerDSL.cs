@@ -28,6 +28,7 @@ using Opc.Ua.Configuration;
 using Opc.Ua.Server;
 using Scada.Comm.Config;
 using Scada.Comm.DataSources;
+using Scada.Comm.Devices;
 using Scada.Log;
 using System;
 using System.Collections.Generic;
@@ -96,7 +97,7 @@ namespace Scada.Comm.Drivers.DrvDsOpcUaServer.Logic
                 opcConfig.CertificateValidator.CertificateValidation += CertificateValidator_CertificateValidation;
 
             // create OPC server
-            opcServer = new CustomServer(dsLog);
+            opcServer = new CustomServer(CommContext, options, dsLog);
         }
 
         /// <summary>
@@ -106,22 +107,20 @@ namespace Scada.Comm.Drivers.DrvDsOpcUaServer.Logic
         {
             await opcApp.Start(opcServer);
 
-            StringBuilder sbStartInfo = new StringBuilder("OPC UA server started. ");
+            StringBuilder sbStartInfo = new StringBuilder("OPC UA server started");
             EndpointDescriptionCollection endpoints = opcServer.GetEndpoints();
 
             if (endpoints.Count > 0)
             {
                 // print endpoint info
-                sbStartInfo.AppendLine("Endpoints:");
-
                 foreach (string endpointUrl in endpoints.Select(e => e.EndpointUrl).Distinct())
                 {
-                    sbStartInfo.Append("    ").AppendLine(endpointUrl);
+                    sbStartInfo.AppendLine().Append("    ").Append(endpointUrl);
                 }
             }
             else
             {
-                sbStartInfo.AppendLine("No endpoints");
+                sbStartInfo.AppendLine().Append("    No endpoints");
             }
 
             dsLog.WriteAction(sbStartInfo.ToString());
@@ -190,7 +189,15 @@ namespace Scada.Comm.Drivers.DrvDsOpcUaServer.Logic
         /// </summary>
         public override void Start()
         {
-            StartOpcServer().Wait();
+            try
+            {
+                StartOpcServer().Wait();
+            }
+            catch
+            {
+                IsReady = false;
+                throw;
+            }
         }
 
         /// <summary>
@@ -200,6 +207,13 @@ namespace Scada.Comm.Drivers.DrvDsOpcUaServer.Logic
         {
             StopOpcServer();
             dsLog.WriteBreak();
+        }
+
+        /// <summary>
+        /// Writes the slice of the current data.
+        /// </summary>
+        public override void WriteCurrentData(DeviceSlice deviceSlice)
+        {
         }
     }
 }

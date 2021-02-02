@@ -25,6 +25,7 @@
 
 using Opc.Ua;
 using Opc.Ua.Server;
+using Scada.Comm.Devices;
 using Scada.Log;
 using System;
 using System.Collections.Generic;
@@ -42,14 +43,18 @@ namespace Scada.Comm.Drivers.DrvDsOpcUaServer.Logic
         /// The namespace for the nodes provided by the server.
         /// </summary>
         private const string NamespaceUri = "http://rapidscada.org/RapidScada/DrvDsOpcUaServer";
+        /// <summary>
+        /// The name of the root folder of the OPC server nodes.
+        /// </summary>
+        private const string RootFolderName = "Communicator";
 
-        private readonly ICommContext commContext; // the application context
-        private readonly OpcUaServerDSO options;   // the data source options
-        private readonly ILog log; // the data source log
+        private readonly ICommContext commContext;  // the application context
+        private readonly OpcUaServerDSO options;    // the data source options
+        private readonly HashSet<int> deviceFilter; // the device IDs to filter data
+        private readonly ILog log;                  // the data source log
 
         private List<BaseDataVariableState> variables;
-        private Random random = new Random();
-        private Timer timer;
+        private readonly Random random = new Random();
 
 
         /// <summary>
@@ -61,6 +66,7 @@ namespace Scada.Comm.Drivers.DrvDsOpcUaServer.Logic
         {
             this.commContext = commContext ?? throw new ArgumentNullException(nameof(commContext));
             this.options = options ?? throw new ArgumentNullException(nameof(options));
+            deviceFilter = options.DeviceFilter.Count > 0 ? new HashSet<int>(options.DeviceFilter) : null;
             this.log = log ?? throw new ArgumentNullException(nameof(log));
         }
 
@@ -68,8 +74,10 @@ namespace Scada.Comm.Drivers.DrvDsOpcUaServer.Logic
         /// <summary>
         /// Creates a new folder.
         /// </summary>
-        private FolderState CreateFolder(NodeState parent, string path, string name)
+        private FolderState CreateFolder(NodeState parent, string name, string displayName)
         {
+            string path = name;
+
             FolderState folder = new FolderState(parent)
             {
                 SymbolicName = name,
@@ -77,7 +85,7 @@ namespace Scada.Comm.Drivers.DrvDsOpcUaServer.Logic
                 TypeDefinitionId = ObjectTypeIds.FolderType,
                 NodeId = new NodeId(path, NamespaceIndex),
                 BrowseName = new QualifiedName(path, NamespaceIndex),
-                DisplayName = new LocalizedText("en", name),
+                DisplayName = new LocalizedText(displayName),
                 WriteMask = AttributeWriteMask.None,
                 UserWriteMask = AttributeWriteMask.None,
                 EventNotifier = EventNotifiers.None
@@ -90,7 +98,8 @@ namespace Scada.Comm.Drivers.DrvDsOpcUaServer.Logic
         /// <summary>
         /// Creates a new variable.
         /// </summary>
-        private BaseDataVariableState CreateVariable(NodeState parent, string path, string name, NodeId dataType, int valueRank)
+        private BaseDataVariableState CreateVariable(NodeState parent, string path, string name, string displayName, 
+            NodeId dataType, int valueRank)
         {
             BaseDataVariableState variable = new BaseDataVariableState(parent)
             {
@@ -99,7 +108,7 @@ namespace Scada.Comm.Drivers.DrvDsOpcUaServer.Logic
                 TypeDefinitionId = VariableTypeIds.BaseDataVariableType,
                 NodeId = new NodeId(path, NamespaceIndex),
                 BrowseName = new QualifiedName(path, NamespaceIndex),
-                DisplayName = new LocalizedText("en", name),
+                DisplayName = new LocalizedText(displayName),
                 WriteMask = AttributeWriteMask.DisplayName | AttributeWriteMask.Description,
                 UserWriteMask = AttributeWriteMask.DisplayName | AttributeWriteMask.Description,
                 DataType = dataType,
@@ -134,6 +143,81 @@ namespace Scada.Comm.Drivers.DrvDsOpcUaServer.Logic
             return 0.0;
         }
 
+        /// <summary>
+        /// Creates OPC server child nodes.
+        /// </summary>
+        private void CreateChildNodes(FolderState rootFolder)
+        {
+            foreach (ILineContext lineContext in commContext.GetCommLines())
+            {
+                List<DeviceLogic> devices = new List<DeviceLogic>();
+                devices.AddRange(deviceFilter == null ? 
+                    lineContext.SelectDevices() :
+                    lineContext.SelectDevices(d => deviceFilter.Contains(d.DeviceNum)));
+
+                if (devices.Count > 0)
+                {
+                    FolderState lineFolder = CreateFolder(rootFolder,
+                        CommUtils.GetLineLogFileName(lineContext.CommLineNum, ""), lineContext.Title);
+
+                    foreach (DeviceLogic deviceLogic in devices)
+                    {
+                        FolderState deviceFolder = CreateFolder(lineFolder,
+                            CommUtils.GetDeviceLogFileName(deviceLogic.DeviceNum, ""), deviceLogic.Title);
+
+                        if (deviceLogic.DeviceTags.FlattenGroups)
+                        {
+                            foreach (TagGroup tagGroup in deviceLogic.DeviceTags.TagGroups)
+                            {
+                                CreateDeviceTagNodes(deviceFolder, deviceLogic, tagGroup);
+                            }
+                        }
+                        else
+                        {
+                            int groupNum = 1;
+
+                            foreach (TagGroup tagGroup in deviceLogic.DeviceTags.TagGroups)
+                            {
+                                FolderState groupFolder = CreateFolder(deviceFolder, 
+                                    "group" + groupNum.ToString("D3"), tagGroup.Name);
+                                CreateDeviceTagNodes(groupFolder, deviceLogic, tagGroup);
+                                groupNum++;
+                            }
+                        }
+                    }
+                }
+            }
+        }
+
+        /// <summary>
+        /// Creates OPC server nodes that correspond to device tags.
+        /// </summary>
+        private void CreateDeviceTagNodes(FolderState folder, DeviceLogic deviceLogic, TagGroup tagGroup)
+        {
+            variables = new List<BaseDataVariableState>();
+            string pathPrefix = CommUtils.GetDeviceLogFileName(deviceLogic.DeviceNum, ".");
+
+            foreach (DeviceTag deviceTag in tagGroup.DeviceTags)
+            {
+                if (!string.IsNullOrEmpty(deviceTag.Code))
+                {
+                    variables.Add(CreateVariable(folder, pathPrefix + deviceTag.Code, deviceTag.Code, deviceTag.Name,
+                        DataTypeIds.Double, ValueRanks.Scalar));
+                }
+            }
+
+            variables.ForEach(v => v.OnSimpleWriteValue = OnSimpleWriteValue);
+        }
+
+        /// <summary>
+        /// Raised when the Value attribute is written.
+        /// </summary>
+        private ServiceResult OnSimpleWriteValue(ISystemContext context, NodeState node, ref object value)
+        {
+            log.WriteAction("SimpleWriteValue {0} = {1}", node.NodeId, value?.ToString() ?? "");
+            return ServiceResult.Good;
+        }
+
         private void DoSimulation(object state)
         {
             foreach (BaseDataVariableState variable in variables)
@@ -149,53 +233,41 @@ namespace Scada.Comm.Drivers.DrvDsOpcUaServer.Logic
         /// </summary>
         public override void CreateAddressSpace(IDictionary<NodeId, IList<IReference>> externalReferences)
         {
-            // create the root folder
-            if (!externalReferences.TryGetValue(ObjectIds.ObjectsFolder, out IList<IReference> references))
+            try
             {
-                references = new List<IReference>();
-                externalReferences[ObjectIds.ObjectsFolder] = references;
+                // create the root folder
+                if (!externalReferences.TryGetValue(ObjectIds.ObjectsFolder, out IList<IReference> references))
+                {
+                    references = new List<IReference>();
+                    externalReferences[ObjectIds.ObjectsFolder] = references;
+                }
+
+                FolderState rootFolder = CreateFolder(null, RootFolderName, RootFolderName);
+                rootFolder.AddReference(ReferenceTypes.Organizes, true, ObjectIds.ObjectsFolder);
+                references.Add(new NodeStateReference(ReferenceTypes.Organizes, false, rootFolder.NodeId));
+                rootFolder.EventNotifier = EventNotifiers.SubscribeToEvents;
+                AddRootNotifier(rootFolder);
+
+                // create child nodes
+                CreateChildNodes(rootFolder);
+
+                // recursively index the node
+                AddPredefinedNode(SystemContext, rootFolder);
             }
-
-            FolderState rootFolder = CreateFolder(null, "Communicator", "Communicator");
-            rootFolder.AddReference(ReferenceTypes.Organizes, true, ObjectIds.ObjectsFolder);
-            references.Add(new NodeStateReference(ReferenceTypes.Organizes, false, rootFolder.NodeId));
-            rootFolder.EventNotifier = EventNotifiers.SubscribeToEvents;
-            AddRootNotifier(rootFolder);
-
-            // create subfolders and variables
-            FolderState lineFolder = CreateFolder(rootFolder, "Line001", "Line001");
-            FolderState deviceFolder = CreateFolder(lineFolder, "Device001", "Device001");
-
-            variables = new List<BaseDataVariableState>();
-            string pathPrefix = "Device001_";
-            variables.Add(CreateVariable(deviceFolder, pathPrefix + "Var1", "Var1", DataTypeIds.Double, ValueRanks.Scalar));
-            variables.Add(CreateVariable(deviceFolder, pathPrefix + "Var2", "Var2", DataTypeIds.Double, ValueRanks.Scalar));            
-
-            foreach (BaseDataVariableState variable in variables)
+            catch (Exception ex)
             {
-                /*variable.OnWriteValue = (ISystemContext context, NodeState node, NumericRange indexRange, QualifiedName dataEncoding, 
-                    ref object value, ref StatusCode statusCode, ref DateTime timestamp) =>
-                {
-                    return ServiceResult.Good;
-                };*/
-
-                variable.OnSimpleWriteValue = (ISystemContext context, NodeState node, ref object value) =>
-                {
-                    log.WriteAction("SimpleWriteValue {0} = {1}", node.NodeId, value?.ToString() ?? "");
-                    return ServiceResult.Good;
-                };
+                log.WriteException(ex, Locale.IsRussian ?
+                    "Ошибка при создании адресного пространства" :
+                    "Error creating address space");
+                throw;
             }
-
-            // recursively index the node
-            AddPredefinedNode(SystemContext, rootFolder);
-
-            // simulate values
-            timer = new Timer(DoSimulation, null, 1000, 1000);
         }
 
+        /// <summary>
+        /// Frees any resources allocated for the address space.
+        /// </summary>
         public override void DeleteAddressSpace()
         {
-            timer.Dispose();
             base.DeleteAddressSpace();
         }
     }

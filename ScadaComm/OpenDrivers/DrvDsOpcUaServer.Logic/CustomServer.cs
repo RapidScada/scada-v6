@@ -51,12 +51,17 @@ namespace Scada.Comm.Drivers.DrvDsOpcUaServer.Logic
         }
 
         /// <summary>
+        /// Gets the node manager.
+        /// </summary>
+        public NodeManager NodeManager { get; private set; }
+
+        /// <summary>
         /// Creates the master node manager for the server.
         /// </summary>
         protected override MasterNodeManager CreateMasterNodeManager(IServerInternal server, ApplicationConfiguration configuration)
         {
-            return new MasterNodeManager(server, configuration, null,
-                new INodeManager[] { new NodeManager(server, configuration, commContext, options, log) });
+            NodeManager = new NodeManager(server, configuration, commContext, options, log);
+            return new MasterNodeManager(server, configuration, null, new INodeManager[] { NodeManager });
         }
     }
 }
