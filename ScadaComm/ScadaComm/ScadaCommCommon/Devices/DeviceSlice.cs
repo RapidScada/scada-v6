@@ -1,5 +1,5 @@
 ﻿/*
- * Copyright 2020 Mikhail Shiryaev
+ * Copyright 2021 Mikhail Shiryaev
  * 
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -20,7 +20,7 @@
  * 
  * Author   : Mikhail Shiryaev
  * Created  : 2020
- * Modified : 2020
+ * Modified : 2021
  */
 
 using Scada.Data.Models;
@@ -34,6 +34,12 @@ namespace Scada.Comm.Devices
     /// </summary>
     public class DeviceSlice
     {
+        /// <summary>
+        /// Represents a method that executes when a slice is sent successfully or unsuccessfully.
+        /// </summary>
+        public delegate void DataSentDelegate(string dataSourceCode, DeviceSlice deviceSlice);
+
+
         /// <summary>
         /// Initializes a new instance of the class.
         /// </summary>
@@ -83,11 +89,11 @@ namespace Scada.Comm.Devices
         /// <summary>
         /// Gets or sets the method that is executed when the slice is successfully sent.
         /// </summary>
-        public Action<DeviceSlice> DataSentCallback { get; set; }
+        public DataSentDelegate DataSentCallback { get; set; }
 
         /// <summary>
         /// Gets or sets the method that is executed when the slice could not be sent.
         /// </summary>
-        public Action<DeviceSlice> FailedToSendCallback { get; set; }
+        public DataSentDelegate FailedToSendCallback { get; set; }
     }
 }

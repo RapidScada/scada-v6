@@ -1,5 +1,5 @@
 ﻿/*
- * Copyright 2020 Mikhail Shiryaev
+ * Copyright 2021 Mikhail Shiryaev
  * 
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -20,7 +20,7 @@
  * 
  * Author   : Mikhail Shiryaev
  * Created  : 2020
- * Modified : 2020
+ * Modified : 2021
  */
 
 using Scada.Data.Models;
@@ -34,6 +34,12 @@ namespace Scada.Comm.Devices
     /// </summary>
     public class DeviceEvent : Event
     {
+        /// <summary>
+        /// Represents a method that executes when an event is sent successfully or unsuccessfully.
+        /// </summary>
+        public delegate void EventSentDelegate(string dataSourceCode, DeviceEvent deviceEvent);
+
+
         /// <summary>
         /// Initializes a new instance of the class.
         /// </summary>
@@ -51,7 +57,7 @@ namespace Scada.Comm.Devices
             DeviceTag = deviceTag;
             ArchiveMask = Scada.Data.Models.ArchiveMask.Default;
             Descr = "";
-            DataSentCallback = null;
+            EventSentCallback = null;
             FailedToSendCallback = null;
         }
 
@@ -74,11 +80,11 @@ namespace Scada.Comm.Devices
         /// <summary>
         /// Gets or sets the method that is executed when the event is successfully sent.
         /// </summary>
-        public Action<DeviceEvent> DataSentCallback { get; set; }
+        public EventSentDelegate EventSentCallback { get; set; }
 
         /// <summary>
         /// Gets or sets the method that is executed when the event could not be sent.
         /// </summary>
-        public Action<DeviceEvent> FailedToSendCallback { get; set; }
+        public EventSentDelegate FailedToSendCallback { get; set; }
     }
 }

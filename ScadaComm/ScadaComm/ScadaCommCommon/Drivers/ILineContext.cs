@@ -1,5 +1,5 @@
 ﻿/*
- * Copyright 2020 Mikhail Shiryaev
+ * Copyright 2021 Mikhail Shiryaev
  * 
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -20,7 +20,7 @@
  * 
  * Author   : Mikhail Shiryaev
  * Created  : 2020
- * Modified : 2020
+ * Modified : 2021
  */
 
 using Scada.Comm.Config;
@@ -47,6 +47,11 @@ namespace Scada.Comm.Drivers
         /// Gets the communication line number.
         /// </summary>
         int CommLineNum { get; }
+
+        /// <summary>
+        /// Gets the communication line title.
+        /// </summary>
+        string Title { get; }
 
         /// <summary>
         /// Gets the communication line log.

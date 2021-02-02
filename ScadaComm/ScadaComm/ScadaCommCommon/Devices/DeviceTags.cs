@@ -1,5 +1,5 @@
 ﻿/*
- * Copyright 2020 Mikhail Shiryaev
+ * Copyright 2021 Mikhail Shiryaev
  * 
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -20,7 +20,7 @@
  * 
  * Author   : Mikhail Shiryaev
  * Created  : 2020
- * Modified : 2020
+ * Modified : 2021
  */
 
 using System.Collections;
@@ -46,6 +46,7 @@ namespace Scada.Comm.Devices
             deviceTags = new List<DeviceTag>();
             tagByCode = new Dictionary<string, DeviceTag>();
             TagGroups = new List<TagGroup>();
+            FlattenGroups = false;
             StatusTag = null;
         }
 
@@ -54,6 +55,11 @@ namespace Scada.Comm.Devices
         /// Gets the tag groups.
         /// </summary>
         public List<TagGroup> TagGroups { get; }
+
+        /// <summary>
+        /// Gets or sets a value indicating whether to flatten the tag groups for display.
+        /// </summary>
+        public bool FlattenGroups { get; set; }
 
         /// <summary>
         /// Gets the device tag at the specified index, or throws an exception if the specified index is out of range.
@@ -117,7 +123,7 @@ namespace Scada.Comm.Devices
         /// </summary>
         public void AddStatusTag()
         {
-            TagGroup tagGroup = new TagGroup { Hidden = true };
+            TagGroup tagGroup = new TagGroup(CommUtils.StatusTagCode) { Hidden = true };
             StatusTag = tagGroup.AddTag(CommUtils.StatusTagCode, CommUtils.StatusTagCode);
             AddGroup(tagGroup);
         }
