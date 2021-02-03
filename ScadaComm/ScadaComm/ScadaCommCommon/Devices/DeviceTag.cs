@@ -1,5 +1,5 @@
 ﻿/*
- * Copyright 2020 Mikhail Shiryaev
+ * Copyright 2021 Mikhail Shiryaev
  * 
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -20,7 +20,7 @@
  * 
  * Author   : Mikhail Shiryaev
  * Created  : 2020
- * Modified : 2020
+ * Modified : 2021
  */
 
 using Scada.Data.Entities;
@@ -107,18 +107,18 @@ namespace Scada.Comm.Devices
         }
 
         /// <summary>
-        /// Gets a value indicating whether to expand displayed data of the tag.
+        /// Gets a value indicating whether the tag is a numeric array.
         /// </summary>
-        public bool ExpandData
+        public bool IsArray
         {
             get
             {
-                return DataLength > 1 && (DataType == TagDataType.Double || DataType == TagDataType.Int64);
+                return DataLen > 1 && (DataType == TagDataType.Double || DataType == TagDataType.Int64);
             }
         }
 
         /// <summary>
-        /// Gets or sets the starting index of the raw tag data.
+        /// Gets or sets the starting index of the raw tag data within a DeviceData instance.
         /// </summary>
         public int DataIndex { get; set; }
 

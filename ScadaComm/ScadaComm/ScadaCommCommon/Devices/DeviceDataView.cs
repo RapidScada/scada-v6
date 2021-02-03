@@ -358,7 +358,7 @@ namespace Scada.Comm.Devices
                     {
                         rowCount++;
 
-                        if (deviceTag.ExpandData)
+                        if (deviceTag.IsArray)
                             rowCount += deviceTag.DataLength;
                     }
                 }
@@ -429,7 +429,7 @@ namespace Scada.Comm.Devices
                                     cnlNum + "-" + (cnlNum + dataLen - 1) : cnlNum.ToString();
                             }
 
-                            if (deviceTag.ExpandData)
+                            if (deviceTag.IsArray)
                             {
                                 for (int i = 0, lastIdx = dataLen - 1; i < lastIdx; i++)
                                 {
