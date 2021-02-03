@@ -394,6 +394,7 @@ namespace Scada.Comm.Drivers.DrvDsScadaServer.Logic
                     {
                         if (deviceTag.InCnl != null)
                         {
+                            // TODO: bug, deviceTag.DataIndex is inapropriate here
                             int tagDataLength = deviceTag.DataLength;
                             Array.Copy(srcSlice.CnlData, deviceTag.DataIndex, destCnlData, dataIndex, tagDataLength);
                             dataIndex += tagDataLength;

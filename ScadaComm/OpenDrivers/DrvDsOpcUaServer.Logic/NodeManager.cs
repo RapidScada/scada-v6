@@ -26,6 +26,7 @@
 using Opc.Ua;
 using Opc.Ua.Server;
 using Scada.Comm.Devices;
+using Scada.Data.Models;
 using Scada.Log;
 using System;
 using System.Collections.Generic;
@@ -40,6 +41,23 @@ namespace Scada.Comm.Drivers.DrvDsOpcUaServer.Logic
     internal class NodeManager : CustomNodeManager2
     {
         /// <summary>
+        /// Represents information associated with a variable.
+        /// </summary>
+        private class VarItem
+        {
+            public BaseDataVariableState Variable { get; set; }
+            public DeviceTag DeviceTag { get; set; }
+        }
+
+        /// <summary>
+        /// Represents a dictionary that stores device variables.
+        /// </summary>
+        private class DeviceVars : Dictionary<string, VarItem>
+        {
+        }
+
+
+        /// <summary>
         /// The namespace for the nodes provided by the server.
         /// </summary>
         private const string NamespaceUri = "http://rapidscada.org/RapidScada/DrvDsOpcUaServer";
@@ -48,13 +66,12 @@ namespace Scada.Comm.Drivers.DrvDsOpcUaServer.Logic
         /// </summary>
         private const string RootFolderName = "Communicator";
 
-        private readonly ICommContext commContext;  // the application context
-        private readonly OpcUaServerDSO options;    // the data source options
-        private readonly HashSet<int> deviceFilter; // the device IDs to filter data
-        private readonly ILog log;                  // the data source log
+        private readonly ICommContext commContext;   // the application context
+        private readonly HashSet<int> deviceFilter;  // the device IDs to filter data
+        private readonly ILog log;                   // the data source log
+        private readonly object dataLock;            // syncronizes access to variable data
 
-        private List<BaseDataVariableState> variables;
-        private readonly Random random = new Random();
+        private Dictionary<int, DeviceVars> devices; // the device variables accessed by device number
 
 
         /// <summary>
@@ -64,10 +81,15 @@ namespace Scada.Comm.Drivers.DrvDsOpcUaServer.Logic
             ICommContext commContext, OpcUaServerDSO options, ILog log)
             : base(server, configuration, NamespaceUri)
         {
+            if (options == null)
+                throw new ArgumentNullException(nameof(options));
+
             this.commContext = commContext ?? throw new ArgumentNullException(nameof(commContext));
-            this.options = options ?? throw new ArgumentNullException(nameof(options));
             deviceFilter = options.DeviceFilter.Count > 0 ? new HashSet<int>(options.DeviceFilter) : null;
             this.log = log ?? throw new ArgumentNullException(nameof(log));
+            dataLock = new object();
+
+            devices = null;
         }
 
 
@@ -96,10 +118,43 @@ namespace Scada.Comm.Drivers.DrvDsOpcUaServer.Logic
         }
 
         /// <summary>
+        /// Creates a new variable according to the device tag.
+        /// </summary>
+        private BaseDataVariableState CreateVariable(NodeState parent, string pathPrefix, DeviceTag deviceTag)
+        {
+            NodeId opcDataType = DataTypeIds.Double;
+            object defaultValue = 0.0;
+            bool isArray = deviceTag.IsArray;
+
+            switch (deviceTag.DataType)
+            {
+                case TagDataType.Double:
+                    defaultValue = isArray ? (object)new double[deviceTag.DataLength] : 0.0;
+                    break;
+
+                case TagDataType.Int64:
+                    opcDataType = DataTypeIds.Int64;
+                    defaultValue = isArray ? (object)new long[deviceTag.DataLength] : (long)0;
+                    break;
+
+                case TagDataType.ASCII:
+                case TagDataType.Unicode:
+                    opcDataType = DataTypeIds.String;
+                    defaultValue = "";
+                    break;
+            }
+
+            BaseDataVariableState variable = CreateVariable(parent, 
+                pathPrefix + deviceTag.Code, deviceTag.Code, deviceTag.Name, opcDataType, isArray);
+            variable.Value = defaultValue;
+            return variable;
+        }
+
+        /// <summary>
         /// Creates a new variable.
         /// </summary>
         private BaseDataVariableState CreateVariable(NodeState parent, string path, string name, string displayName, 
-            NodeId dataType, int valueRank)
+            NodeId dataType, bool isArray)
         {
             BaseDataVariableState variable = new BaseDataVariableState(parent)
             {
@@ -112,35 +167,19 @@ namespace Scada.Comm.Drivers.DrvDsOpcUaServer.Logic
                 WriteMask = AttributeWriteMask.DisplayName | AttributeWriteMask.Description,
                 UserWriteMask = AttributeWriteMask.DisplayName | AttributeWriteMask.Description,
                 DataType = dataType,
-                ValueRank = valueRank,
-                AccessLevel = AccessLevels.CurrentReadOrWrite,
-                UserAccessLevel = AccessLevels.CurrentReadOrWrite,
+                ValueRank = isArray ? ValueRanks.OneDimension : ValueRanks.Scalar,
+                AccessLevel = AccessLevels.CurrentRead,
+                UserAccessLevel = AccessLevels.CurrentRead,
                 Historizing = false,
-                StatusCode = StatusCodes.Good,
+                StatusCode = StatusCodes.Bad,
                 Timestamp = DateTime.UtcNow
             };
 
-            variable.Value = GetDefaultValue(variable);
-
-            if (valueRank == ValueRanks.OneDimension)
-            {
+            if (isArray)
                 variable.ArrayDimensions = new ReadOnlyList<uint>(new List<uint> { 0 });
-            }
-            else if (valueRank == ValueRanks.TwoDimensions)
-            {
-                variable.ArrayDimensions = new ReadOnlyList<uint>(new List<uint> { 0, 0 });
-            }
 
             parent?.AddChild(variable);
             return variable;
-        }
-
-        /// <summary>
-        /// Gets the default variable value.
-        /// </summary>
-        private object GetDefaultValue(BaseVariableState variable)
-        {
-            return 0.0;
         }
 
         /// <summary>
@@ -194,19 +233,37 @@ namespace Scada.Comm.Drivers.DrvDsOpcUaServer.Logic
         /// </summary>
         private void CreateDeviceTagNodes(FolderState folder, DeviceLogic deviceLogic, TagGroup tagGroup)
         {
-            variables = new List<BaseDataVariableState>();
             string pathPrefix = CommUtils.GetDeviceLogFileName(deviceLogic.DeviceNum, ".");
+            DeviceVars deviceVars = new DeviceVars();
+            devices[deviceLogic.DeviceNum] = deviceVars;
 
             foreach (DeviceTag deviceTag in tagGroup.DeviceTags)
             {
                 if (!string.IsNullOrEmpty(deviceTag.Code))
                 {
-                    variables.Add(CreateVariable(folder, pathPrefix + deviceTag.Code, deviceTag.Code, deviceTag.Name,
-                        DataTypeIds.Double, ValueRanks.Scalar));
+                    BaseDataVariableState variable = CreateVariable(folder, pathPrefix, deviceTag);
+                    variable.OnSimpleWriteValue = OnSimpleWriteValue;
+
+                    deviceVars[deviceTag.Code] = new VarItem
+                    {
+                        Variable = variable,
+                        DeviceTag = deviceTag
+                    };
                 }
             }
+        }
 
-            variables.ForEach(v => v.OnSimpleWriteValue = OnSimpleWriteValue);
+        /// <summary>
+        /// Sets the variable value.
+        /// </summary>
+        private void SetVariable(VarItem varItem, CnlData[] cnlData, int dataIndex, DateTime timestamp)
+        {
+            object value = 0.0;
+
+            BaseDataVariableState variable = varItem.Variable;
+            variable.Value = value;
+            variable.Timestamp = timestamp;
+            variable.ClearChangeMasks(SystemContext, false);
         }
 
         /// <summary>
@@ -218,17 +275,6 @@ namespace Scada.Comm.Drivers.DrvDsOpcUaServer.Logic
             return ServiceResult.Good;
         }
 
-        private void DoSimulation(object state)
-        {
-            foreach (BaseDataVariableState variable in variables)
-            {
-                variable.Value = random.NextDouble() * 100;
-                variable.Timestamp = DateTime.UtcNow;
-                variable.ClearChangeMasks(SystemContext, false);
-            }
-        }
-
-
 
         /// <summary>
         /// Writes the slice of the current data.
@@ -238,6 +284,21 @@ namespace Scada.Comm.Drivers.DrvDsOpcUaServer.Logic
             if (deviceSlice == null)
                 throw new ArgumentNullException(nameof(deviceSlice));
 
+            if (devices != null && devices.TryGetValue(deviceSlice.DeviceNum, out DeviceVars deviceVars))
+            {
+                lock (dataLock)
+                {
+                    int dataIndex = 0;
+
+                    foreach (DeviceTag deviceTag in deviceSlice.DeviceTags)
+                    {
+                        if (deviceVars.TryGetValue(deviceTag.Code, out VarItem varItem))
+                            SetVariable(varItem, deviceSlice.CnlData, dataIndex, deviceSlice.Timestamp);
+
+                        dataIndex += deviceTag.DataLength;
+                    }
+                }
+            }
         }
 
         /// <summary>
@@ -247,6 +308,8 @@ namespace Scada.Comm.Drivers.DrvDsOpcUaServer.Logic
         {
             try
             {
+                Monitor.Enter(dataLock);
+
                 // create the root folder
                 if (!externalReferences.TryGetValue(ObjectIds.ObjectsFolder, out IList<IReference> references))
                 {
@@ -261,6 +324,7 @@ namespace Scada.Comm.Drivers.DrvDsOpcUaServer.Logic
                 AddRootNotifier(rootFolder);
 
                 // create child nodes
+                devices = new Dictionary<int, DeviceVars>();
                 CreateChildNodes(rootFolder);
 
                 // recursively index the node
@@ -273,6 +337,10 @@ namespace Scada.Comm.Drivers.DrvDsOpcUaServer.Logic
                     "Error creating address space");
                 throw;
             }
+            finally
+            {
+                Monitor.Exit(dataLock);
+            }
         }
 
         /// <summary>
@@ -280,7 +348,11 @@ namespace Scada.Comm.Drivers.DrvDsOpcUaServer.Logic
         /// </summary>
         public override void DeleteAddressSpace()
         {
-            base.DeleteAddressSpace();
+            lock (dataLock)
+            {
+                base.DeleteAddressSpace();
+                devices = null;
+            }
         }
     }
 }
