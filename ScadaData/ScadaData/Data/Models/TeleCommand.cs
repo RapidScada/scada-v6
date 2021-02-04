@@ -140,6 +140,14 @@ namespace Scada.Data.Models
 
 
         /// <summary>
+        /// Gets a string corresponding to the command data.
+        /// </summary>
+        public string GetCmdDataString()
+        {
+            return CmdDataToString(CmdData);
+        }
+
+        /// <summary>
         /// Loads the command from the specified file.
         /// </summary>
         public bool Load(string fileName, out string errMsg)
@@ -260,6 +268,23 @@ namespace Scada.Data.Models
                     "Error saving telecontrol command: ") + ex.Message;
                 return false;
             }
+        }
+
+
+        /// <summary>
+        /// Converts the specified command data to a string.
+        /// </summary>
+        public static string CmdDataToString(byte[] cmdData)
+        {
+            return cmdData == null ? "" : Encoding.UTF8.GetString(cmdData);
+        }
+
+        /// <summary>
+        /// Converts the specified string to command data.
+        /// </summary>
+        public static byte[] StringToCmdData(string s)
+        {
+            return s == null ? new byte[0] : Encoding.UTF8.GetBytes(s);
         }
     }
 }
