@@ -39,6 +39,9 @@ namespace Scada.Comm.Drivers.DrvDsOpcUaServer.Logic
         /// </summary>
         public OpcUaServerDSO(OptionList options)
         {
+            AutoAccept = options.GetValueAsBool("AutoAccept");
+            Username = options.GetValueAsString("Username");
+            Password = ScadaUtils.Decrypt(options.GetValueAsString("Password"));
             ConfigFileName = options.GetValueAsString("ConfigFileName");
             DeviceFilter = new List<int>();
             DeviceFilter.AddRange(ScadaUtils.ParseRange(options.GetValueAsString("DeviceFilter"), true, true));
@@ -46,7 +49,22 @@ namespace Scada.Comm.Drivers.DrvDsOpcUaServer.Logic
 
 
         /// <summary>
-        /// Gets or sets the connection name.
+        /// Gets a value indicating whether to automatically accept client certificates.
+        /// </summary>
+        public bool AutoAccept { get; private set; }
+
+        /// <summary>
+        /// Gets or sets the server username.
+        /// </summary>
+        public string Username { get; set; }
+
+        /// <summary>
+        /// Gets or sets the server password.
+        /// </summary>
+        public string Password { get; set; }
+
+        /// <summary>
+        /// Gets or sets the server configuration filename.
         /// </summary>
         public string ConfigFileName { get; set; }
 

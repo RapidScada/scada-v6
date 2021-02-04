@@ -34,6 +34,7 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -77,10 +78,8 @@ namespace Scada.Comm.Drivers.DrvDsOpcUaServer.Logic
             };
 
             // load the application configuration
-            string configFileName = string.IsNullOrEmpty(options.ConfigFileName) ? 
-                DriverUtils.DefaultConfigFileName : options.ConfigFileName;
-            string configFilePath = Path.Combine(CommContext.AppDirs.ConfigDir, configFileName);
-            ApplicationConfiguration opcConfig = await opcApp.LoadApplicationConfiguration(configFilePath, false);
+            WriteConfigFile(out string configFileName);
+            ApplicationConfiguration opcConfig = await opcApp.LoadApplicationConfiguration(configFileName, false);
 
             // check the application certificate
             bool haveAppCertificate = await opcApp.CheckApplicationInstanceCertificate(false, 
@@ -98,6 +97,33 @@ namespace Scada.Comm.Drivers.DrvDsOpcUaServer.Logic
 
             // create OPC server
             opcServer = new CustomServer(CommContext, options, dsLog);
+        }
+
+        /// <summary>
+        /// Writes an OPC UA configuration file depending on operating system.
+        /// </summary>
+        private void WriteConfigFile(out string configFileName)
+        {
+            string shortFileName = string.IsNullOrEmpty(options.ConfigFileName) ?
+                DriverUtils.DefaultConfigFileName : options.ConfigFileName;
+            configFileName = Path.Combine(CommContext.AppDirs.ConfigDir, shortFileName);
+
+            if (!File.Exists(configFileName))
+            {
+                string suffix = ScadaUtils.IsRunningOnWin ? "Win" : "Linux";
+                string resourceName = $"Scada.Comm.Drivers.DrvDsOpcUaServer.Logic.Config.DrvDsOpcUaServer.{suffix}.xml";
+                string fileContents;
+
+                using (Stream stream = Assembly.GetExecutingAssembly().GetManifestResourceStream(resourceName))
+                {
+                    using (StreamReader reader = new StreamReader(stream))
+                    {
+                        fileContents = reader.ReadToEnd();
+                    }
+                }
+
+                File.WriteAllText(configFileName, fileContents, Encoding.UTF8);
+            }
         }
 
         /// <summary>
@@ -156,8 +182,20 @@ namespace Scada.Comm.Drivers.DrvDsOpcUaServer.Logic
         {
             if (e.Error.StatusCode == StatusCodes.BadCertificateUntrusted)
             {
-                e.Accept = true;
-                dsLog.WriteAction("Accepted certificate: {0}", e.Certificate.Subject);
+                e.Accept = options.AutoAccept;
+
+                if (options.AutoAccept)
+                {
+                    dsLog.WriteAction(Locale.IsRussian ?
+                        "Принятый сертификат: {0}" :
+                        "Accepted certificate: {0}", e.Certificate.Subject);
+                }
+                else
+                {
+                    dsLog.WriteError(Locale.IsRussian ?
+                        "Отклоненный сертификат: {0}" :
+                        "Rejected certificate: {0}", e.Certificate.Subject);
+                }
             }
         }
 
