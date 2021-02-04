@@ -37,7 +37,7 @@ namespace Scada.Comm.Devices
         /// <summary>
         /// Represents a method that executes when an event is sent successfully or unsuccessfully.
         /// </summary>
-        public delegate void EventSentDelegate(string dataSourceCode, DeviceEvent deviceEvent);
+        public delegate void EventSentDelegate(DeviceEvent deviceEvent, string dataSourceCode);
 
 
         /// <summary>

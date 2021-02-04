@@ -37,7 +37,7 @@ namespace Scada.Comm.Devices
         /// <summary>
         /// Represents a method that executes when a slice is sent successfully or unsuccessfully.
         /// </summary>
-        public delegate void DataSentDelegate(string dataSourceCode, DeviceSlice deviceSlice);
+        public delegate void DataSentDelegate(DeviceSlice deviceSlice, string dataSourceCode);
 
 
         /// <summary>
