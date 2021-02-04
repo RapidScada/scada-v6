@@ -422,7 +422,7 @@ namespace Scada.Comm.Drivers.DrvDsScadaServer.Logic
         {
             try
             {
-                deviceSlice.DataSentCallback?.Invoke(Code, deviceSlice);
+                deviceSlice.DataSentCallback?.Invoke(deviceSlice, Code);
             }
             catch (Exception ex)
             {
@@ -439,7 +439,7 @@ namespace Scada.Comm.Drivers.DrvDsScadaServer.Logic
         {
             try
             {
-                deviceEvent.EventSentCallback?.Invoke(Code, deviceEvent);
+                deviceEvent.EventSentCallback?.Invoke(deviceEvent, Code);
             }
             catch (Exception ex)
             {
@@ -456,7 +456,7 @@ namespace Scada.Comm.Drivers.DrvDsScadaServer.Logic
         {
             try
             {
-                deviceSlice.FailedToSendCallback?.Invoke(Code, deviceSlice);
+                deviceSlice.FailedToSendCallback?.Invoke(deviceSlice, Code);
             }
             catch (Exception ex)
             {
@@ -473,7 +473,7 @@ namespace Scada.Comm.Drivers.DrvDsScadaServer.Logic
         {
             try
             {
-                deviceEvent.FailedToSendCallback?.Invoke(Code, deviceEvent);
+                deviceEvent.FailedToSendCallback?.Invoke(deviceEvent, Code);
             }
             catch (Exception ex)
             {
