@@ -354,6 +354,7 @@ namespace Scada.Comm.Drivers.DrvDsOpcUaServer.Logic
 
                     commContext.SendCommand(new TeleCommand
                     {
+                        CommandID = ScadaUtils.GenerateUniqueID(),
                         CreationTime = DateTime.UtcNow,
                         CmdTypeID = CmdTypeID.Standard,
                         DeviceNum = varItem.DeviceNum,

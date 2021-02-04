@@ -166,7 +166,7 @@ namespace Scada.Comm.Drivers.DrvDsOpcUaServer.Logic
         /// </summary>
         private void SessionManager_SessionEvent(Session session, SessionEventReason reason)
         {
-            dsLog.WriteAction("{0}: {1}", session.SessionDiagnostics.SessionName, reason);
+            dsLog.WriteAction("{0} {1}", session.SessionDiagnostics.SessionName, reason.ToString().ToLowerInvariant());
         }
 
         /// <summary>
@@ -174,7 +174,18 @@ namespace Scada.Comm.Drivers.DrvDsOpcUaServer.Logic
         /// </summary>
         private void SubscriptionManager_SubscriptionEvent(Subscription subscription, bool deleted)
         {
-            dsLog.WriteAction("{0}: deleted = {1}", subscription.Id, deleted);
+            if (deleted)
+            {
+                dsLog.WriteAction(Locale.IsRussian ?
+                    "Подписка с ид. {0} удалена" :
+                    "Subscription with ID {0} deleted", subscription.Id);
+            }
+            else
+            {
+                dsLog.WriteAction(Locale.IsRussian ?
+                    "Подписка с ид. {0} создана" :
+                    "Subscription with ID {0} created", subscription.Id);
+            }
         }
 
 
