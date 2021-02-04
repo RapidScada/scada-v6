@@ -431,7 +431,7 @@ namespace Scada.Comm.Devices
 
                             if (deviceTag.IsArray)
                             {
-                                for (int i = 0, lastIdx = dataLen - 1; i < lastIdx; i++)
+                                for (int i = 0, lastIdx = dataLen - 1; i <= lastIdx; i++)
                                 {
                                     row = curDataTable.Rows[rowIndex++];
                                     row.Cells[2] = deviceTag.Name + "[" + i + "]";
