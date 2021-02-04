@@ -1,5 +1,5 @@
 ﻿/*
- * Copyright 2020 Mikhail Shiryaev
+ * Copyright 2021 Mikhail Shiryaev
  * 
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -20,11 +20,12 @@
  * 
  * Author   : Mikhail Shiryaev
  * Created  : 2019
- * Modified : 2020
+ * Modified : 2021
  */
 
 using Scada.Comm.Config;
 using Scada.Comm.Devices;
+using Scada.Data.Const;
 using Scada.Data.Models;
 using System;
 using System.Threading;
@@ -49,6 +50,15 @@ namespace Scada.Comm.Drivers.DrvSimulator.Logic
         /// The period of triangular waves in minutes.
         /// </summary>
         private const int TrianglePeriod = 30;
+        /// <summary>
+        /// The length of the array tag.
+        /// </summary>
+        private const int ArrayLength = 3;
+
+        /// <summary>
+        /// The random number generator.
+        /// </summary>
+        private readonly Random Random = new Random();
 
 
         /// <summary>
@@ -86,6 +96,22 @@ namespace Scada.Comm.Drivers.DrvSimulator.Logic
         }
 
         /// <summary>
+        /// Simulates reading array.
+        /// </summary>
+        private void SimulateArray()
+        {
+            double[] vals = new double[ArrayLength];
+
+            for (int i = 0; i < ArrayLength; i++)
+            {
+                vals[i] = Random.NextDouble() * 10;
+            }
+
+            DeviceData.SetDoubleArray("RA", vals, CnlStatusID.Defined);
+        }
+
+
+        /// <summary>
         /// Initializes the device tags.
         /// </summary>
         public override void InitDeviceTags()
@@ -100,6 +126,10 @@ namespace Scada.Comm.Drivers.DrvSimulator.Logic
             tagGroup.AddTag("DO", "Relay State").Format = TagFormat.OffOn;
             tagGroup.AddTag("AO", "Analog Output");
             DeviceTags.AddGroup(tagGroup);
+
+            tagGroup = new TagGroup("Random");
+            tagGroup.AddTag("RA", "Array").DataLen = ArrayLength;
+            DeviceTags.AddGroup(tagGroup);
         }
 
         /// <summary>
@@ -109,6 +139,7 @@ namespace Scada.Comm.Drivers.DrvSimulator.Logic
         {
             base.Session();
             SimulateInputs();
+            SimulateArray();
             FinishRequest();
             FinishSession();
         }
