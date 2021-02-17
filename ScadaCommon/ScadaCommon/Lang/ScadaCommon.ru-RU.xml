@@ -1,5 +1,5 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
-<ScadaDataDictionaries>
+<ScadaDictionaries>
   <Dictionary key="Scada.Application">
     <Phrase key="UnhandledException">Необработанное исключение</Phrase>
     <Phrase key="ExecutionImpossible">Нормальная работа программы невозможна</Phrase>
@@ -51,4 +51,4 @@
     <Phrase key="NotHexadecimal">Строка не является 16-ричной записью.</Phrase>
     <Phrase key="InvalidParamVal">Некорректное значение параметра &quot;{0}&quot;.</Phrase>
   </Dictionary>
-</ScadaDataDictionaries>
+</ScadaDictionaries>

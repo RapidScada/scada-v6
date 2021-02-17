@@ -1,5 +1,5 @@
 ﻿/*
- * Copyright 2020 Mikhail Shiryaev
+ * Copyright 2021 Mikhail Shiryaev
  * 
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -20,7 +20,7 @@
  * 
  * Author   : Mikhail Shiryaev
  * Created  : 2015
- * Modified : 2020
+ * Modified : 2021
  */
 
 using Scada.Log;
@@ -64,7 +64,7 @@ namespace Scada.Server.Engine
         /// </summary>
         private void LocalizeApp(string langDir)
         {
-            if (!Locale.LoadDictionaries(langDir, "ScadaData", out string errMsg))
+            if (!Locale.LoadDictionaries(langDir, "ScadaCommon", out string errMsg))
                 log.WriteError(errMsg);
 
             if (!Locale.LoadDictionaries(langDir, "ScadaServer", out errMsg))

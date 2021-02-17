@@ -1,5 +1,5 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
-<ScadaDataDictionaries>
+<ScadaDictionaries>
   <Dictionary key="Scada.Application">
     <Phrase key="UnhandledException">Unhandled exception</Phrase>
     <Phrase key="ExecutionImpossible">Normal program execution is impossible</Phrase>
@@ -51,4 +51,4 @@
     <Phrase key="NotHexadecimal">String is not hexadecimal.</Phrase>
     <Phrase key="InvalidParamVal">Invalid value of the &quot;{0}&quot; parameter.</Phrase>
   </Dictionary>
-</ScadaDataDictionaries>
+</ScadaDictionaries>

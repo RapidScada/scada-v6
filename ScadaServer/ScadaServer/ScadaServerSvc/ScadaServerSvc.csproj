@@ -52,17 +52,14 @@
     <Prefer32Bit>false</Prefer32Bit>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="Log, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\..\Log\Log\bin\Release\netstandard2.0\Log.dll</HintPath>
+    <Reference Include="ScadaCommon">
+      <HintPath>..\..\..\ScadaCommon\ScadaCommon\bin\Release\netstandard2.0\ScadaCommon.dll</HintPath>
     </Reference>
-    <Reference Include="ScadaData, Version=5.1.4.0, Culture=neutral, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\..\ScadaData\ScadaData\bin\Release\netstandard2.0\ScadaData.dll</HintPath>
+    <Reference Include="ScadaCommon.Log">
+      <HintPath>..\..\..\ScadaCommon\ScadaCommon.Log\bin\Release\netstandard2.0\ScadaCommon.Log.dll</HintPath>
     </Reference>
-    <Reference Include="ScadaData.Svc, Version=5.0.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\..\ScadaData\ScadaData.Svc\bin\Release\ScadaData.Svc.dll</HintPath>
+    <Reference Include="ScadaCommon.Svc">
+      <HintPath>..\..\..\ScadaCommon\ScadaCommon.Svc\bin\Release\ScadaCommon.Svc.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Configuration.Install" />
@@ -89,11 +86,11 @@
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
-    <Content Include="..\..\..\ScadaData\ScadaData\Lang\ScadaData.en-GB.xml">
+    <Content Include="..\..\..\ScadaCommon\ScadaCommon\Lang\ScadaCommon.en-GB.xml">
       <Link>Lang\ScadaData.en-GB.xml</Link>
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="..\..\..\ScadaData\ScadaData\Lang\ScadaData.ru-RU.xml">
+    <Content Include="..\..\..\ScadaCommon\ScadaCommon\Lang\ScadaCommon.ru-RU.xml">
       <Link>Lang\ScadaData.ru-RU.xml</Link>
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
