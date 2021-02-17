@@ -1,5 +1,5 @@
 ﻿/*
- * Copyright 2020 Mikhail Shiryaev
+ * Copyright 2021 Mikhail Shiryaev
  * 
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -20,7 +20,7 @@
  * 
  * Author   : Mikhail Shiryaev
  * Created  : 2013
- * Modified : 2020
+ * Modified : 2021
  */
 
 using System;
@@ -135,7 +135,7 @@ namespace Scada.Server.Config
                         archiveConfig.LoadFromXml(archiveElem);
                         Archives.Add(archiveConfig);
 
-                        if (moduleCodes.Add(archiveConfig.Module.ToLowerInvariant()))
+                        if (archiveConfig.Active && moduleCodes.Add(archiveConfig.Module.ToLowerInvariant()))
                             ModuleCodes.Add(archiveConfig.Module);
                     }
                 }
