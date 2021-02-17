@@ -48,9 +48,9 @@
     <Compile Include="SvcProps.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\ScadaData\ScadaData.csproj">
+    <ProjectReference Include="..\ScadaCommon\ScadaCommon.csproj">
       <Project>{11087010-4102-4b28-8d96-b069a2ec5cd0}</Project>
-      <Name>ScadaData</Name>
+      <Name>ScadaCommon</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
