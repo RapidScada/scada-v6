@@ -49,14 +49,14 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="Log">
-      <HintPath>..\..\..\Log\Log\bin\Release\netstandard2.0\Log.dll</HintPath>
+    <Reference Include="ScadaCommon">
+      <HintPath>..\..\..\ScadaCommon\ScadaCommon\bin\Release\netstandard2.0\ScadaCommon.dll</HintPath>
     </Reference>
-    <Reference Include="ScadaData">
-      <HintPath>..\..\..\ScadaData\ScadaData\bin\Release\netstandard2.0\ScadaData.dll</HintPath>
+    <Reference Include="ScadaCommon.Log">
+      <HintPath>..\..\..\ScadaCommon\ScadaCommon.Log\bin\Release\netstandard2.0\ScadaCommon.Log.dll</HintPath>
     </Reference>
-    <Reference Include="ScadaData.Svc">
-      <HintPath>..\..\..\ScadaData\ScadaData.Svc\bin\Release\ScadaData.Svc.dll</HintPath>
+    <Reference Include="ScadaCommon.Svc">
+      <HintPath>..\..\..\ScadaCommon\ScadaCommon.Svc\bin\Release\ScadaCommon.Svc.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Configuration.Install" />
@@ -106,12 +106,12 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <Content Include="..\..\..\ScadaData\ScadaData\Lang\ScadaData.en-GB.xml">
-      <Link>Lang\ScadaData.en-GB.xml</Link>
+    <Content Include="..\..\..\ScadaCommon\ScadaCommon\Lang\ScadaCommon.en-GB.xml">
+      <Link>Lang\ScadaCommon.en-GB.xml</Link>
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="..\..\..\ScadaData\ScadaData\Lang\ScadaData.ru-RU.xml">
-      <Link>Lang\ScadaData.ru-RU.xml</Link>
+    <Content Include="..\..\..\ScadaCommon\ScadaCommon\Lang\ScadaCommon.ru-RU.xml">
+      <Link>Lang\ScadaCommon.ru-RU.xml</Link>
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Include="..\ScadaCommCommon\Lang\ScadaComm.en-GB.xml">
