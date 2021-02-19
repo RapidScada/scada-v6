@@ -1,5 +1,5 @@
 ﻿/*
- * Copyright 2020 Mikhail Shiryaev
+ * Copyright 2021 Rapid Software LLC
  * All rights reserved
  * 
  * Product  : Rapid SCADA
