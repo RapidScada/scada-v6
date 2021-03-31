@@ -59,7 +59,7 @@ namespace Scada.Comm
         }
 
         /// <summary>
-        /// Gets the directories required for Server.
+        /// Gets the directories required for the application.
         /// </summary>
         public override string[] GetRequiredDirs()
         {
