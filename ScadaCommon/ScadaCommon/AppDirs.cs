@@ -20,7 +20,7 @@
  * 
  * Author   : Mikhail Shiryaev
  * Created  : 2015
- * Modified : 2020
+ * Modified : 2021
  */
 
 using System;
@@ -137,7 +137,7 @@ namespace Scada
         }
 
         /// <summary>
-        /// Gets the directories required for Server.
+        /// Gets the directories required for the application.
         /// </summary>
         public virtual string[] GetRequiredDirs()
         {

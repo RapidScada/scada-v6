@@ -20,7 +20,7 @@
  * 
  * Author   : Mikhail Shiryaev
  * Created  : 2007
- * Modified : 2020
+ * Modified : 2021
  */
 
 using System;
@@ -365,6 +365,25 @@ namespace Scada
             {
                 host = address;
                 port = defaultPort;
+            }
+        }
+
+        /// <summary>
+        /// Builds an error message combining the exception message, the specified text and arguments.
+        /// </summary>
+        public static string BuildErrorMessage(Exception ex, string text = "", params object[] args)
+        {
+            if (ex == null)
+                throw new ArgumentNullException(nameof(ex));
+
+            if (string.IsNullOrEmpty(text))
+            {
+                return ex.Message;
+            }
+            else
+            {
+                return (args == null || args.Length == 0 ? text : string.Format(text, args)) + 
+                    ":" + Environment.NewLine + ex;
             }
         }
     }
