@@ -41,7 +41,7 @@ namespace Scada.Admin.Project
         public ServerApp()
             : base()
         {
-            ClearSettings();
+            ClearConfig();
         }
 
 

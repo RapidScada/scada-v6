@@ -1,0 +1,16 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ScadaAdminDictionaries>
+  <Dictionary key="Scada.Admin.Project">
+    <Phrase key="CreateAppConfigError">Ошибка при создании конфигурации приложения {0}</Phrase>
+    <Phrase key="DeleteAppConfigError">Ошибка при удалении конфигурации приложения {0}</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Admin.Project.ConfigBase">
+    <Phrase key="LoadConfigBaseError">Ошибка при загрузке базы конфигурации</Phrase>
+    <Phrase key="SaveConfigBaseError">Ошибка при сохранении базы конфигурации</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Admin.Project.ScadaProject">
+    <Phrase key="CreateProjectError">Ошибка при создании проекта</Phrase>
+    <Phrase key="LoadProjectError">Ошибка при загрузке проекта</Phrase>
+    <Phrase key="SaveProjectError">Ошибка при сохранении проекта</Phrase>
+  </Dictionary>
+</ScadaAdminDictionaries>

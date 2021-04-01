@@ -25,7 +25,7 @@
 
 using System.IO;
 
-namespace Scada.Server
+namespace Scada.Admin
 {
     /// <summary>
     /// Represents directories of the Administrator application.
