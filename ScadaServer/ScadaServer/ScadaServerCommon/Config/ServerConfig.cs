@@ -145,7 +145,7 @@ namespace Scada.Server.Config
             }
             catch (Exception ex)
             {
-                errMsg = CommonPhrases.LoadAppConfigError + ": " + ex.Message;
+                errMsg = ScadaUtils.BuildErrorMessage(ex, CommonPhrases.LoadAppConfigError);
                 return false;
             }
         }
@@ -186,7 +186,7 @@ namespace Scada.Server.Config
             }
             catch (Exception ex)
             {
-                errMsg = CommonPhrases.SaveAppConfigError + ": " + ex.Message;
+                errMsg = ScadaUtils.BuildErrorMessage(ex, CommonPhrases.SaveAppConfigError);
                 return false;
             }
         }
