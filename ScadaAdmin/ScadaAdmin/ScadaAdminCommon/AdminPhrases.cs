@@ -33,6 +33,10 @@ namespace Scada.Admin
     /// </summary>
     public static class AdminPhrases
     {
+        // Scada.Admin.Project
+        public static string CreateAppConfigError { get; private set; }
+        public static string DeleteAppConfigError { get; private set; }
+
         // Scada.Admin.Project.ConfigBase
         public static string LoadConfigBaseError { get; private set; }
         public static string SaveConfigBaseError { get; private set; }

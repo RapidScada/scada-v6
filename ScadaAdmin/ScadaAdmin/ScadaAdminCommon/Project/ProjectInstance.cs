@@ -16,56 +16,42 @@
  * 
  * Product  : Rapid SCADA
  * Module   : ScadaAdminCommon
- * Summary  : Represents a configuration database of a project
+ * Summary  : Represents an instance that includes of one or more applications
  * 
  * Author   : Mikhail Shiryaev
  * Created  : 2018
  * Modified : 2021
  */
 
-using Scada.Data.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
 
 namespace Scada.Admin.Project
 {
     /// <summary>
-    /// Represents a configuration database of a project.
-    /// <para>Представляет базу конфигурации проекта.</para>
+    /// Represents an instance that includes of one or more applications.
+    /// <para>Представляет экземпляр, включающий из одно или несколько приложений.</para>
     /// </summary>
-    public class ConfigBase : BaseDataSet
+    public class ProjectInstance
     {
         /// <summary>
-        /// Initializes a new instance of the class.
+        /// The default instance name.
         /// </summary>
-        public ConfigBase()
-            : base()
-        {
-            BaseDir = "";
-            Loaded = false;
-        }
+        public const string DefaultName = "Default";
 
 
         /// <summary>
-        /// Gets or sets the directory of the configuration database.
+        /// Gets or sets the instance identifier.
         /// </summary>
-        public string BaseDir { get; set; }
+        public int ID { get; set; }
 
         /// <summary>
-        /// Gets a value indicating whether the tables are loaded.
+        /// Gets or sets the name of the instance.
         /// </summary>
-        public bool Loaded { get; protected set; }
+        public string Name { get; set; }
 
-        /// <summary>
-        /// Gets a value indicating whether at least one table was modified.
-        /// </summary>
-        public bool Modified
-        {
-            get
-            {
-                return AllTables.Any(t => t.Modified);
-            }
-        }
     }
 }

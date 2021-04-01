@@ -55,6 +55,11 @@ namespace Scada.Admin.Project
         /// </summary>
         public ConfigBase ConfigBase { get; protected set; }
 
+        /// <summary>
+        /// Gets the metadata of the views.
+        /// </summary>
+        public ProjectViews Views { get; protected set; }
+
 
         /// <summary>
         /// Sets the default values.
@@ -62,6 +67,7 @@ namespace Scada.Admin.Project
         private void SetToDefault()
         {
             ConfigBase = new ConfigBase();
+            Views = new ProjectViews();
         }
 
         /// <summary>
