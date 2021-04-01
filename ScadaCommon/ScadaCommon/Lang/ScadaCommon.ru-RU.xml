@@ -1,6 +1,9 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <ScadaDictionaries>
   <Dictionary key="Scada.Application">
+    <Phrase key="ServerAppName">Сервер</Phrase>
+    <Phrase key="CommAppName">Коммуникатор</Phrase>
+    <Phrase key="WebAppName">Вебстанция</Phrase>
     <Phrase key="UnhandledException">Необработанное исключение</Phrase>
     <Phrase key="ExecutionImpossible">Нормальная работа программы невозможна</Phrase>
     <Phrase key="StartLogic">Запуск обработки логики</Phrase>

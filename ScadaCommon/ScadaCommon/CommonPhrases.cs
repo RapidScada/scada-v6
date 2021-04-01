@@ -34,6 +34,9 @@ namespace Scada
     public static class CommonPhrases
     {
         // Scada.Application
+        public static string ServerAppName { get; private set; }
+        public static string CommAppName { get; private set; }
+        public static string WebAppName { get; private set; }
         public static string UnhandledException { get; private set; }
         public static string ExecutionImpossible { get; private set; }
         public static string StartLogic { get; private set; }
@@ -102,6 +105,9 @@ namespace Scada
         public static void Init()
         {
             LocaleDict dict = Locale.GetDictionary("Scada.Application");
+            ServerAppName = dict.GetPhrase("ServerAppName");
+            CommAppName = dict.GetPhrase("CommAppName");
+            WebAppName = dict.GetPhrase("WebAppName");
             UnhandledException = dict.GetPhrase("UnhandledException");
             ExecutionImpossible = dict.GetPhrase("ExecutionImpossible");
             StartLogic = dict.GetPhrase("StartLogic");
