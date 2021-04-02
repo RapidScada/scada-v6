@@ -10,6 +10,7 @@
     <Company>Rapid Software LLC</Company>
     <Product>Rapid SCADA</Product>
     <Copyright>Copyright © 2018-2021</Copyright>
+    <ApplicationIcon>lamp.ico</ApplicationIcon>
   </PropertyGroup>
 
   <ItemGroup>
