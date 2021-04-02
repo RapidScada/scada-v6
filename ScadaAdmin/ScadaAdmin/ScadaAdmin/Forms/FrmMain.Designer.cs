@@ -768,7 +768,7 @@
             // 
             // miCommLineImport
             // 
-            this.miCommLineImport.Image = ((System.Drawing.Image)(resources.GetObject("miCommLineImport.Image")));
+            this.miCommLineImport.Image = global::Scada.Admin.App.Properties.Resources.import;
             this.miCommLineImport.Name = "miCommLineImport";
             this.miCommLineImport.Size = new System.Drawing.Size(163, 22);
             this.miCommLineImport.Text = "Import...";
@@ -776,7 +776,7 @@
             // 
             // miCommLineSync
             // 
-            this.miCommLineSync.Image = ((System.Drawing.Image)(resources.GetObject("miCommLineSync.Image")));
+            this.miCommLineSync.Image = global::Scada.Admin.App.Properties.Resources.sync;
             this.miCommLineSync.Name = "miCommLineSync";
             this.miCommLineSync.Size = new System.Drawing.Size(163, 22);
             this.miCommLineSync.Text = "Synchronize...";
@@ -789,7 +789,7 @@
             // 
             // miCommLineAdd
             // 
-            this.miCommLineAdd.Image = ((System.Drawing.Image)(resources.GetObject("miCommLineAdd.Image")));
+            this.miCommLineAdd.Image = global::Scada.Admin.App.Properties.Resources.add;
             this.miCommLineAdd.Name = "miCommLineAdd";
             this.miCommLineAdd.Size = new System.Drawing.Size(163, 22);
             this.miCommLineAdd.Text = "Add Line";
@@ -797,7 +797,7 @@
             // 
             // miCommLineMoveUp
             // 
-            this.miCommLineMoveUp.Image = ((System.Drawing.Image)(resources.GetObject("miCommLineMoveUp.Image")));
+            this.miCommLineMoveUp.Image = global::Scada.Admin.App.Properties.Resources.move_up;
             this.miCommLineMoveUp.Name = "miCommLineMoveUp";
             this.miCommLineMoveUp.Size = new System.Drawing.Size(163, 22);
             this.miCommLineMoveUp.Text = "Move Line Up";
@@ -805,7 +805,7 @@
             // 
             // miCommLineMoveDown
             // 
-            this.miCommLineMoveDown.Image = ((System.Drawing.Image)(resources.GetObject("miCommLineMoveDown.Image")));
+            this.miCommLineMoveDown.Image = global::Scada.Admin.App.Properties.Resources.move_down;
             this.miCommLineMoveDown.Name = "miCommLineMoveDown";
             this.miCommLineMoveDown.Size = new System.Drawing.Size(163, 22);
             this.miCommLineMoveDown.Text = "Move Line Down";
@@ -813,7 +813,7 @@
             // 
             // miCommLineDelete
             // 
-            this.miCommLineDelete.Image = ((System.Drawing.Image)(resources.GetObject("miCommLineDelete.Image")));
+            this.miCommLineDelete.Image = global::Scada.Admin.App.Properties.Resources.delete;
             this.miCommLineDelete.Name = "miCommLineDelete";
             this.miCommLineDelete.Size = new System.Drawing.Size(163, 22);
             this.miCommLineDelete.Text = "Delete Line";
@@ -826,7 +826,7 @@
             // 
             // miCommLineStart
             // 
-            this.miCommLineStart.Image = ((System.Drawing.Image)(resources.GetObject("miCommLineStart.Image")));
+            this.miCommLineStart.Image = global::Scada.Admin.App.Properties.Resources.start;
             this.miCommLineStart.Name = "miCommLineStart";
             this.miCommLineStart.Size = new System.Drawing.Size(163, 22);
             this.miCommLineStart.Text = "Start Line";
@@ -834,7 +834,7 @@
             // 
             // miCommLineStop
             // 
-            this.miCommLineStop.Image = ((System.Drawing.Image)(resources.GetObject("miCommLineStop.Image")));
+            this.miCommLineStop.Image = global::Scada.Admin.App.Properties.Resources.stop;
             this.miCommLineStop.Name = "miCommLineStop";
             this.miCommLineStop.Size = new System.Drawing.Size(163, 22);
             this.miCommLineStop.Text = "Stop Line";
@@ -842,7 +842,7 @@
             // 
             // miCommLineRestart
             // 
-            this.miCommLineRestart.Image = ((System.Drawing.Image)(resources.GetObject("miCommLineRestart.Image")));
+            this.miCommLineRestart.Image = global::Scada.Admin.App.Properties.Resources.restart;
             this.miCommLineRestart.Name = "miCommLineRestart";
             this.miCommLineRestart.Size = new System.Drawing.Size(163, 22);
             this.miCommLineRestart.Text = "Restart Line";
@@ -871,7 +871,7 @@
             // 
             // miInstanceAdd
             // 
-            this.miInstanceAdd.Image = ((System.Drawing.Image)(resources.GetObject("miInstanceAdd.Image")));
+            this.miInstanceAdd.Image = global::Scada.Admin.App.Properties.Resources.add;
             this.miInstanceAdd.Name = "miInstanceAdd";
             this.miInstanceAdd.Size = new System.Drawing.Size(219, 22);
             this.miInstanceAdd.Text = "Add Instance...";
@@ -879,7 +879,7 @@
             // 
             // miInstanceMoveUp
             // 
-            this.miInstanceMoveUp.Image = ((System.Drawing.Image)(resources.GetObject("miInstanceMoveUp.Image")));
+            this.miInstanceMoveUp.Image = global::Scada.Admin.App.Properties.Resources.move_up;
             this.miInstanceMoveUp.Name = "miInstanceMoveUp";
             this.miInstanceMoveUp.Size = new System.Drawing.Size(219, 22);
             this.miInstanceMoveUp.Text = "Move Instance Up";
@@ -887,7 +887,7 @@
             // 
             // miInstanceMoveDown
             // 
-            this.miInstanceMoveDown.Image = ((System.Drawing.Image)(resources.GetObject("miInstanceMoveDown.Image")));
+            this.miInstanceMoveDown.Image = global::Scada.Admin.App.Properties.Resources.move_down;
             this.miInstanceMoveDown.Name = "miInstanceMoveDown";
             this.miInstanceMoveDown.Size = new System.Drawing.Size(219, 22);
             this.miInstanceMoveDown.Text = "Move Instance Down";
@@ -895,7 +895,7 @@
             // 
             // miInstanceDelete
             // 
-            this.miInstanceDelete.Image = ((System.Drawing.Image)(resources.GetObject("miInstanceDelete.Image")));
+            this.miInstanceDelete.Image = global::Scada.Admin.App.Properties.Resources.delete;
             this.miInstanceDelete.Name = "miInstanceDelete";
             this.miInstanceDelete.Size = new System.Drawing.Size(219, 22);
             this.miInstanceDelete.Text = "Delete Instance";
@@ -908,7 +908,7 @@
             // 
             // miInstanceProfile
             // 
-            this.miInstanceProfile.Image = ((System.Drawing.Image)(resources.GetObject("miInstanceProfile.Image")));
+            this.miInstanceProfile.Image = global::Scada.Admin.App.Properties.Resources.deploy_profile;
             this.miInstanceProfile.Name = "miInstanceProfile";
             this.miInstanceProfile.Size = new System.Drawing.Size(219, 22);
             this.miInstanceProfile.Text = "Deployment Profile...";
@@ -916,7 +916,7 @@
             // 
             // miInstanceDownloadConfig
             // 
-            this.miInstanceDownloadConfig.Image = ((System.Drawing.Image)(resources.GetObject("miInstanceDownloadConfig.Image")));
+            this.miInstanceDownloadConfig.Image = global::Scada.Admin.App.Properties.Resources.download;
             this.miInstanceDownloadConfig.Name = "miInstanceDownloadConfig";
             this.miInstanceDownloadConfig.Size = new System.Drawing.Size(219, 22);
             this.miInstanceDownloadConfig.Text = "Download Configuration...";
@@ -924,7 +924,7 @@
             // 
             // miInstanceUploadConfig
             // 
-            this.miInstanceUploadConfig.Image = ((System.Drawing.Image)(resources.GetObject("miInstanceUploadConfig.Image")));
+            this.miInstanceUploadConfig.Image = global::Scada.Admin.App.Properties.Resources.upload;
             this.miInstanceUploadConfig.Name = "miInstanceUploadConfig";
             this.miInstanceUploadConfig.Size = new System.Drawing.Size(219, 22);
             this.miInstanceUploadConfig.Text = "Upload Configuration...";
@@ -932,7 +932,7 @@
             // 
             // miInstanceStatus
             // 
-            this.miInstanceStatus.Image = ((System.Drawing.Image)(resources.GetObject("miInstanceStatus.Image")));
+            this.miInstanceStatus.Image = global::Scada.Admin.App.Properties.Resources.status;
             this.miInstanceStatus.Name = "miInstanceStatus";
             this.miInstanceStatus.Size = new System.Drawing.Size(219, 22);
             this.miInstanceStatus.Text = "Instance Status...";
@@ -945,7 +945,7 @@
             // 
             // miInstanceOpenInExplorer
             // 
-            this.miInstanceOpenInExplorer.Image = ((System.Drawing.Image)(resources.GetObject("miInstanceOpenInExplorer.Image")));
+            this.miInstanceOpenInExplorer.Image = global::Scada.Admin.App.Properties.Resources.open_explorer;
             this.miInstanceOpenInExplorer.Name = "miInstanceOpenInExplorer";
             this.miInstanceOpenInExplorer.Size = new System.Drawing.Size(219, 22);
             this.miInstanceOpenInExplorer.Text = "Open Folder in File Explorer";
@@ -953,7 +953,7 @@
             // 
             // miInstanceOpenInBrowser
             // 
-            this.miInstanceOpenInBrowser.Image = ((System.Drawing.Image)(resources.GetObject("miInstanceOpenInBrowser.Image")));
+            this.miInstanceOpenInBrowser.Image = global::Scada.Admin.App.Properties.Resources.web;
             this.miInstanceOpenInBrowser.Name = "miInstanceOpenInBrowser";
             this.miInstanceOpenInBrowser.Size = new System.Drawing.Size(219, 22);
             this.miInstanceOpenInBrowser.Text = "Open in Web Browser";
@@ -961,7 +961,7 @@
             // 
             // miInstanceRename
             // 
-            this.miInstanceRename.Image = ((System.Drawing.Image)(resources.GetObject("miInstanceRename.Image")));
+            this.miInstanceRename.Image = global::Scada.Admin.App.Properties.Resources.rename;
             this.miInstanceRename.Name = "miInstanceRename";
             this.miInstanceRename.Size = new System.Drawing.Size(219, 22);
             this.miInstanceRename.Text = "Rename Instance";
@@ -969,7 +969,7 @@
             // 
             // miInstanceProperties
             // 
-            this.miInstanceProperties.Image = ((System.Drawing.Image)(resources.GetObject("miInstanceProperties.Image")));
+            this.miInstanceProperties.Image = global::Scada.Admin.App.Properties.Resources.properties;
             this.miInstanceProperties.Name = "miInstanceProperties";
             this.miInstanceProperties.Size = new System.Drawing.Size(219, 22);
             this.miInstanceProperties.Text = "Properties";
@@ -986,7 +986,7 @@
             // 
             // miProjectOpenInExplorer
             // 
-            this.miProjectOpenInExplorer.Image = ((System.Drawing.Image)(resources.GetObject("miProjectOpenInExplorer.Image")));
+            this.miProjectOpenInExplorer.Image = global::Scada.Admin.App.Properties.Resources.open_explorer;
             this.miProjectOpenInExplorer.Name = "miProjectOpenInExplorer";
             this.miProjectOpenInExplorer.Size = new System.Drawing.Size(219, 22);
             this.miProjectOpenInExplorer.Text = "Open Folder in File Explorer";
@@ -994,7 +994,7 @@
             // 
             // miProjectRename
             // 
-            this.miProjectRename.Image = ((System.Drawing.Image)(resources.GetObject("miProjectRename.Image")));
+            this.miProjectRename.Image = global::Scada.Admin.App.Properties.Resources.rename;
             this.miProjectRename.Name = "miProjectRename";
             this.miProjectRename.Size = new System.Drawing.Size(219, 22);
             this.miProjectRename.Text = "Rename Project";
@@ -1002,7 +1002,7 @@
             // 
             // miProjectProperties
             // 
-            this.miProjectProperties.Image = ((System.Drawing.Image)(resources.GetObject("miProjectProperties.Image")));
+            this.miProjectProperties.Image = global::Scada.Admin.App.Properties.Resources.properties;
             this.miProjectProperties.Name = "miProjectProperties";
             this.miProjectProperties.Size = new System.Drawing.Size(219, 22);
             this.miProjectProperties.Text = "Properties";
@@ -1025,7 +1025,7 @@
             // 
             // miDirectoryNewFile
             // 
-            this.miDirectoryNewFile.Image = ((System.Drawing.Image)(resources.GetObject("miDirectoryNewFile.Image")));
+            this.miDirectoryNewFile.Image = global::Scada.Admin.App.Properties.Resources.new_file;
             this.miDirectoryNewFile.Name = "miDirectoryNewFile";
             this.miDirectoryNewFile.Size = new System.Drawing.Size(219, 22);
             this.miDirectoryNewFile.Text = "New File...";
@@ -1033,7 +1033,7 @@
             // 
             // miDirectoryNewFolder
             // 
-            this.miDirectoryNewFolder.Image = ((System.Drawing.Image)(resources.GetObject("miDirectoryNewFolder.Image")));
+            this.miDirectoryNewFolder.Image = global::Scada.Admin.App.Properties.Resources.new_folder;
             this.miDirectoryNewFolder.Name = "miDirectoryNewFolder";
             this.miDirectoryNewFolder.Size = new System.Drawing.Size(219, 22);
             this.miDirectoryNewFolder.Text = "New Folder...";
@@ -1046,7 +1046,7 @@
             // 
             // miDirectoryDelete
             // 
-            this.miDirectoryDelete.Image = ((System.Drawing.Image)(resources.GetObject("miDirectoryDelete.Image")));
+            this.miDirectoryDelete.Image = global::Scada.Admin.App.Properties.Resources.delete;
             this.miDirectoryDelete.Name = "miDirectoryDelete";
             this.miDirectoryDelete.Size = new System.Drawing.Size(219, 22);
             this.miDirectoryDelete.Text = "Delete";
@@ -1054,7 +1054,7 @@
             // 
             // miDirectoryRename
             // 
-            this.miDirectoryRename.Image = ((System.Drawing.Image)(resources.GetObject("miDirectoryRename.Image")));
+            this.miDirectoryRename.Image = global::Scada.Admin.App.Properties.Resources.rename;
             this.miDirectoryRename.Name = "miDirectoryRename";
             this.miDirectoryRename.Size = new System.Drawing.Size(219, 22);
             this.miDirectoryRename.Text = "Rename";
@@ -1067,7 +1067,7 @@
             // 
             // miDirectoryOpenInExplorer
             // 
-            this.miDirectoryOpenInExplorer.Image = ((System.Drawing.Image)(resources.GetObject("miDirectoryOpenInExplorer.Image")));
+            this.miDirectoryOpenInExplorer.Image = global::Scada.Admin.App.Properties.Resources.open_explorer;
             this.miDirectoryOpenInExplorer.Name = "miDirectoryOpenInExplorer";
             this.miDirectoryOpenInExplorer.Size = new System.Drawing.Size(219, 22);
             this.miDirectoryOpenInExplorer.Text = "Open Folder in File Explorer";
@@ -1075,7 +1075,7 @@
             // 
             // miDirectoryRefresh
             // 
-            this.miDirectoryRefresh.Image = ((System.Drawing.Image)(resources.GetObject("miDirectoryRefresh.Image")));
+            this.miDirectoryRefresh.Image = global::Scada.Admin.App.Properties.Resources.refresh;
             this.miDirectoryRefresh.Name = "miDirectoryRefresh";
             this.miDirectoryRefresh.Size = new System.Drawing.Size(219, 22);
             this.miDirectoryRefresh.Text = "Refresh";
@@ -1095,7 +1095,7 @@
             // 
             // miFileItemOpen
             // 
-            this.miFileItemOpen.Image = ((System.Drawing.Image)(resources.GetObject("miFileItemOpen.Image")));
+            this.miFileItemOpen.Image = global::Scada.Admin.App.Properties.Resources.open_file;
             this.miFileItemOpen.Name = "miFileItemOpen";
             this.miFileItemOpen.Size = new System.Drawing.Size(232, 22);
             this.miFileItemOpen.Text = "Open";
@@ -1103,7 +1103,7 @@
             // 
             // miFileItemOpenLocation
             // 
-            this.miFileItemOpenLocation.Image = ((System.Drawing.Image)(resources.GetObject("miFileItemOpenLocation.Image")));
+            this.miFileItemOpenLocation.Image = global::Scada.Admin.App.Properties.Resources.open_explorer;
             this.miFileItemOpenLocation.Name = "miFileItemOpenLocation";
             this.miFileItemOpenLocation.Size = new System.Drawing.Size(232, 22);
             this.miFileItemOpenLocation.Text = "Open Location in File Explorer";
@@ -1116,7 +1116,7 @@
             // 
             // miFileItemDelete
             // 
-            this.miFileItemDelete.Image = ((System.Drawing.Image)(resources.GetObject("miFileItemDelete.Image")));
+            this.miFileItemDelete.Image = global::Scada.Admin.App.Properties.Resources.delete;
             this.miFileItemDelete.Name = "miFileItemDelete";
             this.miFileItemDelete.Size = new System.Drawing.Size(232, 22);
             this.miFileItemDelete.Text = "Delete";
@@ -1124,7 +1124,7 @@
             // 
             // miFileItemRename
             // 
-            this.miFileItemRename.Image = ((System.Drawing.Image)(resources.GetObject("miFileItemRename.Image")));
+            this.miFileItemRename.Image = global::Scada.Admin.App.Properties.Resources.rename;
             this.miFileItemRename.Name = "miFileItemRename";
             this.miFileItemRename.Size = new System.Drawing.Size(232, 22);
             this.miFileItemRename.Text = "Rename";
@@ -1139,7 +1139,7 @@
             // 
             // miServerOpenInExplorer
             // 
-            this.miServerOpenInExplorer.Image = ((System.Drawing.Image)(resources.GetObject("miServerOpenInExplorer.Image")));
+            this.miServerOpenInExplorer.Image = global::Scada.Admin.App.Properties.Resources.open_explorer;
             this.miServerOpenInExplorer.Name = "miServerOpenInExplorer";
             this.miServerOpenInExplorer.Size = new System.Drawing.Size(219, 22);
             this.miServerOpenInExplorer.Text = "Open Folder in File Explorer";
@@ -1154,7 +1154,7 @@
             // 
             // miCommOpenInExplorer
             // 
-            this.miCommOpenInExplorer.Image = ((System.Drawing.Image)(resources.GetObject("miCommOpenInExplorer.Image")));
+            this.miCommOpenInExplorer.Image = global::Scada.Admin.App.Properties.Resources.open_explorer;
             this.miCommOpenInExplorer.Name = "miCommOpenInExplorer";
             this.miCommOpenInExplorer.Size = new System.Drawing.Size(219, 22);
             this.miCommOpenInExplorer.Text = "Open Folder in File Explorer";
@@ -1171,7 +1171,7 @@
             // 
             // miDeviceCommand
             // 
-            this.miDeviceCommand.Image = ((System.Drawing.Image)(resources.GetObject("miDeviceCommand.Image")));
+            this.miDeviceCommand.Image = global::Scada.Admin.App.Properties.Resources.cmd;
             this.miDeviceCommand.Name = "miDeviceCommand";
             this.miDeviceCommand.Size = new System.Drawing.Size(169, 22);
             this.miDeviceCommand.Text = "Send Command...";
@@ -1179,7 +1179,7 @@
             // 
             // miDeviceProperties
             // 
-            this.miDeviceProperties.Image = ((System.Drawing.Image)(resources.GetObject("miDeviceProperties.Image")));
+            this.miDeviceProperties.Image = global::Scada.Admin.App.Properties.Resources.properties;
             this.miDeviceProperties.Name = "miDeviceProperties";
             this.miDeviceProperties.Size = new System.Drawing.Size(169, 22);
             this.miDeviceProperties.Text = "Properies";
@@ -1196,7 +1196,7 @@
             // 
             // miCnlTableComm
             // 
-            this.miCnlTableComm.Image = ((System.Drawing.Image)(resources.GetObject("miCnlTableComm.Image")));
+            this.miCnlTableComm.Image = global::Scada.Admin.App.Properties.Resources.open_explorer;
             this.miCnlTableComm.Name = "miCnlTableComm";
             this.miCnlTableComm.Size = new System.Drawing.Size(187, 22);
             this.miCnlTableComm.Text = "Go to Communicator";
@@ -1204,7 +1204,7 @@
             // 
             // miCnlTableRefresh
             // 
-            this.miCnlTableRefresh.Image = ((System.Drawing.Image)(resources.GetObject("miCnlTableRefresh.Image")));
+            this.miCnlTableRefresh.Image = global::Scada.Admin.App.Properties.Resources.refresh;
             this.miCnlTableRefresh.Name = "miCnlTableRefresh";
             this.miCnlTableRefresh.Size = new System.Drawing.Size(187, 22);
             this.miCnlTableRefresh.Text = "Refresh";
