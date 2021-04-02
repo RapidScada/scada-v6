@@ -15,7 +15,7 @@
  * 
  * 
  * Product  : Rapid SCADA
- * Module   : ScadaData
+ * Module   : ScadaCommon
  * Summary  : Specifies the event text formats
  * 
  * Author   : Mikhail Shiryaev

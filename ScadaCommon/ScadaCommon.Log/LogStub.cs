@@ -15,7 +15,7 @@
  * 
  * 
  * Product  : Rapid SCADA
- * Module   : Log
+ * Module   : ScadaCommon.Log
  * Summary  : Represents a log stub
  * 
  * Author   : Mikhail Shiryaev

@@ -15,7 +15,7 @@
  * 
  * 
  * Product  : Rapid SCADA
- * Module   : ScadaData
+ * Module   : ScadaCommon
  * Summary  : Represents a filter for selecting arbitrary data
  * 
  * Author   : Mikhail Shiryaev

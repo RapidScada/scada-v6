@@ -15,7 +15,7 @@
  * 
  * 
  * Product  : Rapid SCADA
- * Module   : ScadaData
+ * Module   : ScadaCommon
  * Summary  : Specifies the data type IDs for columns in the application tables
  * 
  * Author   : Mikhail Shiryaev

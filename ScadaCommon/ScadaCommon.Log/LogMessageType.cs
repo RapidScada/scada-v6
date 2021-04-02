@@ -15,7 +15,7 @@
  * 
  * 
  * Product  : Rapid SCADA
- * Module   : Log
+ * Module   : ScadaCommon.Log
  * Summary  : Specifies the log action types
  * 
  * Author   : Mikhail Shiryaev

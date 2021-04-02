@@ -15,7 +15,7 @@
  * 
  * 
  * Product  : Rapid SCADA
- * Module   : ScadaData
+ * Module   : ScadaCommon
  * Summary  : Specifies the standard application folders
  * 
  * Author   : Mikhail Shiryaev

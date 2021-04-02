@@ -15,7 +15,7 @@
  * 
  * 
  * Product  : Rapid SCADA
- * Module   : ScadaData
+ * Module   : ScadaCommon
  * Summary  : Represents a user as an entity of the configuration database
  * 
  * Author   : Mikhail Shiryaev

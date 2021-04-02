@@ -15,7 +15,7 @@
  * 
  * 
  * Product  : Rapid SCADA
- * Module   : ScadaData
+ * Module   : ScadaCommon
  * Summary  : Represents a telecontrol command result
  * 
  * Author   : Mikhail Shiryaev

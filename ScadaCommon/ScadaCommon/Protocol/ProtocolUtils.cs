@@ -15,7 +15,7 @@
  * 
  * 
  * Product  : Rapid SCADA
- * Module   : ScadaData
+ * Module   : ScadaCommon
  * Summary  : Provides constants and helper methods for the application protocol
  * 
  * Author   : Mikhail Shiryaev

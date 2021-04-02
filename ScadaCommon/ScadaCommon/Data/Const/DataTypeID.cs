@@ -15,7 +15,7 @@
  * 
  * 
  * Product  : Rapid SCADA
- * Module   : ScadaData
+ * Module   : ScadaCommon
  * Summary  : Specifies the data type IDs of the input channels.
  * 
  * Author   : Mikhail Shiryaev

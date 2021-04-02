@@ -15,7 +15,7 @@
  * 
  * 
  * Product  : Rapid SCADA
- * Module   : Log
+ * Module   : ScadaCommon.Log
  * Summary  : Provides logging functionality
  * 
  * Author   : Mikhail Shiryaev

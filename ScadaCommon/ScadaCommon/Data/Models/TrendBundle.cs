@@ -15,7 +15,7 @@
  * 
  * 
  * Product  : Rapid SCADA
- * Module   : ScadaData
+ * Module   : ScadaCommon
  * Summary  : Represents a bundle of trends having a single timeline
  * 
  * Author   : Mikhail Shiryaev

@@ -15,7 +15,7 @@
  * 
  * 
  * Product  : Rapid SCADA
- * Module   : ScadaData
+ * Module   : ScadaCommon
  * Summary  : The common phrases for the entire software package
  * 
  * Author   : Mikhail Shiryaev

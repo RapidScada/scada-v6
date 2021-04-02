@@ -15,7 +15,7 @@
  * 
  * 
  * Product  : Rapid SCADA
- * Module   : ScadaData.Svc
+ * Module   : ScadaCommon.Svc
  * Summary  : The base class for Windows service installer
  * 
  * Author   : Mikhail Shiryaev

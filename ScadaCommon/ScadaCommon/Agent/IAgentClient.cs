@@ -15,7 +15,7 @@
  * 
  * 
  * Product  : Rapid SCADA
- * Module   : ScadaData
+ * Module   : ScadaCommon
  * Summary  : Defines functionality to interact with the Agent service
  * 
  * Author   : Mikhail Shiryaev

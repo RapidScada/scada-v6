@@ -15,7 +15,7 @@
  * 
  * 
  * Product  : Rapid SCADA
- * Module   : ScadaData
+ * Module   : ScadaCommon
  * Summary  : Represents the base class for TCP listeners which waits for client connections
  * 
  * Author   : Mikhail Shiryaev

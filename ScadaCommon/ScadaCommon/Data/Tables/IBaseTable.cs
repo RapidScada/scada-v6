@@ -15,7 +15,7 @@
  * 
  * 
  * Product  : Rapid SCADA
- * Module   : ScadaData
+ * Module   : ScadaCommon
  * Summary  : Defines functionality to operate with the tables of the configuration database.
  * 
  * Author   : Mikhail Shiryaev

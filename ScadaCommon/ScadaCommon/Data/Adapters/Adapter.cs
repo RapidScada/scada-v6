@@ -15,7 +15,7 @@
  * 
  * 
  * Product  : Rapid SCADA
- * Module   : ScadaData
+ * Module   : ScadaCommon
  * Summary  : Represents a mechanism to read data from a source and write data to the source
  * 
  * Author   : Mikhail Shiryaev

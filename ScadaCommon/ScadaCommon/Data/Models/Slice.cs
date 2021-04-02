@@ -15,7 +15,7 @@
  * 
  * 
  * Product  : Rapid SCADA
- * Module   : ScadaData
+ * Module   : ScadaCommon
  * Summary  : Represents a slice of input channels having the same timestamp
  * 
  * Author   : Mikhail Shiryaev

@@ -15,7 +15,7 @@
  * 
  * 
  * Product  : Rapid SCADA
- * Module   : ScadaData
+ * Module   : ScadaCommon
  * Summary  : Represents metadata about a trend table or page
  * 
  * Author   : Mikhail Shiryaev

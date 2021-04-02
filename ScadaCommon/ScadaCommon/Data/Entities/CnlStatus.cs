@@ -15,7 +15,7 @@
  * 
  * 
  * Product  : Rapid SCADA
- * Module   : ScadaData
+ * Module   : ScadaCommon
  * Summary  : Represents an input channel status as an entity of the configuration database
  * 
  * Author   : Mikhail Shiryaev

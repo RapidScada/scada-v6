@@ -15,7 +15,7 @@
  * 
  * 
  * Product  : Rapid SCADA
- * Module   : ScadaData
+ * Module   : ScadaCommon
  * Summary  : Represents a trend point, which consists of a timestamp and channel data
  * 
  * Author   : Mikhail Shiryaev

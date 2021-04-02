@@ -15,7 +15,7 @@
  * 
  * 
  * Product  : Rapid SCADA
- * Module   : ScadaData
+ * Module   : ScadaCommon
  * Summary  : Represents an index for an instance of BaseTable
  * 
  * Author   : Mikhail Shiryaev

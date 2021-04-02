@@ -15,7 +15,7 @@
  * 
  * 
  * Product  : Rapid SCADA
- * Module   : ScadaData
+ * Module   : ScadaCommon
  * Summary  : Represents an in-memory cache of the configuration database
  * 
  * Author   : Mikhail Shiryaev

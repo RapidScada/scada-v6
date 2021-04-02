@@ -3,7 +3,7 @@
  * All rights reserved
  * 
  * Product  : Rapid SCADA
- * Module   : ScadaData
+ * Module   : ScadaCommon
  * Summary  : Controls class loading during serialization
  * 
  * Author   : Mikhail Shiryaev

@@ -15,7 +15,7 @@
  * 
  * 
  * Product  : Rapid SCADA
- * Module   : ScadaData
+ * Module   : ScadaCommon
  * Summary  : Represents errors that occur during communication between applications
  * 
  * Author   : Mikhail Shiryaev

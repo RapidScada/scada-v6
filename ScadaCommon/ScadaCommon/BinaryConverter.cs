@@ -15,7 +15,7 @@
  * 
  * 
  * Product  : Rapid SCADA
- * Module   : ScadaData
+ * Module   : ScadaCommon
  * Summary  : Converts base data types to an array of bytes and vice versa
  * 
  * Author   : Mikhail Shiryaev

@@ -15,7 +15,7 @@
  * 
  * 
  * Product  : Rapid SCADA
- * Module   : ScadaData.Svc
+ * Module   : ScadaCommon.Svc
  * Summary  : Represents properties of a Windows service
  * 
  * Author   : Mikhail Shiryaev

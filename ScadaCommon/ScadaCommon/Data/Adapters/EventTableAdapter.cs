@@ -15,7 +15,7 @@
  * 
  * 
  * Product  : Rapid SCADA
- * Module   : ScadaData
+ * Module   : ScadaCommon
  * Summary  : Represents a mechanism to read and write event tables
  * 
  * Author   : Mikhail Shiryaev

@@ -15,7 +15,7 @@
  * 
  * 
  * Product  : Rapid SCADA
- * Module   : ScadaData
+ * Module   : ScadaCommon
  * Summary  : Represents a listener that detects the presence of a file
  * 
  * Author   : Mikhail Shiryaev

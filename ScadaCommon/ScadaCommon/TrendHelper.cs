@@ -15,7 +15,7 @@
  * 
  * 
  * Product  : Rapid SCADA
- * Module   : ScadaData
+ * Module   : ScadaCommon
  * Summary  : The class provides helper methods for working with trends
  * 
  * Author   : Mikhail Shiryaev

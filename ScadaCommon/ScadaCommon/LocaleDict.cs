@@ -15,7 +15,7 @@
  * 
  * 
  * Product  : Rapid SCADA
- * Module   : ScadaData
+ * Module   : ScadaCommon
  * Summary  : Represents a dictionary that contains phrases in a certain language
  * 
  * Author   : Mikhail Shiryaev
