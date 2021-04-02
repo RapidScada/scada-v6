@@ -204,7 +204,7 @@
             // 
             // miFileNewProject
             // 
-            this.miFileNewProject.Image = ((System.Drawing.Image)(resources.GetObject("miFileNewProject.Image")));
+            this.miFileNewProject.Image = global::Scada.Admin.App.Properties.Resources.blank;
             this.miFileNewProject.Name = "miFileNewProject";
             this.miFileNewProject.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.N)));
             this.miFileNewProject.Size = new System.Drawing.Size(195, 22);
@@ -213,7 +213,7 @@
             // 
             // miFileOpenProject
             // 
-            this.miFileOpenProject.Image = ((System.Drawing.Image)(resources.GetObject("miFileOpenProject.Image")));
+            this.miFileOpenProject.Image = global::Scada.Admin.App.Properties.Resources.open;
             this.miFileOpenProject.Name = "miFileOpenProject";
             this.miFileOpenProject.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.O)));
             this.miFileOpenProject.Size = new System.Drawing.Size(195, 22);
@@ -222,7 +222,7 @@
             // 
             // miFileShowStartPage
             // 
-            this.miFileShowStartPage.Image = ((System.Drawing.Image)(resources.GetObject("miFileShowStartPage.Image")));
+            this.miFileShowStartPage.Image = global::Scada.Admin.App.Properties.Resources.start_page;
             this.miFileShowStartPage.Name = "miFileShowStartPage";
             this.miFileShowStartPage.Size = new System.Drawing.Size(195, 22);
             this.miFileShowStartPage.Text = "Start Page";
@@ -235,7 +235,7 @@
             // 
             // miFileSave
             // 
-            this.miFileSave.Image = ((System.Drawing.Image)(resources.GetObject("miFileSave.Image")));
+            this.miFileSave.Image = global::Scada.Admin.App.Properties.Resources.save;
             this.miFileSave.Name = "miFileSave";
             this.miFileSave.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.S)));
             this.miFileSave.Size = new System.Drawing.Size(195, 22);
@@ -244,7 +244,7 @@
             // 
             // miFileSaveAll
             // 
-            this.miFileSaveAll.Image = ((System.Drawing.Image)(resources.GetObject("miFileSaveAll.Image")));
+            this.miFileSaveAll.Image = global::Scada.Admin.App.Properties.Resources.save_all;
             this.miFileSaveAll.Name = "miFileSaveAll";
             this.miFileSaveAll.Size = new System.Drawing.Size(195, 22);
             this.miFileSaveAll.Text = "Save All";
@@ -295,7 +295,7 @@
             // 
             // miFileExit
             // 
-            this.miFileExit.Image = ((System.Drawing.Image)(resources.GetObject("miFileExit.Image")));
+            this.miFileExit.Image = global::Scada.Admin.App.Properties.Resources.close;
             this.miFileExit.Name = "miFileExit";
             this.miFileExit.Size = new System.Drawing.Size(195, 22);
             this.miFileExit.Text = "Exit";
@@ -314,7 +314,7 @@
             // 
             // miDeployInstanceProfile
             // 
-            this.miDeployInstanceProfile.Image = ((System.Drawing.Image)(resources.GetObject("miDeployInstanceProfile.Image")));
+            this.miDeployInstanceProfile.Image = global::Scada.Admin.App.Properties.Resources.deploy_profile;
             this.miDeployInstanceProfile.Name = "miDeployInstanceProfile";
             this.miDeployInstanceProfile.Size = new System.Drawing.Size(214, 22);
             this.miDeployInstanceProfile.Text = "Deployment Profile...";
@@ -322,7 +322,7 @@
             // 
             // miDeployDownloadConfig
             // 
-            this.miDeployDownloadConfig.Image = ((System.Drawing.Image)(resources.GetObject("miDeployDownloadConfig.Image")));
+            this.miDeployDownloadConfig.Image = global::Scada.Admin.App.Properties.Resources.download;
             this.miDeployDownloadConfig.Name = "miDeployDownloadConfig";
             this.miDeployDownloadConfig.Size = new System.Drawing.Size(214, 22);
             this.miDeployDownloadConfig.Text = "Download Configuration...";
@@ -330,7 +330,7 @@
             // 
             // miDeployUploadConfig
             // 
-            this.miDeployUploadConfig.Image = ((System.Drawing.Image)(resources.GetObject("miDeployUploadConfig.Image")));
+            this.miDeployUploadConfig.Image = global::Scada.Admin.App.Properties.Resources.upload;
             this.miDeployUploadConfig.Name = "miDeployUploadConfig";
             this.miDeployUploadConfig.Size = new System.Drawing.Size(214, 22);
             this.miDeployUploadConfig.Text = "Upload Configuration...";
@@ -338,7 +338,7 @@
             // 
             // miDeployInstanceStatus
             // 
-            this.miDeployInstanceStatus.Image = ((System.Drawing.Image)(resources.GetObject("miDeployInstanceStatus.Image")));
+            this.miDeployInstanceStatus.Image = global::Scada.Admin.App.Properties.Resources.status;
             this.miDeployInstanceStatus.Name = "miDeployInstanceStatus";
             this.miDeployInstanceStatus.Size = new System.Drawing.Size(214, 22);
             this.miDeployInstanceStatus.Text = "Instance Status...";
@@ -363,7 +363,7 @@
             // 
             // miToolsAddLine
             // 
-            this.miToolsAddLine.Image = ((System.Drawing.Image)(resources.GetObject("miToolsAddLine.Image")));
+            this.miToolsAddLine.Image = global::Scada.Admin.App.Properties.Resources.add_line;
             this.miToolsAddLine.Name = "miToolsAddLine";
             this.miToolsAddLine.Size = new System.Drawing.Size(169, 22);
             this.miToolsAddLine.Text = "Add Line...";
@@ -371,7 +371,7 @@
             // 
             // miToolsAddDevice
             // 
-            this.miToolsAddDevice.Image = ((System.Drawing.Image)(resources.GetObject("miToolsAddDevice.Image")));
+            this.miToolsAddDevice.Image = global::Scada.Admin.App.Properties.Resources.add_device;
             this.miToolsAddDevice.Name = "miToolsAddDevice";
             this.miToolsAddDevice.Size = new System.Drawing.Size(169, 22);
             this.miToolsAddDevice.Text = "Add Device...";
@@ -379,7 +379,7 @@
             // 
             // miToolsCreateCnls
             // 
-            this.miToolsCreateCnls.Image = ((System.Drawing.Image)(resources.GetObject("miToolsCreateCnls.Image")));
+            this.miToolsCreateCnls.Image = global::Scada.Admin.App.Properties.Resources.create_cnls;
             this.miToolsCreateCnls.Name = "miToolsCreateCnls";
             this.miToolsCreateCnls.Size = new System.Drawing.Size(169, 22);
             this.miToolsCreateCnls.Text = "Create Channels...";
@@ -418,7 +418,7 @@
             // 
             // miToolsOptions
             // 
-            this.miToolsOptions.Image = ((System.Drawing.Image)(resources.GetObject("miToolsOptions.Image")));
+            this.miToolsOptions.Image = global::Scada.Admin.App.Properties.Resources.settings;
             this.miToolsOptions.Name = "miToolsOptions";
             this.miToolsOptions.Size = new System.Drawing.Size(169, 22);
             this.miToolsOptions.Text = "Options...";
@@ -477,7 +477,7 @@
             // 
             // miHelpDoc
             // 
-            this.miHelpDoc.Image = ((System.Drawing.Image)(resources.GetObject("miHelpDoc.Image")));
+            this.miHelpDoc.Image = global::Scada.Admin.App.Properties.Resources.help;
             this.miHelpDoc.Name = "miHelpDoc";
             this.miHelpDoc.Size = new System.Drawing.Size(168, 22);
             this.miHelpDoc.Text = "Documentation";
@@ -485,7 +485,7 @@
             // 
             // miHelpSupport
             // 
-            this.miHelpSupport.Image = ((System.Drawing.Image)(resources.GetObject("miHelpSupport.Image")));
+            this.miHelpSupport.Image = global::Scada.Admin.App.Properties.Resources.support;
             this.miHelpSupport.Name = "miHelpSupport";
             this.miHelpSupport.Size = new System.Drawing.Size(168, 22);
             this.miHelpSupport.Text = "Technical Support";
@@ -498,7 +498,7 @@
             // 
             // miHelpAbout
             // 
-            this.miHelpAbout.Image = ((System.Drawing.Image)(resources.GetObject("miHelpAbout.Image")));
+            this.miHelpAbout.Image = global::Scada.Admin.App.Properties.Resources.about;
             this.miHelpAbout.Name = "miHelpAbout";
             this.miHelpAbout.Size = new System.Drawing.Size(168, 22);
             this.miHelpAbout.Text = "About";
@@ -528,7 +528,7 @@
             // btnFileNewProject
             // 
             this.btnFileNewProject.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-            this.btnFileNewProject.Image = ((System.Drawing.Image)(resources.GetObject("btnFileNewProject.Image")));
+            this.btnFileNewProject.Image = global::Scada.Admin.App.Properties.Resources.blank;
             this.btnFileNewProject.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.btnFileNewProject.Name = "btnFileNewProject";
             this.btnFileNewProject.Size = new System.Drawing.Size(23, 22);
@@ -538,7 +538,7 @@
             // btnFileOpenProject
             // 
             this.btnFileOpenProject.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-            this.btnFileOpenProject.Image = ((System.Drawing.Image)(resources.GetObject("btnFileOpenProject.Image")));
+            this.btnFileOpenProject.Image = global::Scada.Admin.App.Properties.Resources.open;
             this.btnFileOpenProject.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.btnFileOpenProject.Name = "btnFileOpenProject";
             this.btnFileOpenProject.Size = new System.Drawing.Size(23, 22);
@@ -548,7 +548,7 @@
             // btnFileSave
             // 
             this.btnFileSave.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-            this.btnFileSave.Image = ((System.Drawing.Image)(resources.GetObject("btnFileSave.Image")));
+            this.btnFileSave.Image = global::Scada.Admin.App.Properties.Resources.save;
             this.btnFileSave.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.btnFileSave.Name = "btnFileSave";
             this.btnFileSave.Size = new System.Drawing.Size(23, 22);
@@ -558,7 +558,7 @@
             // btnFileSaveAll
             // 
             this.btnFileSaveAll.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-            this.btnFileSaveAll.Image = ((System.Drawing.Image)(resources.GetObject("btnFileSaveAll.Image")));
+            this.btnFileSaveAll.Image = global::Scada.Admin.App.Properties.Resources.save_all;
             this.btnFileSaveAll.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.btnFileSaveAll.Name = "btnFileSaveAll";
             this.btnFileSaveAll.Size = new System.Drawing.Size(23, 22);
@@ -573,7 +573,7 @@
             // btnDeployInstanceProfile
             // 
             this.btnDeployInstanceProfile.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-            this.btnDeployInstanceProfile.Image = ((System.Drawing.Image)(resources.GetObject("btnDeployInstanceProfile.Image")));
+            this.btnDeployInstanceProfile.Image = global::Scada.Admin.App.Properties.Resources.deploy_profile;
             this.btnDeployInstanceProfile.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.btnDeployInstanceProfile.Name = "btnDeployInstanceProfile";
             this.btnDeployInstanceProfile.Size = new System.Drawing.Size(23, 22);
@@ -583,7 +583,7 @@
             // btnDeployDownloadConfig
             // 
             this.btnDeployDownloadConfig.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-            this.btnDeployDownloadConfig.Image = ((System.Drawing.Image)(resources.GetObject("btnDeployDownloadConfig.Image")));
+            this.btnDeployDownloadConfig.Image = global::Scada.Admin.App.Properties.Resources.download;
             this.btnDeployDownloadConfig.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.btnDeployDownloadConfig.Name = "btnDeployDownloadConfig";
             this.btnDeployDownloadConfig.Size = new System.Drawing.Size(23, 22);
@@ -593,7 +593,7 @@
             // btnDeployUploadConfig
             // 
             this.btnDeployUploadConfig.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-            this.btnDeployUploadConfig.Image = ((System.Drawing.Image)(resources.GetObject("btnDeployUploadConfig.Image")));
+            this.btnDeployUploadConfig.Image = global::Scada.Admin.App.Properties.Resources.upload;
             this.btnDeployUploadConfig.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.btnDeployUploadConfig.Name = "btnDeployUploadConfig";
             this.btnDeployUploadConfig.Size = new System.Drawing.Size(23, 22);
@@ -603,7 +603,7 @@
             // btnDeployInstanceStatus
             // 
             this.btnDeployInstanceStatus.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-            this.btnDeployInstanceStatus.Image = ((System.Drawing.Image)(resources.GetObject("btnDeployInstanceStatus.Image")));
+            this.btnDeployInstanceStatus.Image = global::Scada.Admin.App.Properties.Resources.status;
             this.btnDeployInstanceStatus.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.btnDeployInstanceStatus.Name = "btnDeployInstanceStatus";
             this.btnDeployInstanceStatus.Size = new System.Drawing.Size(23, 22);
@@ -618,7 +618,7 @@
             // btnToolsAddLine
             // 
             this.btnToolsAddLine.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-            this.btnToolsAddLine.Image = ((System.Drawing.Image)(resources.GetObject("btnToolsAddLine.Image")));
+            this.btnToolsAddLine.Image = global::Scada.Admin.App.Properties.Resources.add_line;
             this.btnToolsAddLine.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.btnToolsAddLine.Name = "btnToolsAddLine";
             this.btnToolsAddLine.Size = new System.Drawing.Size(23, 22);
@@ -628,7 +628,7 @@
             // btnToolsAddDevice
             // 
             this.btnToolsAddDevice.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-            this.btnToolsAddDevice.Image = ((System.Drawing.Image)(resources.GetObject("btnToolsAddDevice.Image")));
+            this.btnToolsAddDevice.Image = global::Scada.Admin.App.Properties.Resources.add_device;
             this.btnToolsAddDevice.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.btnToolsAddDevice.Name = "btnToolsAddDevice";
             this.btnToolsAddDevice.Size = new System.Drawing.Size(23, 22);
@@ -638,7 +638,7 @@
             // btnToolsCreateCnls
             // 
             this.btnToolsCreateCnls.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-            this.btnToolsCreateCnls.Image = ((System.Drawing.Image)(resources.GetObject("btnToolsCreateCnls.Image")));
+            this.btnToolsCreateCnls.Image = global::Scada.Admin.App.Properties.Resources.create_cnls;
             this.btnToolsCreateCnls.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.btnToolsCreateCnls.Name = "btnToolsCreateCnls";
             this.btnToolsCreateCnls.Size = new System.Drawing.Size(23, 22);
