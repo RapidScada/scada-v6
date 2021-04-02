@@ -16,66 +16,46 @@
  * 
  * Product  : Rapid SCADA
  * Module   : ScadaAdminCommon
- * Summary  : Represents the Server application in a project
+ * Summary  : Represents the Webstation application
  * 
  * Author   : Mikhail Shiryaev
  * Created  : 2018
- * Modified : 2021
+ * Modified : 2018
  */
 
-using Scada.Server.Config;
 using System.IO;
 
 namespace Scada.Admin.Project
 {
     /// <summary>
-    /// Represents the Server application in a project.
-    /// <para>Представляет приложение Сервер в проекте.</para>
+    /// Represents the Webstation application
+    /// <para>Представляет приложение Вебстанция</para>
     /// </summary>
-    public class ServerApp : ProjectApp
+    public class WebApp : ProjectApp
     {
         /// <summary>
         /// Initializes a new instance of the class.
         /// </summary>
-        public ServerApp()
+        public WebApp()
             : base()
         {
         }
 
 
         /// <summary>
-        /// Gets the application configuration.
-        /// </summary>
-        public ServerConfig Config { get; private set; }
-
-        /// <summary>
         /// Gets the application name.
         /// </summary>
-        public override string AppName => CommonPhrases.ServerAppName;
+        public override string AppName => CommonPhrases.WebAppName;
 
-
-        /// <summary>
-        /// Gets the application configuration file path.
-        /// </summary>
-        private string GetConfigPath()
-        {
-            return Path.Combine(GetConfigDir(), ServerConfig.DefaultFileName);
-        }
 
         /// <summary>
         /// Loads the configuration.
         /// </summary>
         public override bool LoadConfig(out string errMsg)
         {
-            if (Config.Load(GetConfigPath(), out errMsg))
-            {
-                ConfigLoaded = true;
-                return true;
-            }
-            else
-            {
-                return false;
-            }
+            ConfigLoaded = true;
+            errMsg = "";
+            return true;
         }
 
         /// <summary>
@@ -83,16 +63,16 @@ namespace Scada.Admin.Project
         /// </summary>
         public override bool SaveConfig(out string errMsg)
         {
-            return Config.Save(GetConfigPath(), out errMsg);
+            errMsg = "";
+            return true;
         }
 
         /// <summary>
-        /// Clears the application configuration.
+        /// Gets the application configuration directory.
         /// </summary>
-        public override void ClearConfig()
+        public override string GetConfigDir()
         {
-            base.ClearConfig();
-            Config = new ServerConfig();
+            return string.IsNullOrEmpty(AppDir) ? "" : Path.Combine(AppDir, "config");
         }
 
         /// <summary>
@@ -100,7 +80,7 @@ namespace Scada.Admin.Project
         /// </summary>
         public static string GetAppDir(string parentDir)
         {
-            return Path.Combine(parentDir, "ScadaServer");
+            return Path.Combine(parentDir, "ScadaWeb");
         }
     }
 }

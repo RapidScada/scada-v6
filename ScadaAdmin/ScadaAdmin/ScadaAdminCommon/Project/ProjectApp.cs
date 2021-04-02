@@ -24,6 +24,7 @@
  */
 
 using System;
+using System.IO;
 using System.Xml;
 
 namespace Scada.Admin.Project
@@ -35,15 +36,35 @@ namespace Scada.Admin.Project
     public abstract class ProjectApp
     {
         /// <summary>
+        /// Initializes a new instance of the class.
+        /// </summary>
+        public ProjectApp()
+        {
+            Enabled = true;
+            AppDir = "";
+            ClearConfig();
+        }
+
+
+        /// <summary>
         /// Gets or sets a value indicating whether the application is present in the instance.
         /// </summary>
-        public bool Enabled { get; set; } = true;
+        public bool Enabled { get; set; }
 
         /// <summary>
         /// Gets or sets the application directory in the project.
         /// </summary>
-        public string AppDir { get; set; } = "";
+        public string AppDir { get; set; }
 
+        /// <summary>
+        /// Gets a value indicating whether the application configuration is loaded.
+        /// </summary>
+        public bool ConfigLoaded { get; protected set; }
+
+        /// <summary>
+        /// Gets the application name.
+        /// </summary>
+        public abstract string AppName { get; }
 
 
         /// <summary>
@@ -69,18 +90,64 @@ namespace Scada.Admin.Project
         }
 
         /// <summary>
+        /// Loads the configuration.
+        /// </summary>
+        public abstract bool LoadConfig(out string errMsg);
+
+        /// <summary>
+        /// Saves the configuration.
+        /// </summary>
+        public abstract bool SaveConfig(out string errMsg);
+
+        /// <summary>
+        /// Gets the application configuration directory.
+        /// </summary>
+        public virtual string GetConfigDir()
+        {
+            return string.IsNullOrEmpty(AppDir) ? "" : Path.Combine(AppDir, "Config");
+        }
+
+        /// <summary>
         /// Creates configuration files required for the application.
         /// </summary>
-        public abstract bool CreateConfigFiles(out string errMsg);
+        public virtual bool CreateConfigFiles(out string errMsg)
+        {
+            try
+            {
+                Directory.CreateDirectory(GetConfigDir());
+                return SaveConfig(out errMsg);
+            }
+            catch (Exception ex)
+            {
+                errMsg = ScadaUtils.BuildErrorMessage(ex, AdminPhrases.CreateAppConfigError, AppName);
+                return false;
+            }
+        }
 
         /// <summary>
         /// Deletes configuration files of the application.
         /// </summary>
-        public abstract bool DeleteConfigFiles(out string errMsg);
+        public virtual bool DeleteConfigFiles(out string errMsg)
+        {
+            try
+            {
+                Directory.Delete(AppDir, true);
+                errMsg = "";
+                return true;
+            }
+            catch (Exception ex)
+            {
+                errMsg = ScadaUtils.BuildErrorMessage(ex, AdminPhrases.DeleteAppConfigError, AppName);
+                return false;
+            }
+        }
 
         /// <summary>
         /// Clears the application configuration in memory.
         /// </summary>
-        public abstract void ClearConfig();
+        public virtual void ClearConfig()
+        {
+            ConfigLoaded = false;
+        }
     }
 }

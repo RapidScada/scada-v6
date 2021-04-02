@@ -40,10 +40,54 @@ namespace Scada.Admin
         // Scada.Admin.Project.ConfigBase
         public static string LoadConfigBaseError { get; private set; }
         public static string SaveConfigBaseError { get; private set; }
+        public static string LoadBaseTableError { get; private set; }
+        public static string SaveBaseTableError { get; private set; }
+
+        // Scada.Admin.Project.ProjectInstance
+        public static string CreateInstanceFilesError { get; private set; }
+        public static string DeleteInstanceFilesError { get; private set; }
+        public static string RenameInstanceError { get; private set; }
+        public static string InstanceNameEmpty { get; private set; }
+        public static string InstanceNameInvalid { get; private set; }
 
         // Scada.Admin.Project.ScadaProject
         public static string CreateProjectError { get; private set; }
         public static string LoadProjectError { get; private set; }
         public static string SaveProjectError { get; private set; }
+        public static string LoadProjectDescrError { get; private set; }
+        public static string ProjectNameEmpty { get; private set; }
+        public static string ProjectNameInvalid { get; private set; }
+        public static string RenameProjectError { get; private set; }
+        public static string ProjectDirectoryExists { get; private set; }
+
+        public static void Init()
+        {
+            LocaleDict dict = Locale.GetDictionary("Scada.Admin.Project");
+            CreateAppConfigError = dict.GetPhrase("CreateAppConfigError");
+            DeleteAppConfigError = dict.GetPhrase("DeleteAppConfigError");
+
+            dict = Locale.GetDictionary("Scada.Admin.Project.ConfigBase");
+            LoadConfigBaseError = dict.GetPhrase("LoadConfigBaseError");
+            SaveConfigBaseError = dict.GetPhrase("SaveConfigBaseError");
+            LoadBaseTableError = dict.GetPhrase("LoadBaseTableError");
+            SaveBaseTableError = dict.GetPhrase("SaveBaseTableError");
+
+            dict = Locale.GetDictionary("Scada.Admin.Project.ProjectInstance");
+            CreateInstanceFilesError = dict.GetPhrase("CreateInstanceFilesError");
+            DeleteInstanceFilesError = dict.GetPhrase("DeleteInstanceFilesError");
+            RenameInstanceError = dict.GetPhrase("RenameInstanceError");
+            InstanceNameEmpty = dict.GetPhrase("InstanceNameEmpty");
+            InstanceNameInvalid = dict.GetPhrase("InstanceNameInvalid");
+
+            dict = Locale.GetDictionary("Scada.Admin.Project.ScadaProject");
+            CreateProjectError = dict.GetPhrase("CreateProjectError");
+            LoadProjectError = dict.GetPhrase("LoadProjectError");
+            SaveProjectError = dict.GetPhrase("SaveProjectError");
+            LoadProjectDescrError = dict.GetPhrase("LoadProjectDescrError");
+            ProjectNameEmpty = dict.GetPhrase("ProjectNameEmpty");
+            ProjectNameInvalid = dict.GetPhrase("ProjectNameInvalid");
+            RenameProjectError = dict.GetPhrase("RenameProjectError");
+            ProjectDirectoryExists = dict.GetPhrase("ProjectDirectoryExists");
+        }
     }
 }

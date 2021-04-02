@@ -24,8 +24,10 @@
  */
 
 using Scada.Data.Models;
+using Scada.Data.Tables;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 
 namespace Scada.Admin.Project
@@ -55,7 +57,7 @@ namespace Scada.Admin.Project
         /// <summary>
         /// Gets a value indicating whether the tables are loaded.
         /// </summary>
-        public bool Loaded { get; protected set; }
+        public bool Loaded { get; private set; }
 
         /// <summary>
         /// Gets a value indicating whether at least one table was modified.
@@ -65,6 +67,103 @@ namespace Scada.Admin.Project
             get
             {
                 return AllTables.Any(t => t.Modified);
+            }
+        }
+
+
+        /// <summary>
+        /// Loads the configuration database if needed.
+        /// </summary>
+        public bool Load(out string errMsg)
+        {
+            try
+            {
+                if (!Loaded)
+                {
+                    foreach (IBaseTable baseTable in AllTables)
+                    {
+                        string fileName = Path.Combine(BaseDir, baseTable.FileName);
+
+                        if (File.Exists(fileName))
+                        {
+                            try
+                            {
+                                baseTable.Load(fileName);
+                            }
+                            catch (Exception ex)
+                            {
+                                throw new ScadaException(string.Format(
+                                    AdminPhrases.LoadBaseTableError, baseTable.Title), ex);
+                            }
+                        }
+                    }
+
+                    Loaded = true;
+                }
+
+                errMsg = "";
+                return true;
+            }
+            catch (Exception ex)
+            {
+                errMsg = ScadaUtils.BuildErrorMessage(ex, AdminPhrases.LoadConfigBaseError);
+                return false;
+            }
+        }
+
+        /// <summary>
+        /// Saves all modified tables of the configuration database.
+        /// </summary>
+        public bool Save(out string errMsg)
+        {
+            try
+            {
+                Directory.CreateDirectory(BaseDir);
+
+                foreach (IBaseTable baseTable in AllTables)
+                {
+                    if (baseTable.Modified)
+                    {
+                        try
+                        {
+                            string fileName = Path.Combine(BaseDir, baseTable.FileName);
+                            baseTable.Save(fileName);
+                        }
+                        catch (Exception ex)
+                        {
+                            throw new ScadaException(string.Format(
+                                AdminPhrases.SaveBaseTableError, baseTable.Title), ex);
+                        }
+                    }
+                }
+
+                errMsg = "";
+                return true;
+            }
+            catch (Exception ex)
+            {
+                errMsg = ScadaUtils.BuildErrorMessage(ex, AdminPhrases.SaveConfigBaseError);
+                return false;
+            }
+        }
+
+        /// <summary>
+        /// Saves the specified table of the configuration database.
+        /// </summary>
+        public bool SaveTable(IBaseTable baseTable, out string errMsg)
+        {
+            try
+            {
+                Directory.CreateDirectory(BaseDir);
+                string fileName = Path.Combine(BaseDir, baseTable.FileName);
+                baseTable.Save(fileName);
+                errMsg = "";
+                return true;
+            }
+            catch (Exception ex)
+            {
+                errMsg = ScadaUtils.BuildErrorMessage(ex, AdminPhrases.SaveBaseTableError, baseTable.Title);
+                return false;
             }
         }
     }

@@ -16,28 +16,28 @@
  * 
  * Product  : Rapid SCADA
  * Module   : ScadaAdminCommon
- * Summary  : Represents the Server application in a project
+ * Summary  : Represents the Communicator application in a project
  * 
  * Author   : Mikhail Shiryaev
  * Created  : 2018
  * Modified : 2021
  */
 
-using Scada.Server.Config;
+using Scada.Comm.Config;
 using System.IO;
 
 namespace Scada.Admin.Project
 {
     /// <summary>
-    /// Represents the Server application in a project.
-    /// <para>Представляет приложение Сервер в проекте.</para>
+    /// Represents the Communicator application in a project.
+    /// <para>Представляет приложение Коммуникатор в проекте.</para>
     /// </summary>
-    public class ServerApp : ProjectApp
+    public class CommApp : ProjectApp
     {
         /// <summary>
         /// Initializes a new instance of the class.
         /// </summary>
-        public ServerApp()
+        public CommApp()
             : base()
         {
         }
@@ -46,12 +46,12 @@ namespace Scada.Admin.Project
         /// <summary>
         /// Gets the application configuration.
         /// </summary>
-        public ServerConfig Config { get; private set; }
+        public CommConfig Config { get; private set; }
 
         /// <summary>
         /// Gets the application name.
         /// </summary>
-        public override string AppName => CommonPhrases.ServerAppName;
+        public override string AppName => CommonPhrases.CommAppName;
 
 
         /// <summary>
@@ -59,7 +59,7 @@ namespace Scada.Admin.Project
         /// </summary>
         private string GetConfigPath()
         {
-            return Path.Combine(GetConfigDir(), ServerConfig.DefaultFileName);
+            return Path.Combine(GetConfigDir(), CommConfig.DefaultFileName);
         }
 
         /// <summary>
@@ -92,7 +92,7 @@ namespace Scada.Admin.Project
         public override void ClearConfig()
         {
             base.ClearConfig();
-            Config = new ServerConfig();
+            Config = new CommConfig();
         }
 
         /// <summary>
@@ -100,7 +100,7 @@ namespace Scada.Admin.Project
         /// </summary>
         public static string GetAppDir(string parentDir)
         {
-            return Path.Combine(parentDir, "ScadaServer");
+            return Path.Combine(parentDir, "ScadaComm");
         }
     }
 }

@@ -7,10 +7,24 @@
   <Dictionary key="Scada.Admin.Project.ConfigBase">
     <Phrase key="LoadConfigBaseError">Ошибка при загрузке базы конфигурации</Phrase>
     <Phrase key="SaveConfigBaseError">Ошибка при сохранении базы конфигурации</Phrase>
+    <Phrase key="LoadBaseTableError">Ошибка при загрузке таблицы {0}</Phrase>
+    <Phrase key="SaveBaseTableError">Ошибка при сохранении таблицы {0}</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Admin.Project.ProjectInstance">
+    <Phrase key="CreateInstanceFilesError">Ошибка при создании файлов экземпляра в проекте</Phrase>
+    <Phrase key="DeleteInstanceFilesError">Ошибка при удалении файлов экземпляра в проекте</Phrase>
+    <Phrase key="RenameInstanceError">Ошибка при переименовании экземпляра</Phrase>
+    <Phrase key="InstanceNameEmpty">Наименование экземпляра не может быть пустым.</Phrase>
+    <Phrase key="InstanceNameInvalid">Наименование экземпляра содержит недопустимые символы.</Phrase>
   </Dictionary>
   <Dictionary key="Scada.Admin.Project.ScadaProject">
     <Phrase key="CreateProjectError">Ошибка при создании проекта</Phrase>
     <Phrase key="LoadProjectError">Ошибка при загрузке проекта</Phrase>
     <Phrase key="SaveProjectError">Ошибка при сохранении проекта</Phrase>
+    <Phrase key="LoadProjectDescrError">Ошибка при загрузке описания проекта</Phrase>
+    <Phrase key="ProjectNameEmpty">Наименование проекта не может быть пустым.</Phrase>
+    <Phrase key="ProjectNameInvalid">Наименование проекта содержит недопустимые символы.</Phrase>
+    <Phrase key="RenameProjectError">Ошибка при переименовании проекта</Phrase>
+    <Phrase key="ProjectDirectoryExists">Директория проекта уже существует.</Phrase>
   </Dictionary>
 </ScadaAdminDictionaries>

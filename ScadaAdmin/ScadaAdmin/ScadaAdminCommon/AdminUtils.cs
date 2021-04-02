@@ -23,6 +23,8 @@
  * Modified : 2021
  */
 
+using System.IO;
+
 namespace Scada.Admin
 {
     /// <summary>
@@ -43,5 +45,14 @@ namespace Scada.Admin
         /// The maximum channel number for input and output channels.
         /// </summary>
         public const int MaxCnlNum = ushort.MaxValue;
+
+        /// <summary>
+        /// Validates the name of a project item.
+        /// </summary>
+        public static bool NameIsValid(string name)
+        {
+            return !(string.IsNullOrWhiteSpace(name) || name.IndexOfAny(Path.GetInvalidFileNameChars()) >= 0 ||
+                name.Contains(Path.DirectorySeparatorChar) || name.Contains(Path.AltDirectorySeparatorChar));
+        }
     }
 }
