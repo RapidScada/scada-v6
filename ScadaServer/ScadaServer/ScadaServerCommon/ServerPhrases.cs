@@ -73,12 +73,12 @@ namespace Scada.Server
 
         public static void Init()
         {
-            // load phrases from dictionaries, because the service user interface is multilingual
+            // load phrases that are used in the multilingual user interface from dictionaries
             LocaleDict dict = Locale.GetDictionary("Scada.Server.Modules");
             LoadModuleConfigError = dict.GetPhrase("LoadModuleConfigError");
             SaveModuleConfigError = dict.GetPhrase("SaveModuleConfigError");
 
-            // set phrases depending on locale, because the service logic supports only 2 languages
+            // set phrases that are used in the bilingual service logic, depending on the locale
             if (Locale.IsRussian)
             {
                 ErrorInArchive = "Ошибка при вызове метода {0} архива {1}";
