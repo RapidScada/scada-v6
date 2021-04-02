@@ -1,7 +1,8 @@
+using Scada.Admin.App.Forms;
 using System;
 using System.Windows.Forms;
 
-namespace ScadaAdmin
+namespace Scada.Admin.App
 {
     static class Program
     {
@@ -14,7 +15,7 @@ namespace ScadaAdmin
             Application.SetHighDpiMode(HighDpiMode.SystemAware);
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
-            //Application.Run(new Form1());
+            //Application.Run(new FrmMain());
         }
     }
 }

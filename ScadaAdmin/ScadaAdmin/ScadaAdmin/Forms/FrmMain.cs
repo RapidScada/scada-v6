@@ -1,5 +1,5 @@
 ﻿/*
- * Copyright 2020 Mikhail Shiryaev
+ * Copyright 2021 Rapid Software LLC
  * 
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -20,26 +20,14 @@
  * 
  * Author   : Mikhail Shiryaev
  * Created  : 2018
- * Modified : 2020
+ * Modified : 2021
  */
 
 using Scada.Admin.App.Code;
-using Scada.Admin.App.Forms.Deployment;
-using Scada.Admin.App.Forms.Tables;
-using Scada.Admin.App.Forms.Tools;
 using Scada.Admin.App.Properties;
-using Scada.Admin.Config;
-using Scada.Admin.Deployment;
 using Scada.Admin.Project;
-using Scada.Agent.Connector;
-using Scada.Comm;
-using Scada.Comm.Devices;
-using Scada.Comm.Shell.Code;
-using Scada.Comm.Shell.Forms;
 using Scada.Data.Entities;
-using Scada.Server.Modules;
-using Scada.Server.Shell.Code;
-using Scada.UI;
+using Scada.Log;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -47,7 +35,6 @@ using System.Diagnostics;
 using System.Drawing;
 using System.IO;
 using System.Windows.Forms;
-using Utils;
 using WinControl;
 
 namespace Scada.Admin.App.Forms
@@ -76,7 +63,7 @@ namespace Scada.Admin.App.Forms
         private const string SupportRuUrl = "https://forum.rapidscada.ru/";
 
         private readonly AppData appData;                 // the common data of the application
-        private readonly Log log;                         // the application log
+        private readonly ILog log;                        // the application log
         private readonly ServerShell serverShell;         // the shell to edit Server settings
         private readonly CommShell commShell;             // the shell to edit Communicator settings
         private readonly ExplorerBuilder explorerBuilder; // the object to manipulate the explorer tree
@@ -249,7 +236,7 @@ namespace Scada.Admin.App.Forms
         /// </summary>
         private void LoadAppState()
         {
-            if (appData.AppState.Load(Path.Combine(appData.AppDirs.ConfigDir, AppState.DefFileName), 
+            if (appData.AppState.Load(Path.Combine(appData.AppDirs.ConfigDir, AppState.DefaultFileName), 
                 out string errMsg))
             {
                 appData.AppState.MainFormState.Apply(this);
@@ -268,7 +255,7 @@ namespace Scada.Admin.App.Forms
         {
             appData.AppState.MainFormState.Retrieve(this);
 
-            if (!appData.AppState.Save(Path.Combine(appData.AppDirs.ConfigDir, AppState.DefFileName),
+            if (!appData.AppState.Save(Path.Combine(appData.AppDirs.ConfigDir, AppState.DefaultFileName),
                 out string errMsg))
             {
                 appData.ProcError(errMsg);

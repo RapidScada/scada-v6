@@ -42,6 +42,10 @@ namespace Scada.Admin
         /// </summary>
         public const string ProjectExt = ".rsproj";
         /// <summary>
+        /// The default directory of the projects.
+        /// </summary>
+        public const string ProjectDir = @"C:\SCADA\Projects\";
+        /// <summary>
         /// The maximum channel number for input and output channels.
         /// </summary>
         public const int MaxCnlNum = ushort.MaxValue;
