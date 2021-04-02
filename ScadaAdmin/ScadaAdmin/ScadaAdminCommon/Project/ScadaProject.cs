@@ -384,7 +384,6 @@ namespace Scada.Admin.Project
             return sbInfo.ToString();
         }
 
-
         /// <summary>
         /// Creates a new project with the specified parameters.
         /// </summary>
