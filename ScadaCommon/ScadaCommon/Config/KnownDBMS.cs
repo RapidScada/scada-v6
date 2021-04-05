@@ -29,7 +29,7 @@ namespace Scada.Config
 {
     /// <summary>
     /// Specifies the known database management systems.
-    /// <para>Задаёт известные системы управления базами данных.</para>
+    /// <para>Задает известные системы управления базами данных.</para>
     /// </summary>
     public enum KnownDBMS
     {

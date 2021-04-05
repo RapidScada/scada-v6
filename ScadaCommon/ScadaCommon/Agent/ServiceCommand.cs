@@ -16,7 +16,7 @@
  * 
  * Product  : Rapid SCADA
  * Module   : ScadaCommon
- * Summary  : Specifies the service control commands.
+ * Summary  : Specifies the service control commands
  * 
  * Author   : Mikhail Shiryaev
  * Created  : 2018
@@ -29,7 +29,7 @@ namespace Scada.Agent
 {
     /// <summary>
     /// Specifies the service control commands.
-    /// <para>Определяет команды управления сервисом.</para>
+    /// <para>Задает команды управления сервисом.</para>
     /// </summary>
     public enum ServiceCommand
     {

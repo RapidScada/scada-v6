@@ -31,7 +31,7 @@ namespace Scada.Agent
 {
     /// <summary>
     /// Specifies the configuration parts.
-    /// <para>Определяет части конфигурации.</para>
+    /// <para>Задает части конфигурации.</para>
     /// </summary>
     [Flags]
     public enum ConfigParts

@@ -16,30 +16,31 @@
  * 
  * Product  : Rapid SCADA
  * Module   : ScadaCommon
- * Summary  : Specifies the top level folders
+ * Summary  : Defines functionality to operate with a tree structure
  * 
  * Author   : Mikhail Shiryaev
- * Created  : 2020
- * Modified : 2020
+ * Created  : 2016
+ * Modified : 2021
  */
 
-#pragma warning disable 1591 // Missing XML comment for publicly visible type or member
+using System.Collections;
 
-namespace Scada.Protocol
+namespace Scada
 {
     /// <summary>
-    /// Specifies the top level folders.
-    /// <para>Задает папки верхнего уровня.</para>
+    /// Defines functionality to operate with a tree structure.
+    /// <para>Определяет функциональность для работы с древовидной структурой.</para>
     /// </summary>
-    public enum TopFolder : byte
+    public interface ITreeNode
     {
-        Undefined = 0,
-        Archive = 1,
-        ArchiveCopy = 2,
-        Base = 3,
-        View = 4,
-        Server = 5,
-        Comm = 6,
-        Web = 7
+        /// <summary>
+        /// Gets or sets the parent tree node.
+        /// </summary>
+        ITreeNode Parent { get; set; }
+
+        /// <summary>
+        /// Gets the child tree nodes.
+        /// </summary>
+        IList Children { get; }
     }
 }

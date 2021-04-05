@@ -64,8 +64,8 @@ namespace Scada.Admin.App.Forms
 
         private readonly AppData appData;                 // the common data of the application
         private readonly ILog log;                        // the application log
-        private readonly ServerShell serverShell;         // the shell to edit Server settings
-        private readonly CommShell commShell;             // the shell to edit Communicator settings
+        //private readonly ServerShell serverShell;         // the shell to edit Server settings
+        //private readonly CommShell commShell;             // the shell to edit Communicator settings
         private readonly ExplorerBuilder explorerBuilder; // the object to manipulate the explorer tree
         private ScadaProject project;                     // the project under development
         private FrmStartPage frmStartPage;                // the start page
@@ -86,11 +86,11 @@ namespace Scada.Admin.App.Forms
         public FrmMain(AppData appData)
             : this()
         {
-            this.appData = appData ?? throw new ArgumentNullException("appData");
+            this.appData = appData ?? throw new ArgumentNullException(nameof(appData));
             log = appData.ErrLog;
-            serverShell = new ServerShell();
-            commShell = new CommShell();
-            explorerBuilder = new ExplorerBuilder(appData, serverShell, commShell, tvExplorer, new ContextMenus() {
+            //serverShell = new ServerShell();
+            //commShell = new CommShell();
+            explorerBuilder = new ExplorerBuilder(appData, /*serverShell, commShell, */tvExplorer, new ContextMenus() {
                 ProjectMenu = cmsProject, CnlTableMenu = cmsCnlTable, DirectoryMenu = cmsDirectory,
                 FileItemMenu = cmsFileItem, InstanceMenu = cmsInstance, ServerMenu = cmsServer,
                 CommMenu = cmsComm, CommLineMenu = cmsCommLine, DeviceMenu = cmsDevice });
@@ -236,11 +236,11 @@ namespace Scada.Admin.App.Forms
         /// </summary>
         private void LoadAppState()
         {
-            if (appData.AppState.Load(Path.Combine(appData.AppDirs.ConfigDir, AppState.DefaultFileName), 
+            if (appData.State.Load(Path.Combine(appData.AppDirs.ConfigDir, AppState.DefaultFileName), 
                 out string errMsg))
             {
-                appData.AppState.MainFormState.Apply(this);
-                ofdProject.InitialDirectory = appData.AppState.ProjectDir;
+                appData.State.MainFormState.Apply(this);
+                ofdProject.InitialDirectory = appData.State.ProjectDir;
             }
             else
             {
@@ -253,9 +253,9 @@ namespace Scada.Admin.App.Forms
         /// </summary>
         private void SaveAppState()
         {
-            appData.AppState.MainFormState.Retrieve(this);
+            appData.State.MainFormState.Retrieve(this);
 
-            if (!appData.AppState.Save(Path.Combine(appData.AppDirs.ConfigDir, AppState.DefaultFileName),
+            if (!appData.State.Save(Path.Combine(appData.AppDirs.ConfigDir, AppState.DefaultFileName),
                 out string errMsg))
             {
                 appData.ProcError(errMsg);
@@ -895,8 +895,8 @@ namespace Scada.Admin.App.Forms
                 if (ScadaProject.Create(frmNewProject.ProjectName, frmNewProject.ProjectLocation,
                     frmNewProject.ProjectTemplate, out ScadaProject newProject, out string errMsg))
                 {
-                    appData.AppState.AddRecentProject(newProject.FileName);
-                    appData.AppState.RecentSelection.Reset();
+                    appData.State.AddRecentProject(newProject.FileName);
+                    appData.State.RecentSelection.Reset();
                     project = newProject;
                     LoadConfigBase();
                     Text = string.Format(AppPhrases.ProjectTitle, project.Name);
@@ -931,7 +931,7 @@ namespace Scada.Admin.App.Forms
                 project = new ScadaProject();
 
                 if (project.Load(fileName, out string errMsg))
-                    appData.AppState.AddRecentProject(project.FileName);
+                    appData.State.AddRecentProject(project.FileName);
                 else
                     appData.ProcError(errMsg);
 
@@ -997,7 +997,7 @@ namespace Scada.Admin.App.Forms
         {
             if (frmStartPage == null)
             {
-                frmStartPage = new FrmStartPage(appData.AppState);
+                frmStartPage = new FrmStartPage(appData.State);
                 wctrlMain.AddForm(frmStartPage, "", miFileShowStartPage.Image, null);
             }
             else
@@ -1466,7 +1466,7 @@ namespace Scada.Admin.App.Forms
             // show a line add form
             if (project != null)
             {
-                FrmLineAdd frmLineAdd = new FrmLineAdd(project, appData.AppState.RecentSelection);
+                FrmLineAdd frmLineAdd = new FrmLineAdd(project, appData.State.RecentSelection);
 
                 if (frmLineAdd.ShowDialog() == DialogResult.OK)
                 {
@@ -1502,7 +1502,7 @@ namespace Scada.Admin.App.Forms
             // show a device add form
             if (project != null)
             {
-                FrmDeviceAdd frmDeviceAdd = new FrmDeviceAdd(project, appData.AppState.RecentSelection);
+                FrmDeviceAdd frmDeviceAdd = new FrmDeviceAdd(project, appData.State.RecentSelection);
 
                 if (frmDeviceAdd.ShowDialog() == DialogResult.OK)
                 {
@@ -1550,7 +1550,7 @@ namespace Scada.Admin.App.Forms
             // show a channel creation wizard
             if (project != null)
             {
-                FrmCnlCreate frmCnlCreate = new FrmCnlCreate(project, appData.AppState.RecentSelection, appData);
+                FrmCnlCreate frmCnlCreate = new FrmCnlCreate(project, appData.State.RecentSelection, appData);
 
                 if (frmCnlCreate.ShowDialog() == DialogResult.OK)
                 {

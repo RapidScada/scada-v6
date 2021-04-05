@@ -29,7 +29,7 @@ namespace Scada.Protocol
 {
     /// <summary>
     /// Specifies the standard application folders.
-    /// <para>Определяет стандартные папки приложения.</para>
+    /// <para>Задает стандартные папки приложения.</para>
     /// </summary>
     public enum AppFolder : byte
     {

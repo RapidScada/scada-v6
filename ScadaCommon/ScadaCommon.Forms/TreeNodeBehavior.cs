@@ -15,31 +15,30 @@
  * 
  * 
  * Product  : Rapid SCADA
- * Module   : ScadaCommon
- * Summary  : Specifies the top level folders
+ * Module   : ScadaCommon.Forms
+ * Summary  : Specifies the behaviors when moving a node
  * 
  * Author   : Mikhail Shiryaev
- * Created  : 2020
- * Modified : 2020
+ * Created  : 2021
+ * Modified : 2021
  */
 
-#pragma warning disable 1591 // Missing XML comment for publicly visible type or member
-
-namespace Scada.Protocol
+namespace Scada.Forms
 {
     /// <summary>
-    /// Specifies the top level folders.
-    /// <para>Задает папки верхнего уровня.</para>
+    /// Specifies the behaviors when moving a node.
+    /// <para>Задает поведение при перемещении узла.</para>
     /// </summary>
-    public enum TopFolder : byte
+    public enum TreeNodeBehavior
     {
-        Undefined = 0,
-        Archive = 1,
-        ArchiveCopy = 2,
-        Base = 3,
-        View = 4,
-        Server = 5,
-        Comm = 6,
-        Web = 7
+        /// <summary>
+        /// A node can only move within its parent node.
+        /// </summary>
+        WithinParent,
+
+        /// <summary>
+        /// A node can move within its parent node and from one parent to another of the same type.
+        /// </summary>
+        ThroughSimilarParents
     }
 }

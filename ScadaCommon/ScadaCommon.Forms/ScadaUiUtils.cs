@@ -36,6 +36,33 @@ namespace Scada.Forms
     public static class ScadaUiUtils
     {
         /// <summary>
+        /// Shows an informational message.
+        /// </summary>
+        public static void ShowInfo(string text)
+        {
+            MessageBox.Show(text?.Trim(), CommonPhrases.InfoCaption,
+                MessageBoxButtons.OK, MessageBoxIcon.Information);
+        }
+
+        /// <summary>
+        /// Shows an error message.
+        /// </summary>
+        public static void ShowError(string text)
+        {
+            MessageBox.Show(text?.Trim(), CommonPhrases.ErrorCaption,
+                MessageBoxButtons.OK, MessageBoxIcon.Error);
+        }
+
+        /// <summary>
+        /// Shows a warning message.
+        /// </summary>
+        public static void ShowWarning(string text)
+        {
+            MessageBox.Show(text?.Trim(), CommonPhrases.WarningCaption,
+                MessageBoxButtons.OK, MessageBoxIcon.Warning);
+        }
+
+        /// <summary>
         /// Tests whether the specified area is visible on any of the available screens.
         /// </summary>
         public static bool AreaIsVisible(int x, int y, int width, int height)

@@ -54,4 +54,10 @@
     <Phrase key="NotHexadecimal">String is not hexadecimal.</Phrase>
     <Phrase key="InvalidParamVal">Invalid value of the &quot;{0}&quot; parameter.</Phrase>
   </Dictionary>
+  <Dictionary key="Scada.Forms">
+    <Phrase key="InfoCaption">Information</Phrase>
+    <Phrase key="QuestionCaption">Question</Phrase>
+    <Phrase key="ErrorCaption">Error</Phrase>
+    <Phrase key="WarningCaption">Warning</Phrase>
+  </Dictionary>
 </ScadaDictionaries>

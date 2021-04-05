@@ -16,7 +16,7 @@
  * 
  * Product  : Rapid SCADA
  * Module   : ScadaCommon
- * Summary  : Service applications
+ * Summary  : Specifies the applications that run as services
  * 
  * Author   : Mikhail Shiryaev
  * Created  : 2018
@@ -27,7 +27,7 @@ namespace Scada.Agent
 {
     /// <summary>
     /// Specifies the applications that run as services.
-    /// <para>Определяет приложения, которые работают как службы.</para>
+    /// <para>Задает приложения, которые работают как службы.</para>
     /// </summary>
     public enum ServiceApp
     {

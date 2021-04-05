@@ -87,6 +87,12 @@ namespace Scada
         public static string NotHexadecimal { get; private set; }
         public static string InvalidParamVal { get; private set; }
 
+        // Scada.Forms
+        public static string InfoCaption { get; private set; }
+        public static string QuestionCaption { get; private set; }
+        public static string ErrorCaption { get; private set; }
+        public static string WarningCaption { get; private set; }
+
         static CommonPhrases()
         {
             // the phrases below may be required before loading dictionaries
@@ -157,6 +163,12 @@ namespace Scada
             NotNumber = dict.GetPhrase("NotNumber");
             NotHexadecimal = dict.GetPhrase("NotHexadecimal");
             InvalidParamVal = dict.GetPhrase("InvalidParamVal");
+
+            dict = Locale.GetDictionary("Scada.Forms");
+            InfoCaption = dict.GetPhrase("InfoCaption");
+            QuestionCaption = dict.GetPhrase("QuestionCaption");
+            ErrorCaption = dict.GetPhrase("ErrorCaption");
+            WarningCaption = dict.GetPhrase("WarningCaption");
         }
     }
 }
