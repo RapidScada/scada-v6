@@ -1,5 +1,5 @@
 ﻿/*
- * Copyright 2019 Mikhail Shiryaev
+ * Copyright 2021 Rapid Software LLC
  * 
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -16,20 +16,19 @@
  * 
  * Product  : Rapid SCADA
  * Module   : Administrator
- * Summary  : Form for editing a table of the configuration database.
+ * Summary  : Represents a form for editing a configuration database table
  * 
  * Author   : Mikhail Shiryaev
  * Created  : 2018
- * Modified : 2019
+ * Modified : 2021
  */
 
 using Scada.Admin.App.Code;
 using Scada.Admin.Project;
 using Scada.Data.Entities;
 using Scada.Data.Tables;
-using Scada.UI;
+using Scada.Forms;
 using System;
-using System.ComponentModel;
 using System.Data;
 using System.Drawing;
 using System.Globalization;
@@ -40,14 +39,13 @@ using WinControl;
 namespace Scada.Admin.App.Forms.Tables
 {
     /// <summary>
-    /// Form for editing a table of the configuration database.
-    /// <para>Форма редактирования таблицы базы конфигурации.</para>
+    /// Represents a form for editing a configuration database table.
+    /// <para>Представляет форму редактирования таблицы базы конфигурации.</para>
     /// </summary>
     public partial class FrmBaseTable : Form, IChildForm
     {
         /// <summary>
         /// Represents a buffer for copying cells.
-        /// <para>Представляет буфер для копирования ячеек.</para>
         /// </summary>
         [Serializable]
         private class CellBuffer
@@ -64,7 +62,7 @@ namespace Scada.Admin.App.Forms.Tables
         /// <summary>
         /// The format for copying cell values to the clipboard.
         /// </summary>
-        private static string ClipboardFormat = typeof(FrmBaseTable).FullName;
+        private static readonly string ClipboardFormat = typeof(FrmBaseTable).FullName;
 
         private readonly IBaseTable baseTable;    // the table being edited
         private readonly TableFilter tableFilter; // the table filter
@@ -73,8 +71,8 @@ namespace Scada.Admin.App.Forms.Tables
 
         private DataTable dataTable; // the table used by a grid view control
         private int maxRowID;        // the maximum ID in the table
-        private FrmFind frmFind;     // the find and replace form
-        private FrmFilter frmFilter; // the filter form
+        //private FrmFind frmFind;     // the find and replace form
+        //private FrmFilter frmFilter; // the filter form
 
 
         /// <summary>
@@ -91,15 +89,15 @@ namespace Scada.Admin.App.Forms.Tables
         public FrmBaseTable(IBaseTable baseTable, TableFilter tableFilter, ScadaProject project, AppData appData)
             : this()
         {
-            this.baseTable = baseTable ?? throw new ArgumentNullException("baseTable");
+            this.baseTable = baseTable ?? throw new ArgumentNullException(nameof(baseTable));
             this.tableFilter = tableFilter;
-            this.project = project ?? throw new ArgumentNullException("project");
-            this.appData = appData ?? throw new ArgumentNullException("appData");
+            this.project = project ?? throw new ArgumentNullException(nameof(project));
+            this.appData = appData ?? throw new ArgumentNullException(nameof(appData));
 
             dataTable = null;
             maxRowID = 0;
-            frmFind = null;
-            frmFilter = null;
+            //frmFind = null;
+            //frmFilter = null;
 
             Text = baseTable.Title + (tableFilter == null ? "" : " - " + tableFilter);
         }
@@ -113,7 +111,7 @@ namespace Scada.Admin.App.Forms.Tables
             get
             {
                 Type itemType = baseTable.ItemType;
-                return itemType == typeof(InCnl) || itemType == typeof(CtrlCnl);
+                return itemType == typeof(InCnl) || itemType == typeof(OutCnl);
             }
         }
 
@@ -139,14 +137,15 @@ namespace Scada.Admin.App.Forms.Tables
         /// </summary>
         private Form CreatePropertiesForm()
         {
-            Type itemType = baseTable.ItemType;
+            return null;
+            /*Type itemType = baseTable.ItemType;
 
             if (itemType == typeof(InCnl))
                 return new FrmInCnlProps(dataGridView);
             else if (itemType == typeof(CtrlCnl))
                 return new FrmCtrlCnlProps(dataGridView);
             else
-                return null;
+                return null;*/
         }
 
         /// <summary>
@@ -164,17 +163,12 @@ namespace Scada.Admin.App.Forms.Tables
             bindingSource.DataSource = null;
 
             // create a data table
-            dataTable = tableFilter == null ?
-                baseTable.ToDataTable() :
-                baseTable.SelectItems(tableFilter).ToDataTable(baseTable.ItemType);
+            dataTable = tableFilter == null
+                ? baseTable.ToDataTable()
+                : baseTable.SelectItems(tableFilter).ToDataTable(baseTable.ItemType);
             dataTable.DefaultView.Sort = baseTable.PrimaryKey;
-            maxRowID = dataTable.DefaultView.Count > 0 ? 
-                (int)dataTable.DefaultView[dataTable.DefaultView.Count - 1][baseTable.PrimaryKey] : 0;
+            maxRowID = dataTable.DefaultView.Count > 0 ? (int)dataTable.DefaultView[^1][baseTable.PrimaryKey] : 0;
             dataTable.DefaultView.RowFilter = rowFilter;
-
-            // set the binding source before creating grid columns in case of work on Mono
-            if (ScadaUtils.IsRunningOnMono)
-                bindingSource.DataSource = dataTable;
 
             // bind table events
             dataTable.TableNewRow += dataTable_TableNewRow;
@@ -194,12 +188,9 @@ namespace Scada.Admin.App.Forms.Tables
             }
 
             if (tableFilter != null)
-                dataTable.Columns[tableFilter.ColumnName].DefaultValue = tableFilter.Value;
+                dataTable.Columns[tableFilter.ColumnName].DefaultValue = tableFilter.Argument;
 
-            // set the binding source
-            if (!ScadaUtils.IsRunningOnMono)
-                bindingSource.DataSource = dataTable;
-
+            bindingSource.DataSource = dataTable;
             dataGridView.AutoSizeColumns();
             ChildFormTag.Modified = baseTable.Modified;
         }
@@ -444,8 +435,7 @@ namespace Scada.Admin.App.Forms.Tables
                 if (!rowView.IsNew)
                 {
                     int key = (int)rowView.Row[baseTable.PrimaryKey];
-
-                    if (NoReferencesToPk(key, out string errMsg))
+                    if (NoReferencesToPk(key, out _))
                     {
                         dataView.Delete(rowIndex);
                         return true;
@@ -487,31 +477,6 @@ namespace Scada.Admin.App.Forms.Tables
         }
 
         /// <summary>
-        /// Convers string to color.
-        /// </summary>
-        private Color StrToColor(string s)
-        {
-            try
-            {
-                if (s.Length == 7 && s[0] == '#')
-                {
-                    int r = int.Parse(s.Substring(1, 2), NumberStyles.HexNumber);
-                    int g = int.Parse(s.Substring(3, 2), NumberStyles.HexNumber);
-                    int b = int.Parse(s.Substring(5, 2), NumberStyles.HexNumber);
-                    return Color.FromArgb(r, g, b);
-                }
-                else
-                {
-                    return Color.FromName(s);
-                }
-            }
-            catch
-            {
-                return Color.Black;
-            }
-        }
-
-        /// <summary>
         /// Executes an action on cell button click.
         /// </summary>
         private bool ExecCellAction(ColumnOptions dataColumnOptions, ColumnOptions buttonColumnOptions, ref object cellValue)
@@ -522,7 +487,7 @@ namespace Scada.Admin.App.Forms.Tables
             if (dataKind == ColumnKind.Color)
             {
                 // select color
-                FrmColorSelect frmColorSelect = new FrmColorSelect
+                /*FrmColorSelect frmColorSelect = new FrmColorSelect
                 {
                     SelectedColor = cellValue == null ? Color.Empty : StrToColor(cellValue.ToString())
                 };
@@ -531,20 +496,20 @@ namespace Scada.Admin.App.Forms.Tables
                 {
                     cellValue = frmColorSelect.SelectedColor.Name;
                     return true;
-                }
+                }*/
             }
             else if (dataKind == ColumnKind.Path)
             {
                 // select file or folder
                 string path = "";
-                string interfaceDir = ScadaUtils.NormalDir(project.Interface.InterfaceDir);
-                string selectedPath = Path.Combine(interfaceDir, cellValue == null ? "" : cellValue.ToString());
+                string viewDir = ScadaUtils.NormalDir(project.Views.ViewDir);
+                string selectedPath = Path.Combine(viewDir, cellValue == null ? "" : cellValue.ToString());
 
                 if (buttonKind == ColumnKind.SelectFolderButton)
                 {
                     // select folder
                     selectedPath = Path.GetDirectoryName(selectedPath);
-                    folderBrowserDialog.SelectedPath = Directory.Exists(selectedPath) ? selectedPath : interfaceDir;
+                    folderBrowserDialog.SelectedPath = Directory.Exists(selectedPath) ? selectedPath : viewDir;
 
                     if (folderBrowserDialog.ShowDialog() == DialogResult.OK)
                         path = ScadaUtils.NormalDir(folderBrowserDialog.SelectedPath);
@@ -554,7 +519,7 @@ namespace Scada.Admin.App.Forms.Tables
                     // select file
                     if (string.IsNullOrEmpty(selectedPath) || !File.Exists(selectedPath))
                     {
-                        openFileDialog.InitialDirectory = interfaceDir;
+                        openFileDialog.InitialDirectory = viewDir;
                         openFileDialog.FileName = "";
                     }
                     else
@@ -572,8 +537,8 @@ namespace Scada.Admin.App.Forms.Tables
 
                 if (!string.IsNullOrEmpty(path))
                 {
-                    if (path.StartsWith(interfaceDir, StringComparison.OrdinalIgnoreCase))
-                        path = path.Substring(interfaceDir.Length);
+                    if (path.StartsWith(viewDir, StringComparison.OrdinalIgnoreCase))
+                        path = path[viewDir.Length..];
 
                     cellValue = path;
                     return true;
@@ -582,7 +547,7 @@ namespace Scada.Admin.App.Forms.Tables
             else if (dataKind == ColumnKind.SourceCode)
             {
                 // edit source code
-                FrmSourceCode frmSourceCode = new FrmSourceCode
+                /*FrmSourceCode frmSourceCode = new FrmSourceCode
                 {
                     MaxLength = dataColumnOptions.MaxLength,
                     SourceCode = cellValue.ToString()
@@ -592,7 +557,7 @@ namespace Scada.Admin.App.Forms.Tables
                 {
                     cellValue = frmSourceCode.SourceCode;
                     return true;
-                }
+                }*/
             }
 
             return false;
@@ -686,6 +651,31 @@ namespace Scada.Admin.App.Forms.Tables
         }
 
         /// <summary>
+        /// Converts string to color.
+        /// </summary>
+        private static Color StrToColor(string s)
+        {
+            try
+            {
+                if (s.Length == 7 && s[0] == '#')
+                {
+                    int r = int.Parse(s.Substring(1, 2), NumberStyles.HexNumber);
+                    int g = int.Parse(s.Substring(3, 2), NumberStyles.HexNumber);
+                    int b = int.Parse(s.Substring(5, 2), NumberStyles.HexNumber);
+                    return Color.FromArgb(r, g, b);
+                }
+                else
+                {
+                    return Color.FromName(s);
+                }
+            }
+            catch
+            {
+                return Color.Black;
+            }
+        }
+
+        /// <summary>
         /// Commits and ends the edit operation on the current cell and row.
         /// </summary>
         public bool EndEdit()
@@ -737,16 +727,7 @@ namespace Scada.Admin.App.Forms.Tables
 
             ChildFormTag.MainFormMessage += ChildFormTag_MainFormMessage;
             btnProperties.Visible = ProperiesAvailable;
-
-            if (ScadaUtils.IsRunningOnMono)
-            {
-                // because of the bug in Mono 5.12.0.301
-                dataGridView.AllowUserToAddRows = false;
-            }
-            else
-            {
-                btnAddNew.Visible = false;
-            }
+            btnAddNew.Visible = false;
         }
 
         private void FrmBaseTable_Shown(object sender, EventArgs e)
@@ -783,11 +764,11 @@ namespace Scada.Admin.App.Forms.Tables
         private void FrmBaseTable_VisibleChanged(object sender, EventArgs e)
         {
             // close the find and replace form
-            if (frmFind != null)
+            /*if (frmFind != null)
             {
                 frmFind.Close();
                 frmFind = null;
-            }
+            }*/
         }
 
         private void ChildFormTag_MainFormMessage(object sender, FormMessageEventArgs e)
@@ -1075,7 +1056,7 @@ namespace Scada.Admin.App.Forms.Tables
 
         private void btnFind_Click(object sender, EventArgs e)
         {
-            if (frmFind == null || !frmFind.Visible)
+            /*if (frmFind == null || !frmFind.Visible)
             {
                 frmFind = new FrmFind(this, dataGridView);
 
@@ -1087,12 +1068,12 @@ namespace Scada.Admin.App.Forms.Tables
             else
             {
                 frmFind.Activate();
-            }
+            }*/
         }
 
         private void btnFilter_Click(object sender, EventArgs e)
         {
-            frmFilter = frmFilter ?? new FrmFilter(dataGridView);
+            /*frmFilter = frmFilter ?? new FrmFilter(dataGridView);
             frmFilter.DataTable = dataTable;
 
             if (frmFilter.ShowDialog() == DialogResult.OK)
@@ -1100,7 +1081,7 @@ namespace Scada.Admin.App.Forms.Tables
                 btnFilter.Image = frmFilter.FilterIsEmpty ? 
                     Properties.Resources.filter : 
                     Properties.Resources.filter_set;
-            }
+            }*/
         }
 
         private void btnAutoSizeColumns_Click(object sender, EventArgs e)

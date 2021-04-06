@@ -36,6 +36,16 @@ namespace Scada.Forms
     public static class ScadaUiUtils
     {
         /// <summary>
+        /// The threshold for the number of table rows for selecting the autosize mode.
+        /// </summary>
+        private const int GridAutoResizeBoundary = 100;
+        /// <summary>
+        /// The maximum column width in DataGridView in pixels.
+        /// </summary>
+        private const int MaxColumnWidth = 500;
+
+
+        /// <summary>
         /// Shows an informational message.
         /// </summary>
         public static void ShowInfo(string text)
@@ -60,6 +70,23 @@ namespace Scada.Forms
         {
             MessageBox.Show(text?.Trim(), CommonPhrases.WarningCaption,
                 MessageBoxButtons.OK, MessageBoxIcon.Warning);
+        }
+
+        /// <summary>
+        /// Автоподбор ширины столбцов таблицы с выбором режима в зависимости от количества строк.
+        /// </summary>
+        public static void AutoSizeColumns(this DataGridView dataGridView)
+        {
+            if (dataGridView.RowCount <= GridAutoResizeBoundary)
+                dataGridView.AutoResizeColumns(DataGridViewAutoSizeColumnsMode.AllCells);
+            else
+                dataGridView.AutoResizeColumns(DataGridViewAutoSizeColumnsMode.DisplayedCells);
+
+            foreach (DataGridViewColumn column in dataGridView.Columns)
+            {
+                if (column.Width > MaxColumnWidth)
+                    column.Width = MaxColumnWidth;
+            }
         }
 
         /// <summary>
