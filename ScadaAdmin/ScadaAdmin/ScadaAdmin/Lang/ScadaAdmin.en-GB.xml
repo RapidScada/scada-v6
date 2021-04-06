@@ -1,5 +1,20 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <ScadaAdminDictionaries>
+  <Dictionary key="Scada.Admin.App.Code.ExplorerBuilder">
+    <Phrase key="BaseNode">Configuration Database</Phrase>
+    <Phrase key="PrimaryTablesNode">Primary Tables</Phrase>
+    <Phrase key="SecondaryTablesNode">Secondary Tables</Phrase>
+    <Phrase key="TableByDeviceNode">[{0}] {1}</Phrase>
+    <Phrase key="EmptyDeviceNode">Empty device</Phrase>
+    <Phrase key="ViewsNode">Views</Phrase>
+    <Phrase key="InstancesNode">Instances</Phrase>
+    <Phrase key="ServerNode">Server</Phrase>
+    <Phrase key="CommNode">Communicator</Phrase>
+    <Phrase key="WebNode">Webstation</Phrase>
+    <Phrase key="EmptyNode">Empty</Phrase>
+    <Phrase key="DeviceFilter">Device {0}</Phrase>
+    <Phrase key="EmptyDeviceFilter">Empty device</Phrase>
+  </Dictionary>
   <Dictionary key="Scada.Admin.Project">
     <Phrase key="CreateAppConfigError">Error creating configuration of the {0} application</Phrase>
     <Phrase key="DeleteAppConfigError">Error deleting configuration of the {0} application</Phrase>

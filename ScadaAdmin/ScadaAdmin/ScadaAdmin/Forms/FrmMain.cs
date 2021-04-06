@@ -27,6 +27,7 @@ using Scada.Admin.App.Code;
 using Scada.Admin.App.Properties;
 using Scada.Admin.Project;
 using Scada.Data.Entities;
+using Scada.Forms;
 using Scada.Log;
 using System;
 using System.Collections.Generic;
@@ -562,7 +563,7 @@ namespace Scada.Admin.App.Forms
                     path = fileItem.Path;
                     return true;
                 }
-                else if (tag.NodeType == AppNodeType.Interface)
+                else if (tag.NodeType == AppNodeType.Views)
                 {
                     path = project.Interface.InterfaceDir;
                     return true;
@@ -571,7 +572,7 @@ namespace Scada.Admin.App.Forms
                 {
                     if (FindClosestInstance(treeNode, out LiveInstance liveInstance))
                     {
-                        path = liveInstance.Instance.InstanceDir;
+                        path = liveInstance.ProjectInstance.InstanceDir;
                         return true;
                     }
                 }
@@ -579,7 +580,7 @@ namespace Scada.Admin.App.Forms
                 {
                     if (FindClosestInstance(treeNode, out LiveInstance liveInstance))
                     {
-                        path = liveInstance.Instance.ServerApp.AppDir;
+                        path = liveInstance.ProjectInstance.ServerApp.AppDir;
                         return true;
                     }
                 }
@@ -587,7 +588,7 @@ namespace Scada.Admin.App.Forms
                 {
                     if (FindClosestInstance(treeNode, out LiveInstance liveInstance))
                     {
-                        path = liveInstance.Instance.CommApp.AppDir;
+                        path = liveInstance.ProjectInstance.CommApp.AppDir;
                         return true;
                     }
                 }
@@ -595,7 +596,7 @@ namespace Scada.Admin.App.Forms
                 {
                     if (FindClosestInstance(treeNode, out LiveInstance liveInstance))
                     {
-                        path = liveInstance.Instance.WebApp.AppDir;
+                        path = liveInstance.ProjectInstance.WebApp.AppDir;
                         return true;
                     }
                 }
@@ -658,7 +659,7 @@ namespace Scada.Admin.App.Forms
                 foreach (TreeNode treeNode in explorerBuilder.InstancesNode.Nodes)
                 {
                     if (treeNode.Tag is TreeNodeTag tag && tag.RelatedObject is LiveInstance liveInst &&
-                        string.Equals(liveInst.Instance.Name, instanceName, StringComparison.OrdinalIgnoreCase))
+                        string.Equals(liveInst.ProjectInstance.Name, instanceName, StringComparison.OrdinalIgnoreCase))
                     {
                         instanceNode = treeNode;
                         liveInstance = liveInst;
@@ -679,7 +680,7 @@ namespace Scada.Admin.App.Forms
         {
             if (!liveInstance.IsReady)
             {
-                if (liveInstance.Instance.LoadAppSettings(out string errMsg))
+                if (liveInstance.ProjectInstance.LoadAppSettings(out string errMsg))
                 {
                     LoadDeploymentSettings();
                     InitAgentClient(liveInstance);
@@ -709,7 +710,7 @@ namespace Scada.Admin.App.Forms
         /// </summary>
         private void RefreshInstanceNode(TreeNode instanceNode, LiveInstance liveInstance)
         {
-            Instance instance = liveInstance.Instance;
+            Instance instance = liveInstance.ProjectInstance;
 
             if (instance.AppSettingsLoaded)
                 explorerBuilder.FillInstanceNode(instanceNode);
@@ -735,7 +736,7 @@ namespace Scada.Admin.App.Forms
         private ServerEnvironment CreateServerEnvironment(LiveInstance liveInstance)
         {
             return new ServerEnvironment(
-                new ServerDirs(appData.AppSettings.PathOptions.ServerDir, liveInstance.Instance), log)
+                new ServerDirs(appData.AppSettings.PathOptions.ServerDir, liveInstance.ProjectInstance), log)
             {
                 AgentClient = liveInstance.AgentClient
             };
@@ -747,7 +748,7 @@ namespace Scada.Admin.App.Forms
         private CommEnvironment CreateCommEnvironment(LiveInstance liveInstance)
         {
             return new CommEnvironment(
-                new CommDirs(appData.AppSettings.PathOptions.CommDir, liveInstance.Instance), log)
+                new CommDirs(appData.AppSettings.PathOptions.CommDir, liveInstance.ProjectInstance), log)
             {
                 AgentClient = liveInstance.AgentClient
             };
@@ -774,7 +775,7 @@ namespace Scada.Admin.App.Forms
         /// </summary>
         private void InitAgentClient(LiveInstance liveInstance)
         {
-            DeploymentProfile profile = GetDeploymentProfile(liveInstance.Instance.DeploymentProfile);
+            DeploymentProfile profile = GetDeploymentProfile(liveInstance.ProjectInstance.DeploymentProfile);
 
             if (profile == null)
             {
@@ -783,7 +784,7 @@ namespace Scada.Admin.App.Forms
             else
             {
                 ConnectionSettings connSettings = profile.ConnectionSettings.Clone();
-                connSettings.ScadaInstance = liveInstance.Instance.Name;
+                connSettings.ScadaInstance = liveInstance.ProjectInstance.Name;
                 liveInstance.AgentClient = new AgentWcfClient(connSettings);
             }
         }
@@ -831,7 +832,7 @@ namespace Scada.Admin.App.Forms
         /// </summary>
         private bool SaveCommSettigns(LiveInstance liveInstance)
         {
-            if (liveInstance.Instance.CommApp.SaveSettings(out string errMsg))
+            if (liveInstance.ProjectInstance.CommApp.SaveSettings(out string errMsg))
             {
                 return true;
             }
@@ -1126,8 +1127,8 @@ namespace Scada.Admin.App.Forms
             // fill a node on demand
             TreeNode node = e.Node;
 
-            if (node.TagIs(AppNodeType.Interface))
-                explorerBuilder.FillInterfaceNode(node);
+            if (node.TagIs(AppNodeType.Views))
+                explorerBuilder.FillViewsNode(node);
             else if (node.TagIs(AppNodeType.Instance))
                 PrepareInstanceNode(node);
             else if (node.TagIs(AppNodeType.WebApp))
@@ -1136,7 +1137,7 @@ namespace Scada.Admin.App.Forms
 
         private void tvExplorer_AfterExpand(object sender, TreeViewEventArgs e)
         {
-            explorerBuilder.SetFolderImage(e.Node);
+            ExplorerBuilder.SetFolderImage(e.Node);
         }
 
         private void tvExplorer_BeforeCollapse(object sender, TreeViewCancelEventArgs e)
@@ -1151,7 +1152,7 @@ namespace Scada.Admin.App.Forms
 
         private void tvExplorer_AfterCollapse(object sender, TreeViewEventArgs e)
         {
-            explorerBuilder.SetFolderImage(e.Node);
+            ExplorerBuilder.SetFolderImage(e.Node);
         }
 
         private void tvExplorer_AfterSelect(object sender, TreeViewEventArgs e)
@@ -1160,7 +1161,7 @@ namespace Scada.Admin.App.Forms
             if (FindInstanceForDeploy(tvExplorer.SelectedNode,
                 out TreeNode instanceNode, out LiveInstance liveInstance))
             {
-                ShowStatus(liveInstance.Instance);
+                ShowStatus(liveInstance.ProjectInstance);
             }
             else
             {
@@ -1210,7 +1211,7 @@ namespace Scada.Admin.App.Forms
                 if (e.Message == ServerMessage.SaveSettings)
                 {
                     // save the Server settings
-                    if (!liveInstance.Instance.ServerApp.SaveSettings(out string errMsg))
+                    if (!liveInstance.ProjectInstance.ServerApp.SaveSettings(out string errMsg))
                     {
                         appData.ProcError(errMsg);
                         e.Cancel = true;
@@ -1341,7 +1342,7 @@ namespace Scada.Admin.App.Forms
                 LoadDeploymentSettings();
 
                 // open an instance profile form
-                FrmInstanceProfile frmInstanceProfile = new FrmInstanceProfile(appData, project, liveInstance.Instance);
+                FrmInstanceProfile frmInstanceProfile = new FrmInstanceProfile(appData, project, liveInstance.ProjectInstance);
                 frmInstanceProfile.ShowDialog();
 
                 // take the changes into account
@@ -1349,7 +1350,7 @@ namespace Scada.Admin.App.Forms
                 {
                     UpdateAgentClient(liveInstance);
                     SaveProjectSettings();
-                    ShowStatus(liveInstance.Instance);
+                    ShowStatus(liveInstance.ProjectInstance);
                 }
                 else if (frmInstanceProfile.ConnSettingsModified)
                 {
@@ -1369,7 +1370,7 @@ namespace Scada.Admin.App.Forms
                 LoadDeploymentSettings();
 
                 // open a download configuration form
-                FrmDownloadConfig frmDownloadConfig = new FrmDownloadConfig(appData, project, liveInstance.Instance);
+                FrmDownloadConfig frmDownloadConfig = new FrmDownloadConfig(appData, project, liveInstance.ProjectInstance);
                 frmDownloadConfig.ShowDialog();
 
                 // take the changes into account
@@ -1377,7 +1378,7 @@ namespace Scada.Admin.App.Forms
                 {
                     UpdateAgentClient(liveInstance);
                     SaveProjectSettings();
-                    ShowStatus(liveInstance.Instance);
+                    ShowStatus(liveInstance.ProjectInstance);
                 }
                 else if (frmDownloadConfig.ConnSettingsModified)
                 {
@@ -1391,10 +1392,10 @@ namespace Scada.Admin.App.Forms
                 }
 
                 if (frmDownloadConfig.InterfaceModified && 
-                    TryGetFilePath(explorerBuilder.InterfaceNode, out string path))
+                    TryGetFilePath(explorerBuilder.ViewsNode, out string path))
                 {
-                    CloseChildForms(explorerBuilder.InterfaceNode);
-                    explorerBuilder.FillFileNode(explorerBuilder.InterfaceNode, path);
+                    CloseChildForms(explorerBuilder.ViewsNode);
+                    explorerBuilder.FillFileNode(explorerBuilder.ViewsNode, path);
                 }
 
                 if (frmDownloadConfig.InstanceModified)
@@ -1416,7 +1417,7 @@ namespace Scada.Admin.App.Forms
                 LoadDeploymentSettings();
 
                 // open an upload configuration form
-                FrmUploadConfig frmUploadConfig = new FrmUploadConfig(appData, project, liveInstance.Instance);
+                FrmUploadConfig frmUploadConfig = new FrmUploadConfig(appData, project, liveInstance.ProjectInstance);
                 frmUploadConfig.ShowDialog();
 
                 // take the changes into account
@@ -1424,7 +1425,7 @@ namespace Scada.Admin.App.Forms
                 {
                     UpdateAgentClient(liveInstance);
                     SaveProjectSettings();
-                    ShowStatus(liveInstance.Instance);
+                    ShowStatus(liveInstance.ProjectInstance);
                 }
                 else if (frmUploadConfig.ConnSettingsModified)
                 {
@@ -1444,7 +1445,7 @@ namespace Scada.Admin.App.Forms
 
                 // open an instance status form
                 FrmInstanceStatus frmInstanceStatus = 
-                    new FrmInstanceStatus(appData, project.DeploymentSettings, liveInstance.Instance);
+                    new FrmInstanceStatus(appData, project.DeploymentSettings, liveInstance.ProjectInstance);
                 frmInstanceStatus.ShowDialog();
 
                 // take the changes into account
@@ -1452,7 +1453,7 @@ namespace Scada.Admin.App.Forms
                 {
                     UpdateAgentClient(liveInstance);
                     SaveProjectSettings();
-                    ShowStatus(liveInstance.Instance);
+                    ShowStatus(liveInstance.ProjectInstance);
                 }
                 else if (frmInstanceStatus.ConnSettingsModified)
                 {
@@ -2136,10 +2137,10 @@ namespace Scada.Admin.App.Forms
                 CloseChildForms(selectedNode);
                 tvExplorer.RemoveNode(selectedNode, project.Instances);
 
-                if (!liveInstance.Instance.DeleteInstanceFiles(out string errMsg))
+                if (!liveInstance.ProjectInstance.DeleteInstanceFiles(out string errMsg))
                     appData.ProcError(errMsg);
 
-                project.DeploymentSettings.RemoveProfilesByInstance(liveInstance.Instance.ID, out bool affected);
+                project.DeploymentSettings.RemoveProfilesByInstance(liveInstance.ProjectInstance.ID, out bool affected);
                 if (affected && !project.DeploymentSettings.Save(out errMsg))
                     appData.ProcError(errMsg);
 
@@ -2157,7 +2158,7 @@ namespace Scada.Admin.App.Forms
                 FindClosestInstance(selectedNode, out LiveInstance liveInstance))
             {
                 LoadDeploymentSettings();
-                DeploymentProfile profile = GetDeploymentProfile(liveInstance.Instance.DeploymentProfile);
+                DeploymentProfile profile = GetDeploymentProfile(liveInstance.ProjectInstance.DeploymentProfile);
 
                 if (profile != null && ScadaUtils.IsValidUrl(profile.WebUrl))
                     Process.Start(profile.WebUrl);
@@ -2174,7 +2175,7 @@ namespace Scada.Admin.App.Forms
             if (selectedNode != null && selectedNode.TagIs(AppNodeType.Instance) &&
                 FindClosestInstance(selectedNode, out LiveInstance liveInstance))
             {
-                Instance instance = liveInstance.Instance;
+                Instance instance = liveInstance.ProjectInstance;
                 FrmItemName frmItemName = new FrmItemName()
                 {
                     ItemName = instance.Name,
@@ -2204,7 +2205,7 @@ namespace Scada.Admin.App.Forms
                 FindClosestInstance(selectedNode, out LiveInstance liveInstance))
             {
                 FrmInstanceEdit frmInstanceEdit = new FrmInstanceEdit() { Mode = FormOperatingMode.Edit };
-                Instance instance = liveInstance.Instance;
+                Instance instance = liveInstance.ProjectInstance;
                 frmInstanceEdit.Init(instance);
 
                 if (frmInstanceEdit.ShowDialog() == DialogResult.OK)
@@ -2287,7 +2288,7 @@ namespace Scada.Admin.App.Forms
                 FindClosestInstance(selectedNode, out LiveInstance liveInstance))
             {
                 CommEnvironment commEnv = liveInstance.CommEnvironment;
-                FrmCommImport frmCommImport = new FrmCommImport(project, liveInstance.Instance, commEnv);
+                FrmCommImport frmCommImport = new FrmCommImport(project, liveInstance.ProjectInstance, commEnv);
                 TreeNode lastAddedNode = null;
 
                 if (selectedNode.TagIs(CommNodeType.CommLines))
@@ -2340,7 +2341,7 @@ namespace Scada.Admin.App.Forms
                 (selectedNode.TagIs(CommNodeType.CommLines) || selectedNode.TagIs(CommNodeType.CommLine)) &&
                 FindClosestInstance(selectedNode, out LiveInstance liveInstance))
             {
-                FrmCommSync frmCommSync = new FrmCommSync(project, liveInstance.Instance)
+                FrmCommSync frmCommSync = new FrmCommSync(project, liveInstance.ProjectInstance)
                 {
                     CommLineSettings = GetRelatedObject<Comm.Settings.CommLine>(selectedNode, false)
                 };

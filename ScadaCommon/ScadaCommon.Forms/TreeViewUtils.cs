@@ -44,16 +44,6 @@ namespace Scada.Forms
             return parentNode == null ? treeView.Nodes : parentNode.Nodes;
         }
 
-        /// <summary>
-        /// Gets an object associated with the tree node.
-        /// </summary>
-        private static object GetRelatedObject(TreeNode treeNode)
-        {
-            return treeNode?.Tag is TreeNodeTag treeNodeTag 
-                ? treeNodeTag.RelatedObject 
-                : treeNode?.Tag;
-        }
-
 
         /// <summary>
         /// Creates a new tree node.
@@ -117,6 +107,16 @@ namespace Scada.Forms
             {
                 yield return childNode;
             }
+        }
+
+        /// <summary>
+        /// Gets an object associated with the tree node.
+        /// </summary>
+        public static object GetRelatedObject(TreeNode treeNode)
+        {
+            return treeNode?.Tag is TreeNodeTag treeNodeTag
+                ? treeNodeTag.RelatedObject
+                : treeNode?.Tag;
         }
 
         /// <summary>

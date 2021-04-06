@@ -653,9 +653,9 @@ namespace Scada.Admin.App.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
-        internal static System.Drawing.Bitmap ui {
+        internal static System.Drawing.Bitmap upload {
             get {
-                object obj = ResourceManager.GetObject("ui", resourceCulture);
+                object obj = ResourceManager.GetObject("upload", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -663,9 +663,9 @@ namespace Scada.Admin.App.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
-        internal static System.Drawing.Bitmap upload {
+        internal static System.Drawing.Bitmap views {
             get {
-                object obj = ResourceManager.GetObject("upload", resourceCulture);
+                object obj = ResourceManager.GetObject("views", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }

@@ -46,6 +46,16 @@ namespace Scada.Forms
             NodeType = "";
         }
 
+        /// <summary>
+        /// Initializes a new instance of the class.
+        /// </summary>
+        public TreeNodeTag(object relatedObject, string nodeType)
+            : base()
+        {
+            RelatedObject = relatedObject;
+            NodeType = nodeType;
+        }
+
 
         /// <summary>
         /// Gets or sets the type of form to create.

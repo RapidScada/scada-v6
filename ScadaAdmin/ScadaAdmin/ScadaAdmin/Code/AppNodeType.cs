@@ -34,7 +34,7 @@ namespace Scada.Admin.App.Code
         public const string Project = "Project";
         public const string Base = "Base";
         public const string BaseTable = "BaseTable";
-        public const string Interface = "Interface";
+        public const string Views = "Views";
         public const string Instances = "Instances";
         public const string Instance = "Instance";
         public const string ServerApp = "ServerApp";
