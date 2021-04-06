@@ -29,7 +29,6 @@
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
-            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(FrmBaseTable));
             this.bindingNavigator = new System.Windows.Forms.BindingNavigator(this.components);
             this.btnAddNew = new System.Windows.Forms.ToolStripButton();
             this.bindingSource = new System.Windows.Forms.BindingSource(this.components);
@@ -126,13 +125,13 @@
             // 
             this.lblCount.Name = "lblCount";
             this.lblCount.Size = new System.Drawing.Size(36, 22);
-            this.lblCount.Text = "из {0}";
+            this.lblCount.Text = "of {0}";
             this.lblCount.ToolTipText = "Total Number of Items";
             // 
             // btnMoveFirst
             // 
             this.btnMoveFirst.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-            this.btnMoveFirst.Image = ((System.Drawing.Image)(resources.GetObject("btnMoveFirst.Image")));
+            this.btnMoveFirst.Image = global::Scada.Admin.App.Properties.Resources.move_first;
             this.btnMoveFirst.Name = "btnMoveFirst";
             this.btnMoveFirst.RightToLeftAutoMirrorImage = true;
             this.btnMoveFirst.Size = new System.Drawing.Size(23, 22);
@@ -141,7 +140,7 @@
             // btnMovePrevious
             // 
             this.btnMovePrevious.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-            this.btnMovePrevious.Image = ((System.Drawing.Image)(resources.GetObject("btnMovePrevious.Image")));
+            this.btnMovePrevious.Image = global::Scada.Admin.App.Properties.Resources.move_prev;
             this.btnMovePrevious.Name = "btnMovePrevious";
             this.btnMovePrevious.RightToLeftAutoMirrorImage = true;
             this.btnMovePrevious.Size = new System.Drawing.Size(23, 22);
@@ -169,7 +168,7 @@
             // btnMoveNext
             // 
             this.btnMoveNext.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-            this.btnMoveNext.Image = ((System.Drawing.Image)(resources.GetObject("btnMoveNext.Image")));
+            this.btnMoveNext.Image = global::Scada.Admin.App.Properties.Resources.move_next;
             this.btnMoveNext.Name = "btnMoveNext";
             this.btnMoveNext.RightToLeftAutoMirrorImage = true;
             this.btnMoveNext.Size = new System.Drawing.Size(23, 22);
@@ -178,7 +177,7 @@
             // btnMoveLast
             // 
             this.btnMoveLast.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-            this.btnMoveLast.Image = ((System.Drawing.Image)(resources.GetObject("btnMoveLast.Image")));
+            this.btnMoveLast.Image = global::Scada.Admin.App.Properties.Resources.move_last;
             this.btnMoveLast.Name = "btnMoveLast";
             this.btnMoveLast.RightToLeftAutoMirrorImage = true;
             this.btnMoveLast.Size = new System.Drawing.Size(23, 22);
