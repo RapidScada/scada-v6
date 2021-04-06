@@ -137,15 +137,14 @@ namespace Scada.Admin.App.Forms.Tables
         /// </summary>
         private Form CreatePropertiesForm()
         {
-            return null;
-            /*Type itemType = baseTable.ItemType;
+            Type itemType = baseTable.ItemType;
 
             if (itemType == typeof(InCnl))
-                return new FrmInCnlProps(dataGridView);
-            else if (itemType == typeof(CtrlCnl))
-                return new FrmCtrlCnlProps(dataGridView);
+                return null;// new FrmInCnlProps(dataGridView);
+            else if (itemType == typeof(OutCnl))
+                return null;// new FrmCtrlCnlProps(dataGridView);
             else
-                return null;*/
+                return null;
         }
 
         /// <summary>

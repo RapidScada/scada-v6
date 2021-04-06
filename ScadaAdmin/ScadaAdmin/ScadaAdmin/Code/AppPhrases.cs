@@ -46,6 +46,19 @@ namespace Scada.Admin.App.Code
         public static string DeviceFilter { get; private set; }
         public static string EmptyDeviceFilter { get; private set; }
 
+        // Scada.Admin.App.Forms.Tables.FrmBaseTable
+        public static string GridViewError { get; private set; }
+        public static string ColumnLabel { get; private set; }
+        public static string DeleteRowConfirm { get; private set; }
+        public static string DeleteRowsConfirm { get; private set; }
+        public static string ClearTableConfirm { get; private set; }
+        public static string RowsNotDeleted { get; private set; }
+        public static string ColumnNotNull { get; private set; }
+        public static string UniqueRequired { get; private set; }
+        public static string KeyReferenced { get; private set; }
+        public static string DataNotExist { get; private set; }
+        public static string DataChangeError { get; private set; }
+
         public static void Init()
         {
             LocaleDict dict = Locale.GetDictionary("Scada.Admin.App.Code.ExplorerBuilder");
@@ -62,6 +75,19 @@ namespace Scada.Admin.App.Code
             EmptyNode = dict.GetPhrase("EmptyNode");
             DeviceFilter = dict.GetPhrase("DeviceFilter");
             EmptyDeviceFilter = dict.GetPhrase("EmptyDeviceFilter");
+
+            dict = Locale.GetDictionary("Scada.Admin.App.Forms.Tables.FrmBaseTable");
+            GridViewError = dict.GetPhrase("GridViewError");
+            ColumnLabel = dict.GetPhrase("ColumnLabel");
+            DeleteRowConfirm = dict.GetPhrase("DeleteRowConfirm");
+            DeleteRowsConfirm = dict.GetPhrase("DeleteRowsConfirm");
+            ClearTableConfirm = dict.GetPhrase("ClearTableConfirm");
+            RowsNotDeleted = dict.GetPhrase("RowsNotDeleted");
+            ColumnNotNull = dict.GetPhrase("ColumnNotNull");
+            UniqueRequired = dict.GetPhrase("UniqueRequired");
+            KeyReferenced = dict.GetPhrase("KeyReferenced");
+            DataNotExist = dict.GetPhrase("DataNotExist");
+            DataChangeError = dict.GetPhrase("DataChangeError");
         }
     }
 }
