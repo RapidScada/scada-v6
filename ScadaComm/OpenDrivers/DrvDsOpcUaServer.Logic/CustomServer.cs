@@ -25,6 +25,7 @@
 
 using Opc.Ua;
 using Opc.Ua.Server;
+using Scada.Lang;
 using Scada.Log;
 using System;
 using System.Security.Cryptography.X509Certificates;

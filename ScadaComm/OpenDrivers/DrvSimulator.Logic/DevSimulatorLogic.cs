@@ -25,8 +25,10 @@
 
 using Scada.Comm.Config;
 using Scada.Comm.Devices;
+using Scada.Comm.Lang;
 using Scada.Data.Const;
 using Scada.Data.Models;
+using Scada.Lang;
 using System;
 using System.Threading;
 

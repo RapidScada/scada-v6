@@ -27,6 +27,8 @@ using Scada.Comm.Channels;
 using Scada.Comm.Config;
 using Scada.Comm.Devices;
 using Scada.Comm.Drivers.DrvCnlBasic.Logic.Options;
+using Scada.Comm.Lang;
+using Scada.Lang;
 using System;
 using System.Collections.Generic;
 using System.Net;

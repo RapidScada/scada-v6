@@ -28,6 +28,7 @@ using Opc.Ua.Server;
 using Scada.Comm.Devices;
 using Scada.Data.Const;
 using Scada.Data.Models;
+using Scada.Lang;
 using Scada.Log;
 using System;
 using System.Collections.Generic;
