@@ -26,9 +26,11 @@
 using Scada.Data.Adapters;
 using Scada.Data.Models;
 using Scada.Data.Tables;
+using Scada.Lang;
 using Scada.Log;
 using Scada.Server.Archives;
 using Scada.Server.Config;
+using Scada.Server.Lang;
 using Scada.Server.Modules.ModArcBasic.Logic.Options;
 using System;
 using System.Collections.Generic;
@@ -121,7 +123,7 @@ namespace Scada.Server.Modules.ModArcBasic.Logic
                 else if (srcTableMeta.Equals(currentTable.Metadata))
                 {
                     if (currentTable.GetDataPosition(nowDT, PositionKind.Ceiling,
-                        out TrendTablePage page, out int indexInPage))
+                        out TrendTablePage page, out _))
                     {
                         string pageFileName = adapter.GetPagePath(page);
                         CnlNumList srcCnlNums = adapter.ReadCnlNums(pageFileName);

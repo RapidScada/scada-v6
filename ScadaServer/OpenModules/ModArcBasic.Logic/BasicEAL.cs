@@ -26,9 +26,11 @@
 using Scada.Data.Adapters;
 using Scada.Data.Models;
 using Scada.Data.Tables;
+using Scada.Lang;
 using Scada.Log;
 using Scada.Server.Archives;
 using Scada.Server.Config;
+using Scada.Server.Lang;
 using Scada.Server.Modules.ModArcBasic.Logic.Options;
 using System;
 using System.Collections.Generic;
