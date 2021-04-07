@@ -27,6 +27,7 @@ using Scada.Data.Const;
 using Scada.Data.Entities;
 using Scada.Data.Models;
 using Scada.Data.Tables;
+using Scada.Lang;
 using Scada.Log;
 using Scada.Protocol;
 using Scada.Server.Config;
@@ -297,7 +298,7 @@ namespace Scada.Server.Engine
             int index = ArgumentIndex;
             TimeRange timeRange = GetTimeRange(buffer, ref index);
             long dataFilterID = GetInt64(buffer, ref index);
-            DataFilter dataFilter = null;
+            DataFilter dataFilter;
 
             if (dataFilterID > 0)
             {

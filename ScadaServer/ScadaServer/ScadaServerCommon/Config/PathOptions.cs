@@ -23,6 +23,7 @@
  * Modified : 2020
  */
 
+using Scada.Lang;
 using System;
 using System.IO;
 using System.Xml;

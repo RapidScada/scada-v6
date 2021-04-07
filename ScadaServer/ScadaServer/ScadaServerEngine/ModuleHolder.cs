@@ -25,6 +25,7 @@
 
 using Scada.Data.Models;
 using Scada.Log;
+using Scada.Server.Lang;
 using Scada.Server.Modules;
 using System;
 using System.Collections.Generic;

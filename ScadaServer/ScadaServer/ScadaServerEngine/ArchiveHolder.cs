@@ -26,8 +26,10 @@
 using Scada.Data.Entities;
 using Scada.Data.Models;
 using Scada.Data.Tables;
+using Scada.Lang;
 using Scada.Log;
 using Scada.Server.Archives;
+using Scada.Server.Lang;
 using System;
 using System.Collections.Generic;
 using System.Text;

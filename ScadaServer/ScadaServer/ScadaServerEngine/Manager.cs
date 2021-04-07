@@ -23,8 +23,10 @@
  * Modified : 2021
  */
 
+using Scada.Lang;
 using Scada.Log;
 using Scada.Server.Config;
+using Scada.Server.Lang;
 using System;
 using System.IO;
 using System.Reflection;

@@ -20,12 +20,14 @@
  * 
  * Author   : Mikhail Shiryaev
  * Created  : 2020
- * Modified : 2020
+ * Modified : 2021
  */
 
 #pragma warning disable 1591 // Missing XML comment for publicly visible type or member
 
-namespace Scada.Server
+using Scada.Lang;
+
+namespace Scada.Server.Lang
 {
     /// <summary>
     /// The phrases used by the server and its modules.
