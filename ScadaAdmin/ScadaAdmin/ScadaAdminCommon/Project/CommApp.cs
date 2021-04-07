@@ -24,6 +24,7 @@
  */
 
 using Scada.Comm.Config;
+using Scada.Lang;
 using System.IO;
 
 namespace Scada.Admin.Project

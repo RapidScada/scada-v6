@@ -28,6 +28,7 @@ using Scada.Admin.Project;
 using Scada.Data.Entities;
 using Scada.Data.Tables;
 using Scada.Forms;
+using Scada.Lang;
 using System;
 using System.Data;
 using System.Drawing;
@@ -230,7 +231,7 @@ namespace Scada.Admin.App.Forms.Tables
                                 if (col.Tag is ColumnOptions options && options.Kind == ColumnKind.PrimaryKey &&
                                     (intVal < options.Minimum || intVal > options.Maximum))
                                 {
-                                    errMsg = string.Format(CommonPhrases.IntegerRangingRequired,
+                                    errMsg = string.Format(CommonPhrases.IntegerInRangeRequired,
                                         options.Minimum, options.Maximum);
                                 }
                             }

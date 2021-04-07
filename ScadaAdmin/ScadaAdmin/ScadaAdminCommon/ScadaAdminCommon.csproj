@@ -29,4 +29,13 @@
     </Reference>
   </ItemGroup>
 
+  <ItemGroup>
+    <None Update="Lang\ScadaAdmin.en-GB.xml">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="Lang\ScadaAdmin.ru-RU.xml">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
+
 </Project>

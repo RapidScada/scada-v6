@@ -25,7 +25,9 @@
 
 #pragma warning disable CS1591 // Missing XML comment for publicly visible type or member
 
-namespace Scada.Admin
+using Scada.Lang;
+
+namespace Scada.Admin.Lang
 {
     /// <summary>
     /// The phrases used by the Administrator application and its extensions.

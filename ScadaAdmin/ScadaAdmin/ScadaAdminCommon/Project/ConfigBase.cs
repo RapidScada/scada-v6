@@ -23,6 +23,7 @@
  * Modified : 2021
  */
 
+using Scada.Admin.Lang;
 using Scada.Data.Models;
 using Scada.Data.Tables;
 using System;

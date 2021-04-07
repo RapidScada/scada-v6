@@ -23,6 +23,7 @@
  * Modified : 2018
  */
 
+using Scada.Lang;
 using System.IO;
 
 namespace Scada.Admin.Project

@@ -23,6 +23,8 @@
  * Modified : 2021
  */
 
+using Scada.Admin.Lang;
+using Scada.Lang;
 using System;
 using System.Collections.Generic;
 using System.IO;

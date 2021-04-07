@@ -14,6 +14,15 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Content Include="..\ScadaAdminCommon\Lang\ScadaAdmin.en-GB.xml" Link="Lang\ScadaAdmin.en-GB.xml">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="..\ScadaAdminCommon\Lang\ScadaAdmin.ru-RU.xml" Link="Lang\ScadaAdmin.ru-RU.xml">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+  </ItemGroup>
+
+  <ItemGroup>
     <ProjectReference Include="..\ScadaAdminCommon\ScadaAdminCommon.csproj" />
   </ItemGroup>
 
@@ -45,16 +54,11 @@
   </ItemGroup>
 
   <ItemGroup>
-    <None Update="Lang\ScadaAdmin.en-GB.xml">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
-    <None Update="Lang\ScadaAdmin.ru-RU.xml">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
+    <PackageReference Include="WinControl" Version="2.0.0" />
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="WinControl" Version="2.0.0" />
+    <Folder Include="Lang\" />
   </ItemGroup>
 
 </Project>

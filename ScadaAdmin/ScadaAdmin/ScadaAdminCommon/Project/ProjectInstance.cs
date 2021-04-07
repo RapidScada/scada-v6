@@ -23,6 +23,7 @@
  * Modified : 2021
  */
 
+using Scada.Admin.Lang;
 using System;
 using System.IO;
 using System.Linq;

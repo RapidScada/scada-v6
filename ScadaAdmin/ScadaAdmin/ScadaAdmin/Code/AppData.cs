@@ -25,6 +25,7 @@
 
 using Scada.Admin.Config;
 using Scada.Forms;
+using Scada.Lang;
 using Scada.Log;
 using System;
 using System.IO;
