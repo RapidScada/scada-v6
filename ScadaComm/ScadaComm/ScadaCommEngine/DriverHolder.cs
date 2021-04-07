@@ -24,6 +24,7 @@
  */
 
 using Scada.Comm.Drivers;
+using Scada.Comm.Lang;
 using Scada.Log;
 using System;
 using System.Collections.Generic;

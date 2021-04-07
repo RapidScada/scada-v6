@@ -25,7 +25,9 @@
 
 using Scada.Comm.DataSources;
 using Scada.Comm.Devices;
+using Scada.Comm.Lang;
 using Scada.Data.Models;
+using Scada.Lang;
 using Scada.Log;
 using System;
 using System.Collections.Generic;

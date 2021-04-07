@@ -23,6 +23,7 @@
  * Modified : 2020
  */
 
+using Scada.Comm.Lang;
 using System;
 
 namespace Scada.Comm.Devices

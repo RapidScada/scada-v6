@@ -24,6 +24,7 @@
  */
 
 using Scada.Data.Models;
+using Scada.Lang;
 using System;
 using System.Collections.Generic;
 using System.Text;

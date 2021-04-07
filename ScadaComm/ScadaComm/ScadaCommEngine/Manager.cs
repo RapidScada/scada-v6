@@ -24,6 +24,8 @@
  */
 
 using Scada.Comm.Config;
+using Scada.Comm.Lang;
+using Scada.Lang;
 using Scada.Log;
 using System;
 using System.IO;
