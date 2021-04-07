@@ -176,7 +176,7 @@ namespace Scada.Admin.App.Forms.Tables
             dataTable.RowDeleted += dataTable_RowDeleted;
 
             // create grid columns
-            ColumnBuilder columnBuilder = new ColumnBuilder(project.ConfigBase);
+            ColumnBuilder columnBuilder = new(project.ConfigBase);
             dataGridView.Columns.Clear();
             dataGridView.Columns.AddRange(columnBuilder.CreateColumns(baseTable.ItemType));
 
@@ -242,7 +242,7 @@ namespace Scada.Admin.App.Forms.Tables
                         }
                         else if (valueType == typeof(double))
                         {
-                            if (!double.TryParse(cellVal, out double doubleVal))
+                            if (!double.TryParse(cellVal, out _))
                                 errMsg = CommonPhrases.RealRequired;
                         }
                     }
@@ -720,7 +720,7 @@ namespace Scada.Admin.App.Forms.Tables
 
         private void FrmBaseTable_Load(object sender, EventArgs e)
         {
-            Translator.TranslateForm(this, GetType().FullName, null, cmsTable);
+            FormTranslator.Translate(this, GetType().FullName, null, cmsTable);
 
             if (lblCount.Text.Contains("{0}"))
                 bindingNavigator.CountItemFormat = lblCount.Text;
