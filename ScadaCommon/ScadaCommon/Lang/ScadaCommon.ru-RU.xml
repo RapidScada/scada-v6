@@ -1,6 +1,7 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <ScadaDictionaries>
   <Dictionary key="Scada.Application">
+    <Phrase key="ProductName">Rapid SCADA</Phrase>
     <Phrase key="ServerAppName">Сервер</Phrase>
     <Phrase key="CommAppName">Коммуникатор</Phrase>
     <Phrase key="WebAppName">Вебстанция</Phrase>
@@ -50,6 +51,11 @@
   </Dictionary>
   <Dictionary key="Scada.Format">
     <Phrase key="UndefinedSign">---</Phrase>
+    <Phrase key="IntegerRequired">Требуется целое число.</Phrase>
+    <Phrase key="IntegerInRangeRequired">Требуется целое число в диапазоне от {0} до {1}.</Phrase>
+    <Phrase key="RealRequired">Требуется вещественное число.</Phrase>
+    <Phrase key="NonemptyRequired">Требуется непустое значение.</Phrase>
+    <Phrase key="DateTimeRequired">Требуется дата и время.</Phrase>
     <Phrase key="NotNumber">Строка не является числом.</Phrase>
     <Phrase key="NotHexadecimal">Строка не является 16-ричной записью.</Phrase>
     <Phrase key="InvalidParamVal">Некорректное значение параметра &quot;{0}&quot;.</Phrase>

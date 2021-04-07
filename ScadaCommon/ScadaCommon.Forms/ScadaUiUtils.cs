@@ -23,6 +23,7 @@
  * Modified : 2021
  */
 
+using Scada.Lang;
 using System.Drawing;
 using System.Linq;
 using System.Windows.Forms;

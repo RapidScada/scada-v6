@@ -20,9 +20,10 @@
  * 
  * Author   : Mikhail Shiryaev
  * Created  : 2016
- * Modified : 2020
+ * Modified : 2021
  */
 
+using Scada.Lang;
 using System;
 using System.IO;
 using System.Reflection;

@@ -1,6 +1,7 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <ScadaDictionaries>
   <Dictionary key="Scada.Application">
+    <Phrase key="ProductName">Rapid SCADA</Phrase>
     <Phrase key="ServerAppName">Server</Phrase>
     <Phrase key="CommAppName">Communicator</Phrase>
     <Phrase key="WebAppName">Webstation</Phrase>
@@ -50,6 +51,11 @@
   </Dictionary>
   <Dictionary key="Scada.Format">
     <Phrase key="UndefinedSign">---</Phrase>
+    <Phrase key="IntegerRequired">An integer is required.</Phrase>
+    <Phrase key="IntegerInRangeRequired">An integer from {0} to {1} is required.</Phrase>
+    <Phrase key="RealRequired">A real number is required.</Phrase>
+    <Phrase key="NonemptyRequired">A nonempty value is required.</Phrase>
+    <Phrase key="DateTimeRequired">Date and time are required.</Phrase>
     <Phrase key="NotNumber">String is not a number.</Phrase>
     <Phrase key="NotHexadecimal">String is not hexadecimal.</Phrase>
     <Phrase key="InvalidParamVal">Invalid value of the &quot;{0}&quot; parameter.</Phrase>

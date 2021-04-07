@@ -29,7 +29,7 @@ using System.Globalization;
 using System.IO;
 using System.Xml;
 
-namespace Scada
+namespace Scada.Lang
 {
     /// <summary>
     /// Provides information about a culture of the software package.

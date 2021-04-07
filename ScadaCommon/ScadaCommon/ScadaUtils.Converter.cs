@@ -1,4 +1,5 @@
 ﻿using Scada.Client;
+using Scada.Lang;
 using System;
 using System.Globalization;
 using System.Text;

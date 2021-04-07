@@ -23,6 +23,7 @@
  * Modified : 2020
  */
 
+using Scada.Lang;
 using Scada.Log;
 using Scada.Protocol;
 using System;

@@ -26,7 +26,7 @@
 using System;
 using System.Collections.Generic;
 
-namespace Scada
+namespace Scada.Lang
 {
     /// <summary>
     /// Represents a dictionary that contains phrases in a certain language.

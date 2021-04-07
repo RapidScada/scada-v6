@@ -25,7 +25,7 @@
 
 #pragma warning disable 1591 // Missing XML comment for publicly visible type or member
 
-namespace Scada
+namespace Scada.Lang
 {
     /// <summary>
     /// The common phrases for the entire software package.
@@ -34,6 +34,7 @@ namespace Scada
     public static class CommonPhrases
     {
         // Scada.Application
+        public static string ProductName { get; private set; }
         public static string ServerAppName { get; private set; }
         public static string CommAppName { get; private set; }
         public static string WebAppName { get; private set; }
@@ -83,6 +84,11 @@ namespace Scada
 
         // Scada.Format
         public static string UndefinedSign { get; private set; }
+        public static string IntegerRequired { get; private set; }
+        public static string IntegerInRangeRequired { get; private set; }
+        public static string RealRequired { get; private set; }
+        public static string NonemptyRequired { get; private set; }
+        public static string DateTimeRequired { get; private set; }
         public static string NotNumber { get; private set; }
         public static string NotHexadecimal { get; private set; }
         public static string InvalidParamVal { get; private set; }
@@ -111,6 +117,7 @@ namespace Scada
         public static void Init()
         {
             LocaleDict dict = Locale.GetDictionary("Scada.Application");
+            ProductName = dict.GetPhrase("ProductName");
             ServerAppName = dict.GetPhrase("ServerAppName");
             CommAppName = dict.GetPhrase("CommAppName");
             WebAppName = dict.GetPhrase("WebAppName");
@@ -160,6 +167,11 @@ namespace Scada
 
             dict = Locale.GetDictionary("Scada.Format");
             UndefinedSign = dict.GetPhrase("UndefinedSign");
+            IntegerRequired = dict.GetPhrase("IntegerRequired");
+            IntegerInRangeRequired = dict.GetPhrase("IntegerInRangeRequired");
+            RealRequired = dict.GetPhrase("RealRequired");
+            NonemptyRequired = dict.GetPhrase("NonemptyRequired");
+            DateTimeRequired = dict.GetPhrase("DateTimeRequired");
             NotNumber = dict.GetPhrase("NotNumber");
             NotHexadecimal = dict.GetPhrase("NotHexadecimal");
             InvalidParamVal = dict.GetPhrase("InvalidParamVal");
