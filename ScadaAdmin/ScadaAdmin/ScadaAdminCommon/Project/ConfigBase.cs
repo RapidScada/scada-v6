@@ -40,6 +40,16 @@ namespace Scada.Admin.Project
     public class ConfigBase : BaseDataSet
     {
         /// <summary>
+        /// The minimum ID value.
+        /// </summary>
+        public const int MinID = 1;
+        /// <summary>
+        /// The maximum ID value.
+        /// </summary>
+        public const int MaxID = int.MaxValue;
+
+
+        /// <summary>
         /// Initializes a new instance of the class.
         /// </summary>
         public ConfigBase()

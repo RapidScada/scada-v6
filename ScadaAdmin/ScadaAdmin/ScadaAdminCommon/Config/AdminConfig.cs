@@ -41,5 +41,24 @@ namespace Scada.Admin.Config
         /// The default configuration file name.
         /// </summary>
         public const string DefaultFileName = "ScadaAdminConfig.xml";
+
+
+        /// <summary>
+        /// Loads the configuration from the specified file.
+        /// </summary>
+        public bool Load(string fileName, out string errMsg)
+        {
+            errMsg = "";
+            return true;
+        }
+
+        /// <summary>
+        /// Saves the configuration to the specified file.
+        /// </summary>
+        public bool Save(string fileName, out string errMsg)
+        {
+            errMsg = "";
+            return true;
+        }
     }
 }

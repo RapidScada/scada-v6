@@ -79,6 +79,7 @@ namespace Scada.Lang
         // Scada.Files
         public static string FileNotFound { get; private set; }
         public static string NamedFileNotFound { get; private set; }
+        public static string DirectoryNotExists { get; private set; }
         public static string LoadAppConfigError { get; private set; }
         public static string SaveAppConfigError { get; private set; }
 
@@ -162,6 +163,7 @@ namespace Scada.Lang
             dict = Locale.GetDictionary("Scada.Files");
             FileNotFound = dict.GetPhrase("FileNotFound");
             NamedFileNotFound = dict.GetPhrase("NamedFileNotFound");
+            DirectoryNotExists = dict.GetPhrase("DirectoryNotExists");
             LoadAppConfigError = dict.GetPhrase("LoadAppConfigError");
             SaveAppConfigError = dict.GetPhrase("SaveAppConfigError");
 

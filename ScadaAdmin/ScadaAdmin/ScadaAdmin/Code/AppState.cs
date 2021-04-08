@@ -122,7 +122,7 @@ namespace Scada.Admin.App.Code
             }
             catch (Exception ex)
             {
-                errMsg = AppPhrases.LoadAppStateError + ":" + Environment.NewLine + ex.Message;
+                errMsg = ScadaUtils.BuildErrorMessage(ex, AppPhrases.LoadAppStateError);
                 return false;
             }
         }
@@ -156,7 +156,7 @@ namespace Scada.Admin.App.Code
             }
             catch (Exception ex)
             {
-                errMsg = AppPhrases.SaveAppStateError + ":" + Environment.NewLine + ex.Message;
+                errMsg = ScadaUtils.BuildErrorMessage(ex, AppPhrases.SaveAppStateError);
                 return false;
             }
         }

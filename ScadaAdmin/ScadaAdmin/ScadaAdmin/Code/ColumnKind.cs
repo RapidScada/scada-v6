@@ -20,7 +20,7 @@
  * 
  * Author   : Mikhail Shiryaev
  * Created  : 2019
- * Modified : 2019
+ * Modified : 2021
  */
 
 namespace Scada.Admin.App.Code
@@ -32,12 +32,13 @@ namespace Scada.Admin.App.Code
     internal enum ColumnKind
     {
         Unspecified,
-        PrimaryKey,
-        Password,
-        Color,
-        Path,
-        SourceCode,
+        BitMask,
         Button,
+        Color,
+        Password,
+        Path,
+        PrimaryKey,
+        SourceCode,
         SelectFileButton,
         SelectFolderButton
     }

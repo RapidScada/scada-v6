@@ -24,6 +24,7 @@
  */
 
 using Scada.Lang;
+using System;
 using System.Drawing;
 using System.Linq;
 using System.Windows.Forms;
@@ -74,7 +75,47 @@ namespace Scada.Forms
         }
 
         /// <summary>
-        /// Автоподбор ширины столбцов таблицы с выбором режима в зависимости от количества строк.
+        /// Sets the value of the NumericUpDown control within its valid range.
+        /// </summary>
+        public static void SetValue(this NumericUpDown numericUpDown, decimal val)
+        {
+            if (val < numericUpDown.Minimum)
+                numericUpDown.Value = numericUpDown.Minimum;
+            else if (val > numericUpDown.Maximum)
+                numericUpDown.Value = numericUpDown.Maximum;
+            else
+                numericUpDown.Value = val;
+        }
+
+        /// <summary>
+        /// Sets the time of the DateTimePicker control.
+        /// </summary>
+        public static void SetTime(this DateTimePicker dateTimePicker, DateTime time)
+        {
+            DateTime date = dateTimePicker.MinDate;
+            dateTimePicker.Value = new DateTime(date.Year, date.Month, date.Day, time.Hour, time.Minute, time.Second);
+        }
+
+        /// <summary>
+        /// Sets the time of the DateTimePicker control.
+        /// </summary>
+        public static void SetTime(this DateTimePicker dateTimePicker, TimeSpan timeSpan)
+        {
+            DateTime date = dateTimePicker.MinDate;
+            dateTimePicker.Value = new DateTime(date.Year, date.Month, date.Day).Add(timeSpan);
+        }
+
+        /// <summary>
+        /// Sets the file dialog filter suppressing possible exception.
+        /// </summary>
+        public static void SetFilter(this FileDialog fileDialog, string filter)
+        {
+            try { fileDialog.Filter = filter; }
+            catch { }
+        }
+
+        /// <summary>
+        /// Adjusts the width of all columns using the mode depending on row number.
         /// </summary>
         public static void AutoSizeColumns(this DataGridView dataGridView)
         {

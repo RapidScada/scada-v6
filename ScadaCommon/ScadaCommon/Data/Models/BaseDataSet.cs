@@ -56,12 +56,12 @@ namespace Scada.Data.Models
         public BaseTable<CmdType> CmdTypeTable { get; protected set; }
 
         /// <summary>
-        /// Gets the input channel status table.
+        /// Gets the channel status table.
         /// </summary>
         public BaseTable<CnlStatus> CnlStatusTable { get; protected set; }
 
         /// <summary>
-        /// Gets the input channel type table.
+        /// Gets the channel type table.
         /// </summary>
         public BaseTable<CnlType> CnlTypeTable { get; protected set; }
 

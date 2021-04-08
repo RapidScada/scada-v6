@@ -176,9 +176,8 @@ namespace Scada.Admin.App.Forms.Tables
             dataTable.RowDeleted += dataTable_RowDeleted;
 
             // create grid columns
-            ColumnBuilder columnBuilder = new(project.ConfigBase);
             dataGridView.Columns.Clear();
-            dataGridView.Columns.AddRange(columnBuilder.CreateColumns(baseTable.ItemType));
+            dataGridView.Columns.AddRange(ColumnBuilder.CreateColumns(project.ConfigBase, baseTable.ItemType));
 
             // set default values
             foreach (DataGridViewColumn column in dataGridView.Columns)

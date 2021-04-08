@@ -46,6 +46,7 @@
   <Dictionary key="Scada.Files">
     <Phrase key="FileNotFound">Не найден файл.</Phrase>
     <Phrase key="NamedFileNotFound">Файл {0} не найден.</Phrase>
+    <Phrase key="DirectoryNotExists">Директория не существует.</Phrase>
     <Phrase key="LoadAppConfigError">Ошибка при загрузке конфигурации приложения</Phrase>
     <Phrase key="SaveAppConfigError">Ошибка при сохранении конфигурации приложения</Phrase>
   </Dictionary>

@@ -23,6 +23,8 @@
  * Modified : 2021
  */
 
+using Scada.Lang;
+
 namespace Scada.Admin.App.Code
 {
     /// <summary>
@@ -31,6 +33,10 @@ namespace Scada.Admin.App.Code
     /// </summary>
     internal static class AppPhrases
     {
+        // Scada.Admin.App.Code.AppState
+        public static string LoadAppStateError { get; private set; }
+        public static string SaveAppStateError { get; private set; }
+
         // Scada.Admin.App.Code.ExplorerBuilder
         public static string BaseNode { get; private set; }
         public static string PrimaryTablesNode { get; private set; }
@@ -58,10 +64,33 @@ namespace Scada.Admin.App.Code
         public static string KeyReferenced { get; private set; }
         public static string DataNotExist { get; private set; }
         public static string DataChangeError { get; private set; }
+        
+        // Scada.Admin.App.Forms.FrmMain
+        public static string EmptyTitle { get; private set; }
+        public static string ProjectTitle { get; private set; }
+        public static string WelcomeMessage { get; private set; }
+        public static string SelectItemMessage { get; private set; }
+        public static string ProjectFileFilter { get; private set; }
+        public static string ConfirmDeleteDirectory { get; private set; }
+        public static string ConfirmDeleteFile { get; private set; }
+        public static string ConfirmDeleteInstance { get; private set; }
+        public static string ConfirmDeleteCommLine { get; private set; }
+        public static string FileOperationError { get; private set; }
+        public static string DirectoryAlreadyExists { get; private set; }
+        public static string FileAlreadyExists { get; private set; }
+        public static string InstanceAlreadyExists { get; private set; }
+        public static string SaveConfigBaseConfirm { get; private set; }
+        public static string DeviceNotFoundInComm { get; private set; }
+        public static string WebUrlNotSet { get; private set; }
+        public static string ReopenProject { get; private set; }
 
         public static void Init()
         {
-            LocaleDict dict = Locale.GetDictionary("Scada.Admin.App.Code.ExplorerBuilder");
+            LocaleDict dict = Locale.GetDictionary("Scada.Admin.App.Code.AppState");
+            LoadAppStateError = dict.GetPhrase("LoadAppStateError");
+            SaveAppStateError = dict.GetPhrase("SaveAppStateError");
+
+            dict = Locale.GetDictionary("Scada.Admin.App.Code.ExplorerBuilder");
             BaseNode = dict.GetPhrase("BaseNode");
             PrimaryTablesNode = dict.GetPhrase("PrimaryTablesNode");
             SecondaryTablesNode = dict.GetPhrase("SecondaryTablesNode");
@@ -88,6 +117,25 @@ namespace Scada.Admin.App.Code
             KeyReferenced = dict.GetPhrase("KeyReferenced");
             DataNotExist = dict.GetPhrase("DataNotExist");
             DataChangeError = dict.GetPhrase("DataChangeError");
+
+            dict = Locale.GetDictionary("Scada.Admin.App.Forms.FrmMain");
+            EmptyTitle = dict.GetPhrase("EmptyTitle");
+            ProjectTitle = dict.GetPhrase("ProjectTitle");
+            WelcomeMessage = dict.GetPhrase("WelcomeMessage");
+            SelectItemMessage = dict.GetPhrase("SelectItemMessage");
+            ProjectFileFilter = dict.GetPhrase("ProjectFileFilter");
+            ConfirmDeleteDirectory = dict.GetPhrase("ConfirmDeleteDirectory");
+            ConfirmDeleteFile = dict.GetPhrase("ConfirmDeleteFile");
+            ConfirmDeleteInstance = dict.GetPhrase("ConfirmDeleteInstance");
+            ConfirmDeleteCommLine = dict.GetPhrase("ConfirmDeleteCommLine");
+            FileOperationError = dict.GetPhrase("FileOperationError");
+            DirectoryAlreadyExists = dict.GetPhrase("DirectoryAlreadyExists");
+            FileAlreadyExists = dict.GetPhrase("FileAlreadyExists");
+            InstanceAlreadyExists = dict.GetPhrase("InstanceAlreadyExists");
+            SaveConfigBaseConfirm = dict.GetPhrase("SaveConfigBaseConfirm");
+            DeviceNotFoundInComm = dict.GetPhrase("DeviceNotFoundInComm");
+            WebUrlNotSet = dict.GetPhrase("WebUrlNotSet");
+            ReopenProject = dict.GetPhrase("ReopenProject");
         }
     }
 }

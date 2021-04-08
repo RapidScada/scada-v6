@@ -34,6 +34,7 @@ namespace Scada.Admin.App.Code
         public const int Default = 100;
         public const int Long = 1000;
         public const int Name = 100;
+        public const int Code = 100;
         public const int Password = 100;
         public const int Enumeration = 1000;
         public const int Description = 1000;
