@@ -50,27 +50,27 @@ namespace Scada.Forms
         /// <summary>
         /// Shows an informational message.
         /// </summary>
-        public static void ShowInfo(string text)
+        public static void ShowInfo(string text, params object[] args)
         {
-            MessageBox.Show(text?.Trim(), CommonPhrases.InfoCaption,
+            MessageBox.Show(ScadaUtils.FormatText(text, args).Trim(), CommonPhrases.InfoCaption,
                 MessageBoxButtons.OK, MessageBoxIcon.Information);
         }
 
         /// <summary>
         /// Shows an error message.
         /// </summary>
-        public static void ShowError(string text)
+        public static void ShowError(string text, params object[] args)
         {
-            MessageBox.Show(text?.Trim(), CommonPhrases.ErrorCaption,
+            MessageBox.Show(ScadaUtils.FormatText(text, args).Trim(), CommonPhrases.ErrorCaption,
                 MessageBoxButtons.OK, MessageBoxIcon.Error);
         }
 
         /// <summary>
         /// Shows a warning message.
         /// </summary>
-        public static void ShowWarning(string text)
+        public static void ShowWarning(string text, params object[] args)
         {
-            MessageBox.Show(text?.Trim(), CommonPhrases.WarningCaption,
+            MessageBox.Show(ScadaUtils.FormatText(text, args).Trim(), CommonPhrases.WarningCaption,
                 MessageBoxButtons.OK, MessageBoxIcon.Warning);
         }
 

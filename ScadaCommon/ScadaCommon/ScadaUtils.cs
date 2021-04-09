@@ -370,6 +370,16 @@ namespace Scada
         }
 
         /// <summary>
+        /// Formats the specified text with the specified arguments.
+        /// </summary>
+        public static string FormatText(string text, object[] args)
+        {
+            return string.IsNullOrEmpty(text)
+                ? ""
+                : args == null || args.Length == 0 ? text : string.Format(text, args);
+        }
+
+        /// <summary>
         /// Builds an error message combining the exception message, the specified text and arguments.
         /// </summary>
         public static string BuildErrorMessage(Exception ex, string text = "", params object[] args)
@@ -377,15 +387,9 @@ namespace Scada
             if (ex == null)
                 throw new ArgumentNullException(nameof(ex));
 
-            if (string.IsNullOrEmpty(text))
-            {
-                return ex.Message;
-            }
-            else
-            {
-                return (args == null || args.Length == 0 ? text : string.Format(text, args)) + 
-                    ":" + Environment.NewLine + ex;
-            }
+            return string.IsNullOrEmpty(text)
+                ? ex.Message
+                : FormatText(text, args) + ":" + Environment.NewLine + ex.Message;
         }
     }
 }

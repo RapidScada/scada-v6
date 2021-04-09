@@ -41,6 +41,7 @@ namespace Scada.Admin.App.Forms
     {
         /// <summary>
         /// Represents an item of the project template list.
+        /// </summary>
         private class TemplateItem
         {
             public string Name { get; set; }

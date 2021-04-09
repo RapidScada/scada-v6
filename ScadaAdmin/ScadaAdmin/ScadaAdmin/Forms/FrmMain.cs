@@ -73,7 +73,7 @@ namespace Scada.Admin.App.Forms
         //private readonly CommShell commShell;             // the shell to edit Communicator settings
         private readonly ExplorerBuilder explorerBuilder; // the object to manipulate the explorer tree
         private ScadaProject project;                     // the project under development
-        //private FrmStartPage frmStartPage;                // the start page
+        private FrmStartPage frmStartPage;                // the start page
         private bool preventNodeExpand;                   // prevent a tree node from expanding or collapsing
 
 
@@ -100,7 +100,7 @@ namespace Scada.Admin.App.Forms
                 FileItemMenu = cmsFileItem, InstanceMenu = cmsInstance, ServerMenu = cmsServer,
                 CommMenu = cmsComm, CommLineMenu = cmsCommLine, DeviceMenu = cmsDevice });
             project = null;
-            //frmStartPage = null;
+            frmStartPage = null;
             preventNodeExpand = false;
         }
 
@@ -998,7 +998,7 @@ namespace Scada.Admin.App.Forms
         /// </summary>
         private void ShowStartPage()
         {
-            /*if (frmStartPage == null)
+            if (frmStartPage == null)
             {
                 frmStartPage = new FrmStartPage(appData.State);
                 wctrlMain.AddForm(frmStartPage, "", miFileShowStartPage.Image, null);
@@ -1006,7 +1006,7 @@ namespace Scada.Admin.App.Forms
             else
             {
                 wctrlMain.ActivateForm(frmStartPage);
-            }*/
+            }
         }
 
         /// <summary>
@@ -1014,7 +1014,7 @@ namespace Scada.Admin.App.Forms
         /// </summary>
         private void CloseStartPage()
         {
-            //frmStartPage?.Close();
+            frmStartPage?.Close();
         }
 
         /// <summary>
@@ -1183,8 +1183,8 @@ namespace Scada.Admin.App.Forms
                 tag.ExistingForm = null;
 
             // clear the pointer to the start page
-            //if (e.ChildForm is FrmStartPage)
-            //    frmStartPage = null;
+            if (e.ChildForm is FrmStartPage)
+                frmStartPage = null;
 
             // disable the Save All menu item if needed
             if (e.ChildForm is IChildForm childForm && childForm.ChildFormTag.Modified)

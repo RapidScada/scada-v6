@@ -1,5 +1,5 @@
 ﻿/*
- * Copyright 2019 Mikhail Shiryaev
+ * Copyright 2021 Rapid Software LLC
  * 
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -20,11 +20,12 @@
  * 
  * Author   : Mikhail Shiryaev
  * Created  : 2019
- * Modified : 2019
+ * Modified : 2021
  */
 
 using Scada.Admin.App.Code;
-using Scada.UI;
+using Scada.Forms;
+using Scada.Lang;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -42,8 +43,7 @@ namespace Scada.Admin.App.Forms
     public partial class FrmStartPage : Form, IChildForm
     {
         /// <summary>
-        /// List item representing a recently open project.
-        /// <para>Элемент списка, представляющий недавно открытый проект.</para>
+        /// Represents an item of a recent project.
         /// </summary>
         private class ProjectItem
         {
@@ -61,10 +61,10 @@ namespace Scada.Admin.App.Forms
             public string Directory { get; private set; }
         }
 
-        private AppState appState;  // the application state
-        private Font itemMainFont;  // the font of the item main text
-        private Font itemHintFont;  // the font of the item hints
-        private int hoverItemIndex; // the hovered item index
+        private readonly AppState appState;  // the application state
+        private readonly Font itemMainFont;  // the font of the item main text
+        private readonly Font itemHintFont;  // the font of the item hints
+        private int hoverItemIndex;          // the hovered item index
 
 
         /// <summary>
@@ -81,7 +81,7 @@ namespace Scada.Admin.App.Forms
         public FrmStartPage(AppState appState)
             : this()
         {
-            this.appState = appState ?? throw new ArgumentNullException("appState");
+            this.appState = appState ?? throw new ArgumentNullException(nameof(appState));
             itemMainFont = new Font(lbRecentProjects.Font.FontFamily, 10, FontStyle.Bold);
             itemHintFont = new Font(lbRecentProjects.Font.FontFamily, 8);
             hoverItemIndex = -1;
@@ -140,7 +140,7 @@ namespace Scada.Admin.App.Forms
                 }
                 else
                 {
-                    ScadaUiUtils.ShowWarning(string.Format(CommonPhrases.NamedFileNotFound, item.Path));
+                    ScadaUiUtils.ShowWarning(CommonPhrases.NamedFileNotFound, item.Path);
                     RemoveProjectFromList(item);
                 }
             }
@@ -172,7 +172,7 @@ namespace Scada.Admin.App.Forms
 
         private void FrmStartPage_Load(object sender, EventArgs e)
         {
-            Translator.TranslateForm(this, GetType().FullName, null, cmsProjectList);
+            FormTranslator.Translate(this, GetType().FullName, null, cmsProjectList);
             FillRecentProjectList();
         }
 

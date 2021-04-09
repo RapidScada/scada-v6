@@ -29,16 +29,15 @@
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
-            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(FrmStartPage));
             this.pnlContent = new System.Windows.Forms.Panel();
             this.lblNoRecentProjects = new System.Windows.Forms.Label();
             this.lbRecentProjects = new System.Windows.Forms.ListBox();
-            this.btnOpenProject = new System.Windows.Forms.Button();
-            this.btnNewProject = new System.Windows.Forms.Button();
-            this.lblRecentProjects = new System.Windows.Forms.Label();
             this.cmsProjectList = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.miRemoveFromList = new System.Windows.Forms.ToolStripMenuItem();
             this.miCopyPath = new System.Windows.Forms.ToolStripMenuItem();
+            this.btnOpenProject = new System.Windows.Forms.Button();
+            this.btnNewProject = new System.Windows.Forms.Button();
+            this.lblRecentProjects = new System.Windows.Forms.Label();
             this.pnlContent.SuspendLayout();
             this.cmsProjectList.SuspendLayout();
             this.SuspendLayout();
@@ -59,11 +58,11 @@
             // lblNoRecentProjects
             // 
             this.lblNoRecentProjects.AutoSize = true;
-            this.lblNoRecentProjects.Font = new System.Drawing.Font("Verdana", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.lblNoRecentProjects.Font = new System.Drawing.Font("Verdana", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
             this.lblNoRecentProjects.Location = new System.Drawing.Point(28, 59);
             this.lblNoRecentProjects.Margin = new System.Windows.Forms.Padding(3, 10, 3, 0);
             this.lblNoRecentProjects.Name = "lblNoRecentProjects";
-            this.lblNoRecentProjects.Size = new System.Drawing.Size(132, 16);
+            this.lblNoRecentProjects.Size = new System.Drawing.Size(131, 16);
             this.lblNoRecentProjects.TabIndex = 1;
             this.lblNoRecentProjects.Text = "No recent projects";
             // 
@@ -74,7 +73,7 @@
             this.lbRecentProjects.BorderStyle = System.Windows.Forms.BorderStyle.None;
             this.lbRecentProjects.ContextMenuStrip = this.cmsProjectList;
             this.lbRecentProjects.DrawMode = System.Windows.Forms.DrawMode.OwnerDrawFixed;
-            this.lbRecentProjects.Font = new System.Drawing.Font("Verdana", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.lbRecentProjects.Font = new System.Drawing.Font("Verdana", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
             this.lbRecentProjects.FormattingEnabled = true;
             this.lbRecentProjects.IntegralHeight = false;
             this.lbRecentProjects.ItemHeight = 50;
@@ -89,11 +88,36 @@
             this.lbRecentProjects.MouseLeave += new System.EventHandler(this.lbRecentProjects_MouseLeave);
             this.lbRecentProjects.MouseMove += new System.Windows.Forms.MouseEventHandler(this.lbRecentProjects_MouseMove);
             // 
+            // cmsProjectList
+            // 
+            this.cmsProjectList.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.miRemoveFromList,
+            this.miCopyPath});
+            this.cmsProjectList.Name = "cmsProjectList";
+            this.cmsProjectList.Size = new System.Drawing.Size(170, 48);
+            this.cmsProjectList.Opening += new System.ComponentModel.CancelEventHandler(this.cmsProjectList_Opening);
+            // 
+            // miRemoveFromList
+            // 
+            this.miRemoveFromList.Image = global::Scada.Admin.App.Properties.Resources.remove_from_list;
+            this.miRemoveFromList.Name = "miRemoveFromList";
+            this.miRemoveFromList.Size = new System.Drawing.Size(169, 22);
+            this.miRemoveFromList.Text = "Remove From List";
+            this.miRemoveFromList.Click += new System.EventHandler(this.miRemoveFromList_Click);
+            // 
+            // miCopyPath
+            // 
+            this.miCopyPath.Image = global::Scada.Admin.App.Properties.Resources.copy_path;
+            this.miCopyPath.Name = "miCopyPath";
+            this.miCopyPath.Size = new System.Drawing.Size(169, 22);
+            this.miCopyPath.Text = "Copy Path";
+            this.miCopyPath.Click += new System.EventHandler(this.miCopyPath_Click);
+            // 
             // btnOpenProject
             // 
             this.btnOpenProject.Cursor = System.Windows.Forms.Cursors.Hand;
             this.btnOpenProject.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.btnOpenProject.Font = new System.Drawing.Font("Verdana", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.btnOpenProject.Font = new System.Drawing.Font("Verdana", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
             this.btnOpenProject.ForeColor = System.Drawing.SystemColors.Highlight;
             this.btnOpenProject.Location = new System.Drawing.Point(580, 80);
             this.btnOpenProject.Margin = new System.Windows.Forms.Padding(10, 10, 20, 10);
@@ -108,7 +132,7 @@
             // 
             this.btnNewProject.Cursor = System.Windows.Forms.Cursors.Hand;
             this.btnNewProject.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.btnNewProject.Font = new System.Drawing.Font("Verdana", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.btnNewProject.Font = new System.Drawing.Font("Verdana", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
             this.btnNewProject.ForeColor = System.Drawing.SystemColors.Highlight;
             this.btnNewProject.Location = new System.Drawing.Point(580, 20);
             this.btnNewProject.Margin = new System.Windows.Forms.Padding(10, 20, 20, 10);
@@ -122,7 +146,7 @@
             // lblRecentProjects
             // 
             this.lblRecentProjects.AutoSize = true;
-            this.lblRecentProjects.Font = new System.Drawing.Font("Verdana", 18F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.lblRecentProjects.Font = new System.Drawing.Font("Verdana", 18F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
             this.lblRecentProjects.ForeColor = System.Drawing.SystemColors.GrayText;
             this.lblRecentProjects.Location = new System.Drawing.Point(25, 20);
             this.lblRecentProjects.Name = "lblRecentProjects";
@@ -130,34 +154,9 @@
             this.lblRecentProjects.TabIndex = 0;
             this.lblRecentProjects.Text = "Recent Projects";
             // 
-            // cmsProjectList
-            // 
-            this.cmsProjectList.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.miRemoveFromList,
-            this.miCopyPath});
-            this.cmsProjectList.Name = "cmsProjectList";
-            this.cmsProjectList.Size = new System.Drawing.Size(181, 70);
-            this.cmsProjectList.Opening += new System.ComponentModel.CancelEventHandler(this.cmsProjectList_Opening);
-            // 
-            // miRemoveFromList
-            // 
-            this.miRemoveFromList.Image = ((System.Drawing.Image)(resources.GetObject("miRemoveFromList.Image")));
-            this.miRemoveFromList.Name = "miRemoveFromList";
-            this.miRemoveFromList.Size = new System.Drawing.Size(180, 22);
-            this.miRemoveFromList.Text = "Remove From List";
-            this.miRemoveFromList.Click += new System.EventHandler(this.miRemoveFromList_Click);
-            // 
-            // miCopyPath
-            // 
-            this.miCopyPath.Image = ((System.Drawing.Image)(resources.GetObject("miCopyPath.Image")));
-            this.miCopyPath.Name = "miCopyPath";
-            this.miCopyPath.Size = new System.Drawing.Size(180, 22);
-            this.miCopyPath.Text = "Copy Path";
-            this.miCopyPath.Click += new System.EventHandler(this.miCopyPath_Click);
-            // 
             // FrmStartPage
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.SystemColors.AppWorkspace;
             this.ClientSize = new System.Drawing.Size(834, 461);
