@@ -43,7 +43,7 @@ namespace Scada.Admin.App.Forms
     public partial class FrmStartPage : Form, IChildForm
     {
         /// <summary>
-        /// Represents an item of a recent project.
+        /// Represents an item that corresponds to a recent project.
         /// </summary>
         private class ProjectItem
         {

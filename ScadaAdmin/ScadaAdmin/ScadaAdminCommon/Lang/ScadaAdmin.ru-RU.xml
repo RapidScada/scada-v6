@@ -54,6 +54,15 @@
     <Phrase key="DataNotExist">Не существуют данные для столбца &quot;{0}&quot;.</Phrase>
     <Phrase key="DataChangeError">Ошибка при изменении данных в таблице</Phrase>
   </Dictionary>
+  <Dictionary key="Scada.Admin.App.Forms.Tools.FrmCulture">
+    <Phrase key="this">Язык</Phrase>
+    <Phrase key="lblInfo">Изменения вступят в силу после перезапуска приложения.</Phrase>
+    <Phrase key="btnOK">OK</Phrase>
+    <Phrase key="btnCancel">Отмена</Phrase>
+    <Phrase key="LoadCulturesError">Ошибка при загрузке культур</Phrase>
+    <Phrase key="CultureRequired">Пожалуйста, введите непустой язык.</Phrase>
+    <Phrase key="CultureNotFound">Указанная культура не найдена.</Phrase>
+  </Dictionary>
   <Dictionary key="Scada.Admin.App.Forms.FrmMain">
     <Phrase key="miFile">&amp;Файл</Phrase>
     <Phrase key="miFileNewProject">Новый проект...</Phrase>

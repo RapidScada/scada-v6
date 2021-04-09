@@ -1,5 +1,5 @@
 ﻿/*
- * Copyright 2019 Mikhail Shiryaev
+ * Copyright 2021 Rapid Software LLC
  * 
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -16,15 +16,17 @@
  * 
  * Product  : Rapid SCADA
  * Module   : Administrator
- * Summary  : Form for selecting the culture
+ * Summary  : Represents a form for selecting the culture
  * 
  * Author   : Mikhail Shiryaev
  * Created  : 2019
- * Modified : 2019
+ * Modified : 2021
  */
 
 using Scada.Admin.App.Code;
-using Scada.UI;
+using Scada.Config;
+using Scada.Forms;
+using Scada.Lang;
 using System;
 using System.Collections.Generic;
 using System.Globalization;
@@ -34,24 +36,19 @@ using System.Windows.Forms;
 namespace Scada.Admin.App.Forms.Tools
 {
     /// <summary>
-    /// Form for selecting the culture.
-    /// <para>Форма для выбора культуры.</para>
+    /// Represents a form for selecting the culture.
+    /// <para>Представляет форму для выбора культуры.</para>
     /// </summary>
     public partial class FrmCulture : Form
     {
         /// <summary>
-        /// List item representing a culture.
-        /// <para>Элемент списка, представляющий культуру.</para>
+        /// Represents an item that corresponds to a culture.
         /// </summary>
         private class CultureItem
         {
             public string CultureName { get; set; }
             public string DisplayName { get; set; }
-
-            public override string ToString()
-            {
-                return DisplayName;
-            }
+            public override string ToString() => DisplayName;
         }
 
         private static string lastCultureName = null; // the last selected culture
@@ -72,7 +69,7 @@ namespace Scada.Admin.App.Forms.Tools
         public FrmCulture(AppData appData)
             : this()
         {
-            this.appData = appData ?? throw new ArgumentNullException("appData");
+            this.appData = appData ?? throw new ArgumentNullException(nameof(appData));
         }
 
 
@@ -84,16 +81,15 @@ namespace Scada.Admin.App.Forms.Tools
             try
             {
                 // retrieve culture names from file names
-                SortedSet<string> cultureNames = new SortedSet<string>();
-                DirectoryInfo dirInfo = new DirectoryInfo(appData.AppDirs.LangDir);
-                FileInfo[] langFiles = dirInfo.GetFiles("*.xml", SearchOption.TopDirectoryOnly);
+                SortedSet<string> cultureNames = new();
+                DirectoryInfo dirInfo = new(appData.AppDirs.LangDir);
 
-                foreach (FileInfo fileInfo in langFiles)
+                foreach (FileInfo fileInfo in dirInfo.EnumerateFiles("*.xml", SearchOption.TopDirectoryOnly))
                 {
                     string s = Path.GetFileNameWithoutExtension(fileInfo.Name);
                     int dotInd = s.LastIndexOf('.');
                     if (dotInd >= 0)
-                        cultureNames.Add(s.Substring(dotInd + 1));
+                        cultureNames.Add(s[(dotInd + 1)..]);
                 }
 
                 // fill the combo box
@@ -101,7 +97,7 @@ namespace Scada.Admin.App.Forms.Tools
                 {
                     cbCulture.BeginUpdate();
                     cbCulture.Items.Clear();
-                    string curCultureName = lastCultureName ?? Localization.Culture.Name;
+                    string currentCultureName = lastCultureName ?? Locale.Culture.Name;
                     int selectedIndex = -1;
 
                     foreach (string cultureName in cultureNames)
@@ -114,7 +110,7 @@ namespace Scada.Admin.App.Forms.Tools
                                 DisplayName = cultureName + ", " + CultureInfo.GetCultureInfo(cultureName).NativeName
                             });
 
-                            if (cultureName == curCultureName)
+                            if (cultureName == currentCultureName)
                                 selectedIndex = index;
                         }
                         catch (CultureNotFoundException)
@@ -125,7 +121,7 @@ namespace Scada.Admin.App.Forms.Tools
                     if (selectedIndex >= 0)
                         cbCulture.SelectedIndex = selectedIndex;
                     else
-                        cbCulture.Text = curCultureName;
+                        cbCulture.Text = currentCultureName;
                 }
                 finally
                 {
@@ -141,7 +137,7 @@ namespace Scada.Admin.App.Forms.Tools
 
         private void FrmCulture_Load(object sender, EventArgs e)
         {
-            Translator.TranslateForm(this, GetType().FullName);
+            FormTranslator.Translate(this, GetType().FullName);
             LoadCultures();
         }
 
@@ -165,7 +161,7 @@ namespace Scada.Admin.App.Forms.Tools
                 {
                     ScadaUiUtils.ShowError(AppPhrases.CultureNotFound);
                 }
-                else if (Localization.WriteCulture(cultureName, out string errMsg))
+                else if (Locale.SaveCulture(appData.GetInstanceConfigFileName(), cultureName, out string errMsg))
                 {
                     lastCultureName = cultureName;
                     DialogResult = DialogResult.OK;

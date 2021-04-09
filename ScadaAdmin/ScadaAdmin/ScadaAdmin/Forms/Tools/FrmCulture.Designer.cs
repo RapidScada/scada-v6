@@ -28,7 +28,6 @@
         /// </summary>
         private void InitializeComponent()
         {
-            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(FrmCulture));
             this.cbCulture = new System.Windows.Forms.ComboBox();
             this.btnOK = new System.Windows.Forms.Button();
             this.btnCancel = new System.Windows.Forms.Button();
@@ -44,7 +43,7 @@
             this.cbCulture.FormattingEnabled = true;
             this.cbCulture.Location = new System.Drawing.Point(12, 12);
             this.cbCulture.Name = "cbCulture";
-            this.cbCulture.Size = new System.Drawing.Size(360, 21);
+            this.cbCulture.Size = new System.Drawing.Size(360, 23);
             this.cbCulture.TabIndex = 0;
             // 
             // btnOK
@@ -78,8 +77,8 @@
             // 
             // pbInfo
             // 
-            this.pbInfo.Image = ((System.Drawing.Image)(resources.GetObject("pbInfo.Image")));
-            this.pbInfo.Location = new System.Drawing.Point(0, 1);
+            this.pbInfo.Image = global::Scada.Admin.App.Properties.Resources.info;
+            this.pbInfo.Location = new System.Drawing.Point(0, 3);
             this.pbInfo.Name = "pbInfo";
             this.pbInfo.Size = new System.Drawing.Size(16, 16);
             this.pbInfo.TabIndex = 0;
@@ -91,14 +90,14 @@
             this.lblInfo.ForeColor = System.Drawing.SystemColors.GrayText;
             this.lblInfo.Location = new System.Drawing.Point(22, 3);
             this.lblInfo.Name = "lblInfo";
-            this.lblInfo.Size = new System.Drawing.Size(265, 13);
+            this.lblInfo.Size = new System.Drawing.Size(297, 15);
             this.lblInfo.TabIndex = 0;
             this.lblInfo.Text = "Changes will take effect after restarting the application.";
             // 
             // FrmCulture
             // 
             this.AcceptButton = this.btnOK;
-            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.CancelButton = this.btnCancel;
             this.ClientSize = new System.Drawing.Size(384, 99);

@@ -174,6 +174,24 @@ namespace Scada.Lang
         }
 
         /// <summary>
+        /// Saves the specified culture to the instance configuration file.
+        /// </summary>
+        public static bool SaveCulture(string fileName, string cultureName, out string errMsg)
+        {
+            InstanceConfig instanceConfig = new InstanceConfig();
+
+            if (instanceConfig.Load(fileName, out errMsg))
+            {
+                instanceConfig.Culture = cultureName;
+
+                if (instanceConfig.Save(fileName, out errMsg))
+                    return true;
+            }
+
+            return false;
+        }
+
+        /// <summary>
         /// Loads dictionaries of the selected culture.
         /// </summary>
         public static bool LoadDictionaries(string directory, string fileNamePrefix, out string errMsg)

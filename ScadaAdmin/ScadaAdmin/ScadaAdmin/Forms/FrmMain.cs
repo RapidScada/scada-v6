@@ -25,6 +25,7 @@
 
 using Scada.Admin.App.Code;
 using Scada.Admin.App.Forms.Tables;
+using Scada.Admin.App.Forms.Tools;
 using Scada.Admin.App.Properties;
 using Scada.Admin.Config;
 using Scada.Admin.Lang;
@@ -128,11 +129,8 @@ namespace Scada.Admin.App.Forms
         private void LocalizeForm()
         {
             // load instance culture
-            if (!Locale.LoadCulture(Path.Combine(appData.AppDirs.ExeDir, "..", "Config", InstanceConfig.DefaultFileName),
-                out string errMsg))
-            {
+            if (!Locale.LoadCulture(appData.GetInstanceConfigFileName(), out string errMsg))
                 log.WriteError(errMsg);
-            }
 
             // load common dictionaries
             if (!Locale.LoadDictionaries(appData.AppDirs.LangDir, "ScadaCommon", out errMsg))
@@ -1622,7 +1620,7 @@ namespace Scada.Admin.App.Forms
         private void miToolsCulture_Click(object sender, EventArgs e)
         {
             // show a form to select culture
-            //new FrmCulture(appData).ShowDialog();
+            new FrmCulture(appData).ShowDialog();
         }
 
         private void miWindow_DropDownOpening(object sender, EventArgs e)

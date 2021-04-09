@@ -24,6 +24,7 @@
  */
 
 using Scada.Admin.Config;
+using Scada.Config;
 using Scada.Forms;
 using Scada.Lang;
 using Scada.Log;
@@ -145,6 +146,14 @@ namespace Scada.Admin.App.Code
             string msg = ScadaUtils.BuildErrorMessage(ex, text, args);
             ErrLog.WriteMessage(msg, LogMessageType.Exception);
             ScadaUiUtils.ShowError(msg);
+        }
+
+        /// <summary>
+        /// Gets the full file name of the instance configuration.
+        /// </summary>
+        public string GetInstanceConfigFileName()
+        {
+            return Path.Combine(AppDirs.ExeDir, "..", "Config", InstanceConfig.DefaultFileName);
         }
     }
 }

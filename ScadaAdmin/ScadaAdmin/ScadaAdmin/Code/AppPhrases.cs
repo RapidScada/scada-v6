@@ -64,7 +64,12 @@ namespace Scada.Admin.App.Code
         public static string KeyReferenced { get; private set; }
         public static string DataNotExist { get; private set; }
         public static string DataChangeError { get; private set; }
-        
+
+        // Scada.Admin.App.Forms.Tools.FrmCulture
+        public static string LoadCulturesError { get; private set; }
+        public static string CultureRequired { get; private set; }
+        public static string CultureNotFound { get; private set; }
+
         // Scada.Admin.App.Forms.FrmMain
         public static string EmptyTitle { get; private set; }
         public static string ProjectTitle { get; private set; }
@@ -126,6 +131,11 @@ namespace Scada.Admin.App.Code
             KeyReferenced = dict.GetPhrase("KeyReferenced");
             DataNotExist = dict.GetPhrase("DataNotExist");
             DataChangeError = dict.GetPhrase("DataChangeError");
+
+            dict = Locale.GetDictionary("Scada.Admin.App.Forms.Tools.FrmCulture");
+            LoadCulturesError = dict.GetPhrase("LoadCulturesError");
+            CultureRequired = dict.GetPhrase("CultureRequired");
+            CultureNotFound = dict.GetPhrase("CultureNotFound");
 
             dict = Locale.GetDictionary("Scada.Admin.App.Forms.FrmMain");
             EmptyTitle = dict.GetPhrase("EmptyTitle");
