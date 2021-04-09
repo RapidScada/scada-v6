@@ -23,6 +23,7 @@
  * Modified : 2021
  */
 
+using Scada.Config;
 using Scada.Lang;
 using Scada.Log;
 using Scada.Server.Config;
@@ -105,8 +106,11 @@ namespace Scada.Server.Engine
             log = logFile;
             log.WriteBreak();
 
-            if (!Locale.LoadCulture(Path.Combine(exeDir, "..", ScadaUtils.ScadaConfigFileName), out string errMsg))
+            if (!Locale.LoadCulture(Path.Combine(exeDir, "..", "Config", InstanceConfig.DefaultFileName),
+                out string errMsg))
+            {
                 log.WriteError(errMsg);
+            }
 
             log.WriteAction(Locale.IsRussian ?
                 "Сервер {0} запущен" :

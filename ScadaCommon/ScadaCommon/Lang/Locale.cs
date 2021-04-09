@@ -23,6 +23,7 @@
  * Modified : 2020
  */
 
+using Scada.Config;
 using System;
 using System.Collections.Generic;
 using System.Globalization;
@@ -162,58 +163,14 @@ namespace Scada.Lang
         }
 
         /// <summary>
-        /// Loads culture from the common configuration file.
+        /// Loads culture from the instance configuration file.
         /// </summary>
         public static bool LoadCulture(string fileName, out string errMsg)
         {
-            try
-            {
-                if (File.Exists(fileName))
-                {
-                    XmlDocument xmlDoc = new XmlDocument();
-                    xmlDoc.Load(fileName);
-                    SetCulture(xmlDoc.DocumentElement.GetChildAsString("Culture"));
-                }
-
-                errMsg = "";
-                return true;
-            }
-            catch (Exception ex)
-            {
-                errMsg = (IsRussian ?
-                    "Ошибка при загрузке культуры из файла: " :
-                    "Error loading culture from file: ") + ex.Message;
-                return false;
-            }
-        }
-
-        /// <summary>
-        /// Saves the selected culture to the common configuration file.
-        /// </summary>
-        /// <remarks>Overwrites the file.</remarks>
-        public static bool SaveCulture(string fileName, out string errMsg)
-        {
-            try
-            {
-                XmlDocument xmlDoc = new XmlDocument();
-                XmlDeclaration xmlDecl = xmlDoc.CreateXmlDeclaration("1.0", "utf-8", null);
-                xmlDoc.AppendChild(xmlDecl);
-
-                XmlElement rootElem = xmlDoc.CreateElement("ScadaConfig");
-                xmlDoc.AppendChild(rootElem);
-                rootElem.AppendElem("Culture", Culture.Name);
-
-                xmlDoc.Save(fileName);
-                errMsg = "";
-                return true;
-            }
-            catch (Exception ex)
-            {
-                errMsg = (IsRussian ?
-                    "Ошибка при сохранении культуры в файле: " :
-                    "Error saving culture to file: ") + ex.Message;
-                return false;
-            }
+            InstanceConfig instanceConfig = new InstanceConfig();
+            bool result = instanceConfig.Load(fileName, out errMsg);
+            SetCulture(instanceConfig.Culture);
+            return result;
         }
 
         /// <summary>

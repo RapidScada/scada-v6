@@ -38,10 +38,6 @@ namespace Scada
     public static partial class ScadaUtils
     {
         /// <summary>
-        /// The file name of the common configuration.
-        /// </summary>
-        public const string ScadaConfigFileName = "ScadaConfig.xml";
-        /// <summary>
         /// The delay in thread iteration to save resources, ms.
         /// </summary>
         public const int ThreadDelay = 100;

@@ -105,13 +105,15 @@ namespace Scada.Lang
             // the phrases below may be required before loading dictionaries
             if (Locale.IsRussian)
             {
-                UnhandledException = "Unhandled exception";
-                ExecutionImpossible = "Normal program execution is impossible";
+                UnhandledException = "Необработанное исключение";
+                ExecutionImpossible = "Нормальная работа программы невозможна";
+                NamedFileNotFound = "Файл {0} не найден.";
             }
             else
             {
-                UnhandledException = "Необработанное исключение";
-                ExecutionImpossible = "Нормальная работа программы невозможна";
+                UnhandledException = "Unhandled exception";
+                ExecutionImpossible = "Normal program execution is impossible";
+                NamedFileNotFound = "File {0} not found.";
             }
         }
 
