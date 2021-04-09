@@ -1,5 +1,5 @@
 ﻿/*
- * Copyright 2019 Mikhail Shiryaev
+ * Copyright 2021 Rapid Software LLC
  * 
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -16,42 +16,37 @@
  * 
  * Product  : Rapid SCADA
  * Module   : Administrator
- * Summary  : Form for creating a new project
+ * Summary  : Represents a form for creating a new project
  * 
  * Author   : Mikhail Shiryaev
  * Created  : 2018
- * Modified : 2019
+ * Modified : 2021
  */
 
 using Scada.Admin.App.Code;
 using Scada.Admin.Project;
-using Scada.UI;
+using Scada.Forms;
+using Scada.Lang;
 using System;
 using System.IO;
-using System.Linq;
 using System.Windows.Forms;
 
 namespace Scada.Admin.App.Forms
 {
     /// <summary>
-    /// Form for creating a new project.
-    /// <para>Форма создания нового проекта.</para>
+    /// Represents a form for creating a new project.
+    /// <para>Представляет форму для создания нового проекта.</para>
     /// </summary>
     public partial class FrmProjectNew : Form
     {
         /// <summary>
-        /// Item of the project template list.
-        /// <para>Элемент списка шаблонов проекта.</para>
+        /// Represents an item of the project template list.
         private class TemplateItem
         {
             public string Name { get; set; }
             public string FileName { get; set; }
             public string Descr { get; set; }
-
-            public override string ToString()
-            {
-                return Name;
-            }
+            public override string ToString() => Name;
         }
 
         private readonly AppData appData; // the common data of the application
@@ -71,7 +66,7 @@ namespace Scada.Admin.App.Forms
         public FrmProjectNew(AppData appData)
             : this()
         {
-            this.appData = appData ?? throw new ArgumentNullException("appData");
+            this.appData = appData ?? throw new ArgumentNullException(nameof(appData));
         }
 
 
@@ -118,12 +113,12 @@ namespace Scada.Admin.App.Forms
             try
             {
                 cbTemplate.BeginUpdate();
-                DirectoryInfo templateDirInfo = new DirectoryInfo(appData.AppDirs.TemplateDir);
+                DirectoryInfo templateDirInfo = new(appData.AppDirs.TemplateDir);
 
                 if (templateDirInfo.Exists)
                 {
                     int selectedIndex = 0;
-                    string cultureTemplate = "." + Localization.Culture.Name + ".";
+                    string cultureTemplate = "." + Locale.Culture.Name + ".";
 
                     // search for project files
                     foreach (DirectoryInfo projectDirInfo in
@@ -241,14 +236,14 @@ namespace Scada.Admin.App.Forms
         private void FrmNewProject_Load(object sender, EventArgs e)
         {
             // translate the form
-            Translator.TranslateForm(this, GetType().FullName);
+            FormTranslator.Translate(this, GetType().FullName);
             fbdLocation.Description = AppPhrases.ChooseProjectLocation;
             ofdTemplate.SetFilter(AppPhrases.ProjectFileFilter);
 
             // setup the controls
             txtName.Text = ScadaProject.DefaultName;
-            txtLocation.Text = appData.AppState.ProjectDir;
-            ofdTemplate.InitialDirectory = appData.AppState.ProjectDir;
+            txtLocation.Text = appData.State.ProjectDir;
+            ofdTemplate.InitialDirectory = appData.State.ProjectDir;
             FillTemplateList();
         }
 
@@ -281,7 +276,7 @@ namespace Scada.Admin.App.Forms
         {
             if (ValidateFields())
             {
-                appData.AppState.ProjectDir = ProjectLocation;
+                appData.State.ProjectDir = ProjectLocation;
                 DialogResult = DialogResult.OK;
             }
         }

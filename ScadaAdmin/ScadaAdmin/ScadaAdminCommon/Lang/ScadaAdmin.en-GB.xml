@@ -157,6 +157,23 @@
     <Phrase key="WebUrlNotSet">Webstation URL is not specified in the deployment profile or incorrect.</Phrase>
     <Phrase key="ReopenProject">Changes will take effect after reopening the project.</Phrase>
   </Dictionary>
+  <Dictionary key="Scada.Admin.App.Forms.FrmProjectNew">
+    <Phrase key="this">New Project</Phrase>
+    <Phrase key="lblName">Project name</Phrase>
+    <Phrase key="lblLocation">Location</Phrase>
+    <Phrase key="btnBrowseLocation">Browse...</Phrase>
+    <Phrase key="lblTemplate">Template</Phrase>
+    <Phrase key="btnBrowseTemplate">Browse...</Phrase>
+    <Phrase key="btnOK">OK</Phrase>
+    <Phrase key="btnCancel">Cancel</Phrase>
+    <Phrase key="ChooseProjectLocation">Choose the project location.</Phrase>
+    <Phrase key="ProjectNameEmpty">The project name can not be empty.</Phrase>
+    <Phrase key="ProjectNameInvalid">The project name contains invalid characters.</Phrase>
+    <Phrase key="ProjectLocationNotExists">The project location does not exist.</Phrase>
+    <Phrase key="ProjectAlreadyExists">A project with the same name already exists.</Phrase>
+    <Phrase key="ProjectTemplateEmpty">Creating a project without a template is not recommended. Continue?</Phrase>
+    <Phrase key="ProjectTemplateNotFound">The project template not found.</Phrase>
+  </Dictionary>
   <Dictionary key="Scada.Admin.Project">
     <Phrase key="CreateAppConfigError">Error creating configuration of the {0} application</Phrase>
     <Phrase key="DeleteAppConfigError">Error deleting configuration of the {0} application</Phrase>

@@ -401,17 +401,17 @@ namespace Scada.Admin.Project
                 if (!AdminUtils.NameIsValid(name))
                     throw new ArgumentException(AdminPhrases.ProjectNameInvalid, nameof(name));
 
+                // define project directory and file
                 string projectDir = Path.Combine(location, name);
+                string projectFileName = GetProjectFileName(projectDir, name);
 
                 if (Directory.Exists(projectDir))
                     throw new ScadaException(AdminPhrases.ProjectDirectoryExists);
 
                 // copy template
-                FileInfo templateFileInfo = new(template);
-                string projectFileName = GetProjectFileName(projectDir, name);
-
-                if (templateFileInfo.Exists)
+                if (File.Exists(template))
                 {
+                    FileInfo templateFileInfo = new(template);
                     CopyDirectory(templateFileInfo.Directory, new DirectoryInfo(projectDir));
                     File.Move(Path.Combine(projectDir, templateFileInfo.Name), projectFileName);
                 }
@@ -425,11 +425,15 @@ namespace Scada.Admin.Project
                     project.Load(projectFileName);
                     project.Description = "";
                 }
+                else
+                {
+                    Directory.CreateDirectory(projectDir);
+                    project.FileName = projectFileName;
+                }
 
                 project.Save(project.FileName);
 
-                // create the necessary directories
-                Directory.CreateDirectory(projectDir);
+                // create necessary directories
                 Directory.CreateDirectory(project.ConfigBase.BaseDir);
                 Directory.CreateDirectory(project.Views.ViewDir);
 

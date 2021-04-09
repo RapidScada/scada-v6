@@ -48,36 +48,36 @@
             this.lblName.AutoSize = true;
             this.lblName.Location = new System.Drawing.Point(9, 9);
             this.lblName.Name = "lblName";
-            this.lblName.Size = new System.Drawing.Size(69, 13);
+            this.lblName.Size = new System.Drawing.Size(77, 15);
             this.lblName.TabIndex = 0;
             this.lblName.Text = "Project name";
             // 
             // txtName
             // 
-            this.txtName.Location = new System.Drawing.Point(12, 25);
+            this.txtName.Location = new System.Drawing.Point(12, 27);
             this.txtName.Name = "txtName";
-            this.txtName.Size = new System.Drawing.Size(400, 20);
+            this.txtName.Size = new System.Drawing.Size(400, 23);
             this.txtName.TabIndex = 1;
             // 
             // lblLocation
             // 
             this.lblLocation.AutoSize = true;
-            this.lblLocation.Location = new System.Drawing.Point(9, 48);
+            this.lblLocation.Location = new System.Drawing.Point(9, 53);
             this.lblLocation.Name = "lblLocation";
-            this.lblLocation.Size = new System.Drawing.Size(48, 13);
+            this.lblLocation.Size = new System.Drawing.Size(53, 15);
             this.lblLocation.TabIndex = 2;
             this.lblLocation.Text = "Location";
             // 
             // txtLocation
             // 
-            this.txtLocation.Location = new System.Drawing.Point(12, 64);
+            this.txtLocation.Location = new System.Drawing.Point(12, 71);
             this.txtLocation.Name = "txtLocation";
-            this.txtLocation.Size = new System.Drawing.Size(400, 20);
+            this.txtLocation.Size = new System.Drawing.Size(400, 23);
             this.txtLocation.TabIndex = 3;
             // 
             // btnOK
             // 
-            this.btnOK.Location = new System.Drawing.Point(337, 196);
+            this.btnOK.Location = new System.Drawing.Point(337, 210);
             this.btnOK.Name = "btnOK";
             this.btnOK.Size = new System.Drawing.Size(75, 23);
             this.btnOK.TabIndex = 9;
@@ -88,7 +88,7 @@
             // btnCancel
             // 
             this.btnCancel.DialogResult = System.Windows.Forms.DialogResult.Cancel;
-            this.btnCancel.Location = new System.Drawing.Point(418, 196);
+            this.btnCancel.Location = new System.Drawing.Point(418, 210);
             this.btnCancel.Name = "btnCancel";
             this.btnCancel.Size = new System.Drawing.Size(75, 23);
             this.btnCancel.TabIndex = 10;
@@ -97,7 +97,7 @@
             // 
             // btnBrowseLocation
             // 
-            this.btnBrowseLocation.Location = new System.Drawing.Point(418, 63);
+            this.btnBrowseLocation.Location = new System.Drawing.Point(418, 71);
             this.btnBrowseLocation.Name = "btnBrowseLocation";
             this.btnBrowseLocation.Size = new System.Drawing.Size(75, 23);
             this.btnBrowseLocation.TabIndex = 4;
@@ -108,24 +108,24 @@
             // cbTemplate
             // 
             this.cbTemplate.FormattingEnabled = true;
-            this.cbTemplate.Location = new System.Drawing.Point(12, 103);
+            this.cbTemplate.Location = new System.Drawing.Point(12, 115);
             this.cbTemplate.Name = "cbTemplate";
-            this.cbTemplate.Size = new System.Drawing.Size(400, 21);
+            this.cbTemplate.Size = new System.Drawing.Size(400, 23);
             this.cbTemplate.TabIndex = 6;
             this.cbTemplate.TextChanged += new System.EventHandler(this.cbTemplate_TextChanged);
             // 
             // lblTemplate
             // 
             this.lblTemplate.AutoSize = true;
-            this.lblTemplate.Location = new System.Drawing.Point(9, 87);
+            this.lblTemplate.Location = new System.Drawing.Point(9, 97);
             this.lblTemplate.Name = "lblTemplate";
-            this.lblTemplate.Size = new System.Drawing.Size(51, 13);
+            this.lblTemplate.Size = new System.Drawing.Size(55, 15);
             this.lblTemplate.TabIndex = 5;
             this.lblTemplate.Text = "Template";
             // 
             // btnBrowseTemplate
             // 
-            this.btnBrowseTemplate.Location = new System.Drawing.Point(418, 102);
+            this.btnBrowseTemplate.Location = new System.Drawing.Point(418, 115);
             this.btnBrowseTemplate.Name = "btnBrowseTemplate";
             this.btnBrowseTemplate.Size = new System.Drawing.Size(75, 23);
             this.btnBrowseTemplate.TabIndex = 7;
@@ -135,20 +135,20 @@
             // 
             // txtTemplateDescr
             // 
-            this.txtTemplateDescr.Location = new System.Drawing.Point(12, 130);
+            this.txtTemplateDescr.Location = new System.Drawing.Point(12, 144);
             this.txtTemplateDescr.Multiline = true;
             this.txtTemplateDescr.Name = "txtTemplateDescr";
             this.txtTemplateDescr.ReadOnly = true;
             this.txtTemplateDescr.Size = new System.Drawing.Size(400, 50);
             this.txtTemplateDescr.TabIndex = 8;
             // 
-            // FrmNewProject
+            // FrmProjectNew
             // 
             this.AcceptButton = this.btnOK;
-            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.CancelButton = this.btnCancel;
-            this.ClientSize = new System.Drawing.Size(505, 231);
+            this.ClientSize = new System.Drawing.Size(505, 245);
             this.Controls.Add(this.txtTemplateDescr);
             this.Controls.Add(this.btnBrowseTemplate);
             this.Controls.Add(this.lblTemplate);
@@ -163,7 +163,7 @@
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedDialog;
             this.MaximizeBox = false;
             this.MinimizeBox = false;
-            this.Name = "FrmNewProject";
+            this.Name = "FrmProjectNew";
             this.ShowInTaskbar = false;
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
             this.Text = "New Project";

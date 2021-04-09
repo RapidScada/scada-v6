@@ -889,7 +889,7 @@ namespace Scada.Admin.App.Forms
         /// </summary>
         private void NewProject()
         {
-            /*FrmProjectNew frmNewProject = new FrmProjectNew(appData);
+            FrmProjectNew frmNewProject = new(appData);
 
             if (frmNewProject.ShowDialog() == DialogResult.OK && CloseProject())
             {
@@ -911,7 +911,7 @@ namespace Scada.Admin.App.Forms
                 {
                     appData.ProcError(errMsg);
                 }
-            }*/
+            }
         }
 
         /// <summary>

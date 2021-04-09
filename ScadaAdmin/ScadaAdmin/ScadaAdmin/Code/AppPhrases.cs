@@ -84,6 +84,15 @@ namespace Scada.Admin.App.Code
         public static string WebUrlNotSet { get; private set; }
         public static string ReopenProject { get; private set; }
 
+        // Scada.Admin.App.Forms.FrmProjectNew
+        public static string ChooseProjectLocation { get; private set; }
+        public static string ProjectNameEmpty { get; private set; }
+        public static string ProjectNameInvalid { get; private set; }
+        public static string ProjectLocationNotExists { get; private set; }
+        public static string ProjectAlreadyExists { get; private set; }
+        public static string ProjectTemplateEmpty { get; private set; }
+        public static string ProjectTemplateNotFound { get; private set; }
+
         public static void Init()
         {
             LocaleDict dict = Locale.GetDictionary("Scada.Admin.App.Code.AppState");
@@ -136,6 +145,15 @@ namespace Scada.Admin.App.Code
             DeviceNotFoundInComm = dict.GetPhrase("DeviceNotFoundInComm");
             WebUrlNotSet = dict.GetPhrase("WebUrlNotSet");
             ReopenProject = dict.GetPhrase("ReopenProject");
+
+            dict = Locale.GetDictionary("Scada.Admin.App.Forms.FrmProjectNew");
+            ChooseProjectLocation = dict.GetPhrase("ChooseProjectLocation");
+            ProjectNameEmpty = dict.GetPhrase("ProjectNameEmpty");
+            ProjectNameInvalid = dict.GetPhrase("ProjectNameInvalid");
+            ProjectLocationNotExists = dict.GetPhrase("ProjectLocationNotExists");
+            ProjectAlreadyExists = dict.GetPhrase("ProjectAlreadyExists");
+            ProjectTemplateEmpty = dict.GetPhrase("ProjectTemplateEmpty");
+            ProjectTemplateNotFound = dict.GetPhrase("ProjectTemplateNotFound");
         }
     }
 }
