@@ -82,7 +82,7 @@ namespace Scada.Admin.App.Code
             return new DataGridViewButtonColumn
             {
                 Name = dataPropertyName + (options == null ? ColumnKind.Button : options.Kind),
-                HeaderText = "",
+                HeaderText = dataPropertyName,
                 DataPropertyName = dataPropertyName,
                 Tag = options,
                 Text = dataPropertyName,
@@ -279,7 +279,7 @@ namespace Scada.Admin.App.Code
                 NewTextBoxColumn("DeviceNum", new ColumnOptions(ConfigBase.MinID, ConfigBase.MaxID)),
                 NewTextBoxColumn("Name", new ColumnOptions(ColumnLength.Name)),
                 NewTextBoxColumn("Code", new ColumnOptions(ColumnLength.Code)),
-                NewComboBoxColumn("DevTypeID", "Name", configBase.DevTypeTable),
+                NewComboBoxColumn("DevTypeID", "Name", configBase.DevTypeTable, true),
                 NewTextBoxColumn("NumAddress"),
                 NewTextBoxColumn("StrAddress", new ColumnOptions(ColumnLength.Default)),
                 NewComboBoxColumn("CommLineNum", "Name", configBase.CommLineTable, true),
@@ -378,7 +378,7 @@ namespace Scada.Admin.App.Code
                 NewTextBoxColumn("ObjNum", new ColumnOptions(ConfigBase.MinID, ConfigBase.MaxID)),
                 NewTextBoxColumn("Code", new ColumnOptions(ColumnLength.Code)),
                 NewTextBoxColumn("Name", new ColumnOptions(ColumnLength.Name)),
-                NewComboBoxColumn("ParentObjNum", "ObjNum", "Name", configBase.RoleTable),
+                NewComboBoxColumn("ParentObjNum", "ObjNum", "Name", configBase.ObjTable, true),
                 NewTextBoxColumn("Descr", new ColumnOptions(ColumnLength.Description))
             });
         }
