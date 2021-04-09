@@ -174,6 +174,15 @@
     <Phrase key="ProjectTemplateEmpty">Creating a project without a template is not recommended. Continue?</Phrase>
     <Phrase key="ProjectTemplateNotFound">The project template not found.</Phrase>
   </Dictionary>
+  <Dictionary key="Scada.Admin.App.Forms.FrmStartPage">
+    <Phrase key="this">Start Page</Phrase>
+    <Phrase key="miRemoveFromList">Remove From List</Phrase>
+    <Phrase key="miCopyPath">Copy Path</Phrase>
+    <Phrase key="lblRecentProjects">Recent Projects</Phrase>
+    <Phrase key="lblNoRecentProjects">No recent projects</Phrase>
+    <Phrase key="btnNewProject">New Project</Phrase>
+    <Phrase key="btnOpenProject">Open Project</Phrase>
+  </Dictionary>
   <Dictionary key="Scada.Admin.Project">
     <Phrase key="CreateAppConfigError">Error creating configuration of the {0} application</Phrase>
     <Phrase key="DeleteAppConfigError">Error deleting configuration of the {0} application</Phrase>

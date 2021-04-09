@@ -29,6 +29,7 @@ using Scada.Admin.App.Properties;
 using Scada.Admin.Config;
 using Scada.Admin.Lang;
 using Scada.Admin.Project;
+using Scada.Config;
 using Scada.Data.Entities;
 using Scada.Forms;
 using Scada.Lang;
@@ -126,8 +127,15 @@ namespace Scada.Admin.App.Forms
         /// </summary>
         private void LocalizeForm()
         {
+            // load instance culture
+            if (!Locale.LoadCulture(Path.Combine(appData.AppDirs.ExeDir, "..", "Config", InstanceConfig.DefaultFileName),
+                out string errMsg))
+            {
+                log.WriteError(errMsg);
+            }
+
             // load common dictionaries
-            if (!Locale.LoadDictionaries(appData.AppDirs.LangDir, "ScadaCommon", out string errMsg))
+            if (!Locale.LoadDictionaries(appData.AppDirs.LangDir, "ScadaCommon", out errMsg))
                 log.WriteError(errMsg);
 
             // load Administrator dictionaries
