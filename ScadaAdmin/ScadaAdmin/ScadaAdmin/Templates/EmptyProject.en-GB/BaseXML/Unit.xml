@@ -302,8 +302,8 @@
   </Unit>
   <Unit>
     <UnitID>102</UnitID>
-    <Name>pcs.</Name>
-    <Code>pcs.</Code>
+    <Name>pcs</Name>
+    <Code>pcs</Code>
     <Descr>Pieces</Descr>
   </Unit>
 </ArrayOfUnit>
