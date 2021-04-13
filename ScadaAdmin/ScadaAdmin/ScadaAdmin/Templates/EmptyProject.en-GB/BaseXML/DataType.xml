@@ -13,11 +13,11 @@
   <DataType>
     <DataTypeID>2</DataTypeID>
     <Name>ASCII string</Name>
-    <Descr>Only Latin characters</Descr>
+    <Descr>Only Latin characters. 8 characters per channel</Descr>
   </DataType>
   <DataType>
     <DataTypeID>3</DataTypeID>
     <Name>Unicode string</Name>
-    <Descr>UTF-16 format using the little endian byte order</Descr>
+    <Descr>UTF-16 format using the little endian byte order. 4 characters per channel</Descr>
   </DataType>
 </ArrayOfDataType>

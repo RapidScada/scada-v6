@@ -126,8 +126,8 @@
     <IsEnum>false</IsEnum>
     <IsDate>true</IsDate>
     <IsString>false</IsString>
-    <Frmt>g</Frmt>
-    <Descr>General date/time pattern (short time)</Descr>
+    <Frmt>G</Frmt>
+    <Descr>General date/time pattern (long time)</Descr>
   </Format>
   <Format>
     <FormatID>22</FormatID>
