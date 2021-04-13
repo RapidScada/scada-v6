@@ -1,0 +1,45 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ArrayOfArchive xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+  <Archive>
+    <ArchiveID>1</ArchiveID>
+    <Name>Current Data</Name>
+    <Code>Cur</Code>
+    <IsDefault>true</IsDefault>
+    <Bit>0</Bit>
+  </Archive>
+  <Archive>
+    <ArchiveID>2</ArchiveID>
+    <Name>Minute Archive</Name>
+    <Code>Min</Code>
+    <IsDefault>true</IsDefault>
+    <Bit>1</Bit>
+  </Archive>
+  <Archive>
+    <ArchiveID>3</ArchiveID>
+    <Name>Hourly Archive</Name>
+    <Code>Hour</Code>
+    <IsDefault>true</IsDefault>
+    <Bit>2</Bit>
+  </Archive>
+  <Archive>
+    <ArchiveID>4</ArchiveID>
+    <Name>Daily Archive</Name>
+    <Code>Day</Code>
+    <IsDefault>false</IsDefault>
+    <Bit>3</Bit>
+  </Archive>
+  <Archive>
+    <ArchiveID>5</ArchiveID>
+    <Name>Monthly Archive</Name>
+    <Code>Month</Code>
+    <IsDefault>false</IsDefault>
+    <Bit>4</Bit>
+  </Archive>
+  <Archive>
+    <ArchiveID>6</ArchiveID>
+    <Name>Event Archive</Name>
+    <Code>Events</Code>
+    <IsDefault>true</IsDefault>
+    <Bit>5</Bit>
+  </Archive>
+</ArrayOfArchive>

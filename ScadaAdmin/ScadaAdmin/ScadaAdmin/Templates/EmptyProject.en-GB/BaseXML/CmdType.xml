@@ -1,0 +1,13 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ArrayOfCmdType xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+  <CmdType>
+    <CmdTypeID>1</CmdTypeID>
+    <Name>Standard</Name>
+    <Descr>Command to a device</Descr>
+  </CmdType>
+  <CmdType>
+    <CmdTypeID>2</CmdTypeID>
+    <Name>Application Command</Name>
+    <Descr>Command to an application</Descr>
+  </CmdType>
+</ArrayOfCmdType>

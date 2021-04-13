@@ -263,7 +263,7 @@ namespace Scada.Admin.App.Code
         {
             return TranslateHeaders("DataTypeTable", new DataGridViewColumn[]
             {
-                NewTextBoxColumn("DataTypeID", new ColumnOptions(ConfigBase.MinID, ConfigBase.MaxID)),
+                NewTextBoxColumn("DataTypeID", new ColumnOptions(0, ConfigBase.MaxID)),
                 NewTextBoxColumn("Name", new ColumnOptions(ColumnLength.Name)),
                 NewTextBoxColumn("Descr", new ColumnOptions(ColumnLength.Description))
             });

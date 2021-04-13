@@ -53,11 +53,11 @@ namespace Scada.Admin.Project
         {
             ID = 0;
             Name = "";
-            InstanceDir = "";
             ServerApp = new ServerApp();
             CommApp = new CommApp();
             WebApp = new WebApp();
             DeploymentProfile = "";
+            InstanceDir = "";
 
             apps = new ProjectApp[] { ServerApp, CommApp, WebApp };
         }
@@ -72,6 +72,26 @@ namespace Scada.Admin.Project
         /// Gets or sets the name of the instance.
         /// </summary>
         public string Name { get; set; }
+
+        /// <summary>
+        /// Gets the Server application in the project.
+        /// </summary>
+        public ServerApp ServerApp { get; }
+
+        /// <summary>
+        /// Gets the Communicator application in the project.
+        /// </summary>
+        public CommApp CommApp { get; }
+
+        /// <summary>
+        /// Gets the Webstation application in the project.
+        /// </summary>
+        public WebApp WebApp { get; }
+
+        /// <summary>
+        /// Gets or sets the name of the deployment profile.
+        /// </summary>
+        public string DeploymentProfile { get; set; }
 
         /// <summary>
         /// Gets or sets the instance directory inside the project.
@@ -100,26 +120,6 @@ namespace Scada.Admin.Project
                 }
             }
         }
-
-        /// <summary>
-        /// Gets the Server application in the project.
-        /// </summary>
-        public ServerApp ServerApp { get; }
-
-        /// <summary>
-        /// Gets the Communicator application in the project.
-        /// </summary>
-        public CommApp CommApp { get; }
-
-        /// <summary>
-        /// Gets the Webstation application in the project.
-        /// </summary>
-        public WebApp WebApp { get; }
-
-        /// <summary>
-        /// Gets or sets the name of the deployment profile.
-        /// </summary>
-        public string DeploymentProfile { get; set; }
 
         /// <summary>
         /// Gets a value indicating whether all the application configurations are loaded.

@@ -1,0 +1,13 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ArrayOfCnlType xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+  <CnlType>
+    <CnlTypeID>1</CnlTypeID>
+    <Name>Measured</Name>
+    <Descr>Channel values are measured by a device</Descr>
+  </CnlType>
+  <CnlType>
+    <CnlTypeID>2</CnlTypeID>
+    <Name>Calculated</Name>
+    <Descr>Channel values are calculated using a formula</Descr>
+  </CnlType>
+</ArrayOfCnlType>

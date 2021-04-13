@@ -200,9 +200,7 @@ namespace Scada.Admin.Project
             Description = rootElem.GetChildAsString("Description");
 
             // load instances
-            XmlNode instancesNode = rootElem.SelectSingleNode("Instances");
-
-            if (instancesNode != null)
+            if (rootElem.SelectSingleNode("Instances") is XmlNode instancesNode)
             {
                 XmlNodeList instanceNodes = instancesNode.SelectNodes("Instance");
                 string projectDir = ProjectDir;
