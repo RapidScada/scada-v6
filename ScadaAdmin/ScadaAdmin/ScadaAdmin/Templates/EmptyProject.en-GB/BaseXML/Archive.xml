@@ -25,7 +25,7 @@
     <ArchiveID>4</ArchiveID>
     <Name>Daily Archive</Name>
     <Code>Day</Code>
-    <IsDefault>false</IsDefault>
+    <IsDefault>true</IsDefault>
     <Bit>3</Bit>
   </Archive>
   <Archive>
