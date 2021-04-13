@@ -99,7 +99,7 @@
     <IsEnum>true</IsEnum>
     <IsDate>false</IsDate>
     <IsString>false</IsString>
-    <Frmt>Off</Frmt>
+    <Frmt>Off: red</Frmt>
   </Format>
   <Format>
     <FormatID>14</FormatID>
@@ -108,7 +108,7 @@
     <IsEnum>true</IsEnum>
     <IsDate>false</IsDate>
     <IsString>false</IsString>
-    <Frmt>; On</Frmt>
+    <Frmt>; On: green</Frmt>
   </Format>
   <Format>
     <FormatID>15</FormatID>
