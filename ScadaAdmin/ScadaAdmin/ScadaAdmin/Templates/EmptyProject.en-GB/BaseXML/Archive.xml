@@ -32,7 +32,7 @@
     <ArchiveID>5</ArchiveID>
     <Name>Monthly Archive</Name>
     <Code>Month</Code>
-    <IsDefault>false</IsDefault>
+    <IsDefault>true</IsDefault>
     <Bit>4</Bit>
   </Archive>
   <Archive>
