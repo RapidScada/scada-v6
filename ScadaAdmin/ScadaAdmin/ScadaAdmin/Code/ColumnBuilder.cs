@@ -521,8 +521,8 @@ namespace Scada.Admin.App.Code
             {
                 NewTextBoxColumn("ViewID", new ColumnOptions(ConfigBase.MinID, ConfigBase.MaxID)),
                 NewTextBoxColumn("Path", new ColumnOptions(ColumnKind.Path, ColumnLength.Long)),
-                NewButtonColumn("Path", new ColumnOptions(ColumnKind.SelectFileButton)),
                 NewButtonColumn("Path", new ColumnOptions(ColumnKind.SelectFolderButton)),
+                NewButtonColumn("Path", new ColumnOptions(ColumnKind.SelectFileButton)),
                 NewComboBoxColumn("ViewTypeID", "Name", configBase.ViewTypeTable, true),
                 NewComboBoxColumn("ObjNum","Name", configBase.ObjTable, true),
                 NewTextBoxColumn("Args", new ColumnOptions(ColumnLength.Default)),
