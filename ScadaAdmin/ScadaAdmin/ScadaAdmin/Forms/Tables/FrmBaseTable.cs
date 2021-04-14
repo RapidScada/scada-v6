@@ -455,7 +455,10 @@ namespace Scada.Admin.App.Forms.Tables
         private void CancelEdit()
         {
             if (dataGridView.CancelEdit())
+            {
                 bindingSource.CancelEdit();
+                SendKeys.Send("{ESC}"); // to avoid error when the table is empty
+            }
         }
 
         /// <summary>

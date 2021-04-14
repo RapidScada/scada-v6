@@ -215,4 +215,14 @@
     <IsDate>false</IsDate>
     <IsString>true</IsString>
   </Format>
+  <Format>
+    <FormatID>101</FormatID>
+    <Name>Custom format</Name>
+    <IsNumber>true</IsNumber>
+    <IsEnum>false</IsEnum>
+    <IsDate>false</IsDate>
+    <IsString>false</IsString>
+    <Frmt>G</Frmt>
+    <Descr>Add custom items starting from this row</Descr>
+  </Format>
 </ArrayOfFormat>

@@ -95,6 +95,103 @@
     <Phrase key="EventMask">Маска событий</Phrase>
     <Phrase key="EventMaskButton">Выбрать события</Phrase>
   </Dictionary>
+  <Dictionary key="Scada.Admin.App.Code.ColumnBuilder.LimTable">
+    <Phrase key="LimID">Идент.</Phrase>
+    <Phrase key="Name">Наименование</Phrase>
+    <Phrase key="IsBoundToCnl">Привязана к каналам</Phrase>
+    <Phrase key="IsShared">Общая</Phrase>
+    <Phrase key="LoLo">Аварийно низкая</Phrase>
+    <Phrase key="Low">Низкая</Phrase>
+    <Phrase key="High">Высокая</Phrase>
+    <Phrase key="HiHi">Аварийно высокая</Phrase>
+    <Phrase key="Deadband">Зона нечувствительности</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Admin.App.Code.ColumnBuilder.ObjTable">
+    <Phrase key="ObjNum">Номер</Phrase>
+    <Phrase key="Name">Наименование</Phrase>
+    <Phrase key="Code">Код</Phrase>
+    <Phrase key="ParentObjNum">Родительский объект</Phrase>
+    <Phrase key="Descr">Описание</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Admin.App.Code.ColumnBuilder.ObjRightTable">
+    <Phrase key="ObjRightID">Идент.</Phrase>
+    <Phrase key="ObjNum">Объект</Phrase>
+    <Phrase key="RoleID">Роль</Phrase>
+    <Phrase key="View">Просмотр</Phrase>
+    <Phrase key="Control">Управление</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Admin.App.Code.ColumnBuilder.OutCnlTable">
+    <Phrase key="OutCnlNum">Номер</Phrase>
+    <Phrase key="Active">Активный</Phrase>
+    <Phrase key="Name">Наименование</Phrase>
+    <Phrase key="CmdTypeID">Тип команды</Phrase>
+    <Phrase key="ObjNum">Объект</Phrase>
+    <Phrase key="DeviceNum">КП</Phrase>
+    <Phrase key="CmdNum">Номер команды</Phrase>
+    <Phrase key="CmdCode">Код команды</Phrase>
+    <Phrase key="FormulaEnabled">Формула вкл.</Phrase>
+    <Phrase key="Formula">Формула</Phrase>
+    <Phrase key="FormatID">Формат</Phrase>
+    <Phrase key="EventEnabled">Запись событий</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Admin.App.Code.ColumnBuilder.QuantityTable">
+    <Phrase key="QuantityID">Идент.</Phrase>
+    <Phrase key="Name">Наименование</Phrase>
+    <Phrase key="Code">Код</Phrase>
+    <Phrase key="Icon">Значок</Phrase>
+    <Phrase key="Descr">Описание</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Admin.App.Code.ColumnBuilder.RoleTable">
+    <Phrase key="RoleID">Идент.</Phrase>
+    <Phrase key="Name">Наименование</Phrase>
+    <Phrase key="Code">Код</Phrase>
+    <Phrase key="Descr">Описание</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Admin.App.Code.ColumnBuilder.RoleRefTable">
+    <Phrase key="RoleRefID">Идент.</Phrase>
+    <Phrase key="ParentRoleID">Родительская роль</Phrase>
+    <Phrase key="ChildRoleID">Дочерняя роль</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Admin.App.Code.ColumnBuilder.ScriptTable">
+    <Phrase key="ScriptID">Идент.</Phrase>
+    <Phrase key="Name">Наименование</Phrase>
+    <Phrase key="Source">Исходный код</Phrase>
+    <Phrase key="SourceButton">Редактировать код</Phrase>
+    <Phrase key="Descr">Описание</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Admin.App.Code.ColumnBuilder.UnitTable">
+    <Phrase key="UnitID">Идент.</Phrase>
+    <Phrase key="Name">Наименование</Phrase>
+    <Phrase key="Code">Код</Phrase>
+    <Phrase key="Descr">Описание</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Admin.App.Code.ColumnBuilder.UserTable">
+    <Phrase key="UserID">Идент.</Phrase>
+    <Phrase key="Enabled">Включен</Phrase>
+    <Phrase key="Name">Имя</Phrase>
+    <Phrase key="Password">Пароль</Phrase>
+    <Phrase key="RoleID">Роль</Phrase>
+    <Phrase key="Descr">Описание</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Admin.App.Code.ColumnBuilder.ViewTable">
+    <Phrase key="ViewID">Идент.</Phrase>
+    <Phrase key="Path">Путь</Phrase>
+    <Phrase key="PathSelectFileButton">Выбрать файл</Phrase>
+    <Phrase key="PathSelectFolderButton">Выбрать папку</Phrase>
+    <Phrase key="ViewTypeID">Тип представления</Phrase>
+    <Phrase key="ObjNum">Объект</Phrase>
+    <Phrase key="Args">Аргументы</Phrase>
+    <Phrase key="Title">Заголовок</Phrase>
+    <Phrase key="Ord">Порядок</Phrase>
+    <Phrase key="Hidden">Скрыть</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Admin.App.Code.ColumnBuilder.ViewTypeTable">
+    <Phrase key="ViewTypeID">Идент.</Phrase>
+    <Phrase key="Name">Наименование</Phrase>
+    <Phrase key="Code">Код</Phrase>
+    <Phrase key="FileExt">Расширение файла</Phrase>
+    <Phrase key="Descr">Описание</Phrase>
+  </Dictionary>
   <Dictionary key="Scada.Admin.App.Code.ExplorerBuilder">
     <Phrase key="BaseNode">База конфигурации</Phrase>
     <Phrase key="PrimaryTablesNode">Основные таблицы</Phrase>

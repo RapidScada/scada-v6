@@ -29,7 +29,7 @@
   </CnlStatus>
   <CnlStatus>
     <CnlStatusID>3</CnlStatusID>
-    <Name>Formula Error</Name>
+    <Name>Formula error</Name>
     <MainColor>Silver</MainColor>
     <SecondColor>Silver</SecondColor>
     <BackColor>Silver</BackColor>
@@ -47,7 +47,7 @@
   </CnlStatus>
   <CnlStatus>
     <CnlStatusID>11</CnlStatusID>
-    <Name>Extremely Low</Name>
+    <Name>Extremely low</Name>
     <MainColor>Blue</MainColor>
     <SecondColor>Blue</SecondColor>
     <BackColor>DodgerBlue</BackColor>
@@ -83,7 +83,7 @@
   </CnlStatus>
   <CnlStatus>
     <CnlStatusID>15</CnlStatusID>
-    <Name>Extremely High</Name>
+    <Name>Extremely high</Name>
     <MainColor>Red</MainColor>
     <SecondColor>Red</SecondColor>
     <BackColor>LightCoral</BackColor>
@@ -116,5 +116,12 @@
     <BackColor>LightCoral</BackColor>
     <Severity>250</Severity>
     <AckRequired>true</AckRequired>
+  </CnlStatus>
+  <CnlStatus>
+    <CnlStatusID>101</CnlStatusID>
+    <Name>Custom status</Name>
+    <Severity xsi:nil="true" />
+    <AckRequired>false</AckRequired>
+    <Descr>Add custom items starting from this row</Descr>
   </CnlStatus>
 </ArrayOfCnlStatus>

@@ -38,4 +38,9 @@
     <Code>ElasticRep</Code>
     <Descr>Requires Elastic Report Plugin</Descr>
   </ViewType>
+  <ViewType>
+    <ViewTypeID>101</ViewTypeID>
+    <Name>Custom view</Name>
+    <Descr>Add custom items starting from this row</Descr>
+  </ViewType>
 </ArrayOfViewType>

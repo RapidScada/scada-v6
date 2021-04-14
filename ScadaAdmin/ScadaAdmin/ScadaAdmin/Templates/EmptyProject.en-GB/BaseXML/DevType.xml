@@ -192,4 +192,15 @@
     <Driver>KpOpcUa.dll</Driver>
     <Descr>Interacting with controllers using OPC UA specification</Descr>
   </DevType>
+  <DevType>
+    <DevTypeID>233</DevTypeID>
+    <Name>Enron Modbus</Name>
+    <Driver>KpEnronModbus.dll</Driver>
+    <Descr>Implements Enron Modbus https://www.simplymodbus.ca/Enron.htm</Descr>
+  </DevType>
+  <DevType>
+    <DevTypeID>1001</DevTypeID>
+    <Name>Custom driver</Name>
+    <Descr>Add custom items starting from this row</Descr>
+  </DevType>
 </ArrayOfDevType>

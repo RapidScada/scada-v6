@@ -96,28 +96,101 @@
     <Phrase key="EventMaskButton">Select Events</Phrase>
   </Dictionary>
   <Dictionary key="Scada.Admin.App.Code.ColumnBuilder.LimTable">
+    <Phrase key="LimID">ID</Phrase>
+    <Phrase key="Name">Name</Phrase>
+    <Phrase key="IsBoundToCnl">Is Bound to Channels</Phrase>
+    <Phrase key="IsShared">Is Shared</Phrase>
+    <Phrase key="LoLo">Extremely Low</Phrase>
+    <Phrase key="Low">Low</Phrase>
+    <Phrase key="High">High</Phrase>
+    <Phrase key="HiHi">Extremely High</Phrase>
+    <Phrase key="Deadband">Deadband</Phrase>
   </Dictionary>
   <Dictionary key="Scada.Admin.App.Code.ColumnBuilder.ObjTable">
+    <Phrase key="ObjNum">Number</Phrase>
+    <Phrase key="Name">Name</Phrase>
+    <Phrase key="Code">Code</Phrase>
+    <Phrase key="ParentObjNum">Parent Object</Phrase>
+    <Phrase key="Descr">Description</Phrase>
   </Dictionary>
   <Dictionary key="Scada.Admin.App.Code.ColumnBuilder.ObjRightTable">
+    <Phrase key="ObjRightID">ID</Phrase>
+    <Phrase key="ObjNum">Object</Phrase>
+    <Phrase key="RoleID">Role</Phrase>
+    <Phrase key="View">View</Phrase>
+    <Phrase key="Control">Control</Phrase>
   </Dictionary>
   <Dictionary key="Scada.Admin.App.Code.ColumnBuilder.OutCnlTable">
+    <Phrase key="OutCnlNum">Number</Phrase>
+    <Phrase key="Active">Active</Phrase>
+    <Phrase key="Name">Name</Phrase>
+    <Phrase key="CmdTypeID">Command Type</Phrase>
+    <Phrase key="ObjNum">Object</Phrase>
+    <Phrase key="DeviceNum">Device</Phrase>
+    <Phrase key="CmdNum">Command Number</Phrase>
+    <Phrase key="CmdCode">Command Code</Phrase>
+    <Phrase key="FormulaEnabled">Formula Enabled</Phrase>
+    <Phrase key="Formula">Formula</Phrase>
+    <Phrase key="FormatID">Format</Phrase>
+    <Phrase key="EventEnabled">Write Events</Phrase>
   </Dictionary>
   <Dictionary key="Scada.Admin.App.Code.ColumnBuilder.QuantityTable">
+    <Phrase key="QuantityID">ID</Phrase>
+    <Phrase key="Name">Name</Phrase>
+    <Phrase key="Code">Code</Phrase>
+    <Phrase key="Icon">Icon</Phrase>
+    <Phrase key="Descr">Description</Phrase>
   </Dictionary>
   <Dictionary key="Scada.Admin.App.Code.ColumnBuilder.RoleTable">
+    <Phrase key="RoleID">ID</Phrase>
+    <Phrase key="Name">Name</Phrase>
+    <Phrase key="Code">Code</Phrase>
+    <Phrase key="Descr">Description</Phrase>
   </Dictionary>
   <Dictionary key="Scada.Admin.App.Code.ColumnBuilder.RoleRefTable">
+    <Phrase key="RoleRefID">ID</Phrase>
+    <Phrase key="ParentRoleID">Parent Role</Phrase>
+    <Phrase key="ChildRoleID">Child Role</Phrase>
   </Dictionary>
   <Dictionary key="Scada.Admin.App.Code.ColumnBuilder.ScriptTable">
+    <Phrase key="ScriptID">ID</Phrase>
+    <Phrase key="Name">Name</Phrase>
+    <Phrase key="Source">Source Code</Phrase>
+    <Phrase key="SourceButton">Edit Source Code</Phrase>
+    <Phrase key="Descr">Description</Phrase>
   </Dictionary>
   <Dictionary key="Scada.Admin.App.Code.ColumnBuilder.UnitTable">
+    <Phrase key="UnitID">ID</Phrase>
+    <Phrase key="Name">Name</Phrase>
+    <Phrase key="Code">Code</Phrase>
+    <Phrase key="Descr">Description</Phrase>
   </Dictionary>
   <Dictionary key="Scada.Admin.App.Code.ColumnBuilder.UserTable">
+    <Phrase key="UserID">ID</Phrase>
+    <Phrase key="Enabled">Enabled</Phrase>
+    <Phrase key="Name">Name</Phrase>
+    <Phrase key="Password">Password</Phrase>
+    <Phrase key="RoleID">Role</Phrase>
+    <Phrase key="Descr">Description</Phrase>
   </Dictionary>
   <Dictionary key="Scada.Admin.App.Code.ColumnBuilder.ViewTable">
+    <Phrase key="ViewID">ID</Phrase>
+    <Phrase key="Path">Path</Phrase>
+    <Phrase key="PathSelectFileButton">Select File</Phrase>
+    <Phrase key="PathSelectFolderButton">Select Folder</Phrase>
+    <Phrase key="ViewTypeID">View Type</Phrase>
+    <Phrase key="ObjNum">Object</Phrase>
+    <Phrase key="Args">Arguments</Phrase>
+    <Phrase key="Title">Title</Phrase>
+    <Phrase key="Ord">Order</Phrase>
+    <Phrase key="Hidden">Hidden</Phrase>
   </Dictionary>
   <Dictionary key="Scada.Admin.App.Code.ColumnBuilder.ViewTypeTable">
+    <Phrase key="ViewTypeID">ID</Phrase>
+    <Phrase key="Name">Name</Phrase>
+    <Phrase key="Code">Code</Phrase>
+    <Phrase key="FileExt">File Extension</Phrase>
+    <Phrase key="Descr">Description</Phrase>
   </Dictionary>
   <Dictionary key="Scada.Admin.App.Code.ExplorerBuilder">
     <Phrase key="BaseNode">Configuration Database</Phrase>

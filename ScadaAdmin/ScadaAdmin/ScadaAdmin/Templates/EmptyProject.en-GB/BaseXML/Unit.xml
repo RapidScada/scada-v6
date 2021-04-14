@@ -306,4 +306,9 @@
     <Code>pcs</Code>
     <Descr>Pieces</Descr>
   </Unit>
+  <Unit>
+    <UnitID>1001</UnitID>
+    <Name>Custom unit</Name>
+    <Descr>Add custom items starting from this row</Descr>
+  </Unit>
 </ArrayOfUnit>

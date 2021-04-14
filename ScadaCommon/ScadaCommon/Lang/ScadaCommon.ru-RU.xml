@@ -30,7 +30,7 @@
     <Phrase key="DevTypeTable">Типы КП</Phrase>
     <Phrase key="FormatTable">Форматы</Phrase>
     <Phrase key="InCnlTable">Входные каналы</Phrase>
-    <Phrase key="LimTable">Лимиты</Phrase>
+    <Phrase key="LimTable">Границы</Phrase>
     <Phrase key="ObjTable">Объекты</Phrase>
     <Phrase key="ObjRightTable">Права на объекты</Phrase>
     <Phrase key="OutCnlTable">Каналы управления</Phrase>

@@ -197,4 +197,9 @@
     <Icon>drop.png</Icon>
     <Descr />
   </Quantity>
+  <Quantity>
+    <QuantityID>101</QuantityID>
+    <Name>Custom quantity</Name>
+    <Descr>Add custom items starting from this row</Descr>
+  </Quantity>
 </ArrayOfQuantity>

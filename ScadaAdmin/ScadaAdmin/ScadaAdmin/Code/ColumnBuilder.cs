@@ -420,6 +420,7 @@ namespace Scada.Admin.App.Code
                 NewTextBoxColumn("CmdCode", new ColumnOptions(ColumnLength.Code)),
                 NewCheckBoxColumn("FormulaEnabled"),
                 NewTextBoxColumn("Formula", new ColumnOptions(ColumnLength.Default)),
+                NewComboBoxColumn("FormatID", "Name", configBase.FormatTable, true),
                 NewCheckBoxColumn("EventEnabled")
             });
         }
