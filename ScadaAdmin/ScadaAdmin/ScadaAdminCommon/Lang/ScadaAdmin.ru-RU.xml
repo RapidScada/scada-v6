@@ -242,6 +242,13 @@
     <Phrase key="DataNotExist">Не существуют данные для столбца &quot;{0}&quot;.</Phrase>
     <Phrase key="DataChangeError">Ошибка при изменении данных в таблице</Phrase>
   </Dictionary>
+  <Dictionary key="Scada.Admin.App.Forms.Tables.FrmTextDialog">
+    <Phrase key="this">Текстовый редактор</Phrase>
+    <Phrase key="btnOK">OK</Phrase>
+    <Phrase key="btnCancel">Отмена</Phrase>
+    <Phrase key="TextLine">Строка: {0}</Phrase>
+    <Phrase key="TextLength">Длина: {0} из {1}</Phrase>
+  </Dictionary>
   <Dictionary key="Scada.Admin.App.Forms.Tools.FrmCulture">
     <Phrase key="this">Язык</Phrase>
     <Phrase key="lblInfo">Изменения вступят в силу после перезапуска приложения.</Phrase>

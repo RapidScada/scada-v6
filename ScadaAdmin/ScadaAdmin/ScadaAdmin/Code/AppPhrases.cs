@@ -65,6 +65,10 @@ namespace Scada.Admin.App.Code
         public static string DataNotExist { get; private set; }
         public static string DataChangeError { get; private set; }
 
+        // Scada.Admin.App.Forms.Tables.FrmTextDialog
+        public static string TextLine { get; private set; }
+        public static string TextLength { get; private set; }
+
         // Scada.Admin.App.Forms.Tools.FrmCulture
         public static string LoadCulturesError { get; private set; }
         public static string CultureRequired { get; private set; }
@@ -131,6 +135,10 @@ namespace Scada.Admin.App.Code
             KeyReferenced = dict.GetPhrase("KeyReferenced");
             DataNotExist = dict.GetPhrase("DataNotExist");
             DataChangeError = dict.GetPhrase("DataChangeError");
+
+            dict = Locale.GetDictionary("Scada.Admin.App.Forms.Tables.FrmTextDialog");
+            TextLine = dict.GetPhrase("TextLine");
+            TextLength = dict.GetPhrase("TextLength");
 
             dict = Locale.GetDictionary("Scada.Admin.App.Forms.Tools.FrmCulture");
             LoadCulturesError = dict.GetPhrase("LoadCulturesError");

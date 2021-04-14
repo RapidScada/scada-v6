@@ -242,6 +242,13 @@
     <Phrase key="DataNotExist">No data exist for the &quot;{0}&quot; column.</Phrase>
     <Phrase key="DataChangeError">Error changing table data</Phrase>
   </Dictionary>
+  <Dictionary key="Scada.Admin.App.Forms.Tables.FrmTextDialog">
+    <Phrase key="this">Text Editor</Phrase>
+    <Phrase key="btnOK">OK</Phrase>
+    <Phrase key="btnCancel">Cancel</Phrase>
+    <Phrase key="TextLine">Line: {0}</Phrase>
+    <Phrase key="TextLength">Length: {0} of {1}</Phrase>
+  </Dictionary>
   <Dictionary key="Scada.Admin.App.Forms.Tools.FrmCulture">
     <Phrase key="this">Language</Phrase>
     <Phrase key="lblInfo">Changes will take effect after restarting the application.</Phrase>

@@ -546,20 +546,20 @@ namespace Scada.Admin.App.Forms.Tables
                     return true;
                 }
             }
-            else if (dataKind == ColumnKind.SourceCode)
+            else if (dataKind == ColumnKind.MultilineText)
             {
-                // edit source code
-                /*FrmSourceCode frmSourceCode = new FrmSourceCode
+                // edit multiline text
+                FrmTextDialog frmTextDialog = new()
                 {
                     MaxLength = dataColumnOptions.MaxLength,
-                    SourceCode = cellValue.ToString()
+                    PlainText = cellValue.ToString()
                 };
 
-                if (frmSourceCode.ShowDialog() == DialogResult.OK)
+                if (frmTextDialog.ShowDialog() == DialogResult.OK)
                 {
-                    cellValue = frmSourceCode.SourceCode;
+                    cellValue = frmTextDialog.PlainText;
                     return true;
-                }*/
+                }
             }
 
             return false;

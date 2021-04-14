@@ -1,5 +1,5 @@
 ﻿/*
- * Copyright 2019 Mikhail Shiryaev
+ * Copyright 2021 Rapid Software LLC
  * 
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -16,25 +16,30 @@
  * 
  * Product  : Rapid SCADA
  * Module   : Administrator
- * Summary  : Form for editing source code of a formula
+ * Summary  : Represents a modal form for editing text
  * 
  * Author   : Mikhail Shiryaev
  * Created  : 2013
- * Modified : 2019
+ * Modified : 2021
  */
 
+using Scada.Admin.App.Code;
+using Scada.Forms;
 using System;
 using System.Text;
 using System.Windows.Forms;
-using Scada.UI;
 
 namespace Scada.Admin.App.Forms.Tables
 {
     /// <summary>
+    /// Represents a modal form for editing text.
+    /// <para>Представляет модальную форму для редактирования текста.</para>
+    /// </summary>
+    /// <summary>
     /// Form for editing source code of a formula.
     /// <para>Форма редактирования исходного кода формулы.</para>
     /// </summary>
-    public partial class FrmSourceCode : Form
+    public partial class FrmTextDialog : Form
     {
         /// <summary>
         /// The maximum length of the source code by default.
@@ -45,35 +50,56 @@ namespace Scada.Admin.App.Forms.Tables
         /// <summary>
         /// Initializes a new instance of the class.
         /// </summary>
-        public FrmSourceCode()
+        public FrmTextDialog()
         {
             InitializeComponent();
 
             MaxLength = DefaultMaxLength;
-            SourceCode = "";
+            PlainText = "";
         }
 
 
         /// <summary>
-        /// Gets or sets the maximum length of the source code.
+        /// Gets or sets the maximum length of the plain text.
         /// </summary>
         public int MaxLength { get; set; }
 
         /// <summary>
-        /// Gets or sets the source code.
+        /// Gets or sets the plain text to edit.
         /// </summary>
-        public string SourceCode { get; set; }
+        public string PlainText { get; set; }
 
+
+        /// <summary>
+        /// Shows the current line.
+        /// </summary>
+        private void ShowCurrentLine()
+        {
+            lblLine.Text = string.Format(AppPhrases.TextLine,
+                txtPlainText.GetLineFromCharIndex(txtPlainText.SelectionStart) + 1);
+        }
+
+        /// <summary>
+        /// Shows the current and maximum text length.
+        /// </summary>
+        private void ShowTextLength()
+        {
+            lblLength.Text = string.Format(AppPhrases.TextLength, txtPlainText.Text.Length, txtPlainText.MaxLength);
+        }
 
         /// <summary>
         /// Normalizes line endings of the specified string.
         /// </summary>
-        private string Normalize(string s)
+        private static string Normalize(string s)
         {
-            StringBuilder stringBuilder = new StringBuilder();
-
-            if (s != null)
+            if (string.IsNullOrEmpty(s))
             {
+                return "";
+            }
+            else
+            {
+                StringBuilder stringBuilder = new();
+
                 foreach (char c in s)
                 {
                     switch (c)
@@ -88,29 +114,35 @@ namespace Scada.Admin.App.Forms.Tables
                             break;
                     }
                 }
-            }
 
-            return stringBuilder.ToString();
+                return stringBuilder.ToString();
+            }
         }
 
 
         private void FrmEditSource_Load(object sender, EventArgs e)
         {
-            Translator.TranslateForm(this, GetType().FullName);
-            txtSourceCode.MaxLength = MaxLength;
-            string sourceCode = Normalize(SourceCode);
-            txtSourceCode.Text = sourceCode.Length <= MaxLength ? sourceCode : sourceCode.Substring(0, MaxLength); 
+            FormTranslator.Translate(this, GetType().FullName);
+            txtPlainText.MaxLength = MaxLength;
+            string text = Normalize(PlainText);
+            txtPlainText.Text = text.Length <= MaxLength ? text : text.Substring(0, MaxLength);
+            ShowCurrentLine();
+            ShowTextLength();
         }
 
-        private void txtSource_TextChanged(object sender, EventArgs e)
+        private void txtPlainText_TextChanged(object sender, EventArgs e)
         {
-            lblTextLength.Text = txtSourceCode.Text.Length + " / " + txtSourceCode.MaxLength;
-            btnOK.Enabled = txtSourceCode.Text != "";
+            ShowTextLength();
+        }
+
+        private void txtPlainText_SelectionChanged(object sender, EventArgs e)
+        {
+            ShowCurrentLine();
         }
 
         private void btnOK_Click(object sender, EventArgs e)
         {
-            SourceCode = txtSourceCode.Text;
+            PlainText = txtPlainText.Text;
             DialogResult = DialogResult.OK;
         }
     }

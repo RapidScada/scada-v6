@@ -316,7 +316,7 @@ namespace Scada.Admin.App.Code
                 NewCheckBoxColumn("IsEnum"),
                 NewCheckBoxColumn("IsDate"),
                 NewCheckBoxColumn("IsString"),
-                NewTextBoxColumn("Frmt", new ColumnOptions(ColumnLength.Enumeration)),
+                NewTextBoxColumn("Frmt", new ColumnOptions(ColumnKind.MultilineText, ColumnLength.Enumeration)),
                 NewButtonColumn("Frmt"),
                 NewTextBoxColumn("Descr", new ColumnOptions(ColumnLength.Description))
             });
@@ -476,7 +476,7 @@ namespace Scada.Admin.App.Code
             {
                 NewTextBoxColumn("ScriptID", new ColumnOptions(ConfigBase.MinID, ConfigBase.MaxID)),
                 NewTextBoxColumn("Name", new ColumnOptions(ColumnLength.Name)),
-                NewTextBoxColumn("Source", new ColumnOptions(ColumnKind.SourceCode, ColumnLength.SourceCode)),
+                NewTextBoxColumn("Source", new ColumnOptions(ColumnKind.MultilineText, ColumnLength.SourceCode)),
                 NewButtonColumn("Source"),
                 NewTextBoxColumn("Descr", new ColumnOptions(ColumnLength.Description))
             });

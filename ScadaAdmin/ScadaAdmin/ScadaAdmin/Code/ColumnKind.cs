@@ -35,10 +35,10 @@ namespace Scada.Admin.App.Code
         BitMask,
         Button,
         Color,
+        MultilineText,
         Password,
         Path,
         PrimaryKey,
-        SourceCode,
         SelectFileButton,
         SelectFolderButton
     }
