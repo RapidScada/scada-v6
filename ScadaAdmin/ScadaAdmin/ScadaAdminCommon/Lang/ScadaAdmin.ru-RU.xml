@@ -4,6 +4,97 @@
     <Phrase key="LoadAppStateError">Ошибка при загрузке состояния приложения</Phrase>
     <Phrase key="SaveAppStateError">Ошибка при сохранении состояния приложения</Phrase>
   </Dictionary>
+  <Dictionary key="Scada.Admin.App.Code.ColumnBuilder.ArchiveTable">
+    <Phrase key="ArchiveID">Идент.</Phrase>
+    <Phrase key="Name">Наименование</Phrase>
+    <Phrase key="Code">Код</Phrase>
+    <Phrase key="IsDefault">По умолчанию</Phrase>
+    <Phrase key="Bit">Бит</Phrase>
+    <Phrase key="Descr">Описание</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Admin.App.Code.ColumnBuilder.CmdTypeTable">
+    <Phrase key="CmdTypeID">Идент.</Phrase>
+    <Phrase key="Name">Наименование</Phrase>
+    <Phrase key="Descr">Описание</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Admin.App.Code.ColumnBuilder.CnlStatusTable">
+    <Phrase key="CnlStatusID">Идент.</Phrase>
+    <Phrase key="Name">Наименование</Phrase>
+    <Phrase key="MainColor">Основной цвет</Phrase>
+    <Phrase key="MainColorButton">Выбрать цвет</Phrase>
+    <Phrase key="SecondColor">Второй цвет</Phrase>
+    <Phrase key="SecondColorButton">Выбрать цвет</Phrase>
+    <Phrase key="BackColor">Цвет фона</Phrase>
+    <Phrase key="BackColorButton">Выбрать цвет</Phrase>
+    <Phrase key="Severity">Серьезность</Phrase>
+    <Phrase key="AckRequired">Подтверждение</Phrase>
+    <Phrase key="Descr">Описание</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Admin.App.Code.ColumnBuilder.CnlTypeTable">
+    <Phrase key="CnlTypeID">Идент.</Phrase>
+    <Phrase key="Name">Наименование</Phrase>
+    <Phrase key="Descr">Описание</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Admin.App.Code.ColumnBuilder.CommLineTable">
+    <Phrase key="CommLineNum">Номер</Phrase>
+    <Phrase key="Name">Наименование</Phrase>
+    <Phrase key="Descr">Описание</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Admin.App.Code.ColumnBuilder.DataTypeTable">
+    <Phrase key="DataTypeID">Идент.</Phrase>
+    <Phrase key="Name">Наименование</Phrase>
+    <Phrase key="Descr">Описание</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Admin.App.Code.ColumnBuilder.DeviceTable">
+    <Phrase key="DeviceNum">Номер</Phrase>
+    <Phrase key="Name">Наименование</Phrase>
+    <Phrase key="Code">Код</Phrase>
+    <Phrase key="DevTypeID">Тип КП</Phrase>
+    <Phrase key="NumAddress">Числовой адрес</Phrase>
+    <Phrase key="StrAddress">Строковый адрес</Phrase>
+    <Phrase key="CommLineNum">Линия связи</Phrase>
+    <Phrase key="Descr">Описание</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Admin.App.Code.ColumnBuilder.DevTypeTable">
+    <Phrase key="DevTypeID">Идент.</Phrase>
+    <Phrase key="Name">Наименование</Phrase>
+    <Phrase key="Driver">Драйвер</Phrase>
+    <Phrase key="Descr">Описание</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Admin.App.Code.ColumnBuilder.FormatTable">
+    <Phrase key="FormatID">Идент.</Phrase>
+    <Phrase key="Name">Наименование</Phrase>
+    <Phrase key="Code">Код</Phrase>
+    <Phrase key="IsNumber">Число</Phrase>
+    <Phrase key="IsEnum">Перечисление</Phrase>
+    <Phrase key="IsDate">Дата и время</Phrase>
+    <Phrase key="IsString">Строка</Phrase>
+    <Phrase key="Frmt">Формат</Phrase>
+    <Phrase key="FrmtButton">Изменить формат</Phrase>
+    <Phrase key="Descr">Описание</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Admin.App.Code.ColumnBuilder.InCnlTable">
+    <Phrase key="CnlNum">Номер</Phrase>
+    <Phrase key="Active">Активный</Phrase>
+    <Phrase key="Name">Наименование</Phrase>
+    <Phrase key="DataTypeID">Тип данных</Phrase>
+    <Phrase key="DataLen">Длина данных</Phrase>
+    <Phrase key="CnlTypeID">Тип канала</Phrase>
+    <Phrase key="ObjNum">Объект</Phrase>
+    <Phrase key="DeviceNum">КП</Phrase>
+    <Phrase key="TagNum">Номер тега</Phrase>
+    <Phrase key="TagCode">Код тега</Phrase>
+    <Phrase key="FormulaEnabled">Формула вкл.</Phrase>
+    <Phrase key="Formula">Формула</Phrase>
+    <Phrase key="FormatID">Формат</Phrase>
+    <Phrase key="QuantityID">Величина</Phrase>
+    <Phrase key="UnitID">Размерность</Phrase>
+    <Phrase key="LimID">Границы</Phrase>
+    <Phrase key="ArchiveMask">Маска архивов</Phrase>
+    <Phrase key="ArchiveMaskButton">Выбрать архивы</Phrase>
+    <Phrase key="EventMask">Маска событий</Phrase>
+    <Phrase key="EventMaskButton">Выбрать события</Phrase>
+  </Dictionary>
   <Dictionary key="Scada.Admin.App.Code.ExplorerBuilder">
     <Phrase key="BaseNode">База конфигурации</Phrase>
     <Phrase key="PrimaryTablesNode">Основные таблицы</Phrase>

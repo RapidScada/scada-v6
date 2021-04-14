@@ -226,6 +226,7 @@ namespace Scada.Admin.App.Code
                 NewTextBoxColumn("BackColor", new ColumnOptions(ColumnKind.Color, ColumnLength.Default)),
                 NewButtonColumn("BackColor"),
                 NewTextBoxColumn("Severity", new ColumnOptions(Severity.Min, Severity.Max)),
+                NewCheckBoxColumn("AckRequired"),
                 NewTextBoxColumn("Descr", new ColumnOptions(ColumnLength.Description))
             });
         }
@@ -316,6 +317,7 @@ namespace Scada.Admin.App.Code
                 NewCheckBoxColumn("IsDate"),
                 NewCheckBoxColumn("IsString"),
                 NewTextBoxColumn("Frmt", new ColumnOptions(ColumnLength.Enumeration)),
+                NewButtonColumn("Frmt"),
                 NewTextBoxColumn("Descr", new ColumnOptions(ColumnLength.Description))
             });
         }
@@ -330,22 +332,24 @@ namespace Scada.Admin.App.Code
                 NewTextBoxColumn("CnlNum", new ColumnOptions(ConfigBase.MinID, ConfigBase.MaxID)),
                 NewCheckBoxColumn("Active", new ColumnOptions { DefaultValue = true }),
                 NewTextBoxColumn("Name", new ColumnOptions(ColumnLength.Name)),
+                NewComboBoxColumn("DataTypeID", "Name", configBase.DataTypeTable, true),
+                NewTextBoxColumn("DataLen"),
                 NewComboBoxColumn("CnlTypeID", "Name", configBase.CnlTypeTable, false, false,
                     new ColumnOptions { DefaultValue = CnlTypeID.Measured }),
                 NewComboBoxColumn("ObjNum","Name", configBase.ObjTable, true),
                 NewComboBoxColumn("DeviceNum", "Name", configBase.DeviceTable, true),
-                NewTextBoxColumn("DataLen"),
                 NewTextBoxColumn("TagNum"),
                 NewTextBoxColumn("TagCode", new ColumnOptions(ColumnLength.Code)),
                 NewCheckBoxColumn("FormulaEnabled"),
                 NewTextBoxColumn("Formula", new ColumnOptions(ColumnLength.Default)),
-                NewTextBoxColumn("ArchiveMask", new ColumnOptions(ColumnKind.BitMask)),
-                NewTextBoxColumn("EventMask", new ColumnOptions(ColumnKind.BitMask)),
-                NewComboBoxColumn("DataTypeID", "Name", configBase.DataTypeTable, true),
                 NewComboBoxColumn("FormatID", "Name", configBase.FormatTable, true),
                 NewComboBoxColumn("QuantityID", "Name", configBase.QuantityTable, true),
                 NewComboBoxColumn("UnitID", "Name", configBase.UnitTable, true),
                 NewComboBoxColumn("LimID", "Name", configBase.LimTable, true),
+                NewTextBoxColumn("ArchiveMask", new ColumnOptions(ColumnKind.BitMask)),
+                NewButtonColumn("ArchiveMask"),
+                NewTextBoxColumn("EventMask", new ColumnOptions(ColumnKind.BitMask)),
+                NewButtonColumn("EventMask")
             });
         }
 

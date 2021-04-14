@@ -20,7 +20,7 @@
  * 
  * Author   : Mikhail Shiryaev
  * Created  : 2018
- * Modified : 2020
+ * Modified : 2021
  */
 
 #pragma warning disable 1591 // Missing XML comment for publicly visible type or member
@@ -42,15 +42,15 @@ namespace Scada.Data.Entities
 
         public string Name { get; set; }
 
+        public int? DataTypeID { get; set; }
+
+        public int? DataLen { get; set; }
+
         public int CnlTypeID { get; set; }
 
         public int? ObjNum { get; set; }
 
         public int? DeviceNum { get; set; }
-
-        public int? DataTypeID { get; set; }
-
-        public int? DataLen { get; set; }
 
         public int? TagNum { get; set; }
 
