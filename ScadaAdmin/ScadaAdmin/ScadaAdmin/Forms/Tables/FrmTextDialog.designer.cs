@@ -86,6 +86,7 @@
             // 
             // lblLine
             // 
+            this.lblLine.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
             this.lblLine.AutoSize = true;
             this.lblLine.ForeColor = System.Drawing.SystemColors.ControlDarkDark;
             this.lblLine.Location = new System.Drawing.Point(12, 530);
