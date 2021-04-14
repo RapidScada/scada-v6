@@ -1,6 +1,6 @@
 ﻿namespace Scada.Admin.App.Forms.Tables
 {
-    partial class FrmColorSelect
+    partial class FrmColorDialog
     {
         /// <summary>
         /// Required designer variable.
@@ -41,7 +41,7 @@
             this.lbColor.DrawMode = System.Windows.Forms.DrawMode.OwnerDrawFixed;
             this.lbColor.FormattingEnabled = true;
             this.lbColor.IntegralHeight = false;
-            this.lbColor.ItemHeight = 16;
+            this.lbColor.ItemHeight = 19;
             this.lbColor.Location = new System.Drawing.Point(12, 35);
             this.lbColor.Name = "lbColor";
             this.lbColor.Size = new System.Drawing.Size(260, 285);
@@ -74,7 +74,7 @@
             this.lblSort.AutoSize = true;
             this.lblSort.Location = new System.Drawing.Point(12, 14);
             this.lblSort.Name = "lblSort";
-            this.lblSort.Size = new System.Drawing.Size(29, 13);
+            this.lblSort.Size = new System.Drawing.Size(31, 15);
             this.lblSort.TabIndex = 0;
             this.lblSort.Text = "Sort:";
             // 
@@ -84,7 +84,7 @@
             this.rbSortByAbc.Checked = true;
             this.rbSortByAbc.Location = new System.Drawing.Point(90, 12);
             this.rbSortByAbc.Name = "rbSortByAbc";
-            this.rbSortByAbc.Size = new System.Drawing.Size(90, 17);
+            this.rbSortByAbc.Size = new System.Drawing.Size(100, 19);
             this.rbSortByAbc.TabIndex = 1;
             this.rbSortByAbc.TabStop = true;
             this.rbSortByAbc.Text = "Alphabetically";
@@ -96,16 +96,16 @@
             this.rbSortByColor.AutoSize = true;
             this.rbSortByColor.Location = new System.Drawing.Point(190, 12);
             this.rbSortByColor.Name = "rbSortByColor";
-            this.rbSortByColor.Size = new System.Drawing.Size(63, 17);
+            this.rbSortByColor.Size = new System.Drawing.Size(68, 19);
             this.rbSortByColor.TabIndex = 2;
             this.rbSortByColor.Text = "By color";
             this.rbSortByColor.UseVisualStyleBackColor = true;
             this.rbSortByColor.CheckedChanged += new System.EventHandler(this.rbSortColor_CheckedChanged);
             // 
-            // FrmColorSelect
+            // FrmColorDialog
             // 
             this.AcceptButton = this.btnOK;
-            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.CancelButton = this.btnCancel;
             this.ClientSize = new System.Drawing.Size(284, 361);
@@ -118,7 +118,7 @@
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedDialog;
             this.MaximizeBox = false;
             this.MinimizeBox = false;
-            this.Name = "FrmColorSelect";
+            this.Name = "FrmColorDialog";
             this.ShowInTaskbar = false;
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
             this.Text = "Select Color";

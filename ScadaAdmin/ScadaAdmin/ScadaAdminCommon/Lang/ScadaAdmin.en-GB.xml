@@ -242,6 +242,14 @@
     <Phrase key="DataNotExist">No data exist for the &quot;{0}&quot; column.</Phrase>
     <Phrase key="DataChangeError">Error changing table data</Phrase>
   </Dictionary>
+  <Dictionary key="Scada.Admin.App.Forms.Tables.FrmColorDialog">
+    <Phrase key="this">Select Color</Phrase>
+    <Phrase key="lblSort">Sort:</Phrase>
+    <Phrase key="rbSortByAbc">Alphabetically</Phrase>
+    <Phrase key="rbSortByColor">By color</Phrase>
+    <Phrase key="btnOK">OK</Phrase>
+    <Phrase key="btnCancel">Cancel</Phrase>
+  </Dictionary>
   <Dictionary key="Scada.Admin.App.Forms.Tables.FrmTextDialog">
     <Phrase key="this">Text Editor</Phrase>
     <Phrase key="btnOK">OK</Phrase>

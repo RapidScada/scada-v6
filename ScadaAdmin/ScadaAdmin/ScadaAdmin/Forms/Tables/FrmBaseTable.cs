@@ -489,16 +489,16 @@ namespace Scada.Admin.App.Forms.Tables
             if (dataKind == ColumnKind.Color)
             {
                 // select color
-                /*FrmColorSelect frmColorSelect = new FrmColorSelect
+                FrmColorDialog frmColorDialog = new()
                 {
                     SelectedColor = cellValue == null ? Color.Empty : StrToColor(cellValue.ToString())
                 };
 
-                if (frmColorSelect.ShowDialog() == DialogResult.OK)
+                if (frmColorDialog.ShowDialog() == DialogResult.OK)
                 {
-                    cellValue = frmColorSelect.SelectedColor.Name;
+                    cellValue = frmColorDialog.SelectedColor.Name;
                     return true;
-                }*/
+                }
             }
             else if (dataKind == ColumnKind.Path)
             {

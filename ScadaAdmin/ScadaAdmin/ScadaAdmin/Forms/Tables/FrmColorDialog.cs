@@ -1,5 +1,5 @@
 ﻿/*
- * Copyright 2019 Mikhail Shiryaev
+ * Copyright 2021 Rapid Software LLC
  * 
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -16,26 +16,26 @@
  * 
  * Product  : Rapid SCADA
  * Module   : Administrator
- * Summary  : Form for color selection
+ * Summary  : Represents a form for choosing a color
  * 
  * Author   : Mikhail Shiryaev
  * Created  : 2010
- * Modified : 2019
+ * Modified : 2021
  */
 
 using System;
 using System.Collections;
 using System.Drawing;
 using System.Windows.Forms;
-using Scada.UI;
+using Scada.Forms;
 
 namespace Scada.Admin.App.Forms.Tables
 {
     /// <summary>
-    /// Form for color selection.
-    /// <para>Форма выбора цвета.</para>
+    /// Represents a form for choosing a color.
+    /// <para>Представляет форму для выбора цвета.</para>
     /// </summary>
-    public partial class FrmColorSelect : Form
+    public partial class FrmColorDialog : Form
     {
         /// <summary>
         /// Compares colors alphabetically.
@@ -102,7 +102,7 @@ namespace Scada.Admin.App.Forms.Tables
         /// <summary>
         /// Initializes the class.
         /// </summary>
-        static FrmColorSelect()
+        static FrmColorDialog()
         {
             // initialize color arrays
             Array knownColorArr = Enum.GetValues(typeof(KnownColor));
@@ -125,7 +125,7 @@ namespace Scada.Admin.App.Forms.Tables
         /// <summary>
         /// Initializes a new instance of the class.
         /// </summary>
-        public FrmColorSelect()
+        public FrmColorDialog()
         {
             InitializeComponent();
 
@@ -173,7 +173,7 @@ namespace Scada.Admin.App.Forms.Tables
 
         private void FrmColor_Load(object sender, EventArgs e)
         {
-            Translator.TranslateForm(this, GetType().FullName);
+            FormTranslator.Translate(this, GetType().FullName);
             FillListBox(ColorArr1);
             ActiveControl = lbColor;
         }
@@ -197,12 +197,11 @@ namespace Scada.Admin.App.Forms.Tables
             Graphics graphics = e.Graphics;
             int x = e.Bounds.X;
             int y = e.Bounds.Y;
-            int w = e.Bounds.Width;
             int h = e.Bounds.Height;
 
             graphics.DrawRectangle(Pens.Black, x + 2, y + 2, 21, h - 5);
             graphics.FillRectangle(brush, x + 3, y + 3, 20, h - 6);
-            graphics.DrawString(color.Name, e.Font, textBrush, x + 26, y + 2);
+            graphics.DrawString(color.Name, e.Font, textBrush, x + 26, y + 1);
 
             e.DrawFocusRectangle();
         }
