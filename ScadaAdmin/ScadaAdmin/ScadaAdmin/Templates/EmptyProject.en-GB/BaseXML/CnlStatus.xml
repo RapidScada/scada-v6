@@ -52,7 +52,7 @@
     <SecondColor>Blue</SecondColor>
     <BackColor>DodgerBlue</BackColor>
     <Severity>1</Severity>
-    <AckRequired>false</AckRequired>
+    <AckRequired>true</AckRequired>
   </CnlStatus>
   <CnlStatus>
     <CnlStatusID>12</CnlStatusID>
@@ -61,7 +61,7 @@
     <SecondColor>Cyan</SecondColor>
     <BackColor>Cyan</BackColor>
     <Severity>250</Severity>
-    <AckRequired>false</AckRequired>
+    <AckRequired>true</AckRequired>
   </CnlStatus>
   <CnlStatus>
     <CnlStatusID>13</CnlStatusID>
@@ -79,7 +79,7 @@
     <SecondColor>Orange</SecondColor>
     <BackColor>Wheat</BackColor>
     <Severity>250</Severity>
-    <AckRequired>false</AckRequired>
+    <AckRequired>true</AckRequired>
   </CnlStatus>
   <CnlStatus>
     <CnlStatusID>15</CnlStatusID>
@@ -88,7 +88,7 @@
     <SecondColor>Red</SecondColor>
     <BackColor>LightCoral</BackColor>
     <Severity>1</Severity>
-    <AckRequired>false</AckRequired>
+    <AckRequired>true</AckRequired>
   </CnlStatus>
   <CnlStatus>
     <CnlStatusID>21</CnlStatusID>
@@ -106,7 +106,7 @@
     <SecondColor>Orange</SecondColor>
     <BackColor>Wheat</BackColor>
     <Severity>500</Severity>
-    <AckRequired>false</AckRequired>
+    <AckRequired>true</AckRequired>
   </CnlStatus>
   <CnlStatus>
     <CnlStatusID>23</CnlStatusID>
@@ -115,6 +115,6 @@
     <SecondColor>Red</SecondColor>
     <BackColor>LightCoral</BackColor>
     <Severity>250</Severity>
-    <AckRequired>false</AckRequired>
+    <AckRequired>true</AckRequired>
   </CnlStatus>
 </ArrayOfCnlStatus>
