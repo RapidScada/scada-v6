@@ -70,7 +70,7 @@
     <Phrase key="IsDate">Дата и время</Phrase>
     <Phrase key="IsString">Строка</Phrase>
     <Phrase key="Frmt">Формат</Phrase>
-    <Phrase key="FrmtButton">Изменить формат</Phrase>
+    <Phrase key="FrmtButton">Редактировать формат</Phrase>
     <Phrase key="Descr">Описание</Phrase>
   </Dictionary>
   <Dictionary key="Scada.Admin.App.Code.ColumnBuilder.InCnlTable">
