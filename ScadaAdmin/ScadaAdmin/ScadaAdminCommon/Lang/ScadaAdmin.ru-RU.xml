@@ -251,6 +251,16 @@
     <Phrase key="btnOK">OK</Phrase>
     <Phrase key="btnCancel">Отмена</Phrase>
   </Dictionary>
+  <Dictionary key="Scada.Admin.App.Forms.Tables.FrmPasswordSet">
+    <Phrase key="this">Установка пароля</Phrase>
+    <Phrase key="lblUserID">Идент. пользователя</Phrase>
+    <Phrase key="lblPassword">Новый пароль</Phrase>
+    <Phrase key="btnShowPassword">Показать</Phrase>
+    <Phrase key="btnHidePassword">Скрыть</Phrase>
+    <Phrase key="lblInfo">Изменение идент. пользователя аннулирует пароль.</Phrase>
+    <Phrase key="btnOK">OK</Phrase>
+    <Phrase key="btnCancel">Отмена</Phrase>
+  </Dictionary>
   <Dictionary key="Scada.Admin.App.Forms.Tables.FrmTextDialog">
     <Phrase key="this">Текстовый редактор</Phrase>
     <Phrase key="btnOK">OK</Phrase>

@@ -876,7 +876,7 @@ namespace Scada.Admin.App.Forms.Tables
                     if (ExecCellAction(dataColumnOptions, buttonColumn.Tag as ColumnOptions, row, ref cellValue))
                     {
                         cell.Value = cellValue;
-                        EndEdit();
+                        EndEdit(); // continued editing would have side effects
                     }
                 }
             }

@@ -447,7 +447,7 @@ namespace Scada.Admin.App.Code
         {
             return TranslateHeaders("RoleTable", new DataGridViewColumn[]
             {
-                NewTextBoxColumn("RoleID", new ColumnOptions(ConfigBase.MinID, ConfigBase.MaxID)),
+                NewTextBoxColumn("RoleID", new ColumnOptions(0, ConfigBase.MaxID)),
                 NewTextBoxColumn("Name", new ColumnOptions(ColumnLength.Name)),
                 NewTextBoxColumn("Code", new ColumnOptions(ColumnLength.Code)),
                 NewTextBoxColumn("Descr", new ColumnOptions(ColumnLength.Description))
@@ -508,7 +508,8 @@ namespace Scada.Admin.App.Code
                 NewTextBoxColumn("Name", new ColumnOptions(ColumnLength.Name)),
                 NewTextBoxColumn("Password", new ColumnOptions(ColumnKind.Password, ColumnLength.Password)),
                 NewButtonColumn("Password"),
-                NewComboBoxColumn("RoleID", "Name", configBase.RoleTable),
+                NewComboBoxColumn("RoleID", "Name", configBase.RoleTable, false, false, 
+                    new ColumnOptions { DefaultValue = RoleID.Disabled }),
                 NewTextBoxColumn("Descr", new ColumnOptions(ColumnLength.Description))
             });
         }

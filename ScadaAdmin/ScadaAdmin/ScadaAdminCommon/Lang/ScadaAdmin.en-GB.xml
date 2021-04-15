@@ -251,6 +251,16 @@
     <Phrase key="btnOK">OK</Phrase>
     <Phrase key="btnCancel">Cancel</Phrase>
   </Dictionary>
+  <Dictionary key="Scada.Admin.App.Forms.Tables.FrmPasswordSet">
+    <Phrase key="this">Set Password</Phrase>
+    <Phrase key="lblUserID">User ID</Phrase>
+    <Phrase key="lblPassword">New password</Phrase>
+    <Phrase key="btnShowPassword">Show</Phrase>
+    <Phrase key="btnHidePassword">Hide</Phrase>
+    <Phrase key="lblInfo">Changing the user ID will invalidate the password.</Phrase>
+    <Phrase key="btnOK">OK</Phrase>
+    <Phrase key="btnCancel">Cancel</Phrase>
+  </Dictionary>
   <Dictionary key="Scada.Admin.App.Forms.Tables.FrmTextDialog">
     <Phrase key="this">Text Editor</Phrase>
     <Phrase key="btnOK">OK</Phrase>
