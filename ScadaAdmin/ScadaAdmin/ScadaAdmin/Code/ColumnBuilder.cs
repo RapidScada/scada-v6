@@ -507,6 +507,7 @@ namespace Scada.Admin.App.Code
                 NewCheckBoxColumn("Enabled", new ColumnOptions { DefaultValue = true }),
                 NewTextBoxColumn("Name", new ColumnOptions(ColumnLength.Name)),
                 NewTextBoxColumn("Password", new ColumnOptions(ColumnKind.Password, ColumnLength.Password)),
+                NewButtonColumn("Password"),
                 NewComboBoxColumn("RoleID", "Name", configBase.RoleTable),
                 NewTextBoxColumn("Descr", new ColumnOptions(ColumnLength.Description))
             });

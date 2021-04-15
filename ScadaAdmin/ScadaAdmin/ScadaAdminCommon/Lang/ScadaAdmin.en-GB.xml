@@ -170,6 +170,7 @@
     <Phrase key="Enabled">Enabled</Phrase>
     <Phrase key="Name">Name</Phrase>
     <Phrase key="Password">Password</Phrase>
+    <Phrase key="PasswordButton">Set Password</Phrase>
     <Phrase key="RoleID">Role</Phrase>
     <Phrase key="Descr">Description</Phrase>
   </Dictionary>

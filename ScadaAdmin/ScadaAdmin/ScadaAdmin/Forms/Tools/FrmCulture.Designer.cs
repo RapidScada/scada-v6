@@ -72,13 +72,13 @@
             this.pnlInfo.Controls.Add(this.lblInfo);
             this.pnlInfo.Location = new System.Drawing.Point(12, 39);
             this.pnlInfo.Name = "pnlInfo";
-            this.pnlInfo.Size = new System.Drawing.Size(360, 19);
+            this.pnlInfo.Size = new System.Drawing.Size(360, 21);
             this.pnlInfo.TabIndex = 3;
             // 
             // pbInfo
             // 
             this.pbInfo.Image = global::Scada.Admin.App.Properties.Resources.info;
-            this.pbInfo.Location = new System.Drawing.Point(0, 3);
+            this.pbInfo.Location = new System.Drawing.Point(0, 2);
             this.pbInfo.Name = "pbInfo";
             this.pbInfo.Size = new System.Drawing.Size(16, 16);
             this.pbInfo.TabIndex = 0;

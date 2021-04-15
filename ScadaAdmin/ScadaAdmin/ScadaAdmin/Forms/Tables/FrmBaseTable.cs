@@ -481,7 +481,8 @@ namespace Scada.Admin.App.Forms.Tables
         /// <summary>
         /// Executes an action on cell button click.
         /// </summary>
-        private bool ExecCellAction(ColumnOptions dataColumnOptions, ColumnOptions buttonColumnOptions, ref object cellValue)
+        private bool ExecCellAction(ColumnOptions dataColumnOptions, ColumnOptions buttonColumnOptions,
+            DataGridViewRow row, ref object cellValue)
         {
             ColumnKind dataKind = dataColumnOptions.Kind;
             ColumnKind buttonKind = buttonColumnOptions == null ? ColumnKind.Button : buttonColumnOptions.Kind;
@@ -497,6 +498,35 @@ namespace Scada.Admin.App.Forms.Tables
                 if (frmColorDialog.ShowDialog() == DialogResult.OK)
                 {
                     cellValue = frmColorDialog.SelectedColor.Name;
+                    return true;
+                }
+            }
+            else if (dataKind == ColumnKind.MultilineText)
+            {
+                // edit multiline text
+                FrmTextDialog frmTextDialog = new()
+                {
+                    MaxLength = dataColumnOptions.MaxLength,
+                    PlainText = cellValue.ToString()
+                };
+
+                if (frmTextDialog.ShowDialog() == DialogResult.OK)
+                {
+                    cellValue = frmTextDialog.PlainText;
+                    return true;
+                }
+            }
+            else if (dataKind == ColumnKind.Password)
+            {
+                // set password hash
+                FrmPasswordSet frmPasswordSet = new()
+                {
+                    UserID = (int)row.Cells[baseTable.PrimaryKey].Value
+                };
+
+                if (frmPasswordSet.ShowDialog() == DialogResult.OK)
+                {
+                    cellValue = frmPasswordSet.PasswordHash;
                     return true;
                 }
             }
@@ -543,21 +573,6 @@ namespace Scada.Admin.App.Forms.Tables
                         path = path[viewDir.Length..];
 
                     cellValue = path;
-                    return true;
-                }
-            }
-            else if (dataKind == ColumnKind.MultilineText)
-            {
-                // edit multiline text
-                FrmTextDialog frmTextDialog = new()
-                {
-                    MaxLength = dataColumnOptions.MaxLength,
-                    PlainText = cellValue.ToString()
-                };
-
-                if (frmTextDialog.ShowDialog() == DialogResult.OK)
-                {
-                    cellValue = frmTextDialog.PlainText;
                     return true;
                 }
             }
@@ -854,12 +869,13 @@ namespace Scada.Admin.App.Forms.Tables
                 }
                 else if (dataColumn.Tag is ColumnOptions dataColumnOptions)
                 {
-                    DataGridViewCell dataCell = dataGridView.Rows[rowInd].Cells[dataColumnName];
-                    object cellValue = dataCell.Value;
+                    DataGridViewRow row = dataGridView.Rows[rowInd];
+                    DataGridViewCell cell = row.Cells[dataColumnName];
+                    object cellValue = cell.Value;
 
-                    if (ExecCellAction(dataColumnOptions, buttonColumn.Tag as ColumnOptions, ref cellValue))
+                    if (ExecCellAction(dataColumnOptions, buttonColumn.Tag as ColumnOptions, row, ref cellValue))
                     {
-                        dataCell.Value = cellValue;
+                        cell.Value = cellValue;
                         EndEdit();
                     }
                 }

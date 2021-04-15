@@ -326,6 +326,7 @@
             this.dataGridView.Dock = System.Windows.Forms.DockStyle.Fill;
             this.dataGridView.Location = new System.Drawing.Point(0, 65);
             this.dataGridView.Name = "dataGridView";
+            this.dataGridView.ShowCellToolTips = false;
             this.dataGridView.Size = new System.Drawing.Size(584, 296);
             this.dataGridView.TabIndex = 2;
             this.dataGridView.CellClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dataGridView_CellClick);

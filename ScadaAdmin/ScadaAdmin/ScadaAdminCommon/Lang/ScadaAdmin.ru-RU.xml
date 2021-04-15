@@ -170,6 +170,7 @@
     <Phrase key="Enabled">Включен</Phrase>
     <Phrase key="Name">Имя</Phrase>
     <Phrase key="Password">Пароль</Phrase>
+    <Phrase key="PasswordButton">Установить пароль</Phrase>
     <Phrase key="RoleID">Роль</Phrase>
     <Phrase key="Descr">Описание</Phrase>
   </Dictionary>
