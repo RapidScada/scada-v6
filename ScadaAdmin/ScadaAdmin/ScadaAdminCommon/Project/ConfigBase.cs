@@ -47,6 +47,14 @@ namespace Scada.Admin.Project
         /// The maximum ID value.
         /// </summary>
         public const int MaxID = int.MaxValue;
+        /// <summary>
+        /// The minimum bit number in a mask.
+        /// </summary>
+        public const int MinBit = 0;
+        /// <summary>
+        /// The maximum bit number in a mask.
+        /// </summary>
+        public const int MaxBit = 30;
 
 
         /// <summary>

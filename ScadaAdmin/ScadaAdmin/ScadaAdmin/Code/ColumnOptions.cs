@@ -20,8 +20,10 @@
  * 
  * Author   : Mikhail Shiryaev
  * Created  : 2019
- * Modified : 2019
+ * Modified : 2021
  */
+
+using Scada.Admin.Project;
 
 namespace Scada.Admin.App.Code
 {
@@ -37,20 +39,46 @@ namespace Scada.Admin.App.Code
         public ColumnOptions()
         {
             Kind = ColumnKind.Unspecified;
-            DefaultValue = null;
             MaxLength = 0;
             Minimum = int.MinValue;
             Maximum = int.MaxValue;
+            DefaultValue = null;
+            DataSource = null;
         }
 
         /// <summary>
         /// Initializes a new instance of the class.
         /// </summary>
-        public ColumnOptions(ColumnKind kind, int maxLength = 0)
+        public ColumnOptions(ColumnKind kind)
             : this()
         {
             Kind = kind;
+
+            if (kind == ColumnKind.PrimaryKey)
+            {
+                Minimum = ConfigBase.MinID;
+                Maximum = ConfigBase.MaxID;
+            }
+        }
+
+        /// <summary>
+        /// Initializes a new instance of the class.
+        /// </summary>
+        public ColumnOptions(ColumnKind kind, int maxLength)
+            : this(kind)
+        {
             MaxLength = maxLength;
+        }
+
+        /// <summary>
+        /// Initializes a new instance of the class.
+        /// </summary>
+        /// <remarks>Use this constructor for primary key columns.</remarks>
+        public ColumnOptions(ColumnKind kind, int min, int max)
+            : this(kind)
+        {
+            Minimum = min;
+            Maximum = max;
         }
 
         /// <summary>
@@ -66,11 +94,8 @@ namespace Scada.Admin.App.Code
         /// </summary>
         /// <remarks>Use this constructor for primary key columns.</remarks>
         public ColumnOptions(int min, int max)
-            : this()
+            : this(ColumnKind.Unspecified, min, max)
         {
-            Kind = ColumnKind.PrimaryKey;
-            Minimum = min;
-            Maximum = max;
         }
 
 
@@ -78,11 +103,6 @@ namespace Scada.Admin.App.Code
         /// Gets or sets the column kind.
         /// </summary>
         public ColumnKind Kind { get; set; }
-
-        /// <summary>
-        /// Gets or sets the default value for the column.
-        /// </summary>
-        public object DefaultValue { get; set; }
 
         /// <summary>
         /// Gets or sets the maximum length of a text column.
@@ -98,5 +118,15 @@ namespace Scada.Admin.App.Code
         /// Gets or sets the minimum allowed primary key value.
         /// </summary>
         public int Maximum { get; set; }
+
+        /// <summary>
+        /// Gets or sets the default value for the column.
+        /// </summary>
+        public object DefaultValue { get; set; }
+
+        /// <summary>
+        /// Gets or sets the data source that contains the predefined cell values.
+        /// </summary>
+        public object DataSource { get; set; }
     }
 }

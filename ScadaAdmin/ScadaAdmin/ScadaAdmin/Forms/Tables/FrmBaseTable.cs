@@ -216,34 +216,29 @@ namespace Scada.Admin.App.Forms.Tables
             {
                 DataGridViewColumn col = dataGridView.Columns[colInd];
 
-                if (col is DataGridViewTextBoxColumn)
+                if (col is DataGridViewTextBoxColumn && !string.IsNullOrEmpty(cellVal))
                 {
-                    if (!string.IsNullOrEmpty(cellVal))
+                    if (col.ValueType == typeof(int))
                     {
-                        Type valueType = col.ValueType;
-
-                        if (valueType == typeof(int))
+                        if (int.TryParse(cellVal, out int intVal))
                         {
-                            if (int.TryParse(cellVal, out int intVal))
+                            // check range
+                            if (col.Tag is ColumnOptions options && options.Minimum < options.Maximum &&
+                                (intVal < options.Minimum || intVal > options.Maximum))
                             {
-                                // check primary key range
-                                if (col.Tag is ColumnOptions options && options.Kind == ColumnKind.PrimaryKey &&
-                                    (intVal < options.Minimum || intVal > options.Maximum))
-                                {
-                                    errMsg = string.Format(CommonPhrases.IntegerInRangeRequired,
-                                        options.Minimum, options.Maximum);
-                                }
-                            }
-                            else
-                            {
-                                errMsg = CommonPhrases.IntegerRequired;
+                                errMsg = string.Format(CommonPhrases.IntegerInRangeRequired,
+                                    options.Minimum, options.Maximum);
                             }
                         }
-                        else if (valueType == typeof(double))
+                        else
                         {
-                            if (!double.TryParse(cellVal, out _))
-                                errMsg = CommonPhrases.RealRequired;
+                            errMsg = CommonPhrases.IntegerRequired;
                         }
+                    }
+                    else if (col.ValueType == typeof(double))
+                    {
+                        if (!double.TryParse(cellVal, out _))
+                            errMsg = CommonPhrases.RealRequired;
                     }
                 }
 
@@ -487,7 +482,22 @@ namespace Scada.Admin.App.Forms.Tables
             ColumnKind dataKind = dataColumnOptions.Kind;
             ColumnKind buttonKind = buttonColumnOptions == null ? ColumnKind.Button : buttonColumnOptions.Kind;
 
-            if (dataKind == ColumnKind.Color)
+            if (dataKind == ColumnKind.BitMask)
+            {
+                // set bit mask
+                FrmBitMask frmBitMask = new()
+                {
+                    MaskValue = cellValue is int intVal ? intVal : 0,
+                    MaskBits = dataColumnOptions.DataSource
+                };
+
+                if (frmBitMask.ShowDialog() == DialogResult.OK)
+                {
+                    cellValue = frmBitMask.MaskValue;
+                    return true;
+                }
+            }
+            else if (dataKind == ColumnKind.Color)
             {
                 // select color
                 FrmColorDialog frmColorDialog = new()
@@ -519,14 +529,14 @@ namespace Scada.Admin.App.Forms.Tables
             else if (dataKind == ColumnKind.Password)
             {
                 // set password hash
-                FrmPasswordSet frmPasswordSet = new()
+                FrmPassword frmPassword = new()
                 {
                     UserID = (int)row.Cells[baseTable.PrimaryKey].Value
                 };
 
-                if (frmPasswordSet.ShowDialog() == DialogResult.OK)
+                if (frmPassword.ShowDialog() == DialogResult.OK)
                 {
-                    cellValue = frmPasswordSet.PasswordHash;
+                    cellValue = frmPassword.PasswordHash;
                     return true;
                 }
             }
@@ -798,15 +808,17 @@ namespace Scada.Admin.App.Forms.Tables
         private void dataGridView_CellFormatting(object sender, DataGridViewCellFormattingEventArgs e)
         {
             int colInd = e.ColumnIndex;
-            string valStr = e.Value?.ToString();
 
-            if (0 <= colInd && colInd < dataGridView.ColumnCount &&
-                dataGridView.Columns[colInd].Tag is ColumnOptions options && !string.IsNullOrEmpty(valStr))
+            if (0 <= colInd && colInd < dataGridView.ColumnCount && 
+                dataGridView.Columns[colInd].Tag is ColumnOptions options)
             {
-                if (options.Kind == ColumnKind.Password)
-                    e.Value = DisplayPassword; // hide actual password
-                else if (options.Kind == ColumnKind.Color)
-                    e.CellStyle.ForeColor = StrToColor(valStr); // set text color of the cell
+                if (e.Value is string valStr && valStr != "")
+                {
+                    if (options.Kind == ColumnKind.Password)
+                        e.Value = DisplayPassword; // hide actual password
+                    else if (options.Kind == ColumnKind.Color)
+                        e.CellStyle.ForeColor = StrToColor(valStr); // set text color of the cell
+                }
             }
         }
 
@@ -819,15 +831,15 @@ namespace Scada.Admin.App.Forms.Tables
 
                 if (0 <= rowInd && rowInd < dataGridView.RowCount &&
                     0 <= colInd && colInd < dataGridView.ColumnCount &&
-                    dataGridView.Columns[colInd].Tag is ColumnOptions options)
+                    dataGridView.Columns[colInd].Tag is ColumnOptions options &&
+                    e.Control is TextBox textBox)
                 {
-                    // display actual password in edit mode
-                    if (options.Kind == ColumnKind.Password)
-                    {
-                        object cellValue = dataTable.DefaultView[rowInd][colInd];
-                        if (e.Control is TextBox textBox && cellValue != null && cellValue != DBNull.Value)
-                            textBox.Text = cellValue.ToString();
-                    }
+                    // display actual cell value in edit mode for passwords
+                    string colName = dataGridView.Columns[colInd].Name;
+                    object cellValue = dataTable.DefaultView[rowInd][colName];
+
+                    if (cellValue != null && cellValue != DBNull.Value && options.Kind == ColumnKind.Password)
+                        textBox.Text = cellValue.ToString();
                 }
             }
         }

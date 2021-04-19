@@ -16,43 +16,45 @@
  * 
  * Product  : Rapid SCADA
  * Module   : Administrator
- * Summary  : Represents the configuration database table and related information
+ * Summary  : Represents a bit mask item
  * 
  * Author   : Mikhail Shiryaev
- * Created  : 2019
+ * Created  : 2021
  * Modified : 2021
  */
-
-using Scada.Data.Tables;
-using System;
 
 namespace Scada.Admin.App.Code
 {
     /// <summary>
-    /// Represents the configuration database table and related information.
-    /// <para>Представляет таблицу базы конфигурации и связанную с ней информацию.</para>
+    /// Represents a bit mask item.
+    /// <para>Представляет элемент битовой маски.</para>
     /// </summary>
-    internal class BaseTableItem
+    internal class BitItem
     {
         /// <summary>
         /// Initializes a new instance of the class.
         /// </summary>
-        public BaseTableItem(IBaseTable baseTable, TableFilter tableFilter)
+        public BitItem(int bit, string descr)
         {
-            BaseTable = baseTable ?? throw new ArgumentNullException(nameof(baseTable));
-            DeviceNum = tableFilter != null && tableFilter.ColumnName == "DeviceNum" && 
-                tableFilter.Argument is int val ? val : 0;
+            Bit = bit;
+            Descr = descr;
         }
 
 
         /// <summary>
-        /// Gets the configuration database table.
+        /// Gets a bit number.
         /// </summary>
-        public IBaseTable BaseTable { get; }
+        public int Bit { get; }
 
         /// <summary>
-        /// Gets the filter by device.
+        /// Gets a bit description.
         /// </summary>
-        public int DeviceNum { get; }
+        public string Descr { get; }
+
+
+        /// <summary>
+        /// Returns a string that represents the current object.
+        /// </summary>
+        public override string ToString() => Descr;
     }
 }

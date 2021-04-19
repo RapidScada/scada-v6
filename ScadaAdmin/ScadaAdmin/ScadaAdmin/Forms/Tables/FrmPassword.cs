@@ -40,12 +40,12 @@ namespace Scada.Admin.App.Forms.Tables
     /// Represents a form for setting a password hash.
     /// <para>Представляет форму для установки хэша пароля.</para>
     /// </summary>
-    public partial class FrmPasswordSet : Form
+    public partial class FrmPassword : Form
     {
         /// <summary>
         /// Initializes a new instance of the class.
         /// </summary>
-        public FrmPasswordSet()
+        public FrmPassword()
         {
             InitializeComponent();
 

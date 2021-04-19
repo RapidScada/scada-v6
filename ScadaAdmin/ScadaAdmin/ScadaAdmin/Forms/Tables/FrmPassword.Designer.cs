@@ -1,7 +1,7 @@
 ﻿
 namespace Scada.Admin.App.Forms.Tables
 {
-    partial class FrmPasswordSet
+    partial class FrmPassword
     {
         /// <summary>
         /// Required designer variable.
