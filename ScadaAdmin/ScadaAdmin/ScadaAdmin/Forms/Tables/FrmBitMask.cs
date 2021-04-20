@@ -58,18 +58,43 @@ namespace Scada.Admin.App.Forms.Tables
 
 
         /// <summary>
+        /// Shows the decimal value of the mask.
+        /// </summary>
+        private void ShowMaskValue()
+        {
+            txtMaskValue.Text = MaskValue.ToString();
+        }
+
+        /// <summary>
         /// Shows the list of bits.
         /// </summary>
         private void ShowBits()
         {
             if (MaskBits is IEnumerable maskBits)
             {
-                foreach (object bitObj in maskBits)
+                try
                 {
-                    if (bitObj is BitItem bitItem)
+                    lbMaskBits.BeginUpdate();
+                    lbMaskBits.ItemCheck -= lbMaskBits_ItemCheck;
+                    int index = 0;
+
+                    foreach (object bitObj in maskBits)
                     {
-                        checkedListBox.Items.Add(bitItem);
+                        if (bitObj is BitItem bitItem)
+                        {
+                            lbMaskBits.Items.Add(bitItem);
+
+                            if (MaskValue.BitIsSet(bitItem.Bit))
+                                lbMaskBits.SetItemChecked(index, true);
+
+                            index++;
+                        }
                     }
+                }
+                finally
+                {
+                    lbMaskBits.EndUpdate();
+                    lbMaskBits.ItemCheck += lbMaskBits_ItemCheck;
                 }
             }
         }
@@ -77,8 +102,30 @@ namespace Scada.Admin.App.Forms.Tables
         private void FrmBitMask_Load(object sender, EventArgs e)
         {
             FormTranslator.Translate(this, GetType().FullName);
-            txtValue.Text = MaskValue.ToString();
+            ShowMaskValue();
             ShowBits();
+            lbMaskBits.Select();
+        }
+
+        private void btnResetMask_Click(object sender, EventArgs e)
+        {
+            MaskValue = 0;
+            ShowMaskValue();
+            lbMaskBits.ItemCheck -= lbMaskBits_ItemCheck;
+
+            for (int i = 0, cnt = lbMaskBits.Items.Count; i < cnt; i++)
+            {
+                lbMaskBits.SetItemChecked(i, false);
+            }
+
+            lbMaskBits.ItemCheck += lbMaskBits_ItemCheck;
+        }
+
+        private void lbMaskBits_ItemCheck(object sender, ItemCheckEventArgs e)
+        {
+            BitItem bitItem = (BitItem)lbMaskBits.Items[e.Index];
+            MaskValue = MaskValue.SetBit(bitItem.Bit, e.NewValue == CheckState.Checked);
+            ShowMaskValue();
         }
 
         private void btnOK_Click(object sender, EventArgs e)

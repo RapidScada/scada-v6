@@ -26,6 +26,7 @@
 using Scada.Admin.Project;
 using Scada.Data.Const;
 using Scada.Data.Entities;
+using Scada.Data.Models;
 using Scada.Data.Tables;
 using Scada.Lang;
 using System;
@@ -328,18 +329,6 @@ namespace Scada.Admin.App.Code
         /// </summary>
         private static DataGridViewColumn[] CreateInCnlTableColumns(ConfigBase configBase)
         {
-            // archive mask
-            List<BitItem> archiveBits = new();
-
-            foreach (Archive archive in configBase.ArchiveTable.EnumerateItems())
-            {
-                archiveBits.Add(new BitItem(archive.Bit, archive.Name));
-            }
-
-            // event mask
-            List<BitItem> eventBits = new();
-
-            // columns
             return TranslateHeaders("InCnlTable", new DataGridViewColumn[]
             {
                 NewTextBoxColumn("CnlNum", new ColumnOptions(ColumnKind.PrimaryKey)),
@@ -359,9 +348,11 @@ namespace Scada.Admin.App.Code
                 NewComboBoxColumn("QuantityID", "Name", configBase.QuantityTable, true),
                 NewComboBoxColumn("UnitID", "Name", configBase.UnitTable, true),
                 NewComboBoxColumn("LimID", "Name", configBase.LimTable, true),
-                NewTextBoxColumn("ArchiveMask", new ColumnOptions(ColumnKind.BitMask) { DataSource = archiveBits }),
+                NewTextBoxColumn("ArchiveMask", new ColumnOptions(ColumnKind.BitMask) 
+                    { DataSource = AppUtils.GetArchiveBits(configBase.ArchiveTable) }),
                 NewButtonColumn("ArchiveMask"),
-                NewTextBoxColumn("EventMask", new ColumnOptions(ColumnKind.BitMask) { DataSource = eventBits }),
+                NewTextBoxColumn("EventMask", new ColumnOptions(ColumnKind.BitMask) 
+                    { DataSource = AppUtils.GetEventBits() }),
                 NewButtonColumn("EventMask")
             });
         }

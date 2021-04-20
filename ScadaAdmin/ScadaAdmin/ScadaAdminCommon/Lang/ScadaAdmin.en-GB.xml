@@ -4,6 +4,14 @@
     <Phrase key="LoadAppStateError">Error loading application state</Phrase>
     <Phrase key="SaveAppStateError">Error saving application state</Phrase>
   </Dictionary>
+  <Dictionary key="Scada.Admin.App.Code.AppUtils">
+    <Phrase key="EventEnabled">Event enabled</Phrase>
+    <Phrase key="EventBeep">Event beep</Phrase>
+    <Phrase key="DataChangeEvent">Channel data has changed</Phrase>
+    <Phrase key="ValueChangeEvent">Channel value has changed</Phrase>
+    <Phrase key="StatusChangeEvent">Channel status has changed</Phrase>
+    <Phrase key="CnlUndefinedEvent">Channel is undefined</Phrase>
+  </Dictionary>
   <Dictionary key="Scada.Admin.App.Code.ColumnBuilder.ArchiveTable">
     <Phrase key="ArchiveID">ID</Phrase>
     <Phrase key="Name">Name</Phrase>
@@ -242,6 +250,14 @@
     <Phrase key="KeyReferenced">The primary key is referenced by a row from the &quot;{0}&quot; table.</Phrase>
     <Phrase key="DataNotExist">No data exist for the &quot;{0}&quot; column.</Phrase>
     <Phrase key="DataChangeError">Error changing table data</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Admin.App.Forms.Tables.FrmBitMask">
+    <Phrase key="this">Bit Mask</Phrase>
+    <Phrase key="lblMaskValue">Decimal value</Phrase>
+    <Phrase key="btnResetMask">Reset</Phrase>
+    <Phrase key="lblMaskBits">Bits</Phrase>
+    <Phrase key="btnOK">OK</Phrase>
+    <Phrase key="btnCancel">Cancel</Phrase>
   </Dictionary>
   <Dictionary key="Scada.Admin.App.Forms.Tables.FrmColorDialog">
     <Phrase key="this">Select Color</Phrase>

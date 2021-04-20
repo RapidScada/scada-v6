@@ -4,6 +4,14 @@
     <Phrase key="LoadAppStateError">Ошибка при загрузке состояния приложения</Phrase>
     <Phrase key="SaveAppStateError">Ошибка при сохранении состояния приложения</Phrase>
   </Dictionary>
+  <Dictionary key="Scada.Admin.App.Code.AppUtils">
+    <Phrase key="EventEnabled">События разрешены</Phrase>
+    <Phrase key="EventBeep">Звук события</Phrase>
+    <Phrase key="DataChangeEvent">Данные канала изменились</Phrase>
+    <Phrase key="ValueChangeEvent">Значение канала изменилось</Phrase>
+    <Phrase key="StatusChangeEvent">Статус канала изменился</Phrase>
+    <Phrase key="CnlUndefinedEvent">Канал не определён</Phrase>
+  </Dictionary>
   <Dictionary key="Scada.Admin.App.Code.ColumnBuilder.ArchiveTable">
     <Phrase key="ArchiveID">Идент.</Phrase>
     <Phrase key="Name">Наименование</Phrase>
@@ -242,6 +250,14 @@
     <Phrase key="KeyReferenced">На данный первичный ключ ссылается строка из таблицы &quot;{0}&quot;.</Phrase>
     <Phrase key="DataNotExist">Не существуют данные для столбца &quot;{0}&quot;.</Phrase>
     <Phrase key="DataChangeError">Ошибка при изменении данных в таблице</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Admin.App.Forms.Tables.FrmBitMask">
+    <Phrase key="this">Битовая маска</Phrase>
+    <Phrase key="lblMaskValue">Десятичное значение</Phrase>
+    <Phrase key="btnResetMask">Сбросить</Phrase>
+    <Phrase key="lblMaskBits">Побитно</Phrase>
+    <Phrase key="btnOK">OK</Phrase>
+    <Phrase key="btnCancel">Cancel</Phrase>
   </Dictionary>
   <Dictionary key="Scada.Admin.App.Forms.Tables.FrmColorDialog">
     <Phrase key="this">Выбор цвета</Phrase>

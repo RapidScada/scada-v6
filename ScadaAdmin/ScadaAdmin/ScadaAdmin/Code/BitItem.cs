@@ -55,6 +55,6 @@ namespace Scada.Admin.App.Code
         /// <summary>
         /// Returns a string that represents the current object.
         /// </summary>
-        public override string ToString() => Descr;
+        public override string ToString() => $"{Bit}: {Descr}";
     }
 }
