@@ -42,15 +42,15 @@ namespace Scada.Data.Models
         /// <summary>
         /// The bit indicating whether an event should be raised when channel data changes.
         /// </summary>
-        public const int CnlDataChangeBit = 2;
+        public const int DataChangeBit = 2;
         /// <summary>
         /// The bit indicating whether an event should be raised when channel value changes.
         /// </summary>
-        public const int CnlValueChangeBit = 3;
+        public const int ValueChangeBit = 3;
         /// <summary>
         /// The bit indicating whether an event should be raised when channel status changes.
         /// </summary>
-        public const int CnlStatusChangeBit = 4;
+        public const int StatusChangeBit = 4;
         /// <summary>
         /// The bit indicating whether an event should be raised when the channel becomes undefined, or vice versa.
         /// </summary>
@@ -104,45 +104,45 @@ namespace Scada.Data.Models
         /// <summary>
         /// Gets or sets a value indicating whether an event should be raised when channel data changes.
         /// </summary>
-        public bool CnlDataChange
+        public bool DataChange
         {
             get
             {
-                return Value.BitIsSet(CnlDataChangeBit);
+                return Value.BitIsSet(DataChangeBit);
             }
             set
             {
-                Value = Value.SetBit(CnlDataChangeBit, value);
+                Value = Value.SetBit(DataChangeBit, value);
             }
         }
 
         /// <summary>
         /// Gets or sets a value indicating whether an event should be raised when channel value changes.
         /// </summary>
-        public bool CnlValueChange
+        public bool ValueChange
         {
             get
             {
-                return Value.BitIsSet(CnlValueChangeBit);
+                return Value.BitIsSet(ValueChangeBit);
             }
             set
             {
-                Value = Value.SetBit(CnlValueChangeBit, value);
+                Value = Value.SetBit(ValueChangeBit, value);
             }
         }
 
         /// <summary>
         /// Gets or sets a value indicating whether an event should be raised when channel status changes.
         /// </summary>
-        public bool CnlStatusChange
+        public bool StatusChange
         {
             get
             {
-                return Value.BitIsSet(CnlStatusChangeBit);
+                return Value.BitIsSet(StatusChangeBit);
             }
             set
             {
-                Value = Value.SetBit(CnlStatusChangeBit, value);
+                Value = Value.SetBit(StatusChangeBit, value);
             }
         }
 
