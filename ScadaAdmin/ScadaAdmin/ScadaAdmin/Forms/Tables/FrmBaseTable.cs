@@ -134,21 +134,6 @@ namespace Scada.Admin.App.Forms.Tables
 
 
         /// <summary>
-        /// Creates a form to edit item properties.
-        /// </summary>
-        private Form CreatePropertiesForm()
-        {
-            Type itemType = baseTable.ItemType;
-
-            if (itemType == typeof(InCnl))
-                return null;// new FrmInCnlProps(dataGridView);
-            else if (itemType == typeof(OutCnl))
-                return null;// new FrmCtrlCnlProps(dataGridView);
-            else
-                return null;
-        }
-
-        /// <summary>
         /// Loads the table data.
         /// </summary>
         private void LoadTableData()
@@ -474,6 +459,25 @@ namespace Scada.Admin.App.Forms.Tables
         }
 
         /// <summary>
+        /// Shows a form to edit item properties if available.
+        /// </summary>
+        private void ShowPropertiesForm()
+        {
+            if (dataGridView.CurrentRow != null)
+            {
+                Form form = null;
+
+                if (baseTable.ItemType == typeof(InCnl))
+                    form = new FrmInCnl(); // (dataGridView);
+                //else if (baseTable.ItemType == typeof(OutCnl))
+                //    form = new FrmCtrlCnlProps(dataGridView);
+
+                if (form != null && form.ShowDialog() == DialogResult.OK)
+                    EndEdit();
+            }
+        }
+
+        /// <summary>
         /// Executes an action on cell button click.
         /// </summary>
         private bool ExecCellAction(ColumnOptions dataColumnOptions, ColumnOptions buttonColumnOptions,
@@ -493,7 +497,7 @@ namespace Scada.Admin.App.Forms.Tables
 
                 if (frmBitMask.ShowDialog() == DialogResult.OK)
                 {
-                    cellValue = frmBitMask.MaskValue;
+                    cellValue = frmBitMask.MaskValue > 0 ? frmBitMask.MaskValue : DBNull.Value;
                     return true;
                 }
             }
@@ -913,6 +917,11 @@ namespace Scada.Admin.App.Forms.Tables
             }
         }
 
+        private void dataGridView_CellMouseDoubleClick(object sender, DataGridViewCellMouseEventArgs e)
+        {
+            ShowPropertiesForm();
+        }
+
         private void dataGridView_DataError(object sender, DataGridViewDataErrorEventArgs e)
         {
             // write and display a error
@@ -1121,13 +1130,7 @@ namespace Scada.Admin.App.Forms.Tables
 
         private void btnProperties_Click(object sender, EventArgs e)
         {
-            // show an item properties form
-            if (dataGridView.CurrentRow != null)
-            {
-                Form form = CreatePropertiesForm();
-                if (form != null && form.ShowDialog() == DialogResult.OK)
-                    EndEdit();
-            }
+            ShowPropertiesForm();
         }
     }
 }
