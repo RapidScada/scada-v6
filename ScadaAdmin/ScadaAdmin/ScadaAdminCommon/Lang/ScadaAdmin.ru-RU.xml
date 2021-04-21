@@ -216,6 +216,9 @@
     <Phrase key="DeviceFilter">КП {0}</Phrase>
     <Phrase key="EmptyDeviceFilter">Пустой КП</Phrase>
   </Dictionary>
+  <Dictionary key="Scada.Admin.App.Forms">
+    <Phrase key="CorrectErrors">Пожалуйста, исправьте следующие ошибки:</Phrase>
+  </Dictionary>
   <Dictionary key="Scada.Admin.App.Forms.Tables.FrmBaseTable">
     <Phrase key="miProperties">Свойства</Phrase>
     <Phrase key="btnCloseError">Закрыть</Phrase>

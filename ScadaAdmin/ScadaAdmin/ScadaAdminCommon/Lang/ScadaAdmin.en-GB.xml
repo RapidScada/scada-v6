@@ -216,6 +216,9 @@
     <Phrase key="DeviceFilter">Device {0}</Phrase>
     <Phrase key="EmptyDeviceFilter">Empty device</Phrase>
   </Dictionary>
+  <Dictionary key="Scada.Admin.App.Forms">
+    <Phrase key="CorrectErrors">Please correct the following errors:</Phrase>
+  </Dictionary>
   <Dictionary key="Scada.Admin.App.Forms.Tables.FrmBaseTable">
     <Phrase key="miProperties">Properties</Phrase>
     <Phrase key="btnCloseError">Close</Phrase>

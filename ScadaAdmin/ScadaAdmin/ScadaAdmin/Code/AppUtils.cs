@@ -28,6 +28,8 @@ using Scada.Data.Models;
 using Scada.Data.Tables;
 using System;
 using System.Collections.Generic;
+using System.Text;
+using System.Windows.Forms;
 
 namespace Scada.Admin.App.Code
 {
@@ -69,6 +71,57 @@ namespace Scada.Admin.App.Code
                 new BitItem(EventMask.StatusChangeBit, AppPhrases.StatusChangeEvent),
                 new BitItem(EventMask.CnlUndefinedBit, AppPhrases.CnlUndefinedEvent)
             };
+        }
+
+        /// <summary>
+        /// Sets the check box state according to the cell value.
+        /// </summary>
+        public static void SetChecked(this CheckBox checkBox, DataGridViewCell cell)
+        {
+            if (cell == null)
+                throw new ArgumentNullException(nameof(cell));
+            
+            checkBox.Checked = (bool)cell.Value;
+        }
+
+        /// <summary>
+        /// Sets the text box according to the cell value.
+        /// </summary>
+        public static void SetText(this TextBox textBox, DataGridViewCell cell)
+        {
+            if (cell == null)
+                throw new ArgumentNullException(nameof(cell));
+
+            textBox.Text = Convert.ToString(cell.Value);
+        }
+
+        /// <summary>
+        /// Sets the combp box value according to the cell value.
+        /// </summary>
+        public static void SetValue(this ComboBox comboBox, DataGridViewCell cell)
+        {
+            if (cell == null)
+                throw new ArgumentNullException(nameof(cell));
+
+            if (cell.OwningColumn is DataGridViewComboBoxColumn comboBoxColumn)
+            {
+                comboBox.DisplayMember = comboBoxColumn.DisplayMember;
+                comboBox.ValueMember = comboBoxColumn.ValueMember;
+                comboBox.DataSource = comboBoxColumn.DataSource;
+                comboBox.SelectedValue = cell.Value;
+            }
+        }
+
+        /// <summary>
+        /// Appends the error text to the string builder.
+        /// </summary>
+        public static void AppendError(this StringBuilder stringBuilder, Label label, 
+            string text, params object[] args)
+        {
+            if (label == null)
+                throw new ArgumentNullException(nameof(label));
+
+            stringBuilder.Append(label.Text).Append(": ").AppendLine(ScadaUtils.FormatText(text, args));
         }
     }
 }

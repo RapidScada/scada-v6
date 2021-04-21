@@ -34,30 +34,30 @@ namespace Scada.Admin.App.Forms.Tables
             this.gbLim = new System.Windows.Forms.GroupBox();
             this.txtDeadband = new System.Windows.Forms.TextBox();
             this.lblDeadband = new System.Windows.Forms.Label();
-            this.textBox9 = new System.Windows.Forms.TextBox();
+            this.txtHiHi = new System.Windows.Forms.TextBox();
             this.lblHiHi = new System.Windows.Forms.Label();
-            this.textBox8 = new System.Windows.Forms.TextBox();
+            this.txtHigh = new System.Windows.Forms.TextBox();
             this.lblHigh = new System.Windows.Forms.Label();
             this.txtLow = new System.Windows.Forms.TextBox();
             this.lblLow = new System.Windows.Forms.Label();
             this.txtLoLo = new System.Windows.Forms.TextBox();
             this.lblLoLo = new System.Windows.Forms.Label();
             this.chkShared = new System.Windows.Forms.CheckBox();
-            this.comboBox3 = new System.Windows.Forms.ComboBox();
-            this.comboBox2 = new System.Windows.Forms.ComboBox();
+            this.cbLim = new System.Windows.Forms.ComboBox();
+            this.cbUnit = new System.Windows.Forms.ComboBox();
             this.lblUnit = new System.Windows.Forms.Label();
-            this.comboBox1 = new System.Windows.Forms.ComboBox();
+            this.cbQuantity = new System.Windows.Forms.ComboBox();
             this.lblQuantity = new System.Windows.Forms.Label();
             this.cbFormat = new System.Windows.Forms.ComboBox();
             this.lblFormat = new System.Windows.Forms.Label();
-            this.textBox5 = new System.Windows.Forms.TextBox();
+            this.txtFormula = new System.Windows.Forms.TextBox();
             this.chkFormulaEnabled = new System.Windows.Forms.CheckBox();
             this.lblFormula = new System.Windows.Forms.Label();
-            this.textBox4 = new System.Windows.Forms.TextBox();
+            this.txtTagCode = new System.Windows.Forms.TextBox();
             this.lblTagCode = new System.Windows.Forms.Label();
-            this.textBox3 = new System.Windows.Forms.TextBox();
+            this.txtTagNum = new System.Windows.Forms.TextBox();
             this.lblTagNum = new System.Windows.Forms.Label();
-            this.dbDevice = new System.Windows.Forms.ComboBox();
+            this.cbDevice = new System.Windows.Forms.ComboBox();
             this.txtDeviceNum = new System.Windows.Forms.TextBox();
             this.lblDevice = new System.Windows.Forms.Label();
             this.cbObj = new System.Windows.Forms.ComboBox();
@@ -65,13 +65,13 @@ namespace Scada.Admin.App.Forms.Tables
             this.lblObj = new System.Windows.Forms.Label();
             this.cbCnlType = new System.Windows.Forms.ComboBox();
             this.lblCnlType = new System.Windows.Forms.Label();
-            this.textBox2 = new System.Windows.Forms.TextBox();
-            this.lblDataLength = new System.Windows.Forms.Label();
+            this.txtDataLen = new System.Windows.Forms.TextBox();
+            this.lblDataLen = new System.Windows.Forms.Label();
             this.cbDataType = new System.Windows.Forms.ComboBox();
             this.lblDataType = new System.Windows.Forms.Label();
             this.txtName = new System.Windows.Forms.TextBox();
             this.lblName = new System.Windows.Forms.Label();
-            this.textBox1 = new System.Windows.Forms.TextBox();
+            this.txtCnlNum = new System.Windows.Forms.TextBox();
             this.lblCnlNum = new System.Windows.Forms.Label();
             this.chkActive = new System.Windows.Forms.CheckBox();
             this.pageArchives = new System.Windows.Forms.TabPage();
@@ -100,20 +100,20 @@ namespace Scada.Admin.App.Forms.Tables
             // pageGeneral
             // 
             this.pageGeneral.Controls.Add(this.gbLim);
-            this.pageGeneral.Controls.Add(this.comboBox2);
+            this.pageGeneral.Controls.Add(this.cbUnit);
             this.pageGeneral.Controls.Add(this.lblUnit);
-            this.pageGeneral.Controls.Add(this.comboBox1);
+            this.pageGeneral.Controls.Add(this.cbQuantity);
             this.pageGeneral.Controls.Add(this.lblQuantity);
             this.pageGeneral.Controls.Add(this.cbFormat);
             this.pageGeneral.Controls.Add(this.lblFormat);
-            this.pageGeneral.Controls.Add(this.textBox5);
+            this.pageGeneral.Controls.Add(this.txtFormula);
             this.pageGeneral.Controls.Add(this.chkFormulaEnabled);
             this.pageGeneral.Controls.Add(this.lblFormula);
-            this.pageGeneral.Controls.Add(this.textBox4);
+            this.pageGeneral.Controls.Add(this.txtTagCode);
             this.pageGeneral.Controls.Add(this.lblTagCode);
-            this.pageGeneral.Controls.Add(this.textBox3);
+            this.pageGeneral.Controls.Add(this.txtTagNum);
             this.pageGeneral.Controls.Add(this.lblTagNum);
-            this.pageGeneral.Controls.Add(this.dbDevice);
+            this.pageGeneral.Controls.Add(this.cbDevice);
             this.pageGeneral.Controls.Add(this.txtDeviceNum);
             this.pageGeneral.Controls.Add(this.lblDevice);
             this.pageGeneral.Controls.Add(this.cbObj);
@@ -121,13 +121,13 @@ namespace Scada.Admin.App.Forms.Tables
             this.pageGeneral.Controls.Add(this.lblObj);
             this.pageGeneral.Controls.Add(this.cbCnlType);
             this.pageGeneral.Controls.Add(this.lblCnlType);
-            this.pageGeneral.Controls.Add(this.textBox2);
-            this.pageGeneral.Controls.Add(this.lblDataLength);
+            this.pageGeneral.Controls.Add(this.txtDataLen);
+            this.pageGeneral.Controls.Add(this.lblDataLen);
             this.pageGeneral.Controls.Add(this.cbDataType);
             this.pageGeneral.Controls.Add(this.lblDataType);
             this.pageGeneral.Controls.Add(this.txtName);
             this.pageGeneral.Controls.Add(this.lblName);
-            this.pageGeneral.Controls.Add(this.textBox1);
+            this.pageGeneral.Controls.Add(this.txtCnlNum);
             this.pageGeneral.Controls.Add(this.lblCnlNum);
             this.pageGeneral.Controls.Add(this.chkActive);
             this.pageGeneral.Location = new System.Drawing.Point(4, 24);
@@ -142,16 +142,16 @@ namespace Scada.Admin.App.Forms.Tables
             // 
             this.gbLim.Controls.Add(this.txtDeadband);
             this.gbLim.Controls.Add(this.lblDeadband);
-            this.gbLim.Controls.Add(this.textBox9);
+            this.gbLim.Controls.Add(this.txtHiHi);
             this.gbLim.Controls.Add(this.lblHiHi);
-            this.gbLim.Controls.Add(this.textBox8);
+            this.gbLim.Controls.Add(this.txtHigh);
             this.gbLim.Controls.Add(this.lblHigh);
             this.gbLim.Controls.Add(this.txtLow);
             this.gbLim.Controls.Add(this.lblLow);
             this.gbLim.Controls.Add(this.txtLoLo);
             this.gbLim.Controls.Add(this.lblLoLo);
             this.gbLim.Controls.Add(this.chkShared);
-            this.gbLim.Controls.Add(this.comboBox3);
+            this.gbLim.Controls.Add(this.cbLim);
             this.gbLim.Location = new System.Drawing.Point(8, 386);
             this.gbLim.Name = "gbLim";
             this.gbLim.Padding = new System.Windows.Forms.Padding(10, 3, 10, 10);
@@ -177,13 +177,13 @@ namespace Scada.Admin.App.Forms.Tables
             this.lblDeadband.TabIndex = 10;
             this.lblDeadband.Text = "Deadband";
             // 
-            // textBox9
+            // txtHiHi
             // 
-            this.textBox9.Location = new System.Drawing.Point(277, 91);
-            this.textBox9.Name = "textBox9";
-            this.textBox9.ReadOnly = true;
-            this.textBox9.Size = new System.Drawing.Size(82, 23);
-            this.textBox9.TabIndex = 9;
+            this.txtHiHi.Location = new System.Drawing.Point(277, 91);
+            this.txtHiHi.Name = "txtHiHi";
+            this.txtHiHi.ReadOnly = true;
+            this.txtHiHi.Size = new System.Drawing.Size(82, 23);
+            this.txtHiHi.TabIndex = 9;
             // 
             // lblHiHi
             // 
@@ -194,13 +194,13 @@ namespace Scada.Admin.App.Forms.Tables
             this.lblHiHi.TabIndex = 8;
             this.lblHiHi.Text = "Extremely high";
             // 
-            // textBox8
+            // txtHigh
             // 
-            this.textBox8.Location = new System.Drawing.Point(189, 91);
-            this.textBox8.Name = "textBox8";
-            this.textBox8.ReadOnly = true;
-            this.textBox8.Size = new System.Drawing.Size(82, 23);
-            this.textBox8.TabIndex = 7;
+            this.txtHigh.Location = new System.Drawing.Point(189, 91);
+            this.txtHigh.Name = "txtHigh";
+            this.txtHigh.ReadOnly = true;
+            this.txtHigh.Size = new System.Drawing.Size(82, 23);
+            this.txtHigh.TabIndex = 7;
             // 
             // lblHigh
             // 
@@ -254,24 +254,26 @@ namespace Scada.Admin.App.Forms.Tables
             this.chkShared.TabIndex = 1;
             this.chkShared.Text = "Show only shared limits";
             this.chkShared.UseVisualStyleBackColor = true;
+            this.chkShared.CheckedChanged += new System.EventHandler(this.chkShared_CheckedChanged);
             // 
-            // comboBox3
+            // cbLim
             // 
-            this.comboBox3.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this.comboBox3.FormattingEnabled = true;
-            this.comboBox3.Location = new System.Drawing.Point(13, 22);
-            this.comboBox3.Name = "comboBox3";
-            this.comboBox3.Size = new System.Drawing.Size(434, 23);
-            this.comboBox3.TabIndex = 0;
+            this.cbLim.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.cbLim.FormattingEnabled = true;
+            this.cbLim.Location = new System.Drawing.Point(13, 22);
+            this.cbLim.Name = "cbLim";
+            this.cbLim.Size = new System.Drawing.Size(434, 23);
+            this.cbLim.TabIndex = 0;
+            this.cbLim.SelectedIndexChanged += new System.EventHandler(this.cbLim_SelectedIndexChanged);
             // 
-            // comboBox2
+            // cbUnit
             // 
-            this.comboBox2.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this.comboBox2.FormattingEnabled = true;
-            this.comboBox2.Location = new System.Drawing.Point(320, 354);
-            this.comboBox2.Name = "comboBox2";
-            this.comboBox2.Size = new System.Drawing.Size(148, 23);
-            this.comboBox2.TabIndex = 29;
+            this.cbUnit.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.cbUnit.FormattingEnabled = true;
+            this.cbUnit.Location = new System.Drawing.Point(320, 354);
+            this.cbUnit.Name = "cbUnit";
+            this.cbUnit.Size = new System.Drawing.Size(148, 23);
+            this.cbUnit.TabIndex = 29;
             // 
             // lblUnit
             // 
@@ -282,14 +284,14 @@ namespace Scada.Admin.App.Forms.Tables
             this.lblUnit.TabIndex = 28;
             this.lblUnit.Text = "Unit";
             // 
-            // comboBox1
+            // cbQuantity
             // 
-            this.comboBox1.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this.comboBox1.FormattingEnabled = true;
-            this.comboBox1.Location = new System.Drawing.Point(164, 354);
-            this.comboBox1.Name = "comboBox1";
-            this.comboBox1.Size = new System.Drawing.Size(150, 23);
-            this.comboBox1.TabIndex = 27;
+            this.cbQuantity.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.cbQuantity.FormattingEnabled = true;
+            this.cbQuantity.Location = new System.Drawing.Point(164, 354);
+            this.cbQuantity.Name = "cbQuantity";
+            this.cbQuantity.Size = new System.Drawing.Size(150, 23);
+            this.cbQuantity.TabIndex = 27;
             // 
             // lblQuantity
             // 
@@ -318,12 +320,12 @@ namespace Scada.Admin.App.Forms.Tables
             this.lblFormat.TabIndex = 24;
             this.lblFormat.Text = "Format";
             // 
-            // textBox5
+            // txtFormula
             // 
-            this.textBox5.Location = new System.Drawing.Point(29, 310);
-            this.textBox5.Name = "textBox5";
-            this.textBox5.Size = new System.Drawing.Size(439, 23);
-            this.textBox5.TabIndex = 23;
+            this.txtFormula.Location = new System.Drawing.Point(29, 310);
+            this.txtFormula.Name = "txtFormula";
+            this.txtFormula.Size = new System.Drawing.Size(439, 23);
+            this.txtFormula.TabIndex = 23;
             // 
             // chkFormulaEnabled
             // 
@@ -343,12 +345,12 @@ namespace Scada.Admin.App.Forms.Tables
             this.lblFormula.TabIndex = 21;
             this.lblFormula.Text = "Formula";
             // 
-            // textBox4
+            // txtTagCode
             // 
-            this.textBox4.Location = new System.Drawing.Point(114, 266);
-            this.textBox4.Name = "textBox4";
-            this.textBox4.Size = new System.Drawing.Size(354, 23);
-            this.textBox4.TabIndex = 20;
+            this.txtTagCode.Location = new System.Drawing.Point(114, 266);
+            this.txtTagCode.Name = "txtTagCode";
+            this.txtTagCode.Size = new System.Drawing.Size(354, 23);
+            this.txtTagCode.TabIndex = 20;
             // 
             // lblTagCode
             // 
@@ -359,12 +361,12 @@ namespace Scada.Admin.App.Forms.Tables
             this.lblTagCode.TabIndex = 19;
             this.lblTagCode.Text = "Tag code";
             // 
-            // textBox3
+            // txtTagNum
             // 
-            this.textBox3.Location = new System.Drawing.Point(8, 266);
-            this.textBox3.Name = "textBox3";
-            this.textBox3.Size = new System.Drawing.Size(100, 23);
-            this.textBox3.TabIndex = 18;
+            this.txtTagNum.Location = new System.Drawing.Point(8, 266);
+            this.txtTagNum.Name = "txtTagNum";
+            this.txtTagNum.Size = new System.Drawing.Size(100, 23);
+            this.txtTagNum.TabIndex = 18;
             // 
             // lblTagNum
             // 
@@ -375,14 +377,15 @@ namespace Scada.Admin.App.Forms.Tables
             this.lblTagNum.TabIndex = 17;
             this.lblTagNum.Text = "Tag number";
             // 
-            // dbDevice
+            // cbDevice
             // 
-            this.dbDevice.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this.dbDevice.FormattingEnabled = true;
-            this.dbDevice.Location = new System.Drawing.Point(114, 222);
-            this.dbDevice.Name = "dbDevice";
-            this.dbDevice.Size = new System.Drawing.Size(354, 23);
-            this.dbDevice.TabIndex = 16;
+            this.cbDevice.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.cbDevice.FormattingEnabled = true;
+            this.cbDevice.Location = new System.Drawing.Point(114, 222);
+            this.cbDevice.Name = "cbDevice";
+            this.cbDevice.Size = new System.Drawing.Size(354, 23);
+            this.cbDevice.TabIndex = 16;
+            this.cbDevice.SelectedIndexChanged += new System.EventHandler(this.cbDevice_SelectedIndexChanged);
             // 
             // txtDeviceNum
             // 
@@ -409,6 +412,7 @@ namespace Scada.Admin.App.Forms.Tables
             this.cbObj.Name = "cbObj";
             this.cbObj.Size = new System.Drawing.Size(354, 23);
             this.cbObj.TabIndex = 13;
+            this.cbObj.SelectedIndexChanged += new System.EventHandler(this.cbObj_SelectedIndexChanged);
             // 
             // txtObjNum
             // 
@@ -445,21 +449,21 @@ namespace Scada.Admin.App.Forms.Tables
             this.lblCnlType.TabIndex = 9;
             this.lblCnlType.Text = "Channel type";
             // 
-            // textBox2
+            // txtDataLen
             // 
-            this.textBox2.Location = new System.Drawing.Point(368, 90);
-            this.textBox2.Name = "textBox2";
-            this.textBox2.Size = new System.Drawing.Size(100, 23);
-            this.textBox2.TabIndex = 8;
+            this.txtDataLen.Location = new System.Drawing.Point(368, 90);
+            this.txtDataLen.Name = "txtDataLen";
+            this.txtDataLen.Size = new System.Drawing.Size(100, 23);
+            this.txtDataLen.TabIndex = 8;
             // 
-            // lblDataLength
+            // lblDataLen
             // 
-            this.lblDataLength.AutoSize = true;
-            this.lblDataLength.Location = new System.Drawing.Point(365, 72);
-            this.lblDataLength.Name = "lblDataLength";
-            this.lblDataLength.Size = new System.Drawing.Size(68, 15);
-            this.lblDataLength.TabIndex = 7;
-            this.lblDataLength.Text = "Data length";
+            this.lblDataLen.AutoSize = true;
+            this.lblDataLen.Location = new System.Drawing.Point(365, 72);
+            this.lblDataLen.Name = "lblDataLen";
+            this.lblDataLen.Size = new System.Drawing.Size(68, 15);
+            this.lblDataLen.TabIndex = 7;
+            this.lblDataLen.Text = "Data length";
             // 
             // cbDataType
             // 
@@ -495,12 +499,12 @@ namespace Scada.Admin.App.Forms.Tables
             this.lblName.TabIndex = 3;
             this.lblName.Text = "Name";
             // 
-            // textBox1
+            // txtCnlNum
             // 
-            this.textBox1.Location = new System.Drawing.Point(8, 46);
-            this.textBox1.Name = "textBox1";
-            this.textBox1.Size = new System.Drawing.Size(100, 23);
-            this.textBox1.TabIndex = 2;
+            this.txtCnlNum.Location = new System.Drawing.Point(8, 46);
+            this.txtCnlNum.Name = "txtCnlNum";
+            this.txtCnlNum.Size = new System.Drawing.Size(100, 23);
+            this.txtCnlNum.TabIndex = 2;
             // 
             // lblCnlNum
             // 
@@ -570,6 +574,7 @@ namespace Scada.Admin.App.Forms.Tables
             this.btnOK.TabIndex = 0;
             this.btnOK.Text = "OK";
             this.btnOK.UseVisualStyleBackColor = true;
+            this.btnOK.Click += new System.EventHandler(this.btnOK_Click);
             // 
             // FrmInCnl
             // 
@@ -587,6 +592,8 @@ namespace Scada.Admin.App.Forms.Tables
             this.ShowInTaskbar = false;
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
             this.Text = "Input Channel Properties";
+            this.FormClosed += new System.Windows.Forms.FormClosedEventHandler(this.FrmInCnl_FormClosed);
+            this.Load += new System.EventHandler(this.FrmInCnl_Load);
             this.tabControl.ResumeLayout(false);
             this.pageGeneral.ResumeLayout(false);
             this.pageGeneral.PerformLayout();
@@ -607,41 +614,41 @@ namespace Scada.Admin.App.Forms.Tables
         private System.Windows.Forms.Button btnCancel;
         private System.Windows.Forms.Button btnOK;
         private System.Windows.Forms.CheckBox chkActive;
-        private System.Windows.Forms.TextBox textBox1;
+        private System.Windows.Forms.TextBox txtCnlNum;
         private System.Windows.Forms.Label lblCnlNum;
         private System.Windows.Forms.TextBox txtName;
         private System.Windows.Forms.Label lblName;
         private System.Windows.Forms.ComboBox cbDataType;
         private System.Windows.Forms.Label lblDataType;
-        private System.Windows.Forms.TextBox textBox2;
-        private System.Windows.Forms.Label lblDataLength;
+        private System.Windows.Forms.TextBox txtDataLen;
+        private System.Windows.Forms.Label lblDataLen;
         private System.Windows.Forms.ComboBox cbCnlType;
         private System.Windows.Forms.Label lblCnlType;
         private System.Windows.Forms.Label lblObj;
         private System.Windows.Forms.TextBox txtObjNum;
         private System.Windows.Forms.ComboBox cbObj;
-        private System.Windows.Forms.ComboBox dbDevice;
+        private System.Windows.Forms.ComboBox cbDevice;
         private System.Windows.Forms.TextBox txtDeviceNum;
         private System.Windows.Forms.Label lblDevice;
-        private System.Windows.Forms.TextBox textBox3;
+        private System.Windows.Forms.TextBox txtTagNum;
         private System.Windows.Forms.Label lblTagNum;
         private System.Windows.Forms.Label lblTagCode;
-        private System.Windows.Forms.TextBox textBox4;
+        private System.Windows.Forms.TextBox txtTagCode;
         private System.Windows.Forms.Label lblFormula;
         private System.Windows.Forms.CheckBox chkFormulaEnabled;
-        private System.Windows.Forms.TextBox textBox5;
+        private System.Windows.Forms.TextBox txtFormula;
         private System.Windows.Forms.Label lblFormat;
         private System.Windows.Forms.ComboBox cbFormat;
         private System.Windows.Forms.Label lblQuantity;
-        private System.Windows.Forms.ComboBox comboBox1;
-        private System.Windows.Forms.ComboBox comboBox2;
+        private System.Windows.Forms.ComboBox cbQuantity;
+        private System.Windows.Forms.ComboBox cbUnit;
         private System.Windows.Forms.Label lblUnit;
         private System.Windows.Forms.GroupBox gbLim;
-        private System.Windows.Forms.ComboBox comboBox3;
+        private System.Windows.Forms.ComboBox cbLim;
         private System.Windows.Forms.CheckBox chkShared;
-        private System.Windows.Forms.TextBox textBox9;
+        private System.Windows.Forms.TextBox txtHiHi;
         private System.Windows.Forms.Label lblHiHi;
-        private System.Windows.Forms.TextBox textBox8;
+        private System.Windows.Forms.TextBox txtHigh;
         private System.Windows.Forms.Label lblHigh;
         private System.Windows.Forms.TextBox txtLow;
         private System.Windows.Forms.Label lblLow;

@@ -41,7 +41,7 @@ namespace Scada.Admin.App.Forms.Tables
 {
     /// <summary>
     /// Represents a form for editing a configuration database table.
-    /// <para>Представляет форму редактирования таблицы базы конфигурации.</para>
+    /// <para>Представляет форму для редактирования таблицы базы конфигурации.</para>
     /// </summary>
     public partial class FrmBaseTable : Form, IChildForm
     {
@@ -468,7 +468,7 @@ namespace Scada.Admin.App.Forms.Tables
                 Form form = null;
 
                 if (baseTable.ItemType == typeof(InCnl))
-                    form = new FrmInCnl(); // (dataGridView);
+                    form = new FrmInCnl(dataGridView);
                 //else if (baseTable.ItemType == typeof(OutCnl))
                 //    form = new FrmCtrlCnlProps(dataGridView);
 

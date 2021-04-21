@@ -60,6 +60,9 @@ namespace Scada.Admin.App.Code
         public static string DeviceFilter { get; private set; }
         public static string EmptyDeviceFilter { get; private set; }
 
+        // Scada.Admin.App.Forms
+        public static string CorrectErrors { get; private set; }
+
         // Scada.Admin.App.Forms.Tables.FrmBaseTable
         public static string GridViewError { get; private set; }
         public static string ColumnLabel { get; private set; }
@@ -138,6 +141,9 @@ namespace Scada.Admin.App.Code
             EmptyNode = dict.GetPhrase("EmptyNode");
             DeviceFilter = dict.GetPhrase("DeviceFilter");
             EmptyDeviceFilter = dict.GetPhrase("EmptyDeviceFilter");
+
+            dict = Locale.GetDictionary("Scada.Admin.App.Forms");
+            CorrectErrors = dict.GetPhrase("CorrectErrors");
 
             dict = Locale.GetDictionary("Scada.Admin.App.Forms.Tables.FrmBaseTable");
             GridViewError = dict.GetPhrase("GridViewError");
