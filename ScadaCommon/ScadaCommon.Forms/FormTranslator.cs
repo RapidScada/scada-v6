@@ -178,5 +178,16 @@ namespace Scada.Forms
                     Translate(contextMenus, null, controlDict);
             }
         }
+
+        /// <summary>
+        /// Translates the control using the specified dictionary.
+        /// </summary>
+        public static void Translate(Control control, string dictName)
+        {
+            if (control != null && Locale.Dictionaries.TryGetValue(dictName, out LocaleDict localeDict))
+            {
+                Translate(new Control[] { control }, null, ControlPhrases.GetControlDict(localeDict));
+            }
+        }
     }
 }

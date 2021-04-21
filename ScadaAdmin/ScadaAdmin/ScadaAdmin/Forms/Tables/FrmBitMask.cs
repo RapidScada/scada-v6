@@ -23,10 +23,8 @@
  * Modified : 2021
  */
 
-using Scada.Admin.App.Code;
 using Scada.Forms;
 using System;
-using System.Collections;
 using System.Windows.Forms;
 
 namespace Scada.Admin.App.Forms.Tables
@@ -49,83 +47,41 @@ namespace Scada.Admin.App.Forms.Tables
         /// <summary>
         /// Gets or sets the bit mask value.
         /// </summary>
-        public int MaskValue { get; set; }
+        public int MaskValue
+        {
+            get
+            {
+                return ctrlBitMask.MaskValue;
+            }
+            set
+            {
+                ctrlBitMask.MaskValue = value;
+            }
+        }
 
         /// <summary>
         /// Gets or sets the available mask bits.
         /// </summary>
-        public object MaskBits { get; set; }
-
-
-        /// <summary>
-        /// Shows the decimal value of the mask.
-        /// </summary>
-        private void ShowMaskValue()
+        public object MaskBits
         {
-            txtMaskValue.Text = MaskValue.ToString();
-        }
-
-        /// <summary>
-        /// Shows the list of bits.
-        /// </summary>
-        private void ShowBits()
-        {
-            if (MaskBits is IEnumerable maskBits)
+            get
             {
-                try
-                {
-                    lbMaskBits.BeginUpdate();
-                    lbMaskBits.ItemCheck -= lbMaskBits_ItemCheck;
-                    int index = 0;
-
-                    foreach (object bitObj in maskBits)
-                    {
-                        if (bitObj is BitItem bitItem)
-                        {
-                            lbMaskBits.Items.Add(bitItem);
-
-                            if (MaskValue.BitIsSet(bitItem.Bit))
-                                lbMaskBits.SetItemChecked(index, true);
-
-                            index++;
-                        }
-                    }
-                }
-                finally
-                {
-                    lbMaskBits.EndUpdate();
-                    lbMaskBits.ItemCheck += lbMaskBits_ItemCheck;
-                }
+                return ctrlBitMask.MaskBits;
+            }
+            set
+            {
+                ctrlBitMask.MaskBits = value;
             }
         }
+
 
         private void FrmBitMask_Load(object sender, EventArgs e)
         {
             FormTranslator.Translate(this, GetType().FullName);
-            ShowMaskValue();
-            ShowBits();
-            lbMaskBits.Select();
-        }
+            FormTranslator.Translate(ctrlBitMask, ctrlBitMask.GetType().FullName);
 
-        private void btnResetMask_Click(object sender, EventArgs e)
-        {
-            MaskValue = 0;
-            ShowMaskValue();
-            lbMaskBits.ItemCheck -= lbMaskBits_ItemCheck;
-
-            for (int i = 0, cnt = lbMaskBits.Items.Count; i < cnt; i++)
-            {
-                lbMaskBits.SetItemChecked(i, false);
-            }
-
-            lbMaskBits.ItemCheck += lbMaskBits_ItemCheck;
-        }
-
-        private void lbMaskBits_ItemCheck(object sender, ItemCheckEventArgs e)
-        {
-            BitItem bitItem = (BitItem)lbMaskBits.Items[e.Index];
-            MaskValue = MaskValue.SetBit(bitItem.Bit, e.NewValue == CheckState.Checked);
-            ShowMaskValue();
+            ctrlBitMask.ShowMask();
+            ctrlBitMask.SetFocus();
         }
 
         private void btnOK_Click(object sender, EventArgs e)

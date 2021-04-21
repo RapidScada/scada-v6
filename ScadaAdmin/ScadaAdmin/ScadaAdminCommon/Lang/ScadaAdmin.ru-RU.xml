@@ -216,6 +216,11 @@
     <Phrase key="DeviceFilter">КП {0}</Phrase>
     <Phrase key="EmptyDeviceFilter">Пустой КП</Phrase>
   </Dictionary>
+  <Dictionary key="Scada.Admin.App.Controls.Tables.CtrlBitMask">
+    <Phrase key="lblMaskValue">Десятичное значение</Phrase>
+    <Phrase key="btnResetMask">Сбросить</Phrase>
+    <Phrase key="lblMaskBits">Побитно</Phrase>
+  </Dictionary>
   <Dictionary key="Scada.Admin.App.Forms">
     <Phrase key="CorrectErrors">Пожалуйста, исправьте следующие ошибки:</Phrase>
   </Dictionary>
@@ -256,11 +261,36 @@
   </Dictionary>
   <Dictionary key="Scada.Admin.App.Forms.Tables.FrmBitMask">
     <Phrase key="this">Битовая маска</Phrase>
-    <Phrase key="lblMaskValue">Десятичное значение</Phrase>
-    <Phrase key="btnResetMask">Сбросить</Phrase>
-    <Phrase key="lblMaskBits">Побитно</Phrase>
     <Phrase key="btnOK">OK</Phrase>
-    <Phrase key="btnCancel">Cancel</Phrase>
+    <Phrase key="btnCancel">Отмена</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Admin.App.Forms.Tables.FrmInCnl">
+    <Phrase key="this">Свойства входного канала</Phrase>
+    <Phrase key="pageGeneral">Основные</Phrase>
+    <Phrase key="chkActive">Активный</Phrase>
+    <Phrase key="lblCnlNum">Номер</Phrase>
+    <Phrase key="lblDataType">Тип данных</Phrase>
+    <Phrase key="lblDataLen">Длина данных</Phrase>
+    <Phrase key="lblCnlType">Тип канала</Phrase>
+    <Phrase key="lblObj">Объект</Phrase>
+    <Phrase key="lblDevice">КП</Phrase>
+    <Phrase key="lblTagNum">Номер тега</Phrase>
+    <Phrase key="lblTagCode">Код тега</Phrase>
+    <Phrase key="lblFormula">Формула</Phrase>
+    <Phrase key="lblFormat">Формат</Phrase>
+    <Phrase key="lblQuantity">Величина</Phrase>
+    <Phrase key="lblUnit">Размерность</Phrase>
+    <Phrase key="gbLim">Границы</Phrase>
+    <Phrase key="chkShared">Показывать только общие границы</Phrase>
+    <Phrase key="lblLoLo">Авар. низкая</Phrase>
+    <Phrase key="lblLow">Низкая</Phrase>
+    <Phrase key="lblHigh">Высокая</Phrase>
+    <Phrase key="lblHiHi">Авар. высокая</Phrase>
+    <Phrase key="lblDeadband">Зона нечувств.</Phrase>
+    <Phrase key="pageArchives">Архивы</Phrase>
+    <Phrase key="pageEvents">События</Phrase>
+    <Phrase key="btnOK">OK</Phrase>
+    <Phrase key="btnCancel">Отмена</Phrase>
   </Dictionary>
   <Dictionary key="Scada.Admin.App.Forms.Tables.FrmColorDialog">
     <Phrase key="this">Выбор цвета</Phrase>

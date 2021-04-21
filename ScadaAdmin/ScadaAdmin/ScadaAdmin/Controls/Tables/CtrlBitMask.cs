@@ -26,12 +26,6 @@
 using Scada.Admin.App.Code;
 using System;
 using System.Collections;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 
 namespace Scada.Admin.App.Controls.Tables
@@ -48,18 +42,21 @@ namespace Scada.Admin.App.Controls.Tables
         public CtrlBitMask()
         {
             InitializeComponent();
+
+            MaskValue = 0;
+            MaskBits = null;
         }
 
 
         /// <summary>
         /// Gets or sets the bit mask value.
         /// </summary>
-        public int MaskValue { get; private set; }
+        public int MaskValue { get; set; }
 
         /// <summary>
         /// Gets or sets the available mask bits.
         /// </summary>
-        public object MaskBits { get; private set; }
+        public object MaskBits { get; set; }
 
 
         /// <summary>
@@ -107,10 +104,8 @@ namespace Scada.Admin.App.Controls.Tables
         /// <summary>
         /// Shows the specified bit mask.
         /// </summary>
-        public void ShowMask(int maskValue, object maskBits)
+        public void ShowMask()
         {
-            MaskValue = maskValue;
-            MaskBits = maskBits;
             ShowMaskValue();
             ShowBits();
         }

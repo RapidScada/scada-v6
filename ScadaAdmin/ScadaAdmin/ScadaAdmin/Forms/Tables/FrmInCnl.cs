@@ -24,6 +24,7 @@
  */
 
 using Scada.Admin.App.Code;
+using Scada.Admin.App.Controls.Tables;
 using Scada.Admin.Project;
 using Scada.Forms;
 using Scada.Lang;
@@ -67,6 +68,22 @@ namespace Scada.Admin.App.Forms.Tables
 
 
         /// <summary>
+        /// Sets the bit mask value according to the cell value.
+        /// </summary>
+        public static void SetValue(CtrlBitMask ctrlBitMask, DataGridViewCell cell)
+        {
+            if (cell == null)
+                throw new ArgumentNullException(nameof(cell));
+
+            ctrlBitMask.MaskValue = cell.Value is int intVal ? intVal : 0;
+
+            if (cell.OwningColumn.Tag is ColumnOptions columnOptions)
+                ctrlBitMask.MaskBits = columnOptions.DataSource;
+
+            ctrlBitMask.ShowMask();
+        }
+
+        /// <summary>
         /// Shows the properties of the current item.
         /// </summary>
         private void ShowItemProps()
@@ -94,6 +111,8 @@ namespace Scada.Admin.App.Forms.Tables
                 cbQuantity.SetValue(cells["QuantityID"]);
                 cbUnit.SetValue(cells["UnitID"]);
                 cbLim.SetValue(cells["LimID"]);
+                SetValue(bmArchive, cells["ArchiveMask"]);
+                SetValue(bmEvent, cells["EventMask"]);
             }
         }
         
@@ -148,6 +167,8 @@ namespace Scada.Admin.App.Forms.Tables
                 cells["QuantityID"].Value = cbQuantity.SelectedValue ?? DBNull.Value;
                 cells["UnitID"].Value = cbUnit.SelectedValue ?? DBNull.Value;
                 cells["LimID"].Value = cbLim.SelectedValue ?? DBNull.Value;
+                cells["ArchiveMask"].Value = bmArchive.MaskValue > 0 ? bmArchive.MaskValue : DBNull.Value;
+                cells["EventMask"].Value = bmEvent.MaskValue > 0 ? bmEvent.MaskValue : DBNull.Value;
                 return true;
             }
         }
@@ -156,6 +177,9 @@ namespace Scada.Admin.App.Forms.Tables
         private void FrmInCnl_Load(object sender, EventArgs e)
         {
             FormTranslator.Translate(this, GetType().FullName);
+            FormTranslator.Translate(bmArchive, bmArchive.GetType().FullName);
+            FormTranslator.Translate(bmEvent, bmEvent.GetType().FullName);
+
             ShowItemProps();
         }
 
@@ -178,13 +202,30 @@ namespace Scada.Admin.App.Forms.Tables
 
         private void cbLim_SelectedIndexChanged(object sender, EventArgs e)
         {
+            // show details of the selected limit
             if (cbLim.SelectedItem is DataRowView rowView && 
                 rowView["LimID"] is int limID && limID > 0)
             {
-                txtLoLo.Text = Convert.ToString(rowView["LoLo"]);
-                txtLow.Text = Convert.ToString(rowView["Low"]);
-                txtHigh.Text = Convert.ToString(rowView["High"]);
-                txtHiHi.Text = Convert.ToString(rowView["HiHi"]);
+                bool isBoundToCnl = (bool)rowView["IsBoundToCnl"];
+
+                string LimToStr(string columnName)
+                {
+                    if (isBoundToCnl)
+                    {
+                        return rowView[columnName] is double doubleVal && doubleVal > 0
+                            ? "#" + (int)doubleVal
+                            : "";
+                    }
+                    else
+                    {
+                        return Convert.ToString(rowView[columnName]);
+                    }
+                }
+
+                txtLoLo.Text = LimToStr("LoLo");
+                txtLow.Text = LimToStr("Low");
+                txtHigh.Text = LimToStr("High");
+                txtHiHi.Text = LimToStr("HiHi");
                 txtDeadband.Text = Convert.ToString(rowView["Deadband"]);
             }
             else

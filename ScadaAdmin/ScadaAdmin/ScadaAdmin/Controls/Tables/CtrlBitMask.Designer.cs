@@ -38,6 +38,7 @@ namespace Scada.Admin.App.Controls.Tables
             // 
             // btnResetMask
             // 
+            this.btnResetMask.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.btnResetMask.Location = new System.Drawing.Point(285, 18);
             this.btnResetMask.Name = "btnResetMask";
             this.btnResetMask.Size = new System.Drawing.Size(75, 23);
@@ -48,6 +49,9 @@ namespace Scada.Admin.App.Controls.Tables
             // 
             // lbMaskBits
             // 
+            this.lbMaskBits.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.lbMaskBits.CheckOnClick = true;
             this.lbMaskBits.FormattingEnabled = true;
             this.lbMaskBits.IntegralHeight = false;
@@ -68,6 +72,8 @@ namespace Scada.Admin.App.Controls.Tables
             // 
             // txtMaskValue
             // 
+            this.txtMaskValue.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.txtMaskValue.Location = new System.Drawing.Point(0, 18);
             this.txtMaskValue.Name = "txtMaskValue";
             this.txtMaskValue.ReadOnly = true;
@@ -92,6 +98,7 @@ namespace Scada.Admin.App.Controls.Tables
             this.Controls.Add(this.lblMaskBits);
             this.Controls.Add(this.txtMaskValue);
             this.Controls.Add(this.lblMaskValue);
+            this.Margin = new System.Windows.Forms.Padding(3, 0, 3, 3);
             this.Name = "CtrlBitMask";
             this.Size = new System.Drawing.Size(360, 411);
             this.ResumeLayout(false);

@@ -96,7 +96,7 @@ namespace Scada.Admin.App.Code
         }
 
         /// <summary>
-        /// Sets the combp box value according to the cell value.
+        /// Sets the combo box value according to the cell value.
         /// </summary>
         public static void SetValue(this ComboBox comboBox, DataGridViewCell cell)
         {

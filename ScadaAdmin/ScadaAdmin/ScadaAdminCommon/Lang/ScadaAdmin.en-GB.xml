@@ -216,6 +216,11 @@
     <Phrase key="DeviceFilter">Device {0}</Phrase>
     <Phrase key="EmptyDeviceFilter">Empty device</Phrase>
   </Dictionary>
+  <Dictionary key="Scada.Admin.App.Controls.Tables.CtrlBitMask">
+    <Phrase key="lblMaskValue">Decimal value</Phrase>
+    <Phrase key="btnResetMask">Reset</Phrase>
+    <Phrase key="lblMaskBits">Bits</Phrase>
+  </Dictionary>
   <Dictionary key="Scada.Admin.App.Forms">
     <Phrase key="CorrectErrors">Please correct the following errors:</Phrase>
   </Dictionary>
@@ -256,9 +261,34 @@
   </Dictionary>
   <Dictionary key="Scada.Admin.App.Forms.Tables.FrmBitMask">
     <Phrase key="this">Bit Mask</Phrase>
-    <Phrase key="lblMaskValue">Decimal value</Phrase>
-    <Phrase key="btnResetMask">Reset</Phrase>
-    <Phrase key="lblMaskBits">Bits</Phrase>
+    <Phrase key="btnOK">OK</Phrase>
+    <Phrase key="btnCancel">Cancel</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Admin.App.Forms.Tables.FrmInCnl">
+    <Phrase key="this">Input Channel Properties</Phrase>
+    <Phrase key="pageGeneral">General</Phrase>
+    <Phrase key="chkActive">Active</Phrase>
+    <Phrase key="lblCnlNum">Number</Phrase>
+    <Phrase key="lblDataType">Data type</Phrase>
+    <Phrase key="lblDataLen">Data length</Phrase>
+    <Phrase key="lblCnlType">Channel type</Phrase>
+    <Phrase key="lblObj">Object</Phrase>
+    <Phrase key="lblDevice">Device</Phrase>
+    <Phrase key="lblTagNum">Tag number</Phrase>
+    <Phrase key="lblTagCode">Tag code</Phrase>
+    <Phrase key="lblFormula">Formula</Phrase>
+    <Phrase key="lblFormat">Format</Phrase>
+    <Phrase key="lblQuantity">Quantity</Phrase>
+    <Phrase key="lblUnit">Unit</Phrase>
+    <Phrase key="gbLim">Limits</Phrase>
+    <Phrase key="chkShared">Show only shared limits</Phrase>
+    <Phrase key="lblLoLo">Extremely low</Phrase>
+    <Phrase key="lblLow">Low</Phrase>
+    <Phrase key="lblHigh">High</Phrase>
+    <Phrase key="lblHiHi">Extremely high</Phrase>
+    <Phrase key="lblDeadband">Deadband</Phrase>
+    <Phrase key="pageArchives">Archives</Phrase>
+    <Phrase key="pageEvents">Events</Phrase>
     <Phrase key="btnOK">OK</Phrase>
     <Phrase key="btnCancel">Cancel</Phrase>
   </Dictionary>

@@ -75,13 +75,17 @@ namespace Scada.Admin.App.Forms.Tables
             this.lblCnlNum = new System.Windows.Forms.Label();
             this.chkActive = new System.Windows.Forms.CheckBox();
             this.pageArchives = new System.Windows.Forms.TabPage();
+            this.bmArchive = new Scada.Admin.App.Controls.Tables.CtrlBitMask();
             this.pageEvents = new System.Windows.Forms.TabPage();
             this.pnlBottom = new System.Windows.Forms.Panel();
             this.btnCancel = new System.Windows.Forms.Button();
             this.btnOK = new System.Windows.Forms.Button();
+            this.bmEvent = new Scada.Admin.App.Controls.Tables.CtrlBitMask();
             this.tabControl.SuspendLayout();
             this.pageGeneral.SuspendLayout();
             this.gbLim.SuspendLayout();
+            this.pageArchives.SuspendLayout();
+            this.pageEvents.SuspendLayout();
             this.pnlBottom.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -527,6 +531,7 @@ namespace Scada.Admin.App.Forms.Tables
             // 
             // pageArchives
             // 
+            this.pageArchives.Controls.Add(this.bmArchive);
             this.pageArchives.Location = new System.Drawing.Point(4, 24);
             this.pageArchives.Name = "pageArchives";
             this.pageArchives.Padding = new System.Windows.Forms.Padding(3);
@@ -535,8 +540,19 @@ namespace Scada.Admin.App.Forms.Tables
             this.pageArchives.Text = "Archives";
             this.pageArchives.UseVisualStyleBackColor = true;
             // 
+            // bmArchive
+            // 
+            this.bmArchive.Location = new System.Drawing.Point(8, 6);
+            this.bmArchive.Margin = new System.Windows.Forms.Padding(3, 0, 3, 3);
+            this.bmArchive.MaskBits = null;
+            this.bmArchive.MaskValue = 0;
+            this.bmArchive.Name = "bmArchive";
+            this.bmArchive.Size = new System.Drawing.Size(460, 506);
+            this.bmArchive.TabIndex = 0;
+            // 
             // pageEvents
             // 
+            this.pageEvents.Controls.Add(this.bmEvent);
             this.pageEvents.Location = new System.Drawing.Point(4, 24);
             this.pageEvents.Name = "pageEvents";
             this.pageEvents.Padding = new System.Windows.Forms.Padding(3);
@@ -576,6 +592,16 @@ namespace Scada.Admin.App.Forms.Tables
             this.btnOK.UseVisualStyleBackColor = true;
             this.btnOK.Click += new System.EventHandler(this.btnOK_Click);
             // 
+            // bmEvent
+            // 
+            this.bmEvent.Location = new System.Drawing.Point(8, 6);
+            this.bmEvent.Margin = new System.Windows.Forms.Padding(3, 0, 3, 3);
+            this.bmEvent.MaskBits = null;
+            this.bmEvent.MaskValue = 0;
+            this.bmEvent.Name = "bmEvent";
+            this.bmEvent.Size = new System.Drawing.Size(460, 506);
+            this.bmEvent.TabIndex = 0;
+            // 
             // FrmInCnl
             // 
             this.AcceptButton = this.btnOK;
@@ -599,6 +625,8 @@ namespace Scada.Admin.App.Forms.Tables
             this.pageGeneral.PerformLayout();
             this.gbLim.ResumeLayout(false);
             this.gbLim.PerformLayout();
+            this.pageArchives.ResumeLayout(false);
+            this.pageEvents.ResumeLayout(false);
             this.pnlBottom.ResumeLayout(false);
             this.ResumeLayout(false);
 
@@ -656,5 +684,7 @@ namespace Scada.Admin.App.Forms.Tables
         private System.Windows.Forms.Label lblLoLo;
         private System.Windows.Forms.TextBox txtDeadband;
         private System.Windows.Forms.Label lblDeadband;
+        private Controls.Tables.CtrlBitMask bmArchive;
+        private Controls.Tables.CtrlBitMask bmEvent;
     }
 }
