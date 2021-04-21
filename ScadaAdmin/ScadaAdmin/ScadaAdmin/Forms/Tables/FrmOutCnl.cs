@@ -1,5 +1,5 @@
 ﻿/*
- * Copyright 2019 Mikhail Shiryaev
+ * Copyright 2021 Rapid Software LLC
  * 
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -16,15 +16,17 @@
  * 
  * Product  : Rapid SCADA
  * Module   : Administrator
- * Summary  : Output channel properties form
+ * Summary  : Represents a form for editing output channel properties
  * 
  * Author   : Mikhail Shiryaev
  * Created  : 2019
- * Modified : 2019
+ * Modified : 2021
  */
 
 using Scada.Admin.App.Code;
-using Scada.UI;
+using Scada.Admin.Project;
+using Scada.Forms;
+using Scada.Lang;
 using System;
 using System.Text;
 using System.Windows.Forms;
@@ -32,8 +34,8 @@ using System.Windows.Forms;
 namespace Scada.Admin.App.Forms.Tables
 {
     /// <summary>
-    /// Output channel properties form.
-    /// <para>Форма свойств канала управления.</para>
+    /// Represents a form for editing output channel properties.
+    /// <para>Представляет форму для редактирования свойств канала управления.</para>
     /// </summary>
     public partial class FrmOutCnl : Form
     {
@@ -54,7 +56,7 @@ namespace Scada.Admin.App.Forms.Tables
         public FrmOutCnl(DataGridView dataGridView)
             : this()
         {
-            this.dataGridView = dataGridView ?? throw new ArgumentNullException("dataGridView");
+            this.dataGridView = dataGridView ?? throw new ArgumentNullException(nameof(dataGridView));
         }
 
 
@@ -71,16 +73,17 @@ namespace Scada.Admin.App.Forms.Tables
             {
                 DataGridViewCellCollection cells = dataGridView.CurrentRow.Cells;
                 chkActive.SetChecked(cells["Active"]);
-                txtCtrlCnlNum.SetText(cells["CtrlCnlNum"]);
+                txtOutCnlNum.SetText(cells["OutCnlNum"]);
                 txtName.SetText(cells["Name"]);
                 cbCmdType.SetValue(cells["CmdTypeID"]);
                 cbObj.SetValue(cells["ObjNum"]);
-                cbKP.SetValue(cells["KPNum"]);
+                cbDevice.SetValue(cells["DeviceNum"]);
                 txtCmdNum.SetText(cells["CmdNum"]);
-                cbCmdVal.SetValue(cells["CmdValID"]);
-                chkFormulaUsed.SetChecked(cells["FormulaUsed"]);
+                txtCmdCode.SetText(cells["CmdCode"]);
+                chkFormulaEnabled.SetChecked(cells["FormulaEnabled"]);
                 txtFormula.SetText(cells["Formula"]);
-                chkEvEnabled.SetChecked(cells["EvEnabled"]);
+                cbFormat.SetValue(cells["FormatID"]);
+                chkEventEnabled.SetChecked(cells["EventEnabled"]);
             }
         }
 
@@ -90,10 +93,13 @@ namespace Scada.Admin.App.Forms.Tables
         private bool ApplyChanges()
         {
             // validate changes
-            StringBuilder sbError = new StringBuilder();
+            StringBuilder sbError = new();
 
-            if (!(int.TryParse(txtCtrlCnlNum.Text, out int cnlNum) && 1 <= cnlNum && cnlNum <= AdminUtils.MaxCnlNum))
-                sbError.AppendError(lblCtrlCnlNum, string.Format(CommonPhrases.IntegerRangingRequired, 1, AdminUtils.MaxCnlNum));
+            if (!(int.TryParse(txtOutCnlNum.Text, out int outCnlNum) &&
+                ConfigBase.MinID <= outCnlNum && outCnlNum <= ConfigBase.MaxID))
+            {
+                sbError.AppendError(lblOutCnlNum, CommonPhrases.IntegerInRangeRequired, ConfigBase.MinID, ConfigBase.MaxID);
+            }
 
             if (cbCmdType.SelectedValue == null)
                 sbError.AppendError(lblCmdType, CommonPhrases.NonemptyRequired);
@@ -104,38 +110,38 @@ namespace Scada.Admin.App.Forms.Tables
 
             if (sbError.Length > 0)
             {
-                sbError.Insert(0, AppPhrases.CorrectErrors + Environment.NewLine);
-                ScadaUiUtils.ShowError(sbError.ToString());
+                ScadaUiUtils.ShowError(AppPhrases.CorrectErrors + Environment.NewLine + sbError);
+                return false;
             }
-            else if (dataGridView.CurrentRow != null)
+            else if (dataGridView.CurrentRow == null)
+            {
+                return false;
+            }
+            else
             {
                 // apply changes
                 DataGridViewCellCollection cells = dataGridView.CurrentRow.Cells;
                 cells["Active"].Value = chkActive.Checked;
-                cells["CtrlCnlNum"].Value = cnlNum;
+                cells["OutCnlNum"].Value = outCnlNum;
                 cells["Name"].Value = txtName.Text;
                 cells["CmdTypeID"].Value = cbCmdType.SelectedValue ?? DBNull.Value;
                 cells["ObjNum"].Value = cbObj.SelectedValue ?? DBNull.Value;
-                cells["KPNum"].Value = cbKP.SelectedValue ?? DBNull.Value;
-                cells["CmdNum"].Value = cmdNum > 0 ? (object)cmdNum : DBNull.Value;
-                cells["CmdValID"].Value = cbCmdVal.SelectedValue ?? DBNull.Value;
-                cells["FormulaUsed"].Value = chkFormulaUsed.Checked;
+                cells["DeviceNum"].Value = cbDevice.SelectedValue ?? DBNull.Value;
+                cells["CmdNum"].Value = cmdNum > 0 ? cmdNum : DBNull.Value;
+                cells["CmdCode"].Value = txtCmdCode.Text;
+                cells["FormulaEnabled"].Value = chkFormulaEnabled.Checked;
                 cells["Formula"].Value = txtFormula.Text;
-                cells["EvEnabled"].Value = chkEvEnabled.Checked;
+                cells["FormatID"].Value = cbFormat.SelectedValue ?? DBNull.Value;
+                cells["EventEnabled"].Value = chkEventEnabled.Checked;
                 return true;
             }
-
-            return false;
         }
 
 
         private void FrmInCnlProps_Load(object sender, EventArgs e)
         {
-            Translator.TranslateForm(this, GetType().FullName);
+            FormTranslator.Translate(this, GetType().FullName);
             ShowItemProps();
-
-            if (ScadaUtils.IsRunningOnMono)
-                btnOK.Enabled = false; // because the combo boxes are not filled
         }
 
         private void cbObj_SelectedIndexChanged(object sender, EventArgs e)
@@ -143,9 +149,9 @@ namespace Scada.Admin.App.Forms.Tables
             txtObjNum.Text = cbObj.SelectedValue is int intVal ? intVal.ToString() : "";
         }
 
-        private void cbKP_SelectedIndexChanged(object sender, EventArgs e)
+        private void cbDevice_SelectedIndexChanged(object sender, EventArgs e)
         {
-            txtKPNum.Text = cbKP.SelectedValue is int intVal ? intVal.ToString() : "";
+            txtDeviceNum.Text = cbDevice.SelectedValue is int intVal ? intVal.ToString() : "";
         }
 
         private void btnOK_Click(object sender, EventArgs e)

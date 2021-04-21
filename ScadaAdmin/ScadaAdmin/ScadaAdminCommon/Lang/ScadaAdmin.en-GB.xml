@@ -292,6 +292,22 @@
     <Phrase key="btnOK">OK</Phrase>
     <Phrase key="btnCancel">Cancel</Phrase>
   </Dictionary>
+  <Dictionary key="Scada.Admin.App.Forms.Tables.FrmOutCnl">
+    <Phrase key="this">Output Channel Properties</Phrase>
+    <Phrase key="chkActive">Active</Phrase>
+    <Phrase key="lblOutCnlNum">Number</Phrase>
+    <Phrase key="lblName">Name</Phrase>
+    <Phrase key="lblCmdType">Command type</Phrase>
+    <Phrase key="lblObj">Object</Phrase>
+    <Phrase key="lblDevice">Device</Phrase>
+    <Phrase key="lblCmdNum">Command number</Phrase>
+    <Phrase key="lblCmdCode">Command code</Phrase>
+    <Phrase key="lblFormula">Formula</Phrase>
+    <Phrase key="lblFormat">Format</Phrase>
+    <Phrase key="chkEventEnabled">Event enabled</Phrase>
+    <Phrase key="btnOK">OK</Phrase>
+    <Phrase key="btnCancel">Cancel</Phrase>
+  </Dictionary>
   <Dictionary key="Scada.Admin.App.Forms.Tables.FrmColorDialog">
     <Phrase key="this">Select Color</Phrase>
     <Phrase key="lblSort">Sort:</Phrase>

@@ -45,10 +45,6 @@ namespace Scada.Admin
         /// The default directory of the projects.
         /// </summary>
         public const string ProjectDir = @"C:\SCADA\Projects\";
-        /// <summary>
-        /// The maximum channel number for input and output channels.
-        /// </summary>
-        public const int MaxCnlNum = ushort.MaxValue;
 
         /// <summary>
         /// Validates the name of a project item.

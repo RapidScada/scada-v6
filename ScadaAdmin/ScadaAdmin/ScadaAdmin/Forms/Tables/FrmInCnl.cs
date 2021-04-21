@@ -124,8 +124,11 @@ namespace Scada.Admin.App.Forms.Tables
             // validate changes
             StringBuilder sbError = new();
 
-            if (!(int.TryParse(txtCnlNum.Text, out int cnlNum) && ConfigBase.MinID <= cnlNum && cnlNum <= ConfigBase.MaxID))
-                sbError.AppendError(lblCnlNum, CommonPhrases.IntegerInRangeRequired, 1, AdminUtils.MaxCnlNum);
+            if (!(int.TryParse(txtCnlNum.Text, out int cnlNum) &&
+                ConfigBase.MinID <= cnlNum && cnlNum <= ConfigBase.MaxID))
+            {
+                sbError.AppendError(lblCnlNum, CommonPhrases.IntegerInRangeRequired, ConfigBase.MinID, ConfigBase.MaxID);
+            }
 
             int dataLen = -1;
             if (txtDataLen.Text != "" && !int.TryParse(txtDataLen.Text, out dataLen))

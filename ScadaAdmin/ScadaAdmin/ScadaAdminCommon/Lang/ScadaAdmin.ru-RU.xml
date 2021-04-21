@@ -292,6 +292,22 @@
     <Phrase key="btnOK">OK</Phrase>
     <Phrase key="btnCancel">Отмена</Phrase>
   </Dictionary>
+  <Dictionary key="Scada.Admin.App.Forms.Tables.FrmOutCnl">
+    <Phrase key="this">Свойства канала управления</Phrase>
+    <Phrase key="chkActive">Активный</Phrase>
+    <Phrase key="lblOutCnlNum">Номер</Phrase>
+    <Phrase key="lblName">Наименование</Phrase>
+    <Phrase key="lblCmdType">Тип команды</Phrase>
+    <Phrase key="lblObj">Объект</Phrase>
+    <Phrase key="lblDevice">КП</Phrase>
+    <Phrase key="lblCmdNum">Номер команды</Phrase>
+    <Phrase key="lblCmdCode">Код команды</Phrase>
+    <Phrase key="lblFormula">Формула</Phrase>
+    <Phrase key="lblFormat">Формат</Phrase>
+    <Phrase key="chkEventEnabled">Запись событий</Phrase>
+    <Phrase key="btnOK">OK</Phrase>
+    <Phrase key="btnCancel">Отмена</Phrase>
+  </Dictionary>
   <Dictionary key="Scada.Admin.App.Forms.Tables.FrmColorDialog">
     <Phrase key="this">Выбор цвета</Phrase>
     <Phrase key="lblSort">Сортировка:</Phrase>
