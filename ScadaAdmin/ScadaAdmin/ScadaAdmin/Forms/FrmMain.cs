@@ -354,7 +354,7 @@ namespace Scada.Admin.App.Forms
                         File.Exists(exePath))
                     {
                         // run external editor
-                        Process.Start(exePath, string.Format("\"{0}\"", fileItem.Path));
+                        AppUtils.StartProcess(exePath, string.Format("\"{0}\"", fileItem.Path));
                     }
                     else
                     {
@@ -1653,15 +1653,13 @@ namespace Scada.Admin.App.Forms
         private void miHelpDoc_Click(object sender, EventArgs e)
         {
             // open the documentation
-            string url = Locale.IsRussian ? DocRuUrl : DocEnUrl;
-            Process.Start(new ProcessStartInfo(url) { UseShellExecute = true });
+            AppUtils.StartProcess(Locale.IsRussian ? DocRuUrl : DocEnUrl);
         }
 
         private void miHelpSupport_Click(object sender, EventArgs e)
         {
             // open the support forum
-            string url = Locale.IsRussian ? SupportRuUrl : SupportEnUrl;
-            Process.Start(new ProcessStartInfo(url) { UseShellExecute = true });
+            AppUtils.StartProcess(Locale.IsRussian ? SupportRuUrl : SupportEnUrl);
         }
 
         private void miHelpAbout_Click(object sender, EventArgs e)
@@ -1916,7 +1914,7 @@ namespace Scada.Admin.App.Forms
             if (TryGetFilePath(tvExplorer.SelectedNode, out string path))
             {
                 if (Directory.Exists(path))
-                    Process.Start(path);
+                    AppUtils.StartProcess(path);
                 else
                     ScadaUiUtils.ShowError(CommonPhrases.DirectoryNotExists);
             }
@@ -1960,16 +1958,9 @@ namespace Scada.Admin.App.Forms
             if (TryGetFilePath(tvExplorer.SelectedNode, out string path))
             {
                 if (File.Exists(path))
-                {
-                    if (ScadaUtils.IsRunningOnWin)
-                        Process.Start("explorer.exe", "/select, \"" + path + "\"");
-                    else
-                        Process.Start(Path.GetDirectoryName(path));
-                }
+                    AppUtils.StartProcess("explorer.exe", "/select, \"" + path + "\"");
                 else
-                {
                     ScadaUiUtils.ShowError(CommonPhrases.FileNotFound);
-                }
             }
         }
 
@@ -2166,7 +2157,7 @@ namespace Scada.Admin.App.Forms
                 /*DeploymentProfile profile = GetDeploymentProfile(liveInstance.ProjectInstance.DeploymentProfile);
 
                 if (profile != null && ScadaUtils.IsValidUrl(profile.WebUrl))
-                    Process.Start(profile.WebUrl);
+                    AppUtils.StartProcess(profile.WebUrl);
                 else
                     ScadaUiUtils.ShowWarning(AppPhrases.WebUrlNotSet);*/
             }

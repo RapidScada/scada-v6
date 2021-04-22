@@ -28,6 +28,7 @@ using Scada.Data.Models;
 using Scada.Data.Tables;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Text;
 using System.Windows.Forms;
 
@@ -122,6 +123,14 @@ namespace Scada.Admin.App.Code
                 throw new ArgumentNullException(nameof(label));
 
             stringBuilder.Append(label.Text).Append(": ").AppendLine(ScadaUtils.FormatText(text, args));
+        }
+
+        /// <summary>
+        /// Starts a new process.
+        /// </summary>
+        public static void StartProcess(string fileName, string arguments = "")
+        {
+            Process.Start(new ProcessStartInfo(fileName, arguments) { UseShellExecute = true });
         }
     }
 }
