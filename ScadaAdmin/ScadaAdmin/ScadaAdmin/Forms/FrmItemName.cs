@@ -1,5 +1,5 @@
 ﻿/*
- * Copyright 2018 Mikhail Shiryaev
+ * Copyright 2021 Rapid Software LLC
  * 
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -16,15 +16,15 @@
  * 
  * Product  : Rapid SCADA
  * Module   : Administrator
- * Summary  : Form for entering a name of a project item
+ * Summary  : Represents a form for entering a name of a project item
  * 
  * Author   : Mikhail Shiryaev
  * Created  : 2018
- * Modified : 2018
+ * Modified : 2021
  */
 
 using Scada.Admin.App.Code;
-using Scada.UI;
+using Scada.Forms;
 using System;
 using System.Collections.Generic;
 using System.Windows.Forms;
@@ -32,8 +32,8 @@ using System.Windows.Forms;
 namespace Scada.Admin.App.Forms
 {
     /// <summary>
-    /// Form for entering a name of a project item.
-    /// <para>Форма ввода наименования элемента проекта.</para>
+    /// Represents a form for entering a name of a project item.
+    /// <para>Представляет форму для ввода наименования элемента проекта.</para>
     /// </summary>
     public partial class FrmItemName : Form
     {
@@ -107,7 +107,7 @@ namespace Scada.Admin.App.Forms
 
         private void FrmInstanceName_Load(object sender, EventArgs e)
         {
-            Translator.TranslateForm(this, GetType().FullName);
+            FormTranslator.Translate(this, GetType().FullName);
             Modified = false;
         }
 

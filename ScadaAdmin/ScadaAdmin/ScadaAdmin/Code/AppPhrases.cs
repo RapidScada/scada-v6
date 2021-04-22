@@ -93,6 +93,11 @@ namespace Scada.Admin.App.Code
         public static string CultureRequired { get; private set; }
         public static string CultureNotFound { get; private set; }
 
+        // Scada.Admin.App.Forms.FrmItemName
+        public static string ItemNameEmpty { get; private set; }
+        public static string ItemNameInvalid { get; private set; }
+        public static string ItemNameDuplicated { get; private set; }
+
         // Scada.Admin.App.Forms.FrmMain
         public static string EmptyTitle { get; private set; }
         public static string ProjectTitle { get; private set; }
@@ -182,6 +187,11 @@ namespace Scada.Admin.App.Code
             LoadCulturesError = dict.GetPhrase("LoadCulturesError");
             CultureRequired = dict.GetPhrase("CultureRequired");
             CultureNotFound = dict.GetPhrase("CultureNotFound");
+
+            dict = Locale.GetDictionary("Scada.Admin.App.Forms.FrmItemName");
+            ItemNameEmpty = dict.GetPhrase("ItemNameEmpty");
+            ItemNameInvalid = dict.GetPhrase("ItemNameInvalid");
+            ItemNameDuplicated = dict.GetPhrase("ItemNameDuplicated");
 
             dict = Locale.GetDictionary("Scada.Admin.App.Forms.FrmMain");
             EmptyTitle = dict.GetPhrase("EmptyTitle");
