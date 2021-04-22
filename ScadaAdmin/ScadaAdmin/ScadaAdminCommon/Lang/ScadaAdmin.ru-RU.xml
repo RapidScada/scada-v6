@@ -272,6 +272,20 @@
     <Phrase key="btnOK">OK</Phrase>
     <Phrase key="btnCancel">Отмена</Phrase>
   </Dictionary>
+  <Dictionary key="Scada.Admin.App.Forms.Tables.FrmFilter">
+    <Phrase key="this">Фильтр</Phrase>
+    <Phrase key="lblColumn">Столбец</Phrase>
+    <Phrase key="lblOperation">Операция</Phrase>
+    <Phrase key="cbStringOperation.Items[0]">Равен</Phrase>
+    <Phrase key="cbStringOperation.Items[1]">Содержит</Phrase>
+    <Phrase key="lblValue">Значение</Phrase>
+    <Phrase key="cbBoolean.Items[0]">Нет</Phrase>
+    <Phrase key="cbBoolean.Items[1]">Да</Phrase>
+    <Phrase key="btnClearFilter">Очистить</Phrase>
+    <Phrase key="btnOK">OK</Phrase>
+    <Phrase key="btnCancel">Отмена</Phrase>
+    <Phrase key="IncorrectTableFilter">Некорректный фильтр таблицы.</Phrase>
+  </Dictionary>
   <Dictionary key="Scada.Admin.App.Forms.Tables.FrmFind">
     <Phrase key="this">Найти и заменить</Phrase>
     <Phrase key="lblColumn">Столбец</Phrase>

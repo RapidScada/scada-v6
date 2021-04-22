@@ -9,6 +9,14 @@ namespace Scada
     partial class ScadaUtils
     {
         /// <summary>
+        /// The number format that uses a dot as the decimal separator.
+        /// </summary>
+        private static readonly NumberFormatInfo DotNfi = new NumberFormatInfo();
+        /// <summary>
+        /// The number format that uses a comma as the decimal separator.
+        /// </summary>
+        private static readonly NumberFormatInfo CommaNfi = new NumberFormatInfo { NumberDecimalSeparator = "," };
+        /// <summary>
         /// The service status names in English.
         /// </summary>
         private static readonly string[] ServiceStatusNamesEn = 
@@ -49,6 +57,24 @@ namespace Scada
             return sb.ToString();
         }
 
+
+        /// <summary>
+        /// Converts the string to a floating-point number.
+        /// </summary>
+        /// <remarks>The method allows either a period or a comma as a decimal separator.</remarks>
+        public static double ParseDouble(string s)
+        {
+            return double.Parse(s, s.Contains(".") ? DotNfi : CommaNfi);
+        }
+
+        /// <summary>
+        /// Converts the string to a floating-point number.
+        /// </summary>
+        /// <remarks>The method allows either a period or a comma as a decimal separator.</remarks>
+        public static bool TryParseDouble(string s, out double result)
+        {
+            return double.TryParse(s, NumberStyles.Float, s.Contains(".") ? DotNfi : CommaNfi, out result);
+        }
 
         /// <summary>
         /// Converts the array of bytes to a hexadecimal string.

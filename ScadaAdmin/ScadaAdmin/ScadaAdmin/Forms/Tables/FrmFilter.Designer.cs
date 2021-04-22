@@ -44,7 +44,7 @@
             // 
             // btnClearFilter
             // 
-            this.btnClearFilter.Location = new System.Drawing.Point(12, 102);
+            this.btnClearFilter.Location = new System.Drawing.Point(12, 110);
             this.btnClearFilter.Name = "btnClearFilter";
             this.btnClearFilter.Size = new System.Drawing.Size(75, 23);
             this.btnClearFilter.TabIndex = 9;
@@ -54,7 +54,7 @@
             // 
             // btnOK
             // 
-            this.btnOK.Location = new System.Drawing.Point(176, 102);
+            this.btnOK.Location = new System.Drawing.Point(216, 110);
             this.btnOK.Name = "btnOK";
             this.btnOK.Size = new System.Drawing.Size(75, 23);
             this.btnOK.TabIndex = 10;
@@ -65,7 +65,7 @@
             // btnCancel
             // 
             this.btnCancel.DialogResult = System.Windows.Forms.DialogResult.Cancel;
-            this.btnCancel.Location = new System.Drawing.Point(257, 102);
+            this.btnCancel.Location = new System.Drawing.Point(297, 110);
             this.btnCancel.Name = "btnCancel";
             this.btnCancel.Size = new System.Drawing.Size(75, 23);
             this.btnCancel.TabIndex = 11;
@@ -77,7 +77,7 @@
             this.lblColumn.AutoSize = true;
             this.lblColumn.Location = new System.Drawing.Point(9, 9);
             this.lblColumn.Name = "lblColumn";
-            this.lblColumn.Size = new System.Drawing.Size(42, 13);
+            this.lblColumn.Size = new System.Drawing.Size(50, 15);
             this.lblColumn.TabIndex = 0;
             this.lblColumn.Text = "Column";
             // 
@@ -85,18 +85,18 @@
             // 
             this.cbColumn.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.cbColumn.FormattingEnabled = true;
-            this.cbColumn.Location = new System.Drawing.Point(12, 25);
+            this.cbColumn.Location = new System.Drawing.Point(12, 27);
             this.cbColumn.Name = "cbColumn";
-            this.cbColumn.Size = new System.Drawing.Size(320, 21);
+            this.cbColumn.Size = new System.Drawing.Size(360, 23);
             this.cbColumn.TabIndex = 1;
             this.cbColumn.SelectedIndexChanged += new System.EventHandler(this.cbColumn_SelectedIndexChanged);
             // 
             // lblOperation
             // 
             this.lblOperation.AutoSize = true;
-            this.lblOperation.Location = new System.Drawing.Point(9, 49);
+            this.lblOperation.Location = new System.Drawing.Point(9, 53);
             this.lblOperation.Name = "lblOperation";
-            this.lblOperation.Size = new System.Drawing.Size(53, 13);
+            this.lblOperation.Size = new System.Drawing.Size(60, 15);
             this.lblOperation.TabIndex = 2;
             this.lblOperation.Text = "Operation";
             // 
@@ -107,25 +107,25 @@
             this.cbStringOperation.Items.AddRange(new object[] {
             "Equals",
             "Contains"});
-            this.cbStringOperation.Location = new System.Drawing.Point(12, 65);
+            this.cbStringOperation.Location = new System.Drawing.Point(12, 71);
             this.cbStringOperation.Name = "cbStringOperation";
-            this.cbStringOperation.Size = new System.Drawing.Size(114, 21);
+            this.cbStringOperation.Size = new System.Drawing.Size(114, 23);
             this.cbStringOperation.TabIndex = 3;
             // 
             // lblValue
             // 
             this.lblValue.AutoSize = true;
-            this.lblValue.Location = new System.Drawing.Point(129, 49);
+            this.lblValue.Location = new System.Drawing.Point(132, 53);
             this.lblValue.Name = "lblValue";
-            this.lblValue.Size = new System.Drawing.Size(34, 13);
+            this.lblValue.Size = new System.Drawing.Size(35, 15);
             this.lblValue.TabIndex = 5;
             this.lblValue.Text = "Value";
             // 
             // txtValue
             // 
-            this.txtValue.Location = new System.Drawing.Point(132, 65);
+            this.txtValue.Location = new System.Drawing.Point(132, 71);
             this.txtValue.Name = "txtValue";
-            this.txtValue.Size = new System.Drawing.Size(200, 20);
+            this.txtValue.Size = new System.Drawing.Size(240, 23);
             this.txtValue.TabIndex = 6;
             // 
             // cbMathOperation
@@ -139,18 +139,18 @@
             "<=",
             ">",
             ">="});
-            this.cbMathOperation.Location = new System.Drawing.Point(12, 75);
+            this.cbMathOperation.Location = new System.Drawing.Point(12, 81);
             this.cbMathOperation.Name = "cbMathOperation";
-            this.cbMathOperation.Size = new System.Drawing.Size(114, 21);
+            this.cbMathOperation.Size = new System.Drawing.Size(114, 23);
             this.cbMathOperation.TabIndex = 4;
             // 
             // cbValue
             // 
             this.cbValue.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.cbValue.FormattingEnabled = true;
-            this.cbValue.Location = new System.Drawing.Point(132, 75);
+            this.cbValue.Location = new System.Drawing.Point(132, 81);
             this.cbValue.Name = "cbValue";
-            this.cbValue.Size = new System.Drawing.Size(200, 21);
+            this.cbValue.Size = new System.Drawing.Size(240, 23);
             this.cbValue.TabIndex = 7;
             // 
             // cbBoolean
@@ -160,18 +160,18 @@
             this.cbBoolean.Items.AddRange(new object[] {
             "False",
             "True"});
-            this.cbBoolean.Location = new System.Drawing.Point(132, 85);
+            this.cbBoolean.Location = new System.Drawing.Point(132, 91);
             this.cbBoolean.Name = "cbBoolean";
-            this.cbBoolean.Size = new System.Drawing.Size(200, 21);
+            this.cbBoolean.Size = new System.Drawing.Size(240, 23);
             this.cbBoolean.TabIndex = 8;
             // 
             // FrmFilter
             // 
             this.AcceptButton = this.btnOK;
-            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.CancelButton = this.btnCancel;
-            this.ClientSize = new System.Drawing.Size(344, 137);
+            this.ClientSize = new System.Drawing.Size(384, 145);
             this.Controls.Add(this.btnCancel);
             this.Controls.Add(this.btnOK);
             this.Controls.Add(this.btnClearFilter);

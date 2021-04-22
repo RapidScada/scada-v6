@@ -62,6 +62,7 @@ namespace Scada.Admin.App.Forms.Tables
         {
             this.frmBaseTable = frmBaseTable ?? throw new ArgumentNullException(nameof(frmBaseTable));
             this.dataGridView = dataGridView ?? throw new ArgumentNullException(nameof(dataGridView));
+            FormTranslator.Translate(this, GetType().FullName);
         }
 
 
@@ -376,8 +377,6 @@ namespace Scada.Admin.App.Forms.Tables
 
         private void FrmReplace_Load(object sender, EventArgs e)
         {
-            FormTranslator.Translate(this, GetType().FullName);
-
             FillColumnList();
             SetDefaultSearch(cbColumn.SelectedItem as ColumnInfo);
             ResetSearch();

@@ -76,6 +76,9 @@ namespace Scada.Admin.App.Code
         public static string DataNotExist { get; private set; }
         public static string DataChangeError { get; private set; }
 
+        // Scada.Admin.App.Forms.Tables.FrmFilter
+        public static string IncorrectTableFilter { get; private set; }
+
         // Scada.Admin.App.Forms.Tables.FrmFind
         public static string ValueNotFound { get; private set; }
         public static string SearchComplete { get; private set; }
@@ -162,6 +165,9 @@ namespace Scada.Admin.App.Code
             KeyReferenced = dict.GetPhrase("KeyReferenced");
             DataNotExist = dict.GetPhrase("DataNotExist");
             DataChangeError = dict.GetPhrase("DataChangeError");
+
+            dict = Locale.GetDictionary("Scada.Admin.App.Forms.Tables.FrmFilter");
+            IncorrectTableFilter = dict.GetPhrase("IncorrectTableFilter");
 
             dict = Locale.GetDictionary("Scada.Admin.App.Forms.Tables.FrmFind");
             ValueNotFound = dict.GetPhrase("ValueNotFound");
