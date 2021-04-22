@@ -1653,13 +1653,15 @@ namespace Scada.Admin.App.Forms
         private void miHelpDoc_Click(object sender, EventArgs e)
         {
             // open the documentation
-            Process.Start(Locale.IsRussian ? DocRuUrl : DocEnUrl);
+            string url = Locale.IsRussian ? DocRuUrl : DocEnUrl;
+            Process.Start(new ProcessStartInfo(url) { UseShellExecute = true });
         }
 
         private void miHelpSupport_Click(object sender, EventArgs e)
         {
             // open the support forum
-            Process.Start(Locale.IsRussian ? SupportRuUrl : SupportEnUrl);
+            string url = Locale.IsRussian ? SupportRuUrl : SupportEnUrl;
+            Process.Start(new ProcessStartInfo(url) { UseShellExecute = true });
         }
 
         private void miHelpAbout_Click(object sender, EventArgs e)
