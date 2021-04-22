@@ -46,7 +46,7 @@
             // 
             // btnReplaceAll
             // 
-            this.btnReplaceAll.Location = new System.Drawing.Point(242, 178);
+            this.btnReplaceAll.Location = new System.Drawing.Point(282, 194);
             this.btnReplaceAll.Name = "btnReplaceAll";
             this.btnReplaceAll.Size = new System.Drawing.Size(90, 23);
             this.btnReplaceAll.TabIndex = 12;
@@ -57,7 +57,7 @@
             // btnClose
             // 
             this.btnClose.DialogResult = System.Windows.Forms.DialogResult.Cancel;
-            this.btnClose.Location = new System.Drawing.Point(242, 207);
+            this.btnClose.Location = new System.Drawing.Point(282, 223);
             this.btnClose.Name = "btnClose";
             this.btnClose.Size = new System.Drawing.Size(90, 23);
             this.btnClose.TabIndex = 13;
@@ -70,7 +70,7 @@
             this.lblColumn.AutoSize = true;
             this.lblColumn.Location = new System.Drawing.Point(9, 9);
             this.lblColumn.Name = "lblColumn";
-            this.lblColumn.Size = new System.Drawing.Size(42, 13);
+            this.lblColumn.Size = new System.Drawing.Size(50, 15);
             this.lblColumn.TabIndex = 0;
             this.lblColumn.Text = "Column";
             // 
@@ -78,51 +78,51 @@
             // 
             this.cbColumn.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.cbColumn.FormattingEnabled = true;
-            this.cbColumn.Location = new System.Drawing.Point(12, 25);
+            this.cbColumn.Location = new System.Drawing.Point(12, 27);
             this.cbColumn.Name = "cbColumn";
-            this.cbColumn.Size = new System.Drawing.Size(320, 21);
+            this.cbColumn.Size = new System.Drawing.Size(360, 23);
             this.cbColumn.TabIndex = 1;
             this.cbColumn.SelectedIndexChanged += new System.EventHandler(this.cbColumn_SelectedIndexChanged);
             // 
             // lblFind
             // 
             this.lblFind.AutoSize = true;
-            this.lblFind.Location = new System.Drawing.Point(9, 49);
+            this.lblFind.Location = new System.Drawing.Point(9, 53);
             this.lblFind.Name = "lblFind";
-            this.lblFind.Size = new System.Drawing.Size(53, 13);
+            this.lblFind.Size = new System.Drawing.Size(59, 15);
             this.lblFind.TabIndex = 2;
             this.lblFind.Text = "Find what";
             // 
             // txtFind
             // 
-            this.txtFind.Location = new System.Drawing.Point(12, 65);
+            this.txtFind.Location = new System.Drawing.Point(12, 71);
             this.txtFind.Name = "txtFind";
-            this.txtFind.Size = new System.Drawing.Size(320, 20);
+            this.txtFind.Size = new System.Drawing.Size(360, 23);
             this.txtFind.TabIndex = 3;
             this.txtFind.TextChanged += new System.EventHandler(this.txtFind_TextChanged);
             // 
             // lblReplaceWith
             // 
             this.lblReplaceWith.AutoSize = true;
-            this.lblReplaceWith.Location = new System.Drawing.Point(9, 89);
+            this.lblReplaceWith.Location = new System.Drawing.Point(9, 97);
             this.lblReplaceWith.Name = "lblReplaceWith";
-            this.lblReplaceWith.Size = new System.Drawing.Size(69, 13);
+            this.lblReplaceWith.Size = new System.Drawing.Size(74, 15);
             this.lblReplaceWith.TabIndex = 5;
             this.lblReplaceWith.Text = "Replace with";
             // 
             // txtReplaceWith
             // 
-            this.txtReplaceWith.Location = new System.Drawing.Point(12, 105);
+            this.txtReplaceWith.Location = new System.Drawing.Point(12, 115);
             this.txtReplaceWith.Name = "txtReplaceWith";
-            this.txtReplaceWith.Size = new System.Drawing.Size(320, 20);
+            this.txtReplaceWith.Size = new System.Drawing.Size(360, 23);
             this.txtReplaceWith.TabIndex = 6;
             // 
             // chkCaseSensitive
             // 
             this.chkCaseSensitive.AutoSize = true;
-            this.chkCaseSensitive.Location = new System.Drawing.Point(12, 132);
+            this.chkCaseSensitive.Location = new System.Drawing.Point(12, 144);
             this.chkCaseSensitive.Name = "chkCaseSensitive";
-            this.chkCaseSensitive.Size = new System.Drawing.Size(82, 17);
+            this.chkCaseSensitive.Size = new System.Drawing.Size(86, 19);
             this.chkCaseSensitive.TabIndex = 8;
             this.chkCaseSensitive.Text = "Match case";
             this.chkCaseSensitive.UseVisualStyleBackColor = true;
@@ -132,9 +132,9 @@
             this.chkWholeCellOnly.AutoSize = true;
             this.chkWholeCellOnly.Checked = true;
             this.chkWholeCellOnly.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.chkWholeCellOnly.Location = new System.Drawing.Point(12, 155);
+            this.chkWholeCellOnly.Location = new System.Drawing.Point(12, 169);
             this.chkWholeCellOnly.Name = "chkWholeCellOnly";
-            this.chkWholeCellOnly.Size = new System.Drawing.Size(106, 17);
+            this.chkWholeCellOnly.Size = new System.Drawing.Size(116, 19);
             this.chkWholeCellOnly.TabIndex = 9;
             this.chkWholeCellOnly.Text = "Match whole cell";
             this.chkWholeCellOnly.UseVisualStyleBackColor = true;
@@ -143,9 +143,9 @@
             // 
             this.cbFind.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.cbFind.FormattingEnabled = true;
-            this.cbFind.Location = new System.Drawing.Point(12, 75);
+            this.cbFind.Location = new System.Drawing.Point(12, 81);
             this.cbFind.Name = "cbFind";
-            this.cbFind.Size = new System.Drawing.Size(320, 21);
+            this.cbFind.Size = new System.Drawing.Size(360, 23);
             this.cbFind.TabIndex = 4;
             this.cbFind.Visible = false;
             this.cbFind.SelectedIndexChanged += new System.EventHandler(this.cbFind_SelectedIndexChanged);
@@ -154,16 +154,16 @@
             // 
             this.cbReplaceWith.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.cbReplaceWith.FormattingEnabled = true;
-            this.cbReplaceWith.Location = new System.Drawing.Point(12, 115);
+            this.cbReplaceWith.Location = new System.Drawing.Point(12, 125);
             this.cbReplaceWith.Name = "cbReplaceWith";
-            this.cbReplaceWith.Size = new System.Drawing.Size(320, 21);
+            this.cbReplaceWith.Size = new System.Drawing.Size(360, 23);
             this.cbReplaceWith.TabIndex = 7;
             this.cbReplaceWith.Visible = false;
             this.cbReplaceWith.SelectedIndexChanged += new System.EventHandler(this.cbReplaceWith_SelectedIndexChanged);
             // 
             // btnFindNext
             // 
-            this.btnFindNext.Location = new System.Drawing.Point(50, 178);
+            this.btnFindNext.Location = new System.Drawing.Point(90, 194);
             this.btnFindNext.Name = "btnFindNext";
             this.btnFindNext.Size = new System.Drawing.Size(90, 23);
             this.btnFindNext.TabIndex = 10;
@@ -173,7 +173,7 @@
             // 
             // btnReplace
             // 
-            this.btnReplace.Location = new System.Drawing.Point(146, 178);
+            this.btnReplace.Location = new System.Drawing.Point(186, 194);
             this.btnReplace.Name = "btnReplace";
             this.btnReplace.Size = new System.Drawing.Size(90, 23);
             this.btnReplace.TabIndex = 11;
@@ -184,10 +184,10 @@
             // FrmFind
             // 
             this.AcceptButton = this.btnFindNext;
-            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.CancelButton = this.btnClose;
-            this.ClientSize = new System.Drawing.Size(344, 242);
+            this.ClientSize = new System.Drawing.Size(384, 258);
             this.Controls.Add(this.btnReplace);
             this.Controls.Add(this.btnFindNext);
             this.Controls.Add(this.cbReplaceWith);

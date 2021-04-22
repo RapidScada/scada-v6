@@ -264,6 +264,29 @@
     <Phrase key="btnOK">OK</Phrase>
     <Phrase key="btnCancel">Отмена</Phrase>
   </Dictionary>
+  <Dictionary key="Scada.Admin.App.Forms.Tables.FrmColorDialog">
+    <Phrase key="this">Выбор цвета</Phrase>
+    <Phrase key="lblSort">Сортировка:</Phrase>
+    <Phrase key="rbSortByAbc">По алфавиту</Phrase>
+    <Phrase key="rbSortByColor">По цвету</Phrase>
+    <Phrase key="btnOK">OK</Phrase>
+    <Phrase key="btnCancel">Отмена</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Admin.App.Forms.Tables.FrmFind">
+    <Phrase key="this">Найти и заменить</Phrase>
+    <Phrase key="lblColumn">Столбец</Phrase>
+    <Phrase key="lblFind">Найти</Phrase>
+    <Phrase key="lblReplaceWith">Заменить на</Phrase>
+    <Phrase key="chkCaseSensitive">Учитывать регистр</Phrase>
+    <Phrase key="chkWholeCellOnly">Только ячейку целиком</Phrase>
+    <Phrase key="btnFindNext">Найти далее</Phrase>
+    <Phrase key="btnReplace">Заменить</Phrase>
+    <Phrase key="btnReplaceAll">Заменить все</Phrase>
+    <Phrase key="btnClose">Закрыть</Phrase>
+    <Phrase key="ValueNotFound">Указанное значение не найдено.</Phrase>
+    <Phrase key="SearchComplete">Поиск завершён.</Phrase>
+    <Phrase key="ReplaceCount">{0} вхождений заменено.</Phrase>
+  </Dictionary>
   <Dictionary key="Scada.Admin.App.Forms.Tables.FrmInCnl">
     <Phrase key="this">Свойства входного канала</Phrase>
     <Phrase key="pageGeneral">Основные</Phrase>
@@ -305,14 +328,6 @@
     <Phrase key="lblFormula">Формула</Phrase>
     <Phrase key="lblFormat">Формат</Phrase>
     <Phrase key="chkEventEnabled">Запись событий</Phrase>
-    <Phrase key="btnOK">OK</Phrase>
-    <Phrase key="btnCancel">Отмена</Phrase>
-  </Dictionary>
-  <Dictionary key="Scada.Admin.App.Forms.Tables.FrmColorDialog">
-    <Phrase key="this">Выбор цвета</Phrase>
-    <Phrase key="lblSort">Сортировка:</Phrase>
-    <Phrase key="rbSortByAbc">По алфавиту</Phrase>
-    <Phrase key="rbSortByColor">По цвету</Phrase>
     <Phrase key="btnOK">OK</Phrase>
     <Phrase key="btnCancel">Отмена</Phrase>
   </Dictionary>

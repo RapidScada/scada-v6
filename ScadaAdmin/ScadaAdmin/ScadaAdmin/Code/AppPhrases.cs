@@ -76,6 +76,11 @@ namespace Scada.Admin.App.Code
         public static string DataNotExist { get; private set; }
         public static string DataChangeError { get; private set; }
 
+        // Scada.Admin.App.Forms.Tables.FrmFind
+        public static string ValueNotFound { get; private set; }
+        public static string SearchComplete { get; private set; }
+        public static string ReplaceCount { get; private set; }
+
         // Scada.Admin.App.Forms.Tables.FrmTextDialog
         public static string TextLine { get; private set; }
         public static string TextLength { get; private set; }
@@ -157,6 +162,11 @@ namespace Scada.Admin.App.Code
             KeyReferenced = dict.GetPhrase("KeyReferenced");
             DataNotExist = dict.GetPhrase("DataNotExist");
             DataChangeError = dict.GetPhrase("DataChangeError");
+
+            dict = Locale.GetDictionary("Scada.Admin.App.Forms.Tables.FrmFind");
+            ValueNotFound = dict.GetPhrase("ValueNotFound");
+            SearchComplete = dict.GetPhrase("SearchComplete");
+            ReplaceCount = dict.GetPhrase("ReplaceCount");
 
             dict = Locale.GetDictionary("Scada.Admin.App.Forms.Tables.FrmTextDialog");
             TextLine = dict.GetPhrase("TextLine");

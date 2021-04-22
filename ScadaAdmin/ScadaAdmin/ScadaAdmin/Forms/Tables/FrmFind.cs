@@ -1,5 +1,5 @@
 ﻿/*
- * Copyright 2020 Mikhail Shiryaev
+ * Copyright 2021 Rapid Software LLC
  * 
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -16,24 +16,24 @@
  * 
  * Product  : Rapid SCADA
  * Module   : Administrator
- * Summary  : Form to find and replace in a table
+ * Summary  : Represents a form for finding and replacing in a table
  * 
  * Author   : Mikhail Shiryaev
  * Created  : 2010
- * Modified : 2020
+ * Modified : 2021
  */
 
 using System;
 using System.Text;
 using System.Windows.Forms;
 using Scada.Admin.App.Code;
-using Scada.UI;
+using Scada.Forms;
 
 namespace Scada.Admin.App.Forms.Tables
 {
     /// <summary>
-    /// Form to find and replace in a table.
-    /// <para>Форма поиска и замены в таблице.</para>
+    /// Represents a form for finding and replacing in a table.
+    /// <para>Представляет форму для поиска и замены в таблице.</para>
     /// </summary>
     public partial class FrmFind : Form
     {
@@ -49,6 +49,7 @@ namespace Scada.Admin.App.Forms.Tables
         private FrmFind()
         {
             InitializeComponent();
+
             cbFind.Top = txtFind.Top;
             cbReplaceWith.Top = txtReplaceWith.Top;
         }
@@ -59,8 +60,8 @@ namespace Scada.Admin.App.Forms.Tables
         public FrmFind(FrmBaseTable frmBaseTable, DataGridView dataGridView)
             : this()
         {
-            this.frmBaseTable = frmBaseTable ?? throw new ArgumentNullException("frmBaseTable");
-            this.dataGridView = dataGridView ?? throw new ArgumentNullException("dataGridView");
+            this.frmBaseTable = frmBaseTable ?? throw new ArgumentNullException(nameof(frmBaseTable));
+            this.dataGridView = dataGridView ?? throw new ArgumentNullException(nameof(dataGridView));
         }
 
 
@@ -80,7 +81,7 @@ namespace Scada.Admin.App.Forms.Tables
                     if ((column is DataGridViewTextBoxColumn || column is DataGridViewComboBoxColumn) &&
                         !column.ReadOnly)
                     {
-                        ColumnInfo colInfo = new ColumnInfo(column);
+                        ColumnInfo colInfo = new(column);
                         int index = cbColumn.Items.Add(colInfo);
 
                         if (column.Index == curColInd)
@@ -172,45 +173,6 @@ namespace Scada.Admin.App.Forms.Tables
         }
 
         /// <summary>
-        /// Checks that the cell is matched the search condition.
-        /// </summary>
-        private bool IsMatched(DataGridViewCell cell, string value, bool ignoreCase, bool wholeCellOnly)
-        {
-            if (cell == null)
-            {
-                return false;
-            }
-            else
-            {
-                StringComparison comparison = ignoreCase ? 
-                    StringComparison.CurrentCultureIgnoreCase : StringComparison.CurrentCulture;
-                string cellVal = cell.EditedFormattedValue?.ToString() ?? "";
-
-                return wholeCellOnly && string.Compare(cellVal, value, ignoreCase) == 0 ||
-                    !wholeCellOnly && cellVal.IndexOf(value, comparison) >= 0;
-            }
-        }
-
-        /// <summary>
-        /// Checks that the cell is matched the search condition.
-        /// </summary>
-        private bool IsMatched(DataGridViewCell cell, object value)
-        {
-            if (cell == null)
-            {
-                return false;
-            }
-            else
-            {
-                object cellVal = cell.IsInEditMode ?
-                    (dataGridView.EditingControl as ComboBox)?.SelectedValue :
-                    cell.Value;
-
-                return cellVal == value || (cellVal is int val1) && (value is int val2) && (val1 == val2);
-            }
-        }
-
-        /// <summary>
         /// Finds the next match.
         /// </summary>
         private void FindNext(ColumnInfo columnInfo, bool showMsg, out bool found, out bool endReached)
@@ -260,40 +222,6 @@ namespace Scada.Admin.App.Forms.Tables
 
                 ResetSearch();
             }
-        }
-
-        /// <summary>
-        /// Replaces part of the string.
-        /// </summary>
-        private string Replace(string s, string find, string replaceWith, bool ignoreCase)
-        {
-            if (string.IsNullOrEmpty(find))
-                return s;
-
-            StringComparison comparison = ignoreCase ?
-                StringComparison.CurrentCultureIgnoreCase : StringComparison.CurrentCulture;
-            StringBuilder result = new StringBuilder();
-            int len = s.Length;
-            int findLen = find.Length;
-            int startInd = 0;
-            int ind = 0;
-
-            while (ind >= 0 && startInd < len)
-            {
-                ind = s.IndexOf(find, startInd, comparison);
-                if (ind >= 0)
-                {
-                    result.Append(s.Substring(startInd, ind - startInd));
-                    result.Append(replaceWith);
-                    startInd = ind + findLen;
-                }
-                else
-                {
-                    result.Append(s.Substring(startInd));
-                }
-            }
-
-            return result.ToString();
         }
 
         /// <summary>
@@ -367,15 +295,88 @@ namespace Scada.Admin.App.Forms.Tables
             } while (found && !endReached);
 
             if (replacedCnt > 0)
-                ScadaUiUtils.ShowInfo(string.Format(AppPhrases.ReplaceCount, replacedCnt));
+                ScadaUiUtils.ShowInfo(AppPhrases.ReplaceCount, replacedCnt);
             else if (noError)
                 ScadaUiUtils.ShowInfo(AppPhrases.ValueNotFound);
+        }
+
+        /// <summary>
+        /// Checks that the cell is matched the search condition.
+        /// </summary>
+        private static bool IsMatched(DataGridViewCell cell, string value, bool ignoreCase, bool wholeCellOnly)
+        {
+            if (cell == null)
+            {
+                return false;
+            }
+            else
+            {
+                StringComparison comparison = ignoreCase ?
+                    StringComparison.CurrentCultureIgnoreCase : StringComparison.CurrentCulture;
+                string cellVal = cell.EditedFormattedValue?.ToString() ?? "";
+
+                return wholeCellOnly && string.Compare(cellVal, value, ignoreCase) == 0 ||
+                    !wholeCellOnly && cellVal.Contains(value, comparison);
+            }
+        }
+
+        /// <summary>
+        /// Checks that the cell is matched the search condition.
+        /// </summary>
+        private static bool IsMatched(DataGridViewCell cell, object value)
+        {
+            if (cell == null)
+            {
+                return false;
+            }
+            else
+            {
+                object cellVal = cell.IsInEditMode ?
+                    (cell.DataGridView.EditingControl as ComboBox)?.SelectedValue :
+                    cell.Value;
+
+                return cellVal == value || (cellVal is int val1) && (value is int val2) && (val1 == val2);
+            }
+        }
+
+        /// <summary>
+        /// Replaces part of the string.
+        /// </summary>
+        private static string Replace(string s, string find, string replaceWith, bool ignoreCase)
+        {
+            if (string.IsNullOrEmpty(find))
+                return s;
+
+            StringComparison comparison = ignoreCase ?
+                StringComparison.CurrentCultureIgnoreCase : StringComparison.CurrentCulture;
+            StringBuilder result = new();
+            int len = s.Length;
+            int findLen = find.Length;
+            int startInd = 0;
+            int ind = 0;
+
+            while (ind >= 0 && startInd < len)
+            {
+                ind = s.IndexOf(find, startInd, comparison);
+                if (ind >= 0)
+                {
+                    result.Append(s[startInd..ind]);
+                    result.Append(replaceWith);
+                    startInd = ind + findLen;
+                }
+                else
+                {
+                    result.Append(s[startInd..]);
+                }
+            }
+
+            return result.ToString();
         }
 
 
         private void FrmReplace_Load(object sender, EventArgs e)
         {
-            Translator.TranslateForm(this, GetType().FullName);
+            FormTranslator.Translate(this, GetType().FullName);
 
             FillColumnList();
             SetDefaultSearch(cbColumn.SelectedItem as ColumnInfo);
