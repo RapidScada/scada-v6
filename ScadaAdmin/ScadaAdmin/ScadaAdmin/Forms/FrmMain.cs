@@ -1676,7 +1676,7 @@ namespace Scada.Admin.App.Forms
 
             if (selectedNode != null && selectedNode.TagIs(AppNodeType.Project))
             {
-                /*FrmItemName frmItemName = new FrmItemName() { ItemName = project.Name };
+                FrmItemName frmItemName = new() { ItemName = project.Name };
 
                 if (frmItemName.ShowDialog() == DialogResult.OK && frmItemName.Modified)
                 {
@@ -1688,7 +1688,7 @@ namespace Scada.Admin.App.Forms
                     CloseChildForms(selectedNode);
                     explorerBuilder.FillInstancesNode();
                     SaveProject();
-                }*/
+                }
             }
         }
 
@@ -1699,7 +1699,7 @@ namespace Scada.Admin.App.Forms
 
             if (selectedNode != null && selectedNode.TagIs(AppNodeType.Project))
             {
-                /*FrmProjectProps frmProjectProps = new FrmProjectProps
+                FrmProjectProps frmProjectProps = new()
                 {
                     ProjectName = project.Name,
                     Version = project.Version,
@@ -1711,7 +1711,7 @@ namespace Scada.Admin.App.Forms
                     project.Version = frmProjectProps.Version;
                     project.Description = frmProjectProps.Description;
                     SaveProject();
-                }*/
+                }
             }
         }
 

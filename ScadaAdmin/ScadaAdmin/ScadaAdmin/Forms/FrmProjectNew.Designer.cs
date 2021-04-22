@@ -56,7 +56,7 @@
             // 
             this.txtName.Location = new System.Drawing.Point(12, 27);
             this.txtName.Name = "txtName";
-            this.txtName.Size = new System.Drawing.Size(400, 23);
+            this.txtName.Size = new System.Drawing.Size(379, 23);
             this.txtName.TabIndex = 1;
             // 
             // lblLocation
@@ -72,12 +72,12 @@
             // 
             this.txtLocation.Location = new System.Drawing.Point(12, 71);
             this.txtLocation.Name = "txtLocation";
-            this.txtLocation.Size = new System.Drawing.Size(400, 23);
+            this.txtLocation.Size = new System.Drawing.Size(379, 23);
             this.txtLocation.TabIndex = 3;
             // 
             // btnOK
             // 
-            this.btnOK.Location = new System.Drawing.Point(337, 210);
+            this.btnOK.Location = new System.Drawing.Point(316, 210);
             this.btnOK.Name = "btnOK";
             this.btnOK.Size = new System.Drawing.Size(75, 23);
             this.btnOK.TabIndex = 9;
@@ -88,7 +88,7 @@
             // btnCancel
             // 
             this.btnCancel.DialogResult = System.Windows.Forms.DialogResult.Cancel;
-            this.btnCancel.Location = new System.Drawing.Point(418, 210);
+            this.btnCancel.Location = new System.Drawing.Point(397, 210);
             this.btnCancel.Name = "btnCancel";
             this.btnCancel.Size = new System.Drawing.Size(75, 23);
             this.btnCancel.TabIndex = 10;
@@ -97,7 +97,7 @@
             // 
             // btnBrowseLocation
             // 
-            this.btnBrowseLocation.Location = new System.Drawing.Point(418, 71);
+            this.btnBrowseLocation.Location = new System.Drawing.Point(397, 71);
             this.btnBrowseLocation.Name = "btnBrowseLocation";
             this.btnBrowseLocation.Size = new System.Drawing.Size(75, 23);
             this.btnBrowseLocation.TabIndex = 4;
@@ -110,7 +110,7 @@
             this.cbTemplate.FormattingEnabled = true;
             this.cbTemplate.Location = new System.Drawing.Point(12, 115);
             this.cbTemplate.Name = "cbTemplate";
-            this.cbTemplate.Size = new System.Drawing.Size(400, 23);
+            this.cbTemplate.Size = new System.Drawing.Size(379, 23);
             this.cbTemplate.TabIndex = 6;
             this.cbTemplate.TextChanged += new System.EventHandler(this.cbTemplate_TextChanged);
             // 
@@ -125,7 +125,7 @@
             // 
             // btnBrowseTemplate
             // 
-            this.btnBrowseTemplate.Location = new System.Drawing.Point(418, 115);
+            this.btnBrowseTemplate.Location = new System.Drawing.Point(397, 115);
             this.btnBrowseTemplate.Name = "btnBrowseTemplate";
             this.btnBrowseTemplate.Size = new System.Drawing.Size(75, 23);
             this.btnBrowseTemplate.TabIndex = 7;
@@ -139,7 +139,7 @@
             this.txtTemplateDescr.Multiline = true;
             this.txtTemplateDescr.Name = "txtTemplateDescr";
             this.txtTemplateDescr.ReadOnly = true;
-            this.txtTemplateDescr.Size = new System.Drawing.Size(400, 50);
+            this.txtTemplateDescr.Size = new System.Drawing.Size(379, 50);
             this.txtTemplateDescr.TabIndex = 8;
             // 
             // FrmProjectNew
@@ -148,7 +148,7 @@
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.CancelButton = this.btnCancel;
-            this.ClientSize = new System.Drawing.Size(505, 245);
+            this.ClientSize = new System.Drawing.Size(484, 245);
             this.Controls.Add(this.txtTemplateDescr);
             this.Controls.Add(this.btnBrowseTemplate);
             this.Controls.Add(this.lblTemplate);
