@@ -46,6 +46,14 @@ namespace Scada
         /// </summary>
         public const int ThreadWait = 10000;
         /// <summary>
+        /// The project website in English.
+        /// </summary>
+        public const string WebsiteEn = "https://rapidscada.org";
+        /// <summary>
+        /// The project website in Russain.
+        /// </summary>
+        public const string WebsiteRu = "https://rapidscada.ru";
+        /// <summary>
         /// Generates parts of unique IDs.
         /// </summary>
         private static readonly Random UniqueIDGenerator = new Random();
@@ -238,6 +246,16 @@ namespace Scada
         public static bool IsNullable(this Type type)
         {
             return type.IsGenericType && type.GetGenericTypeDefinition() == typeof(Nullable<>);
+        }
+
+        /// <summary>
+        /// Indicates whether the string is correct URL.
+        /// </summary>
+        public static bool IsValidUrl(string s)
+        {
+            return !string.IsNullOrEmpty(s) &&
+                Uri.TryCreate(s, UriKind.Absolute, out Uri uri) &&
+                (uri.Scheme == Uri.UriSchemeHttp || uri.Scheme == Uri.UriSchemeHttps);
         }
 
         /// <summary>

@@ -354,7 +354,7 @@ namespace Scada.Admin.App.Forms
                         File.Exists(exePath))
                     {
                         // run external editor
-                        AppUtils.StartProcess(exePath, $"\"{fileItem.Path}\"");
+                        ScadaUiUtils.StartProcess(exePath, $"\"{fileItem.Path}\"");
                     }
                     else
                     {
@@ -1664,19 +1664,19 @@ namespace Scada.Admin.App.Forms
         private void miHelpDoc_Click(object sender, EventArgs e)
         {
             // open the documentation
-            AppUtils.StartProcess(Locale.IsRussian ? DocRuUrl : DocEnUrl);
+            ScadaUiUtils.StartProcess(Locale.IsRussian ? DocRuUrl : DocEnUrl);
         }
 
         private void miHelpSupport_Click(object sender, EventArgs e)
         {
             // open the support forum
-            AppUtils.StartProcess(Locale.IsRussian ? SupportRuUrl : SupportEnUrl);
+            ScadaUiUtils.StartProcess(Locale.IsRussian ? SupportRuUrl : SupportEnUrl);
         }
 
         private void miHelpAbout_Click(object sender, EventArgs e)
         {
             // show the about form
-            //FrmAbout.ShowAbout(appData);
+            FrmAbout.ShowAbout(appData);
         }
 
 
@@ -1925,7 +1925,7 @@ namespace Scada.Admin.App.Forms
             if (TryGetFilePath(tvExplorer.SelectedNode, out string path))
             {
                 if (Directory.Exists(path))
-                    AppUtils.StartProcess(path);
+                    ScadaUiUtils.StartProcess(path);
                 else
                     ScadaUiUtils.ShowError(CommonPhrases.DirectoryNotExists);
             }
@@ -1969,7 +1969,7 @@ namespace Scada.Admin.App.Forms
             if (TryGetFilePath(tvExplorer.SelectedNode, out string path))
             {
                 if (File.Exists(path))
-                    AppUtils.StartProcess("explorer.exe", $"/select, \"{path}\"");
+                    ScadaUiUtils.StartProcess("explorer.exe", $"/select, \"{path}\"");
                 else
                     ScadaUiUtils.ShowError(CommonPhrases.FileNotFound);
             }

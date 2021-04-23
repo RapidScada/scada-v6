@@ -25,8 +25,11 @@
 
 using Scada.Lang;
 using System;
+using System.Diagnostics;
 using System.Drawing;
+using System.IO;
 using System.Linq;
+using System.Text;
 using System.Windows.Forms;
 
 namespace Scada.Forms
@@ -138,6 +141,151 @@ namespace Scada.Forms
         {
             Rectangle rect = new(x, y, width, height);
             return Screen.AllScreens.Any(screen => screen.Bounds.IntersectsWith(rect));
+        }
+
+        /// <summary>
+        /// Loads a background image and hyperlink for the about form.
+        /// </summary>
+        public static bool LoadAboutForm(string exeDir, Form frmAbout, PictureBox pictureBox, Label lblLink,
+            out bool imgLoaded, out string linkUrl, out string errMsg)
+        {
+            imgLoaded = false;
+            linkUrl = Locale.IsRussian ? ScadaUtils.WebsiteRu : ScadaUtils.WebsiteEn;
+            errMsg = "";
+
+            // load background image if file exists
+            try
+            {
+                string imgFileName = exeDir + "About.jpg";
+
+                if (File.Exists(imgFileName))
+                {
+                    Image image = Image.FromFile(imgFileName);
+                    pictureBox.Image = image;
+                    imgLoaded = true;
+
+                    // check and fix form size and image size
+                    int width;
+                    if (image.Width < 100)
+                        width = 100;
+                    else if (image.Width > 800)
+                        width = 800;
+                    else
+                        width = image.Width;
+
+                    int height;
+                    if (image.Height < 100)
+                        height = 100;
+                    else if (image.Height > 600)
+                        height = 600;
+                    else
+                        height = image.Height;
+
+                    frmAbout.Width = pictureBox.Width = width;
+                    frmAbout.Height = pictureBox.Height = height;
+                }
+            }
+            catch (OutOfMemoryException)
+            {
+                errMsg = Locale.IsRussian ?
+                    "Ошибка при загрузке изображения из файла:\r\nНекорректный формат файла." :
+                    "Error loading image from file:\r\nIncorrect file format.";
+            }
+            catch (Exception ex)
+            {
+                errMsg = string.Format(Locale.IsRussian ?
+                    "Ошибка при загрузке изображения из файла:\r\n{0}" :
+                    "Error loading image from file:\r\n{0}", ex.Message);
+            }
+
+            if (errMsg == "")
+            {
+                // load hyperlink if file exists
+                StreamReader reader = null;
+                try
+                {
+                    string linkFileName = exeDir + "About.txt";
+                    if (File.Exists(linkFileName))
+                    {
+                        reader = new StreamReader(linkFileName, Encoding.Default);
+                        linkUrl = reader.ReadLine();
+
+                        if (string.IsNullOrEmpty(linkUrl))
+                        {
+                            lblLink.Visible = false;
+                        }
+                        else
+                        {
+                            linkUrl = linkUrl.Trim();
+                            string pos = reader.ReadLine();
+
+                            if (!string.IsNullOrEmpty(pos))
+                            {
+                                string[] parts = pos.Split(new char[] { ' ' }, StringSplitOptions.RemoveEmptyEntries);
+
+                                if (parts.Length >= 4 && 
+                                    int.TryParse(parts[0], out int x) && 
+                                    int.TryParse(parts[1], out int y) &&
+                                    int.TryParse(parts[2], out int w) && 
+                                    int.TryParse(parts[3], out int h))
+                                {
+                                    // check link location and size
+                                    if (x < 0)
+                                        x = 0;
+                                    else if (x >= frmAbout.Width)
+                                        x = frmAbout.Width - 1;
+                                    if (y < 0)
+                                        y = 0;
+                                    else if (y >= frmAbout.Height)
+                                        y = frmAbout.Height - 1;
+
+                                    if (x + w >= frmAbout.Width)
+                                        w = frmAbout.Width - x;
+                                    if (w <= 0)
+                                        w = 1;
+                                    if (y + h >= frmAbout.Height)
+                                        h = frmAbout.Height - y;
+                                    if (h <= 0)
+                                        h = 1;
+
+                                    lblLink.Left = x;
+                                    lblLink.Top = y;
+                                    lblLink.Width = w;
+                                    lblLink.Height = h;
+                                    lblLink.Visible = true;
+                                }
+                            }
+                        }
+                    }
+                }
+                catch (Exception ex)
+                {
+                    linkUrl = "";
+                    lblLink.Visible = false;
+                    errMsg = string.Format(Locale.IsRussian ?
+                        "Ошибка при загрузке гиперссылки из файла:\r\n{0}" :
+                        "Error loading hyperlink from file:\r\n{0}", ex.Message);
+                }
+                finally
+                {
+                    if (reader != null)
+                        reader.Close();
+                }
+            }
+            else
+            {
+                lblLink.Visible = false;
+            }
+
+            return errMsg == "";
+        }
+
+        /// <summary>
+        /// Starts a new process.
+        /// </summary>
+        public static void StartProcess(string fileName, string arguments = "")
+        {
+            Process.Start(new ProcessStartInfo(fileName, arguments) { UseShellExecute = true });
         }
     }
 }

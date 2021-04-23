@@ -124,13 +124,5 @@ namespace Scada.Admin.App.Code
 
             stringBuilder.Append(label.Text).Append(": ").AppendLine(ScadaUtils.FormatText(text, args));
         }
-
-        /// <summary>
-        /// Starts a new process.
-        /// </summary>
-        public static void StartProcess(string fileName, string arguments = "")
-        {
-            Process.Start(new ProcessStartInfo(fileName, arguments) { UseShellExecute = true });
-        }
     }
 }
