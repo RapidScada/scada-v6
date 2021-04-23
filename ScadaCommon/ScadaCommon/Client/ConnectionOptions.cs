@@ -90,6 +90,7 @@ namespace Scada.Client
         /// <summary>
         /// Gets or sets the secret key for password encryption.
         /// </summary>
+        /// <remarks>If null, password is not encrypted.</remarks>
         public byte[] SecretKey { get; set; }
 
 
@@ -108,10 +109,18 @@ namespace Scada.Client
             Password = ScadaUtils.Decrypt(xmlNode.GetChildAsString("Password"));
             Instance = xmlNode.GetChildAsString("Instance");
             Timeout = xmlNode.GetChildAsInt("Timeout", Timeout);
-            SecretKey = ScadaUtils.HexToBytes(xmlNode.GetChildAsString("SecretKey"));
+            string secretKeyStr = xmlNode.GetChildAsString("SecretKey");
 
-            if (SecretKey.Length != ScadaUtils.SecretKeySize)
-                throw new ScadaException(CommonPhrases.InvalidParamVal, "SecretKey");
+            if (string.IsNullOrEmpty(secretKeyStr))
+            {
+                SecretKey = null;
+            }
+            else
+            {
+                SecretKey = ScadaUtils.HexToBytes(secretKeyStr);
+                if (SecretKey.Length != ScadaUtils.SecretKeySize)
+                    throw new ScadaException(CommonPhrases.InvalidParamVal, "SecretKey");
+            }
         }
 
         /// <summary>

@@ -20,6 +20,12 @@
     <Content Include="..\..\..\ScadaCommon\ScadaCommon\Lang\ScadaCommon.ru-RU.xml" Link="Lang\ScadaCommon.ru-RU.xml">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
+    <Content Include="..\..\..\ScadaComm\ScadaComm\ScadaCommSvc\Config\ScadaCommConfig.xml" Link="Templates\EmptyProject.en-GB\Instances\Default\ScadaComm\Config\ScadaCommConfig.xml">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="..\..\..\ScadaServer\ScadaServer\ScadaServerSvc\Config\ScadaServerConfig.xml" Link="Templates\EmptyProject.en-GB\Instances\Default\ScadaServer\Config\ScadaServerConfig.xml">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
     <Content Include="..\ScadaAdminCommon\Lang\ScadaAdmin.en-GB.xml" Link="Lang\ScadaAdmin.en-GB.xml">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
@@ -108,6 +114,9 @@
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
     <None Update="Templates\EmptyProject.en-GB\BaseXML\ViewType.xml">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="Templates\EmptyProject.en-GB\Instances\Default\ScadaWeb\config\ScadaWebConfig.xml">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
   </ItemGroup>

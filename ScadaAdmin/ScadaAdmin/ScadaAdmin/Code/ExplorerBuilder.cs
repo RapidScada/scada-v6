@@ -400,6 +400,7 @@ namespace Scada.Admin.App.Code
                     TreeNode serverNode = TreeViewUtils.CreateNode(AppPhrases.ServerNode, "server.png");
                     serverNode.ContextMenuStrip = contextMenus.ServerMenu;
                     serverNode.Tag = new TreeNodeTag(projectInstance.ServerApp, AppNodeType.ServerApp);
+                    serverNode.Nodes.Add(CreateEmptyNode());
                     //serverNode.Nodes.AddRange(serverShell.GetTreeNodes(
                     //    projectInstance.ServerApp.Config, liveInstance.ServerEnvironment));
                     instanceNode.Nodes.Add(serverNode);
@@ -411,6 +412,7 @@ namespace Scada.Admin.App.Code
                     TreeNode commNode = TreeViewUtils.CreateNode(AppPhrases.CommNode, "comm.png");
                     commNode.ContextMenuStrip = contextMenus.CommMenu;
                     commNode.Tag = new TreeNodeTag(projectInstance.CommApp, AppNodeType.CommApp);
+                    commNode.Nodes.Add(CreateEmptyNode());
                     //commNode.Nodes.AddRange(commShell.GetTreeNodes(
                     //    projectInstance.CommApp.Config, liveInstance.CommEnvironment));
                     //SetContextMenus(commNode);
@@ -434,12 +436,12 @@ namespace Scada.Admin.App.Code
         }
 
         /// <summary>
-        /// Fills the web application node, creating child nodes.
+        /// Fills the application node, creating child nodes.
         /// </summary>
-        public void FillWebstationNode(TreeNode webNode)
+        public void FillAppNode(TreeNode appNode)
         {
-            if (TreeViewUtils.GetRelatedObject(webNode) is WebApp webApp)
-                FillFileNode(webNode, webApp.AppDir);
+            if (TreeViewUtils.GetRelatedObject(appNode) is ProjectApp app)
+                FillFileNode(appNode, app.AppDir);
         }
 
         /// <summary>

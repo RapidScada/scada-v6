@@ -1136,11 +1136,18 @@ namespace Scada.Admin.App.Forms
             TreeNode node = e.Node;
 
             if (node.TagIs(AppNodeType.Views))
+            {
                 explorerBuilder.FillViewsNode(node);
+            }
             else if (node.TagIs(AppNodeType.Instance))
+            {
                 PrepareInstanceNode(node);
-            else if (node.TagIs(AppNodeType.WebApp))
-                explorerBuilder.FillWebstationNode(node);
+            }
+            else if (node.TagIs(AppNodeType.ServerApp) || node.TagIs(AppNodeType.CommApp) ||
+                node.TagIs(AppNodeType.WebApp))
+            {
+                explorerBuilder.FillAppNode(node);
+            }
         }
 
         private void tvExplorer_AfterExpand(object sender, TreeViewEventArgs e)
@@ -2063,7 +2070,7 @@ namespace Scada.Admin.App.Forms
             if (selectedNode != null &&
                 (selectedNode.TagIs(AppNodeType.Instances) || selectedNode.TagIs(AppNodeType.Instance)))
             {
-                /*FrmInstanceEdit frmInstanceEdit = new FrmInstanceEdit();
+                FrmInstanceEdit frmInstanceEdit = new();
 
                 if (frmInstanceEdit.ShowDialog() == DialogResult.OK)
                 {
@@ -2073,17 +2080,17 @@ namespace Scada.Admin.App.Forms
                     }
                     else
                     {
-                        Instance instance = project.CreateInstance(frmInstanceEdit.InstanceName);
-                        instance.ServerApp.Enabled = frmInstanceEdit.ServerAppEnabled;
-                        instance.CommApp.Enabled = frmInstanceEdit.CommAppEnabled;
-                        instance.WebApp.Enabled = frmInstanceEdit.WebAppEnabled;
+                        ProjectInstance projectInstance = project.CreateInstance(frmInstanceEdit.InstanceName);
+                        projectInstance.ServerApp.Enabled = frmInstanceEdit.ServerAppEnabled;
+                        projectInstance.CommApp.Enabled = frmInstanceEdit.CommAppEnabled;
+                        projectInstance.WebApp.Enabled = frmInstanceEdit.WebAppEnabled;
 
-                        if (instance.CreateInstanceFiles(out string errMsg))
+                        if (projectInstance.CreateInstanceFiles(out string errMsg))
                         {
                             TreeNode instancesNode = selectedNode.FindClosest(AppNodeType.Instances);
-                            TreeNode instanceNode = explorerBuilder.CreateInstanceNode(instance);
+                            TreeNode instanceNode = explorerBuilder.CreateInstanceNode(projectInstance);
                             instanceNode.Expand();
-                            tvExplorer.Insert(instancesNode, instanceNode, project.Instances, instance);
+                            tvExplorer.Insert(instancesNode, instanceNode, project.Instances, projectInstance);
                             SetDeployMenuItemsEnabled();
                             SaveProject();
                         }
@@ -2092,7 +2099,7 @@ namespace Scada.Admin.App.Forms
                             appData.ProcError(errMsg);
                         }
                     }
-                }*/
+                }
             }
         }
 
@@ -2200,9 +2207,9 @@ namespace Scada.Admin.App.Forms
             if (selectedNode != null && selectedNode.TagIs(AppNodeType.Instance) &&
                 FindClosestInstance(selectedNode, out LiveInstance liveInstance))
             {
-                /*FrmInstanceEdit frmInstanceEdit = new FrmInstanceEdit() { Mode = FormOperatingMode.Edit };
-                Instance instance = liveInstance.ProjectInstance;
-                frmInstanceEdit.Init(instance);
+                FrmInstanceEdit frmInstanceEdit = new() { EditMode = true };
+                ProjectInstance projectInstance = liveInstance.ProjectInstance;
+                frmInstanceEdit.Init(projectInstance);
 
                 if (frmInstanceEdit.ShowDialog() == DialogResult.OK)
                 {
@@ -2211,18 +2218,17 @@ namespace Scada.Admin.App.Forms
 
                     // enable or disable the applications
                     bool projectModified = false;
-                    ScadaApp[] scadaApps = new ScadaApp[] { instance.ServerApp, instance.CommApp, instance.WebApp };
 
-                    foreach (ScadaApp scadaApp in scadaApps)
+                    foreach (ProjectApp projectApp in projectInstance.AllApps)
                     {
-                        bool prevState = scadaApp.Enabled;
-                        bool curState = frmInstanceEdit.GetAppEnabled(scadaApp);
+                        bool prevState = projectApp.Enabled;
+                        bool curState = frmInstanceEdit.GetAppEnabled(projectApp);
 
                         if (!prevState && curState)
                         {
-                            if (scadaApp.CreateAppFiles(out string errMsg))
+                            if (projectApp.CreateConfigFiles(out string errMsg))
                             {
-                                scadaApp.Enabled = true;
+                                projectApp.Enabled = true;
                                 projectModified = true;
                             }
                             else
@@ -2233,10 +2239,10 @@ namespace Scada.Admin.App.Forms
 
                         if (prevState && !curState)
                         {
-                            if (scadaApp.DeleteAppFiles(out string errMsg))
+                            if (projectApp.DeleteConfigFiles(out string errMsg))
                             {
-                                scadaApp.ClearSettings();
-                                scadaApp.Enabled = false;
+                                projectApp.ClearConfig();
+                                projectApp.Enabled = false;
                                 projectModified = true;
                             }
                             else
@@ -2253,7 +2259,7 @@ namespace Scada.Admin.App.Forms
                         RefreshInstanceNode(selectedNode, liveInstance);
                         SaveProject();
                     }
-                }*/
+                }
             }
         }
 

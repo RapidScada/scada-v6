@@ -142,6 +142,7 @@ namespace Scada
         /// <summary>
         /// Converts the string of hexadecimal numbers to an array of bytes.
         /// </summary>
+        /// <remarks>An empty string is a valid input.</remarks>
         public static bool HexToBytes(string s, int stringIndex, byte[] buffer, int bufferIndex, int byteCount)
         {
             int lastIndex = s == null ? 0 : s.Length - 1;
@@ -163,7 +164,7 @@ namespace Scada
                 }
             }
 
-            return bytesConverted > 0;
+            return true;
         }
 
         /// <summary>

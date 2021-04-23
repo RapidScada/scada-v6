@@ -42,8 +42,7 @@ namespace Scada.Admin.Project
         /// </summary>
         public const string DefaultName = "Default";
 
-        private readonly ProjectApp[] apps; // all the applications
-        private string instanceDir;         // the instance directory inside the project
+        private string instanceDir; // the instance directory inside the project
 
 
         /// <summary>
@@ -56,10 +55,9 @@ namespace Scada.Admin.Project
             ServerApp = new ServerApp();
             CommApp = new CommApp();
             WebApp = new WebApp();
+            AllApps = new ProjectApp[] { ServerApp, CommApp, WebApp };
             DeploymentProfile = "";
             InstanceDir = "";
-
-            apps = new ProjectApp[] { ServerApp, CommApp, WebApp };
         }
 
 
@@ -87,6 +85,11 @@ namespace Scada.Admin.Project
         /// Gets the Webstation application in the project.
         /// </summary>
         public WebApp WebApp { get; }
+
+        /// <summary>
+        /// Gets all applications in the project.
+        /// </summary>
+        public ProjectApp[] AllApps { get; }
 
         /// <summary>
         /// Gets or sets the name of the deployment profile.
@@ -128,7 +131,7 @@ namespace Scada.Admin.Project
         {
             get
             {
-                return apps.All(app => !app.Enabled || app.ConfigLoaded);
+                return AllApps.All(app => !app.Enabled || app.ConfigLoaded);
             }
         }
 
@@ -184,7 +187,7 @@ namespace Scada.Admin.Project
             }
             else
             {
-                foreach (ProjectApp app in apps)
+                foreach (ProjectApp app in AllApps)
                 {
                     if (app.Enabled && !app.LoadConfig(out errMsg))
                         return false;
@@ -204,7 +207,7 @@ namespace Scada.Admin.Project
             {
                 Directory.CreateDirectory(InstanceDir);
 
-                foreach (ProjectApp app in apps)
+                foreach (ProjectApp app in AllApps)
                 {
                     if (app.Enabled && !app.CreateConfigFiles(out errMsg))
                         return false;

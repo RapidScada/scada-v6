@@ -97,6 +97,13 @@ namespace Scada.Admin.App.Code
         public static string FileNameEmpty { get; private set; }
         public static string FileNameInvalid { get; private set; }
 
+        // Scada.Admin.App.Forms.FrmInstanceEdit
+        public static string NewInstanceTitle { get; private set; }
+        public static string EditInstanceTitle { get; private set; }
+        public static string InstanceNameEmpty { get; private set; }
+        public static string InstanceNameInvalid { get; private set; }
+        public static string InstanceSelectApps { get; private set; }
+
         // Scada.Admin.App.Forms.FrmItemName
         public static string ItemNameEmpty { get; private set; }
         public static string ItemNameInvalid { get; private set; }
@@ -199,6 +206,13 @@ namespace Scada.Admin.App.Code
             dict = Locale.GetDictionary("Scada.Admin.App.Forms.FrmFileNew");
             FileNameEmpty = dict.GetPhrase("FileNameEmpty");
             FileNameInvalid = dict.GetPhrase("FileNameInvalid");
+
+            dict = Locale.GetDictionary("Scada.Admin.App.Forms.FrmInstanceEdit");
+            NewInstanceTitle = dict.GetPhrase("NewInstanceTitle");
+            EditInstanceTitle = dict.GetPhrase("EditInstanceTitle");
+            InstanceNameEmpty = dict.GetPhrase("InstanceNameEmpty");
+            InstanceNameInvalid = dict.GetPhrase("InstanceNameInvalid");
+            InstanceSelectApps = dict.GetPhrase("InstanceSelectApps");
 
             dict = Locale.GetDictionary("Scada.Admin.App.Forms.FrmItemName");
             ItemNameEmpty = dict.GetPhrase("ItemNameEmpty");

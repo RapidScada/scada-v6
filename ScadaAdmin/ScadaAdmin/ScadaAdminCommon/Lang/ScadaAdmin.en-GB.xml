@@ -383,6 +383,20 @@
     <Phrase key="FileNameEmpty">The file name can not be empty.</Phrase>
     <Phrase key="FileNameInvalid">The file name contains invalid characters.</Phrase>
   </Dictionary>
+  <Dictionary key="Scada.Admin.App.Forms.FrmInstanceEdit">
+    <Phrase key="lblName">Instance name</Phrase>
+    <Phrase key="gbApplications">Applications</Phrase>
+    <Phrase key="chkServerApp">Server</Phrase>
+    <Phrase key="chkCommApp">Communicator</Phrase>
+    <Phrase key="chkWebApp">Webstation</Phrase>
+    <Phrase key="btnOK">OK</Phrase>
+    <Phrase key="btnCancel">Cancel</Phrase>
+    <Phrase key="NewInstanceTitle">New Instance</Phrase>
+    <Phrase key="EditInstanceTitle">Edit Instance</Phrase>
+    <Phrase key="InstanceNameEmpty">The instance name can not be empty.</Phrase>
+    <Phrase key="InstanceNameInvalid">The instance name contains invalid characters.</Phrase>
+    <Phrase key="InstanceSelectApps">Select at least one application.</Phrase>
+  </Dictionary>
   <Dictionary key="Scada.Admin.App.Forms.FrmItemName">
     <Phrase key="this">Item Name</Phrase>
     <Phrase key="lblName">Name</Phrase>
