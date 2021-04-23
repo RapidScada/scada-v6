@@ -720,10 +720,14 @@ namespace Scada.Admin.App.Forms
         /// </summary>
         private void RefreshInstanceNode(TreeNode instanceNode, LiveInstance liveInstance)
         {
-            if (liveInstance.ProjectInstance.ConfigLoaded)
+            if (!liveInstance.IsReady)
+                PrepareInstanceNode(instanceNode, liveInstance); 
+            else if (liveInstance.ProjectInstance.ConfigLoaded)
+                explorerBuilder.FillInstanceNode(instanceNode);
+            else if (liveInstance.ProjectInstance.LoadAppConfig(out string errMsg))
                 explorerBuilder.FillInstanceNode(instanceNode);
             else
-                PrepareInstanceNode(instanceNode, liveInstance);
+                appData.ProcError(errMsg);
         }
 
         /// <summary>
@@ -2178,24 +2182,24 @@ namespace Scada.Admin.App.Forms
             if (selectedNode != null && selectedNode.TagIs(AppNodeType.Instance) &&
                 FindClosestInstance(selectedNode, out LiveInstance liveInstance))
             {
-                /*Instance instance = liveInstance.ProjectInstance;
-                FrmItemName frmItemName = new FrmItemName()
+                ProjectInstance projectInstance = liveInstance.ProjectInstance;
+                FrmItemName frmItemName = new()
                 {
-                    ItemName = instance.Name,
-                    ExistingNames = project.GetInstanceNames(true, instance.Name)
+                    ItemName = projectInstance.Name,
+                    ExistingNames = project.GetInstanceNames(true, projectInstance.Name)
                 };
 
                 if (frmItemName.ShowDialog() == DialogResult.OK && frmItemName.Modified)
                 {
-                    if (!instance.Rename(frmItemName.ItemName, out string errMsg))
+                    if (!projectInstance.Rename(frmItemName.ItemName, out string errMsg))
                         appData.ProcError(errMsg);
 
-                    selectedNode.Text = instance.Name;
+                    selectedNode.Text = projectInstance.Name;
                     CloseChildForms(selectedNode);
                     RefreshEnvironments(liveInstance);
                     RefreshInstanceNode(selectedNode, liveInstance);
                     SaveProject();
-                }*/
+                }
             }
         }
 

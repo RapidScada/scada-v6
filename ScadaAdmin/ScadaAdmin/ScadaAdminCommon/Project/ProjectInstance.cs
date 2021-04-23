@@ -189,7 +189,7 @@ namespace Scada.Admin.Project
             {
                 foreach (ProjectApp app in AllApps)
                 {
-                    if (app.Enabled && !app.LoadConfig(out errMsg))
+                    if (app.Enabled && !(app.ConfigLoaded || app.LoadConfig(out errMsg)))
                         return false;
                 }
 
