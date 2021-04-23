@@ -1787,7 +1787,7 @@ namespace Scada.Admin.App.Forms
 
             if (TryGetFilePath(selectedNode, out string path))
             {
-                /*FrmFileNew frmFileNew = new FrmFileNew();
+                FrmFileNew frmFileNew = new();
 
                 if (frmFileNew.ShowDialog() == DialogResult.OK)
                 {
@@ -1809,7 +1809,7 @@ namespace Scada.Admin.App.Forms
                     {
                         appData.ProcError(ex, AppPhrases.FileOperationError);
                     }
-                }*/
+                }
             }
         }
 
@@ -1820,7 +1820,7 @@ namespace Scada.Admin.App.Forms
 
             if (TryGetFilePath(selectedNode, out string path))
             {
-                /*FrmItemName frmItemName = new FrmItemName();
+                FrmItemName frmItemName = new();
 
                 if (frmItemName.ShowDialog() == DialogResult.OK)
                 {
@@ -1842,7 +1842,7 @@ namespace Scada.Admin.App.Forms
                     {
                         appData.ProcError(ex, AppPhrases.FileOperationError);
                     }
-                }*/
+                }
             }
         }
 
@@ -1880,10 +1880,10 @@ namespace Scada.Admin.App.Forms
             {
                 FileItem fileItem = (FileItem)tag.RelatedObject;
 
-                /*if (Directory.Exists(fileItem.Path))
+                if (Directory.Exists(fileItem.Path))
                 {
-                    DirectoryInfo directoryInfo = new DirectoryInfo(fileItem.Path);
-                    FrmItemName frmItemName = new FrmItemName() { ItemName = directoryInfo.Name };
+                    DirectoryInfo directoryInfo = new(fileItem.Path);
+                    FrmItemName frmItemName = new() { ItemName = directoryInfo.Name };
 
                     if (frmItemName.ShowDialog() == DialogResult.OK && frmItemName.Modified)
                     {
@@ -1903,8 +1903,8 @@ namespace Scada.Admin.App.Forms
                 }
                 else
                 {
-                    ScadaUiUtils.ShowError(CommonPhrases.DirNotExists);
-                }*/
+                    ScadaUiUtils.ShowError(CommonPhrases.DirectoryNotExists);
+                }
             }
         }
 
@@ -1936,11 +1936,11 @@ namespace Scada.Admin.App.Forms
         private void cmsFileItem_Opening(object sender, CancelEventArgs e)
         {
             // enable or disable the Open menu item
-            /*if (tvExplorer.SelectedNode.Tag is TreeNodeTag tag && tag.NodeType == AppNodeType.File)
+            if (tvExplorer.SelectedNode.Tag is TreeNodeTag tag && tag.NodeType == AppNodeType.File)
             {
                 FileItem fileItem = (FileItem)tag.RelatedObject;
                 miFileItemOpen.Enabled = FileCreator.ExtensionIsKnown(Path.GetExtension(fileItem.Path).TrimStart('.'));
-            }*/
+            }
         }
 
         private void miFileItemOpen_Click(object sender, EventArgs e)
@@ -1958,7 +1958,7 @@ namespace Scada.Admin.App.Forms
             if (TryGetFilePath(tvExplorer.SelectedNode, out string path))
             {
                 if (File.Exists(path))
-                    AppUtils.StartProcess("explorer.exe", "/select, \"" + path + "\"");
+                    AppUtils.StartProcess("explorer.exe", $"/select, \"{path}\"");
                 else
                     ScadaUiUtils.ShowError(CommonPhrases.FileNotFound);
             }
@@ -2000,8 +2000,8 @@ namespace Scada.Admin.App.Forms
 
                 if (File.Exists(fileItem.Path))
                 {
-                    /*FileInfo fileInfo = new FileInfo(fileItem.Path);
-                    FrmItemName frmItemName = new FrmItemName() { ItemName = fileInfo.Name };
+                    FileInfo fileInfo = new(fileItem.Path);
+                    FrmItemName frmItemName = new() { ItemName = fileInfo.Name };
 
                     if (frmItemName.ShowDialog() == DialogResult.OK && frmItemName.Modified)
                     {
@@ -2012,18 +2012,18 @@ namespace Scada.Admin.App.Forms
                             fileItem.Update(new FileInfo(newFileName));
                             selectedNode.Text = fileItem.Name;
 
-                            if (tag.ExistingForm is FrmTextEditor form)
+                            /*if (tag.ExistingForm is FrmTextEditor form)
                             {
                                 wctrlMain.UpdateHint(tag.ExistingForm, selectedNode.FullPath);
                                 form.ChildFormTag.SendMessage(this, AppMessage.UpdateFileName,
                                     new Dictionary<string, object> { { "FileName", newFileName } });
-                            }
+                            }*/
                         }
                         catch (Exception ex)
                         {
                             appData.ProcError(ex, AppPhrases.FileOperationError);
                         }
-                    }*/
+                    }
                 }
                 else
                 {

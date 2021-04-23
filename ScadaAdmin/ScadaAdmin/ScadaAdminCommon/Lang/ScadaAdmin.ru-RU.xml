@@ -371,6 +371,18 @@
     <Phrase key="CultureRequired">Пожалуйста, введите непустой язык.</Phrase>
     <Phrase key="CultureNotFound">Указанная культура не найдена.</Phrase>
   </Dictionary>
+  <Dictionary key="Scada.Admin.App.Forms.FrmFileNew">
+    <Phrase key="this">Новый файл</Phrase>
+    <Phrase key="lbFileType.Items[0]">Схема</Phrase>
+    <Phrase key="lbFileType.Items[1]">Таблица</Phrase>
+    <Phrase key="lbFileType.Items[2]">Текстовый файл</Phrase>
+    <Phrase key="lbFileType.Items[3]">XML файл</Phrase>
+    <Phrase key="lblFileName">Имя файла</Phrase>
+    <Phrase key="btnOK">OK</Phrase>
+    <Phrase key="btnCancel">Отмена</Phrase>
+    <Phrase key="FileNameEmpty">Имя файла не может быть пустым.</Phrase>
+    <Phrase key="FileNameInvalid">Имя файла содержит недопустимые символы.</Phrase>
+  </Dictionary>
   <Dictionary key="Scada.Admin.App.Forms.FrmItemName">
     <Phrase key="this">Наименование элемента</Phrase>
     <Phrase key="lblName">Наименование</Phrase>
