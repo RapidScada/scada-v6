@@ -202,9 +202,11 @@ namespace Scada.Forms
             {
                 // load hyperlink if file exists
                 StreamReader reader = null;
+
                 try
                 {
                     string linkFileName = exeDir + "About.txt";
+
                     if (File.Exists(linkFileName))
                     {
                         reader = new StreamReader(linkFileName, Encoding.Default);
@@ -268,8 +270,7 @@ namespace Scada.Forms
                 }
                 finally
                 {
-                    if (reader != null)
-                        reader.Close();
+                    reader?.Close();
                 }
             }
             else
