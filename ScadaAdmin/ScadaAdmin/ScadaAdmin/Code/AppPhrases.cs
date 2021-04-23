@@ -130,6 +130,10 @@ namespace Scada.Admin.App.Code
         public static string ProjectTemplateEmpty { get; private set; }
         public static string ProjectTemplateNotFound { get; private set; }
 
+        // Scada.Admin.App.Forms.FrmTextEditor
+        public static string OpenTextFileError { get; private set; }
+        public static string SaveTextFileError { get; private set; }
+
         public static void Init()
         {
             LocaleDict dict = Locale.GetDictionary("Scada.Admin.App.Code.AppState");
@@ -228,6 +232,10 @@ namespace Scada.Admin.App.Code
             ProjectAlreadyExists = dict.GetPhrase("ProjectAlreadyExists");
             ProjectTemplateEmpty = dict.GetPhrase("ProjectTemplateEmpty");
             ProjectTemplateNotFound = dict.GetPhrase("ProjectTemplateNotFound");
+
+            dict = Locale.GetDictionary("Scada.Admin.App.Forms.FrmTextEditor");
+            OpenTextFileError = dict.GetPhrase("OpenTextFileError");
+            SaveTextFileError = dict.GetPhrase("SaveTextFileError");
         }
     }
 }

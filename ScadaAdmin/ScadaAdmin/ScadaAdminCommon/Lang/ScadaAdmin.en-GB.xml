@@ -521,6 +521,10 @@
     <Phrase key="btnNewProject">New Project</Phrase>
     <Phrase key="btnOpenProject">Open Project</Phrase>
   </Dictionary>
+  <Dictionary key="Scada.Admin.App.Forms.FrmTextEditor">
+    <Phrase key="OpenTextFileError">Error opening file</Phrase>
+    <Phrase key="SaveTextFileError">Error saving file</Phrase>
+  </Dictionary>
   <Dictionary key="Scada.Admin.Project">
     <Phrase key="CreateAppConfigError">Error creating configuration of the {0} application</Phrase>
     <Phrase key="DeleteAppConfigError">Error deleting configuration of the {0} application</Phrase>

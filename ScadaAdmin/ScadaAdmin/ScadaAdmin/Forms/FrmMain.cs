@@ -348,21 +348,21 @@ namespace Scada.Admin.App.Forms
             {
                 if (tag.ExistingForm == null)
                 {
-                    /*string ext = Path.GetExtension(fileItem.Name).TrimStart('.').ToLowerInvariant();
+                    string ext = Path.GetExtension(fileItem.Name).TrimStart('.').ToLowerInvariant();
 
                     if (appData.Config.FileAssociations.TryGetValue(ext, out string exePath) && 
                         File.Exists(exePath))
                     {
                         // run external editor
-                        AppUtils.StartProcess(exePath, string.Format("\"{0}\"", fileItem.Path));
+                        AppUtils.StartProcess(exePath, $"\"{fileItem.Path}\"");
                     }
                     else
                     {
                         // create and display a new text editor form
-                        FrmTextEditor form = new FrmTextEditor(appData, fileItem.Path);
+                        FrmTextEditor form = new(appData, fileItem.Path);
                         tag.ExistingForm = form;
                         wctrlMain.AddForm(form, treeNode.FullPath, ilExplorer.Images[treeNode.ImageKey], treeNode);
-                    }*/
+                    }
                 }
                 else
                 {
@@ -443,12 +443,12 @@ namespace Scada.Admin.App.Forms
                 {
                     fileItem.Path = Path.Combine(parenFileItem.Path, fileItem.Name);
 
-                    /*if (tag.ExistingForm is FrmTextEditor form)
+                    if (tag.ExistingForm is FrmTextEditor form)
                     {
                         wctrlMain.UpdateHint(form, node.FullPath);
                         form.ChildFormTag.SendMessage(this, AppMessage.UpdateFileName,
                             new Dictionary<string, object> { { "FileName", fileItem.Path } });
-                    }*/
+                    }
                 }
             }
         }
@@ -2012,12 +2012,12 @@ namespace Scada.Admin.App.Forms
                             fileItem.Update(new FileInfo(newFileName));
                             selectedNode.Text = fileItem.Name;
 
-                            /*if (tag.ExistingForm is FrmTextEditor form)
+                            if (tag.ExistingForm is FrmTextEditor form)
                             {
                                 wctrlMain.UpdateHint(tag.ExistingForm, selectedNode.FullPath);
                                 form.ChildFormTag.SendMessage(this, AppMessage.UpdateFileName,
                                     new Dictionary<string, object> { { "FileName", newFileName } });
-                            }*/
+                            }
                         }
                         catch (Exception ex)
                         {

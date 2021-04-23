@@ -44,6 +44,33 @@ namespace Scada.Admin.Config
 
 
         /// <summary>
+        /// Initializes a new instance of the class.
+        /// </summary>
+        public AdminConfig()
+        {
+            SetToDefault();
+        }
+
+
+        /// <summary>
+        /// Gets the associations between file extensions and editors.
+        /// </summary>
+        public SortedList<string, string> FileAssociations { get; private set; }
+
+
+        /// <summary>
+        /// Sets the default values.
+        /// </summary>
+        private void SetToDefault()
+        {
+            FileAssociations = new SortedList<string, string>
+            {
+                { "sch", @"C:\SCADA\ScadaSchemeEditor\ScadaSchemeEditor.exe" },
+                { "tbl", @"C:\SCADA\ScadaTableEditor\ScadaTableEditor.exe" }
+            };
+        }
+
+        /// <summary>
         /// Loads the configuration from the specified file.
         /// </summary>
         public bool Load(string fileName, out string errMsg)
