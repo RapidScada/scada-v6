@@ -73,6 +73,15 @@
         "dist/jquery.validate.js",
         "dist/jquery.validate.min.js"
       ]
+    },
+    {
+      "library": "jquery-validation-unobtrusive@3.2.12",
+      "destination": "wwwroot/lib/jquery-validation-unobtrusive/",
+      "files": [
+        "LICENSE.txt",
+        "dist/jquery.validate.unobtrusive.js",
+        "dist/jquery.validate.unobtrusive.min.js"
+      ]
     }
   ]
 }
