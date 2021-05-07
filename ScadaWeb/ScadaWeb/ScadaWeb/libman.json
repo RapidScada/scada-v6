@@ -52,6 +52,16 @@
         "dist/js/bootstrap.min.js.map",
         "LICENSE"
       ]
+    },
+    {
+      "library": "jquery@3.6.0",
+      "destination": "wwwroot/lib/jquery/",
+      "files": [
+        "LICENSE.txt",
+        "dist/jquery.js",
+        "dist/jquery.min.js",
+        "dist/jquery.min.map"
+      ]
     }
   ]
 }
