@@ -62,6 +62,17 @@
         "dist/jquery.min.js",
         "dist/jquery.min.map"
       ]
+    },
+    {
+      "library": "jquery-validation@1.19.3",
+      "destination": "wwwroot/lib/jquery-validation/",
+      "files": [
+        "LICENSE.md",
+        "dist/additional-methods.js",
+        "dist/additional-methods.min.js",
+        "dist/jquery.validate.js",
+        "dist/jquery.validate.min.js"
+      ]
     }
   ]
 }
