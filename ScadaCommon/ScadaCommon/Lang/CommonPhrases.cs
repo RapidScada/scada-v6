@@ -20,7 +20,7 @@
  * 
  * Author   : Mikhail Shiryaev
  * Created  : 2015
- * Modified : 2020
+ * Modified : 2021
  */
 
 #pragma warning disable 1591 // Missing XML comment for publicly visible type or member
@@ -103,6 +103,8 @@ namespace Scada.Lang
         static CommonPhrases()
         {
             // the phrases below may be required before loading dictionaries
+            ProductName = "Rapid SCADA";
+
             if (Locale.IsRussian)
             {
                 UnhandledException = "Необработанное исключение";
@@ -120,71 +122,71 @@ namespace Scada.Lang
         public static void Init()
         {
             LocaleDict dict = Locale.GetDictionary("Scada.Application");
-            ProductName = dict.GetPhrase("ProductName");
-            ServerAppName = dict.GetPhrase("ServerAppName");
-            CommAppName = dict.GetPhrase("CommAppName");
-            WebAppName = dict.GetPhrase("WebAppName");
-            UnhandledException = dict.GetPhrase("UnhandledException");
-            ExecutionImpossible = dict.GetPhrase("ExecutionImpossible");
-            StartLogic = dict.GetPhrase("StartLogic");
-            LogicIsAlreadyStarted = dict.GetPhrase("LogicIsAlreadyStarted");
-            StartLogicError = dict.GetPhrase("StartLogicError");
-            LogicIsStopped = dict.GetPhrase("LogicIsStopped");
-            UnableToStopLogic = dict.GetPhrase("UnableToStopLogic");
-            StopLogicError = dict.GetPhrase("StopLogicError");
-            LogicCycleError = dict.GetPhrase("LogicCycleError");
-            ThreadFatalError = dict.GetPhrase("ThreadFatalError");
-            WriteInfoError = dict.GetPhrase("WriteInfoError");
-            ConnectionNotFound = dict.GetPhrase("ConnectionNotFound");
+            ProductName = dict["ProductName"];
+            ServerAppName = dict["ServerAppName"];
+            CommAppName = dict["CommAppName"];
+            WebAppName = dict["WebAppName"];
+            UnhandledException = dict["UnhandledException"];
+            ExecutionImpossible = dict["ExecutionImpossible"];
+            StartLogic = dict["StartLogic"];
+            LogicIsAlreadyStarted = dict["LogicIsAlreadyStarted"];
+            StartLogicError = dict["StartLogicError"];
+            LogicIsStopped = dict["LogicIsStopped"];
+            UnableToStopLogic = dict["UnableToStopLogic"];
+            StopLogicError = dict["StopLogicError"];
+            LogicCycleError = dict["LogicCycleError"];
+            ThreadFatalError = dict["ThreadFatalError"];
+            WriteInfoError = dict["WriteInfoError"];
+            ConnectionNotFound = dict["ConnectionNotFound"];
 
             dict = Locale.GetDictionary("Scada.ConfigBase");
-            ArchiveTable = dict.GetPhrase("ArchiveTable");
-            CmdTypeTable = dict.GetPhrase("CmdTypeTable");
-            CmdValTable = dict.GetPhrase("CmdValTable");
-            CnlStatusTable = dict.GetPhrase("CnlStatusTable");
-            CnlTypeTable = dict.GetPhrase("CnlTypeTable");
-            CommLineTable = dict.GetPhrase("CommLineTable");
-            DataTypeTable = dict.GetPhrase("DataTypeTable");
-            DeviceTable = dict.GetPhrase("DeviceTable");
-            DevTypeTable = dict.GetPhrase("DevTypeTable");
-            FormatTable = dict.GetPhrase("FormatTable");
-            InCnlTable = dict.GetPhrase("InCnlTable");
-            LimTable = dict.GetPhrase("LimTable");
-            ObjTable = dict.GetPhrase("ObjTable");
-            ObjRightTable = dict.GetPhrase("ObjRightTable");
-            OutCnlTable = dict.GetPhrase("OutCnlTable");
-            QuantityTable = dict.GetPhrase("QuantityTable");
-            RoleTable = dict.GetPhrase("RoleTable");
-            RoleRefTable = dict.GetPhrase("RoleRefTable");
-            ScriptTable = dict.GetPhrase("ScriptTable");
-            UnitTable = dict.GetPhrase("UnitTable");
-            UserTable = dict.GetPhrase("UserTable");
-            ViewTable = dict.GetPhrase("ViewTable");
-            ViewTypeTable = dict.GetPhrase("ViewTypeTable");
+            ArchiveTable = dict["ArchiveTable"];
+            CmdTypeTable = dict["CmdTypeTable"];
+            CmdValTable = dict["CmdValTable"];
+            CnlStatusTable = dict["CnlStatusTable"];
+            CnlTypeTable = dict["CnlTypeTable"];
+            CommLineTable = dict["CommLineTable"];
+            DataTypeTable = dict["DataTypeTable"];
+            DeviceTable = dict["DeviceTable"];
+            DevTypeTable = dict["DevTypeTable"];
+            FormatTable = dict["FormatTable"];
+            InCnlTable = dict["InCnlTable"];
+            LimTable = dict["LimTable"];
+            ObjTable = dict["ObjTable"];
+            ObjRightTable = dict["ObjRightTable"];
+            OutCnlTable = dict["OutCnlTable"];
+            QuantityTable = dict["QuantityTable"];
+            RoleTable = dict["RoleTable"];
+            RoleRefTable = dict["RoleRefTable"];
+            ScriptTable = dict["ScriptTable"];
+            UnitTable = dict["UnitTable"];
+            UserTable = dict["UserTable"];
+            ViewTable = dict["ViewTable"];
+            ViewTypeTable = dict["ViewTypeTable"];
 
             dict = Locale.GetDictionary("Scada.Files");
-            FileNotFound = dict.GetPhrase("FileNotFound");
-            NamedFileNotFound = dict.GetPhrase("NamedFileNotFound");
-            DirectoryNotExists = dict.GetPhrase("DirectoryNotExists");
-            LoadAppConfigError = dict.GetPhrase("LoadAppConfigError");
-            SaveAppConfigError = dict.GetPhrase("SaveAppConfigError");
+            FileNotFound = dict["FileNotFound"];
+            NamedFileNotFound = dict["NamedFileNotFound"];
+            DirectoryNotExists = dict["DirectoryNotExists"];
+            LoadAppConfigError = dict["LoadAppConfigError"];
+            SaveAppConfigError = dict["SaveAppConfigError"];
 
             dict = Locale.GetDictionary("Scada.Format");
-            UndefinedSign = dict.GetPhrase("UndefinedSign");
-            IntegerRequired = dict.GetPhrase("IntegerRequired");
-            IntegerInRangeRequired = dict.GetPhrase("IntegerInRangeRequired");
-            RealRequired = dict.GetPhrase("RealRequired");
-            NonemptyRequired = dict.GetPhrase("NonemptyRequired");
-            DateTimeRequired = dict.GetPhrase("DateTimeRequired");
-            NotNumber = dict.GetPhrase("NotNumber");
-            NotHexadecimal = dict.GetPhrase("NotHexadecimal");
-            InvalidParamVal = dict.GetPhrase("InvalidParamVal");
+            UndefinedSign = dict["UndefinedSign"];
+            IntegerRequired = dict["IntegerRequired"];
+            IntegerInRangeRequired = dict["IntegerInRangeRequired"];
+            RealRequired = dict["RealRequired"];
+            NonemptyRequired = dict["NonemptyRequired"];
+            DateTimeRequired = dict["DateTimeRequired"];
+            NotNumber = dict["NotNumber"];
+            NotHexadecimal = dict["NotHexadecimal"];
+            InvalidParamVal = dict["InvalidParamVal"];
 
             dict = Locale.GetDictionary("Scada.Forms");
-            InfoCaption = dict.GetPhrase("InfoCaption");
-            QuestionCaption = dict.GetPhrase("QuestionCaption");
-            ErrorCaption = dict.GetPhrase("ErrorCaption");
-            WarningCaption = dict.GetPhrase("WarningCaption");
+            InfoCaption = dict["InfoCaption"];
+            QuestionCaption = dict["QuestionCaption"];
+            ErrorCaption = dict["ErrorCaption"];
+            WarningCaption = dict["WarningCaption"];
         }
     }
 }

@@ -20,7 +20,7 @@
  * 
  * Author   : Mikhail Shiryaev
  * Created  : 2020
- * Modified : 2020
+ * Modified : 2021
  */
 
 using System;
@@ -50,6 +50,17 @@ namespace Scada.Lang
         public string Key { get; }
 
         /// <summary>
+        /// Gets the phrase associated with the specified key or an empty phrase if the key is not found.
+        /// </summary>
+        public string this[string key]
+        {
+            get
+            {
+                return GetPhrase(key);
+            }
+        }
+
+        /// <summary>
         /// Gets the phrases contained in the dictionary.
         /// </summary>
         public Dictionary<string, string> Phrases { get; }
@@ -61,6 +72,14 @@ namespace Scada.Lang
         public string GetPhrase(string key)
         {
             return Phrases.TryGetValue(key, out string phrase) ? phrase : "[" + key + "]";
+        }
+
+        /// <summary>
+        /// Converts this dictionary to a dynamic object.
+        /// </summary>
+        public DynamicLocaleDict ToDynamic()
+        {
+            return new DynamicLocaleDict(this);
         }
     }
 }
