@@ -25,6 +25,7 @@
 
 using System;
 using System.Collections.Generic;
+using System.Dynamic;
 
 namespace Scada.Lang
 {
@@ -32,7 +33,7 @@ namespace Scada.Lang
     /// Represents a dictionary that contains phrases in a certain language.
     /// <para>Представляет словарь, который содержит фразы на определённом языке.</para>
     /// </summary>
-    public class LocaleDict
+    public class LocaleDict : DynamicObject
     {
         /// <summary>
         /// Initializes a new instance of the class.
@@ -75,11 +76,21 @@ namespace Scada.Lang
         }
 
         /// <summary>
-        /// Converts this dictionary to a dynamic object.
+        /// Provides the implementation for operations that get member values.
         /// </summary>
-        public DynamicLocaleDict ToDynamic()
+        public override bool TryGetMember(GetMemberBinder binder, out object result)
         {
-            return new DynamicLocaleDict(this);
+            result = GetPhrase(binder.Name);
+            return true;
+        }
+
+        /// <summary>
+        /// Provides the implementation for operations that set member values.
+        /// </summary>
+        public override bool TrySetMember(SetMemberBinder binder, object value)
+        {
+            Phrases[binder.Name] = value?.ToString() ?? "";
+            return true;
         }
     }
 }
