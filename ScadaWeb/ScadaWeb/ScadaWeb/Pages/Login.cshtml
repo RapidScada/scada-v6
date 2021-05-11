@@ -1,4 +1,55 @@
 ﻿@page
 @model LoginModel
 @{
+    Layout = "_BasicLayout";
+    ViewBag.Title = "Login";
+    dynamic dict = Locale.GetDictionary("Scada.Web.Pages.Login");
 }
+
+@section Styles {
+    <link href="~/css/pages/login.min.css" rel="stylesheet" asp-append-version="true" />
+}
+
+@section Scripts {
+    <script src="~/js/pages/login.js" asp-append-version="true"></script>
+}
+
+<form method="post">
+    <div asp-validation-summary="All">
+        <span>Please correct the following errors</span>
+    </div>
+
+    <div id="divLoginContainer">
+        <div id="divLogo">
+            <a href="@ScadaUtils.WebsiteEn" target="_blank"><img src="~/images/gear.png" alt="Logo" /></a>
+        </div>
+        <div id="divTitle">
+            <span id="lblProductName">@CommonPhrases.ProductName</span>
+        </div>
+        <div id="divAlertsOuter"><div id="divAlertsInner"></div></div>
+        <div id="divLogin">
+            <div>
+                <label id="lblUsername" asp-for="Username">@dict.lblUsername</label>
+            </div>
+            <div>
+                <input type="text" class="form-control" autofocus="autofocus" asp-for="Username" />
+            </div>
+            <div>
+                <label id="lblPassword" for="txtPassword">Password</label>
+            </div>
+            <div>
+                <input type="password" id="txtPassword" name="txtPassword" class="form-control" />
+            </div>
+            <div>
+                <div id="pnlRememberMe" class="checkbox pull-left">
+                    <label>
+                        <input type="checkbox" id="chkRememberMe" name="chkRememberMe" /><span id="lblRememberMe">Remember me</span>
+                    </label>
+                </div>
+                <div id="divLoginBtn" class="pull-right">
+                    <input type="submit" id="btnLogin" name="btnLogin" value="Login" class="btn btn-primary" />
+                </div>
+            </div>
+        </div>
+    </div>
+</form>

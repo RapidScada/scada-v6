@@ -1,0 +1,10 @@
+﻿[
+  {
+    "outputFile": "wwwroot/css/layout/basic-layout.css",
+    "inputFile": "wwwroot/css/layout/basic-layout.scss"
+  },
+  {
+    "outputFile": "wwwroot/css/pages/login.css",
+    "inputFile": "wwwroot/css/pages/login.scss"
+  }
+]
