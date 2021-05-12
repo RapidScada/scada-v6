@@ -1,4 +1,18 @@
-﻿$content-back-color: #f1f1f1;
+﻿@import "../../lib/bootstrap/scss/_functions.scss";
+@import "../../lib/bootstrap/scss/_variables.scss";
+
+// SCSS:
+// The underscore means that the file is only a partial file and that it should not be generated into a CSS file.
+
+// Bootstrap:
+// Variables should follow the `$component-state-property-size` formula for
+// consistent naming. Ex: $nav-link-disabled-color and $modal-content-box-shadow-xs.
+
+
+
+
+// Obsolete
+$content-back-color: #f1f1f1;
 $content-fore-color: #333;
 $link-fore-color: #0073aa;
 $link-hover-fore-color: #00a0d2;
@@ -29,7 +43,7 @@ $splitter-color: #ddd;
 $splitter-active-color: #ccc;
 $splitter-width: 9px;
 
-// Take into account Bootstrap z-indexes
+// The values below take into account Bootstrap z-indexes https://getbootstrap.com/docs/5.0/layout/z-index/
 $zindex-notif: 1010;
 $zindex-modal-background: 1040;
 $zindex-modal: 1050;

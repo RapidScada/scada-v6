@@ -50,6 +50,8 @@
         "dist/js/bootstrap.js.map",
         "dist/js/bootstrap.min.js",
         "dist/js/bootstrap.min.js.map",
+        "scss/_functions.scss",
+        "scss/_variables.scss",
         "LICENSE"
       ]
     },
