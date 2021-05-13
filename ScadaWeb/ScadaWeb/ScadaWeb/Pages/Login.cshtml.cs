@@ -25,18 +25,15 @@ namespace Scada.Web.Pages
 
         public IActionResult OnPost()
         {
-            if (ModelState.IsValid && !(Username == "admin" && Password == "12345"))
+            if (ModelState.IsValid)
             {
-                ModelState.AddModelError(string.Empty, "Incorrect username or password.");
+                if (Username == "admin" && Password == "12345")
+                    return RedirectToPage("/View");
+                else
+                    ModelState.AddModelError(string.Empty, "Incorrect username or password.");
             }
 
-            if (!ModelState.IsValid)
-            {
-                return Page();
-            }
-
-            Debug.WriteLine("!!! Username = " + Username);
-            return RedirectToPage("/Privacy");
+            return Page();
         }
     }
 }
