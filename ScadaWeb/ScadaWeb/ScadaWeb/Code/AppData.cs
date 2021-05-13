@@ -24,8 +24,6 @@
  */
 
 using Scada.Log;
-using System;
-using System.Collections.Generic;
 using System.IO;
 
 namespace Scada.Web.Code
@@ -41,7 +39,7 @@ namespace Scada.Web.Code
         /// </summary>
         public AppData()
         {
-            AppDirs = new AppDirs();
+            AppDirs = new WebDirs();
             Log = LogStub.Instance;
         }
 
@@ -49,7 +47,7 @@ namespace Scada.Web.Code
         /// <summary>
         /// Gets the application directories.
         /// </summary>
-        public AppDirs AppDirs { get; }
+        public WebDirs AppDirs { get; }
 
         /// <summary>
         /// Gets the application log.

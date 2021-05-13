@@ -1,0 +1,11 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ScadaWebConfig>
+  <ConnectionOptions>
+    <Host>localhost</Host>
+    <Port>10010</Port>
+    <User>ScadaComm</User>
+    <Password>672C3165774A308878A00927A987C759</Password>
+    <Timeout>10000</Timeout>
+    <SecretKey>0E063D581B1DB27B8E984993DED65CE99284A706756C706C7F3B12C44BD55D4D</SecretKey>
+  </ConnectionOptions>
+</ScadaWebConfig>

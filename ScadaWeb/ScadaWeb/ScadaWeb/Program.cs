@@ -31,6 +31,7 @@ using Scada.Config;
 using Scada.Lang;
 using Scada.Log;
 using Scada.Web.Code;
+using Scada.Web.Lang;
 using System;
 using System.IO;
 using System.Reflection;
@@ -43,6 +44,7 @@ namespace Scada.Web
     /// </summary>
     public class Program
     {
+        private static AppData appData = null;      // the application data
         private static ILog log = LogStub.Instance; // the application log
 
 
@@ -57,7 +59,7 @@ namespace Scada.Web
             try
             {
                 string exeDir = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location);
-                AppData appData = services.GetRequiredService<AppData>();
+                appData = services.GetRequiredService<AppData>();
                 appData.Init(exeDir);
 
                 log = appData.Log;
@@ -73,6 +75,24 @@ namespace Scada.Web
             {
                 ILogger logger = services.GetRequiredService<ILogger<Program>>();
                 logger.LogError(ex, "Application data initialization error.");
+            }
+        }
+
+        /// <summary>
+        /// Localizes the application.
+        /// </summary>
+        private static void LocalizeApp()
+        {
+            if (appData != null)
+            {
+                if (!Locale.LoadDictionaries(appData.AppDirs.LangDir, "ScadaCommon", out string errMsg))
+                    log.WriteError(errMsg);
+
+                if (!Locale.LoadDictionaries(appData.AppDirs.LangDir, "ScadaWeb", out errMsg))
+                    log.WriteError(errMsg);
+
+                CommonPhrases.Init();
+                WebPhrases.Init();
             }
         }
 
@@ -106,6 +126,7 @@ namespace Scada.Web
             IHost host = CreateHostBuilder(args).Build();
             InitAppData(host);
             LogStart();
+            LocalizeApp();
             host.Run();
             LogStop();
         }

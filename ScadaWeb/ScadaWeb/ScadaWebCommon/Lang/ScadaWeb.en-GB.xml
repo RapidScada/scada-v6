@@ -1,0 +1,14 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ScadaWebDictionaries>
+  <Dictionary key="Scada.Web.Pages">
+    <Phrase key="CorrectErrors">Please correct the following errors:</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Web.Pages.Login">
+    <Phrase key="PageTitle">Login</Phrase>
+    <Phrase key="WebsiteUrl">https://rapidscada.org</Phrase>
+    <Phrase key="lblUsername">Username</Phrase>
+    <Phrase key="lblPassword">Password</Phrase>
+    <Phrase key="lblRememberMe">Remember me</Phrase>
+    <Phrase key="btnLogin">Login</Phrase>
+  </Dictionary>
+</ScadaWebDictionaries>

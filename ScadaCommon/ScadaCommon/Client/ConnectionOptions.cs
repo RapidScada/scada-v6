@@ -131,12 +131,17 @@ namespace Scada.Client
             if (xmlElem == null)
                 throw new ArgumentNullException(nameof(xmlElem));
 
-            xmlElem.AppendElem("Name", Name);
+            if (!string.IsNullOrEmpty(Name))
+                xmlElem.AppendElem("Name", Name);
+
             xmlElem.AppendElem("Host", Host);
             xmlElem.AppendElem("Port", Port);
             xmlElem.AppendElem("User", User);
             xmlElem.AppendElem("Password", ScadaUtils.Encrypt(Password));
-            xmlElem.AppendElem("Instance", Instance);
+            
+            if (!string.IsNullOrEmpty(Instance))
+                xmlElem.AppendElem("Instance", Instance);
+
             xmlElem.AppendElem("Timeout", Timeout);
             xmlElem.AppendElem("SecretKey", ScadaUtils.BytesToHex(SecretKey));
         }

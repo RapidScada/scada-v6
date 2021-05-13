@@ -1,0 +1,30 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>ScadaWebCommon</name>
+    </assembly>
+    <members>
+        <member name="T:Scada.Web.Lang.WebPhrases">
+            <summary>
+            The phrases used by the web application and its plugins.
+            <para>Фразы, используемые веб приложением и его плагинами.</para>
+            </summary>
+        </member>
+        <member name="T:Scada.Web.WebUtils">
+            <summary>
+            The class provides helper methods for the Webstation application and its plugins.
+            <para>Класс, предоставляющий вспомогательные методы для приложения Вебстанция и его плагинов.</para>
+            </summary>
+        </member>
+        <member name="F:Scada.Web.WebUtils.AppVersion">
+            <summary>
+            The application version.
+            </summary>
+        </member>
+        <member name="F:Scada.Web.WebUtils.LogFileName">
+            <summary>
+            The application log file name.
+            </summary>
+        </member>
+    </members>
+</doc>
