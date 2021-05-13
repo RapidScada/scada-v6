@@ -3,6 +3,10 @@
 
 #divAlert {
   max-width: 400px; }
+  #divAlert.validation-summary-valid {
+    display: none; }
+  #divAlert ul {
+    margin-bottom: 0; }
 
 #divLoginBox {
   background-color: #fff;

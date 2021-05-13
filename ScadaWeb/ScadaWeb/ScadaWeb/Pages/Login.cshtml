@@ -25,9 +25,9 @@
         </div>
         <div id="divTitle" class="fs-2 my-4 text-center">@CommonPhrases.ProductName</div>
         <div id="divAlertsOuter"><div id="divAlertsInner"></div></div>
-        <div id="divAlert" class="alert alert-danger alert-dismissible mx-auto" role="alert">
-            Alert message example.
+        <div id="divAlert" class="alert alert-danger alert-dismissible mx-auto" role="alert" asp-validation-summary="All">
             <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+            <div>Please correct the following errors:</div>
         </div>
         <div id="divLoginBox" class="border rounded p-4 mx-auto">
             <div class="mb-3">

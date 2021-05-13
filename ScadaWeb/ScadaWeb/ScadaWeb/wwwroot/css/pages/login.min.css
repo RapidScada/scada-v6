@@ -1,1 +1,1 @@
-﻿body{background-color:#f8f9fa;}#divAlert{max-width:400px;}#divLoginBox{background-color:#fff;max-width:400px;}
+﻿body{background-color:#f8f9fa;}#divAlert{max-width:400px;}#divAlert.validation-summary-valid{display:none;}#divAlert ul{margin-bottom:0;}#divLoginBox{background-color:#fff;max-width:400px;}

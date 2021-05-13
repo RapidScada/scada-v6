@@ -8,6 +8,14 @@ body {
 
 #divAlert {
     max-width: $loginbox-width;
+    
+    &.validation-summary-valid {
+        display: none;
+    }
+
+    ul {
+        margin-bottom: 0;
+    }
 }
 
 #divLoginBox {
