@@ -51,7 +51,7 @@ namespace Scada.Admin.App.Code
         public AppData()
         {
             AppDirs = new AdminDirs();
-            ErrLog = new LogStub();
+            ErrLog = LogStub.Instance;
             Config = new AdminConfig();
             State = new AppState();
         }
@@ -109,7 +109,7 @@ namespace Scada.Admin.App.Code
         }
 
         /// <summary>
-        /// Initializes the common data.
+        /// Initializes the common application data.
         /// </summary>
         public void Init(string exeDir)
         {

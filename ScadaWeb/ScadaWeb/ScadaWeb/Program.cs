@@ -24,7 +24,16 @@
  */
 
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using Microsoft.Extensions.Logging;
+using Scada.Config;
+using Scada.Lang;
+using Scada.Log;
+using Scada.Web.Code;
+using System;
+using System.IO;
+using System.Reflection;
 
 namespace Scada.Web
 {
@@ -34,11 +43,76 @@ namespace Scada.Web
     /// </summary>
     public class Program
     {
-        public static void Main(string[] args)
+        private static ILog log = LogStub.Instance; // the application log
+
+
+        /// <summary>
+        /// Initializes the common application data.
+        /// </summary>
+        private static void InitAppData(IHost host)
         {
-            CreateHostBuilder(args).Build().Run();
+            using IServiceScope serviceScope = host.Services.CreateScope();
+            IServiceProvider services = serviceScope.ServiceProvider;
+
+            try
+            {
+                string exeDir = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location);
+                AppData appData = services.GetRequiredService<AppData>();
+                appData.Init(exeDir);
+
+                log = appData.Log;
+                log.WriteBreak();
+
+                if (!Locale.LoadCulture(Path.Combine(exeDir, "..", "Config", InstanceConfig.DefaultFileName),
+                    out string errMsg))
+                {
+                    log.WriteError(errMsg);
+                }
+            }
+            catch (Exception ex)
+            {
+                ILogger logger = services.GetRequiredService<ILogger<Program>>();
+                logger.LogError(ex, "Application data initialization error.");
+            }
         }
 
+        /// <summary>
+        /// Writes an application start message to the log.
+        /// </summary>
+        private static void LogStart()
+        {
+            log.WriteAction(Locale.IsRussian ?
+                "Вебстанция {0} запущена" :
+                "Webstation {0} started", WebUtils.AppVersion);
+        }
+
+        /// <summary>
+        /// Writes an application stop message to the log.
+        /// </summary>
+        private static void LogStop()
+        {
+            log.WriteAction(Locale.IsRussian ?
+                "Вебстанция остановлена" :
+                "Webstation is stopped");
+            log.WriteBreak();
+        }
+
+
+        /// <summary>
+        /// The main entry point for the application.
+        /// </summary>
+        public static void Main(string[] args)
+        {
+            IHost host = CreateHostBuilder(args).Build();
+            InitAppData(host);
+            LogStart();
+            host.Run();
+            LogStop();
+        }
+
+        /// <summary>
+        /// Initializes a new instance of the host builder.
+        /// </summary>
         public static IHostBuilder CreateHostBuilder(string[] args) =>
             Host.CreateDefaultBuilder(args)
                 .ConfigureWebHostDefaults(webBuilder =>
