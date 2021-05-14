@@ -1,4 +1,8 @@
 ﻿@page
 @model ViewModel
 @{
+    ViewBag.Title = "View";
 }
+
+<h1>View</h1>
+UserInfo = @Html.Raw(@Model.UserInfo)

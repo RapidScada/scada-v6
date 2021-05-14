@@ -1,4 +1,4 @@
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.Extensions.Logging;
 using System.Diagnostics;
@@ -22,8 +22,8 @@ namespace Scada.Web.Pages
 
         public void OnGet()
         {
-            RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier;
             _logger.LogError("An error occurred.");
+            RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier;
         }
     }
 }
