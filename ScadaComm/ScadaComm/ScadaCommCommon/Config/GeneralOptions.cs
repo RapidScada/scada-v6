@@ -43,8 +43,8 @@ namespace Scada.Comm.Config
             IsBound = true;
             SendModifiedData = true;
             SendAllDataPeriod = 60;
-            CmdEnabled = true;
-            FileCmdEnabled = true;
+            EnableCommands = true;
+            EnableFileCommands = true;
             MaxLogSize = LogFile.DefaultCapacity;
         }
 
@@ -65,14 +65,14 @@ namespace Scada.Comm.Config
         public int SendAllDataPeriod { get; set; }
 
         /// <summary>
-        /// Gets or sets a value indicating whether commands are enabled.
+        /// Gets or sets a value indicating whether to enable telecontrol commands.
         /// </summary>
-        public bool CmdEnabled { get; set; }
+        public bool EnableCommands { get; set; }
 
         /// <summary>
-        /// Gets or sets a value indicating whether file commands are enabled.
+        /// Gets or sets a value indicating whether to read telecontrol commands from files.
         /// </summary>
-        public bool FileCmdEnabled { get; set; }
+        public bool EnableFileCommands { get; set; }
 
         /// <summary>
         /// Gets or sets the maximum log file size.
@@ -91,8 +91,8 @@ namespace Scada.Comm.Config
             IsBound = xmlNode.GetChildAsBool("IsBound", IsBound);
             SendModifiedData = xmlNode.GetChildAsBool("SendModifiedData", SendModifiedData);
             SendAllDataPeriod = xmlNode.GetChildAsInt("SendAllDataPeriod", SendAllDataPeriod);
-            CmdEnabled = xmlNode.GetChildAsBool("CmdEnabled", CmdEnabled);
-            FileCmdEnabled = xmlNode.GetChildAsBool("FileCmdEnabled", FileCmdEnabled);
+            EnableCommands = xmlNode.GetChildAsBool("EnableCommands", EnableCommands);
+            EnableFileCommands = xmlNode.GetChildAsBool("EnableFileCommands", EnableFileCommands);
             MaxLogSize = xmlNode.GetChildAsInt("MaxLogSize", MaxLogSize);
         }
 
@@ -107,8 +107,8 @@ namespace Scada.Comm.Config
             xmlElem.AppendElem("IsBound", IsBound);
             xmlElem.AppendElem("SendModifiedData", SendModifiedData);
             xmlElem.AppendElem("SendAllDataPeriod", SendAllDataPeriod);
-            xmlElem.AppendElem("CmdEnabled", CmdEnabled);
-            xmlElem.AppendElem("FileCmdEnabled", FileCmdEnabled);
+            xmlElem.AppendElem("EnableCommands", EnableCommands);
+            xmlElem.AppendElem("EnableFileCommands", EnableFileCommands);
             xmlElem.AppendElem("MaxLogSize", MaxLogSize);
         }
     }

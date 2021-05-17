@@ -170,7 +170,7 @@ namespace Scada.Comm.Engine
             commLines = new List<CommLine>(Config.Lines.Count);
             commLineMap = new Dictionary<int, CommLine>();
             deviceMap = new Dictionary<int, DeviceItem>();
-            commandReader = Config.GeneralOptions.CmdEnabled && Config.GeneralOptions.FileCmdEnabled ? 
+            commandReader = Config.GeneralOptions.EnableCommands && Config.GeneralOptions.EnableFileCommands ? 
                 new CommandReader(this) : null;
             InitDrivers();
             InitDataSources();
@@ -834,7 +834,7 @@ namespace Scada.Comm.Engine
 
             try
             {
-                if (!Config.GeneralOptions.CmdEnabled)
+                if (!Config.GeneralOptions.EnableCommands)
                 {
                     Log.WriteError(Locale.IsRussian ?
                         "Невозможно обработать команду, потому что команды отключены" :
