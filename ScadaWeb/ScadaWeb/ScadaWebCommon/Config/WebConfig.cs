@@ -24,6 +24,8 @@
  */
 
 using Scada.Client;
+using Scada.Config;
+using System.Collections.Generic;
 
 namespace Scada.Web.Config
 {
@@ -38,9 +40,47 @@ namespace Scada.Web.Config
         /// </summary>
         public const string DefaultFileName = "ScadaWebConfig.xml";
 
+
+        /// <summary>
+        /// Initializes a new instance of the class.
+        /// </summary>
+        public WebConfig()
+        {
+            SetToDefault();
+        }
+
+
+        /// <summary>
+        /// Gets the general options.
+        /// </summary>
+        public GeneralOptions GeneralOptions { get; private set; }
+
         /// <summary>
         /// Gets the connection options.
         /// </summary>
         public ConnectionOptions ConnectionOptions { get; private set; }
+
+        /// <summary>
+        /// Gets the codes of the enabled plugins.
+        /// </summary>
+        public List<string> PluginCodes { get; private set; }
+
+        /// <summary>
+        /// Gets the groups of custom options.
+        /// </summary>
+        public SortedList<string, OptionList> CustomOptions { get; private set; }
+
+
+
+        /// <summary>
+        /// Sets the default values.
+        /// </summary>
+        private void SetToDefault()
+        {
+            GeneralOptions = new GeneralOptions();
+            ConnectionOptions = new ConnectionOptions();
+            PluginCodes = new List<string>();
+            CustomOptions = new SortedList<string, OptionList>();
+        }
     }
 }

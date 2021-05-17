@@ -1,5 +1,13 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <ScadaWebConfig>
+  <GeneralOptions>
+    <DefaultCulture></DefaultCulture>
+    <DefaultTimeZone></DefaultTimeZone>
+    <DefaultStartPage></DefaultStartPage>
+    <EnableCommands>true</EnableCommands>
+    <ShareStats>true</ShareStats>
+    <MaxLogSize>1048576</MaxLogSize>
+  </GeneralOptions>
   <ConnectionOptions>
     <Host>localhost</Host>
     <Port>10010</Port>
@@ -8,4 +16,34 @@
     <Timeout>10000</Timeout>
     <SecretKey>0E063D581B1DB27B8E984993DED65CE99284A706756C706C7F3B12C44BD55D4D</SecretKey>
   </ConnectionOptions>
+  <LoginOptions>
+    <!-- CaptchaMode: Disabled | Enabled | OnFail -->
+    <CaptchaMode>Disabled</CaptchaMode>
+    <RememberMe>false</RememberMe>
+    <AutoLoginAs></AutoLoginAs>
+  </LoginOptions>
+  <DisplayOptions>
+    <ShowHeader>true</ShowHeader>
+    <ShowMainMenu>true</ShowMainMenu>
+    <ShowViewExplorer>true</ShowViewExplorer>
+  </DisplayOptions>
+  <Plugins>
+    <Plugin code="PlgChart" />
+    <Plugin code="PlgTable" />
+    <Plugin code="PlgScheme" />
+  </Plugins>
+  <PluginAssignment>
+    <ChartFeature>PlgChart</ChartFeature>
+    <CommandFeature>PlgTable</CommandFeature>
+    <EventAckFeature>PlgTable</EventAckFeature>
+    <UserProfileFeature></UserProfileFeature>
+  </PluginAssignment>
+  <CustomOptions>
+    <OptionGroup name="Scheme">
+      <!-- ScaleType: Numeric | FitScreen | FitWidth -->
+      <Option name="ScaleType" value="Numeric" />
+      <Option name="ScaleValue" value="100" />
+      <Option name="RememberScale" value="true" />
+    </OptionGroup>
+  </CustomOptions>
 </ScadaWebConfig>
