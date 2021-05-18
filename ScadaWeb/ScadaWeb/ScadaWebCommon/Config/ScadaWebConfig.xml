@@ -19,7 +19,7 @@
   <LoginOptions>
     <!-- CaptchaMode: Disabled | Enabled | OnFail -->
     <CaptchaMode>Disabled</CaptchaMode>
-    <RememberMe>false</RememberMe>
+    <AllowRememberMe>false</AllowRememberMe>
     <AutoLoginAs></AutoLoginAs>
   </LoginOptions>
   <DisplayOptions>
