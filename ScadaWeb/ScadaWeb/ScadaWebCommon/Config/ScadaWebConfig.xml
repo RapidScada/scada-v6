@@ -19,7 +19,8 @@
   <LoginOptions>
     <!-- CaptchaMode: Disabled | Enabled | OnFail -->
     <CaptchaMode>Disabled</CaptchaMode>
-    <AllowRememberMe>false</AllowRememberMe>
+    <AllowRememberMe>true</AllowRememberMe>
+    <RememberMeExpires>30</RememberMeExpires>
     <AutoLoginAs></AutoLoginAs>
   </LoginOptions>
   <DisplayOptions>

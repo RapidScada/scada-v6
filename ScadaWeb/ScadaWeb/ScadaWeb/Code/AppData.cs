@@ -24,6 +24,7 @@
  */
 
 using Scada.Log;
+using Scada.Web.Config;
 using System.IO;
 
 namespace Scada.Web.Code
@@ -41,6 +42,7 @@ namespace Scada.Web.Code
         {
             AppDirs = new WebDirs();
             Log = LogStub.Instance;
+            Config = new WebConfig();
         }
 
 
@@ -54,6 +56,11 @@ namespace Scada.Web.Code
         /// </summary>
         public ILog Log { get; private set; }
 
+        /// <summary>
+        /// Gets the application configuration.
+        /// </summary>
+        public WebConfig Config { get; }
+
 
         /// <summary>
         /// Initializes the common application data.
@@ -64,8 +71,25 @@ namespace Scada.Web.Code
 
             Log = new LogFile(LogFormat.Full)
             {
-                FileName = Path.Combine(AppDirs.LogDir, WebUtils.LogFileName)
+                FileName = Path.Combine(AppDirs.LogDir, WebUtils.LogFileName),
+                Capacity = int.MaxValue
             };
+        }
+
+        /// <summary>
+        /// Loads the application configuration.
+        /// </summary>
+        public void LoadConfig()
+        {
+            if (Config.Load(Path.Combine(AppDirs.ConfigDir, WebConfig.DefaultFileName), out string errMsg))
+            {
+                if (Log is LogFile logFile)
+                    logFile.Capacity = Config.GeneralOptions.MaxLogSize;
+            }
+            else
+            {
+                Log.WriteError(errMsg);
+            }
         }
     }
 }

@@ -1,5 +1,6 @@
 ﻿@page
 @model LoginModel
+@inject AppData appData 
 @{
     dynamic dict = Locale.GetDictionary("Scada.Web.Pages.Login");
     ViewBag.Title = dict.PageTitle;
@@ -35,10 +36,13 @@
             </div>
             <div class="row mb-3">
                 <div class="col">
-                    <div class="form-check">
-                        <input type="checkbox" id="chkRememberMe" class="form-check-input" asp-for="RememberMe" />
-                        <label id="lblRememberMe" class="form-check-label" for="chkRememberMe">@dict.lblRememberMe</label>
-                    </div>
+                    @if (appData.Config.LoginOptions.AllowRememberMe)
+                    {
+                        <div class="form-check">
+                            <input type="checkbox" id="chkRememberMe" class="form-check-input" asp-for="RememberMe" />
+                            <label id="lblRememberMe" class="form-check-label" for="chkRememberMe">@dict.lblRememberMe</label>
+                        </div>
+                    }
                 </div>
                 <div class="col-auto">
                     <button type="submit" id="btnLogin" class="btn btn-primary">@dict.btnLogin</button>

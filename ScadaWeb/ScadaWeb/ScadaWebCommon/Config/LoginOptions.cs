@@ -41,6 +41,7 @@ namespace Scada.Web.Config
         {
             CaptchaMode = CaptchaMode.Disabled;
             AllowRememberMe = false;
+            RememberMeExpires = 30;
             AutoLoginAs = "";
         }
 
@@ -54,6 +55,11 @@ namespace Scada.Web.Config
         /// Gets or sets a value indicating whether a user is allowed to remember login.
         /// </summary>
         public bool AllowRememberMe { get; set; }
+
+        /// <summary>
+        /// Gets or sets the period in which a user's login expires, in days.
+        /// </summary>
+        public int RememberMeExpires { get; set; }
 
         /// <summary>
         /// Gets or sets the username for automatic login.
@@ -72,6 +78,7 @@ namespace Scada.Web.Config
 
             CaptchaMode = xmlNode.GetChildAsEnum("CaptchaMode", CaptchaMode);
             AllowRememberMe = xmlNode.GetChildAsBool("AllowRememberMe", AllowRememberMe);
+            RememberMeExpires = xmlNode.GetChildAsInt("RememberMeExpires", RememberMeExpires);
             AutoLoginAs = xmlNode.GetChildAsString("AutoLoginAs", AutoLoginAs);
         }
 
@@ -85,6 +92,7 @@ namespace Scada.Web.Config
 
             xmlElem.AppendElem("CaptchaMode", CaptchaMode);
             xmlElem.AppendElem("AllowRememberMe", AllowRememberMe);
+            xmlElem.AppendElem("RememberMeExpires", RememberMeExpires);
             xmlElem.AppendElem("AutoLoginAs", AutoLoginAs);
         }
     }

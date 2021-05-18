@@ -70,6 +70,8 @@ namespace Scada.Web
                 {
                     log.WriteError(errMsg);
                 }
+
+                appData.LoadConfig();
             }
             catch (Exception ex)
             {

@@ -20,10 +20,11 @@
  * 
  * Author   : Mikhail Shiryaev
  * Created  : 2005
- * Modified : 2020
+ * Modified : 2021
  */
 
 using System;
+using System.Diagnostics;
 using System.IO;
 using System.Text;
 
@@ -194,15 +195,17 @@ namespace Scada.Log
             {
                 lock (writeLock)
                 {
-                    // check file size
-                    FileInfo fileInfo = new FileInfo(FileName);
-
-                    if (fileInfo.Exists && fileInfo.Length > Capacity)
+                    // rotate log file
+                    if (Capacity > 0)
                     {
-                        // rename the file
-                        string bakFileName = FileName + ".bak";
-                        File.Delete(bakFileName);
-                        File.Move(FileName, bakFileName);
+                        FileInfo fileInfo = new FileInfo(FileName);
+
+                        if (fileInfo.Exists && fileInfo.Length > Capacity)
+                        {
+                            string bakFileName = FileName + ".bak";
+                            File.Delete(bakFileName);
+                            File.Move(FileName, bakFileName);
+                        }
                     }
 
                     // write text
@@ -213,9 +216,9 @@ namespace Scada.Log
                     }
                 }
             }
-            catch
+            catch (Exception ex)
             {
-                // do nothing
+                Debug.WriteLine(ex);
             }
         }
 

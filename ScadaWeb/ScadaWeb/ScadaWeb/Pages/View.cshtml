@@ -1,8 +1,11 @@
 ﻿@page
 @model ViewModel
 @{
+    Layout = "_MainLayout";
     ViewBag.Title = "View";
 }
 
-<h1>View</h1>
-UserInfo = @Html.Raw(@Model.UserInfo)
+<div id="divViewContainer">
+    <h1>View Page</h1>
+    <div id="divView"><iframe id="frameView"></iframe></div>
+</div>

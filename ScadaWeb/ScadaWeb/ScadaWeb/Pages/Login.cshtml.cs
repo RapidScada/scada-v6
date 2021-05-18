@@ -28,6 +28,7 @@ using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Scada.Web.Code;
+using Scada.Web.Config;
 using System;
 using System.Collections.Generic;
 using System.Security.Claims;
@@ -62,7 +63,7 @@ namespace Scada.Web.Pages
         {
             var claims = new List<Claim>
             {
-                new Claim(ClaimTypes.Name, "admin@gmail.com"),
+                new Claim(ClaimTypes.Name, "admin"),
                 new Claim(ClaimTypes.NameIdentifier, "1"),
                 new Claim(ClaimTypes.Role, "Administrator"),
             };
@@ -71,11 +72,12 @@ namespace Scada.Web.Pages
                 claims, CookieAuthenticationDefaults.AuthenticationScheme);
 
             var authProperties = new AuthenticationProperties();
+            LoginOptions loginOptions = appData.Config.LoginOptions;
 
-            if (RememberMe)
+            if (loginOptions.AllowRememberMe && RememberMe)
             {
                 authProperties.IsPersistent = true;
-                authProperties.ExpiresUtc = DateTime.UtcNow.AddDays(30); // config option needed
+                authProperties.ExpiresUtc = DateTime.UtcNow.AddDays(loginOptions.RememberMeExpires);
             }
 
             await HttpContext.SignInAsync(
