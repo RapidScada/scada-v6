@@ -1,5 +1,55 @@
-﻿@{
+﻿@inject AppData appData
+@{
     Layout = "_BasicLayout";
+    dynamic dict = Locale.GetDictionary("Scada.Web.Pages.Shared._MainLayout");
+    var displayOptions = appData.Config.DisplayOptions;
+    var username = "admin";
 }
 
-@RenderBody()
+@section Styles {
+    <link href="~/css/layout/main-layout.min.css" rel="stylesheet" asp-append-version="true" />
+    @RenderSection("Styles", required: false)
+}
+
+@section Scripts {
+    <script src="~/js/layout/main-layout.js" asp-append-version="true"></script>
+    @RenderSection("Scripts", required: false)
+}
+
+@if (displayOptions.ShowHeader)
+{
+    <div id="Main_divHeader">
+        <div class="main-hdr-block left">@*
+            *@<span id="Main_spanMenuBtn" class="main-hdr-btn" title="@dict.spanMenuBtn_ToolTip"><i class="fas fa-bars"></i></span>@*
+            *@<span id="Main_spanAppTitle">@CommonPhrases.ProductName</span>
+        </div>
+      
+        <div class="main-hdr-block right">@*
+            *@<span id="Main_spanNotifBtn" class="main-hdr-btn" title="@dict.spanNotifBtn_ToolTip"><i class="far fa-bell"></i></span>@*
+            *@<span id="Main_spanProfileBtn" class="main-hdr-btn"><a>@username</a></span>@*
+            *@<span id="Main_spanLogoutBtn" class="main-hdr-btn">@dict.spanLogoutBtn</span>@*
+            *@<span id="Main_spanFullscreenBtn" class="main-hdr-btn" title="@dict.spanFullscreenBtn_ToolTip"><i class="fas fa-expand"></i></span>
+        </div>
+    </div>
+}
+
+<div id="Main_divNoHeaderMenu" class="no-link-decor d-none">@*
+    *@<span id="Main_spanMenuBtn2" class="main-hdr-btn" title="@dict.spanMenuBtn_ToolTip"><i class="fas fa-bars"></i></span>@*
+    *@<span id="Main_spanNotifBtn2" class="main-hdr-btn" title="@dict.spanNotifBtn_ToolTip"><i class="far fa-bell"></i></span>@*
+    *@<span id="Main_spanProfileBtn2" class="main-hdr-btn" title="@dict.spanProfileBtn_ToolTip"><i class="fas fa-user"></i></span>@*
+    *@<span id="Main_spanLogoutBtn2" class="main-hdr-btn" title="@dict.spanLogoutBtn_ToolTip"><i class="fas fa-sign-out-alt"></i></span>@*
+    *@<span id="Main_spanExitFullscreenBtn" class="main-hdr-btn" title="@dict.spanExitFullscreenBtn_ToolTip"><i class="fas fa-compress"></i></span>
+</div>
+
+<div id="Main_divLeftPanel">
+    <div id="Main_LeftTabs"></div>
+    <div id="Main_MainMenu"></div>
+    <div id="Main_ViewExplorer"></div>
+</div>
+
+<div id="Main_divContent">
+    @RenderBody()
+</div>
+
+<div id="Main_divNotifPanel">
+</div>

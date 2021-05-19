@@ -1,0 +1,127 @@
+﻿/*
+$content-back-color: #f1f1f1;
+$content-fore-color: #333;
+$link-fore-color: #0073aa;
+$link-hover-fore-color: #00a0d2;
+$panel-border-color: #e5e5e5;
+$popup-back-color: white;
+$default-font-family: 'Open Sans', sans-serif;
+$secondary-font-family: Arial, Helvetica, sans-serif;
+$form-font-size: 13px;
+$data-font-size: 12px;
+$bold-weight: 600;
+$popup-min-width: 250px;
+
+$menu-back-color: #23282d;
+$menu-back-color-air: white;
+$menu-fore-color: #eee;
+$menu-fore-color-dark: #9ca1a6;
+$menu-fore-color-air: #444;
+$menu-fore-color-air-light: #8f8f8f;
+$menu-item-hover-back-color: #32373c;
+$menu-item-hover-back-color-dark: #191e23;
+$menu-item-hover-fore-color: #00b9eb;
+$menu-item-selected-back-color: #0073aa;
+$menu-item-selected-fore-color: white;
+$menu-item-disabled-fore-color: $menu-fore-color-dark;
+$menu-item-disabled-fore-color-air: #ccc;
+
+$splitter-color: #ddd;
+$splitter-active-color: #ccc;
+$splitter-width: 9px;
+
+// The values below take into account Bootstrap z-indexes https://getbootstrap.com/docs/5.0/layout/z-index/
+$zindex-notif: 1010;
+$zindex-modal-background: 1040;
+$zindex-modal: 1050;
+*/
+body.header-visible {
+  padding-top: 30px; }
+
+body.left-panel-visible {
+  padding-left: 300px; }
+
+/********** Header **********/
+#Main_divHeader {
+  position: fixed;
+  left: 0;
+  top: 0;
+  width: 100%;
+  min-width: 300px;
+  height: 30px;
+  margin: 0;
+  padding: 0;
+  background-color: #23282d;
+  color: #eee; }
+  #Main_divHeader .main-hdr-block {
+    position: absolute;
+    top: 0;
+    background-color: #23282d; }
+    #Main_divHeader .main-hdr-block.left {
+      left: 0; }
+      #Main_divHeader .main-hdr-block.left .main-hdr-btn {
+        margin-right: 5px; }
+    #Main_divHeader .main-hdr-block.right {
+      right: 0; }
+      #Main_divHeader .main-hdr-block.right .main-hdr-btn {
+        margin-left: 5px; }
+
+#Main_spanAppTitle {
+  display: inline-block;
+  font-family: "Open Sans", sans-serif;
+  font-size: 17px;
+  white-space: nowrap;
+  position: relative;
+  top: 1px; }
+
+#Main_divNoHeaderMenu {
+  height: 30px;
+  opacity: 0.5;
+  position: fixed;
+  right: 0;
+  top: 0;
+  background-color: white;
+  z-index: 2001; }
+  #Main_divNoHeaderMenu:hover {
+    opacity: 1; }
+  #Main_divNoHeaderMenu .main-hdr-btn {
+    margin-left: 5px; }
+    #Main_divNoHeaderMenu .main-hdr-btn:hover {
+      background-color: white; }
+
+.main-hdr-btn {
+  display: inline-block;
+  height: 30px;
+  line-height: 30px;
+  margin: 0;
+  padding: 0 10px;
+  cursor: pointer;
+  font-size: 14px;
+  text-decoration: none;
+  white-space: nowrap; }
+  .main-hdr-btn:hover {
+    background-color: #32373c;
+    color: #00b9eb;
+    text-decoration: none; }
+
+/********** Left panel **********/
+#Main_divLeftPanel {
+  position: fixed;
+  left: 0;
+  top: 0;
+  width: 300px;
+  min-height: 200px;
+  background-color: #23282d;
+  color: #eee;
+  font-size: 14px;
+  overflow: hidden; }
+
+body.header-visible #Main_divLeftPanel {
+  top: 30px; }
+
+/********** Others **********/
+#Main_divContent {
+  overflow: auto; }
+
+#Main_divNotifPanel {
+  position: fixed; }

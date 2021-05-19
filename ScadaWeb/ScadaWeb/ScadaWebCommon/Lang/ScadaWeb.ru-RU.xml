@@ -3,6 +3,11 @@
   <Dictionary key="Scada.Web.Pages">
     <Phrase key="CorrectErrors">Пожалуйста исправьте следующие ошибки:</Phrase>
   </Dictionary>
+  <Dictionary key="Scada.Web.Pages.Shared._MainLayout">
+    <Phrase key="spanNotifBtn_ToolTip">Уведомления</Phrase>
+    <Phrase key="spanLogoutBtn">Выйти</Phrase>
+    <Phrase key="spanFullscreenBtn_ToolTip">На весь экран</Phrase>
+  </Dictionary>
   <Dictionary key="Scada.Web.Pages.Login">
     <Phrase key="PageTitle">Вход в систему</Phrase>
     <Phrase key="WebsiteUrl">https://rapidscada.ru</Phrase>

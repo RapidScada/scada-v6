@@ -1,4 +1,13 @@
 ﻿@import '_shared-vars';
 
-body {
+.no-link-decor a {
+    &,
+    &:active,
+    &:focus,
+    &:hover,
+    &:visited {
+        color: inherit;
+        outline: 0;
+        text-decoration: none;
+    }
 }

@@ -6,5 +6,9 @@
   {
     "outputFile": "wwwroot/css/pages/login.css",
     "inputFile": "wwwroot/css/pages/login.scss"
+  },
+  {
+    "outputFile": "wwwroot/css/layout/main-layout.css",
+    "inputFile": "wwwroot/css/layout/main-layout.scss"
   }
 ]

@@ -8,7 +8,20 @@
 // Variables should follow the `$component-state-property-size` formula for
 // consistent naming. Ex: $nav-link-disabled-color and $modal-content-box-shadow-xs.
 
+// Main layout
+$header-height: 30px;
+$left-panel-width: 300px;
 
+$title-font-family: 'Open Sans', sans-serif;
+$main-menu-back-color: #23282d;
+$main-menu-back-color-light: white;
+$main-menu-fore-color: #eee;
+$main-menu-item-hover-back-color: #32373c;
+$main-menu-item-hover-fore-color: #00b9eb;
+
+// Z-indexes
+// The values below take into account Bootstrap z-indexes https://getbootstrap.com/docs/5.0/layout/z-index/
+$zindex-notif-panel: 2000; // notification panel
 
 
 // Obsolete
