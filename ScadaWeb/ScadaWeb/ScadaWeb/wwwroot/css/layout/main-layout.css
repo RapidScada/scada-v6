@@ -35,6 +35,87 @@ $zindex-notif: 1010;
 $zindex-modal-background: 1040;
 $zindex-modal: 1050;
 */
+/*
+$content-back-color: #f1f1f1;
+$content-fore-color: #333;
+$link-fore-color: #0073aa;
+$link-hover-fore-color: #00a0d2;
+$panel-border-color: #e5e5e5;
+$popup-back-color: white;
+$default-font-family: 'Open Sans', sans-serif;
+$secondary-font-family: Arial, Helvetica, sans-serif;
+$form-font-size: 13px;
+$data-font-size: 12px;
+$bold-weight: 600;
+$popup-min-width: 250px;
+
+$menu-back-color: #23282d;
+$menu-back-color-air: white;
+$menu-fore-color: #eee;
+$menu-fore-color-dark: #9ca1a6;
+$menu-fore-color-air: #444;
+$menu-fore-color-air-light: #8f8f8f;
+$menu-item-hover-back-color: #32373c;
+$menu-item-hover-back-color-dark: #191e23;
+$menu-item-hover-fore-color: #00b9eb;
+$menu-item-selected-back-color: #0073aa;
+$menu-item-selected-fore-color: white;
+$menu-item-disabled-fore-color: $menu-fore-color-dark;
+$menu-item-disabled-fore-color-air: #ccc;
+
+$splitter-color: #ddd;
+$splitter-active-color: #ccc;
+$splitter-width: 9px;
+
+// The values below take into account Bootstrap z-indexes https://getbootstrap.com/docs/5.0/layout/z-index/
+$zindex-notif: 1010;
+$zindex-modal-background: 1040;
+$zindex-modal: 1050;
+*/
+.tree-view .node {
+  cursor: pointer;
+  display: table;
+  width: 100%; }
+  .tree-view .node.disabled {
+    cursor: default; }
+
+.tree-view .node-items {
+  display: table-row; }
+  .tree-view .node-items > div {
+    display: table-cell; }
+
+.tree-view .child-nodes {
+  display: none;
+  /*or block*/ }
+
+.tree-view .indent {
+  width: 20px; }
+
+.tree-view .icon {
+  width: 0; }
+  .tree-view .icon img {
+    width: 16px;
+    height: 16px;
+    border: none; }
+
+.tree-view .expander {
+  width: 20px;
+  min-width: 20px; }
+  .tree-view .expander::before {
+    font-family: "Font Awesome 5 Free"; }
+  .tree-view .expander.left::before {
+    content: "\f065"; }
+  .tree-view .expander.right {
+    display: none;
+    text-align: right;
+    width: 0; }
+    .tree-view .expander.right::before {
+      content: "\f0f3"; }
+  .tree-view .expander.expanded::before {
+    content: "\f0f3"; }
+  .tree-view .expander.empty {
+    visibility: hidden; }
+
 body.header-visible {
   padding-top: 30px; }
 

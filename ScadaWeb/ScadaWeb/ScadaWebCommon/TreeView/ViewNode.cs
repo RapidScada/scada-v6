@@ -16,7 +16,7 @@
  * 
  * Product  : Rapid SCADA
  * Module   : ScadaWebCommon
- * Summary  : Defines functionality to operate with a tree structure on a web page
+ * Summary  : Represents a node of the view explorer
  * 
  * Author   : Mikhail Shiryaev
  * Created  : 2016
@@ -29,40 +29,60 @@ using System.Collections.Generic;
 namespace Scada.Web.TreeView
 {
     /// <summary>
-    /// Defines functionality to operate with a tree structure on a web page.
-    /// <para>Определяет функциональность для работы с древовидной структурой на веб-странице.</para>
+    /// Represents a node of the view explorer.
     /// </summary>
-    public interface IWebTreeNode
+    public class ViewNode : IWebTreeNode
     {
+        /// <summary>
+        /// Initializes a new instance of the class.
+        /// </summary>
+        public ViewNode(int viewID)
+        {
+            Parent = null;
+            IsHidden = false;
+            IconUrl = "";
+            Text = "";
+            Url = "";
+            Script = "";
+            Level = -1;
+            DataAttrs = new SortedList<string, string>() { { "view", viewID.ToString() } };
+
+            ViewID = viewID;
+            ViewUrl = "";
+            ChildNodes = new List<ViewNode>();
+        }
+
+
+        #region IWebTreeNode
         /// <summary>
         /// Gets or sets the parent tree node.
         /// </summary>
-        IWebTreeNode Parent { get; set; }
+        public IWebTreeNode Parent { get; set; }
 
         /// <summary>
         /// Gets the child tree nodes.
         /// </summary>
-        IList Children { get; }
+        public IList Children => ChildNodes;
 
         /// <summary>
         /// Gets or sets a value indicating whether the node is hidden.
         /// </summary>
-        bool IsHidden { get; }
+        public bool IsHidden { get; set; }
 
         /// <summary>
         /// Gets the icon URL.
         /// </summary>
-        string IconUrl { get; }
+        public string IconUrl { get; set; }
 
         /// <summary>
         /// Gets or sets the node text.
         /// </summary>
-        string Text { get; }
+        public string Text { get; set; }
 
         /// <summary>
         /// Gets the URL to open when the node is clicked.
         /// </summary>
-        string Url { get; }
+        public string Url { get; set; }
 
         /// <summary>
         /// Gets the script to execute when the node is clicked.
@@ -71,22 +91,47 @@ namespace Scada.Web.TreeView
         /// The script has a higher priority than the URL.
         /// It allows to open a page in a new tab using the browser context menu.
         /// </remarks>
-        string Script { get; }
+        public string Script { get; set; }
 
         /// <summary>
         /// Gets or sets the nesting level.
         /// </summary>
-        int Level { get; set; }
+        public int Level { get; set; }
 
         /// <summary>
         /// Gets the data attributes as key/value pairs.
         /// </summary>
-        IDictionary<string, string> DataAttrs { get; }
+        public IDictionary<string, string> DataAttrs { get; }
 
 
         /// <summary>
         /// Determines that the node represents the specified object.
         /// </summary>
-        bool Represents(object obj);
+        public bool Represents(object obj)
+        {
+            return obj is int viewID && viewID > 0 && viewID == ViewID;
+        }
+        #endregion
+
+
+        /// <summary>
+        /// Gets or sets the view ID.
+        /// </summary>
+        public int ViewID { get; set; }
+
+        /// <summary>
+        /// Gets or sets the view frame URL.
+        /// </summary>
+        public string ViewUrl { get; set; }
+
+        /// <summary>
+        /// Gets or sets a value indicating whether the node has no associated view.
+        /// </summary>
+        public bool IsEmpty => ViewID <= 0 || string.IsNullOrEmpty(ViewUrl);
+
+        /// <summary>
+        /// Gets the child view nodes.
+        /// </summary>
+        public List<ViewNode> ChildNodes { get; }
     }
 }

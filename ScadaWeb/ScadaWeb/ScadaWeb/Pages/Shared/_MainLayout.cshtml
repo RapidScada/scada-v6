@@ -1,9 +1,19 @@
-﻿@inject AppData appData
+﻿@using Scada.Web.TreeView
+@inject AppData appData
 @{
     Layout = "_BasicLayout";
     dynamic dict = Locale.GetDictionary("Scada.Web.Pages.Shared._MainLayout");
     var displayOptions = appData.Config.DisplayOptions;
     var username = "admin";
+
+    // tree view examples
+    TreeViewRenderer menuRenderer = new();
+    TreeViewRenderer explorerRenderer = new(new TreeViewRenderer.Options 
+    {
+        ShowIcons = true,
+        FolderIconUrl = Url.Content("~/images/treeview/folder.png"),
+        NodeIconUrl = Url.Content("~/images/treeview/document.png")
+    });
 }
 
 @section Styles {
@@ -23,7 +33,7 @@
             *@<span id="Main_spanMenuBtn" class="main-hdr-btn" title="@dict.spanMenuBtn_ToolTip"><i class="fas fa-bars"></i></span>@*
             *@<span id="Main_spanAppTitle">@CommonPhrases.ProductName</span>
         </div>
-      
+
         <div class="main-hdr-block right">@*
             *@<span id="Main_spanNotifBtn" class="main-hdr-btn" title="@dict.spanNotifBtn_ToolTip"><i class="far fa-bell"></i></span>@*
             *@<span id="Main_spanProfileBtn" class="main-hdr-btn"><a>@username</a></span>@*
@@ -41,10 +51,10 @@
     *@<span id="Main_spanExitFullscreenBtn" class="main-hdr-btn" title="@dict.spanExitFullscreenBtn_ToolTip"><i class="fas fa-compress"></i></span>
 </div>
 
-<div id="Main_divLeftPanel">
+<div id="Main_divLeftPanel" class="no-link-decor">
     <div id="Main_LeftTabs"></div>
-    <div id="Main_MainMenu"></div>
-    <div id="Main_ViewExplorer"></div>
+    <div id="Main_MainMenu">@Html.Raw(menuRenderer.GenerateHtml(TreeViewExample.GetMainMenu()))</div>
+    <div id="Main_ViewExplorer">@Html.Raw(explorerRenderer.GenerateHtml(TreeViewExample.GetViewExplorer()))</div>
 </div>
 
 <div id="Main_divContent">

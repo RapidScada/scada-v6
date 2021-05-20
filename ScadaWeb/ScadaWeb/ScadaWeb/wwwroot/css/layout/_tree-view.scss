@@ -1,0 +1,74 @@
+﻿@import '_shared-vars';
+
+.tree-view {
+    .node {
+        cursor: pointer;
+        display: table;
+        width: 100%;
+
+        &.disabled {
+            cursor: default;
+        }
+    }
+
+    .node-items {
+        display: table-row;
+
+        & > div {
+            display: table-cell;
+        }
+    }
+
+    .child-nodes {
+        display: none; /*or block*/
+    }
+
+    .indent {
+        width: 20px;
+    }
+
+    .icon {
+        width: 0;
+
+        img {
+            width: 16px;
+            height: 16px;
+            border: none;
+        }
+    }
+
+    .expander {
+        width: 20px;
+        min-width: 20px;
+
+        &::before {
+            font-family: $awesome-font-family;
+        }
+
+        &.left {
+            &::before {
+                content: "\f065";
+            }
+        }
+
+        &.right {
+            display: none;
+            text-align: right;
+            width: 0;
+
+            &::before {
+                content: "\f0f3";
+            }
+        }
+
+        &.expanded {
+            &::before {
+                content: "\f0f3";
+            }
+        }
+
+        &.empty {
+            visibility: hidden;
+        }
+    }
+}
