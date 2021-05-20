@@ -15,7 +15,7 @@
  * 
  * 
  * Product  : Rapid SCADA
- * Module   : Webstation Application
+ * Module   : ScadaWebCommon
  * Summary  : Represents directories of the web application
  * 
  * Author   : Mikhail Shiryaev
