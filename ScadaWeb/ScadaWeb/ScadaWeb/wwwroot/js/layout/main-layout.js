@@ -23,6 +23,16 @@ var mainLayout = {
         //$(window).trigger(scada.EventTypes.UPDATE_LAYOUT);
     },
 
+    // Shows the left panel.
+    showLeftPanel: function () {
+        $("body").addClass("left-panel-visible");
+    },
+
+    // Hides the left panel.
+    hideLeftPanel: function () {
+        $("body").removeClass("left-panel-visible");
+    },
+
     // Activates the selected tab and shows corresponding tool window.
     activateTab: function (selectedTab) {
         // highlight clicked tab
@@ -39,6 +49,18 @@ var mainLayout = {
         $("#" + toolWindowId).removeClass("hidden");
     },
 
+    // Enables the full screen mode.
+    enableFullscreen: function () {
+        $("body").removeClass("header-visible");
+        this.updateLayout();
+    },
+
+    // Exits the full screen mode.
+    exitFullscreen: function () {
+        $("body").addClass("header-visible");
+        this.updateLayout();
+    },
+
     bindEvents: function () {
         let thisObj = this;
 
@@ -53,6 +75,31 @@ var mainLayout = {
             .click(function () {
                 thisObj.activateTab($(this));
             });
+
+        // toggle the left panel
+        $("#Main_spanMenuBtn, #Main_spanMenuBtn2")
+            .off()
+            .click(function () {
+                if ($("body").hasClass("left-panel-visible")) {
+                    thisObj.hideLeftPanel();
+                } else {
+                    thisObj.showLeftPanel();
+                }
+            });
+
+        // enable full screen
+        $("#Main_spanFullscreenBtn")
+            .off()
+            .click(function () {
+                thisObj.enableFullscreen();
+            });
+
+        // exit full screen
+        $("#Main_spanExitFullscreenBtn")
+            .off()
+            .click(function () {
+                thisObj.exitFullscreen();
+            });
     }
 };
 
@@ -61,9 +108,9 @@ $(document).ready(function () {
         $("body").addClass("header-visible");
     }
 
-    $("body").addClass("left-panel-visible");
-    mainLayout.prepareTreeViews();
     mainLayout.updateLayout();
+    mainLayout.prepareTreeViews();
+    mainLayout.showLeftPanel();
 
     mainLayout.activateTab($("#Main_divMainMenuTab"));
     mainLayout.bindEvents();

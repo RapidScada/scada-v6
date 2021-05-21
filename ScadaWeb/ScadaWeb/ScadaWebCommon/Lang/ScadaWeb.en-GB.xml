@@ -9,6 +9,7 @@
     <Phrase key="spanNotifBtn_ToolTip">Show/Hide Notifications</Phrase>
     <Phrase key="spanProfileBtn_ToolTip">User Profile</Phrase>
     <Phrase key="spanLogoutBtn">Logout</Phrase>
+    <Phrase key="spanLogoutBtn_ToolTip">Logout</Phrase>
     <Phrase key="spanFullscreenBtn_ToolTip">Full Screen</Phrase>
     <Phrase key="spanExitFullscreenBtn_ToolTip">Normal View</Phrase>
     <Phrase key="divMainMenuTab">Main Menu</Phrase>

@@ -14,6 +14,7 @@ body {
 /********** Header **********/
 #Main_divHeader {
     position: fixed;
+    display: none;
     left: 0;
     top: 0;
     width: 100%;
@@ -47,22 +48,6 @@ body {
     }
 }
 
-#Main_spanMenuBtn {
-    padding: 0;
-    width: $tab-panel-heigth;
-    text-align: center;
-}
-
-#Main_spanAppTitle {
-    position: relative;
-    display: inline-block;
-    top: 1px;
-    margin-left: 10px;
-    font-family: $title-font-family;
-    font-size: $title-font-size;
-    white-space: nowrap;
-}
-
 #Main_divNoHeaderMenu {
     height: $header-height;
     opacity: 0.5;
@@ -85,6 +70,34 @@ body {
     }
 }
 
+body {
+    &.header-visible {
+        #Main_divHeader {
+            display: block;
+        }
+
+        #Main_divNoHeaderMenu {
+            display: none;
+        }
+    }
+}
+
+#Main_spanMenuBtn {
+    padding: 0;
+    width: $tab-panel-heigth;
+    text-align: center;
+}
+
+#Main_spanAppTitle {
+    position: relative;
+    display: inline-block;
+    top: 1px;
+    margin-left: 10px;
+    font-family: $title-font-family;
+    font-size: $title-font-size;
+    white-space: nowrap;
+}
+
 .main-hdr-btn {
     display: inline-block;
     height: $header-height;
@@ -105,6 +118,7 @@ body {
 /********** Left panel **********/
 #Main_divLeftPanel {
     position: fixed;
+    display: none;
     left: 0;
     top: 0;
     width: $left-panel-width;
@@ -118,6 +132,10 @@ body {
 
         .node {
             padding: 3px 10px;
+
+            &.disabled {
+                color: $main-menu-fore-color-dark;
+            }
 
             &:hover {
                 background-color: $main-menu-item-hover-back-color-dark;
@@ -135,8 +153,14 @@ body {
     }
 }
 
-body.header-visible #Main_divLeftPanel {
-    top: $header-height;
+body {
+    &.header-visible #Main_divLeftPanel {
+        top: $header-height;
+    }
+
+    &.left-panel-visible #Main_divLeftPanel {
+        display: block;
+    }
 }
 
 #Main_divTabPanel {

@@ -128,6 +128,7 @@ body.left-panel-visible {
 /********** Header **********/
 #Main_divHeader {
   position: fixed;
+  display: none;
   left: 0;
   top: 0;
   width: 100%;
@@ -150,20 +151,6 @@ body.left-panel-visible {
       #Main_divHeader .main-hdr-block.right .main-hdr-btn {
         margin-left: 5px; }
 
-#Main_spanMenuBtn {
-  padding: 0;
-  width: 30px;
-  text-align: center; }
-
-#Main_spanAppTitle {
-  position: relative;
-  display: inline-block;
-  top: 1px;
-  margin-left: 10px;
-  font-family: "Open Sans", sans-serif;
-  font-size: 17px;
-  white-space: nowrap; }
-
 #Main_divNoHeaderMenu {
   height: 30px;
   opacity: 0.5;
@@ -178,6 +165,26 @@ body.left-panel-visible {
     margin-left: 5px; }
     #Main_divNoHeaderMenu .main-hdr-btn:hover {
       background-color: white; }
+
+body.header-visible #Main_divHeader {
+  display: block; }
+
+body.header-visible #Main_divNoHeaderMenu {
+  display: none; }
+
+#Main_spanMenuBtn {
+  padding: 0;
+  width: 30px;
+  text-align: center; }
+
+#Main_spanAppTitle {
+  position: relative;
+  display: inline-block;
+  top: 1px;
+  margin-left: 10px;
+  font-family: "Open Sans", sans-serif;
+  font-size: 17px;
+  white-space: nowrap; }
 
 .main-hdr-btn {
   display: inline-block;
@@ -196,6 +203,7 @@ body.left-panel-visible {
 /********** Left panel **********/
 #Main_divLeftPanel {
   position: fixed;
+  display: none;
   left: 0;
   top: 0;
   width: 300px;
@@ -207,6 +215,8 @@ body.left-panel-visible {
     font-size: 14px; }
     #Main_divLeftPanel .tree-view .node {
       padding: 3px 10px; }
+      #Main_divLeftPanel .tree-view .node.disabled {
+        color: #9ca1a6; }
       #Main_divLeftPanel .tree-view .node:hover {
         background-color: #191e23;
         color: #00b9eb; }
@@ -219,6 +229,9 @@ body.left-panel-visible {
 
 body.header-visible #Main_divLeftPanel {
   top: 30px; }
+
+body.left-panel-visible #Main_divLeftPanel {
+  display: block; }
 
 #Main_divTabPanel {
   position: absolute;
