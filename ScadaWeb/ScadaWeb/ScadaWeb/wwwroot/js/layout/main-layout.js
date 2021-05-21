@@ -1,4 +1,13 @@
-﻿var mainLayout = {
+﻿// Depends on tree-view.js
+var mainLayout = {
+    // Prepares the main menu and view explorer tree views.
+    prepareTreeViews: function () {
+        let mainMenu = new TreeView("Main_divMainMenu");
+        let viewExplorer = new TreeView("Main_divViewExplorer");
+        mainMenu.prepare();
+        viewExplorer.prepare();
+    },
+
     // Updates the layout to fit the window.
     updateLayout: function () {
         let divHeader = $("#Main_divHeader");
@@ -53,6 +62,7 @@ $(document).ready(function () {
     }
 
     $("body").addClass("left-panel-visible");
+    mainLayout.prepareTreeViews();
     mainLayout.updateLayout();
 
     mainLayout.activateTab($("#Main_divMainMenuTab"));

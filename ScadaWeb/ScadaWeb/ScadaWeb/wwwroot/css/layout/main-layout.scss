@@ -153,44 +153,31 @@ body.header-visible #Main_divLeftPanel {
         height: $tab-panel-heigth;
         margin: 0 0 0 5px;
         padding: 0 10px;
-        color: $tab-panel-tab-inactive-fore-color;
+        color: $tab-inactive-fore-color;
         display: inline-block;
         line-height: $tab-panel-heigth;
-        font-size: $main-menu-font-size;
+        font-size: $tab-panel-font-size;
         white-space: nowrap;
 
         &.selected {
-            color: $tab-panel-tab-fore-color;
+            color: $tab-fore-color;
             font-weight: 500;
         }
 
         &:hover {
-            color: $tab-panel-tab-hover-fore-color;
+            color: $tab-hover-fore-color;
             cursor: pointer;
         }
     }
 }
 
 #Main_divMainMenu {
+    .node[data-level="0"] {
+        font-size: $main-menu-font-size-lg;
+    }
+
     .node:not([data-level="0"]) {
         color: $main-menu-fore-color-dark;
-        font-size: $main-menu-font-size-sm;
-    }
-}
-
-#Main_divViewExplorer {
-    .tree-view {
-        .node {
-            padding-left: 5px;
-        }
-
-        .icon {
-            img {
-                vertical-align: middle;
-                position: relative;
-                top: -1px;
-            }
-        }
     }
 }
 

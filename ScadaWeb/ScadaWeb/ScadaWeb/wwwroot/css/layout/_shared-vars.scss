@@ -18,8 +18,9 @@ $awesome-font-family: "Font Awesome 5 Free";
 
 $title-font-size: 17px;
 $main-hdr-btn-font-size: 14px;
-$main-menu-font-size: 15px;
-$main-menu-font-size-sm: 14px;
+$main-menu-font-size: 14px;
+$main-menu-font-size-lg: 15px;
+$tab-panel-font-size: 15px;
 
 $main-menu-back-color: #23282d;
 $main-menu-back-color-light: white;
@@ -29,9 +30,9 @@ $main-menu-item-hover-back-color: #32373c;
 $main-menu-item-hover-back-color-dark: #191e23;
 $main-menu-item-hover-fore-color: #00b9eb;
 $tab-panel-back-color: #32373c;
-$tab-panel-tab-fore-color: $main-menu-fore-color;
-$tab-panel-tab-hover-fore-color: $main-menu-item-hover-fore-color;
-$tab-panel-tab-inactive-fore-color: #9ca1a6;
+$tab-fore-color: $main-menu-fore-color;
+$tab-hover-fore-color: $main-menu-item-hover-fore-color;
+$tab-inactive-fore-color: #9ca1a6;
 
 // Z-indexes
 // The values below take into account Bootstrap z-indexes https://getbootstrap.com/docs/5.0/layout/z-index/

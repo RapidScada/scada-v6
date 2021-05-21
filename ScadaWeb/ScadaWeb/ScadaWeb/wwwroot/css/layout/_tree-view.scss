@@ -1,5 +1,9 @@
 ﻿@import '_shared-vars';
 
+$indent-size: 20px;
+$icon-size: 16px;
+$icon-vert-adjust: -2px;
+
 .tree-view {
     .node {
         cursor: pointer;
@@ -24,24 +28,27 @@
     }
 
     .indent {
-        width: 20px;
-        min-width: 20px;
+        width: $indent-size;
+        min-width: $indent-size;
     }
 
     .icon {
-        width: 20px;
-        min-width: 20px;
+        width: $indent-size;
+        min-width: $indent-size;
 
         img {
-            width: 16px;
-            height: 16px;
+            width: $icon-size;
+            height: $icon-size;
+            vertical-align: middle;
+            position: relative;
+            top: $icon-vert-adjust;
             border: none;
         }
     }
 
     .expander {
-        width: 20px;
-        min-width: 20px;
+        width: $indent-size;
+        min-width: $indent-size;
         font-family: $awesome-font-family;
         font-weight: 900;
 

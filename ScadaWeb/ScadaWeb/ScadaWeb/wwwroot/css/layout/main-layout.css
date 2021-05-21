@@ -97,6 +97,9 @@ $zindex-modal: 1050;
   .tree-view .icon img {
     width: 16px;
     height: 16px;
+    vertical-align: middle;
+    position: relative;
+    top: -2px;
     border: none; }
 
 .tree-view .expander {
@@ -201,7 +204,7 @@ body.left-panel-visible {
   color: #eee;
   overflow: hidden; }
   #Main_divLeftPanel .tree-view {
-    font-size: 15px; }
+    font-size: 14px; }
     #Main_divLeftPanel .tree-view .node {
       padding: 3px 10px; }
       #Main_divLeftPanel .tree-view .node:hover {
@@ -242,17 +245,11 @@ body.header-visible #Main_divLeftPanel {
       color: #00b9eb;
       cursor: pointer; }
 
+#Main_divMainMenu .node[data-level="0"] {
+  font-size: 15px; }
+
 #Main_divMainMenu .node:not([data-level="0"]) {
-  color: #9ca1a6;
-  font-size: 14px; }
-
-#Main_divViewExplorer .tree-view .node {
-  padding-left: 5px; }
-
-#Main_divViewExplorer .tree-view .icon img {
-  vertical-align: middle;
-  position: relative;
-  top: -1px; }
+  color: #9ca1a6; }
 
 /********** Others **********/
 #Main_divContent {

@@ -10,7 +10,7 @@
     TreeViewRenderer menuRenderer = new();
     TreeViewRenderer explorerRenderer = new(new TreeViewRenderer.Options 
     {
-        ExpanderLeft = false,
+        ExpanderLeft = true,
         ShowIcons = true,
         FolderIconUrl = Url.Content("~/images/treeview/folder.png"),
         NodeIconUrl = Url.Content("~/images/treeview/document.png")
@@ -23,6 +23,7 @@
 }
 
 @section Scripts {
+    <script src="~/js/layout/tree-view.js" asp-append-version="true"></script>
     <script src="~/js/layout/main-layout.js" asp-append-version="true"></script>
     @RenderSection("Scripts", required: false)
 }

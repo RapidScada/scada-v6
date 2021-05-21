@@ -47,7 +47,7 @@ namespace Scada.Web.TreeView
             /// </summary>
             public Options()
             {
-                ExpanderLeft = true;
+                ExpanderLeft = false;
                 ShowIcons = false;
                 FolderIconUrl = "";
                 NodeIconUrl = "";
