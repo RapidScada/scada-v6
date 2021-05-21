@@ -28,7 +28,7 @@
 
 @if (displayOptions.ShowHeader)
 {
-    <div id="Main_divHeader">
+    <div id="Main_divHeader" class="no-link-decor">
         <div class="main-hdr-block left">@*
             *@<span id="Main_spanMenuBtn" class="main-hdr-btn" title="@dict.spanMenuBtn_ToolTip"><i class="fas fa-bars"></i></span>@*
             *@<span id="Main_spanAppTitle">@CommonPhrases.ProductName</span>
@@ -43,7 +43,7 @@
     </div>
 }
 
-<div id="Main_divNoHeaderMenu" class="no-link-decor d-none">@*
+<div id="Main_divNoHeaderMenu" class="no-link-decor hidden">@*
     *@<span id="Main_spanMenuBtn2" class="main-hdr-btn" title="@dict.spanMenuBtn_ToolTip"><i class="fas fa-bars"></i></span>@*
     *@<span id="Main_spanNotifBtn2" class="main-hdr-btn" title="@dict.spanNotifBtn_ToolTip"><i class="far fa-bell"></i></span>@*
     *@<span id="Main_spanProfileBtn2" class="main-hdr-btn" title="@dict.spanProfileBtn_ToolTip"><i class="fas fa-user"></i></span>@*
@@ -52,9 +52,12 @@
 </div>
 
 <div id="Main_divLeftPanel" class="no-link-decor">
-    <div id="Main_LeftTabs"></div>
-    <div id="Main_MainMenu">@Html.Raw(menuRenderer.GenerateHtml(TreeViewExample.GetMainMenu()))</div>
-    <div id="Main_ViewExplorer">@Html.Raw(explorerRenderer.GenerateHtml(TreeViewExample.GetViewExplorer()))</div>
+    <div id="Main_divTabPanel">
+        <div id="Main_divMainMenuTab" class="tab" data-tool-window="Main_divMainMenu">@dict.divMainMenuTab</div>
+        <div id="Main_divViewExplorerTab" class="tab" data-tool-window="Main_divViewExplorer">@dict.divViewExplorerTab</div>
+    </div>
+    <div id="Main_divMainMenu" class="tool-window hidden">@Html.Raw(menuRenderer.GenerateHtml(TreeViewExample.GetMainMenu()))</div>
+    <div id="Main_divViewExplorer" class="tool-window hidden">@Html.Raw(explorerRenderer.GenerateHtml(TreeViewExample.GetViewExplorer()))</div>
 </div>
 
 <div id="Main_divContent">

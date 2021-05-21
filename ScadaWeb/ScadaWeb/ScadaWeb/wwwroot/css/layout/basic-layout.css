@@ -39,3 +39,7 @@ $zindex-modal: 1050;
   color: inherit;
   outline: 0;
   text-decoration: none; }
+
+.hidden {
+  display: none;
+  visibility: hidden; }

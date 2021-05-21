@@ -2,11 +2,17 @@
 <ScadaWebDictionaries>
   <Dictionary key="Scada.Web.Pages">
     <Phrase key="CorrectErrors">Please correct the following errors:</Phrase>
+    <Phrase key=""></Phrase>
   </Dictionary>
   <Dictionary key="Scada.Web.Pages.Shared._MainLayout">
+    <Phrase key="spanMenuBtn_ToolTip">Menu</Phrase>
     <Phrase key="spanNotifBtn_ToolTip">Notifications</Phrase>
+    <Phrase key="spanProfileBtn_ToolTip">User Profile</Phrase>
     <Phrase key="spanLogoutBtn">Logout</Phrase>
     <Phrase key="spanFullscreenBtn_ToolTip">Full Screen</Phrase>
+    <Phrase key="spanExitFullscreenBtn_ToolTip">Normal View</Phrase>
+    <Phrase key="divMainMenuTab">Main Menu</Phrase>
+    <Phrase key="divViewExplorerTab">Views</Phrase>
   </Dictionary>
   <Dictionary key="Scada.Web.Pages.Login">
     <Phrase key="PageTitle">Login</Phrase>

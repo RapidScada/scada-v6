@@ -4,9 +4,14 @@
     <Phrase key="CorrectErrors">Пожалуйста исправьте следующие ошибки:</Phrase>
   </Dictionary>
   <Dictionary key="Scada.Web.Pages.Shared._MainLayout">
+    <Phrase key="spanMenuBtn_ToolTip">Меню</Phrase>
     <Phrase key="spanNotifBtn_ToolTip">Уведомления</Phrase>
+    <Phrase key="spanProfileBtn_ToolTip">Профиль пользователя</Phrase>
     <Phrase key="spanLogoutBtn">Выйти</Phrase>
     <Phrase key="spanFullscreenBtn_ToolTip">На весь экран</Phrase>
+    <Phrase key="spanExitFullscreenBtn_ToolTip">Нормальный вид</Phrase>
+    <Phrase key="divMainMenuTab">Главное меню</Phrase>
+    <Phrase key="divViewExplorerTab">Представления</Phrase>
   </Dictionary>
   <Dictionary key="Scada.Web.Pages.Login">
     <Phrase key="PageTitle">Вход в систему</Phrase>

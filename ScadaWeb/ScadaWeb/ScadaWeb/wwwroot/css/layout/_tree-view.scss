@@ -40,14 +40,12 @@
     .expander {
         width: 20px;
         min-width: 20px;
-
-        &::before {
-            font-family: $awesome-font-family;
-        }
+        font-family: $awesome-font-family;
+        font-weight: 900;
 
         &.left {
             &::before {
-                content: "\f065";
+                content: "\f105";
             }
         }
 
@@ -57,13 +55,13 @@
             width: 0;
 
             &::before {
-                content: "\f0f3";
+                content: "\f104";
             }
         }
 
         &.expanded {
             &::before {
-                content: "\f0f3";
+                content: "\f107";
             }
         }
 

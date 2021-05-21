@@ -100,19 +100,19 @@ $zindex-modal: 1050;
 
 .tree-view .expander {
   width: 20px;
-  min-width: 20px; }
-  .tree-view .expander::before {
-    font-family: "Font Awesome 5 Free"; }
+  min-width: 20px;
+  font-family: "Font Awesome 5 Free";
+  font-weight: 900; }
   .tree-view .expander.left::before {
-    content: "\f065"; }
+    content: "\f105"; }
   .tree-view .expander.right {
     display: none;
     text-align: right;
     width: 0; }
     .tree-view .expander.right::before {
-      content: "\f0f3"; }
+      content: "\f104"; }
   .tree-view .expander.expanded::before {
-    content: "\f0f3"; }
+    content: "\f107"; }
   .tree-view .expander.empty {
     visibility: hidden; }
 
@@ -178,7 +178,6 @@ body.left-panel-visible {
   padding: 0 10px;
   cursor: pointer;
   font-size: 14px;
-  text-decoration: none;
   white-space: nowrap; }
   .main-hdr-btn:hover {
     background-color: #32373c;
@@ -196,9 +195,40 @@ body.left-panel-visible {
   color: #eee;
   font-size: 14px;
   overflow: hidden; }
+  #Main_divLeftPanel .tool-window {
+    height: 100%;
+    margin: 0 0 0 30px;
+    padding: 5px 0 0 0;
+    overflow-x: hidden;
+    overflow-y: auto; }
 
 body.header-visible #Main_divLeftPanel {
   top: 30px; }
+
+#Main_divTabPanel {
+  position: absolute;
+  left: 30px;
+  top: 0;
+  height: 30px;
+  min-width: 200px;
+  background-color: #32373c;
+  transform: rotate(90deg);
+  transform-origin: left top 0; }
+  #Main_divTabPanel .tab {
+    height: 30px;
+    margin: 0 0 0 5px;
+    padding: 0 10px;
+    color: #9ca1a6;
+    display: inline-block;
+    line-height: 30px;
+    font-size: 15px;
+    white-space: nowrap; }
+    #Main_divTabPanel .tab.selected {
+      color: #eee;
+      font-weight: 500; }
+    #Main_divTabPanel .tab:hover {
+      color: #00b9eb;
+      cursor: pointer; }
 
 /********** Others **********/
 #Main_divContent {
