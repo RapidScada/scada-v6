@@ -41,5 +41,4 @@ $zindex-modal: 1050;
   text-decoration: none; }
 
 .hidden {
-  display: none;
-  visibility: hidden; }
+  display: none; }

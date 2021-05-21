@@ -77,22 +77,23 @@ $zindex-modal: 1050;
   display: table;
   width: 100%; }
   .tree-view .node.disabled {
-    cursor: default; }
+    cursor: not-allowed; }
 
-.tree-view .node-items {
+.tree-view .node-parts {
   display: table-row; }
-  .tree-view .node-items > div {
+  .tree-view .node-parts > div {
     display: table-cell; }
 
-.tree-view .child-nodes {
-  display: none;
-  /*or block*/ }
+.tree-view .child-nodes.hidden {
+  display: none; }
 
 .tree-view .indent {
-  width: 20px; }
+  width: 20px;
+  min-width: 20px; }
 
 .tree-view .icon {
-  width: 0; }
+  width: 20px;
+  min-width: 20px; }
   .tree-view .icon img {
     width: 16px;
     height: 16px;
@@ -106,7 +107,6 @@ $zindex-modal: 1050;
   .tree-view .expander.left::before {
     content: "\f105"; }
   .tree-view .expander.right {
-    display: none;
     text-align: right;
     width: 0; }
     .tree-view .expander.right::before {
@@ -147,13 +147,19 @@ body.left-panel-visible {
       #Main_divHeader .main-hdr-block.right .main-hdr-btn {
         margin-left: 5px; }
 
+#Main_spanMenuBtn {
+  padding: 0;
+  width: 30px;
+  text-align: center; }
+
 #Main_spanAppTitle {
+  position: relative;
   display: inline-block;
+  top: 1px;
+  margin-left: 10px;
   font-family: "Open Sans", sans-serif;
   font-size: 17px;
-  white-space: nowrap;
-  position: relative;
-  top: 1px; }
+  white-space: nowrap; }
 
 #Main_divNoHeaderMenu {
   height: 30px;
@@ -193,8 +199,14 @@ body.left-panel-visible {
   min-height: 200px;
   background-color: #23282d;
   color: #eee;
-  font-size: 14px;
   overflow: hidden; }
+  #Main_divLeftPanel .tree-view {
+    font-size: 15px; }
+    #Main_divLeftPanel .tree-view .node {
+      padding: 3px 10px; }
+      #Main_divLeftPanel .tree-view .node:hover {
+        background-color: #191e23;
+        color: #00b9eb; }
   #Main_divLeftPanel .tool-window {
     height: 100%;
     margin: 0 0 0 30px;
@@ -229,6 +241,18 @@ body.header-visible #Main_divLeftPanel {
     #Main_divTabPanel .tab:hover {
       color: #00b9eb;
       cursor: pointer; }
+
+#Main_divMainMenu .node:not([data-level="0"]) {
+  color: #9ca1a6;
+  font-size: 14px; }
+
+#Main_divViewExplorer .tree-view .node {
+  padding-left: 5px; }
+
+#Main_divViewExplorer .tree-view .icon img {
+  vertical-align: middle;
+  position: relative;
+  top: -1px; }
 
 /********** Others **********/
 #Main_divContent {

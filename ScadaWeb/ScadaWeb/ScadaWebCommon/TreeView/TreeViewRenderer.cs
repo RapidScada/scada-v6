@@ -47,11 +47,16 @@ namespace Scada.Web.TreeView
             /// </summary>
             public Options()
             {
+                ExpanderLeft = true;
                 ShowIcons = false;
                 FolderIconUrl = "";
                 NodeIconUrl = "";
             }
 
+            /// <summary>
+            /// Gets or sets a value indicating whether expanders are located to the left.
+            /// </summary>
+            public bool ExpanderLeft { get; set; }
             /// <summary>
             /// Gets or sets a value indicating whether to show node icons.
             /// </summary>
@@ -123,7 +128,7 @@ namespace Scada.Web.TreeView
         {
             sbHtml.AppendLine(topLevel ? 
                 "<div class='tree-view'>" : 
-                "<div class='child-nodes'>");
+                "<div class='child-nodes hidden'>");
 
             if (treeNodes != null)
             {
@@ -138,24 +143,42 @@ namespace Scada.Web.TreeView
                             (!childrenExist && urlIsEmpty ? " disabled" : "");
                         string dataAttrs = GenDataAttrsHtml(webTreeNode);
                         string expanderCssClass = childrenExist ? "" : " empty";
-                        string iconHtml = "";
+
+                        string iconHtml;
+                        string leftExpanderHtml;
+                        string rightExpanderHtml;
+
+                        if (options.ExpanderLeft)
+                        {
+                            leftExpanderHtml = $"<div class='expander left{expanderCssClass}'></div>";
+                            rightExpanderHtml = "";
+                        }
+                        else
+                        {
+                            leftExpanderHtml = "";
+                            rightExpanderHtml = $"<div class='expander right{expanderCssClass}'></div>";
+                        }
 
                         if (options.ShowIcons)
                         {
                             string iconUrl = string.IsNullOrEmpty(webTreeNode.IconUrl) 
                                 ? (childrenExist ? options.FolderIconUrl : options.NodeIconUrl) 
                                 : webTreeNode.IconUrl;
-                            iconHtml = $"<img src='{iconUrl}' alt='' />";
+                            iconHtml = $"<div class='icon'><img src='{iconUrl}' alt='' /></div>";
+                        }
+                        else
+                        {
+                            iconHtml = "";
                         }
 
                         sbHtml.AppendLine(
                             $"<a class='node{nodeCssClass}' href='{webTreeNode.Url}' {dataAttrs}>" +
-                            $"<div class='node-items'>" +
+                            $"<div class='node-parts'>" +
                             $"<div class='indent'></div>" +
-                            $"<div class='expander left{expanderCssClass}'></div>" +
-                            $"<div class='icon'>{iconHtml}</div>" +
+                            leftExpanderHtml +
+                            iconHtml +
                             $"<div class='text'>{HttpUtility.HtmlEncode(webTreeNode.Text)}</div>" +
-                            $"<div class='expander right{expanderCssClass}'></div>" +
+                            rightExpanderHtml +
                             "</div></a>");
 
 

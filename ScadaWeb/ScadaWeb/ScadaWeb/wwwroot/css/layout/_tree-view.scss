@@ -7,11 +7,11 @@
         width: 100%;
 
         &.disabled {
-            cursor: default;
+            cursor: not-allowed;
         }
     }
 
-    .node-items {
+    .node-parts {
         display: table-row;
 
         & > div {
@@ -19,16 +19,18 @@
         }
     }
 
-    .child-nodes {
-        display: none; /*or block*/
+    .child-nodes.hidden {
+        display: none;
     }
 
     .indent {
         width: 20px;
+        min-width: 20px;
     }
 
     .icon {
-        width: 0;
+        width: 20px;
+        min-width: 20px;
 
         img {
             width: 16px;
@@ -50,7 +52,6 @@
         }
 
         &.right {
-            display: none;
             text-align: right;
             width: 0;
 

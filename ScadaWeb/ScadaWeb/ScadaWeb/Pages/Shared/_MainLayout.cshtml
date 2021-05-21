@@ -10,6 +10,7 @@
     TreeViewRenderer menuRenderer = new();
     TreeViewRenderer explorerRenderer = new(new TreeViewRenderer.Options 
     {
+        ExpanderLeft = false,
         ShowIcons = true,
         FolderIconUrl = Url.Content("~/images/treeview/folder.png"),
         NodeIconUrl = Url.Content("~/images/treeview/document.png")

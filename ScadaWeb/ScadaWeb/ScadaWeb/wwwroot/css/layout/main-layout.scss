@@ -47,13 +47,20 @@ body {
     }
 }
 
+#Main_spanMenuBtn {
+    padding: 0;
+    width: $tab-panel-heigth;
+    text-align: center;
+}
+
 #Main_spanAppTitle {
-    display: inline-block;
-    font-family: $title-font-family;
-    font-size: 17px;
-    white-space: nowrap;
     position: relative;
+    display: inline-block;
     top: 1px;
+    margin-left: 10px;
+    font-family: $title-font-family;
+    font-size: $title-font-size;
+    white-space: nowrap;
 }
 
 #Main_divNoHeaderMenu {
@@ -85,7 +92,7 @@ body {
     margin: 0;
     padding: 0 10px;
     cursor: pointer;
-    font-size: 14px;
+    font-size: $main-hdr-btn-font-size;
     white-space: nowrap;
 
     &:hover {
@@ -104,8 +111,20 @@ body {
     min-height: 200px;
     background-color: $main-menu-back-color;
     color: $main-menu-fore-color;
-    font-size: 14px;
     overflow: hidden;
+
+    .tree-view {
+        font-size: $main-menu-font-size;
+
+        .node {
+            padding: 3px 10px;
+
+            &:hover {
+                background-color: $main-menu-item-hover-back-color-dark;
+                color: $main-menu-item-hover-fore-color;
+            }
+        }
+    }
 
     .tool-window {
         height: 100%;
@@ -137,7 +156,7 @@ body.header-visible #Main_divLeftPanel {
         color: $tab-panel-tab-inactive-fore-color;
         display: inline-block;
         line-height: $tab-panel-heigth;
-        font-size: 15px;
+        font-size: $main-menu-font-size;
         white-space: nowrap;
 
         &.selected {
@@ -148,6 +167,29 @@ body.header-visible #Main_divLeftPanel {
         &:hover {
             color: $tab-panel-tab-hover-fore-color;
             cursor: pointer;
+        }
+    }
+}
+
+#Main_divMainMenu {
+    .node:not([data-level="0"]) {
+        color: $main-menu-fore-color-dark;
+        font-size: $main-menu-font-size-sm;
+    }
+}
+
+#Main_divViewExplorer {
+    .tree-view {
+        .node {
+            padding-left: 5px;
+        }
+
+        .icon {
+            img {
+                vertical-align: middle;
+                position: relative;
+                top: -1px;
+            }
         }
     }
 }

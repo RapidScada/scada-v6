@@ -5,8 +5,8 @@
     <Phrase key=""></Phrase>
   </Dictionary>
   <Dictionary key="Scada.Web.Pages.Shared._MainLayout">
-    <Phrase key="spanMenuBtn_ToolTip">Menu</Phrase>
-    <Phrase key="spanNotifBtn_ToolTip">Notifications</Phrase>
+    <Phrase key="spanMenuBtn_ToolTip">Show/Hide Menu</Phrase>
+    <Phrase key="spanNotifBtn_ToolTip">Show/Hide Notifications</Phrase>
     <Phrase key="spanProfileBtn_ToolTip">User Profile</Phrase>
     <Phrase key="spanLogoutBtn">Logout</Phrase>
     <Phrase key="spanFullscreenBtn_ToolTip">Full Screen</Phrase>
