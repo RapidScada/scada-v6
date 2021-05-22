@@ -23,6 +23,7 @@
  * Modified : 2021
  */
 
+using Microsoft.AspNetCore.Html;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -99,9 +100,9 @@ namespace Scada.Web.TreeView
 
 
         /// <summary>
-        /// Generates HTML for the node data attributes.
+        /// Renders HTML for the node data attributes.
         /// </summary>
-        protected static string GenDataAttrsHtml(IWebTreeNode webTreeNode)
+        protected static string RenderDataAttrs(IWebTreeNode webTreeNode)
         {
             const string DataAttrTemplate = " data-{0}='{1}'";
 
@@ -122,9 +123,9 @@ namespace Scada.Web.TreeView
         }
 
         /// <summary>
-        /// Generates tree view HTML recursively.
+        /// Renders HTML for the tree view recursively.
         /// </summary>
-        protected void GenTreeViewHtml(IList treeNodes, bool topLevel, StringBuilder sbHtml)
+        protected void RenderTreeView(IList treeNodes, bool topLevel, StringBuilder sbHtml)
         {
             sbHtml.AppendLine(topLevel ? 
                 "<div class='tree-view'>" : 
@@ -141,7 +142,7 @@ namespace Scada.Web.TreeView
                         string nodeCssClass = 
                             (webTreeNode.Represents(SelectedObject) ? " selected" : "") + 
                             (!childrenExist && urlIsEmpty ? " disabled" : "");
-                        string dataAttrs = GenDataAttrsHtml(webTreeNode);
+                        string dataAttrs = RenderDataAttrs(webTreeNode);
                         string expanderCssClass = childrenExist ? "" : " empty";
 
                         string iconHtml;
@@ -183,7 +184,7 @@ namespace Scada.Web.TreeView
 
 
                         if (childrenExist)
-                            GenTreeViewHtml(webTreeNode.Children, false, sbHtml);
+                            RenderTreeView(webTreeNode.Children, false, sbHtml);
                     }
                 }
             }
@@ -192,13 +193,13 @@ namespace Scada.Web.TreeView
         }
 
         /// <summary>
-        /// Generates HTML for the tree view that implement IWebTreeNode.
+        /// Renders HTML for the tree view that implement IWebTreeNode.
         /// </summary>
-        public string GenerateHtml(IList treeNodes)
+        public HtmlString RenderHtml(IList treeNodes)
         {
             StringBuilder sbHtml = new();
-            GenTreeViewHtml(treeNodes, true, sbHtml);
-            return sbHtml.ToString();
+            RenderTreeView(treeNodes, true, sbHtml);
+            return new HtmlString(sbHtml.ToString());
         }
     }
 }
