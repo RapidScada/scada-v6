@@ -1,0 +1,133 @@
+﻿@import '_shared-vars';
+
+$panel-width: 30%;
+$panel-mobile-width: 75%;
+$panel-back-color: #111;
+$panel-opacity: 0.97;
+$info-color-ligth: #eee;
+$info-color-dark: $main-menu-fore-color-dark;
+$warning-color-ligth: #eeee00;
+$warning-color-dark: #d39e00;
+$error-color-ligth: #ee0000;
+$error-color-dark: #dc3545;
+
+.notif-panel {
+    background-color: $panel-back-color;
+    bottom: 0;
+    color: $main-menu-fore-color;
+    //font-size: $data-font-size;
+    opacity: $panel-opacity;
+    overflow-x: hidden;
+    overflow-y: auto;
+    padding: 30px 15px 10px;
+    position: fixed;
+    right: 0;
+    width: $panel-width;
+    z-index: $zindex-notif-panel;
+
+    &.hidden {
+        display: none;
+    }
+
+    &.mobile {
+        width: $panel-mobile-width;
+    }
+}
+
+/********** Notification **********/
+.notif-panel .notif {
+    margin-bottom: 5px;
+}
+
+.notif-panel .notif.empty {
+    font-size: 16px;
+}
+
+.notif-panel .notif a,
+.notif-panel .notif a:active,
+.notif-panel .notif a:focus,
+.notif-panel .notif a:visited {
+    text-decoration: underline;
+}
+
+.notif-panel .notif a:hover {
+    color: $main-menu-item-hover-fore-color;
+    text-decoration: underline;
+}
+
+.notif-panel .notif-type {
+    float: left;
+    //font-size: $form-font-size;
+}
+
+.notif-panel .notif-type .info {
+    color: $info-color-ligth;
+}
+
+.notif-panel .notif-type .warning {
+    color: $warning-color-ligth;
+}
+
+.notif-panel .notif-type .error {
+    color: $error-color-ligth;
+}
+
+.notif-panel .notif-time {
+    margin-left: 20px;
+}
+
+.notif-panel .notif-msg {
+    margin-left: 20px;
+}
+
+
+/********** Mute **********/
+.notif-panel .notif-mute {
+    color: $main-menu-fore-color-dark;
+    cursor: pointer;
+    font-size: 13px;
+    line-height: 30px;
+    position: absolute;
+    top: 0;
+    width: 100%
+}
+
+.notif-panel .notif-mute:hover {
+    color: $main-menu-item-hover-fore-color;
+}
+
+.notif-panel .notif-mute i {
+    font-size: 19px;
+    margin-right: 10px;
+    position: relative;
+    top: 2px;
+}
+
+/********** Bell **********/
+.notif-bell {
+    color: $main-menu-fore-color-dark;
+}
+
+.notif-bell.info {
+    color: $info-color-ligth;
+}
+
+.notif-bell.warning {
+    color: $warning-color-ligth;
+}
+
+.notif-bell.error {
+    color: $error-color-ligth;
+}
+
+.light-back .notif-bell.info {
+    color: $main-menu-fore-color-dark;
+}
+
+.light-back .notif-bell.warning {
+    color: $warning-color-dark;
+}
+
+.light-back .notif-bell.error {
+    color: $error-color-dark;
+}

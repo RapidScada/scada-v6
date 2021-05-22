@@ -28,29 +28,29 @@ $icon-vert-adjust: -2px;
     }
 
     .indent {
-        width: $indent-size;
         min-width: $indent-size;
+        width: $indent-size;
     }
 
     .icon {
-        width: $indent-size;
         min-width: $indent-size;
+        width: $indent-size;
 
         img {
-            width: $icon-size;
+            border: none;
             height: $icon-size;
-            vertical-align: middle;
             position: relative;
             top: $icon-vert-adjust;
-            border: none;
+            vertical-align: middle;
+            width: $icon-size;
         }
     }
 
     .expander {
-        width: $indent-size;
-        min-width: $indent-size;
         font-family: $awesome-font-family;
         font-weight: 900;
+        min-width: $indent-size;
+        width: $indent-size;
 
         &.left {
             &::before {

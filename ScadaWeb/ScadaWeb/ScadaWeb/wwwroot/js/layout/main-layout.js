@@ -1,11 +1,19 @@
 ﻿// Depends on tree-view.js
 var mainLayout = {
+    // The notification panel.
+    notifPanel: null,
+
     // Prepares the main menu and view explorer tree views.
     prepareTreeViews: function () {
         let mainMenu = new TreeView("Main_divMainMenu");
         let viewExplorer = new TreeView("Main_divViewExplorer");
         mainMenu.prepare();
         viewExplorer.prepare();
+    },
+
+    // Prepares the notification panel.
+    prepareNotifPanel: function () {
+        this.notifPanel = new NotifPanel("Main_divNotifPanel", "Main_spanNotifBtn", "Main_spanNotifBtn2");
     },
 
     // Updates the layout to fit the window.
@@ -87,6 +95,19 @@ var mainLayout = {
                 }
             });
 
+        // toggle the notification panel
+        $("#Main_spanNotifBtn, #Main_spanNotifBtn2")
+            .off()
+            .click(function () {
+                if (thisObj.notifPanel) {
+                    if (thisObj.notifPanel.isVisible) {
+                        thisObj.notifPanel.hide();
+                    } else {
+                        thisObj.notifPanel.show();
+                    }
+                }
+            });
+
         // enable full screen
         $("#Main_spanFullscreenBtn")
             .off()
@@ -110,6 +131,7 @@ $(document).ready(function () {
 
     mainLayout.updateLayout();
     mainLayout.prepareTreeViews();
+    mainLayout.prepareNotifPanel();
     mainLayout.showLeftPanel();
 
     mainLayout.activateTab($("#Main_divMainMenuTab"));

@@ -24,6 +24,7 @@
 
 @section Scripts {
     <script src="~/js/layout/tree-view.js" asp-append-version="true"></script>
+    <script src="~/js/layout/notif-panel.js" asp-append-version="true"></script>
     <script src="~/js/layout/main-layout.js" asp-append-version="true"></script>
     @RenderSection("Scripts", required: false)
 }
@@ -62,9 +63,9 @@
     <div id="Main_divViewExplorer" class="tool-window hidden">@explorerRenderer.RenderHtml(TreeViewExample.GetViewExplorer())</div>
 </div>
 
-<div id="Main_divContent" class="hidden">
+<div id="Main_divContent">
     @RenderBody()
 </div>
 
-<div id="Main_divNotifPanel">
+<div id="Main_divNotifPanel" class="notif-panel hidden">
 </div>
