@@ -1,4 +1,4 @@
-﻿// Depends on tree-view.js
+﻿// Depends on scada-common.js, tree-view.js
 var mainLayout = {
     // The notification panel.
     notifPanel: null,
@@ -14,6 +14,8 @@ var mainLayout = {
     // Prepares the notification panel.
     prepareNotifPanel: function () {
         this.notifPanel = new NotifPanel("Main_divNotifPanel", "Main_spanNotifBtn", "Main_spanNotifBtn2");
+        this.notifPanel.prepare();
+        this.notifPanel.addSamples();
     },
 
     // Updates the layout to fit the window.
@@ -28,7 +30,7 @@ var mainLayout = {
         $("#Main_divTabPanel").outerWidth(contentHeight);
         $("#Main_divContent").outerHeight(contentHeight);
         $("#Main_divNotifPanel").outerHeight(contentHeight);
-        //$(window).trigger(scada.EventTypes.UPDATE_LAYOUT);
+        $(window).trigger(ScadaEventTypes.UPDATE_LAYOUT);
     },
 
     // Shows the left panel.

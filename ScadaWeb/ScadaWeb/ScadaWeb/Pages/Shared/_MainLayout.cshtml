@@ -31,7 +31,7 @@
 
 @if (displayOptions.ShowHeader)
 {
-    <div id="Main_divHeader" class="no-link-decor">
+    <div id="Main_divHeader">
         <div class="main-hdr-block left">@*
             *@<span id="Main_spanMenuBtn" class="main-hdr-btn" title="@dict.spanMenuBtn_ToolTip"><i class="fas fa-bars"></i></span>@*
             *@<span id="Main_spanAppTitle">@CommonPhrases.ProductName</span>
@@ -46,7 +46,7 @@
     </div>
 }
 
-<div id="Main_divNoHeaderMenu" class="no-link-decor">@*
+<div id="Main_divNoHeaderMenu">@*
     *@<span id="Main_spanMenuBtn2" class="main-hdr-btn" title="@dict.spanMenuBtn_ToolTip"><i class="fas fa-bars"></i></span>@*
     *@<span id="Main_spanNotifBtn2" class="main-hdr-btn" title="@dict.spanNotifBtn_ToolTip"><i class="far fa-bell"></i></span>@*
     *@<span id="Main_spanProfileBtn2" class="main-hdr-btn" title="@dict.spanProfileBtn_ToolTip"><i class="fas fa-user"></i></span>@*
@@ -54,7 +54,7 @@
     *@<span id="Main_spanExitFullscreenBtn" class="main-hdr-btn" title="@dict.spanExitFullscreenBtn_ToolTip"><i class="fas fa-compress"></i></span>
 </div>
 
-<div id="Main_divLeftPanel" class="no-link-decor">
+<div id="Main_divLeftPanel">
     <div id="Main_divTabPanel">
         <div id="Main_divMainMenuTab" class="tab" data-tool-window="Main_divMainMenu">@dict.divMainMenuTab</div>
         <div id="Main_divViewExplorerTab" class="tab" data-tool-window="Main_divViewExplorer">@dict.divViewExplorerTab</div>

@@ -2,24 +2,35 @@
 
 $panel-width: 30%;
 $panel-mobile-width: 75%;
-$panel-back-color: #111;
-$panel-opacity: 0.97;
-$info-color-ligth: #eee;
-$info-color-dark: $main-menu-fore-color-dark;
-$warning-color-ligth: #eeee00;
-$warning-color-dark: #d39e00;
-$error-color-ligth: #ee0000;
-$error-color-dark: #dc3545;
+$toolbar-height: 30px;
 
+$tool-btn-icon-font-size: 15px;
+$tool-btn-text-font-size: 14px;
+$notif-icon-font-size: 14px;
+$notif-text-font-size: 13px;
+$notif-text-empty-font-size: 16px;
+
+$panel-back-color: #111;
+$panel-fore-color: $main-menu-fore-color;
+$panel-item-hover-back-color: $main-menu-item-hover-back-color;
+$panel-item-hover-fore-color: $main-menu-item-hover-fore-color;
+$panel-opacity: 0.97;
+$notif-fore-color: $main-menu-fore-color;
+$notif-btn-fore-color: $main-menu-fore-color-dark;
+
+$info-color: $info;
+$warning-color: $warning;
+$error-color: $danger;
+
+/********** Notification Panel **********/
 .notif-panel {
     background-color: $panel-back-color;
     bottom: 0;
-    color: $main-menu-fore-color;
-    //font-size: $data-font-size;
+    color: $panel-fore-color;
     opacity: $panel-opacity;
     overflow-x: hidden;
     overflow-y: auto;
-    padding: 30px 15px 10px;
+    padding: $toolbar-height 0 0;
     position: fixed;
     right: 0;
     width: $panel-width;
@@ -34,100 +45,114 @@ $error-color-dark: #dc3545;
     }
 }
 
-/********** Notification **********/
-.notif-panel .notif {
-    margin-bottom: 5px;
-}
-
-.notif-panel .notif.empty {
-    font-size: 16px;
-}
-
-.notif-panel .notif a,
-.notif-panel .notif a:active,
-.notif-panel .notif a:focus,
-.notif-panel .notif a:visited {
-    text-decoration: underline;
-}
-
-.notif-panel .notif a:hover {
-    color: $main-menu-item-hover-fore-color;
-    text-decoration: underline;
-}
-
-.notif-panel .notif-type {
-    float: left;
-    //font-size: $form-font-size;
-}
-
-.notif-panel .notif-type .info {
-    color: $info-color-ligth;
-}
-
-.notif-panel .notif-type .warning {
-    color: $warning-color-ligth;
-}
-
-.notif-panel .notif-type .error {
-    color: $error-color-ligth;
-}
-
-.notif-panel .notif-time {
-    margin-left: 20px;
-}
-
-.notif-panel .notif-msg {
-    margin-left: 20px;
-}
-
-
-/********** Mute **********/
-.notif-panel .notif-mute {
-    color: $main-menu-fore-color-dark;
-    cursor: pointer;
-    font-size: 13px;
-    line-height: 30px;
+/********** Toolbar **********/
+.notif-panel .notif-toolbar {
+    height: $toolbar-height;
+    padding-left: 5px;
     position: absolute;
     top: 0;
-    width: 100%
+
+    .notif-tool-btn {
+        cursor: pointer;
+        display: inline-block;
+        font-size: $tool-btn-text-font-size;
+        height: $toolbar-height;
+        line-height: $toolbar-height;
+        margin: 0 5px 0 0;
+        padding: 0 10px;
+        white-space: nowrap;
+
+        &:hover {
+            background-color: $panel-item-hover-back-color;
+            color: $panel-item-hover-fore-color;
+            text-decoration: none;
+        }
+
+        i {
+            font-size: $tool-btn-icon-font-size;
+            margin-right: 5px;
+        }
+    }
 }
 
-.notif-panel .notif-mute:hover {
-    color: $main-menu-item-hover-fore-color;
+body {
+    &:not(.header-visible) {
+        .notif-panel {
+            padding-top: $header-height + $toolbar-height;
+
+            .notif-toolbar {
+                top: $header-height;
+            }
+        }
+    }
 }
 
-.notif-panel .notif-mute i {
-    font-size: 19px;
-    margin-right: 10px;
-    position: relative;
-    top: 2px;
+/********** Notification **********/
+.notif-panel .notif {
+    color: $notif-fore-color;
+    font-size: $notif-text-font-size;
+    margin: 0 5px 5px 15px;
+
+    a,
+    a:active,
+    a:focus,
+    a:visited {
+        text-decoration: underline;
+    }
+
+    a:hover {
+        color: $panel-item-hover-fore-color;
+        text-decoration: underline;
+    }
+
+    &.empty {
+        font-size: $notif-text-empty-font-size;
+    }
+
+    &.hidden {
+        display: none;
+    }
+
+    .notif-icon {
+        float: left;
+        font-size: $notif-icon-font-size;
+
+        .info {
+            color: $info-color;
+        }
+
+        .warning {
+            color: $warning-color;
+        }
+
+        .error {
+            color: $error-color;
+        }
+    }
+
+    .notif-time,
+    .notif-msg {
+        margin-left: 25px;
+    }
+
+    .notif-btn {
+        color: $notif-btn-fore-color;
+        margin: 0 10px 0 -10px;
+        padding: 5px 10px;
+    }
 }
 
 /********** Bell **********/
 .notif-bell {
-    color: $main-menu-fore-color-dark;
-}
+    &.info {
+        color: $info-color;
+    }
 
-.notif-bell.info {
-    color: $info-color-ligth;
-}
+    &.warning {
+        color: $warning-color;
+    }
 
-.notif-bell.warning {
-    color: $warning-color-ligth;
-}
-
-.notif-bell.error {
-    color: $error-color-ligth;
-}
-
-.light-back .notif-bell.info {
-    color: $main-menu-fore-color-dark;
-}
-
-.light-back .notif-bell.warning {
-    color: $warning-color-dark;
-}
-
-.light-back .notif-bell.error {
-    color: $error-color-dark;
+    &.error {
+        color: $error-color;
+    }
 }

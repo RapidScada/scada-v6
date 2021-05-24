@@ -156,6 +156,7 @@ $zindex-notif: 1010;
 $zindex-modal-background: 1040;
 $zindex-modal: 1050;
 */
+/********** Notification Panel **********/
 .notif-panel {
   background-color: #111;
   bottom: 0;
@@ -163,7 +164,7 @@ $zindex-modal: 1050;
   opacity: 0.97;
   overflow-x: hidden;
   overflow-y: auto;
-  padding: 30px 15px 10px;
+  padding: 30px 0 0;
   position: fixed;
   right: 0;
   width: 30%;
@@ -173,80 +174,76 @@ $zindex-modal: 1050;
   .notif-panel.mobile {
     width: 75%; }
 
+/********** Toolbar **********/
+.notif-panel .notif-toolbar {
+  height: 30px;
+  padding-left: 5px;
+  position: absolute;
+  top: 0; }
+  .notif-panel .notif-toolbar .notif-tool-btn {
+    cursor: pointer;
+    display: inline-block;
+    font-size: 14px;
+    height: 30px;
+    line-height: 30px;
+    margin: 0 5px 0 0;
+    padding: 0 10px;
+    white-space: nowrap; }
+    .notif-panel .notif-toolbar .notif-tool-btn:hover {
+      background-color: #32373c;
+      color: #00b9eb;
+      text-decoration: none; }
+    .notif-panel .notif-toolbar .notif-tool-btn i {
+      font-size: 15px;
+      margin-right: 5px; }
+
+body:not(.header-visible) .notif-panel {
+  padding-top: 60px; }
+  body:not(.header-visible) .notif-panel .notif-toolbar {
+    top: 30px; }
+
 /********** Notification **********/
 .notif-panel .notif {
-  margin-bottom: 5px; }
-
-.notif-panel .notif.empty {
-  font-size: 16px; }
-
-.notif-panel .notif a,
-.notif-panel .notif a:active,
-.notif-panel .notif a:focus,
-.notif-panel .notif a:visited {
-  text-decoration: underline; }
-
-.notif-panel .notif a:hover {
-  color: #00b9eb;
-  text-decoration: underline; }
-
-.notif-panel .notif-type {
-  float: left; }
-
-.notif-panel .notif-type .info {
-  color: #eee; }
-
-.notif-panel .notif-type .warning {
-  color: #eeee00; }
-
-.notif-panel .notif-type .error {
-  color: #ee0000; }
-
-.notif-panel .notif-time {
-  margin-left: 20px; }
-
-.notif-panel .notif-msg {
-  margin-left: 20px; }
-
-/********** Mute **********/
-.notif-panel .notif-mute {
-  color: #9ca1a6;
-  cursor: pointer;
+  color: #eee;
   font-size: 13px;
-  line-height: 30px;
-  position: absolute;
-  top: 0;
-  width: 100%; }
-
-.notif-panel .notif-mute:hover {
-  color: #00b9eb; }
-
-.notif-panel .notif-mute i {
-  font-size: 19px;
-  margin-right: 10px;
-  position: relative;
-  top: 2px; }
+  margin: 0 5px 5px 15px; }
+  .notif-panel .notif a,
+  .notif-panel .notif a:active,
+  .notif-panel .notif a:focus,
+  .notif-panel .notif a:visited {
+    text-decoration: underline; }
+  .notif-panel .notif a:hover {
+    color: #00b9eb;
+    text-decoration: underline; }
+  .notif-panel .notif.empty {
+    font-size: 16px; }
+  .notif-panel .notif.hidden {
+    display: none; }
+  .notif-panel .notif .notif-icon {
+    float: left;
+    font-size: 14px; }
+    .notif-panel .notif .notif-icon .info {
+      color: #0dcaf0; }
+    .notif-panel .notif .notif-icon .warning {
+      color: #ffc107; }
+    .notif-panel .notif .notif-icon .error {
+      color: #dc3545; }
+  .notif-panel .notif .notif-time,
+  .notif-panel .notif .notif-msg {
+    margin-left: 25px; }
+  .notif-panel .notif .notif-btn {
+    color: #9ca1a6;
+    margin: 0 10px 0 -10px;
+    padding: 5px 10px; }
 
 /********** Bell **********/
-.notif-bell {
-  color: #9ca1a6; }
-
 .notif-bell.info {
-  color: #eee; }
+  color: #0dcaf0; }
 
 .notif-bell.warning {
-  color: #eeee00; }
+  color: #ffc107; }
 
 .notif-bell.error {
-  color: #ee0000; }
-
-.light-back .notif-bell.info {
-  color: #9ca1a6; }
-
-.light-back .notif-bell.warning {
-  color: #d39e00; }
-
-.light-back .notif-bell.error {
   color: #dc3545; }
 
 body.header-visible {
@@ -397,6 +394,3 @@ body.left-panel-visible #Main_divLeftPanel {
 /********** Others **********/
 #Main_divContent {
   overflow: auto; }
-
-#Main_divNotifPanel {
-  position: fixed; }
