@@ -24,6 +24,7 @@
  */
 
 using Microsoft.AspNetCore.Html;
+using Microsoft.AspNetCore.Mvc;
 using Scada.Lang;
 using System.Collections.Generic;
 using System.Text;
@@ -60,9 +61,9 @@ namespace Scada.Web
                 foreach (KeyValuePair<string, string> pair in dict.Phrases)
                 {
                     sbJs.Append(pair.Key)
-                        .Append(": \"")
+                        .Append(": '")
                         .Append(HttpUtility.JavaScriptStringEncode(pair.Value))
-                        .AppendLine("\",");
+                        .AppendLine("',");
                 }
             }
 
@@ -76,6 +77,20 @@ namespace Scada.Web
         public static HtmlString DictionaryToJs(string dictKey)
         {
             return DictionaryToJs(Locale.GetDictionary(dictKey));
+        }
+
+        /// <summary>
+        /// Gets a JavaScript object that contains information about the environment.
+        /// </summary>
+        public static HtmlString GetEnvironmentJs(IUrlHelper urlHelper)
+        {
+            return new HtmlString(new StringBuilder()
+                .AppendLine("{")
+                .AppendLine($"rootPath: '{urlHelper.Content("~/")}',")
+                .AppendLine($"locale: '{HttpUtility.JavaScriptStringEncode(Locale.Culture.Name)}',")
+                .AppendLine($"productName: '{HttpUtility.JavaScriptStringEncode(CommonPhrases.ProductName)}'")
+                .Append('}')
+                .ToString());
         }
     }
 }

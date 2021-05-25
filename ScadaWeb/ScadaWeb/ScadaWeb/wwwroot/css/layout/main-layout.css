@@ -189,6 +189,9 @@ $zindex-modal: 1050;
     margin: 0 5px 0 0;
     padding: 0 10px;
     white-space: nowrap; }
+    .notif-panel .notif-toolbar .notif-tool-btn.disabled {
+      color: #9ca1a6;
+      cursor: not-allowed; }
     .notif-panel .notif-toolbar .notif-tool-btn:hover {
       background-color: #32373c;
       color: #00b9eb;

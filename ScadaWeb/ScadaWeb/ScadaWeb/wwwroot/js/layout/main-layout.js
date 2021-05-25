@@ -1,4 +1,11 @@
 ﻿// Depends on scada-common.js, tree-view.js
+
+var appEnv = {
+    rootPath: "/",
+    locale: "en-GB",
+    productName: "Rapid SCADA"
+};
+
 var mainLayout = {
     // The storage key for the left panel visibility.
     _LEFT_PANEL_VISIBLE_KEY: "MainLayout.LeftPanelVisible",
@@ -24,7 +31,7 @@ var mainLayout = {
     // Prepares the notification panel.
     _prepareNotifPanel: function () {
         this.notifPanel = new NotifPanel("Main_divNotifPanel", "Main_spanNotifBtn", "Main_spanNotifBtn2");
-        this.notifPanel.prepare();
+        this.notifPanel.prepare(appEnv.rootPath);
         this.notifPanel.addSamples();
     },
 
@@ -75,19 +82,6 @@ var mainLayout = {
                     thisObj._hideLeftPanel(true);
                 } else {
                     thisObj._showLeftPanel();
-                }
-            });
-
-        // toggle the notification panel
-        $("#Main_spanNotifBtn, #Main_spanNotifBtn2")
-            .off()
-            .click(function () {
-                if (thisObj.notifPanel) {
-                    if (thisObj.notifPanel.isVisible) {
-                        thisObj.notifPanel.hide();
-                    } else {
-                        thisObj.notifPanel.show();
-                    }
                 }
             });
 

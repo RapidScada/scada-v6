@@ -12,6 +12,7 @@ $notif-text-empty-font-size: 16px;
 
 $panel-back-color: #111;
 $panel-fore-color: $main-menu-fore-color;
+$panel-fore-color-dark: $main-menu-fore-color-dark;
 $panel-item-hover-back-color: $main-menu-item-hover-back-color;
 $panel-item-hover-fore-color: $main-menu-item-hover-fore-color;
 $panel-opacity: 0.97;
@@ -61,6 +62,11 @@ $error-color: $danger;
         margin: 0 5px 0 0;
         padding: 0 10px;
         white-space: nowrap;
+
+        &.disabled {
+            color: $panel-fore-color-dark;
+            cursor: not-allowed;
+        }
 
         &:hover {
             background-color: $panel-item-hover-back-color;
