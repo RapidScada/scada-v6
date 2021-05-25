@@ -23,6 +23,12 @@
  * Modified : 2021
  */
 
+using Microsoft.AspNetCore.Html;
+using Scada.Lang;
+using System.Collections.Generic;
+using System.Text;
+using System.Web;
+
 namespace Scada.Web
 {
     /// <summary>
@@ -39,5 +45,37 @@ namespace Scada.Web
         /// The application log file name.
         /// </summary>
         public const string LogFileName = "ScadaWeb.log";
+
+
+        /// <summary>
+        /// Converts the phrases dictionary to a JavaScript object.
+        /// </summary>
+        public static HtmlString DictionaryToJs(LocaleDict dict)
+        {
+            StringBuilder sbJs = new();
+            sbJs.AppendLine("{");
+
+            if (dict != null)
+            {
+                foreach (KeyValuePair<string, string> pair in dict.Phrases)
+                {
+                    sbJs.Append(pair.Key)
+                        .Append(": \"")
+                        .Append(HttpUtility.JavaScriptStringEncode(pair.Value))
+                        .AppendLine("\",");
+                }
+            }
+
+            sbJs.Append('}');
+            return new HtmlString(sbJs.ToString());
+        }
+
+        /// <summary>
+        /// Converts the phrases dictionary to a JavaScript object.
+        /// </summary>
+        public static HtmlString DictionaryToJs(string dictKey)
+        {
+            return DictionaryToJs(Locale.GetDictionary(dictKey));
+        }
     }
 }

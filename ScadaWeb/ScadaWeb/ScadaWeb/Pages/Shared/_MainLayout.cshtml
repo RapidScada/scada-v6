@@ -7,8 +7,8 @@
     var username = "admin";
 
     // tree view examples
-    TreeViewRenderer menuRenderer = new();
-    TreeViewRenderer explorerRenderer = new(new TreeViewRenderer.Options 
+    var menuRenderer = new TreeViewRenderer();
+    var explorerRenderer = new TreeViewRenderer(new TreeViewRenderer.Options 
     {
         ExpanderLeft = true,
         ShowIcons = true,
@@ -26,6 +26,9 @@
     <script src="~/js/layout/tree-view.js" asp-append-version="true"></script>
     <script src="~/js/layout/notif-panel.js" asp-append-version="true"></script>
     <script src="~/js/layout/main-layout.js" asp-append-version="true"></script>
+    <script>
+        NotifPhrases = @WebUtils.DictionaryToJs("Scada.Web.Pages.Shared._MainLayout.NotifPanel");
+    </script>
     @RenderSection("Scripts", required: false)
 }
 
@@ -54,18 +57,29 @@
     *@<span id="Main_spanExitFullscreenBtn" class="main-hdr-btn" title="@dict.spanExitFullscreenBtn_ToolTip"><i class="fas fa-compress"></i></span>
 </div>
 
-<div id="Main_divLeftPanel">
-    <div id="Main_divTabPanel">
-        <div id="Main_divMainMenuTab" class="tab" data-tool-window="Main_divMainMenu">@dict.divMainMenuTab</div>
-        <div id="Main_divViewExplorerTab" class="tab" data-tool-window="Main_divViewExplorer">@dict.divViewExplorerTab</div>
+@if (displayOptions.ShowMainMenu || displayOptions.ShowViewExplorer)
+{
+    <div id="Main_divLeftPanel">
+        <div id="Main_divTabPanel">
+            <div id="Main_divMainMenuTab" class="tab" data-tool-window="Main_divMainMenu">@dict.divMainMenuTab</div>
+            <div id="Main_divViewExplorerTab" class="tab" data-tool-window="Main_divViewExplorer">@dict.divViewExplorerTab</div>
+        </div>
+        @if (displayOptions.ShowMainMenu)
+        {
+            <div id="Main_divMainMenu" class="tool-window hidden">@menuRenderer.RenderHtml(TreeViewExample.GetMainMenu())</div>
+        }
+        @if (displayOptions.ShowViewExplorer)
+        { 
+            <div id="Main_divViewExplorer" class="tool-window hidden">@explorerRenderer.RenderHtml(TreeViewExample.GetViewExplorer())</div> 
+        }
     </div>
-    <div id="Main_divMainMenu" class="tool-window hidden">@menuRenderer.RenderHtml(TreeViewExample.GetMainMenu())</div>
-    <div id="Main_divViewExplorer" class="tool-window hidden">@explorerRenderer.RenderHtml(TreeViewExample.GetViewExplorer())</div>
-</div>
+}
 
 <div id="Main_divContent">
     @RenderBody()
 </div>
 
-<div id="Main_divNotifPanel" class="notif-panel hidden">
-</div>
+@if (!string.IsNullOrEmpty(appData.Config.PluginAssignment.NotificationFeature))
+{
+    <div id="Main_divNotifPanel" class="notif-panel hidden"></div>
+}

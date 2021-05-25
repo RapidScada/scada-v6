@@ -13,6 +13,12 @@
     <Phrase key="divMainMenuTab">Главное меню</Phrase>
     <Phrase key="divViewExplorerTab">Представления</Phrase>
   </Dictionary>
+  <Dictionary key="Scada.Web.Pages.Shared._MainLayout.NotifPanel">
+    <Phrase key="NoNotif">Уведомлений нет</Phrase>
+    <Phrase key="Mute">Отключить звук</Phrase>
+    <Phrase key="Unmute">Включить звук</Phrase>
+    <Phrase key="AckAll">Подтвердить все</Phrase>
+  </Dictionary>
   <Dictionary key="Scada.Web.Pages.Login">
     <Phrase key="PageTitle">Вход в систему</Phrase>
     <Phrase key="WebsiteUrl">https://rapidscada.ru</Phrase>

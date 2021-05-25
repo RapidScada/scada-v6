@@ -43,6 +43,7 @@ namespace Scada.Web.Config
             CommandFeature = "";
             EventAckFeature = "";
             UserProfileFeature = "";
+            NotificationFeature = "";
         }
 
 
@@ -66,6 +67,11 @@ namespace Scada.Web.Config
         /// </summary>
         public string UserProfileFeature { get; set; }
 
+        /// <summary>
+        /// Gets or sets the code of the plugin that manages notifications.
+        /// </summary>
+        public string NotificationFeature { get; set; }
+
 
         /// <summary>
         /// Loads the options from the XML node.
@@ -79,6 +85,7 @@ namespace Scada.Web.Config
             CommandFeature = xmlNode.GetChildAsString("CommandFeature");
             EventAckFeature = xmlNode.GetChildAsString("EventAckFeature");
             UserProfileFeature = xmlNode.GetChildAsString("UserProfileFeature");
+            NotificationFeature = xmlNode.GetChildAsString("NotificationFeature");
         }
 
         /// <summary>
@@ -93,6 +100,7 @@ namespace Scada.Web.Config
             xmlElem.AppendElem("CommandFeature", CommandFeature);
             xmlElem.AppendElem("EventAckFeature", EventAckFeature);
             xmlElem.AppendElem("UserProfileFeature", UserProfileFeature);
+            xmlElem.AppendElem("NotificationFeature", NotificationFeature);
         }
     }
 }

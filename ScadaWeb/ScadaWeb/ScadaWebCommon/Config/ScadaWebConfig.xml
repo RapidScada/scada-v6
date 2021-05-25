@@ -38,6 +38,7 @@
     <CommandFeature>PlgTable</CommandFeature>
     <EventAckFeature>PlgTable</EventAckFeature>
     <UserProfileFeature></UserProfileFeature>
+    <NotificationFeature>PlgNotification</NotificationFeature>
   </PluginAssignment>
   <CustomOptions>
     <OptionGroup name="Scheme">

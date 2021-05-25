@@ -4,7 +4,7 @@ var mainLayout = {
     notifPanel: null,
 
     // Prepares the main menu and view explorer tree views.
-    prepareTreeViews: function () {
+    _prepareTreeViews: function () {
         let mainMenu = new TreeView("Main_divMainMenu");
         let viewExplorer = new TreeView("Main_divViewExplorer");
         mainMenu.prepare();
@@ -12,10 +12,44 @@ var mainLayout = {
     },
 
     // Prepares the notification panel.
-    prepareNotifPanel: function () {
+    _prepareNotifPanel: function () {
         this.notifPanel = new NotifPanel("Main_divNotifPanel", "Main_spanNotifBtn", "Main_spanNotifBtn2");
         this.notifPanel.prepare();
         this.notifPanel.addSamples();
+    },
+
+    // Hides unused buttons.
+    _prepareButtons: function () {
+        if ($("#Main_divLeftPanel").length == 0) {
+            $("#Main_spanMenuBtn, #Main_spanMenuBtn2").remove();
+        }
+
+        if ($("#Main_divMainMenu").length == 0) {
+            $("#Main_divMainMenuTab").remove();
+        }
+
+        if ($("#Main_divViewExplorer").length == 0) {
+            $("#Main_divViewExplorerTab").remove();
+        }
+
+        if ($("#Main_divNotifPanel").length == 0) {
+            $("#Main_spanNotifBtn, #Main_spanNotifBtn2").remove();
+        }
+    },
+
+    // Prepares the layout for work.
+    prepare: function () {
+        if ($("#Main_divHeader").length > 0) {
+            $("body").addClass("header-visible");
+        }
+
+        if ($("#Main_divLeftPanel").length > 0) {
+            $("body").addClass("left-panel-visible");
+        }
+
+        this._prepareTreeViews();
+        this._prepareNotifPanel();
+        this._prepareButtons();
     },
 
     // Updates the layout to fit the window.
@@ -127,14 +161,9 @@ var mainLayout = {
 };
 
 $(document).ready(function () {
-    if ($("#Main_divHeader").length > 0) {
-        $("body").addClass("header-visible");
-    }
-
+    mainLayout.prepare();
     mainLayout.updateLayout();
-    mainLayout.prepareTreeViews();
-    mainLayout.prepareNotifPanel();
-    mainLayout.showLeftPanel();
+    //mainLayout.showLeftPanel();
 
     mainLayout.activateTab($("#Main_divMainMenuTab"));
     mainLayout.bindEvents();

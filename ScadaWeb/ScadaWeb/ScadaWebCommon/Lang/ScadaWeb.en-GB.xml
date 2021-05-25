@@ -15,6 +15,12 @@
     <Phrase key="divMainMenuTab">Main Menu</Phrase>
     <Phrase key="divViewExplorerTab">Views</Phrase>
   </Dictionary>
+  <Dictionary key="Scada.Web.Pages.Shared._MainLayout.NotifPanel">
+    <Phrase key="NoNotif">No notifications</Phrase>
+    <Phrase key="Mute">Mute</Phrase>
+    <Phrase key="Unmute">Unmute</Phrase>
+    <Phrase key="AckAll">Ack All</Phrase>
+  </Dictionary>
   <Dictionary key="Scada.Web.Pages.Login">
     <Phrase key="PageTitle">Login</Phrase>
     <Phrase key="WebsiteUrl">https://rapidscada.org</Phrase>
