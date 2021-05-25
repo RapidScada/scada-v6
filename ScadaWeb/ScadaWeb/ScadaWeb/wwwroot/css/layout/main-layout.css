@@ -299,6 +299,12 @@ body.header-visible #Main_divHeader {
 body.header-visible #Main_divNoHeaderMenu {
   display: none; }
 
+body.full-screen #Main_spanFullscreenBtn2 {
+  display: none; }
+
+body:not(.full-screen) #Main_spanExitFullscreenBtn {
+  display: none; }
+
 #Main_spanMenuBtn {
   padding: 0;
   width: 30px;

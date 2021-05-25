@@ -1,7 +1,17 @@
 ﻿// Depends on scada-common.js, tree-view.js
 var mainLayout = {
+    // The storage key for the left panel visibility.
+    _LEFT_PANEL_VISIBLE_KEY: "MainLayout.LeftPanelVisible",
+
     // The notification panel.
     notifPanel: null,
+
+    // The jQuery objects that represent tabs.
+    tabs: {
+        default: $(),
+        mainMenu: $(),
+        explorerView: $()
+    },
 
     // Prepares the main menu and view explorer tree views.
     _prepareTreeViews: function () {
@@ -35,77 +45,14 @@ var mainLayout = {
         if ($("#Main_divNotifPanel").length == 0) {
             $("#Main_spanNotifBtn, #Main_spanNotifBtn2").remove();
         }
+
+        this.tabs.default = $("#Main_divTabPanel .tab:first");
+        this.tabs.mainMenu = $("#Main_divMainMenuTab");
+        this.tabs.explorerView = $("#Main_divViewExplorerTab");
     },
 
-    // Prepares the layout for work.
-    prepare: function () {
-        if ($("#Main_divHeader").length > 0) {
-            $("body").addClass("header-visible");
-        }
-
-        if ($("#Main_divLeftPanel").length > 0) {
-            $("body").addClass("left-panel-visible");
-        }
-
-        this._prepareTreeViews();
-        this._prepareNotifPanel();
-        this._prepareButtons();
-    },
-
-    // Updates the layout to fit the window.
-    updateLayout: function () {
-        let divHeader = $("#Main_divHeader");
-        let headerHeight = divHeader.length > 0 && $("body").hasClass("header-visible")
-            ? divHeader.outerHeight()
-            : 0;
-
-        let contentHeight = $(window).height() - headerHeight;
-        $("#Main_divLeftPanel").outerHeight(contentHeight);
-        $("#Main_divTabPanel").outerWidth(contentHeight);
-        $("#Main_divContent").outerHeight(contentHeight);
-        $("#Main_divNotifPanel").outerHeight(contentHeight);
-        $(window).trigger(ScadaEventTypes.UPDATE_LAYOUT);
-    },
-
-    // Shows the left panel.
-    showLeftPanel: function () {
-        $("body").addClass("left-panel-visible");
-    },
-
-    // Hides the left panel.
-    hideLeftPanel: function () {
-        $("body").removeClass("left-panel-visible");
-    },
-
-    // Activates the selected tab and shows corresponding tool window.
-    activateTab: function (selectedTab) {
-        // highlight clicked tab
-        let tabs = selectedTab.siblings(".tab");
-        tabs.removeClass("selected");
-        selectedTab.addClass("selected");
-
-        // deactivate all tool windows
-        var toolWindows = $("#Main_divLeftPanel .tool-window");
-        toolWindows.addClass("hidden");
-
-        // activate corresponding tool window
-        var toolWindowId = selectedTab.data("tool-window");
-        $("#" + toolWindowId).removeClass("hidden");
-    },
-
-    // Enables the full screen mode.
-    enableFullscreen: function () {
-        $("body").removeClass("header-visible");
-        this.updateLayout();
-    },
-
-    // Exits the full screen mode.
-    exitFullscreen: function () {
-        $("body").addClass("header-visible");
-        this.updateLayout();
-    },
-
-    bindEvents: function () {
+    // Binds events to the DOM elements.
+    _bindEvents: function () {
         let thisObj = this;
 
         // update layout on window resize
@@ -125,9 +72,9 @@ var mainLayout = {
             .off()
             .click(function () {
                 if ($("body").hasClass("left-panel-visible")) {
-                    thisObj.hideLeftPanel();
+                    thisObj._hideLeftPanel(true);
                 } else {
-                    thisObj.showLeftPanel();
+                    thisObj._showLeftPanel();
                 }
             });
 
@@ -144,27 +91,137 @@ var mainLayout = {
                 }
             });
 
-        // enable full screen
-        $("#Main_spanFullscreenBtn")
+        // enter full screen
+        $("#Main_spanFullscreenBtn, #Main_spanFullscreenBtn2")
             .off()
             .click(function () {
-                thisObj.enableFullscreen();
+                thisObj._enterFullscreen();
             });
 
         // exit full screen
         $("#Main_spanExitFullscreenBtn")
             .off()
             .click(function () {
-                thisObj.exitFullscreen();
+                thisObj._exitFullscreen();
             });
-    }
+
+        // in Chrome fires only if the mode is switched programmatically
+        $(document).on("fullscreenchange webkitfullscreenchange mozfullscreenchange MSFullscreenChange", function () {
+            console.info("Full screen is " + ScadaUtils.isFullscreen);
+        });
+    },
+
+    // Shows the header.
+    _showHeader: function () {
+        if ($("#Main_divHeader").length > 0) {
+            $("body").addClass("header-visible");
+        }
+    },
+
+    // Hides the header.
+    _hideHeader: function () {
+        $("body").removeClass("header-visible");
+    },
+
+    // Shows the left panel.
+    _showLeftPanel: function () {
+        if ($("#Main_divLeftPanel").length > 0) {
+            $("body").addClass("left-panel-visible");
+            ScadaUtils.setStorageItem(localStorage, this._LEFT_PANEL_VISIBLE_KEY, "true");
+        }
+    },
+
+    // Hides the left panel.
+    _hideLeftPanel: function (saveState) {
+        $("body").removeClass("left-panel-visible");
+
+        if (saveState) {
+            ScadaUtils.setStorageItem(localStorage, this._LEFT_PANEL_VISIBLE_KEY, "false");
+        }
+    },
+
+    // Restores the saved state of the left panel.
+    _restoreLeftPanel: function () {
+        if (ScadaUtils.getStorageItem(localStorage, this._LEFT_PANEL_VISIBLE_KEY,
+            ScadaUtils.isSmallScreen ? "false" : "true") === "true") {
+            this._showLeftPanel();
+        }
+    },
+
+    // Enters full screen mode.
+    _enterFullscreen: function () {
+        if (!ScadaUtils.isFullscreen) {
+            ScadaUtils.requestFullscreen();
+        }
+
+        $("body").addClass("full-screen");
+        this._hideHeader();
+        this._hideLeftPanel(false);
+        this.updateLayout();
+    },
+
+    // Exits full screen mode.
+    _exitFullscreen: function () {
+        if (ScadaUtils.isFullscreen) {
+            ScadaUtils.exitFullscreen();
+        }
+
+        $("body").removeClass("full-screen");
+        this._showHeader();
+        this._restoreLeftPanel();
+        this.updateLayout();
+    },
+
+    // Prepares the layout for work.
+    prepare: function () {
+        if (ScadaUtils.isActualFullscreen) {
+            console.info("Full screen detected");
+            $("body").addClass("full-screen");
+        } else {
+            this._showHeader();
+            this._restoreLeftPanel();
+        }
+
+        this._prepareTreeViews();
+        this._prepareNotifPanel();
+        this._prepareButtons();
+        this._bindEvents();
+        this.activateTab(this.tabs.default);
+    },
+
+    // Updates the layout to fit the window.
+    updateLayout: function () {
+        let divHeader = $("#Main_divHeader");
+        let headerHeight = divHeader.length > 0 && $("body").hasClass("header-visible")
+            ? divHeader.outerHeight()
+            : 0;
+
+        let contentHeight = $(window).height() - headerHeight;
+        $("#Main_divLeftPanel").outerHeight(contentHeight);
+        $("#Main_divTabPanel").outerWidth(contentHeight);
+        $("#Main_divContent").outerHeight(contentHeight);
+        $("#Main_divNotifPanel").outerHeight(contentHeight);
+        $(window).trigger(ScadaEventTypes.UPDATE_LAYOUT);
+    },
+
+    // Activates the selected tab and shows corresponding tool window.
+    activateTab: function (selectedTab) {
+        // highlight clicked tab
+        let tabs = selectedTab.siblings(".tab");
+        tabs.removeClass("selected");
+        selectedTab.addClass("selected");
+
+        // deactivate all tool windows
+        var toolWindows = $("#Main_divLeftPanel .tool-window");
+        toolWindows.addClass("hidden");
+
+        // activate corresponding tool window
+        var toolWindowId = selectedTab.data("tool-window");
+        $("#" + toolWindowId).removeClass("hidden");
+    },
 };
 
 $(document).ready(function () {
     mainLayout.prepare();
     mainLayout.updateLayout();
-    //mainLayout.showLeftPanel();
-
-    mainLayout.activateTab($("#Main_divMainMenuTab"));
-    mainLayout.bindEvents();
 });

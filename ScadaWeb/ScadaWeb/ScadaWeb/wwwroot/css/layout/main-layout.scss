@@ -81,6 +81,18 @@ body {
             display: none;
         }
     }
+
+    &.full-screen {
+        #Main_spanFullscreenBtn2 {
+            display: none;
+        }
+    }
+
+    &:not(.full-screen) {
+        #Main_spanExitFullscreenBtn {
+            display: none;
+        }
+    }
 }
 
 #Main_spanMenuBtn {
