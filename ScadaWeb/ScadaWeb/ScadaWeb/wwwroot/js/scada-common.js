@@ -6,7 +6,7 @@ class ScadaUtils {
     // The window width that is considered a small.
     static SMALL_WND_WIDTH = 800;
 
-    // Checks if a browser window is small sized.
+    // Checks if a browser window is small sized, such as a mobile device.
     static get isSmallScreen() {
         return top.innerWidth <= this.SMALL_WND_WIDTH;
     }

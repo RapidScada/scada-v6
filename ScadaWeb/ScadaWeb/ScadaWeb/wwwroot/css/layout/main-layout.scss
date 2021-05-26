@@ -56,7 +56,7 @@ body {
     right: 0;
     top: 0;
     background-color: $main-menu-back-color-light;
-    z-index: $zindex-notif-panel + 1;
+    z-index: $zindex-notif + 1;
 
     &:hover {
         opacity: 1;

@@ -35,7 +35,7 @@ $error-color: $danger;
     position: fixed;
     right: 0;
     width: $panel-width;
-    z-index: $zindex-notif-panel;
+    z-index: $zindex-notif;
 
     &.hidden {
         display: none;

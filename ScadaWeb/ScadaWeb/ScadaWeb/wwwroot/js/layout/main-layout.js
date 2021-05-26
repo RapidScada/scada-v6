@@ -81,7 +81,7 @@ var mainLayout = {
                 if ($("body").hasClass("left-panel-visible")) {
                     thisObj._hideLeftPanel(true);
                 } else {
-                    thisObj._showLeftPanel();
+                    thisObj._showLeftPanel(true);
                 }
             });
 
@@ -118,10 +118,13 @@ var mainLayout = {
     },
 
     // Shows the left panel.
-    _showLeftPanel: function () {
+    _showLeftPanel: function (saveState) {
         if ($("#Main_divLeftPanel").length > 0) {
             $("body").addClass("left-panel-visible");
-            ScadaUtils.setStorageItem(localStorage, this._LEFT_PANEL_VISIBLE_KEY, "true");
+
+            if (saveState) {
+                ScadaUtils.setStorageItem(localStorage, this._LEFT_PANEL_VISIBLE_KEY, "true");
+            }
         }
     },
 
@@ -138,7 +141,7 @@ var mainLayout = {
     _restoreLeftPanel: function () {
         if (ScadaUtils.getStorageItem(localStorage, this._LEFT_PANEL_VISIBLE_KEY,
             ScadaUtils.isSmallScreen ? "false" : "true") === "true") {
-            this._showLeftPanel();
+            this._showLeftPanel(false);
         }
     },
 
@@ -168,14 +171,8 @@ var mainLayout = {
 
     // Prepares the layout for work.
     prepare: function () {
-        if (ScadaUtils.isActualFullscreen) {
-            console.info("Full screen detected");
-            $("body").addClass("full-screen");
-        } else {
-            this._showHeader();
-            this._restoreLeftPanel();
-        }
-
+        this._showHeader();
+        this._restoreLeftPanel();
         this._prepareTreeViews();
         this._prepareNotifPanel();
         this._prepareButtons();
