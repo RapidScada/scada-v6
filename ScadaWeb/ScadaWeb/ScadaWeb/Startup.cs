@@ -65,7 +65,9 @@ namespace Scada.Web
                     options.LoginPath = "/Login";
                 });
 
+            services.AddHttpContextAccessor();
             services.AddSingleton(WebContext);
+            services.AddScoped(UserContextFactory.GetUserContext);
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

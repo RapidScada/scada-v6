@@ -23,6 +23,7 @@
  * Modified : 2021
  */
 
+using Scada.Data.Models;
 using Scada.Log;
 using Scada.Web.Config;
 
@@ -35,6 +36,11 @@ namespace Scada.Web
     public interface IWebContext
     {
         /// <summary>
+        /// Gets the application configuration.
+        /// </summary>
+        WebConfig Config { get; }
+
+        /// <summary>
         /// Gets the application directories.
         /// </summary>
         WebDirs AppDirs { get; }
@@ -45,8 +51,8 @@ namespace Scada.Web
         ILog Log { get; }
 
         /// <summary>
-        /// Gets the application configuration.
+        /// Gets the cached configuration database.
         /// </summary>
-        WebConfig Config { get; }
+        BaseDataSet BaseDataSet { get; }
     }
 }

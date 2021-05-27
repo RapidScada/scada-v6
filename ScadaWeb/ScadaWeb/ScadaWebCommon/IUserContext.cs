@@ -23,11 +23,7 @@
  * Modified : 2021
  */
 
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using Scada.Data.Entities;
 
 namespace Scada.Web
 {
@@ -37,5 +33,24 @@ namespace Scada.Web
     /// </summary>
     public interface IUserContext
     {
+        /// <summary>
+        /// Gets a value indicating whether a user is logged in.
+        /// </summary>
+        bool IsLoggedIn { get; }
+
+        /// <summary>
+        /// Gets the user data model.
+        /// </summary>
+        User UserModel { get; }
+
+        /// <summary>
+        /// Gets the main menu items available to the user.
+        /// </summary>
+        object Menu { get; }
+
+        /// <summary>
+        /// Gets the view explorer nodes available to the user.
+        /// </summary>
+        object Views { get; }
     }
 }

@@ -53,7 +53,7 @@ namespace Scada.Comm.Drivers
         ILog Log { get; }
 
         /// <summary>
-        /// Gets the configuration database cache.
+        /// Gets the cached configuration database.
         /// </summary>
         /// <remarks>Can be null.</remarks>
         BaseDataSet BaseDataSet { get; }

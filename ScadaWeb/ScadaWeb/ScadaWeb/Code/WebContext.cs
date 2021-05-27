@@ -19,10 +19,11 @@
  * Summary  : Contains web application level data
  * 
  * Author   : Mikhail Shiryaev
- * Created  : 2016
+ * Created  : 2021
  * Modified : 2021
  */
 
+using Scada.Data.Models;
 using Scada.Log;
 using Scada.Web.Config;
 using System.IO;
@@ -40,11 +41,17 @@ namespace Scada.Web.Code
         /// </summary>
         public WebContext()
         {
+            Config = new WebConfig();
             AppDirs = new WebDirs();
             Log = LogStub.Instance;
-            Config = new WebConfig();
+            BaseDataSet = new BaseDataSet();
         }
 
+
+        /// <summary>
+        /// Gets the application configuration.
+        /// </summary>
+        public WebConfig Config { get; }
 
         /// <summary>
         /// Gets the application directories.
@@ -57,9 +64,9 @@ namespace Scada.Web.Code
         public ILog Log { get; private set; }
 
         /// <summary>
-        /// Gets the application configuration.
+        /// Gets the cached configuration database.
         /// </summary>
-        public WebConfig Config { get; }
+        public BaseDataSet BaseDataSet { get; private set; }
 
 
         /// <summary>

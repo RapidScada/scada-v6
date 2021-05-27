@@ -71,7 +71,7 @@ namespace Scada.Server.Engine
         public ILog Log => coreLogic.Log;
 
         /// <summary>
-        /// Gets the configuration database cache.
+        /// Gets the cached configuration database.
         /// </summary>
         public BaseDataSet BaseDataSet => coreLogic.BaseDataSet;
 

@@ -44,8 +44,8 @@ namespace Scada.Web
     /// </summary>
     public class Program
     {
-        private static WebContext webContext = null; // the application context
-        private static ILog log = LogStub.Instance;  // the application log
+        private static WebContext webContext; // the application context
+        private static ILog log;              // the application log
 
 
         /// <summary>

@@ -1,10 +1,12 @@
 ﻿@using Scada.Web.TreeView
 @inject IWebContext webContext
+@inject IUserContext userContext
 @{
     Layout = "_BasicLayout";
     dynamic dict = Locale.GetDictionary("Scada.Web.Pages.Shared._MainLayout");
     var displayOptions = webContext.Config.DisplayOptions;
-    var username = "admin";
+    var userID = userContext.UserModel?.UserID ?? 0;
+    var username = userContext.UserModel?.Name ?? "Unknown";
 
     // tree view examples
     var menuRenderer = new TreeViewRenderer();
@@ -43,8 +45,8 @@
 
         <div class="main-hdr-block right">@*
             *@<span id="Main_spanNotifBtn" class="main-hdr-btn notif-bell" title="@dict.spanNotifBtn_ToolTip"><i class="far fa-bell"></i></span>@*
-            *@<span id="Main_spanProfileBtn" class="main-hdr-btn">@username</span>@*
-            *@<a asp-area="" asp-page="/Logout"><span id="Main_spanLogoutBtn" class="main-hdr-btn">@dict.spanLogoutBtn</span></a>@*
+            *@<a asp-page="/UserProfile" asp-route-id="@userID"><span id="Main_spanProfileBtn" class="main-hdr-btn">@username</span></a>@*
+            *@<a asp-page="/Logout"><span id="Main_spanLogoutBtn" class="main-hdr-btn">@dict.spanLogoutBtn</span></a>@*
             *@<span id="Main_spanFullscreenBtn" class="main-hdr-btn" title="@dict.spanFullscreenBtn_ToolTip"><i class="fas fa-expand"></i></span>
         </div>
     </div>
@@ -53,8 +55,8 @@
 <div id="Main_divNoHeaderMenu">@*
     *@<span id="Main_spanMenuBtn2" class="main-hdr-btn" title="@dict.spanMenuBtn_ToolTip"><i class="fas fa-bars"></i></span>@*
     *@<span id="Main_spanNotifBtn2" class="main-hdr-btn notif-bell" title="@dict.spanNotifBtn_ToolTip"><i class="far fa-bell"></i></span>@*
-    *@<span id="Main_spanProfileBtn2" class="main-hdr-btn" title="@dict.spanProfileBtn_ToolTip"><i class="fas fa-user"></i></span>@*
-    *@<a asp-area="" asp-page="/Logout"><span id="Main_spanLogoutBtn2" class="main-hdr-btn" title="@dict.spanLogoutBtn_ToolTip"><i class="fas fa-sign-out-alt"></i></span></a>@*
+    *@<a asp-page="/UserProfile" asp-route-id="@userID"><span id="Main_spanProfileBtn2" class="main-hdr-btn" title="@dict.spanProfileBtn_ToolTip"><i class="fas fa-user"></i></span></a>@*
+    *@<a asp-page="/Logout"><span id="Main_spanLogoutBtn2" class="main-hdr-btn" title="@dict.spanLogoutBtn_ToolTip"><i class="fas fa-sign-out-alt"></i></span></a>@*
     *@<span id="Main_spanFullscreenBtn2" class="main-hdr-btn" title="@dict.spanFullscreenBtn_ToolTip"><i class="fas fa-expand"></i></span>@*
     *@<span id="Main_spanExitFullscreenBtn" class="main-hdr-btn" title="@dict.spanExitFullscreenBtn_ToolTip"><i class="fas fa-compress"></i></span>
 </div>
