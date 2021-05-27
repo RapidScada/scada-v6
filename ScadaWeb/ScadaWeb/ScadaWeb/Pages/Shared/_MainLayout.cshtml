@@ -1,9 +1,9 @@
 ﻿@using Scada.Web.TreeView
-@inject AppData appData
+@inject IWebContext webContext
 @{
     Layout = "_BasicLayout";
     dynamic dict = Locale.GetDictionary("Scada.Web.Pages.Shared._MainLayout");
-    var displayOptions = appData.Config.DisplayOptions;
+    var displayOptions = webContext.Config.DisplayOptions;
     var username = "admin";
 
     // tree view examples
@@ -81,7 +81,7 @@
     @RenderBody()
 </div>
 
-@if (!string.IsNullOrEmpty(appData.Config.PluginAssignment.NotificationFeature))
+@if (!string.IsNullOrEmpty(webContext.Config.PluginAssignment.NotificationFeature))
 {
     <div id="Main_divNotifPanel" class="notif-panel hidden"></div>
 }

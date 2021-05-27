@@ -39,12 +39,15 @@ namespace Scada.Web
     /// </summary>
     public class Startup
     {
-        public Startup(IConfiguration configuration)
+        public Startup(IConfiguration configuration, IWebContext webContext)
         {
             Configuration = configuration;
+            WebContext = webContext;
         }
 
         public IConfiguration Configuration { get; }
+
+        public IWebContext WebContext { get; }
 
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
@@ -62,7 +65,7 @@ namespace Scada.Web
                     options.LoginPath = "/Login";
                 });
 
-            services.AddSingleton<AppData>();
+            services.AddSingleton(WebContext);
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

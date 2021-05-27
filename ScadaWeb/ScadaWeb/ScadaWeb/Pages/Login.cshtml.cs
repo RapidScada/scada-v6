@@ -27,7 +27,6 @@ using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
-using Scada.Web.Code;
 using Scada.Web.Config;
 using System;
 using System.Collections.Generic;
@@ -43,12 +42,12 @@ namespace Scada.Web.Pages
     [BindProperties]
     public class LoginModel : PageModel
     {
-        private readonly AppData appData;
+        private readonly IWebContext webContext;
 
 
-        public LoginModel(AppData appData)
+        public LoginModel(IWebContext webContext)
         {
-            this.appData = appData;
+            this.webContext = webContext;
         }
 
 
@@ -72,7 +71,7 @@ namespace Scada.Web.Pages
                 claims, CookieAuthenticationDefaults.AuthenticationScheme);
 
             var authProperties = new AuthenticationProperties();
-            LoginOptions loginOptions = appData.Config.LoginOptions;
+            LoginOptions loginOptions = webContext.Config.LoginOptions;
 
             if (loginOptions.AllowRememberMe && RememberMe)
             {
@@ -97,14 +96,14 @@ namespace Scada.Web.Pages
                 if (Username == "admin" && Password == "scada")
                 {
                     await LoginAsync();
-                    appData.Log.WriteAction("Login OK!");
+                    webContext.Log.WriteAction("Login OK!");
 
                     string url = !string.IsNullOrEmpty(returnUrl) && Url.IsLocalUrl(returnUrl) ? returnUrl : "/View";
                     return RedirectToPage(url);
                 }
                 else
                 {
-                    appData.Log.WriteAction("Login error!");
+                    webContext.Log.WriteAction("Login error!");
                     ModelState.AddModelError(string.Empty, "Incorrect username or password.");
                 }
             }

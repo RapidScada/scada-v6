@@ -44,40 +44,29 @@ namespace Scada.Web
     /// </summary>
     public class Program
     {
-        private static AppData appData = null;      // the application data
-        private static ILog log = LogStub.Instance; // the application log
+        private static WebContext webContext = null; // the application context
+        private static ILog log = LogStub.Instance;  // the application log
 
 
         /// <summary>
-        /// Initializes the common application data.
+        /// Initializes the application context.
         /// </summary>
-        private static void InitAppData(IHost host)
+        private static void InitContext()
         {
-            using IServiceScope serviceScope = host.Services.CreateScope();
-            IServiceProvider services = serviceScope.ServiceProvider;
+            string exeDir = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location);
+            webContext = new WebContext();
+            webContext.Init(exeDir);
 
-            try
+            log = webContext.Log;
+            log.WriteBreak();
+
+            if (!Locale.LoadCulture(Path.Combine(exeDir, "..", "Config", InstanceConfig.DefaultFileName),
+                out string errMsg))
             {
-                string exeDir = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location);
-                appData = services.GetRequiredService<AppData>();
-                appData.Init(exeDir);
-
-                log = appData.Log;
-                log.WriteBreak();
-
-                if (!Locale.LoadCulture(Path.Combine(exeDir, "..", "Config", InstanceConfig.DefaultFileName),
-                    out string errMsg))
-                {
-                    log.WriteError(errMsg);
-                }
-
-                appData.LoadConfig();
+                log.WriteError(errMsg);
             }
-            catch (Exception ex)
-            {
-                ILogger logger = services.GetRequiredService<ILogger<Program>>();
-                logger.LogError(ex, "Application data initialization error.");
-            }
+
+            webContext.LoadConfig();
         }
 
         /// <summary>
@@ -85,12 +74,12 @@ namespace Scada.Web
         /// </summary>
         private static void LocalizeApp()
         {
-            if (appData != null)
+            if (webContext != null)
             {
-                if (!Locale.LoadDictionaries(appData.AppDirs.LangDir, "ScadaCommon", out string errMsg))
+                if (!Locale.LoadDictionaries(webContext.AppDirs.LangDir, "ScadaCommon", out string errMsg))
                     log.WriteError(errMsg);
 
-                if (!Locale.LoadDictionaries(appData.AppDirs.LangDir, "ScadaWeb", out errMsg))
+                if (!Locale.LoadDictionaries(webContext.AppDirs.LangDir, "ScadaWeb", out errMsg))
                     log.WriteError(errMsg);
 
                 CommonPhrases.Init();
@@ -125,11 +114,10 @@ namespace Scada.Web
         /// </summary>
         public static void Main(string[] args)
         {
-            IHost host = CreateHostBuilder(args).Build();
-            InitAppData(host);
+            InitContext();
             LogStart();
             LocalizeApp();
-            host.Run();
+            CreateHostBuilder(args).Build().Run();
             LogStop();
         }
 
@@ -140,7 +128,7 @@ namespace Scada.Web
             Host.CreateDefaultBuilder(args)
                 .ConfigureWebHostDefaults(webBuilder =>
                 {
-                    webBuilder.UseStartup<Startup>();
+                    webBuilder.UseStartup(context => new Startup(context.Configuration, webContext));
                 });
     }
 }

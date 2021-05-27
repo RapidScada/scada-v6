@@ -1,6 +1,6 @@
 ﻿@page
 @model LoginModel
-@inject AppData appData 
+@inject IWebContext webContext 
 @{
     dynamic dict = Locale.GetDictionary("Scada.Web.Pages.Login");
     ViewBag.Title = dict.PageTitle;
@@ -36,7 +36,7 @@
             </div>
             <div class="row mb-3">
                 <div class="col">
-                    @if (appData.Config.LoginOptions.AllowRememberMe)
+                    @if (webContext.Config.LoginOptions.AllowRememberMe)
                     {
                         <div class="form-check">
                             <input type="checkbox" id="chkRememberMe" class="form-check-input" asp-for="RememberMe" />

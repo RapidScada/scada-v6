@@ -16,7 +16,7 @@
  * 
  * Product  : Rapid SCADA
  * Module   : Webstation Application
- * Summary  : Contains the common application data
+ * Summary  : Contains web application level data
  * 
  * Author   : Mikhail Shiryaev
  * Created  : 2016
@@ -30,15 +30,15 @@ using System.IO;
 namespace Scada.Web.Code
 {
     /// <summary>
-    /// Contains the common application data.
-    /// <para>Содержит общие данные приложения.</para>
+    /// Contains web application level data.
+    /// <para>Содержит данные уровня веб-приложения.</para>
     /// </summary>
-    public sealed class AppData
+    internal class WebContext : IWebContext
     {
         /// <summary>
         /// Initializes a new instance of the class.
         /// </summary>
-        public AppData()
+        public WebContext()
         {
             AppDirs = new WebDirs();
             Log = LogStub.Instance;
