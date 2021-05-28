@@ -27,6 +27,8 @@ using System;
 using System.Security.Claims;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.DependencyInjection;
+using Scada.Lang;
+using Scada.Log;
 
 namespace Scada.Web.Code
 {
@@ -41,22 +43,49 @@ namespace Scada.Web.Code
         /// </summary>
         public static IUserContext GetUserContext(IServiceProvider serviceProvider)
         {
-            IHttpContextAccessor httpContextAccessor = serviceProvider.GetRequiredService<IHttpContextAccessor>();
-            HttpContext httpContext = httpContextAccessor.HttpContext;
-            int userID = int.Parse(httpContext.User.FindFirstValue(ClaimTypes.NameIdentifier));
-            string username = httpContext.User.FindFirstValue(ClaimTypes.Name);
+            if (serviceProvider == null)
+                throw new ArgumentNullException(nameof(serviceProvider));
 
-            //IWebContext webContext = serviceProvider.GetRequiredService<IWebContext>();
+            ILog log = null;
 
-            return new UserContext()
+            try
             {
-                IsLoggedIn = httpContext.User.Identity.IsAuthenticated,
-                UserModel = new Data.Entities.User
+                IWebContext webContext = serviceProvider.GetRequiredService<IWebContext>();
+                log = webContext.Log;
+
+                IHttpContextAccessor httpContextAccessor = serviceProvider.GetRequiredService<IHttpContextAccessor>();
+                HttpContext httpContext = httpContextAccessor.HttpContext;
+
+                if (httpContext == null)
                 {
-                    UserID = userID,
-                    Name = username
+                    throw new ScadaException(Locale.IsRussian ?
+                        "HttpContext не определён" :
+                        "HttpContext is undefined");
                 }
-            };
+
+                int userID = int.Parse(httpContext.User.FindFirstValue(ClaimTypes.NameIdentifier));
+                string username = httpContext.User.FindFirstValue(ClaimTypes.Name);
+
+                return new UserContext
+                {
+                    IsLoggedIn = httpContext.User.Identity.IsAuthenticated,
+                    UserModel = new Data.Entities.User
+                    {
+                        UserID = userID,
+                        Name = username
+                    }
+                };
+            }
+            catch (Exception ex)
+            {
+                if (log == null)
+                    throw;
+
+                log.WriteException(ex, Locale.IsRussian ?
+                    "Ошибка при создании контекста пользователя" :
+                    "Error creating user context");
+                return new UserContext();
+            }
         }
     }
 }

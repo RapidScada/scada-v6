@@ -23,6 +23,7 @@
  * Modified : 2021
  */
 
+using Scada.Client;
 using Scada.Data.Models;
 using Scada.Log;
 using Scada.Web.Config;
@@ -45,6 +46,7 @@ namespace Scada.Web.Code
             AppDirs = new WebDirs();
             Log = LogStub.Instance;
             BaseDataSet = new BaseDataSet();
+            ClientPool = new ScadaClientPool();
         }
 
 
@@ -67,6 +69,12 @@ namespace Scada.Web.Code
         /// Gets the cached configuration database.
         /// </summary>
         public BaseDataSet BaseDataSet { get; private set; }
+
+        /// <summary>
+        /// Gets the client pool.
+        /// </summary>
+        public ScadaClientPool ClientPool { get; }
+
 
 
         /// <summary>

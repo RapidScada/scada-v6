@@ -23,6 +23,7 @@
  * Modified : 2021
  */
 
+using Scada.Client;
 using Scada.Data.Models;
 using Scada.Log;
 using Scada.Web.Config;
@@ -54,5 +55,10 @@ namespace Scada.Web
         /// Gets the cached configuration database.
         /// </summary>
         BaseDataSet BaseDataSet { get; }
+
+        /// <summary>
+        /// Gets the client pool.
+        /// </summary>
+        ScadaClientPool ClientPool { get; }
     }
 }

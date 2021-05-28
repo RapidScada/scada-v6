@@ -23,6 +23,7 @@
  * Modified : 2021
  */
 
+using Scada.Data.Const;
 using Scada.Data.Entities;
 
 namespace Scada.Web.Code
@@ -33,6 +34,28 @@ namespace Scada.Web.Code
     /// </summary>
     internal class UserContext : IUserContext
     {
+        /// <summary>
+        /// The default disabled user.
+        /// </summary>
+        private static readonly User EmptyUser = new()
+        {
+            UserID = 0,
+            Enabled = false,
+            Name = "Unknown",
+            RoleID = RoleID.Disabled
+        };
+
+
+        /// <summary>
+        /// Initializes a new instance of the class.
+        /// </summary>
+        public UserContext()
+        {
+            IsLoggedIn = false;
+            UserModel = EmptyUser;
+        }
+
+
         public bool IsLoggedIn { get; set; }
 
         public User UserModel { get; set;  }

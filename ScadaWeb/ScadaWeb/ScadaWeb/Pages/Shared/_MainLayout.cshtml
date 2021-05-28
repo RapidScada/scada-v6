@@ -5,8 +5,8 @@
     Layout = "_BasicLayout";
     dynamic dict = Locale.GetDictionary("Scada.Web.Pages.Shared._MainLayout");
     var displayOptions = webContext.Config.DisplayOptions;
-    var userID = userContext.UserModel?.UserID ?? 0;
-    var username = userContext.UserModel?.Name ?? "Unknown";
+    var userID = userContext.UserModel.UserID;
+    var username = userContext.UserModel.Name;
 
     // tree view examples
     var menuRenderer = new TreeViewRenderer();

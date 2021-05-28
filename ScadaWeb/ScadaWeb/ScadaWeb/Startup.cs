@@ -68,6 +68,7 @@ namespace Scada.Web
             services.AddHttpContextAccessor();
             services.AddSingleton(WebContext);
             services.AddScoped(UserContextFactory.GetUserContext);
+            services.AddScoped<IScadaClientAccessor, ScadaClientAccessor>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

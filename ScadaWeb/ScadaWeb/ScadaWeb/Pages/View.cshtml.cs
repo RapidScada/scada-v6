@@ -39,8 +39,16 @@ namespace Scada.Web.Pages
     /// </summary>
     public class ViewModel : PageModel
     {
+        private readonly IScadaClientAccessor scadaClientAccessor;
+
+        public ViewModel(IScadaClientAccessor scadaClientAccessor)
+        {
+            this.scadaClientAccessor = scadaClientAccessor;
+        }
+
         public void OnGet()
         {
+            scadaClientAccessor.ScadaClient.ClientState.ToString();
         }
     }
 }
