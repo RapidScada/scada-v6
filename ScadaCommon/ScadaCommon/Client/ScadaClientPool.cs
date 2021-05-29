@@ -54,7 +54,7 @@ namespace Scada.Client
         /// </summary>
         public ScadaClient GetClient(ConnectionOptions connectionOptions)
         {
-            return null;
+            return new ScadaClient(connectionOptions);
         }
 
         /// <summary>

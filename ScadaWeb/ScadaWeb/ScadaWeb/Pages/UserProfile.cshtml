@@ -1,6 +1,9 @@
-﻿@page
+﻿@page "{id:int?}"
 @model Scada.Web.Pages.UserProfileModel
 @{
     Layout = "_MainLayout";
     ViewBag.Title = "User Profile";
 }
+
+<h1>User Profile</h1>
+<p>User ID = @Model.UserID</p>

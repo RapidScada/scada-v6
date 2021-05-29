@@ -9,8 +9,11 @@ namespace Scada.Web.Pages
 {
     public class UserProfileModel : PageModel
     {
-        public void OnGet()
-        {
+        [BindProperty(Name = "id", SupportsGet = true)]
+        public int? UserID { get; set; }
+
+        public void OnGet(/*int? id*/)
+        {         
         }
     }
 }
