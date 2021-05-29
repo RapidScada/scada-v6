@@ -67,7 +67,7 @@ namespace Scada
         /// <summary>
         /// The cache items.
         /// </summary>
-        protected Dictionary<TKey, CacheItem> items;
+        protected readonly Dictionary<TKey, CacheItem> items;
         /// <summary>
         /// The time (UTC) when the outdated items were last removed.
         /// </summary>
@@ -183,7 +183,7 @@ namespace Scada
         {
             lock (items)
             {
-                TValue itemValue = default(TValue);
+                TValue itemValue = default;
                 DateTime utcNow = DateTime.UtcNow;
 
                 // get the item

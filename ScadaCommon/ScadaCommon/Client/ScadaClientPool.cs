@@ -26,8 +26,6 @@
 using Scada.Client;
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 
 namespace Scada.Client
 {
@@ -37,6 +35,77 @@ namespace Scada.Client
     /// </summary>
     public class ScadaClientPool
     {
+        /// <summary>
+        /// Represents a group of clients that have the same connection options.
+        /// </summary>
+        protected class ClientGroup
+        {
+            /// <summary>
+            /// Initializes a new instance of the class.
+            /// </summary>
+            public ClientGroup(ConnectionOptions connectionOptions)
+            {
+                ConnectionOptions = connectionOptions;
+            }
+
+            /// <summary>
+            /// Gets the connection options, the same for the group.
+            /// </summary>
+            public ConnectionOptions ConnectionOptions { get; }
+
+            /// <summary>
+            /// Gets a client from the group if one is available, otherwise creates one.
+            /// </summary>
+            public ScadaClient GetClient()
+            {
+                return new ScadaClient(ConnectionOptions);
+            }
+
+            /// <summary>
+            /// Return the client to the group.
+            /// </summary>
+            public void ReturnClient(ScadaClient client)
+            {
+
+            }
+        }
+
+
+        /// <summary>
+        /// The default pool capacity.
+        /// </summary>
+        public const int DefaultCapacity = 1000;
+
+
+        /// <summary>
+        /// The client groups accessed by connection key.
+        /// </summary>
+        protected readonly Dictionary<string, ClientGroup> clientGroups;
+
+
+        /// <summary>
+        /// Initializes a new instance of the class.
+        /// </summary>
+        public ScadaClientPool()
+            : this(DefaultCapacity)
+        {
+        }
+
+        /// <summary>
+        /// Initializes a new instance of the class.
+        /// </summary>
+        public ScadaClientPool(int capacity)
+        {
+            clientGroups = new Dictionary<string, ClientGroup>();
+            Capacity = capacity;
+        }
+
+
+        /// <summary>
+        /// Gets the maximum number of clients that can be stored in the pool.
+        /// </summary>
+        public int Capacity { get; }
+
         /// <summary>
         /// Gets the number of clients that currently exist.
         /// </summary>
@@ -50,11 +119,35 @@ namespace Scada.Client
 
 
         /// <summary>
+        /// Gets a key that identifies the connection options.
+        /// </summary>
+        private string GetOptionsKey(ConnectionOptions connectionOptions)
+        {
+            return "";
+        }
+
+        /// <summary>
         /// Gets a client from the pool if one is available, otherwise creates one.
         /// </summary>
+        /// <remarks>If capacity is reached, an exception is raised.</remarks>
         public ScadaClient GetClient(ConnectionOptions connectionOptions)
         {
-            return new ScadaClient(connectionOptions);
+            if (connectionOptions == null)
+                throw new ArgumentNullException(nameof(connectionOptions));
+
+            string optionsKey = GetOptionsKey(connectionOptions);
+            ClientGroup clientGroup;
+
+            lock (clientGroups)
+            {
+                if (!clientGroups.TryGetValue(optionsKey, out clientGroup))
+                {
+                    clientGroup = new ClientGroup(connectionOptions);
+                    clientGroups.Add(optionsKey, clientGroup);
+                }
+            }
+
+            return clientGroup.GetClient();
         }
 
         /// <summary>
@@ -62,7 +155,14 @@ namespace Scada.Client
         /// </summary>
         public void ReturnClient(ScadaClient client)
         {
-
+            /*lock (clientGroups)
+            {
+                if (client != null && clientGroups.TryGetValue(GetOptionsKey(client.ConnectionOptions),
+                out ClientGroup clientGroup))
+                {
+                    clientGroup.ReturnClient(client);
+                }
+            }*/
         }
     }
 }
