@@ -41,6 +41,7 @@ namespace Scada.Client
         /// </summary>
         public ConnectionOptions()
         {
+            AccessKey = "";
             Name = "";
             Host = "localhost";
             Port = 10000;
@@ -51,6 +52,11 @@ namespace Scada.Client
             SecretKey = null;
         }
 
+
+        /// <summary>
+        /// Gets or sets the access key used by a client pool.
+        /// </summary>
+        protected internal string AccessKey { get; set; }
 
         /// <summary>
         /// Gets or sets the connection name.

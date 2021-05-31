@@ -24,8 +24,10 @@
  */
 
 using Scada.Client;
+using Scada.Lang;
 using System;
 using System.Collections.Generic;
+using System.Text;
 
 namespace Scada.Client
 {
@@ -40,47 +42,180 @@ namespace Scada.Client
         /// </summary>
         protected class ClientGroup
         {
+            private readonly ConnectionOptions connectionOptions;
+            private readonly int capacity;
+            private readonly List<ScadaClient> availableClients;
+            private readonly Dictionary<string, ScadaClient> usedClients;
+
+
             /// <summary>
             /// Initializes a new instance of the class.
             /// </summary>
-            public ClientGroup(ConnectionOptions connectionOptions)
+            public ClientGroup(ConnectionOptions connectionOptions, int capacity)
             {
-                ConnectionOptions = connectionOptions;
+                this.connectionOptions = connectionOptions ?? throw new ArgumentNullException(nameof(connectionOptions));
+                this.capacity = capacity;
+                availableClients = new List<ScadaClient>();
+                usedClients = new Dictionary<string, ScadaClient>();
+                LastAccessTime = DateTime.UtcNow;
+            }
+
+
+            /// <summary>
+            /// Gets the time (UTC) when the group was last accessed.
+            /// </summary>
+            public DateTime LastAccessTime { get; private set; }
+
+
+            /// <summary>
+            /// Creates a new client or raises an exception if the capacity is reached.
+            /// </summary>
+            private ScadaClient CreateClient()
+            {
+                if (availableClients.Count + usedClients.Count < capacity)
+                {
+                    return new ScadaClient(connectionOptions) { AccessKey = Guid.NewGuid().ToString() };
+                }
+                else
+                {
+                    throw new ScadaException(Locale.IsRussian ?
+                        "Достигнута максимальная вместимость пула клиентов." :
+                        "The maximum capacity of the client pool has been reached.");
+                }
             }
 
             /// <summary>
-            /// Gets the connection options, the same for the group.
+            /// Removes and returns the client at the end of the client list.
             /// </summary>
-            public ConnectionOptions ConnectionOptions { get; }
+            private ScadaClient PopClient()
+            {
+                int lastIndex = availableClients.Count - 1;
+                ScadaClient scadaClient = availableClients[lastIndex];
+                availableClients.RemoveAt(lastIndex);
+                return scadaClient;
+            }
 
             /// <summary>
             /// Gets a client from the group if one is available, otherwise creates one.
             /// </summary>
-            public ScadaClient GetClient()
+            public ScadaClient GetClient(DateTime nowDT)
             {
-                return new ScadaClient(ConnectionOptions);
+                lock (this)
+                {
+                    LastAccessTime = nowDT;
+                    ScadaClient scadaClient = availableClients.Count > 0
+                        ? PopClient()
+                        : CreateClient();
+
+                    usedClients[scadaClient.AccessKey] = scadaClient;
+                    return scadaClient;
+                }
             }
 
             /// <summary>
-            /// Return the client to the group.
+            /// Returns the client to the group.
             /// </summary>
-            public void ReturnClient(ScadaClient client)
+            public void ReturnClient(ScadaClient client, DateTime nowDT)
             {
+                lock (this)
+                {
+                    LastAccessTime = nowDT;
 
+                    if (!string.IsNullOrEmpty(client?.AccessKey) && usedClients.Remove(client.AccessKey))
+                        availableClients.Add(client);
+                }
             }
+
+            /// <summary>
+            /// Removes the outdated clients.
+            /// </summary>
+            public void RemoveOutdatedClients(DateTime nowDT, TimeSpan cleanupPeriod)
+            {
+                lock (this)
+                {
+                    int endIndex = -1;
+
+                    for (int i = 0, cnt = availableClients.Count; i < cnt; i++)
+                    {
+                        if (nowDT - availableClients[i].LastActivityTime > cleanupPeriod)
+                            endIndex = i;
+                        else
+                            break;
+                    }
+
+                    if (endIndex >= 0)
+                        availableClients.RemoveRange(0, endIndex + 1);
+                }
+            }
+
+            /// <summary>
+            /// Gets information about the group.
+            /// </summary>
+            public ClientGroupInfo GetInfo()
+            {
+                lock (this)
+                {
+                    return new ClientGroupInfo
+                    {
+                        ConnectionOptions = connectionOptions,
+                        LastAccessTime = LastAccessTime,
+                        Capacity = capacity,
+                        AvailableClientCount = availableClients.Count,
+                        UsedClientCount = usedClients.Count
+                    };
+                }
+            }
+        }
+
+        /// <summary>
+        /// Contains information about a group of clients.
+        /// </summary>
+        public struct ClientGroupInfo
+        {
+            /// <summary>
+            /// Gets or sets the connection options.
+            /// </summary>
+            public ConnectionOptions ConnectionOptions { get; set; }
+            /// <summary>
+            /// Gets or sets the time (UTC) when the group was last accessed.
+            /// </summary>
+            public DateTime LastAccessTime { get; set; }
+            /// <summary>
+            /// Gets the maximum number of clients that can be stored in the group.
+            /// </summary>
+            public int Capacity { get; set; }
+            /// <summary>
+            /// Gets or sets the number of available clients.
+            /// </summary>
+            public int AvailableClientCount { get; set; }
+            /// <summary>
+            /// Gets or sets the number of clients in use.
+            /// </summary>
+            public int UsedClientCount { get; set; }
+            /// <summary>
+            /// Gets or sets the total number of clients.
+            /// </summary>
+            public int TotalClientCount => AvailableClientCount + UsedClientCount;
         }
 
 
         /// <summary>
         /// The default pool capacity.
         /// </summary>
-        public const int DefaultCapacity = 1000;
-
+        protected const int DefaultCapacity = 1000;
+        /// <summary>
+        /// The period of cleaning unused clients.
+        /// </summary>
+        protected static readonly TimeSpan CleanupPeriod = TimeSpan.FromMinutes(5);
 
         /// <summary>
         /// The client groups accessed by connection key.
         /// </summary>
         protected readonly Dictionary<string, ClientGroup> clientGroups;
+        /// <summary>
+        /// The time (UTC) when the outdated clients were last removed.
+        /// </summary>
+        protected DateTime lastCleanupTime;
 
 
         /// <summary>
@@ -97,12 +232,13 @@ namespace Scada.Client
         public ScadaClientPool(int capacity)
         {
             clientGroups = new Dictionary<string, ClientGroup>();
+            lastCleanupTime = DateTime.UtcNow;
             Capacity = capacity;
         }
 
 
         /// <summary>
-        /// Gets the maximum number of clients that can be stored in the pool.
+        /// Gets the maximum number of clients, having the same connection options, that can be stored in the pool.
         /// </summary>
         public int Capacity { get; }
 
@@ -121,9 +257,47 @@ namespace Scada.Client
         /// <summary>
         /// Gets a key that identifies the connection options.
         /// </summary>
-        private string GetOptionsKey(ConnectionOptions connectionOptions)
+        protected string GetOptionsKey(ConnectionOptions connectionOptions)
         {
-            return "";
+            if (string.IsNullOrEmpty(connectionOptions.AccessKey))
+            {
+                connectionOptions.AccessKey = new StringBuilder()
+                    .Append(connectionOptions.Name).Append(';')
+                    .Append(connectionOptions.Host).Append(';')
+                    .Append(connectionOptions.Port).Append(';')
+                    .Append(connectionOptions.User).Append(';')
+                    .Append(connectionOptions.Password).Append(';')
+                    .Append(connectionOptions.Instance).Append(';')
+                    .Append(connectionOptions.Timeout).Append(';')
+                    .Append(ScadaUtils.BytesToHex(connectionOptions.SecretKey))
+                    .ToString();
+            }
+
+            return connectionOptions.AccessKey;
+        }
+
+        /// <summary>
+        /// Removes the outdated clients.
+        /// </summary>
+        protected void RemoveOutdatedClients(DateTime nowDT)
+        {
+            lock (clientGroups)
+            {
+                List<string> keysToRemove = new List<string>();
+
+                foreach (KeyValuePair<string, ClientGroup> pair in clientGroups)
+                {
+                    if (nowDT - pair.Value.LastAccessTime > CleanupPeriod)
+                        keysToRemove.Add(pair.Key);
+                    else
+                        pair.Value.RemoveOutdatedClients(nowDT, CleanupPeriod);
+                }
+
+                foreach (string key in keysToRemove)
+                {
+                    clientGroups.Remove(key);
+                }
+            }
         }
 
         /// <summary>
@@ -142,27 +316,57 @@ namespace Scada.Client
             {
                 if (!clientGroups.TryGetValue(optionsKey, out clientGroup))
                 {
-                    clientGroup = new ClientGroup(connectionOptions);
+                    clientGroup = new ClientGroup(connectionOptions, Capacity);
                     clientGroups.Add(optionsKey, clientGroup);
                 }
             }
 
-            return clientGroup.GetClient();
+            DateTime utcNow = DateTime.UtcNow;
+            ScadaClient scadaClient = clientGroup.GetClient(utcNow);
+
+            // cleanup the pool
+            if (utcNow - lastCleanupTime > CleanupPeriod)
+                RemoveOutdatedClients(utcNow);
+
+            return scadaClient;
         }
 
         /// <summary>
-        /// Return the client to the pool.
+        /// Returns the client to the pool.
         /// </summary>
         public void ReturnClient(ScadaClient client)
         {
-            /*lock (clientGroups)
+            if (client != null)
             {
-                if (client != null && clientGroups.TryGetValue(GetOptionsKey(client.ConnectionOptions),
-                out ClientGroup clientGroup))
+                ClientGroup clientGroup;
+
+                lock (clientGroups)
                 {
-                    clientGroup.ReturnClient(client);
+                    clientGroups.TryGetValue(GetOptionsKey(client.ConnectionOptions), out clientGroup);
                 }
-            }*/
+
+                clientGroup?.ReturnClient(client, DateTime.UtcNow);
+            }
+        }
+
+        /// <summary>
+        /// Gets information about the pool.
+        /// </summary>
+        public ClientGroupInfo[] GetInfo()
+        {
+            lock (clientGroups)
+            {
+                int idx = 0;
+                int cnt = clientGroups.Count;
+                ClientGroupInfo[] info = new ClientGroupInfo[cnt];
+
+                foreach (ClientGroup clientGroup in clientGroups.Values)
+                {
+                    info[idx++] = clientGroup.GetInfo();
+                }
+
+                return info;
+            }
         }
     }
 }

@@ -20,7 +20,7 @@
  * 
  * Author   : Mikhail Shiryaev
  * Created  : 2020
- * Modified : 2020
+ * Modified : 2021
  */
 
 using Scada.Lang;
@@ -55,10 +55,6 @@ namespace Scada.Client
         /// </summary>
         protected readonly TimeSpan PingPeriod = TimeSpan.FromSeconds(30);
 
-        /// <summary>
-        /// The connection options.
-        /// </summary>
-        protected readonly ConnectionOptions connectionOptions;
         /// <summary>
         /// The input data buffer.
         /// </summary>
@@ -95,7 +91,6 @@ namespace Scada.Client
         /// </summary>
         public BaseClient(ConnectionOptions connectionOptions)
         {
-            this.connectionOptions = connectionOptions ?? throw new ArgumentNullException(nameof(connectionOptions));
             inBuf = new byte[BufferLenght];
             outBuf = new byte[BufferLenght];
 
@@ -105,12 +100,18 @@ namespace Scada.Client
             connAttemptDT = DateTime.MinValue;
             responseDT = DateTime.MinValue;
 
+            ConnectionOptions = connectionOptions ?? throw new ArgumentNullException(nameof(connectionOptions));
             CommLog = null;
             ClientState = ClientState.Disconnected;
             SessionID = 0;
             ServerName = "";
         }
 
+
+        /// <summary>
+        /// Gets the connection options.
+        /// </summary>
+        public ConnectionOptions ConnectionOptions { get; }
 
         /// <summary>
         /// Gets the sets the detailed communication log.
@@ -134,6 +135,17 @@ namespace Scada.Client
         }
 
         /// <summary>
+        /// Gets the time (UTC) that may be considered as the time when the client was active.
+        /// </summary>
+        public DateTime LastActivityTime
+        {
+            get
+            {
+                return responseDT;
+            }
+        }
+
+        /// <summary>
         /// Gets the session ID.
         /// </summary>
         public long SessionID { get; protected set; }
@@ -152,17 +164,17 @@ namespace Scada.Client
             // create connection
             tcpClient = new TcpClient
             {
-                SendTimeout = connectionOptions.Timeout,
-                ReceiveTimeout = connectionOptions.Timeout
+                SendTimeout = ConnectionOptions.Timeout,
+                ReceiveTimeout = ConnectionOptions.Timeout
             };
 
             // connect
-            CommLog?.WriteAction("Connect to " + connectionOptions.Host);
+            CommLog?.WriteAction("Connect to " + ConnectionOptions.Host);
 
-            if (IPAddress.TryParse(connectionOptions.Host, out IPAddress address))
-                tcpClient.Connect(address, connectionOptions.Port);
+            if (IPAddress.TryParse(ConnectionOptions.Host, out IPAddress address))
+                tcpClient.Connect(address, ConnectionOptions.Port);
             else
-                tcpClient.Connect(connectionOptions.Host, connectionOptions.Port);
+                tcpClient.Connect(ConnectionOptions.Host, ConnectionOptions.Port);
 
             netStream = tcpClient.GetStream();
             ClientState = ClientState.Connected;
@@ -458,10 +470,10 @@ namespace Scada.Client
         {
             DataPacket request = CreateRequest(FunctionID.Login);
             int index = ArgumentIndex;
-            CopyString(connectionOptions.User, outBuf, ref index);
-            CopyString(EncryptPassword(connectionOptions.Password, SessionID, connectionOptions.SecretKey),
+            CopyString(ConnectionOptions.User, outBuf, ref index);
+            CopyString(EncryptPassword(ConnectionOptions.Password, SessionID, ConnectionOptions.SecretKey),
                 outBuf, ref index);
-            CopyString(connectionOptions.Instance, outBuf, ref index);
+            CopyString(ConnectionOptions.Instance, outBuf, ref index);
             request.BufferLength = index;
             SendRequest(request);
 
