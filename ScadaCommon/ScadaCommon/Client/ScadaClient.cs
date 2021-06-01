@@ -26,6 +26,7 @@
 using Scada.Data.Adapters;
 using Scada.Data.Models;
 using Scada.Data.Tables;
+using Scada.Lang;
 using Scada.Protocol;
 using System;
 using System.Collections.Generic;
@@ -106,6 +107,29 @@ namespace Scada.Client
                 ThrowDataSizeException();
 
             return events;
+        }
+
+        /// <summary>
+        /// Validates the username and password.
+        /// </summary>
+        public bool ValidateUser(string username, string password, out int userID, out int roleID, out string errMsg)
+        {
+            RestoreConnection();
+
+            if (ClientState == ClientState.LoggedIn)
+            {
+                Login(username, password, out bool loggedIn, out userID, out roleID, out errMsg);
+                return loggedIn;
+            }
+            else
+            {
+                userID = 0;
+                roleID = 0;
+                errMsg = Locale.IsRussian ?
+                    "Сервер недоступен" :
+                    "Server unavailable";
+                return false;
+            }
         }
 
         /// <summary>

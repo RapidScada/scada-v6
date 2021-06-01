@@ -254,7 +254,8 @@ namespace Scada.Client
                             "Incompatible protocol version.");
                     }
 
-                    Login(out bool loggedIn, out _, out _, out string errorMessage);
+                    Login(ConnectionOptions.User, ConnectionOptions.Password, 
+                        out bool loggedIn, out _, out _, out string errMsg);
 
                     if (loggedIn)
                     {
@@ -263,7 +264,7 @@ namespace Scada.Client
                     }
                     else
                     {
-                        throw new ScadaException(errorMessage);
+                        throw new ScadaException(errMsg);
                     }
                 }
                 else if (ClientState == ClientState.LoggedIn)
@@ -466,13 +467,13 @@ namespace Scada.Client
         /// <summary>
         /// Logins to the server.
         /// </summary>
-        protected void Login(out bool loggedIn, out int userID, out int roleID, out string errorMessage)
+        protected void Login(string username, string password, 
+            out bool loggedIn, out int userID, out int roleID, out string errMsg)
         {
             DataPacket request = CreateRequest(FunctionID.Login);
             int index = ArgumentIndex;
-            CopyString(ConnectionOptions.User, outBuf, ref index);
-            CopyString(EncryptPassword(ConnectionOptions.Password, SessionID, ConnectionOptions.SecretKey),
-                outBuf, ref index);
+            CopyString(username, outBuf, ref index);
+            CopyString(EncryptPassword(password, SessionID, ConnectionOptions.SecretKey), outBuf, ref index);
             CopyString(ConnectionOptions.Instance, outBuf, ref index);
             request.BufferLength = index;
             SendRequest(request);
@@ -482,7 +483,7 @@ namespace Scada.Client
             loggedIn = GetBool(inBuf, ref index);
             userID = GetInt32(inBuf, ref index);
             roleID = GetInt32(inBuf, ref index);
-            errorMessage = GetString(inBuf, index);
+            errMsg = GetString(inBuf, index);
         }
 
         /// <summary>

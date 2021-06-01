@@ -15,27 +15,25 @@
  * 
  * 
  * Product  : Rapid SCADA
- * Module   : ScadaWebCommon
- * Summary  : Provides access to a client that interacts with the Server service
+ * Module   : Webstation Application
+ * Summary  : Contains the predefined URLs of the web application
  * 
  * Author   : Mikhail Shiryaev
  * Created  : 2021
  * Modified : 2021
  */
 
-using Scada.Client;
+#pragma warning disable 1591 // Missing XML comment for publicly visible type or member
 
 namespace Scada.Web
 {
     /// <summary>
-    /// Provides access to a client that interacts with the Server service.
-    /// <para>Предоставляет доступ к клиенту, который взаимодействует со службой Сервера.</para>
+    /// Contains the predefined URLs of the web application.
+    /// <para>Содержит предопределенные URL-адреса веб-приложения.</para>
     /// </summary>
-    public interface IScadaClientAccessor
+    public static class WebUrl
     {
-        /// <summary>
-        /// Gets the client.
-        /// </summary>
-        ScadaClient ScadaClient { get; }
+        public const string LoginPage = "/Login";
+        public const string DefaultStartPage = "/View";
     }
 }

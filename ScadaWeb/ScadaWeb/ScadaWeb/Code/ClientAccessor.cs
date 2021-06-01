@@ -32,7 +32,7 @@ namespace Scada.Web.Code
     /// Provides access to a client that interacts with the Server service.
     /// <para>Предоставляет доступ к клиенту, который взаимодействует со службой Сервера.</para>
     /// </summary>
-    internal sealed class ScadaClientAccessor : IScadaClientAccessor, IDisposable
+    internal sealed class ClientAccessor : IClientAccessor, IDisposable
     {
         private readonly IWebContext webContext;
         private ScadaClient scadaClient;
@@ -41,7 +41,7 @@ namespace Scada.Web.Code
         /// <summary>
         /// Initializes a new instance of the class.
         /// </summary>
-        public ScadaClientAccessor(IWebContext webContext)
+        public ClientAccessor(IWebContext webContext)
         {
             this.webContext = webContext ?? throw new ArgumentNullException(nameof(webContext));
             scadaClient = null;

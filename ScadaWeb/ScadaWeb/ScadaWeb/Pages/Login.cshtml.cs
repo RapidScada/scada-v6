@@ -27,6 +27,8 @@ using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
+using Scada.Client;
+using Scada.Lang;
 using Scada.Web.Config;
 using System;
 using System.Collections.Generic;
@@ -37,17 +39,19 @@ namespace Scada.Web.Pages
 {
     /// <summary>
     /// Represents a login page.
-    /// <para>Представляет страницу входа.</para>
+    /// <para>Представляет страницу входа в систему.</para>
     /// </summary>
     [BindProperties]
     public class LoginModel : PageModel
     {
         private readonly IWebContext webContext;
+        private readonly IClientAccessor clientAccessor;
 
 
-        public LoginModel(IWebContext webContext)
+        public LoginModel(IWebContext webContext, IClientAccessor clientAccessor)
         {
             this.webContext = webContext;
+            this.clientAccessor = clientAccessor;
         }
 
 
@@ -58,13 +62,13 @@ namespace Scada.Web.Pages
         public bool RememberMe { get; set; }
 
 
-        private async Task LoginAsync()
+        private async Task LoginAsync(string username, int userID, int roleID)
         {
             var claims = new List<Claim>
             {
-                new Claim(ClaimTypes.Name, "admin"),
-                new Claim(ClaimTypes.NameIdentifier, "1"),
-                new Claim(ClaimTypes.Role, "Administrator"),
+                new Claim(ClaimTypes.Name, username),
+                new Claim(ClaimTypes.NameIdentifier, userID.ToString(), ClaimValueTypes.Integer),
+                new Claim(ClaimTypes.Role, roleID.ToString(), ClaimValueTypes.Integer)
             };
 
             var claimsIdentity = new ClaimsIdentity(
@@ -93,18 +97,27 @@ namespace Scada.Web.Pages
         {
             if (ModelState.IsValid)
             {
-                if (Username == "admin" && Password == "scada")
-                {
-                    await LoginAsync();
-                    webContext.Log.WriteAction("Login OK!");
+                ScadaClient scadaClient = clientAccessor.ScadaClient;
 
-                    string url = !string.IsNullOrEmpty(returnUrl) && Url.IsLocalUrl(returnUrl) ? returnUrl : "/View";
+                if (scadaClient.ValidateUser(Username, Password, out int userID, out int roleID, out string errMsg))
+                {
+                    await LoginAsync(Username, userID, roleID);
+                    webContext.Log.WriteAction(Locale.IsRussian ?
+                        "Пользователь {0} вошёл в систему {0}, IP {1}" :
+                        "User {0} is logged in, IP {1}",
+                        Username, HttpContext.Connection.RemoteIpAddress);
+
+                    string url = !string.IsNullOrEmpty(returnUrl) && Url.IsLocalUrl(returnUrl) ? 
+                        returnUrl : WebUrl.DefaultStartPage;
                     return RedirectToPage(url);
                 }
                 else
                 {
-                    webContext.Log.WriteAction("Login error!");
-                    ModelState.AddModelError(string.Empty, "Incorrect username or password.");
+                    webContext.Log.WriteError(Locale.IsRussian ?
+                        "Неудачная попытка входа в систему пользователя {0}, IP {1}: {2}" :
+                        "Unsuccessful login attempt for user {0}, IP {1}: {2}",
+                        Username, HttpContext.Connection.RemoteIpAddress, errMsg);
+                    ModelState.AddModelError(string.Empty, errMsg);
                 }
             }
 

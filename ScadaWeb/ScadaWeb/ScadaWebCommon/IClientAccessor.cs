@@ -15,41 +15,27 @@
  * 
  * 
  * Product  : Rapid SCADA
- * Module   : Webstation Application
- * Summary  : Represents a page of a view
+ * Module   : ScadaWebCommon
+ * Summary  : Provides access to a client that interacts with the Server service
  * 
  * Author   : Mikhail Shiryaev
  * Created  : 2021
  * Modified : 2021
  */
 
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.RazorPages;
 using Scada.Client;
 
-namespace Scada.Web.Pages
+namespace Scada.Web
 {
     /// <summary>
-    /// Represents a page of a view.
-    /// <para>Представляет страницу представления.</para>
+    /// Provides access to a client that interacts with the Server service.
+    /// <para>Предоставляет доступ к клиенту, который взаимодействует со службой Сервера.</para>
     /// </summary>
-    public class ViewModel : PageModel
+    public interface IClientAccessor
     {
-        private readonly IClientAccessor scadaClientAccessor;
-
-        public ViewModel(IClientAccessor scadaClientAccessor)
-        {
-            this.scadaClientAccessor = scadaClientAccessor;
-        }
-
-        public void OnGet()
-        {
-            scadaClientAccessor.ScadaClient.ClientState.ToString();
-        }
+        /// <summary>
+        /// Gets the client.
+        /// </summary>
+        ScadaClient ScadaClient { get; }
     }
 }
