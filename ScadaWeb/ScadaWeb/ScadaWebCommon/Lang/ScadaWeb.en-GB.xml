@@ -24,6 +24,7 @@
   <Dictionary key="Scada.Web.Pages.Login">
     <Phrase key="PageTitle">Login</Phrase>
     <Phrase key="WebsiteUrl">https://rapidscada.org</Phrase>
+    <Phrase key="NotReady">The application is not ready. Try again later.</Phrase>
     <Phrase key="lblUsername">Username</Phrase>
     <Phrase key="lblPassword">Password</Phrase>
     <Phrase key="lblRememberMe">Remember me</Phrase>

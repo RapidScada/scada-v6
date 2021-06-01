@@ -22,6 +22,7 @@
   <Dictionary key="Scada.Web.Pages.Login">
     <Phrase key="PageTitle">Вход в систему</Phrase>
     <Phrase key="WebsiteUrl">https://rapidscada.ru</Phrase>
+    <Phrase key="NotReady">Приложение не готово. Повторите попытку позже.</Phrase>
     <Phrase key="lblUsername">Имя пользователя</Phrase>
     <Phrase key="lblPassword">Пароль</Phrase>
     <Phrase key="lblRememberMe">Запомнить меня</Phrase>

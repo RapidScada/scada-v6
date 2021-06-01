@@ -24,6 +24,7 @@
  */
 
 using Scada.Client;
+using Scada.Config;
 using Scada.Data.Models;
 using Scada.Log;
 using Scada.Web.Config;
@@ -37,9 +38,24 @@ namespace Scada.Web
     public interface IWebContext
     {
         /// <summary>
+        /// Gets a value indicating whether the application is ready for operating.
+        /// </summary>
+        bool IsReady { get; }
+
+        /// <summary>
+        /// Gets a value indicating whether a user can login.
+        /// </summary>
+        bool IsReadyToLogin { get; }
+
+        /// <summary>
+        /// Gets the instance configuration.
+        /// </summary>
+        InstanceConfig InstanceConfig { get; }
+
+        /// <summary>
         /// Gets the application configuration.
         /// </summary>
-        WebConfig Config { get; }
+        WebConfig AppConfig { get; }
 
         /// <summary>
         /// Gets the application directories.

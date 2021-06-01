@@ -44,8 +44,7 @@ namespace Scada.Web
     /// </summary>
     public class Program
     {
-        private static WebContext webContext; // the application context
-        private static ILog log;              // the application log
+        private static WebContext webContext;
 
 
         /// <summary>
@@ -56,58 +55,8 @@ namespace Scada.Web
             string exeDir = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location);
             webContext = new WebContext();
             webContext.Init(exeDir);
-
-            log = webContext.Log;
-            log.WriteBreak();
-
-            if (!Locale.LoadCulture(Path.Combine(exeDir, "..", "Config", InstanceConfig.DefaultFileName),
-                out string errMsg))
-            {
-                log.WriteError(errMsg);
-            }
-
-            webContext.LoadConfig();
+            webContext.StartLoadingConfig();
         }
-
-        /// <summary>
-        /// Localizes the application.
-        /// </summary>
-        private static void LocalizeApp()
-        {
-            if (webContext != null)
-            {
-                if (!Locale.LoadDictionaries(webContext.AppDirs.LangDir, "ScadaCommon", out string errMsg))
-                    log.WriteError(errMsg);
-
-                if (!Locale.LoadDictionaries(webContext.AppDirs.LangDir, "ScadaWeb", out errMsg))
-                    log.WriteError(errMsg);
-
-                CommonPhrases.Init();
-                WebPhrases.Init();
-            }
-        }
-
-        /// <summary>
-        /// Writes an application start message to the log.
-        /// </summary>
-        private static void LogStart()
-        {
-            log.WriteAction(Locale.IsRussian ?
-                "Вебстанция {0} запущена" :
-                "Webstation {0} started", WebUtils.AppVersion);
-        }
-
-        /// <summary>
-        /// Writes an application stop message to the log.
-        /// </summary>
-        private static void LogStop()
-        {
-            log.WriteAction(Locale.IsRussian ?
-                "Вебстанция остановлена" :
-                "Webstation is stopped");
-            log.WriteBreak();
-        }
-
 
         /// <summary>
         /// The main entry point for the application.
@@ -115,10 +64,8 @@ namespace Scada.Web
         public static void Main(string[] args)
         {
             InitContext();
-            LogStart();
-            LocalizeApp();
             CreateHostBuilder(args).Build().Run();
-            LogStop();
+            webContext.FinalizeContext();
         }
 
         /// <summary>

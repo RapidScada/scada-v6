@@ -25,6 +25,7 @@
 
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.Cookies;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Scada.Client;
@@ -75,7 +76,7 @@ namespace Scada.Web.Pages
                 claims, CookieAuthenticationDefaults.AuthenticationScheme);
 
             var authProperties = new AuthenticationProperties();
-            LoginOptions loginOptions = webContext.Config.LoginOptions;
+            LoginOptions loginOptions = webContext.AppConfig.LoginOptions;
 
             if (loginOptions.AllowRememberMe && RememberMe)
             {
@@ -89,8 +90,15 @@ namespace Scada.Web.Pages
                 authProperties);
         }
 
-        public void OnGet()
+        public IActionResult OnGet()
         {
+            if (!webContext.IsReadyToLogin)
+            {
+                dynamic dict = Locale.GetDictionary("Scada.Web.Pages.Login"); 
+                ModelState.AddModelError(string.Empty, dict.NotReady);
+            }
+
+            return Page();
         }
 
         public async Task<IActionResult> OnPostAsync(string returnUrl = null)

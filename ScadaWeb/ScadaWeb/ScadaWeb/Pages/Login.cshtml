@@ -36,7 +36,7 @@
             </div>
             <div class="row mb-3">
                 <div class="col">
-                    @if (webContext.Config.LoginOptions.AllowRememberMe)
+                    @if (webContext.AppConfig.LoginOptions.AllowRememberMe)
                     {
                         <div class="form-check">
                             <input type="checkbox" id="chkRememberMe" class="form-check-input" asp-for="RememberMe" />
@@ -45,7 +45,7 @@
                     }
                 </div>
                 <div class="col-auto">
-                    <button type="submit" id="btnLogin" class="btn btn-primary">@dict.btnLogin</button>
+                    <button type="submit" id="btnLogin" class="btn btn-primary" disabled="@(webContext.IsReadyToLogin ? null : "disabled")">@dict.btnLogin</button>
                 </div>
             </div>
         </div>

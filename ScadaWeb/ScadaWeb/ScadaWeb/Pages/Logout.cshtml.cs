@@ -48,7 +48,10 @@ namespace Scada.Web.Pages
 
         public async Task<IActionResult> OnGetAsync()
         {
-            if (User.Identity.IsAuthenticated)
+            string username = User.Identity.IsAuthenticated ? User.FindFirstValue(ClaimTypes.Name) : null;
+            await HttpContext.SignOutAsync(CookieAuthenticationDefaults.AuthenticationScheme);
+            
+            if (!string.IsNullOrEmpty(username))
             {
                 webContext.Log.WriteAction(Locale.IsRussian ?
                     "Пользователь {0} вышел из системы, IP {1}" :
@@ -56,7 +59,6 @@ namespace Scada.Web.Pages
                     User.FindFirstValue(ClaimTypes.Name), HttpContext.Connection.RemoteIpAddress);
             }
 
-            await HttpContext.SignOutAsync(CookieAuthenticationDefaults.AuthenticationScheme);
             return RedirectToPage(WebUrl.LoginPage);
         }
     }

@@ -52,23 +52,31 @@ namespace Scada.Web
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddRazorPages(options =>
-            {
-                options.Conventions.AuthorizeFolder("/");
-                options.Conventions.AllowAnonymousToPage("/Index");
-                options.Conventions.AllowAnonymousToPage("/Login");
-            });
+            services
+                .AddRazorPages(options =>
+                {
+                    options.Conventions.AuthorizeFolder("/");
+                    options.Conventions.AllowAnonymousToPage("/Index");
+                    options.Conventions.AllowAnonymousToPage("/Login");
+                    options.Conventions.AllowAnonymousToPage("/Logout");
+                })
+                .AddMvcOptions(options =>
+                {
+                    options.Filters.Add(typeof(CheckReadyPageFilter));
+                });
 
-            services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
+            services
+                .AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
                 .AddCookie(options =>
                 {
                     options.LoginPath = "/Login";
                 });
 
-            services.AddHttpContextAccessor();
-            services.AddSingleton(WebContext);
-            services.AddScoped(UserContextFactory.GetUserContext);
-            services.AddScoped<IClientAccessor, ClientAccessor>();
+            services
+                .AddHttpContextAccessor()
+                .AddSingleton(WebContext)
+                .AddScoped(UserContextFactory.GetUserContext)
+                .AddScoped<IClientAccessor, ClientAccessor>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
