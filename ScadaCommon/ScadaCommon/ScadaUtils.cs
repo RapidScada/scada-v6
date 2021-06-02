@@ -26,6 +26,7 @@
 using Scada.Lang;
 using System;
 using System.IO;
+using System.Linq;
 using System.Runtime.InteropServices;
 using System.Runtime.Serialization.Formatters.Binary;
 
@@ -404,6 +405,14 @@ namespace Scada
             return string.IsNullOrEmpty(text)
                 ? ex.Message
                 : FormatText(text, args) + ":" + Environment.NewLine + ex.Message;
+        }
+
+        /// <summary>
+        /// Returns the first non-empty string or null.
+        /// </summary>
+        public static string FirstNonEmpty(params string[] args)
+        {
+            return args.FirstOrDefault(s => !string.IsNullOrEmpty(s));
         }
     }
 }

@@ -55,7 +55,7 @@ namespace Scada.Web
             string exeDir = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location);
             webContext = new WebContext();
             webContext.Init(exeDir);
-            webContext.StartLoadingConfig();
+            webContext.StartConfigUpdate();
         }
 
         /// <summary>

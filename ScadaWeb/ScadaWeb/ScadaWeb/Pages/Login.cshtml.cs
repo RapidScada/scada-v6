@@ -31,6 +31,7 @@ using Microsoft.AspNetCore.Mvc.RazorPages;
 using Scada.Client;
 using Scada.Lang;
 using Scada.Web.Config;
+using Scada.Web.Lang;
 using System;
 using System.Collections.Generic;
 using System.Security.Claims;
@@ -90,6 +91,15 @@ namespace Scada.Web.Pages
                 authProperties);
         }
 
+        private RedirectToPageResult RedirectToStartPage(string returnUrl)
+        {
+            string url = ScadaUtils.FirstNonEmpty(
+                returnUrl,
+                webContext.AppConfig.GeneralOptions.DefaultStartPage,
+                WebUrl.DefaultStartPage);
+            return RedirectToPage(url);
+        }
+
         public IActionResult OnGet()
         {
             if (!webContext.IsReadyToLogin)
@@ -105,19 +115,32 @@ namespace Scada.Web.Pages
         {
             if (ModelState.IsValid)
             {
-                ScadaClient scadaClient = clientAccessor.ScadaClient;
+                bool userIsValid = false;
+                int userID = 0;
+                int roleID = 0;
+                string errMsg;
+                string friendlyError;
 
-                if (scadaClient.ValidateUser(Username, Password, out int userID, out int roleID, out string errMsg))
+                try
+                {
+                    userIsValid = clientAccessor.ScadaClient
+                        .ValidateUser(Username, Password, out userID, out roleID, out errMsg);
+                    friendlyError = errMsg;
+                }
+                catch (Exception ex)
+                {
+                    errMsg = ex.Message;
+                    friendlyError = WebPhrases.ClientError;
+                }
+
+                if (userIsValid)
                 {
                     await LoginAsync(Username, userID, roleID);
                     webContext.Log.WriteAction(Locale.IsRussian ?
                         "Пользователь {0} вошёл в систему {0}, IP {1}" :
                         "User {0} is logged in, IP {1}",
                         Username, HttpContext.Connection.RemoteIpAddress);
-
-                    string url = !string.IsNullOrEmpty(returnUrl) && Url.IsLocalUrl(returnUrl) ? 
-                        returnUrl : WebUrl.DefaultStartPage;
-                    return RedirectToPage(url);
+                    return RedirectToStartPage(returnUrl);
                 }
                 else
                 {
@@ -125,7 +148,7 @@ namespace Scada.Web.Pages
                         "Неудачная попытка входа в систему пользователя {0}, IP {1}: {2}" :
                         "Unsuccessful login attempt for user {0}, IP {1}: {2}",
                         Username, HttpContext.Connection.RemoteIpAddress, errMsg);
-                    ModelState.AddModelError(string.Empty, errMsg);
+                    ModelState.AddModelError(string.Empty, friendlyError);
                 }
             }
 

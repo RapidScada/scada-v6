@@ -2,6 +2,7 @@
 <ScadaWebDictionaries>
   <Dictionary key="Scada.Web.Pages">
     <Phrase key="CorrectErrors">Please correct the following errors:</Phrase>
+    <Phrase key="ClientError">Error communicating with the server</Phrase>
     <Phrase key=""></Phrase>
   </Dictionary>
   <Dictionary key="Scada.Web.Pages.Shared._MainLayout">

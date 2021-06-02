@@ -37,11 +37,13 @@ namespace Scada.Web.Lang
     {
         // Scada.Web.Pages
         public static string CorrectErrors { get; private set; }
+        public static string ClientError { get; private set; }
 
         public static void Init()
         {
             LocaleDict dict = Locale.GetDictionary("Scada.Web.Pages");
             CorrectErrors = dict["CorrectErrors"];
+            ClientError = dict["ClientError"];
         }
     }
 }

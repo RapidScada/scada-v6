@@ -26,11 +26,14 @@
 using Scada.Client;
 using Scada.Config;
 using Scada.Data.Models;
+using Scada.Data.Tables;
 using Scada.Lang;
 using Scada.Log;
 using Scada.Web.Config;
 using Scada.Web.Lang;
+using System;
 using System.IO;
+using System.Threading;
 
 namespace Scada.Web.Code
 {
@@ -41,10 +44,29 @@ namespace Scada.Web.Code
     internal class WebContext : IWebContext
     {
         /// <summary>
+        /// Specifies the configuration update steps.
+        /// </summary>
+        private enum UpdateConfigStep { Idle, ReadBase }
+
+        /// <summary>
+        /// The period of attempts to read the configuration database.
+        /// </summary>
+        private static readonly TimeSpan ReadBasePeriod = TimeSpan.FromSeconds(10);
+
+        private Thread configThread;                // the configuration update thread
+        private volatile bool terminated;           // necessary to stop the thread
+        private volatile bool configUpdateRequired; // indicates that the configuration should be updated
+
+
+        /// <summary>
         /// Initializes a new instance of the class.
         /// </summary>
         public WebContext()
         {
+            configThread = null;
+            terminated = false;
+            configUpdateRequired = false;
+
             IsReady = false;
             IsReadyToLogin = false;
             InstanceConfig = new InstanceConfig();
@@ -145,6 +167,150 @@ namespace Scada.Web.Code
         }
 
         /// <summary>
+        /// Updates the application culture according to the configuration.
+        /// </summary>
+        private void UpdateCulture()
+        {
+            string cultureName = ScadaUtils.FirstNonEmpty(
+                InstanceConfig.Culture,
+                AppConfig.GeneralOptions.DefaultCulture,
+                Locale.DefaultCulture.Name);
+
+            if (Locale.Culture.Name != cultureName)
+            {
+                Locale.SetCulture(cultureName);
+                LocalizeApp();
+            }
+        }
+
+        /// <summary>
+        /// Stops the configuration update thread.
+        /// </summary>
+        private void StopConfigUpdate()
+        {
+            try
+            {
+                if (configThread != null)
+                {
+                    terminated = true;
+                    configUpdateRequired = false;
+                    configThread.Join();
+                    configThread = null;
+                }
+            }
+            catch (Exception ex)
+            {
+                Log.WriteException(ex, Locale.IsRussian ?
+                    "Ошибка при остановке обновления конфигурации" :
+                    "Error stopping configuration update");
+            }
+        }
+
+        /// <summary>
+        /// Updates the configuration in a separate thread.
+        /// </summary>
+        private void ExecuteConfigUpdate()
+        {
+            LoadAppConfig();
+            UpdateCulture();
+
+            UpdateConfigStep step = UpdateConfigStep.Idle;
+            DateTime readBaseDT = DateTime.MinValue;
+
+            while (!terminated)
+            {
+                try
+                {
+                    switch (step)
+                    {
+                        case UpdateConfigStep.Idle:
+                            if (configUpdateRequired)
+                            {
+                                configUpdateRequired = false;
+                                step = UpdateConfigStep.ReadBase;
+                            }
+                            break;
+
+                        case UpdateConfigStep.ReadBase:
+                            DateTime utcNow = DateTime.UtcNow;
+
+                            if (utcNow - readBaseDT >= ReadBasePeriod)
+                            {
+                                readBaseDT = utcNow;
+
+                                if (ReadBase(out BaseDataSet baseDataSet))
+                                {
+                                    step = UpdateConfigStep.Idle;
+                                    BaseDataSet = baseDataSet;
+                                    IsReadyToLogin = true;
+
+                                    if (IsReady)
+                                    {
+                                        Log.WriteAction(Locale.IsRussian ?
+                                            "Приложение готово к входу пользователей" :
+                                            "The application is ready for user login");
+                                    }
+                                    else
+                                    {
+                                        IsReady = true;
+                                        Log.WriteAction(Locale.IsRussian ?
+                                            "Приложение готово к работе" :
+                                            "The application is ready for operating");
+                                    }
+                                }
+                            }
+                            break;
+                    }
+                }
+                catch (Exception ex)
+                {
+                    Log.WriteException(ex, Locale.IsRussian ?
+                        "Ошибка при обновлении конфигурации" :
+                        "Error updating configuration");
+                }
+                finally
+                {
+                    Thread.Sleep(ScadaUtils.ThreadDelay);
+                }
+            }
+        }
+
+        /// <summary>
+        /// Reads the configuration database.
+        /// </summary>
+        private bool ReadBase(out BaseDataSet baseDataSet)
+        {
+            string tableName = Locale.IsRussian ? "неопределена" : "undefined";
+
+            try
+            {
+                ScadaClient scadaClient = new(AppConfig.ConnectionOptions);
+                baseDataSet = new BaseDataSet();
+
+                foreach (IBaseTable baseTable in baseDataSet.AllTables)
+                {
+                    tableName = baseTable.Name;
+                    scadaClient.DownloadBaseTable(baseTable);
+                }
+
+                scadaClient.TerminateSession();
+                Log.WriteAction(Locale.IsRussian ?
+                    "База конфигурации получена успешно" :
+                    "The configuration database has been received successfully");
+                return true;
+            }
+            catch (Exception ex)
+            {
+                Log.WriteException(ex, Locale.IsRussian ?
+                    "Ошибка при приёме базы конфигурации, таблица {0}" :
+                    "Error receiving the configuration database, the {0} table", tableName);
+                baseDataSet = null;
+                return false;
+            }
+        }
+
+
+        /// <summary>
         /// Initializes the application context.
         /// </summary>
         public void Init(string exeDir)
@@ -171,6 +337,7 @@ namespace Scada.Web.Code
         /// </summary>
         public void FinalizeContext()
         {
+            StopConfigUpdate();
             Log.WriteAction(Locale.IsRussian ?
                 "Вебстанция остановлена" :
                 "Webstation is stopped");
@@ -178,17 +345,28 @@ namespace Scada.Web.Code
         }
 
         /// <summary>
-        /// Starts a process of loading the application configuration and configuration database.
+        /// Starts a process of updating the application configuration and configuration database.
         /// </summary>
-        public void StartLoadingConfig()
+        public void StartConfigUpdate()
         {
-            LoadAppConfig();
+            try
+            {
+                configUpdateRequired = true;
+                IsReadyToLogin = false;
 
-            IsReady = true;
-            IsReadyToLogin = true;
-            Log.WriteAction(Locale.IsRussian ?
-                "Приложение готово к работе" :
-                "The application is ready for operating");
+                if (configThread == null)
+                {
+                    terminated = false;
+                    configThread = new Thread(ExecuteConfigUpdate);
+                    configThread.Start();
+                }
+            }
+            catch (Exception ex)
+            {
+                Log.WriteException(ex, Locale.IsRussian ?
+                    "Ошибка при запуске обновления конфигурации" :
+                    "Error starting configuration update");
+            }
         }
     }
 }
