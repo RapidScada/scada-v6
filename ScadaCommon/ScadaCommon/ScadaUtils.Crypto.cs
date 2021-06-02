@@ -83,7 +83,7 @@ namespace Scada
         /// </summary>
         public static string ComputeHash(string s)
         {
-            return ComputeHash(Encoding.UTF8.GetBytes(s));
+            return ComputeHash(Encoding.UTF8.GetBytes(s ?? ""));
         }
 
         /// <summary>
@@ -91,7 +91,7 @@ namespace Scada
         /// </summary>
         public static string Encrypt(string s, byte[] secretKey, byte[] iv)
         {
-            return BytesToHex(EncryptBytes(Encoding.UTF8.GetBytes(s), secretKey, iv));
+            return BytesToHex(EncryptBytes(Encoding.UTF8.GetBytes(s ?? ""), secretKey, iv));
         }
 
         /// <summary>

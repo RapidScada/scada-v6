@@ -55,10 +55,10 @@ namespace Scada.Web
             services
                 .AddRazorPages(options =>
                 {
-                    options.Conventions.AuthorizeFolder("/");
-                    options.Conventions.AllowAnonymousToPage("/Index");
-                    options.Conventions.AllowAnonymousToPage("/Login");
-                    options.Conventions.AllowAnonymousToPage("/Logout");
+                    options.Conventions.AuthorizeFolder(WebUrl.Root);
+                    options.Conventions.AllowAnonymousToPage(WebUrl.IndexPage);
+                    options.Conventions.AllowAnonymousToPage(WebUrl.LoginPage);
+                    options.Conventions.AllowAnonymousToPage(WebUrl.LogoutPage);
                 })
                 .AddMvcOptions(options =>
                 {

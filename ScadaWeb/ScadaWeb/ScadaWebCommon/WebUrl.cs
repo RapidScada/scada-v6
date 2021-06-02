@@ -33,7 +33,10 @@ namespace Scada.Web
     /// </summary>
     public static class WebUrl
     {
+        public const string Root = "/";
+        public const string IndexPage = "/Index";
         public const string LoginPage = "/Login";
+        public const string LogoutPage = "/Logout";
         public const string DefaultStartPage = "/View";
     }
 }

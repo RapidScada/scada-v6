@@ -34,6 +34,7 @@ using Scada.Web.Config;
 using Scada.Web.Lang;
 using System;
 using System.Collections.Generic;
+using System.Net.Sockets;
 using System.Security.Claims;
 using System.Threading.Tasks;
 
@@ -63,6 +64,20 @@ namespace Scada.Web.Pages
 
         public bool RememberMe { get; set; }
 
+
+        private bool CheckReady()
+        {
+            if (webContext.IsReadyToLogin)
+            {
+                return true;
+            }
+            else
+            {
+                dynamic dict = Locale.GetDictionary("Scada.Web.Pages.Login");
+                ModelState.AddModelError(string.Empty, dict.NotReady);
+                return false;
+            }
+        }
 
         private async Task LoginAsync(string username, int userID, int roleID)
         {
@@ -100,20 +115,14 @@ namespace Scada.Web.Pages
             return RedirectToPage(url);
         }
 
-        public IActionResult OnGet()
+        public void OnGet()
         {
-            if (!webContext.IsReadyToLogin)
-            {
-                dynamic dict = Locale.GetDictionary("Scada.Web.Pages.Login"); 
-                ModelState.AddModelError(string.Empty, dict.NotReady);
-            }
-
-            return Page();
+            CheckReady();
         }
 
         public async Task<IActionResult> OnPostAsync(string returnUrl = null)
         {
-            if (ModelState.IsValid)
+            if (CheckReady() && ModelState.IsValid)
             {
                 bool userIsValid = false;
                 int userID = 0;

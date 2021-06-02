@@ -50,7 +50,16 @@ namespace Scada.Web.Code
         public void OnPageHandlerExecuting(PageHandlerExecutingContext context)
         {
             if (!webContext.IsReady)
-                context.Result = new StatusCodeResult(StatusCodes.Status503ServiceUnavailable);
+            {
+                string path = context.HttpContext.Request.Path;
+                if (path != WebUrl.Root &&
+                    path != WebUrl.IndexPage &&
+                    path != WebUrl.LoginPage &&
+                    path != WebUrl.LogoutPage)
+                {
+                    context.Result = new StatusCodeResult(StatusCodes.Status503ServiceUnavailable);
+                }
+            }
         }
 
         public void OnPageHandlerExecuted(PageHandlerExecutedContext context)
