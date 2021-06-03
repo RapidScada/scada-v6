@@ -32,6 +32,7 @@ using Scada.Client;
 using Scada.Lang;
 using Scada.Web.Config;
 using Scada.Web.Lang;
+using Scada.Web.Services;
 using System;
 using System.Collections.Generic;
 using System.Net.Sockets;

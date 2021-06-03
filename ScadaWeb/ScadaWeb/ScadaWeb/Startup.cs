@@ -30,6 +30,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Scada.Web.Code;
+using Scada.Web.Services;
 
 namespace Scada.Web
 {

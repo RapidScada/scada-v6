@@ -31,6 +31,7 @@ using Scada.Lang;
 using Scada.Log;
 using Scada.Web.Config;
 using Scada.Web.Lang;
+using Scada.Web.Services;
 using System;
 using System.IO;
 using System.Threading;

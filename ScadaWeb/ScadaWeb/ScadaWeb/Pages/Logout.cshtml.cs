@@ -28,6 +28,7 @@ using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Scada.Lang;
+using Scada.Web.Services;
 using System.Security.Claims;
 using System.Threading.Tasks;
 

@@ -25,6 +25,8 @@
 
 using Scada.Data.Const;
 using Scada.Data.Entities;
+using Scada.Web.Services;
+using Scada.Web.Users;
 
 namespace Scada.Web.Code
 {
@@ -60,8 +62,8 @@ namespace Scada.Web.Code
 
         public User UserModel { get; set;  }
 
-        public object Menu => throw new System.NotImplementedException();
+        public UserMenu Menu => throw new System.NotImplementedException();
 
-        public object Views => throw new System.NotImplementedException();
+        public UserViews Views => throw new System.NotImplementedException();
     }
 }

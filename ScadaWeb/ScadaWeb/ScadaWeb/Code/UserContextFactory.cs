@@ -29,6 +29,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.DependencyInjection;
 using Scada.Lang;
 using Scada.Log;
+using Scada.Web.Services;
 
 namespace Scada.Web.Code
 {

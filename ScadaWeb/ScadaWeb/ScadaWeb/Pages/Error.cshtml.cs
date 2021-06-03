@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.Extensions.Logging;
 using Scada.Lang;
+using Scada.Web.Services;
 using System;
 using System.Diagnostics;
 

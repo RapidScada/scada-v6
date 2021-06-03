@@ -29,7 +29,7 @@ using Scada.Data.Models;
 using Scada.Log;
 using Scada.Web.Config;
 
-namespace Scada.Web
+namespace Scada.Web.Services
 {
     /// <summary>
     /// Defines functionality to access web application level data.

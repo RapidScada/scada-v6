@@ -25,7 +25,7 @@
 
 using Scada.Client;
 
-namespace Scada.Web
+namespace Scada.Web.Services
 {
     /// <summary>
     /// Provides access to a client that interacts with the Server service.

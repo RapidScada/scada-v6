@@ -24,8 +24,9 @@
  */
 
 using Scada.Data.Entities;
+using Scada.Web.Users;
 
-namespace Scada.Web
+namespace Scada.Web.Services
 {
     /// <summary>
     /// Defines functionality to access user data.
@@ -46,11 +47,11 @@ namespace Scada.Web
         /// <summary>
         /// Gets the main menu items available to the user.
         /// </summary>
-        object Menu { get; }
+        UserMenu Menu { get; }
 
         /// <summary>
         /// Gets the view explorer nodes available to the user.
         /// </summary>
-        object Views { get; }
+        UserViews Views { get; }
     }
 }
