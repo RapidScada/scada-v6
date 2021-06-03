@@ -27,6 +27,7 @@ using System;
 using System.Security.Claims;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.DependencyInjection;
+using Scada.Data.Entities;
 using Scada.Lang;
 using Scada.Log;
 using Scada.Web.Services;
@@ -70,7 +71,7 @@ namespace Scada.Web.Code
                 return new UserContext
                 {
                     IsLoggedIn = httpContext.User.Identity.IsAuthenticated,
-                    UserModel = new Data.Entities.User
+                    UserEntity = new User
                     {
                         UserID = userID,
                         Name = username

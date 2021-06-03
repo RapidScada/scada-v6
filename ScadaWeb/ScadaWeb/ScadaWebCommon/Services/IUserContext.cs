@@ -40,9 +40,14 @@ namespace Scada.Web.Services
         bool IsLoggedIn { get; }
 
         /// <summary>
-        /// Gets the user data model.
+        /// Gets the user database entity.
         /// </summary>
-        User UserModel { get; }
+        User UserEntity { get; }
+
+        /// <summary>
+        /// Gets the user rights.
+        /// </summary>
+        UserRights Rights { get; }
 
         /// <summary>
         /// Gets the main menu items available to the user.

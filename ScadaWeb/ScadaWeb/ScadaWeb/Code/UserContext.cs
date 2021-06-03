@@ -37,7 +37,7 @@ namespace Scada.Web.Code
     internal class UserContext : IUserContext
     {
         /// <summary>
-        /// The default disabled user.
+        /// The default disabled user entity.
         /// </summary>
         private static readonly User EmptyUser = new()
         {
@@ -54,16 +54,36 @@ namespace Scada.Web.Code
         public UserContext()
         {
             IsLoggedIn = false;
-            UserModel = EmptyUser;
+            UserEntity = EmptyUser;
+            Rights = new UserRights();
+            Menu = new UserMenu();
+            Views = new UserViews();
         }
 
 
+        /// <summary>
+        /// Gets a value indicating whether a user is logged in.
+        /// </summary>
         public bool IsLoggedIn { get; set; }
 
-        public User UserModel { get; set;  }
+        /// <summary>
+        /// Gets the user database entity.
+        /// </summary>
+        public User UserEntity { get; set; }
 
-        public UserMenu Menu => throw new System.NotImplementedException();
+        /// <summary>
+        /// Gets the user rights.
+        /// </summary>
+        public UserRights Rights { get; }
 
-        public UserViews Views => throw new System.NotImplementedException();
+        /// <summary>
+        /// Gets the main menu items available to the user.
+        /// </summary>
+        public UserMenu Menu { get; }
+
+        /// <summary>
+        /// Gets the view explorer nodes available to the user.
+        /// </summary>
+        public UserViews Views { get; }
     }
 }
