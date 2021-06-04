@@ -16,42 +16,32 @@
  * 
  * Product  : Rapid SCADA
  * Module   : ScadaWebCommon
- * Summary  : Defines functionality to access user data
+ * Summary  : Represents a user configuration
  * 
  * Author   : Mikhail Shiryaev
  * Created  : 2021
  * Modified : 2021
  */
 
-using Scada.Data.Entities;
-using Scada.Web.Users;
+using System;
+using System.Collections.Generic;
 
-namespace Scada.Web.Services
+namespace Scada.Web.Users
 {
     /// <summary>
-    /// Defines functionality to access user data.
-    /// <para>Определяет функциональность для доступа данным пользователя.</para>
+    /// Represents a user configuration.
+    /// <para>Представляет конфигурацию пользователя.</para>
     /// </summary>
-    public interface IUserContext
+    public class UserConfig
     {
         /// <summary>
-        /// Gets the user database entity.
+        /// Gets or sets the time zone identifier.
         /// </summary>
-        User UserEntity { get; }
+        public string TimeZone { get; set; }
 
         /// <summary>
-        /// Gets the user rights.
+        /// Gets or sets the start page.
         /// </summary>
-        UserRights Rights { get; }
-
-        /// <summary>
-        /// Gets the main menu items available to the user.
-        /// </summary>
-        UserMenu Menu { get; }
-
-        /// <summary>
-        /// Gets the view explorer nodes available to the user.
-        /// </summary>
-        UserViews Views { get; }
+        public string StartPage { get; set; }
     }
 }

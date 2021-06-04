@@ -36,7 +36,7 @@ namespace Scada.Web
     /// The class provides helper methods for the Webstation application and its plugins.
     /// <para>Класс, предоставляющий вспомогательные методы для приложения Вебстанция и его плагинов.</para>
     /// </summary>
-    public static class WebUtils
+    public static partial class WebUtils
     {
         /// <summary>
         /// The application version.

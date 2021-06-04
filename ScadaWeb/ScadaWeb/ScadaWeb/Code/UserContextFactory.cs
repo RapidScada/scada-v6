@@ -26,8 +26,11 @@
 using System;
 using System.Security.Claims;
 using Microsoft.AspNetCore.Http;
+using Microsoft.Extensions.Caching.Memory;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Primitives;
 using Scada.Data.Entities;
+using Scada.Data.Models;
 using Scada.Lang;
 using Scada.Log;
 using Scada.Web.Services;
@@ -41,7 +44,33 @@ namespace Scada.Web.Code
     internal static class UserContextFactory
     {
         /// <summary>
-        /// Gets a new instance of the user context.
+        /// Creates a new user context.
+        /// </summary>
+        private static UserContext CreateUserContext(int userID, IWebContext webContext)
+        {
+            ILog log = webContext.Log;
+            BaseDataSet baseDataSet = webContext.BaseDataSet;
+            User userEntity = baseDataSet.UserTable.GetItem(userID);
+
+            if (userEntity == null)
+            {
+                log.WriteError(Locale.IsRussian ?
+                    "Пользователь с ид. {0} не найден при создании контекста пользователя" :
+                    "User with ID {0} not found when creating user context", userID);
+                return UserContext.Empty;
+            }
+            else
+            {
+                UserContext userContext = new() { UserEntity = userEntity };
+                userContext.Rights.Init(baseDataSet, userEntity.RoleID);
+                userContext.Menu.Init(log, baseDataSet, userContext.Rights);
+                userContext.Views.Init(log, baseDataSet, userContext.Rights);
+                return userContext;
+            }
+        }
+
+        /// <summary>
+        /// Gets from cache or creates a user context.
         /// </summary>
         public static IUserContext GetUserContext(IServiceProvider serviceProvider)
         {
@@ -58,25 +87,26 @@ namespace Scada.Web.Code
                 IHttpContextAccessor httpContextAccessor = serviceProvider.GetRequiredService<IHttpContextAccessor>();
                 HttpContext httpContext = httpContextAccessor.HttpContext;
 
-                if (httpContext == null)
+                if (!webContext.IsReady ||
+                    httpContext?.User?.Identity == null ||
+                    !httpContext.User.Identity.IsAuthenticated ||
+                    httpContext.User.FindFirstValue(ClaimTypes.NameIdentifier) is not string userIdStr)
                 {
-                    throw new ScadaException(Locale.IsRussian ?
-                        "HttpContext не определён" :
-                        "HttpContext is undefined");
+                    log.WriteWarning(Locale.IsRussian ?
+                        "Невозможно создать контекст пользователя" :
+                        "Unable to create user context");
+                    return UserContext.Empty;
                 }
 
-                int userID = int.Parse(httpContext.User.FindFirstValue(ClaimTypes.NameIdentifier));
-                string username = httpContext.User.FindFirstValue(ClaimTypes.Name);
+                IMemoryCache memoryCache = serviceProvider.GetRequiredService<IMemoryCache>();
+                int userID = int.Parse(userIdStr);
 
-                return new UserContext
+                return memoryCache.GetOrCreate(WebUtils.GetUserKey(userID), entry =>
                 {
-                    IsLoggedIn = httpContext.User.Identity.IsAuthenticated,
-                    UserEntity = new User
-                    {
-                        UserID = userID,
-                        Name = username
-                    }
-                };
+                    entry.SetSlidingExpiration(WebUtils.CacheExpiration);
+                    entry.AddExpirationToken(new CancellationChangeToken(webContext.CacheExpirationTokenSource.Token));
+                    return CreateUserContext(userID, webContext);
+                });
             }
             catch (Exception ex)
             {
@@ -86,7 +116,7 @@ namespace Scada.Web.Code
                 log.WriteException(ex, Locale.IsRussian ?
                     "Ошибка при создании контекста пользователя" :
                     "Error creating user context");
-                return new UserContext();
+                return UserContext.Empty;
             }
         }
     }

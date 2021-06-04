@@ -76,6 +76,7 @@ namespace Scada.Web.Code
             Log = LogStub.Instance;
             BaseDataSet = new BaseDataSet();
             ClientPool = new ScadaClientPool();
+            CacheExpirationTokenSource = new CancellationTokenSource();
         }
 
 
@@ -118,6 +119,11 @@ namespace Scada.Web.Code
         /// Gets the client pool.
         /// </summary>
         public ScadaClientPool ClientPool { get; }
+        
+        /// <summary>
+        /// Gets the source object that can send expiration notification to the memory cache.
+        /// </summary>
+        public CancellationTokenSource CacheExpirationTokenSource { get; }
 
 
         /// <summary>

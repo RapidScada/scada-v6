@@ -24,6 +24,7 @@
  */
 
 using Scada.Data.Models;
+using Scada.Lang;
 using System;
 
 namespace Scada.Web.Users
@@ -45,10 +46,20 @@ namespace Scada.Web.Users
         /// <summary>
         /// Initializes the user rights.
         /// </summary>
-        public void Init(int roleID, BaseDataSet baseDataSet)
+        public void Init(BaseDataSet baseDataSet, int roleID)
         {
             if (baseDataSet == null)
                 throw new ArgumentNullException(nameof(baseDataSet));
+
+            try
+            {
+            }
+            catch (Exception ex)
+            {
+                throw new ScadaException(Locale.IsRussian ?
+                    "Ошибка при инициализации прав пользователя" :
+                    "Error initializing user rights", ex);
+            }
         }
     }
 }

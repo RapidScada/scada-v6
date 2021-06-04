@@ -34,6 +34,7 @@ namespace Scada.Web.Code
     /// Contains user data.
     /// <para>Содержит данные пользователя.</para>
     /// </summary>
+    /// <remarks>A user context instance is shared by many clients with the same user ID.</remarks>
     internal class UserContext : IUserContext
     {
         /// <summary>
@@ -47,24 +48,23 @@ namespace Scada.Web.Code
             RoleID = RoleID.Disabled
         };
 
+        /// <summary>
+        /// The empty user context.
+        /// </summary>
+        public static readonly UserContext Empty = new();
+
 
         /// <summary>
         /// Initializes a new instance of the class.
         /// </summary>
         public UserContext()
         {
-            IsLoggedIn = false;
             UserEntity = EmptyUser;
             Rights = new UserRights();
             Menu = new UserMenu();
             Views = new UserViews();
         }
 
-
-        /// <summary>
-        /// Gets a value indicating whether a user is logged in.
-        /// </summary>
-        public bool IsLoggedIn { get; set; }
 
         /// <summary>
         /// Gets the user database entity.

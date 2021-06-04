@@ -1,0 +1,152 @@
+﻿/*
+ * Copyright 2021 Rapid Software LLC
+ * 
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ * 
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ * 
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ * 
+ * 
+ * Product  : Rapid SCADA
+ * Module   : ScadaWebCommon
+ * Summary  : Represents the base class for web plugin logic
+ * 
+ * Author   : Mikhail Shiryaev
+ * Created  : 2021
+ * Modified : 2021
+ */
+
+using Microsoft.AspNetCore.Mvc.Filters;
+using Microsoft.Extensions.DependencyInjection;
+using Scada.Data.Entities;
+using Scada.Log;
+using Scada.Web.Services;
+using Scada.Web.TreeView;
+using Scada.Web.Users;
+using System;
+using System.Collections.Generic;
+using System.Text;
+
+namespace Scada.Web.Plugins
+{
+    /// <summary>
+    /// Represents the base class for web plugin logic.
+    /// <para>Представляет базовый класс логики веб-плагина.</para>
+    /// </summary>
+    public abstract class PluginLogic
+    {
+        /// <summary>
+        /// Initializes a new instance of the class.
+        /// </summary>
+        public PluginLogic(IWebContext webContext)
+        {
+            WebContext = webContext ?? throw new ArgumentNullException(nameof(webContext));
+            AppDirs = webContext.AppDirs;
+            Log = webContext.Log;
+        }
+
+
+        /// <summary>
+        /// Gets the web application context.
+        /// </summary>
+        protected IWebContext WebContext { get; }
+
+        /// <summary>
+        /// Gets the application directories.
+        /// </summary>
+        protected WebDirs AppDirs { get; }
+
+        /// <summary>
+        /// Gets or sets the plugin log.
+        /// </summary>
+        protected ILog Log { get; set; }
+
+        /// <summary>
+        /// Gets the plugin code.
+        /// </summary>
+        public abstract string Code { get; }
+
+
+        /// <summary>
+        /// Initializes the plugin.
+        /// </summary>
+        public virtual void InitPlugin()
+        {
+        }
+
+        /// <summary>
+        /// Finalizes the plugin.
+        /// </summary>
+        public virtual void FinalizePlugin()
+        {
+        }
+
+        /// <summary>
+        /// Adds request processing filters.
+        /// </summary>
+        public virtual void AddFilters(FilterCollection filters)
+        {
+        }
+
+        /// <summary>
+        /// Adds services to the DI container.
+        /// </summary>
+        public virtual void AddServices(IServiceCollection services)
+        {
+        }
+
+        /// <summary>
+        /// Loads or reloads the plugin configuration.
+        /// </summary>
+        public virtual void LoadPluginConfig()
+        {
+        }
+
+        /// <summary>
+        /// Finds a user in an external source.
+        /// </summary>
+        /// <remarks>This method is called for plugins that provide user management.</remarks>
+        public virtual User FindUser(int userID)
+        {
+            return null;
+        }
+
+        /// <summary>
+        /// Gets the configuration for the specified user.
+        /// </summary>
+        /// <remarks>This method is called for plugins that provide user management.</remarks>
+        public virtual UserConfig GetUserConfig(int userID)
+        {
+            return null;
+        }
+
+        /// <summary>
+        /// Performs actions after a user successfully logs in.
+        /// </summary>
+        public virtual void OnUserLogin(int userID)
+        {
+        }
+
+        /// <summary>
+        /// Performs actions after a user logs out.
+        /// </summary>
+        public virtual void OnUserLogout(int userID)
+        {
+        }
+
+        /// <summary>
+        /// Gets menu items available for the specified user.
+        /// </summary>
+        public virtual List<MenuItem> GetUserMenuItems(UserRights userRights)
+        {
+            return null;
+        }
+    }
+}

@@ -37,7 +37,7 @@
     <ChartFeature>PlgChart</ChartFeature>
     <CommandFeature>PlgTable</CommandFeature>
     <EventAckFeature>PlgTable</EventAckFeature>
-    <UserProfileFeature></UserProfileFeature>
+    <UserManagementFeature>PlgUserManagement</UserManagementFeature>
     <NotificationFeature>PlgNotification</NotificationFeature>
   </PluginAssignment>
   <CustomOptions>

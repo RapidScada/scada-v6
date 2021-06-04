@@ -23,7 +23,11 @@
  * Modified : 2021
  */
 
+using Scada.Data.Models;
+using Scada.Lang;
+using Scada.Log;
 using Scada.Web.TreeView;
+using System;
 using System.Collections.Generic;
 
 namespace Scada.Web.Users
@@ -50,12 +54,26 @@ namespace Scada.Web.Users
 
 
         /// <summary>
-        /// Merges the new menu items with the existing.
+        /// Initializes the user menu.
         /// </summary>
-        public void Merge(List<MenuItem> items)
+        public void Init(ILog log, BaseDataSet baseDataSet, UserRights userRights)
         {
-            if (items != null)
-                MenuItems.AddRange(items);
+            if (log == null)
+                throw new ArgumentNullException(nameof(log));
+            if (baseDataSet == null)
+                throw new ArgumentNullException(nameof(baseDataSet));
+            if (userRights == null)
+                throw new ArgumentNullException(nameof(userRights));
+
+            try
+            {
+            }
+            catch (Exception ex)
+            {
+                log.WriteException(ex, Locale.IsRussian ?
+                    "Ошибка при инициализации меню пользователя" :
+                    "Error initializing user menu");
+            }
         }
     }
 }
