@@ -63,8 +63,8 @@ namespace Scada.Web.Code
             {
                 UserContext userContext = new() { UserEntity = userEntity };
                 userContext.Rights.Init(baseDataSet, userEntity.RoleID);
-                userContext.Menu.Init(log, baseDataSet, userContext.Rights);
-                userContext.Views.Init(log, baseDataSet, userContext.Rights);
+                userContext.Menu.Init(log, baseDataSet, webContext.PluginHolder, userContext.Rights); // TODO: userContext.Menu.Init(webContext, userContext.Rights);
+                userContext.Views.Init(log, baseDataSet, webContext.PluginHolder, userContext.Rights);
                 return userContext;
             }
         }
@@ -87,10 +87,10 @@ namespace Scada.Web.Code
                 IHttpContextAccessor httpContextAccessor = serviceProvider.GetRequiredService<IHttpContextAccessor>();
                 HttpContext httpContext = httpContextAccessor.HttpContext;
 
-                if (!webContext.IsReady ||
-                    httpContext?.User?.Identity == null ||
-                    !httpContext.User.Identity.IsAuthenticated ||
-                    httpContext.User.FindFirstValue(ClaimTypes.NameIdentifier) is not string userIdStr)
+                if (!(webContext.IsReady &&
+                    httpContext?.User?.Identity != null &&
+                    httpContext.User.Identity.IsAuthenticated &&
+                    httpContext.User.GetUserID(out int userID)))
                 {
                     log.WriteWarning(Locale.IsRussian ?
                         "Невозможно создать контекст пользователя" :
@@ -99,8 +99,6 @@ namespace Scada.Web.Code
                 }
 
                 IMemoryCache memoryCache = serviceProvider.GetRequiredService<IMemoryCache>();
-                int userID = int.Parse(userIdStr);
-
                 return memoryCache.GetOrCreate(WebUtils.GetUserKey(userID), entry =>
                 {
                     entry.SetSlidingExpiration(WebUtils.CacheExpiration);

@@ -64,6 +64,7 @@ namespace Scada.Web
                 .AddMvcOptions(options =>
                 {
                     options.Filters.Add(typeof(CheckReadyPageFilter));
+                    WebContext.PluginHolder.AddFilters(options.Filters);
                 });
 
             services
@@ -78,6 +79,8 @@ namespace Scada.Web
                 .AddSingleton(WebContext)
                 .AddScoped(UserContextFactory.GetUserContext)
                 .AddScoped<IClientAccessor, ClientAccessor>();
+
+            WebContext.PluginHolder.AddServices(services);
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

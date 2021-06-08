@@ -31,6 +31,7 @@ using Scada.Lang;
 using Scada.Log;
 using Scada.Web.Config;
 using Scada.Web.Lang;
+using Scada.Web.Plugins;
 using Scada.Web.Services;
 using System;
 using System.IO;
@@ -76,6 +77,7 @@ namespace Scada.Web.Code
             Log = LogStub.Instance;
             BaseDataSet = new BaseDataSet();
             ClientPool = new ScadaClientPool();
+            PluginHolder = new PluginHolder();
             CacheExpirationTokenSource = new CancellationTokenSource();
         }
 
@@ -119,7 +121,12 @@ namespace Scada.Web.Code
         /// Gets the client pool.
         /// </summary>
         public ScadaClientPool ClientPool { get; }
-        
+
+        /// <summary>
+        /// Gets the object containing plugins.
+        /// </summary>
+        public PluginHolder PluginHolder { get; }
+
         /// <summary>
         /// Gets the source object that can send expiration notification to the memory cache.
         /// </summary>
@@ -171,6 +178,28 @@ namespace Scada.Web.Code
 
             CommonPhrases.Init();
             WebPhrases.Init();
+        }
+
+        /// <summary>
+        /// Initializes plugins.
+        /// </summary>
+        private void InitPlugins()
+        {
+            PluginHolder.Log = Log;
+
+            foreach (string pluginCode in AppConfig.PluginCodes)
+            {
+                if (PluginFactory.GetPluginLogic(AppDirs.ExeDir, pluginCode, this,
+                    out PluginLogic pluginLogic, out string message))
+                {
+                    Log.WriteAction(message);
+                    PluginHolder.AddPlugin(pluginLogic);
+                }
+                else
+                {
+                    Log.WriteError(message);
+                }
+            }
         }
 
         /// <summary>
@@ -332,11 +361,14 @@ namespace Scada.Web.Code
 
             Log.WriteBreak();
             LoadInstanceConfig();
-            LocalizeApp();
 
             Log.WriteAction(Locale.IsRussian ?
                 "Вебстанция {0} запущена" :
                 "Webstation {0} started", WebUtils.AppVersion);
+
+            LocalizeApp();
+            InitPlugins();
+            PluginHolder.OnServiceStart();
         }
 
         /// <summary>
@@ -345,6 +377,7 @@ namespace Scada.Web.Code
         public void FinalizeContext()
         {
             StopConfigUpdate();
+            PluginHolder.OnServiceStop();
             Log.WriteAction(Locale.IsRussian ?
                 "Вебстанция остановлена" :
                 "Webstation is stopped");

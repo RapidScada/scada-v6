@@ -26,6 +26,7 @@
 using Scada.Data.Models;
 using Scada.Lang;
 using Scada.Log;
+using Scada.Web.Plugins;
 using Scada.Web.TreeView;
 using System;
 using System.Collections.Generic;
@@ -56,12 +57,14 @@ namespace Scada.Web.Users
         /// <summary>
         /// Initializes the user views.
         /// </summary>
-        public void Init(ILog log, BaseDataSet baseDataSet, UserRights userRights)
+        public void Init(ILog log, BaseDataSet baseDataSet, PluginHolder pluginHolder, UserRights userRights)
         {
             if (log == null)
                 throw new ArgumentNullException(nameof(log));
             if (baseDataSet == null)
                 throw new ArgumentNullException(nameof(baseDataSet));
+            if (pluginHolder == null)
+                throw new ArgumentNullException(nameof(pluginHolder));
             if (userRights == null)
                 throw new ArgumentNullException(nameof(userRights));
 

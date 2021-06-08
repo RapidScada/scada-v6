@@ -28,6 +28,7 @@ using Scada.Config;
 using Scada.Data.Models;
 using Scada.Log;
 using Scada.Web.Config;
+using Scada.Web.Plugins;
 using System.Threading;
 
 namespace Scada.Web.Services
@@ -77,6 +78,11 @@ namespace Scada.Web.Services
         /// Gets the client pool.
         /// </summary>
         ScadaClientPool ClientPool { get; }
+
+        /// <summary>
+        /// Gets the object containing plugins.
+        /// </summary>
+        PluginHolder PluginHolder { get; }
 
         /// <summary>
         /// Gets the source object that can send expiration notification to the memory cache.

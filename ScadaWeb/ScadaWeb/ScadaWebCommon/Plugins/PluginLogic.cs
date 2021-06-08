@@ -93,16 +93,16 @@ namespace Scada.Web.Plugins
 
 
         /// <summary>
-        /// Initializes the plugin.
+        /// Performs actions when starting the service.
         /// </summary>
-        public virtual void InitPlugin()
+        public virtual void OnServiceStart()
         {
         }
 
         /// <summary>
-        /// Finalizes the plugin.
+        /// Performs actions when the service stops.
         /// </summary>
-        public virtual void FinalizePlugin()
+        public virtual void OnServiceStop()
         {
         }
 

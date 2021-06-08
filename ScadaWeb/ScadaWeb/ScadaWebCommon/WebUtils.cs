@@ -27,6 +27,7 @@ using Microsoft.AspNetCore.Html;
 using Microsoft.AspNetCore.Mvc;
 using Scada.Lang;
 using System.Collections.Generic;
+using System.Security.Claims;
 using System.Text;
 using System.Web;
 
@@ -47,6 +48,40 @@ namespace Scada.Web
         /// </summary>
         public const string LogFileName = "ScadaWeb.log";
 
+
+        /// <summary>
+        /// Gets the user ID from the specified principal.
+        /// </summary>
+        public static bool GetUserID(this ClaimsPrincipal user, out int userID)
+        {
+            if (user.FindFirstValue(ClaimTypes.NameIdentifier) is string userIdStr &&
+                int.TryParse(userIdStr, out userID))
+            {
+                return true;
+            }
+            else
+            {
+                userID = 0;
+                return false;
+            }
+        }
+
+        /// <summary>
+        /// Gets the user ID from the specified principal.
+        /// </summary>
+        public static int GetUserID(this ClaimsPrincipal user)
+        {
+            GetUserID(user, out int userID);
+            return userID;
+        }
+
+        /// <summary>
+        /// Gets the username from the specified principal.
+        /// </summary>
+        public static string GetUsername(this ClaimsPrincipal user)
+        {
+            return user.FindFirstValue(ClaimTypes.Name);
+        }
 
         /// <summary>
         /// Converts the phrases dictionary to a JavaScript object.

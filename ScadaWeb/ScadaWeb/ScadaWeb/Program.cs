@@ -24,15 +24,8 @@
  */
 
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using Microsoft.Extensions.Logging;
-using Scada.Config;
-using Scada.Lang;
-using Scada.Log;
 using Scada.Web.Code;
-using Scada.Web.Lang;
-using System;
 using System.IO;
 using System.Reflection;
 

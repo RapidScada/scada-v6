@@ -150,6 +150,7 @@ namespace Scada.Web.Pages
                         "Пользователь {0} вошёл в систему {0}, IP {1}" :
                         "User {0} is logged in, IP {1}",
                         Username, HttpContext.Connection.RemoteIpAddress);
+                    webContext.PluginHolder.OnUserLogin(userID);
                     return RedirectToStartPage(returnUrl);
                 }
                 else

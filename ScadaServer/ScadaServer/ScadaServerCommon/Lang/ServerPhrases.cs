@@ -75,11 +75,6 @@ namespace Scada.Server.Lang
 
         public static void Init()
         {
-            // load phrases that are used in the multilingual user interface from dictionaries
-            LocaleDict dict = Locale.GetDictionary("Scada.Server.Modules");
-            LoadModuleConfigError = dict.GetPhrase("LoadModuleConfigError");
-            SaveModuleConfigError = dict.GetPhrase("SaveModuleConfigError");
-
             // set phrases that are used in the bilingual service logic, depending on the locale
             if (Locale.IsRussian)
             {
@@ -147,6 +142,11 @@ namespace Scada.Server.Lang
                 ReadDbError = "Error reading from database";
                 WriteDbError = "Error writing to database";
             }
+
+            // load phrases that are used in the multilingual user interface from dictionaries
+            LocaleDict dict = Locale.GetDictionary("Scada.Server.Modules");
+            LoadModuleConfigError = dict.GetPhrase("LoadModuleConfigError");
+            SaveModuleConfigError = dict.GetPhrase("SaveModuleConfigError");
         }
     }
 }
