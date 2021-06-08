@@ -25,14 +25,12 @@
 
 using Microsoft.AspNetCore.Mvc.Filters;
 using Microsoft.Extensions.DependencyInjection;
-using Scada.Data.Entities;
 using Scada.Log;
 using Scada.Web.Services;
 using Scada.Web.TreeView;
 using Scada.Web.Users;
 using System;
 using System.Collections.Generic;
-using System.Text;
 
 namespace Scada.Web.Plugins
 {
@@ -73,6 +71,26 @@ namespace Scada.Web.Plugins
         /// </summary>
         public abstract string Code { get; }
 
+        /// <summary>
+        /// Gets the plugin features.
+        /// </summary>
+        public virtual PluginFeatures Features => null;
+
+        /// <summary>
+        /// Gets the view specifications.
+        /// </summary>
+        public virtual ICollection<ViewSpec> ViewSpecs => null;
+
+        /// <summary>
+        /// Gets the script URLs to add to the main page.
+        /// </summary>
+        public virtual ICollection<string> ScriptUrls => null;
+
+        /// <summary>
+        /// Gets the URLs of the CSS stylesheets to add to the main page.
+        /// </summary>
+        public virtual ICollection<string> StyleUrls => null;
+
 
         /// <summary>
         /// Initializes the plugin.
@@ -107,24 +125,6 @@ namespace Scada.Web.Plugins
         /// </summary>
         public virtual void LoadPluginConfig()
         {
-        }
-
-        /// <summary>
-        /// Finds a user in an external source.
-        /// </summary>
-        /// <remarks>This method is called for plugins that provide user management.</remarks>
-        public virtual User FindUser(int userID)
-        {
-            return null;
-        }
-
-        /// <summary>
-        /// Gets the configuration for the specified user.
-        /// </summary>
-        /// <remarks>This method is called for plugins that provide user management.</remarks>
-        public virtual UserConfig GetUserConfig(int userID)
-        {
-            return null;
         }
 
         /// <summary>
