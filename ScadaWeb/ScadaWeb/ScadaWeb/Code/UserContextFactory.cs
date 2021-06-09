@@ -48,13 +48,11 @@ namespace Scada.Web.Code
         /// </summary>
         private static UserContext CreateUserContext(int userID, IWebContext webContext)
         {
-            ILog log = webContext.Log;
-            BaseDataSet baseDataSet = webContext.BaseDataSet;
-            User userEntity = baseDataSet.UserTable.GetItem(userID);
+            User userEntity = webContext.BaseDataSet.UserTable.GetItem(userID);
 
             if (userEntity == null)
             {
-                log.WriteError(Locale.IsRussian ?
+                webContext.Log.WriteError(Locale.IsRussian ?
                     "Пользователь с ид. {0} не найден при создании контекста пользователя" :
                     "User with ID {0} not found when creating user context", userID);
                 return UserContext.Empty;
@@ -62,9 +60,9 @@ namespace Scada.Web.Code
             else
             {
                 UserContext userContext = new() { UserEntity = userEntity };
-                userContext.Rights.Init(baseDataSet, userEntity.RoleID);
-                userContext.Menu.Init(log, baseDataSet, webContext.PluginHolder, userContext.Rights); // TODO: userContext.Menu.Init(webContext, userContext.Rights);
-                userContext.Views.Init(log, baseDataSet, webContext.PluginHolder, userContext.Rights);
+                userContext.Rights.Init(webContext.BaseDataSet, userEntity.RoleID);
+                userContext.Menu.Init(webContext, userID, userContext.Rights);
+                userContext.Views.Init(webContext, userContext.Rights);
                 return userContext;
             }
         }

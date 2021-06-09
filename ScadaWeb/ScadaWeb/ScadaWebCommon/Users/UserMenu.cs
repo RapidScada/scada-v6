@@ -27,6 +27,7 @@ using Scada.Data.Models;
 using Scada.Lang;
 using Scada.Log;
 using Scada.Web.Plugins;
+using Scada.Web.Services;
 using Scada.Web.TreeView;
 using System;
 using System.Collections.Generic;
@@ -55,25 +56,89 @@ namespace Scada.Web.Users
 
 
         /// <summary>
+        /// Merges the menu items recursively.
+        /// </summary>
+        protected void MergeMenuItems(List<MenuItem> existingItems, List<MenuItem> addedItems, int level)
+        {
+            if (addedItems == null)
+                return;
+
+            addedItems.Sort();
+
+            foreach (MenuItem addedItem in addedItems)
+            {
+                addedItem.Level = level;
+                int ind = existingItems.BinarySearch(addedItem);
+
+                if (ind >= 0)
+                {
+                    // merge
+                    MenuItem existingItem = existingItems[ind];
+
+                    if (existingItem.Subitems.Count > 0 && addedItem.Subitems.Count > 0)
+                    {
+                        // add subitems recursively
+                        MergeMenuItems(existingItem.Subitems, addedItem.Subitems, level + 1);
+                    }
+                    else
+                    {
+                        // simply add subitems
+                        addedItem.Subitems.Sort();
+                        existingItem.Subitems.AddRange(addedItem.Subitems);
+                        SetMenuItemLevels(addedItem.Subitems, level + 1);
+                    }
+                }
+                else
+                {
+                    // insert the menu item and its subitems
+                    addedItem.Subitems.Sort();
+                    existingItems.Insert(~ind, addedItem);
+                    SetMenuItemLevels(addedItem.Subitems, level + 1);
+                }
+            }
+        }
+
+        /// <summary>
+        /// Sets the nesting levels of the menu items recursively.
+        /// </summary>
+        protected void SetMenuItemLevels(List<MenuItem> items, int level)
+        {
+            if (items != null)
+            {
+                foreach (MenuItem item in items)
+                {
+                    item.Level = level;
+                    SetMenuItemLevels(item.Subitems, level + 1);
+                }
+            }
+        }
+
+
+        /// <summary>
         /// Initializes the user menu.
         /// </summary>
-        public void Init(ILog log, BaseDataSet baseDataSet, PluginHolder pluginHolder, UserRights userRights)
+        public void Init(IWebContext webContext, int userID, UserRights userRights)
         {
-            if (log == null)
-                throw new ArgumentNullException(nameof(log));
-            if (baseDataSet == null)
-                throw new ArgumentNullException(nameof(baseDataSet));
-            if (pluginHolder == null)
-                throw new ArgumentNullException(nameof(pluginHolder));
+            if (webContext == null)
+                throw new ArgumentNullException(nameof(webContext));
             if (userRights == null)
                 throw new ArgumentNullException(nameof(userRights));
 
             try
             {
+                // add menu items from plugins
+                foreach (PluginLogic pluginLogic in webContext.PluginHolder.EnumeratePlugins())
+                {
+                    MergeMenuItems(MenuItems, 
+                        webContext.PluginHolder.GetUserMenuItems(pluginLogic, userID, userRights), 0);
+                }
+
+                // add default menu items
+                MergeMenuItems(MenuItems, new List<MenuItem>() { MenuItem.FromKnownMenuItem(KnownMenuItem.About) }, 0);
             }
             catch (Exception ex)
             {
-                log.WriteException(ex, Locale.IsRussian ?
+                webContext.Log.WriteException(ex, Locale.IsRussian ?
                     "Ошибка при инициализации меню пользователя" :
                     "Error initializing user menu");
             }

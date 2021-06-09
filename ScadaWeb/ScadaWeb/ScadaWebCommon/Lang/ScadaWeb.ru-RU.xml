@@ -29,4 +29,12 @@
     <Phrase key="lblRememberMe">Запомнить меня</Phrase>
     <Phrase key="btnLogin">Войти</Phrase>
   </Dictionary>
+  <Dictionary key="Scada.Web.TreeView.MenuItem">
+    <Phrase key="ReportsMenuItem">Отчёты</Phrase>
+    <Phrase key="AdministrationMenuItem">Администрирование</Phrase>
+    <Phrase key="ConfigurationMenuItem">Конфигурация</Phrase>
+    <Phrase key="RegistrationMenuItem">Регистрация</Phrase>
+    <Phrase key="PluginsMenuItem">Плагины</Phrase>
+    <Phrase key="AboutMenuItem">О приложении</Phrase>
+  </Dictionary>
 </ScadaWebDictionaries>

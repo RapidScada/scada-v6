@@ -27,6 +27,7 @@ using Scada.Data.Models;
 using Scada.Lang;
 using Scada.Log;
 using Scada.Web.Plugins;
+using Scada.Web.Services;
 using Scada.Web.TreeView;
 using System;
 using System.Collections.Generic;
@@ -57,14 +58,10 @@ namespace Scada.Web.Users
         /// <summary>
         /// Initializes the user views.
         /// </summary>
-        public void Init(ILog log, BaseDataSet baseDataSet, PluginHolder pluginHolder, UserRights userRights)
+        public void Init(IWebContext webContext, UserRights userRights)
         {
-            if (log == null)
-                throw new ArgumentNullException(nameof(log));
-            if (baseDataSet == null)
-                throw new ArgumentNullException(nameof(baseDataSet));
-            if (pluginHolder == null)
-                throw new ArgumentNullException(nameof(pluginHolder));
+            if (webContext == null)
+                throw new ArgumentNullException(nameof(webContext));
             if (userRights == null)
                 throw new ArgumentNullException(nameof(userRights));
 
@@ -73,7 +70,7 @@ namespace Scada.Web.Users
             }
             catch (Exception ex)
             {
-                log.WriteException(ex, Locale.IsRussian ?
+                webContext.Log.WriteException(ex, Locale.IsRussian ?
                     "Ошибка при инициализации представлений пользователя" :
                     "Error initializing user views");
             }

@@ -23,6 +23,7 @@
  * Modified : 2021
  */
 
+using Scada.Web.Lang;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -149,6 +150,56 @@ namespace Scada.Web.TreeView
                     return comp1;
                 }
             }
+        }
+        
+        /// <summary>
+        /// Creates a menu item according to the known menu item.
+        /// </summary>
+        public static MenuItem FromKnownMenuItem(KnownMenuItem knownMenuItem)
+        {
+            const int OrderCoef = 100;
+
+            return knownMenuItem switch
+            {
+                KnownMenuItem.Reports => new MenuItem
+                {
+                    Text = WebPhrases.ReportsMenuItem,
+                    SortOrder = (int)KnownMenuItem.Reports * OrderCoef
+                },
+
+                KnownMenuItem.Administration => new MenuItem
+                {
+                    Text = WebPhrases.AdministrationMenuItem,
+                    SortOrder = (int)KnownMenuItem.Administration * OrderCoef
+                },
+
+                KnownMenuItem.Configuration => new MenuItem
+                {
+                    Text = WebPhrases.ConfigurationMenuItem,
+                    SortOrder = (int)KnownMenuItem.Configuration * OrderCoef
+                },
+
+                KnownMenuItem.Registration => new MenuItem
+                {
+                    Text = WebPhrases.RegistrationMenuItem,
+                    SortOrder = (int)KnownMenuItem.Registration * OrderCoef
+                },
+
+                KnownMenuItem.Plugins => new MenuItem
+                {
+                    Text = WebPhrases.PluginsMenuItem,
+                    SortOrder = (int)KnownMenuItem.Plugins * OrderCoef
+                },
+
+                KnownMenuItem.About => new MenuItem
+                {
+                    Text = WebPhrases.AboutMenuItem,
+                    Url = WebUrl.AboutPage,
+                    SortOrder = MenuItemSortOrder.Last
+                },
+
+                _ => new MenuItem()
+            };
         }
     }
 }

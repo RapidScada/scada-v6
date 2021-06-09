@@ -31,4 +31,12 @@
     <Phrase key="lblRememberMe">Remember me</Phrase>
     <Phrase key="btnLogin">Login</Phrase>
   </Dictionary>
+  <Dictionary key="Scada.Web.TreeView.MenuItem">
+    <Phrase key="ReportsMenuItem">Reports</Phrase>
+    <Phrase key="AdministrationMenuItem">Administration</Phrase>
+    <Phrase key="ConfigurationMenuItem">Configuration</Phrase>
+    <Phrase key="RegistrationMenuItem">Registration</Phrase>
+    <Phrase key="PluginsMenuItem">Plugins</Phrase>
+    <Phrase key="AboutMenuItem">About</Phrase>
+  </Dictionary>
 </ScadaWebDictionaries>

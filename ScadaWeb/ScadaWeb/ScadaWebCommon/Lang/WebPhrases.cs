@@ -42,6 +42,14 @@ namespace Scada.Web.Lang
         public static string CorrectErrors { get; private set; }
         public static string ClientError { get; private set; }
 
+        // Scada.Web.TreeView.MenuItem
+        public static string ReportsMenuItem { get; private set; }
+        public static string AdministrationMenuItem { get; private set; }
+        public static string ConfigurationMenuItem { get; private set; }
+        public static string RegistrationMenuItem { get; private set; }
+        public static string PluginsMenuItem { get; private set; }
+        public static string AboutMenuItem { get; private set; }
+
         public static void Init()
         {
             // set phrases that are used in the bilingual service logic, depending on the locale
@@ -58,6 +66,14 @@ namespace Scada.Web.Lang
             LocaleDict dict = Locale.GetDictionary("Scada.Web.Pages");
             CorrectErrors = dict["CorrectErrors"];
             ClientError = dict["ClientError"];
+
+            dict = Locale.GetDictionary("Scada.Web.TreeView.MenuItem");
+            ReportsMenuItem = dict["ReportsMenuItem"];
+            AdministrationMenuItem = dict["AdministrationMenuItem"];
+            ConfigurationMenuItem = dict["ConfigurationMenuItem"];
+            RegistrationMenuItem = dict["RegistrationMenuItem"];
+            PluginsMenuItem = dict["PluginsMenuItem"];
+            AboutMenuItem = dict["AboutMenuItem"];
         }
     }
 }

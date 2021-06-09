@@ -27,6 +27,8 @@ using Microsoft.AspNetCore.Mvc.Filters;
 using Microsoft.Extensions.DependencyInjection;
 using Scada.Log;
 using Scada.Web.Lang;
+using Scada.Web.TreeView;
+using Scada.Web.Users;
 using System;
 using System.Collections.Generic;
 
@@ -85,6 +87,17 @@ namespace Scada.Web.Plugins
 
             plugins.Add(pluginLogic);
             pluginMap.Add(pluginLogic.Code, pluginLogic);
+        }
+
+        /// <summary>
+        /// Returns an enumerable collection of the active plugins.
+        /// </summary>
+        public IEnumerable<PluginLogic> EnumeratePlugins()
+        {
+            foreach (PluginLogic pluginLogic in plugins)
+            {
+                yield return pluginLogic;
+            }
         }
 
         /// <summary>
@@ -192,6 +205,25 @@ namespace Scada.Web.Plugins
                 {
                     log.WriteException(ex, WebPhrases.ErrorInPlugin, nameof(OnUserLogout), pluginLogic.Code);
                 }
+            }
+        }
+
+        /// <summary>
+        /// Calls the GetUserMenuItems method of the specified plugin.
+        /// </summary>
+        public List<MenuItem> GetUserMenuItems(PluginLogic pluginLogic, int userID, UserRights userRights)
+        {
+            if (pluginLogic == null)
+                throw new ArgumentNullException(nameof(pluginLogic));
+
+            try
+            {
+                return pluginLogic.GetUserMenuItems(userID, userRights);
+            }
+            catch (Exception ex)
+            {
+                log.WriteException(ex, WebPhrases.ErrorInPlugin, nameof(GetUserMenuItems), pluginLogic.Code);
+                return null;
             }
         }
     }

@@ -15,29 +15,30 @@
  * 
  * 
  * Product  : Rapid SCADA
- * Module   : Webstation Application
- * Summary  : Contains the predefined URLs of the web application
+ * Module   : ScadaWebCommon
+ * Summary  : Specifies the known items of the main menu
  * 
  * Author   : Mikhail Shiryaev
- * Created  : 2021
+ * Created  : 2016
  * Modified : 2021
  */
 
 #pragma warning disable 1591 // Missing XML comment for publicly visible type or member
 
-namespace Scada.Web
+namespace Scada.Web.TreeView
 {
     /// <summary>
-    /// Contains the predefined URLs of the web application.
-    /// <para>Содержит предопределенные URL-адреса веб-приложения.</para>
+    /// Specifies the known items of the main menu.
+    /// <para>Задает известные элементы главного меню.</para>
     /// </summary>
-    public static class WebUrl
+    public enum KnownMenuItem
     {
-        public const string Root = "/";
-        public const string IndexPage = "/Index";
-        public const string LoginPage = "/Login";
-        public const string LogoutPage = "/Logout";
-        public const string AboutPage = "/About";
-        public const string DefaultStartPage = "/View";
+        None = 0,
+        Reports = 1,
+        Administration = 2,
+        Configuration = 3,
+        Registration = 4,
+        Plugins = 5,
+        About = 6
     }
 }

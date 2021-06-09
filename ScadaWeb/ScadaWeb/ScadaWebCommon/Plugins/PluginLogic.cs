@@ -144,7 +144,7 @@ namespace Scada.Web.Plugins
         /// <summary>
         /// Gets menu items available for the specified user.
         /// </summary>
-        public virtual List<MenuItem> GetUserMenuItems(UserRights userRights)
+        public virtual List<MenuItem> GetUserMenuItems(int userID, UserRights userRights)
         {
             return null;
         }

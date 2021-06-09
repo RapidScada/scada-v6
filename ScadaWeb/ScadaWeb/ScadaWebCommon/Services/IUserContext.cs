@@ -40,7 +40,7 @@ namespace Scada.Web.Services
         User UserEntity { get; }
 
         /// <summary>
-        /// Gets the user rights.
+        /// Gets the user access rights.
         /// </summary>
         UserRights Rights { get; }
 
