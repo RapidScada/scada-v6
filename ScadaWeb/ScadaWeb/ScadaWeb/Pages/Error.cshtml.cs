@@ -35,7 +35,6 @@ namespace Scada.Web.Pages
 
         public void OnGet()
         {
-
             if (GetLastError(out Exception ex))
             {
                 _logger.LogError(ex, CommonPhrases.UnhandledException);

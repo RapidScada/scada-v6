@@ -33,6 +33,7 @@ using Scada.Data.Entities;
 using Scada.Data.Models;
 using Scada.Lang;
 using Scada.Log;
+using Scada.Web.Plugins;
 using Scada.Web.Services;
 
 namespace Scada.Web.Code
@@ -48,7 +49,8 @@ namespace Scada.Web.Code
         /// </summary>
         private static UserContext CreateUserContext(int userID, IWebContext webContext)
         {
-            User userEntity = webContext.BaseDataSet.UserTable.GetItem(userID);
+            User userEntity = webContext.BaseDataSet.UserTable.GetItem(userID) ?? 
+                webContext.PluginHolder.FindUser(userID);
 
             if (userEntity == null)
             {
@@ -61,7 +63,7 @@ namespace Scada.Web.Code
             {
                 UserContext userContext = new() { UserEntity = userEntity };
                 userContext.Rights.Init(webContext.BaseDataSet, userEntity.RoleID);
-                userContext.Menu.Init(webContext, userID, userContext.Rights);
+                userContext.Menu.Init(webContext, userEntity, userContext.Rights);
                 userContext.Views.Init(webContext, userContext.Rights);
                 return userContext;
             }

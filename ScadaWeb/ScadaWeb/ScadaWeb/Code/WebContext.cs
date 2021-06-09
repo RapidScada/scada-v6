@@ -249,6 +249,7 @@ namespace Scada.Web.Code
         {
             LoadAppConfig();
             UpdateCulture();
+            PluginHolder.DefineFeaturedPlugins(AppConfig.PluginAssignment);
 
             UpdateConfigStep step = UpdateConfigStep.Idle;
             DateTime readBaseDT = DateTime.MinValue;

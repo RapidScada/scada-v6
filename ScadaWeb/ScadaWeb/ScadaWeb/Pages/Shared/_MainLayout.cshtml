@@ -7,20 +7,20 @@
     var displayOptions = webContext.AppConfig.DisplayOptions;
     var userID = userContext.UserEntity.UserID;
     var username = userContext.UserEntity.Name;
+    var userProfileUrl = webContext.PluginHolder.FeaturedPlugins.UserManagementPlugin?.Features?.UserProfileUrl;
 
-    // tree view examples
-    var menuRenderer = new TreeViewRenderer();
-    var explorerRenderer = new TreeViewRenderer(new TreeViewRenderer.Options 
-    {
-        ExpanderLeft = true,
-        ShowIcons = true,
-        FolderIconUrl = Url.Content("~/images/treeview/folder.png"),
-        NodeIconUrl = Url.Content("~/images/treeview/document.png")
-    });
+    if (string.IsNullOrEmpty(userProfileUrl))
+        userProfileUrl = "/UserProfile";
 }
 
 @section Styles {
     <link href="~/css/layout/main-layout.min.css" rel="stylesheet" asp-append-version="true" />
+
+    @foreach (string url in webContext.PluginHolder.AllStyleUrls())
+    {
+        <link href="@url" rel="stylesheet" asp-append-version="true" />
+    }
+
     @RenderSection("Styles", required: false)
 }
 
@@ -32,6 +32,12 @@
         appEnv = @WebUtils.GetEnvironmentJs(Url);
         notifPhrases = @WebUtils.DictionaryToJs("Scada.Web.Pages.Shared._MainLayout.NotifPanel");
     </script>
+
+    @foreach (string url in webContext.PluginHolder.AllScriptUrls())
+    {
+        <script src="@url" asp-append-version="true"></script>
+    }
+
     @RenderSection("Scripts", required: false)
 }
 
@@ -45,7 +51,7 @@
 
         <div class="main-hdr-block right">@*
             *@<span id="Main_spanNotifBtn" class="main-hdr-btn notif-bell" title="@dict.spanNotifBtn_ToolTip"><i class="far fa-bell"></i></span>@*
-            *@<a asp-page="/UserProfile" asp-route-id="@userID"><span id="Main_spanProfileBtn" class="main-hdr-btn">@username</span></a>@*
+            *@<a asp-page="@userProfileUrl" asp-route-id="@userID"><span id="Main_spanProfileBtn" class="main-hdr-btn">@username</span></a>@*
             *@<a asp-page="/Logout"><span id="Main_spanLogoutBtn" class="main-hdr-btn">@dict.spanLogoutBtn</span></a>@*
             *@<span id="Main_spanFullscreenBtn" class="main-hdr-btn" title="@dict.spanFullscreenBtn_ToolTip"><i class="fas fa-expand"></i></span>
         </div>
@@ -55,7 +61,7 @@
 <div id="Main_divNoHeaderMenu">@*
     *@<span id="Main_spanMenuBtn2" class="main-hdr-btn" title="@dict.spanMenuBtn_ToolTip"><i class="fas fa-bars"></i></span>@*
     *@<span id="Main_spanNotifBtn2" class="main-hdr-btn notif-bell" title="@dict.spanNotifBtn_ToolTip"><i class="far fa-bell"></i></span>@*
-    *@<a asp-page="/UserProfile" asp-route-id="@userID"><span id="Main_spanProfileBtn2" class="main-hdr-btn" title="@dict.spanProfileBtn_ToolTip"><i class="fas fa-user"></i></span></a>@*
+    *@<a asp-page="@userProfileUrl" asp-route-id="@userID"><span id="Main_spanProfileBtn2" class="main-hdr-btn" title="@dict.spanProfileBtn_ToolTip"><i class="fas fa-user"></i></span></a>@*
     *@<a asp-page="/Logout"><span id="Main_spanLogoutBtn2" class="main-hdr-btn" title="@dict.spanLogoutBtn_ToolTip"><i class="fas fa-sign-out-alt"></i></span></a>@*
     *@<span id="Main_spanFullscreenBtn2" class="main-hdr-btn" title="@dict.spanFullscreenBtn_ToolTip"><i class="fas fa-expand"></i></span>@*
     *@<span id="Main_spanExitFullscreenBtn" class="main-hdr-btn" title="@dict.spanExitFullscreenBtn_ToolTip"><i class="fas fa-compress"></i></span>
@@ -70,11 +76,26 @@
         </div>
         @if (displayOptions.ShowMainMenu)
         {
-            <div id="Main_divMainMenu" class="tool-window hidden">@menuRenderer.RenderHtml(TreeViewExample.GetMainMenu())</div>
+            var menuRenderer = new TreeViewRenderer();
+            List<MenuItem> mainMenu = userContext.Menu.MenuItems;
+            //List<MenuItem> mainMenu = TreeViewExample.GetMainMenu();
+
+            <div id="Main_divMainMenu" class="tool-window hidden">@menuRenderer.RenderHtml(mainMenu)</div>
         }
         @if (displayOptions.ShowViewExplorer)
-        { 
-            <div id="Main_divViewExplorer" class="tool-window hidden">@explorerRenderer.RenderHtml(TreeViewExample.GetViewExplorer())</div> 
+        {
+            var explorerRenderer = new TreeViewRenderer(new TreeViewRenderer.Options 
+            {
+                ExpanderLeft = true,
+                ShowIcons = true,
+                FolderIconUrl = Url.Content("~/images/treeview/folder.png"),
+                NodeIconUrl = Url.Content("~/images/treeview/document.png")
+            });
+
+            List<ViewNode> viewExplorer = userContext.Views.ViewNodes;
+            //List<ViewNode> viewExplorer = TreeViewExample.GetViewExplorer();
+
+            <div id="Main_divViewExplorer" class="tool-window hidden">@explorerRenderer.RenderHtml(viewExplorer)</div> 
         }
     </div>
 }
@@ -83,7 +104,7 @@
     @RenderBody()
 </div>
 
-@if (!string.IsNullOrEmpty(webContext.AppConfig.PluginAssignment.NotificationFeature))
+@if (webContext.PluginHolder.FeaturedPlugins.NotificationPlugin != null)
 {
     <div id="Main_divNotifPanel" class="notif-panel hidden"></div>
 }

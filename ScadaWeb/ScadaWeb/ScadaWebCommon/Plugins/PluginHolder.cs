@@ -25,7 +25,9 @@
 
 using Microsoft.AspNetCore.Mvc.Filters;
 using Microsoft.Extensions.DependencyInjection;
+using Scada.Data.Entities;
 using Scada.Log;
+using Scada.Web.Config;
 using Scada.Web.Lang;
 using Scada.Web.TreeView;
 using Scada.Web.Users;
@@ -55,6 +57,7 @@ namespace Scada.Web.Plugins
             pluginMap = new Dictionary<string, PluginLogic>();
             pluginLock = new object();
             log = LogStub.Instance;
+            FeaturedPlugins = new FeaturedPlugins();
         }
 
 
@@ -73,6 +76,11 @@ namespace Scada.Web.Plugins
             }
         }
 
+        /// <summary>
+        /// Gets the featured plugins.
+        /// </summary>
+        public FeaturedPlugins FeaturedPlugins { get; }
+
 
         /// <summary>
         /// Adds the specified plugin to the lists.
@@ -90,6 +98,46 @@ namespace Scada.Web.Plugins
         }
 
         /// <summary>
+        /// Gets the plugin by code.
+        /// </summary>
+        public bool GetPlugin(string pluginCode, out PluginLogic pluginLogic)
+        {
+            if (string.IsNullOrEmpty(pluginCode))
+            {
+                pluginLogic = null;
+                return false;
+            }
+            else
+            {
+                return pluginMap.TryGetValue(pluginCode, out pluginLogic);
+            }
+        }
+
+        /// <summary>
+        /// Gets the plugin by code.
+        /// </summary>
+        public PluginLogic GetPlugin(string pluginCode)
+        {
+            GetPlugin(pluginCode, out PluginLogic pluginLogic);
+            return pluginLogic;
+        }
+
+        /// <summary>
+        /// Finds and sets the featured plugins according to the specified configuration.
+        /// </summary>
+        public void DefineFeaturedPlugins(PluginAssignment pluginAssignment)
+        {
+            if (pluginAssignment == null)
+                throw new ArgumentNullException(nameof(pluginAssignment));
+
+            FeaturedPlugins.ChartPlugin = GetPlugin(pluginAssignment.ChartFeature);
+            FeaturedPlugins.CommandPlugin = GetPlugin(pluginAssignment.CommandFeature);
+            FeaturedPlugins.EventAckPlugin = GetPlugin(pluginAssignment.EventAckFeature);
+            FeaturedPlugins.UserManagementPlugin = GetPlugin(pluginAssignment.UserManagementFeature);
+            FeaturedPlugins.NotificationPlugin = GetPlugin(pluginAssignment.NotificationFeature);
+        }
+
+        /// <summary>
         /// Returns an enumerable collection of the active plugins.
         /// </summary>
         public IEnumerable<PluginLogic> EnumeratePlugins()
@@ -101,19 +149,62 @@ namespace Scada.Web.Plugins
         }
 
         /// <summary>
+        /// Returns an enumerable collection of all script URLs.
+        /// </summary>
+        public IEnumerable<string> AllScriptUrls()
+        {
+            if (!string.IsNullOrEmpty(FeaturedPlugins.ChartPlugin?.Features?.ChartScriptUrl))
+                yield return FeaturedPlugins.ChartPlugin.Features.ChartScriptUrl;
+
+            if (!string.IsNullOrEmpty(FeaturedPlugins.CommandPlugin?.Features?.CommandScriptUrl))
+                yield return FeaturedPlugins.CommandPlugin.Features.CommandScriptUrl;
+
+            if (!string.IsNullOrEmpty(FeaturedPlugins.EventAckPlugin?.Features?.EventAckScriptUrl))
+                yield return FeaturedPlugins.EventAckPlugin.Features.EventAckScriptUrl;
+
+            if (!string.IsNullOrEmpty(FeaturedPlugins.NotificationPlugin?.Features?.NotificationScriptUrl))
+                yield return FeaturedPlugins.NotificationPlugin.Features.NotificationScriptUrl;
+
+            foreach (PluginLogic pluginLogic in plugins)
+            {
+                foreach (string url in pluginLogic.ScriptUrls)
+                {
+                    yield return url;
+                }
+            }
+        }
+
+        /// <summary>
+        /// Returns an enumerable collection of all style URLs.
+        /// </summary>
+        public IEnumerable<string> AllStyleUrls()
+        {
+            foreach (PluginLogic pluginLogic in plugins)
+            {
+                foreach (string url in pluginLogic.StyleUrls)
+                {
+                    yield return url;
+                }
+            }
+        }
+
+        /// <summary>
         /// Calls the OnServiceStart method of the plugins.
         /// </summary>
         public void OnServiceStart()
         {
-            foreach (PluginLogic pluginLogic in plugins)
+            lock (pluginLock)
             {
-                try
+                foreach (PluginLogic pluginLogic in plugins)
                 {
-                    pluginLogic.OnServiceStart();
-                }
-                catch (Exception ex)
-                {
-                    log.WriteException(ex, WebPhrases.ErrorInPlugin, nameof(OnServiceStart), pluginLogic.Code);
+                    try
+                    {
+                        pluginLogic.OnServiceStart();
+                    }
+                    catch (Exception ex)
+                    {
+                        log.WriteException(ex, WebPhrases.ErrorInPlugin, nameof(OnServiceStart), pluginLogic.Code);
+                    }
                 }
             }
         }
@@ -123,15 +214,18 @@ namespace Scada.Web.Plugins
         /// </summary>
         public void OnServiceStop()
         {
-            foreach (PluginLogic pluginLogic in plugins)
+            lock (pluginLock)
             {
-                try
+                foreach (PluginLogic pluginLogic in plugins)
                 {
-                    pluginLogic.OnServiceStop();
-                }
-                catch (Exception ex)
-                {
-                    log.WriteException(ex, WebPhrases.ErrorInPlugin, nameof(OnServiceStop), pluginLogic.Code);
+                    try
+                    {
+                        pluginLogic.OnServiceStop();
+                    }
+                    catch (Exception ex)
+                    {
+                        log.WriteException(ex, WebPhrases.ErrorInPlugin, nameof(OnServiceStop), pluginLogic.Code);
+                    }
                 }
             }
         }
@@ -141,15 +235,18 @@ namespace Scada.Web.Plugins
         /// </summary>
         public void AddFilters(FilterCollection filters)
         {
-            foreach (PluginLogic pluginLogic in plugins)
+            lock (pluginLock)
             {
-                try
+                foreach (PluginLogic pluginLogic in plugins)
                 {
-                    pluginLogic.AddFilters(filters);
-                }
-                catch (Exception ex)
-                {
-                    log.WriteException(ex, WebPhrases.ErrorInPlugin, nameof(AddFilters), pluginLogic.Code);
+                    try
+                    {
+                        pluginLogic.AddFilters(filters);
+                    }
+                    catch (Exception ex)
+                    {
+                        log.WriteException(ex, WebPhrases.ErrorInPlugin, nameof(AddFilters), pluginLogic.Code);
+                    }
                 }
             }
         }
@@ -159,15 +256,18 @@ namespace Scada.Web.Plugins
         /// </summary>
         public void AddServices(IServiceCollection services)
         {
-            foreach (PluginLogic pluginLogic in plugins)
+            lock (pluginLock)
             {
-                try
+                foreach (PluginLogic pluginLogic in plugins)
                 {
-                    pluginLogic.AddServices(services);
-                }
-                catch (Exception ex)
-                {
-                    log.WriteException(ex, WebPhrases.ErrorInPlugin, nameof(AddServices), pluginLogic.Code);
+                    try
+                    {
+                        pluginLogic.AddServices(services);
+                    }
+                    catch (Exception ex)
+                    {
+                        log.WriteException(ex, WebPhrases.ErrorInPlugin, nameof(AddServices), pluginLogic.Code);
+                    }
                 }
             }
         }
@@ -177,15 +277,18 @@ namespace Scada.Web.Plugins
         /// </summary>
         public void OnUserLogin(int userID)
         {
-            foreach (PluginLogic pluginLogic in plugins)
+            lock (pluginLock)
             {
-                try
+                foreach (PluginLogic pluginLogic in plugins)
                 {
-                    pluginLogic.OnUserLogin(userID);
-                }
-                catch (Exception ex)
-                {
-                    log.WriteException(ex, WebPhrases.ErrorInPlugin, nameof(OnUserLogin), pluginLogic.Code);
+                    try
+                    {
+                        pluginLogic.OnUserLogin(userID);
+                    }
+                    catch (Exception ex)
+                    {
+                        log.WriteException(ex, WebPhrases.ErrorInPlugin, nameof(OnUserLogin), pluginLogic.Code);
+                    }
                 }
             }
         }
@@ -195,15 +298,18 @@ namespace Scada.Web.Plugins
         /// </summary>
         public void OnUserLogout(int userID)
         {
-            foreach (PluginLogic pluginLogic in plugins)
+            lock (pluginLock)
             {
-                try
+                foreach (PluginLogic pluginLogic in plugins)
                 {
-                    pluginLogic.OnUserLogout(userID);
-                }
-                catch (Exception ex)
-                {
-                    log.WriteException(ex, WebPhrases.ErrorInPlugin, nameof(OnUserLogout), pluginLogic.Code);
+                    try
+                    {
+                        pluginLogic.OnUserLogout(userID);
+                    }
+                    catch (Exception ex)
+                    {
+                        log.WriteException(ex, WebPhrases.ErrorInPlugin, nameof(OnUserLogout), pluginLogic.Code);
+                    }
                 }
             }
         }
@@ -211,19 +317,68 @@ namespace Scada.Web.Plugins
         /// <summary>
         /// Calls the GetUserMenuItems method of the specified plugin.
         /// </summary>
-        public List<MenuItem> GetUserMenuItems(PluginLogic pluginLogic, int userID, UserRights userRights)
+        public List<MenuItem> GetUserMenuItems(PluginLogic pluginLogic, User user, UserRights userRights)
         {
             if (pluginLogic == null)
                 throw new ArgumentNullException(nameof(pluginLogic));
 
-            try
+            lock (pluginLock)
             {
-                return pluginLogic.GetUserMenuItems(userID, userRights);
+                try
+                {
+                    return pluginLogic.GetUserMenuItems(user, userRights);
+                }
+                catch (Exception ex)
+                {
+                    log.WriteException(ex, WebPhrases.ErrorInPlugin, nameof(GetUserMenuItems), pluginLogic.Code);
+                    return null;
+                }
             }
-            catch (Exception ex)
-            {
-                log.WriteException(ex, WebPhrases.ErrorInPlugin, nameof(GetUserMenuItems), pluginLogic.Code);
+        }
+
+        /// <summary>
+        /// Calls the FindUser method of the user management plugin.
+        /// </summary>
+        public User FindUser(int userID)
+        {
+            if (FeaturedPlugins.UserManagementPlugin == null)
                 return null;
+
+            lock (pluginLock)
+            {
+                try
+                {
+                    return FeaturedPlugins.UserManagementPlugin.Features?.FindUser(userID);
+                }
+                catch (Exception ex)
+                {
+                    log.WriteException(ex, WebPhrases.ErrorInPlugin,
+                        nameof(FindUser), FeaturedPlugins.UserManagementPlugin.Code);
+                    return null;
+                }
+            }
+        }
+
+        /// <summary>
+        /// Calls the GetUserConfig method of the user management plugin.
+        /// </summary>
+        public UserConfig GetUserConfig(int userID)
+        {
+            if (FeaturedPlugins.UserManagementPlugin == null)
+                return null;
+
+            lock (pluginLock)
+            {
+                try
+                {
+                    return FeaturedPlugins.UserManagementPlugin.Features?.GetUserConfig(userID);
+                }
+                catch (Exception ex)
+                {
+                    log.WriteException(ex, WebPhrases.ErrorInPlugin,
+                        nameof(GetUserConfig), FeaturedPlugins.UserManagementPlugin.Code);
+                    return null;
+                }
             }
         }
     }

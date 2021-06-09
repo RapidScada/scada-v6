@@ -25,6 +25,7 @@
 
 using Microsoft.AspNetCore.Mvc.Filters;
 using Microsoft.Extensions.DependencyInjection;
+using Scada.Data.Entities;
 using Scada.Log;
 using Scada.Web.Services;
 using Scada.Web.TreeView;
@@ -144,7 +145,7 @@ namespace Scada.Web.Plugins
         /// <summary>
         /// Gets menu items available for the specified user.
         /// </summary>
-        public virtual List<MenuItem> GetUserMenuItems(int userID, UserRights userRights)
+        public virtual List<MenuItem> GetUserMenuItems(User user, UserRights userRights)
         {
             return null;
         }

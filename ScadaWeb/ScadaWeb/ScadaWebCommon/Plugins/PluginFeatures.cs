@@ -43,6 +43,7 @@ namespace Scada.Web.Plugins
             CommandScriptUrl = "";
             EventAckScriptUrl = "";
             NotificationScriptUrl = "";
+            UserProfileUrl = "";
         }
 
 
@@ -66,10 +67,16 @@ namespace Scada.Web.Plugins
         /// </summary>
         public string NotificationScriptUrl { get; }
 
+        /// <summary>
+        /// Gets the URL of the user profile page.
+        /// </summary>
+        public string UserProfileUrl { get; }
+
 
         /// <summary>
         /// Finds a user in an external source.
         /// </summary>
+        /// <remarks>The returned used is passed to the PluginLogic.GetUserMenuItems method.</remarks>
         public virtual User FindUser(int userID)
         {
             return null;
@@ -81,14 +88,6 @@ namespace Scada.Web.Plugins
         public virtual UserConfig GetUserConfig(int userID)
         {
             return null;
-        }
-
-        /// <summary>
-        /// Gets the URL of the specified user profile.
-        /// </summary>
-        public virtual string GetUserProfileUrl(int userID)
-        {
-            return "";
         }
     }
 }

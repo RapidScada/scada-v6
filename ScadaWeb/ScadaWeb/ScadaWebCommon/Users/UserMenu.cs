@@ -23,6 +23,7 @@
  * Modified : 2021
  */
 
+using Scada.Data.Entities;
 using Scada.Data.Models;
 using Scada.Lang;
 using Scada.Log;
@@ -117,10 +118,12 @@ namespace Scada.Web.Users
         /// <summary>
         /// Initializes the user menu.
         /// </summary>
-        public void Init(IWebContext webContext, int userID, UserRights userRights)
+        public void Init(IWebContext webContext, User user, UserRights userRights)
         {
             if (webContext == null)
                 throw new ArgumentNullException(nameof(webContext));
+            if (user == null)
+                throw new ArgumentNullException(nameof(user));
             if (userRights == null)
                 throw new ArgumentNullException(nameof(userRights));
 
@@ -130,7 +133,7 @@ namespace Scada.Web.Users
                 foreach (PluginLogic pluginLogic in webContext.PluginHolder.EnumeratePlugins())
                 {
                     MergeMenuItems(MenuItems, 
-                        webContext.PluginHolder.GetUserMenuItems(pluginLogic, userID, userRights), 0);
+                        webContext.PluginHolder.GetUserMenuItems(pluginLogic, user, userRights), 0);
                 }
 
                 // add default menu items
