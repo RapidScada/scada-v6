@@ -117,7 +117,7 @@ namespace Scada.Web.Config
                 if (!File.Exists(fileName))
                     throw new FileNotFoundException(string.Format(CommonPhrases.NamedFileNotFound, fileName));
 
-                XmlDocument xmlDoc = new XmlDocument();
+                XmlDocument xmlDoc = new();
                 xmlDoc.Load(fileName);
                 XmlElement rootElem = xmlDoc.DocumentElement;
 
@@ -133,7 +133,7 @@ namespace Scada.Web.Config
                 if (rootElem.SelectSingleNode("DisplayOptions") is XmlNode displayOptionsNode)
                     DisplayOptions.LoadFromXml(displayOptionsNode);
 
-                HashSet<string> pluginCodes = new HashSet<string>();
+                HashSet<string> pluginCodes = new();
 
                 if (rootElem.SelectSingleNode("Plugins") is XmlNode pluginsNode)
                 {
@@ -177,7 +177,7 @@ namespace Scada.Web.Config
         {
             try
             {
-                XmlDocument xmlDoc = new XmlDocument();
+                XmlDocument xmlDoc = new();
                 XmlDeclaration xmlDecl = xmlDoc.CreateXmlDeclaration("1.0", "utf-8", null);
                 xmlDoc.AppendChild(xmlDecl);
 

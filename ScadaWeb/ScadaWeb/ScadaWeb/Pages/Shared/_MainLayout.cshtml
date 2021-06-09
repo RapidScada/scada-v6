@@ -77,8 +77,8 @@
         @if (displayOptions.ShowMainMenu)
         {
             var menuRenderer = new TreeViewRenderer();
-            List<MenuItem> mainMenu = userContext.Menu.MenuItems;
-            //List<MenuItem> mainMenu = TreeViewExample.GetMainMenu();
+            var mainMenu = userContext.Menu.MenuItems;
+            //var mainMenu = TreeViewExample.GetMainMenu();
 
             <div id="Main_divMainMenu" class="tool-window hidden">@menuRenderer.RenderHtml(mainMenu)</div>
         }
@@ -92,8 +92,8 @@
                 NodeIconUrl = Url.Content("~/images/treeview/document.png")
             });
 
-            List<ViewNode> viewExplorer = userContext.Views.ViewNodes;
-            //List<ViewNode> viewExplorer = TreeViewExample.GetViewExplorer();
+            var viewExplorer = userContext.Views.ViewNodes;
+            //var viewExplorer = TreeViewExample.GetViewExplorer();
 
             <div id="Main_divViewExplorer" class="tool-window hidden">@explorerRenderer.RenderHtml(viewExplorer)</div> 
         }

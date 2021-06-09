@@ -94,20 +94,6 @@ namespace Scada.Web.Plugins
 
 
         /// <summary>
-        /// Performs actions when starting the service.
-        /// </summary>
-        public virtual void OnServiceStart()
-        {
-        }
-
-        /// <summary>
-        /// Performs actions when the service stops.
-        /// </summary>
-        public virtual void OnServiceStop()
-        {
-        }
-
-        /// <summary>
         /// Adds request processing filters.
         /// </summary>
         public virtual void AddFilters(FilterCollection filters)

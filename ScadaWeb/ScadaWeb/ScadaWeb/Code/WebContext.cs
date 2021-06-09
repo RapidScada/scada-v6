@@ -249,7 +249,10 @@ namespace Scada.Web.Code
         {
             LoadAppConfig();
             UpdateCulture();
+
+            InitPlugins();
             PluginHolder.DefineFeaturedPlugins(AppConfig.PluginAssignment);
+            PluginHolder.LoadPluginConfig();
 
             UpdateConfigStep step = UpdateConfigStep.Idle;
             DateTime readBaseDT = DateTime.MinValue;
@@ -362,14 +365,11 @@ namespace Scada.Web.Code
 
             Log.WriteBreak();
             LoadInstanceConfig();
+            LocalizeApp();
 
             Log.WriteAction(Locale.IsRussian ?
                 "Вебстанция {0} запущена" :
                 "Webstation {0} started", WebUtils.AppVersion);
-
-            LocalizeApp();
-            InitPlugins();
-            PluginHolder.OnServiceStart();
         }
 
         /// <summary>
@@ -378,7 +378,6 @@ namespace Scada.Web.Code
         public void FinalizeContext()
         {
             StopConfigUpdate();
-            PluginHolder.OnServiceStop();
             Log.WriteAction(Locale.IsRussian ?
                 "Вебстанция остановлена" :
                 "Webstation is stopped");

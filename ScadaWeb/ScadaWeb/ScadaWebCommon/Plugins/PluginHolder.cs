@@ -189,48 +189,6 @@ namespace Scada.Web.Plugins
         }
 
         /// <summary>
-        /// Calls the OnServiceStart method of the plugins.
-        /// </summary>
-        public void OnServiceStart()
-        {
-            lock (pluginLock)
-            {
-                foreach (PluginLogic pluginLogic in plugins)
-                {
-                    try
-                    {
-                        pluginLogic.OnServiceStart();
-                    }
-                    catch (Exception ex)
-                    {
-                        log.WriteException(ex, WebPhrases.ErrorInPlugin, nameof(OnServiceStart), pluginLogic.Code);
-                    }
-                }
-            }
-        }
-
-        /// <summary>
-        /// Calls the OnServiceStop method of the plugins.
-        /// </summary>
-        public void OnServiceStop()
-        {
-            lock (pluginLock)
-            {
-                foreach (PluginLogic pluginLogic in plugins)
-                {
-                    try
-                    {
-                        pluginLogic.OnServiceStop();
-                    }
-                    catch (Exception ex)
-                    {
-                        log.WriteException(ex, WebPhrases.ErrorInPlugin, nameof(OnServiceStop), pluginLogic.Code);
-                    }
-                }
-            }
-        }
-
-        /// <summary>
         /// Calls the AddFilters method of the plugins.
         /// </summary>
         public void AddFilters(FilterCollection filters)
@@ -267,6 +225,27 @@ namespace Scada.Web.Plugins
                     catch (Exception ex)
                     {
                         log.WriteException(ex, WebPhrases.ErrorInPlugin, nameof(AddServices), pluginLogic.Code);
+                    }
+                }
+            }
+        }
+
+        /// <summary>
+        /// Calls the LoadPluginConfig method of the plugins.
+        /// </summary>
+        public void LoadPluginConfig()
+        {
+            lock (pluginLock)
+            {
+                foreach (PluginLogic pluginLogic in plugins)
+                {
+                    try
+                    {
+                        pluginLogic.LoadPluginConfig();
+                    }
+                    catch (Exception ex)
+                    {
+                        log.WriteException(ex, WebPhrases.ErrorInPlugin, nameof(LoadPluginConfig), pluginLogic.Code);
                     }
                 }
             }
