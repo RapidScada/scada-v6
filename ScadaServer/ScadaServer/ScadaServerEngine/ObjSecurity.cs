@@ -20,7 +20,7 @@
  * 
  * Author   : Mikhail Shiryaev
  * Created  : 2020
- * Modified : 2020
+ * Modified : 2021
  */
 
 using Scada.Data.Const;
@@ -43,9 +43,9 @@ namespace Scada.Server.Engine
         /// <summary>
         /// Represents access rights by objects.
         /// </summary>
-        private class RightsByObj : Dictionary<int, EntityRights> { }
+        private class RightByObj : Dictionary<int, Right> { }
 
-        private Dictionary<int, RightsByObj> rightsMatrix; // the rights, key is a role ID
+        private Dictionary<int, RightByObj> rightMatrix; // the rights, key is a role ID
 
 
         /// <summary>
@@ -53,7 +53,7 @@ namespace Scada.Server.Engine
         /// </summary>
         public ObjSecurity()
         {
-            rightsMatrix = null;
+            rightMatrix = null;
         }
 
 
@@ -107,23 +107,23 @@ namespace Scada.Server.Engine
         /// <summary>
         /// Add rights for the specified role.
         /// </summary>
-        private void AddRoleRights(TableIndex objRight_roleIndex, TableIndex obj_parentObjIndex, 
-            RightsByObj rightsByObj, int roleID)
+        private void AddRoleRight(TableIndex objRight_roleIndex, TableIndex obj_parentObjIndex, 
+            RightByObj rightByObj, int roleID)
         {
             // explicitly defined rights have higher priority
             foreach (ObjRight objRight in objRight_roleIndex.SelectItems(roleID))
             {
-                AddObjRights(rightsByObj, objRight.ObjNum, new EntityRights(objRight));
+                AddObjRight(rightByObj, objRight.ObjNum, new Right(objRight));
             }
 
             // add rights on child objects
             foreach (ObjRight objRight in objRight_roleIndex.SelectItems(roleID))
             {
-                EntityRights entityRights = new EntityRights(objRight);
+                Right right = new Right(objRight);
 
                 foreach (Obj childObj in EnumerateChildObjects(obj_parentObjIndex, objRight.ObjNum))
                 {
-                    AddObjRights(rightsByObj, childObj.ObjNum, entityRights);
+                    AddObjRight(rightByObj, childObj.ObjNum, right);
                 }
             }
         }
@@ -131,10 +131,10 @@ namespace Scada.Server.Engine
         /// <summary>
         /// Add rights for the specified object.
         /// </summary>
-        private void AddObjRights(RightsByObj rightsByObj, int objNum, EntityRights entityRights)
+        private void AddObjRight(RightByObj rightByObj, int objNum, Right right)
         {
-            if (!rightsByObj.ContainsKey(objNum))
-                rightsByObj.Add(objNum, entityRights);
+            if (!rightByObj.ContainsKey(objNum))
+                rightByObj.Add(objNum, right);
         }
 
 
@@ -147,7 +147,7 @@ namespace Scada.Server.Engine
                 throw new ArgumentNullException(nameof(baseDataSet));
 
             // initialize rights matrix
-            rightsMatrix = new Dictionary<int, RightsByObj>(baseDataSet.RoleTable.ItemCount);
+            rightMatrix = new Dictionary<int, RightByObj>(baseDataSet.RoleTable.ItemCount);
 
             // create indexes
             TableIndex roleRef_childRoleIndex = new TableIndex("ChildRoleID", typeof(RoleRef));
@@ -163,13 +163,13 @@ namespace Scada.Server.Engine
             foreach (Role role in baseDataSet.RoleTable.EnumerateItems())
             {
                 int roleID = role.RoleID;
-                RightsByObj rightsByObj = new RightsByObj();
-                rightsMatrix.Add(roleID, rightsByObj);
-                AddRoleRights(objRight_roleIndex, obj_parentObjIndex, rightsByObj, roleID);
+                RightByObj rightByObj = new RightByObj();
+                rightMatrix.Add(roleID, rightByObj);
+                AddRoleRight(objRight_roleIndex, obj_parentObjIndex, rightByObj, roleID);
 
                 foreach (int parentRoleID in EnumerateParentRoleIDs(roleRef_childRoleIndex, roleID))
                 {
-                    AddRoleRights(objRight_roleIndex, obj_parentObjIndex, rightsByObj, parentRoleID);
+                    AddRoleRight(objRight_roleIndex, obj_parentObjIndex, rightByObj, parentRoleID);
                 }
             }
         }
@@ -177,25 +177,25 @@ namespace Scada.Server.Engine
         /// <summary>
         /// Gets the rights of the role on the object.
         /// </summary>
-        public EntityRights GetRights(int roleID, int objID)
+        public Right GetRight(int roleID, int objID)
         {
             switch (roleID)
             {
                 case RoleID.Disabled:
-                    return EntityRights.NoRights;
+                    return Right.Empty;
                 case RoleID.Administrator:
-                    return EntityRights.FullRights;
+                    return Right.Full;
                 case RoleID.Dispatcher:
-                    return EntityRights.FullRights;
+                    return Right.Full;
                 case RoleID.Guest:
-                    return new EntityRights(true, false);
+                    return new Right(true, false);
                 case RoleID.Application:
-                    return EntityRights.FullRights;
+                    return Right.Full;
             }
 
-            return rightsMatrix != null &&
-                rightsMatrix.TryGetValue(roleID, out RightsByObj rightsByObj) && 
-                rightsByObj.TryGetValue(objID, out EntityRights rights) ? rights : EntityRights.NoRights;
+            return rightMatrix != null &&
+                rightMatrix.TryGetValue(roleID, out RightByObj rightsByObj) && 
+                rightsByObj.TryGetValue(objID, out Right right) ? right : Right.Empty;
         }
     }
 }

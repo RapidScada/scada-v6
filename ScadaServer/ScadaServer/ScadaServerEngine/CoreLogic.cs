@@ -1463,7 +1463,7 @@ namespace Scada.Server.Engine
                     OutCnl outCnl = outCnlTag.OutCnl;
                     int objNum = outCnlTag.OutCnl.ObjNum ?? 0;
 
-                    if (!objSecurity.GetRights(user.RoleID, objNum).ControlRight)
+                    if (!objSecurity.GetRight(user.RoleID, objNum).Control)
                     {
                         commandResult.ErrorMessage = string.Format(Locale.IsRussian ?
                             "Недостаточно прав пользователя с ролью {0} на управление объектом {1}" :

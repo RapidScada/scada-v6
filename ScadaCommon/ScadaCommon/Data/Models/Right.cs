@@ -20,7 +20,7 @@
  * 
  * Author   : Mikhail Shiryaev
  * Created  : 2016
- * Modified : 2020
+ * Modified : 2021
  */
 
 using Scada.Data.Entities;
@@ -31,45 +31,45 @@ namespace Scada.Data.Models
     /// Represents rights to access some entity.
     /// <para>Представляет права на доступ к некоторой сущности.</para>
     /// </summary>
-    public struct EntityRights
+    public struct Right
     {
         /// <summary>
         /// Represents an instance that has no rights.
         /// </summary>
-        public static readonly EntityRights NoRights = new EntityRights(false, false);
+        public static readonly Right Empty = new Right(false, false);
         /// <summary>
         /// Represents an instance that has full rights.
         /// </summary>
-        public static readonly EntityRights FullRights = new EntityRights(true, true);
+        public static readonly Right Full = new Right(true, true);
 
 
         /// <summary>
         /// Initializes a new instance of the structure.
         /// </summary>
-        public EntityRights(bool viewRight, bool ctrlRight)
+        public Right(bool viewRight, bool ctrlRight)
         {
-            ViewRight = viewRight;
-            ControlRight = ctrlRight;
+            View = viewRight;
+            Control = ctrlRight;
         }
 
         /// <summary>
         /// Initializes a new instance of the structure.
         /// </summary>
-        public EntityRights(ObjRight objRight)
+        public Right(ObjRight objRight)
         {
-            ViewRight = objRight.View;
-            ControlRight = objRight.Control;
+            View = objRight.View;
+            Control = objRight.Control;
         }
 
 
         /// <summary>
         /// Gets or sets the right to view.
         /// </summary>
-        public bool ViewRight { get; set; }
+        public bool View { get; set; }
 
         /// <summary>
         /// Gets or sets the right to control.
         /// </summary>
-        public bool ControlRight { get; set; }
+        public bool Control { get; set; }
     }
 }
