@@ -37,6 +37,14 @@ namespace Scada.Web.TreeView
         /// <summary>
         /// Initializes a new instance of the class.
         /// </summary>
+        public ViewNode()
+            : this(0)
+        {
+        }
+
+        /// <summary>
+        /// Initializes a new instance of the class.
+        /// </summary>
         public ViewNode(int viewID)
         {
             Parent = null;

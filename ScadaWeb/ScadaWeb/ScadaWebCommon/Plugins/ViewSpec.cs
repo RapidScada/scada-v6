@@ -41,7 +41,7 @@ namespace Scada.Web.Plugins
         /// <summary>
         /// Gets the extension of view files.
         /// </summary>
-        public abstract string FileExt { get; }
+        public abstract string FileExtension { get; }
 
         /// <summary>
         /// Gets the view icon URL.

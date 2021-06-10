@@ -30,6 +30,7 @@ using Scada.Web.Services;
 using Scada.Web.TreeView;
 using System;
 using System.Collections.Generic;
+using System.IO;
 
 namespace Scada.Web.Users
 {
@@ -42,7 +43,7 @@ namespace Scada.Web.Users
         /// <summary>
         /// The view path separator.
         /// </summary>
-        private static readonly char[] PathSeparator = { '\\', '/' };
+        protected static readonly char[] PathSeparator = { '\\', '/' };
 
 
         /// <summary>
@@ -50,9 +51,15 @@ namespace Scada.Web.Users
         /// </summary>
         public UserViews()
         {
+            WebContext = null;
             ViewNodes = new List<ViewNode>();
         }
 
+
+        /// <summary>
+        /// Gets or sets the application context for the current initialization operation.
+        /// </summary>
+        protected IWebContext WebContext { get; set; }
 
         /// <summary>
         /// Gets the root view nodes, which can contain child nodes.
@@ -92,13 +99,13 @@ namespace Scada.Web.Users
             if (pathParts.Length > 1)
             {
                 string shortPath = pathParts[0];
-                ViewNode rootNode = new(0) { Text = shortPath, ShortPath = shortPath };
+                ViewNode rootNode = new() { Text = shortPath, ShortPath = shortPath };
                 ViewNode currentNode = rootNode;
 
                 for (int i = 1, len = pathParts.Length - 1; i < len; i++)
                 {
                     shortPath = pathParts[i];
-                    ViewNode childNode = new(0) { Text = shortPath, ShortPath = shortPath };
+                    ViewNode childNode = new() { Text = shortPath, ShortPath = shortPath };
                     currentNode.ChildNodes.Add(childNode);
                     currentNode = childNode;
                 }
@@ -128,7 +135,17 @@ namespace Scada.Web.Users
 
             if (viewID > 0)
             {
-                ViewSpec viewSpec = null;
+                ViewSpec viewSpec;
+
+                if (viewEntity.ViewTypeID == null)
+                {
+                    viewSpec = WebContext.PluginHolder.GetViewSpecByExt(Path.GetExtension(shortPath));
+                }
+                else
+                {
+                    ViewType viewType = WebContext.BaseDataSet.ViewTypeTable.GetItem(viewEntity.ViewTypeID.Value);
+                    viewSpec = viewType == null ? null : WebContext.PluginHolder.GetViewSpecByCode(viewType.Code);
+                }
 
                 if (viewSpec != null)
                 {
@@ -213,6 +230,8 @@ namespace Scada.Web.Users
 
             try
             {
+                this.WebContext = webContext;
+
                 foreach (View viewEntity in webContext.BaseDataSet.ViewTable.EnumerateItems())
                 {
                     if (!viewEntity.Hidden &&

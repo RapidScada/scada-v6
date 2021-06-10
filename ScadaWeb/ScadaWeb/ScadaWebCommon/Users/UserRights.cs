@@ -40,17 +40,24 @@ namespace Scada.Web.Users
         /// </summary>
         public UserRights()
         {
-            RoleID = Data.Const.RoleID.Disabled;
-            Full = false;
-            ViewAll = false;
-            ControlAll = false;
+            SetToDefault();
         }
 
+
+        /// <summary>
+        /// Gets or sets rights accessed by object.
+        /// </summary>
+        protected RightMatrix.RightByObj RightByObj { get; set; }
 
         /// <summary>
         /// Gets the role ID.
         /// </summary>
         public int RoleID { get; protected set; }
+
+        /// <summary>
+        /// Gets a value indicating whether the role is one of the built-in roles.
+        /// </summary>
+        public bool RoleIsBuiltIn { get; protected set; }
 
         /// <summary>
         /// Gets a value indicating whether a user has full administrator rights.
@@ -67,18 +74,80 @@ namespace Scada.Web.Users
         /// </summary>
         public bool ControlAll { get; protected set; }
 
+        /// <summary>
+        /// Gets the default rights according to the user role.
+        /// </summary>
+        public Right DefaultRight { get; protected set; }
+
+
+        /// <summary>
+        /// Sets the default values.
+        /// </summary>
+        protected void SetToDefault()
+        {
+            RightByObj = null;
+            RoleID = Data.Const.RoleID.Disabled;
+            RoleIsBuiltIn = false;
+            Full = false;
+            ViewAll = false;
+            ControlAll = false;
+            DefaultRight = Right.Empty;
+        }
+
+        /// <summary>
+        /// Defines the rights according to the user role.
+        /// </summary>
+        protected void DefineRightsByRole(int roleID)
+        {
+            SetToDefault();
+            RoleID = roleID;
+
+            switch (RoleID)
+            {
+                case Data.Const.RoleID.Administrator:
+                    RoleIsBuiltIn = true;
+                    Full = true;
+                    ViewAll = true;
+                    ControlAll = true;
+                    break;
+
+                case Data.Const.RoleID.Dispatcher:
+                    RoleIsBuiltIn = true;
+                    ViewAll = true;
+                    ControlAll = true;
+                    break;
+
+                case Data.Const.RoleID.Guest:
+                    RoleIsBuiltIn = true;
+                    ViewAll = true;
+                    break;
+
+                case Data.Const.RoleID.Application:
+                case Data.Const.RoleID.Disabled:
+                    RoleIsBuiltIn = true;
+                    break;
+            }
+
+            DefaultRight = new Right(ViewAll, ControlAll);
+        }
+
 
         /// <summary>
         /// Initializes the user rights.
         /// </summary>
-        public void Init(BaseDataSet baseDataSet, int roleID)
+        public void Init(BaseDataSet baseDataSet, RightMatrix rightMatrix, int roleID)
         {
             if (baseDataSet == null)
                 throw new ArgumentNullException(nameof(baseDataSet));
+            if (rightMatrix == null)
+                throw new ArgumentNullException(nameof(rightMatrix));
 
             try
             {
-                RoleID = roleID;
+                DefineRightsByRole(roleID);
+
+                if (!RoleIsBuiltIn)
+                    RightByObj = rightMatrix.GetRightByObj(roleID);
             }
             catch (Exception ex)
             {
@@ -93,7 +162,16 @@ namespace Scada.Web.Users
         /// </summary>
         public Right GetRightByObj(int objID)
         {
-            return Right.Full;
+            if (RoleIsBuiltIn)
+            {
+                return DefaultRight;
+            }
+            else
+            {
+                return RightByObj != null && RightByObj.TryGetValue(objID, out Right right)
+                    ? right
+                    : Right.Empty;
+            }
         }
     }
 }

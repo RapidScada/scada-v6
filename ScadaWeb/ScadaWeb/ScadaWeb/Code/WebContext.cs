@@ -76,6 +76,7 @@ namespace Scada.Web.Code
             AppDirs = new WebDirs();
             Log = LogStub.Instance;
             BaseDataSet = new BaseDataSet();
+            RightMatrix = new RightMatrix();
             ClientPool = new ScadaClientPool();
             PluginHolder = new PluginHolder();
             CacheExpirationTokenSource = new CancellationTokenSource();
@@ -116,6 +117,11 @@ namespace Scada.Web.Code
         /// Gets the cached configuration database.
         /// </summary>
         public BaseDataSet BaseDataSet { get; private set; }
+
+        /// <summary>
+        /// Gets the access rights.
+        /// </summary>
+        public RightMatrix RightMatrix { get; private set; }
 
         /// <summary>
         /// Gets the client pool.
@@ -281,7 +287,11 @@ namespace Scada.Web.Code
                                 if (ReadBase(out BaseDataSet baseDataSet))
                                 {
                                     step = UpdateConfigStep.Idle;
+                                    RightMatrix rightMatrix = new();
+                                    rightMatrix.Init(baseDataSet);
+
                                     BaseDataSet = baseDataSet;
+                                    RightMatrix = rightMatrix;
                                     IsReadyToLogin = true;
 
                                     if (IsReady)

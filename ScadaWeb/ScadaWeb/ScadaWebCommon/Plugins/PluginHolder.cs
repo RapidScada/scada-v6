@@ -43,7 +43,9 @@ namespace Scada.Web.Plugins
     public class PluginHolder
     {
         private readonly List<PluginLogic> plugins; // the plugins used
-        private readonly Dictionary<string, PluginLogic> pluginMap; // the plugins accessed by code
+        private readonly Dictionary<string, PluginLogic> pluginMap;   // the plugins accessed by code
+        private readonly Dictionary<string, ViewSpec> viewSpecByCode; // the view specifications accessed by code
+        private readonly Dictionary<string, ViewSpec> viewSpecByExt;  // the view specifications accessed by extension
         private readonly object pluginLock;         // synchronizes access to the modules
         private ILog log;                           // the application log
 
@@ -55,6 +57,8 @@ namespace Scada.Web.Plugins
         {
             plugins = new List<PluginLogic>();
             pluginMap = new Dictionary<string, PluginLogic>();
+            viewSpecByCode = new Dictionary<string, ViewSpec>();
+            viewSpecByExt = new Dictionary<string, ViewSpec>();
             pluginLock = new object();
             log = LogStub.Instance;
             FeaturedPlugins = new FeaturedPlugins();
@@ -95,6 +99,22 @@ namespace Scada.Web.Plugins
 
             plugins.Add(pluginLogic);
             pluginMap.Add(pluginLogic.Code, pluginLogic);
+
+            if (pluginLogic.ViewSpecs != null)
+            {
+                foreach (ViewSpec viewSpec in pluginLogic.ViewSpecs)
+                {
+                    if (!string.IsNullOrEmpty(viewSpec.TypeCode) && !viewSpecByCode.ContainsKey(viewSpec.TypeCode))
+                        viewSpecByCode.Add(viewSpec.TypeCode, viewSpec);
+
+                    if (!string.IsNullOrEmpty(viewSpec.FileExtension))
+                    {
+                        string ext = viewSpec.FileExtension.ToLowerInvariant();
+                        if (!viewSpecByExt.ContainsKey(ext))
+                            viewSpecByCode.Add(ext, viewSpec);
+                    }
+                }
+            }
         }
 
         /// <summary>
@@ -145,6 +165,38 @@ namespace Scada.Web.Plugins
             foreach (PluginLogic pluginLogic in plugins)
             {
                 yield return pluginLogic;
+            }
+        }
+
+        /// <summary>
+        /// Gets the view specification by view type code.
+        /// </summary>
+        public ViewSpec GetViewSpecByCode(string viewTypeCode)
+        {
+            if (string.IsNullOrEmpty(viewTypeCode))
+            {
+                return null;
+            }
+            else
+            {
+                viewSpecByCode.TryGetValue(viewTypeCode, out ViewSpec viewSpec);
+                return viewSpec;
+            }
+        }
+
+        /// <summary>
+        /// Gets the view specification by extenstion.
+        /// </summary>
+        public ViewSpec GetViewSpecByExt(string extenstion)
+        {
+            if (string.IsNullOrEmpty(extenstion))
+            {
+                return null;
+            }
+            else
+            {
+                viewSpecByExt.TryGetValue(extenstion.Trim('.').ToLowerInvariant(), out ViewSpec viewSpec);
+                return viewSpec;
             }
         }
 

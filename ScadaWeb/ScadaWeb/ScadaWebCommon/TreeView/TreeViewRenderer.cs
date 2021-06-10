@@ -107,7 +107,6 @@ namespace Scada.Web.TreeView
             const string DataAttrTemplate = " data-{0}='{1}'";
 
             StringBuilder sbAttr = new();
-            sbAttr.AppendFormat(DataAttrTemplate, "script", webTreeNode.Script);
             sbAttr.AppendFormat(DataAttrTemplate, "level", webTreeNode.Level);
 
             if (webTreeNode.DataAttrs != null)

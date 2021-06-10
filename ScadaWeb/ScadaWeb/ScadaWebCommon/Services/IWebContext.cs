@@ -75,6 +75,11 @@ namespace Scada.Web.Services
         BaseDataSet BaseDataSet { get; }
 
         /// <summary>
+        /// Gets the access rights.
+        /// </summary>
+        RightMatrix RightMatrix { get; }
+
+        /// <summary>
         /// Gets the client pool.
         /// </summary>
         ScadaClientPool ClientPool { get; }

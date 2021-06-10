@@ -62,7 +62,7 @@ namespace Scada.Web.Code
             else
             {
                 UserContext userContext = new() { UserEntity = userEntity };
-                userContext.Rights.Init(webContext.BaseDataSet, userEntity.RoleID);
+                userContext.Rights.Init(webContext.BaseDataSet, webContext.RightMatrix, userEntity.RoleID);
                 userContext.Menu.Init(webContext, userEntity, userContext.Rights);
                 userContext.Views.Init(webContext, userContext.Rights);
                 return userContext;
