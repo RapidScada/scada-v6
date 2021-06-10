@@ -39,5 +39,10 @@ namespace Scada.Web
         public const string LogoutPage = "/Logout";
         public const string AboutPage = "/About";
         public const string DefaultStartPage = "/View";
+
+        public static string GetViewUrl(int viewID)
+        {
+            return "/View/" + viewID;
+        }
     }
 }

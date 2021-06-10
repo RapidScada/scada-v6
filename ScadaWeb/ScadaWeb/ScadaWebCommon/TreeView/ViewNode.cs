@@ -23,6 +23,7 @@
  * Modified : 2021
  */
 
+using System;
 using System.Collections;
 using System.Collections.Generic;
 
@@ -31,7 +32,7 @@ namespace Scada.Web.TreeView
     /// <summary>
     /// Represents a node of the view explorer.
     /// </summary>
-    public class ViewNode : IWebTreeNode
+    public class ViewNode : IWebTreeNode, IComparable<ViewNode>
     {
         /// <summary>
         /// Initializes a new instance of the class.
@@ -43,12 +44,13 @@ namespace Scada.Web.TreeView
             IconUrl = "";
             Text = "";
             Url = "";
-            Script = "";
             Level = -1;
-            DataAttrs = new SortedList<string, string>() { { "view", viewID.ToString() } };
+            DataAttrs = new SortedList<string, string>() { { "viewID", viewID.ToString() } };
 
             ViewID = viewID;
-            ViewUrl = "";
+            ViewFrameUrl = "";
+            ShortPath = "";
+            SortOrder = 0;
             ChildNodes = new List<ViewNode>();
         }
 
@@ -85,15 +87,6 @@ namespace Scada.Web.TreeView
         public string Url { get; set; }
 
         /// <summary>
-        /// Gets the script to execute when the node is clicked.
-        /// </summary>
-        /// <remarks>
-        /// The script has a higher priority than the URL.
-        /// It allows to open a page in a new tab using the browser context menu.
-        /// </remarks>
-        public string Script { get; set; }
-
-        /// <summary>
         /// Gets or sets the nesting level.
         /// </summary>
         public int Level { get; set; }
@@ -122,16 +115,53 @@ namespace Scada.Web.TreeView
         /// <summary>
         /// Gets or sets the view frame URL.
         /// </summary>
-        public string ViewUrl { get; set; }
+        public string ViewFrameUrl { get; set; }
 
         /// <summary>
         /// Gets or sets a value indicating whether the node has no associated view.
         /// </summary>
-        public bool IsEmpty => ViewID <= 0 || string.IsNullOrEmpty(ViewUrl);
+        public bool IsEmpty => string.IsNullOrEmpty(ViewFrameUrl);
+
+        /// <summary>
+        /// Gets the short path of the current node.
+        /// </summary>
+        public string ShortPath { get; set; }
+
+        /// <summary>
+        /// Gets or sets the sort order.
+        /// </summary>
+        public int SortOrder { get; set; }
 
         /// <summary>
         /// Gets the child view nodes.
         /// </summary>
         public List<ViewNode> ChildNodes { get; }
+
+
+        /// <summary>
+        /// Compares the current instance with another object of the same type.
+        /// </summary>
+        public int CompareTo(ViewNode other)
+        {
+            if (other == null)
+                return 1;
+
+            if (IsEmpty && string.Equals(ShortPath, other.ShortPath, StringComparison.OrdinalIgnoreCase))
+                return 0;
+
+            int compareResult = SortOrder.CompareTo(other.SortOrder);
+            if (compareResult != 0)
+                return compareResult;
+
+            compareResult = ViewID.CompareTo(other.ViewID);
+            if (compareResult != 0)
+                return compareResult;
+
+            compareResult = string.Compare(Text, other.Text, StringComparison.OrdinalIgnoreCase);
+            if (compareResult != 0)
+                return compareResult;
+
+            return string.Compare(Url, other.Url, StringComparison.OrdinalIgnoreCase);
+        }
     }
 }

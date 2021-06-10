@@ -65,15 +65,6 @@ namespace Scada.Web.TreeView
         string Url { get; }
 
         /// <summary>
-        /// Gets the script to execute when the node is clicked.
-        /// </summary>
-        /// <remarks>
-        /// The script has a higher priority than the URL.
-        /// It allows to open a page in a new tab using the browser context menu.
-        /// </remarks>
-        string Script { get; }
-
-        /// <summary>
         /// Gets or sets the nesting level.
         /// </summary>
         int Level { get; set; }

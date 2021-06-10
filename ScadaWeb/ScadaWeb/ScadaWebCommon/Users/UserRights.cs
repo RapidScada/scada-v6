@@ -93,7 +93,7 @@ namespace Scada.Web.Users
         /// </summary>
         public Right GetRightByObj(int objID)
         {
-            return Right.Empty;
+            return Right.Full;
         }
     }
 }

@@ -94,8 +94,8 @@ namespace Scada.Web.TreeView
                 return new ViewNode(++viewID)
                 {
                     Text = "View " + viewID,
-                    Url = "View.html/" + viewID,
-                    ViewUrl = "Table.html/" + viewID,
+                    Url = WebUrl.GetViewUrl(viewID),
+                    ViewFrameUrl = "/plugins/Table/TableView/" + viewID,
                     Level = level
                 };
             }

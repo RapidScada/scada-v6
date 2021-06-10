@@ -23,9 +23,8 @@
  * Modified : 2021
  */
 
-using Scada.Data.Models;
+using Scada.Data.Entities;
 using Scada.Lang;
-using Scada.Log;
 using Scada.Web.Plugins;
 using Scada.Web.Services;
 using Scada.Web.TreeView;
@@ -40,6 +39,12 @@ namespace Scada.Web.Users
     /// </summary>
     public class UserViews
     {
+        /// <summary>
+        /// The view path separator.
+        /// </summary>
+        private static readonly char[] PathSeparator = { '\\', '/' };
+
+
         /// <summary>
         /// Initializes a new instance of the class.
         /// </summary>
@@ -56,6 +61,147 @@ namespace Scada.Web.Users
 
 
         /// <summary>
+        /// Creates a branch of view nodes corresponding to the view path.
+        /// </summary>
+        protected ViewNode CreateBranch(View viewEntity)
+        {
+            // split view path
+            string[] pathParts;
+            string nodeText;
+
+            if (!string.IsNullOrEmpty(viewEntity.Title) && viewEntity.Title.IndexOfAny(PathSeparator) >= 0)
+            {
+                pathParts = viewEntity.Title.Split(PathSeparator, StringSplitOptions.RemoveEmptyEntries);
+                nodeText = pathParts[^1];
+            }
+            else if (!string.IsNullOrEmpty(viewEntity.Path))
+            {
+                pathParts = viewEntity.Path.Split(PathSeparator, StringSplitOptions.RemoveEmptyEntries);
+                nodeText = ScadaUtils.FirstNonEmpty(viewEntity.Title, pathParts[^1]);
+            }
+            else
+            {
+                pathParts = new string[] { viewEntity.Title };
+                nodeText = viewEntity.Title;
+            }
+
+            if (string.IsNullOrEmpty(nodeText))
+                return null;
+
+            // build branch
+            if (pathParts.Length > 1)
+            {
+                string shortPath = pathParts[0];
+                ViewNode rootNode = new(0) { Text = shortPath, ShortPath = shortPath };
+                ViewNode currentNode = rootNode;
+
+                for (int i = 1, len = pathParts.Length - 1; i < len; i++)
+                {
+                    shortPath = pathParts[i];
+                    ViewNode childNode = new(0) { Text = shortPath, ShortPath = shortPath };
+                    currentNode.ChildNodes.Add(childNode);
+                    currentNode = childNode;
+                }
+
+                currentNode.ChildNodes.Add(CreateViewNode(viewEntity, nodeText, pathParts[^1]));
+                return rootNode;
+            }
+            else
+            {
+                return CreateViewNode(viewEntity, nodeText, pathParts[0]);
+            }
+        }
+
+        /// <summary>
+        /// Creates a view node.
+        /// </summary>
+        protected ViewNode CreateViewNode(View viewEntity, string text, string shortPath)
+        {
+            int viewID = viewEntity.ViewID;
+
+            ViewNode viewNode = new(viewID)
+            {
+                Text = text,
+                ShortPath = shortPath,
+                SortOrder = viewEntity.Ord ?? 0
+            };
+
+            if (viewID > 0)
+            {
+                ViewSpec viewSpec = null;
+
+                if (viewSpec != null)
+                {
+                    viewNode.IconUrl = viewSpec.IconUrl;
+                    viewNode.Url = WebUrl.GetViewUrl(viewID);
+                    viewNode.ViewFrameUrl = viewSpec.GetFrameUrl(viewID);
+                    viewNode.DataAttrs.Add("frameUrl", viewNode.ViewFrameUrl);
+                }
+            }
+
+            return viewNode;
+        }
+
+        /// <summary>
+        /// Merges the view nodes recursively.
+        /// </summary>
+        protected void MergeViewNodes(List<ViewNode> existingNodes, List<ViewNode> addedNodes, int level)
+        {
+            if (addedNodes == null)
+                return;
+
+            addedNodes.Sort();
+
+            foreach (ViewNode addedNode in addedNodes)
+            {
+                addedNode.Level = level;
+                int ind = existingNodes.BinarySearch(addedNode);
+
+                if (ind >= 0)
+                {
+                    // merge
+                    ViewNode existingItem = existingNodes[ind];
+
+                    if (existingItem.ChildNodes.Count > 0 && addedNode.ChildNodes.Count > 0)
+                    {
+                        // add child nodes recursively
+                        MergeViewNodes(existingItem.ChildNodes, addedNode.ChildNodes, level + 1);
+                    }
+                    else
+                    {
+                        // simply add child nodes
+                        addedNode.ChildNodes.Sort();
+                        existingItem.ChildNodes.AddRange(addedNode.ChildNodes);
+                        SetViewNodeLevels(addedNode.ChildNodes, level + 1);
+                    }
+                }
+                else
+                {
+                    // insert the view node and its child nodes
+                    addedNode.ChildNodes.Sort();
+                    existingNodes.Insert(~ind, addedNode);
+                    SetViewNodeLevels(addedNode.ChildNodes, level + 1);
+                }
+            }
+        }
+
+        /// <summary>
+        /// Sets the nesting levels of the view nodes recursively.
+        /// </summary>
+        protected void SetViewNodeLevels(List<ViewNode> nodes, int level)
+        {
+            if (nodes != null)
+            {
+                foreach (ViewNode node in nodes)
+                {
+                    node.Level = level;
+                    SetViewNodeLevels(node.ChildNodes, level + 1);
+                }
+            }
+        }
+
+
+        /// <summary>
         /// Initializes the user views.
         /// </summary>
         public void Init(IWebContext webContext, UserRights userRights)
@@ -67,6 +213,15 @@ namespace Scada.Web.Users
 
             try
             {
+                foreach (View viewEntity in webContext.BaseDataSet.ViewTable.EnumerateItems())
+                {
+                    if (!viewEntity.Hidden &&
+                        userRights.GetRightByObj(viewEntity.ObjNum ?? 0).View &&
+                        CreateBranch(viewEntity) is ViewNode branchRootNode)
+                    {
+                        MergeViewNodes(ViewNodes, new List<ViewNode>() { branchRootNode }, 0);
+                    }
+                }
             }
             catch (Exception ex)
             {

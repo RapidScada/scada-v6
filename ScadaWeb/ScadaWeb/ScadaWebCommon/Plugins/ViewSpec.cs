@@ -55,8 +55,8 @@ namespace Scada.Web.Plugins
 
 
         /// <summary>
-        /// Gets the URL of the view with the specified ID.
+        /// Gets the view frame URL.
         /// </summary>
-        public abstract string GetUrl(int viewID);
+        public abstract string GetFrameUrl(int viewID);
     }
 }

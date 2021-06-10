@@ -86,15 +86,6 @@ namespace Scada.Web.TreeView
         public string Url { get; set; }
 
         /// <summary>
-        /// Gets the script to execute when the node is clicked.
-        /// </summary>
-        /// <remarks>
-        /// The script has a higher priority than the URL.
-        /// It allows to open a page in a new tab using the browser context menu.
-        /// </remarks>
-        public string Script => null;
-
-        /// <summary>
         /// Gets or sets the nesting level.
         /// </summary>
         public int Level { get; set; }
@@ -131,25 +122,17 @@ namespace Scada.Web.TreeView
         public int CompareTo(MenuItem other)
         {
             if (other == null)
-            {
                 return 1;
-            }
-            else
-            {
-                int comp1 = SortOrder.CompareTo(other.SortOrder);
 
-                if (comp1 == 0)
-                {
-                    int comp2 = string.Compare(Text, other.Text, StringComparison.OrdinalIgnoreCase);
-                    return comp2 == 0 
-                        ? string.Compare(Url, other.Url, StringComparison.OrdinalIgnoreCase) 
-                        : comp2;
-                }
-                else
-                {
-                    return comp1;
-                }
-            }
+            int compareResult = SortOrder.CompareTo(other.SortOrder);
+            if (compareResult != 0)
+                return compareResult;
+
+            compareResult = string.Compare(Text, other.Text, StringComparison.OrdinalIgnoreCase);
+            if (compareResult != 0)
+                return compareResult;
+
+            return string.Compare(Url, other.Url, StringComparison.OrdinalIgnoreCase);
         }
         
         /// <summary>
