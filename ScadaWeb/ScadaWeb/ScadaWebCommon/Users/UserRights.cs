@@ -135,10 +135,8 @@ namespace Scada.Web.Users
         /// <summary>
         /// Initializes the user rights.
         /// </summary>
-        public void Init(BaseDataSet baseDataSet, RightMatrix rightMatrix, int roleID)
+        public void Init(RightMatrix rightMatrix, int roleID)
         {
-            if (baseDataSet == null)
-                throw new ArgumentNullException(nameof(baseDataSet));
             if (rightMatrix == null)
                 throw new ArgumentNullException(nameof(rightMatrix));
 
