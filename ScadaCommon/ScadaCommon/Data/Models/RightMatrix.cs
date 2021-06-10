@@ -19,7 +19,7 @@
  * Summary  : Represents access rights structured by roles and objects
  * 
  * Author   : Mikhail Shiryaev
- * Created  : 2021
+ * Created  : 2020
  * Modified : 2021
  */
 

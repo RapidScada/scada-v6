@@ -87,7 +87,7 @@ namespace Scada.Server.Engine
         private List<CnlTag> calcCnlTags;        // the list of the input channel tags of the calculated type
         private Dictionary<int, OutCnlTag> outCnlTags; // the metadata about the output channels accessed by channel number
         private Dictionary<string, User> users;  // the users accessed by name
-        private ObjSecurity objSecurity;         // provides access control
+        private ServerRightMatrix rightMatrix;   // provides access control
         private Calculator calc;                 // provides work with scripts and formulas
         private ModuleHolder moduleHolder;       // holds modules
         private ArchiveHolder archiveHolder;     // holds archives
@@ -123,7 +123,7 @@ namespace Scada.Server.Engine
             calcCnlTags = null;
             outCnlTags = null;
             users = null;
-            objSecurity = null;
+            rightMatrix = null;
             calc = null;
             moduleHolder = null;
             archiveHolder = null;
@@ -197,7 +197,7 @@ namespace Scada.Server.Engine
             InitCnlTags();
             InitOutCnlTags();
             InitUsers();
-            InitObjSecurity();
+            InitRightMatrix();
 
             if (!InitCalculator())
                 return false;
@@ -351,12 +351,12 @@ namespace Scada.Server.Engine
         }
 
         /// <summary>
-        /// Initializes the object security instance.
+        /// Initializes the right matrix.
         /// </summary>
-        private void InitObjSecurity()
+        private void InitRightMatrix()
         {
-            objSecurity = new ObjSecurity();
-            objSecurity.Init(BaseDataSet);
+            rightMatrix = new ServerRightMatrix();
+            rightMatrix.Init(BaseDataSet);
         }
 
         /// <summary>
@@ -1463,7 +1463,7 @@ namespace Scada.Server.Engine
                     OutCnl outCnl = outCnlTag.OutCnl;
                     int objNum = outCnlTag.OutCnl.ObjNum ?? 0;
 
-                    if (!objSecurity.GetRight(user.RoleID, objNum).Control)
+                    if (!rightMatrix.GetRight(user.RoleID, objNum).Control)
                     {
                         commandResult.ErrorMessage = string.Format(Locale.IsRussian ?
                             "Недостаточно прав пользователя с ролью {0} на управление объектом {1}" :
