@@ -143,6 +143,14 @@ namespace Scada.Web.Plugins
         }
 
         /// <summary>
+        /// Determines whether the specified plugin is presented.
+        /// </summary>
+        public bool ContainsPlugin(string pluginCode)
+        {
+            return !string.IsNullOrEmpty(pluginCode) && pluginMap.ContainsKey(pluginCode);
+        }
+
+        /// <summary>
         /// Finds and sets the featured plugins according to the specified configuration.
         /// </summary>
         public void DefineFeaturedPlugins(PluginAssignment pluginAssignment)
@@ -247,6 +255,48 @@ namespace Scada.Web.Plugins
         }
 
         /// <summary>
+        /// Calls the LoadDictionaries method of the plugins.
+        /// </summary>
+        public void LoadDictionaries()
+        {
+            lock (pluginLock)
+            {
+                foreach (PluginLogic pluginLogic in plugins)
+                {
+                    try
+                    {
+                        pluginLogic.LoadDictionaries();
+                    }
+                    catch (Exception ex)
+                    {
+                        log.WriteException(ex, WebPhrases.ErrorInPlugin, nameof(LoadDictionaries), pluginLogic.Code);
+                    }
+                }
+            }
+        }
+
+        /// <summary>
+        /// Calls the LoadConfig method of the plugins.
+        /// </summary>
+        public void LoadConfig()
+        {
+            lock (pluginLock)
+            {
+                foreach (PluginLogic pluginLogic in plugins)
+                {
+                    try
+                    {
+                        pluginLogic.LoadConfig();
+                    }
+                    catch (Exception ex)
+                    {
+                        log.WriteException(ex, WebPhrases.ErrorInPlugin, nameof(LoadConfig), pluginLogic.Code);
+                    }
+                }
+            }
+        }
+
+        /// <summary>
         /// Calls the AddFilters method of the plugins.
         /// </summary>
         public void AddFilters(FilterCollection filters)
@@ -283,27 +333,6 @@ namespace Scada.Web.Plugins
                     catch (Exception ex)
                     {
                         log.WriteException(ex, WebPhrases.ErrorInPlugin, nameof(AddServices), pluginLogic.Code);
-                    }
-                }
-            }
-        }
-
-        /// <summary>
-        /// Calls the LoadPluginConfig method of the plugins.
-        /// </summary>
-        public void LoadPluginConfig()
-        {
-            lock (pluginLock)
-            {
-                foreach (PluginLogic pluginLogic in plugins)
-                {
-                    try
-                    {
-                        pluginLogic.LoadPluginConfig();
-                    }
-                    catch (Exception ex)
-                    {
-                        log.WriteException(ex, WebPhrases.ErrorInPlugin, nameof(LoadPluginConfig), pluginLogic.Code);
                     }
                 }
             }

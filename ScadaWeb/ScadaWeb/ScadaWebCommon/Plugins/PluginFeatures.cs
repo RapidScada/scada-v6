@@ -50,27 +50,27 @@ namespace Scada.Web.Plugins
         /// <summary>
         /// Gets the URL of the chart script.
         /// </summary>
-        public string ChartScriptUrl { get; }
+        public string ChartScriptUrl { get; init; }
 
         /// <summary>
         /// Gets the URL of the command script.
         /// </summary>
-        public string CommandScriptUrl { get; }
+        public string CommandScriptUrl { get; init; }
 
         /// <summary>
         /// Gets the URL of the event acknowledgement script.
         /// </summary>
-        public string EventAckScriptUrl { get; }
+        public string EventAckScriptUrl { get; init; }
 
         /// <summary>
         /// Gets the URL of the notification script.
         /// </summary>
-        public string NotificationScriptUrl { get; }
+        public string NotificationScriptUrl { get; init; }
 
         /// <summary>
         /// Gets the URL of the user profile page.
         /// </summary>
-        public string UserProfileUrl { get; }
+        public string UserProfileUrl { get; init; }
 
 
         /// <summary>

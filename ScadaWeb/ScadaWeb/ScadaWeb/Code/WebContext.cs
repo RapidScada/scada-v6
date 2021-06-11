@@ -57,6 +57,7 @@ namespace Scada.Web.Code
 
         private Thread configThread;                // the configuration update thread
         private volatile bool terminated;           // necessary to stop the thread
+        private volatile bool pluginsReady;         // plugins are loaded
         private volatile bool configUpdateRequired; // indicates that the configuration should be updated
 
 
@@ -67,6 +68,7 @@ namespace Scada.Web.Code
         {
             configThread = null;
             terminated = false;
+            pluginsReady = false;
             configUpdateRequired = false;
 
             IsReady = false;
@@ -228,14 +230,13 @@ namespace Scada.Web.Code
         /// <summary>
         /// Stops the configuration update thread.
         /// </summary>
-        private void StopConfigUpdate()
+        private void StopProcessing()
         {
             try
             {
                 if (configThread != null)
                 {
                     terminated = true;
-                    configUpdateRequired = false;
                     configThread.Join();
                     configThread = null;
                 }
@@ -258,7 +259,9 @@ namespace Scada.Web.Code
 
             InitPlugins();
             PluginHolder.DefineFeaturedPlugins(AppConfig.PluginAssignment);
-            PluginHolder.LoadPluginConfig();
+            PluginHolder.LoadDictionaries();
+            PluginHolder.LoadConfig();
+            pluginsReady = true;
 
             UpdateConfigStep step = UpdateConfigStep.Idle;
             DateTime readBaseDT = DateTime.MinValue;
@@ -387,7 +390,7 @@ namespace Scada.Web.Code
         /// </summary>
         public void FinalizeContext()
         {
-            StopConfigUpdate();
+            StopProcessing();
             Log.WriteAction(Locale.IsRussian ?
                 "Вебстанция остановлена" :
                 "Webstation is stopped");
@@ -395,18 +398,19 @@ namespace Scada.Web.Code
         }
 
         /// <summary>
-        /// Starts a process of updating the application configuration and configuration database.
+        /// Starts a background process of configuration update.
         /// </summary>
-        public void StartConfigUpdate()
+        public void StartProcessing()
         {
             try
             {
-                configUpdateRequired = true;
-                IsReadyToLogin = false;
-
                 if (configThread == null)
                 {
                     terminated = false;
+                    pluginsReady = false;
+                    configUpdateRequired = true;
+                    IsReadyToLogin = false;
+
                     configThread = new Thread(ExecuteConfigUpdate);
                     configThread.Start();
                 }
@@ -416,6 +420,17 @@ namespace Scada.Web.Code
                 Log.WriteException(ex, Locale.IsRussian ?
                     "Ошибка при запуске обновления конфигурации" :
                     "Error starting configuration update");
+            }
+        }
+
+        /// <summary>
+        /// Waiting for plugins to be initialized.
+        /// </summary>
+        public void WaitForPlugins()
+        {
+            while (!terminated && !pluginsReady)
+            {
+                Thread.Sleep(ScadaUtils.ThreadDelay);
             }
         }
     }

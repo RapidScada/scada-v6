@@ -16,7 +16,7 @@
  * 
  * Product  : Rapid SCADA
  * Module   : ScadaWebCommon
- * Summary  : Represents the base class for web plugin logic
+ * Summary  : Represents the base class for plugin logic
  * 
  * Author   : Mikhail Shiryaev
  * Created  : 2021
@@ -36,8 +36,8 @@ using System.Collections.Generic;
 namespace Scada.Web.Plugins
 {
     /// <summary>
-    /// Represents the base class for web plugin logic.
-    /// <para>Представляет базовый класс логики веб-плагина.</para>
+    /// Represents the base class for plugin logic.
+    /// <para>Представляет базовый класс логики плагина.</para>
     /// </summary>
     public abstract class PluginLogic
     {
@@ -94,6 +94,20 @@ namespace Scada.Web.Plugins
 
 
         /// <summary>
+        /// Loads language dictionaries.
+        /// </summary>
+        public virtual void LoadDictionaries()
+        {
+        }
+
+        /// <summary>
+        /// Loads configuration.
+        /// </summary>
+        public virtual void LoadConfig()
+        {
+        }
+
+        /// <summary>
         /// Adds request processing filters.
         /// </summary>
         public virtual void AddFilters(FilterCollection filters)
@@ -104,13 +118,6 @@ namespace Scada.Web.Plugins
         /// Adds services to the DI container.
         /// </summary>
         public virtual void AddServices(IServiceCollection services)
-        {
-        }
-
-        /// <summary>
-        /// Loads or reloads the plugin configuration.
-        /// </summary>
-        public virtual void LoadPluginConfig()
         {
         }
 
