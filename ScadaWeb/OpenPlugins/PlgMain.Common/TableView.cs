@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Scada.Web.Plugins.PlgMain
 {
-    public class Class1
+    public class TableView
     {
     }
 }
