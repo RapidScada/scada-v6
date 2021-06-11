@@ -57,7 +57,7 @@ namespace Scada.Web.Users
 
 
         /// <summary>
-        /// Gets or sets the application context for the current initialization operation.
+        /// Gets or sets the web application context for the current initialization operation.
         /// </summary>
         protected IWebContext WebContext { get; set; }
 

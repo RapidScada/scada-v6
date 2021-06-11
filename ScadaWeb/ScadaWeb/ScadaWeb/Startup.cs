@@ -26,11 +26,16 @@
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Mvc.ApplicationParts;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using Scada.Lang;
 using Scada.Web.Code;
 using Scada.Web.Services;
+using System;
+using System.IO;
+using System.Reflection;
 
 namespace Scada.Web
 {
@@ -50,6 +55,30 @@ namespace Scada.Web
 
         public IWebContext WebContext { get; }
 
+        // Loads plugins to integrate their pages into the web application.
+        private void ConfigureApplicationParts(ApplicationPartManager apm)
+        {
+            foreach (string fileName in
+                Directory.EnumerateFiles(WebContext.AppDirs.ExeDir, "Plg*.dll", SearchOption.TopDirectoryOnly))
+            {
+                try
+                {
+                    Assembly assembly = Assembly.LoadFrom(fileName);
+
+                    if (fileName.EndsWith(".Views.dll"))
+                        apm.ApplicationParts.Add(new CompiledRazorAssemblyPart(assembly));
+                    else
+                        apm.ApplicationParts.Add(new AssemblyPart(assembly));
+                }
+                catch (Exception ex)
+                {
+                    WebContext.Log.WriteException(ex, Locale.IsRussian ?
+                        "Ошибка при загрузке части приложения из файла {0}" :
+                        "Error loading application part from file {0}", fileName);
+                }
+            }
+        }
+
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
@@ -65,7 +94,8 @@ namespace Scada.Web
                 {
                     options.Filters.Add(typeof(CheckReadyPageFilter));
                     WebContext.PluginHolder.AddFilters(options.Filters);
-                });
+                })
+                .ConfigureApplicationPartManager(ConfigureApplicationParts);
 
             services
                 .AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)

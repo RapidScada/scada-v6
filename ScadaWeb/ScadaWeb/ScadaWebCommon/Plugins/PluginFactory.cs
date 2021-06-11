@@ -50,7 +50,7 @@ namespace Scada.Web.Plugins
             {
                 if (File.Exists(fileName))
                 {
-                    Assembly assembly = Assembly.LoadFile(fileName);
+                    Assembly assembly = Assembly.LoadFrom(fileName);
                     Type type = assembly.GetType(typeName, true);
                     pluginLogic = (PluginLogic)Activator.CreateInstance(type, webContext);
 

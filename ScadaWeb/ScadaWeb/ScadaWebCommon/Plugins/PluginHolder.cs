@@ -219,9 +219,12 @@ namespace Scada.Web.Plugins
 
             foreach (PluginLogic pluginLogic in plugins)
             {
-                foreach (string url in pluginLogic.ScriptUrls)
+                if (pluginLogic.ScriptUrls != null)
                 {
-                    yield return url;
+                    foreach (string url in pluginLogic.ScriptUrls)
+                    {
+                        yield return url;
+                    }
                 }
             }
         }
@@ -233,9 +236,12 @@ namespace Scada.Web.Plugins
         {
             foreach (PluginLogic pluginLogic in plugins)
             {
-                foreach (string url in pluginLogic.StyleUrls)
+                if (pluginLogic.StyleUrls != null)
                 {
-                    yield return url;
+                    foreach (string url in pluginLogic.StyleUrls)
+                    {
+                        yield return url;
+                    }
                 }
             }
         }

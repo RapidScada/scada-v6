@@ -1,6 +1,10 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
 
-namespace PlgMain.Common
+namespace Scada.Web.Plugins.PlgMain
 {
     public class Class1
     {
