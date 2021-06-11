@@ -304,9 +304,9 @@ class NotifPanel {
         }
 
         let soundPath = rootPath + "sounds/";
-        this._audio.info = $(`<audio preload src="${soundPath}notif_info.mp3" />`).appendTo(this.panelElem);
-        this._audio.warning = $(`<audio preload loop src="${soundPath}notif_warning.mp3" />`).appendTo(this.panelElem);
-        this._audio.error = $(`<audio preload loop src="${soundPath}notif_error.mp3" />`).appendTo(this.panelElem);
+        this._audio.info = $(`<audio preload src="${soundPath}notif-info.mp3" />`).appendTo(this.panelElem);
+        this._audio.warning = $(`<audio preload loop src="${soundPath}notif-warning.mp3" />`).appendTo(this.panelElem);
+        this._audio.error = $(`<audio preload loop src="${soundPath}notif-error.mp3" />`).appendTo(this.panelElem);
 
         this._bindEvents();
     }
