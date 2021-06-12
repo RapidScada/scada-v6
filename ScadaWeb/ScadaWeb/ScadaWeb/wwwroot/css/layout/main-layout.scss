@@ -149,6 +149,12 @@ body {
         .node {
             padding: 3px 10px;
 
+            &.selected,
+            &.selected:hover {
+                background-color: $main-menu-item-selected-back-color;
+                color: $main-menu-item-selected-fore-color;
+            }
+
             &.disabled {
                 color: $main-menu-fore-color-dark;
             }

@@ -245,6 +245,9 @@ body:not(.full-screen) #Main_spanExitFullscreenBtn {
     font-size: 14px; }
     #Main_divLeftPanel .tree-view .node {
       padding: 3px 10px; }
+      #Main_divLeftPanel .tree-view .node.selected, #Main_divLeftPanel .tree-view .node.selected:hover {
+        background-color: #0073aa;
+        color: white; }
       #Main_divLeftPanel .tree-view .node.disabled {
         color: #9ca1a6; }
       #Main_divLeftPanel .tree-view .node:hover {
