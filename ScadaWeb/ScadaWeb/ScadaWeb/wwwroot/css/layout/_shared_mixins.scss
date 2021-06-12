@@ -1,0 +1,34 @@
+﻿@import '_shared-vars';
+
+@mixin link-colored {
+    a {
+        &,
+        &:active,
+        &:focus,
+        &:visited {
+            color: $link-fore-color;
+            outline: 0;
+            text-decoration: none;
+        }
+
+        &:hover {
+            color: $link-hover-fore-color;
+            outline: 0;
+            text-decoration: none;
+        }
+    }
+}
+
+@mixin link-no-decor {
+    a {
+        &,
+        &:active,
+        &:focus,
+        &:hover,
+        &:visited {
+            color: inherit;
+            outline: 0;
+            text-decoration: none;
+        }
+    }
+}

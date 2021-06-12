@@ -10,5 +10,9 @@
   {
     "outputFile": "wwwroot/css/layout/main-layout.css",
     "inputFile": "wwwroot/css/layout/main-layout.scss"
+  },
+  {
+    "outputFile": "wwwroot/css/pages/about.css",
+    "inputFile": "wwwroot/css/pages/about.scss"
   }
 ]

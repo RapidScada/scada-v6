@@ -38,6 +38,7 @@ namespace Scada.Lang
         public static string ServerAppName { get; private set; }
         public static string CommAppName { get; private set; }
         public static string WebAppName { get; private set; }
+        public static string WebsiteUrl { get; private set; }
         public static string UnhandledException { get; private set; }
         public static string ExecutionImpossible { get; private set; }
         public static string StartLogic { get; private set; }
@@ -126,6 +127,7 @@ namespace Scada.Lang
             ServerAppName = dict["ServerAppName"];
             CommAppName = dict["CommAppName"];
             WebAppName = dict["WebAppName"];
+            WebsiteUrl = dict["WebsiteUrl"];
             UnhandledException = dict["UnhandledException"];
             ExecutionImpossible = dict["ExecutionImpossible"];
             StartLogic = dict["StartLogic"];

@@ -1,0 +1,11 @@
+﻿@import '../layout/_shared-vars';
+
+#divContainer {
+    font-family: $title-font-family;
+    height: 100%;
+
+    span {
+        position: relative;
+        top: -1.5rem;
+    }
+}

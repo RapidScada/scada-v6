@@ -20,9 +20,11 @@
     <Phrase key="Unmute">Включить звук</Phrase>
     <Phrase key="AckAll">Подтвердить все</Phrase>
   </Dictionary>
+  <Dictionary key="Scada.Web.Pages.About">
+    <Phrase key="PageTitle">О приложении</Phrase>
+  </Dictionary>
   <Dictionary key="Scada.Web.Pages.Login">
     <Phrase key="PageTitle">Вход в систему</Phrase>
-    <Phrase key="WebsiteUrl">https://rapidscada.ru</Phrase>
     <Phrase key="NotReady">Приложение не готово. Повторите попытку позже.</Phrase>
     <Phrase key="lblUsername">Имя пользователя</Phrase>
     <Phrase key="lblPassword">Пароль</Phrase>

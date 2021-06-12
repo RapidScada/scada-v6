@@ -1,15 +1,16 @@
 ﻿@import '_shared-vars';
+@import '_shared_mixins';
 
-.no-link-decor a {
-    &,
-    &:active,
-    &:focus,
-    &:hover,
-    &:visited {
-        color: inherit;
-        outline: 0;
-        text-decoration: none;
-    }
+body {
+    @include link-colored;
+}
+
+.link-colored {
+    @include link-colored;
+}
+
+.link-no-decor {
+    @include link-no-decor;
 }
 
 .hidden {

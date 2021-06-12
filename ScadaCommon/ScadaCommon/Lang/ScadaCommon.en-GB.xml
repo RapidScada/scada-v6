@@ -5,6 +5,7 @@
     <Phrase key="ServerAppName">Server</Phrase>
     <Phrase key="CommAppName">Communicator</Phrase>
     <Phrase key="WebAppName">Webstation</Phrase>
+    <Phrase key="WebsiteUrl">https://rapidscada.org</Phrase>
     <Phrase key="UnhandledException">Unhandled exception</Phrase>
     <Phrase key="ExecutionImpossible">Normal program execution is impossible</Phrase>
     <Phrase key="StartLogic">Start logic processing</Phrase>

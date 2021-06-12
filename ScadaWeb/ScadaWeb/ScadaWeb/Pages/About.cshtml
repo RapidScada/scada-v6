@@ -1,0 +1,18 @@
+﻿@page
+@model AboutModel
+@{
+    Layout = "_MainLayout";
+    dynamic dict = Locale.GetDictionary("Scada.Web.Pages.About");
+    ViewBag.Title = dict.PageTitle;
+    var version = System.Reflection.Assembly.GetExecutingAssembly().GetName().Version;
+}
+
+@section Styles {
+    <link href="~/css/pages/about.min.css" rel="stylesheet" asp-append-version="true" />
+}
+
+<div id="divContainer" class="d-flex align-items-center justify-content-center">
+    <div>
+        <a href="@CommonPhrases.WebsiteUrl" target="_blank" class="fs-1 mx-2">@CommonPhrases.WebAppName</a><span>@version</span>
+    </div>
+</div>

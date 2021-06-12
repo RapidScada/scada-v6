@@ -22,9 +22,11 @@
     <Phrase key="Unmute">Unmute</Phrase>
     <Phrase key="AckAll">Ack All</Phrase>
   </Dictionary>
+  <Dictionary key="Scada.Web.Pages.About">
+    <Phrase key="PageTitle">About</Phrase>
+  </Dictionary>
   <Dictionary key="Scada.Web.Pages.Login">
     <Phrase key="PageTitle">Login</Phrase>
-    <Phrase key="WebsiteUrl">https://rapidscada.org</Phrase>
     <Phrase key="NotReady">The application is not ready. Try again later.</Phrase>
     <Phrase key="lblUsername">Username</Phrase>
     <Phrase key="lblPassword">Password</Phrase>

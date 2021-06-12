@@ -138,6 +138,11 @@ body:not(.header-visible) .notif-panel {
 .notif-bell.error {
   color: #dc3545; }
 
+body a, body a:active, body a:focus, body a:hover, body a:visited {
+  color: inherit;
+  outline: 0;
+  text-decoration: none; }
+
 body.header-visible {
   padding-top: 30px; }
 
@@ -291,4 +296,6 @@ body.left-panel-visible #Main_divLeftPanel {
 
 /********** Others **********/
 #Main_divContent {
+  background-color: #f8f9fa;
+  color: #212529;
   overflow: auto; }
