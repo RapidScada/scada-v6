@@ -1,8 +1,9 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <ScadaWebDictionaries>
-  <Dictionary key="Scada.Web.Pages">
+  <Dictionary key="Scada.Web">
     <Phrase key="CorrectErrors">Пожалуйста исправьте следующие ошибки:</Phrase>
     <Phrase key="ClientError">Ошибка при взаимодействии с сервером</Phrase>
+    <Phrase key="UnknownUsername">Неизвестный</Phrase>
   </Dictionary>
   <Dictionary key="Scada.Web.Pages.Shared._MainLayout">
     <Phrase key="spanMenuBtn_ToolTip">Показать/скрыть меню</Phrase>
@@ -30,6 +31,12 @@
     <Phrase key="lblPassword">Пароль</Phrase>
     <Phrase key="lblRememberMe">Запомнить меня</Phrase>
     <Phrase key="btnLogin">Войти</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Web.Pages.UserProfile">
+    <Phrase key="PageTitle">Профиль пользователя</Phrase>
+    <Phrase key="lblUserID">Идентификатор:</Phrase>
+    <Phrase key="lblUsername">Имя пользователя:</Phrase>
+    <Phrase key="lblRole">Роль:</Phrase>
   </Dictionary>
   <Dictionary key="Scada.Web.TreeView.MenuItem">
     <Phrase key="ReportsMenuItem">Отчёты</Phrase>

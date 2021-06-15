@@ -38,9 +38,10 @@ namespace Scada.Web.Lang
         // Webstation Application
         public static string ErrorInPlugin { get; private set; }
 
-        // Scada.Web.Pages
+        // Scada.Web
         public static string CorrectErrors { get; private set; }
         public static string ClientError { get; private set; }
+        public static string UnknownUsername { get; private set; }
 
         // Scada.Web.TreeView.MenuItem
         public static string ReportsMenuItem { get; private set; }
@@ -63,9 +64,10 @@ namespace Scada.Web.Lang
             }
 
             // load phrases that are used in the multilingual user interface from dictionaries
-            LocaleDict dict = Locale.GetDictionary("Scada.Web.Pages");
+            LocaleDict dict = Locale.GetDictionary("Scada.Web");
             CorrectErrors = dict["CorrectErrors"];
             ClientError = dict["ClientError"];
+            UnknownUsername = dict["UnknownUsername"];
 
             dict = Locale.GetDictionary("Scada.Web.TreeView.MenuItem");
             ReportsMenuItem = dict["ReportsMenuItem"];

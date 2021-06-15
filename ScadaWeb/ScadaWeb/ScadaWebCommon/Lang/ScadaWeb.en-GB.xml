@@ -1,8 +1,9 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <ScadaWebDictionaries>
-  <Dictionary key="Scada.Web.Pages">
+  <Dictionary key="Scada.Web">
     <Phrase key="CorrectErrors">Please correct the following errors:</Phrase>
     <Phrase key="ClientError">Error communicating with the server</Phrase>
+    <Phrase key="UnknownUsername">Unknown</Phrase>
     <Phrase key=""></Phrase>
   </Dictionary>
   <Dictionary key="Scada.Web.Pages.Shared._MainLayout">
@@ -32,6 +33,12 @@
     <Phrase key="lblPassword">Password</Phrase>
     <Phrase key="lblRememberMe">Remember me</Phrase>
     <Phrase key="btnLogin">Login</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Web.Pages.UserProfile">
+    <Phrase key="PageTitle">User Profile</Phrase>
+    <Phrase key="lblUserID">User ID:</Phrase>
+    <Phrase key="lblUsername">Username:</Phrase>
+    <Phrase key="lblRole">Role:</Phrase>
   </Dictionary>
   <Dictionary key="Scada.Web.TreeView.MenuItem">
     <Phrase key="ReportsMenuItem">Reports</Phrase>

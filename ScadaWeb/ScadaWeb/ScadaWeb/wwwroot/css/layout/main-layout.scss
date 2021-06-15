@@ -227,9 +227,10 @@ body {
     }
 }
 
-/********** Others **********/
+/********** Content **********/
 #Main_divContent {
     background-color: $content-back-color;
     color: $content-fore-color;
     overflow: auto;
+    padding: 20px;
 }

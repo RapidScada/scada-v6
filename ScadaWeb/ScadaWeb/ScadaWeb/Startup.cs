@@ -104,7 +104,9 @@ namespace Scada.Web
                 .AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
                 .AddCookie(options =>
                 {
-                    options.LoginPath = "/Login";
+                    options.AccessDeniedPath = "/AccessDenied";
+                    options.LoginPath = WebUrl.LoginPage;
+                    options.LogoutPath = WebUrl.LogoutPage;
                 });
 
             services

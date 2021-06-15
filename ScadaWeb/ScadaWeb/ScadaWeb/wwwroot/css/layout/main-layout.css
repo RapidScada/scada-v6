@@ -297,8 +297,9 @@ body.left-panel-visible #Main_divLeftPanel {
 #Main_divMainMenu .node:not([data-level="0"]) {
   color: #9ca1a6; }
 
-/********** Others **********/
+/********** Content **********/
 #Main_divContent {
   background-color: #f8f9fa;
   color: #212529;
-  overflow: auto; }
+  overflow: auto;
+  padding: 20px; }

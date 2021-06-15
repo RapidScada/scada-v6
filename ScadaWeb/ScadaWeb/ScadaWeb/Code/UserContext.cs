@@ -25,6 +25,7 @@
 
 using Scada.Data.Const;
 using Scada.Data.Entities;
+using Scada.Web.Lang;
 using Scada.Web.Services;
 using Scada.Web.Users;
 
@@ -44,7 +45,7 @@ namespace Scada.Web.Code
         {
             UserID = 0,
             Enabled = false,
-            Name = "Unknown",
+            Name = WebPhrases.UnknownUsername,
             RoleID = RoleID.Disabled
         };
 

@@ -2,8 +2,33 @@
 @model Scada.Web.Pages.UserProfileModel
 @{
     Layout = "_MainLayout";
-    ViewBag.Title = "User Profile";
+    dynamic dict = Locale.GetDictionary("Scada.Web.Pages.UserProfile");
+    ViewBag.Title = dict.PageTitle;
 }
 
-<h1>User Profile</h1>
-<p>User ID = @Model.UserID</p>
+@section Styles {
+    <link href="~/css/pages/user-profile.min.css" rel="stylesheet" asp-append-version="true" />
+}
+
+<h1>@dict.PageTitle</h1>
+
+<div id="divUserInfo">
+    <div class="row">
+        <label id="lblUserID" for="txtUserID" class="col-sm-3 col-form-label">@dict.lblUserID</label>
+        <div class="col-sm-9">
+            <input id="txtUserID" type="text" class="form-control-plaintext" readonly value="@Model.UserID">
+        </div>
+    </div>
+    <div class="row">
+        <label id="lblUsername" for="txtUsername" class="col-sm-3 col-form-label">@dict.lblUsername</label>
+        <div class="col-sm-9">
+            <input id="txtUsername" type="text" class="form-control-plaintext" readonly value="@Model.Username">
+        </div>
+    </div>
+    <div class="row">
+        <label id="lblRole" for="txtRole" class="col-sm-3 col-form-label">@dict.lblRole</label>
+        <div class="col-sm-9">
+            <input id="txtRole" type="text" class="form-control-plaintext" readonly value="@Model.RoleName">
+        </div>
+    </div>
+</div>
