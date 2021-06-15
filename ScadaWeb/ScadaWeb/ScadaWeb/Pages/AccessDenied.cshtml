@@ -1,0 +1,11 @@
+﻿@page
+@model Scada.Web.Pages.AccessDeniedModel
+@{
+    dynamic dict = Locale.GetDictionary("Scada.Web.Pages.AccessDenied");
+    ViewBag.Title = dict.PageTitle;
+}
+
+<div class="container">
+    <h1 class="text-danger">@dict.PageTitle</h1>
+    <h2 class="text-danger">@dict.ErrorMessage</h2>
+</div>

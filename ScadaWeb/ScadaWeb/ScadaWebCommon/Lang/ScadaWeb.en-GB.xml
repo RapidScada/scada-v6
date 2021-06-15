@@ -26,6 +26,14 @@
   <Dictionary key="Scada.Web.Pages.About">
     <Phrase key="PageTitle">About</Phrase>
   </Dictionary>
+  <Dictionary key="Scada.Web.Pages.AccessDenied">
+    <Phrase key="PageTitle">Access Denied</Phrase>
+    <Phrase key="ErrorMessage">You have insufficient rights to access the requested resource.</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Web.Pages.Error">
+    <Phrase key="PageTitle">Error</Phrase>
+    <Phrase key="ErrorMessage">An error occurred while processing your request.</Phrase>
+  </Dictionary>
   <Dictionary key="Scada.Web.Pages.Login">
     <Phrase key="PageTitle">Login</Phrase>
     <Phrase key="NotReady">The application is not ready. Try again later.</Phrase>

@@ -24,6 +24,14 @@
   <Dictionary key="Scada.Web.Pages.About">
     <Phrase key="PageTitle">О приложении</Phrase>
   </Dictionary>
+  <Dictionary key="Scada.Web.Pages.AccessDenied">
+    <Phrase key="PageTitle">Доступ запрещен</Phrase>
+    <Phrase key="ErrorMessage">У вас недостаточно прав для доступа к запрошенному ресурсу.</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Web.Pages.Error">
+    <Phrase key="PageTitle">Ошибка</Phrase>
+    <Phrase key="ErrorMessage">При обработке вашего запроса произошла ошибка.</Phrase>
+  </Dictionary>
   <Dictionary key="Scada.Web.Pages.Login">
     <Phrase key="PageTitle">Вход в систему</Phrase>
     <Phrase key="NotReady">Приложение не готово. Повторите попытку позже.</Phrase>
