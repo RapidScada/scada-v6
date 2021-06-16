@@ -23,8 +23,10 @@
  * Modified : 2021
  */
 
+using Microsoft.Extensions.Primitives;
 using Scada.Client;
 using Scada.Config;
+using Scada.Data.Entities;
 using Scada.Data.Models;
 using Scada.Log;
 using Scada.Web.Config;
@@ -93,5 +95,11 @@ namespace Scada.Web.Services
         /// Gets the source object that can send expiration notification to the memory cache.
         /// </summary>
         CancellationTokenSource CacheExpirationTokenSource { get; }
+
+
+        /// <summary>
+        /// Gets the view specification.
+        /// </summary>
+        ViewSpec GetViewSpec(View viewEntity);
     }
 }

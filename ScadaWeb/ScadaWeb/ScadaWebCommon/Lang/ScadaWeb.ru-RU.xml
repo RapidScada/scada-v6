@@ -46,6 +46,13 @@
     <Phrase key="lblUsername">Имя пользователя:</Phrase>
     <Phrase key="lblRole">Роль:</Phrase>
   </Dictionary>
+  <Dictionary key="Scada.Web.Pages.View">
+    <Phrase key="PageTitle">Представление</Phrase>
+    <Phrase key="ViewNotSpecified">Запрошенное представление не задано.</Phrase>
+    <Phrase key="ViewNotExists">Запрошенное представление не существует.</Phrase>
+    <Phrase key="InsufficientRights">Недостаточно прав на представление.</Phrase>
+    <Phrase key="UnableResolveSpec">Не удалось получить спецификацию представления.</Phrase>
+  </Dictionary>
   <Dictionary key="Scada.Web.TreeView.MenuItem">
     <Phrase key="ReportsMenuItem">Отчёты</Phrase>
     <Phrase key="AdministrationMenuItem">Администрирование</Phrase>

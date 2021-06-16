@@ -133,27 +133,13 @@ namespace Scada.Web.Users
                 SortOrder = viewEntity.Ord ?? 0
             };
 
-            if (viewID > 0)
+            if (viewID > 0 &&
+                WebContext.GetViewSpec(viewEntity) is ViewSpec viewSpec)
             {
-                ViewSpec viewSpec;
-
-                if (viewEntity.ViewTypeID == null)
-                {
-                    viewSpec = WebContext.PluginHolder.GetViewSpecByExt(Path.GetExtension(shortPath));
-                }
-                else
-                {
-                    ViewType viewType = WebContext.BaseDataSet.ViewTypeTable.GetItem(viewEntity.ViewTypeID.Value);
-                    viewSpec = viewType == null ? null : WebContext.PluginHolder.GetViewSpecByCode(viewType.Code);
-                }
-
-                if (viewSpec != null)
-                {
-                    viewNode.IconUrl = viewSpec.IconUrl;
-                    viewNode.Url = WebUrl.GetViewUrl(viewID);
-                    viewNode.ViewFrameUrl = viewSpec.GetFrameUrl(viewID);
-                    viewNode.DataAttrs.Add("frameUrl", viewNode.ViewFrameUrl);
-                }
+                viewNode.IconUrl = viewSpec.IconUrl;
+                viewNode.Url = WebUrl.GetViewUrl(viewID);
+                viewNode.ViewFrameUrl = viewSpec.GetFrameUrl(viewID);
+                viewNode.DataAttrs.Add("frameUrl", viewNode.ViewFrameUrl);
             }
 
             return viewNode;
@@ -217,6 +203,30 @@ namespace Scada.Web.Users
             }
         }
 
+        /// <summary>
+        /// Finds a non-empty view node recursively.
+        /// </summary>
+        protected ViewNode FindNonEmptyViewNode(List<ViewNode> viewNodes)
+        {
+            if (viewNodes != null)
+            {
+                foreach (ViewNode viewNode in viewNodes)
+                {
+                    if (viewNode.IsEmpty)
+                    {
+                        if (FindNonEmptyViewNode(viewNode.ChildNodes) is ViewNode node)
+                            return node;
+                    }
+                    else
+                    {
+                        return viewNode;
+                    }
+                }
+            }
+
+            return null;
+        }
+
 
         /// <summary>
         /// Initializes the user views.
@@ -248,6 +258,14 @@ namespace Scada.Web.Users
                     "Ошибка при инициализации представлений пользователя" :
                     "Error initializing user views");
             }
+        }
+
+        /// <summary>
+        /// Gets the ID of the first non-empty view node.
+        /// </summary>
+        public int? GetFirstViewID()
+        {
+            return FindNonEmptyViewNode(ViewNodes)?.ViewID;
         }
     }
 }

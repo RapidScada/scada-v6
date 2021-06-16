@@ -23,14 +23,10 @@
  * Modified : 2021
  */
 
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
-using Scada.Client;
+using Microsoft.Extensions.Caching.Memory;
+using Scada.Lang;
+using Scada.Web.Plugins;
 using Scada.Web.Services;
 
 namespace Scada.Web.Pages
@@ -43,18 +39,69 @@ namespace Scada.Web.Pages
     {
         private readonly IWebContext webContext;
         private readonly IUserContext userContext;
-        private readonly IClientAccessor scadaClientAccessor;
+        private readonly IMemoryCache memoryCache;
 
-        public ViewModel(IWebContext webContext, IUserContext userContext, IClientAccessor scadaClientAccessor)
+        public bool ViewError { get; set; }
+        public string ErrorMessage { get; set; }
+        public string FrameUrl { get; set; }
+
+        public ViewModel(IWebContext webContext, IUserContext userContext, IMemoryCache memoryCache)
         {
             this.webContext = webContext;
             this.userContext = userContext;
-            this.scadaClientAccessor = scadaClientAccessor;
+            this.memoryCache = memoryCache;
+
+            ViewError = false;
+            ErrorMessage = "";
+            FrameUrl = "";
         }
 
         public void OnGet(int? id)
         {
-            scadaClientAccessor.ScadaClient.ClientState.ToString();
+            int viewID = id ?? userContext.Views.GetFirstViewID() ?? 0;
+            dynamic dict = Locale.GetDictionary("Scada.Web.Pages.View");
+
+            if (viewID <= 0)
+            {
+                ViewError = true;
+                ErrorMessage = dict.ViewNotSpecified;
+                return;
+            }
+
+            // find view
+            Data.Entities.View viewEntity = webContext.BaseDataSet.ViewTable.GetItem(viewID);
+            
+            if (viewEntity == null)
+            {
+                ViewError = true;
+                ErrorMessage = dict.ViewNotExists;
+                return;
+            }
+
+            // check access rights
+            if (!userContext.Rights.GetRightByObj(viewEntity.ObjNum ?? 0).View)
+            {
+                ViewError = true;
+                ErrorMessage = dict.InsufficientRights;
+                return;
+            }
+
+            // get view specification
+            ViewSpec viewSpec = memoryCache.GetOrCreate(WebUtils.GetViewSpecKey(viewID), entry =>
+            {
+                entry.SetDefaultOptions(webContext);
+                return webContext.GetViewSpec(viewEntity);
+            });
+
+            if (viewSpec == null)
+            {
+                ViewError = true;
+                ErrorMessage = dict.UnableResolveSpec;
+                return;
+            }
+
+            ViewData["SelectedViewID"] = viewID; // used by _MainLayout
+            FrameUrl = viewSpec.GetFrameUrl(viewID);
         }
     }
 }

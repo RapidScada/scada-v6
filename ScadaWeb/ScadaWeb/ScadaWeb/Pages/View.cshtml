@@ -2,14 +2,25 @@
 @model ViewModel
 @{
     Layout = "_MainLayout";
-    ViewBag.Title = "View";
+    dynamic dict = Locale.GetDictionary("Scada.Web.Pages.View");
+    ViewBag.Title = dict.PageTitle;
+}
+
+@section Styles {
+    <link href="~/css/pages/view.min.css" rel="stylesheet" asp-append-version="true" />
 }
 
 @section Scripts {
     <script src="~/js/pages/view.js" asp-append-version="true"></script>
 }
 
-<div id="divViewContainer">
-    <h1>View Page</h1>
-    <div id="divView"><iframe id="frameView"></iframe></div>
-</div>
+@if (Model.ViewError)
+{
+    <div id="divError" class="d-flex align-items-center justify-content-center fs-2 text-danger">
+        @Model.ErrorMessage
+    </div>
+}
+else
+{
+    <div id="divView"><iframe id="frameView" src="@Model.FrameUrl"></iframe></div>
+}

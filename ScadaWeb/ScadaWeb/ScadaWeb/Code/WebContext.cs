@@ -23,8 +23,10 @@
  * Modified : 2021
  */
 
+using Microsoft.Extensions.Primitives;
 using Scada.Client;
 using Scada.Config;
+using Scada.Data.Entities;
 using Scada.Data.Models;
 using Scada.Data.Tables;
 using Scada.Lang;
@@ -431,6 +433,25 @@ namespace Scada.Web.Code
             while (!terminated && !pluginsReady)
             {
                 Thread.Sleep(ScadaUtils.ThreadDelay);
+            }
+        }
+
+        /// <summary>
+        /// Gets the view specification.
+        /// </summary>
+        public ViewSpec GetViewSpec(View viewEntity)
+        {
+            if (viewEntity == null)
+                throw new ArgumentNullException(nameof(viewEntity));
+
+            if (viewEntity.ViewTypeID == null)
+            {
+                return PluginHolder.GetViewSpecByExt(Path.GetExtension(viewEntity.Path));
+            }
+            else
+            {
+                ViewType viewType = BaseDataSet.ViewTypeTable.GetItem(viewEntity.ViewTypeID.Value);
+                return viewType == null ? null : PluginHolder.GetViewSpecByCode(viewType.Code);
             }
         }
     }

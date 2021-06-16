@@ -18,5 +18,9 @@
   {
     "outputFile": "wwwroot/css/pages/user-profile.css",
     "inputFile": "wwwroot/css/pages/user-profile.scss"
+  },
+  {
+    "outputFile": "wwwroot/css/pages/view.css",
+    "inputFile": "wwwroot/css/pages/view.scss"
   }
 ]
