@@ -30,13 +30,13 @@
   </DisplayOptions>
   <Plugins>
     <Plugin code="PlgChart" />
-    <Plugin code="PlgTable" />
+    <Plugin code="PlgMain" />
     <Plugin code="PlgScheme" />
   </Plugins>
   <PluginAssignment>
     <ChartFeature>PlgChart</ChartFeature>
-    <CommandFeature>PlgTable</CommandFeature>
-    <EventAckFeature>PlgTable</EventAckFeature>
+    <CommandFeature>PlgMain</CommandFeature>
+    <EventAckFeature>PlgMain</EventAckFeature>
     <UserManagementFeature>PlgUserManagement</UserManagementFeature>
     <NotificationFeature>PlgNotification</NotificationFeature>
   </PluginAssignment>

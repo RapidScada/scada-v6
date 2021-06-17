@@ -7,7 +7,7 @@ using Microsoft.AspNetCore.Mvc.RazorPages;
 
 namespace Scada.Web.Plugins.PlgMain.Areas.Main.Pages
 {
-    public class MyPageModel : PageModel
+    public class TableViewModel : PageModel
     {
         public void OnGet()
         {

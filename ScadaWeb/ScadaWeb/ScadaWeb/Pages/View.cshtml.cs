@@ -101,7 +101,7 @@ namespace Scada.Web.Pages
             }
 
             ViewData["SelectedViewID"] = viewID; // used by _MainLayout
-            FrameUrl = viewSpec.GetFrameUrl(viewID);
+            FrameUrl = Url.Content(viewSpec.GetFrameUrl(viewID));
         }
     }
 }

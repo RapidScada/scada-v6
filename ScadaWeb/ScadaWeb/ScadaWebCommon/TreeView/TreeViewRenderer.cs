@@ -24,6 +24,7 @@
  */
 
 using Microsoft.AspNetCore.Html;
+using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -72,22 +73,24 @@ namespace Scada.Web.TreeView
             public string NodeIconUrl { get; set; }
         }
 
+        private readonly IUrlHelper urlHelper;
         private readonly Options options;
 
 
         /// <summary>
         /// Initializes a new instance of the class.
         /// </summary>
-        public TreeViewRenderer()
-            : this(new Options())
+        public TreeViewRenderer(IUrlHelper urlHelper)
+            : this(urlHelper, new Options())
         {
         }
 
         /// <summary>
         /// Initializes a new instance of the class.
         /// </summary>
-        public TreeViewRenderer(Options options)
+        public TreeViewRenderer(IUrlHelper urlHelper, Options options)
         {
+            this.urlHelper = urlHelper ?? throw new ArgumentNullException(nameof(urlHelper));
             this.options = options ?? throw new ArgumentNullException(nameof(options));
             SelectedObject = null;
         }
@@ -164,7 +167,7 @@ namespace Scada.Web.TreeView
                             string iconUrl = string.IsNullOrEmpty(webTreeNode.IconUrl) 
                                 ? (childrenExist ? options.FolderIconUrl : options.NodeIconUrl) 
                                 : webTreeNode.IconUrl;
-                            iconHtml = $"<div class='icon'><img src='{iconUrl}' alt='' /></div>";
+                            iconHtml = $"<div class='icon'><img src='{urlHelper.Content(iconUrl)}' alt='' /></div>";
                         }
                         else
                         {
@@ -172,7 +175,7 @@ namespace Scada.Web.TreeView
                         }
 
                         sbHtml.AppendLine(
-                            $"<a class='node{nodeCssClass}' href='{webTreeNode.Url}' {dataAttrs}>" +
+                            $"<a class='node{nodeCssClass}' href='{urlHelper.Content(webTreeNode.Url)}' {dataAttrs}>" +
                             $"<div class='node-parts'>" +
                             $"<div class='indent'></div>" +
                             leftExpanderHtml +

@@ -61,8 +61,11 @@ namespace Scada.Web
             foreach (string fileName in
                 Directory.EnumerateFiles(WebContext.AppDirs.ExeDir, "Plg*.dll", SearchOption.TopDirectoryOnly))
             {
-                if (!WebContext.PluginHolder.ContainsPlugin(ScadaUtils.RemoveFileNameSuffixes(fileName)))
+                if (!WebContext.PluginHolder.ContainsPlugin(
+                    ScadaUtils.RemoveFileNameSuffixes(Path.GetFileName(fileName))))
+                {
                     continue;
+                }
 
                 try
                 {

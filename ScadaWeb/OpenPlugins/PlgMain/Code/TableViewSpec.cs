@@ -57,6 +57,6 @@ namespace Scada.Web.Plugins.PlgMain.Code
         /// <summary>
         /// Gets the view frame URL.
         /// </summary>
-        public override string GetFrameUrl(int viewID) => "/Main/TableView/" + viewID;
+        public override string GetFrameUrl(int viewID) => "~/Main/TableView/" + viewID;
     }
 }

@@ -111,7 +111,7 @@ namespace Scada.Web.Plugins
                     {
                         string ext = viewSpec.FileExtension.ToLowerInvariant();
                         if (!viewSpecByExt.ContainsKey(ext))
-                            viewSpecByCode.Add(ext, viewSpec);
+                            viewSpecByExt.Add(ext, viewSpec);
                     }
                 }
             }

@@ -7,7 +7,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "PlgMain", "PlgMain", "{00E8
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PlgMain", "PlgMain\PlgMain.csproj", "{7AAF23C9-3872-4854-B508-BE959CB365C0}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PlgMain.Common", "PlgMain.Common\PlgMain.Common.csproj", "{613F2B4A-4A63-49EB-91A3-3FD0AE389B8B}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PlgMain.Common", "PlgMain.Common\PlgMain.Common.csproj", "{613F2B4A-4A63-49EB-91A3-3FD0AE389B8B}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

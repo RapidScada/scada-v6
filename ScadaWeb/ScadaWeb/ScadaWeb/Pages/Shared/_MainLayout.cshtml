@@ -76,7 +76,7 @@
         </div>
         @if (displayOptions.ShowMainMenu)
         {
-            var menuRenderer = new TreeViewRenderer { SelectedObject = ViewContext.HttpContext.Request.Path };
+            var menuRenderer = new TreeViewRenderer(Url) { SelectedObject = ViewContext.HttpContext.Request.Path };
             var mainMenu = userContext.Menu.MenuItems;
             //var mainMenu = TreeViewExample.GetMainMenu();
 
@@ -84,12 +84,12 @@
         }
         @if (displayOptions.ShowViewExplorer)
         {
-            var explorerRenderer = new TreeViewRenderer(new TreeViewRenderer.Options
+            var explorerRenderer = new TreeViewRenderer(Url, new TreeViewRenderer.Options
             {
                 ExpanderLeft = true,
                 ShowIcons = true,
-                FolderIconUrl = Url.Content("~/images/treeview/folder.png"),
-                NodeIconUrl = Url.Content("~/images/treeview/document.png")
+                FolderIconUrl = "~/images/treeview/folder.png",
+                NodeIconUrl = "~/images/treeview/document.png"
             })
             {
                 SelectedObject = ViewBag.SelectedViewID
