@@ -1,1 +1,41 @@
-﻿
+﻿@import '../_variables';
+
+$splitter-color: $gray-400;
+$splitter-active-color: $gray-500;
+$splitter-width: 10px;
+
+.splitter {
+    background-color: $splitter-color;
+
+    &.hor {
+        height: $splitter-width;
+        cursor: row-resize;
+
+        &.show {
+            display: block !important;
+        }
+    }
+
+    &.vert {
+        width: $splitter-width;
+        cursor: col-resize;
+
+        &.show {
+            display: inline-block !important;
+        }
+    }
+
+    &.splitter-active {
+        background-color: $splitter-active-color;
+    }
+}
+
+.splitter-overlay {
+    position: fixed;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    background-color: gray;
+    opacity: 0;
+}
