@@ -18,7 +18,7 @@
 
   <ItemGroup>
     <_ContentIncludedByDefault Remove="compilerconfig.json" />
-    <_ContentIncludedByDefault Remove="wwwroot\css\layout\main-layout.css" />
+    <_ContentIncludedByDefault Remove="wwwroot\css\layouts\main-layout.css" />
     <_ContentIncludedByDefault Remove="wwwroot\css\pages\user-profile.css" />
   </ItemGroup>
 

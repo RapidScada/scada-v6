@@ -1,7 +1,7 @@
-﻿@import '_shared-vars';
-@import '_shared_mixins';
-@import '_tree-view';
-@import '_notif-panel';
+﻿@import '../_variables';
+@import '../_mixins';
+@import '../components/_tree-view';
+@import '../components/_notif-panel';
 
 body {
     @include link-no-decor;

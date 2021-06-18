@@ -14,7 +14,7 @@
 }
 
 @section Styles {
-    <link href="~/css/layout/main-layout.min.css" rel="stylesheet" asp-append-version="true" />
+    <link href="~/css/layouts/main-layout.min.css" rel="stylesheet" asp-append-version="true" />
 
     @foreach (string url in webContext.PluginHolder.AllStyleUrls())
     {
@@ -25,9 +25,9 @@
 }
 
 @section Scripts {
-    <script src="~/js/layout/tree-view.js" asp-append-version="true"></script>
-    <script src="~/js/layout/notif-panel.js" asp-append-version="true"></script>
-    <script src="~/js/layout/main-layout.js" asp-append-version="true"></script>
+    <script src="~/js/components/tree-view.js" asp-append-version="true"></script>
+    <script src="~/js/components/notif-panel.js" asp-append-version="true"></script>
+    <script src="~/js/layouts/main-layout.js" asp-append-version="true"></script>
     <script>
         appEnv = @WebUtils.GetEnvironmentJs(Url);
         notifPhrases = @WebUtils.DictionaryToJs("Scada.Web.Pages.Shared._MainLayout.NotifPanel");

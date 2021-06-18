@@ -1,5 +1,5 @@
-﻿@import '_shared-vars';
-@import '_shared_mixins';
+﻿@import '../_variables';
+@import '../_mixins';
 
 body {
     @include link-colored;
