@@ -81,7 +81,7 @@ namespace Scada.Web.TreeView
         public string Text { get; set; }
 
         /// <summary>
-        /// Gets the URL to open when the node is clicked.
+        /// Gets or sets the URL to open when the node is clicked.
         /// </summary>
         public string Url { get; set; }
 

@@ -80,7 +80,7 @@ namespace Scada.Web.TreeView
         public bool IsHidden { get; set; }
 
         /// <summary>
-        /// Gets the icon URL.
+        /// Gets or sets the icon URL.
         /// </summary>
         public string IconUrl { get; set; }
 
@@ -90,7 +90,7 @@ namespace Scada.Web.TreeView
         public string Text { get; set; }
 
         /// <summary>
-        /// Gets the URL to open when the node is clicked.
+        /// Gets or sets the URL to open when the node is clicked.
         /// </summary>
         public string Url { get; set; }
 

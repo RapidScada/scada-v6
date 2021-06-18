@@ -45,7 +45,7 @@ namespace Scada.Web.TreeView
         IList Children { get; }
 
         /// <summary>
-        /// Gets or sets a value indicating whether the node is hidden.
+        /// Gets a value indicating whether the node is hidden.
         /// </summary>
         bool IsHidden { get; }
 
@@ -55,7 +55,7 @@ namespace Scada.Web.TreeView
         string IconUrl { get; }
 
         /// <summary>
-        /// Gets or sets the node text.
+        /// Gets the node text.
         /// </summary>
         string Text { get; }
 

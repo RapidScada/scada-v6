@@ -23,11 +23,14 @@
  * Modified : 2021
  */
 
+using Microsoft.AspNetCore.Html;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.Extensions.Caching.Memory;
 using Scada.Lang;
 using Scada.Web.Plugins;
 using Scada.Web.Services;
+using System.Text;
+using System.Web;
 
 namespace Scada.Web.Pages
 {
@@ -102,6 +105,19 @@ namespace Scada.Web.Pages
 
             ViewData["SelectedViewID"] = viewID; // used by _MainLayout
             FrameUrl = Url.Content(viewSpec.GetFrameUrl(viewID));
+        }
+
+        public HtmlString RenderBottomTabs()
+        {
+            StringBuilder sbHtml = new();
+
+            foreach (DataWindowSpec spec in webContext.PluginHolder.AllDataWindowSpecs())
+            {
+                sbHtml.AppendFormat("<div class='tab' data-url='{0}'>{1}</div>",
+                    Url.Content(spec.Url), HttpUtility.HtmlEncode(spec.Title));
+            }
+
+            return new HtmlString(sbHtml.ToString());
         }
     }
 }

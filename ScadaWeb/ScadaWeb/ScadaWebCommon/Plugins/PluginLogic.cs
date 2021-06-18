@@ -83,6 +83,11 @@ namespace Scada.Web.Plugins
         public virtual ICollection<ViewSpec> ViewSpecs => null;
 
         /// <summary>
+        /// Gets the data window specifications.
+        /// </summary>
+        public virtual ICollection<DataWindowSpec> DataWindowSpecs => null;
+
+        /// <summary>
         /// Gets the script URLs to add to the main page.
         /// </summary>
         public virtual ICollection<string> ScriptUrls => null;

@@ -209,6 +209,23 @@ namespace Scada.Web.Plugins
         }
 
         /// <summary>
+        /// Returns an enumerable collection of all data window specifications.
+        /// </summary>
+        public IEnumerable<DataWindowSpec> AllDataWindowSpecs()
+        {
+            foreach (PluginLogic pluginLogic in plugins)
+            {
+                if (pluginLogic.DataWindowSpecs != null)
+                {
+                    foreach (DataWindowSpec spec in pluginLogic.DataWindowSpecs)
+                    {
+                        yield return spec;
+                    }
+                }
+            }
+        }
+
+        /// <summary>
         /// Returns an enumerable collection of all script URLs.
         /// </summary>
         public IEnumerable<string> AllScriptUrls()
