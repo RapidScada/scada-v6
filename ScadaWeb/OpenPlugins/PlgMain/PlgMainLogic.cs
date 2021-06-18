@@ -66,6 +66,11 @@ namespace Scada.Web.Plugins.PlgMain
         /// </summary>
         public override ICollection<ViewSpec> ViewSpecs => new ViewSpec[] { new TableViewSpec() };
 
+        /// <summary>
+        /// Gets the data window specifications.
+        /// </summary>
+        public override ICollection<DataWindowSpec> DataWindowSpecs => new DataWindowSpec[] { new EventWindowSpec() };
+
 
         /// <summary>
         /// Gets menu items available for the specified user.
