@@ -42,6 +42,20 @@
   border: none;
   display: block; }
 
-#divBottomPanel .tab,
-#divBottomPanel .btn {
-  display: inline-block; }
+#divBottomPanel {
+  background-color: #e9ecef;
+  height: 30px; }
+  #divBottomPanel .bottom-pnl-tab,
+  #divBottomPanel .bottom-pnl-btn {
+    color: #495057;
+    cursor: pointer;
+    display: inline-block;
+    height: 30px;
+    line-height: 30px;
+    margin: 0 0 0 5px;
+    padding: 0 10px;
+    white-space: nowrap; }
+    #divBottomPanel .bottom-pnl-tab:hover,
+    #divBottomPanel .bottom-pnl-btn:hover {
+      color: #00b9eb;
+      text-decoration: none; }

@@ -113,7 +113,7 @@ namespace Scada.Web.Pages
 
             foreach (DataWindowSpec spec in webContext.PluginHolder.AllDataWindowSpecs())
             {
-                sbHtml.AppendFormat("<div class='tab' data-url='{0}'>{1}</div>",
+                sbHtml.AppendFormat("<div class='bottom-pnl-tab' data-url='{0}'>{1}</div>",
                     Url.Content(spec.Url), HttpUtility.HtmlEncode(spec.Title));
             }
 

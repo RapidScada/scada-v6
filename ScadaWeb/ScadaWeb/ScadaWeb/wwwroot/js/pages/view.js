@@ -1,3 +1,5 @@
 ﻿$(document).ready(function () {
-    console.info("Hello from view.js")
+    new Splitter("divViewSplitter", function (splitter) {
+        console.log("exitResizeModeCallback");
+    });
 });

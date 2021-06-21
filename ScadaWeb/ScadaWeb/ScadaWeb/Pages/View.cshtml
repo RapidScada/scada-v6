@@ -11,6 +11,7 @@
 }
 
 @section Scripts {
+    <script src="~/js/components/splitter.js" asp-append-version="true"></script>
     <script src="~/js/pages/view.js" asp-append-version="true"></script>
 }
 
@@ -25,5 +26,5 @@ else
     <div id="divView"><iframe id="frameView" src="@Model.FrameUrl"></iframe></div>
     <div id="divViewSplitter" class="splitter hor"></div>
     <div id="divDataWindow"><iframe id="frameDataWindow"></iframe></div>
-    <div id="divBottomPanel">@Model.RenderBottomTabs()<div id="divCollapseBottomPanelBtn" class="btn"><i class="fas fa-chevron-circle-down"></i></div></div>
+    <div id="divBottomPanel">@Model.RenderBottomTabs()<div id="divCollapseBottomPanelBtn" class="bottom-pnl-btn"><i class="fas fa-chevron-circle-down"></i></div></div>
 }
