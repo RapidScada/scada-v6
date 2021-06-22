@@ -24,4 +24,4 @@ body a:hover {
   text-decoration: none; }
 
 .hidden {
-  display: none; }
+  display: none !important; }

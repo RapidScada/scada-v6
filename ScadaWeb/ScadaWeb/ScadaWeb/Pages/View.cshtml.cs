@@ -46,7 +46,8 @@ namespace Scada.Web.Pages
 
         public bool ViewError { get; set; }
         public string ErrorMessage { get; set; }
-        public string FrameUrl { get; set; }
+        public int ViewID { get; set; }
+        public string ViewFrameUrl { get; set; }
 
         public ViewModel(IWebContext webContext, IUserContext userContext, IMemoryCache memoryCache)
         {
@@ -56,15 +57,15 @@ namespace Scada.Web.Pages
 
             ViewError = false;
             ErrorMessage = "";
-            FrameUrl = "";
+            ViewFrameUrl = "";
         }
 
         public void OnGet(int? id)
         {
-            int viewID = id ?? userContext.Views.GetFirstViewID() ?? 0;
+            ViewID = id ?? userContext.Views.GetFirstViewID() ?? 0;
             dynamic dict = Locale.GetDictionary("Scada.Web.Pages.View");
 
-            if (viewID <= 0)
+            if (ViewID <= 0)
             {
                 ViewError = true;
                 ErrorMessage = dict.ViewNotSpecified;
@@ -72,7 +73,7 @@ namespace Scada.Web.Pages
             }
 
             // find view
-            Data.Entities.View viewEntity = webContext.BaseDataSet.ViewTable.GetItem(viewID);
+            Data.Entities.View viewEntity = webContext.BaseDataSet.ViewTable.GetItem(ViewID);
             
             if (viewEntity == null)
             {
@@ -90,7 +91,7 @@ namespace Scada.Web.Pages
             }
 
             // get view specification
-            ViewSpec viewSpec = memoryCache.GetOrCreate(WebUtils.GetViewSpecKey(viewID), entry =>
+            ViewSpec viewSpec = memoryCache.GetOrCreate(WebUtils.GetViewSpecKey(ViewID), entry =>
             {
                 entry.SetDefaultOptions(webContext);
                 return webContext.GetViewSpec(viewEntity);
@@ -103,8 +104,8 @@ namespace Scada.Web.Pages
                 return;
             }
 
-            ViewData["SelectedViewID"] = viewID; // used by _MainLayout
-            FrameUrl = Url.Content(viewSpec.GetFrameUrl(viewID));
+            ViewData["SelectedViewID"] = ViewID; // used by _MainLayout
+            ViewFrameUrl = Url.Content(viewSpec.GetFrameUrl(ViewID));
         }
 
         public HtmlString RenderBottomTabs()

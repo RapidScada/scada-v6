@@ -139,7 +139,7 @@ namespace Scada.Web.Users
                 viewNode.IconUrl = viewSpec.IconUrl;
                 viewNode.Url = WebUrl.GetViewUrl(viewID);
                 viewNode.ViewFrameUrl = viewSpec.GetFrameUrl(viewID);
-                viewNode.DataAttrs.Add("frameUrl", viewNode.ViewFrameUrl);
+                viewNode.DataAttrs.Add("viewFrameUrl", viewNode.ViewFrameUrl);
             }
 
             return viewNode;

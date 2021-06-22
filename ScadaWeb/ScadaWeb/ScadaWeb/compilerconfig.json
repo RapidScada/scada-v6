@@ -22,5 +22,9 @@
   {
     "outputFile": "wwwroot/css/pages/view.css",
     "inputFile": "wwwroot/css/pages/view.scss"
+  },
+  {
+    "outputFile": "wwwroot/css/layouts/basic-layout.css",
+    "inputFile": "wwwroot/css/layouts/basic-layout.scss"
   }
 ]

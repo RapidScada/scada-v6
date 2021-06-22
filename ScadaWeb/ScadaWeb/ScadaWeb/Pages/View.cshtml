@@ -11,8 +11,13 @@
 }
 
 @section Scripts {
+    <script src="~/js/view-hub.js" asp-append-version="true"></script>
     <script src="~/js/components/splitter.js" asp-append-version="true"></script>
     <script src="~/js/pages/view.js" asp-append-version="true"></script>
+    <script>
+        viewPage.initialViewID = @Model.ViewID;
+        viewPage.initialViewFrameUrl = "@Model.ViewFrameUrl";
+    </script>
 }
 
 @if (Model.ViewError)
@@ -23,8 +28,8 @@
 }
 else
 {
-    <div id="divView"><iframe id="frameView" src="@Model.FrameUrl"></iframe></div>
+    <div id="divView"><iframe id="frameView"></iframe></div>
     <div id="divViewSplitter" class="splitter hor"></div>
     <div id="divDataWindow"><iframe id="frameDataWindow"></iframe></div>
-    <div id="divBottomPanel">@Model.RenderBottomTabs()<div id="divCollapseBottomPanelBtn" class="bottom-pnl-btn"><i class="fas fa-chevron-circle-down"></i></div></div>
+    <div id="divBottomPanel">@Model.RenderBottomTabs()<div id="divHideDataWindowBtn" class="bottom-pnl-btn" title="@dict.divHideDataWindowBtn_ToolTip"><i class="fas fa-chevron-circle-down"></i></div></div>
 }

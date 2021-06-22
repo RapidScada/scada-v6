@@ -52,6 +52,7 @@
     <Phrase key="ViewNotExists">Запрошенное представление не существует.</Phrase>
     <Phrase key="InsufficientRights">Недостаточно прав на представление.</Phrase>
     <Phrase key="UnableResolveSpec">Не удалось получить спецификацию представления.</Phrase>
+    <Phrase key="divHideDataWindowBtn_ToolTip">Скрыть окно данных</Phrase>
   </Dictionary>
   <Dictionary key="Scada.Web.TreeView.MenuItem">
     <Phrase key="ReportsMenuItem">Отчёты</Phrase>

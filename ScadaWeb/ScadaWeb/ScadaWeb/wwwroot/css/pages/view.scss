@@ -33,6 +33,7 @@ $bottom-panel-item-hover-color: $main-menu-item-hover-fore-color;
 #divBottomPanel {
     background-color: $bottom-panel-back-color;
     height: $bottom-panel-heigth;
+    white-space: nowrap;
 
     .bottom-pnl-tab,
     .bottom-pnl-btn {
@@ -49,5 +50,9 @@ $bottom-panel-item-hover-color: $main-menu-item-hover-fore-color;
             color: $bottom-panel-item-hover-color;
             text-decoration: none;
         }
+    }
+
+    .bottom-pnl-tab.selected {
+        font-weight: 500;
     }
 }

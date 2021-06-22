@@ -54,6 +54,7 @@
     <Phrase key="ViewNotExists">The requested view does not exist.</Phrase>
     <Phrase key="InsufficientRights">Insufficient access rights for the view.</Phrase>
     <Phrase key="UnableResolveSpec">Unable to resolve view specification.</Phrase>
+    <Phrase key="divHideDataWindowBtn_ToolTip">Hide Data Window</Phrase>
   </Dictionary>
   <Dictionary key="Scada.Web.TreeView.MenuItem">
     <Phrase key="ReportsMenuItem">Reports</Phrase>

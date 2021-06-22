@@ -10,8 +10,10 @@ var mainLayout = {
     // The storage key for the left panel visibility.
     _LEFT_PANEL_VISIBLE_KEY: "MainLayout.LeftPanelVisible",
 
-    // The notification panel.
+    // The components of the main layout.
     mainMenu: null,
+    viewExplorer: null,
+    notifPanel: null,
 
     // The jQuery objects that represent tabs.
     tabs: {
@@ -22,23 +24,38 @@ var mainLayout = {
 
     // Prepares the main menu and view explorer tree views.
     _prepareTreeViews: function () {
-        let mainMenu = new TreeView("Main_divMainMenu");
-        let viewExplorer = new TreeView("Main_divViewExplorer");
+        // main menu
+        this.mainMenu = new TreeView("Main_divMainMenu");
 
-        viewExplorer.nodeClickCallbacks.add(function (node, result) {
-            if (typeof viewPage !== "undefined") {
-                let viewID = parseInt(node.data("viewid"));
-                let viewFrameUrl = node.data("frameurl");
+        if (this.mainMenu.treeViewElem.length > 0) {
+            this.mainMenu.prepare();
+        }
 
-                if (viewID > 0 && viewFrameUrl) {
-                    viewPage.loadView(viewID, viewFrameUrl);
-                    result.handled = true;
+        // view explorer
+        this.viewExplorer = new TreeView("Main_divViewExplorer");
+        let thisObj = this;
+
+        if (this.viewExplorer.treeViewElem.length > 0) {
+            this.viewExplorer.nodeClickCallbacks.add(function (node, result) {
+                if (typeof viewPage !== "undefined") {
+                    let viewID = parseInt(node.data("viewid"));
+                    let viewFrameUrl = node.data("viewframeurl");
+
+                    if (viewID > 0 && viewFrameUrl) {
+                        // hide the left panel on mobile devices
+                        if (ScadaUtils.isSmallScreen) {
+                            thisObj._hideLeftPanel(false);
+                        }
+
+                        // load view frame
+                        viewPage.loadView(viewID, viewFrameUrl);
+                        result.handled = true;
+                    }
                 }
-            }
-        });
+            });
 
-        mainMenu.prepare();
-        viewExplorer.prepare();
+            this.viewExplorer.prepare();
+        }
     },
 
     // Prepares the notification panel.
@@ -73,6 +90,15 @@ var mainLayout = {
         this.tabs.viewExplorer = $("#Main_divViewExplorerTab");
     },
 
+    // Selects the active tab depending on the page.
+    _selectActiveTab: function () {
+        let selectedTab = typeof viewPage === "undefined"
+            ? this.tabs.mainMenu
+            : this.tabs.viewExplorer;
+
+        this._activateTab(selectedTab.length > 0 ? selectedTab : this.tabs.default);
+    },
+
     // Binds events to the DOM elements.
     _bindEvents: function () {
         let thisObj = this;
@@ -86,7 +112,7 @@ var mainLayout = {
         $("#Main_divTabPanel .tab")
             .off()
             .click(function () {
-                thisObj.activateTab($(this));
+                thisObj._activateTab($(this));
             });
 
         // toggle the left panel
@@ -152,10 +178,29 @@ var mainLayout = {
         }
     },
 
+    // Activates the selected tab and shows corresponding tool window.
+    _activateTab: function (selectedTab) {
+        if (selectedTab.length > 0) {
+            // highlight clicked tab
+            let tabs = selectedTab.siblings(".tab");
+            tabs.removeClass("selected");
+            selectedTab.addClass("selected");
+
+            // deactivate all tool windows
+            var toolWindows = $("#Main_divLeftPanel .tool-window");
+            toolWindows.addClass("hidden");
+
+            // activate corresponding tool window
+            var toolWindowId = selectedTab.data("tool-window");
+            $("#" + toolWindowId).removeClass("hidden");
+        }
+    },
+
     // Restores the saved state of the left panel.
     _restoreLeftPanel: function () {
-        if (ScadaUtils.getStorageItem(localStorage, this._LEFT_PANEL_VISIBLE_KEY,
-            ScadaUtils.isSmallScreen ? "false" : "true") === "true") {
+        // keep the left panel hidden on mobile devices
+        if (!ScadaUtils.isSmallScreen &&
+            ScadaUtils.getStorageItem(localStorage, this._LEFT_PANEL_VISIBLE_KEY, "true") === "true") {
             this._showLeftPanel(false);
         }
     },
@@ -191,8 +236,8 @@ var mainLayout = {
         this._prepareTreeViews();
         this._prepareNotifPanel();
         this._prepareButtons();
+        this._selectActiveTab();
         this._bindEvents();
-        this.activateTab(this.tabs.default);
     },
 
     // Updates the layout to fit the window.
@@ -210,21 +255,11 @@ var mainLayout = {
         $(window).trigger(ScadaEventTypes.UPDATE_LAYOUT);
     },
 
-    // Activates the selected tab and shows corresponding tool window.
-    activateTab: function (selectedTab) {
-        // highlight clicked tab
-        let tabs = selectedTab.siblings(".tab");
-        tabs.removeClass("selected");
-        selectedTab.addClass("selected");
-
-        // deactivate all tool windows
-        var toolWindows = $("#Main_divLeftPanel .tool-window");
-        toolWindows.addClass("hidden");
-
-        // activate corresponding tool window
-        var toolWindowId = selectedTab.data("tool-window");
-        $("#" + toolWindowId).removeClass("hidden");
-    },
+    // Selects the specified view in the view explorer.
+    selectView: function (viewID) {
+        this._activateTab(this.tabs.viewExplorer);
+        this.viewExplorer.selectNode(this.viewExplorer.treeViewElem.find(".node[data-viewid=" + viewID + "]"));
+    }
 };
 
 $(document).ready(function () {

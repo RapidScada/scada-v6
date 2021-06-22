@@ -44,7 +44,8 @@
 
 #divBottomPanel {
   background-color: #e9ecef;
-  height: 30px; }
+  height: 30px;
+  white-space: nowrap; }
   #divBottomPanel .bottom-pnl-tab,
   #divBottomPanel .bottom-pnl-btn {
     color: #495057;
@@ -59,3 +60,5 @@
     #divBottomPanel .bottom-pnl-btn:hover {
       color: #00b9eb;
       text-decoration: none; }
+  #divBottomPanel .bottom-pnl-tab.selected {
+    font-weight: 500; }

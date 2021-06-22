@@ -29,6 +29,12 @@ class ScadaUtils {
         return screen.height - window.innerHeight <= 1;
     }
 
+
+    // Gets the current time string for logging.
+    static getCurrentTime() {
+        return new Date().toLocaleTimeString("en-GB");
+    }
+
     // Switches browser to full screen mode.
     static requestFullscreen() {
         if (document.documentElement.requestFullscreen) {
@@ -82,6 +88,29 @@ class ScadaUtils {
             storage.setItem(keyName, keyValue);
         } catch (ex) {
             console.error(ex);
+        }
+    }
+
+    // Replaces the existing frame by a new one to prevent writing frame history. Returns the created frame.
+    static replaceFrame(jqFrame, opt_url) {
+        let frameParent = jqFrame.parent();
+        let frameClone = jqFrame.clone();
+        jqFrame.remove();
+
+        if (opt_url) {
+            frameClone.attr("src", opt_url);
+        }
+
+        frameClone.appendTo(frameParent);
+        return frameClone;
+    }
+
+    // Checks that the frame is accessible due to the browser security.
+    static checkAccessToFrame(frameWnd) {
+        try {
+            return frameWnd.document !== null;
+        } catch (ex) {
+            return false;
         }
     }
 }
