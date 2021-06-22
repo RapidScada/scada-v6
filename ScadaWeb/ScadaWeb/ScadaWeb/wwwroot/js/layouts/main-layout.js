@@ -1,4 +1,4 @@
-﻿// Depends on scada-common.js, tree-view.js
+﻿// Depends on jquery, scada-common.js, tree-view.js
 
 var appEnv = {
     rootPath: "/",
@@ -11,19 +11,32 @@ var mainLayout = {
     _LEFT_PANEL_VISIBLE_KEY: "MainLayout.LeftPanelVisible",
 
     // The notification panel.
-    notifPanel: null,
+    mainMenu: null,
 
     // The jQuery objects that represent tabs.
     tabs: {
         default: $(),
         mainMenu: $(),
-        explorerView: $()
+        viewExplorer: $()
     },
 
     // Prepares the main menu and view explorer tree views.
     _prepareTreeViews: function () {
         let mainMenu = new TreeView("Main_divMainMenu");
         let viewExplorer = new TreeView("Main_divViewExplorer");
+
+        viewExplorer.nodeClickCallbacks.add(function (node, result) {
+            if (typeof viewPage !== "undefined") {
+                let viewID = parseInt(node.data("viewid"));
+                let viewFrameUrl = node.data("frameurl");
+
+                if (viewID > 0 && viewFrameUrl) {
+                    viewPage.loadView(viewID, viewFrameUrl);
+                    result.handled = true;
+                }
+            }
+        });
+
         mainMenu.prepare();
         viewExplorer.prepare();
     },
@@ -57,7 +70,7 @@ var mainLayout = {
 
         this.tabs.default = $("#Main_divTabPanel .tab:first");
         this.tabs.mainMenu = $("#Main_divMainMenuTab");
-        this.tabs.explorerView = $("#Main_divViewExplorerTab");
+        this.tabs.viewExplorer = $("#Main_divViewExplorerTab");
     },
 
     // Binds events to the DOM elements.

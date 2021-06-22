@@ -105,7 +105,7 @@ namespace Scada.Web.TreeView
         /// <summary>
         /// Renders HTML for the node data attributes.
         /// </summary>
-        protected static string RenderDataAttrs(IWebTreeNode webTreeNode)
+        protected string RenderDataAttrs(IWebTreeNode webTreeNode)
         {
             const string DataAttrTemplate = " data-{0}='{1}'";
 
@@ -117,7 +117,12 @@ namespace Scada.Web.TreeView
                 foreach (KeyValuePair<string, string> pair in webTreeNode.DataAttrs)
                 {
                     if (!string.IsNullOrWhiteSpace(pair.Key))
-                        sbAttr.AppendFormat(DataAttrTemplate, pair.Key, pair.Value);
+                    {
+                        string val = pair.Key.EndsWith("url", StringComparison.OrdinalIgnoreCase)
+                            ? urlHelper.Content(pair.Value)
+                            : pair.Value;
+                        sbAttr.AppendFormat(DataAttrTemplate, pair.Key, val);
+                    }
                 }
             }
 

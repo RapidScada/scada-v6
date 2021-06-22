@@ -3,6 +3,7 @@
 class TreeView {
     constructor(elemID) {
         this.treeViewElem = $("#" + elemID);
+        this.nodeClickCallbacks = $.Callbacks();
     }
 
     _expandSelectedNodes(allNodes) {
@@ -13,24 +14,29 @@ class TreeView {
         parentElems.removeClass("hidden");
     }
 
-    _clickNode(node) {
-        let thisObj = this;
-        let script = node.data("script");
-        let expander = node.find(".expander");
-        let href = node.attr("href");
+    _selectNode(node, allNodes) {
+        allNodes.removeClass("selected");
+        node.addClass("selected");
+    }
 
-        if ($(event.target).is(".expander")) {
-            thisObj._toggleNode(node, expander);
-        } else if (script) {
-            allNodes.removeClass("selected");
-            clickedNode.addClass("selected");
-            eval(script); // execute script
-        } else if (href.length > 0) {
-            allNodes.removeClass("selected");
-            clickedNode.addClass("selected");
-            location.href = href; // navigate link
-        } else if (!expander.hasClass("empty")) {
-            thisObj._toggleNode(node, expander);
+    _clickNode(node, allNodes) {
+        let callbackResult = { handled: false };
+        this.nodeClickCallbacks.fire(node, callbackResult);
+
+        if (callbackResult.handled) {
+            this._selectNode(node, allNodes);
+        } else {
+            let expander = node.find(".expander");
+            let href = node.attr("href");
+
+            if ($(event.target).is(".expander")) {
+                this._toggleNode(node, expander);
+            } else if (href.length > 0) {
+                this._selectNode(node, allNodes);
+                location.href = href; // navigate link
+            } else if (!expander.hasClass("empty")) {
+                this._toggleNode(node, expander);
+            }
         }
     }
 
@@ -66,16 +72,22 @@ class TreeView {
         this._expandSelectedNodes(allNodes);
 
         // do action or toggle on node click
-        var thisObj = this;
+        let thisObj = this;
         allNodes
             .off()
             .click(function (event) {
                 if (event.ctrlKey || event.button == 1 /*middle*/) {
                     return true; // allow the default link behavior
                 } else {
-                    thisObj._clickNode($(this));
+                    thisObj._clickNode($(this), allNodes);
                     return false;
                 }
             });
+    }
+
+    selectNode(node) {
+        let allNodes = this.treeViewElem.find(".node");
+        this._selectNode(node, allNodes);
+        this._expandSelectedNodes(node);
     }
 }

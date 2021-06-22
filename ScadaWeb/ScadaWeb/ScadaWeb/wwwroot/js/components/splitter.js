@@ -1,12 +1,10 @@
 ﻿// Represents a splitter component.
 // Depends on jquery, scada-common.js
 class Splitter {
-    constructor(splitterElemID, opt_exitResizeModeCallback) {
+    constructor(splitterElemID) {
         // The minimum size of the resized element if not specified.
         this.DEFAULT_MIN_SIZE = 50;
 
-        // The method that is executed after the resizing of the splitter is complete.
-        this._exitResizeModeCallback = opt_exitResizeModeCallback;
         // Indicates that the splitter is in resize mode.
         this._isResizeMode = false;
         // Indicates that a touch pad is being used.
@@ -26,6 +24,8 @@ class Splitter {
         this.nextElem = this.splitterElem.next("div");
         // Indicates that the splitter is horizontal.
         this.isHorizontal = this.splitterElem.hasClass("hor");
+        // The callbacks executed when resizing of the splitter is stopped.
+        this.exitResizeModeCallbacks = $.Callbacks();
 
         if (this.splitterElem.length > 0 &&
             this.prevElem.length > 0 &&
@@ -37,7 +37,7 @@ class Splitter {
 
     // Binds events to the DOM elements.
     _bindEvents() {
-        var thisObj = this;
+        let thisObj = this;
 
         $(document)
             .on("mouseup mouseleave touchend touchcancel", function () {
@@ -103,10 +103,7 @@ class Splitter {
             this._isResizeMode = false;
             this._removeOverlay();
             this.splitterElem.removeClass("splitter-active");
-
-            if (this._exitResizeModeCallback) {
-                this._exitResizeModeCallback(this);
-            }
+            this.exitResizeModeCallbacks.fire();
         }
     }
 
