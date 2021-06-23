@@ -41,6 +41,14 @@
     <NotificationFeature>PlgNotification</NotificationFeature>
   </PluginAssignment>
   <CustomOptions>
+    <OptionGroup name="Main">
+      <Option name="RefreshRate" value="1000" />
+      <Option name="TableArchiveCode" value="Hour" />
+      <Option name="TablePeriod" value="60" />
+      <Option name="EventArchiveCode" value="Events" />
+      <Option name="EventCount" value="100" />
+      <Option name="EventDepth" value="2" />
+    </OptionGroup>
     <OptionGroup name="Scheme">
       <!-- ScaleType: Numeric | FitScreen | FitWidth -->
       <Option name="ScaleType" value="Numeric" />
