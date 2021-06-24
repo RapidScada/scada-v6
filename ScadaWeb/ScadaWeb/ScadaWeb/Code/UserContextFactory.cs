@@ -99,7 +99,7 @@ namespace Scada.Web.Code
                 }
 
                 IMemoryCache memoryCache = serviceProvider.GetRequiredService<IMemoryCache>();
-                return memoryCache.GetOrCreate(WebUtils.GetUserKey(userID), entry =>
+                return memoryCache.GetOrCreate(WebUtils.GetUserCacheKey(userID), entry =>
                 {
                     entry.SetDefaultOptions(webContext);
                     return CreateUserContext(userID, webContext);

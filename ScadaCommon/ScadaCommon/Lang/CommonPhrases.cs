@@ -83,6 +83,8 @@ namespace Scada.Lang
         public static string DirectoryNotExists { get; private set; }
         public static string LoadAppConfigError { get; private set; }
         public static string SaveAppConfigError { get; private set; }
+        public static string LoadViewError { get; private set; }
+        public static string SaveViewError { get; private set; }
 
         // Scada.Format
         public static string UndefinedSign { get; private set; }
@@ -172,6 +174,8 @@ namespace Scada.Lang
             DirectoryNotExists = dict["DirectoryNotExists"];
             LoadAppConfigError = dict["LoadAppConfigError"];
             SaveAppConfigError = dict["SaveAppConfigError"];
+            LoadViewError = dict["LoadViewError"];
+            SaveViewError = dict["SaveViewError"];
 
             dict = Locale.GetDictionary("Scada.Format");
             UndefinedSign = dict["UndefinedSign"];

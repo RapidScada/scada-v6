@@ -23,7 +23,6 @@
  * Modified : 2021
  */
 
-using Microsoft.Extensions.Primitives;
 using Scada.Client;
 using Scada.Config;
 using Scada.Data.Entities;
@@ -101,5 +100,15 @@ namespace Scada.Web.Services
         /// Gets the view specification.
         /// </summary>
         ViewSpec GetViewSpec(View viewEntity);
+
+        /// <summary>
+        /// Gets a view from the server or cache.
+        /// </summary>
+        T GetView<T>(int viewID, bool throwOnError = false) where T : BaseView;
+
+        /// <summary>
+        /// Gets a view from the cache.
+        /// </summary>
+        BaseView GetViewFromCache(int viewID, bool throwOnFail = false);
     }
 }

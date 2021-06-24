@@ -50,6 +50,8 @@
     <Phrase key="DirectoryNotExists">Directory does not exist.</Phrase>
     <Phrase key="LoadAppConfigError">Error loading application configuration</Phrase>
     <Phrase key="SaveAppConfigError">Error saving application configuration</Phrase>
+    <Phrase key="LoadViewError">Error loading view</Phrase>
+    <Phrase key="SaveViewError">Error saving view</Phrase>
   </Dictionary>
   <Dictionary key="Scada.Format">
     <Phrase key="UndefinedSign">---</Phrase>

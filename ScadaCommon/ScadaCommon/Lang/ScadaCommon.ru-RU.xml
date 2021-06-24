@@ -50,6 +50,8 @@
     <Phrase key="DirectoryNotExists">Директория не существует.</Phrase>
     <Phrase key="LoadAppConfigError">Ошибка при загрузке конфигурации приложения</Phrase>
     <Phrase key="SaveAppConfigError">Ошибка при сохранении конфигурации приложения</Phrase>
+    <Phrase key="LoadViewError">Ошибка при загрузке представления</Phrase>
+    <Phrase key="SaveViewError">Ошибка при сохранении представления</Phrase>
   </Dictionary>
   <Dictionary key="Scada.Format">
     <Phrase key="UndefinedSign">---</Phrase>

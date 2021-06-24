@@ -44,7 +44,7 @@ namespace Scada.Web.Pages
         private readonly IUserContext userContext;
         private readonly IMemoryCache memoryCache;
 
-        public bool ViewError { get; set; }
+        public bool ViewError => !string.IsNullOrEmpty(ErrorMessage);
         public string ErrorMessage { get; set; }
         public int ViewID { get; set; }
         public string ViewFrameUrl { get; set; }
@@ -55,8 +55,8 @@ namespace Scada.Web.Pages
             this.userContext = userContext;
             this.memoryCache = memoryCache;
 
-            ViewError = false;
             ErrorMessage = "";
+            ViewID = 0;
             ViewFrameUrl = "";
         }
 
@@ -67,7 +67,6 @@ namespace Scada.Web.Pages
 
             if (ViewID <= 0)
             {
-                ViewError = true;
                 ErrorMessage = dict.ViewNotSpecified;
                 return;
             }
@@ -77,7 +76,6 @@ namespace Scada.Web.Pages
             
             if (viewEntity == null)
             {
-                ViewError = true;
                 ErrorMessage = dict.ViewNotExists;
                 return;
             }
@@ -85,13 +83,12 @@ namespace Scada.Web.Pages
             // check access rights
             if (!userContext.Rights.GetRightByObj(viewEntity.ObjNum ?? 0).View)
             {
-                ViewError = true;
                 ErrorMessage = dict.InsufficientRights;
                 return;
             }
 
             // get view specification
-            ViewSpec viewSpec = memoryCache.GetOrCreate(WebUtils.GetViewSpecKey(ViewID), entry =>
+            ViewSpec viewSpec = memoryCache.GetOrCreate(WebUtils.GetViewSpecCacheKey(ViewID), entry =>
             {
                 entry.SetDefaultOptions(webContext);
                 return webContext.GetViewSpec(viewEntity);
@@ -99,7 +96,6 @@ namespace Scada.Web.Pages
 
             if (viewSpec == null)
             {
-                ViewError = true;
                 ErrorMessage = dict.UnableResolveSpec;
                 return;
             }

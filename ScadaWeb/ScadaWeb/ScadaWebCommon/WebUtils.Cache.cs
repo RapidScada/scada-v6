@@ -29,7 +29,7 @@ namespace Scada.Web
         /// <summary>
         /// Gets the cache key corresponding to the user.
         /// </summary>
-        public static string GetUserKey(int userID)
+        public static string GetUserCacheKey(int userID)
         {
             return CachePrefix + "User_" + userID;
         }
@@ -37,7 +37,7 @@ namespace Scada.Web
         /// <summary>
         /// Gets the cache key corresponding to the view specification.
         /// </summary>
-        public static string GetViewSpecKey(int viewID)
+        public static string GetViewSpecCacheKey(int viewID)
         {
             return CachePrefix + "ViewSpec_" + viewID;
         }

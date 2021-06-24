@@ -10,4 +10,10 @@
     <Copyright>Copyright © 2021</Copyright>
   </PropertyGroup>
 
+  <ItemGroup>
+    <Reference Include="ScadaCommon">
+      <HintPath>..\..\..\ScadaCommon\ScadaCommon\bin\Release\netstandard2.0\ScadaCommon.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+
 </Project>
