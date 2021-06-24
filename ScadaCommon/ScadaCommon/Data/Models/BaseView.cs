@@ -37,31 +37,14 @@ namespace Scada.Data.Models
     public abstract class BaseView
     {
         /// <summary>
-        /// Represents a reference to a view resource.
-        /// </summary>
-        public class ResourceReference
-        {
-            /// <summary>
-            /// Gets or sets the resource name.
-            /// </summary>
-            public string Name { get; set; }
-
-            /// <summary>
-            /// Gets or sets the resource path relative to the view directory.
-            /// </summary>
-            public string Path { get; set; }
-        }
-
-
-        /// <summary>
         /// Initializes a new instance of the class.
         /// </summary>
         public BaseView(View viewEntity)
         {
             ViewEntity = viewEntity ?? throw new ArgumentNullException(nameof(viewEntity));
             StoredOnServer = true;
-            Args = new SortedList<string, string>();
-            ResourceReferences = null;
+            Args = new Dictionary<string, string>();
+            Resources = null;
             CnlNumList = new List<int>();
             CnlNumSet = new HashSet<int>();
             OutCnlNumList = new List<int>();
@@ -84,12 +67,12 @@ namespace Scada.Data.Models
         /// <summary>
         /// Gets the view arguments.
         /// </summary>
-        public SortedList<string, string> Args { get; }
+        public Dictionary<string, string> Args { get; }
 
         /// <summary>
-        /// Gets the references to view resources.
+        /// Gets the view resources. Key is a resource name, value is a path relative to the view directory.
         /// </summary>
-        public List<ResourceReference> ResourceReferences { get; protected set; }
+        public Dictionary<string, string> Resources { get; protected set; }
 
         /// <summary>
         /// Gets the ordered no-duplicates list of input channel numbers included in the view.
@@ -187,7 +170,7 @@ namespace Scada.Data.Models
         /// <summary>
         /// Loads the view resource specified in the reference.
         /// </summary>
-        public virtual void LoadResource(ResourceReference reference, Stream stream)
+        public virtual void LoadResource(string resourceName, Stream stream)
         {
         }
 
