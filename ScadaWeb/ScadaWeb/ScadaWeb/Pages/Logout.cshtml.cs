@@ -61,7 +61,7 @@ namespace Scada.Web.Pages
                 webContext.PluginHolder.OnUserLogout(User.GetUserID());
             }
 
-            return RedirectToPage(WebUrl.LoginPage);
+            return RedirectToPage(WebPath.LoginPage);
         }
     }
 }

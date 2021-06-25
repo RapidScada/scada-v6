@@ -112,7 +112,7 @@ namespace Scada.Web.Pages
             string url = ScadaUtils.FirstNonEmpty(
                 returnUrl,
                 webContext.AppConfig.GeneralOptions.DefaultStartPage,
-                WebUrl.DefaultStartPage);
+                WebPath.DefaultStartPage);
             return RedirectToPage(url);
         }
 

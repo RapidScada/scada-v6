@@ -16,7 +16,7 @@
  * 
  * Product  : Rapid SCADA
  * Module   : Webstation Application
- * Summary  : Contains the predefined URLs of the web application
+ * Summary  : Contains the predefined paths of the web application
  * 
  * Author   : Mikhail Shiryaev
  * Created  : 2021
@@ -28,10 +28,10 @@
 namespace Scada.Web
 {
     /// <summary>
-    /// Contains the predefined URLs of the web application.
-    /// <para>Содержит предопределенные URL-адреса веб-приложения.</para>
+    /// Contains the predefined paths of the web application.
+    /// <para>Содержит предопределенные пути веб-приложения.</para>
     /// </summary>
-    public static class WebUrl
+    public static class WebPath
     {
         public const string Root = "/";
         public const string IndexPage = "/Index";

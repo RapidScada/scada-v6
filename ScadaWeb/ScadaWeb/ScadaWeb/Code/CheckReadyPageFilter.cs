@@ -53,10 +53,10 @@ namespace Scada.Web.Code
             if (!webContext.IsReady)
             {
                 string path = context.HttpContext.Request.Path;
-                if (path != WebUrl.Root &&
-                    path != WebUrl.IndexPage &&
-                    path != WebUrl.LoginPage &&
-                    path != WebUrl.LogoutPage)
+                if (path != WebPath.Root &&
+                    path != WebPath.IndexPage &&
+                    path != WebPath.LoginPage &&
+                    path != WebPath.LogoutPage)
                 {
                     context.Result = new StatusCodeResult(StatusCodes.Status503ServiceUnavailable);
                 }

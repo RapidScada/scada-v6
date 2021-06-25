@@ -91,10 +91,10 @@ namespace Scada.Web
             services
                 .AddRazorPages(options =>
                 {
-                    options.Conventions.AuthorizeFolder(WebUrl.Root);
-                    options.Conventions.AllowAnonymousToPage(WebUrl.IndexPage);
-                    options.Conventions.AllowAnonymousToPage(WebUrl.LoginPage);
-                    options.Conventions.AllowAnonymousToPage(WebUrl.LogoutPage);
+                    options.Conventions.AuthorizeFolder(WebPath.Root);
+                    options.Conventions.AllowAnonymousToPage(WebPath.IndexPage);
+                    options.Conventions.AllowAnonymousToPage(WebPath.LoginPage);
+                    options.Conventions.AllowAnonymousToPage(WebPath.LogoutPage);
                 })
                 .AddMvcOptions(options =>
                 {
@@ -108,8 +108,8 @@ namespace Scada.Web
                 .AddCookie(options =>
                 {
                     options.AccessDeniedPath = "/AccessDenied";
-                    options.LoginPath = WebUrl.LoginPage;
-                    options.LogoutPath = WebUrl.LogoutPage;
+                    options.LoginPath = WebPath.LoginPage;
+                    options.LogoutPath = WebPath.LogoutPage;
                 });
 
             services
