@@ -23,7 +23,6 @@
  * Modified : 2021
  */
 
-using Scada.Data.Entities;
 using Scada.Data.Models;
 using Scada.Web.Plugins;
 

@@ -113,7 +113,10 @@ namespace Scada.Web.Code
             }
             catch (Exception ex)
             {
-                webContext.Log.WriteException(ex, CommonPhrases.LoadViewError);
+                webContext.Log.WriteException(ex, Locale.IsRussian ?
+                    "Ошибка при загрузке представления с ид. {0} по пути {1}" :
+                    "Error loading view with ID {0} by the path {1}", 
+                    viewEntity.ViewID, viewEntity.Path);
                 return null;
             }
         }
@@ -134,13 +137,15 @@ namespace Scada.Web.Code
 
                 if (readingResult == FileReadingResult.EndOfFile)
                 {
+                    memoryStream.Position = 0;
                     view.LoadView(memoryStream);
                 }
                 else
                 {
                     webContext.Log.WriteError(Locale.IsRussian ?
-                        "Ошибка при загрузке представления с ид. {0} по пути {1}" :
-                        "Error loading view with ID {0} by the path {1}", view.ViewEntity.ViewID, path);
+                        "Ошибка при загрузке представления с ид. {0} по пути {1}: {2}" :
+                        "Error loading view with ID {0} by the path {1}: {2}", 
+                        view.ViewEntity.ViewID, path, readingResult.ToString(Locale.IsRussian));
                     downloadOK = false;
                 }
             }
@@ -161,8 +166,9 @@ namespace Scada.Web.Code
                     else
                     {
                         webContext.Log.WriteError(Locale.IsRussian ?
-                            "Ошибка при загрузке ресурса представления {0} по пути {1}" :
-                            "Error loading view resource {0} by the path {1}", pair.Key, pair.Value);
+                            "Ошибка при загрузке ресурса представления {0} по пути {1}: {2}" :
+                            "Error loading view resource {0} by the path {1}: {2}", 
+                            pair.Key, pair.Value, readingResult.ToString(Locale.IsRussian));
                         downloadOK = false;
                         break;
                     }

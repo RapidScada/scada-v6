@@ -1,5 +1,6 @@
 ﻿using Scada.Client;
 using Scada.Lang;
+using Scada.Protocol;
 using System;
 using System.Globalization;
 using System.Text;
@@ -16,6 +17,7 @@ namespace Scada
         /// The number format that uses a comma as the decimal separator.
         /// </summary>
         private static readonly NumberFormatInfo CommaNfi = new NumberFormatInfo { NumberDecimalSeparator = "," };
+
         /// <summary>
         /// The service status names in English.
         /// </summary>
@@ -26,6 +28,7 @@ namespace Scada
         /// </summary>
         private static readonly string[] ServiceStatusNamesRu = 
             { "не определён", "запуск", "норма", "ошибка", "завершение", "завершён" };
+
         /// <summary>
         /// The client state names in English.
         /// </summary>
@@ -36,6 +39,17 @@ namespace Scada
         /// </summary>
         private static readonly string[] ClientStateNamesRu = 
             { "соединение не установлено", "соединение установлено", "вход выполнен", "ошибка" };
+
+        /// <summary>
+        /// The file reading result names in English.
+        /// </summary>
+        private static readonly string[] ReadingResultNamesEn =
+            { "Successful", "End of file", "File not found", "File outdated" };
+        /// <summary>
+        /// The file reading result names in Russian.
+        /// </summary>
+        private static readonly string[] ReadingResultNamesRu =
+            { "Успешно", "Конец файла", "Файл не найден", "Файл устарел" };
 
 
         /// <summary>
@@ -244,6 +258,16 @@ namespace Scada
             return isRussian ?
                 ClientStateNamesRu[(int)clientState] :
                 ClientStateNamesEn[(int)clientState];
+        }
+
+        /// <summary>
+        /// Converts the file reading result to a string.
+        /// </summary>
+        public static string ToString(this FileReadingResult readingResult, bool isRussian)
+        {
+            return isRussian ?
+                ReadingResultNamesRu[(int)readingResult] :
+                ReadingResultNamesEn[(int)readingResult];
         }
 
         /// <summary>
