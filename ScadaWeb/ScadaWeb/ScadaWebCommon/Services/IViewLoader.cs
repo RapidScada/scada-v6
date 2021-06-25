@@ -16,7 +16,7 @@
  * 
  * Product  : Rapid SCADA
  * Module   : ScadaWebCommon
- * Summary  : Defines functionality to load views by a current user
+ * Summary  : Defines functionality to load views available to the current user
  * 
  * Author   : Mikhail Shiryaev
  * Created  : 2021
@@ -30,10 +30,10 @@ using Scada.Web.Plugins;
 namespace Scada.Web.Services
 {
     /// <summary>
-    /// Defines functionality to load views by a current user.
-    /// <para>Определяет функциональность для загрузки представлений текущим пользователем.</para>
+    /// Defines functionality to load views available to the current user.
+    /// <para>Определяет функциональность для загрузки представлений, доступных текущему пользователю.</para>
     /// </summary>
-    interface IViewLoader
+    public interface IViewLoader
     {
         /// <summary>
         /// Gets the view specification.

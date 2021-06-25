@@ -627,6 +627,15 @@ namespace Scada.Client
         }
 
         /// <summary>
+        /// Downloads the file.
+        /// </summary>
+        public void DownloadFile(RelativePath relativePath, Stream stream, out FileReadingResult readingResult)
+        {
+            DownloadFile(relativePath, 0, 0, false, DateTime.MinValue, () => stream, 
+                out DateTime _, out readingResult, out Stream _);
+        }
+
+        /// <summary>
         /// Uploads the file.
         /// </summary>
         public void UploadFile(string srcFileName, RelativePath destPath, out bool fileAccepted)

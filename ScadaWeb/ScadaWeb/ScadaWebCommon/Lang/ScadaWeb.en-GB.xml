@@ -6,6 +6,14 @@
     <Phrase key="UnknownUsername">Unknown</Phrase>
     <Phrase key=""></Phrase>
   </Dictionary>
+  <Dictionary key="Scada.Web.Code.ViewLoader">
+    <Phrase key="ViewNotSpecified">The requested view is not specified.</Phrase>
+    <Phrase key="ViewNotExists">The requested view does not exist.</Phrase>
+    <Phrase key="InsufficientViewRights">Insufficient access rights for the view.</Phrase>
+    <Phrase key="UnableResolveViewSpec">Unable to resolve view specification.</Phrase>
+    <Phrase key="UnableLoadView">Unable to load view.</Phrase>
+    <Phrase key="ViewMissingFromCache">The view is missing from the cache.</Phrase>
+  </Dictionary>
   <Dictionary key="Scada.Web.Pages.Shared._MainLayout">
     <Phrase key="spanMenuBtn_ToolTip">Show/Hide Menu</Phrase>
     <Phrase key="spanNotifBtn_ToolTip">Show/Hide Notifications</Phrase>
@@ -50,10 +58,6 @@
   </Dictionary>
   <Dictionary key="Scada.Web.Pages.View">
     <Phrase key="PageTitle">View</Phrase>
-    <Phrase key="ViewNotSpecified">The requested view is not specified.</Phrase>
-    <Phrase key="ViewNotExists">The requested view does not exist.</Phrase>
-    <Phrase key="InsufficientRights">Insufficient access rights for the view.</Phrase>
-    <Phrase key="UnableResolveSpec">Unable to resolve view specification.</Phrase>
     <Phrase key="divHideDataWindowBtn_ToolTip">Hide Data Window</Phrase>
   </Dictionary>
   <Dictionary key="Scada.Web.TreeView.MenuItem">

@@ -116,7 +116,8 @@ namespace Scada.Web
                 .AddHttpContextAccessor()
                 .AddSingleton(WebContext)
                 .AddScoped(UserContextFactory.GetUserContext)
-                .AddScoped<IClientAccessor, ClientAccessor>();
+                .AddScoped<IClientAccessor, ClientAccessor>()
+                .AddScoped<IViewLoader, ViewLoader>();
 
             WebContext.PluginHolder.AddServices(services);
         }

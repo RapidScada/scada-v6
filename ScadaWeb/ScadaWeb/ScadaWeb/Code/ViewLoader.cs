@@ -16,7 +16,7 @@
  * 
  * Product  : Rapid SCADA
  * Module   : ScadaWebCommon
- * Summary  : Loads views by a current user
+ * Summary  : Loads views available to the current user
  * 
  * Author   : Mikhail Shiryaev
  * Created  : 2021
@@ -24,32 +24,40 @@
  */
 
 using Microsoft.Extensions.Caching.Memory;
+using Scada.Client;
 using Scada.Data.Entities;
 using Scada.Data.Models;
+using Scada.Lang;
+using Scada.Protocol;
+using Scada.Web.Lang;
 using Scada.Web.Plugins;
 using Scada.Web.Services;
 using System;
+using System.Collections.Generic;
 using System.IO;
 
 namespace Scada.Web.Code
 {
     /// <summary>
-    /// Loads views by a current user.
-    /// <para>Загружает представления текущим пользователем.</para>
+    /// Loads views available to the current user.
+    /// <para>Загружает представления, доступные текущему пользователю.</para>
     /// </summary>
-    internal class ViewLoader
+    internal class ViewLoader : IViewLoader
     {
         private readonly IWebContext webContext;
         private readonly IUserContext userContext;
+        private readonly IClientAccessor clientAccessor;
         private readonly IMemoryCache memoryCache;
 
         /// <summary>
         /// Initializes a new instance of the class.
         /// </summary>
-        public ViewLoader(IWebContext webContext, IUserContext userContext, IMemoryCache memoryCache)
+        public ViewLoader(IWebContext webContext, IUserContext userContext, 
+            IClientAccessor clientAccessor, IMemoryCache memoryCache)
         {
             this.webContext = webContext ?? throw new ArgumentNullException(nameof(webContext));
             this.userContext = userContext ?? throw new ArgumentNullException(nameof(userContext));
+            this.clientAccessor = clientAccessor ?? throw new ArgumentNullException(nameof(clientAccessor));
             this.memoryCache = memoryCache ?? throw new ArgumentNullException(nameof(memoryCache));
         }
 
@@ -62,7 +70,7 @@ namespace Scada.Web.Code
             if (viewID <= 0)
             {
                 viewEntity = null;
-                errMsg = "dict.ViewNotSpecified";
+                errMsg = WebPhrases.ViewNotSpecified;
                 return false;
             }
 
@@ -71,14 +79,14 @@ namespace Scada.Web.Code
 
             if (viewEntity == null)
             {
-                errMsg = "dict.ViewNotExists";
+                errMsg = WebPhrases.ViewNotExists;
                 return false;
             }
 
             // check access rights
             if (!userContext.Rights.GetRightByObj(viewEntity.ObjNum ?? 0).View)
             {
-                errMsg = "dict.InsufficientViewRights";
+                errMsg = WebPhrases.InsufficientViewRights;
                 return false;
             }
 
@@ -87,19 +95,81 @@ namespace Scada.Web.Code
         }
 
         /// <summary>
-        /// Gets the view specification according to the entity properties.
+        /// Creates and loads the specified view.
         /// </summary>
-        private ViewSpec GetViewSpec(View viewEntity)
+        private BaseView GetView(View viewEntity, Type viewType)
         {
-            if (viewEntity.ViewTypeID == null)
+            try
             {
-                return webContext.PluginHolder.GetViewSpecByExt(Path.GetExtension(viewEntity.Path));
+                BaseView view = (BaseView)Activator.CreateInstance(viewType, viewEntity);
+                view.Prepare();
+
+                if (view.StoredOnServer && !LoadViewFromServer(view, viewEntity.Path))
+                    return null;
+
+                view.Build();
+                view.Bind(webContext.BaseDataSet);
+                return view;
             }
-            else
+            catch (Exception ex)
             {
-                ViewType viewType = webContext.BaseDataSet.ViewTypeTable.GetItem(viewEntity.ViewTypeID.Value);
-                return viewType == null ? null : webContext.PluginHolder.GetViewSpecByCode(viewType.Code);
+                webContext.Log.WriteException(ex, CommonPhrases.LoadViewError);
+                return null;
             }
+        }
+
+        /// <summary>
+        /// Loads the specified view from the server.
+        /// </summary>
+        private bool LoadViewFromServer(BaseView view, string path)
+        {
+            // load view
+            ScadaClient scadaClient = clientAccessor.ScadaClient;
+            bool downloadOK = true;
+
+            using (MemoryStream memoryStream = new())
+            {
+                RelativePath relativePath = new(TopFolder.View, AppFolder.Root, path);
+                scadaClient.DownloadFile(relativePath, memoryStream, out FileReadingResult readingResult);
+
+                if (readingResult == FileReadingResult.EndOfFile)
+                {
+                    view.LoadView(memoryStream);
+                }
+                else
+                {
+                    webContext.Log.WriteError(Locale.IsRussian ?
+                        "Ошибка при загрузке представления с ид. {0} по пути {1}" :
+                        "Error loading view with ID {0} by the path {1}", view.ViewEntity.ViewID, path);
+                    downloadOK = false;
+                }
+            }
+
+            // load resources
+            if (view.Resources != null && downloadOK)
+            {
+                foreach (KeyValuePair<string, string> pair in view.Resources)
+                {
+                    using MemoryStream memoryStream = new();
+                    RelativePath relativePath = new(TopFolder.View, AppFolder.Root, pair.Value);
+                    scadaClient.DownloadFile(relativePath, memoryStream, out FileReadingResult readingResult);
+
+                    if (readingResult == FileReadingResult.EndOfFile)
+                    {
+                        view.LoadResource(pair.Key, memoryStream);
+                    }
+                    else
+                    {
+                        webContext.Log.WriteError(Locale.IsRussian ?
+                            "Ошибка при загрузке ресурса представления {0} по пути {1}" :
+                            "Error loading view resource {0} by the path {1}", pair.Key, pair.Value);
+                        downloadOK = false;
+                        break;
+                    }
+                }
+            }
+
+            return downloadOK;
         }
 
 
@@ -117,12 +187,12 @@ namespace Scada.Web.Code
             viewSpec = memoryCache.GetOrCreate(WebUtils.GetViewSpecCacheKey(viewID), entry =>
             {
                 entry.SetDefaultOptions(webContext);
-                return GetViewSpec(viewEntity);
+                return webContext.GetViewSpec(viewEntity);
             });
 
             if (viewSpec == null)
             {
-                errMsg = "dict.UnableResolveSpec";
+                errMsg = WebPhrases.UnableResolveViewSpec;
                 return false;
             }
             else
@@ -136,9 +206,28 @@ namespace Scada.Web.Code
         /// </summary>
         public bool GetView<T>(int viewID, out T view, out string errMsg) where T : BaseView
         {
-            view = null;
-            errMsg = "";
-            return false;
+            if (!ValidateView(viewID, out View viewEntity, out errMsg))
+            {
+                view = null;
+                return false;
+            }
+
+            view = (T)memoryCache.GetOrCreate(WebUtils.GetViewCacheKey(viewID), entry =>
+            {
+                entry.SetSlidingExpiration(WebUtils.ViewCacheExpiration);
+                entry.AddExpirationToken(webContext);
+                return GetView(viewEntity, typeof(T));
+            });
+
+            if (view == null)
+            {
+                errMsg = WebPhrases.UnableLoadView;
+                return false;
+            }
+            else
+            {
+                return true;
+            }
         }
 
         /// <summary>
@@ -146,9 +235,21 @@ namespace Scada.Web.Code
         /// </summary>
         public bool GetViewFromCache(int viewID, out BaseView view, out string errMsg)
         {
-            view = null;
-            errMsg = "";
-            return false;
+            if (!ValidateView(viewID, out _, out errMsg))
+            {
+                view = null;
+                return false;
+            }
+
+            if (memoryCache.TryGetValue(WebUtils.GetViewCacheKey(viewID), out view))
+            {
+                return true;
+            }
+            else
+            {
+                errMsg = WebPhrases.ViewMissingFromCache;
+                return false;
+            }
         }
     }
 }

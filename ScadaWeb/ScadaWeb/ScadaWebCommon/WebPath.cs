@@ -31,6 +31,7 @@ namespace Scada.Web
     /// Contains the predefined paths of the web application.
     /// <para>Содержит предопределенные пути веб-приложения.</para>
     /// </summary>
+    /// <remarks>Do not use tilda (~) in this class.</remarks>
     public static class WebPath
     {
         public const string Root = "/";
@@ -40,7 +41,7 @@ namespace Scada.Web
         public const string AboutPage = "/About";
         public const string DefaultStartPage = "/View";
 
-        public static string GetViewUrl(int viewID)
+        public static string GetViewPath(int viewID)
         {
             return "/View/" + viewID;
         }

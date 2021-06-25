@@ -454,21 +454,5 @@ namespace Scada.Web.Code
                 return viewType == null ? null : PluginHolder.GetViewSpecByCode(viewType.Code);
             }
         }
-
-        /// <summary>
-        /// Gets a view from the server or cache.
-        /// </summary>
-        public T GetView<T>(int viewID, bool throwOnError = false) where T : BaseView
-        {
-            return null;
-        }
-
-        /// <summary>
-        /// Gets a view from the cache.
-        /// </summary>
-        public BaseView GetViewFromCache(int viewID, bool throwOnFail = false)
-        {
-            return null;
-        }
     }
 }

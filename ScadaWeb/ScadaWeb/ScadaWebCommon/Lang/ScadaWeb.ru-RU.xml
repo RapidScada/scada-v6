@@ -5,6 +5,14 @@
     <Phrase key="ClientError">Ошибка при взаимодействии с сервером</Phrase>
     <Phrase key="UnknownUsername">Неизвестный</Phrase>
   </Dictionary>
+  <Dictionary key="Scada.Web.Code.ViewLoader">
+    <Phrase key="ViewNotSpecified">Запрошенное представление не задано.</Phrase>
+    <Phrase key="ViewNotExists">Запрошенное представление не существует.</Phrase>
+    <Phrase key="InsufficientViewRights">Недостаточно прав на представление.</Phrase>
+    <Phrase key="UnableResolveViewSpec">Не удалось получить спецификацию представления.</Phrase>
+    <Phrase key="UnableLoadView">Не удалось загрузить представление.</Phrase>
+    <Phrase key="ViewMissingFromCache">Представление отсутствует в кэше.</Phrase>
+  </Dictionary>
   <Dictionary key="Scada.Web.Pages.Shared._MainLayout">
     <Phrase key="spanMenuBtn_ToolTip">Показать/скрыть меню</Phrase>
     <Phrase key="spanNotifBtn_ToolTip">Показать/скрыть уведомления</Phrase>
@@ -48,10 +56,6 @@
   </Dictionary>
   <Dictionary key="Scada.Web.Pages.View">
     <Phrase key="PageTitle">Представление</Phrase>
-    <Phrase key="ViewNotSpecified">Запрошенное представление не задано.</Phrase>
-    <Phrase key="ViewNotExists">Запрошенное представление не существует.</Phrase>
-    <Phrase key="InsufficientRights">Недостаточно прав на представление.</Phrase>
-    <Phrase key="UnableResolveSpec">Не удалось получить спецификацию представления.</Phrase>
     <Phrase key="divHideDataWindowBtn_ToolTip">Скрыть окно данных</Phrase>
   </Dictionary>
   <Dictionary key="Scada.Web.TreeView.MenuItem">

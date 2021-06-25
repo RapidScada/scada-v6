@@ -25,8 +25,6 @@
 
 using Microsoft.AspNetCore.Html;
 using Microsoft.AspNetCore.Mvc.RazorPages;
-using Microsoft.Extensions.Caching.Memory;
-using Scada.Lang;
 using Scada.Web.Plugins;
 using Scada.Web.Services;
 using System.Text;
@@ -42,66 +40,35 @@ namespace Scada.Web.Pages
     {
         private readonly IWebContext webContext;
         private readonly IUserContext userContext;
-        private readonly IMemoryCache memoryCache;
+        private readonly IViewLoader viewLoader;
 
         public bool ViewError => !string.IsNullOrEmpty(ErrorMessage);
         public string ErrorMessage { get; set; }
         public int ViewID { get; set; }
         public string ViewFrameUrl { get; set; }
 
-        public ViewModel(IWebContext webContext, IUserContext userContext, IMemoryCache memoryCache)
+        public ViewModel(IWebContext webContext, IUserContext userContext, IViewLoader viewLoader)
         {
             this.webContext = webContext;
             this.userContext = userContext;
-            this.memoryCache = memoryCache;
-
-            ErrorMessage = "";
-            ViewID = 0;
-            ViewFrameUrl = "";
+            this.viewLoader = viewLoader;
         }
 
         public void OnGet(int? id)
         {
             ViewID = id ?? userContext.Views.GetFirstViewID() ?? 0;
-            dynamic dict = Locale.GetDictionary("Scada.Web.Pages.View");
-
-            if (ViewID <= 0)
-            {
-                ErrorMessage = dict.ViewNotSpecified;
-                return;
-            }
-
-            // find view
-            Data.Entities.View viewEntity = webContext.BaseDataSet.ViewTable.GetItem(ViewID);
-            
-            if (viewEntity == null)
-            {
-                ErrorMessage = dict.ViewNotExists;
-                return;
-            }
-
-            // check access rights
-            if (!userContext.Rights.GetRightByObj(viewEntity.ObjNum ?? 0).View)
-            {
-                ErrorMessage = dict.InsufficientRights;
-                return;
-            }
-
-            // get view specification
-            ViewSpec viewSpec = memoryCache.GetOrCreate(WebUtils.GetViewSpecCacheKey(ViewID), entry =>
-            {
-                entry.SetDefaultOptions(webContext);
-                return webContext.GetViewSpec(viewEntity);
-            });
-
-            if (viewSpec == null)
-            {
-                ErrorMessage = dict.UnableResolveSpec;
-                return;
-            }
-
             ViewData["SelectedViewID"] = ViewID; // used by _MainLayout
-            ViewFrameUrl = Url.Content(viewSpec.GetFrameUrl(ViewID));
+
+            if (viewLoader.GetViewSpec(ViewID, out ViewSpec viewSpec, out string errMsg))
+            {
+                ErrorMessage = "";
+                ViewFrameUrl = Url.Content(viewSpec.GetFrameUrl(ViewID));
+            }
+            else
+            {
+                ErrorMessage = errMsg;
+                ViewFrameUrl = "";
+            }
         }
 
         public HtmlString RenderBottomTabs()

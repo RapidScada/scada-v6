@@ -43,6 +43,14 @@ namespace Scada.Web.Lang
         public static string ClientError { get; private set; }
         public static string UnknownUsername { get; private set; }
 
+        // Scada.Web.Code.ViewLoader
+        public static string ViewNotSpecified { get; private set; }
+        public static string ViewNotExists { get; private set; }
+        public static string InsufficientViewRights { get; private set; }
+        public static string UnableResolveViewSpec { get; private set; }
+        public static string UnableLoadView { get; private set; }
+        public static string ViewMissingFromCache { get; private set; }
+
         // Scada.Web.TreeView.MenuItem
         public static string ReportsMenuItem { get; private set; }
         public static string AdministrationMenuItem { get; private set; }
@@ -68,6 +76,14 @@ namespace Scada.Web.Lang
             CorrectErrors = dict["CorrectErrors"];
             ClientError = dict["ClientError"];
             UnknownUsername = dict["UnknownUsername"];
+
+            dict = Locale.GetDictionary("Scada.Web.Code.ViewLoader");
+            ViewNotSpecified = dict["ViewNotSpecified"];
+            ViewNotExists = dict["ViewNotExists"];
+            InsufficientViewRights = dict["InsufficientViewRights"];
+            UnableResolveViewSpec = dict["UnableResolveViewSpec"];
+            UnableLoadView = dict["UnableLoadView"];
+            ViewMissingFromCache = dict["ViewMissingFromCache"];
 
             dict = Locale.GetDictionary("Scada.Web.TreeView.MenuItem");
             ReportsMenuItem = dict["ReportsMenuItem"];
