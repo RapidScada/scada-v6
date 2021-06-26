@@ -1,6 +1,6 @@
 ﻿[
   {
-    "outputFile": "wwwroot/plugins/Main/css/my-style.css",
-    "inputFile": "wwwroot/plugins/Main/css/my-style.scss"
+    "outputFile": "wwwroot/plugins/Main/css/events.css",
+    "inputFile": "wwwroot/plugins/Main/css/events.scss"
   }
 ]

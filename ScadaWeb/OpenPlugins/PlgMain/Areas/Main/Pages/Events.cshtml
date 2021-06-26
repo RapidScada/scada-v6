@@ -3,6 +3,32 @@
 @{
     Layout = "_BasicLayout";
     ViewBag.Title = "Events";
+    dynamic dict = Locale.GetDictionary("Scada.Web.Plugins.PlgMain.Areas.Main.Pages.Events");
 }
 
-<div>Event table...</div>
+@section Styles {
+    <link href="~/plugins/Main/css/events.min.css" rel="stylesheet" asp-append-version="true" />
+}
+
+@section Scripts {
+    <script src="~/plugins/Main/js/events.js" asp-append-version="true"></script>
+}
+
+<div id="divToolbar" class="toolbar"></div>
+<div id="divTableWrapper" class="table-wrapper hidden">
+    <table id="tblEvents">
+        <thead>
+            <tr>@dict.TimeCol</tr>
+            <tr>@dict.ObjCol</tr>
+            <tr>@dict.DevCol</tr>
+            <tr>@dict.CnlCol</tr>
+            <tr>@dict.DescrCol</tr>
+            <tr>@dict.SeverityCol</tr>
+            <tr>@dict.AckCol</tr>
+        </thead>
+        <tbody>
+        </tbody>
+    </table>
+</div>
+<div id="divLoading" class="box-center fs-2 text-secondary">@dict.Loading</div>
+<div id="divNoEvents" class="box-center fs-2 text-secondary hidden">@dict.NoEvents</div>
