@@ -482,7 +482,7 @@ namespace Scada.Client
         }
 
         /// <summary>
-        /// Gets the events.
+        /// Gets the events ordered by timestamp.
         /// </summary>
         public List<Event> GetEvents(TimeRange timeRange, DataFilter filter, int archiveBit,
             bool useCache, out long filterID)
@@ -503,7 +503,7 @@ namespace Scada.Client
         }
 
         /// <summary>
-        /// Gets the events.
+        /// Gets the events ordered by timestamp.
         /// </summary>
         public List<Event> GetEvents(TimeRange timeRange, ref long filterID, int archiveBit)
         {

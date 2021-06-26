@@ -52,7 +52,7 @@ namespace Scada.Server.Archives
         public abstract Event GetEventByID(long eventID);
 
         /// <summary>
-        /// Gets the events.
+        /// Gets the events ordered by timestamp.
         /// </summary>
         public abstract List<Event> GetEvents(TimeRange timeRange, DataFilter filter);
 
