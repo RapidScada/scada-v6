@@ -25,9 +25,6 @@
 #Main_divContent {
   padding: 0; }
 
-#divError {
-  height: 100%; }
-
 #divView,
 #divDataWindow {
   min-height: 50px;
