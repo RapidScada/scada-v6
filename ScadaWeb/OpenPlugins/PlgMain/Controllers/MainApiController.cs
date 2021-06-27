@@ -1,7 +1,10 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿// Copyright (c) Rapid Software LLC. All rights reserved.
+// Licensed under the Apache License, Version 2.0. See License.txt in the project root for license information.
+
+using Microsoft.AspNetCore.Mvc;
 using System.Collections.Generic;
 
-namespace Scada.Web.Plugins.PlgMain.Areas.Main.Controllers
+namespace Scada.Web.Plugins.PlgMain.Controllers
 {
     [ApiController]
     [Route("Api/Main/[action]")]
