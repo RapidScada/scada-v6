@@ -1,4 +1,4 @@
-/*
+п»ї/*
  * Copyright 2021 Rapid Software LLC
  * 
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -27,6 +27,7 @@ using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc.ApplicationParts;
+using Microsoft.AspNetCore.Mvc.Authorization;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
@@ -41,7 +42,7 @@ namespace Scada.Web
 {
     /// <summary>
     /// Configures services and the app's request pipeline.
-    /// <para>Настраивает службы и конвейер запросов приложения.</para>
+    /// <para>РќР°СЃС‚СЂР°РёРІР°РµС‚ СЃР»СѓР¶Р±С‹ Рё РєРѕРЅРІРµР№РµСЂ Р·Р°РїСЂРѕСЃРѕРІ РїСЂРёР»РѕР¶РµРЅРёСЏ.</para>
     /// </summary>
     public class Startup
     {
@@ -79,7 +80,7 @@ namespace Scada.Web
                 catch (Exception ex)
                 {
                     WebContext.Log.WriteException(ex, Locale.IsRussian ?
-                        "Ошибка при загрузке части приложения из файла {0}" :
+                        "РћС€РёР±РєР° РїСЂРё Р·Р°РіСЂСѓР·РєРµ С‡Р°СЃС‚Рё РїСЂРёР»РѕР¶РµРЅРёСЏ РёР· С„Р°Р№Р»Р° {0}" :
                         "Error loading application part from file {0}", fileName);
                 }
             }
@@ -88,7 +89,12 @@ namespace Scada.Web
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            services
+            services.AddControllers(options =>
+            {
+                options.Filters.Add(new AuthorizeFilter());
+            });
+
+            services                
                 .AddRazorPages(options =>
                 {
                     options.Conventions.AuthorizeFolder(WebPath.Root);
@@ -144,6 +150,7 @@ namespace Scada.Web
 
             app.UseEndpoints(endpoints =>
             {
+                endpoints.MapControllers();
                 endpoints.MapRazorPages();
             });
         }

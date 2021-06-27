@@ -1,4 +1,4 @@
-/*
+﻿/*
  * Copyright 2021 Rapid Software LLC
  * 
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -25,7 +25,9 @@
 
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Hosting;
+using Scada.Lang;
 using Scada.Web.Code;
+using System;
 using System.IO;
 using System.Reflection;
 
@@ -33,7 +35,7 @@ namespace Scada.Web
 {
     /// <summary>
     /// The Webstation application.
-    /// <para>���������� ����������.</para>
+    /// <para>Приложение Вебстанция.</para>
     /// </summary>
     public class Program
     {
@@ -53,23 +55,41 @@ namespace Scada.Web
         }
 
         /// <summary>
-        /// The main entry point for the application.
+        /// Runs the web application.
         /// </summary>
-        public static void Main(string[] args)
+        private static void RunWebHost(string[] args)
         {
-            InitContext();
-            CreateHostBuilder(args).Build().Run();
-            webContext.FinalizeContext();
+            try
+            {
+                CreateHostBuilder(args).Build().Run();
+            }
+            catch (Exception ex)
+            {
+                webContext.Log.WriteException(ex, Locale.IsRussian ?
+                    "Не удалось запустить веб-узел" :
+                    "Web host failed to start");
+            }
         }
 
         /// <summary>
         /// Initializes a new instance of the host builder.
         /// </summary>
-        public static IHostBuilder CreateHostBuilder(string[] args) =>
+        private static IHostBuilder CreateHostBuilder(string[] args) =>
             Host.CreateDefaultBuilder(args)
                 .ConfigureWebHostDefaults(webBuilder =>
                 {
                     webBuilder.UseStartup(context => new Startup(context.Configuration, webContext));
                 });
+
+
+        /// <summary>
+        /// The main entry point for the application.
+        /// </summary>
+        public static void Main(string[] args)
+        {
+            InitContext();
+            RunWebHost(args);
+            webContext.FinalizeContext();
+        }
     }
 }
