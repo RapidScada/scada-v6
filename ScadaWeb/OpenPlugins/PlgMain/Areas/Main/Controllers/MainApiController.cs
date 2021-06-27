@@ -4,7 +4,8 @@ using System.Collections.Generic;
 namespace Scada.Web.Plugins.PlgMain.Areas.Main.Controllers
 {
     [ApiController]
-    [Route("Main/Api/[action]")]
+    [Route("Api/Main/[action]")]
+    //[Route("Main/Api/[action]")]
     public class MainApiController : ControllerBase
     {
         public IEnumerable<int> Get()

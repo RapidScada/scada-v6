@@ -26,6 +26,7 @@
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc.ApplicationParts;
 using Microsoft.AspNetCore.Mvc.Authorization;
 using Microsoft.Extensions.Configuration;
@@ -37,6 +38,7 @@ using Scada.Web.Services;
 using System;
 using System.IO;
 using System.Reflection;
+using System.Threading.Tasks;
 
 namespace Scada.Web
 {
@@ -56,7 +58,7 @@ namespace Scada.Web
 
         public IWebContext WebContext { get; }
 
-        // Loads plugins to integrate their pages into the web application.
+        // Loads plugins to integrate their pages and controllers into the web application.
         private void ConfigureApplicationParts(ApplicationPartManager apm)
         {
             foreach (string fileName in
@@ -89,12 +91,13 @@ namespace Scada.Web
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddControllers(options =>
-            {
-                options.Filters.Add(new AuthorizeFilter());
-            });
+            services
+                .AddControllers(options =>
+                {
+                    options.Filters.Add(new AuthorizeFilter());
+                });
 
-            services                
+            services
                 .AddRazorPages(options =>
                 {
                     options.Conventions.AuthorizeFolder(WebPath.Root);
@@ -116,6 +119,7 @@ namespace Scada.Web
                     options.AccessDeniedPath = "/AccessDenied";
                     options.LoginPath = WebPath.LoginPage;
                     options.LogoutPath = WebPath.LogoutPage;
+                    options.Events = new CookieAuthEvents();
                 });
 
             services
