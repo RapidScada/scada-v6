@@ -107,13 +107,13 @@ namespace Scada.Web.Pages
                 authProperties);
         }
 
-        private RedirectToPageResult RedirectToStartPage(string returnUrl)
+        private ActionResult RedirectToStartPage(string returnUrl)
         {
             string url = ScadaUtils.FirstNonEmpty(
                 returnUrl,
                 webContext.AppConfig.GeneralOptions.DefaultStartPage,
                 WebPath.DefaultStartPage);
-            return RedirectToPage(url);
+            return LocalRedirect(url);
         }
 
         public void OnGet()
