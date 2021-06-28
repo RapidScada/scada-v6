@@ -23,6 +23,7 @@
  * Modified : 2021
  */
 
+using Microsoft.Extensions.DependencyInjection;
 using Scada.Data.Entities;
 using Scada.Web.Plugins.PlgMain.Code;
 using Scada.Web.Services;
@@ -38,12 +39,16 @@ namespace Scada.Web.Plugins.PlgMain
     /// </summary>
     public class PlgMainLogic : PluginLogic
     {
+        private readonly PluginContext pluginContext;
+
+
         /// <summary>
         /// Initializes a new instance of the class.
         /// </summary>
         public PlgMainLogic(IWebContext webContext)
             : base(webContext)
         {
+            pluginContext = new PluginContext();
         }
 
 
@@ -71,6 +76,22 @@ namespace Scada.Web.Plugins.PlgMain
         /// </summary>
         public override ICollection<DataWindowSpec> DataWindowSpecs => new DataWindowSpec[] { new EventWindowSpec() };
 
+
+        /// <summary>
+        /// Loads configuration.
+        /// </summary>
+        public override void LoadConfig()
+        {
+            pluginContext.LoadOptions(WebContext.AppConfig.GetOptions("Main"));
+        }
+
+        /// <summary>
+        /// Adds services to the DI container.
+        /// </summary>
+        public override void AddServices(IServiceCollection services)
+        {
+            services.AddSingleton(pluginContext);
+        }
 
         /// <summary>
         /// Gets menu items available for the specified user.

@@ -5,6 +5,13 @@
     ViewBag.Title = "TableView";
 }
 
-<div>I'm the table view!</div>
-<div>@Model.ErrorMessage</div>
-@Model.RenderTableView()
+@if (Model.ViewError)
+{
+    <div id="divError" class="box-center fs-2 text-danger">
+        @Model.ErrorMessage
+    </div>
+}
+else
+{
+    @Model.RenderTableView()
+}

@@ -1,30 +1,9 @@
-/*
- * Copyright 2021 Rapid Software LLC
- * 
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- * 
- *     http://www.apache.org/licenses/LICENSE-2.0
- * 
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
- * 
- * 
- * Product  : Rapid SCADA
- * Module   : PlgMain
- * Summary  : Represents a table view page
- * 
- * Author   : Mikhail Shiryaev
- * Created  : 2021
- * Modified : 2021
- */
+// Copyright (c) Rapid Software LLC. All rights reserved.
+// Licensed under the Apache License, Version 2.0. See License.txt in the project root for license information.
 
 using Microsoft.AspNetCore.Html;
 using Microsoft.AspNetCore.Mvc.RazorPages;
+using Scada.Web.Plugins.PlgMain.Code;
 using Scada.Web.Services;
 using System.Text;
 
@@ -39,17 +18,20 @@ namespace Scada.Web.Plugins.PlgMain.Areas.Main.Pages
         private readonly IWebContext webContext;
         private readonly IUserContext userContext;
         private readonly IViewLoader viewLoader;
+        private readonly PluginContext pluginContext;
 
         public bool ViewError => !string.IsNullOrEmpty(ErrorMessage);
         public string ErrorMessage { get; set; }
         public int ViewID { get; set; }
         public TableView TableView { get; set; }
 
-        public TableViewModel(IWebContext webContext, IUserContext userContext, IViewLoader viewLoader)
+        public TableViewModel(IWebContext webContext, IUserContext userContext, 
+            IViewLoader viewLoader, PluginContext pluginContext)
         {
             this.webContext = webContext;
             this.userContext = userContext;
             this.viewLoader = viewLoader;
+            this.pluginContext = pluginContext;
         }
 
         public void OnGet(int? id)
@@ -71,12 +53,31 @@ namespace Scada.Web.Plugins.PlgMain.Areas.Main.Pages
         public HtmlString RenderTableView()
         {
             StringBuilder sbHtml = new();
+            sbHtml.AppendLine("<table class='main-table'>");
+
+            // columns
+            sbHtml.AppendLine("<colgroup>");
+            sbHtml.AppendLine("</colgroup>");
+
+            // header
+            sbHtml.AppendLine("<thead><tr>");
+            sbHtml.AppendLine("</tr></thead>");
+
+            // rows
+            sbHtml.AppendLine("<tbody>");
 
             foreach (TableItem tableItem in TableView.VisibleItems)
             {
-                sbHtml.Append("<div>").Append(tableItem.Text).AppendLine("</div>");
+                sbHtml.Append("<tr data-cnlNum='").Append(tableItem.CnlNum)
+                    .Append("' data-outCnlNum='").Append(tableItem.OutCnlNum)
+                    .AppendLine("'>");
+
+                sbHtml.Append("<td>").Append(tableItem.Text).AppendLine("</td>");
+                sbHtml.AppendLine("</tr>");
             }
 
+            sbHtml.AppendLine("</tbody>");
+            sbHtml.AppendLine("</table>");
             return new HtmlString(sbHtml.ToString());
         }
     }

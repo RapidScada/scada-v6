@@ -215,5 +215,13 @@ namespace Scada.Web.Config
                 return false;
             }
         }
+
+        /// <summary>
+        /// Gets the list of options by the specified group name, or an empty list if the group is not found.
+        /// </summary>
+        public OptionList GetOptions(string groupName)
+        {
+            return CustomOptions.TryGetValue(groupName, out OptionList options) ? options : new OptionList();
+        }
     }
 }
