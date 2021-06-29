@@ -34,6 +34,20 @@ namespace Scada.Web
     public class WebDirs : AppDirs
     {
         /// <summary>
+        /// Initializes a new instance of the class.
+        /// </summary>
+        public WebDirs()
+            : base()
+        {
+            PluginDir = "";
+        }
+
+        /// <summary>
+        /// Gets the directory of plugins.
+        /// </summary>
+        public string PluginDir { get; protected set; }
+
+        /// <summary>
         /// Initializes the directories based on the directory of the executable file.
         /// </summary>
         public override void Init(string exeDir)
@@ -43,6 +57,7 @@ namespace Scada.Web
             LangDir = ExeDir + "lang" + Path.DirectorySeparatorChar;
             LogDir = ExeDir + "log" + Path.DirectorySeparatorChar;
             StorageDir = ExeDir + "storage" + Path.DirectorySeparatorChar;
+            PluginDir = ScadaUtils.NormalDir(Path.Combine(ExeDir, "wwwroot", "plugins"));
         }
     }
 }

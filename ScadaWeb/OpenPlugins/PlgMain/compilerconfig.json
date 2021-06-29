@@ -2,5 +2,9 @@
   {
     "outputFile": "wwwroot/plugins/Main/css/events.css",
     "inputFile": "wwwroot/plugins/Main/css/events.scss"
+  },
+  {
+    "outputFile": "wwwroot/plugins/Main/css/table-view.css",
+    "inputFile": "wwwroot/plugins/Main/css/table-view.scss"
   }
 ]

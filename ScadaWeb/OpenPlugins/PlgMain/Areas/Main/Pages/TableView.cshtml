@@ -5,6 +5,14 @@
     ViewBag.Title = "TableView";
 }
 
+@section Styles {
+    <link href="~/plugins/Main/css/table-view.min.css" rel="stylesheet" asp-append-version="true" />
+}
+
+@section Scripts {
+    <script src="~/plugins/Main/js/table-view.js" asp-append-version="true"></script>
+}
+
 @if (Model.ViewError)
 {
     <div id="divError" class="box-center fs-2 text-danger">
@@ -13,5 +21,6 @@
 }
 else
 {
-    @Model.RenderTableView()
+    <div id="divToolbar" class="toolbar"></div>
+    <div id="divTableWrapper" class="table-wrapper">@Model.RenderTableView()</div>
 }

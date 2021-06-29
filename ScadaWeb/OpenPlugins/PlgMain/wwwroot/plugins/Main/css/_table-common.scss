@@ -1,5 +1,25 @@
 ﻿$toolbar-height: 30px;
+$cell-font-size: 0.75rem;
+$cell-border-color: #6c757d; // $gray-600
 
 .toolbar {
     height: $toolbar-height;
+}
+
+.table-wrapper {
+    padding: 0 10px;
+    overflow: auto;
+}
+
+.table-main {
+    border-collapse: collapse;
+
+    td,
+    th {
+        border: 1px solid $cell-border-color;
+        font-size: $cell-font-size;
+        padding: 2px 3px;
+        vertical-align: middle;
+        white-space: nowrap;
+    }
 }

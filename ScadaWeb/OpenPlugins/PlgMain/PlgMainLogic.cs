@@ -25,11 +25,13 @@
 
 using Microsoft.Extensions.DependencyInjection;
 using Scada.Data.Entities;
+using Scada.Lang;
 using Scada.Web.Plugins.PlgMain.Code;
 using Scada.Web.Services;
 using Scada.Web.TreeView;
 using Scada.Web.Users;
 using System.Collections.Generic;
+using System.IO;
 
 namespace Scada.Web.Plugins.PlgMain
 {
@@ -76,6 +78,18 @@ namespace Scada.Web.Plugins.PlgMain
         /// </summary>
         public override ICollection<DataWindowSpec> DataWindowSpecs => new DataWindowSpec[] { new EventWindowSpec() };
 
+
+        /// <summary>
+        /// Loads language dictionaries.
+        /// </summary>
+        public override void LoadDictionaries()
+        {
+            if (!Locale.LoadDictionaries(Path.Combine(AppDirs.PluginDir, "Main", "lang"),
+                "PlgMain", out string errMsg))
+            {
+                Log.WriteError(errMsg);
+            }
+        }
 
         /// <summary>
         /// Loads configuration.
