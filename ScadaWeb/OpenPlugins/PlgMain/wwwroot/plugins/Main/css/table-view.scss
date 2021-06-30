@@ -4,6 +4,13 @@ $cmd-btn-color: #a00;
 $cmd-btn-hover-color: red;
 
 .table-main {
+    td {
+        &:first-child {
+            padding: 2px 5px;
+            text-align: left;
+        }
+    }
+
     .item {
         display: table;
         width: 100%;
@@ -15,8 +22,11 @@ $cmd-btn-hover-color: red;
 
     .item-icon {
         width: 16px;
+        min-width: 16px;
 
         img {
+            width: 16px;
+            height: 16px;
             position: relative;
             top: -2px;
         }
@@ -34,9 +44,18 @@ $cmd-btn-hover-color: red;
     .item-cmd {
         color: $cmd-btn-color;
         cursor: pointer;
+        width: 20px;
+        min-width: 20px;
+        text-align: right;
 
         &:hover {
             color: $cmd-btn-hover-color;
         }
     }
+}
+
+.tooltip-inner {
+    max-width: 500px;
+    text-align: left;
+    white-space: nowrap;
 }

@@ -38,11 +38,5 @@
       <HintPath>..\..\ScadaWeb\ScadaWebCommon\bin\Release\net5.0\ScadaWebCommon.dll</HintPath>
     </Reference>
   </ItemGroup>
-
-  <ItemGroup>
-    <Folder Include="wwwroot\plugins\Main\images\quantity\" />
-  </ItemGroup>
   
-
-
 </Project>

@@ -3,7 +3,25 @@
   color: #212529; }
 
 .toolbar {
-  height: 30px; }
+  height: 30px;
+  line-height: 30px;
+  font-size: 14px;
+  padding: 0 10px; }
+  .toolbar input,
+  .toolbar select {
+    height: 24px; }
+  .toolbar .toolbar-group {
+    margin-right: 10px; }
+  .toolbar .tool-btn {
+    background-color: white;
+    color: #6c757d;
+    cursor: pointer;
+    display: inline-block;
+    margin-right: 5px;
+    padding: 0 10px;
+    white-space: nowrap; }
+    .toolbar .tool-btn:hover {
+      color: #00b9eb; }
 
 .table-wrapper {
   padding: 0 10px;
@@ -28,13 +46,10 @@
   .table-main th {
     background-color: #ccc;
     font-weight: 600; }
-  .table-main td:first-child {
-    text-align: left; }
 
-.tooltip-inner {
-  max-width: 500px;
-  text-align: left;
-  white-space: nowrap; }
+.table-main td:first-child {
+  padding: 2px 5px;
+  text-align: left; }
 
 .table-main .item {
   display: table;
@@ -43,8 +58,11 @@
     display: table-cell; }
 
 .table-main .item-icon {
-  width: 16px; }
+  width: 16px;
+  min-width: 16px; }
   .table-main .item-icon img {
+    width: 16px;
+    height: 16px;
     position: relative;
     top: -2px; }
 
@@ -57,6 +75,14 @@
 
 .table-main .item-cmd {
   color: #a00;
-  cursor: pointer; }
+  cursor: pointer;
+  width: 20px;
+  min-width: 20px;
+  text-align: right; }
   .table-main .item-cmd:hover {
     color: red; }
+
+.tooltip-inner {
+  max-width: 500px;
+  text-align: left;
+  white-space: nowrap; }

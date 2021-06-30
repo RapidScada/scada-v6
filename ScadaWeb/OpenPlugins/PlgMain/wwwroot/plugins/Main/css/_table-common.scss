@@ -1,13 +1,21 @@
-﻿$toolbar-height: 30px;
-$back-color: #f8f9fa; // $gray-100
-$fore-color: #212529; // $gray-900
+﻿@import '../../../css/_variables.scss';
+
+$back-color: $gray-100;
+$fore-color: $gray-900;
+
+$toolbar-height: 30px;
+$toolbar-font-size: 14px;
+$toolbar-control-height: 24px;
+$tool-btn-back-color: white;
+$tool-btn-fore-color: $gray-600;
+$tool-btn-hover-fore-color: $main-menu-item-hover-fore-color;
+
 $header-back-color: #ccc;
 $row-even-back-color: $back-color;
 $row-odd-back-color: white;
-$row-hover-back-color: #dee2e6; // $gray-300
+$row-hover-back-color: $gray-300;
 $cell-font-size: 0.8rem;
-$cell-border-color: #6c757d; // $gray-600
-$link-fore-color: #0073aa;
+$cell-border-color: $gray-600;
 
 body {
     background-color: $back-color;
@@ -16,6 +24,32 @@ body {
 
 .toolbar {
     height: $toolbar-height;
+    line-height: $toolbar-height;
+    font-size: $toolbar-font-size;
+    padding: 0 10px;
+
+    input,
+    select {
+        height: $toolbar-control-height;
+    }
+
+    .toolbar-group {
+        margin-right: 10px;
+    }
+
+    .tool-btn {
+        background-color: $tool-btn-back-color;
+        color: $tool-btn-fore-color;
+        cursor: pointer;
+        display: inline-block;
+        margin-right: 5px;
+        padding: 0 10px;
+        white-space: nowrap;
+
+        &:hover {
+            color: $tool-btn-hover-fore-color;
+        }
+    }
 }
 
 .table-wrapper {
@@ -54,16 +88,4 @@ body {
         background-color: $header-back-color;
         font-weight: 600;
     }
-
-    td {
-        &:first-child {
-            text-align: left;
-        }
-    }
-}
-
-.tooltip-inner {
-    max-width: 500px;
-    text-align: left;
-    white-space: nowrap;
 }
