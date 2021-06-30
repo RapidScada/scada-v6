@@ -1,4 +1,8 @@
-﻿.toolbar {
+﻿body {
+  background-color: #f8f9fa;
+  color: #212529; }
+
+.toolbar {
   height: 30px; }
 
 .table-wrapper {
@@ -7,10 +11,27 @@
 
 .table-main {
   border-collapse: collapse; }
-  .table-main td,
-  .table-main th {
+  .table-main tr:nth-child(even) {
+    background: #f8f9fa; }
+  .table-main tr:nth-child(odd) {
+    background: white; }
+  .table-main th,
+  .table-main td {
     border: 1px solid #6c757d;
-    font-size: 0.75rem;
+    font-size: 0.8rem;
     padding: 2px 3px;
+    text-align: center;
     vertical-align: middle;
     white-space: nowrap; }
+  .table-main th {
+    background-color: #ccc;
+    font-weight: 600; }
+  .table-main td:first-child {
+    text-align: left; }
+  .table-main .icon {
+    width: 16px;
+    height: 16px; }
+
+.tooltip-inner {
+  text-align: left;
+  white-space: nowrap; }
