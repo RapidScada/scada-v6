@@ -4,8 +4,13 @@
     <Phrase key="ItemColumn">Item</Phrase>
     <Phrase key="CurrentColumn">Current</Phrase>
     <Phrase key="MinusOneDay">-1d</Phrase>
-    <Phrase key=""></Phrase>
-    <Phrase key=""></Phrase>
+    <Phrase key="InCnlTip">Input channel</Phrase>
+    <Phrase key="OutCnlTip">Output channel</Phrase>
+    <Phrase key="DeviceTip">Device</Phrase>
+    <Phrase key="ObjTip">Object</Phrase>
+    <Phrase key="QuantityTip">Quantity</Phrase>
+    <Phrase key="UnitTip">Unit</Phrase>
+    <Phrase key="SendCommandTip">Send Command</Phrase>
     <Phrase key=""></Phrase>
   </Dictionary>
 </PlgMainDictionaries>

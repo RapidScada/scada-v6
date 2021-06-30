@@ -1,1 +1,42 @@
 ﻿@import '_table-common';
+
+$cmd-btn-color: #a00;
+$cmd-btn-hover-color: red;
+
+.table-main {
+    .item {
+        display: table;
+        width: 100%;
+
+        & > span {
+            display: table-cell;
+        }
+    }
+
+    .item-icon {
+        width: 16px;
+
+        img {
+            position: relative;
+            top: -2px;
+        }
+    }
+
+    .item-text {
+        padding: 0 5px;
+    }
+
+    .item-link {
+        color: $link-fore-color;
+        cursor: pointer;
+    }
+
+    .item-cmd {
+        color: $cmd-btn-color;
+        cursor: pointer;
+
+        &:hover {
+            color: $cmd-btn-hover-color;
+        }
+    }
+}

@@ -4,8 +4,10 @@ $fore-color: #212529; // $gray-900
 $header-back-color: #ccc;
 $row-even-back-color: $back-color;
 $row-odd-back-color: white;
+$row-hover-back-color: #dee2e6; // $gray-300
 $cell-font-size: 0.8rem;
 $cell-border-color: #6c757d; // $gray-600
+$link-fore-color: #0073aa;
 
 body {
     background-color: $back-color;
@@ -26,11 +28,15 @@ body {
 
     tr {
         &:nth-child(even) {
-            background: $row-even-back-color;
+            background-color: $row-even-back-color;
         }
 
         &:nth-child(odd) {
-            background: $row-odd-back-color;
+            background-color: $row-odd-back-color;
+        }
+
+        &:hover {
+            background-color: $row-hover-back-color;
         }
     }
 
@@ -54,14 +60,10 @@ body {
             text-align: left;
         }
     }
-
-    .icon {
-        width: 16px;
-        height: 16px;
-    }
 }
 
 .tooltip-inner {
+    max-width: 500px;
     text-align: left;
     white-space: nowrap;
 }

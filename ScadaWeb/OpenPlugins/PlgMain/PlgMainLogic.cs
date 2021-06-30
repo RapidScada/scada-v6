@@ -84,8 +84,12 @@ namespace Scada.Web.Plugins.PlgMain
         /// </summary>
         public override void LoadDictionaries()
         {
-            if (!Locale.LoadDictionaries(Path.Combine(AppDirs.PluginDir, "Main", "lang"),
+            if (Locale.LoadDictionaries(Path.Combine(AppDirs.PluginDir, "Main", "lang"),
                 "PlgMain", out string errMsg))
+            {
+                PluginPhrases.Init();
+            }
+            else
             {
                 Log.WriteError(errMsg);
             }

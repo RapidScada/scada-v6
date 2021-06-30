@@ -4,8 +4,12 @@
     <Phrase key="ItemColumn">Элемент</Phrase>
     <Phrase key="CurrentColumn">Текущие</Phrase>
     <Phrase key="MinusOneDay">-1д</Phrase>
-    <Phrase key=""></Phrase>
-    <Phrase key=""></Phrase>
-    <Phrase key=""></Phrase>
+    <Phrase key="InCnlTip">Вх. канал</Phrase>
+    <Phrase key="OutCnlTip">Канал упр.</Phrase>
+    <Phrase key="DeviceTip">КП</Phrase>
+    <Phrase key="ObjTip">Объект</Phrase>
+    <Phrase key="QuantityTip">Величина</Phrase>
+    <Phrase key="UnitTip">Размерность</Phrase>
+    <Phrase key="SendCommandTip">Отправить команду</Phrase>
   </Dictionary>
 </PlgMainDictionaries>

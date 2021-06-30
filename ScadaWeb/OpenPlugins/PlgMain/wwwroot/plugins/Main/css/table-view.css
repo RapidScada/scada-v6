@@ -12,9 +12,11 @@
 .table-main {
   border-collapse: collapse; }
   .table-main tr:nth-child(even) {
-    background: #f8f9fa; }
+    background-color: #f8f9fa; }
   .table-main tr:nth-child(odd) {
-    background: white; }
+    background-color: white; }
+  .table-main tr:hover {
+    background-color: #dee2e6; }
   .table-main th,
   .table-main td {
     border: 1px solid #6c757d;
@@ -28,10 +30,33 @@
     font-weight: 600; }
   .table-main td:first-child {
     text-align: left; }
-  .table-main .icon {
-    width: 16px;
-    height: 16px; }
 
 .tooltip-inner {
+  max-width: 500px;
   text-align: left;
   white-space: nowrap; }
+
+.table-main .item {
+  display: table;
+  width: 100%; }
+  .table-main .item > span {
+    display: table-cell; }
+
+.table-main .item-icon {
+  width: 16px; }
+  .table-main .item-icon img {
+    position: relative;
+    top: -2px; }
+
+.table-main .item-text {
+  padding: 0 5px; }
+
+.table-main .item-link {
+  color: #0073aa;
+  cursor: pointer; }
+
+.table-main .item-cmd {
+  color: #a00;
+  cursor: pointer; }
+  .table-main .item-cmd:hover {
+    color: red; }
