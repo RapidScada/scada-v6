@@ -156,26 +156,23 @@ namespace Scada
         /// <summary>
         /// Converts the string representation of an integer range to a collection.
         /// </summary>
-        public static ICollection<int> ParseRange(string s, bool allowEmpty, bool unique, bool throwOnFail = true)
+        public static IList<int> ParseRange(string s, bool allowEmpty, bool distinct)
         {
-            if (ParseRange(s, allowEmpty, unique, out ICollection<int> collection))
-                return collection;
-            else if (throwOnFail)
-                throw new FormatException("The specified string is not a valid range of integers.");
+            if (ParseRange(s, allowEmpty, distinct, out IList<int> list))
+                return list;
             else
-                return null;
+                throw new FormatException("The specified string is not a valid range of integers.");
         }
 
         /// <summary>
         /// Converts the string representation of an integer range to a collection.
         /// </summary>
         /// <remarks>For example: 1-5, 10</remarks>
-        public static bool ParseRange(string s, bool allowEmpty, bool unique, out ICollection<int> collection)
+        public static bool ParseRange(string s, bool allowEmpty, bool distinct, out IList<int> list)
         {
-            collection = null;
             string[] parts = (s ?? "").Split(ParseRangeSeparator, StringSplitOptions.RemoveEmptyEntries);
-            List<int> list = new List<int>();
-            HashSet<int> set = unique ? new HashSet<int>() : null;
+            List<int> numList = new List<int>();
+            HashSet<int> numSet = distinct ? new HashSet<int>() : null;
 
             foreach (string part in parts)
             {
@@ -193,12 +190,13 @@ namespace Scada
                         {
                             for (int n = n1; n <= n2; n++)
                             {
-                                if (set == null || set.Add(n))
-                                    list.Add(n);
+                                if (numSet == null || numSet.Add(n))
+                                    numList.Add(n);
                             }
                         }
                         else
                         {
+                            list = null;
                             return false;
                         }
                     }
@@ -207,42 +205,44 @@ namespace Scada
                         // single number
                         if (int.TryParse(part, out int n))
                         {
-                            if (set == null || set.Add(n))
-                                list.Add(n);
+                            if (numSet == null || numSet.Add(n))
+                                numList.Add(n);
                         }
                         else
                         {
+                            list = null;
                             return false;
                         }
                     }
                 }
             }
 
-            if (allowEmpty || list.Count > 0)
+            if (allowEmpty || numList.Count > 0)
             {
-                list.Sort();
-                collection = list;
+                numList.Sort();
+                list = numList;
                 return true;
             }
             else
             {
+                list = null;
                 return false;
             }
         }
 
         /// <summary>
-        /// Converts the collection of integers to its string representation.
+        /// Converts the collection to a long string representation.
         /// </summary>
-        public static string IntCollectionToStr(ICollection<int> collection)
+        public static string ToLongString(this ICollection<int> collection)
         {
             return collection == null ? "" : string.Join(DisplayArraySeparator, collection);
         }
 
         /// <summary>
-        /// Converts the collection of integers to a user friendly range representation.
+        /// Converts the collection to a short string representation using range format.
         /// </summary>
         /// <remarks>For example: 1-5, 10</remarks>
-        public static string RangeToStr(ICollection<int> collection)
+        public static string ToShortString(this ICollection<int> collection)
         {
             if (collection == null)
                 throw new ArgumentNullException("collection");
