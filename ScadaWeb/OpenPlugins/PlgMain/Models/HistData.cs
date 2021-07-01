@@ -7,10 +7,14 @@ using System.Collections.Generic;
 namespace Scada.Web.Plugins.PlgMain.Models
 {
     /// <summary>
-    /// Represents a response containing formatted historical data.
+    /// Represents a package containing formatted historical data.
+    /// <para>Представляет пакет, содержащий отформатированные исторические данные.</para>
     /// </summary>
-    public class HistDataResponse
+    public class HistData
     {
+        /// <summary>
+        /// Gets or sets the data records.
+        /// </summary>
         public List<HistDataRecord> Records { get; set; }
     }
 }

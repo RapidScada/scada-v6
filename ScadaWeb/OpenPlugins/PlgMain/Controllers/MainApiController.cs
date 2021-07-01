@@ -18,7 +18,7 @@ namespace Scada.Web.Plugins.PlgMain.Controllers
     [Route("Api/Main/[action]")]
     public class MainApiController : ControllerBase
     {
-        public Dto<CurDataLightResponse> GetCurData(IdList cnlNums)
+        public Dto<CurDataLight> GetCurData(IdList cnlNums)
         {
             List<CurDataPoint> dataPoints = new();
 
@@ -30,27 +30,32 @@ namespace Scada.Web.Plugins.PlgMain.Controllers
                 }
             }
 
-            return Dto<CurDataLightResponse>.Success(new CurDataLightResponse { Points = dataPoints });
+            return Dto<CurDataLight>.Success(new CurDataLight { Points = dataPoints });
         }
 
-        public Dto<CurDataResponse> GetCurDataFormatted(IdList cnlNums)
+        public Dto<CurData> GetCurDataFormatted(IdList cnlNums)
         {
             return null;
         }
 
-        public Dto<CurDataResponse> GetCurDataByView(int viewID)
+        public Dto<CurData> GetCurDataByView(int viewID)
         {
             return null;
         }
 
-        public Dto<HistDataResponse> GetHistData(IdList cnlNums, DateTime startTime, DateTime endTime, bool endInclusive, int archiveBit)
+        public Dto<HistData> GetHistData(IdList cnlNums, DateTime startTime, DateTime endTime, bool endInclusive, int archiveBit)
         {
             return null;
         }
 
-        public Dto<HistDataResponse> GetHistDataByView(int viewID, DateTime startTime, DateTime endTime, bool endInclusive, int archiveBit)
+        public Dto<HistData> GetHistDataByView(int viewID, DateTime startTime, DateTime endTime, bool endInclusive, int archiveBit)
         {
             return null;
+        }
+
+        public Dto<DateTime> GetArcWriteTime(int archiveBit)
+        {
+            return Dto<DateTime>.Success(DateTime.UtcNow);
         }
     }
 }
