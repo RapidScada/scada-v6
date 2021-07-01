@@ -9,7 +9,8 @@
   padding: 0 10px; }
   .toolbar input,
   .toolbar select {
-    height: 24px; }
+    height: 24px;
+    line-height: normal; }
   .toolbar .toolbar-group {
     margin-right: 10px; }
   .toolbar .tool-btn {

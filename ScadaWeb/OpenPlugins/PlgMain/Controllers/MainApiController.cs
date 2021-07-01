@@ -2,23 +2,55 @@
 // Licensed under the Apache License, Version 2.0. See License.txt in the project root for license information.
 
 using Microsoft.AspNetCore.Mvc;
+using Scada.Data.Models;
+using Scada.Web.Api;
+using Scada.Web.Plugins.PlgMain.Models;
+using System;
 using System.Collections.Generic;
 
 namespace Scada.Web.Plugins.PlgMain.Controllers
 {
+    /// <summary>
+    /// Represents the plugin's web API.
+    /// <para>Представляет веб API плагина.</para>
+    /// </summary>
     [ApiController]
     [Route("Api/Main/[action]")]
-    //[Route("Main/Api/[action]")]
     public class MainApiController : ControllerBase
     {
-        public IEnumerable<int> Get()
+        public Dto<CurDataLightResponse> GetCurData(IdList cnlNums)
         {
-            return new int[] { 1, 2, 3, 4, 5 };
+            List<CurDataPoint> dataPoints = new();
+
+            if (cnlNums != null)
+            {
+                foreach (int cnlNum in cnlNums)
+                {
+                    dataPoints.Add(new CurDataPoint(cnlNum));
+                }
+            }
+
+            return Dto<CurDataLightResponse>.Success(new CurDataLightResponse { Points = dataPoints });
         }
 
-        public IEnumerable<int> Get2()
+        public Dto<CurDataResponse> GetCurDataFormatted(IdList cnlNums)
         {
-            return new int[] { 6, 7, 8, 9, 10 };
+            return null;
+        }
+
+        public Dto<CurDataResponse> GetCurDataByView(int viewID)
+        {
+            return null;
+        }
+
+        public Dto<HistDataResponse> GetHistData(IdList cnlNums, DateTime startTime, DateTime endTime, bool endInclusive, int archiveBit)
+        {
+            return null;
+        }
+
+        public Dto<HistDataResponse> GetHistDataByView(int viewID, DateTime startTime, DateTime endTime, bool endInclusive, int archiveBit)
+        {
+            return null;
         }
     }
 }

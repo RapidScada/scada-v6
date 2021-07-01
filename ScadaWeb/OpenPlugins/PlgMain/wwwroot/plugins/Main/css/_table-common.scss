@@ -31,6 +31,7 @@ body {
     input,
     select {
         height: $toolbar-control-height;
+        line-height: normal;
     }
 
     .toolbar-group {
