@@ -195,7 +195,17 @@ namespace Scada.Web.Plugins.PlgMain.Controllers
         /// </summary>
         public Dto<long> GetArcWriteTime(int archiveBit)
         {
-            return Dto<long>.Success(0);
+            try
+            {
+                // TODO: use memory cache
+                DateTime writeTime = clientAccessor.ScadaClient.GetLastWriteTime(archiveBit);
+                return Dto<long>.Success(new DateTimeOffset(writeTime).ToUnixTimeMilliseconds());
+            }
+            catch (Exception ex)
+            {
+                webContext.Log.WriteException(ex, WebPhrases.ErrorInWebApi, nameof(GetArcWriteTime));
+                return Dto<long>.Fail(ex.Message);
+            }
         }
     }
 }
