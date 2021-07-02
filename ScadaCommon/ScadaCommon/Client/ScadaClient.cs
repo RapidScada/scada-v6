@@ -381,7 +381,7 @@ namespace Scada.Client
         }
 
         /// <summary>
-        /// Gets the time (UTC) when when the archive was last written to.
+        /// Gets the time (UTC) when the archive was last written to.
         /// </summary>
         public DateTime GetLastWriteTime(int archiveBit)
         {

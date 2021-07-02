@@ -23,6 +23,8 @@
  * Modified : 2021
  */
 
+using Scada.Data.Entities;
+
 namespace Scada.Data.Models
 {
     /// <summary>
@@ -32,14 +34,57 @@ namespace Scada.Data.Models
     public struct CnlDataFormatted
     {
         /// <summary>
+        /// The default color for displaying input channel values.
+        /// </summary>
+        public const string DefaultColor = "Black";
+
+
+        /// <summary>
         /// Gets or sets the displayed channel value.
         /// </summary>
         public string DispVal { get; set; }
 
         /// <summary>
-        /// Gets or sets the channel value color.
+        /// Gets or sets the main color of the channel value.
         /// </summary>
-        public string Color { get; set; }
+        public string Color1 { get; set; }
 
+        /// <summary>
+        /// Gets or sets the second color of the channel value.
+        /// </summary>
+        public string Color2 { get; set; }
+
+        /// <summary>
+        /// Gets or sets the background color of the channel value.
+        /// </summary>
+        public string Color3 { get; set; }
+
+
+        /// <summary>
+        /// Sets the default colors.
+        /// </summary>
+        public void SetColorsToDefault()
+        {
+            Color1 = DefaultColor;
+            Color2 = DefaultColor;
+            Color3 = DefaultColor;
+        }
+
+        /// <summary>
+        /// Sets colors according to the channel status entity.
+        /// </summary>
+        public void SetColors(CnlStatus cnlStatus)
+        {
+            if (cnlStatus == null)
+            {
+                SetColorsToDefault();
+            }
+            else
+            {
+                Color1 = string.IsNullOrEmpty(cnlStatus.MainColor) ? DefaultColor : cnlStatus.MainColor;
+                Color2 = string.IsNullOrEmpty(cnlStatus.SecondColor) ? DefaultColor : cnlStatus.SecondColor;
+                Color3 = string.IsNullOrEmpty(cnlStatus.BackColor) ? DefaultColor : cnlStatus.BackColor;
+            }
+        }
     }
 }
