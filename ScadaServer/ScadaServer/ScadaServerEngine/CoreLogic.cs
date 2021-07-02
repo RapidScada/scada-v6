@@ -1148,9 +1148,11 @@ namespace Scada.Server.Engine
 
                 if (useCache)
                 {
-                    cnlListID = serverCache.GetNextID();
+                    cnlListID = ScadaUtils.GenerateUniqueID();
                     cnlListItem = new CnlListItem(cnlListID, cnlCnt);
-                    serverCache.CnlListCache.Add(cnlListID, cnlListItem);
+
+                    if (!serverCache.CnlListCache.Add(cnlListID, cnlListItem))
+                        cnlListID = 0;
                 }
 
                 lock (curData)

@@ -20,7 +20,7 @@
  * 
  * Author   : Mikhail Shiryaev
  * Created  : 2020
- * Modified : 2020
+ * Modified : 2021
  */
 
 using Scada.Data.Tables;
@@ -39,15 +39,12 @@ namespace Scada.Server.Engine
         /// </summary>
         private static readonly TimeSpan CacheExpiration = TimeSpan.FromMinutes(1);
 
-        private long maxItemID; // the maximum cache item ID
-
 
         /// <summary>
         /// Initializes a new instance of the class.
         /// </summary>
         public ServerCache()
         {
-            maxItemID = 0;
             CnlListCache = new MemoryCache<long, CnlListItem>(CacheExpiration);
             DataFilterCache = new MemoryCache<long, DataFilter>(CacheExpiration);
         }
@@ -62,14 +59,5 @@ namespace Scada.Server.Engine
         /// Gets the cache containing data filters.
         /// </summary>
         public MemoryCache<long, DataFilter> DataFilterCache { get; }
-
-
-        /// <summary>
-        /// Gets the next cache item ID.
-        /// </summary>
-        public long GetNextID()
-        {
-            return ++maxItemID;
-        }
     }
 }

@@ -314,8 +314,10 @@ namespace Scada.Server.Engine
 
                 if (useCache)
                 {
-                    dataFilterID = serverCache.GetNextID();
-                    serverCache.DataFilterCache.Add(dataFilterID, dataFilter);
+                    dataFilterID = ScadaUtils.GenerateUniqueID();
+
+                    if (!serverCache.DataFilterCache.Add(dataFilterID, dataFilter))
+                        dataFilterID = 0;
                 }
             }
 
