@@ -20,7 +20,7 @@
  * 
  * Author   : Mikhail Shiryaev
  * Created  : 2020
- * Modified : 2020
+ * Modified : 2021
  */
 
 using Scada.Data.Const;
@@ -220,16 +220,9 @@ namespace Scada.Comm.Devices
                 {
                     string FormatEnum(int val)
                     {
-                        string[] enumValues = tagFormat.EnumValues;
-
-                        if (enumValues == null)
-                            return val.ToString();
-                        else if (val < 0)
-                            return enumValues[0];
-                        else if (val >= enumValues.Length)
-                            return enumValues[enumValues.Length - 1];
-                        else
-                            return enumValues[val];
+                        return tagFormat.EnumValues != null && 0 <= val && val < tagFormat.EnumValues.Length
+                            ? tagFormat.EnumValues[val]
+                            : val.ToString();
                     }
 
                     if (deviceTag.DataType == TagDataType.Int64)
