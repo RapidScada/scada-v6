@@ -4,6 +4,7 @@
     <Phrase key="CorrectErrors">Please correct the following errors:</Phrase>
     <Phrase key="ClientError">Error communicating with the server</Phrase>
     <Phrase key="UnknownUsername">Unknown</Phrase>
+    <Phrase key="AccessDenied">Access denied</Phrase>
     <Phrase key=""></Phrase>
   </Dictionary>
   <Dictionary key="Scada.Web.Code.ViewLoader">

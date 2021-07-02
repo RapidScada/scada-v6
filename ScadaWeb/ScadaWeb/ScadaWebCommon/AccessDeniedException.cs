@@ -16,31 +16,30 @@
  * 
  * Product  : Rapid SCADA
  * Module   : ScadaWebCommon
- * Summary  : Represents a record containing historical data of an input channel
+ * Summary  : Represents an exception raised when the user cannot access services
  * 
  * Author   : Mikhail Shiryaev
  * Created  : 2021
  * Modified : 2021
  */
 
-using Scada.Data.Models;
+using Scada.Web.Lang;
+using System;
 
-namespace Scada.Web.Api
+namespace Scada.Web
 {
     /// <summary>
-    /// Represents a record containing historical data of an input channel.
-    /// <para>Представляет запись, содержащую исторические данные входного канала.</para>
+    /// Represents an exception raised when the user cannot access services.
+    /// <para>Представляет исключение, возникающее, когда пользователь не может получить доступ к службам.</para>
     /// </summary>
-    public struct HistDataRecord
+    public class AccessDeniedException : Exception
     {
         /// <summary>
-        /// Gets or sets the numeric input channel data.
+        /// Initializes a new instance of the class.
         /// </summary>
-        public CnlDataPoint Pt { get; set; }
-
-        /// <summary>
-        /// Gets or sets the formatted input channel data.
-        /// </summary>
-        public CnlDataFormatted Fd { get; set; }
+        public AccessDeniedException()
+            : base(WebPhrases.AccessDenied)
+        {
+        }
     }
 }

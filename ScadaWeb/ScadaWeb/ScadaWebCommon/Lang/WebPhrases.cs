@@ -37,11 +37,13 @@ namespace Scada.Web.Lang
     {
         // Webstation Application
         public static string ErrorInPlugin { get; private set; }
+        public static string ErrorInWebApi { get; private set; }
 
         // Scada.Web
         public static string CorrectErrors { get; private set; }
         public static string ClientError { get; private set; }
         public static string UnknownUsername { get; private set; }
+        public static string AccessDenied { get; private set; }
 
         // Scada.Web.Code.ViewLoader
         public static string ViewNotSpecified { get; private set; }
@@ -65,10 +67,12 @@ namespace Scada.Web.Lang
             if (Locale.IsRussian)
             {
                 ErrorInPlugin = "Ошибка при вызове метода {0} плагина {1}";
+                ErrorInWebApi = "Ошибка при вызове метода веб API {0}";
             }
             else
             {
                 ErrorInPlugin = "Error calling the {0} method of the {1} plugin";
+                ErrorInWebApi = "Error calling the {0} web API method";
             }
 
             // load phrases that are used in the multilingual user interface from dictionaries
@@ -76,6 +80,7 @@ namespace Scada.Web.Lang
             CorrectErrors = dict["CorrectErrors"];
             ClientError = dict["ClientError"];
             UnknownUsername = dict["UnknownUsername"];
+            AccessDenied = dict["AccessDenied"];
 
             dict = Locale.GetDictionary("Scada.Web.Code.ViewLoader");
             ViewNotSpecified = dict["ViewNotSpecified"];

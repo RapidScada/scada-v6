@@ -81,6 +81,7 @@ namespace Scada.Web.Code
             Log = LogStub.Instance;
             BaseDataSet = new BaseDataSet();
             RightMatrix = new RightMatrix();
+            DataFormatter = new CnlDataFormatter(BaseDataSet);
             ClientPool = new ScadaClientPool();
             PluginHolder = new PluginHolder();
             CacheExpirationTokenSource = new CancellationTokenSource();
@@ -126,6 +127,11 @@ namespace Scada.Web.Code
         /// Gets the access rights.
         /// </summary>
         public RightMatrix RightMatrix { get; private set; }
+
+        /// <summary>
+        /// Gets the channel data formatter.
+        /// </summary>
+        public CnlDataFormatter DataFormatter { get; private set; }
 
         /// <summary>
         /// Gets the client pool.
@@ -297,6 +303,7 @@ namespace Scada.Web.Code
 
                                     BaseDataSet = baseDataSet;
                                     RightMatrix = rightMatrix;
+                                    DataFormatter = new CnlDataFormatter(baseDataSet);
                                     IsReadyToLogin = true;
 
                                     if (IsReady)
