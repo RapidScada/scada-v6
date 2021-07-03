@@ -117,6 +117,10 @@ namespace Scada.Web.Plugins.PlgMain.Controllers
             if (cnlNums == null)
                 cnlNums = Array.Empty<int>();
 
+            // TODO: time conversion
+            //startTime = DateTime.SpecifyKind(startTime, DateTimeKind.Utc);
+            //endTime = DateTime.SpecifyKind(endTime, DateTimeKind.Utc);
+
             int cnlCnt = cnlNums.Count;
             HistData.RecordList[] trends = new HistData.RecordList[cnlCnt];
 
@@ -144,21 +148,21 @@ namespace Scada.Web.Plugins.PlgMain.Controllers
                 }
 
                 // copy channel data
-                for (int i = 0; i < cnlCnt; i++)
+                for (int cnlIdx = 0; cnlIdx < cnlCnt; cnlIdx++)
                 {
-                    int cnlNum = cnlNums[i];
+                    int cnlNum = cnlNums[cnlIdx];
                     InCnl inCnl = webContext.BaseDataSet.InCnlTable.GetItem(cnlNum);
-                    HistData.RecordList records = trends[i] = new(pointCount);
-                    TrendBundle.CnlDataList cnlDataList = trendBundle.Trends[i];
+                    HistData.RecordList records = trends[cnlIdx] = new(pointCount);
+                    TrendBundle.CnlDataList cnlDataList = trendBundle.Trends[cnlIdx];
 
-                    for (int j = 0; j < pointCount; j++)
+                    for (int ptIdx = 0; ptIdx < pointCount; ptIdx++)
                     {
-                        CnlData cnlData = cnlDataList[j];
-                        records[i] = new HistDataRecord
+                        CnlData cnlData = cnlDataList[ptIdx];
+                        records.Add(new HistDataRecord
                         {
                             D = cnlData,
                             Df = webContext.DataFormatter.FormatCnlData(cnlData, inCnl)
-                        };
+                        });
                     }
                 }
             }
@@ -202,9 +206,9 @@ namespace Scada.Web.Plugins.PlgMain.Controllers
         }
 
         /// <summary>
-        /// Gets the formatted current data.
+        /// Gets the current data of the specified channels.
         /// </summary>
-        public Dto<CurData> GetCurDataFormatted(IdList cnlNums, bool useCache)
+        public Dto<CurData> GetCurDataStep1(IdList cnlNums, bool useCache)
         {
             try
             {
@@ -229,15 +233,15 @@ namespace Scada.Web.Plugins.PlgMain.Controllers
             }
             catch (Exception ex)
             {
-                webContext.Log.WriteException(ex, WebPhrases.ErrorInWebApi, nameof(GetCurDataFormatted));
+                webContext.Log.WriteException(ex, WebPhrases.ErrorInWebApi, nameof(GetCurDataStep1));
                 return Dto<CurData>.Fail(ex.Message);
             }
         }
 
         /// <summary>
-        /// Gets the formatted current data by the channel list ID.
+        /// Gets the current data by the channel list ID returned in step 1.
         /// </summary>
-        public Dto<CurData> GetCurDataFormatted2(long cnlListID)
+        public Dto<CurData> GetCurDataStep2(long cnlListID)
         {
             try
             {
@@ -247,7 +251,7 @@ namespace Scada.Web.Plugins.PlgMain.Controllers
             }
             catch (Exception ex)
             {
-                webContext.Log.WriteException(ex, WebPhrases.ErrorInWebApi, nameof(GetCurDataFormatted));
+                webContext.Log.WriteException(ex, WebPhrases.ErrorInWebApi, nameof(GetCurDataStep2));
                 return Dto<CurData>.Fail(ex.Message);
             }
         }

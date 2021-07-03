@@ -24,6 +24,7 @@
  */
 
 using Scada.Data.Entities;
+using System;
 
 namespace Scada.Data.Models
 {
@@ -34,30 +35,14 @@ namespace Scada.Data.Models
     public struct CnlDataFormatted
     {
         /// <summary>
-        /// The default color for displaying input channel values.
-        /// </summary>
-        public const string DefaultColor = "Black";
-
-
-        /// <summary>
         /// Gets or sets the displayed channel value.
         /// </summary>
         public string DispVal { get; set; }
 
         /// <summary>
-        /// Gets or sets the main color of the channel value.
+        /// Gets or sets the main, second and background colors of the channel value.
         /// </summary>
-        public string Color1 { get; set; }
-
-        /// <summary>
-        /// Gets or sets the second color of the channel value.
-        /// </summary>
-        public string Color2 { get; set; }
-
-        /// <summary>
-        /// Gets or sets the background color of the channel value.
-        /// </summary>
-        public string Color3 { get; set; }
+        public string[] Colors { get; set; }
 
 
         /// <summary>
@@ -65,9 +50,18 @@ namespace Scada.Data.Models
         /// </summary>
         public void SetColorsToDefault()
         {
-            Color1 = DefaultColor;
-            Color2 = DefaultColor;
-            Color3 = DefaultColor;
+            Colors = Array.Empty<string>();
+        }
+
+        /// <summary>
+        /// Sets the first color keeping the others unchanged.
+        /// </summary>
+        public void SetFirstColor(string color)
+        {
+            if (Colors == null || Colors.Length == 0)
+                Colors = new string[] { color };
+            else
+                Colors[0] = color;
         }
 
         /// <summary>
@@ -81,9 +75,12 @@ namespace Scada.Data.Models
             }
             else
             {
-                Color1 = string.IsNullOrEmpty(cnlStatus.MainColor) ? DefaultColor : cnlStatus.MainColor;
-                Color2 = string.IsNullOrEmpty(cnlStatus.SecondColor) ? DefaultColor : cnlStatus.SecondColor;
-                Color3 = string.IsNullOrEmpty(cnlStatus.BackColor) ? DefaultColor : cnlStatus.BackColor;
+                Colors = new string[]
+                {
+                    cnlStatus.MainColor ?? "",
+                    cnlStatus.SecondColor ?? "",
+                    cnlStatus.BackColor ?? ""
+                };
             }
         }
     }

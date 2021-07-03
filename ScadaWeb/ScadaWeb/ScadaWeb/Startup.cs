@@ -95,6 +95,11 @@ namespace Scada.Web
                 .AddControllers(options =>
                 {
                     options.Filters.Add(new AuthorizeFilter());
+                })
+                .AddJsonOptions(options =>
+                {
+                    options.JsonSerializerOptions.IgnoreReadOnlyFields = true;
+                    options.JsonSerializerOptions.IgnoreReadOnlyProperties = true;
                 });
 
             services
