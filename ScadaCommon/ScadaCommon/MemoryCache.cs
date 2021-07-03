@@ -35,14 +35,14 @@ namespace Scada
     public class MemoryCache<TKey, TValue>
     {
         /// <summary>
-        /// Represents a cache item.
+        /// Represents a cache entry.
         /// </summary>
-        protected class CacheItem
+        protected class CacheEntry
         {
             /// <summary>
             /// Initializes a new instance of the class.
             /// </summary>
-            public CacheItem(TKey key, TValue value, DateTime lastAccessTime)
+            public CacheEntry(TKey key, TValue value, DateTime lastAccessTime)
             {
                 Key = key;
                 Value = value;
@@ -50,15 +50,15 @@ namespace Scada
             }
 
             /// <summary>
-            /// Gets the item key.
+            /// Gets the entry key.
             /// </summary>
             public TKey Key { get; }
             /// <summary>
-            /// Gets the item value.
+            /// Gets the entry value.
             /// </summary>
             public TValue Value { get; set; }
             /// <summary>
-            /// Gets or sets the time (UTC) when the current item was last accessed.
+            /// Gets or sets the time (UTC) when the current entry was last accessed.
             /// </summary>
             public DateTime LastAccessTime { get; set; }
         }
@@ -67,7 +67,7 @@ namespace Scada
         /// <summary>
         /// The cache items.
         /// </summary>
-        protected readonly Dictionary<TKey, CacheItem> items;
+        protected readonly Dictionary<TKey, CacheEntry> entries;
         /// <summary>
         /// The time (UTC) when the outdated items were last removed.
         /// </summary>
@@ -87,7 +87,7 @@ namespace Scada
         /// </summary>
         public MemoryCache(TimeSpan slidingExpiration, int capacity)
         {
-            items = new Dictionary<TKey, CacheItem>();
+            entries = new Dictionary<TKey, CacheEntry>();
             lastCleanupTime = DateTime.UtcNow;
 
             SlidingExpiration = slidingExpiration;
@@ -108,16 +108,16 @@ namespace Scada
 
 
         /// <summary>
-        /// Removes the outdated items.
+        /// Removes the outdated entries.
         /// </summary>
         protected void RemoveOutdatedItems(DateTime nowDT)
         {
-            lock (items)
+            lock (entries)
             {
                 // remove items that have not been accessed for a long time
                 List<TKey> keysToRemove = new List<TKey>();
 
-                foreach (KeyValuePair<TKey, CacheItem> pair in items)
+                foreach (KeyValuePair<TKey, CacheEntry> pair in entries)
                 {
                     if (nowDT - pair.Value.LastAccessTime > SlidingExpiration)
                         keysToRemove.Add(pair.Key);
@@ -125,11 +125,11 @@ namespace Scada
 
                 foreach (TKey key in keysToRemove)
                 {
-                    items.Remove(key);
+                    entries.Remove(key);
                 }
 
                 // remove items if capacity is exceeded, taking into account access time
-                int itemCnt = items.Count;
+                int itemCnt = entries.Count;
 
                 if (itemCnt > Capacity)
                 {
@@ -137,7 +137,7 @@ namespace Scada
                     DateTime[] accessTimes = new DateTime[itemCnt];
                     int i = 0;
 
-                    foreach (KeyValuePair<TKey, CacheItem> pair in items)
+                    foreach (KeyValuePair<TKey, CacheEntry> pair in entries)
                     {
                         keys[i] = pair.Key;
                         accessTimes[i] = pair.Value.LastAccessTime;
@@ -149,7 +149,7 @@ namespace Scada
 
                     for (int j = 0; j < delCnt; j++)
                     {
-                        items.Remove(keys[j]);
+                        entries.Remove(keys[j]);
                     }
                 }
 
@@ -162,15 +162,15 @@ namespace Scada
         /// </summary>
         public bool Add(TKey key, TValue value)
         {
-            lock (items)
+            lock (entries)
             {
-                if (items.ContainsKey(key))
+                if (entries.ContainsKey(key))
                 {
                     return false;
                 }
                 else
                 {
-                    items.Add(key, new CacheItem(key, value, DateTime.UtcNow));
+                    entries.Add(key, new CacheEntry(key, value, DateTime.UtcNow));
                     return true;
                 }
             }
@@ -181,23 +181,23 @@ namespace Scada
         /// </summary>
         public TValue Get(TKey key)
         {
-            lock (items)
+            lock (entries)
             {
-                TValue itemValue = default;
+                TValue entryValue = default;
                 DateTime utcNow = DateTime.UtcNow;
 
                 // get the item
-                if (items.TryGetValue(key, out CacheItem item))
+                if (entries.TryGetValue(key, out CacheEntry entry))
                 {
-                    item.LastAccessTime = utcNow;
-                    itemValue = item.Value;
+                    entry.LastAccessTime = utcNow;
+                    entryValue = entry.Value;
                 }
 
                 // cleanup the cache
                 if (utcNow - lastCleanupTime > SlidingExpiration)
                     RemoveOutdatedItems(utcNow);
 
-                return itemValue;
+                return entryValue;
             }
         }
     }
