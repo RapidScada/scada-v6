@@ -516,7 +516,7 @@ namespace Scada
             }
             else
             {
-                return new byte[0];
+                return Array.Empty<byte>();
             }
         }
 
@@ -537,7 +537,7 @@ namespace Scada
             }
             else
             {
-                return new int[0];
+                return Array.Empty<int>();
             }
         }
 
@@ -558,7 +558,7 @@ namespace Scada
             }
             else
             {
-                return new double[0];
+                return Array.Empty<double>();
             }
         }
 
@@ -586,7 +586,7 @@ namespace Scada
             }
             else
             {
-                return new CnlData[0];
+                return Array.Empty<CnlData>();
             }
         }
 

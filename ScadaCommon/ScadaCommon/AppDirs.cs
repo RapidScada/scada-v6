@@ -142,7 +142,7 @@ namespace Scada
         /// </summary>
         public virtual string[] GetRequiredDirs()
         {
-            return new string[0];
+            return Array.Empty<string>();
         }
     }
 }

@@ -209,7 +209,7 @@ namespace Scada.Client
             ReceiveResponse(request);
             int index = ArgumentIndex;
             cnlListID = GetInt64(inBuf, ref index);
-            return cnlListID > 0 ? GetCnlDataArray(inBuf, ref index) : null;
+            return cnlListID > 0 ? GetCnlDataArray(inBuf, ref index) : Array.Empty<CnlData>();
         }
 
         /// <summary>
