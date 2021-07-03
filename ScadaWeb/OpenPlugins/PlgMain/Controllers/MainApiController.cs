@@ -78,7 +78,7 @@ namespace Scada.Web.Plugins.PlgMain.Controllers
         /// <summary>
         /// Requests the current data from the server.
         /// </summary>
-        private CurData RequestCurData(IList<int> cnlNums, long cnlListID)
+        private CurData RequestCurData(IList<int> cnlNums, long cnlListID, bool useCache)
         {
             int cnlCnt = cnlNums == null ? 0 : cnlNums.Count;
             CurDataRecord[] records = new CurDataRecord[cnlCnt];
@@ -88,14 +88,14 @@ namespace Scada.Web.Plugins.PlgMain.Controllers
             {
                 CnlData[] cnlDataArr = cnlListID > 0
                     ? clientAccessor.ScadaClient.GetCurrentData(ref cnlListID)
-                    : clientAccessor.ScadaClient.GetCurrentData(cnlNums.ToArray(), true, out cnlListID);
+                    : clientAccessor.ScadaClient.GetCurrentData(cnlNums.ToArray(), useCache, out cnlListID);
                 curData.CnlListID = cnlListID;
 
                 for (int i = 0; i < cnlCnt; i++)
                 {
                     int cnlNum = cnlNums[i];
-                    CnlData cnlData = i < cnlDataArr.Length ? cnlDataArr[i] : CnlData.Empty;
                     InCnl inCnl = webContext.BaseDataSet.InCnlTable.GetItem(cnlNum);
+                    CnlData cnlData = i < cnlDataArr.Length ? cnlDataArr[i] : CnlData.Empty;
 
                     records[i] = new CurDataRecord
                     {
@@ -106,6 +106,64 @@ namespace Scada.Web.Plugins.PlgMain.Controllers
             }
 
             return curData;
+        }
+
+        /// <summary>
+        /// Requests historical data from the server.
+        /// </summary>
+        private HistData RequestHistData(IList<int> cnlNums, DateTime startTime, DateTime endTime, bool endInclusive,
+            int archiveBit)
+        {
+            if (cnlNums == null)
+                cnlNums = Array.Empty<int>();
+
+            int cnlCnt = cnlNums.Count;
+            HistData.RecordList[] trends = new HistData.RecordList[cnlCnt];
+
+            HistData histData = new()
+            {
+                CnlNums = cnlNums,
+                Timestamps = Array.Empty<long>(),
+                Trends = trends
+            };
+
+            if (cnlCnt > 0)
+            {
+                // request trends
+                TrendBundle trendBundle = clientAccessor.ScadaClient.GetTrends(cnlNums.ToArray(), 
+                    new TimeRange(startTime, endTime, endInclusive), archiveBit);
+
+                // copy timestamps
+                int pointCount = trendBundle.Timestamps.Count;
+                long[] timestamps = new long[pointCount];
+                histData.Timestamps = timestamps;
+
+                for (int i = 0; i < pointCount; i++)
+                {
+                    timestamps[i] = new DateTimeOffset(trendBundle.Timestamps[i]).ToUnixTimeMilliseconds();
+                }
+
+                // copy channel data
+                for (int i = 0; i < cnlCnt; i++)
+                {
+                    int cnlNum = cnlNums[i];
+                    InCnl inCnl = webContext.BaseDataSet.InCnlTable.GetItem(cnlNum);
+                    HistData.RecordList records = trends[i] = new(pointCount);
+                    TrendBundle.CnlDataList cnlDataList = trendBundle.Trends[i];
+
+                    for (int j = 0; j < pointCount; j++)
+                    {
+                        CnlData cnlData = cnlDataList[j];
+                        records[i] = new HistDataRecord
+                        {
+                            D = cnlData,
+                            Df = webContext.DataFormatter.FormatCnlData(cnlData, inCnl)
+                        };
+                    }
+                }
+            }
+
+            return histData;
         }
 
 
@@ -146,17 +204,46 @@ namespace Scada.Web.Plugins.PlgMain.Controllers
         /// <summary>
         /// Gets the formatted current data.
         /// </summary>
-        public Dto<CurData> GetCurDataFormatted(IdList cnlNums, long cnlListID)
+        public Dto<CurData> GetCurDataFormatted(IdList cnlNums, bool useCache)
         {
             try
             {
+                // request data
                 CheckAccessRights(cnlNums);
-                CurData curData = RequestCurData(cnlNums, cnlListID);
+                CurData curData = RequestCurData(cnlNums, 0, useCache);
+
+                // write channel list to the cache
+                if (useCache && curData.CnlListID >= 0)
+                {
+                    memoryCache.Set(
+                        PluginUtils.GetCacheKey("CnlList", curData.CnlListID),
+                        cnlNums,
+                        new MemoryCacheEntryOptions { SlidingExpiration = WebUtils.CacheExpiration });
+                }
+
                 return Dto<CurData>.Success(curData);
             }
             catch (AccessDeniedException ex)
             {
                 return Dto<CurData>.Fail(ex.Message);
+            }
+            catch (Exception ex)
+            {
+                webContext.Log.WriteException(ex, WebPhrases.ErrorInWebApi, nameof(GetCurDataFormatted));
+                return Dto<CurData>.Fail(ex.Message);
+            }
+        }
+
+        /// <summary>
+        /// Gets the formatted current data by the channel list ID.
+        /// </summary>
+        public Dto<CurData> GetCurDataFormatted2(long cnlListID)
+        {
+            try
+            {
+                IdList cnlNums = memoryCache.Get<IdList>(PluginUtils.GetCacheKey("CnlList", cnlListID));
+                CurData curData = RequestCurData(cnlNums, cnlListID, true);
+                return Dto<CurData>.Success(curData);
             }
             catch (Exception ex)
             {
@@ -177,8 +264,7 @@ namespace Scada.Web.Plugins.PlgMain.Controllers
                     CurData curData = memoryCache.GetOrCreate(PluginUtils.GetCacheKey("CurData", viewID), entry =>
                     {
                         entry.SetAbsoluteExpiration(DataCacheExpiration);
-                        entry.AddExpirationToken(webContext);
-                        return RequestCurData(view.CnlNumList, cnlListID);
+                        return RequestCurData(view.CnlNumList, cnlListID, true);
                     });
 
                     return Dto<CurData>.Success(curData);
@@ -198,17 +284,54 @@ namespace Scada.Web.Plugins.PlgMain.Controllers
         /// <summary>
         /// Gets the historical data.
         /// </summary>
-        public Dto<HistData> GetHistData(IdList cnlNums, DateTime startTime, DateTime endTime, bool endInclusive, int archiveBit)
+        public Dto<HistData> GetHistData(IdList cnlNums, DateTime startTime, DateTime endTime, bool endInclusive, 
+            int archiveBit)
         {
-            return null;
+            try
+            {
+                CheckAccessRights(cnlNums);
+                HistData histData = RequestHistData(cnlNums, startTime, endTime, endInclusive, archiveBit);
+                return Dto<HistData>.Success(histData);
+            }
+            catch (AccessDeniedException ex)
+            {
+                return Dto<HistData>.Fail(ex.Message);
+            }
+            catch (Exception ex)
+            {
+                webContext.Log.WriteException(ex, WebPhrases.ErrorInWebApi, nameof(GetHistData));
+                return Dto<HistData>.Fail(ex.Message);
+            }
         }
 
         /// <summary>
         /// Gets the historical data by view.
         /// </summary>
-        public Dto<HistData> GetHistDataByView(int viewID, DateTime startTime, DateTime endTime, bool endInclusive, int archiveBit)
+        public Dto<HistData> GetHistDataByView(int viewID, DateTime startTime, DateTime endTime, bool endInclusive, 
+            int archiveBit)
         {
-            return null;
+            try
+            {
+                if (viewLoader.GetViewFromCache(viewID, out BaseView view, out string errMsg))
+                {
+                    HistData histData = memoryCache.GetOrCreate(PluginUtils.GetCacheKey("HistData", viewID), entry =>
+                    {
+                        entry.SetAbsoluteExpiration(DataCacheExpiration);
+                        return RequestHistData(view.CnlNumList, startTime, endTime, endInclusive, archiveBit);
+                    });
+
+                    return Dto<HistData>.Success(histData);
+                }
+                else
+                {
+                    return Dto<HistData>.Fail(errMsg);
+                }
+            }
+            catch (Exception ex)
+            {
+                webContext.Log.WriteException(ex, WebPhrases.ErrorInWebApi, nameof(GetHistDataByView));
+                return Dto<HistData>.Fail(ex.Message);
+            }
         }
 
         /// <summary>
@@ -218,9 +341,13 @@ namespace Scada.Web.Plugins.PlgMain.Controllers
         {
             try
             {
-                // TODO: use memory cache
-                DateTime writeTime = clientAccessor.ScadaClient.GetLastWriteTime(archiveBit);
-                return Dto<long>.Success(new DateTimeOffset(writeTime).ToUnixTimeMilliseconds());
+                DateTime dt = memoryCache.GetOrCreate(PluginUtils.GetCacheKey("ArcWriteTime", archiveBit), entry =>
+                {
+                    entry.SetAbsoluteExpiration(DataCacheExpiration);
+                    return clientAccessor.ScadaClient.GetLastWriteTime(archiveBit);
+                });
+
+                return Dto<long>.Success(new DateTimeOffset(dt).ToUnixTimeMilliseconds());
             }
             catch (Exception ex)
             {

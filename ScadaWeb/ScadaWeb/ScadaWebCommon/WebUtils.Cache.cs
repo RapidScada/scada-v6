@@ -24,24 +24,26 @@ namespace Scada.Web
         /// <summary>
         /// Sets the default cache entry options.
         /// </summary>
-        public static void SetDefaultOptions(this ICacheEntry cacheEntry, IWebContext webContext)
+        public static ICacheEntry SetDefaultOptions(this ICacheEntry cacheEntry, IWebContext webContext)
         {
             cacheEntry.SetSlidingExpiration(CacheExpiration);
             cacheEntry.AddExpirationToken(webContext);
+            return cacheEntry;
         }
 
         /// <summary>
         /// Adds an expiration token, stored in the web context, to the cache entry.
         /// </summary>
-        public static void AddExpirationToken(this ICacheEntry cacheEntry, IWebContext webContext)
+        public static ICacheEntry AddExpirationToken(this ICacheEntry cacheEntry, IWebContext webContext)
         {
             cacheEntry.AddExpirationToken(new CancellationChangeToken(webContext.CacheExpirationTokenSource.Token));
+            return cacheEntry;
         }
 
         /// <summary>
         /// Gets the cache key.
         /// </summary>
-        public static string GetCacheKey(string prefix, string typeName, int objectID)
+        public static string GetCacheKey(string prefix, string typeName, object objectID)
         {
             return prefix + "_" + typeName + "_" + objectID;
         }

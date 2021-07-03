@@ -19,7 +19,7 @@ namespace Scada.Web.Plugins.PlgMain.Code
         /// <summary>
         /// Gets the cache key for the plugin object.
         /// </summary>
-        public static string GetCacheKey(string typeName, int objectID)
+        public static string GetCacheKey(string typeName, object objectID)
         {
             return WebUtils.GetCacheKey(PluginCode, typeName, objectID);
         }

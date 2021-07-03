@@ -17,6 +17,13 @@ namespace Scada.Web.Plugins.PlgMain.Models
         /// </summary>
         public class RecordList : List<HistDataRecord>
         {
+            /// <summary>
+            /// Initializes a new instance of the class.
+            /// </summary>
+            public RecordList(int capacity)
+                : base(capacity)
+            {
+            }
         }
 
 
