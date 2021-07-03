@@ -8,6 +8,7 @@ using Scada.Data.Models;
 using Scada.Log;
 using Scada.Web.Api;
 using Scada.Web.Lang;
+using Scada.Web.Plugins.PlgMain.Code;
 using Scada.Web.Plugins.PlgMain.Models;
 using Scada.Web.Services;
 using System;
@@ -24,6 +25,11 @@ namespace Scada.Web.Plugins.PlgMain.Controllers
     [Route("Api/Main/[action]")]
     public class MainApiController : ControllerBase
     {
+        /// <summary>
+        /// The cache expiration for archive data.
+        /// </summary>
+        private static readonly TimeSpan DataCacheExpiration = TimeSpan.FromMilliseconds(500);
+
         private readonly IWebContext webContext;
         private readonly IUserContext userContext;
         private readonly IClientAccessor clientAccessor;
@@ -69,6 +75,39 @@ namespace Scada.Web.Plugins.PlgMain.Controllers
             }
         }
 
+        /// <summary>
+        /// Requests the current data from the server.
+        /// </summary>
+        private CurData RequestCurData(IList<int> cnlNums, long cnlListID)
+        {
+            int cnlCnt = cnlNums == null ? 0 : cnlNums.Count;
+            CurDataRecord[] records = new CurDataRecord[cnlCnt];
+            CurData curData = new() { Records = records, CnlListID = 0 };
+
+            if (cnlCnt > 0)
+            {
+                CnlData[] cnlDataArr = cnlListID > 0
+                    ? clientAccessor.ScadaClient.GetCurrentData(ref cnlListID)
+                    : clientAccessor.ScadaClient.GetCurrentData(cnlNums.ToArray(), true, out cnlListID);
+                curData.CnlListID = cnlListID;
+
+                for (int i = 0; i < cnlCnt; i++)
+                {
+                    int cnlNum = cnlNums[i];
+                    CnlData cnlData = i < cnlDataArr.Length ? cnlDataArr[i] : CnlData.Empty;
+                    InCnl inCnl = webContext.BaseDataSet.InCnlTable.GetItem(cnlNum);
+
+                    records[i] = new CurDataRecord
+                    {
+                        D = new CurDataPoint(cnlNum, cnlData),
+                        Df = webContext.DataFormatter.FormatCnlData(cnlData, inCnl)
+                    };
+                }
+            }
+
+            return curData;
+        }
+
 
         /// <summary>
         /// Gets the current data without formatting.
@@ -112,31 +151,7 @@ namespace Scada.Web.Plugins.PlgMain.Controllers
             try
             {
                 CheckAccessRights(cnlNums);
-                int cnlCnt = cnlNums == null ? 0 : cnlNums.Count;
-                CurDataRecord[] records = new CurDataRecord[cnlCnt];
-                CurData curData = new() { Records = records, CnlListID = 0 };
-
-                if (cnlCnt > 0)
-                {
-                    CnlData[] cnlDataArr = cnlListID > 0
-                        ? clientAccessor.ScadaClient.GetCurrentData(ref cnlListID)
-                        : clientAccessor.ScadaClient.GetCurrentData(cnlNums.ToArray(), true, out cnlListID);
-                    curData.CnlListID = cnlListID;
-
-                    for (int i = 0, cnt = cnlNums.Count; i < cnt; i++)
-                    {
-                        int cnlNum = cnlNums[i];
-                        CnlData cnlData = cnlDataArr[i];
-                        InCnl inCnl = webContext.BaseDataSet.InCnlTable.GetItem(cnlNum);
-
-                        records[i] = new CurDataRecord 
-                        {
-                            Pt = new CurDataPoint(cnlNum, cnlData),
-                            Fd = webContext.DataFormatter.FormatCnlData(cnlData, inCnl)
-                        };
-                    }
-                }
-
+                CurData curData = RequestCurData(cnlNums, cnlListID);
                 return Dto<CurData>.Success(curData);
             }
             catch (AccessDeniedException ex)
@@ -159,7 +174,14 @@ namespace Scada.Web.Plugins.PlgMain.Controllers
             {
                 if (viewLoader.GetViewFromCache(viewID, out BaseView view, out string errMsg))
                 {
-                    return null;
+                    CurData curData = memoryCache.GetOrCreate(PluginUtils.GetCacheKey("CurData", viewID), entry =>
+                    {
+                        entry.SetAbsoluteExpiration(DataCacheExpiration);
+                        entry.AddExpirationToken(webContext);
+                        return RequestCurData(view.CnlNumList, cnlListID);
+                    });
+
+                    return Dto<CurData>.Success(curData);
                 }
                 else
                 {
@@ -172,7 +194,6 @@ namespace Scada.Web.Plugins.PlgMain.Controllers
                 return Dto<CurData>.Fail(ex.Message);
             }
         }
-
 
         /// <summary>
         /// Gets the historical data.

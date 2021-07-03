@@ -14,11 +14,11 @@ namespace Scada.Web.Plugins.PlgMain.Models
         /// <summary>
         /// Gets or sets the numeric input channel data.
         /// </summary>
-        public CurDataPoint Pt { get; set; }
+        public CurDataPoint D { get; set; }
 
         /// <summary>
         /// Gets or sets the formatted input channel data.
         /// </summary>
-        public CnlDataFormatted Fd { get; set; }
+        public CnlDataFormatted Df { get; set; }
     }
 }

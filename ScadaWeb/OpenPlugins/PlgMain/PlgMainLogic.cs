@@ -35,7 +35,7 @@ namespace Scada.Web.Plugins.PlgMain
         /// <summary>
         /// Gets the plugin code.
         /// </summary>
-        public override string Code => "PlgMain";
+        public override string Code => PluginUtils.PluginCode;
 
         /// <summary>
         /// Gets the plugin features.

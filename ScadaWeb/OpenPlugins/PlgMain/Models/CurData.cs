@@ -6,8 +6,8 @@ using System.Collections.Generic;
 namespace Scada.Web.Plugins.PlgMain.Models
 {
     /// <summary>
-    /// Represents a package containing formatted current data.
-    /// <para>Представляет пакет, содержащий форматированные текущие данные.</para>
+    /// Represents a package containing current data.
+    /// <para>Представляет пакет, содержащий текущие данные.</para>
     /// </summary>
     public class CurData
     {

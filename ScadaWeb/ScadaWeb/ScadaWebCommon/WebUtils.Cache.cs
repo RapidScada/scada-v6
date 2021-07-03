@@ -10,13 +10,13 @@ namespace Scada.Web
         /// <summary>
         /// The prefix for cache entry keys.
         /// </summary>
-        private const string CachePrefix = "ScadaWeb_";
+        private const string CachePrefix = "ScadaWeb";
         /// <summary>
         /// Specifies how long a cache entry can be inactive before it will be removed.
         /// </summary>
         public static readonly TimeSpan CacheExpiration = TimeSpan.FromMinutes(1);
         /// <summary>
-        /// Specifies the cache expiration for views.
+        /// The cache expiration for views.
         /// </summary>
         public static readonly TimeSpan ViewCacheExpiration = TimeSpan.FromMinutes(10);
 
@@ -39,11 +39,19 @@ namespace Scada.Web
         }
 
         /// <summary>
+        /// Gets the cache key.
+        /// </summary>
+        public static string GetCacheKey(string prefix, string typeName, int objectID)
+        {
+            return prefix + "_" + typeName + "_" + objectID;
+        }
+
+        /// <summary>
         /// Gets the cache key corresponding to the user.
         /// </summary>
         public static string GetUserCacheKey(int userID)
         {
-            return CachePrefix + "User_" + userID;
+            return GetCacheKey(CachePrefix, "User", userID);
         }
 
         /// <summary>
@@ -51,7 +59,7 @@ namespace Scada.Web
         /// </summary>
         public static string GetViewSpecCacheKey(int viewID)
         {
-            return CachePrefix + "ViewSpec_" + viewID;
+            return GetCacheKey(CachePrefix, "ViewSpec", viewID);
         }
 
         /// <summary>
@@ -59,7 +67,7 @@ namespace Scada.Web
         /// </summary>
         public static string GetViewCacheKey(int viewID)
         {
-            return CachePrefix + "View_" + viewID;
+            return GetCacheKey(CachePrefix, "View", viewID);
         }
     }
 }
