@@ -35,7 +35,7 @@ namespace Scada.Server.Engine
     internal class ServerCache
     {
         /// <summary>
-        /// Determines how long an item is stored in the cache.
+        /// Specifies how long a cache entry can be inactive before it will be removed.
         /// </summary>
         private static readonly TimeSpan CacheExpiration = TimeSpan.FromMinutes(1);
 
