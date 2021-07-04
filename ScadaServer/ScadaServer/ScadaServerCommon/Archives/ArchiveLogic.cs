@@ -20,7 +20,7 @@
  * 
  * Author   : Mikhail Shiryaev
  * Created  : 2020
- * Modified : 2020
+ * Modified : 2021
  */
 
 using Scada.Data.Models;
@@ -140,7 +140,7 @@ namespace Scada.Server.Archives
                 case TimeUnit.Minute:
                     return period * 60;
                 case TimeUnit.Hour:
-                    return period * 1440;
+                    return period * 3600;
                 default: // TimeUnit.Second
                     return period;
             }
