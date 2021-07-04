@@ -167,7 +167,7 @@ namespace Scada
         /// <summary>
         /// Converts the string representation of an integer range to a collection.
         /// </summary>
-        /// <remarks>For example: 1-5, 10</remarks>
+        /// <remarks>Example: 1-5, 10</remarks>
         public static bool ParseRange(string s, bool allowEmpty, bool distinct, out IList<int> list)
         {
             string[] parts = (s ?? "").Split(ParseRangeSeparator, StringSplitOptions.RemoveEmptyEntries);
@@ -241,7 +241,7 @@ namespace Scada
         /// <summary>
         /// Converts the collection to a short string representation using range format.
         /// </summary>
-        /// <remarks>For example: 1-5, 10</remarks>
+        /// <remarks>Example: 1-5, 10</remarks>
         public static string ToShortString(this ICollection<int> collection)
         {
             if (collection == null)

@@ -12,6 +12,11 @@ namespace Scada.Web.Plugins.PlgMain.Models
     public class CurData
     {
         /// <summary>
+        /// Gets or sets the server current time.
+        /// </summary>
+        public TimeRecord ServerTime { get; set; }
+
+        /// <summary>
         /// Gets or sets the data records.
         /// </summary>
         public IEnumerable<CurDataRecord> Records { get; set; }

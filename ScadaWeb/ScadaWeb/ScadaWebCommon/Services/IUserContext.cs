@@ -25,6 +25,7 @@
 
 using Scada.Data.Entities;
 using Scada.Web.Users;
+using System;
 
 namespace Scada.Web.Services
 {
@@ -53,5 +54,10 @@ namespace Scada.Web.Services
         /// Gets the view explorer nodes available to the user.
         /// </summary>
         UserViews Views { get; }
+
+        /// <summary>
+        /// Gets the user time zone.
+        /// </summary>
+        TimeZoneInfo TimeZone { get; }
     }
 }

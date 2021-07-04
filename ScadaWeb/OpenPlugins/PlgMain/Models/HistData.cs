@@ -35,7 +35,7 @@ namespace Scada.Web.Plugins.PlgMain.Models
         /// <summary>
         /// Gets or sets the ordered timestamps common for all trends.
         /// </summary>
-        public IEnumerable<long> Timestamps { get; set; }
+        public IEnumerable<TimeRecord> Timestamps { get; set; }
 
         /// <summary>
         /// Gets or sets the trends having the same number of points.

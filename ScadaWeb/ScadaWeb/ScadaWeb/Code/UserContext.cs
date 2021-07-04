@@ -28,6 +28,7 @@ using Scada.Data.Entities;
 using Scada.Web.Lang;
 using Scada.Web.Services;
 using Scada.Web.Users;
+using System;
 
 namespace Scada.Web.Code
 {
@@ -64,6 +65,7 @@ namespace Scada.Web.Code
             Rights = new UserRights();
             Menu = new UserMenu();
             Views = new UserViews();
+            TimeZone = TimeZoneInfo.Local;
         }
 
 
@@ -86,5 +88,21 @@ namespace Scada.Web.Code
         /// Gets the view explorer nodes available to the user.
         /// </summary>
         public UserViews Views { get; }
+
+        /// <summary>
+        /// Gets the user time zone.
+        /// </summary>
+        public TimeZoneInfo TimeZone { get; private set; }
+
+
+        /// <summary>
+        /// Sets the time zone.
+        /// </summary>
+        public void SetTimeZone(string timeZoneID)
+        {
+            TimeZone = string.IsNullOrEmpty(timeZoneID)
+                ? TimeZoneInfo.Local
+                : TimeZoneInfo.FindSystemTimeZoneById(timeZoneID);
+        }
     }
 }

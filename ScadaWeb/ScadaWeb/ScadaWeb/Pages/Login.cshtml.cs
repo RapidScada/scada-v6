@@ -28,14 +28,13 @@ using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
-using Scada.Client;
 using Scada.Lang;
 using Scada.Web.Config;
 using Scada.Web.Lang;
 using Scada.Web.Services;
+using Scada.Web.Users;
 using System;
 using System.Collections.Generic;
-using System.Net.Sockets;
 using System.Security.Claims;
 using System.Threading.Tasks;
 
@@ -107,10 +106,12 @@ namespace Scada.Web.Pages
                 authProperties);
         }
 
-        private ActionResult RedirectToStartPage(string returnUrl)
+        private ActionResult RedirectToStartPage(string returnUrl, int userID)
         {
+            UserConfig userConfig = webContext.PluginHolder.GetUserConfig(userID);
             string url = ScadaUtils.FirstNonEmpty(
                 returnUrl,
+                userConfig?.StartPage,
                 webContext.AppConfig.GeneralOptions.DefaultStartPage,
                 WebPath.DefaultStartPage);
             return LocalRedirect(url);
@@ -151,7 +152,7 @@ namespace Scada.Web.Pages
                         "User {0} is logged in, IP {1}",
                         Username, HttpContext.Connection.RemoteIpAddress);
                     webContext.PluginHolder.OnUserLogin(userID);
-                    return RedirectToStartPage(returnUrl);
+                    return RedirectToStartPage(returnUrl, userID);
                 }
                 else
                 {

@@ -23,18 +23,15 @@
  * Modified : 2021
  */
 
-using System;
-using System.Security.Claims;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Caching.Memory;
 using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.Primitives;
 using Scada.Data.Entities;
-using Scada.Data.Models;
 using Scada.Lang;
 using Scada.Log;
-using Scada.Web.Plugins;
 using Scada.Web.Services;
+using Scada.Web.Users;
+using System;
 
 namespace Scada.Web.Code
 {
@@ -65,6 +62,12 @@ namespace Scada.Web.Code
                 userContext.Rights.Init(webContext.RightMatrix, userEntity.RoleID);
                 userContext.Menu.Init(webContext, userEntity, userContext.Rights);
                 userContext.Views.Init(webContext, userContext.Rights);
+
+                UserConfig userConfig = webContext.PluginHolder.GetUserConfig(userID);
+                userContext.SetTimeZone(
+                    userConfig?.TimeZone ?? 
+                    webContext.AppConfig.GeneralOptions.DefaultTimeZone);
+
                 return userContext;
             }
         }

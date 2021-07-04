@@ -76,13 +76,28 @@ namespace Scada.Web.Plugins.PlgMain.Controllers
         }
 
         /// <summary>
+        /// Converts the specified timestamp to UTC depending on its kind.
+        /// </summary>
+        private DateTime ConvertTimeToUtc(DateTime timestamp)
+        {
+            return timestamp.Kind == DateTimeKind.Utc
+                ? timestamp
+                : TimeZoneInfo.ConvertTimeToUtc(timestamp, userContext.TimeZone);
+        }
+
+        /// <summary>
         /// Requests the current data from the server.
         /// </summary>
         private CurData RequestCurData(IList<int> cnlNums, long cnlListID, bool useCache)
         {
             int cnlCnt = cnlNums == null ? 0 : cnlNums.Count;
             CurDataRecord[] records = new CurDataRecord[cnlCnt];
-            CurData curData = new() { Records = records, CnlListID = 0 };
+            CurData curData = new() 
+            { 
+                ServerTime = TimeRecord.Create(DateTime.UtcNow, userContext.TimeZone),
+                Records = records, 
+                CnlListID = 0 
+            };
 
             if (cnlCnt > 0)
             {
@@ -117,9 +132,8 @@ namespace Scada.Web.Plugins.PlgMain.Controllers
             if (cnlNums == null)
                 cnlNums = Array.Empty<int>();
 
-            // TODO: time conversion
-            //startTime = DateTime.SpecifyKind(startTime, DateTimeKind.Utc);
-            //endTime = DateTime.SpecifyKind(endTime, DateTimeKind.Utc);
+            startTime = ConvertTimeToUtc(startTime);
+            endTime = ConvertTimeToUtc(endTime);
 
             int cnlCnt = cnlNums.Count;
             HistData.RecordList[] trends = new HistData.RecordList[cnlCnt];
@@ -127,7 +141,7 @@ namespace Scada.Web.Plugins.PlgMain.Controllers
             HistData histData = new()
             {
                 CnlNums = cnlNums,
-                Timestamps = Array.Empty<long>(),
+                Timestamps = Array.Empty<TimeRecord>(),
                 Trends = trends
             };
 
@@ -139,12 +153,12 @@ namespace Scada.Web.Plugins.PlgMain.Controllers
 
                 // copy timestamps
                 int pointCount = trendBundle.Timestamps.Count;
-                long[] timestamps = new long[pointCount];
+                TimeRecord[] timestamps = new TimeRecord[pointCount];
                 histData.Timestamps = timestamps;
 
                 for (int i = 0; i < pointCount; i++)
                 {
-                    timestamps[i] = new DateTimeOffset(trendBundle.Timestamps[i]).ToUnixTimeMilliseconds();
+                    timestamps[i] = TimeRecord.Create(trendBundle.Timestamps[i], userContext.TimeZone);
                 }
 
                 // copy channel data
