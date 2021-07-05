@@ -64,10 +64,9 @@ class ScadaUtils {
     // Plays a sound of the audio jQuery object.
     static playSound(jqAudio) {
         if (jqAudio.length > 0) {
-            let promise = jqAudio[0].play();
-            promise.catch(function (error) {
-                console.error("Error playing sound '" + jqAudio.attr("src") + "': " + error);
-            });
+            jqAudio[0]
+                .play()
+                .catch(error => console.error("Error playing sound", jqAudio.attr("src"), error));
         }
     }
 

@@ -29,6 +29,7 @@ using Scada.Lang;
 using System.Collections.Generic;
 using System.Security.Claims;
 using System.Text;
+using System.Text.Json;
 using System.Web;
 
 namespace Scada.Web
@@ -47,6 +48,11 @@ namespace Scada.Web
         /// The application log file name.
         /// </summary>
         public const string LogFileName = "ScadaWeb.log";
+        /// <summary>
+        /// Specifies how objects are converted to JSON.
+        /// </summary>
+        private static readonly JsonSerializerOptions JsonOptions = 
+            new () { PropertyNamingPolicy = JsonNamingPolicy.CamelCase };
 
 
         /// <summary>
@@ -126,6 +132,14 @@ namespace Scada.Web
                 .AppendLine($"productName: '{HttpUtility.JavaScriptStringEncode(CommonPhrases.ProductName)}'")
                 .Append('}')
                 .ToString());
+        }
+
+        /// <summary>
+        /// Converts the specified object to a JSON string.
+        /// </summary>
+        public static HtmlString ConvertToJson(object obj)
+        {
+            return new HtmlString(JsonSerializer.Serialize(obj, JsonOptions));
         }
     }
 }

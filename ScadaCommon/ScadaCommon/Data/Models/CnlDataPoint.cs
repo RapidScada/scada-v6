@@ -70,7 +70,7 @@ namespace Scada.Data.Models
         /// <summary>
         /// Gets the input channel number of the trend.
         /// </summary>
-        public int CnlNum { get; }
+        public int CnlNum { get; set; }
 
         /// <summary>
         /// Gets or sets the timestamp.

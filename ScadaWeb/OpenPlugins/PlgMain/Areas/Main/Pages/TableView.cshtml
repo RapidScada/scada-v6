@@ -1,5 +1,6 @@
 ﻿@page "{id:int?}"
 @model TableViewModel
+@inject PluginContext pluginContext 
 @{
     Layout = "_BasicLayout";
     ViewBag.Title = "TableView";
@@ -10,7 +11,13 @@
 }
 
 @section Scripts {
+    <script src="~/js/view-hub.js" asp-append-version="true"></script>
+    <script src="~/plugins/Main/js/main-api.js" asp-append-version="true"></script>
     <script src="~/plugins/Main/js/table-view.js" asp-append-version="true"></script>
+    <script>
+        viewID = @Model.ViewID;
+        pluginOptions = JSON.parse('@WebUtils.ConvertToJson(pluginContext.Options)');
+    </script>
 }
 
 @if (Model.ViewError)

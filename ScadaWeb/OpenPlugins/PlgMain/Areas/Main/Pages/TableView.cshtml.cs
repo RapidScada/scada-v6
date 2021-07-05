@@ -192,7 +192,7 @@ namespace Scada.Web.Plugins.PlgMain.Areas.Main.Pages
             sbHtml.AppendLine("</colgroup>");
 
             // header
-            sbHtml.AppendLine("<thead><tr>");
+            sbHtml.AppendLine("<thead><tr class='row-hdr'>");
             sbHtml.Append("<th>").Append(PluginPhrases.ItemColumn).AppendLine("</th>");
             sbHtml.Append("<th>").Append(PluginPhrases.CurrentColumn).AppendLine("</th>");
 
@@ -216,7 +216,7 @@ namespace Scada.Web.Plugins.PlgMain.Areas.Main.Pages
                 string itemText = string.IsNullOrWhiteSpace(tableItem.Text) ? 
                     "&nbsp;" : HttpUtility.HtmlEncode(tableItem.Text);
 
-                sbHtml.Append("<tr data-cnlNum='").Append(inCnlNum)
+                sbHtml.Append("<tr class='row-item' data-cnlNum='").Append(inCnlNum)
                     .Append("' data-outCnlNum='").Append(outCnlNum).AppendLine("'>")
                     .Append("<td><div class='item'>");
 
@@ -244,11 +244,11 @@ namespace Scada.Web.Plugins.PlgMain.Areas.Main.Pages
                 }
 
                 sbHtml.AppendLine("</div></td>"); // close first cell
-                sbHtml.AppendLine("<td></td>");   // current data cell
+                sbHtml.AppendLine("<td class='cell-cur'></td>"); // current data cell
 
                 for (int i = 0, cnt = columnMetas.Count; i < cnt; i++)
                 {
-                    sbHtml.AppendLine("<td></td>"); // archive data cell
+                    sbHtml.AppendLine("<td class='cell-arc'></td>"); // archive data cell
                 }
 
                 sbHtml.AppendLine("</tr>");
