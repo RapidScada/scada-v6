@@ -62,7 +62,7 @@ namespace Scada.Web.Pages
             return ex != null;
         }
 
-        public void OnGet()
+        public void WriteError()
         {
             if (GetLastError(out Exception ex))
             {

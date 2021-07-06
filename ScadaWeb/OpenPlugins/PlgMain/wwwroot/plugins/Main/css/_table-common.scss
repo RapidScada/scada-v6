@@ -88,5 +88,8 @@ body {
     th {
         background-color: $header-back-color;
         font-weight: 600;
+        position: sticky;
+        top: -1px; /*required for stickiness*/
+        z-index: 1;
     }
 }

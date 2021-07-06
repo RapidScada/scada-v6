@@ -353,7 +353,7 @@ namespace Scada.Web.Plugins.PlgMain.Controllers
         }
 
         /// <summary>
-        /// Gets the Unix time when the archive was last written to.
+        /// Gets the Unix time in milliseconds when the archive was last written to.
         /// </summary>
         public Dto<long> GetArcWriteTime(int archiveBit)
         {

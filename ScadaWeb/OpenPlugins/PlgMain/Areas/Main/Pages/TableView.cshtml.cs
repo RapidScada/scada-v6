@@ -26,21 +26,34 @@ namespace Scada.Web.Plugins.PlgMain.Areas.Main.Pages
         /// </summary>
         private class ColumnMeta
         {
-            public int TimeOffset { get; set; }
-            public string HeaderText { get; set; }
+            public string UtcTime { get; set; }
+            public string ShortDate { get; set; }
+            public string ShortTime { get; set; }
         }
 
-        private const int MinPerDay = 1440;
+        /// <summary>
+        /// Specifies the selection of the select HTML element.
+        /// </summary>
+        public enum SelectOption { None, First, Last }
+
 
         private readonly IWebContext webContext;
         private readonly IUserContext userContext;
         private readonly IViewLoader viewLoader;
         private readonly PluginContext pluginContext;
 
+        private DateTime selectedDate;
+        private List<ColumnMeta> columnMetas1;
+        private List<ColumnMeta> columnMetas2;
+        private List<ColumnMeta> allColumnMetas;
+        private TableView tableView;
+
         public bool ViewError => !string.IsNullOrEmpty(ErrorMessage);
         public string ErrorMessage { get; set; }
         public int ViewID { get; set; }
-        public TableView TableView { get; set; }
+        public int ArchiveBit { get; set; }
+        public string LocalDate { get; set; }
+
 
         public TableViewModel(IWebContext webContext, IUserContext userContext, 
             IViewLoader viewLoader, PluginContext pluginContext)
@@ -52,46 +65,64 @@ namespace Scada.Web.Plugins.PlgMain.Areas.Main.Pages
         }
 
 
-        private List<ColumnMeta> GetColumnMetas()
+        private void LoadView(int? id, string localDate)
         {
-            List<ColumnMeta> columnMetas = new();
+            ViewID = id ?? userContext.Views.GetFirstViewID() ?? 0;
+            ArchiveBit = FindArchiveBit();
 
-            // previous day
-            int timeOffset = -MinPerDay;
-            int tablePeriod = pluginContext.Options.TablePeriod;
+            selectedDate = DateTime.TryParse(localDate, out DateTime dateTime)
+                ? dateTime.Date
+                : TimeZoneInfo.ConvertTimeFromUtc(DateTime.UtcNow, userContext.TimeZone).Date;
+            LocalDate = selectedDate.ToString(WebUtils.InputDateFormat);
+            InitColumnMetas();
 
-            while (timeOffset < 0)
-            {
-                columnMetas.Add(new ColumnMeta
-                {
-                    TimeOffset = timeOffset,
-                    HeaderText = GetColumnHeaderText(timeOffset, true)
-                });
-                timeOffset += tablePeriod;
-            }
-
-            // current day
-            timeOffset = 0;
-
-            while (timeOffset < MinPerDay)
-            {
-                columnMetas.Add(new ColumnMeta
-                {
-                    TimeOffset = timeOffset,
-                    HeaderText = GetColumnHeaderText(timeOffset, false)
-                });
-                timeOffset += tablePeriod;
-            }
-
-            return columnMetas;
+            viewLoader.GetView(ViewID, out tableView, out string errMsg);
+            ErrorMessage = errMsg;
         }
 
-        private static string GetColumnHeaderText(int timeOffset, bool yesterday)
+        private int FindArchiveBit()
         {
-            return yesterday
-                ? DateTime.MinValue.AddMinutes(timeOffset + MinPerDay).ToString("t", Locale.Culture) + 
-                    PluginPhrases.MinusOneDay
-                : DateTime.MinValue.AddMinutes(timeOffset).ToString("t", Locale.Culture);
+            Archive archive = webContext.BaseDataSet.ArchiveTable.SelectFirst(
+                new TableFilter("Code", pluginContext.Options.TableArchiveCode));
+            return archive == null ? -1 : archive.Bit;
+        }
+
+        private void InitColumnMetas()
+        {
+            columnMetas1 = new List<ColumnMeta>();
+            columnMetas2 = new List<ColumnMeta>();
+            allColumnMetas = new List<ColumnMeta>();
+
+            int tablePeriod = pluginContext.Options.TablePeriod > 0 ? pluginContext.Options.TablePeriod : 60;
+            TimeZoneInfo timeZone = userContext.TimeZone;
+            DateTime utcSelectedDate = TimeZoneInfo.ConvertTimeToUtc(selectedDate, timeZone);
+            DateTime utcPrevDate = TimeZoneInfo.ConvertTimeToUtc(selectedDate.AddDays(-1), timeZone);
+            DateTime utcNextDate = TimeZoneInfo.ConvertTimeToUtc(selectedDate.AddDays(1), timeZone);
+
+            void AddColumnMetas(List<ColumnMeta> columnMetas, DateTime utcStartDate, DateTime utcEndDate)
+            {
+                DateTime curDT = utcStartDate;
+
+                while (curDT < utcEndDate)
+                {
+                    DateTime dt = TimeZoneInfo.ConvertTimeFromUtc(curDT, timeZone);
+                    DateTimeOffset dto = new(dt, timeZone.GetUtcOffset(dt));
+
+                    columnMetas.Add(new ColumnMeta
+                    {
+                        UtcTime = dto.UtcDateTime.ToString(WebUtils.JsDateTimeFormat),
+                        ShortDate = dt.ToString("m", Locale.Culture),
+                        ShortTime = dt.ToString("t", Locale.Culture)
+                    });
+
+                    curDT = curDT.AddMinutes(tablePeriod);
+                }
+            }
+
+            AddColumnMetas(columnMetas1, utcPrevDate, utcSelectedDate);
+            AddColumnMetas(columnMetas2, utcSelectedDate, utcNextDate);
+            allColumnMetas.AddRange(columnMetas1);
+            allColumnMetas.AddRange(columnMetas2);
         }
 
         private string GetQuantityIconUrl(InCnl inCnl)
@@ -157,20 +188,38 @@ namespace Scada.Web.Plugins.PlgMain.Areas.Main.Pages
             }
         }
 
+
         public void OnGet(int? id)
         {
-            ViewID = id ?? userContext.Views.GetFirstViewID() ?? 0;
+            LoadView(id, null);
+        }
 
-            if (viewLoader.GetView(ViewID, out TableView view, out string errMsg))
+        public void OnPost(int? id, string localDate)
+        {
+            LoadView(id, localDate);
+        }
+
+        public HtmlString RenderOptionGroup(string label, bool isSelectedDate, SelectOption selectOption)
+        {
+            StringBuilder sbHtml = new();
+            List<ColumnMeta> columnMetas = isSelectedDate ? columnMetas2 : columnMetas1;
+            sbHtml.Append("<optgroup label='").Append(HttpUtility.HtmlEncode(label)).AppendLine("'>");
+
+            for (int i = 0, lastIdx = columnMetas.Count - 1; i <= lastIdx; i++)
             {
-                ErrorMessage = "";
-                TableView = view;
+                ColumnMeta columnMeta = columnMetas[i];
+                bool isSelected = selectOption == SelectOption.First && i == 0
+                    || selectOption == SelectOption.Last && i == lastIdx;
+                string optionValue = isSelectedDate ? columnMeta.ShortTime : columnMeta.ShortTime + "-1d";
+
+                sbHtml.Append("<option value='").Append(optionValue)
+                    .Append("' data-time='").Append(columnMeta.UtcTime)
+                    .Append(isSelected ? "' selected>" : "'>")
+                    .Append(columnMeta.ShortTime).AppendLine("</option>");
             }
-            else
-            {
-                ErrorMessage = errMsg;
-                TableView = null;
-            }
+
+            sbHtml.AppendLine("</optgroup>");
+            return new HtmlString(sbHtml.ToString());
         }
 
         public HtmlString RenderTableView()
@@ -179,14 +228,13 @@ namespace Scada.Web.Plugins.PlgMain.Areas.Main.Pages
             sbHtml.AppendLine("<table class='table-main'>");
 
             // columns
-            List<ColumnMeta> columnMetas = GetColumnMetas();
             sbHtml.AppendLine("<colgroup>");
             sbHtml.AppendLine("<col class='col-cap'>");
             sbHtml.AppendLine("<col class='col-cur'>");
 
-            foreach (ColumnMeta columnMeta in columnMetas)
+            foreach (ColumnMeta columnMeta in allColumnMetas)
             {
-                sbHtml.Append("<col class='col-arc' data-time='").Append(columnMeta.TimeOffset).AppendLine("'>");
+                sbHtml.Append("<col class='col-arc' data-time='").Append(columnMeta.UtcTime).AppendLine("'>");
             }
 
             sbHtml.AppendLine("</colgroup>");
@@ -196,9 +244,11 @@ namespace Scada.Web.Plugins.PlgMain.Areas.Main.Pages
             sbHtml.Append("<th>").Append(PluginPhrases.ItemColumn).AppendLine("</th>");
             sbHtml.Append("<th>").Append(PluginPhrases.CurrentColumn).AppendLine("</th>");
 
-            foreach (ColumnMeta columnMeta in columnMetas)
+            foreach (ColumnMeta columnMeta in allColumnMetas)
             {
-                sbHtml.Append("<th>").Append(columnMeta.HeaderText).AppendLine("</th>");
+                sbHtml.Append("<th><span class='hdr-date'>").Append(columnMeta.ShortDate)
+                    .Append("</span> <span class='hdr-time'>").Append(columnMeta.ShortTime)
+                    .AppendLine("</span></th>");
             }
 
             sbHtml.AppendLine("</tr></thead>");
@@ -209,7 +259,7 @@ namespace Scada.Web.Plugins.PlgMain.Areas.Main.Pages
             bool enableCommands = webContext.AppConfig.GeneralOptions.EnableCommands;
             sbHtml.AppendLine("<tbody>");
 
-            foreach (TableItem tableItem in TableView.VisibleItems)
+            foreach (TableItem tableItem in tableView.VisibleItems)
             {
                 int inCnlNum = tableItem.CnlNum;
                 int outCnlNum = tableItem.OutCnlNum;
@@ -246,7 +296,7 @@ namespace Scada.Web.Plugins.PlgMain.Areas.Main.Pages
                 sbHtml.AppendLine("</div></td>"); // close first cell
                 sbHtml.AppendLine("<td class='cell-cur'></td>"); // current data cell
 
-                for (int i = 0, cnt = columnMetas.Count; i < cnt; i++)
+                for (int i = 0, cnt = allColumnMetas.Count; i < cnt; i++)
                 {
                     sbHtml.AppendLine("<td class='cell-arc'></td>"); // archive data cell
                 }

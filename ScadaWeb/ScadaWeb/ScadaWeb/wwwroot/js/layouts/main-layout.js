@@ -101,7 +101,7 @@ var mainLayout = {
 
         // update layout on window resize
         $(window).resize(function () {
-            mainLayout.updateLayout();
+            thisObj.updateLayout();
         });
 
         // activate a clicked tab

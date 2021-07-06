@@ -10,6 +10,7 @@ class CurCellMeta {
 
 // The variables below are set from TableView.cshtml
 var viewID = 0;
+var archiveBit = -1;
 var pluginOptions = {
     refreshRate: 1000
 };
@@ -32,6 +33,18 @@ function initTooltips() {
         return new bootstrap.Tooltip($(this)[0]);
     });
 };
+
+function bindEvents() {
+    let thisObj = this;
+
+    $(window).resize(function () {
+        thisObj.updateLayout();
+    });
+
+    $("#localDate").change(function () {
+        $("form:first").submit();
+    });
+}
 
 function updateLayout() {
     let h = $(window).height() - $("#divToolbar").outerHeight();
@@ -77,11 +90,10 @@ function getCellColor(record) {
 }
 
 $(document).ready(function () {
-    viewHub.viewID = viewID;
     mainApi.rootPath = viewHub.appEnv.rootPath;
-
     initCurCells();
     initTooltips();
+    bindEvents();
     updateLayout();
     startUpdatingCurData();
 });

@@ -3,6 +3,7 @@
 @{
     dynamic dict = Locale.GetDictionary("Scada.Web.Pages.Error");
     ViewBag.Title = dict.PageTitle;
+    Model.WriteError(); // on get and post
 }
 
 <div class="container">

@@ -49,6 +49,14 @@ namespace Scada.Web
         /// </summary>
         public const string LogFileName = "ScadaWeb.log";
         /// <summary>
+        /// Formats value for a date input field.
+        /// </summary>
+        public const string InputDateFormat = "yyyy-MM-dd";
+        /// <summary>
+        /// Formats date and time to use in JavaScript.
+        /// </summary>
+        public const string JsDateTimeFormat = "yyyy'-'MM'-'dd'T'HH':'mm':'ss'.'fffK";
+        /// <summary>
         /// Specifies how objects are converted to JSON.
         /// </summary>
         private static readonly JsonSerializerOptions JsonOptions = 

@@ -20,7 +20,7 @@
  * 
  * Author   : Mikhail Shiryaev
  * Created  : 2018
- * Modified : 2020
+ * Modified : 2021
  */
 
 using System;
@@ -381,6 +381,30 @@ namespace Scada.Data.Tables
                         yield return item;
                 }
             }
+        }
+
+        /// <summary>
+        /// Selects the items that match the specified filter.
+        /// </summary>
+        public IEnumerable<T> Select(TableFilter filter, bool indexRequired = false)
+        {
+            foreach (object item in SelectItems(filter, indexRequired))
+            {
+                yield return (T)item;
+            }
+        }
+
+        /// <summary>
+        /// Selects the first item that match the specified filter, or null.
+        /// </summary>
+        public T SelectFirst(TableFilter filter, bool indexRequired = false)
+        {
+            foreach (object item in SelectItems(filter, indexRequired))
+            {
+                return (T)item;
+            }
+
+            return default;
         }
 
         /// <summary>

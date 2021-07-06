@@ -46,7 +46,11 @@
     white-space: nowrap; }
   .table-main th {
     background-color: #ccc;
-    font-weight: 600; }
+    font-weight: 600;
+    position: sticky;
+    top: -1px;
+    /*required for stickiness*/
+    z-index: 1; }
 
 .table-main td:first-child {
   padding: 2px 5px;

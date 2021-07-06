@@ -4,6 +4,7 @@
 @{
     Layout = "_BasicLayout";
     ViewBag.Title = "TableView";
+    dynamic dict = Locale.GetDictionary("Scada.Web.Plugins.PlgMain.Areas.Main.Pages.TableView");
 }
 
 @section Styles {
@@ -16,6 +17,7 @@
     <script src="~/plugins/Main/js/table-view.js" asp-append-version="true"></script>
     <script>
         viewID = @Model.ViewID;
+        archiveBit = @Model.ArchiveBit;
         pluginOptions = @WebUtils.ObjectToJs(pluginContext.Options);
     </script>
 }
@@ -28,22 +30,17 @@
 }
 else
 {
-    <div id="divToolbar" class="toolbar">@*
-        *@<span class="toolbar-group"><input type="date" /></span>@*
-        *@<span class="toolbar-group"><select>
-                <optgroup label="Option group 1">
-                    <option value="">Option 1</option>
-                    <option value="">Option 2</option>
-                    <option value="">Option 3</option>
-                </optgroup>
-            </select> - <select>
-                <optgroup label="Option group 1">
-                    <option value="">Option 1</option>
-                    <option value="">Option 2</option>
-                    <option value="">Option 3</option>
-                </optgroup>
-            </select></span>@*
-        *@<span class="toolbar-group"><span class="tool-btn"><i class="fas fa-print"></i></span></span>
-    </div>
-    <div id="divTableWrapper" class="table-wrapper">@Model.RenderTableView()</div>
+    <form method="post">
+        <div id="divToolbar" class="toolbar">@*
+            *@<span class="toolbar-group"><input id="localDate" name="localDate" type="date" value="@Model.LocalDate" /></span>@*
+            *@<span class="toolbar-group"><select>
+                    @Model.RenderOptionGroup(dict.PrevDate, false, TableViewModel.SelectOption.None)
+                    @Model.RenderOptionGroup(dict.SelDate, true, TableViewModel.SelectOption.First)
+                </select> - <select>
+                    @Model.RenderOptionGroup(dict.SelDate, true, TableViewModel.SelectOption.Last)
+                </select></span>@*
+            *@<span class="toolbar-group"><span class="tool-btn"><i class="fas fa-print"></i></span></span>
+        </div>
+        <div id="divTableWrapper" class="table-wrapper">@Model.RenderTableView()</div>
+    </form>
 }

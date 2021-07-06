@@ -125,6 +125,7 @@ var viewPage = {
 
             if (ScadaUtils.getStorageItem(localStorage, this._DATA_WINDOW_VISIBLE_KEY,
                 ScadaUtils.isSmallScreen ? "false" : "true") === "true") {
+                viewHub.viewID = thisObj.initialViewID;
                 this._showDataWindowByUrl(ScadaUtils.getStorageItem(localStorage, this._DATA_WINDOW_URL_KEY, ""));
             } else {
                 this._hideDataWindow(false);
@@ -146,7 +147,7 @@ var viewPage = {
             this._getOuterHeight("divDataWindow") - this._getOuterHeight("divBottomPanel"));
     },
 
-    loadView(viewID, viewFrameUrl, opt_notWriteHistory) {
+    loadView(viewID, viewFrameUrl, opt_notWriteHistory, opt_notReloadDataWindow) {
         console.log(`${ScadaUtils.getCurrentTime()} Load view ${viewID} from ${viewFrameUrl}`);
         viewHub.viewID = viewID;
 
@@ -180,12 +181,14 @@ var viewPage = {
         });
 
         // reload data window
-        this._reloadDataWindow();
+        if (!opt_notReloadDataWindow) {
+            this._reloadDataWindow();
+        }
     }
 };
 
 $(document).ready(function () {
     viewPage.prepare();
     viewPage.updateLayout();
-    viewPage.loadView(viewPage.initialViewID, viewPage.initialViewFrameUrl, true);
+    viewPage.loadView(viewPage.initialViewID, viewPage.initialViewFrameUrl, true, true);
 });

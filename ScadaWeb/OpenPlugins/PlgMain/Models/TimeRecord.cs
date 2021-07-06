@@ -12,15 +12,15 @@ namespace Scada.Web.Plugins.PlgMain.Models
     public struct TimeRecord
     {
         /// <summary>
-        /// Specified how local time is formatted.
-        /// </summary>
-        private const string LocalFormat = "yyyy'-'MM'-'dd'T'HH':'mm':'ss'.'fffK";
-
-
-        /// <summary>
         /// Gets or sets the Unix time in milliseconds (UTC).
         /// </summary>
-        public long Ut { get; set; }
+        public long Ms { get; set; }
+
+        /// <summary>
+        /// Gets or sets the UTC time.
+        /// Example: 2021-12-31T23:00:00.000Z
+        /// </summary>
+        public string Ut { get; set; }
 
         /// <summary>
         /// Gets or sets the local time of a user. 
@@ -43,8 +43,9 @@ namespace Scada.Web.Plugins.PlgMain.Models
 
             return new TimeRecord
             {
-                Ut = dateTimeOffset.ToUnixTimeMilliseconds(),
-                Lt = dateTimeOffset.ToString(LocalFormat)
+                Ms = dateTimeOffset.ToUnixTimeMilliseconds(),
+                Ut = dateTimeOffset.UtcDateTime.ToString(WebUtils.JsDateTimeFormat),
+                Lt = dateTimeOffset.ToString(WebUtils.JsDateTimeFormat)
             };
         }
     }
