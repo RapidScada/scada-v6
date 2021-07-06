@@ -1,4 +1,6 @@
-﻿// Represent metadata about a current data cell.
+﻿// Depends on jquery, scada-common.js, view-hub.js, main-api.js
+
+// Represent metadata about a current data cell.
 class CurCellMeta {
     constructor(cnlNum, jqCell) {
         this.cnlNum = cnlNum;
@@ -12,6 +14,7 @@ var pluginOptions = {
     refreshRate: 1000
 };
 
+const DEFAULT_CELL_COLOR = "Black";
 var viewHub = ViewHub.getInstance();
 var mainApi = new MainApi();
 var curCells = []; // array of CurCellMeta
@@ -54,17 +57,29 @@ function showCurrentData(data) {
 
     for (let cellMeta of curCells) {
         let record = map.get(cellMeta.cnlNum);
+        let cell = cellMeta.jqCell;
 
         if (record) {
-            cellMeta.jqCell.text(record.df.dispVal);
+            cell.text(record.df.dispVal);
+            cell.css("color", getCellColor(record));
         } else {
-            cellMeta.jqCell.text("");
+            cell.text("");
+            cell.css("color", "");
         }
     }
 }
 
+function getCellColor(record) {
+    let colors = record.df.colors;
+    return Array.isArray(colors) && colors.length > 0 && colors[0]
+        ? colors[0]
+        : DEFAULT_CELL_COLOR;
+}
+
 $(document).ready(function () {
+    viewHub.viewID = viewID;
     mainApi.rootPath = viewHub.appEnv.rootPath;
+
     initCurCells();
     initTooltips();
     updateLayout();

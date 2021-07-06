@@ -119,3 +119,10 @@ class ScadaEventTypes {
     // Notifies controls that the layout should be updated.
     static UPDATE_LAYOUT = "scada:updateLayout";
 }
+
+// The stub of an application environment object.
+const appEnvStub = {
+    rootPath: "/",
+    locale: "en-GB",
+    productName: "Rapid SCADA"
+};

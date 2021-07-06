@@ -1,10 +1,6 @@
 ﻿// Depends on jquery, scada-common.js, tree-view.js
 
-var appEnv = {
-    rootPath: "/",
-    locale: "en-GB",
-    productName: "Rapid SCADA"
-};
+var appEnv = appEnvStub;
 
 var mainLayout = {
     // The storage key for the left panel visibility.

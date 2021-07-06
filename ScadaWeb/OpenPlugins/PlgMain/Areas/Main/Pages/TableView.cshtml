@@ -16,7 +16,7 @@
     <script src="~/plugins/Main/js/table-view.js" asp-append-version="true"></script>
     <script>
         viewID = @Model.ViewID;
-        pluginOptions = JSON.parse('@WebUtils.ConvertToJson(pluginContext.Options)');
+        pluginOptions = @WebUtils.ObjectToJs(pluginContext.Options);
     </script>
 }
 

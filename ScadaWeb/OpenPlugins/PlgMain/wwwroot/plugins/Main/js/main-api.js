@@ -1,4 +1,7 @@
-﻿// Represents a data transfer object that carries data from the server side to a client.
+﻿// The plugin's web API.
+// No dependencies.
+
+// Represents a data transfer object that carries data from the server side to a client.
 class Dto {
     constructor() {
         this.ok = false;
@@ -27,15 +30,6 @@ class MainApi {
             : obj;
     }
 
-    // Parses the response and calls the callback method.
-    _processResponse(response, methodName, callback) {
-        (response.ok
-            ? response.json()
-            : new Promise(resolve => resolve(Dto.fail(response.statusText))))
-            .then(data => callback(data))
-            .catch(error => console.error(`Error in ${methodName}.`, error));
-    }
-
     // Calls the callback function without any exception.
     _doCallback(callback, dto, methodName) {
         try {
@@ -54,7 +48,9 @@ class MainApi {
     // URL example: http://localhost/Api/Main/GetCurData?cnlNums=101-105,110
     getCurData(cnlNums, callback) {
         fetch(this.rootPath + "Api/Main/GetCurData?cnlNums=" + this._formatCnlNums(cnlNums))
-            .then(response => this._processResponse(response, "getCurData", callback));
+            .then(response => response.ok ? response.json() : Dto.fail(response.statusText))
+            .then(data => this._doCallback(callback, data, "getCurData"))
+            .catch(error => this._doCallback(callback, Dto.fail(error.message), "getCurData"));
     }
 
     // Gets the current data of the specified channels.
@@ -62,21 +58,24 @@ class MainApi {
     // URL example: http://localhost/Api/Main/GetCurDataStep1?cnlNums=101-105,110&useCache=true
     getCurDataStep1(cnlNums, useCache, callback) {
         fetch(this.rootPath + "Api/Main/GetCurDataStep1?cnlNums=" + this._formatCnlNums(cnlNums) + "&useCache=" + useCache)
-            .then(response => this._processResponse(response, "getCurDataStep1", callback));
+            .then(response => response.ok ? response.json() : Dto.fail(response.statusText))
+            .then(data => this._doCallback(callback, data, "getCurDataStep1"))
+            .catch(error => this._doCallback(callback, Dto.fail(error.message), "getCurDataStep1"));
     }
 
     // Gets the current data by the channel list ID returned in step 1.
     // URL example: http://localhost/Api/Main/GetCurDataStep2?cnlListID=1
     getCurDataStep2(cnlListID, callback) {
         fetch(this.rootPath + "Api/Main/GetCurDataStep2?cnlListID=" + cnlListID)
-            .then(response => this._processResponse(response, "getCurDataStep2", callback));
+            .then(response => response.ok ? response.json() : Dto.fail(response.statusText))
+            .then(data => this._doCallback(callback, data, "getCurDataStep2"))
+            .catch(error => this._doCallback(callback, Dto.fail(error.message), "getCurDataStep2"));
     }
 
     // Gets the current data by view.
     // URL example: http://localhost/Api/Main/GetCurDataByView?viewID=1&cnlListID=0
     getCurDataByView(viewID, cnlListID, callback) {
         fetch(this.rootPath + "Api/Main/GetCurDataByView?viewID=" + viewID + "&cnlListID=" + cnlListID)
-            //.then(response => this._processResponse(response, "getCurDataByView", callback));
             .then(response => response.ok ? response.json() : Dto.fail(response.statusText))
             .then(data => this._doCallback(callback, data, "getCurDataByView"))
             .catch(error => this._doCallback(callback, Dto.fail(error.message), "getCurDataByView"));
