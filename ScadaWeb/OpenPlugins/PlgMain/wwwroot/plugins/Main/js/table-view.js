@@ -29,12 +29,15 @@ var pluginOptions = {
 const START_TIME_KEY = "TableView.StartTime";
 const END_TIME_KEY = "TableView.EndTime";
 const DEFAULT_CELL_COLOR = "Black";
+const NEXT_TIME_SYMBOL = "*";
 const ERROR_DISPLAY_DURATION = 10000; // ms
 const UPDATE_HIST_DATA_OFFSET = 500;  //ms
 
 var viewHub = ViewHub.getInstance();
 var mainApi = new MainApi();
+var localDate = "";
 var timeRange = null;
+var serverTime = null;
 var arcWriteTime = 0;
 var curCells = []; // array of CellMeta
 var histCols = []; // array of HistColMeta
@@ -45,8 +48,8 @@ function restoreTimeRange() {
     let endTimeVal = ScadaUtils.getStorageItem(localStorage, END_TIME_KEY)
 
     if (startTimeVal && endTimeVal) {
-        $("#selStartTime").val(startTimeVal);
-        $("#selEndTime").val(endTimeVal);
+        ScadaUtils.selectOptionIfExists($("#selStartTime"), startTimeVal);
+        ScadaUtils.selectOptionIfExists($("#selEndTime"), endTimeVal);
     }
 }
 
@@ -136,10 +139,8 @@ function setColVisibe() {
         }
     } else {
         // show and clear cells
-        $("col.col-hist, th.hdr-hist, td.cell-hist")
-            .removeClass(HiddenClass)
-            .text("")
-            .css("color", "");
+        $("col.col-hist, th.hdr-hist, td.cell-hist").removeClass(HiddenClass);
+        $("td.cell-hist").text("").css("color", "");
     }
 }
 
@@ -186,7 +187,9 @@ function startUpdatingHistData() {
 
 function updateCurData(callback) {
     mainApi.getCurDataByView(viewID, 0, function (dto) {
-        if (!dto.ok) {
+        if (dto.ok) {
+            checkNewDate(dto.data.serverTime);
+        } else {
             showErrorBadge();
         }
 
@@ -228,6 +231,20 @@ function undateHistData(callback) {
     }
 }
 
+function checkNewDate(newServerTime) {
+    let localTime = serverTime ? serverTime.lt : null;
+    let newLocalTime = newServerTime.lt;
+
+    if (localTime && localDate && localTime.startsWith(localDate) &&
+        newLocalTime && !newLocalTime.startsWith(localDate)) {
+        // switch table view to new date
+        let newLocalDate = newLocalTime.substr(0, 10); // yyyy-MM-dd
+        $("#localDate").val(newLocalDate).change();    // submit form
+    }
+
+    serverTime = newServerTime;
+}
+
 function showCurData(data) {
     let map = mainApi.mapCurData(data);
 
@@ -241,22 +258,30 @@ function showHistData(data) {
     if (data) {
         let map = mainApi.mapCnlNums(data.cnlNums);
         let startIdx = 0;
+        let prevColMeta = null;
 
         for (let colMeta of histCols) {
             if (colMeta.isVisible) {
                 let recordIdx = findRecordIndex(data.timestamps, colMeta.time, startIdx);
                 startIdx = recordIdx >= 0 ? recordIdx + 1 : ~recordIdx;
 
+                let isNext = prevColMeta && serverTime &&
+                    prevColMeta.time < serverTime.ut && serverTime.ut <= colMeta.time;
+
                 for (let cellMeta of colMeta.cells) {
                     if (recordIdx >= 0) {
                         let cnlNumIdx = map.get(cellMeta.cnlNum);
                         let record = cnlNumIdx >= 0 ? data.trends[cnlNumIdx][recordIdx] : null;
                         displayCell(cellMeta.cellElem, record);
+                    } else if (isNext && cellMeta.cnlNum > 0) {
+                        cellMeta.cellElem.text(NEXT_TIME_SYMBOL).css(DEFAULT_CELL_COLOR);
                     } else {
                         displayCell(cellMeta.cellElem, null);
                     }
                 }
             }
+
+            prevColMeta = colMeta;
         }
     }
 }
@@ -305,6 +330,8 @@ function showErrorBadge() {
 
 $(document).ready(function () {
     mainApi.rootPath = viewHub.appEnv.rootPath;
+    localDate = $("#localDate").val();
+
     restoreTimeRange();
     initTimeRange(false);
     initCurCells();

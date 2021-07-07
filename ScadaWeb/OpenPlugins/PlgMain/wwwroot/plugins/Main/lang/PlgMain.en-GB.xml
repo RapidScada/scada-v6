@@ -3,6 +3,7 @@
   <Dictionary key="Scada.Web.Plugins.PlgMain.Areas.Main.Pages.TableView">
     <Phrase key="PrevDate">Previous date</Phrase>
     <Phrase key="SelDate">Selected date</Phrase>
+    <Phrase key="MinusOneDay">-1d</Phrase>
     <Phrase key="ItemColumn">Item</Phrase>
     <Phrase key="CurrentColumn">Current</Phrase>
     <Phrase key="InCnlTip">Input channel</Phrase>

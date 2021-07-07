@@ -106,13 +106,12 @@ namespace Scada.Web.Plugins.PlgMain.Areas.Main.Pages
                 while (curDT < utcEndDate)
                 {
                     DateTime dt = TimeZoneInfo.ConvertTimeFromUtc(curDT, timeZone);
-                    DateTimeOffset dto = new(dt, timeZone.GetUtcOffset(dt));
 
                     columnMetas.Add(new ColumnMeta
                     {
-                        UtcTime = dto.UtcDateTime.ToString(WebUtils.JsDateTimeFormat),
+                        UtcTime = curDT.ToString(WebUtils.JsDateTimeFormat),
                         ShortDate = dt.ToString("m", Locale.Culture),
-                        ShortTime = dt.ToString("t", Locale.Culture)
+                        ShortTime = dt.ToString("t", Locale.Culture),
                     });
 
                     curDT = curDT.AddMinutes(tablePeriod);
@@ -210,12 +209,19 @@ namespace Scada.Web.Plugins.PlgMain.Areas.Main.Pages
                 ColumnMeta columnMeta = columnMetas[i];
                 bool isSelected = selectOption == SelectOption.First && i == 0
                     || selectOption == SelectOption.Last && i == lastIdx;
-                string optionValue = isSelectedDate ? columnMeta.ShortTime : columnMeta.ShortTime + "-1d";
+                string optionValue = columnMeta.ShortTime;
+                string optionText = columnMeta.ShortTime;
+
+                if (!isSelectedDate)
+                {
+                    optionValue += "-1d";
+                    optionText += PluginPhrases.MinusOneDay;
+                }
 
                 sbHtml.Append("<option value='").Append(optionValue)
                     .Append("' data-time='").Append(columnMeta.UtcTime)
                     .Append(isSelected ? "' selected>" : "'>")
-                    .Append(columnMeta.ShortTime).AppendLine("</option>");
+                    .Append(optionText).AppendLine("</option>");
             }
 
             sbHtml.AppendLine("</optgroup>");

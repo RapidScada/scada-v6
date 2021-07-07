@@ -61,6 +61,13 @@ class ScadaUtils {
         }
     }
 
+    // Selects the specified option of the select HTML element if it exists.
+    static selectOptionIfExists(jqSelect, value) {
+        if (jqSelect.find("option[value='" + value + "']").length > 0) {
+            jqSelect.val(value);
+        }
+    }
+
     // Plays a sound of the audio jQuery object.
     static playSound(jqAudio) {
         if (jqAudio.length > 0) {

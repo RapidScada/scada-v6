@@ -52,6 +52,7 @@
   .table-main th {
     background-color: #ccc;
     font-weight: 600;
+    padding: 2px 5px;
     position: sticky;
     top: 0;
     /*required for header stickiness*/

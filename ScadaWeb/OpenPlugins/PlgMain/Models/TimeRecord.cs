@@ -33,19 +33,25 @@ namespace Scada.Web.Plugins.PlgMain.Models
         /// Creates a new time record.
         /// </summary>
         public static TimeRecord Create(DateTime dateTime, TimeZoneInfo timeZone)
-        {           
-            if (dateTime.Kind == DateTimeKind.Utc && !timeZone.Equals(TimeZoneInfo.Utc))
-                dateTime = TimeZoneInfo.ConvertTime(dateTime, TimeZoneInfo.Utc, timeZone);
-            else if (dateTime.Kind == DateTimeKind.Local && !timeZone.Equals(TimeZoneInfo.Local))
-                dateTime = TimeZoneInfo.ConvertTime(dateTime, TimeZoneInfo.Local, timeZone);
+        {
+            DateTime utcTime = dateTime.Kind == DateTimeKind.Utc ? 
+                dateTime : TimeZoneInfo.ConvertTimeToUtc(dateTime, timeZone);
+            DateTime localTime;
 
-            DateTimeOffset dateTimeOffset = new(dateTime, timeZone.GetUtcOffset(dateTime));
+            if (dateTime.Kind == DateTimeKind.Utc && !timeZone.Equals(TimeZoneInfo.Utc))
+                localTime = TimeZoneInfo.ConvertTime(dateTime, TimeZoneInfo.Utc, timeZone);
+            else if (dateTime.Kind == DateTimeKind.Local && !timeZone.Equals(TimeZoneInfo.Local))
+                localTime = TimeZoneInfo.ConvertTime(dateTime, TimeZoneInfo.Local, timeZone);
+            else
+                localTime = dateTime;
+
+            DateTimeOffset timeOffset = new(localTime, timeZone.GetUtcOffset(dateTime));
 
             return new TimeRecord
             {
-                Ms = dateTimeOffset.ToUnixTimeMilliseconds(),
-                Ut = dateTimeOffset.UtcDateTime.ToString(WebUtils.JsDateTimeFormat),
-                Lt = dateTimeOffset.ToString(WebUtils.JsDateTimeFormat)
+                Ms = timeOffset.ToUnixTimeMilliseconds(),
+                Ut = utcTime.ToString(WebUtils.JsDateTimeFormat),
+                Lt = timeOffset.ToString(WebUtils.JsDateTimeFormat)
             };
         }
     }

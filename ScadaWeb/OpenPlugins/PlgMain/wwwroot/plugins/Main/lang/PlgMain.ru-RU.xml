@@ -3,6 +3,7 @@
   <Dictionary key="Scada.Web.Plugins.PlgMain.Areas.Main.Pages.TableView">
     <Phrase key="PrevDate">Предыдущая дата</Phrase>
     <Phrase key="SelDate">Выбранная дата</Phrase>
+    <Phrase key="MinusOneDay">-1д</Phrase>
     <Phrase key="ItemColumn">Элемент</Phrase>
     <Phrase key="CurrentColumn">Текущие</Phrase>
     <Phrase key="InCnlTip">Вх. канал</Phrase>

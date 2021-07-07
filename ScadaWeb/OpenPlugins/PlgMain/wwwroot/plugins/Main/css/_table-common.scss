@@ -93,6 +93,7 @@ body {
     th {
         background-color: $header-back-color;
         font-weight: 600;
+        padding: 2px 5px;
         position: sticky;
         top: 0; /*required for header stickiness*/
         z-index: 1;
