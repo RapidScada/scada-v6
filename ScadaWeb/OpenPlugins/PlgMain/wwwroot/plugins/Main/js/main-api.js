@@ -25,7 +25,7 @@ class TimeRange {
     }
 
     param() {
-        return `startTime=${startTime}&endTime=${endTime}&endInclusive=${endInclusive}`;
+        return `startTime=${this.startTime}&endTime=${this.endTime}&endInclusive=${this.endInclusive}`;
     }
 }
 
@@ -96,7 +96,7 @@ class MainApi {
 
     // Gets the historical data.
     // URL example: http://localhost/Api/Main/GetHistData?cnlNums=101-105,110&startTime=2021-12-31T00:00:00.000Z&endTime=2021-12-31T23:59:59Z&endInclusive=true&archiveBit=1
-    getHistData(cnlNums, timeRange, archiveBit) {
+    getHistData(cnlNums, timeRange, archiveBit, callback) {
         fetch(this.rootPath + "Api/Main/GetHistData?cnlNums=" +
             this._cnlNumsToParam(cnlNums) + "&" + timeRange.param() + "&archiveBit=" + archiveBit)
             .then(response => response.ok ? response.json() : Dto.fail(response.statusText))
@@ -106,7 +106,7 @@ class MainApi {
 
     // Gets the historical data.
     // URL example: http://localhost/Api/Main/GetHistData?viewID=1&startTime=2021-12-31T00:00:00.000Z&endTime=2021-12-31T23:59:59Z&endInclusive=true&archiveBit=1
-    getHistDataByView(viewID, timeRange, archiveBit) {
+    getHistDataByView(viewID, timeRange, archiveBit, callback) {
         fetch(this.rootPath + "Api/Main/GetHistDataByView?viewID=" +
             viewID + "&" + timeRange.param() + "&archiveBit=" + archiveBit)
             .then(response => response.ok ? response.json() : Dto.fail(response.statusText))
@@ -115,7 +115,7 @@ class MainApi {
     }
 
     // Gets the Unix time in milliseconds when the archive was last written to.
-    getArcWriteTime(archiveBit) {
+    getArcWriteTime(archiveBit, callback) {
         fetch(this.rootPath + "Api/Main/GetArcWriteTime?archiveBit=" + archiveBit)
             .then(response => response.ok ? response.json() : Dto.fail(response.statusText))
             .then(data => this._doCallback(callback, data, "getArcWriteTime"))
@@ -129,6 +129,22 @@ class MainApi {
         if (curData) {
             for (let record of curData.records) {
                 map.set(record.d.cnlNum, record);
+            }
+        }
+
+        return map;
+    }
+
+    // Creates a map of channel indexes accessed by channel number.
+    mapCnlNums(cnlNums) {
+        let map = new Map();
+
+        if (cnlNums) {
+            let idx = 0;
+
+            for (let cnlNum of cnlNums) {
+                map.set(cnlNum, idx);
+                idx++;
             }
         }
 

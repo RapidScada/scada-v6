@@ -234,19 +234,19 @@ namespace Scada.Web.Plugins.PlgMain.Areas.Main.Pages
 
             foreach (ColumnMeta columnMeta in allColumnMetas)
             {
-                sbHtml.Append("<col class='col-arc' data-time='").Append(columnMeta.UtcTime).AppendLine("'>");
+                sbHtml.Append("<col class='col-hist' data-time='").Append(columnMeta.UtcTime).AppendLine("'>");
             }
 
             sbHtml.AppendLine("</colgroup>");
 
             // header
             sbHtml.AppendLine("<thead><tr class='row-hdr'>");
-            sbHtml.Append("<th>").Append(PluginPhrases.ItemColumn).AppendLine("</th>");
-            sbHtml.Append("<th>").Append(PluginPhrases.CurrentColumn).AppendLine("</th>");
+            sbHtml.Append("<th class='hdr-cap'>").Append(PluginPhrases.ItemColumn).AppendLine("</th>");
+            sbHtml.Append("<th class='hdr-cur'>").Append(PluginPhrases.CurrentColumn).AppendLine("</th>");
 
             foreach (ColumnMeta columnMeta in allColumnMetas)
             {
-                sbHtml.Append("<th><span class='hdr-date'>").Append(columnMeta.ShortDate)
+                sbHtml.Append("<th class='hdr-hist'><span class='hdr-date'>").Append(columnMeta.ShortDate)
                     .Append("</span> <span class='hdr-time'>").Append(columnMeta.ShortTime)
                     .AppendLine("</span></th>");
             }
@@ -298,7 +298,7 @@ namespace Scada.Web.Plugins.PlgMain.Areas.Main.Pages
 
                 for (int i = 0, cnt = allColumnMetas.Count; i < cnt; i++)
                 {
-                    sbHtml.AppendLine("<td class='cell-arc'></td>"); // archive data cell
+                    sbHtml.AppendLine("<td class='cell-hist'></td>"); // historical data cell
                 }
 
                 sbHtml.AppendLine("</tr>");

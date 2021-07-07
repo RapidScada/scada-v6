@@ -16,6 +16,7 @@ $row-odd-back-color: white;
 $row-hover-back-color: $gray-300;
 $cell-font-size: 0.8rem;
 $cell-border-color: $gray-600;
+$cell-border: 1px solid $cell-border-color;
 
 body {
     background-color: $back-color;
@@ -59,7 +60,10 @@ body {
 }
 
 .table-main {
-    border-collapse: collapse;
+    border-collapse: separate; /*required for header stickiness*/
+    border-spacing: 0;
+    border-left: $cell-border;
+    border-top: $cell-border;
 
     tr {
         &:nth-child(even) {
@@ -77,7 +81,8 @@ body {
 
     th,
     td {
-        border: 1px solid $cell-border-color;
+        border-bottom: $cell-border;
+        border-right: $cell-border;
         font-size: $cell-font-size;
         padding: 2px 3px;
         text-align: center;
@@ -89,7 +94,7 @@ body {
         background-color: $header-back-color;
         font-weight: 600;
         position: sticky;
-        top: -1px; /*required for stickiness*/
+        top: 0; /*required for header stickiness*/
         z-index: 1;
     }
 }

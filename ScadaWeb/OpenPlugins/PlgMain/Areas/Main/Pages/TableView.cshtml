@@ -33,13 +33,14 @@ else
     <form method="post">
         <div id="divToolbar" class="toolbar">@*
             *@<span class="toolbar-group"><input id="localDate" name="localDate" type="date" value="@Model.LocalDate" /></span>@*
-            *@<span class="toolbar-group"><select>
+            *@<span class="toolbar-group"><select id="selStartTime">
                     @Model.RenderOptionGroup(dict.PrevDate, false, TableViewModel.SelectOption.None)
                     @Model.RenderOptionGroup(dict.SelDate, true, TableViewModel.SelectOption.First)
-                </select> - <select>
+                </select> - <select id="selEndTime">
                     @Model.RenderOptionGroup(dict.SelDate, true, TableViewModel.SelectOption.Last)
                 </select></span>@*
-            *@<span class="toolbar-group"><span class="tool-btn"><i class="fas fa-print"></i></span></span>
+            *@<span class="toolbar-group"><span class="tool-btn"><i class="fas fa-print"></i></span></span>@*
+            *@<span id="spanErrorBadge" class="badge bg-danger hidden">@dict.spanErrorBadge</span>
         </div>
         <div id="divTableWrapper" class="table-wrapper">@Model.RenderTableView()</div>
     </form>

@@ -4,11 +4,19 @@ $cmd-btn-color: #a00;
 $cmd-btn-hover-color: red;
 
 .table-main {
+    &.hide-date span.hdr-date {
+        display: none;
+    }
+
     td {
         &:first-child {
             padding: 2px 5px;
             text-align: left;
         }
+    }
+
+    th.hid, td.hid {
+        display: none;
     }
 
     .item {

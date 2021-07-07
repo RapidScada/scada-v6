@@ -12,5 +12,6 @@
     <Phrase key="QuantityTip">Величина</Phrase>
     <Phrase key="UnitTip">Размерность</Phrase>
     <Phrase key="SendCommandTip">Отправить команду</Phrase>
+    <Phrase key="spanErrorBadge">Ошибка</Phrase>
   </Dictionary>
 </PlgMainDictionaries>

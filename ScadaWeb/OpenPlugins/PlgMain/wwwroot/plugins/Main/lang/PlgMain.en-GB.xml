@@ -12,6 +12,7 @@
     <Phrase key="QuantityTip">Quantity</Phrase>
     <Phrase key="UnitTip">Unit</Phrase>
     <Phrase key="SendCommandTip">Send Command</Phrase>
+    <Phrase key="spanErrorBadge">Error</Phrase>
     <Phrase key=""></Phrase>
   </Dictionary>
 </PlgMainDictionaries>
