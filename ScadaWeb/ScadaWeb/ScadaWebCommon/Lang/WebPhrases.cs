@@ -52,6 +52,7 @@ namespace Scada.Web.Lang
         public static string UnableResolveViewSpec { get; private set; }
         public static string UnableLoadView { get; private set; }
         public static string ViewMissingFromCache { get; private set; }
+        public static string ViewUndefined { get; private set; }
 
         // Scada.Web.TreeView.MenuItem
         public static string ReportsMenuItem { get; private set; }
@@ -89,6 +90,7 @@ namespace Scada.Web.Lang
             UnableResolveViewSpec = dict["UnableResolveViewSpec"];
             UnableLoadView = dict["UnableLoadView"];
             ViewMissingFromCache = dict["ViewMissingFromCache"];
+            ViewUndefined = dict["ViewUndefined"];
 
             dict = Locale.GetDictionary("Scada.Web.TreeView.MenuItem");
             ReportsMenuItem = dict["ReportsMenuItem"];

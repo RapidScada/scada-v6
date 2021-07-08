@@ -247,14 +247,19 @@ namespace Scada.Web.Code
                 return false;
             }
 
-            if (memoryCache.TryGetValue(WebUtils.GetViewCacheKey(viewID), out view))
-            {
-                return true;
-            }
-            else
+            if (!memoryCache.TryGetValue(WebUtils.GetViewCacheKey(viewID), out view))
             {
                 errMsg = WebPhrases.ViewMissingFromCache;
                 return false;
+            }
+            else if (view == null)
+            {
+                errMsg = WebPhrases.ViewUndefined;
+                return false;
+            }
+            else
+            {
+                return true;
             }
         }
     }

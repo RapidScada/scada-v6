@@ -13,7 +13,8 @@
     <Phrase key="InsufficientViewRights">Insufficient access rights for the view.</Phrase>
     <Phrase key="UnableResolveViewSpec">Unable to resolve view specification.</Phrase>
     <Phrase key="UnableLoadView">Unable to load view.</Phrase>
-    <Phrase key="ViewMissingFromCache">The view is missing from the cache.</Phrase>
+    <Phrase key="ViewMissingFromCache">View is missing from the cache.</Phrase>
+    <Phrase key="ViewUndefined">View is undefined.</Phrase>
   </Dictionary>
   <Dictionary key="Scada.Web.Pages.Shared._MainLayout">
     <Phrase key="spanMenuBtn_ToolTip">Show/Hide Menu</Phrase>

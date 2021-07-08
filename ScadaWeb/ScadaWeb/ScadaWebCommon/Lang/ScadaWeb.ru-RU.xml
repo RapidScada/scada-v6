@@ -13,6 +13,7 @@
     <Phrase key="UnableResolveViewSpec">Не удалось получить спецификацию представления.</Phrase>
     <Phrase key="UnableLoadView">Не удалось загрузить представление.</Phrase>
     <Phrase key="ViewMissingFromCache">Представление отсутствует в кэше.</Phrase>
+    <Phrase key="ViewUndefined">Представление не определено.</Phrase>
   </Dictionary>
   <Dictionary key="Scada.Web.Pages.Shared._MainLayout">
     <Phrase key="spanMenuBtn_ToolTip">Показать/скрыть меню</Phrase>
