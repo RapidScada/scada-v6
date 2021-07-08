@@ -976,7 +976,7 @@ namespace Scada.Server.Engine
                 }
                 else
                 {
-                    Log.WriteAction(CommonPhrases.LogicIsAlreadyStarted);
+                    Log.WriteAction(CommonPhrases.LogicAlreadyStarted);
                 }
 
                 return thread != null;
@@ -1018,7 +1018,7 @@ namespace Scada.Server.Engine
 
                     if (thread.Join(ScadaUtils.ThreadWait))
                     {
-                        Log.WriteAction(CommonPhrases.LogicIsStopped);
+                        Log.WriteAction(CommonPhrases.LogicStopped);
                     }
                     else if (ScadaUtils.IsRunningOnCore)
                     {

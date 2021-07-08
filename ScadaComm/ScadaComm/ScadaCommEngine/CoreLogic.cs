@@ -776,7 +776,7 @@ namespace Scada.Comm.Engine
                 }
                 else
                 {
-                    Log.WriteAction(CommonPhrases.LogicIsAlreadyStarted);
+                    Log.WriteAction(CommonPhrases.LogicAlreadyStarted);
                 }
 
                 return thread != null;
@@ -809,7 +809,7 @@ namespace Scada.Comm.Engine
                     serviceStatus = ServiceStatus.Terminating;
 
                     if (thread.Join(ScadaUtils.ThreadWait))
-                        Log.WriteAction(CommonPhrases.LogicIsStopped);
+                        Log.WriteAction(CommonPhrases.LogicStopped);
                     else
                         Log.WriteAction(CommonPhrases.UnableToStopLogic);
 

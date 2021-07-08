@@ -42,9 +42,9 @@ namespace Scada.Lang
         public static string UnhandledException { get; private set; }
         public static string ExecutionImpossible { get; private set; }
         public static string StartLogic { get; private set; }
-        public static string LogicIsAlreadyStarted { get; private set; }
+        public static string LogicAlreadyStarted { get; private set; }
         public static string StartLogicError { get; private set; }
-        public static string LogicIsStopped { get; private set; }
+        public static string LogicStopped { get; private set; }
         public static string UnableToStopLogic { get; private set; }
         public static string StopLogicError { get; private set; }
         public static string LogicCycleError { get; private set; }
@@ -133,9 +133,9 @@ namespace Scada.Lang
             UnhandledException = dict["UnhandledException"];
             ExecutionImpossible = dict["ExecutionImpossible"];
             StartLogic = dict["StartLogic"];
-            LogicIsAlreadyStarted = dict["LogicIsAlreadyStarted"];
+            LogicAlreadyStarted = dict["LogicAlreadyStarted"];
             StartLogicError = dict["StartLogicError"];
-            LogicIsStopped = dict["LogicIsStopped"];
+            LogicStopped = dict["LogicStopped"];
             UnableToStopLogic = dict["UnableToStopLogic"];
             StopLogicError = dict["StopLogicError"];
             LogicCycleError = dict["LogicCycleError"];

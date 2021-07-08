@@ -9,9 +9,9 @@
     <Phrase key="UnhandledException">Unhandled exception</Phrase>
     <Phrase key="ExecutionImpossible">Normal program execution is impossible</Phrase>
     <Phrase key="StartLogic">Start logic processing</Phrase>
-    <Phrase key="LogicIsAlreadyStarted">Logic processing is already started</Phrase>
+    <Phrase key="LogicAlreadyStarted">Logic processing is already started</Phrase>
     <Phrase key="StartLogicError">Error starting logic processing</Phrase>
-    <Phrase key="LogicIsStopped">Logic processing is stopped</Phrase>
+    <Phrase key="LogicStopped">Logic processing is stopped</Phrase>
     <Phrase key="UnableToStopLogic">Unable to stop logic processing for a specified time</Phrase>
     <Phrase key="StopLogicError">Error stopping logic processing</Phrase>
     <Phrase key="LogicCycleError">Error in the logic work cycle</Phrase>
