@@ -10,7 +10,10 @@
   .toolbar input,
   .toolbar select {
     height: 24px;
-    line-height: normal; }
+    line-height: normal;
+    border: 1px solid #6c757d;
+    /*required for correct height*/
+    border-radius: 3px; }
   .toolbar .toolbar-group {
     margin-right: 10px; }
   .toolbar .tool-btn {

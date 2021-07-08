@@ -43,6 +43,22 @@ var curCells = []; // array of CellMeta
 var histCols = []; // array of HistColMeta
 var errorTimeoutID = 0;
 
+function prepare() {
+    mainApi.rootPath = viewHub.appEnv.rootPath;
+    localDate = $("#localDate").val();
+
+    restoreTimeRange();
+    initTimeRange(false);
+    initCurCells();
+    initHistCols();
+    setColVisibe();
+    initTooltips();
+    bindEvents();
+    updateLayout();
+    startUpdatingCurData();
+    setTimeout(startUpdatingHistData, UPDATE_HIST_DATA_OFFSET);
+}
+
 function restoreTimeRange() {
     let startTimeVal = ScadaUtils.getStorageItem(localStorage, START_TIME_KEY)
     let endTimeVal = ScadaUtils.getStorageItem(localStorage, END_TIME_KEY)
@@ -168,9 +184,10 @@ function bindEvents() {
 }
 
 function updateLayout() {
-    let h = $(window).height() - $("#divToolbar").outerHeight();
-    $("#divTableWrapper").outerHeight(h);
+    let toolbarHeight = $("#divToolbar").outerHeight() || 0;
+    let h = $(window).height() - toolbarHeight;
     $("#divError").outerHeight(h);
+    $("#divTableWrapper").outerHeight(h);
 };
 
 function startUpdatingCurData() {
@@ -329,17 +346,10 @@ function showErrorBadge() {
 }
 
 $(document).ready(function () {
-    mainApi.rootPath = viewHub.appEnv.rootPath;
-    localDate = $("#localDate").val();
-
-    restoreTimeRange();
-    initTimeRange(false);
-    initCurCells();
-    initHistCols();
-    setColVisibe();
-    initTooltips();
-    bindEvents();
-    updateLayout();
-    startUpdatingCurData();
-    setTimeout(startUpdatingHistData, UPDATE_HIST_DATA_OFFSET);
+    if ($("#frmTableView").length > 0) {
+        prepare();
+    } else {
+        bindEvents();
+        updateLayout();
+    }
 });

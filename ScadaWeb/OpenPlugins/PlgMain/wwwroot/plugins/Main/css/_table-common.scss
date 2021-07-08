@@ -33,6 +33,8 @@ body {
     select {
         height: $toolbar-control-height;
         line-height: normal;
+        border: $cell-border; /*required for correct height*/
+        border-radius: 3px;
     }
 
     .toolbar-group {
