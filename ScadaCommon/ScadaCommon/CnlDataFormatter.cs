@@ -30,6 +30,7 @@ using Scada.Data.Tables;
 using Scada.Lang;
 using System;
 using System.Collections.Generic;
+using System.Globalization;
 
 namespace Scada
 {
@@ -91,7 +92,10 @@ namespace Scada
         /// </summary>
         private static readonly char[] EnumSeparator = new char[] { ';', '\n' };
 
-
+        /// <summary>
+        /// The culture for formatting values.
+        /// </summary>
+        protected readonly CultureInfo culture;
         /// <summary>
         /// The channel status table.
         /// </summary>
@@ -114,6 +118,7 @@ namespace Scada
             if (baseDataSet == null)
                 throw new ArgumentNullException(nameof(baseDataSet));
 
+            culture = Locale.Culture;
             cnlStatusTable = baseDataSet.CnlStatusTable;
             formatTable = baseDataSet.FormatTable;
             enumFormats = new Dictionary<int, EnumFormat>();
@@ -164,16 +169,16 @@ namespace Scada
             switch (dataTypeID)
             {
                 case DataTypeID.Double:
-                    return cnlVal.ToString(DefaultFormat);
+                    return cnlVal.ToString(DefaultFormat, culture);
 
                 case DataTypeID.Int64:
-                    return CnlDataConverter.DoubleToInt64(cnlVal).ToString();
+                    return CnlDataConverter.DoubleToInt64(cnlVal).ToString(culture);
 
                 case DataTypeID.ASCII:
-                    return CnlDataConverter.DoubleToAscii(cnlVal).ToString();
+                    return CnlDataConverter.DoubleToAscii(cnlVal);
 
                 case DataTypeID.Unicode:
-                    return CnlDataConverter.DoubleToUnicode(cnlVal).ToString();
+                    return CnlDataConverter.DoubleToUnicode(cnlVal);
 
                 default:
                     return FormatError;
@@ -188,10 +193,10 @@ namespace Scada
             switch (dataTypeID)
             {
                 case DataTypeID.Double:
-                    return cnlVal.ToString(format);
+                    return cnlVal.ToString(format, culture);
 
                 case DataTypeID.Int64:
-                    return CnlDataConverter.DoubleToInt64(cnlVal).ToString(format);
+                    return CnlDataConverter.DoubleToInt64(cnlVal).ToString(format, culture);
 
                 default:
                     return FormatError;
@@ -231,10 +236,10 @@ namespace Scada
             switch (dataTypeID)
             {
                 case DataTypeID.Double:
-                    return DateTime.FromOADate(cnlVal).ToString(format);
+                    return DateTime.FromOADate(cnlVal).ToString(format, culture);
 
                 case DataTypeID.Int64:
-                    return ScadaUtils.TicksToTime(CnlDataConverter.DoubleToInt64(cnlVal)).ToString(format);
+                    return ScadaUtils.TicksToTime(CnlDataConverter.DoubleToInt64(cnlVal)).ToString(format, culture);
 
                 default:
                     return FormatError;

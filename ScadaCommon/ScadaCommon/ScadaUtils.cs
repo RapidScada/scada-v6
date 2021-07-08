@@ -222,7 +222,7 @@ namespace Scada
         /// </summary>
         public static string NormalPathSeparators(string path)
         {
-            return path.Replace(Path.AltDirectorySeparatorChar, Path.DirectorySeparatorChar);
+            return path.Replace('\\', Path.DirectorySeparatorChar).Replace('/', Path.DirectorySeparatorChar);
         }
 
         /// <summary>
