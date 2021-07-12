@@ -109,11 +109,11 @@ namespace Scada.Web.Pages
         private ActionResult RedirectToStartPage(string returnUrl, int userID)
         {
             UserConfig userConfig = webContext.PluginHolder.GetUserConfig(userID);
-            string url = ScadaUtils.FirstNonEmpty(
+            string url = Url.Content(ScadaUtils.FirstNonEmpty(
                 returnUrl,
                 userConfig?.StartPage,
                 webContext.AppConfig.GeneralOptions.DefaultStartPage,
-                WebPath.DefaultStartPage);
+                WebPath.DefaultStartPage.PrependTilda()));
             return LocalRedirect(url);
         }
 

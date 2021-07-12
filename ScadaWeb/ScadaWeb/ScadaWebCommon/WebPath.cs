@@ -35,15 +35,22 @@ namespace Scada.Web
     public static class WebPath
     {
         public const string Root = "/";
+        public const string AboutPage = "/About";
+        public const string AccessDeniedPage = "/AccessDenied";
+        public const string ErrorPage = "/Error";
         public const string IndexPage = "/Index";
         public const string LoginPage = "/Login";
         public const string LogoutPage = "/Logout";
-        public const string AboutPage = "/About";
         public const string DefaultStartPage = "/View";
 
         public static string GetViewPath(int viewID)
         {
             return "/View/" + viewID;
+        }
+
+        public static string PrependTilda(this string s)
+        {
+            return s.StartsWith('~') ? s : "~" + s;
         }
     }
 }

@@ -137,7 +137,7 @@ namespace Scada.Web.Users
                 WebContext.GetViewSpec(viewEntity) is ViewSpec viewSpec)
             {
                 viewNode.IconUrl = viewSpec.IconUrl;
-                viewNode.Url = WebPath.GetViewPath(viewID);
+                viewNode.Url = WebPath.GetViewPath(viewID).PrependTilda();
                 viewNode.ViewFrameUrl = viewSpec.GetFrameUrl(viewID);
                 viewNode.DataAttrs.Add("viewFrameUrl", viewNode.ViewFrameUrl);
             }

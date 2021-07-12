@@ -177,7 +177,7 @@ namespace Scada.Web.TreeView
                 KnownMenuItem.About => new MenuItem
                 {
                     Text = WebPhrases.AboutMenuItem,
-                    Url = WebPath.AboutPage,
+                    Url = WebPath.AboutPage.PrependTilda(),
                     SortOrder = MenuItemSortOrder.Last
                 },
 
