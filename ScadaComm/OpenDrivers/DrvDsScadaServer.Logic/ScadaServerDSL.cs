@@ -490,7 +490,7 @@ namespace Scada.Comm.Drivers.DrvDsScadaServer.Logic
         /// </summary>
         private void Execute()
         {
-            bool cmdEnabled = CommContext.AppConfig.GeneralOptions.CmdEnabled;
+            bool cmdEnabled = CommContext.AppConfig.GeneralOptions.EnableCommands;
 
             while (!terminated)
             {
