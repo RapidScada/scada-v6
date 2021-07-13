@@ -15,46 +15,52 @@
  * 
  * 
  * Product  : Rapid SCADA
- * Module   : Communicator Service
+ * Module   : Communicator Worker
  * Summary  : Implements the Communicator service
  * 
  * Author   : Mikhail Shiryaev
- * Created  : 2006
- * Modified : 2020
+ * Created  : 2021
+ * Modified : 2021
  */
 
+using Microsoft.Extensions.Hosting;
+using Microsoft.Extensions.Logging;
 using Scada.Comm.Engine;
-using System.ServiceProcess;
+using System.Threading;
+using System.Threading.Tasks;
 
-namespace Scada.Comm.Svc
+namespace Scada.Comm.Wkr
 {
     /// <summary>
     /// Implements the Communicator service.
     /// <para>Реализует службу Коммуникатора.</para>
     /// </summary>
-    public partial class SvcMain : ServiceBase
+    public class Worker : BackgroundService
     {
+        private const int TaskDelay = 1000;
+        private readonly ILogger<Worker> logger;
         private readonly Manager manager;
 
-        public SvcMain()
+        public Worker(ILogger<Worker> logger)
         {
-            InitializeComponent();
+            this.logger = logger;
             manager = new Manager();
         }
 
-        protected override void OnStart(string[] args)
+        protected override async Task ExecuteAsync(CancellationToken stoppingToken)
         {
-            manager.StartService();
-        }
+            if (manager.StartService())
+                logger.LogInformation("Communicator is started successfully");
+            else
+                logger.LogError("Communicator is started with errors");
 
-        protected override void OnStop()
-        {
-            manager.StopService();
-        }
+            while (!stoppingToken.IsCancellationRequested)
+            {
+                await Task.Delay(TaskDelay, stoppingToken);
+            }
 
-        protected override void OnShutdown()
-        {
             manager.StopService();
+            logger.LogInformation("Communicator is stopped");
         }
     }
 }

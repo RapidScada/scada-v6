@@ -20,7 +20,7 @@
  * 
  * Author   : Mikhail Shiryaev
  * Created  : 2020
- * Modified : 2020
+ * Modified : 2021
  */
 
 using Scada;
@@ -41,7 +41,7 @@ namespace Scada.Comm.App
         {
             // start the service
             Console.WriteLine("Starting Communicator...");
-            Manager manager = new Manager();
+            Manager manager = new();
 
             if (manager.StartService())
                 Console.WriteLine("Communicator is started successfully");
@@ -50,7 +50,7 @@ namespace Scada.Comm.App
 
             // stop the service if 'x' is pressed or a stop file exists
             Console.WriteLine("Press 'x' or create 'commstop' file to stop Communicator");
-            FileListener stopFileListener = new FileListener(Path.Combine(manager.AppDirs.CmdDir, "commstop"));
+            FileListener stopFileListener = new(Path.Combine(manager.AppDirs.CmdDir, "commstop"));
 
             while (!(Console.KeyAvailable && Console.ReadKey(true).Key == ConsoleKey.X || stopFileListener.FileFound))
             {

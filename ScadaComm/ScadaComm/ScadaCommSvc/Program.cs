@@ -15,7 +15,7 @@
  * 
  * 
  * Product  : Rapid SCADA
- * Module   : Server Service
+ * Module   : Communicator Service
  * Summary  : The Communicator service for Windows
  * 
  * Author   : Mikhail Shiryaev
@@ -27,6 +27,10 @@ using System.ServiceProcess;
 
 namespace Scada.Comm.Svc
 {
+    /// <summary>
+    /// The Communicator service for Windows.
+    /// <para>Служба Коммуникатора для Windows.</para>
+    /// </summary>
     static class Program
     {
         /// <summary>
