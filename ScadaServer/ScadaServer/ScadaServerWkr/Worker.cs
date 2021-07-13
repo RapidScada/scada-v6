@@ -49,6 +49,12 @@ namespace Scada.Server.Wkr
 
         protected override async Task ExecuteAsync(CancellationToken stoppingToken)
         {
+            stoppingToken.Register(() =>
+            {
+                manager.StopService();
+                logger.LogInformation("Server is stopped");
+            });
+
             if (manager.StartService())
                 logger.LogInformation("Server is started successfully");
             else
@@ -58,9 +64,6 @@ namespace Scada.Server.Wkr
             {
                 await Task.Delay(TaskDelay, stoppingToken);
             }
-
-            manager.StopService();
-            logger.LogInformation("Server is stopped");
         }
     }
 }

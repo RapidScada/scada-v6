@@ -49,6 +49,12 @@ namespace Scada.Comm.Wkr
 
         protected override async Task ExecuteAsync(CancellationToken stoppingToken)
         {
+            stoppingToken.Register(() =>
+            {
+                manager.StopService();
+                logger.LogInformation("Communicator is stopped");
+            });
+
             if (manager.StartService())
                 logger.LogInformation("Communicator is started successfully");
             else
@@ -58,9 +64,6 @@ namespace Scada.Comm.Wkr
             {
                 await Task.Delay(TaskDelay, stoppingToken);
             }
-
-            manager.StopService();
-            logger.LogInformation("Communicator is stopped");
         }
     }
 }

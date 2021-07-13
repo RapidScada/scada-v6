@@ -7,7 +7,6 @@ WorkingDirectory=/opt/scada/ScadaComm
 ExecStart=/usr/bin/dotnet /opt/scada/ScadaComm/ScadaCommWkr.dll
 Restart=always
 RestartSec=10
-KillSignal=SIGINT
 SyslogIdentifier=scadacomm
 
 [Install]
