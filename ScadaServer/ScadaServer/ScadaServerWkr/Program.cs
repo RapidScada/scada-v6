@@ -1,4 +1,4 @@
-/*
+п»ї/*
  * Copyright 2021 Rapid Software LLC
  * 
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -30,7 +30,7 @@ namespace Scada.Server.Wkr
 {
     /// <summary>
     /// The Server service for Windows and Linux.
-    /// <para>Служба Сервера для Windows и Linux.</para>
+    /// <para>РЎР»СѓР¶Р±Р° РЎРµСЂРІРµСЂР° РґР»СЏ Windows Рё Linux.</para>
     /// </summary>
     public class Program
     {

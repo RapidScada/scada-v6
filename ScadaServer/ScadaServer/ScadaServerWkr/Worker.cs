@@ -1,4 +1,4 @@
-/*
+п»ї/*
  * Copyright 2021 Rapid Software LLC
  * 
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -32,8 +32,8 @@ using System.Threading.Tasks;
 namespace Scada.Server.Wkr
 {
     /// <summary>
-    /// Implements the server service.
-    /// <para>Реализует службу сервера.</para>
+    /// Implements the Server service.
+    /// <para>Р РµР°Р»РёР·СѓРµС‚ СЃР»СѓР¶Р±Сѓ РЎРµСЂРІРµСЂР°.</para>
     /// </summary>
     public class Worker : BackgroundService
     {

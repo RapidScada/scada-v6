@@ -16,7 +16,7 @@
  * 
  * Product  : Rapid SCADA
  * Module   : Server Service
- * Summary  : Implements the server service
+ * Summary  : Implements the Server service
  * 
  * Author   : Mikhail Shiryaev
  * Created  : 2013
@@ -29,8 +29,8 @@ using System.ServiceProcess;
 namespace Scada.Server.Svc
 {
     /// <summary>
-    /// Implements the server service.
-    /// <para>Реализует службу сервера.</para>
+    /// Implements the Server service.
+    /// <para>Реализует службу Сервера.</para>
     /// </summary>
     public partial class SvcMain : ServiceBase
     {
