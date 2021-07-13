@@ -1,0 +1,13 @@
+[Unit]
+Description=Rapid SCADA Server
+
+[Service]
+WorkingDirectory=/opt/scada/ScadaServer
+ExecStart=/usr/bin/dotnet /opt/scada/ScadaServer/ScadaServerApp.dll
+Restart=always
+RestartSec=10
+KillSignal=SIGINT
+SyslogIdentifier=scadaserver
+
+[Install]
+WantedBy=multi-user.target
