@@ -43,7 +43,7 @@ namespace Scada.Server.App
         {
             // start the service
             Console.WriteLine("Starting Server...");
-            Manager manager = new Manager();
+            Manager manager = new();
 
             if (manager.StartService())
                 Console.WriteLine("Server is started successfully");
@@ -52,7 +52,7 @@ namespace Scada.Server.App
 
             // stop the service if 'x' is pressed or a stop file exists
             Console.WriteLine("Press 'x' or create 'serverstop' file to stop Server");
-            FileListener stopFileListener = new FileListener(Path.Combine(manager.AppDirs.CmdDir, "serverstop"));
+            FileListener stopFileListener = new(Path.Combine(manager.AppDirs.CmdDir, "serverstop"));
 
             while (!(Console.KeyAvailable && Console.ReadKey(true).Key == ConsoleKey.X || stopFileListener.FileFound))
             {

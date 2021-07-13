@@ -3,7 +3,7 @@ Description=Rapid SCADA Server
 
 [Service]
 WorkingDirectory=/opt/scada/ScadaServer
-ExecStart=/usr/bin/dotnet /opt/scada/ScadaServer/ScadaServerApp.dll
+ExecStart=/opt/scada/ScadaServer/ScadaServerWkr
 Restart=always
 RestartSec=10
 KillSignal=SIGINT

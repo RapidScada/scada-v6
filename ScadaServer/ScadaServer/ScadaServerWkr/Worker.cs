@@ -1,4 +1,4 @@
-Ôªø/*
+/*
  * Copyright 2021 Rapid Software LLC
  * 
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -15,46 +15,52 @@
  * 
  * 
  * Product  : Rapid SCADA
- * Module   : Server Service
+ * Module   : Server Worker
  * Summary  : Implements the server service
  * 
  * Author   : Mikhail Shiryaev
- * Created  : 2013
- * Modified : 2020
+ * Created  : 2021
+ * Modified : 2021
  */
 
+using Microsoft.Extensions.Hosting;
+using Microsoft.Extensions.Logging;
 using Scada.Server.Engine;
-using System.ServiceProcess;
+using System.Threading;
+using System.Threading.Tasks;
 
-namespace Scada.Server.Svc
+namespace Scada.Server.Wkr
 {
     /// <summary>
     /// Implements the server service.
-    /// <para>–†–µ–∞–ª–∏–∑—É–µ—Ç —Å–ª—É–∂–±—É —Å–µ—Ä–≤–µ—Ä–∞.</para>
+    /// <para>–Â‡ÎËÁÛÂÚ ÒÎÛÊ·Û ÒÂ‚Â‡.</para>
     /// </summary>
-    public partial class SvcMain : ServiceBase
+    public class Worker : BackgroundService
     {
+        private const int TaskDelay = 1000;
+        private readonly ILogger<Worker> logger;
         private readonly Manager manager;
 
-        public SvcMain()
+        public Worker(ILogger<Worker> logger)
         {
-            InitializeComponent();
+            this.logger = logger;
             manager = new Manager();
         }
 
-        protected override void OnStart(string[] args)
+        protected override async Task ExecuteAsync(CancellationToken stoppingToken)
         {
-            manager.StartService();
-        }
+            if (manager.StartService())
+                logger.LogInformation("Server is started successfully");
+            else
+                logger.LogError("Server is started with errors");
 
-        protected override void OnStop()
-        {
-            manager.StopService();
-        }
+            while (!stoppingToken.IsCancellationRequested)
+            {
+                await Task.Delay(TaskDelay, stoppingToken);
+            }
 
-        protected override void OnShutdown()
-        {
             manager.StopService();
+            logger.LogInformation("Server is stopped");
         }
     }
 }
