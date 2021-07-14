@@ -31,6 +31,7 @@ using Microsoft.AspNetCore.Mvc.RazorPages;
 using Scada.Lang;
 using Scada.Web.Config;
 using Scada.Web.Lang;
+using Scada.Web.Plugins;
 using Scada.Web.Services;
 using Scada.Web.Users;
 using System;
@@ -132,6 +133,7 @@ namespace Scada.Web.Pages
                 string errMsg;
                 string friendlyError;
 
+                // check user by server
                 try
                 {
                     userIsValid = clientAccessor.ScadaClient
@@ -144,14 +146,29 @@ namespace Scada.Web.Pages
                     friendlyError = WebPhrases.ClientError;
                 }
 
-                if (userIsValid)
+                // check user by plugins
+                UserLoginArgs userLoginArgs = new()
+                {
+                    Username = Username,
+                    UserID = userID,
+                    RoleID = roleID,
+                    SessionID = HttpContext.Session.Id,
+                    RemoteIP = HttpContext.Connection.RemoteIpAddress?.ToString(),
+                    UserIsValid = userIsValid,
+                    ErrorMessage = errMsg,
+                    FriendlyError = friendlyError
+                };
+
+                webContext.PluginHolder.OnUserLogin(userLoginArgs);
+
+                // show login result
+                if (userLoginArgs.UserIsValid)
                 {
                     await LoginAsync(Username, userID, roleID);
                     webContext.Log.WriteAction(Locale.IsRussian ?
                         "Пользователь {0} вошёл в систему {0}, IP {1}" :
                         "User {0} is logged in, IP {1}",
-                        Username, HttpContext.Connection.RemoteIpAddress);
-                    webContext.PluginHolder.OnUserLogin(userID);
+                        Username, userLoginArgs.RemoteIP);
                     return RedirectToStartPage(returnUrl, userID);
                 }
                 else
@@ -159,8 +176,8 @@ namespace Scada.Web.Pages
                     webContext.Log.WriteError(Locale.IsRussian ?
                         "Неудачная попытка входа в систему пользователя {0}, IP {1}: {2}" :
                         "Unsuccessful login attempt for user {0}, IP {1}: {2}",
-                        Username, HttpContext.Connection.RemoteIpAddress, errMsg);
-                    ModelState.AddModelError(string.Empty, friendlyError);
+                        Username, userLoginArgs.RemoteIP, userLoginArgs.ErrorMessage);
+                    ModelState.AddModelError(string.Empty, userLoginArgs.FriendlyError);
                 }
             }
 

@@ -137,6 +137,7 @@ namespace Scada.Web
 
             services
                 .AddHttpContextAccessor()
+                .AddSession()
                 .AddSingleton(WebContext)
                 .AddScoped(UserContextFactory.GetUserContext)
                 .AddScoped<IClientAccessor, ClientAccessor>()
@@ -166,6 +167,7 @@ namespace Scada.Web
             app.UseRouting();
             app.UseAuthentication();
             app.UseAuthorization();
+            app.UseSession();
 
             app.UseEndpoints(endpoints =>
             {

@@ -358,7 +358,7 @@ namespace Scada.Web.Plugins
         /// <summary>
         /// Calls the OnUserLogin method of the plugins.
         /// </summary>
-        public void OnUserLogin(int userID)
+        public void OnUserLogin(UserLoginArgs userLoginArgs)
         {
             lock (pluginLock)
             {
@@ -366,7 +366,7 @@ namespace Scada.Web.Plugins
                 {
                     try
                     {
-                        pluginLogic.OnUserLogin(userID);
+                        pluginLogic.OnUserLogin(userLoginArgs);
                     }
                     catch (Exception ex)
                     {
@@ -379,7 +379,7 @@ namespace Scada.Web.Plugins
         /// <summary>
         /// Calls the OnUserLogout method of the plugins.
         /// </summary>
-        public void OnUserLogout(int userID)
+        public void OnUserLogout(UserLoginArgs userLoginArgs)
         {
             lock (pluginLock)
             {
@@ -387,7 +387,7 @@ namespace Scada.Web.Plugins
                 {
                     try
                     {
-                        pluginLogic.OnUserLogout(userID);
+                        pluginLogic.OnUserLogout(userLoginArgs);
                     }
                     catch (Exception ex)
                     {

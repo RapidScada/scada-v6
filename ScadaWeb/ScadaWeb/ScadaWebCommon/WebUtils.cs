@@ -64,6 +64,14 @@ namespace Scada.Web
 
 
         /// <summary>
+        /// Gets the username from the specified principal.
+        /// </summary>
+        public static string GetUsername(this ClaimsPrincipal user)
+        {
+            return user.FindFirstValue(ClaimTypes.Name) ?? "";
+        }
+
+        /// <summary>
         /// Gets the user ID from the specified principal.
         /// </summary>
         public static bool GetUserID(this ClaimsPrincipal user, out int userID)
@@ -90,11 +98,13 @@ namespace Scada.Web
         }
 
         /// <summary>
-        /// Gets the username from the specified principal.
+        /// Gets the role ID from the specified principal.
         /// </summary>
-        public static string GetUsername(this ClaimsPrincipal user)
+        public static int GetRoleID(this ClaimsPrincipal user)
         {
-            return user.FindFirstValue(ClaimTypes.Name);
+            return user.FindFirstValue(ClaimTypes.Role) is string roleIdStr && int.TryParse(roleIdStr, out int roleID)
+                ? roleID
+                : 0;
         }
 
         /// <summary>

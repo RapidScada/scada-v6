@@ -127,16 +127,16 @@ namespace Scada.Web.Plugins
         }
 
         /// <summary>
-        /// Performs actions after a user successfully logs in.
+        /// Performs actions after a user logs in, whether successful or not.
         /// </summary>
-        public virtual void OnUserLogin(int userID)
+        public virtual void OnUserLogin(UserLoginArgs userLoginArgs)
         {
         }
 
         /// <summary>
         /// Performs actions after a user logs out.
         /// </summary>
-        public virtual void OnUserLogout(int userID)
+        public virtual void OnUserLogout(UserLoginArgs userLoginArgs)
         {
         }
 

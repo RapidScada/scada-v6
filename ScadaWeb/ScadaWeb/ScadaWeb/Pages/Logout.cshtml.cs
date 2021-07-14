@@ -28,8 +28,8 @@ using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Scada.Lang;
+using Scada.Web.Plugins;
 using Scada.Web.Services;
-using System.Security.Claims;
 using System.Threading.Tasks;
 
 namespace Scada.Web.Pages
@@ -49,16 +49,26 @@ namespace Scada.Web.Pages
 
         public async Task<IActionResult> OnGetAsync()
         {
-            string username = User.Identity.IsAuthenticated ? User.GetUsername() : null;
-            await HttpContext.SignOutAsync(CookieAuthenticationDefaults.AuthenticationScheme);
-            
-            if (!string.IsNullOrEmpty(username))
+            if (User.Identity.IsAuthenticated)
             {
+                UserLoginArgs userLoginArgs = new()
+                {
+                    Username = User.GetUsername(),
+                    UserID = User.GetUserID(),
+                    RoleID = User.GetRoleID(),
+                    SessionID = HttpContext.Session.Id,
+                    RemoteIP = HttpContext.Connection.RemoteIpAddress?.ToString(),
+                    UserIsValid = true,
+                    ErrorMessage = "",
+                    FriendlyError = ""
+                };
+
+                await HttpContext.SignOutAsync(CookieAuthenticationDefaults.AuthenticationScheme);
                 webContext.Log.WriteAction(Locale.IsRussian ?
                     "Пользователь {0} вышел из системы, IP {1}" :
                     "User {0} is logged out, IP {1}",
-                    username, HttpContext.Connection.RemoteIpAddress);
-                webContext.PluginHolder.OnUserLogout(User.GetUserID());
+                    userLoginArgs.Username, userLoginArgs.RemoteIP);
+                webContext.PluginHolder.OnUserLogout(userLoginArgs);
             }
 
             return RedirectToPage(WebPath.LoginPage);
