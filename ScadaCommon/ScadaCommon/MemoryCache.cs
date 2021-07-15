@@ -65,11 +65,15 @@ namespace Scada
 
 
         /// <summary>
-        /// The cache items.
+        /// The cache entries.
         /// </summary>
         protected readonly Dictionary<TKey, CacheEntry> entries;
         /// <summary>
-        /// The time (UTC) when the outdated items were last removed.
+        /// The period of removing the outdated cache entries.
+        /// </summary>
+        protected readonly TimeSpan cleanupPeriod;
+        /// <summary>
+        /// The time (UTC) when the outdated entries were last removed.
         /// </summary>
         protected DateTime lastCleanupTime;
 
@@ -88,6 +92,7 @@ namespace Scada
         public MemoryCache(TimeSpan slidingExpiration, int capacity)
         {
             entries = new Dictionary<TKey, CacheEntry>();
+            cleanupPeriod = TimeSpan.FromTicks(slidingExpiration.Ticks / 2);
             lastCleanupTime = DateTime.UtcNow;
 
             SlidingExpiration = slidingExpiration;
@@ -112,7 +117,7 @@ namespace Scada
         /// </summary>
         protected void RemoveOutdatedItems(DateTime nowDT)
         {
-            lock (entries)
+            if (nowDT - lastCleanupTime > cleanupPeriod)
             {
                 // remove items that have not been accessed for a long time
                 List<TKey> keysToRemove = new List<TKey>();
@@ -164,15 +169,17 @@ namespace Scada
         {
             lock (entries)
             {
-                if (entries.ContainsKey(key))
-                {
-                    return false;
-                }
-                else
+                DateTime utcNow = DateTime.UtcNow;
+                bool added = false;
+
+                if (!entries.ContainsKey(key))
                 {
                     entries.Add(key, new CacheEntry(key, value, DateTime.UtcNow));
-                    return true;
+                    added = true;
                 }
+
+                RemoveOutdatedItems(utcNow);
+                return added;
             }
         }
 
@@ -183,21 +190,67 @@ namespace Scada
         {
             lock (entries)
             {
-                TValue entryValue = default;
                 DateTime utcNow = DateTime.UtcNow;
+                TValue value = default;
 
-                // get the item
                 if (entries.TryGetValue(key, out CacheEntry entry))
                 {
                     entry.LastAccessTime = utcNow;
-                    entryValue = entry.Value;
+                    value = entry.Value;
                 }
 
-                // cleanup the cache
-                if (utcNow - lastCleanupTime > SlidingExpiration)
-                    RemoveOutdatedItems(utcNow);
+                RemoveOutdatedItems(utcNow);
+                return value;
+            }
+        }
 
-                return entryValue;
+        /// <summary>
+        /// Gets an entry from the cache, or creates a new one and adds it to the cache.
+        /// </summary>
+        public TValue GetOrCreate(TKey key, Func<TValue> factory)
+        {
+            if (factory == null)
+                throw new ArgumentNullException(nameof(factory));
+
+            lock (entries)
+            {
+                DateTime utcNow = DateTime.UtcNow;
+                TValue value;
+
+                if (entries.ContainsKey(key))
+                {
+                    CacheEntry entry = entries[key];
+                    entry.LastAccessTime = utcNow;
+                    value = entry.Value;
+                }
+                else
+                {
+                    value = factory();
+                    entries.Add(key, new CacheEntry(key, value, utcNow));
+                }
+
+                RemoveOutdatedItems(utcNow);
+                return value;
+            }
+        }
+
+        /// <summary>
+        /// Gets the snapshot of the cache values.
+        /// </summary>
+        public TValue[] GetSnapshot()
+        {
+            lock (entries)
+            {
+                RemoveOutdatedItems(DateTime.UtcNow);
+                TValue[] values = new TValue[entries.Count];
+                int i = 0;
+
+                foreach (CacheEntry entry in entries.Values)
+                {
+                    values[i++] = entry.Value;
+                }
+
+                return values;
             }
         }
     }
