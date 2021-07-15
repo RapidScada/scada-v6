@@ -558,7 +558,7 @@ namespace Scada.Server
                 CopyInt32(0, buffer, ref index);
                 CopyString(errMsg, buffer, ref index);
 
-                RegisterUnsuccessfulLogin();
+                RegisterFailedLogin();
                 Thread.Sleep(WrongPasswordDelay);
             }
 
@@ -614,7 +614,7 @@ namespace Scada.Server
             {
                 errMsg = Locale.IsRussian ?
                     "Вход в систему заблокирован в целях безопасности" :
-                    "Login blocked until for security reasons";
+                    "Login blocked for security reasons";
                 return false;
             }
             else
@@ -625,9 +625,9 @@ namespace Scada.Server
         }
 
         /// <summary>
-        /// Registers an unsuccessful login attempt.
+        /// Registers a failed login attempt.
         /// </summary>
-        protected void RegisterUnsuccessfulLogin()
+        protected void RegisterFailedLogin()
         {
             lock (protectionQueue)
             {
