@@ -54,6 +54,10 @@ namespace Scada.Web.Lang
         public static string ViewMissingFromCache { get; private set; }
         public static string ViewUndefined { get; private set; }
 
+        // Scada.Web.Plugins
+        public static string LoadPluginConfigError { get; private set; }
+        public static string SavePluginConfigError { get; private set; }
+
         // Scada.Web.TreeView.MenuItem
         public static string ReportsMenuItem { get; private set; }
         public static string AdministrationMenuItem { get; private set; }
@@ -91,6 +95,10 @@ namespace Scada.Web.Lang
             UnableLoadView = dict["UnableLoadView"];
             ViewMissingFromCache = dict["ViewMissingFromCache"];
             ViewUndefined = dict["ViewUndefined"];
+
+            dict = Locale.GetDictionary("Scada.Web.Plugins");
+            LoadPluginConfigError = dict["LoadPluginConfigError"];
+            SavePluginConfigError = dict["SavePluginConfigError"];
 
             dict = Locale.GetDictionary("Scada.Web.TreeView.MenuItem");
             ReportsMenuItem = dict["ReportsMenuItem"];

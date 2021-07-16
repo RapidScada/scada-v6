@@ -60,6 +60,10 @@
     <Phrase key="PageTitle">Представление</Phrase>
     <Phrase key="divHideDataWindowBtn_ToolTip">Скрыть окно данных</Phrase>
   </Dictionary>
+  <Dictionary key="Scada.Web.Plugins">
+    <Phrase key="LoadPluginConfigError">Ошибка при загрузке конфигурации плагина</Phrase>
+    <Phrase key="SavePluginConfigError">Ошибка при сохранении конфигурации плагина</Phrase>
+  </Dictionary>
   <Dictionary key="Scada.Web.TreeView.MenuItem">
     <Phrase key="ReportsMenuItem">Отчёты</Phrase>
     <Phrase key="AdministrationMenuItem">Администрирование</Phrase>

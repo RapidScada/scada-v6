@@ -62,6 +62,10 @@
     <Phrase key="PageTitle">View</Phrase>
     <Phrase key="divHideDataWindowBtn_ToolTip">Hide Data Window</Phrase>
   </Dictionary>
+  <Dictionary key="Scada.Web.Plugins">
+    <Phrase key="LoadPluginConfigError">Error loading plugin configuration</Phrase>
+    <Phrase key="SavePluginConfigError">Error saving plugin configuration</Phrase>
+  </Dictionary>
   <Dictionary key="Scada.Web.TreeView.MenuItem">
     <Phrase key="ReportsMenuItem">Reports</Phrase>
     <Phrase key="AdministrationMenuItem">Administration</Phrase>

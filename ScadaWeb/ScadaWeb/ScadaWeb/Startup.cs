@@ -107,6 +107,7 @@ namespace Scada.Web
                 .AddRazorPages(options =>
                 {
                     options.Conventions.AuthorizeFolder(WebPath.Root);
+                    options.Conventions.AllowAnonymousToPage(WebPath.ErrorPage);
                     options.Conventions.AllowAnonymousToPage(WebPath.IndexPage);
                     options.Conventions.AllowAnonymousToPage(WebPath.LoginPage);
                     options.Conventions.AllowAnonymousToPage(WebPath.LogoutPage);
