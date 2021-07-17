@@ -26,20 +26,20 @@
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.HttpOverrides;
 using Microsoft.AspNetCore.Mvc.ApplicationParts;
 using Microsoft.AspNetCore.Mvc.Authorization;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using Scada.Data.Const;
 using Scada.Lang;
 using Scada.Web.Code;
 using Scada.Web.Services;
 using System;
 using System.IO;
 using System.Reflection;
-using System.Threading.Tasks;
+using System.Security.Claims;
 
 namespace Scada.Web
 {
@@ -128,7 +128,14 @@ namespace Scada.Web
                     options.LogoutPath = WebPath.LogoutPage;
                     options.Events = new CookieAuthEvents();
                 });
-            
+
+            services
+                .AddAuthorization(options =>
+                {
+                    options.AddPolicy(PolicyName.Administrators, policy =>
+                        policy.RequireClaim(ClaimTypes.Role, RoleID.Administrator.ToString()));
+                });
+
             services
                 .Configure<ForwardedHeadersOptions>(options =>
                 {

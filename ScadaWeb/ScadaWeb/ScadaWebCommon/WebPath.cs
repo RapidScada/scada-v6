@@ -15,7 +15,7 @@
  * 
  * 
  * Product  : Rapid SCADA
- * Module   : Webstation Application
+ * Module   : ScadaWebCommon
  * Summary  : Contains the predefined paths of the web application
  * 
  * Author   : Mikhail Shiryaev
