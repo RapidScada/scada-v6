@@ -82,7 +82,7 @@ namespace Scada.Web.Plugins.PlgMain.Controllers
         {
             return timestamp.Kind == DateTimeKind.Utc
                 ? timestamp
-                : TimeZoneInfo.ConvertTimeToUtc(timestamp, userContext.TimeZone);
+                : userContext.ConvertTimeToUtc(timestamp);
         }
 
         /// <summary>

@@ -72,7 +72,7 @@ namespace Scada.Web.Plugins.PlgMain.Areas.Main.Pages
 
             selectedDate = DateTime.TryParse(localDate, out DateTime dateTime)
                 ? dateTime.Date
-                : TimeZoneInfo.ConvertTimeFromUtc(DateTime.UtcNow, userContext.TimeZone).Date;
+                : userContext.ConvertTimeFromUtc(DateTime.UtcNow).Date;
             LocalDate = selectedDate.ToString(WebUtils.InputDateFormat);
             InitColumnMetas();
 
@@ -94,10 +94,9 @@ namespace Scada.Web.Plugins.PlgMain.Areas.Main.Pages
             allColumnMetas = new List<ColumnMeta>();
 
             int tablePeriod = pluginContext.Options.TablePeriod > 0 ? pluginContext.Options.TablePeriod : 60;
-            TimeZoneInfo timeZone = userContext.TimeZone;
-            DateTime utcSelectedDate = TimeZoneInfo.ConvertTimeToUtc(selectedDate, timeZone);
-            DateTime utcPrevDate = TimeZoneInfo.ConvertTimeToUtc(selectedDate.AddDays(-1), timeZone);
-            DateTime utcNextDate = TimeZoneInfo.ConvertTimeToUtc(selectedDate.AddDays(1), timeZone);
+            DateTime utcSelectedDate = userContext.ConvertTimeToUtc(selectedDate);
+            DateTime utcPrevDate = userContext.ConvertTimeToUtc(selectedDate.AddDays(-1));
+            DateTime utcNextDate = userContext.ConvertTimeToUtc(selectedDate.AddDays(1));
 
             void AddColumnMetas(List<ColumnMeta> columnMetas, DateTime utcStartDate, DateTime utcEndDate)
             {
@@ -105,7 +104,7 @@ namespace Scada.Web.Plugins.PlgMain.Areas.Main.Pages
 
                 while (curDT < utcEndDate)
                 {
-                    DateTime dt = TimeZoneInfo.ConvertTimeFromUtc(curDT, timeZone);
+                    DateTime dt = userContext.ConvertTimeFromUtc(curDT);
 
                     columnMetas.Add(new ColumnMeta
                     {
