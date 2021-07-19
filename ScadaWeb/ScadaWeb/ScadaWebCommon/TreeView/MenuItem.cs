@@ -100,7 +100,9 @@ namespace Scada.Web.TreeView
         /// </summary>
         public bool Represents(object obj)
         {
-            return obj != null && string.Equals(obj.ToString(), Url, StringComparison.OrdinalIgnoreCase);
+            return obj?.ToString() is string givenUrl && givenUrl != "" &&
+                (string.Equals(Url, givenUrl, StringComparison.OrdinalIgnoreCase) ||
+                string.Equals(Url, "~" + givenUrl, StringComparison.OrdinalIgnoreCase));
         }
         #endregion
 
