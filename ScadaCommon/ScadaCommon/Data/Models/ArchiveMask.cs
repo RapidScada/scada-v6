@@ -57,13 +57,17 @@ namespace Scada.Data.Models
         public const int EventArchiveBit = 5;
 
         /// <summary>
-        /// The mask indicating to select default archives.
+        /// The mask indicating to select the default archives.
         /// </summary>
         public const int Default = -1;
         /// <summary>
-        /// The mask indicating to select all archives.
+        /// The mask indicating to select all the archives.
         /// </summary>
         public const int All = 0x7FFF_FFFF;
+        /// <summary>
+        /// The mask indicating that none of the archives is selected.
+        /// </summary>
+        public const int None = 0;
 
 
         /// <summary>
