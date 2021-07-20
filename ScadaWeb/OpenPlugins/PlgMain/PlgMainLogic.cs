@@ -70,7 +70,7 @@ namespace Scada.Web.Plugins.PlgMain
             }
             else
             {
-                Log.WriteError(WebPhrases.PluginMessage, errMsg);
+                Log.WriteError(WebPhrases.PluginMessage, Code, errMsg);
             }
         }
 
