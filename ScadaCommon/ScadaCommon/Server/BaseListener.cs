@@ -20,12 +20,13 @@
  * 
  * Author   : Mikhail Shiryaev
  * Created  : 2020
- * Modified : 2020
+ * Modified : 2021
  */
 
 using Scada.Lang;
 using Scada.Log;
 using Scada.Protocol;
+using Scada.Security;
 using System;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
@@ -58,13 +59,13 @@ namespace Scada.Server
         /// </summary>
         protected const int WrongPasswordDelay = 500;
         /// <summary>
-        /// The maximum number of unsuccessful login attempts per minute.
+        /// The maximum number of failed login attempts per minute.
         /// </summary>
-        protected const int MaxLoginPerMinute = 100;
+        protected const int MaxFailsPerMinute = 100;
         /// <summary>
-        /// The duration of login blocking for security reasons, min.
+        /// The duration of login blocking, min.
         /// </summary>
-        protected const int LoginBlockDuration = 1;
+        protected const int BlockingDuration = 1;
         /// <summary>
         /// The period of disconnection of inactive clients.
         /// </summary>
@@ -92,13 +93,9 @@ namespace Scada.Server
         /// </summary>
         protected ConcurrentDictionary<long, ConnectedClient> clients;
         /// <summary>
-        /// The queue for protection against password brute forcing.
+        /// Protects against password brute forcing.
         /// </summary>
-        protected Queue<DateTime> protectionQueue;
-        /// <summary>
-        /// The login unblocking time (UTC).
-        /// </summary>
-        protected DateTime loginUnblockDT;
+        protected BruteForceProtector protector;
         /// <summary>
         /// The working thread of the listener.
         /// </summary>
@@ -119,8 +116,7 @@ namespace Scada.Server
 
             tcpListener = null;
             clients = null;
-            protectionQueue = null;
-            loginUnblockDT = DateTime.MinValue;
+            protector = null;
             thread = null;
             terminated = false;
         }
@@ -135,8 +131,11 @@ namespace Scada.Server
             tcpListener.Start();
 
             clients = new ConcurrentDictionary<long, ConnectedClient>();
-            protectionQueue = new Queue<DateTime>();
-            loginUnblockDT = DateTime.MinValue;
+            protector = new BruteForceProtector(MaxFailsPerMinute, BlockingDuration);
+            protector.BlockedChanged += (object sender, BlockedChangedEventArgs e) =>
+            {
+                log.WriteMessage(e.Message, e.Blocked ? LogMessageType.Warning : LogMessageType.Action);
+            };
             terminated = false;
         }
 
@@ -150,8 +149,7 @@ namespace Scada.Server
             tcpListener = null;
 
             clients = null;
-            protectionQueue = null;
-            loginUnblockDT = DateTime.MinValue;
+            protector = null;
             thread = null;
         }
 
@@ -543,7 +541,7 @@ namespace Scada.Server
             response = new ResponsePacket(request, buffer);
             index = ArgumentIndex;
 
-            if (ProtectBruteForce(out string errMsg) &&
+            if (!protector.IsBlocked(out string errMsg) &&
                 ValidateUser(client, username, password, instance, out int userID, out int roleID, out errMsg))
             {
                 CopyBool(true, buffer, ref index);
@@ -558,81 +556,11 @@ namespace Scada.Server
                 CopyInt32(0, buffer, ref index);
                 CopyString(errMsg, buffer, ref index);
 
-                RegisterFailedLogin();
+                protector.RegisterFailedLogin();
                 Thread.Sleep(WrongPasswordDelay);
             }
 
             response.BufferLength = index;
-        }
-
-        /// <summary>
-        /// Protects the application from brute force attacks.
-        /// </summary>
-        protected bool ProtectBruteForce(out string errMsg)
-        {
-            // remove outdated login attempts
-            DateTime utcNow = DateTime.UtcNow;
-            DateTime startDT = utcNow.AddMinutes(-1);
-            int loginCount;
-
-            lock (protectionQueue)
-            {
-                while (protectionQueue.Count > 0)
-                {
-                    DateTime loginDT = protectionQueue.Peek();
-
-                    if (loginDT < startDT)
-                        protectionQueue.Dequeue();
-                    else
-                        break;
-                }
-
-                loginCount = protectionQueue.Count;
-            }
-
-            // block or unblock login
-            if (loginUnblockDT > DateTime.MinValue)
-            {
-                if (loginCount <= MaxLoginPerMinute && utcNow <= loginUnblockDT)
-                {
-                    loginUnblockDT = DateTime.MinValue;
-                    log.WriteAction(Locale.IsRussian ?
-                        "Вход в систему разблокирован" :
-                        "Login unblocked");
-                }
-            }
-            else if (loginCount > MaxLoginPerMinute)
-            {
-                loginUnblockDT = utcNow.AddMinutes(LoginBlockDuration);
-                log.WriteError(Locale.IsRussian ?
-                    "Вход в систему заблокирован до {0} в целях безопасности" :
-                    "Login blocked until {0} for security reasons",
-                    loginUnblockDT.ToLocalizedTimeString());
-            }
-
-            if (loginUnblockDT > DateTime.MinValue)
-            {
-                errMsg = Locale.IsRussian ?
-                    "Вход в систему заблокирован в целях безопасности" :
-                    "Login blocked for security reasons";
-                return false;
-            }
-            else
-            {
-                errMsg = "";
-                return true;
-            }
-        }
-
-        /// <summary>
-        /// Registers a failed login attempt.
-        /// </summary>
-        protected void RegisterFailedLogin()
-        {
-            lock (protectionQueue)
-            {
-                protectionQueue.Enqueue(DateTime.UtcNow);
-            }
         }
 
         /// <summary>
