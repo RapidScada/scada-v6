@@ -59,6 +59,9 @@ namespace Scada.Comm.Lang
         public static string Off { get; private set; }
         public static string On { get; private set; }
 
+        // Drivers
+        public static string DriverMessage { get; private set; }
+
         public static void Init()
         {
             // set phrases depending on locale, because the service logic supports only 2 languages
@@ -83,6 +86,8 @@ namespace Scada.Comm.Lang
                 InvalidCommand = "Ошибка: недопустимая команда";
                 Off = "Откл";
                 On = "Вкл";
+
+                DriverMessage = "Драйвер {0}: {1}";
             }
             else
             {
@@ -105,6 +110,8 @@ namespace Scada.Comm.Lang
                 InvalidCommand = "Error: invalid command";
                 Off = "Off";
                 On = "On";
+
+                DriverMessage = "Driver {0}: {1}";
             }
         }
     }

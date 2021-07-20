@@ -35,10 +35,6 @@ namespace Scada.Server.Lang
     /// </summary>
     public static class ServerPhrases
     {
-        // Scada.Server.Modules
-        public static string LoadModuleConfigError { get; private set; }
-        public static string SaveModuleConfigError { get; private set; }
-
         // Engine
         public static string ErrorInArchive { get; private set; }
         public static string ErrorInModule { get; private set; }
@@ -70,8 +66,13 @@ namespace Scada.Server.Lang
         public static string AckEventNotFound { get; private set; }
 
         // Modules
+        public static string ModuleMessage { get; private set; }
         public static string ReadDbError { get; private set; }
         public static string WriteDbError { get; private set; }
+
+        // Scada.Server.Modules
+        public static string LoadModuleConfigError { get; private set; }
+        public static string SaveModuleConfigError { get; private set; }
 
         public static void Init()
         {
@@ -106,6 +107,7 @@ namespace Scada.Server.Lang
                 AckEventCompleted = "Квитирование события с ид. {0} успешно завершено за {1} мс";
                 AckEventNotFound = "Квитируемое событие с ид. {0} не найдено";
 
+                ModuleMessage = "Модуль {0}: {1}";
                 ReadDbError = "Ошибка при чтении из базы данных";
                 WriteDbError = "Ошибка при записи в базу данных";
             }
@@ -139,6 +141,7 @@ namespace Scada.Server.Lang
                 AckEventCompleted = "Acknowledging an event with ID {0} completed successfully in {1} ms";
                 AckEventNotFound = "Acknowledged event with ID {0} not found";
 
+                ModuleMessage = "Module {0}: {1}";
                 ReadDbError = "Error reading from database";
                 WriteDbError = "Error writing to database";
             }

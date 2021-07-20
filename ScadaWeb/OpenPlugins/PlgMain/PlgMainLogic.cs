@@ -4,6 +4,7 @@
 using Microsoft.Extensions.DependencyInjection;
 using Scada.Data.Entities;
 using Scada.Lang;
+using Scada.Web.Lang;
 using Scada.Web.Plugins.PlgMain.Code;
 using Scada.Web.Services;
 using Scada.Web.TreeView;
@@ -69,7 +70,7 @@ namespace Scada.Web.Plugins.PlgMain
             }
             else
             {
-                Log.WriteError(errMsg);
+                Log.WriteError(WebPhrases.PluginMessage, errMsg);
             }
         }
 
