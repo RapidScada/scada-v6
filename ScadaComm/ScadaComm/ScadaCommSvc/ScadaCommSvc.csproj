@@ -99,15 +99,16 @@
       <Link>Lang\ScadaCommon.ru-RU.xml</Link>
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
+    <Content Include="..\ScadaCommCommon\Config\ScadaCommConfig.xml">
+      <Link>Config\ScadaCommConfig.xml</Link>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
     <Content Include="..\ScadaCommCommon\Lang\ScadaComm.en-GB.xml">
       <Link>Lang\ScadaComm.en-GB.xml</Link>
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Include="..\ScadaCommCommon\Lang\ScadaComm.ru-RU.xml">
       <Link>Lang\ScadaComm.ru-RU.xml</Link>
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Config\ScadaCommConfig.xml">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
   </ItemGroup>
