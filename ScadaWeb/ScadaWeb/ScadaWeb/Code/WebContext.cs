@@ -308,14 +308,14 @@ namespace Scada.Web.Code
 
                                     if (IsReady)
                                     {
-                                        Log.WriteAction(Locale.IsRussian ?
+                                        Log.WriteInfo(Locale.IsRussian ?
                                             "Приложение готово к входу пользователей" :
                                             "The application is ready for user login");
                                     }
                                     else
                                     {
                                         IsReady = true;
-                                        Log.WriteAction(Locale.IsRussian ?
+                                        Log.WriteInfo(Locale.IsRussian ?
                                             "Приложение готово к работе" :
                                             "The application is ready for operating");
                                     }
