@@ -319,6 +319,8 @@ namespace Scada.Web.Code
                                             "Приложение готово к работе" :
                                             "The application is ready for operating");
                                     }
+
+                                    PluginHolder.OnAppReady();
                                 }
                             }
                             break;

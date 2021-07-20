@@ -127,6 +127,13 @@ namespace Scada.Web.Plugins
         }
 
         /// <summary>
+        /// Performs actions when the application is ready for operating.
+        /// </summary>
+        public virtual void OnAppReady()
+        {
+        }
+
+        /// <summary>
         /// Performs actions after a user logs in, whether successful or not.
         /// </summary>
         public virtual void OnUserLogin(UserLoginArgs userLoginArgs)

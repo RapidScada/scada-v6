@@ -356,6 +356,27 @@ namespace Scada.Web.Plugins
         }
 
         /// <summary>
+        /// Calls the OnAppReady method of the plugins.
+        /// </summary>
+        public void OnAppReady()
+        {
+            lock (pluginLock)
+            {
+                foreach (PluginLogic pluginLogic in plugins)
+                {
+                    try
+                    {
+                        pluginLogic.OnAppReady();
+                    }
+                    catch (Exception ex)
+                    {
+                        log.WriteException(ex, WebPhrases.ErrorInPlugin, nameof(OnAppReady), pluginLogic.Code);
+                    }
+                }
+            }
+        }
+
+        /// <summary>
         /// Calls the OnUserLogin method of the plugins.
         /// </summary>
         public void OnUserLogin(UserLoginArgs userLoginArgs)
