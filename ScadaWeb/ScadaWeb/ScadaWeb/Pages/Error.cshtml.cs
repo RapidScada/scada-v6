@@ -69,11 +69,6 @@ namespace Scada.Web.Pages
                 _logger.LogError(ex, CommonPhrases.UnhandledException);
                 _webContext.Log.WriteException(ex, CommonPhrases.UnhandledException);
             }
-            else
-            {
-                _logger.LogError(CommonPhrases.UnhandledException);
-                _webContext.Log.WriteError(CommonPhrases.UnhandledException);
-            }
 
             RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier;
         }
