@@ -9,6 +9,10 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PlgMain", "PlgMain\PlgMain.
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PlgMain.Common", "PlgMain.Common\PlgMain.Common.csproj", "{613F2B4A-4A63-49EB-91A3-3FD0AE389B8B}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "PlgChart", "PlgChart", "{DABBA5AD-314E-4424-AA5B-C57D60C4E581}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PlgChart", "PlgChart\PlgChart.csproj", "{2FC1E95A-822F-47A9-8DCB-B3D5EE5011BB}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -23,6 +27,10 @@ Global
 		{613F2B4A-4A63-49EB-91A3-3FD0AE389B8B}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{613F2B4A-4A63-49EB-91A3-3FD0AE389B8B}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{613F2B4A-4A63-49EB-91A3-3FD0AE389B8B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{2FC1E95A-822F-47A9-8DCB-B3D5EE5011BB}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{2FC1E95A-822F-47A9-8DCB-B3D5EE5011BB}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{2FC1E95A-822F-47A9-8DCB-B3D5EE5011BB}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{2FC1E95A-822F-47A9-8DCB-B3D5EE5011BB}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -30,6 +38,7 @@ Global
 	GlobalSection(NestedProjects) = preSolution
 		{7AAF23C9-3872-4854-B508-BE959CB365C0} = {00E81568-B4A8-4226-B454-2FDBA389CDC8}
 		{613F2B4A-4A63-49EB-91A3-3FD0AE389B8B} = {00E81568-B4A8-4226-B454-2FDBA389CDC8}
+		{2FC1E95A-822F-47A9-8DCB-B3D5EE5011BB} = {DABBA5AD-314E-4424-AA5B-C57D60C4E581}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {19C6959B-66D1-4335-AA8A-0E2F23894099}
