@@ -41,6 +41,9 @@
     <NotificationFeature>PlgNotification</NotificationFeature>
   </PluginAssignment>
   <CustomOptions>
+    <OptionGroup name="Chart">
+      <GapBetweenPoints>90</GapBetweenPoints>
+    </OptionGroup>
     <OptionGroup name="Main">
       <Option name="RefreshRate" value="1000" />
       <Option name="TableArchiveCode" value="Hour" />

@@ -1,4 +1,18 @@
 ﻿@page
 @model Scada.Web.Plugins.PlgChart.Areas.Chart.Pages.ChartModel
 @{
+    Layout = "_BasicLayout";
 }
+
+@section Styles {
+    <link href="~/plugins/Main/css/chart-form.min.css" rel="stylesheet" asp-append-version="true" />
+}
+
+@section Scripts {
+    <script src="~/plugins/Chart/js/chart.js" asp-append-version="true"></script>
+    <script src="~/plugins/Chart/js/chart-form.js" asp-append-version="true"></script>
+    <script>
+    </script>
+}
+
+<div id="divChart" class="chart"></div>
