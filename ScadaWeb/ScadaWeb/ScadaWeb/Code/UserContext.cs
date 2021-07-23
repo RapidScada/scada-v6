@@ -90,7 +90,7 @@ namespace Scada.Web.Code
         public UserViews Views { get; }
 
         /// <summary>
-        /// Gets the user time zone.
+        /// Gets the user's time zone.
         /// </summary>
         public TimeZoneInfo TimeZone { get; private set; }
 

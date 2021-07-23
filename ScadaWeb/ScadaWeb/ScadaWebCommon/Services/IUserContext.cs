@@ -56,7 +56,7 @@ namespace Scada.Web.Services
         UserViews Views { get; }
 
         /// <summary>
-        /// Gets the user time zone.
+        /// Gets the user's time zone.
         /// </summary>
         TimeZoneInfo TimeZone { get; }
     }
