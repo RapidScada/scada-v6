@@ -42,7 +42,8 @@
   </PluginAssignment>
   <CustomOptions>
     <OptionGroup name="Chart">
-      <GapBetweenPoints>90</GapBetweenPoints>
+      <Option name="ChartArchiveCode" value="Min" />
+      <Option name="GapBetweenPoints" value="90" />
     </OptionGroup>
     <OptionGroup name="Main">
       <Option name="RefreshRate" value="1000" />
