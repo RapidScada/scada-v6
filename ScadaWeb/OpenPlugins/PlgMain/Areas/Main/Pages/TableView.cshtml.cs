@@ -82,9 +82,16 @@ namespace Scada.Web.Plugins.PlgMain.Areas.Main.Pages
 
         private int FindArchiveBit()
         {
-            Archive archive = webContext.BaseDataSet.ArchiveTable.SelectFirst(
-                new TableFilter("Code", pluginContext.Options.TableArchiveCode));
-            return archive == null ? -1 : archive.Bit;
+            if (string.IsNullOrEmpty(pluginContext.Options.TableArchiveCode))
+            {
+                return Data.Const.ArchiveBit.Hourly;
+            }
+            else
+            {
+                Archive archive = webContext.BaseDataSet.ArchiveTable.SelectFirst(
+                    new TableFilter("Code", pluginContext.Options.TableArchiveCode));
+                return archive == null ? Data.Const.ArchiveBit.Unknown : archive.Bit;
+            }
         }
 
         private void InitColumnMetas()
