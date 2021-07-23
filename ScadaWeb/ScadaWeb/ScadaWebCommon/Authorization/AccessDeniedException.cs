@@ -16,24 +16,30 @@
  * 
  * Product  : Rapid SCADA
  * Module   : ScadaWebCommon
- * Summary  : Specifies the authorization policy names
+ * Summary  : Represents an exception raised when the user cannot access services
  * 
  * Author   : Mikhail Shiryaev
  * Created  : 2021
  * Modified : 2021
  */
 
-namespace Scada.Web
+using Scada.Web.Lang;
+using System;
+
+namespace Scada.Web.Authorization
 {
     /// <summary>
-    /// Specifies the authorization policy names.
-    /// <para>Задает имена политик авторизации.</para>
+    /// Represents an exception raised when the user cannot access services.
+    /// <para>Представляет исключение, возникающее, когда пользователь не может получить доступ к службам.</para>
     /// </summary>
-    public static class PolicyName
+    public class AccessDeniedException : Exception
     {
         /// <summary>
-        /// Only administrators are allowed.
+        /// Initializes a new instance of the class.
         /// </summary>
-        public const string Administrators = "Administrators";
+        public AccessDeniedException()
+            : base(WebPhrases.AccessDenied)
+        {
+        }
     }
 }

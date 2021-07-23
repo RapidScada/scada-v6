@@ -7,6 +7,7 @@ using Scada.Data.Entities;
 using Scada.Data.Models;
 using Scada.Log;
 using Scada.Web.Api;
+using Scada.Web.Authorization;
 using Scada.Web.Lang;
 using Scada.Web.Plugins.PlgMain.Code;
 using Scada.Web.Plugins.PlgMain.Models;

@@ -34,6 +34,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Scada.Data.Const;
 using Scada.Lang;
+using Scada.Web.Authorization;
 using Scada.Web.Code;
 using Scada.Web.Services;
 using System;
