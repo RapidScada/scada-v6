@@ -188,8 +188,7 @@ namespace Scada.Web.Plugins.PlgChart
             {
                 foreach (TrendPoint point in trend.Points)
                 {
-                    sbTimestamps.Append(EncodeTimestamp(point.Timestamp)
-                        .ToString(CultureInfo.InvariantCulture)).Append(", ");
+                    sbTimestamps.Append(EncodeTimestamp(point.Timestamp)).Append(", ");
                 }
             }
 
@@ -209,8 +208,7 @@ namespace Scada.Web.Plugins.PlgChart
             {
                 foreach (DateTime timestamp in trendBundle.Timestamps)
                 {
-                    sbTimestamps.Append(EncodeTimestamp(timestamp)
-                        .ToString(CultureInfo.InvariantCulture)).Append(", ");
+                    sbTimestamps.Append(EncodeTimestamp(timestamp)).Append(", ");
                 }
             }
 
@@ -219,14 +217,14 @@ namespace Scada.Web.Plugins.PlgChart
         }
 
         /// <summary>
-        /// Encodes the timestamp to a double number to suit the chart format.
+        /// Encodes the timestamp to a string representation of a double number to suit the chart format.
         /// </summary>
-        private double EncodeTimestamp(DateTime timestamp)
+        private string EncodeTimestamp(DateTime timestamp)
         {
             if (timestamp.Kind == DateTimeKind.Utc)
                 timestamp = TimeZoneInfo.ConvertTimeFromUtc(timestamp, options.TimeZone);
 
-            return timestamp.ToOADate();
+            return timestamp.ToOADate().ToString(CultureInfo.InvariantCulture);
         }
 
 
