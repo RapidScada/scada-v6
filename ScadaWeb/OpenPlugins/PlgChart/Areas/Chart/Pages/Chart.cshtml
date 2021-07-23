@@ -5,14 +5,15 @@
 }
 
 @section Styles {
-    <link href="~/plugins/Main/css/chart-form.min.css" rel="stylesheet" asp-append-version="true" />
+    <link href="~/plugins/Chart/css/chart-form.min.css" rel="stylesheet" asp-append-version="true" />
 }
 
 @section Scripts {
     <script src="~/plugins/Chart/js/chart.js" asp-append-version="true"></script>
-    <script src="~/plugins/Chart/js/chart-form.js" asp-append-version="true"></script>
     <script>
+        @Model.ChartDataHtml
     </script>
+    <script src="~/plugins/Chart/js/chart-form.js" asp-append-version="true"></script>
 }
 
 <div id="divChart" class="chart"></div>

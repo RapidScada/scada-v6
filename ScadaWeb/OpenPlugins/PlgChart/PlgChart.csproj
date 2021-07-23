@@ -40,7 +40,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Code\" />
+    <ProjectReference Include="..\PlgChart.Common\PlgChart.Common.csproj" />
   </ItemGroup>
   
 </Project>

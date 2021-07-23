@@ -2,5 +2,9 @@
   {
     "outputFile": "wwwroot/plugins/Chart/css/chart.css",
     "inputFile": "wwwroot/plugins/Chart/css/chart.scss"
+  },
+  {
+    "outputFile": "wwwroot/plugins/Chart/css/chart-form.css",
+    "inputFile": "wwwroot/plugins/Chart/css/chart-form.scss"
   }
 ]

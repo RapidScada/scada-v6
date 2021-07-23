@@ -296,7 +296,7 @@ namespace Scada.Web.Plugins.PlgChart
                     .Append(trendName).AppendFormat(".cnlNum = {0};", inCnl.CnlNum).AppendLine()
                     .Append(trendName).AppendFormat(".cnlName = '{0}';",
                         HttpUtility.JavaScriptStringEncode(inCnl.Name)).AppendLine()
-                    .Append(trendName).AppendFormat(".quantityID = {0};", inCnl.QuantityID).AppendLine()
+                    .Append(trendName).AppendFormat(".quantityID = {0};", inCnl.QuantityID ?? 0).AppendLine()
                     .Append(trendName).AppendFormat(".quantityName = '{0}';",
                         HttpUtility.JavaScriptStringEncode(GetQuantityName(inCnl))).AppendLine()
                     .Append(trendName).AppendFormat(".trendPoints = {0};",
