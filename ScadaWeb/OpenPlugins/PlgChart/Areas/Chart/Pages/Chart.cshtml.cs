@@ -1,6 +1,7 @@
-// Copyright (c) Rapid Software LLC. All rights reserved.
+п»ї// Copyright (c) Rapid Software LLC. All rights reserved.
 // Licensed under the Apache License, Version 2.0. See License.txt in the project root for license information.
 
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Html;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Scada.Data.Const;
@@ -9,6 +10,7 @@ using Scada.Data.Models;
 using Scada.Data.Tables;
 using Scada.Lang;
 using Scada.Web.Api;
+using Scada.Web.Authorization;
 using Scada.Web.Plugins.PlgChart.Code;
 using Scada.Web.Services;
 using System;
@@ -19,8 +21,9 @@ namespace Scada.Web.Plugins.PlgChart.Areas.Chart.Pages
 {
     /// <summary>
     /// Represents a chart page.
-    /// <para>Представляет страницу графика.</para>
+    /// <para>РџСЂРµРґСЃС‚Р°РІР»СЏРµС‚ СЃС‚СЂР°РЅРёС†Сѓ РіСЂР°С„РёРєР°.</para>
     /// </summary>
+    [Authorize(Policy = PolicyName.Restricted)]
     public class ChartModel : PageModel
     {
         private readonly IWebContext webContext;
@@ -66,8 +69,6 @@ namespace Scada.Web.Plugins.PlgChart.Areas.Chart.Pages
 
         public void OnGet(IdList cnlNums, DateTime startDate)
         {
-            // TODO: check access rights
-
             // get request parameters and plugin options
             int cnlNum = cnlNums != null && cnlNums.Count > 0 ? cnlNums[0] : 0;
             DateTime utcStartDate = GetUtcStartDate(startDate);

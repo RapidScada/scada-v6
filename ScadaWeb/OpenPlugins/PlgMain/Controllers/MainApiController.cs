@@ -57,22 +57,18 @@ namespace Scada.Web.Plugins.PlgMain.Controllers
         /// </summary>
         private void CheckAccessRights(IdList cnlNums)
         {
-            if (cnlNums == null || userContext.Rights.Full)
+            if (cnlNums == null || userContext.Rights.ViewAll)
                 return;
 
             foreach (int cnlNum in cnlNums)
             {
                 InCnl inCnl = webContext.BaseDataSet.InCnlTable.GetItem(cnlNum);
 
-                if (inCnl != null)
-                {
-                    // no rights on undefined object
-                    if (inCnl.ObjNum == null)
-                        throw new AccessDeniedException();
+                if (inCnl == null || inCnl.ObjNum == null)
+                    throw new AccessDeniedException(); // no rights on undefined channel or object
 
-                    if (!userContext.Rights.GetRightByObj(inCnl.ObjNum.Value).View)
-                        throw new AccessDeniedException();
-                }
+                if (!userContext.Rights.GetRightByObj(inCnl.ObjNum.Value).View)
+                    throw new AccessDeniedException();
             }
         }
 

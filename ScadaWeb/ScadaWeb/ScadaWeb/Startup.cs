@@ -24,6 +24,7 @@
  */
 
 using Microsoft.AspNetCore.Authentication.Cookies;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpOverrides;
@@ -135,6 +136,8 @@ namespace Scada.Web
                 {
                     options.AddPolicy(PolicyName.Administrators, policy =>
                         policy.RequireClaim(ClaimTypes.Role, RoleID.Administrator.ToString()));
+                    options.AddPolicy(PolicyName.Restricted, policy =>
+                        policy.Requirements.Add(new ObjRightRequirement()));
                 });
 
             services
@@ -150,7 +153,8 @@ namespace Scada.Web
                 .AddSingleton(WebContext)
                 .AddScoped(UserContextFactory.GetUserContext)
                 .AddScoped<IClientAccessor, ClientAccessor>()
-                .AddScoped<IViewLoader, ViewLoader>();
+                .AddScoped<IViewLoader, ViewLoader>()
+                .AddScoped<IAuthorizationHandler, ObjRightHandler>();
 
             WebContext.PluginHolder.AddServices(services);
         }
