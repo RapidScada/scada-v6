@@ -20,7 +20,7 @@
  * 
  * Author   : Mikhail Shiryaev
  * Created  : 2020
- * Modified : 2020
+ * Modified : 2021
  */
 
 namespace Scada.Data.Models
@@ -34,27 +34,27 @@ namespace Scada.Data.Models
         /// <summary>
         /// The bit indicating whether events are enabled for the channel.
         /// </summary>
-        public const int EnabledBit = 0;
+        private const int EnabledBit = 0;
         /// <summary>
         /// The bit indicating whether a client application should play a beep on event.
         /// </summary>
-        public const int BeepBit = 1;
+        private const int BeepBit = 1;
         /// <summary>
         /// The bit indicating whether an event should be raised when channel data changes.
         /// </summary>
-        public const int DataChangeBit = 2;
+        private const int DataChangeBit = 2;
         /// <summary>
         /// The bit indicating whether an event should be raised when channel value changes.
         /// </summary>
-        public const int ValueChangeBit = 3;
+        private const int ValueChangeBit = 3;
         /// <summary>
         /// The bit indicating whether an event should be raised when channel status changes.
         /// </summary>
-        public const int StatusChangeBit = 4;
+        private const int StatusChangeBit = 4;
         /// <summary>
         /// The bit indicating whether an event should be raised when the channel becomes undefined, or vice versa.
         /// </summary>
-        public const int CnlUndefinedBit = 5;
+        private const int CnlUndefinedBit = 5;
 
 
         /// <summary>

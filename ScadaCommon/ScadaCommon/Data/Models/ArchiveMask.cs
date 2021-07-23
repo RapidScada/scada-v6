@@ -20,7 +20,7 @@
  * 
  * Author   : Mikhail Shiryaev
  * Created  : 2020
- * Modified : 2020
+ * Modified : 2021
  */
 
 namespace Scada.Data.Models
@@ -32,30 +32,9 @@ namespace Scada.Data.Models
     public struct ArchiveMask
     {
         /// <summary>
-        /// The bit that identifies the current data archive.
+        /// The mask indicating that none of the archives is selected.
         /// </summary>
-        public const int CurrentArchiveBit = 0;
-        /// <summary>
-        /// The bit that identifies the minute data archive.
-        /// </summary>
-        public const int MinuteArchiveBit = 1;
-        /// <summary>
-        /// The bit that identifies the hourly data archive.
-        /// </summary>
-        public const int HourlyArchiveBit = 2;
-        /// <summary>
-        /// The bit that identifies the daily data archive.
-        /// </summary>
-        public const int DailyArchiveBit = 3;
-        /// <summary>
-        /// The bit that identifies the monthly data archive.
-        /// </summary>
-        public const int MonthlyArchiveBit = 4;
-        /// <summary>
-        /// The bit that identifies the event archive.
-        /// </summary>
-        public const int EventArchiveBit = 5;
-
+        public const int None = 0;
         /// <summary>
         /// The mask indicating to select the default archives.
         /// </summary>
@@ -64,10 +43,6 @@ namespace Scada.Data.Models
         /// The mask indicating to select all the archives.
         /// </summary>
         public const int All = 0x7FFF_FFFF;
-        /// <summary>
-        /// The mask indicating that none of the archives is selected.
-        /// </summary>
-        public const int None = 0;
 
 
         /// <summary>
@@ -77,7 +52,6 @@ namespace Scada.Data.Models
         {
             Value = value ?? 0;
         }
-
 
         /// <summary>
         /// Gets the mask value.
