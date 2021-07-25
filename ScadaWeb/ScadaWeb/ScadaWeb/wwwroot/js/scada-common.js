@@ -1,4 +1,4 @@
-﻿// Contains common JavaScript classes.
+﻿// Contains common JavaScript classes and objects.
 // No dependencies.
 
 // Provides helper methods.
@@ -119,6 +119,12 @@ class ScadaUtils {
             return false;
         }
     }
+
+    // Checks if the specified locale is Russian. If no argument is specified, the browser locale is checked.
+    static isRussian(opt_locale) {
+        let lang = opt_locale || navigator.language.toLowerCase();
+        return lang === "ru" || lang.startsWith("ru");
+    }
 }
 
 // Specifies event types.
@@ -129,6 +135,7 @@ class ScadaEventTypes {
 
 // The stub of an application environment object.
 const appEnvStub = {
+    isStub: true,
     rootPath: "/",
     locale: "en-GB",
     productName: "Rapid SCADA"

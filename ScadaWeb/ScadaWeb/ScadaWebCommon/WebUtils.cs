@@ -145,6 +145,7 @@ namespace Scada.Web
         {
             return new HtmlString(new StringBuilder()
                 .AppendLine("{")
+                .AppendLine("isStub: false,")
                 .AppendLine($"rootPath: '{urlHelper.Content("~/")}',")
                 .AppendLine($"locale: '{HttpUtility.JavaScriptStringEncode(Locale.Culture.Name)}',")
                 .AppendLine($"productName: '{HttpUtility.JavaScriptStringEncode(CommonPhrases.ProductName)}'")

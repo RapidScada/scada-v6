@@ -16,12 +16,12 @@
 @section Styles {
     <link href="~/css/layouts/main-layout.min.css" rel="stylesheet" asp-append-version="true" />
 
+    @RenderSection("Styles", required: false)
+
     @foreach (string url in webContext.PluginHolder.AllStyleUrls())
     {
         <link href="@url" rel="stylesheet" asp-append-version="true" />
     }
-
-    @RenderSection("Styles", required: false)
 }
 
 @section Scripts {
@@ -33,12 +33,12 @@
         notifPhrases = @WebUtils.DictionaryToJs("Scada.Web.Pages.Shared._MainLayout.NotifPanel");
     </script>
 
+    @RenderSection("Scripts", required: false)
+
     @foreach (string url in webContext.PluginHolder.AllScriptUrls())
     {
         <script src="@url" asp-append-version="true"></script>
     }
-
-    @RenderSection("Scripts", required: false)
 }
 
 @if (displayOptions.ShowHeader)
