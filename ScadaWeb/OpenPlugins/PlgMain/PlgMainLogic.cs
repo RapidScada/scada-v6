@@ -43,8 +43,8 @@ namespace Scada.Web.Plugins.PlgMain
         /// </summary>
         public override PluginFeatures Features => new()
         {
-            CommandScriptUrl = "~/plugins/Main/js/command.js",
-            EventAckScriptUrl = "~/plugins/Main/js/event-ack.js",
+            CommandScriptUrl = "~/plugins/Main/js/command-feature.js",
+            EventAckScriptUrl = "~/plugins/Main/js/event-ack-feature.js",
         };
 
         /// <summary>

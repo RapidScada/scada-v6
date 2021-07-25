@@ -178,8 +178,16 @@ function bindEvents() {
     });
 
     $("#selStartTime, #selEndTime").change(function () {
+        // update time range
         initTimeRange(true);
         setColVisibe();
+    });
+
+    $(".item-link").click(function () {
+        // show chart
+        let cnlNum = $(this).closest(".row-item").attr("data-cnlnum");
+        let startDate = $("#localDate").val();
+        viewHub.features.chart.show(cnlNum, startDate);
     });
 }
 
