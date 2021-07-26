@@ -20,7 +20,7 @@
  * 
  * Author   : Mikhail Shiryaev
  * Created  : 2020
- * Modified : 2020
+ * Modified : 2021
  */
 
 using System;
@@ -43,6 +43,17 @@ namespace Scada.Data.Models
             EndInclusive = endInclusive;
         }
 
+
+        /// <summary>
+        /// Gets the key that identifies the time range.
+        /// </summary>
+        public string Key
+        {
+            get
+            {
+                return StartTime.ToString("O") + "_" + EndTime.ToString("O") + "_" + EndInclusive;
+            }
+        }
 
         /// <summary>
         /// Gets or sets the start timestamp.
