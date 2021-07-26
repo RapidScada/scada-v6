@@ -2,6 +2,7 @@
 using Microsoft.Extensions.Primitives;
 using Scada.Web.Services;
 using System;
+using System.Text;
 
 namespace Scada.Web
 {
@@ -46,6 +47,25 @@ namespace Scada.Web
         public static string GetCacheKey(string prefix, string typeName, object objectID)
         {
             return prefix + "_" + typeName + "_" + objectID;
+        }
+
+        /// <summary>
+        /// Gets the cache key.
+        /// </summary>
+        public static string GetCacheKey(string prefix, string typeName, params object[] args)
+        {
+            StringBuilder sbKey = new();
+            sbKey.Append(prefix).Append('_').Append(typeName);
+
+            if (args != null)
+            {
+                foreach (object arg in args)
+                {
+                    sbKey.Append('_').Append(arg == null ? "null" : arg.ToString());
+                }
+            }
+
+            return sbKey.ToString();
         }
 
         /// <summary>
