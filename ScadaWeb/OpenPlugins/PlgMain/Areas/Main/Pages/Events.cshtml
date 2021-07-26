@@ -1,5 +1,6 @@
 ﻿@page
 @model EventsModel
+@inject PluginContext pluginContext 
 @{
     Layout = "_BasicLayout";
     ViewBag.Title = "Events";
@@ -11,7 +12,12 @@
 }
 
 @section Scripts {
+    <script src="~/plugins/Main/js/table-common.js" asp-append-version="true"></script>
     <script src="~/plugins/Main/js/events.js" asp-append-version="true"></script>
+    <script>
+        archiveBit = @Model.ArchiveBit;
+        pluginOptions = @WebUtils.ObjectToJs(pluginContext.Options);
+    </script>
 }
 
 <div id="divToolbar" class="toolbar"></div>

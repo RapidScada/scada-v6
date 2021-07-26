@@ -16,6 +16,8 @@ namespace Scada.Web.Plugins.PlgMain.Areas.Main.Pages
     /// </summary>
     public class EventsModel : PageModel
     {
+        public int ArchiveBit { get; set; }
+
         public void OnGet()
         {
         }

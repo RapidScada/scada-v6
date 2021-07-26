@@ -7,7 +7,7 @@ using System.Collections.Generic;
 namespace Scada.Web.Plugins.PlgMain.Models
 {
     /// <summary>
-    /// Represents a package containing historical data.
+    /// Represents a packet containing historical data.
     /// <para>Представляет пакет, содержащий исторические данные.</para>
     /// </summary>
     public class HistData

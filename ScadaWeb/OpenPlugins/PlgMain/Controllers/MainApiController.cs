@@ -5,6 +5,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Caching.Memory;
 using Scada.Data.Entities;
 using Scada.Data.Models;
+using Scada.Data.Tables;
 using Scada.Log;
 using Scada.Web.Api;
 using Scada.Web.Authorization;
@@ -73,6 +74,15 @@ namespace Scada.Web.Plugins.PlgMain.Controllers
         }
 
         /// <summary>
+        /// Checks if the user can view all data, otherwise throws an exception.
+        /// </summary>
+        private void RequireViewAll()
+        {
+            if (!userContext.Rights.ViewAll)
+                throw new AccessDeniedException();
+        }
+
+        /// <summary>
         /// Converts the specified timestamp to UTC depending on its kind.
         /// </summary>
         private DateTime ConvertTimeToUtc(DateTime timestamp)
@@ -80,6 +90,52 @@ namespace Scada.Web.Plugins.PlgMain.Controllers
             return timestamp.Kind == DateTimeKind.Utc
                 ? timestamp
                 : userContext.ConvertTimeToUtc(timestamp);
+        }
+
+        /// <summary>
+        /// Creates a time range with UTC timestamps.
+        /// </summary>
+        private TimeRange CreateTimeRange(DateTime startTime, DateTime endTime, bool endInclusive)
+        {
+            return new TimeRange(ConvertTimeToUtc(startTime), ConvertTimeToUtc(endTime), endInclusive);
+        }
+
+        /// <summary>
+        /// Creates a time range with the specified number of days ending in the current time.
+        /// </summary>
+        private static TimeRange CreateTimeRange(int period)
+        {
+            DateTime utcNow = DateTime.UtcNow;
+            return new TimeRange(utcNow.AddDays(-period), utcNow, true);
+        }
+
+        /// <summary>
+        /// Gets the filter to request events by view.
+        /// </summary>
+        private static DataFilter GetEventFilter(BaseView view, int limit)
+        {
+            DataFilter dataFilter = new(typeof(Event)) { Limit = limit };
+            // TODO: OR operator
+
+            foreach (int cnlNum in view.CnlNumList)
+            {
+                dataFilter.AddCondition("CnlNum", FilterOperator.Equals, cnlNum);
+            }
+
+            foreach (int outCnlNum in view.OutCnlNumList)
+            {
+                dataFilter.AddCondition("OutCnlNum", FilterOperator.Equals, outCnlNum);
+            }
+
+            return dataFilter;
+        }
+
+        /// <summary>
+        /// Gets the filter to request limited number of events.
+        /// </summary>
+        private static DataFilter GetEventFilter(int limit)
+        {
+            return new DataFilter(typeof(Event)) { Limit = limit };
         }
 
         /// <summary>
@@ -123,14 +179,10 @@ namespace Scada.Web.Plugins.PlgMain.Controllers
         /// <summary>
         /// Requests historical data from the server.
         /// </summary>
-        private HistData RequestHistData(IList<int> cnlNums, DateTime startTime, DateTime endTime, bool endInclusive,
-            int archiveBit)
+        private HistData RequestHistData(IList<int> cnlNums, TimeRange timeRange, int archiveBit)
         {
             if (cnlNums == null)
                 cnlNums = Array.Empty<int>();
-
-            startTime = ConvertTimeToUtc(startTime);
-            endTime = ConvertTimeToUtc(endTime);
 
             int cnlCnt = cnlNums.Count;
             HistData.RecordList[] trends = new HistData.RecordList[cnlCnt];
@@ -145,8 +197,8 @@ namespace Scada.Web.Plugins.PlgMain.Controllers
             if (cnlCnt > 0)
             {
                 // request trends
-                TrendBundle trendBundle = clientAccessor.ScadaClient.GetTrends(cnlNums.ToArray(), 
-                    new TimeRange(startTime, endTime, endInclusive), archiveBit);
+                TrendBundle trendBundle = clientAccessor.ScadaClient.GetTrends(
+                    cnlNums.ToArray(), timeRange, archiveBit);
 
                 // copy timestamps
                 int pointCount = trendBundle.Timestamps.Count;
@@ -179,6 +231,31 @@ namespace Scada.Web.Plugins.PlgMain.Controllers
             }
 
             return histData;
+        }
+
+        /// <summary>
+        /// Requests events from the server.
+        /// </summary>
+        private EventPacket RequestEvents(DataFilter filter, long filterID, bool useCache,
+            TimeRange timeRange, int archiveBit)
+        {
+            List<Event> events = filterID > 0
+                ? clientAccessor.ScadaClient.GetEvents(timeRange, ref filterID, archiveBit)
+                : clientAccessor.ScadaClient.GetEvents(timeRange, filter, archiveBit, useCache, out filterID);
+
+            int eventCnt = events.Count;
+            EventRecord[] records = new EventRecord[eventCnt];
+
+            for (int i = 0; i < eventCnt; i++)
+            {
+                records[i] = new EventRecord();
+            }
+
+            return new EventPacket
+            {
+                Records = records,
+                FilterID = filterID
+            };
         }
 
 
@@ -305,7 +382,8 @@ namespace Scada.Web.Plugins.PlgMain.Controllers
             try
             {
                 CheckAccessRights(cnlNums);
-                HistData histData = RequestHistData(cnlNums, startTime, endTime, endInclusive, archiveBit);
+                HistData histData = RequestHistData(cnlNums,
+                    CreateTimeRange(startTime, endTime, endInclusive), archiveBit);
                 return Dto<HistData>.Success(histData);
             }
             catch (AccessDeniedException ex)
@@ -329,11 +407,14 @@ namespace Scada.Web.Plugins.PlgMain.Controllers
             {
                 if (viewLoader.GetViewFromCache(viewID, out BaseView view, out string errMsg))
                 {
-                    HistData histData = memoryCache.GetOrCreate(PluginUtils.GetCacheKey("HistData", viewID), entry =>
-                    {
-                        entry.SetAbsoluteExpiration(DataCacheExpiration);
-                        return RequestHistData(view.CnlNumList, startTime, endTime, endInclusive, archiveBit);
-                    });
+                    TimeRange timeRange = CreateTimeRange(startTime, endTime, endInclusive);
+                    HistData histData = memoryCache.GetOrCreate(
+                        PluginUtils.GetCacheKey("HistDataByView", viewID, timeRange.Key, archiveBit),
+                        entry =>
+                        {
+                            entry.SetAbsoluteExpiration(DataCacheExpiration);
+                            return RequestHistData(view.CnlNumList, timeRange, archiveBit);
+                        });
 
                     return Dto<HistData>.Success(histData);
                 }
@@ -346,6 +427,97 @@ namespace Scada.Web.Plugins.PlgMain.Controllers
             {
                 webContext.Log.WriteException(ex, WebPhrases.ErrorInWebApi, nameof(GetHistDataByView));
                 return Dto<HistData>.Fail(ex.Message);
+            }
+        }
+
+        /// <summary>
+        /// Gets all events for the period.
+        /// </summary>
+        public Dto<EventPacket> GetEvents(DateTime startTime, DateTime endTime, bool endInclusive, int archiveBit)
+        {
+            try
+            {
+                RequireViewAll();
+                TimeRange timeRange = CreateTimeRange(startTime, endTime, endInclusive);
+                EventPacket eventPacket = memoryCache.GetOrCreate(
+                    PluginUtils.GetCacheKey("Events", timeRange.Key, archiveBit),
+                    entry =>
+                    {
+                        entry.SetAbsoluteExpiration(DataCacheExpiration);
+                        return RequestEvents(null, 0, false, timeRange, archiveBit);
+                    });
+
+                return Dto<EventPacket>.Success(eventPacket);
+            }
+            catch (AccessDeniedException ex)
+            {
+                return Dto<EventPacket>.Fail(ex.Message);
+            }
+            catch (Exception ex)
+            {
+                webContext.Log.WriteException(ex, WebPhrases.ErrorInWebApi, nameof(GetEvents));
+                return Dto<EventPacket>.Fail(ex.Message);
+            }
+        }
+
+        /// <summary>
+        /// Gets the last events.
+        /// </summary>
+        public Dto<EventPacket> GetLastEvents(int limit, int period, int archiveBit)
+        {
+            try
+            {
+                RequireViewAll();
+                EventPacket eventPacket = memoryCache.GetOrCreate(
+                    PluginUtils.GetCacheKey("LastEvents", limit, period, archiveBit),
+                    entry =>
+                    {
+                        entry.SetAbsoluteExpiration(DataCacheExpiration);
+                        return RequestEvents(GetEventFilter(limit), 0, false, CreateTimeRange(period), archiveBit);
+                    });
+
+                return Dto<EventPacket>.Success(eventPacket);
+            }
+            catch (AccessDeniedException ex)
+            {
+                return Dto<EventPacket>.Fail(ex.Message);
+            }
+            catch (Exception ex)
+            {
+                webContext.Log.WriteException(ex, WebPhrases.ErrorInWebApi, nameof(GetEvents));
+                return Dto<EventPacket>.Fail(ex.Message);
+            }
+        }
+
+        /// <summary>
+        /// Gets the last events by view.
+        /// </summary>
+        public Dto<EventPacket> GetLastEventsByView(int viewID, int limit, long filterID, int period, int archiveBit)
+        {
+            try
+            {
+                if (viewLoader.GetViewFromCache(viewID, out BaseView view, out string errMsg))
+                {
+                    EventPacket eventPacket = memoryCache.GetOrCreate(
+                        PluginUtils.GetCacheKey("LastEventsByView", viewID, limit, period),
+                        entry =>
+                        {
+                            entry.SetAbsoluteExpiration(DataCacheExpiration);
+                            DataFilter filter = filterID > 0 ? null : GetEventFilter(view, limit);
+                            return RequestEvents(filter, filterID, true, CreateTimeRange(period), archiveBit);
+                        });
+
+                    return Dto<EventPacket>.Success(eventPacket);
+                }
+                else
+                {
+                    return Dto<EventPacket>.Fail(errMsg);
+                }
+            }
+            catch (Exception ex)
+            {
+                webContext.Log.WriteException(ex, WebPhrases.ErrorInWebApi, nameof(GetLastEventsByView));
+                return Dto<EventPacket>.Fail(ex.Message);
             }
         }
 

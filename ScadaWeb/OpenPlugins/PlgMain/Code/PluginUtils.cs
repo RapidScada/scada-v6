@@ -1,8 +1,6 @@
 ﻿// Copyright (c) Rapid Software LLC. All rights reserved.
 // Licensed under the Apache License, Version 2.0. See License.txt in the project root for license information.
 
-using System;
-
 namespace Scada.Web.Plugins.PlgMain.Code
 {
     /// <summary>
@@ -17,11 +15,19 @@ namespace Scada.Web.Plugins.PlgMain.Code
         public const string PluginCode = "PlgMain";
 
         /// <summary>
-        /// Gets the cache key for the plugin object.
+        /// Gets the cache key for the plugin.
         /// </summary>
         public static string GetCacheKey(string typeName, object objectID)
         {
             return WebUtils.GetCacheKey(PluginCode, typeName, objectID);
+        }
+
+        /// <summary>
+        /// Gets the cache key for the plugin.
+        /// </summary>
+        public static string GetCacheKey(string typeName, params object[] args)
+        {
+            return WebUtils.GetCacheKey(PluginCode, typeName, args);
         }
     }
 }
