@@ -20,7 +20,7 @@
  * 
  * Author   : Mikhail Shiryaev
  * Created  : 2020
- * Modified : 2020
+ * Modified : 2021
  */
 
 using Scada.Data.Models;
@@ -113,49 +113,49 @@ namespace Scada.Server.Engine
         /// <summary>
         /// Gets the trends of the specified input channels.
         /// </summary>
-        public TrendBundle GetTrends(int[] cnlNums, TimeRange timeRange, int archiveBit)
+        public TrendBundle GetTrends(int archiveBit, TimeRange timeRange, int[] cnlNums)
         {
-            return archiveHolder.GetTrends(cnlNums, timeRange, archiveBit);
+            return archiveHolder.GetTrends(archiveBit, timeRange, cnlNums);
         }
 
         /// <summary>
         /// Gets the trend of the specified input channel.
         /// </summary>
-        public Trend GetTrend(int cnlNum, TimeRange timeRange, int archiveBit)
+        public Trend GetTrend(int archiveBit, TimeRange timeRange, int cnlNum)
         {
-            return archiveHolder.GetTrend(cnlNum, timeRange, archiveBit);
+            return archiveHolder.GetTrend(archiveBit, timeRange, cnlNum);
         }
 
         /// <summary>
         /// Gets the available timestamps.
         /// </summary>
-        public List<DateTime> GetTimestamps(TimeRange timeRange, int archiveBit)
+        public List<DateTime> GetTimestamps(int archiveBit, TimeRange timeRange)
         {
-            return archiveHolder.GetTimestamps(timeRange, archiveBit);
+            return archiveHolder.GetTimestamps(archiveBit, timeRange);
         }
 
         /// <summary>
         /// Gets the slice of the specified input channels at the timestamp.
         /// </summary>
-        public Slice GetSlice(int[] cnlNums, DateTime timestamp, int archiveBit)
+        public Slice GetSlice(int archiveBit, DateTime timestamp, int[] cnlNums)
         {
-            return archiveHolder.GetSlice(cnlNums, timestamp, archiveBit);
+            return archiveHolder.GetSlice(archiveBit, timestamp, cnlNums);
         }
 
         /// <summary>
         /// Gets the event by ID.
         /// </summary>
-        public Event GetEventByID(long eventID, int archiveBit)
+        public Event GetEventByID(int archiveBit, long eventID)
         {
-            return archiveHolder.GetEventByID(eventID, archiveBit);
+            return archiveHolder.GetEventByID(archiveBit, eventID);
         }
 
         /// <summary>
         /// Gets the events.
         /// </summary>
-        public List<Event> GetEvents(TimeRange timeRange, DataFilter filter, int archiveBit)
+        public List<Event> GetEvents(int archiveBit, TimeRange timeRange, DataFilter filter)
         {
-            return archiveHolder.GetEvents(timeRange, filter, archiveBit);
+            return archiveHolder.GetEvents(archiveBit, timeRange, filter);
         }
 
         /// <summary>
@@ -163,31 +163,31 @@ namespace Scada.Server.Engine
         /// </summary>
         public void WriteCurrentData(int cnlNum, CnlData cnlData)
         {
-            coreLogic.WriteCurrentData(0, new int[] { cnlNum }, new CnlData[] { cnlData }, true);
+            coreLogic.WriteCurrentData(new int[] { cnlNum }, new CnlData[] { cnlData }, 0, true);
         }
 
         /// <summary>
         /// Writes the current data of the input channels.
         /// </summary>
-        public void WriteCurrentData(int deviceNum, int[] cnlNums, CnlData[] cnlData, bool applyFormulas)
+        public void WriteCurrentData(int[] cnlNums, CnlData[] cnlData, int deviceNum, bool applyFormulas)
         {
-            coreLogic.WriteCurrentData(deviceNum, cnlNums, cnlData, applyFormulas);
+            coreLogic.WriteCurrentData(cnlNums, cnlData, deviceNum, applyFormulas);
         }
 
         /// <summary>
         /// Writes the historical data.
         /// </summary>
-        public void WriteHistoricalData(int deviceNum, Slice slice, int archiveMask, bool applyFormulas)
+        public void WriteHistoricalData(int archiveMask, Slice slice, int deviceNum, bool applyFormulas)
         {
-            coreLogic.WriteHistoricalData(deviceNum, slice, archiveMask, applyFormulas);
+            coreLogic.WriteHistoricalData(archiveMask, slice, deviceNum, applyFormulas);
         }
 
         /// <summary>
         /// Writes the event.
         /// </summary>
-        public void WriteEvent(Event ev, int archiveMask)
+        public void WriteEvent(int archiveMask, Event ev)
         {
-            coreLogic.WriteEvent(ev, archiveMask);
+            coreLogic.WriteEvent(archiveMask, ev);
         }
 
         /// <summary>

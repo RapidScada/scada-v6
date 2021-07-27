@@ -20,7 +20,7 @@
  * 
  * Author   : Mikhail Shiryaev
  * Created  : 2020
- * Modified : 2020
+ * Modified : 2021
  */
 
 using Scada.Data.Const;
@@ -113,11 +113,11 @@ namespace Scada.Server.Engine
         {
             byte[] buffer = request.Buffer;
             int index = ArgumentIndex;
-            int[] cnlNums = GetIntArray(buffer, ref index);
-            TimeRange timeRange = GetTimeRange(buffer, ref index);
             int archiveBit = GetByte(buffer, ref index);
+            TimeRange timeRange = GetTimeRange(buffer, ref index);
+            int[] cnlNums = GetIntArray(buffer, ref index);
 
-            TrendBundle trendBundle = archiveHolder.GetTrends(cnlNums, timeRange, archiveBit);
+            TrendBundle trendBundle = archiveHolder.GetTrends(archiveBit, timeRange, cnlNums);
             List<DateTime> timestamps = trendBundle.Timestamps;
             int totalPointCount = timestamps.Count;
             int blockCapacity = (BufferLenght - ArgumentIndex - 16) / (8 + cnlNums.Length * 10);
@@ -162,10 +162,10 @@ namespace Scada.Server.Engine
         {
             byte[] buffer = request.Buffer;
             int index = ArgumentIndex;
-            TimeRange timeRange = GetTimeRange(buffer, ref index);
             int archiveBit = GetByte(buffer, ref index);
+            TimeRange timeRange = GetTimeRange(buffer, ref index);
 
-            List<DateTime> timestamps = archiveHolder.GetTimestamps(timeRange, archiveBit);
+            List<DateTime> timestamps = archiveHolder.GetTimestamps(archiveBit, timeRange);
             buffer = client.OutBuf;
             response = new ResponsePacket(request, buffer);
             index = ArgumentIndex;
@@ -186,11 +186,11 @@ namespace Scada.Server.Engine
         {
             byte[] buffer = request.Buffer;
             int index = ArgumentIndex;
-            int[] cnlNums = GetIntArray(buffer, ref index);
-            DateTime timestamp = GetTime(buffer, ref index);
             int archiveBit = GetByte(buffer, ref index);
+            DateTime timestamp = GetTime(buffer, ref index);
+            int[] cnlNums = GetIntArray(buffer, ref index);
 
-            Slice slice = archiveHolder.GetSlice(cnlNums, timestamp, archiveBit);
+            Slice slice = archiveHolder.GetSlice(archiveBit, timestamp, cnlNums);
             response = new ResponsePacket(request, client.OutBuf);
             index = ArgumentIndex;
             CopyCnlDataArray(slice.CnlData, client.OutBuf, ref index);
@@ -218,7 +218,6 @@ namespace Scada.Server.Engine
             int index = ArgumentIndex;
             int deviceNum = GetInt32(buffer, ref index);
             int cnlCnt = GetInt32(buffer, ref index);
-
             int[] cnlNums = new int[cnlCnt];
             CnlData[] cnlData = new CnlData[cnlCnt];
 
@@ -230,7 +229,7 @@ namespace Scada.Server.Engine
 
             index += cnlCnt * 14;
             bool applyFormulas = buffer[index] > 0;
-            coreLogic.WriteCurrentData(deviceNum, cnlNums, cnlData, applyFormulas);
+            coreLogic.WriteCurrentData(cnlNums, cnlData, deviceNum, applyFormulas);
 
             response = new ResponsePacket(request, client.OutBuf);
         }
@@ -242,6 +241,7 @@ namespace Scada.Server.Engine
         {
             byte[] buffer = request.Buffer;
             int index = ArgumentIndex;
+            int archiveMask = GetInt32(buffer, ref index);
             int deviceNum = GetInt32(buffer, ref index);
             DateTime timestamp = GetTime(buffer, ref index);
             int cnlCnt = GetInt32(buffer, ref index);
@@ -254,9 +254,8 @@ namespace Scada.Server.Engine
             }
 
             index += cnlCnt * 14;
-            int archiveMask = GetInt32(buffer, ref index);
             bool applyFormulas = buffer[index] > 0;
-            coreLogic.WriteHistoricalData(deviceNum, slice, archiveMask, applyFormulas);
+            coreLogic.WriteHistoricalData(archiveMask, slice, deviceNum, applyFormulas);
 
             response = new ResponsePacket(request, client.OutBuf);
         }
@@ -268,10 +267,10 @@ namespace Scada.Server.Engine
         {
             byte[] buffer = request.Buffer;
             int index = ArgumentIndex;
-            long eventID = GetInt64(buffer, ref index);
             int archiveBit = GetByte(buffer, ref index);
+            long eventID = GetInt64(buffer, ref index);
 
-            Event ev = archiveHolder.GetEventByID(eventID, archiveBit);
+            Event ev = archiveHolder.GetEventByID(archiveBit, eventID);
             buffer = client.OutBuf;
             response = new ResponsePacket(request, buffer);
             index = ArgumentIndex;
@@ -296,6 +295,7 @@ namespace Scada.Server.Engine
         {
             byte[] buffer = request.Buffer;
             int index = ArgumentIndex;
+            int archiveBit = GetByte(buffer, ref index);
             TimeRange timeRange = GetTimeRange(buffer, ref index);
             long dataFilterID = GetInt64(buffer, ref index);
             DataFilter dataFilter;
@@ -321,11 +321,9 @@ namespace Scada.Server.Engine
                 }
             }
 
-            int archiveBit = GetByte(buffer, ref index);
-
             List<Event> events = dataFilter == null ?
                 new List<Event>() :
-                archiveHolder.GetEvents(timeRange, dataFilter, archiveBit);
+                archiveHolder.GetEvents(archiveBit, timeRange, dataFilter);
             int totalEventCount = events.Count;
             int blockCount = totalEventCount > 0 ? (int)Math.Ceiling((double)totalEventCount / EventBlockCapacity) : 1;
             int eventIndex = 0;
@@ -360,9 +358,9 @@ namespace Scada.Server.Engine
         protected void WriteEvent(ConnectedClient client, DataPacket request, out ResponsePacket response)
         {
             int index = ArgumentIndex;
-            Event ev = GetEvent(request.Buffer, ref index);
             int archiveMask = GetInt32(request.Buffer, ref index);
-            coreLogic.WriteEvent(ev, archiveMask);
+            Event ev = GetEvent(request.Buffer, ref index);
+            coreLogic.WriteEvent(archiveMask, ev);
 
             response = new ResponsePacket(request, client.OutBuf) { ArgumentLength = 8 } ;
             CopyInt64(ev.EventID, client.OutBuf, ArgumentIndex);

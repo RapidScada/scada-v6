@@ -20,7 +20,7 @@
  * 
  * Author   : Mikhail Shiryaev
  * Created  : 2020
- * Modified : 2020
+ * Modified : 2021
  */
 
 using Scada.Data.Entities;
@@ -389,12 +389,12 @@ namespace Scada.Server.Engine
         /// <summary>
         /// Calls the EndUpdate method of the specified archive.
         /// </summary>
-        public void EndUpdate(HistoricalArchiveLogic archiveLogic, int deviceNum, DateTime timestamp)
+        public void EndUpdate(HistoricalArchiveLogic archiveLogic, DateTime timestamp, int deviceNum)
         {
             try
             {
                 archiveLogic.Lock();
-                archiveLogic.EndUpdate(deviceNum, timestamp);
+                archiveLogic.EndUpdate(timestamp, deviceNum);
                 archiveLogic.LastWriteTime = DateTime.UtcNow;
             }
             catch (Exception ex)
@@ -425,7 +425,7 @@ namespace Scada.Server.Engine
         /// <summary>
         /// Gets the trends of the specified input channels.
         /// </summary>
-        public TrendBundle GetTrends(int[] cnlNums, TimeRange timeRange, int archiveBit)
+        public TrendBundle GetTrends(int archiveBit, TimeRange timeRange, int[] cnlNums)
         {
             if (cnlNums == null)
                 throw new ArgumentNullException(nameof(cnlNums));
@@ -439,7 +439,7 @@ namespace Scada.Server.Engine
                 {
                     archiveLogic.Lock();
                     DefineEndTime(ref timeRange);
-                    return archiveLogic.GetTrends(cnlNums, timeRange) ?? 
+                    return archiveLogic.GetTrends(timeRange, cnlNums) ?? 
                         throw new ScadaException(ServerPhrases.NullResultNotAllowed);
                 }
                 catch (Exception ex)
@@ -458,7 +458,7 @@ namespace Scada.Server.Engine
         /// <summary>
         /// Gets the trend of the specified input channel.
         /// </summary>
-        public Trend GetTrend(int cnlNum, TimeRange timeRange, int archiveBit)
+        public Trend GetTrend(int archiveBit, TimeRange timeRange, int cnlNum)
         {
             if (GetArchive(archiveBit, out HistoricalArchiveLogic archiveLogic))
             {
@@ -466,7 +466,7 @@ namespace Scada.Server.Engine
                 {
                     archiveLogic.Lock();
                     DefineEndTime(ref timeRange);
-                    return archiveLogic.GetTrend(cnlNum, timeRange) ?? 
+                    return archiveLogic.GetTrend(timeRange, cnlNum) ?? 
                         throw new ScadaException(ServerPhrases.NullResultNotAllowed);
                 }
                 catch (Exception ex)
@@ -485,7 +485,7 @@ namespace Scada.Server.Engine
         /// <summary>
         /// Gets the available timestamps.
         /// </summary>
-        public List<DateTime> GetTimestamps(TimeRange timeRange, int archiveBit)
+        public List<DateTime> GetTimestamps(int archiveBit, TimeRange timeRange)
         {
             if (GetArchive(archiveBit, out HistoricalArchiveLogic archiveLogic))
             {
@@ -512,7 +512,7 @@ namespace Scada.Server.Engine
         /// <summary>
         /// Gets the slice of the specified input channels at the timestamp.
         /// </summary>
-        public Slice GetSlice(int[] cnlNums, DateTime timestamp, int archiveBit)
+        public Slice GetSlice(int archiveBit, DateTime timestamp, int[] cnlNums)
         {
             if (cnlNums == null)
                 throw new ArgumentNullException(nameof(cnlNums));
@@ -525,7 +525,7 @@ namespace Scada.Server.Engine
                 try
                 {
                     archiveLogic.Lock();
-                    return archiveLogic.GetSlice(cnlNums, timestamp) ??
+                    return archiveLogic.GetSlice(timestamp, cnlNums) ??
                         throw new ScadaException(ServerPhrases.NullResultNotAllowed);
                 }
                 catch (Exception ex)
@@ -567,7 +567,7 @@ namespace Scada.Server.Engine
         /// <summary>
         /// Gets the event by ID.
         /// </summary>
-        public Event GetEventByID(long eventID, int archiveBit)
+        public Event GetEventByID(int archiveBit, long eventID)
         {
             if (GetArchive(archiveBit, out EventArchiveLogic archiveLogic))
             {
@@ -592,7 +592,7 @@ namespace Scada.Server.Engine
         /// <summary>
         /// Gets the events.
         /// </summary>
-        public List<Event> GetEvents(TimeRange timeRange, DataFilter filter, int archiveBit)
+        public List<Event> GetEvents(int archiveBit, TimeRange timeRange, DataFilter filter)
         {
             if (GetArchive(archiveBit, out EventArchiveLogic archiveLogic))
             {
@@ -619,7 +619,7 @@ namespace Scada.Server.Engine
         /// <summary>
         /// Writes the event.
         /// </summary>
-        public void WriteEvent(Event ev, int archiveMask)
+        public void WriteEvent(int archiveMask, Event ev)
         {
             void DoWriteEvent(EventArchiveLogic archiveLogic)
             {

@@ -20,7 +20,7 @@
  * 
  * Author   : Mikhail Shiryaev
  * Created  : 2020
- * Modified : 2020
+ * Modified : 2021
  */
 
 using Scada.Data.Models;
@@ -150,7 +150,7 @@ namespace Scada.Server.Engine
         /// <summary>
         /// Calls the OnCurrentDataProcessing method of the modules.
         /// </summary>
-        public void OnCurrentDataProcessing(int deviceNum, int[] cnlNums, CnlData[] cnlData)
+        public void OnCurrentDataProcessing(int[] cnlNums, CnlData[] cnlData, int deviceNum)
         {
             lock (moduleLock)
             {
@@ -158,7 +158,7 @@ namespace Scada.Server.Engine
                 {
                     try
                     {
-                        moduleLogic.OnCurrentDataProcessing(deviceNum, cnlNums, cnlData);
+                        moduleLogic.OnCurrentDataProcessing(cnlNums, cnlData, deviceNum);
                     }
                     catch (Exception ex)
                     {
@@ -172,7 +172,7 @@ namespace Scada.Server.Engine
         /// <summary>
         /// Calls the OnCurrentDataProcessed method of the modules.
         /// </summary>
-        public void OnCurrentDataProcessed(int deviceNum, int[] cnlNums, CnlData[] cnlData)
+        public void OnCurrentDataProcessed(int[] cnlNums, CnlData[] cnlData, int deviceNum)
         {
             lock (moduleLock)
             {
@@ -180,7 +180,7 @@ namespace Scada.Server.Engine
                 {
                     try
                     {
-                        moduleLogic.OnCurrentDataProcessed(deviceNum, cnlNums, cnlData);
+                        moduleLogic.OnCurrentDataProcessed(cnlNums, cnlData, deviceNum);
                     }
                     catch (Exception ex)
                     {
@@ -194,7 +194,7 @@ namespace Scada.Server.Engine
         /// <summary>
         /// Calls the OnHistoricalDataProcessing method of the modules.
         /// </summary>
-        public void OnHistoricalDataProcessing(int deviceNum, Slice slice)
+        public void OnHistoricalDataProcessing(Slice slice, int deviceNum)
         {
             lock (moduleLock)
             {
@@ -202,7 +202,7 @@ namespace Scada.Server.Engine
                 {
                     try
                     {
-                        moduleLogic.OnHistoricalDataProcessing(deviceNum, slice);
+                        moduleLogic.OnHistoricalDataProcessing(slice, deviceNum);
                     }
                     catch (Exception ex)
                     {
@@ -216,7 +216,7 @@ namespace Scada.Server.Engine
         /// <summary>
         /// Calls the OnHistoricalDataProcessed method of the modules.
         /// </summary>
-        public void OnHistoricalDataProcessed(int deviceNum, Slice slice)
+        public void OnHistoricalDataProcessed(Slice slice, int deviceNum)
         {
             lock (moduleLock)
             {
@@ -224,7 +224,7 @@ namespace Scada.Server.Engine
                 {
                     try
                     {
-                        moduleLogic.OnHistoricalDataProcessed(deviceNum, slice);
+                        moduleLogic.OnHistoricalDataProcessed(slice, deviceNum);
                     }
                     catch (Exception ex)
                     {

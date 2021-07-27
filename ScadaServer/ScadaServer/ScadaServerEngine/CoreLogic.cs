@@ -53,8 +53,8 @@ namespace Scada.Server.Engine
         /// </summary>
         private class EventItem
         {
-            public Event Event { get; set; }
             public int ArchiveMask { get; set; }
+            public Event Event { get; set; }
         }
 
         /// <summary>
@@ -647,7 +647,7 @@ namespace Scada.Server.Engine
                     ev.EventID, ev.CnlNum, ev.OutCnlNum);
 
                 moduleHolder.OnEvent(ev);
-                archiveHolder.WriteEvent(ev, eventItem.ArchiveMask);
+                archiveHolder.WriteEvent(eventItem.ArchiveMask, ev);
             }
         }
 
@@ -846,7 +846,7 @@ namespace Scada.Server.Engine
         {
             double GetLimit(double cnlNum)
             {
-                CnlData limData = cnlNum > 0 ? archiveLogic.GetCnlData((int)cnlNum, timestamp) : CnlData.Empty;
+                CnlData limData = cnlNum > 0 ? archiveLogic.GetCnlData(timestamp, (int)cnlNum) : CnlData.Empty;
                 return limData.Stat > 0 ? limData.Val : double.NaN;
             }
 
@@ -901,7 +901,7 @@ namespace Scada.Server.Engine
                     CnlStatus cnlStatus = BaseDataSet.CnlStatusTable.GetItem(cnlData.Stat);
                     DateTime utcNow = DateTime.UtcNow;
 
-                    EnqueueEvent(new Event
+                    EnqueueEvent(inCnl.ArchiveMask ?? ArchiveMask.Default, new Event
                     {
                         EventID = ScadaUtils.GenerateUniqueID(utcNow),
                         Timestamp = utcNow,
@@ -914,7 +914,7 @@ namespace Scada.Server.Engine
                         CnlStat = cnlData.Stat,
                         Severity = cnlStatus?.Severity ?? 0,
                         AckRequired = cnlStatus?.AckRequired ?? false
-                    }, inCnl.ArchiveMask ?? ArchiveMask.Default);
+                    });
                 }
             }
         }
@@ -928,7 +928,7 @@ namespace Scada.Server.Engine
             {
                 DateTime utcNow = DateTime.UtcNow;
 
-                EnqueueEvent(new Event
+                EnqueueEvent(ArchiveMask.Default, new Event
                 {
                     EventID = ScadaUtils.GenerateUniqueID(utcNow),
                     Timestamp = utcNow,
@@ -937,18 +937,18 @@ namespace Scada.Server.Engine
                     DeviceNum = command.DeviceNum,
                     CnlVal = command.CmdVal,
                     Data = command.CmdData
-                }, ArchiveMask.Default);
+                });
             }
         }
 
         /// <summary>
         /// Adds the event to the queue.
         /// </summary>
-        private void EnqueueEvent(Event ev, int archiveMask)
+        private void EnqueueEvent(int archiveMask, Event ev)
         {
             lock (events)
             {
-                events.Enqueue(new EventItem { Event = ev, ArchiveMask = archiveMask });
+                events.Enqueue(new EventItem { ArchiveMask = archiveMask, Event = ev });
             }
         }
 
@@ -1218,7 +1218,7 @@ namespace Scada.Server.Engine
         /// <summary>
         /// Writes the current data.
         /// </summary>
-        public void WriteCurrentData(int deviceNum, int[] cnlNums, CnlData[] cnlData, bool applyFormulas)
+        public void WriteCurrentData(int[] cnlNums, CnlData[] cnlData, int deviceNum, bool applyFormulas)
         {
             if (cnlNums == null)
                 throw new ArgumentNullException(nameof(cnlNums));
@@ -1227,7 +1227,7 @@ namespace Scada.Server.Engine
 
             try
             {
-                moduleHolder.OnCurrentDataProcessing(deviceNum, cnlNums, cnlData);
+                moduleHolder.OnCurrentDataProcessing(cnlNums, cnlData, deviceNum);
                 Monitor.Enter(curData);
                 calc.BeginCalculation(curData);
 
@@ -1261,21 +1261,21 @@ namespace Scada.Server.Engine
             {
                 calc.EndCalculation();
                 Monitor.Exit(curData);
-                moduleHolder.OnCurrentDataProcessed(deviceNum, cnlNums, cnlData);
+                moduleHolder.OnCurrentDataProcessed(cnlNums, cnlData, deviceNum);
             }
         }
 
         /// <summary>
         /// Writes the historical data.
         /// </summary>
-        public void WriteHistoricalData(int deviceNum, Slice slice, int archiveMask, bool applyFormulas)
+        public void WriteHistoricalData(int archiveMask, Slice slice, int deviceNum, bool applyFormulas)
         {
             if (slice == null)
                 throw new ArgumentNullException(nameof(slice));
 
             try
             {
-                moduleHolder.OnHistoricalDataProcessing(deviceNum, slice);
+                moduleHolder.OnHistoricalDataProcessing(slice, deviceNum);
                 DateTime timestamp = slice.Timestamp;
 
                 if (archiveMask == ArchiveMask.Default)
@@ -1300,7 +1300,7 @@ namespace Scada.Server.Engine
                         try
                         {
                             archiveLogic.Lock();
-                            archiveLogic.BeginUpdate(deviceNum, timestamp);
+                            archiveLogic.BeginUpdate(timestamp, deviceNum);
                             calc.BeginCalculation(new ArchiveCalcContext(archiveLogic, timestamp));
 
                             // calculate input channels which are written
@@ -1320,19 +1320,19 @@ namespace Scada.Server.Engine
                                         slice.CnlData[i] = newCnlData;
                                     }
 
-                                    archiveLogic.WriteCnlData(cnlTag.CnlNum, timestamp, newCnlData);
+                                    archiveLogic.WriteCnlData(timestamp, cnlTag.CnlNum, newCnlData);
                                 }
                             }
 
                             // calculate input channels of the calculated type
                             foreach (CnlTag cnlTag in calcCnlTags)
                             {
-                                CnlData arcCnlData = archiveLogic.GetCnlData(cnlTag.CnlNum, timestamp);
+                                CnlData arcCnlData = archiveLogic.GetCnlData(timestamp, cnlTag.CnlNum);
                                 CnlData newCnlData = calc.CalcCnlData(cnlTag, arcCnlData);
                                 UpdateCnlStatus(archiveLogic, timestamp, cnlTag, ref newCnlData);
 
                                 if (arcCnlData != newCnlData)
-                                    archiveLogic.WriteCnlData(cnlTag.CnlNum, timestamp, newCnlData);
+                                    archiveLogic.WriteCnlData(timestamp, cnlTag.CnlNum, newCnlData);
                             }
                         }
                         catch (Exception ex)
@@ -1344,7 +1344,7 @@ namespace Scada.Server.Engine
                         finally
                         {
                             calc.EndCalculation();
-                            archiveHolder.EndUpdate(archiveLogic, deviceNum, timestamp);
+                            archiveHolder.EndUpdate(archiveLogic, timestamp, deviceNum);
                             archiveHolder.Unlock(archiveLogic);
                         }
                     }
@@ -1358,14 +1358,14 @@ namespace Scada.Server.Engine
             }
             finally
             {
-                moduleHolder.OnHistoricalDataProcessed(deviceNum, slice);
+                moduleHolder.OnHistoricalDataProcessed(slice, deviceNum);
             }
         }
 
         /// <summary>
         /// Writes the event.
         /// </summary>
-        public void WriteEvent(Event ev, int archiveMask)
+        public void WriteEvent(int archiveMask, Event ev)
         {
             if (ev == null)
                 throw new ArgumentNullException(nameof(ev));
@@ -1406,7 +1406,7 @@ namespace Scada.Server.Engine
                         ev.DeviceNum = outCnl.DeviceNum ?? 0;
                 }
 
-                EnqueueEvent(ev, archiveMask);
+                EnqueueEvent(archiveMask, ev);
             }
             catch (Exception ex)
             {

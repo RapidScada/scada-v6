@@ -20,7 +20,7 @@
  * 
  * Author   : Mikhail Shiryaev
  * Created  : 2013
- * Modified : 2020
+ * Modified : 2021
  */
 
 using Scada.Data.Models;
@@ -113,29 +113,28 @@ namespace Scada.Server.Modules
         /// <summary>
         /// Performs actions after receiving and before processing new current data.
         /// </summary>
-        public virtual void OnCurrentDataProcessing(int deviceNum, int[] cnlNums, CnlData[] cnlData)
+        public virtual void OnCurrentDataProcessing(int[] cnlNums, CnlData[] cnlData, int deviceNum)
         {
-
         }
 
         /// <summary>
         /// Performs actions after receiving and processing new current data.
         /// </summary>
-        public virtual void OnCurrentDataProcessed(int deviceNum, int[] cnlNums, CnlData[] cnlData)
+        public virtual void OnCurrentDataProcessed(int[] cnlNums, CnlData[] cnlData, int deviceNum)
         {
         }
 
         /// <summary>
         /// Performs actions after receiving and before processing new historical data.
         /// </summary>
-        public virtual void OnHistoricalDataProcessing(int deviceNum, Slice slice)
+        public virtual void OnHistoricalDataProcessing(Slice slice, int deviceNum)
         {
         }
 
         /// <summary>
         /// Performs actions after receiving and processing new historical data.
         /// </summary>
-        public virtual void OnHistoricalDataProcessed(int deviceNum, Slice slice)
+        public virtual void OnHistoricalDataProcessed(Slice slice, int deviceNum)
         {
         }
 

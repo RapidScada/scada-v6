@@ -20,7 +20,7 @@
  * 
  * Author   : Mikhail Shiryaev
  * Created  : 2020
- * Modified : 2020
+ * Modified : 2021
  */
 
 using Scada.Data.Models;
@@ -58,7 +58,7 @@ namespace Scada.Server.Engine
         /// </summary>
         public CnlData GetCnlData(int cnlNum)
         {
-            return archiveLogic.GetCnlData(cnlNum, Timestamp);
+            return archiveLogic.GetCnlData(Timestamp, cnlNum);
         }
 
         /// <summary>
@@ -90,7 +90,7 @@ namespace Scada.Server.Engine
         /// </summary>
         public void SetCnlData(int cnlNum, CnlData cnlData)
         {
-            archiveLogic.WriteCnlData(cnlNum, Timestamp, cnlData);
+            archiveLogic.WriteCnlData(Timestamp, cnlNum, cnlData);
         }
     }
 }

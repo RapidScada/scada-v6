@@ -20,7 +20,7 @@
  * 
  * Author   : Mikhail Shiryaev
  * Created  : 2020
- * Modified : 2020
+ * Modified : 2021
  */
 
 using Scada.Data.Models;
@@ -48,14 +48,14 @@ namespace Scada.Server.Archives
         /// <summary>
         /// Gets the trends one by one and merges them.
         /// </summary>
-        protected TrendBundle MergeTrends(int[] cnlNums, TimeRange timeRange)
+        protected TrendBundle MergeTrends(TimeRange timeRange, int[] cnlNums)
         {
             int cnlCnt = cnlNums.Length;
             Trend[] trends = new Trend[cnlCnt];
 
             for (int i = 0; i < cnlCnt; i++)
             {
-                trends[i] = GetTrend(cnlNums[i], timeRange);
+                trends[i] = GetTrend(timeRange, cnlNums[i]);
             }
 
             return TrendHelper.MergeTrends(trends);
@@ -64,12 +64,12 @@ namespace Scada.Server.Archives
         /// <summary>
         /// Gets the trends of the specified input channels.
         /// </summary>
-        public abstract TrendBundle GetTrends(int[] cnlNums, TimeRange timeRange);
+        public abstract TrendBundle GetTrends(TimeRange timeRange, int[] cnlNums);
 
         /// <summary>
         /// Gets the trend of the specified input channel.
         /// </summary>
-        public abstract Trend GetTrend(int cnlNum, TimeRange timeRange);
+        public abstract Trend GetTrend(TimeRange timeRange, int cnlNum);
 
         /// <summary>
         /// Gets the available timestamps.
@@ -79,12 +79,12 @@ namespace Scada.Server.Archives
         /// <summary>
         /// Gets the slice of the specified input channels at the timestamp.
         /// </summary>
-        public abstract Slice GetSlice(int[] cnlNums, DateTime timestamp);
+        public abstract Slice GetSlice(DateTime timestamp, int[] cnlNums);
 
         /// <summary>
         /// Gets the input channel data.
         /// </summary>
-        public abstract CnlData GetCnlData(int cnlNum, DateTime timestamp);
+        public abstract CnlData GetCnlData(DateTime timestamp, int cnlNum);
 
         /// <summary>
         /// Processes new data.
@@ -101,16 +101,16 @@ namespace Scada.Server.Archives
         /// <summary>
         /// Maintains performance when data is written one at a time.
         /// </summary>
-        public abstract void BeginUpdate(int deviceNum, DateTime timestamp);
+        public abstract void BeginUpdate(DateTime timestamp, int deviceNum);
 
         /// <summary>
         /// Completes the update operation.
         /// </summary>
-        public abstract void EndUpdate(int deviceNum, DateTime timestamp);
+        public abstract void EndUpdate(DateTime timestamp, int deviceNum);
 
         /// <summary>
         /// Writes the input channel data.
         /// </summary>
-        public abstract void WriteCnlData(int cnlNum, DateTime timestamp, CnlData cnlData);
+        public abstract void WriteCnlData(DateTime timestamp, int cnlNum, CnlData cnlData);
     }
 }
