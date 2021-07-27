@@ -20,7 +20,7 @@
  * 
  * Author   : Mikhail Shiryaev
  * Created  : 2020
- * Modified : 2020
+ * Modified : 2021
  */
 
 using Scada.Client;
@@ -212,9 +212,9 @@ namespace Scada.Comm.Drivers.DrvDsScadaServer.Logic
                     try
                     {
                         if (utcNow - queueItem.CreationTime > maxCurDataAge)
-                            scadaClient.WriteHistoricalData(deviceSlice.DeviceNum, slice, deviceSlice.ArchiveMask, true);
+                            scadaClient.WriteHistoricalData(deviceSlice.ArchiveMask, slice, deviceSlice.DeviceNum, true);
                         else
-                            scadaClient.WriteCurrentData(deviceSlice.DeviceNum, slice.CnlNums, slice.CnlData, true);
+                            scadaClient.WriteCurrentData(slice.CnlNums, slice.CnlData, deviceSlice.DeviceNum, true);
                     }
                     catch (Exception ex)
                     {
@@ -335,7 +335,7 @@ namespace Scada.Comm.Drivers.DrvDsScadaServer.Logic
                     try
                     {
                         deviceEvent.CnlNum = deviceEvent.DeviceTag.InCnl.CnlNum;
-                        scadaClient.WriteEvent(deviceEvent, deviceEvent.ArchiveMask);
+                        scadaClient.WriteEvent(deviceEvent.ArchiveMask, deviceEvent);
                         CallEventSent(deviceEvent);
                     }
                     catch (Exception ex)
