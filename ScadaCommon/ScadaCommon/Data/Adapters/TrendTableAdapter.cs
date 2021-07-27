@@ -20,7 +20,7 @@
  * 
  * Author   : Mikhail Shiryaev
  * Created  : 2020
- * Modified : 2020
+ * Modified : 2021
  */
 
 using Scada.Data.Models;
@@ -468,7 +468,7 @@ namespace Scada.Data.Adapters
         /// <summary>
         /// Reads the trends of the specified input channels from the trend table.
         /// </summary>
-        public TrendBundle ReadTrends(TrendTable trendTable, int[] cnlNums, TimeRange timeRange)
+        public TrendBundle ReadTrends(TrendTable trendTable, TimeRange timeRange, int[] cnlNums)
         {
             if (trendTable == null)
                 throw new ArgumentNullException(nameof(trendTable));
@@ -572,7 +572,7 @@ namespace Scada.Data.Adapters
         /// <summary>
         /// Reads the trend of the specified input channel from the trend table.
         /// </summary>
-        public Trend ReadTrend(TrendTable trendTable, int cnlNum, TimeRange timeRange)
+        public Trend ReadTrend(TrendTable trendTable, TimeRange timeRange, int cnlNum)
         {
             if (trendTable == null)
                 throw new ArgumentNullException(nameof(trendTable));
@@ -737,7 +737,7 @@ namespace Scada.Data.Adapters
         /// <summary>
         /// Reads the slice of the specified input channels from the trend table.
         /// </summary>
-        public Slice ReadSlice(TrendTable trendTable, int[] cnlNums, DateTime timestamp)
+        public Slice ReadSlice(TrendTable trendTable, DateTime timestamp, int[] cnlNums)
         {
             if (trendTable == null)
                 throw new ArgumentNullException(nameof(trendTable));
@@ -801,7 +801,7 @@ namespace Scada.Data.Adapters
         /// <summary>
         /// Reads the input channel data from the trend table.
         /// </summary>
-        public CnlData ReadCnlData(TrendTable trendTable, int cnlNum, DateTime timestamp)
+        public CnlData ReadCnlData(TrendTable trendTable, DateTime timestamp, int cnlNum)
         {
             if (trendTable == null)
                 throw new ArgumentNullException(nameof(trendTable));
@@ -911,7 +911,7 @@ namespace Scada.Data.Adapters
         /// <summary>
         /// Writes the input channel data to the trend table.
         /// </summary>
-        public void WriteCnlData(TrendTable trendTable, int cnlNum, DateTime timestamp, CnlData cnlData)
+        public void WriteCnlData(TrendTable trendTable, DateTime timestamp, int cnlNum, CnlData cnlData)
         {
             if (trendTable == null)
                 throw new ArgumentNullException(nameof(trendTable));

@@ -20,7 +20,7 @@
  * 
  * Author   : Mikhail Shiryaev
  * Created  : 2020
- * Modified : 2020
+ * Modified : 2021
  */
 
 using Scada.Data.Adapters;
@@ -261,7 +261,7 @@ namespace Scada.Server.Modules.ModArcBasic.Logic
         /// <summary>
         /// Gets the trends of the specified input channels.
         /// </summary>
-        public override TrendBundle GetTrends(int[] cnlNums, TimeRange timeRange)
+        public override TrendBundle GetTrends(TimeRange timeRange, int[] cnlNums)
         {
             stopwatch.Restart();
             TrendBundle trendBundle;
@@ -271,7 +271,7 @@ namespace Scada.Server.Modules.ModArcBasic.Logic
             foreach (DateTime date in EnumerateDates(timeRange))
             {
                 TrendTable trendTable = GetTrendTable(date);
-                TrendBundle bundle = adapter.ReadTrends(trendTable, cnlNums, timeRange);
+                TrendBundle bundle = adapter.ReadTrends(trendTable, timeRange, cnlNums);
                 bundles.Add(bundle);
                 totalCapacity += bundle.Timestamps.Count;
             }
@@ -309,7 +309,7 @@ namespace Scada.Server.Modules.ModArcBasic.Logic
         /// <summary>
         /// Gets the trend of the specified input channel.
         /// </summary>
-        public override Trend GetTrend(int cnlNum, TimeRange timeRange)
+        public override Trend GetTrend(TimeRange timeRange, int cnlNum)
         {
             stopwatch.Restart();
             Trend resultTrend;
@@ -319,7 +319,7 @@ namespace Scada.Server.Modules.ModArcBasic.Logic
             foreach (DateTime date in EnumerateDates(timeRange))
             {
                 TrendTable trendTable = GetTrendTable(date);
-                Trend trend = adapter.ReadTrend(trendTable, cnlNum, timeRange);
+                Trend trend = adapter.ReadTrend(trendTable, timeRange, cnlNum);
                 trends.Add(trend);
                 totalCapacity += trend.Points.Count;
             }
@@ -395,10 +395,10 @@ namespace Scada.Server.Modules.ModArcBasic.Logic
         /// <summary>
         /// Gets the slice of the specified input channels at the timestamp.
         /// </summary>
-        public override Slice GetSlice(int[] cnlNums, DateTime timestamp)
+        public override Slice GetSlice(DateTime timestamp, int[] cnlNums)
         {
             stopwatch.Restart();
-            Slice slice = adapter.ReadSlice(GetTrendTable(timestamp), cnlNums, timestamp);
+            Slice slice = adapter.ReadSlice(GetTrendTable(timestamp), timestamp, cnlNums);
             stopwatch.Stop();
             arcLog?.WriteAction(ServerPhrases.ReadingSliceCompleted, 
                 slice.CnlNums.Length, stopwatch.ElapsedMilliseconds);
@@ -408,9 +408,9 @@ namespace Scada.Server.Modules.ModArcBasic.Logic
         /// <summary>
         /// Gets the input channel data.
         /// </summary>
-        public override CnlData GetCnlData(int cnlNum, DateTime timestamp)
+        public override CnlData GetCnlData(DateTime timestamp, int cnlNum)
         {
-            return adapter.ReadCnlData(GetTrendTable(timestamp), cnlNum, timestamp);
+            return adapter.ReadCnlData(GetTrendTable(timestamp), timestamp, cnlNum);
         }
 
         /// <summary>
@@ -454,7 +454,7 @@ namespace Scada.Server.Modules.ModArcBasic.Logic
         /// <summary>
         /// Maintains performance when data is written one at a time.
         /// </summary>
-        public override void BeginUpdate(int deviceNum, DateTime timestamp)
+        public override void BeginUpdate(DateTime timestamp, int deviceNum)
         {
             stopwatch.Restart();
             updatedTable = GetTrendTable(timestamp);
@@ -463,7 +463,7 @@ namespace Scada.Server.Modules.ModArcBasic.Logic
         /// <summary>
         /// Completes the update operation.
         /// </summary>
-        public override void EndUpdate(int deviceNum, DateTime timestamp)
+        public override void EndUpdate(DateTime timestamp, int deviceNum)
         {
             updatedTable = null;
             stopwatch.Stop();
@@ -473,9 +473,9 @@ namespace Scada.Server.Modules.ModArcBasic.Logic
         /// <summary>
         /// Writes the input channel data.
         /// </summary>
-        public override void WriteCnlData(int cnlNum, DateTime timestamp, CnlData cnlData)
+        public override void WriteCnlData(DateTime timestamp, int cnlNum, CnlData cnlData)
         {
-            adapter.WriteCnlData(GetTrendTable(timestamp), cnlNum, timestamp, cnlData);
+            adapter.WriteCnlData(GetTrendTable(timestamp), timestamp, cnlNum, cnlData);
         }
     }
 }
