@@ -20,7 +20,7 @@
  * 
  * Author   : Mikhail Shiryaev
  * Created  : 2017
- * Modified : 2020
+ * Modified : 2021
  */
 
 using System;
@@ -59,9 +59,9 @@ namespace Scada.Log
         void WriteError(string text, params object[] args);
 
         /// <summary>
-        /// Writes the exception to the log.
+        /// Writes the error to the log.
         /// </summary>
-        void WriteException(Exception ex, string text = "", params object[] args);
+        void WriteError(Exception ex, string text = "", params object[] args);
 
         /// <summary>
         /// Writes the specified line to the log.

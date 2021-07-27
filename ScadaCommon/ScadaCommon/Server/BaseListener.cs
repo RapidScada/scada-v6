@@ -191,7 +191,7 @@ namespace Scada.Server
                 }
                 catch (Exception ex)
                 {
-                    log.WriteException(ex, Locale.IsRussian ?
+                    log.WriteError(ex, Locale.IsRussian ?
                         "Ошибка в цикле работы прослушивателя" :
                         "Error in the listener work cycle");
                 }
@@ -297,7 +297,7 @@ namespace Scada.Server
             }
             catch (Exception ex)
             {
-                log.WriteException(ex, Locale.IsRussian ?
+                log.WriteError(ex, Locale.IsRussian ?
                     "Ошибка при отключении клиента {0}" :
                     "Error disconnecting client {0}", client.Address);
             }
@@ -325,7 +325,7 @@ namespace Scada.Server
             }
             catch (Exception ex)
             {
-                log.WriteException(ex, Locale.IsRussian ?
+                log.WriteError(ex, Locale.IsRussian ?
                     "Ошибка при отключении всех клиентов" :
                     "Error disconnecting all clients");
             }
@@ -347,7 +347,7 @@ namespace Scada.Server
             }
             catch (Exception ex)
             {
-                log.WriteException(ex, Locale.IsRussian ?
+                log.WriteError(ex, Locale.IsRussian ?
                     "Ошибка при приёме данных от клиента {0}" :
                     "Error receiving data from the client {0}", client.Address);
             }
@@ -498,7 +498,7 @@ namespace Scada.Server
             }
             catch (Exception ex)
             {
-                log.WriteException(ex, Locale.IsRussian ?
+                log.WriteError(ex, Locale.IsRussian ?
                     "Ошибка при обработке запроса 0x{0} для клиента {1}" :
                     "Error processing request 0x{0} for the client {1}",
                     request.FunctionID.ToString("X4"), client.Address);
@@ -944,7 +944,7 @@ namespace Scada.Server
             }
             catch (Exception ex)
             {
-                log.WriteException(ex, Locale.IsRussian ?
+                log.WriteError(ex, Locale.IsRussian ?
                     "Ошибка при запуске прослушивателя" :
                     "Error starting listener");
                 return false;
@@ -975,7 +975,7 @@ namespace Scada.Server
             }
             catch (Exception ex)
             {
-                log.WriteException(ex, Locale.IsRussian ?
+                log.WriteError(ex, Locale.IsRussian ?
                     "Ошибка при остановке прослушивателя" :
                     "Error stopping listener");
             }
