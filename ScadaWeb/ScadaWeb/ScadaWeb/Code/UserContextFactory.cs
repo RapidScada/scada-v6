@@ -95,9 +95,6 @@ namespace Scada.Web.Code
                     httpContext.User.Identity.IsAuthenticated &&
                     httpContext.User.GetUserID(out int userID)))
                 {
-                    log.WriteWarning(Locale.IsRussian ?
-                        "Невозможно создать контекст пользователя" :
-                        "Unable to create user context");
                     return UserContext.Empty;
                 }
 
