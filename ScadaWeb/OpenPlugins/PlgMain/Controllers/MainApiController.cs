@@ -111,7 +111,7 @@ namespace Scada.Web.Plugins.PlgMain.Controllers
         /// <summary>
         /// Gets the filter to request events by view.
         /// </summary>
-        private static DataFilter GetEventFilter(BaseView view, int limit)
+        private static DataFilter GetEventFilter(int limit, BaseView view)
         {
             DataFilter dataFilter = new(typeof(Event)) { Limit = limit };
             dataFilter.AddCondition("CnlNum", FilterOperator.In, view.CnlNumList);
@@ -167,7 +167,7 @@ namespace Scada.Web.Plugins.PlgMain.Controllers
         /// <summary>
         /// Requests historical data from the server.
         /// </summary>
-        private HistData RequestHistData(IList<int> cnlNums, TimeRange timeRange, int archiveBit)
+        private HistData RequestHistData(int archiveBit, TimeRange timeRange, IList<int> cnlNums)
         {
             if (cnlNums == null)
                 cnlNums = Array.Empty<int>();
@@ -224,8 +224,8 @@ namespace Scada.Web.Plugins.PlgMain.Controllers
         /// <summary>
         /// Requests events from the server.
         /// </summary>
-        private EventPacket RequestEvents(DataFilter filter, long filterID, bool useCache,
-            TimeRange timeRange, int archiveBit)
+        private EventPacket RequestEvents(int archiveBit, TimeRange timeRange, 
+            DataFilter filter, long filterID, bool useCache)
         {
             List<Event> events = filterID > 0
                 ? clientAccessor.ScadaClient.GetEvents(timeRange, ref filterID, archiveBit)
@@ -371,14 +371,14 @@ namespace Scada.Web.Plugins.PlgMain.Controllers
         /// <summary>
         /// Gets the historical data.
         /// </summary>
-        public Dto<HistData> GetHistData(IdList cnlNums, DateTime startTime, DateTime endTime, bool endInclusive, 
-            int archiveBit)
+        public Dto<HistData> GetHistData(int archiveBit, DateTime startTime, DateTime endTime, bool endInclusive,
+            IdList cnlNums)
         {
             try
             {
                 CheckAccessRights(cnlNums);
-                HistData histData = RequestHistData(cnlNums,
-                    CreateTimeRange(startTime, endTime, endInclusive), archiveBit);
+                HistData histData = RequestHistData(archiveBit, CreateTimeRange(startTime, endTime, endInclusive),
+                    cnlNums);
                 return Dto<HistData>.Success(histData);
             }
             catch (AccessDeniedException ex)
@@ -395,8 +395,8 @@ namespace Scada.Web.Plugins.PlgMain.Controllers
         /// <summary>
         /// Gets the historical data by view.
         /// </summary>
-        public Dto<HistData> GetHistDataByView(int viewID, DateTime startTime, DateTime endTime, bool endInclusive, 
-            int archiveBit)
+        public Dto<HistData> GetHistDataByView(int archiveBit, DateTime startTime, DateTime endTime, bool endInclusive,
+            int viewID)
         {
             try
             {
@@ -404,11 +404,11 @@ namespace Scada.Web.Plugins.PlgMain.Controllers
                 {
                     TimeRange timeRange = CreateTimeRange(startTime, endTime, endInclusive);
                     HistData histData = memoryCache.GetOrCreate(
-                        PluginUtils.GetCacheKey("HistDataByView", viewID, timeRange.Key, archiveBit),
+                        PluginUtils.GetCacheKey("HistDataByView", archiveBit, timeRange.Key, viewID),
                         entry =>
                         {
                             entry.SetAbsoluteExpiration(DataCacheExpiration);
-                            return RequestHistData(view.CnlNumList, timeRange, archiveBit);
+                            return RequestHistData(archiveBit, timeRange, view.CnlNumList);
                         });
 
                     return Dto<HistData>.Success(histData);
@@ -428,18 +428,18 @@ namespace Scada.Web.Plugins.PlgMain.Controllers
         /// <summary>
         /// Gets all events for the period.
         /// </summary>
-        public Dto<EventPacket> GetEvents(DateTime startTime, DateTime endTime, bool endInclusive, int archiveBit)
+        public Dto<EventPacket> GetEvents(int archiveBit, DateTime startTime, DateTime endTime, bool endInclusive)
         {
             try
             {
                 RequireViewAll();
                 TimeRange timeRange = CreateTimeRange(startTime, endTime, endInclusive);
                 EventPacket eventPacket = memoryCache.GetOrCreate(
-                    PluginUtils.GetCacheKey("Events", timeRange.Key, archiveBit),
+                    PluginUtils.GetCacheKey("Events", archiveBit, timeRange.Key),
                     entry =>
                     {
                         entry.SetAbsoluteExpiration(DataCacheExpiration);
-                        return RequestEvents(null, 0, false, timeRange, archiveBit);
+                        return RequestEvents(archiveBit, timeRange, null, 0, false);
                     });
 
                 return Dto<EventPacket>.Success(eventPacket);
@@ -458,17 +458,17 @@ namespace Scada.Web.Plugins.PlgMain.Controllers
         /// <summary>
         /// Gets the last events.
         /// </summary>
-        public Dto<EventPacket> GetLastEvents(int limit, int period, int archiveBit)
+        public Dto<EventPacket> GetLastEvents(int archiveBit, int period, int limit)
         {
             try
             {
                 RequireViewAll();
                 EventPacket eventPacket = memoryCache.GetOrCreate(
-                    PluginUtils.GetCacheKey("LastEvents", limit, period, archiveBit),
+                    PluginUtils.GetCacheKey("LastEvents", archiveBit, period, limit),
                     entry =>
                     {
                         entry.SetAbsoluteExpiration(DataCacheExpiration);
-                        return RequestEvents(GetEventFilter(limit), 0, false, CreateTimeRange(period), archiveBit);
+                        return RequestEvents(archiveBit, CreateTimeRange(period), GetEventFilter(limit), 0, false);
                     });
 
                 return Dto<EventPacket>.Success(eventPacket);
@@ -487,19 +487,19 @@ namespace Scada.Web.Plugins.PlgMain.Controllers
         /// <summary>
         /// Gets the last events by view.
         /// </summary>
-        public Dto<EventPacket> GetLastEventsByView(int viewID, int limit, long filterID, int period, int archiveBit)
+        public Dto<EventPacket> GetLastEventsByView(int archiveBit, int period, int limit, int viewID, long filterID)
         {
             try
             {
                 if (viewLoader.GetViewFromCache(viewID, out BaseView view, out string errMsg))
                 {
                     EventPacket eventPacket = memoryCache.GetOrCreate(
-                        PluginUtils.GetCacheKey("LastEventsByView", viewID, limit, period),
+                        PluginUtils.GetCacheKey("LastEventsByView", archiveBit, period, limit, viewID),
                         entry =>
                         {
                             entry.SetAbsoluteExpiration(DataCacheExpiration);
-                            DataFilter filter = filterID > 0 ? null : GetEventFilter(view, limit);
-                            return RequestEvents(filter, filterID, true, CreateTimeRange(period), archiveBit);
+                            DataFilter filter = filterID > 0 ? null : GetEventFilter(limit, view);
+                            return RequestEvents(archiveBit, CreateTimeRange(period), filter, filterID, true);
                         });
 
                     return Dto<EventPacket>.Success(eventPacket);

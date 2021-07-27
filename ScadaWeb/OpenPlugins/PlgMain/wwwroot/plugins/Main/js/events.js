@@ -15,7 +15,7 @@ function updateEvents(callback) {
 
                 if (arcWriteTime !== newArcWriteTime) {
                     // request events
-                    mainApi.getLastEventsByView(viewHub.viewID, 100, 0, 2, archiveBit, function (dto) {
+                    mainApi.getLastEventsByView(archiveBit, 2, 100, viewHub.viewID, 0, function (dto) {
                         if (!dto.ok) {
                             showErrorBadge();
                         }

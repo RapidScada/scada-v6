@@ -233,7 +233,7 @@ function undateHistData(callback) {
 
                 if (arcWriteTime !== newArcWriteTime) {
                     // request historical data
-                    mainApi.getHistDataByView(viewID, timeRange, archiveBit, function (dto) {
+                    mainApi.getHistDataByView(archiveBit, timeRange, viewID, function (dto) {
                         if (!dto.ok) {
                             showErrorBadge();
                         }

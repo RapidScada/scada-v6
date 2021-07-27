@@ -38,7 +38,7 @@ class MainApi {
 
     // Formats the channel numbers for use in a query string.
     _cnlNumsToParam(cnlNums) {
-        return Array.isArray(cnlNums)
+        return "cnlNums=" + Array.isArray(cnlNums)
             ? cnlNums.join(",")
             : cnlNums;
     }
@@ -60,7 +60,7 @@ class MainApi {
     // Gets the current data without formatting.
     // URL example: http://localhost/Api/Main/GetCurData?cnlNums=101-105,110
     getCurData(cnlNums, callback) {
-        fetch(this.rootPath + "Api/Main/GetCurData?cnlNums=" + this._cnlNumsToParam(cnlNums))
+        fetch(this.rootPath + "Api/Main/GetCurData?" + this._cnlNumsToParam(cnlNums))
             .then(response => response.ok ? response.json() : Dto.fail(response.statusText))
             .then(data => this._doCallback(callback, data, "getCurData"))
             .catch(error => this._doCallback(callback, Dto.fail(error.message), "getCurData"));
@@ -70,7 +70,7 @@ class MainApi {
     // Set useCache to true only with a subsequent call to the getCurDataStep2 method.
     // URL example: http://localhost/Api/Main/GetCurDataStep1?cnlNums=101-105,110&useCache=true
     getCurDataStep1(cnlNums, useCache, callback) {
-        fetch(this.rootPath + "Api/Main/GetCurDataStep1?cnlNums=" + this._cnlNumsToParam(cnlNums) + "&useCache=" + useCache)
+        fetch(this.rootPath + "Api/Main/GetCurDataStep1?" + this._cnlNumsToParam(cnlNums) + "&useCache=" + useCache)
             .then(response => response.ok ? response.json() : Dto.fail(response.statusText))
             .then(data => this._doCallback(callback, data, "getCurDataStep1"))
             .catch(error => this._doCallback(callback, Dto.fail(error.message), "getCurDataStep1"));
@@ -95,48 +95,48 @@ class MainApi {
     }
 
     // Gets the historical data.
-    // URL example: http://localhost/Api/Main/GetHistData?cnlNums=101-105,110&startTime=2021-12-31T00:00:00.000Z&endTime=2021-12-31T23:59:59Z&endInclusive=true&archiveBit=1
-    getHistData(cnlNums, timeRange, archiveBit, callback) {
-        fetch(this.rootPath + "Api/Main/GetHistData?cnlNums=" +
-            this._cnlNumsToParam(cnlNums) + "&" + timeRange.param() + "&archiveBit=" + archiveBit)
+    // URL example: http://localhost/Api/Main/GetHistData?archiveBit=1&startTime=2021-12-31T00:00:00.000Z&endTime=2021-12-31T23:59:59Z&endInclusive=true&cnlNums=101-105,110
+    getHistData(archiveBit, timeRange, cnlNums, callback) {
+        fetch(this.rootPath + "Api/Main/GetHistData?archiveBit=" + archiveBit +
+            "&" + timeRange.param() + "&" + this._cnlNumsToParam(cnlNums))
             .then(response => response.ok ? response.json() : Dto.fail(response.statusText))
             .then(data => this._doCallback(callback, data, "getHistData"))
             .catch(error => this._doCallback(callback, Dto.fail(error.message), "getHistData"));
     }
 
     // Gets the historical data.
-    // URL example: http://localhost/Api/Main/GetHistData?viewID=1&startTime=2021-12-31T00:00:00.000Z&endTime=2021-12-31T23:59:59Z&endInclusive=true&archiveBit=1
-    getHistDataByView(viewID, timeRange, archiveBit, callback) {
-        fetch(this.rootPath + "Api/Main/GetHistDataByView?viewID=" + viewID +
-            "&" + timeRange.param() + "&archiveBit=" + archiveBit)
+    // URL example: http://localhost/Api/Main/GetHistData?archiveBit=1&startTime=2021-12-31T00:00:00.000Z&endTime=2021-12-31T23:59:59Z&endInclusive=true&viewID=1
+    getHistDataByView(archiveBit, timeRange, viewID, callback) {
+        fetch(this.rootPath + "Api/Main/GetHistDataByView?archiveBit=" + archiveBit +
+            "&" + timeRange.param() + "&viewID=" + viewID)
             .then(response => response.ok ? response.json() : Dto.fail(response.statusText))
             .then(data => this._doCallback(callback, data, "getHistDataByView"))
             .catch(error => this._doCallback(callback, Dto.fail(error.message), "getHistDataByView"));
     }
 
     // Gets all events for the period.
-    // URL example: http://localhost/Api/Main/GetEvents?startTime=2021-12-31T00:00:00.000Z&endTime=2021-12-31T23:59:59Z&endInclusive=true&archiveBit=1
-    getEvents(timeRange, archiveBit, callback) {
-        fetch(this.rootPath + "Api/Main/GetEvents?" + timeRange.param() + "&archiveBit=" + archiveBit)
+    // URL example: http://localhost/Api/Main/GetEvents?archiveBit=1&startTime=2021-12-31T00:00:00.000Z&endTime=2021-12-31T23:59:59Z&endInclusive=true
+    getEvents(archiveBit, timeRange, callback) {
+        fetch(this.rootPath + "Api/Main/GetEvents?archiveBit=" + archiveBit + "&" + timeRange.param())
             .then(response => response.ok ? response.json() : Dto.fail(response.statusText))
             .then(data => this._doCallback(callback, data, "getEvents"))
             .catch(error => this._doCallback(callback, Dto.fail(error.message), "getEvents"));
     }
 
     // Gets the last events.
-    // URL example: http://localhost/Api/Main/GetLastEvents?limit=100&period=2&archiveBit=1
-    getLastEvents(limit, period, archiveBit, callback) {
-        fetch(this.rootPath + "Api/Main/GetEvents?limit=" + limit + "&period=" + period + "&archiveBit=" + archiveBit)
+    // URL example: http://localhost/Api/Main/GetLastEvents?archiveBit=1&period=2&limit=100
+    getLastEvents(archiveBit, period, limit, callback) {
+        fetch(this.rootPath + "Api/Main/GetEvents?archiveBit=" + archiveBit + "&period=" + period + "&limit=" + limit)
             .then(response => response.ok ? response.json() : Dto.fail(response.statusText))
             .then(data => this._doCallback(callback, data, "getLastEvents"))
             .catch(error => this._doCallback(callback, Dto.fail(error.message), "getLastEvents"));
     }
 
     // Gets the last events by view.
-    // URL example: http://localhost/Api/Main/GetLastEventsByView?viewID=1&limit=100&filterID=1&period=2&archiveBit=1
-    getLastEventsByView(viewID, limit, filterID, period, archiveBit, callback) {
-        fetch(this.rootPath + "Api/Main/GetLastEventsByView?viewID=" + viewID +
-            "&limit=" + limit + "&filterID=" + filterID + "&period=" + period + "&archiveBit=" + archiveBit)
+    // URL example: http://localhost/Api/Main/GetLastEventsByView?archiveBit=1&period=2&limit=100&viewID=1&filterID=1
+    getLastEventsByView(archiveBit, period, limit, viewID, filterID, callback) {
+        fetch(this.rootPath + "Api/Main/GetLastEventsByView?archiveBit=" + archiveBit +
+            "&period=" + period + "&limit=" + limit + "&viewID=" + viewID + "&filterID=" + filterID)
             .then(response => response.ok ? response.json() : Dto.fail(response.statusText))
             .then(data => this._doCallback(callback, data, "getLastEventsByView"))
             .catch(error => this._doCallback(callback, Dto.fail(error.message), "getLastEventsByView"));
