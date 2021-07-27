@@ -286,7 +286,7 @@ namespace Scada.Web.Plugins
                     }
                     catch (Exception ex)
                     {
-                        log.WriteException(ex, WebPhrases.ErrorInPlugin, nameof(LoadDictionaries), pluginLogic.Code);
+                        log.WriteError(ex, WebPhrases.ErrorInPlugin, nameof(LoadDictionaries), pluginLogic.Code);
                     }
                 }
             }
@@ -307,7 +307,7 @@ namespace Scada.Web.Plugins
                     }
                     catch (Exception ex)
                     {
-                        log.WriteException(ex, WebPhrases.ErrorInPlugin, nameof(LoadConfig), pluginLogic.Code);
+                        log.WriteError(ex, WebPhrases.ErrorInPlugin, nameof(LoadConfig), pluginLogic.Code);
                     }
                 }
             }
@@ -328,7 +328,7 @@ namespace Scada.Web.Plugins
                     }
                     catch (Exception ex)
                     {
-                        log.WriteException(ex, WebPhrases.ErrorInPlugin, nameof(AddFilters), pluginLogic.Code);
+                        log.WriteError(ex, WebPhrases.ErrorInPlugin, nameof(AddFilters), pluginLogic.Code);
                     }
                 }
             }
@@ -349,7 +349,7 @@ namespace Scada.Web.Plugins
                     }
                     catch (Exception ex)
                     {
-                        log.WriteException(ex, WebPhrases.ErrorInPlugin, nameof(AddServices), pluginLogic.Code);
+                        log.WriteError(ex, WebPhrases.ErrorInPlugin, nameof(AddServices), pluginLogic.Code);
                     }
                 }
             }
@@ -370,7 +370,7 @@ namespace Scada.Web.Plugins
                     }
                     catch (Exception ex)
                     {
-                        log.WriteException(ex, WebPhrases.ErrorInPlugin, nameof(OnAppReady), pluginLogic.Code);
+                        log.WriteError(ex, WebPhrases.ErrorInPlugin, nameof(OnAppReady), pluginLogic.Code);
                     }
                 }
             }
@@ -391,7 +391,7 @@ namespace Scada.Web.Plugins
                     }
                     catch (Exception ex)
                     {
-                        log.WriteException(ex, WebPhrases.ErrorInPlugin, nameof(OnUserLogin), pluginLogic.Code);
+                        log.WriteError(ex, WebPhrases.ErrorInPlugin, nameof(OnUserLogin), pluginLogic.Code);
                     }
                 }
             }
@@ -412,7 +412,7 @@ namespace Scada.Web.Plugins
                     }
                     catch (Exception ex)
                     {
-                        log.WriteException(ex, WebPhrases.ErrorInPlugin, nameof(OnUserLogout), pluginLogic.Code);
+                        log.WriteError(ex, WebPhrases.ErrorInPlugin, nameof(OnUserLogout), pluginLogic.Code);
                     }
                 }
             }
@@ -434,7 +434,7 @@ namespace Scada.Web.Plugins
                 }
                 catch (Exception ex)
                 {
-                    log.WriteException(ex, WebPhrases.ErrorInPlugin, nameof(GetUserMenuItems), pluginLogic.Code);
+                    log.WriteError(ex, WebPhrases.ErrorInPlugin, nameof(GetUserMenuItems), pluginLogic.Code);
                     return null;
                 }
             }
@@ -456,7 +456,7 @@ namespace Scada.Web.Plugins
                 }
                 catch (Exception ex)
                 {
-                    log.WriteException(ex, WebPhrases.ErrorInPlugin,
+                    log.WriteError(ex, WebPhrases.ErrorInPlugin,
                         nameof(FindUser), FeaturedPlugins.UserManagementPlugin.Code);
                     return null;
                 }
@@ -479,7 +479,7 @@ namespace Scada.Web.Plugins
                 }
                 catch (Exception ex)
                 {
-                    log.WriteException(ex, WebPhrases.ErrorInPlugin,
+                    log.WriteError(ex, WebPhrases.ErrorInPlugin,
                         nameof(GetUserConfig), FeaturedPlugins.UserManagementPlugin.Code);
                     return null;
                 }

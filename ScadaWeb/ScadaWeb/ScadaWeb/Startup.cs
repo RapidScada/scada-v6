@@ -84,7 +84,7 @@ namespace Scada.Web
                 }
                 catch (Exception ex)
                 {
-                    WebContext.Log.WriteException(ex, Locale.IsRussian ?
+                    WebContext.Log.WriteError(ex, Locale.IsRussian ?
                         "Ошибка при загрузке части приложения из файла {0}" :
                         "Error loading application part from file {0}", fileName);
                 }

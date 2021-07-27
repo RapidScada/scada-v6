@@ -65,7 +65,7 @@ namespace Scada.Web
             }
             catch (Exception ex)
             {
-                webContext.Log.WriteException(ex, Locale.IsRussian ?
+                webContext.Log.WriteError(ex, Locale.IsRussian ?
                     "Не удалось запустить веб-узел" :
                     "Web host failed to start");
             }

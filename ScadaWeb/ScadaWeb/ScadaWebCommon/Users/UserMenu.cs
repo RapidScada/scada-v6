@@ -141,7 +141,7 @@ namespace Scada.Web.Users
             }
             catch (Exception ex)
             {
-                webContext.Log.WriteException(ex, Locale.IsRussian ?
+                webContext.Log.WriteError(ex, Locale.IsRussian ?
                     "Ошибка при инициализации меню пользователя" :
                     "Error initializing user menu");
             }

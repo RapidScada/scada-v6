@@ -251,7 +251,7 @@ namespace Scada.Web.Code
             }
             catch (Exception ex)
             {
-                Log.WriteException(ex, Locale.IsRussian ?
+                Log.WriteError(ex, Locale.IsRussian ?
                     "Ошибка при остановке обновления конфигурации" :
                     "Error stopping configuration update");
             }
@@ -328,7 +328,7 @@ namespace Scada.Web.Code
                 }
                 catch (Exception ex)
                 {
-                    Log.WriteException(ex, Locale.IsRussian ?
+                    Log.WriteError(ex, Locale.IsRussian ?
                         "Ошибка при обновлении конфигурации" :
                         "Error updating configuration");
                 }
@@ -365,7 +365,7 @@ namespace Scada.Web.Code
             }
             catch (Exception ex)
             {
-                Log.WriteException(ex, Locale.IsRussian ?
+                Log.WriteError(ex, Locale.IsRussian ?
                     "Ошибка при приёме базы конфигурации, таблица {0}" :
                     "Error receiving the configuration database, the {0} table", tableName);
                 baseDataSet = null;
@@ -428,7 +428,7 @@ namespace Scada.Web.Code
             }
             catch (Exception ex)
             {
-                Log.WriteException(ex, Locale.IsRussian ?
+                Log.WriteError(ex, Locale.IsRussian ?
                     "Ошибка при запуске обновления конфигурации" :
                     "Error starting configuration update");
             }

@@ -110,7 +110,7 @@ namespace Scada.Web.Code
                 if (log == null)
                     throw;
 
-                log.WriteException(ex, Locale.IsRussian ?
+                log.WriteError(ex, Locale.IsRussian ?
                     "Ошибка при создании контекста пользователя" :
                     "Error creating user context");
                 return UserContext.Empty;
