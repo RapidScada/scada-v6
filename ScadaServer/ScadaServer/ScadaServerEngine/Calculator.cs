@@ -369,7 +369,7 @@ namespace Scada.Server.Engine
             }
             catch (Exception ex)
             {
-                log.WriteException(ex, Locale.IsRussian ?
+                log.WriteError(ex, Locale.IsRussian ?
                     "Ошибка при компиляции исходного кода скриптов и формул" :
                     "Error compiling the source code of the scripts and formulas");
                 return false;
@@ -390,7 +390,7 @@ namespace Scada.Server.Engine
             }
             catch (Exception ex)
             {
-                log.WriteException(ex, Locale.IsRussian ?
+                log.WriteError(ex, Locale.IsRussian ?
                     "Ошибка при инициализации скриптов" :
                     "Error initializing the scripts");
             }
@@ -410,7 +410,7 @@ namespace Scada.Server.Engine
             }
             catch (Exception ex)
             {
-                log.WriteException(ex, Locale.IsRussian ?
+                log.WriteError(ex, Locale.IsRussian ?
                     "Ошибка при завершении скриптов" :
                     "Error finalizing the scripts");
             }
@@ -432,7 +432,7 @@ namespace Scada.Server.Engine
             }
             catch (Exception ex)
             {
-                log.WriteException(ex, Locale.IsRussian ?
+                log.WriteError(ex, Locale.IsRussian ?
                     "Ошибка при выполнении действий перед расчётом" :
                     "Error performing actions before the calculation");
             }
@@ -452,7 +452,7 @@ namespace Scada.Server.Engine
             }
             catch (Exception ex)
             {
-                log.WriteException(ex, Locale.IsRussian ?
+                log.WriteError(ex, Locale.IsRussian ?
                     "Ошибка при выполнении действий после расчёта" :
                     "Error performing actions after the calculation");
             }

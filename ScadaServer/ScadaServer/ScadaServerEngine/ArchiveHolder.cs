@@ -209,7 +209,7 @@ namespace Scada.Server.Engine
                 }
                 catch (Exception ex)
                 {
-                    log.WriteException(ex, ServerPhrases.ErrorInArchive, nameof(MakeReady), archiveLogic.Code);
+                    log.WriteError(ex, ServerPhrases.ErrorInArchive, nameof(MakeReady), archiveLogic.Code);
                 }
                 finally
                 {
@@ -233,7 +233,7 @@ namespace Scada.Server.Engine
                 }
                 catch (Exception ex)
                 {
-                    log.WriteException(ex, ServerPhrases.ErrorInArchive, nameof(Close), archiveLogic.Code);
+                    log.WriteError(ex, ServerPhrases.ErrorInArchive, nameof(Close), archiveLogic.Code);
                 }
                 finally
                 {
@@ -265,7 +265,7 @@ namespace Scada.Server.Engine
                     }
                     catch (Exception ex)
                     {
-                        log.WriteException(ex, ServerPhrases.ErrorInArchive, 
+                        log.WriteError(ex, ServerPhrases.ErrorInArchive, 
                             nameof(DeleteOutdatedData), archiveLogic.Code);
                     }
                     finally
@@ -295,7 +295,7 @@ namespace Scada.Server.Engine
                     }
                     catch (Exception ex)
                     {
-                        log.WriteException(ex, ServerPhrases.ErrorInArchive, 
+                        log.WriteError(ex, ServerPhrases.ErrorInArchive, 
                             nameof(ReadCurrentData), archiveLogic.Code);
                     }
                     finally
@@ -327,7 +327,7 @@ namespace Scada.Server.Engine
                     }
                     catch (Exception ex)
                     {
-                        log.WriteException(ex, ServerPhrases.ErrorInArchive, 
+                        log.WriteError(ex, ServerPhrases.ErrorInArchive, 
                             nameof(WriteCurrentData), archiveLogic.Code);
                     }
                     finally
@@ -355,7 +355,7 @@ namespace Scada.Server.Engine
                     }
                     catch (Exception ex)
                     {
-                        log.WriteException(ex, ServerPhrases.ErrorInArchive, nameof(ProcessData), archiveLogic.Code);
+                        log.WriteError(ex, ServerPhrases.ErrorInArchive, nameof(ProcessData), archiveLogic.Code);
                     }
                     finally
                     {
@@ -376,7 +376,7 @@ namespace Scada.Server.Engine
                     }
                     catch (Exception ex)
                     {
-                        log.WriteException(ex, ServerPhrases.ErrorInArchive, nameof(ProcessData), archiveLogic.Code);
+                        log.WriteError(ex, ServerPhrases.ErrorInArchive, nameof(ProcessData), archiveLogic.Code);
                     }
                     finally
                     {
@@ -399,7 +399,7 @@ namespace Scada.Server.Engine
             }
             catch (Exception ex)
             {
-                log.WriteException(ex, ServerPhrases.ErrorInArchive, nameof(EndUpdate), archiveLogic.Code);
+                log.WriteError(ex, ServerPhrases.ErrorInArchive, nameof(EndUpdate), archiveLogic.Code);
             }
             finally
             {
@@ -418,7 +418,7 @@ namespace Scada.Server.Engine
             }
             catch (Exception ex)
             {
-                log.WriteException(ex, ServerPhrases.ErrorInArchive, nameof(Unlock), archiveLogic.Code);
+                log.WriteError(ex, ServerPhrases.ErrorInArchive, nameof(Unlock), archiveLogic.Code);
             }
         }
 
@@ -444,7 +444,7 @@ namespace Scada.Server.Engine
                 }
                 catch (Exception ex)
                 {
-                    log.WriteException(ex, ServerPhrases.ErrorInArchive, nameof(GetTrends), archiveLogic.Code);
+                    log.WriteError(ex, ServerPhrases.ErrorInArchive, nameof(GetTrends), archiveLogic.Code);
                 }
                 finally
                 {
@@ -471,7 +471,7 @@ namespace Scada.Server.Engine
                 }
                 catch (Exception ex)
                 {
-                    log.WriteException(ex, ServerPhrases.ErrorInArchive, nameof(GetTrend), archiveLogic.Code);
+                    log.WriteError(ex, ServerPhrases.ErrorInArchive, nameof(GetTrend), archiveLogic.Code);
                 }
                 finally
                 {
@@ -498,7 +498,7 @@ namespace Scada.Server.Engine
                 }
                 catch (Exception ex)
                 {
-                    log.WriteException(ex, ServerPhrases.ErrorInArchive, nameof(GetTimestamps), archiveLogic.Code);
+                    log.WriteError(ex, ServerPhrases.ErrorInArchive, nameof(GetTimestamps), archiveLogic.Code);
                 }
                 finally
                 {
@@ -530,7 +530,7 @@ namespace Scada.Server.Engine
                 }
                 catch (Exception ex)
                 {
-                    log.WriteException(ex, ServerPhrases.ErrorInArchive, nameof(GetSlice), archiveLogic.Code);
+                    log.WriteError(ex, ServerPhrases.ErrorInArchive, nameof(GetSlice), archiveLogic.Code);
                 }
                 finally
                 {
@@ -578,7 +578,7 @@ namespace Scada.Server.Engine
                 }
                 catch (Exception ex)
                 {
-                    log.WriteException(ex, ServerPhrases.ErrorInArchive, nameof(GetEventByID), archiveLogic.Code);
+                    log.WriteError(ex, ServerPhrases.ErrorInArchive, nameof(GetEventByID), archiveLogic.Code);
                 }
                 finally
                 {
@@ -605,7 +605,7 @@ namespace Scada.Server.Engine
                 }
                 catch (Exception ex)
                 {
-                    log.WriteException(ex, ServerPhrases.ErrorInArchive, nameof(GetEvents), archiveLogic.Code);
+                    log.WriteError(ex, ServerPhrases.ErrorInArchive, nameof(GetEvents), archiveLogic.Code);
                 }
                 finally
                 {
@@ -631,7 +631,7 @@ namespace Scada.Server.Engine
                 }
                 catch (Exception ex)
                 {
-                    log.WriteException(ex, ServerPhrases.ErrorInArchive, nameof(WriteEvent), archiveLogic.Code);
+                    log.WriteError(ex, ServerPhrases.ErrorInArchive, nameof(WriteEvent), archiveLogic.Code);
                 }
                 finally
                 {
@@ -677,7 +677,7 @@ namespace Scada.Server.Engine
                     }
                     catch (Exception ex)
                     {
-                        log.WriteException(ex, ServerPhrases.ErrorInArchive, nameof(AckEvent), archiveLogic.Code);
+                        log.WriteError(ex, ServerPhrases.ErrorInArchive, nameof(AckEvent), archiveLogic.Code);
                     }
                     finally
                     {

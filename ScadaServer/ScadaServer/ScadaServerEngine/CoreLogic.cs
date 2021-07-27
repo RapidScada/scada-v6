@@ -242,7 +242,7 @@ namespace Scada.Server.Engine
             }
             catch (Exception ex)
             {
-                Log.WriteException(ex, Locale.IsRussian ?
+                Log.WriteError(ex, Locale.IsRussian ?
                     "Ошибка при чтении базы конфигурации, таблица {0}" :
                     "Error reading the configuration database, the {0} table", tableName);
                 return false;
@@ -447,7 +447,7 @@ namespace Scada.Server.Engine
                     }
                     catch (Exception ex)
                     {
-                        Log.WriteException(ex, Locale.IsRussian ?
+                        Log.WriteError(ex, Locale.IsRussian ?
                             "Ошибка при создании архива {0} с помощью модуля {1}" :
                             "Error creating archive {0} with the module {1}",
                             archiveConfig.Code, archiveConfig.Module);
@@ -540,7 +540,7 @@ namespace Scada.Server.Engine
                     }
                     catch (Exception ex)
                     {
-                        Log.WriteException(ex, CommonPhrases.LogicCycleError);
+                        Log.WriteError(ex, CommonPhrases.LogicCycleError);
                     }
                     finally
                     {
@@ -553,7 +553,7 @@ namespace Scada.Server.Engine
             }
             catch (Exception ex)
             {
-                Log.WriteException(ex, CommonPhrases.ThreadFatalError);
+                Log.WriteError(ex, CommonPhrases.ThreadFatalError);
             }
             finally
             {
@@ -747,7 +747,7 @@ namespace Scada.Server.Engine
             }
             catch (Exception ex)
             {
-                Log.WriteException(ex, CommonPhrases.WriteInfoError);
+                Log.WriteError(ex, CommonPhrases.WriteInfoError);
             }
         }
 
@@ -983,7 +983,7 @@ namespace Scada.Server.Engine
             }
             catch (Exception ex)
             {
-                Log.WriteException(ex, CommonPhrases.StartLogicError);
+                Log.WriteError(ex, CommonPhrases.StartLogicError);
                 return false;
             }
             finally
@@ -1039,7 +1039,7 @@ namespace Scada.Server.Engine
             {
                 serviceStatus = ServiceStatus.Error;
                 WriteInfo();
-                Log.WriteException(ex, CommonPhrases.StopLogicError);
+                Log.WriteError(ex, CommonPhrases.StopLogicError);
             }
         }
 
@@ -1102,7 +1102,7 @@ namespace Scada.Server.Engine
                     "Ошибка при проверке пользователя" :
                     "Error validating user";
 
-                Log.WriteException(ex, errMsg);
+                Log.WriteError(ex, errMsg);
                 return false;
             }
         }
@@ -1122,7 +1122,7 @@ namespace Scada.Server.Engine
             }
             catch (Exception ex)
             {
-                Log.WriteException(ex, Locale.IsRussian ?
+                Log.WriteError(ex, Locale.IsRussian ?
                     "Ошибка при получении текущих данных входного канала" :
                     "Error getting current data of the input channel");
             }
@@ -1174,7 +1174,7 @@ namespace Scada.Server.Engine
             }
             catch (Exception ex)
             {
-                Log.WriteException(ex, Locale.IsRussian ?
+                Log.WriteError(ex, Locale.IsRussian ?
                     "Ошибка при получении текущих данных входных каналов" :
                     "Error getting current data of the input channels");
             }
@@ -1207,7 +1207,7 @@ namespace Scada.Server.Engine
             }
             catch (Exception ex)
             {
-                Log.WriteException(ex, Locale.IsRussian ?
+                Log.WriteError(ex, Locale.IsRussian ?
                     "Ошибка при получении текущих данных кэшированного списка входных каналов" :
                     "Error getting current data of the cached input channel list");
             }
@@ -1253,7 +1253,7 @@ namespace Scada.Server.Engine
             }
             catch (Exception ex)
             {
-                Log.WriteException(ex, Locale.IsRussian ?
+                Log.WriteError(ex, Locale.IsRussian ?
                     "Ошибка при записи текущих данных" :
                     "Error writing current data");
             }
@@ -1337,7 +1337,7 @@ namespace Scada.Server.Engine
                         }
                         catch (Exception ex)
                         {
-                            Log.WriteException(ex, Locale.IsRussian ?
+                            Log.WriteError(ex, Locale.IsRussian ?
                                 "Ошибка при записи исторических данных в архив {0}" :
                                 "Error writing historical data to the {1} archive", archiveLogic.Code);
                         }
@@ -1352,7 +1352,7 @@ namespace Scada.Server.Engine
             }
             catch (Exception ex)
             {
-                Log.WriteException(ex, Locale.IsRussian ?
+                Log.WriteError(ex, Locale.IsRussian ?
                     "Ошибка при записи исторических данных" :
                     "Error writing historical data");
             }
@@ -1410,7 +1410,7 @@ namespace Scada.Server.Engine
             }
             catch (Exception ex)
             {
-                Log.WriteException(ex, Locale.IsRussian ?
+                Log.WriteError(ex, Locale.IsRussian ?
                     "Ошибка при записи события" :
                     "Error writing event");
             }
@@ -1522,7 +1522,7 @@ namespace Scada.Server.Engine
             catch (Exception ex)
             {
                 commandResult.ErrorMessage = ex.Message;
-                Log.WriteException(ex, Locale.IsRussian ?
+                Log.WriteError(ex, Locale.IsRussian ?
                     "Ошибка при отправке команды" :
                     "Error sending command");
             }
