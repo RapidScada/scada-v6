@@ -160,7 +160,7 @@ namespace Scada.Comm.Channels
             }
             catch (Exception ex)
             {
-                Log.WriteException(ex, Locale.IsRussian ?
+                Log.WriteError(ex, Locale.IsRussian ?
                     "Ошибка при приёме входящего запроса КП {0}" :
                     "Error receiving incoming request for the device {0}", deviceLogic.Title);
                 return false;
@@ -199,7 +199,7 @@ namespace Scada.Comm.Channels
             }
             catch (Exception ex)
             {
-                Log.WriteException(ex, Locale.IsRussian ?
+                Log.WriteError(ex, Locale.IsRussian ?
                     "Ошибка при обработке входящего запроса КП {0}" :
                     "Error processing incoming request for the device {0}", deviceLogic.Title);
                 return false;

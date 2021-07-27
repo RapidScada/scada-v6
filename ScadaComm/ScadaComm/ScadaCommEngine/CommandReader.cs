@@ -89,7 +89,7 @@ namespace Scada.Comm.Engine
                             }
                             catch (Exception ex)
                             {
-                                log.WriteException(ex, Locale.IsRussian ?
+                                log.WriteError(ex, Locale.IsRussian ?
                                     "Ошибка при обработке файла {0}" :
                                     "Error processing the file {0}", fileName);
                             }
@@ -98,7 +98,7 @@ namespace Scada.Comm.Engine
                 }
                 catch (Exception ex)
                 {
-                    log.WriteException(ex, Locale.IsRussian ?
+                    log.WriteError(ex, Locale.IsRussian ?
                         "Ошибка при чтении команд из файлов" :
                         "Error reading commands from files");
                 }
@@ -128,7 +128,7 @@ namespace Scada.Comm.Engine
             }
             catch (Exception ex)
             {
-                log.WriteException(ex, Locale.IsRussian ?
+                log.WriteError(ex, Locale.IsRussian ?
                     "Ошибка при запуске чтения команд" :
                     "Error starting reading commands");
             }
@@ -150,7 +150,7 @@ namespace Scada.Comm.Engine
             }
             catch (Exception ex)
             {
-                log.WriteException(ex, Locale.IsRussian ?
+                log.WriteError(ex, Locale.IsRussian ?
                     "Ошибка при остановке чтения команд" :
                     "Error stopping reading commands");
             }

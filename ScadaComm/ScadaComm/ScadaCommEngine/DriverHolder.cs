@@ -89,7 +89,7 @@ namespace Scada.Comm.Engine
                 }
                 catch (Exception ex)
                 {
-                    log.WriteException(ex, CommPhrases.ErrorInDriver, nameof(OnServiceStart), driverLogic.Code);
+                    log.WriteError(ex, CommPhrases.ErrorInDriver, nameof(OnServiceStart), driverLogic.Code);
                 }
             }
         }
@@ -107,7 +107,7 @@ namespace Scada.Comm.Engine
                 }
                 catch (Exception ex)
                 {
-                    log.WriteException(ex, CommPhrases.ErrorInDriver, nameof(OnServiceStop), driverLogic.Code);
+                    log.WriteError(ex, CommPhrases.ErrorInDriver, nameof(OnServiceStop), driverLogic.Code);
                 }
             }
         }

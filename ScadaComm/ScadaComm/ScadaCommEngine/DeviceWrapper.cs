@@ -76,7 +76,7 @@ namespace Scada.Comm.Engine
             }
             catch (Exception ex)
             {
-                log.WriteException(ex, CommPhrases.ErrorInDevice, nameof(OnCommLineStart), DeviceLogic.Title);
+                log.WriteError(ex, CommPhrases.ErrorInDevice, nameof(OnCommLineStart), DeviceLogic.Title);
             }
         }
 
@@ -91,7 +91,7 @@ namespace Scada.Comm.Engine
             }
             catch (Exception ex)
             {
-                log.WriteException(ex, CommPhrases.ErrorInDevice, nameof(OnCommLineTerminate), DeviceLogic.Title);
+                log.WriteError(ex, CommPhrases.ErrorInDevice, nameof(OnCommLineTerminate), DeviceLogic.Title);
             }
         }
 
@@ -106,7 +106,7 @@ namespace Scada.Comm.Engine
             }
             catch (Exception ex)
             {
-                log.WriteException(ex, CommPhrases.ErrorInDevice, nameof(InitDeviceTags), DeviceLogic.Title);
+                log.WriteError(ex, CommPhrases.ErrorInDevice, nameof(InitDeviceTags), DeviceLogic.Title);
             }
         }
 
@@ -122,7 +122,7 @@ namespace Scada.Comm.Engine
             }
             catch (Exception ex)
             {
-                log.WriteException(ex, CommPhrases.ErrorInDevice, nameof(BindDeviceTags), DeviceLogic.Title);
+                log.WriteError(ex, CommPhrases.ErrorInDevice, nameof(BindDeviceTags), DeviceLogic.Title);
             }
         }
 
@@ -137,7 +137,7 @@ namespace Scada.Comm.Engine
             }
             catch (Exception ex)
             {
-                log.WriteException(ex, CommPhrases.ErrorInDevice, nameof(InitDeviceData), DeviceLogic.Title);
+                log.WriteError(ex, CommPhrases.ErrorInDevice, nameof(InitDeviceData), DeviceLogic.Title);
             }
         }
 
@@ -152,7 +152,7 @@ namespace Scada.Comm.Engine
             }
             catch (Exception ex)
             {
-                log.WriteException(ex, CommPhrases.ErrorInDevice, nameof(InvalidateData), DeviceLogic.Title);
+                log.WriteError(ex, CommPhrases.ErrorInDevice, nameof(InvalidateData), DeviceLogic.Title);
             }
         }
 
@@ -167,7 +167,7 @@ namespace Scada.Comm.Engine
             }
             catch (Exception ex)
             {
-                log.WriteException(ex, CommPhrases.ErrorInDevice, nameof(Session), DeviceLogic.Title);
+                log.WriteError(ex, CommPhrases.ErrorInDevice, nameof(Session), DeviceLogic.Title);
             }
         }
 
@@ -182,7 +182,7 @@ namespace Scada.Comm.Engine
             }
             catch (Exception ex)
             {
-                log.WriteException(ex, CommPhrases.ErrorInDevice, nameof(SendCommand), DeviceLogic.Title);
+                log.WriteError(ex, CommPhrases.ErrorInDevice, nameof(SendCommand), DeviceLogic.Title);
             }
         }
 
@@ -200,7 +200,7 @@ namespace Scada.Comm.Engine
             }
             catch (Exception ex)
             {
-                log.WriteException(ex, Locale.IsRussian ?
+                log.WriteError(ex, Locale.IsRussian ?
                     "Ошибка при записи в файл информации о работе КП {0}" :
                     "Error writing device {0} information to the file", DeviceLogic.Title);
             }

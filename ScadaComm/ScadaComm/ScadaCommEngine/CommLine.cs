@@ -247,7 +247,7 @@ namespace Scada.Comm.Engine
             }
             catch (Exception ex)
             {
-                Log.WriteException(ex, CommonPhrases.ThreadFatalError);
+                Log.WriteError(ex, CommonPhrases.ThreadFatalError);
             }
             finally
             {
@@ -411,7 +411,7 @@ namespace Scada.Comm.Engine
                 }
                 catch (Exception ex)
                 {
-                    Log.WriteException(ex, Locale.IsRussian ?
+                    Log.WriteError(ex, Locale.IsRussian ?
                         "Ошибка в цикле работы линии связи" :
                         "Error in the communication line work cycle");
                     Thread.Sleep(ScadaUtils.ThreadDelay);
@@ -642,7 +642,7 @@ namespace Scada.Comm.Engine
             }
             catch (Exception ex)
             {
-                Log.WriteException(ex, Locale.IsRussian ?
+                Log.WriteError(ex, Locale.IsRussian ?
                     "Ошибка при записи в файл информации о работе линии связи" :
                     "Error writing communication line information to the file");
             }
@@ -692,7 +692,7 @@ namespace Scada.Comm.Engine
             }
             catch (Exception ex)
             {
-                Log.WriteException(ex, Locale.IsRussian ?
+                Log.WriteError(ex, Locale.IsRussian ?
                     "Ошибка при запуске линии связи {0}" :
                     "Error starting communication line {0}", Title);
                 return false;
@@ -728,7 +728,7 @@ namespace Scada.Comm.Engine
             }
             catch (Exception ex)
             {
-                Log.WriteException(ex, Locale.IsRussian ?
+                Log.WriteError(ex, Locale.IsRussian ?
                     "Ошибка при завершении связи {0}" :
                     "Error terminating communication line {0}", Title);
             }

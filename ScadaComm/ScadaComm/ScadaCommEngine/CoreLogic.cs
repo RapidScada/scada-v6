@@ -235,7 +235,7 @@ namespace Scada.Comm.Engine
                     }
                     catch (Exception ex)
                     {
-                        Log.WriteException(ex, Locale.IsRussian ?
+                        Log.WriteError(ex, Locale.IsRussian ?
                             "Ошибка при создании источника данных {0} с помощью драйвера {1}" :
                             "Error creating data source {0} with the driver {1}",
                             dataSourceConfig.Code, dataSourceConfig.Driver);
@@ -319,7 +319,7 @@ namespace Scada.Comm.Engine
                     }
                     catch (Exception ex)
                     {
-                        Log.WriteException(ex, CommonPhrases.LogicCycleError);
+                        Log.WriteError(ex, CommonPhrases.LogicCycleError);
                     }
                     finally
                     {
@@ -329,7 +329,7 @@ namespace Scada.Comm.Engine
             }
             catch (Exception ex)
             {
-                Log.WriteException(ex, CommonPhrases.ThreadFatalError);
+                Log.WriteError(ex, CommonPhrases.ThreadFatalError);
             }
             finally
             {
@@ -381,7 +381,7 @@ namespace Scada.Comm.Engine
             }
             catch (Exception ex)
             {
-                Log.WriteException(ex, Locale.IsRussian ?
+                Log.WriteError(ex, Locale.IsRussian ?
                     "Ошибка при создании линии связи {0}" :
                     "Error creating communication line {0}", lineConfig.Title);
                 return null;
@@ -411,7 +411,7 @@ namespace Scada.Comm.Engine
             }
             catch (Exception ex)
             {
-                Log.WriteException(ex, Locale.IsRussian ?
+                Log.WriteError(ex, Locale.IsRussian ?
                     "Ошибка при запуске линий связи" :
                     "Error starting communication lines");
             }
@@ -461,7 +461,7 @@ namespace Scada.Comm.Engine
             }
             catch (Exception ex)
             {
-                Log.WriteException(ex, Locale.IsRussian ?
+                Log.WriteError(ex, Locale.IsRussian ?
                     "Ошибка при остановке линий связи" :
                     "Error stopping communication lines");
             }
@@ -591,7 +591,7 @@ namespace Scada.Comm.Engine
             }
             catch (Exception ex)
             {
-                Log.WriteException(ex, Locale.IsRussian ?
+                Log.WriteError(ex, Locale.IsRussian ?
                     "Ошибка при запуске линии связи {0}" :
                     "Error starting communication line {0}", commLineNum);
             }
@@ -644,7 +644,7 @@ namespace Scada.Comm.Engine
             }
             catch (Exception ex)
             {
-                Log.WriteException(ex, Locale.IsRussian ?
+                Log.WriteError(ex, Locale.IsRussian ?
                     "Ошибка при остановке линии связи {0}" :
                     "Error stopping communication line {0}", commLine.Title);
             }
@@ -755,7 +755,7 @@ namespace Scada.Comm.Engine
             }
             catch (Exception ex)
             {
-                Log.WriteException(ex, CommonPhrases.WriteInfoError);
+                Log.WriteError(ex, CommonPhrases.WriteInfoError);
             }
         }
 
@@ -783,7 +783,7 @@ namespace Scada.Comm.Engine
             }
             catch (Exception ex)
             {
-                Log.WriteException(ex, CommonPhrases.StartLogicError);
+                Log.WriteError(ex, CommonPhrases.StartLogicError);
                 return false;
             }
             finally
@@ -820,7 +820,7 @@ namespace Scada.Comm.Engine
             {
                 serviceStatus = ServiceStatus.Error;
                 WriteInfo();
-                Log.WriteException(ex, CommonPhrases.StopLogicError);
+                Log.WriteError(ex, CommonPhrases.StopLogicError);
             }
         }
 
@@ -893,7 +893,7 @@ namespace Scada.Comm.Engine
             }
             catch (Exception ex)
             {
-                Log.WriteException(ex, Locale.IsRussian ?
+                Log.WriteError(ex, Locale.IsRussian ?
                     "Ошибка при обработке команды ТУ" :
                     "Error processing telecontrol command");
             }

@@ -73,7 +73,7 @@ namespace Scada.Comm.Engine
             }
             catch (Exception ex)
             {
-                log.WriteException(ex, CommPhrases.ErrorInChannel, nameof(Start), ChannelLogic.Title);
+                log.WriteError(ex, CommPhrases.ErrorInChannel, nameof(Start), ChannelLogic.Title);
                 return false;
             }
         }
@@ -93,7 +93,7 @@ namespace Scada.Comm.Engine
             }
             catch (Exception ex)
             {
-                log.WriteException(ex, CommPhrases.ErrorInChannel, nameof(Stop), ChannelLogic.Title);
+                log.WriteError(ex, CommPhrases.ErrorInChannel, nameof(Stop), ChannelLogic.Title);
             }
         }
 
@@ -112,7 +112,7 @@ namespace Scada.Comm.Engine
             }
             catch (Exception ex)
             {
-                log.WriteException(ex, CommPhrases.ErrorInChannel, nameof(BeforeSession), ChannelLogic.Title);
+                log.WriteError(ex, CommPhrases.ErrorInChannel, nameof(BeforeSession), ChannelLogic.Title);
             }
         }
 
@@ -131,7 +131,7 @@ namespace Scada.Comm.Engine
             }
             catch (Exception ex)
             {
-                log.WriteException(ex, CommPhrases.ErrorInChannel, nameof(AfterSession), ChannelLogic.Title);
+                log.WriteError(ex, CommPhrases.ErrorInChannel, nameof(AfterSession), ChannelLogic.Title);
             }
         }
     }

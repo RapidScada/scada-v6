@@ -147,7 +147,7 @@ namespace Scada.Comm.Engine
                 }
                 catch (Exception ex)
                 {
-                    log.WriteException(ex, CommPhrases.ErrorInDataSource, nameof(MakeReady), dataSourceLogic.Code);
+                    log.WriteError(ex, CommPhrases.ErrorInDataSource, nameof(MakeReady), dataSourceLogic.Code);
                 }
             }
         }
@@ -166,7 +166,7 @@ namespace Scada.Comm.Engine
                 }
                 catch (Exception ex)
                 {
-                    log.WriteException(ex, CommPhrases.ErrorInDataSource, nameof(Start), dataSourceLogic.Code);
+                    log.WriteError(ex, CommPhrases.ErrorInDataSource, nameof(Start), dataSourceLogic.Code);
                 }
             }
         }
@@ -185,7 +185,7 @@ namespace Scada.Comm.Engine
                 }
                 catch (Exception ex)
                 {
-                    log.WriteException(ex, CommPhrases.ErrorInDataSource, nameof(Close), dataSourceLogic.Code);
+                    log.WriteError(ex, CommPhrases.ErrorInDataSource, nameof(Close), dataSourceLogic.Code);
                 }
             }
         }
@@ -207,7 +207,7 @@ namespace Scada.Comm.Engine
                 }
                 catch (Exception ex)
                 {
-                    log.WriteException(ex, CommPhrases.ErrorInDataSource, nameof(ReadBase), dataSourceLogic.Code);
+                    log.WriteError(ex, CommPhrases.ErrorInDataSource, nameof(ReadBase), dataSourceLogic.Code);
                 }
             }
 
@@ -229,7 +229,7 @@ namespace Scada.Comm.Engine
                 }
                 catch (Exception ex)
                 {
-                    log.WriteException(ex, CommPhrases.ErrorInDataSource, 
+                    log.WriteError(ex, CommPhrases.ErrorInDataSource, 
                         nameof(WriteCurrentData), dataSourceLogic.Code);
                 }
             }
@@ -249,7 +249,7 @@ namespace Scada.Comm.Engine
                 }
                 catch (Exception ex)
                 {
-                    log.WriteException(ex, CommPhrases.ErrorInDataSource, 
+                    log.WriteError(ex, CommPhrases.ErrorInDataSource, 
                         nameof(WriteHistoricalData), dataSourceLogic.Code);
                 }
             }
@@ -269,7 +269,7 @@ namespace Scada.Comm.Engine
                 }
                 catch (Exception ex)
                 {
-                    log.WriteException(ex, CommPhrases.ErrorInDataSource, nameof(WriteEvent), dataSourceLogic.Code);
+                    log.WriteError(ex, CommPhrases.ErrorInDataSource, nameof(WriteEvent), dataSourceLogic.Code);
                 }
             }
         }

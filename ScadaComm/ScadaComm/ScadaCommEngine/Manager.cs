@@ -82,7 +82,7 @@ namespace Scada.Comm.Engine
         /// </summary>
         private void OnUnhandledException(object sender, UnhandledExceptionEventArgs args)
         {
-            log.WriteException(args.ExceptionObject as Exception, CommonPhrases.UnhandledException);
+            log.WriteError(args.ExceptionObject as Exception, CommonPhrases.UnhandledException);
         }
 
 
