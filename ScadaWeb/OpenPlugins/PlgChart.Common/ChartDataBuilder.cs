@@ -255,9 +255,9 @@ namespace Scada.Web.Plugins.PlgChart
             try
             {
                 if (cnlCnt == 1)
-                    singleTrend = scadaClient.GetTrend(options.CnlNums[0], options.TimeRange, options.ArchiveBit);
+                    singleTrend = scadaClient.GetTrend(options.ArchiveBit, options.TimeRange, options.CnlNums[0]);
                 else if (cnlCnt > 1)
-                    trendBundle = scadaClient.GetTrends(options.CnlNums, options.TimeRange, options.ArchiveBit);
+                    trendBundle = scadaClient.GetTrends(options.ArchiveBit, options.TimeRange, options.CnlNums);
             }
             catch (Exception ex)
             {

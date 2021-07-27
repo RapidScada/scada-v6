@@ -186,7 +186,7 @@ namespace Scada.Web.Plugins.PlgMain.Controllers
             {
                 // request trends
                 TrendBundle trendBundle = clientAccessor.ScadaClient.GetTrends(
-                    cnlNums.ToArray(), timeRange, archiveBit);
+                    archiveBit, timeRange, cnlNums.ToArray());
 
                 // copy timestamps
                 int pointCount = trendBundle.Timestamps.Count;
@@ -228,8 +228,8 @@ namespace Scada.Web.Plugins.PlgMain.Controllers
             DataFilter filter, long filterID, bool useCache)
         {
             List<Event> events = filterID > 0
-                ? clientAccessor.ScadaClient.GetEvents(timeRange, ref filterID, archiveBit)
-                : clientAccessor.ScadaClient.GetEvents(timeRange, filter, archiveBit, useCache, out filterID);
+                ? clientAccessor.ScadaClient.GetEvents(archiveBit, timeRange, ref filterID)
+                : clientAccessor.ScadaClient.GetEvents(archiveBit, timeRange, filter, useCache, out filterID);
 
             int eventCnt = events.Count;
             EventRecord[] records = new EventRecord[eventCnt];
