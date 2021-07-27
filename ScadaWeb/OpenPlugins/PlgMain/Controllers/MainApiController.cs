@@ -138,7 +138,7 @@ namespace Scada.Web.Plugins.PlgMain.Controllers
             { 
                 ServerTime = TimeRecord.Create(DateTime.UtcNow, userContext.TimeZone),
                 Records = records, 
-                CnlListID = 0 
+                CnlListID = "0"
             };
 
             if (cnlCnt > 0)
@@ -146,7 +146,7 @@ namespace Scada.Web.Plugins.PlgMain.Controllers
                 CnlData[] cnlDataArr = cnlListID > 0
                     ? clientAccessor.ScadaClient.GetCurrentData(ref cnlListID)
                     : clientAccessor.ScadaClient.GetCurrentData(cnlNums.ToArray(), useCache, out cnlListID);
-                curData.CnlListID = cnlListID;
+                curData.CnlListID = cnlListID.ToString();
 
                 for (int i = 0; i < cnlCnt; i++)
                 {
@@ -248,7 +248,7 @@ namespace Scada.Web.Plugins.PlgMain.Controllers
             return new EventPacket
             {
                 Records = records,
-                FilterID = filterID
+                FilterID = filterID.ToString()
             };
         }
 
@@ -299,7 +299,7 @@ namespace Scada.Web.Plugins.PlgMain.Controllers
                 CurData curData = RequestCurData(cnlNums, 0, useCache);
 
                 // write channel list to the cache
-                if (useCache && curData.CnlListID >= 0)
+                if (useCache && curData.CnlListID != "0")
                 {
                     memoryCache.Set(
                         PluginUtils.GetCacheKey("CnlList", curData.CnlListID),

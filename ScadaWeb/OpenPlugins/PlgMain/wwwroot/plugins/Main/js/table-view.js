@@ -38,6 +38,7 @@ var mainApi = new MainApi();
 var localDate = "";
 var timeRange = null;
 var serverTime = null;
+var cnlListID = 0;
 var arcWriteTime = 0;
 var curCells = []; // array of CellMeta
 var histCols = []; // array of HistColMeta
@@ -211,9 +212,10 @@ function startUpdatingHistData() {
 }
 
 function updateCurData(callback) {
-    mainApi.getCurDataByView(viewID, 0, function (dto) {
+    mainApi.getCurDataByView(viewID, cnlListID, function (dto) {
         if (dto.ok) {
             checkNewDate(dto.data.serverTime);
+            cnlListID = dto.data.cnlListID;
         } else {
             showErrorBadge();
         }

@@ -19,6 +19,7 @@ namespace Scada.Web.Plugins.PlgMain.Models
         /// <summary>
         /// Gets or sets the ID of the event filter on the server.
         /// </summary>
-        public long FilterID { get; set; }
+        /// <remarks>String is used instead of long because JavaScript unable to decode long.</remarks>
+        public string FilterID { get; set; }
     }
 }

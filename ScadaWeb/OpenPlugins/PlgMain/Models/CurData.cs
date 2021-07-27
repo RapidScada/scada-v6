@@ -24,6 +24,7 @@ namespace Scada.Web.Plugins.PlgMain.Models
         /// <summary>
         /// Gets or sets the ID of the cached channel list on the server.
         /// </summary>
-        public long CnlListID { get; set; }
+        /// <remarks>String is used instead of long because JavaScript unable to decode long.</remarks>
+        public string CnlListID { get; set; }
     }
 }

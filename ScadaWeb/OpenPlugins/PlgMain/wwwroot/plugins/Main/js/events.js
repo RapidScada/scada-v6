@@ -1,4 +1,6 @@
-﻿function updateLayout() {
+﻿var arcWriteTime = 0;
+
+function updateLayout() {
     let h = $(window).height() - $("#divToolbar").outerHeight();
     $("#divTableWrapper").outerHeight(h);
     $("#divLoading").outerHeight(h);
@@ -13,13 +15,13 @@ function updateEvents(callback) {
 
                 if (arcWriteTime !== newArcWriteTime) {
                     // request events
-                    mainApi.getHistDataByView(viewID, timeRange, archiveBit, function (dto) {
+                    mainApi.getLastEventsByView(viewHub.viewID, 100, 0, 2, archiveBit, function (dto) {
                         if (!dto.ok) {
                             showErrorBadge();
                         }
 
                         arcWriteTime = newArcWriteTime;
-                        showHistData(dto.data);
+                        //showEvents(dto.data);
                         callback();
                     });
                 } else {
