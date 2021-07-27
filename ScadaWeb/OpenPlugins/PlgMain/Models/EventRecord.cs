@@ -1,8 +1,7 @@
 ﻿// Copyright (c) Rapid Software LLC. All rights reserved.
 // Licensed under the Apache License, Version 2.0. See License.txt in the project root for license information.
 
-using System;
-using System.Collections.Generic;
+using Scada.Data.Models;
 
 namespace Scada.Web.Plugins.PlgMain.Models
 {
@@ -12,5 +11,19 @@ namespace Scada.Web.Plugins.PlgMain.Models
     /// </summary>
     public struct EventRecord
     {
+        /// <summary>
+        /// Gets or sets the event.
+        /// </summary>
+        public Event E { get; set; }
+
+        /// <summary>
+        /// Gets or sets the formatted event.
+        /// </summary>
+        public EventFormatted Ef { get; set; }
+
+        /// <summary>
+        /// Gets or sets the event time.
+        /// </summary>
+        public TimeRecord T { get; set; }
     }
 }

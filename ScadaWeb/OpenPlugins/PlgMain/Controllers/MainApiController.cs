@@ -6,7 +6,6 @@ using Microsoft.Extensions.Caching.Memory;
 using Scada.Data.Entities;
 using Scada.Data.Models;
 using Scada.Data.Tables;
-using Scada.Log;
 using Scada.Web.Api;
 using Scada.Web.Authorization;
 using Scada.Web.Lang;
@@ -115,18 +114,8 @@ namespace Scada.Web.Plugins.PlgMain.Controllers
         private static DataFilter GetEventFilter(BaseView view, int limit)
         {
             DataFilter dataFilter = new(typeof(Event)) { Limit = limit };
-            // TODO: OR operator
-
-            foreach (int cnlNum in view.CnlNumList)
-            {
-                dataFilter.AddCondition("CnlNum", FilterOperator.Equals, cnlNum);
-            }
-
-            foreach (int outCnlNum in view.OutCnlNumList)
-            {
-                dataFilter.AddCondition("OutCnlNum", FilterOperator.Equals, outCnlNum);
-            }
-
+            dataFilter.AddCondition("CnlNum", FilterOperator.In, view.CnlNumList);
+            dataFilter.AddCondition("OutCnlNum", FilterOperator.In, view.OutCnlNumList);
             return dataFilter;
         }
 
@@ -162,13 +151,12 @@ namespace Scada.Web.Plugins.PlgMain.Controllers
                 for (int i = 0; i < cnlCnt; i++)
                 {
                     int cnlNum = cnlNums[i];
-                    InCnl inCnl = webContext.BaseDataSet.InCnlTable.GetItem(cnlNum);
                     CnlData cnlData = i < cnlDataArr.Length ? cnlDataArr[i] : CnlData.Empty;
 
                     records[i] = new CurDataRecord
                     {
                         D = new CurDataPoint(cnlNum, cnlData),
-                        Df = webContext.DataFormatter.FormatCnlData(cnlData, inCnl)
+                        Df = webContext.DataFormatter.FormatCnlData(cnlData, cnlNum)
                     };
                 }
             }
@@ -248,7 +236,13 @@ namespace Scada.Web.Plugins.PlgMain.Controllers
 
             for (int i = 0; i < eventCnt; i++)
             {
-                records[i] = new EventRecord();
+                Event ev = events[i];
+                records[i] = new EventRecord
+                {
+                    E = ev,
+                    Ef = webContext.DataFormatter.FormatEvent(ev),
+                    T = TimeRecord.Create(ev.Timestamp, userContext.TimeZone)
+                };
             }
 
             return new EventPacket
