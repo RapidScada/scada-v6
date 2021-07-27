@@ -215,15 +215,15 @@ namespace Scada.Client
         /// <summary>
         /// Gets the trends of the specified input channels.
         /// </summary>
-        public TrendBundle GetTrends(int[] cnlNums, TimeRange timeRange, int archiveBit)
+        public TrendBundle GetTrends(int archiveBit, TimeRange timeRange, int[] cnlNums)
         {
             RestoreConnection();
 
             DataPacket request = CreateRequest(FunctionID.GetTrends);
             int index = ArgumentIndex;
-            CopyIntArray(cnlNums, outBuf, ref index);
-            CopyTimeRange(timeRange, outBuf, ref index);
             CopyByte((byte)archiveBit, outBuf, ref index);
+            CopyTimeRange(timeRange, outBuf, ref index);
+            CopyIntArray(cnlNums, outBuf, ref index);
             request.BufferLength = index;
             SendRequest(request);
 
@@ -276,16 +276,16 @@ namespace Scada.Client
         /// <summary>
         /// Gets the trend of the specified input channel.
         /// </summary>
-        public Trend GetTrend(int cnlNum, TimeRange timeRange, int archiveBit)
+        public Trend GetTrend(int archiveBit, TimeRange timeRange, int cnlNum)
         {
             RestoreConnection();
 
             DataPacket request = CreateRequest(FunctionID.GetTrends);
             int index = ArgumentIndex;
+            CopyByte((byte)archiveBit, outBuf, ref index);
+            CopyTimeRange(timeRange, outBuf, ref index);
             CopyInt32(1, outBuf, ref index);
             CopyInt32(cnlNum, outBuf, ref index);
-            CopyTimeRange(timeRange, outBuf, ref index);
-            CopyByte((byte)archiveBit, outBuf, ref index);
             request.BufferLength = index;
             SendRequest(request);
 
@@ -331,14 +331,14 @@ namespace Scada.Client
         /// <summary>
         /// Gets the available timestamps.
         /// </summary>
-        public List<DateTime> GetTimestamps(TimeRange timeRange, int archiveBit)
+        public List<DateTime> GetTimestamps(int archiveBit, TimeRange timeRange)
         {
             RestoreConnection();
 
             DataPacket request = CreateRequest(FunctionID.GetTimestamps);
             int index = ArgumentIndex;
-            CopyTimeRange(timeRange, outBuf, ref index);
             CopyByte((byte)archiveBit, outBuf, ref index);
+            CopyTimeRange(timeRange, outBuf, ref index);
             request.BufferLength = index;
             SendRequest(request);
 
@@ -358,15 +358,15 @@ namespace Scada.Client
         /// <summary>
         /// Gets the slice of the specified input channels at the timestamp.
         /// </summary>
-        public Slice GetSlice(int[] cnlNums, DateTime timestamp, int archiveBit)
+        public Slice GetSlice(int archiveBit, DateTime timestamp, int[] cnlNums)
         {
             RestoreConnection();
 
             DataPacket request = CreateRequest(FunctionID.GetSlice);
             int index = ArgumentIndex;
-            CopyIntArray(cnlNums, outBuf, ref index);
-            CopyTime(timestamp, outBuf, ref index);
             CopyByte((byte)archiveBit, outBuf, ref index);
+            CopyTime(timestamp, outBuf, ref index);
+            CopyIntArray(cnlNums, outBuf, ref index);
             request.BufferLength = index;
             SendRequest(request);
 
@@ -399,7 +399,7 @@ namespace Scada.Client
         /// <summary>
         /// Writes the current data.
         /// </summary>
-        public void WriteCurrentData(int deviceNum, int[] cnlNums, CnlData[] cnlData, bool applyFormulas)
+        public void WriteCurrentData(int[] cnlNums, CnlData[] cnlData, int deviceNum, bool applyFormulas)
         {
             if (cnlNums == null)
                 throw new ArgumentNullException(nameof(cnlNums));
@@ -410,8 +410,6 @@ namespace Scada.Client
 
             DataPacket request = CreateRequest(FunctionID.WriteCurrentData);
             int index = ArgumentIndex;
-            CopyInt32(deviceNum, outBuf, ref index);
-
             int cnlCnt = cnlNums.Length;
             CopyInt32(cnlCnt, outBuf, ref index);
 
@@ -423,6 +421,7 @@ namespace Scada.Client
             }
 
             index += cnlCnt * 14;
+            CopyInt32(deviceNum, outBuf, ref index);
             CopyBool(applyFormulas, outBuf, ref index);
             request.BufferLength = index;
             SendRequest(request);
@@ -432,7 +431,7 @@ namespace Scada.Client
         /// <summary>
         /// Writes the historical data.
         /// </summary>
-        public void WriteHistoricalData(int deviceNum, Slice slice, int archiveMask, bool applyFormulas)
+        public void WriteHistoricalData(int archiveMask, Slice slice, int deviceNum, bool applyFormulas)
         {
             if (slice == null)
                 throw new ArgumentNullException(nameof(slice));
@@ -441,9 +440,8 @@ namespace Scada.Client
 
             DataPacket request = CreateRequest(FunctionID.WriteHistoricalData);
             int index = ArgumentIndex;
-            CopyInt32(deviceNum, outBuf, ref index);
+            CopyInt32(archiveMask, outBuf, ref index);
             CopyTime(slice.Timestamp, outBuf, ref index);
-
             int cnlCnt = slice.CnlNums.Length;
             CopyInt32(cnlCnt, outBuf, ref index);
 
@@ -455,7 +453,7 @@ namespace Scada.Client
             }
 
             index += cnlCnt * 14;
-            CopyInt32(archiveMask, outBuf, ref index);
+            CopyInt32(deviceNum, outBuf, ref index);
             CopyBool(applyFormulas, outBuf, ref index);
             request.BufferLength = index;
             SendRequest(request);
@@ -465,14 +463,14 @@ namespace Scada.Client
         /// <summary>
         /// Gets the event by ID.
         /// </summary>
-        public Event GetEventByID(long eventID, int archiveBit)
+        public Event GetEventByID(int archiveBit, long eventID)
         {
             RestoreConnection();
 
             DataPacket request = CreateRequest(FunctionID.GetEventByID);
             int index = ArgumentIndex;
-            CopyInt64(eventID, outBuf, ref index);
             CopyByte((byte)archiveBit, outBuf, ref index);
+            CopyInt64(eventID, outBuf, ref index);
             request.BufferLength = index;
             SendRequest(request);
 
@@ -484,18 +482,18 @@ namespace Scada.Client
         /// <summary>
         /// Gets the events ordered by timestamp.
         /// </summary>
-        public List<Event> GetEvents(TimeRange timeRange, DataFilter filter, int archiveBit,
+        public List<Event> GetEvents(int archiveBit, TimeRange timeRange, DataFilter filter,
             bool useCache, out long filterID)
         {
             RestoreConnection();
 
             DataPacket request = CreateRequest(FunctionID.GetEvents);
             int index = ArgumentIndex;
+            CopyByte((byte)archiveBit, outBuf, ref index);
             CopyTimeRange(timeRange, outBuf, ref index);
             CopyInt64(0, outBuf, ref index);
             CopyBool(useCache, outBuf, ref index);
             CopyDataFilter(filter, outBuf, ref index);
-            CopyByte((byte)archiveBit, outBuf, ref index);
             request.BufferLength = index;
             SendRequest(request);
 
@@ -505,15 +503,15 @@ namespace Scada.Client
         /// <summary>
         /// Gets the events ordered by timestamp.
         /// </summary>
-        public List<Event> GetEvents(TimeRange timeRange, ref long filterID, int archiveBit)
+        public List<Event> GetEvents(int archiveBit, TimeRange timeRange, ref long filterID)
         {
             RestoreConnection();
 
             DataPacket request = CreateRequest(FunctionID.GetEvents);
             int index = ArgumentIndex;
+            CopyByte((byte)archiveBit, outBuf, ref index);
             CopyTimeRange(timeRange, outBuf, ref index);
             CopyInt64(filterID, outBuf, ref index);
-            CopyByte((byte)archiveBit, outBuf, ref index);
             request.BufferLength = index;
             SendRequest(request);
 
@@ -523,7 +521,7 @@ namespace Scada.Client
         /// <summary>
         /// Writes the event.
         /// </summary>
-        public void WriteEvent(Event ev, int archiveMask)
+        public void WriteEvent(int archiveMask, Event ev)
         {
             if (ev == null)
                 throw new ArgumentNullException(nameof(ev));
@@ -532,8 +530,8 @@ namespace Scada.Client
 
             DataPacket request = CreateRequest(FunctionID.WriteEvent);
             int index = ArgumentIndex;
-            CopyEvent(ev, outBuf, ref index);
             CopyInt32(archiveMask, outBuf, ref index);
+            CopyEvent(ev, outBuf, ref index);
             request.BufferLength = index;
             SendRequest(request);
 
