@@ -329,16 +329,18 @@ namespace Scada
                 eventFormatted.Cnl = baseDataSet.OutCnlTable.GetItem(ev.OutCnlNum)?.Name ?? "";
 
             // description in the form:
-            // Value (Status). Custom text
+            // Status, Value. Custom text
             CnlDataFormatted dataFormatted = FormatCnlData(new CnlData(ev.CnlVal, ev.CnlStat), inCnl);
             StringBuilder sbDescr = new StringBuilder();
 
             if (ev.TextFormat == EventTextFormat.Full || ev.TextFormat == EventTextFormat.AutoText)
             {
-                sbDescr.Append(dataFormatted.DispVal);
+                string statusName = baseDataSet.CnlStatusTable.GetItem(ev.CnlStat)?.Name;
 
-                if (baseDataSet.CnlStatusTable.GetItem(ev.CnlStat) is CnlStatus cnlStatus)
-                    sbDescr.Append(" (").Append(cnlStatus.Name).Append(')');
+                if (string.IsNullOrEmpty(statusName))
+                    statusName = (Locale.IsRussian ? "Статус " : "Status ") + ev.CnlStat;
+
+                sbDescr.Append(statusName).Append(", ").Append(dataFormatted.DispVal);
             }
 
             if (!string.IsNullOrEmpty(ev.Text))

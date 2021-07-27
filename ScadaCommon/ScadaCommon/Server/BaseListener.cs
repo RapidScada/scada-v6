@@ -1011,7 +1011,7 @@ namespace Scada.Server
                             sb.Append(" (").Append(roleName).Append(")");
                     }
 
-                    sb.Append("; ").Append(client.ActivityTime.ToLocalTime().ToLocalizedTimeString());
+                    sb.Append("; ").AppendLine(client.ActivityTime.ToLocalTime().ToLocalizedTimeString());
                 }
             }
             else
