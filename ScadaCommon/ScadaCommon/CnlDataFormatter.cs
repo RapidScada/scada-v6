@@ -16,7 +16,7 @@
  * 
  * Product  : Rapid SCADA
  * Module   : ScadaCommon
- * Summary  : Formats channel data for display
+ * Summary  : Formats channel and event data for display
  * 
  * Author   : Mikhail Shiryaev
  * Created  : 2016
@@ -31,12 +31,13 @@ using Scada.Lang;
 using System;
 using System.Collections.Generic;
 using System.Globalization;
+using System.Text;
 
 namespace Scada
 {
     /// <summary>
-    /// Formats channel data for display.
-    /// <para>Форматирует данные канала для отображения.</para>
+    /// Formats channel and event data for display.
+    /// <para>Форматирует данные канала и события для отображения.</para>
     /// </summary>
     public class CnlDataFormatter
     {
@@ -97,13 +98,9 @@ namespace Scada
         /// </summary>
         protected readonly CultureInfo culture;
         /// <summary>
-        /// The channel status table.
+        /// The configuration database.
         /// </summary>
-        protected readonly BaseTable<CnlStatus> cnlStatusTable;
-        /// <summary>
-        /// The format table.
-        /// </summary>
-        protected readonly BaseTable<Format> formatTable;
+        protected readonly BaseDataSet baseDataSet;
         /// <summary>
         /// The dictionary containing the enumeration colors.
         /// </summary>
@@ -115,12 +112,8 @@ namespace Scada
         /// </summary>
         public CnlDataFormatter(BaseDataSet baseDataSet)
         {
-            if (baseDataSet == null)
-                throw new ArgumentNullException(nameof(baseDataSet));
-
             culture = Locale.Culture;
-            cnlStatusTable = baseDataSet.CnlStatusTable;
-            formatTable = baseDataSet.FormatTable;
+            this.baseDataSet = baseDataSet ?? throw new ArgumentNullException(nameof(baseDataSet));
             enumFormats = new Dictionary<int, EnumFormat>();
             FillEnumColors();
         }
@@ -131,7 +124,7 @@ namespace Scada
         /// </summary>
         protected void FillEnumColors()
         {
-            foreach (Format format in formatTable.EnumerateItems())
+            foreach (Format format in baseDataSet.FormatTable.EnumerateItems())
             {
                 if (format.IsEnum && !string.IsNullOrEmpty(format.Frmt))
                 {
@@ -254,7 +247,7 @@ namespace Scada
         {
             CnlDataFormatted cnlDataFormatted = new CnlDataFormatted();
             int dataTypeID = inCnl?.DataTypeID ?? DataTypeID.Double;
-            Format format = inCnl?.FormatID == null ? null : formatTable.GetItem(inCnl.FormatID.Value);            
+            Format format = inCnl?.FormatID == null ? null : baseDataSet.FormatTable.GetItem(inCnl.FormatID.Value);
             EnumFormat enumFormat = null;
 
             if (format != null && format.IsEnum)
@@ -285,7 +278,7 @@ namespace Scada
             try
             {
                 // color determined by status
-                CnlStatus cnlStatus = cnlStatusTable.GetItem(cnlData.Stat);
+                CnlStatus cnlStatus = baseDataSet.CnlStatusTable.GetItem(cnlData.Stat);
                 cnlDataFormatted.SetColors(cnlStatus);
 
                 // color determined by value
@@ -302,6 +295,72 @@ namespace Scada
             }
 
             return cnlDataFormatted;
+        }
+
+        /// <summary>
+        /// Formats the input channel data according to the channel properties.
+        /// </summary>
+        public CnlDataFormatted FormatCnlData(CnlData cnlData, int cnlNum)
+        {
+            return FormatCnlData(cnlData, cnlNum > 0 ? baseDataSet.InCnlTable.GetItem(cnlNum) : null);
+        }
+
+        /// <summary>
+        /// Formats the event according to the channel properties.
+        /// </summary>
+        public EventFormatted FormatEvent(Event ev)
+        {
+            EventFormatted eventFormatted = new EventFormatted();
+
+            // object
+            if (ev.ObjNum > 0)
+                eventFormatted.Obj = baseDataSet.ObjTable.GetItem(ev.ObjNum)?.Name ?? "";
+
+            // device
+            if (ev.DeviceNum > 0)
+                eventFormatted.Dev = baseDataSet.DeviceTable.GetItem(ev.DeviceNum)?.Name ?? "";
+
+            // channel
+            InCnl inCnl = ev.CnlNum > 0 ? baseDataSet.InCnlTable.GetItem(ev.CnlNum) : null;
+
+            if (inCnl != null)
+                eventFormatted.Cnl = inCnl.Name ?? "";
+            else if (ev.OutCnlNum > 0)
+                eventFormatted.Cnl = baseDataSet.OutCnlTable.GetItem(ev.OutCnlNum)?.Name ?? "";
+
+            // description in the form:
+            // Value (Status). Custom text
+            CnlDataFormatted dataFormatted = FormatCnlData(new CnlData(ev.CnlVal, ev.CnlStat), inCnl);
+            StringBuilder sbDescr = new StringBuilder();
+
+            if (ev.TextFormat == EventTextFormat.Full || ev.TextFormat == EventTextFormat.AutoText)
+            {
+                sbDescr.Append(dataFormatted.DispVal);
+
+                if (baseDataSet.CnlStatusTable.GetItem(ev.CnlStat) is CnlStatus cnlStatus)
+                    sbDescr.Append(" (").Append(cnlStatus.Name).Append(')');
+            }
+
+            if (!string.IsNullOrEmpty(ev.Text))
+            {
+                if (ev.TextFormat == EventTextFormat.Full)
+                    sbDescr.Append(". ");
+
+                if (ev.TextFormat == EventTextFormat.Full || ev.TextFormat == EventTextFormat.CustomText)
+                    sbDescr.Append(ev.Text);
+            }
+
+            eventFormatted.Descr = sbDescr.ToString();
+
+            // acknowledgement
+            if (ev.Ack)
+                eventFormatted.Ack = baseDataSet.UserTable.GetItem(ev.AckUserID)?.Name ?? "";
+
+            // color
+            if (dataFormatted.Colors.Length > 0)
+                eventFormatted.Color = dataFormatted.Colors[0];
+
+            return eventFormatted;
         }
     }
 }
