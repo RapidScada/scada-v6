@@ -306,7 +306,7 @@ namespace Scada.Comm.Drivers.DrvDsOpcUaServer.Logic
             }
             catch (Exception ex)
             {
-                log.WriteException(ex, Locale.IsRussian ?
+                log.WriteError(ex, Locale.IsRussian ?
                     "Ошибка при установке значения переменной {0}" :
                     "Error setting the variable {0}", varItem.Variable.NodeId);
             }
@@ -369,7 +369,7 @@ namespace Scada.Comm.Drivers.DrvDsOpcUaServer.Logic
             }
             catch (Exception ex)
             {
-                log.WriteException(ex, Locale.IsRussian ?
+                log.WriteError(ex, Locale.IsRussian ?
                     "Ошибка при записи переменной {0}" :
                     "Error writing the variable {0}", varPath);
                 return new ServiceResult(StatusCodes.Bad);
@@ -480,7 +480,7 @@ namespace Scada.Comm.Drivers.DrvDsOpcUaServer.Logic
             }
             catch (Exception ex)
             {
-                log.WriteException(ex, Locale.IsRussian ?
+                log.WriteError(ex, Locale.IsRussian ?
                     "Ошибка при создании адресного пространства" :
                     "Error creating address space");
                 throw;

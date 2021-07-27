@@ -147,7 +147,7 @@ namespace Scada.Comm.Drivers.DrvDsScadaServer.Logic
             }
             catch (Exception ex)
             {
-                log.WriteException(ex, CommPhrases.DataSourceMessage, Code, Locale.IsRussian ?
+                log.WriteError(ex, CommPhrases.DataSourceMessage, Code, Locale.IsRussian ?
                     "Ошибка при приёме команд ТУ" :
                     "Error receiving telecontrol commands");
             }
@@ -166,7 +166,7 @@ namespace Scada.Comm.Drivers.DrvDsScadaServer.Logic
             }
             catch (Exception ex)
             {
-                log.WriteException(ex, CommPhrases.DataSourceMessage, Code, Locale.IsRussian ?
+                log.WriteError(ex, CommPhrases.DataSourceMessage, Code, Locale.IsRussian ?
                     "Ошибка при передаче данных" :
                     "Error transferring data");
             }
@@ -218,7 +218,7 @@ namespace Scada.Comm.Drivers.DrvDsScadaServer.Logic
                     }
                     catch (Exception ex)
                     {
-                        log.WriteException(ex, CommPhrases.DataSourceMessage, Code, Locale.IsRussian ?
+                        log.WriteError(ex, CommPhrases.DataSourceMessage, Code, Locale.IsRussian ?
                             "Ошибка при передаче текущих данных" :
                             "Error transferring current data");
 
@@ -279,7 +279,7 @@ namespace Scada.Comm.Drivers.DrvDsScadaServer.Logic
                     }
                     catch (Exception ex)
                     {
-                        log.WriteException(ex, CommPhrases.DataSourceMessage, Code, Locale.IsRussian ?
+                        log.WriteError(ex, CommPhrases.DataSourceMessage, Code, Locale.IsRussian ?
                             "Ошибка при передаче архивных данных" :
                             "Error transferring historical data");
 
@@ -340,7 +340,7 @@ namespace Scada.Comm.Drivers.DrvDsScadaServer.Logic
                     }
                     catch (Exception ex)
                     {
-                        log.WriteException(ex, CommPhrases.DataSourceMessage, Code, Locale.IsRussian ?
+                        log.WriteError(ex, CommPhrases.DataSourceMessage, Code, Locale.IsRussian ?
                             "Ошибка при передаче события" :
                             "Error transferring event");
 
@@ -409,7 +409,7 @@ namespace Scada.Comm.Drivers.DrvDsScadaServer.Logic
             }
             catch (Exception ex)
             {
-                log.WriteException(ex, CommPhrases.DataSourceMessage, Code, string.Format(Locale.IsRussian ?
+                log.WriteError(ex, CommPhrases.DataSourceMessage, Code, string.Format(Locale.IsRussian ?
                     "Ошибка при конвертировании среза от устройства {0}" :
                     "Error converting slice from the device {0}", srcSlice.DeviceNum));
                 destSlice = null;
@@ -428,7 +428,7 @@ namespace Scada.Comm.Drivers.DrvDsScadaServer.Logic
             }
             catch (Exception ex)
             {
-                log.WriteException(ex, CommPhrases.DataSourceMessage, Code, Locale.IsRussian ?
+                log.WriteError(ex, CommPhrases.DataSourceMessage, Code, Locale.IsRussian ?
                     "Ошибка при вызове метода среза DataSentCallback" :
                     "Error calling the DataSentCallback method of the slice");
             }
@@ -445,7 +445,7 @@ namespace Scada.Comm.Drivers.DrvDsScadaServer.Logic
             }
             catch (Exception ex)
             {
-                log.WriteException(ex, CommPhrases.DataSourceMessage, Code, Locale.IsRussian ?
+                log.WriteError(ex, CommPhrases.DataSourceMessage, Code, Locale.IsRussian ?
                     "Ошибка при вызове метода события EventSentCallback" :
                     "Error calling the EventSentCallback method of the event");
             }
@@ -462,7 +462,7 @@ namespace Scada.Comm.Drivers.DrvDsScadaServer.Logic
             }
             catch (Exception ex)
             {
-                log.WriteException(ex, CommPhrases.DataSourceMessage, Code, Locale.IsRussian ?
+                log.WriteError(ex, CommPhrases.DataSourceMessage, Code, Locale.IsRussian ?
                     "Ошибка при вызове метода среза FailedToSendCallback" :
                     "Error calling the FailedToSendCallback method of the slice");
             }
@@ -479,7 +479,7 @@ namespace Scada.Comm.Drivers.DrvDsScadaServer.Logic
             }
             catch (Exception ex)
             {
-                log.WriteException(ex, CommPhrases.DataSourceMessage, Code, Locale.IsRussian ?
+                log.WriteError(ex, CommPhrases.DataSourceMessage, Code, Locale.IsRussian ?
                     "Ошибка при вызове метода события FailedToSendCallback" :
                     "Error calling the FailedToSendCallback method of the event");
             }
@@ -583,7 +583,7 @@ namespace Scada.Comm.Drivers.DrvDsScadaServer.Logic
             }
             catch (Exception ex)
             {
-                log.WriteException(ex, CommPhrases.DataSourceMessage, Code, string.Format(Locale.IsRussian ?
+                log.WriteError(ex, CommPhrases.DataSourceMessage, Code, string.Format(Locale.IsRussian ?
                     "Ошибка при приёме базы конфигурации, таблица {0}" :
                     "Error receiving the configuration database, the {0} table", tableName));
                 baseDataSet = null;

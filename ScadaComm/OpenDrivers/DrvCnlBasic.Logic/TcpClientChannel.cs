@@ -129,7 +129,7 @@ namespace Scada.Comm.Drivers.DrvCnlBasic.Logic
                 }
                 catch (Exception ex)
                 {
-                    Log.WriteException(ex, Locale.IsRussian ?
+                    Log.WriteError(ex, Locale.IsRussian ?
                         "Ошибка при приёме данных через индивидуальное соединение" :
                         "Error receiving data over an individual connection");
                     Thread.Sleep(ScadaUtils.ThreadDelay);
@@ -162,7 +162,7 @@ namespace Scada.Comm.Drivers.DrvCnlBasic.Logic
                 }
                 catch (Exception ex)
                 {
-                    Log.WriteException(ex, Locale.IsRussian ?
+                    Log.WriteError(ex, Locale.IsRussian ?
                         "Ошибка при приёме данных через общее соединение" :
                         "Error receiving data over a shared connection");
                     Thread.Sleep(ScadaUtils.ThreadDelay);

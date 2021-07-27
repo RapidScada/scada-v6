@@ -149,7 +149,7 @@ namespace Scada.Comm.Drivers.DrvCnlBasic.Logic
                 }
                 catch (Exception ex)
                 {
-                    Log.WriteException(ex, Locale.IsRussian ?
+                    Log.WriteError(ex, Locale.IsRussian ?
                         "Ошибка при прослушивании последовательного порта" :
                         "Error listening to the serial port");
                     Thread.Sleep(ScadaUtils.ThreadDelay);

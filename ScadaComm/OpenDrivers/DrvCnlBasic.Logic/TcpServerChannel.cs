@@ -187,13 +187,13 @@ namespace Scada.Comm.Drivers.DrvCnlBasic.Logic
                 {
                     if (conn == null)
                     {
-                        Log.WriteException(ex, Locale.IsRussian ?
+                        Log.WriteError(ex, Locale.IsRussian ?
                             "Ошибка при взаимодействии с клиентами" :
                             "Error communicating with clients");
                     }
                     else
                     {
-                        Log.WriteException(ex, Locale.IsRussian ?
+                        Log.WriteError(ex, Locale.IsRussian ?
                             "Ошибка при взаимодействии с клиентом {0}" :
                             "Error communicating with the client {0}", conn.RemoteAddress);
                     }

@@ -161,7 +161,7 @@ namespace Scada.Comm.Drivers.DrvCnlBasic.Logic
             }
             catch (Exception ex)
             {
-                Log.WriteException(ex, Locale.IsRussian ?
+                Log.WriteError(ex, Locale.IsRussian ?
                     "Ошибка при закрытии последовательного порта" :
                     "Error closing serial port");
             }
@@ -178,7 +178,7 @@ namespace Scada.Comm.Drivers.DrvCnlBasic.Logic
             }
             catch (Exception ex)
             {
-                Log.WriteException(ex, Locale.IsRussian ?
+                Log.WriteError(ex, Locale.IsRussian ?
                     "Ошибка при сбросе входного буфера" :
                     "Error discarding input buffer");
             }
