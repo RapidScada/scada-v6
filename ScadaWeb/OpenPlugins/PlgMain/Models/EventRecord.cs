@@ -25,5 +25,11 @@ namespace Scada.Web.Plugins.PlgMain.Models
         /// Gets or sets the event time.
         /// </summary>
         public TimeRecord T { get; set; }
+
+        /// <summary>
+        /// Gets or sets the event ID as string.
+        /// </summary>
+        /// <remarks>String is used instead of long because JavaScript unable to decode long.</remarks>
+        public string Id { get; set; }
     }
 }

@@ -241,7 +241,8 @@ namespace Scada.Web.Plugins.PlgMain.Controllers
                 {
                     E = ev,
                     Ef = webContext.DataFormatter.FormatEvent(ev),
-                    T = TimeRecord.Create(ev.Timestamp, userContext.TimeZone)
+                    T = TimeRecord.Create(ev.Timestamp, userContext.TimeZone),
+                    Id = ev.EventID.ToString()
                 };
             }
 
