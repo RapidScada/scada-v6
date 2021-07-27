@@ -174,15 +174,15 @@ namespace Scada.Log
         {
             if (ex == null)
             {
-                WriteMessage(FormatText(text, args), LogMessageType.Exception);
+                WriteError(text, args);
             }
             else if (string.IsNullOrEmpty(text))
             {
-                WriteMessage(ex.ToString(), LogMessageType.Exception);
+                WriteMessage(ex.ToString(), LogMessageType.Error);
             }
             else
             {
-                WriteMessage(FormatText(text, args) + ":" + Environment.NewLine + ex, LogMessageType.Exception);
+                WriteMessage(FormatText(text, args) + ":" + Environment.NewLine + ex, LogMessageType.Error);
             }
         }
 

@@ -20,7 +20,7 @@
  * 
  * Author   : Mikhail Shiryaev
  * Created  : 2020
- * Modified : 2020
+ * Modified : 2021
  */
 
 namespace Scada.Log
@@ -49,11 +49,6 @@ namespace Scada.Log
         /// <summary>
         /// Error occurred.
         /// </summary>
-        Error,
-
-        /// <summary>
-        /// Exception occurred.
-        /// </summary>
-        Exception,
+        Error
     }
 }
