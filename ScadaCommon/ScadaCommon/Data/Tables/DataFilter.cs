@@ -119,6 +119,10 @@ namespace Scada.Data.Tables
             {
                 return false;
             }
+            else if (Conditions.Count == 0)
+            {
+                return true;
+            }
             else if (RequireAll)
             {
                 foreach (FilterCondition condition in Conditions)
