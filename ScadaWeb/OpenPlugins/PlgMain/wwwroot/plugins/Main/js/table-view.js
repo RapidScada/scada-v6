@@ -168,10 +168,8 @@ function initTooltips() {
 };
 
 function bindEvents() {
-    let thisObj = this;
-
     $(window).resize(function () {
-        thisObj.updateLayout();
+        updateLayout();
     });
 
     $("#localDate").change(function () {
@@ -234,12 +232,13 @@ function undateHistData(callback) {
                 if (arcWriteTime !== newArcWriteTime) {
                     // request historical data
                     mainApi.getHistDataByView(archiveBit, timeRange, viewID, function (dto) {
-                        if (!dto.ok) {
+                        if (dto.ok) {
+                            arcWriteTime = newArcWriteTime;
+                            showHistData(dto.data);
+                        } else {
                             showErrorBadge();
                         }
 
-                        arcWriteTime = newArcWriteTime;
-                        showHistData(dto.data);
                         callback();
                     });
                 } else {
@@ -282,34 +281,32 @@ function showCurData(data) {
 }
 
 function showHistData(data) {
-    if (data) {
-        let map = mainApi.mapCnlNums(data.cnlNums);
-        let startIdx = 0;
-        let prevColMeta = null;
+    let map = mainApi.mapCnlNums(data.cnlNums);
+    let startIdx = 0;
+    let prevColMeta = null;
 
-        for (let colMeta of histCols) {
-            if (colMeta.isVisible) {
-                let recordIdx = findRecordIndex(data.timestamps, colMeta.time, startIdx);
-                startIdx = recordIdx >= 0 ? recordIdx + 1 : ~recordIdx;
+    for (let colMeta of histCols) {
+        if (colMeta.isVisible) {
+            let recordIdx = findRecordIndex(data.timestamps, colMeta.time, startIdx);
+            startIdx = recordIdx >= 0 ? recordIdx + 1 : ~recordIdx;
 
-                let isNext = prevColMeta && serverTime &&
-                    prevColMeta.time < serverTime.ut && serverTime.ut <= colMeta.time;
+            let isNext = prevColMeta && serverTime &&
+                prevColMeta.time < serverTime.ut && serverTime.ut <= colMeta.time;
 
-                for (let cellMeta of colMeta.cells) {
-                    if (recordIdx >= 0) {
-                        let cnlNumIdx = map.get(cellMeta.cnlNum);
-                        let record = cnlNumIdx >= 0 ? data.trends[cnlNumIdx][recordIdx] : null;
-                        displayCell(cellMeta.cellElem, record);
-                    } else if (isNext && cellMeta.cnlNum > 0) {
-                        cellMeta.cellElem.text(NEXT_TIME_SYMBOL).css(DEFAULT_CELL_COLOR);
-                    } else {
-                        displayCell(cellMeta.cellElem, null);
-                    }
+            for (let cellMeta of colMeta.cells) {
+                if (recordIdx >= 0) {
+                    let cnlNumIdx = map.get(cellMeta.cnlNum);
+                    let record = cnlNumIdx >= 0 ? data.trends[cnlNumIdx][recordIdx] : null;
+                    displayCell(cellMeta.cellElem, record);
+                } else if (isNext && cellMeta.cnlNum > 0) {
+                    cellMeta.cellElem.text(NEXT_TIME_SYMBOL).css(DEFAULT_CELL_COLOR);
+                } else {
+                    displayCell(cellMeta.cellElem, null);
                 }
             }
-
-            prevColMeta = colMeta;
         }
+
+        prevColMeta = colMeta;
     }
 }
 

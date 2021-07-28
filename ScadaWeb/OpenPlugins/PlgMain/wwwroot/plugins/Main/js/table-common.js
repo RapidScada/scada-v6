@@ -1,7 +1,9 @@
 ﻿// The variables below are set from *.cshtml
 var archiveBit = -1;
 var pluginOptions = {
-    refreshRate: 1000
+    refreshRate: 1000,
+    eventCount: 100,
+    eventDepth: 2
 };
 
 const ERROR_DISPLAY_DURATION = 10000; // ms

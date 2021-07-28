@@ -10,7 +10,6 @@ using Scada.Web.Services;
 using Scada.Web.TreeView;
 using Scada.Web.Users;
 using System.Collections.Generic;
-using System.IO;
 
 namespace Scada.Web.Plugins.PlgMain
 {

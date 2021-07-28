@@ -152,6 +152,7 @@ namespace Scada.Web.Plugins.PlgMain.Controllers
                     ? clientAccessor.ScadaClient.GetCurrentData(ref cnlListID)
                     : clientAccessor.ScadaClient.GetCurrentData(cnlNums.ToArray(), useCache, out cnlListID);
                 curData.CnlListID = cnlListID.ToString();
+                CnlDataFormatter dataFormatter = new(webContext.BaseDataSet);
 
                 for (int i = 0; i < cnlCnt; i++)
                 {
@@ -161,7 +162,7 @@ namespace Scada.Web.Plugins.PlgMain.Controllers
                     records[i] = new CurDataRecord
                     {
                         D = new CurDataPoint(cnlNum, cnlData),
-                        Df = webContext.DataFormatter.FormatCnlData(cnlData, cnlNum)
+                        Df = dataFormatter.FormatCnlData(cnlData, cnlNum)
                     };
                 }
             }
@@ -210,6 +211,7 @@ namespace Scada.Web.Plugins.PlgMain.Controllers
                     InCnl inCnl = webContext.BaseDataSet.InCnlTable.GetItem(cnlNum);
                     HistData.RecordList records = trends[cnlIdx] = new(pointCount);
                     TrendBundle.CnlDataList cnlDataList = trendBundle.Trends[cnlIdx];
+                    CnlDataFormatter dataFormatter = new(webContext.BaseDataSet);
 
                     for (int ptIdx = 0; ptIdx < pointCount; ptIdx++)
                     {
@@ -217,7 +219,7 @@ namespace Scada.Web.Plugins.PlgMain.Controllers
                         records.Add(new HistDataRecord
                         {
                             D = cnlData,
-                            Df = webContext.DataFormatter.FormatCnlData(cnlData, inCnl)
+                            Df = dataFormatter.FormatCnlData(cnlData, inCnl)
                         });
                     }
                 }
@@ -238,16 +240,16 @@ namespace Scada.Web.Plugins.PlgMain.Controllers
 
             int eventCnt = events.Count;
             EventRecord[] records = new EventRecord[eventCnt];
+            CnlDataFormatter dataFormatter = new(webContext.BaseDataSet, userContext.TimeZone);
 
             for (int i = 0; i < eventCnt; i++)
             {
                 Event ev = events[i];
                 records[i] = new EventRecord
                 {
+                    Id = ev.EventID.ToString(),
                     E = ev,
-                    Ef = webContext.DataFormatter.FormatEvent(ev),
-                    T = TimeRecord.Create(ev.Timestamp, userContext.TimeZone),
-                    Id = ev.EventID.ToString()
+                    Ef = dataFormatter.FormatEvent(ev)
                 };
             }
 

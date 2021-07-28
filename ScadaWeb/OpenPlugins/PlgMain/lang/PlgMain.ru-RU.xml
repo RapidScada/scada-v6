@@ -1,5 +1,19 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <PlgMainDictionaries>
+  <Dictionary key="Scada.Web.Plugins.PlgMain.Areas.Main.Pages.Events">
+    <Phrase key="TimeCol">Дата и время</Phrase>
+    <Phrase key="ObjCol">Объект</Phrase>
+    <Phrase key="DevCol">КП</Phrase>
+    <Phrase key="CnlCol">Канал</Phrase>
+    <Phrase key="DescrCol">Описание</Phrase>
+    <Phrase key="SevCol">Серьёзность</Phrase>
+    <Phrase key="AckCol">Квитирование</Phrase>
+    <Phrase key="spanErrorBadge">Ошибка</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Web.Plugins.PlgMain.Areas.Main.Pages.Events.Js">
+    <Phrase key="Loading">Загрузка...</Phrase>
+    <Phrase key="NoEvents">События отсутствуют</Phrase>
+  </Dictionary>
   <Dictionary key="Scada.Web.Plugins.PlgMain.Areas.Main.Pages.TableView">
     <Phrase key="PrevDate">Предыдущая дата</Phrase>
     <Phrase key="SelDate">Выбранная дата</Phrase>

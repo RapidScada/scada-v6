@@ -23,6 +23,9 @@ namespace Scada.Web.Plugins.PlgMain.Code
             RefreshRate = options.GetValueAsInt("RefreshRate", 1000);
             TableArchiveCode = options.GetValueAsString("TableArchiveCode");
             TablePeriod = options.GetValueAsInt("TablePeriod", 60);
+            EventArchiveCode = options.GetValueAsString("EventArchiveCode");
+            EventCount = options.GetValueAsInt("EventCount", 100);
+            EventDepth = options.GetValueAsInt("EventDepth", 2);
         }
 
 
@@ -40,5 +43,20 @@ namespace Scada.Web.Plugins.PlgMain.Code
         /// Gets or sets the time period of table view columns.
         /// </summary>
         public int TablePeriod { get; set; }
+
+        /// <summary>
+        /// Gets or sets the archive code to get events.
+        /// </summary>
+        public string EventArchiveCode { get; set; }
+
+        /// <summary>
+        /// Gets or sets the number of events to display.
+        /// </summary>
+        public int EventCount { get; set; }
+
+        /// <summary>
+        /// Gets or sets the number of days to receive events.
+        /// </summary>
+        public int EventDepth { get; set; }
     }
 }

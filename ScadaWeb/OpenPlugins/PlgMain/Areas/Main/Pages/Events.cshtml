@@ -19,12 +19,16 @@
     <script>
         archiveBit = @Model.ArchiveBit;
         pluginOptions = @WebUtils.ObjectToJs(pluginContext.Options);
+        phrases = @WebUtils.DictionaryToJs("Scada.Web.Plugins.PlgMain.Areas.Main.Pages.Events.Js");
     </script>
 }
 
-<div id="divToolbar" class="toolbar"></div>
+<div id="divToolbar" class="toolbar">@*
+    *@<span class="toolbar-group"><span class="tool-btn"><i class="fas fa-print"></i></span></span>@*
+    *@<span id="spanErrorBadge" class="badge bg-danger hidden">@dict.spanErrorBadge</span>
+</div>
 <div id="divTableWrapper" class="table-wrapper hidden">
-    <table id="tblEvents">
+    <table id="tblEvents" class="table-main">
         <thead>
             <tr>
                 <th>@dict.TimeCol</th>
@@ -32,7 +36,7 @@
                 <th>@dict.DevCol</th>
                 <th>@dict.CnlCol</th>
                 <th>@dict.DescrCol</th>
-                <th>@dict.SeverityCol</th>
+                <th>@dict.SevCol</th>
                 <th>@dict.AckCol</th>
             </tr>
         </thead>
@@ -40,5 +44,4 @@
         </tbody>
     </table>
 </div>
-<div id="divLoading" class="box-center fs-2 text-secondary">@dict.Loading</div>
-<div id="divNoEvents" class="box-center fs-2 text-secondary hidden">@dict.NoEvents</div>
+<div id="divMessage" class="box-center fs-2 text-secondary"></div>

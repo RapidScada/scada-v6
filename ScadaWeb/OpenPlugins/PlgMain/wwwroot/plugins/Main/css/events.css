@@ -60,3 +60,8 @@
     top: 0;
     /*required for header stickiness*/
     z-index: 1; }
+
+.table-main {
+  width: 100%; }
+  .table-main td.obj, .table-main td.dev, .table-main td.cnl, .table-main td.descr {
+    text-align: left; }

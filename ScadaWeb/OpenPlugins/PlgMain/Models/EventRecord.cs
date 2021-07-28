@@ -12,6 +12,12 @@ namespace Scada.Web.Plugins.PlgMain.Models
     public struct EventRecord
     {
         /// <summary>
+        /// Gets or sets the event ID as string.
+        /// </summary>
+        /// <remarks>String is used instead of long because JavaScript unable to decode long.</remarks>
+        public string Id { get; set; }
+
+        /// <summary>
         /// Gets or sets the event.
         /// </summary>
         public Event E { get; set; }
@@ -20,16 +26,5 @@ namespace Scada.Web.Plugins.PlgMain.Models
         /// Gets or sets the formatted event.
         /// </summary>
         public EventFormatted Ef { get; set; }
-
-        /// <summary>
-        /// Gets or sets the event time.
-        /// </summary>
-        public TimeRecord T { get; set; }
-
-        /// <summary>
-        /// Gets or sets the event ID as string.
-        /// </summary>
-        /// <remarks>String is used instead of long because JavaScript unable to decode long.</remarks>
-        public string Id { get; set; }
     }
 }

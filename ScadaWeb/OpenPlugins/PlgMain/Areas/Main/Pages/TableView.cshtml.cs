@@ -48,14 +48,8 @@ namespace Scada.Web.Plugins.PlgMain.Areas.Main.Pages
         private List<ColumnMeta> allColumnMetas;
         private TableView tableView;
 
-        public bool ViewError => !string.IsNullOrEmpty(ErrorMessage);
-        public string ErrorMessage { get; set; }
-        public int ViewID { get; set; }
-        public int ArchiveBit { get; set; }
-        public string LocalDate { get; set; }
 
-
-        public TableViewModel(IWebContext webContext, IUserContext userContext, 
+        public TableViewModel(IWebContext webContext, IUserContext userContext,
             IViewLoader viewLoader, PluginContext pluginContext)
         {
             this.webContext = webContext;
@@ -63,6 +57,13 @@ namespace Scada.Web.Plugins.PlgMain.Areas.Main.Pages
             this.viewLoader = viewLoader;
             this.pluginContext = pluginContext;
         }
+
+
+        public bool ViewError => !string.IsNullOrEmpty(ErrorMessage);
+        public string ErrorMessage { get; set; }
+        public int ViewID { get; set; }
+        public int ArchiveBit { get; set; }
+        public string LocalDate { get; set; }
 
 
         private void LoadView(int? id, string localDate)
