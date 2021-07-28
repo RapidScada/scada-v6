@@ -54,6 +54,7 @@ namespace Scada.Data.Tables
             Limit = 0;
             Offset = 0;
             OriginBegin = true;
+            RequireAll = true;
             Conditions = new List<FilterCondition>();
         }
 
@@ -74,9 +75,15 @@ namespace Scada.Data.Tables
         public int Offset { get; set; }
 
         /// <summary>
-        /// Gets or sets a value whether to get a limited number of items from the beginning or from the end.
+        /// Gets or sets a value indicating whether to get a limited number of items from the beginning or from the end.
         /// </summary>
         public bool OriginBegin { get; set; }
+
+        /// <summary>
+        /// Gets or sets a value indicating whether all conditions must be satisfied.
+        /// </summary>
+        /// <remarks>True means the AND operator, false means the OR operator.</remarks>
+        public bool RequireAll { get; set; }
 
         /// <summary>
         /// Gets the filter conditions.
@@ -104,11 +111,15 @@ namespace Scada.Data.Tables
         }
 
         /// <summary>
-        /// Checks if the specified item satisfies all the conditions.
+        /// Checks if the specified item satisfies the conditions.
         /// </summary>
         public bool IsSatisfied(object item)
         {
-            if (item != null && item.GetType() == ItemType)
+            if (item == null || item.GetType() != ItemType)
+            {
+                return false;
+            }
+            else if (RequireAll)
             {
                 foreach (FilterCondition condition in Conditions)
                 {
@@ -120,6 +131,12 @@ namespace Scada.Data.Tables
             }
             else
             {
+                foreach (FilterCondition condition in Conditions)
+                {
+                    if (condition.IsSatisfied(condition.ColumnProperty.GetValue(item)))
+                        return true;
+                }
+
                 return false;
             }
         }
@@ -144,7 +161,8 @@ namespace Scada.Data.Tables
                     filters.Add(condition.GetSqlFilter(dbColumnName, createParamFunc, dbParams));
             }
 
-            return filters.Count > 0 ? prefix + string.Join(" AND ", filters) + suffix : "";
+            string oper = RequireAll ? " AND " : " OR ";
+            return filters.Count > 0 ? prefix + string.Join(oper, filters) + suffix : "";
         }
 
         /// <summary>

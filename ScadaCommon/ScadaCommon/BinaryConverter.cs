@@ -338,6 +338,7 @@ namespace Scada
                 CopyInt32(0, buffer, ref index);    // limit
                 CopyInt32(0, buffer, ref index);    // offset
                 CopyBool(false, buffer, ref index); // origing from begin
+                CopyBool(false, buffer, ref index); // require all
                 CopyInt32(0, buffer, ref index);    // conditions count
             }
             else
@@ -345,6 +346,7 @@ namespace Scada
                 CopyInt32(filter.Limit, buffer, ref index);
                 CopyInt32(filter.Offset, buffer, ref index);
                 CopyBool(filter.OriginBegin, buffer, ref index);
+                CopyBool(filter.RequireAll, buffer, ref index);
                 CopyInt32(filter.Conditions.Count, buffer, ref index);
 
                 foreach (FilterCondition condition in filter.Conditions)
@@ -628,7 +630,8 @@ namespace Scada
             {
                 Limit = GetInt32(buffer, ref index),
                 Offset = GetInt32(buffer, ref index),
-                OriginBegin = GetBool(buffer, ref index)
+                OriginBegin = GetBool(buffer, ref index),
+                RequireAll = GetBool(buffer, ref index)
             };
 
             int conditionCount = GetInt32(buffer, ref index);
