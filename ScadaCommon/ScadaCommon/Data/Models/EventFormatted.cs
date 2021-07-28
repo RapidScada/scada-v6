@@ -36,6 +36,7 @@ namespace Scada.Data.Models
         /// </summary>
         public EventFormatted()
         {
+            Time = "";
             Obj = "";
             Dev = "";
             Cnl = "";
@@ -44,6 +45,11 @@ namespace Scada.Data.Models
             Color = "";
         }
 
+
+        /// <summary>
+        /// Gets or sets the time in the user's time zone.
+        /// </summary>
+        public string Time { get; set; }
 
         /// <summary>
         /// Gets or sets the object name.

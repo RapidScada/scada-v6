@@ -98,6 +98,10 @@ namespace Scada
         /// </summary>
         protected readonly CultureInfo culture;
         /// <summary>
+        /// The user's time zone.
+        /// </summary>
+        protected readonly TimeZoneInfo timeZone;
+        /// <summary>
         /// The configuration database.
         /// </summary>
         protected readonly BaseDataSet baseDataSet;
@@ -111,8 +115,17 @@ namespace Scada
         /// Initializes a new instance of the class.
         /// </summary>
         public CnlDataFormatter(BaseDataSet baseDataSet)
+            : this(baseDataSet, TimeZoneInfo.Local)
+        {
+        }
+
+        /// <summary>
+        /// Initializes a new instance of the class.
+        /// </summary>
+        public CnlDataFormatter(BaseDataSet baseDataSet, TimeZoneInfo timeZone)
         {
             culture = Locale.Culture;
+            this.timeZone = timeZone ?? throw new ArgumentNullException(nameof(timeZone));
             this.baseDataSet = baseDataSet ?? throw new ArgumentNullException(nameof(baseDataSet));
             enumFormats = new Dictionary<int, EnumFormat>();
             FillEnumColors();
@@ -310,7 +323,10 @@ namespace Scada
         /// </summary>
         public EventFormatted FormatEvent(Event ev)
         {
-            EventFormatted eventFormatted = new EventFormatted();
+            EventFormatted eventFormatted = new EventFormatted
+            {
+                Time = TimeZoneInfo.ConvertTimeFromUtc(ev.Timestamp, timeZone).ToLocalizedString()
+            };
 
             // object
             if (ev.ObjNum > 0)
@@ -356,7 +372,11 @@ namespace Scada
 
             // acknowledgement
             if (ev.Ack)
-                eventFormatted.Ack = baseDataSet.UserTable.GetItem(ev.AckUserID)?.Name ?? "";
+            {
+                eventFormatted.Ack = string.Join(", ",
+                    baseDataSet.UserTable.GetItem(ev.AckUserID)?.Name ?? "",
+                    TimeZoneInfo.ConvertTimeFromUtc(ev.AckTimestamp, timeZone));
+            }
 
             // color
             if (dataFormatted.Colors.Length > 0)
