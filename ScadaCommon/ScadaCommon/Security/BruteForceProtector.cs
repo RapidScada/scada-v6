@@ -142,7 +142,7 @@ namespace Scada.Security
                 OnBlockedChanged(true, string.Format(Locale.IsRussian ?
                     "Вход в систему заблокирован до {0} в целях безопасности" :
                     "Login blocked until {0} for security reasons",
-                    loginUnblockDT.ToLocalizedTimeString()));
+                    loginUnblockDT.ToLocalTime().ToLocalizedTimeString()));
             }
         }
 
