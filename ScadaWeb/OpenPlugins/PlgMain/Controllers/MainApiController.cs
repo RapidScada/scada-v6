@@ -12,6 +12,7 @@ using Scada.Web.Lang;
 using Scada.Web.Plugins.PlgMain.Code;
 using Scada.Web.Plugins.PlgMain.Models;
 using Scada.Web.Services;
+using Scada.Web.Users;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -109,27 +110,40 @@ namespace Scada.Web.Plugins.PlgMain.Controllers
         }
 
         /// <summary>
-        /// Gets the filter to request events by view.
-        /// </summary>
-        private static DataFilter GetEventFilter(int limit, BaseView view)
-        {
-            DataFilter dataFilter = new(typeof(Event)) { 
-                Limit = limit, 
-                OriginBegin = false, 
-                RequireAll = false 
-            };
-
-            dataFilter.AddCondition("CnlNum", FilterOperator.In, view.CnlNumList);
-            dataFilter.AddCondition("OutCnlNum", FilterOperator.In, view.OutCnlNumList);
-            return dataFilter;
-        }
-
-        /// <summary>
         /// Gets the filter to request limited number of events.
         /// </summary>
         private static DataFilter GetEventFilter(int limit)
         {
-            return new DataFilter(typeof(Event)) { Limit = limit };
+            return new DataFilter(typeof(Event)) 
+            {
+                Limit = limit,
+                OriginBegin = false
+            };
+        }
+
+        /// <summary>
+        /// Gets the filter to request events by available objects.
+        /// </summary>
+        private static DataFilter GetEventFilter(int limit, UserRights rights)
+        {
+            DataFilter dataFilter = GetEventFilter(limit);
+
+            if (!rights.ViewAll)
+                dataFilter.AddCondition("ObjNum", FilterOperator.In, rights.GetAvailableObjs().ToList());
+
+            return dataFilter;
+        }
+
+        /// <summary>
+        /// Gets the filter to request events by view.
+        /// </summary>
+        private static DataFilter GetEventFilter(int limit, BaseView view)
+        {
+            DataFilter dataFilter = GetEventFilter(limit);
+            dataFilter.RequireAll = false;
+            dataFilter.AddCondition("CnlNum", FilterOperator.In, view.CnlNumList);
+            dataFilter.AddCondition("OutCnlNum", FilterOperator.In, view.OutCnlNumList);
+            return dataFilter;
         }
 
         /// <summary>
@@ -487,6 +501,34 @@ namespace Scada.Web.Plugins.PlgMain.Controllers
             catch (Exception ex)
             {
                 webContext.Log.WriteError(ex, WebPhrases.ErrorInWebApi, nameof(GetEvents));
+                return Dto<EventPacket>.Fail(ex.Message);
+            }
+        }
+
+        /// <summary>
+        /// Gets the last available events according to the user access rights.
+        /// </summary>
+        public Dto<EventPacket> GetLastAvailableEvents(int archiveBit, int period, int limit, long filterID)
+        {
+            try
+            {
+                UserRights rights = userContext.Rights;
+                string cacheKey = rights.ViewAll
+                    ? PluginUtils.GetCacheKey("LastAvailableEvents", archiveBit, period, limit)
+                    : PluginUtils.GetCacheKey("LastAvailableEvents", archiveBit, period, limit, rights.RoleID);
+
+                EventPacket eventPacket = memoryCache.GetOrCreate(cacheKey, entry =>
+                {
+                    entry.SetAbsoluteExpiration(DataCacheExpiration);
+                    DataFilter filter = filterID > 0 ? null : GetEventFilter(limit, rights);
+                    return RequestEvents(archiveBit, CreateTimeRange(period), filter, filterID, true);
+                });
+
+                return Dto<EventPacket>.Success(eventPacket);
+            }
+            catch (Exception ex)
+            {
+                webContext.Log.WriteError(ex, WebPhrases.ErrorInWebApi, nameof(GetLastAvailableEvents));
                 return Dto<EventPacket>.Fail(ex.Message);
             }
         }

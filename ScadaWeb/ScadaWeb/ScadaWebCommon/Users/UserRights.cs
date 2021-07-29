@@ -26,6 +26,8 @@
 using Scada.Data.Models;
 using Scada.Lang;
 using System;
+using System.Collections.Generic;
+using System.Linq;
 
 namespace Scada.Web.Users
 {
@@ -170,6 +172,16 @@ namespace Scada.Web.Users
                     ? right
                     : Right.Empty;
             }
+        }
+
+        /// <summary>
+        /// Gets the numbers of the available objects.
+        /// </summary>
+        public IEnumerable<int> GetAvailableObjs()
+        {
+            return from pair in RightByObj
+                   where pair.Value.View
+                   select pair.Key;
         }
     }
 }

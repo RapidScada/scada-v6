@@ -132,6 +132,16 @@ class MainApi {
             .catch(error => this._doCallback(callback, Dto.fail(error.message), "getLastEvents"));
     }
 
+    // Gets the last available events according to the user access rights.
+    // URL example: http://localhost/Api/Main/GetLastAvailableEvents?archiveBit=1&period=2&limit=100&viewID=1&filterID=1
+    getLastAvailableEvents(archiveBit, period, limit, filterID, callback) {
+        fetch(this.rootPath + "Api/Main/GetLastAvailableEvents?archiveBit=" + archiveBit +
+            "&period=" + period + "&limit=" + limit + "&filterID=" + filterID)
+            .then(response => response.ok ? response.json() : Dto.fail(response.statusText))
+            .then(data => this._doCallback(callback, data, "getLastAvailableEvents"))
+            .catch(error => this._doCallback(callback, Dto.fail(error.message), "getLastAvailableEvents"));
+    }
+
     // Gets the last events by view.
     // URL example: http://localhost/Api/Main/GetLastEventsByView?archiveBit=1&period=2&limit=100&viewID=1&filterID=1
     getLastEventsByView(archiveBit, period, limit, viewID, filterID, callback) {

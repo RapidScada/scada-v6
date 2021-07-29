@@ -3,11 +3,23 @@
 // The variables below are set from Events.cshtml
 var phrases = {};
 
-var POSTPONE_SCROLL_PERIOD = 10000; // ms
+const ALL_EVENTS_KEY = "Events.AllEvents";
+const POSTPONE_SCROLL_PERIOD = 10000; // ms
 
 var filterID = 0;
 var arcWriteTime = 0;
+var allEvents = false;
 var scrollTimeoutID = 0;
+
+function restoreFilter() {
+    allEvents = ScadaUtils.getStorageItem(localStorage, ALL_EVENTS_KEY, "false") === "true";
+
+    if (allEvents) {
+        $("#spanAllEventsBtn").addClass("selected");
+    } else {
+        $("#spanEventsByViewBtn").addClass("selected");
+    }
+}
 
 function initTooltips() {
     new bootstrap.Tooltip(document.getElementById("spanInfoBtn"));
@@ -18,6 +30,27 @@ function bindEvents() {
         updateLayout();
     });
 
+    // load all events
+    $("#spanAllEventsBtn").click(function () {
+        $(this).addClass("selected");
+        $("#spanEventsByViewBtn").removeClass("selected");
+
+        allEvents = true;
+        ScadaUtils.setStorageItem(localStorage, ALL_EVENTS_KEY, "true");
+        resetEvents();
+    });
+
+    // load events by view
+    $("#spanEventsByViewBtn").click(function () {
+        $(this).addClass("selected");
+        $("#spanAllEventsBtn").removeClass("selected");
+
+        allEvents = false;
+        ScadaUtils.setStorageItem(localStorage, ALL_EVENTS_KEY, "false");
+        resetEvents();
+    });
+
+    // postpone scroll
     $("#divTableWrapper").on("mousemove wheel touchstart", function () {
         postponeScroll();
     });
@@ -43,19 +76,27 @@ function updateEvents(callback) {
 
                 if (arcWriteTime !== newArcWriteTime) {
                     // request events
-                    mainApi.getLastEventsByView(archiveBit, pluginOptions.eventDepth,
-                        pluginOptions.eventCount, viewHub.viewID, filterID, function (dto) {
+                    let retrieveEvents = function (dto) {
+                        if (dto.ok) {
+                            arcWriteTime = newArcWriteTime;
+                            showEvents(dto.data, filterID > 0);
+                            filterID = dto.data.filterID;
+                        } else {
+                            showErrorBadge();
+                        }
 
-                            if (dto.ok) {
-                                arcWriteTime = newArcWriteTime;
-                                showEvents(dto.data, filterID > 0);
-                                filterID = dto.data.filterID;
-                            } else {
-                                showErrorBadge();
-                            }
+                        callback();
+                    };
 
-                            callback();
-                        });
+                    if (allEvents) {
+                        mainApi.getLastAvailableEvents(archiveBit, pluginOptions.eventDepth,
+                            pluginOptions.eventCount, filterID,
+                            function (dto) { retrieveEvents(dto); });
+                    } else {
+                        mainApi.getLastEventsByView(archiveBit, pluginOptions.eventDepth,
+                            pluginOptions.eventCount, viewHub.viewID, filterID,
+                            function (dto) { retrieveEvents(dto); });
+                    }
                 } else {
                     // data has not changed
                     callback();
@@ -112,6 +153,16 @@ function showEvents(data, animateScroll) {
     }
 }
 
+function resetEvents() {
+    showMessage(phrases.Loading);
+    $("#divTableWrapper tbody").remove();
+
+    filterID = 0;
+    arcWriteTime = 0;
+    clearTimeout(scrollTimeoutID);
+    scrollTimeoutID = 0;
+}
+
 function showMessage(text) {
     $("#divTableWrapper").addClass("hidden");
     $("#divMessage").text(text).removeClass("hidden");
@@ -141,11 +192,10 @@ function scrollDownEvents(animate) {
 }
 
 $(document).ready(function () {
+    restoreFilter();
     initTooltips();
     bindEvents();
     updateLayout();
     showMessage(phrases.Loading);
     startUpdatingEvents();
-
-    $("#spanEventsByViewBtn").addClass("selected");
 });

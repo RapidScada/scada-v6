@@ -61,8 +61,8 @@ function prepare() {
 }
 
 function restoreTimeRange() {
-    let startTimeVal = ScadaUtils.getStorageItem(localStorage, START_TIME_KEY)
-    let endTimeVal = ScadaUtils.getStorageItem(localStorage, END_TIME_KEY)
+    let startTimeVal = ScadaUtils.getStorageItem(localStorage, START_TIME_KEY);
+    let endTimeVal = ScadaUtils.getStorageItem(localStorage, END_TIME_KEY);
 
     if (startTimeVal && endTimeVal) {
         ScadaUtils.selectOptionIfExists($("#selStartTime"), startTimeVal);
