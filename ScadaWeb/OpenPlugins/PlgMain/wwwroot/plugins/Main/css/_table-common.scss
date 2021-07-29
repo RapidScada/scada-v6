@@ -7,7 +7,9 @@ $toolbar-height: 30px;
 $toolbar-font-size: 14px;
 $toolbar-control-height: 24px;
 $tool-btn-back-color: white;
-$tool-btn-fore-color: $gray-600;
+$tool-btn-fore-color: $gray-700;
+$tool-btn-selected-fore-color: $main-menu-item-selected-fore-color;
+$tool-btn-selected-back-color: $main-menu-item-selected-back-color;
 $tool-btn-hover-fore-color: $main-menu-item-hover-fore-color;
 
 $header-back-color: #ccc;
@@ -49,6 +51,15 @@ body {
         margin-right: 5px;
         padding: 0 10px;
         white-space: nowrap;
+
+        &.selected {
+            background-color: $tool-btn-selected-back-color;
+            color: $tool-btn-selected-fore-color;
+
+            &:hover {
+                color: $tool-btn-selected-fore-color;
+            }
+        }
 
         &:hover {
             color: $tool-btn-hover-fore-color;

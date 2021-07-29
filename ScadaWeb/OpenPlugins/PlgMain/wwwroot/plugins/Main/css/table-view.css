@@ -18,12 +18,17 @@
     margin-right: 10px; }
   .toolbar .tool-btn {
     background-color: white;
-    color: #6c757d;
+    color: #495057;
     cursor: pointer;
     display: inline-block;
     margin-right: 5px;
     padding: 0 10px;
     white-space: nowrap; }
+    .toolbar .tool-btn.selected {
+      background-color: #0073aa;
+      color: white; }
+      .toolbar .tool-btn.selected:hover {
+        color: white; }
     .toolbar .tool-btn:hover {
       color: #00b9eb; }
 

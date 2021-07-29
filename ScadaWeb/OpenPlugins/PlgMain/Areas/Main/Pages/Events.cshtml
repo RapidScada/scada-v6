@@ -5,6 +5,11 @@
     Layout = "_BasicLayout";
     ViewBag.Title = "Events";
     dynamic dict = Locale.GetDictionary("Scada.Web.Plugins.PlgMain.Areas.Main.Pages.Events");
+
+    string GetInfo()
+    {
+        return string.Format(dict.EventInfo, pluginContext.Options.EventCount, pluginContext.Options.EventDepth * 24);
+    }
 }
 
 @section Styles {
@@ -24,7 +29,11 @@
 }
 
 <div id="divToolbar" class="toolbar">@*
-    *@<span class="toolbar-group"><span class="tool-btn"><i class="fas fa-print"></i></span></span>@*
+    *@<span class="toolbar-group">@*
+        *@<span id="spanAllEventsBtn" class="tool-btn">@dict.spanAllEventsBtn</span>@*
+        *@<span id="spanEventsByViewBtn" class="tool-btn">@dict.spanEventsByViewBtn</span>@*
+        *@<span id="spanPrintBtn" class="tool-btn"><i class="fas fa-print"></i></span>@*
+        *@<span id="spanInfoBtn" class="tool-btn" data-bs-toggle="tooltip" data-bs-placement="bottom" title="@GetInfo()"><i class="fas fa-info-circle"></i></span></span>@*
     *@<span id="spanErrorBadge" class="badge bg-danger hidden">@dict.spanErrorBadge</span>
 </div>
 <div id="divTableWrapper" class="table-wrapper hidden">

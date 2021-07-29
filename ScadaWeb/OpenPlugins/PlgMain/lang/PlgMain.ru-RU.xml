@@ -8,6 +8,9 @@
     <Phrase key="DescrCol">Описание</Phrase>
     <Phrase key="SevCol">Серьёзность</Phrase>
     <Phrase key="AckCol">Квитирование</Phrase>
+    <Phrase key="EventInfo">Последние {0} событий за {1} ч</Phrase>
+    <Phrase key="spanAllEventsBtn">Все события</Phrase>
+    <Phrase key="spanEventsByViewBtn">По представлению</Phrase>
     <Phrase key="spanErrorBadge">Ошибка</Phrase>
   </Dictionary>
   <Dictionary key="Scada.Web.Plugins.PlgMain.Areas.Main.Pages.Events.Js">

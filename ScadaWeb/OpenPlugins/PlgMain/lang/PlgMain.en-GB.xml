@@ -8,6 +8,9 @@
     <Phrase key="DescrCol">Description</Phrase>
     <Phrase key="SevCol">Severity</Phrase>
     <Phrase key="AckCol">Acknowledge</Phrase>
+    <Phrase key="EventInfo">Last {0} events in {1} hours</Phrase>
+    <Phrase key="spanAllEventsBtn">All Events</Phrase>
+    <Phrase key="spanEventsByViewBtn">Events by View</Phrase>
     <Phrase key="spanErrorBadge">Error</Phrase>
   </Dictionary>
   <Dictionary key="Scada.Web.Plugins.PlgMain.Areas.Main.Pages.Events.Js">
