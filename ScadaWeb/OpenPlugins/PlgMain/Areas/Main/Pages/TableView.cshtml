@@ -3,7 +3,6 @@
 @inject PluginContext pluginContext 
 @{
     Layout = "_BasicLayout";
-    ViewBag.Title = "TableView";
     dynamic dict = Locale.GetDictionary("Scada.Web.Plugins.PlgMain.Areas.Main.Pages.TableView");
 }
 
@@ -14,6 +13,7 @@
 @section Scripts {
     <script src="~/js/view-hub.js" asp-append-version="true"></script>
     <script src="~/plugins/Main/js/main-api.js" asp-append-version="true"></script>
+    <script src="~/plugins/Main/js/table-common.js" asp-append-version="true"></script>
     <script src="~/plugins/Main/js/table-view.js" asp-append-version="true"></script>
     <script>
         viewID = @Model.ViewID;
@@ -39,7 +39,7 @@ else
                 </select> - <select id="selEndTime">
                     @Model.RenderOptionGroup(dict.SelDate, true, TableViewModel.SelectOption.Last)
                 </select></span>@*
-            *@<span class="toolbar-group"><span class="tool-btn"><i class="fas fa-print"></i></span></span>@*
+            *@<span class="toolbar-group"><span id="spanPrintBtn" class="tool-btn"><i class="fas fa-print"></i></span></span>@*
             *@<span id="spanErrorBadge" class="badge bg-danger hidden">@dict.spanErrorBadge</span>
         </div>
         <div id="divTableWrapper" class="table-wrapper">@Model.RenderTableView()</div>

@@ -50,6 +50,10 @@ function bindEvents() {
         resetEvents();
     });
 
+    $("#spanPrintBtn").click(function () {
+        developmentAlert();
+    });
+
     // postpone scroll
     $("#divTableWrapper").on("mousemove wheel touchstart", function () {
         postponeScroll();

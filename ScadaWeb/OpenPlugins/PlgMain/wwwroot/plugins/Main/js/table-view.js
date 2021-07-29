@@ -21,20 +21,13 @@ class HistColMeta {
 
 // The variables below are set from TableView.cshtml
 var viewID = 0;
-var archiveBit = -1;
-var pluginOptions = {
-    refreshRate: 1000
-};
 
 const START_TIME_KEY = "TableView.StartTime";
 const END_TIME_KEY = "TableView.EndTime";
 const DEFAULT_CELL_COLOR = "Black";
 const NEXT_TIME_SYMBOL = "*";
-const ERROR_DISPLAY_DURATION = 10000; // ms
-const UPDATE_HIST_DATA_OFFSET = 500;  //ms
+const UPDATE_HIST_DATA_OFFSET = 500; //ms
 
-var viewHub = ViewHub.getInstance();
-var mainApi = new MainApi();
 var localDate = "";
 var timeRange = null;
 var serverTime = null;
@@ -42,7 +35,6 @@ var cnlListID = 0;
 var arcWriteTime = 0;
 var curCells = []; // array of CellMeta
 var histCols = []; // array of HistColMeta
-var errorTimeoutID = 0;
 
 function prepare() {
     mainApi.rootPath = viewHub.appEnv.rootPath;
@@ -180,6 +172,10 @@ function bindEvents() {
         // update time range
         initTimeRange(true);
         setColVisibe();
+    });
+
+    $("#spanPrintBtn").click(function () {
+        developmentAlert();
     });
 
     $(".item-link").click(function () {
@@ -340,16 +336,6 @@ function getCellColor(record) {
     return Array.isArray(colors) && colors.length > 0 && colors[0]
         ? colors[0]
         : DEFAULT_CELL_COLOR;
-}
-
-function showErrorBadge() {
-    clearTimeout(errorTimeoutID);
-    $("#spanErrorBadge").removeClass("hidden");
-
-    errorTimeoutID = setTimeout(function () {
-        $("#spanErrorBadge").addClass("hidden");
-        errorTimeoutID = 0;
-    }, ERROR_DISPLAY_DURATION);
 }
 
 $(document).ready(function () {
