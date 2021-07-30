@@ -186,7 +186,9 @@ function bindEvents() {
     });
 
     $(".item-cmd").click(function () {
-        developmentAlert();
+        // show command dialog
+        let outCnlNum = $(this).closest(".row-item").attr("data-outcnlnum");
+        viewHub.features.command.show(outCnlNum);
     });
 }
 

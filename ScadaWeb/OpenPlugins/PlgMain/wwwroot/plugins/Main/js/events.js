@@ -83,7 +83,9 @@ function bindEvents() {
     $("#tblEvents").click(function (event) {
         let target = $(event.target);
         if (target.is("td.ack i")) {
-            developmentAlert();
+            // show event acknowledgement dialog
+            let eventID = $(this).closest(".row-event").attr("data-id");
+            viewHub.features.eventAck.show(archiveBit, eventID);
         }
     });
 
@@ -159,7 +161,7 @@ function showEvents(data, enableEffects) {
             let e = record.e;   // event data
             let ef = record.ef; // formatted event
 
-            let row = $("<tr data-id='" + record.id + "'>" +
+            let row = $("<tr class='row-event' data-id='" + record.id + "'>" +
                 "<td class='time'>" + ef.time + "</td>" +
                 "<td class='obj'>" + ef.obj + "</td>" +
                 "<td class='dev'>" + ef.dev + "</td>" +

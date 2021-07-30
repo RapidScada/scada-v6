@@ -101,11 +101,23 @@ class BaseCommandFeature {
     constructor(appEnv) {
         this.appEnv = appEnv;
     }
+
+    show(outCnlNum) {
+        alert(ScadaUtils.isRussian(appEnv.locale) ?
+            "Ни один плагин не реализует функцию команд." :
+            "No plugin implements the command feature.");
+    }
 }
 
 // Represents a default event acknowledgement feature.
 class BaseEventAckFeature {
     constructor(appEnv) {
         this.appEnv = appEnv;
+    }
+
+    show(archiveBit, eventID) {
+        alert(ScadaUtils.isRussian(appEnv.locale) ?
+            "Ни один плагин не реализует функцию квитирования." :
+            "No plugin implements the acknowledgement feature.");
     }
 }
