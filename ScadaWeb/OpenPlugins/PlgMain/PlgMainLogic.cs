@@ -89,10 +89,11 @@ namespace Scada.Web.Plugins.PlgMain
         /// </summary>
         public override List<MenuItem> GetUserMenuItems(User user, UserRights userRights)
         {
-            MenuItem reportsItem = MenuItem.FromKnownMenuItem(KnownMenuItem.Reports);
+            /*MenuItem reportsItem = MenuItem.FromKnownMenuItem(KnownMenuItem.Reports);
             reportsItem.Subitems.Add(new MenuItem { Text = "Data report", Url = "~/Main/DataRep", SortOrder = 0 });
             reportsItem.Subitems.Add(new MenuItem { Text = "Event report", Url = "~/Main/EventRep", SortOrder = 1 });
-            return new List<MenuItem>() { reportsItem };
+            return new List<MenuItem>() { reportsItem };*/
+            return null;
         }
     }
 }

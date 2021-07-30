@@ -41,6 +41,8 @@ class ViewHub {
 // Provides access to plugin features implemented by various plugins.
 class PluginFeatures {
     constructor(appEnv) {
+        this.appEnv = appEnv;
+
         this._chart = null;
         this._command = null;
         this._eventAck = null;
@@ -51,8 +53,8 @@ class PluginFeatures {
         if (this._chart === null) {
             this._chart = typeof ChartFeature === "function" &&
                 ChartFeature.prototype instanceof BaseChartFeature
-                ? new ChartFeature(appEnv)
-                : new BaseChartFeature(appEnv);
+                ? new ChartFeature(this.appEnv)
+                : new BaseChartFeature(this.appEnv);
         }
 
         return this._chart;
@@ -63,8 +65,8 @@ class PluginFeatures {
         if (this._command === null) {
             this._command = typeof CommandFeature === "function" &&
                 CommandFeature.prototype instanceof BaseCommandFeature
-                ? new CommandFeature(appEnv)
-                : new BaseCommandFeature(appEnv);
+                ? new CommandFeature(this.appEnv)
+                : new BaseCommandFeature(this.appEnv);
         }
 
         return this._command;
@@ -75,8 +77,8 @@ class PluginFeatures {
         if (this._eventAck === null) {
             this._eventAck = typeof EventAckFeature === "function" &&
                 EventAckFeature.prototype instanceof BaseEventAckFeature
-                ? new EventAckFeature(appEnv)
-                : new BaseEventAckFeature(appEnv);
+                ? new EventAckFeature(this.appEnv)
+                : new BaseEventAckFeature(this.appEnv);
         }
 
         return this._eventAck;
