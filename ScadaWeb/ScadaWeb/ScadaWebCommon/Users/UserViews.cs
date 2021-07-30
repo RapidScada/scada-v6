@@ -24,6 +24,7 @@
  */
 
 using Scada.Data.Entities;
+using Scada.Data.Models;
 using Scada.Lang;
 using Scada.Web.Plugins;
 using Scada.Web.Services;
@@ -40,12 +41,6 @@ namespace Scada.Web.Users
     /// </summary>
     public class UserViews
     {
-        /// <summary>
-        /// The view path separator.
-        /// </summary>
-        protected static readonly char[] PathSeparator = { '\\', '/' };
-
-
         /// <summary>
         /// Initializes a new instance of the class.
         /// </summary>
@@ -73,24 +68,7 @@ namespace Scada.Web.Users
         protected ViewNode CreateBranch(View viewEntity)
         {
             // split view path
-            string[] pathParts;
-            string nodeText;
-
-            if (!string.IsNullOrEmpty(viewEntity.Title) && viewEntity.Title.IndexOfAny(PathSeparator) >= 0)
-            {
-                pathParts = viewEntity.Title.Split(PathSeparator, StringSplitOptions.RemoveEmptyEntries);
-                nodeText = pathParts[^1];
-            }
-            else if (!string.IsNullOrEmpty(viewEntity.Path))
-            {
-                pathParts = viewEntity.Path.Split(PathSeparator, StringSplitOptions.RemoveEmptyEntries);
-                nodeText = ScadaUtils.FirstNonEmpty(viewEntity.Title, pathParts[^1]);
-            }
-            else
-            {
-                pathParts = new string[] { viewEntity.Title };
-                nodeText = viewEntity.Title;
-            }
+            BaseView.ParsePath(viewEntity, out string[] pathParts, out string nodeText);
 
             if (string.IsNullOrEmpty(nodeText))
                 return null;

@@ -37,20 +37,25 @@ namespace Scada.Data.Models
     public abstract class BaseView
     {
         /// <summary>
+        /// The view path separator.
+        /// </summary>
+        protected static readonly char[] PathSeparator = { '\\', '/' };
+
+
+        /// <summary>
         /// Initializes a new instance of the class.
         /// </summary>
         public BaseView(View viewEntity)
         {
             ViewEntity = viewEntity ?? throw new ArgumentNullException(nameof(viewEntity));
             StoredOnServer = true;
-            Args = new Dictionary<string, string>();
+            Args = ParseArgs();
+            Title = GetTitle();
             Resources = null;
             CnlNumList = new List<int>();
             CnlNumSet = new HashSet<int>();
             OutCnlNumList = new List<int>();
             OutCnlNumSet = new HashSet<int>();
-
-            ParseArgs(ViewEntity.Args);
         }
 
 
@@ -68,6 +73,11 @@ namespace Scada.Data.Models
         /// Gets the view arguments.
         /// </summary>
         public Dictionary<string, string> Args { get; }
+
+        /// <summary>
+        /// Gets the view title.
+        /// </summary>
+        public string Title { get; protected set; }
 
         /// <summary>
         /// Gets the view resources. Key is a resource name, value is a path relative to the view directory.
@@ -98,11 +108,13 @@ namespace Scada.Data.Models
         /// <summary>
         /// Parses the view arguments.
         /// </summary>
-        protected virtual void ParseArgs(string args)
+        protected virtual Dictionary<string, string> ParseArgs()
         {
-            if (!string.IsNullOrEmpty(args))
+            Dictionary<string, string> args = new Dictionary<string, string>();
+
+            if (!string.IsNullOrEmpty(ViewEntity.Args))
             {
-                string[] parts = args.Split('&');
+                string[] parts = ViewEntity.Args.Split('&');
 
                 foreach (string part in parts)
                 {
@@ -121,11 +133,22 @@ namespace Scada.Data.Models
                         val = "";
                     }
 
-                    Args[key] = val;
+                    args[key] = val;
                 }
             }
+
+            return args;
         }
-        
+
+        /// <summary>
+        /// Gets the view title.
+        /// </summary>
+        protected virtual string GetTitle()
+        {
+            ParsePath(ViewEntity, out _, out string viewTitle);
+            return viewTitle;
+        }
+
         /// <summary>
         /// Adds the input channel number to the list and set.
         /// </summary>
@@ -186,6 +209,41 @@ namespace Scada.Data.Models
         /// </summary>
         public virtual void Bind(BaseDataSet baseDataSet)
         {
+        }
+
+        /// <summary>
+        /// Parses the view path and title.
+        /// </summary>
+        public static void ParsePath(View viewEntity, out string[] pathParts, out string viewTitle)
+        {
+            if (viewEntity == null)
+                throw new ArgumentNullException(nameof(viewEntity));
+
+            string GetLastPart(string[] parts)
+            {
+                return parts.Length > 0 ? parts[parts.Length - 1] : "";
+            }
+
+            if (!string.IsNullOrEmpty(viewEntity.Title) && viewEntity.Title.IndexOfAny(PathSeparator) >= 0)
+            {
+                pathParts = viewEntity.Title.Split(PathSeparator, StringSplitOptions.RemoveEmptyEntries);
+                viewTitle = GetLastPart(pathParts);
+            }
+            else if (!string.IsNullOrEmpty(viewEntity.Path))
+            {
+                pathParts = viewEntity.Path.Split(PathSeparator, StringSplitOptions.RemoveEmptyEntries);
+                viewTitle = ScadaUtils.FirstNonEmpty(viewEntity.Title, GetLastPart(pathParts)) ?? "";
+            }
+            else if (!string.IsNullOrEmpty(viewEntity.Title))
+            {
+                pathParts = new string[] { viewEntity.Title };
+                viewTitle = viewEntity.Title;
+            }
+            else
+            {
+                pathParts = Array.Empty<string>();
+                viewTitle = "";
+            }
         }
     }
 }

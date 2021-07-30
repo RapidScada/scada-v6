@@ -18,7 +18,6 @@
     <Phrase key="NoEvents">События отсутствуют</Phrase>
   </Dictionary>
   <Dictionary key="Scada.Web.Plugins.PlgMain.Areas.Main.Pages.TableView">
-    <Phrase key="TableView">Таблица</Phrase>
     <Phrase key="PrevDate">Предыдущая дата</Phrase>
     <Phrase key="SelDate">Выбранная дата</Phrase>
     <Phrase key="MinusOneDay">-1д</Phrase>
