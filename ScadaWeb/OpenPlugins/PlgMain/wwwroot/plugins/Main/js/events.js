@@ -3,6 +3,31 @@
 // The variables below are set from Events.cshtml
 var phrases = {};
 
+// Specifies the known severity values.
+class Severity {
+    static MIN = 1;
+    static MAX = 999;
+    static UNDEFINED = 0;
+    static CRITICAL = 1;
+    static MAJOR = 250;
+    static MINOR = 500;
+    static INFO = 750;
+
+    static get(value) {
+        if (Severity.CRITICAL <= value && value < Severity.MAJOR) {
+            return Severity.CRITICAL;
+        } else if (Severity.MAJOR <= value && value < Severity.MINOR) {
+            return Severity.MAJOR;
+        } else if (Severity.MINOR <= value && value < Severity.INFO) {
+            return Severity.MINOR;
+        } else if (Severity.INFO <= value && value < Severity.MAX) {
+            return Severity.INFO;
+        } else {
+            return Severity.UNDEFINED;
+        }
+    }
+}
+
 const ALL_EVENTS_KEY = "Events.AllEvents";
 const POSTPONE_SCROLL_PERIOD = 10000; // ms
 
@@ -131,7 +156,7 @@ function showEvents(data, animateScroll) {
                 "<td class='dev'>" + ef.dev + "</td>" +
                 "<td class='cnl'>" + ef.cnl + "</td>" +
                 "<td class='descr'>" + ef.descr + "</td>" +
-                "<td class='sev'>" + e.severity + "</td>" +
+                "<td class='sev'>" + getSeverityHtml(e.severity) + "</td>" +
                 "<td class='ack'>" + ef.ack + "</td>" +
                 "</tr>");
 
@@ -154,6 +179,25 @@ function showEvents(data, animateScroll) {
     } else {
         $("#divTableWrapper tbody").remove();
         showMessage(phrases.NoEvents);
+    }
+}
+
+function getSeverityHtml(severity) {
+    switch (Severity.get(severity)) {
+        case Severity.CRITICAL:
+            return `<i class='fas fa-exclamation-circle critical' title='${phrases.CriticalSeverity}, ${severity}'></i>`;
+
+        case Severity.MAJOR:
+            return `<i class='fas fa-exclamation-triangle major' title='${phrases.MajorSeverity}, ${severity}'></i>`;
+
+        case Severity.MINOR:
+            return `<i class='fas fa-exclamation-triangle minor' title='${phrases.MinorSeverity}, ${severity}'></i>`;
+
+        case Severity.INFO:
+            return `<i class='fas fa-info-circle info' title='${phrases.InfoSeverity}, ${severity}'></i>`;
+
+        default:
+            return "";
     }
 }
 

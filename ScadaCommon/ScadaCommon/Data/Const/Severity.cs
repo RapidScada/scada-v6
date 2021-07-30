@@ -42,6 +42,11 @@ namespace Scada.Data.Const
         public const int Max = 999;
 
         /// <summary>
+        /// The undefined severity.
+        /// </summary>
+        public const int Undefined = 0;
+
+        /// <summary>
         /// The critical severity from 1 to 249.
         /// </summary>
         public const int Critical = 1;
@@ -59,6 +64,6 @@ namespace Scada.Data.Const
         /// <summary>
         /// The informational severity from 750 to 999.
         /// </summary>
-        public const int Informational = 750;
+        public const int Info = 750;
     }
 }

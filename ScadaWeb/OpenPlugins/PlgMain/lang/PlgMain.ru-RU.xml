@@ -16,6 +16,10 @@
   <Dictionary key="Scada.Web.Plugins.PlgMain.Areas.Main.Pages.Events.Js">
     <Phrase key="Loading">Загрузка...</Phrase>
     <Phrase key="NoEvents">События отсутствуют</Phrase>
+    <Phrase key="CriticalSeverity">Критическая</Phrase>
+    <Phrase key="MajorSeverity">Значительная</Phrase>
+    <Phrase key="MinorSeverity">Незначительная</Phrase>
+    <Phrase key="InfoSeverity">Информационная</Phrase>
   </Dictionary>
   <Dictionary key="Scada.Web.Plugins.PlgMain.Areas.Main.Pages.TableView">
     <Phrase key="PrevDate">Предыдущая дата</Phrase>
