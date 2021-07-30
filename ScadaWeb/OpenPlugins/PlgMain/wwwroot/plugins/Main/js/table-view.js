@@ -184,6 +184,10 @@ function bindEvents() {
         let startDate = $("#localDate").val();
         viewHub.features.chart.show(cnlNum, startDate);
     });
+
+    $(".item-cmd").click(function () {
+        developmentAlert();
+    });
 }
 
 function updateLayout() {

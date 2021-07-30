@@ -4,6 +4,8 @@ $severity-critical-color: $danger;
 $severity-major-color: $orange;
 $severity-minor-color: $yellow;
 $severity-info-color: $info;
+$ack-no-color: $orange;
+$ack-yes-color: $green;
 
 .table-main {
     width: 100%;
@@ -13,6 +15,10 @@ $severity-info-color: $info;
     }
 
     td.sev {
+        i {
+            padding: 0 10px;
+        }
+
         .critical {
             color: $severity-critical-color;
         }
@@ -27,6 +33,21 @@ $severity-info-color: $info;
 
         .info {
             color: $severity-info-color;
+        }
+    }
+
+    td.ack {
+        i {
+            cursor: pointer;
+            padding: 0 10px;
+        }
+
+        .ack-no {
+            color: $ack-no-color;
+        }
+
+        .ack-yes {
+            color: $ack-yes-color;
         }
     }
 }

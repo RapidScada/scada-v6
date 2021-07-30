@@ -20,6 +20,7 @@
     <Phrase key="MajorSeverity">Major</Phrase>
     <Phrase key="MinorSeverity">Minor</Phrase>
     <Phrase key="InfoSeverity">Info</Phrase>
+    <Phrase key="Ack">Click to acknowledge</Phrase>
   </Dictionary>
   <Dictionary key="Scada.Web.Plugins.PlgMain.Areas.Main.Pages.TableView">
     <Phrase key="PrevDate">Previous date</Phrase>

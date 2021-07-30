@@ -55,8 +55,8 @@ function bindEvents() {
         updateLayout();
     });
 
-    // load all events
     $("#spanAllEventsBtn").click(function () {
+        // load all events
         $(this).addClass("selected");
         $("#spanEventsByViewBtn").removeClass("selected");
 
@@ -65,8 +65,8 @@ function bindEvents() {
         resetEvents();
     });
 
-    // load events by view
     $("#spanEventsByViewBtn").click(function () {
+        // load events by view
         $(this).addClass("selected");
         $("#spanAllEventsBtn").removeClass("selected");
 
@@ -79,7 +79,13 @@ function bindEvents() {
         developmentAlert();
     });
 
-    // postpone scroll
+    $("#tblEvents").click(function (event) {
+        let target = $(event.target);
+        if (target.is("td.ack i")) {
+            developmentAlert();
+        }
+    });
+
     $("#divTableWrapper").on("mousemove wheel touchstart", function () {
         postponeScroll();
     });
@@ -150,14 +156,14 @@ function showEvents(data, animateScroll) {
             let e = record.e;   // event data
             let ef = record.ef; // formatted event
 
-            let row = $("<tr>" +
+            let row = $("<tr data-id='" + record.id + "'>" +
                 "<td class='time'>" + ef.time + "</td>" +
                 "<td class='obj'>" + ef.obj + "</td>" +
                 "<td class='dev'>" + ef.dev + "</td>" +
                 "<td class='cnl'>" + ef.cnl + "</td>" +
                 "<td class='descr'>" + ef.descr + "</td>" +
                 "<td class='sev'>" + getSeverityHtml(e.severity) + "</td>" +
-                "<td class='ack'>" + ef.ack + "</td>" +
+                "<td class='ack'>" + getAckHtml(e, ef) + "</td>" +
                 "</tr>");
 
             if (ef.Color) {
@@ -198,6 +204,16 @@ function getSeverityHtml(severity) {
 
         default:
             return "";
+    }
+}
+
+function getAckHtml(e, ef) {
+    if (e.ack) {
+        return `<i class='far fa-check-square ack-yes' title='${ef.ack}'></i>`;
+    } else if (e.ackRequired) {
+        return `<i class='far fa-square ack-no' title='${phrases.Ack}'></i>`;
+    } else {
+        return "";
     }
 }
 

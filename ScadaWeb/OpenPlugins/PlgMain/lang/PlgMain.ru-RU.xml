@@ -20,6 +20,7 @@
     <Phrase key="MajorSeverity">Значительная</Phrase>
     <Phrase key="MinorSeverity">Незначительная</Phrase>
     <Phrase key="InfoSeverity">Информационная</Phrase>
+    <Phrase key="Ack">Квитировать</Phrase>
   </Dictionary>
   <Dictionary key="Scada.Web.Plugins.PlgMain.Areas.Main.Pages.TableView">
     <Phrase key="PrevDate">Предыдущая дата</Phrase>
