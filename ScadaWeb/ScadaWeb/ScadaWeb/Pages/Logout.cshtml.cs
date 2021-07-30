@@ -49,7 +49,7 @@ namespace Scada.Web.Pages
 
         public async Task<IActionResult> OnGetAsync()
         {
-            if (User.Identity.IsAuthenticated)
+            if (User.IsAuthenticated())
             {
                 UserLoginArgs userLoginArgs = new()
                 {

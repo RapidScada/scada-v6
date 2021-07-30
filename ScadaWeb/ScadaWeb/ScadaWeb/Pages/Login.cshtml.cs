@@ -118,9 +118,11 @@ namespace Scada.Web.Pages
             return LocalRedirect(url);
         }
 
-        public void OnGet()
+        public ActionResult OnGet(string returnUrl = null)
         {
-            CheckReady();
+            return CheckReady() && User.IsAuthenticated()
+                ? RedirectToStartPage(returnUrl, User.GetUserID())
+                : Page();
         }
 
         public async Task<IActionResult> OnPostAsync(string returnUrl = null)

@@ -64,6 +64,14 @@ namespace Scada.Web
 
 
         /// <summary>
+        /// Checks if the user has been authenticated.
+        /// </summary>
+        public static bool IsAuthenticated(this ClaimsPrincipal user)
+        {
+            return user.Identity != null && user.Identity.IsAuthenticated;
+        }
+
+        /// <summary>
         /// Gets the username from the specified principal.
         /// </summary>
         public static string GetUsername(this ClaimsPrincipal user)

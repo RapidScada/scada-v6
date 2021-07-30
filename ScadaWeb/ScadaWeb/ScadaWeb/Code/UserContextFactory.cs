@@ -91,8 +91,8 @@ namespace Scada.Web.Code
                 HttpContext httpContext = httpContextAccessor.HttpContext;
 
                 if (!(webContext.IsReady &&
-                    httpContext?.User?.Identity != null &&
-                    httpContext.User.Identity.IsAuthenticated &&
+                    httpContext?.User != null &&
+                    httpContext.User.IsAuthenticated() &&
                     httpContext.User.GetUserID(out int userID)))
                 {
                     return UserContext.Empty;
