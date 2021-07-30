@@ -154,7 +154,7 @@ class NotifPanel {
     _getNotifTypeIcon(notifType) {
         switch (notifType) {
             case NotifType.INFO:
-                return "<i class='fas fa-info-circle info'></i>";
+                return "<i class='fas fa-info info'></i>";
             case NotifType.WARNING:
                 return "<i class='fas fa-exclamation-triangle warning'></i>";
             case NotifType.ERROR:

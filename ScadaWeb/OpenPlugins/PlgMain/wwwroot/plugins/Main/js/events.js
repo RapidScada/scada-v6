@@ -194,7 +194,7 @@ function getSeverityHtml(severity) {
             return `<i class='fas fa-exclamation-triangle minor' title='${phrases.MinorSeverity}, ${severity}'></i>`;
 
         case Severity.INFO:
-            return `<i class='fas fa-info-circle info' title='${phrases.InfoSeverity}, ${severity}'></i>`;
+            return `<i class='fas fa-info info' title='${phrases.InfoSeverity}, ${severity}'></i>`;
 
         default:
             return "";
