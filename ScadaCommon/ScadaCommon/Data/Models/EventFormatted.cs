@@ -43,6 +43,7 @@ namespace Scada.Data.Models
             Descr = "";
             Ack = "";
             Color = "";
+            Beep = false;
         }
 
 
@@ -80,5 +81,10 @@ namespace Scada.Data.Models
         /// Gets or sets the display color.
         /// </summary>
         public string Color { get; set; }
+
+        /// <summary>
+        /// Gets or sets a value indicating whether a client application should play a beep.
+        /// </summary>
+        public bool Beep { get; set; }
     }
 }

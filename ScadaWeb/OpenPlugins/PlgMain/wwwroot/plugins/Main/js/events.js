@@ -31,9 +31,10 @@ class Severity {
 const ALL_EVENTS_KEY = "Events.AllEvents";
 const POSTPONE_SCROLL_PERIOD = 10000; // ms
 
+var allEvents = false;
 var filterID = 0;
 var arcWriteTime = 0;
-var allEvents = false;
+var eventBeepTime = "";
 var scrollTimeoutID = 0;
 
 function restoreFilter() {
@@ -113,9 +114,10 @@ function updateEvents(callback) {
                     // request events
                     let retrieveEvents = function (dto) {
                         if (dto.ok) {
-                            arcWriteTime = newArcWriteTime;
-                            showEvents(dto.data, filterID > 0);
+                            let enableEffects = filterID > 0;
                             filterID = dto.data.filterID;
+                            arcWriteTime = newArcWriteTime;
+                            showEvents(dto.data, enableEffects);
                         } else {
                             showErrorBadge();
                         }
@@ -148,9 +150,10 @@ function updateEvents(callback) {
     }
 }
 
-function showEvents(data, animateScroll) {
+function showEvents(data, enableEffects) {
     if (data.records.length > 0) {
         let tbodyElem = $("<tbody></tbody>");
+        let newEventBeepTime = eventBeepTime;
 
         for (let record of data.records) {
             let e = record.e;   // event data
@@ -166,8 +169,12 @@ function showEvents(data, animateScroll) {
                 "<td class='ack'>" + getAckHtml(e, ef) + "</td>" +
                 "</tr>");
 
-            if (ef.Color) {
-                row.css("color", ef.Color);
+            if (ef.color) {
+                row.css("color", ef.color);
+            }
+
+            if (ef.beep) {
+                newEventBeepTime = e.timestamp;
             }
 
             tbodyElem.append(row);
@@ -180,7 +187,16 @@ function showEvents(data, animateScroll) {
 
         // scroll down
         if (scrollTimeoutID <= 0) {
-            scrollDownEvents(animateScroll);
+            scrollDownEvents(enableEffects);
+        }
+
+        // beep
+        if (eventBeepTime < newEventBeepTime) {
+            eventBeepTime = newEventBeepTime;
+
+            if (enableEffects) {
+                ScadaUtils.playSound($("#audEvent"));
+            }
         }
     } else {
         $("#divTableWrapper tbody").remove();
@@ -223,6 +239,7 @@ function resetEvents() {
 
     filterID = 0;
     arcWriteTime = 0;
+    eventBeepTime = "";
     clearTimeout(scrollTimeoutID);
     scrollTimeoutID = 0;
 }
