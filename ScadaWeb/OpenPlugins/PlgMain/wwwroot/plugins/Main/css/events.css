@@ -71,7 +71,7 @@
   .table-main td.obj, .table-main td.dev, .table-main td.cnl, .table-main td.descr {
     text-align: left; }
   .table-main td.sev i {
-    padding: 0 10px; }
+    padding: 0 20px; }
   .table-main td.sev .critical {
     color: #dc3545; }
   .table-main td.sev .major {
@@ -82,7 +82,7 @@
     color: #0dcaf0; }
   .table-main td.ack i {
     cursor: pointer;
-    padding: 0 10px; }
+    padding: 0 20px; }
   .table-main td.ack .ack-no {
     color: #fd7e14; }
   .table-main td.ack .ack-yes {
