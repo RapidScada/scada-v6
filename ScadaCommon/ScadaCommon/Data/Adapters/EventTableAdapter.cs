@@ -20,7 +20,7 @@
  * 
  * Author   : Mikhail Shiryaev
  * Created  : 2020
- * Modified : 2020
+ * Modified : 2021
  */
 
 using Scada.Data.Models;
@@ -56,13 +56,13 @@ namespace Scada.Data.Adapters
         /// </summary>
         protected const int EventSize = 102;
         /// <summary>
-        /// The maximum size of the event text.
+        /// The maximum number of characters in the event text.
         /// </summary>
         protected const int MaxTextSize = 50;
         /// <summary>
-        /// The maximum size of the event data.
+        /// The maximum size of the event data in bytes.
         /// </summary>
-        protected const int MaxDataSize = 50;
+        protected const int MaxDataSize = 100;
         /// <summary>
         /// Indicates the beginning of a new event text block in a file.
         /// </summary>
@@ -133,7 +133,7 @@ namespace Scada.Data.Adapters
                 if (BitConverter.ToUInt16(buffer, 0) != TextMarker)
                     throw new ScadaException("Event text marker not found.");
 
-                return Encoding.Unicode.GetString(buffer, 2, textSize);
+                return Encoding.Unicode.GetString(buffer, 2, textSize * 2);
             }
             else
             {
@@ -204,7 +204,7 @@ namespace Scada.Data.Adapters
             CopyUInt16((ushort)ev.PrevCnlStat, buffer, ref index);
             CopyDouble(ev.CnlVal, buffer, ref index);
             CopyUInt16((ushort)ev.CnlStat, buffer, ref index);
-            CopyInt32(ev.Severity, buffer, ref index);
+            CopyUInt16((ushort)ev.Severity, buffer, ref index);
             CopyBool(ev.AckRequired, buffer, ref index);
             CopyBool(ev.Ack, buffer, ref index);
             CopyTime(ev.AckTimestamp, buffer, ref index);
@@ -238,7 +238,7 @@ namespace Scada.Data.Adapters
             int textDataSize = Encoding.Unicode.GetBytes(text ?? "", 0, textSize, buffer, 0);
             writer.Write(TextMarker);
             writer.Write(buffer, 0, textDataSize);
-            writer.Write(EmptyBuffer, 0, EventSize - textDataSize - 2);
+            writer.Write(ReserveBuffer, 0, EventSize - textDataSize - 2);
         }
 
         /// <summary>
@@ -250,12 +250,12 @@ namespace Scada.Data.Adapters
 
             if (data == null)
             {
-                writer.Write(EmptyBuffer, 0, EventSize - 2);
+                writer.Write(ReserveBuffer, 0, EventSize - 2);
             }
             else
             {
                 writer.Write(data, 0, dataSize);
-                writer.Write(EmptyBuffer, 0, EventSize - dataSize - 2);
+                writer.Write(ReserveBuffer, 0, EventSize - dataSize - 2);
             }
         }
 
