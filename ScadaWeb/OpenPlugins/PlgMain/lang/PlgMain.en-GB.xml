@@ -38,4 +38,7 @@
     <Phrase key="spanErrorBadge">Error</Phrase>
     <Phrase key=""></Phrase>
   </Dictionary>
+  <Dictionary key="Scada.Web.Plugins.PlgMain.Code.EventWindowSpec">
+    <Phrase key="EventWindowTitle">Events</Phrase>
+  </Dictionary>
 </PlgMainDictionaries>

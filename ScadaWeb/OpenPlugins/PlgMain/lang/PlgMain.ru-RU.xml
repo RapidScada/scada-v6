@@ -37,4 +37,7 @@
     <Phrase key="SendCommandTip">Отправить команду</Phrase>
     <Phrase key="spanErrorBadge">Ошибка</Phrase>
   </Dictionary>
+  <Dictionary key="Scada.Web.Plugins.PlgMain.Code.EventWindowSpec">
+    <Phrase key="EventWindowTitle">События</Phrase>
+  </Dictionary>
 </PlgMainDictionaries>

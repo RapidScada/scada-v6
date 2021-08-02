@@ -11,6 +11,7 @@ namespace Scada.Web.Plugins.PlgMain.Code
     /// </summary>
     internal static class PluginPhrases
     {
+        // Scada.Web.Plugins.PlgMain.Areas.Main.Pages.TableView
         public static string PrevDate { get; private set; }
         public static string SelDate { get; private set; }
         public static string MinusOneDay { get; private set; }
@@ -23,6 +24,9 @@ namespace Scada.Web.Plugins.PlgMain.Code
         public static string QuantityTip { get; private set; }
         public static string UnitTip { get; private set; }
         public static string SendCommandTip { get; private set; }
+
+        // Scada.Web.Plugins.PlgMain.Code.EventWindowSpec
+        public static string EventWindowTitle { get; private set; }
 
         public static void Init()
         {
@@ -39,6 +43,9 @@ namespace Scada.Web.Plugins.PlgMain.Code
             QuantityTip = dict["QuantityTip"];
             UnitTip = dict["UnitTip"];
             SendCommandTip = dict["SendCommandTip"];
+
+            dict = Locale.GetDictionary("Scada.Web.Plugins.PlgMain.Code.EventWindowSpec");
+            EventWindowTitle = dict["EventWindowTitle"];
         }
     }
 }

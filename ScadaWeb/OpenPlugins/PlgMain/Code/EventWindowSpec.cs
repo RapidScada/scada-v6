@@ -12,7 +12,7 @@ namespace Scada.Web.Plugins.PlgMain.Code
         /// <summary>
         /// Gets the window title.
         /// </summary>
-        public override string Title => "Events";
+        public override string Title => PluginPhrases.EventWindowTitle;
 
         /// <summary>
         /// Gets the URL of the window frame.
