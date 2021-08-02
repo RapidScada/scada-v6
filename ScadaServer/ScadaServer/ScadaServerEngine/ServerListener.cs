@@ -216,7 +216,6 @@ namespace Scada.Server.Engine
         {
             byte[] buffer = request.Buffer;
             int index = ArgumentIndex;
-            int deviceNum = GetInt32(buffer, ref index);
             int cnlCnt = GetInt32(buffer, ref index);
             int[] cnlNums = new int[cnlCnt];
             CnlData[] cnlData = new CnlData[cnlCnt];
@@ -228,6 +227,7 @@ namespace Scada.Server.Engine
             }
 
             index += cnlCnt * 14;
+            int deviceNum = GetInt32(buffer, ref index);
             bool applyFormulas = buffer[index] > 0;
             coreLogic.WriteCurrentData(cnlNums, cnlData, deviceNum, applyFormulas);
 
