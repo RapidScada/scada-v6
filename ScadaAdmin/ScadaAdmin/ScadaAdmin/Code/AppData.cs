@@ -102,7 +102,7 @@ namespace Scada.Admin.App.Code
             }
             catch (Exception ex)
             {
-                ErrLog.WriteException(ex, Locale.IsRussian ?
+                ErrLog.WriteError(ex, Locale.IsRussian ?
                     "Ошибка при очистке директории временных файлов" :
                     "Error cleaning the directory of temporary files");
             }
@@ -144,7 +144,7 @@ namespace Scada.Admin.App.Code
         public void ProcError(Exception ex, string text = "", params object[] args)
         {
             string msg = ScadaUtils.BuildErrorMessage(ex, text, args);
-            ErrLog.WriteMessage(msg, LogMessageType.Exception);
+            ErrLog.WriteMessage(msg, LogMessageType.Error);
             ScadaUiUtils.ShowError(msg);
         }
 

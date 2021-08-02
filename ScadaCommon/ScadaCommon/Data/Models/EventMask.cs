@@ -23,6 +23,8 @@
  * Modified : 2021
  */
 
+using Scada.Data.Const;
+
 namespace Scada.Data.Models
 {
     /// <summary>
@@ -31,32 +33,6 @@ namespace Scada.Data.Models
     /// </summary>
     public struct EventMask
     {
-        /// <summary>
-        /// The bit indicating whether events are enabled for the channel.
-        /// </summary>
-        private const int EnabledBit = 0;
-        /// <summary>
-        /// The bit indicating whether a client application should play a beep on event.
-        /// </summary>
-        private const int BeepBit = 1;
-        /// <summary>
-        /// The bit indicating whether an event should be raised when channel data changes.
-        /// </summary>
-        private const int DataChangeBit = 2;
-        /// <summary>
-        /// The bit indicating whether an event should be raised when channel value changes.
-        /// </summary>
-        private const int ValueChangeBit = 3;
-        /// <summary>
-        /// The bit indicating whether an event should be raised when channel status changes.
-        /// </summary>
-        private const int StatusChangeBit = 4;
-        /// <summary>
-        /// The bit indicating whether an event should be raised when the channel becomes undefined, or vice versa.
-        /// </summary>
-        private const int CnlUndefinedBit = 5;
-
-
         /// <summary>
         /// Initializes a new instance of the structure.
         /// </summary>
@@ -78,11 +54,11 @@ namespace Scada.Data.Models
         {
             get
             {
-                return Value.BitIsSet(EnabledBit);
+                return Value.BitIsSet(EventBit.Enabled);
             }
             set
             {
-                Value = Value.SetBit(EnabledBit, value);
+                Value = Value.SetBit(EventBit.Enabled, value);
             }
         }
 
@@ -93,11 +69,11 @@ namespace Scada.Data.Models
         {
             get
             {
-                return Value.BitIsSet(BeepBit);
+                return Value.BitIsSet(EventBit.Beep);
             }
             set
             {
-                Value = Value.SetBit(BeepBit, value);
+                Value = Value.SetBit(EventBit.Beep, value);
             }
         }
 
@@ -108,11 +84,11 @@ namespace Scada.Data.Models
         {
             get
             {
-                return Value.BitIsSet(DataChangeBit);
+                return Value.BitIsSet(EventBit.DataChange);
             }
             set
             {
-                Value = Value.SetBit(DataChangeBit, value);
+                Value = Value.SetBit(EventBit.DataChange, value);
             }
         }
 
@@ -123,11 +99,11 @@ namespace Scada.Data.Models
         {
             get
             {
-                return Value.BitIsSet(ValueChangeBit);
+                return Value.BitIsSet(EventBit.ValueChange);
             }
             set
             {
-                Value = Value.SetBit(ValueChangeBit, value);
+                Value = Value.SetBit(EventBit.ValueChange, value);
             }
         }
 
@@ -138,11 +114,11 @@ namespace Scada.Data.Models
         {
             get
             {
-                return Value.BitIsSet(StatusChangeBit);
+                return Value.BitIsSet(EventBit.StatusChange);
             }
             set
             {
-                Value = Value.SetBit(StatusChangeBit, value);
+                Value = Value.SetBit(EventBit.StatusChange, value);
             }
         }
 
@@ -153,11 +129,11 @@ namespace Scada.Data.Models
         {
             get
             {
-                return Value.BitIsSet(CnlUndefinedBit);
+                return Value.BitIsSet(EventBit.CnlUndefined);
             }
             set
             {
-                Value = Value.SetBit(CnlUndefinedBit, value);
+                Value = Value.SetBit(EventBit.CnlUndefined, value);
             }
         }
     }

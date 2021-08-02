@@ -23,12 +23,11 @@
  * Modified : 2021
  */
 
+using Scada.Data.Const;
 using Scada.Data.Entities;
-using Scada.Data.Models;
 using Scada.Data.Tables;
 using System;
 using System.Collections.Generic;
-using System.Diagnostics;
 using System.Text;
 using System.Windows.Forms;
 
@@ -65,12 +64,12 @@ namespace Scada.Admin.App.Code
         {
             return new List<BitItem>
             {
-                new BitItem(EventMask.EnabledBit, AppPhrases.EventEnabled),
-                new BitItem(EventMask.BeepBit, AppPhrases.EventBeep),
-                new BitItem(EventMask.DataChangeBit, AppPhrases.DataChangeEvent),
-                new BitItem(EventMask.ValueChangeBit, AppPhrases.ValueChangeEvent),
-                new BitItem(EventMask.StatusChangeBit, AppPhrases.StatusChangeEvent),
-                new BitItem(EventMask.CnlUndefinedBit, AppPhrases.CnlUndefinedEvent)
+                new BitItem(EventBit.Enabled, AppPhrases.EventEnabled),
+                new BitItem(EventBit.Beep, AppPhrases.EventBeep),
+                new BitItem(EventBit.DataChange, AppPhrases.DataChangeEvent),
+                new BitItem(EventBit.ValueChange, AppPhrases.ValueChangeEvent),
+                new BitItem(EventBit.StatusChange, AppPhrases.StatusChangeEvent),
+                new BitItem(EventBit.CnlUndefined, AppPhrases.CnlUndefinedEvent)
             };
         }
 
