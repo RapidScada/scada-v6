@@ -601,14 +601,16 @@ namespace Scada.Data.Adapters
 
                     if (updateText && textBlockCnt > 0)
                     {
-                        stream.Seek(eventPosition + EventSize, SeekOrigin.Begin);
-                        WriteEventText(writer, buffer, ev.Text, textBlockCnt, textSize);
+                        long textPosition = eventPosition + EventSize;
+                        if (stream.Seek(textPosition, SeekOrigin.Begin) == textPosition)
+                            WriteEventText(writer, buffer, ev.Text, textBlockCnt, textSize);
                     }
 
                     if (updateData && dataBlockCnt > 0)
                     {
-                        stream.Seek(eventPosition + EventSize + EventSize * textBlockCnt, SeekOrigin.Begin);
-                        WriteEventData(writer, ev.Data, dataBlockCnt, dataSize);
+                        long dataPosition = eventPosition + EventSize + EventSize * textBlockCnt;
+                        if (stream.Seek(dataPosition, SeekOrigin.Begin) == dataPosition)
+                            WriteEventData(writer, ev.Data, dataBlockCnt, dataSize);
                     }
                 }
             }
