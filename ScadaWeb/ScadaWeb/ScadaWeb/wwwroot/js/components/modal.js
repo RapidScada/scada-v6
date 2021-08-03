@@ -48,6 +48,42 @@ class ModalManager {
         return null;
     }
 
+    // Opens the modal dialog containing the specified page.
+    // opt_callback is a function (result, args)
+    showModal(url, opt_options, opt_callback) {
+
+    }
+
+    // Closes the modal dialog with the specified result.
+    closeModal(modalWnd, result, args) {
+
+    }
+
+    // Updates the modal dialog height according to its frame height.
+    updateModalHeight(modalWnd) {
+
+    }
+
+    // Sets the result of the modal dialog, keeping it open.
+    setResult(modalWnd, result, args) {
+
+    }
+
+    // Sets the title of the modal dialog.
+    setTitle(modalWnd, title) {
+
+    }
+
+    // Shows or hides the button of the modal dialog.
+    setButtonVisible(modalWnd, buttonName, value) {
+
+    }
+
+    // Enables or disables the button of the modal dialog.
+    setButtonEnabled(modalWnd, buttonName, value) {
+
+    }
+
     // Finds an existing or create a new manager instance.
     static getInstance() {
         return ModalManager._findInstance() || new ModalManager();
