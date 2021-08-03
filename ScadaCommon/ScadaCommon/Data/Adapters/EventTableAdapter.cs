@@ -56,13 +56,21 @@ namespace Scada.Data.Adapters
         /// </summary>
         protected const int EventSize = 102;
         /// <summary>
-        /// The maximum number of characters in the event text.
+        /// The maximum number of characters in a text block.
         /// </summary>
         protected const int MaxTextSize = 50;
         /// <summary>
-        /// The maximum size of the event data in bytes.
+        /// The maximum data size in a data block.
         /// </summary>
         protected const int MaxDataSize = 100;
+        /// <summary>
+        /// The maximum number of text blocks.
+        /// </summary>
+        protected const int MaxTextBlockCount = 2;
+        /// <summary>
+        /// The maximum number of data blocks.
+        /// </summary>
+        protected const int MaxDataBlockCount = 2;
         /// <summary>
         /// Indicates the beginning of a new event text block in a file.
         /// </summary>
@@ -71,6 +79,18 @@ namespace Scada.Data.Adapters
         /// Indicates the beginning of a new event data block in a file.
         /// </summary>
         protected const ushort DataMarker = 0x0E02;
+        /// <summary>
+        /// The event acknowledged field index.
+        /// </summary>
+        protected const int AckIndex = 58;
+        /// <summary>
+        /// The text block count field index.
+        /// </summary>
+        protected const int TextBlockCountIndex = 73;
+        /// <summary>
+        /// The data block count field index.
+        /// </summary>
+        protected const int DataBlockCountIndex = 76;
 
 
         /// <summary>
@@ -124,42 +144,63 @@ namespace Scada.Data.Adapters
         /// <summary>
         /// Reads event text.
         /// </summary>
-        protected string ReadEventText(BinaryReader reader, byte[] buffer, int textSize)
+        protected string ReadEventText(BinaryReader reader, byte[] buffer, int textBlockCnt, int textSize)
         {
-            if (textSize > 0)
+            if (textBlockCnt <= 0)
+                return "";
+
+            if (textBlockCnt > MaxTextBlockCount)
+                throw new ScadaException("Number of text blocks exceeded.");
+
+            StringBuilder sbEventText = new StringBuilder(textSize);
+
+            for (int i = 0; i < textBlockCnt; i++)
             {
                 ReadData(reader, buffer, 0, EventSize, true);
 
                 if (BitConverter.ToUInt16(buffer, 0) != TextMarker)
-                    throw new ScadaException("Event text marker not found.");
+                    throw new ScadaException("Text marker not found.");
 
-                return Encoding.Unicode.GetString(buffer, 2, textSize * 2);
+                if (sbEventText.Length < textSize)
+                {
+                    int charCnt = Math.Min(textSize - sbEventText.Length, MaxTextSize);
+                    sbEventText.Append(Encoding.Unicode.GetString(buffer, 2, charCnt * 2));
+                }
             }
-            else
-            {
-                return "";
-            }
+
+            return sbEventText.ToString();
         }
 
         /// <summary>
         /// Reads event data.
         /// </summary>
-        protected byte[] ReadEventData(BinaryReader reader, byte[] buffer, int dataSize)
+        protected byte[] ReadEventData(BinaryReader reader, byte[] buffer, int dataBlockCnt, int dataSize)
         {
-            if (dataSize > 0)
-            {
-                if (reader.ReadUInt16() != DataMarker)
-                    throw new ScadaException("Event data marker not found.");
-
-                byte[] eventData = new byte[dataSize];
-                ReadData(reader, eventData, 0, dataSize, true);
-                ReadData(reader, buffer, 0, EventSize - dataSize - 2, true);
-                return eventData;
-            }
-            else
-            {
+            if (dataBlockCnt <= 0)
                 return null;
+
+            if (dataBlockCnt > MaxDataBlockCount)
+                throw new ScadaException("Number of data blocks exceeded.");
+
+            byte[] eventData = new byte[dataSize];
+            int dataIndex = 0;
+
+            for (int i = 0; i < dataBlockCnt; i++)
+            {
+                ReadData(reader, buffer, 0, EventSize, true);
+
+                if (BitConverter.ToUInt16(buffer, 0) != DataMarker)
+                    throw new ScadaException("Data marker not found.");
+
+                if (dataIndex < dataSize)
+                {
+                    int byteCnt = Math.Min(dataSize - dataIndex, MaxDataSize);
+                    Buffer.BlockCopy(buffer, 2, eventData, dataIndex, byteCnt);
+                    dataIndex += byteCnt;
+                }
             }
+
+            return eventData;
         }
 
         /// <summary>
@@ -183,13 +224,13 @@ namespace Scada.Data.Adapters
         }
 
         /// <summary>
-        /// Copies the event to the buffer.
+        /// Copies the event to the buffer with the specified block count.
         /// </summary>
-        protected void CopyEvent(Event ev, bool textExists, bool dataExists,
-            byte[] buffer, out int textSize, out int dataSize)
+        protected void CopyEvent(Event ev, byte[] buffer, int textBlockCnt, int dataBlockCnt,
+            out int textSize, out int dataSize)
         {
-            textSize = ev.Text == null ? 0 : Math.Min(ev.Text.Length, MaxTextSize);
-            dataSize = ev.Data == null ? 0 : Math.Min(ev.Data.Length, MaxDataSize);
+            textSize = ev.Text == null ? 0 : Math.Min(ev.Text.Length, textBlockCnt * MaxTextSize);
+            dataSize = ev.Data == null ? 0 : Math.Min(ev.Data.Length, dataBlockCnt * MaxDataSize);
 
             int index = 0;
             CopyUInt16(BlockMarker, buffer, ref index);
@@ -210,52 +251,80 @@ namespace Scada.Data.Adapters
             CopyTime(ev.AckTimestamp, buffer, ref index);
             CopyInt32(ev.AckUserID, buffer, ref index);
             CopyByte((byte)ev.TextFormat, buffer, ref index);
-            CopyBool(textExists, buffer, ref index);
-            CopyByte((byte)textSize, buffer, ref index);
-            CopyBool(dataExists, buffer, ref index);
-            CopyByte((byte)dataSize, buffer, ref index);
+            CopyByte((byte)textBlockCnt, buffer, ref index);
+            CopyUInt16((ushort)textSize, buffer, ref index);
+            CopyByte((byte)dataBlockCnt, buffer, ref index);
+            CopyUInt16((ushort)dataSize, buffer, ref index);
             Array.Clear(buffer, index, EventSize - index - 2);
             ushort crc = ScadaUtils.CRC16(buffer, 0, EventSize - 2);
             CopyUInt16(crc, buffer, EventSize - 2);
         }
 
         /// <summary>
-        /// Copies the event to the buffer.
+        /// Copies the event to the buffer and calculates block count.
         /// </summary>
-        protected void CopyEvent(Event ev, byte[] buffer, out int textSize, out int dataSize)
+        protected void CopyEvent(Event ev, byte[] buffer, out int textBlockCnt, out int dataBlockCnt, 
+            out int textSize, out int dataSize)
         {
-            CopyEvent(ev,
-                ev.Text != null && ev.Text.Length > 0,
-                ev.Data != null && ev.Data.Length > 0,
-                buffer, out textSize, out dataSize);
+            int fullTextSize = ev.Text == null ? 0 : ev.Text.Length;
+            int fullDataSize = ev.Data == null ? 0 : ev.Data.Length;
+            textBlockCnt = Math.Min(fullTextSize / MaxTextSize, MaxTextBlockCount);
+            dataBlockCnt = Math.Min(fullDataSize / MaxDataSize, MaxDataBlockCount);
+
+            CopyEvent(ev, buffer, textBlockCnt, dataBlockCnt, out textSize, out dataSize);
         }
 
         /// <summary>
         /// Writes the event text.
         /// </summary>
-        protected void WriteEventText(BinaryWriter writer, string text, int textSize, byte[] buffer)
+        protected void WriteEventText(BinaryWriter writer, byte[] buffer, string text, int textBlockCnt, int textSize)
         {
-            int textDataSize = Encoding.Unicode.GetBytes(text ?? "", 0, textSize, buffer, 0);
-            writer.Write(TextMarker);
-            writer.Write(buffer, 0, textDataSize);
-            writer.Write(ReserveBuffer, 0, EventSize - textDataSize - 2);
-        }
+            int textIndex = 0;
 
-        /// <summary>
-        /// Writes the event text.
-        /// </summary>
-        protected void WriteEventData(BinaryWriter writer, byte[] data, int dataSize)
-        {
-            writer.Write(DataMarker);
-
-            if (data == null)
+            for (int i = 0; i < textBlockCnt; i++)
             {
-                writer.Write(ReserveBuffer, 0, EventSize - 2);
+                int charCnt = Math.Min(textSize - textIndex, MaxTextSize);
+
+                if (charCnt > 0)
+                {
+                    int textDataSize = Encoding.Unicode.GetBytes(text, textIndex, charCnt, buffer, 0);
+                    textIndex += charCnt;
+
+                    writer.Write(TextMarker);
+                    writer.Write(buffer, 0, textDataSize);
+                    writer.Write(ReserveBuffer, 0, EventSize - textDataSize - 2);
+                }
+                else
+                {
+                    writer.Write(TextMarker);
+                    writer.Write(ReserveBuffer, 0, EventSize - 2);
+                }
             }
-            else
+        }
+
+        /// <summary>
+        /// Writes the event text.
+        /// </summary>
+        protected void WriteEventData(BinaryWriter writer, byte[] data, int dataBlockCnt, int dataSize)
+        {
+            int dataIndex = 0;
+
+            for (int i = 0; i < dataBlockCnt; i++)
             {
-                writer.Write(data, 0, dataSize);
-                writer.Write(ReserveBuffer, 0, EventSize - dataSize - 2);
+                int byteCnt = Math.Min(dataSize - dataIndex, MaxDataSize);
+
+                if (byteCnt > 0)
+                {
+                    writer.Write(DataMarker);
+                    writer.Write(data, dataIndex, byteCnt);
+                    writer.Write(ReserveBuffer, 0, EventSize - byteCnt - 2);
+                    dataIndex += byteCnt;
+                }
+                else
+                {
+                    writer.Write(DataMarker);
+                    writer.Write(ReserveBuffer, 0, EventSize - 2);
+                }
             }
         }
 
@@ -312,13 +381,13 @@ namespace Scada.Data.Adapters
                         Position = eventPosition
                     };
 
-                    bool textExists = GetBool(buffer, ref index);
+                    int textBlockCnt = GetUInt16(buffer, ref index);
                     int textSize = GetByte(buffer, ref index);
-                    bool dataExists = GetBool(buffer, ref index);
+                    int dataBlockCnt = GetUInt16(buffer, ref index);
                     int dataSize = GetByte(buffer, ref index);
 
-                    ev.Text = textExists ? ReadEventText(reader, buffer, textSize) : "";
-                    ev.Data = dataExists ? ReadEventData(reader, buffer, dataSize) : null;
+                    ev.Text = ReadEventText(reader, buffer, textBlockCnt, textSize);
+                    ev.Data = ReadEventData(reader, buffer, dataBlockCnt, dataSize);
 
                     eventTable.Events.Add(ev);
                     eventPosition = stream.Position;
@@ -407,13 +476,13 @@ namespace Scada.Data.Adapters
                     row["TextFormat"] = GetByte(buffer, ref index);
                     row["Position"] = eventPosition;
 
-                    bool textExists = GetBool(buffer, ref index);
+                    int textBlockCnt = GetUInt16(buffer, ref index);
                     int textSize = GetByte(buffer, ref index);
-                    bool dataExists = GetBool(buffer, ref index);
+                    int dataBlockCnt = GetUInt16(buffer, ref index);
                     int dataSize = GetByte(buffer, ref index);
 
-                    row["Text"] = textExists ? ReadEventText(reader, buffer, textSize) : "";
-                    row["Data"] = dataExists ? ReadEventData(reader, buffer, dataSize) : null;
+                    row["Text"] = ReadEventText(reader, buffer, textBlockCnt, textSize);
+                    row["Data"] = ReadEventData(reader, buffer, dataBlockCnt, dataSize);
 
                     dataTable.Rows.Add(row);
                     eventPosition = stream.Position;
@@ -469,15 +538,15 @@ namespace Scada.Data.Adapters
 
                 // write event
                 byte[] buffer = new byte[EventSize];
-                CopyEvent(ev, buffer, out int textSize, out int dataSize);
+                CopyEvent(ev, buffer, out int textBlockCnt, out int dataBlockCnt, out int textSize, out int dataSize);
                 writer.Write(buffer);
                 ev.Position = position;
 
-                if (textSize > 0)
-                    WriteEventText(writer, ev.Text, textSize, buffer);
+                if (textBlockCnt > 0)
+                    WriteEventText(writer, buffer, ev.Text, textBlockCnt, textSize);
 
-                if (dataSize > 0)
-                    WriteEventData(writer, ev.Data, dataSize);
+                if (dataBlockCnt > 0)
+                    WriteEventData(writer, ev.Data, dataBlockCnt, dataSize);
             }
             finally
             {
@@ -506,62 +575,40 @@ namespace Scada.Data.Adapters
                 reader = new BinaryReader(stream, Encoding.UTF8, Stream != null);
                 writer = new BinaryWriter(stream, Encoding.UTF8, Stream != null);
 
-                // check if text and data blocks exist in the file and find their positions
-                bool textExists = false;
-                bool dataExists = false;
-                long textPosition = -1;
-                long dataPosition = -1;
+                // read text and data block count
+                byte[] buffer = new byte[EventSize];
+                long eventPosition = ev.Position;
+                int textBlockCnt = 0;
+                int dataBlockCnt = 0;
 
-                long streamLength = stream.Length;
-                long blockPosition = ev.Position + EventSize;
-
-                if (blockPosition < streamLength)
+                if (stream.Seek(eventPosition, SeekOrigin.Begin) == eventPosition &&
+                    ReadEvent(reader, buffer, out int index))
                 {
-                    stream.Seek(blockPosition, SeekOrigin.Begin);
-                    ushort marker = reader.ReadUInt16();
-
-                    if (marker == TextMarker)
-                    {
-                        textExists = true;
-                        textPosition = blockPosition;
-                        blockPosition += EventSize;
-
-                        if (blockPosition < streamLength)
-                        {
-                            stream.Seek(blockPosition, SeekOrigin.Begin);
-
-                            if (reader.ReadUInt16() == DataMarker)
-                            {
-                                dataExists = true;
-                                dataPosition = blockPosition;
-                            }
-                        }
-                    }
-                    else if (marker == DataMarker)
-                    {
-                        dataExists = true;
-                        dataPosition = blockPosition;
-                    }
+                    textBlockCnt = BitConverter.ToUInt16(buffer, TextBlockCountIndex);
+                    dataBlockCnt = BitConverter.ToUInt16(buffer, DataBlockCountIndex);
+                }
+                else
+                {
+                    throw new ScadaException("Unable to read event before update.");
                 }
 
                 // write event
-                byte[] buffer = new byte[EventSize];
-                CopyEvent(ev, textExists, dataExists, buffer, out int textSize, out int dataSize);
+                CopyEvent(ev, buffer, textBlockCnt, dataBlockCnt, out int textSize, out int dataSize);
 
-                if (stream.Seek(ev.Position, SeekOrigin.Begin) == ev.Position)
+                if (stream.Seek(eventPosition, SeekOrigin.Begin) == eventPosition)
                 {
                     writer.Write(buffer);
 
-                    if (updateText && textExists)
+                    if (updateText && textBlockCnt > 0)
                     {
-                        stream.Seek(textPosition, SeekOrigin.Begin);
-                        WriteEventText(writer, ev.Text, textSize, buffer);
+                        stream.Seek(eventPosition + EventSize, SeekOrigin.Begin);
+                        WriteEventText(writer, buffer, ev.Text, textBlockCnt, textSize);
                     }
 
-                    if (updateData && dataExists)
+                    if (updateData && dataBlockCnt > 0)
                     {
-                        stream.Seek(dataPosition, SeekOrigin.Begin);
-                        WriteEventData(writer, ev.Data, dataSize);
+                        stream.Seek(eventPosition + EventSize + EventSize * textBlockCnt, SeekOrigin.Begin);
+                        WriteEventData(writer, ev.Data, dataBlockCnt, dataSize);
                     }
                 }
             }
@@ -601,7 +648,7 @@ namespace Scada.Data.Adapters
                     GetInt64(buffer, ref index) == ev.EventID)
                 {
                     // update the event in the buffer
-                    index = 58;
+                    index = AckIndex;
                     CopyBool(ev.Ack, buffer, ref index);
                     CopyTime(ev.AckTimestamp, buffer, ref index);
                     CopyInt32(ev.AckUserID, buffer, ref index);
