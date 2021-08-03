@@ -15,7 +15,7 @@
   </Dictionary>
   <Dictionary key="Scada.Web.Plugins.PlgMain.Areas.Main.Pages.Events.Js">
     <Phrase key="Loading">Loading...</Phrase>
-    <Phrase key="NoEvents">NoEvents</Phrase>
+    <Phrase key="NoEvents">No events</Phrase>
     <Phrase key="CriticalSeverity">Critical</Phrase>
     <Phrase key="MajorSeverity">Major</Phrase>
     <Phrase key="MinorSeverity">Minor</Phrase>
