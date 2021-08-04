@@ -27,6 +27,14 @@
     <Phrase key="divMainMenuTab">Main Menu</Phrase>
     <Phrase key="divViewExplorerTab">Views</Phrase>
   </Dictionary>
+  <Dictionary key="Scada.Web.Pages.Shared._MainLayout.Modal">
+    <Phrase key="Ok">OK</Phrase>
+    <Phrase key="Yes">Yes</Phrase>
+    <Phrase key="No">No</Phrase>
+    <Phrase key="Execute">Execute</Phrase>
+    <Phrase key="Cancel">Cancel</Phrase>
+    <Phrase key="Close">Close</Phrase>
+  </Dictionary>
   <Dictionary key="Scada.Web.Pages.Shared._MainLayout.NotifPanel">
     <Phrase key="NoNotif">No notifications</Phrase>
     <Phrase key="Mute">Mute</Phrase>

@@ -1,7 +1,8 @@
 ﻿@import '../_variables';
 @import '../_mixins';
-@import '../components/_tree-view';
+@import '../components/_modal';
 @import '../components/_notif-panel';
+@import '../components/_tree-view';
 
 body {
     @include link-no-decor;

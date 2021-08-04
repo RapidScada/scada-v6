@@ -28,7 +28,7 @@ var viewPage = {
             });
 
         $(window)
-            .on(ScadaEventTypes.UPDATE_LAYOUT, function () {
+            .on(ScadaEventType.UPDATE_LAYOUT, function () {
                 thisObj.updateLayout();
             })
             .on("popstate", function (event) {

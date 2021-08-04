@@ -25,6 +25,14 @@
     <Phrase key="divMainMenuTab">Главное меню</Phrase>
     <Phrase key="divViewExplorerTab">Представления</Phrase>
   </Dictionary>
+  <Dictionary key="Scada.Web.Pages.Shared._MainLayout.Modal">
+    <Phrase key="Ok">OK</Phrase>
+    <Phrase key="Yes">Да</Phrase>
+    <Phrase key="No">Нет</Phrase>
+    <Phrase key="Execute">Выполнить</Phrase>
+    <Phrase key="Cancel">Отмена</Phrase>
+    <Phrase key="Close">Закрыть</Phrase>
+  </Dictionary>
   <Dictionary key="Scada.Web.Pages.Shared._MainLayout.NotifPanel">
     <Phrase key="NoNotif">Уведомлений нет</Phrase>
     <Phrase key="Mute">Отключить звук</Phrase>

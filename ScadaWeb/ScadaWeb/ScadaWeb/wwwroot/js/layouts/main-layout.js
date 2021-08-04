@@ -1,6 +1,7 @@
-﻿// Depends on jquery, scada-common.js, tree-view.js
+﻿// Depends on jquery, bootstrap, scada-common.js, modal.js, notif-panel.js, tree-view.js
 
 var appEnv = appEnvStub;
+var modalManager = new ModalManager();
 
 var mainLayout = {
     // The storage key for the left panel visibility.
@@ -248,7 +249,7 @@ var mainLayout = {
         $("#Main_divTabPanel").outerWidth(contentHeight);
         $("#Main_divContent").outerHeight(contentHeight);
         $("#Main_divNotifPanel").outerHeight(contentHeight);
-        $(window).trigger(ScadaEventTypes.UPDATE_LAYOUT);
+        $(window).trigger(ScadaEventType.UPDATE_LAYOUT);
     },
 
     // Selects the specified view in the view explorer.

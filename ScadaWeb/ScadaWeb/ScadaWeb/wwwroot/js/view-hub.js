@@ -91,6 +91,9 @@ class BaseChartFeature {
         this.appEnv = appEnv;
     }
 
+    // Shows a chart.
+    // cnlNums is a string containing a range of integers,
+    // startDate is a string in the YYYY-MM-DD format.
     show(cnlNums, startDate) {
         alert(ScadaUtils.isRussian(appEnv.locale) ?
             "Ни один плагин не реализует функцию графиков." :
@@ -104,7 +107,9 @@ class BaseCommandFeature {
         this.appEnv = appEnv;
     }
 
-    show(outCnlNum) {
+    // Shows a command dialog.
+    // opt_callback is a function (result), where result can be true or false.
+    show(outCnlNum, opt_callback) {
         alert(ScadaUtils.isRussian(appEnv.locale) ?
             "Ни один плагин не реализует функцию команд." :
             "No plugin implements the command feature.");
@@ -117,7 +122,9 @@ class BaseEventAckFeature {
         this.appEnv = appEnv;
     }
 
-    show(archiveBit, eventID) {
+    // Shows an event acknowledgement dialog.
+    // opt_callback is a function (result), where result can be true or false.
+    show(archiveBit, eventID, opt_callback) {
         alert(ScadaUtils.isRussian(appEnv.locale) ?
             "Ни один плагин не реализует функцию квитирования." :
             "No plugin implements the acknowledgement feature.");

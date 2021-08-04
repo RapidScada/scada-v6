@@ -382,14 +382,14 @@ var notifPhrases = {
     Mute: "Mute",
     Unmute: "Unmute",
     AckAll: "Ack All"
-}
+};
 
 // Specifies the notification types.
 class NotifType {
     static INFO = 0;
     static WARNING = 1;
     static ERROR = 2
-};
+}
 
 // Represents a notification.
 class Notif {

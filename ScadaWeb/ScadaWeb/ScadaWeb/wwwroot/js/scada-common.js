@@ -29,6 +29,10 @@ class ScadaUtils {
         return screen.height - window.innerHeight <= 1;
     }
 
+    // Detects if iOS is used.
+    static get iOS() {
+        return /iPad|iPhone|iPod/.test(navigator.platform);
+    }
 
     // Gets the current time string for logging.
     static getCurrentTime() {
@@ -128,9 +132,14 @@ class ScadaUtils {
 }
 
 // Specifies event types.
-class ScadaEventTypes {
+// Do not use dots in event type names because dots are used by event listeners to separate event name and namespace.
+class ScadaEventType {
     // Notifies controls that the layout should be updated.
-    static UPDATE_LAYOUT = "scada:updateLayout";
+    static UPDATE_LAYOUT = "rs:updateLayout";
+
+    // Notifies that a modal dialog button has been clicked.
+    // Event parameter: button value.
+    static MODAL_BTN_CLICK = "rs:modalBtnClick";
 }
 
 // The stub of an application environment object.
