@@ -1,4 +1,4 @@
-﻿// Contains classes: ModalButton, ModalSizes, ModalOptions, ModalManager
+﻿// Contains classes: ModalButton, ModalSize, ModalOptions, ModalManager
 // Depends on jquery, bootstrap, scada-common.js
 
 // Specifies the buttons available for a modal dialog.
@@ -22,8 +22,8 @@ class ModalSize {
 // Represents modal dialog options.
 class ModalOptions {
     constructor(opt_buttons, opt_size, opt_height) {
-        this.buttons = opt_buttons || [ModalButton.OK, ModalButton.CANCEL];
-        this.size = opt_size || ModalSizes.NORMAL;
+        this.buttons = opt_buttons || [ModalButton.CLOSE];
+        this.size = opt_size || ModalSize.NORMAL;
         this.height = opt_height || 0;
     }
 }
@@ -43,7 +43,7 @@ class ModalManager {
         for (let btn of buttons) {
             let subclass = btn === ModalButton.OK || btn === ModalButton.YES
                 ? "btn-primary"
-                : (btn === ModalButton.EXEC ? "btn-danger" : "btn-default");
+                : (btn === ModalButton.EXEC ? "btn-danger" : "btn-secondary");
             let dismiss = btn === ModalButton.CANCEL || btn === ModalButton.CLOSE ? "data-bs-dismiss='modal'" : "";
             let caption = modalPhrases[btn] || btn;
 
@@ -61,7 +61,7 @@ class ModalManager {
 
     // Gets a bootstrap modal instance associated with the jQuery object.
     static _getModalObject(modalElem) {
-        return bootstrap.Modal.getInstance(modalElem[0]);
+        return bootstrap.Modal.getOrCreateInstance(modalElem[0]);
     }
 
     // Truncates the title if it is too long.
@@ -91,17 +91,17 @@ class ModalManager {
         let tempOverlay = $("<div class='rs-modal-overlay'></div>");
         $("body").append(tempOverlay);
 
-        // create the modal
-        let footerHtml = opt_options && Array.isArray(opt_options.buttons) ?
-            "<div class='modal-footer'>" + ModalManager._buildButtonsHtml(opt_options.buttons) + "</div>" : "";
-        let size = opt_options ? opt_options.size : ModalSize.NORMAL;
+        // create a modal
+        let options = opt_options || new ModalOptions();
+        let footerHtml = Array.isArray(options.buttons) ?
+            "<div class='modal-footer'>" + ModalManager._buildButtonsHtml(options.buttons) + "</div>" : "";
         let sizeClass = "";
 
-        if (size === ModalSize.SMALL) {
+        if (options.size === ModalSize.SMALL) {
             sizeClass = " modal-sm";
-        } else if (size === ModalSize.LARGE) {
+        } else if (options.size === ModalSize.LARGE) {
             sizeClass = " modal-lg";
-        } else if (size === ModalSize.EXTRA_LARGE) {
+        } else if (options.size === ModalSize.EXTRA_LARGE) {
             sizeClass = " modal-xl";
         }
 
@@ -115,7 +115,6 @@ class ModalManager {
             "<div class='modal-body'></div>" +
             footerHtml +
             "</div></div></div>");
-        let modalObj = ModalManager._getModalObject(modalElem);
 
         if (opt_callback) {
             modalElem
@@ -123,7 +122,7 @@ class ModalManager {
                 .data("rs-result", false);
         }
 
-        // create the frame
+        // create a frame
         let modalFrame = $("<iframe class='rs-modal-frame'></iframe>").css({
             "position": "fixed",
             "opacity": 0.0 // hide the frame while it's loading
@@ -134,6 +133,7 @@ class ModalManager {
         $("body").append(modalElem);
 
         // create a function that hides the modal on press Escape key
+        let modalObj = ModalManager._getModalObject(modalElem);
         let hideModalOnEscapeFunc = function (event) {
             if (event.which === 27 /*Escape*/) {
                 modalObj.hide();
@@ -155,43 +155,48 @@ class ModalManager {
                 }
             })
             .one("load", function () {
-                // get the frame size
-                let frameBody = modalFrame.contents().find("body");
-                let frameWidth = frameBody.outerWidth(true);
-                let frameHeight = frameBody.outerHeight(true);
-                let specifiedHeight = opt_options ? opt_options.height : 0;
-
-                // tune the modal
-                let frameWnd = modalFrame[0].contentWindow;
-                let frameAccessible = ScadaUtils.checkAccessToFrame(frameWnd);
-                let modalPaddings = parseInt(modalBody.css("padding-left")) + parseInt(modalBody.css("padding-right"));
-                modalElem.find(".modal-content").css("min-width", frameWidth + modalPaddings);
-                modalElem.find(".modal-title").text(
-                    ModalManager._truncateTitle(frameAccessible ? frameWnd.document.title : url));
-
-                // set the frame style
+                // update the modal style
                 modalFrame.css({
                     "width": "100%",
-                    "height": specifiedHeight || frameHeight,
                     "position": "",
                     "opacity": 1.0
                 });
 
-                // raise event on modal button click
+                let frameWnd = modalFrame[0].contentWindow;
+                let frameAccessible = ScadaUtils.checkAccessToFrame(frameWnd);
+                let frameBody = $();
+
                 if (frameAccessible && frameWnd.$) {
+                    // get the actual frame size
+                    frameBody = modalFrame.contents().find("body");
+                    let frameWidth = frameBody.outerWidth(true);
+                    let frameHeight = frameBody.outerHeight(true);
+
+                    // set the modal size
+                    let modalPaddings = parseInt(modalBody.css("padding-left")) + parseInt(modalBody.css("padding-right"));
+                    modalElem.find(".modal-content").css("min-width", frameWidth + modalPaddings);
+                    modalFrame.css("height", options.height || frameHeight);
+                    frameBody.css("overflow", "hidden");
+
+                    // set the modal title
+                    modalElem.find(".modal-title").text(ModalManager._truncateTitle(frameWnd.document.title));
+
+                    // raise event on modal button click
                     modalElem.find(".modal-footer button").click(function () {
                         let buttonValue = $(this).data("rs-value");
-                        if (buttonValue) {
-                            frameWnd.$(frameWnd).trigger(ScadaEventType.MODAL_BTN_CLICK, buttonValue);
-                        }
+                        frameWnd.$(frameWnd).trigger(ScadaEventType.MODAL_BTN_CLICK, buttonValue);
                     });
+                } else {
+                    // set the modal title
+                    modalElem.find(".modal-title").text(url);
                 }
 
                 // display the modal
                 modalElem
                     .on('shown.bs.modal', function () {
-                        if (!specifiedHeight) {
-                            modalFrame.css("height", frameBody.outerHeight(true)); // final update of the height
+                        // update the modal height
+                        if (frameAccessible && !options.height) {
+                            modalFrame.css("height", frameBody.outerHeight(true));
                         }
 
                         tempOverlay.remove();
@@ -215,26 +220,6 @@ class ModalManager {
     closeModal(modalWnd, result, args) {
         let modalElem = this.setResult(modalWnd, result, args);
         ModalManager._getModalObject(modalElem).hide();
-    }
-
-    // Updates the modal dialog height according to its frame height.
-    updateModalHeight(modalWnd) {
-        let frame = $(modalWnd.frameElement);
-        let frameBody = frame.contents().find("body");
-        let modalElem = frame.closest(".modal");
-
-        //let iosScrollFix = ScadaUtils.iOS;
-        //if (iosScrollFix) {
-        //    modalElem.css("overflow-y", "hidden");
-        //}
-
-        frame.css("height", frameBody.outerHeight(true));
-
-        //if (iosScrollFix) {
-        //    modalElem.css("overflow-y", "");
-        //}
-
-        ModalManager._getModalObject(modalElem).handleUpdate();
     }
 
     // Sets the result of the modal dialog, keeping it open. Returns a jQuery object represents the modal dialog.
@@ -265,6 +250,26 @@ class ModalManager {
         } else {
             btnElem.attr("disabled", "disabled");
         }
+    }
+
+    // Updates the modal dialog height according to its frame height.
+    updateModalHeight(modalWnd) {
+        let frame = $(modalWnd.frameElement);
+        let frameBody = frame.contents().find("body");
+        let modalElem = frame.closest(".modal");
+
+        //let iosScrollFix = ScadaUtils.iOS;
+        //if (iosScrollFix) {
+        //    modalElem.css("overflow-y", "hidden");
+        //}
+
+        frame.css("height", frameBody.outerHeight(true));
+
+        //if (iosScrollFix) {
+        //    modalElem.css("overflow-y", "");
+        //}
+
+        ModalManager._getModalObject(modalElem).handleUpdate();
     }
 
     // Finds an existing or create a new manager instance.

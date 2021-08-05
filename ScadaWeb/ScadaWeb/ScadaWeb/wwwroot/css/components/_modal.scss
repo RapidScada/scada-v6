@@ -1,12 +1,10 @@
-﻿$modal-overlay-back-color: gray;
-
-.rs-modal-overlay {
+﻿.rs-modal-overlay {
     position: fixed;
     left: 0;
     top: 0;
     width: 100%;
     height: 100%;
-    background-color: $modal-overlay-back-color;
+    background-color: gray;
     opacity: 0;
 }
 
@@ -20,10 +18,6 @@
 
 .modal-footer {
     .btn {
-        min-width: 50px;
-    }
-
-    .btn-primary {
         min-width: 75px;
     }
 }

@@ -26,5 +26,9 @@
   {
     "outputFile": "wwwroot/css/layouts/basic-layout.css",
     "inputFile": "wwwroot/css/layouts/basic-layout.scss"
+  },
+  {
+    "outputFile": "wwwroot/css/layouts/main-layout.css",
+    "inputFile": "wwwroot/css/layouts/main-layout.scss"
   }
 ]
