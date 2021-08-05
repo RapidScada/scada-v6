@@ -13,7 +13,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "PlgChart", "PlgChart", "{DA
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PlgChart", "PlgChart\PlgChart.csproj", "{2FC1E95A-822F-47A9-8DCB-B3D5EE5011BB}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PlgChart.Common", "PlgChart.Common\PlgChart.Common.csproj", "{74078489-FD8B-437D-AA19-C26CDA6A5099}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PlgChart.Common", "PlgChart.Common\PlgChart.Common.csproj", "{74078489-FD8B-437D-AA19-C26CDA6A5099}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
