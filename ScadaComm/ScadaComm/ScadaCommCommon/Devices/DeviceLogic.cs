@@ -462,7 +462,7 @@ namespace Scada.Comm.Devices
             if (Locale.IsRussian)
             {
                 sb.Append("Драйвер       : ").AppendLine(DriverName);
-                sb.Append("Состояние     : ").AppendLine(DeviceStatus.ToString());
+                sb.Append("Состояние     : ").AppendLine(DeviceStatus.ToString(true));
                 sb.Append("Время сеанса  : ").AppendLine(TimeToStringRu(LastSessionTime));
                 sb.Append("Время команды : ").AppendLine(TimeToStringRu(LastCommandTime));
                 sb.AppendLine();
@@ -473,7 +473,7 @@ namespace Scada.Comm.Devices
             else
             {
                 sb.Append("Driver       : ").AppendLine(DriverName);
-                sb.Append("Status       : ").AppendLine(DeviceStatus.ToString());
+                sb.Append("Status       : ").AppendLine(DeviceStatus.ToString(false));
                 sb.Append("Session time : ").AppendLine(TimeToStringEn(LastSessionTime));
                 sb.Append("Command time : ").AppendLine(TimeToStringEn(LastCommandTime));
                 sb.AppendLine();
