@@ -107,7 +107,7 @@ namespace Scada.Web.Pages
                 authProperties);
         }
 
-        private ActionResult RedirectToStartPage(string returnUrl, int userID)
+        private IActionResult RedirectToStartPage(string returnUrl, int userID)
         {
             UserConfig userConfig = webContext.PluginHolder.GetUserConfig(userID);
             string url = Url.Content(ScadaUtils.FirstNonEmpty(
@@ -118,7 +118,7 @@ namespace Scada.Web.Pages
             return LocalRedirect(url);
         }
 
-        public ActionResult OnGet(string returnUrl = null)
+        public IActionResult OnGet(string returnUrl = null)
         {
             return CheckReady() && User.IsAuthenticated()
                 ? RedirectToStartPage(returnUrl, User.GetUserID())
