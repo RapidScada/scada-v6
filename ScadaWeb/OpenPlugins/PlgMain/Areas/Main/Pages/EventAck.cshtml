@@ -5,4 +5,44 @@
     ViewBag.Title = "Event Ack";
 }
 
-<h1>Event Ack</h1>
+@if (Model.Event == null)
+{
+    <div>Unable to get event.</div>
+}
+else
+{ 
+    <table>
+        <tr>
+            <th>Date and Time</th>
+            <td>@Model.Event.Timestamp</td>
+        </tr>
+        <tr>
+            <th>Object</th>
+            <td></td>
+        </tr>
+        <tr>
+            <th>Device</th>
+            <td></td>
+        </tr>
+        <tr>
+            <th>Channel</th>
+            <td></td>
+        </tr>
+        <tr>
+            <th>Description</th>
+            <td></td>
+        </tr>
+        <tr>
+            <th></th>
+            <td></td>
+        </tr>
+        <tr>
+            <th>Severity</th>
+            <td></td>
+        </tr>
+        <tr>
+            <th>Ack</th>
+            <td></td>
+        </tr>
+    </table>
+}

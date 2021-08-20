@@ -84,7 +84,7 @@ function bindEvents() {
         let target = $(event.target);
         if (target.is("td.ack i")) {
             // show event acknowledgement dialog
-            let eventID = $(this).closest(".row-event").attr("data-id");
+            let eventID = target.closest(".row-event").attr("data-id");
             viewHub.features.eventAck.show(archiveBit, eventID);
         }
     });
