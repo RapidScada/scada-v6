@@ -58,11 +58,11 @@ namespace Scada.Data.Adapters
         /// <summary>
         /// The maximum number of characters in a text block.
         /// </summary>
-        protected const int MaxTextSize = 50;
+        protected const int TextBlockCapacity = 50;
         /// <summary>
         /// The maximum data size in a data block.
         /// </summary>
-        protected const int MaxDataSize = 100;
+        protected const int DataBlockCapacity = 100;
         /// <summary>
         /// The maximum number of text blocks.
         /// </summary>
@@ -163,7 +163,7 @@ namespace Scada.Data.Adapters
 
                 if (sbEventText.Length < textSize)
                 {
-                    int charCnt = Math.Min(textSize - sbEventText.Length, MaxTextSize);
+                    int charCnt = Math.Min(textSize - sbEventText.Length, TextBlockCapacity);
                     sbEventText.Append(Encoding.Unicode.GetString(buffer, 2, charCnt * 2));
                 }
             }
@@ -194,7 +194,7 @@ namespace Scada.Data.Adapters
 
                 if (dataIndex < dataSize)
                 {
-                    int byteCnt = Math.Min(dataSize - dataIndex, MaxDataSize);
+                    int byteCnt = Math.Min(dataSize - dataIndex, DataBlockCapacity);
                     Buffer.BlockCopy(buffer, 2, eventData, dataIndex, byteCnt);
                     dataIndex += byteCnt;
                 }
@@ -229,8 +229,8 @@ namespace Scada.Data.Adapters
         protected void CopyEvent(Event ev, byte[] buffer, int textBlockCnt, int dataBlockCnt,
             out int textSize, out int dataSize)
         {
-            textSize = ev.Text == null ? 0 : Math.Min(ev.Text.Length, textBlockCnt * MaxTextSize);
-            dataSize = ev.Data == null ? 0 : Math.Min(ev.Data.Length, dataBlockCnt * MaxDataSize);
+            textSize = ev.Text == null ? 0 : Math.Min(ev.Text.Length, textBlockCnt * TextBlockCapacity);
+            dataSize = ev.Data == null ? 0 : Math.Min(ev.Data.Length, dataBlockCnt * DataBlockCapacity);
 
             int index = 0;
             CopyUInt16(BlockMarker, buffer, ref index);
@@ -266,10 +266,17 @@ namespace Scada.Data.Adapters
         protected void CopyEvent(Event ev, byte[] buffer, out int textBlockCnt, out int dataBlockCnt, 
             out int textSize, out int dataSize)
         {
+            int GetBlockCount(int fullSize, int blockCapacity, int maxBlockCount)
+            {
+                return Math.Min(
+                    fullSize / blockCapacity + (fullSize % blockCapacity > 0 ? 1 : 0),
+                    maxBlockCount);
+            }
+
             int fullTextSize = ev.Text == null ? 0 : ev.Text.Length;
             int fullDataSize = ev.Data == null ? 0 : ev.Data.Length;
-            textBlockCnt = Math.Min(fullTextSize / MaxTextSize, MaxTextBlockCount);
-            dataBlockCnt = Math.Min(fullDataSize / MaxDataSize, MaxDataBlockCount);
+            textBlockCnt = GetBlockCount(fullTextSize, TextBlockCapacity, MaxTextBlockCount);
+            dataBlockCnt = GetBlockCount(fullDataSize, DataBlockCapacity, MaxDataBlockCount);
 
             CopyEvent(ev, buffer, textBlockCnt, dataBlockCnt, out textSize, out dataSize);
         }
@@ -283,7 +290,7 @@ namespace Scada.Data.Adapters
 
             for (int i = 0; i < textBlockCnt; i++)
             {
-                int charCnt = Math.Min(textSize - textIndex, MaxTextSize);
+                int charCnt = Math.Min(textSize - textIndex, TextBlockCapacity);
 
                 if (charCnt > 0)
                 {
@@ -311,7 +318,7 @@ namespace Scada.Data.Adapters
 
             for (int i = 0; i < dataBlockCnt; i++)
             {
-                int byteCnt = Math.Min(dataSize - dataIndex, MaxDataSize);
+                int byteCnt = Math.Min(dataSize - dataIndex, DataBlockCapacity);
 
                 if (byteCnt > 0)
                 {
@@ -381,10 +388,10 @@ namespace Scada.Data.Adapters
                         Position = eventPosition
                     };
 
-                    int textBlockCnt = GetUInt16(buffer, ref index);
-                    int textSize = GetByte(buffer, ref index);
-                    int dataBlockCnt = GetUInt16(buffer, ref index);
-                    int dataSize = GetByte(buffer, ref index);
+                    int textBlockCnt = GetByte(buffer, ref index);
+                    int textSize = GetUInt16(buffer, ref index);
+                    int dataBlockCnt = GetByte(buffer, ref index);
+                    int dataSize = GetUInt16(buffer, ref index);
 
                     ev.Text = ReadEventText(reader, buffer, textBlockCnt, textSize);
                     ev.Data = ReadEventData(reader, buffer, dataBlockCnt, dataSize);
@@ -476,10 +483,10 @@ namespace Scada.Data.Adapters
                     row["TextFormat"] = GetByte(buffer, ref index);
                     row["Position"] = eventPosition;
 
-                    int textBlockCnt = GetUInt16(buffer, ref index);
-                    int textSize = GetByte(buffer, ref index);
-                    int dataBlockCnt = GetUInt16(buffer, ref index);
-                    int dataSize = GetByte(buffer, ref index);
+                    int textBlockCnt = GetByte(buffer, ref index);
+                    int textSize = GetUInt16(buffer, ref index);
+                    int dataBlockCnt = GetByte(buffer, ref index);
+                    int dataSize = GetUInt16(buffer, ref index);
 
                     row["Text"] = ReadEventText(reader, buffer, textBlockCnt, textSize);
                     row["Data"] = ReadEventData(reader, buffer, dataBlockCnt, dataSize);
