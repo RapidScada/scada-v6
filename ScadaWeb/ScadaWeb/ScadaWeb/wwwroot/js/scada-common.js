@@ -1,4 +1,5 @@
-﻿// Contains common JavaScript classes and objects.
+﻿// Contains classes: ScadaUtils, ScadaEventType, PluginFeatures, BaseChartFeature, BaseCommandFeature, BaseEventAckFeature
+// Contains objects: appEnvStub
 // No dependencies.
 
 // Provides helper methods.
@@ -140,6 +141,99 @@ class ScadaEventType {
     // Notifies that a modal dialog button has been clicked.
     // Event parameter: button value.
     static MODAL_BTN_CLICK = "rs:modalBtnClick";
+}
+
+// Provides access to plugin features implemented by various plugins.
+class PluginFeatures {
+    constructor(appEnv) {
+        this.appEnv = appEnv;
+
+        this._chart = null;
+        this._command = null;
+        this._eventAck = null;
+    }
+
+    // Gets the charting feature.
+    get chart() {
+        if (this._chart === null) {
+            this._chart = typeof ChartFeature === "function" &&
+                ChartFeature.prototype instanceof BaseChartFeature
+                ? new ChartFeature(this.appEnv)
+                : new BaseChartFeature(this.appEnv);
+        }
+
+        return this._chart;
+    }
+
+    // Gets the command feature.
+    get command() {
+        if (this._command === null) {
+            this._command = typeof CommandFeature === "function" &&
+                CommandFeature.prototype instanceof BaseCommandFeature
+                ? new CommandFeature(this.appEnv)
+                : new BaseCommandFeature(this.appEnv);
+        }
+
+        return this._command;
+    }
+
+    // Gets the event acknowledgement feature.
+    get eventAck() {
+        if (this._eventAck === null) {
+            this._eventAck = typeof EventAckFeature === "function" &&
+                EventAckFeature.prototype instanceof BaseEventAckFeature
+                ? new EventAckFeature(this.appEnv)
+                : new BaseEventAckFeature(this.appEnv);
+        }
+
+        return this._eventAck;
+    }
+}
+
+// Represents a default charting feature.
+class BaseChartFeature {
+    constructor(appEnv) {
+        this.appEnv = appEnv;
+    }
+
+    // Shows a chart.
+    // cnlNums is a string containing a range of integers,
+    // startDate is a string in the YYYY-MM-DD format.
+    show(cnlNums, startDate) {
+        alert(ScadaUtils.isRussian(appEnv.locale) ?
+            "Ни один плагин не реализует функцию графиков." :
+            "No plugin implements the charting feature.");
+    }
+}
+
+// Represents a default command feature.
+class BaseCommandFeature {
+    constructor(appEnv) {
+        this.appEnv = appEnv;
+    }
+
+    // Shows a command dialog.
+    // opt_callback is a function (result), where result can be true or false.
+    show(outCnlNum, opt_callback) {
+        alert(ScadaUtils.isRussian(appEnv.locale) ?
+            "Ни один плагин не реализует функцию команд." :
+            "No plugin implements the command feature.");
+    }
+}
+
+// Represents a default event acknowledgement feature.
+class BaseEventAckFeature {
+    constructor(appEnv) {
+        this.appEnv = appEnv;
+    }
+
+    // Shows an event acknowledgement dialog.
+    // opt_callback is a function (result), where result can be true or false.
+    show(archiveBit, eventID, opt_callback) {
+        alert(ScadaUtils.isRussian(appEnv.locale) ?
+            "Ни один плагин не реализует функцию квитирования." :
+            "No plugin implements the acknowledgement feature.");
+    }
 }
 
 // The stub of an application environment object.
