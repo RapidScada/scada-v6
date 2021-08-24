@@ -2,47 +2,75 @@
 @model EventAckModel
 @{
     Layout = "_BasicLayout";
-    ViewBag.Title = "Event Ack";
+    dynamic dict = Locale.GetDictionary("Scada.Web.Plugins.PlgMain.Areas.Main.Pages.EventAck");
+    ViewBag.Title = dict.PageTitle;
 }
 
-@if (Model.Event == null)
-{
-    <div>Unable to get event.</div>
+@section Styles {
+    <link href="~/plugins/Main/css/event-ack.min.css" rel="stylesheet" asp-append-version="true" />
 }
-else
-{ 
-    <table>
+
+@section Scripts {
+    <script src="~/plugins/Main/js/event-ack.js" asp-append-version="true"></script>
+}
+
+@if (Model.Event != null && Model.EventF != null)
+{
+    var obj = Model.Event.ObjNum > 0 ? "[" + Model.Event.ObjNum + "] " + Model.EventF.Obj : "";
+    var dev = Model.Event.DeviceNum > 0 ? "[" + Model.Event.DeviceNum + "] " + Model.EventF.Dev : "";
+    var cnl = "";
+
+    if (Model.Event.CnlNum > 0)
+        cnl = "[" + Model.Event.CnlNum + "] " + Model.EventF.Cnl;
+    else if (Model.Event.OutCnlNum > 0)
+        cnl = "[" + Model.Event.OutCnlNum + "] " + Model.EventF.Cnl;
+
+    var sevIcon = new HtmlString(Severity.Closest(Model.Event.Severity) switch
+    {
+        Severity.Critical => "<i class='fas fa-exclamation-circle critical'></i>",
+        Severity.Major => "<i class='fas fa-exclamation-triangle major'></i>",
+        Severity.Minor => "<i class='fas fa-exclamation-triangle minor'></i>",
+        Severity.Info => "<i class='fas fa-info info'></i>",
+        _ => ""
+    });
+
+    var ackBadge = new HtmlString(Model.Event.Ack
+        ? "<span class='badge bg-primary'>" + dict.AckYes +"</span>"
+        : "<span class='badge bg-secondary'>" + dict.AckNo +"</span>");
+
+    <table id="tblEvent" data-color="@Model.EventF.Color" class="table-main">
         <tr>
-            <th>Date and Time</th>
-            <td>@Model.Event.Timestamp</td>
+            <th>@dict.TimeRow</th>
+            <td>@Model.EventF.Time</td>
         </tr>
         <tr>
-            <th>Object</th>
-            <td></td>
+            <th>@dict.ObjRow</th>
+            <td>@obj</td>
         </tr>
         <tr>
-            <th>Device</th>
-            <td></td>
+            <th>@dict.DevRow</th>
+            <td>@dev</td>
         </tr>
         <tr>
-            <th>Channel</th>
-            <td></td>
+            <th>@dict.CnlRow</th>
+            <td>@cnl</td>
         </tr>
         <tr>
-            <th>Description</th>
-            <td></td>
+            <th>@dict.DescrRow</th>
+            <td>@Model.EventF.Descr</td>
         </tr>
         <tr>
-            <th></th>
-            <td></td>
+            <th>@dict.SevRow</th>
+            <td class="sev">@sevIcon @Model.EventF.Sev</td>
         </tr>
         <tr>
-            <th>Severity</th>
-            <td></td>
-        </tr>
-        <tr>
-            <th>Ack</th>
-            <td></td>
+            <th>@dict.AckRow</th>
+            <td>@ackBadge @Model.EventF.Ack</td>
         </tr>
     </table>
+
+    if (!Model.Event.Ack)
+    { 
+        <div class="alert alert-primary">@dict.AckTip</div>
+    }
 }

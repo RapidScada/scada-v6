@@ -3,7 +3,7 @@
 // The variables below are set from Events.cshtml
 var phrases = {};
 
-// Specifies the known severity values.
+// Specifies the severity levels.
 class Severity {
     static MIN = 1;
     static MAX = 999;
@@ -13,7 +13,7 @@ class Severity {
     static MINOR = 500;
     static INFO = 750;
 
-    static get(value) {
+    static closest(value) {
         if (Severity.CRITICAL <= value && value < Severity.MAJOR) {
             return Severity.CRITICAL;
         } else if (Severity.MAJOR <= value && value < Severity.MINOR) {
@@ -167,7 +167,7 @@ function showEvents(data, enableEffects) {
                 "<td class='dev'>" + ef.dev + "</td>" +
                 "<td class='cnl'>" + ef.cnl + "</td>" +
                 "<td class='descr'>" + ef.descr + "</td>" +
-                "<td class='sev'>" + getSeverityHtml(e.severity) + "</td>" +
+                "<td class='sev'>" + getSeverityHtml(e.severity, ef.sev) + "</td>" +
                 "<td class='ack'>" + getAckHtml(e, ef) + "</td>" +
                 "</tr>");
 
@@ -206,19 +206,19 @@ function showEvents(data, enableEffects) {
     }
 }
 
-function getSeverityHtml(severity) {
-    switch (Severity.get(severity)) {
+function getSeverityHtml(severityValue, severityText) {
+    switch (Severity.closest(severityValue)) {
         case Severity.CRITICAL:
-            return `<i class='fas fa-exclamation-circle critical' title='${phrases.CriticalSeverity}, ${severity}'></i>`;
+            return `<i class='fas fa-exclamation-circle critical' title='${severityText}'></i>`;
 
         case Severity.MAJOR:
-            return `<i class='fas fa-exclamation-triangle major' title='${phrases.MajorSeverity}, ${severity}'></i>`;
+            return `<i class='fas fa-exclamation-triangle major' title='${severityText}'></i>`;
 
         case Severity.MINOR:
-            return `<i class='fas fa-exclamation-triangle minor' title='${phrases.MinorSeverity}, ${severity}'></i>`;
+            return `<i class='fas fa-exclamation-triangle minor' title='${severityText}'></i>`;
 
         case Severity.INFO:
-            return `<i class='fas fa-info info' title='${phrases.InfoSeverity}, ${severity}'></i>`;
+            return `<i class='fas fa-info info' title='${severityText}'></i>`;
 
         default:
             return "";

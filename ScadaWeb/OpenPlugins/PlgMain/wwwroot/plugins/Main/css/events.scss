@@ -1,9 +1,6 @@
 ﻿@import '_table-common';
+@import '_event-common';
 
-$severity-critical-color: $danger;
-$severity-major-color: $orange;
-$severity-minor-color: $yellow;
-$severity-info-color: $info;
 $ack-no-color: $orange;
 $ack-yes-color: $green;
 
@@ -14,26 +11,8 @@ $ack-yes-color: $green;
         text-align: left;
     }
 
-    td.sev {
-        i {
-            padding: 0 20px;
-        }
-
-        .critical {
-            color: $severity-critical-color;
-        }
-
-        .major {
-            color: $severity-major-color;
-        }
-
-        .minor {
-            color: $severity-minor-color;
-        }
-
-        .info {
-            color: $severity-info-color;
-        }
+    td.sev i {
+        padding: 0 20px;
     }
 
     td.ack {

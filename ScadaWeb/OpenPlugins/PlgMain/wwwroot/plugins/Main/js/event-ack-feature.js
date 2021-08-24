@@ -6,7 +6,7 @@
     show(archiveBit, eventID, opt_callback) {
         ModalManager.getInstance().showModal(
             appEnv.rootPath + `Main/EventAck?archiveBit=${archiveBit}&eventID=${eventID}`,
-            new ModalOptions([ModalButton.OK, ModalButton.CANCEL]),
+            new ModalOptions([ModalButton.OK, ModalButton.CANCEL], ModalSize.LARGE),
             opt_callback);
     }
 }

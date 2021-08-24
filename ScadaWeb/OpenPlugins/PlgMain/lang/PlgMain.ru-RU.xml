@@ -1,5 +1,18 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <PlgMainDictionaries>
+  <Dictionary key="Scada.Web.Plugins.PlgMain.Areas.Main.Pages.EventAck">
+    <Phrase key="PageTitle">Событие</Phrase>
+    <Phrase key="TimeRow">Дата и время:</Phrase>
+    <Phrase key="ObjRow">Объект:</Phrase>
+    <Phrase key="DevRow">КП:</Phrase>
+    <Phrase key="CnlRow">Канал:</Phrase>
+    <Phrase key="DescrRow">Описание:</Phrase>
+    <Phrase key="SevRow">Серьёзность:</Phrase>
+    <Phrase key="AckRow">Квитирование:</Phrase>
+    <Phrase key="AckYes">Да</Phrase>
+    <Phrase key="AckNo">Нет</Phrase>
+    <Phrase key="AckTip">Нажмите кнопку OK, чтобы квитировать событие.</Phrase>
+  </Dictionary>
   <Dictionary key="Scada.Web.Plugins.PlgMain.Areas.Main.Pages.Events">
     <Phrase key="TimeCol">Дата и время</Phrase>
     <Phrase key="ObjCol">Объект</Phrase>
@@ -16,10 +29,6 @@
   <Dictionary key="Scada.Web.Plugins.PlgMain.Areas.Main.Pages.Events.Js">
     <Phrase key="Loading">Загрузка...</Phrase>
     <Phrase key="NoEvents">События отсутствуют</Phrase>
-    <Phrase key="CriticalSeverity">Критическая</Phrase>
-    <Phrase key="MajorSeverity">Значительная</Phrase>
-    <Phrase key="MinorSeverity">Незначительная</Phrase>
-    <Phrase key="InfoSeverity">Информационная</Phrase>
     <Phrase key="Ack">Квитировать</Phrase>
   </Dictionary>
   <Dictionary key="Scada.Web.Plugins.PlgMain.Areas.Main.Pages.TableView">

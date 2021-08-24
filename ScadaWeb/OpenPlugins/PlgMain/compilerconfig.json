@@ -6,5 +6,9 @@
   {
     "outputFile": "wwwroot/plugins/Main/css/table-view.css",
     "inputFile": "wwwroot/plugins/Main/css/table-view.scss"
+  },
+  {
+    "outputFile": "wwwroot/plugins/Main/css/event-ack.css",
+    "inputFile": "wwwroot/plugins/Main/css/event-ack.scss"
   }
 ]

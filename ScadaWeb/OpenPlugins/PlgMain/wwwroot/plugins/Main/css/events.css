@@ -66,20 +66,24 @@
     /*required for header stickiness*/
     z-index: 1; }
 
+.table-main td.sev .critical {
+  color: #dc3545; }
+
+.table-main td.sev .major {
+  color: #fd7e14; }
+
+.table-main td.sev .minor {
+  color: #ffc107; }
+
+.table-main td.sev .info {
+  color: #0dcaf0; }
+
 .table-main {
   width: 100%; }
   .table-main td.obj, .table-main td.dev, .table-main td.cnl, .table-main td.descr {
     text-align: left; }
   .table-main td.sev i {
     padding: 0 20px; }
-  .table-main td.sev .critical {
-    color: #dc3545; }
-  .table-main td.sev .major {
-    color: #fd7e14; }
-  .table-main td.sev .minor {
-    color: #ffc107; }
-  .table-main td.sev .info {
-    color: #0dcaf0; }
   .table-main td.ack i {
     cursor: pointer;
     padding: 0 20px; }

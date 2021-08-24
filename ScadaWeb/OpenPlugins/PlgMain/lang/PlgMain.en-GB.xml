@@ -1,5 +1,18 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <PlgMainDictionaries>
+  <Dictionary key="Scada.Web.Plugins.PlgMain.Areas.Main.Pages.EventAck">
+    <Phrase key="PageTitle">Event</Phrase>
+    <Phrase key="TimeRow">Date and Time:</Phrase>
+    <Phrase key="ObjRow">Object:</Phrase>
+    <Phrase key="DevRow">Device:</Phrase>
+    <Phrase key="CnlRow">Channel:</Phrase>
+    <Phrase key="DescrRow">Description:</Phrase>
+    <Phrase key="SevRow">Severity:</Phrase>
+    <Phrase key="AckRow">Ack:</Phrase>
+    <Phrase key="AckYes">Yes</Phrase>
+    <Phrase key="AckNo">No</Phrase>
+    <Phrase key="AckTip">Click the OK button to acknowledge the event.</Phrase>
+  </Dictionary>
   <Dictionary key="Scada.Web.Plugins.PlgMain.Areas.Main.Pages.Events">
     <Phrase key="TimeCol">Date and Time</Phrase>
     <Phrase key="ObjCol">Object</Phrase>
@@ -16,10 +29,6 @@
   <Dictionary key="Scada.Web.Plugins.PlgMain.Areas.Main.Pages.Events.Js">
     <Phrase key="Loading">Loading...</Phrase>
     <Phrase key="NoEvents">No events</Phrase>
-    <Phrase key="CriticalSeverity">Critical</Phrase>
-    <Phrase key="MajorSeverity">Major</Phrase>
-    <Phrase key="MinorSeverity">Minor</Phrase>
-    <Phrase key="InfoSeverity">Info</Phrase>
     <Phrase key="Ack">Click to acknowledge</Phrase>
   </Dictionary>
   <Dictionary key="Scada.Web.Plugins.PlgMain.Areas.Main.Pages.TableView">
