@@ -2,6 +2,10 @@
 <PlgMainDictionaries>
   <Dictionary key="Scada.Web.Plugins.PlgMain.Areas.Main.Pages.EventAck">
     <Phrase key="PageTitle">Событие</Phrase>
+    <Phrase key="EventNotFound">Событие не найдено</Phrase>
+    <Phrase key="EventAcknowledged">Событие квитировано</Phrase>
+    <Phrase key="GetEventError">Ошибка при получении события</Phrase>
+    <Phrase key="AckEventError">Ошибка при квитировании события</Phrase>
     <Phrase key="TimeRow">Дата и время:</Phrase>
     <Phrase key="ObjRow">Объект:</Phrase>
     <Phrase key="DevRow">КП:</Phrase>
