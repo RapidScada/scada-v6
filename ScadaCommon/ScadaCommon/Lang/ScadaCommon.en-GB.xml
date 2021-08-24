@@ -54,7 +54,6 @@
     <Phrase key="SaveViewError">Error saving view</Phrase>
   </Dictionary>
   <Dictionary key="Scada.Format">
-    <Phrase key="UndefinedSign">---</Phrase>
     <Phrase key="IntegerRequired">An integer is required.</Phrase>
     <Phrase key="IntegerInRangeRequired">An integer from {0} to {1} is required.</Phrase>
     <Phrase key="RealRequired">A real number is required.</Phrase>
@@ -63,6 +62,11 @@
     <Phrase key="NotNumber">String is not a number.</Phrase>
     <Phrase key="NotHexadecimal">String is not hexadecimal.</Phrase>
     <Phrase key="InvalidParamVal">Invalid value of the &quot;{0}&quot; parameter.</Phrase>
+    <Phrase key="UndefinedSign">---</Phrase>
+    <Phrase key="CriticalSeverity">Critical</Phrase>
+    <Phrase key="MajorSeverity">Major</Phrase>
+    <Phrase key="MinorSeverity">Minor</Phrase>
+    <Phrase key="InfoSeverity">Info</Phrase>
   </Dictionary>
   <Dictionary key="Scada.Forms">
     <Phrase key="InfoCaption">Information</Phrase>

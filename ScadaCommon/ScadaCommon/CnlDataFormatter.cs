@@ -339,8 +339,8 @@ namespace Scada
             // channel
             InCnl inCnl = ev.CnlNum > 0 ? baseDataSet.InCnlTable.GetItem(ev.CnlNum) : null;
 
-            if (inCnl != null)
-                eventFormatted.Cnl = inCnl.Name ?? "";
+            if (ev.CnlNum > 0)
+                eventFormatted.Cnl = inCnl?.Name ?? "";
             else if (ev.OutCnlNum > 0)
                 eventFormatted.Cnl = baseDataSet.OutCnlTable.GetItem(ev.OutCnlNum)?.Name ?? "";
 
@@ -369,6 +369,30 @@ namespace Scada
             }
 
             eventFormatted.Descr = sbDescr.ToString();
+
+            // severity
+            int knownSeverity = Severity.Closest(ev.Severity);
+
+            if (knownSeverity != Severity.Undefined)
+            {
+                switch (knownSeverity)
+                {
+                    case Severity.Critical:
+                        eventFormatted.Sev = CommonPhrases.CriticalSeverity;
+                        break;
+                    case Severity.Major:
+                        eventFormatted.Sev = CommonPhrases.MajorSeverity;
+                        break;
+                    case Severity.Minor:
+                        eventFormatted.Sev = CommonPhrases.MinorSeverity;
+                        break;
+                    case Severity.Info:
+                        eventFormatted.Sev = CommonPhrases.InfoSeverity;
+                        break;
+                }
+
+                eventFormatted.Sev += ", " + ev.Severity;
+            }
 
             // acknowledgement
             if (ev.Ack)

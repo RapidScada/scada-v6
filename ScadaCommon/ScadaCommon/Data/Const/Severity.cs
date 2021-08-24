@@ -65,5 +65,23 @@ namespace Scada.Data.Const
         /// The informational severity from 750 to 999.
         /// </summary>
         public const int Info = 750;
+
+
+        /// <summary>
+        /// Gets the closest known severity.
+        /// </summary>
+        public static int Closest(int value)
+        {
+            if (Critical <= value && value < Major)
+                return Critical;
+            else if (Major <= value && value < Minor)
+                return Major;
+            else if (Minor <= value && value < Info)
+                return Minor;
+            else if (Info <= value && value < Max)
+                return Info;
+            else
+                return Undefined;
+        }
     }
 }

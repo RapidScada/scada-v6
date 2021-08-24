@@ -41,6 +41,7 @@ namespace Scada.Data.Models
             Dev = "";
             Cnl = "";
             Descr = "";
+            Sev = "";
             Ack = "";
             Color = "";
             Beep = false;
@@ -71,6 +72,11 @@ namespace Scada.Data.Models
         /// Gets or sets the description.
         /// </summary>
         public string Descr { get; set; }
+
+        /// <summary>
+        /// Gets or sets the severity.
+        /// </summary>
+        public string Sev { get; set; }
 
         /// <summary>
         /// Gets or sets the acknowledgement information.

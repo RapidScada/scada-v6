@@ -87,7 +87,6 @@ namespace Scada.Lang
         public static string SaveViewError { get; private set; }
 
         // Scada.Format
-        public static string UndefinedSign { get; private set; }
         public static string IntegerRequired { get; private set; }
         public static string IntegerInRangeRequired { get; private set; }
         public static string RealRequired { get; private set; }
@@ -96,6 +95,11 @@ namespace Scada.Lang
         public static string NotNumber { get; private set; }
         public static string NotHexadecimal { get; private set; }
         public static string InvalidParamVal { get; private set; }
+        public static string UndefinedSign { get; private set; }
+        public static string CriticalSeverity { get; private set; }
+        public static string MajorSeverity { get; private set; }
+        public static string MinorSeverity { get; private set; }
+        public static string InfoSeverity { get; private set; }
 
         // Scada.Forms
         public static string InfoCaption { get; private set; }
@@ -178,7 +182,6 @@ namespace Scada.Lang
             SaveViewError = dict["SaveViewError"];
 
             dict = Locale.GetDictionary("Scada.Format");
-            UndefinedSign = dict["UndefinedSign"];
             IntegerRequired = dict["IntegerRequired"];
             IntegerInRangeRequired = dict["IntegerInRangeRequired"];
             RealRequired = dict["RealRequired"];
@@ -187,6 +190,11 @@ namespace Scada.Lang
             NotNumber = dict["NotNumber"];
             NotHexadecimal = dict["NotHexadecimal"];
             InvalidParamVal = dict["InvalidParamVal"];
+            UndefinedSign = dict["UndefinedSign"];
+            CriticalSeverity = dict["CriticalSeverity"];
+            MajorSeverity = dict["MajorSeverity"];
+            MinorSeverity = dict["MinorSeverity"];
+            InfoSeverity = dict["InfoSeverity"];
 
             dict = Locale.GetDictionary("Scada.Forms");
             InfoCaption = dict["InfoCaption"];

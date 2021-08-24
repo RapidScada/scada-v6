@@ -54,7 +54,6 @@
     <Phrase key="SaveViewError">Ошибка при сохранении представления</Phrase>
   </Dictionary>
   <Dictionary key="Scada.Format">
-    <Phrase key="UndefinedSign">---</Phrase>
     <Phrase key="IntegerRequired">Требуется целое число.</Phrase>
     <Phrase key="IntegerInRangeRequired">Требуется целое число в диапазоне от {0} до {1}.</Phrase>
     <Phrase key="RealRequired">Требуется вещественное число.</Phrase>
@@ -63,6 +62,11 @@
     <Phrase key="NotNumber">Строка не является числом.</Phrase>
     <Phrase key="NotHexadecimal">Строка не является 16-ричной записью.</Phrase>
     <Phrase key="InvalidParamVal">Некорректное значение параметра &quot;{0}&quot;.</Phrase>
+    <Phrase key="UndefinedSign">---</Phrase>
+    <Phrase key="CriticalSeverity">Критическая</Phrase>
+    <Phrase key="MajorSeverity">Значительная</Phrase>
+    <Phrase key="MinorSeverity">Незначительная</Phrase>
+    <Phrase key="InfoSeverity">Информационная</Phrase>
   </Dictionary>
   <Dictionary key="Scada.Forms">
     <Phrase key="InfoCaption">Информация</Phrase>
