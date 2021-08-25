@@ -5,3 +5,44 @@
     dynamic dict = Locale.GetDictionary("Scada.Web.Plugins.PlgMain.Areas.Main.Pages.Command");
     ViewBag.Title = dict.PageTitle;
 }
+
+@section Styles {
+    <link href="~/plugins/Main/css/command.min.css" rel="stylesheet" asp-append-version="true" />
+}
+
+@section Scripts {
+    <script src="~/js/components/modal.js" asp-append-version="true"></script>
+    <script src="~/plugins/Main/js/command.js" asp-append-version="true"></script>
+    <script>
+        closeModal = @(Model.CloseModal ? "true" : "false");
+    </script>
+}
+
+@if (!string.IsNullOrEmpty(Model.Message))
+{
+    var alertClass = Model.HasError ? "alert-danger" : "alert-success";
+    <div class="alert @alertClass">@Model.Message</div>
+}
+
+@if (Model.OutCnl != null)
+{
+    const string NameFormat = "[{0}] {1}";
+    var cnl = string.Format(NameFormat, Model.OutCnl.OutCnlNum, Model.OutCnl.Name);
+    var obj = Model.Obj == null ? "" : string.Format(NameFormat, Model.Obj.ObjNum, Model.Obj.Name);
+    var dev = Model.Device == null ? "" : string.Format(NameFormat, Model.Device.DeviceNum, Model.Device.Name);
+
+    <table id="tblCommand">
+        <tr>
+            <th>@dict.OutCnlRow</th>
+            <td>@cnl</td>
+        </tr>
+        <tr>
+            <th>@dict.ObjRow</th>
+            <td>@obj</td>
+        </tr>
+        <tr>
+            <th>@dict.DevRow</th>
+            <td>@dev</td>
+        </tr>
+    </table>
+}

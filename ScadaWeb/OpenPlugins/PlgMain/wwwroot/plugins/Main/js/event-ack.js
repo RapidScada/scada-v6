@@ -5,9 +5,16 @@ var closeModal = false;
 const CLOSE_TIMEOUT = 1000;
 
 $(document).ready(function () {
-    let modalManager = ModalManager.getInstance();
+    // set event color
+    let eventColor = $("#tblEvent").data("color");
+
+    if (eventColor) {
+        $("#tblEvent td").css("color", eventColor);
+    }
 
     // hide OK button
+    let modalManager = ModalManager.getInstance();
+
     if (!ackAllowed) {
         modalManager.setButtonVisible(window, ModalButton.OK, false);
     }
@@ -17,13 +24,6 @@ $(document).ready(function () {
         setTimeout(function () {
             modalManager.closeModal(window, true);
         }, CLOSE_TIMEOUT)
-    }
-
-    // set event color
-    let eventColor = $("#tblEvent").data("color");
-
-    if (eventColor) {
-        $("#tblEvent td").css("color", eventColor);
     }
 
     // submit the form on OK button click

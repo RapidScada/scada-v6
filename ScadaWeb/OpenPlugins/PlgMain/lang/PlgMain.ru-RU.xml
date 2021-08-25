@@ -1,8 +1,15 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <PlgMainDictionaries>
+  <Dictionary key="Scada.Web.Plugins.PlgMain.Areas.Main.Pages.Command">
+    <Phrase key="PageTitle">Команда</Phrase>
+    <Phrase key="OutCnlNotFound">Канал управления {0} не найден.</Phrase>
+    <Phrase key="OutCnlRow">Канал упр.:</Phrase>
+    <Phrase key="ObjRow">Объект:</Phrase>
+    <Phrase key="DevRow">КП:</Phrase>
+  </Dictionary>
   <Dictionary key="Scada.Web.Plugins.PlgMain.Areas.Main.Pages.EventAck">
     <Phrase key="PageTitle">Событие</Phrase>
-    <Phrase key="EventNotFound">Событие не найдено.</Phrase>
+    <Phrase key="EventNotFound">Событие {0} не найдено.</Phrase>
     <Phrase key="EventAcknowledged">Событие квитировано.</Phrase>
     <Phrase key="GetEventError">Ошибка при получении события</Phrase>
     <Phrase key="AckEventError">Ошибка при квитировании события</Phrase>

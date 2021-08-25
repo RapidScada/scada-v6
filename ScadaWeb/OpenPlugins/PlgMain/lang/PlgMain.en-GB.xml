@@ -1,8 +1,15 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <PlgMainDictionaries>
+  <Dictionary key="Scada.Web.Plugins.PlgMain.Areas.Main.Pages.Command">
+    <Phrase key="PageTitle">Command</Phrase>
+    <Phrase key="OutCnlNotFound">Output channel {0} not found.</Phrase>
+    <Phrase key="OutCnlRow">Out channel:</Phrase>
+    <Phrase key="ObjRow">Object:</Phrase>
+    <Phrase key="DevRow">Device:</Phrase>
+  </Dictionary>
   <Dictionary key="Scada.Web.Plugins.PlgMain.Areas.Main.Pages.EventAck">
     <Phrase key="PageTitle">Event</Phrase>
-    <Phrase key="EventNotFound">Event not found.</Phrase>
+    <Phrase key="EventNotFound">Event {0} not found.</Phrase>
     <Phrase key="EventAcknowledged">Event acknowledged.</Phrase>
     <Phrase key="GetEventError">Error receiving event</Phrase>
     <Phrase key="AckEventError">Error acknowledging event</Phrase>

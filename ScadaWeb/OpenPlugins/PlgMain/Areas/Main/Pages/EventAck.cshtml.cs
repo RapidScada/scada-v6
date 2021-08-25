@@ -47,7 +47,7 @@ namespace Scada.Web.Plugins.PlgMain.Areas.Main.Pages
                 if (ev == null)
                 {
                     HasError = true;
-                    Message = dict.EventNotFound;
+                    Message = string.Format(dict.EventNotFound, eventID);
                 }
                 else
                 {

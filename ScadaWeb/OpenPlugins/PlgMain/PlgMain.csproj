@@ -16,6 +16,10 @@
   </ItemGroup>
 
   <ItemGroup>
+    <_ContentIncludedByDefault Remove="wwwroot\plugins\Main\css\command.css" />
+  </ItemGroup>
+
+  <ItemGroup>
     <Content Include="lang\PlgMain.en-GB.xml" />
     <Content Include="lang\PlgMain.ru-RU.xml" />
   </ItemGroup>

@@ -10,5 +10,9 @@
   {
     "outputFile": "wwwroot/plugins/Main/css/event-ack.css",
     "inputFile": "wwwroot/plugins/Main/css/event-ack.scss"
+  },
+  {
+    "outputFile": "wwwroot/plugins/Main/css/command.css",
+    "inputFile": "wwwroot/plugins/Main/css/command.scss"
   }
 ]

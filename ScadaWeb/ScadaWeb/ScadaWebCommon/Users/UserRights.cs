@@ -168,7 +168,7 @@ namespace Scada.Web.Users
             }
             else
             {
-                return RightByObj != null && RightByObj.TryGetValue(objID, out Right right)
+                return objID > 0 && RightByObj != null && RightByObj.TryGetValue(objID, out Right right)
                     ? right
                     : Right.Empty;
             }
