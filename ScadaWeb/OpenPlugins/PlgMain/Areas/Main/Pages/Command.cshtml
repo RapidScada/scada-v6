@@ -1,0 +1,7 @@
+﻿@page
+@model CommandModel
+@{
+    Layout = "_BasicLayout";
+    dynamic dict = Locale.GetDictionary("Scada.Web.Plugins.PlgMain.Areas.Main.Pages.Command");
+    ViewBag.Title = dict.PageTitle;
+}

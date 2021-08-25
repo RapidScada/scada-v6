@@ -98,10 +98,6 @@ namespace Scada
         /// </summary>
         protected readonly CultureInfo culture;
         /// <summary>
-        /// The user's time zone.
-        /// </summary>
-        protected readonly TimeZoneInfo timeZone;
-        /// <summary>
         /// The configuration database.
         /// </summary>
         protected readonly BaseDataSet baseDataSet;
@@ -115,17 +111,8 @@ namespace Scada
         /// Initializes a new instance of the class.
         /// </summary>
         public CnlDataFormatter(BaseDataSet baseDataSet)
-            : this(baseDataSet, TimeZoneInfo.Local)
-        {
-        }
-
-        /// <summary>
-        /// Initializes a new instance of the class.
-        /// </summary>
-        public CnlDataFormatter(BaseDataSet baseDataSet, TimeZoneInfo timeZone)
         {
             culture = Locale.Culture;
-            this.timeZone = timeZone ?? throw new ArgumentNullException(nameof(timeZone));
             this.baseDataSet = baseDataSet ?? throw new ArgumentNullException(nameof(baseDataSet));
             enumFormats = new Dictionary<int, EnumFormat>();
             FillEnumColors();
@@ -321,8 +308,13 @@ namespace Scada
         /// <summary>
         /// Formats the event according to the channel properties.
         /// </summary>
-        public EventFormatted FormatEvent(Event ev)
+        public EventFormatted FormatEvent(Event ev, TimeZoneInfo timeZone)
         {
+            if (ev == null)
+                throw new ArgumentNullException(nameof(ev));
+            if (timeZone == null)
+                throw new ArgumentNullException(nameof(timeZone));
+
             EventFormatted eventFormatted = new EventFormatted
             {
                 Time = TimeZoneInfo.ConvertTimeFromUtc(ev.Timestamp, timeZone).ToLocalizedString()
