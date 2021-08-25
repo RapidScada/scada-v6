@@ -2,8 +2,8 @@
 <PlgMainDictionaries>
   <Dictionary key="Scada.Web.Plugins.PlgMain.Areas.Main.Pages.EventAck">
     <Phrase key="PageTitle">Event</Phrase>
-    <Phrase key="EventNotFound">Event not found</Phrase>
-    <Phrase key="EventAcknowledged">Event acknowledged</Phrase>
+    <Phrase key="EventNotFound">Event not found.</Phrase>
+    <Phrase key="EventAcknowledged">Event acknowledged.</Phrase>
     <Phrase key="GetEventError">Error receiving event</Phrase>
     <Phrase key="AckEventError">Error acknowledging event</Phrase>
     <Phrase key="TimeRow">Date and Time:</Phrase>
