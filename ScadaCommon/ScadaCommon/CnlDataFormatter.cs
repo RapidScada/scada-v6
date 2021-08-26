@@ -42,37 +42,6 @@ namespace Scada
     public class CnlDataFormatter
     {
         /// <summary>
-        /// Represents parsed properties of a enumeration format.
-        /// </summary>
-        protected class EnumFormat
-        {
-            /// <summary>
-            /// Initializes a new instance of the class.
-            /// </summary>
-            public EnumFormat(int formatID, int valueCount)
-            {
-                FormatID = formatID;
-                Values = new string[valueCount];
-                Colors = new string[valueCount];
-            }
-
-            /// <summary>
-            /// Gets the format ID.
-            /// </summary>
-            public int FormatID { get; }
-
-            /// <summary>
-            /// Gets the display values corresponding to channel values.
-            /// </summary>
-            public string[] Values { get; }
-
-            /// <summary>
-            /// Gets the colors corresponding to channel values.
-            /// </summary>
-            public string[] Colors { get; }
-        }
-
-        /// <summary>
         /// The default number format.
         /// </summary>
         public const string DefaultFormat = "N3";
@@ -80,18 +49,6 @@ namespace Scada
         /// The formatting result indicating an error.
         /// </summary>
         public const string FormatError = "!!!";
-        /// <summary>
-        /// The default color for the Off enumeration value.
-        /// </summary>
-        public const string EnumOffColor = "Red";
-        /// <summary>
-        /// The default color for the On enumeration value.
-        /// </summary>
-        public const string EnumOnColor = "Green";
-        /// <summary>
-        /// Separates enumeration values.
-        /// </summary>
-        private static readonly char[] EnumSeparator = new char[] { ';', '\n' };
 
         /// <summary>
         /// The culture for formatting values.
@@ -115,41 +72,22 @@ namespace Scada
             culture = Locale.Culture;
             this.baseDataSet = baseDataSet ?? throw new ArgumentNullException(nameof(baseDataSet));
             enumFormats = new Dictionary<int, EnumFormat>();
-            FillEnumColors();
+            FillEnumFormats();
         }
 
 
         /// <summary>
-        /// Fills the enumeration color dictionary.
+        /// Fills the enumeration format dictionary.
         /// </summary>
-        protected void FillEnumColors()
+        protected void FillEnumFormats()
         {
             foreach (Format format in baseDataSet.FormatTable.EnumerateItems())
             {
                 if (format.IsEnum && !string.IsNullOrEmpty(format.Frmt))
                 {
-                    string[] parts = format.Frmt.Split(EnumSeparator);
-                    int valueCount = parts.Length;
-                    EnumFormat enumFormat = new EnumFormat(format.FormatID, valueCount);
+                    EnumFormat enumFormat = EnumFormat.Parse(format.Frmt);
+                    enumFormat.FormatID = format.FormatID;
                     enumFormats.Add(format.FormatID, enumFormat);
-
-                    for (int i = 0; i < valueCount; i++)
-                    {
-                        string part = parts[i];
-                        int colonIdx = part.IndexOf(':');
-                        string value = colonIdx < 0 ? part.Trim() : part.Substring(0, colonIdx - 1).Trim();
-                        string color = colonIdx < 0 ? "" : part.Substring(colonIdx + 1).Trim();
-                        enumFormat.Values[i] = value;
-
-                        if (color != "")
-                            enumFormat.Colors[i] = color;
-                        else if (i == 0)
-                            enumFormat.Colors[i] = EnumOffColor;
-                        else if (i == 1)
-                            enumFormat.Colors[i] = EnumOnColor;
-                        else
-                            enumFormat.Colors[i] = "";
-                    }
                 }
             }
         }

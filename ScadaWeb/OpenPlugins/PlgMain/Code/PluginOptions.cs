@@ -26,6 +26,7 @@ namespace Scada.Web.Plugins.PlgMain.Code
             EventArchiveCode = options.GetValueAsString("EventArchiveCode");
             EventCount = options.GetValueAsInt("EventCount", 100);
             EventDepth = options.GetValueAsInt("EventDepth", 2);
+            CommandPassword = options.GetValueAsBool("CommandPassword");
         }
 
 
@@ -58,5 +59,10 @@ namespace Scada.Web.Plugins.PlgMain.Code
         /// Gets or sets the number of days to receive events.
         /// </summary>
         public int EventDepth { get; set; }
+
+        /// <summary>
+        /// Gets or sets a value indicating whether a password is required to send a command.
+        /// </summary>
+        public bool CommandPassword { get; set; }
     }
 }

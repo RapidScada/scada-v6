@@ -1,5 +1,6 @@
 ﻿@page
 @model CommandModel
+@inject PluginContext pluginContext 
 @{
     Layout = "_BasicLayout";
     dynamic dict = Locale.GetDictionary("Scada.Web.Plugins.PlgMain.Areas.Main.Pages.Command");
@@ -14,6 +15,8 @@
     <script src="~/js/components/modal.js" asp-append-version="true"></script>
     <script src="~/plugins/Main/js/command.js" asp-append-version="true"></script>
     <script>
+        hideExecBtn = @(Model.Input == CommandModel.InputType.Enum ? "true" : "false");
+        updateHeight = @(string.IsNullOrEmpty(Model.Message) ? "false" : "true");
         closeModal = @(Model.CloseModal ? "true" : "false");
     </script>
 }
@@ -45,4 +48,79 @@
             <td>@dev</td>
         </tr>
     </table>
+
+    <form method="post">
+        @if (pluginContext.Options.CommandPassword)
+        {
+            var extraClass = Model.PasswordIsInvalid ? "is-invalid" : "";
+            <div class="mb-3">
+                <label id="lblPassword" for="txtPassword" class="form-label">@dict.lblPassword</label>
+                <input type="password" id="txtPassword" class="form-control @extraClass" required asp-for="Password" />
+            </div>
+        }
+
+        @if (Model.Input == CommandModel.InputType.Dec)
+        { 
+            <div class="mb-3">
+                <label id="lblCmdVal" for="txtCmdVal" class="form-label">@dict.lblCmdVal</label>
+                <input type="number" id="txtCmdVal" class="form-control" required asp-for="CmdVal" />
+            </div>
+        }
+        else if (Model.Input == CommandModel.InputType.Hex)
+        { 
+            <div class="mb-3">
+                <label id="lblCmdHex" for="txtCmdHex" class="form-label">@dict.lblCmdHex</label>
+                <input type="text" id="txtCmdHex" class="form-control" pattern="[a-fA-F0-9]" required asp-for="CmdHex" />
+            </div>
+        }
+        else if (Model.Input == CommandModel.InputType.Enum)
+        { 
+            <div class="mb-3">
+                <label id="lblCmdEnum" class="form-label">@dict.lblCmdEnum</label>
+                <div id="divEnum">
+                    @for (int i = 0; i < Model.EnumFormat.Count; i++)
+                    {
+                        var displayValue = Model.EnumFormat.Values[i];
+                        if (!string.IsNullOrEmpty(displayValue))
+                        {
+                            <button type="button" class="btn" style="background-color: @Model.EnumFormat.Colors[i]" data-cmdval="@i">@displayValue</button>
+                        }
+                    }
+                </div>
+                <input type="hidden" id="hidCmdEnum" asp-for="CmdEnum" />
+            </div>
+        }
+        else if (Model.Input == CommandModel.InputType.Date)
+        {
+            var inputSubtype = Model.Format.Frmt switch
+            {
+                "d" or "D" => "date",
+                "t" or "T" => "time",
+                _ => "datetime-local"
+            };
+
+            <div class="mb-3">
+                <label id="lblCmdDate" for="txtCmdDate" class="form-label">@dict.lblCmdDate</label>
+                <input type="@inputSubtype" id="txtCmdDate" class="form-control" required asp-for="CmdDate" />
+            </div>
+        }
+        else if (Model.Input == CommandModel.InputType.Str)
+        { 
+            var extraClass = Model.CmdDataIsInvalid? "is-invalid" : "";
+            <div class="mb-3">
+                <label id="lblCmdData" for="txtCmdData" class="form-label d-block">@dict.lblCmdData</label>
+                <div class="form-check form-check-inline">
+                  <input type="radio" id="rbStr" name="cmdDataFormat"class="form-check-input" value="str" checked>
+                  <label id="lblStr" class="form-check-label" for="rbStr">@dict.lblStr</label>
+                </div>
+                <div class="form-check form-check-inline">
+                  <input type="radio" id="rbHex" name="cmdDataFormat" class="form-check-input" value="hex">
+                  <label id="lblHex" class="form-check-label" for="rbHex">@dict.lblHex</label>
+                </div>
+                <textarea id="txtCmdData" class="form-control @extraClass" rows="3" asp-for="CmdData"></textarea>
+            </div>
+        }
+
+        <button type="submit" id="btnSubmit" class="hidden">Submit</button>
+    </form>
 }

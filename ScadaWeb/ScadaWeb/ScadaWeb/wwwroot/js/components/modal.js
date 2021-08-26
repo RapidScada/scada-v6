@@ -189,6 +189,11 @@ class ModalManager {
                 } else {
                     // set the modal title
                     modalElem.find(".modal-title").text(url);
+
+                    // set the modal height
+                    if (options.height) {
+                        modalFrame.css("height", options.height);
+                    }
                 }
 
                 // display the modal
@@ -253,23 +258,27 @@ class ModalManager {
     }
 
     // Updates the modal dialog height according to its frame height.
-    updateModalHeight(modalWnd) {
+    updateModalHeight(modalWnd, opt_growOnly) {
         let frame = $(modalWnd.frameElement);
         let frameBody = frame.contents().find("body");
-        let modalElem = frame.closest(".modal");
+        let newHeight = frameBody.outerHeight(true);
 
-        //let iosScrollFix = ScadaUtils.iOS;
-        //if (iosScrollFix) {
-        //    modalElem.css("overflow-y", "hidden");
-        //}
+        if (!opt_growOnly || newHeight > frame.height()) {
 
-        frame.css("height", frameBody.outerHeight(true));
+            //let iosScrollFix = ScadaUtils.iOS;
+            //if (iosScrollFix) {
+            //    modalElem.css("overflow-y", "hidden");
+            //}
 
-        //if (iosScrollFix) {
-        //    modalElem.css("overflow-y", "");
-        //}
+            frame.css("height", newHeight);
 
-        ModalManager._getModalObject(modalElem).handleUpdate();
+            //if (iosScrollFix) {
+            //    modalElem.css("overflow-y", "");
+            //}
+
+            let modalElem = frame.closest(".modal");
+            ModalManager._getModalObject(modalElem).handleUpdate();
+        }
     }
 
     // Finds an existing or create a new manager instance.

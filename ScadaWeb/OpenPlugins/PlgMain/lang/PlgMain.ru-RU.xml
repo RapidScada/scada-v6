@@ -6,6 +6,14 @@
     <Phrase key="OutCnlRow">Канал упр.:</Phrase>
     <Phrase key="ObjRow">Объект:</Phrase>
     <Phrase key="DevRow">КП:</Phrase>
+    <Phrase key="lblPassword">Пароль</Phrase>
+    <Phrase key="lblCmdVal">Значение команды</Phrase>
+    <Phrase key="lblCmdHex">Значение команды (16-ричное число)</Phrase>
+    <Phrase key="lblCmdEnum">Команда</Phrase>
+    <Phrase key="lblCmdDate">Значение команды (дата/время)</Phrase>
+    <Phrase key="lblCmdData">Данные команды</Phrase>
+    <Phrase key="lblStr">Строка</Phrase>
+    <Phrase key="lblHex">16-ричные данные</Phrase>
   </Dictionary>
   <Dictionary key="Scada.Web.Plugins.PlgMain.Areas.Main.Pages.EventAck">
     <Phrase key="PageTitle">Событие</Phrase>
