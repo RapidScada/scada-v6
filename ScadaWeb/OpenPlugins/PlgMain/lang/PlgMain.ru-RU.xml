@@ -3,11 +3,13 @@
   <Dictionary key="Scada.Web.Plugins.PlgMain.Areas.Main.Pages.Command">
     <Phrase key="PageTitle">Команда</Phrase>
     <Phrase key="OutCnlNotFound">Канал управления {0} не найден.</Phrase>
+    <Phrase key="CommandSent">Команда отправлена.</Phrase>
+    <Phrase key="CmdParseError">Ошибка при разборе команды</Phrase>
     <Phrase key="OutCnlRow">Канал упр.:</Phrase>
     <Phrase key="ObjRow">Объект:</Phrase>
     <Phrase key="DevRow">КП:</Phrase>
     <Phrase key="lblPassword">Пароль</Phrase>
-    <Phrase key="lblCmdVal">Значение команды</Phrase>
+    <Phrase key="lblCmdDec">Значение команды</Phrase>
     <Phrase key="lblCmdHex">Значение команды (16-ричное число)</Phrase>
     <Phrase key="lblCmdEnum">Команда</Phrase>
     <Phrase key="lblCmdDate">Значение команды (дата/время)</Phrase>
@@ -19,8 +21,6 @@
     <Phrase key="PageTitle">Событие</Phrase>
     <Phrase key="EventNotFound">Событие {0} не найдено.</Phrase>
     <Phrase key="EventAcknowledged">Событие квитировано.</Phrase>
-    <Phrase key="GetEventError">Ошибка при получении события</Phrase>
-    <Phrase key="AckEventError">Ошибка при квитировании события</Phrase>
     <Phrase key="TimeRow">Дата и время:</Phrase>
     <Phrase key="ObjRow">Объект:</Phrase>
     <Phrase key="DevRow">КП:</Phrase>

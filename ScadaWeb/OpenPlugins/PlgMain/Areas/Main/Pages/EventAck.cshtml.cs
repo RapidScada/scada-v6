@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Scada.Data.Models;
 using Scada.Lang;
+using Scada.Web.Lang;
 using Scada.Web.Services;
 
 namespace Scada.Web.Plugins.PlgMain.Areas.Main.Pages
@@ -58,7 +59,7 @@ namespace Scada.Web.Plugins.PlgMain.Areas.Main.Pages
             catch (Exception ex)
             {
                 HasError = true;
-                Message = dict.GetEventError;
+                Message = WebPhrases.ClientError;
                 webContext.Log.WriteError(ex, Message);
             }
 
@@ -107,7 +108,7 @@ namespace Scada.Web.Plugins.PlgMain.Areas.Main.Pages
             catch (Exception ex)
             {
                 HasError = true;
-                Message = dict.AckEventError;
+                Message = WebPhrases.ClientError;
                 webContext.Log.WriteError(ex, Message);
 
                 EventF = FormatEvent(Event);

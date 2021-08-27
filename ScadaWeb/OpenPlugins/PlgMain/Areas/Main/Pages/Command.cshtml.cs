@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Mvc.RazorPages;
 using Scada.Data.Entities;
 using Scada.Data.Models;
 using Scada.Lang;
+using Scada.Web.Lang;
 using Scada.Web.Plugins.PlgMain.Code;
 using Scada.Web.Services;
 using System;
@@ -48,21 +49,23 @@ namespace Scada.Web.Plugins.PlgMain.Areas.Main.Pages
         public InputType Input { get; private set; } = InputType.Dec;
         public EnumFormat EnumFormat { get; private set; } = null;
         public bool CloseModal { get; private set; } = false;
-        public bool PasswordIsInvalid { get; private set; } = false;
-        public bool CmdDataIsInvalid { get; private set; } = false;
+        public bool PwdIsInvalid { get; private set; } = false;
+        public bool CmdIsInvalid { get; private set; } = false;
 
         [BindProperty]
         public string Password { get; set; }
         [BindProperty]
-        public double? CmdVal { get; set; }
+        public string CmdDec { get; set; }
         [BindProperty]
         public string CmdHex { get; set; }
         [BindProperty]
         public string CmdEnum { get; set; }
         [BindProperty]
-        public DateTime CmdDate { get; set; }
+        public string CmdDate { get; set; }
         [BindProperty]
         public string CmdData { get; set; }
+        [BindProperty]
+        public string CmdDataFormat { get; set; }
 
 
         private OutCnl GetOutCnl(int outCnlNum, out Right right)
@@ -85,53 +88,97 @@ namespace Scada.Web.Plugins.PlgMain.Areas.Main.Pages
 
         private bool CheckPassword()
         {
-            // TODO: try...catch
-            if (pluginContext.Options.CommandPassword &&
-                !clientAccessor.ScadaClient.ValidateUser(User.GetUsername(), Password, out _, out _, out string errMsg))
+            try
+            {
+                if (pluginContext.Options.CommandPassword &&
+                    !clientAccessor.ScadaClient.ValidateUser(User.GetUsername(), Password,
+                        out _, out _, out string errMsg))
+                {
+                    HasError = true;
+                    Message = errMsg;
+                    PwdIsInvalid = true;
+                    return false;
+                }
+
+                return true;
+            }
+            catch (Exception ex)
             {
                 HasError = true;
-                Message = errMsg;
-                PasswordIsInvalid = true;
+                Message = WebPhrases.ClientError;
+                webContext.Log.WriteError(ex, Message);
                 return false;
             }
-
-            return true;
         }
 
-        private bool CreateCommand(int outCnlNum, out TeleCommand teleCommand)
+        private bool CreateCommand(int outCnlNum, out TeleCommand command)
         {
-            teleCommand = new()
+            command = new()
             {
                 UserID = User.GetUserID(),
                 OutCnlNum = outCnlNum,
             };
 
-            switch (Input)
+            try
             {
-                case InputType.Hex:
-                    if (int.TryParse(CmdHex, NumberStyles.HexNumber, CultureInfo.InvariantCulture, out int cmdHex))
-                    {
-                        teleCommand.CmdVal = cmdHex;
-                    }
-                    else
-                    {
-                        HasError = true;
-                        Message = CommonPhrases.NotHexadecimal;
-                    }
-                    break;
+                switch (Input)
+                {
+                    case InputType.Dec:
+                        command.CmdVal = ScadaUtils.ParseDouble(CmdDec);
+                        break;
 
-                case InputType.Enum:
-                    if (int.TryParse(CmdEnum, out int cmdEnum))
-                        teleCommand.CmdVal = cmdEnum;
-                    break;
+                    case InputType.Hex:
+                        command.CmdVal = int.Parse(CmdHex, NumberStyles.HexNumber, CultureInfo.InvariantCulture);
+                        break;
+
+                    case InputType.Enum:
+                        command.CmdVal = int.Parse(CmdEnum);
+                        break;
+
+                    case InputType.Date:
+                        command.CmdData = TeleCommand.StringToCmdData(CmdDate);
+                        break;
+
+                    case InputType.Str:
+                        command.CmdData = CmdDataFormat == "str"
+                            ? TeleCommand.StringToCmdData(CmdDate)
+                            : ScadaUtils.HexToBytes(CmdData, true, true);
+                        break;
+                }
+            }
+            catch
+            {
+                HasError = true;
+                Message = dict.CmdParseError;
             }
 
             return !HasError;
         }
 
-        private bool SendCommand(TeleCommand teleCommand)
+        private void SendCommand(TeleCommand command)
         {
-            return false;
+            try
+            {
+                clientAccessor.ScadaClient.SendCommand(command, out CommandResult result);
+
+                if (result.IsSuccessful)
+                {
+                    Message = dict.CommandSent;
+                    CloseModal = true;
+                    OutCnl = null; // hide fields
+                }
+                else
+                {
+                    HasError = true;
+                    Message = result.ErrorMessage;
+                }
+            }
+            catch (Exception ex)
+            {
+                HasError = true;
+                Message = WebPhrases.ClientError;
+                webContext.Log.WriteError(ex, Message);
+            }
         }
 
         private IActionResult OnLoad(int outCnlNum, bool isPostback)
@@ -180,11 +227,9 @@ namespace Scada.Web.Plugins.PlgMain.Areas.Main.Pages
             // validate and send command
             if (isPostback &&
                 CheckPassword() &&
-                CreateCommand(outCnlNum, out TeleCommand teleCommand) &&
-                SendCommand(teleCommand))
+                CreateCommand(outCnlNum, out TeleCommand command))
             {
-                Message = dict.CommandSent;
-                CloseModal = true;
+                SendCommand(command);
             }
 
             return Page();

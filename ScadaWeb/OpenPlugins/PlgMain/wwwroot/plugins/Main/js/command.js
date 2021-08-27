@@ -34,7 +34,7 @@ $(document).ready(function () {
 
     // send enumeration command
     $("#divEnum button").click(function () {
-        $("#hidCmdEnum").value($(this).data("cmdval"));
+        $("#hidCmdEnum").val($(this).data("cmdval"));
         $("#btnSubmit").click();
     });
 

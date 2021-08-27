@@ -5,6 +5,9 @@
     Layout = "_BasicLayout";
     dynamic dict = Locale.GetDictionary("Scada.Web.Plugins.PlgMain.Areas.Main.Pages.Command");
     ViewBag.Title = dict.PageTitle;
+
+    var pwdExtraClass = Model.PwdIsInvalid ? "is-invalid" : "";
+    var cmdExtraClass = Model.CmdIsInvalid ? "is-invalid" : "";
 }
 
 @section Styles {
@@ -52,25 +55,24 @@
     <form method="post">
         @if (pluginContext.Options.CommandPassword)
         {
-            var extraClass = Model.PasswordIsInvalid ? "is-invalid" : "";
             <div class="mb-3">
                 <label id="lblPassword" for="txtPassword" class="form-label">@dict.lblPassword</label>
-                <input type="password" id="txtPassword" class="form-control @extraClass" required asp-for="Password" />
+                <input type="password" id="txtPassword" class="form-control @pwdExtraClass" required asp-for="Password" />
             </div>
         }
 
         @if (Model.Input == CommandModel.InputType.Dec)
         { 
             <div class="mb-3">
-                <label id="lblCmdVal" for="txtCmdVal" class="form-label">@dict.lblCmdVal</label>
-                <input type="number" id="txtCmdVal" class="form-control" required asp-for="CmdVal" />
+                <label id="lblCmdDec" for="txtCmdDec" class="form-label">@dict.lblCmdDec</label>
+                <input type="number" id="txtCmdDec" class="form-control @cmdExtraClass" step="0.01" required asp-for="CmdDec" />
             </div>
         }
         else if (Model.Input == CommandModel.InputType.Hex)
         { 
             <div class="mb-3">
                 <label id="lblCmdHex" for="txtCmdHex" class="form-label">@dict.lblCmdHex</label>
-                <input type="text" id="txtCmdHex" class="form-control" pattern="[a-fA-F0-9]" required asp-for="CmdHex" />
+                <input type="text" id="txtCmdHex" class="form-control @cmdExtraClass" pattern="[a-fA-F0-9]{16}" required asp-for="CmdHex" />
             </div>
         }
         else if (Model.Input == CommandModel.InputType.Enum)
@@ -105,19 +107,18 @@
             </div>
         }
         else if (Model.Input == CommandModel.InputType.Str)
-        { 
-            var extraClass = Model.CmdDataIsInvalid? "is-invalid" : "";
+        {
             <div class="mb-3">
                 <label id="lblCmdData" for="txtCmdData" class="form-label d-block">@dict.lblCmdData</label>
                 <div class="form-check form-check-inline">
-                  <input type="radio" id="rbStr" name="cmdDataFormat"class="form-check-input" value="str" checked>
+                  <input type="radio" id="rbStr" name="cmdDataFormat"class="form-check-input" value="str" checked asp-for="CmdDataFormat">
                   <label id="lblStr" class="form-check-label" for="rbStr">@dict.lblStr</label>
                 </div>
                 <div class="form-check form-check-inline">
-                  <input type="radio" id="rbHex" name="cmdDataFormat" class="form-check-input" value="hex">
+                  <input type="radio" id="rbHex" name="cmdDataFormat" class="form-check-input" value="hex" asp-for="CmdDataFormat">
                   <label id="lblHex" class="form-check-label" for="rbHex">@dict.lblHex</label>
                 </div>
-                <textarea id="txtCmdData" class="form-control @extraClass" rows="3" asp-for="CmdData"></textarea>
+                <textarea id="txtCmdData" class="form-control @cmdExtraClass" rows="3" asp-for="CmdData"></textarea>
             </div>
         }
 
