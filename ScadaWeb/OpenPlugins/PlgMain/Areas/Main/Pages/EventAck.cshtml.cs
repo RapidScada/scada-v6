@@ -66,6 +66,12 @@ namespace Scada.Web.Plugins.PlgMain.Areas.Main.Pages
             return null;
         }
 
+        private EventFormatted FormatEvent(Event ev)
+        {
+            CnlDataFormatter dataFormatter = new(webContext.BaseDataSet, webContext.Enums, userContext.TimeZone);
+            return dataFormatter.FormatEvent(ev);
+        }
+
         public IActionResult OnGet(int archiveBit, long eventID)
         {
             Event = GetEvent(archiveBit, eventID, out Right right);
@@ -76,7 +82,7 @@ namespace Scada.Web.Plugins.PlgMain.Areas.Main.Pages
             if (!right.View)
                 return Forbid();
 
-            EventF = webContext.DataFormatter.FormatEvent(Event, userContext.TimeZone);
+            EventF = FormatEvent(Event);
             AckAllowed = right.Control && !Event.Ack;
             return Page();
         }
@@ -104,7 +110,7 @@ namespace Scada.Web.Plugins.PlgMain.Areas.Main.Pages
                 Message = dict.AckEventError;
                 webContext.Log.WriteError(ex, Message);
 
-                EventF = webContext.DataFormatter.FormatEvent(Event, userContext.TimeZone);
+                EventF = FormatEvent(Event);
                 AckAllowed = !Event.Ack;
             }
 

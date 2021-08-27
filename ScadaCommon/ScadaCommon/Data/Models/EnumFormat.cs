@@ -23,6 +23,9 @@
  * Modified : 2021
  */
 
+using Scada.Data.Entities;
+using System;
+
 namespace Scada.Data.Models
 {
     /// <summary>
@@ -118,6 +121,19 @@ namespace Scada.Data.Models
 
                 return enumFormat;
             }
+        }
+
+        /// <summary>
+        /// Converts the specified format entity to a enumeration.
+        /// </summary>
+        public static EnumFormat Parse(Format format)
+        {
+            if (format == null)
+                throw new ArgumentNullException(nameof(format));
+
+            EnumFormat enumFormat = Parse(format.Frmt);
+            enumFormat.FormatID = format.FormatID;
+            return enumFormat;
         }
     }
 }

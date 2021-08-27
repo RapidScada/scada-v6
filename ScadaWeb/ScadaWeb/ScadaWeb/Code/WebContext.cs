@@ -81,7 +81,7 @@ namespace Scada.Web.Code
             Log = LogStub.Instance;
             BaseDataSet = new BaseDataSet();
             RightMatrix = new RightMatrix();
-            DataFormatter = new CnlDataFormatter(BaseDataSet);
+            Enums = new EnumDict();
             ClientPool = new ScadaClientPool();
             PluginHolder = new PluginHolder();
             CacheExpirationTokenSource = new CancellationTokenSource();
@@ -129,9 +129,9 @@ namespace Scada.Web.Code
         public RightMatrix RightMatrix { get; private set; }
 
         /// <summary>
-        /// Gets the channel data formatter.
+        /// Gets the enumerations.
         /// </summary>
-        public CnlDataFormatter DataFormatter { get; private set; }
+        public EnumDict Enums { get; private set; }
 
         /// <summary>
         /// Gets the client pool.
@@ -298,12 +298,9 @@ namespace Scada.Web.Code
                                 if (ReadBase(out BaseDataSet baseDataSet))
                                 {
                                     step = UpdateConfigStep.Idle;
-                                    RightMatrix rightMatrix = new();
-                                    rightMatrix.Init(baseDataSet);
-
                                     BaseDataSet = baseDataSet;
-                                    RightMatrix = rightMatrix;
-                                    DataFormatter = new CnlDataFormatter(baseDataSet);
+                                    RightMatrix = new RightMatrix(baseDataSet);
+                                    Enums = new EnumDict(baseDataSet);
                                     IsReadyToLogin = true;
 
                                     if (IsReady)

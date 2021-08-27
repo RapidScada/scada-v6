@@ -110,6 +110,14 @@ namespace Scada.Web.Plugins.PlgMain.Controllers
         }
 
         /// <summary>
+        /// Creates a channel and event data formatter.
+        /// </summary>
+        private CnlDataFormatter CreateFormatter()
+        {
+            return new CnlDataFormatter(webContext.BaseDataSet, webContext.Enums, userContext.TimeZone);
+        }
+
+        /// <summary>
         /// Gets the filter to request limited number of events.
         /// </summary>
         private static DataFilter GetEventFilter(int limit)
@@ -166,6 +174,7 @@ namespace Scada.Web.Plugins.PlgMain.Controllers
                     ? clientAccessor.ScadaClient.GetCurrentData(ref cnlListID)
                     : clientAccessor.ScadaClient.GetCurrentData(cnlNums.ToArray(), useCache, out cnlListID);
                 curData.CnlListID = cnlListID.ToString();
+                CnlDataFormatter formatter = CreateFormatter();
 
                 for (int i = 0; i < cnlCnt; i++)
                 {
@@ -175,7 +184,7 @@ namespace Scada.Web.Plugins.PlgMain.Controllers
                     records[i] = new CurDataRecord
                     {
                         D = new CurDataPoint(cnlNum, cnlData),
-                        Df = webContext.DataFormatter.FormatCnlData(cnlData, cnlNum)
+                        Df = formatter.FormatCnlData(cnlData, cnlNum)
                     };
                 }
             }
@@ -218,6 +227,8 @@ namespace Scada.Web.Plugins.PlgMain.Controllers
                 }
 
                 // copy channel data
+                CnlDataFormatter formatter = CreateFormatter();
+
                 for (int cnlIdx = 0; cnlIdx < cnlCnt; cnlIdx++)
                 {
                     int cnlNum = cnlNums[cnlIdx];
@@ -231,7 +242,7 @@ namespace Scada.Web.Plugins.PlgMain.Controllers
                         records.Add(new HistDataRecord
                         {
                             D = cnlData,
-                            Df = webContext.DataFormatter.FormatCnlData(cnlData, inCnl)
+                            Df = formatter.FormatCnlData(cnlData, inCnl)
                         });
                     }
                 }
@@ -252,6 +263,7 @@ namespace Scada.Web.Plugins.PlgMain.Controllers
 
             int eventCnt = events.Count;
             EventRecord[] records = new EventRecord[eventCnt];
+            CnlDataFormatter formatter = CreateFormatter();
 
             for (int i = 0; i < eventCnt; i++)
             {
@@ -260,7 +272,7 @@ namespace Scada.Web.Plugins.PlgMain.Controllers
                 {
                     Id = ev.EventID.ToString(),
                     E = ev,
-                    Ef = webContext.DataFormatter.FormatEvent(ev, userContext.TimeZone)
+                    Ef = formatter.FormatEvent(ev)
                 };
             }
 

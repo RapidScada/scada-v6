@@ -81,9 +81,9 @@ namespace Scada.Web.Services
         RightMatrix RightMatrix { get; }
 
         /// <summary>
-        /// Gets the channel data formatter.
+        /// Gets the enumerations.
         /// </summary>
-        CnlDataFormatter DataFormatter { get; }
+        EnumDict Enums { get; }
 
         /// <summary>
         /// Gets the client pool.

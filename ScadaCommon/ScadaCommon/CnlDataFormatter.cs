@@ -59,38 +59,42 @@ namespace Scada
         /// </summary>
         protected readonly BaseDataSet baseDataSet;
         /// <summary>
-        /// The dictionary containing the enumeration colors.
+        /// The enumeration dictionary.
         /// </summary>
-        protected readonly Dictionary<int, EnumFormat> enumFormats;
+        protected readonly EnumDict enums;
+        /// <summary>
+        /// The user's time zone.
+        /// </summary>
+        protected readonly TimeZoneInfo timeZone;
 
 
         /// <summary>
         /// Initializes a new instance of the class.
         /// </summary>
         public CnlDataFormatter(BaseDataSet baseDataSet)
+            : this(baseDataSet, new EnumDict(baseDataSet), TimeZoneInfo.Local)
+        {
+        }
+
+        /// <summary>
+        /// Initializes a new instance of the class.
+        /// </summary>
+        public CnlDataFormatter(BaseDataSet baseDataSet, EnumDict enums)
+            : this(baseDataSet, enums, TimeZoneInfo.Local)
+        {
+        }
+
+        /// <summary>
+        /// Initializes a new instance of the class.
+        /// </summary>
+        public CnlDataFormatter(BaseDataSet baseDataSet, EnumDict enums, TimeZoneInfo timeZone)
         {
             culture = Locale.Culture;
             this.baseDataSet = baseDataSet ?? throw new ArgumentNullException(nameof(baseDataSet));
-            enumFormats = new Dictionary<int, EnumFormat>();
-            FillEnumFormats();
+            this.enums = enums ?? throw new ArgumentNullException(nameof(enums));
+            this.timeZone = timeZone ?? throw new ArgumentNullException(nameof(timeZone));
         }
 
-
-        /// <summary>
-        /// Fills the enumeration format dictionary.
-        /// </summary>
-        protected void FillEnumFormats()
-        {
-            foreach (Format format in baseDataSet.FormatTable.EnumerateItems())
-            {
-                if (format.IsEnum && !string.IsNullOrEmpty(format.Frmt))
-                {
-                    EnumFormat enumFormat = EnumFormat.Parse(format.Frmt);
-                    enumFormat.FormatID = format.FormatID;
-                    enumFormats.Add(format.FormatID, enumFormat);
-                }
-            }
-        }
 
         /// <summary>
         /// Formats the channel value depending on the data type.
@@ -164,13 +168,18 @@ namespace Scada
         /// </summary>
         protected string FormatDate(double cnlVal, int dataTypeID, string format)
         {
+            string DateToString(DateTime dt)
+            {
+                return TimeZoneInfo.ConvertTimeFromUtc(dt, timeZone).ToString(format, culture);
+            }
+
             switch (dataTypeID)
             {
                 case DataTypeID.Double:
-                    return DateTime.FromOADate(cnlVal).ToString(format, culture);
+                    return DateToString(DateTime.FromOADate(cnlVal));
 
                 case DataTypeID.Int64:
-                    return ScadaUtils.TicksToTime(CnlDataConverter.DoubleToInt64(cnlVal)).ToString(format, culture);
+                    return DateToString(ScadaUtils.TicksToTime(CnlDataConverter.DoubleToInt64(cnlVal)));
 
                 default:
                     return FormatError;
@@ -189,7 +198,7 @@ namespace Scada
             EnumFormat enumFormat = null;
 
             if (format != null && format.IsEnum)
-                enumFormats.TryGetValue(format.FormatID, out enumFormat);
+                enums.TryGetValue(format.FormatID, out enumFormat);
 
             // displayed value
             try
@@ -246,12 +255,10 @@ namespace Scada
         /// <summary>
         /// Formats the event according to the channel properties.
         /// </summary>
-        public EventFormatted FormatEvent(Event ev, TimeZoneInfo timeZone)
+        public EventFormatted FormatEvent(Event ev)
         {
             if (ev == null)
                 throw new ArgumentNullException(nameof(ev));
-            if (timeZone == null)
-                throw new ArgumentNullException(nameof(timeZone));
 
             EventFormatted eventFormatted = new EventFormatted
             {
