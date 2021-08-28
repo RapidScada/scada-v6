@@ -49,6 +49,10 @@ namespace Scada
         /// The formatting result indicating an error.
         /// </summary>
         public const string FormatError = "!!!";
+        /// <summary>
+        /// The command data display length in bytes.
+        /// </summary>
+        public const int DataDisplayLength = 8;
 
         /// <summary>
         /// The culture for formatting values.
@@ -281,19 +285,38 @@ namespace Scada
             else if (ev.OutCnlNum > 0)
                 eventFormatted.Cnl = baseDataSet.OutCnlTable.GetItem(ev.OutCnlNum)?.Name ?? "";
 
-            // description in the form:
-            // Status, Value. Custom text
-            CnlDataFormatted dataFormatted = FormatCnlData(new CnlData(ev.CnlVal, ev.CnlStat), inCnl);
+            // description
             StringBuilder sbDescr = new StringBuilder();
+            CnlDataFormatted dataFormatted = FormatCnlData(new CnlData(ev.CnlVal, ev.CnlStat), inCnl);
 
-            if (ev.TextFormat == EventTextFormat.Full || ev.TextFormat == EventTextFormat.AutoText)
+            if (ev.OutCnlNum > 0)
             {
-                string statusName = baseDataSet.CnlStatusTable.GetItem(ev.CnlStat)?.Name;
+                // Command Value, Data. Custom text
+                sbDescr.Append(Locale.IsRussian ? "Команда " : "Command ");
 
-                if (string.IsNullOrEmpty(statusName))
-                    statusName = (Locale.IsRussian ? "Статус " : "Status ") + ev.CnlStat;
+                if (ev.CnlStat > 0)
+                    sbDescr.Append(dataFormatted.DispVal);
 
-                sbDescr.Append(statusName).Append(", ").Append(dataFormatted.DispVal);
+                if (ev.Data != null && ev.Data.Length > 0)
+                {
+                    sbDescr
+                        .Append(ev.CnlStat > 0 ? ", " : "")
+                        .Append(ScadaUtils.BytesToHex(ev.Data, 0, Math.Min(DataDisplayLength, ev.Data.Length)))
+                        .Append(DataDisplayLength < ev.Data.Length ? "..." : "");
+                }
+            }
+            else
+            {
+                // Status, Value. Custom text
+                if (ev.TextFormat == EventTextFormat.Full || ev.TextFormat == EventTextFormat.AutoText)
+                {
+                    string statusName = baseDataSet.CnlStatusTable.GetItem(ev.CnlStat)?.Name;
+
+                    if (string.IsNullOrEmpty(statusName))
+                        statusName = (Locale.IsRussian ? "Статус " : "Status ") + ev.CnlStat;
+
+                    sbDescr.Append(statusName).Append(", ").Append(dataFormatted.DispVal);
+                }
             }
 
             if (!string.IsNullOrEmpty(ev.Text))

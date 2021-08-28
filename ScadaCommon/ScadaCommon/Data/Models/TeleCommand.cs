@@ -20,7 +20,7 @@
  * 
  * Author   : Mikhail Shiryaev
  * Created  : 2015
- * Modified : 2020
+ * Modified : 2021
  */
 
 using Scada.Lang;
@@ -51,7 +51,7 @@ namespace Scada.Data.Models
             DeviceNum = 0;
             CmdNum = 0;
             CmdCode = "";
-            CmdVal = 0.0;
+            CmdVal = double.NaN;
             CmdData = null;
             RecursionLevel = 0;
         }
