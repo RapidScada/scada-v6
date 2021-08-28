@@ -936,6 +936,7 @@ namespace Scada.Server.Engine
                     ObjNum = command.ObjNum,
                     DeviceNum = command.DeviceNum,
                     CnlVal = command.CmdVal,
+                    CnlStat = double.IsNaN(command.CmdVal) ? CnlStatusID.Undefined : CnlStatusID.Defined,
                     Data = command.CmdData
                 });
             }
