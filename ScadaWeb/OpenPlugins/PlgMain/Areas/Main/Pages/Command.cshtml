@@ -65,7 +65,7 @@
         { 
             <div class="mb-3">
                 <label id="lblCmdDec" for="txtCmdDec" class="form-label">@dict.lblCmdDec</label>
-                <input type="number" id="txtCmdDec" class="form-control @cmdExtraClass" step="0.01" required asp-for="CmdDec" />
+                <input type="number" id="txtCmdDec" class="form-control @cmdExtraClass" step="any" required asp-for="CmdDec" />
             </div>
         }
         else if (Model.Input == CommandModel.InputType.Hex)
