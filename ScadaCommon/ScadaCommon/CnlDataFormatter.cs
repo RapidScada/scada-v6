@@ -317,6 +317,7 @@ namespace Scada
                 {
                     sbDescr
                         .Append(ev.CnlStat > 0 ? ", " : "")
+                        .Append("0x")
                         .Append(ScadaUtils.BytesToHex(ev.Data, 0, Math.Min(DataDisplayLength, ev.Data.Length)))
                         .Append(DataDisplayLength < ev.Data.Length ? "..." : "");
                 }

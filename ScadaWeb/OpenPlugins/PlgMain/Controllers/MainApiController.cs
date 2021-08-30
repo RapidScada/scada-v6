@@ -23,6 +23,7 @@ namespace Scada.Web.Plugins.PlgMain.Controllers
     /// Represents the plugin's web API.
     /// <para>Представляет веб API плагина.</para>
     /// </summary>
+    /// <remarks>Note that double.NaN cannot be converted to JSON.</remarks>
     [ApiController]
     [Route("Api/Main/[action]")]
     public class MainApiController : ControllerBase
