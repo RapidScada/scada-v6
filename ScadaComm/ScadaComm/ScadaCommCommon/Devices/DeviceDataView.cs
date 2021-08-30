@@ -180,23 +180,34 @@ namespace Scada.Comm.Devices
         {
             StringBuilder sb = new StringBuilder();
 
+            void AppendComma()
+            {
+                if (sb.Length > 0)
+                    sb.Append(", ");
+            }
+
             if (cmd.CmdNum > 0)
-                sb.Append("Num=").Append(cmd.CmdNum).Append(", ");
+                sb.Append("Num=").Append(cmd.CmdNum);
 
             if (!string.IsNullOrEmpty(cmd.CmdCode))
-                sb.Append("Code=").Append(cmd.CmdCode).Append(", ");
-
-            if (cmd.CmdData == null)
             {
-                sb.Append("Val=").Append(cmd.CmdVal.ToString("N3", Locale.Culture));
+                AppendComma();
+                sb.Append("Code=").Append(cmd.CmdCode);
             }
-            else
-            {
-                const int MaxDisplayLength = 10;
-                int displayLength = Math.Min(cmd.CmdData.Length, MaxDisplayLength);
-                sb.Append("Data=").Append(ScadaUtils.BytesToHex(cmd.CmdData, 0, displayLength));
 
-                if (displayLength < cmd.CmdData.Length)
+            if (!double.IsNaN(cmd.CmdVal))
+            {
+                AppendComma();
+                sb.Append("Val=").Append(cmd.CmdVal.ToString(CnlDataFormatter.DefaultFormat, Locale.Culture));
+            }
+            
+            if (cmd.CmdData != null && cmd.CmdData.Length > 0)
+            {
+                AppendComma();
+                sb.Append("Data=").Append(ScadaUtils.BytesToHex(cmd.CmdData, 0, 
+                    Math.Min(CnlDataFormatter.DataDisplayLength, cmd.CmdData.Length)));
+
+                if (CnlDataFormatter.DataDisplayLength < cmd.CmdData.Length)
                     sb.Append("...");
             }
 
@@ -571,6 +582,7 @@ namespace Scada.Comm.Devices
                     foreach (DeviceSlice slice in slices)
                     {
                         Row row = sliceTable.Rows[rowIndex++];
+                        row.IsEmpty = false;
                         row.Cells[0] = slice.Timestamp.ToLocalTime().ToLocalizedString();
                         row.Cells[1] = slice.Descr;
                     }
@@ -607,6 +619,7 @@ namespace Scada.Comm.Devices
                     foreach (DeviceEvent ev in events)
                     {
                         Row row = eventTable.Rows[rowIndex++];
+                        row.IsEmpty = false;
                         row.Cells[0] = ev.Timestamp.ToLocalTime().ToLocalizedString();
                         row.Cells[1] = ev.DeviceTag?.ToString() ?? "";
                         row.Cells[2] = ev.Descr;
@@ -644,6 +657,7 @@ namespace Scada.Comm.Devices
                     foreach (TeleCommand cmd in commands)
                     {
                         Row row = commandTable.Rows[rowIndex++];
+                        row.IsEmpty = false;
                         row.Cells[0] = cmd.CreationTime.ToLocalTime().ToLocalizedString();
                         row.Cells[1] = GetCommandDescr(cmd);
                     }
