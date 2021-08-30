@@ -101,6 +101,14 @@ namespace Scada
 
 
         /// <summary>
+        /// Determines whether the specified format represents a hexadecimal number.
+        /// </summary>
+        private bool FormatIsHex(string format)
+        {
+            return format != null && format.Length > 0 && (format[0] == 'x' || format[0] == 'X');
+        }
+
+        /// <summary>
         /// Formats the channel value depending on the data type.
         /// </summary>
         protected string FormatByDataType(double cnlVal, int dataTypeID)
@@ -132,7 +140,9 @@ namespace Scada
             switch (dataTypeID)
             {
                 case DataTypeID.Double:
-                    return cnlVal.ToString(format, culture);
+                    return FormatIsHex(format)
+                        ? ((int)cnlVal).ToString(format, culture)
+                        : cnlVal.ToString(format, culture);
 
                 case DataTypeID.Int64:
                     return CnlDataConverter.DoubleToInt64(cnlVal).ToString(format, culture);

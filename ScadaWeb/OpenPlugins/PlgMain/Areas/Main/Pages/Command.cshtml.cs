@@ -141,7 +141,7 @@ namespace Scada.Web.Plugins.PlgMain.Areas.Main.Pages
 
                     case InputType.Str:
                         command.CmdData = CmdDataFormat == "str"
-                            ? TeleCommand.StringToCmdData(CmdDate)
+                            ? TeleCommand.StringToCmdData(CmdData)
                             : ScadaUtils.HexToBytes(CmdData, true, true);
                         break;
                 }
@@ -150,6 +150,7 @@ namespace Scada.Web.Plugins.PlgMain.Areas.Main.Pages
             {
                 HasError = true;
                 Message = dict.CmdParseError;
+                CmdIsInvalid = true;
             }
 
             return !HasError;

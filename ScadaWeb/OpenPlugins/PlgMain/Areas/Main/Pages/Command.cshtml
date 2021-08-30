@@ -72,7 +72,7 @@
         { 
             <div class="mb-3">
                 <label id="lblCmdHex" for="txtCmdHex" class="form-label">@dict.lblCmdHex</label>
-                <input type="text" id="txtCmdHex" class="form-control @cmdExtraClass" pattern="[a-fA-F0-9]{16}" required asp-for="CmdHex" />
+                <input type="text" id="txtCmdHex" class="form-control @cmdExtraClass" pattern="[a-fA-F0-9]+" required asp-for="CmdHex" />
             </div>
         }
         else if (Model.Input == CommandModel.InputType.Enum)
