@@ -145,53 +145,66 @@ namespace Scada.Web.Plugins.PlgMain.Areas.Main.Pages
 
         private void AddTooltipHtml(StringBuilder sbHtml, int inCnlNum, InCnl inCnl, int outCnlNum, OutCnl outCnl)
         {
-            sbHtml.Append(PluginPhrases.InCnlTip).Append(": [").Append(inCnlNum).Append("] ");
+            int deviceNum = 0;
+            int objNum = 0;
+            int quantityID = 0;
+            int unitID = 0;
 
-            if (inCnl != null)
-                sbHtml.Append(HttpUtility.HtmlEncode(inCnl.Name));
+            if (inCnlNum > 0)
+            {
+                sbHtml.Append(PluginPhrases.InCnlTip).Append(": [").Append(inCnlNum).Append("] ");
+
+                if (inCnl != null)
+                {
+                    sbHtml.Append(HttpUtility.HtmlEncode(inCnl.Name));
+                    deviceNum = inCnl.DeviceNum ?? 0;
+                    objNum = inCnl.ObjNum ?? 0;
+                    quantityID = inCnl.QuantityID ?? 0;
+                    unitID = inCnl.UnitID ?? 0;
+                }
+            }
 
             if (outCnlNum > 0)
             {
-                sbHtml.Append("<br>").Append(PluginPhrases.OutCnlTip).Append(": [").Append(outCnlNum).Append("] ");
+                if (inCnlNum > 0)
+                    sbHtml.Append("<br>");
+
+                sbHtml.Append(PluginPhrases.OutCnlTip).Append(": [").Append(outCnlNum).Append("] ");
 
                 if (outCnl != null)
+                {
                     sbHtml.Append(HttpUtility.HtmlEncode(outCnl.Name));
+
+                    if (inCnl == null)
+                    {
+                        deviceNum = outCnl.DeviceNum ?? 0;
+                        objNum = outCnl.ObjNum ?? 0;
+                    }
+                }
             }
 
-            if (inCnl != null)
+            if (deviceNum > 0 && webContext.BaseDataSet.DeviceTable.GetItem(deviceNum) is Device device)
             {
-                Device device = inCnl.DeviceNum == null ?
-                    null : webContext.BaseDataSet.DeviceTable.GetItem(inCnl.DeviceNum.Value);
-                Obj obj = inCnl.ObjNum == null ?
-                    null : webContext.BaseDataSet.ObjTable.GetItem(inCnl.ObjNum.Value);
-                Quantity quantity = inCnl.QuantityID == null ?
-                    null : webContext.BaseDataSet.QuantityTable.GetItem(inCnl.QuantityID.Value);
-                Unit unit = inCnl.UnitID == null ?
-                    null : webContext.BaseDataSet.UnitTable.GetItem(inCnl.UnitID.Value);
+                sbHtml.Append("<br>").Append(PluginPhrases.DeviceTip).Append(": [")
+                    .Append(device.DeviceNum).Append("] ").Append(HttpUtility.HtmlEncode(device.Name));
+            }
 
-                if (device != null)
-                {
-                    sbHtml.Append("<br>").Append(PluginPhrases.DeviceTip).Append(": [")
-                        .Append(device.DeviceNum).Append("] ").Append(HttpUtility.HtmlEncode(device.Name));
-                }
+            if (objNum > 0 && webContext.BaseDataSet.ObjTable.GetItem(objNum) is Obj obj)
+            {
+                sbHtml.Append("<br>").Append(PluginPhrases.ObjTip).Append(": [")
+                    .Append(obj.ObjNum).Append("] ").Append(HttpUtility.HtmlEncode(obj.Name));
+            }
 
-                if (obj != null)
-                {
-                    sbHtml.Append("<br>").Append(PluginPhrases.ObjTip).Append(": [")
-                        .Append(obj.ObjNum).Append("] ").Append(HttpUtility.HtmlEncode(obj.Name));
-                }
+            if (quantityID > 0 && webContext.BaseDataSet.QuantityTable.GetItem(quantityID) is Quantity quantity)
+            {
+                sbHtml.Append("<br>").Append(PluginPhrases.QuantityTip).Append(": ")
+                    .Append(HttpUtility.HtmlEncode(quantity.Name));
+            }
 
-                if (quantity != null)
-                {
-                    sbHtml.Append("<br>").Append(PluginPhrases.QuantityTip).Append(": ")
-                        .Append(HttpUtility.HtmlEncode(quantity.Name));
-                }
-
-                if (unit != null)
-                {
-                    sbHtml.Append("<br>").Append(PluginPhrases.UnitTip).Append(": ")
-                        .Append(HttpUtility.HtmlEncode(unit.Name));
-                }
+            if (unitID > 0 && webContext.BaseDataSet.UnitTable.GetItem(unitID) is Unit unit)
+            {
+                sbHtml.Append("<br>").Append(PluginPhrases.UnitTip).Append(": ")
+                    .Append(HttpUtility.HtmlEncode(unit.Name));
             }
         }
 
