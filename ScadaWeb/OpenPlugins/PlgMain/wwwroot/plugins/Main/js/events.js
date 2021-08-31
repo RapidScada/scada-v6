@@ -116,10 +116,15 @@ function updateEvents(callback) {
                     // request events
                     let retrieveEvents = function (dto) {
                         if (dto.ok) {
-                            let enableEffects = filterID > 0;
+                            let oldFilterID = filterID;
                             filterID = dto.data.filterID;
-                            arcWriteTime = newArcWriteTime;
-                            showEvents(dto.data, enableEffects);
+
+                            if (filterID > 0) {
+                                arcWriteTime = newArcWriteTime;
+                                showEvents(dto.data, oldFilterID > 0);
+                            } else {
+                                showErrorBadge();
+                            }
                         } else {
                             showErrorBadge();
                         }

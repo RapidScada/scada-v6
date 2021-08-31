@@ -86,6 +86,7 @@ class MainApi {
     }
 
     // Gets the current data by view.
+    // Loads the specified view if it is not in the cache.
     // URL example: http://localhost/Api/Main/GetCurDataByView?viewID=1&cnlListID=0
     getCurDataByView(viewID, cnlListID, callback) {
         fetch(this.rootPath + "Api/Main/GetCurDataByView?viewID=" + viewID + "&cnlListID=" + cnlListID)
@@ -105,6 +106,7 @@ class MainApi {
     }
 
     // Gets the historical data.
+    // The specified view must already be loaded into the cache.
     // URL example: http://localhost/Api/Main/GetHistData?archiveBit=1&startTime=2021-12-31T00:00:00.000Z&endTime=2021-12-31T23:59:59Z&endInclusive=true&viewID=1
     getHistDataByView(archiveBit, timeRange, viewID, callback) {
         fetch(this.rootPath + "Api/Main/GetHistDataByView?archiveBit=" + archiveBit +
@@ -143,6 +145,7 @@ class MainApi {
     }
 
     // Gets the last events by view.
+    // The specified view must already be loaded into the cache.
     // URL example: http://localhost/Api/Main/GetLastEventsByView?archiveBit=1&period=2&limit=100&viewID=1&filterID=1
     getLastEventsByView(archiveBit, period, limit, viewID, filterID, callback) {
         fetch(this.rootPath + "Api/Main/GetLastEventsByView?archiveBit=" + archiveBit +
@@ -159,6 +162,15 @@ class MainApi {
             .then(response => response.ok ? response.json() : Dto.fail(response.statusText))
             .then(data => this._doCallback(callback, data, "getArcWriteTime"))
             .catch(error => this._doCallback(callback, Dto.fail(error.message), "getArcWriteTime"));
+    }
+
+    // Loads the specified view into the cache.
+    // URL example: http://localhost/Api/Main/LoadView?viewID=1
+    loadView(viewID, callback) {
+        fetch(this.rootPath + "Api/Main/LoadView?viewID=" + viewID)
+            .then(response => response.ok ? response.json() : Dto.fail(response.statusText))
+            .then(data => this._doCallback(callback, data, "loadView"))
+            .catch(error => this._doCallback(callback, Dto.fail(error.message), "loadView"));
     }
 
     // Creates a map of current data records accessed by channel number.

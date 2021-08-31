@@ -373,11 +373,12 @@ namespace Scada.Web.Plugins.PlgMain.Controllers
         /// <summary>
         /// Gets the current data by view.
         /// </summary>
+        /// <remarks>Loads the specified view if it is not in the cache.</remarks>
         public Dto<CurData> GetCurDataByView(int viewID, long cnlListID)
         {
             try
             {
-                if (viewLoader.GetViewFromCache(viewID, out BaseView view, out string errMsg))
+                if (viewLoader.GetView(viewID, out BaseView view, out string errMsg))
                 {
                     CurData curData = memoryCache.GetOrCreate(PluginUtils.GetCacheKey("CurData", viewID), entry =>
                     {
@@ -426,6 +427,7 @@ namespace Scada.Web.Plugins.PlgMain.Controllers
         /// <summary>
         /// Gets the historical data by view.
         /// </summary>
+        /// <remarks>The specified view must already be loaded into the cache.</remarks>
         public Dto<HistData> GetHistDataByView(int archiveBit, DateTime startTime, DateTime endTime, bool endInclusive,
             int viewID)
         {
@@ -546,6 +548,7 @@ namespace Scada.Web.Plugins.PlgMain.Controllers
         /// <summary>
         /// Gets the last events by view.
         /// </summary>
+        /// <remarks>The specified view must already be loaded into the cache.</remarks>
         public Dto<EventPacket> GetLastEventsByView(int archiveBit, int period, int limit, int viewID, long filterID)
         {
             try
@@ -595,6 +598,16 @@ namespace Scada.Web.Plugins.PlgMain.Controllers
                 webContext.Log.WriteError(ex, WebPhrases.ErrorInWebApi, nameof(GetArcWriteTime));
                 return Dto<long>.Fail(ex.Message);
             }
+        }
+
+        /// <summary>
+        /// Loads the specified view into the cache.
+        /// </summary>
+        public Dto<string> LoadView(int viewID)
+        {
+            return viewLoader.GetView(viewID, out BaseView view, out string errMsg)
+                ? Dto<string>.Success(view.GetType().Name)
+                : Dto<string>.Fail(errMsg);
         }
     }
 }
