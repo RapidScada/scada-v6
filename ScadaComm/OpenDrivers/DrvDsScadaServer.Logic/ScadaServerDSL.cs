@@ -390,17 +390,20 @@ namespace Scada.Comm.Drivers.DrvDsScadaServer.Logic
                 else
                 {
                     CnlData[] destCnlData = new CnlData[destDataLength];
-                    int dataIndex = 0;
+                    int srcDataIndex = 0;
+                    int destDataIndex = 0;
 
                     foreach (DeviceTag deviceTag in srcSlice.DeviceTags)
                     {
+                        int tagDataLength = deviceTag.DataLength;
+
                         if (deviceTag.InCnl != null)
                         {
-                            // TODO: bug, deviceTag.DataIndex is inapropriate here
-                            int tagDataLength = deviceTag.DataLength;
-                            Array.Copy(srcSlice.CnlData, deviceTag.DataIndex, destCnlData, dataIndex, tagDataLength);
-                            dataIndex += tagDataLength;
+                            Array.Copy(srcSlice.CnlData, srcDataIndex, destCnlData, destDataIndex, tagDataLength);
+                            destDataIndex += tagDataLength;
                         }
+
+                        srcDataIndex += tagDataLength;
                     }
 
                     destSlice = new Slice(srcSlice.Timestamp, cnlNums.ToArray(), destCnlData);
