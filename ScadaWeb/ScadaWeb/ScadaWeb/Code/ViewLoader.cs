@@ -95,6 +95,29 @@ namespace Scada.Web.Code
         }
 
         /// <summary>
+        /// Gets a specification of the specified view entity.
+        /// </summary>
+        private bool GetViewSpec(View viewEntity, out ViewSpec viewSpec, out string errMsg)
+        {
+            viewSpec = memoryCache.GetOrCreate(WebUtils.GetViewSpecCacheKey(viewEntity.ViewID), entry =>
+            {
+                entry.SetDefaultOptions(webContext);
+                return webContext.GetViewSpec(viewEntity);
+            });
+
+            if (viewSpec == null)
+            {
+                errMsg = WebPhrases.UnableResolveViewSpec;
+                return false;
+            }
+            else
+            {
+                errMsg = "";
+                return true;
+            }
+        }
+
+        /// <summary>
         /// Creates and loads the specified view.
         /// </summary>
         private BaseView GetView(View viewEntity, Type viewType)
@@ -180,7 +203,7 @@ namespace Scada.Web.Code
 
 
         /// <summary>
-        /// Gets the view specification.
+        /// Gets a specification of the specified view.
         /// </summary>
         public bool GetViewSpec(int viewID, out ViewSpec viewSpec, out string errMsg)
         {
@@ -190,21 +213,7 @@ namespace Scada.Web.Code
                 return false;
             }
 
-            viewSpec = memoryCache.GetOrCreate(WebUtils.GetViewSpecCacheKey(viewID), entry =>
-            {
-                entry.SetDefaultOptions(webContext);
-                return webContext.GetViewSpec(viewEntity);
-            });
-
-            if (viewSpec == null)
-            {
-                errMsg = WebPhrases.UnableResolveViewSpec;
-                return false;
-            }
-            else
-            {
-                return true;
-            }
+            return GetViewSpec(viewEntity, out viewSpec, out errMsg);
         }
 
         /// <summary>
@@ -218,11 +227,26 @@ namespace Scada.Web.Code
                 return false;
             }
 
+            Type viewType = typeof(T);
+
+            if (viewType == typeof(BaseView))
+            {
+                if (GetViewSpec(viewEntity, out ViewSpec viewSpec, out errMsg))
+                {
+                    viewType = viewSpec.ViewType;
+                }
+                else
+                {
+                    view = null;
+                    return false;
+                }
+            }
+
             view = (T)memoryCache.GetOrCreate(WebUtils.GetViewCacheKey(viewID), entry =>
             {
                 entry.SetSlidingExpiration(WebUtils.ViewCacheExpiration);
                 entry.AddExpirationToken(webContext);
-                return GetView(viewEntity, typeof(T));
+                return GetView(viewEntity, viewType);
             });
 
             if (view == null)

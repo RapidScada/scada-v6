@@ -432,7 +432,7 @@ namespace Scada.Web.Code
         }
 
         /// <summary>
-        /// Waiting for plugins to be initialized.
+        /// Waits for plugins to be initialized.
         /// </summary>
         public void WaitForPlugins()
         {
@@ -443,7 +443,7 @@ namespace Scada.Web.Code
         }
 
         /// <summary>
-        /// Gets the view specification.
+        /// Gets a specification of the specified view entity.
         /// </summary>
         public ViewSpec GetViewSpec(View viewEntity)
         {

@@ -102,7 +102,7 @@ namespace Scada.Web.Services
 
 
         /// <summary>
-        /// Gets the view specification.
+        /// Gets a specification of the specified view entity.
         /// </summary>
         ViewSpec GetViewSpec(View viewEntity);
     }
