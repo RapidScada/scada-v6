@@ -16,26 +16,32 @@
  * 
  * Product  : Rapid SCADA
  * Module   : ScadaAdminCommon
- * Summary  : Creates extenstion instances
+ * Summary  : Defines functionality to access the Administrator environment
  * 
  * Author   : Mikhail Shiryaev
  * Created  : 2021
  * Modified : 2021
  */
 
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using Scada.Admin.Project;
+using Scada.Agent;
 
 namespace Scada.Admin.Extensions
 {
     /// <summary>
-    /// Creates extenstion instances.
-    /// <para>Создает экземпляры расширений.</para>
+    /// Defines functionality to access the Administrator environment.
+    /// <para>Определяет функциональность для доступа к окружению Администратора.</para>
     /// </summary>
-    public static class ExtensionFactory
+    public interface IAdminContext
     {
+        /// <summary>
+        /// Get the project currently open.
+        /// </summary>
+        public ScadaProject CurrentProject { get; }
+
+        /// <summary>
+        /// Gets the current Agent client.
+        /// </summary>
+        public IAgentClient CurrentAgent { get; }
     }
 }
