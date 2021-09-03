@@ -23,11 +23,10 @@
  * Modified : 2021
  */
 
+using Scada.Lang;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using System.IO;
+using System.Reflection;
 
 namespace Scada.Admin.Extensions
 {
@@ -37,5 +36,47 @@ namespace Scada.Admin.Extensions
     /// </summary>
     public static class ExtensionFactory
     {
+        /// <summary>
+        /// Gets a new instance of the extension logic.
+        /// </summary>
+        public static bool GetExtensionLogic(string directory, string extensionCode, IAdminContext adminContext,
+            out ExtensionLogic extensionLogic, out string message)
+        {
+            string fileName = Path.Combine(directory, extensionCode + ".dll");
+            string typeName = string.Format("Scada.Admin.Extensions.{0}.{0}Logic", extensionCode);
+
+            try
+            {
+                if (File.Exists(fileName))
+                {
+                    Assembly assembly = Assembly.LoadFile(fileName);
+                    Type type = assembly.GetType(typeName, true);
+                    extensionLogic = (ExtensionLogic)Activator.CreateInstance(type, adminContext);
+
+                    message = string.Format(Locale.IsRussian ?
+                        "Загружено расширение {0} {1} из файла {2}" :
+                        "Loaded extension {0} {1} from file {2}",
+                        extensionCode, assembly.GetName().Version, fileName);
+                    return true;
+                }
+                else
+                {
+                    extensionLogic = null;
+                    message = string.Format(Locale.IsRussian ?
+                        "Невозможно создать логику расширения {0}. Файл {1} не найден" :
+                        "Unable to create extension logic {0}. File {1} not found", extensionCode, fileName);
+                    return false;
+                }
+            }
+            catch (Exception ex)
+            {
+                extensionLogic = null;
+                message = string.Format(Locale.IsRussian ?
+                    "Ошибка при создании логики расширения {0} типа {1} из файла {2}: {3}" :
+                    "Error creating extension logic {0} of type {1} from file {2}: {3}",
+                    extensionCode, typeName, fileName, ex.Message);
+                return false;
+            }
+        }
     }
 }

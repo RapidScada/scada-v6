@@ -1,0 +1,10 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ScadaAdminConfig>
+  <Extensions>
+    <Extension code="ExtServerConfig" />
+  </Extensions>
+  <FileAssociations>
+    <Association ext="sch" path="C:\SCADA\ScadaSchemeEditor\ScadaSchemeEditor.exe" />
+    <Association ext="tbl" path="C:\SCADA\ScadaTableEditor\ScadaTableEditor.exe" />
+  </FileAssociations>
+</ScadaAdminConfig>

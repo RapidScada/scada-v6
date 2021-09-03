@@ -25,6 +25,8 @@
 
 using Scada.Agent;
 using System;
+using System.Collections.Generic;
+using System.Drawing;
 using System.Windows.Forms;
 
 namespace Scada.Admin.Extensions
@@ -70,6 +72,14 @@ namespace Scada.Admin.Extensions
         /// Gets tree nodes to add to the explorer tree.
         /// </summary>
         public virtual TreeNode[] GetTreeNodes(ConfigParts configPart, object appConfig)
+        {
+            return null;
+        }
+
+        /// <summary>
+        /// Gets the images used by the explorer tree.
+        /// </summary>
+        public virtual Dictionary<string, Image> GetTreeViewImages()
         {
             return null;
         }
