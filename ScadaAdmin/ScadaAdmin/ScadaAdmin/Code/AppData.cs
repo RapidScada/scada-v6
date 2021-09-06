@@ -25,12 +25,12 @@
 
 using Scada.Admin.Config;
 using Scada.Admin.Extensions;
+using Scada.Admin.Lang;
 using Scada.Admin.Project;
-using Scada.Agent;
 using Scada.Config;
-using Scada.Forms;
 using Scada.Lang;
 using Scada.Log;
+using Scada.Server.Lang;
 using System;
 using System.IO;
 
@@ -43,12 +43,6 @@ namespace Scada.Admin.App.Code
     public sealed class AppData : IAdminContext
     {
         /// <summary>
-        /// The short name of the application error log file.
-        /// </summary>
-        private const string ErrFileName = "ScadaAdmin.err";
-
-
-        /// <summary>
         /// Initializes a new instance of the class.
         /// </summary>
         public AppData()
@@ -56,7 +50,7 @@ namespace Scada.Admin.App.Code
             AppConfig = new AdminConfig();
             State = new AppState();
             AppDirs = new AdminDirs();
-            Log = LogStub.Instance;
+            ErrLog = LogStub.Instance;
             ExtensionHolder = null;
             CurrentProject = null;
         }
@@ -78,9 +72,12 @@ namespace Scada.Admin.App.Code
         public AdminDirs AppDirs { get; }
 
         /// <summary>
-        /// Gets the application log.
+        /// Gets the application error log.
         /// </summary>
-        public ILog Log { get; private set; }
+        /// <remarks>
+        /// Use the log only for writing errors because many instances of the application can be open simultaneously.
+        /// </remarks>
+        public ILog ErrLog { get; private set; }
 
         /// <summary>
         /// Gets the extension holder.
@@ -92,6 +89,69 @@ namespace Scada.Admin.App.Code
         /// </summary>
         public ScadaProject CurrentProject { get; set; }
 
+
+        /// <summary>
+        /// Localizes the application.
+        /// </summary>
+        private void LocalizeApp()
+        {
+            // load instance culture
+            if (!Locale.LoadCulture(GetInstanceConfigFileName(), out string errMsg))
+                ErrLog.WriteError(errMsg);
+
+            // load dictionaries
+            if (!Locale.LoadDictionaries(AppDirs.LangDir, "ScadaCommon", out errMsg))
+                ErrLog.WriteError(errMsg);
+
+            if (!Locale.LoadDictionaries(AppDirs.LangDir, "ScadaAdmin", out errMsg))
+                ErrLog.WriteError(errMsg);
+
+            if (!Locale.LoadDictionaries(AppDirs.LangDir, "ScadaServer", out errMsg))
+                ErrLog.WriteError(errMsg);
+
+            if (!Locale.LoadDictionaries(AppDirs.LangDir, "ScadaComm", out errMsg))
+                ErrLog.WriteError(errMsg);
+
+            // read phrases from the dictionaries
+            CommonPhrases.Init();
+            AdminPhrases.Init();
+            AppPhrases.Init();
+            ServerPhrases.Init();
+            CommonPhrases.Init();
+        }
+
+        /// <summary>
+        /// Loads the application configuration.
+        /// </summary>
+        private void LoadAppConfig()
+        {
+            if (!AppConfig.Load(Path.Combine(AppDirs.ConfigDir, AdminConfig.DefaultFileName), out string errMsg))
+                ErrLog.WriteError(errMsg);
+        }
+
+        /// <summary>
+        /// Loads extenstions.
+        /// </summary>
+        private void LoadExtensions()
+        {
+            ExtensionHolder = new(ErrLog);
+
+            foreach (string extensionCode in AppConfig.ExtensionCodes)
+            {
+                if (ExtensionFactory.GetExtensionLogic(AppDirs.LibDir, extensionCode, this,
+                    out ExtensionLogic extensionLogic, out string message))
+                {
+                    ExtensionHolder.AddExtension(extensionLogic);
+                }
+                else
+                {
+                    ErrLog.WriteError(message);
+                }
+            }
+
+            ExtensionHolder.LoadDictionaries();
+            ExtensionHolder.LoadConfig();
+        }
 
         /// <summary>
         /// Clears the temporary directory.
@@ -117,11 +177,12 @@ namespace Scada.Admin.App.Code
             }
             catch (Exception ex)
             {
-                Log.WriteError(ex, Locale.IsRussian ?
+                ErrLog.WriteError(ex, Locale.IsRussian ?
                     "Ошибка при очистке директории временных файлов" :
                     "Error cleaning the directory of temporary files");
             }
         }
+
 
         /// <summary>
         /// Initializes the common application data.
@@ -130,12 +191,14 @@ namespace Scada.Admin.App.Code
         {
             AppDirs.Init(exeDir);
 
-            Log = new LogFile(LogFormat.Full)
+            ErrLog = new LogFile(LogFormat.Full)
             {
-                FileName = Path.Combine(AppDirs.LogDir, ErrFileName)
+                FileName = Path.Combine(AppDirs.LogDir, AdminUtils.LogFileName)
             };
 
-            ExtensionHolder = new(Log);
+            LocalizeApp();
+            LoadAppConfig();
+            LoadExtensions();
         }
 
         /// <summary>
@@ -144,25 +207,6 @@ namespace Scada.Admin.App.Code
         public void FinalizeApp()
         {
             ClearTempDir();
-        }
-
-        /// <summary>
-        /// Writes the error to the log and displays a error message.
-        /// </summary>
-        public void ProcError(string text)
-        {
-            Log.WriteError(text);
-            ScadaUiUtils.ShowError(text);
-        }
-
-        /// <summary>
-        /// Writes the error to the log and displays a error message.
-        /// </summary>
-        public void ProcError(Exception ex, string text = "", params object[] args)
-        {
-            string msg = ScadaUtils.BuildErrorMessage(ex, text, args);
-            Log.WriteError(msg);
-            ScadaUiUtils.ShowError(msg);
         }
 
         /// <summary>

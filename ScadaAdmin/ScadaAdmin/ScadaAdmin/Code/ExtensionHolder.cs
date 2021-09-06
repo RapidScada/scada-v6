@@ -68,6 +68,49 @@ namespace Scada.Admin.App.Code
         }
 
         /// <summary>
+        /// Calls the LoadDictionaries method of the plugins.
+        /// </summary>
+        public void LoadDictionaries()
+        {
+            lock (extensionLock)
+            {
+                foreach (ExtensionLogic extensionLogic in extensions)
+                {
+                    try
+                    {
+                        extensionLogic.LoadDictionaries();
+                    }
+                    catch (Exception ex)
+                    {
+                        log.WriteError(ex, AdminPhrases.ErrorInExtension, 
+                            nameof(LoadDictionaries), extensionLogic.Code);
+                    }
+                }
+            }
+        }
+
+        /// <summary>
+        /// Calls the LoadConfig method of the plugins.
+        /// </summary>
+        public void LoadConfig()
+        {
+            lock (extensionLock)
+            {
+                foreach (ExtensionLogic extensionLogic in extensions)
+                {
+                    try
+                    {
+                        extensionLogic.LoadConfig();
+                    }
+                    catch (Exception ex)
+                    {
+                        log.WriteError(ex, AdminPhrases.ErrorInExtension, nameof(LoadConfig), extensionLogic.Code);
+                    }
+                }
+            }
+        }
+
+        /// <summary>
         /// Calls the GetMainMenuItems method of the extensions.
         /// </summary>
         public ICollection<ToolStripMenuItem> GetMainMenuItems()

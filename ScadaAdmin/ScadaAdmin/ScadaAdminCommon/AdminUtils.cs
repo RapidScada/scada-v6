@@ -38,6 +38,10 @@ namespace Scada.Admin
         /// </summary>
         public const string AppVersion = "6.0.0.0";
         /// <summary>
+        /// The application log file name.
+        /// </summary>
+        public const string LogFileName = "ScadaAdmin.log";
+        /// <summary>
         /// The extension of a project file.
         /// </summary>
         public const string ProjectExt = ".rsproj";

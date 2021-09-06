@@ -36,6 +36,7 @@ using Scada.Data.Entities;
 using Scada.Forms;
 using Scada.Lang;
 using Scada.Log;
+using Scada.Server.Lang;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -107,7 +108,7 @@ namespace Scada.Admin.App.Forms
         /// <summary>
         /// Gets the application log.
         /// </summary>
-        private ILog Log => appData.Log;
+        private ILog Log => appData.ErrLog;
 
         /// <summary>
         /// Gets or sets the project currently open.
@@ -135,47 +136,12 @@ namespace Scada.Admin.App.Forms
         /// </summary>
         private void LocalizeForm()
         {
-            // load instance culture
-            if (!Locale.LoadCulture(appData.GetInstanceConfigFileName(), out string errMsg))
-                Log.WriteError(errMsg);
-
-            // load common dictionaries
-            if (!Locale.LoadDictionaries(appData.AppDirs.LangDir, "ScadaCommon", out errMsg))
-                Log.WriteError(errMsg);
-
-            // load Administrator dictionaries
-            bool adminDictLoaded = Locale.LoadDictionaries(appData.AppDirs.LangDir, "ScadaAdmin", out errMsg);
-            if (!adminDictLoaded)
-                Log.WriteError(errMsg);
-
-            // load Server dictionaries
-            //if (!Locale.LoadDictionaries(appData.AppDirs.LangDir, "ScadaServer", out errMsg))
-            //    log.WriteError(errMsg);
-
-            // load Communicator dictionaries
-            //if (!Locale.LoadDictionaries(appData.AppDirs.LangDir, "ScadaComm", out errMsg))
-            //    log.WriteError(errMsg);
-
-            // read phrases from the dictionaries
-            CommonPhrases.Init();
-            AdminPhrases.Init();
-            AppPhrases.Init();
-
-            if (adminDictLoaded)
-            {
-                FormTranslator.Translate(this, GetType().FullName, null,
-                    cmsProject, cmsCnlTable, cmsDirectory, cmsFileItem, cmsInstance, 
-                    cmsServer, cmsComm, cmsCommLine, cmsDevice);
-                Text = AppPhrases.EmptyTitle;
-                wctrlMain.MessageText = AppPhrases.WelcomeMessage;
-                ofdProject.SetFilter(AppPhrases.ProjectFileFilter);
-            }
-
-            //ModPhrases.InitFromDictionaries();
-            //ServerShellPhrases.Init();
-
-            //CommPhrases.InitFromDictionaries();
-            //CommShellPhrases.Init();
+            FormTranslator.Translate(this, GetType().FullName, null,
+                cmsProject, cmsCnlTable, cmsDirectory, cmsFileItem, cmsInstance, 
+                cmsServer, cmsComm, cmsCommLine, cmsDevice);
+            Text = AppPhrases.EmptyTitle;
+            wctrlMain.MessageText = AppPhrases.WelcomeMessage;
+            ofdProject.SetFilter(AppPhrases.ProjectFileFilter);
         }
 
         /// <summary>
@@ -238,18 +204,6 @@ namespace Scada.Admin.App.Forms
         }
 
         /// <summary>
-        /// Loads the application configuration.
-        /// </summary>
-        private void LoadAppConfig()
-        {
-            if (!appData.AppConfig.Load(Path.Combine(appData.AppDirs.ConfigDir, AdminConfig.DefaultFileName),
-                out string errMsg))
-            {
-                appData.ProcError(errMsg);
-            }
-        }
-
-        /// <summary>
         /// Loads the application state.
         /// </summary>
         private void LoadAppState()
@@ -262,7 +216,7 @@ namespace Scada.Admin.App.Forms
             }
             else
             {
-                appData.ProcError(errMsg);
+                Log.HandleError(errMsg);
             }
         }
 
@@ -276,27 +230,7 @@ namespace Scada.Admin.App.Forms
             if (!appData.State.Save(Path.Combine(appData.AppDirs.ConfigDir, AppState.DefaultFileName),
                 out string errMsg))
             {
-                appData.ProcError(errMsg);
-            }
-        }
-
-        /// <summary>
-        /// Loads extenstions.
-        /// </summary>
-        private void LoadExtensions()
-        {
-            foreach (string extensionCode in appData.AppConfig.ExtensionCodes)
-            {
-                if (ExtensionFactory.GetExtensionLogic(appData.AppDirs.LibDir, extensionCode, appData,
-                    out ExtensionLogic extensionLogic, out string message))
-                {
-                    Log.WriteAction(message);
-                    appData.ExtensionHolder.AddExtension(extensionLogic);
-                }
-                else
-                {
-                    Log.WriteError(message);
-                }
+                Log.HandleError(errMsg);
             }
         }
 
@@ -728,7 +662,7 @@ namespace Scada.Admin.App.Forms
                 }
                 else
                 {
-                    appData.ProcError(errMsg);
+                    Log.HandleError(errMsg);
                 }
             }
         }
@@ -754,7 +688,7 @@ namespace Scada.Admin.App.Forms
             else if (liveInstance.ProjectInstance.LoadAppConfig(out string errMsg))
                 explorerBuilder.FillInstanceNode(instanceNode);
             else
-                appData.ProcError(errMsg);
+                Log.HandleError(errMsg);
         }
 
         /// <summary>
@@ -853,7 +787,7 @@ namespace Scada.Admin.App.Forms
             /*if (!project.DeploymentSettings.Loaded && File.Exists(project.DeploymentSettings.FileName) &&
                 !project.DeploymentSettings.Load(out string errMsg))
             {
-                appData.ProcError(errMsg);
+                Log.HandleError(errMsg);
             }*/
         }
 
@@ -863,7 +797,7 @@ namespace Scada.Admin.App.Forms
         private void SaveProject()
         {
             if (!Project.Save(Project.FileName, out string errMsg))
-                appData.ProcError(errMsg);
+                Log.HandleError(errMsg);
         }
 
         /// <summary>
@@ -877,7 +811,7 @@ namespace Scada.Admin.App.Forms
             }
             else
             {
-                appData.ProcError(errMsg);
+                Log.HandleError(errMsg);
                 return false;
             }
         }
@@ -888,7 +822,7 @@ namespace Scada.Admin.App.Forms
         private void LoadConfigBase()
         {
             if (!Project.ConfigBase.Load(out string errMsg))
-                appData.ProcError(errMsg);
+                Log.HandleError(errMsg);
         }
 
         /// <summary>
@@ -902,7 +836,7 @@ namespace Scada.Admin.App.Forms
             }
             else
             {
-                appData.ProcError(errMsg);
+                Log.HandleError(errMsg);
                 return false;
             }
         }
@@ -946,7 +880,7 @@ namespace Scada.Admin.App.Forms
                 }
                 else
                 {
-                    appData.ProcError(errMsg);
+                    Log.HandleError(errMsg);
                 }
             }
         }
@@ -973,7 +907,7 @@ namespace Scada.Admin.App.Forms
                 if (Project.Load(fileName, out string errMsg))
                     appData.State.AddRecentProject(Project.FileName);
                 else
-                    appData.ProcError(errMsg);
+                    Log.HandleError(errMsg);
 
                 LoadConfigBase();
                 Text = string.Format(AppPhrases.ProjectTitle, Project.Name);
@@ -1079,9 +1013,7 @@ namespace Scada.Admin.App.Forms
             LocalizeForm();
             TakeExplorerImages();
             SetMenuItemsEnabled();
-            LoadAppConfig();
             LoadAppState();
-            LoadExtensions();
             ShowStartPage();
             ShowStatus(null);
         }
@@ -1255,7 +1187,7 @@ namespace Scada.Admin.App.Forms
                     // save the Server settings
                     if (!liveInstance.ProjectInstance.ServerApp.SaveSettings(out string errMsg))
                     {
-                        appData.ProcError(errMsg);
+                        Log.HandleError(errMsg);
                         e.Cancel = true;
                     }
                 }
@@ -1720,7 +1652,7 @@ namespace Scada.Admin.App.Forms
                 if (frmItemName.ShowDialog() == DialogResult.OK && frmItemName.Modified)
                 {
                     if (!Project.Rename(frmItemName.ItemName, out string errMsg))
-                        appData.ProcError(errMsg);
+                        Log.HandleError(errMsg);
 
                     Text = string.Format(AppPhrases.ProjectTitle, Project.Name);
                     selectedNode.Text = Project.Name;
@@ -1846,7 +1778,7 @@ namespace Scada.Admin.App.Forms
                     }
                     catch (Exception ex)
                     {
-                        appData.ProcError(ex, AppPhrases.FileOperationError);
+                        Log.HandleError(ex, AppPhrases.FileOperationError);
                     }
                 }
             }
@@ -1879,7 +1811,7 @@ namespace Scada.Admin.App.Forms
                     }
                     catch (Exception ex)
                     {
-                        appData.ProcError(ex, AppPhrases.FileOperationError);
+                        Log.HandleError(ex, AppPhrases.FileOperationError);
                     }
                 }
             }
@@ -1905,7 +1837,7 @@ namespace Scada.Admin.App.Forms
                 }
                 catch (Exception ex)
                 {
-                    appData.ProcError(ex, AppPhrases.FileOperationError);
+                    Log.HandleError(ex, AppPhrases.FileOperationError);
                 }
             }
         }
@@ -1936,7 +1868,7 @@ namespace Scada.Admin.App.Forms
                         }
                         catch (Exception ex)
                         {
-                            appData.ProcError(ex, AppPhrases.FileOperationError);
+                            Log.HandleError(ex, AppPhrases.FileOperationError);
                         }
                     }
                 }
@@ -2023,7 +1955,7 @@ namespace Scada.Admin.App.Forms
                 }
                 catch (Exception ex)
                 {
-                    appData.ProcError(ex, AppPhrases.FileOperationError);
+                    Log.HandleError(ex, AppPhrases.FileOperationError);
                 }
             }
         }
@@ -2060,7 +1992,7 @@ namespace Scada.Admin.App.Forms
                         }
                         catch (Exception ex)
                         {
-                            appData.ProcError(ex, AppPhrases.FileOperationError);
+                            Log.HandleError(ex, AppPhrases.FileOperationError);
                         }
                     }
                 }
@@ -2128,7 +2060,7 @@ namespace Scada.Admin.App.Forms
                         }
                         else
                         {
-                            appData.ProcError(errMsg);
+                            Log.HandleError(errMsg);
                         }
                     }
                 }
@@ -2173,11 +2105,11 @@ namespace Scada.Admin.App.Forms
                 tvExplorer.RemoveNode(selectedNode, Project.Instances);
 
                 if (!liveInstance.ProjectInstance.DeleteInstanceFiles(out string errMsg))
-                    appData.ProcError(errMsg);
+                    Log.HandleError(errMsg);
 
                 /*project.DeploymentSettings.RemoveProfilesByInstance(liveInstance.ProjectInstance.ID, out bool affected);
                 if (affected && !project.DeploymentSettings.Save(out errMsg))
-                    appData.ProcError(errMsg);*/
+                    Log.HandleError(errMsg);*/
 
                 SetDeployMenuItemsEnabled();
                 SaveProject();
@@ -2220,7 +2152,7 @@ namespace Scada.Admin.App.Forms
                 if (frmItemName.ShowDialog() == DialogResult.OK && frmItemName.Modified)
                 {
                     if (!projectInstance.Rename(frmItemName.ItemName, out string errMsg))
-                        appData.ProcError(errMsg);
+                        Log.HandleError(errMsg);
 
                     selectedNode.Text = projectInstance.Name;
                     CloseChildForms(selectedNode);
@@ -2265,7 +2197,7 @@ namespace Scada.Admin.App.Forms
                             }
                             else
                             {
-                                appData.ProcError(errMsg);
+                                Log.HandleError(errMsg);
                             }
                         }
 
@@ -2279,7 +2211,7 @@ namespace Scada.Admin.App.Forms
                             }
                             else
                             {
-                                appData.ProcError(errMsg);
+                                Log.HandleError(errMsg);
                             }
                         }
                     }

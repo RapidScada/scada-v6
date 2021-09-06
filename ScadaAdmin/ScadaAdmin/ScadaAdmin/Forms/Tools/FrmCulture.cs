@@ -130,7 +130,7 @@ namespace Scada.Admin.App.Forms.Tools
             }
             catch (Exception ex)
             {
-                appData.ProcError(ex, AppPhrases.LoadCulturesError);
+                appData.ErrLog.HandleError(ex, AppPhrases.LoadCulturesError);
             }
         }
 
@@ -168,7 +168,7 @@ namespace Scada.Admin.App.Forms.Tools
                 }
                 else
                 {
-                    appData.ProcError(errMsg);
+                    appData.ErrLog.HandleError(errMsg);
                 }
             }
             catch (CultureNotFoundException)

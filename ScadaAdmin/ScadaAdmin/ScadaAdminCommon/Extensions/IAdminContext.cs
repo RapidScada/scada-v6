@@ -46,9 +46,9 @@ namespace Scada.Admin.Extensions
         AdminDirs AppDirs { get; }
 
         /// <summary>
-        /// Gets the application log.
+        /// Gets the application error log.
         /// </summary>
-        ILog Log { get; }
+        ILog ErrLog { get; }
 
         /// <summary>
         /// Gets the project currently open.

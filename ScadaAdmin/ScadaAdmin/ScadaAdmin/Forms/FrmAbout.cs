@@ -104,7 +104,7 @@ namespace Scada.Admin.App.Forms
             }
             else
             {
-                appData.ProcError(errMsg);
+                appData.ErrLog.HandleError(errMsg);
             }
         }
 

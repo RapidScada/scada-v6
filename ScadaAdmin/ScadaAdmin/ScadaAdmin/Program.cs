@@ -25,6 +25,7 @@
 
 using Scada.Admin.App.Code;
 using Scada.Admin.App.Forms;
+using Scada.Forms;
 using Scada.Lang;
 using System;
 using System.IO;
@@ -55,7 +56,7 @@ namespace Scada.Admin.App
 
         private static void Application_ThreadException(object sender, ThreadExceptionEventArgs e)
         {
-            appData.ProcError(e.Exception, CommonPhrases.UnhandledException);
+            appData.ErrLog.HandleError(e.Exception, CommonPhrases.UnhandledException);
         }
     }
 }

@@ -24,6 +24,7 @@
  */
 
 using Scada.Admin.App.Code;
+using Scada.Forms;
 using System;
 using System.IO;
 using System.Text;
@@ -85,7 +86,7 @@ namespace Scada.Admin.App.Forms
             }
             catch (Exception ex)
             {
-                appData.ProcError(ex, AppPhrases.OpenTextFileError);
+                appData.ErrLog.HandleError(ex, AppPhrases.OpenTextFileError);
             }
             finally
             {
@@ -107,7 +108,7 @@ namespace Scada.Admin.App.Forms
             }
             catch (Exception ex)
             {
-                appData.ProcError(ex, AppPhrases.SaveTextFileError);
+                appData.ErrLog.HandleError(ex, AppPhrases.SaveTextFileError);
             }
         }
 

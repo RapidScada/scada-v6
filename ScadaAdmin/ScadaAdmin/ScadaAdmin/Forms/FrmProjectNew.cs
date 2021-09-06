@@ -143,7 +143,7 @@ namespace Scada.Admin.App.Forms
                             }
                             else
                             {
-                                appData.Log.WriteError(errMsg);
+                                appData.ErrLog.WriteError(errMsg);
                             }
                         }
                     }

@@ -24,6 +24,7 @@
  */
 
 using Scada.Lang;
+using Scada.Log;
 using System;
 using System.Diagnostics;
 using System.Drawing;
@@ -75,6 +76,25 @@ namespace Scada.Forms
         {
             MessageBox.Show(ScadaUtils.FormatText(text, args).Trim(), CommonPhrases.WarningCaption,
                 MessageBoxButtons.OK, MessageBoxIcon.Warning);
+        }
+
+        /// <summary>
+        /// Writes the error to the log and displays a error message.
+        /// </summary>
+        public static void HandleError(this ILog log, string text)
+        {
+            log.WriteError(text);
+            ShowError(text);
+        }
+
+        /// <summary>
+        /// Writes the error to the log and displays a error message.
+        /// </summary>
+        public static void HandleError(this ILog log, Exception ex, string text = "", params object[] args)
+        {
+            string msg = ScadaUtils.BuildErrorMessage(ex, text, args);
+            log.WriteError(msg);
+            ShowError(msg);
         }
 
         /// <summary>

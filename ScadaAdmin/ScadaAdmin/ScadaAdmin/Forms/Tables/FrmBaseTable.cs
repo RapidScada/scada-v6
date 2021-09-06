@@ -139,7 +139,7 @@ namespace Scada.Admin.App.Forms.Tables
         private void LoadTableData()
         {
             if (!project.ConfigBase.Load(out string errMsg))
-                appData.ProcError(errMsg);
+                appData.ErrLog.HandleError(errMsg);
 
             // save the existing filter
             string rowFilter = dataTable?.DefaultView.RowFilter ?? "";
@@ -358,7 +358,7 @@ namespace Scada.Admin.App.Forms.Tables
             }
             catch (Exception ex)
             {
-                appData.Log.WriteError(ex, AppPhrases.DataChangeError);
+                appData.ErrLog.WriteError(ex, AppPhrases.DataChangeError);
                 ShowError(ex.Message);
             }
         }
@@ -397,7 +397,7 @@ namespace Scada.Admin.App.Forms.Tables
             }
             catch (Exception ex)
             {
-                appData.Log.WriteError(ex, AppPhrases.DataChangeError);
+                appData.ErrLog.WriteError(ex, AppPhrases.DataChangeError);
                 ShowError(ex.Message);
             }
         }
@@ -745,7 +745,7 @@ namespace Scada.Admin.App.Forms.Tables
             if (project.ConfigBase.SaveTable(baseTable, out string errMsg))
                 ChildFormTag.Modified = false;
             else
-                appData.ProcError(errMsg);
+                appData.ErrLog.HandleError(errMsg);
         }
 
 
@@ -928,7 +928,7 @@ namespace Scada.Admin.App.Forms.Tables
             string columnName = e.ColumnIndex >= 0 ? dataGridView.Columns[e.ColumnIndex].HeaderText : "";
             string columnPhrase = e.ColumnIndex >= 0 ? Environment.NewLine + AppPhrases.ColumnLabel + columnName : "";
 
-            appData.Log.WriteError(e.Exception, string.Format(AppPhrases.GridViewError, columnName));
+            appData.ErrLog.WriteError(e.Exception, string.Format(AppPhrases.GridViewError, columnName));
             ShowError(e.Exception.Message + columnPhrase);
             e.ThrowException = false;
         }
@@ -1001,7 +1001,7 @@ namespace Scada.Admin.App.Forms.Tables
             catch (Exception ex)
             {
                 row.RejectChanges();
-                appData.Log.WriteError(ex, AppPhrases.DataChangeError);
+                appData.ErrLog.WriteError(ex, AppPhrases.DataChangeError);
                 ShowError(ex.Message);
             }
         }
@@ -1030,7 +1030,7 @@ namespace Scada.Admin.App.Forms.Tables
             catch (Exception ex)
             {
                 row.RejectChanges();
-                appData.Log.WriteError(ex, AppPhrases.DataChangeError);
+                appData.ErrLog.WriteError(ex, AppPhrases.DataChangeError);
                 ShowError(ex.Message);
             }
         }
