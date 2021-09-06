@@ -35,11 +35,9 @@ namespace Scada.Web.Lang
     /// </summary>
     public static class WebPhrases
     {
-        // Webstation Application
+        // Locale specific phrases
         public static string ErrorInPlugin { get; private set; }
         public static string ErrorInWebApi { get; private set; }
-
-        // Plugins
         public static string PluginMessage { get; private set; }
 
         // Scada.Web
@@ -71,23 +69,21 @@ namespace Scada.Web.Lang
 
         public static void Init()
         {
-            // set phrases that are used in the bilingual service logic, depending on the locale
+            // set phrases depending on the locale
             if (Locale.IsRussian)
             {
                 ErrorInPlugin = "Ошибка при вызове метода {0} плагина {1}";
                 ErrorInWebApi = "Ошибка при вызове метода веб API {0}";
-
                 PluginMessage = "Плагин {0}: {1}";
             }
             else
             {
                 ErrorInPlugin = "Error calling the {0} method of the {1} plugin";
                 ErrorInWebApi = "Error calling the {0} web API method";
-
                 PluginMessage = "Plugin {0}: {1}";
             }
 
-            // load phrases that are used in the multilingual user interface from dictionaries
+            // load phrases from dictionaries
             LocaleDict dict = Locale.GetDictionary("Scada.Web");
             CorrectErrors = dict["CorrectErrors"];
             ClientError = dict["ClientError"];
