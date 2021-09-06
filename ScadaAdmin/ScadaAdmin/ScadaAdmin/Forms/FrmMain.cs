@@ -28,6 +28,7 @@ using Scada.Admin.App.Forms.Tables;
 using Scada.Admin.App.Forms.Tools;
 using Scada.Admin.App.Properties;
 using Scada.Admin.Config;
+using Scada.Admin.Extensions;
 using Scada.Admin.Lang;
 using Scada.Admin.Project;
 using Scada.Config;
@@ -70,11 +71,9 @@ namespace Scada.Admin.App.Forms
         private const string SupportRuUrl = "https://forum.rapidscada.ru/";
 
         private readonly AppData appData;                 // the common data of the application
-        private readonly ILog log;                        // the application log
         //private readonly ServerShell serverShell;         // the shell to edit Server settings
         //private readonly CommShell commShell;             // the shell to edit Communicator settings
         private readonly ExplorerBuilder explorerBuilder; // the object to manipulate the explorer tree
-        private ScadaProject project;                     // the project under development
         private FrmStartPage frmStartPage;                // the start page
         private bool preventNodeExpand;                   // prevent a tree node from expanding or collapsing
 
@@ -94,18 +93,26 @@ namespace Scada.Admin.App.Forms
             : this()
         {
             this.appData = appData ?? throw new ArgumentNullException(nameof(appData));
-            log = appData.ErrLog;
             //serverShell = new ServerShell();
             //commShell = new CommShell();
             explorerBuilder = new ExplorerBuilder(appData, /*serverShell, commShell, */tvExplorer, new ContextMenus() {
                 ProjectMenu = cmsProject, CnlTableMenu = cmsCnlTable, DirectoryMenu = cmsDirectory,
                 FileItemMenu = cmsFileItem, InstanceMenu = cmsInstance, ServerMenu = cmsServer,
                 CommMenu = cmsComm, CommLineMenu = cmsCommLine, DeviceMenu = cmsDevice });
-            project = null;
             frmStartPage = null;
             preventNodeExpand = false;
         }
 
+
+        /// <summary>
+        /// Gets the application log.
+        /// </summary>
+        private ILog Log => appData.Log;
+
+        /// <summary>
+        /// Gets or sets the project currently open.
+        /// </summary>
+        private ScadaProject Project => appData.CurrentProject;
 
         /// <summary>
         /// Gets or sets the explorer width.
@@ -130,16 +137,16 @@ namespace Scada.Admin.App.Forms
         {
             // load instance culture
             if (!Locale.LoadCulture(appData.GetInstanceConfigFileName(), out string errMsg))
-                log.WriteError(errMsg);
+                Log.WriteError(errMsg);
 
             // load common dictionaries
             if (!Locale.LoadDictionaries(appData.AppDirs.LangDir, "ScadaCommon", out errMsg))
-                log.WriteError(errMsg);
+                Log.WriteError(errMsg);
 
             // load Administrator dictionaries
             bool adminDictLoaded = Locale.LoadDictionaries(appData.AppDirs.LangDir, "ScadaAdmin", out errMsg);
             if (!adminDictLoaded)
-                log.WriteError(errMsg);
+                Log.WriteError(errMsg);
 
             // load Server dictionaries
             //if (!Locale.LoadDictionaries(appData.AppDirs.LangDir, "ScadaServer", out errMsg))
@@ -209,7 +216,7 @@ namespace Scada.Admin.App.Forms
         /// </summary>
         private void SetMenuItemsEnabled()
         {
-            bool projectIsOpen = project != null;
+            bool projectIsOpen = Project != null;
 
             // file
             miFileSave.Enabled = btnFileSave.Enabled = false;
@@ -235,7 +242,7 @@ namespace Scada.Admin.App.Forms
         /// </summary>
         private void LoadAppConfig()
         {
-            if (!appData.Config.Load(Path.Combine(appData.AppDirs.ConfigDir, AdminConfig.DefaultFileName),
+            if (!appData.AppConfig.Load(Path.Combine(appData.AppDirs.ConfigDir, AdminConfig.DefaultFileName),
                 out string errMsg))
             {
                 appData.ProcError(errMsg);
@@ -274,11 +281,31 @@ namespace Scada.Admin.App.Forms
         }
 
         /// <summary>
+        /// Loads extenstions.
+        /// </summary>
+        private void LoadExtensions()
+        {
+            foreach (string extensionCode in appData.AppConfig.ExtensionCodes)
+            {
+                if (ExtensionFactory.GetExtensionLogic(appData.AppDirs.LibDir, extensionCode, appData,
+                    out ExtensionLogic extensionLogic, out string message))
+                {
+                    Log.WriteAction(message);
+                    appData.ExtensionHolder.AddExtension(extensionLogic);
+                }
+                else
+                {
+                    Log.WriteError(message);
+                }
+            }
+        }
+
+        /// <summary>
         /// Enables or disables the deployment menu items and tool buttons.
         /// </summary>
         private void SetDeployMenuItemsEnabled()
         {
-            bool instanceExists = project != null && project.Instances.Count > 0;
+            bool instanceExists = Project != null && Project.Instances.Count > 0;
             miDeployInstanceProfile.Enabled = btnDeployInstanceProfile.Enabled = instanceExists;
             miDeployDownloadConfig.Enabled = btnDeployDownloadConfig.Enabled = instanceExists;
             miDeployUploadConfig.Enabled = btnDeployUploadConfig.Enabled = instanceExists;
@@ -290,7 +317,7 @@ namespace Scada.Admin.App.Forms
         /// </summary>
         private void DisableSaveAll()
         {
-            if (miFileSaveAll.Enabled && !project.ConfigBase.Modified)
+            if (miFileSaveAll.Enabled && !Project.ConfigBase.Modified)
             {
                 bool saveAllEnabled = false;
 
@@ -350,7 +377,7 @@ namespace Scada.Admin.App.Forms
                 {
                     string ext = Path.GetExtension(fileItem.Name).TrimStart('.').ToLowerInvariant();
 
-                    if (appData.Config.FileAssociations.TryGetValue(ext, out string exePath) && 
+                    if (appData.AppConfig.FileAssociations.TryGetValue(ext, out string exePath) && 
                         File.Exists(exePath))
                     {
                         // run external editor
@@ -564,7 +591,7 @@ namespace Scada.Admin.App.Forms
             {
                 if (tag.NodeType == AppNodeType.Project)
                 {
-                    path = project.ProjectDir;
+                    path = Project.ProjectDir;
                     return true;
                 }
                 else if (tag.NodeType == AppNodeType.Directory || tag.NodeType == AppNodeType.File)
@@ -575,7 +602,7 @@ namespace Scada.Admin.App.Forms
                 }
                 else if (tag.NodeType == AppNodeType.Views)
                 {
-                    path = project.Views.ViewDir;
+                    path = Project.Views.ViewDir;
                     return true;
                 }
                 else if (tag.NodeType == AppNodeType.Instance)
@@ -640,11 +667,11 @@ namespace Scada.Admin.App.Forms
         /// </summary>
         private bool FindInstanceForDeploy(TreeNode treeNode, out TreeNode instanceNode, out LiveInstance liveInstance)
         {
-            if (project != null)
+            if (Project != null)
             {
                 instanceNode = treeNode?.FindClosest(AppNodeType.Instance);
 
-                if (instanceNode == null && project.Instances.Count > 0)
+                if (instanceNode == null && Project.Instances.Count > 0)
                     instanceNode = explorerBuilder.InstancesNode.FindFirst(AppNodeType.Instance);
 
                 if (instanceNode != null)
@@ -664,7 +691,7 @@ namespace Scada.Admin.App.Forms
         /// </summary>
         private bool FindInstance(string instanceName, out TreeNode instanceNode, out LiveInstance liveInstance)
         {
-            if (project != null)
+            if (Project != null)
             {
                 foreach (TreeNode treeNode in explorerBuilder.InstancesNode.Nodes)
                 {
@@ -835,7 +862,7 @@ namespace Scada.Admin.App.Forms
         /// </summary>
         private void SaveProject()
         {
-            if (!project.Save(project.FileName, out string errMsg))
+            if (!Project.Save(Project.FileName, out string errMsg))
                 appData.ProcError(errMsg);
         }
 
@@ -860,7 +887,7 @@ namespace Scada.Admin.App.Forms
         /// </summary>
         private void LoadConfigBase()
         {
-            if (!project.ConfigBase.Load(out string errMsg))
+            if (!Project.ConfigBase.Load(out string errMsg))
                 appData.ProcError(errMsg);
         }
 
@@ -869,7 +896,7 @@ namespace Scada.Admin.App.Forms
         /// </summary>
         private bool SaveConfigBase()
         {
-            if (project.ConfigBase.Save(out string errMsg))
+            if (Project.ConfigBase.Save(out string errMsg))
             {
                 return true;
             }
@@ -910,12 +937,12 @@ namespace Scada.Admin.App.Forms
                 {
                     appData.State.AddRecentProject(newProject.FileName);
                     appData.State.RecentSelection.Reset();
-                    project = newProject;
+                    appData.CurrentProject = newProject;
                     LoadConfigBase();
-                    Text = string.Format(AppPhrases.ProjectTitle, project.Name);
+                    Text = string.Format(AppPhrases.ProjectTitle, Project.Name);
                     wctrlMain.MessageText = AppPhrases.SelectItemMessage;
                     SetMenuItemsEnabled();
-                    explorerBuilder.CreateNodes(project);
+                    explorerBuilder.CreateNodes(Project);
                 }
                 else
                 {
@@ -941,18 +968,18 @@ namespace Scada.Admin.App.Forms
             {
                 CloseStartPage();
                 ofdProject.InitialDirectory = Path.GetDirectoryName(fileName);
-                project = new ScadaProject();
+                appData.CurrentProject = new ScadaProject();
 
-                if (project.Load(fileName, out string errMsg))
-                    appData.State.AddRecentProject(project.FileName);
+                if (Project.Load(fileName, out string errMsg))
+                    appData.State.AddRecentProject(Project.FileName);
                 else
                     appData.ProcError(errMsg);
 
                 LoadConfigBase();
-                Text = string.Format(AppPhrases.ProjectTitle, project.Name);
+                Text = string.Format(AppPhrases.ProjectTitle, Project.Name);
                 wctrlMain.MessageText = AppPhrases.SelectItemMessage;
                 SetMenuItemsEnabled();
-                explorerBuilder.CreateNodes(project);
+                explorerBuilder.CreateNodes(Project);
             }
         }
 
@@ -961,7 +988,7 @@ namespace Scada.Admin.App.Forms
         /// </summary>
         private bool CloseProject()
         {
-            if (project == null)
+            if (Project == null)
             {
                 return true;
             }
@@ -970,7 +997,7 @@ namespace Scada.Admin.App.Forms
                 PrepareToCloseAll();
                 wctrlMain.CloseAllForms(out bool cancel);
 
-                if (!cancel && project.ConfigBase.Modified)
+                if (!cancel && Project.ConfigBase.Modified)
                 {
                     switch (MessageBox.Show(AppPhrases.SaveConfigBaseConfirm,
                         CommonPhrases.QuestionCaption, MessageBoxButtons.YesNoCancel, MessageBoxIcon.Question))
@@ -992,7 +1019,7 @@ namespace Scada.Admin.App.Forms
                 }
                 else
                 {
-                    project = null;
+                    appData.CurrentProject = null;
                     Text = AppPhrases.EmptyTitle;
                     wctrlMain.MessageText = AppPhrases.WelcomeMessage;
                     SetMenuItemsEnabled();
@@ -1054,6 +1081,7 @@ namespace Scada.Admin.App.Forms
             SetMenuItemsEnabled();
             LoadAppConfig();
             LoadAppState();
+            LoadExtensions();
             ShowStartPage();
             ShowStatus(null);
         }
@@ -1305,7 +1333,7 @@ namespace Scada.Admin.App.Forms
         private void miFileImportTable_Click(object sender, EventArgs e)
         {
             // import a configuration database table
-            if (project != null)
+            if (Project != null)
             {
                 /*FrmTableImport frmTableImport = new FrmTableImport(project.ConfigBase, appData)
                 {
@@ -1320,7 +1348,7 @@ namespace Scada.Admin.App.Forms
         private void miFileExportTable_Click(object sender, EventArgs e)
         {
             // export a configuration database table
-            if (project != null)
+            if (Project != null)
             {
                 /*new FrmTableExport(project.ConfigBase, appData)
                 {
@@ -1479,7 +1507,7 @@ namespace Scada.Admin.App.Forms
         private void miToolsAddLine_Click(object sender, EventArgs e)
         {
             // show a line add form
-            if (project != null)
+            if (Project != null)
             {
                 /*FrmLineAdd frmLineAdd = new FrmLineAdd(project, appData.State.RecentSelection);
 
@@ -1515,7 +1543,7 @@ namespace Scada.Admin.App.Forms
         private void miToolsAddDevice_Click(object sender, EventArgs e)
         {
             // show a device add form
-            if (project != null)
+            if (Project != null)
             {
                 /*FrmDeviceAdd frmDeviceAdd = new FrmDeviceAdd(project, appData.State.RecentSelection);
 
@@ -1563,7 +1591,7 @@ namespace Scada.Admin.App.Forms
         private void miToolsCreateCnls_Click(object sender, EventArgs e)
         {
             // show a channel creation wizard
-            if (project != null)
+            if (Project != null)
             {
                 /*FrmCnlCreate frmCnlCreate = new FrmCnlCreate(project, appData.State.RecentSelection, appData);
 
@@ -1687,15 +1715,15 @@ namespace Scada.Admin.App.Forms
 
             if (selectedNode != null && selectedNode.TagIs(AppNodeType.Project))
             {
-                FrmItemName frmItemName = new() { ItemName = project.Name };
+                FrmItemName frmItemName = new() { ItemName = Project.Name };
 
                 if (frmItemName.ShowDialog() == DialogResult.OK && frmItemName.Modified)
                 {
-                    if (!project.Rename(frmItemName.ItemName, out string errMsg))
+                    if (!Project.Rename(frmItemName.ItemName, out string errMsg))
                         appData.ProcError(errMsg);
 
-                    Text = string.Format(AppPhrases.ProjectTitle, project.Name);
-                    selectedNode.Text = project.Name;
+                    Text = string.Format(AppPhrases.ProjectTitle, Project.Name);
+                    selectedNode.Text = Project.Name;
                     CloseChildForms(selectedNode);
                     explorerBuilder.FillInstancesNode();
                     SaveProject();
@@ -1712,15 +1740,15 @@ namespace Scada.Admin.App.Forms
             {
                 FrmProjectProps frmProjectProps = new()
                 {
-                    ProjectName = project.Name,
-                    Version = project.Version,
-                    Description = project.Description
+                    ProjectName = Project.Name,
+                    Version = Project.Version,
+                    Description = Project.Description
                 };
 
                 if (frmProjectProps.ShowDialog() == DialogResult.OK && frmProjectProps.Modified)
                 {
-                    project.Version = frmProjectProps.Version;
-                    project.Description = frmProjectProps.Description;
+                    Project.Version = frmProjectProps.Version;
+                    Project.Description = frmProjectProps.Description;
                     SaveProject();
                 }
             }
@@ -1771,13 +1799,13 @@ namespace Scada.Admin.App.Forms
         private void miCnlTableRefresh_Click(object sender, EventArgs e)
         {
             // refresh channel table subnodes
-            if (project != null)
+            if (Project != null)
             {
-                TreeNode inCnlTableNode = explorerBuilder.BaseTableNodes[project.ConfigBase.InCnlTable.Name];
-                TreeNode outCnlTableNode = explorerBuilder.BaseTableNodes[project.ConfigBase.OutCnlTable.Name];
+                TreeNode inCnlTableNode = explorerBuilder.BaseTableNodes[Project.ConfigBase.InCnlTable.Name];
+                TreeNode outCnlTableNode = explorerBuilder.BaseTableNodes[Project.ConfigBase.OutCnlTable.Name];
                 CloseChildForms(inCnlTableNode, true, true);
                 CloseChildForms(outCnlTableNode, true, true);
-                explorerBuilder.FillChannelTableNodes(inCnlTableNode, outCnlTableNode, project.ConfigBase);
+                explorerBuilder.FillChannelTableNodes(inCnlTableNode, outCnlTableNode, Project.ConfigBase);
             }
         }
 
@@ -2049,7 +2077,7 @@ namespace Scada.Admin.App.Forms
             // enable or disable the menu items
             TreeNode selectedNode = tvExplorer.SelectedNode;
             bool isInstanceNode = selectedNode != null && selectedNode.TagIs(AppNodeType.Instance);
-            bool instanceExists = project != null && project.Instances.Count > 0;
+            bool instanceExists = Project != null && Project.Instances.Count > 0;
 
             miInstanceMoveUp.Enabled = isInstanceNode && selectedNode.PrevNode != null;
             miInstanceMoveDown.Enabled = isInstanceNode && selectedNode.NextNode != null;
@@ -2078,13 +2106,13 @@ namespace Scada.Admin.App.Forms
 
                 if (frmInstanceEdit.ShowDialog() == DialogResult.OK)
                 {
-                    if (project.ContainsInstance(frmInstanceEdit.InstanceName))
+                    if (Project.ContainsInstance(frmInstanceEdit.InstanceName))
                     {
                         ScadaUiUtils.ShowError(AppPhrases.InstanceAlreadyExists);
                     }
                     else
                     {
-                        ProjectInstance projectInstance = project.CreateInstance(frmInstanceEdit.InstanceName);
+                        ProjectInstance projectInstance = Project.CreateInstance(frmInstanceEdit.InstanceName);
                         projectInstance.ServerApp.Enabled = frmInstanceEdit.ServerAppEnabled;
                         projectInstance.CommApp.Enabled = frmInstanceEdit.CommAppEnabled;
                         projectInstance.WebApp.Enabled = frmInstanceEdit.WebAppEnabled;
@@ -2094,7 +2122,7 @@ namespace Scada.Admin.App.Forms
                             TreeNode instancesNode = selectedNode.FindClosest(AppNodeType.Instances);
                             TreeNode instanceNode = explorerBuilder.CreateInstanceNode(projectInstance);
                             instanceNode.Expand();
-                            tvExplorer.Insert(instancesNode, instanceNode, project.Instances, projectInstance);
+                            tvExplorer.Insert(instancesNode, instanceNode, Project.Instances, projectInstance);
                             SetDeployMenuItemsEnabled();
                             SaveProject();
                         }
@@ -2114,7 +2142,7 @@ namespace Scada.Admin.App.Forms
 
             if (selectedNode != null && selectedNode.TagIs(AppNodeType.Instance))
             {
-                tvExplorer.MoveUpSelectedNode(project.Instances);
+                tvExplorer.MoveUpSelectedNode(Project.Instances);
                 SaveProject();
             }
         }
@@ -2126,7 +2154,7 @@ namespace Scada.Admin.App.Forms
 
             if (selectedNode != null && selectedNode.TagIs(AppNodeType.Instance))
             {
-                tvExplorer.MoveDownSelectedNode(project.Instances);
+                tvExplorer.MoveDownSelectedNode(Project.Instances);
                 SaveProject();
             }
         }
@@ -2142,7 +2170,7 @@ namespace Scada.Admin.App.Forms
                 MessageBoxButtons.YesNoCancel, MessageBoxIcon.Question) == DialogResult.Yes)
             {
                 CloseChildForms(selectedNode);
-                tvExplorer.RemoveNode(selectedNode, project.Instances);
+                tvExplorer.RemoveNode(selectedNode, Project.Instances);
 
                 if (!liveInstance.ProjectInstance.DeleteInstanceFiles(out string errMsg))
                     appData.ProcError(errMsg);
@@ -2186,7 +2214,7 @@ namespace Scada.Admin.App.Forms
                 FrmItemName frmItemName = new()
                 {
                     ItemName = projectInstance.Name,
-                    ExistingNames = project.GetInstanceNames(true, projectInstance.Name)
+                    ExistingNames = Project.GetInstanceNames(true, projectInstance.Name)
                 };
 
                 if (frmItemName.ShowDialog() == DialogResult.OK && frmItemName.Modified)

@@ -4,8 +4,10 @@
 using Scada.Admin.Extensions.ExtServerConfig.Code;
 using Scada.Admin.Extensions.ExtServerConfig.Forms;
 using Scada.Admin.Extensions.ExtServerConfig.Properties;
+using Scada.Admin.Lang;
 using Scada.Agent;
 using Scada.Forms;
+using Scada.Lang;
 using Scada.Server.Config;
 using System;
 using System.Collections.Generic;
@@ -35,6 +37,29 @@ namespace Scada.Admin.Extensions.ExtServerConfig
         {
         }
 
+
+        /// <summary>
+        /// Gets the extension code.
+        /// </summary>
+        public override string Code
+        {
+            get
+            {
+                return "ExtServerConfig";
+            }
+        }
+
+
+        /// <summary>
+        /// Loads language dictionaries.
+        /// </summary>
+        public override void LoadDictionaries()
+        {
+            if (!Locale.LoadDictionaries(AdminContext.AppDirs.LangDir, Code, out string errMsg))
+                AdminContext.Log.WriteError(AdminPhrases.ExtensionMessage, Code, errMsg);
+
+            ExtensionPhrases.Init();
+        }
 
         /// <summary>
         /// Gets tree nodes to add to the explorer tree.

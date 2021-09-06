@@ -92,10 +92,10 @@ namespace Scada.Admin.Config
                 xmlDoc.Load(fileName);
                 XmlElement rootElem = xmlDoc.DocumentElement;
 
-                HashSet<string> extensionCodes = new();
-
                 if (rootElem.SelectSingleNode("Extensions") is XmlNode modulesNode)
                 {
+                    HashSet<string> extensionCodes = new();
+
                     foreach (XmlElement moduleElem in modulesNode.SelectNodes("Extension"))
                     {
                         string moduleCode = ScadaUtils.RemoveFileNameSuffixes(moduleElem.GetAttribute("code"));

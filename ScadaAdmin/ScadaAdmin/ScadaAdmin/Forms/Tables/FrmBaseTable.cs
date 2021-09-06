@@ -358,7 +358,7 @@ namespace Scada.Admin.App.Forms.Tables
             }
             catch (Exception ex)
             {
-                appData.ErrLog.WriteError(ex, AppPhrases.DataChangeError);
+                appData.Log.WriteError(ex, AppPhrases.DataChangeError);
                 ShowError(ex.Message);
             }
         }
@@ -397,7 +397,7 @@ namespace Scada.Admin.App.Forms.Tables
             }
             catch (Exception ex)
             {
-                appData.ErrLog.WriteError(ex, AppPhrases.DataChangeError);
+                appData.Log.WriteError(ex, AppPhrases.DataChangeError);
                 ShowError(ex.Message);
             }
         }
@@ -928,7 +928,7 @@ namespace Scada.Admin.App.Forms.Tables
             string columnName = e.ColumnIndex >= 0 ? dataGridView.Columns[e.ColumnIndex].HeaderText : "";
             string columnPhrase = e.ColumnIndex >= 0 ? Environment.NewLine + AppPhrases.ColumnLabel + columnName : "";
 
-            appData.ErrLog.WriteError(e.Exception, string.Format(AppPhrases.GridViewError, columnName));
+            appData.Log.WriteError(e.Exception, string.Format(AppPhrases.GridViewError, columnName));
             ShowError(e.Exception.Message + columnPhrase);
             e.ThrowException = false;
         }
@@ -1001,7 +1001,7 @@ namespace Scada.Admin.App.Forms.Tables
             catch (Exception ex)
             {
                 row.RejectChanges();
-                appData.ErrLog.WriteError(ex, AppPhrases.DataChangeError);
+                appData.Log.WriteError(ex, AppPhrases.DataChangeError);
                 ShowError(ex.Message);
             }
         }
@@ -1030,7 +1030,7 @@ namespace Scada.Admin.App.Forms.Tables
             catch (Exception ex)
             {
                 row.RejectChanges();
-                appData.ErrLog.WriteError(ex, AppPhrases.DataChangeError);
+                appData.Log.WriteError(ex, AppPhrases.DataChangeError);
                 ShowError(ex.Message);
             }
         }

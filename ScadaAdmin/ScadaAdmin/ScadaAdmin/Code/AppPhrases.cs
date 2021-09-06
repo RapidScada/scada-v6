@@ -144,112 +144,112 @@ namespace Scada.Admin.App.Code
         public static void Init()
         {
             LocaleDict dict = Locale.GetDictionary("Scada.Admin.App.Code.AppState");
-            LoadAppStateError = dict.GetPhrase("LoadAppStateError");
-            SaveAppStateError = dict.GetPhrase("SaveAppStateError");
+            LoadAppStateError = dict["LoadAppStateError"];
+            SaveAppStateError = dict["SaveAppStateError"];
 
             dict = Locale.GetDictionary("Scada.Admin.App.Code.AppUtils");
-            EventEnabled = dict.GetPhrase("EventEnabled");
-            EventBeep = dict.GetPhrase("EventBeep");
-            DataChangeEvent = dict.GetPhrase("DataChangeEvent");
-            ValueChangeEvent = dict.GetPhrase("ValueChangeEvent");
-            StatusChangeEvent = dict.GetPhrase("StatusChangeEvent");
-            CnlUndefinedEvent = dict.GetPhrase("CnlUndefinedEvent");
+            EventEnabled = dict["EventEnabled"];
+            EventBeep = dict["EventBeep"];
+            DataChangeEvent = dict["DataChangeEvent"];
+            ValueChangeEvent = dict["ValueChangeEvent"];
+            StatusChangeEvent = dict["StatusChangeEvent"];
+            CnlUndefinedEvent = dict["CnlUndefinedEvent"];
 
             dict = Locale.GetDictionary("Scada.Admin.App.Code.ExplorerBuilder");
-            BaseNode = dict.GetPhrase("BaseNode");
-            PrimaryTablesNode = dict.GetPhrase("PrimaryTablesNode");
-            SecondaryTablesNode = dict.GetPhrase("SecondaryTablesNode");
-            TableByDeviceNode = dict.GetPhrase("TableByDeviceNode");
-            EmptyDeviceNode = dict.GetPhrase("EmptyDeviceNode");
-            ViewsNode = dict.GetPhrase("ViewsNode");
-            InstancesNode = dict.GetPhrase("InstancesNode");
-            ServerNode = dict.GetPhrase("ServerNode");
-            CommNode = dict.GetPhrase("CommNode");
-            WebNode = dict.GetPhrase("WebNode");
-            EmptyNode = dict.GetPhrase("EmptyNode");
-            DeviceFilter = dict.GetPhrase("DeviceFilter");
-            EmptyDeviceFilter = dict.GetPhrase("EmptyDeviceFilter");
+            BaseNode = dict["BaseNode"];
+            PrimaryTablesNode = dict["PrimaryTablesNode"];
+            SecondaryTablesNode = dict["SecondaryTablesNode"];
+            TableByDeviceNode = dict["TableByDeviceNode"];
+            EmptyDeviceNode = dict["EmptyDeviceNode"];
+            ViewsNode = dict["ViewsNode"];
+            InstancesNode = dict["InstancesNode"];
+            ServerNode = dict["ServerNode"];
+            CommNode = dict["CommNode"];
+            WebNode = dict["WebNode"];
+            EmptyNode = dict["EmptyNode"];
+            DeviceFilter = dict["DeviceFilter"];
+            EmptyDeviceFilter = dict["EmptyDeviceFilter"];
 
             dict = Locale.GetDictionary("Scada.Admin.App.Forms");
-            CorrectErrors = dict.GetPhrase("CorrectErrors");
+            CorrectErrors = dict["CorrectErrors"];
 
             dict = Locale.GetDictionary("Scada.Admin.App.Forms.Tables.FrmBaseTable");
-            GridViewError = dict.GetPhrase("GridViewError");
-            ColumnLabel = dict.GetPhrase("ColumnLabel");
-            DeleteRowConfirm = dict.GetPhrase("DeleteRowConfirm");
-            DeleteRowsConfirm = dict.GetPhrase("DeleteRowsConfirm");
-            ClearTableConfirm = dict.GetPhrase("ClearTableConfirm");
-            RowsNotDeleted = dict.GetPhrase("RowsNotDeleted");
-            ColumnNotNull = dict.GetPhrase("ColumnNotNull");
-            UniqueRequired = dict.GetPhrase("UniqueRequired");
-            KeyReferenced = dict.GetPhrase("KeyReferenced");
-            DataNotExist = dict.GetPhrase("DataNotExist");
-            DataChangeError = dict.GetPhrase("DataChangeError");
+            GridViewError = dict["GridViewError"];
+            ColumnLabel = dict["ColumnLabel"];
+            DeleteRowConfirm = dict["DeleteRowConfirm"];
+            DeleteRowsConfirm = dict["DeleteRowsConfirm"];
+            ClearTableConfirm = dict["ClearTableConfirm"];
+            RowsNotDeleted = dict["RowsNotDeleted"];
+            ColumnNotNull = dict["ColumnNotNull"];
+            UniqueRequired = dict["UniqueRequired"];
+            KeyReferenced = dict["KeyReferenced"];
+            DataNotExist = dict["DataNotExist"];
+            DataChangeError = dict["DataChangeError"];
 
             dict = Locale.GetDictionary("Scada.Admin.App.Forms.Tables.FrmFilter");
-            IncorrectTableFilter = dict.GetPhrase("IncorrectTableFilter");
+            IncorrectTableFilter = dict["IncorrectTableFilter"];
 
             dict = Locale.GetDictionary("Scada.Admin.App.Forms.Tables.FrmFind");
-            ValueNotFound = dict.GetPhrase("ValueNotFound");
-            SearchComplete = dict.GetPhrase("SearchComplete");
-            ReplaceCount = dict.GetPhrase("ReplaceCount");
+            ValueNotFound = dict["ValueNotFound"];
+            SearchComplete = dict["SearchComplete"];
+            ReplaceCount = dict["ReplaceCount"];
 
             dict = Locale.GetDictionary("Scada.Admin.App.Forms.Tables.FrmTextDialog");
-            TextLine = dict.GetPhrase("TextLine");
-            TextLength = dict.GetPhrase("TextLength");
+            TextLine = dict["TextLine"];
+            TextLength = dict["TextLength"];
 
             dict = Locale.GetDictionary("Scada.Admin.App.Forms.Tools.FrmCulture");
-            LoadCulturesError = dict.GetPhrase("LoadCulturesError");
-            CultureRequired = dict.GetPhrase("CultureRequired");
-            CultureNotFound = dict.GetPhrase("CultureNotFound");
+            LoadCulturesError = dict["LoadCulturesError"];
+            CultureRequired = dict["CultureRequired"];
+            CultureNotFound = dict["CultureNotFound"];
 
             dict = Locale.GetDictionary("Scada.Admin.App.Forms.FrmFileNew");
-            FileNameEmpty = dict.GetPhrase("FileNameEmpty");
-            FileNameInvalid = dict.GetPhrase("FileNameInvalid");
+            FileNameEmpty = dict["FileNameEmpty"];
+            FileNameInvalid = dict["FileNameInvalid"];
 
             dict = Locale.GetDictionary("Scada.Admin.App.Forms.FrmInstanceEdit");
-            NewInstanceTitle = dict.GetPhrase("NewInstanceTitle");
-            EditInstanceTitle = dict.GetPhrase("EditInstanceTitle");
-            InstanceNameEmpty = dict.GetPhrase("InstanceNameEmpty");
-            InstanceNameInvalid = dict.GetPhrase("InstanceNameInvalid");
-            InstanceSelectApps = dict.GetPhrase("InstanceSelectApps");
+            NewInstanceTitle = dict["NewInstanceTitle"];
+            EditInstanceTitle = dict["EditInstanceTitle"];
+            InstanceNameEmpty = dict["InstanceNameEmpty"];
+            InstanceNameInvalid = dict["InstanceNameInvalid"];
+            InstanceSelectApps = dict["InstanceSelectApps"];
 
             dict = Locale.GetDictionary("Scada.Admin.App.Forms.FrmItemName");
-            ItemNameEmpty = dict.GetPhrase("ItemNameEmpty");
-            ItemNameInvalid = dict.GetPhrase("ItemNameInvalid");
-            ItemNameDuplicated = dict.GetPhrase("ItemNameDuplicated");
+            ItemNameEmpty = dict["ItemNameEmpty"];
+            ItemNameInvalid = dict["ItemNameInvalid"];
+            ItemNameDuplicated = dict["ItemNameDuplicated"];
 
             dict = Locale.GetDictionary("Scada.Admin.App.Forms.FrmMain");
-            EmptyTitle = dict.GetPhrase("EmptyTitle");
-            ProjectTitle = dict.GetPhrase("ProjectTitle");
-            WelcomeMessage = dict.GetPhrase("WelcomeMessage");
-            SelectItemMessage = dict.GetPhrase("SelectItemMessage");
-            ProjectFileFilter = dict.GetPhrase("ProjectFileFilter");
-            ConfirmDeleteDirectory = dict.GetPhrase("ConfirmDeleteDirectory");
-            ConfirmDeleteFile = dict.GetPhrase("ConfirmDeleteFile");
-            ConfirmDeleteInstance = dict.GetPhrase("ConfirmDeleteInstance");
-            ConfirmDeleteCommLine = dict.GetPhrase("ConfirmDeleteCommLine");
-            FileOperationError = dict.GetPhrase("FileOperationError");
-            DirectoryAlreadyExists = dict.GetPhrase("DirectoryAlreadyExists");
-            FileAlreadyExists = dict.GetPhrase("FileAlreadyExists");
-            InstanceAlreadyExists = dict.GetPhrase("InstanceAlreadyExists");
-            SaveConfigBaseConfirm = dict.GetPhrase("SaveConfigBaseConfirm");
-            DeviceNotFoundInComm = dict.GetPhrase("DeviceNotFoundInComm");
-            WebUrlNotSet = dict.GetPhrase("WebUrlNotSet");
-            ReopenProject = dict.GetPhrase("ReopenProject");
+            EmptyTitle = dict["EmptyTitle"];
+            ProjectTitle = dict["ProjectTitle"];
+            WelcomeMessage = dict["WelcomeMessage"];
+            SelectItemMessage = dict["SelectItemMessage"];
+            ProjectFileFilter = dict["ProjectFileFilter"];
+            ConfirmDeleteDirectory = dict["ConfirmDeleteDirectory"];
+            ConfirmDeleteFile = dict["ConfirmDeleteFile"];
+            ConfirmDeleteInstance = dict["ConfirmDeleteInstance"];
+            ConfirmDeleteCommLine = dict["ConfirmDeleteCommLine"];
+            FileOperationError = dict["FileOperationError"];
+            DirectoryAlreadyExists = dict["DirectoryAlreadyExists"];
+            FileAlreadyExists = dict["FileAlreadyExists"];
+            InstanceAlreadyExists = dict["InstanceAlreadyExists"];
+            SaveConfigBaseConfirm = dict["SaveConfigBaseConfirm"];
+            DeviceNotFoundInComm = dict["DeviceNotFoundInComm"];
+            WebUrlNotSet = dict["WebUrlNotSet"];
+            ReopenProject = dict["ReopenProject"];
 
             dict = Locale.GetDictionary("Scada.Admin.App.Forms.FrmProjectNew");
-            ChooseProjectLocation = dict.GetPhrase("ChooseProjectLocation");
-            ProjectNameEmpty = dict.GetPhrase("ProjectNameEmpty");
-            ProjectNameInvalid = dict.GetPhrase("ProjectNameInvalid");
-            ProjectLocationNotExists = dict.GetPhrase("ProjectLocationNotExists");
-            ProjectAlreadyExists = dict.GetPhrase("ProjectAlreadyExists");
-            ProjectTemplateEmpty = dict.GetPhrase("ProjectTemplateEmpty");
-            ProjectTemplateNotFound = dict.GetPhrase("ProjectTemplateNotFound");
+            ChooseProjectLocation = dict["ChooseProjectLocation"];
+            ProjectNameEmpty = dict["ProjectNameEmpty"];
+            ProjectNameInvalid = dict["ProjectNameInvalid"];
+            ProjectLocationNotExists = dict["ProjectLocationNotExists"];
+            ProjectAlreadyExists = dict["ProjectAlreadyExists"];
+            ProjectTemplateEmpty = dict["ProjectTemplateEmpty"];
+            ProjectTemplateNotFound = dict["ProjectTemplateNotFound"];
 
             dict = Locale.GetDictionary("Scada.Admin.App.Forms.FrmTextEditor");
-            OpenTextFileError = dict.GetPhrase("OpenTextFileError");
-            SaveTextFileError = dict.GetPhrase("SaveTextFileError");
+            OpenTextFileError = dict["OpenTextFileError"];
+            SaveTextFileError = dict["SaveTextFileError"];
         }
     }
 }

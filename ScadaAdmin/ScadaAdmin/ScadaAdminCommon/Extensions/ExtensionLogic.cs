@@ -51,6 +51,25 @@ namespace Scada.Admin.Extensions
         /// </summary>
         protected IAdminContext AdminContext { get; }
 
+        /// <summary>
+        /// Gets the extension code.
+        /// </summary>
+        public abstract string Code { get; }
+
+
+        /// <summary>
+        /// Loads language dictionaries.
+        /// </summary>
+        public virtual void LoadDictionaries()
+        {
+        }
+
+        /// <summary>
+        /// Loads configuration.
+        /// </summary>
+        public virtual void LoadConfig()
+        {
+        }
 
         /// <summary>
         /// Gets menu items to add to the main menu.

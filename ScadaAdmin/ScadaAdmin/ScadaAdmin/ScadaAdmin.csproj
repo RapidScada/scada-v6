@@ -26,6 +26,9 @@
     <Content Include="..\..\..\ScadaServer\ScadaServer\ScadaServerCommon\Config\ScadaServerConfig.xml" Link="Templates\EmptyProject.en-GB\Instances\Default\ScadaServer\Config\ScadaServerConfig.xml">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
+    <Content Include="..\ScadaAdminCommon\Config\ScadaAdminConfig.xml" Link="Config\ScadaAdminConfig.xml">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
     <Content Include="..\ScadaAdminCommon\Lang\ScadaAdmin.en-GB.xml" Link="Lang\ScadaAdmin.en-GB.xml">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
@@ -39,6 +42,9 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Reference Include="ScadaCommCommon">
+      <HintPath>..\..\..\ScadaComm\ScadaComm\ScadaCommCommon\bin\Release\netstandard2.0\ScadaCommCommon.dll</HintPath>
+    </Reference>
     <Reference Include="ScadaCommon">
       <HintPath>..\..\..\ScadaCommon\ScadaCommon\bin\Release\netstandard2.0\ScadaCommon.dll</HintPath>
     </Reference>
@@ -47,6 +53,9 @@
     </Reference>
     <Reference Include="ScadaCommon.Log">
       <HintPath>..\..\..\ScadaCommon\ScadaCommon.Log\bin\Release\netstandard2.0\ScadaCommon.Log.dll</HintPath>
+    </Reference>
+    <Reference Include="ScadaServerCommon">
+      <HintPath>..\..\..\ScadaServer\ScadaServer\ScadaServerCommon\bin\Release\netstandard2.0\ScadaServerCommon.dll</HintPath>
     </Reference>
   </ItemGroup>
 
@@ -71,6 +80,7 @@
 
   <ItemGroup>
     <Folder Include="Lang\" />
+    <Folder Include="Config\" />
   </ItemGroup>
 
   <ItemGroup>

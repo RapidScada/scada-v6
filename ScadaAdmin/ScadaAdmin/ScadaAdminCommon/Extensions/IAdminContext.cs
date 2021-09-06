@@ -23,8 +23,9 @@
  * Modified : 2021
  */
 
+using Scada.Admin.Config;
 using Scada.Admin.Project;
-using Scada.Agent;
+using Scada.Log;
 
 namespace Scada.Admin.Extensions
 {
@@ -35,13 +36,23 @@ namespace Scada.Admin.Extensions
     public interface IAdminContext
     {
         /// <summary>
-        /// Get the project currently open.
+        /// Gets the application configuration.
         /// </summary>
-        public ScadaProject CurrentProject { get; }
+        AdminConfig AppConfig { get; }
 
         /// <summary>
-        /// Gets the current Agent client.
+        /// Gets the application directories.
         /// </summary>
-        public IAgentClient CurrentAgent { get; }
+        AdminDirs AppDirs { get; }
+
+        /// <summary>
+        /// Gets the application log.
+        /// </summary>
+        ILog Log { get; }
+
+        /// <summary>
+        /// Gets the project currently open.
+        /// </summary>
+        public ScadaProject CurrentProject { get; }
     }
 }

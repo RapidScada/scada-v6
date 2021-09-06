@@ -202,19 +202,17 @@ namespace Scada.Admin.Project
             // load instances
             if (rootElem.SelectSingleNode("Instances") is XmlNode instancesNode)
             {
-                XmlNodeList instanceNodes = instancesNode.SelectNodes("Instance");
+                HashSet<int> instanceIDs = new();
                 string projectDir = ProjectDir;
 
-                foreach (XmlNode instanceNode in instanceNodes)
+                foreach (XmlNode instanceNode in instancesNode.SelectNodes("Instance"))
                 {
                     ProjectInstance instance = new();
                     instance.LoadFromXml(instanceNode);
                     instance.InstanceDir = Path.Combine(projectDir, "Instances", instance.Name);
-                    Instances.Add(instance);
 
-                    // fix instance ID
-                    if (instance.ID <= 0)
-                        instance.ID = Instances.Count;
+                    if (instanceIDs.Add(instance.ID)) // check uniqueness
+                        Instances.Add(instance);
                 }
             }
         }

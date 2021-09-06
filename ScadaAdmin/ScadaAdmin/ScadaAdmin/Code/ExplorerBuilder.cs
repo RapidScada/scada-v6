@@ -25,12 +25,14 @@
 
 using Scada.Admin.App.Forms.Tables;
 using Scada.Admin.Project;
+using Scada.Agent;
 using Scada.Data.Entities;
 using Scada.Data.Tables;
 using Scada.Forms;
 using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 using System.Windows.Forms;
 
 namespace Scada.Admin.App.Code
@@ -401,6 +403,8 @@ namespace Scada.Admin.App.Code
                     serverNode.ContextMenuStrip = contextMenus.ServerMenu;
                     serverNode.Tag = new TreeNodeTag(projectInstance.ServerApp, AppNodeType.ServerApp);
                     serverNode.Nodes.Add(CreateEmptyNode());
+                    serverNode.Nodes.AddRange(appData.ExtensionHolder.GetTreeNodes(
+                        ConfigParts.Server, projectInstance.ServerApp.Config).ToArray());
                     //serverNode.Nodes.AddRange(serverShell.GetTreeNodes(
                     //    projectInstance.ServerApp.Config, liveInstance.ServerEnvironment));
                     instanceNode.Nodes.Add(serverNode);

@@ -24,6 +24,9 @@
  */
 
 using Scada.Admin.Config;
+using Scada.Admin.Extensions;
+using Scada.Admin.Project;
+using Scada.Agent;
 using Scada.Config;
 using Scada.Forms;
 using Scada.Lang;
@@ -37,7 +40,7 @@ namespace Scada.Admin.App.Code
     /// Contains the common application data.
     /// <para>Содержит общие данные приложения.</para>
     /// </summary>
-    public sealed class AppData
+    public sealed class AppData : IAdminContext
     {
         /// <summary>
         /// The short name of the application error log file.
@@ -50,12 +53,24 @@ namespace Scada.Admin.App.Code
         /// </summary>
         public AppData()
         {
-            AppDirs = new AdminDirs();
-            ErrLog = LogStub.Instance;
-            Config = new AdminConfig();
+            AppConfig = new AdminConfig();
             State = new AppState();
+            AppDirs = new AdminDirs();
+            Log = LogStub.Instance;
+            ExtensionHolder = null;
+            CurrentProject = null;
         }
 
+
+        /// <summary>
+        /// Gets the application configuration.
+        /// </summary>
+        public AdminConfig AppConfig { get; }
+
+        /// <summary>
+        /// Gets the application state.
+        /// </summary>
+        public AppState State { get; }
 
         /// <summary>
         /// Gets the application directories.
@@ -63,19 +78,19 @@ namespace Scada.Admin.App.Code
         public AdminDirs AppDirs { get; }
 
         /// <summary>
-        /// Gets the application error log.
+        /// Gets the application log.
         /// </summary>
-        public ILog ErrLog { get; private set; }
+        public ILog Log { get; private set; }
 
         /// <summary>
-        /// Gets the application configuration.
+        /// Gets the extension holder.
         /// </summary>
-        public AdminConfig Config { get; }
-
+        public ExtensionHolder ExtensionHolder { get; private set; }
+        
         /// <summary>
-        /// Gets the application state.
+        /// Gets or sets the project currently open.
         /// </summary>
-        public AppState State { get; }
+        public ScadaProject CurrentProject { get; set; }
 
 
         /// <summary>
@@ -102,7 +117,7 @@ namespace Scada.Admin.App.Code
             }
             catch (Exception ex)
             {
-                ErrLog.WriteError(ex, Locale.IsRussian ?
+                Log.WriteError(ex, Locale.IsRussian ?
                     "Ошибка при очистке директории временных файлов" :
                     "Error cleaning the directory of temporary files");
             }
@@ -115,10 +130,12 @@ namespace Scada.Admin.App.Code
         {
             AppDirs.Init(exeDir);
 
-            ErrLog = new LogFile(LogFormat.Full)
+            Log = new LogFile(LogFormat.Full)
             {
                 FileName = Path.Combine(AppDirs.LogDir, ErrFileName)
             };
+
+            ExtensionHolder = new(Log);
         }
 
         /// <summary>
@@ -134,7 +151,7 @@ namespace Scada.Admin.App.Code
         /// </summary>
         public void ProcError(string text)
         {
-            ErrLog.WriteError(text);
+            Log.WriteError(text);
             ScadaUiUtils.ShowError(text);
         }
 
@@ -144,7 +161,7 @@ namespace Scada.Admin.App.Code
         public void ProcError(Exception ex, string text = "", params object[] args)
         {
             string msg = ScadaUtils.BuildErrorMessage(ex, text, args);
-            ErrLog.WriteMessage(msg, LogMessageType.Error);
+            Log.WriteError(msg);
             ScadaUiUtils.ShowError(msg);
         }
 
