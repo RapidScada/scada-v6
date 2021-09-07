@@ -23,7 +23,6 @@
  * Modified : 2021
  */
 
-using Scada.Agent;
 using System;
 using System.Collections.Generic;
 using System.Drawing;
@@ -90,7 +89,7 @@ namespace Scada.Admin.Extensions
         /// <summary>
         /// Gets tree nodes to add to the explorer tree.
         /// </summary>
-        public virtual TreeNode[] GetTreeNodes(ConfigParts configPart, object appConfig)
+        public virtual TreeNode[] GetTreeNodes(string parentNodeType, object config)
         {
             return null;
         }

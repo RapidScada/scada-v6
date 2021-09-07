@@ -67,6 +67,11 @@ namespace Scada.Admin.Project
         /// </summary>
         public abstract string AppName { get; }
 
+        /// <summary>
+        /// Gets the application configuration.
+        /// </summary>
+        public abstract object AppConfig { get; }
+
 
         /// <summary>
         /// Loads the application options from the XML node.

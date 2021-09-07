@@ -141,10 +141,8 @@
             this.miFileItemSep1 = new System.Windows.Forms.ToolStripSeparator();
             this.miFileItemDelete = new System.Windows.Forms.ToolStripMenuItem();
             this.miFileItemRename = new System.Windows.Forms.ToolStripMenuItem();
-            this.cmsServer = new System.Windows.Forms.ContextMenuStrip(this.components);
-            this.miServerOpenInExplorer = new System.Windows.Forms.ToolStripMenuItem();
-            this.cmsComm = new System.Windows.Forms.ContextMenuStrip(this.components);
-            this.miCommOpenInExplorer = new System.Windows.Forms.ToolStripMenuItem();
+            this.cmsApp = new System.Windows.Forms.ContextMenuStrip(this.components);
+            this.miAppOpenInExplorer = new System.Windows.Forms.ToolStripMenuItem();
             this.cmsDevice = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.miDeviceCommand = new System.Windows.Forms.ToolStripMenuItem();
             this.miDeviceProperties = new System.Windows.Forms.ToolStripMenuItem();
@@ -161,8 +159,7 @@
             this.cmsProject.SuspendLayout();
             this.cmsDirectory.SuspendLayout();
             this.cmsFileItem.SuspendLayout();
-            this.cmsServer.SuspendLayout();
-            this.cmsComm.SuspendLayout();
+            this.cmsApp.SuspendLayout();
             this.cmsDevice.SuspendLayout();
             this.cmsCnlTable.SuspendLayout();
             this.SuspendLayout();
@@ -177,7 +174,7 @@
             this.miHelp});
             this.msMain.Location = new System.Drawing.Point(0, 0);
             this.msMain.Name = "msMain";
-            this.msMain.Size = new System.Drawing.Size(684, 24);
+            this.msMain.Size = new System.Drawing.Size(734, 24);
             this.msMain.TabIndex = 0;
             // 
             // miFile
@@ -418,7 +415,7 @@
             // 
             // miToolsOptions
             // 
-            this.miToolsOptions.Image = global::Scada.Admin.App.Properties.Resources.settings;
+            this.miToolsOptions.Image = global::Scada.Admin.App.Properties.Resources.options;
             this.miToolsOptions.Name = "miToolsOptions";
             this.miToolsOptions.Size = new System.Drawing.Size(169, 22);
             this.miToolsOptions.Text = "Options...";
@@ -522,7 +519,7 @@
             this.btnToolsCreateCnls});
             this.tsMain.Location = new System.Drawing.Point(0, 24);
             this.tsMain.Name = "tsMain";
-            this.tsMain.Size = new System.Drawing.Size(684, 25);
+            this.tsMain.Size = new System.Drawing.Size(734, 25);
             this.tsMain.TabIndex = 1;
             // 
             // btnFileNewProject
@@ -650,9 +647,9 @@
             this.ssMain.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.lblSelectedInstance,
             this.lblSelectedProfile});
-            this.ssMain.Location = new System.Drawing.Point(0, 387);
+            this.ssMain.Location = new System.Drawing.Point(0, 437);
             this.ssMain.Name = "ssMain";
-            this.ssMain.Size = new System.Drawing.Size(684, 24);
+            this.ssMain.Size = new System.Drawing.Size(734, 24);
             this.ssMain.TabIndex = 2;
             // 
             // lblSelectedInstance
@@ -674,7 +671,7 @@
             this.pnlLeft.Dock = System.Windows.Forms.DockStyle.Left;
             this.pnlLeft.Location = new System.Drawing.Point(0, 49);
             this.pnlLeft.Name = "pnlLeft";
-            this.pnlLeft.Size = new System.Drawing.Size(250, 338);
+            this.pnlLeft.Size = new System.Drawing.Size(300, 388);
             this.pnlLeft.TabIndex = 3;
             // 
             // tvExplorer
@@ -687,7 +684,7 @@
             this.tvExplorer.Name = "tvExplorer";
             this.tvExplorer.SelectedImageIndex = 0;
             this.tvExplorer.ShowRootLines = false;
-            this.tvExplorer.Size = new System.Drawing.Size(250, 338);
+            this.tvExplorer.Size = new System.Drawing.Size(300, 388);
             this.tvExplorer.TabIndex = 0;
             this.tvExplorer.BeforeCollapse += new System.Windows.Forms.TreeViewCancelEventHandler(this.tvExplorer_BeforeCollapse);
             this.tvExplorer.AfterCollapse += new System.Windows.Forms.TreeViewEventHandler(this.tvExplorer_AfterCollapse);
@@ -707,11 +704,11 @@
             // 
             // splVert
             // 
-            this.splVert.Location = new System.Drawing.Point(250, 49);
+            this.splVert.Location = new System.Drawing.Point(300, 49);
             this.splVert.MinExtra = 100;
             this.splVert.MinSize = 100;
             this.splVert.Name = "splVert";
-            this.splVert.Size = new System.Drawing.Size(3, 338);
+            this.splVert.Size = new System.Drawing.Size(3, 388);
             this.splVert.TabIndex = 4;
             this.splVert.TabStop = false;
             // 
@@ -719,9 +716,9 @@
             // 
             this.pnlRight.Controls.Add(this.wctrlMain);
             this.pnlRight.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.pnlRight.Location = new System.Drawing.Point(253, 49);
+            this.pnlRight.Location = new System.Drawing.Point(303, 49);
             this.pnlRight.Name = "pnlRight";
-            this.pnlRight.Size = new System.Drawing.Size(431, 338);
+            this.pnlRight.Size = new System.Drawing.Size(431, 388);
             this.pnlRight.TabIndex = 5;
             // 
             // wctrlMain
@@ -736,7 +733,7 @@
             this.wctrlMain.SaveReqNo = "&No";
             this.wctrlMain.SaveReqQuestion = "Save changes to the following items?";
             this.wctrlMain.SaveReqYes = "&Yes";
-            this.wctrlMain.Size = new System.Drawing.Size(431, 338);
+            this.wctrlMain.Size = new System.Drawing.Size(431, 388);
             this.wctrlMain.TabIndex = 0;
             this.wctrlMain.ActiveFormChanged += new System.EventHandler(this.wctrlMain_ActiveFormChanged);
             this.wctrlMain.ChildFormClosed += new System.EventHandler<WinControl.ChildFormClosedEventArgs>(this.wctrlMain_ChildFormClosed);
@@ -1130,35 +1127,20 @@
             this.miFileItemRename.Text = "Rename";
             this.miFileItemRename.Click += new System.EventHandler(this.miFileItemRename_Click);
             // 
-            // cmsServer
+            // cmsApp
             // 
-            this.cmsServer.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.miServerOpenInExplorer});
-            this.cmsServer.Name = "cmsServer";
-            this.cmsServer.Size = new System.Drawing.Size(220, 26);
+            this.cmsApp.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.miAppOpenInExplorer});
+            this.cmsApp.Name = "cmsServer";
+            this.cmsApp.Size = new System.Drawing.Size(220, 26);
             // 
-            // miServerOpenInExplorer
+            // miAppOpenInExplorer
             // 
-            this.miServerOpenInExplorer.Image = global::Scada.Admin.App.Properties.Resources.open_explorer;
-            this.miServerOpenInExplorer.Name = "miServerOpenInExplorer";
-            this.miServerOpenInExplorer.Size = new System.Drawing.Size(219, 22);
-            this.miServerOpenInExplorer.Text = "Open Folder in File Explorer";
-            this.miServerOpenInExplorer.Click += new System.EventHandler(this.miDirectoryOpenInExplorer_Click);
-            // 
-            // cmsComm
-            // 
-            this.cmsComm.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.miCommOpenInExplorer});
-            this.cmsComm.Name = "cmsServer";
-            this.cmsComm.Size = new System.Drawing.Size(220, 26);
-            // 
-            // miCommOpenInExplorer
-            // 
-            this.miCommOpenInExplorer.Image = global::Scada.Admin.App.Properties.Resources.open_explorer;
-            this.miCommOpenInExplorer.Name = "miCommOpenInExplorer";
-            this.miCommOpenInExplorer.Size = new System.Drawing.Size(219, 22);
-            this.miCommOpenInExplorer.Text = "Open Folder in File Explorer";
-            this.miCommOpenInExplorer.Click += new System.EventHandler(this.miDirectoryOpenInExplorer_Click);
+            this.miAppOpenInExplorer.Image = global::Scada.Admin.App.Properties.Resources.open_explorer;
+            this.miAppOpenInExplorer.Name = "miAppOpenInExplorer";
+            this.miAppOpenInExplorer.Size = new System.Drawing.Size(219, 22);
+            this.miAppOpenInExplorer.Text = "Open Folder in File Explorer";
+            this.miAppOpenInExplorer.Click += new System.EventHandler(this.miDirectoryOpenInExplorer_Click);
             // 
             // cmsDevice
             // 
@@ -1214,7 +1196,7 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(684, 411);
+            this.ClientSize = new System.Drawing.Size(734, 461);
             this.Controls.Add(this.pnlRight);
             this.Controls.Add(this.splVert);
             this.Controls.Add(this.pnlLeft);
@@ -1244,8 +1226,7 @@
             this.cmsProject.ResumeLayout(false);
             this.cmsDirectory.ResumeLayout(false);
             this.cmsFileItem.ResumeLayout(false);
-            this.cmsServer.ResumeLayout(false);
-            this.cmsComm.ResumeLayout(false);
+            this.cmsApp.ResumeLayout(false);
             this.cmsDevice.ResumeLayout(false);
             this.cmsCnlTable.ResumeLayout(false);
             this.ResumeLayout(false);
@@ -1330,10 +1311,8 @@
         private System.Windows.Forms.ToolStripMenuItem miDeployInstanceProfile;
         private System.Windows.Forms.ToolStripMenuItem miProjectOpenInExplorer;
         private System.Windows.Forms.ToolStripMenuItem miInstanceOpenInExplorer;
-        private System.Windows.Forms.ContextMenuStrip cmsServer;
-        private System.Windows.Forms.ToolStripMenuItem miServerOpenInExplorer;
-        private System.Windows.Forms.ContextMenuStrip cmsComm;
-        private System.Windows.Forms.ToolStripMenuItem miCommOpenInExplorer;
+        private System.Windows.Forms.ContextMenuStrip cmsApp;
+        private System.Windows.Forms.ToolStripMenuItem miAppOpenInExplorer;
         private System.Windows.Forms.ToolStripSeparator miCommLineSep2;
         private System.Windows.Forms.ToolStripMenuItem miCommLineStart;
         private System.Windows.Forms.ToolStripMenuItem miCommLineStop;

@@ -212,6 +212,7 @@
     <Phrase key="ServerNode">Сервер</Phrase>
     <Phrase key="CommNode">Коммуникатор</Phrase>
     <Phrase key="WebNode">Вебстанция</Phrase>
+    <Phrase key="AppConfigNode">Конфигурационные файлы</Phrase>
     <Phrase key="EmptyNode">Пусто</Phrase>
     <Phrase key="DeviceFilter">КП {0}</Phrase>
     <Phrase key="EmptyDeviceFilter">Пустой КП</Phrase>
@@ -478,8 +479,7 @@
     <Phrase key="miInstanceOpenInBrowser">Открыть в веб-браузере</Phrase>
     <Phrase key="miInstanceRename">Переименовать экземпляр</Phrase>
     <Phrase key="miInstanceProperties">Свойства</Phrase>
-    <Phrase key="miServerOpenInExplorer">Открыть папку в проводнике</Phrase>
-    <Phrase key="miCommOpenInExplorer">Открыть папку в проводнике</Phrase>
+    <Phrase key="miAppOpenInExplorer">Открыть папку в проводнике</Phrase>
     <Phrase key="miCommLineImport">Импортировать...</Phrase>
     <Phrase key="miCommLineSync">Сихронизировать...</Phrase>
     <Phrase key="miCommLineAdd">Добавить линию</Phrase>

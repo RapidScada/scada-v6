@@ -15,21 +15,23 @@
  * 
  * 
  * Product  : Rapid SCADA
- * Module   : Administrator
- * Summary  : Specifies the types of the application tree nodes
+ * Module   : ScadaAdminCommon
+ * Summary  : Specifies the types of the explorer tree nodes
  * 
  * Author   : Mikhail Shiryaev
  * Created  : 2018
- * Modified : 2018
+ * Modified : 2021
  */
 
-namespace Scada.Admin.App.Code
+#pragma warning disable 1591 // Missing XML comment for publicly visible type or member
+
+namespace Scada.Admin.Extensions
 {
     /// <summary>
-    /// Specifies the types of the application tree nodes.
-    /// <para>Задаёт типы узлов дерева приложения.</para>
+    /// Specifies the types of the explorer tree nodes.
+    /// <para>Задаёт типы узлов дерева проводника.</para>
     /// </summary>
-    internal static class AppNodeType
+    public static class ExplorerNodeType
     {
         public const string Project = "Project";
         public const string Base = "Base";
@@ -37,9 +39,8 @@ namespace Scada.Admin.App.Code
         public const string Views = "Views";
         public const string Instances = "Instances";
         public const string Instance = "Instance";
-        public const string ServerApp = "ServerApp";
-        public const string CommApp = "CommApp";
-        public const string WebApp = "WebApp";
+        public const string App = "App";
+        public const string AppConfig = "AppConfig";
         public const string Directory = "Directory";
         public const string File = "File";
     }

@@ -24,8 +24,8 @@
  */
 
 using Scada.Admin.App.Forms.Tables;
+using Scada.Admin.Extensions;
 using Scada.Admin.Project;
-using Scada.Agent;
 using Scada.Data.Entities;
 using Scada.Data.Tables;
 using Scada.Forms;
@@ -44,8 +44,6 @@ namespace Scada.Admin.App.Code
     internal class ExplorerBuilder
     {
         private readonly AppData appData;           // the common data of the application
-        //private readonly ServerShell serverShell;   // the shell to edit Server settings
-        //private readonly CommShell commShell;       // the shell to edit Communicator settings
         private readonly TreeView treeView;         // the manipulated tree view 
         private readonly ContextMenus contextMenus; // references to the context menus
         private ScadaProject project;               // the current project to build tree
@@ -54,12 +52,9 @@ namespace Scada.Admin.App.Code
         /// <summary>
         /// Initializes a new instance of the class.
         /// </summary>
-        public ExplorerBuilder(AppData appData, /*ServerShell serverShell, CommShell commShell, */
-            TreeView treeView, ContextMenus contextMenus)
+        public ExplorerBuilder(AppData appData, TreeView treeView, ContextMenus contextMenus)
         {
             this.appData = appData ?? throw new ArgumentNullException(nameof(appData));
-            //this.serverShell = serverShell ?? throw new ArgumentNullException("serverShell");
-            //this.commShell = commShell ?? throw new ArgumentNullException("commShell");
             this.treeView = treeView ?? throw new ArgumentNullException(nameof(treeView));
             this.contextMenus = contextMenus ?? throw new ArgumentNullException(nameof(contextMenus));
             project = null;
@@ -104,7 +99,7 @@ namespace Scada.Admin.App.Code
         private TreeNode CreateBaseNode(ConfigBase configBase)
         {
             TreeNode baseNode = TreeViewUtils.CreateNode(AppPhrases.BaseNode, "database.png");
-            baseNode.Tag = new TreeNodeTag(project.ConfigBase, AppNodeType.Base);
+            baseNode.Tag = new TreeNodeTag(project.ConfigBase, ExplorerNodeType.Base);
 
             // primary tables sorted in the order they are configured
             TreeNode primaryNode = TreeViewUtils.CreateNode(AppPhrases.PrimaryTablesNode, "folder_closed.png");
@@ -175,7 +170,7 @@ namespace Scada.Admin.App.Code
                 FormType = typeof(FrmBaseTable),
                 FormArgs = new object[] { baseTable, tableFilter, project, appData },
                 RelatedObject = new BaseTableItem(baseTable, tableFilter),
-                NodeType = AppNodeType.BaseTable
+                NodeType = ExplorerNodeType.BaseTable
             };
         }
 
@@ -211,13 +206,39 @@ namespace Scada.Admin.App.Code
         }
 
         /// <summary>
+        /// Creates a node that represents the specified application.
+        /// </summary>
+        private TreeNode CreateAppNode(ProjectApp projectApp, string imageKey)
+        {
+            TreeNode appNode = TreeViewUtils.CreateNode(projectApp.AppName, imageKey);
+            appNode.ContextMenuStrip = contextMenus.AppMenu;
+            appNode.Tag = new TreeNodeTag(projectApp, ExplorerNodeType.App);
+            appNode.Nodes.AddRange(appData.ExtensionHolder.GetTreeNodes(
+                ExplorerNodeType.App, projectApp.AppConfig).ToArray());
+            appNode.Nodes.Add(CreateAppConfigNode(projectApp));
+            return appNode;
+        }
+
+        /// <summary>
+        /// Creates a node that contains the application configuration files.
+        /// </summary>
+        private TreeNode CreateAppConfigNode(ProjectApp projectApp)
+        {
+            TreeNode appConfigNode = TreeViewUtils.CreateNode(AppPhrases.AppConfigNode, "folder_closed.png");
+            appConfigNode.ContextMenuStrip = contextMenus.DirectoryMenu;
+            appConfigNode.Tag = new TreeNodeTag(projectApp, ExplorerNodeType.AppConfig);
+            appConfigNode.Nodes.Add(CreateEmptyNode());
+            return appConfigNode;
+        }
+
+        /// <summary>
         /// Creates a node that represents the specified directory.
         /// </summary>
         private TreeNode CreateDirectoryNode(DirectoryInfo directoryInfo)
         {
             TreeNode directoryNode = TreeViewUtils.CreateNode(directoryInfo.Name, "folder_closed.png");
             directoryNode.ContextMenuStrip = contextMenus.DirectoryMenu;
-            directoryNode.Tag = new TreeNodeTag(new FileItem(directoryInfo), AppNodeType.Directory);
+            directoryNode.Tag = new TreeNodeTag(new FileItem(directoryInfo), ExplorerNodeType.Directory);
             return directoryNode;
         }
 
@@ -228,7 +249,7 @@ namespace Scada.Admin.App.Code
         {
             TreeNode fileNode = TreeViewUtils.CreateNode(fileInfo.Name, "file.png");
             fileNode.ContextMenuStrip = contextMenus.FileItemMenu;
-            fileNode.Tag = new TreeNodeTag(new FileItem(fileInfo), AppNodeType.File);
+            fileNode.Tag = new TreeNodeTag(new FileItem(fileInfo), ExplorerNodeType.File);
             return fileNode;
         }
 
@@ -296,7 +317,7 @@ namespace Scada.Admin.App.Code
                 // project node
                 ProjectNode = TreeViewUtils.CreateNode(project.Name, "project.png", true);
                 ProjectNode.ContextMenuStrip = contextMenus.ProjectMenu;
-                ProjectNode.Tag = new TreeNodeTag(project, AppNodeType.Project);
+                ProjectNode.Tag = new TreeNodeTag(project, ExplorerNodeType.Project);
                 treeView.Nodes.Add(ProjectNode);
 
                 // configuration database node
@@ -306,14 +327,14 @@ namespace Scada.Admin.App.Code
                 // views node
                 ViewsNode = TreeViewUtils.CreateNode(AppPhrases.ViewsNode, "views.png");
                 ViewsNode.ContextMenuStrip = contextMenus.DirectoryMenu;
-                ViewsNode.Tag = new TreeNodeTag(project.Views, AppNodeType.Views);
+                ViewsNode.Tag = new TreeNodeTag(project.Views, ExplorerNodeType.Views);
                 ViewsNode.Nodes.Add(CreateEmptyNode());
                 ProjectNode.Nodes.Add(ViewsNode);
 
                 // instances node
                 InstancesNode = TreeViewUtils.CreateNode(AppPhrases.InstancesNode, "instances.png");
                 InstancesNode.ContextMenuStrip = contextMenus.InstanceMenu;
-                InstancesNode.Tag = new TreeNodeTag(project.Instances, AppNodeType.Instances);
+                InstancesNode.Tag = new TreeNodeTag(project.Instances, ExplorerNodeType.Instances);
                 project.Instances.ForEach(i => InstancesNode.Nodes.Add(CreateInstanceNode(i)));
                 ProjectNode.Nodes.Add(InstancesNode);
 
@@ -333,7 +354,7 @@ namespace Scada.Admin.App.Code
         {
             TreeNode instanceNode = TreeViewUtils.CreateNode(projectInstance.Name, "instance.png");
             instanceNode.ContextMenuStrip = contextMenus.InstanceMenu;
-            instanceNode.Tag = new TreeNodeTag(new LiveInstance(projectInstance), AppNodeType.Instance);
+            instanceNode.Tag = new TreeNodeTag(new LiveInstance(projectInstance), ExplorerNodeType.Instance);
             instanceNode.Nodes.Add(CreateEmptyNode());
             return instanceNode;
         }
@@ -357,7 +378,7 @@ namespace Scada.Admin.App.Code
         }
 
         /// <summary>
-        /// Fills the views node, creating child nodes.
+        /// Fills the views node.
         /// </summary>
         public void FillViewsNode(TreeNode viewsNode)
         {
@@ -366,10 +387,13 @@ namespace Scada.Admin.App.Code
         }
 
         /// <summary>
-        /// Fills the instances node without creating child nodes.
+        /// Fills the instances node.
         /// </summary>
         public void FillInstancesNode()
         {
+            if (InstancesNode == null)
+                return;
+
             try
             {
                 treeView.BeginUpdate();
@@ -383,7 +407,7 @@ namespace Scada.Admin.App.Code
         }
 
         /// <summary>
-        /// Fills the instance node, creating child nodes.
+        /// Fills the instance node.
         /// </summary>
         public void FillInstanceNode(TreeNode instanceNode)
         {
@@ -396,42 +420,14 @@ namespace Scada.Admin.App.Code
                 instanceNode.Nodes.Clear();
                 ProjectInstance projectInstance = liveInstance.ProjectInstance;
 
-                // create Server nodes
                 if (projectInstance.ServerApp.Enabled)
-                {
-                    TreeNode serverNode = TreeViewUtils.CreateNode(AppPhrases.ServerNode, "server.png");
-                    serverNode.ContextMenuStrip = contextMenus.ServerMenu;
-                    serverNode.Tag = new TreeNodeTag(projectInstance.ServerApp, AppNodeType.ServerApp);
-                    serverNode.Nodes.Add(CreateEmptyNode());
-                    serverNode.Nodes.AddRange(appData.ExtensionHolder.GetTreeNodes(
-                        ConfigParts.Server, projectInstance.ServerApp.Config).ToArray());
-                    //serverNode.Nodes.AddRange(serverShell.GetTreeNodes(
-                    //    projectInstance.ServerApp.Config, liveInstance.ServerEnvironment));
-                    instanceNode.Nodes.Add(serverNode);
-                }
+                    instanceNode.Nodes.Add(CreateAppNode(projectInstance.ServerApp, "server.png"));
 
-                // create Communicator nodes
                 if (projectInstance.CommApp.Enabled)
-                {
-                    TreeNode commNode = TreeViewUtils.CreateNode(AppPhrases.CommNode, "comm.png");
-                    commNode.ContextMenuStrip = contextMenus.CommMenu;
-                    commNode.Tag = new TreeNodeTag(projectInstance.CommApp, AppNodeType.CommApp);
-                    commNode.Nodes.Add(CreateEmptyNode());
-                    //commNode.Nodes.AddRange(commShell.GetTreeNodes(
-                    //    projectInstance.CommApp.Config, liveInstance.CommEnvironment));
-                    //SetContextMenus(commNode);
-                    instanceNode.Nodes.Add(commNode);
-                }
+                    instanceNode.Nodes.Add(CreateAppNode(projectInstance.CommApp, "comm.png"));
 
-                // create Webstation nodes
                 if (projectInstance.WebApp.Enabled)
-                {
-                    TreeNode webNode = TreeViewUtils.CreateNode(AppPhrases.WebNode, "chrome.png");
-                    webNode.ContextMenuStrip = contextMenus.DirectoryMenu;
-                    webNode.Tag = new TreeNodeTag(projectInstance.WebApp, AppNodeType.WebApp);
-                    webNode.Nodes.Add(CreateEmptyNode());
-                    instanceNode.Nodes.Add(webNode);
-                }
+                    instanceNode.Nodes.Add(CreateAppNode(projectInstance.WebApp, "chrome.png"));
             }
             finally
             {
@@ -440,12 +436,12 @@ namespace Scada.Admin.App.Code
         }
 
         /// <summary>
-        /// Fills the application node, creating child nodes.
+        /// Fills the application configuration node.
         /// </summary>
-        public void FillAppNode(TreeNode appNode)
+        public void FillAppConfigNode(TreeNode appConfigNode)
         {
-            if (TreeViewUtils.GetRelatedObject(appNode) is ProjectApp app)
-                FillFileNode(appNode, app.AppDir);
+            if (TreeViewUtils.GetRelatedObject(appConfigNode) is ProjectApp app)
+                FillFileNode(appConfigNode, app.GetConfigDir());
         }
 
         /// <summary>
@@ -479,7 +475,7 @@ namespace Scada.Admin.App.Code
 
                 foreach (TreeNode treeNode in parentNode.Nodes)
                 {
-                    if (treeNode.TagIs(AppNodeType.Directory))
+                    if (treeNode.TagIs(ExplorerNodeType.Directory))
                     {
                         if (string.Compare(name, treeNode.Text, StringComparison.Ordinal) < 0)
                             break;
@@ -516,11 +512,11 @@ namespace Scada.Admin.App.Code
 
                 foreach (TreeNode treeNode in parentNode.Nodes)
                 {
-                    if (treeNode.TagIs(AppNodeType.Directory))
+                    if (treeNode.TagIs(ExplorerNodeType.Directory))
                     {
                         index = treeNode.Index + 1;
                     }
-                    else if (treeNode.TagIs(AppNodeType.File))
+                    else if (treeNode.TagIs(ExplorerNodeType.File))
                     {
                         if (string.Compare(name, treeNode.Text, StringComparison.Ordinal) < 0)
                             break;
@@ -548,9 +544,9 @@ namespace Scada.Admin.App.Code
         /// Defines context menus of the node and its child nodes.
         /// </summary>
         /// <remarks>The method works for communication line.</remarks>
-        public void SetContextMenus(TreeNode parentNode)
+        /*public void SetContextMenus(TreeNode parentNode)
         {
-            /*foreach (TreeNode treeNode in TreeViewUtils.IterateNodes(parentNode))
+            foreach (TreeNode treeNode in TreeViewUtils.IterateNodes(parentNode))
             {
                 if (treeNode.Tag is TreeNodeTag tag)
                 {
@@ -559,8 +555,8 @@ namespace Scada.Admin.App.Code
                     else if (tag.NodeType == CommNodeType.Device)
                         treeNode.ContextMenuStrip = contextMenus.DeviceMenu;
                 }
-            }*/
-        }
+            }
+        }*/
 
         /// <summary>
         /// Sets the node image as open or closed folder.

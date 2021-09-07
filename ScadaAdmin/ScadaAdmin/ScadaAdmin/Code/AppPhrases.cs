@@ -56,6 +56,7 @@ namespace Scada.Admin.App.Code
         public static string ServerNode { get; private set; }
         public static string CommNode { get; private set; }
         public static string WebNode { get; private set; }
+        public static string AppConfigNode { get; private set; }
         public static string EmptyNode { get; private set; }
         public static string DeviceFilter { get; private set; }
         public static string EmptyDeviceFilter { get; private set; }
@@ -166,6 +167,7 @@ namespace Scada.Admin.App.Code
             ServerNode = dict["ServerNode"];
             CommNode = dict["CommNode"];
             WebNode = dict["WebNode"];
+            AppConfigNode = dict["AppConfigNode"];
             EmptyNode = dict["EmptyNode"];
             DeviceFilter = dict["DeviceFilter"];
             EmptyDeviceFilter = dict["EmptyDeviceFilter"];

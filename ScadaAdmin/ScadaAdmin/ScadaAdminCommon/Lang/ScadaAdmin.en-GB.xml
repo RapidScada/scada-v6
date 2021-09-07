@@ -212,6 +212,7 @@
     <Phrase key="ServerNode">Server</Phrase>
     <Phrase key="CommNode">Communicator</Phrase>
     <Phrase key="WebNode">Webstation</Phrase>
+    <Phrase key="AppConfigNode">Configuration Files</Phrase>
     <Phrase key="EmptyNode">Empty</Phrase>
     <Phrase key="DeviceFilter">Device {0}</Phrase>
     <Phrase key="EmptyDeviceFilter">Empty device</Phrase>
@@ -478,8 +479,7 @@
     <Phrase key="miInstanceOpenInBrowser">Open in Web Browser</Phrase>
     <Phrase key="miInstanceRename">Rename Instance</Phrase>
     <Phrase key="miInstanceProperties">Properties</Phrase>
-    <Phrase key="miServerOpenInExplorer">Open Folder in File Explorer</Phrase>
-    <Phrase key="miCommOpenInExplorer">Open Folder in File Explorer</Phrase>
+    <Phrase key="miAppOpenInExplorer">Open Folder in File Explorer</Phrase>
     <Phrase key="miCommLineImport">Import...</Phrase>
     <Phrase key="miCommLineSync">Synchronize...</Phrase>
     <Phrase key="miCommLineAdd">Add Line</Phrase>

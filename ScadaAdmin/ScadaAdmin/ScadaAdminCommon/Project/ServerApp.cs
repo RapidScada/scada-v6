@@ -54,6 +54,11 @@ namespace Scada.Admin.Project
         /// </summary>
         public override string AppName => CommonPhrases.ServerAppName;
 
+        /// <summary>
+        /// Gets the application configuration.
+        /// </summary>
+        public override object AppConfig => Config;
+
 
         /// <summary>
         /// Gets the application configuration file path.

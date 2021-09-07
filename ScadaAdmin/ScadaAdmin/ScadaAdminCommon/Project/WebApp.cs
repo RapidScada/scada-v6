@@ -20,7 +20,7 @@
  * 
  * Author   : Mikhail Shiryaev
  * Created  : 2018
- * Modified : 2018
+ * Modified : 2021
  */
 
 using Scada.Lang;
@@ -47,6 +47,11 @@ namespace Scada.Admin.Project
         /// Gets the application name.
         /// </summary>
         public override string AppName => CommonPhrases.WebAppName;
+
+        /// <summary>
+        /// Gets the application configuration.
+        /// </summary>
+        public override object AppConfig => null;
 
 
         /// <summary>
