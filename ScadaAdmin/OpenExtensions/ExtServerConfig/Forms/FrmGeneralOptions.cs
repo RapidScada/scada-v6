@@ -146,17 +146,17 @@ namespace Scada.Admin.Extensions.ExtServerConfig.Forms
             else if (sender == btnBrowseItfDir)
             {
                 textBox = txtViewDir;
-                descr = ExtensionPhrases.ChooseItfDir;
+                //descr = ExtensionPhrases.ChooseItfDir;
             }
             else if (sender == btnBrowseArcDir)
             {
                 textBox = txtArcDir;
-                descr = ExtensionPhrases.ChooseArcDir;
+                //descr = ExtensionPhrases.ChooseArcDir;
             }
             else if (sender == btnBrowseArcCopyDir)
             {
                 textBox = txtArcCopyDir;
-                descr = ExtensionPhrases.ChooseArcCopyDir;
+                //descr = ExtensionPhrases.ChooseArcCopyDir;
             }
 
             // browse directory

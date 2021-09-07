@@ -43,19 +43,24 @@
             this.lblViewDir = new System.Windows.Forms.Label();
             this.txtBaseDir = new System.Windows.Forms.TextBox();
             this.lblBaseDir = new System.Windows.Forms.Label();
-            this.gbConn = new System.Windows.Forms.GroupBox();
+            this.gbListenerOptions = new System.Windows.Forms.GroupBox();
             this.lblTcpPort = new System.Windows.Forms.Label();
             this.numTcpPort = new System.Windows.Forms.NumericUpDown();
             this.lblLdapPath = new System.Windows.Forms.Label();
             this.chkUseAD = new System.Windows.Forms.CheckBox();
             this.txtLdapPath = new System.Windows.Forms.TextBox();
-            this.gbLog = new System.Windows.Forms.GroupBox();
-            this.chkDetailedLog = new System.Windows.Forms.CheckBox();
+            this.gbGeneralOptions = new System.Windows.Forms.GroupBox();
             this.fbdDir = new System.Windows.Forms.FolderBrowserDialog();
+            this.lblMaxLogSize = new System.Windows.Forms.Label();
+            this.numMaxLogSize = new System.Windows.Forms.NumericUpDown();
+            this.numUnrelIfInactive = new System.Windows.Forms.NumericUpDown();
+            this.lblUnrelIfInactive = new System.Windows.Forms.Label();
             this.gbDirs.SuspendLayout();
-            this.gbConn.SuspendLayout();
+            this.gbListenerOptions.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.numTcpPort)).BeginInit();
-            this.gbLog.SuspendLayout();
+            this.gbGeneralOptions.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.numMaxLogSize)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.numUnrelIfInactive)).BeginInit();
             this.SuspendLayout();
             // 
             // gbDirs
@@ -74,7 +79,7 @@
             this.gbDirs.Controls.Add(this.lblViewDir);
             this.gbDirs.Controls.Add(this.txtBaseDir);
             this.gbDirs.Controls.Add(this.lblBaseDir);
-            this.gbDirs.Location = new System.Drawing.Point(12, 138);
+            this.gbDirs.Location = new System.Drawing.Point(12, 188);
             this.gbDirs.Name = "gbDirs";
             this.gbDirs.Padding = new System.Windows.Forms.Padding(10, 3, 10, 10);
             this.gbDirs.Size = new System.Drawing.Size(500, 211);
@@ -146,7 +151,7 @@
             // 
             this.txtArcCopyDir.Location = new System.Drawing.Point(13, 149);
             this.txtArcCopyDir.Name = "txtArcCopyDir";
-            this.txtArcCopyDir.Size = new System.Drawing.Size(393, 20);
+            this.txtArcCopyDir.Size = new System.Drawing.Size(393, 23);
             this.txtArcCopyDir.TabIndex = 10;
             this.txtArcCopyDir.TextChanged += new System.EventHandler(this.control_Changed);
             // 
@@ -155,7 +160,7 @@
             this.lblArcCopyDir.AutoSize = true;
             this.lblArcCopyDir.Location = new System.Drawing.Point(10, 133);
             this.lblArcCopyDir.Name = "lblArcCopyDir";
-            this.lblArcCopyDir.Size = new System.Drawing.Size(137, 13);
+            this.lblArcCopyDir.Size = new System.Drawing.Size(152, 15);
             this.lblArcCopyDir.TabIndex = 9;
             this.lblArcCopyDir.Text = "Archive copy in DAT format";
             // 
@@ -163,7 +168,7 @@
             // 
             this.txtArcDir.Location = new System.Drawing.Point(13, 110);
             this.txtArcDir.Name = "txtArcDir";
-            this.txtArcDir.Size = new System.Drawing.Size(393, 20);
+            this.txtArcDir.Size = new System.Drawing.Size(393, 23);
             this.txtArcDir.TabIndex = 7;
             this.txtArcDir.TextChanged += new System.EventHandler(this.control_Changed);
             // 
@@ -172,65 +177,65 @@
             this.lblArcDir.AutoSize = true;
             this.lblArcDir.Location = new System.Drawing.Point(10, 94);
             this.lblArcDir.Name = "lblArcDir";
-            this.lblArcDir.Size = new System.Drawing.Size(111, 13);
+            this.lblArcDir.Size = new System.Drawing.Size(123, 15);
             this.lblArcDir.TabIndex = 6;
             this.lblArcDir.Text = "Archive in DAT format";
             // 
-            // txtItfDir
+            // txtViewDir
             // 
             this.txtViewDir.Location = new System.Drawing.Point(13, 71);
-            this.txtViewDir.Name = "txtItfDir";
-            this.txtViewDir.Size = new System.Drawing.Size(393, 20);
+            this.txtViewDir.Name = "txtViewDir";
+            this.txtViewDir.Size = new System.Drawing.Size(393, 23);
             this.txtViewDir.TabIndex = 4;
             this.txtViewDir.TextChanged += new System.EventHandler(this.control_Changed);
             // 
-            // lblItfDir
+            // lblViewDir
             // 
             this.lblViewDir.AutoSize = true;
             this.lblViewDir.Location = new System.Drawing.Point(10, 55);
-            this.lblViewDir.Name = "lblItfDir";
-            this.lblViewDir.Size = new System.Drawing.Size(49, 13);
+            this.lblViewDir.Name = "lblViewDir";
+            this.lblViewDir.Size = new System.Drawing.Size(53, 15);
             this.lblViewDir.TabIndex = 3;
             this.lblViewDir.Text = "Interface";
             // 
-            // txtBaseDATDir
+            // txtBaseDir
             // 
             this.txtBaseDir.Location = new System.Drawing.Point(13, 32);
-            this.txtBaseDir.Name = "txtBaseDATDir";
-            this.txtBaseDir.Size = new System.Drawing.Size(393, 20);
+            this.txtBaseDir.Name = "txtBaseDir";
+            this.txtBaseDir.Size = new System.Drawing.Size(393, 23);
             this.txtBaseDir.TabIndex = 1;
             this.txtBaseDir.TextChanged += new System.EventHandler(this.control_Changed);
             // 
-            // lblBaseDATDir
+            // lblBaseDir
             // 
             this.lblBaseDir.AutoSize = true;
             this.lblBaseDir.Location = new System.Drawing.Point(10, 16);
-            this.lblBaseDir.Name = "lblBaseDATDir";
-            this.lblBaseDir.Size = new System.Drawing.Size(184, 13);
+            this.lblBaseDir.Name = "lblBaseDir";
+            this.lblBaseDir.Size = new System.Drawing.Size(207, 15);
             this.lblBaseDir.TabIndex = 0;
             this.lblBaseDir.Text = "Configuration database in DAT format";
             // 
-            // gbConn
+            // gbListenerOptions
             // 
-            this.gbConn.Controls.Add(this.lblTcpPort);
-            this.gbConn.Controls.Add(this.numTcpPort);
-            this.gbConn.Controls.Add(this.lblLdapPath);
-            this.gbConn.Controls.Add(this.chkUseAD);
-            this.gbConn.Controls.Add(this.txtLdapPath);
-            this.gbConn.Location = new System.Drawing.Point(12, 12);
-            this.gbConn.Name = "gbConn";
-            this.gbConn.Padding = new System.Windows.Forms.Padding(10, 3, 10, 10);
-            this.gbConn.Size = new System.Drawing.Size(500, 65);
-            this.gbConn.TabIndex = 0;
-            this.gbConn.TabStop = false;
-            this.gbConn.Text = "Connection";
+            this.gbListenerOptions.Controls.Add(this.lblTcpPort);
+            this.gbListenerOptions.Controls.Add(this.numTcpPort);
+            this.gbListenerOptions.Controls.Add(this.lblLdapPath);
+            this.gbListenerOptions.Controls.Add(this.chkUseAD);
+            this.gbListenerOptions.Controls.Add(this.txtLdapPath);
+            this.gbListenerOptions.Location = new System.Drawing.Point(12, 105);
+            this.gbListenerOptions.Name = "gbListenerOptions";
+            this.gbListenerOptions.Padding = new System.Windows.Forms.Padding(10, 3, 10, 10);
+            this.gbListenerOptions.Size = new System.Drawing.Size(500, 65);
+            this.gbListenerOptions.TabIndex = 1;
+            this.gbListenerOptions.TabStop = false;
+            this.gbListenerOptions.Text = "Listener Options";
             // 
             // lblTcpPort
             // 
             this.lblTcpPort.AutoSize = true;
             this.lblTcpPort.Location = new System.Drawing.Point(10, 16);
             this.lblTcpPort.Name = "lblTcpPort";
-            this.lblTcpPort.Size = new System.Drawing.Size(49, 13);
+            this.lblTcpPort.Size = new System.Drawing.Size(52, 15);
             this.lblTcpPort.TabIndex = 0;
             this.lblTcpPort.Text = "TCP port";
             // 
@@ -248,7 +253,7 @@
             0,
             0});
             this.numTcpPort.Name = "numTcpPort";
-            this.numTcpPort.Size = new System.Drawing.Size(100, 20);
+            this.numTcpPort.Size = new System.Drawing.Size(100, 23);
             this.numTcpPort.TabIndex = 1;
             this.numTcpPort.Value = new decimal(new int[] {
             10000,
@@ -262,7 +267,7 @@
             this.lblLdapPath.AutoSize = true;
             this.lblLdapPath.Location = new System.Drawing.Point(137, 16);
             this.lblLdapPath.Name = "lblLdapPath";
-            this.lblLdapPath.Size = new System.Drawing.Size(89, 13);
+            this.lblLdapPath.Size = new System.Drawing.Size(103, 15);
             this.lblLdapPath.TabIndex = 3;
             this.lblLdapPath.Text = "Domain controller";
             // 
@@ -280,54 +285,100 @@
             // 
             this.txtLdapPath.Location = new System.Drawing.Point(140, 32);
             this.txtLdapPath.Name = "txtLdapPath";
-            this.txtLdapPath.Size = new System.Drawing.Size(347, 20);
+            this.txtLdapPath.Size = new System.Drawing.Size(347, 23);
             this.txtLdapPath.TabIndex = 4;
             this.txtLdapPath.TextChanged += new System.EventHandler(this.control_Changed);
             // 
-            // gbLog
+            // gbGeneralOptions
             // 
-            this.gbLog.Controls.Add(this.chkDetailedLog);
-            this.gbLog.Location = new System.Drawing.Point(12, 83);
-            this.gbLog.Name = "gbLog";
-            this.gbLog.Padding = new System.Windows.Forms.Padding(10, 3, 10, 10);
-            this.gbLog.Size = new System.Drawing.Size(500, 49);
-            this.gbLog.TabIndex = 1;
-            this.gbLog.TabStop = false;
-            this.gbLog.Text = "Logging";
-            // 
-            // chkDetailedLog
-            // 
-            this.chkDetailedLog.AutoSize = true;
-            this.chkDetailedLog.Location = new System.Drawing.Point(13, 19);
-            this.chkDetailedLog.Name = "chkDetailedLog";
-            this.chkDetailedLog.Size = new System.Drawing.Size(82, 17);
-            this.chkDetailedLog.TabIndex = 0;
-            this.chkDetailedLog.Text = "Detailed log";
-            this.chkDetailedLog.UseVisualStyleBackColor = true;
-            this.chkDetailedLog.CheckedChanged += new System.EventHandler(this.control_Changed);
+            this.gbGeneralOptions.Controls.Add(this.numUnrelIfInactive);
+            this.gbGeneralOptions.Controls.Add(this.lblUnrelIfInactive);
+            this.gbGeneralOptions.Controls.Add(this.numMaxLogSize);
+            this.gbGeneralOptions.Controls.Add(this.lblMaxLogSize);
+            this.gbGeneralOptions.Location = new System.Drawing.Point(12, 12);
+            this.gbGeneralOptions.Name = "gbGeneralOptions";
+            this.gbGeneralOptions.Padding = new System.Windows.Forms.Padding(10, 3, 10, 10);
+            this.gbGeneralOptions.Size = new System.Drawing.Size(500, 87);
+            this.gbGeneralOptions.TabIndex = 0;
+            this.gbGeneralOptions.TabStop = false;
+            this.gbGeneralOptions.Text = "General Options";
             // 
             // fbdDir
             // 
             this.fbdDir.RootFolder = System.Environment.SpecialFolder.MyComputer;
             // 
-            // FrmCommonParams
+            // lblMaxLogSize
+            // 
+            this.lblMaxLogSize.AutoSize = true;
+            this.lblMaxLogSize.Location = new System.Drawing.Point(10, 55);
+            this.lblMaxLogSize.Name = "lblMaxLogSize";
+            this.lblMaxLogSize.Size = new System.Drawing.Size(147, 15);
+            this.lblMaxLogSize.TabIndex = 2;
+            this.lblMaxLogSize.Text = "Maximum log file size, MB";
+            // 
+            // numMaxLogSize
+            // 
+            this.numMaxLogSize.Location = new System.Drawing.Point(387, 51);
+            this.numMaxLogSize.Minimum = new decimal(new int[] {
+            1,
+            0,
+            0,
+            0});
+            this.numMaxLogSize.Name = "numMaxLogSize";
+            this.numMaxLogSize.Size = new System.Drawing.Size(100, 23);
+            this.numMaxLogSize.TabIndex = 3;
+            this.numMaxLogSize.Value = new decimal(new int[] {
+            1,
+            0,
+            0,
+            0});
+            // 
+            // numUnrelIfInactive
+            // 
+            this.numUnrelIfInactive.Location = new System.Drawing.Point(387, 22);
+            this.numUnrelIfInactive.Maximum = new decimal(new int[] {
+            3600,
+            0,
+            0,
+            0});
+            this.numUnrelIfInactive.Name = "numUnrelIfInactive";
+            this.numUnrelIfInactive.Size = new System.Drawing.Size(100, 23);
+            this.numUnrelIfInactive.TabIndex = 1;
+            this.numUnrelIfInactive.Value = new decimal(new int[] {
+            300,
+            0,
+            0,
+            0});
+            // 
+            // lblUnrelIfInactive
+            // 
+            this.lblUnrelIfInactive.AutoSize = true;
+            this.lblUnrelIfInactive.Location = new System.Drawing.Point(10, 26);
+            this.lblUnrelIfInactive.Name = "lblUnrelIfInactive";
+            this.lblUnrelIfInactive.Size = new System.Drawing.Size(280, 15);
+            this.lblUnrelIfInactive.TabIndex = 0;
+            this.lblUnrelIfInactive.Text = "Input channel is marked as unreliable if inactive, sec";
+            // 
+            // FrmGeneralOptions
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(684, 411);
-            this.Controls.Add(this.gbLog);
+            this.Controls.Add(this.gbGeneralOptions);
             this.Controls.Add(this.gbDirs);
-            this.Controls.Add(this.gbConn);
-            this.Name = "FrmCommonParams";
-            this.Text = "Common Parameters";
+            this.Controls.Add(this.gbListenerOptions);
+            this.Name = "FrmGeneralOptions";
+            this.Text = "General Options";
             this.Load += new System.EventHandler(this.FrmCommonParams_Load);
             this.gbDirs.ResumeLayout(false);
             this.gbDirs.PerformLayout();
-            this.gbConn.ResumeLayout(false);
-            this.gbConn.PerformLayout();
+            this.gbListenerOptions.ResumeLayout(false);
+            this.gbListenerOptions.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.numTcpPort)).EndInit();
-            this.gbLog.ResumeLayout(false);
-            this.gbLog.PerformLayout();
+            this.gbGeneralOptions.ResumeLayout(false);
+            this.gbGeneralOptions.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.numMaxLogSize)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.numUnrelIfInactive)).EndInit();
             this.ResumeLayout(false);
 
         }
@@ -343,7 +394,7 @@
         private System.Windows.Forms.Label lblViewDir;
         private System.Windows.Forms.TextBox txtBaseDir;
         private System.Windows.Forms.Label lblBaseDir;
-        private System.Windows.Forms.GroupBox gbConn;
+        private System.Windows.Forms.GroupBox gbListenerOptions;
         private System.Windows.Forms.Label lblTcpPort;
         private System.Windows.Forms.NumericUpDown numTcpPort;
         private System.Windows.Forms.Label lblLdapPath;
@@ -353,10 +404,13 @@
         private System.Windows.Forms.Button btnBrowseItfDir;
         private System.Windows.Forms.Button btnBrowseArcDir;
         private System.Windows.Forms.Button btnBrowseArcCopyDir;
-        private System.Windows.Forms.GroupBox gbLog;
-        private System.Windows.Forms.CheckBox chkDetailedLog;
+        private System.Windows.Forms.GroupBox gbGeneralOptions;
         private System.Windows.Forms.FolderBrowserDialog fbdDir;
         private System.Windows.Forms.Button btnSetToDefaultLinux;
         private System.Windows.Forms.Button btnSetToDefaultWin;
+        private System.Windows.Forms.NumericUpDown numMaxLogSize;
+        private System.Windows.Forms.Label lblMaxLogSize;
+        private System.Windows.Forms.NumericUpDown numUnrelIfInactive;
+        private System.Windows.Forms.Label lblUnrelIfInactive;
     }
 }

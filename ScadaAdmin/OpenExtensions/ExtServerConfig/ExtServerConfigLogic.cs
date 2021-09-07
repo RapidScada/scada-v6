@@ -5,14 +5,11 @@ using Scada.Admin.Extensions.ExtServerConfig.Code;
 using Scada.Admin.Extensions.ExtServerConfig.Forms;
 using Scada.Admin.Extensions.ExtServerConfig.Properties;
 using Scada.Admin.Lang;
-using Scada.Agent;
 using Scada.Forms;
 using Scada.Lang;
 using Scada.Server.Config;
-using System;
 using System.Collections.Generic;
 using System.Drawing;
-using System.Text;
 using System.Windows.Forms;
 
 namespace Scada.Admin.Extensions.ExtServerConfig
@@ -56,7 +53,7 @@ namespace Scada.Admin.Extensions.ExtServerConfig
         public override void LoadDictionaries()
         {
             if (!Locale.LoadDictionaries(AdminContext.AppDirs.LangDir, Code, out string errMsg))
-                AdminContext.Log.WriteError(AdminPhrases.ExtensionMessage, Code, errMsg);
+                AdminContext.ErrLog.WriteError(AdminPhrases.ExtensionMessage, Code, errMsg);
 
             ExtensionPhrases.Init();
         }
@@ -64,26 +61,21 @@ namespace Scada.Admin.Extensions.ExtServerConfig
         /// <summary>
         /// Gets tree nodes to add to the explorer tree.
         /// </summary>
-        public override TreeNode[] GetTreeNodes(ConfigParts configPart, object appConfig)
+        public override TreeNode[] GetTreeNodes(string parentNodeType, object config)
         {
-            // check the arguments
-            if (configPart != ConfigParts.Server)
+            if (!(parentNodeType == ExplorerNodeType.App && config is ServerConfig))
                 return null;
 
-            if (appConfig is not ServerConfig)
-                throw new ArgumentException("Server config expected.", nameof(appConfig));
-
-            // create nodes
             return new TreeNode[]
             {
-                new TreeNode(ExtensionPhrases.CommonParamsNode)
+                new TreeNode(ExtensionPhrases.GeneralOptionsNode)
                 {
                     ImageKey = ImagePrefix + "general_options.png",
                     SelectedImageKey = ImagePrefix + "general_options.png",
                     Tag = new TreeNodeTag
                     {
                         FormType = typeof(FrmGeneralOptions),
-                        FormArgs = new object[] { appConfig }
+                        FormArgs = new object[] { config }
                     }
                 },
                 /*new TreeNode(ServerShellPhrases.SaveParamsNode)
