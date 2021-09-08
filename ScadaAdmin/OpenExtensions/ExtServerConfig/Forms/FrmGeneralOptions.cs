@@ -6,6 +6,9 @@ using Scada.Forms;
 using Scada.Server;
 using Scada.Server.Config;
 using System;
+using System.Collections.Generic;
+using System.Threading;
+using System.Threading.Tasks;
 using System.Windows.Forms;
 using WinControl;
 
@@ -17,7 +20,7 @@ namespace Scada.Admin.Extensions.ExtServerConfig.Forms
     /// </summary>
     public partial class FrmGeneralOptions : Form, IChildForm
     {
-        private readonly ServerConfig serverConfig; // the server confiration
+        private readonly ServerConfig serverConfig;  // the server confiration
         private bool changing; // controls are being changed programmatically
 
 
@@ -135,8 +138,11 @@ namespace Scada.Admin.Extensions.ExtServerConfig.Forms
             {
                 ControlsToConfing();
 
-                if (ChildFormTag.SendMessage(this, ExtensionMessage.SaveSettings))
+                if (ChildFormTag.SendMessage(this, AdminMessage.SaveAppConfig,
+                    new Dictionary<string, object> { { "Config", serverConfig } }))
+                {
                     ChildFormTag.Modified = false;
+                }
             }
         }
 
@@ -160,7 +166,9 @@ namespace Scada.Admin.Extensions.ExtServerConfig.Forms
 
         private void txtSecretKey_Leave(object sender, EventArgs e)
         {
-            txtSecretKey.UseSystemPasswordChar = true;
+            // otherwise the Tab key does not work
+            Action action = () => { txtSecretKey.UseSystemPasswordChar = true; };
+            Task.Run(() => { Invoke(action); });
         }
 
         private void btnGenerateKey_Click(object sender, EventArgs e)

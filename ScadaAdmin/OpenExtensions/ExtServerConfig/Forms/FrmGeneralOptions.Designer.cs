@@ -31,18 +31,18 @@
             this.gbPathOptions = new System.Windows.Forms.GroupBox();
             this.btnSetToDefaultLinux = new System.Windows.Forms.Button();
             this.btnSetToDefaultWin = new System.Windows.Forms.Button();
-            this.btnBrowseArcCopyDir = new System.Windows.Forms.Button();
-            this.btnBrowseArcDir = new System.Windows.Forms.Button();
             this.btnBrowseViewDir = new System.Windows.Forms.Button();
-            this.btnBrowseBaseDir = new System.Windows.Forms.Button();
-            this.txtArcCopyDir = new System.Windows.Forms.TextBox();
-            this.lblArcCopyDir = new System.Windows.Forms.Label();
-            this.txtArcDir = new System.Windows.Forms.TextBox();
-            this.lblArcDir = new System.Windows.Forms.Label();
             this.txtViewDir = new System.Windows.Forms.TextBox();
             this.lblViewDir = new System.Windows.Forms.Label();
+            this.btnBrowseBaseDir = new System.Windows.Forms.Button();
             this.txtBaseDir = new System.Windows.Forms.TextBox();
             this.lblBaseDir = new System.Windows.Forms.Label();
+            this.btnBrowseArcCopyDir = new System.Windows.Forms.Button();
+            this.txtArcCopyDir = new System.Windows.Forms.TextBox();
+            this.lblArcCopyDir = new System.Windows.Forms.Label();
+            this.btnBrowseArcDir = new System.Windows.Forms.Button();
+            this.txtArcDir = new System.Windows.Forms.TextBox();
+            this.lblArcDir = new System.Windows.Forms.Label();
             this.gbListenerOptions = new System.Windows.Forms.GroupBox();
             this.btnCopyKey = new System.Windows.Forms.Button();
             this.btnGenerateKey = new System.Windows.Forms.Button();
@@ -71,18 +71,18 @@
             // 
             this.gbPathOptions.Controls.Add(this.btnSetToDefaultLinux);
             this.gbPathOptions.Controls.Add(this.btnSetToDefaultWin);
-            this.gbPathOptions.Controls.Add(this.btnBrowseArcCopyDir);
-            this.gbPathOptions.Controls.Add(this.btnBrowseArcDir);
             this.gbPathOptions.Controls.Add(this.btnBrowseViewDir);
-            this.gbPathOptions.Controls.Add(this.btnBrowseBaseDir);
-            this.gbPathOptions.Controls.Add(this.txtArcCopyDir);
-            this.gbPathOptions.Controls.Add(this.lblArcCopyDir);
-            this.gbPathOptions.Controls.Add(this.txtArcDir);
-            this.gbPathOptions.Controls.Add(this.lblArcDir);
             this.gbPathOptions.Controls.Add(this.txtViewDir);
             this.gbPathOptions.Controls.Add(this.lblViewDir);
+            this.gbPathOptions.Controls.Add(this.btnBrowseBaseDir);
             this.gbPathOptions.Controls.Add(this.txtBaseDir);
             this.gbPathOptions.Controls.Add(this.lblBaseDir);
+            this.gbPathOptions.Controls.Add(this.btnBrowseArcCopyDir);
+            this.gbPathOptions.Controls.Add(this.txtArcCopyDir);
+            this.gbPathOptions.Controls.Add(this.lblArcCopyDir);
+            this.gbPathOptions.Controls.Add(this.btnBrowseArcDir);
+            this.gbPathOptions.Controls.Add(this.txtArcDir);
+            this.gbPathOptions.Controls.Add(this.lblArcDir);
             this.gbPathOptions.Location = new System.Drawing.Point(12, 278);
             this.gbPathOptions.Name = "gbPathOptions";
             this.gbPathOptions.Padding = new System.Windows.Forms.Padding(10, 3, 10, 10);
@@ -111,113 +111,113 @@
             this.btnSetToDefaultWin.UseVisualStyleBackColor = true;
             this.btnSetToDefaultWin.Click += new System.EventHandler(this.btnSetToDefault_Click);
             // 
-            // btnBrowseArcCopyDir
-            // 
-            this.btnBrowseArcCopyDir.Location = new System.Drawing.Point(412, 169);
-            this.btnBrowseArcCopyDir.Name = "btnBrowseArcCopyDir";
-            this.btnBrowseArcCopyDir.Size = new System.Drawing.Size(75, 23);
-            this.btnBrowseArcCopyDir.TabIndex = 11;
-            this.btnBrowseArcCopyDir.Text = "Browse...";
-            this.btnBrowseArcCopyDir.UseVisualStyleBackColor = true;
-            this.btnBrowseArcCopyDir.Click += new System.EventHandler(this.btnBrowse_Click);
-            // 
-            // btnBrowseArcDir
-            // 
-            this.btnBrowseArcDir.Location = new System.Drawing.Point(412, 125);
-            this.btnBrowseArcDir.Name = "btnBrowseArcDir";
-            this.btnBrowseArcDir.Size = new System.Drawing.Size(75, 23);
-            this.btnBrowseArcDir.TabIndex = 8;
-            this.btnBrowseArcDir.Text = "Browse...";
-            this.btnBrowseArcDir.UseVisualStyleBackColor = true;
-            this.btnBrowseArcDir.Click += new System.EventHandler(this.btnBrowse_Click);
-            // 
             // btnBrowseViewDir
             // 
-            this.btnBrowseViewDir.Location = new System.Drawing.Point(412, 81);
+            this.btnBrowseViewDir.Location = new System.Drawing.Point(412, 169);
             this.btnBrowseViewDir.Name = "btnBrowseViewDir";
             this.btnBrowseViewDir.Size = new System.Drawing.Size(75, 23);
-            this.btnBrowseViewDir.TabIndex = 5;
+            this.btnBrowseViewDir.TabIndex = 11;
             this.btnBrowseViewDir.Text = "Browse...";
             this.btnBrowseViewDir.UseVisualStyleBackColor = true;
             this.btnBrowseViewDir.Click += new System.EventHandler(this.btnBrowse_Click);
             // 
-            // btnBrowseBaseDir
-            // 
-            this.btnBrowseBaseDir.Location = new System.Drawing.Point(412, 37);
-            this.btnBrowseBaseDir.Name = "btnBrowseBaseDir";
-            this.btnBrowseBaseDir.Size = new System.Drawing.Size(75, 23);
-            this.btnBrowseBaseDir.TabIndex = 2;
-            this.btnBrowseBaseDir.Text = "Browse...";
-            this.btnBrowseBaseDir.UseVisualStyleBackColor = true;
-            this.btnBrowseBaseDir.Click += new System.EventHandler(this.btnBrowse_Click);
-            // 
-            // txtArcCopyDir
-            // 
-            this.txtArcCopyDir.Location = new System.Drawing.Point(13, 169);
-            this.txtArcCopyDir.Name = "txtArcCopyDir";
-            this.txtArcCopyDir.Size = new System.Drawing.Size(393, 23);
-            this.txtArcCopyDir.TabIndex = 10;
-            this.txtArcCopyDir.TextChanged += new System.EventHandler(this.control_Changed);
-            // 
-            // lblArcCopyDir
-            // 
-            this.lblArcCopyDir.AutoSize = true;
-            this.lblArcCopyDir.Location = new System.Drawing.Point(10, 151);
-            this.lblArcCopyDir.Name = "lblArcCopyDir";
-            this.lblArcCopyDir.Size = new System.Drawing.Size(152, 15);
-            this.lblArcCopyDir.TabIndex = 9;
-            this.lblArcCopyDir.Text = "Archive copy in DAT format";
-            // 
-            // txtArcDir
-            // 
-            this.txtArcDir.Location = new System.Drawing.Point(13, 125);
-            this.txtArcDir.Name = "txtArcDir";
-            this.txtArcDir.Size = new System.Drawing.Size(393, 23);
-            this.txtArcDir.TabIndex = 7;
-            this.txtArcDir.TextChanged += new System.EventHandler(this.control_Changed);
-            // 
-            // lblArcDir
-            // 
-            this.lblArcDir.AutoSize = true;
-            this.lblArcDir.Location = new System.Drawing.Point(10, 107);
-            this.lblArcDir.Name = "lblArcDir";
-            this.lblArcDir.Size = new System.Drawing.Size(123, 15);
-            this.lblArcDir.TabIndex = 6;
-            this.lblArcDir.Text = "Archive in DAT format";
-            // 
             // txtViewDir
             // 
-            this.txtViewDir.Location = new System.Drawing.Point(13, 81);
+            this.txtViewDir.Location = new System.Drawing.Point(13, 169);
             this.txtViewDir.Name = "txtViewDir";
             this.txtViewDir.Size = new System.Drawing.Size(393, 23);
-            this.txtViewDir.TabIndex = 4;
+            this.txtViewDir.TabIndex = 10;
             this.txtViewDir.TextChanged += new System.EventHandler(this.control_Changed);
             // 
             // lblViewDir
             // 
             this.lblViewDir.AutoSize = true;
-            this.lblViewDir.Location = new System.Drawing.Point(10, 63);
+            this.lblViewDir.Location = new System.Drawing.Point(10, 151);
             this.lblViewDir.Name = "lblViewDir";
             this.lblViewDir.Size = new System.Drawing.Size(53, 15);
-            this.lblViewDir.TabIndex = 3;
+            this.lblViewDir.TabIndex = 9;
             this.lblViewDir.Text = "Interface";
+            // 
+            // btnBrowseBaseDir
+            // 
+            this.btnBrowseBaseDir.Location = new System.Drawing.Point(412, 125);
+            this.btnBrowseBaseDir.Name = "btnBrowseBaseDir";
+            this.btnBrowseBaseDir.Size = new System.Drawing.Size(75, 23);
+            this.btnBrowseBaseDir.TabIndex = 8;
+            this.btnBrowseBaseDir.Text = "Browse...";
+            this.btnBrowseBaseDir.UseVisualStyleBackColor = true;
+            this.btnBrowseBaseDir.Click += new System.EventHandler(this.btnBrowse_Click);
             // 
             // txtBaseDir
             // 
-            this.txtBaseDir.Location = new System.Drawing.Point(13, 37);
+            this.txtBaseDir.Location = new System.Drawing.Point(13, 125);
             this.txtBaseDir.Name = "txtBaseDir";
             this.txtBaseDir.Size = new System.Drawing.Size(393, 23);
-            this.txtBaseDir.TabIndex = 1;
+            this.txtBaseDir.TabIndex = 7;
             this.txtBaseDir.TextChanged += new System.EventHandler(this.control_Changed);
             // 
             // lblBaseDir
             // 
             this.lblBaseDir.AutoSize = true;
-            this.lblBaseDir.Location = new System.Drawing.Point(10, 19);
+            this.lblBaseDir.Location = new System.Drawing.Point(10, 107);
             this.lblBaseDir.Name = "lblBaseDir";
             this.lblBaseDir.Size = new System.Drawing.Size(207, 15);
-            this.lblBaseDir.TabIndex = 0;
+            this.lblBaseDir.TabIndex = 6;
             this.lblBaseDir.Text = "Configuration database in DAT format";
+            // 
+            // btnBrowseArcCopyDir
+            // 
+            this.btnBrowseArcCopyDir.Location = new System.Drawing.Point(412, 81);
+            this.btnBrowseArcCopyDir.Name = "btnBrowseArcCopyDir";
+            this.btnBrowseArcCopyDir.Size = new System.Drawing.Size(75, 23);
+            this.btnBrowseArcCopyDir.TabIndex = 5;
+            this.btnBrowseArcCopyDir.Text = "Browse...";
+            this.btnBrowseArcCopyDir.UseVisualStyleBackColor = true;
+            this.btnBrowseArcCopyDir.Click += new System.EventHandler(this.btnBrowse_Click);
+            // 
+            // txtArcCopyDir
+            // 
+            this.txtArcCopyDir.Location = new System.Drawing.Point(13, 81);
+            this.txtArcCopyDir.Name = "txtArcCopyDir";
+            this.txtArcCopyDir.Size = new System.Drawing.Size(393, 23);
+            this.txtArcCopyDir.TabIndex = 4;
+            this.txtArcCopyDir.TextChanged += new System.EventHandler(this.control_Changed);
+            // 
+            // lblArcCopyDir
+            // 
+            this.lblArcCopyDir.AutoSize = true;
+            this.lblArcCopyDir.Location = new System.Drawing.Point(10, 63);
+            this.lblArcCopyDir.Name = "lblArcCopyDir";
+            this.lblArcCopyDir.Size = new System.Drawing.Size(152, 15);
+            this.lblArcCopyDir.TabIndex = 3;
+            this.lblArcCopyDir.Text = "Archive copy in DAT format";
+            // 
+            // btnBrowseArcDir
+            // 
+            this.btnBrowseArcDir.Location = new System.Drawing.Point(412, 37);
+            this.btnBrowseArcDir.Name = "btnBrowseArcDir";
+            this.btnBrowseArcDir.Size = new System.Drawing.Size(75, 23);
+            this.btnBrowseArcDir.TabIndex = 2;
+            this.btnBrowseArcDir.Text = "Browse...";
+            this.btnBrowseArcDir.UseVisualStyleBackColor = true;
+            this.btnBrowseArcDir.Click += new System.EventHandler(this.btnBrowse_Click);
+            // 
+            // txtArcDir
+            // 
+            this.txtArcDir.Location = new System.Drawing.Point(13, 37);
+            this.txtArcDir.Name = "txtArcDir";
+            this.txtArcDir.Size = new System.Drawing.Size(393, 23);
+            this.txtArcDir.TabIndex = 1;
+            this.txtArcDir.TextChanged += new System.EventHandler(this.control_Changed);
+            // 
+            // lblArcDir
+            // 
+            this.lblArcDir.AutoSize = true;
+            this.lblArcDir.Location = new System.Drawing.Point(10, 19);
+            this.lblArcDir.Name = "lblArcDir";
+            this.lblArcDir.Size = new System.Drawing.Size(123, 15);
+            this.lblArcDir.TabIndex = 0;
+            this.lblArcDir.Text = "Archive in DAT format";
             // 
             // gbListenerOptions
             // 
