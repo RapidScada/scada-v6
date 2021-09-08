@@ -271,5 +271,19 @@ namespace Scada.Admin.Project
                 return false;
             }
         }
+
+        /// <summary>
+        /// Finds an application that contains the specified configuration object.
+        /// </summary>
+        public ProjectApp FindAppByConfig(object config)
+        {
+            foreach (ProjectApp app in AllApps)
+            {
+                if (app.AppConfig == config)
+                    return app;
+            }
+
+            return null;
+        }
     }
 }

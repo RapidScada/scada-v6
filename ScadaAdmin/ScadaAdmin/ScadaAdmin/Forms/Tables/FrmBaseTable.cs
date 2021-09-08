@@ -804,7 +804,7 @@ namespace Scada.Admin.App.Forms.Tables
 
         private void ChildFormTag_MainFormMessage(object sender, FormMessageEventArgs e)
         {
-            if (e.Message == AppMessage.RefreshData)
+            if (e.Message == AdminMessage.RefreshData)
                 btnRefresh_Click(null, null);
         }
 

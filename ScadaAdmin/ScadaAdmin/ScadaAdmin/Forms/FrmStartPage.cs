@@ -135,7 +135,7 @@ namespace Scada.Admin.App.Forms
             {
                 if (File.Exists(item.Path))
                 {
-                    ChildFormTag.SendMessage(this, AppMessage.OpenProject,
+                    ChildFormTag.SendMessage(this, AdminMessage.OpenProject,
                         new Dictionary<string, object> { { "Path", item.Path } });
                 }
                 else
@@ -276,12 +276,12 @@ namespace Scada.Admin.App.Forms
 
         private void btnNewProject_Click(object sender, EventArgs e)
         {
-            ChildFormTag.SendMessage(this, AppMessage.NewProject);
+            ChildFormTag.SendMessage(this, AdminMessage.NewProject);
         }
 
         private void btnOpenProject_Click(object sender, EventArgs e)
         {
-            ChildFormTag.SendMessage(this, AppMessage.OpenProject);
+            ChildFormTag.SendMessage(this, AdminMessage.OpenProject);
         }
     }
 }

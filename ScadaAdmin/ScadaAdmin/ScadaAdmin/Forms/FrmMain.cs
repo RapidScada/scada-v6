@@ -391,7 +391,7 @@ namespace Scada.Admin.App.Forms
                     if (tag.ExistingForm is FrmTextEditor form)
                     {
                         wctrlMain.UpdateHint(form, node.FullPath);
-                        form.ChildFormTag.SendMessage(this, AppMessage.UpdateFileName,
+                        form.ChildFormTag.SendMessage(this, AdminMessage.UpdateFileName,
                             new Dictionary<string, object> { { "FileName", fileItem.Path } });
                     }
                 }
@@ -451,7 +451,7 @@ namespace Scada.Admin.App.Forms
             foreach (Form form in wctrlMain.Forms)
             {
                 if (form is FrmBaseTable frmBaseTable && frmBaseTable.ItemType == itemType)
-                    frmBaseTable.ChildFormTag.SendMessage(this, AppMessage.RefreshData);
+                    frmBaseTable.ChildFormTag.SendMessage(this, AdminMessage.RefreshData);
             }
         }
 
@@ -1135,17 +1135,26 @@ namespace Scada.Admin.App.Forms
 
         private void wctrlMain_ChildFormMessage(object sender, FormMessageEventArgs e)
         {
-            TreeNode sourceNode = FindTreeNode(e.Source);
-
-            if (e.Message == AppMessage.NewProject)
+            if (e.Message == AdminMessage.NewProject)
             {
                 NewProject();
             }
-            else if (e.Message == AppMessage.OpenProject)
+            else if (e.Message == AdminMessage.OpenProject)
             {
                 OpenProject(e.GetArgument("Path") as string);
             }
-            else if (FindClosestInstance(sourceNode, out LiveInstance liveInstance))
+            else if (e.Message == AdminMessage.SaveAppConfig)
+            {
+                if (FindClosestInstance(FindTreeNode(e.Source), out LiveInstance liveInstance) &&
+                    liveInstance.ProjectInstance.FindAppByConfig(e.GetArgument("Config")) is ProjectApp app &&
+                    !app.SaveConfig(out string errMsg))
+                {
+                    Log.HandleError(errMsg);
+                    e.Cancel = true;
+                }
+            }
+
+            /*else if (FindClosestInstance(sourceNode, out LiveInstance liveInstance))
             {
                 /*if (e.Message == ServerMessage.SaveSettings)
                 {
@@ -1175,8 +1184,8 @@ namespace Scada.Admin.App.Forms
                     // refresh parameters of the specified line if they are open
                     UpdateLineParams(FindTreeNode(e.Source));
                     SaveCommConfig(liveInstance);
-                }*/
-            }
+                }
+            }*/
         }
 
         private void wctrlMain_ChildFormModifiedChanged(object sender, ChildFormEventArgs e)
@@ -1218,7 +1227,7 @@ namespace Scada.Admin.App.Forms
         private void miFileSave_Click(object sender, EventArgs e)
         {
             // save the active form
-            if (wctrlMain.ActiveForm is IChildForm childForm)
+            if (wctrlMain.ActiveForm is IChildForm childForm && childForm.ChildFormTag.Modified)
                 childForm.Save();
         }
 
@@ -1951,7 +1960,7 @@ namespace Scada.Admin.App.Forms
                             if (tag.ExistingForm is FrmTextEditor form)
                             {
                                 wctrlMain.UpdateHint(tag.ExistingForm, selectedNode.FullPath);
-                                form.ChildFormTag.SendMessage(this, AppMessage.UpdateFileName,
+                                form.ChildFormTag.SendMessage(this, AdminMessage.UpdateFileName,
                                     new Dictionary<string, object> { { "FileName", newFileName } });
                             }
                         }

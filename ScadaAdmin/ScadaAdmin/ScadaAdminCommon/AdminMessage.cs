@@ -15,25 +15,45 @@
  * 
  * 
  * Product  : Rapid SCADA
- * Module   : Administrator
- * Summary  : Specifies the messages sent by the application forms
+ * Module   : ScadaAdminCommon
+ * Summary  : Specifies the messages sent and received by the Administrator application
  * 
  * Author   : Mikhail Shiryaev
  * Created  : 2018
- * Modified : 2018
+ * Modified : 2021
  */
 
-namespace Scada.Admin.App.Code
+namespace Scada.Admin
 {
     /// <summary>
-    /// Specifies the messages sent by the application forms.
-    /// <para>Задает сообщения, отправляемые формами приложения.</para>
+    /// Specifies the messages sent and received by the Administrator application.
+    /// <para>Задает сообщения, отправляемые и принимаемые приложением Администратор.</para>
     /// </summary>
-    internal static class AppMessage
+    public static class AdminMessage
     {
+        /// <summary>
+        /// Notifies an editor form to refresh data.
+        /// </summary>
         public const string RefreshData = "Admin.RefreshData";
+
+        /// <summary>
+        /// Notifies an editor form that the name of an open file changes.
+        /// </summary>
         public const string UpdateFileName = "Admin.UpdateFileName";
+
+        /// <summary>
+        /// Creates a new project.
+        /// </summary>
         public const string NewProject = "Admin.NewProject";
+
+        /// <summary>
+        /// Opens the specified project.
+        /// </summary>
         public const string OpenProject = "Admin.OpenProject";
+
+        /// <summary>
+        /// Saves the application configuration.
+        /// </summary>
+        public const string SaveAppConfig = "Admin.SaveAppConfig";
     }
 }

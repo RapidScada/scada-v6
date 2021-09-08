@@ -46,7 +46,7 @@ namespace Scada.Admin.Extensions
 
 
         /// <summary>
-        /// Gets the administrator context.
+        /// Gets the Administrator context.
         /// </summary>
         protected IAdminContext AdminContext { get; }
 
