@@ -15,7 +15,7 @@
  * 
  * 
  * Product  : Rapid SCADA
- * Module   : ScadaAdminCommon
+ * Module   : Administrator
  * Summary  : Specifies the types of the explorer tree nodes
  * 
  * Author   : Mikhail Shiryaev
@@ -23,15 +23,13 @@
  * Modified : 2021
  */
 
-#pragma warning disable 1591 // Missing XML comment for publicly visible type or member
-
-namespace Scada.Admin.Extensions
+namespace Scada.Admin.App.Code
 {
     /// <summary>
     /// Specifies the types of the explorer tree nodes.
     /// <para>Задаёт типы узлов дерева проводника.</para>
     /// </summary>
-    public static class ExplorerNodeType
+    internal static class ExplorerNodeType
     {
         public const string Project = "Project";
         public const string Base = "Base";

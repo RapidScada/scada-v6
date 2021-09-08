@@ -213,8 +213,7 @@ namespace Scada.Admin.App.Code
             TreeNode appNode = TreeViewUtils.CreateNode(projectApp.AppName, imageKey);
             appNode.ContextMenuStrip = contextMenus.AppMenu;
             appNode.Tag = new TreeNodeTag(projectApp, ExplorerNodeType.App);
-            appNode.Nodes.AddRange(appData.ExtensionHolder.GetTreeNodes(
-                ExplorerNodeType.App, projectApp.AppConfig).ToArray());
+            appNode.Nodes.AddRange(appData.ExtensionHolder.GetTreeNodes(projectApp).ToArray());
             appNode.Nodes.Add(CreateAppConfigNode(projectApp));
             return appNode;
         }

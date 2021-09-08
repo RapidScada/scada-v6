@@ -89,7 +89,7 @@ namespace Scada.Admin.Extensions
         /// <summary>
         /// Gets tree nodes to add to the explorer tree.
         /// </summary>
-        public virtual TreeNode[] GetTreeNodes(string parentNodeType, object config)
+        public virtual TreeNode[] GetTreeNodes(object relatedObject)
         {
             return null;
         }

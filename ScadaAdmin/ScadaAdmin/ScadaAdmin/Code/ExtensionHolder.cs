@@ -165,7 +165,7 @@ namespace Scada.Admin.App.Code
         /// <summary>
         /// Calls the GetTreeNodes method of the extensions.
         /// </summary>
-        public ICollection<TreeNode> GetTreeNodes(string parentNodeType, object config)
+        public ICollection<TreeNode> GetTreeNodes(object relatedObject)
         {
             lock (extensionLock)
             {
@@ -175,7 +175,7 @@ namespace Scada.Admin.App.Code
                 {
                     try
                     {
-                        items.AddRange(extensionLogic.GetTreeNodes(parentNodeType, config));
+                        items.AddRange(extensionLogic.GetTreeNodes(relatedObject));
                     }
                     catch (Exception ex)
                     {

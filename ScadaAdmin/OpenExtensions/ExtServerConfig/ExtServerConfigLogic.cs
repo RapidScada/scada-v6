@@ -5,6 +5,7 @@ using Scada.Admin.Extensions.ExtServerConfig.Code;
 using Scada.Admin.Extensions.ExtServerConfig.Forms;
 using Scada.Admin.Extensions.ExtServerConfig.Properties;
 using Scada.Admin.Lang;
+using Scada.Admin.Project;
 using Scada.Forms;
 using Scada.Lang;
 using Scada.Server.Config;
@@ -61,9 +62,9 @@ namespace Scada.Admin.Extensions.ExtServerConfig
         /// <summary>
         /// Gets tree nodes to add to the explorer tree.
         /// </summary>
-        public override TreeNode[] GetTreeNodes(string parentNodeType, object config)
+        public override TreeNode[] GetTreeNodes(object relatedObject)
         {
-            if (!(parentNodeType == ExplorerNodeType.App && config is ServerConfig))
+            if (relatedObject is not ServerApp serverApp)
                 return null;
 
             return new TreeNode[]
@@ -75,7 +76,7 @@ namespace Scada.Admin.Extensions.ExtServerConfig
                     Tag = new TreeNodeTag
                     {
                         FormType = typeof(FrmGeneralOptions),
-                        FormArgs = new object[] { config }
+                        FormArgs = new object[] { serverApp.Config }
                     }
                 },
                 /*new TreeNode(ServerShellPhrases.SaveParamsNode)
