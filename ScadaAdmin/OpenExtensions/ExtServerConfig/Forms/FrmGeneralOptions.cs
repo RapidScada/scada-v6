@@ -138,6 +138,7 @@ namespace Scada.Admin.Extensions.ExtServerConfig.Forms
             {
                 ControlsToConfing();
 
+                // TODO: refactor, save here
                 if (ChildFormTag.SendMessage(this, AdminMessage.SaveAppConfig,
                     new Dictionary<string, object> { { "Config", serverConfig } }))
                 {
