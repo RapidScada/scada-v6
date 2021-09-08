@@ -68,14 +68,14 @@ namespace Scada.Server.Config
         public PathOptions PathOptions { get; private set; }
 
         /// <summary>
-        /// Gets the configuration of the archives.
-        /// </summary>
-        public List<ArchiveConfig> Archives { get; private set; }
-
-        /// <summary>
         /// Gets the codes of the enabled modules.
         /// </summary>
         public List<string> ModuleCodes { get; private set; }
+
+        /// <summary>
+        /// Gets the configuration of the archives.
+        /// </summary>
+        public List<ArchiveConfig> Archives { get; private set; }
 
 
         /// <summary>
@@ -86,8 +86,8 @@ namespace Scada.Server.Config
             GeneralOptions = new GeneralOptions();
             ListenerOptions = new ListenerOptions();
             PathOptions = new PathOptions();
-            Archives = new List<ArchiveConfig>();
             ModuleCodes = new List<string>();
+            Archives = new List<ArchiveConfig>();
         }
 
         /// <summary>
