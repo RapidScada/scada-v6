@@ -406,9 +406,9 @@
             this.lblUnrelIfInactive.AutoSize = true;
             this.lblUnrelIfInactive.Location = new System.Drawing.Point(10, 26);
             this.lblUnrelIfInactive.Name = "lblUnrelIfInactive";
-            this.lblUnrelIfInactive.Size = new System.Drawing.Size(280, 15);
+            this.lblUnrelIfInactive.Size = new System.Drawing.Size(251, 15);
             this.lblUnrelIfInactive.TabIndex = 0;
-            this.lblUnrelIfInactive.Text = "Input channel is marked as unreliable if inactive, sec";
+            this.lblUnrelIfInactive.Text = "Channel is marked as unreliable if inactive, sec";
             // 
             // folderBrowserDialog
             // 
