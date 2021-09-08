@@ -190,9 +190,18 @@ namespace Scada
                 s = RemoveWhiteSpace(s);
 
             int strLen = s == null ? 0 : s.Length;
-            int bufLen = strLen / 2;
-            bytes = new byte[bufLen];
-            return HexToBytes(s, 0, bytes, 0, bufLen);
+
+            if (strLen % 2 == 0)
+            {
+                int bufLen = strLen / 2;
+                bytes = new byte[bufLen];
+                return HexToBytes(s, 0, bytes, 0, bufLen);
+            }
+            else
+            {
+                bytes = null;
+                return false;
+            }
         }
 
         /// <summary>

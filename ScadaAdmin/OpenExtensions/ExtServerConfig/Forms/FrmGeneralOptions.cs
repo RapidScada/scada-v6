@@ -47,17 +47,22 @@ namespace Scada.Admin.Extensions.ExtServerConfig.Forms
 
 
         /// <summary>
-        /// Setup the controls according to the settings.
+        /// Setup the controls according to the configuration.
         /// </summary>
-        private void SettingsToControls()
+        private void ConfigToControls()
         {
             changing = true;
 
-            // connection
+            // general options
+            GeneralOptions generalOptions = serverConfig.GeneralOptions;
+            numUnrelIfInactive.SetValue(generalOptions.UnrelIfInactive);
+            numMaxLogSize.SetValue(generalOptions.MaxLogSize);
+
+            // listener options
             ListenerOptions listenerOptions = serverConfig.ListenerOptions;
-            numTcpPort.SetValue(listenerOptions.Port);
-            //chkUseAD.Checked = settings.UseAD;
-            //txtLdapPath.Text = settings.LdapPath;
+            numPort.SetValue(listenerOptions.Port);
+            numTimeout.SetValue(listenerOptions.Timeout);
+            txtSecretKey.Text = ScadaUtils.BytesToHex(listenerOptions.SecretKey);
 
             // directories
             PathOptions pathOptions = serverConfig.PathOptions;
@@ -66,22 +71,24 @@ namespace Scada.Admin.Extensions.ExtServerConfig.Forms
             txtArcDir.Text = pathOptions.ArcDir;
             txtArcCopyDir.Text = pathOptions.ArcCopyDir;
 
-            // logging
-            //chkDetailedLog.Checked = settings.DetailedLog;
-
             changing = false;
         }
 
         /// <summary>
-        /// Sets the settings according to the controls.
+        /// Sets the configuration according to the controls.
         /// </summary>
-        private void ControlsToSettings()
+        private void ControlsToConfing()
         {
-            // connection
+            // general options
+            GeneralOptions generalOptions = serverConfig.GeneralOptions;
+            generalOptions.UnrelIfInactive = decimal.ToInt32(numUnrelIfInactive.Value);
+            generalOptions.MaxLogSize = decimal.ToInt32(numMaxLogSize.Value);
+
+            // listener options
             ListenerOptions listenerOptions = serverConfig.ListenerOptions;
-            listenerOptions.Port = decimal.ToInt32(numTcpPort.Value);
-            //settings.UseAD = chkUseAD.Checked;
-            //settings.LdapPath = txtLdapPath.Text;
+            listenerOptions.Port = decimal.ToInt32(numPort.Value);
+            listenerOptions.Timeout = decimal.ToInt32(numTimeout.Value);
+            listenerOptions.SecretKey = ScadaUtils.HexToBytes(txtSecretKey.Text.Trim());
 
             // directories
             PathOptions pathOptions = serverConfig.PathOptions;
@@ -89,9 +96,20 @@ namespace Scada.Admin.Extensions.ExtServerConfig.Forms
             pathOptions.ViewDir = txtViewDir.Text;
             pathOptions.ArcDir = txtArcDir.Text;
             pathOptions.ArcCopyDir = txtArcCopyDir.Text;
+        }
 
-            // logging
-            //settings.DetailedLog = chkDetailedLog.Checked;
+        /// <summary>
+        /// Validates the form controls.
+        /// </summary>
+        private bool ValidateControls()
+        {
+            if (!ScadaUtils.HexToBytes(txtSecretKey.Text.Trim(), out _))
+            {
+                ScadaUiUtils.ShowError(ExtensionPhrases.IncorrectSecretKey);
+                return false;
+            }
+
+            return true;
         }
 
         /// <summary>
@@ -100,12 +118,12 @@ namespace Scada.Admin.Extensions.ExtServerConfig.Forms
         private void SetDirectoriesToDefault(bool forWindows)
         {
             string scadaDir = forWindows ? @"C:\SCADA\" : "/opt/scada/";
-            string sepChar = forWindows ? "\\" : "/";
+            string separator = forWindows ? "\\" : "/";
 
-            txtBaseDir.Text = scadaDir + "BaseDAT" + sepChar;
-            txtViewDir.Text = scadaDir + "Views" + sepChar;
-            txtArcDir.Text = scadaDir + "ArchiveDAT" + sepChar;
-            txtArcCopyDir.Text = scadaDir + "ArchiveDATCopy" + sepChar;
+            txtBaseDir.Text = scadaDir + "BaseDAT" + separator;
+            txtViewDir.Text = scadaDir + "Views" + separator;
+            txtArcDir.Text = scadaDir + "ArchiveDAT" + separator;
+            txtArcCopyDir.Text = scadaDir + "ArchiveDATCopy" + separator;
         }
 
         /// <summary>
@@ -113,17 +131,20 @@ namespace Scada.Admin.Extensions.ExtServerConfig.Forms
         /// </summary>
         public void Save()
         {
-            ControlsToSettings();
+            if (ValidateControls())
+            {
+                ControlsToConfing();
 
-            if (ChildFormTag.SendMessage(this, ServerMessage.SaveSettings))
-                ChildFormTag.Modified = false;
+                if (ChildFormTag.SendMessage(this, ExtensionMessage.SaveSettings))
+                    ChildFormTag.Modified = false;
+            }
         }
 
 
         private void FrmCommonParams_Load(object sender, System.EventArgs e)
         {
             FormTranslator.Translate(this, GetType().FullName);
-            SettingsToControls();
+            ConfigToControls();
         }
 
         private void control_Changed(object sender, EventArgs e)
@@ -132,41 +153,49 @@ namespace Scada.Admin.Extensions.ExtServerConfig.Forms
                 ChildFormTag.Modified = true;
         }
 
+        private void txtSecretKey_Enter(object sender, EventArgs e)
+        {
+            txtSecretKey.UseSystemPasswordChar = false;
+        }
+
+        private void txtSecretKey_Leave(object sender, EventArgs e)
+        {
+            txtSecretKey.UseSystemPasswordChar = true;
+        }
+
+        private void btnGenerateKey_Click(object sender, EventArgs e)
+        {
+            txtSecretKey.Text = ScadaUtils.BytesToHex(ScadaUtils.GetRandomBytes(ScadaUtils.SecretKeySize));
+            txtSecretKey.Focus();
+        }
+
+        private void btnCopyKey_Click(object sender, EventArgs e)
+        {
+            if (txtSecretKey.Text != "")
+                Clipboard.SetText(txtSecretKey.Text);
+        }
+
         private void btnBrowse_Click(object sender, EventArgs e)
         {
             // choose a text box
             TextBox textBox = null;
-            string descr = "";
 
-            if (sender == btnBrowseBaseDATDir)
-            {
+            if (sender == btnBrowseBaseDir)
                 textBox = txtBaseDir;
-                //descr = CommonPhrases.ChooseBaseDATDir;
-            }
-            else if (sender == btnBrowseItfDir)
-            {
+            else if (sender == btnBrowseViewDir)
                 textBox = txtViewDir;
-                //descr = ExtensionPhrases.ChooseItfDir;
-            }
             else if (sender == btnBrowseArcDir)
-            {
                 textBox = txtArcDir;
-                //descr = ExtensionPhrases.ChooseArcDir;
-            }
             else if (sender == btnBrowseArcCopyDir)
-            {
                 textBox = txtArcCopyDir;
-                //descr = ExtensionPhrases.ChooseArcCopyDir;
-            }
 
             // browse directory
             if (textBox != null)
             {
-                fbdDir.SelectedPath = textBox.Text.Trim();
-                fbdDir.Description = descr;
+                folderBrowserDialog.SelectedPath = textBox.Text.Trim();
 
-                if (fbdDir.ShowDialog() == DialogResult.OK)
-                    textBox.Text = ScadaUtils.NormalDir(fbdDir.SelectedPath);
+                if (folderBrowserDialog.ShowDialog() == DialogResult.OK)
+                    textBox.Text = ScadaUtils.NormalDir(folderBrowserDialog.SelectedPath);
             }
         }
 

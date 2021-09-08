@@ -7,7 +7,7 @@ namespace Scada.Admin.Extensions.ExtServerConfig.Code
     /// Specifies the messages sent by the extension forms.
     /// <para>Задаёт сообщения, отправляемые формами расширения.</para>
     /// </summary>
-    public static class ServerMessage
+    public static class ExtensionMessage
     {
         public const string SaveSettings = "Server.SaveSettings";
     }

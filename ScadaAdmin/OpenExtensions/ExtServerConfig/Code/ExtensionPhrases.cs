@@ -14,10 +14,17 @@ namespace Scada.Admin.Extensions.ExtServerConfig.Code
         // Scada.Admin.Extensions.ExtServerConfig.ExtServerConfigLogic
         public static string GeneralOptionsNode { get; private set; }
 
+        // Scada.Admin.Extensions.ExtServerConfig.Forms.FrmGeneralOptions
+        public static string IncorrectSecretKey { get; private set; }
+
+
         public static void Init()
         {
             LocaleDict dict = Locale.GetDictionary("Scada.Admin.Extensions.ExtServerConfig.ExtServerConfigLogic");
             GeneralOptionsNode = dict["GeneralOptionsNode"];
+
+            dict = Locale.GetDictionary("Scada.Admin.Extensions.ExtServerConfig.Forms.FrmGeneralOptions");
+            IncorrectSecretKey = dict["IncorrectSecretKey"];
         }
     }
 }

@@ -4,4 +4,7 @@
     <Phrase key="GeneralOptionsNode">General Options</Phrase>
     <Phrase key=""></Phrase>
   </Dictionary>
+  <Dictionary key="Scada.Admin.Extensions.ExtServerConfig.Forms.FrmGeneralOptions">
+    <Phrase key="IncorrectSecretKey">Incorrect secret key.</Phrase>
+  </Dictionary>
 </ExtServerConfigDictionaries>
