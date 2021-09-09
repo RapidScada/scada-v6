@@ -49,7 +49,7 @@ namespace Scada.Server.Modules
             {
                 if (File.Exists(fileName))
                 {
-                    Assembly assembly = Assembly.LoadFile(fileName);
+                    Assembly assembly = Assembly.LoadFrom(fileName);
                     Type type = assembly.GetType(typeName, true);
                     moduleLogic = (ModuleLogic)Activator.CreateInstance(type, serverContext);
 
@@ -74,6 +74,49 @@ namespace Scada.Server.Modules
                 message = string.Format(Locale.IsRussian ?
                     "Ошибка при создании логики модуля {0} типа {1} из файла {2}: {3}" :
                     "Error creating module logic {0} of type {1} from file {2}: {3}",
+                    moduleCode, typeName, fileName, ex.Message);
+                return false;
+            }
+        }
+        
+        /// <summary>
+        /// Gets a new instance of the module user interface.
+        /// </summary>
+        public static bool GetModuleView(string directory, string moduleCode, 
+            out ModuleView moduleView, out string message)
+        {
+            string fileName = Path.Combine(directory, moduleCode + ".View.dll");
+            string typeName = string.Format("Scada.Server.Modules.{0}.View.{0}View", moduleCode);
+
+            try
+            {
+                if (File.Exists(fileName))
+                {
+                    Assembly assembly = Assembly.LoadFrom(fileName);
+                    Type type = assembly.GetType(typeName, true);
+                    moduleView = (ModuleView)Activator.CreateInstance(type);
+
+                    message = string.Format(Locale.IsRussian ?
+                        "Загружен интерфейс модуля {0} {1} из файла {2}" :
+                        "Loaded module interface {0} {1} from file {2}",
+                        moduleCode, assembly.GetName().Version, fileName);
+                    return true;
+                }
+                else
+                {
+                    moduleView = null;
+                    message = string.Format(Locale.IsRussian ?
+                        "Невозможно создать интерфейс модуля {0}. Файл {1} не найден" :
+                        "Unable to create module interface {0}. File {1} not found", moduleCode, fileName);
+                    return false;
+                }
+            }
+            catch (Exception ex)
+            {
+                moduleView = null;
+                message = string.Format(Locale.IsRussian ?
+                    "Ошибка при создании интерфейса модуля {0} типа {1} из файла {2}: {3}" :
+                    "Error creating module interface {0} of type {1} from file {2}: {3}",
                     moduleCode, typeName, fileName, ex.Message);
                 return false;
             }

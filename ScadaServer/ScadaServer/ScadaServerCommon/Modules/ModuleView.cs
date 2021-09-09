@@ -51,6 +51,11 @@ namespace Scada.Server.Modules
         public ServerConfig AppConfig { get; set; }
 
         /// <summary>
+        /// Gets the module name.
+        /// </summary>
+        public abstract string Name { get; }
+
+        /// <summary>
         /// Gets the module description.
         /// </summary>
         public abstract string Descr { get; }
