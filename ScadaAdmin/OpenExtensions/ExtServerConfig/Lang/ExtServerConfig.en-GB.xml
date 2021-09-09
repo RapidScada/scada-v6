@@ -39,6 +39,5 @@
     <Phrase key="btnMoveDown">Move Down</Phrase>
     <Phrase key="btnProperties">Properties</Phrase>
     <Phrase key="lblDescr">Description</Phrase>
-    <Phrase key="ModuleNotFound">Module {0} not found.</Phrase>
   </Dictionary>
 </ExtServerConfigDictionaries>

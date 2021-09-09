@@ -8,6 +8,7 @@ using Scada.Server.Config;
 using Scada.Server.Modules;
 using System;
 using System.IO;
+using System.Text;
 using System.Windows.Forms;
 using WinControl;
 
@@ -155,24 +156,19 @@ namespace Scada.Admin.Extensions.ExtServerConfig.Forms
             {
                 moduleItem.IsInitialized = true;
 
-                try
+                if (ModuleFactory.GetModuleView(adminContext.AppDirs.LibDir, moduleItem.ModuleCode, 
+                    out ModuleView moduleView, out string message))
                 {
-                    if (File.Exists(moduleItem.FileName))
-                    {
-                        //ModuleView moduleView = environment.GetModuleView(moduleItem.FileName);
-                        //moduleView.ServerComm = environment.GetServerComm(settings);
-                        //moduleItem.Descr = CorrectItemDescr(moduleView.Descr);
-                        //moduleItem.ModuleView = moduleView;
-                    }
-                    else
-                    {
-                        moduleItem.Descr = string.Format(ExtensionPhrases.ModuleNotFound, moduleItem.ModuleCode);
-                        moduleItem.ModuleView = null;
-                    }
+                    moduleView.BaseDataSet = adminContext.CurrentProject.ConfigBase;
+                    moduleView.AppDirs = adminContext.AppDirs.CreateDirsForView(serverApp.ConfigDir);
+                    moduleView.AppConfig = serverConfig;
+
+                    moduleItem.Descr = BuildModuleDescr(moduleView);
+                    moduleItem.ModuleView = moduleView;
                 }
-                catch (Exception ex)
+                else
                 {
-                    moduleItem.Descr = ex.Message;
+                    moduleItem.Descr = message;
                     moduleItem.ModuleView = null;
                 }
             }
@@ -214,11 +210,19 @@ namespace Scada.Admin.Extensions.ExtServerConfig.Forms
         }
 
         /// <summary>
-        /// Corrects line endings in the module description if needed.
+        /// Build the module description.
         /// </summary>
-        private static string CorrectItemDescr(string s)
+        private static string BuildModuleDescr(ModuleView moduleView)
         {
-            return s == null ? "" : s.Replace("\n", Environment.NewLine);
+            string title = string.Format("{0} {1}",
+                moduleView.Name,
+                moduleView.GetType().Assembly.GetName().Version);
+
+            return new StringBuilder()
+                .AppendLine(title)
+                .AppendLine(new string('-', title.Length))
+                .Append(moduleView.Descr?.Replace("\n", Environment.NewLine))
+                .ToString();
         }
 
         /// <summary>
