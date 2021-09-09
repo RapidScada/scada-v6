@@ -41,7 +41,7 @@ namespace Scada.Server.Config
         public GeneralOptions()
         {
             UnrelIfInactive = 300;
-            MaxLogSize = LogFile.DefaultCapacity;
+            MaxLogSize = LogFile.DefaultCapacityMB;
         }
 
 
@@ -51,7 +51,7 @@ namespace Scada.Server.Config
         public int UnrelIfInactive { get; set; }
 
         /// <summary>
-        /// Gets or sets the maximum log file size.
+        /// Gets or sets the maximum log file size, megabytes.
         /// </summary>
         public int MaxLogSize { get; set; }
 

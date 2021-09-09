@@ -126,7 +126,7 @@ namespace Scada.Server.Archives
             return new LogFile(LogFormat.Simple)
             {
                 FileName = Path.Combine(ArchiveContext.AppDirs.LogDir, moduleCode + "_" + Code + ".log"),
-                Capacity = ArchiveContext.AppConfig.GeneralOptions.MaxLogSize
+                CapacityMB = ArchiveContext.AppConfig.GeneralOptions.MaxLogSize
             };
         }
 
