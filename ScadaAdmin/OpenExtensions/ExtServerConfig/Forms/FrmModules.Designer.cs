@@ -65,13 +65,13 @@
             this.lblDescr.AutoSize = true;
             this.lblDescr.Location = new System.Drawing.Point(9, 233);
             this.lblDescr.Name = "lblDescr";
-            this.lblDescr.Size = new System.Drawing.Size(60, 13);
+            this.lblDescr.Size = new System.Drawing.Size(67, 15);
             this.lblDescr.TabIndex = 1;
             this.lblDescr.Text = "Description";
             // 
             // btnMoveUp
             // 
-            this.btnMoveUp.Location = new System.Drawing.Point(106, 16);
+            this.btnMoveUp.Location = new System.Drawing.Point(116, 18);
             this.btnMoveUp.Name = "btnMoveUp";
             this.btnMoveUp.Size = new System.Drawing.Size(75, 23);
             this.btnMoveUp.TabIndex = 2;
@@ -81,7 +81,7 @@
             // 
             // btnMoveDown
             // 
-            this.btnMoveDown.Location = new System.Drawing.Point(187, 16);
+            this.btnMoveDown.Location = new System.Drawing.Point(197, 18);
             this.btnMoveDown.Name = "btnMoveDown";
             this.btnMoveDown.Size = new System.Drawing.Size(75, 23);
             this.btnMoveDown.TabIndex = 3;
@@ -91,7 +91,7 @@
             // 
             // btnProperties
             // 
-            this.btnProperties.Location = new System.Drawing.Point(268, 16);
+            this.btnProperties.Location = new System.Drawing.Point(278, 18);
             this.btnProperties.Name = "btnProperties";
             this.btnProperties.Size = new System.Drawing.Size(75, 23);
             this.btnProperties.TabIndex = 4;
@@ -101,9 +101,9 @@
             // 
             // btnDeactivate
             // 
-            this.btnDeactivate.Location = new System.Drawing.Point(0, 16);
+            this.btnDeactivate.Location = new System.Drawing.Point(0, 18);
             this.btnDeactivate.Name = "btnDeactivate";
-            this.btnDeactivate.Size = new System.Drawing.Size(100, 23);
+            this.btnDeactivate.Size = new System.Drawing.Size(110, 23);
             this.btnDeactivate.TabIndex = 1;
             this.btnDeactivate.Text = "Deactivate";
             this.btnDeactivate.UseVisualStyleBackColor = true;
@@ -111,9 +111,9 @@
             // 
             // btnActivate
             // 
-            this.btnActivate.Location = new System.Drawing.Point(0, 16);
+            this.btnActivate.Location = new System.Drawing.Point(0, 18);
             this.btnActivate.Name = "btnActivate";
-            this.btnActivate.Size = new System.Drawing.Size(100, 23);
+            this.btnActivate.Size = new System.Drawing.Size(110, 23);
             this.btnActivate.TabIndex = 1;
             this.btnActivate.Text = "Activate";
             this.btnActivate.UseVisualStyleBackColor = true;
@@ -124,11 +124,12 @@
             this.lbActiveModules.Dock = System.Windows.Forms.DockStyle.Fill;
             this.lbActiveModules.HorizontalScrollbar = true;
             this.lbActiveModules.IntegralHeight = false;
-            this.lbActiveModules.Location = new System.Drawing.Point(358, 45);
+            this.lbActiveModules.ItemHeight = 15;
+            this.lbActiveModules.Location = new System.Drawing.Point(358, 47);
             this.lbActiveModules.Margin = new System.Windows.Forms.Padding(3, 0, 0, 0);
             this.lbActiveModules.MultiColumn = true;
             this.lbActiveModules.Name = "lbActiveModules";
-            this.lbActiveModules.Size = new System.Drawing.Size(352, 166);
+            this.lbActiveModules.Size = new System.Drawing.Size(352, 164);
             this.lbActiveModules.TabIndex = 3;
             this.lbActiveModules.SelectedIndexChanged += new System.EventHandler(this.lbActiveModules_SelectedIndexChanged);
             this.lbActiveModules.DoubleClick += new System.EventHandler(this.lbActiveModules_DoubleClick);
@@ -148,7 +149,7 @@
             this.tableLayoutPanel.Location = new System.Drawing.Point(12, 9);
             this.tableLayoutPanel.Name = "tableLayoutPanel";
             this.tableLayoutPanel.RowCount = 2;
-            this.tableLayoutPanel.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 45F));
+            this.tableLayoutPanel.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 47F));
             this.tableLayoutPanel.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
             this.tableLayoutPanel.Size = new System.Drawing.Size(710, 211);
             this.tableLayoutPanel.TabIndex = 0;
@@ -158,11 +159,12 @@
             this.lbUnusedModules.Dock = System.Windows.Forms.DockStyle.Fill;
             this.lbUnusedModules.HorizontalScrollbar = true;
             this.lbUnusedModules.IntegralHeight = false;
-            this.lbUnusedModules.Location = new System.Drawing.Point(0, 45);
+            this.lbUnusedModules.ItemHeight = 15;
+            this.lbUnusedModules.Location = new System.Drawing.Point(0, 47);
             this.lbUnusedModules.Margin = new System.Windows.Forms.Padding(0, 0, 3, 0);
             this.lbUnusedModules.MultiColumn = true;
             this.lbUnusedModules.Name = "lbUnusedModules";
-            this.lbUnusedModules.Size = new System.Drawing.Size(352, 166);
+            this.lbUnusedModules.Size = new System.Drawing.Size(352, 164);
             this.lbUnusedModules.Sorted = true;
             this.lbUnusedModules.TabIndex = 1;
             this.lbUnusedModules.SelectedIndexChanged += new System.EventHandler(this.lbUnusedModules_SelectedIndexChanged);
@@ -176,7 +178,7 @@
             this.pnlTopLeft.Location = new System.Drawing.Point(0, 0);
             this.pnlTopLeft.Margin = new System.Windows.Forms.Padding(0, 0, 3, 0);
             this.pnlTopLeft.Name = "pnlTopLeft";
-            this.pnlTopLeft.Size = new System.Drawing.Size(352, 45);
+            this.pnlTopLeft.Size = new System.Drawing.Size(352, 47);
             this.pnlTopLeft.TabIndex = 0;
             // 
             // lblUnusedModules
@@ -184,7 +186,7 @@
             this.lblUnusedModules.AutoSize = true;
             this.lblUnusedModules.Location = new System.Drawing.Point(-3, 0);
             this.lblUnusedModules.Name = "lblUnusedModules";
-            this.lblUnusedModules.Size = new System.Drawing.Size(89, 13);
+            this.lblUnusedModules.Size = new System.Drawing.Size(99, 15);
             this.lblUnusedModules.TabIndex = 0;
             this.lblUnusedModules.Text = "Unused modules:";
             // 
@@ -199,7 +201,7 @@
             this.pnlTopRight.Location = new System.Drawing.Point(358, 0);
             this.pnlTopRight.Margin = new System.Windows.Forms.Padding(3, 0, 0, 0);
             this.pnlTopRight.Name = "pnlTopRight";
-            this.pnlTopRight.Size = new System.Drawing.Size(352, 45);
+            this.pnlTopRight.Size = new System.Drawing.Size(352, 47);
             this.pnlTopRight.TabIndex = 1;
             // 
             // lblActiveModules
@@ -207,7 +209,7 @@
             this.lblActiveModules.AutoSize = true;
             this.lblActiveModules.Location = new System.Drawing.Point(-3, 0);
             this.lblActiveModules.Name = "lblActiveModules";
-            this.lblActiveModules.Size = new System.Drawing.Size(82, 13);
+            this.lblActiveModules.Size = new System.Drawing.Size(92, 15);
             this.lblActiveModules.TabIndex = 0;
             this.lblActiveModules.Text = "Active modules:";
             // 

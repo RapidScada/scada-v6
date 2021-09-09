@@ -13,6 +13,7 @@ namespace Scada.Admin.Extensions.ExtServerConfig.Code
     {
         // Scada.Admin.Extensions.ExtServerConfig.ExtServerConfigLogic
         public static string GeneralOptionsNode { get; private set; }
+        public static string ModulesNode { get; private set; }
 
         // Scada.Admin.Extensions.ExtServerConfig.Forms.FrmGeneralOptions
         public static string IncorrectSecretKey { get; private set; }
@@ -25,6 +26,7 @@ namespace Scada.Admin.Extensions.ExtServerConfig.Code
         {
             LocaleDict dict = Locale.GetDictionary("Scada.Admin.Extensions.ExtServerConfig.ExtServerConfigLogic");
             GeneralOptionsNode = dict["GeneralOptionsNode"];
+            ModulesNode = dict["ModulesNode"];
 
             dict = Locale.GetDictionary("Scada.Admin.Extensions.ExtServerConfig.Forms.FrmGeneralOptions");
             IncorrectSecretKey = dict["IncorrectSecretKey"];

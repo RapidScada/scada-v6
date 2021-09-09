@@ -2,6 +2,7 @@
 <ExtServerConfigDictionaries>
   <Dictionary key="Scada.Admin.Extensions.ExtServerConfig.ExtServerConfigLogic">
     <Phrase key="GeneralOptionsNode">General Options</Phrase>
+    <Phrase key="ModulesNode">Modules</Phrase>
     <Phrase key=""></Phrase>
   </Dictionary>
   <Dictionary key="Scada.Admin.Extensions.ExtServerConfig.Forms.FrmGeneralOptions">

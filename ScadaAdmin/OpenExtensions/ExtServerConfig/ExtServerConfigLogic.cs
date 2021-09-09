@@ -79,27 +79,17 @@ namespace Scada.Admin.Extensions.ExtServerConfig
                         FormArgs = new object[] { AdminContext.ErrLog, serverApp }
                     }
                 },
-                /*new TreeNode(ServerShellPhrases.SaveParamsNode)
+                new TreeNode(ExtensionPhrases.ModulesNode)
                 {
-                    ImageKey = "server_save.png",
-                    SelectedImageKey = "server_save.png",
-                    Tag = new TreeNodeTag()
-                    {
-                        FormType = typeof(FrmSaveParams),
-                        FormArgs = new object[] { settings }
-                    }
-                },
-                new TreeNode(ServerShellPhrases.ModulesNode)
-                {
-                    ImageKey = "server_module.png",
-                    SelectedImageKey = "server_module.png",
+                    ImageKey = ImagePrefix + "module.png",
+                    SelectedImageKey = ImagePrefix + "module.png",
                     Tag = new TreeNodeTag()
                     {
                         FormType = typeof(FrmModules),
-                        FormArgs = new object[] { settings, environment }
+                        FormArgs = new object[] { AdminContext, serverApp }
                     }
                 },
-                new TreeNode(ServerShellPhrases.ArchiveNode,
+                /*new TreeNode(ServerShellPhrases.ArchiveNode,
                     new TreeNode[]
                     {
                         new TreeNode(ServerShellPhrases.CurDataNode)
@@ -178,6 +168,7 @@ namespace Scada.Admin.Extensions.ExtServerConfig
             return new Dictionary<string, Image>
             {
                 { ImagePrefix + "general_options.png", Resources.general_options },
+                { ImagePrefix + "module.png", Resources.module },
             };
         }
     }
