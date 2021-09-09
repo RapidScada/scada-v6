@@ -440,7 +440,7 @@ namespace Scada.Admin.App.Code
         public void FillAppConfigNode(TreeNode appConfigNode)
         {
             if (TreeViewUtils.GetRelatedObject(appConfigNode) is ProjectApp app)
-                FillFileNode(appConfigNode, app.GetConfigDir());
+                FillFileNode(appConfigNode, app.ConfigDir);
         }
 
         /// <summary>

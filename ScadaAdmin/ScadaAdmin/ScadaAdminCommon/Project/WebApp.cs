@@ -53,6 +53,17 @@ namespace Scada.Admin.Project
         /// </summary>
         public override object AppConfig => null;
 
+        /// <summary>
+        /// Gets the application configuration directory.
+        /// </summary>
+        public override string ConfigDir
+        {
+            get
+            {
+                return string.IsNullOrEmpty(AppDir) ? "" : Path.Combine(AppDir, "config");
+            }
+        }
+
 
         /// <summary>
         /// Loads the configuration.
@@ -74,19 +85,11 @@ namespace Scada.Admin.Project
         }
 
         /// <summary>
-        /// Gets the application configuration directory.
+        /// Initializes the application directory relative to the instance directory.
         /// </summary>
-        public override string GetConfigDir()
+        public override void InitAppDir(string instanceDir)
         {
-            return string.IsNullOrEmpty(AppDir) ? "" : Path.Combine(AppDir, "config");
-        }
-
-        /// <summary>
-        /// Gets the application directory.
-        /// </summary>
-        public static string GetAppDir(string parentDir)
-        {
-            return Path.Combine(parentDir, "ScadaWeb");
+            AppDir = string.IsNullOrEmpty(instanceDir) ? "" : Path.Combine(instanceDir, "ScadaWeb");
         }
     }
 }

@@ -65,7 +65,7 @@ namespace Scada.Admin.Project
         /// </summary>
         private string GetConfigPath()
         {
-            return Path.Combine(GetConfigDir(), CommConfig.DefaultFileName);
+            return Path.Combine(ConfigDir, CommConfig.DefaultFileName);
         }
 
         /// <summary>
@@ -102,11 +102,11 @@ namespace Scada.Admin.Project
         }
 
         /// <summary>
-        /// Gets the application directory.
+        /// Initializes the application directory relative to the instance directory.
         /// </summary>
-        public static string GetAppDir(string parentDir)
+        public override void InitAppDir(string instanceDir)
         {
-            return Path.Combine(parentDir, "ScadaComm");
+            AppDir = string.IsNullOrEmpty(instanceDir) ? "" : Path.Combine(instanceDir, "ScadaComm");
         }
     }
 }

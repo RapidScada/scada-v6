@@ -540,7 +540,7 @@ namespace Scada.Admin.App.Forms
                 else if (tag.NodeType == ExplorerNodeType.AppConfig)
                 {
                     ProjectApp projectApp = (ProjectApp)tag.RelatedObject;
-                    path = projectApp.GetConfigDir();
+                    path = projectApp.ConfigDir;
                     return true;
                 }
             }

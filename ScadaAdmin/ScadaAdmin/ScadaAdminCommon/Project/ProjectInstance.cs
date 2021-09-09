@@ -108,19 +108,7 @@ namespace Scada.Admin.Project
             set
             {
                 instanceDir = value;
-
-                if (string.IsNullOrEmpty(instanceDir))
-                {
-                    ServerApp.AppDir = "";
-                    CommApp.AppDir = "";
-                    WebApp.AppDir = "";
-                }
-                else
-                {
-                    ServerApp.AppDir = ServerApp.GetAppDir(instanceDir);
-                    CommApp.AppDir = CommApp.GetAppDir(instanceDir);
-                    WebApp.AppDir = WebApp.GetAppDir(instanceDir);
-                }
+                Array.ForEach(AllApps, app => app.InitAppDir(instanceDir));
             }
         }
 

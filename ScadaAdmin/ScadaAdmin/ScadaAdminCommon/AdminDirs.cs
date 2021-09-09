@@ -64,5 +64,16 @@ namespace Scada.Admin
             LibDir = ExeDir + "Lib" + Path.DirectorySeparatorChar;
             TemplateDir = ExeDir + "Templates" + Path.DirectorySeparatorChar;
         }
+
+        /// <summary>
+        /// Creates a directory object for a library view based on the current object.
+        /// </summary>
+        public AppDirs CreateDirsForView(string configDir)
+        {
+            AdminDirs appDirs = new();
+            appDirs.Init(ExeDir);
+            appDirs.ConfigDir = configDir;
+            return appDirs;
+        }
     }
 }

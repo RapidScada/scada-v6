@@ -55,7 +55,7 @@ namespace Scada.Admin.Project
         /// <summary>
         /// Gets or sets the application directory in the project.
         /// </summary>
-        public string AppDir { get; set; }
+        public string AppDir { get; protected set; }
 
         /// <summary>
         /// Gets a value indicating whether the application configuration is loaded.
@@ -71,6 +71,17 @@ namespace Scada.Admin.Project
         /// Gets the application configuration.
         /// </summary>
         public abstract object AppConfig { get; }
+
+        /// <summary>
+        /// Gets the application configuration directory.
+        /// </summary>
+        public virtual string ConfigDir
+        {
+            get
+            {
+                return string.IsNullOrEmpty(AppDir) ? "" : Path.Combine(AppDir, "Config");
+            }
+        }
 
 
         /// <summary>
@@ -106,12 +117,9 @@ namespace Scada.Admin.Project
         public abstract bool SaveConfig(out string errMsg);
 
         /// <summary>
-        /// Gets the application configuration directory.
+        /// Initializes the application directory relative to the instance directory.
         /// </summary>
-        public virtual string GetConfigDir()
-        {
-            return string.IsNullOrEmpty(AppDir) ? "" : Path.Combine(AppDir, "Config");
-        }
+        public abstract void InitAppDir(string instanceDir);
 
         /// <summary>
         /// Creates configuration files required for the application.
@@ -120,7 +128,7 @@ namespace Scada.Admin.Project
         {
             try
             {
-                Directory.CreateDirectory(GetConfigDir());
+                Directory.CreateDirectory(ConfigDir);
                 return SaveConfig(out errMsg);
             }
             catch (Exception ex)
