@@ -37,9 +37,17 @@ namespace Scada.Log
     public class LogFile : ILog
     {
         /// <summary>
-        /// The default log file capacity, 1 MB.
+        /// The number of bytes in a megabyte.
         /// </summary>
-        public const int DefaultCapacity = 1048576;
+        private const int BytesInMegabyte = 1048576;
+        /// <summary>
+        /// The default log file capacity in megabytes.
+        /// </summary>
+        public const int DefaultCapacityMB = 1;
+        /// <summary>
+        /// The default log file capacity in bytes.
+        /// </summary>
+        public const int DefaultCapacity = DefaultCapacityMB * BytesInMegabyte;
         /// <summary>
         /// The timestamp format.
         /// </summary>
@@ -86,9 +94,24 @@ namespace Scada.Log
         public Encoding Encoding { get; set; }
 
         /// <summary>
-        /// Gets or sets the log capacity.
+        /// Gets or sets the log capacity in bytes.
         /// </summary>
         public int Capacity { get; set; }
+
+        /// <summary>
+        /// Gets or sets the log capacity in megabytes.
+        /// </summary>
+        public int CapacityMB
+        {
+            get
+            {
+                return Capacity / BytesInMegabyte;
+            }
+            set
+            {
+                Capacity = value * BytesInMegabyte;
+            }
+        }
 
         /// <summary>
         /// Gets or sets the timestamp format.
