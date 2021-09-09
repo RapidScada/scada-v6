@@ -56,7 +56,7 @@ namespace Scada.Admin.Extensions.ExtServerConfig.Forms
 
 
         /// <summary>
-        /// Setup the controls according to the configuration.
+        /// Sets the controls according to the configuration.
         /// </summary>
         private void ConfigToControls()
         {

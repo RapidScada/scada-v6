@@ -17,6 +17,9 @@ namespace Scada.Admin.Extensions.ExtServerConfig.Code
         // Scada.Admin.Extensions.ExtServerConfig.Forms.FrmGeneralOptions
         public static string IncorrectSecretKey { get; private set; }
 
+        // Scada.Admin.Extensions.ExtServerConfig.Forms.FrmModules
+        public static string ModuleNotFound { get; private set; }
+
 
         public static void Init()
         {
@@ -25,6 +28,9 @@ namespace Scada.Admin.Extensions.ExtServerConfig.Code
 
             dict = Locale.GetDictionary("Scada.Admin.Extensions.ExtServerConfig.Forms.FrmGeneralOptions");
             IncorrectSecretKey = dict["IncorrectSecretKey"];
+
+            dict = Locale.GetDictionary("Scada.Admin.Extensions.ExtServerConfig.Forms.FrmModules");
+            ModuleNotFound = dict["ModuleNotFound"];
         }
     }
 }

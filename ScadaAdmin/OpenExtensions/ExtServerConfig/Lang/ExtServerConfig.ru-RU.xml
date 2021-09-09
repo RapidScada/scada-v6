@@ -27,4 +27,16 @@
     <Phrase key="btnSetToDefaultLinux">Для Linux</Phrase>
     <Phrase key="IncorrectSecretKey">Некорректный секретный ключ.</Phrase>
   </Dictionary>
+  <Dictionary key="Scada.Admin.Extensions.ExtServerConfig.Forms.FrmModules">
+    <Phrase key="this">Модули</Phrase>
+    <Phrase key="lblUnusedModules">Неиспользуемые модули:</Phrase>
+    <Phrase key="btnActivate">Активировать</Phrase>
+    <Phrase key="lblActiveModules">Активные модули:</Phrase>
+    <Phrase key="btnDeactivate">Деактивировать</Phrase>
+    <Phrase key="btnMoveUp">Вверх</Phrase>
+    <Phrase key="btnMoveDown">Вниз</Phrase>
+    <Phrase key="btnProperties">Свойства</Phrase>
+    <Phrase key="lblDescr">Описание</Phrase>
+    <Phrase key="ModuleNotFound">Модуль {0} не найден.</Phrase>
+  </Dictionary>
 </ExtServerConfigDictionaries>
