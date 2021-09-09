@@ -2,7 +2,9 @@
 // Licensed under the Apache License, Version 2.0. See License.txt in the project root for license information.
 
 using Scada.Admin.Extensions.ExtServerConfig.Code;
+using Scada.Admin.Project;
 using Scada.Forms;
+using Scada.Log;
 using Scada.Server;
 using Scada.Server.Config;
 using System;
@@ -20,8 +22,10 @@ namespace Scada.Admin.Extensions.ExtServerConfig.Forms
     /// </summary>
     public partial class FrmGeneralOptions : Form, IChildForm
     {
-        private readonly ServerConfig serverConfig;  // the server confiration
-        private bool changing; // controls are being changed programmatically
+        private readonly ILog log;                  // the application log
+        private readonly ServerApp serverApp;       // the server application in a project
+        private readonly ServerConfig serverConfig; // the server configuration
+        private bool changing;                      // controls are being changed programmatically
 
 
         /// <summary>
@@ -35,10 +39,12 @@ namespace Scada.Admin.Extensions.ExtServerConfig.Forms
         /// <summary>
         /// Initializes a new instance of the class.
         /// </summary>
-        public FrmGeneralOptions(ServerConfig serverConfig)
+        public FrmGeneralOptions(ILog log, ServerApp serverApp)
             : this()
         {
-            this.serverConfig = serverConfig ?? throw new ArgumentNullException(nameof(serverConfig));
+            this.log = log ?? throw new ArgumentNullException(nameof(log));
+            this.serverApp = serverApp ?? throw new ArgumentNullException(nameof(serverApp));
+            serverConfig = serverApp.Config;
             changing = false;
         }
         
@@ -138,12 +144,10 @@ namespace Scada.Admin.Extensions.ExtServerConfig.Forms
             {
                 ControlsToConfing();
 
-                // TODO: refactor, save here
-                if (ChildFormTag.SendMessage(this, AdminMessage.SaveAppConfig,
-                    new Dictionary<string, object> { { "Config", serverConfig } }))
-                {
+                if (serverApp.SaveConfig(out string errMsg))
                     ChildFormTag.Modified = false;
-                }
+                else
+                    log.HandleError(errMsg);
             }
         }
 

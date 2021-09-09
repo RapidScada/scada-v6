@@ -50,10 +50,5 @@ namespace Scada.Admin
         /// Opens the specified project.
         /// </summary>
         public const string OpenProject = "Admin.OpenProject";
-
-        /// <summary>
-        /// Saves the application configuration.
-        /// </summary>
-        public const string SaveAppConfig = "Admin.SaveAppConfig";
     }
 }

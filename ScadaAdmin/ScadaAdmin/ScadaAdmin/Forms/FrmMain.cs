@@ -1143,16 +1143,6 @@ namespace Scada.Admin.App.Forms
             {
                 OpenProject(e.GetArgument("Path") as string);
             }
-            else if (e.Message == AdminMessage.SaveAppConfig)
-            {
-                if (FindClosestInstance(FindTreeNode(e.Source), out LiveInstance liveInstance) &&
-                    liveInstance.ProjectInstance.FindAppByConfig(e.GetArgument("Config")) is ProjectApp app &&
-                    !app.SaveConfig(out string errMsg))
-                {
-                    Log.HandleError(errMsg);
-                    e.Cancel = true;
-                }
-            }
 
             /*else if (FindClosestInstance(sourceNode, out LiveInstance liveInstance))
             {

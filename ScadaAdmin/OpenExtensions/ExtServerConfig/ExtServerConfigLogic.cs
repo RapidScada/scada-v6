@@ -76,7 +76,7 @@ namespace Scada.Admin.Extensions.ExtServerConfig
                     Tag = new TreeNodeTag
                     {
                         FormType = typeof(FrmGeneralOptions),
-                        FormArgs = new object[] { serverApp.Config }
+                        FormArgs = new object[] { AdminContext.ErrLog, serverApp }
                     }
                 },
                 /*new TreeNode(ServerShellPhrases.SaveParamsNode)
