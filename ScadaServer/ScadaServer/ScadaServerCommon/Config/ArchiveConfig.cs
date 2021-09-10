@@ -20,7 +20,7 @@
  * 
  * Author   : Mikhail Shiryaev
  * Created  : 2020
- * Modified : 2020
+ * Modified : 2021
  */
 
 using Scada.Config;
@@ -34,6 +34,7 @@ namespace Scada.Server.Config
     /// Represents an archive configuration.
     /// <para>Представляет конфигурацию архива.</para>
     /// </summary>
+    [Serializable]
     public class ArchiveConfig
     {
         /// <summary>

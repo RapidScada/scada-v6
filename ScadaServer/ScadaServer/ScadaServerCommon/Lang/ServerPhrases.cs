@@ -70,6 +70,12 @@ namespace Scada.Server.Lang
         public static string ReadDbError { get; private set; }
         public static string WriteDbError { get; private set; }
 
+        // Scada.Server.Archives
+        public static string UnspecifiedArchiveKind { get; private set; }
+        public static string CurrentArchiveKind { get; private set; }
+        public static string HistoricalArchiveKind { get; private set; }
+        public static string EventsArchiveKind { get; private set; }
+
         // Scada.Server.Modules
         public static string LoadModuleConfigError { get; private set; }
         public static string SaveModuleConfigError { get; private set; }
@@ -147,7 +153,13 @@ namespace Scada.Server.Lang
             }
 
             // load phrases that are used in the multilingual user interface from dictionaries
-            LocaleDict dict = Locale.GetDictionary("Scada.Server.Modules");
+            LocaleDict dict = Locale.GetDictionary("Scada.Server.Archives");
+            UnspecifiedArchiveKind = dict.GetPhrase("UnspecifiedArchiveKind");
+            CurrentArchiveKind = dict.GetPhrase("CurrentArchiveKind");
+            HistoricalArchiveKind = dict.GetPhrase("HistoricalArchiveKind");
+            EventsArchiveKind = dict.GetPhrase("EventsArchiveKind");
+
+            dict = Locale.GetDictionary("Scada.Server.Modules");
             LoadModuleConfigError = dict.GetPhrase("LoadModuleConfigError");
             SaveModuleConfigError = dict.GetPhrase("SaveModuleConfigError");
         }

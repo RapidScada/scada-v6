@@ -1,5 +1,11 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <ScadaServerDictionaries>
+  <Dictionary key="Scada.Server.Archives">
+    <Phrase key="UnspecifiedArchiveKind">Unspecified</Phrase>
+    <Phrase key="CurrentArchiveKind">Current</Phrase>
+    <Phrase key="HistoricalArchiveKind">Historical</Phrase>
+    <Phrase key="EventsArchiveKind">Events</Phrase>
+  </Dictionary>
   <Dictionary key="Scada.Server.Modules">
     <Phrase key="LoadModuleConfigError">Error loading module configuration</Phrase>
     <Phrase key="SaveModuleConfigError">Error saving module configuration</Phrase>
