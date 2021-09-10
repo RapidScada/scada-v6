@@ -22,9 +22,15 @@ namespace Scada.Admin.Extensions.ExtServerConfig
     public class ExtServerConfigLogic : ExtensionLogic
     {
         /// <summary>
-        /// The prefix of the tree view images.
+        /// Specifies the image keys.
         /// </summary>
-        private const string ImagePrefix = "server_config_";
+        private static class ImageKey
+        {
+            private const string ImagePrefix = "server_config_";
+            public const string Archive = ImagePrefix + "archive.png";
+            public const string GeneralOptions = ImagePrefix + "general_options.png";
+            public const string Module = ImagePrefix + "module.png";
+        }
 
 
         /// <summary>
@@ -71,8 +77,8 @@ namespace Scada.Admin.Extensions.ExtServerConfig
             {
                 new TreeNode(ExtensionPhrases.GeneralOptionsNode)
                 {
-                    ImageKey = ImagePrefix + "general_options.png",
-                    SelectedImageKey = ImagePrefix + "general_options.png",
+                    ImageKey = ImageKey.GeneralOptions,
+                    SelectedImageKey = ImageKey.GeneralOptions,
                     Tag = new TreeNodeTag
                     {
                         FormType = typeof(FrmGeneralOptions),
@@ -81,82 +87,24 @@ namespace Scada.Admin.Extensions.ExtServerConfig
                 },
                 new TreeNode(ExtensionPhrases.ModulesNode)
                 {
-                    ImageKey = ImagePrefix + "module.png",
-                    SelectedImageKey = ImagePrefix + "module.png",
-                    Tag = new TreeNodeTag()
+                    ImageKey = ImageKey.Module,
+                    SelectedImageKey = ImageKey.Module,
+                    Tag = new TreeNodeTag
                     {
                         FormType = typeof(FrmModules),
                         FormArgs = new object[] { AdminContext, serverApp }
                     }
                 },
-                /*new TreeNode(ServerShellPhrases.ArchiveNode,
-                    new TreeNode[]
-                    {
-                        new TreeNode(ServerShellPhrases.CurDataNode)
-                        {
-                            ImageKey = "server_data.png",
-                            SelectedImageKey = "server_data.png",
-                            Tag = new TreeNodeTag()
-                            {
-                                FormType = typeof(FrmArchive),
-                                FormArgs = new object[] { settings, environment, ArcType.CurData }
-                            }
-                        },
-                        new TreeNode(ServerShellPhrases.MinDataNode)
-                        {
-                            ImageKey = "server_data.png",
-                            SelectedImageKey = "server_data.png",
-                            Tag = new TreeNodeTag()
-                            {
-                                FormType = typeof(FrmArchive),
-                                FormArgs = new object[] { settings, environment, ArcType.MinData }
-                            }
-                        },
-                        new TreeNode(ServerShellPhrases.HourDataNode)
-                        {
-                            ImageKey = "server_data.png",
-                            SelectedImageKey = "server_data.png",
-                            Tag = new TreeNodeTag()
-                            {
-                                FormType = typeof(FrmArchive),
-                                FormArgs = new object[] { settings, environment, ArcType.HourData }
-                            }
-                        },
-                        new TreeNode(ServerShellPhrases.EventsNode)
-                        {
-                            ImageKey = "server_event.png",
-                            SelectedImageKey = "server_event.png",
-                            Tag = new TreeNodeTag()
-                            {
-                                FormType = typeof(FrmArchive),
-                                FormArgs = new object[] { settings, environment, ArcType.Events }
-                            }
-                        }
-                    })
+                new TreeNode(ExtensionPhrases.ArchivesNode)
                 {
-                    ImageKey = "server_archive.png",
-                    SelectedImageKey = "server_archive.png"
-                },
-                new TreeNode(ServerShellPhrases.GeneratorNode)
-                {
-                    ImageKey = "server_generator.png",
-                    SelectedImageKey = "server_generator.png",
-                    Tag = new TreeNodeTag()
+                    ImageKey = ImageKey.Archive,
+                    SelectedImageKey = ImageKey.Archive,
+                    Tag = new TreeNodeTag
                     {
-                        FormType = typeof(FrmGenerator),
-                        FormArgs = new object[] { settings, environment }
+                        FormType = typeof(FrmArchives),
+                        //FormArgs = new object[] { AdminContext, serverApp }
                     }
                 },
-                new TreeNode(ServerShellPhrases.StatsNode)
-                {
-                    ImageKey = "server_stats.png",
-                    SelectedImageKey = "server_stats.png",
-                    Tag = new TreeNodeTag()
-                    {
-                        FormType = typeof(FrmStats),
-                        FormArgs = new object[] { environment }
-                    }
-                },*/
             };
         }
 
@@ -167,8 +115,9 @@ namespace Scada.Admin.Extensions.ExtServerConfig
         {
             return new Dictionary<string, Image>
             {
-                { ImagePrefix + "general_options.png", Resources.general_options },
-                { ImagePrefix + "module.png", Resources.module },
+                { ImageKey.Archive, Resources.archive },
+                { ImageKey.GeneralOptions, Resources.general_options },
+                { ImageKey.Module, Resources.module },
             };
         }
     }

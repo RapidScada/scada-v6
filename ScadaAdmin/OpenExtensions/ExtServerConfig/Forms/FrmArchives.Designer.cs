@@ -41,18 +41,18 @@ namespace Scada.Admin.Extensions.ExtServerConfig.Forms
             this.colKind = new System.Windows.Forms.ColumnHeader();
             this.colModule = new System.Windows.Forms.ColumnHeader();
             this.gbArchive = new System.Windows.Forms.GroupBox();
-            this.checkBox1 = new System.Windows.Forms.CheckBox();
-            this.label1 = new System.Windows.Forms.Label();
-            this.textBox1 = new System.Windows.Forms.TextBox();
-            this.label2 = new System.Windows.Forms.Label();
-            this.textBox2 = new System.Windows.Forms.TextBox();
-            this.label3 = new System.Windows.Forms.Label();
-            this.comboBox1 = new System.Windows.Forms.ComboBox();
-            this.label4 = new System.Windows.Forms.Label();
-            this.comboBox2 = new System.Windows.Forms.ComboBox();
-            this.label5 = new System.Windows.Forms.Label();
-            this.textBox3 = new System.Windows.Forms.TextBox();
             this.button1 = new System.Windows.Forms.Button();
+            this.txtOptions = new System.Windows.Forms.TextBox();
+            this.lblOptions = new System.Windows.Forms.Label();
+            this.cbModule = new System.Windows.Forms.ComboBox();
+            this.lblModule = new System.Windows.Forms.Label();
+            this.cbKind = new System.Windows.Forms.ComboBox();
+            this.lblKind = new System.Windows.Forms.Label();
+            this.txtName = new System.Windows.Forms.TextBox();
+            this.lblName = new System.Windows.Forms.Label();
+            this.txtCode = new System.Windows.Forms.TextBox();
+            this.lblCode = new System.Windows.Forms.Label();
+            this.chkActive = new System.Windows.Forms.CheckBox();
             this.gbArchive.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -111,7 +111,7 @@ namespace Scada.Admin.Extensions.ExtServerConfig.Forms
             this.lvArchive.MultiSelect = false;
             this.lvArchive.Name = "lvArchive";
             this.lvArchive.ShowItemToolTips = true;
-            this.lvArchive.Size = new System.Drawing.Size(660, 278);
+            this.lvArchive.Size = new System.Drawing.Size(710, 193);
             this.lvArchive.TabIndex = 4;
             this.lvArchive.UseCompatibleStateImageBehavior = false;
             this.lvArchive.View = System.Windows.Forms.View.Details;
@@ -134,7 +134,7 @@ namespace Scada.Admin.Extensions.ExtServerConfig.Forms
             // colName
             // 
             this.colName.Text = "Name";
-            this.colName.Width = 150;
+            this.colName.Width = 200;
             // 
             // colKind
             // 
@@ -148,136 +148,137 @@ namespace Scada.Admin.Extensions.ExtServerConfig.Forms
             // 
             // gbArchive
             // 
+            this.gbArchive.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
             this.gbArchive.Controls.Add(this.button1);
-            this.gbArchive.Controls.Add(this.textBox3);
-            this.gbArchive.Controls.Add(this.label5);
-            this.gbArchive.Controls.Add(this.comboBox2);
-            this.gbArchive.Controls.Add(this.label4);
-            this.gbArchive.Controls.Add(this.comboBox1);
-            this.gbArchive.Controls.Add(this.label3);
-            this.gbArchive.Controls.Add(this.textBox2);
-            this.gbArchive.Controls.Add(this.label2);
-            this.gbArchive.Controls.Add(this.textBox1);
-            this.gbArchive.Controls.Add(this.label1);
-            this.gbArchive.Controls.Add(this.checkBox1);
-            this.gbArchive.Location = new System.Drawing.Point(12, 197);
+            this.gbArchive.Controls.Add(this.txtOptions);
+            this.gbArchive.Controls.Add(this.lblOptions);
+            this.gbArchive.Controls.Add(this.cbModule);
+            this.gbArchive.Controls.Add(this.lblModule);
+            this.gbArchive.Controls.Add(this.cbKind);
+            this.gbArchive.Controls.Add(this.lblKind);
+            this.gbArchive.Controls.Add(this.txtName);
+            this.gbArchive.Controls.Add(this.lblName);
+            this.gbArchive.Controls.Add(this.txtCode);
+            this.gbArchive.Controls.Add(this.lblCode);
+            this.gbArchive.Controls.Add(this.chkActive);
+            this.gbArchive.Location = new System.Drawing.Point(12, 240);
             this.gbArchive.Name = "gbArchive";
             this.gbArchive.Padding = new System.Windows.Forms.Padding(10, 3, 10, 10);
-            this.gbArchive.Size = new System.Drawing.Size(600, 344);
+            this.gbArchive.Size = new System.Drawing.Size(600, 259);
             this.gbArchive.TabIndex = 5;
             this.gbArchive.TabStop = false;
             this.gbArchive.Text = "Selected Archive";
             // 
-            // checkBox1
-            // 
-            this.checkBox1.AutoSize = true;
-            this.checkBox1.Location = new System.Drawing.Point(13, 22);
-            this.checkBox1.Name = "checkBox1";
-            this.checkBox1.Size = new System.Drawing.Size(83, 19);
-            this.checkBox1.TabIndex = 0;
-            this.checkBox1.Text = "checkBox1";
-            this.checkBox1.UseVisualStyleBackColor = true;
-            // 
-            // label1
-            // 
-            this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(10, 44);
-            this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(38, 15);
-            this.label1.TabIndex = 1;
-            this.label1.Text = "label1";
-            // 
-            // textBox1
-            // 
-            this.textBox1.Location = new System.Drawing.Point(13, 62);
-            this.textBox1.Name = "textBox1";
-            this.textBox1.Size = new System.Drawing.Size(100, 23);
-            this.textBox1.TabIndex = 2;
-            // 
-            // label2
-            // 
-            this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(116, 44);
-            this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(38, 15);
-            this.label2.TabIndex = 3;
-            this.label2.Text = "label2";
-            // 
-            // textBox2
-            // 
-            this.textBox2.Location = new System.Drawing.Point(119, 62);
-            this.textBox2.Name = "textBox2";
-            this.textBox2.Size = new System.Drawing.Size(262, 23);
-            this.textBox2.TabIndex = 4;
-            // 
-            // label3
-            // 
-            this.label3.AutoSize = true;
-            this.label3.Location = new System.Drawing.Point(10, 88);
-            this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(38, 15);
-            this.label3.TabIndex = 5;
-            this.label3.Text = "label3";
-            // 
-            // comboBox1
-            // 
-            this.comboBox1.FormattingEnabled = true;
-            this.comboBox1.Location = new System.Drawing.Point(13, 106);
-            this.comboBox1.Name = "comboBox1";
-            this.comboBox1.Size = new System.Drawing.Size(181, 23);
-            this.comboBox1.TabIndex = 6;
-            // 
-            // label4
-            // 
-            this.label4.AutoSize = true;
-            this.label4.Location = new System.Drawing.Point(197, 88);
-            this.label4.Name = "label4";
-            this.label4.Size = new System.Drawing.Size(38, 15);
-            this.label4.TabIndex = 7;
-            this.label4.Text = "label4";
-            // 
-            // comboBox2
-            // 
-            this.comboBox2.FormattingEnabled = true;
-            this.comboBox2.Location = new System.Drawing.Point(200, 106);
-            this.comboBox2.Name = "comboBox2";
-            this.comboBox2.Size = new System.Drawing.Size(181, 23);
-            this.comboBox2.TabIndex = 8;
-            // 
-            // label5
-            // 
-            this.label5.AutoSize = true;
-            this.label5.Location = new System.Drawing.Point(384, 44);
-            this.label5.Name = "label5";
-            this.label5.Size = new System.Drawing.Size(38, 15);
-            this.label5.TabIndex = 9;
-            this.label5.Text = "label5";
-            // 
-            // textBox3
-            // 
-            this.textBox3.Location = new System.Drawing.Point(387, 62);
-            this.textBox3.Multiline = true;
-            this.textBox3.Name = "textBox3";
-            this.textBox3.ReadOnly = true;
-            this.textBox3.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
-            this.textBox3.Size = new System.Drawing.Size(200, 67);
-            this.textBox3.TabIndex = 10;
-            this.textBox3.WordWrap = false;
-            // 
             // button1
             // 
-            this.button1.Location = new System.Drawing.Point(13, 135);
+            this.button1.Location = new System.Drawing.Point(13, 223);
             this.button1.Name = "button1";
             this.button1.Size = new System.Drawing.Size(100, 23);
             this.button1.TabIndex = 11;
             this.button1.Text = "Properties";
             this.button1.UseVisualStyleBackColor = true;
             // 
+            // txtOptions
+            // 
+            this.txtOptions.Location = new System.Drawing.Point(387, 62);
+            this.txtOptions.Multiline = true;
+            this.txtOptions.Name = "txtOptions";
+            this.txtOptions.ReadOnly = true;
+            this.txtOptions.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
+            this.txtOptions.Size = new System.Drawing.Size(200, 155);
+            this.txtOptions.TabIndex = 10;
+            this.txtOptions.WordWrap = false;
+            // 
+            // lblOptions
+            // 
+            this.lblOptions.AutoSize = true;
+            this.lblOptions.Location = new System.Drawing.Point(384, 44);
+            this.lblOptions.Name = "lblOptions";
+            this.lblOptions.Size = new System.Drawing.Size(49, 15);
+            this.lblOptions.TabIndex = 9;
+            this.lblOptions.Text = "Options";
+            // 
+            // cbModule
+            // 
+            this.cbModule.FormattingEnabled = true;
+            this.cbModule.Location = new System.Drawing.Point(13, 194);
+            this.cbModule.Name = "cbModule";
+            this.cbModule.Size = new System.Drawing.Size(368, 23);
+            this.cbModule.TabIndex = 8;
+            // 
+            // lblModule
+            // 
+            this.lblModule.AutoSize = true;
+            this.lblModule.Location = new System.Drawing.Point(10, 176);
+            this.lblModule.Name = "lblModule";
+            this.lblModule.Size = new System.Drawing.Size(48, 15);
+            this.lblModule.TabIndex = 7;
+            this.lblModule.Text = "Module";
+            // 
+            // cbKind
+            // 
+            this.cbKind.FormattingEnabled = true;
+            this.cbKind.Location = new System.Drawing.Point(13, 150);
+            this.cbKind.Name = "cbKind";
+            this.cbKind.Size = new System.Drawing.Size(368, 23);
+            this.cbKind.TabIndex = 6;
+            // 
+            // lblKind
+            // 
+            this.lblKind.AutoSize = true;
+            this.lblKind.Location = new System.Drawing.Point(10, 132);
+            this.lblKind.Name = "lblKind";
+            this.lblKind.Size = new System.Drawing.Size(31, 15);
+            this.lblKind.TabIndex = 5;
+            this.lblKind.Text = "Kind";
+            // 
+            // txtName
+            // 
+            this.txtName.Location = new System.Drawing.Point(13, 106);
+            this.txtName.Name = "txtName";
+            this.txtName.Size = new System.Drawing.Size(368, 23);
+            this.txtName.TabIndex = 4;
+            // 
+            // lblName
+            // 
+            this.lblName.AutoSize = true;
+            this.lblName.Location = new System.Drawing.Point(10, 88);
+            this.lblName.Name = "lblName";
+            this.lblName.Size = new System.Drawing.Size(39, 15);
+            this.lblName.TabIndex = 3;
+            this.lblName.Text = "Name";
+            // 
+            // txtCode
+            // 
+            this.txtCode.Location = new System.Drawing.Point(13, 62);
+            this.txtCode.Name = "txtCode";
+            this.txtCode.Size = new System.Drawing.Size(368, 23);
+            this.txtCode.TabIndex = 2;
+            // 
+            // lblCode
+            // 
+            this.lblCode.AutoSize = true;
+            this.lblCode.Location = new System.Drawing.Point(10, 44);
+            this.lblCode.Name = "lblCode";
+            this.lblCode.Size = new System.Drawing.Size(35, 15);
+            this.lblCode.TabIndex = 1;
+            this.lblCode.Text = "Code";
+            // 
+            // chkActive
+            // 
+            this.chkActive.AutoSize = true;
+            this.chkActive.Location = new System.Drawing.Point(13, 22);
+            this.chkActive.Name = "chkActive";
+            this.chkActive.Size = new System.Drawing.Size(59, 19);
+            this.chkActive.TabIndex = 0;
+            this.chkActive.Text = "Active";
+            this.chkActive.UseVisualStyleBackColor = true;
+            // 
             // FrmArchives
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(684, 589);
+            this.ClientSize = new System.Drawing.Size(734, 511);
             this.Controls.Add(this.gbArchive);
             this.Controls.Add(this.lvArchive);
             this.Controls.Add(this.btnDeleteArchive);
@@ -306,17 +307,17 @@ namespace Scada.Admin.Extensions.ExtServerConfig.Forms
         private System.Windows.Forms.ColumnHeader colKind;
         private System.Windows.Forms.ColumnHeader colModule;
         private System.Windows.Forms.GroupBox gbArchive;
-        private System.Windows.Forms.TextBox textBox1;
-        private System.Windows.Forms.Label label1;
-        private System.Windows.Forms.CheckBox checkBox1;
-        private System.Windows.Forms.TextBox textBox2;
-        private System.Windows.Forms.Label label2;
-        private System.Windows.Forms.ComboBox comboBox2;
-        private System.Windows.Forms.Label label4;
-        private System.Windows.Forms.ComboBox comboBox1;
-        private System.Windows.Forms.Label label3;
-        private System.Windows.Forms.TextBox textBox3;
-        private System.Windows.Forms.Label label5;
+        private System.Windows.Forms.TextBox txtCode;
+        private System.Windows.Forms.Label lblCode;
+        private System.Windows.Forms.CheckBox chkActive;
+        private System.Windows.Forms.TextBox txtName;
+        private System.Windows.Forms.Label lblName;
+        private System.Windows.Forms.ComboBox cbModule;
+        private System.Windows.Forms.Label lblModule;
+        private System.Windows.Forms.ComboBox cbKind;
+        private System.Windows.Forms.Label lblKind;
+        private System.Windows.Forms.TextBox txtOptions;
+        private System.Windows.Forms.Label lblOptions;
         private System.Windows.Forms.Button button1;
     }
 }
