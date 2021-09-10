@@ -85,7 +85,7 @@ namespace Scada.Admin.Extensions.ExtServerConfig.Forms
                     {
                         string moduleCode = ScadaUtils.RemoveFileNameSuffixes(fileInfo.Name);
                         
-                        if (!serverConfig.ModuleCodes.Contains(fileInfo.Name))
+                        if (!serverConfig.ModuleCodes.Contains(moduleCode))
                         {
                             lbUnusedModules.Items.Add(new ModuleItem
                             {

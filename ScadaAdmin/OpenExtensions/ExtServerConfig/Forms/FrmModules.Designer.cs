@@ -51,19 +51,20 @@
             // 
             this.txtDescr.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.txtDescr.Location = new System.Drawing.Point(12, 249);
+            this.txtDescr.Font = new System.Drawing.Font("Consolas", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
+            this.txtDescr.Location = new System.Drawing.Point(12, 299);
             this.txtDescr.Multiline = true;
             this.txtDescr.Name = "txtDescr";
             this.txtDescr.ReadOnly = true;
             this.txtDescr.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
-            this.txtDescr.Size = new System.Drawing.Size(710, 150);
+            this.txtDescr.Size = new System.Drawing.Size(710, 200);
             this.txtDescr.TabIndex = 2;
             // 
             // lblDescr
             // 
             this.lblDescr.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
             this.lblDescr.AutoSize = true;
-            this.lblDescr.Location = new System.Drawing.Point(9, 233);
+            this.lblDescr.Location = new System.Drawing.Point(9, 281);
             this.lblDescr.Name = "lblDescr";
             this.lblDescr.Size = new System.Drawing.Size(67, 15);
             this.lblDescr.TabIndex = 1;
@@ -129,7 +130,7 @@
             this.lbActiveModules.Margin = new System.Windows.Forms.Padding(3, 0, 0, 0);
             this.lbActiveModules.MultiColumn = true;
             this.lbActiveModules.Name = "lbActiveModules";
-            this.lbActiveModules.Size = new System.Drawing.Size(352, 164);
+            this.lbActiveModules.Size = new System.Drawing.Size(352, 212);
             this.lbActiveModules.TabIndex = 3;
             this.lbActiveModules.SelectedIndexChanged += new System.EventHandler(this.lbActiveModules_SelectedIndexChanged);
             this.lbActiveModules.DoubleClick += new System.EventHandler(this.lbActiveModules_DoubleClick);
@@ -151,7 +152,7 @@
             this.tableLayoutPanel.RowCount = 2;
             this.tableLayoutPanel.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 47F));
             this.tableLayoutPanel.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
-            this.tableLayoutPanel.Size = new System.Drawing.Size(710, 211);
+            this.tableLayoutPanel.Size = new System.Drawing.Size(710, 259);
             this.tableLayoutPanel.TabIndex = 0;
             // 
             // lbUnusedModules
@@ -164,7 +165,7 @@
             this.lbUnusedModules.Margin = new System.Windows.Forms.Padding(0, 0, 3, 0);
             this.lbUnusedModules.MultiColumn = true;
             this.lbUnusedModules.Name = "lbUnusedModules";
-            this.lbUnusedModules.Size = new System.Drawing.Size(352, 164);
+            this.lbUnusedModules.Size = new System.Drawing.Size(352, 212);
             this.lbUnusedModules.Sorted = true;
             this.lbUnusedModules.TabIndex = 1;
             this.lbUnusedModules.SelectedIndexChanged += new System.EventHandler(this.lbUnusedModules_SelectedIndexChanged);
@@ -217,7 +218,7 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(734, 411);
+            this.ClientSize = new System.Drawing.Size(734, 511);
             this.Controls.Add(this.tableLayoutPanel);
             this.Controls.Add(this.txtDescr);
             this.Controls.Add(this.lblDescr);

@@ -23,7 +23,7 @@
     <Phrase key="btnBrowseArcCopyDir">Browse...</Phrase>
     <Phrase key="lblBaseDir">Configuration database in DAT format</Phrase>
     <Phrase key="btnBrowseBaseDir">Browse...</Phrase>
-    <Phrase key="lblViewDir">Interface</Phrase>
+    <Phrase key="lblViewDir">Views</Phrase>
     <Phrase key="btnBrowseViewDir">Browse...</Phrase>
     <Phrase key="btnSetToDefaultWin">Default for Windows</Phrase>
     <Phrase key="btnSetToDefaultLinux">Default for Linux</Phrase>
