@@ -30,7 +30,7 @@ namespace Scada.Server.Modules.ModArcBasic.View
             get
             {
                 return Locale.IsRussian ?
-                    "Модуль предоставляет быстрое и надежное архивирование данных в файлы." :
+                    "Модуль предоставляет быстрое и надёжное архивирование данных в файлы." :
                     "The module provides fast and reliable data archiving into files.";
             }
         }
