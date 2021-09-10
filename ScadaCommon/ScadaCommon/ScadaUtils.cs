@@ -263,7 +263,7 @@ namespace Scada
         /// Makes a full copy of the specified object.
         /// </summary>
         /// <remarks>A cloned object and its children must have the Serializable attribute.</remarks>
-        public static object DeepClone(object obj, SerializationBinder binder = null)
+        public static object DeepClone(this object obj, SerializationBinder binder = null)
         {
             using (MemoryStream ms = new MemoryStream())
             {
@@ -280,7 +280,7 @@ namespace Scada
         /// <summary>
         /// Makes a full copy of the specified object.
         /// </summary>
-        public static T DeepClone<T>(T obj, SerializationBinder binder = null)
+        public static T DeepClone<T>(this T obj, SerializationBinder binder = null)
         {
             return (T)DeepClone((object)obj, binder);
         }

@@ -20,7 +20,7 @@
  * 
  * Author   : Mikhail Shiryaev
  * Created  : 2020
- * Modified : 2020
+ * Modified : 2021
  */
 
 using System;
@@ -33,6 +33,7 @@ namespace Scada.Config
     /// Represents a list of custom options.
     /// <para>Представляет список пользовательских параметров.</para>
     /// </summary>
+    [Serializable]
     public class OptionList : SortedList<string, string>
     {
         /// <summary>

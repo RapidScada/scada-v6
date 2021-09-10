@@ -124,6 +124,7 @@ namespace Scada.Admin.Extensions.ExtServerConfig.Forms
             // colActive
             // 
             this.colActive.Text = "Active";
+            this.colActive.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             this.colActive.Width = 50;
             // 
             // colCode
@@ -217,6 +218,7 @@ namespace Scada.Admin.Extensions.ExtServerConfig.Forms
             // 
             // cbKind
             // 
+            this.cbKind.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.cbKind.FormattingEnabled = true;
             this.cbKind.Location = new System.Drawing.Point(13, 150);
             this.cbKind.Name = "cbKind";
@@ -287,6 +289,7 @@ namespace Scada.Admin.Extensions.ExtServerConfig.Forms
             this.Controls.Add(this.btnAddArchive);
             this.Name = "FrmArchives";
             this.Text = "Archives";
+            this.Load += new System.EventHandler(this.FrmArchives_Load);
             this.gbArchive.ResumeLayout(false);
             this.gbArchive.PerformLayout();
             this.ResumeLayout(false);

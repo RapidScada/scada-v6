@@ -102,7 +102,7 @@ namespace Scada.Admin.Extensions.ExtServerConfig
                     Tag = new TreeNodeTag
                     {
                         FormType = typeof(FrmArchives),
-                        //FormArgs = new object[] { AdminContext, serverApp }
+                        FormArgs = new object[] { AdminContext, serverApp }
                     }
                 },
             };
