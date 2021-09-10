@@ -174,7 +174,7 @@
             this.miHelp});
             this.msMain.Location = new System.Drawing.Point(0, 0);
             this.msMain.Name = "msMain";
-            this.msMain.Size = new System.Drawing.Size(734, 24);
+            this.msMain.Size = new System.Drawing.Size(784, 24);
             this.msMain.TabIndex = 0;
             // 
             // miFile
@@ -519,7 +519,7 @@
             this.btnToolsCreateCnls});
             this.tsMain.Location = new System.Drawing.Point(0, 24);
             this.tsMain.Name = "tsMain";
-            this.tsMain.Size = new System.Drawing.Size(734, 25);
+            this.tsMain.Size = new System.Drawing.Size(784, 25);
             this.tsMain.TabIndex = 1;
             // 
             // btnFileNewProject
@@ -647,9 +647,9 @@
             this.ssMain.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.lblSelectedInstance,
             this.lblSelectedProfile});
-            this.ssMain.Location = new System.Drawing.Point(0, 437);
+            this.ssMain.Location = new System.Drawing.Point(0, 487);
             this.ssMain.Name = "ssMain";
-            this.ssMain.Size = new System.Drawing.Size(734, 24);
+            this.ssMain.Size = new System.Drawing.Size(784, 24);
             this.ssMain.TabIndex = 2;
             // 
             // lblSelectedInstance
@@ -671,7 +671,7 @@
             this.pnlLeft.Dock = System.Windows.Forms.DockStyle.Left;
             this.pnlLeft.Location = new System.Drawing.Point(0, 49);
             this.pnlLeft.Name = "pnlLeft";
-            this.pnlLeft.Size = new System.Drawing.Size(300, 388);
+            this.pnlLeft.Size = new System.Drawing.Size(300, 438);
             this.pnlLeft.TabIndex = 3;
             // 
             // tvExplorer
@@ -684,7 +684,7 @@
             this.tvExplorer.Name = "tvExplorer";
             this.tvExplorer.SelectedImageIndex = 0;
             this.tvExplorer.ShowRootLines = false;
-            this.tvExplorer.Size = new System.Drawing.Size(300, 388);
+            this.tvExplorer.Size = new System.Drawing.Size(300, 438);
             this.tvExplorer.TabIndex = 0;
             this.tvExplorer.BeforeCollapse += new System.Windows.Forms.TreeViewCancelEventHandler(this.tvExplorer_BeforeCollapse);
             this.tvExplorer.AfterCollapse += new System.Windows.Forms.TreeViewEventHandler(this.tvExplorer_AfterCollapse);
@@ -708,7 +708,7 @@
             this.splVert.MinExtra = 100;
             this.splVert.MinSize = 100;
             this.splVert.Name = "splVert";
-            this.splVert.Size = new System.Drawing.Size(3, 388);
+            this.splVert.Size = new System.Drawing.Size(3, 438);
             this.splVert.TabIndex = 4;
             this.splVert.TabStop = false;
             // 
@@ -718,7 +718,7 @@
             this.pnlRight.Dock = System.Windows.Forms.DockStyle.Fill;
             this.pnlRight.Location = new System.Drawing.Point(303, 49);
             this.pnlRight.Name = "pnlRight";
-            this.pnlRight.Size = new System.Drawing.Size(431, 388);
+            this.pnlRight.Size = new System.Drawing.Size(481, 438);
             this.pnlRight.TabIndex = 5;
             // 
             // wctrlMain
@@ -733,7 +733,7 @@
             this.wctrlMain.SaveReqNo = "&No";
             this.wctrlMain.SaveReqQuestion = "Save changes to the following items?";
             this.wctrlMain.SaveReqYes = "&Yes";
-            this.wctrlMain.Size = new System.Drawing.Size(431, 388);
+            this.wctrlMain.Size = new System.Drawing.Size(481, 438);
             this.wctrlMain.TabIndex = 0;
             this.wctrlMain.ActiveFormChanged += new System.EventHandler(this.wctrlMain_ActiveFormChanged);
             this.wctrlMain.ChildFormClosed += new System.EventHandler<WinControl.ChildFormClosedEventArgs>(this.wctrlMain_ChildFormClosed);
@@ -1196,7 +1196,7 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(734, 461);
+            this.ClientSize = new System.Drawing.Size(784, 511);
             this.Controls.Add(this.pnlRight);
             this.Controls.Add(this.splVert);
             this.Controls.Add(this.pnlLeft);
