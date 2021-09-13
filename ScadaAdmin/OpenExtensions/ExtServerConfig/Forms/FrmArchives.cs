@@ -7,15 +7,9 @@ using Scada.Server.Archives;
 using Scada.Server.Config;
 using Scada.Server.Lang;
 using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
 using System.IO;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
+using WinControl;
 
 namespace Scada.Admin.Extensions.ExtServerConfig.Forms
 {
@@ -23,11 +17,12 @@ namespace Scada.Admin.Extensions.ExtServerConfig.Forms
     /// Represents a form for editing archives.
     /// <para>Представляет форму для редактирования архивов.</para>
     /// </summary>
-    public partial class FrmArchives : Form
+    public partial class FrmArchives : Form, IChildForm
     {
         private readonly IAdminContext adminContext; // the Administrator context
         private readonly ServerApp serverApp;        // the server application in a project
         private readonly ServerConfig serverConfig;  // the server configuration
+        private bool changing; // controls are being changed programmatically
 
 
         /// <summary>
@@ -47,7 +42,14 @@ namespace Scada.Admin.Extensions.ExtServerConfig.Forms
             this.adminContext = adminContext ?? throw new ArgumentNullException(nameof(adminContext));
             this.serverApp = serverApp ?? throw new ArgumentNullException(nameof(serverApp));
             serverConfig = serverApp.Config;
+            changing = false;
         }
+
+
+        /// <summary>
+        /// Gets or sets the object associated with the form.
+        /// </summary>
+        public ChildFormTag ChildFormTag { get; set; }
 
 
         /// <summary>
@@ -85,25 +87,6 @@ namespace Scada.Admin.Extensions.ExtServerConfig.Forms
                 cbModule.EndUpdate();
             }
         }
-        
-        /// <summary>
-        /// Creates a new list view item that represents an archive.
-        /// </summary>
-        private ListViewItem CreateArchiveItem(ArchiveConfig archiveConfig, ref int index)
-        {
-            return new ListViewItem(new string[]
-            {
-                (++index).ToString(),
-                archiveConfig.Active ? "V" : " ", 
-                archiveConfig.Code,
-                archiveConfig.Name,
-                TranslateArchiveKind(archiveConfig.Kind),
-                archiveConfig.Module
-            })
-            {
-                Tag = archiveConfig
-            };
-        }
 
         /// <summary>
         /// Sets the controls according to the configuration.
@@ -129,6 +112,104 @@ namespace Scada.Admin.Extensions.ExtServerConfig.Forms
                 lvArchive.EndUpdate();
             }
         }
+        
+        /// <summary>
+        /// Sets the configuration according to the controls.
+        /// </summary>
+        private void ControlsToConfig()
+        {
+            serverConfig.Archives.Clear();
+
+            foreach (ListViewItem item in lvArchive.Items)
+            {
+                serverConfig.Archives.Add((ArchiveConfig)item.Tag);
+            }
+        }
+
+        /// <summary>
+        /// Enables or disables the controls.
+        /// </summary>
+        private void SetControlsEnabled()
+        {
+            if (lvArchive.SelectedItems.Count > 0)
+            {
+                int index = lvArchive.SelectedIndices[0];
+                btnMoveUpArchive.Enabled = index > 0;
+                btnMoveDownArchive.Enabled = index < lvArchive.Items.Count - 1;
+                btnDeleteArchive.Enabled = true;
+                gbArchive.Enabled = true;
+            }
+            else
+            {
+                btnMoveUpArchive.Enabled = false;
+                btnMoveDownArchive.Enabled = false;
+                btnDeleteArchive.Enabled = false;
+                gbArchive.Enabled = false;
+            }
+        }
+
+        /// <summary>
+        /// Gets the selected list view item and the corresponding archive configuration.
+        /// </summary>
+        private bool GetSelectedItem(out ListViewItem item, out ArchiveConfig archiveConfig)
+        {
+            if (lvArchive.SelectedItems.Count > 0)
+            {
+                item = lvArchive.SelectedItems[0];
+                archiveConfig = (ArchiveConfig)item.Tag;
+                return true;
+            }
+            else
+            {
+                item = null;
+                archiveConfig = null;
+                return false;
+            }
+        }
+
+        /// <summary>
+        /// Displays the specified archive properties.
+        /// </summary>
+        private void DisplayArchive(ArchiveConfig archiveConfig)
+        {
+            if (archiveConfig == null)
+            {
+                chkActive.Checked = false;
+                txtCode.Text = "";
+                txtName.Text = "";
+                cbKind.SelectedIndex = -1;
+                cbModule.Text = "";
+                txtOptions.Text = "";
+            }
+            else
+            {
+                chkActive.Checked = archiveConfig.Active;
+                txtCode.Text = archiveConfig.Code;
+                txtName.Text = archiveConfig.Name;
+                cbKind.SelectedIndex = (int)archiveConfig.Kind;
+                cbModule.Text = archiveConfig.Module;
+                txtOptions.Text = archiveConfig.CustomOptions.ToString();
+            }
+        }
+
+        /// <summary>
+        /// Creates a new list view item that represents an archive.
+        /// </summary>
+        private static ListViewItem CreateArchiveItem(ArchiveConfig archiveConfig, ref int index)
+        {
+            return new ListViewItem(new string[]
+            {
+                (++index).ToString(),
+                archiveConfig.Active ? "V" : " ",
+                archiveConfig.Code,
+                archiveConfig.Name,
+                TranslateArchiveKind(archiveConfig.Kind),
+                archiveConfig.Module
+            })
+            {
+                Tag = archiveConfig
+            };
+        }
 
         /// <summary>
         /// Translates the specified archive kind.
@@ -144,13 +225,114 @@ namespace Scada.Admin.Extensions.ExtServerConfig.Forms
             };
         }
 
+        /// <summary>
+        /// Saves the settings.
+        /// </summary>
+        public void Save()
+        {
+            ControlsToConfig();
+
+            if (serverApp.SaveConfig(out string errMsg))
+                ChildFormTag.Modified = false;
+            else
+                adminContext.ErrLog.HandleError(errMsg);
+        }
+
 
         private void FrmArchives_Load(object sender, EventArgs e)
         {
             FormTranslator.Translate(this, GetType().FullName);
             FillKindComboBox();
             FillModuleComboBox();
+            SetControlsEnabled();
             ConfigToControls();
+        }
+
+        private void btnAddArchive_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void btnMoveUpArchive_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void btnMoveDownArchive_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void btnDeleteArchive_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void lvArchive_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            // display the selected item properties
+            if (GetSelectedItem(out _, out ArchiveConfig archiveConfig))
+            {
+                changing = true;
+                DisplayArchive(archiveConfig);
+                SetControlsEnabled();
+                changing = false;
+            }
+        }
+
+        private void chkActive_CheckedChanged(object sender, EventArgs e)
+        {
+            if (!changing && GetSelectedItem(out ListViewItem item, out ArchiveConfig archiveConfig))
+            {
+                archiveConfig.Active = chkActive.Checked;
+                item.SubItems[1].Text = chkActive.Checked ? "V" : " ";
+                ChildFormTag.Modified = true;
+            }
+        }
+
+        private void txtCode_TextChanged(object sender, EventArgs e)
+        {
+            if (!changing && GetSelectedItem(out ListViewItem item, out ArchiveConfig archiveConfig))
+            {
+                archiveConfig.Code = txtCode.Text;
+                item.SubItems[2].Text = txtCode.Text;
+                ChildFormTag.Modified = true;
+            }
+        }
+
+        private void txtName_TextChanged(object sender, EventArgs e)
+        {
+            if (!changing && GetSelectedItem(out ListViewItem item, out ArchiveConfig archiveConfig))
+            {
+                archiveConfig.Name = txtName.Text;
+                item.SubItems[3].Text = txtName.Text;
+                ChildFormTag.Modified = true;
+            }
+        }
+
+        private void cbKind_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            if (!changing && GetSelectedItem(out ListViewItem item, out ArchiveConfig archiveConfig))
+            {
+                archiveConfig.Kind = (ArchiveKind)cbKind.SelectedIndex;
+                item.SubItems[4].Text = TranslateArchiveKind(archiveConfig.Kind);
+                ChildFormTag.Modified = true;
+            }
+        }
+
+        private void cbModule_TextChanged(object sender, EventArgs e)
+        {
+            if (!changing && GetSelectedItem(out ListViewItem item, out ArchiveConfig archiveConfig))
+            {
+                archiveConfig.Module = cbModule.Text;
+                item.SubItems[5].Text = cbModule.Text;
+                ChildFormTag.Modified = true;
+            }
+        }
+
+        private void btnProperties_Click(object sender, EventArgs e)
+        {
+
         }
     }
 }

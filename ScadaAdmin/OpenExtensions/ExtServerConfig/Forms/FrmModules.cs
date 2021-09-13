@@ -137,7 +137,7 @@ namespace Scada.Admin.Extensions.ExtServerConfig.Forms
         /// <summary>
         /// Sets the configuration according to the controls.
         /// </summary>
-        private void ControlsToSettings()
+        private void ControlsToConfig()
         {
             serverConfig.ModuleCodes.Clear();
 
@@ -230,7 +230,7 @@ namespace Scada.Admin.Extensions.ExtServerConfig.Forms
         /// </summary>
         public void Save()
         {
-            ControlsToSettings();
+            ControlsToConfig();
 
             if (serverApp.SaveConfig(out string errMsg))
                 ChildFormTag.Modified = false;

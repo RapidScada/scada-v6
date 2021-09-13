@@ -31,7 +31,7 @@ namespace Scada.Admin.Extensions.ExtServerConfig.Forms
         {
             this.btnAddArchive = new System.Windows.Forms.Button();
             this.btnMoveUpArchive = new System.Windows.Forms.Button();
-            this.btnMoveDown = new System.Windows.Forms.Button();
+            this.btnMoveDownArchive = new System.Windows.Forms.Button();
             this.btnDeleteArchive = new System.Windows.Forms.Button();
             this.lvArchive = new System.Windows.Forms.ListView();
             this.colOrder = new System.Windows.Forms.ColumnHeader();
@@ -41,7 +41,7 @@ namespace Scada.Admin.Extensions.ExtServerConfig.Forms
             this.colKind = new System.Windows.Forms.ColumnHeader();
             this.colModule = new System.Windows.Forms.ColumnHeader();
             this.gbArchive = new System.Windows.Forms.GroupBox();
-            this.button1 = new System.Windows.Forms.Button();
+            this.btnProperties = new System.Windows.Forms.Button();
             this.txtOptions = new System.Windows.Forms.TextBox();
             this.lblOptions = new System.Windows.Forms.Label();
             this.cbModule = new System.Windows.Forms.ComboBox();
@@ -60,37 +60,41 @@ namespace Scada.Admin.Extensions.ExtServerConfig.Forms
             // 
             this.btnAddArchive.Location = new System.Drawing.Point(12, 12);
             this.btnAddArchive.Name = "btnAddArchive";
-            this.btnAddArchive.Size = new System.Drawing.Size(75, 23);
+            this.btnAddArchive.Size = new System.Drawing.Size(80, 23);
             this.btnAddArchive.TabIndex = 0;
             this.btnAddArchive.Text = "Add";
             this.btnAddArchive.UseVisualStyleBackColor = true;
+            this.btnAddArchive.Click += new System.EventHandler(this.btnAddArchive_Click);
             // 
             // btnMoveUpArchive
             // 
-            this.btnMoveUpArchive.Location = new System.Drawing.Point(93, 12);
+            this.btnMoveUpArchive.Location = new System.Drawing.Point(98, 12);
             this.btnMoveUpArchive.Name = "btnMoveUpArchive";
-            this.btnMoveUpArchive.Size = new System.Drawing.Size(75, 23);
+            this.btnMoveUpArchive.Size = new System.Drawing.Size(80, 23);
             this.btnMoveUpArchive.TabIndex = 1;
             this.btnMoveUpArchive.Text = "Move Up";
             this.btnMoveUpArchive.UseVisualStyleBackColor = true;
+            this.btnMoveUpArchive.Click += new System.EventHandler(this.btnMoveUpArchive_Click);
             // 
-            // btnMoveDown
+            // btnMoveDownArchive
             // 
-            this.btnMoveDown.Location = new System.Drawing.Point(174, 12);
-            this.btnMoveDown.Name = "btnMoveDown";
-            this.btnMoveDown.Size = new System.Drawing.Size(75, 23);
-            this.btnMoveDown.TabIndex = 2;
-            this.btnMoveDown.Text = "Move Down";
-            this.btnMoveDown.UseVisualStyleBackColor = true;
+            this.btnMoveDownArchive.Location = new System.Drawing.Point(184, 12);
+            this.btnMoveDownArchive.Name = "btnMoveDownArchive";
+            this.btnMoveDownArchive.Size = new System.Drawing.Size(80, 23);
+            this.btnMoveDownArchive.TabIndex = 2;
+            this.btnMoveDownArchive.Text = "Move Down";
+            this.btnMoveDownArchive.UseVisualStyleBackColor = true;
+            this.btnMoveDownArchive.Click += new System.EventHandler(this.btnMoveDownArchive_Click);
             // 
             // btnDeleteArchive
             // 
-            this.btnDeleteArchive.Location = new System.Drawing.Point(255, 12);
+            this.btnDeleteArchive.Location = new System.Drawing.Point(270, 12);
             this.btnDeleteArchive.Name = "btnDeleteArchive";
-            this.btnDeleteArchive.Size = new System.Drawing.Size(75, 23);
+            this.btnDeleteArchive.Size = new System.Drawing.Size(80, 23);
             this.btnDeleteArchive.TabIndex = 3;
             this.btnDeleteArchive.Text = "Delete";
             this.btnDeleteArchive.UseVisualStyleBackColor = true;
+            this.btnDeleteArchive.Click += new System.EventHandler(this.btnDeleteArchive_Click);
             // 
             // lvArchive
             // 
@@ -115,6 +119,7 @@ namespace Scada.Admin.Extensions.ExtServerConfig.Forms
             this.lvArchive.TabIndex = 4;
             this.lvArchive.UseCompatibleStateImageBehavior = false;
             this.lvArchive.View = System.Windows.Forms.View.Details;
+            this.lvArchive.SelectedIndexChanged += new System.EventHandler(this.lvArchive_SelectedIndexChanged);
             // 
             // colOrder
             // 
@@ -150,7 +155,7 @@ namespace Scada.Admin.Extensions.ExtServerConfig.Forms
             // gbArchive
             // 
             this.gbArchive.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-            this.gbArchive.Controls.Add(this.button1);
+            this.gbArchive.Controls.Add(this.btnProperties);
             this.gbArchive.Controls.Add(this.txtOptions);
             this.gbArchive.Controls.Add(this.lblOptions);
             this.gbArchive.Controls.Add(this.cbModule);
@@ -170,14 +175,15 @@ namespace Scada.Admin.Extensions.ExtServerConfig.Forms
             this.gbArchive.TabStop = false;
             this.gbArchive.Text = "Selected Archive";
             // 
-            // button1
+            // btnProperties
             // 
-            this.button1.Location = new System.Drawing.Point(13, 223);
-            this.button1.Name = "button1";
-            this.button1.Size = new System.Drawing.Size(100, 23);
-            this.button1.TabIndex = 11;
-            this.button1.Text = "Properties";
-            this.button1.UseVisualStyleBackColor = true;
+            this.btnProperties.Location = new System.Drawing.Point(13, 223);
+            this.btnProperties.Name = "btnProperties";
+            this.btnProperties.Size = new System.Drawing.Size(100, 23);
+            this.btnProperties.TabIndex = 11;
+            this.btnProperties.Text = "Properties";
+            this.btnProperties.UseVisualStyleBackColor = true;
+            this.btnProperties.Click += new System.EventHandler(this.btnProperties_Click);
             // 
             // txtOptions
             // 
@@ -206,6 +212,7 @@ namespace Scada.Admin.Extensions.ExtServerConfig.Forms
             this.cbModule.Name = "cbModule";
             this.cbModule.Size = new System.Drawing.Size(368, 23);
             this.cbModule.TabIndex = 8;
+            this.cbModule.TextChanged += new System.EventHandler(this.cbModule_TextChanged);
             // 
             // lblModule
             // 
@@ -224,6 +231,7 @@ namespace Scada.Admin.Extensions.ExtServerConfig.Forms
             this.cbKind.Name = "cbKind";
             this.cbKind.Size = new System.Drawing.Size(368, 23);
             this.cbKind.TabIndex = 6;
+            this.cbKind.SelectedIndexChanged += new System.EventHandler(this.cbKind_SelectedIndexChanged);
             // 
             // lblKind
             // 
@@ -240,6 +248,7 @@ namespace Scada.Admin.Extensions.ExtServerConfig.Forms
             this.txtName.Name = "txtName";
             this.txtName.Size = new System.Drawing.Size(368, 23);
             this.txtName.TabIndex = 4;
+            this.txtName.TextChanged += new System.EventHandler(this.txtName_TextChanged);
             // 
             // lblName
             // 
@@ -256,6 +265,7 @@ namespace Scada.Admin.Extensions.ExtServerConfig.Forms
             this.txtCode.Name = "txtCode";
             this.txtCode.Size = new System.Drawing.Size(368, 23);
             this.txtCode.TabIndex = 2;
+            this.txtCode.TextChanged += new System.EventHandler(this.txtCode_TextChanged);
             // 
             // lblCode
             // 
@@ -275,6 +285,7 @@ namespace Scada.Admin.Extensions.ExtServerConfig.Forms
             this.chkActive.TabIndex = 0;
             this.chkActive.Text = "Active";
             this.chkActive.UseVisualStyleBackColor = true;
+            this.chkActive.CheckedChanged += new System.EventHandler(this.chkActive_CheckedChanged);
             // 
             // FrmArchives
             // 
@@ -284,7 +295,7 @@ namespace Scada.Admin.Extensions.ExtServerConfig.Forms
             this.Controls.Add(this.gbArchive);
             this.Controls.Add(this.lvArchive);
             this.Controls.Add(this.btnDeleteArchive);
-            this.Controls.Add(this.btnMoveDown);
+            this.Controls.Add(this.btnMoveDownArchive);
             this.Controls.Add(this.btnMoveUpArchive);
             this.Controls.Add(this.btnAddArchive);
             this.Name = "FrmArchives";
@@ -300,7 +311,7 @@ namespace Scada.Admin.Extensions.ExtServerConfig.Forms
 
         private System.Windows.Forms.Button btnAddArchive;
         private System.Windows.Forms.Button btnMoveUpArchive;
-        private System.Windows.Forms.Button btnMoveDown;
+        private System.Windows.Forms.Button btnMoveDownArchive;
         private System.Windows.Forms.Button btnDeleteArchive;
         private System.Windows.Forms.ListView lvArchive;
         private System.Windows.Forms.ColumnHeader colOrder;
@@ -321,6 +332,6 @@ namespace Scada.Admin.Extensions.ExtServerConfig.Forms
         private System.Windows.Forms.Label lblKind;
         private System.Windows.Forms.TextBox txtOptions;
         private System.Windows.Forms.Label lblOptions;
-        private System.Windows.Forms.Button button1;
+        private System.Windows.Forms.Button btnProperties;
     }
 }

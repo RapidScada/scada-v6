@@ -25,6 +25,7 @@
 
 using System;
 using System.Collections.Generic;
+using System.Text;
 using System.Xml;
 
 namespace Scada.Config
@@ -62,6 +63,30 @@ namespace Scada.Config
             {
                 xmlElem.AppendOptionElem(pair.Key, pair.Value);
             }
+        }
+
+        /// <summary>
+        /// Returns a string that represents the current object.
+        /// </summary>
+        public override string ToString()
+        {
+            StringBuilder stringBuilder = new StringBuilder();
+            bool addLine = false;
+
+            foreach (KeyValuePair<string, string> pair in this)
+            {
+                if (addLine)
+                    stringBuilder.AppendLine();
+                else
+                    addLine = true;
+
+                stringBuilder
+                    .Append(pair.Key)
+                    .Append(" = ")
+                    .Append(pair.Value);
+            }
+
+            return stringBuilder.ToString();
         }
     }
 }
