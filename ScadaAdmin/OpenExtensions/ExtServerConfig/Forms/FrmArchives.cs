@@ -255,29 +255,30 @@ namespace Scada.Admin.Extensions.ExtServerConfig.Forms
 
         private void btnMoveUpArchive_Click(object sender, EventArgs e)
         {
-
+            if (lvArchive.MoveUpSelectedItem(true))
+                ChildFormTag.Modified = true;
         }
 
         private void btnMoveDownArchive_Click(object sender, EventArgs e)
         {
-
+            if (lvArchive.MoveDownSelectedItem(true))
+                ChildFormTag.Modified = true;
         }
 
         private void btnDeleteArchive_Click(object sender, EventArgs e)
         {
-
+            if (lvArchive.RemoveSelectedItem(true))
+                ChildFormTag.Modified = true;
         }
 
         private void lvArchive_SelectedIndexChanged(object sender, EventArgs e)
         {
             // display the selected item properties
-            if (GetSelectedItem(out _, out ArchiveConfig archiveConfig))
-            {
-                changing = true;
-                DisplayArchive(archiveConfig);
-                SetControlsEnabled();
-                changing = false;
-            }
+            changing = true;
+            GetSelectedItem(out _, out ArchiveConfig archiveConfig);
+            DisplayArchive(archiveConfig);
+            SetControlsEnabled();
+            changing = false;
         }
 
         private void chkActive_CheckedChanged(object sender, EventArgs e)
