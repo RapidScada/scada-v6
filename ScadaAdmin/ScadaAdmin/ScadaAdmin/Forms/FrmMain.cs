@@ -328,7 +328,7 @@ namespace Scada.Admin.App.Forms
             }
             else
             {
-                foreach (TreeNode node in TreeViewUtils.IterateNodes(tvExplorer.Nodes))
+                foreach (TreeNode node in tvExplorer.Nodes.IterateNodes())
                 {
                     if (node.Tag is TreeNodeTag tag && tag.ExistingForm == form)
                         return node;
@@ -343,7 +343,7 @@ namespace Scada.Admin.App.Forms
         /// </summary>
         private TreeNode FindTreeNode(object relatedObject, TreeNode startNode)
         {
-            foreach (TreeNode node in TreeViewUtils.IterateNodes(startNode))
+            foreach (TreeNode node in startNode.IterateNodes())
             {
                 if (node.Tag is TreeNodeTag tag && tag.RelatedObject == relatedObject)
                     return node;
@@ -367,7 +367,7 @@ namespace Scada.Admin.App.Forms
         /// </summary>
         private void UpdateChildFormHints(TreeNode treeNode)
         {
-            foreach (TreeNode node in TreeViewUtils.IterateNodes(treeNode))
+            foreach (TreeNode node in treeNode.IterateNodes())
             {
                 if (node.Tag is TreeNodeTag tag && tag.ExistingForm != null)
                 {
@@ -381,7 +381,7 @@ namespace Scada.Admin.App.Forms
         /// </summary>
         private void UpdateTextEditorFileNames(TreeNode treeNode)
         {
-            foreach (TreeNode node in TreeViewUtils.IterateNodes(treeNode))
+            foreach (TreeNode node in treeNode.IterateNodes())
             {
                 if (node.Tag is TreeNodeTag tag && tag.RelatedObject is FileItem fileItem &&
                     node.Parent.Tag is TreeNodeTag parentTag && parentTag.RelatedObject is FileItem parenFileItem)
@@ -473,7 +473,7 @@ namespace Scada.Admin.App.Forms
         private void CloseChildForms(TreeNode treeNode, bool save = false, bool skipRoot = false)
         {
             foreach (TreeNode node in 
-                skipRoot ? TreeViewUtils.IterateNodes(treeNode.Nodes) : TreeViewUtils.IterateNodes(treeNode))
+                skipRoot ? treeNode.Nodes.IterateNodes() : treeNode.IterateNodes())
             {
                 if (node.Tag is TreeNodeTag tag && tag.ExistingForm != null)
                 {
@@ -490,7 +490,7 @@ namespace Scada.Admin.App.Forms
         /// </summary>
         private static void SaveChildForms(TreeNode treeNode)
         {
-            foreach (TreeNode node in TreeViewUtils.IterateNodes(treeNode))
+            foreach (TreeNode node in treeNode.IterateNodes())
             {
                 if (node.Tag is TreeNodeTag tag && 
                     tag.ExistingForm is IChildForm childForm && childForm.ChildFormTag.Modified)

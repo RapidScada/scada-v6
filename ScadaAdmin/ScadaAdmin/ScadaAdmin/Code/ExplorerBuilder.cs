@@ -98,11 +98,11 @@ namespace Scada.Admin.App.Code
         /// </summary>
         private TreeNode CreateBaseNode(ConfigBase configBase)
         {
-            TreeNode baseNode = TreeViewUtils.CreateNode(AppPhrases.BaseNode, "database.png");
+            TreeNode baseNode = TreeViewExtensions.CreateNode(AppPhrases.BaseNode, "database.png");
             baseNode.Tag = new TreeNodeTag(project.ConfigBase, ExplorerNodeType.Base);
 
             // primary tables sorted in the order they are configured
-            TreeNode primaryNode = TreeViewUtils.CreateNode(AppPhrases.PrimaryTablesNode, "folder_closed.png");
+            TreeNode primaryNode = TreeViewExtensions.CreateNode(AppPhrases.PrimaryTablesNode, "folder_closed.png");
             primaryNode.Nodes.Add(CreateBaseTableNode(configBase.ObjTable));
             primaryNode.Nodes.Add(CreateBaseTableNode(configBase.CommLineTable));
             primaryNode.Nodes.Add(CreateBaseTableNode(configBase.DeviceTable));
@@ -124,7 +124,7 @@ namespace Scada.Admin.App.Code
             baseNode.Nodes.Add(primaryNode);
 
             // secondary tables in alphabetical order
-            TreeNode secondaryNode = TreeViewUtils.CreateNode(AppPhrases.SecondaryTablesNode, "folder_closed.png");
+            TreeNode secondaryNode = TreeViewExtensions.CreateNode(AppPhrases.SecondaryTablesNode, "folder_closed.png");
             SortedList<string, TreeNode> secondaryNodes = new()
             {
                 { configBase.ArchiveTable.Title, CreateBaseTableNode(configBase.ArchiveTable) },
@@ -154,7 +154,7 @@ namespace Scada.Admin.App.Code
         /// </summary>
         private TreeNode CreateBaseTableNode(IBaseTable baseTable)
         {
-            TreeNode baseTableNode = TreeViewUtils.CreateNode(baseTable.Title, "table.png");
+            TreeNode baseTableNode = TreeViewExtensions.CreateNode(baseTable.Title, "table.png");
             baseTableNode.Tag = CreateBaseTableTag(baseTable);
             BaseTableNodes.Add(baseTable.Name, baseTableNode);
             return baseTableNode;
@@ -183,23 +183,23 @@ namespace Scada.Admin.App.Code
             {
                 string nodeText = string.Format(AppPhrases.TableByDeviceNode, device.DeviceNum, device.Name);
 
-                TreeNode inCnlsByDeviceNode = TreeViewUtils.CreateNode(nodeText, "table.png");
+                TreeNode inCnlsByDeviceNode = TreeViewExtensions.CreateNode(nodeText, "table.png");
                 inCnlsByDeviceNode.ContextMenuStrip = contextMenus.CnlTableMenu;
                 inCnlsByDeviceNode.Tag = CreateBaseTableTag(configBase.InCnlTable, CreateFilterByDevice(device));
                 inCnlTableNode.Nodes.Add(inCnlsByDeviceNode);
 
-                TreeNode outCnlsByDeviceNode = TreeViewUtils.CreateNode(nodeText, "table.png");
+                TreeNode outCnlsByDeviceNode = TreeViewExtensions.CreateNode(nodeText, "table.png");
                 outCnlsByDeviceNode.ContextMenuStrip = contextMenus.CnlTableMenu;
                 outCnlsByDeviceNode.Tag = CreateBaseTableTag(configBase.OutCnlTable, CreateFilterByDevice(device));
                 outCnlTableNode.Nodes.Add(outCnlsByDeviceNode);
             }
 
-            TreeNode inCnlsEmptyDeviceNode = TreeViewUtils.CreateNode(AppPhrases.EmptyDeviceNode, "table.png");
+            TreeNode inCnlsEmptyDeviceNode = TreeViewExtensions.CreateNode(AppPhrases.EmptyDeviceNode, "table.png");
             inCnlsEmptyDeviceNode.ContextMenuStrip = contextMenus.CnlTableMenu;
             inCnlsEmptyDeviceNode.Tag = CreateBaseTableTag(configBase.InCnlTable, CreateFilterByDevice(null));
             inCnlTableNode.Nodes.Add(inCnlsEmptyDeviceNode);
 
-            TreeNode outCnlsEmptyDeviceNode = TreeViewUtils.CreateNode(AppPhrases.EmptyDeviceNode, "table.png");
+            TreeNode outCnlsEmptyDeviceNode = TreeViewExtensions.CreateNode(AppPhrases.EmptyDeviceNode, "table.png");
             outCnlsEmptyDeviceNode.ContextMenuStrip = contextMenus.CnlTableMenu;
             outCnlsEmptyDeviceNode.Tag = CreateBaseTableTag(configBase.OutCnlTable, CreateFilterByDevice(null));
             outCnlTableNode.Nodes.Add(outCnlsEmptyDeviceNode);
@@ -210,7 +210,7 @@ namespace Scada.Admin.App.Code
         /// </summary>
         private TreeNode CreateAppNode(ProjectApp projectApp, string imageKey)
         {
-            TreeNode appNode = TreeViewUtils.CreateNode(projectApp.AppName, imageKey);
+            TreeNode appNode = TreeViewExtensions.CreateNode(projectApp.AppName, imageKey);
             appNode.ContextMenuStrip = contextMenus.AppMenu;
             appNode.Tag = new TreeNodeTag(projectApp, ExplorerNodeType.App);
             appNode.Nodes.AddRange(appData.ExtensionHolder.GetTreeNodes(projectApp).ToArray());
@@ -223,7 +223,7 @@ namespace Scada.Admin.App.Code
         /// </summary>
         private TreeNode CreateAppConfigNode(ProjectApp projectApp)
         {
-            TreeNode appConfigNode = TreeViewUtils.CreateNode(AppPhrases.AppConfigNode, "folder_closed.png");
+            TreeNode appConfigNode = TreeViewExtensions.CreateNode(AppPhrases.AppConfigNode, "folder_closed.png");
             appConfigNode.ContextMenuStrip = contextMenus.DirectoryMenu;
             appConfigNode.Tag = new TreeNodeTag(projectApp, ExplorerNodeType.AppConfig);
             appConfigNode.Nodes.Add(CreateEmptyNode());
@@ -235,7 +235,7 @@ namespace Scada.Admin.App.Code
         /// </summary>
         private TreeNode CreateDirectoryNode(DirectoryInfo directoryInfo)
         {
-            TreeNode directoryNode = TreeViewUtils.CreateNode(directoryInfo.Name, "folder_closed.png");
+            TreeNode directoryNode = TreeViewExtensions.CreateNode(directoryInfo.Name, "folder_closed.png");
             directoryNode.ContextMenuStrip = contextMenus.DirectoryMenu;
             directoryNode.Tag = new TreeNodeTag(new FileItem(directoryInfo), ExplorerNodeType.Directory);
             return directoryNode;
@@ -246,7 +246,7 @@ namespace Scada.Admin.App.Code
         /// </summary>
         private TreeNode CreateFileNode(FileInfo fileInfo)
         {
-            TreeNode fileNode = TreeViewUtils.CreateNode(fileInfo.Name, "file.png");
+            TreeNode fileNode = TreeViewExtensions.CreateNode(fileInfo.Name, "file.png");
             fileNode.ContextMenuStrip = contextMenus.FileItemMenu;
             fileNode.Tag = new TreeNodeTag(new FileItem(fileInfo), ExplorerNodeType.File);
             return fileNode;
@@ -276,7 +276,7 @@ namespace Scada.Admin.App.Code
         /// </summary>
         private static TreeNode CreateEmptyNode()
         {
-            return TreeViewUtils.CreateNode(AppPhrases.EmptyNode, "empty.png");
+            return TreeViewExtensions.CreateNode(AppPhrases.EmptyNode, "empty.png");
         }
 
         /// <summary>
@@ -314,7 +314,7 @@ namespace Scada.Admin.App.Code
                 treeView.Nodes.Clear();
 
                 // project node
-                ProjectNode = TreeViewUtils.CreateNode(project.Name, "project.png", true);
+                ProjectNode = TreeViewExtensions.CreateNode(project.Name, "project.png", true);
                 ProjectNode.ContextMenuStrip = contextMenus.ProjectMenu;
                 ProjectNode.Tag = new TreeNodeTag(project, ExplorerNodeType.Project);
                 treeView.Nodes.Add(ProjectNode);
@@ -324,14 +324,14 @@ namespace Scada.Admin.App.Code
                 ProjectNode.Nodes.Add(BaseNode);
 
                 // views node
-                ViewsNode = TreeViewUtils.CreateNode(AppPhrases.ViewsNode, "views.png");
+                ViewsNode = TreeViewExtensions.CreateNode(AppPhrases.ViewsNode, "views.png");
                 ViewsNode.ContextMenuStrip = contextMenus.DirectoryMenu;
                 ViewsNode.Tag = new TreeNodeTag(project.Views, ExplorerNodeType.Views);
                 ViewsNode.Nodes.Add(CreateEmptyNode());
                 ProjectNode.Nodes.Add(ViewsNode);
 
                 // instances node
-                InstancesNode = TreeViewUtils.CreateNode(AppPhrases.InstancesNode, "instances.png");
+                InstancesNode = TreeViewExtensions.CreateNode(AppPhrases.InstancesNode, "instances.png");
                 InstancesNode.ContextMenuStrip = contextMenus.InstanceMenu;
                 InstancesNode.Tag = new TreeNodeTag(project.Instances, ExplorerNodeType.Instances);
                 project.Instances.ForEach(i => InstancesNode.Nodes.Add(CreateInstanceNode(i)));
@@ -351,7 +351,7 @@ namespace Scada.Admin.App.Code
         /// </summary>
         public TreeNode CreateInstanceNode(ProjectInstance projectInstance)
         {
-            TreeNode instanceNode = TreeViewUtils.CreateNode(projectInstance.Name, "instance.png");
+            TreeNode instanceNode = TreeViewExtensions.CreateNode(projectInstance.Name, "instance.png");
             instanceNode.ContextMenuStrip = contextMenus.InstanceMenu;
             instanceNode.Tag = new TreeNodeTag(new LiveInstance(projectInstance), ExplorerNodeType.Instance);
             instanceNode.Nodes.Add(CreateEmptyNode());
@@ -381,7 +381,7 @@ namespace Scada.Admin.App.Code
         /// </summary>
         public void FillViewsNode(TreeNode viewsNode)
         {
-            if (TreeViewUtils.GetRelatedObject(viewsNode) is ProjectViews projectViews)
+            if (viewsNode?.GetRelatedObject() is ProjectViews projectViews)
                 FillFileNode(viewsNode, projectViews.ViewDir);
         }
 
@@ -410,7 +410,7 @@ namespace Scada.Admin.App.Code
         /// </summary>
         public void FillInstanceNode(TreeNode instanceNode)
         {
-            if (TreeViewUtils.GetRelatedObject(instanceNode) is not LiveInstance liveInstance)
+            if (instanceNode?.GetRelatedObject() is not LiveInstance liveInstance)
                 return;
 
             try
@@ -439,7 +439,7 @@ namespace Scada.Admin.App.Code
         /// </summary>
         public void FillAppConfigNode(TreeNode appConfigNode)
         {
-            if (TreeViewUtils.GetRelatedObject(appConfigNode) is ProjectApp app)
+            if (appConfigNode?.GetRelatedObject() is ProjectApp app)
                 FillFileNode(appConfigNode, app.ConfigDir);
         }
 
