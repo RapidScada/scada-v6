@@ -16,7 +16,7 @@
  * 
  * Product  : Rapid SCADA
  * Module   : ScadaCommon.Forms
- * Summary  : The class provides helper methods for a TreeView control
+ * Summary  : The class provides extension methods for a TreeView control
  * 
  * Author   : Mikhail Shiryaev
  * Created  : 2016
@@ -31,10 +31,10 @@ using System.Windows.Forms;
 namespace Scada.Forms
 {
     /// <summary>
-    /// The class provides helper methods for a TreeView control.
-    /// <para>Класс, предоставляющий вспомогательные методы для работы с элементом управления TreeView.</para>
+    /// The class provides extension methods for a TreeView control.
+    /// <para>Класс, предоставляющий методы расширения для элемента управления TreeView.</para>
     /// </summary>
-    public static class TreeViewUtils
+    public static class TreeViewExtensions
     {
         /// <summary>
         /// Gets the child nodes of the specified parent, or the 1st level child nodes if the parent is null.
@@ -83,7 +83,7 @@ namespace Scada.Forms
         /// <summary>
         /// Recursively iterates over the tree nodes.
         /// </summary>
-        public static IEnumerable<TreeNode> IterateNodes(TreeNodeCollection nodes)
+        public static IEnumerable<TreeNode> IterateNodes(this TreeNodeCollection nodes)
         {
             foreach (TreeNode node in nodes)
             {
@@ -99,7 +99,7 @@ namespace Scada.Forms
         /// <summary>
         /// Recursively iterates over the tree nodes.
         /// </summary>
-        public static IEnumerable<TreeNode> IterateNodes(TreeNode treeNode)
+        public static IEnumerable<TreeNode> IterateNodes(this TreeNode treeNode)
         {
             yield return treeNode;
 
@@ -112,7 +112,7 @@ namespace Scada.Forms
         /// <summary>
         /// Gets an object associated with the tree node.
         /// </summary>
-        public static object GetRelatedObject(TreeNode treeNode)
+        public static object GetRelatedObject(this TreeNode treeNode)
         {
             return treeNode?.Tag is TreeNodeTag treeNodeTag
                 ? treeNodeTag.RelatedObject
