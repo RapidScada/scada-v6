@@ -20,7 +20,7 @@
     <Phrase key="ConnectionNotFound">Connection &quot;{0}&quot; not found.</Phrase>
   </Dictionary>
   <Dictionary key="Scada.ConfigBase">
-    <Phrase key="ArchiveTable">Archive</Phrase>
+    <Phrase key="ArchiveTable">Archives</Phrase>
     <Phrase key="CmdTypeTable">Command types</Phrase>
     <Phrase key="CmdValTable">Command values</Phrase>
     <Phrase key="CnlStatusTable">Channel statuses</Phrase>
