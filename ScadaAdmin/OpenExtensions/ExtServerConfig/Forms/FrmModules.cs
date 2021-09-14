@@ -156,13 +156,9 @@ namespace Scada.Admin.Extensions.ExtServerConfig.Forms
             {
                 moduleItem.IsInitialized = true;
 
-                if (ModuleFactory.GetModuleView(adminContext.AppDirs.LibDir, moduleItem.ModuleCode, 
+                if (ExtensionUtils.GetModuleView(adminContext, serverApp, moduleItem.ModuleCode,
                     out ModuleView moduleView, out string message))
                 {
-                    moduleView.BaseDataSet = adminContext.CurrentProject.ConfigBase;
-                    moduleView.AppDirs = adminContext.AppDirs.CreateDirsForView(serverApp.ConfigDir);
-                    moduleView.AppConfig = serverConfig;
-
                     moduleItem.Descr = BuildModuleDescr(moduleView);
                     moduleItem.ModuleView = moduleView;
                 }

@@ -9,7 +9,7 @@ namespace Scada.Admin.Extensions.ExtServerConfig.Code
     /// The phrases used by the extension.
     /// <para>Фразы, используемые расширением.</para>
     /// </summary>
-    public class ExtensionPhrases
+    internal class ExtensionPhrases
     {
         // Scada.Admin.Extensions.ExtServerConfig.ExtServerConfigLogic
         public static string GeneralOptionsNode { get; private set; }

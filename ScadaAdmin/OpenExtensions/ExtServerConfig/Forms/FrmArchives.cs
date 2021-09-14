@@ -401,7 +401,7 @@ namespace Scada.Admin.Extensions.ExtServerConfig.Forms
                 {
                     ScadaUiUtils.ShowError(ExtensionPhrases.ModuleNotSpecified);
                 }
-                else if (!ModuleFactory.GetModuleView(adminContext.AppDirs.LibDir, archiveConfig.Module,
+                else if (!ExtensionUtils.GetModuleView(adminContext, serverApp, archiveConfig.Module,
                     out ModuleView moduleView, out string message))
                 {
                     ScadaUiUtils.ShowError(message);
@@ -419,18 +419,10 @@ namespace Scada.Admin.Extensions.ExtServerConfig.Forms
                 {
                     ScadaUiUtils.ShowInfo(ExtensionPhrases.NoArchiveView);
                 }
-                else
+                else if (archiveView.ShowProperties())
                 {
-                    archiveView.BaseDataSet = adminContext.CurrentProject.ConfigBase;
-                    archiveView.AppDirs = adminContext.AppDirs.CreateDirsForView(serverApp.ConfigDir);
-                    archiveView.AppConfig = serverConfig;
-                    archiveView.ArchiveConfig = archiveConfig;
-                    
-                    if (archiveView.ShowProperties())
-                    {
-                        DisplayArchive(archiveConfig);
-                        ChildFormTag.Modified = true;
-                    }
+                    DisplayArchive(archiveConfig);
+                    ChildFormTag.Modified = true;
                 }
             }
         }
