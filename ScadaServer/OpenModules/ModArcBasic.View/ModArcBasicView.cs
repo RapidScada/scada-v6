@@ -2,6 +2,8 @@
 // Licensed under the Apache License, Version 2.0. See License.txt in the project root for license information.
 
 using Scada.Lang;
+using Scada.Server.Archives;
+using Scada.Server.Config;
 
 namespace Scada.Server.Modules.ModArcBasic.View
 {
@@ -33,6 +35,27 @@ namespace Scada.Server.Modules.ModArcBasic.View
                     "Модуль предоставляет быстрое и надёжное архивирование данных в файлы." :
                     "The module provides fast and reliable data archiving into files.";
             }
+        }
+
+
+        /// <summary>
+        /// Indicates whether the module can create an archive of the specified kind.
+        /// </summary>
+        public override bool CanCreateArchive(ArchiveKind kind)
+        {
+            return kind == ArchiveKind.Current || kind == ArchiveKind.Historical || kind == ArchiveKind.Events;
+        }
+
+        /// <summary>
+        /// Creates a new archive user interface.
+        /// </summary>
+        public override ArchiveView CreateArchiveView(ArchiveConfig archiveConfig)
+        {
+            return archiveConfig.Kind switch
+            {
+                ArchiveKind.Historical => new BasicHAV(this, archiveConfig),
+                _ => null
+            };
         }
     }
 }
