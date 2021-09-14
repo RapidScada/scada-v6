@@ -16,6 +16,12 @@ namespace Scada.Admin.Extensions.ExtServerConfig.Code
         public static string ModulesNode { get; private set; }
         public static string ArchivesNode { get; private set; }
 
+        // Scada.Admin.Extensions.ExtServerConfig.Forms.FrmArchives
+        public static string ModuleNotSpecified { get; private set; }
+        public static string ArchiveNotSupported { get; private set; }
+        public static string UnableCreateArchiveView { get; private set; }
+        public static string NoArchiveView { get; private set; }
+
         // Scada.Admin.Extensions.ExtServerConfig.Forms.FrmGeneralOptions
         public static string IncorrectSecretKey { get; private set; }
 
@@ -25,6 +31,12 @@ namespace Scada.Admin.Extensions.ExtServerConfig.Code
             GeneralOptionsNode = dict["GeneralOptionsNode"];
             ModulesNode = dict["ModulesNode"];
             ArchivesNode = dict["ArchivesNode"];
+
+            dict = Locale.GetDictionary("Scada.Admin.Extensions.ExtServerConfig.Forms.FrmArchives");
+            ModuleNotSpecified = dict["ModuleNotSpecified"];
+            ArchiveNotSupported = dict["ArchiveNotSupported"];
+            UnableCreateArchiveView = dict["UnableCreateArchiveView"];
+            NoArchiveView = dict["NoArchiveView"];
 
             dict = Locale.GetDictionary("Scada.Admin.Extensions.ExtServerConfig.Forms.FrmGeneralOptions");
             IncorrectSecretKey = dict["IncorrectSecretKey"];

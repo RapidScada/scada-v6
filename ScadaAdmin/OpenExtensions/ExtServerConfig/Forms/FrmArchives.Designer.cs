@@ -53,6 +53,9 @@ namespace Scada.Admin.Extensions.ExtServerConfig.Forms
             this.txtCode = new System.Windows.Forms.TextBox();
             this.lblCode = new System.Windows.Forms.Label();
             this.chkActive = new System.Windows.Forms.CheckBox();
+            this.btnCutArchive = new System.Windows.Forms.Button();
+            this.btnCopyArchive = new System.Windows.Forms.Button();
+            this.btnPasteArchive = new System.Windows.Forms.Button();
             this.gbArchive.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -116,7 +119,7 @@ namespace Scada.Admin.Extensions.ExtServerConfig.Forms
             this.lvArchive.Name = "lvArchive";
             this.lvArchive.ShowItemToolTips = true;
             this.lvArchive.Size = new System.Drawing.Size(710, 193);
-            this.lvArchive.TabIndex = 4;
+            this.lvArchive.TabIndex = 7;
             this.lvArchive.UseCompatibleStateImageBehavior = false;
             this.lvArchive.View = System.Windows.Forms.View.Details;
             this.lvArchive.SelectedIndexChanged += new System.EventHandler(this.lvArchive_SelectedIndexChanged);
@@ -130,7 +133,6 @@ namespace Scada.Admin.Extensions.ExtServerConfig.Forms
             // 
             this.colActive.Text = "Active";
             this.colActive.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
-            this.colActive.Width = 50;
             // 
             // colCode
             // 
@@ -171,7 +173,7 @@ namespace Scada.Admin.Extensions.ExtServerConfig.Forms
             this.gbArchive.Name = "gbArchive";
             this.gbArchive.Padding = new System.Windows.Forms.Padding(10, 3, 10, 10);
             this.gbArchive.Size = new System.Drawing.Size(600, 259);
-            this.gbArchive.TabIndex = 5;
+            this.gbArchive.TabIndex = 8;
             this.gbArchive.TabStop = false;
             this.gbArchive.Text = "Selected Archive";
             // 
@@ -287,11 +289,47 @@ namespace Scada.Admin.Extensions.ExtServerConfig.Forms
             this.chkActive.UseVisualStyleBackColor = true;
             this.chkActive.CheckedChanged += new System.EventHandler(this.chkActive_CheckedChanged);
             // 
+            // btnCutArchive
+            // 
+            this.btnCutArchive.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.btnCutArchive.Location = new System.Drawing.Point(470, 12);
+            this.btnCutArchive.Name = "btnCutArchive";
+            this.btnCutArchive.Size = new System.Drawing.Size(80, 23);
+            this.btnCutArchive.TabIndex = 4;
+            this.btnCutArchive.Text = "Cut";
+            this.btnCutArchive.UseVisualStyleBackColor = true;
+            this.btnCutArchive.Click += new System.EventHandler(this.btnCutArchive_Click);
+            // 
+            // btnCopyArchive
+            // 
+            this.btnCopyArchive.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.btnCopyArchive.Location = new System.Drawing.Point(556, 12);
+            this.btnCopyArchive.Name = "btnCopyArchive";
+            this.btnCopyArchive.Size = new System.Drawing.Size(80, 23);
+            this.btnCopyArchive.TabIndex = 5;
+            this.btnCopyArchive.Text = "Copy";
+            this.btnCopyArchive.UseVisualStyleBackColor = true;
+            this.btnCopyArchive.Click += new System.EventHandler(this.btnCopyArchive_Click);
+            // 
+            // btnPasteArchive
+            // 
+            this.btnPasteArchive.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.btnPasteArchive.Location = new System.Drawing.Point(642, 12);
+            this.btnPasteArchive.Name = "btnPasteArchive";
+            this.btnPasteArchive.Size = new System.Drawing.Size(80, 23);
+            this.btnPasteArchive.TabIndex = 6;
+            this.btnPasteArchive.Text = "Paste";
+            this.btnPasteArchive.UseVisualStyleBackColor = true;
+            this.btnPasteArchive.Click += new System.EventHandler(this.btnPasteArchive_Click);
+            // 
             // FrmArchives
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(734, 511);
+            this.Controls.Add(this.btnPasteArchive);
+            this.Controls.Add(this.btnCopyArchive);
+            this.Controls.Add(this.btnCutArchive);
             this.Controls.Add(this.gbArchive);
             this.Controls.Add(this.lvArchive);
             this.Controls.Add(this.btnDeleteArchive);
@@ -333,5 +371,8 @@ namespace Scada.Admin.Extensions.ExtServerConfig.Forms
         private System.Windows.Forms.TextBox txtOptions;
         private System.Windows.Forms.Label lblOptions;
         private System.Windows.Forms.Button btnProperties;
+        private System.Windows.Forms.Button btnCutArchive;
+        private System.Windows.Forms.Button btnCopyArchive;
+        private System.Windows.Forms.Button btnPasteArchive;
     }
 }

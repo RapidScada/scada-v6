@@ -6,6 +6,34 @@
     <Phrase key="ArchivesNode">Archives</Phrase>
     <Phrase key=""></Phrase>
   </Dictionary>
+  <Dictionary key="Scada.Admin.Extensions.ExtServerConfig.Forms.FrmArchives">
+    <Phrase key="this">Archives</Phrase>
+    <Phrase key="btnAddArchive">Add</Phrase>
+    <Phrase key="btnMoveUpArchive">Move Up</Phrase>
+    <Phrase key="btnMoveDownArchive">Move Down</Phrase>
+    <Phrase key="btnDeleteArchive">Delete</Phrase>
+    <Phrase key="btnCutArchive">Cut</Phrase>
+    <Phrase key="btnCopyArchive">Copy</Phrase>
+    <Phrase key="btnPasteArchive">Paste</Phrase>
+    <Phrase key="colOrder">#</Phrase>
+    <Phrase key="colActive">Active</Phrase>
+    <Phrase key="colCode">Code</Phrase>
+    <Phrase key="colName">Name</Phrase>
+    <Phrase key="colKind">Kind</Phrase>
+    <Phrase key="colModule">Module</Phrase>
+    <Phrase key="gbArchive">Selected Archive</Phrase>
+    <Phrase key="chkActive">Active</Phrase>
+    <Phrase key="lblCode">Code</Phrase>
+    <Phrase key="lblName">Name</Phrase>
+    <Phrase key="lblKind">Kind</Phrase>
+    <Phrase key="lblModule">Module</Phrase>
+    <Phrase key="lblOptions">Options</Phrase>
+    <Phrase key="btnProperties">Properties</Phrase>
+    <Phrase key="ModuleNotSpecified">Module is not specified.</Phrase>
+    <Phrase key="ArchiveNotSupported">The module does not support creating archives of the {0} kind.</Phrase>
+    <Phrase key="UnableCreateArchiveView">Unable to create archive user interface.</Phrase>
+    <Phrase key="NoArchiveView">The archive does not provide user interface.</Phrase>
+  </Dictionary>
   <Dictionary key="Scada.Admin.Extensions.ExtServerConfig.Forms.FrmGeneralOptions">
     <Phrase key="this">General Options</Phrase>
     <Phrase key="gbGeneralOptions">General Options</Phrase>

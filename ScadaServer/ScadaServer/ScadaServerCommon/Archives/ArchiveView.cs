@@ -40,12 +40,19 @@ namespace Scada.Server.Archives
             : base()
         {
             AppConfig = null;
+            ArchiveConfig = null;
         }
+
 
         /// <summary>
         /// Gets or sets the application configuration.
         /// </summary>
         /// <remarks>Do not modify the configuration.</remarks>
         public ServerConfig AppConfig { get; set; }
+
+        /// <summary>
+        /// Gets or sets the archive configuration.
+        /// </summary>
+        public ArchiveConfig ArchiveConfig { get; set; }
     }
 }

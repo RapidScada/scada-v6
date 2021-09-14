@@ -1,11 +1,13 @@
 ﻿// Copyright (c) Rapid Software LLC. All rights reserved.
 // Licensed under the Apache License, Version 2.0. See License.txt in the project root for license information.
 
+using Scada.Admin.Extensions.ExtServerConfig.Code;
 using Scada.Admin.Project;
 using Scada.Forms;
 using Scada.Server.Archives;
 using Scada.Server.Config;
 using Scada.Server.Lang;
+using Scada.Server.Modules;
 using System;
 using System.IO;
 using System.Windows.Forms;
@@ -22,7 +24,8 @@ namespace Scada.Admin.Extensions.ExtServerConfig.Forms
         private readonly IAdminContext adminContext; // the Administrator context
         private readonly ServerApp serverApp;        // the server application in a project
         private readonly ServerConfig serverConfig;  // the server configuration
-        private bool changing; // controls are being changed programmatically
+        private bool changing;                       // controls are being changed programmatically
+        private ArchiveConfig archiveClipboard;      // contains the copied archive
 
 
         /// <summary>
@@ -43,6 +46,8 @@ namespace Scada.Admin.Extensions.ExtServerConfig.Forms
             this.serverApp = serverApp ?? throw new ArgumentNullException(nameof(serverApp));
             serverConfig = serverApp.Config;
             changing = false;
+            archiveClipboard = null;
+            SetColumnNames();
         }
 
 
@@ -51,6 +56,19 @@ namespace Scada.Admin.Extensions.ExtServerConfig.Forms
         /// </summary>
         public ChildFormTag ChildFormTag { get; set; }
 
+
+        /// <summary>
+        /// Sets the column names as needed for translation.
+        /// </summary>
+        private void SetColumnNames()
+        {
+            colOrder.Name = nameof(colOrder);
+            colActive.Name = nameof(colActive);
+            colCode.Name = nameof(colCode);
+            colName.Name = nameof(colName);
+            colKind.Name = nameof(colKind);
+            colModule.Name = nameof(colModule);
+        }
 
         /// <summary>
         /// Fills the combo box that contains archive kinds.
@@ -137,6 +155,8 @@ namespace Scada.Admin.Extensions.ExtServerConfig.Forms
                 btnMoveUpArchive.Enabled = index > 0;
                 btnMoveDownArchive.Enabled = index < lvArchive.Items.Count - 1;
                 btnDeleteArchive.Enabled = true;
+                btnCutArchive.Enabled = true;
+                btnCopyArchive.Enabled = true;
                 gbArchive.Enabled = true;
             }
             else
@@ -144,6 +164,8 @@ namespace Scada.Admin.Extensions.ExtServerConfig.Forms
                 btnMoveUpArchive.Enabled = false;
                 btnMoveDownArchive.Enabled = false;
                 btnDeleteArchive.Enabled = false;
+                btnCutArchive.Enabled = false;
+                btnCopyArchive.Enabled = false;
                 gbArchive.Enabled = false;
             }
         }
@@ -193,7 +215,17 @@ namespace Scada.Admin.Extensions.ExtServerConfig.Forms
         }
 
         /// <summary>
-        /// Creates a new list view item that represents an archive.
+        /// Adds an item to the list view according to the specified archive.
+        /// </summary>
+        private void AddArchiveItem(ArchiveConfig archiveConfig)
+        {
+            int index = 0;
+            lvArchive.InsertItem(CreateArchiveItem(archiveConfig, ref index), true);
+            ChildFormTag.Modified = true;
+        }
+
+        /// <summary>
+        /// Creates a new list view item that represents the specified archive.
         /// </summary>
         private static ListViewItem CreateArchiveItem(ArchiveConfig archiveConfig, ref int index)
         {
@@ -246,11 +278,12 @@ namespace Scada.Admin.Extensions.ExtServerConfig.Forms
             FillModuleComboBox();
             SetControlsEnabled();
             ConfigToControls();
+            btnPasteArchive.Enabled = false;
         }
 
         private void btnAddArchive_Click(object sender, EventArgs e)
         {
-
+            AddArchiveItem(new ArchiveConfig());
         }
 
         private void btnMoveUpArchive_Click(object sender, EventArgs e)
@@ -269,6 +302,34 @@ namespace Scada.Admin.Extensions.ExtServerConfig.Forms
         {
             if (lvArchive.RemoveSelectedItem(true))
                 ChildFormTag.Modified = true;
+        }
+
+        private void btnCutArchive_Click(object sender, EventArgs e)
+        {
+            // cut the selected archive
+            btnCopyArchive_Click(null, null);
+            btnDeleteArchive_Click(null, null);
+        }
+
+        private void btnCopyArchive_Click(object sender, EventArgs e)
+        {
+            // copy the selected archive
+            if (GetSelectedItem(out _, out ArchiveConfig archiveConfig))
+            {
+                btnPasteArchive.Enabled = true;
+                archiveClipboard = archiveConfig.DeepClone();
+            }
+
+            lvArchive.Focus();
+        }
+
+        private void btnPasteArchive_Click(object sender, EventArgs e)
+        {
+            // paste the copied archive
+            if (archiveClipboard == null)
+                lvArchive.Focus();
+            else
+                AddArchiveItem(archiveClipboard.DeepClone());
         }
 
         private void lvArchive_SelectedIndexChanged(object sender, EventArgs e)
@@ -333,7 +394,45 @@ namespace Scada.Admin.Extensions.ExtServerConfig.Forms
 
         private void btnProperties_Click(object sender, EventArgs e)
         {
-
+            // show archive properties
+            if (GetSelectedItem(out _, out ArchiveConfig archiveConfig))
+            {
+                if (string.IsNullOrEmpty(archiveConfig.Module))
+                {
+                    ScadaUiUtils.ShowError(ExtensionPhrases.ModuleNotSpecified);
+                }
+                else if (!ModuleFactory.GetModuleView(adminContext.AppDirs.LibDir, archiveConfig.Module,
+                    out ModuleView moduleView, out string message))
+                {
+                    ScadaUiUtils.ShowError(message);
+                }
+                else if (!moduleView.CanCreateArchive(archiveConfig.Kind))
+                {
+                    ScadaUiUtils.ShowError(ExtensionPhrases.ArchiveNotSupported, 
+                        TranslateArchiveKind(archiveConfig.Kind));
+                }
+                else if (moduleView.CreateArchiveView(archiveConfig) is not ArchiveView archiveView)
+                {
+                    ScadaUiUtils.ShowError(ExtensionPhrases.UnableCreateArchiveView);
+                }
+                else if (!archiveView.CanShowProperties)
+                {
+                    ScadaUiUtils.ShowInfo(ExtensionPhrases.NoArchiveView);
+                }
+                else
+                {
+                    archiveView.BaseDataSet = adminContext.CurrentProject.ConfigBase;
+                    archiveView.AppDirs = adminContext.AppDirs.CreateDirsForView(serverApp.ConfigDir);
+                    archiveView.AppConfig = serverConfig;
+                    archiveView.ArchiveConfig = archiveConfig;
+                    
+                    if (archiveView.ShowProperties())
+                    {
+                        DisplayArchive(archiveConfig);
+                        ChildFormTag.Modified = true;
+                    }
+                }
+            }
         }
     }
 }

@@ -5,6 +5,34 @@
     <Phrase key="ModulesNode">Модули</Phrase>
     <Phrase key="ArchivesNode">Архивы</Phrase>
   </Dictionary>
+  <Dictionary key="Scada.Admin.Extensions.ExtServerConfig.Forms.FrmArchives">
+    <Phrase key="this">Архивы</Phrase>
+    <Phrase key="btnAddArchive">Добавить</Phrase>
+    <Phrase key="btnMoveUpArchive">Вверх</Phrase>
+    <Phrase key="btnMoveDownArchive">Вниз</Phrase>
+    <Phrase key="btnDeleteArchive">Удалить</Phrase>
+    <Phrase key="btnCutArchive">Вырезать</Phrase>
+    <Phrase key="btnCopyArchive">Копировать</Phrase>
+    <Phrase key="btnPasteArchive">Вставить</Phrase>
+    <Phrase key="colOrder">#</Phrase>
+    <Phrase key="colActive">Активен</Phrase>
+    <Phrase key="colCode">Код</Phrase>
+    <Phrase key="colName">Наименование</Phrase>
+    <Phrase key="colKind">Вид</Phrase>
+    <Phrase key="colModule">Модуль</Phrase>
+    <Phrase key="gbArchive">Выбранный архив</Phrase>
+    <Phrase key="chkActive">Активен</Phrase>
+    <Phrase key="lblCode">Код</Phrase>
+    <Phrase key="lblName">Наименование</Phrase>
+    <Phrase key="lblKind">Вид</Phrase>
+    <Phrase key="lblModule">Модуль</Phrase>
+    <Phrase key="lblOptions">Параметры</Phrase>
+    <Phrase key="btnProperties">Свойства</Phrase>
+    <Phrase key="ModuleNotSpecified">Модуль не указан.</Phrase>
+    <Phrase key="ArchiveNotSupported">Модуль не поддерживает создание архивов вида {0}.</Phrase>
+    <Phrase key="UnableCreateArchiveView">Невозможно создать пользовательский интерфейс архива.</Phrase>
+    <Phrase key="NoArchiveView">Архив не предоставляет пользовательский интерфейс.</Phrase>
+  </Dictionary>
   <Dictionary key="Scada.Admin.Extensions.ExtServerConfig.Forms.FrmGeneralOptions">
     <Phrase key="this">Общие параметры</Phrase>
     <Phrase key="gbGeneralOptions">Общие параметры</Phrase>

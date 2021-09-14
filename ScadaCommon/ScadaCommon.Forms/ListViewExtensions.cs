@@ -23,6 +23,7 @@
  * Modified : 2021
  */
 
+using System;
 using System.Windows.Forms;
 
 namespace Scada.Forms
@@ -33,6 +34,37 @@ namespace Scada.Forms
     /// </summary>
     public static class ListViewExtensions
     {
+        /// <summary>
+        /// Inserts the specified list item after the selected item.
+        /// </summary>
+        public static void InsertItem(this ListView listView, ListViewItem item, bool updateOrder = false)
+        {
+            if (item == null)
+                throw new ArgumentNullException(nameof(item));
+
+            try
+            {
+                listView.BeginUpdate();
+                int index = listView.SelectedIndices.Count > 0 
+                    ? listView.SelectedIndices[0] + 1 
+                    : listView.Items.Count;
+                listView.Items.Insert(index, item).Selected = true;
+
+                if (updateOrder)
+                {
+                    for (int i = index, cnt = listView.Items.Count; i < cnt; i++)
+                    {
+                        listView.Items[i].Text = (i + 1).ToString();
+                    }
+                }
+            }
+            finally
+            {
+                listView.EndUpdate();
+                listView.Focus();
+            }
+        }
+
         /// <summary>
         /// Moves up the selected list item.
         /// </summary>
