@@ -24,6 +24,8 @@
  */
 
 using Scada.Server.Config;
+using Scada.Server.Modules;
+using System;
 
 namespace Scada.Server.Archives
 {
@@ -36,23 +38,23 @@ namespace Scada.Server.Archives
         /// <summary>
         /// Initializes a new instance of the class.
         /// </summary>
-        public ArchiveView()
-            : base()
+        public ArchiveView(ModuleView parentView, ArchiveConfig archiveConfig)
+            : base(parentView)
         {
-            AppConfig = null;
-            ArchiveConfig = null;
+            AppConfig = parentView.AppConfig;
+            ArchiveConfig = archiveConfig ?? throw new ArgumentNullException(nameof(archiveConfig));
         }
 
 
         /// <summary>
-        /// Gets or sets the application configuration.
+        /// Gets the application configuration.
         /// </summary>
         /// <remarks>Do not modify the configuration.</remarks>
-        public ServerConfig AppConfig { get; set; }
+        public ServerConfig AppConfig { get; }
 
         /// <summary>
-        /// Gets or sets the archive configuration.
+        /// Gets the archive configuration.
         /// </summary>
-        public ArchiveConfig ArchiveConfig { get; set; }
+        public ArchiveConfig ArchiveConfig { get; }
     }
 }
