@@ -26,6 +26,7 @@
 using Scada.Agent;
 using Scada.Client;
 using Scada.Data.Models;
+using System;
 
 namespace Scada
 {
@@ -45,6 +46,20 @@ namespace Scada
             ScadaClient = null;
             AgentClient = null;
             CanShowProperties = false;
+        }
+
+        /// <summary>
+        /// Initializes a new instance of the class.
+        /// </summary>
+        public LibraryView(LibraryView parentView)
+        {
+            if (parentView == null)
+                throw new ArgumentNullException(nameof(parentView));
+
+            BaseDataSet = parentView.BaseDataSet;
+            AppDirs = parentView.AppDirs;
+            ScadaClient = parentView.ScadaClient;
+            AgentClient = parentView.AgentClient;
         }
 
 

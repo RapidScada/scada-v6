@@ -245,7 +245,7 @@ namespace Scada
         public static string ToShortString(this ICollection<int> collection)
         {
             if (collection == null)
-                throw new ArgumentNullException("collection");
+                throw new ArgumentNullException(nameof(collection));
 
             List<int> list = new List<int>(collection);
             list.Sort();
