@@ -14,7 +14,7 @@
     <Phrase key="btnCutArchive">Вырезать</Phrase>
     <Phrase key="btnCopyArchive">Копировать</Phrase>
     <Phrase key="btnPasteArchive">Вставить</Phrase>
-    <Phrase key="colOrder">#</Phrase>
+    <Phrase key="colOrder">№ п/п</Phrase>
     <Phrase key="colActive">Активен</Phrase>
     <Phrase key="colCode">Код</Phrase>
     <Phrase key="colName">Наименование</Phrase>

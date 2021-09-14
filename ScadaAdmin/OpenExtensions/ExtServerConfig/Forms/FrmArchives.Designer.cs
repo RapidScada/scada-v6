@@ -127,7 +127,7 @@ namespace Scada.Admin.Extensions.ExtServerConfig.Forms
             // colOrder
             // 
             this.colOrder.Text = "#";
-            this.colOrder.Width = 40;
+            this.colOrder.Width = 50;
             // 
             // colActive
             // 
