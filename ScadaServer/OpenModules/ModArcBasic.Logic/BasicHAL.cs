@@ -222,7 +222,7 @@ namespace Scada.Server.Modules.ModArcBasic.Logic
 
             if (arcDirInfo.Exists)
             {
-                DateTime minDT = DateTime.UtcNow.AddDays(-options.StoragePeriod);
+                DateTime minDT = DateTime.UtcNow.AddDays(-options.Retention);
                 string minDirName = TrendTableAdapter.GetTableDirectory(Code, minDT);
                 appLog.WriteAction(ServerPhrases.DeleteOutdatedData, Code, minDT.ToLocalizedDateString());
 

@@ -20,7 +20,7 @@
  * 
  * Author   : Mikhail Shiryaev
  * Created  : 2020
- * Modified : 2020
+ * Modified : 2021
  */
 
 using Scada.Config;
@@ -46,7 +46,7 @@ namespace Scada.Server.Archives
             WritingPeriod = options.GetValueAsInt("WritingPeriod", 10);
             WritingUnit = options.GetValueAsEnum("WritingUnit", TimeUnit.Minute);
             PullToPeriod = options.GetValueAsInt("PullToPeriod", 0);
-            StoragePeriod = options.GetValueAsInt("StoragePeriod", 365);
+            Retention = options.GetValueAsInt("Retention", 365);
             LogEnabled = options.GetValueAsBool("LogEnabled");
         }
 
@@ -57,7 +57,7 @@ namespace Scada.Server.Archives
         public WritingMode WritingMode { get; set; }
 
         /// <summary>
-        /// Gets or sets the period of writing data to a file, sec.
+        /// Gets or sets the period of writing data to a file.
         /// </summary>
         public int WritingPeriod { get; set; }
 
@@ -72,9 +72,9 @@ namespace Scada.Server.Archives
         public int PullToPeriod { get; set; }
 
         /// <summary>
-        /// Gets or sets the data storage period in days.
+        /// Gets or sets the duration of time that the archive retains data, days.
         /// </summary>
-        public int StoragePeriod { get; set; }
+        public int Retention { get; set; }
 
         /// <summary>
         /// Gets or sets a value indicating whether to write the archive log.

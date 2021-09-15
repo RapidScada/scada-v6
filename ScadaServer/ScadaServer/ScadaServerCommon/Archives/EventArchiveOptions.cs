@@ -20,7 +20,7 @@
  * 
  * Author   : Mikhail Shiryaev
  * Created  : 2020
- * Modified : 2020
+ * Modified : 2021
  */
 
 using Scada.Config;
@@ -42,15 +42,15 @@ namespace Scada.Server.Archives
             if (options == null)
                 throw new ArgumentNullException(nameof(options));
 
-            StoragePeriod = options.GetValueAsInt("StoragePeriod", 365);
+            Retention = options.GetValueAsInt("Retention", 365);
             LogEnabled = options.GetValueAsBool("LogEnabled");
         }
 
 
         /// <summary>
-        /// Gets or sets the data storage period in days.
+        /// Gets or sets the duration of time that the archive retains data, days.
         /// </summary>
-        public int StoragePeriod { get; set; }
+        public int Retention { get; set; }
 
         /// <summary>
         /// Gets or sets a value indicating whether to write the archive log.
