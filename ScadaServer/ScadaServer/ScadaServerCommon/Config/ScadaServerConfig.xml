@@ -30,7 +30,7 @@
       <Option name="WritingPeriod" value="1" />
       <Option name="WritingUnit" value="Minute" />
       <Option name="PullToPeriod" value="0" />
-      <Option name="StoragePeriod" value="365" />
+      <Option name="Retention" value="365" />
       <Option name="LogEnabled" value="false" />
     </Archive>
     <Archive active="true" code="Hour" name="Hourly Archive" kind="Historical" module="ModArcBasic">
@@ -39,12 +39,12 @@
       <Option name="WritingPeriod" value="1" />
       <Option name="WritingUnit" value="Hour" />
       <Option name="PullToPeriod" value="0" />
-      <Option name="StoragePeriod" value="365" />
+      <Option name="Retention" value="365" />
       <Option name="LogEnabled" value="false" />
     </Archive>
     <Archive active="true" code="Events" name="Event Archive" kind="Events" module="ModArcBasic">
       <Option name="IsCopy" value="false" />
-      <Option name="StoragePeriod" value="365" />
+      <Option name="Retention" value="365" />
       <Option name="LogEnabled" value="false" />
     </Archive>
   </Archives>
