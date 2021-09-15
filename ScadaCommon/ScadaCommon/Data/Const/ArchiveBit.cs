@@ -38,7 +38,6 @@ namespace Scada.Data.Const
         public const int Minute = 1;
         public const int Hourly = 2;
         public const int Daily = 3;
-        public const int Monthly = 4;
-        public const int Event = 5;
+        public const int Event = 4;
     }
 }

@@ -30,17 +30,10 @@
   </Archive>
   <Archive>
     <ArchiveID>5</ArchiveID>
-    <Name>Monthly archive</Name>
-    <Code>Month</Code>
-    <IsDefault>true</IsDefault>
-    <Bit>4</Bit>
-  </Archive>
-  <Archive>
-    <ArchiveID>6</ArchiveID>
     <Name>Event archive</Name>
     <Code>Events</Code>
     <IsDefault>true</IsDefault>
-    <Bit>5</Bit>
+    <Bit>4</Bit>
   </Archive>
   <Archive>
     <ArchiveID>101</ArchiveID>
