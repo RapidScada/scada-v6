@@ -1,6 +1,7 @@
 ﻿// Copyright (c) Rapid Software LLC. All rights reserved.
 // Licensed under the Apache License, Version 2.0. See License.txt in the project root for license information.
 
+using Scada.Forms;
 using Scada.Lang;
 using Scada.Server.Archives;
 using Scada.Server.Config;
@@ -37,6 +38,15 @@ namespace Scada.Server.Modules.ModArcBasic.View
             }
         }
 
+
+        /// <summary>
+        /// Loads language dictionaries.
+        /// </summary>
+        public override void LoadDictionaries()
+        {
+            if (!Locale.LoadDictionaries(AppDirs.LangDir, ModuleUtils.ModuleCode, out string errMsg))
+                ScadaUiUtils.ShowError(errMsg);
+        }
 
         /// <summary>
         /// Indicates whether the module can create an archive of the specified kind.

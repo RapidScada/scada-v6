@@ -3,13 +3,13 @@
 
 using System;
 
-namespace Scada.Server.Modules.ModArcBasic.Logic
+namespace Scada.Server.Modules.ModArcBasic
 {
     /// <summary>
     /// The class provides helper methods for the module.
     /// <para>Класс, предоставляющий вспомогательные методы для модуля.</para>
     /// </summary>
-    internal static class ModuleUtils
+    public static class ModuleUtils
     {
         /// <summary>
         /// The module code.

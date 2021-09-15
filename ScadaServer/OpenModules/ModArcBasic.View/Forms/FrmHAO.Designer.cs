@@ -29,6 +29,7 @@ namespace Scada.Server.Modules.ModArcBasic.View.Forms
         /// </summary>
         private void InitializeComponent()
         {
+            this.components = new System.ComponentModel.Container();
             this.lblWritingMode = new System.Windows.Forms.Label();
             this.cbWritingMode = new System.Windows.Forms.ComboBox();
             this.lblWritingPeriod = new System.Windows.Forms.Label();
@@ -45,9 +46,18 @@ namespace Scada.Server.Modules.ModArcBasic.View.Forms
             this.chkUseCopyDir = new System.Windows.Forms.CheckBox();
             this.btnOK = new System.Windows.Forms.Button();
             this.btnCancel = new System.Windows.Forms.Button();
+            this.pbWritingModeHint = new System.Windows.Forms.PictureBox();
+            this.pbWritingPeriodHint = new System.Windows.Forms.PictureBox();
+            this.pbPullToPeriodHint = new System.Windows.Forms.PictureBox();
+            this.pbRetentionHint = new System.Windows.Forms.PictureBox();
+            this.toolTip = new System.Windows.Forms.ToolTip(this.components);
             ((System.ComponentModel.ISupportInitialize)(this.numWritingPeriod)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.numPullToPeriod)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.numRetention)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pbWritingModeHint)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pbWritingPeriodHint)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pbPullToPeriodHint)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pbRetentionHint)).BeginInit();
             this.SuspendLayout();
             // 
             // lblWritingMode
@@ -63,7 +73,10 @@ namespace Scada.Server.Modules.ModArcBasic.View.Forms
             // 
             this.cbWritingMode.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.cbWritingMode.FormattingEnabled = true;
-            this.cbWritingMode.Location = new System.Drawing.Point(222, 12);
+            this.cbWritingMode.Items.AddRange(new object[] {
+            "AutoWithPeriod",
+            "OnDemandWithPeriod"});
+            this.cbWritingMode.Location = new System.Drawing.Point(200, 12);
             this.cbWritingMode.Name = "cbWritingMode";
             this.cbWritingMode.Size = new System.Drawing.Size(150, 23);
             this.cbWritingMode.TabIndex = 1;
@@ -79,7 +92,7 @@ namespace Scada.Server.Modules.ModArcBasic.View.Forms
             // 
             // numWritingPeriod
             // 
-            this.numWritingPeriod.Location = new System.Drawing.Point(222, 41);
+            this.numWritingPeriod.Location = new System.Drawing.Point(200, 41);
             this.numWritingPeriod.Maximum = new decimal(new int[] {
             1000,
             0,
@@ -112,7 +125,11 @@ namespace Scada.Server.Modules.ModArcBasic.View.Forms
             // 
             this.cbWritingUnit.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.cbWritingUnit.FormattingEnabled = true;
-            this.cbWritingUnit.Location = new System.Drawing.Point(222, 70);
+            this.cbWritingUnit.Items.AddRange(new object[] {
+            "Second",
+            "Minute",
+            "Hour"});
+            this.cbWritingUnit.Location = new System.Drawing.Point(200, 70);
             this.cbWritingUnit.Name = "cbWritingUnit";
             this.cbWritingUnit.Size = new System.Drawing.Size(150, 23);
             this.cbWritingUnit.TabIndex = 5;
@@ -128,7 +145,7 @@ namespace Scada.Server.Modules.ModArcBasic.View.Forms
             // 
             // numPullToPeriod
             // 
-            this.numPullToPeriod.Location = new System.Drawing.Point(222, 99);
+            this.numPullToPeriod.Location = new System.Drawing.Point(200, 99);
             this.numPullToPeriod.Maximum = new decimal(new int[] {
             3600,
             0,
@@ -149,7 +166,7 @@ namespace Scada.Server.Modules.ModArcBasic.View.Forms
             // 
             // numRetention
             // 
-            this.numRetention.Location = new System.Drawing.Point(222, 128);
+            this.numRetention.Location = new System.Drawing.Point(200, 128);
             this.numRetention.Maximum = new decimal(new int[] {
             100000,
             0,
@@ -181,7 +198,7 @@ namespace Scada.Server.Modules.ModArcBasic.View.Forms
             // chkLogEnabled
             // 
             this.chkLogEnabled.AutoSize = true;
-            this.chkLogEnabled.Location = new System.Drawing.Point(290, 161);
+            this.chkLogEnabled.Location = new System.Drawing.Point(268, 161);
             this.chkLogEnabled.Name = "chkLogEnabled";
             this.chkLogEnabled.Size = new System.Drawing.Size(15, 14);
             this.chkLogEnabled.TabIndex = 11;
@@ -199,7 +216,7 @@ namespace Scada.Server.Modules.ModArcBasic.View.Forms
             // chkUseCopyDir
             // 
             this.chkUseCopyDir.AutoSize = true;
-            this.chkUseCopyDir.Location = new System.Drawing.Point(290, 190);
+            this.chkUseCopyDir.Location = new System.Drawing.Point(268, 190);
             this.chkUseCopyDir.Name = "chkUseCopyDir";
             this.chkUseCopyDir.Size = new System.Drawing.Size(15, 14);
             this.chkUseCopyDir.TabIndex = 13;
@@ -213,6 +230,7 @@ namespace Scada.Server.Modules.ModArcBasic.View.Forms
             this.btnOK.TabIndex = 14;
             this.btnOK.Text = "OK";
             this.btnOK.UseVisualStyleBackColor = true;
+            this.btnOK.Click += new System.EventHandler(this.btnOK_Click);
             // 
             // btnCancel
             // 
@@ -223,6 +241,42 @@ namespace Scada.Server.Modules.ModArcBasic.View.Forms
             this.btnCancel.Text = "Cancel";
             this.btnCancel.UseVisualStyleBackColor = true;
             // 
+            // pbWritingModeHint
+            // 
+            this.pbWritingModeHint.Image = global::Scada.Server.Modules.ModArcBasic.View.Properties.Resources.info;
+            this.pbWritingModeHint.Location = new System.Drawing.Point(356, 15);
+            this.pbWritingModeHint.Name = "pbWritingModeHint";
+            this.pbWritingModeHint.Size = new System.Drawing.Size(16, 16);
+            this.pbWritingModeHint.TabIndex = 16;
+            this.pbWritingModeHint.TabStop = false;
+            // 
+            // pbWritingPeriodHint
+            // 
+            this.pbWritingPeriodHint.Image = global::Scada.Server.Modules.ModArcBasic.View.Properties.Resources.info;
+            this.pbWritingPeriodHint.Location = new System.Drawing.Point(356, 44);
+            this.pbWritingPeriodHint.Name = "pbWritingPeriodHint";
+            this.pbWritingPeriodHint.Size = new System.Drawing.Size(16, 16);
+            this.pbWritingPeriodHint.TabIndex = 17;
+            this.pbWritingPeriodHint.TabStop = false;
+            // 
+            // pbPullToPeriodHint
+            // 
+            this.pbPullToPeriodHint.Image = global::Scada.Server.Modules.ModArcBasic.View.Properties.Resources.info;
+            this.pbPullToPeriodHint.Location = new System.Drawing.Point(356, 102);
+            this.pbPullToPeriodHint.Name = "pbPullToPeriodHint";
+            this.pbPullToPeriodHint.Size = new System.Drawing.Size(16, 16);
+            this.pbPullToPeriodHint.TabIndex = 18;
+            this.pbPullToPeriodHint.TabStop = false;
+            // 
+            // pbRetentionHint
+            // 
+            this.pbRetentionHint.Image = global::Scada.Server.Modules.ModArcBasic.View.Properties.Resources.info;
+            this.pbRetentionHint.Location = new System.Drawing.Point(356, 131);
+            this.pbRetentionHint.Name = "pbRetentionHint";
+            this.pbRetentionHint.Size = new System.Drawing.Size(16, 16);
+            this.pbRetentionHint.TabIndex = 19;
+            this.pbRetentionHint.TabStop = false;
+            // 
             // FrmHAO
             // 
             this.AcceptButton = this.btnOK;
@@ -230,6 +284,10 @@ namespace Scada.Server.Modules.ModArcBasic.View.Forms
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.CancelButton = this.btnCancel;
             this.ClientSize = new System.Drawing.Size(384, 255);
+            this.Controls.Add(this.pbRetentionHint);
+            this.Controls.Add(this.pbPullToPeriodHint);
+            this.Controls.Add(this.pbWritingPeriodHint);
+            this.Controls.Add(this.pbWritingModeHint);
             this.Controls.Add(this.btnCancel);
             this.Controls.Add(this.btnOK);
             this.Controls.Add(this.chkUseCopyDir);
@@ -257,6 +315,10 @@ namespace Scada.Server.Modules.ModArcBasic.View.Forms
             ((System.ComponentModel.ISupportInitialize)(this.numWritingPeriod)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.numPullToPeriod)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.numRetention)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pbWritingModeHint)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pbWritingPeriodHint)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pbPullToPeriodHint)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pbRetentionHint)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -280,5 +342,10 @@ namespace Scada.Server.Modules.ModArcBasic.View.Forms
         private System.Windows.Forms.CheckBox chkUseCopyDir;
         private System.Windows.Forms.Button btnOK;
         private System.Windows.Forms.Button btnCancel;
+        private System.Windows.Forms.PictureBox pbWritingModeHint;
+        private System.Windows.Forms.PictureBox pbWritingPeriodHint;
+        private System.Windows.Forms.PictureBox pbPullToPeriodHint;
+        private System.Windows.Forms.PictureBox pbRetentionHint;
+        private System.Windows.Forms.ToolTip toolTip;
     }
 }
