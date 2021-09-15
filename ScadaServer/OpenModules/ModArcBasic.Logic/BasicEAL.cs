@@ -45,7 +45,7 @@ namespace Scada.Server.Modules.ModArcBasic.Logic
             arcLog = options.LogEnabled ? CreateLog(ModuleUtils.ModuleCode) : null;
             stopwatch = new Stopwatch();
             adapter = new EventTableAdapter();
-            archivePath = Path.Combine(archiveContext.AppConfig.PathOptions.GetArcDir(options.IsCopy), Code);
+            archivePath = Path.Combine(archiveContext.AppConfig.PathOptions.GetArcDir(options.UseCopyDir), Code);
             tableCache = new MemoryCache<DateTime, EventTable>(ModuleUtils.CacheExpiration, ModuleUtils.CacheCapacity);
 
             currentTable = null;

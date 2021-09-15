@@ -50,7 +50,7 @@ namespace Scada.Server.Modules.ModArcBasic.Logic
             stopwatch = new Stopwatch();
             adapter = new TrendTableAdapter
             {
-                ParentDirectory = Path.Combine(archiveContext.AppConfig.PathOptions.GetArcDir(options.IsCopy), Code),
+                ParentDirectory = Path.Combine(archiveContext.AppConfig.PathOptions.GetArcDir(options.UseCopyDir), Code),
                 ArchiveCode = Code,
                 CnlNumCache = new MemoryCache<long, CnlNumList>(ModuleUtils.CacheExpiration, ModuleUtils.CacheCapacity)
             };

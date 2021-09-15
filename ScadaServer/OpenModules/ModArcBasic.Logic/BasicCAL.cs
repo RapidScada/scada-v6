@@ -43,22 +43,17 @@ namespace Scada.Server.Modules.ModArcBasic.Logic
             options = new BasicCAO(archiveConfig.CustomOptions);
             arcLog = options.LogEnabled ? CreateLog(ModuleUtils.ModuleCode) : null;
             stopwatch = new Stopwatch();
-            adapter = new SliceTableAdapter { FileName = GetCurDataPath(archiveContext.AppConfig.PathOptions) };
+            adapter = new SliceTableAdapter 
+            { 
+                FileName = Path.Combine(archiveContext.AppConfig.PathOptions.GetArcDir(options.UseCopyDir),
+                    Code, CurDataFileName)
+            };
             slice = new Slice(DateTime.MinValue, cnlNums);
 
             nextWriteTime = DateTime.MinValue;
             cnlIndexes = null;
         }
 
-
-        /// <summary>
-        /// Gets the full file name of the current data file.
-        /// </summary>
-        private string GetCurDataPath(PathOptions pathOptions)
-        {
-            string arcDir = options.IsCopy ? pathOptions.ArcCopyDir : pathOptions.ArcDir;
-            return Path.Combine(arcDir, Code, CurDataFileName);
-        }
 
         /// <summary>
         /// Makes the archive ready for operating.

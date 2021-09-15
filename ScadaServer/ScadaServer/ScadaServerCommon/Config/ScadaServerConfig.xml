@@ -20,12 +20,12 @@
   </Modules>
   <Archives>
     <Archive active="true" code="Cur" name="Current Data" kind="Current" module="ModArcBasic">
-      <Option name="IsCopy" value="false" />
+      <Option name="UseCopyDir" value="false" />
       <Option name="WritingPeriod" value="10" />
       <Option name="LogEnabled" value="false" />
     </Archive>
     <Archive active="true" code="Min" name="Minute Archive" kind="Historical" module="ModArcBasic">
-      <Option name="IsCopy" value="false" />
+      <Option name="UseCopyDir" value="false" />
       <Option name="WritingMode" value="AutoWithPeriod" />
       <Option name="WritingPeriod" value="1" />
       <Option name="WritingUnit" value="Minute" />
@@ -34,7 +34,7 @@
       <Option name="LogEnabled" value="false" />
     </Archive>
     <Archive active="true" code="Hour" name="Hourly Archive" kind="Historical" module="ModArcBasic">
-      <Option name="IsCopy" value="false" />
+      <Option name="UseCopyDir" value="false" />
       <Option name="WritingMode" value="AutoWithPeriod" />
       <Option name="WritingPeriod" value="1" />
       <Option name="WritingUnit" value="Hour" />
@@ -43,7 +43,7 @@
       <Option name="LogEnabled" value="false" />
     </Archive>
     <Archive active="true" code="Events" name="Event Archive" kind="Events" module="ModArcBasic">
-      <Option name="IsCopy" value="false" />
+      <Option name="UseCopyDir" value="false" />
       <Option name="Retention" value="365" />
       <Option name="LogEnabled" value="false" />
     </Archive>

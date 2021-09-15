@@ -18,12 +18,12 @@ namespace Scada.Server.Modules.ModArcBasic
         public BasicEAO(OptionList options)
             : base(options)
         {
-            IsCopy = options.GetValueAsBool("IsCopy");
+            UseCopyDir = options.GetValueAsBool("UseCopyDir");
         }
 
         /// <summary>
-        /// Gets or sets a value indicating whether the archive stores a copy of the data.
+        /// Gets or sets a value indicating whether to store data in the archive copy directory.
         /// </summary>
-        public bool IsCopy { get; set; }
+        public bool UseCopyDir { get; set; }
     }
 }
