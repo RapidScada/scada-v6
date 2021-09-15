@@ -9,7 +9,12 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "ModArcBasic", "ModArcBasic"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ModArcBasic.View", "ModArcBasic.View\ModArcBasic.View.csproj", "{0178284C-E0A2-4940-A388-AA38616464B7}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ModArcBasic.Common", "ModArcBasic.Common\ModArcBasic.Common.csproj", "{DD111A5F-B27C-428A-B6AC-F943B9BAA9E5}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ModArcBasic.Common", "ModArcBasic.Common\ModArcBasic.Common.csproj", "{DD111A5F-B27C-428A-B6AC-F943B9BAA9E5}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{9E7F5E77-D745-4C99-8CFF-493F9DD0E1D6}"
+	ProjectSection(SolutionItems) = preProject
+		.editorconfig = .editorconfig
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

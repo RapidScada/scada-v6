@@ -4,18 +4,18 @@
 using Scada.Config;
 using Scada.Server.Archives;
 
-namespace Scada.Server.Modules.ModArcBasic.Logic.Options
+namespace Scada.Server.Modules.ModArcBasic
 {
     /// <summary>
-    /// Represents options of a current data archive.
-    /// <para>Представляет параметры архива текущих данных.</para>
+    /// Represents options of an event archive.
+    /// <para>Представляет параметры архива событий.</para>
     /// </summary>
-    internal class BasicCAO : CurrentArchiveOptions
+    public class BasicEAO : EventArchiveOptions
     {
         /// <summary>
         /// Initializes a new instance of the class.
         /// </summary>
-        public BasicCAO(OptionList options)
+        public BasicEAO(OptionList options)
             : base(options)
         {
             IsCopy = options.GetValueAsBool("IsCopy");

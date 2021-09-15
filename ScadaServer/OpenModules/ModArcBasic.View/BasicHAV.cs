@@ -4,6 +4,8 @@
 using Scada.Forms;
 using Scada.Server.Archives;
 using Scada.Server.Config;
+using Scada.Server.Modules.ModArcBasic.View.Forms;
+using System.Windows.Forms;
 
 namespace Scada.Server.Modules.ModArcBasic.View
 {
@@ -27,8 +29,7 @@ namespace Scada.Server.Modules.ModArcBasic.View
         /// </summary>
         public override bool ShowProperties()
         {
-            ScadaUiUtils.ShowInfo("ShowProperties");
-            return true;
+            return new FrmHAO(ArchiveConfig).ShowDialog() == DialogResult.OK;
         }
     }
 }
