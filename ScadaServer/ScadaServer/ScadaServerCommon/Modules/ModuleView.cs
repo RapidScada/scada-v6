@@ -62,6 +62,13 @@ namespace Scada.Server.Modules
 
 
         /// <summary>
+        /// Loads language dictionaries.
+        /// </summary>
+        public virtual void LoadDictionaries()
+        {
+        }
+
+        /// <summary>
         /// Indicates whether the module can create an archive of the specified kind.
         /// </summary>
         public virtual bool CanCreateArchive(ArchiveKind kind)

@@ -80,5 +80,19 @@ namespace Scada.Server.Archives
         /// Gets or sets a value indicating whether to write the archive log.
         /// </summary>
         public bool LogEnabled { get; set; }
+
+
+        /// <summary>
+        /// Adds the options to the list.
+        /// </summary>
+        public virtual void AddToOptionList(OptionList options)
+        {
+            options["WritingMode"] = WritingMode.ToString();
+            options["WritingPeriod"] = WritingPeriod.ToString();
+            options["WritingUnit"] = WritingUnit.ToString();
+            options["PullToPeriod"] = PullToPeriod.ToString();
+            options["Retention"] = Retention.ToString();
+            options["LogEnabled"] = LogEnabled.ToString().ToLowerInvariant();
+        }
     }
 }
