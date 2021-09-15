@@ -123,6 +123,7 @@ namespace Scada.Admin.Extensions.ExtServerConfig.Forms
             this.lvArchive.UseCompatibleStateImageBehavior = false;
             this.lvArchive.View = System.Windows.Forms.View.Details;
             this.lvArchive.SelectedIndexChanged += new System.EventHandler(this.lvArchive_SelectedIndexChanged);
+            this.lvArchive.DoubleClick += new System.EventHandler(this.lvArchive_DoubleClick);
             // 
             // colOrder
             // 

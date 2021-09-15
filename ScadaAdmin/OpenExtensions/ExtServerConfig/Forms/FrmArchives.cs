@@ -342,6 +342,11 @@ namespace Scada.Admin.Extensions.ExtServerConfig.Forms
             changing = false;
         }
 
+        private void lvArchive_DoubleClick(object sender, EventArgs e)
+        {
+            btnProperties_Click(null, null);
+        }
+
         private void chkActive_CheckedChanged(object sender, EventArgs e)
         {
             if (!changing && GetSelectedItem(out ListViewItem item, out ArchiveConfig archiveConfig))
