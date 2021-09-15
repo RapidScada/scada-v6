@@ -74,9 +74,11 @@ namespace Scada.Server.Modules.ModArcBasic.Logic
             if (options.WritingPeriod <= 0)
                 throw new ScadaException(ServerPhrases.InvalidWritingPeriod);
 
-            if (options.WritingMode != WritingMode.AutoWithPeriod && 
+            if (options.WritingMode != WritingMode.AutoWithPeriod &&
                 options.WritingMode != WritingMode.OnDemandWithPeriod)
+            {
                 throw new ScadaException(ServerPhrases.WritingModeNotSupported);
+            }
         }
 
         /// <summary>

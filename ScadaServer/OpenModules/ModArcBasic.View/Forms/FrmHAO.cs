@@ -38,19 +38,6 @@ namespace Scada.Server.Modules.ModArcBasic.View.Forms
 
         private void FrmHAO_Load(object sender, EventArgs e)
         {
-            checkBox1.CheckedChanged -= checkBox1_CheckedChanged;
-            checkBox1.Checked = options.IsCopy;
-            checkBox1.CheckedChanged += checkBox1_CheckedChanged;
-        }
-
-        private void checkBox1_CheckedChanged(object sender, EventArgs e)
-        {
-            options.IsCopy = checkBox1.Checked;
-        }
-
-        private void button1_Click(object sender, EventArgs e)
-        {
-            DialogResult = DialogResult.OK;
         }
     }
 }
