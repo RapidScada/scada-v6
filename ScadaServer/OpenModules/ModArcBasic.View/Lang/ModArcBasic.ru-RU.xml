@@ -1,0 +1,24 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ModArcBasicDictionaries>
+  <Dictionary key="Scada.Server.Modules.ModArcBasic.View.Forms.FrmHAO">
+    <Phrase key="this">Параметры архива исторических данных</Phrase>
+    <Phrase key="lblWritingMode">Режим записи</Phrase>
+    <Phrase key="cbWritingMode.Items[0]">Автоматически</Phrase>
+    <Phrase key="cbWritingMode.Items[1]">По требованию</Phrase>
+    <Phrase key="pbWritingModeHint.ToolTip">Автоматически - добавляет текущие данные в архив с заданным периодом.&#13;&#10;По требованию - записывает данные в архив по явному запросу с проверкой периода.</Phrase>
+    <Phrase key="lblWritingPeriod">Период записи</Phrase>
+    <Phrase key="pbWritingPeriodHint.ToolTip">Метки времени в архиве кратны периоду записи.</Phrase>
+    <Phrase key="lblWritingUnit">Единица измерения периода</Phrase>
+    <Phrase key="cbWritingUnit.Items[0]">Секунда</Phrase>
+    <Phrase key="cbWritingUnit.Items[1]">Минута</Phrase>
+    <Phrase key="cbWritingUnit.Items[2]">Час</Phrase>
+    <Phrase key="lblPullToPeriod">Притягивать к периоду, с</Phrase>
+    <Phrase key="pbPullToPeriodHint.ToolTip">Обновляет метку времени в соответствии с периодом, если её отклонение не более заданного.</Phrase>
+    <Phrase key="lblRetention">Период хранения, дней</Phrase>
+    <Phrase key="pbRetentionHint.ToolTip">Как долго данные хранятся в архиве.</Phrase>
+    <Phrase key="lblLogEnabled">Журнал включен</Phrase>
+    <Phrase key="lblUseCopyDir">Запись в директорию копии</Phrase>
+    <Phrase key="btnOK">OK</Phrase>
+    <Phrase key="btnCancel">Отмена</Phrase>
+  </Dictionary>
+</ModArcBasicDictionaries>
