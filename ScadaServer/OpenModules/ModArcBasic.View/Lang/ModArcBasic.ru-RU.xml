@@ -8,6 +8,14 @@
     <Phrase key="btnOK">OK</Phrase>
     <Phrase key="btnCancel">Отмена</Phrase>
   </Dictionary>
+  <Dictionary key="Scada.Server.Modules.ModArcBasic.View.Forms.FrmEAO">
+    <Phrase key="this">Параметры архива событий</Phrase>
+    <Phrase key="lblRetention">Период хранения, дней</Phrase>
+    <Phrase key="lblLogEnabled">Журнал включен</Phrase>
+    <Phrase key="lblUseCopyDir">Запись в директорию копии</Phrase>
+    <Phrase key="btnOK">OK</Phrase>
+    <Phrase key="btnCancel">Отмена</Phrase>
+  </Dictionary>
   <Dictionary key="Scada.Server.Modules.ModArcBasic.View.Forms.FrmHAO">
     <Phrase key="this">Параметры архива исторических данных</Phrase>
     <Phrase key="lblWritingMode">Режим записи</Phrase>

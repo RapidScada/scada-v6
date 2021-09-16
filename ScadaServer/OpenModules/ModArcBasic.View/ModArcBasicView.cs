@@ -65,6 +65,7 @@ namespace Scada.Server.Modules.ModArcBasic.View
             {
                 ArchiveKind.Current => new BasicCAV(this, archiveConfig),
                 ArchiveKind.Historical => new BasicHAV(this, archiveConfig),
+                ArchiveKind.Events => new BasicEAV(this, archiveConfig),
                 _ => null
             };
         }
