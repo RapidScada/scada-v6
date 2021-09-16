@@ -20,32 +20,60 @@
   </Modules>
   <Archives>
     <Archive active="true" code="Cur" name="Current Data" kind="Current" module="ModArcBasic">
-      <Option name="UseCopyDir" value="false" />
-      <Option name="WritingPeriod" value="10" />
       <Option name="LogEnabled" value="false" />
+      <Option name="UseCopyDir" value="false" />
+      <Option name="WritingPeriod" value="30" />
     </Archive>
     <Archive active="true" code="Min" name="Minute Archive" kind="Historical" module="ModArcBasic">
+      <Option name="LogEnabled" value="false" />
+      <Option name="PullToPeriod" value="0" />
+      <Option name="Retention" value="365" />
       <Option name="UseCopyDir" value="false" />
       <Option name="WritingMode" value="AutoWithPeriod" />
       <Option name="WritingPeriod" value="1" />
       <Option name="WritingUnit" value="Minute" />
-      <Option name="PullToPeriod" value="0" />
-      <Option name="Retention" value="365" />
-      <Option name="LogEnabled" value="false" />
     </Archive>
     <Archive active="true" code="Hour" name="Hourly Archive" kind="Historical" module="ModArcBasic">
+      <Option name="LogEnabled" value="false" />
+      <Option name="PullToPeriod" value="0" />
+      <Option name="Retention" value="365" />
       <Option name="UseCopyDir" value="false" />
       <Option name="WritingMode" value="AutoWithPeriod" />
       <Option name="WritingPeriod" value="1" />
       <Option name="WritingUnit" value="Hour" />
-      <Option name="PullToPeriod" value="0" />
-      <Option name="Retention" value="365" />
-      <Option name="LogEnabled" value="false" />
     </Archive>
     <Archive active="true" code="Events" name="Event Archive" kind="Events" module="ModArcBasic">
-      <Option name="UseCopyDir" value="false" />
-      <Option name="Retention" value="365" />
       <Option name="LogEnabled" value="false" />
+      <Option name="Retention" value="365" />
+      <Option name="UseCopyDir" value="false" />
+    </Archive>
+    <Archive active="false" code="CurCopy" name="Current Data" kind="Current" module="ModArcBasic">
+      <Option name="LogEnabled" value="false" />
+      <Option name="UseCopyDir" value="true" />
+      <Option name="WritingPeriod" value="30" />
+    </Archive>
+    <Archive active="false" code="MinCopy" name="Minute Archive" kind="Historical" module="ModArcBasic">
+      <Option name="LogEnabled" value="false" />
+      <Option name="PullToPeriod" value="0" />
+      <Option name="Retention" value="365" />
+      <Option name="UseCopyDir" value="true" />
+      <Option name="WritingMode" value="AutoWithPeriod" />
+      <Option name="WritingPeriod" value="1" />
+      <Option name="WritingUnit" value="Minute" />
+    </Archive>
+    <Archive active="false" code="HourCopy" name="Hourly Archive" kind="Historical" module="ModArcBasic">
+      <Option name="LogEnabled" value="false" />
+      <Option name="PullToPeriod" value="0" />
+      <Option name="Retention" value="365" />
+      <Option name="UseCopyDir" value="true" />
+      <Option name="WritingMode" value="AutoWithPeriod" />
+      <Option name="WritingPeriod" value="1" />
+      <Option name="WritingUnit" value="Hour" />
+    </Archive>
+    <Archive active="false" code="EventsCopy" name="Event Archive" kind="Events" module="ModArcBasic">
+      <Option name="LogEnabled" value="false" />
+      <Option name="Retention" value="365" />
+      <Option name="UseCopyDir" value="true" />
     </Archive>
   </Archives>
 </ScadaServerConfig>

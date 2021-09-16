@@ -42,7 +42,7 @@ namespace Scada.Server.Archives
             if (options == null)
                 throw new ArgumentNullException(nameof(options));
 
-            WritingPeriod = options.GetValueAsInt("WritingPeriod", 10);
+            WritingPeriod = options.GetValueAsInt("WritingPeriod", 30);
             LogEnabled = options.GetValueAsBool("LogEnabled");
         }
 
