@@ -72,9 +72,9 @@ namespace Scada.Server.Modules.ModArcBasic.View.Forms
             options.WritingUnit = (TimeUnit)cbWritingUnit.SelectedIndex;
             options.PullToPeriod = Convert.ToInt32(numPullToPeriod.Value);
             options.Retention = Convert.ToInt32(numRetention.Value);
-            options.AddToOptionList(archiveConfig.CustomOptions);
             options.LogEnabled = chkLogEnabled.Checked;
             options.UseCopyDir = chkUseCopyDir.Checked;
+            options.AddToOptionList(archiveConfig.CustomOptions);
         }
 
 
