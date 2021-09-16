@@ -1,5 +1,13 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <ModArcBasicDictionaries>
+  <Dictionary key="Scada.Server.Modules.ModArcBasic.View.Forms.FrmCAO">
+    <Phrase key="this">Параметры архива текущих данных</Phrase>
+    <Phrase key="lblWritingPeriod">Период сохранения на диск, с</Phrase>
+    <Phrase key="lblLogEnabled">Журнал включен</Phrase>
+    <Phrase key="lblUseCopyDir">Запись в директорию копии</Phrase>
+    <Phrase key="btnOK">OK</Phrase>
+    <Phrase key="btnCancel">Отмена</Phrase>
+  </Dictionary>
   <Dictionary key="Scada.Server.Modules.ModArcBasic.View.Forms.FrmHAO">
     <Phrase key="this">Параметры архива исторических данных</Phrase>
     <Phrase key="lblWritingMode">Режим записи</Phrase>

@@ -9,15 +9,15 @@ using System.Windows.Forms;
 namespace Scada.Server.Modules.ModArcBasic.View
 {
     /// <summary>
-    /// Implements the historical data archive user interface.
-    /// <para>Реализует пользовательский интерфейс архива исторических данных.</para>
+    /// Implements the current data archive user interface.
+    /// <para>Реализует пользовательский интерфейс архива текущих данных.</para>
     /// </summary>
-    public class BasicHAV : ArchiveView
+    public class BasicCAV : ArchiveView
     {
         /// <summary>
         /// Initializes a new instance of the class.
         /// </summary>
-        public BasicHAV(ModuleView parentView, ArchiveConfig archiveConfig)
+        public BasicCAV(ModuleView parentView, ArchiveConfig archiveConfig)
             : base(parentView, archiveConfig)
         {
             CanShowProperties = true;
@@ -28,7 +28,7 @@ namespace Scada.Server.Modules.ModArcBasic.View
         /// </summary>
         public override bool ShowProperties()
         {
-            return new FrmHAO(ArchiveConfig).ShowDialog() == DialogResult.OK;
+            return new FrmCAO(ArchiveConfig).ShowDialog() == DialogResult.OK;
         }
     }
 }

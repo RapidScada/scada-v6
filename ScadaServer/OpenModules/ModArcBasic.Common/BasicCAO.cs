@@ -25,5 +25,14 @@ namespace Scada.Server.Modules.ModArcBasic
         /// Gets or sets a value indicating whether to store data in the archive copy directory.
         /// </summary>
         public bool UseCopyDir { get; set; }
+
+        /// <summary>
+        /// Adds the options to the list.
+        /// </summary>
+        public override void AddToOptionList(OptionList options)
+        {
+            base.AddToOptionList(options);
+            options["UseCopyDir"] = UseCopyDir.ToString().ToLowerInvariant();
+        }
     }
 }

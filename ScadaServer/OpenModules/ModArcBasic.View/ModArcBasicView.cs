@@ -63,6 +63,7 @@ namespace Scada.Server.Modules.ModArcBasic.View
         {
             return archiveConfig.Kind switch
             {
+                ArchiveKind.Current => new BasicCAV(this, archiveConfig),
                 ArchiveKind.Historical => new BasicHAV(this, archiveConfig),
                 _ => null
             };
