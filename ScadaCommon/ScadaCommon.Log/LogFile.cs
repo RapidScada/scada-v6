@@ -60,7 +60,7 @@ namespace Scada.Log
         /// <summary>
         /// The message type names.
         /// </summary>
-        private static readonly string[] MessageTypeNames = { "INF", "ACT", "WARN", "ERR", "EXC" };
+        private static readonly string[] MessageTypeNames = { "INF", "ACT", "WARN", "ERR" };
 
         private readonly LogFormat logFormat; // the log format
         private readonly object writeLock;    // synchronizes writing to the log file
