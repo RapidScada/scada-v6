@@ -7,20 +7,10 @@
     <Authors>Mikhail Shiryaev</Authors>
     <Company>Rapid Software LLC</Company>
     <Product>Rapid SCADA</Product>
-    <Copyright>Copyright © 2016-2021</Copyright>
+    <Copyright>Copyright © 2021</Copyright>
   </PropertyGroup>
 
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
-    <DocumentationFile>bin\$(Configuration)\$(TargetFramework)\$(AssemblyName).xml</DocumentationFile>
-  </PropertyGroup>
-
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
-    <DocumentationFile>bin\$(Configuration)\$(TargetFramework)\$(AssemblyName).xml</DocumentationFile>
-  </PropertyGroup>
-
-  <ItemGroup>
-    <FrameworkReference Include="Microsoft.AspNetCore.App" />
-  </ItemGroup>
+  <Import Project="..\ScadaWebCommon.Shared\ScadaWebCommon.Shared.projitems" Label="Shared" />
 
   <ItemGroup>
     <Reference Include="ScadaCommon">
@@ -30,7 +20,5 @@
       <HintPath>..\..\..\ScadaCommon\ScadaCommon.Log\bin\Release\netstandard2.0\ScadaCommon.Log.dll</HintPath>
     </Reference>
   </ItemGroup>
-
-  <Import Project="..\ScadaWebCommon.Shared\ScadaWebCommon.Shared.projitems" Label="Shared" />
 
 </Project>

@@ -27,7 +27,7 @@
     <Content Include="..\..\..\ScadaCommon\ScadaCommon\Lang\ScadaCommon.ru-RU.xml" Link="lang\ScadaCommon.ru-RU.xml">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="..\ScadaWebCommon\Config\ScadaWebConfig.xml" Link="config\ScadaWebConfig.xml">
+    <Content Include="..\ScadaWebCommon.Shared\Config\ScadaWebConfig.xml" Link="config\ScadaWebConfig.xml">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Include="..\ScadaWebCommon\Lang\ScadaWeb.en-GB.xml" Link="lang\ScadaWeb.en-GB.xml">
