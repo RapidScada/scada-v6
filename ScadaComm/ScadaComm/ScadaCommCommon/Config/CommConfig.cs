@@ -24,6 +24,7 @@
  */
 
 using Scada.Client;
+using Scada.Config;
 using Scada.Lang;
 using System;
 using System.Collections.Generic;
@@ -36,7 +37,7 @@ namespace Scada.Comm.Config
     /// Represents Communicator configuration.
     /// <para>Представляет конфигурацию Коммуникатора.</para>
     /// </summary>
-    public class CommConfig
+    public class CommConfig : IConfig
     {
         /// <summary>
         /// The default configuration file name.

@@ -37,7 +37,7 @@ namespace Scada.Web.Config
     /// Represents a web application configuration.
     /// <para>Представляет конфигурацию веб-приложения.</para>
     /// </summary>
-    public class WebConfig
+    public class WebConfig : IConfig
     {
         /// <summary>
         /// The default configuration file name.

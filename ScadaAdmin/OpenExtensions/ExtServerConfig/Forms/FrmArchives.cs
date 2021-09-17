@@ -44,7 +44,7 @@ namespace Scada.Admin.Extensions.ExtServerConfig.Forms
         {
             this.adminContext = adminContext ?? throw new ArgumentNullException(nameof(adminContext));
             this.serverApp = serverApp ?? throw new ArgumentNullException(nameof(serverApp));
-            serverConfig = serverApp.Config;
+            serverConfig = serverApp.AppConfig;
             changing = false;
             archiveClipboard = null;
             SetColumnNames();

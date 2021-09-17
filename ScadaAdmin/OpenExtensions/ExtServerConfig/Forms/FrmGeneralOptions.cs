@@ -44,7 +44,7 @@ namespace Scada.Admin.Extensions.ExtServerConfig.Forms
         {
             this.log = log ?? throw new ArgumentNullException(nameof(log));
             this.serverApp = serverApp ?? throw new ArgumentNullException(nameof(serverApp));
-            serverConfig = serverApp.Config;
+            serverConfig = serverApp.AppConfig;
             changing = false;
         }
         

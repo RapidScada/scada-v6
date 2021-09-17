@@ -24,6 +24,7 @@
  */
 
 using Scada.Comm.Config;
+using Scada.Config;
 using Scada.Lang;
 using System.IO;
 
@@ -47,7 +48,7 @@ namespace Scada.Admin.Project
         /// <summary>
         /// Gets the application configuration.
         /// </summary>
-        public CommConfig Config { get; private set; }
+        public CommConfig AppConfig { get; private set; }
 
         /// <summary>
         /// Gets the application name.
@@ -57,48 +58,15 @@ namespace Scada.Admin.Project
         /// <summary>
         /// Gets the application configuration.
         /// </summary>
-        public override object AppConfig => Config;
+        public override IConfig Config => AppConfig;
 
 
         /// <summary>
         /// Gets the application configuration file path.
         /// </summary>
-        private string GetConfigPath()
+        protected override string GetConfigPath()
         {
             return Path.Combine(ConfigDir, CommConfig.DefaultFileName);
-        }
-
-        /// <summary>
-        /// Loads the configuration.
-        /// </summary>
-        public override bool LoadConfig(out string errMsg)
-        {
-            if (Config.Load(GetConfigPath(), out errMsg))
-            {
-                ConfigLoaded = true;
-                return true;
-            }
-            else
-            {
-                return false;
-            }
-        }
-
-        /// <summary>
-        /// Saves the configuration.
-        /// </summary>
-        public override bool SaveConfig(out string errMsg)
-        {
-            return Config.Save(GetConfigPath(), out errMsg);
-        }
-
-        /// <summary>
-        /// Clears the application configuration.
-        /// </summary>
-        public override void ClearConfig()
-        {
-            base.ClearConfig();
-            Config = new CommConfig();
         }
 
         /// <summary>
@@ -107,6 +75,14 @@ namespace Scada.Admin.Project
         public override void InitAppDir(string instanceDir)
         {
             AppDir = string.IsNullOrEmpty(instanceDir) ? "" : Path.Combine(instanceDir, "ScadaComm");
+        }
+
+        /// <summary>
+        /// Recreates the application configuration.
+        /// </summary>
+        public override void RenewConfig()
+        {
+            AppConfig = new CommConfig();
         }
     }
 }

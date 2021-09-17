@@ -34,7 +34,7 @@ namespace Scada.Config
     /// Represents an instance configuration.
     /// <para>Представляет конфигурацию экземпляра.</para>
     /// </summary>
-    public class InstanceConfig
+    public class InstanceConfig : IConfig
     {
         /// <summary>
         /// The default configuration file name.

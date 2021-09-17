@@ -24,6 +24,7 @@
  */
 
 using Scada.Admin.Lang;
+using Scada.Config;
 using System;
 using System.IO;
 using System.Xml;
@@ -70,7 +71,7 @@ namespace Scada.Admin.Project
         /// <summary>
         /// Gets the application configuration.
         /// </summary>
-        public abstract object AppConfig { get; }
+        public abstract IConfig Config { get; }
 
         /// <summary>
         /// Gets the application configuration directory.
@@ -83,6 +84,11 @@ namespace Scada.Admin.Project
             }
         }
 
+
+        /// <summary>
+        /// Gets the application configuration file path.
+        /// </summary>
+        protected abstract string GetConfigPath();
 
         /// <summary>
         /// Loads the application options from the XML node.
@@ -109,22 +115,40 @@ namespace Scada.Admin.Project
         /// <summary>
         /// Loads the configuration.
         /// </summary>
-        public abstract bool LoadConfig(out string errMsg);
+        public bool LoadConfig(out string errMsg)
+        {
+            if (Config.Load(GetConfigPath(), out errMsg))
+            {
+                ConfigLoaded = true;
+                return true;
+            }
+            else
+            {
+                return false;
+            }
+        }
 
         /// <summary>
         /// Saves the configuration.
         /// </summary>
-        public abstract bool SaveConfig(out string errMsg);
+        public bool SaveConfig(out string errMsg)
+        {
+            return Config.Save(GetConfigPath(), out errMsg);
+        }
 
         /// <summary>
-        /// Initializes the application directory relative to the instance directory.
+        /// Clears the application configuration in memory.
         /// </summary>
-        public abstract void InitAppDir(string instanceDir);
+        public void ClearConfig()
+        {
+            ConfigLoaded = false;
+            RenewConfig();
+        }
 
         /// <summary>
         /// Creates configuration files required for the application.
         /// </summary>
-        public virtual bool CreateConfigFiles(out string errMsg)
+        public bool CreateConfigFiles(out string errMsg)
         {
             try
             {
@@ -141,7 +165,7 @@ namespace Scada.Admin.Project
         /// <summary>
         /// Deletes configuration files of the application.
         /// </summary>
-        public virtual bool DeleteConfigFiles(out string errMsg)
+        public bool DeleteConfigFiles(out string errMsg)
         {
             try
             {
@@ -157,11 +181,13 @@ namespace Scada.Admin.Project
         }
 
         /// <summary>
-        /// Clears the application configuration in memory.
+        /// Initializes the application directory relative to the instance directory.
         /// </summary>
-        public virtual void ClearConfig()
-        {
-            ConfigLoaded = false;
-        }
+        public abstract void InitAppDir(string instanceDir);
+
+        /// <summary>
+        /// Recreates the application configuration.
+        /// </summary>
+        public abstract void RenewConfig();
     }
 }

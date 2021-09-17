@@ -23,6 +23,7 @@
  * Modified : 2021
  */
 
+using Scada.Config;
 using Scada.Lang;
 using System;
 using System.Collections.Generic;
@@ -35,7 +36,7 @@ namespace Scada.Server.Config
     /// Represents server configuration.
     /// <para>Представляет конфигурацию сервера.</para>
     /// </summary>
-    public class ServerConfig
+    public class ServerConfig : IConfig
     {
         /// <summary>
         /// The default configuration file name.

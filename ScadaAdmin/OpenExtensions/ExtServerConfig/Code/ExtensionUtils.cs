@@ -28,7 +28,7 @@ namespace Scada.Admin.Extensions.ExtServerConfig.Code
             {
                 moduleView.BaseDataSet = adminContext.CurrentProject.ConfigBase;
                 moduleView.AppDirs = adminContext.AppDirs.CreateDirsForView(serverApp.ConfigDir);
-                moduleView.AppConfig = serverApp.Config;
+                moduleView.AppConfig = serverApp.AppConfig;
                 moduleView.LoadDictionaries();
                 return true;
             }
