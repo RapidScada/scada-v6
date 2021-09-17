@@ -86,6 +86,11 @@ namespace Scada.Admin.Project
 
 
         /// <summary>
+        /// Recreates the application configuration.
+        /// </summary>
+        protected abstract void RenewConfig();
+
+        /// <summary>
         /// Gets the application configuration file path.
         /// </summary>
         protected abstract string GetConfigPath();
@@ -184,10 +189,5 @@ namespace Scada.Admin.Project
         /// Initializes the application directory relative to the instance directory.
         /// </summary>
         public abstract void InitAppDir(string instanceDir);
-
-        /// <summary>
-        /// Recreates the application configuration.
-        /// </summary>
-        public abstract void RenewConfig();
     }
 }

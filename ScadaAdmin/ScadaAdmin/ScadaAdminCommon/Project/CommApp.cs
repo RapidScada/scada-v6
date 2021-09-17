@@ -62,6 +62,14 @@ namespace Scada.Admin.Project
 
 
         /// <summary>
+        /// Recreates the application configuration.
+        /// </summary>
+        protected override void RenewConfig()
+        {
+            AppConfig = new CommConfig();
+        }
+
+        /// <summary>
         /// Gets the application configuration file path.
         /// </summary>
         protected override string GetConfigPath()
@@ -75,14 +83,6 @@ namespace Scada.Admin.Project
         public override void InitAppDir(string instanceDir)
         {
             AppDir = string.IsNullOrEmpty(instanceDir) ? "" : Path.Combine(instanceDir, "ScadaComm");
-        }
-
-        /// <summary>
-        /// Recreates the application configuration.
-        /// </summary>
-        public override void RenewConfig()
-        {
-            AppConfig = new CommConfig();
         }
     }
 }
