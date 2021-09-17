@@ -179,12 +179,12 @@ namespace Scada.Admin.App.Forms
             SetDeployMenuItemsEnabled();
 
             // tools
-            miToolsAddLine.Enabled = btnToolsAddLine.Enabled = projectIsOpen;
-            miToolsAddDevice.Enabled = btnToolsAddDevice.Enabled = projectIsOpen;
-            miToolsCreateCnls.Enabled = btnToolsCreateCnls.Enabled = projectIsOpen;
-            miToolsCloneCnls.Enabled = projectIsOpen;
-            miToolsCnlMap.Enabled = projectIsOpen;
-            miToolsCheckIntegrity.Enabled = projectIsOpen;
+            //miToolsAddLine.Enabled = btnToolsAddLine.Enabled = projectIsOpen;
+            //miToolsAddDevice.Enabled = btnToolsAddDevice.Enabled = projectIsOpen;
+            //miToolsCreateCnls.Enabled = btnToolsCreateCnls.Enabled = projectIsOpen;
+            //miToolsCloneCnls.Enabled = projectIsOpen;
+            //miToolsCnlMap.Enabled = projectIsOpen;
+            //miToolsCheckIntegrity.Enabled = projectIsOpen;
         }
 
         /// <summary>
@@ -223,11 +223,11 @@ namespace Scada.Admin.App.Forms
         /// </summary>
         private void SetDeployMenuItemsEnabled()
         {
-            bool instanceExists = Project != null && Project.Instances.Count > 0;
-            miDeployInstanceProfile.Enabled = btnDeployInstanceProfile.Enabled = instanceExists;
-            miDeployDownloadConfig.Enabled = btnDeployDownloadConfig.Enabled = instanceExists;
-            miDeployUploadConfig.Enabled = btnDeployUploadConfig.Enabled = instanceExists;
-            miDeployInstanceStatus.Enabled = btnDeployInstanceStatus.Enabled = instanceExists;
+            //bool instanceExists = Project != null && Project.Instances.Count > 0;
+            //miDeployInstanceProfile.Enabled = btnDeployInstanceProfile.Enabled = instanceExists;
+            //miDeployDownloadConfig.Enabled = btnDeployDownloadConfig.Enabled = instanceExists;
+            //miDeployUploadConfig.Enabled = btnDeployUploadConfig.Enabled = instanceExists;
+            //miDeployInstanceStatus.Enabled = btnDeployInstanceStatus.Enabled = instanceExists;
         }
 
         /// <summary>
