@@ -24,6 +24,7 @@
  */
 
 using Scada.Lang;
+using Scada.Web.Config;
 using System.IO;
 
 namespace Scada.Admin.Project
@@ -44,6 +45,11 @@ namespace Scada.Admin.Project
 
 
         /// <summary>
+        /// Gets the application configuration.
+        /// </summary>
+        public WebConfig Config { get; private set; }
+
+        /// <summary>
         /// Gets the application name.
         /// </summary>
         public override string AppName => CommonPhrases.WebAppName;
@@ -51,7 +57,7 @@ namespace Scada.Admin.Project
         /// <summary>
         /// Gets the application configuration.
         /// </summary>
-        public override object AppConfig => null;
+        public override object AppConfig => Config;
 
         /// <summary>
         /// Gets the application configuration directory.
@@ -66,13 +72,27 @@ namespace Scada.Admin.Project
 
 
         /// <summary>
+        /// Gets the application configuration file path.
+        /// </summary>
+        private string GetConfigPath()
+        {
+            return Path.Combine(ConfigDir, WebConfig.DefaultFileName);
+        }
+
+        /// <summary>
         /// Loads the configuration.
         /// </summary>
         public override bool LoadConfig(out string errMsg)
         {
-            ConfigLoaded = true;
-            errMsg = "";
-            return true;
+            if (Config.Load(GetConfigPath(), out errMsg))
+            {
+                ConfigLoaded = true;
+                return true;
+            }
+            else
+            {
+                return false;
+            }
         }
 
         /// <summary>
@@ -80,8 +100,16 @@ namespace Scada.Admin.Project
         /// </summary>
         public override bool SaveConfig(out string errMsg)
         {
-            errMsg = "";
-            return true;
+            return Config.Save(GetConfigPath(), out errMsg);
+        }
+
+        /// <summary>
+        /// Clears the application configuration.
+        /// </summary>
+        public override void ClearConfig()
+        {
+            base.ClearConfig();
+            Config = new WebConfig();
         }
 
         /// <summary>

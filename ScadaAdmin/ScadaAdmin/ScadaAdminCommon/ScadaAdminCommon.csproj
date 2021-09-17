@@ -28,6 +28,9 @@
     <Reference Include="ScadaServerCommon">
       <HintPath>..\..\..\ScadaServer\ScadaServer\ScadaServerCommon\bin\Release\netstandard2.0\ScadaServerCommon.dll</HintPath>
     </Reference>
+    <Reference Include="ScadaWebCommon.Subset">
+      <HintPath>..\..\..\ScadaWeb\ScadaWeb\ScadaWebCommon.Subset\bin\Release\net5.0\ScadaWebCommon.Subset.dll</HintPath>
+    </Reference>
   </ItemGroup>
 
   <ItemGroup>
