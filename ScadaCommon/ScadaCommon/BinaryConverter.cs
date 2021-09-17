@@ -20,7 +20,7 @@
  * 
  * Author   : Mikhail Shiryaev
  * Created  : 2020
- * Modified : 2020
+ * Modified : 2021
  */
 
 using Scada.Data.Models;
@@ -310,7 +310,6 @@ namespace Scada
                 CopyTime(ev.Timestamp, buffer, ref index);
                 CopyBool(ev.Hidden, buffer, ref index);
                 CopyInt32(ev.CnlNum, buffer, ref index);
-                CopyInt32(ev.OutCnlNum, buffer, ref index);
                 CopyInt32(ev.ObjNum, buffer, ref index);
                 CopyInt32(ev.DeviceNum, buffer, ref index);
                 CopyDouble(ev.PrevCnlVal, buffer, ref index);
@@ -603,7 +602,6 @@ namespace Scada
                 Timestamp = GetTime(buffer, ref index),
                 Hidden = GetBool(buffer, ref index),
                 CnlNum = GetInt32(buffer, ref index),
-                OutCnlNum = GetInt32(buffer, ref index),
                 ObjNum = GetInt32(buffer, ref index),
                 DeviceNum = GetInt32(buffer, ref index),
                 PrevCnlVal = GetDouble(buffer, ref index),

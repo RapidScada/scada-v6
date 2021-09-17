@@ -51,9 +51,9 @@ namespace Scada.Data.Models
         public BaseTable<Archive> ArchiveTable { get; protected set; }
 
         /// <summary>
-        /// Gets the command type table.
+        /// Gets the channel table.
         /// </summary>
-        public BaseTable<CmdType> CmdTypeTable { get; protected set; }
+        public BaseTable<Cnl> CnlTable { get; protected set; }
 
         /// <summary>
         /// Gets the channel status table.
@@ -91,11 +91,6 @@ namespace Scada.Data.Models
         public BaseTable<Format> FormatTable { get; protected set; }
 
         /// <summary>
-        /// Gets the input channel table.
-        /// </summary>
-        public BaseTable<InCnl> InCnlTable { get; protected set; }
-
-        /// <summary>
         /// Gets the limit table.
         /// </summary>
         public BaseTable<Lim> LimTable { get; protected set; }
@@ -109,11 +104,6 @@ namespace Scada.Data.Models
         /// Gets the object right table.
         /// </summary>
         public BaseTable<ObjRight> ObjRightTable { get; protected set; }
-
-        /// <summary>
-        /// Gets the output channel table.
-        /// </summary>
-        public BaseTable<OutCnl> OutCnlTable { get; protected set; }
 
         /// <summary>
         /// Gets the quantity table.
@@ -169,7 +159,7 @@ namespace Scada.Data.Models
             AllTables = new IBaseTable[]
             {
                 ArchiveTable = new BaseTable<Archive>("Archive", "ArchiveID", CommonPhrases.ArchiveTable),
-                CmdTypeTable = new BaseTable<CmdType>("CmdType", "CmdTypeID", CommonPhrases.CmdTypeTable),
+                CnlTable = new BaseTable<Cnl>("Cnl", "CnlNum", CommonPhrases.CnlTable),
                 CnlStatusTable = new BaseTable<CnlStatus>("CnlStatus", "CnlStatusID", CommonPhrases.CnlStatusTable),
                 CnlTypeTable = new BaseTable<CnlType>("CnlType", "CnlTypeID", CommonPhrases.CnlTypeTable),
                 CommLineTable = new BaseTable<CommLine>("CommLine", "CommLineNum", CommonPhrases.CommLineTable),
@@ -177,11 +167,9 @@ namespace Scada.Data.Models
                 DeviceTable = new BaseTable<Device>("Device", "DeviceNum", CommonPhrases.DeviceTable),
                 DevTypeTable = new BaseTable<DevType>("DevType", "DevTypeID", CommonPhrases.DevTypeTable),
                 FormatTable = new BaseTable<Format>("Format", "FormatID", CommonPhrases.FormatTable),
-                InCnlTable = new BaseTable<InCnl>("InCnl", "CnlNum", CommonPhrases.InCnlTable),
                 LimTable = new BaseTable<Lim>("Lim", "LimID", CommonPhrases.LimTable),
                 ObjTable = new BaseTable<Obj>("Obj", "ObjNum", CommonPhrases.ObjTable),
                 ObjRightTable = new BaseTable<ObjRight>("ObjRight", "ObjRightID", CommonPhrases.ObjRightTable),
-                OutCnlTable = new BaseTable<OutCnl>("OutCnl", "OutCnlNum", CommonPhrases.OutCnlTable),
                 QuantityTable = new BaseTable<Quantity>("Quantity", "QuantityID", CommonPhrases.QuantityTable),
                 RoleTable = new BaseTable<Role>("Role", "RoleID", CommonPhrases.RoleTable),
                 RoleRefTable = new BaseTable<RoleRef>("RoleRef", "RoleRefID", CommonPhrases.RoleRefTable),
@@ -205,36 +193,30 @@ namespace Scada.Data.Models
             AddRelation(DevTypeTable, DeviceTable, "DevTypeID");
             AddRelation(CommLineTable, DeviceTable, "CommLineNum");
 
-            // input channel table
-            AddRelation(CnlTypeTable, InCnlTable, "CnlTypeID");
-            AddRelation(ObjTable, InCnlTable, "ObjNum");
-            AddRelation(DeviceTable, InCnlTable, "DeviceNum");
-            AddRelation(DataTypeTable, InCnlTable, "DataTypeID");
-            AddRelation(FormatTable, InCnlTable, "FormatID");
-            AddRelation(QuantityTable, InCnlTable, "QuantityID");
-            AddRelation(UnitTable, InCnlTable, "UnitID");
-            AddRelation(LimTable, InCnlTable, "LimID");
-
-            // output channel table
-            AddRelation(CmdTypeTable, OutCnlTable, "CmdTypeID");
-            AddRelation(ObjTable, OutCnlTable, "ObjNum");
-            AddRelation(DeviceTable, OutCnlTable, "DeviceNum");
-            AddRelation(FormatTable, OutCnlTable, "FormatID");
+            // channel table
+            AddRelation(CnlTypeTable, CnlTable, "CnlTypeID");
+            AddRelation(ObjTable, CnlTable, "ObjNum");
+            AddRelation(DeviceTable, CnlTable, "DeviceNum");
+            AddRelation(DataTypeTable, CnlTable, "DataTypeID");
+            AddRelation(FormatTable, CnlTable, "FormatID");
+            AddRelation(QuantityTable, CnlTable, "QuantityID");
+            AddRelation(UnitTable, CnlTable, "UnitID");
+            AddRelation(LimTable, CnlTable, "LimID");
 
             // view table
             AddRelation(ViewTypeTable, ViewTable, "ViewTypeID");
             AddRelation(ObjTable, ViewTable, "ObjNum");
 
-            // user table
-            AddRelation(RoleTable, UserTable, "RoleID");
+            // role inheritance table
+            AddRelation(RoleTable, RoleRefTable, "ParentRoleID");
+            AddRelation(RoleTable, RoleRefTable, "ChildRoleID");
 
             // object right table
             AddRelation(ObjTable, ObjRightTable, "ObjNum");
             AddRelation(RoleTable, ObjRightTable, "RoleID");
 
-            // role inheritance table
-            AddRelation(RoleTable, RoleRefTable, "ParentRoleID");
-            AddRelation(RoleTable, RoleRefTable, "ChildRoleID");
+            // user table
+            AddRelation(RoleTable, UserTable, "RoleID");
         }
 
         /// <summary>

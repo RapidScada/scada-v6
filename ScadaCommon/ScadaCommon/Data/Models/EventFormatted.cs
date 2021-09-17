@@ -64,7 +64,7 @@ namespace Scada.Data.Models
         public string Dev { get; set; }
 
         /// <summary>
-        /// Gets or sets the name of the input channel or output channel.
+        /// Gets or sets the channel name.
         /// </summary>
         public string Cnl { get; set; }
 

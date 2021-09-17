@@ -20,7 +20,7 @@
  * 
  * Author   : Mikhail Shiryaev
  * Created  : 2020
- * Modified : 2020
+ * Modified : 2021
  */
 
 namespace Scada.Data.Models
@@ -44,6 +44,11 @@ namespace Scada.Data.Models
         /// <summary>
         /// Displays only custom text.
         /// </summary>
-        CustomText = 2
+        CustomText = 2,
+
+        /// <summary>
+        /// Displays command value and data.
+        /// </summary>
+        Command = 3
     }
 }

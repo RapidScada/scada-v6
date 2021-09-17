@@ -260,9 +260,9 @@ namespace Scada
         /// <summary>
         /// Formats the input channel data according to the channel properties.
         /// </summary>
-        public CnlDataFormatted FormatCnlData(CnlData cnlData, InCnl inCnl)
+        public CnlDataFormatted FormatCnlData(CnlData cnlData, Cnl cnl)
         {
-            return FormatCnlData(cnlData, inCnl?.DataTypeID ?? DataTypeID.Double, inCnl?.FormatID ?? 0);
+            return FormatCnlData(cnlData, cnl?.DataTypeID ?? DataTypeID.Double, cnl?.FormatID ?? 0);
         }
 
         /// <summary>
@@ -270,7 +270,7 @@ namespace Scada
         /// </summary>
         public CnlDataFormatted FormatCnlData(CnlData cnlData, int cnlNum)
         {
-            return FormatCnlData(cnlData, cnlNum > 0 ? baseDataSet.InCnlTable.GetItem(cnlNum) : null);
+            return FormatCnlData(cnlData, cnlNum > 0 ? baseDataSet.CnlTable.GetItem(cnlNum) : null);
         }
 
         /// <summary>
@@ -295,30 +295,24 @@ namespace Scada
                 eventFormatted.Dev = baseDataSet.DeviceTable.GetItem(ev.DeviceNum)?.Name ?? "";
 
             // channel
-            InCnl inCnl = null;
-            OutCnl outCnl = null;
+            Cnl cnl = null;
 
-            if (ev.OutCnlNum > 0)
+            if (ev.CnlNum > 0)
             {
-                outCnl = baseDataSet.OutCnlTable.GetItem(ev.OutCnlNum);
-                eventFormatted.Cnl = outCnl?.Name ?? "";
-            }
-            else if (ev.CnlNum > 0)
-            {
-                inCnl = baseDataSet.InCnlTable.GetItem(ev.CnlNum);
-                eventFormatted.Cnl = inCnl?.Name ?? "";
+                cnl = baseDataSet.CnlTable.GetItem(ev.CnlNum);
+                eventFormatted.Cnl = cnl?.Name ?? "";
             }
 
             // description
             StringBuilder sbDescr = new StringBuilder();
             CnlDataFormatted dataFormatted;
 
-            if (ev.OutCnlNum > 0)
+            if (ev.TextFormat == EventTextFormat.Command)
             {
                 // Command Value, Data. Custom text
                 sbDescr.Append(Locale.IsRussian ? "Команда: " : "Command: ");
                 dataFormatted = FormatCnlData(new CnlData(ev.CnlVal, CnlStatusID.Defined), 
-                    DataTypeID.Double, outCnl?.FormatID ?? 0);
+                    DataTypeID.Double, cnl?.FormatID ?? 0);
 
                 if (ev.CnlStat > 0)
                     sbDescr.Append(dataFormatted.DispVal);
@@ -335,7 +329,7 @@ namespace Scada
             else
             {
                 // Status, Value. Custom text
-                dataFormatted = FormatCnlData(new CnlData(ev.CnlVal, ev.CnlStat), inCnl);
+                dataFormatted = FormatCnlData(new CnlData(ev.CnlVal, ev.CnlStat), cnl);
 
                 if (ev.TextFormat == EventTextFormat.Full || ev.TextFormat == EventTextFormat.AutoText)
                 {
@@ -348,13 +342,12 @@ namespace Scada
                 }
             }
 
-            if (!string.IsNullOrEmpty(ev.Text))
+            if (!string.IsNullOrEmpty(ev.Text) && ev.TextFormat != EventTextFormat.AutoText)
             {
-                if (ev.TextFormat == EventTextFormat.Full)
+                if (sbDescr.Length > 0)
                     sbDescr.Append(". ");
 
-                if (ev.TextFormat == EventTextFormat.Full || ev.TextFormat == EventTextFormat.CustomText)
-                    sbDescr.Append(ev.Text);
+                sbDescr.Append(ev.Text);
             }
 
             eventFormatted.Descr = sbDescr.ToString();
@@ -396,7 +389,7 @@ namespace Scada
                 eventFormatted.Color = dataFormatted.Colors[0];
 
             // beep
-            if (inCnl != null && new EventMask(inCnl.EventMask).Beep)
+            if (cnl != null && new EventMask(cnl.EventMask).Beep)
                 eventFormatted.Beep = true;
 
             return eventFormatted;

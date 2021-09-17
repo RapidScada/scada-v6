@@ -16,11 +16,11 @@
  * 
  * Product  : Rapid SCADA
  * Module   : ScadaCommon
- * Summary  : Represents an output channel as an entity of the configuration database
+ * Summary  : Represents a channel as an entity of the configuration database
  * 
  * Author   : Mikhail Shiryaev
  * Created  : 2018
- * Modified : 2020
+ * Modified : 2021
  */
 
 #pragma warning disable 1591 // Missing XML comment for publicly visible type or member
@@ -30,34 +30,48 @@ using System;
 namespace Scada.Data.Entities
 {
     /// <summary>
-    /// Represents an output channel as an entity of the configuration database.
-    /// <para>Представляет канал управления как сущность базы конфигурации.</para>
+    /// Represents a channel as an entity of the configuration database.
+    /// <para>Представляет канал как сущность базы конфигурации.</para>
     /// </summary>
     [Serializable]
-    public class OutCnl
+    public class Cnl
     {
-        public int OutCnlNum { get; set; }
+        public int CnlNum { get; set; }
 
         public bool Active { get; set; }
 
         public string Name { get; set; }
 
-        public int CmdTypeID { get; set; }
+        public int? DataTypeID { get; set; }
+
+        public int? DataLen { get; set; }
+
+        public int CnlTypeID { get; set; }
 
         public int? ObjNum { get; set; }
 
         public int? DeviceNum { get; set; }
 
-        public int? CmdNum { get; set; }
+        public int? TagNum { get; set; }
 
-        public string CmdCode { get; set; }
+        public string TagCode { get; set; }
 
         public bool FormulaEnabled { get; set; }
 
-        public string Formula { get; set; }
+        public string InFormula { get; set; }
+
+        public string OutFormula { get; set; }
 
         public int? FormatID { get; set; }
 
-        public bool EventEnabled { get; set; }
+        public int? QuantityID { get; set; }
+
+        public int? UnitID { get; set; }
+
+        public int? LimID { get; set; }
+
+        public int? ArchiveMask { get; set; }
+
+        public int? EventMask { get; set; }
     }
 }

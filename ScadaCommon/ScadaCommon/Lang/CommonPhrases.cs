@@ -54,8 +54,7 @@ namespace Scada.Lang
 
         // Scada.ConfigBase
         public static string ArchiveTable { get; private set; }
-        public static string CmdTypeTable { get; private set; }
-        public static string CmdValTable { get; private set; }
+        public static string CnlTable { get; private set; }
         public static string CnlStatusTable { get; private set; }
         public static string CnlTypeTable { get; private set; }
         public static string CommLineTable { get; private set; }
@@ -63,11 +62,9 @@ namespace Scada.Lang
         public static string DeviceTable { get; private set; }
         public static string DevTypeTable { get; private set; }
         public static string FormatTable { get; private set; }
-        public static string InCnlTable { get; private set; }
         public static string LimTable { get; private set; }
         public static string ObjTable { get; private set; }
         public static string ObjRightTable { get; private set; }
-        public static string OutCnlTable { get; private set; }
         public static string QuantityTable { get; private set; }
         public static string RoleTable { get; private set; }
         public static string RoleRefTable { get; private set; }
@@ -149,8 +146,7 @@ namespace Scada.Lang
 
             dict = Locale.GetDictionary("Scada.ConfigBase");
             ArchiveTable = dict["ArchiveTable"];
-            CmdTypeTable = dict["CmdTypeTable"];
-            CmdValTable = dict["CmdValTable"];
+            CnlTable = dict["CnlTable"];
             CnlStatusTable = dict["CnlStatusTable"];
             CnlTypeTable = dict["CnlTypeTable"];
             CommLineTable = dict["CommLineTable"];
@@ -158,11 +154,9 @@ namespace Scada.Lang
             DeviceTable = dict["DeviceTable"];
             DevTypeTable = dict["DevTypeTable"];
             FormatTable = dict["FormatTable"];
-            InCnlTable = dict["InCnlTable"];
             LimTable = dict["LimTable"];
             ObjTable = dict["ObjTable"];
             ObjRightTable = dict["ObjRightTable"];
-            OutCnlTable = dict["OutCnlTable"];
             QuantityTable = dict["QuantityTable"];
             RoleTable = dict["RoleTable"];
             RoleRefTable = dict["RoleRefTable"];

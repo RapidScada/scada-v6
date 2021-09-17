@@ -21,8 +21,7 @@
   </Dictionary>
   <Dictionary key="Scada.ConfigBase">
     <Phrase key="ArchiveTable">Archives</Phrase>
-    <Phrase key="CmdTypeTable">Command types</Phrase>
-    <Phrase key="CmdValTable">Command values</Phrase>
+    <Phrase key="CnlTable">Channels</Phrase>
     <Phrase key="CnlStatusTable">Channel statuses</Phrase>
     <Phrase key="CnlTypeTable">Channel types</Phrase>
     <Phrase key="CommLineTable">Communication lines</Phrase>
@@ -30,11 +29,9 @@
     <Phrase key="DeviceTable">Devices</Phrase>
     <Phrase key="DevTypeTable">Device types</Phrase>
     <Phrase key="FormatTable">Formats</Phrase>
-    <Phrase key="InCnlTable">Input channels</Phrase>
     <Phrase key="LimTable">Limits</Phrase>
     <Phrase key="ObjTable">Objects</Phrase>
     <Phrase key="ObjRightTable">Object rights</Phrase>
-    <Phrase key="OutCnlTable">Output channels</Phrase>
     <Phrase key="QuantityTable">Quantities</Phrase>
     <Phrase key="RoleTable">Roles</Phrase>
     <Phrase key="RoleRefTable">Role inheritance</Phrase>

@@ -20,10 +20,8 @@
  * 
  * Author   : Mikhail Shiryaev
  * Created  : 2020
- * Modified : 2020
+ * Modified : 2021
  */
-
-#pragma warning disable 1591 // Missing XML comment for publicly visible type or member
 
 namespace Scada.Data.Const
 {
@@ -33,7 +31,24 @@ namespace Scada.Data.Const
     /// </summary>
     public static class CnlTypeID
     {
-        public const int Measured = 1;
-        public const int Calculated = 2;
+        /// <summary>
+        /// Channel values are read from a device.
+        /// </summary>
+        public const int Input = 1;
+
+        /// <summary>
+        /// Channel values can be read and written.
+        /// </summary>
+        public const int InputOutput = 2;
+
+        /// <summary>
+        /// Channel defines a telecontrol command.
+        /// </summary>
+        public const int Output = 3;
+
+        /// <summary>
+        /// Channel values are calculated using a formula.
+        /// </summary>
+        public const int Calculated = 4;
     }
 }

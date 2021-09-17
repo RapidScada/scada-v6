@@ -42,7 +42,6 @@ namespace Scada.Data.Models
             Timestamp = DateTime.MinValue;
             Hidden = false;
             CnlNum = 0;
-            OutCnlNum = 0;
             ObjNum = 0;
             DeviceNum = 0;
             PrevCnlVal = 0.0;
@@ -80,11 +79,6 @@ namespace Scada.Data.Models
         /// Gets or sets the input channel number.
         /// </summary>
         public int CnlNum { get; set; }
-
-        /// <summary>
-        /// Gets or sets the output channel number.
-        /// </summary>
-        public int OutCnlNum { get; set; }
 
         /// <summary>
         /// Gets or sets the object number.

@@ -123,7 +123,8 @@ namespace Scada.Data.Models
         }
 
         /// <summary>
-        /// Gets or sets a value indicating whether an event should be raised when the channel becomes undefined, or vice versa.
+        /// Gets or sets a value indicating whether an event should be raised
+        /// when the channel becomes undefined, or vice versa.
         /// </summary>
         public bool CnlUndefined
         {
@@ -134,6 +135,22 @@ namespace Scada.Data.Models
             set
             {
                 Value = Value.SetBit(EventBit.CnlUndefined, value);
+            }
+        }
+
+        /// <summary>
+        /// Gets or sets a value indicating whether an event should be raised
+        /// when a command defined by the channel has been sent.
+        /// </summary>
+        public bool Command
+        {
+            get
+            {
+                return Value.BitIsSet(EventBit.Command);
+            }
+            set
+            {
+                Value = Value.SetBit(EventBit.Command, value);
             }
         }
     }

@@ -60,5 +60,10 @@ namespace Scada.Data.Const
         /// The bit indicating whether an event should be raised when the channel becomes undefined, or vice versa.
         /// </summary>
         public const int CnlUndefined = 5;
+
+        /// <summary>
+        /// The bit indicating whether an event should be raised when a command defined by the channel has been sent.
+        /// </summary>
+        public const int Command = 6;
     }
 }

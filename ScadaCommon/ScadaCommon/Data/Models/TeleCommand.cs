@@ -45,8 +45,7 @@ namespace Scada.Data.Models
             CommandID = 0;
             CreationTime = DateTime.MinValue;
             UserID = 0;
-            OutCnlNum = 0;
-            CmdTypeID = 0;
+            CnlNum = 0;
             ObjNum = 0;
             DeviceNum = 0;
             CmdNum = 0;
@@ -59,10 +58,10 @@ namespace Scada.Data.Models
         /// <summary>
         /// Initializes a new instance of the class.
         /// </summary>
-        public TeleCommand(int outCnlNum, double cmdVal, int userID)
+        public TeleCommand(int cnlNum, double cmdVal, int userID)
             : this()
         {
-            OutCnlNum = outCnlNum;
+            CnlNum = cnlNum;
             CmdVal = cmdVal;
             UserID = userID;
         }
@@ -70,10 +69,10 @@ namespace Scada.Data.Models
         /// <summary>
         /// Initializes a new instance of the class.
         /// </summary>
-        public TeleCommand(int outCnlNum, byte[] cmdData, int userID)
+        public TeleCommand(int cnlNum, byte[] cmdData, int userID)
             : this()
         {
-            OutCnlNum = outCnlNum;
+            CnlNum = cnlNum;
             CmdData = cmdData;
             UserID = userID;
         }
@@ -95,14 +94,9 @@ namespace Scada.Data.Models
         public int UserID { get; set; }
 
         /// <summary>
-        /// Gets or sets the output channel number.
+        /// Gets or sets the channel number.
         /// </summary>
-        public int OutCnlNum { get; set; }
-
-        /// <summary>
-        /// Gets or sets the command type ID.
-        /// </summary>
-        public int CmdTypeID { get; set; }
+        public int CnlNum { get; set; }
 
         /// <summary>
         /// Gets or sets the object number.
@@ -181,11 +175,8 @@ namespace Scada.Data.Models
                                 case "UserID":
                                     UserID = int.Parse(value);
                                     break;
-                                case "OutCnlNum":
-                                    OutCnlNum = int.Parse(value);
-                                    break;
-                                case "CmdTypeID":
-                                    CmdTypeID = int.Parse(value);
+                                case "CnlNum":
+                                    CnlNum = int.Parse(value);
                                     break;
                                 case "ObjNum":
                                     ObjNum = int.Parse(value);
@@ -243,8 +234,7 @@ namespace Scada.Data.Models
                     .Append("CommandID=").AppendLine(CommandID.ToString())
                     .Append("CreationTime=").AppendLine(CreationTime.ToString(DateTimeFormatInfo.InvariantInfo))
                     .Append("UserID=").AppendLine(UserID.ToString())
-                    .Append("OutCnlNum=").AppendLine(OutCnlNum.ToString())
-                    .Append("CmdTypeID=").AppendLine(CmdTypeID.ToString())
+                    .Append("CnlNum=").AppendLine(CnlNum.ToString())
                     .Append("ObjNum=").AppendLine(ObjNum.ToString())
                     .Append("DeviceNum=").AppendLine(DeviceNum.ToString())
                     .Append("CmdNum=").AppendLine(CmdNum.ToString())

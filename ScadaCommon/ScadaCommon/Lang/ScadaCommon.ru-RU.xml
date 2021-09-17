@@ -21,8 +21,7 @@
   </Dictionary>
   <Dictionary key="Scada.ConfigBase">
     <Phrase key="ArchiveTable">Архивы</Phrase>
-    <Phrase key="CmdTypeTable">Типы команд</Phrase>
-    <Phrase key="CmdValTable">Значения команд</Phrase>
+    <Phrase key="CnlTable">Каналы</Phrase>
     <Phrase key="CnlStatusTable">Статусы каналов</Phrase>
     <Phrase key="CnlTypeTable">Типы каналов</Phrase>
     <Phrase key="CommLineTable">Линии связи</Phrase>
@@ -30,11 +29,9 @@
     <Phrase key="DeviceTable">КП</Phrase>
     <Phrase key="DevTypeTable">Типы КП</Phrase>
     <Phrase key="FormatTable">Форматы</Phrase>
-    <Phrase key="InCnlTable">Входные каналы</Phrase>
     <Phrase key="LimTable">Границы</Phrase>
     <Phrase key="ObjTable">Объекты</Phrase>
     <Phrase key="ObjRightTable">Права на объекты</Phrase>
-    <Phrase key="OutCnlTable">Каналы управления</Phrase>
     <Phrase key="QuantityTable">Величины</Phrase>
     <Phrase key="RoleTable">Роли</Phrase>
     <Phrase key="RoleRefTable">Наследование ролей</Phrase>

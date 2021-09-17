@@ -570,7 +570,7 @@ namespace Scada.Client
             DataPacket request = CreateRequest(FunctionID.SendCommand);
             int index = ArgumentIndex;
             CopyInt32(command.UserID, outBuf, ref index);
-            CopyInt32(command.OutCnlNum, outBuf, ref index);
+            CopyInt32(command.CnlNum, outBuf, ref index);
             CopyDouble(command.CmdVal, outBuf, ref index);
             CopyByteArray(command.CmdData, outBuf, ref index);
             request.BufferLength = index;
@@ -613,8 +613,7 @@ namespace Scada.Client
                     CommandID = lastCommandID,
                     CreationTime = GetTime(inBuf, ref index),
                     UserID = GetInt32(inBuf, ref index),
-                    OutCnlNum = GetInt32(inBuf, ref index),
-                    CmdTypeID = GetInt32(inBuf, ref index),
+                    CnlNum = GetInt32(inBuf, ref index),
                     ObjNum = GetInt32(inBuf, ref index),
                     DeviceNum = GetInt32(inBuf, ref index),
                     CmdNum = GetInt32(inBuf, ref index),
