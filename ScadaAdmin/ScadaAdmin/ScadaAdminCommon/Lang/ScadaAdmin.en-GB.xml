@@ -480,6 +480,7 @@
     <Phrase key="miInstanceRename">Rename Instance</Phrase>
     <Phrase key="miInstanceProperties">Properties</Phrase>
     <Phrase key="miAppOpenInExplorer">Open Folder in File Explorer</Phrase>
+    <Phrase key="miAppReloadConfig">Reload Configuration</Phrase>
     <Phrase key="miCommLineImport">Import...</Phrase>
     <Phrase key="miCommLineSync">Synchronize...</Phrase>
     <Phrase key="miCommLineAdd">Add Line</Phrase>

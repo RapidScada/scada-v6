@@ -480,6 +480,7 @@
     <Phrase key="miInstanceRename">Переименовать экземпляр</Phrase>
     <Phrase key="miInstanceProperties">Свойства</Phrase>
     <Phrase key="miAppOpenInExplorer">Открыть папку в проводнике</Phrase>
+    <Phrase key="miAppReloadConfig">Перезагрузить конфигурацию</Phrase>
     <Phrase key="miCommLineImport">Импортировать...</Phrase>
     <Phrase key="miCommLineSync">Сихронизировать...</Phrase>
     <Phrase key="miCommLineAdd">Добавить линию</Phrase>

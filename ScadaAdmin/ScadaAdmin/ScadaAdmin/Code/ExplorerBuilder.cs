@@ -113,7 +113,7 @@ namespace Scada.Admin.App.Code
             outCnlTableNode.ContextMenuStrip = contextMenus.CnlTableMenu;
             primaryNode.Nodes.Add(inCnlTableNode);
             primaryNode.Nodes.Add(outCnlTableNode);
-            FillCnlTableNodes(inCnlTableNode, outCnlTableNode, configBase);
+            FillCnlTableNodesInternal(inCnlTableNode, outCnlTableNode, configBase);
 
             primaryNode.Nodes.Add(CreateBaseTableNode(configBase.LimTable));
             primaryNode.Nodes.Add(CreateBaseTableNode(configBase.ViewTable));
@@ -177,7 +177,8 @@ namespace Scada.Admin.App.Code
         /// <summary>
         /// Fills the channel table nodes.
         /// </summary>
-        private void FillCnlTableNodes(TreeNode inCnlTableNode, TreeNode outCnlTableNode, ConfigBase configBase)
+        private void FillCnlTableNodesInternal(TreeNode inCnlTableNode, TreeNode outCnlTableNode,
+            ConfigBase configBase)
         {
             foreach (Device device in configBase.DeviceTable.EnumerateItems())
             {
@@ -255,12 +256,12 @@ namespace Scada.Admin.App.Code
         /// <summary>
         /// Fills the tree node according to the file system.
         /// </summary>
-        private void FillFileNode(TreeNode treeNode, DirectoryInfo directoryInfo)
+        private void FillFileNodeInternal(TreeNode treeNode, DirectoryInfo directoryInfo)
         {
             foreach (DirectoryInfo subdirInfo in directoryInfo.EnumerateDirectories())
             {
                 TreeNode subdirNode = CreateDirectoryNode(subdirInfo);
-                FillFileNode(subdirNode, subdirInfo);
+                FillFileNodeInternal(subdirNode, subdirInfo);
                 treeNode.Nodes.Add(subdirNode);
             }
 
@@ -361,14 +362,14 @@ namespace Scada.Admin.App.Code
         /// <summary>
         /// Fills the channel table nodes, creating child nodes.
         /// </summary>
-        public void FillChannelTableNodes(TreeNode inCnlTableNode, TreeNode outCnlTableNode, ConfigBase configBase)
+        public void FillCnlTableNodes(TreeNode inCnlTableNode, TreeNode outCnlTableNode, ConfigBase configBase)
         {
             try
             {
                 treeView.BeginUpdate();
                 inCnlTableNode.Nodes.Clear();
                 outCnlTableNode.Nodes.Clear();
-                FillCnlTableNodes(inCnlTableNode, outCnlTableNode, configBase);
+                FillCnlTableNodesInternal(inCnlTableNode, outCnlTableNode, configBase);
             }
             finally
             {
@@ -435,12 +436,33 @@ namespace Scada.Admin.App.Code
         }
 
         /// <summary>
+        /// Fills the application node.
+        /// </summary>
+        public void FillAppNode(TreeNode appNode)
+        {
+            if (appNode?.GetRelatedObject() is not ProjectApp projectApp)
+                return;
+
+            try
+            {
+                treeView.BeginUpdate();
+                appNode.Nodes.Clear();
+                appNode.Nodes.AddRange(appData.ExtensionHolder.GetTreeNodes(projectApp).ToArray());
+                appNode.Nodes.Add(CreateAppConfigNode(projectApp));
+            }
+            finally
+            {
+                treeView.EndUpdate();
+            }
+        }
+
+        /// <summary>
         /// Fills the application configuration node.
         /// </summary>
         public void FillAppConfigNode(TreeNode appConfigNode)
         {
-            if (appConfigNode?.GetRelatedObject() is ProjectApp app)
-                FillFileNode(appConfigNode, app.ConfigDir);
+            if (appConfigNode?.GetRelatedObject() is ProjectApp projectApp)
+                FillFileNode(appConfigNode, projectApp.ConfigDir);
         }
 
         /// <summary>
@@ -452,7 +474,7 @@ namespace Scada.Admin.App.Code
             {
                 treeView.BeginUpdate();
                 treeNode.Nodes.Clear();
-                FillFileNode(treeNode, new DirectoryInfo(directory));
+                FillFileNodeInternal(treeNode, new DirectoryInfo(directory));
             }
             finally
             {

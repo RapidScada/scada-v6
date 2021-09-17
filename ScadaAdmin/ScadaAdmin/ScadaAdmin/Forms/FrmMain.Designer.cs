@@ -149,6 +149,7 @@
             this.cmsCnlTable = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.miCnlTableComm = new System.Windows.Forms.ToolStripMenuItem();
             this.miCnlTableRefresh = new System.Windows.Forms.ToolStripMenuItem();
+            this.miAppReloadConfig = new System.Windows.Forms.ToolStripMenuItem();
             this.msMain.SuspendLayout();
             this.tsMain.SuspendLayout();
             this.ssMain.SuspendLayout();
@@ -360,71 +361,77 @@
             // 
             // miToolsAddLine
             // 
+            this.miToolsAddLine.Enabled = false;
             this.miToolsAddLine.Image = global::Scada.Admin.App.Properties.Resources.add_line;
             this.miToolsAddLine.Name = "miToolsAddLine";
-            this.miToolsAddLine.Size = new System.Drawing.Size(169, 22);
+            this.miToolsAddLine.Size = new System.Drawing.Size(180, 22);
             this.miToolsAddLine.Text = "Add Line...";
             this.miToolsAddLine.Click += new System.EventHandler(this.miToolsAddLine_Click);
             // 
             // miToolsAddDevice
             // 
+            this.miToolsAddDevice.Enabled = false;
             this.miToolsAddDevice.Image = global::Scada.Admin.App.Properties.Resources.add_device;
             this.miToolsAddDevice.Name = "miToolsAddDevice";
-            this.miToolsAddDevice.Size = new System.Drawing.Size(169, 22);
+            this.miToolsAddDevice.Size = new System.Drawing.Size(180, 22);
             this.miToolsAddDevice.Text = "Add Device...";
             this.miToolsAddDevice.Click += new System.EventHandler(this.miToolsAddDevice_Click);
             // 
             // miToolsCreateCnls
             // 
+            this.miToolsCreateCnls.Enabled = false;
             this.miToolsCreateCnls.Image = global::Scada.Admin.App.Properties.Resources.create_cnls;
             this.miToolsCreateCnls.Name = "miToolsCreateCnls";
-            this.miToolsCreateCnls.Size = new System.Drawing.Size(169, 22);
+            this.miToolsCreateCnls.Size = new System.Drawing.Size(180, 22);
             this.miToolsCreateCnls.Text = "Create Channels...";
             this.miToolsCreateCnls.Click += new System.EventHandler(this.miToolsCreateCnls_Click);
             // 
             // miToolsSep1
             // 
             this.miToolsSep1.Name = "miToolsSep1";
-            this.miToolsSep1.Size = new System.Drawing.Size(166, 6);
+            this.miToolsSep1.Size = new System.Drawing.Size(177, 6);
             // 
             // miToolsCloneCnls
             // 
+            this.miToolsCloneCnls.Enabled = false;
             this.miToolsCloneCnls.Name = "miToolsCloneCnls";
-            this.miToolsCloneCnls.Size = new System.Drawing.Size(169, 22);
+            this.miToolsCloneCnls.Size = new System.Drawing.Size(180, 22);
             this.miToolsCloneCnls.Text = "Clone Channels...";
             this.miToolsCloneCnls.Click += new System.EventHandler(this.miToolsCloneCnls_Click);
             // 
             // miToolsCnlMap
             // 
+            this.miToolsCnlMap.Enabled = false;
             this.miToolsCnlMap.Name = "miToolsCnlMap";
-            this.miToolsCnlMap.Size = new System.Drawing.Size(169, 22);
+            this.miToolsCnlMap.Size = new System.Drawing.Size(180, 22);
             this.miToolsCnlMap.Text = "Channel Map...";
             this.miToolsCnlMap.Click += new System.EventHandler(this.miToolsCnlMap_Click);
             // 
             // miToolsCheckIntegrity
             // 
+            this.miToolsCheckIntegrity.Enabled = false;
             this.miToolsCheckIntegrity.Name = "miToolsCheckIntegrity";
-            this.miToolsCheckIntegrity.Size = new System.Drawing.Size(169, 22);
+            this.miToolsCheckIntegrity.Size = new System.Drawing.Size(180, 22);
             this.miToolsCheckIntegrity.Text = "Check Integrity";
             this.miToolsCheckIntegrity.Click += new System.EventHandler(this.miToolsCheckIntegrity_Click);
             // 
             // miToolsSep2
             // 
             this.miToolsSep2.Name = "miToolsSep2";
-            this.miToolsSep2.Size = new System.Drawing.Size(166, 6);
+            this.miToolsSep2.Size = new System.Drawing.Size(177, 6);
             // 
             // miToolsOptions
             // 
             this.miToolsOptions.Image = global::Scada.Admin.App.Properties.Resources.options;
             this.miToolsOptions.Name = "miToolsOptions";
-            this.miToolsOptions.Size = new System.Drawing.Size(169, 22);
+            this.miToolsOptions.Size = new System.Drawing.Size(180, 22);
             this.miToolsOptions.Text = "Options...";
             this.miToolsOptions.Click += new System.EventHandler(this.miToolsOptions_Click);
             // 
             // miToolsCulture
             // 
             this.miToolsCulture.Name = "miToolsCulture";
-            this.miToolsCulture.Size = new System.Drawing.Size(169, 22);
+            this.miToolsCulture.Size = new System.Drawing.Size(180, 22);
             this.miToolsCulture.Text = "Language...";
             this.miToolsCulture.Click += new System.EventHandler(this.miToolsCulture_Click);
             // 
@@ -615,6 +622,7 @@
             // btnToolsAddLine
             // 
             this.btnToolsAddLine.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            this.btnToolsAddLine.Enabled = false;
             this.btnToolsAddLine.Image = global::Scada.Admin.App.Properties.Resources.add_line;
             this.btnToolsAddLine.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.btnToolsAddLine.Name = "btnToolsAddLine";
@@ -625,6 +633,7 @@
             // btnToolsAddDevice
             // 
             this.btnToolsAddDevice.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            this.btnToolsAddDevice.Enabled = false;
             this.btnToolsAddDevice.Image = global::Scada.Admin.App.Properties.Resources.add_device;
             this.btnToolsAddDevice.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.btnToolsAddDevice.Name = "btnToolsAddDevice";
@@ -635,6 +644,7 @@
             // btnToolsCreateCnls
             // 
             this.btnToolsCreateCnls.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            this.btnToolsCreateCnls.Enabled = false;
             this.btnToolsCreateCnls.Image = global::Scada.Admin.App.Properties.Resources.create_cnls;
             this.btnToolsCreateCnls.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.btnToolsCreateCnls.Name = "btnToolsCreateCnls";
@@ -1130,9 +1140,10 @@
             // cmsApp
             // 
             this.cmsApp.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.miAppOpenInExplorer});
+            this.miAppOpenInExplorer,
+            this.miAppReloadConfig});
             this.cmsApp.Name = "cmsServer";
-            this.cmsApp.Size = new System.Drawing.Size(220, 26);
+            this.cmsApp.Size = new System.Drawing.Size(220, 70);
             // 
             // miAppOpenInExplorer
             // 
@@ -1191,6 +1202,14 @@
             this.miCnlTableRefresh.Size = new System.Drawing.Size(187, 22);
             this.miCnlTableRefresh.Text = "Refresh";
             this.miCnlTableRefresh.Click += new System.EventHandler(this.miCnlTableRefresh_Click);
+            // 
+            // miAppReloadConfig
+            // 
+            this.miAppReloadConfig.Image = global::Scada.Admin.App.Properties.Resources.refresh;
+            this.miAppReloadConfig.Name = "miAppReloadConfig";
+            this.miAppReloadConfig.Size = new System.Drawing.Size(219, 22);
+            this.miAppReloadConfig.Text = "Reload Configuration";
+            this.miAppReloadConfig.Click += new System.EventHandler(this.miAppReloadConfig_Click);
             // 
             // FrmMain
             // 
@@ -1355,6 +1374,7 @@
         private System.Windows.Forms.ToolStripMenuItem miInstanceOpenInBrowser;
         private System.Windows.Forms.ToolStripStatusLabel lblSelectedInstance;
         private System.Windows.Forms.ToolStripStatusLabel lblSelectedProfile;
+        private System.Windows.Forms.ToolStripMenuItem miAppReloadConfig;
     }
 }
 

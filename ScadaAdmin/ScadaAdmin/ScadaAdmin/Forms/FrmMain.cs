@@ -257,7 +257,7 @@ namespace Scada.Admin.App.Forms
         /// </summary>
         private void ExecNodeAction(TreeNode treeNode)
         {
-            if (treeNode.Tag is TreeNodeTag tag)
+            if (treeNode?.Tag is TreeNodeTag tag)
             {
                 if (tag.ExistingForm == null)
                 {
@@ -289,7 +289,7 @@ namespace Scada.Admin.App.Forms
         /// </summary>
         private void ExecOpenFileAction(TreeNode treeNode)
         {
-            if (treeNode.Tag is TreeNodeTag tag && tag.RelatedObject is FileItem fileItem)
+            if (treeNode?.Tag is TreeNodeTag tag && tag.RelatedObject is FileItem fileItem)
             {
                 if (tag.ExistingForm == null)
                 {
@@ -343,6 +343,9 @@ namespace Scada.Admin.App.Forms
         /// </summary>
         private TreeNode FindTreeNode(object relatedObject, TreeNode startNode)
         {
+            if (startNode == null)
+                return null;
+
             foreach (TreeNode node in startNode.IterateNodes())
             {
                 if (node.Tag is TreeNodeTag tag && tag.RelatedObject == relatedObject)
@@ -367,6 +370,9 @@ namespace Scada.Admin.App.Forms
         /// </summary>
         private void UpdateChildFormHints(TreeNode treeNode)
         {
+            if (treeNode == null)
+                return;
+
             foreach (TreeNode node in treeNode.IterateNodes())
             {
                 if (node.Tag is TreeNodeTag tag && tag.ExistingForm != null)
@@ -381,6 +387,9 @@ namespace Scada.Admin.App.Forms
         /// </summary>
         private void UpdateTextEditorFileNames(TreeNode treeNode)
         {
+            if (treeNode == null)
+                return;
+
             foreach (TreeNode node in treeNode.IterateNodes())
             {
                 if (node.Tag is TreeNodeTag tag && tag.RelatedObject is FileItem fileItem &&
@@ -472,7 +481,10 @@ namespace Scada.Admin.App.Forms
         /// </summary>
         private void CloseChildForms(TreeNode treeNode, bool save = false, bool skipRoot = false)
         {
-            foreach (TreeNode node in 
+            if (treeNode == null)
+                return;
+
+            foreach (TreeNode node in
                 skipRoot ? treeNode.Nodes.IterateNodes() : treeNode.IterateNodes())
             {
                 if (node.Tag is TreeNodeTag tag && tag.ExistingForm != null)
@@ -490,9 +502,12 @@ namespace Scada.Admin.App.Forms
         /// </summary>
         private static void SaveChildForms(TreeNode treeNode)
         {
+            if (treeNode == null)
+                return;
+
             foreach (TreeNode node in treeNode.IterateNodes())
             {
-                if (node.Tag is TreeNodeTag tag && 
+                if (node.Tag is TreeNodeTag tag &&
                     tag.ExistingForm is IChildForm childForm && childForm.ChildFormTag.Modified)
                 {
                     childForm.Save();
@@ -1403,9 +1418,9 @@ namespace Scada.Admin.App.Forms
         private void miToolsAddLine_Click(object sender, EventArgs e)
         {
             // show a line add form
-            if (Project != null)
+            /*if (Project != null)
             {
-                /*FrmLineAdd frmLineAdd = new FrmLineAdd(project, appData.State.RecentSelection);
+                FrmLineAdd frmLineAdd = new FrmLineAdd(project, appData.State.RecentSelection);
 
                 if (frmLineAdd.ShowDialog() == DialogResult.OK)
                 {
@@ -1432,16 +1447,16 @@ namespace Scada.Admin.App.Forms
 
                         SaveCommConfig(liveInstance);
                     }
-                }*/
-            }
+                }
+            }*/
         }
 
         private void miToolsAddDevice_Click(object sender, EventArgs e)
         {
             // show a device add form
-            if (Project != null)
+            /*if (Project != null)
             {
-                /*FrmDeviceAdd frmDeviceAdd = new FrmDeviceAdd(project, appData.State.RecentSelection);
+                FrmDeviceAdd frmDeviceAdd = new FrmDeviceAdd(project, appData.State.RecentSelection);
 
                 if (frmDeviceAdd.ShowDialog() == DialogResult.OK)
                 {
@@ -1480,23 +1495,23 @@ namespace Scada.Admin.App.Forms
 
                         SaveCommConfig(liveInstance);
                     }
-                }*/
-            }
+                }
+            }*/
         }
 
         private void miToolsCreateCnls_Click(object sender, EventArgs e)
         {
             // show a channel creation wizard
-            if (Project != null)
+            /*if (Project != null)
             {
-                /*FrmCnlCreate frmCnlCreate = new FrmCnlCreate(project, appData.State.RecentSelection, appData);
+                FrmCnlCreate frmCnlCreate = new FrmCnlCreate(project, appData.State.RecentSelection, appData);
 
                 if (frmCnlCreate.ShowDialog() == DialogResult.OK)
                 {
                     RefreshBaseTables(typeof(InCnl));
                     RefreshBaseTables(typeof(OutCnl));
-                }*/
-            }
+                }
+            }*/
         }
 
         private void miToolsCloneCnls_Click(object sender, EventArgs e)
@@ -1701,7 +1716,7 @@ namespace Scada.Admin.App.Forms
                 TreeNode outCnlTableNode = explorerBuilder.BaseTableNodes[Project.ConfigBase.OutCnlTable.Name];
                 CloseChildForms(inCnlTableNode, true, true);
                 CloseChildForms(outCnlTableNode, true, true);
-                explorerBuilder.FillChannelTableNodes(inCnlTableNode, outCnlTableNode, Project.ConfigBase);
+                explorerBuilder.FillCnlTableNodes(inCnlTableNode, outCnlTableNode, Project.ConfigBase);
             }
         }
 
@@ -2188,6 +2203,21 @@ namespace Scada.Admin.App.Forms
                         SaveProject();
                     }
                 }
+            }
+        }
+
+
+        private void miAppReloadConfig_Click(object sender, EventArgs e)
+        {
+            // reload application configuration
+            if (tvExplorer.GetSelectedObject() is ProjectApp projectApp)
+            {
+                CloseChildForms(tvExplorer.SelectedNode);
+
+                if (projectApp.LoadConfig(out string errMsg))
+                    explorerBuilder.FillAppNode(tvExplorer.SelectedNode);
+                else
+                    Log.HandleError(errMsg);
             }
         }
 
