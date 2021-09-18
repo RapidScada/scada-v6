@@ -357,7 +357,6 @@ namespace Scada.Comm.Drivers.DrvDsOpcUaServer.Logic
                     {
                         CommandID = ScadaUtils.GenerateUniqueID(),
                         CreationTime = DateTime.UtcNow,
-                        CmdTypeID = CmdTypeID.Standard,
                         DeviceNum = varItem.DeviceNum,
                         CmdCode = varItem.DeviceTag.Code,
                         CmdVal = cmdVal,

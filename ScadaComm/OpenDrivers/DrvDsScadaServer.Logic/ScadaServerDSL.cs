@@ -330,11 +330,11 @@ namespace Scada.Comm.Drivers.DrvDsScadaServer.Logic
                     eventSkipped++;
                     CallFailedToSend(deviceEvent);
                 }
-                else if (deviceEvent.DeviceTag?.InCnl != null)
+                else if (deviceEvent.DeviceTag?.Cnl != null)
                 {
                     try
                     {
-                        deviceEvent.CnlNum = deviceEvent.DeviceTag.InCnl.CnlNum;
+                        deviceEvent.CnlNum = deviceEvent.DeviceTag.Cnl.CnlNum;
                         scadaClient.WriteEvent(deviceEvent.ArchiveMask, deviceEvent);
                         CallEventSent(deviceEvent);
                     }
@@ -370,9 +370,9 @@ namespace Scada.Comm.Drivers.DrvDsScadaServer.Logic
 
                 foreach (DeviceTag deviceTag in srcSlice.DeviceTags)
                 {
-                    if (deviceTag.InCnl != null)
+                    if (deviceTag.Cnl != null)
                     {
-                        cnlNums.Add(deviceTag.InCnl.CnlNum);
+                        cnlNums.Add(deviceTag.Cnl.CnlNum);
                         destDataLength += deviceTag.DataLength;
                     }
                 }
@@ -397,7 +397,7 @@ namespace Scada.Comm.Drivers.DrvDsScadaServer.Logic
                     {
                         int tagDataLength = deviceTag.DataLength;
 
-                        if (deviceTag.InCnl != null)
+                        if (deviceTag.Cnl != null)
                         {
                             Array.Copy(srcSlice.CnlData, srcDataIndex, destCnlData, destDataIndex, tagDataLength);
                             destDataIndex += tagDataLength;
