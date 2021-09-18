@@ -16,7 +16,7 @@
  * 
  * Product  : Rapid SCADA
  * Module   : Administrator
- * Summary  : Represents a form for editing input channel properties
+ * Summary  : Represents a form for editing channel properties
  * 
  * Author   : Mikhail Shiryaev
  * Created  : 2010
@@ -29,22 +29,17 @@ using Scada.Admin.Project;
 using Scada.Forms;
 using Scada.Lang;
 using System;
-using System.Collections.Generic;
-using System.ComponentModel;
 using System.Data;
-using System.Drawing;
-using System.Linq;
 using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 
 namespace Scada.Admin.App.Forms.Tables
 {
     /// <summary>
-    /// Represents a form for editing input channel properties.
-    /// <para>Представляет форму для редактирования свойств входного канала.</para>
+    /// Represents a form for editing channel properties.
+    /// <para>Представляет форму для редактирования свойств канала.</para>
     /// </summary>
-    public partial class FrmInCnl : Form
+    public partial class FrmCnl : Form
     {
         private readonly DataGridView dataGridView;
 
@@ -52,7 +47,7 @@ namespace Scada.Admin.App.Forms.Tables
         /// <summary>
         /// Initializes a new instance of the class.
         /// </summary>
-        private FrmInCnl()
+        private FrmCnl()
         {
             InitializeComponent();
         }
@@ -60,28 +55,12 @@ namespace Scada.Admin.App.Forms.Tables
         /// <summary>
         /// Initializes a new instance of the class.
         /// </summary>
-        public FrmInCnl(DataGridView dataGridView)
+        public FrmCnl(DataGridView dataGridView)
             : this()
         {
             this.dataGridView = dataGridView ?? throw new ArgumentNullException(nameof(dataGridView));
         }
 
-
-        /// <summary>
-        /// Sets the bit mask value according to the cell value.
-        /// </summary>
-        public static void SetValue(CtrlBitMask ctrlBitMask, DataGridViewCell cell)
-        {
-            if (cell == null)
-                throw new ArgumentNullException(nameof(cell));
-
-            ctrlBitMask.MaskValue = cell.Value is int intVal ? intVal : 0;
-
-            if (cell.OwningColumn.Tag is ColumnOptions columnOptions)
-                ctrlBitMask.MaskBits = columnOptions.DataSource;
-
-            ctrlBitMask.ShowMask();
-        }
 
         /// <summary>
         /// Shows the properties of the current item.
@@ -106,7 +85,8 @@ namespace Scada.Admin.App.Forms.Tables
                 txtTagNum.SetText(cells["TagNum"]);
                 txtTagCode.SetText(cells["TagCode"]);
                 chkFormulaEnabled.SetChecked(cells["FormulaEnabled"]);
-                txtFormula.SetText(cells["Formula"]);
+                txtInFormula.SetText(cells["InFormula"]);
+                txtOutFormula.SetText(cells["OutFormula"]);
                 cbFormat.SetValue(cells["FormatID"]);
                 cbQuantity.SetValue(cells["QuantityID"]);
                 cbUnit.SetValue(cells["UnitID"]);
@@ -115,7 +95,15 @@ namespace Scada.Admin.App.Forms.Tables
                 SetValue(bmEvent, cells["EventMask"]);
             }
         }
-        
+
+        /// <summary>
+        /// Enables or disables the formula text boxes.
+        /// </summary>
+        private void SetFormulaEnabled()
+        {
+            txtInFormula.Enabled = txtOutFormula.Enabled = chkFormulaEnabled.Checked;
+        }
+
         /// <summary>
         /// Validates and applies the property changes.
         /// </summary>
@@ -165,7 +153,8 @@ namespace Scada.Admin.App.Forms.Tables
                 cells["TagNum"].Value = tagNum > 0 ? tagNum : DBNull.Value;
                 cells["TagCode"].Value = txtTagCode.Text;
                 cells["FormulaEnabled"].Value = chkFormulaEnabled.Checked;
-                cells["Formula"].Value = txtFormula.Text;
+                cells["InFormula"].Value = txtInFormula.Text;
+                cells["OutFormula"].Value = txtOutFormula.Text;
                 cells["FormatID"].Value = cbFormat.SelectedValue ?? DBNull.Value;
                 cells["QuantityID"].Value = cbQuantity.SelectedValue ?? DBNull.Value;
                 cells["UnitID"].Value = cbUnit.SelectedValue ?? DBNull.Value;
@@ -176,6 +165,22 @@ namespace Scada.Admin.App.Forms.Tables
             }
         }
 
+        /// <summary>
+        /// Sets the bit mask value according to the cell value.
+        /// </summary>
+        private static void SetValue(CtrlBitMask ctrlBitMask, DataGridViewCell cell)
+        {
+            if (cell == null)
+                throw new ArgumentNullException(nameof(cell));
+
+            ctrlBitMask.MaskValue = cell.Value is int intVal ? intVal : 0;
+
+            if (cell.OwningColumn.Tag is ColumnOptions columnOptions)
+                ctrlBitMask.MaskBits = columnOptions.DataSource;
+
+            ctrlBitMask.ShowMask();
+        }
+
 
         private void FrmInCnl_Load(object sender, EventArgs e)
         {
@@ -184,6 +189,7 @@ namespace Scada.Admin.App.Forms.Tables
             FormTranslator.Translate(bmEvent, bmEvent.GetType().FullName);
 
             ShowItemProps();
+            SetFormulaEnabled();
         }
 
         private void FrmInCnl_FormClosed(object sender, FormClosedEventArgs e)
@@ -201,6 +207,11 @@ namespace Scada.Admin.App.Forms.Tables
         private void cbDevice_SelectedIndexChanged(object sender, EventArgs e)
         {
             txtDeviceNum.Text = cbDevice.SelectedValue is int intVal ? intVal.ToString() : "";
+        }
+
+        private void chkFormulaEnabled_CheckedChanged(object sender, EventArgs e)
+        {
+            SetFormulaEnabled();
         }
 
         private void cbLim_SelectedIndexChanged(object sender, EventArgs e)

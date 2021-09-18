@@ -1712,11 +1712,9 @@ namespace Scada.Admin.App.Forms
             // refresh channel table subnodes
             if (Project != null)
             {
-                TreeNode inCnlTableNode = explorerBuilder.BaseTableNodes[Project.ConfigBase.InCnlTable.Name];
-                TreeNode outCnlTableNode = explorerBuilder.BaseTableNodes[Project.ConfigBase.OutCnlTable.Name];
-                CloseChildForms(inCnlTableNode, true, true);
-                CloseChildForms(outCnlTableNode, true, true);
-                explorerBuilder.FillCnlTableNodes(inCnlTableNode, outCnlTableNode, Project.ConfigBase);
+                TreeNode cnlTableNode = explorerBuilder.BaseTableNodes[Project.ConfigBase.CnlTable.Name];
+                CloseChildForms(cnlTableNode, true, true);
+                explorerBuilder.FillCnlTableNode(cnlTableNode, Project.ConfigBase);
             }
         }
 

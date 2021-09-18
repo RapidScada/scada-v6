@@ -1,7 +1,7 @@
 ﻿
 namespace Scada.Admin.App.Forms.Tables
 {
-    partial class FrmInCnl
+    partial class FrmCnl
     {
         /// <summary>
         /// Required designer variable.
@@ -50,9 +50,8 @@ namespace Scada.Admin.App.Forms.Tables
             this.lblQuantity = new System.Windows.Forms.Label();
             this.cbFormat = new System.Windows.Forms.ComboBox();
             this.lblFormat = new System.Windows.Forms.Label();
-            this.txtFormula = new System.Windows.Forms.TextBox();
+            this.txtInFormula = new System.Windows.Forms.TextBox();
             this.chkFormulaEnabled = new System.Windows.Forms.CheckBox();
-            this.lblFormula = new System.Windows.Forms.Label();
             this.txtTagCode = new System.Windows.Forms.TextBox();
             this.lblTagCode = new System.Windows.Forms.Label();
             this.txtTagNum = new System.Windows.Forms.TextBox();
@@ -77,10 +76,13 @@ namespace Scada.Admin.App.Forms.Tables
             this.pageArchives = new System.Windows.Forms.TabPage();
             this.bmArchive = new Scada.Admin.App.Controls.Tables.CtrlBitMask();
             this.pageEvents = new System.Windows.Forms.TabPage();
+            this.bmEvent = new Scada.Admin.App.Controls.Tables.CtrlBitMask();
             this.pnlBottom = new System.Windows.Forms.Panel();
             this.btnCancel = new System.Windows.Forms.Button();
             this.btnOK = new System.Windows.Forms.Button();
-            this.bmEvent = new Scada.Admin.App.Controls.Tables.CtrlBitMask();
+            this.lblInFormula = new System.Windows.Forms.Label();
+            this.lblOutFormula = new System.Windows.Forms.Label();
+            this.txtOutFormula = new System.Windows.Forms.TextBox();
             this.tabControl.SuspendLayout();
             this.pageGeneral.SuspendLayout();
             this.gbLim.SuspendLayout();
@@ -98,7 +100,7 @@ namespace Scada.Admin.App.Forms.Tables
             this.tabControl.Location = new System.Drawing.Point(0, 0);
             this.tabControl.Name = "tabControl";
             this.tabControl.SelectedIndex = 0;
-            this.tabControl.Size = new System.Drawing.Size(484, 548);
+            this.tabControl.Size = new System.Drawing.Size(484, 583);
             this.tabControl.TabIndex = 0;
             // 
             // pageGeneral
@@ -110,9 +112,11 @@ namespace Scada.Admin.App.Forms.Tables
             this.pageGeneral.Controls.Add(this.lblQuantity);
             this.pageGeneral.Controls.Add(this.cbFormat);
             this.pageGeneral.Controls.Add(this.lblFormat);
-            this.pageGeneral.Controls.Add(this.txtFormula);
+            this.pageGeneral.Controls.Add(this.txtOutFormula);
+            this.pageGeneral.Controls.Add(this.lblOutFormula);
+            this.pageGeneral.Controls.Add(this.txtInFormula);
+            this.pageGeneral.Controls.Add(this.lblInFormula);
             this.pageGeneral.Controls.Add(this.chkFormulaEnabled);
-            this.pageGeneral.Controls.Add(this.lblFormula);
             this.pageGeneral.Controls.Add(this.txtTagCode);
             this.pageGeneral.Controls.Add(this.lblTagCode);
             this.pageGeneral.Controls.Add(this.txtTagNum);
@@ -137,7 +141,7 @@ namespace Scada.Admin.App.Forms.Tables
             this.pageGeneral.Location = new System.Drawing.Point(4, 24);
             this.pageGeneral.Name = "pageGeneral";
             this.pageGeneral.Padding = new System.Windows.Forms.Padding(3);
-            this.pageGeneral.Size = new System.Drawing.Size(476, 520);
+            this.pageGeneral.Size = new System.Drawing.Size(476, 555);
             this.pageGeneral.TabIndex = 0;
             this.pageGeneral.Text = "General";
             this.pageGeneral.UseVisualStyleBackColor = true;
@@ -156,11 +160,11 @@ namespace Scada.Admin.App.Forms.Tables
             this.gbLim.Controls.Add(this.lblLoLo);
             this.gbLim.Controls.Add(this.chkShared);
             this.gbLim.Controls.Add(this.cbLim);
-            this.gbLim.Location = new System.Drawing.Point(8, 386);
+            this.gbLim.Location = new System.Drawing.Point(8, 422);
             this.gbLim.Name = "gbLim";
             this.gbLim.Padding = new System.Windows.Forms.Padding(10, 3, 10, 10);
             this.gbLim.Size = new System.Drawing.Size(460, 127);
-            this.gbLim.TabIndex = 30;
+            this.gbLim.TabIndex = 32;
             this.gbLim.TabStop = false;
             this.gbLim.Text = "Limits";
             // 
@@ -274,80 +278,73 @@ namespace Scada.Admin.App.Forms.Tables
             // 
             this.cbUnit.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.cbUnit.FormattingEnabled = true;
-            this.cbUnit.Location = new System.Drawing.Point(320, 354);
+            this.cbUnit.Location = new System.Drawing.Point(320, 393);
             this.cbUnit.Name = "cbUnit";
             this.cbUnit.Size = new System.Drawing.Size(148, 23);
-            this.cbUnit.TabIndex = 29;
+            this.cbUnit.TabIndex = 31;
             // 
             // lblUnit
             // 
             this.lblUnit.AutoSize = true;
-            this.lblUnit.Location = new System.Drawing.Point(317, 336);
+            this.lblUnit.Location = new System.Drawing.Point(317, 375);
             this.lblUnit.Name = "lblUnit";
             this.lblUnit.Size = new System.Drawing.Size(29, 15);
-            this.lblUnit.TabIndex = 28;
+            this.lblUnit.TabIndex = 30;
             this.lblUnit.Text = "Unit";
             // 
             // cbQuantity
             // 
             this.cbQuantity.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.cbQuantity.FormattingEnabled = true;
-            this.cbQuantity.Location = new System.Drawing.Point(164, 354);
+            this.cbQuantity.Location = new System.Drawing.Point(164, 393);
             this.cbQuantity.Name = "cbQuantity";
             this.cbQuantity.Size = new System.Drawing.Size(150, 23);
-            this.cbQuantity.TabIndex = 27;
+            this.cbQuantity.TabIndex = 29;
             // 
             // lblQuantity
             // 
             this.lblQuantity.AutoSize = true;
-            this.lblQuantity.Location = new System.Drawing.Point(161, 336);
+            this.lblQuantity.Location = new System.Drawing.Point(161, 375);
             this.lblQuantity.Name = "lblQuantity";
             this.lblQuantity.Size = new System.Drawing.Size(53, 15);
-            this.lblQuantity.TabIndex = 26;
+            this.lblQuantity.TabIndex = 28;
             this.lblQuantity.Text = "Quantity";
             // 
             // cbFormat
             // 
             this.cbFormat.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.cbFormat.FormattingEnabled = true;
-            this.cbFormat.Location = new System.Drawing.Point(8, 354);
+            this.cbFormat.Location = new System.Drawing.Point(8, 393);
             this.cbFormat.Name = "cbFormat";
             this.cbFormat.Size = new System.Drawing.Size(150, 23);
-            this.cbFormat.TabIndex = 25;
+            this.cbFormat.TabIndex = 27;
             // 
             // lblFormat
             // 
             this.lblFormat.AutoSize = true;
-            this.lblFormat.Location = new System.Drawing.Point(5, 336);
+            this.lblFormat.Location = new System.Drawing.Point(5, 375);
             this.lblFormat.Name = "lblFormat";
             this.lblFormat.Size = new System.Drawing.Size(45, 15);
-            this.lblFormat.TabIndex = 24;
+            this.lblFormat.TabIndex = 26;
             this.lblFormat.Text = "Format";
             // 
-            // txtFormula
+            // txtInFormula
             // 
-            this.txtFormula.Location = new System.Drawing.Point(29, 310);
-            this.txtFormula.Name = "txtFormula";
-            this.txtFormula.Size = new System.Drawing.Size(439, 23);
-            this.txtFormula.TabIndex = 23;
+            this.txtInFormula.Location = new System.Drawing.Point(38, 320);
+            this.txtInFormula.Name = "txtInFormula";
+            this.txtInFormula.Size = new System.Drawing.Size(430, 23);
+            this.txtInFormula.TabIndex = 23;
             // 
             // chkFormulaEnabled
             // 
             this.chkFormulaEnabled.AutoSize = true;
-            this.chkFormulaEnabled.Location = new System.Drawing.Point(8, 314);
+            this.chkFormulaEnabled.Location = new System.Drawing.Point(8, 295);
             this.chkFormulaEnabled.Name = "chkFormulaEnabled";
-            this.chkFormulaEnabled.Size = new System.Drawing.Size(15, 14);
-            this.chkFormulaEnabled.TabIndex = 22;
+            this.chkFormulaEnabled.Size = new System.Drawing.Size(70, 19);
+            this.chkFormulaEnabled.TabIndex = 21;
+            this.chkFormulaEnabled.Text = "Formula";
             this.chkFormulaEnabled.UseVisualStyleBackColor = true;
-            // 
-            // lblFormula
-            // 
-            this.lblFormula.AutoSize = true;
-            this.lblFormula.Location = new System.Drawing.Point(5, 292);
-            this.lblFormula.Name = "lblFormula";
-            this.lblFormula.Size = new System.Drawing.Size(51, 15);
-            this.lblFormula.TabIndex = 21;
-            this.lblFormula.Text = "Formula";
+            this.chkFormulaEnabled.CheckedChanged += new System.EventHandler(this.chkFormulaEnabled_CheckedChanged);
             // 
             // txtTagCode
             // 
@@ -561,12 +558,22 @@ namespace Scada.Admin.App.Forms.Tables
             this.pageEvents.Text = "Events";
             this.pageEvents.UseVisualStyleBackColor = true;
             // 
+            // bmEvent
+            // 
+            this.bmEvent.Location = new System.Drawing.Point(8, 6);
+            this.bmEvent.Margin = new System.Windows.Forms.Padding(3, 0, 3, 3);
+            this.bmEvent.MaskBits = null;
+            this.bmEvent.MaskValue = 0;
+            this.bmEvent.Name = "bmEvent";
+            this.bmEvent.Size = new System.Drawing.Size(460, 506);
+            this.bmEvent.TabIndex = 0;
+            // 
             // pnlBottom
             // 
             this.pnlBottom.Controls.Add(this.btnCancel);
             this.pnlBottom.Controls.Add(this.btnOK);
             this.pnlBottom.Dock = System.Windows.Forms.DockStyle.Bottom;
-            this.pnlBottom.Location = new System.Drawing.Point(0, 548);
+            this.pnlBottom.Location = new System.Drawing.Point(0, 583);
             this.pnlBottom.Name = "pnlBottom";
             this.pnlBottom.Size = new System.Drawing.Size(484, 41);
             this.pnlBottom.TabIndex = 1;
@@ -592,32 +599,47 @@ namespace Scada.Admin.App.Forms.Tables
             this.btnOK.UseVisualStyleBackColor = true;
             this.btnOK.Click += new System.EventHandler(this.btnOK_Click);
             // 
-            // bmEvent
+            // lblInFormula
             // 
-            this.bmEvent.Location = new System.Drawing.Point(8, 6);
-            this.bmEvent.Margin = new System.Windows.Forms.Padding(3, 0, 3, 3);
-            this.bmEvent.MaskBits = null;
-            this.bmEvent.MaskValue = 0;
-            this.bmEvent.Name = "bmEvent";
-            this.bmEvent.Size = new System.Drawing.Size(460, 506);
-            this.bmEvent.TabIndex = 0;
+            this.lblInFormula.AutoSize = true;
+            this.lblInFormula.Location = new System.Drawing.Point(5, 324);
+            this.lblInFormula.Name = "lblInFormula";
+            this.lblInFormula.Size = new System.Drawing.Size(17, 15);
+            this.lblInFormula.TabIndex = 22;
+            this.lblInFormula.Text = "In";
             // 
-            // FrmInCnl
+            // lblOutFormula
+            // 
+            this.lblOutFormula.AutoSize = true;
+            this.lblOutFormula.Location = new System.Drawing.Point(5, 353);
+            this.lblOutFormula.Name = "lblOutFormula";
+            this.lblOutFormula.Size = new System.Drawing.Size(27, 15);
+            this.lblOutFormula.TabIndex = 24;
+            this.lblOutFormula.Text = "Out";
+            // 
+            // txtOutFormula
+            // 
+            this.txtOutFormula.Location = new System.Drawing.Point(38, 349);
+            this.txtOutFormula.Name = "txtOutFormula";
+            this.txtOutFormula.Size = new System.Drawing.Size(430, 23);
+            this.txtOutFormula.TabIndex = 25;
+            // 
+            // FrmCnl
             // 
             this.AcceptButton = this.btnOK;
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.CancelButton = this.btnCancel;
-            this.ClientSize = new System.Drawing.Size(484, 589);
+            this.ClientSize = new System.Drawing.Size(484, 624);
             this.Controls.Add(this.tabControl);
             this.Controls.Add(this.pnlBottom);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedDialog;
             this.MaximizeBox = false;
             this.MinimizeBox = false;
-            this.Name = "FrmInCnl";
+            this.Name = "FrmCnl";
             this.ShowInTaskbar = false;
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
-            this.Text = "Input Channel Properties";
+            this.Text = "Channel Properties";
             this.FormClosed += new System.Windows.Forms.FormClosedEventHandler(this.FrmInCnl_FormClosed);
             this.Load += new System.EventHandler(this.FrmInCnl_Load);
             this.tabControl.ResumeLayout(false);
@@ -662,9 +684,8 @@ namespace Scada.Admin.App.Forms.Tables
         private System.Windows.Forms.Label lblTagNum;
         private System.Windows.Forms.Label lblTagCode;
         private System.Windows.Forms.TextBox txtTagCode;
-        private System.Windows.Forms.Label lblFormula;
         private System.Windows.Forms.CheckBox chkFormulaEnabled;
-        private System.Windows.Forms.TextBox txtFormula;
+        private System.Windows.Forms.TextBox txtInFormula;
         private System.Windows.Forms.Label lblFormat;
         private System.Windows.Forms.ComboBox cbFormat;
         private System.Windows.Forms.Label lblQuantity;
@@ -686,5 +707,8 @@ namespace Scada.Admin.App.Forms.Tables
         private System.Windows.Forms.Label lblDeadband;
         private Controls.Tables.CtrlBitMask bmArchive;
         private Controls.Tables.CtrlBitMask bmEvent;
+        private System.Windows.Forms.Label lblInFormula;
+        private System.Windows.Forms.TextBox txtOutFormula;
+        private System.Windows.Forms.Label lblOutFormula;
     }
 }

@@ -111,8 +111,7 @@ namespace Scada.Admin.App.Forms.Tables
         {
             get
             {
-                Type itemType = baseTable.ItemType;
-                return itemType == typeof(InCnl) || itemType == typeof(OutCnl);
+                return baseTable.ItemType == typeof(Cnl);
             }
         }
 
@@ -467,10 +466,8 @@ namespace Scada.Admin.App.Forms.Tables
             {
                 Form form = null;
 
-                if (baseTable.ItemType == typeof(InCnl))
-                    form = new FrmInCnl(dataGridView);
-                else if (baseTable.ItemType == typeof(OutCnl))
-                    form = new FrmOutCnl(dataGridView);
+                if (baseTable.ItemType == typeof(Cnl))
+                    form = new FrmCnl(dataGridView);
 
                 if (form != null && form.ShowDialog() == DialogResult.OK)
                     EndEdit();

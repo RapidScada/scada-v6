@@ -69,7 +69,8 @@ namespace Scada.Admin.App.Code
                 new BitItem(EventBit.DataChange, AppPhrases.DataChangeEvent),
                 new BitItem(EventBit.ValueChange, AppPhrases.ValueChangeEvent),
                 new BitItem(EventBit.StatusChange, AppPhrases.StatusChangeEvent),
-                new BitItem(EventBit.CnlUndefined, AppPhrases.CnlUndefinedEvent)
+                new BitItem(EventBit.CnlUndefined, AppPhrases.CnlUndefinedEvent),
+                new BitItem(EventBit.Command, AppPhrases.CommandEvent)
             };
         }
 

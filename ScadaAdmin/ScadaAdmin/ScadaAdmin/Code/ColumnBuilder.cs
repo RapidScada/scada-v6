@@ -200,15 +200,36 @@ namespace Scada.Admin.App.Code
         }
 
         /// <summary>
-        /// Creates columns for the command type table.
+        /// Creates columns for the channel table.
         /// </summary>
-        private static DataGridViewColumn[] CreateCmdTypeTableColumns()
+        private static DataGridViewColumn[] CreateCnlTableColumns(ConfigBase configBase)
         {
-            return TranslateHeaders("CmdTypeTable", new DataGridViewColumn[]
+            return TranslateHeaders("CnlTable", new DataGridViewColumn[]
             {
-                NewTextBoxColumn("CmdTypeID", new ColumnOptions(ColumnKind.PrimaryKey)),
+                NewTextBoxColumn("CnlNum", new ColumnOptions(ColumnKind.PrimaryKey)),
+                NewCheckBoxColumn("Active", new ColumnOptions { DefaultValue = true }),
                 NewTextBoxColumn("Name", new ColumnOptions(ColumnLength.Name)),
-                NewTextBoxColumn("Descr", new ColumnOptions(ColumnLength.Description))
+                NewComboBoxColumn("DataTypeID", "Name", configBase.DataTypeTable, true),
+                NewTextBoxColumn("DataLen"),
+                NewComboBoxColumn("CnlTypeID", "Name", configBase.CnlTypeTable, false, false,
+                    new ColumnOptions { DefaultValue = CnlTypeID.Input }),
+                NewComboBoxColumn("ObjNum","Name", configBase.ObjTable, true),
+                NewComboBoxColumn("DeviceNum", "Name", configBase.DeviceTable, true),
+                NewTextBoxColumn("TagNum"),
+                NewTextBoxColumn("TagCode", new ColumnOptions(ColumnLength.Code)),
+                NewCheckBoxColumn("FormulaEnabled"),
+                NewTextBoxColumn("InFormula", new ColumnOptions(ColumnLength.Default)),
+                NewTextBoxColumn("OutFormula", new ColumnOptions(ColumnLength.Default)),
+                NewComboBoxColumn("FormatID", "Name", configBase.FormatTable, true),
+                NewComboBoxColumn("QuantityID", "Name", configBase.QuantityTable, true),
+                NewComboBoxColumn("UnitID", "Name", configBase.UnitTable, true),
+                NewComboBoxColumn("LimID", "Name", configBase.LimTable, true),
+                NewTextBoxColumn("ArchiveMask", new ColumnOptions(ColumnKind.BitMask)
+                    { DataSource = AppUtils.GetArchiveBits(configBase.ArchiveTable) }),
+                NewButtonColumn("ArchiveMask"),
+                NewTextBoxColumn("EventMask", new ColumnOptions(ColumnKind.BitMask)
+                    { DataSource = AppUtils.GetEventBits() }),
+                NewButtonColumn("EventMask")
             });
         }
 
@@ -325,39 +346,6 @@ namespace Scada.Admin.App.Code
         }
 
         /// <summary>
-        /// Creates columns for the input channel table.
-        /// </summary>
-        private static DataGridViewColumn[] CreateInCnlTableColumns(ConfigBase configBase)
-        {
-            return TranslateHeaders("InCnlTable", new DataGridViewColumn[]
-            {
-                NewTextBoxColumn("CnlNum", new ColumnOptions(ColumnKind.PrimaryKey)),
-                NewCheckBoxColumn("Active", new ColumnOptions { DefaultValue = true }),
-                NewTextBoxColumn("Name", new ColumnOptions(ColumnLength.Name)),
-                NewComboBoxColumn("DataTypeID", "Name", configBase.DataTypeTable, true),
-                NewTextBoxColumn("DataLen"),
-                NewComboBoxColumn("CnlTypeID", "Name", configBase.CnlTypeTable, false, false,
-                    new ColumnOptions { DefaultValue = CnlTypeID.Measured }),
-                NewComboBoxColumn("ObjNum","Name", configBase.ObjTable, true),
-                NewComboBoxColumn("DeviceNum", "Name", configBase.DeviceTable, true),
-                NewTextBoxColumn("TagNum"),
-                NewTextBoxColumn("TagCode", new ColumnOptions(ColumnLength.Code)),
-                NewCheckBoxColumn("FormulaEnabled"),
-                NewTextBoxColumn("Formula", new ColumnOptions(ColumnLength.Default)),
-                NewComboBoxColumn("FormatID", "Name", configBase.FormatTable, true),
-                NewComboBoxColumn("QuantityID", "Name", configBase.QuantityTable, true),
-                NewComboBoxColumn("UnitID", "Name", configBase.UnitTable, true),
-                NewComboBoxColumn("LimID", "Name", configBase.LimTable, true),
-                NewTextBoxColumn("ArchiveMask", new ColumnOptions(ColumnKind.BitMask) 
-                    { DataSource = AppUtils.GetArchiveBits(configBase.ArchiveTable) }),
-                NewButtonColumn("ArchiveMask"),
-                NewTextBoxColumn("EventMask", new ColumnOptions(ColumnKind.BitMask) 
-                    { DataSource = AppUtils.GetEventBits() }),
-                NewButtonColumn("EventMask")
-            });
-        }
-
-        /// <summary>
         /// Creates columns for the limit table.
         /// </summary>
         private static DataGridViewColumn[] CreateLimTableColumns()
@@ -403,29 +391,6 @@ namespace Scada.Admin.App.Code
                 NewComboBoxColumn("RoleID", "Name", configBase.RoleTable),
                 NewCheckBoxColumn("View"),
                 NewCheckBoxColumn("Control")
-            });
-        }
-
-        /// <summary>
-        /// Creates columns for the output channel table.
-        /// </summary>
-        private static DataGridViewColumn[] CreateOutCnlTableColumns(ConfigBase configBase)
-        {
-            return TranslateHeaders("OutCnlTable", new DataGridViewColumn[]
-            {
-                NewTextBoxColumn("OutCnlNum", new ColumnOptions(ColumnKind.PrimaryKey)),
-                NewCheckBoxColumn("Active", new ColumnOptions { DefaultValue = true }),
-                NewTextBoxColumn("Name", new ColumnOptions(ColumnLength.Name)),
-                NewComboBoxColumn("CmdTypeID", "Name", configBase.CmdTypeTable, false, false,
-                    new ColumnOptions { DefaultValue = CmdTypeID.Standard }),
-                NewComboBoxColumn("ObjNum", "Name", configBase.ObjTable, true),
-                NewComboBoxColumn("DeviceNum", "Name", configBase.DeviceTable, true),
-                NewTextBoxColumn("CmdNum"),
-                NewTextBoxColumn("CmdCode", new ColumnOptions(ColumnLength.Code)),
-                NewCheckBoxColumn("FormulaEnabled"),
-                NewTextBoxColumn("Formula", new ColumnOptions(ColumnLength.Default)),
-                NewComboBoxColumn("FormatID", "Name", configBase.FormatTable, true),
-                NewCheckBoxColumn("EventEnabled")
             });
         }
 
@@ -564,8 +529,8 @@ namespace Scada.Admin.App.Code
 
             if (itemType == typeof(Archive))
                 return CreateArchiveTableColumns();
-            else if (itemType == typeof(CmdType))
-                return CreateCmdTypeTableColumns();
+            else if (itemType == typeof(Cnl))
+                return CreateCnlTableColumns(configBase);
             else if (itemType == typeof(CnlStatus))
                 return CreateCnlStatusTableColumns();
             else if (itemType == typeof(CnlType))
@@ -580,16 +545,12 @@ namespace Scada.Admin.App.Code
                 return CreateDevTypeTableColumns();
             else if (itemType == typeof(Format))
                 return CreateFormatTableColumns();
-            else if (itemType == typeof(InCnl))
-                return CreateInCnlTableColumns(configBase);
             else if (itemType == typeof(Lim))
                 return CreateLimTableColumns();
             else if (itemType == typeof(Obj))
                 return CreateObjTableColumns(configBase);
             else if (itemType == typeof(ObjRight))
                 return CreateObjRightTableColumns(configBase);
-            else if (itemType == typeof(OutCnl))
-                return CreateOutCnlTableColumns(configBase);
             else if (itemType == typeof(Quantity))
                 return CreateQuantityTableColumns();
             else if (itemType == typeof(Role))

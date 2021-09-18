@@ -107,13 +107,10 @@ namespace Scada.Admin.App.Code
             primaryNode.Nodes.Add(CreateBaseTableNode(configBase.CommLineTable));
             primaryNode.Nodes.Add(CreateBaseTableNode(configBase.DeviceTable));
 
-            TreeNode inCnlTableNode = CreateBaseTableNode(configBase.InCnlTable);
-            TreeNode outCnlTableNode = CreateBaseTableNode(configBase.OutCnlTable);
-            inCnlTableNode.ContextMenuStrip = contextMenus.CnlTableMenu;
-            outCnlTableNode.ContextMenuStrip = contextMenus.CnlTableMenu;
-            primaryNode.Nodes.Add(inCnlTableNode);
-            primaryNode.Nodes.Add(outCnlTableNode);
-            FillCnlTableNodesInternal(inCnlTableNode, outCnlTableNode, configBase);
+            TreeNode cnlTableNode = CreateBaseTableNode(configBase.CnlTable);
+            cnlTableNode.ContextMenuStrip = contextMenus.CnlTableMenu;
+            primaryNode.Nodes.Add(cnlTableNode);
+            FillCnlTableNodeInternal(cnlTableNode, configBase);
 
             primaryNode.Nodes.Add(CreateBaseTableNode(configBase.LimTable));
             primaryNode.Nodes.Add(CreateBaseTableNode(configBase.ViewTable));
@@ -130,7 +127,6 @@ namespace Scada.Admin.App.Code
                 { configBase.ArchiveTable.Title, CreateBaseTableNode(configBase.ArchiveTable) },
                 { configBase.CnlStatusTable.Title, CreateBaseTableNode(configBase.CnlStatusTable) },
                 { configBase.CnlTypeTable.Title, CreateBaseTableNode(configBase.CnlTypeTable) },
-                { configBase.CmdTypeTable.Title, CreateBaseTableNode(configBase.CmdTypeTable) },
                 { configBase.DataTypeTable.Title, CreateBaseTableNode(configBase.DataTypeTable) },
                 { configBase.DevTypeTable.Title, CreateBaseTableNode(configBase.DevTypeTable) },
                 { configBase.FormatTable.Title, CreateBaseTableNode(configBase.FormatTable) },
@@ -177,33 +173,21 @@ namespace Scada.Admin.App.Code
         /// <summary>
         /// Fills the channel table nodes.
         /// </summary>
-        private void FillCnlTableNodesInternal(TreeNode inCnlTableNode, TreeNode outCnlTableNode,
-            ConfigBase configBase)
+        private void FillCnlTableNodeInternal(TreeNode cnlTableNode, ConfigBase configBase)
         {
             foreach (Device device in configBase.DeviceTable.EnumerateItems())
             {
                 string nodeText = string.Format(AppPhrases.TableByDeviceNode, device.DeviceNum, device.Name);
-
-                TreeNode inCnlsByDeviceNode = TreeViewExtensions.CreateNode(nodeText, "table.png");
-                inCnlsByDeviceNode.ContextMenuStrip = contextMenus.CnlTableMenu;
-                inCnlsByDeviceNode.Tag = CreateBaseTableTag(configBase.InCnlTable, CreateFilterByDevice(device));
-                inCnlTableNode.Nodes.Add(inCnlsByDeviceNode);
-
-                TreeNode outCnlsByDeviceNode = TreeViewExtensions.CreateNode(nodeText, "table.png");
-                outCnlsByDeviceNode.ContextMenuStrip = contextMenus.CnlTableMenu;
-                outCnlsByDeviceNode.Tag = CreateBaseTableTag(configBase.OutCnlTable, CreateFilterByDevice(device));
-                outCnlTableNode.Nodes.Add(outCnlsByDeviceNode);
+                TreeNode cnlsByDeviceNode = TreeViewExtensions.CreateNode(nodeText, "table.png");
+                cnlsByDeviceNode.ContextMenuStrip = contextMenus.CnlTableMenu;
+                cnlsByDeviceNode.Tag = CreateBaseTableTag(configBase.CnlTable, CreateFilterByDevice(device));
+                cnlTableNode.Nodes.Add(cnlsByDeviceNode);
             }
 
-            TreeNode inCnlsEmptyDeviceNode = TreeViewExtensions.CreateNode(AppPhrases.EmptyDeviceNode, "table.png");
-            inCnlsEmptyDeviceNode.ContextMenuStrip = contextMenus.CnlTableMenu;
-            inCnlsEmptyDeviceNode.Tag = CreateBaseTableTag(configBase.InCnlTable, CreateFilterByDevice(null));
-            inCnlTableNode.Nodes.Add(inCnlsEmptyDeviceNode);
-
-            TreeNode outCnlsEmptyDeviceNode = TreeViewExtensions.CreateNode(AppPhrases.EmptyDeviceNode, "table.png");
-            outCnlsEmptyDeviceNode.ContextMenuStrip = contextMenus.CnlTableMenu;
-            outCnlsEmptyDeviceNode.Tag = CreateBaseTableTag(configBase.OutCnlTable, CreateFilterByDevice(null));
-            outCnlTableNode.Nodes.Add(outCnlsEmptyDeviceNode);
+            TreeNode cnlsEmptyDeviceNode = TreeViewExtensions.CreateNode(AppPhrases.EmptyDeviceNode, "table.png");
+            cnlsEmptyDeviceNode.ContextMenuStrip = contextMenus.CnlTableMenu;
+            cnlsEmptyDeviceNode.Tag = CreateBaseTableTag(configBase.CnlTable, CreateFilterByDevice(null));
+            cnlTableNode.Nodes.Add(cnlsEmptyDeviceNode);
         }
 
         /// <summary>
@@ -360,16 +344,15 @@ namespace Scada.Admin.App.Code
         }
 
         /// <summary>
-        /// Fills the channel table nodes, creating child nodes.
+        /// Fills the channel table node, creating child nodes.
         /// </summary>
-        public void FillCnlTableNodes(TreeNode inCnlTableNode, TreeNode outCnlTableNode, ConfigBase configBase)
+        public void FillCnlTableNode(TreeNode cnlTableNode, ConfigBase configBase)
         {
             try
             {
                 treeView.BeginUpdate();
-                inCnlTableNode.Nodes.Clear();
-                outCnlTableNode.Nodes.Clear();
-                FillCnlTableNodesInternal(inCnlTableNode, outCnlTableNode, configBase);
+                cnlTableNode.Nodes.Clear();
+                FillCnlTableNodeInternal(cnlTableNode, configBase);
             }
             finally
             {

@@ -109,9 +109,6 @@
     <None Update="Templates\EmptyProject.en-GB\BaseXML\Archive.xml">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
-    <None Update="Templates\EmptyProject.en-GB\BaseXML\CmdVal.xml">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
     <None Update="Templates\EmptyProject.en-GB\BaseXML\CnlStatus.xml">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>

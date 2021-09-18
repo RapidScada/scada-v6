@@ -11,6 +11,7 @@
     <Phrase key="ValueChangeEvent">Значение канала изменилось</Phrase>
     <Phrase key="StatusChangeEvent">Статус канала изменился</Phrase>
     <Phrase key="CnlUndefinedEvent">Канал не определён</Phrase>
+    <Phrase key="CommandEvent">Команда отправлена</Phrase>
   </Dictionary>
   <Dictionary key="Scada.Admin.App.Code.ColumnBuilder.ArchiveTable">
     <Phrase key="ArchiveID">Идент.</Phrase>
@@ -20,10 +21,28 @@
     <Phrase key="Bit">Бит</Phrase>
     <Phrase key="Descr">Описание</Phrase>
   </Dictionary>
-  <Dictionary key="Scada.Admin.App.Code.ColumnBuilder.CmdTypeTable">
-    <Phrase key="CmdTypeID">Идент.</Phrase>
+  <Dictionary key="Scada.Admin.App.Code.ColumnBuilder.CnlTable">
+    <Phrase key="CnlNum">Номер</Phrase>
+    <Phrase key="Active">Активный</Phrase>
     <Phrase key="Name">Наименование</Phrase>
-    <Phrase key="Descr">Описание</Phrase>
+    <Phrase key="DataTypeID">Тип данных</Phrase>
+    <Phrase key="DataLen">Длина данных</Phrase>
+    <Phrase key="CnlTypeID">Тип канала</Phrase>
+    <Phrase key="ObjNum">Объект</Phrase>
+    <Phrase key="DeviceNum">КП</Phrase>
+    <Phrase key="TagNum">Номер тега</Phrase>
+    <Phrase key="TagCode">Код тега</Phrase>
+    <Phrase key="FormulaEnabled">Формула вкл.</Phrase>
+    <Phrase key="InFormula">Входная формула</Phrase>
+    <Phrase key="OutFormula">Выходная формула</Phrase>
+    <Phrase key="FormatID">Формат</Phrase>
+    <Phrase key="QuantityID">Величина</Phrase>
+    <Phrase key="UnitID">Размерность</Phrase>
+    <Phrase key="LimID">Границы</Phrase>
+    <Phrase key="ArchiveMask">Маска архивов</Phrase>
+    <Phrase key="ArchiveMaskButton">Выбрать архивы</Phrase>
+    <Phrase key="EventMask">Маска событий</Phrase>
+    <Phrase key="EventMaskButton">Выбрать события</Phrase>
   </Dictionary>
   <Dictionary key="Scada.Admin.App.Code.ColumnBuilder.CnlStatusTable">
     <Phrase key="CnlStatusID">Идент.</Phrase>
@@ -81,28 +100,6 @@
     <Phrase key="FrmtButton">Редактировать формат</Phrase>
     <Phrase key="Descr">Описание</Phrase>
   </Dictionary>
-  <Dictionary key="Scada.Admin.App.Code.ColumnBuilder.InCnlTable">
-    <Phrase key="CnlNum">Номер</Phrase>
-    <Phrase key="Active">Активный</Phrase>
-    <Phrase key="Name">Наименование</Phrase>
-    <Phrase key="DataTypeID">Тип данных</Phrase>
-    <Phrase key="DataLen">Длина данных</Phrase>
-    <Phrase key="CnlTypeID">Тип канала</Phrase>
-    <Phrase key="ObjNum">Объект</Phrase>
-    <Phrase key="DeviceNum">КП</Phrase>
-    <Phrase key="TagNum">Номер тега</Phrase>
-    <Phrase key="TagCode">Код тега</Phrase>
-    <Phrase key="FormulaEnabled">Формула вкл.</Phrase>
-    <Phrase key="Formula">Формула</Phrase>
-    <Phrase key="FormatID">Формат</Phrase>
-    <Phrase key="QuantityID">Величина</Phrase>
-    <Phrase key="UnitID">Размерность</Phrase>
-    <Phrase key="LimID">Границы</Phrase>
-    <Phrase key="ArchiveMask">Маска архивов</Phrase>
-    <Phrase key="ArchiveMaskButton">Выбрать архивы</Phrase>
-    <Phrase key="EventMask">Маска событий</Phrase>
-    <Phrase key="EventMaskButton">Выбрать события</Phrase>
-  </Dictionary>
   <Dictionary key="Scada.Admin.App.Code.ColumnBuilder.LimTable">
     <Phrase key="LimID">Идент.</Phrase>
     <Phrase key="Name">Наименование</Phrase>
@@ -127,20 +124,6 @@
     <Phrase key="RoleID">Роль</Phrase>
     <Phrase key="View">Просмотр</Phrase>
     <Phrase key="Control">Управление</Phrase>
-  </Dictionary>
-  <Dictionary key="Scada.Admin.App.Code.ColumnBuilder.OutCnlTable">
-    <Phrase key="OutCnlNum">Номер</Phrase>
-    <Phrase key="Active">Активный</Phrase>
-    <Phrase key="Name">Наименование</Phrase>
-    <Phrase key="CmdTypeID">Тип команды</Phrase>
-    <Phrase key="ObjNum">Объект</Phrase>
-    <Phrase key="DeviceNum">КП</Phrase>
-    <Phrase key="CmdNum">Номер команды</Phrase>
-    <Phrase key="CmdCode">Код команды</Phrase>
-    <Phrase key="FormulaEnabled">Формула вкл.</Phrase>
-    <Phrase key="Formula">Формула</Phrase>
-    <Phrase key="FormatID">Формат</Phrase>
-    <Phrase key="EventEnabled">Запись событий</Phrase>
   </Dictionary>
   <Dictionary key="Scada.Admin.App.Code.ColumnBuilder.QuantityTable">
     <Phrase key="QuantityID">Идент.</Phrase>
@@ -302,8 +285,8 @@
     <Phrase key="SearchComplete">Поиск завершён.</Phrase>
     <Phrase key="ReplaceCount">{0} вхождений заменено.</Phrase>
   </Dictionary>
-  <Dictionary key="Scada.Admin.App.Forms.Tables.FrmInCnl">
-    <Phrase key="this">Свойства входного канала</Phrase>
+  <Dictionary key="Scada.Admin.App.Forms.Tables.FrmCnl">
+    <Phrase key="this">Свойства канала</Phrase>
     <Phrase key="pageGeneral">Основные</Phrase>
     <Phrase key="chkActive">Активный</Phrase>
     <Phrase key="lblCnlNum">Номер</Phrase>
@@ -314,7 +297,9 @@
     <Phrase key="lblDevice">КП</Phrase>
     <Phrase key="lblTagNum">Номер тега</Phrase>
     <Phrase key="lblTagCode">Код тега</Phrase>
-    <Phrase key="lblFormula">Формула</Phrase>
+    <Phrase key="chkFormulaEnabled">Формула</Phrase>
+    <Phrase key="lblInFormula">Вх.</Phrase>
+    <Phrase key="lblOutFormula">Вых.</Phrase>
     <Phrase key="lblFormat">Формат</Phrase>
     <Phrase key="lblQuantity">Величина</Phrase>
     <Phrase key="lblUnit">Размерность</Phrase>
@@ -327,22 +312,6 @@
     <Phrase key="lblDeadband">Зона нечувств.</Phrase>
     <Phrase key="pageArchives">Архивы</Phrase>
     <Phrase key="pageEvents">События</Phrase>
-    <Phrase key="btnOK">OK</Phrase>
-    <Phrase key="btnCancel">Отмена</Phrase>
-  </Dictionary>
-  <Dictionary key="Scada.Admin.App.Forms.Tables.FrmOutCnl">
-    <Phrase key="this">Свойства канала управления</Phrase>
-    <Phrase key="chkActive">Активный</Phrase>
-    <Phrase key="lblOutCnlNum">Номер</Phrase>
-    <Phrase key="lblName">Наименование</Phrase>
-    <Phrase key="lblCmdType">Тип команды</Phrase>
-    <Phrase key="lblObj">Объект</Phrase>
-    <Phrase key="lblDevice">КП</Phrase>
-    <Phrase key="lblCmdNum">Номер команды</Phrase>
-    <Phrase key="lblCmdCode">Код команды</Phrase>
-    <Phrase key="lblFormula">Формула</Phrase>
-    <Phrase key="lblFormat">Формат</Phrase>
-    <Phrase key="chkEventEnabled">Запись событий</Phrase>
     <Phrase key="btnOK">OK</Phrase>
     <Phrase key="btnCancel">Отмена</Phrase>
   </Dictionary>

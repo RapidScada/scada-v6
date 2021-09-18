@@ -44,6 +44,7 @@ namespace Scada.Admin.App.Code
         public static string ValueChangeEvent { get; private set; }
         public static string StatusChangeEvent { get; private set; }
         public static string CnlUndefinedEvent { get; private set; }
+        public static string CommandEvent { get; private set; }
 
         // Scada.Admin.App.Code.ExplorerBuilder
         public static string BaseNode { get; private set; }
@@ -155,6 +156,7 @@ namespace Scada.Admin.App.Code
             ValueChangeEvent = dict["ValueChangeEvent"];
             StatusChangeEvent = dict["StatusChangeEvent"];
             CnlUndefinedEvent = dict["CnlUndefinedEvent"];
+            CommandEvent = dict["CommandEvent"];
 
             dict = Locale.GetDictionary("Scada.Admin.App.Code.ExplorerBuilder");
             BaseNode = dict["BaseNode"];

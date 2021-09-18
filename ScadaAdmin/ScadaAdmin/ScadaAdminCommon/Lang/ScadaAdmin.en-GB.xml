@@ -11,6 +11,7 @@
     <Phrase key="ValueChangeEvent">Channel value has changed</Phrase>
     <Phrase key="StatusChangeEvent">Channel status has changed</Phrase>
     <Phrase key="CnlUndefinedEvent">Channel is undefined</Phrase>
+    <Phrase key="CommandEvent">Command has been sent</Phrase>
   </Dictionary>
   <Dictionary key="Scada.Admin.App.Code.ColumnBuilder.ArchiveTable">
     <Phrase key="ArchiveID">ID</Phrase>
@@ -20,10 +21,28 @@
     <Phrase key="Bit">Bit</Phrase>
     <Phrase key="Descr">Description</Phrase>
   </Dictionary>
-  <Dictionary key="Scada.Admin.App.Code.ColumnBuilder.CmdTypeTable">
-    <Phrase key="CmdTypeID">ID</Phrase>
+  <Dictionary key="Scada.Admin.App.Code.ColumnBuilder.CnlTable">
+    <Phrase key="CnlNum">Number</Phrase>
+    <Phrase key="Active">Active</Phrase>
     <Phrase key="Name">Name</Phrase>
-    <Phrase key="Descr">Description</Phrase>
+    <Phrase key="DataTypeID">Data Type</Phrase>
+    <Phrase key="DataLen">Data Length</Phrase>
+    <Phrase key="CnlTypeID">Channel Type</Phrase>
+    <Phrase key="ObjNum">Object</Phrase>
+    <Phrase key="DeviceNum">Device</Phrase>
+    <Phrase key="TagNum">Tag Number</Phrase>
+    <Phrase key="TagCode">Tag Code</Phrase>
+    <Phrase key="FormulaEnabled">Formula Enabled</Phrase>
+    <Phrase key="InFormula">Input Formula</Phrase>
+    <Phrase key="OutFormula">Output Formula</Phrase>
+    <Phrase key="FormatID">Format</Phrase>
+    <Phrase key="QuantityID">Quantity</Phrase>
+    <Phrase key="UnitID">Unit</Phrase>
+    <Phrase key="LimID">Limits</Phrase>
+    <Phrase key="ArchiveMask">Archive Mask</Phrase>
+    <Phrase key="ArchiveMaskButton">Select Archives</Phrase>
+    <Phrase key="EventMask">Event Mask</Phrase>
+    <Phrase key="EventMaskButton">Select Events</Phrase>
   </Dictionary>
   <Dictionary key="Scada.Admin.App.Code.ColumnBuilder.CnlStatusTable">
     <Phrase key="CnlStatusID">ID</Phrase>
@@ -81,28 +100,6 @@
     <Phrase key="FrmtButton">Edit Format</Phrase>
     <Phrase key="Descr">Description</Phrase>
   </Dictionary>
-  <Dictionary key="Scada.Admin.App.Code.ColumnBuilder.InCnlTable">
-    <Phrase key="CnlNum">Number</Phrase>
-    <Phrase key="Active">Active</Phrase>
-    <Phrase key="Name">Name</Phrase>
-    <Phrase key="DataTypeID">Data Type</Phrase>
-    <Phrase key="DataLen">Data Length</Phrase>
-    <Phrase key="CnlTypeID">Channel Type</Phrase>
-    <Phrase key="ObjNum">Object</Phrase>
-    <Phrase key="DeviceNum">Device</Phrase>
-    <Phrase key="TagNum">Tag Number</Phrase>
-    <Phrase key="TagCode">Tag Code</Phrase>
-    <Phrase key="FormulaEnabled">Formula Enabled</Phrase>
-    <Phrase key="Formula">Formula</Phrase>
-    <Phrase key="FormatID">Format</Phrase>
-    <Phrase key="QuantityID">Quantity</Phrase>
-    <Phrase key="UnitID">Unit</Phrase>
-    <Phrase key="LimID">Limits</Phrase>
-    <Phrase key="ArchiveMask">Archive Mask</Phrase>
-    <Phrase key="ArchiveMaskButton">Select Archives</Phrase>
-    <Phrase key="EventMask">Event Mask</Phrase>
-    <Phrase key="EventMaskButton">Select Events</Phrase>
-  </Dictionary>
   <Dictionary key="Scada.Admin.App.Code.ColumnBuilder.LimTable">
     <Phrase key="LimID">ID</Phrase>
     <Phrase key="Name">Name</Phrase>
@@ -127,20 +124,6 @@
     <Phrase key="RoleID">Role</Phrase>
     <Phrase key="View">View</Phrase>
     <Phrase key="Control">Control</Phrase>
-  </Dictionary>
-  <Dictionary key="Scada.Admin.App.Code.ColumnBuilder.OutCnlTable">
-    <Phrase key="OutCnlNum">Number</Phrase>
-    <Phrase key="Active">Active</Phrase>
-    <Phrase key="Name">Name</Phrase>
-    <Phrase key="CmdTypeID">Command Type</Phrase>
-    <Phrase key="ObjNum">Object</Phrase>
-    <Phrase key="DeviceNum">Device</Phrase>
-    <Phrase key="CmdNum">Command Number</Phrase>
-    <Phrase key="CmdCode">Command Code</Phrase>
-    <Phrase key="FormulaEnabled">Formula Enabled</Phrase>
-    <Phrase key="Formula">Formula</Phrase>
-    <Phrase key="FormatID">Format</Phrase>
-    <Phrase key="EventEnabled">Write Events</Phrase>
   </Dictionary>
   <Dictionary key="Scada.Admin.App.Code.ColumnBuilder.QuantityTable">
     <Phrase key="QuantityID">ID</Phrase>
@@ -302,8 +285,8 @@
     <Phrase key="SearchComplete">Search completed.</Phrase>
     <Phrase key="ReplaceCount">{0} occurrence(s) replaced.</Phrase>
   </Dictionary>
-  <Dictionary key="Scada.Admin.App.Forms.Tables.FrmInCnl">
-    <Phrase key="this">Input Channel Properties</Phrase>
+  <Dictionary key="Scada.Admin.App.Forms.Tables.FrmCnl">
+    <Phrase key="this">Channel Properties</Phrase>
     <Phrase key="pageGeneral">General</Phrase>
     <Phrase key="chkActive">Active</Phrase>
     <Phrase key="lblCnlNum">Number</Phrase>
@@ -314,7 +297,9 @@
     <Phrase key="lblDevice">Device</Phrase>
     <Phrase key="lblTagNum">Tag number</Phrase>
     <Phrase key="lblTagCode">Tag code</Phrase>
-    <Phrase key="lblFormula">Formula</Phrase>
+    <Phrase key="chkFormulaEnabled">Formula</Phrase>
+    <Phrase key="lblInFormula">In</Phrase>
+    <Phrase key="lblOutFormula">Out</Phrase>
     <Phrase key="lblFormat">Format</Phrase>
     <Phrase key="lblQuantity">Quantity</Phrase>
     <Phrase key="lblUnit">Unit</Phrase>
@@ -327,22 +312,6 @@
     <Phrase key="lblDeadband">Deadband</Phrase>
     <Phrase key="pageArchives">Archives</Phrase>
     <Phrase key="pageEvents">Events</Phrase>
-    <Phrase key="btnOK">OK</Phrase>
-    <Phrase key="btnCancel">Cancel</Phrase>
-  </Dictionary>
-  <Dictionary key="Scada.Admin.App.Forms.Tables.FrmOutCnl">
-    <Phrase key="this">Output Channel Properties</Phrase>
-    <Phrase key="chkActive">Active</Phrase>
-    <Phrase key="lblOutCnlNum">Number</Phrase>
-    <Phrase key="lblName">Name</Phrase>
-    <Phrase key="lblCmdType">Command type</Phrase>
-    <Phrase key="lblObj">Object</Phrase>
-    <Phrase key="lblDevice">Device</Phrase>
-    <Phrase key="lblCmdNum">Command number</Phrase>
-    <Phrase key="lblCmdCode">Command code</Phrase>
-    <Phrase key="lblFormula">Formula</Phrase>
-    <Phrase key="lblFormat">Format</Phrase>
-    <Phrase key="chkEventEnabled">Event enabled</Phrase>
     <Phrase key="btnOK">OK</Phrase>
     <Phrase key="btnCancel">Cancel</Phrase>
   </Dictionary>
