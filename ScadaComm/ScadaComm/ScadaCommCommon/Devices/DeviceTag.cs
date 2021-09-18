@@ -54,7 +54,7 @@ namespace Scada.Comm.Devices
             DataLen = 1;
             DataIndex = -1;
             Format = null;
-            InCnl = null;
+            Cnl = null;
             Aux = null;
         }
 
@@ -128,9 +128,9 @@ namespace Scada.Comm.Devices
         public TagFormat Format { get; set; }
 
         /// <summary>
-        /// Gets or sets the input channel bound to the tag.
+        /// Gets or sets the channel bound to the tag.
         /// </summary>
-        public InCnl InCnl { get; set; }
+        public Cnl Cnl { get; set; }
 
         /// <summary>
         /// Gets or sets the auxiliary object that contains data about the device tag.

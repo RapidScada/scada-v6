@@ -847,17 +847,7 @@ namespace Scada.Comm.Engine
                         "Outdated command with ID {0} from the source {1} is rejected",
                         cmd.CommandID, source);
                 }
-                else if (cmd.CmdTypeID == CmdTypeID.Standard)
-                {
-                    Log.WriteAction(Locale.IsRussian ?
-                        "Команда с ид. {0} на КП {1} от источника {2}" :
-                        "Command with ID {0} to the device {1} from the source {2}",
-                        cmd.CommandID, cmd.DeviceNum, source);
-
-                    if (GetDeviceLine(cmd.DeviceNum, out CommLine commLine))
-                        commLine.EnqueueCommand(cmd);
-                }
-                else if (cmd.CmdTypeID == CmdTypeID.AppCommand)
+                else if (CommCommands.IsAddressedToApp(cmd.CmdCode))
                 {
                     Log.WriteAction(Locale.IsRussian ?
                         "Команда приложению {0} с ид. {1} от источника {2}" :
@@ -889,6 +879,16 @@ namespace Scada.Comm.Engine
                                 "Unknown command");
                             break;
                     }
+                }
+                else
+                {
+                    Log.WriteAction(Locale.IsRussian ?
+                        "Команда с ид. {0} на КП {1} от источника {2}" :
+                        "Command with ID {0} to the device {1} from the source {2}",
+                        cmd.CommandID, cmd.DeviceNum, source);
+
+                    if (GetDeviceLine(cmd.DeviceNum, out CommLine commLine))
+                        commLine.EnqueueCommand(cmd);
                 }
             }
             catch (Exception ex)

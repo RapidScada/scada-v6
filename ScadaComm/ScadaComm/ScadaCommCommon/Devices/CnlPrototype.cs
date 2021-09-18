@@ -16,11 +16,11 @@
  * 
  * Product  : Rapid SCADA
  * Module   : ScadaCommCommon
- * Summary  : Represents an input channel prototype
+ * Summary  : Represents a channel prototype
  * 
  * Author   : Mikhail Shiryaev
  * Created  : 2020
- * Modified : 2020
+ * Modified : 2021
  */
 
 #pragma warning disable 1591 // Missing XML comment for publicly visible type or member
@@ -30,10 +30,10 @@ using Scada.Data.Entities;
 namespace Scada.Comm.Devices
 {
     /// <summary>
-    /// Represents an input channel prototype.
-    /// <para>Представляет прототип входного канала.</para>
+    /// Represents a channel prototype.
+    /// <para>Представляет прототип канала.</para>
     /// </summary>
-    public class InCnlPrototype : InCnl
+    public class CnlPrototype : Cnl
     {
         public Format Format { get; set; }
 

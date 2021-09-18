@@ -344,29 +344,29 @@ namespace Scada.Comm.Devices
         /// </summary>
         public virtual void BindDeviceTags(BaseDataSet baseDataSet)
         {
-            foreach (InCnl inCnl in baseDataSet.InCnlTable.SelectItems(new TableFilter("DeviceNum", DeviceNum), true))
+            foreach (Cnl cnl in baseDataSet.CnlTable.SelectItems(new TableFilter("DeviceNum", DeviceNum), true))
             {
-                if (inCnl.Active && inCnl.CnlTypeID == CnlTypeID.Measured)
+                if (cnl.Active && CnlTypeID.IsInput(cnl.CnlTypeID))
                 {
                     DeviceTag deviceTag = null;
 
-                    if (!string.IsNullOrEmpty(inCnl.TagCode))
+                    if (!string.IsNullOrEmpty(cnl.TagCode))
                     {
                         // find tag by code
-                        DeviceTags.TryGetTag(inCnl.TagCode, out deviceTag);
+                        DeviceTags.TryGetTag(cnl.TagCode, out deviceTag);
                     }
-                    else if (inCnl.TagNum > 0)
+                    else if (cnl.TagNum > 0)
                     {
                         // find tag by index
-                        DeviceTags.TryGetTag(inCnl.TagNum.Value - 1, out deviceTag);
+                        DeviceTags.TryGetTag(cnl.TagNum.Value - 1, out deviceTag);
                     }
 
                     // check match and bind tag
                     if (deviceTag != null &&
-                        (int)deviceTag.DataType == (inCnl.DataTypeID ?? DataTypeID.Double) &&
-                        deviceTag.DataLength == Math.Max(inCnl.DataLen ?? 1, 1))
+                        (int)deviceTag.DataType == (cnl.DataTypeID ?? DataTypeID.Double) &&
+                        deviceTag.DataLength == Math.Max(cnl.DataLen ?? 1, 1))
                     {
-                        deviceTag.InCnl = inCnl;
+                        deviceTag.Cnl = cnl;
                     }
                 }
             }

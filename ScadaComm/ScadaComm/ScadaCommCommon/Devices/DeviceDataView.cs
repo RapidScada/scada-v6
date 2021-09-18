@@ -428,7 +428,7 @@ namespace Scada.Comm.Devices
                         {
                             curDataRowIndexes[deviceTag.Index] = rowIndex;
                             int dataLen = deviceTag.DataLength;
-                            int cnlNum = deviceTag.InCnl == null ? 0 : deviceTag.InCnl.CnlNum;
+                            int cnlNum = deviceTag.Cnl == null ? 0 : deviceTag.Cnl.CnlNum;
 
                             Row row = curDataTable.Rows[rowIndex++];
                             row.Cells[0] = deviceTag.TagNum.ToString();

@@ -20,7 +20,7 @@
  * 
  * Author   : Mikhail Shiryaev
  * Created  : 2006
- * Modified : 2020
+ * Modified : 2021
  */
 
 using Scada.Comm.Channels;
@@ -439,13 +439,7 @@ namespace Scada.Comm.Engine
 
                 if (cmd != null)
                 {
-                    if (cmd.CmdTypeID != CmdTypeID.Standard)
-                    {
-                        Log.WriteError(Locale.IsRussian ?
-                            "Команда с недопустимым типом {0}, отклонена" :
-                            "Command with invalid type {0} is rejected", cmd.CmdTypeID);
-                    }
-                    else if (utcNow - cmd.CreationTime > ScadaUtils.CommandLifetime)
+                    if (utcNow - cmd.CreationTime > ScadaUtils.CommandLifetime)
                     {
                         Log.WriteError(Locale.IsRussian ?
                             "Устаревшая команда для КП {0} отклонена" :

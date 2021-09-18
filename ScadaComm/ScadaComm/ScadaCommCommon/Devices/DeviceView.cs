@@ -20,7 +20,7 @@
  * 
  * Author   : Mikhail Shiryaev
  * Created  : 2006
- * Modified : 2020
+ * Modified : 2021
  */
 
 using Scada.Comm.Config;
@@ -89,17 +89,9 @@ namespace Scada.Comm.Devices
         }
 
         /// <summary>
-        /// Gets the input channel prototypes for the device.
+        /// Gets the channel prototypes for the device.
         /// </summary>
-        public virtual ICollection<InCnlPrototype> GetInCnls()
-        {
-            return null;
-        }
-
-        /// <summary>
-        /// Gets the output channel prototypes for the device.
-        /// </summary>
-        public virtual ICollection<OutCnlPrototype> GetOutCnls()
+        public virtual ICollection<CnlPrototype> GetCnls()
         {
             return null;
         }

@@ -20,10 +20,12 @@
  * 
  * Author   : Mikhail Shiryaev
  * Created  : 2020
- * Modified : 2020
+ * Modified : 2021
  */
 
 #pragma warning disable 1591 // Missing XML comment for publicly visible type or member
+
+using System;
 
 namespace Scada.Comm
 {
@@ -37,5 +39,10 @@ namespace Scada.Comm
         public const string StopLine = "Comm.StopLine";
         public const string RestartLine = "Comm.RestartLine";
         public const string PollDevice = "Comm.PollDevice";
+
+        public static bool IsAddressedToApp(string cmdCode)
+        {
+            return cmdCode.StartsWith("Comm.", StringComparison.Ordinal);
+        }
     }
 }
