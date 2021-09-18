@@ -16,7 +16,7 @@
  * 
  * Product  : Rapid SCADA
  * Module   : ScadaCommon
- * Summary  : Represents an event mask of an input channel
+ * Summary  : Represents an event mask of a channel
  * 
  * Author   : Mikhail Shiryaev
  * Created  : 2020
@@ -28,8 +28,8 @@ using Scada.Data.Const;
 namespace Scada.Data.Models
 {
     /// <summary>
-    /// Represents an event mask of an input channel.
-    /// <para>Представляет маску событий входного канала.</para>
+    /// Represents an event mask of a channel.
+    /// <para>Представляет маску событий канала.</para>
     /// </summary>
     public struct EventMask
     {

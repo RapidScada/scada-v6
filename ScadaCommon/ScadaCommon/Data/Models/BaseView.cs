@@ -54,8 +54,6 @@ namespace Scada.Data.Models
             Resources = null;
             CnlNumList = new List<int>();
             CnlNumSet = new HashSet<int>();
-            OutCnlNumList = new List<int>();
-            OutCnlNumSet = new HashSet<int>();
         }
 
 
@@ -85,24 +83,14 @@ namespace Scada.Data.Models
         public Dictionary<string, string> Resources { get; protected set; }
 
         /// <summary>
-        /// Gets the ordered no-duplicates list of input channel numbers included in the view.
+        /// Gets the ordered no-duplicates list of channel numbers included in the view.
         /// </summary>
         public List<int> CnlNumList { get; protected set; }
 
         /// <summary>
-        /// Gets the set of input channel numbers included in the view.
+        /// Gets the set of channel numbers included in the view.
         /// </summary>
         public HashSet<int> CnlNumSet { get; protected set; }
-
-        /// <summary>
-        /// Gets the ordered no-duplicates list of output channel numbers included in the view.
-        /// </summary>
-        public List<int> OutCnlNumList { get; protected set; }
-
-        /// <summary>
-        /// Gets the set of output channel numbers included in the view.
-        /// </summary>
-        public HashSet<int> OutCnlNumSet { get; protected set; }
 
 
         /// <summary>
@@ -150,7 +138,7 @@ namespace Scada.Data.Models
         }
 
         /// <summary>
-        /// Adds the input channel number to the list and set.
+        /// Adds the channel number to the list and set.
         /// </summary>
         protected void AddCnlNum(int cnlNum)
         {
@@ -159,19 +147,6 @@ namespace Scada.Data.Models
                 int index = CnlNumList.BinarySearch(cnlNum);
                 if (index < 0)
                     CnlNumList.Insert(~index, cnlNum);
-            }
-        }
-
-        /// <summary>
-        /// Adds the output channel number to the list and set.
-        /// </summary>
-        protected void AddOutCnlNum(int outCnlNum)
-        {
-            if (outCnlNum > 0 && OutCnlNumSet.Add(outCnlNum))
-            {
-                int index = OutCnlNumList.BinarySearch(outCnlNum);
-                if (index < 0)
-                    OutCnlNumList.Insert(~index, outCnlNum);
             }
         }
 

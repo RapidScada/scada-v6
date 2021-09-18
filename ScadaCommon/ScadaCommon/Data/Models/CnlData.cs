@@ -16,7 +16,7 @@
  * 
  * Product  : Rapid SCADA
  * Module   : ScadaCommon
- * Summary  : Represents input channel data
+ * Summary  : Represents channel data
  * 
  * Author   : Mikhail Shiryaev
  * Created  : 2020
@@ -29,13 +29,13 @@ using System;
 namespace Scada.Data.Models
 {
     /// <summary>
-    /// Represents input channel data.
-    /// <para>Представляет данные входного канала.</para>
+    /// Represents channel data.
+    /// <para>Представляет данные канала.</para>
     /// </summary>
     public struct CnlData
     {
         /// <summary>
-        /// Represents an empty input channel data.
+        /// Represents an empty channel data.
         /// </summary>
         public static readonly CnlData Empty = new CnlData(0.0, 0);
 

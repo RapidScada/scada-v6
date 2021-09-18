@@ -16,7 +16,7 @@
  * 
  * Product  : Rapid SCADA
  * Module   : ScadaCommon
- * Summary  : Specifies the input channel type IDs
+ * Summary  : Specifies the channel type IDs
  * 
  * Author   : Mikhail Shiryaev
  * Created  : 2020
@@ -26,8 +26,8 @@
 namespace Scada.Data.Const
 {
     /// <summary>
-    /// Specifies the input channel type IDs.
-    /// <para>Задает идентификаторы типов входных каналов.</para>
+    /// Specifies the channel type IDs.
+    /// <para>Задает идентификаторы типов каналов.</para>
     /// </summary>
     public static class CnlTypeID
     {

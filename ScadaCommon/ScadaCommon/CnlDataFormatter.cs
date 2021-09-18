@@ -202,7 +202,7 @@ namespace Scada
 
 
         /// <summary>
-        /// Formats the input channel data according to the specified data type and format.
+        /// Formats the channel data according to the specified data type and format.
         /// </summary>
         public CnlDataFormatted FormatCnlData(CnlData cnlData, int dataTypeID, int formatID)
         {
@@ -258,7 +258,7 @@ namespace Scada
         }
 
         /// <summary>
-        /// Formats the input channel data according to the channel properties.
+        /// Formats the channel data according to the channel properties.
         /// </summary>
         public CnlDataFormatted FormatCnlData(CnlData cnlData, Cnl cnl)
         {
@@ -266,7 +266,7 @@ namespace Scada
         }
 
         /// <summary>
-        /// Formats the input channel data according to the channel properties.
+        /// Formats the channel data according to the channel properties.
         /// </summary>
         public CnlDataFormatted FormatCnlData(CnlData cnlData, int cnlNum)
         {

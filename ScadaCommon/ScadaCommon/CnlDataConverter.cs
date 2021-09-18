@@ -16,7 +16,7 @@
  * 
  * Product  : Rapid SCADA
  * Module   : ScadaCommon
- * Summary  : Converts input channel data to base data types
+ * Summary  : Converts channel data to base data types
  * 
  * Author   : Mikhail Shiryaev
  * Created  : 2021
@@ -31,8 +31,8 @@ using System.Text;
 namespace Scada
 {
     /// <summary>
-    /// Converts input channel data to base data types.
-    /// <para>Преобразует данные входных каналов в базовые типы данных.</para>
+    /// Converts channel data to base data types.
+    /// <para>Преобразует данные каналов в базовые типы данных.</para>
     /// </summary>
     public static class CnlDataConverter
     {
@@ -154,7 +154,7 @@ namespace Scada
 
 
         /// <summary>
-        /// Gets a 64-bit signed integer from the input channel value.
+        /// Gets a 64-bit signed integer from the channel value.
         /// </summary>
         public static long DoubleToInt64(double cnlVal)
         {
@@ -162,7 +162,7 @@ namespace Scada
         }
 
         /// <summary>
-        /// Gets an ASCII string from the input channel value.
+        /// Gets an ASCII string from the channel value.
         /// </summary>
         public static string DoubleToAscii(double cnlVal)
         {
@@ -170,7 +170,7 @@ namespace Scada
         }
 
         /// <summary>
-        /// Gets a Unicode string from the input channel value.
+        /// Gets a Unicode string from the channel value.
         /// </summary>
         public static string DoubleToUnicode(double cnlVal)
         {

@@ -116,7 +116,7 @@ namespace Scada.Data.Adapters
         }
 
         /// <summary>
-        /// Gets the file position of the input channel data.
+        /// Gets the file position of the channel data.
         /// </summary>
         protected long GetDataPosition(int cnlCnt, int pageCapacity, int cnlIndex, int indexInPage)
         {
@@ -217,7 +217,7 @@ namespace Scada.Data.Adapters
         }
 
         /// <summary>
-        /// Reads input channel numbers.
+        /// Reads channel numbers.
         /// </summary>
         protected CnlNumList ReadCnlNums(BinaryReader reader, bool useCache)
         {
@@ -247,7 +247,7 @@ namespace Scada.Data.Adapters
         }
 
         /// <summary>
-        /// Writes the input channel numbers.
+        /// Writes the channel numbers.
         /// </summary>
         protected void WriteCnlNums(BinaryWriter writer, CnlNumList cnlNumList)
         {
@@ -262,7 +262,7 @@ namespace Scada.Data.Adapters
         }
 
         /// <summary>
-        /// Reads the input channel data from the current stream position.
+        /// Reads the channel data from the current stream position.
         /// </summary>
         protected CnlData ReadCnlData(BinaryReader reader)
         {
@@ -272,7 +272,7 @@ namespace Scada.Data.Adapters
         }
 
         /// <summary>
-        /// Writes the input channel data to the current stream position.
+        /// Writes the channel data to the current stream position.
         /// </summary>
         protected void WriteCnlData(BinaryWriter writer, CnlData cnlData)
         {
@@ -466,7 +466,7 @@ namespace Scada.Data.Adapters
         }
 
         /// <summary>
-        /// Reads the trends of the specified input channels from the trend table.
+        /// Reads the trends of the specified channels from the trend table.
         /// </summary>
         public TrendBundle ReadTrends(TrendTable trendTable, TimeRange timeRange, int[] cnlNums)
         {
@@ -570,7 +570,7 @@ namespace Scada.Data.Adapters
         }
 
         /// <summary>
-        /// Reads the trend of the specified input channel from the trend table.
+        /// Reads the trend of the specified channel from the trend table.
         /// </summary>
         public Trend ReadTrend(TrendTable trendTable, TimeRange timeRange, int cnlNum)
         {
@@ -735,7 +735,7 @@ namespace Scada.Data.Adapters
         }
 
         /// <summary>
-        /// Reads the slice of the specified input channels from the trend table.
+        /// Reads the slice of the specified channels from the trend table.
         /// </summary>
         public Slice ReadSlice(TrendTable trendTable, DateTime timestamp, int[] cnlNums)
         {
@@ -770,7 +770,7 @@ namespace Scada.Data.Adapters
 
                             if (reader.ReadBoolean())
                             {
-                                // read input channel data
+                                // read channel data
                                 int pageCapacity = page.Metadata.PageCapacity;
 
                                 for (int i = 0, cnlCnt = cnlNums.Length; i < cnlCnt; i++)
@@ -799,7 +799,7 @@ namespace Scada.Data.Adapters
         }
 
         /// <summary>
-        /// Reads the input channel data from the trend table.
+        /// Reads the channel data from the trend table.
         /// </summary>
         public CnlData ReadCnlData(TrendTable trendTable, DateTime timestamp, int cnlNum)
         {
@@ -909,7 +909,7 @@ namespace Scada.Data.Adapters
         }
 
         /// <summary>
-        /// Writes the input channel data to the trend table.
+        /// Writes the channel data to the trend table.
         /// </summary>
         public void WriteCnlData(TrendTable trendTable, DateTime timestamp, int cnlNum, CnlData cnlData)
         {
@@ -954,7 +954,7 @@ namespace Scada.Data.Adapters
             }
             else
             {
-                throw new ScadaException("Failed to write input channel data.");
+                throw new ScadaException("Failed to write channel data.");
             }
         }
 

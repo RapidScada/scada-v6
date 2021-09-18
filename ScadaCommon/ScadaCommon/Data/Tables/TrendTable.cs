@@ -20,7 +20,7 @@
  * 
  * Author   : Mikhail Shiryaev
  * Created  : 2020
- * Modified : 2020
+ * Modified : 2021
  */
 
 using System;
@@ -102,7 +102,7 @@ namespace Scada.Data.Tables
         public List<TrendTablePage> Pages { get; protected set; }
 
         /// <summary>
-        /// Gets or sets the list of input channel numbers for newly allocated pages.
+        /// Gets or sets the list of channel numbers for newly allocated pages.
         /// </summary>
         public CnlNumList CnlNumList { get; set; }
 

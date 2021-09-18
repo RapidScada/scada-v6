@@ -35,8 +35,8 @@ namespace Scada.Data.Models
     public class TrendBundle
     {
         /// <summary>
-        /// Represents a list of input channel data.
-        /// <para>Представляет список данных входных каналов.</para>
+        /// Represents a list of channel data.
+        /// <para>Представляет список данных каналов.</para>
         /// </summary>
         public class CnlDataList : List<CnlData>
         {
@@ -102,7 +102,7 @@ namespace Scada.Data.Models
 
 
         /// <summary>
-        /// Gets the input channel numbers.
+        /// Gets the channel numbers.
         /// </summary>
         public int[] CnlNums { get; }
 

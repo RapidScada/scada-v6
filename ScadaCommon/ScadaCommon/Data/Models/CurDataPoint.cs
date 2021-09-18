@@ -16,7 +16,7 @@
  * 
  * Product  : Rapid SCADA
  * Module   : ScadaCommon
- * Summary  : Represents a current data point of an input channel
+ * Summary  : Represents a current channel data point
  * 
  * Author   : Mikhail Shiryaev
  * Created  : 2021
@@ -26,8 +26,8 @@
 namespace Scada.Data.Models
 {
     /// <summary>
-    /// Represents a current data point of an input channel.
-    /// <para>Представляет точку текущих данных входного канала.</para>
+    /// Represents a current channel data point.
+    /// <para>Представляет точку текущих данных канала.</para>
     /// </summary>
     public struct CurDataPoint
     {
@@ -63,7 +63,7 @@ namespace Scada.Data.Models
 
 
         /// <summary>
-        /// Gets the input channel number of the trend.
+        /// Gets or sets the channel number.
         /// </summary>
         public int CnlNum { get; set; }
 

@@ -20,7 +20,7 @@
  * 
  * Author   : Mikhail Shiryaev
  * Created  : 2020
- * Modified : 2020
+ * Modified : 2021
  */
 
 using System;
@@ -74,13 +74,13 @@ namespace Scada.Data.Tables
         public TrendTableMeta Metadata { get; }
 
         /// <summary>
-        /// Gets or sets the list of input channel numbers whose data is stored in the page.
+        /// Gets or sets the list of channel numbers whose data is stored in the page.
         /// </summary>
         public CnlNumList CnlNumList { get; set; }
 
 
         /// <summary>
-        /// Gets the index of the specified input channel.
+        /// Gets the index of the specified channel.
         /// </summary>
         public bool GetCnlIndex(int cnlNum, out int cnlIndex)
         {

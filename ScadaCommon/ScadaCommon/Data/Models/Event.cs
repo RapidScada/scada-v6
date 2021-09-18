@@ -76,7 +76,7 @@ namespace Scada.Data.Models
         public bool Hidden { get; set; }
 
         /// <summary>
-        /// Gets or sets the input channel number.
+        /// Gets or sets the channel number.
         /// </summary>
         public int CnlNum { get; set; }
 
@@ -91,22 +91,22 @@ namespace Scada.Data.Models
         public int DeviceNum { get; set; }
 
         /// <summary>
-        /// Gets or sets the previos value of the input channel number.
+        /// Gets or sets the previos channel value.
         /// </summary>
         public double PrevCnlVal { get; set; }
 
         /// <summary>
-        /// Gets or sets the previos status of the input channel number.
+        /// Gets or sets the previos channel status.
         /// </summary>
         public int PrevCnlStat { get; set; }
 
         /// <summary>
-        /// Gets or sets the current value of the input channel number.
+        /// Gets or sets the current channel value.
         /// </summary>
         public double CnlVal { get; set; }
 
         /// <summary>
-        /// Gets or sets the current status of the input channel number.
+        /// Gets or sets the current channel status.
         /// </summary>
         public int CnlStat { get; set; }
 

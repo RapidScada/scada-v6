@@ -16,11 +16,11 @@
  * 
  * Product  : Rapid SCADA
  * Module   : ScadaCommon
- * Summary  : Specifies the data type IDs of the input channels.
+ * Summary  : Specifies the data type IDs of the channels.
  * 
  * Author   : Mikhail Shiryaev
  * Created  : 2020
- * Modified : 2020
+ * Modified : 2021
  */
 
 #pragma warning disable 1591 // Missing XML comment for publicly visible type or member
@@ -28,8 +28,8 @@
 namespace Scada.Data.Const
 {
     /// <summary>
-    /// Specifies the data type IDs of the input channels.
-    /// <para>Задает идентификаторы типов данных входных каналов.</para>
+    /// Specifies the data type IDs of the channels.
+    /// <para>Задает идентификаторы типов данных каналов.</para>
     /// </summary>
     public static class DataTypeID
     {

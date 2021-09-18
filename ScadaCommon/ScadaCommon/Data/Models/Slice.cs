@@ -16,7 +16,7 @@
  * 
  * Product  : Rapid SCADA
  * Module   : ScadaCommon
- * Summary  : Represents a slice of input channels having the same timestamp
+ * Summary  : Represents a slice of channels having the same timestamp
  * 
  * Author   : Mikhail Shiryaev
  * Created  : 2020
@@ -28,8 +28,8 @@ using System;
 namespace Scada.Data.Models
 {
     /// <summary>
-    /// Represents a slice of input channels having the same timestamp.
-    /// <para>Представляет срез входных каналов, имеющих одинаковую временную метку.</para>
+    /// Represents a slice of channels having the same timestamp.
+    /// <para>Представляет срез каналов, имеющих одинаковую временную метку.</para>
     /// </summary>
     public class Slice
     {
@@ -73,7 +73,7 @@ namespace Scada.Data.Models
         public DateTime Timestamp { get; set; }
 
         /// <summary>
-        /// Gets the input channel numbers.
+        /// Gets the channel numbers.
         /// </summary>
         public int[] CnlNums { get; }
 

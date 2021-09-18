@@ -16,11 +16,11 @@
  * 
  * Product  : Rapid SCADA
  * Module   : ScadaCommon
- * Summary  : Represents an input channel data point
+ * Summary  : Represents a channel data point
  * 
  * Author   : Mikhail Shiryaev
  * Created  : 2020
- * Modified : 2020
+ * Modified : 2021
  */
 
 using System;
@@ -28,8 +28,8 @@ using System;
 namespace Scada.Data.Models
 {
     /// <summary>
-    /// Represents an input channel data point.
-    /// <para>Представляет точку данных входного канала.</para>
+    /// Represents a channel data point.
+    /// <para>Представляет точку данных канала.</para>
     /// </summary>
     public struct CnlDataPoint
     {
@@ -68,7 +68,7 @@ namespace Scada.Data.Models
 
 
         /// <summary>
-        /// Gets the input channel number of the trend.
+        /// Gets or sets the channel number.
         /// </summary>
         public int CnlNum { get; set; }
 

@@ -16,11 +16,11 @@
  * 
  * Product  : Rapid SCADA
  * Module   : ScadaCommon
- * Summary  : Represents an input channel status as an entity of the configuration database
+ * Summary  : Represents a channel status as an entity of the configuration database
  * 
  * Author   : Mikhail Shiryaev
  * Created  : 2018
- * Modified : 2020
+ * Modified : 2021
  */
 
 #pragma warning disable 1591 // Missing XML comment for publicly visible type or member
@@ -30,8 +30,8 @@ using System;
 namespace Scada.Data.Entities
 {
     /// <summary>
-    /// Represents an input channel status as an entity of the configuration database.
-    /// <para>Представляет статус входного канала как сущность базы конфигурации.</para>
+    /// Represents a channel status as an entity of the configuration database.
+    /// <para>Представляет статус канала как сущность базы конфигурации.</para>
     /// </summary>
     [Serializable]
     public class CnlStatus

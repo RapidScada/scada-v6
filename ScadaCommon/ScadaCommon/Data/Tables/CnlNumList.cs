@@ -16,11 +16,11 @@
  * 
  * Product  : Rapid SCADA
  * Module   : ScadaCommon
- * Summary  : Represents a list of input channel numbers
+ * Summary  : Represents a list of channel numbers
  * 
  * Author   : Mikhail Shiryaev
  * Created  : 2020
- * Modified : 2020
+ * Modified : 2021
  */
 
 using System;
@@ -30,8 +30,8 @@ using System.Linq;
 namespace Scada.Data.Tables
 {
     /// <summary>
-    /// Represents a list of input channel numbers.
-    /// <para>Представляет список номеров входных каналов.</para>
+    /// Represents a list of channel numbers.
+    /// <para>Представляет список номеров каналов.</para>
     /// </summary>
     public class CnlNumList
     {
@@ -86,12 +86,12 @@ namespace Scada.Data.Tables
         public long ListID { get; }
 
         /// <summary>
-        /// Gets the input channel numbers.
+        /// Gets the channel numbers.
         /// </summary>
         public int[] CnlNums { get; }
 
         /// <summary>
-        /// Gets the input channel indexes accessed by channel number.
+        /// Gets the channel indexes accessed by channel number.
         /// </summary>
         public Dictionary<int, int> CnlIndexes { get; }
 
@@ -102,7 +102,7 @@ namespace Scada.Data.Tables
 
 
         /// <summary>
-        /// Creates the input channel indexes.
+        /// Creates the channel indexes.
         /// </summary>
         protected Dictionary<int, int> CreateCnlIndexes()
         {

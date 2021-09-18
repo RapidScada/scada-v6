@@ -184,7 +184,7 @@ namespace Scada
         }
 
         /// <summary>
-        /// Copies the input channel data to the buffer.
+        /// Copies the channel data to the buffer.
         /// </summary>
         public static void CopyCnlData(CnlData cnlData, byte[] buffer, ref int index)
         {
@@ -481,7 +481,7 @@ namespace Scada
         }
 
         /// <summary>
-        /// Gets an input channel data from the buffer.
+        /// Gets an channel data from the buffer.
         /// </summary>
         public static CnlData GetCnlData(byte[] buffer, ref int index)
         {

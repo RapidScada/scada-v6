@@ -16,7 +16,7 @@
  * 
  * Product  : Rapid SCADA
  * Module   : ScadaCommon
- * Summary  : Represents a trend of input channel data
+ * Summary  : Represents a trend of channel data
  * 
  * Author   : Mikhail Shiryaev
  * Created  : 2006
@@ -28,8 +28,8 @@ using System.Collections.Generic;
 namespace Scada.Data.Models
 {
     /// <summary>
-    /// Represents a trend of input channel data.
-    /// <para>Представляет тренд данных входного канала.</para>
+    /// Represents a trend of channel data.
+    /// <para>Представляет тренд данных канала.</para>
     /// </summary>
     public class Trend
     {
@@ -44,7 +44,7 @@ namespace Scada.Data.Models
 
 
         /// <summary>
-        /// Gets the input channel number of the trend.
+        /// Gets the channel number of the trend.
         /// </summary>
         public int CnlNum { get; }
 

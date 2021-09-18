@@ -16,7 +16,7 @@
  * 
  * Product  : Rapid SCADA
  * Module   : ScadaCommon
- * Summary  : Represents formatted input channel data
+ * Summary  : Represents formatted channel data
  * 
  * Author   : Mikhail Shiryaev
  * Created  : 2021
@@ -29,8 +29,8 @@ using System;
 namespace Scada.Data.Models
 {
     /// <summary>
-    /// Represents formatted input channel data.
-    /// <para>Представляет форматированные данные входного канала.</para>
+    /// Represents formatted channel data.
+    /// <para>Представляет форматированные данные канала.</para>
     /// </summary>
     public struct CnlDataFormatted
     {

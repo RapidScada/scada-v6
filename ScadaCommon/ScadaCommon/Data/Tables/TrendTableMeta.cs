@@ -20,7 +20,7 @@
  * 
  * Author   : Mikhail Shiryaev
  * Created  : 2020
- * Modified : 2020
+ * Modified : 2021
  */
 
 using System;
@@ -29,7 +29,7 @@ namespace Scada.Data.Tables
 {
     /// <summary>
     /// Represents metadata about a trend table or page.
-    /// <para>Представляет метаданные входного канала.</para>
+    /// <para>Представляет метаданные таблицы или страницы.</para>
     /// </summary>
     public class TrendTableMeta
     {
