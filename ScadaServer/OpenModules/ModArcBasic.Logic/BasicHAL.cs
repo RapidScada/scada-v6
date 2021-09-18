@@ -32,8 +32,8 @@ namespace Scada.Server.Modules.ModArcBasic.Logic
         private readonly int writingPeriod;         // the writing period in seconds
 
         private DateTime nextWriteTime;  // the next time to write data to the archive
-        private int[] cnlIndexes;        // the indexes that map the input channels
-        private CnlNumList cnlNumList;   // the list of the input channel numbers processed by the archive
+        private int[] cnlIndexes;        // the channel mapping indexes
+        private CnlNumList cnlNumList;   // the list of the channel numbers processed by the archive
         private TrendTable currentTable; // the today's trend table
         private TrendTable updatedTable; // the trend table that is currently being updated
 
@@ -238,7 +238,7 @@ namespace Scada.Server.Modules.ModArcBasic.Logic
         }
 
         /// <summary>
-        /// Gets the trends of the specified input channels.
+        /// Gets the trends of the specified channels.
         /// </summary>
         public override TrendBundle GetTrends(TimeRange timeRange, int[] cnlNums)
         {
@@ -286,7 +286,7 @@ namespace Scada.Server.Modules.ModArcBasic.Logic
         }
 
         /// <summary>
-        /// Gets the trend of the specified input channel.
+        /// Gets the trend of the specified channel.
         /// </summary>
         public override Trend GetTrend(TimeRange timeRange, int cnlNum)
         {
@@ -372,7 +372,7 @@ namespace Scada.Server.Modules.ModArcBasic.Logic
         }
 
         /// <summary>
-        /// Gets the slice of the specified input channels at the timestamp.
+        /// Gets the slice of the specified channels at the timestamp.
         /// </summary>
         public override Slice GetSlice(DateTime timestamp, int[] cnlNums)
         {
@@ -385,7 +385,7 @@ namespace Scada.Server.Modules.ModArcBasic.Logic
         }
 
         /// <summary>
-        /// Gets the input channel data.
+        /// Gets the channel data.
         /// </summary>
         public override CnlData GetCnlData(DateTime timestamp, int cnlNum)
         {
@@ -450,7 +450,7 @@ namespace Scada.Server.Modules.ModArcBasic.Logic
         }
 
         /// <summary>
-        /// Writes the input channel data.
+        /// Writes the channel data.
         /// </summary>
         public override void WriteCnlData(DateTime timestamp, int cnlNum, CnlData cnlData)
         {

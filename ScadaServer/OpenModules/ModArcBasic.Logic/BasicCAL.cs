@@ -31,7 +31,7 @@ namespace Scada.Server.Modules.ModArcBasic.Logic
         private readonly Slice slice;               // the slice for writing
 
         private DateTime nextWriteTime; // the next time to write the current data
-        private int[] cnlIndexes;       // the indexes that map the input channels
+        private int[] cnlIndexes;       // the channel mapping indexes
 
 
         /// <summary>
