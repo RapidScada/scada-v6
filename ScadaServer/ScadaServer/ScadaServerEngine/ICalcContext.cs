@@ -20,7 +20,7 @@
  * 
  * Author   : Mikhail Shiryaev
  * Created  : 2020
- * Modified : 2020
+ * Modified : 2021
  */
 
 using Scada.Data.Models;
@@ -40,27 +40,27 @@ namespace Scada.Server.Engine
         DateTime Timestamp { get; }
 
         /// <summary>
-        /// Gets the actual data of the input channel.
+        /// Gets the actual channel data.
         /// </summary>
         CnlData GetCnlData(int cnlNum);
 
         /// <summary>
-        /// Gets the previous data of the input channel, if applicable.
+        /// Gets the previous channel data, if applicable.
         /// </summary>
         CnlData GetPrevCnlData(int cnlNum);
 
         /// <summary>
-        /// Gets the actual timestamp of the input channel.
+        /// Gets the actual channel timestamp.
         /// </summary>
         DateTime GetCnlTime(int cnlNum);
 
         /// <summary>
-        /// Gets the previous timestamp of the input channel, if applicable.
+        /// Gets the previous channel timestamp, if applicable.
         /// </summary>
         DateTime GetPrevCnlTime(int cnlNum);
 
         /// <summary>
-        /// Sets the input channel data.
+        /// Sets the channel data.
         /// </summary>
         void SetCnlData(int cnlNum, CnlData cnlData);
     }

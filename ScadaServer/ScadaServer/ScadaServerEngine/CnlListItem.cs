@@ -20,7 +20,7 @@
  * 
  * Author   : Mikhail Shiryaev
  * Created  : 2020
- * Modified : 2020
+ * Modified : 2021
  */
 
 using System.Collections.Generic;
@@ -49,7 +49,7 @@ namespace Scada.Server.Engine
         public long CnlListID { get; }
 
         /// <summary>
-        /// Gets the input channel tags.
+        /// Gets the channel tags.
         /// </summary>
         public List<CnlTag> CnlTags { get; }
     }

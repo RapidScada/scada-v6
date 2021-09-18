@@ -423,7 +423,7 @@ namespace Scada.Server.Engine
         }
 
         /// <summary>
-        /// Gets the trends of the specified input channels.
+        /// Gets the trends of the specified channels.
         /// </summary>
         public TrendBundle GetTrends(int archiveBit, TimeRange timeRange, int[] cnlNums)
         {
@@ -456,7 +456,7 @@ namespace Scada.Server.Engine
         }
 
         /// <summary>
-        /// Gets the trend of the specified input channel.
+        /// Gets the trend of the specified channel.
         /// </summary>
         public Trend GetTrend(int archiveBit, TimeRange timeRange, int cnlNum)
         {
@@ -510,7 +510,7 @@ namespace Scada.Server.Engine
         }
 
         /// <summary>
-        /// Gets the slice of the specified input channels at the timestamp.
+        /// Gets the slice of the specified channels at the timestamp.
         /// </summary>
         public Slice GetSlice(int archiveBit, DateTime timestamp, int[] cnlNums)
         {

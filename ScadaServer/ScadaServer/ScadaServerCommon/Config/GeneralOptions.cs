@@ -46,7 +46,7 @@ namespace Scada.Server.Config
 
 
         /// <summary>
-        /// Gets or sets the time after which an inactive input channel is marked as unreliable, sec.
+        /// Gets or sets the time after which an inactive channel is marked as unreliable, sec.
         /// </summary>
         public int UnrelIfInactive { get; set; }
 

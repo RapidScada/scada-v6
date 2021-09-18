@@ -69,7 +69,7 @@ namespace Scada.Server.Engine
 
 
         /// <summary>
-        /// The maximum number of input channels to process per iteration when checking activity.
+        /// The maximum number of channels to process per iteration when checking activity.
         /// </summary>
         private const int MaxCnlCountToCheckActivity = 1000;
 
@@ -82,10 +82,10 @@ namespace Scada.Server.Engine
         private ServiceStatus serviceStatus;     // the current service status
         private int lastInfoLength;              // the last info text length
 
-        private Dictionary<int, CnlTag> cnlTags; // the metadata about the input channels accessed by channel number
-        private List<CnlTag> measCnlTags;        // the list of the input channel tags of the measured type
-        private List<CnlTag> calcCnlTags;        // the list of the input channel tags of the calculated type
-        private Dictionary<int, OutCnlTag> outCnlTags; // the metadata about the output channels accessed by channel number
+        private Dictionary<int, CnlTag> cnlTags;       // the channel tags for archiving
+        private Dictionary<int, OutCnlTag> outCnlTags; // the output channel tags for sending commands
+        private List<CnlTag> measCnlTags;        // the channel tags measured by devices
+        private List<CnlTag> calcCnlTags;        // the channel tags of the calculated type
         private Dictionary<string, User> users;  // the users accessed by name
         private ServerRightMatrix rightMatrix;   // provides access control
         private Calculator calc;                 // provides work with scripts and formulas
@@ -93,7 +93,7 @@ namespace Scada.Server.Engine
         private ArchiveHolder archiveHolder;     // holds archives
         private ServerCache serverCache;         // the server level cache
         private ServerListener listener;         // the TCP listener
-        private CurrentData curData;             // the current data of the input channels
+        private CurrentData curData;             // the current channel data
         private Queue<EventItem> events;         // the just created events
         private Queue<CommandItem> commands;     // the preprocessed commands that have not yet been sent
 
@@ -119,9 +119,9 @@ namespace Scada.Server.Engine
             lastInfoLength = 0;
 
             cnlTags = null;
+            outCnlTags = null;
             measCnlTags = null;
             calcCnlTags = null;
-            outCnlTags = null;
             users = null;
             rightMatrix = null;
             calc = null;
@@ -156,7 +156,7 @@ namespace Scada.Server.Engine
         public BaseDataSet BaseDataSet { get; private set; }
 
         /// <summary>
-        /// Gets the active input channel numbers.
+        /// Gets the active channel numbers for archiving.
         /// </summary>
         public int[] CnlNums => curData?.CnlNums;
 
@@ -195,7 +195,6 @@ namespace Scada.Server.Engine
                 return false;
 
             InitCnlTags();
-            InitOutCnlTags();
             InitUsers();
             InitRightMatrix();
 
@@ -250,12 +249,13 @@ namespace Scada.Server.Engine
         }
 
         /// <summary>
-        /// Initializes metadata about the input channels.
+        /// Initializes metadata about the channels.
         /// </summary>
         private void InitCnlTags()
         {
             // create channel tags
             cnlTags = new Dictionary<int, CnlTag>();
+            outCnlTags = new Dictionary<int, OutCnlTag>();
             measCnlTags = new List<CnlTag>();
             calcCnlTags = new List<CnlTag>();
             List<CnlTag> limTags = new List<CnlTag>();
@@ -263,34 +263,42 @@ namespace Scada.Server.Engine
             int cnlNum = 0;
 
             // add new channel tag to collections
-            void AddCnlTag(InCnl inCnl, Lim lim)
+            void AddCnlTag(Cnl cnl, Lim lim)
             {
-                CnlTag cnlTag = new CnlTag(index++, cnlNum, inCnl, lim);
+                CnlTag cnlTag = new CnlTag(index++, cnlNum, cnl, lim);
                 cnlTags.Add(cnlNum++, cnlTag);
 
-                if (inCnl.CnlTypeID == CnlTypeID.Measured)
+                if (CnlTypeID.IsInput(cnl.CnlTypeID))
                     measCnlTags.Add(cnlTag);
-                else if (inCnl.CnlTypeID == CnlTypeID.Calculated)
+                else if (cnl.CnlTypeID == CnlTypeID.Calculated)
                     calcCnlTags.Add(cnlTag);
 
                 if (lim != null && lim.IsBoundToCnl)
                     limTags.Add(cnlTag);
             }
 
-            foreach (InCnl inCnl in BaseDataSet.InCnlTable.EnumerateItems())
+            // add new output channel tag
+            void AddOutCnlTag(Cnl cnl)
             {
-                if (inCnl.Active && inCnl.CnlNum >= cnlNum)
+                if (CnlTypeID.IsOutput(cnl.CnlTypeID))
+                    outCnlTags.Add(cnl.CnlNum, new OutCnlTag(cnl));
+            }
+
+            foreach (Cnl cnl in BaseDataSet.CnlTable.EnumerateItems())
+            {
+                if (cnl.Active && cnl.CnlNum >= cnlNum)
                 {
-                    cnlNum = inCnl.CnlNum;
-                    Lim lim = inCnl.LimID.HasValue ? BaseDataSet.LimTable.GetItem(inCnl.LimID.Value) : null;
-                    AddCnlTag(inCnl, lim);
+                    cnlNum = cnl.CnlNum;
+                    Lim lim = cnl.LimID.HasValue ? BaseDataSet.LimTable.GetItem(cnl.LimID.Value) : null;
+                    AddCnlTag(cnl, lim);
+                    AddOutCnlTag(cnl);
 
                     // add channel tags if one channel row defines multiple channels
-                    if (inCnl.DataLen > 1)
+                    if (cnl.DataLen > 1)
                     {
-                        for (int i = 1, cnt = inCnl.DataLen.Value; i < cnt; i++)
+                        for (int i = 1, cnt = cnl.DataLen.Value; i < cnt; i++)
                         {
-                            AddCnlTag(inCnl, lim);
+                            AddCnlTag(cnl, lim);
                         }
                     }
                 }
@@ -315,26 +323,11 @@ namespace Scada.Server.Engine
             }
 
             Log.WriteInfo(Locale.IsRussian ?
-                "Количество активных входных каналов: {0}" :
-                "Number of active input channels: {0}", cnlTags.Count);
-        }
-
-        /// <summary>
-        /// Initializes metadata about the output channels.
-        /// </summary>
-        private void InitOutCnlTags()
-        {
-            outCnlTags = new Dictionary<int, OutCnlTag>();
-
-            foreach (OutCnl outCnl in BaseDataSet.OutCnlTable.EnumerateItems())
-            {
-                if (outCnl.Active)
-                    outCnlTags.Add(outCnl.OutCnlNum, new OutCnlTag(outCnl));
-            }
-
+                "Количество активных каналов для архивирования: {0}" :
+                "Number of active channels for archiving: {0}", cnlTags.Count);
             Log.WriteInfo(Locale.IsRussian ?
-                "Количество активных каналов управления: {0}" :
-                "Number of active output channels: {0}", outCnlTags.Count);
+                "Количество активных каналов для отправки команд: {0}" :
+                "Number of active channels for sending commands: {0}", outCnlTags.Count);
         }
 
         /// <summary>
@@ -457,7 +450,7 @@ namespace Scada.Server.Engine
         }
 
         /// <summary>
-        /// Gets the input channel numbers processed by the archive.
+        /// Gets the channel numbers processed by the archive.
         /// </summary>
         private int[] GetProcessedCnls(Archive archive)
         {
@@ -467,7 +460,7 @@ namespace Scada.Server.Engine
 
             foreach (CnlTag cnlTag in cnlTags.Values)
             {
-                int? archiveMask = cnlTag.InCnl.ArchiveMask;
+                int? archiveMask = cnlTag.Cnl.ArchiveMask;
 
                 if (archiveMask.HasValue)
                 {
@@ -490,7 +483,7 @@ namespace Scada.Server.Engine
         {
             try
             {
-                int checkActivityTagIndex = 0; // the index of the input channel tag which is checked for activity
+                int checkActivityTagIndex = 0; // the channel tag index which is checked for activity
                 DateTime writeInfoDT = DateTime.MinValue; // the timestamp of writing application info
 
                 moduleHolder.OnServiceStart();
@@ -510,10 +503,10 @@ namespace Scada.Server.Engine
                             // prepare current data for new iteration
                             curData.PrepareIteration(utcNow);
 
-                            // check activity of input channels
+                            // check channel activity
                             CheckActivity(ref checkActivityTagIndex, utcNow);
 
-                            // calculate input channel data
+                            // calculate channel data
                             CalcCnlData(utcNow);
 
                             // process data by archives
@@ -568,7 +561,7 @@ namespace Scada.Server.Engine
         }
 
         /// <summary>
-        /// Checks the activity of input channels and sets status of inactive input channels to unreliable.
+        /// Checks if the channels are active and sets the status of inactive channels as unreliable.
         /// </summary>
         private void CheckActivity(ref int tagIndex, DateTime nowDT)
         {
@@ -579,16 +572,12 @@ namespace Scada.Server.Engine
                 for (int i = 0, cnt = measCnlTags.Count; i < MaxCnlCountToCheckActivity && tagIndex < cnt; i++)
                 {
                     CnlTag cnlTag = measCnlTags[tagIndex++];
+                    CnlData cnlData = curData.CnlData[cnlTag.Index];
 
-                    if (cnlTag.InCnl.CnlTypeID == CnlTypeID.Measured)
+                    if (cnlData.IsDefined && cnlData.Stat != CnlStatusID.Unreliable &&
+                        (nowDT - curData.Timestamps[cnlTag.Index]).TotalSeconds > unrelIfInactive)
                     {
-                        CnlData cnlData = curData.CnlData[cnlTag.Index];
-
-                        if (cnlData.IsDefined && cnlData.Stat != CnlStatusID.Unreliable &&
-                            (nowDT - curData.Timestamps[cnlTag.Index]).TotalSeconds > unrelIfInactive)
-                        {
-                            curData.SetCurCnlData(cnlTag, new CnlData(cnlData.Val, CnlStatusID.Unreliable), nowDT);
-                        }
+                        curData.SetCurCnlData(cnlTag, new CnlData(cnlData.Val, CnlStatusID.Unreliable), nowDT);
                     }
                 }
 
@@ -598,7 +587,7 @@ namespace Scada.Server.Engine
         }
 
         /// <summary>
-        /// Calculates the input channels of the calculated type.
+        /// Calculates the channels of the calculated type.
         /// </summary>
         private void CalcCnlData(DateTime nowDT)
         {
@@ -642,9 +631,8 @@ namespace Scada.Server.Engine
                 }
 
                 Log.WriteAction(Locale.IsRussian ?
-                    "Создано событие с ид. {0}, входным каналом {1} и каналом управления {2}" :
-                    "Created event with ID {0}, input channel {1} and output channel {2}",
-                    ev.EventID, ev.CnlNum, ev.OutCnlNum);
+                    "Создано событие с ид. {0} и каналом {1}" :
+                    "Created event with ID {0} and channel {1}", ev.EventID, ev.CnlNum);
 
                 moduleHolder.OnEvent(ev);
                 archiveHolder.WriteEvent(eventItem.ArchiveMask, ev);
@@ -752,7 +740,7 @@ namespace Scada.Server.Engine
         }
 
         /// <summary>
-        /// Updates the input channel status after formula calculation for the current data.
+        /// Updates the channel status after formula calculation for the current data.
         /// </summary>
         private void UpdateCnlStatus(CnlTag cnlTag, ref CnlData cnlData, CnlData prevCnlData)
         {
@@ -781,7 +769,7 @@ namespace Scada.Server.Engine
         }
 
         /// <summary>
-        /// Updates the input channel status after formula calculation for the archive at the timestamp.
+        /// Updates the channel status after formula calculation for the archive at the timestamp.
         /// </summary>
         private void UpdateCnlStatus(HistoricalArchiveLogic archiveLogic, DateTime timestamp, 
             CnlTag cnlTag, ref CnlData cnlData)
@@ -794,8 +782,7 @@ namespace Scada.Server.Engine
             {
                 if (cnlTag.Lim == null)
                 {
-                    if (cnlTag.InCnl.CnlTypeID == CnlTypeID.Measured)
-                        cnlData.Stat = CnlStatusID.Archival;
+                    cnlData.Stat = CnlStatusID.Archival;
                 }
                 else
                 {
@@ -807,7 +794,7 @@ namespace Scada.Server.Engine
         }
 
         /// <summary>
-        /// Get the input channel limits for the current data.
+        /// Get the channel limits for the current data.
         /// </summary>
         private void GetCnlLimits(CnlTag cnlTag, out double lolo, out double low, out double high, out double hihi)
         {
@@ -836,7 +823,7 @@ namespace Scada.Server.Engine
         }
 
         /// <summary>
-        /// Get the input channel limits for the archive at the timestamp.
+        /// Get the channel limits for the archive at the timestamp.
         /// </summary>
         private void GetCnlLimits(HistoricalArchiveLogic archiveLogic, DateTime timestamp, CnlTag cnlTag, 
             out double lolo, out double low, out double high, out double hihi)
@@ -863,7 +850,7 @@ namespace Scada.Server.Engine
         }
 
         /// <summary>
-        /// Get the input channel status depending on whether the channel value is within the limits.
+        /// Get the channel status depending on whether the channel value is within the limits.
         /// </summary>
         private int GetCnlStatus(double cnlVal, double lolo, double low, double high, double hihi)
         {
@@ -880,12 +867,12 @@ namespace Scada.Server.Engine
         }
 
         /// <summary>
-        /// Generates an event based on input channel data.
+        /// Generates an event based on channel data.
         /// </summary>
         private void GenerateEvent(CnlTag cnlTag, CnlData cnlData, CnlData prevCnlData)
         {
-            InCnl inCnl = cnlTag.InCnl;
-            EventMask eventMask = new EventMask(inCnl.EventMask);
+            Cnl cnl = cnlTag.Cnl;
+            EventMask eventMask = new EventMask(cnl.EventMask);
 
             if (eventMask.Enabled)
             {
@@ -898,13 +885,13 @@ namespace Scada.Server.Engine
                     CnlStatus cnlStatus = BaseDataSet.CnlStatusTable.GetItem(cnlData.Stat);
                     DateTime utcNow = DateTime.UtcNow;
 
-                    EnqueueEvent(inCnl.ArchiveMask ?? ArchiveMask.Default, new Event
+                    EnqueueEvent(cnl.ArchiveMask ?? ArchiveMask.Default, new Event
                     {
                         EventID = ScadaUtils.GenerateUniqueID(utcNow),
                         Timestamp = utcNow,
                         CnlNum = cnlTag.CnlNum,
-                        ObjNum = inCnl.ObjNum ?? 0,
-                        DeviceNum = inCnl.DeviceNum ?? 0,
+                        ObjNum = cnl.ObjNum ?? 0,
+                        DeviceNum = cnl.DeviceNum ?? 0,
                         PrevCnlVal = prevCnlData.Val,
                         PrevCnlStat = prevCnlData.Stat,
                         CnlVal = cnlData.Val,
@@ -921,7 +908,9 @@ namespace Scada.Server.Engine
         /// </summary>
         private void GenerateEvent(OutCnlTag outCnlTag, TeleCommand command)
         {
-            if (outCnlTag.OutCnl.EventEnabled)
+            EventMask eventMask = new EventMask(outCnlTag.Cnl.EventMask);
+
+            if (eventMask.Enabled && eventMask.Command)
             {
                 DateTime utcNow = DateTime.UtcNow;
 
@@ -929,11 +918,12 @@ namespace Scada.Server.Engine
                 {
                     EventID = ScadaUtils.GenerateUniqueID(utcNow),
                     Timestamp = utcNow,
-                    OutCnlNum = command.OutCnlNum,
+                    CnlNum = command.CnlNum,
                     ObjNum = command.ObjNum,
                     DeviceNum = command.DeviceNum,
                     CnlVal = double.IsNaN(command.CmdVal) ? 0.0 : command.CmdVal,
                     CnlStat = double.IsNaN(command.CmdVal) ? CnlStatusID.Undefined : CnlStatusID.Defined,
+                    TextFormat = EventTextFormat.Command,
                     Data = command.CmdData
                 });
             }
@@ -1106,7 +1096,7 @@ namespace Scada.Server.Engine
         }
 
         /// <summary>
-        /// Gets the current data of the input channel.
+        /// Gets the current data of the specified channel.
         /// </summary>
         public CnlData GetCurrentData(int cnlNum)
         {
@@ -1121,15 +1111,15 @@ namespace Scada.Server.Engine
             catch (Exception ex)
             {
                 Log.WriteError(ex, Locale.IsRussian ?
-                    "Ошибка при получении текущих данных входного канала" :
-                    "Error getting current data of the input channel");
+                    "Ошибка при получении текущих данных канала" :
+                    "Error getting current data of the channel");
             }
 
             return CnlData.Empty;
         }
 
         /// <summary>
-        /// Gets the current data of the input channels.
+        /// Gets the current data of the specified channels.
         /// </summary>
         public CnlData[] GetCurrentData(int[] cnlNums, bool useCache, out long cnlListID)
         {
@@ -1173,15 +1163,15 @@ namespace Scada.Server.Engine
             catch (Exception ex)
             {
                 Log.WriteError(ex, Locale.IsRussian ?
-                    "Ошибка при получении текущих данных входных каналов" :
-                    "Error getting current data of the input channels");
+                    "Ошибка при получении текущих данных каналов" :
+                    "Error getting current data of the channels");
             }
 
             return cnlDataArr;
         }
 
         /// <summary>
-        /// Gets the current data of the cached input channel list.
+        /// Gets the current data of the cached channel list.
         /// </summary>
         public CnlData[] GetCurrentData(long cnlListID)
         {
@@ -1206,8 +1196,8 @@ namespace Scada.Server.Engine
             catch (Exception ex)
             {
                 Log.WriteError(ex, Locale.IsRussian ?
-                    "Ошибка при получении текущих данных кэшированного списка входных каналов" :
-                    "Error getting current data of the cached input channel list");
+                    "Ошибка при получении текущих данных кэшированного списка каналов" :
+                    "Error getting current data of the cached channel list");
             }
 
             return cnlDataArr;
@@ -1238,8 +1228,7 @@ namespace Scada.Server.Engine
                     {
                         CnlData newCnlData = cnlData[i];
 
-                        if (applyFormulas && cnlTag.InCnl.FormulaEnabled && 
-                            cnlTag.InCnl.CnlTypeID == CnlTypeID.Measured)
+                        if (applyFormulas && cnlTag.Cnl.FormulaEnabled && CnlTypeID.IsInput(cnlTag.Cnl.CnlTypeID))
                         {
                             newCnlData = calc.CalcCnlData(cnlTag, newCnlData);
                             cnlData[i] = newCnlData;
@@ -1279,7 +1268,7 @@ namespace Scada.Server.Engine
                 if (archiveMask == ArchiveMask.Default)
                     archiveMask = archiveHolder.DefaultArchiveMask;
 
-                // find input channel tags of the slice
+                // find channel tags of the slice
                 int cnlCnt = slice.CnlNums.Length;
                 CnlTag[] sliceCnlTags = new CnlTag[cnlCnt];
 
@@ -1301,7 +1290,7 @@ namespace Scada.Server.Engine
                             archiveLogic.BeginUpdate(timestamp, deviceNum);
                             calc.BeginCalculation(new ArchiveCalcContext(archiveLogic, timestamp));
 
-                            // calculate input channels which are written
+                            // calculate written channels
                             for (int i = 0; i < cnlCnt; i++)
                             {
                                 CnlTag cnlTag = sliceCnlTags[i];
@@ -1310,8 +1299,8 @@ namespace Scada.Server.Engine
                                 {
                                     CnlData newCnlData = slice.CnlData[i];
 
-                                    if (applyFormulas && cnlTag.InCnl.FormulaEnabled &&
-                                        cnlTag.InCnl.CnlTypeID == CnlTypeID.Measured)
+                                    if (applyFormulas && cnlTag.Cnl.FormulaEnabled && 
+                                        CnlTypeID.IsInput(cnlTag.Cnl.CnlTypeID))
                                     {
                                         newCnlData = calc.CalcCnlData(cnlTag, newCnlData);
                                         UpdateCnlStatus(archiveLogic, timestamp, cnlTag, ref newCnlData);
@@ -1322,7 +1311,7 @@ namespace Scada.Server.Engine
                                 }
                             }
 
-                            // calculate input channels of the calculated type
+                            // calculate channels of the calculated type
                             foreach (CnlTag cnlTag in calcCnlTags)
                             {
                                 CnlData arcCnlData = archiveLogic.GetCnlData(timestamp, cnlTag.CnlNum);
@@ -1371,17 +1360,24 @@ namespace Scada.Server.Engine
             try
             {
                 ev.EventID = ScadaUtils.GenerateUniqueID(ev.Timestamp);
+                Cnl cnl = null;
 
-                if (ev.CnlNum > 0 && cnlTags.TryGetValue(ev.CnlNum, out CnlTag cnlTag))
+                if (ev.CnlNum > 0)
                 {
-                    // set missing event properties
-                    InCnl inCnl = cnlTag.InCnl;
+                    if (cnlTags.TryGetValue(ev.CnlNum, out CnlTag cnlTag))
+                        cnl = cnlTag.Cnl;
+                    else if (outCnlTags.TryGetValue(ev.CnlNum, out OutCnlTag outCnlTag))
+                        cnl = outCnlTag.Cnl;
+                }
 
+                // set missing event properties
+                if (cnl != null)
+                {
                     if (ev.ObjNum <= 0)
-                        ev.ObjNum = inCnl.ObjNum ?? 0;
+                        ev.ObjNum = cnl.ObjNum ?? 0;
 
                     if (ev.DeviceNum <= 0)
-                        ev.DeviceNum = inCnl.DeviceNum ?? 0;
+                        ev.DeviceNum = cnl.DeviceNum ?? 0;
 
                     if (BaseDataSet.CnlStatusTable.GetItem(ev.CnlStat) is CnlStatus cnlStatus)
                     {
@@ -1391,17 +1387,6 @@ namespace Scada.Server.Engine
                         if (!ev.AckRequired)
                             ev.AckRequired = cnlStatus.AckRequired;
                     }
-                }
-                else if (ev.OutCnlNum > 0 && outCnlTags.TryGetValue(ev.OutCnlNum, out OutCnlTag outCnlTag))
-                {
-                    // set missing event properties
-                    OutCnl outCnl = outCnlTag.OutCnl;
-
-                    if (ev.ObjNum <= 0)
-                        ev.ObjNum = outCnl.ObjNum ?? 0;
-
-                    if (ev.DeviceNum <= 0)
-                        ev.DeviceNum = outCnl.DeviceNum ?? 0;
                 }
 
                 EnqueueEvent(archiveMask, ev);
@@ -1438,11 +1423,11 @@ namespace Scada.Server.Engine
 
             try
             {
-                int outCnlNum = command.OutCnlNum;
+                int cnlNum = command.CnlNum;
                 int userID = command.UserID;
                 Log.WriteAction(Locale.IsRussian ?
-                    "Команда на канал управления {0} от пользователя с ид. {1}" :
-                    "Command to the output channel {0} from the user with ID {1}", outCnlNum, userID);
+                    "Команда на канал {0} от пользователя с ид. {1}" :
+                    "Command to the channel {0} from the user with ID {1}", cnlNum, userID);
 
                 if (!BaseDataSet.UserTable.Items.TryGetValue(userID, out User user))
                 {
@@ -1451,17 +1436,17 @@ namespace Scada.Server.Engine
                         "User {0} not found", userID);
                     Log.WriteError(commandResult.ErrorMessage);
                 }
-                else if (!outCnlTags.TryGetValue(outCnlNum, out OutCnlTag outCnlTag))
+                else if (!outCnlTags.TryGetValue(cnlNum, out OutCnlTag outCnlTag))
                 {
                     commandResult.ErrorMessage = string.Format(Locale.IsRussian ?
-                        "Канал управления {0} не найден" :
-                        "Output channel {0} not found", outCnlNum);
+                        "Канал {0} не найден среди выходных каналов" :
+                        "Channel {0} not found among output channels", cnlNum);
                     Log.WriteError(commandResult.ErrorMessage);
                 }
                 else
                 {
-                    OutCnl outCnl = outCnlTag.OutCnl;
-                    int objNum = outCnlTag.OutCnl.ObjNum ?? 0;
+                    Cnl outCnl = outCnlTag.Cnl;
+                    int objNum = outCnl.ObjNum ?? 0;
 
                     if (!rightMatrix.GetRight(user.RoleID, objNum).Control)
                     {
@@ -1475,11 +1460,10 @@ namespace Scada.Server.Engine
                         DateTime utcNow = DateTime.UtcNow;
                         command.CommandID = ScadaUtils.GenerateUniqueID(utcNow);
                         command.CreationTime = utcNow;
-                        command.CmdTypeID = outCnl.CmdTypeID;
                         command.ObjNum = objNum;
                         command.DeviceNum = outCnl.DeviceNum ?? 0;
-                        command.CmdNum = outCnl.CmdNum ?? 0;
-                        command.CmdCode = outCnl.CmdCode;
+                        command.CmdNum = outCnl.TagNum ?? 0;
+                        command.CmdCode = outCnl.TagCode;
 
                         try
                         {
@@ -1527,7 +1511,7 @@ namespace Scada.Server.Engine
         }
 
         /// <summary>
-        /// Handles the changes of the current input channel data.
+        /// Handles the changes of the current channel data.
         /// </summary>
         void ICnlDataChangeHandler.HandleCurDataChanged(CnlTag cnlTag, ref CnlData cnlData, CnlData prevCnlData,
             DateTime timestamp, DateTime prevTimestamp)

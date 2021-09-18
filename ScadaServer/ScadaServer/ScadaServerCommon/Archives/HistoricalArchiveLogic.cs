@@ -62,12 +62,12 @@ namespace Scada.Server.Archives
         }
 
         /// <summary>
-        /// Gets the trends of the specified input channels.
+        /// Gets the trends of the specified channels.
         /// </summary>
         public abstract TrendBundle GetTrends(TimeRange timeRange, int[] cnlNums);
 
         /// <summary>
-        /// Gets the trend of the specified input channel.
+        /// Gets the trend of the specified channel.
         /// </summary>
         public abstract Trend GetTrend(TimeRange timeRange, int cnlNum);
 
@@ -77,12 +77,12 @@ namespace Scada.Server.Archives
         public abstract List<DateTime> GetTimestamps(TimeRange timeRange);
 
         /// <summary>
-        /// Gets the slice of the specified input channels at the timestamp.
+        /// Gets the slice of the specified channels at the timestamp.
         /// </summary>
         public abstract Slice GetSlice(DateTime timestamp, int[] cnlNums);
 
         /// <summary>
-        /// Gets the input channel data.
+        /// Gets the channel data.
         /// </summary>
         public abstract CnlData GetCnlData(DateTime timestamp, int cnlNum);
 
@@ -109,7 +109,7 @@ namespace Scada.Server.Archives
         public abstract void EndUpdate(DateTime timestamp, int deviceNum);
 
         /// <summary>
-        /// Writes the input channel data.
+        /// Writes the channel data.
         /// </summary>
         public abstract void WriteCnlData(DateTime timestamp, int cnlNum, CnlData cnlData);
     }

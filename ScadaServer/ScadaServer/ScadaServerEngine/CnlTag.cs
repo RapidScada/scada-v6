@@ -16,11 +16,11 @@
  * 
  * Product  : Rapid SCADA
  * Module   : ScadaServerEngine
- * Summary  : Represents metadata about an input channel
+ * Summary  :  Represents metadata about a channel
  * 
  * Author   : Mikhail Shiryaev
  * Created  : 2020
- * Modified : 2020
+ * Modified : 2021
  */
 
 using Scada.Data.Entities;
@@ -30,9 +30,13 @@ using System;
 namespace Scada.Server.Engine
 {
     /// <summary>
-    /// Represents metadata about an input channel.
-    /// <para>Представляет метаданные входного канала.</para>
+    /// Represents metadata about a channel.
+    /// <para>Представляет метаданные канала.</para>
     /// </summary>
+    /// <remarks>
+    /// Used for channels of the following types: Input, InputOutput, Calculated.
+    /// <para>Используется для каналов следующих типов: Input, InputOutput, Calculated.</para>
+    /// </remarks>
     internal class CnlTag
     {
         /// <summary>
@@ -42,7 +46,7 @@ namespace Scada.Server.Engine
         {
             Index = -1;
             CnlNum = 0;
-            InCnl = null;
+            Cnl = null;
             Lim = null;
             CalcEngine = null;
             CalcCnlDataFunc = null;
@@ -51,11 +55,11 @@ namespace Scada.Server.Engine
         /// <summary>
         /// Initializes a new instance of the class.
         /// </summary>
-        public CnlTag(int index, int cnlNum, InCnl inCnl, Lim lim)
+        public CnlTag(int index, int cnlNum, Cnl cnl, Lim lim)
         {
             Index = index;
             CnlNum = cnlNum;
-            InCnl = inCnl ?? throw new ArgumentNullException(nameof(inCnl));
+            Cnl = cnl ?? throw new ArgumentNullException(nameof(cnl));
             Lim = lim;
             LimCnlIndex = null;
             CalcEngine = null;
@@ -64,28 +68,28 @@ namespace Scada.Server.Engine
 
 
         /// <summary>
-        /// Gets the index among the active input channels.
+        /// Gets the index among the active channels for archiving.
         /// </summary>
         public int Index { get; }
 
         /// <summary>
-        /// Gets the actual input channel number. 
-        /// It differs from InCnl.CnlNum if the channel data length is greater than 1.
+        /// Gets the actual channel number. 
+        /// It differs from Cnl.CnlNum if the channel data length is greater than 1.
         /// </summary>
         public int CnlNum { get; }
 
         /// <summary>
-        /// Gets the input channel entity.
+        /// Gets the channel entity.
         /// </summary>
-        public InCnl InCnl { get; }
+        public Cnl Cnl { get; }
 
         /// <summary>
-        /// Gets the input channel limits.
+        /// Gets the channel limits.
         /// </summary>
         public Lim Lim { get; }
 
         /// <summary>
-        /// Gets or sets the input channel indexes that define limits of this channel.
+        /// Gets or sets the channel indexes that define limits of this channel.
         /// </summary>
         public LimCnlIndex LimCnlIndex { get; set; }
 

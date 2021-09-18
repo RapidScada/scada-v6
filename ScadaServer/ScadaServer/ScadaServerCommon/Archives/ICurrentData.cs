@@ -16,7 +16,7 @@
  * 
  * Product  : Rapid SCADA
  * Module   : ScadaServerCommon
- * Summary  : Defines functionality to access current data of the input channels
+ * Summary  : Defines functionality to access current channel data
  * 
  * Author   : Mikhail Shiryaev
  * Created  : 2020
@@ -29,8 +29,8 @@ using System;
 namespace Scada.Server.Archives
 {
     /// <summary>
-    /// Defines functionality to access current data of the input channels.
-    /// <para>Определяет функциональность для доступа к текущим данным входных каналов.</para>
+    /// Defines functionality to access current channel data.
+    /// <para>Определяет функциональность для доступа к текущим данным каналов.</para>
     /// </summary>
     public interface ICurrentData
     {
@@ -40,38 +40,38 @@ namespace Scada.Server.Archives
         DateTime Timestamp { get; }
 
         /// <summary>
-        /// Gets the input channel numbers.
+        /// Gets the channel numbers.
         /// </summary>
         int[] CnlNums { get; }
 
         /// <summary>
-        /// Gets the current data of the input channels.
+        /// Gets the current channel data.
         /// </summary>
         CnlData[] CnlData { get; }
 
         /// <summary>
-        /// Gets the previous data of the input channels.
+        /// Gets the previous channel data.
         /// </summary>
         CnlData[] PrevCnlData { get; }
 
         /// <summary>
-        /// Gets the current timestamps of the input channels.
+        /// Gets the current channel timestamps.
         /// </summary>
         DateTime[] Timestamps { get; }
 
         /// <summary>
-        /// Gets the previous timestamps of the input channels.
+        /// Gets the previous channel timestamps.
         /// </summary>
         DateTime[] PrevTimestamps { get; }
 
 
         /// <summary>
-        /// Gets the index of the specified input channel, or -1 if the channel not found.
+        /// Gets the index of the specified channel, or -1 if the channel not found.
         /// </summary>
         int GetCnlIndex(int cnlNum);
 
         /// <summary>
-        /// Creates a copy of the input channel data.
+        /// Creates a copy of the channel data.
         /// </summary>
         /// <remarks>Use this method to avoid blocking the current data instance in case of long processing.</remarks>
         CnlData[] CloneCnlData();

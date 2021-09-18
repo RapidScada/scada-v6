@@ -107,7 +107,7 @@ namespace Scada.Server.Engine
         }
 
         /// <summary>
-        /// Gets the trends of the specified input channels.
+        /// Gets the trends of the specified channels.
         /// </summary>
         protected void GetTrends(ConnectedClient client, DataPacket request)
         {
@@ -180,7 +180,7 @@ namespace Scada.Server.Engine
         }
 
         /// <summary>
-        /// Gets the slice of the specified input channels at the timestamp.
+        /// Gets the slice of the specified channels at the timestamp.
         /// </summary>
         protected void GetSlice(ConnectedClient client, DataPacket request, out ResponsePacket response)
         {
@@ -391,7 +391,7 @@ namespace Scada.Server.Engine
             TeleCommand command = new TeleCommand
             {
                 UserID = GetInt32(buffer, ref index),
-                OutCnlNum = GetInt32(buffer, ref index),
+                CnlNum = GetInt32(buffer, ref index),
                 CmdVal = GetDouble(buffer, ref index),
                 CmdData = GetByteArray(buffer, ref index)
             };
@@ -432,8 +432,7 @@ namespace Scada.Server.Engine
                 CopyInt64(command.CommandID, buffer, ref index);
                 CopyTime(command.CreationTime, buffer, ref index);
                 CopyInt32(command.UserID, buffer, ref index);
-                CopyInt32(command.OutCnlNum, buffer, ref index);
-                CopyInt32(command.CmdTypeID, buffer, ref index);
+                CopyInt32(command.CnlNum, buffer, ref index);
                 CopyInt32(command.ObjNum, buffer, ref index);
                 CopyInt32(command.DeviceNum, buffer, ref index);
                 CopyInt32(command.CmdNum, buffer, ref index);

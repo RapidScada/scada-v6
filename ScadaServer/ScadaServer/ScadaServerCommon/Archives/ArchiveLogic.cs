@@ -69,7 +69,7 @@ namespace Scada.Server.Archives
         protected ArchiveConfig ArchiveConfig { get; }
 
         /// <summary>
-        /// Gets the input channel numbers processed by the archive.
+        /// Gets the channel numbers processed by the archive.
         /// </summary>
         /// <remarks>Channel numbers are sorted and unique.</remarks>
         protected int[] CnlNums { get; }
@@ -193,7 +193,7 @@ namespace Scada.Server.Archives
         }
 
         /// <summary>
-        /// Gets the indexes of the input channels in the specified array.
+        /// Gets the channel indexes in the specified array.
         /// </summary>
         protected Dictionary<int, int> GetCnlIndexes(int[] cnlNums)
         {
@@ -209,7 +209,7 @@ namespace Scada.Server.Archives
         }
 
         /// <summary>
-        /// Initializes the indexes that map the archive input channels to all channels.
+        /// Initializes the indexes that map the archive channels to all channels.
         /// </summary>
         protected void InitCnlIndexes(ICurrentData curData, ref int[] cnlIndexes)
         {
@@ -226,7 +226,7 @@ namespace Scada.Server.Archives
         }
 
         /// <summary>
-        /// Copies the current data to the slice that contains the archive input channels.
+        /// Copies the current data to the slice that contains the archive channels.
         /// </summary>
         protected void CopyCnlData(ICurrentData curData, Slice slice, int[] cnlIndexes)
         {

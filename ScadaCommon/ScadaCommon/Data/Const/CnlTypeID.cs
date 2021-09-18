@@ -50,5 +50,22 @@ namespace Scada.Data.Const
         /// Channel values are calculated using a formula.
         /// </summary>
         public const int Calculated = 4;
+
+
+        /// <summary>
+        /// Determines whether the channel type relates to the input channel.
+        /// </summary>
+        public static bool IsInput(int cnlTypeID)
+        {
+            return cnlTypeID == Input || cnlTypeID == InputOutput;
+        }
+
+        /// <summary>
+        /// Determines whether the channel type relates to the output channel.
+        /// </summary>
+        public static bool IsOutput(int cnlTypeID)
+        {
+            return cnlTypeID == InputOutput || cnlTypeID == Output;
+        }
     }
 }

@@ -59,7 +59,7 @@ namespace Scada.Server.Modules
         BaseDataSet BaseDataSet { get; }
 
         /// <summary>
-        /// Gets the active input channel numbers.
+        /// Gets the active channel numbers for archiving.
         /// </summary>
         int[] CnlNums { get; }
 
@@ -70,27 +70,27 @@ namespace Scada.Server.Modules
 
 
         /// <summary>
-        /// Gets the current data of the input channel.
+        /// Gets the current data of the specified channel.
         /// </summary>
         CnlData GetCurrentData(int cnlNum);
 
         /// <summary>
-        /// Gets the current data of the input channels.
+        /// Gets the current data of the specified channels.
         /// </summary>
         CnlData[] GetCurrentData(int[] cnlNums, bool useCache, out long cnlListID);
 
         /// <summary>
-        /// Gets the current data of the cached input channel list.
+        /// Gets the current data of the cached channel list.
         /// </summary>
         CnlData[] GetCurrentData(long cnlListID);
 
         /// <summary>
-        /// Gets the trends of the specified input channels.
+        /// Gets the trends of the specified channels.
         /// </summary>
         TrendBundle GetTrends(int archiveBit, TimeRange timeRange, int[] cnlNums);
 
         /// <summary>
-        /// Gets the trend of the specified input channel.
+        /// Gets the trend of the specified channel.
         /// </summary>
         Trend GetTrend(int archiveBit, TimeRange timeRange, int cnlNum);
 
@@ -100,7 +100,7 @@ namespace Scada.Server.Modules
         List<DateTime> GetTimestamps(int archiveBit, TimeRange timeRange);
 
         /// <summary>
-        /// Gets the slice of the specified input channels at the timestamp.
+        /// Gets the slice of the specified channels at the timestamp.
         /// </summary>
         Slice GetSlice(int archiveBit, DateTime timestamp, int[] cnlNums);
 
@@ -115,12 +115,12 @@ namespace Scada.Server.Modules
         List<Event> GetEvents(int archiveBit, TimeRange timeRange, DataFilter filter);
 
         /// <summary>
-        /// Writes the current data of the input channel.
+        /// Writes the current data of the specified channel.
         /// </summary>
         void WriteCurrentData(int cnlNum, CnlData cnlData);
 
         /// <summary>
-        /// Writes the current data of the input channels.
+        /// Writes the current data of the specified channels.
         /// </summary>
         void WriteCurrentData(int[] cnlNums, CnlData[] cnlData, int deviceNum, bool applyFormulas);
 

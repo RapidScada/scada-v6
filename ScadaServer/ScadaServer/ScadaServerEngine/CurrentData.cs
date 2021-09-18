@@ -16,11 +16,11 @@
  * 
  * Product  : Rapid SCADA
  * Module   : ScadaServerEngine
- * Summary  : Represents current data of the input channels
+ * Summary  : Represents current channel data
  * 
  * Author   : Mikhail Shiryaev
  * Created  : 2020
- * Modified : 2020
+ * Modified : 2021
  */
 
 using Scada.Data.Models;
@@ -32,13 +32,13 @@ using System.Linq;
 namespace Scada.Server.Engine
 {
     /// <summary>
-    /// Represents current data of the input channels.
-    /// <para>Представляет текущие данные входных каналов.</para>
+    /// Represents current channel data.
+    /// <para>Представляет текущие данные каналов.</para>
     /// </summary>
     internal class CurrentData : ICurrentData, ICalcContext
     {
         private readonly ICnlDataChangeHandler cnlDataChangeHandler; // handles data changes
-        private readonly Dictionary<int, CnlTag> cnlTags;            // the metadata about the input channels
+        private readonly Dictionary<int, CnlTag> cnlTags;            // the channel tags for archiving
         private CnlData[] cnlDataCopy;                               // the copy of channel data
 
 
@@ -70,33 +70,33 @@ namespace Scada.Server.Engine
         public DateTime Timestamp { get; set; }
 
         /// <summary>
-        /// Gets the input channel numbers.
+        /// Gets the channel numbers for archiving.
         /// </summary>
         public int[] CnlNums { get; }
 
         /// <summary>
-        /// Gets the current data of the input channels.
+        /// Gets the current channel data.
         /// </summary>
         public CnlData[] CnlData { get; }
 
         /// <summary>
-        /// Gets the previous data of the input channels.
+        /// Gets the previous channel data.
         /// </summary>
         public CnlData[] PrevCnlData { get; }
 
         /// <summary>
-        /// Gets the current timestamps of the input channels.
+        /// Gets the current channel timestamps.
         /// </summary>
         public DateTime[] Timestamps { get; }
 
         /// <summary>
-        /// Gets the previous timestamps of the input channels.
+        /// Gets the previous channel timestamps.
         /// </summary>
         public DateTime[] PrevTimestamps { get; }
 
 
         /// <summary>
-        /// Sets the current input channel data.
+        /// Sets the current channel data.
         /// </summary>
         public void SetCurCnlData(CnlTag cnlTag, CnlData cnlData, DateTime nowDT)
         {
@@ -122,7 +122,7 @@ namespace Scada.Server.Engine
         }
 
         /// <summary>
-        /// Gets the index of the specified input channel, or -1 if the channel not found.
+        /// Gets the index of the specified channel, or -1 if the channel not found.
         /// </summary>
         int ICurrentData.GetCnlIndex(int cnlNum)
         {
@@ -130,7 +130,7 @@ namespace Scada.Server.Engine
         }
 
         /// <summary>
-        /// Creates a copy of the input channel data.
+        /// Creates a copy of the channel data.
         /// </summary>
         CnlData[] ICurrentData.CloneCnlData()
         {
@@ -140,7 +140,7 @@ namespace Scada.Server.Engine
         }
 
         /// <summary>
-        /// Gets the actual data of the input channel.
+        /// Gets the actual channel data.
         /// </summary>
         CnlData ICalcContext.GetCnlData(int cnlNum)
         {
@@ -150,7 +150,7 @@ namespace Scada.Server.Engine
         }
 
         /// <summary>
-        /// Gets the previous data of the input channel, if applicable.
+        /// Gets the previous channel data, if applicable.
         /// </summary>
         CnlData ICalcContext.GetPrevCnlData(int cnlNum)
         {
@@ -160,7 +160,7 @@ namespace Scada.Server.Engine
         }
 
         /// <summary>
-        /// Gets the actual timestamp of the input channel.
+        /// Gets the actual channel timestamp.
         /// </summary>
         DateTime ICalcContext.GetCnlTime(int cnlNum)
         {
@@ -170,7 +170,7 @@ namespace Scada.Server.Engine
         }
 
         /// <summary>
-        /// Gets the previous timestamp of the input channel, if applicable.
+        /// Gets the previous channel timestamp, if applicable.
         /// </summary>
         DateTime ICalcContext.GetPrevCnlTime(int cnlNum)
         {
@@ -180,7 +180,7 @@ namespace Scada.Server.Engine
         }
 
         /// <summary>
-        /// Sets the input channel data.
+        /// Sets the channel data.
         /// </summary>
         void ICalcContext.SetCnlData(int cnlNum, CnlData cnlData)
         {

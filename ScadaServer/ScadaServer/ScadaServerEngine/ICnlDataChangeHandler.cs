@@ -16,27 +16,26 @@
  * 
  * Product  : Rapid SCADA
  * Module   : ScadaServerEngine
- * Summary  : Defines functionality to handle input channel data changes
+ * Summary  : Defines functionality to handle channel data changes
  * 
  * Author   : Mikhail Shiryaev
  * Created  : 2020
- * Modified : 2020
+ * Modified : 2021
  */
 
-using Scada.Data.Entities;
 using Scada.Data.Models;
 using System;
 
 namespace Scada.Server.Engine
 {
     /// <summary>
-    /// Defines functionality to handle input channel data changes.
-    /// <para>Определяет функциональность для обработки изменений данных входных каналов.</para>
+    /// Defines functionality to handle channel data changes.
+    /// <para>Определяет функциональность для обработки изменений данных каналов.</para>
     /// </summary>
     internal interface ICnlDataChangeHandler
     {
         /// <summary>
-        /// Handles the changes of the current input channel data.
+        /// Handles the changes of the current channel data.
         /// </summary>
         void HandleCurDataChanged(CnlTag cnlTag, ref CnlData cnlData, CnlData prevCnlData, 
             DateTime timestamp, DateTime prevTimestamp);

@@ -20,7 +20,7 @@
  * 
  * Author   : Mikhail Shiryaev
  * Created  : 2020
- * Modified : 2020
+ * Modified : 2021
  */
 
 using Scada.Data.Entities;
@@ -30,25 +30,29 @@ namespace Scada.Server.Engine
 {
     /// <summary>
     /// Represents metadata about an output channel.
-    /// <para>Представляет метаданные канала управления.</para>
+    /// <para>Представляет метаданные выходного канала.</para>
     /// </summary>
+    /// <remarks>
+    /// Used for channels of the following types: InputOutput, Output.
+    /// <para>Используется для каналов следующих типов: InputOutput, Output.</para>
+    /// </remarks>
     internal class OutCnlTag
     {
         /// <summary>
         /// Initializes a new instance of the class.
         /// </summary>
-        public OutCnlTag(OutCnl outCnl)
+        public OutCnlTag(Cnl cnl)
         {
-            OutCnl = outCnl ?? throw new ArgumentNullException(nameof(outCnl));
+            Cnl = cnl ?? throw new ArgumentNullException(nameof(cnl));
             CalcEngine = null;
             CalcCmdDataFunc = null;
         }
 
 
         /// <summary>
-        /// Gets the output channel entity.
+        /// Gets the channel entity.
         /// </summary>
-        public OutCnl OutCnl { get; }
+        public Cnl Cnl { get; }
 
         /// <summary>
         /// Gets or sets the object that calculates command data.

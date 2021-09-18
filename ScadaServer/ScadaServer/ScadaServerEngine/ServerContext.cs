@@ -76,7 +76,7 @@ namespace Scada.Server.Engine
         public BaseDataSet BaseDataSet => coreLogic.BaseDataSet;
 
         /// <summary>
-        /// Gets the active input channel numbers.
+        /// Gets the active channel numbers for archiving.
         /// </summary>
         public int[] CnlNums => coreLogic.CnlNums;
 
@@ -87,7 +87,7 @@ namespace Scada.Server.Engine
 
 
         /// <summary>
-        /// Gets the current data of the input channel.
+        /// Gets the current data of the specified channel.
         /// </summary>
         public CnlData GetCurrentData(int cnlNum)
         {
@@ -95,7 +95,7 @@ namespace Scada.Server.Engine
         }
 
         /// <summary>
-        /// Gets the current data of the input channels.
+        /// Gets the current data of the specified channels.
         /// </summary>
         public CnlData[] GetCurrentData(int[] cnlNums, bool useCache, out long cnlListID)
         {
@@ -103,7 +103,7 @@ namespace Scada.Server.Engine
         }
 
         /// <summary>
-        /// Gets the current data of the cached input channel list.
+        /// Gets the current data of the cached channel list.
         /// </summary>
         public CnlData[] GetCurrentData(long cnlListID)
         {
@@ -111,7 +111,7 @@ namespace Scada.Server.Engine
         }
 
         /// <summary>
-        /// Gets the trends of the specified input channels.
+        /// Gets the trends of the specified channels.
         /// </summary>
         public TrendBundle GetTrends(int archiveBit, TimeRange timeRange, int[] cnlNums)
         {
@@ -119,7 +119,7 @@ namespace Scada.Server.Engine
         }
 
         /// <summary>
-        /// Gets the trend of the specified input channel.
+        /// Gets the trend of the specified channel.
         /// </summary>
         public Trend GetTrend(int archiveBit, TimeRange timeRange, int cnlNum)
         {
@@ -135,7 +135,7 @@ namespace Scada.Server.Engine
         }
 
         /// <summary>
-        /// Gets the slice of the specified input channels at the timestamp.
+        /// Gets the slice of the specified channels at the timestamp.
         /// </summary>
         public Slice GetSlice(int archiveBit, DateTime timestamp, int[] cnlNums)
         {
@@ -159,7 +159,7 @@ namespace Scada.Server.Engine
         }
 
         /// <summary>
-        /// Writes the current data of the input channel.
+        /// Writes the current data of the specified channel.
         /// </summary>
         public void WriteCurrentData(int cnlNum, CnlData cnlData)
         {
@@ -167,7 +167,7 @@ namespace Scada.Server.Engine
         }
 
         /// <summary>
-        /// Writes the current data of the input channels.
+        /// Writes the current data of the specified channels.
         /// </summary>
         public void WriteCurrentData(int[] cnlNums, CnlData[] cnlData, int deviceNum, bool applyFormulas)
         {
@@ -195,7 +195,7 @@ namespace Scada.Server.Engine
         /// </summary>
         public void SendCommand(TeleCommand command, out CommandResult commandResult)
         {
-            if (command.OutCnlNum > 0)
+            if (command.CnlNum > 0)
             {
                 // validate and send command
                 coreLogic.SendCommand(command, out commandResult);

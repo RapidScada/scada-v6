@@ -81,12 +81,10 @@ namespace Scada.Server.Engine
         /// <summary>
         /// Generates the source code to compile.
         /// </summary>
-        private string GenerateSourceCode(
-            BaseTable<InCnl> inCnlTable, BaseTable<OutCnl> outCnlTable, BaseTable<Script> scriptTable,
-            out Dictionary<int, string> inCnlClassNames, out Dictionary<int, string> outCnlClassNames)
+        private string GenerateSourceCode(BaseTable<Cnl> cnlTable, BaseTable<Script> scriptTable,
+            out Dictionary<int, string> cnlClassNames)
         {
-            inCnlClassNames = new Dictionary<int, string>();
-            outCnlClassNames = new Dictionary<int, string>();
+            cnlClassNames = new Dictionary<int, string>();
 
             StringBuilder sourceCode = new StringBuilder();
             sourceCode.AppendLine("using Scada.Data.Const;");
@@ -131,27 +129,26 @@ namespace Scada.Server.Engine
                 }
             }
 
-            // add formulas of input channels
-            foreach (InCnl inCnl in inCnlTable.EnumerateItems())
+            // add formulas
+            foreach (Cnl cnl in cnlTable.EnumerateItems())
             {
-                if (inCnl.FormulaEnabled && !string.IsNullOrEmpty(inCnl.Formula))
+                if (cnl.FormulaEnabled)
                 {
-                    AddNewClass();
-                    inCnlClassNames[inCnl.CnlNum] = className;
-                    AddInCnlMethod(sourceCode, inCnl.CnlNum, inCnl.Formula);
-                    cnlCnt++;
-                }
-            }
+                    bool inFormulaExists = !string.IsNullOrEmpty(cnl.InFormula);
+                    bool outFormulaExists = !string.IsNullOrEmpty(cnl.OutFormula);
 
-            // add formulas of output channels
-            foreach (OutCnl outCnl in outCnlTable.EnumerateItems())
-            {
-                if (outCnl.FormulaEnabled && !string.IsNullOrEmpty(outCnl.Formula))
-                {
-                    AddNewClass();
-                    outCnlClassNames[outCnl.OutCnlNum] = className;
-                    AddOutCnlMethod(sourceCode, outCnl.OutCnlNum, outCnl.Formula);
-                    cnlCnt++;
+                    if (inFormulaExists || outFormulaExists)
+                    {
+                        AddNewClass();
+                        cnlClassNames[cnl.CnlNum] = className;
+                        cnlCnt++;
+
+                        if (inFormulaExists)
+                            AddInFormulaMethod(sourceCode, cnl.CnlNum, cnl.InFormula);
+
+                        if (outFormulaExists)
+                            AddOutFormulaMethod(sourceCode, cnl.CnlNum, cnl.OutFormula);
+                    }
                 }
             }
 
@@ -165,9 +162,9 @@ namespace Scada.Server.Engine
         }
 
         /// <summary>
-        /// Adds a class method according to the input channel formula.
+        /// Adds a class method according to the input formula.
         /// </summary>
-        private void AddInCnlMethod(StringBuilder sourceCode, int cnlNum, string formula)
+        private void AddInFormulaMethod(StringBuilder sourceCode, int cnlNum, string formula)
         {
             sourceCode.Append("public CnlData CalcCnlData").Append(cnlNum).Append("() ");
             int semicolonIndex = formula.IndexOf(';');
@@ -200,13 +197,13 @@ namespace Scada.Server.Engine
         }
 
         /// <summary>
-        /// Adds a class method according to the output channel formula.
+        /// Adds a class method according to the output formula.
         /// </summary>
-        private void AddOutCnlMethod(StringBuilder sourceCode, int outCnlNum, string formula)
+        private void AddOutFormulaMethod(StringBuilder sourceCode, int cnlNum, string formula)
         {
             sourceCode
                 .Append("public object CalcCmdData")
-                .Append(outCnlNum)
+                .Append(cnlNum)
                 .Append("() { return ")
                 .Append(formula.Trim())
                 .AppendLine("; }");
@@ -264,8 +261,8 @@ namespace Scada.Server.Engine
         /// Retrieve methods for getting channel data from the assembly.
         /// </summary>
         private void RetrieveMethods(Assembly assembly, 
-            Dictionary<int, CnlTag> cnlTags, Dictionary<int, OutCnlTag> outCnlTags,
-            Dictionary<int, string> inCnlClassNames, Dictionary<int, string> outCnlClassNames)
+            Dictionary<int, CnlTag> cnlTags, Dictionary<int, OutCnlTag> outCnlTags, 
+            Dictionary<int, string> cnlClassNames)
         {
             Dictionary<string, CalcEngine> calcEngineMap = new Dictionary<string, CalcEngine>();
             calcEngines = new List<CalcEngine>();
@@ -283,27 +280,27 @@ namespace Scada.Server.Engine
                 return calcEngine;
             }
 
-            // input channel tags
+            // channel tags for archiving
             foreach (CnlTag cnlTag in cnlTags.Values)
             {
-                if (inCnlClassNames.TryGetValue(cnlTag.InCnl.CnlNum, out string className))
+                if (cnlClassNames.TryGetValue(cnlTag.Cnl.CnlNum, out string className))
                 {
                     CalcEngine calcEngine = GetCalcEngine(className);
                     cnlTag.CalcEngine = calcEngine;
                     cnlTag.CalcCnlDataFunc = (Func<CnlData>)Delegate.CreateDelegate(
-                        typeof(Func<CnlData>), calcEngine, "CalcCnlData" + cnlTag.InCnl.CnlNum, false, true);
+                        typeof(Func<CnlData>), calcEngine, "CalcCnlData" + cnlTag.Cnl.CnlNum, false, true);
                 }
             }
 
-            // output channel tags
+            // channel tags for sending commands
             foreach (OutCnlTag outCnlTag in outCnlTags.Values)
             {
-                if (outCnlClassNames.TryGetValue(outCnlTag.OutCnl.OutCnlNum, out string className))
+                if (cnlClassNames.TryGetValue(outCnlTag.Cnl.CnlNum, out string className))
                 {
                     CalcEngine calcEngine = GetCalcEngine(className);
                     outCnlTag.CalcEngine = calcEngine;
                     outCnlTag.CalcCmdDataFunc = (Func<object>)Delegate.CreateDelegate(
-                        typeof(Func<object>), calcEngine, "CalcCmdData" + outCnlTag.OutCnl.OutCnlNum, false, true);
+                        typeof(Func<object>), calcEngine, "CalcCmdData" + outCnlTag.Cnl.CnlNum, false, true);
                 }
             }
         }
@@ -327,9 +324,8 @@ namespace Scada.Server.Engine
                     "Компиляция исходного кода скриптов и формул" :
                     "Compile the source code of scripts and formulas");
 
-                string sourceCode = GenerateSourceCode(
-                    baseDataSet.InCnlTable, baseDataSet.OutCnlTable, baseDataSet.ScriptTable,
-                    out Dictionary<int, string> inCnlClassNames, out Dictionary<int, string> outCnlClassNames);
+                string sourceCode = GenerateSourceCode(baseDataSet.CnlTable, baseDataSet.ScriptTable, 
+                    out Dictionary<int, string> cnlClassNames);
                 SaveSourceCode(sourceCode, out string sourceCodeFileName);
                 Compilation compilation = PrepareCompilation(sourceCode);
 
@@ -340,7 +336,7 @@ namespace Scada.Server.Engine
                     if (result.Success)
                     {
                         Assembly assembly = Assembly.Load(memoryStream.ToArray());
-                        RetrieveMethods(assembly, cnlTags, outCnlTags, inCnlClassNames, outCnlClassNames);
+                        RetrieveMethods(assembly, cnlTags, outCnlTags, cnlClassNames);
 
                         log.WriteAction(Locale.IsRussian ?
                             "Исходный код скриптов и формул скомпилирован успешно" :
@@ -463,7 +459,7 @@ namespace Scada.Server.Engine
         }
 
         /// <summary>
-        /// Calculates the input channel data.
+        /// Calculates the channel data.
         /// </summary>
         public CnlData CalcCnlData(CnlTag cnlTag, CnlData initialCnlData)
         {
@@ -471,7 +467,7 @@ namespace Scada.Server.Engine
             {
                 try
                 {
-                    cnlTag.CalcEngine.BeginCalcCnlData(cnlTag.CnlNum, cnlTag.InCnl, initialCnlData);
+                    cnlTag.CalcEngine.BeginCalcCnlData(cnlTag.CnlNum, cnlTag.Cnl, initialCnlData);
                     return cnlTag.CalcCnlDataFunc();
                 }
                 catch
@@ -499,8 +495,8 @@ namespace Scada.Server.Engine
             {
                 try
                 {
-                    outCnlTag.CalcEngine.BeginCalcCmdData(outCnlTag.OutCnl.OutCnlNum, 
-                        outCnlTag.OutCnl, initialCmdVal, initialCmdData);
+                    outCnlTag.CalcEngine.BeginCalcCmdData(outCnlTag.Cnl.CnlNum, outCnlTag.Cnl, 
+                        initialCmdVal, initialCmdData);
                     object result = outCnlTag.CalcCmdDataFunc();
                     cmdVal = double.NaN;
                     cmdData = null;

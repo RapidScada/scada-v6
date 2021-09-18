@@ -16,18 +16,18 @@
  * 
  * Product  : Rapid SCADA
  * Module   : ScadaServerEngine
- * Summary  : Represents indexes of input channels that define limits of another channel
+ * Summary  : Represents channel indexes that define limits of another channel
  * 
  * Author   : Mikhail Shiryaev
  * Created  : 2020
- * Modified : 2020
+ * Modified : 2021
  */
 
 namespace Scada.Server.Engine
 {
     /// <summary>
-    /// Represents indexes of input channels that define limits of another channel.
-    /// <para>Представляет индексы входных каналов, которые определяют границы другого канала.</para>
+    /// Represents channel indexes that define limits of another channel.
+    /// <para>Представляет индексы каналов, которые определяют границы другого канала.</para>
     /// </summary>
     internal class LimCnlIndex
     {
