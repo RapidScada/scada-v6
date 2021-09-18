@@ -6,18 +6,18 @@ using Scada.Data.Models;
 namespace Scada.Web.Plugins.PlgMain.Models
 {
     /// <summary>
-    /// Represents a record containing current data of an input channel.
-    /// <para>Представляет запись, содержащую текущие данные входного канала.</para>
+    /// Represents a record containing current channel data.
+    /// <para>Представляет запись, содержащую текущие данные канала.</para>
     /// </summary>
     public struct CurDataRecord
     {
         /// <summary>
-        /// Gets or sets the numeric input channel data.
+        /// Gets or sets the numeric channel data.
         /// </summary>
         public CurDataPoint D { get; set; }
 
         /// <summary>
-        /// Gets or sets the formatted input channel data.
+        /// Gets or sets the formatted channel data.
         /// </summary>
         public CnlDataFormatted Df { get; set; }
     }

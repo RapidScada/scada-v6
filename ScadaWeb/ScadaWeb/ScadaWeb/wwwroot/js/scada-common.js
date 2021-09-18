@@ -214,7 +214,7 @@ class BaseCommandFeature {
 
     // Shows a command dialog.
     // opt_callback is a function (result), where result can be true or false.
-    show(outCnlNum, opt_callback) {
+    show(cnlNum, opt_callback) {
         alert(ScadaUtils.isRussian(appEnv.locale) ?
             "Ни один плагин не реализует функцию команд." :
             "No plugin implements the command feature.");

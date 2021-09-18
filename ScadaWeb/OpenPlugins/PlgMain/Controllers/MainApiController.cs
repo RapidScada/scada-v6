@@ -64,12 +64,12 @@ namespace Scada.Web.Plugins.PlgMain.Controllers
 
             foreach (int cnlNum in cnlNums)
             {
-                InCnl inCnl = webContext.BaseDataSet.InCnlTable.GetItem(cnlNum);
+                Cnl cnl = webContext.BaseDataSet.CnlTable.GetItem(cnlNum);
 
-                if (inCnl == null || inCnl.ObjNum == null)
+                if (cnl == null || cnl.ObjNum == null)
                     throw new AccessDeniedException(); // no rights on undefined channel or object
 
-                if (!userContext.Rights.GetRightByObj(inCnl.ObjNum.Value).View)
+                if (!userContext.Rights.GetRightByObj(cnl.ObjNum.Value).View)
                     throw new AccessDeniedException();
             }
         }
@@ -151,7 +151,6 @@ namespace Scada.Web.Plugins.PlgMain.Controllers
             DataFilter dataFilter = GetEventFilter(limit);
             dataFilter.RequireAll = false;
             dataFilter.AddCondition("CnlNum", FilterOperator.In, view.CnlNumList);
-            dataFilter.AddCondition("OutCnlNum", FilterOperator.In, view.OutCnlNumList);
             return dataFilter;
         }
 
@@ -233,7 +232,7 @@ namespace Scada.Web.Plugins.PlgMain.Controllers
                 for (int cnlIdx = 0; cnlIdx < cnlCnt; cnlIdx++)
                 {
                     int cnlNum = cnlNums[cnlIdx];
-                    InCnl inCnl = webContext.BaseDataSet.InCnlTable.GetItem(cnlNum);
+                    Cnl cnl = webContext.BaseDataSet.CnlTable.GetItem(cnlNum);
                     HistData.RecordList records = trends[cnlIdx] = new(pointCount);
                     TrendBundle.CnlDataList cnlDataList = trendBundle.Trends[cnlIdx];
 
@@ -243,7 +242,7 @@ namespace Scada.Web.Plugins.PlgMain.Controllers
                         records.Add(new HistDataRecord
                         {
                             D = cnlData,
-                            Df = formatter.FormatCnlData(cnlData, inCnl)
+                            Df = formatter.FormatCnlData(cnlData, cnl)
                         });
                     }
                 }

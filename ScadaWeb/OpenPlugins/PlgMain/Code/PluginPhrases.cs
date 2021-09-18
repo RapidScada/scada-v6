@@ -17,8 +17,7 @@ namespace Scada.Web.Plugins.PlgMain.Code
         public static string MinusOneDay { get; private set; }
         public static string ItemColumn { get; private set; }
         public static string CurrentColumn { get; private set; }
-        public static string InCnlTip { get; private set; }
-        public static string OutCnlTip { get; private set; }
+        public static string CnlTip { get; private set; }
         public static string DeviceTip { get; private set; }
         public static string ObjTip { get; private set; }
         public static string QuantityTip { get; private set; }
@@ -36,8 +35,7 @@ namespace Scada.Web.Plugins.PlgMain.Code
             MinusOneDay = dict["MinusOneDay"];
             ItemColumn = dict["ItemColumn"];
             CurrentColumn = dict["CurrentColumn"];
-            InCnlTip = dict["InCnlTip"];
-            OutCnlTip = dict["OutCnlTip"];
+            CnlTip = dict["CnlTip"];
             DeviceTip = dict["DeviceTip"];
             ObjTip = dict["ObjTip"];
             QuantityTip = dict["QuantityTip"];

@@ -55,7 +55,6 @@ namespace Scada.Web.Plugins.PlgMain
 
                 Items.Add(item);
                 AddCnlNum(item.CnlNum);
-                AddOutCnlNum(item.OutCnlNum);
 
                 if (!item.Hidden)
                     VisibleItems.Add(item);
@@ -80,11 +79,8 @@ namespace Scada.Web.Plugins.PlgMain
         {
             foreach (TableItem item in Items)
             {
-                if (item.CnlNum > 0 && baseDataSet.InCnlTable.GetItem(item.CnlNum) is InCnl inCnl)
-                    item.InCnl = inCnl;
-
-                if (item.OutCnlNum > 0 && baseDataSet.OutCnlTable.GetItem(item.OutCnlNum) is OutCnl outCnl)
-                    item.OutCnl = outCnl;
+                if (item.CnlNum > 0 && baseDataSet.CnlTable.GetItem(item.CnlNum) is Cnl cnl)
+                    item.Cnl = cnl;
             }
         }
 
@@ -114,7 +110,7 @@ namespace Scada.Web.Plugins.PlgMain
         {
             try
             {
-                XmlDocument xmlDoc = new XmlDocument();
+                XmlDocument xmlDoc = new();
                 XmlDeclaration xmlDecl = xmlDoc.CreateXmlDeclaration("1.0", "utf-8", null);
                 xmlDoc.AppendChild(xmlDecl);
 

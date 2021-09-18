@@ -84,14 +84,14 @@ namespace Scada.Web.Plugins.PlgChart.Areas.Chart.Pages
                     TimeZone = userContext.TimeZone
                 });
 
-            chartDataBuilder.FillInCnls();
+            chartDataBuilder.FillCnls();
             chartDataBuilder.FillData();
 
             // get chart title and status
             dynamic dict = Locale.GetDictionary("Scada.Web.Plugins.PlgChart.Areas.Chart.Pages.Chart");
             ViewData["Title"] = string.Format(dict.Title, cnlNum);
             string chartTitle = string.Format("[{0}] {1}, {2}", cnlNum, 
-                webContext.BaseDataSet.InCnlTable.GetItem(cnlNum)?.Name,
+                webContext.BaseDataSet.CnlTable.GetItem(cnlNum)?.Name,
                 userContext.ConvertTimeFromUtc(utcStartDate).ToLocalizedDateString());
             string chartStatus = dict.Generated + userContext.ConvertTimeFromUtc(DateTime.UtcNow).ToLocalizedString();
 

@@ -19,23 +19,16 @@ namespace Scada.Web.Plugins.PlgMain
         public TableItem()
         {
             CnlNum = 0;
-            OutCnlNum = 0;
             Text = "";
             Hidden = false;
-            InCnl = null;
-            OutCnl = null;
+            Cnl = null;
         }
 
 
         /// <summary>
-        /// Gets or sets the input channel number.
+        /// Gets or sets the channel number.
         /// </summary>
         public int CnlNum { get; set; }
-
-        /// <summary>
-        /// Gets or sets the output channel number.
-        /// </summary>
-        public int OutCnlNum { get; set; }
 
         /// <summary>
         /// Gets or sets the displayed text.
@@ -48,14 +41,9 @@ namespace Scada.Web.Plugins.PlgMain
         public bool Hidden { get; set; }
 
         /// <summary>
-        /// Gets or sets the input channel properties.
+        /// Gets or sets the channel properties.
         /// </summary>
-        public InCnl InCnl { get; set; }
-
-        /// <summary>
-        /// Gets or sets the output channel properties.
-        /// </summary>
-        public OutCnl OutCnl { get; set; }
+        public Cnl Cnl { get; set; }
 
 
         /// <summary>
@@ -67,13 +55,8 @@ namespace Scada.Web.Plugins.PlgMain
                 throw new ArgumentNullException(nameof(xmlElem));
 
             CnlNum = xmlElem.GetAttrAsInt("cnlNum");
-            OutCnlNum = xmlElem.GetAttrAsInt("outCnlNum");
             Text = xmlElem.InnerText;
             Hidden = xmlElem.GetAttrAsBool("hidden");
-
-            // old format
-            if (OutCnlNum == 0)
-                OutCnlNum = xmlElem.GetAttrAsInt("ctrlCnlNum");
         }
 
         /// <summary>
@@ -85,7 +68,6 @@ namespace Scada.Web.Plugins.PlgMain
                 throw new ArgumentNullException(nameof(xmlElem));
 
             xmlElem.SetAttribute("cnlNum", CnlNum);
-            xmlElem.SetAttribute("outCnlNum", OutCnlNum);
             xmlElem.InnerText = Text;
             xmlElem.SetAttribute("hidden", Hidden);
         }

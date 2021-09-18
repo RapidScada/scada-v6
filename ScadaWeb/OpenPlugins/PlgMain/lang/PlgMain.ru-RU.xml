@@ -2,10 +2,10 @@
 <PlgMainDictionaries>
   <Dictionary key="Scada.Web.Plugins.PlgMain.Areas.Main.Pages.Command">
     <Phrase key="PageTitle">Команда</Phrase>
-    <Phrase key="OutCnlNotFound">Канал управления {0} не найден.</Phrase>
+    <Phrase key="OutCnlNotFound">Канал {0} не найден среди выходных каналов.</Phrase>
     <Phrase key="CommandSent">Команда отправлена.</Phrase>
     <Phrase key="CmdParseError">Ошибка при разборе команды</Phrase>
-    <Phrase key="OutCnlRow">Канал упр.:</Phrase>
+    <Phrase key="CnlRow">Канал:</Phrase>
     <Phrase key="ObjRow">Объект:</Phrase>
     <Phrase key="DevRow">КП:</Phrase>
     <Phrase key="lblPassword">Пароль</Phrase>
@@ -56,8 +56,7 @@
     <Phrase key="MinusOneDay">-1д</Phrase>
     <Phrase key="ItemColumn">Элемент</Phrase>
     <Phrase key="CurrentColumn">Текущие</Phrase>
-    <Phrase key="InCnlTip">Вх. канал</Phrase>
-    <Phrase key="OutCnlTip">Канал упр.</Phrase>
+    <Phrase key="CnlTip">Канал</Phrase>
     <Phrase key="DeviceTip">КП</Phrase>
     <Phrase key="ObjTip">Объект</Phrase>
     <Phrase key="QuantityTip">Величина</Phrase>

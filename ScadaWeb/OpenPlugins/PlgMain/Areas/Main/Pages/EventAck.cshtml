@@ -27,14 +27,10 @@
 
 @if (Model.Event != null && Model.EventF != null)
 {
-    var obj = Model.Event.ObjNum > 0 ? "[" + Model.Event.ObjNum + "] " + Model.EventF.Obj : "";
-    var dev = Model.Event.DeviceNum > 0 ? "[" + Model.Event.DeviceNum + "] " + Model.EventF.Dev : "";
-    var cnl = "";
-
-    if (Model.Event.CnlNum > 0)
-        cnl = "[" + Model.Event.CnlNum + "] " + Model.EventF.Cnl;
-    else if (Model.Event.OutCnlNum > 0)
-        cnl = "[" + Model.Event.OutCnlNum + "] " + Model.EventF.Cnl;
+    const string NameFormat = "[{0}] {1}";
+    var obj = Model.Event.ObjNum > 0 ? string.Format(NameFormat, Model.Event.ObjNum, Model.EventF.Obj) : "";
+    var dev = Model.Event.DeviceNum > 0 ? string.Format(NameFormat, Model.Event.DeviceNum, Model.EventF.Dev) : "";
+    var cnl = Model.Event.CnlNum > 0 ? string.Format(NameFormat, Model.Event.CnlNum, Model.EventF.Cnl) : "";
 
     var sevIcon = new HtmlString(Severity.Closest(Model.Event.Severity) switch
     {

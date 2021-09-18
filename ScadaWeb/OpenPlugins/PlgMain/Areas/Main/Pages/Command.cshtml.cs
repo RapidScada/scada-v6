@@ -3,6 +3,7 @@
 
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
+using Scada.Data.Const;
 using Scada.Data.Entities;
 using Scada.Data.Models;
 using Scada.Lang;
@@ -42,7 +43,7 @@ namespace Scada.Web.Plugins.PlgMain.Areas.Main.Pages
 
         public bool HasError { get; private set; } = false;
         public string Message { get; private set; } = "";
-        public OutCnl OutCnl { get; private set; } = null;
+        public Cnl Cnl { get; private set; } = null;
         public Obj Obj { get; private set; } = null;
         public Device Device { get; private set; } = null;
         public Format Format { get; private set; } = null;
@@ -68,21 +69,21 @@ namespace Scada.Web.Plugins.PlgMain.Areas.Main.Pages
         public string CmdDataFormat { get; set; }
 
 
-        private OutCnl GetOutCnl(int outCnlNum, out Right right)
+        private Cnl GetCnl(int cnlNum, out Right right)
         {
-            OutCnl outCnl = webContext.BaseDataSet.OutCnlTable.GetItem(outCnlNum);
+            Cnl cnl = webContext.BaseDataSet.CnlTable.GetItem(cnlNum);
 
-            if (outCnl == null)
+            if (cnl == null || !CnlTypeID.IsOutput(cnl.CnlTypeID))
             {
                 HasError = true;
-                Message = string.Format(dict.OutCnlNotFound, outCnlNum);
+                Message = string.Format(dict.OutCnlNotFound, cnl);
                 right = Right.Empty;
                 return null;
             }
             else
             {
-                right = userContext.Rights.GetRightByObj(outCnl.ObjNum ?? 0);
-                return outCnl;
+                right = userContext.Rights.GetRightByObj(cnl.ObjNum ?? 0);
+                return cnl;
             }
         }
 
@@ -111,12 +112,12 @@ namespace Scada.Web.Plugins.PlgMain.Areas.Main.Pages
             }
         }
 
-        private bool CreateCommand(int outCnlNum, out TeleCommand command)
+        private bool CreateCommand(int cnlNum, out TeleCommand command)
         {
             command = new()
             {
                 UserID = User.GetUserID(),
-                OutCnlNum = outCnlNum,
+                CnlNum = cnlNum,
             };
 
             try
@@ -166,7 +167,7 @@ namespace Scada.Web.Plugins.PlgMain.Areas.Main.Pages
                 {
                     Message = dict.CommandSent;
                     CloseModal = true;
-                    OutCnl = null; // hide fields
+                    Cnl = null; // hide fields
                 }
                 else
                 {
@@ -182,25 +183,25 @@ namespace Scada.Web.Plugins.PlgMain.Areas.Main.Pages
             }
         }
 
-        private IActionResult OnLoad(int outCnlNum, bool isPostback)
+        private IActionResult OnLoad(int cnlNum, bool isPostback)
         {
-            OutCnl = GetOutCnl(outCnlNum, out Right right);
+            Cnl = GetCnl(cnlNum, out Right right);
 
-            if (OutCnl == null)
+            if (Cnl == null)
                 return Page();
 
             if (!right.Control)
                 return Forbid();
 
-            if (OutCnl.ObjNum != null)
-                Obj = webContext.BaseDataSet.ObjTable.GetItem(OutCnl.ObjNum.Value);
+            if (Cnl.ObjNum != null)
+                Obj = webContext.BaseDataSet.ObjTable.GetItem(Cnl.ObjNum.Value);
 
-            if (OutCnl.DeviceNum != null)
-                Device = webContext.BaseDataSet.DeviceTable.GetItem(OutCnl.DeviceNum.Value);
+            if (Cnl.DeviceNum != null)
+                Device = webContext.BaseDataSet.DeviceTable.GetItem(Cnl.DeviceNum.Value);
 
-            if (OutCnl.FormatID != null)
+            if (Cnl.FormatID != null)
             {
-                Format = webContext.BaseDataSet.FormatTable.GetItem(OutCnl.FormatID.Value);
+                Format = webContext.BaseDataSet.FormatTable.GetItem(Cnl.FormatID.Value);
 
                 if (Format != null)
                 {
@@ -228,7 +229,7 @@ namespace Scada.Web.Plugins.PlgMain.Areas.Main.Pages
             // validate and send command
             if (isPostback &&
                 CheckPassword() &&
-                CreateCommand(outCnlNum, out TeleCommand command))
+                CreateCommand(cnlNum, out TeleCommand command))
             {
                 SendCommand(command);
             }
@@ -236,14 +237,14 @@ namespace Scada.Web.Plugins.PlgMain.Areas.Main.Pages
             return Page();
         }
 
-        public IActionResult OnGet(int outCnlNum)
+        public IActionResult OnGet(int cnlNum)
         {
-            return OnLoad(outCnlNum, false);
+            return OnLoad(cnlNum, false);
         }
 
-        public IActionResult OnPost(int outCnlNum)
+        public IActionResult OnPost(int cnlNum)
         {
-            return OnLoad(outCnlNum, true);
+            return OnLoad(cnlNum, true);
         }
     }
 }

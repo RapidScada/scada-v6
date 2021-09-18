@@ -24,7 +24,7 @@ namespace Scada.Web.Plugins.PlgChart
         public class Options
         {
             /// <summary>
-            /// Gets or sets the input channel numbers.
+            /// Gets or sets the channel numbers.
             /// </summary>
             public int[] CnlNums { get; set; }
 
@@ -59,9 +59,9 @@ namespace Scada.Web.Plugins.PlgChart
         private readonly BaseDataSet baseDataSet;    // the configuration database
         private readonly ScadaClient scadaClient;    // interacts with the server
         private readonly Options options;            // the builder options
-        private readonly CnlDataFormatter formatter; // formats input channel data
+        private readonly CnlDataFormatter formatter; // formats channel data
 
-        protected InCnl[] inCnls;          // the input channels of the chart
+        protected Cnl[] cnls;              // the channels of the chart
         protected Trend singleTrend;       // the chart data if only one channel is used in the chart
         protected TrendBundle trendBundle; // the chart data of many channels
 
@@ -77,21 +77,21 @@ namespace Scada.Web.Plugins.PlgChart
             options.Validate();
             formatter = new CnlDataFormatter(baseDataSet);
 
-            inCnls = Array.Empty<InCnl>();
+            cnls = Array.Empty<Cnl>();
             singleTrend = null;
             trendBundle = null;
         }
 
 
         /// <summary>
-        /// Gets the quantity name and unit of the input channel.
+        /// Gets the quantity name and unit of the specified channel.
         /// </summary>
-        private string GetQuantityName(InCnl inCnl)
+        private string GetQuantityName(Cnl cnl)
         {
-            string quantityName = inCnl.QuantityID == null ? 
-                null : baseDataSet.QuantityTable.GetItem(inCnl.QuantityID.Value)?.Name;
-            string unitName = inCnl.UnitID == null ?
-                null : baseDataSet.UnitTable.GetItem(inCnl.UnitID.Value)?.Name;
+            string quantityName = cnl.QuantityID == null ? 
+                null : baseDataSet.QuantityTable.GetItem(cnl.QuantityID.Value)?.Name;
+            string unitName = cnl.UnitID == null ?
+                null : baseDataSet.UnitTable.GetItem(cnl.UnitID.Value)?.Name;
 
             return string.IsNullOrEmpty(quantityName) || string.IsNullOrEmpty(unitName)
                 ? quantityName + unitName
@@ -99,30 +99,30 @@ namespace Scada.Web.Plugins.PlgChart
         }
 
         /// <summary>
-        /// Gets the unit name (with leading space) of the input channel.
+        /// Gets the unit name (with leading space) of the specified channel.
         /// </summary>
-        private string GetUnitName(InCnl inCnl)
+        private string GetUnitName(Cnl cnl)
         {
-            Unit unit = inCnl.UnitID == null ? null : baseDataSet.UnitTable.GetItem(inCnl.UnitID.Value);
+            Unit unit = cnl.UnitID == null ? null : baseDataSet.UnitTable.GetItem(cnl.UnitID.Value);
             return unit == null || string.IsNullOrEmpty(unit.Name) ? "" : " " + unit.Name;
         }
 
         /// <summary>
         /// Gets the single trend points as JavaScript.
         /// </summary>
-        private string GetTrendPointsJs(Trend trend, InCnl inCnl)
+        private string GetTrendPointsJs(Trend trend, Cnl cnl)
         {
             StringBuilder sbTrendPoints = new();
             sbTrendPoints.Append('[');
 
             if (trend != null)
             {
-                string unitName = GetUnitName(inCnl);
+                string unitName = GetUnitName(cnl);
 
                 foreach (TrendPoint point in trend.Points)
                 {
                     sbTrendPoints
-                        .Append(TrendPointToJs(new CnlData(point.Val, point.Stat), inCnl, unitName))
+                        .Append(TrendPointToJs(new CnlData(point.Val, point.Stat), cnl, unitName))
                         .Append(", ");
                 }
             }
@@ -141,13 +141,13 @@ namespace Scada.Web.Plugins.PlgChart
 
             if (trendBundle != null)
             {
-                InCnl inCnl = inCnls[trendInd];
-                string unitName = GetUnitName(inCnl);
+                Cnl cnl = cnls[trendInd];
+                string unitName = GetUnitName(cnl);
 
                 foreach (CnlData cnlData in trendBundle.Trends[trendInd])
                 {
                     sbTrendPoints
-                        .Append(TrendPointToJs(cnlData, inCnl, unitName))
+                        .Append(TrendPointToJs(cnlData, cnl, unitName))
                         .Append(", ");
                 }
             }
@@ -159,11 +159,11 @@ namespace Scada.Web.Plugins.PlgChart
         /// <summary>
         /// Converts the trend point to JavaScript.
         /// </summary>
-        private string TrendPointToJs(CnlData cnlData, InCnl inCnl, string unitName)
+        private string TrendPointToJs(CnlData cnlData, Cnl cnl, string unitName)
         {
             // HttpUtility.JavaScriptStringEncode() is skipped for performance
             double chartVal = cnlData.Stat > 0 ? cnlData.Val : double.NaN;
-            CnlDataFormatted cnlDataFormatted = formatter.FormatCnlData(cnlData, inCnl);
+            CnlDataFormatted cnlDataFormatted = formatter.FormatCnlData(cnlData, cnl);
 
             return (new StringBuilder("[")
                 .Append(double.IsNaN(chartVal) ? "NaN" : chartVal.ToString(CultureInfo.InvariantCulture))
@@ -229,17 +229,17 @@ namespace Scada.Web.Plugins.PlgChart
 
 
         /// <summary>
-        /// Fills the input channel array.
+        /// Fills the channel array.
         /// </summary>
-        public void FillInCnls()
+        public void FillCnls()
         {
             int cnlCnt = options.CnlNums.Length;
-            inCnls = new InCnl[cnlCnt];
+            cnls = new Cnl[cnlCnt];
 
             for (int i = 0; i < cnlCnt; i++)
             {
                 int cnlNum = options.CnlNums[i];
-                inCnls[i] = baseDataSet.InCnlTable.GetItem(cnlNum) ?? new InCnl() { CnlNum = cnlNum };
+                cnls[i] = baseDataSet.CnlTable.GetItem(cnlNum) ?? new Cnl { CnlNum = cnlNum };
             }
         }
 
@@ -283,22 +283,22 @@ namespace Scada.Web.Plugins.PlgChart
             StringBuilder sbTrends = new("[");
             bool isSingle = singleTrend != null;
 
-            for (int i = 0, cnlCnt = inCnls.Length; i < cnlCnt; i++)
+            for (int i = 0, cnlCnt = cnls.Length; i < cnlCnt; i++)
             {
                 string trendName = "trend" + i;
-                InCnl inCnl = inCnls[i];
+                Cnl cnl = cnls[i];
                 sbTrends.Append(trendName).Append(", ");
 
                 stringBuilder
                     .Append("var ").Append(trendName).AppendLine(" = new scada.chart.Trend();")
-                    .Append(trendName).AppendFormat(".cnlNum = {0};", inCnl.CnlNum).AppendLine()
+                    .Append(trendName).AppendFormat(".cnlNum = {0};", cnl.CnlNum).AppendLine()
                     .Append(trendName).AppendFormat(".cnlName = '{0}';",
-                        HttpUtility.JavaScriptStringEncode(inCnl.Name)).AppendLine()
-                    .Append(trendName).AppendFormat(".quantityID = {0};", inCnl.QuantityID ?? 0).AppendLine()
+                        HttpUtility.JavaScriptStringEncode(cnl.Name)).AppendLine()
+                    .Append(trendName).AppendFormat(".quantityID = {0};", cnl.QuantityID ?? 0).AppendLine()
                     .Append(trendName).AppendFormat(".quantityName = '{0}';",
-                        HttpUtility.JavaScriptStringEncode(GetQuantityName(inCnl))).AppendLine()
+                        HttpUtility.JavaScriptStringEncode(GetQuantityName(cnl))).AppendLine()
                     .Append(trendName).AppendFormat(".trendPoints = {0};",
-                        isSingle ? GetTrendPointsJs(singleTrend, inCnl) : GetTrendPointsJs(trendBundle, i))
+                        isSingle ? GetTrendPointsJs(singleTrend, cnl) : GetTrendPointsJs(trendBundle, i))
                     .AppendLine()
                     .AppendLine();
             }

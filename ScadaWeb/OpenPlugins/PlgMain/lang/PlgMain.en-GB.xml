@@ -2,10 +2,10 @@
 <PlgMainDictionaries>
   <Dictionary key="Scada.Web.Plugins.PlgMain.Areas.Main.Pages.Command">
     <Phrase key="PageTitle">Command</Phrase>
-    <Phrase key="OutCnlNotFound">Output channel {0} not found.</Phrase>
+    <Phrase key="OutCnlNotFound">Channel {0} not found among output channels.</Phrase>
     <Phrase key="CommandSent">Command sent.</Phrase>
     <Phrase key="CmdParseError">Error parsing command</Phrase>
-    <Phrase key="OutCnlRow">Out channel:</Phrase>
+    <Phrase key="CnlRow">Channel:</Phrase>
     <Phrase key="ObjRow">Object:</Phrase>
     <Phrase key="DevRow">Device:</Phrase>
     <Phrase key="lblPassword">Password</Phrase>
@@ -56,8 +56,7 @@
     <Phrase key="MinusOneDay">-1d</Phrase>
     <Phrase key="ItemColumn">Item</Phrase>
     <Phrase key="CurrentColumn">Current</Phrase>
-    <Phrase key="InCnlTip">Input channel</Phrase>
-    <Phrase key="OutCnlTip">Output channel</Phrase>
+    <Phrase key="CnlTip">Channel</Phrase>
     <Phrase key="DeviceTip">Device</Phrase>
     <Phrase key="ObjTip">Object</Phrase>
     <Phrase key="QuantityTip">Quantity</Phrase>

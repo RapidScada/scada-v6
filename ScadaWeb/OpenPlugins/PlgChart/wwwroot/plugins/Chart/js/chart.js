@@ -156,9 +156,9 @@ scada.chart.TimeRange = function () {
 
 // Represents a trend.
 scada.chart.Trend = function () {
-    // The input channel number.
+    // The channel number.
     this.cnlNum = 0;
-    // The input channel name.
+    // The channel name.
     this.cnlName = "";
     // The quantity ID.
     this.quantityID = 0;

@@ -3,6 +3,7 @@
 
 using Microsoft.AspNetCore.Html;
 using Microsoft.AspNetCore.Mvc.RazorPages;
+using Scada.Data.Const;
 using Scada.Data.Entities;
 using Scada.Data.Tables;
 using Scada.Lang;
@@ -132,10 +133,10 @@ namespace Scada.Web.Plugins.PlgMain.Areas.Main.Pages
             allColumnMetas.AddRange(columnMetas2);
         }
 
-        private string GetQuantityIconUrl(InCnl inCnl)
+        private string GetQuantityIconUrl(Cnl cnl)
         {
-            string icon = inCnl?.QuantityID == null ? 
-                "" : webContext.BaseDataSet.QuantityTable.GetItem(inCnl.QuantityID.Value).Icon;
+            string icon = cnl?.QuantityID == null ? 
+                "" : webContext.BaseDataSet.QuantityTable.GetItem(cnl.QuantityID.Value).Icon;
 
             if (string.IsNullOrEmpty(icon))
                 icon = "item.png";
@@ -143,43 +144,24 @@ namespace Scada.Web.Plugins.PlgMain.Areas.Main.Pages
             return Url.Content("~/plugins/Main/images/quantity/" + icon);
         }
 
-        private void AddTooltipHtml(StringBuilder sbHtml, int inCnlNum, InCnl inCnl, int outCnlNum, OutCnl outCnl)
+        private void AddTooltipHtml(StringBuilder sbHtml, int cnlNum, Cnl cnl)
         {
             int deviceNum = 0;
             int objNum = 0;
             int quantityID = 0;
             int unitID = 0;
 
-            if (inCnlNum > 0)
+            if (cnlNum > 0)
             {
-                sbHtml.Append(PluginPhrases.InCnlTip).Append(": [").Append(inCnlNum).Append("] ");
+                sbHtml.Append(PluginPhrases.CnlTip).Append(": [").Append(cnlNum).Append("] ");
 
-                if (inCnl != null)
+                if (cnl != null)
                 {
-                    sbHtml.Append(HttpUtility.HtmlEncode(inCnl.Name));
-                    deviceNum = inCnl.DeviceNum ?? 0;
-                    objNum = inCnl.ObjNum ?? 0;
-                    quantityID = inCnl.QuantityID ?? 0;
-                    unitID = inCnl.UnitID ?? 0;
-                }
-            }
-
-            if (outCnlNum > 0)
-            {
-                if (inCnlNum > 0)
-                    sbHtml.Append("<br>");
-
-                sbHtml.Append(PluginPhrases.OutCnlTip).Append(": [").Append(outCnlNum).Append("] ");
-
-                if (outCnl != null)
-                {
-                    sbHtml.Append(HttpUtility.HtmlEncode(outCnl.Name));
-
-                    if (inCnl == null)
-                    {
-                        deviceNum = outCnl.DeviceNum ?? 0;
-                        objNum = outCnl.ObjNum ?? 0;
-                    }
+                    sbHtml.Append(HttpUtility.HtmlEncode(cnl.Name));
+                    deviceNum = cnl.DeviceNum ?? 0;
+                    objNum = cnl.ObjNum ?? 0;
+                    quantityID = cnl.QuantityID ?? 0;
+                    unitID = cnl.UnitID ?? 0;
                 }
             }
 
@@ -281,37 +263,35 @@ namespace Scada.Web.Plugins.PlgMain.Areas.Main.Pages
             sbHtml.AppendLine("</tr></thead>");
 
             // rows
-            BaseTable<InCnl> inCnlTable = webContext.BaseDataSet.InCnlTable;
-            BaseTable<OutCnl> outCnlTable = webContext.BaseDataSet.OutCnlTable;
+            BaseTable<Cnl> cnlTable = webContext.BaseDataSet.CnlTable;
             bool enableCommands = webContext.AppConfig.GeneralOptions.EnableCommands;
             sbHtml.AppendLine("<tbody>");
 
             foreach (TableItem tableItem in tableView.VisibleItems)
             {
-                int inCnlNum = tableItem.CnlNum;
-                int outCnlNum = tableItem.OutCnlNum;
+                int cnlNum = tableItem.CnlNum;
                 string itemText = string.IsNullOrWhiteSpace(tableItem.Text) ? 
                     "&nbsp;" : HttpUtility.HtmlEncode(tableItem.Text);
 
-                sbHtml.Append("<tr class='row-item' data-cnlNum='").Append(inCnlNum)
-                    .Append("' data-outCnlNum='").Append(outCnlNum).AppendLine("'>")
+                sbHtml.Append("<tr class='row-item' data-cnlNum='").Append(cnlNum).AppendLine("'>")
                     .Append("<td><div class='item'>");
 
-                if (tableItem.CnlNum > 0 || tableItem.OutCnlNum > 0)
+                if (tableItem.CnlNum > 0)
                 {
-                    InCnl inCnl = inCnlNum > 0 ? inCnlTable.GetItem(inCnlNum) : null;
-                    OutCnl outCnl = outCnlNum > 0 ? outCnlTable.GetItem(outCnlNum) : null;
-
-                    sbHtml.Append("<span class='item-icon'><img src='").Append(GetQuantityIconUrl(inCnl))
+                    Cnl cnl = cnlNum > 0 ? cnlTable.GetItem(cnlNum) : null;
+                    sbHtml
+                        .Append("<span class='item-icon'><img src='").Append(GetQuantityIconUrl(cnl))
                         .Append("' data-bs-toggle='tooltip' data-bs-placement='right' data-bs-html='true' title='");
-                    AddTooltipHtml(sbHtml, inCnlNum, inCnl, outCnlNum, outCnl);
-                    sbHtml.Append("' /></span>");
+                    AddTooltipHtml(sbHtml, cnlNum, cnl);
 
-                    sbHtml.Append("<span class='item-text item-link'>").Append(itemText).Append("</span>");
+                    sbHtml
+                        .Append("' /></span>")
+                        .Append("<span class='item-text item-link'>").Append(itemText).Append("</span>");
 
-                    if (tableItem.OutCnlNum > 0 && enableCommands)
+                    if (enableCommands && cnl != null && CnlTypeID.IsOutput(cnl.CnlTypeID))
                     {
-                        sbHtml.Append("<span class='item-cmd' title='").Append(PluginPhrases.SendCommandTip)
+                        sbHtml
+                            .Append("<span class='item-cmd' title='").Append(PluginPhrases.SendCommandTip)
                             .Append("'><i class='fas fa-rocket'></i></span>");
                     }
                 }

@@ -187,8 +187,8 @@ function bindEvents() {
 
     $(".item-cmd").click(function () {
         // show command dialog
-        let outCnlNum = $(this).closest(".row-item").attr("data-outcnlnum");
-        viewHub.features.command.show(outCnlNum);
+        let cnlNum = $(this).closest(".row-item").attr("data-cnlnum");
+        viewHub.features.command.show(cnlNum);
     });
 }
 

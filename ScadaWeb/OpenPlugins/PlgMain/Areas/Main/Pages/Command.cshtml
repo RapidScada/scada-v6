@@ -30,16 +30,16 @@
     <div class="alert @alertClass">@Model.Message</div>
 }
 
-@if (Model.OutCnl != null)
+@if (Model.Cnl != null)
 {
     const string NameFormat = "[{0}] {1}";
-    var cnl = string.Format(NameFormat, Model.OutCnl.OutCnlNum, Model.OutCnl.Name);
+    var cnl = string.Format(NameFormat, Model.Cnl.CnlNum, Model.Cnl.Name);
     var obj = Model.Obj == null ? "" : string.Format(NameFormat, Model.Obj.ObjNum, Model.Obj.Name);
     var dev = Model.Device == null ? "" : string.Format(NameFormat, Model.Device.DeviceNum, Model.Device.Name);
 
     <table id="tblCommand">
         <tr>
-            <th>@dict.OutCnlRow</th>
+            <th>@dict.CnlRow</th>
             <td>@cnl</td>
         </tr>
         <tr>

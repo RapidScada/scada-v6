@@ -28,7 +28,7 @@ namespace Scada.Web.Plugins.PlgMain.Models
 
 
         /// <summary>
-        /// Gets or sets the input channel numbers.
+        /// Gets or sets the channel numbers.
         /// </summary>
         public IEnumerable<int> CnlNums { get; set; }
 
