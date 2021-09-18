@@ -270,15 +270,17 @@ namespace Scada.Web.Plugins.PlgMain.Areas.Main.Pages
             foreach (TableItem tableItem in tableView.VisibleItems)
             {
                 int cnlNum = tableItem.CnlNum;
-                string itemText = string.IsNullOrWhiteSpace(tableItem.Text) ? 
+                Cnl cnl = cnlNum > 0 ? cnlTable.GetItem(cnlNum) : null;
+                string showVal = CnlTypeID.IsArchivable(cnl?.CnlTypeID) ? "true" : "false";
+                string itemText = string.IsNullOrWhiteSpace(tableItem.Text) ?
                     "&nbsp;" : HttpUtility.HtmlEncode(tableItem.Text);
 
-                sbHtml.Append("<tr class='row-item' data-cnlNum='").Append(cnlNum).AppendLine("'>")
+                sbHtml.Append("<tr class='row-item' data-cnlnum='").Append(cnlNum)
+                    .Append("' data-showval='").Append(showVal).AppendLine("'>")
                     .Append("<td><div class='item'>");
 
                 if (tableItem.CnlNum > 0)
                 {
-                    Cnl cnl = cnlNum > 0 ? cnlTable.GetItem(cnlNum) : null;
                     sbHtml
                         .Append("<span class='item-icon'><img src='").Append(GetQuantityIconUrl(cnl))
                         .Append("' data-bs-toggle='tooltip' data-bs-placement='right' data-bs-html='true' title='");
@@ -288,7 +290,7 @@ namespace Scada.Web.Plugins.PlgMain.Areas.Main.Pages
                         .Append("' /></span>")
                         .Append("<span class='item-text item-link'>").Append(itemText).Append("</span>");
 
-                    if (enableCommands && cnl != null && CnlTypeID.IsOutput(cnl.CnlTypeID))
+                    if (enableCommands && CnlTypeID.IsOutput(cnl?.CnlTypeID))
                     {
                         sbHtml
                             .Append("<span class='item-cmd' title='").Append(PluginPhrases.SendCommandTip)

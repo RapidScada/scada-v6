@@ -2,8 +2,9 @@
 
 // Represent metadata about a data cell.
 class CellMeta {
-    constructor(cnlNum, cellElem) {
+    constructor(cnlNum, showVal, cellElem) {
         this.cnlNum = cnlNum;
+        this.showVal = showVal;
         this.cellElem = cellElem;
     }
 }
@@ -87,9 +88,10 @@ function initTimeRange(saveState) {
 
 function initCurCells() {
     $("table.table-main:first tr.row-item").each(function () {
-        let cnlNum = parseInt($(this).attr("data-cnlNum"));
+        let cnlNum = parseInt($(this).attr("data-cnlnum"));
+        let showVal = $(this).attr("data-showval") === "true";
         let cell = $(this).children("td.cell-cur:first");
-        curCells.push(new CellMeta(cnlNum, cell));
+        curCells.push(new CellMeta(cnlNum, showVal, cell));
     });
 }
 
@@ -100,7 +102,8 @@ function initHistCols() {
 
     tableElem.find("tr.row-item").each(function () {
         let rowElem = $(this);
-        let cnlNum = parseInt(rowElem.attr("data-cnlNum"));
+        let cnlNum = parseInt(rowElem.attr("data-cnlnum"));
+        let showVal = rowElem.attr("data-showval") === "true";
 
         rowElem.children("td.cell-hist").each(function (index) {
             let cellElem = $(this);
@@ -113,7 +116,7 @@ function initHistCols() {
                 histCols[index] = colMeta;
             }
 
-            colMeta.cells.push(new CellMeta(cnlNum, cellElem));
+            colMeta.cells.push(new CellMeta(cnlNum, showVal, cellElem));
         });
     });
 }
@@ -278,7 +281,7 @@ function showCurData(data) {
 
     for (let cellMeta of curCells) {
         let record = map.get(cellMeta.cnlNum);
-        displayCell(cellMeta.cellElem, record);
+        displayCell(cellMeta, record);
     }
 }
 
@@ -299,11 +302,11 @@ function showHistData(data) {
                 if (recordIdx >= 0) {
                     let cnlNumIdx = map.get(cellMeta.cnlNum);
                     let record = cnlNumIdx >= 0 ? data.trends[cnlNumIdx][recordIdx] : null;
-                    displayCell(cellMeta.cellElem, record);
+                    displayCell(cellMeta, record);
                 } else if (isNext && cellMeta.cnlNum > 0) {
                     cellMeta.cellElem.text(NEXT_TIME_SYMBOL).css(DEFAULT_CELL_COLOR);
                 } else {
-                    displayCell(cellMeta.cellElem, null);
+                    displayCell(cellMeta, null);
                 }
             }
         }
@@ -327,8 +330,10 @@ function findRecordIndex(timestamps, time, startIdx) {
     return ~timestampCnt;
 }
 
-function displayCell(cellElem, record) {
-    if (record) {
+function displayCell(cellMeta, record) {
+    let cellElem = cellMeta.cellElem;
+
+    if (cellMeta.showVal && record) {
         cellElem.text(record.df.dispVal);
         cellElem.css("color", getCellColor(record));
     } else {
