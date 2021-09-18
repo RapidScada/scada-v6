@@ -265,16 +265,19 @@ namespace Scada.Server.Engine
             // add new channel tag to collections
             void AddCnlTag(Cnl cnl, Lim lim)
             {
-                CnlTag cnlTag = new CnlTag(index++, cnlNum, cnl, lim);
-                cnlTags.Add(cnlNum++, cnlTag);
+                if (CnlTypeID.IsArchivable(cnl.CnlTypeID))
+                {
+                    CnlTag cnlTag = new CnlTag(index++, cnlNum, cnl, lim);
+                    cnlTags.Add(cnlNum++, cnlTag);
 
-                if (CnlTypeID.IsInput(cnl.CnlTypeID))
-                    measCnlTags.Add(cnlTag);
-                else if (cnl.CnlTypeID == CnlTypeID.Calculated)
-                    calcCnlTags.Add(cnlTag);
+                    if (CnlTypeID.IsInput(cnl.CnlTypeID))
+                        measCnlTags.Add(cnlTag);
+                    else if (cnl.CnlTypeID == CnlTypeID.Calculated)
+                        calcCnlTags.Add(cnlTag);
 
-                if (lim != null && lim.IsBoundToCnl)
-                    limTags.Add(cnlTag);
+                    if (lim != null && lim.IsBoundToCnl)
+                        limTags.Add(cnlTag);
+                }
             }
 
             // add new output channel tag

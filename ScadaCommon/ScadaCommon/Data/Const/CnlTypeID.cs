@@ -53,7 +53,7 @@ namespace Scada.Data.Const
 
 
         /// <summary>
-        /// Determines whether the channel type relates to the input channel.
+        /// Determines whether the channel type relates to an input channel.
         /// </summary>
         public static bool IsInput(int cnlTypeID)
         {
@@ -61,11 +61,19 @@ namespace Scada.Data.Const
         }
 
         /// <summary>
-        /// Determines whether the channel type relates to the output channel.
+        /// Determines whether the channel type relates to an output channel.
         /// </summary>
         public static bool IsOutput(int cnlTypeID)
         {
             return cnlTypeID == InputOutput || cnlTypeID == Output;
+        }
+
+        /// <summary>
+        /// Determines whether channels of the specified type can be written to an archive.
+        /// </summary>
+        public static bool IsArchivable(int cnlTypeID)
+        {
+            return cnlTypeID == Input || cnlTypeID == InputOutput || cnlTypeID == Calculated;
         }
     }
 }
