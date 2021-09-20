@@ -12,6 +12,7 @@ CREATE TABLE project.app_config (
 	CONSTRAINT app_config_app_path_un UNIQUE (app_id, path),
 	CONSTRAINT app_config_pkey PRIMARY KEY (file_id)
 );
+CREATE INDEX fki_app_config_app_fkey ON project.app_config USING btree (app_id);
 
 
 -- project.app_config foreign keys
