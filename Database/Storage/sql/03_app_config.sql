@@ -9,9 +9,9 @@ CREATE TABLE project.app_config (
 	app_id int4 NOT NULL,
 	"path" varchar NOT NULL,
 	"content" varchar NULL,
+	CONSTRAINT app_config_app_path_un UNIQUE (app_id, path),
 	CONSTRAINT app_config_pkey PRIMARY KEY (file_id)
 );
-CREATE UNIQUE INDEX un_app_config_app_path ON project.app_config USING btree (app_id, path);
 
 
 -- project.app_config foreign keys

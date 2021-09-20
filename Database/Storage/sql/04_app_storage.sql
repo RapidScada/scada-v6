@@ -9,9 +9,9 @@ CREATE TABLE project.app_storage (
 	app_id int4 NOT NULL,
 	"path" varchar NOT NULL,
 	"content" varchar NULL,
+	CONSTRAINT app_storage_app_path_un UNIQUE (app_id, path),
 	CONSTRAINT app_storage_pkey PRIMARY KEY (file_id)
 );
-CREATE UNIQUE INDEX un_app_storage_app_path ON project.app_storage USING btree (app_id, path);
 
 
 -- project.app_storage foreign keys
