@@ -15,4 +15,4 @@ CREATE TABLE project.app_config (
 
 -- project.app_config foreign keys
 
-ALTER TABLE project.app_config ADD CONSTRAINT fk_app_config_app FOREIGN KEY (app_id) REFERENCES project.app(app_id);
+ALTER TABLE project.app_config ADD CONSTRAINT app_config_app_fkey FOREIGN KEY (app_id) REFERENCES project.app(app_id);
