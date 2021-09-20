@@ -433,7 +433,6 @@ namespace Scada.Data.Adapters
                     dataTable.Columns.Add("Timestamp", typeof(DateTime));
                     dataTable.Columns.Add("Hidden", typeof(bool));
                     dataTable.Columns.Add("CnlNum", typeof(int));
-                    dataTable.Columns.Add("OutCnlNum", typeof(int));
                     dataTable.Columns.Add("ObjNum", typeof(int));
                     dataTable.Columns.Add("DeviceNum", typeof(int));
                     dataTable.Columns.Add("PrevCnlVal", typeof(double));
@@ -466,7 +465,6 @@ namespace Scada.Data.Adapters
                     row["Timestamp"] = GetTime(buffer, ref index);
                     row["Hidden"] = GetBool(buffer, ref index);
                     row["CnlNum"] = GetInt32(buffer, ref index);
-                    row["OutCnlNum"] = GetInt32(buffer, ref index);
                     row["ObjNum"] = GetInt32(buffer, ref index);
                     row["DeviceNum"] = GetInt32(buffer, ref index);
                     row["PrevCnlVal"] = GetDouble(buffer, ref index);
