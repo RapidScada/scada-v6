@@ -11,6 +11,7 @@ CREATE TABLE project.app_config (
 	"content" varchar NULL,
 	CONSTRAINT app_config_pkey PRIMARY KEY (file_id)
 );
+CREATE UNIQUE INDEX un_app_config_app_path ON project.app_config USING btree (app_id, path);
 
 
 -- project.app_config foreign keys
