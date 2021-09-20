@@ -91,13 +91,24 @@ namespace Scada.Server.Engine
         }
 
         /// <summary>
-        /// Gets the timestamp of the calculated data (UTC).
+        /// Gets the timestamp of the processed data (UTC).
         /// </summary>
         public DateTime Timestamp
         {
             get
             {
                 return calcContext == null ? DateTime.MinValue : calcContext.Timestamp;
+            }
+        }
+
+        /// <summary>
+        /// Gets a value indicating whether the processed data is current data.
+        /// </summary>
+        public bool IsCurrent
+        {
+            get
+            {
+                return calcContext != null && calcContext.IsCurrent;
             }
         }
 

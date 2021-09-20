@@ -49,9 +49,15 @@ namespace Scada.Server.Engine
 
 
         /// <summary>
-        /// Gets the timestamp of the calculated data.
+        /// Gets the timestamp of the processed data (UTC).
         /// </summary>
         public DateTime Timestamp { get; }
+
+        /// <summary>
+        /// Gets a value indicating whether the processed data is current data.
+        /// </summary>
+        public bool IsCurrent => false;
+
 
         /// <summary>
         /// Gets the actual channel data.

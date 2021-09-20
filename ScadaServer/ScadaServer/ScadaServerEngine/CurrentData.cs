@@ -94,6 +94,12 @@ namespace Scada.Server.Engine
         /// </summary>
         public DateTime[] PrevTimestamps { get; }
 
+        /// <summary>
+        /// Gets a value indicating whether the calculated data is current data.
+        /// </summary>
+        bool ICalcContext.IsCurrent => true;
+
+
 
         /// <summary>
         /// Sets the current channel data.

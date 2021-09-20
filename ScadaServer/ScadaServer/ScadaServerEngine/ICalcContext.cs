@@ -35,9 +35,15 @@ namespace Scada.Server.Engine
     public interface ICalcContext
     {
         /// <summary>
-        /// Gets the timestamp of the calculated data (UTC).
+        /// Gets the timestamp of the processed data (UTC).
         /// </summary>
         DateTime Timestamp { get; }
+
+        /// <summary>
+        /// Gets a value indicating whether the processed data is current data.
+        /// </summary>
+        bool IsCurrent { get; }
+
 
         /// <summary>
         /// Gets the actual channel data.
