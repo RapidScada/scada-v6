@@ -232,7 +232,7 @@ namespace Scada.Admin.Extensions.ExtServerConfig.Forms
             return new ListViewItem(new string[]
             {
                 (++index).ToString(),
-                archiveConfig.Active ? "V" : " ",
+                AdminUtils.GetCheckedString(archiveConfig.Active),
                 archiveConfig.Code,
                 archiveConfig.Name,
                 TranslateArchiveKind(archiveConfig.Kind),
@@ -352,7 +352,7 @@ namespace Scada.Admin.Extensions.ExtServerConfig.Forms
             if (!changing && GetSelectedItem(out ListViewItem item, out ArchiveConfig archiveConfig))
             {
                 archiveConfig.Active = chkActive.Checked;
-                item.SubItems[1].Text = chkActive.Checked ? "V" : " ";
+                item.SubItems[1].Text = AdminUtils.GetCheckedString(chkActive.Checked);
                 ChildFormTag.Modified = true;
             }
         }

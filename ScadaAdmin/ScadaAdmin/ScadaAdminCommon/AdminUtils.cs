@@ -58,5 +58,13 @@ namespace Scada.Admin
             return !(string.IsNullOrWhiteSpace(name) || name.IndexOfAny(Path.GetInvalidFileNameChars()) >= 0 ||
                 name.Contains(Path.DirectorySeparatorChar) || name.Contains(Path.AltDirectorySeparatorChar));
         }
+
+        /// <summary>
+        /// Gets a string representation of the checkbox value.
+        /// </summary>
+        public static string GetCheckedString(bool value)
+        {
+            return value ? "[v]" : "[  ]";
+        }
     }
 }
