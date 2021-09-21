@@ -9,12 +9,12 @@ CREATE TABLE project.app_config (
 	app_id int4 NOT NULL,
 	"path" varchar NOT NULL,
 	"content" varchar NULL,
-	CONSTRAINT app_config_app_path_un UNIQUE (app_id, path),
-	CONSTRAINT app_config_pkey PRIMARY KEY (file_id)
+	CONSTRAINT un_app_config_app_path UNIQUE (app_id, path),
+	CONSTRAINT pk_app_config PRIMARY KEY (file_id)
 );
 CREATE INDEX fki_app_config_app_fkey ON project.app_config USING btree (app_id);
 
 
 -- project.app_config foreign keys
 
-ALTER TABLE project.app_config ADD CONSTRAINT app_config_app_fkey FOREIGN KEY (app_id) REFERENCES project.app(app_id);
+ALTER TABLE project.app_config ADD CONSTRAINT fk_app_config_app FOREIGN KEY (app_id) REFERENCES project.app(app_id);

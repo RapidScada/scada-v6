@@ -1,3 +1,3 @@
--- DROP SCHEMA project;
+DROP SCHEMA IF EXISTS project CASCADE;
 
 CREATE SCHEMA project AUTHORIZATION postgres;

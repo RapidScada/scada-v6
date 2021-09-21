@@ -1,0 +1,1 @@
+"C:\Program Files\PostgreSQL\13\bin\psql.exe" -a -U postgres -d rapid_scada -f 00_create_objects.sql 2> 00_create_objects.err
