@@ -23,7 +23,7 @@
  * Modified : 2021
  */
 
-namespace Scada.Storage
+namespace Scada.Storages
 {
     /// <summary>
     /// Specifies the categories of data in the storage.

@@ -25,6 +25,7 @@
 
 using Scada.Lang;
 using System;
+using System.Collections.Generic;
 using System.IO;
 using System.Xml;
 
@@ -56,6 +57,16 @@ namespace Scada.Config
         /// </summary>
         public string Culture { get; set; }
 
+        /// <summary>
+        /// Gets or sets the code of the active storage.
+        /// </summary>
+        public string ActiveStorage { get; set; }
+
+        /// <summary>
+        /// Gets the storage configurations accessed by storage code.
+        /// </summary>
+        public SortedList<string, XmlElement> Storages { get; private set; }
+
 
         /// <summary>
         /// Sets the default values.
@@ -63,6 +74,8 @@ namespace Scada.Config
         private void SetToDefault()
         {
             Culture = Locale.DefaultCulture.Name;
+            ActiveStorage = "";
+            Storages = new SortedList<string, XmlElement>();
         }
 
         /// <summary>
@@ -79,7 +92,19 @@ namespace Scada.Config
 
                 XmlDocument xmlDoc = new XmlDocument();
                 xmlDoc.Load(fileName);
-                Culture = xmlDoc.DocumentElement.GetChildAsString("Culture");
+                XmlElement rootElem = xmlDoc.DocumentElement;
+                
+                Culture = rootElem.GetChildAsString("Culture");
+                ActiveStorage = rootElem.GetChildAsString("ActiveStorage");
+
+                if (rootElem.SelectSingleNode("Storages") is XmlNode storagesNode)
+                {
+                    foreach (XmlElement storageElem in storagesNode.SelectNodes("Storage"))
+                    {
+                        string storageCode = storageElem.GetAttrAsString("code");
+                        Storages[storageCode] = storageElem;
+                    }
+                }
 
                 errMsg = "";
                 return true;
@@ -106,7 +131,16 @@ namespace Scada.Config
 
                 XmlElement rootElem = xmlDoc.CreateElement("ScadaInstanceConfig");
                 xmlDoc.AppendChild(rootElem);
+
                 rootElem.AppendElem("Culture", Culture);
+                rootElem.AppendElem("ActiveStorage", ActiveStorage);
+
+                XmlElement storagesElem = rootElem.AppendElem("Storages");
+                foreach (XmlElement storageElem in Storages.Values)
+                {
+                    XmlNode newStorageNode = xmlDoc.ImportNode(storageElem, true);
+                    storagesElem.AppendChild(newStorageNode);
+                }
 
                 xmlDoc.Save(fileName);
                 errMsg = "";
@@ -119,6 +153,16 @@ namespace Scada.Config
                     "Error saving instance configuration");
                 return false;
             }
+        }
+
+        /// <summary>
+        /// Gets the XML node corresponding to the active storage.
+        /// </summary>
+        public XmlElement GetActiveStorageXml()
+        {
+            return Storages.TryGetValue(ActiveStorage, out XmlElement xmlElement) 
+                ? xmlElement 
+                : new XmlDocument().CreateElement("Storage");
         }
     }
 }

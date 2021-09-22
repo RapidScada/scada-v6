@@ -8,6 +8,7 @@
     </Storage>
     <Storage code="PostgreSqlStorage">
       <ViewAvailable>true</ViewAvailable>
+      <WaitTimeout>30</WaitTimeout>
       <Connection>
         <Name>PostgreConn</Name>
         <Server>localhost</Server>

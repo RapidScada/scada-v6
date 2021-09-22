@@ -16,39 +16,36 @@
  * 
  * Product  : Rapid SCADA
  * Module   : ScadaCommon
- * Summary  : Specifies the primary applications that run as services
+ * Summary  : Represents an application storage environment
  * 
  * Author   : Mikhail Shiryaev
- * Created  : 2018
+ * Created  : 2021
  * Modified : 2021
  */
 
-namespace Scada
+using Scada.Log;
+
+namespace Scada.Storages
 {
     /// <summary>
-    /// Specifies the primary applications that run as services.
-    /// <para>Задаёт основные приложения, которые работают как службы.</para>
+    /// Represents an application storage environment.
+    /// <para>Представляет окружение хранилища приложения.</para>
     /// </summary>
-    public enum ServiceApp
+    public class StorageContext
     {
         /// <summary>
-        /// Unknown application.
+        /// Gets or sets the current application.
         /// </summary>
-        Unknown = 0,
+        public ServiceApp App { get; set; }
 
         /// <summary>
-        /// The Server application.
+        /// Gets or sets the application directories.
         /// </summary>
-        Server = 1,
+        public AppDirs AppDirs { get; set; }
 
         /// <summary>
-        /// The Communicator application.
+        /// Gets or sets the application log.
         /// </summary>
-        Comm = 2,
-
-        /// <summary>
-        /// The Webstation application.
-        /// </summary>
-        Web = 3
+        public ILog Log { get; set; }
     }
 }

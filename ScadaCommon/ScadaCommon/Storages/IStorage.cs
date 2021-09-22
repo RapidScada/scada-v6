@@ -16,7 +16,7 @@
  * 
  * Product  : Rapid SCADA
  * Module   : ScadaCommon
- * Summary  : Defines functionality of a data storage
+ * Summary  : Defines functionality of an application data storage
  * 
  * Author   : Mikhail Shiryaev
  * Created  : 2021
@@ -25,18 +25,23 @@
 
 using Scada.Data.Tables;
 
-namespace Scada.Storage
+namespace Scada.Storages
 {
     /// <summary>
-    /// Defines functionality of a data storage.
-    /// <para>Определяет функциональность хранилища данных.</para>
+    /// Defines functionality of an application data storage.
+    /// <para>Определяет функциональность хранилища данных приложения.</para>
     /// </summary>
     public interface IStorage
     {
         /// <summary>
-        /// Gets current application.
+        /// Gets the current application.
         /// </summary>
         ServiceApp App { get; }
+
+        /// <summary>
+        /// Gets a value indicating whether the storage is ready for reading and writing.
+        /// </summary>
+        bool IsReady { get; }
 
         /// <summary>
         /// Gets a value indicating whether a client application can load a view from the storage.
@@ -50,11 +55,6 @@ namespace Scada.Storage
 
 
         /// <summary>
-        /// Waits for the storage to be ready within a specified time interval (ms).
-        /// </summary>
-        bool Wait(int timeout);
-
-        /// <summary>
         /// Reads text from the file.
         /// </summary>
         string ReadText(DataCategory category, string path);
@@ -62,8 +62,10 @@ namespace Scada.Storage
         /// <summary>
         /// Reads the table of the configuration database.
         /// </summary>
-        /// <remarks>This method is only used by the Server service 
-        /// that provides the configuration database to the other services.</remarks>
+        /// <remarks>
+        /// This method is only used by the Server service 
+        /// that provides the configuration database to the other services.
+        /// </remarks>
         void ReadBaseTable(IBaseTable baseTable);
 
         /// <summary>
