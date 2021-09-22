@@ -40,6 +40,7 @@ namespace Scada
         /// </summary>
         public AppDirs()
         {
+            InstanceDir = "";
             ExeDir = "";
             ConfigDir = "";
             LangDir = "";
@@ -48,6 +49,11 @@ namespace Scada
             TempDir = "";
         }
 
+
+        /// <summary>
+        /// Gets the directory of the current instance.
+        /// </summary>
+        public string InstanceDir { get; protected set; }
 
         /// <summary>
         /// Gets the directory of the executable file.
@@ -129,6 +135,7 @@ namespace Scada
         public virtual void Init(string exeDir)
         {
             ExeDir = ScadaUtils.NormalDir(exeDir);
+            InstanceDir = ScadaUtils.NormalDir(Directory.GetParent(ExeDir).FullName);
             CmdDir = ExeDir + "Cmd" + Path.DirectorySeparatorChar;
             ConfigDir = ExeDir + "Config" + Path.DirectorySeparatorChar;
             LangDir = ExeDir + "Lang" + Path.DirectorySeparatorChar;

@@ -41,6 +41,10 @@ namespace Scada.Config
         /// The default configuration file name.
         /// </summary>
         public const string DefaultFileName = "ScadaInstanceConfig.xml";
+        /// <summary>
+        /// The default storage code.
+        /// </summary>
+        public const string DefaultStorageCode = "FileStorage";
 
 
         /// <summary>
@@ -74,7 +78,7 @@ namespace Scada.Config
         private void SetToDefault()
         {
             Culture = Locale.DefaultCulture.Name;
-            ActiveStorage = "";
+            ActiveStorage = DefaultStorageCode;
             Storages = new SortedList<string, XmlElement>();
         }
 

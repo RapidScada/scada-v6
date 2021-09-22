@@ -57,9 +57,9 @@ namespace Scada.Storages
         public ServiceApp App => StorageContext.App;
 
         /// <summary>
-        /// Gets a value indicating whether the storage is ready for reading and writing.
+        /// Gets or sets a value indicating whether the storage is ready for reading and writing.
         /// </summary>
-        public bool IsReady { get; protected set; }
+        public bool IsReady { get; set; }
 
         /// <summary>
         /// Gets a value indicating whether a client application can load a view from the storage.

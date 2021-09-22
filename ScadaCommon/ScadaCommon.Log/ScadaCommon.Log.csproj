@@ -7,7 +7,7 @@
     <Product>Rapid SCADA</Product>
     <Company>Rapid Software LLC</Company>
     <Authors>Mikhail Shiryaev</Authors>
-    <Copyright>Copyright © 2005-2020</Copyright>
+    <Copyright>Copyright © 2021</Copyright>
     <Version>6.0.0</Version>
     <RootNamespace>Scada.Log</RootNamespace>
   </PropertyGroup>
