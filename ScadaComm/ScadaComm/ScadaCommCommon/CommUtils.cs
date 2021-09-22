@@ -20,7 +20,7 @@
  * 
  * Author   : Mikhail Shiryaev
  * Created  : 2015
- * Modified : 2020
+ * Modified : 2021
  */
 
 using Scada.Comm.Devices;
@@ -43,10 +43,6 @@ namespace Scada.Comm
         /// </summary>
         private static readonly string[] DeviceStatusNamesRu = { "не определён", "норма", "ошибка" };
 
-        /// <summary>
-        /// The application version.
-        /// </summary>
-        public const string AppVersion = "6.0.0.0";
         /// <summary>
         /// The application log file name.
         /// </summary>

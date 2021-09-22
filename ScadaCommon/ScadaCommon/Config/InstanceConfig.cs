@@ -91,9 +91,6 @@ namespace Scada.Config
             {
                 SetToDefault();
 
-                if (!File.Exists(fileName))
-                    throw new FileNotFoundException(string.Format(CommonPhrases.NamedFileNotFound, fileName));
-
                 XmlDocument xmlDoc = new XmlDocument();
                 xmlDoc.Load(fileName);
                 XmlElement rootElem = xmlDoc.DocumentElement;

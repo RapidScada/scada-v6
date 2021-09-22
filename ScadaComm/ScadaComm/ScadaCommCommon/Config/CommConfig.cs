@@ -20,12 +20,13 @@
  * 
  * Author   : Mikhail Shiryaev
  * Created  : 2008
- * Modified : 2020
+ * Modified : 2021
  */
 
 using Scada.Client;
 using Scada.Config;
 using Scada.Lang;
+using Scada.Storages;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -118,6 +119,71 @@ namespace Scada.Comm.Config
         }
 
         /// <summary>
+        /// Loads the configuration from the specified reader.
+        /// </summary>
+        private void Load(TextReader reader)
+        {
+            XmlDocument xmlDoc = new XmlDocument();
+            xmlDoc.Load(reader);
+            XmlElement rootElem = xmlDoc.DocumentElement;
+
+            if (rootElem.SelectSingleNode("GeneralOptions") is XmlNode generalOptionsNode)
+                GeneralOptions.LoadFromXml(generalOptionsNode);
+
+            if (xmlDoc.DocumentElement.SelectSingleNode("Connections") is XmlNode connectionsNode)
+            {
+                foreach (XmlNode connectionNode in connectionsNode.SelectNodes("Connection"))
+                {
+                    ConnectionOptions connectionOptions = new ConnectionOptions();
+                    connectionOptions.LoadFromXml(connectionNode);
+                    Connections[connectionOptions.Name] = connectionOptions;
+                }
+            }
+
+            if (rootElem.SelectSingleNode("DataSources") is XmlNode dataSourcesNode)
+            {
+                foreach (XmlElement dataSourceElem in dataSourcesNode.SelectNodes("DataSource"))
+                {
+                    DataSourceConfig dataSourceConfig = new DataSourceConfig();
+                    dataSourceConfig.LoadFromXml(dataSourceElem);
+                    DataSources.Add(dataSourceConfig);
+                }
+            }
+
+            if (rootElem.SelectSingleNode("Lines") is XmlNode linesNode)
+            {
+                foreach (XmlElement lineElem in linesNode.SelectNodes("Line"))
+                {
+                    LineConfig lineConfig = new LineConfig();
+                    lineConfig.LoadFromXml(lineElem);
+                    Lines.Add(lineConfig);
+                }
+            }
+
+            FillDriverCodes();
+        }
+
+
+        /// <summary>
+        /// Loads the configuration from the specified storage.
+        /// </summary>
+        public bool Load(IStorage storage, string fileName, out string errMsg)
+        {
+            try
+            {
+                SetToDefault();
+                Load(new StringReader(storage.ReadText(DataCategory.Config, fileName)));
+                errMsg = "";
+                return true;
+            }
+            catch (Exception ex)
+            {
+                errMsg = CommonPhrases.LoadAppConfigError + ": " + ex.Message;
+                return false;
+            }
+        }
+
+        /// <summary>
         /// Loads the configuration from the specified file.
         /// </summary>
         public bool Load(string fileName, out string errMsg)
@@ -125,48 +191,7 @@ namespace Scada.Comm.Config
             try
             {
                 SetToDefault();
-
-                if (!File.Exists(fileName))
-                    throw new FileNotFoundException(string.Format(CommonPhrases.NamedFileNotFound, fileName));
-
-                XmlDocument xmlDoc = new XmlDocument();
-                xmlDoc.Load(fileName);
-                XmlElement rootElem = xmlDoc.DocumentElement;
-
-                if (rootElem.SelectSingleNode("GeneralOptions") is XmlNode generalOptionsNode)
-                    GeneralOptions.LoadFromXml(generalOptionsNode);
-
-                if (xmlDoc.DocumentElement.SelectSingleNode("Connections") is XmlNode connectionsNode)
-                {
-                    foreach (XmlNode connectionNode in connectionsNode.SelectNodes("Connection"))
-                    {
-                        ConnectionOptions connectionOptions = new ConnectionOptions();
-                        connectionOptions.LoadFromXml(connectionNode);
-                        Connections[connectionOptions.Name] = connectionOptions;
-                    }
-                }
-
-                if (rootElem.SelectSingleNode("DataSources") is XmlNode dataSourcesNode)
-                {
-                    foreach (XmlElement dataSourceElem in dataSourcesNode.SelectNodes("DataSource"))
-                    {
-                        DataSourceConfig dataSourceConfig = new DataSourceConfig();
-                        dataSourceConfig.LoadFromXml(dataSourceElem);
-                        DataSources.Add(dataSourceConfig);
-                    }
-                }
-
-                if (rootElem.SelectSingleNode("Lines") is XmlNode linesNode)
-                {
-                    foreach (XmlElement lineElem in linesNode.SelectNodes("Line"))
-                    {
-                        LineConfig lineConfig = new LineConfig();
-                        lineConfig.LoadFromXml(lineElem);
-                        Lines.Add(lineConfig);
-                    }
-                }
-
-                FillDriverCodes();
+                Load(new StreamReader(fileName));
                 errMsg = "";
                 return true;
             }
@@ -223,17 +248,15 @@ namespace Scada.Comm.Config
         }
 
         /// <summary>
-        /// Loads the communication line configuration from the specified file.
+        /// Loads the communication line configuration from the specified storage.
         /// </summary>
-        public static bool LoadLineConfig(string fileName, int commLineNum, out LineConfig lineConfig, out string errMsg)
+        public static bool LoadLineConfig(IStorage storage, string fileName, int commLineNum, 
+            out LineConfig lineConfig, out string errMsg)
         {
             try
             {
-                if (!File.Exists(fileName))
-                    throw new FileNotFoundException(string.Format(CommonPhrases.NamedFileNotFound, fileName));
-
                 XmlDocument xmlDoc = new XmlDocument();
-                xmlDoc.Load(fileName);
+                xmlDoc.Load(new StringReader(storage.ReadText(DataCategory.Config, fileName)));
                 lineConfig = null;
 
                 if (xmlDoc.DocumentElement.SelectSingleNode("Lines") is XmlNode linesNode)

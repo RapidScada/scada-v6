@@ -31,6 +31,7 @@ using Scada.Data.Const;
 using Scada.Data.Models;
 using Scada.Lang;
 using Scada.Log;
+using Scada.Storages;
 using System;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
@@ -94,10 +95,11 @@ namespace Scada.Comm.Engine
         /// <summary>
         /// Initializes a new instance of the class.
         /// </summary>
-        public CoreLogic(CommConfig config, CommDirs appDirs, ILog log)
+        public CoreLogic(CommConfig config, CommDirs appDirs, IStorage storage, ILog log)
         {
             Config = config ?? throw new ArgumentNullException(nameof(config));
             AppDirs = appDirs ?? throw new ArgumentNullException(nameof(appDirs));
+            Storage = storage ?? throw new ArgumentNullException(nameof(storage));
             Log = log ?? throw new ArgumentNullException(nameof(log));
             BaseDataSet = null;
             SharedData = null;
@@ -131,6 +133,11 @@ namespace Scada.Comm.Engine
         /// Gets the application directories.
         /// </summary>
         public CommDirs AppDirs { get; }
+
+        /// <summary>
+        /// Gets the application storage.
+        /// </summary>
+        public IStorage Storage { get; }
 
         /// <summary>
         /// Gets the application log.
@@ -551,8 +558,8 @@ namespace Scada.Comm.Engine
         {
             try
             {
-                if (!CommConfig.LoadLineConfig(Path.Combine(AppDirs.ConfigDir, CommConfig.DefaultFileName),
-                    commLineNum, out LineConfig lineConfig, out string errMsg))
+                if (!CommConfig.LoadLineConfig(Storage, CommConfig.DefaultFileName, commLineNum, 
+                    out LineConfig lineConfig, out string errMsg))
                 {
                     Log.WriteError(errMsg);
                 }
@@ -692,7 +699,7 @@ namespace Scada.Comm.Engine
                         .Append("Запуск       : ").AppendLine(startDT.ToLocalizedString())
                         .Append("Время работы : ").AppendLine(workSpanStr)
                         .Append("Статус       : ").AppendLine(serviceStatus.ToString(true))
-                        .Append("Версия       : ").AppendLine(CommUtils.AppVersion);
+                        .Append("Версия       : ").AppendLine(EngineUtils.AppVersion);
                 }
                 else
                 {
@@ -702,7 +709,7 @@ namespace Scada.Comm.Engine
                         .Append("Started        : ").AppendLine(startDT.ToLocalizedString())
                         .Append("Execution time : ").AppendLine(workSpanStr)
                         .Append("Status         : ").AppendLine(serviceStatus.ToString(false))
-                        .Append("Version        : ").AppendLine(CommUtils.AppVersion);
+                        .Append("Version        : ").AppendLine(EngineUtils.AppVersion);
                 }
 
                 if (dataSourceHolder != null)

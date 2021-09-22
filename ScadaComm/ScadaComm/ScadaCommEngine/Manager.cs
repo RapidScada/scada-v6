@@ -28,6 +28,7 @@ using Scada.Comm.Lang;
 using Scada.Config;
 using Scada.Lang;
 using Scada.Log;
+using Scada.Storages;
 using System;
 using System.IO;
 using System.Reflection;
@@ -40,8 +41,9 @@ namespace Scada.Comm.Engine
     /// </summary>
     public class Manager
     {
-        private ILog log;            // the application log
-        private CoreLogic coreLogic; // the Communicator logic instance
+        private ILog log;                      // the application log
+        private StorageWrapper storageWrapper; // contains the application storage
+        private CoreLogic coreLogic;           // the Communicator logic instance
 
 
         /// <summary>
@@ -50,7 +52,9 @@ namespace Scada.Comm.Engine
         public Manager()
         {
             log = LogStub.Instance;
+            storageWrapper = null;
             coreLogic = null;
+
             AppDirs = new CommDirs();
             AppDomain.CurrentDomain.UnhandledException += OnUnhandledException;
         }
@@ -65,16 +69,17 @@ namespace Scada.Comm.Engine
         /// <summary>
         /// Localizes the application.
         /// </summary>
-        private void LocalizeApp(string langDir)
+        private bool LocalizeApp()
         {
-            if (!Locale.LoadDictionaries(langDir, "ScadaCommon", out string errMsg))
+            if (!Locale.LoadDictionaries(AppDirs.LangDir, "ScadaCommon", out string errMsg))
                 log.WriteError(errMsg);
 
-            if (!Locale.LoadDictionaries(langDir, "ScadaComm", out errMsg))
+            if (!Locale.LoadDictionaries(AppDirs.LangDir, "ScadaComm", out errMsg))
                 log.WriteError(errMsg);
 
             CommonPhrases.Init();
             CommPhrases.Init();
+            return true;
         }
 
         /// <summary>
@@ -95,9 +100,11 @@ namespace Scada.Comm.Engine
             System.Diagnostics.Debugger.Launch();
 #endif
 
+            // initialize directories
             string exeDir = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location);
             AppDirs.Init(exeDir);
 
+            // initialize log
             LogFile logFile = new LogFile(LogFormat.Full, Path.Combine(AppDirs.LogDir, CommUtils.LogFileName))
             {
                 Capacity = int.MaxValue
@@ -106,35 +113,42 @@ namespace Scada.Comm.Engine
             log = logFile;
             log.WriteBreak();
 
-            if (!Locale.LoadCulture(Path.Combine(exeDir, "..", "Config", InstanceConfig.DefaultFileName),
-                out string errMsg))
-            {
-                log.WriteError(errMsg);
-            }
+            // load instance configuration
+            InstanceConfig instanceConfig = new InstanceConfig();
+            string configFileName = Path.Combine(AppDirs.InstanceDir, "Config", InstanceConfig.DefaultFileName);
 
+            if (instanceConfig.Load(configFileName, out string errMsg))
+                Locale.SetCulture(instanceConfig.Culture);
+            else
+                log.WriteError(errMsg);
+
+            // prepare to start service
             log.WriteAction(Locale.IsRussian ?
                 "Коммуникатор {0} запущен" :
-                "Communicator {0} started", CommUtils.AppVersion);
+                "Communicator {0} started", EngineUtils.AppVersion);
 
-            if (AppDirs.CheckExistence(out errMsg))
+            storageWrapper = new StorageWrapper(new StorageContext
             {
-                LocalizeApp(AppDirs.LangDir);
-                string configFileName = Path.Combine(AppDirs.ConfigDir, CommConfig.DefaultFileName);
-                CommConfig config = new CommConfig();
-                coreLogic = new CoreLogic(config, AppDirs, log);
+                App = ServiceApp.Comm,
+                AppDirs = AppDirs,
+                Log = log
+            }, instanceConfig);
 
-                if (config.Load(configFileName, out errMsg) &&
-                    coreLogic.StartProcessing())
-                {
-                    logFile.Capacity = config.GeneralOptions.MaxLogSize;
+            CommConfig config = new CommConfig();
+
+            if (AppDirs.CheckExistence(out errMsg) && 
+                LocalizeApp() &&
+                storageWrapper.InitStorage() &&
+                config.Load(storageWrapper.Storage, CommConfig.DefaultFileName, out errMsg))
+            {
+                // start service
+                logFile.Capacity = config.GeneralOptions.MaxLogSize;
+                coreLogic = new CoreLogic(config, AppDirs, storageWrapper.Storage, log);
+
+                if (coreLogic.StartProcessing())
                     return true;
-                }
-                else if (!string.IsNullOrEmpty(errMsg))
-                {
-                    log.WriteError(errMsg);
-                }
             }
-            else
+            else if (!string.IsNullOrEmpty(errMsg))
             {
                 log.WriteError(errMsg);
             }
@@ -149,6 +163,7 @@ namespace Scada.Comm.Engine
         public void StopService()
         {
             coreLogic?.StopProcessing();
+            storageWrapper?.CloseStorage();
 
             log.WriteAction(Locale.IsRussian ?
                 "Коммуникатор остановлен" :

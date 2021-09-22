@@ -20,13 +20,14 @@
  * 
  * Author   : Mikhail Shiryaev
  * Created  : 2020
- * Modified : 2020
+ * Modified : 2021
  */
 
 using Scada.Comm.Config;
 using Scada.Comm.Devices;
 using Scada.Data.Models;
 using Scada.Log;
+using Scada.Storages;
 using System.Collections.Generic;
 
 namespace Scada.Comm.Drivers
@@ -46,6 +47,11 @@ namespace Scada.Comm.Drivers
         /// Gets the application directories.
         /// </summary>
         CommDirs AppDirs { get; }
+
+        /// <summary>
+        /// Gets the application storage.
+        /// </summary>
+        IStorage Storage { get; }
 
         /// <summary>
         /// Gets the application log.
