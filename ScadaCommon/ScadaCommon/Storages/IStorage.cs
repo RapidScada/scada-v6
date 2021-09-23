@@ -77,7 +77,7 @@ namespace Scada.Storages
         /// <summary>
         /// Writes the text to the file.
         /// </summary>
-        void WriteText(DataCategory category, string path, string content);
+        void WriteText(DataCategory category, string path, string contents);
 
         /// <summary>
         /// Writes the byte array to the file.

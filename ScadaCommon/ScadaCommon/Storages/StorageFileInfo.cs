@@ -34,6 +34,16 @@ namespace Scada.Storages
     public struct StorageFileInfo
     {
         /// <summary>
+        /// Represents an information of nonexistent file.
+        /// </summary>
+        public static readonly StorageFileInfo FileNotExists = new StorageFileInfo
+        {
+            Exists = false,
+            LastWriteTime = DateTime.MinValue,
+            Length = 0
+        };
+
+        /// <summary>
         /// Gets or sets a value indicating whether the file exists.
         /// </summary>
         public bool Exists { get; set; }

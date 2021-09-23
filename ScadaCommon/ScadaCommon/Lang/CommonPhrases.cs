@@ -51,6 +51,7 @@ namespace Scada.Lang
         public static string ThreadFatalError { get; private set; }
         public static string WriteInfoError { get; private set; }
         public static string ConnectionNotFound { get; private set; }
+        public static string ConnOptionsNotFound { get; private set; }
 
         // Scada.ConfigBase
         public static string ArchiveTable { get; private set; }
@@ -143,6 +144,7 @@ namespace Scada.Lang
             ThreadFatalError = dict["ThreadFatalError"];
             WriteInfoError = dict["WriteInfoError"];
             ConnectionNotFound = dict["ConnectionNotFound"];
+            ConnOptionsNotFound = dict["ConnOptionsNotFound"];
 
             dict = Locale.GetDictionary("Scada.ConfigBase");
             ArchiveTable = dict["ArchiveTable"];

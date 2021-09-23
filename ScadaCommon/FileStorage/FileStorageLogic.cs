@@ -84,10 +84,10 @@ namespace Scada.Storages.FileStorage
         /// <summary>
         /// Writes the text to the file.
         /// </summary>
-        public override void WriteText(DataCategory category, string path, string content)
+        public override void WriteText(DataCategory category, string path, string contents)
         {
             string fileName = GetFileName(category, path);
-            File.WriteAllText(fileName, content, Encoding.UTF8);
+            File.WriteAllText(fileName, contents, Encoding.UTF8);
         }
 
         /// <summary>

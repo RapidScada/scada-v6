@@ -18,6 +18,7 @@
     <Phrase key="ThreadFatalError">Неустранимая ошибка в потоке</Phrase>
     <Phrase key="WriteInfoError">Ошибка при записи в файл информации о работе приложения</Phrase>
     <Phrase key="ConnectionNotFound">Соединение &quot;{0}&quot; не найдено.</Phrase>
+    <Phrase key="ConnOptionsNotFound">Параметры соединения не найдены.</Phrase>
   </Dictionary>
   <Dictionary key="Scada.ConfigBase">
     <Phrase key="ArchiveTable">Архивы</Phrase>

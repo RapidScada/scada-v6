@@ -18,6 +18,7 @@
     <Phrase key="ThreadFatalError">Fatal error in thread</Phrase>
     <Phrase key="WriteInfoError">Error writing application information to the file</Phrase>
     <Phrase key="ConnectionNotFound">Connection &quot;{0}&quot; not found.</Phrase>
+    <Phrase key="ConnOptionsNotFound">Connection options not found.</Phrase>
   </Dictionary>
   <Dictionary key="Scada.ConfigBase">
     <Phrase key="ArchiveTable">Archives</Phrase>
