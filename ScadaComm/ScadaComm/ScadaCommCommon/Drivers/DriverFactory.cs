@@ -20,7 +20,7 @@
  * 
  * Author   : Mikhail Shiryaev
  * Created  : 2020
- * Modified : 2020
+ * Modified : 2021
  */
 
 using Scada.Lang;
@@ -49,7 +49,7 @@ namespace Scada.Comm.Drivers
             {
                 if (File.Exists(fileName))
                 {
-                    Assembly assembly = Assembly.LoadFile(fileName);
+                    Assembly assembly = Assembly.LoadFrom(fileName);
                     Type type = assembly.GetType(typeName, true);
                     driverLogic = (DriverLogic)Activator.CreateInstance(type, commContext);
 
