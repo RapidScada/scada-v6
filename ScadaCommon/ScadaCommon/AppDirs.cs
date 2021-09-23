@@ -135,7 +135,7 @@ namespace Scada
         public virtual void Init(string exeDir)
         {
             ExeDir = ScadaUtils.NormalDir(exeDir);
-            InstanceDir = ScadaUtils.NormalDir(Directory.GetParent(ExeDir).FullName);
+            InstanceDir = ScadaUtils.NormalDir(Path.GetFullPath(Path.Combine(exeDir, "..")));
             CmdDir = ExeDir + "Cmd" + Path.DirectorySeparatorChar;
             ConfigDir = ExeDir + "Config" + Path.DirectorySeparatorChar;
             LangDir = ExeDir + "Lang" + Path.DirectorySeparatorChar;
