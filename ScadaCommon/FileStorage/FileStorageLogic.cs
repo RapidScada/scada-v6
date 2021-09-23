@@ -35,6 +35,8 @@ namespace Scada.Storages.FileStorage
         /// </summary>
         private string GetFileName(DataCategory category, string path)
         {
+            path = ScadaUtils.NormalPathSeparators(path);
+
             switch (category)
             {
                 case DataCategory.Config:

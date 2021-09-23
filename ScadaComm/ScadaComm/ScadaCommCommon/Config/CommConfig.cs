@@ -172,7 +172,12 @@ namespace Scada.Comm.Config
             try
             {
                 SetToDefault();
-                Load(new StringReader(storage.ReadText(DataCategory.Config, fileName)));
+
+                using (TextReader reader = storage.OpenText(DataCategory.Config, fileName))
+                {
+                    Load(reader);
+                }
+
                 errMsg = "";
                 return true;
             }
@@ -191,7 +196,12 @@ namespace Scada.Comm.Config
             try
             {
                 SetToDefault();
-                Load(new StreamReader(fileName));
+                
+                using (StreamReader reader = new StreamReader(fileName))
+                {
+                    Load(reader);
+                }
+
                 errMsg = "";
                 return true;
             }

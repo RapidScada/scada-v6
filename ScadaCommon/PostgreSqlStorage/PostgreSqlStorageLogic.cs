@@ -6,9 +6,11 @@ using Scada.Config;
 using Scada.Data.Tables;
 using Scada.Lang;
 using System;
+using System.ComponentModel;
 using System.Data;
 using System.IO;
 using System.Text;
+using System.Threading;
 using System.Xml;
 
 namespace Scada.Storages.PostgreSqlStorage
@@ -23,7 +25,12 @@ namespace Scada.Storages.PostgreSqlStorage
         /// The database schema.
         /// </summary>
         private const string Schema = "project";
+        /// <summary>
+        /// The period of attempts to connect to the database.
+        /// </summary>
+        private static readonly TimeSpan ConnectAttemptPeriod = TimeSpan.FromSeconds(10);
 
+        private TimeSpan waitTimeout;            // how long to wait for connection
         private DbConnectionOptions connOptions; // the database connection options
         private NpgsqlConnection conn;           // the database connection
 
@@ -34,9 +41,35 @@ namespace Scada.Storages.PostgreSqlStorage
         public PostgreSqlStorageLogic(StorageContext storageContext)
             : base(storageContext)
         {
+            waitTimeout = TimeSpan.Zero;
+            connOptions = null;
             conn = null;
         }
 
+
+        /// <summary>
+        /// Attempts to connect to the database.
+        /// </summary>
+        private bool CheckConnection(out string errMsg)
+        {
+            try
+            {
+                conn.Open();
+                errMsg = "";
+                return true;
+            }
+            catch (Exception ex)
+            {
+                errMsg = string.Format(Locale.IsRussian ?
+                    "Ошибка при соединении с БД хранилища: {0}" :
+                    "Error connecting to storage database: {0}", ex.Message);
+                return false;
+            }
+            finally
+            {
+                conn.Close();
+            }
+        }
 
         /// <summary>
         /// Creates a database connection.
@@ -83,6 +116,7 @@ namespace Scada.Storages.PostgreSqlStorage
         public override void LoadConfig(XmlElement xmlElement)
         {
             base.LoadConfig(xmlElement);
+            waitTimeout = TimeSpan.FromSeconds(xmlElement.GetChildAsInt("WaitTimeout"));
 
             if (xmlElement.SelectSingleNode("Connection") is XmlNode connectionNode)
             {
@@ -101,7 +135,26 @@ namespace Scada.Storages.PostgreSqlStorage
 
             conn = CreateDbConnection(connOptions);
 
-            // TODO: check DB and wait
+            // wait for connection
+            DateTime utcNow = DateTime.UtcNow;
+            DateTime startDT = utcNow;
+            DateTime attempDT = DateTime.MinValue;
+
+            while (utcNow - startDT >= waitTimeout)
+            {
+                if (utcNow - attempDT >= ConnectAttemptPeriod)
+                {
+                    attempDT = utcNow;
+
+                    if (CheckConnection(out string errMsg))
+                        break;
+                    else
+                        StorageContext.Log.WriteError(errMsg);
+                }
+
+                Thread.Sleep(ScadaUtils.ThreadDelay);
+                utcNow = DateTime.UtcNow;
+            }
         }
 
         /// <summary>
@@ -134,6 +187,7 @@ namespace Scada.Storages.PostgreSqlStorage
 
             try
             {
+                Monitor.Enter(conn);
                 conn.Open();
 
                 using (NpgsqlDataReader reader = cmd.ExecuteReader(CommandBehavior.SingleRow))
@@ -145,6 +199,7 @@ namespace Scada.Storages.PostgreSqlStorage
             finally
             {
                 conn.Close();
+                Monitor.Exit(conn);
             }
 
             throw new FileNotFoundException(string.Format(CommonPhrases.NamedFileNotFound, path));
@@ -164,6 +219,64 @@ namespace Scada.Storages.PostgreSqlStorage
         /// </summary>
         public override void ReadBaseTable(IBaseTable baseTable)
         {
+            try
+            {
+                Monitor.Enter(conn);
+                conn.Open();
+
+                string sql = $"SELECT * from {Schema}.\"{baseTable.Name.ToLowerInvariant()}\"";
+                NpgsqlCommand cmd = new NpgsqlCommand(sql, conn);
+                
+                using (NpgsqlDataReader reader = cmd.ExecuteReader())
+                {
+                    if (reader.HasRows)
+                    {
+                        // check primary key column
+                        try
+                        {
+                            reader.GetOrdinal(baseTable.PrimaryKey.ToLowerInvariant());
+                        }
+                        catch
+                        {
+                            throw new ScadaException(Locale.IsRussian ?
+                                "Первичный ключ \"{0}\" не найден" :
+                                "Primary key \"{0}\" not found", baseTable.PrimaryKey);
+                        }
+
+                        // find column indexes
+                        PropertyDescriptorCollection props = TypeDescriptor.GetProperties(baseTable.ItemType);
+                        int propCnt = props.Count;
+                        int[] colIdxs = new int[propCnt];
+
+                        for (int i = 0; i < propCnt; i++)
+                        {
+                            try { colIdxs[i] = reader.GetOrdinal(props[i].Name.ToLowerInvariant()); }
+                            catch { colIdxs[i] = -1; }
+                        }
+
+                        // read rows
+                        while (reader.Read())
+                        {
+                            object item = baseTable.NewItem();
+
+                            for (int i = 0; i < propCnt; i++)
+                            {
+                                int colIdx = colIdxs[i];
+
+                                if (colIdx >= 0 && !reader.IsDBNull(colIdx))
+                                    props[i].SetValue(item, reader[colIdx]);
+                            }
+
+                            baseTable.AddObject(item);
+                        }
+                    }
+                }
+            }
+            finally
+            {
+                conn.Close();
+                Monitor.Exit(conn);
+            }
         }
 
         /// <summary>
@@ -218,6 +331,7 @@ namespace Scada.Storages.PostgreSqlStorage
 
             try
             {
+                Monitor.Enter(conn);
                 conn.Open();
 
                 using (NpgsqlDataReader reader = cmd.ExecuteReader(CommandBehavior.SingleRow))
@@ -238,6 +352,7 @@ namespace Scada.Storages.PostgreSqlStorage
             finally
             {
                 conn.Close();
+                Monitor.Exit(conn);
             }
 
             return StorageFileInfo.FileNotExists;
