@@ -62,8 +62,12 @@ namespace Scada.Storages
         /// </summary>
         public bool InitStorage()
         {
-            if (!StorageFactory.GetStorage(storageContext.AppDirs.ExeDir, instanceConfig.ActiveStorage, storageContext,
+            if (StorageFactory.GetStorage(storageContext.AppDirs.ExeDir, instanceConfig.ActiveStorage, storageContext,
                 out storageLogic, out string message))
+            {
+                storageContext.Log.WriteAction(message);
+            }
+            else
             {
                 storageContext.Log.WriteError(message);
                 return false;
@@ -71,7 +75,6 @@ namespace Scada.Storages
 
             try
             {
-                storageContext.Log.WriteAction(message);
                 storageLogic.LoadConfig(instanceConfig.GetActiveStorageXml());
                 storageLogic.MakeReady();
                 storageLogic.IsReady = true;

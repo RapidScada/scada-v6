@@ -61,24 +61,74 @@ namespace Scada.Storages.FileStorage
         }
 
         /// <summary>
+        /// Reads a byte array from the file.
+        /// </summary>
+        public override byte[] ReadBytes(DataCategory category, string path)
+        {
+            string fileName = GetFileName(category, path);
+            return File.ReadAllBytes(fileName);
+        }
+
+        /// <summary>
         /// Reads the table of the configuration database.
         /// </summary>
         public override void ReadBaseTable(IBaseTable baseTable)
         {
-            BaseTableAdapter adapter = new BaseTableAdapter 
-            { 
-                FileName = Path.Combine(baseDir, baseTable.FileNameDat) 
+            BaseTableAdapter adapter = new BaseTableAdapter
+            {
+                FileName = Path.Combine(baseDir, baseTable.FileNameDat)
             };
             adapter.Fill(baseTable);
         }
 
         /// <summary>
-        /// Writes text to the file.
+        /// Writes the text to the file.
         /// </summary>
         public override void WriteText(DataCategory category, string path, string content)
         {
             string fileName = GetFileName(category, path);
             File.WriteAllText(fileName, content, Encoding.UTF8);
+        }
+
+        /// <summary>
+        /// Writes the byte array to the file.
+        /// </summary>
+        public override void WriteBytes(DataCategory category, string path, byte[] bytes)
+        {
+            string fileName = GetFileName(category, path);
+            File.WriteAllBytes(fileName, bytes);
+        }
+
+        /// <summary>
+        /// Opens a text file for reading.
+        /// </summary>
+        public override TextReader OpenText(DataCategory category, string path)
+        {
+            string fileName = GetFileName(category, path);
+            return File.OpenText(fileName);
+        }
+
+        /// <summary>
+        /// Opens a binary file for reading.
+        /// </summary>
+        public override BinaryReader OpenBinary(DataCategory category, string path)
+        {
+            string fileName = GetFileName(category, path);
+            return new BinaryReader(File.OpenRead(fileName), Encoding.UTF8, false);
+        }
+
+        /// <summary>
+        /// Gets information associated with the file.
+        /// </summary>
+        public override StorageFileInfo GetFileInfo(DataCategory category, string path)
+        {
+            FileInfo fileInfo = new FileInfo(GetFileName(category, path));
+            return new StorageFileInfo
+            {
+                Exists = fileInfo.Exists,
+                LastWriteTime = fileInfo.LastWriteTimeUtc,
+                Length = fileInfo.Length
+            };
         }
     }
 }

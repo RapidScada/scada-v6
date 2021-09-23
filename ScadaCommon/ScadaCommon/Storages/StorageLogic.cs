@@ -25,6 +25,7 @@
 
 using Scada.Data.Tables;
 using System;
+using System.IO;
 using System.Xml;
 
 namespace Scada.Storages
@@ -98,13 +99,38 @@ namespace Scada.Storages
         public abstract string ReadText(DataCategory category, string path);
 
         /// <summary>
+        /// Reads a byte array from the file.
+        /// </summary>
+        public abstract byte[] ReadBytes(DataCategory category, string path);
+
+        /// <summary>
         /// Reads the table of the configuration database.
         /// </summary>
         public abstract void ReadBaseTable(IBaseTable baseTable);
 
         /// <summary>
-        /// Writes text to the file.
+        /// Writes the text to the file.
         /// </summary>
         public abstract void WriteText(DataCategory category, string path, string content);
+
+        /// <summary>
+        /// Writes the byte array to the file.
+        /// </summary>
+        public abstract void WriteBytes(DataCategory category, string path, byte[] bytes);
+
+        /// <summary>
+        /// Opens a text file for reading.
+        /// </summary>
+        public abstract TextReader OpenText(DataCategory category, string path);
+
+        /// <summary>
+        /// Opens a binary file for reading.
+        /// </summary>
+        public abstract BinaryReader OpenBinary(DataCategory category, string path);
+
+        /// <summary>
+        /// Gets information associated with the file.
+        /// </summary>
+        public abstract StorageFileInfo GetFileInfo(DataCategory category, string path);
     }
 }

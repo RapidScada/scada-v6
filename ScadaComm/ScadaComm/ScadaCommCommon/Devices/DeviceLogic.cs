@@ -32,6 +32,7 @@ using Scada.Data.Models;
 using Scada.Data.Tables;
 using Scada.Lang;
 using Scada.Log;
+using Scada.Storages;
 using System;
 using System.Reflection;
 using System.Text;
@@ -59,6 +60,7 @@ namespace Scada.Comm.Devices
             LineContext = lineContext ?? throw new ArgumentNullException(nameof(lineContext));
             DeviceConfig = deviceConfig ?? throw new ArgumentNullException(nameof(deviceConfig));
             AppDirs = commContext.AppDirs;
+            Storage = commContext.Storage;
             Log = lineContext.LineConfig.LineOptions.DetailedLog ? lineContext.Log : LogStub.Instance;
             AssemblyName asmName = GetType().Assembly.GetName();
             DriverName = ScadaUtils.RemoveFileNameSuffixes(asmName.Name) + " " + asmName.Version;
@@ -104,6 +106,11 @@ namespace Scada.Comm.Devices
         /// Gets the application directories.
         /// </summary>
         protected CommDirs AppDirs { get; }
+
+        /// <summary>
+        /// Gets the application storage.
+        /// </summary>
+        protected IStorage Storage { get; }
 
         /// <summary>
         /// Gets the communication line log.

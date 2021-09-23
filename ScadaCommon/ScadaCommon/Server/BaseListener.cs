@@ -644,10 +644,10 @@ namespace Scada.Server
                     1, 1, DateTime.MinValue, FileReadingResult.FileNotFound, 0);
                 client.SendResponse(response);
             }
-            else if (fileInfo.LastAccessTimeUtc <= newerThan)
+            else if (fileInfo.LastWriteTimeUtc <= newerThan)
             {
                 ResponsePacket response = CreateDownloadResponse(request, client.OutBuf,
-                    1, 1, fileInfo.LastAccessTimeUtc, FileReadingResult.FileOutdated, 0);
+                    1, 1, fileInfo.LastWriteTimeUtc, FileReadingResult.FileOutdated, 0);
                 client.SendResponse(response);
             }
             else
