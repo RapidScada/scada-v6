@@ -20,7 +20,7 @@
  * 
  * Author   : Mikhail Shiryaev
  * Created  : 2020
- * Modified : 2020
+ * Modified : 2021
  */
 
 using Scada.Comm.Channels;
@@ -28,6 +28,7 @@ using Scada.Comm.Config;
 using Scada.Comm.DataSources;
 using Scada.Comm.Devices;
 using Scada.Log;
+using Scada.Storages;
 using System;
 
 namespace Scada.Comm.Drivers
@@ -45,6 +46,7 @@ namespace Scada.Comm.Drivers
         {
             CommContext = commContext ?? throw new ArgumentNullException(nameof(commContext));
             AppDirs = commContext.AppDirs;
+            Storage = commContext.Storage;
             Log = commContext.Log;
         }
 
@@ -58,6 +60,11 @@ namespace Scada.Comm.Drivers
         /// Gets the application directories.
         /// </summary>
         protected CommDirs AppDirs { get; }
+
+        /// <summary>
+        /// Gets the application storage.
+        /// </summary>
+        protected IStorage Storage { get; }
 
         /// <summary>
         /// Gets or sets the driver log.
