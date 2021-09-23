@@ -13,7 +13,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ScadaCommon.Forms", "ScadaC
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Storages", "Storages", "{6978AB09-0E18-48DC-BC9B-7E8140E897DC}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FileStorage", "FileStorage\FileStorage.csproj", "{B26D0012-EC84-4FB9-9CEE-6A7B4AD5C58A}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FileStorage", "FileStorage\FileStorage.csproj", "{B26D0012-EC84-4FB9-9CEE-6A7B4AD5C58A}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PostgreSqlStorage", "PostgreSqlStorage\PostgreSqlStorage.csproj", "{A17F4CFF-901E-44A1-A1C6-62902B41FD9E}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -41,12 +43,17 @@ Global
 		{B26D0012-EC84-4FB9-9CEE-6A7B4AD5C58A}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{B26D0012-EC84-4FB9-9CEE-6A7B4AD5C58A}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{B26D0012-EC84-4FB9-9CEE-6A7B4AD5C58A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{A17F4CFF-901E-44A1-A1C6-62902B41FD9E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A17F4CFF-901E-44A1-A1C6-62902B41FD9E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A17F4CFF-901E-44A1-A1C6-62902B41FD9E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A17F4CFF-901E-44A1-A1C6-62902B41FD9E}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
 		{B26D0012-EC84-4FB9-9CEE-6A7B4AD5C58A} = {6978AB09-0E18-48DC-BC9B-7E8140E897DC}
+		{A17F4CFF-901E-44A1-A1C6-62902B41FD9E} = {6978AB09-0E18-48DC-BC9B-7E8140E897DC}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {43E9E452-1233-4B4B-AF6C-A1779047BAAA}
