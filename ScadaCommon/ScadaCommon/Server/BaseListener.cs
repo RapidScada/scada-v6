@@ -587,41 +587,31 @@ namespace Scada.Server
         }
 
         /// <summary>
-        /// Gets the information about the file.
+        /// Gets the information associated with the file.
         /// </summary>
         protected void GetFileInfo(ConnectedClient client, DataPacket request, out ResponsePacket response)
         {
             int index = ArgumentIndex;
-            string fileName = GetFileName(client.InBuf, ref index);
-            FileInfo fileInfo = new FileInfo(fileName);
+            RelativePath filePath = GetFilePath(client.InBuf, ref index);
+            ShortFileInfo fileInfo = GetFileInfo(filePath);
+
             byte[] outBuf = client.OutBuf;
             response = new ResponsePacket(request, outBuf);
             index = ArgumentIndex;
-
-            if (fileInfo.Exists)
-            {
-                CopyBool(true, outBuf, ref index);
-                CopyTime(fileInfo.LastWriteTimeUtc, outBuf, ref index);
-                CopyInt64(fileInfo.Length, outBuf, ref index);
-            }
-            else
-            {
-                CopyBool(false, outBuf, ref index);
-                CopyTime(DateTime.MinValue, outBuf, ref index);
-                CopyInt64(0, outBuf, ref index);
-            }
-
+            CopyBool(fileInfo.Exists, outBuf, ref index);
+            CopyTime(fileInfo.LastWriteTime, outBuf, ref index);
+            CopyInt64(fileInfo.Length, outBuf, ref index);
             response.BufferLength = index;
         }
 
         /// <summary>
-        /// Gets a file name from the buffer.
+        /// Gets a relative file path from the buffer.
         /// </summary>
-        protected string GetFileName(byte[] buffer, ref int index)
+        protected RelativePath GetFilePath(byte[] buffer, ref int index)
         {
-            int directoryID = GetInt32(buffer, ref index);
-            string path = GetString(buffer, ref index);
-            return Path.Combine(GetDirectory(directoryID), ScadaUtils.NormalPathSeparators(path));
+            return new RelativePath(
+                GetInt32(buffer, ref index),
+                GetString(buffer, ref index));
         }
 
         /// <summary>
@@ -631,12 +621,12 @@ namespace Scada.Server
         {
             byte[] buffer = client.InBuf;
             int index = ArgumentIndex;
-            string fileName = GetFileName(buffer, ref index);
+            RelativePath filePath = GetFilePath(buffer, ref index);
             long offset = GetInt64(buffer, ref index);
             int count = GetInt32(buffer, ref index);
             SeekOrigin origin = buffer[index++] == 0 ? SeekOrigin.Begin : SeekOrigin.End;
             DateTime newerThan = GetTime(buffer, ref index);
-            FileInfo fileInfo = new FileInfo(fileName);
+            ShortFileInfo fileInfo = GetFileInfo(filePath);
 
             if (!fileInfo.Exists)
             {
@@ -644,16 +634,15 @@ namespace Scada.Server
                     1, 1, DateTime.MinValue, FileReadingResult.FileNotFound, 0);
                 client.SendResponse(response);
             }
-            else if (fileInfo.LastWriteTimeUtc <= newerThan)
+            else if (newerThan > DateTime.MinValue && newerThan >= fileInfo.LastWriteTime)
             {
                 ResponsePacket response = CreateDownloadResponse(request, client.OutBuf,
-                    1, 1, fileInfo.LastWriteTimeUtc, FileReadingResult.FileOutdated, 0);
+                    1, 1, fileInfo.LastWriteTime, FileReadingResult.FileOutdated, 0);
                 client.SendResponse(response);
             }
             else
             {
-                using (FileStream stream =
-                    new FileStream(fileName, FileMode.Open, FileAccess.Read, FileShare.ReadWrite))
+                using (Stream stream = OpenRead(filePath))
                 {
                     // set file reading position
                     if (offset > 0)
@@ -669,7 +658,6 @@ namespace Scada.Server
                     long bytesReadTotal = 0;
                     int blockNumber = 1;
                     int blockCount = (int)Math.Ceiling((double)bytesToReadTotal / BlockCapacity);
-                    DateTime lastWriteTime = File.GetLastWriteTimeUtc(fileName);
                     bool endOfFile = false;
 
                     while (!endOfFile)
@@ -689,7 +677,7 @@ namespace Scada.Server
 
                         // send response
                         ResponsePacket response = CreateDownloadResponse(
-                            request, client.OutBuf, blockNumber, blockCount, lastWriteTime,
+                            request, client.OutBuf, blockNumber, blockCount, fileInfo.LastWriteTime,
                             endOfFile ? FileReadingResult.Completed : FileReadingResult.BlockRead, bytesRead);
                         client.SendResponse(response);
                         blockNumber++;
@@ -720,14 +708,14 @@ namespace Scada.Server
         /// </summary>
         protected void UploadFile(ConnectedClient client, DataPacket request, out ResponsePacket response)
         {
-            DecodeUploadPacket(request, out int blockNumber, out int blockCount, out string fileName,
-                out bool endOfFile, out int bytesToWrite, out int fileDataIndex);
+            DecodeUploadPacket(request, out int blockNumber, out _, 
+                out RelativePath filePath, out bool endOfFile, out _, out _);
 
             if (blockNumber != 0)
                 ThrowBlockNumberException();
 
             // check whether file is accepted
-            bool fileAccepted = AcceptFileUpload(fileName);
+            bool fileAccepted = AcceptFileUpload(filePath);
             response = new ResponsePacket(request, client.OutBuf) { ArgumentLength = 1 };
             CopyBool(fileAccepted, client.OutBuf, ArgumentIndex);
             client.SendResponse(response);
@@ -737,15 +725,13 @@ namespace Scada.Server
             {
                 log.WriteAction(Locale.IsRussian ?
                     "Приём файла {0}" :
-                    "Receive file {0}", fileName);
+                    "Receive file {0}", filePath);
 
                 response = new ResponsePacket(request, client.OutBuf);
-                Directory.CreateDirectory(Path.GetDirectoryName(fileName));
 
                 try
                 {
-                    using (FileStream stream =
-                        new FileStream(fileName, FileMode.Create, FileAccess.Write, FileShare.ReadWrite))
+                    using (Stream stream = OpenWrite(filePath))
                     {
                         while (!endOfFile && !client.Terminated)
                         {
@@ -759,8 +745,8 @@ namespace Scada.Server
                             // receive next data packet
                             if (ReceiveDataPacket(client, out DataPacket dataPacket))
                             {
-                                DecodeUploadPacket(dataPacket, out int newBlockNumber, out blockCount, out string s,
-                                    out endOfFile, out bytesToWrite, out fileDataIndex);
+                                DecodeUploadPacket(dataPacket, out int newBlockNumber, out int blockCount, 
+                                    out RelativePath path, out endOfFile, out int bytesToWrite, out int fileDataIndex);
 
                                 if (dataPacket.TransactionID != request.TransactionID)
                                 {
@@ -800,17 +786,14 @@ namespace Scada.Server
                 }
                 catch
                 {
-                    // delete file in case of error
-                    try { File.Delete(fileName); }
-                    catch { }
-                    throw;
+                    BreakWriting(filePath);
                 }
             }
             else
             {
                 log.WriteAction(Locale.IsRussian ?
                     "Загрузка файла отклонена. Имя файла: {0}" :
-                    "File upload rejected. File name: {0}", fileName);
+                    "File upload rejected. File name: {0}", filePath);
                 response = null;
             }
         }
@@ -819,7 +802,7 @@ namespace Scada.Server
         /// Decodes the file upload data packet.
         /// </summary>
         protected void DecodeUploadPacket(DataPacket dataPacket,
-            out int blockNumber, out int blockCount, out string fileName,
+            out int blockNumber, out int blockCount, out RelativePath filePath,
             out bool endOfFile, out int bytesToWrite, out int fileDataIndex)
         {
             byte[] buffer = dataPacket.Buffer;
@@ -829,7 +812,7 @@ namespace Scada.Server
             if (blockNumber == 0)
             {
                 blockCount = GetInt32(buffer, ref index);
-                fileName = GetFileName(buffer, ref index);
+                filePath = GetFilePath(buffer, ref index);
                 endOfFile = false;
                 bytesToWrite = 0;
                 fileDataIndex = -1;
@@ -837,7 +820,7 @@ namespace Scada.Server
             else
             {
                 blockCount = 0;
-                fileName = "";
+                filePath = RelativePath.Empty;
                 endOfFile = GetBool(buffer, ref index);
                 bytesToWrite = GetInt32(buffer, ref index);
                 fileDataIndex = index;
@@ -858,6 +841,13 @@ namespace Scada.Server
         }
 
         /// <summary>
+        /// Performs actions when initializing the connected client.
+        /// </summary>
+        protected virtual void OnClientInit(ConnectedClient client)
+        {
+        }
+
+        /// <summary>
         /// Validates the username and password.
         /// </summary>
         protected virtual bool ValidateUser(ConnectedClient client, string username, string password, string instance,
@@ -873,21 +863,11 @@ namespace Scada.Server
         }
 
         /// <summary>
-        /// Gets the directory name by ID.
+        /// Gets the role name of the connected client.
         /// </summary>
-        protected virtual string GetDirectory(int directoryID)
+        protected virtual string GetRoleName(ConnectedClient client)
         {
-            throw new ProtocolException(ErrorCode.InvalidOperation, Locale.IsRussian ?
-                "Операция не реализована." :
-                "Operation is not implemented.");
-        }
-
-        /// <summary>
-        /// Accepts or rejects the file upload.
-        /// </summary>
-        protected virtual bool AcceptFileUpload(string fileName)
-        {
-            return true;
+            return client == null ? "" : client.RoleID.ToString();
         }
 
         /// <summary>
@@ -901,18 +881,46 @@ namespace Scada.Server
         }
 
         /// <summary>
-        /// Performs actions when initializing the connected client.
+        /// Accepts or rejects the file upload.
         /// </summary>
-        protected virtual void OnClientInit(ConnectedClient client)
+        protected virtual bool AcceptFileUpload(RelativePath path)
         {
+            return false;
         }
 
         /// <summary>
-        /// Gets the role name of the connected client.
+        /// Gets the information associated with the specified file.
         /// </summary>
-        protected virtual string GetRoleName(ConnectedClient client)
+        protected virtual ShortFileInfo GetFileInfo(RelativePath path)
         {
-            return client == null ? "" : client.RoleID.ToString();
+            return ShortFileInfo.FileNotExists;
+        }
+
+        /// <summary>
+        /// Opens an existing file for reading.
+        /// </summary>
+        protected virtual Stream OpenRead(RelativePath path)
+        {
+            throw new ProtocolException(ErrorCode.InvalidOperation, Locale.IsRussian ?
+                "Операция не реализована." :
+                "Operation is not implemented.");
+        }
+
+        /// <summary>
+        /// Opens an existing file or creates a new file for writing.
+        /// </summary>
+        protected virtual Stream OpenWrite(RelativePath path)
+        {
+            throw new ProtocolException(ErrorCode.InvalidOperation, Locale.IsRussian ?
+                "Операция не реализована." :
+                "Operation is not implemented.");
+        }
+
+        /// <summary>
+        /// Breaks writing and deletes the corrupted file.
+        /// </summary>
+        protected virtual void BreakWriting(RelativePath path)
+        {
         }
 
 

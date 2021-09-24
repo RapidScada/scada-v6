@@ -23,6 +23,8 @@
  * Modified : 2021
  */
 
+using System.Text;
+
 namespace Scada.Protocol
 {
     /// <summary>
@@ -31,6 +33,12 @@ namespace Scada.Protocol
     /// </summary>
     public class RelativePath
     {
+        /// <summary>
+        /// Represents an empty path.
+        /// </summary>
+        public static readonly RelativePath Empty = new RelativePath();
+
+
         /// <summary>
         /// Initializes a new instance of the class.
         /// </summary>
@@ -97,6 +105,24 @@ namespace Scada.Protocol
             {
                 return Path != null && (Path.IndexOf('*') >= 0 || Path.IndexOf('?') >= 0);
             }
+        }
+
+
+        /// <summary>
+        /// Returns a string that represents the current object.
+        /// </summary>
+        public override string ToString()
+        {
+            StringBuilder sbPath = new StringBuilder();
+
+            if (TopFolder != TopFolder.Undefined)
+                sbPath.Append('[').Append(TopFolder).Append("]\\");
+
+            if (AppFolder != AppFolder.Root)
+                sbPath.Append('[').Append(AppFolder).Append("]\\");
+
+            sbPath.Append(Path);
+            return sbPath.ToString();
         }
     }
 }
