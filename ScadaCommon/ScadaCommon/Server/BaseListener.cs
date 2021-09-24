@@ -669,7 +669,7 @@ namespace Scada.Server
                     long bytesReadTotal = 0;
                     int blockNumber = 1;
                     int blockCount = (int)Math.Ceiling((double)bytesToReadTotal / BlockCapacity);
-                    DateTime fileAge = File.GetLastWriteTimeUtc(fileName);
+                    DateTime lastWriteTime = File.GetLastWriteTimeUtc(fileName);
                     bool endOfFile = false;
 
                     while (!endOfFile)
@@ -689,8 +689,8 @@ namespace Scada.Server
 
                         // send response
                         ResponsePacket response = CreateDownloadResponse(
-                            request, client.OutBuf, blockNumber, blockCount, fileAge,
-                            endOfFile ? FileReadingResult.EndOfFile : FileReadingResult.Successful, bytesRead);
+                            request, client.OutBuf, blockNumber, blockCount, lastWriteTime,
+                            endOfFile ? FileReadingResult.Completed : FileReadingResult.BlockRead, bytesRead);
                         client.SendResponse(response);
                         blockNumber++;
                     }
@@ -702,13 +702,13 @@ namespace Scada.Server
         /// Creates a response to the file download request.
         /// </summary>
         protected ResponsePacket CreateDownloadResponse(DataPacket request, byte[] buffer,
-            int blockNumber, int blockCount, DateTime fileAge, FileReadingResult fileReadingResult, int bytesRead)
+            int blockNumber, int blockCount, DateTime lastWriteTime, FileReadingResult fileReadingResult, int bytesRead)
         {
             ResponsePacket response = new ResponsePacket(request, buffer);
             int index = ArgumentIndex;
             CopyInt32(blockNumber, buffer, ref index);
             CopyInt32(blockCount, buffer, ref index);
-            CopyTime(fileAge, buffer, ref index);
+            CopyTime(lastWriteTime, buffer, ref index);
             CopyByte((byte)fileReadingResult, buffer, ref index);
             CopyInt32(bytesRead, buffer, ref index);
             response.BufferLength = index + bytesRead;

@@ -20,7 +20,7 @@
  * 
  * Author   : Mikhail Shiryaev
  * Created  : 2020
- * Modified : 2020
+ * Modified : 2021
  */
 
 using Scada.Data.Models;
@@ -75,7 +75,7 @@ namespace Scada.Data.Tables
             eventsByID = new Dictionary<long, Event>();
             TableDate = DateTime.MinValue;
             FileName = "";
-            FileAge = DateTime.MinValue;
+            LastWriteTime = DateTime.MinValue;
             Events = new List<Event>();
         }
 
@@ -102,7 +102,7 @@ namespace Scada.Data.Tables
         /// <summary>
         /// Gets or sets the time (UTC) when the table file was last written to.
         /// </summary>
-        public DateTime FileAge { get; set; }
+        public DateTime LastWriteTime { get; set; }
 
         /// <summary>
         /// Gets the events sorted by timestamp.

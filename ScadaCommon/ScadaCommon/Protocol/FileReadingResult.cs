@@ -20,10 +20,8 @@
  * 
  * Author   : Mikhail Shiryaev
  * Created  : 2020
- * Modified : 2020
+ * Modified : 2021
  */
-
-#pragma warning disable 1591 // Missing XML comment for publicly visible type or member
 
 namespace Scada.Protocol
 {
@@ -33,9 +31,24 @@ namespace Scada.Protocol
     /// </summary>
     public enum FileReadingResult : byte
     {
-        Successful = 0,
-        EndOfFile = 1,
+        /// <summary>
+        /// Reading completed successfully.
+        /// </summary>
+        Completed = 0,
+
+        /// <summary>
+        /// Data block has been read successfully.
+        /// </summary>
+        BlockRead = 1,
+
+        /// <summary>
+        /// Requested file not found.
+        /// </summary>
         FileNotFound = 2,
+
+        /// <summary>
+        /// File write time is less than requested.
+        /// </summary>
         FileOutdated = 3
     }
 }

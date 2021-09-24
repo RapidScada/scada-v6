@@ -25,18 +25,18 @@
 
 using System;
 
-namespace Scada.Storages
+namespace Scada
 {
     /// <summary>
     /// Represents information associated with a file.
     /// <para>Представляет информацию, связанную с файлом.</para>
     /// </summary>
-    public struct StorageFileInfo
+    public struct ShortFileInfo
     {
         /// <summary>
         /// Represents an information of nonexistent file.
         /// </summary>
-        public static readonly StorageFileInfo FileNotExists = new StorageFileInfo
+        public static readonly ShortFileInfo FileNotExists = new ShortFileInfo
         {
             Exists = false,
             LastWriteTime = DateTime.MinValue,

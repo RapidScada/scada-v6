@@ -533,8 +533,7 @@ namespace Scada.Client
         /// <summary>
         /// Gets the information about the file.
         /// </summary>
-        public void GetFileInfo(RelativePath relativePath,
-            out bool fileExists, out DateTime fileAge, out long fileLength)
+        public ShortFileInfo GetFileInfo(RelativePath relativePath)
         {
             RestoreConnection();
 
@@ -546,9 +545,12 @@ namespace Scada.Client
 
             ReceiveResponse(request);
             index = ArgumentIndex;
-            fileExists = GetBool(inBuf, ref index);
-            fileAge = GetTime(inBuf, ref index);
-            fileLength = GetInt64(inBuf, ref index);
+            return new ShortFileInfo
+            {
+                Exists = GetBool(inBuf, ref index),
+                LastWriteTime = GetTime(inBuf, ref index),
+                Length = GetInt64(inBuf, ref index)
+            };
         }
 
         /// <summary>
@@ -556,7 +558,7 @@ namespace Scada.Client
         /// </summary>
         public void DownloadFile(RelativePath relativePath, long offset, int count, bool readFromEnd,
             DateTime newerThan, Func<Stream> createStreamFunc,
-            out DateTime fileAge, out FileReadingResult readingResult, out Stream stream)
+            out DateTime lastWriteTime, out FileReadingResult readingResult, out Stream stream)
         {
             if (createStreamFunc == null)
                 throw new ArgumentNullException(nameof(createStreamFunc));
@@ -574,26 +576,26 @@ namespace Scada.Client
             SendRequest(request);
 
             int prevBlockNumber = 0;
-            fileAge = DateTime.MinValue;
-            readingResult = FileReadingResult.Successful;
+            lastWriteTime = DateTime.MinValue;
+            readingResult = FileReadingResult.BlockRead;
             stream = null;
 
             try
             {
-                while (readingResult == FileReadingResult.Successful)
+                while (readingResult == FileReadingResult.BlockRead)
                 {
                     ReceiveResponse(request);
                     index = ArgumentIndex;
                     int blockNumber = GetInt32(inBuf, ref index);
                     int blockCount = GetInt32(inBuf, ref index);
-                    fileAge = GetTime(inBuf, ref index);
+                    lastWriteTime = GetTime(inBuf, ref index);
                     readingResult = (FileReadingResult)GetByte(inBuf, ref index);
 
                     if (blockNumber != prevBlockNumber + 1)
                         ThrowBlockNumberException();
 
-                    if (readingResult == FileReadingResult.Successful ||
-                        readingResult == FileReadingResult.EndOfFile)
+                    if (readingResult == FileReadingResult.BlockRead ||
+                        readingResult == FileReadingResult.Completed)
                     {
                         if (stream == null)
                             stream = createStreamFunc();
@@ -618,11 +620,11 @@ namespace Scada.Client
         /// Downloads the file.
         /// </summary>
         public void DownloadFile(RelativePath relativePath, long offset, int count, bool readFromEnd,
-            DateTime newerThan, string destFileName, out DateTime fileAge, out FileReadingResult readingResult)
+            DateTime newerThan, string destFileName, out DateTime lastWriteTime, out FileReadingResult readingResult)
         {
             DownloadFile(relativePath, offset, count, readFromEnd, newerThan,
                 () => { return new FileStream(destFileName, FileMode.Create, FileAccess.Write, FileShare.Read); },
-                out fileAge, out readingResult, out Stream stream);
+                out lastWriteTime, out readingResult, out Stream stream);
             stream?.Dispose();
         }
 

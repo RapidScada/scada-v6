@@ -147,7 +147,7 @@ namespace Scada.Client
 
             try
             {
-                if (readingResult == FileReadingResult.EndOfFile && stream != null)
+                if (readingResult == FileReadingResult.Completed && stream != null)
                 {
                     stream.Position = 0;
                     BaseTableAdapter adapter = new BaseTableAdapter() { Stream = stream };

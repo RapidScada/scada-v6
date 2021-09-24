@@ -122,10 +122,10 @@ namespace Scada.Storages.FileStorage
         /// <summary>
         /// Gets information associated with the file.
         /// </summary>
-        public override StorageFileInfo GetFileInfo(DataCategory category, string path)
+        public override ShortFileInfo GetFileInfo(DataCategory category, string path)
         {
             FileInfo fileInfo = new FileInfo(GetFileName(category, path));
-            return new StorageFileInfo
+            return new ShortFileInfo
             {
                 Exists = fileInfo.Exists,
                 LastWriteTime = fileInfo.LastWriteTimeUtc,

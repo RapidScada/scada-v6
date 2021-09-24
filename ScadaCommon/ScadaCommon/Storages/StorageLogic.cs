@@ -131,6 +131,6 @@ namespace Scada.Storages
         /// <summary>
         /// Gets information associated with the file.
         /// </summary>
-        public abstract StorageFileInfo GetFileInfo(DataCategory category, string path);
+        public abstract ShortFileInfo GetFileInfo(DataCategory category, string path);
     }
 }

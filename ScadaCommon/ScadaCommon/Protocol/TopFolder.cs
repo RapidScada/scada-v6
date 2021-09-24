@@ -20,7 +20,7 @@
  * 
  * Author   : Mikhail Shiryaev
  * Created  : 2020
- * Modified : 2020
+ * Modified : 2021
  */
 
 #pragma warning disable 1591 // Missing XML comment for publicly visible type or member
@@ -34,12 +34,10 @@ namespace Scada.Protocol
     public enum TopFolder : byte
     {
         Undefined = 0,
-        Archive = 1,
-        ArchiveCopy = 2,
-        Base = 3,
-        View = 4,
-        Server = 5,
-        Comm = 6,
-        Web = 7
+        Base = 1,
+        View = 2,
+        Server = 3,
+        Comm = 4,
+        Web = 5
     }
 }

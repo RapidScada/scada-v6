@@ -316,7 +316,7 @@ namespace Scada.Storages.PostgreSqlStorage
         /// <summary>
         /// Gets information associated with the file.
         /// </summary>
-        public override StorageFileInfo GetFileInfo(DataCategory category, string path)
+        public override ShortFileInfo GetFileInfo(DataCategory category, string path)
         {
             string sql =
                 $"SELECT length(contents), write_time FROM {GetTableName(category)} " +
@@ -338,7 +338,7 @@ namespace Scada.Storages.PostgreSqlStorage
                 {
                     if (reader.Read())
                     {
-                        return new StorageFileInfo
+                        return new ShortFileInfo
                         {
                             Exists = true,
                             LastWriteTime = reader.IsDBNull(1)
@@ -355,7 +355,7 @@ namespace Scada.Storages.PostgreSqlStorage
                 Monitor.Exit(conn);
             }
 
-            return StorageFileInfo.FileNotExists;
+            return ShortFileInfo.FileNotExists;
         }
     }
 }

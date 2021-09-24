@@ -100,15 +100,15 @@ namespace Scada.Server.Modules.ModArcBasic.Logic
                     EventTableAdapter.GetTableFileName(Code, eventTable.TableDate));
             }
 
-            DateTime fileAge = File.Exists(eventTable.FileName) ? 
+            DateTime lastWriteTime = File.Exists(eventTable.FileName) ? 
                 File.GetLastWriteTimeUtc(eventTable.FileName) : DateTime.MinValue;
 
-            if (fileAge > DateTime.MinValue && fileAge != eventTable.FileAge)
+            if (lastWriteTime > DateTime.MinValue && lastWriteTime != eventTable.LastWriteTime)
             {
                 stopwatch.Restart();
                 adapter.FileName = eventTable.FileName;
                 adapter.Fill(eventTable);
-                eventTable.FileAge = fileAge;
+                eventTable.LastWriteTime = lastWriteTime;
 
                 stopwatch.Stop();
                 arcLog?.WriteAction(Locale.IsRussian ?
@@ -250,7 +250,7 @@ namespace Scada.Server.Modules.ModArcBasic.Logic
                 stopwatch.Restart();
                 adapter.FileName = eventTable.FileName;
                 adapter.AppendEvent(ev);
-                eventTable.FileAge = File.GetLastWriteTimeUtc(eventTable.FileName);
+                eventTable.LastWriteTime = File.GetLastWriteTimeUtc(eventTable.FileName);
 
                 stopwatch.Stop();
                 arcLog?.WriteAction(ServerPhrases.WritingEventCompleted, stopwatch.ElapsedMilliseconds);
@@ -274,7 +274,7 @@ namespace Scada.Server.Modules.ModArcBasic.Logic
 
                 adapter.FileName = eventTable.FileName;
                 adapter.WriteEventAck(ev);
-                eventTable.FileAge = File.GetLastWriteTimeUtc(eventTable.FileName);
+                eventTable.LastWriteTime = File.GetLastWriteTimeUtc(eventTable.FileName);
 
                 stopwatch.Stop();
                 arcLog?.WriteAction(ServerPhrases.AckEventCompleted, stopwatch.ElapsedMilliseconds);
