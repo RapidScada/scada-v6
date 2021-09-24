@@ -101,7 +101,7 @@ namespace Scada.Comm.DataSources
             return new LogFile(LogFormat.Simple)
             {
                 FileName = Path.Combine(CommContext.AppDirs.LogDir, driverCode + "_" + Code + ".log"),
-                Capacity = CommContext.AppConfig.GeneralOptions.MaxLogSize
+                CapacityMB = CommContext.AppConfig.GeneralOptions.MaxLogSize
             };
         }
 

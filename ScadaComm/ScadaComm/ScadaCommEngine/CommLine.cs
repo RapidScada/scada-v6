@@ -104,7 +104,7 @@ namespace Scada.Comm.Engine
             Log = new LogFile(LogFormat.Simple)
             {
                 FileName = Path.Combine(coreLogic.AppDirs.LogDir, CommUtils.GetLineLogFileName(CommLineNum, ".log")),
-                Capacity = coreLogic.Config.GeneralOptions.MaxLogSize
+                CapacityMB = coreLogic.Config.GeneralOptions.MaxLogSize
             };
         }
 
