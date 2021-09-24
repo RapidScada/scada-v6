@@ -124,9 +124,9 @@ namespace Scada.Storages
         public abstract TextReader OpenText(DataCategory category, string path);
 
         /// <summary>
-        /// Opens a binary file for reading.
+        /// Opens an existing file for reading.
         /// </summary>
-        public abstract BinaryReader OpenBinary(DataCategory category, string path);
+        public abstract Stream OpenRead(DataCategory category, string path);
 
         /// <summary>
         /// Gets information associated with the file.

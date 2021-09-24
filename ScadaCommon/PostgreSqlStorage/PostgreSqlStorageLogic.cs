@@ -305,12 +305,12 @@ namespace Scada.Storages.PostgreSqlStorage
         }
 
         /// <summary>
-        /// Opens a binary file for reading.
+        /// Opens an existing file for reading.
         /// </summary>
-        public override BinaryReader OpenBinary(DataCategory category, string path)
+        public override Stream OpenRead(DataCategory category, string path)
         {
             byte[] bytes = ReadBytes(category, path);
-            return new BinaryReader(new MemoryStream(bytes, false), Encoding.UTF8, false);
+            return new MemoryStream(bytes, false);
         }
 
         /// <summary>

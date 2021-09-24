@@ -90,9 +90,9 @@ namespace Scada.Storages
         TextReader OpenText(DataCategory category, string path);
 
         /// <summary>
-        /// Opens a binary file for reading.
+        /// Opens an existing file for reading.
         /// </summary>
-        BinaryReader OpenBinary(DataCategory category, string path);
+        Stream OpenRead(DataCategory category, string path);
 
         /// <summary>
         /// Gets information associated with the file.

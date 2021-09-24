@@ -111,12 +111,12 @@ namespace Scada.Storages.FileStorage
         }
 
         /// <summary>
-        /// Opens a binary file for reading.
+        /// Opens an existing file for reading.
         /// </summary>
-        public override BinaryReader OpenBinary(DataCategory category, string path)
+        public override Stream OpenRead(DataCategory category, string path)
         {
             string fileName = GetFileName(category, path);
-            return new BinaryReader(File.OpenRead(fileName), Encoding.UTF8, false);
+            return File.OpenRead(fileName);
         }
 
         /// <summary>
