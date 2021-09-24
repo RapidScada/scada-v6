@@ -128,7 +128,7 @@ namespace Scada.Server.Engine
 
             storageWrapper = new StorageWrapper(new StorageContext
             {
-                App = ServiceApp.Comm,
+                App = ServiceApp.Server,
                 AppDirs = AppDirs,
                 Log = log
             }, instanceConfig);
