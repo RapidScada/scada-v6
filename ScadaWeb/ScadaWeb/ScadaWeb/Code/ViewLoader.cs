@@ -158,7 +158,7 @@ namespace Scada.Web.Code
                 RelativePath relativePath = new(TopFolder.View, AppFolder.Root, path);
                 scadaClient.DownloadFile(relativePath, memoryStream, out FileReadingResult readingResult);
 
-                if (readingResult == FileReadingResult.EndOfFile)
+                if (readingResult == FileReadingResult.Completed)
                 {
                     memoryStream.Position = 0;
                     view.LoadView(memoryStream);
@@ -182,7 +182,7 @@ namespace Scada.Web.Code
                     RelativePath relativePath = new(TopFolder.View, AppFolder.Root, pair.Value);
                     scadaClient.DownloadFile(relativePath, memoryStream, out FileReadingResult readingResult);
 
-                    if (readingResult == FileReadingResult.EndOfFile)
+                    if (readingResult == FileReadingResult.Completed)
                     {
                         view.LoadResource(pair.Key, memoryStream);
                     }
