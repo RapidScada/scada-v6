@@ -38,21 +38,12 @@ namespace Scada.Comm.Config
     /// Represents Communicator configuration.
     /// <para>Представляет конфигурацию Коммуникатора.</para>
     /// </summary>
-    public class CommConfig : IConfig
+    public class CommConfig : BaseConfig
     {
         /// <summary>
         /// The default configuration file name.
         /// </summary>
         public const string DefaultFileName = "ScadaCommConfig.xml";
-
-
-        /// <summary>
-        /// Initializes a new instance of the class.
-        /// </summary>
-        public CommConfig()
-        {
-            SetToDefault();
-        }
 
 
         /// <summary>
@@ -82,18 +73,6 @@ namespace Scada.Comm.Config
 
 
         /// <summary>
-        /// Sets the default values.
-        /// </summary>
-        private void SetToDefault()
-        {
-            GeneralOptions = new GeneralOptions();
-            Connections = new SortedList<string, ConnectionOptions>();
-            DataSources = new List<DataSourceConfig>();
-            Lines = new List<LineConfig>();
-            DriverCodes = new List<string>();
-        }
-
-        /// <summary>
         /// Fills the list of driver codes.
         /// </summary>
         private void FillDriverCodes()
@@ -119,9 +98,21 @@ namespace Scada.Comm.Config
         }
 
         /// <summary>
+        /// Sets the default values.
+        /// </summary>
+        protected override void SetToDefault()
+        {
+            GeneralOptions = new GeneralOptions();
+            Connections = new SortedList<string, ConnectionOptions>();
+            DataSources = new List<DataSourceConfig>();
+            Lines = new List<LineConfig>();
+            DriverCodes = new List<string>();
+        }
+
+        /// <summary>
         /// Loads the configuration from the specified reader.
         /// </summary>
-        private void Load(TextReader reader)
+        protected override void Load(TextReader reader)
         {
             XmlDocument xmlDoc = new XmlDocument();
             xmlDoc.Load(reader);
@@ -163,98 +154,39 @@ namespace Scada.Comm.Config
             FillDriverCodes();
         }
 
-
         /// <summary>
-        /// Loads the configuration from the specified storage.
+        /// Saves the configuration to the specified writer.
         /// </summary>
-        public bool Load(IStorage storage, string fileName, out string errMsg)
+        protected override void Save(TextWriter writer)
         {
-            try
+            XmlDocument xmlDoc = new XmlDocument();
+            XmlDeclaration xmlDecl = xmlDoc.CreateXmlDeclaration("1.0", "utf-8", null);
+            xmlDoc.AppendChild(xmlDecl);
+
+            XmlElement rootElem = xmlDoc.CreateElement("ScadaServerConfig");
+            xmlDoc.AppendChild(rootElem);
+
+            GeneralOptions.SaveToXml(rootElem.AppendElem("GeneralOptions"));
+
+            XmlElement connectionsElem = rootElem.AppendElem("Connections");
+            foreach (ConnectionOptions connectionOptions in Connections.Values)
             {
-                SetToDefault();
-
-                using (TextReader reader = storage.OpenText(DataCategory.Config, fileName))
-                {
-                    Load(reader);
-                }
-
-                errMsg = "";
-                return true;
+                connectionOptions.SaveToXml(connectionsElem.AppendElem("Connection"));
             }
-            catch (Exception ex)
+
+            XmlElement dataSourcesElem = rootElem.AppendElem("DataSources");
+            foreach (DataSourceConfig dataSourceConfig in DataSources)
             {
-                errMsg = CommonPhrases.LoadAppConfigError + ": " + ex.Message;
-                return false;
+                dataSourceConfig.SaveToXml(dataSourcesElem.AppendElem("DataSource"));
             }
-        }
 
-        /// <summary>
-        /// Loads the configuration from the specified file.
-        /// </summary>
-        public bool Load(string fileName, out string errMsg)
-        {
-            try
+            XmlElement linesElem = rootElem.AppendElem("Lines");
+            foreach (LineConfig lineConfig in Lines)
             {
-                SetToDefault();
-                
-                using (StreamReader reader = new StreamReader(fileName))
-                {
-                    Load(reader);
-                }
-
-                errMsg = "";
-                return true;
+                lineConfig.SaveToXml(linesElem.AppendElem("Line"));
             }
-            catch (Exception ex)
-            {
-                errMsg = CommonPhrases.LoadAppConfigError + ": " + ex.Message;
-                return false;
-            }
-        }
 
-        /// <summary>
-        /// Saves the configuration to the specified file.
-        /// </summary>
-        public bool Save(string fileName, out string errMsg)
-        {
-            try
-            {
-                XmlDocument xmlDoc = new XmlDocument();
-                XmlDeclaration xmlDecl = xmlDoc.CreateXmlDeclaration("1.0", "utf-8", null);
-                xmlDoc.AppendChild(xmlDecl);
-
-                XmlElement rootElem = xmlDoc.CreateElement("ScadaServerConfig");
-                xmlDoc.AppendChild(rootElem);
-
-                GeneralOptions.SaveToXml(rootElem.AppendElem("GeneralOptions"));
-
-                XmlElement connectionsElem = rootElem.AppendElem("Connections");
-                foreach (ConnectionOptions connectionOptions in Connections.Values)
-                {
-                    connectionOptions.SaveToXml(connectionsElem.AppendElem("Connection"));
-                }
-
-                XmlElement dataSourcesElem = rootElem.AppendElem("DataSources");
-                foreach (DataSourceConfig dataSourceConfig in DataSources)
-                {
-                    dataSourceConfig.SaveToXml(dataSourcesElem.AppendElem("DataSource"));
-                }
-
-                XmlElement linesElem = rootElem.AppendElem("Lines");
-                foreach (LineConfig lineConfig in Lines)
-                {
-                    lineConfig.SaveToXml(linesElem.AppendElem("Line"));
-                }
-
-                xmlDoc.Save(fileName);
-                errMsg = "";
-                return true;
-            }
-            catch (Exception ex)
-            {
-                errMsg = CommonPhrases.SaveAppConfigError + ": " + ex.Message;
-                return false;
-            }
+            xmlDoc.Save(writer);
         }
 
         /// <summary>
@@ -295,7 +227,7 @@ namespace Scada.Comm.Config
             catch (Exception ex)
             {
                 lineConfig = null;
-                errMsg = CommonPhrases.LoadAppConfigError + ": " + ex.Message;
+                errMsg = ScadaUtils.BuildErrorMessage(ex, CommonPhrases.LoadAppConfigError);
                 return false;
             }
         }
