@@ -24,8 +24,6 @@
  */
 
 using Scada.Config;
-using Scada.Lang;
-using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Xml;
@@ -36,21 +34,12 @@ namespace Scada.Server.Config
     /// Represents server configuration.
     /// <para>Представляет конфигурацию сервера.</para>
     /// </summary>
-    public class ServerConfig : IConfig
+    public class ServerConfig : BaseConfig
     {
         /// <summary>
         /// The default configuration file name.
         /// </summary>
         public const string DefaultFileName = "ScadaServerConfig.xml";
-
-
-        /// <summary>
-        /// Initializes a new instance of the class.
-        /// </summary>
-        public ServerConfig()
-        {
-            SetToDefault();
-        }
 
 
         /// <summary>
@@ -82,7 +71,7 @@ namespace Scada.Server.Config
         /// <summary>
         /// Sets the default values.
         /// </summary>
-        private void SetToDefault()
+        protected override void SetToDefault()
         {
             GeneralOptions = new GeneralOptions();
             ListenerOptions = new ListenerOptions();
@@ -92,105 +81,79 @@ namespace Scada.Server.Config
         }
 
         /// <summary>
-        /// Loads the configuration from the specified file.
+        /// Loads the configuration from the specified reader.
         /// </summary>
-        public bool Load(string fileName, out string errMsg)
+        protected override void Load(TextReader reader)
         {
-            try
+            XmlDocument xmlDoc = new XmlDocument();
+            xmlDoc.Load(reader);
+            XmlElement rootElem = xmlDoc.DocumentElement;
+
+            if (rootElem.SelectSingleNode("GeneralOptions") is XmlNode generalOptionsNode)
+                GeneralOptions.LoadFromXml(generalOptionsNode);
+
+            if (rootElem.SelectSingleNode("ListenerOptions") is XmlNode listenerOptionsNode)
+                ListenerOptions.LoadFromXml(listenerOptionsNode);
+
+            if (rootElem.SelectSingleNode("PathOptions") is XmlNode pathOptionsNode)
+                PathOptions.LoadFromXml(pathOptionsNode);
+
+            HashSet<string> moduleCodes = new HashSet<string>();
+
+            if (rootElem.SelectSingleNode("Modules") is XmlNode modulesNode)
             {
-                SetToDefault();
-
-                if (!File.Exists(fileName))
-                    throw new FileNotFoundException(string.Format(CommonPhrases.NamedFileNotFound, fileName));
-
-                XmlDocument xmlDoc = new XmlDocument();
-                xmlDoc.Load(fileName);
-                XmlElement rootElem = xmlDoc.DocumentElement;
-
-                if (rootElem.SelectSingleNode("GeneralOptions") is XmlNode generalOptionsNode)
-                    GeneralOptions.LoadFromXml(generalOptionsNode);
-
-                if (rootElem.SelectSingleNode("ListenerOptions") is XmlNode listenerOptionsNode)
-                    ListenerOptions.LoadFromXml(listenerOptionsNode);
-
-                if (rootElem.SelectSingleNode("PathOptions") is XmlNode pathOptionsNode)
-                    PathOptions.LoadFromXml(pathOptionsNode);
-
-                HashSet<string> moduleCodes = new HashSet<string>();
-
-                if (rootElem.SelectSingleNode("Modules") is XmlNode modulesNode)
+                foreach (XmlElement moduleElem in modulesNode.SelectNodes("Module"))
                 {
-                    foreach (XmlElement moduleElem in modulesNode.SelectNodes("Module"))
-                    {
-                        string moduleCode = ScadaUtils.RemoveFileNameSuffixes(moduleElem.GetAttribute("code"));
+                    string moduleCode = ScadaUtils.RemoveFileNameSuffixes(moduleElem.GetAttribute("code"));
 
-                        if (moduleCodes.Add(moduleCode.ToLowerInvariant())) // check uniqueness
-                            ModuleCodes.Add(moduleCode);
-                    }
+                    if (moduleCodes.Add(moduleCode.ToLowerInvariant())) // check uniqueness
+                        ModuleCodes.Add(moduleCode);
                 }
-
-                if (rootElem.SelectSingleNode("Archives") is XmlNode archivesNode)
-                {
-                    foreach (XmlElement archiveElem in archivesNode.SelectNodes("Archive"))
-                    {
-                        ArchiveConfig archiveConfig = new ArchiveConfig();
-                        archiveConfig.LoadFromXml(archiveElem);
-                        Archives.Add(archiveConfig);
-
-                        if (archiveConfig.Active && moduleCodes.Add(archiveConfig.Module.ToLowerInvariant()))
-                            ModuleCodes.Add(archiveConfig.Module);
-                    }
-                }
-
-                errMsg = "";
-                return true;
             }
-            catch (Exception ex)
+
+            if (rootElem.SelectSingleNode("Archives") is XmlNode archivesNode)
             {
-                errMsg = ScadaUtils.BuildErrorMessage(ex, CommonPhrases.LoadAppConfigError);
-                return false;
+                foreach (XmlElement archiveElem in archivesNode.SelectNodes("Archive"))
+                {
+                    ArchiveConfig archiveConfig = new ArchiveConfig();
+                    archiveConfig.LoadFromXml(archiveElem);
+                    Archives.Add(archiveConfig);
+
+                    if (archiveConfig.Active && moduleCodes.Add(archiveConfig.Module.ToLowerInvariant()))
+                        ModuleCodes.Add(archiveConfig.Module);
+                }
             }
         }
 
         /// <summary>
-        /// Saves the configuration to the specified file.
+        /// Saves the configuration to the specified writer.
         /// </summary>
-        public bool Save(string fileName, out string errMsg)
+        protected override void Save(TextWriter writer)
         {
-            try
+            XmlDocument xmlDoc = new XmlDocument();
+            XmlDeclaration xmlDecl = xmlDoc.CreateXmlDeclaration("1.0", "utf-8", null);
+            xmlDoc.AppendChild(xmlDecl);
+
+            XmlElement rootElem = xmlDoc.CreateElement("ScadaServerConfig");
+            xmlDoc.AppendChild(rootElem);
+
+            GeneralOptions.SaveToXml(rootElem.AppendElem("GeneralOptions"));
+            ListenerOptions.SaveToXml(rootElem.AppendElem("ListenerOptions"));
+            PathOptions.SaveToXml(rootElem.AppendElem("PathOptions"));
+
+            XmlElement modulesElem = rootElem.AppendElem("Modules");
+            foreach (string moduleCode in ModuleCodes)
             {
-                XmlDocument xmlDoc = new XmlDocument();
-                XmlDeclaration xmlDecl = xmlDoc.CreateXmlDeclaration("1.0", "utf-8", null);
-                xmlDoc.AppendChild(xmlDecl);
-
-                XmlElement rootElem = xmlDoc.CreateElement("ScadaServerConfig");
-                xmlDoc.AppendChild(rootElem);
-
-                GeneralOptions.SaveToXml(rootElem.AppendElem("GeneralOptions"));
-                ListenerOptions.SaveToXml(rootElem.AppendElem("ListenerOptions"));
-                PathOptions.SaveToXml(rootElem.AppendElem("PathOptions"));
-
-                XmlElement modulesElem = rootElem.AppendElem("Modules");
-                foreach (string moduleCode in ModuleCodes)
-                {
-                    modulesElem.AppendElem("Module").SetAttribute("code", moduleCode);
-                }
-
-                XmlElement archivesElem = rootElem.AppendElem("Archives");
-                foreach (ArchiveConfig archiveConfig in Archives)
-                {
-                    archiveConfig.SaveToXml(archivesElem.AppendElem("Archive"));
-                }
-
-                xmlDoc.Save(fileName);
-                errMsg = "";
-                return true;
+                modulesElem.AppendElem("Module").SetAttribute("code", moduleCode);
             }
-            catch (Exception ex)
+
+            XmlElement archivesElem = rootElem.AppendElem("Archives");
+            foreach (ArchiveConfig archiveConfig in Archives)
             {
-                errMsg = ScadaUtils.BuildErrorMessage(ex, CommonPhrases.SaveAppConfigError);
-                return false;
+                archiveConfig.SaveToXml(archivesElem.AppendElem("Archive"));
             }
+
+            xmlDoc.Save(writer);
         }
     }
 }

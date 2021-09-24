@@ -28,6 +28,7 @@ using Scada.Lang;
 using Scada.Log;
 using Scada.Server.Config;
 using Scada.Server.Lang;
+using Scada.Storages;
 using System;
 using System.IO;
 using System.Reflection;
@@ -40,8 +41,9 @@ namespace Scada.Server.Engine
     /// </summary>
     public class Manager
     {
-        private ILog log;            // the application log
-        private CoreLogic coreLogic; // the server logic instance
+        private ILog log;                      // the application log
+        private StorageWrapper storageWrapper; // contains the application storage
+        private CoreLogic coreLogic;           // the server logic instance
 
 
         /// <summary>
@@ -50,6 +52,7 @@ namespace Scada.Server.Engine
         public Manager()
         {
             log = LogStub.Instance;
+            storageWrapper = null;
             coreLogic = null;
             AppDirs = new ServerDirs();
             AppDomain.CurrentDomain.UnhandledException += OnUnhandledException;
@@ -65,16 +68,17 @@ namespace Scada.Server.Engine
         /// <summary>
         /// Localizes the application.
         /// </summary>
-        private void LocalizeApp(string langDir)
+        private bool LocalizeApp()
         {
-            if (!Locale.LoadDictionaries(langDir, "ScadaCommon", out string errMsg))
+            if (!Locale.LoadDictionaries(AppDirs.LangDir, "ScadaCommon", out string errMsg))
                 log.WriteError(errMsg);
 
-            if (!Locale.LoadDictionaries(langDir, "ScadaServer", out errMsg))
+            if (!Locale.LoadDictionaries(AppDirs.LangDir, "ScadaServer", out errMsg))
                 log.WriteError(errMsg);
 
             CommonPhrases.Init();
             ServerPhrases.Init();
+            return true;
         }
 
         /// <summary>
@@ -95,9 +99,11 @@ namespace Scada.Server.Engine
             System.Diagnostics.Debugger.Launch();
 #endif
 
+            // initialize directories
             string exeDir = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location);
             AppDirs.Init(exeDir);
 
+            // initialize log
             LogFile logFile = new LogFile(LogFormat.Full, Path.Combine(AppDirs.LogDir, ServerUtils.LogFileName))
             {
                 Capacity = int.MaxValue
@@ -106,35 +112,42 @@ namespace Scada.Server.Engine
             log = logFile;
             log.WriteBreak();
 
-            if (!Locale.LoadCulture(Path.Combine(exeDir, "..", "Config", InstanceConfig.DefaultFileName),
-                out string errMsg))
-            {
-                log.WriteError(errMsg);
-            }
+            // load instance configuration
+            InstanceConfig instanceConfig = new InstanceConfig();
+            string configFileName = Path.Combine(AppDirs.InstanceDir, "Config", InstanceConfig.DefaultFileName);
 
+            if (instanceConfig.Load(configFileName, out string errMsg))
+                Locale.SetCulture(instanceConfig.Culture);
+            else
+                log.WriteError(errMsg);
+
+            // prepare to start service
             log.WriteAction(Locale.IsRussian ?
                 "Сервер {0} запущен" :
                 "Server {0} started", ServerUtils.AppVersion);
 
-            if (AppDirs.CheckExistence(out errMsg))
+            storageWrapper = new StorageWrapper(new StorageContext
             {
-                LocalizeApp(AppDirs.LangDir);
-                string configFileName = Path.Combine(AppDirs.ConfigDir, ServerConfig.DefaultFileName);
-                ServerConfig config = new ServerConfig();
-                coreLogic = new CoreLogic(config, AppDirs, log);
+                App = ServiceApp.Comm,
+                AppDirs = AppDirs,
+                Log = log
+            }, instanceConfig);
 
-                if (config.Load(configFileName, out errMsg) &&
-                    coreLogic.StartProcessing())
-                {
-                    logFile.Capacity = config.GeneralOptions.MaxLogSize;
+            ServerConfig config = new ServerConfig();
+
+            if (AppDirs.CheckExistence(out errMsg) &&
+                LocalizeApp() &&
+                storageWrapper.InitStorage() &&
+                config.Load(storageWrapper.Storage, ServerConfig.DefaultFileName, out errMsg))
+            {
+                // start service
+                logFile.CapacityMB = config.GeneralOptions.MaxLogSize;
+                coreLogic = new CoreLogic(config, AppDirs, storageWrapper.Storage, log);
+
+                if (coreLogic.StartProcessing())
                     return true;
-                }
-                else if (!string.IsNullOrEmpty(errMsg))
-                {
-                    log.WriteError(errMsg);
-                }
             }
-            else
+            else if (!string.IsNullOrEmpty(errMsg))
             {
                 log.WriteError(errMsg);
             }

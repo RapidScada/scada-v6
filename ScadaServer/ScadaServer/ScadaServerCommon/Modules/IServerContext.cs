@@ -27,6 +27,7 @@ using Scada.Data.Models;
 using Scada.Data.Tables;
 using Scada.Log;
 using Scada.Server.Config;
+using Scada.Storages;
 using System;
 using System.Collections.Generic;
 
@@ -47,6 +48,11 @@ namespace Scada.Server.Modules
         /// Gets the application directories.
         /// </summary>
         ServerDirs AppDirs { get; }
+
+        /// <summary>
+        /// Gets the application storage.
+        /// </summary>
+        IStorage Storage { get; }
 
         /// <summary>
         /// Gets the application log.

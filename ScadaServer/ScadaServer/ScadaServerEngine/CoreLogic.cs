@@ -23,7 +23,6 @@
  * Modified : 2021
  */
 
-using Scada.Data.Adapters;
 using Scada.Data.Const;
 using Scada.Data.Entities;
 using Scada.Data.Models;
@@ -33,6 +32,7 @@ using Scada.Log;
 using Scada.Server.Archives;
 using Scada.Server.Config;
 using Scada.Server.Modules;
+using Scada.Storages;
 using System;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
@@ -101,10 +101,11 @@ namespace Scada.Server.Engine
         /// <summary>
         /// Initializes a new instance of the class.
         /// </summary>
-        public CoreLogic(ServerConfig config, ServerDirs appDirs, ILog log)
+        public CoreLogic(ServerConfig config, ServerDirs appDirs, IStorage storage, ILog log)
         {
             Config = config ?? throw new ArgumentNullException(nameof(config));
             AppDirs = appDirs ?? throw new ArgumentNullException(nameof(appDirs));
+            Storage = storage ?? throw new ArgumentNullException(nameof(storage));
             Log = log ?? throw new ArgumentNullException(nameof(log));
             BaseDataSet = null;
             SharedData = null;
@@ -144,6 +145,11 @@ namespace Scada.Server.Engine
         /// Gets the application directories.
         /// </summary>
         public ServerDirs AppDirs { get; }
+
+        /// <summary>
+        /// Gets the application storage.
+        /// </summary>
+        public IStorage Storage { get; }
 
         /// <summary>
         /// Gets the application log.
@@ -225,13 +231,10 @@ namespace Scada.Server.Engine
             try
             {
                 BaseDataSet = new BaseDataSet();
-                BaseTableAdapter adapter = new BaseTableAdapter();
 
                 foreach (IBaseTable baseTable in BaseDataSet.AllTables)
                 {
-                    tableName = baseTable.Name;
-                    adapter.FileName = Path.Combine(Config.PathOptions.BaseDir, baseTable.FileNameDat);
-                    adapter.Fill(baseTable);
+                    Storage.ReadBaseTable(baseTable);
                 }
 
                 Log.WriteAction(Locale.IsRussian ?

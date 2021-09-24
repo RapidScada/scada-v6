@@ -28,6 +28,7 @@ using Scada.Data.Tables;
 using Scada.Log;
 using Scada.Server.Config;
 using Scada.Server.Modules;
+using Scada.Storages;
 using System;
 using System.Collections.Generic;
 
@@ -64,6 +65,11 @@ namespace Scada.Server.Engine
         /// Gets the application directories.
         /// </summary>
         public ServerDirs AppDirs => coreLogic.AppDirs;
+
+        /// <summary>
+        /// Gets the application storage.
+        /// </summary>
+        public IStorage Storage => coreLogic.Storage;
 
         /// <summary>
         /// Gets the application log.
