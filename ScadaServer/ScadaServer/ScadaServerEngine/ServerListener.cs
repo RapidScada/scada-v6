@@ -23,16 +23,17 @@
  * Modified : 2021
  */
 
+using Scada.Data.Adapters;
 using Scada.Data.Const;
 using Scada.Data.Entities;
 using Scada.Data.Models;
 using Scada.Data.Tables;
 using Scada.Lang;
-using Scada.Log;
 using Scada.Protocol;
-using Scada.Server.Config;
+using Scada.Storages;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using static Scada.BinaryConverter;
 using static Scada.Protocol.ProtocolUtils;
 
@@ -69,7 +70,7 @@ namespace Scada.Server.Engine
         /// <summary>
         /// Gets the client tag or creates it if necessary.
         /// </summary>
-        protected ClientTag GetClientTag(ConnectedClient client)
+        private ClientTag GetClientTag(ConnectedClient client)
         {
             return client.Tag as ClientTag ?? throw new InvalidOperationException("Client tag must not be null.");
         }
@@ -77,7 +78,7 @@ namespace Scada.Server.Engine
         /// <summary>
         /// Gets the current data.
         /// </summary>
-        protected void GetCurrentData(ConnectedClient client, DataPacket request, out ResponsePacket response)
+        private void GetCurrentData(ConnectedClient client, DataPacket request, out ResponsePacket response)
         {
             byte[] buffer = request.Buffer;
             int index = ArgumentIndex;
@@ -109,7 +110,7 @@ namespace Scada.Server.Engine
         /// <summary>
         /// Gets the trends of the specified channels.
         /// </summary>
-        protected void GetTrends(ConnectedClient client, DataPacket request)
+        private void GetTrends(ConnectedClient client, DataPacket request)
         {
             byte[] buffer = request.Buffer;
             int index = ArgumentIndex;
@@ -158,7 +159,7 @@ namespace Scada.Server.Engine
         /// <summary>
         /// Gets the available timestamps.
         /// </summary>
-        protected void GetTimestamps(ConnectedClient client, DataPacket request, out ResponsePacket response)
+        private void GetTimestamps(ConnectedClient client, DataPacket request, out ResponsePacket response)
         {
             byte[] buffer = request.Buffer;
             int index = ArgumentIndex;
@@ -182,7 +183,7 @@ namespace Scada.Server.Engine
         /// <summary>
         /// Gets the slice of the specified channels at the timestamp.
         /// </summary>
-        protected void GetSlice(ConnectedClient client, DataPacket request, out ResponsePacket response)
+        private void GetSlice(ConnectedClient client, DataPacket request, out ResponsePacket response)
         {
             byte[] buffer = request.Buffer;
             int index = ArgumentIndex;
@@ -200,7 +201,7 @@ namespace Scada.Server.Engine
         /// <summary>
         /// Gets the time (UTC) when the archive was last written to.
         /// </summary>
-        protected void GetLastWriteTime(ConnectedClient client, DataPacket request, out ResponsePacket response)
+        private void GetLastWriteTime(ConnectedClient client, DataPacket request, out ResponsePacket response)
         {
             int archiveBit = request.Buffer[ArgumentIndex];
             DateTime lastWriteTime = archiveHolder.GetLastWriteTime(archiveBit);
@@ -212,7 +213,7 @@ namespace Scada.Server.Engine
         /// <summary>
         /// Writes the current data.
         /// </summary>
-        protected void WriteCurrentData(ConnectedClient client, DataPacket request, out ResponsePacket response)
+        private void WriteCurrentData(ConnectedClient client, DataPacket request, out ResponsePacket response)
         {
             byte[] buffer = request.Buffer;
             int index = ArgumentIndex;
@@ -237,7 +238,7 @@ namespace Scada.Server.Engine
         /// <summary>
         /// Writes the historical data.
         /// </summary>
-        protected void WriteHistoricalData(ConnectedClient client, DataPacket request, out ResponsePacket response)
+        private void WriteHistoricalData(ConnectedClient client, DataPacket request, out ResponsePacket response)
         {
             byte[] buffer = request.Buffer;
             int index = ArgumentIndex;
@@ -263,7 +264,7 @@ namespace Scada.Server.Engine
         /// <summary>
         /// Gets the event by ID.
         /// </summary>
-        protected void GetEventByID(ConnectedClient client, DataPacket request, out ResponsePacket response)
+        private void GetEventByID(ConnectedClient client, DataPacket request, out ResponsePacket response)
         {
             byte[] buffer = request.Buffer;
             int index = ArgumentIndex;
@@ -291,7 +292,7 @@ namespace Scada.Server.Engine
         /// <summary>
         /// Gets the events.
         /// </summary>
-        protected void GetEvents(ConnectedClient client, DataPacket request)
+        private void GetEvents(ConnectedClient client, DataPacket request)
         {
             byte[] buffer = request.Buffer;
             int index = ArgumentIndex;
@@ -355,7 +356,7 @@ namespace Scada.Server.Engine
         /// <summary>
         /// Writes the event.
         /// </summary>
-        protected void WriteEvent(ConnectedClient client, DataPacket request, out ResponsePacket response)
+        private void WriteEvent(ConnectedClient client, DataPacket request, out ResponsePacket response)
         {
             int index = ArgumentIndex;
             int archiveMask = GetInt32(request.Buffer, ref index);
@@ -369,7 +370,7 @@ namespace Scada.Server.Engine
         /// <summary>
         /// Acknowledges the event.
         /// </summary>
-        protected void AckEvent(ConnectedClient client, DataPacket request, out ResponsePacket response)
+        private void AckEvent(ConnectedClient client, DataPacket request, out ResponsePacket response)
         {
             byte[] buffer = request.Buffer;
             int index = ArgumentIndex;
@@ -383,7 +384,7 @@ namespace Scada.Server.Engine
         /// <summary>
         /// Sends the telecontrol command.
         /// </summary>
-        protected void SendCommand(ConnectedClient client, DataPacket request, out ResponsePacket response)
+        private void SendCommand(ConnectedClient client, DataPacket request, out ResponsePacket response)
         {
             byte[] buffer = request.Buffer;
             int index = ArgumentIndex;
@@ -413,7 +414,7 @@ namespace Scada.Server.Engine
         /// <summary>
         /// Gets a telecontrol command from the server queue.
         /// </summary>
-        protected void GetCommand(ConnectedClient client, DataPacket request, out ResponsePacket response)
+        private void GetCommand(ConnectedClient client, DataPacket request, out ResponsePacket response)
         {
             byte[] buffer = request.Buffer;
             long commandToRemove = BitConverter.ToInt64(buffer, ArgumentIndex);
@@ -447,7 +448,7 @@ namespace Scada.Server.Engine
         /// <summary>
         /// Disables getting commands for the client.
         /// </summary>
-        protected void DisableGettingCommands(ConnectedClient client, DataPacket request, out ResponsePacket response)
+        private void DisableGettingCommands(ConnectedClient client, DataPacket request, out ResponsePacket response)
         {
             log.WriteAction(Locale.IsRussian ?
                 "Отключение получения команд для пользователя {1}" :
@@ -455,6 +456,7 @@ namespace Scada.Server.Engine
             GetClientTag(client).DisableGettingCommands();
             response = new ResponsePacket(request, client.OutBuf);
         }
+
 
         /// <summary>
         /// Gets the server name and version.
@@ -472,6 +474,14 @@ namespace Scada.Server.Engine
         protected override bool ServerIsReady()
         {
             return coreLogic.IsReady;
+        }
+
+        /// <summary>
+        /// Performs actions when initializing the connected client.
+        /// </summary>
+        protected override void OnClientInit(ConnectedClient client)
+        {
+            client.Tag = new ClientTag();
         }
 
         /// <summary>
@@ -532,35 +542,12 @@ namespace Scada.Server.Engine
         }
 
         /// <summary>
-        /// Gets the directory name by ID.
+        /// Gets the role name of the connected client.
         /// </summary>
-        protected override string GetDirectory(int directoryID)
+        protected override string GetRoleName(ConnectedClient client)
         {
-            PathOptions pathOptions = coreLogic.Config.PathOptions;
-
-            switch (directoryID)
-            {
-                case (int)TopFolder.Archive:
-                    return pathOptions.ArcDir;
-                case (int)TopFolder.ArchiveCopy:
-                    return pathOptions.ArcCopyDir;
-                case (int)TopFolder.Base:
-                    return pathOptions.BaseDir;
-                case (int)TopFolder.View:
-                    return pathOptions.ViewDir;
-                default:
-                    throw new ProtocolException(ErrorCode.IllegalFunctionArguments, Locale.IsRussian ?
-                        "Директория не поддерживается." :
-                        "Directory not supported.");
-            }
-        }
-
-        /// <summary>
-        /// Accepts or rejects the file upload.
-        /// </summary>
-        protected override bool AcceptFileUpload(string fileName)
-        {
-            return false;
+            Role role = client == null ? null : coreLogic.ConfigBase.RoleTable.GetItem(client.RoleID);
+            return role == null ? "" : role.Name;
         }
 
         /// <summary>
@@ -637,21 +624,61 @@ namespace Scada.Server.Engine
         }
 
         /// <summary>
-        /// Performs actions when initializing the connected client.
+        /// Gets the information associated with the specified file.
         /// </summary>
-        protected override void OnClientInit(ConnectedClient client)
+        protected override ShortFileInfo GetFileInfo(RelativePath path)
         {
-            client.Tag = new ClientTag();
+            switch (path.TopFolder)
+            {
+                case TopFolder.Base:
+                    return coreLogic.ConfigBase.TableMap.ContainsKey(path.Path)
+                        ? new ShortFileInfo
+                        {
+                            Exists = true,
+                            LastWriteTime = coreLogic.ConfigBase.BaseTimestamp,
+                            Length = 0
+                        }
+                        : ShortFileInfo.FileNotExists;
+
+                case TopFolder.View:
+                    return coreLogic.Storage.GetFileInfo(DataCategory.View, path.Path);
+
+                default:
+                    throw new ProtocolException(ErrorCode.IllegalFunctionArguments, Locale.IsRussian ?
+                        "Путь файла не поддерживается." :
+                        "File path not supported.");
+            }
         }
 
         /// <summary>
-        /// Gets the role name of the connected client.
+        /// Opens an existing file for reading.
         /// </summary>
-        protected override string GetRoleName(ConnectedClient client)
+        protected override Stream OpenRead(RelativePath path)
         {
-            Role role = client == null ? null : coreLogic.BaseDataSet.RoleTable.GetItem(client.RoleID);
-            return role == null ? "" : role.Name;
+            switch (path.TopFolder)
+            {
+                case TopFolder.Base:
+                    if (coreLogic.ConfigBase.TableMap.TryGetValue(path.Path, out IBaseTable baseTable))
+                    {
+                        BaseTableAdapter adapter = new BaseTableAdapter { Stream = new MemoryStream() };
+                        adapter.Update(baseTable);
+                        return adapter.Stream;
+                    }
+                    else
+                    {
+                        throw new ScadaException(CommonPhrases.NamedFileNotFound, path);
+                    }
+
+                case TopFolder.View:
+                    return coreLogic.Storage.OpenRead(DataCategory.View, path.Path);
+
+                default:
+                    throw new ProtocolException(ErrorCode.IllegalFunctionArguments, Locale.IsRussian ?
+                        "Путь файла не поддерживается." :
+                        "File path not supported.");
+            }
         }
+
 
         /// <summary>
         /// Enqueues the command to be transferred to the connected cliens.

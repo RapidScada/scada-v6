@@ -79,7 +79,7 @@ namespace Scada.Server.Engine
         /// <summary>
         /// Gets the cached configuration database.
         /// </summary>
-        public BaseDataSet BaseDataSet => coreLogic.BaseDataSet;
+        public BaseDataSet BaseDataSet => coreLogic.ConfigBase;
 
         /// <summary>
         /// Gets the active channel numbers for archiving.
