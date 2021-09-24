@@ -662,6 +662,7 @@ namespace Scada.Server.Engine
                     {
                         BaseTableAdapter adapter = new BaseTableAdapter { Stream = new MemoryStream() };
                         adapter.Update(baseTable);
+                        adapter.Stream.Position = 0;
                         return adapter.Stream;
                     }
                     else
