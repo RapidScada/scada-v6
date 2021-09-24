@@ -111,7 +111,7 @@ namespace Scada
 
             try
             {
-                alg = new RijndaelManaged() { Key = secretKey, IV = iv };
+                alg = new RijndaelManaged { Key = secretKey, IV = iv };
 
                 using (MemoryStream memStream = new MemoryStream())
                 {
@@ -155,7 +155,7 @@ namespace Scada
 
             try
             {
-                alg = new RijndaelManaged() { Key = secretKey, IV = iv };
+                alg = new RijndaelManaged { Key = secretKey, IV = iv };
 
                 using (MemoryStream memStream = new MemoryStream(bytes))
                 {

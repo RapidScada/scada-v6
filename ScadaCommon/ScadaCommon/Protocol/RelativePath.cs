@@ -20,7 +20,7 @@
  * 
  * Author   : Mikhail Shiryaev
  * Created  : 2018
- * Modified : 2020
+ * Modified : 2021
  */
 
 namespace Scada.Protocol
@@ -51,6 +51,16 @@ namespace Scada.Protocol
             Path = path ?? "";
         }
 
+        /// <summary>
+        /// Initializes a new instance of the class.
+        /// </summary>
+        public RelativePath(int directoryID, string path = "")
+        {
+            TopFolder = (TopFolder)(byte)directoryID;
+            AppFolder = (AppFolder)(byte)(directoryID >> 8);
+            Path = path ?? "";
+        }
+
 
         /// <summary>
         /// Gets or sets the top folder.
@@ -68,6 +78,17 @@ namespace Scada.Protocol
         public string Path { get; set; }
 
         /// <summary>
+        /// Gets the directory ID based to the top and application folders.
+        /// </summary>
+        public int DirectoryID
+        {
+            get
+            {
+                return (byte)TopFolder | ((byte)AppFolder << 8);
+            }
+        }
+
+        /// <summary>
         /// Gets a value indicating whether the path is a file search mask.
         /// </summary>
         public bool IsMask
@@ -76,26 +97,6 @@ namespace Scada.Protocol
             {
                 return Path != null && (Path.IndexOf('*') >= 0 || Path.IndexOf('?') >= 0);
             }
-        }
-
-
-        /// <summary>
-        /// Gets the directory ID corresponding to the top and application directories.
-        /// </summary>
-        public int GetDirectoryID()
-        {
-            return (byte)TopFolder | ((byte)AppFolder << 8);
-        }
-
-        /// <summary>
-        /// Returns a relative path corresponding to the directory ID.
-        /// </summary>
-        public static RelativePath FromDirectoryID(int directoryID)
-        {
-            return new RelativePath(
-                (TopFolder)(byte)directoryID,
-                (AppFolder)(byte)(directoryID >> 8),
-                "");
         }
     }
 }

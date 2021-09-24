@@ -539,7 +539,7 @@ namespace Scada.Client
 
             DataPacket request = CreateRequest(FunctionID.GetFileInfo);
             int index = ArgumentIndex;
-            CopyFileName(relativePath.GetDirectoryID(), relativePath.Path, outBuf, ref index);
+            CopyFileName(relativePath.DirectoryID, relativePath.Path, outBuf, ref index);
             request.BufferLength = index;
             SendRequest(request);
 
@@ -567,7 +567,7 @@ namespace Scada.Client
 
             DataPacket request = CreateRequest(FunctionID.DownloadFile);
             int index = ArgumentIndex;
-            CopyFileName(relativePath.GetDirectoryID(), relativePath.Path, outBuf, ref index);
+            CopyFileName(relativePath.DirectoryID, relativePath.Path, outBuf, ref index);
             CopyInt64(offset, outBuf, ref index);
             CopyInt32(count, outBuf, ref index);
             CopyBool(readFromEnd, outBuf, ref index);
@@ -660,7 +660,7 @@ namespace Scada.Client
                 int index = ArgumentIndex;
                 CopyInt32(0, outBuf, ref index);
                 CopyInt32(blockCount, outBuf, ref index);
-                CopyFileName(destPath.GetDirectoryID(), destPath.Path, outBuf, ref index);
+                CopyFileName(destPath.DirectoryID, destPath.Path, outBuf, ref index);
                 request.BufferLength = index;
                 SendRequest(request);
 

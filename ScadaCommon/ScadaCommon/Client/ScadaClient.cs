@@ -150,7 +150,7 @@ namespace Scada.Client
                 if (readingResult == FileReadingResult.Completed && stream != null)
                 {
                     stream.Position = 0;
-                    BaseTableAdapter adapter = new BaseTableAdapter() { Stream = stream };
+                    BaseTableAdapter adapter = new BaseTableAdapter { Stream = stream };
                     adapter.Fill(baseTable);
                     return true;
                 }

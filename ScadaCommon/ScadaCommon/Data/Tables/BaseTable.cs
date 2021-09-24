@@ -436,7 +436,7 @@ namespace Scada.Data.Tables
         {
             List<T> list = new List<T>(Items.Values);
             XmlSerializer serializer = new XmlSerializer(list.GetType());
-            XmlWriterSettings writerSettings = new XmlWriterSettings() { Indent = true };
+            XmlWriterSettings writerSettings = new XmlWriterSettings { Indent = true };
 
             using (XmlWriter writer = XmlWriter.Create(fileName, writerSettings))
             {
