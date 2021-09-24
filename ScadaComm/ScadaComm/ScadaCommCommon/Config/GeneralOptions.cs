@@ -45,7 +45,7 @@ namespace Scada.Comm.Config
             SendAllDataPeriod = 60;
             EnableCommands = true;
             EnableFileCommands = true;
-            MaxLogSize = LogFile.DefaultCapacity;
+            MaxLogSize = LogFile.DefaultCapacityMB;
         }
 
 
@@ -75,7 +75,7 @@ namespace Scada.Comm.Config
         public bool EnableFileCommands { get; set; }
 
         /// <summary>
-        /// Gets or sets the maximum log file size.
+        /// Gets or sets the maximum log file size, megabytes.
         /// </summary>
         public int MaxLogSize { get; set; }
 

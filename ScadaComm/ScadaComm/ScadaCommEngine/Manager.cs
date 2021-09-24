@@ -142,7 +142,7 @@ namespace Scada.Comm.Engine
                 config.Load(storageWrapper.Storage, CommConfig.DefaultFileName, out errMsg))
             {
                 // start service
-                logFile.Capacity = config.GeneralOptions.MaxLogSize;
+                logFile.CapacityMB = config.GeneralOptions.MaxLogSize;
                 coreLogic = new CoreLogic(config, AppDirs, storageWrapper.Storage, log);
 
                 if (coreLogic.StartProcessing())
