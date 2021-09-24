@@ -45,7 +45,7 @@ namespace Scada.Web.Config
             DefaultStartPage = "";
             EnableCommands = true;
             ShareStats = true;
-            MaxLogSize = LogFile.DefaultCapacity;
+            MaxLogSize = LogFile.DefaultCapacityMB;
         }
 
 
@@ -76,7 +76,7 @@ namespace Scada.Web.Config
         public bool ShareStats { get; set; }
 
         /// <summary>
-        /// Gets or sets the maximum log file size.
+        /// Gets or sets the maximum log file size, megabytes.
         /// </summary>
         public int MaxLogSize { get; set; }
 

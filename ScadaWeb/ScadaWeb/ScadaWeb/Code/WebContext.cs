@@ -173,7 +173,7 @@ namespace Scada.Web.Code
             if (AppConfig.Load(Path.Combine(AppDirs.ConfigDir, WebConfig.DefaultFileName), out string errMsg))
             {
                 if (Log is LogFile logFile)
-                    logFile.Capacity = AppConfig.GeneralOptions.MaxLogSize;
+                    logFile.CapacityMB = AppConfig.GeneralOptions.MaxLogSize;
             }
             else
             {
