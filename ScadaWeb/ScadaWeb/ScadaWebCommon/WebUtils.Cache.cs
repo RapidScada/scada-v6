@@ -20,6 +20,10 @@ namespace Scada.Web
         /// The cache expiration for views.
         /// </summary>
         public static readonly TimeSpan ViewCacheExpiration = TimeSpan.FromMinutes(10);
+        /// <summary>
+        /// The cache expiration on data retrieval error.
+        /// </summary>
+        public static readonly TimeSpan ErrorCacheExpiration = TimeSpan.FromSeconds(1);
 
 
         /// <summary>

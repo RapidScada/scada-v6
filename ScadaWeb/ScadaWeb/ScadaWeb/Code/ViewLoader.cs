@@ -242,9 +242,11 @@ namespace Scada.Web.Code
 
             view = (T)memoryCache.GetOrCreate(WebUtils.GetViewCacheKey(viewID), entry =>
             {
-                entry.SetSlidingExpiration(WebUtils.ViewCacheExpiration);
+                BaseView baseView = GetView(viewEntity, viewType);
+                entry.SetSlidingExpiration(baseView == null ? 
+                    WebUtils.ErrorCacheExpiration : WebUtils.ViewCacheExpiration);
                 entry.AddExpirationToken(webContext);
-                return GetView(viewEntity, viewType);
+                return baseView;
             });
 
             if (view == null)

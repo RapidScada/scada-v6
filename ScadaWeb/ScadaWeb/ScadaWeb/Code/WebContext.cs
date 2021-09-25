@@ -88,6 +88,8 @@ namespace Scada.Web.Code
             ClientPool = new ScadaClientPool();
             PluginHolder = new PluginHolder();
             CacheExpirationTokenSource = new CancellationTokenSource();
+
+            AppDomain.CurrentDomain.UnhandledException += OnUnhandledException;
         }
 
 
@@ -156,6 +158,14 @@ namespace Scada.Web.Code
         /// </summary>
         public CancellationTokenSource CacheExpirationTokenSource { get; }
 
+
+        /// <summary>
+        /// Writes information about the unhandled exception to the log.
+        /// </summary>
+        private void OnUnhandledException(object sender, UnhandledExceptionEventArgs args)
+        {
+            Log.WriteError(args.ExceptionObject as Exception, CommonPhrases.UnhandledException);
+        }
 
         /// <summary>
         /// Loads the instance configuration.
