@@ -22,14 +22,15 @@ namespace Scada.Server.Modules.ModArcBasic.Logic
     /// </summary>
     internal class BasicEAL : EventArchiveLogic
     {
+        private readonly ModuleConfig moduleConfig; // the module configuration
         private readonly BasicEAO options;          // the archive options
         private readonly ILog appLog;               // the application log
         private readonly ILog arcLog;               // the archive log
         private readonly Stopwatch stopwatch;       // measures the time of operations
         private readonly EventTableAdapter adapter; // reads and writes events
-        private readonly string archivePath;        // the full path of the archive
         private readonly MemoryCache<DateTime, EventTable> tableCache; // the cache containing event tables
 
+        private string archivePath;      // the full path of the archive
         private EventTable currentTable; // the today's event table
         private EventTable lastTable;    // the last accessed event table
 
@@ -40,14 +41,15 @@ namespace Scada.Server.Modules.ModArcBasic.Logic
         public BasicEAL(IArchiveContext archiveContext, ArchiveConfig archiveConfig, int[] cnlNums, 
             ModuleConfig moduleConfig) : base(archiveContext, archiveConfig, cnlNums)
         {
+            this.moduleConfig = moduleConfig ?? throw new ArgumentNullException(nameof(moduleConfig));
             options = new BasicEAO(archiveConfig.CustomOptions);
             appLog = archiveContext.Log;
             arcLog = options.LogEnabled ? CreateLog(ModuleUtils.ModuleCode) : null;
             stopwatch = new Stopwatch();
             adapter = new EventTableAdapter();
-            archivePath = Path.Combine(moduleConfig.SelectArcDir(options.UseCopyDir), Code);
             tableCache = new MemoryCache<DateTime, EventTable>(ModuleUtils.CacheExpiration, ModuleUtils.CacheCapacity);
 
+            archivePath = "";
             currentTable = null;
             lastTable = null;
         }
@@ -124,6 +126,7 @@ namespace Scada.Server.Modules.ModArcBasic.Logic
         /// </summary>
         public override void MakeReady()
         {
+            archivePath = Path.Combine(moduleConfig.SelectArcDir(options.UseCopyDir), Code);
             Directory.CreateDirectory(archivePath);
             GetEventTable(DateTime.UtcNow); // preload the current table
         }

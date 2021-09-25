@@ -22,6 +22,7 @@ namespace Scada.Server.Modules.ModArcBasic.Logic
     /// </summary>
     internal class BasicHAL : HistoricalArchiveLogic
     {
+        private readonly ModuleConfig moduleConfig; // the module configuration
         private readonly BasicHAO options;          // the archive options
         private readonly ILog appLog;               // the application log
         private readonly ILog arcLog;               // the archive log
@@ -44,13 +45,13 @@ namespace Scada.Server.Modules.ModArcBasic.Logic
         public BasicHAL(IArchiveContext archiveContext, ArchiveConfig archiveConfig, int[] cnlNums, 
             ModuleConfig moduleConfig) : base(archiveContext, archiveConfig, cnlNums)
         {
+            this.moduleConfig = moduleConfig ?? throw new ArgumentNullException(nameof(moduleConfig));
             options = new BasicHAO(archiveConfig.CustomOptions);
             appLog = archiveContext.Log;
             arcLog = options.LogEnabled ? CreateLog(ModuleUtils.ModuleCode) : null;
             stopwatch = new Stopwatch();
             adapter = new TrendTableAdapter
             {
-                ParentDirectory = Path.Combine(moduleConfig.SelectArcDir(options.UseCopyDir), Code),
                 ArchiveCode = Code,
                 CnlNumCache = new MemoryCache<long, CnlNumList>(ModuleUtils.CacheExpiration, ModuleUtils.CacheCapacity)
             };
@@ -206,6 +207,7 @@ namespace Scada.Server.Modules.ModArcBasic.Logic
         public override void MakeReady()
         {
             ValidateOptions();
+            adapter.ParentDirectory = Path.Combine(moduleConfig.SelectArcDir(options.UseCopyDir), Code);
             Directory.CreateDirectory(adapter.ParentDirectory);
 
             DateTime utcNow = DateTime.UtcNow;

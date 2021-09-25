@@ -1,6 +1,7 @@
 ﻿// Copyright (c) Rapid Software LLC. All rights reserved.
 // Licensed under the Apache License, Version 2.0. See License.txt in the project root for license information.
 
+using Scada.Lang;
 using Scada.Server.Archives;
 using Scada.Server.Config;
 using Scada.Server.Lang;
@@ -83,6 +84,14 @@ namespace Scada.Server.Modules.ModArcBasic.Logic
 
             if (moduleConfig.UseDefaultDir)
                 moduleConfig.SetToDefault(AppDirs.InstanceDir);
+
+            Log.WriteInfo(Locale.IsRussian ?
+                "Архив в формате DAT: {0}" :
+                "Archive in DAT format: {0}", moduleConfig.ArcDir);
+
+            Log.WriteInfo(Locale.IsRussian ?
+                "Копия архива в формате DAT: {0}" :
+                "Archive copy in DAT format: {0}", moduleConfig.ArcCopyDir);
         }
     }
 }

@@ -24,6 +24,7 @@ namespace Scada.Server.Modules.ModArcBasic.Logic
         /// </summary>
         private const string CurDataFileName = "current.dat";
 
+        private readonly ModuleConfig moduleConfig; // the module configuration
         private readonly BasicCAO options;          // the archive options
         private readonly ILog arcLog;               // the archive log
         private readonly Stopwatch stopwatch;       // measures the time of operations
@@ -40,13 +41,11 @@ namespace Scada.Server.Modules.ModArcBasic.Logic
         public BasicCAL(IArchiveContext archiveContext, ArchiveConfig archiveConfig, int[] cnlNums, 
             ModuleConfig moduleConfig) : base(archiveContext, archiveConfig, cnlNums)
         {
+            this.moduleConfig = moduleConfig ?? throw new ArgumentNullException(nameof(moduleConfig));
             options = new BasicCAO(archiveConfig.CustomOptions);
             arcLog = options.LogEnabled ? CreateLog(ModuleUtils.ModuleCode) : null;
             stopwatch = new Stopwatch();
-            adapter = new SliceTableAdapter 
-            { 
-                FileName = Path.Combine(moduleConfig.SelectArcDir(options.UseCopyDir), Code, CurDataFileName)
-            };
+            adapter = new SliceTableAdapter();
             slice = new Slice(DateTime.MinValue, cnlNums);
 
             nextWriteTime = DateTime.MinValue;
@@ -59,6 +58,7 @@ namespace Scada.Server.Modules.ModArcBasic.Logic
         /// </summary>
         public override void MakeReady()
         {
+            adapter.FileName = Path.Combine(moduleConfig.SelectArcDir(options.UseCopyDir), Code, CurDataFileName);
             Directory.CreateDirectory(Path.GetDirectoryName(adapter.FileName));
             nextWriteTime = GetNextWriteTime(DateTime.UtcNow, options.WritingPeriod);
         }
