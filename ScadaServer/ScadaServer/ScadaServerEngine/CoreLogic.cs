@@ -186,16 +186,13 @@ namespace Scada.Server.Engine
         /// <summary>
         /// Prepares the logic processing.
         /// </summary>
-        private bool PrepareProcessing(out string errMsg)
+        private bool PrepareProcessing()
         {
             terminated = false;
             utcStartDT = DateTime.UtcNow;
             startDT = utcStartDT.ToLocalTime();
             serviceStatus = ServiceStatus.Starting;
             WriteInfo();
-
-            if (!Config.PathOptions.CheckExistence(out errMsg))
-                return false;
 
             if (!ReadBase())
                 return false;
@@ -958,14 +955,10 @@ namespace Scada.Server.Engine
                 {
                     Log.WriteAction(CommonPhrases.StartLogic);
                     
-                    if (PrepareProcessing(out string errMsg) && listener.Start())
+                    if (PrepareProcessing() && listener.Start())
                     {
                         thread = new Thread(Execute);
                         thread.Start();
-                    }
-                    else if (!string.IsNullOrEmpty(errMsg))
-                    {
-                        Log.WriteError(errMsg);
                     }
                 }
                 else

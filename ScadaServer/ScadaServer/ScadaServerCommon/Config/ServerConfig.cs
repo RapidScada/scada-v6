@@ -53,11 +53,6 @@ namespace Scada.Server.Config
         public ListenerOptions ListenerOptions { get; private set; }
 
         /// <summary>
-        /// Gets the path options.
-        /// </summary>
-        public PathOptions PathOptions { get; private set; }
-
-        /// <summary>
         /// Gets the codes of the enabled modules.
         /// </summary>
         public List<string> ModuleCodes { get; private set; }
@@ -75,7 +70,6 @@ namespace Scada.Server.Config
         {
             GeneralOptions = new GeneralOptions();
             ListenerOptions = new ListenerOptions();
-            PathOptions = new PathOptions();
             ModuleCodes = new List<string>();
             Archives = new List<ArchiveConfig>();
         }
@@ -94,9 +88,6 @@ namespace Scada.Server.Config
 
             if (rootElem.SelectSingleNode("ListenerOptions") is XmlNode listenerOptionsNode)
                 ListenerOptions.LoadFromXml(listenerOptionsNode);
-
-            if (rootElem.SelectSingleNode("PathOptions") is XmlNode pathOptionsNode)
-                PathOptions.LoadFromXml(pathOptionsNode);
 
             HashSet<string> moduleCodes = new HashSet<string>();
 
@@ -139,7 +130,6 @@ namespace Scada.Server.Config
 
             GeneralOptions.SaveToXml(rootElem.AppendElem("GeneralOptions"));
             ListenerOptions.SaveToXml(rootElem.AppendElem("ListenerOptions"));
-            PathOptions.SaveToXml(rootElem.AppendElem("PathOptions"));
 
             XmlElement modulesElem = rootElem.AppendElem("Modules");
             foreach (string moduleCode in ModuleCodes)
