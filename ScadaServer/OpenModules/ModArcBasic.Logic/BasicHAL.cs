@@ -41,8 +41,8 @@ namespace Scada.Server.Modules.ModArcBasic.Logic
         /// <summary>
         /// Initializes a new instance of the class.
         /// </summary>
-        public BasicHAL(IArchiveContext archiveContext, ArchiveConfig archiveConfig, int[] cnlNums) 
-            : base(archiveContext, archiveConfig, cnlNums)
+        public BasicHAL(IArchiveContext archiveContext, ArchiveConfig archiveConfig, int[] cnlNums, 
+            ModuleConfig moduleConfig) : base(archiveContext, archiveConfig, cnlNums)
         {
             options = new BasicHAO(archiveConfig.CustomOptions);
             appLog = archiveContext.Log;
@@ -50,7 +50,7 @@ namespace Scada.Server.Modules.ModArcBasic.Logic
             stopwatch = new Stopwatch();
             adapter = new TrendTableAdapter
             {
-                ParentDirectory = Path.Combine(archiveContext.AppConfig.PathOptions.GetArcDir(options.UseCopyDir), Code),
+                ParentDirectory = Path.Combine(moduleConfig.SelectArcDir(options.UseCopyDir), Code),
                 ArchiveCode = Code,
                 CnlNumCache = new MemoryCache<long, CnlNumList>(ModuleUtils.CacheExpiration, ModuleUtils.CacheCapacity)
             };

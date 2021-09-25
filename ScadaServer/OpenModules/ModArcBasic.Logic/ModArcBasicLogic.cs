@@ -3,6 +3,8 @@
 
 using Scada.Server.Archives;
 using Scada.Server.Config;
+using Scada.Server.Lang;
+using Scada.Storages;
 
 namespace Scada.Server.Modules.ModArcBasic.Logic
 {
@@ -12,12 +14,16 @@ namespace Scada.Server.Modules.ModArcBasic.Logic
     /// </summary>
     public class ModArcBasicLogic : ModuleLogic
     {
+        private readonly ModuleConfig moduleConfig; // the module configuration
+
+
         /// <summary>
         /// Initializes a new instance of the class.
         /// </summary>
         public ModArcBasicLogic(IServerContext serverContext)
             : base(serverContext)
         {
+            moduleConfig = new ModuleConfig();
         }
 
 
@@ -53,14 +59,30 @@ namespace Scada.Server.Modules.ModArcBasic.Logic
             switch (archiveConfig.Kind)
             {
                 case ArchiveKind.Current:
-                    return new BasicCAL(archiveContext, archiveConfig, cnlNums);
+                    return new BasicCAL(archiveContext, archiveConfig, cnlNums, moduleConfig);
                 case ArchiveKind.Historical:
-                    return new BasicHAL(archiveContext, archiveConfig, cnlNums);
+                    return new BasicHAL(archiveContext, archiveConfig, cnlNums, moduleConfig);
                 case ArchiveKind.Events:
-                    return new BasicEAL(archiveContext, archiveConfig, cnlNums);
+                    return new BasicEAL(archiveContext, archiveConfig, cnlNums, moduleConfig);
                 default:
                     return null;
             }
+        }
+
+        /// <summary>
+        /// Performs actions when starting the service.
+        /// </summary>
+        public override void OnServiceStart()
+        {
+            // load configuration file if exists
+            if (ServerContext.Storage.GetFileInfo(DataCategory.Config, ModuleConfig.ConfigFileName).Exists &&
+                !moduleConfig.Load(ServerContext.Storage, ModuleConfig.ConfigFileName, out string errMsg))
+            {
+                Log.WriteError(ServerPhrases.ModuleMessage, Code, errMsg);
+            }
+
+            if (moduleConfig.UseDefaultDir)
+                moduleConfig.SetToDefault(AppDirs.InstanceDir);
         }
     }
 }
