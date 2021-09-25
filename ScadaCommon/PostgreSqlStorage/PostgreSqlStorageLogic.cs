@@ -22,6 +22,26 @@ namespace Scada.Storages.PostgreSqlStorage
     public class PostgreSqlStorageLogic : StorageLogic
     {
         /// <summary>
+        /// Represents a reader that reads data from a view.
+        /// </summary>
+        private class ViewReader : BinaryReader
+        {
+            private readonly Action closeAction;
+
+            public ViewReader(Stream stream, Action closeAction)
+                : base(stream, Encoding.UTF8, false)
+            {
+                this.closeAction = closeAction;
+            }
+
+            protected override void Dispose(bool disposing)
+            {
+                try { closeAction?.Invoke(); }
+                finally { base.Dispose(disposing); }
+            }
+        }
+
+        /// <summary>
         /// The database schema.
         /// </summary>
         private const string Schema = "project";
@@ -69,6 +89,171 @@ namespace Scada.Storages.PostgreSqlStorage
             {
                 conn.Close();
             }
+        }
+
+        /// <summary>
+        /// Reads contents of the varchar type.
+        /// </summary>
+        private string ReadVarcharContents(string tableName, ServiceApp app, string path)
+        {
+            string sql = $"SELECT contents FROM {tableName} WHERE app_id = @appID AND path = @path LIMIT 1";
+            NpgsqlCommand cmd = new NpgsqlCommand(sql, conn);
+            cmd.Parameters.AddWithValue("appID", (int)app);
+            cmd.Parameters.AddWithValue("path", path);
+
+            try
+            {
+                Monitor.Enter(conn);
+                conn.Open();
+
+                using (NpgsqlDataReader reader = cmd.ExecuteReader(CommandBehavior.SingleRow))
+                {
+                    if (reader.Read())
+                        return reader.IsDBNull(0) ? "" : reader.GetString(0);
+                }
+            }
+            finally
+            {
+                conn.Close();
+                Monitor.Exit(conn);
+            }
+
+            throw new FileNotFoundException(string.Format(CommonPhrases.NamedFileNotFound, path));
+        }
+
+        /// <summary>
+        /// Reads contents of the bytea type.
+        /// </summary>
+        private byte[] ReadByteaContents(string tableName, string path)
+        {
+            string sql = $"SELECT contents FROM {tableName} WHERE path = @path LIMIT 1";
+            NpgsqlCommand cmd = new NpgsqlCommand(sql, conn);
+            cmd.Parameters.AddWithValue("path", path);
+
+            try
+            {
+                Monitor.Enter(conn);
+                conn.Open();
+
+                using (NpgsqlDataReader reader = cmd.ExecuteReader(CommandBehavior.SingleRow))
+                {
+                    if (reader.Read())
+                        return reader.IsDBNull(0) ? Array.Empty<byte>() : (byte[])reader[0];
+                }
+            }
+            finally
+            {
+                conn.Close();
+                Monitor.Exit(conn);
+            }
+
+            throw new FileNotFoundException(string.Format(CommonPhrases.NamedFileNotFound, path));
+        }
+
+        /// <summary>
+        /// Writes contents of the varchar type.
+        /// </summary>
+        private void WriteVarcharContents(string tableName, ServiceApp app, string path, string contents)
+        {
+            string sql = 
+                $"INSERT INTO {tableName} (app_id, path, contents, write_time) " + 
+                "VALUES (@appID, @path, @contents, @writeTime)" +
+                $"ON CONFLICT (app_id, path) DO UPDATE SET contents = @contents, write_time = @writeTime";
+
+            NpgsqlCommand cmd = new NpgsqlCommand(sql, conn);
+            cmd.Parameters.AddWithValue("appID", (int)app);
+            cmd.Parameters.AddWithValue("path", path);
+            cmd.Parameters.AddWithValue("writeTime", DateTime.UtcNow);
+            cmd.Parameters.AddWithValue("contents", 
+                string.IsNullOrEmpty(contents) ? (object)DBNull.Value : contents);
+
+            try
+            {
+                Monitor.Enter(conn);
+                conn.Open();
+                cmd.ExecuteNonQuery();
+            }
+            finally
+            {
+                conn.Close();
+                Monitor.Exit(conn);
+            }
+        }
+
+        /// <summary>
+        /// Writes contents of the bytea type.
+        /// </summary>
+        private void WriteByteaContents(string tableName, string path, byte[] bytes)
+        {
+            string sql =
+                $"INSERT INTO {tableName} (path, contents, write_time) " +
+                "VALUES (@path, @contents, @writeTime)" +
+                $"ON CONFLICT (path) DO UPDATE SET contents = @contents, write_time = @writeTime";
+
+            NpgsqlCommand cmd = new NpgsqlCommand(sql, conn);
+            cmd.Parameters.AddWithValue("path", path);
+            cmd.Parameters.AddWithValue("writeTime", DateTime.UtcNow);
+            cmd.Parameters.AddWithValue("contents", 
+                bytes == null || bytes.Length == 0 ? (object)DBNull.Value : bytes);
+
+            try
+            {
+                Monitor.Enter(conn);
+                conn.Open();
+                cmd.ExecuteNonQuery();
+            }
+            finally
+            {
+                conn.Close();
+                Monitor.Exit(conn);
+            }
+        }
+
+        /// <summary>
+        /// Opens a view for reading.
+        /// </summary>
+        private BinaryReader GetViewReader(string path)
+        {
+            string sql = $"SELECT contents FROM {GetTableName(DataCategory.View)} WHERE path = @path LIMIT 1";
+            NpgsqlCommand cmd = new NpgsqlCommand(sql, conn);
+            cmd.Parameters.AddWithValue("path", path);
+            
+            NpgsqlDataReader reader = null;
+            bool postponeClose = false;
+
+            void CloseAction()
+            {
+                reader?.Close();
+                conn.Close();
+                Monitor.Exit(conn);
+            }
+
+            try
+            {
+                Monitor.Enter(conn);
+                conn.Open();
+                reader = cmd.ExecuteReader(CommandBehavior.SequentialAccess);
+
+                if (reader.Read())
+                {
+                    if (reader.IsDBNull(0))
+                    {
+                        return new BinaryReader(new MemoryStream(0));
+                    }
+                    else
+                    {
+                        postponeClose = true;
+                        return new ViewReader(reader.GetStream(0), CloseAction);
+                    }
+                }
+            }
+            finally
+            {
+                if (!postponeClose)
+                    CloseAction();
+            }
+
+            throw new FileNotFoundException(string.Format(CommonPhrases.NamedFileNotFound, path));
         }
 
         /// <summary>
@@ -174,35 +359,15 @@ namespace Scada.Storages.PostgreSqlStorage
         /// </summary>
         public override string ReadText(DataCategory category, string path)
         {
-            string sql = 
-                $"SELECT contents FROM {GetTableName(category)} " +
-                "WHERE " + (category == DataCategory.View ? "" : "app_id = @appID AND ") +
-                "path = @path LIMIT 1";
-
-            NpgsqlCommand cmd = new NpgsqlCommand(sql, conn);
-            cmd.Parameters.AddWithValue("path", path);
-
-            if (category != DataCategory.View)
-                cmd.Parameters.AddWithValue("appID", (int)App);
-
-            try
+            if (category == DataCategory.View)
             {
-                Monitor.Enter(conn);
-                conn.Open();
-
-                using (NpgsqlDataReader reader = cmd.ExecuteReader(CommandBehavior.SingleRow))
-                {
-                    if (reader.Read())
-                        return reader.IsDBNull(0) ? "" : reader.GetString(0);
-                }
+                byte[] contents = ReadByteaContents(GetTableName(category), path);
+                return Encoding.UTF8.GetString(contents);
             }
-            finally
+            else
             {
-                conn.Close();
-                Monitor.Exit(conn);
+                return ReadVarcharContents(GetTableName(category), App, path);
             }
-
-            throw new FileNotFoundException(string.Format(CommonPhrases.NamedFileNotFound, path));
         }
 
         /// <summary>
@@ -210,8 +375,15 @@ namespace Scada.Storages.PostgreSqlStorage
         /// </summary>
         public override byte[] ReadBytes(DataCategory category, string path)
         {
-            string contents = ReadText(category, path);
-            return Convert.FromBase64String(contents);
+            if (category == DataCategory.View)
+            {
+                return ReadByteaContents(GetTableName(category), path);
+            }
+            else
+            {
+                string contents = ReadVarcharContents(GetTableName(category), App, path);
+                return Convert.FromBase64String(contents);
+            }
         }
 
         /// <summary>
@@ -284,6 +456,15 @@ namespace Scada.Storages.PostgreSqlStorage
         /// </summary>
         public override void WriteText(DataCategory category, string path, string contents)
         {
+            if (category == DataCategory.View)
+            {
+                byte[] bytes = string.IsNullOrEmpty(contents) ? null : Encoding.UTF8.GetBytes(contents);
+                WriteByteaContents(GetTableName(category), path, bytes);
+            }
+            else
+            {
+                WriteVarcharContents(GetTableName(category), App, path, contents);
+            }
         }
 
         /// <summary>
@@ -291,8 +472,15 @@ namespace Scada.Storages.PostgreSqlStorage
         /// </summary>
         public override void WriteBytes(DataCategory category, string path, byte[] bytes)
         {
-            string contents = Convert.ToBase64String(bytes);
-            WriteText(category, path, contents);
+            if (category == DataCategory.View)
+            {
+                WriteByteaContents(GetTableName(category), path, bytes);
+            }
+            else
+            {
+                string contents = bytes == null ? null : Convert.ToBase64String(bytes);
+                WriteVarcharContents(GetTableName(category), App, path, contents);
+            }
         }
 
         /// <summary>
@@ -305,12 +493,19 @@ namespace Scada.Storages.PostgreSqlStorage
         }
 
         /// <summary>
-        /// Opens an existing file for reading.
+        /// Opens a binary file for reading.
         /// </summary>
-        public override Stream OpenRead(DataCategory category, string path)
+        public override BinaryReader OpenBinary(DataCategory category, string path)
         {
-            byte[] bytes = ReadBytes(category, path);
-            return new MemoryStream(bytes, false);
+            if (category == DataCategory.View)
+            {
+                return GetViewReader(path);
+            }
+            else
+            {
+                byte[] bytes = ReadBytes(category, path);
+                return new BinaryReader(new MemoryStream(bytes, false), Encoding.UTF8, false);
+            }
         }
 
         /// <summary>

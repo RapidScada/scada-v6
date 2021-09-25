@@ -34,6 +34,7 @@ using Scada.Storages;
 using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Text;
 using static Scada.BinaryConverter;
 using static Scada.Protocol.ProtocolUtils;
 
@@ -653,7 +654,7 @@ namespace Scada.Server.Engine
         /// <summary>
         /// Opens an existing file for reading.
         /// </summary>
-        protected override Stream OpenRead(RelativePath path)
+        protected override BinaryReader OpenRead(RelativePath path)
         {
             switch (path.TopFolder)
             {
@@ -663,7 +664,7 @@ namespace Scada.Server.Engine
                         BaseTableAdapter adapter = new BaseTableAdapter { Stream = new MemoryStream() };
                         adapter.Update(baseTable);
                         adapter.Stream.Position = 0;
-                        return adapter.Stream;
+                        return new BinaryReader(adapter.Stream, Encoding.UTF8, false);
                     }
                     else
                     {
@@ -671,7 +672,7 @@ namespace Scada.Server.Engine
                     }
 
                 case TopFolder.View:
-                    return coreLogic.Storage.OpenRead(DataCategory.View, path.Path);
+                    return coreLogic.Storage.OpenBinary(DataCategory.View, path.Path);
 
                 default:
                     throw new ProtocolException(ErrorCode.IllegalFunctionArguments, Locale.IsRussian ?

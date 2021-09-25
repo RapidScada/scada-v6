@@ -20,7 +20,7 @@
  * 
  * Author   : Mikhail Shiryaev
  * Created  : 2020
- * Modified : 2020
+ * Modified : 2021
  */
 
 using System;
@@ -60,7 +60,7 @@ namespace Scada.Client
         {
             get
             {
-                return 100.0 * BlockNumber / BlockCount;
+                return BlockCount > 0 ? 100.0 * BlockNumber / BlockCount : 0.0;
             }
         }
     }

@@ -642,11 +642,20 @@ namespace Scada.Server
             }
             else
             {
-                using (Stream stream = OpenRead(filePath))
+                using (BinaryReader reader = OpenRead(filePath))
                 {
+                    Stream stream = reader.BaseStream;
+
                     // set file reading position
-                    if (offset > 0)
+                    if (offset > 0 || origin == SeekOrigin.End)
                     {
+                        if (!stream.CanSeek)
+                        {
+                            throw new ProtocolException(ErrorCode.InvalidOperation, Locale.IsRussian ?
+                                "Поток не поддерживает поиск." :
+                                "Stream does not support seeking.");
+                        }
+
                         offset = Math.Min(offset, stream.Length);
                         stream.Seek(origin == SeekOrigin.Begin ? offset : -offset, origin);
                     }
@@ -654,7 +663,9 @@ namespace Scada.Server
                     // prepare for reading
                     const int FileDataIndex = ArgumentIndex + 21;
                     const int BlockCapacity = BufferLenght - FileDataIndex;
-                    long bytesToReadTotal = count > 0 ? Math.Min(count, stream.Length - stream.Position) : stream.Length;
+                    long bytesToReadTotal = stream.CanSeek 
+                        ? count > 0 ? Math.Min(count, stream.Length - stream.Position) : stream.Length
+                        : count;
                     long bytesReadTotal = 0;
                     int blockNumber = 1;
                     int blockCount = (int)Math.Ceiling((double)bytesToReadTotal / BlockCapacity);
@@ -670,10 +681,13 @@ namespace Scada.Server
                         }
 
                         // read from file
-                        int bytesToRead = (int)Math.Min(bytesToReadTotal - bytesReadTotal, BlockCapacity);
+                        int bytesToRead = bytesToReadTotal > 0
+                            ? (int)Math.Min(bytesToReadTotal - bytesReadTotal, BlockCapacity) 
+                            : BlockCapacity;
                         int bytesRead = stream.Read(client.OutBuf, FileDataIndex, bytesToRead);
                         bytesReadTotal += bytesRead;
-                        endOfFile = bytesRead < bytesToRead || bytesReadTotal == bytesToReadTotal;
+                        endOfFile = bytesRead < bytesToRead || 
+                            bytesToReadTotal > 0 && bytesReadTotal == bytesToReadTotal;
 
                         // send response
                         ResponsePacket response = CreateDownloadResponse(
@@ -731,7 +745,7 @@ namespace Scada.Server
 
                 try
                 {
-                    using (Stream stream = OpenWrite(filePath))
+                    using (BinaryWriter writer = OpenWrite(filePath))
                     {
                         while (!endOfFile && !client.Terminated)
                         {
@@ -766,7 +780,7 @@ namespace Scada.Server
                                     ThrowBlockNumberException();
 
                                 // write to destination file
-                                stream.Write(client.InBuf, fileDataIndex, bytesToWrite);
+                                writer.Write(client.InBuf, fileDataIndex, bytesToWrite);
                             }
                             else
                             {
@@ -900,7 +914,7 @@ namespace Scada.Server
         /// <summary>
         /// Opens an existing file for reading.
         /// </summary>
-        protected virtual Stream OpenRead(RelativePath path)
+        protected virtual BinaryReader OpenRead(RelativePath path)
         {
             throw new ProtocolException(ErrorCode.InvalidOperation, Locale.IsRussian ?
                 "Операция не реализована." :
@@ -910,7 +924,7 @@ namespace Scada.Server
         /// <summary>
         /// Opens an existing file or creates a new file for writing.
         /// </summary>
-        protected virtual Stream OpenWrite(RelativePath path)
+        protected virtual BinaryWriter OpenWrite(RelativePath path)
         {
             throw new ProtocolException(ErrorCode.InvalidOperation, Locale.IsRussian ?
                 "Операция не реализована." :
