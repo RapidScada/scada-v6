@@ -325,7 +325,7 @@ namespace Scada.Storages.PostgreSqlStorage
             DateTime startDT = utcNow;
             DateTime attempDT = DateTime.MinValue;
 
-            while (utcNow - startDT >= waitTimeout)
+            while (utcNow - startDT <= waitTimeout)
             {
                 if (utcNow - attempDT >= ConnectAttemptPeriod)
                 {
