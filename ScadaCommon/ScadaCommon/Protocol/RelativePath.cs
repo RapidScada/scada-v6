@@ -44,19 +44,8 @@ namespace Scada.Protocol
         /// </summary>
         public RelativePath()
         {
-            TopFolder = TopFolder.Undefined;
-            AppFolder = AppFolder.Root;
+            DirectoryID = 0;
             Path = "";
-        }
-
-        /// <summary>
-        /// Initializes a new instance of the class.
-        /// </summary>
-        public RelativePath(TopFolder topFolder, AppFolder appFolder, string path = "")
-        {
-            TopFolder = topFolder;
-            AppFolder = appFolder;
-            Path = path ?? "";
         }
 
         /// <summary>
@@ -64,37 +53,59 @@ namespace Scada.Protocol
         /// </summary>
         public RelativePath(int directoryID, string path = "")
         {
-            TopFolder = (TopFolder)(byte)directoryID;
-            AppFolder = (AppFolder)(byte)(directoryID >> 8);
+            DirectoryID = directoryID;
+            Path = path ?? "";
+        }
+
+        /// <summary>
+        /// Initializes a new instance of the class.
+        /// </summary>
+        public RelativePath(TopFolder topFolder, AppFolder appFolder, string path = "")
+        {
+            DirectoryID = (byte)topFolder | ((byte)appFolder << 8);
             Path = path ?? "";
         }
 
 
         /// <summary>
+        /// Gets the directory ID based to the top and application folders.
+        /// </summary>
+        public int DirectoryID { get; set; }
+
+        /// <summary>
         /// Gets or sets the top folder.
         /// </summary>
-        public TopFolder TopFolder { get; set; }
+        public TopFolder TopFolder
+        {
+            get
+            {
+                return (TopFolder)(byte)DirectoryID;
+            }
+            set
+            {
+                DirectoryID |= (byte)value;
+            }
+        }
 
         /// <summary>
         /// Gets or sets the application folder.
         /// </summary>
-        public AppFolder AppFolder { get; set; }
+        public AppFolder AppFolder
+        {
+            get
+            {
+                return (AppFolder)(byte)(DirectoryID >> 8);
+            }
+            set
+            {
+                DirectoryID |= (byte)value << 8;
+            }
+        }
 
         /// <summary>
         /// Gets or sets the path relative to the application folder.
         /// </summary>
         public string Path { get; set; }
-
-        /// <summary>
-        /// Gets the directory ID based to the top and application folders.
-        /// </summary>
-        public int DirectoryID
-        {
-            get
-            {
-                return (byte)TopFolder | ((byte)AppFolder << 8);
-            }
-        }
 
         /// <summary>
         /// Gets a value indicating whether the path is a file search mask.
@@ -115,7 +126,7 @@ namespace Scada.Protocol
         {
             StringBuilder sbPath = new StringBuilder();
 
-            if (TopFolder != TopFolder.Undefined)
+            if (TopFolder != TopFolder.Root)
                 sbPath.Append('[').Append(TopFolder).Append("]\\");
 
             if (AppFolder != AppFolder.Root)

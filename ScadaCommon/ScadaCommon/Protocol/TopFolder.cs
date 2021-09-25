@@ -33,7 +33,7 @@ namespace Scada.Protocol
     /// </summary>
     public enum TopFolder : byte
     {
-        Undefined = 0,
+        Root = 0,
         Base = 1,
         View = 2,
         Server = 3,
