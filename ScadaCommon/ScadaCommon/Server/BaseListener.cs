@@ -144,8 +144,8 @@ namespace Scada.Server
         /// </summary>
         protected void FinalizeListener()
         {
-            tcpListener.Stop();
             DisconnectAll();
+            tcpListener.Stop();
             tcpListener = null;
 
             clients = null;
@@ -349,7 +349,7 @@ namespace Scada.Server
             {
                 log.WriteError(ex, Locale.IsRussian ?
                     "Ошибка при приёме данных от клиента {0}" :
-                    "Error receiving data from the client {0}", client.Address);
+                    "Error receiving data from client {0}", client.Address);
             }
         }
 
@@ -419,7 +419,7 @@ namespace Scada.Server
             {
                 log.WriteError(Locale.IsRussian ?
                     "Некорректный формат данных, полученных от клиента {0}: {1}" :
-                    "Incorrect format of data received from the client {0}: {1}",
+                    "Incorrect format of data received from client {0}: {1}",
                     client.Address, errDescr);
 
                 ClearNetStream(client.NetStream, buffer);
@@ -500,7 +500,7 @@ namespace Scada.Server
             {
                 log.WriteError(ex, Locale.IsRussian ?
                     "Ошибка при обработке запроса 0x{0} для клиента {1}" :
-                    "Error processing request 0x{0} for the client {1}",
+                    "Error processing request 0x{0} for client {1}",
                     request.FunctionID.ToString("X4"), client.Address);
 
                 response = new ResponsePacket(request, client.OutBuf);
@@ -535,13 +535,13 @@ namespace Scada.Server
             string username = GetString(buffer, ref index);
             string encryptedPassword = GetString(buffer, ref index);
             string instance = GetString(buffer, ref index);
-            string password = DecryptPassword(encryptedPassword, client.SessionID, listenerOptions.SecretKey);
 
             buffer = client.OutBuf;
             response = new ResponsePacket(request, buffer);
             index = ArgumentIndex;
 
             if (!protector.IsBlocked(out string errMsg) &&
+                DecryptPassword(encryptedPassword, client, out string password, out errMsg) &&
                 ValidateUser(client, username, password, instance, out int userID, out int roleID, out errMsg))
             {
                 CopyBool(true, buffer, ref index);
@@ -561,6 +561,32 @@ namespace Scada.Server
             }
 
             response.BufferLength = index;
+        }
+
+        /// <summary>
+        /// Decrypts the password.
+        /// </summary>
+        protected bool DecryptPassword(string encryptedPassword, ConnectedClient client, 
+            out string password, out string errMsg)
+        {
+            try
+            {
+                password = ProtocolUtils.DecryptPassword(encryptedPassword, client.SessionID, listenerOptions.SecretKey);
+                errMsg = "";
+                return true;
+            }
+            catch
+            {
+                log.WriteError(Locale.IsRussian ?
+                    "Не удалось расшифровать пароль, предоставленный клиентом {0}" :
+                    "Unable to decrypt password provided by client {0}", client.Address);
+
+                password = "";
+                errMsg = Locale.IsRussian ?
+                    "Не удалось расшифровать пароль." :
+                    "Unable to decrypt password.";
+                return false;
+            }
         }
 
         /// <summary>

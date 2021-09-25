@@ -25,6 +25,7 @@
 
 using Scada.Lang;
 using System;
+using System.Diagnostics;
 using System.Net.Sockets;
 
 namespace Scada.Protocol

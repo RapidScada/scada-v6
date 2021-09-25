@@ -557,7 +557,7 @@ namespace Scada.Client
         /// Downloads the file.
         /// </summary>
         public void DownloadFile(RelativePath relativePath, long offset, int count, bool readFromEnd,
-            DateTime newerThan, Func<Stream> createStreamFunc,
+            DateTime newerThan, bool throwOnFail, Func<Stream> createStreamFunc,
             out DateTime lastWriteTime, out FileReadingResult readingResult, out Stream stream)
         {
             if (createStreamFunc == null)
@@ -607,6 +607,13 @@ namespace Scada.Client
                     prevBlockNumber = blockNumber;
                     OnProgress(blockNumber, blockCount);
                 }
+
+                if (throwOnFail && readingResult != FileReadingResult.Completed)
+                {
+                    throw new ProtocolException(ErrorCode.InternalServerError, string.Format(Locale.IsRussian ?
+                        "Ошибка при чтении файла {0}: {1}" :
+                        "Error reading file {0}: {1}", relativePath, readingResult.ToString(Locale.IsRussian)));
+                }
             }
             catch
             {
@@ -622,7 +629,7 @@ namespace Scada.Client
         public void DownloadFile(RelativePath relativePath, long offset, int count, bool readFromEnd,
             DateTime newerThan, string destFileName, out DateTime lastWriteTime, out FileReadingResult readingResult)
         {
-            DownloadFile(relativePath, offset, count, readFromEnd, newerThan,
+            DownloadFile(relativePath, offset, count, readFromEnd, newerThan, false,
                 () => { return new FileStream(destFileName, FileMode.Create, FileAccess.Write, FileShare.Read); },
                 out lastWriteTime, out readingResult, out Stream stream);
             stream?.Dispose();
@@ -633,8 +640,18 @@ namespace Scada.Client
         /// </summary>
         public void DownloadFile(RelativePath relativePath, Stream stream, out FileReadingResult readingResult)
         {
-            DownloadFile(relativePath, 0, 0, false, DateTime.MinValue, () => stream, 
-                out DateTime _, out readingResult, out Stream _);
+            DownloadFile(relativePath, 0, 0, false, DateTime.MinValue, false, () => stream, 
+                out _, out readingResult, out _);
+        }
+
+        /// <summary>
+        /// Downloads the file or throws an exception on failure.
+        /// </summary>
+        public bool DownloadFile(RelativePath relativePath, Stream stream, bool throwOnFail = false)
+        {
+            DownloadFile(relativePath, 0, 0, false, DateTime.MinValue, throwOnFail, () => stream, 
+                out _, out FileReadingResult readingResult, out _);
+            return readingResult == FileReadingResult.Completed;
         }
 
         /// <summary>

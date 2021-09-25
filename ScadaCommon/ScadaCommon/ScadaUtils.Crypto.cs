@@ -107,6 +107,13 @@ namespace Scada
         /// </summary>
         public static byte[] EncryptBytes(byte[] bytes, byte[] secretKey, byte[] iv)
         {
+            if (bytes == null)
+                throw new ArgumentNullException(nameof(bytes));
+            if (secretKey == null)
+                throw new ArgumentNullException(nameof(secretKey));
+            if (iv == null)
+                throw new ArgumentNullException(nameof(iv));
+
             RijndaelManaged alg = null;
 
             try
@@ -135,7 +142,7 @@ namespace Scada
         /// </summary>
         public static string Decrypt(string s, byte[] secretKey, byte[] iv)
         {
-            return string.IsNullOrEmpty(s) ? "" : Encoding.UTF8.GetString(DecryptBytes(HexToBytes(s), secretKey, iv));
+            return HexToBytes(s, out byte[] bytes) ? Encoding.UTF8.GetString(DecryptBytes(bytes, secretKey, iv)) : "";
         }
 
         /// <summary>
@@ -151,6 +158,13 @@ namespace Scada
         /// </summary>
         public static byte[] DecryptBytes(byte[] bytes, byte[] secretKey, byte[] iv)
         {
+            if (bytes == null)
+                throw new ArgumentNullException(nameof(bytes));
+            if (secretKey == null)
+                throw new ArgumentNullException(nameof(secretKey));
+            if (iv == null)
+                throw new ArgumentNullException(nameof(iv));
+
             RijndaelManaged alg = null;
 
             try

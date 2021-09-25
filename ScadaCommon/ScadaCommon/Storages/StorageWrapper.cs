@@ -54,7 +54,7 @@ namespace Scada.Storages
         /// <summary>
         /// Gets the application storage.
         /// </summary>
-        public IStorage Storage => storageLogic;
+        public IStorage Storage => storageLogic ?? throw new ScadaException("Storage is not initialized.");
 
 
         /// <summary>
