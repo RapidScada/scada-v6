@@ -24,11 +24,11 @@
  */
 
 using Microsoft.Extensions.Caching.Memory;
-using Scada.Client;
 using Scada.Data.Entities;
 using Scada.Data.Models;
 using Scada.Lang;
 using Scada.Protocol;
+using Scada.Storages;
 using Scada.Web.Lang;
 using Scada.Web.Plugins;
 using Scada.Web.Services;
@@ -127,8 +127,13 @@ namespace Scada.Web.Code
                 BaseView view = (BaseView)Activator.CreateInstance(viewType, viewEntity);
                 view.Prepare();
 
-                if (view.StoredOnServer && !LoadViewFromServer(view, viewEntity.Path))
-                    return null;
+                if (view.StoredOnServer)
+                {
+                    if (webContext.Storage.ViewAvailable)
+                        LoadViewFromStorage(view, viewEntity.Path);
+                    else
+                        LoadViewFromServer(view, viewEntity.Path);
+                }
 
                 view.Build();
                 view.Bind(webContext.BaseDataSet);
@@ -145,60 +150,53 @@ namespace Scada.Web.Code
         }
 
         /// <summary>
-        /// Loads the specified view from the server.
+        /// Loads the specified view from the application storage.
         /// </summary>
-        private bool LoadViewFromServer(BaseView view, string path)
+        private void LoadViewFromStorage(BaseView view, string path)
         {
             // load view
-            ScadaClient scadaClient = clientAccessor.ScadaClient;
-            bool downloadOK = true;
-
-            using (MemoryStream memoryStream = new())
+            using (BinaryReader reader = webContext.Storage.OpenBinary(DataCategory.View, path))
             {
-                RelativePath relativePath = new(TopFolder.View, AppFolder.Root, path);
-                scadaClient.DownloadFile(relativePath, memoryStream, out FileReadingResult readingResult);
-
-                if (readingResult == FileReadingResult.Completed)
-                {
-                    memoryStream.Position = 0;
-                    view.LoadView(memoryStream);
-                }
-                else
-                {
-                    webContext.Log.WriteError(Locale.IsRussian ?
-                        "Ошибка при загрузке представления с ид. {0} по пути {1}: {2}" :
-                        "Error loading view with ID {0} by the path {1}: {2}", 
-                        view.ViewEntity.ViewID, path, readingResult.ToString(Locale.IsRussian));
-                    downloadOK = false;
-                }
+                view.LoadView(reader.BaseStream);
             }
 
             // load resources
-            if (view.Resources != null && downloadOK)
+            if (view.Resources != null)
+            {
+                foreach (KeyValuePair<string, string> pair in view.Resources)
+                {
+                    using BinaryReader reader = webContext.Storage.OpenBinary(DataCategory.View, pair.Value);
+                    view.LoadResource(pair.Key, reader.BaseStream);
+                }
+            }
+        }
+
+        /// <summary>
+        /// Loads the specified view from the server.
+        /// </summary>
+        private void LoadViewFromServer(BaseView view, string path)
+        {
+            // load view
+            using (MemoryStream memoryStream = new())
+            {
+                RelativePath relativePath = new(TopFolder.View, AppFolder.Root, path);
+                clientAccessor.ScadaClient.DownloadFile(relativePath, memoryStream, true);
+                memoryStream.Position = 0;
+                view.LoadView(memoryStream);
+            }
+
+            // load resources
+            if (view.Resources != null)
             {
                 foreach (KeyValuePair<string, string> pair in view.Resources)
                 {
                     using MemoryStream memoryStream = new();
                     RelativePath relativePath = new(TopFolder.View, AppFolder.Root, pair.Value);
-                    scadaClient.DownloadFile(relativePath, memoryStream, out FileReadingResult readingResult);
-
-                    if (readingResult == FileReadingResult.Completed)
-                    {
-                        view.LoadResource(pair.Key, memoryStream);
-                    }
-                    else
-                    {
-                        webContext.Log.WriteError(Locale.IsRussian ?
-                            "Ошибка при загрузке ресурса представления {0} по пути {1}: {2}" :
-                            "Error loading view resource {0} by the path {1}: {2}", 
-                            pair.Key, pair.Value, readingResult.ToString(Locale.IsRussian));
-                        downloadOK = false;
-                        break;
-                    }
+                    clientAccessor.ScadaClient.DownloadFile(relativePath, memoryStream, true);
+                    memoryStream.Position = 0;
+                    view.LoadResource(pair.Key, memoryStream);
                 }
             }
-
-            return downloadOK;
         }
 
 

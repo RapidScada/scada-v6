@@ -6,7 +6,7 @@
     <DefaultStartPage></DefaultStartPage>
     <EnableCommands>true</EnableCommands>
     <ShareStats>true</ShareStats>
-    <MaxLogSize>1048576</MaxLogSize>
+    <MaxLogSize>1</MaxLogSize>
   </GeneralOptions>
   <ConnectionOptions>
     <Host>localhost</Host>

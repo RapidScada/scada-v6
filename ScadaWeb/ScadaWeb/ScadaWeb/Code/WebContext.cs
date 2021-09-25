@@ -31,6 +31,7 @@ using Scada.Data.Models;
 using Scada.Data.Tables;
 using Scada.Lang;
 using Scada.Log;
+using Scada.Storages;
 using Scada.Web.Config;
 using Scada.Web.Lang;
 using Scada.Web.Plugins;
@@ -57,6 +58,7 @@ namespace Scada.Web.Code
         /// </summary>
         private static readonly TimeSpan ReadBasePeriod = TimeSpan.FromSeconds(10);
 
+        private StorageWrapper storageWrapper;      // contains the application storage
         private Thread configThread;                // the configuration update thread
         private volatile bool terminated;           // necessary to stop the thread
         private volatile bool pluginsReady;         // plugins are loaded
@@ -68,6 +70,7 @@ namespace Scada.Web.Code
         /// </summary>
         public WebContext()
         {
+            storageWrapper = null;
             configThread = null;
             terminated = false;
             pluginsReady = false;
@@ -114,6 +117,11 @@ namespace Scada.Web.Code
         public WebDirs AppDirs { get; }
 
         /// <summary>
+        /// Gets the application storage.
+        /// </summary>
+        public IStorage Storage => storageWrapper.Storage;
+
+        /// <summary>
         /// Gets the application log.
         /// </summary>
         public ILog Log { get; private set; }
@@ -154,7 +162,7 @@ namespace Scada.Web.Code
         /// </summary>
         private void LoadInstanceConfig()
         {
-            if (InstanceConfig.Load(Path.Combine(AppDirs.ExeDir, "..", "Config", InstanceConfig.DefaultFileName),
+            if (InstanceConfig.Load(Path.Combine(AppDirs.InstanceDir, "Config", InstanceConfig.DefaultFileName),
                 out string errMsg))
             {
                 Locale.SetCulture(InstanceConfig.Culture);
@@ -170,7 +178,7 @@ namespace Scada.Web.Code
         /// </summary>
         private void LoadAppConfig()
         {
-            if (AppConfig.Load(Path.Combine(AppDirs.ConfigDir, WebConfig.DefaultFileName), out string errMsg))
+            if (AppConfig.Load(Storage, WebConfig.DefaultFileName, out string errMsg))
             {
                 if (Log is LogFile logFile)
                     logFile.CapacityMB = AppConfig.GeneralOptions.MaxLogSize;
@@ -194,6 +202,21 @@ namespace Scada.Web.Code
 
             CommonPhrases.Init();
             WebPhrases.Init();
+        }
+
+        /// <summary>
+        /// Initializes the application storage.
+        /// </summary>
+        private bool InitStorage()
+        {
+            storageWrapper = new StorageWrapper(new StorageContext
+            {
+                App = ServiceApp.Web,
+                AppDirs = AppDirs,
+                Log = Log
+            }, InstanceConfig);
+
+            return storageWrapper.InitStorage();
         }
 
         /// <summary>
@@ -374,7 +397,7 @@ namespace Scada.Web.Code
         /// <summary>
         /// Initializes the application context.
         /// </summary>
-        public void Init(string exeDir)
+        public bool Init(string exeDir)
         {
             AppDirs.Init(exeDir);
 
@@ -391,6 +414,16 @@ namespace Scada.Web.Code
             Log.WriteAction(Locale.IsRussian ?
                 "Вебстанция {0} запущена" :
                 "Webstation {0} started", WebUtils.AppVersion);
+
+            if (InitStorage())
+            {
+                return true;
+            }
+            else
+            {
+                Log.WriteError(CommonPhrases.ExecutionImpossible);
+                return false;
+            }
         }
 
         /// <summary>
@@ -399,6 +432,8 @@ namespace Scada.Web.Code
         public void FinalizeContext()
         {
             StopProcessing();
+            storageWrapper?.CloseStorage();
+
             Log.WriteAction(Locale.IsRussian ?
                 "Вебстанция остановлена" :
                 "Webstation is stopped");

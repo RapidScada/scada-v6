@@ -28,6 +28,7 @@ using Scada.Config;
 using Scada.Data.Entities;
 using Scada.Data.Models;
 using Scada.Log;
+using Scada.Storages;
 using Scada.Web.Config;
 using Scada.Web.Plugins;
 using System.Threading;
@@ -64,6 +65,11 @@ namespace Scada.Web.Services
         /// Gets the application directories.
         /// </summary>
         WebDirs AppDirs { get; }
+
+        /// <summary>
+        /// Gets the application storage.
+        /// </summary>
+        IStorage Storage { get; }
 
         /// <summary>
         /// Gets the application log.

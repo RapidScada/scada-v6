@@ -37,7 +37,7 @@ namespace Scada.Web.Config
     /// Represents a web application configuration.
     /// <para>Представляет конфигурацию веб-приложения.</para>
     /// </summary>
-    public class WebConfig : IConfig
+    public class WebConfig : BaseConfig
     {
         /// <summary>
         /// The default configuration file name.
@@ -94,7 +94,7 @@ namespace Scada.Web.Config
         /// <summary>
         /// Sets the default values.
         /// </summary>
-        private void SetToDefault()
+        protected override void SetToDefault()
         {
             GeneralOptions = new GeneralOptions();
             ConnectionOptions = new ConnectionOptions();
@@ -106,114 +106,88 @@ namespace Scada.Web.Config
         }
 
         /// <summary>
-        /// Loads the configuration from the specified file.
+        /// Loads the configuration from the specified reader.
         /// </summary>
-        public bool Load(string fileName, out string errMsg)
+        protected override void Load(TextReader reader)
         {
-            try
+            XmlDocument xmlDoc = new();
+            xmlDoc.Load(reader);
+            XmlElement rootElem = xmlDoc.DocumentElement;
+
+            if (rootElem.SelectSingleNode("GeneralOptions") is XmlNode generalOptionsNode)
+                GeneralOptions.LoadFromXml(generalOptionsNode);
+
+            if (rootElem.SelectSingleNode("ConnectionOptions") is XmlNode connectionOptionsNode)
+                ConnectionOptions.LoadFromXml(connectionOptionsNode);
+
+            if (rootElem.SelectSingleNode("LoginOptions") is XmlNode loginOptionsNode)
+                LoginOptions.LoadFromXml(loginOptionsNode);
+
+            if (rootElem.SelectSingleNode("DisplayOptions") is XmlNode displayOptionsNode)
+                DisplayOptions.LoadFromXml(displayOptionsNode);
+
+            HashSet<string> pluginCodes = new();
+
+            if (rootElem.SelectSingleNode("Plugins") is XmlNode pluginsNode)
             {
-                SetToDefault();
-
-                if (!File.Exists(fileName))
-                    throw new FileNotFoundException(string.Format(CommonPhrases.NamedFileNotFound, fileName));
-
-                XmlDocument xmlDoc = new();
-                xmlDoc.Load(fileName);
-                XmlElement rootElem = xmlDoc.DocumentElement;
-
-                if (rootElem.SelectSingleNode("GeneralOptions") is XmlNode generalOptionsNode)
-                    GeneralOptions.LoadFromXml(generalOptionsNode);
-
-                if (rootElem.SelectSingleNode("ConnectionOptions") is XmlNode connectionOptionsNode)
-                    ConnectionOptions.LoadFromXml(connectionOptionsNode);
-
-                if (rootElem.SelectSingleNode("LoginOptions") is XmlNode loginOptionsNode)
-                    LoginOptions.LoadFromXml(loginOptionsNode);
-
-                if (rootElem.SelectSingleNode("DisplayOptions") is XmlNode displayOptionsNode)
-                    DisplayOptions.LoadFromXml(displayOptionsNode);
-
-                HashSet<string> pluginCodes = new();
-
-                if (rootElem.SelectSingleNode("Plugins") is XmlNode pluginsNode)
+                foreach (XmlElement pluginElem in pluginsNode.SelectNodes("Plugin"))
                 {
-                    foreach (XmlElement pluginElem in pluginsNode.SelectNodes("Plugin"))
-                    {
-                        string pluginCode = ScadaUtils.RemoveFileNameSuffixes(pluginElem.GetAttribute("code"));
+                    string pluginCode = ScadaUtils.RemoveFileNameSuffixes(pluginElem.GetAttribute("code"));
 
-                        if (pluginCodes.Add(pluginCode.ToLowerInvariant())) // check uniqueness
-                            PluginCodes.Add(pluginCode);
-                    }
+                    if (pluginCodes.Add(pluginCode.ToLowerInvariant())) // check uniqueness
+                        PluginCodes.Add(pluginCode);
                 }
-
-
-                if (rootElem.SelectSingleNode("PluginAssignment") is XmlNode pluginAssignmentNode)
-                    PluginAssignment.LoadFromXml(pluginAssignmentNode);
-
-                if (rootElem.SelectSingleNode("CustomOptions") is XmlNode customOptionsNode)
-                {
-                    foreach (XmlElement optionGroupElem in customOptionsNode.SelectNodes("OptionGroup"))
-                    {
-                        OptionList optionList = new();
-                        optionList.LoadFromXml(optionGroupElem);
-                        CustomOptions[optionGroupElem.GetAttrAsString("name")] = optionList;
-                    }
-                }
-
-                errMsg = "";
-                return true;
             }
-            catch (Exception ex)
+
+
+            if (rootElem.SelectSingleNode("PluginAssignment") is XmlNode pluginAssignmentNode)
+                PluginAssignment.LoadFromXml(pluginAssignmentNode);
+
+            if (rootElem.SelectSingleNode("CustomOptions") is XmlNode customOptionsNode)
             {
-                errMsg = ScadaUtils.BuildErrorMessage(ex, CommonPhrases.LoadAppConfigError);
-                return false;
+                foreach (XmlElement optionGroupElem in customOptionsNode.SelectNodes("OptionGroup"))
+                {
+                    OptionList optionList = new();
+                    optionList.LoadFromXml(optionGroupElem);
+                    CustomOptions[optionGroupElem.GetAttrAsString("name")] = optionList;
+                }
             }
         }
 
         /// <summary>
-        /// Saves the configuration to the specified file.
+        /// Saves the configuration to the specified writer.
         /// </summary>
-        public bool Save(string fileName, out string errMsg)
+        protected override void Save(TextWriter writer)
         {
-            try
+            XmlDocument xmlDoc = new();
+            XmlDeclaration xmlDecl = xmlDoc.CreateXmlDeclaration("1.0", "utf-8", null);
+            xmlDoc.AppendChild(xmlDecl);
+
+            XmlElement rootElem = xmlDoc.CreateElement("ScadaWebConfig");
+            xmlDoc.AppendChild(rootElem);
+
+            GeneralOptions.SaveToXml(rootElem.AppendElem("GeneralOptions"));
+            ConnectionOptions.SaveToXml(rootElem.AppendElem("ConnectionOptions"));
+            LoginOptions.SaveToXml(rootElem.AppendElem("LoginOptions"));
+            DisplayOptions.SaveToXml(rootElem.AppendElem("DisplayOptions"));
+
+            XmlElement pluginsElem = rootElem.AppendElem("Plugins");
+            foreach (string pluginCode in PluginCodes)
             {
-                XmlDocument xmlDoc = new();
-                XmlDeclaration xmlDecl = xmlDoc.CreateXmlDeclaration("1.0", "utf-8", null);
-                xmlDoc.AppendChild(xmlDecl);
-
-                XmlElement rootElem = xmlDoc.CreateElement("ScadaWebConfig");
-                xmlDoc.AppendChild(rootElem);
-
-                GeneralOptions.SaveToXml(rootElem.AppendElem("GeneralOptions"));
-                ConnectionOptions.SaveToXml(rootElem.AppendElem("ConnectionOptions"));
-                LoginOptions.SaveToXml(rootElem.AppendElem("LoginOptions"));
-                DisplayOptions.SaveToXml(rootElem.AppendElem("DisplayOptions"));
-
-                XmlElement pluginsElem = rootElem.AppendElem("Plugins");
-                foreach (string pluginCode in PluginCodes)
-                {
-                    pluginsElem.AppendElem("Plugin").SetAttribute("code", pluginCode);
-                }
-
-                PluginAssignment.SaveToXml(rootElem.AppendElem("PluginAssignment"));
-
-                XmlElement customOptionsElem = rootElem.AppendElem("CustomOptions");
-                foreach (KeyValuePair<string, OptionList> pair in CustomOptions)
-                {
-                    XmlElement optionGroupElem = customOptionsElem.AppendElem("OptionGroup");
-                    optionGroupElem.SetAttribute("name", pair.Key);
-                    pair.Value.SaveToXml(optionGroupElem);
-                }
-
-                xmlDoc.Save(fileName);
-                errMsg = "";
-                return true;
+                pluginsElem.AppendElem("Plugin").SetAttribute("code", pluginCode);
             }
-            catch (Exception ex)
+
+            PluginAssignment.SaveToXml(rootElem.AppendElem("PluginAssignment"));
+
+            XmlElement customOptionsElem = rootElem.AppendElem("CustomOptions");
+            foreach (KeyValuePair<string, OptionList> pair in CustomOptions)
             {
-                errMsg = ScadaUtils.BuildErrorMessage(ex, CommonPhrases.SaveAppConfigError);
-                return false;
+                XmlElement optionGroupElem = customOptionsElem.AppendElem("OptionGroup");
+                optionGroupElem.SetAttribute("name", pair.Key);
+                pair.Value.SaveToXml(optionGroupElem);
             }
+
+            xmlDoc.Save(writer);
         }
 
         /// <summary>
