@@ -787,6 +787,7 @@ namespace Scada.Server
                 catch
                 {
                     BreakWriting(filePath);
+                    throw;
                 }
             }
             else
