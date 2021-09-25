@@ -162,6 +162,7 @@ namespace Scada.Server.Engine
         public void StopService()
         {
             coreLogic?.StopProcessing();
+            storageWrapper?.CloseStorage();
 
             log.WriteAction(Locale.IsRussian ?
                 "Сервер остановлен" :
