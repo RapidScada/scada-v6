@@ -44,17 +44,6 @@
     <Phrase key="lblSecretKey">Секретный ключ</Phrase>
     <Phrase key="btnGenerateKey">Генерировать ключ</Phrase>
     <Phrase key="btnCopyKey">Копировать</Phrase>
-    <Phrase key="gbPathOptions">Директории</Phrase>
-    <Phrase key="lblArcDir">Архив в формате DAT</Phrase>
-    <Phrase key="btnBrowseArcDir">Обзор...</Phrase>
-    <Phrase key="lblArcCopyDir">Копия архива в формате DAT</Phrase>
-    <Phrase key="btnBrowseArcCopyDir">Обзор...</Phrase>
-    <Phrase key="lblBaseDir">База конфигурации в формате DAT</Phrase>
-    <Phrase key="btnBrowseBaseDir">Обзор...</Phrase>
-    <Phrase key="lblViewDir">Представления</Phrase>
-    <Phrase key="btnBrowseViewDir">Обзор...</Phrase>
-    <Phrase key="btnSetToDefaultWin">Для Windows</Phrase>
-    <Phrase key="btnSetToDefaultLinux">Для Linux</Phrase>
     <Phrase key="IncorrectSecretKey">Некорректный секретный ключ.</Phrase>
   </Dictionary>
   <Dictionary key="Scada.Admin.Extensions.ExtServerConfig.Forms.FrmModules">

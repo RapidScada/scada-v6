@@ -73,13 +73,6 @@ namespace Scada.Admin.Extensions.ExtServerConfig.Forms
             numTimeout.SetValue(listenerOptions.Timeout);
             txtSecretKey.Text = ScadaUtils.BytesToHex(listenerOptions.SecretKey);
 
-            // directories
-            PathOptions pathOptions = serverConfig.PathOptions;
-            txtBaseDir.Text = pathOptions.BaseDir;
-            txtViewDir.Text = pathOptions.ViewDir;
-            txtArcDir.Text = pathOptions.ArcDir;
-            txtArcCopyDir.Text = pathOptions.ArcCopyDir;
-
             changing = false;
         }
 
@@ -98,13 +91,6 @@ namespace Scada.Admin.Extensions.ExtServerConfig.Forms
             listenerOptions.Port = decimal.ToInt32(numPort.Value);
             listenerOptions.Timeout = decimal.ToInt32(numTimeout.Value);
             listenerOptions.SecretKey = ScadaUtils.HexToBytes(txtSecretKey.Text.Trim());
-
-            // directories
-            PathOptions pathOptions = serverConfig.PathOptions;
-            pathOptions.BaseDir = txtBaseDir.Text;
-            pathOptions.ViewDir = txtViewDir.Text;
-            pathOptions.ArcDir = txtArcDir.Text;
-            pathOptions.ArcCopyDir = txtArcCopyDir.Text;
         }
 
         /// <summary>
@@ -119,20 +105,6 @@ namespace Scada.Admin.Extensions.ExtServerConfig.Forms
             }
 
             return true;
-        }
-
-        /// <summary>
-        /// Sets the default directories.
-        /// </summary>
-        private void SetDirectoriesToDefault(bool forWindows)
-        {
-            string scadaDir = forWindows ? @"C:\SCADA\" : "/opt/scada/";
-            string separator = forWindows ? "\\" : "/";
-
-            txtBaseDir.Text = scadaDir + "BaseDAT" + separator;
-            txtViewDir.Text = scadaDir + "Views" + separator;
-            txtArcDir.Text = scadaDir + "ArchiveDAT" + separator;
-            txtArcCopyDir.Text = scadaDir + "ArchiveDATCopy" + separator;
         }
 
         /// <summary>
@@ -186,35 +158,6 @@ namespace Scada.Admin.Extensions.ExtServerConfig.Forms
         {
             if (txtSecretKey.Text != "")
                 Clipboard.SetText(txtSecretKey.Text);
-        }
-
-        private void btnBrowse_Click(object sender, EventArgs e)
-        {
-            // choose a text box
-            TextBox textBox = null;
-
-            if (sender == btnBrowseBaseDir)
-                textBox = txtBaseDir;
-            else if (sender == btnBrowseViewDir)
-                textBox = txtViewDir;
-            else if (sender == btnBrowseArcDir)
-                textBox = txtArcDir;
-            else if (sender == btnBrowseArcCopyDir)
-                textBox = txtArcCopyDir;
-
-            // browse directory
-            if (textBox != null)
-            {
-                folderBrowserDialog.SelectedPath = textBox.Text.Trim();
-
-                if (folderBrowserDialog.ShowDialog() == DialogResult.OK)
-                    textBox.Text = ScadaUtils.NormalDir(folderBrowserDialog.SelectedPath);
-            }
-        }
-
-        private void btnSetToDefault_Click(object sender, EventArgs e)
-        {
-            SetDirectoriesToDefault(sender == btnSetToDefaultWin);
         }
     }
 }
