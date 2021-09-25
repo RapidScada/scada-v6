@@ -12,6 +12,7 @@ namespace Scada.Web.Plugins.PlgMain.Code
     internal static class PluginPhrases
     {
         // Scada.Web.Plugins.PlgMain.Areas.Main.Pages.TableView
+        public static string TableViewTitle { get; private set; }
         public static string PrevDate { get; private set; }
         public static string SelDate { get; private set; }
         public static string MinusOneDay { get; private set; }
@@ -30,6 +31,7 @@ namespace Scada.Web.Plugins.PlgMain.Code
         public static void Init()
         {
             LocaleDict dict = Locale.GetDictionary("Scada.Web.Plugins.PlgMain.Areas.Main.Pages.TableView");
+            TableViewTitle = dict["TableViewTitle"];
             PrevDate = dict["PrevDate"];
             SelDate = dict["SelDate"];
             MinusOneDay = dict["MinusOneDay"];

@@ -51,6 +51,7 @@
     <Phrase key="Ack">Click to acknowledge</Phrase>
   </Dictionary>
   <Dictionary key="Scada.Web.Plugins.PlgMain.Areas.Main.Pages.TableView">
+    <Phrase key="TableViewTitle">Table {0}</Phrase>
     <Phrase key="PrevDate">Previous date</Phrase>
     <Phrase key="SelDate">Selected date</Phrase>
     <Phrase key="MinusOneDay">-1d</Phrase>
@@ -63,7 +64,6 @@
     <Phrase key="UnitTip">Unit</Phrase>
     <Phrase key="SendCommandTip">Send Command</Phrase>
     <Phrase key="spanErrorBadge">Error</Phrase>
-    <Phrase key=""></Phrase>
   </Dictionary>
   <Dictionary key="Scada.Web.Plugins.PlgMain.Code.EventWindowSpec">
     <Phrase key="EventWindowTitle">Events</Phrase>

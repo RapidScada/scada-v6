@@ -51,6 +51,7 @@
     <Phrase key="Ack">Квитировать</Phrase>
   </Dictionary>
   <Dictionary key="Scada.Web.Plugins.PlgMain.Areas.Main.Pages.TableView">
+    <Phrase key="TableViewTitle">Таблица {0}</Phrase>
     <Phrase key="PrevDate">Предыдущая дата</Phrase>
     <Phrase key="SelDate">Выбранная дата</Phrase>
     <Phrase key="MinusOneDay">-1д</Phrase>

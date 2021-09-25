@@ -80,7 +80,9 @@ namespace Scada.Web.Plugins.PlgMain.Areas.Main.Pages
 
             viewLoader.GetView(ViewID, out tableView, out string errMsg);
             ErrorMessage = errMsg;
-            ViewData["Title"] = tableView.Title;
+            ViewData["Title"] = tableView == null 
+                ? string.Format(PluginPhrases.TableViewTitle, ViewID) 
+                : tableView.Title;
         }
 
         private int FindArchiveBit()
