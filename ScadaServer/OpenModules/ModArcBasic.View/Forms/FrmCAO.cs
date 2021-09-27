@@ -14,6 +14,7 @@ namespace Scada.Server.Modules.ModArcBasic.View.Forms
     /// </summary>
     public partial class FrmCAO : Form
     {
+        private readonly AppDirs appDirs;             // the application directories
         private readonly ArchiveConfig archiveConfig; // the archive configuration
         private readonly BasicCAO options;            // the archive options
 
@@ -29,9 +30,10 @@ namespace Scada.Server.Modules.ModArcBasic.View.Forms
         /// <summary>
         /// Initializes a new instance of the class.
         /// </summary>
-        public FrmCAO(ArchiveConfig archiveConfig)
+        public FrmCAO(AppDirs appDirs, ArchiveConfig archiveConfig)
             : this()
         {
+            this.appDirs = appDirs ?? throw new ArgumentNullException(nameof(appDirs));
             this.archiveConfig = archiveConfig ?? throw new ArgumentNullException(nameof(archiveConfig));
             options = new BasicCAO(archiveConfig.CustomOptions);
         }
@@ -63,6 +65,11 @@ namespace Scada.Server.Modules.ModArcBasic.View.Forms
         {
             FormTranslator.Translate(this, GetType().FullName, toolTip);
             OptionsToControls();
+        }
+
+        private void btnShowDir_Click(object sender, EventArgs e)
+        {
+            new FrmDir(appDirs.ConfigDir).ShowDialog();
         }
 
         private void btnOK_Click(object sender, EventArgs e)

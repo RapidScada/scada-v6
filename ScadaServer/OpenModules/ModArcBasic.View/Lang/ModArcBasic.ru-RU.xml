@@ -5,6 +5,7 @@
     <Phrase key="lblWritingPeriod">Период сохранения на диск, с</Phrase>
     <Phrase key="lblLogEnabled">Журнал включен</Phrase>
     <Phrase key="lblUseCopyDir">Запись в директорию копии</Phrase>
+    <Phrase key="btnShowDir">Директории</Phrase>
     <Phrase key="btnOK">OK</Phrase>
     <Phrase key="btnCancel">Отмена</Phrase>
   </Dictionary>
@@ -25,6 +26,7 @@
     <Phrase key="lblRetention">Период хранения, дней</Phrase>
     <Phrase key="lblLogEnabled">Журнал включен</Phrase>
     <Phrase key="lblUseCopyDir">Запись в директорию копии</Phrase>
+    <Phrase key="btnShowDir">Директории</Phrase>
     <Phrase key="btnOK">OK</Phrase>
     <Phrase key="btnCancel">Отмена</Phrase>
   </Dictionary>
@@ -46,6 +48,7 @@
     <Phrase key="pbRetentionHint.ToolTip">Как долго данные хранятся в архиве.</Phrase>
     <Phrase key="lblLogEnabled">Журнал включен</Phrase>
     <Phrase key="lblUseCopyDir">Запись в директорию копии</Phrase>
+    <Phrase key="btnShowDir">Директории</Phrase>
     <Phrase key="btnOK">OK</Phrase>
     <Phrase key="btnCancel">Отмена</Phrase>
   </Dictionary>

@@ -51,6 +51,7 @@ namespace Scada.Server.Modules.ModArcBasic.View.Forms
             this.pbPullToPeriodHint = new System.Windows.Forms.PictureBox();
             this.pbRetentionHint = new System.Windows.Forms.PictureBox();
             this.toolTip = new System.Windows.Forms.ToolTip(this.components);
+            this.btnShowDir = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.numWritingPeriod)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.numPullToPeriod)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.numRetention)).BeginInit();
@@ -227,7 +228,7 @@ namespace Scada.Server.Modules.ModArcBasic.View.Forms
             this.btnOK.Location = new System.Drawing.Point(216, 220);
             this.btnOK.Name = "btnOK";
             this.btnOK.Size = new System.Drawing.Size(75, 23);
-            this.btnOK.TabIndex = 14;
+            this.btnOK.TabIndex = 15;
             this.btnOK.Text = "OK";
             this.btnOK.UseVisualStyleBackColor = true;
             this.btnOK.Click += new System.EventHandler(this.btnOK_Click);
@@ -237,7 +238,7 @@ namespace Scada.Server.Modules.ModArcBasic.View.Forms
             this.btnCancel.Location = new System.Drawing.Point(297, 220);
             this.btnCancel.Name = "btnCancel";
             this.btnCancel.Size = new System.Drawing.Size(75, 23);
-            this.btnCancel.TabIndex = 15;
+            this.btnCancel.TabIndex = 16;
             this.btnCancel.Text = "Cancel";
             this.btnCancel.UseVisualStyleBackColor = true;
             // 
@@ -277,6 +278,16 @@ namespace Scada.Server.Modules.ModArcBasic.View.Forms
             this.pbRetentionHint.TabIndex = 19;
             this.pbRetentionHint.TabStop = false;
             // 
+            // btnShowDir
+            // 
+            this.btnShowDir.Location = new System.Drawing.Point(12, 220);
+            this.btnShowDir.Name = "btnShowDir";
+            this.btnShowDir.Size = new System.Drawing.Size(100, 23);
+            this.btnShowDir.TabIndex = 14;
+            this.btnShowDir.Text = "Directories";
+            this.btnShowDir.UseVisualStyleBackColor = true;
+            this.btnShowDir.Click += new System.EventHandler(this.btnShowDir_Click);
+            // 
             // FrmHAO
             // 
             this.AcceptButton = this.btnOK;
@@ -290,6 +301,7 @@ namespace Scada.Server.Modules.ModArcBasic.View.Forms
             this.Controls.Add(this.pbWritingModeHint);
             this.Controls.Add(this.btnCancel);
             this.Controls.Add(this.btnOK);
+            this.Controls.Add(this.btnShowDir);
             this.Controls.Add(this.chkUseCopyDir);
             this.Controls.Add(this.lblUseCopyDir);
             this.Controls.Add(this.chkLogEnabled);
@@ -347,5 +359,6 @@ namespace Scada.Server.Modules.ModArcBasic.View.Forms
         private System.Windows.Forms.PictureBox pbPullToPeriodHint;
         private System.Windows.Forms.PictureBox pbRetentionHint;
         private System.Windows.Forms.ToolTip toolTip;
+        private System.Windows.Forms.Button btnShowDir;
     }
 }

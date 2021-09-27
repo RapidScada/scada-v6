@@ -39,6 +39,7 @@ namespace Scada.Server.Modules.ModArcBasic.View.Forms
             this.btnOK = new System.Windows.Forms.Button();
             this.btnCancel = new System.Windows.Forms.Button();
             this.toolTip = new System.Windows.Forms.ToolTip(this.components);
+            this.btnShowDir = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.numWritingPeriod)).BeginInit();
             this.SuspendLayout();
             // 
@@ -114,7 +115,7 @@ namespace Scada.Server.Modules.ModArcBasic.View.Forms
             this.btnOK.Location = new System.Drawing.Point(216, 104);
             this.btnOK.Name = "btnOK";
             this.btnOK.Size = new System.Drawing.Size(75, 23);
-            this.btnOK.TabIndex = 6;
+            this.btnOK.TabIndex = 7;
             this.btnOK.Text = "OK";
             this.btnOK.UseVisualStyleBackColor = true;
             this.btnOK.Click += new System.EventHandler(this.btnOK_Click);
@@ -124,9 +125,19 @@ namespace Scada.Server.Modules.ModArcBasic.View.Forms
             this.btnCancel.Location = new System.Drawing.Point(297, 104);
             this.btnCancel.Name = "btnCancel";
             this.btnCancel.Size = new System.Drawing.Size(75, 23);
-            this.btnCancel.TabIndex = 7;
+            this.btnCancel.TabIndex = 8;
             this.btnCancel.Text = "Cancel";
             this.btnCancel.UseVisualStyleBackColor = true;
+            // 
+            // btnShowDir
+            // 
+            this.btnShowDir.Location = new System.Drawing.Point(12, 104);
+            this.btnShowDir.Name = "btnShowDir";
+            this.btnShowDir.Size = new System.Drawing.Size(100, 23);
+            this.btnShowDir.TabIndex = 6;
+            this.btnShowDir.Text = "Directories";
+            this.btnShowDir.UseVisualStyleBackColor = true;
+            this.btnShowDir.Click += new System.EventHandler(this.btnShowDir_Click);
             // 
             // FrmCAO
             // 
@@ -137,6 +148,7 @@ namespace Scada.Server.Modules.ModArcBasic.View.Forms
             this.ClientSize = new System.Drawing.Size(384, 139);
             this.Controls.Add(this.btnCancel);
             this.Controls.Add(this.btnOK);
+            this.Controls.Add(this.btnShowDir);
             this.Controls.Add(this.chkUseCopyDir);
             this.Controls.Add(this.lblUseCopyDir);
             this.Controls.Add(this.chkLogEnabled);
@@ -167,5 +179,6 @@ namespace Scada.Server.Modules.ModArcBasic.View.Forms
         private System.Windows.Forms.Button btnOK;
         private System.Windows.Forms.Button btnCancel;
         private System.Windows.Forms.ToolTip toolTip;
+        private System.Windows.Forms.Button btnShowDir;
     }
 }

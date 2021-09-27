@@ -28,7 +28,7 @@ namespace Scada.Server.Modules.ModArcBasic.View
         /// </summary>
         public override bool ShowProperties()
         {
-            return new FrmHAO(ArchiveConfig).ShowDialog() == DialogResult.OK;
+            return new FrmHAO(AppDirs, ArchiveConfig).ShowDialog() == DialogResult.OK;
         }
     }
 }
