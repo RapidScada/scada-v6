@@ -8,6 +8,18 @@
     <Phrase key="btnOK">OK</Phrase>
     <Phrase key="btnCancel">Отмена</Phrase>
   </Dictionary>
+  <Dictionary key="Scada.Server.Modules.ModArcBasic.View.Forms.FrmDir">
+    <Phrase key="this">Директории архива</Phrase>
+    <Phrase key="chkUseDefaultDir">Использовать директории по умолчанию</Phrase>
+    <Phrase key="lblArcDir">Архив в формате DAT</Phrase>
+    <Phrase key="btnBrowseArcDir">Обзор...</Phrase>
+    <Phrase key="lblArcCopyDir">Копия архива в формате DAT</Phrase>
+    <Phrase key="btnBrowseArcCopyDir">Обзор...</Phrase>
+    <Phrase key="btnSetToDefaultWin">Для Windows</Phrase>
+    <Phrase key="btnSetToDefaultLinux">Для Linux</Phrase>
+    <Phrase key="btnOK">OK</Phrase>
+    <Phrase key="btnCancel">Отмена</Phrase>
+  </Dictionary>
   <Dictionary key="Scada.Server.Modules.ModArcBasic.View.Forms.FrmEAO">
     <Phrase key="this">Параметры архива событий</Phrase>
     <Phrase key="lblRetention">Период хранения, дней</Phrase>

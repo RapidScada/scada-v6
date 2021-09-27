@@ -5,6 +5,8 @@ using Scada.Forms;
 using Scada.Lang;
 using Scada.Server.Archives;
 using Scada.Server.Config;
+using Scada.Server.Modules.ModArcBasic.View.Forms;
+using System.Windows.Forms;
 
 namespace Scada.Server.Modules.ModArcBasic.View
 {
@@ -14,6 +16,15 @@ namespace Scada.Server.Modules.ModArcBasic.View
     /// </summary>
     public class ModArcBasicView : ModuleView
     {
+        /// <summary>
+        /// Initializes a new instance of the class.
+        /// </summary>
+        public ModArcBasicView()
+        {
+            CanShowProperties = true;
+        }
+
+
         /// <summary>
         /// Gets the module name.
         /// </summary>
@@ -38,6 +49,14 @@ namespace Scada.Server.Modules.ModArcBasic.View
             }
         }
 
+
+        /// <summary>
+        /// Shows a modal dialog box for editing module properties.
+        /// </summary>
+        public override bool ShowProperties()
+        {
+            return new FrmDir(AppDirs.ConfigDir).ShowDialog() == DialogResult.OK;
+        }
 
         /// <summary>
         /// Loads language dictionaries.
