@@ -134,16 +134,16 @@ namespace Scada.Comm.Engine
                 Log = log
             }, instanceConfig);
 
-            CommConfig config = new CommConfig();
+            CommConfig appConfig = new CommConfig();
 
             if (AppDirs.CheckExistence(out errMsg) && 
                 LocalizeApp() &&
                 storageWrapper.InitStorage() &&
-                config.Load(storageWrapper.Storage, CommConfig.DefaultFileName, out errMsg))
+                appConfig.Load(storageWrapper.Storage, CommConfig.DefaultFileName, out errMsg))
             {
                 // start service
-                logFile.CapacityMB = config.GeneralOptions.MaxLogSize;
-                coreLogic = new CoreLogic(config, AppDirs, storageWrapper.Storage, log);
+                logFile.CapacityMB = appConfig.GeneralOptions.MaxLogSize;
+                coreLogic = new CoreLogic(appConfig, AppDirs, storageWrapper.Storage, log);
 
                 if (coreLogic.StartProcessing())
                     return true;

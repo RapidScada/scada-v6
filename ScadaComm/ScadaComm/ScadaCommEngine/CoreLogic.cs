@@ -95,9 +95,9 @@ namespace Scada.Comm.Engine
         /// <summary>
         /// Initializes a new instance of the class.
         /// </summary>
-        public CoreLogic(CommConfig config, CommDirs appDirs, IStorage storage, ILog log)
+        public CoreLogic(CommConfig appConfig, CommDirs appDirs, IStorage storage, ILog log)
         {
-            Config = config ?? throw new ArgumentNullException(nameof(config));
+            AppConfig = appConfig ?? throw new ArgumentNullException(nameof(appConfig));
             AppDirs = appDirs ?? throw new ArgumentNullException(nameof(appDirs));
             Storage = storage ?? throw new ArgumentNullException(nameof(storage));
             Log = log ?? throw new ArgumentNullException(nameof(log));
@@ -125,9 +125,9 @@ namespace Scada.Comm.Engine
 
 
         /// <summary>
-        /// Gets the Communicator configuration.
+        /// Gets the application configuration.
         /// </summary>
-        public CommConfig Config { get; }
+        public CommConfig AppConfig { get; }
 
         /// <summary>
         /// Gets the application directories.
@@ -154,11 +154,6 @@ namespace Scada.Comm.Engine
         /// </summary>
         public IDictionary<string, object> SharedData { get; private set; }
 
-        /// <summary>
-        /// Gets the application configuration.
-        /// </summary>
-        CommConfig ICommContext.AppConfig => Config;
-
 
         /// <summary>
         /// Prepares the logic processing.
@@ -174,10 +169,10 @@ namespace Scada.Comm.Engine
             BaseDataSet = null;
             SharedData = new ConcurrentDictionary<string, object>();
 
-            commLines = new List<CommLine>(Config.Lines.Count);
+            commLines = new List<CommLine>(AppConfig.Lines.Count);
             commLineMap = new Dictionary<int, CommLine>();
             deviceMap = new Dictionary<int, DeviceItem>();
-            commandReader = Config.GeneralOptions.EnableCommands && Config.GeneralOptions.EnableFileCommands ? 
+            commandReader = AppConfig.GeneralOptions.EnableCommands && AppConfig.GeneralOptions.EnableFileCommands ?
                 new CommandReader(this) : null;
             InitDrivers();
             InitDataSources();
@@ -190,7 +185,7 @@ namespace Scada.Comm.Engine
         {
             driverHolder = new DriverHolder(Log);
 
-            foreach (string driverCode in Config.DriverCodes)
+            foreach (string driverCode in AppConfig.DriverCodes)
             {
                 if (DriverFactory.GetDriverLogic(AppDirs.DrvDir, driverCode, this,
                     out DriverLogic driverLogic, out string message))
@@ -212,7 +207,7 @@ namespace Scada.Comm.Engine
         {
             dataSourceHolder = new DataSourceHolder(Log);
 
-            foreach (DataSourceConfig dataSourceConfig in Config.DataSources)
+            foreach (DataSourceConfig dataSourceConfig in AppConfig.DataSources)
             {
                 if (dataSourceConfig.Active)
                 {
@@ -258,7 +253,7 @@ namespace Scada.Comm.Engine
         {
             try
             {
-                ExecutionStep executionStep = Config.GeneralOptions.IsBound ? 
+                ExecutionStep executionStep = AppConfig.GeneralOptions.IsBound ? 
                     ExecutionStep.ReadBase : ExecutionStep.StartLines;
                 DateTime readBaseDT = DateTime.MinValue;
                 DateTime writeInfoDT = DateTime.MinValue;
@@ -357,7 +352,7 @@ namespace Scada.Comm.Engine
         {
             maxLineTitleLength = 0;
 
-            foreach (LineConfig lineConfig in Config.Lines)
+            foreach (LineConfig lineConfig in AppConfig.Lines)
             {
                 if (lineConfig.Active && !commLineMap.ContainsKey(lineConfig.CommLineNum))
                     CreateLine(lineConfig);
@@ -841,7 +836,7 @@ namespace Scada.Comm.Engine
 
             try
             {
-                if (!Config.GeneralOptions.EnableCommands)
+                if (!AppConfig.GeneralOptions.EnableCommands)
                 {
                     Log.WriteError(Locale.IsRussian ?
                         "Невозможно обработать команду, потому что команды отключены" :

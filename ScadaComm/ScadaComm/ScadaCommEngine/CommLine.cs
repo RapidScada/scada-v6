@@ -104,7 +104,7 @@ namespace Scada.Comm.Engine
             Log = new LogFile(LogFormat.Simple)
             {
                 FileName = Path.Combine(coreLogic.AppDirs.LogDir, CommUtils.GetLineLogFileName(CommLineNum, ".log")),
-                CapacityMB = coreLogic.Config.GeneralOptions.MaxLogSize
+                CapacityMB = coreLogic.AppConfig.GeneralOptions.MaxLogSize
             };
         }
 
@@ -297,8 +297,8 @@ namespace Scada.Comm.Engine
             int requiredSessionCnt = 0;
             int actualSessionCnt = 0;
             bool skipUnableMsg = false;
-            TimeSpan sendAllDataPeriod = TimeSpan.FromSeconds(coreLogic.Config.GeneralOptions.SendAllDataPeriod);
-            bool sendAllDataAlways = !coreLogic.Config.GeneralOptions.SendModifiedData;
+            TimeSpan sendAllDataPeriod = TimeSpan.FromSeconds(coreLogic.AppConfig.GeneralOptions.SendAllDataPeriod);
+            bool sendAllDataAlways = !coreLogic.AppConfig.GeneralOptions.SendModifiedData;
             bool sendAllDataWithPeriod = sendAllDataPeriod > TimeSpan.Zero;
             DateTime sendAllDataDT = DateTime.MinValue;
             DateTime writeInfoDT = DateTime.MinValue;
