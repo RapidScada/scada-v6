@@ -12,7 +12,7 @@ namespace Scada.Server.Modules.ModArcBasic.View.Forms
     /// Represents a form for editing archive directories.
     /// <para>Представляет форму для редактирования директорий архива.</para>
     /// </summary>
-    public partial class FrmDir : Form
+    public partial class FrmArcDir : Form
     {
         private readonly string configFileName;     // the module configuration file name
         private readonly ModuleConfig moduleConfig; // the module configuration
@@ -21,7 +21,7 @@ namespace Scada.Server.Modules.ModArcBasic.View.Forms
         /// <summary>
         /// Initializes a new instance of the class.
         /// </summary>
-        private FrmDir()
+        private FrmArcDir()
         {
             InitializeComponent();
         }
@@ -29,7 +29,7 @@ namespace Scada.Server.Modules.ModArcBasic.View.Forms
         /// <summary>
         /// Initializes a new instance of the class.
         /// </summary>
-        public FrmDir(string configDir)
+        public FrmArcDir(string configDir)
             : this()
         {
             configFileName = Path.Combine(configDir, ModuleConfig.DefaultFileName);

@@ -1,7 +1,7 @@
 ﻿
 namespace Scada.Server.Modules.ModArcBasic.View.Forms
 {
-    partial class FrmDir
+    partial class FrmArcDir
     {
         /// <summary>
         /// Required designer variable.

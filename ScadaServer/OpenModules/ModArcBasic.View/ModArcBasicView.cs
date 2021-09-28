@@ -55,7 +55,7 @@ namespace Scada.Server.Modules.ModArcBasic.View
         /// </summary>
         public override bool ShowProperties()
         {
-            return new FrmDir(AppDirs.ConfigDir).ShowDialog() == DialogResult.OK;
+            return new FrmArcDir(AppDirs.ConfigDir).ShowDialog() == DialogResult.OK;
         }
 
         /// <summary>

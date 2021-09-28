@@ -9,20 +9,20 @@ using System.Windows.Forms;
 namespace Scada.Server.Modules.ModArcBasic.View.Forms
 {
     /// <summary>
-    /// Represents a form for editing current archive options.
-    /// <para>Представляет форму для редактирования параметров архива текущих данных.</para>
+    /// Represents a form for editing event archive options.
+    /// <para>Представляет форму для редактирования параметров архива событий.</para>
     /// </summary>
-    public partial class FrmCAO : Form
+    public partial class FrmBasicEAO : Form
     {
         private readonly AppDirs appDirs;             // the application directories
         private readonly ArchiveConfig archiveConfig; // the archive configuration
-        private readonly BasicCAO options;            // the archive options
+        private readonly BasicEAO options;            // the archive options
 
 
         /// <summary>
         /// Initializes a new instance of the class.
         /// </summary>
-        private FrmCAO()
+        private FrmBasicEAO()
         {
             InitializeComponent();
         }
@@ -30,12 +30,12 @@ namespace Scada.Server.Modules.ModArcBasic.View.Forms
         /// <summary>
         /// Initializes a new instance of the class.
         /// </summary>
-        public FrmCAO(AppDirs appDirs, ArchiveConfig archiveConfig)
+        public FrmBasicEAO(AppDirs appDirs, ArchiveConfig archiveConfig)
             : this()
         {
             this.appDirs = appDirs ?? throw new ArgumentNullException(nameof(appDirs));
             this.archiveConfig = archiveConfig ?? throw new ArgumentNullException(nameof(archiveConfig));
-            options = new BasicCAO(archiveConfig.CustomOptions);
+            options = new BasicEAO(archiveConfig.CustomOptions);
         }
         
 
@@ -44,7 +44,7 @@ namespace Scada.Server.Modules.ModArcBasic.View.Forms
         /// </summary>
         private void OptionsToControls()
         {
-            numWritingPeriod.SetValue(options.WritingPeriod);
+            numRetention.SetValue(options.Retention);
             chkLogEnabled.Checked = options.LogEnabled;
             chkUseCopyDir.Checked = options.UseCopyDir;
         }
@@ -54,7 +54,7 @@ namespace Scada.Server.Modules.ModArcBasic.View.Forms
         /// </summary>
         private void ControlsToOptions()
         {
-            options.WritingPeriod = Convert.ToInt32(numWritingPeriod.Value);
+            options.Retention = Convert.ToInt32(numRetention.Value);
             options.LogEnabled = chkLogEnabled.Checked;
             options.UseCopyDir = chkUseCopyDir.Checked;
             options.AddToOptionList(archiveConfig.CustomOptions);
@@ -69,7 +69,7 @@ namespace Scada.Server.Modules.ModArcBasic.View.Forms
 
         private void btnShowDir_Click(object sender, EventArgs e)
         {
-            new FrmDir(appDirs.ConfigDir).ShowDialog();
+            new FrmArcDir(appDirs.ConfigDir).ShowDialog();
         }
 
         private void btnOK_Click(object sender, EventArgs e)

@@ -3,21 +3,20 @@
 
 using Scada.Server.Archives;
 using Scada.Server.Config;
-using Scada.Server.Modules.ModArcBasic.View.Forms;
 using System.Windows.Forms;
 
-namespace Scada.Server.Modules.ModArcBasic.View
+namespace Scada.Server.Modules.ModArcPostgreSql.View
 {
     /// <summary>
-    /// Implements the current data archive user interface.
-    /// <para>Реализует пользовательский интерфейс архива текущих данных.</para>
+    /// Implements the event data archive user interface.
+    /// <para>Реализует пользовательский интерфейс архива событий.</para>
     /// </summary>
-    public class BasicCAV : ArchiveView
+    public class PostgreEAV : ArchiveView
     {
         /// <summary>
         /// Initializes a new instance of the class.
         /// </summary>
-        public BasicCAV(ModuleView parentView, ArchiveConfig archiveConfig)
+        public PostgreEAV(ModuleView parentView, ArchiveConfig archiveConfig)
             : base(parentView, archiveConfig)
         {
             CanShowProperties = true;
@@ -28,7 +27,8 @@ namespace Scada.Server.Modules.ModArcBasic.View
         /// </summary>
         public override bool ShowProperties()
         {
-            return new FrmBasicCAO(AppDirs, ArchiveConfig).ShowDialog() == DialogResult.OK;
+            //return new FrmEAO(AppDirs, ArchiveConfig).ShowDialog() == DialogResult.OK;
+            return false;
         }
     }
 }

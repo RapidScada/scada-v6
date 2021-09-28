@@ -13,7 +13,7 @@ namespace Scada.Server.Modules.ModArcBasic.View.Forms
     /// Represents a form for editing historical archive options.
     /// <para>Представляет форму для редактирования параметров архива исторических данных.</para>
     /// </summary>
-    public partial class FrmHAO : Form
+    public partial class FrmBasicHAO : Form
     {
         private readonly AppDirs appDirs;             // the application directories
         private readonly ArchiveConfig archiveConfig; // the archive configuration
@@ -23,7 +23,7 @@ namespace Scada.Server.Modules.ModArcBasic.View.Forms
         /// <summary>
         /// Initializes a new instance of the class.
         /// </summary>
-        private FrmHAO()
+        private FrmBasicHAO()
         {
             InitializeComponent();
         }
@@ -31,7 +31,7 @@ namespace Scada.Server.Modules.ModArcBasic.View.Forms
         /// <summary>
         /// Initializes a new instance of the class.
         /// </summary>
-        public FrmHAO(AppDirs appDirs, ArchiveConfig archiveConfig)
+        public FrmBasicHAO(AppDirs appDirs, ArchiveConfig archiveConfig)
             : this()
         {
             this.appDirs = appDirs ?? throw new ArgumentNullException(nameof(appDirs));
@@ -88,7 +88,7 @@ namespace Scada.Server.Modules.ModArcBasic.View.Forms
 
         private void btnShowDir_Click(object sender, EventArgs e)
         {
-            new FrmDir(appDirs.ConfigDir).ShowDialog();
+            new FrmArcDir(appDirs.ConfigDir).ShowDialog();
         }
 
         private void btnOK_Click(object sender, EventArgs e)

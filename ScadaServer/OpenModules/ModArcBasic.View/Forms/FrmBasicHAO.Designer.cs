@@ -1,7 +1,7 @@
 ﻿
 namespace Scada.Server.Modules.ModArcBasic.View.Forms
 {
-    partial class FrmHAO
+    partial class FrmBasicHAO
     {
         /// <summary>
         /// Required designer variable.

@@ -1,7 +1,7 @@
 ﻿
 namespace Scada.Server.Modules.ModArcBasic.View.Forms
 {
-    partial class FrmEAO
+    partial class FrmBasicCAO
     {
         /// <summary>
         /// Required designer variable.
@@ -30,8 +30,8 @@ namespace Scada.Server.Modules.ModArcBasic.View.Forms
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
-            this.lblRetention = new System.Windows.Forms.Label();
-            this.numRetention = new System.Windows.Forms.NumericUpDown();
+            this.lblWritingPeriod = new System.Windows.Forms.Label();
+            this.numWritingPeriod = new System.Windows.Forms.NumericUpDown();
             this.lblLogEnabled = new System.Windows.Forms.Label();
             this.chkLogEnabled = new System.Windows.Forms.CheckBox();
             this.lblUseCopyDir = new System.Windows.Forms.Label();
@@ -40,35 +40,35 @@ namespace Scada.Server.Modules.ModArcBasic.View.Forms
             this.btnCancel = new System.Windows.Forms.Button();
             this.toolTip = new System.Windows.Forms.ToolTip(this.components);
             this.btnShowDir = new System.Windows.Forms.Button();
-            ((System.ComponentModel.ISupportInitialize)(this.numRetention)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.numWritingPeriod)).BeginInit();
             this.SuspendLayout();
             // 
-            // lblRetention
+            // lblWritingPeriod
             // 
-            this.lblRetention.AutoSize = true;
-            this.lblRetention.Location = new System.Drawing.Point(12, 16);
-            this.lblRetention.Name = "lblRetention";
-            this.lblRetention.Size = new System.Drawing.Size(125, 15);
-            this.lblRetention.TabIndex = 0;
-            this.lblRetention.Text = "Retention period, days";
+            this.lblWritingPeriod.AutoSize = true;
+            this.lblWritingPeriod.Location = new System.Drawing.Point(12, 16);
+            this.lblWritingPeriod.Name = "lblWritingPeriod";
+            this.lblWritingPeriod.Size = new System.Drawing.Size(153, 15);
+            this.lblWritingPeriod.TabIndex = 0;
+            this.lblWritingPeriod.Text = "Period of saving to disk, sec";
             // 
-            // numRetention
+            // numWritingPeriod
             // 
-            this.numRetention.Location = new System.Drawing.Point(272, 12);
-            this.numRetention.Maximum = new decimal(new int[] {
-            100000,
+            this.numWritingPeriod.Location = new System.Drawing.Point(272, 12);
+            this.numWritingPeriod.Maximum = new decimal(new int[] {
+            3600,
             0,
             0,
             0});
-            this.numRetention.Minimum = new decimal(new int[] {
+            this.numWritingPeriod.Minimum = new decimal(new int[] {
             1,
             0,
             0,
             0});
-            this.numRetention.Name = "numRetention";
-            this.numRetention.Size = new System.Drawing.Size(100, 23);
-            this.numRetention.TabIndex = 1;
-            this.numRetention.Value = new decimal(new int[] {
+            this.numWritingPeriod.Name = "numWritingPeriod";
+            this.numWritingPeriod.Size = new System.Drawing.Size(100, 23);
+            this.numWritingPeriod.TabIndex = 1;
+            this.numWritingPeriod.Value = new decimal(new int[] {
             1,
             0,
             0,
@@ -139,7 +139,7 @@ namespace Scada.Server.Modules.ModArcBasic.View.Forms
             this.btnShowDir.UseVisualStyleBackColor = true;
             this.btnShowDir.Click += new System.EventHandler(this.btnShowDir_Click);
             // 
-            // FrmEAO
+            // FrmCAO
             // 
             this.AcceptButton = this.btnOK;
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
@@ -153,25 +153,25 @@ namespace Scada.Server.Modules.ModArcBasic.View.Forms
             this.Controls.Add(this.lblUseCopyDir);
             this.Controls.Add(this.chkLogEnabled);
             this.Controls.Add(this.lblLogEnabled);
-            this.Controls.Add(this.numRetention);
-            this.Controls.Add(this.lblRetention);
+            this.Controls.Add(this.numWritingPeriod);
+            this.Controls.Add(this.lblWritingPeriod);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedDialog;
             this.MaximizeBox = false;
             this.MinimizeBox = false;
-            this.Name = "FrmEAO";
+            this.Name = "FrmCAO";
             this.ShowInTaskbar = false;
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
-            this.Text = "Event Archive Options";
+            this.Text = "Current Archive Options";
             this.Load += new System.EventHandler(this.FrmHAO_Load);
-            ((System.ComponentModel.ISupportInitialize)(this.numRetention)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.numWritingPeriod)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
         }
 
         #endregion
-        private System.Windows.Forms.Label lblRetention;
-        private System.Windows.Forms.NumericUpDown numRetention;
+        private System.Windows.Forms.Label lblWritingPeriod;
+        private System.Windows.Forms.NumericUpDown numWritingPeriod;
         private System.Windows.Forms.Label lblLogEnabled;
         private System.Windows.Forms.CheckBox chkLogEnabled;
         private System.Windows.Forms.Label lblUseCopyDir;

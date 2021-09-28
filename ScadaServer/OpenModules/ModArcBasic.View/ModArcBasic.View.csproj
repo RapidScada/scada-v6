@@ -31,10 +31,10 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Compile Update="Forms\FrmCAO.cs">
+    <Compile Update="Forms\FrmBasicCAO.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Update="Forms\FrmEAO.cs">
+    <Compile Update="Forms\FrmBasicEAO.cs">
       <SubType>Form</SubType>
     </Compile>
     <Compile Update="Properties\Resources.Designer.cs">
