@@ -1,11 +1,9 @@
 ﻿// Copyright (c) Rapid Software LLC. All rights reserved.
 // Licensed under the Apache License, Version 2.0. See License.txt in the project root for license information.
 
-using Scada.Config;
 using Scada.Server.Archives;
 using Scada.Server.Config;
 using Scada.Server.Lang;
-using System.IO;
 
 namespace Scada.Server.Modules.ModArcPostgreSql.Logic
 {
@@ -15,7 +13,6 @@ namespace Scada.Server.Modules.ModArcPostgreSql.Logic
     /// </summary>
     public class ModArcPostgreSqlLogic : ModuleLogic
     {
-        private readonly InstanceConfig instanceConfig; // the instance configuration
         private readonly ModuleConfig moduleConfig;     // the module configuration
 
 
@@ -25,7 +22,6 @@ namespace Scada.Server.Modules.ModArcPostgreSql.Logic
         public ModArcPostgreSqlLogic(IServerContext serverContext)
             : base(serverContext)
         {
-            instanceConfig = new InstanceConfig();
             moduleConfig = new ModuleConfig();
         }
 
@@ -62,11 +58,17 @@ namespace Scada.Server.Modules.ModArcPostgreSql.Logic
             switch (archiveConfig.Kind)
             {
                 case ArchiveKind.Current:
-                    return new PostgreCAL(archiveContext, archiveConfig, cnlNums, instanceConfig, moduleConfig);
+                    return new PostgreCAL(archiveContext, archiveConfig, cnlNums, 
+                        ServerContext.InstanceConfig, moduleConfig);
+
                 case ArchiveKind.Historical:
-                    return new PostgreHAL(archiveContext, archiveConfig, cnlNums, instanceConfig, moduleConfig);
+                    return new PostgreHAL(archiveContext, archiveConfig, cnlNums, 
+                        ServerContext.InstanceConfig, moduleConfig);
+
                 case ArchiveKind.Events:
-                    return new PostgreEAL(archiveContext, archiveConfig, cnlNums, instanceConfig, moduleConfig);
+                    return new PostgreEAL(archiveContext, archiveConfig, cnlNums, 
+                        ServerContext.InstanceConfig, moduleConfig);
+
                 default:
                     return null;
             }
@@ -77,16 +79,7 @@ namespace Scada.Server.Modules.ModArcPostgreSql.Logic
         /// </summary>
         public override void OnServiceStart()
         {
-            // load instance configuration
-            if (!instanceConfig.Load(
-                Path.Combine(ServerContext.AppDirs.InstanceDir, "Config", InstanceConfig.DefaultFileName),
-                out string errMsg))
-            {
-                Log.WriteError(ServerPhrases.ModuleMessage, Code, errMsg);
-            }
-
-            // load module configuration
-            if (!moduleConfig.Load(ServerContext.Storage, ModuleConfig.DefaultFileName, out errMsg))
+            if (!moduleConfig.Load(ServerContext.Storage, ModuleConfig.DefaultFileName, out string errMsg))
                 Log.WriteError(ServerPhrases.ModuleMessage, Code, errMsg);
         }
     }
