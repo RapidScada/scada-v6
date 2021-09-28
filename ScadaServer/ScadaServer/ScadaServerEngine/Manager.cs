@@ -133,16 +133,16 @@ namespace Scada.Server.Engine
                 Log = log
             }, instanceConfig);
 
-            ServerConfig config = new ServerConfig();
+            ServerConfig appConfig = new ServerConfig();
 
             if (AppDirs.CheckExistence(out errMsg) &&
                 LocalizeApp() &&
                 storageWrapper.InitStorage() &&
-                config.Load(storageWrapper.Storage, ServerConfig.DefaultFileName, out errMsg))
+                appConfig.Load(storageWrapper.Storage, ServerConfig.DefaultFileName, out errMsg))
             {
                 // start service
-                logFile.CapacityMB = config.GeneralOptions.MaxLogSize;
-                coreLogic = new CoreLogic(config, AppDirs, storageWrapper.Storage, log);
+                logFile.CapacityMB = appConfig.GeneralOptions.MaxLogSize;
+                coreLogic = new CoreLogic(instanceConfig, appConfig, AppDirs, storageWrapper.Storage, log);
 
                 if (coreLogic.StartProcessing())
                     return true;

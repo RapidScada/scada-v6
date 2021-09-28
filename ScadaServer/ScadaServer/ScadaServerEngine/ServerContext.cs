@@ -23,6 +23,7 @@
  * Modified : 2021
  */
 
+using Scada.Config;
 using Scada.Data.Models;
 using Scada.Data.Tables;
 using Scada.Log;
@@ -57,9 +58,14 @@ namespace Scada.Server.Engine
 
 
         /// <summary>
+        /// Gets the instance configuration.
+        /// </summary>
+        public InstanceConfig InstanceConfig => coreLogic.InstanceConfig;
+
+        /// <summary>
         /// Gets the application configuration.
         /// </summary>
-        public ServerConfig AppConfig => coreLogic.Config;
+        public ServerConfig AppConfig => coreLogic.AppConfig;
 
         /// <summary>
         /// Gets the application directories.

@@ -53,7 +53,7 @@ namespace Scada.Server.Engine
         /// <summary>
         /// Gets the application configuration.
         /// </summary>
-        public ServerConfig AppConfig => coreLogic.Config;
+        public ServerConfig AppConfig => coreLogic.AppConfig;
 
         /// <summary>
         /// Gets the application directories.

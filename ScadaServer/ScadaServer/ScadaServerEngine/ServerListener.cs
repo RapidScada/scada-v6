@@ -60,7 +60,7 @@ namespace Scada.Server.Engine
         /// Initializes a new instance of the class.
         /// </summary>
         public ServerListener(CoreLogic coreLogic, ArchiveHolder archiveHolder, ServerCache serverCache)
-            : base(coreLogic?.Config.ListenerOptions, coreLogic?.Log)
+            : base(coreLogic?.AppConfig.ListenerOptions, coreLogic?.Log)
         {
             this.coreLogic = coreLogic ?? throw new ArgumentNullException(nameof(coreLogic));
             this.archiveHolder = archiveHolder ?? throw new ArgumentNullException(nameof(archiveHolder));

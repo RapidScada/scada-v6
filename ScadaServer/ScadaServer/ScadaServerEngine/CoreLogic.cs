@@ -23,6 +23,7 @@
  * Modified : 2021
  */
 
+using Scada.Config;
 using Scada.Data.Const;
 using Scada.Data.Entities;
 using Scada.Data.Models;
@@ -101,9 +102,11 @@ namespace Scada.Server.Engine
         /// <summary>
         /// Initializes a new instance of the class.
         /// </summary>
-        public CoreLogic(ServerConfig config, ServerDirs appDirs, IStorage storage, ILog log)
+        public CoreLogic(InstanceConfig instanceConfig, ServerConfig appConfig, ServerDirs appDirs, 
+            IStorage storage, ILog log)
         {
-            Config = config ?? throw new ArgumentNullException(nameof(config));
+            InstanceConfig = instanceConfig ?? throw new ArgumentNullException(nameof(instanceConfig));
+            AppConfig = appConfig ?? throw new ArgumentNullException(nameof(appConfig));
             AppDirs = appDirs ?? throw new ArgumentNullException(nameof(appDirs));
             Storage = storage ?? throw new ArgumentNullException(nameof(storage));
             Log = log ?? throw new ArgumentNullException(nameof(log));
@@ -137,9 +140,14 @@ namespace Scada.Server.Engine
 
 
         /// <summary>
-        /// Gets the server configuration.
+        /// Gets the instance configuration.
         /// </summary>
-        public ServerConfig Config { get; }
+        public InstanceConfig InstanceConfig { get; }
+
+        /// <summary>
+        /// Gets the application configuration.
+        /// </summary>
+        public ServerConfig AppConfig { get; }
 
         /// <summary>
         /// Gets the application directories.
@@ -371,7 +379,7 @@ namespace Scada.Server.Engine
         {
             ServerContext serverContext = new ServerContext(this, archiveHolder, listener);
 
-            foreach (string moduleCode in Config.ModuleCodes)
+            foreach (string moduleCode in AppConfig.ModuleCodes)
             {
                 if (ModuleFactory.GetModuleLogic(AppDirs.ModDir, moduleCode, serverContext,
                     out ModuleLogic moduleLogic, out string message))
@@ -405,7 +413,7 @@ namespace Scada.Server.Engine
             // create archives
             ArchiveContext archiveContext = new ArchiveContext(this);
 
-            foreach (ArchiveConfig archiveConfig in Config.Archives)
+            foreach (ArchiveConfig archiveConfig in AppConfig.Archives)
             {
                 if (archiveConfig.Active)
                 {
@@ -568,7 +576,7 @@ namespace Scada.Server.Engine
         /// </summary>
         private void CheckActivity(ref int tagIndex, DateTime nowDT)
         {
-            int unrelIfInactive = Config.GeneralOptions.UnrelIfInactive;
+            int unrelIfInactive = AppConfig.GeneralOptions.UnrelIfInactive;
 
             if (unrelIfInactive > 0)
             {

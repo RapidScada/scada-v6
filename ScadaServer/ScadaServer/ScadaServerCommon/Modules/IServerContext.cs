@@ -23,6 +23,7 @@
  * Modified : 2021
  */
 
+using Scada.Config;
 using Scada.Data.Models;
 using Scada.Data.Tables;
 using Scada.Log;
@@ -39,6 +40,11 @@ namespace Scada.Server.Modules
     /// </summary>
     public interface IServerContext
     {
+        /// <summary>
+        /// Gets the instance configuration.
+        /// </summary>
+        InstanceConfig InstanceConfig { get; }
+
         /// <summary>
         /// Gets the application configuration.
         /// </summary>
