@@ -22,6 +22,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ModArcPostgreSql.Common", "
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ModArcPostgreSql.Logic", "ModArcPostgreSql.Logic\ModArcPostgreSql.Logic.csproj", "{7507228F-FA68-4B0C-B19F-4FDAEF8C610F}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ModArcPostgreSql.View", "ModArcPostgreSql.View\ModArcPostgreSql.View.csproj", "{521FA33E-475B-4146-AE34-BC21451C87CD}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -48,6 +50,10 @@ Global
 		{7507228F-FA68-4B0C-B19F-4FDAEF8C610F}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{7507228F-FA68-4B0C-B19F-4FDAEF8C610F}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{7507228F-FA68-4B0C-B19F-4FDAEF8C610F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{521FA33E-475B-4146-AE34-BC21451C87CD}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{521FA33E-475B-4146-AE34-BC21451C87CD}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{521FA33E-475B-4146-AE34-BC21451C87CD}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{521FA33E-475B-4146-AE34-BC21451C87CD}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -58,6 +64,7 @@ Global
 		{DD111A5F-B27C-428A-B6AC-F943B9BAA9E5} = {2D5EE196-52F9-4E19-8FD8-CF4FCD92CD1B}
 		{AD4B8A66-8A3F-4191-87D7-1786212377F2} = {F75EF551-E701-4F57-8081-03CC0593DDE4}
 		{7507228F-FA68-4B0C-B19F-4FDAEF8C610F} = {F75EF551-E701-4F57-8081-03CC0593DDE4}
+		{521FA33E-475B-4146-AE34-BC21451C87CD} = {F75EF551-E701-4F57-8081-03CC0593DDE4}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {445C5594-E01F-4CCB-A364-EDAA6E5C2B15}
