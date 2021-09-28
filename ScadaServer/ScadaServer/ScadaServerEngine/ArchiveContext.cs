@@ -20,9 +20,10 @@
  * 
  * Author   : Mikhail Shiryaev
  * Created  : 2020
- * Modified : 2020
+ * Modified : 2021
  */
 
+using Scada.Config;
 using Scada.Data.Models;
 using Scada.Log;
 using Scada.Server.Archives;
@@ -49,6 +50,11 @@ namespace Scada.Server.Engine
             this.coreLogic = coreLogic ?? throw new ArgumentNullException(nameof(coreLogic));
         }
 
+
+        /// <summary>
+        /// Gets the instance configuration.
+        /// </summary>
+        public InstanceConfig InstanceConfig => coreLogic.InstanceConfig;
 
         /// <summary>
         /// Gets the application configuration.

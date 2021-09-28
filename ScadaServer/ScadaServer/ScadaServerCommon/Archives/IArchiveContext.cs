@@ -20,9 +20,10 @@
  * 
  * Author   : Mikhail Shiryaev
  * Created  : 2020
- * Modified : 2020
+ * Modified : 2021
  */
 
+using Scada.Config;
 using Scada.Data.Models;
 using Scada.Log;
 using Scada.Server.Config;
@@ -36,6 +37,11 @@ namespace Scada.Server.Archives
     /// </summary>
     public interface IArchiveContext
     {
+        /// <summary>
+        /// Gets the instance configuration.
+        /// </summary>
+        InstanceConfig InstanceConfig { get; }
+
         /// <summary>
         /// Gets the application configuration.
         /// </summary>
