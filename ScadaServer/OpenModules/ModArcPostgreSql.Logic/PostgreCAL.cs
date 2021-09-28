@@ -23,7 +23,6 @@ namespace Scada.Server.Modules.ModArcPostgreSql.Logic
     /// </summary>
     internal class PostgreCAL : CurrentArchiveLogic
     {
-        private readonly InstanceConfig instanceConfig; // the instance configuration
         private readonly ModuleConfig moduleConfig;     // the module configuration
         private readonly PostgreCAO archiveOptions;     // the archive options
         private readonly ILog appLog;                   // the application log
@@ -44,9 +43,8 @@ namespace Scada.Server.Modules.ModArcPostgreSql.Logic
         /// Initializes a new instance of the class.
         /// </summary>
         public PostgreCAL(IArchiveContext archiveContext, ArchiveConfig archiveConfig, int[] cnlNums,
-            InstanceConfig instanceConfig, ModuleConfig moduleConfig) : base(archiveContext, archiveConfig, cnlNums)
+            ModuleConfig moduleConfig) : base(archiveContext, archiveConfig, cnlNums)
         {
-            this.instanceConfig = instanceConfig ?? throw new ArgumentNullException(nameof(instanceConfig));
             this.moduleConfig = moduleConfig ?? throw new ArgumentNullException(nameof(moduleConfig));
             archiveOptions = new PostgreCAO(archiveConfig.CustomOptions);
             appLog = archiveContext.Log;
@@ -134,7 +132,7 @@ namespace Scada.Server.Modules.ModArcPostgreSql.Logic
         {
             // prepare database
             DbConnectionOptions connOptions = archiveOptions.UseStorageConn
-                ? DbUtils.GetConnectionOptions(instanceConfig)
+                ? DbUtils.GetConnectionOptions(ArchiveContext.InstanceConfig)
                 : DbUtils.GetConnectionOptions(moduleConfig, archiveOptions.Connection);
 
             conn = DbUtils.CreateDbConnection(connOptions);

@@ -58,17 +58,11 @@ namespace Scada.Server.Modules.ModArcPostgreSql.Logic
             switch (archiveConfig.Kind)
             {
                 case ArchiveKind.Current:
-                    return new PostgreCAL(archiveContext, archiveConfig, cnlNums, 
-                        ServerContext.InstanceConfig, moduleConfig);
-
+                    return new PostgreCAL(archiveContext, archiveConfig, cnlNums, moduleConfig);
                 case ArchiveKind.Historical:
-                    return new PostgreHAL(archiveContext, archiveConfig, cnlNums, 
-                        ServerContext.InstanceConfig, moduleConfig);
-
+                    return new PostgreHAL(archiveContext, archiveConfig, cnlNums, moduleConfig);
                 case ArchiveKind.Events:
-                    return new PostgreEAL(archiveContext, archiveConfig, cnlNums, 
-                        ServerContext.InstanceConfig, moduleConfig);
-
+                    return new PostgreEAL(archiveContext, archiveConfig, cnlNums, moduleConfig);
                 default:
                     return null;
             }
