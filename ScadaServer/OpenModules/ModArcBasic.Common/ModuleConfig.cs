@@ -14,9 +14,9 @@ namespace Scada.Server.Modules.ModArcBasic
     public class ModuleConfig : BaseConfig
     {
         /// <summary>
-        /// The configuration file name.
+        /// The default configuration file name.
         /// </summary>
-        public const string ConfigFileName = "ModArcBasic.xml";
+        public const string DefaultFileName = "ModArcBasic.xml";
 
 
         /// <summary>
