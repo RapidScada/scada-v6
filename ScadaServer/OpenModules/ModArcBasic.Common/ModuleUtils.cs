@@ -15,10 +15,12 @@ namespace Scada.Server.Modules.ModArcBasic
         /// The module code.
         /// </summary>
         public const string ModuleCode = "ModArcBasic";
+
         /// <summary>
         ///  The maximum number of entries that can be stored in the cache.
         /// </summary>
         public const int CacheCapacity = 100;
+
         /// <summary>
         /// Determines how long an item is stored in the cache.
         /// </summary>

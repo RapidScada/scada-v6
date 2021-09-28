@@ -76,8 +76,8 @@ namespace Scada.Server.Modules.ModArcBasic.Logic
         public override void OnServiceStart()
         {
             // load configuration file if exists
-            if (ServerContext.Storage.GetFileInfo(DataCategory.Config, ModuleConfig.ConfigFileName).Exists &&
-                !moduleConfig.Load(ServerContext.Storage, ModuleConfig.ConfigFileName, out string errMsg))
+            if (ServerContext.Storage.GetFileInfo(DataCategory.Config, ModuleConfig.DefaultFileName).Exists &&
+                !moduleConfig.Load(ServerContext.Storage, ModuleConfig.DefaultFileName, out string errMsg))
             {
                 Log.WriteError(ServerPhrases.ModuleMessage, Code, errMsg);
             }

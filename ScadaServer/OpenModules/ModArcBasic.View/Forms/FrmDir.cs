@@ -32,7 +32,7 @@ namespace Scada.Server.Modules.ModArcBasic.View.Forms
         public FrmDir(string configDir)
             : this()
         {
-            configFileName = Path.Combine(configDir, ModuleConfig.ConfigFileName);
+            configFileName = Path.Combine(configDir, ModuleConfig.DefaultFileName);
             moduleConfig = new ModuleConfig();
         }
 
