@@ -34,8 +34,8 @@
     <Phrase key="NoArchiveView">Архив не предоставляет пользовательский интерфейс.</Phrase>
   </Dictionary>
   <Dictionary key="Scada.Admin.Extensions.ExtServerConfig.Forms.FrmGeneralOptions">
-    <Phrase key="this">Общие параметры</Phrase>
-    <Phrase key="gbGeneralOptions">Общие параметры</Phrase>
+    <Phrase key="this">Основные параметры</Phrase>
+    <Phrase key="gbGeneralOptions">Основные параметры</Phrase>
     <Phrase key="lblUnrelIfInactive">Канал помечается как недействительный при неактивности, с</Phrase>
     <Phrase key="lblMaxLogSize">Максимальный размер файла журнала, МБ</Phrase>
     <Phrase key="gbListenerOptions">Прослушиватель</Phrase>
