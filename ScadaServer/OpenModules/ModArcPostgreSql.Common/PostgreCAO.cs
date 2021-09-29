@@ -38,5 +38,17 @@ namespace Scada.Server.Modules.ModArcPostgreSql
         /// Gets or sets the maximum queue size.
         /// </summary>
         public int MaxQueueSize { get; set; }
+
+
+        /// <summary>
+        /// Adds the options to the list.
+        /// </summary>
+        public override void AddToOptionList(OptionList options)
+        {
+            base.AddToOptionList(options);
+            options["UseStorageConn"] = UseStorageConn.ToString().ToLowerInvariant();
+            options["Connection"] = Connection;
+            options["MaxQueueSize"] = MaxQueueSize.ToString();
+        }
     }
 }

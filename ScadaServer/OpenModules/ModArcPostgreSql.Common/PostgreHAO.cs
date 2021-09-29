@@ -44,5 +44,18 @@ namespace Scada.Server.Modules.ModArcPostgreSql
         /// Gets or sets the partition size.
         /// </summary>
         public PartitionSize PartitionSize { get; set; }
+
+
+        /// <summary>
+        /// Adds the options to the list.
+        /// </summary>
+        public override void AddToOptionList(OptionList options)
+        {
+            base.AddToOptionList(options);
+            options["UseStorageConn"] = UseStorageConn.ToString().ToLowerInvariant();
+            options["Connection"] = Connection;
+            options["MaxQueueSize"] = MaxQueueSize.ToString();
+            options["PartitionSize"] = PartitionSize.ToString();
+        }
     }
 }
