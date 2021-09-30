@@ -175,7 +175,8 @@ namespace Scada.Admin.App.Code
                 {
                     try
                     {
-                        items.AddRange(extensionLogic.GetTreeNodes(relatedObject));
+                        if (extensionLogic.GetTreeNodes(relatedObject) is TreeNode[] treeNodes)
+                            items.AddRange(treeNodes);
                     }
                     catch (Exception ex)
                     {
