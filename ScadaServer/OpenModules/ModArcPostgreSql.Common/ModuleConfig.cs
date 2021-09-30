@@ -64,5 +64,26 @@ namespace Scada.Server.Modules.ModArcPostgreSql
                 }
             }
         }
+
+        /// <summary>
+        /// Saves the configuration to the specified writer.
+        /// </summary>
+        protected override void Save(TextWriter writer)
+        {
+            XmlDocument xmlDoc = new XmlDocument();
+            XmlDeclaration xmlDecl = xmlDoc.CreateXmlDeclaration("1.0", "utf-8", null);
+            xmlDoc.AppendChild(xmlDecl);
+
+            XmlElement rootElem = xmlDoc.CreateElement("ModArcPostgreSql");
+            xmlDoc.AppendChild(rootElem);
+
+            XmlElement connectionsElem = rootElem.AppendElem("Connections");
+            foreach (DbConnectionOptions connectionOptions in Connections.Values)
+            {
+                connectionOptions.SaveToXml(connectionsElem.AppendElem("Connection"));
+            }
+
+            xmlDoc.Save(writer);
+        }
     }
 }
