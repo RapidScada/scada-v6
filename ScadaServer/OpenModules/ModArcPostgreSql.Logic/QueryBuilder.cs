@@ -28,7 +28,6 @@ namespace Scada.Server.Modules.ModArcPostgreSql.Logic
                 { "Timestamp", "time_stamp" },
                 { "Hidden", "hidden" },
                 { "CnlNum", "cnl_num" },
-                { "OutCnlNum", "out_cnl_num" },
                 { "ObjNum", "obj_num" },
                 { "DeviceNum", "device_num" },
                 { "PrevCnlVal", "prev_cnl_val" },
@@ -214,14 +213,14 @@ namespace Scada.Server.Modules.ModArcPostgreSql.Logic
             get
             {
                 return
-                    $"INSERT INTO {EventTable} (event_id, time_stamp, hidden, cnl_num, out_cnl_num, " +
-                    "obj_num, device_num, prev_cnl_val, prev_cnl_stat, cnl_val, cnl_stat, severity, " +
+                    $"INSERT INTO {EventTable} (event_id, time_stamp, hidden, cnl_num, obj_num, device_num, " +
+                    "prev_cnl_val, prev_cnl_stat, cnl_val, cnl_stat, severity, " +
                     "ack_required, ack, ack_timestamp, ack_user_id, text_format, event_text, event_data) " +
-                    "VALUES (@eventID, @timestamp, @hidden, @cnlNum, @outCnlNum, " +
+                    "VALUES (@eventID, @timestamp, @hidden, @cnlNum, " +
                     "@objNum, @deviceNum, @prevCnlVal, @prevCnlStat, @cnlVal, @cnlStat, @severity, " +
                     "@ackRequired, @ack, @ackTimestamp, @ackUserID, @textFormat, @eventText, @eventData) " +
                     "ON CONFLICT (event_id, time_stamp) DO UPDATE " +
-                    "SET hidden = EXCLUDED.hidden, cnl_num = EXCLUDED.cnl_num, out_cnl_num = EXCLUDED.out_cnl_num, " +
+                    "SET hidden = EXCLUDED.hidden, cnl_num = EXCLUDED.cnl_num, " +
                     "obj_num = EXCLUDED.obj_num, device_num = EXCLUDED.device_num, " + 
                     "prev_cnl_val = EXCLUDED.prev_cnl_val, prev_cnl_stat = EXCLUDED.prev_cnl_stat, " +
                     "cnl_val = EXCLUDED.cnl_val, cnl_stat = EXCLUDED.cnl_stat, severity = EXCLUDED.severity, " +
@@ -238,9 +237,9 @@ namespace Scada.Server.Modules.ModArcPostgreSql.Logic
         {
             get
             {
-                return 
-                    "SELECT event_id, time_stamp, hidden, cnl_num, out_cnl_num, " +
-                    "obj_num, device_num, prev_cnl_val, prev_cnl_stat, cnl_val, cnl_stat, severity, " +
+                return
+                    "SELECT event_id, time_stamp, hidden, cnl_num, obj_num, device_num, " +
+                    "prev_cnl_val, prev_cnl_stat, cnl_val, cnl_stat, severity, " +
                     "ack_required, ack, ack_timestamp, ack_user_id, text_format, event_text, event_data " +
                     $"FROM {EventTable} ";
             }
