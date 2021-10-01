@@ -3,6 +3,7 @@
 
 using Scada.Server.Archives;
 using Scada.Server.Config;
+using Scada.Server.Modules.ModArcPostgreSql.View.Forms;
 using System.Windows.Forms;
 
 namespace Scada.Server.Modules.ModArcPostgreSql.View
@@ -27,8 +28,7 @@ namespace Scada.Server.Modules.ModArcPostgreSql.View
         /// </summary>
         public override bool ShowProperties()
         {
-            //return new FrmCAO(AppDirs, ArchiveConfig).ShowDialog() == DialogResult.OK;
-            return false;
+            return new FrmPostgreCAO(AppDirs, ArchiveConfig).ShowDialog() == DialogResult.OK;
         }
     }
 }

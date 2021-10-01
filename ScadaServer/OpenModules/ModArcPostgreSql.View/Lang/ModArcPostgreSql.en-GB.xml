@@ -17,6 +17,19 @@
     <Phrase key="NewConnection">New Connection</Phrase>
     <Phrase key="UnnamedConnection">&lt;Unnamed Connection&gt;</Phrase>
   </Dictionary>
+  <Dictionary key="Scada.Server.Modules.ModArcPostgreSql.View.Forms.FrmPostgreCAO">
+    <Phrase key="this">Current Archive Options</Phrase>
+    <Phrase key="gbGeneralOptions">General Options</Phrase>
+    <Phrase key="lblWritingPeriod">Period of saving to database, sec</Phrase>
+    <Phrase key="lblLogEnabled">Log enabled</Phrase>
+    <Phrase key="gbDbOptions">Database Options</Phrase>
+    <Phrase key="lblUseStorageConn">Use storage connection</Phrase>
+    <Phrase key="lblConnection">Connection</Phrase>
+    <Phrase key="lblMaxQueueSize">Maximum queue size</Phrase>
+    <Phrase key="btnManageConn">Manage Connections</Phrase>
+    <Phrase key="btnOK">OK</Phrase>
+    <Phrase key="btnCancel">Cancel</Phrase>
+  </Dictionary>
   <Dictionary key="Scada.Server.Modules.ModArcPostgreSql.View.Forms.FrmPostgreHAO">
     <Phrase key="this">Historical Archive Options</Phrase>
     <Phrase key="gbGeneralOptions">General Options</Phrase>

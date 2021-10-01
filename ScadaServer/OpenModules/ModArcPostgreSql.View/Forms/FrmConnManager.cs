@@ -7,8 +7,8 @@ using Scada.Forms;
 using Scada.Lang;
 using System;
 using System.Collections.Generic;
-using System.ComponentModel;
 using System.IO;
+using System.Linq;
 using System.Windows.Forms;
 
 namespace Scada.Server.Modules.ModArcPostgreSql.View.Forms
@@ -44,6 +44,12 @@ namespace Scada.Server.Modules.ModArcPostgreSql.View.Forms
             selectedOptions = null;
             sortRequired = false;
         }
+
+
+        /// <summary>
+        /// Gets the connection names.
+        /// </summary>
+        public string[] ConnectionNames => moduleConfig.Connections.Keys.ToArray();
 
 
         /// <summary>
