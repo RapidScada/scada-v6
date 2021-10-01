@@ -66,6 +66,14 @@ namespace Scada.Forms
         }
 
         /// <summary>
+        /// Gets the first selected list item.
+        /// </summary>
+        public static ListViewItem GetSelectedItem(this ListView listView)
+        {
+            return listView.SelectedItems.Count > 0 ? listView.SelectedItems[0] : null;
+        }
+
+        /// <summary>
         /// Moves up the selected list item.
         /// </summary>
         public static bool MoveUpSelectedItem(this ListView listView, bool updateOrder = false)

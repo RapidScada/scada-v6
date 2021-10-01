@@ -146,11 +146,23 @@ namespace Scada.Config
 
             xmlElem.AppendElem("Name", Name);
             xmlElem.AppendElem("DBMS", DBMS);
-            xmlElem.AppendElem("Server", Server);
-            xmlElem.AppendElem("Database", Database);
-            xmlElem.AppendElem("Username", Username);
-            xmlElem.AppendElem("Password", ScadaUtils.Encrypt(Password));
-            xmlElem.AppendElem("ConnectionString", ConnectionString);
+
+            if (string.IsNullOrEmpty(ConnectionString))
+            {
+                xmlElem.AppendElem("Server", Server);
+                xmlElem.AppendElem("Database", Database);
+                xmlElem.AppendElem("Username", Username);
+                xmlElem.AppendElem("Password", ScadaUtils.Encrypt(Password));
+                xmlElem.AppendElem("ConnectionString", "");
+            }
+            else
+            {
+                xmlElem.AppendElem("Server", "");
+                xmlElem.AppendElem("Database", "");
+                xmlElem.AppendElem("Username", "");
+                xmlElem.AppendElem("Password", "");
+                xmlElem.AppendElem("ConnectionString", ConnectionString);
+            }
         }
     }
 }

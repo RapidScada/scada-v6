@@ -93,16 +93,25 @@ namespace Scada.Server.Modules.ModArcPostgreSql.Logic
         /// </summary>
         public static NpgsqlConnection CreateDbConnection(DbConnectionOptions options)
         {
-            return new NpgsqlConnection(
-                string.IsNullOrEmpty(options.ConnectionString)
-                ? new NpgsqlConnectionStringBuilder
+            string connectionString = options.ConnectionString;
+
+            if (string.IsNullOrEmpty(connectionString))
+            {
+                ScadaUtils.RetrieveHostAndPort(options.Server, NpgsqlConnection.DefaultPort,
+                    out string host, out int port);
+
+                connectionString = new NpgsqlConnectionStringBuilder
                 {
-                    Host = options.Server,
+                    Host = host,
+                    Port = port,
                     Database = options.Database,
                     Username = options.Username,
                     Password = options.Password
-                }.ToString()
-                : options.ConnectionString);
+                }
+                .ToString();
+            }
+
+            return new NpgsqlConnection(connectionString);
         }
 
         /// <summary>

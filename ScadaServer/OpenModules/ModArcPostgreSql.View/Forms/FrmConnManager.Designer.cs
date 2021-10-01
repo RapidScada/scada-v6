@@ -29,7 +29,6 @@ namespace Scada.Server.Modules.ModArcPostgreSql.View.Forms
         /// </summary>
         private void InitializeComponent()
         {
-            this.lbConn = new System.Windows.Forms.ListBox();
             this.btnNewConn = new System.Windows.Forms.Button();
             this.btnDeleteConn = new System.Windows.Forms.Button();
             this.gbConnOptions = new System.Windows.Forms.GroupBox();
@@ -48,21 +47,11 @@ namespace Scada.Server.Modules.ModArcPostgreSql.View.Forms
             this.btnCancel = new System.Windows.Forms.Button();
             this.btnOK = new System.Windows.Forms.Button();
             this.gbConnList = new System.Windows.Forms.GroupBox();
+            this.lvConn = new System.Windows.Forms.ListView();
+            this.colName = new System.Windows.Forms.ColumnHeader();
             this.gbConnOptions.SuspendLayout();
             this.gbConnList.SuspendLayout();
             this.SuspendLayout();
-            // 
-            // lbConn
-            // 
-            this.lbConn.HorizontalScrollbar = true;
-            this.lbConn.IntegralHeight = false;
-            this.lbConn.ItemHeight = 15;
-            this.lbConn.Location = new System.Drawing.Point(13, 51);
-            this.lbConn.Name = "lbConn";
-            this.lbConn.Size = new System.Drawing.Size(194, 291);
-            this.lbConn.Sorted = true;
-            this.lbConn.TabIndex = 2;
-            this.lbConn.SelectedIndexChanged += new System.EventHandler(this.lbConn_SelectedIndexChanged);
             // 
             // btnNewConn
             // 
@@ -235,7 +224,7 @@ namespace Scada.Server.Modules.ModArcPostgreSql.View.Forms
             // 
             // gbConnList
             // 
-            this.gbConnList.Controls.Add(this.lbConn);
+            this.gbConnList.Controls.Add(this.lvConn);
             this.gbConnList.Controls.Add(this.btnDeleteConn);
             this.gbConnList.Controls.Add(this.btnNewConn);
             this.gbConnList.Location = new System.Drawing.Point(12, 12);
@@ -245,6 +234,29 @@ namespace Scada.Server.Modules.ModArcPostgreSql.View.Forms
             this.gbConnList.TabIndex = 0;
             this.gbConnList.TabStop = false;
             this.gbConnList.Text = "Connections";
+            // 
+            // lvConn
+            // 
+            this.lvConn.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
+            this.colName});
+            this.lvConn.FullRowSelect = true;
+            this.lvConn.HeaderStyle = System.Windows.Forms.ColumnHeaderStyle.None;
+            this.lvConn.HideSelection = false;
+            this.lvConn.Location = new System.Drawing.Point(13, 51);
+            this.lvConn.MultiSelect = false;
+            this.lvConn.Name = "lvConn";
+            this.lvConn.ShowGroups = false;
+            this.lvConn.ShowItemToolTips = true;
+            this.lvConn.Size = new System.Drawing.Size(194, 291);
+            this.lvConn.Sorting = System.Windows.Forms.SortOrder.Ascending;
+            this.lvConn.TabIndex = 2;
+            this.lvConn.UseCompatibleStateImageBehavior = false;
+            this.lvConn.View = System.Windows.Forms.View.Details;
+            this.lvConn.SelectedIndexChanged += new System.EventHandler(this.lvConn_SelectedIndexChanged);
+            // 
+            // colName
+            // 
+            this.colName.Width = 186;
             // 
             // FrmConnManager
             // 
@@ -273,8 +285,6 @@ namespace Scada.Server.Modules.ModArcPostgreSql.View.Forms
         }
 
         #endregion
-
-        private System.Windows.Forms.ListBox lbConn;
         private System.Windows.Forms.Button btnNewConn;
         private System.Windows.Forms.Button btnDeleteConn;
         private System.Windows.Forms.GroupBox gbConnOptions;
@@ -293,5 +303,7 @@ namespace Scada.Server.Modules.ModArcPostgreSql.View.Forms
         private System.Windows.Forms.Button btnCancel;
         private System.Windows.Forms.Button btnOK;
         private System.Windows.Forms.GroupBox gbConnList;
+        private System.Windows.Forms.ListView lvConn;
+        private System.Windows.Forms.ColumnHeader colName;
     }
 }

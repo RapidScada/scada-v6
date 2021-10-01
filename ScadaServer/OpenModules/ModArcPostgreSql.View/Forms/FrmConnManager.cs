@@ -1,6 +1,7 @@
 ﻿// Copyright (c) Rapid Software LLC. All rights reserved.
 // Licensed under the Apache License, Version 2.0. See License.txt in the project root for license information.
 
+using Npgsql;
 using Scada.Config;
 using Scada.Forms;
 using System;
@@ -17,19 +18,9 @@ namespace Scada.Server.Modules.ModArcPostgreSql.View.Forms
     /// </summary>
     public partial class FrmConnManager : Form
     {
-        /// <summary>
-        /// Represents a connection item.
-        /// </summary>
-        private class ConnectionItem
-        {
-            public DbConnectionOptions ConnectionOptions { get; init; }
-            public override string ToString() => 
-                string.IsNullOrEmpty(ConnectionOptions.Name) ? "<Unnamed connection>" : ConnectionOptions.Name;
-        }
-
         private readonly string configFileName;      // the module configuration file name
         private readonly ModuleConfig moduleConfig;  // the module configuration
-        private ConnectionItem selectedItem;         // the currently selected connection item
+        private DbConnectionOptions selectedOptions; // the currently selected connection options
         private bool sortRequired;                   // indicated whether to sort the list
 
 
@@ -49,7 +40,7 @@ namespace Scada.Server.Modules.ModArcPostgreSql.View.Forms
         {
             configFileName = Path.Combine(configDir, ModuleConfig.DefaultFileName);
             moduleConfig = new ModuleConfig();
-            selectedItem = null;
+            selectedOptions = null;
             sortRequired = false;
         }
 
@@ -80,30 +71,44 @@ namespace Scada.Server.Modules.ModArcPostgreSql.View.Forms
         }
 
         /// <summary>
-        /// Fills the connection list box.
+        /// Fills the connection list according to the configuration.
         /// </summary>
         private void FillConnList()
         {
-            lbConn.BeginUpdate();
-            lbConn.Items.Clear();
+            lvConn.BeginUpdate();
+            lvConn.Items.Clear();
 
             foreach (KeyValuePair<string, DbConnectionOptions> pair in moduleConfig.Connections)
             {
-                lbConn.Items.Add(new ConnectionItem { ConnectionOptions = pair.Value });
+                lvConn.Items.Add(CreateConnectionItem(pair.Value));
             }
 
-            lbConn.EndUpdate();
+            lvConn.EndUpdate();
 
-            if (lbConn.Items.Count > 0)
-                lbConn.SelectedIndex = 0;
+            if (lvConn.Items.Count > 0)
+                lvConn.Items[0].Selected = true;
+        }
+
+        /// <summary>
+        /// Retrieves the connections from the connection list to the module configuration.
+        /// </summary>
+        private void RetrieveConnections()
+        {
+            moduleConfig.Connections.Clear();
+
+            foreach (ListViewItem item in lvConn.Items)
+            {
+                DbConnectionOptions options = (DbConnectionOptions)item.Tag;
+                moduleConfig.Connections[options.Name] = options;
+            }
         }
 
         /// <summary>
         /// Shows the connection options.
         /// </summary>
-        private void ShowConnectionOptions(ConnectionItem item)
+        private void ShowConnectionOptions(DbConnectionOptions options)
         {
-            if (item == null)
+            if (options == null)
             {
                 gbConnOptions.Enabled = false;
                 txtName.Text = "";
@@ -116,20 +121,22 @@ namespace Scada.Server.Modules.ModArcPostgreSql.View.Forms
             }
             else
             {
-                DbConnectionOptions options = item.ConnectionOptions;
                 gbConnOptions.Enabled = true;
                 txtName.Text = options.Name;
+                txtServer.Text = options.Server;
+                txtDatabase.Text = options.Database;
+                txtUsername.Text = options.Username;
+                txtPassword.Text = options.Password;
 
                 if (string.IsNullOrEmpty(options.ConnectionString))
                 {
-                    txtServer.Text = options.Server;
-                    txtDatabase.Text = options.Database;
-                    txtUsername.Text = options.Username;
-                    txtPassword.Text = options.Password;
+                    SetFieldsReadOnly(false);
                     chkConnectionString.Checked = false;
+                    txtConnectionString.Text = BuildConnectionString(options);
                 }
                 else
                 {
+                    SetFieldsReadOnly(true);
                     chkConnectionString.Checked = true;
                     txtConnectionString.Text = options.ConnectionString;
                 }
@@ -137,28 +144,49 @@ namespace Scada.Server.Modules.ModArcPostgreSql.View.Forms
         }
 
         /// <summary>
-        /// Builds the connection string.
+        /// Sets the ReadOnly property of the textboxes depending on connection string usage.
         /// </summary>
-        private string BuildConnectionString(ConnectionItem item)
+        private void SetFieldsReadOnly(bool useConnectionString)
         {
-            if (item?.ConnectionOptions is DbConnectionOptions options &&
-                options.KnownDBMS == KnownDBMS.PostgreSQL)
-            {
-                return "aaa";
-            }
-            else
-            {
-                return "";
-            }
+            txtServer.ReadOnly = useConnectionString;
+            txtDatabase.ReadOnly = useConnectionString;
+            txtUsername.ReadOnly = useConnectionString;
+            txtPassword.ReadOnly = useConnectionString;
+            txtConnectionString.ReadOnly = !useConnectionString;
         }
 
         /// <summary>
-        /// Refreshes the text of the selected list item.
+        /// Creates a new list view item that represents the specified connection.
         /// </summary>
-        private void RefreshSelectedItem()
+        private static ListViewItem CreateConnectionItem(DbConnectionOptions options)
         {
-            if (lbConn.SelectedIndex >= 0)
-                lbConn.Items[lbConn.SelectedIndex] = lbConn.Items[lbConn.SelectedIndex];
+            return new ListViewItem
+            {
+                Text = string.IsNullOrEmpty(options.Name) ? "<Unnamed connection>" : options.Name,
+                Tag = options
+            };
+        }
+
+        /// <summary>
+        /// Builds the connection string.
+        /// </summary>
+        private static string BuildConnectionString(DbConnectionOptions options)
+        {
+            if (options == null)
+                return "";
+
+            ScadaUtils.RetrieveHostAndPort(options.Server, NpgsqlConnection.DefaultPort, 
+                out string host, out int port);
+
+            return new NpgsqlConnectionStringBuilder
+            {
+                Host = host,
+                Port = port,
+                Database = options.Database,
+                Username = options.Username,
+                Password = options.Password
+            }
+            .ToString();
         }
 
 
@@ -167,19 +195,19 @@ namespace Scada.Server.Modules.ModArcPostgreSql.View.Forms
             FormTranslator.Translate(this, GetType().FullName);
             LoadConfig();
             FillConnList();
+            ActiveControl = lvConn;
         }
 
         private void btnNewConn_Click(object sender, EventArgs e)
         {
             // add new connection
-            lbConn.SelectedIndex = lbConn.Items.Add(new ConnectionItem
-            {
-                ConnectionOptions = new DbConnectionOptions
+            lvConn.Items
+                .Add(CreateConnectionItem(new DbConnectionOptions
                 {
                     Name = "New Connection",
                     KnownDBMS = KnownDBMS.PostgreSQL
-                }
-            });
+                }))
+                .Selected = true;
 
             txtName.Focus();
         }
@@ -187,37 +215,34 @@ namespace Scada.Server.Modules.ModArcPostgreSql.View.Forms
         private void btnDeleteConn_Click(object sender, EventArgs e)
         {
             // delete selected connection
-            int index = lbConn.SelectedIndex;
-
-            if (index >= 0)
-            {
-                lbConn.Items.RemoveAt(index);
-
-                if (lbConn.Items.Count > 0)
-                    lbConn.SelectedIndex = Math.Min(index, lbConn.Items.Count - 1);
-            }
+            lvConn.RemoveSelectedItem();
         }
 
-        private void lbConn_SelectedIndexChanged(object sender, EventArgs e)
+        private void lvConn_SelectedIndexChanged(object sender, EventArgs e)
         {
             // show selected connection options
-            ConnectionItem item = lbConn.SelectedItem as ConnectionItem;
-            selectedItem = null;
-            ShowConnectionOptions(item);
-            selectedItem = item;
+            DbConnectionOptions options = lvConn.GetSelectedItem()?.Tag as DbConnectionOptions;
+            selectedOptions = null;
+            ShowConnectionOptions(options);
+            selectedOptions = options;
 
             // enable or disable button
-            btnDeleteConn.Enabled = lbConn.SelectedItem != null;
+            btnDeleteConn.Enabled = options != null;
         }
 
         private void txtName_TextChanged(object sender, EventArgs e)
         {
             // update selected connection name
-            if (selectedItem != null)
+            if (selectedOptions != null)
             {
-                selectedItem.ConnectionOptions.Name = txtName.Text;
+                selectedOptions.Name = txtName.Text;
                 sortRequired = true;
-                RefreshSelectedItem();
+
+                if (lvConn.GetSelectedItem() is ListViewItem listViewItem)
+                {
+                    listViewItem.Text = string.IsNullOrEmpty(selectedOptions.Name) ?
+                        "<Unnamed connection>" : selectedOptions.Name;
+                }
             }
         }
 
@@ -227,65 +252,73 @@ namespace Scada.Server.Modules.ModArcPostgreSql.View.Forms
             if (sortRequired)
             {
                 sortRequired = false;
-                object item = selectedItem;
-
-                if (item != null)
-                {
-                    lbConn.Items.Remove(item);
-                    lbConn.SelectedIndex = lbConn.Items.Add(item);
-                }
+                lvConn.Sort();
             }
         }
 
         private void txtServer_TextChanged(object sender, EventArgs e)
         {
-            if (selectedItem != null)
-                selectedItem.ConnectionOptions.Server = txtServer.Text;
+            if (selectedOptions != null)
+            {
+                selectedOptions.Server = txtServer.Text;
+                txtConnectionString.Text = BuildConnectionString(selectedOptions);
+            }
         }
 
         private void txtDatabase_TextChanged(object sender, EventArgs e)
         {
-            if (selectedItem != null)
-                selectedItem.ConnectionOptions.Database = txtDatabase.Text;
+            if (selectedOptions != null)
+            {
+                selectedOptions.Database = txtDatabase.Text;
+                txtConnectionString.Text = BuildConnectionString(selectedOptions);
+            }
         }
 
         private void txtUsername_TextChanged(object sender, EventArgs e)
         {
-            if (selectedItem != null)
-                selectedItem.ConnectionOptions.Username = txtUsername.Text;
+            if (selectedOptions != null)
+            {
+                selectedOptions.Username = txtUsername.Text;
+                txtConnectionString.Text = BuildConnectionString(selectedOptions);
+            }
         }
 
         private void txtPassword_TextChanged(object sender, EventArgs e)
         {
-            if (selectedItem != null)
-                selectedItem.ConnectionOptions.Password = txtPassword.Text;
+            if (selectedOptions != null)
+            {
+                selectedOptions.Password = txtPassword.Text;
+                txtConnectionString.Text = BuildConnectionString(selectedOptions);
+            }
         }
 
         private void chkConnectionString_CheckedChanged(object sender, EventArgs e)
         {
-            if (chkConnectionString.Checked)
+            if (selectedOptions != null)
             {
-                txtServer.Text = "";
-                txtDatabase.Text = "";
-                txtUsername.Text = "";
-                txtPassword.Text = "";
-                txtConnectionString.ReadOnly = false;
-            }
-            else
-            {
-                txtConnectionString.Text = BuildConnectionString(selectedItem);
-                txtConnectionString.ReadOnly = true;
+                if (chkConnectionString.Checked)
+                {
+                    SetFieldsReadOnly(true);
+                    selectedOptions.ConnectionString = txtConnectionString.Text;
+                }
+                else
+                {
+                    SetFieldsReadOnly(false);
+                    selectedOptions.ConnectionString = "";
+                }
             }
         }
 
         private void txtConnectionString_TextChanged(object sender, EventArgs e)
         {
-            if (selectedItem != null)
-                selectedItem.ConnectionOptions.ConnectionString = txtConnectionString.Text;
+            if (selectedOptions != null)
+                selectedOptions.ConnectionString = chkConnectionString.Checked ? txtConnectionString.Text : "";
         }
 
         private void btnOK_Click(object sender, EventArgs e)
         {
+            RetrieveConnections();
+
             if (SaveConfig())
                 DialogResult = DialogResult.OK;
         }
