@@ -5,8 +5,6 @@ using Scada.Forms;
 using Scada.Server.Archives;
 using Scada.Server.Config;
 using System;
-using System.IO;
-using System.Linq;
 using System.Windows.Forms;
 
 namespace Scada.Server.Modules.ModArcPostgreSql.View.Forms
@@ -84,24 +82,6 @@ namespace Scada.Server.Modules.ModArcPostgreSql.View.Forms
             options.AddToOptionList(archiveConfig.CustomOptions);
         }
 
-        /// <summary>
-        /// Fills the connection combo box.
-        /// </summary>
-        private void FillConnections()
-        {
-            string configFileName = Path.Combine(appDirs.ConfigDir, ModuleConfig.DefaultFileName);
-
-            if (File.Exists(configFileName))
-            {
-                ModuleConfig moduleConfig = new();
-
-                if (moduleConfig.Load(configFileName, out string errMsg))
-                    cbConnection.Items.AddRange(moduleConfig.Connections.Keys.ToArray());
-                else
-                    ScadaUiUtils.ShowError(errMsg);
-            }
-        }
-
 
         private void FrmPostgreHAO_Load(object sender, EventArgs e)
         {
@@ -121,7 +101,7 @@ namespace Scada.Server.Modules.ModArcPostgreSql.View.Forms
 
         private void chkUseStorageConn_CheckedChanged(object sender, EventArgs e)
         {
-            lblConnection.Enabled = cbConnection.Enabled = !chkUseStorageConn.Checked;
+            cbConnection.Enabled = !chkUseStorageConn.Checked;
         }
 
         private void btnManageConn_Click(object sender, EventArgs e)

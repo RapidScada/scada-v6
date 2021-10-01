@@ -30,6 +30,22 @@
     <Phrase key="btnOK">OK</Phrase>
     <Phrase key="btnCancel">Cancel</Phrase>
   </Dictionary>
+  <Dictionary key="Scada.Server.Modules.ModArcPostgreSql.View.Forms.FrmPostgreEAO">
+    <Phrase key="this">Event Archive Options</Phrase>
+    <Phrase key="gbGeneralOptions">General Options</Phrase>
+    <Phrase key="lblRetention">Retention period, days</Phrase>
+    <Phrase key="lblLogEnabled">Log enabled</Phrase>
+    <Phrase key="gbDbOptions">Database Options</Phrase>
+    <Phrase key="lblUseStorageConn">Use storage connection</Phrase>
+    <Phrase key="lblConnection">Connection</Phrase>
+    <Phrase key="lblMaxQueueSize">Maximum queue size</Phrase>
+    <Phrase key="lblPartitionSize">Partition size</Phrase>
+    <Phrase key="cbPartitionSize.Items[0]">One month</Phrase>
+    <Phrase key="cbPartitionSize.Items[1]">One year</Phrase>
+    <Phrase key="btnManageConn">Manage Connections</Phrase>
+    <Phrase key="btnOK">OK</Phrase>
+    <Phrase key="btnCancel">Cancel</Phrase>
+  </Dictionary>
   <Dictionary key="Scada.Server.Modules.ModArcPostgreSql.View.Forms.FrmPostgreHAO">
     <Phrase key="this">Historical Archive Options</Phrase>
     <Phrase key="gbGeneralOptions">General Options</Phrase>

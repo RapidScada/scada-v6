@@ -38,6 +38,9 @@
     <Compile Update="Forms\FrmPostgreCAO.cs">
       <SubType>Form</SubType>
     </Compile>
+    <Compile Update="Forms\FrmPostgreEAO.cs">
+      <SubType>Form</SubType>
+    </Compile>
   </ItemGroup>
 
   <ItemGroup>

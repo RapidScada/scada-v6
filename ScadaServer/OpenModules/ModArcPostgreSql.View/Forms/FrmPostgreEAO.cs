@@ -9,20 +9,20 @@ using System.Windows.Forms;
 namespace Scada.Server.Modules.ModArcPostgreSql.View.Forms
 {
     /// <summary>
-    /// Represents a form for editing current archive options.
-    /// <para>Представляет форму для редактирования параметров архива текущих данных.</para>
+    /// Represents a form for editing event archive options.
+    /// <para>Представляет форму для редактирования параметров архива событий.</para>
     /// </summary>
-    public partial class FrmPostgreCAO : Form
+    public partial class FrmPostgreEAO : Form
     {
         private readonly AppDirs appDirs;             // the application directories
         private readonly ArchiveConfig archiveConfig; // the archive configuration
-        private readonly PostgreCAO options;          // the archive options
+        private readonly PostgreEAO options;          // the archive options
 
 
         /// <summary>
         /// Initializes a new instance of the class.
         /// </summary>
-        public FrmPostgreCAO()
+        public FrmPostgreEAO()
         {
             InitializeComponent();
         }
@@ -30,12 +30,12 @@ namespace Scada.Server.Modules.ModArcPostgreSql.View.Forms
         /// <summary>
         /// Initializes a new instance of the class.
         /// </summary>
-        public FrmPostgreCAO(AppDirs appDirs, ArchiveConfig archiveConfig)
+        public FrmPostgreEAO(AppDirs appDirs, ArchiveConfig archiveConfig)
             : this()
         {
             this.appDirs = appDirs ?? throw new ArgumentNullException(nameof(appDirs));
             this.archiveConfig = archiveConfig ?? throw new ArgumentNullException(nameof(archiveConfig));
-            options = new PostgreCAO(archiveConfig.CustomOptions);
+            options = new PostgreEAO(archiveConfig.CustomOptions);
         }
 
 
@@ -45,13 +45,14 @@ namespace Scada.Server.Modules.ModArcPostgreSql.View.Forms
         private void OptionsToControls()
         {
             // general options
-            numWritingPeriod.SetValue(options.WritingPeriod);
+            numRetention.SetValue(options.Retention);
             chkLogEnabled.Checked = options.LogEnabled;
 
             // database options
             chkUseStorageConn.Checked = options.UseStorageConn;
             cbConnection.Text = options.Connection;
             numMaxQueueSize.SetValue(options.MaxQueueSize);
+            cbPartitionSize.SelectedIndex = (int)options.PartitionSize;
         }
 
         /// <summary>
@@ -60,13 +61,14 @@ namespace Scada.Server.Modules.ModArcPostgreSql.View.Forms
         private void ControlsToOptions()
         {
             // general options
-            options.WritingPeriod = Convert.ToInt32(numWritingPeriod.Value);
+            options.Retention = Convert.ToInt32(numRetention.Value);
             options.LogEnabled = chkLogEnabled.Checked;
 
             // database options
             options.UseStorageConn = chkUseStorageConn.Checked;
             options.Connection = cbConnection.Text;
             options.MaxQueueSize = Convert.ToInt32(numMaxQueueSize.Value);
+            options.PartitionSize = (PartitionSize)cbPartitionSize.SelectedIndex;
 
             options.AddToOptionList(archiveConfig.CustomOptions);
         }
