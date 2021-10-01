@@ -87,6 +87,7 @@ namespace Scada.Server.Archives
         /// </summary>
         public virtual void AddToOptionList(OptionList options)
         {
+            options.Clear();
             options["WritingMode"] = WritingMode.ToString();
             options["WritingPeriod"] = WritingPeriod.ToString();
             options["WritingUnit"] = WritingUnit.ToString();

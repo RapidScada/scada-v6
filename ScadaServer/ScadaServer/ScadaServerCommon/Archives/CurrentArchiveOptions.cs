@@ -63,6 +63,7 @@ namespace Scada.Server.Archives
         /// </summary>
         public virtual void AddToOptionList(OptionList options)
         {
+            options.Clear();
             options["WritingPeriod"] = WritingPeriod.ToString();
             options["LogEnabled"] = LogEnabled.ToString().ToLowerInvariant();
         }

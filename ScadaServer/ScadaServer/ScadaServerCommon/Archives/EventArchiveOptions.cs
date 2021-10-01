@@ -63,6 +63,7 @@ namespace Scada.Server.Archives
         /// </summary>
         public virtual void AddToOptionList(OptionList options)
         {
+            options.Clear();
             options["Retention"] = Retention.ToString();
             options["LogEnabled"] = LogEnabled.ToString().ToLowerInvariant();
         }
