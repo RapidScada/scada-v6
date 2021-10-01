@@ -4,6 +4,7 @@
 using Scada.Server.Archives;
 using Scada.Server.Config;
 using Scada.Server.Lang;
+using Scada.Storages;
 
 namespace Scada.Server.Modules.ModArcPostgreSql.Logic
 {
@@ -73,8 +74,11 @@ namespace Scada.Server.Modules.ModArcPostgreSql.Logic
         /// </summary>
         public override void OnServiceStart()
         {
-            if (!moduleConfig.Load(ServerContext.Storage, ModuleConfig.DefaultFileName, out string errMsg))
+            if (ServerContext.Storage.GetFileInfo(DataCategory.Config, ModuleConfig.DefaultFileName).Exists &&
+                !moduleConfig.Load(ServerContext.Storage, ModuleConfig.DefaultFileName, out string errMsg))
+            {
                 Log.WriteError(ServerPhrases.ModuleMessage, Code, errMsg);
+            }
         }
     }
 }
