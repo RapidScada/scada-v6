@@ -4,6 +4,7 @@
 using Npgsql;
 using Scada.Config;
 using Scada.Forms;
+using Scada.Lang;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -162,7 +163,7 @@ namespace Scada.Server.Modules.ModArcPostgreSql.View.Forms
         {
             return new ListViewItem
             {
-                Text = string.IsNullOrEmpty(options.Name) ? "<Unnamed connection>" : options.Name,
+                Text = string.IsNullOrEmpty(options.Name) ? ModulePhrases.UnnamedConnection : options.Name,
                 Tag = options
             };
         }
@@ -184,7 +185,7 @@ namespace Scada.Server.Modules.ModArcPostgreSql.View.Forms
                 Port = port,
                 Database = options.Database,
                 Username = options.Username,
-                Password = options.Password
+                Password = CommonPhrases.HiddenPassword
             }
             .ToString();
         }
@@ -204,7 +205,7 @@ namespace Scada.Server.Modules.ModArcPostgreSql.View.Forms
             lvConn.Items
                 .Add(CreateConnectionItem(new DbConnectionOptions
                 {
-                    Name = "New Connection",
+                    Name = ModulePhrases.NewConnection,
                     KnownDBMS = KnownDBMS.PostgreSQL
                 }))
                 .Selected = true;
@@ -241,7 +242,7 @@ namespace Scada.Server.Modules.ModArcPostgreSql.View.Forms
                 if (lvConn.GetSelectedItem() is ListViewItem listViewItem)
                 {
                     listViewItem.Text = string.IsNullOrEmpty(selectedOptions.Name) ?
-                        "<Unnamed connection>" : selectedOptions.Name;
+                        ModulePhrases.UnnamedConnection : selectedOptions.Name;
                 }
             }
         }

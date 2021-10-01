@@ -104,6 +104,7 @@ namespace Scada.Lang
         public static string QuestionCaption { get; private set; }
         public static string ErrorCaption { get; private set; }
         public static string WarningCaption { get; private set; }
+        public static string HiddenPassword { get; private set; }
 
         static CommonPhrases()
         {
@@ -197,6 +198,7 @@ namespace Scada.Lang
             QuestionCaption = dict["QuestionCaption"];
             ErrorCaption = dict["ErrorCaption"];
             WarningCaption = dict["WarningCaption"];
+            HiddenPassword = dict["HiddenPassword"];
         }
     }
 }

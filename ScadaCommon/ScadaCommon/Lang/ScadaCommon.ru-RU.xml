@@ -71,5 +71,6 @@
     <Phrase key="QuestionCaption">Вопрос</Phrase>
     <Phrase key="ErrorCaption">Ошибка</Phrase>
     <Phrase key="WarningCaption">Предупреждение</Phrase>
+    <Phrase key="HiddenPassword">*****</Phrase>
   </Dictionary>
 </ScadaDictionaries>

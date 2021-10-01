@@ -47,14 +47,6 @@ namespace Scada
         /// </summary>
         public const int ThreadWait = 10000;
         /// <summary>
-        /// The project website in English.
-        /// </summary>
-        public const string WebsiteEn = "https://rapidscada.org";
-        /// <summary>
-        /// The project website in Russain.
-        /// </summary>
-        public const string WebsiteRu = "https://rapidscada.ru";
-        /// <summary>
         /// Generates parts of unique IDs.
         /// </summary>
         private static readonly Random UniqueIDGenerator = new Random();

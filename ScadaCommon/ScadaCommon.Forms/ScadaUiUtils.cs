@@ -170,7 +170,7 @@ namespace Scada.Forms
             out bool imgLoaded, out string linkUrl, out string errMsg)
         {
             imgLoaded = false;
-            linkUrl = Locale.IsRussian ? ScadaUtils.WebsiteRu : ScadaUtils.WebsiteEn;
+            linkUrl = CommonPhrases.WebsiteUrl;
             errMsg = "";
 
             // load background image if file exists
