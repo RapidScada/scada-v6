@@ -1,0 +1,25 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ScadaAgentConfig>
+  <ListenerOptions>
+    <Port>10002</Port>
+    <Timeout>10000</Timeout>
+    <SecretKey>0E063D581B1DB27B8E984993DED65CE99284A706756C706C7F3B12C44BD55D4D</SecretKey>
+  </ListenerOptions>
+  <ReverseConnection enabled="false">
+    <Name>Reverse Connection</Name>
+    <Host>localhost</Host>
+    <Port>10002</Port>
+    <User>ScadaComm</User>
+    <Password>B9D0F030265751578B00E9801C69320C</Password>
+    <Instance>Default</Instance>
+    <Timeout>10000</Timeout>
+    <SecretKey>0E063D581B1DB27B8E984993DED65CE99284A706756C706C7F3B12C44BD55D4D</SecretKey>
+  </ReverseConnection>
+  <Instances>
+    <Instance active="true" name="Default">
+      <Directory>C:\SCADA\</Directory>
+    </Instance>
+    <Instance active="false" name="Remote Site">
+    </Instance>
+  </Instances>
+</ScadaAgentConfig>
