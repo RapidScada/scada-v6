@@ -17,9 +17,23 @@
   </ReverseConnection>
   <Instances>
     <Instance active="true" name="Default">
+      <ProxyMode>false</ProxyMode>
       <Directory>C:\SCADA\</Directory>
+      <AdminUser>
+        <Username>ScadaAdmin</Username>
+        <Password>B9D0F030265751578B00E9801C69320C</Password>
+      </AdminUser>
     </Instance>
     <Instance active="false" name="Remote Site">
+      <ProxyMode>true</ProxyMode>
+      <AdminUser>
+        <Username>ScadaAdmin</Username>
+        <Password>B9D0F030265751578B00E9801C69320C</Password>
+      </AdminUser>
+      <AgentUser>
+        <Username>ScadaAgent</Username>
+        <Password>B9D0F030265751578B00E9801C69320C</Password>
+      </AgentUser>
     </Instance>
   </Instances>
 </ScadaAgentConfig>
