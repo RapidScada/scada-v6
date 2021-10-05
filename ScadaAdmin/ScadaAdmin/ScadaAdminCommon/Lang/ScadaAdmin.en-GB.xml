@@ -509,6 +509,10 @@
     <Phrase key="OpenTextFileError">Error opening file</Phrase>
     <Phrase key="SaveTextFileError">Error saving file</Phrase>
   </Dictionary>
+  <Dictionary key="Scada.Admin.Deployment.DeploymentConfig">
+    <Phrase key="LoadDeploymentConfigError">Error loading deployment configuration</Phrase>
+    <Phrase key="SaveDeploymentConfigError">Error saving deployment configuration</Phrase>
+  </Dictionary>
   <Dictionary key="Scada.Admin.Project">
     <Phrase key="CreateAppConfigError">Error creating configuration of the {0} application</Phrase>
     <Phrase key="DeleteAppConfigError">Error deleting configuration of the {0} application</Phrase>

@@ -20,7 +20,7 @@
  * 
  * Author   : Mikhail Shiryaev
  * Created  : 2018
- * Modified : 2020
+ * Modified : 2021
  */
 
 using Scada.Protocol;
@@ -39,7 +39,7 @@ namespace Scada.Agent
         /// </summary>
         public ConfigTransferOptions()
         {
-            ConfigParts = ConfigParts.All;
+            ConfigParts = ConfigParts.None;
             IgnoredPaths = new List<RelativePath>();
         }
 

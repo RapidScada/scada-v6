@@ -509,6 +509,10 @@
     <Phrase key="OpenTextFileError">Ошибка при открытии файла</Phrase>
     <Phrase key="SaveTextFileError">Ошибка при сохранении файла</Phrase>
   </Dictionary>
+  <Dictionary key="Scada.Admin.Deployment.DeploymentConfig">
+    <Phrase key="LoadDeploymentConfigError">Ошибка при загрузке конфигурации развёртывания</Phrase>
+    <Phrase key="SaveDeploymentConfigError">Ошибка при сохранении конфигурации развёртывания</Phrase>
+  </Dictionary>
   <Dictionary key="Scada.Admin.Project">
     <Phrase key="CreateAppConfigError">Ошибка при создании конфигурации приложения {0}</Phrase>
     <Phrase key="DeleteAppConfigError">Ошибка при удалении конфигурации приложения {0}</Phrase>
