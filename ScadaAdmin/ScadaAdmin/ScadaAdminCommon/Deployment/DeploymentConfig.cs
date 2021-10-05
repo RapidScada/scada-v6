@@ -76,22 +76,20 @@ namespace Scada.Admin.Deployment
         {
             try
             {
-                if (!Loaded)
+                Profiles.Clear();
+                Loaded = false;
+
+                XmlDocument xmlDoc = new();
+                xmlDoc.Load(FileName);
+
+                foreach (XmlNode profileNode in xmlDoc.DocumentElement.SelectNodes("DeploymentProfile"))
                 {
-                    Profiles.Clear();
-                    XmlDocument xmlDoc = new();
-                    xmlDoc.Load(FileName);
-
-                    foreach (XmlNode profileNode in xmlDoc.DocumentElement.SelectNodes("DeploymentProfile"))
-                    {
-                        DeploymentProfile profile = new DeploymentProfile();
-                        profile.LoadFromXml(profileNode);
-                        Profiles[profile.Name] = profile;
-                    }
-
-                    Loaded = true;
+                    DeploymentProfile profile = new DeploymentProfile();
+                    profile.LoadFromXml(profileNode);
+                    Profiles[profile.Name] = profile;
                 }
 
+                Loaded = true;
                 errMsg = "";
                 return true;
             }

@@ -23,6 +23,7 @@
  * Modified : 2021
  */
 
+using Scada.Admin.Deployment;
 using Scada.Admin.Lang;
 using Scada.Lang;
 using System;
@@ -81,7 +82,7 @@ namespace Scada.Admin.Project
                     ConfigBase.BaseDir = "";
                     Views.ViewDir = "";
                     Instances.ForEach(i => i.InstanceDir = "");
-                    //DeploymentSettings.ProjectDir = "";
+                    DeploymentConfig.FileName = "";
                 }
                 else
                 {
@@ -90,7 +91,7 @@ namespace Scada.Admin.Project
                     ConfigBase.BaseDir = Path.Combine(projectDir, "BaseXML");
                     Views.ViewDir = Path.Combine(projectDir, "Views");
                     Instances.ForEach(i => i.InstanceDir = Path.Combine(projectDir, "Instances", i.Name));
-                    //DeploymentSettings.ProjectDir = projectDir;
+                    DeploymentConfig.FileName = Path.Combine(projectDir, DeploymentConfig.DefaultFileName);
                 }
             }
         }
@@ -131,6 +132,11 @@ namespace Scada.Admin.Project
         /// </summary>
         public List<ProjectInstance> Instances { get; private set; }
 
+        /// <summary>
+        /// Gets the deployment configuration.
+        /// </summary>
+        public DeploymentConfig DeploymentConfig { get; private set; }
+
 
         /// <summary>
         /// Sets the project properties to the defaults.
@@ -145,7 +151,7 @@ namespace Scada.Admin.Project
             ConfigBase = new ConfigBase();
             Views = new ProjectViews();
             Instances = new List<ProjectInstance>();
-            //DeploymentSettings = new DeploymentSettings();
+            DeploymentConfig = new DeploymentConfig();
         }
 
         /// <summary>

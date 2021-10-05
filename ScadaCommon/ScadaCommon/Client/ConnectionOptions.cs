@@ -151,5 +151,32 @@ namespace Scada.Client
             xmlElem.AppendElem("Timeout", Timeout);
             xmlElem.AppendElem("SecretKey", ScadaUtils.BytesToHex(SecretKey));
         }
+
+        /// <summary>
+        /// Determines whether two specified objects have the same value.
+        /// </summary>
+        public static bool Equals(ConnectionOptions a, ConnectionOptions b)
+        {
+            if (a == b)
+            {
+                return true;
+            }
+            else if (a == null || b == null)
+            {
+                return false;
+            }
+            else
+            {
+                return
+                    a.Name == b.Name &&
+                    a.Host == b.Host &&
+                    a.Port == b.Port &&
+                    a.User == b.User &&
+                    a.Password == b.Password &&
+                    a.Instance == b.Instance &&
+                    a.Timeout == b.Timeout &&
+                    ScadaUtils.SequenceEqual(a.SecretKey, b.SecretKey);
+            }
+        }
     }
 }

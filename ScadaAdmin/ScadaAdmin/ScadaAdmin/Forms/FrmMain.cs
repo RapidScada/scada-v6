@@ -24,6 +24,7 @@
  */
 
 using Scada.Admin.App.Code;
+using Scada.Admin.App.Forms.Deployment;
 using Scada.Admin.App.Forms.Tables;
 using Scada.Admin.App.Forms.Tools;
 using Scada.Admin.App.Properties;
@@ -640,7 +641,7 @@ namespace Scada.Admin.App.Forms
             {
                 if (liveInstance.ProjectInstance.LoadAppConfig(out string errMsg))
                 {
-                    LoadDeploymentSettings();
+                    LoadDeploymentConfig();
                     InitAgentClient(liveInstance);
                     //liveInstance.ServerEnvironment = CreateServerEnvironment(liveInstance);
                     //liveInstance.CommEnvironment = CreateCommEnvironment(liveInstance);
@@ -767,15 +768,15 @@ namespace Scada.Admin.App.Forms
         }
 
         /// <summary>
-        /// Loads the deployments settings of the current project.
+        /// Loads the deployment configuration of the current project.
         /// </summary>
-        private void LoadDeploymentSettings()
+        private void LoadDeploymentConfig()
         {
-            /*if (!project.DeploymentSettings.Loaded && File.Exists(project.DeploymentSettings.FileName) &&
-                !project.DeploymentSettings.Load(out string errMsg))
+            if (!Project.DeploymentConfig.Loaded &&  File.Exists(Project.DeploymentConfig.FileName) && 
+                !Project.DeploymentConfig.Load(out string errMsg))
             {
                 Log.HandleError(errMsg);
-            }*/
+            }
         }
 
         /// <summary>
@@ -1288,27 +1289,27 @@ namespace Scada.Admin.App.Forms
         private void miDeployInstanceProfile_Click(object sender, EventArgs e)
         {
             // select instance profile
-            if (FindInstanceForDeploy(tvExplorer.SelectedNode,
+            if (FindInstanceForDeploy(tvExplorer.SelectedNode, 
                 out TreeNode instanceNode, out LiveInstance liveInstance))
             {
-                // load deployment settings
-                LoadDeploymentSettings();
+                // load deployment configuration
+                LoadDeploymentConfig();
 
-                // open an instance profile form
-                /*FrmInstanceProfile frmInstanceProfile = new FrmInstanceProfile(appData, project, liveInstance.ProjectInstance);
+                // open instance profile form
+                FrmInstanceProfile frmInstanceProfile = new(Log, Project, liveInstance.ProjectInstance);
                 frmInstanceProfile.ShowDialog();
 
-                // take the changes into account
+                // take changes into account
                 if (frmInstanceProfile.ProfileChanged)
                 {
                     UpdateAgentClient(liveInstance);
                     SaveProject();
                     ShowStatus(liveInstance.ProjectInstance);
                 }
-                else if (frmInstanceProfile.ConnSettingsModified)
+                else if (frmInstanceProfile.ConnectionModified)
                 {
                     UpdateAgentClient(liveInstance);
-                }*/
+                }
             }
         }
 
@@ -1318,15 +1319,15 @@ namespace Scada.Admin.App.Forms
             if (FindInstanceForDeploy(tvExplorer.SelectedNode, 
                 out TreeNode instanceNode, out LiveInstance liveInstance))
             {
-                // save all changes and load the deployment settings
+                // save all changes and load deployment configuration
                 SaveAll();
-                LoadDeploymentSettings();
+                LoadDeploymentConfig();
 
-                // open a download configuration form
+                // open download configuration form
                 /*FrmDownloadConfig frmDownloadConfig = new FrmDownloadConfig(appData, project, liveInstance.ProjectInstance);
                 frmDownloadConfig.ShowDialog();
 
-                // take the changes into account
+                // take changes into account
                 if (frmDownloadConfig.ProfileChanged)
                 {
                     UpdateAgentClient(liveInstance);
@@ -1365,15 +1366,15 @@ namespace Scada.Admin.App.Forms
             if (FindInstanceForDeploy(tvExplorer.SelectedNode, 
                 out TreeNode instanceNode, out LiveInstance liveInstance))
             {
-                // save all changes and load the deployment settings
+                // save all changes and load the deployment configuration
                 SaveAll();
-                LoadDeploymentSettings();
+                LoadDeploymentConfig();
 
-                // open an upload configuration form
+                // open upload configuration form
                 /*FrmUploadConfig frmUploadConfig = new FrmUploadConfig(appData, project, liveInstance.ProjectInstance);
                 frmUploadConfig.ShowDialog();
 
-                // take the changes into account
+                // take changes into account
                 if (frmUploadConfig.ProfileChanged)
                 {
                     UpdateAgentClient(liveInstance);
@@ -1394,7 +1395,7 @@ namespace Scada.Admin.App.Forms
                 out TreeNode instanceNode, out LiveInstance liveInstance))
             {
                 // load deployment settings
-                LoadDeploymentSettings();
+                LoadDeploymentConfig();
 
                 // open an instance status form
                 /*FrmInstanceStatus frmInstanceStatus = 
@@ -2101,7 +2102,7 @@ namespace Scada.Admin.App.Forms
             if (selectedNode != null && selectedNode.TagIs(ExplorerNodeType.Instance) &&
                 FindClosestInstance(selectedNode, out LiveInstance liveInstance))
             {
-                LoadDeploymentSettings();
+                LoadDeploymentConfig();
                 /*DeploymentProfile profile = GetDeploymentProfile(liveInstance.ProjectInstance.DeploymentProfile);
 
                 if (profile != null && ScadaUtils.IsValidUrl(profile.WebUrl))

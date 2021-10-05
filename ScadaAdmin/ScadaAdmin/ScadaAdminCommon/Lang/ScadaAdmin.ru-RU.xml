@@ -200,6 +200,15 @@
     <Phrase key="DeviceFilter">КП {0}</Phrase>
     <Phrase key="EmptyDeviceFilter">Пустой КП</Phrase>
   </Dictionary>
+  <Dictionary key="Scada.Admin.App.Controls.Deployment.CtrlProfileSelector">
+    <Phrase key="gbInstance">Экземпляр</Phrase>
+    <Phrase key="gbProfile">Профиль</Phrase>
+    <Phrase key="btnCreateProfile">Создать</Phrase>
+    <Phrase key="btnEditProfile">Изменить</Phrase>
+    <Phrase key="btnDeleteProfile">Удалить</Phrase>
+    <Phrase key="ProfileNotSet">&lt;Не задан&gt;</Phrase>
+    <Phrase key="ConfirmDeleteProfile">Вы уверены, что хотите удалить профиль?</Phrase>
+  </Dictionary>
   <Dictionary key="Scada.Admin.App.Controls.Tables.CtrlBitMask">
     <Phrase key="lblMaskValue">Десятичное значение</Phrase>
     <Phrase key="btnResetMask">Сбросить</Phrase>
@@ -207,6 +216,12 @@
   </Dictionary>
   <Dictionary key="Scada.Admin.App.Forms">
     <Phrase key="CorrectErrors">Пожалуйста, исправьте следующие ошибки:</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Admin.App.Forms.Deployment.FrmInstanceProfile">
+    <Phrase key="this">Профиль развёртывания</Phrase>
+    <Phrase key="btnTest">Тест</Phrase>
+    <Phrase key="btnOK">OK</Phrase>
+    <Phrase key="btnClose">Закрыть</Phrase>
   </Dictionary>
   <Dictionary key="Scada.Admin.App.Forms.Tables.FrmBaseTable">
     <Phrase key="miProperties">Свойства</Phrase>

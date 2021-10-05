@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Globalization;
+using System.Linq;
 using System.Text;
 
 namespace Scada
@@ -284,6 +285,19 @@ namespace Scada
             }
 
             return sb.ToString();
+        }
+
+        /// <summary>
+        /// Determines whether two sequences are equal.
+        /// </summary>
+        public static bool SequenceEqual<T>(IEnumerable<T> a, IEnumerable<T> b)
+        {
+            if (a == b)
+                return true;
+            else if (a == null || b == null)
+                return false;
+            else
+                return Enumerable.SequenceEqual(a, b);
         }
     }
 }

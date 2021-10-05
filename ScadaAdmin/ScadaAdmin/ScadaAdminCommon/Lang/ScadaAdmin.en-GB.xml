@@ -200,6 +200,15 @@
     <Phrase key="DeviceFilter">Device {0}</Phrase>
     <Phrase key="EmptyDeviceFilter">Empty device</Phrase>
   </Dictionary>
+  <Dictionary key="Scada.Admin.App.Controls.Deployment.CtrlProfileSelector">
+    <Phrase key="gbInstance">Instance</Phrase>
+    <Phrase key="gbProfile">Profile</Phrase>
+    <Phrase key="btnCreateProfile">Create</Phrase>
+    <Phrase key="btnEditProfile">Edit</Phrase>
+    <Phrase key="btnDeleteProfile">Delete</Phrase>
+    <Phrase key="ProfileNotSet">&lt;Not set&gt;</Phrase>
+    <Phrase key="ConfirmDeleteProfile">Are you sure you want to delete the profile?</Phrase>
+  </Dictionary>
   <Dictionary key="Scada.Admin.App.Controls.Tables.CtrlBitMask">
     <Phrase key="lblMaskValue">Decimal value</Phrase>
     <Phrase key="btnResetMask">Reset</Phrase>
@@ -207,6 +216,12 @@
   </Dictionary>
   <Dictionary key="Scada.Admin.App.Forms">
     <Phrase key="CorrectErrors">Please correct the following errors:</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Admin.App.Forms.Deployment.FrmInstanceProfile">
+    <Phrase key="this">Deployment Profile</Phrase>
+    <Phrase key="btnTest">Test</Phrase>
+    <Phrase key="btnOK">OK</Phrase>
+    <Phrase key="btnClose">Close</Phrase>
   </Dictionary>
   <Dictionary key="Scada.Admin.App.Forms.Tables.FrmBaseTable">
     <Phrase key="miProperties">Properties</Phrase>

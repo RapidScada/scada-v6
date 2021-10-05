@@ -62,6 +62,10 @@ namespace Scada.Admin.App.Code
         public static string DeviceFilter { get; private set; }
         public static string EmptyDeviceFilter { get; private set; }
 
+        // Scada.Admin.App.Controls.Deployment.CtrlProfileSelector
+        public static string ProfileNotSet { get; private set; }
+        public static string ConfirmDeleteProfile { get; private set; }
+
         // Scada.Admin.App.Forms
         public static string CorrectErrors { get; private set; }
 
@@ -173,6 +177,10 @@ namespace Scada.Admin.App.Code
             EmptyNode = dict["EmptyNode"];
             DeviceFilter = dict["DeviceFilter"];
             EmptyDeviceFilter = dict["EmptyDeviceFilter"];
+
+            dict = Locale.GetDictionary("Scada.Admin.App.Controls.Deployment.CtrlProfileSelector");
+            ProfileNotSet = dict["ProfileNotSet"];
+            ConfirmDeleteProfile = dict["ConfirmDeleteProfile"];
 
             dict = Locale.GetDictionary("Scada.Admin.App.Forms");
             CorrectErrors = dict["CorrectErrors"];
