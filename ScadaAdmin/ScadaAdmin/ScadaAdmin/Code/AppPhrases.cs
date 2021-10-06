@@ -69,6 +69,9 @@ namespace Scada.Admin.App.Code
         // Scada.Admin.App.Forms
         public static string CorrectErrors { get; private set; }
 
+        // Scada.Admin.App.Forms.Deployment.FrmProfileEdit
+        public static string ProfileNameDuplicated { get; private set; }
+
         // Scada.Admin.App.Forms.Tables.FrmBaseTable
         public static string GridViewError { get; private set; }
         public static string ColumnLabel { get; private set; }
@@ -184,6 +187,9 @@ namespace Scada.Admin.App.Code
 
             dict = Locale.GetDictionary("Scada.Admin.App.Forms");
             CorrectErrors = dict["CorrectErrors"];
+
+            dict = Locale.GetDictionary("Scada.Admin.App.Forms.Deployment.FrmProfileEdit");
+            ProfileNameDuplicated = dict["ProfileNameDuplicated"];
 
             dict = Locale.GetDictionary("Scada.Admin.App.Forms.Tables.FrmBaseTable");
             GridViewError = dict["GridViewError"];

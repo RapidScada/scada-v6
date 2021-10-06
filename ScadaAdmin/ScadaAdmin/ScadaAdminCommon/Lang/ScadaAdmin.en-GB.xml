@@ -217,6 +217,20 @@
   <Dictionary key="Scada.Admin.App.Forms">
     <Phrase key="CorrectErrors">Please correct the following errors:</Phrase>
   </Dictionary>
+  <Dictionary key="Scada.Admin.App.Forms.Deployment.FrmProfileEdit">
+    <Phrase key="this">Edit Profile</Phrase>
+    <Phrase key="tabGeneral">General</Phrase>
+    <Phrase key="lblName">Profile name</Phrase>
+    <Phrase key="lblExtension">Extension</Phrase>
+    <Phrase key="lblWebUrl">Webstation URL</Phrase>
+    <Phrase key="tabAgentConnection">Agent Connection</Phrase>
+    <Phrase key="chkAgentEnabled">Agent enabled</Phrase>
+    <Phrase key="tabDbConnection">DB Connection</Phrase>
+    <Phrase key="chkDbEnabled">Database enabled</Phrase>
+    <Phrase key="btnOK">OK</Phrase>
+    <Phrase key="btnCancel">Cancel</Phrase>
+    <Phrase key="ProfileNameDuplicated">A profile with this name already exists.</Phrase>
+  </Dictionary>
   <Dictionary key="Scada.Admin.App.Forms.Deployment.FrmInstanceProfile">
     <Phrase key="this">Deployment Profile</Phrase>
     <Phrase key="btnTest">Test</Phrase>

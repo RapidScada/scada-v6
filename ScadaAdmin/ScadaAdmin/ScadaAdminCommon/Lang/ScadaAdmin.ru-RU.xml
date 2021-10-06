@@ -217,6 +217,20 @@
   <Dictionary key="Scada.Admin.App.Forms">
     <Phrase key="CorrectErrors">Пожалуйста, исправьте следующие ошибки:</Phrase>
   </Dictionary>
+  <Dictionary key="Scada.Admin.App.Forms.Deployment.FrmProfileEdit">
+    <Phrase key="this">Редактирование профиля</Phrase>
+    <Phrase key="tabGeneral">Основные параметры</Phrase>
+    <Phrase key="lblName">Наименование профиля</Phrase>
+    <Phrase key="lblExtension">Расширение</Phrase>
+    <Phrase key="lblWebUrl">Адрес Вебстанции</Phrase>
+    <Phrase key="tabAgentConnection">Соединение с Агентом</Phrase>
+    <Phrase key="chkAgentEnabled">Агент включен</Phrase>
+    <Phrase key="tabDbConnection">Соединение с БД</Phrase>
+    <Phrase key="chkDbEnabled">База данных включена</Phrase>
+    <Phrase key="btnOK">OK</Phrase>
+    <Phrase key="btnCancel">Отмена</Phrase>
+    <Phrase key="ProfileNameDuplicated">Профиль с таким наименованием уже существует.</Phrase>
+  </Dictionary>
   <Dictionary key="Scada.Admin.App.Forms.Deployment.FrmInstanceProfile">
     <Phrase key="this">Профиль развёртывания</Phrase>
     <Phrase key="btnTest">Тест</Phrase>

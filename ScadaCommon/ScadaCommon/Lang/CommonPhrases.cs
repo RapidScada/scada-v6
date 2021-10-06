@@ -89,6 +89,7 @@ namespace Scada.Lang
         public static string IntegerInRangeRequired { get; private set; }
         public static string RealRequired { get; private set; }
         public static string NonemptyRequired { get; private set; }
+        public static string ValidUrlRequired { get; private set; }
         public static string DateTimeRequired { get; private set; }
         public static string NotNumber { get; private set; }
         public static string NotHexadecimal { get; private set; }
@@ -184,6 +185,7 @@ namespace Scada.Lang
             IntegerInRangeRequired = dict["IntegerInRangeRequired"];
             RealRequired = dict["RealRequired"];
             NonemptyRequired = dict["NonemptyRequired"];
+            ValidUrlRequired = dict["ValidUrlRequired"];
             DateTimeRequired = dict["DateTimeRequired"];
             NotNumber = dict["NotNumber"];
             NotHexadecimal = dict["NotHexadecimal"];

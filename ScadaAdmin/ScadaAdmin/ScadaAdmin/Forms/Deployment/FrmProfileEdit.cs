@@ -23,10 +23,13 @@
  * Modified : 2021
  */
 
+using Scada.Admin.App.Code;
 using Scada.Admin.Deployment;
 using Scada.Forms;
+using Scada.Lang;
 using System;
 using System.Collections.Generic;
+using System.Text;
 using System.Windows.Forms;
 
 namespace Scada.Admin.App.Forms.Deployment
@@ -94,7 +97,42 @@ namespace Scada.Admin.App.Forms.Deployment
         /// </summary>
         private void ControlsToConfig()
         {
+            deploymentProfile.Name = txtName.Text;
+            deploymentProfile.Extension = cbExtension.Text;
+            deploymentProfile.WebUrl = txtWebUrl.Text;
+            deploymentProfile.AgentEnabled = chkAgentEnabled.Checked;
+            deploymentProfile.DbEnabled = chkDbEnabled.Checked;
+        }
 
+        /// <summary>
+        /// Validates the form controls.
+        /// </summary>
+        private bool ValidateControls()
+        {
+            StringBuilder sbError = new();
+
+            if (string.IsNullOrWhiteSpace(txtName.Text))
+                sbError.AppendError(lblName, CommonPhrases.NonemptyRequired);
+
+            if (string.IsNullOrWhiteSpace(cbExtension.Text))
+                sbError.AppendError(lblExtension, CommonPhrases.NonemptyRequired);
+
+            if (!string.IsNullOrWhiteSpace(txtWebUrl.Text) && !ScadaUtils.IsValidUrl(txtWebUrl.Text))
+                sbError.AppendError(lblWebUrl, CommonPhrases.ValidUrlRequired);
+
+            if (sbError.Length > 0)
+            {
+                ScadaUiUtils.ShowError(AppPhrases.CorrectErrors + Environment.NewLine + sbError);
+                return false;
+            }
+
+            if (ExistingProfileNames != null && ExistingProfileNames.Contains(txtName.Text.Trim()))
+            {
+                ScadaUiUtils.ShowError(AppPhrases.ProfileNameDuplicated);
+                return false;
+            }
+
+            return true;
         }
 
 
@@ -118,8 +156,11 @@ namespace Scada.Admin.App.Forms.Deployment
 
         private void btnOK_Click(object sender, EventArgs e)
         {
-            ControlsToConfig();
-            DialogResult = DialogResult.OK;
+            if (ValidateControls())
+            {
+                ControlsToConfig();
+                DialogResult = DialogResult.OK;
+            }
         }
     }
 }
