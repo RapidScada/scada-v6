@@ -55,7 +55,7 @@
             // 
             // btnEditProfile
             // 
-            this.btnEditProfile.Location = new System.Drawing.Point(300, 19);
+            this.btnEditProfile.Location = new System.Drawing.Point(300, 20);
             this.btnEditProfile.Name = "btnEditProfile";
             this.btnEditProfile.Size = new System.Drawing.Size(75, 23);
             this.btnEditProfile.TabIndex = 2;
@@ -65,7 +65,7 @@
             // 
             // btnDeleteProfile
             // 
-            this.btnDeleteProfile.Location = new System.Drawing.Point(381, 19);
+            this.btnDeleteProfile.Location = new System.Drawing.Point(381, 20);
             this.btnDeleteProfile.Name = "btnDeleteProfile";
             this.btnDeleteProfile.Size = new System.Drawing.Size(75, 23);
             this.btnDeleteProfile.TabIndex = 3;
@@ -75,7 +75,7 @@
             // 
             // btnCreateProfile
             // 
-            this.btnCreateProfile.Location = new System.Drawing.Point(219, 19);
+            this.btnCreateProfile.Location = new System.Drawing.Point(219, 20);
             this.btnCreateProfile.Name = "btnCreateProfile";
             this.btnCreateProfile.Size = new System.Drawing.Size(75, 23);
             this.btnCreateProfile.TabIndex = 1;
@@ -89,7 +89,7 @@
             this.cbProfile.FormattingEnabled = true;
             this.cbProfile.Location = new System.Drawing.Point(13, 20);
             this.cbProfile.Name = "cbProfile";
-            this.cbProfile.Size = new System.Drawing.Size(200, 21);
+            this.cbProfile.Size = new System.Drawing.Size(200, 23);
             this.cbProfile.TabIndex = 0;
             this.cbProfile.SelectedIndexChanged += new System.EventHandler(this.cbProfile_SelectedIndexChanged);
             // 
@@ -109,7 +109,7 @@
             this.txtInstanceName.Location = new System.Drawing.Point(13, 19);
             this.txtInstanceName.Name = "txtInstanceName";
             this.txtInstanceName.ReadOnly = true;
-            this.txtInstanceName.Size = new System.Drawing.Size(443, 20);
+            this.txtInstanceName.Size = new System.Drawing.Size(443, 23);
             this.txtInstanceName.TabIndex = 0;
             // 
             // CtrlProfileSelector

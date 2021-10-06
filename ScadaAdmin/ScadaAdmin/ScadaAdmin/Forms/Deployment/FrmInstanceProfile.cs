@@ -114,8 +114,8 @@ namespace Scada.Admin.App.Forms.Deployment
 
         private void FrmInstanceProfile_Load(object sender, EventArgs e)
         {
-            FormTranslator.Translate(this, ctrlProfileSelector.GetType().FullName);
             FormTranslator.Translate(this, GetType().FullName);
+            FormTranslator.Translate(ctrlProfileSelector, ctrlProfileSelector.GetType().FullName);
 
             ctrlProfileSelector.Init(log, project.DeploymentConfig, projectInstance);
 

@@ -24,6 +24,7 @@
  */
 
 using Scada.Admin.App.Code;
+using Scada.Admin.App.Forms.Deployment;
 using Scada.Admin.Deployment;
 using Scada.Admin.Project;
 using Scada.Forms;
@@ -187,17 +188,17 @@ namespace Scada.Admin.App.Controls.Deployment
                 Name = existingNames.Contains(defaultProfileName) ? "" : defaultProfileName
             };
 
-            /*FrmProfileEdit frmProfileEdit = new FrmProfileEdit
+            FrmProfileEdit frmProfileEdit = new FrmProfileEdit
             {
-                Profile = profile,
-                ExistingProfileNames = existingNames
+                //Profile = profile,
+                //ExistingProfileNames = existingNames
             };
 
             if (frmProfileEdit.ShowDialog() == DialogResult.OK)
             {
                 AddProfileToLists(profile);
                 SaveDeploymentSettings();
-            }*/
+            }
         }
 
         private void btnEditProfile_Click(object sender, EventArgs e)

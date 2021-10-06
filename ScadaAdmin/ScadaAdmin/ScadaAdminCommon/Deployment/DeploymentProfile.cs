@@ -43,6 +43,7 @@ namespace Scada.Admin.Deployment
         {
             InstanceID = 0;
             Name = "";
+            Extension = "";
             WebUrl = "";
             AgentEnabled = true;
             DbEnabled = false;
@@ -67,6 +68,11 @@ namespace Scada.Admin.Deployment
         /// Gets or sets the profile name.
         /// </summary>
         public string Name { get; set; }
+
+        /// <summary>
+        /// Gets the code of the extension that provides data transfer.
+        /// </summary>
+        public string Extension { get; set; }
 
         /// <summary>
         /// Gets or sets the web application address.
@@ -116,6 +122,7 @@ namespace Scada.Admin.Deployment
 
             InstanceID = xmlNode.GetChildAsInt("InstanceID");
             Name = xmlNode.GetChildAsString("Name");
+            Extension = xmlNode.GetChildAsString("Extension");
             WebUrl = xmlNode.GetChildAsString("WebUrl");
             AgentEnabled = xmlNode.GetChildAsBool("AgentEnabled");
             DbEnabled = xmlNode.GetChildAsBool("DbEnabled");
@@ -143,6 +150,7 @@ namespace Scada.Admin.Deployment
 
             xmlElem.AppendElem("InstanceID", InstanceID);
             xmlElem.AppendElem("Name", Name);
+            xmlElem.AppendElem("Extension", Extension);
             xmlElem.AppendElem("WebUrl", WebUrl);
             xmlElem.AppendElem("AgentEnabled", AgentEnabled);
             xmlElem.AppendElem("DbEnabled", DbEnabled);
