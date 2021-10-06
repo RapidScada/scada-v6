@@ -1296,7 +1296,7 @@ namespace Scada.Admin.App.Forms
                 LoadDeploymentConfig();
 
                 // open instance profile form
-                FrmInstanceProfile frmInstanceProfile = new(Log, Project, liveInstance.ProjectInstance);
+                FrmInstanceProfile frmInstanceProfile = new(appData, Project, liveInstance.ProjectInstance);
                 frmInstanceProfile.ShowDialog();
 
                 // take changes into account

@@ -48,7 +48,7 @@ namespace Scada.Admin.App.Controls.Deployment
         /// </summary>
         private const string ProfileNameFormat = "{0} Profile";
 
-        private ILog log;                          // the application log
+        private AppData appData;                   // the common data of the application
         private DeploymentConfig deploymentConfig; // the deployment settings to select or edit
         private ProjectInstance projectInstance;   // the instance which profile is selected
 
@@ -137,7 +137,7 @@ namespace Scada.Admin.App.Controls.Deployment
         private void SaveDeploymentSettings()
         {
             if (!deploymentConfig.Save(out string errMsg))
-                log.HandleError(errMsg);
+                appData.ErrLog.HandleError(errMsg);
         }
 
         /// <summary>
@@ -152,9 +152,9 @@ namespace Scada.Admin.App.Controls.Deployment
         /// <summary>
         /// Initializes the control.
         /// </summary>
-        public void Init(ILog log, DeploymentConfig deploymentConfig, ProjectInstance projectInstance)
+        public void Init(AppData appData, DeploymentConfig deploymentConfig, ProjectInstance projectInstance)
         {
-            this.log = log ?? throw new ArgumentNullException(nameof(log));
+            this.appData = appData ?? throw new ArgumentNullException(nameof(appData));
             this.deploymentConfig = deploymentConfig ?? throw new ArgumentNullException(nameof(deploymentConfig));
             this.projectInstance = projectInstance ?? throw new ArgumentNullException(nameof(projectInstance));
 
@@ -190,7 +190,7 @@ namespace Scada.Admin.App.Controls.Deployment
 
             profile.AgentConnectionOptions.Instance = projectInstance.Name;
 
-            FrmProfileEdit frmProfileEdit = new(profile) 
+            FrmProfileEdit frmProfileEdit = new(appData, profile) 
             { 
                 ExistingProfileNames = existingNames 
             };
@@ -208,7 +208,7 @@ namespace Scada.Admin.App.Controls.Deployment
             DeploymentProfile profile = SelectedProfile;
             string oldName = profile.Name;
 
-            FrmProfileEdit frmProfileEdit = new(profile)
+            FrmProfileEdit frmProfileEdit = new(appData, profile)
             {
                 ExistingProfileNames = deploymentConfig.GetExistingProfileNames(oldName)
             };

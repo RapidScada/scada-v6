@@ -23,6 +23,7 @@
  * Modified : 2021
  */
 
+using Scada.Admin.App.Code;
 using Scada.Admin.Project;
 using Scada.Client;
 using Scada.Forms;
@@ -38,10 +39,10 @@ namespace Scada.Admin.App.Forms.Deployment
     /// </summary>
     public partial class FrmInstanceProfile : Form
     {
-        private readonly ILog log;                           // the application log
-        private readonly ScadaProject project;               // the project under development
-        private readonly ProjectInstance projectInstance;    // the affected instance
-        private ConnectionOptions initialConnectionOptions;  // the copy of the initial Agent connection options
+        private readonly AppData appData;                   // the common data of the application
+        private readonly ScadaProject project;              // the project under development
+        private readonly ProjectInstance projectInstance;   // the affected instance
+        private ConnectionOptions initialConnectionOptions; // the copy of the initial Agent connection options
 
 
         /// <summary>
@@ -55,10 +56,10 @@ namespace Scada.Admin.App.Forms.Deployment
         /// <summary>
         /// Initializes a new instance of the class.
         /// </summary>
-        public FrmInstanceProfile(ILog log, ScadaProject project, ProjectInstance projectInstance)
+        public FrmInstanceProfile(AppData appData, ScadaProject project, ProjectInstance projectInstance)
             : this()
         {
-            this.log = log ?? throw new ArgumentNullException(nameof(log));
+            this.appData = appData ?? throw new ArgumentNullException(nameof(appData));
             this.project = project ?? throw new ArgumentNullException(nameof(project));
             this.projectInstance = projectInstance ?? throw new ArgumentNullException(nameof(projectInstance));
             initialConnectionOptions = null;
@@ -84,6 +85,7 @@ namespace Scada.Admin.App.Forms.Deployment
         /// </summary>
         private void TestConnection()
         {
+            ScadaUiUtils.ShowError("Not implemented.");
             /*try
             {
                 Cursor = Cursors.WaitCursor;
@@ -117,7 +119,7 @@ namespace Scada.Admin.App.Forms.Deployment
             FormTranslator.Translate(this, GetType().FullName);
             FormTranslator.Translate(ctrlProfileSelector, ctrlProfileSelector.GetType().FullName);
 
-            ctrlProfileSelector.Init(log, project.DeploymentConfig, projectInstance);
+            ctrlProfileSelector.Init(appData, project.DeploymentConfig, projectInstance);
 
             if (ctrlProfileSelector.SelectedProfile?.AgentConnectionOptions is ConnectionOptions connectionOptions)
                 initialConnectionOptions = connectionOptions.DeepClone();

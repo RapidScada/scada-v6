@@ -29,6 +29,7 @@ using Scada.Forms;
 using Scada.Lang;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Text;
 using System.Windows.Forms;
 
@@ -40,7 +41,8 @@ namespace Scada.Admin.App.Forms.Deployment
     /// </summary>
     public partial class FrmProfileEdit : Form
     {
-        private readonly DeploymentProfile deploymentProfile;
+        private readonly AppData appData;                     // the common data of the application
+        private readonly DeploymentProfile deploymentProfile; // the edited deployment profile
 
 
         /// <summary>
@@ -54,9 +56,10 @@ namespace Scada.Admin.App.Forms.Deployment
         /// <summary>
         /// Initializes a new instance of the class.
         /// </summary>
-        public FrmProfileEdit(DeploymentProfile deploymentProfile)
+        public FrmProfileEdit(AppData appData, DeploymentProfile deploymentProfile)
             : this()
         {
+            this.appData = appData ?? throw new ArgumentNullException(nameof(appData));
             this.deploymentProfile = deploymentProfile ?? throw new ArgumentNullException(nameof(deploymentProfile));
         }
 
@@ -66,6 +69,29 @@ namespace Scada.Admin.App.Forms.Deployment
         /// </summary>
         public HashSet<string> ExistingProfileNames { get; set; }
 
+
+        /// <summary>
+        /// Fills the combo box by the extensions that support deployment.
+        /// </summary>
+        private void FillExtensionComboBox()
+        {
+            try
+            {
+                cbExtension.BeginUpdate();
+                cbExtension.Items.Clear();
+                DirectoryInfo dirInfo = new(appData.AppDirs.LibDir);
+
+                foreach (FileInfo fileInfo in
+                    dirInfo.EnumerateFiles("ExtDep*.dll", SearchOption.TopDirectoryOnly))
+                {
+                    cbExtension.Items.Add(ScadaUtils.RemoveFileNameSuffixes(fileInfo.Name));
+                }
+            }
+            finally
+            {
+                cbExtension.EndUpdate();
+            }
+        }
 
         /// <summary>
         /// Sets the controls according to the configuration.
@@ -141,6 +167,7 @@ namespace Scada.Admin.App.Forms.Deployment
             FormTranslator.Translate(this, GetType().FullName);
             FormTranslator.Translate(ctrlAgentConnection, ctrlAgentConnection.GetType().FullName);
             FormTranslator.Translate(ctrlDbConnection, ctrlDbConnection.GetType().FullName);
+            FillExtensionComboBox();
             ConfigToControls();
         }
 
