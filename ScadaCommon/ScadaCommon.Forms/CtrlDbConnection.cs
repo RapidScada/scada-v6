@@ -10,7 +10,7 @@ namespace Scada.Forms
 {
     /// <summary>
     /// Represents a control for editing database connection options.
-    /// <para>Представляет элемент управления для редактирования параметров подключения к базе данных.</para>
+    /// <para>Представляет элемент управления для редактирования параметров соединения с БД.</para>
     /// </summary>
     public partial class CtrlDbConnection : UserControl
     {

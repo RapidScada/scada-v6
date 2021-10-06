@@ -45,7 +45,7 @@ namespace Scada.Client
             Name = "";
             Host = "localhost";
             Port = 10000;
-            User = "guest";
+            Username = "guest";
             Password = "12345";
             Instance = "";
             Timeout = 10000;
@@ -76,7 +76,7 @@ namespace Scada.Client
         /// <summary>
         /// Gets or sets the username.
         /// </summary>
-        public string User { get; set; }
+        public string Username { get; set; }
 
         /// <summary>
         /// Gets or sets the password.
@@ -111,7 +111,7 @@ namespace Scada.Client
             Name = xmlNode.GetChildAsString("Name");
             Host = xmlNode.GetChildAsString("Host");
             Port = xmlNode.GetChildAsInt("Port", Port);
-            User = xmlNode.GetChildAsString("User");
+            Username = xmlNode.GetChildAsString("Username");
             Password = ScadaUtils.Decrypt(xmlNode.GetChildAsString("Password"));
             Instance = xmlNode.GetChildAsString("Instance");
             Timeout = xmlNode.GetChildAsInt("Timeout", Timeout);
@@ -142,7 +142,7 @@ namespace Scada.Client
 
             xmlElem.AppendElem("Host", Host);
             xmlElem.AppendElem("Port", Port);
-            xmlElem.AppendElem("User", User);
+            xmlElem.AppendElem("Username", Username);
             xmlElem.AppendElem("Password", ScadaUtils.Encrypt(Password));
             
             if (!string.IsNullOrEmpty(Instance))
@@ -171,7 +171,7 @@ namespace Scada.Client
                     a.Name == b.Name &&
                     a.Host == b.Host &&
                     a.Port == b.Port &&
-                    a.User == b.User &&
+                    a.Username == b.Username &&
                     a.Password == b.Password &&
                     a.Instance == b.Instance &&
                     a.Timeout == b.Timeout &&

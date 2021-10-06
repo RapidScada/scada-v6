@@ -264,7 +264,7 @@ namespace Scada.Client
                     .Append(connectionOptions.Name).Append(';')
                     .Append(connectionOptions.Host).Append(';')
                     .Append(connectionOptions.Port).Append(';')
-                    .Append(connectionOptions.User).Append(';')
+                    .Append(connectionOptions.Username).Append(';')
                     .Append(connectionOptions.Password).Append(';')
                     .Append(connectionOptions.Instance).Append(';')
                     .Append(connectionOptions.Timeout).Append(';')

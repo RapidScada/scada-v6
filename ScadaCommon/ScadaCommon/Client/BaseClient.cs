@@ -254,7 +254,7 @@ namespace Scada.Client
                             "Incompatible protocol version.");
                     }
 
-                    Login(ConnectionOptions.User, ConnectionOptions.Password, 
+                    Login(ConnectionOptions.Username, ConnectionOptions.Password, 
                         out bool loggedIn, out _, out _, out string errMsg);
 
                     if (loggedIn)
