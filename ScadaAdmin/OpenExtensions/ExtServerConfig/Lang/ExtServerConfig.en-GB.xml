@@ -45,7 +45,6 @@
     <Phrase key="lblSecretKey">Secret key</Phrase>
     <Phrase key="btnGenerateKey">Generate</Phrase>
     <Phrase key="btnCopyKey">Copy</Phrase>
-    <Phrase key="IncorrectSecretKey">Incorrect secret key.</Phrase>
   </Dictionary>
   <Dictionary key="Scada.Admin.Extensions.ExtServerConfig.Forms.FrmModules">
     <Phrase key="this">Modules</Phrase>

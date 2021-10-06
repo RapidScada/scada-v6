@@ -1,15 +1,13 @@
 ﻿// Copyright (c) Rapid Software LLC. All rights reserved.
 // Licensed under the Apache License, Version 2.0. See License.txt in the project root for license information.
 
-using Scada.Admin.Extensions.ExtServerConfig.Code;
 using Scada.Admin.Project;
 using Scada.Forms;
+using Scada.Lang;
 using Scada.Log;
 using Scada.Server;
 using Scada.Server.Config;
 using System;
-using System.Collections.Generic;
-using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using WinControl;
@@ -100,7 +98,7 @@ namespace Scada.Admin.Extensions.ExtServerConfig.Forms
         {
             if (!ScadaUtils.HexToBytes(txtSecretKey.Text.Trim(), out _))
             {
-                ScadaUiUtils.ShowError(ExtensionPhrases.IncorrectSecretKey);
+                ScadaUiUtils.ShowError(CommonPhrases.InvalidSecretKey);
                 return false;
             }
 

@@ -22,9 +22,6 @@ namespace Scada.Admin.Extensions.ExtServerConfig.Code
         public static string UnableCreateArchiveView { get; private set; }
         public static string NoArchiveView { get; private set; }
 
-        // Scada.Admin.Extensions.ExtServerConfig.Forms.FrmGeneralOptions
-        public static string IncorrectSecretKey { get; private set; }
-
         public static void Init()
         {
             LocaleDict dict = Locale.GetDictionary("Scada.Admin.Extensions.ExtServerConfig.ExtServerConfigLogic");
@@ -37,9 +34,6 @@ namespace Scada.Admin.Extensions.ExtServerConfig.Code
             ArchiveNotSupported = dict["ArchiveNotSupported"];
             UnableCreateArchiveView = dict["UnableCreateArchiveView"];
             NoArchiveView = dict["NoArchiveView"];
-
-            dict = Locale.GetDictionary("Scada.Admin.Extensions.ExtServerConfig.Forms.FrmGeneralOptions");
-            IncorrectSecretKey = dict["IncorrectSecretKey"];
         }
     }
 }
