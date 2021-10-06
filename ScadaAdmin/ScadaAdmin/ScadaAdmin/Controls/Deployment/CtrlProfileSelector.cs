@@ -188,6 +188,8 @@ namespace Scada.Admin.App.Controls.Deployment
                 Name = existingNames.Contains(defaultProfileName) ? "" : defaultProfileName
             };
 
+            profile.AgentConnectionOptions.Instance = projectInstance.Name;
+
             FrmProfileEdit frmProfileEdit = new(profile) 
             { 
                 ExistingProfileNames = existingNames 

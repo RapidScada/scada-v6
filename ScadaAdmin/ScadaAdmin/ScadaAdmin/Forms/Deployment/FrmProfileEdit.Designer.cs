@@ -39,7 +39,7 @@ namespace Scada.Admin.App.Forms.Deployment
             this.lblName = new System.Windows.Forms.Label();
             this.tabAgentConnection = new System.Windows.Forms.TabPage();
             this.chkAgentEnabled = new System.Windows.Forms.CheckBox();
-            this.ctrlClientConnection = new Scada.Forms.CtrlClientConnection();
+            this.ctrlAgentConnection = new Scada.Forms.CtrlClientConnection();
             this.tabDbConnection = new System.Windows.Forms.TabPage();
             this.chkDbEnabled = new System.Windows.Forms.CheckBox();
             this.ctrlDbConnection = new Scada.Forms.CtrlDbConnection();
@@ -131,7 +131,7 @@ namespace Scada.Admin.App.Forms.Deployment
             // tabAgentConnection
             // 
             this.tabAgentConnection.Controls.Add(this.chkAgentEnabled);
-            this.tabAgentConnection.Controls.Add(this.ctrlClientConnection);
+            this.tabAgentConnection.Controls.Add(this.ctrlAgentConnection);
             this.tabAgentConnection.Location = new System.Drawing.Point(4, 24);
             this.tabAgentConnection.Name = "tabAgentConnection";
             this.tabAgentConnection.Padding = new System.Windows.Forms.Padding(3);
@@ -151,15 +151,15 @@ namespace Scada.Admin.App.Forms.Deployment
             this.chkAgentEnabled.UseVisualStyleBackColor = true;
             this.chkAgentEnabled.CheckedChanged += new System.EventHandler(this.chkAgentEnabled_CheckedChanged);
             // 
-            // ctrlClientConnection
+            // ctrlAgentConnection
             // 
-            this.ctrlClientConnection.ConnectionOptions = null;
-            this.ctrlClientConnection.InstanceEnabled = false;
-            this.ctrlClientConnection.Location = new System.Drawing.Point(6, 31);
-            this.ctrlClientConnection.Name = "ctrlClientConnection";
-            this.ctrlClientConnection.NameEnabled = false;
-            this.ctrlClientConnection.Size = new System.Drawing.Size(364, 366);
-            this.ctrlClientConnection.TabIndex = 0;
+            this.ctrlAgentConnection.ConnectionOptions = null;
+            this.ctrlAgentConnection.InstanceEnabled = false;
+            this.ctrlAgentConnection.Location = new System.Drawing.Point(6, 31);
+            this.ctrlAgentConnection.Name = "ctrlAgentConnection";
+            this.ctrlAgentConnection.NameEnabled = false;
+            this.ctrlAgentConnection.Size = new System.Drawing.Size(364, 366);
+            this.ctrlAgentConnection.TabIndex = 0;
             // 
             // tabDbConnection
             // 
@@ -187,10 +187,10 @@ namespace Scada.Admin.App.Forms.Deployment
             // 
             this.ctrlDbConnection.BuildConnectionStringFunc = null;
             this.ctrlDbConnection.ConnectionOptions = null;
-            this.ctrlDbConnection.DbmsEnabled = true;
+            this.ctrlDbConnection.DbmsEnabled = false;
             this.ctrlDbConnection.Location = new System.Drawing.Point(6, 31);
             this.ctrlDbConnection.Name = "ctrlDbConnection";
-            this.ctrlDbConnection.NameEnabled = true;
+            this.ctrlDbConnection.NameEnabled = false;
             this.ctrlDbConnection.Size = new System.Drawing.Size(364, 399);
             this.ctrlDbConnection.TabIndex = 0;
             // 
@@ -257,7 +257,7 @@ namespace Scada.Admin.App.Forms.Deployment
         private System.Windows.Forms.Button btnOK;
         private System.Windows.Forms.Button btnCancel;
         private System.Windows.Forms.CheckBox chkAgentEnabled;
-        private Scada.Forms.CtrlClientConnection ctrlClientConnection;
+        private Scada.Forms.CtrlClientConnection ctrlAgentConnection;
         private System.Windows.Forms.CheckBox chkDbEnabled;
         private Scada.Forms.CtrlDbConnection ctrlDbConnection;
     }

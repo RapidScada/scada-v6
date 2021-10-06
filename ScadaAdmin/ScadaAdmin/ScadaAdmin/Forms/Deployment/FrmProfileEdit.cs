@@ -76,6 +76,10 @@ namespace Scada.Admin.App.Forms.Deployment
 
             // Agent connection
             chkAgentEnabled.Checked = deploymentProfile.AgentEnabled;
+            ctrlAgentConnection.Enabled = deploymentProfile.AgentEnabled;
+            ctrlAgentConnection.ConnectionOptions = deploymentProfile.AgentConnectionOptions;
+            ctrlAgentConnection.NameEnabled = false;
+            ctrlAgentConnection.InstanceEnabled = false;
 
             // DB connection
             chkDbEnabled.Checked = deploymentProfile.DbEnabled;
@@ -97,13 +101,14 @@ namespace Scada.Admin.App.Forms.Deployment
         private void FrmProfileEdit_Load(object sender, EventArgs e)
         {
             FormTranslator.Translate(this, GetType().FullName);
+            FormTranslator.Translate(ctrlAgentConnection, ctrlAgentConnection.GetType().FullName);
             FormTranslator.Translate(ctrlDbConnection, ctrlDbConnection.GetType().FullName);
             ConfigToControls();
         }
 
         private void chkAgentEnabled_CheckedChanged(object sender, EventArgs e)
         {
-
+            ctrlAgentConnection.Enabled = chkAgentEnabled.Checked;
         }
 
         private void chkDbEnabled_CheckedChanged(object sender, EventArgs e)
