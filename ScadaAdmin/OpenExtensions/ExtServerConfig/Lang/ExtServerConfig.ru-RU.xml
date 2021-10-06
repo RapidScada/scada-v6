@@ -42,7 +42,7 @@
     <Phrase key="lblPort">TCP-порт</Phrase>
     <Phrase key="lblTimeout">Таймаут, мс</Phrase>
     <Phrase key="lblSecretKey">Секретный ключ</Phrase>
-    <Phrase key="btnGenerateKey">Генерировать ключ</Phrase>
+    <Phrase key="btnGenerateKey">Генерировать</Phrase>
     <Phrase key="btnCopyKey">Копировать</Phrase>
     <Phrase key="IncorrectSecretKey">Некорректный секретный ключ.</Phrase>
   </Dictionary>

@@ -71,9 +71,9 @@
             // 
             // btnCopyKey
             // 
-            this.btnCopyKey.Location = new System.Drawing.Point(169, 131);
+            this.btnCopyKey.Location = new System.Drawing.Point(119, 131);
             this.btnCopyKey.Name = "btnCopyKey";
-            this.btnCopyKey.Size = new System.Drawing.Size(150, 23);
+            this.btnCopyKey.Size = new System.Drawing.Size(100, 23);
             this.btnCopyKey.TabIndex = 7;
             this.btnCopyKey.Text = "Copy";
             this.btnCopyKey.UseVisualStyleBackColor = true;
@@ -83,9 +83,9 @@
             // 
             this.btnGenerateKey.Location = new System.Drawing.Point(13, 131);
             this.btnGenerateKey.Name = "btnGenerateKey";
-            this.btnGenerateKey.Size = new System.Drawing.Size(150, 23);
+            this.btnGenerateKey.Size = new System.Drawing.Size(100, 23);
             this.btnGenerateKey.TabIndex = 6;
-            this.btnGenerateKey.Text = "Generate Key";
+            this.btnGenerateKey.Text = "Generate";
             this.btnGenerateKey.UseVisualStyleBackColor = true;
             this.btnGenerateKey.Click += new System.EventHandler(this.btnGenerateKey_Click);
             // 

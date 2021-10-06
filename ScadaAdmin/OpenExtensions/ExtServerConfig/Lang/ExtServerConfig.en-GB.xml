@@ -43,7 +43,7 @@
     <Phrase key="lblPort">TCP port</Phrase>
     <Phrase key="lblTimeout">Timeout, ms</Phrase>
     <Phrase key="lblSecretKey">Secret key</Phrase>
-    <Phrase key="btnGenerateKey">Generate Key</Phrase>
+    <Phrase key="btnGenerateKey">Generate</Phrase>
     <Phrase key="btnCopyKey">Copy</Phrase>
     <Phrase key="IncorrectSecretKey">Incorrect secret key.</Phrase>
   </Dictionary>
