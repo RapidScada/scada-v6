@@ -38,8 +38,8 @@ namespace Scada.Admin.App.Forms.Deployment
             this.txtName = new System.Windows.Forms.TextBox();
             this.lblName = new System.Windows.Forms.Label();
             this.tabAgentConnection = new System.Windows.Forms.TabPage();
-            this.groupBox1 = new System.Windows.Forms.GroupBox();
             this.chkAgentEnabled = new System.Windows.Forms.CheckBox();
+            this.ctrlClientConnection = new Scada.Forms.CtrlClientConnection();
             this.tabDbConnection = new System.Windows.Forms.TabPage();
             this.chkDbEnabled = new System.Windows.Forms.CheckBox();
             this.ctrlDbConnection = new Scada.Forms.CtrlDbConnection();
@@ -130,8 +130,8 @@ namespace Scada.Admin.App.Forms.Deployment
             // 
             // tabAgentConnection
             // 
-            this.tabAgentConnection.Controls.Add(this.groupBox1);
             this.tabAgentConnection.Controls.Add(this.chkAgentEnabled);
+            this.tabAgentConnection.Controls.Add(this.ctrlClientConnection);
             this.tabAgentConnection.Location = new System.Drawing.Point(4, 24);
             this.tabAgentConnection.Name = "tabAgentConnection";
             this.tabAgentConnection.Padding = new System.Windows.Forms.Padding(3);
@@ -139,15 +139,6 @@ namespace Scada.Admin.App.Forms.Deployment
             this.tabAgentConnection.TabIndex = 1;
             this.tabAgentConnection.Text = "Agent Connection";
             this.tabAgentConnection.UseVisualStyleBackColor = true;
-            // 
-            // groupBox1
-            // 
-            this.groupBox1.Location = new System.Drawing.Point(6, 31);
-            this.groupBox1.Name = "groupBox1";
-            this.groupBox1.Size = new System.Drawing.Size(364, 399);
-            this.groupBox1.TabIndex = 1;
-            this.groupBox1.TabStop = false;
-            this.groupBox1.Text = "groupBox1";
             // 
             // chkAgentEnabled
             // 
@@ -159,6 +150,16 @@ namespace Scada.Admin.App.Forms.Deployment
             this.chkAgentEnabled.Text = "Agent enabled";
             this.chkAgentEnabled.UseVisualStyleBackColor = true;
             this.chkAgentEnabled.CheckedChanged += new System.EventHandler(this.chkAgentEnabled_CheckedChanged);
+            // 
+            // ctrlClientConnection
+            // 
+            this.ctrlClientConnection.ConnectionOptions = null;
+            this.ctrlClientConnection.InstanceEnabled = false;
+            this.ctrlClientConnection.Location = new System.Drawing.Point(6, 31);
+            this.ctrlClientConnection.Name = "ctrlClientConnection";
+            this.ctrlClientConnection.NameEnabled = false;
+            this.ctrlClientConnection.Size = new System.Drawing.Size(364, 366);
+            this.ctrlClientConnection.TabIndex = 0;
             // 
             // tabDbConnection
             // 
@@ -186,10 +187,10 @@ namespace Scada.Admin.App.Forms.Deployment
             // 
             this.ctrlDbConnection.BuildConnectionStringFunc = null;
             this.ctrlDbConnection.ConnectionOptions = null;
-            this.ctrlDbConnection.DbmsEnabled = false;
+            this.ctrlDbConnection.DbmsEnabled = true;
             this.ctrlDbConnection.Location = new System.Drawing.Point(6, 31);
             this.ctrlDbConnection.Name = "ctrlDbConnection";
-            this.ctrlDbConnection.NameEnabled = false;
+            this.ctrlDbConnection.NameEnabled = true;
             this.ctrlDbConnection.Size = new System.Drawing.Size(364, 399);
             this.ctrlDbConnection.TabIndex = 0;
             // 
@@ -256,7 +257,7 @@ namespace Scada.Admin.App.Forms.Deployment
         private System.Windows.Forms.Button btnOK;
         private System.Windows.Forms.Button btnCancel;
         private System.Windows.Forms.CheckBox chkAgentEnabled;
-        private System.Windows.Forms.GroupBox groupBox1;
+        private Scada.Forms.CtrlClientConnection ctrlClientConnection;
         private System.Windows.Forms.CheckBox chkDbEnabled;
         private Scada.Forms.CtrlDbConnection ctrlDbConnection;
     }
