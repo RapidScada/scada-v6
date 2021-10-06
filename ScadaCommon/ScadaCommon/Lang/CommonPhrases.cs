@@ -93,6 +93,7 @@ namespace Scada.Lang
         public static string NotNumber { get; private set; }
         public static string NotHexadecimal { get; private set; }
         public static string InvalidParamVal { get; private set; }
+        public static string InvalidSecretKey { get; private set; }
         public static string UndefinedSign { get; private set; }
         public static string CriticalSeverity { get; private set; }
         public static string MajorSeverity { get; private set; }
@@ -187,6 +188,7 @@ namespace Scada.Lang
             NotNumber = dict["NotNumber"];
             NotHexadecimal = dict["NotHexadecimal"];
             InvalidParamVal = dict["InvalidParamVal"];
+            InvalidSecretKey = dict["InvalidSecretKey"];
             UndefinedSign = dict["UndefinedSign"];
             CriticalSeverity = dict["CriticalSeverity"];
             MajorSeverity = dict["MajorSeverity"];

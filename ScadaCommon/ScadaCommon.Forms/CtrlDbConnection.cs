@@ -202,7 +202,8 @@ namespace Scada.Forms
 
         private void txtName_Validated(object sender, EventArgs e)
         {
-            OnNameValidated();
+            if (connectionOptions != null)
+                OnNameValidated();
         }
 
         private void cbDbms_SelectedIndexChanged(object sender, EventArgs e)

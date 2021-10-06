@@ -60,6 +60,7 @@
     <Phrase key="NotNumber">String is not a number.</Phrase>
     <Phrase key="NotHexadecimal">String is not hexadecimal.</Phrase>
     <Phrase key="InvalidParamVal">Invalid value of the &quot;{0}&quot; parameter.</Phrase>
+    <Phrase key="InvalidSecretKey">Incorrect secret key.</Phrase>
     <Phrase key="UndefinedSign">---</Phrase>
     <Phrase key="CriticalSeverity">Critical</Phrase>
     <Phrase key="MajorSeverity">Major</Phrase>
@@ -72,6 +73,18 @@
     <Phrase key="ErrorCaption">Error</Phrase>
     <Phrase key="WarningCaption">Warning</Phrase>
     <Phrase key="HiddenPassword">*****</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Forms.CtrlClientConnection">
+    <Phrase key="gbConnectionOptions">Connection Options</Phrase>
+    <Phrase key="lblName">Name</Phrase>
+    <Phrase key="lblHost">Host</Phrase>
+    <Phrase key="lblPort">Port</Phrase>
+    <Phrase key="lblTimeout">Timeout</Phrase>
+    <Phrase key="lblUsername">Username</Phrase>
+    <Phrase key="lblPassword">Password</Phrase>
+    <Phrase key="lblInstance">Instance</Phrase>
+    <Phrase key="lblSecretKey">Secret key</Phrase>
+    <Phrase key="btnPaste">Paste</Phrase>
   </Dictionary>
   <Dictionary key="Scada.Forms.CtrlDbConnection">
     <Phrase key="gbConnectionOptions">Connection Options</Phrase>

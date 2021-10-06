@@ -30,26 +30,26 @@ namespace Scada.Forms
         private void InitializeComponent()
         {
             this.gbConnectionOptions = new System.Windows.Forms.GroupBox();
+            this.btnPaste = new System.Windows.Forms.Button();
+            this.txtSecretKey = new System.Windows.Forms.TextBox();
+            this.lblSecretKey = new System.Windows.Forms.Label();
+            this.txtInstance = new System.Windows.Forms.TextBox();
+            this.lblInstance = new System.Windows.Forms.Label();
             this.txtPassword = new System.Windows.Forms.TextBox();
             this.lblPassword = new System.Windows.Forms.Label();
             this.txtUsername = new System.Windows.Forms.TextBox();
             this.lblUsername = new System.Windows.Forms.Label();
+            this.numTimeout = new System.Windows.Forms.NumericUpDown();
+            this.lblTimeout = new System.Windows.Forms.Label();
             this.numPort = new System.Windows.Forms.NumericUpDown();
             this.lblPort = new System.Windows.Forms.Label();
             this.txtHost = new System.Windows.Forms.TextBox();
             this.lblHost = new System.Windows.Forms.Label();
             this.txtName = new System.Windows.Forms.TextBox();
             this.lblName = new System.Windows.Forms.Label();
-            this.txtInstance = new System.Windows.Forms.TextBox();
-            this.lblInstance = new System.Windows.Forms.Label();
-            this.lblTimeout = new System.Windows.Forms.Label();
-            this.numTimeout = new System.Windows.Forms.NumericUpDown();
-            this.lblSecretKey = new System.Windows.Forms.Label();
-            this.txtSecretKey = new System.Windows.Forms.TextBox();
-            this.btnPaste = new System.Windows.Forms.Button();
             this.gbConnectionOptions.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.numPort)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.numTimeout)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.numPort)).BeginInit();
             this.SuspendLayout();
             // 
             // gbConnectionOptions
@@ -81,6 +81,58 @@ namespace Scada.Forms
             this.gbConnectionOptions.TabStop = false;
             this.gbConnectionOptions.Text = "Connection Options";
             // 
+            // btnPaste
+            // 
+            this.btnPaste.Location = new System.Drawing.Point(13, 330);
+            this.btnPaste.Name = "btnPaste";
+            this.btnPaste.Size = new System.Drawing.Size(75, 23);
+            this.btnPaste.TabIndex = 16;
+            this.btnPaste.Text = "Paste";
+            this.btnPaste.UseVisualStyleBackColor = true;
+            this.btnPaste.Click += new System.EventHandler(this.btnPaste_Click);
+            // 
+            // txtSecretKey
+            // 
+            this.txtSecretKey.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.txtSecretKey.Location = new System.Drawing.Point(13, 301);
+            this.txtSecretKey.Name = "txtSecretKey";
+            this.txtSecretKey.Size = new System.Drawing.Size(274, 23);
+            this.txtSecretKey.TabIndex = 15;
+            this.txtSecretKey.UseSystemPasswordChar = true;
+            this.txtSecretKey.TextChanged += new System.EventHandler(this.txtSecretKey_TextChanged);
+            this.txtSecretKey.Enter += new System.EventHandler(this.txtSecretKey_Enter);
+            this.txtSecretKey.Leave += new System.EventHandler(this.txtSecretKey_Leave);
+            this.txtSecretKey.Validating += new System.ComponentModel.CancelEventHandler(this.txtSecretKey_Validating);
+            // 
+            // lblSecretKey
+            // 
+            this.lblSecretKey.AutoSize = true;
+            this.lblSecretKey.Location = new System.Drawing.Point(10, 283);
+            this.lblSecretKey.Name = "lblSecretKey";
+            this.lblSecretKey.Size = new System.Drawing.Size(60, 15);
+            this.lblSecretKey.TabIndex = 14;
+            this.lblSecretKey.Text = "Secret key";
+            // 
+            // txtInstance
+            // 
+            this.txtInstance.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.txtInstance.Location = new System.Drawing.Point(13, 257);
+            this.txtInstance.Name = "txtInstance";
+            this.txtInstance.Size = new System.Drawing.Size(274, 23);
+            this.txtInstance.TabIndex = 13;
+            this.txtInstance.TextChanged += new System.EventHandler(this.txtInstance_TextChanged);
+            // 
+            // lblInstance
+            // 
+            this.lblInstance.AutoSize = true;
+            this.lblInstance.Location = new System.Drawing.Point(10, 239);
+            this.lblInstance.Name = "lblInstance";
+            this.lblInstance.Size = new System.Drawing.Size(51, 15);
+            this.lblInstance.TabIndex = 12;
+            this.lblInstance.Text = "Instance";
+            // 
             // txtPassword
             // 
             this.txtPassword.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
@@ -90,6 +142,7 @@ namespace Scada.Forms
             this.txtPassword.Size = new System.Drawing.Size(274, 23);
             this.txtPassword.TabIndex = 11;
             this.txtPassword.UseSystemPasswordChar = true;
+            this.txtPassword.TextChanged += new System.EventHandler(this.txtPassword_TextChanged);
             // 
             // lblPassword
             // 
@@ -108,6 +161,7 @@ namespace Scada.Forms
             this.txtUsername.Name = "txtUsername";
             this.txtUsername.Size = new System.Drawing.Size(274, 23);
             this.txtUsername.TabIndex = 9;
+            this.txtUsername.TextChanged += new System.EventHandler(this.txtUsername_TextChanged);
             // 
             // lblUsername
             // 
@@ -117,100 +171,6 @@ namespace Scada.Forms
             this.lblUsername.Size = new System.Drawing.Size(60, 15);
             this.lblUsername.TabIndex = 8;
             this.lblUsername.Text = "Username";
-            // 
-            // numPort
-            // 
-            this.numPort.Location = new System.Drawing.Point(13, 125);
-            this.numPort.Maximum = new decimal(new int[] {
-            65535,
-            0,
-            0,
-            0});
-            this.numPort.Minimum = new decimal(new int[] {
-            1,
-            0,
-            0,
-            0});
-            this.numPort.Name = "numPort";
-            this.numPort.Size = new System.Drawing.Size(120, 23);
-            this.numPort.TabIndex = 5;
-            this.numPort.Value = new decimal(new int[] {
-            1,
-            0,
-            0,
-            0});
-            // 
-            // lblPort
-            // 
-            this.lblPort.AutoSize = true;
-            this.lblPort.Location = new System.Drawing.Point(10, 107);
-            this.lblPort.Name = "lblPort";
-            this.lblPort.Size = new System.Drawing.Size(29, 15);
-            this.lblPort.TabIndex = 4;
-            this.lblPort.Text = "Port";
-            // 
-            // txtHost
-            // 
-            this.txtHost.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.txtHost.Location = new System.Drawing.Point(13, 81);
-            this.txtHost.Name = "txtHost";
-            this.txtHost.Size = new System.Drawing.Size(274, 23);
-            this.txtHost.TabIndex = 3;
-            // 
-            // lblHost
-            // 
-            this.lblHost.AutoSize = true;
-            this.lblHost.Location = new System.Drawing.Point(10, 63);
-            this.lblHost.Name = "lblHost";
-            this.lblHost.Size = new System.Drawing.Size(32, 15);
-            this.lblHost.TabIndex = 2;
-            this.lblHost.Text = "Host";
-            // 
-            // txtName
-            // 
-            this.txtName.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.txtName.Location = new System.Drawing.Point(13, 37);
-            this.txtName.Name = "txtName";
-            this.txtName.Size = new System.Drawing.Size(274, 23);
-            this.txtName.TabIndex = 1;
-            // 
-            // lblName
-            // 
-            this.lblName.AutoSize = true;
-            this.lblName.Location = new System.Drawing.Point(10, 19);
-            this.lblName.Name = "lblName";
-            this.lblName.Size = new System.Drawing.Size(39, 15);
-            this.lblName.TabIndex = 0;
-            this.lblName.Text = "Name";
-            // 
-            // txtInstance
-            // 
-            this.txtInstance.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.txtInstance.Location = new System.Drawing.Point(13, 257);
-            this.txtInstance.Name = "txtInstance";
-            this.txtInstance.Size = new System.Drawing.Size(274, 23);
-            this.txtInstance.TabIndex = 13;
-            // 
-            // lblInstance
-            // 
-            this.lblInstance.AutoSize = true;
-            this.lblInstance.Location = new System.Drawing.Point(10, 239);
-            this.lblInstance.Name = "lblInstance";
-            this.lblInstance.Size = new System.Drawing.Size(51, 15);
-            this.lblInstance.TabIndex = 12;
-            this.lblInstance.Text = "Instance";
-            // 
-            // lblTimeout
-            // 
-            this.lblTimeout.AutoSize = true;
-            this.lblTimeout.Location = new System.Drawing.Point(136, 107);
-            this.lblTimeout.Name = "lblTimeout";
-            this.lblTimeout.Size = new System.Drawing.Size(51, 15);
-            this.lblTimeout.TabIndex = 6;
-            this.lblTimeout.Text = "Timeout";
             // 
             // numTimeout
             // 
@@ -233,33 +193,87 @@ namespace Scada.Forms
             0,
             0,
             0});
+            this.numTimeout.ValueChanged += new System.EventHandler(this.numTimeout_ValueChanged);
             // 
-            // lblSecretKey
+            // lblTimeout
             // 
-            this.lblSecretKey.AutoSize = true;
-            this.lblSecretKey.Location = new System.Drawing.Point(10, 283);
-            this.lblSecretKey.Name = "lblSecretKey";
-            this.lblSecretKey.Size = new System.Drawing.Size(60, 15);
-            this.lblSecretKey.TabIndex = 14;
-            this.lblSecretKey.Text = "Secret key";
+            this.lblTimeout.AutoSize = true;
+            this.lblTimeout.Location = new System.Drawing.Point(136, 107);
+            this.lblTimeout.Name = "lblTimeout";
+            this.lblTimeout.Size = new System.Drawing.Size(51, 15);
+            this.lblTimeout.TabIndex = 6;
+            this.lblTimeout.Text = "Timeout";
             // 
-            // txtSecretKey
+            // numPort
             // 
-            this.txtSecretKey.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            this.numPort.Location = new System.Drawing.Point(13, 125);
+            this.numPort.Maximum = new decimal(new int[] {
+            65535,
+            0,
+            0,
+            0});
+            this.numPort.Minimum = new decimal(new int[] {
+            1,
+            0,
+            0,
+            0});
+            this.numPort.Name = "numPort";
+            this.numPort.Size = new System.Drawing.Size(120, 23);
+            this.numPort.TabIndex = 5;
+            this.numPort.Value = new decimal(new int[] {
+            1,
+            0,
+            0,
+            0});
+            this.numPort.ValueChanged += new System.EventHandler(this.numPort_ValueChanged);
+            // 
+            // lblPort
+            // 
+            this.lblPort.AutoSize = true;
+            this.lblPort.Location = new System.Drawing.Point(10, 107);
+            this.lblPort.Name = "lblPort";
+            this.lblPort.Size = new System.Drawing.Size(29, 15);
+            this.lblPort.TabIndex = 4;
+            this.lblPort.Text = "Port";
+            // 
+            // txtHost
+            // 
+            this.txtHost.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.txtSecretKey.Location = new System.Drawing.Point(13, 301);
-            this.txtSecretKey.Name = "txtSecretKey";
-            this.txtSecretKey.Size = new System.Drawing.Size(274, 23);
-            this.txtSecretKey.TabIndex = 15;
+            this.txtHost.Location = new System.Drawing.Point(13, 81);
+            this.txtHost.Name = "txtHost";
+            this.txtHost.Size = new System.Drawing.Size(274, 23);
+            this.txtHost.TabIndex = 3;
+            this.txtHost.TextChanged += new System.EventHandler(this.txtHost_TextChanged);
             // 
-            // btnPaste
+            // lblHost
             // 
-            this.btnPaste.Location = new System.Drawing.Point(13, 330);
-            this.btnPaste.Name = "btnPaste";
-            this.btnPaste.Size = new System.Drawing.Size(75, 23);
-            this.btnPaste.TabIndex = 16;
-            this.btnPaste.Text = "Paste";
-            this.btnPaste.UseVisualStyleBackColor = true;
+            this.lblHost.AutoSize = true;
+            this.lblHost.Location = new System.Drawing.Point(10, 63);
+            this.lblHost.Name = "lblHost";
+            this.lblHost.Size = new System.Drawing.Size(32, 15);
+            this.lblHost.TabIndex = 2;
+            this.lblHost.Text = "Host";
+            // 
+            // txtName
+            // 
+            this.txtName.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.txtName.Location = new System.Drawing.Point(13, 37);
+            this.txtName.Name = "txtName";
+            this.txtName.Size = new System.Drawing.Size(274, 23);
+            this.txtName.TabIndex = 1;
+            this.txtName.TextChanged += new System.EventHandler(this.txtName_TextChanged);
+            this.txtName.Validated += new System.EventHandler(this.txtName_Validated);
+            // 
+            // lblName
+            // 
+            this.lblName.AutoSize = true;
+            this.lblName.Location = new System.Drawing.Point(10, 19);
+            this.lblName.Name = "lblName";
+            this.lblName.Size = new System.Drawing.Size(39, 15);
+            this.lblName.TabIndex = 0;
+            this.lblName.Text = "Name";
             // 
             // CtrlClientConnection
             // 
@@ -270,8 +284,8 @@ namespace Scada.Forms
             this.Size = new System.Drawing.Size(300, 366);
             this.gbConnectionOptions.ResumeLayout(false);
             this.gbConnectionOptions.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.numPort)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.numTimeout)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.numPort)).EndInit();
             this.ResumeLayout(false);
 
         }
