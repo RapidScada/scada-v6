@@ -73,4 +73,14 @@
     <Phrase key="WarningCaption">Warning</Phrase>
     <Phrase key="HiddenPassword">*****</Phrase>
   </Dictionary>
+  <Dictionary key="Scada.Forms.CtrlDbConnection">
+    <Phrase key="gbConnectionOptions">Connection Options</Phrase>
+    <Phrase key="lblName">Name</Phrase>
+    <Phrase key="lblDbms">DBMS</Phrase>
+    <Phrase key="lblServer">Server</Phrase>
+    <Phrase key="lblDatabase">Database</Phrase>
+    <Phrase key="lblUsername">Username</Phrase>
+    <Phrase key="lblPassword">Password</Phrase>
+    <Phrase key="chkConnectionString">Connection string</Phrase>
+  </Dictionary>
 </ScadaDictionaries>

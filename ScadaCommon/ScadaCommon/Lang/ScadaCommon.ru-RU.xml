@@ -73,4 +73,14 @@
     <Phrase key="WarningCaption">Предупреждение</Phrase>
     <Phrase key="HiddenPassword">*****</Phrase>
   </Dictionary>
+  <Dictionary key="Scada.Forms.CtrlDbConnection">
+    <Phrase key="gbConnectionOptions">Параметры соединения</Phrase>
+    <Phrase key="lblName">Наименование</Phrase>
+    <Phrase key="lblDbms">СУБД</Phrase>
+    <Phrase key="lblServer">Сервер</Phrase>
+    <Phrase key="lblDatabase">База данных</Phrase>
+    <Phrase key="lblUsername">Имя пользователя</Phrase>
+    <Phrase key="lblPassword">Пароль</Phrase>
+    <Phrase key="chkConnectionString">Строка соединения</Phrase>
+  </Dictionary>
 </ScadaDictionaries>
