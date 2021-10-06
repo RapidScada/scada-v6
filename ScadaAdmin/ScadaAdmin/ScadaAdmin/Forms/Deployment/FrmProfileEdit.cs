@@ -79,12 +79,11 @@ namespace Scada.Admin.App.Forms.Deployment
             {
                 cbExtension.BeginUpdate();
                 cbExtension.Items.Clear();
-                DirectoryInfo dirInfo = new(appData.AppDirs.LibDir);
 
-                foreach (FileInfo fileInfo in
-                    dirInfo.EnumerateFiles("ExtDep*.dll", SearchOption.TopDirectoryOnly))
+                foreach (string extensionCode in appData.AppConfig.ExtensionCodes)
                 {
-                    cbExtension.Items.Add(ScadaUtils.RemoveFileNameSuffixes(fileInfo.Name));
+                    if (extensionCode.StartsWith("ExtDep"))
+                        cbExtension.Items.Add(extensionCode);
                 }
             }
             finally

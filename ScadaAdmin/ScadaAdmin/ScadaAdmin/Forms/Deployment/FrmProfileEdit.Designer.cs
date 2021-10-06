@@ -101,6 +101,7 @@ namespace Scada.Admin.App.Forms.Deployment
             this.cbExtension.Location = new System.Drawing.Point(6, 65);
             this.cbExtension.Name = "cbExtension";
             this.cbExtension.Size = new System.Drawing.Size(364, 23);
+            this.cbExtension.Sorted = true;
             this.cbExtension.TabIndex = 3;
             // 
             // lblExtension
