@@ -188,10 +188,9 @@ namespace Scada.Admin.App.Controls.Deployment
                 Name = existingNames.Contains(defaultProfileName) ? "" : defaultProfileName
             };
 
-            FrmProfileEdit frmProfileEdit = new FrmProfileEdit
-            {
-                //Profile = profile,
-                //ExistingProfileNames = existingNames
+            FrmProfileEdit frmProfileEdit = new(profile) 
+            { 
+                ExistingProfileNames = existingNames 
             };
 
             if (frmProfileEdit.ShowDialog() == DialogResult.OK)
@@ -207,9 +206,8 @@ namespace Scada.Admin.App.Controls.Deployment
             DeploymentProfile profile = SelectedProfile;
             string oldName = profile.Name;
 
-            /*FrmProfileEdit frmProfileEdit = new FrmProfileEdit()
+            FrmProfileEdit frmProfileEdit = new(profile)
             {
-                Profile = profile,
                 ExistingProfileNames = deploymentConfig.GetExistingProfileNames(oldName)
             };
 
@@ -238,7 +236,7 @@ namespace Scada.Admin.App.Controls.Deployment
 
                 // save deployment settings
                 SaveDeploymentSettings();
-            }*/
+            }
         }
 
         private void btnDeleteProfile_Click(object sender, EventArgs e)

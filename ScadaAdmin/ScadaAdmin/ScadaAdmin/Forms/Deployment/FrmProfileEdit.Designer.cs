@@ -42,6 +42,7 @@ namespace Scada.Admin.App.Forms.Deployment
             this.chkAgentEnabled = new System.Windows.Forms.CheckBox();
             this.tabDbConnection = new System.Windows.Forms.TabPage();
             this.chkDbEnabled = new System.Windows.Forms.CheckBox();
+            this.ctrlDbConnection = new Scada.Forms.CtrlDbConnection();
             this.btnOK = new System.Windows.Forms.Button();
             this.btnCancel = new System.Windows.Forms.Button();
             this.tabControl.SuspendLayout();
@@ -59,7 +60,7 @@ namespace Scada.Admin.App.Forms.Deployment
             this.tabControl.Location = new System.Drawing.Point(0, 0);
             this.tabControl.Name = "tabControl";
             this.tabControl.SelectedIndex = 0;
-            this.tabControl.Size = new System.Drawing.Size(384, 321);
+            this.tabControl.Size = new System.Drawing.Size(384, 464);
             this.tabControl.TabIndex = 0;
             // 
             // tabGeneral
@@ -73,7 +74,7 @@ namespace Scada.Admin.App.Forms.Deployment
             this.tabGeneral.Location = new System.Drawing.Point(4, 24);
             this.tabGeneral.Name = "tabGeneral";
             this.tabGeneral.Padding = new System.Windows.Forms.Padding(3);
-            this.tabGeneral.Size = new System.Drawing.Size(376, 293);
+            this.tabGeneral.Size = new System.Drawing.Size(376, 436);
             this.tabGeneral.TabIndex = 0;
             this.tabGeneral.Text = "General";
             this.tabGeneral.UseVisualStyleBackColor = true;
@@ -134,7 +135,7 @@ namespace Scada.Admin.App.Forms.Deployment
             this.tabAgentConnection.Location = new System.Drawing.Point(4, 24);
             this.tabAgentConnection.Name = "tabAgentConnection";
             this.tabAgentConnection.Padding = new System.Windows.Forms.Padding(3);
-            this.tabAgentConnection.Size = new System.Drawing.Size(376, 293);
+            this.tabAgentConnection.Size = new System.Drawing.Size(376, 436);
             this.tabAgentConnection.TabIndex = 1;
             this.tabAgentConnection.Text = "Agent Connection";
             this.tabAgentConnection.UseVisualStyleBackColor = true;
@@ -143,7 +144,7 @@ namespace Scada.Admin.App.Forms.Deployment
             // 
             this.groupBox1.Location = new System.Drawing.Point(6, 31);
             this.groupBox1.Name = "groupBox1";
-            this.groupBox1.Size = new System.Drawing.Size(364, 100);
+            this.groupBox1.Size = new System.Drawing.Size(364, 399);
             this.groupBox1.TabIndex = 1;
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "groupBox1";
@@ -157,13 +158,15 @@ namespace Scada.Admin.App.Forms.Deployment
             this.chkAgentEnabled.TabIndex = 0;
             this.chkAgentEnabled.Text = "Agent enabled";
             this.chkAgentEnabled.UseVisualStyleBackColor = true;
+            this.chkAgentEnabled.CheckedChanged += new System.EventHandler(this.chkAgentEnabled_CheckedChanged);
             // 
             // tabDbConnection
             // 
             this.tabDbConnection.Controls.Add(this.chkDbEnabled);
+            this.tabDbConnection.Controls.Add(this.ctrlDbConnection);
             this.tabDbConnection.Location = new System.Drawing.Point(4, 24);
             this.tabDbConnection.Name = "tabDbConnection";
-            this.tabDbConnection.Size = new System.Drawing.Size(376, 293);
+            this.tabDbConnection.Size = new System.Drawing.Size(376, 436);
             this.tabDbConnection.TabIndex = 2;
             this.tabDbConnection.Text = "DB Connection";
             this.tabDbConnection.UseVisualStyleBackColor = true;
@@ -177,19 +180,32 @@ namespace Scada.Admin.App.Forms.Deployment
             this.chkDbEnabled.TabIndex = 0;
             this.chkDbEnabled.Text = "Database enabled";
             this.chkDbEnabled.UseVisualStyleBackColor = true;
+            this.chkDbEnabled.CheckedChanged += new System.EventHandler(this.chkDbEnabled_CheckedChanged);
+            // 
+            // ctrlDbConnection
+            // 
+            this.ctrlDbConnection.BuildConnectionStringFunc = null;
+            this.ctrlDbConnection.ConnectionOptions = null;
+            this.ctrlDbConnection.DbmsEnabled = false;
+            this.ctrlDbConnection.Location = new System.Drawing.Point(6, 31);
+            this.ctrlDbConnection.Name = "ctrlDbConnection";
+            this.ctrlDbConnection.NameEnabled = false;
+            this.ctrlDbConnection.Size = new System.Drawing.Size(364, 399);
+            this.ctrlDbConnection.TabIndex = 0;
             // 
             // btnOK
             // 
-            this.btnOK.Location = new System.Drawing.Point(216, 327);
+            this.btnOK.Location = new System.Drawing.Point(216, 470);
             this.btnOK.Name = "btnOK";
             this.btnOK.Size = new System.Drawing.Size(75, 23);
             this.btnOK.TabIndex = 1;
             this.btnOK.Text = "OK";
             this.btnOK.UseVisualStyleBackColor = true;
+            this.btnOK.Click += new System.EventHandler(this.btnOK_Click);
             // 
             // btnCancel
             // 
-            this.btnCancel.Location = new System.Drawing.Point(297, 327);
+            this.btnCancel.Location = new System.Drawing.Point(297, 470);
             this.btnCancel.Name = "btnCancel";
             this.btnCancel.Size = new System.Drawing.Size(75, 23);
             this.btnCancel.TabIndex = 2;
@@ -202,7 +218,7 @@ namespace Scada.Admin.App.Forms.Deployment
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.CancelButton = this.btnCancel;
-            this.ClientSize = new System.Drawing.Size(384, 362);
+            this.ClientSize = new System.Drawing.Size(384, 505);
             this.Controls.Add(this.btnCancel);
             this.Controls.Add(this.btnOK);
             this.Controls.Add(this.tabControl);
@@ -213,6 +229,7 @@ namespace Scada.Admin.App.Forms.Deployment
             this.ShowInTaskbar = false;
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
             this.Text = "Edit Profile";
+            this.Load += new System.EventHandler(this.FrmProfileEdit_Load);
             this.tabControl.ResumeLayout(false);
             this.tabGeneral.ResumeLayout(false);
             this.tabGeneral.PerformLayout();
@@ -241,5 +258,6 @@ namespace Scada.Admin.App.Forms.Deployment
         private System.Windows.Forms.CheckBox chkAgentEnabled;
         private System.Windows.Forms.GroupBox groupBox1;
         private System.Windows.Forms.CheckBox chkDbEnabled;
+        private Scada.Forms.CtrlDbConnection ctrlDbConnection;
     }
 }

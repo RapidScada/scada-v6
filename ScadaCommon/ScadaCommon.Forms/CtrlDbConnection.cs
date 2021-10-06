@@ -30,6 +30,7 @@ namespace Scada.Forms
         /// <summary>
         /// Gets or sets the database connection options being edited.
         /// </summary>
+        [Browsable(false)]
         public DbConnectionOptions ConnectionOptions
         {
             get
@@ -111,6 +112,7 @@ namespace Scada.Forms
         /// <summary>
         /// Gets or sets the function that builds a connection string.
         /// </summary>
+        [Browsable(false)]
         public Func<DbConnectionOptions, string> BuildConnectionStringFunc { get; set; }
 
 

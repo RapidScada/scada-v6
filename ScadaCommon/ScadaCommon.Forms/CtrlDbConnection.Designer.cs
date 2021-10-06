@@ -49,6 +49,8 @@ namespace Scada.Forms
             // 
             // gbConnectionOptions
             // 
+            this.gbConnectionOptions.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.gbConnectionOptions.Controls.Add(this.txtConnectionString);
             this.gbConnectionOptions.Controls.Add(this.chkConnectionString);
             this.gbConnectionOptions.Controls.Add(this.txtPassword);
