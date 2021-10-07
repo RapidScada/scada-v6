@@ -63,7 +63,7 @@ namespace Scada.Admin.App.Controls.Deployment
         {
             get
             {
-                return !(chkIncludeBase.Checked || chkIncludeInterface.Checked ||
+                return !(chkIncludeBase.Checked || chkIncludeView.Checked ||
                     chkIncludeServer.Checked || chkIncludeComm.Checked || chkIncludeWeb.Checked);
             }
         }
@@ -116,7 +116,7 @@ namespace Scada.Admin.App.Controls.Deployment
             changing = true;
             gbOptions.Enabled = true;
             chkIncludeBase.Checked = transferOptions.IncludeBase;
-            chkIncludeInterface.Checked = transferOptions.IncludeView;
+            chkIncludeView.Checked = transferOptions.IncludeView;
             chkIncludeServer.Checked = transferOptions.IncludeServer;
             chkIncludeComm.Checked = transferOptions.IncludeComm;
             chkIncludeWeb.Checked = transferOptions.IncludeWeb;
@@ -126,18 +126,21 @@ namespace Scada.Admin.App.Controls.Deployment
             {
                 chkRestartServer.Visible = true;
                 chkRestartComm.Visible = true;
+                chkRestartWeb.Visible = true;
                 lblObjFilter.Visible = true;
                 txtObjFilter.Visible = true;
                 btnSelectObj.Visible = true;
 
                 chkRestartServer.Checked = uploadOptions.RestartServer;
                 chkRestartComm.Checked = uploadOptions.RestartComm;
+                chkRestartWeb.Checked = uploadOptions.RestartWeb;
                 txtObjFilter.Text = ScadaUtils.ToShortString(uploadOptions.ObjectFilter);
             }
             else
             {
                 chkRestartServer.Visible = false;
                 chkRestartComm.Visible = false;
+                chkRestartWeb.Visible = false;
                 lblObjFilter.Visible = false;
                 txtObjFilter.Visible = false;
                 btnSelectObj.Visible = false;
@@ -155,7 +158,7 @@ namespace Scada.Admin.App.Controls.Deployment
                 throw new ArgumentNullException(nameof(transferOptions));
 
             transferOptions.IncludeBase = chkIncludeBase.Checked;
-            transferOptions.IncludeView = chkIncludeInterface.Checked;
+            transferOptions.IncludeView = chkIncludeView.Checked;
             transferOptions.IncludeServer = chkIncludeServer.Checked;
             transferOptions.IncludeComm = chkIncludeComm.Checked;
             transferOptions.IncludeWeb = chkIncludeWeb.Checked;
@@ -176,12 +179,11 @@ namespace Scada.Admin.App.Controls.Deployment
         {
             changing = true;
             chkIncludeBase.Checked = false;
-            chkIncludeInterface.Checked = false;
+            chkIncludeView.Checked = false;
             chkIncludeServer.Checked = false;
             chkIncludeComm.Checked = false;
             chkIncludeWeb.Checked = false;
             chkIgnoreRegKeys.Checked = false;
-            chkIgnoreWebStorage.Checked = false;
             txtObjFilter.Text = "";
             gbOptions.Enabled = false;
             changing = false;

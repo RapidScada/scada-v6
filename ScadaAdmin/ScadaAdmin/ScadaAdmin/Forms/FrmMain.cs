@@ -1324,11 +1324,11 @@ namespace Scada.Admin.App.Forms
                 LoadDeploymentConfig();
 
                 // open download configuration form
-                /*FrmDownloadConfig frmDownloadConfig = new FrmDownloadConfig(appData, project, liveInstance.ProjectInstance);
+                FrmDownloadConfig frmDownloadConfig = new(appData, Project, liveInstance.ProjectInstance);
                 frmDownloadConfig.ShowDialog();
 
                 // take changes into account
-                if (frmDownloadConfig.ProfileChanged)
+                /*if (frmDownloadConfig.ProfileChanged)
                 {
                     UpdateAgentClient(liveInstance);
                     SaveProject();
@@ -1371,11 +1371,11 @@ namespace Scada.Admin.App.Forms
                 LoadDeploymentConfig();
 
                 // open upload configuration form
-                /*FrmUploadConfig frmUploadConfig = new FrmUploadConfig(appData, project, liveInstance.ProjectInstance);
+                FrmUploadConfig frmUploadConfig = new(appData, Project, liveInstance.ProjectInstance);
                 frmUploadConfig.ShowDialog();
 
                 // take changes into account
-                if (frmUploadConfig.ProfileChanged)
+                /*if (frmUploadConfig.ProfileChanged)
                 {
                     UpdateAgentClient(liveInstance);
                     SaveProject();

@@ -219,9 +219,9 @@
     <Phrase key="chkIncludeComm">Коммуникатор</Phrase>
     <Phrase key="chkRestartComm">Перезапустить Коммуникатор</Phrase>
     <Phrase key="chkIncludeWeb">Вебстанция</Phrase>
+    <Phrase key="chkRestartWeb">Перезапустить Вебстанцию</Phrase>
     <Phrase key="lblIgnore">Исключить:</Phrase>
     <Phrase key="chkIgnoreRegKeys">Регистрационные ключи</Phrase>
-    <Phrase key="chkIgnoreWebStorage">Хранилище Вебстанции</Phrase>
     <Phrase key="lblObjFilter">Фильтр объектов:</Phrase>
     <Phrase key="btnSelectObj">Выбрать...</Phrase>
     <Phrase key="ConfigNotSelected">Конфигурация не выбрана.</Phrase>
@@ -239,6 +239,11 @@
     <Phrase key="ExtensionNotFound">Расширение не найдено.</Phrase>
     <Phrase key="ExtensionCannotDeploy">Расширение не поддерживает развёртывание.</Phrase>
   </Dictionary>
+  <Dictionary key="Scada.Admin.App.Forms.Deployment.FrmDownloadConfig">
+    <Phrase key="this">Скачивание конфигурации</Phrase>
+    <Phrase key="btnDownload">Скачать</Phrase>
+    <Phrase key="btnClose">Закрыть</Phrase>
+  </Dictionary>
   <Dictionary key="Scada.Admin.App.Forms.Deployment.FrmInstanceProfile">
     <Phrase key="this">Профиль развёртывания</Phrase>
     <Phrase key="btnTest">Тест</Phrase>
@@ -248,6 +253,12 @@
     <Phrase key="AgentConnectionError">Ошибка при соединении с Агентом:</Phrase>
     <Phrase key="DbConnectionOK">Соединение с БД в норме.</Phrase>
     <Phrase key="DbConnectionError">Ошибка при соединении с БД:</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Admin.App.Forms.Deployment.FrmObjSelect">
+    <Phrase key="this">Выбор объектов</Phrase>
+    <Phrase key="lblFilter">Фильтр</Phrase>
+    <Phrase key="btnSelect">Выбрать</Phrase>
+    <Phrase key="btnCancel">Отмена</Phrase>
   </Dictionary>
   <Dictionary key="Scada.Admin.App.Forms.Deployment.FrmProfileEdit">
     <Phrase key="this">Редактирование профиля</Phrase>
@@ -262,6 +273,11 @@
     <Phrase key="btnOK">OK</Phrase>
     <Phrase key="btnCancel">Отмена</Phrase>
     <Phrase key="ProfileNameDuplicated">Профиль с таким наименованием уже существует.</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Admin.App.Forms.Deployment.FrmUploadConfig">
+    <Phrase key="this">Передача конфигурации</Phrase>
+    <Phrase key="btnUpload">Передать</Phrase>
+    <Phrase key="btnClose">Закрыть</Phrase>
   </Dictionary>
   <Dictionary key="Scada.Admin.App.Forms.Tables.FrmBaseTable">
     <Phrase key="miProperties">Свойства</Phrase>

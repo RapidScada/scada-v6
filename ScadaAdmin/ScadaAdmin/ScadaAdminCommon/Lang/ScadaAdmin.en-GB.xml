@@ -219,9 +219,9 @@
     <Phrase key="chkIncludeComm">Communicator</Phrase>
     <Phrase key="chkRestartComm">Restart Communicator</Phrase>
     <Phrase key="chkIncludeWeb">Webstation</Phrase>
+    <Phrase key="chkRestartWeb">Restart Webstation</Phrase>
     <Phrase key="lblIgnore">Ignore:</Phrase>
     <Phrase key="chkIgnoreRegKeys">Registration keys</Phrase>
-    <Phrase key="chkIgnoreWebStorage">Webstation storage</Phrase>
     <Phrase key="lblObjFilter">Object filter:</Phrase>
     <Phrase key="btnSelectObj">Select...</Phrase>
     <Phrase key="ConfigNotSelected">Configuration is not selected.</Phrase>
@@ -239,6 +239,11 @@
     <Phrase key="ExtensionNotFound">Extension not found.</Phrase>
     <Phrase key="ExtensionCannotDeploy">Extension does not support deployment.</Phrase>
   </Dictionary>
+  <Dictionary key="Scada.Admin.App.Forms.Deployment.FrmDownloadConfig">
+    <Phrase key="this">Download Configuration</Phrase>
+    <Phrase key="btnDownload">Download</Phrase>
+    <Phrase key="btnClose">Close</Phrase>
+  </Dictionary>
   <Dictionary key="Scada.Admin.App.Forms.Deployment.FrmInstanceProfile">
     <Phrase key="this">Deployment Profile</Phrase>
     <Phrase key="btnTest">Test</Phrase>
@@ -248,6 +253,12 @@
     <Phrase key="AgentConnectionError">Agent connection error:</Phrase>
     <Phrase key="DbConnectionOK">Database connection is OK.</Phrase>
     <Phrase key="DbConnectionError">Database connection error:</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Admin.App.Forms.Deployment.FrmObjSelect">
+    <Phrase key="this">Select Objects</Phrase>
+    <Phrase key="lblFilter">Filter</Phrase>
+    <Phrase key="btnSelect">Select</Phrase>
+    <Phrase key="btnCancel">Cancel</Phrase>
   </Dictionary>
   <Dictionary key="Scada.Admin.App.Forms.Deployment.FrmProfileEdit">
     <Phrase key="this">Edit Profile</Phrase>
@@ -262,6 +273,11 @@
     <Phrase key="btnOK">OK</Phrase>
     <Phrase key="btnCancel">Cancel</Phrase>
     <Phrase key="ProfileNameDuplicated">A profile with this name already exists.</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Admin.App.Forms.Deployment.FrmUploadConfig">
+    <Phrase key="this">Upload Configuration</Phrase>
+    <Phrase key="btnUpload">Upload</Phrase>
+    <Phrase key="btnClose">Close</Phrase>
   </Dictionary>
   <Dictionary key="Scada.Admin.App.Forms.Tables.FrmBaseTable">
     <Phrase key="miProperties">Properties</Phrase>
