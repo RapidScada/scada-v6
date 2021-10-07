@@ -114,9 +114,9 @@ namespace Scada.Admin.App.Forms
 
 
         /// <summary>
-        /// Validates the form fields.
+        /// Validates the form controls.
         /// </summary>
-        private bool ValidateFields()
+        private bool ValidateControls()
         {
             // validate the name when creating a new instance
             if (!EditMode)
@@ -193,7 +193,7 @@ namespace Scada.Admin.App.Forms
 
         private void btnOK_Click(object sender, EventArgs e)
         {
-            if (ValidateFields())
+            if (ValidateControls())
                 DialogResult = DialogResult.OK;
         }
     }

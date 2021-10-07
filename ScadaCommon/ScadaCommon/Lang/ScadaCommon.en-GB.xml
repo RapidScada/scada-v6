@@ -63,7 +63,7 @@
     <Phrase key="NotNumber">String is not a number.</Phrase>
     <Phrase key="NotHexadecimal">String is not hexadecimal.</Phrase>
     <Phrase key="InvalidParamVal">Invalid value of the &quot;{0}&quot; parameter.</Phrase>
-    <Phrase key="InvalidSecretKey">Incorrect secret key.</Phrase>
+    <Phrase key="InvalidSecretKey">Invalid secret key.</Phrase>
     <Phrase key="UndefinedSign">---</Phrase>
     <Phrase key="CriticalSeverity">Critical</Phrase>
     <Phrase key="MajorSeverity">Major</Phrase>

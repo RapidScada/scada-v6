@@ -102,9 +102,9 @@ namespace Scada.Admin.App.Forms
         }
 
         /// <summary>
-        /// Validates the form field.
+        /// Validates the form controls.
         /// </summary>
-        private bool ValidateFields()
+        private bool ValidateControls()
         {
             string fileName = FileName;
 
@@ -138,7 +138,7 @@ namespace Scada.Admin.App.Forms
 
         private void btnOK_Click(object sender, EventArgs e)
         {
-            if (ValidateFields())
+            if (ValidateControls())
                 DialogResult = DialogResult.OK;
         }
     }

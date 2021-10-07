@@ -181,9 +181,9 @@ namespace Scada.Admin.App.Forms
         }
 
         /// <summary>
-        /// Validates the form fields.
+        /// Validates the form controls.
         /// </summary>
-        private bool ValidateFields()
+        private bool ValidateControls()
         {
             string name = ProjectName;
             string location = ProjectLocation;
@@ -275,7 +275,7 @@ namespace Scada.Admin.App.Forms
 
         private void btnOK_Click(object sender, EventArgs e)
         {
-            if (ValidateFields())
+            if (ValidateControls())
             {
                 appData.State.ProjectDir = ProjectLocation;
                 DialogResult = DialogResult.OK;

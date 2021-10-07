@@ -209,6 +209,24 @@
     <Phrase key="ProfileNotSet">&lt;Not set&gt;</Phrase>
     <Phrase key="ConfirmDeleteProfile">Are you sure you want to delete the profile?</Phrase>
   </Dictionary>
+  <Dictionary key="Scada.Admin.App.Controls.Deployment.CtrlTransferOptions">
+    <Phrase key="gbOptions">Options</Phrase>
+    <Phrase key="lblInclude">Include:</Phrase>
+    <Phrase key="chkIncludeBase">Configuration database</Phrase>
+    <Phrase key="chkIncludeInterface">Interface</Phrase>
+    <Phrase key="chkIncludeServer">Server</Phrase>
+    <Phrase key="chkRestartServer">Restart Server</Phrase>
+    <Phrase key="chkIncludeComm">Communicator</Phrase>
+    <Phrase key="chkRestartComm">Restart Communicator</Phrase>
+    <Phrase key="chkIncludeWeb">Webstation</Phrase>
+    <Phrase key="lblIgnore">Ignore:</Phrase>
+    <Phrase key="chkIgnoreRegKeys">Registration keys</Phrase>
+    <Phrase key="chkIgnoreWebStorage">Webstation storage</Phrase>
+    <Phrase key="lblObjFilter">Object filter:</Phrase>
+    <Phrase key="btnSelectObj">Select...</Phrase>
+    <Phrase key="ConfigNotSelected">Configuration is not selected.</Phrase>
+    <Phrase key="InvalidObjectFilter">Invalid object filter.</Phrase>
+  </Dictionary>
   <Dictionary key="Scada.Admin.App.Controls.Tables.CtrlBitMask">
     <Phrase key="lblMaskValue">Decimal value</Phrase>
     <Phrase key="btnResetMask">Reset</Phrase>

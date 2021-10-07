@@ -209,6 +209,24 @@
     <Phrase key="ProfileNotSet">&lt;Не задан&gt;</Phrase>
     <Phrase key="ConfirmDeleteProfile">Вы уверены, что хотите удалить профиль?</Phrase>
   </Dictionary>
+  <Dictionary key="Scada.Admin.App.Controls.Deployment.CtrlTransferOptions">
+    <Phrase key="gbOptions">Параметры</Phrase>
+    <Phrase key="lblInclude">Включить:</Phrase>
+    <Phrase key="chkIncludeBase">База конфигурации</Phrase>
+    <Phrase key="chkIncludeInterface">Интерфейс</Phrase>
+    <Phrase key="chkIncludeServer">Сервер</Phrase>
+    <Phrase key="chkRestartServer">Перезапустить Сервер</Phrase>
+    <Phrase key="chkIncludeComm">Коммуникатор</Phrase>
+    <Phrase key="chkRestartComm">Перезапустить Коммуникатор</Phrase>
+    <Phrase key="chkIncludeWeb">Вебстанция</Phrase>
+    <Phrase key="lblIgnore">Исключить:</Phrase>
+    <Phrase key="chkIgnoreRegKeys">Регистрационные ключи</Phrase>
+    <Phrase key="chkIgnoreWebStorage">Хранилище Вебстанции</Phrase>
+    <Phrase key="lblObjFilter">Фильтр объектов:</Phrase>
+    <Phrase key="btnSelectObj">Выбрать...</Phrase>
+    <Phrase key="ConfigNotSelected">Конфигурация не выбрана.</Phrase>
+    <Phrase key="InvalidObjectFilter">Некорректный фильтр объектов.</Phrase>
+  </Dictionary>
   <Dictionary key="Scada.Admin.App.Controls.Tables.CtrlBitMask">
     <Phrase key="lblMaskValue">Десятичное значение</Phrase>
     <Phrase key="btnResetMask">Сбросить</Phrase>

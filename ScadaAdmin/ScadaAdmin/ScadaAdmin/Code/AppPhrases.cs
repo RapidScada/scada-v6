@@ -66,6 +66,10 @@ namespace Scada.Admin.App.Code
         public static string ProfileNotSet { get; private set; }
         public static string ConfirmDeleteProfile { get; private set; }
 
+        // Scada.Admin.App.Controls.Deployment.CtrlTransferOptions
+        public static string ConfigNotSelected { get; private set; }
+        public static string InvalidObjectFilter { get; private set; }
+
         // Scada.Admin.App.Forms
         public static string CorrectErrors { get; private set; }
         public static string SelectedColumn { get; private set; }
@@ -194,6 +198,10 @@ namespace Scada.Admin.App.Code
             dict = Locale.GetDictionary("Scada.Admin.App.Controls.Deployment.CtrlProfileSelector");
             ProfileNotSet = dict["ProfileNotSet"];
             ConfirmDeleteProfile = dict["ConfirmDeleteProfile"];
+
+            dict = Locale.GetDictionary("Scada.Admin.App.Controls.Deployment.CtrlTransferOptions");
+            ConfigNotSelected = dict["ConfigNotSelected"];
+            InvalidObjectFilter = dict["InvalidObjectFilter"];
 
             dict = Locale.GetDictionary("Scada.Admin.App.Forms");
             CorrectErrors = dict["CorrectErrors"];

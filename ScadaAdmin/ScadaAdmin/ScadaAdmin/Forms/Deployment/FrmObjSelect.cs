@@ -81,7 +81,7 @@ namespace Scada.Admin.App.Forms.Deployment
 
 
         /// <summary>
-        /// Gets or sets the numbers of selected objects.
+        /// Gets or sets the numbers of the selected objects.
         /// </summary>
         public ICollection<int> ObjNums { get; set; }
 
