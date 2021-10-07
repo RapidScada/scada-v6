@@ -216,6 +216,19 @@
   </Dictionary>
   <Dictionary key="Scada.Admin.App.Forms">
     <Phrase key="CorrectErrors">Please correct the following errors:</Phrase>
+    <Phrase key="NoProfileConnections">The profile does not contain connections.</Phrase>
+    <Phrase key="ExtensionNotFound">Extension not found.</Phrase>
+    <Phrase key="ExtensionCannotDeploy">Extension does not support deployment.</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Admin.App.Forms.Deployment.FrmInstanceProfile">
+    <Phrase key="this">Deployment Profile</Phrase>
+    <Phrase key="btnTest">Test</Phrase>
+    <Phrase key="btnOK">OK</Phrase>
+    <Phrase key="btnClose">Close</Phrase>
+    <Phrase key="AgentConnectionOK">Agent connection is OK.</Phrase>
+    <Phrase key="AgentConnectionError">Agent connection error:</Phrase>
+    <Phrase key="DbConnectionOK">Database connection is OK.</Phrase>
+    <Phrase key="DbConnectionError">Database connection error:</Phrase>
   </Dictionary>
   <Dictionary key="Scada.Admin.App.Forms.Deployment.FrmProfileEdit">
     <Phrase key="this">Edit Profile</Phrase>
@@ -230,12 +243,6 @@
     <Phrase key="btnOK">OK</Phrase>
     <Phrase key="btnCancel">Cancel</Phrase>
     <Phrase key="ProfileNameDuplicated">A profile with this name already exists.</Phrase>
-  </Dictionary>
-  <Dictionary key="Scada.Admin.App.Forms.Deployment.FrmInstanceProfile">
-    <Phrase key="this">Deployment Profile</Phrase>
-    <Phrase key="btnTest">Test</Phrase>
-    <Phrase key="btnOK">OK</Phrase>
-    <Phrase key="btnClose">Close</Phrase>
   </Dictionary>
   <Dictionary key="Scada.Admin.App.Forms.Tables.FrmBaseTable">
     <Phrase key="miProperties">Properties</Phrase>

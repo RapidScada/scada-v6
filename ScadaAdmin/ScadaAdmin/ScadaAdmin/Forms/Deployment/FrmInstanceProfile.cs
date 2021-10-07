@@ -24,11 +24,15 @@
  */
 
 using Scada.Admin.App.Code;
+using Scada.Admin.Deployment;
+using Scada.Admin.Extensions;
 using Scada.Admin.Project;
 using Scada.Client;
+using Scada.Config;
 using Scada.Forms;
 using Scada.Log;
 using System;
+using System.Text;
 using System.Windows.Forms;
 
 namespace Scada.Admin.App.Forms.Deployment
@@ -81,11 +85,13 @@ namespace Scada.Admin.App.Forms.Deployment
 
 
         /// <summary>
-        /// Tests the connection of the selected profile.
+        /// Tests an Agent connection.
         /// </summary>
-        private void TestConnection()
+        private bool TestAgentConnection(ConnectionOptions connectionOptions, out string errMsg)
         {
-            ScadaUiUtils.ShowError("Not implemented.");
+            errMsg = "Not implemented.";
+            return false;
+
             /*try
             {
                 Cursor = Cursors.WaitCursor;
@@ -113,6 +119,38 @@ namespace Scada.Admin.App.Forms.Deployment
             }*/
         }
 
+        /// <summary>
+        /// Tests a database connection.
+        /// </summary>
+        private bool TestDbConnection(string extensionCode, DbConnectionOptions connectionOptions, out string errMsg)
+        {
+            if (!appData.ExtensionHolder.GetExtension(extensionCode, out ExtensionLogic extensionLogic))
+            {
+                errMsg = AppPhrases.ExtensionNotFound;
+            }
+            else if (!extensionLogic.CanDeploy)
+            {
+                errMsg = AppPhrases.ExtensionCannotDeploy;
+            }
+            else
+            {
+                try
+                {
+                    if (extensionLogic.TestDbConnection(connectionOptions, out errMsg))
+                    {
+                        errMsg = "";
+                        return true;
+                    }
+                }
+                catch (Exception ex)
+                {
+                    errMsg = ex.Message;
+                }
+            }
+
+            return false;
+        }
+
 
         private void FrmInstanceProfile_Load(object sender, EventArgs e)
         {
@@ -138,7 +176,61 @@ namespace Scada.Admin.App.Forms.Deployment
 
         private void btnTest_Click(object sender, EventArgs e)
         {
-            TestConnection();
+            if (ctrlProfileSelector.SelectedProfile is DeploymentProfile deploymentProfile)
+            {
+                StringBuilder sbTestResult = new();
+                bool agentOK = false;
+                bool dbOK = false;
+
+                if (deploymentProfile.AgentEnabled || deploymentProfile.DbEnabled)
+                {
+                    // test Agent connection
+                    if (deploymentProfile.AgentEnabled)
+                    {
+                        if (TestAgentConnection(deploymentProfile.AgentConnectionOptions, out string errMsg))
+                        {
+                            sbTestResult.Append(AppPhrases.AgentConnectionOK);
+                            agentOK = true;
+                        }
+                        else
+                        {
+                            sbTestResult.AppendLine(AppPhrases.AgentConnectionError).Append(errMsg);
+                        }
+                    }
+                    else
+                    {
+                        agentOK = true;
+                    }
+
+                    // test database connection
+                    if (deploymentProfile.DbEnabled && agentOK)
+                    {
+                        if (TestDbConnection(deploymentProfile.Extension, deploymentProfile.DbConnectionOptions,
+                            out string errMsg))
+                        {
+                            sbTestResult.Append(AppPhrases.AgentConnectionOK);
+                            dbOK = true;
+                        }
+                        else
+                        {
+                            sbTestResult.AppendLine(AppPhrases.AgentConnectionError).Append(errMsg);
+                        }
+                    }
+                    else
+                    {
+                        dbOK = true;
+                    }
+                }
+                else
+                {
+                    sbTestResult.Append(AppPhrases.NoProfileConnections);
+                }
+
+                if (agentOK && dbOK)
+                    ScadaUiUtils.ShowInfo(sbTestResult.ToString());
+                else
+                    ScadaUiUtils.ShowError(sbTestResult.ToString());
+            }
         }
 
         private void btnOK_Click(object sender, EventArgs e)

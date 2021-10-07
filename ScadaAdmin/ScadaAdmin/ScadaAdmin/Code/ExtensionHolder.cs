@@ -42,6 +42,7 @@ namespace Scada.Admin.App.Code
     {
         private readonly ILog log;                        // the application log
         private readonly List<ExtensionLogic> extensions; // all the extensions
+        private readonly Dictionary<string, ExtensionLogic> extensionMap; // the extensions accessed by code
         private readonly object extensionLock;            // synchronizes access to the extensions
 
 
@@ -52,6 +53,7 @@ namespace Scada.Admin.App.Code
         {
             this.log = log ?? throw new ArgumentNullException(nameof(log));
             extensions = new List<ExtensionLogic>();
+            extensionMap = new Dictionary<string, ExtensionLogic>();
             extensionLock = new object();
         }
 
@@ -64,7 +66,19 @@ namespace Scada.Admin.App.Code
             if (extensionLogic == null)
                 throw new ArgumentNullException(nameof(extensionLogic));
 
+            if (extensionMap.ContainsKey(extensionLogic.Code))
+                throw new ScadaException("Extension already exists.");
+
             extensions.Add(extensionLogic);
+            extensionMap.Add(extensionLogic.Code, extensionLogic);
+        }
+
+        /// <summary>
+        /// Gets the extension by code.
+        /// </summary>
+        public bool GetExtension(string extensionCode, out ExtensionLogic extensionLogic)
+        {
+            return extensionMap.TryGetValue(extensionCode, out extensionLogic);
         }
 
         /// <summary>

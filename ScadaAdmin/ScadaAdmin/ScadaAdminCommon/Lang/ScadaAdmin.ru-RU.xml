@@ -216,6 +216,19 @@
   </Dictionary>
   <Dictionary key="Scada.Admin.App.Forms">
     <Phrase key="CorrectErrors">Пожалуйста, исправьте следующие ошибки:</Phrase>
+    <Phrase key="NoProfileConnections">Профиль не содержит соединений.</Phrase>
+    <Phrase key="ExtensionNotFound">Расширение не найдено.</Phrase>
+    <Phrase key="ExtensionCannotDeploy">Расширение не поддерживает развёртывание.</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Admin.App.Forms.Deployment.FrmInstanceProfile">
+    <Phrase key="this">Профиль развёртывания</Phrase>
+    <Phrase key="btnTest">Тест</Phrase>
+    <Phrase key="btnOK">OK</Phrase>
+    <Phrase key="btnClose">Закрыть</Phrase>
+    <Phrase key="AgentConnectionOK">Соединение с Агентом в норме.</Phrase>
+    <Phrase key="AgentConnectionError">Ошибка при соединении с Агентом:</Phrase>
+    <Phrase key="DbConnectionOK">Соединение с БД в норме.</Phrase>
+    <Phrase key="DbConnectionError">Ошибка при соединении с БД:</Phrase>
   </Dictionary>
   <Dictionary key="Scada.Admin.App.Forms.Deployment.FrmProfileEdit">
     <Phrase key="this">Редактирование профиля</Phrase>
@@ -230,12 +243,6 @@
     <Phrase key="btnOK">OK</Phrase>
     <Phrase key="btnCancel">Отмена</Phrase>
     <Phrase key="ProfileNameDuplicated">Профиль с таким наименованием уже существует.</Phrase>
-  </Dictionary>
-  <Dictionary key="Scada.Admin.App.Forms.Deployment.FrmInstanceProfile">
-    <Phrase key="this">Профиль развёртывания</Phrase>
-    <Phrase key="btnTest">Тест</Phrase>
-    <Phrase key="btnOK">OK</Phrase>
-    <Phrase key="btnClose">Закрыть</Phrase>
   </Dictionary>
   <Dictionary key="Scada.Admin.App.Forms.Tables.FrmBaseTable">
     <Phrase key="miProperties">Свойства</Phrase>

@@ -68,6 +68,15 @@ namespace Scada.Admin.App.Code
 
         // Scada.Admin.App.Forms
         public static string CorrectErrors { get; private set; }
+        public static string NoProfileConnections { get; private set; }
+        public static string ExtensionNotFound { get; private set; }
+        public static string ExtensionCannotDeploy { get; private set; }
+
+        // Scada.Admin.App.Forms.Deployment.FrmInstanceProfile
+        public static string AgentConnectionOK { get; private set; }
+        public static string AgentConnectionError { get; private set; }
+        public static string DbConnectionOK { get; private set; }
+        public static string DbConnectionError { get; private set; }
 
         // Scada.Admin.App.Forms.Deployment.FrmProfileEdit
         public static string ProfileNameDuplicated { get; private set; }
@@ -187,6 +196,15 @@ namespace Scada.Admin.App.Code
 
             dict = Locale.GetDictionary("Scada.Admin.App.Forms");
             CorrectErrors = dict["CorrectErrors"];
+            NoProfileConnections = dict["NoProfileConnections"];
+            ExtensionNotFound = dict["ExtensionNotFound"];
+            ExtensionCannotDeploy = dict["ExtensionCannotDeploy"];
+
+            dict = Locale.GetDictionary("Scada.Admin.App.Forms.Deployment.FrmInstanceProfile");
+            AgentConnectionOK = dict["AgentConnectionOK"];
+            AgentConnectionError = dict["AgentConnectionError"];
+            DbConnectionOK = dict["DbConnectionOK"];
+            DbConnectionError = dict["DbConnectionError"];
 
             dict = Locale.GetDictionary("Scada.Admin.App.Forms.Deployment.FrmProfileEdit");
             ProfileNameDuplicated = dict["ProfileNameDuplicated"];
