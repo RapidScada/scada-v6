@@ -216,6 +216,7 @@
   </Dictionary>
   <Dictionary key="Scada.Admin.App.Forms">
     <Phrase key="CorrectErrors">Please correct the following errors:</Phrase>
+    <Phrase key="SelectedColumn">Selected</Phrase>
     <Phrase key="NoProfileConnections">The profile does not contain connections.</Phrase>
     <Phrase key="ExtensionNotFound">Extension not found.</Phrase>
     <Phrase key="ExtensionCannotDeploy">Extension does not support deployment.</Phrase>

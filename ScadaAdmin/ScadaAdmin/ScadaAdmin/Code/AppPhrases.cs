@@ -68,6 +68,7 @@ namespace Scada.Admin.App.Code
 
         // Scada.Admin.App.Forms
         public static string CorrectErrors { get; private set; }
+        public static string SelectedColumn { get; private set; }
         public static string NoProfileConnections { get; private set; }
         public static string ExtensionNotFound { get; private set; }
         public static string ExtensionCannotDeploy { get; private set; }
@@ -196,6 +197,7 @@ namespace Scada.Admin.App.Code
 
             dict = Locale.GetDictionary("Scada.Admin.App.Forms");
             CorrectErrors = dict["CorrectErrors"];
+            SelectedColumn = dict["SelectedColumn"];
             NoProfileConnections = dict["NoProfileConnections"];
             ExtensionNotFound = dict["ExtensionNotFound"];
             ExtensionCannotDeploy = dict["ExtensionCannotDeploy"];
