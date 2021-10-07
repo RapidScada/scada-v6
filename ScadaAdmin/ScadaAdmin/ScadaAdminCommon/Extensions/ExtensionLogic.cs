@@ -23,6 +23,10 @@
  * Modified : 2021
  */
 
+using Scada.Admin.Deployment;
+using Scada.Admin.Project;
+using Scada.Config;
+using Scada.Lang;
 using System;
 using System.Collections.Generic;
 using System.Drawing;
@@ -42,6 +46,7 @@ namespace Scada.Admin.Extensions
         public ExtensionLogic(IAdminContext adminContext)
         {
             AdminContext = adminContext ?? throw new ArgumentNullException(nameof(adminContext));
+            CanDeploy = false;
         }
 
 
@@ -54,6 +59,11 @@ namespace Scada.Admin.Extensions
         /// Gets the extension code.
         /// </summary>
         public abstract string Code { get; }
+
+        /// <summary>
+        /// Gets a value indicating whether the extension supports project deployment.
+        /// </summary>
+        public bool CanDeploy { get; protected set; }
 
 
         /// <summary>
@@ -100,6 +110,33 @@ namespace Scada.Admin.Extensions
         public virtual Dictionary<string, Image> GetTreeViewImages()
         {
             return null;
+        }
+
+        /// <summary>
+        /// Tests a database connection.
+        /// </summary>
+        public virtual bool TestDbConnection(DbConnectionOptions connectionOptions, out string errMsg)
+        {
+            errMsg = CommonPhrases.DatabaseNotSupported;
+            return false;
+        }
+
+        /// <summary>
+        /// Downloads the configuration.
+        /// </summary>
+        public virtual bool DownloadConfig(ScadaProject scadaProject, ProjectInstance projectInstance,
+            DeploymentProfile deploymentProfile, ITransferControl transferControl)
+        {
+            throw new ScadaException(CommonPhrases.OperationNotSupported);
+        }
+
+        /// <summary>
+        /// Uploads the configuration.
+        /// </summary>
+        public virtual bool UploadConfig(ScadaProject scadaProject, ProjectInstance projectInstance,
+            DeploymentProfile deploymentProfile, ITransferControl transferControl)
+        {
+            throw new ScadaException(CommonPhrases.OperationNotSupported);
         }
     }
 }

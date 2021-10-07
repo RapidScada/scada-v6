@@ -19,6 +19,8 @@
     <Phrase key="WriteInfoError">Error writing application information to the file</Phrase>
     <Phrase key="ConnectionNotFound">Connection &quot;{0}&quot; not found.</Phrase>
     <Phrase key="ConnOptionsNotFound">Connection options not found.</Phrase>
+    <Phrase key="DatabaseNotSupported">Database not supported.</Phrase>
+    <Phrase key="OperationNotSupported">Operation not supported.</Phrase>
   </Dictionary>
   <Dictionary key="Scada.ConfigBase">
     <Phrase key="ArchiveTable">Archives</Phrase>

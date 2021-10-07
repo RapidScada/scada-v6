@@ -52,6 +52,8 @@ namespace Scada.Lang
         public static string WriteInfoError { get; private set; }
         public static string ConnectionNotFound { get; private set; }
         public static string ConnOptionsNotFound { get; private set; }
+        public static string DatabaseNotSupported { get; private set; }
+        public static string OperationNotSupported { get; private set; }
 
         // Scada.ConfigBase
         public static string ArchiveTable { get; private set; }
@@ -148,6 +150,8 @@ namespace Scada.Lang
             WriteInfoError = dict["WriteInfoError"];
             ConnectionNotFound = dict["ConnectionNotFound"];
             ConnOptionsNotFound = dict["ConnOptionsNotFound"];
+            DatabaseNotSupported = dict["DatabaseNotSupported"];
+            OperationNotSupported = dict["OperationNotSupported"];
 
             dict = Locale.GetDictionary("Scada.ConfigBase");
             ArchiveTable = dict["ArchiveTable"];
