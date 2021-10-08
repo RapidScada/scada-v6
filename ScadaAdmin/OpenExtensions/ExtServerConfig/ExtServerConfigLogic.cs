@@ -16,8 +16,8 @@ using System.Windows.Forms;
 namespace Scada.Admin.Extensions.ExtServerConfig
 {
     /// <summary>
-    /// Represents a plugin logic.
-    /// <para>Представляет логику плагина.</para>
+    /// Represents an extension logic.
+    /// <para>Представляет логику расширения.</para>
     /// </summary>
     public class ExtServerConfigLogic : ExtensionLogic
     {
