@@ -93,65 +93,6 @@ namespace Scada.Admin.App.Forms.Deployment
                 appData.ErrLog.HandleError(errMsg);
         }
 
-        /// <summary>
-        /// Uploads the project configuration.
-        /// </summary>
-        private bool UploadConfig(DeploymentProfile deploymentProfile)
-        {
-            return false;
-            /*string configFileName = GetTempFileName();
-
-            try
-            {
-                Cursor = Cursors.WaitCursor;
-                DateTime t0 = DateTime.UtcNow;
-
-                // prepare an archive
-                ImportExport importExport = new ImportExport();
-                importExport.ExportToArchive(configFileName, project, projectInstance, profile.UploadSettings);
-                FileInfo configFileInfo = new FileInfo(configFileName);
-                long configFileSize = configFileInfo.Length;
-
-                // upload the configuration
-                ConnectionSettings connSettings = profile.ConnectionSettings.Clone();
-                connSettings.ScadaInstance = projectInstance.Name;
-                IAgentClient agentClient = new AgentWcfClient(connSettings);
-                agentClient.UploadConfig(configFileName, profile.UploadSettings.ToConfigOpions());
-
-                // restart the services
-                if (profile.UploadSettings.RestartServer &&
-                    (profile.UploadSettings.IncludeBase || profile.UploadSettings.IncludeServer))
-                {
-                    agentClient.ControlService(ServiceApp.Server, ServiceCommand.Restart);
-                }
-
-                if (profile.UploadSettings.RestartComm &&
-                    (profile.UploadSettings.IncludeBase || profile.UploadSettings.IncludeComm))
-                {
-                    agentClient.ControlService(ServiceApp.Comm, ServiceCommand.Restart);
-                }
-
-                // show result
-                Cursor = Cursors.Default;
-                ScadaUiUtils.ShowInfo(string.Format(AppPhrases.UploadConfigComplete,
-                    Math.Round((DateTime.UtcNow - t0).TotalSeconds), configFileSize));
-                return true;
-            }
-            catch (Exception ex)
-            {
-                Cursor = Cursors.Default;
-                appData.ProcError(ex, AppPhrases.UploadConfigError);
-                return false;
-            }
-            finally
-            {
-                // delete temporary file
-                try { File.Delete(configFileName); }
-                catch { }
-            }*/
-        }
-
-
         private void FrmUploadConfig_Load(object sender, EventArgs e)
         {
             FormTranslator.Translate(this, GetType().FullName);
@@ -211,8 +152,9 @@ namespace Scada.Admin.App.Forms.Deployment
                 // upload
                 projectInstance.DeploymentProfile = deploymentProfile.Name;
                 ProfileChanged = initialProfileName != deploymentProfile.Name;
+                FrmTransfer frmTransfer = new(appData, project, projectInstance, deploymentProfile);
 
-                if (UploadConfig(deploymentProfile))
+                if (frmTransfer.UploadConfig())
                     DialogResult = DialogResult.OK;
             }
         }

@@ -76,6 +76,11 @@ namespace Scada.Admin.Deployment
         public bool IncludeWeb { get; set; }
 
         /// <summary>
+        /// Gets a value indicating whether to transfer at least a part of instance configuration.
+        /// </summary>
+        public bool IncludeInstance => IncludeServer || IncludeComm || IncludeWeb;
+
+        /// <summary>
         /// Gets or sets a value indicating whether to ignore registration keys.
         /// </summary>
         public bool IgnoreRegKeys { get; set; }
