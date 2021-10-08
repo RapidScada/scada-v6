@@ -23,6 +23,8 @@
  * Modified : 2021
  */
 
+using System.Threading;
+
 namespace Scada.Admin.Deployment
 {
     /// <summary>
@@ -32,14 +34,15 @@ namespace Scada.Admin.Deployment
     public interface ITransferControl
     {
         /// <summary>
-        /// Gets a value indicating whether the transfer is canceled by a user.
+        /// Gets the token notifying that operations should be canceled.
         /// </summary>
-        bool IsCanceled { get; }
+        CancellationToken CancellationToken { get; }
+
 
         /// <summary>
-        /// Writes the message to a terminal.
+        /// Enables or disables the cancel function.
         /// </summary>
-        void WriteMessage(string text);
+        void SetCancelEnabled(bool enabled);
 
         /// <summary>
         /// Sets the transfer progress in percent.
@@ -47,8 +50,8 @@ namespace Scada.Admin.Deployment
         void SetProgress(double percent);
 
         /// <summary>
-        /// Sets the transfer result.
+        /// Writes the message to a terminal.
         /// </summary>
-        void SetResult(bool successful);
+        void WriteMessage(string text);
     }
 }

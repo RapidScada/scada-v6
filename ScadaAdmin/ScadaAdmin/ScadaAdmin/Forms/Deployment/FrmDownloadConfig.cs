@@ -41,7 +41,7 @@ namespace Scada.Admin.App.Forms.Deployment
     {
         private readonly AppData appData;                   // the common data of the application
         private readonly ScadaProject project;              // the project under development
-        private readonly ProjectInstance projectInstance;   // the affected instance
+        private readonly ProjectInstance instance;          // the affected instance
         private readonly string initialProfileName;         // the initial instance profile name
         private ConnectionOptions initialConnectionOptions; // the copy of the initial Agent connection options
         private bool transferOptionsModified;               // the selected upload options were modified
@@ -58,13 +58,13 @@ namespace Scada.Admin.App.Forms.Deployment
         /// <summary>
         /// Initializes a new instance of the class.
         /// </summary>
-        public FrmDownloadConfig(AppData appData, ScadaProject project, ProjectInstance projectInstance)
+        public FrmDownloadConfig(AppData appData, ScadaProject project, ProjectInstance instance)
             : this()
         {
             this.appData = appData ?? throw new ArgumentNullException(nameof(appData));
             this.project = project ?? throw new ArgumentNullException(nameof(project));
-            this.projectInstance = projectInstance ?? throw new ArgumentNullException(nameof(projectInstance));
-            initialProfileName = projectInstance.DeploymentProfile;
+            this.instance = instance ?? throw new ArgumentNullException(nameof(instance));
+            initialProfileName = instance.DeploymentProfile;
             initialConnectionOptions = null;
             transferOptionsModified = false;
 
@@ -118,7 +118,7 @@ namespace Scada.Admin.App.Forms.Deployment
             FormTranslator.Translate(ctrlTransferOptions, ctrlTransferOptions.GetType().FullName);
 
             ctrlTransferOptions.Init(null, false);
-            ctrlProfileSelector.Init(appData, project.DeploymentConfig, projectInstance);
+            ctrlProfileSelector.Init(appData, project.DeploymentConfig, instance);
 
             if (ctrlProfileSelector.SelectedProfile?.AgentConnectionOptions is ConnectionOptions connectionOptions)
                 initialConnectionOptions = connectionOptions.DeepClone();
@@ -157,23 +157,23 @@ namespace Scada.Admin.App.Forms.Deployment
         private void btnDownload_Click(object sender, EventArgs e)
         {
             // validate options and download
-            if (ctrlProfileSelector.SelectedProfile is DeploymentProfile deploymentProfile &&
+            if (ctrlProfileSelector.SelectedProfile is DeploymentProfile profile &&
                 ctrlTransferOptions.ValidateControls())
             {
                 // save changed transfer options
                 if (transferOptionsModified)
                 {
-                    ctrlTransferOptions.ControlsToOptions(deploymentProfile.UploadOptions);
+                    ctrlTransferOptions.ControlsToOptions(profile.UploadOptions);
                     SaveDeploymentConfig();
                 }
 
                 // download
-                projectInstance.DeploymentProfile = deploymentProfile.Name;
-                ProfileChanged = initialProfileName != deploymentProfile.Name;
-                BaseModified = deploymentProfile.UploadOptions.IncludeBase;
-                ViewModified = deploymentProfile.UploadOptions.IncludeView;
-                InstanceModified = deploymentProfile.UploadOptions.IncludeInstance;
-                FrmTransfer frmTransfer = new(appData, project, projectInstance, deploymentProfile);
+                instance.DeploymentProfile = profile.Name;
+                ProfileChanged = initialProfileName != profile.Name;
+                BaseModified = profile.UploadOptions.IncludeBase;
+                ViewModified = profile.UploadOptions.IncludeView;
+                InstanceModified = profile.UploadOptions.IncludeInstance;
+                FrmTransfer frmTransfer = new(appData, project, instance, profile);
 
                 if (frmTransfer.DownloadConfig())
                     DialogResult = DialogResult.OK;

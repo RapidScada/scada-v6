@@ -44,7 +44,7 @@ namespace Scada.Admin.App.Forms.Deployment
     {
         private readonly AppData appData;                   // the common data of the application
         private readonly ScadaProject project;              // the project under development
-        private readonly ProjectInstance projectInstance;   // the affected instance
+        private readonly ProjectInstance instance;          // the affected instance
         private ConnectionOptions initialConnectionOptions; // the copy of the initial Agent connection options
 
 
@@ -59,12 +59,12 @@ namespace Scada.Admin.App.Forms.Deployment
         /// <summary>
         /// Initializes a new instance of the class.
         /// </summary>
-        public FrmInstanceProfile(AppData appData, ScadaProject project, ProjectInstance projectInstance)
+        public FrmInstanceProfile(AppData appData, ScadaProject project, ProjectInstance instance)
             : this()
         {
             this.appData = appData ?? throw new ArgumentNullException(nameof(appData));
             this.project = project ?? throw new ArgumentNullException(nameof(project));
-            this.projectInstance = projectInstance ?? throw new ArgumentNullException(nameof(projectInstance));
+            this.instance = instance ?? throw new ArgumentNullException(nameof(instance));
             initialConnectionOptions = null;
 
             ProfileChanged = false;
@@ -125,11 +125,11 @@ namespace Scada.Admin.App.Forms.Deployment
         {
             if (!appData.ExtensionHolder.GetExtension(extensionCode, out ExtensionLogic extensionLogic))
             {
-                errMsg = AppPhrases.ExtensionNotFound;
+                errMsg = string.Format(AppPhrases.ExtensionNotFound, extensionCode);
             }
             else if (!extensionLogic.CanDeploy)
             {
-                errMsg = AppPhrases.ExtensionCannotDeploy;
+                errMsg = string.Format(AppPhrases.ExtensionCannotDeploy, extensionCode);
             }
             else
             {
@@ -156,7 +156,7 @@ namespace Scada.Admin.App.Forms.Deployment
             FormTranslator.Translate(this, GetType().FullName);
             FormTranslator.Translate(ctrlProfileSelector, ctrlProfileSelector.GetType().FullName);
 
-            ctrlProfileSelector.Init(appData, project.DeploymentConfig, projectInstance);
+            ctrlProfileSelector.Init(appData, project.DeploymentConfig, instance);
 
             if (ctrlProfileSelector.SelectedProfile?.AgentConnectionOptions is ConnectionOptions connectionOptions)
                 initialConnectionOptions = connectionOptions.DeepClone();
@@ -236,8 +236,8 @@ namespace Scada.Admin.App.Forms.Deployment
         {
             // set instance profile
             string selectedProfileName = ctrlProfileSelector.SelectedProfile?.Name ?? "";
-            ProfileChanged = projectInstance.DeploymentProfile != selectedProfileName;
-            projectInstance.DeploymentProfile = selectedProfileName;
+            ProfileChanged = instance.DeploymentProfile != selectedProfileName;
+            instance.DeploymentProfile = selectedProfileName;
             DialogResult = DialogResult.OK;
         }
     }

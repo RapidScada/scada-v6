@@ -236,8 +236,8 @@
     <Phrase key="CorrectErrors">Пожалуйста, исправьте следующие ошибки:</Phrase>
     <Phrase key="SelectedColumn">Выбор</Phrase>
     <Phrase key="NoProfileConnections">Профиль не содержит соединений.</Phrase>
-    <Phrase key="ExtensionNotFound">Расширение не найдено.</Phrase>
-    <Phrase key="ExtensionCannotDeploy">Расширение не поддерживает развёртывание.</Phrase>
+    <Phrase key="ExtensionNotFound">Расширение &quot;{0}&quot; не найдено.</Phrase>
+    <Phrase key="ExtensionCannotDeploy">Расширение &quot;{0}&quot; не поддерживает развёртывание.</Phrase>
   </Dictionary>
   <Dictionary key="Scada.Admin.App.Forms.Deployment.FrmDownloadConfig">
     <Phrase key="this">Скачивание конфигурации</Phrase>
@@ -273,6 +273,19 @@
     <Phrase key="btnOK">OK</Phrase>
     <Phrase key="btnCancel">Отмена</Phrase>
     <Phrase key="ProfileNameDuplicated">Профиль с таким наименованием уже существует.</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Admin.App.Forms.Deployment.FrmTransfer">
+    <Phrase key="btnBreak">Прервать</Phrase>
+    <Phrase key="btnClose">Закрыть</Phrase>
+    <Phrase key="DownloadTitle">Скачивание конфигурации</Phrase>
+    <Phrase key="DownloadProgress">Скачивание выполняется...</Phrase>
+    <Phrase key="DownloadError">Ошибка при скачивании конфигурации</Phrase>
+    <Phrase key="UploadTitle">Передача конфигурации</Phrase>
+    <Phrase key="UploadProgress">Передача выполняется...</Phrase>
+    <Phrase key="UploadError">Ошибка при передаче конфигурации</Phrase>
+    <Phrase key="OperationCompleted">Операция завершена успешно за {0} с.</Phrase>
+    <Phrase key="OperationCanceled">Операция отменена пользователем.</Phrase>
+    <Phrase key="OperationError">Ошибка операции.</Phrase>
   </Dictionary>
   <Dictionary key="Scada.Admin.App.Forms.Deployment.FrmUploadConfig">
     <Phrase key="this">Передача конфигурации</Phrase>

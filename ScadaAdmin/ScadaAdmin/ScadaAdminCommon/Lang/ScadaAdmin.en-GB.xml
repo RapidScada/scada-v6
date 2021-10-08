@@ -236,8 +236,8 @@
     <Phrase key="CorrectErrors">Please correct the following errors:</Phrase>
     <Phrase key="SelectedColumn">Selected</Phrase>
     <Phrase key="NoProfileConnections">The profile does not contain connections.</Phrase>
-    <Phrase key="ExtensionNotFound">Extension not found.</Phrase>
-    <Phrase key="ExtensionCannotDeploy">Extension does not support deployment.</Phrase>
+    <Phrase key="ExtensionNotFound">Extension &quot;{0}&quot; not found.</Phrase>
+    <Phrase key="ExtensionCannotDeploy">Extension &quot;{0}&quot; does not support deployment.</Phrase>
   </Dictionary>
   <Dictionary key="Scada.Admin.App.Forms.Deployment.FrmDownloadConfig">
     <Phrase key="this">Download Configuration</Phrase>
@@ -273,6 +273,19 @@
     <Phrase key="btnOK">OK</Phrase>
     <Phrase key="btnCancel">Cancel</Phrase>
     <Phrase key="ProfileNameDuplicated">A profile with this name already exists.</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Admin.App.Forms.Deployment.FrmTransfer">
+    <Phrase key="btnBreak">Break</Phrase>
+    <Phrase key="btnClose">Close</Phrase>
+    <Phrase key="DownloadTitle">Download Configuration</Phrase>
+    <Phrase key="DownloadProgress">Downloading in progress...</Phrase>
+    <Phrase key="DownloadError">Error downloading configuration</Phrase>
+    <Phrase key="UploadTitle">Upload Configuration</Phrase>
+    <Phrase key="UploadProgress">Uploading in progress...</Phrase>
+    <Phrase key="UploadError">Error uploading configuration</Phrase>
+    <Phrase key="OperationCompleted">Operation completed successfully in {0} sec.</Phrase>
+    <Phrase key="OperationCanceled">Operation canceled by user.</Phrase>
+    <Phrase key="OperationError">Operation error.</Phrase>
   </Dictionary>
   <Dictionary key="Scada.Admin.App.Forms.Deployment.FrmUploadConfig">
     <Phrase key="this">Upload Configuration</Phrase>

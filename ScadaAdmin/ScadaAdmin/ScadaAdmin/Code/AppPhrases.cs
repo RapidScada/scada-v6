@@ -86,6 +86,17 @@ namespace Scada.Admin.App.Code
         // Scada.Admin.App.Forms.Deployment.FrmProfileEdit
         public static string ProfileNameDuplicated { get; private set; }
 
+        // Scada.Admin.App.Forms.Deployment.FrmTransfer
+        public static string DownloadTitle { get; private set; }
+        public static string DownloadProgress { get; private set; }
+        public static string DownloadError { get; private set; }
+        public static string UploadTitle { get; private set; }
+        public static string UploadProgress { get; private set; }
+        public static string UploadError { get; private set; }
+        public static string OperationCompleted { get; private set; }
+        public static string OperationCanceled { get; private set; }
+        public static string OperationError { get; private set; }
+
         // Scada.Admin.App.Forms.Tables.FrmBaseTable
         public static string GridViewError { get; private set; }
         public static string ColumnLabel { get; private set; }
@@ -218,6 +229,17 @@ namespace Scada.Admin.App.Code
 
             dict = Locale.GetDictionary("Scada.Admin.App.Forms.Deployment.FrmProfileEdit");
             ProfileNameDuplicated = dict["ProfileNameDuplicated"];
+
+            dict = Locale.GetDictionary("Scada.Admin.App.Forms.Deployment.FrmTransfer");
+            DownloadTitle = dict["DownloadTitle"];
+            DownloadProgress = dict["DownloadProgress"];
+            DownloadError = dict["DownloadError"];
+            UploadTitle = dict["UploadTitle"];
+            UploadProgress = dict["UploadProgress"];
+            UploadError = dict["UploadError"];
+            OperationCompleted = dict["OperationCompleted"];
+            OperationCanceled = dict["OperationCanceled"];
+            OperationError = dict["OperationError"];
 
             dict = Locale.GetDictionary("Scada.Admin.App.Forms.Tables.FrmBaseTable");
             GridViewError = dict["GridViewError"];

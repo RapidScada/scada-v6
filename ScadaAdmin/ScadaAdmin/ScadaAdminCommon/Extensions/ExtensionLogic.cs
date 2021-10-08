@@ -124,8 +124,8 @@ namespace Scada.Admin.Extensions
         /// <summary>
         /// Downloads the configuration.
         /// </summary>
-        public virtual bool DownloadConfig(ScadaProject scadaProject, ProjectInstance projectInstance,
-            DeploymentProfile deploymentProfile, ITransferControl transferControl)
+        public virtual bool DownloadConfig(ScadaProject project, ProjectInstance instance, DeploymentProfile profile,
+            ITransferControl transferControl)
         {
             throw new ScadaException(CommonPhrases.OperationNotSupported);
         }
@@ -133,8 +133,8 @@ namespace Scada.Admin.Extensions
         /// <summary>
         /// Uploads the configuration.
         /// </summary>
-        public virtual bool UploadConfig(ScadaProject scadaProject, ProjectInstance projectInstance,
-            DeploymentProfile deploymentProfile, ITransferControl transferControl)
+        public virtual bool UploadConfig(ScadaProject project, ProjectInstance instance, DeploymentProfile profile,
+            ITransferControl transferControl)
         {
             throw new ScadaException(CommonPhrases.OperationNotSupported);
         }

@@ -137,7 +137,8 @@ namespace Scada.Admin.App.Code
                 {
                     try
                     {
-                        items.AddRange(extensionLogic.GetMainMenuItems());
+                        if (extensionLogic.GetMainMenuItems() is ToolStripMenuItem[] menuItems)
+                            items.AddRange(menuItems);
                     }
                     catch (Exception ex)
                     {
@@ -163,7 +164,8 @@ namespace Scada.Admin.App.Code
                 {
                     try
                     {
-                        items.AddRange(extensionLogic.GetToobarButtons());
+                        if (extensionLogic.GetToobarButtons() is ToolStripButton[] buttons)
+                            items.AddRange(buttons);
                     }
                     catch (Exception ex)
                     {
@@ -215,10 +217,13 @@ namespace Scada.Admin.App.Code
                 {
                     try
                     {
-                        foreach (KeyValuePair<string, Image> pair in extensionLogic.GetTreeViewImages())
+                        if (extensionLogic.GetTreeViewImages() is Dictionary<string, Image> images)
                         {
-                            if (!items.ContainsKey(pair.Key))
-                                items.Add(pair.Key, pair.Value);
+                            foreach (KeyValuePair<string, Image> pair in images)
+                            {
+                                if (!items.ContainsKey(pair.Key))
+                                    items.Add(pair.Key, pair.Value);
+                            }
                         }
                     }
                     catch (Exception ex)
