@@ -30,7 +30,7 @@
         {
             this.btnUpload = new System.Windows.Forms.Button();
             this.btnClose = new System.Windows.Forms.Button();
-            this.ctrlTransferSettings = new Scada.Admin.App.Controls.Deployment.CtrlTransferOptions();
+            this.ctrlTransferOptions = new Scada.Admin.App.Controls.Deployment.CtrlTransferOptions();
             this.ctrlProfileSelector = new Scada.Admin.App.Controls.Deployment.CtrlProfileSelector();
             this.SuspendLayout();
             // 
@@ -54,13 +54,13 @@
             this.btnClose.Text = "Close";
             this.btnClose.UseVisualStyleBackColor = true;
             // 
-            // ctrlTransferSettings
+            // ctrlTransferOptions
             // 
-            this.ctrlTransferSettings.Location = new System.Drawing.Point(12, 131);
-            this.ctrlTransferSettings.Name = "ctrlTransferSettings";
-            this.ctrlTransferSettings.Size = new System.Drawing.Size(469, 273);
-            this.ctrlTransferSettings.TabIndex = 1;
-            this.ctrlTransferSettings.OptionsChanged += new System.EventHandler(this.ctrlTransferSettings_SettingsChanged);
+            this.ctrlTransferOptions.Location = new System.Drawing.Point(12, 131);
+            this.ctrlTransferOptions.Name = "ctrlTransferOptions";
+            this.ctrlTransferOptions.Size = new System.Drawing.Size(469, 273);
+            this.ctrlTransferOptions.TabIndex = 1;
+            this.ctrlTransferOptions.OptionsChanged += new System.EventHandler(this.ctrlTransferOptions_OptionsChanged);
             // 
             // ctrlProfileSelector
             // 
@@ -76,7 +76,7 @@
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.CancelButton = this.btnClose;
             this.ClientSize = new System.Drawing.Size(493, 445);
-            this.Controls.Add(this.ctrlTransferSettings);
+            this.Controls.Add(this.ctrlTransferOptions);
             this.Controls.Add(this.ctrlProfileSelector);
             this.Controls.Add(this.btnClose);
             this.Controls.Add(this.btnUpload);
@@ -97,6 +97,6 @@
         private System.Windows.Forms.Button btnUpload;
         private System.Windows.Forms.Button btnClose;
         private Controls.Deployment.CtrlProfileSelector ctrlProfileSelector;
-        private Controls.Deployment.CtrlTransferOptions ctrlTransferSettings;
+        private Controls.Deployment.CtrlTransferOptions ctrlTransferOptions;
     }
 }

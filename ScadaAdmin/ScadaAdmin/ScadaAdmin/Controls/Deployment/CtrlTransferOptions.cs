@@ -70,6 +70,19 @@ namespace Scada.Admin.App.Controls.Deployment
 
 
         /// <summary>
+        /// Displays or hides the controls that represent upload options.
+        /// </summary>
+        private void SetUploadOptionsVisible(bool visible)
+        {
+            chkRestartServer.Visible = visible;
+            chkRestartComm.Visible = visible;
+            chkRestartWeb.Visible = visible;
+            lblObjFilter.Visible = visible;
+            txtObjFilter.Visible = visible;
+            btnSelectObj.Visible = visible;
+        }
+
+        /// <summary>
         /// Raises a OptionsChanged event.
         /// </summary>
         private void OnOptionsChanged()
@@ -80,9 +93,10 @@ namespace Scada.Admin.App.Controls.Deployment
         /// <summary>
         /// Initializes the control.
         /// </summary>
-        public void Init(ConfigBase configBase)
+        public void Init(ConfigBase configBase, bool upload)
         {
             this.configBase = configBase;
+            SetUploadOptionsVisible(upload);
         }
 
         /// <summary>
@@ -124,26 +138,10 @@ namespace Scada.Admin.App.Controls.Deployment
 
             if (transferOptions is UploadOptions uploadOptions)
             {
-                chkRestartServer.Visible = true;
-                chkRestartComm.Visible = true;
-                chkRestartWeb.Visible = true;
-                lblObjFilter.Visible = true;
-                txtObjFilter.Visible = true;
-                btnSelectObj.Visible = true;
-
                 chkRestartServer.Checked = uploadOptions.RestartServer;
                 chkRestartComm.Checked = uploadOptions.RestartComm;
                 chkRestartWeb.Checked = uploadOptions.RestartWeb;
                 txtObjFilter.Text = ScadaUtils.ToShortString(uploadOptions.ObjectFilter);
-            }
-            else
-            {
-                chkRestartServer.Visible = false;
-                chkRestartComm.Visible = false;
-                chkRestartWeb.Visible = false;
-                lblObjFilter.Visible = false;
-                txtObjFilter.Visible = false;
-                btnSelectObj.Visible = false;
             }
 
             changing = false;
@@ -206,11 +204,14 @@ namespace Scada.Admin.App.Controls.Deployment
         private void btnSelectObj_Click(object sender, EventArgs e)
         {
             // show a dialog to select objects
-            ScadaUtils.ParseRange(txtObjFilter.Text, true, false, out IList<int> objNums);
-            FrmObjSelect frmObjSelect = new(configBase) { ObjNums = objNums };
+            if (configBase != null)
+            {
+                ScadaUtils.ParseRange(txtObjFilter.Text, true, false, out IList<int> objNums);
+                FrmObjSelect frmObjSelect = new(configBase) { ObjNums = objNums };
 
-            if (frmObjSelect.ShowDialog() == DialogResult.OK)
-                txtObjFilter.Text = ScadaUtils.ToShortString(frmObjSelect.ObjNums);
+                if (frmObjSelect.ShowDialog() == DialogResult.OK)
+                    txtObjFilter.Text = ScadaUtils.ToShortString(frmObjSelect.ObjNums);
+            }
         }
     }
 }

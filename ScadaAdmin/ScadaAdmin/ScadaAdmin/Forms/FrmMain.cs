@@ -768,11 +768,28 @@ namespace Scada.Admin.App.Forms
         }
 
         /// <summary>
+        /// Handles the deployment changes.
+        /// </summary>
+        private void HandleDeploymentChanges(IDeploymentForm deploymentForm, LiveInstance liveInstance)
+        {
+            if (deploymentForm.ProfileChanged)
+            {
+                UpdateAgentClient(liveInstance);
+                SaveProject();
+                ShowStatus(liveInstance.ProjectInstance);
+            }
+            else if (deploymentForm.ConnectionModified)
+            {
+                UpdateAgentClient(liveInstance);
+            }
+        }
+
+        /// <summary>
         /// Loads the deployment configuration of the current project.
         /// </summary>
         private void LoadDeploymentConfig()
         {
-            if (!Project.DeploymentConfig.Loaded &&  File.Exists(Project.DeploymentConfig.FileName) && 
+            if (!Project.DeploymentConfig.Loaded && File.Exists(Project.DeploymentConfig.FileName) && 
                 !Project.DeploymentConfig.Load(out string errMsg))
             {
                 Log.HandleError(errMsg);
@@ -1289,8 +1306,7 @@ namespace Scada.Admin.App.Forms
         private void miDeployInstanceProfile_Click(object sender, EventArgs e)
         {
             // select instance profile
-            if (FindInstanceForDeploy(tvExplorer.SelectedNode, 
-                out TreeNode instanceNode, out LiveInstance liveInstance))
+            if (FindInstanceForDeploy(tvExplorer.SelectedNode, out _, out LiveInstance liveInstance))
             {
                 // load deployment configuration
                 LoadDeploymentConfig();
@@ -1300,16 +1316,7 @@ namespace Scada.Admin.App.Forms
                 frmInstanceProfile.ShowDialog();
 
                 // take changes into account
-                if (frmInstanceProfile.ProfileChanged)
-                {
-                    UpdateAgentClient(liveInstance);
-                    SaveProject();
-                    ShowStatus(liveInstance.ProjectInstance);
-                }
-                else if (frmInstanceProfile.ConnectionModified)
-                {
-                    UpdateAgentClient(liveInstance);
-                }
+                HandleDeploymentChanges(frmInstanceProfile, liveInstance);
             }
         }
 
@@ -1328,16 +1335,7 @@ namespace Scada.Admin.App.Forms
                 frmDownloadConfig.ShowDialog();
 
                 // take changes into account
-                /*if (frmDownloadConfig.ProfileChanged)
-                {
-                    UpdateAgentClient(liveInstance);
-                    SaveProject();
-                    ShowStatus(liveInstance.ProjectInstance);
-                }
-                else if (frmDownloadConfig.ConnSettingsModified)
-                {
-                    UpdateAgentClient(liveInstance);
-                }
+                HandleDeploymentChanges(frmDownloadConfig, liveInstance);
 
                 if (frmDownloadConfig.BaseModified)
                 {
@@ -1345,7 +1343,7 @@ namespace Scada.Admin.App.Forms
                     SaveConfigBase();
                 }
 
-                if (frmDownloadConfig.InterfaceModified && 
+                if (frmDownloadConfig.ViewModified && 
                     TryGetFilePath(explorerBuilder.ViewsNode, out string path))
                 {
                     CloseChildForms(explorerBuilder.ViewsNode);
@@ -1356,17 +1354,16 @@ namespace Scada.Admin.App.Forms
                 {
                     CloseChildForms(instanceNode);
                     RefreshInstanceNode(instanceNode, liveInstance);
-                }*/
+                }
             }
         }
 
         private void miDeployUploadConfig_Click(object sender, EventArgs e)
         {
             // upload configuration
-            if (FindInstanceForDeploy(tvExplorer.SelectedNode, 
-                out TreeNode instanceNode, out LiveInstance liveInstance))
+            if (FindInstanceForDeploy(tvExplorer.SelectedNode, out _, out LiveInstance liveInstance))
             {
-                // save all changes and load the deployment configuration
+                // save all changes and load deployment configuration
                 SaveAll();
                 LoadDeploymentConfig();
 
@@ -1375,44 +1372,24 @@ namespace Scada.Admin.App.Forms
                 frmUploadConfig.ShowDialog();
 
                 // take changes into account
-                /*if (frmUploadConfig.ProfileChanged)
-                {
-                    UpdateAgentClient(liveInstance);
-                    SaveProject();
-                    ShowStatus(liveInstance.ProjectInstance);
-                }
-                else if (frmUploadConfig.ConnSettingsModified)
-                {
-                    UpdateAgentClient(liveInstance);
-                }*/
+                HandleDeploymentChanges(frmUploadConfig, liveInstance);
             }
         }
 
         private void miDeployInstanceStatus_Click(object sender, EventArgs e)
         {
             // display instance status
-            if (FindInstanceForDeploy(tvExplorer.SelectedNode,
-                out TreeNode instanceNode, out LiveInstance liveInstance))
+            if (FindInstanceForDeploy(tvExplorer.SelectedNode, out _, out LiveInstance liveInstance))
             {
                 // load deployment settings
                 LoadDeploymentConfig();
 
-                // open an instance status form
-                /*FrmInstanceStatus frmInstanceStatus = 
-                    new FrmInstanceStatus(appData, project.DeploymentSettings, liveInstance.ProjectInstance);
+                // open instance status form
+                /*FrmInstanceStatus frmInstanceStatus = new(appData, Project, liveInstance.ProjectInstance);
                 frmInstanceStatus.ShowDialog();
 
-                // take the changes into account
-                if (frmInstanceStatus.ProfileChanged)
-                {
-                    UpdateAgentClient(liveInstance);
-                    SaveProject();
-                    ShowStatus(liveInstance.ProjectInstance);
-                }
-                else if (frmInstanceStatus.ConnSettingsModified)
-                {
-                    UpdateAgentClient(liveInstance);
-                }*/
+                // take changes into account
+                HandleDeploymentChanges(frmInstanceStatus, liveInstance);*/
             }
         }
 

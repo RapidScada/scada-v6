@@ -50,9 +50,10 @@ namespace Scada.Admin.App.Forms.Deployment
             {
                 ObjNum = obj.ObjNum;
                 Name = obj.Name;
+                Code = obj.Code;
+                ParentObjNum = obj.ParentObjNum;
                 Descr = obj.Descr;
             }
-
             public bool Selected { get; set; }
         }
 

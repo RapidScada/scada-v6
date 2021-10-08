@@ -29,7 +29,6 @@ using Scada.Admin.Project;
 using Scada.Client;
 using Scada.Forms;
 using System;
-using System.IO;
 using System.Windows.Forms;
 
 namespace Scada.Admin.App.Forms.Deployment
@@ -38,14 +37,14 @@ namespace Scada.Admin.App.Forms.Deployment
     /// Represents a form for downloading configuration.
     /// <para>Представляет форму для скачивания конфигурации.</para>
     /// </summary>
-    public partial class FrmDownloadConfig : Form
+    public partial class FrmDownloadConfig : Form, IDeploymentForm
     {
-        private readonly AppData appData;                 // the common data of the application
-        private readonly ScadaProject project;            // the project under development
-        private readonly ProjectInstance projectInstance; // the affected instance
-        private DeploymentProfile initialProfile;         // the initial deployment profile
-        //private ConnectionOptions initialConnSettings;  // copy of the initial connection settings
-        private bool downloadSettingsModified;            // the selected download settings are modified
+        private readonly AppData appData;                   // the common data of the application
+        private readonly ScadaProject project;              // the project under development
+        private readonly ProjectInstance projectInstance;   // the affected instance
+        private readonly string initialProfileName;         // the initial instance profile name
+        private ConnectionOptions initialConnectionOptions; // the copy of the initial Agent connection options
+        private bool transferOptionsModified;               // the selected upload options were modified
 
 
         /// <summary>
@@ -65,35 +64,44 @@ namespace Scada.Admin.App.Forms.Deployment
             this.appData = appData ?? throw new ArgumentNullException(nameof(appData));
             this.project = project ?? throw new ArgumentNullException(nameof(project));
             this.projectInstance = projectInstance ?? throw new ArgumentNullException(nameof(projectInstance));
+            initialProfileName = projectInstance.DeploymentProfile;
+            initialConnectionOptions = null;
+            transferOptionsModified = false;
+
+            ProfileChanged = false;
+            ConnectionModified = false;
+            BaseModified = false;
+            ViewModified = false;
+            InstanceModified = false;
         }
 
 
         /// <summary>
         /// Gets a value indicating whether the selected profile changed.
         /// </summary>
-        public bool ProfileChanged { get; protected set; }
+        public bool ProfileChanged { get; private set; }
 
         /// <summary>
-        /// Gets a value indicating whether the connection settings were modified.
+        /// Gets a value indicating whether the Agent connection options were modified.
         /// </summary>
-        public bool ConnSettingsModified { get; protected set; }
+        public bool ConnectionModified { get; private set; }
 
         /// <summary>
         /// Gets a value indicating whether the configuration database was modified.
         /// </summary>
-        public bool BaseModified { get; protected set; }
+        public bool BaseModified { get; private set; }
 
         /// <summary>
-        /// Gets a value indicating whether the interface files were modified.
+        /// Gets a value indicating whether the views were modified.
         /// </summary>
-        public bool InterfaceModified { get; protected set; }
+        public bool ViewModified { get; private set; }
 
         /// <summary>
-        /// Gets a value indicating whether the instance was modified.
+        /// Gets a value indicating whether the instance was modified
         /// </summary>
-        public bool InstanceModified { get; protected set; }
-        
-        
+        public bool InstanceModified { get; private set; }
+
+
         /// <summary>
         /// Saves the deployment configuration.
         /// </summary>
@@ -104,18 +112,9 @@ namespace Scada.Admin.App.Forms.Deployment
         }
 
         /// <summary>
-        /// Gets a name for a temporary file.
+        /// Downloads the project configuration.
         /// </summary>
-        private string GetTempFileName()
-        {
-            return Path.Combine(appData.AppDirs.TempDir,
-                string.Format("download-config_{0}.zip", DateTime.Now.ToString("yyyy-MM-dd_HH-mm-ss")));
-        }
-
-        /// <summary>
-        /// Downloads the configuration.
-        /// </summary>
-        private bool DownloadConfig(DeploymentProfile profile)
+        private bool DownloadConfig(DeploymentProfile deploymentProfile)
         {
             return false;
             /*string configFileName = GetTempFileName();
@@ -168,73 +167,64 @@ namespace Scada.Admin.App.Forms.Deployment
         {
             FormTranslator.Translate(this, GetType().FullName);
             FormTranslator.Translate(ctrlProfileSelector, ctrlProfileSelector.GetType().FullName);
-            FormTranslator.Translate(ctrlTransferSettings, ctrlTransferSettings.GetType().FullName);
+            FormTranslator.Translate(ctrlTransferOptions, ctrlTransferOptions.GetType().FullName);
 
-            ProfileChanged = false;
-            ConnSettingsModified = false;
-            BaseModified = false;
-            InterfaceModified = false;
-            InstanceModified = false;
-
-            ctrlTransferSettings.Disable();
+            ctrlTransferOptions.Init(null, false);
             ctrlProfileSelector.Init(appData, project.DeploymentConfig, projectInstance);
 
-            initialProfile = ctrlProfileSelector.SelectedProfile;
-            //initialConnSettings = initialProfile?.AgentConnectionOptions.Clone();
-            downloadSettingsModified = false;
+            if (ctrlProfileSelector.SelectedProfile?.AgentConnectionOptions is ConnectionOptions connectionOptions)
+                initialConnectionOptions = connectionOptions.DeepClone();
         }
 
         private void FrmDownloadConfig_FormClosed(object sender, FormClosedEventArgs e)
         {
-            //ConnSettingsModified = !ProfileChanged &&
-            //    !ConnectionSettings.Equals(initialConnSettings, initialProfile?.ConnectionSettings);
+            ConnectionModified = !ConnectionOptions.Equals(
+                initialConnectionOptions, ctrlProfileSelector.SelectedProfile?.AgentConnectionOptions);
         }
 
         private void ctrlProfileSelector_SelectedProfileChanged(object sender, EventArgs e)
         {
-            // display download settings of the selected profile
-            DeploymentProfile profile = ctrlProfileSelector.SelectedProfile;
+            // display selected download options
+            DeploymentProfile deploymentProfile = ctrlProfileSelector.SelectedProfile;
 
-            if (profile == null)
+            if (deploymentProfile == null)
             {
-                ctrlTransferSettings.Disable();
+                ctrlTransferOptions.Disable();
                 btnDownload.Enabled = false;
             }
             else
             {
-                ctrlTransferSettings.OptionsToControls(profile.DownloadOptions);
+                ctrlTransferOptions.OptionsToControls(deploymentProfile.UploadOptions);
                 btnDownload.Enabled = true;
             }
 
-            downloadSettingsModified = false;
+            transferOptionsModified = false;
         }
 
-        private void ctrlTransferSettings_SettingsChanged(object sender, EventArgs e)
+        private void ctrlTransferOptions_OptionsChanged(object sender, EventArgs e)
         {
-            downloadSettingsModified = true;
+            transferOptionsModified = true;
         }
 
         private void btnDownload_Click(object sender, EventArgs e)
         {
-            // validate settings and download
-            DeploymentProfile profile = ctrlProfileSelector.SelectedProfile;
-
-            if (profile != null && ctrlTransferSettings.ValidateControls())
+            // validate options and download
+            if (ctrlProfileSelector.SelectedProfile is DeploymentProfile deploymentProfile &&
+                ctrlTransferOptions.ValidateControls())
             {
-                // save the settings changes
-                if (downloadSettingsModified)
+                // save changed transfer options
+                if (transferOptionsModified)
                 {
-                    ctrlTransferSettings.ControlsToOptions(profile.DownloadOptions);
+                    ctrlTransferOptions.ControlsToOptions(deploymentProfile.UploadOptions);
                     SaveDeploymentConfig();
                 }
 
                 // download
-                projectInstance.DeploymentProfile = profile.Name;
-                if (DownloadConfig(profile))
-                {
-                    ProfileChanged = initialProfile != profile;
+                projectInstance.DeploymentProfile = deploymentProfile.Name;
+                ProfileChanged = initialProfileName != deploymentProfile.Name;
+
+                if (DownloadConfig(deploymentProfile))
                     DialogResult = DialogResult.OK;
-                }
             }
         }
     }

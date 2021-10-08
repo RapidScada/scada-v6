@@ -30,7 +30,6 @@ using Scada.Admin.Project;
 using Scada.Client;
 using Scada.Config;
 using Scada.Forms;
-using Scada.Log;
 using System;
 using System.Text;
 using System.Windows.Forms;
@@ -41,7 +40,7 @@ namespace Scada.Admin.App.Forms.Deployment
     /// Represents a form for selecting an instance deployment profile.
     /// <para>Представляет форму для выбора профиля развёртывания экземпляра.</para>
     /// </summary>
-    public partial class FrmInstanceProfile : Form
+    public partial class FrmInstanceProfile : Form, IDeploymentForm
     {
         private readonly AppData appData;                   // the common data of the application
         private readonly ScadaProject project;              // the project under development
@@ -76,12 +75,12 @@ namespace Scada.Admin.App.Forms.Deployment
         /// <summary>
         /// Gets a value indicating whether the selected profile changed.
         /// </summary>
-        public bool ProfileChanged { get; protected set; }
+        public bool ProfileChanged { get; private set; }
 
         /// <summary>
         /// Gets a value indicating whether the Agent connection options were modified.
         /// </summary>
-        public bool ConnectionModified { get; protected set; }
+        public bool ConnectionModified { get; private set; }
 
 
         /// <summary>

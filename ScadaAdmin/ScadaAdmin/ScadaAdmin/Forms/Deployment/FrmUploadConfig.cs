@@ -26,11 +26,9 @@
 using Scada.Admin.App.Code;
 using Scada.Admin.Deployment;
 using Scada.Admin.Project;
-using Scada.Agent;
 using Scada.Client;
 using Scada.Forms;
 using System;
-using System.IO;
 using System.Windows.Forms;
 
 namespace Scada.Admin.App.Forms.Deployment
@@ -39,14 +37,14 @@ namespace Scada.Admin.App.Forms.Deployment
     /// Represents a form for uploading configuration.
     /// <para>Представляет форму для передачи конфигурации.</para>
     /// </summary>
-    public partial class FrmUploadConfig : Form
+    public partial class FrmUploadConfig : Form, IDeploymentForm
     {
-        private readonly AppData appData;                 // the common data of the application
-        private readonly ScadaProject project;            // the project under development
-        private readonly ProjectInstance projectInstance; // the affected instance
-        private DeploymentProfile initialProfile;         // the initial deployment profile
-        //private ConnectionOptions initialConnSettings;  // copy of the initial connection settings
-        private bool uploadSettingsModified;              // the selected upload settings were modified
+        private readonly AppData appData;                   // the common data of the application
+        private readonly ScadaProject project;              // the project under development
+        private readonly ProjectInstance projectInstance;   // the affected instance        
+        private readonly string initialProfileName;         // the initial instance profile name
+        private ConnectionOptions initialConnectionOptions; // the copy of the initial Agent connection options
+        private bool transferOptionsModified;               // the selected upload options were modified
 
 
         /// <summary>
@@ -66,33 +64,24 @@ namespace Scada.Admin.App.Forms.Deployment
             this.appData = appData ?? throw new ArgumentNullException(nameof(appData));
             this.project = project ?? throw new ArgumentNullException(nameof(project));
             this.projectInstance = projectInstance ?? throw new ArgumentNullException(nameof(projectInstance));
+            initialProfileName = projectInstance.DeploymentProfile;
+            initialConnectionOptions = null;
+            transferOptionsModified = false;
+
+            ProfileChanged = false;
+            ConnectionModified = false;
         }
 
 
         /// <summary>
         /// Gets a value indicating whether the selected profile changed.
         /// </summary>
-        public bool ProfileChanged { get; protected set; }
+        public bool ProfileChanged { get; private set; }
 
         /// <summary>
-        /// Gets a value indicating whether the connection settings were modified.
+        /// Gets a value indicating whether the Agent connection options were modified.
         /// </summary>
-        public bool ConnSettingsModified { get; protected set; }
-
-        /// <summary>
-        /// Gets a value indicating whether the configuration database was modified
-        /// </summary>
-        public bool BaseModified { get; protected set; }
-
-        /// <summary>
-        /// Gets a value indicating whether the interface files were modified
-        /// </summary>
-        public bool InterfaceModified { get; protected set; }
-
-        /// <summary>
-        /// Gets a value indicating whether the instance was modified
-        /// </summary>
-        public bool InstanceModified { get; protected set; }
+        public bool ConnectionModified { get; private set; }
 
 
         /// <summary>
@@ -105,18 +94,9 @@ namespace Scada.Admin.App.Forms.Deployment
         }
 
         /// <summary>
-        /// Gets a name for a temporary file.
+        /// Uploads the project configuration.
         /// </summary>
-        private string GetTempFileName()
-        {
-            return Path.Combine(appData.AppDirs.TempDir,
-                string.Format("upload-config_{0}.zip", DateTime.Now.ToString("yyyy-MM-dd_HH-mm-ss")));
-        }
-
-        /// <summary>
-        /// Uploads the configuration.
-        /// </summary>
-        private bool UploadConfig(DeploymentProfile profile)
+        private bool UploadConfig(DeploymentProfile deploymentProfile)
         {
             return false;
             /*string configFileName = GetTempFileName();
@@ -176,71 +156,64 @@ namespace Scada.Admin.App.Forms.Deployment
         {
             FormTranslator.Translate(this, GetType().FullName);
             FormTranslator.Translate(ctrlProfileSelector, ctrlProfileSelector.GetType().FullName);
-            FormTranslator.Translate(ctrlTransferSettings, ctrlTransferSettings.GetType().FullName);
+            FormTranslator.Translate(ctrlTransferOptions, ctrlTransferOptions.GetType().FullName);
 
-            ProfileChanged = false;
-            ConnSettingsModified = false;
-
-            ctrlTransferSettings.Init(project.ConfigBase);
-            ctrlTransferSettings.Disable();
+            ctrlTransferOptions.Init(project.ConfigBase, true);
             ctrlProfileSelector.Init(appData, project.DeploymentConfig, projectInstance);
 
-            initialProfile = ctrlProfileSelector.SelectedProfile;
-            //initialConnSettings = initialProfile?.AgentConnectionOptions.Clone();
-            uploadSettingsModified = false;
+            if (ctrlProfileSelector.SelectedProfile?.AgentConnectionOptions is ConnectionOptions connectionOptions)
+                initialConnectionOptions = connectionOptions.DeepClone();
         }
 
         private void FrmUploadConfig_FormClosed(object sender, FormClosedEventArgs e)
         {
-            //ConnSettingsModified = !ProfileChanged &&
-            //    !ConnectionSettings.Equals(initialConnSettings, initialProfile?.ConnectionSettings);
+            ConnectionModified = !ConnectionOptions.Equals(
+                initialConnectionOptions, ctrlProfileSelector.SelectedProfile?.AgentConnectionOptions);
         }
 
         private void ctrlProfileSelector_SelectedProfileChanged(object sender, EventArgs e)
         {
-            // display upload settings of the selected profile
-            DeploymentProfile profile = ctrlProfileSelector.SelectedProfile;
+            // display selected upload options
+            DeploymentProfile deploymentProfile = ctrlProfileSelector.SelectedProfile;
 
-            if (profile == null)
+            if (deploymentProfile == null)
             {
-                ctrlTransferSettings.Disable();
+                ctrlTransferOptions.Disable();
                 btnUpload.Enabled = false;
             }
             else
             {
-                ctrlTransferSettings.OptionsToControls(profile.UploadOptions);
+                ctrlTransferOptions.OptionsToControls(deploymentProfile.UploadOptions);
                 btnUpload.Enabled = true;
             }
 
-            uploadSettingsModified = false;
+            transferOptionsModified = false;
         }
 
-        private void ctrlTransferSettings_SettingsChanged(object sender, EventArgs e)
+        private void ctrlTransferOptions_OptionsChanged(object sender, EventArgs e)
         {
-            uploadSettingsModified = true;
+            transferOptionsModified = true;
         }
 
         private void btnUpload_Click(object sender, EventArgs e)
         {
-            // validate settings and upload
-            DeploymentProfile profile = ctrlProfileSelector.SelectedProfile;
-
-            if (profile != null && ctrlTransferSettings.ValidateControls())
+            // validate options and upload
+            if (ctrlProfileSelector.SelectedProfile is DeploymentProfile deploymentProfile &&
+                ctrlTransferOptions.ValidateControls())
             {
-                // save the settings changes
-                if (uploadSettingsModified)
+                // save changed transfer options
+                if (transferOptionsModified)
                 {
-                    ctrlTransferSettings.ControlsToOptions(profile.UploadOptions);
+                    ctrlTransferOptions.ControlsToOptions(deploymentProfile.UploadOptions);
                     SaveDeploymentConfig();
                 }
 
                 // upload
-                projectInstance.DeploymentProfile = profile.Name;
-                if (UploadConfig(profile))
-                {
-                    ProfileChanged = initialProfile != profile;
+                projectInstance.DeploymentProfile = deploymentProfile.Name;
+                ProfileChanged = initialProfileName != deploymentProfile.Name;
+
+                if (UploadConfig(deploymentProfile))
                     DialogResult = DialogResult.OK;
-                }
             }
         }
     }
