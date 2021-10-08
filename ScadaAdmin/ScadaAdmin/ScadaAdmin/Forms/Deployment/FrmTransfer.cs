@@ -124,7 +124,7 @@ namespace Scada.Admin.App.Forms.Deployment
         private void PrepareTransfer()
         {
             ControlBox = false;
-            btnBreak.Enabled = false;
+            btnBreak.Visible = false;
             btnClose.Enabled = false;
         }
 
@@ -244,7 +244,7 @@ namespace Scada.Admin.App.Forms.Deployment
             if (InvokeRequired)
                 Invoke(setCancelEnabledAction, enabled);
             else
-                btnBreak.Enabled = enabled;
+                btnBreak.Visible = enabled;
         }
 
         /// <summary>
