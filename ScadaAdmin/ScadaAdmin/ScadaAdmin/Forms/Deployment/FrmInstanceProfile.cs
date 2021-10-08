@@ -207,12 +207,12 @@ namespace Scada.Admin.App.Forms.Deployment
                         if (TestDbConnection(deploymentProfile.Extension, deploymentProfile.DbConnectionOptions,
                             out string errMsg))
                         {
-                            sbTestResult.Append(AppPhrases.AgentConnectionOK);
+                            sbTestResult.Append(AppPhrases.DbConnectionOK);
                             dbOK = true;
                         }
                         else
                         {
-                            sbTestResult.AppendLine(AppPhrases.AgentConnectionError).Append(errMsg);
+                            sbTestResult.AppendLine(AppPhrases.DbConnectionError).Append(errMsg);
                         }
                     }
                     else
