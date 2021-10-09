@@ -1,11 +1,14 @@
 ﻿// Copyright (c) Rapid Software LLC. All rights reserved.
 // Licensed under the Apache License, Version 2.0. See License.txt in the project root for license information.
 
+using Npgsql;
 using Scada.Admin.Deployment;
 using Scada.Admin.Project;
 using Scada.Config;
 using Scada.Lang;
+using System;
 using System.Threading;
+using static Scada.Storages.PostgreSqlStorage.PostgreSqlStorageShared;
 
 namespace Scada.Admin.Extensions.ExtDepPostgreSql
 {
@@ -44,8 +47,24 @@ namespace Scada.Admin.Extensions.ExtDepPostgreSql
         {
             if (connectionOptions.KnownDBMS == KnownDBMS.PostgreSQL)
             {
-                errMsg = "";
-                return true;
+                NpgsqlConnection conn = null;
+
+                try
+                {
+                    conn = CreateDbConnection(connectionOptions);
+                    conn.Open();
+                    errMsg = "";
+                    return true;
+                }
+                catch (Exception ex)
+                {
+                    errMsg = ex.Message;
+                    return false;
+                }
+                finally
+                {
+                    conn?.Close();
+                }
             }
             else
             {
