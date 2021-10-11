@@ -586,12 +586,12 @@ namespace Scada.Admin.Extensions.ExtDepPostgreSql
         /// </summary>
         private static IEnumerable SelectItems(IBaseTable baseTable, List<int> objNums)
         {
-            TableFilter tableFilter = new("ObjNum", 0);
-
             foreach (int objNum in objNums)
             {
-                tableFilter.Argument = objNum;
-                yield return baseTable.SelectItems(tableFilter, true);
+                foreach (object item in baseTable.SelectItems(new TableFilter("ObjNum", objNum), true))
+                {
+                    yield return item;
+                }
             }
         }
 
