@@ -51,9 +51,9 @@ namespace Scada.Admin.Project
         public CommConfig AppConfig { get; private set; }
 
         /// <summary>
-        /// Gets the application name.
+        /// Gets the corresponding service application.
         /// </summary>
-        public override string AppName => CommonPhrases.CommAppName;
+        public override ServiceApp ServiceApp => ServiceApp.Comm;
 
         /// <summary>
         /// Gets the application configuration.
@@ -82,7 +82,9 @@ namespace Scada.Admin.Project
         /// </summary>
         public override void InitAppDir(string instanceDir)
         {
-            AppDir = string.IsNullOrEmpty(instanceDir) ? "" : Path.Combine(instanceDir, "ScadaComm");
+            AppDir = string.IsNullOrEmpty(instanceDir) 
+                ? "" 
+                : ScadaUtils.NormalDir(Path.Combine(instanceDir, "ScadaComm"));
         }
     }
 }

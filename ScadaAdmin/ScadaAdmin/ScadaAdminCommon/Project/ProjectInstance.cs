@@ -107,7 +107,7 @@ namespace Scada.Admin.Project
             }
             set
             {
-                instanceDir = value;
+                instanceDir = ScadaUtils.NormalDir(value);
                 Array.ForEach(AllApps, app => app.InitAppDir(instanceDir));
             }
         }

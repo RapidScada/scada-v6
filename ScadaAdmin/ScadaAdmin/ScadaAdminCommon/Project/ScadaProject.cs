@@ -88,8 +88,8 @@ namespace Scada.Admin.Project
                 {
                     Name = Path.GetFileNameWithoutExtension(fileName);
                     string projectDir = Path.GetDirectoryName(fileName);
-                    ConfigBase.BaseDir = Path.Combine(projectDir, "BaseXML");
-                    Views.ViewDir = Path.Combine(projectDir, "Views");
+                    ConfigBase.BaseDir = ScadaUtils.NormalDir(Path.Combine(projectDir, "BaseXML"));
+                    Views.ViewDir = ScadaUtils.NormalDir(Path.Combine(projectDir, "Views"));
                     Instances.ForEach(i => i.InstanceDir = Path.Combine(projectDir, "Instances", i.Name));
                     DeploymentConfig.FileName = Path.Combine(projectDir, DeploymentConfig.DefaultFileName);
                 }

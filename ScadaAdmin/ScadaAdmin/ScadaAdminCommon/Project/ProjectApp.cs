@@ -54,6 +54,11 @@ namespace Scada.Admin.Project
         public bool Enabled { get; set; }
 
         /// <summary>
+        /// Gets the application name.
+        /// </summary>
+        public string AppName => ScadaUtils.GetAppName(ServiceApp);
+
+        /// <summary>
         /// Gets or sets the application directory in the project.
         /// </summary>
         public string AppDir { get; protected set; }
@@ -64,9 +69,9 @@ namespace Scada.Admin.Project
         public bool ConfigLoaded { get; protected set; }
 
         /// <summary>
-        /// Gets the application name.
+        /// Gets the corresponding service application.
         /// </summary>
-        public abstract string AppName { get; }
+        public abstract ServiceApp ServiceApp { get; }
 
         /// <summary>
         /// Gets the application configuration.
@@ -80,7 +85,9 @@ namespace Scada.Admin.Project
         {
             get
             {
-                return string.IsNullOrEmpty(AppDir) ? "" : Path.Combine(AppDir, "Config");
+                return string.IsNullOrEmpty(AppDir) 
+                    ? "" 
+                    : ScadaUtils.NormalDir(Path.Combine(AppDir, "Config"));
             }
         }
 

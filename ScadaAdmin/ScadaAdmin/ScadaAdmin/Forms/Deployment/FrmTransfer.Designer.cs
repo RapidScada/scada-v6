@@ -72,7 +72,6 @@ namespace Scada.Admin.App.Forms.Deployment
             this.txtLog.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
             this.txtLog.Size = new System.Drawing.Size(660, 341);
             this.txtLog.TabIndex = 2;
-            this.txtLog.WordWrap = false;
             // 
             // btnBreak
             // 
