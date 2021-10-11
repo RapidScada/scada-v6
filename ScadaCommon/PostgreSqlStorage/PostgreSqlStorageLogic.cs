@@ -157,8 +157,8 @@ namespace Scada.Storages.PostgreSqlStorage
         {
             string sql = 
                 $"INSERT INTO {tableName} (app_id, path, contents, write_time) " + 
-                "VALUES (@appID, @path, @contents, @writeTime)" +
-                $"ON CONFLICT (app_id, path) DO UPDATE SET contents = @contents, write_time = @writeTime";
+                "VALUES (@appID, @path, @contents, @writeTime) " +
+                "ON CONFLICT (app_id, path) DO UPDATE SET contents = @contents, write_time = @writeTime";
 
             NpgsqlCommand cmd = new NpgsqlCommand(sql, conn);
             cmd.Parameters.AddWithValue("appID", (int)app);
@@ -187,8 +187,8 @@ namespace Scada.Storages.PostgreSqlStorage
         {
             string sql =
                 $"INSERT INTO {tableName} (path, contents, write_time) " +
-                "VALUES (@path, @contents, @writeTime)" +
-                $"ON CONFLICT (path) DO UPDATE SET contents = @contents, write_time = @writeTime";
+                "VALUES (@path, @contents, @writeTime) " +
+                "ON CONFLICT (path) DO UPDATE SET contents = @contents, write_time = @writeTime";
 
             NpgsqlCommand cmd = new NpgsqlCommand(sql, conn);
             cmd.Parameters.AddWithValue("path", path);

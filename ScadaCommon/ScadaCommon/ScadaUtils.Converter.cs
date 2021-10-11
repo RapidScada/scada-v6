@@ -226,6 +226,27 @@ namespace Scada
         }
 
         /// <summary>
+        /// Gets the application name.
+        /// </summary>
+        public static string GetAppName(ServiceApp serviceApp)
+        {
+            switch (serviceApp)
+            {
+                case ServiceApp.Server:
+                    return CommonPhrases.ServerAppName;
+
+                case ServiceApp.Comm:
+                    return CommonPhrases.CommAppName;
+
+                case ServiceApp.Web:
+                    return CommonPhrases.WebAppName;
+
+                default:
+                    return serviceApp.ToString();
+            }
+        }
+
+        /// <summary>
         /// Converts the specified value to a string representation using the selected culture.
         /// </summary>
         public static string ToLocalizedString(this DateTime dateTime)
