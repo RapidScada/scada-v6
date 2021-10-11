@@ -273,6 +273,14 @@ namespace Scada.Admin.App.Forms.Deployment
                 txtLog.AppendText(Environment.NewLine);
             }
         }
+        
+        /// <summary>
+        /// Writes an empty line to a terminal.
+        /// </summary>
+        public void WriteLine()
+        {
+            WriteMessage("");
+        }
 
 
         private async void FrmTransfer_Load(object sender, EventArgs e)

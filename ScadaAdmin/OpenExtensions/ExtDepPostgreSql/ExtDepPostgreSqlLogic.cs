@@ -100,19 +100,7 @@ namespace Scada.Admin.Extensions.ExtDepPostgreSql
         public override bool UploadConfig(ScadaProject project, ProjectInstance instance, DeploymentProfile profile,
             ITransferControl transferControl)
         {
-            transferControl.SetCancelEnabled(true);
-
-            for (int i = 1, max = 100; i <= max; i++)
-            {
-                if (transferControl.CancellationToken.IsCancellationRequested)
-                    return false;
-
-                transferControl.WriteMessage($"i = {i} of {max}");
-                transferControl.SetProgress(i * 100 / max);
-                Thread.Sleep(50);
-            }
-
-            return true;
+            return new Uploader(project, instance, profile, transferControl).Upload();
         }
     }
 }
