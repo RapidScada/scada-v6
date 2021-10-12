@@ -142,7 +142,7 @@ namespace Scada.Admin.App.Forms.Deployment
             }
             else
             {
-                ctrlTransferOptions.OptionsToControls(deploymentProfile.UploadOptions);
+                ctrlTransferOptions.OptionsToControls(deploymentProfile.DownloadOptions);
                 btnDownload.Enabled = true;
             }
 
@@ -163,16 +163,16 @@ namespace Scada.Admin.App.Forms.Deployment
                 // save changed transfer options
                 if (transferOptionsModified)
                 {
-                    ctrlTransferOptions.ControlsToOptions(profile.UploadOptions);
+                    ctrlTransferOptions.ControlsToOptions(profile.DownloadOptions);
                     SaveDeploymentConfig();
                 }
 
                 // download
                 instance.DeploymentProfile = profile.Name;
                 ProfileChanged = initialProfileName != profile.Name;
-                BaseModified = profile.UploadOptions.IncludeBase;
-                ViewModified = profile.UploadOptions.IncludeView;
-                InstanceModified = profile.UploadOptions.IncludeInstance;
+                BaseModified = profile.DownloadOptions.IncludeBase;
+                ViewModified = profile.DownloadOptions.IncludeView;
+                InstanceModified = profile.DownloadOptions.IncludeInstance;
                 FrmTransfer frmTransfer = new(appData, project, instance, profile);
 
                 if (frmTransfer.DownloadConfig())

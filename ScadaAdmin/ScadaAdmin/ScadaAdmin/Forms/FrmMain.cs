@@ -28,7 +28,6 @@ using Scada.Admin.App.Forms.Deployment;
 using Scada.Admin.App.Forms.Tables;
 using Scada.Admin.App.Forms.Tools;
 using Scada.Admin.App.Properties;
-using Scada.Admin.Extensions;
 using Scada.Admin.Project;
 using Scada.Forms;
 using Scada.Lang;
