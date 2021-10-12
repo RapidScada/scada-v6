@@ -24,11 +24,17 @@ namespace Scada.Admin.Extensions.ExtDepPostgreSql
     /// </summary>
     internal class Uploader
     {
+        /// <summary>
+        /// The number of upload tasks.
+        /// </summary>
+        private const int TaskCount = 14;
+
         private readonly ScadaProject project;
         private readonly ProjectInstance instance;
         private readonly DeploymentProfile profile;
         private readonly ITransferControl transferControl;
         private readonly UploadOptions uploadOptions;
+        private readonly ProgressTracker progressTracker;
         private NpgsqlConnection conn;
 
 
@@ -43,6 +49,7 @@ namespace Scada.Admin.Extensions.ExtDepPostgreSql
             this.profile = profile ?? throw new ArgumentNullException(nameof(profile));
             this.transferControl = transferControl ?? throw new ArgumentNullException(nameof(transferControl));
             uploadOptions = profile.UploadOptions;
+            progressTracker = new ProgressTracker(transferControl) { TaskCount = TaskCount };
             conn = null;
         }
 
@@ -52,12 +59,14 @@ namespace Scada.Admin.Extensions.ExtDepPostgreSql
         /// </summary>
         private void CreateSchema()
         {
+            transferControl.ThrowIfCancellationRequested();
             transferControl.WriteMessage(Locale.IsRussian ?
                 "Создание схемы базы данных" :
                 "Create database schema");
 
             string sql = "CREATE SCHEMA IF NOT EXISTS " + Schema;
             new NpgsqlCommand(sql, conn).ExecuteNonQuery();
+            progressTracker.TaskIndex++;
         }
 
         /// <summary>
@@ -65,6 +74,7 @@ namespace Scada.Admin.Extensions.ExtDepPostgreSql
         /// </summary>
         private void CreateAppTable()
         {
+            transferControl.ThrowIfCancellationRequested();
             transferControl.WriteMessage(Locale.IsRussian ?
                 "Создание справочника приложений" :
                 "Create application dictionary");
@@ -92,6 +102,7 @@ namespace Scada.Admin.Extensions.ExtDepPostgreSql
                 }
 
                 trans.Commit();
+                progressTracker.TaskIndex++;
             }
             catch
             {
@@ -105,6 +116,7 @@ namespace Scada.Admin.Extensions.ExtDepPostgreSql
         /// </summary>
         private void ClearBase()
         {
+            transferControl.ThrowIfCancellationRequested();
             transferControl.WriteLine();
             transferControl.WriteMessage(Locale.IsRussian ?
                 "Очистка базы конфигурации" :
@@ -114,18 +126,22 @@ namespace Scada.Admin.Extensions.ExtDepPostgreSql
             try
             {
                 trans = conn.BeginTransaction();
+                progressTracker.SubtaskCount = project.ConfigBase.AllTables.Length;
 
                 foreach (IBaseTable baseTable in project.ConfigBase.AllTables)
                 {
+                    transferControl.ThrowIfCancellationRequested();
                     transferControl.WriteMessage(string.Format(Locale.IsRussian ?
                         "Удаление таблицы {0}" :
                         "Delete the {0} table", baseTable.Name));
 
                     string sql = $"DROP TABLE IF EXISTS {GetBaseTableName(baseTable)} CASCADE";
                     new NpgsqlCommand(sql, conn, trans).ExecuteNonQuery();
+                    progressTracker.SubtaskIndex++;
                 }
 
                 trans.Commit();
+                progressTracker.TaskIndex++;
             }
             catch
             {
@@ -139,6 +155,7 @@ namespace Scada.Admin.Extensions.ExtDepPostgreSql
         /// </summary>
         private void CreateBase()
         {
+            transferControl.ThrowIfCancellationRequested();
             transferControl.WriteLine();
             transferControl.WriteMessage(Locale.IsRussian ?
                 "Создание базы конфигурации" :
@@ -148,10 +165,11 @@ namespace Scada.Admin.Extensions.ExtDepPostgreSql
             try
             {
                 trans = conn.BeginTransaction();
-                bool filterByObj = uploadOptions.ObjectFilter.Count > 0;
+                progressTracker.SubtaskCount = project.ConfigBase.AllTables.Length;
 
                 foreach (IBaseTable baseTable in project.ConfigBase.AllTables)
                 {
+                    transferControl.ThrowIfCancellationRequested();
                     transferControl.WriteMessage(string.Format(Locale.IsRussian ?
                         "Создание таблицы {0}" :
                         "Create the {0} table", baseTable.Name));
@@ -159,9 +177,11 @@ namespace Scada.Admin.Extensions.ExtDepPostgreSql
                     string sql = GetBaseTableDDL(baseTable);
                     new NpgsqlCommand(sql, conn, trans).ExecuteNonQuery();
                     InsertRows(baseTable, trans);
+                    progressTracker.SubtaskIndex++;
                 }
 
                 trans.Commit();
+                progressTracker.TaskIndex++;
             }
             catch
             {
@@ -234,6 +254,7 @@ namespace Scada.Admin.Extensions.ExtDepPostgreSql
         /// </summary>
         private void CreateForeignKeys()
         {
+            transferControl.ThrowIfCancellationRequested();
             transferControl.WriteLine();
             transferControl.WriteMessage(Locale.IsRussian ?
                 "Создание внешних ключей" :
@@ -243,10 +264,11 @@ namespace Scada.Admin.Extensions.ExtDepPostgreSql
             try
             {
                 trans = conn.BeginTransaction();
-                trans.Commit();
+                progressTracker.SubtaskCount = project.ConfigBase.AllTables.Length;
 
                 foreach (IBaseTable baseTable in project.ConfigBase.AllTables)
                 {
+                    transferControl.ThrowIfCancellationRequested();
                     transferControl.WriteMessage(string.Format(Locale.IsRussian ?
                         "Создание внешних ключей таблицы {0}" :
                         "Create foreign keys for the {0} table", baseTable.Name));
@@ -256,7 +278,12 @@ namespace Scada.Admin.Extensions.ExtDepPostgreSql
                         string sql = GetBaseForeignKeyDDL(relation);
                         new NpgsqlCommand(sql, conn, trans).ExecuteNonQuery();
                     }
+
+                    progressTracker.SubtaskIndex++;
                 }
+
+                trans.Commit();
+                progressTracker.TaskIndex++;
             }
             catch
             {
@@ -270,6 +297,7 @@ namespace Scada.Admin.Extensions.ExtDepPostgreSql
         /// </summary>
         private void ClearViews()
         {
+            transferControl.ThrowIfCancellationRequested();
             transferControl.WriteLine();
             transferControl.WriteMessage(Locale.IsRussian ?
                 "Очистка представлений" :
@@ -277,6 +305,7 @@ namespace Scada.Admin.Extensions.ExtDepPostgreSql
 
             string sql = $"DROP TABLE IF EXISTS {Schema}.view_file CASCADE";
             new NpgsqlCommand(sql, conn).ExecuteNonQuery();
+            progressTracker.TaskIndex++;
         }
 
         /// <summary>
@@ -284,6 +313,7 @@ namespace Scada.Admin.Extensions.ExtDepPostgreSql
         /// </summary>
         private void CreateViews()
         {
+            transferControl.ThrowIfCancellationRequested();
             transferControl.WriteMessage(Locale.IsRussian ?
                 "Создание представлений" :
                 "Create views");
@@ -293,31 +323,38 @@ namespace Scada.Admin.Extensions.ExtDepPostgreSql
             {
                 trans = conn.BeginTransaction();
                 new NpgsqlCommand(GetViewTableDDL(), conn, trans).ExecuteNonQuery();
+                ICollection<FileInfo> viewFiles = GetViewFiles();
 
-                string sql = $"INSERT INTO {Schema}.view_file (path, contents, write_time) " +
-                    "VALUES (@path, @contents, @writeTime)";
-                NpgsqlCommand cmd = new(sql, conn, trans);
-                NpgsqlParameter pathParam = cmd.Parameters.Add("path", NpgsqlDbType.Varchar);
-                NpgsqlParameter contentsParam = cmd.Parameters.Add("contents", NpgsqlDbType.Bytea);
-                NpgsqlParameter writeTimeParam = cmd.Parameters.Add("writeTime", NpgsqlDbType.TimestampTz);
-                int viewDirLen = project.Views.ViewDir.Length;
-                int fileCount = 0;
-
-                foreach (FileInfo fileInfo in EnumerateViewFiles())
+                if (viewFiles.Count > 0)
                 {
-                    transferControl.WriteMessage(string.Format(Locale.IsRussian ?
-                        "Создание представления \"{0}\"" :
-                        "Create view \"{0}\"", fileInfo.Name));
+                    string sql = $"INSERT INTO {Schema}.view_file (path, contents, write_time) " +
+                        "VALUES (@path, @contents, @writeTime)";
+                    NpgsqlCommand cmd = new(sql, conn, trans);
+                    NpgsqlParameter pathParam = cmd.Parameters.Add("path", NpgsqlDbType.Varchar);
+                    NpgsqlParameter contentsParam = cmd.Parameters.Add("contents", NpgsqlDbType.Bytea);
+                    NpgsqlParameter writeTimeParam = cmd.Parameters.Add("writeTime", NpgsqlDbType.TimestampTz);
 
-                    pathParam.Value = fileInfo.FullName[viewDirLen..];
-                    contentsParam.Value = File.ReadAllBytes(fileInfo.FullName);
-                    writeTimeParam.Value = fileInfo.LastWriteTimeUtc;
-                    cmd.ExecuteNonQuery();
-                    fileCount++;
+                    int viewDirLen = project.Views.ViewDir.Length;
+                    progressTracker.SubtaskCount = viewFiles.Count;
+
+                    foreach (FileInfo fileInfo in viewFiles)
+                    {
+                        transferControl.ThrowIfCancellationRequested();
+                        transferControl.WriteMessage(string.Format(Locale.IsRussian ?
+                            "Создание представления \"{0}\"" :
+                            "Create view \"{0}\"", fileInfo.Name));
+
+                        pathParam.Value = fileInfo.FullName[viewDirLen..];
+                        contentsParam.Value = File.ReadAllBytes(fileInfo.FullName);
+                        writeTimeParam.Value = fileInfo.LastWriteTimeUtc;
+                        cmd.ExecuteNonQuery();
+                        progressTracker.SubtaskIndex++;
+                    }
                 }
 
-                transferControl.WriteMessage(string.Format(ExtensionPhrases.FileCount, fileCount));
                 trans.Commit();
+                transferControl.WriteMessage(string.Format(ExtensionPhrases.FileCount, viewFiles.Count));
+                progressTracker.TaskIndex++;
             }
             catch
             {
@@ -327,12 +364,13 @@ namespace Scada.Admin.Extensions.ExtDepPostgreSql
         }
 
         /// <summary>
-        /// Returns an enumerable collection of view file names.
+        /// Gets a collection of view files.
         /// </summary>
-        private IEnumerable<FileInfo> EnumerateViewFiles()
+        private ICollection<FileInfo> GetViewFiles()
         {
             if (uploadOptions.ObjectFilter.Count > 0)
             {
+                List<FileInfo> fileInfoList = new();
                 HashSet<string> pathSet = new(); // ensures uniqueness
 
                 foreach (View view in SelectItems(project.ConfigBase.ViewTable, uploadOptions.ObjectFilter))
@@ -343,21 +381,18 @@ namespace Scada.Admin.Extensions.ExtDepPostgreSql
                         FileInfo fileInfo = new(fileName);
 
                         if (fileInfo.Exists)
-                            yield return fileInfo;
+                            fileInfoList.Add(fileInfo);
                     }
                 }
+
+                return fileInfoList;
             }
             else
             {
                 DirectoryInfo viewDirInfo = new(project.Views.ViewDir);
-                
-                if (viewDirInfo.Exists)
-                {
-                    foreach (FileInfo fileInfo in viewDirInfo.EnumerateFiles("*", SearchOption.AllDirectories))
-                    {
-                        yield return fileInfo;
-                    }
-                }
+                return viewDirInfo.Exists 
+                    ? viewDirInfo.GetFiles("*", SearchOption.AllDirectories) 
+                    : Array.Empty<FileInfo>();
             }
         }
 
@@ -366,6 +401,7 @@ namespace Scada.Admin.Extensions.ExtDepPostgreSql
         /// </summary>
         private void ClearAllAppConfig()
         {
+            transferControl.ThrowIfCancellationRequested();
             transferControl.WriteLine();
             transferControl.WriteMessage(Locale.IsRussian ?
                 "Очистка конфигурации всех приложений" :
@@ -373,6 +409,7 @@ namespace Scada.Admin.Extensions.ExtDepPostgreSql
 
             string sql = $"DROP TABLE IF EXISTS {Schema}.app_config CASCADE";
             new NpgsqlCommand(sql, conn).ExecuteNonQuery();
+            progressTracker.TaskIndex++;
         }
 
         /// <summary>
@@ -380,6 +417,7 @@ namespace Scada.Admin.Extensions.ExtDepPostgreSql
         /// </summary>
         private void ClearAppConfig(ProjectApp app)
         {
+            transferControl.ThrowIfCancellationRequested();
             transferControl.WriteLine();
             transferControl.WriteMessage(string.Format(Locale.IsRussian ?
                 "Очистка конфигурации приложения {0}" :
@@ -390,6 +428,7 @@ namespace Scada.Admin.Extensions.ExtDepPostgreSql
             NpgsqlCommand cmd = new(sql, conn);
             cmd.Parameters.AddWithValue("appID", (int)app.ServiceApp);
             cmd.ExecuteNonQuery();
+            progressTracker.TaskIndex++;
         }
 
         /// <summary>
@@ -397,6 +436,7 @@ namespace Scada.Admin.Extensions.ExtDepPostgreSql
         /// </summary>
         private void CreateAppConfig(ProjectApp app)
         {
+            transferControl.ThrowIfCancellationRequested();
             transferControl.WriteMessage(string.Format(Locale.IsRussian ?
                 "Создание конфигурации приложения {0}" :
                 "Create configuration of the {0} application", app.AppName));
@@ -406,11 +446,9 @@ namespace Scada.Admin.Extensions.ExtDepPostgreSql
             {
                 trans = conn.BeginTransaction();
                 new NpgsqlCommand(GetAppConfigTableDDL(), conn, trans).ExecuteNonQuery();
+                ICollection<FileInfo> configFiles = GetAppConfigFiles(app);
 
-                DirectoryInfo configDirInfo = new(app.ConfigDir);
-                int fileCount = 0;
-
-                if (configDirInfo.Exists)
+                if (configFiles.Count > 0)
                 {
                     string sql = $"INSERT INTO {Schema}.app_config (app_id, path, contents, write_time) " +
                         "VALUES (@appID, @path, @contents, @writeTime)";
@@ -419,34 +457,74 @@ namespace Scada.Admin.Extensions.ExtDepPostgreSql
                     NpgsqlParameter pathParam = cmd.Parameters.Add("path", NpgsqlDbType.Varchar);
                     NpgsqlParameter contentsParam = cmd.Parameters.Add("contents", NpgsqlDbType.Varchar);
                     NpgsqlParameter writeTimeParam = cmd.Parameters.Add("writeTime", NpgsqlDbType.TimestampTz);
+
                     int configDirLen = app.ConfigDir.Length;
+                    progressTracker.SubtaskCount = configFiles.Count;
 
-                    foreach (FileInfo fileInfo in configDirInfo.EnumerateFiles("*", SearchOption.AllDirectories))
+                    foreach (FileInfo fileInfo in configFiles)
                     {
-                        if (!uploadOptions.IgnoreRegKeys || 
-                            !fileInfo.Name.EndsWith("_Reg.xml", StringComparison.OrdinalIgnoreCase))
-                        {
-                            transferControl.WriteMessage(string.Format(Locale.IsRussian ?
-                                "Создание файла конфигурации \"{0}\"" :
-                                "Create configuration file \"{0}\"", fileInfo.Name));
+                        transferControl.ThrowIfCancellationRequested();
+                        transferControl.WriteMessage(string.Format(Locale.IsRussian ?
+                            "Создание файла конфигурации \"{0}\"" :
+                            "Create configuration file \"{0}\"", fileInfo.Name));
 
-                            pathParam.Value = fileInfo.FullName[configDirLen..];
-                            contentsParam.Value = File.ReadAllText(fileInfo.FullName, Encoding.UTF8);
-                            writeTimeParam.Value = fileInfo.LastWriteTimeUtc;
-                            cmd.ExecuteNonQuery();
-                            fileCount++;
-                        }
+                        pathParam.Value = fileInfo.FullName[configDirLen..];
+                        contentsParam.Value = File.ReadAllText(fileInfo.FullName, Encoding.UTF8);
+                        writeTimeParam.Value = fileInfo.LastWriteTimeUtc;
+                        cmd.ExecuteNonQuery();
+                        progressTracker.SubtaskIndex++;
                     }
                 }
 
-                transferControl.WriteMessage(string.Format(ExtensionPhrases.FileCount, fileCount));
                 trans.Commit();
+                transferControl.WriteMessage(string.Format(ExtensionPhrases.FileCount, configFiles.Count));
+                progressTracker.TaskIndex++;
             }
             catch
             {
                 trans?.Rollback();
                 throw;
             }
+        }
+
+        /// <summary>
+        /// Gets a collection of application configuration files.
+        /// </summary>
+        private ICollection<FileInfo> GetAppConfigFiles(ProjectApp app)
+        {
+            DirectoryInfo configDirInfo = new(app.ConfigDir);
+
+            if (configDirInfo.Exists)
+            {
+                if (uploadOptions.IgnoreRegKeys)
+                {
+                    List<FileInfo> fileInfoList = new();
+
+                    foreach (FileInfo fileInfo in configDirInfo.EnumerateFiles("*", SearchOption.AllDirectories))
+                    {
+                        if (!fileInfo.Name.EndsWith("_Reg.xml", StringComparison.OrdinalIgnoreCase))
+                            fileInfoList.Add(fileInfo);
+                    }
+
+                    return fileInfoList;
+                }
+                else
+                {
+                    return configDirInfo.GetFiles("*", SearchOption.AllDirectories);
+                }
+            }
+            else
+            {
+                return Array.Empty<FileInfo>();
+            }
+        }
+
+        /// <summary>
+        /// Skips a task, increasing progress.
+        /// </summary>
+        private void SkipTask(int taskCount = 1)
+        {
+            progressTracker.TaskIndex += taskCount;
         }
 
         /// <summary>
@@ -600,7 +678,7 @@ namespace Scada.Admin.Extensions.ExtDepPostgreSql
         /// <summary>
         /// Uploads the configuration.
         /// </summary>
-        public bool Upload()
+        public void Upload()
         {
             if (!profile.DbEnabled)
                 throw new ScadaException(ExtensionPhrases.DbNotEnabled);
@@ -623,11 +701,19 @@ namespace Scada.Admin.Extensions.ExtDepPostgreSql
                     CreateBase();
                     CreateForeignKeys();
                 }
+                else
+                {
+                    SkipTask(3);
+                }
 
                 if (uploadOptions.IncludeView)
                 {
                     ClearViews();
                     CreateViews();
+                }
+                else
+                {
+                    SkipTask(2);
                 }
 
                 bool clearAllAppConfig = !uploadOptions.IgnoreRegKeys &&
@@ -637,25 +723,34 @@ namespace Scada.Admin.Extensions.ExtDepPostgreSql
 
                 if (clearAllAppConfig)
                     ClearAllAppConfig();
+                else
+                    SkipTask();
 
-                void UploadAppConfig(ProjectApp app)
+                void UploadAppConfig(bool includeApp, ProjectApp app)
                 {
-                    if (clearAllAppConfig)
-                        transferControl.WriteLine();
-                    else
-                        ClearAppConfig(app);
+                    if (includeApp && app.Enabled)
+                    {
+                        if (clearAllAppConfig)
+                        {
+                            SkipTask();
+                            transferControl.WriteLine();
+                        }
+                        else
+                        {
+                            ClearAppConfig(app);
+                        }
 
-                    CreateAppConfig(app);
+                        CreateAppConfig(app);
+                    }
+                    else
+                    {
+                        SkipTask(2);
+                    }
                 }
 
-                if (uploadOptions.IncludeServer && instance.ServerApp.Enabled)
-                    UploadAppConfig(instance.ServerApp);
-
-                if (uploadOptions.IncludeComm && instance.CommApp.Enabled)
-                    UploadAppConfig(instance.CommApp);
-
-                if (uploadOptions.IncludeWeb && instance.WebApp.Enabled)
-                    UploadAppConfig(instance.WebApp);
+                UploadAppConfig(uploadOptions.IncludeServer, instance.ServerApp);
+                UploadAppConfig(uploadOptions.IncludeComm, instance.CommApp);
+                UploadAppConfig(uploadOptions.IncludeWeb, instance.WebApp);
             }
             finally
             {
@@ -663,11 +758,11 @@ namespace Scada.Admin.Extensions.ExtDepPostgreSql
                 conn = null;
             }
 
+            progressTracker.SetCompleted();
             transferControl.WriteLine();
             transferControl.WriteMessage(Locale.IsRussian ?
                 "Передача конфигурации завершена успешно" :
                 "Configuration uploaded successfully");
-            return true;
         }
     }
 }

@@ -75,19 +75,19 @@ namespace Scada.Admin.Extensions.ExtDepPostgreSql
         /// <summary>
         /// Downloads the configuration.
         /// </summary>
-        public override bool DownloadConfig(ScadaProject project, ProjectInstance instance, DeploymentProfile profile,
+        public override void DownloadConfig(ScadaProject project, ProjectInstance instance, DeploymentProfile profile,
             ITransferControl transferControl)
         {
-            return new Downloader(project, instance, profile, transferControl).Download();
+            new Downloader(project, instance, profile, transferControl).Download();
         }
 
         /// <summary>
         /// Uploads the configuration.
         /// </summary>
-        public override bool UploadConfig(ScadaProject project, ProjectInstance instance, DeploymentProfile profile,
+        public override void UploadConfig(ScadaProject project, ProjectInstance instance, DeploymentProfile profile,
             ITransferControl transferControl)
         {
-            return new Uploader(project, instance, profile, transferControl).Upload();
+            new Uploader(project, instance, profile, transferControl).Upload();
         }
     }
 }
