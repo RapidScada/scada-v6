@@ -45,7 +45,7 @@ namespace Scada.Admin.Deployment
         void SetCancelEnabled(bool enabled);
 
         /// <summary>
-        /// Sets the transfer progress in percent.
+        /// Sets the transfer progress in the range 0 to 1.
         /// </summary>
         void SetProgress(double percent);
 
@@ -58,5 +58,13 @@ namespace Scada.Admin.Deployment
         /// Writes an empty line to a terminal.
         /// </summary>
         void WriteLine();
+
+        /// <summary>
+        /// Throws an OperationCanceledException if the token has had cancellation requested.
+        /// </summary>
+        void ThrowIfCancellationRequested()
+        {
+            CancellationToken.ThrowIfCancellationRequested();
+        }
     }
 }

@@ -152,8 +152,13 @@ namespace Scada.Admin.App.Forms.Deployment
                 try
                 {
                     Stopwatch stopwatch = Stopwatch.StartNew();
-                    bool result = extensionLogic.DownloadConfig(project, instance, profile, this);
-                    SetResult(result, stopwatch.Elapsed.TotalSeconds);
+                    extensionLogic.DownloadConfig(project, instance, profile, this);
+                    SetResult(true, stopwatch.Elapsed.TotalSeconds);
+                }
+                catch (OperationCanceledException)
+                {
+                    SetResult(false, 0);
+                    WriteMessage(AppPhrases.OperationCanceled);
                 }
                 catch (Exception ex)
                 {
@@ -177,8 +182,13 @@ namespace Scada.Admin.App.Forms.Deployment
                 try
                 {
                     Stopwatch stopwatch = Stopwatch.StartNew();
-                    bool result = extensionLogic.UploadConfig(project, instance, profile, this);
-                    SetResult(result, stopwatch.Elapsed.TotalSeconds);
+                    extensionLogic.UploadConfig(project, instance, profile, this);
+                    SetResult(true, stopwatch.Elapsed.TotalSeconds);
+                }
+                catch (OperationCanceledException)
+                {
+                    SetResult(false, 0);
+                    WriteMessage(AppPhrases.OperationCanceled);
                 }
                 catch (Exception ex)
                 {
@@ -248,14 +258,19 @@ namespace Scada.Admin.App.Forms.Deployment
         }
 
         /// <summary>
-        /// Sets the transfer progress in percent.
+        /// Sets the transfer progress in the range 0 to 1.
         /// </summary>
-        public void SetProgress(double percent)
+        public void SetProgress(double value)
         {
             if (InvokeRequired)
-                Invoke(setProgressAction, percent);
+            {
+                Invoke(setProgressAction, value);
+            }
             else
-                progressBar.Value = (int)(percent / 100 * progressBar.Maximum);
+            {
+                int val = (int)(value * progressBar.Maximum);
+                progressBar.Value = Math.Min(val, progressBar.Maximum);
+            }
         }
 
         /// <summary>
