@@ -301,6 +301,7 @@ namespace Scada.Admin.Extensions.ExtDepPostgreSql
                 NpgsqlParameter contentsParam = cmd.Parameters.Add("contents", NpgsqlDbType.Bytea);
                 NpgsqlParameter writeTimeParam = cmd.Parameters.Add("writeTime", NpgsqlDbType.TimestampTz);
                 int viewDirLen = project.Views.ViewDir.Length;
+                int fileCount = 0;
 
                 foreach (FileInfo fileInfo in EnumerateViewFiles())
                 {
@@ -312,8 +313,10 @@ namespace Scada.Admin.Extensions.ExtDepPostgreSql
                     contentsParam.Value = File.ReadAllBytes(fileInfo.FullName);
                     writeTimeParam.Value = fileInfo.LastWriteTimeUtc;
                     cmd.ExecuteNonQuery();
+                    fileCount++;
                 }
 
+                transferControl.WriteMessage(string.Format(ExtensionPhrases.FileCount, fileCount));
                 trans.Commit();
             }
             catch
@@ -436,9 +439,7 @@ namespace Scada.Admin.Extensions.ExtDepPostgreSql
                     }
                 }
 
-                transferControl.WriteMessage(string.Format(Locale.IsRussian ?
-                    "Количество файлов: {0}" :
-                    "File count: {0}", fileCount));
+                transferControl.WriteMessage(string.Format(ExtensionPhrases.FileCount, fileCount));
                 trans.Commit();
             }
             catch
@@ -602,11 +603,7 @@ namespace Scada.Admin.Extensions.ExtDepPostgreSql
         public bool Upload()
         {
             if (!profile.DbEnabled)
-            {
-                throw new ScadaException(Locale.IsRussian ?
-                    "База данных не включена в профиле развёртывания." :
-                    "Database is not enabled in the deployment profile.");
-            }
+                throw new ScadaException(ExtensionPhrases.DbNotEnabled);
 
             transferControl.SetCancelEnabled(true);
             transferControl.WriteMessage(Locale.IsRussian ?

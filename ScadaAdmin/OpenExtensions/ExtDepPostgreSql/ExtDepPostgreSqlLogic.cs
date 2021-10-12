@@ -7,7 +7,6 @@ using Scada.Admin.Project;
 using Scada.Config;
 using Scada.Lang;
 using System;
-using System.Threading;
 using static Scada.Storages.PostgreSqlStorage.PostgreSqlStorageShared;
 
 namespace Scada.Admin.Extensions.ExtDepPostgreSql
@@ -79,19 +78,7 @@ namespace Scada.Admin.Extensions.ExtDepPostgreSql
         public override bool DownloadConfig(ScadaProject project, ProjectInstance instance, DeploymentProfile profile,
             ITransferControl transferControl)
         {
-            transferControl.SetCancelEnabled(false);
-
-            for (int i = 1, max = 100; i <= max; i++)
-            {
-                if (transferControl.CancellationToken.IsCancellationRequested)
-                    return false;
-
-                transferControl.WriteMessage($"i = {i} of {max}");
-                transferControl.SetProgress(i * 100 / max);
-                Thread.Sleep(50);
-            }
-
-            return true;
+            return new Downloader(project, instance, profile, transferControl).Download();
         }
 
         /// <summary>
