@@ -6,12 +6,12 @@ using Scada.Config;
 using Scada.Data.Tables;
 using Scada.Lang;
 using System;
-using System.ComponentModel;
 using System.Data;
 using System.IO;
 using System.Text;
 using System.Threading;
 using System.Xml;
+using static Scada.Storages.PostgreSqlStorage.PostgreSqlStorageShared;
 
 namespace Scada.Storages.PostgreSqlStorage
 {
@@ -41,10 +41,6 @@ namespace Scada.Storages.PostgreSqlStorage
             }
         }
 
-        /// <summary>
-        /// The database schema.
-        /// </summary>
-        private const string Schema = "project";
         /// <summary>
         /// The period of attempts to connect to the database.
         /// </summary>
@@ -257,32 +253,6 @@ namespace Scada.Storages.PostgreSqlStorage
         }
 
         /// <summary>
-        /// Creates a database connection.
-        /// </summary>
-        public static NpgsqlConnection CreateDbConnection(DbConnectionOptions options)
-        {
-            string connectionString = options.ConnectionString;
-
-            if (string.IsNullOrEmpty(connectionString))
-            {
-                ScadaUtils.RetrieveHostAndPort(options.Server, NpgsqlConnection.DefaultPort,
-                    out string host, out int port);
-
-                connectionString = new NpgsqlConnectionStringBuilder
-                {
-                    Host = host,
-                    Port = port,
-                    Database = options.Database,
-                    Username = options.Username,
-                    Password = options.Password
-                }
-                .ToString();
-            }
-
-            return new NpgsqlConnection(connectionString);
-        }
-
-        /// <summary>
         /// Gets the table name according to the specified category.
         /// </summary>
         private static string GetTableName(DataCategory category)
@@ -404,54 +374,7 @@ namespace Scada.Storages.PostgreSqlStorage
             {
                 Monitor.Enter(conn);
                 conn.Open();
-
-                string sql = $"SELECT * from {Schema}.\"{baseTable.Name.ToLowerInvariant()}\"";
-                NpgsqlCommand cmd = new NpgsqlCommand(sql, conn);
-                
-                using (NpgsqlDataReader reader = cmd.ExecuteReader())
-                {
-                    if (reader.HasRows)
-                    {
-                        // check primary key column
-                        try
-                        {
-                            reader.GetOrdinal(baseTable.PrimaryKey.ToLowerInvariant());
-                        }
-                        catch
-                        {
-                            throw new ScadaException(Locale.IsRussian ?
-                                "Первичный ключ \"{0}\" не найден" :
-                                "Primary key \"{0}\" not found", baseTable.PrimaryKey);
-                        }
-
-                        // find column indexes
-                        PropertyDescriptorCollection props = TypeDescriptor.GetProperties(baseTable.ItemType);
-                        int propCnt = props.Count;
-                        int[] colIdxs = new int[propCnt];
-
-                        for (int i = 0; i < propCnt; i++)
-                        {
-                            try { colIdxs[i] = reader.GetOrdinal(props[i].Name.ToLowerInvariant()); }
-                            catch { colIdxs[i] = -1; }
-                        }
-
-                        // read rows
-                        while (reader.Read())
-                        {
-                            object item = baseTable.NewItem();
-
-                            for (int i = 0; i < propCnt; i++)
-                            {
-                                int colIdx = colIdxs[i];
-
-                                if (colIdx >= 0 && !reader.IsDBNull(colIdx))
-                                    props[i].SetValue(item, reader[colIdx]);
-                            }
-
-                            baseTable.AddObject(item);
-                        }
-                    }
-                }
+                PostgreSqlStorageShared.ReadBaseTable(baseTable, conn);
             }
             finally
             {

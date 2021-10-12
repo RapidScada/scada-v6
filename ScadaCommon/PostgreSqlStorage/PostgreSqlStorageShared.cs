@@ -48,27 +48,6 @@ namespace Scada.Storages.PostgreSqlStorage
         }
 
         /// <summary>
-        /// Gets the table name according to the specified category.
-        /// </summary>
-        public static string GetTableName(DataCategory category)
-        {
-            switch (category)
-            {
-                case DataCategory.Config:
-                    return Schema + ".app_config";
-
-                case DataCategory.Storage:
-                    return Schema + ".app_storage";
-
-                case DataCategory.View:
-                    return Schema + ".view_file";
-
-                default:
-                    throw new ScadaException("Data category not supported.");
-            }
-        }
-
-        /// <summary>
         /// Gets the name of the configuration database table.
         /// </summary>
         public static string GetBaseTableName(IBaseTable baseTable)
@@ -79,17 +58,19 @@ namespace Scada.Storages.PostgreSqlStorage
         /// <summary>
         /// Gets the column name of the configuration database table.
         /// </summary>
-        public static string GetBaseColumnName(string s)
+        public static string GetBaseColumnName(string propName, bool addQuotes = true)
         {
-            return '"' + s.ToLowerInvariant() + '"';
+            return addQuotes
+                ? '"' + propName.ToLowerInvariant() + '"'
+                : propName.ToLowerInvariant();
         }
 
         /// <summary>
         /// Gets the column name of the configuration database table.
         /// </summary>
-        public static string GetBaseColumnName(PropertyDescriptor prop)
+        public static string GetBaseColumnName(PropertyDescriptor prop, bool addQuotes = true)
         {
-            return GetBaseColumnName(prop.Name);
+            return GetBaseColumnName(prop.Name, addQuotes);
         }
 
         /// <summary>
@@ -107,7 +88,7 @@ namespace Scada.Storages.PostgreSqlStorage
                     // check primary key column
                     try
                     {
-                        reader.GetOrdinal(baseTable.PrimaryKey.ToLowerInvariant());
+                        reader.GetOrdinal(GetBaseColumnName(baseTable.PrimaryKey, false));
                     }
                     catch
                     {
@@ -123,11 +104,13 @@ namespace Scada.Storages.PostgreSqlStorage
 
                     for (int i = 0; i < propCnt; i++)
                     {
-                        try { colIdxs[i] = reader.GetOrdinal(GetBaseColumnName(props[i])); }
+                        try { colIdxs[i] = reader.GetOrdinal(GetBaseColumnName(props[i], false)); }
                         catch { colIdxs[i] = -1; }
                     }
 
                     // read rows
+                    baseTable.Modified = true;
+
                     while (reader.Read())
                     {
                         object item = baseTable.NewItem();
