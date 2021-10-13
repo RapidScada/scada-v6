@@ -60,7 +60,7 @@ namespace Scada.Comm.Config
         public bool SendModifiedData { get; set; }
 
         /// <summary>
-        /// Gets or sets the period of sending all device tags, sec.
+        /// Gets or sets the period of sending data of all device tags, sec.
         /// </summary>
         public int SendAllDataPeriod { get; set; }
 
