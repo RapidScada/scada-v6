@@ -21,8 +21,8 @@ namespace Scada.Admin.Extensions.ExtServerConfig.Forms
     public partial class FrmGeneralOptions : Form, IChildForm
     {
         private readonly ILog log;                  // the application log
-        private readonly ServerApp serverApp;       // the server application in a project
-        private readonly ServerConfig serverConfig; // the server configuration
+        private readonly ServerApp serverApp;       // the Server application in a project
+        private readonly ServerConfig serverConfig; // the Server configuration
         private bool changing;                      // controls are being changed programmatically
 
 

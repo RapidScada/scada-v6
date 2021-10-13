@@ -2,6 +2,7 @@
 // Licensed under the Apache License, Version 2.0. See License.txt in the project root for license information.
 
 using Scada.Admin.Extensions.ExtCommConfig.Code;
+using Scada.Admin.Extensions.ExtCommConfig.Forms;
 using Scada.Admin.Extensions.ExtCommConfig.Properties;
 using Scada.Admin.Lang;
 using Scada.Admin.Project;
@@ -113,7 +114,7 @@ namespace Scada.Admin.Extensions.ExtCommConfig
                     SelectedImageKey = ImageKey.GeneralOptions,
                     Tag = new TreeNodeTag
                     {
-                        //FormType = typeof(FrmGeneralOptions),
+                        FormType = typeof(FrmGeneralOptions),
                         FormArgs = new object[] { AdminContext.ErrLog, commApp }
                     }
                 },

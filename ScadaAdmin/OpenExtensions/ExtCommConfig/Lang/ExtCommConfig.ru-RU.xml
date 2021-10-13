@@ -7,4 +7,14 @@
     <Phrase key="LinesNode">Линии связи</Phrase>
     <Phrase key="LineOptionsNode">Параметры линии</Phrase>
   </Dictionary>
+  <Dictionary key="Scada.Admin.Extensions.ExtCommConfig.Forms.FrmGeneralOptions">
+    <Phrase key="this">Основные параметры</Phrase>
+    <Phrase key="gbGeneralOptions">Основные параметры</Phrase>
+    <Phrase key="lblIsBound">Приложение привязано к базе конфигурации</Phrase>
+    <Phrase key="lblSendModifiedData">Передавать только изменившиеся данные тегов КП</Phrase>
+    <Phrase key="lblSendAllDataPeriod">Период передачи всех тегов КП, с</Phrase>
+    <Phrase key="lblEnableCommands">Разрешить команды телеуправления</Phrase>
+    <Phrase key="lblEnableFileCommands">Считывать команды телеуправления из файлов</Phrase>
+    <Phrase key="lblMaxLogSize">Максимальный размер файла журнала, МБ</Phrase>
+  </Dictionary>
 </ExtCommConfigDictionaries>

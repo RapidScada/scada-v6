@@ -50,7 +50,7 @@ namespace Scada.Comm.Config
 
 
         /// <summary>
-        /// Gets or sets a value indicating whether the line is bound to the configuration database.
+        /// Gets or sets a value indicating whether the application is bound to the configuration database.
         /// </summary>
         public bool IsBound { get; set; }
 

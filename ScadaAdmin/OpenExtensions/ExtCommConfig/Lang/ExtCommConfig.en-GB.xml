@@ -7,4 +7,14 @@
     <Phrase key="LinesNode">Communication Lines</Phrase>
     <Phrase key="LineOptionsNode">Line Options</Phrase>
   </Dictionary>
+  <Dictionary key="Scada.Admin.Extensions.ExtCommConfig.Forms.FrmGeneralOptions">
+    <Phrase key="this">General Options</Phrase>
+    <Phrase key="gbGeneralOptions">General Options</Phrase>
+    <Phrase key="lblIsBound">Application is bound to the configuration database</Phrase>
+    <Phrase key="lblSendModifiedData">Send only modified data of device tags</Phrase>
+    <Phrase key="lblSendAllDataPeriod">Period of sending all device tags, sec</Phrase>
+    <Phrase key="lblEnableCommands">Enable telecontrol commands</Phrase>
+    <Phrase key="lblEnableFileCommands">Read telecontrol commands from files</Phrase>
+    <Phrase key="lblMaxLogSize">Maximum log file size, MB</Phrase>
+  </Dictionary>
 </ExtCommConfigDictionaries>
