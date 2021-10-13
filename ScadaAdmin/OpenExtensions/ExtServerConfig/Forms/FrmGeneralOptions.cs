@@ -106,7 +106,7 @@ namespace Scada.Admin.Extensions.ExtServerConfig.Forms
         }
 
         /// <summary>
-        /// Saves the settings.
+        /// Saves the changes of the child form data.
         /// </summary>
         public void Save()
         {
