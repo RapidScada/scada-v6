@@ -124,7 +124,7 @@ namespace Scada.Admin.Extensions.ExtCommConfig
                     SelectedImageKey = ImageKey.Driver,
                     Tag = new TreeNodeTag
                     {
-                        //FormType = typeof(FrmDrivers),
+                        FormType = typeof(FrmDrivers),
                         FormArgs = new object[] { AdminContext, commApp }
                     }
                 },
