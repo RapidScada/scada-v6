@@ -78,5 +78,48 @@ namespace Scada.Comm.Drivers
                 return false;
             }
         }
+
+        /// <summary>
+        /// Gets a new instance of the driver user interface.
+        /// </summary>
+        public static bool GetDriverView(string directory, string driverCode,
+            out DriverView driverView, out string message)
+        {
+            string fileName = Path.Combine(directory, driverCode + ".View.dll");
+            string typeName = string.Format("Scada.Server.Drivers.{0}.View.{0}View", driverCode);
+
+            try
+            {
+                if (File.Exists(fileName))
+                {
+                    Assembly assembly = Assembly.LoadFrom(fileName);
+                    Type type = assembly.GetType(typeName, true);
+                    driverView = (DriverView)Activator.CreateInstance(type);
+
+                    message = string.Format(Locale.IsRussian ?
+                        "Загружен интерфейс драйвера {0} {1} из файла {2}" :
+                        "Loaded driver interface {0} {1} from file {2}",
+                        driverCode, assembly.GetName().Version, fileName);
+                    return true;
+                }
+                else
+                {
+                    driverView = null;
+                    message = string.Format(Locale.IsRussian ?
+                        "Невозможно создать интерфейс драйвера {0}. Файл {1} не найден" :
+                        "Unable to create driver interface {0}. File {1} not found", driverCode, fileName);
+                    return false;
+                }
+            }
+            catch (Exception ex)
+            {
+                driverView = null;
+                message = string.Format(Locale.IsRussian ?
+                    "Ошибка при создании интерфейса драйвера {0} типа {1} из файла {2}: {3}" :
+                    "Error creating driver interface {0} of type {1} from file {2}: {3}",
+                    driverCode, typeName, fileName, ex.Message);
+                return false;
+            }
+        }
     }
 }

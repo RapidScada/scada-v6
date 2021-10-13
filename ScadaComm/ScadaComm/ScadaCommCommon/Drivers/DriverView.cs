@@ -20,7 +20,7 @@
  * 
  * Author   : Mikhail Shiryaev
  * Created  : 2020
- * Modified : 2020
+ * Modified : 2021
  */
 
 using Scada.Comm.Channels;
@@ -70,10 +70,22 @@ namespace Scada.Comm.Drivers
         public bool CanCreateDataSource { get; protected set; }
 
         /// <summary>
+        /// Gets the driver name.
+        /// </summary>
+        public abstract string Name { get; }
+
+        /// <summary>
         /// Gets the driver description.
         /// </summary>
         public abstract string Descr { get; }
 
+
+        /// <summary>
+        /// Loads language dictionaries.
+        /// </summary>
+        public virtual void LoadDictionaries()
+        {
+        }
 
         /// <summary>
         /// Creates a new communication channel user interface.
