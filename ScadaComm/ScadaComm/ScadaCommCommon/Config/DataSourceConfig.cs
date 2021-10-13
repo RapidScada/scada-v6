@@ -33,6 +33,7 @@ namespace Scada.Comm.Config
     /// Represents a data source configuration.
     /// <para>Представляет конфигурацию источника данных.</para>
     /// </summary>
+    [Serializable]
     public class DataSourceConfig
     {
         /// <summary>

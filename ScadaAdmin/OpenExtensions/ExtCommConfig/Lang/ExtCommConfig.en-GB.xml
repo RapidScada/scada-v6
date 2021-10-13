@@ -7,6 +7,32 @@
     <Phrase key="LinesNode">Communication Lines</Phrase>
     <Phrase key="LineOptionsNode">Line Options</Phrase>
   </Dictionary>
+  <Dictionary key="Scada.Admin.Extensions.ExtCommConfig.Forms.FrmDataSources">
+    <Phrase key="this">Data Sources</Phrase>
+    <Phrase key="btnAdd">Add</Phrase>
+    <Phrase key="btnMoveUp">Move Up</Phrase>
+    <Phrase key="btnMoveDown">Move Down</Phrase>
+    <Phrase key="btnDelete">Delete</Phrase>
+    <Phrase key="btnCut">Cut</Phrase>
+    <Phrase key="btnCopy">Copy</Phrase>
+    <Phrase key="btnPaste">Paste</Phrase>
+    <Phrase key="colOrder">#</Phrase>
+    <Phrase key="colActive">Active</Phrase>
+    <Phrase key="colCode">Code</Phrase>
+    <Phrase key="colName">Name</Phrase>
+    <Phrase key="colDriver">Driver</Phrase>
+    <Phrase key="gbDataSource">Selected Data Source</Phrase>
+    <Phrase key="chkActive">Active</Phrase>
+    <Phrase key="lblCode">Code</Phrase>
+    <Phrase key="lblName">Name</Phrase>
+    <Phrase key="lblDriver">Driver</Phrase>
+    <Phrase key="lblOptions">Options</Phrase>
+    <Phrase key="btnProperties">Properties</Phrase>
+    <Phrase key="DriverNotSpecified">Driver is not specified.</Phrase>
+    <Phrase key="DataSourceNotSupported">The driver does not support creating data sources.</Phrase>
+    <Phrase key="UnableCreateDataSourceView">Unable to create data source user interface.</Phrase>
+    <Phrase key="NoDataSourceView">The data source does not provide user interface.</Phrase>
+  </Dictionary>
   <Dictionary key="Scada.Admin.Extensions.ExtCommConfig.Forms.FrmDrivers">
     <Phrase key="this">Drivers</Phrase>
     <Phrase key="lblDrivers">Available drivers:</Phrase>

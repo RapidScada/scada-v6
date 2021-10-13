@@ -18,6 +18,12 @@ namespace Scada.Admin.Extensions.ExtCommConfig.Code
         public static string LinesNode { get; private set; }
         public static string LineOptionsNode { get; private set; }
 
+        // Scada.Admin.Extensions.ExtCommConfig.Forms.FrmDataSources
+        public static string DriverNotSpecified { get; private set; }
+        public static string DataSourceNotSupported { get; private set; }
+        public static string UnableCreateDataSourceView { get; private set; }
+        public static string NoDataSourceView { get; private set; }
+
         public static void Init()
         {
             LocaleDict dict = Locale.GetDictionary("Scada.Admin.Extensions.ExtCommConfig.ExtCommConfigLogic");
@@ -26,6 +32,12 @@ namespace Scada.Admin.Extensions.ExtCommConfig.Code
             DataSourcesNode = dict["DataSourcesNode"];
             LinesNode = dict["LinesNode"];
             LineOptionsNode = dict["LineOptionsNode"];
+
+            dict = Locale.GetDictionary("Scada.Admin.Extensions.ExtCommConfig.Forms.FrmDataSources");
+            DriverNotSpecified = dict["DriverNotSpecified"];
+            DataSourceNotSupported = dict["DataSourceNotSupported"];
+            UnableCreateDataSourceView = dict["UnableCreateDataSourceView"];
+            NoDataSourceView = dict["NoDataSourceView"];
         }
     }
 }

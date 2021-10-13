@@ -7,6 +7,32 @@
     <Phrase key="LinesNode">Линии связи</Phrase>
     <Phrase key="LineOptionsNode">Параметры линии</Phrase>
   </Dictionary>
+  <Dictionary key="Scada.Admin.Extensions.ExtCommConfig.Forms.FrmDataSources">
+    <Phrase key="this">Источники данных</Phrase>
+    <Phrase key="btnAdd">Добавить</Phrase>
+    <Phrase key="btnMoveUp">Вверх</Phrase>
+    <Phrase key="btnMoveDown">Вниз</Phrase>
+    <Phrase key="btnDelete">Удалить</Phrase>
+    <Phrase key="btnCut">Вырезать</Phrase>
+    <Phrase key="btnCopy">Копировать</Phrase>
+    <Phrase key="btnPaste">Вставить</Phrase>
+    <Phrase key="colOrder">№ п/п</Phrase>
+    <Phrase key="colActive">Активен</Phrase>
+    <Phrase key="colCode">Код</Phrase>
+    <Phrase key="colName">Наименование</Phrase>
+    <Phrase key="colDriver">Драйвер</Phrase>
+    <Phrase key="gbDataSource">Выбранный источник данных</Phrase>
+    <Phrase key="chkActive">Активен</Phrase>
+    <Phrase key="lblCode">Код</Phrase>
+    <Phrase key="lblName">Наименование</Phrase>
+    <Phrase key="lblDriver">Драйвер</Phrase>
+    <Phrase key="lblOptions">Параметры</Phrase>
+    <Phrase key="btnProperties">Свойства</Phrase>
+    <Phrase key="DriverNotSpecified">Драйвер не указан.</Phrase>
+    <Phrase key="DataSourceNotSupported">Драйвер не поддерживает создание источников данных.</Phrase>
+    <Phrase key="UnableCreateDataSourceView">Невозможно создать пользовательский интерфейс источника данных.</Phrase>
+    <Phrase key="NoDataSourceView">Источник данных не предоставляет пользовательский интерфейс.</Phrase>
+  </Dictionary>
   <Dictionary key="Scada.Admin.Extensions.ExtCommConfig.Forms.FrmDrivers">
     <Phrase key="this">Драйверы</Phrase>
     <Phrase key="lblDrivers">Доступные драйверы:</Phrase>

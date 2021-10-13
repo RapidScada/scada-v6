@@ -134,7 +134,7 @@ namespace Scada.Admin.Extensions.ExtCommConfig
                     SelectedImageKey = ImageKey.DataSource,
                     Tag = new TreeNodeTag
                     {
-                        //FormType = typeof(FrmDataSources),
+                        FormType = typeof(FrmDataSources),
                         FormArgs = new object[] { AdminContext, commApp }
                     }
                 },
