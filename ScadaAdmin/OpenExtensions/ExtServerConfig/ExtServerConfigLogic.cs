@@ -104,7 +104,7 @@ namespace Scada.Admin.Extensions.ExtServerConfig
                         FormType = typeof(FrmArchives),
                         FormArgs = new object[] { AdminContext, serverApp }
                     }
-                },
+                }
             };
         }
 
@@ -117,7 +117,7 @@ namespace Scada.Admin.Extensions.ExtServerConfig
             {
                 { ImageKey.Archive, Resources.archive },
                 { ImageKey.GeneralOptions, Resources.general_options },
-                { ImageKey.Module, Resources.module },
+                { ImageKey.Module, Resources.module }
             };
         }
     }

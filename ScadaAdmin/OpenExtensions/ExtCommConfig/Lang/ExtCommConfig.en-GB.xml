@@ -1,3 +1,10 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <ExtCommConfigDictionaries>
+  <Dictionary key="Scada.Admin.Extensions.ExtCommConfig.ExtCommConfigLogic">
+    <Phrase key="GeneralOptionsNode">General Options</Phrase>
+    <Phrase key="DriversNode">Drivers</Phrase>
+    <Phrase key="DataSourcesNode">Data Sources</Phrase>
+    <Phrase key="LinesNode">Communication Lines</Phrase>
+    <Phrase key="LineOptionsNode">Line Options</Phrase>
+  </Dictionary>
 </ExtCommConfigDictionaries>

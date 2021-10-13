@@ -4,7 +4,6 @@
     <Phrase key="GeneralOptionsNode">General Options</Phrase>
     <Phrase key="ModulesNode">Modules</Phrase>
     <Phrase key="ArchivesNode">Archives</Phrase>
-    <Phrase key=""></Phrase>
   </Dictionary>
   <Dictionary key="Scada.Admin.Extensions.ExtServerConfig.Forms.FrmArchives">
     <Phrase key="this">Archives</Phrase>
