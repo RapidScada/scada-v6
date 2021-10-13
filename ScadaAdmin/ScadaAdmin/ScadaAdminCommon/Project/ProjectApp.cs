@@ -64,9 +64,9 @@ namespace Scada.Admin.Project
         public string AppDir { get; protected set; }
 
         /// <summary>
-        /// Gets a value indicating whether the application configuration is loaded.
+        /// Gets or sets a value indicating whether the application configuration is loaded.
         /// </summary>
-        public bool ConfigLoaded { get; protected set; }
+        public bool ConfigLoaded { get; set; }
 
         /// <summary>
         /// Gets the corresponding service application.

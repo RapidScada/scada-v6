@@ -113,13 +113,20 @@ namespace Scada.Admin.Project
         }
 
         /// <summary>
-        /// Gets a value indicating whether all the application configurations are loaded.
+        /// Gets or sets a value indicating whether all the application configurations are loaded.
         /// </summary>
         public bool ConfigLoaded
         {
             get
             {
                 return AllApps.All(app => !app.Enabled || app.ConfigLoaded);
+            }
+            set
+            {
+                foreach (ProjectApp app in AllApps)
+                {
+                    app.ConfigLoaded = value;
+                }
             }
         }
 
@@ -168,22 +175,14 @@ namespace Scada.Admin.Project
         /// </summary>
         public bool LoadAppConfig(out string errMsg)
         {
-            if (ConfigLoaded)
+            foreach (ProjectApp app in AllApps)
             {
-                errMsg = "";
-                return true;
+                if (app.Enabled && !(app.ConfigLoaded || app.LoadConfig(out errMsg)))
+                    return false;
             }
-            else
-            {
-                foreach (ProjectApp app in AllApps)
-                {
-                    if (app.Enabled && !(app.ConfigLoaded || app.LoadConfig(out errMsg)))
-                        return false;
-                }
 
-                errMsg = "";
-                return true;
-            }
+            errMsg = "";
+            return true;
         }
 
         /// <summary>

@@ -1351,6 +1351,7 @@ namespace Scada.Admin.App.Forms
 
                 if (frmDownloadConfig.InstanceModified)
                 {
+                    liveInstance.ProjectInstance.ConfigLoaded = false;
                     CloseChildForms(instanceNode);
                     RefreshInstanceNode(instanceNode, liveInstance);
                 }
@@ -2188,6 +2189,7 @@ namespace Scada.Admin.App.Forms
             if (tvExplorer.GetSelectedObject() is ProjectApp projectApp)
             {
                 CloseChildForms(tvExplorer.SelectedNode);
+                projectApp.ConfigLoaded = false;
 
                 if (projectApp.LoadConfig(out string errMsg))
                     explorerBuilder.FillAppNode(tvExplorer.SelectedNode);
