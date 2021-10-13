@@ -1,5 +1,4 @@
-﻿
-namespace Scada.Admin.Extensions.ExtCommConfig.Forms
+﻿namespace Scada.Admin.Extensions.ExtCommConfig.Forms
 {
     partial class FrmGeneralOptions
     {
@@ -32,16 +31,16 @@ namespace Scada.Admin.Extensions.ExtCommConfig.Forms
             this.gbGeneralOptions = new System.Windows.Forms.GroupBox();
             this.numMaxLogSize = new System.Windows.Forms.NumericUpDown();
             this.lblMaxLogSize = new System.Windows.Forms.Label();
-            this.lblIsBound = new System.Windows.Forms.Label();
-            this.chkIsBound = new System.Windows.Forms.CheckBox();
-            this.lblSendModifiedData = new System.Windows.Forms.Label();
-            this.chkSendModifiedData = new System.Windows.Forms.CheckBox();
-            this.lblSendAllDataPeriod = new System.Windows.Forms.Label();
-            this.numSendAllDataPeriod = new System.Windows.Forms.NumericUpDown();
-            this.lblEnableCommands = new System.Windows.Forms.Label();
-            this.chkEnableCommands = new System.Windows.Forms.CheckBox();
-            this.lblEnableFileCommands = new System.Windows.Forms.Label();
             this.chkEnableFileCommands = new System.Windows.Forms.CheckBox();
+            this.lblEnableFileCommands = new System.Windows.Forms.Label();
+            this.chkEnableCommands = new System.Windows.Forms.CheckBox();
+            this.lblEnableCommands = new System.Windows.Forms.Label();
+            this.numSendAllDataPeriod = new System.Windows.Forms.NumericUpDown();
+            this.lblSendAllDataPeriod = new System.Windows.Forms.Label();
+            this.chkSendModifiedData = new System.Windows.Forms.CheckBox();
+            this.lblSendModifiedData = new System.Windows.Forms.Label();
+            this.chkIsBound = new System.Windows.Forms.CheckBox();
+            this.lblIsBound = new System.Windows.Forms.Label();
             this.gbGeneralOptions.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.numMaxLogSize)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.numSendAllDataPeriod)).BeginInit();
@@ -96,52 +95,43 @@ namespace Scada.Admin.Extensions.ExtCommConfig.Forms
             this.lblMaxLogSize.TabIndex = 10;
             this.lblMaxLogSize.Text = "Maximum log file size, MB";
             // 
-            // lblIsBound
+            // chkEnableFileCommands
             // 
-            this.lblIsBound.AutoSize = true;
-            this.lblIsBound.Location = new System.Drawing.Point(17, 26);
-            this.lblIsBound.Name = "lblIsBound";
-            this.lblIsBound.Size = new System.Drawing.Size(276, 15);
-            this.lblIsBound.TabIndex = 0;
-            this.lblIsBound.Text = "Application is bound to the configuration database";
+            this.chkEnableFileCommands.AutoSize = true;
+            this.chkEnableFileCommands.Location = new System.Drawing.Point(430, 142);
+            this.chkEnableFileCommands.Name = "chkEnableFileCommands";
+            this.chkEnableFileCommands.Size = new System.Drawing.Size(15, 14);
+            this.chkEnableFileCommands.TabIndex = 9;
+            this.chkEnableFileCommands.UseVisualStyleBackColor = true;
+            this.chkEnableFileCommands.CheckedChanged += new System.EventHandler(this.control_Changed);
             // 
-            // chkIsBound
+            // lblEnableFileCommands
             // 
-            this.chkIsBound.AutoSize = true;
-            this.chkIsBound.Location = new System.Drawing.Point(430, 26);
-            this.chkIsBound.Name = "chkIsBound";
-            this.chkIsBound.Size = new System.Drawing.Size(15, 14);
-            this.chkIsBound.TabIndex = 1;
-            this.chkIsBound.UseVisualStyleBackColor = true;
-            this.chkIsBound.CheckedChanged += new System.EventHandler(this.control_Changed);
+            this.lblEnableFileCommands.AutoSize = true;
+            this.lblEnableFileCommands.Location = new System.Drawing.Point(17, 142);
+            this.lblEnableFileCommands.Name = "lblEnableFileCommands";
+            this.lblEnableFileCommands.Size = new System.Drawing.Size(209, 15);
+            this.lblEnableFileCommands.TabIndex = 8;
+            this.lblEnableFileCommands.Text = "Read telecontrol commands from files";
             // 
-            // lblSendModifiedData
+            // chkEnableCommands
             // 
-            this.lblSendModifiedData.AutoSize = true;
-            this.lblSendModifiedData.Location = new System.Drawing.Point(17, 55);
-            this.lblSendModifiedData.Name = "lblSendModifiedData";
-            this.lblSendModifiedData.Size = new System.Drawing.Size(212, 15);
-            this.lblSendModifiedData.TabIndex = 2;
-            this.lblSendModifiedData.Text = "Send only modified data of device tags";
+            this.chkEnableCommands.AutoSize = true;
+            this.chkEnableCommands.Location = new System.Drawing.Point(430, 113);
+            this.chkEnableCommands.Name = "chkEnableCommands";
+            this.chkEnableCommands.Size = new System.Drawing.Size(15, 14);
+            this.chkEnableCommands.TabIndex = 7;
+            this.chkEnableCommands.UseVisualStyleBackColor = true;
+            this.chkEnableCommands.CheckedChanged += new System.EventHandler(this.control_Changed);
             // 
-            // chkSendModifiedData
+            // lblEnableCommands
             // 
-            this.chkSendModifiedData.AutoSize = true;
-            this.chkSendModifiedData.Location = new System.Drawing.Point(430, 55);
-            this.chkSendModifiedData.Name = "chkSendModifiedData";
-            this.chkSendModifiedData.Size = new System.Drawing.Size(15, 14);
-            this.chkSendModifiedData.TabIndex = 3;
-            this.chkSendModifiedData.UseVisualStyleBackColor = true;
-            this.chkSendModifiedData.CheckedChanged += new System.EventHandler(this.control_Changed);
-            // 
-            // lblSendAllDataPeriod
-            // 
-            this.lblSendAllDataPeriod.AutoSize = true;
-            this.lblSendAllDataPeriod.Location = new System.Drawing.Point(17, 84);
-            this.lblSendAllDataPeriod.Name = "lblSendAllDataPeriod";
-            this.lblSendAllDataPeriod.Size = new System.Drawing.Size(200, 15);
-            this.lblSendAllDataPeriod.TabIndex = 4;
-            this.lblSendAllDataPeriod.Text = "Period of sending all device tags, sec";
+            this.lblEnableCommands.AutoSize = true;
+            this.lblEnableCommands.Location = new System.Drawing.Point(17, 113);
+            this.lblEnableCommands.Name = "lblEnableCommands";
+            this.lblEnableCommands.Size = new System.Drawing.Size(165, 15);
+            this.lblEnableCommands.TabIndex = 6;
+            this.lblEnableCommands.Text = "Enable telecontrol commands";
             // 
             // numSendAllDataPeriod
             // 
@@ -156,43 +146,52 @@ namespace Scada.Admin.Extensions.ExtCommConfig.Forms
             this.numSendAllDataPeriod.TabIndex = 5;
             this.numSendAllDataPeriod.ValueChanged += new System.EventHandler(this.control_Changed);
             // 
-            // lblEnableCommands
+            // lblSendAllDataPeriod
             // 
-            this.lblEnableCommands.AutoSize = true;
-            this.lblEnableCommands.Location = new System.Drawing.Point(17, 113);
-            this.lblEnableCommands.Name = "lblEnableCommands";
-            this.lblEnableCommands.Size = new System.Drawing.Size(165, 15);
-            this.lblEnableCommands.TabIndex = 6;
-            this.lblEnableCommands.Text = "Enable telecontrol commands";
+            this.lblSendAllDataPeriod.AutoSize = true;
+            this.lblSendAllDataPeriod.Location = new System.Drawing.Point(17, 84);
+            this.lblSendAllDataPeriod.Name = "lblSendAllDataPeriod";
+            this.lblSendAllDataPeriod.Size = new System.Drawing.Size(240, 15);
+            this.lblSendAllDataPeriod.TabIndex = 4;
+            this.lblSendAllDataPeriod.Text = "Period of sending data of all device tags, sec";
             // 
-            // chkEnableCommands
+            // chkSendModifiedData
             // 
-            this.chkEnableCommands.AutoSize = true;
-            this.chkEnableCommands.Location = new System.Drawing.Point(430, 113);
-            this.chkEnableCommands.Name = "chkEnableCommands";
-            this.chkEnableCommands.Size = new System.Drawing.Size(15, 14);
-            this.chkEnableCommands.TabIndex = 7;
-            this.chkEnableCommands.UseVisualStyleBackColor = true;
-            this.chkEnableCommands.CheckedChanged += new System.EventHandler(this.control_Changed);
+            this.chkSendModifiedData.AutoSize = true;
+            this.chkSendModifiedData.Location = new System.Drawing.Point(430, 55);
+            this.chkSendModifiedData.Name = "chkSendModifiedData";
+            this.chkSendModifiedData.Size = new System.Drawing.Size(15, 14);
+            this.chkSendModifiedData.TabIndex = 3;
+            this.chkSendModifiedData.UseVisualStyleBackColor = true;
+            this.chkSendModifiedData.CheckedChanged += new System.EventHandler(this.control_Changed);
             // 
-            // lblEnableFileCommands
+            // lblSendModifiedData
             // 
-            this.lblEnableFileCommands.AutoSize = true;
-            this.lblEnableFileCommands.Location = new System.Drawing.Point(17, 142);
-            this.lblEnableFileCommands.Name = "lblEnableFileCommands";
-            this.lblEnableFileCommands.Size = new System.Drawing.Size(209, 15);
-            this.lblEnableFileCommands.TabIndex = 8;
-            this.lblEnableFileCommands.Text = "Read telecontrol commands from files";
+            this.lblSendModifiedData.AutoSize = true;
+            this.lblSendModifiedData.Location = new System.Drawing.Point(17, 55);
+            this.lblSendModifiedData.Name = "lblSendModifiedData";
+            this.lblSendModifiedData.Size = new System.Drawing.Size(212, 15);
+            this.lblSendModifiedData.TabIndex = 2;
+            this.lblSendModifiedData.Text = "Send only modified data of device tags";
             // 
-            // chkEnableFileCommands
+            // chkIsBound
             // 
-            this.chkEnableFileCommands.AutoSize = true;
-            this.chkEnableFileCommands.Location = new System.Drawing.Point(430, 142);
-            this.chkEnableFileCommands.Name = "chkEnableFileCommands";
-            this.chkEnableFileCommands.Size = new System.Drawing.Size(15, 14);
-            this.chkEnableFileCommands.TabIndex = 9;
-            this.chkEnableFileCommands.UseVisualStyleBackColor = true;
-            this.chkEnableFileCommands.CheckedChanged += new System.EventHandler(this.control_Changed);
+            this.chkIsBound.AutoSize = true;
+            this.chkIsBound.Location = new System.Drawing.Point(430, 26);
+            this.chkIsBound.Name = "chkIsBound";
+            this.chkIsBound.Size = new System.Drawing.Size(15, 14);
+            this.chkIsBound.TabIndex = 1;
+            this.chkIsBound.UseVisualStyleBackColor = true;
+            this.chkIsBound.CheckedChanged += new System.EventHandler(this.control_Changed);
+            // 
+            // lblIsBound
+            // 
+            this.lblIsBound.AutoSize = true;
+            this.lblIsBound.Location = new System.Drawing.Point(17, 26);
+            this.lblIsBound.Name = "lblIsBound";
+            this.lblIsBound.Size = new System.Drawing.Size(276, 15);
+            this.lblIsBound.TabIndex = 0;
+            this.lblIsBound.Text = "Application is bound to the configuration database";
             // 
             // FrmGeneralOptions
             // 

@@ -81,7 +81,7 @@ namespace Scada.Admin.Extensions.ExtCommConfig.Forms
         }
 
         /// <summary>
-        /// Saves the settings.
+        /// Saves the changes of the child form data.
         /// </summary>
         public void Save()
         {
