@@ -10,7 +10,9 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 		.editorconfig = .editorconfig
 	EndProjectSection
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ExtDepPostgreSql", "ExtDepPostgreSql\ExtDepPostgreSql.csproj", "{7E6A706D-A318-4C1D-8A6A-5EF8B099B522}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ExtDepPostgreSql", "ExtDepPostgreSql\ExtDepPostgreSql.csproj", "{7E6A706D-A318-4C1D-8A6A-5EF8B099B522}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ExtCommConfig", "ExtCommConfig\ExtCommConfig.csproj", "{99813C21-620D-48A1-BEA6-E6F2E362421A}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -26,6 +28,10 @@ Global
 		{7E6A706D-A318-4C1D-8A6A-5EF8B099B522}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{7E6A706D-A318-4C1D-8A6A-5EF8B099B522}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{7E6A706D-A318-4C1D-8A6A-5EF8B099B522}.Release|Any CPU.Build.0 = Release|Any CPU
+		{99813C21-620D-48A1-BEA6-E6F2E362421A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{99813C21-620D-48A1-BEA6-E6F2E362421A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{99813C21-620D-48A1-BEA6-E6F2E362421A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{99813C21-620D-48A1-BEA6-E6F2E362421A}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
