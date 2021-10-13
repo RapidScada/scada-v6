@@ -86,7 +86,7 @@ namespace Scada.Comm.Drivers
             out DriverView driverView, out string message)
         {
             string fileName = Path.Combine(directory, driverCode + ".View.dll");
-            string typeName = string.Format("Scada.Server.Drivers.{0}.View.{0}View", driverCode);
+            string typeName = string.Format("Scada.Comm.Drivers.{0}.View.{0}View", driverCode);
 
             try
             {
