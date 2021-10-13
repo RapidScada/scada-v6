@@ -33,4 +33,18 @@
     </Reference>
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Code\" />
+    <Folder Include="Forms\" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Update="Lang\ExtCommConfig.ru-RU.xml">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="Lang\ExtCommConfig.en-GB.xml">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
+
 </Project>
