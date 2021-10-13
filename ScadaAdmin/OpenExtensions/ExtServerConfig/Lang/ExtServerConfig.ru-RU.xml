@@ -7,13 +7,13 @@
   </Dictionary>
   <Dictionary key="Scada.Admin.Extensions.ExtServerConfig.Forms.FrmArchives">
     <Phrase key="this">Архивы</Phrase>
-    <Phrase key="btnAddArchive">Добавить</Phrase>
-    <Phrase key="btnMoveUpArchive">Вверх</Phrase>
-    <Phrase key="btnMoveDownArchive">Вниз</Phrase>
-    <Phrase key="btnDeleteArchive">Удалить</Phrase>
-    <Phrase key="btnCutArchive">Вырезать</Phrase>
-    <Phrase key="btnCopyArchive">Копировать</Phrase>
-    <Phrase key="btnPasteArchive">Вставить</Phrase>
+    <Phrase key="btnAdd">Добавить</Phrase>
+    <Phrase key="btnMoveUp">Вверх</Phrase>
+    <Phrase key="btnMoveDown">Вниз</Phrase>
+    <Phrase key="btnDelete">Удалить</Phrase>
+    <Phrase key="btnCut">Вырезать</Phrase>
+    <Phrase key="btnCopy">Копировать</Phrase>
+    <Phrase key="btnPaste">Вставить</Phrase>
     <Phrase key="colOrder">№ п/п</Phrase>
     <Phrase key="colActive">Активен</Phrase>
     <Phrase key="colCode">Код</Phrase>

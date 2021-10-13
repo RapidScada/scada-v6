@@ -22,8 +22,8 @@ namespace Scada.Admin.Extensions.ExtServerConfig.Forms
     public partial class FrmArchives : Form, IChildForm
     {
         private readonly IAdminContext adminContext; // the Administrator context
-        private readonly ServerApp serverApp;        // the server application in a project
-        private readonly ServerConfig serverConfig;  // the server configuration
+        private readonly ServerApp serverApp;        // the Server application in a project
+        private readonly ServerConfig serverConfig;  // the Server configuration
         private bool changing;                       // controls are being changed programmatically
         private ArchiveConfig archiveClipboard;      // contains the copied archive
 
@@ -152,20 +152,20 @@ namespace Scada.Admin.Extensions.ExtServerConfig.Forms
             if (lvArchive.SelectedItems.Count > 0)
             {
                 int index = lvArchive.SelectedIndices[0];
-                btnMoveUpArchive.Enabled = index > 0;
-                btnMoveDownArchive.Enabled = index < lvArchive.Items.Count - 1;
-                btnDeleteArchive.Enabled = true;
-                btnCutArchive.Enabled = true;
-                btnCopyArchive.Enabled = true;
+                btnMoveUp.Enabled = index > 0;
+                btnMoveDown.Enabled = index < lvArchive.Items.Count - 1;
+                btnDelete.Enabled = true;
+                btnCut.Enabled = true;
+                btnCopy.Enabled = true;
                 gbArchive.Enabled = true;
             }
             else
             {
-                btnMoveUpArchive.Enabled = false;
-                btnMoveDownArchive.Enabled = false;
-                btnDeleteArchive.Enabled = false;
-                btnCutArchive.Enabled = false;
-                btnCopyArchive.Enabled = false;
+                btnMoveUp.Enabled = false;
+                btnMoveDown.Enabled = false;
+                btnDelete.Enabled = false;
+                btnCut.Enabled = false;
+                btnCopy.Enabled = false;
                 gbArchive.Enabled = false;
             }
         }
@@ -278,52 +278,52 @@ namespace Scada.Admin.Extensions.ExtServerConfig.Forms
             FillModuleComboBox();
             SetControlsEnabled();
             ConfigToControls();
-            btnPasteArchive.Enabled = false;
+            btnPaste.Enabled = false;
         }
 
-        private void btnAddArchive_Click(object sender, EventArgs e)
+        private void btnAdd_Click(object sender, EventArgs e)
         {
             AddArchiveItem(new ArchiveConfig());
         }
 
-        private void btnMoveUpArchive_Click(object sender, EventArgs e)
+        private void btnMoveUp_Click(object sender, EventArgs e)
         {
             if (lvArchive.MoveUpSelectedItem(true))
                 ChildFormTag.Modified = true;
         }
 
-        private void btnMoveDownArchive_Click(object sender, EventArgs e)
+        private void btnMoveDown_Click(object sender, EventArgs e)
         {
             if (lvArchive.MoveDownSelectedItem(true))
                 ChildFormTag.Modified = true;
         }
 
-        private void btnDeleteArchive_Click(object sender, EventArgs e)
+        private void btnDelete_Click(object sender, EventArgs e)
         {
             if (lvArchive.RemoveSelectedItem(true))
                 ChildFormTag.Modified = true;
         }
 
-        private void btnCutArchive_Click(object sender, EventArgs e)
+        private void btnCut_Click(object sender, EventArgs e)
         {
             // cut the selected archive
-            btnCopyArchive_Click(null, null);
-            btnDeleteArchive_Click(null, null);
+            btnCopy_Click(null, null);
+            btnDelete_Click(null, null);
         }
 
-        private void btnCopyArchive_Click(object sender, EventArgs e)
+        private void btnCopy_Click(object sender, EventArgs e)
         {
             // copy the selected archive
             if (GetSelectedItem(out _, out ArchiveConfig archiveConfig))
             {
-                btnPasteArchive.Enabled = true;
+                btnPaste.Enabled = true;
                 archiveClipboard = archiveConfig.DeepClone();
             }
 
             lvArchive.Focus();
         }
 
-        private void btnPasteArchive_Click(object sender, EventArgs e)
+        private void btnPaste_Click(object sender, EventArgs e)
         {
             // paste the copied archive
             if (archiveClipboard == null)

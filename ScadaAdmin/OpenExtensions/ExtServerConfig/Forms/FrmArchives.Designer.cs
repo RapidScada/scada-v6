@@ -29,10 +29,10 @@ namespace Scada.Admin.Extensions.ExtServerConfig.Forms
         /// </summary>
         private void InitializeComponent()
         {
-            this.btnAddArchive = new System.Windows.Forms.Button();
-            this.btnMoveUpArchive = new System.Windows.Forms.Button();
-            this.btnMoveDownArchive = new System.Windows.Forms.Button();
-            this.btnDeleteArchive = new System.Windows.Forms.Button();
+            this.btnAdd = new System.Windows.Forms.Button();
+            this.btnMoveUp = new System.Windows.Forms.Button();
+            this.btnMoveDown = new System.Windows.Forms.Button();
+            this.btnDelete = new System.Windows.Forms.Button();
             this.lvArchive = new System.Windows.Forms.ListView();
             this.colOrder = new System.Windows.Forms.ColumnHeader();
             this.colActive = new System.Windows.Forms.ColumnHeader();
@@ -53,51 +53,51 @@ namespace Scada.Admin.Extensions.ExtServerConfig.Forms
             this.txtCode = new System.Windows.Forms.TextBox();
             this.lblCode = new System.Windows.Forms.Label();
             this.chkActive = new System.Windows.Forms.CheckBox();
-            this.btnCutArchive = new System.Windows.Forms.Button();
-            this.btnCopyArchive = new System.Windows.Forms.Button();
-            this.btnPasteArchive = new System.Windows.Forms.Button();
+            this.btnCut = new System.Windows.Forms.Button();
+            this.btnCopy = new System.Windows.Forms.Button();
+            this.btnPaste = new System.Windows.Forms.Button();
             this.gbArchive.SuspendLayout();
             this.SuspendLayout();
             // 
-            // btnAddArchive
+            // btnAdd
             // 
-            this.btnAddArchive.Location = new System.Drawing.Point(12, 12);
-            this.btnAddArchive.Name = "btnAddArchive";
-            this.btnAddArchive.Size = new System.Drawing.Size(80, 23);
-            this.btnAddArchive.TabIndex = 0;
-            this.btnAddArchive.Text = "Add";
-            this.btnAddArchive.UseVisualStyleBackColor = true;
-            this.btnAddArchive.Click += new System.EventHandler(this.btnAddArchive_Click);
+            this.btnAdd.Location = new System.Drawing.Point(12, 12);
+            this.btnAdd.Name = "btnAdd";
+            this.btnAdd.Size = new System.Drawing.Size(80, 23);
+            this.btnAdd.TabIndex = 0;
+            this.btnAdd.Text = "Add";
+            this.btnAdd.UseVisualStyleBackColor = true;
+            this.btnAdd.Click += new System.EventHandler(this.btnAdd_Click);
             // 
-            // btnMoveUpArchive
+            // btnMoveUp
             // 
-            this.btnMoveUpArchive.Location = new System.Drawing.Point(98, 12);
-            this.btnMoveUpArchive.Name = "btnMoveUpArchive";
-            this.btnMoveUpArchive.Size = new System.Drawing.Size(80, 23);
-            this.btnMoveUpArchive.TabIndex = 1;
-            this.btnMoveUpArchive.Text = "Move Up";
-            this.btnMoveUpArchive.UseVisualStyleBackColor = true;
-            this.btnMoveUpArchive.Click += new System.EventHandler(this.btnMoveUpArchive_Click);
+            this.btnMoveUp.Location = new System.Drawing.Point(98, 12);
+            this.btnMoveUp.Name = "btnMoveUp";
+            this.btnMoveUp.Size = new System.Drawing.Size(80, 23);
+            this.btnMoveUp.TabIndex = 1;
+            this.btnMoveUp.Text = "Move Up";
+            this.btnMoveUp.UseVisualStyleBackColor = true;
+            this.btnMoveUp.Click += new System.EventHandler(this.btnMoveUp_Click);
             // 
-            // btnMoveDownArchive
+            // btnMoveDown
             // 
-            this.btnMoveDownArchive.Location = new System.Drawing.Point(184, 12);
-            this.btnMoveDownArchive.Name = "btnMoveDownArchive";
-            this.btnMoveDownArchive.Size = new System.Drawing.Size(80, 23);
-            this.btnMoveDownArchive.TabIndex = 2;
-            this.btnMoveDownArchive.Text = "Move Down";
-            this.btnMoveDownArchive.UseVisualStyleBackColor = true;
-            this.btnMoveDownArchive.Click += new System.EventHandler(this.btnMoveDownArchive_Click);
+            this.btnMoveDown.Location = new System.Drawing.Point(184, 12);
+            this.btnMoveDown.Name = "btnMoveDown";
+            this.btnMoveDown.Size = new System.Drawing.Size(80, 23);
+            this.btnMoveDown.TabIndex = 2;
+            this.btnMoveDown.Text = "Move Down";
+            this.btnMoveDown.UseVisualStyleBackColor = true;
+            this.btnMoveDown.Click += new System.EventHandler(this.btnMoveDown_Click);
             // 
-            // btnDeleteArchive
+            // btnDelete
             // 
-            this.btnDeleteArchive.Location = new System.Drawing.Point(270, 12);
-            this.btnDeleteArchive.Name = "btnDeleteArchive";
-            this.btnDeleteArchive.Size = new System.Drawing.Size(80, 23);
-            this.btnDeleteArchive.TabIndex = 3;
-            this.btnDeleteArchive.Text = "Delete";
-            this.btnDeleteArchive.UseVisualStyleBackColor = true;
-            this.btnDeleteArchive.Click += new System.EventHandler(this.btnDeleteArchive_Click);
+            this.btnDelete.Location = new System.Drawing.Point(270, 12);
+            this.btnDelete.Name = "btnDelete";
+            this.btnDelete.Size = new System.Drawing.Size(80, 23);
+            this.btnDelete.TabIndex = 3;
+            this.btnDelete.Text = "Delete";
+            this.btnDelete.UseVisualStyleBackColor = true;
+            this.btnDelete.Click += new System.EventHandler(this.btnDelete_Click);
             // 
             // lvArchive
             // 
@@ -290,53 +290,53 @@ namespace Scada.Admin.Extensions.ExtServerConfig.Forms
             this.chkActive.UseVisualStyleBackColor = true;
             this.chkActive.CheckedChanged += new System.EventHandler(this.chkActive_CheckedChanged);
             // 
-            // btnCutArchive
+            // btnCut
             // 
-            this.btnCutArchive.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.btnCutArchive.Location = new System.Drawing.Point(470, 12);
-            this.btnCutArchive.Name = "btnCutArchive";
-            this.btnCutArchive.Size = new System.Drawing.Size(80, 23);
-            this.btnCutArchive.TabIndex = 4;
-            this.btnCutArchive.Text = "Cut";
-            this.btnCutArchive.UseVisualStyleBackColor = true;
-            this.btnCutArchive.Click += new System.EventHandler(this.btnCutArchive_Click);
+            this.btnCut.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.btnCut.Location = new System.Drawing.Point(470, 12);
+            this.btnCut.Name = "btnCut";
+            this.btnCut.Size = new System.Drawing.Size(80, 23);
+            this.btnCut.TabIndex = 4;
+            this.btnCut.Text = "Cut";
+            this.btnCut.UseVisualStyleBackColor = true;
+            this.btnCut.Click += new System.EventHandler(this.btnCut_Click);
             // 
-            // btnCopyArchive
+            // btnCopy
             // 
-            this.btnCopyArchive.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.btnCopyArchive.Location = new System.Drawing.Point(556, 12);
-            this.btnCopyArchive.Name = "btnCopyArchive";
-            this.btnCopyArchive.Size = new System.Drawing.Size(80, 23);
-            this.btnCopyArchive.TabIndex = 5;
-            this.btnCopyArchive.Text = "Copy";
-            this.btnCopyArchive.UseVisualStyleBackColor = true;
-            this.btnCopyArchive.Click += new System.EventHandler(this.btnCopyArchive_Click);
+            this.btnCopy.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.btnCopy.Location = new System.Drawing.Point(556, 12);
+            this.btnCopy.Name = "btnCopy";
+            this.btnCopy.Size = new System.Drawing.Size(80, 23);
+            this.btnCopy.TabIndex = 5;
+            this.btnCopy.Text = "Copy";
+            this.btnCopy.UseVisualStyleBackColor = true;
+            this.btnCopy.Click += new System.EventHandler(this.btnCopy_Click);
             // 
-            // btnPasteArchive
+            // btnPaste
             // 
-            this.btnPasteArchive.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.btnPasteArchive.Location = new System.Drawing.Point(642, 12);
-            this.btnPasteArchive.Name = "btnPasteArchive";
-            this.btnPasteArchive.Size = new System.Drawing.Size(80, 23);
-            this.btnPasteArchive.TabIndex = 6;
-            this.btnPasteArchive.Text = "Paste";
-            this.btnPasteArchive.UseVisualStyleBackColor = true;
-            this.btnPasteArchive.Click += new System.EventHandler(this.btnPasteArchive_Click);
+            this.btnPaste.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.btnPaste.Location = new System.Drawing.Point(642, 12);
+            this.btnPaste.Name = "btnPaste";
+            this.btnPaste.Size = new System.Drawing.Size(80, 23);
+            this.btnPaste.TabIndex = 6;
+            this.btnPaste.Text = "Paste";
+            this.btnPaste.UseVisualStyleBackColor = true;
+            this.btnPaste.Click += new System.EventHandler(this.btnPaste_Click);
             // 
             // FrmArchives
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(734, 511);
-            this.Controls.Add(this.btnPasteArchive);
-            this.Controls.Add(this.btnCopyArchive);
-            this.Controls.Add(this.btnCutArchive);
             this.Controls.Add(this.gbArchive);
             this.Controls.Add(this.lvArchive);
-            this.Controls.Add(this.btnDeleteArchive);
-            this.Controls.Add(this.btnMoveDownArchive);
-            this.Controls.Add(this.btnMoveUpArchive);
-            this.Controls.Add(this.btnAddArchive);
+            this.Controls.Add(this.btnPaste);
+            this.Controls.Add(this.btnCopy);
+            this.Controls.Add(this.btnCut);
+            this.Controls.Add(this.btnDelete);
+            this.Controls.Add(this.btnMoveDown);
+            this.Controls.Add(this.btnMoveUp);
+            this.Controls.Add(this.btnAdd);
             this.Name = "FrmArchives";
             this.Text = "Archives";
             this.Load += new System.EventHandler(this.FrmArchives_Load);
@@ -348,10 +348,10 @@ namespace Scada.Admin.Extensions.ExtServerConfig.Forms
 
         #endregion
 
-        private System.Windows.Forms.Button btnAddArchive;
-        private System.Windows.Forms.Button btnMoveUpArchive;
-        private System.Windows.Forms.Button btnMoveDownArchive;
-        private System.Windows.Forms.Button btnDeleteArchive;
+        private System.Windows.Forms.Button btnAdd;
+        private System.Windows.Forms.Button btnMoveUp;
+        private System.Windows.Forms.Button btnMoveDown;
+        private System.Windows.Forms.Button btnDelete;
         private System.Windows.Forms.ListView lvArchive;
         private System.Windows.Forms.ColumnHeader colOrder;
         private System.Windows.Forms.ColumnHeader colActive;
@@ -372,8 +372,8 @@ namespace Scada.Admin.Extensions.ExtServerConfig.Forms
         private System.Windows.Forms.TextBox txtOptions;
         private System.Windows.Forms.Label lblOptions;
         private System.Windows.Forms.Button btnProperties;
-        private System.Windows.Forms.Button btnCutArchive;
-        private System.Windows.Forms.Button btnCopyArchive;
-        private System.Windows.Forms.Button btnPasteArchive;
+        private System.Windows.Forms.Button btnCut;
+        private System.Windows.Forms.Button btnCopy;
+        private System.Windows.Forms.Button btnPaste;
     }
 }

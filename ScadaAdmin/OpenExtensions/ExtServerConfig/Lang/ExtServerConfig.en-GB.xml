@@ -7,13 +7,13 @@
   </Dictionary>
   <Dictionary key="Scada.Admin.Extensions.ExtServerConfig.Forms.FrmArchives">
     <Phrase key="this">Archives</Phrase>
-    <Phrase key="btnAddArchive">Add</Phrase>
-    <Phrase key="btnMoveUpArchive">Move Up</Phrase>
-    <Phrase key="btnMoveDownArchive">Move Down</Phrase>
-    <Phrase key="btnDeleteArchive">Delete</Phrase>
-    <Phrase key="btnCutArchive">Cut</Phrase>
-    <Phrase key="btnCopyArchive">Copy</Phrase>
-    <Phrase key="btnPasteArchive">Paste</Phrase>
+    <Phrase key="btnAdd">Add</Phrase>
+    <Phrase key="btnMoveUp">Move Up</Phrase>
+    <Phrase key="btnMoveDown">Move Down</Phrase>
+    <Phrase key="btnDelete">Delete</Phrase>
+    <Phrase key="btnCut">Cut</Phrase>
+    <Phrase key="btnCopy">Copy</Phrase>
+    <Phrase key="btnPaste">Paste</Phrase>
     <Phrase key="colOrder">#</Phrase>
     <Phrase key="colActive">Active</Phrase>
     <Phrase key="colCode">Code</Phrase>
