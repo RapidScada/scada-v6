@@ -25,6 +25,7 @@
 
 using Scada.Lang;
 using System;
+using System.Linq;
 using System.Xml;
 
 namespace Scada.Client
@@ -150,6 +151,24 @@ namespace Scada.Client
 
             xmlElem.AppendElem("Timeout", Timeout);
             xmlElem.AppendElem("SecretKey", ScadaUtils.BytesToHex(SecretKey));
+        }
+
+        /// <summary>
+        /// Copies the current object to the other.
+        /// </summary>
+        public void CopyTo(ConnectionOptions destination)
+        {
+            if (destination == null)
+                throw new ArgumentNullException(nameof(destination));
+
+            destination.Name = Name;
+            destination.Host = Host;
+            destination.Port = Port;
+            destination.Username = Username;
+            destination.Password = Password;
+            destination.Instance = Instance;
+            destination.Timeout = Timeout;
+            destination.SecretKey = SecretKey?.ToArray();
         }
 
         /// <summary>

@@ -52,9 +52,9 @@ namespace Scada.Comm.Config
         public GeneralOptions GeneralOptions { get; private set; }
 
         /// <summary>
-        /// Gets the connection options accessed by connection name.
+        /// Gets the connection options.
         /// </summary>
-        public SortedList<string, ConnectionOptions> Connections { get; private set; }
+        public ConnectionOptions ConnectionOptions { get; private set; }
 
         /// <summary>
         /// Gets the configuration of the data sources.
@@ -103,7 +103,7 @@ namespace Scada.Comm.Config
         protected override void SetToDefault()
         {
             GeneralOptions = new GeneralOptions();
-            Connections = new SortedList<string, ConnectionOptions>();
+            ConnectionOptions = new ConnectionOptions();
             DataSources = new List<DataSourceConfig>();
             Lines = new List<LineConfig>();
             DriverCodes = new List<string>();
@@ -121,15 +121,8 @@ namespace Scada.Comm.Config
             if (rootElem.SelectSingleNode("GeneralOptions") is XmlNode generalOptionsNode)
                 GeneralOptions.LoadFromXml(generalOptionsNode);
 
-            if (xmlDoc.DocumentElement.SelectSingleNode("Connections") is XmlNode connectionsNode)
-            {
-                foreach (XmlNode connectionNode in connectionsNode.SelectNodes("Connection"))
-                {
-                    ConnectionOptions connectionOptions = new ConnectionOptions();
-                    connectionOptions.LoadFromXml(connectionNode);
-                    Connections[connectionOptions.Name] = connectionOptions;
-                }
-            }
+            if (rootElem.SelectSingleNode("ConnectionOptions") is XmlNode connectionOptionsNode)
+                ConnectionOptions.LoadFromXml(connectionOptionsNode);
 
             if (rootElem.SelectSingleNode("DataSources") is XmlNode dataSourcesNode)
             {
@@ -167,12 +160,7 @@ namespace Scada.Comm.Config
             xmlDoc.AppendChild(rootElem);
 
             GeneralOptions.SaveToXml(rootElem.AppendElem("GeneralOptions"));
-
-            XmlElement connectionsElem = rootElem.AppendElem("Connections");
-            foreach (ConnectionOptions connectionOptions in Connections.Values)
-            {
-                connectionOptions.SaveToXml(connectionsElem.AppendElem("Connection"));
-            }
+            ConnectionOptions.SaveToXml(rootElem.AppendElem("ConnectionOptions"));
 
             XmlElement dataSourcesElem = rootElem.AppendElem("DataSources");
             foreach (DataSourceConfig dataSourceConfig in DataSources)
