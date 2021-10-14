@@ -63,6 +63,7 @@ namespace Scada.Admin.Extensions.ExtCommConfig.Forms
             chkEnableFileCommands.Checked = generalOptions.EnableFileCommands;
             numMaxLogSize.SetValue(generalOptions.MaxLogSize);
 
+            ctrlClientConnection.ConnectionOptions = commConfig.ConnectionOptions.DeepClone();
             changing = false;
         }
 
@@ -78,6 +79,8 @@ namespace Scada.Admin.Extensions.ExtCommConfig.Forms
             generalOptions.EnableCommands = chkEnableCommands.Checked;
             generalOptions.EnableFileCommands = chkEnableFileCommands.Checked;
             generalOptions.MaxLogSize = decimal.ToInt32(numMaxLogSize.Value);
+
+            ctrlClientConnection.ConnectionOptions.CopyTo(commConfig.ConnectionOptions);
         }
 
         /// <summary>
@@ -97,6 +100,7 @@ namespace Scada.Admin.Extensions.ExtCommConfig.Forms
         private void FrmGeneralOptions_Load(object sender, EventArgs e)
         {
             FormTranslator.Translate(this, GetType().FullName);
+            FormTranslator.Translate(ctrlClientConnection, ctrlClientConnection.GetType().FullName);
             ConfigToControls();
         }
         

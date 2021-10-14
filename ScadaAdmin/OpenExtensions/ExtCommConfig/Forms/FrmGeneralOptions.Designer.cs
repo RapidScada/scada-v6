@@ -41,6 +41,7 @@
             this.lblSendModifiedData = new System.Windows.Forms.Label();
             this.chkIsBound = new System.Windows.Forms.CheckBox();
             this.lblIsBound = new System.Windows.Forms.Label();
+            this.ctrlClientConnection = new Scada.Forms.CtrlClientConnection();
             this.gbGeneralOptions.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.numMaxLogSize)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.numSendAllDataPeriod)).BeginInit();
@@ -193,11 +194,23 @@
             this.lblIsBound.TabIndex = 0;
             this.lblIsBound.Text = "Application is bound to the configuration database";
             // 
+            // ctrlClientConnection
+            // 
+            this.ctrlClientConnection.ConnectionOptions = null;
+            this.ctrlClientConnection.InstanceEnabled = false;
+            this.ctrlClientConnection.Location = new System.Drawing.Point(12, 221);
+            this.ctrlClientConnection.Name = "ctrlClientConnection";
+            this.ctrlClientConnection.NameEnabled = false;
+            this.ctrlClientConnection.Size = new System.Drawing.Size(500, 366);
+            this.ctrlClientConnection.TabIndex = 1;
+            this.ctrlClientConnection.ConnectionOptionsChanged += new System.EventHandler(this.control_Changed);
+            // 
             // FrmGeneralOptions
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(684, 361);
+            this.ClientSize = new System.Drawing.Size(684, 611);
+            this.Controls.Add(this.ctrlClientConnection);
             this.Controls.Add(this.gbGeneralOptions);
             this.Name = "FrmGeneralOptions";
             this.Text = "General Options";
@@ -225,5 +238,6 @@
         private System.Windows.Forms.Label lblEnableCommands;
         private System.Windows.Forms.CheckBox chkEnableFileCommands;
         private System.Windows.Forms.Label lblEnableFileCommands;
+        private Scada.Forms.CtrlClientConnection ctrlClientConnection;
     }
 }
