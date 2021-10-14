@@ -19,11 +19,12 @@
   </ConnectionOptions>
   <DataSources>
     <DataSource active="true" code="ScadaServer" name="Server Data Source" driver="DrvDsScadaServer">
-      <Option name="Connection" value="Default Connection" />
-      <Option name="ClientLogEnabled" value="false" />
+      <Option name="UseDefaultConn" value="true" />
+      <Option name="Connection" value="" />
       <Option name="MaxQueueSize" value="1000" />
       <Option name="MaxCurDataAge" value="60" />
       <Option name="DataLifetime" value="3600" />
+      <Option name="ClientLogEnabled" value="false" />
       <Option name="DeviceFilter" value="" />
     </DataSource>
     <DataSource active="false" code="OpcUaServer" name="OPC UA Server" driver="DrvDsOpcUaServer">
