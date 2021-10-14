@@ -86,8 +86,8 @@ namespace Scada.Server.Modules.ModArcPostgreSql.View.Forms
         private void FrmPostgreHAO_Load(object sender, EventArgs e)
         {
             FormTranslator.Translate(this, GetType().FullName);
-            OptionsToControls();
             UiUtils.FillConnections(cbConnection, appDirs.ConfigDir);
+            OptionsToControls();
         }
 
         private void cbWritingMode_SelectedIndexChanged(object sender, EventArgs e)
