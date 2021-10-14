@@ -59,6 +59,7 @@
     <Phrase key="RealRequired">Требуется вещественное число.</Phrase>
     <Phrase key="NonemptyRequired">Требуется непустое значение.</Phrase>
     <Phrase key="ValidUrlRequired">Требуется корректный URL.</Phrase>
+    <Phrase key="ValidRangeRequired">Требуется корректный диапазон целых чисел.</Phrase>
     <Phrase key="DateTimeRequired">Требуется дата и время.</Phrase>
     <Phrase key="NotNumber">Строка не является числом.</Phrase>
     <Phrase key="NotHexadecimal">Строка не является 16-ричной записью.</Phrase>

@@ -59,6 +59,7 @@
     <Phrase key="RealRequired">A real number is required.</Phrase>
     <Phrase key="NonemptyRequired">A nonempty value is required.</Phrase>
     <Phrase key="ValidUrlRequired">A valid URL is required.</Phrase>
+    <Phrase key="ValidRangeRequired">A valid range of integers is required.</Phrase>
     <Phrase key="DateTimeRequired">Date and time are required.</Phrase>
     <Phrase key="NotNumber">String is not a number.</Phrase>
     <Phrase key="NotHexadecimal">String is not hexadecimal.</Phrase>
