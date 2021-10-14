@@ -151,7 +151,7 @@ namespace Scada.Comm.Drivers.DrvDsScadaServer.View.Forms
             // lblDeviceFilter
             // 
             this.lblDeviceFilter.AutoSize = true;
-            this.lblDeviceFilter.Location = new System.Drawing.Point(9, 164);
+            this.lblDeviceFilter.Location = new System.Drawing.Point(9, 161);
             this.lblDeviceFilter.Name = "lblDeviceFilter";
             this.lblDeviceFilter.Size = new System.Drawing.Size(69, 15);
             this.lblDeviceFilter.TabIndex = 10;
@@ -159,14 +159,14 @@ namespace Scada.Comm.Drivers.DrvDsScadaServer.View.Forms
             // 
             // txtDeviceFilter
             // 
-            this.txtDeviceFilter.Location = new System.Drawing.Point(12, 182);
+            this.txtDeviceFilter.Location = new System.Drawing.Point(12, 179);
             this.txtDeviceFilter.Name = "txtDeviceFilter";
             this.txtDeviceFilter.Size = new System.Drawing.Size(279, 23);
             this.txtDeviceFilter.TabIndex = 11;
             // 
             // btnSelectDevices
             // 
-            this.btnSelectDevices.Location = new System.Drawing.Point(297, 182);
+            this.btnSelectDevices.Location = new System.Drawing.Point(297, 179);
             this.btnSelectDevices.Name = "btnSelectDevices";
             this.btnSelectDevices.Size = new System.Drawing.Size(75, 23);
             this.btnSelectDevices.TabIndex = 12;
@@ -175,7 +175,7 @@ namespace Scada.Comm.Drivers.DrvDsScadaServer.View.Forms
             // 
             // btnManageConn
             // 
-            this.btnManageConn.Location = new System.Drawing.Point(12, 221);
+            this.btnManageConn.Location = new System.Drawing.Point(12, 218);
             this.btnManageConn.Name = "btnManageConn";
             this.btnManageConn.Size = new System.Drawing.Size(140, 23);
             this.btnManageConn.TabIndex = 13;
@@ -184,7 +184,7 @@ namespace Scada.Comm.Drivers.DrvDsScadaServer.View.Forms
             // 
             // btnCancel
             // 
-            this.btnCancel.Location = new System.Drawing.Point(297, 221);
+            this.btnCancel.Location = new System.Drawing.Point(297, 218);
             this.btnCancel.Name = "btnCancel";
             this.btnCancel.Size = new System.Drawing.Size(75, 23);
             this.btnCancel.TabIndex = 15;
@@ -193,7 +193,7 @@ namespace Scada.Comm.Drivers.DrvDsScadaServer.View.Forms
             // 
             // btnOK
             // 
-            this.btnOK.Location = new System.Drawing.Point(216, 221);
+            this.btnOK.Location = new System.Drawing.Point(216, 218);
             this.btnOK.Name = "btnOK";
             this.btnOK.Size = new System.Drawing.Size(75, 23);
             this.btnOK.TabIndex = 14;
@@ -206,7 +206,7 @@ namespace Scada.Comm.Drivers.DrvDsScadaServer.View.Forms
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.CancelButton = this.btnCancel;
-            this.ClientSize = new System.Drawing.Size(384, 256);
+            this.ClientSize = new System.Drawing.Size(384, 253);
             this.Controls.Add(this.btnCancel);
             this.Controls.Add(this.btnOK);
             this.Controls.Add(this.btnManageConn);

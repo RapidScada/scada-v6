@@ -17,6 +17,7 @@ namespace Scada.Comm.Drivers.DrvDsScadaServer
         /// </summary>
         public ScadaServerDSO(OptionList options)
         {
+            UseDefaultConn = options.GetValueAsBool("UseDefaultConn", true);
             Connection = options.GetValueAsString("Connection");
             MaxQueueSize = options.GetValueAsInt("MaxQueueSize", 1000);
             MaxCurDataAge = options.GetValueAsInt("MaxCurDataAge", 60);
@@ -26,6 +27,11 @@ namespace Scada.Comm.Drivers.DrvDsScadaServer
             DeviceFilter.AddRange(ScadaUtils.ParseRange(options.GetValueAsString("DeviceFilter"), true, true));
         }
 
+
+        /// <summary>
+        /// Gets or sets a value indicating whether to use a connection specified in the application configuration.
+        /// </summary>
+        public bool UseDefaultConn { get; set; }
 
         /// <summary>
         /// Gets or sets the connection name.
@@ -56,5 +62,21 @@ namespace Scada.Comm.Drivers.DrvDsScadaServer
         /// Gets the device IDs that filter data sent to the server.
         /// </summary>
         public List<int> DeviceFilter { get; private set; }
+
+
+        /// <summary>
+        /// Adds the options to the list.
+        /// </summary>
+        public void AddToOptionList(OptionList options)
+        {
+            options.Clear();
+            options["UseDefaultConn"] = UseDefaultConn.ToString();
+            options["Connection"] = Connection;
+            options["MaxQueueSize"] = MaxQueueSize.ToString();
+            options["MaxCurDataAge"] = MaxCurDataAge.ToString();
+            options["DataLifetime"] = DataLifetime.ToString();
+            options["ClientLogEnabled"] = ClientLogEnabled.ToString().ToLowerInvariant();
+            options["DeviceFilter"] = ScadaUtils.ToShortString(DeviceFilter);
+        }
     }
 }

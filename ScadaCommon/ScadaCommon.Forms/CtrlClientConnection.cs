@@ -100,11 +100,11 @@ namespace Scada.Forms
         {
             get
             {
-                return !txtInstance.ReadOnly;
+                return txtInstance.Enabled;
             }
             set
             {
-                txtInstance.ReadOnly = !value;
+                txtInstance.Enabled = value;
             }
         }
 

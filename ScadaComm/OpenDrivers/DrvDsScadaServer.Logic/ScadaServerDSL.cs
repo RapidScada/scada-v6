@@ -37,6 +37,7 @@ namespace Scada.Comm.Drivers.DrvDsScadaServer.Logic
         /// </summary>
         private const int ErrorDelay = 1000;
 
+        private readonly DriverConfig driverConfig; // the driver configuration
         private readonly ScadaServerDSO options;    // the data source options
         private readonly TimeSpan maxCurDataAge;    // determines sending current data as historical
         private readonly TimeSpan dataLifetime;     // the data lifetime in the queue
@@ -60,9 +61,10 @@ namespace Scada.Comm.Drivers.DrvDsScadaServer.Logic
         /// <summary>
         /// Initializes a new instance of the class.
         /// </summary>
-        public ScadaServerDSL(ICommContext commContext, DataSourceConfig dataSourceConfig)
+        public ScadaServerDSL(ICommContext commContext, DataSourceConfig dataSourceConfig, DriverConfig driverConfig)
             : base(commContext, dataSourceConfig)
         {
+            this.driverConfig = driverConfig ?? throw new ArgumentNullException(nameof(driverConfig));
             options = new ScadaServerDSO(dataSourceConfig.CustomOptions);
             maxCurDataAge = TimeSpan.FromSeconds(options.MaxCurDataAge);
             dataLifetime = TimeSpan.FromSeconds(options.DataLifetime);
@@ -493,7 +495,9 @@ namespace Scada.Comm.Drivers.DrvDsScadaServer.Logic
         /// </summary>
         public override void MakeReady()
         {
-            if (!CommContext.AppConfig.Connections.TryGetValue(options.Connection, out connOptions))
+            if (options.UseDefaultConn)
+                connOptions = CommContext.AppConfig.ConnectionOptions;
+            else if (!driverConfig.Connections.TryGetValue(options.Connection, out connOptions))
                 throw new ScadaException(CommonPhrases.ConnectionNotFound, options.Connection);
         }
 
