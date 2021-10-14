@@ -26,11 +26,9 @@
 using Scada.Admin.Project;
 using Scada.Data.Const;
 using Scada.Data.Entities;
-using Scada.Data.Models;
 using Scada.Data.Tables;
 using Scada.Lang;
 using System;
-using System.Collections.Generic;
 using System.Data;
 using System.Windows.Forms;
 
