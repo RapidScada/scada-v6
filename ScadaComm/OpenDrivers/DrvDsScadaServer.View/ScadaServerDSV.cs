@@ -28,7 +28,7 @@ namespace Scada.Comm.Drivers.DrvDsScadaServer.View
         /// </summary>
         public override bool ShowProperties()
         {
-            return new FrmScadaServerDSO().ShowDialog() == DialogResult.OK;
+            return new FrmScadaServerDSO(AppDirs, DataSourceConfig).ShowDialog() == DialogResult.OK;
         }
     }
 }

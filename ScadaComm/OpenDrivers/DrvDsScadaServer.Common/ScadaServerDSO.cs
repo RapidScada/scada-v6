@@ -70,7 +70,7 @@ namespace Scada.Comm.Drivers.DrvDsScadaServer
         public void AddToOptionList(OptionList options)
         {
             options.Clear();
-            options["UseDefaultConn"] = UseDefaultConn.ToString();
+            options["UseDefaultConn"] = UseDefaultConn.ToString().ToLowerInvariant();
             options["Connection"] = Connection;
             options["MaxQueueSize"] = MaxQueueSize.ToString();
             options["MaxCurDataAge"] = MaxCurDataAge.ToString();
