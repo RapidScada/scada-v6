@@ -3,6 +3,7 @@
 
 using Scada.Comm.Config;
 using Scada.Comm.DataSources;
+using Scada.Forms;
 using Scada.Lang;
 
 namespace Scada.Comm.Drivers.DrvDsScadaServer.View
@@ -49,11 +50,20 @@ namespace Scada.Comm.Drivers.DrvDsScadaServer.View
 
 
         /// <summary>
+        /// Loads language dictionaries.
+        /// </summary>
+        public override void LoadDictionaries()
+        {
+            if (!Locale.LoadDictionaries(AppDirs.LangDir, DriverUtils.DriverCode, out string errMsg))
+                ScadaUiUtils.ShowError(errMsg);
+        }
+
+        /// <summary>
         /// Creates a new data source user interface.
         /// </summary>
         public override DataSourceView CreateDataSourceView(DataSourceConfig dataSourceConfig)
         {
-            return null;
+            return new ScadaServerDSV(this, dataSourceConfig);
         }
     }
 }

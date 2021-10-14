@@ -1,12 +1,8 @@
 ﻿// Copyright (c) Rapid Software LLC. All rights reserved.
 // Licensed under the Apache License, Version 2.0. See License.txt in the project root for license information.
 
+using Scada.Comm.Config;
 using Scada.Comm.DataSources;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Scada.Comm.Drivers.DrvDsScadaServer.View
 {
@@ -16,5 +12,22 @@ namespace Scada.Comm.Drivers.DrvDsScadaServer.View
     /// </summary>
     internal class ScadaServerDSV : DataSourceView
     {
+        /// <summary>
+        /// Initializes a new instance of the class.
+        /// </summary>
+        public ScadaServerDSV(DriverView parentView, DataSourceConfig dataSourceConfig)
+            : base(parentView, dataSourceConfig)
+        {
+            CanShowProperties = true;
+        }
+
+        /// <summary>
+        /// Shows a modal dialog box for editing data source properties.
+        /// </summary>
+        public override bool ShowProperties()
+        {
+            return false;
+            //return new FrmBasicHAO(AppDirs, ArchiveConfig).ShowDialog() == DialogResult.OK;
+        }
     }
 }

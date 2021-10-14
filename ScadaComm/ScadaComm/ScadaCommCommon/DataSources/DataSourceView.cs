@@ -20,10 +20,12 @@
  * 
  * Author   : Mikhail Shiryaev
  * Created  : 2020
- * Modified : 2020
+ * Modified : 2021
  */
 
 using Scada.Comm.Config;
+using Scada.Comm.Drivers;
+using System;
 
 namespace Scada.Comm.DataSources
 {
@@ -36,16 +38,23 @@ namespace Scada.Comm.DataSources
         /// <summary>
         /// Initializes a new instance of the class.
         /// </summary>
-        public DataSourceView()
-            : base()
+        public DataSourceView(DriverView parentView, DataSourceConfig dataSourceConfig)
+            : base(parentView)
         {
-            AppConfig = null;
+            AppConfig = parentView.AppConfig;
+            DataSourceConfig = dataSourceConfig ?? throw new ArgumentNullException(nameof(dataSourceConfig));
         }
 
+
         /// <summary>
-        /// Gets or sets the application configuration.
+        /// Gets the application configuration.
         /// </summary>
         /// <remarks>Do not modify the configuration.</remarks>
-        public CommConfig AppConfig { get; set; }
+        public CommConfig AppConfig { get; }
+
+        /// <summary>
+        /// Gets the data source configuration.
+        /// </summary>
+        public DataSourceConfig DataSourceConfig { get; }
     }
 }

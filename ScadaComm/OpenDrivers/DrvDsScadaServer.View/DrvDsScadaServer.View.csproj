@@ -12,20 +12,22 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\DrvDsScadaServer.Common\DrvDsScadaServer.Common.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
     <Reference Include="ScadaCommCommon">
       <HintPath>..\..\ScadaComm\ScadaCommCommon\bin\Release\netstandard2.0\ScadaCommCommon.dll</HintPath>
     </Reference>
     <Reference Include="ScadaCommon">
       <HintPath>..\..\..\ScadaCommon\ScadaCommon\bin\Release\netstandard2.0\ScadaCommon.dll</HintPath>
     </Reference>
+    <Reference Include="ScadaCommon.Forms">
+      <HintPath>..\..\..\ScadaCommon\ScadaCommon.Forms\bin\Release\net5.0-windows\ScadaCommon.Forms.dll</HintPath>
+    </Reference>
     <Reference Include="ScadaCommon.Log">
       <HintPath>..\..\..\ScadaCommon\ScadaCommon.Log\bin\Release\netstandard2.0\ScadaCommon.Log.dll</HintPath>
     </Reference>
-  </ItemGroup>
-
-  <ItemGroup>
-    <Folder Include="Forms\" />
-    <Folder Include="Lang\" />
   </ItemGroup>
 
 </Project>
