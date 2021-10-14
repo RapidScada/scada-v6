@@ -14,7 +14,7 @@ namespace Scada.Server.Modules.ModArcPostgreSql.Logic
     /// </summary>
     public class ModArcPostgreSqlLogic : ModuleLogic
     {
-        private readonly ModuleConfig moduleConfig;     // the module configuration
+        private readonly ModuleConfig moduleConfig; // the module configuration
 
 
         /// <summary>
