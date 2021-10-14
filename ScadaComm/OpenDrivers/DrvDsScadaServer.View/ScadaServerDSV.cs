@@ -3,6 +3,8 @@
 
 using Scada.Comm.Config;
 using Scada.Comm.DataSources;
+using Scada.Comm.Drivers.DrvDsScadaServer.View.Forms;
+using System.Windows.Forms;
 
 namespace Scada.Comm.Drivers.DrvDsScadaServer.View
 {
@@ -26,8 +28,7 @@ namespace Scada.Comm.Drivers.DrvDsScadaServer.View
         /// </summary>
         public override bool ShowProperties()
         {
-            return false;
-            //return new FrmBasicHAO(AppDirs, ArchiveConfig).ShowDialog() == DialogResult.OK;
+            return new FrmScadaServerDSO().ShowDialog() == DialogResult.OK;
         }
     }
 }

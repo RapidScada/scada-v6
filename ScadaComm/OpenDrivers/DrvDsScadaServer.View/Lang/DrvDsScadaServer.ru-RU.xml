@@ -1,4 +1,16 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <DrvDsScadaServerDictionaries>
-  
+  <Dictionary key="Scada.Comm.Drivers.DrvDsScadaServer.View.Forms.FrmScadaServerDSO">
+    <Phrase key="this">Параметры источника данных</Phrase>
+    <Phrase key="lblConnection">Соединение</Phrase>
+    <Phrase key="lblMaxQueueSize">Макс. размер очереди</Phrase>
+    <Phrase key="lblMaxCurDataAge">Текущие данные как исторические, с</Phrase>
+    <Phrase key="lblDataLifetime">Время жизни данных в очереди, с</Phrase>
+    <Phrase key="lblClientLogEnabled">Журнал клиента включен</Phrase>
+    <Phrase key="lblDeviceFilter">Фильтр КП</Phrase>
+    <Phrase key="btnSelectDevices">Выбрать...</Phrase>
+    <Phrase key="btnManageConn">Соединения</Phrase>
+    <Phrase key="btnOK">OK</Phrase>
+    <Phrase key="btnCancel">Отмена</Phrase>
+  </Dictionary>
 </DrvDsScadaServerDictionaries>

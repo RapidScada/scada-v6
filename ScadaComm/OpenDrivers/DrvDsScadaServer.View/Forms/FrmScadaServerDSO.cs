@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Scada.Forms;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
@@ -15,6 +16,11 @@ namespace Scada.Comm.Drivers.DrvDsScadaServer.View.Forms
         public FrmScadaServerDSO()
         {
             InitializeComponent();
+        }
+
+        private void FrmScadaServerDSO_Load(object sender, EventArgs e)
+        {
+            FormTranslator.Translate(this, GetType().FullName);
         }
     }
 }

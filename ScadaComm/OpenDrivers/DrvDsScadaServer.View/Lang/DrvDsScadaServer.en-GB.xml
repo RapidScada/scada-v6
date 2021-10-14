@@ -1,4 +1,16 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <DrvDsScadaServerDictionaries>
-  
+  <Dictionary key="Scada.Comm.Drivers.DrvDsScadaServer.View.Forms.FrmScadaServerDSO">
+    <Phrase key="this">Data Source Options</Phrase>
+    <Phrase key="lblConnection">Connection</Phrase>
+    <Phrase key="lblMaxQueueSize">Maximum queue size</Phrase>
+    <Phrase key="lblMaxCurDataAge">Current data becomes historical, sec</Phrase>
+    <Phrase key="lblDataLifetime">Data lifetime in queue, sec</Phrase>
+    <Phrase key="lblClientLogEnabled">Client log enabled</Phrase>
+    <Phrase key="lblDeviceFilter">Device filter</Phrase>
+    <Phrase key="btnSelectDevices">Select...</Phrase>
+    <Phrase key="btnManageConn">Manage Connections</Phrase>
+    <Phrase key="btnOK">OK</Phrase>
+    <Phrase key="btnCancel">Cancel</Phrase>
+  </Dictionary>
 </DrvDsScadaServerDictionaries>
