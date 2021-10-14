@@ -12,7 +12,7 @@ namespace Scada.Server.Modules.ModArcBasic.View
     /// Implements the event data archive user interface.
     /// <para>Реализует пользовательский интерфейс архива событий.</para>
     /// </summary>
-    public class BasicEAV : ArchiveView
+    internal class BasicEAV : ArchiveView
     {
         /// <summary>
         /// Initializes a new instance of the class.

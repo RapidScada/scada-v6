@@ -12,7 +12,7 @@ namespace Scada.Server.Modules.ModArcPostgreSql.View
     /// Implements the current data archive user interface.
     /// <para>Реализует пользовательский интерфейс архива текущих данных.</para>
     /// </summary>
-    public class PostgreCAV : ArchiveView
+    internal class PostgreCAV : ArchiveView
     {
         /// <summary>
         /// Initializes a new instance of the class.

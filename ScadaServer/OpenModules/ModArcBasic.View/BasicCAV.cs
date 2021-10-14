@@ -12,7 +12,7 @@ namespace Scada.Server.Modules.ModArcBasic.View
     /// Implements the current data archive user interface.
     /// <para>Реализует пользовательский интерфейс архива текущих данных.</para>
     /// </summary>
-    public class BasicCAV : ArchiveView
+    internal class BasicCAV : ArchiveView
     {
         /// <summary>
         /// Initializes a new instance of the class.
