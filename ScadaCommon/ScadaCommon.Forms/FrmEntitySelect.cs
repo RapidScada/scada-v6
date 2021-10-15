@@ -182,8 +182,7 @@ namespace Scada.Forms
             }
             else if (onlySelected)
             {
-                IEnumerable<SelectableItem> filteredItems = items.Where(item => item.Selected);
-                dataGridView.DataSource = new BindingList<SelectableItem>(filteredItems.ToList());
+                dataGridView.DataSource = new BindingList<SelectableItem>(selectedItems.Values.ToList());
             }
             else
             {
@@ -220,7 +219,7 @@ namespace Scada.Forms
                 // deselect other items
                 if (!MultiSelect && changedItem.Selected)
                 {
-                    foreach (SelectableItem item in selectedItems.Values.ToArray()) // make copy of values
+                    foreach (SelectableItem item in selectedItems.Values.ToList()) // make copy of values
                     {
                         if (item.ID != changedItem.ID)
                             item.Selected = false;
