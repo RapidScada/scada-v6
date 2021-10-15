@@ -131,7 +131,13 @@ namespace Scada.Comm.Drivers.DrvDsScadaServer.View.Forms
 
         private void btnManageConn_Click(object sender, EventArgs e)
         {
+            FrmConnManager frmConnManager = new(appDirs.ConfigDir);
 
+            if (frmConnManager.ShowDialog() == DialogResult.OK)
+            {
+                cbConnection.Items.Clear();
+                cbConnection.Items.AddRange(frmConnManager.ConnectionNames);
+            }
         }
 
         private void btnOK_Click(object sender, EventArgs e)

@@ -3,8 +3,10 @@
 
 using Scada.Comm.Config;
 using Scada.Comm.DataSources;
+using Scada.Comm.Drivers.DrvDsScadaServer.View.Forms;
 using Scada.Forms;
 using Scada.Lang;
+using System.Windows.Forms;
 
 namespace Scada.Comm.Drivers.DrvDsScadaServer.View
 {
@@ -20,6 +22,7 @@ namespace Scada.Comm.Drivers.DrvDsScadaServer.View
         public DrvDsScadaServerView()
             : base()
         {
+            CanShowProperties = true;
             CanCreateDataSource = true;
         }
 
@@ -56,6 +59,14 @@ namespace Scada.Comm.Drivers.DrvDsScadaServer.View
         {
             if (!Locale.LoadDictionaries(AppDirs.LangDir, DriverUtils.DriverCode, out string errMsg))
                 ScadaUiUtils.ShowError(errMsg);
+        }
+
+        /// <summary>
+        /// Shows a modal dialog box for editing driver properties.
+        /// </summary>
+        public override bool ShowProperties()
+        {
+            return new FrmConnManager(AppDirs.ConfigDir).ShowDialog() == DialogResult.OK;
         }
 
         /// <summary>
