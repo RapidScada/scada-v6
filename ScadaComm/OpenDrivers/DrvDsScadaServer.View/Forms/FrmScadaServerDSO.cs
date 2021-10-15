@@ -91,7 +91,7 @@ namespace Scada.Comm.Drivers.DrvDsScadaServer.View.Forms
         private void ControlsToOptions()
         {
             options.UseDefaultConn = chkUseDefaultConn.Checked;
-            cbConnection.Text = options.Connection;
+            options.Connection = cbConnection.Text;
             options.MaxQueueSize = Convert.ToInt32(numMaxQueueSize.Value);
             options.MaxCurDataAge = Convert.ToInt32(numMaxCurDataAge.Value);
             options.DataLifetime = Convert.ToInt32(numDataLifetime.Value);
