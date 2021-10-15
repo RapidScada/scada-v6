@@ -173,11 +173,11 @@ namespace Scada.Forms
             {
                 int.TryParse(filterText, out int id);
                 IEnumerable<SelectableItem> filteredItems = items.Where(item =>
+                    (!onlySelected || item.Selected) &&
                     (item.ID == id ||
                     StringContains(item.Name, filterText) ||
                     StringContains(item.Code, filterText) ||
-                    StringContains(item.Descr, filterText)) &&
-                    (!onlySelected || item.Selected));
+                    StringContains(item.Descr, filterText)));
                 dataGridView.DataSource = new BindingList<SelectableItem>(filteredItems.ToList());
             }
             else if (onlySelected)
