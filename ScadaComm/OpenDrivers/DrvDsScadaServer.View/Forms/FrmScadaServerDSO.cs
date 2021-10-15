@@ -2,6 +2,7 @@
 // Licensed under the Apache License, Version 2.0. See License.txt in the project root for license information.
 
 using Scada.Comm.Config;
+using Scada.Data.Models;
 using Scada.Forms;
 using Scada.Lang;
 using System;
@@ -23,6 +24,7 @@ namespace Scada.Comm.Drivers.DrvDsScadaServer.View.Forms
     /// </summary>
     public partial class FrmScadaServerDSO : Form
     {
+        private readonly BaseDataSet baseDataSet;           // the configuration database
         private readonly AppDirs appDirs;                   // the application directories
         private readonly DataSourceConfig dataSourceConfig; // the data source configuration
         private readonly ScadaServerDSO options;            // the data source options
@@ -39,9 +41,10 @@ namespace Scada.Comm.Drivers.DrvDsScadaServer.View.Forms
         /// <summary>
         /// Initializes a new instance of the class.
         /// </summary>
-        public FrmScadaServerDSO(AppDirs appDirs, DataSourceConfig dataSourceConfig)
+        public FrmScadaServerDSO(BaseDataSet baseDataSet, AppDirs appDirs, DataSourceConfig dataSourceConfig)
             : this()
         {
+            this.baseDataSet = baseDataSet ?? throw new ArgumentNullException(nameof(baseDataSet));
             this.appDirs = appDirs ?? throw new ArgumentNullException(nameof(appDirs));
             this.dataSourceConfig = dataSourceConfig ?? throw new ArgumentNullException(nameof(dataSourceConfig));
             options = new ScadaServerDSO(dataSourceConfig.CustomOptions);
@@ -127,6 +130,16 @@ namespace Scada.Comm.Drivers.DrvDsScadaServer.View.Forms
         private void chkUseDefaultConn_CheckedChanged(object sender, EventArgs e)
         {
             cbConnection.Enabled = !chkUseDefaultConn.Checked;
+        }
+
+        private void btnSelectDevices_Click(object sender, EventArgs e)
+        {
+            // show dialog to select devices
+            ScadaUtils.ParseRange(txtDeviceFilter.Text, true, true, out IList<int> deviceNums);
+            FrmEntitySelect frmEntitySelect = new(baseDataSet.DeviceTable) { SelectedIDs = deviceNums };
+
+            if (frmEntitySelect.ShowDialog() == DialogResult.OK)
+                txtDeviceFilter.Text = ScadaUtils.ToShortString(frmEntitySelect.SelectedIDs);
         }
 
         private void btnManageConn_Click(object sender, EventArgs e)

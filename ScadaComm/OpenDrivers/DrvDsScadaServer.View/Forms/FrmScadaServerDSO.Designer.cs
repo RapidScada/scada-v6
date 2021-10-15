@@ -174,6 +174,7 @@ namespace Scada.Comm.Drivers.DrvDsScadaServer.View.Forms
             this.btnSelectDevices.TabIndex = 14;
             this.btnSelectDevices.Text = "Select...";
             this.btnSelectDevices.UseVisualStyleBackColor = true;
+            this.btnSelectDevices.Click += new System.EventHandler(this.btnSelectDevices_Click);
             // 
             // btnManageConn
             // 
