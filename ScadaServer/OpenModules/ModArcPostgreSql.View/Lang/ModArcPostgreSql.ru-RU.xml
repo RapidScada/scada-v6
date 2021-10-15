@@ -5,13 +5,6 @@
     <Phrase key="gbConnList">Соединения</Phrase>
     <Phrase key="btnNewConn">Добавить</Phrase>
     <Phrase key="btnDeleteConn">Удалить</Phrase>
-    <Phrase key="gbConnOptions">Параметры соединения</Phrase>
-    <Phrase key="lblName">Наименование</Phrase>
-    <Phrase key="lblServer">Сервер</Phrase>
-    <Phrase key="lblDatabase">База данных</Phrase>
-    <Phrase key="lblUsername">Имя пользователя</Phrase>
-    <Phrase key="lblPassword">Пароль</Phrase>
-    <Phrase key="chkConnectionString">Строка соединения</Phrase>
     <Phrase key="btnOK">OK</Phrase>
     <Phrase key="btnCancel">Отмена</Phrase>
     <Phrase key="NewConnection">Новое соединение</Phrase>

@@ -39,6 +39,8 @@ namespace Scada.Forms
             }
             set
             {
+                connectionOptions = null; // to suppress event
+
                 if (value == null)
                 {
                     gbConnectionOptions.Enabled = false;
@@ -52,7 +54,6 @@ namespace Scada.Forms
                 }
                 else
                 {
-                    connectionOptions = null; // to suppress event
                     gbConnectionOptions.Enabled = true;
                     txtName.Text = value.Name;
                     cbDbms.SelectedIndex = (int)value.KnownDBMS;
