@@ -21,14 +21,18 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DrvDsOpcUaServer.Logic", "D
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DrvSimulator.View", "DrvSimulator.View\DrvSimulator.View.csproj", "{8F1C993E-1A67-494A-A5B9-9AEDAA8FEB9C}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DrvDsScadaServer.View", "DrvDsScadaServer.View\DrvDsScadaServer.View.csproj", "{B1EA000B-E708-4C3A-BAAC-F71E40645ACA}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DrvDsScadaServer.View", "DrvDsScadaServer.View\DrvDsScadaServer.View.csproj", "{B1EA000B-E708-4C3A-BAAC-F71E40645ACA}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DrvDsScadaServer.Common", "DrvDsScadaServer.Common\DrvDsScadaServer.Common.csproj", "{EDE500EE-F541-4C63-83FE-AE59306881A4}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DrvDsScadaServer.Common", "DrvDsScadaServer.Common\DrvDsScadaServer.Common.csproj", "{EDE500EE-F541-4C63-83FE-AE59306881A4}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{94329B8C-CAA0-456E-9236-93ED0746D1CD}"
 	ProjectSection(SolutionItems) = preProject
 		.editorconfig = .editorconfig
 	EndProjectSection
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DrvDsOpcUaServer.Common", "DrvDsOpcUaServer.Common\DrvDsOpcUaServer.Common.csproj", "{A7E77986-72A0-440A-A8B1-C10D623D53D9}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DrvDsOpcUaServer.View", "DrvDsOpcUaServer.View\DrvDsOpcUaServer.View.csproj", "{F9DDE76C-9D18-4AF2-9A86-53237949AF73}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -64,6 +68,14 @@ Global
 		{EDE500EE-F541-4C63-83FE-AE59306881A4}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{EDE500EE-F541-4C63-83FE-AE59306881A4}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{EDE500EE-F541-4C63-83FE-AE59306881A4}.Release|Any CPU.Build.0 = Release|Any CPU
+		{A7E77986-72A0-440A-A8B1-C10D623D53D9}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A7E77986-72A0-440A-A8B1-C10D623D53D9}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A7E77986-72A0-440A-A8B1-C10D623D53D9}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A7E77986-72A0-440A-A8B1-C10D623D53D9}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F9DDE76C-9D18-4AF2-9A86-53237949AF73}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F9DDE76C-9D18-4AF2-9A86-53237949AF73}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F9DDE76C-9D18-4AF2-9A86-53237949AF73}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F9DDE76C-9D18-4AF2-9A86-53237949AF73}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -76,6 +88,8 @@ Global
 		{8F1C993E-1A67-494A-A5B9-9AEDAA8FEB9C} = {AC204E06-2ED1-4E19-9B95-5237F44B3454}
 		{B1EA000B-E708-4C3A-BAAC-F71E40645ACA} = {BBCA2073-CEB8-4C92-B02C-B6A8452A67BB}
 		{EDE500EE-F541-4C63-83FE-AE59306881A4} = {BBCA2073-CEB8-4C92-B02C-B6A8452A67BB}
+		{A7E77986-72A0-440A-A8B1-C10D623D53D9} = {47637CBA-D2D4-421B-9682-E2B79E57C257}
+		{F9DDE76C-9D18-4AF2-9A86-53237949AF73} = {47637CBA-D2D4-421B-9682-E2B79E57C257}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {961AA4C1-5D08-4B24-AE6B-99F3AB1A7AEF}
