@@ -51,20 +51,20 @@ namespace Scada.Server.Modules.ModArcBasic.View
 
 
         /// <summary>
-        /// Shows a modal dialog box for editing module properties.
-        /// </summary>
-        public override bool ShowProperties()
-        {
-            return new FrmArcDir(AppDirs.ConfigDir).ShowDialog() == DialogResult.OK;
-        }
-
-        /// <summary>
         /// Loads language dictionaries.
         /// </summary>
         public override void LoadDictionaries()
         {
             if (!Locale.LoadDictionaries(AppDirs.LangDir, ModuleUtils.ModuleCode, out string errMsg))
                 ScadaUiUtils.ShowError(errMsg);
+        }
+
+        /// <summary>
+        /// Shows a modal dialog box for editing module properties.
+        /// </summary>
+        public override bool ShowProperties()
+        {
+            return new FrmArcDir(AppDirs.ConfigDir).ShowDialog() == DialogResult.OK;
         }
 
         /// <summary>

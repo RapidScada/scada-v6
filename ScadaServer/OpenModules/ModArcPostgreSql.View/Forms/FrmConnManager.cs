@@ -19,9 +19,9 @@ namespace Scada.Server.Modules.ModArcPostgreSql.View.Forms
     /// </summary>
     public partial class FrmConnManager : Form
     {
-        private readonly string configFileName;      // the module configuration file name
-        private readonly ModuleConfig moduleConfig;  // the module configuration
-        private bool sortRequired;                   // indicated whether to sort the list
+        private readonly string configFileName;     // the module configuration file name
+        private readonly ModuleConfig moduleConfig; // the module configuration
+        private bool sortRequired;                  // indicated whether to sort the list
 
 
         /// <summary>
