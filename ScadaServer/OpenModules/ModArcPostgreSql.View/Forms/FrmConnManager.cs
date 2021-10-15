@@ -115,7 +115,7 @@ namespace Scada.Server.Modules.ModArcPostgreSql.View.Forms
         {
             return new ListViewItem
             {
-                Text = string.IsNullOrEmpty(options.Name) ? ModulePhrases.UnnamedConnection : options.Name,
+                Text = string.IsNullOrEmpty(options.Name) ? CommonPhrases.UnnamedConnection : options.Name,
                 Tag = options
             };
         }
@@ -161,7 +161,7 @@ namespace Scada.Server.Modules.ModArcPostgreSql.View.Forms
             lvConn.Items
                 .Add(CreateConnectionItem(new DbConnectionOptions
                 {
-                    Name = ModulePhrases.NewConnection,
+                    Name = CommonPhrases.NewConnection,
                     KnownDBMS = KnownDBMS.PostgreSQL
                 }))
                 .Selected = true;
@@ -193,7 +193,7 @@ namespace Scada.Server.Modules.ModArcPostgreSql.View.Forms
             if (lvConn.GetSelectedItem() is ListViewItem listViewItem)
             {
                 listViewItem.Text = string.IsNullOrEmpty(ctrlDbConnection.ConnectionOptions.Name)
-                    ? ModulePhrases.UnnamedConnection
+                    ? CommonPhrases.UnnamedConnection
                     : ctrlDbConnection.ConnectionOptions.Name;
             }
         }

@@ -7,8 +7,6 @@
     <Phrase key="btnDeleteConn">Delete</Phrase>
     <Phrase key="btnOK">OK</Phrase>
     <Phrase key="btnCancel">Cancel</Phrase>
-    <Phrase key="NewConnection">New Connection</Phrase>
-    <Phrase key="UnnamedConnection">&lt;Unnamed Connection&gt;</Phrase>
   </Dictionary>
   <Dictionary key="Scada.Server.Modules.ModArcPostgreSql.View.Forms.FrmPostgreCAO">
     <Phrase key="this">Current Archive Options</Phrase>

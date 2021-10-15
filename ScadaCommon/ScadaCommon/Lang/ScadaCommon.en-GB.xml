@@ -77,6 +77,8 @@
     <Phrase key="ErrorCaption">Error</Phrase>
     <Phrase key="WarningCaption">Warning</Phrase>
     <Phrase key="HiddenPassword">*****</Phrase>
+    <Phrase key="NewConnection">New Connection</Phrase>
+    <Phrase key="UnnamedConnection">&lt;Unnamed Connection&gt;</Phrase>
   </Dictionary>
   <Dictionary key="Scada.Forms.CtrlClientConnection">
     <Phrase key="gbConnectionOptions">Connection Options</Phrase>

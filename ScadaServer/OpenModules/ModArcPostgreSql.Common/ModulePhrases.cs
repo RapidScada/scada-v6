@@ -16,10 +16,6 @@ namespace Scada.Server.Modules.ModArcPostgreSql
         public static string CreatePartitionError { get; private set; }
         public static string PartitionDeleted { get; private set; }
 
-        // Scada.Server.Modules.ModArcPostgreSql.View.Forms.FrmConnManager
-        public static string NewConnection { get; private set; }
-        public static string UnnamedConnection { get; private set; }
-
         static ModulePhrases()
         {
             if (Locale.IsRussian)
@@ -34,13 +30,6 @@ namespace Scada.Server.Modules.ModArcPostgreSql
                 CreatePartitionError = "Error creating partition";
                 PartitionDeleted = "Partition {0} deleted in {1} ms";
             }
-        }
-
-        public static void Init()
-        {
-            LocaleDict dict = Locale.GetDictionary("Scada.Server.Modules.ModArcPostgreSql.View.Forms.FrmConnManager");
-            NewConnection = dict["NewConnection"];
-            UnnamedConnection = dict["UnnamedConnection"];
         }
     }
 }

@@ -7,8 +7,6 @@
     <Phrase key="btnDeleteConn">Удалить</Phrase>
     <Phrase key="btnOK">OK</Phrase>
     <Phrase key="btnCancel">Отмена</Phrase>
-    <Phrase key="NewConnection">Новое соединение</Phrase>
-    <Phrase key="UnnamedConnection">&lt;Безымянное соединение&gt;</Phrase>
   </Dictionary>
   <Dictionary key="Scada.Server.Modules.ModArcPostgreSql.View.Forms.FrmPostgreCAO">
     <Phrase key="this">Параметры архива текущих данных</Phrase>
