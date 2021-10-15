@@ -72,9 +72,9 @@
             // 
             // btnMoveUp
             // 
-            this.btnMoveUp.Location = new System.Drawing.Point(116, 18);
+            this.btnMoveUp.Location = new System.Drawing.Point(86, 18);
             this.btnMoveUp.Name = "btnMoveUp";
-            this.btnMoveUp.Size = new System.Drawing.Size(75, 23);
+            this.btnMoveUp.Size = new System.Drawing.Size(80, 23);
             this.btnMoveUp.TabIndex = 2;
             this.btnMoveUp.Text = "Move Up";
             this.btnMoveUp.UseVisualStyleBackColor = true;
@@ -82,9 +82,9 @@
             // 
             // btnMoveDown
             // 
-            this.btnMoveDown.Location = new System.Drawing.Point(197, 18);
+            this.btnMoveDown.Location = new System.Drawing.Point(172, 18);
             this.btnMoveDown.Name = "btnMoveDown";
-            this.btnMoveDown.Size = new System.Drawing.Size(75, 23);
+            this.btnMoveDown.Size = new System.Drawing.Size(80, 23);
             this.btnMoveDown.TabIndex = 3;
             this.btnMoveDown.Text = "Move Down";
             this.btnMoveDown.UseVisualStyleBackColor = true;
@@ -92,9 +92,9 @@
             // 
             // btnProperties
             // 
-            this.btnProperties.Location = new System.Drawing.Point(278, 18);
+            this.btnProperties.Location = new System.Drawing.Point(258, 18);
             this.btnProperties.Name = "btnProperties";
-            this.btnProperties.Size = new System.Drawing.Size(75, 23);
+            this.btnProperties.Size = new System.Drawing.Size(80, 23);
             this.btnProperties.TabIndex = 4;
             this.btnProperties.Text = "Properties";
             this.btnProperties.UseVisualStyleBackColor = true;
@@ -104,7 +104,7 @@
             // 
             this.btnDeactivate.Location = new System.Drawing.Point(0, 18);
             this.btnDeactivate.Name = "btnDeactivate";
-            this.btnDeactivate.Size = new System.Drawing.Size(110, 23);
+            this.btnDeactivate.Size = new System.Drawing.Size(80, 23);
             this.btnDeactivate.TabIndex = 1;
             this.btnDeactivate.Text = "Deactivate";
             this.btnDeactivate.UseVisualStyleBackColor = true;
@@ -114,7 +114,7 @@
             // 
             this.btnActivate.Location = new System.Drawing.Point(0, 18);
             this.btnActivate.Name = "btnActivate";
-            this.btnActivate.Size = new System.Drawing.Size(110, 23);
+            this.btnActivate.Size = new System.Drawing.Size(100, 23);
             this.btnActivate.TabIndex = 1;
             this.btnActivate.Text = "Activate";
             this.btnActivate.UseVisualStyleBackColor = true;
