@@ -15,6 +15,8 @@ namespace Scada.Forms
     public partial class CtrlDbConnection : UserControl
     {
         private DbConnectionOptions connectionOptions;
+        private bool nameEnabled;
+        private bool dbmsEnabled;
 
 
         /// <summary>
@@ -23,7 +25,10 @@ namespace Scada.Forms
         public CtrlDbConnection()
         {
             InitializeComponent();
+
             connectionOptions = null;
+            nameEnabled = txtName.Enabled;
+            dbmsEnabled = cbDbms.Enabled;
         }
 
 
@@ -87,10 +92,11 @@ namespace Scada.Forms
         {
             get
             {
-                return txtName.Enabled;
+                return nameEnabled;
             }
             set
             {
+                nameEnabled = value;
                 txtName.Enabled = value;
             }
         }
@@ -102,10 +108,11 @@ namespace Scada.Forms
         {
             get
             {
-                return cbDbms.Enabled;
+                return dbmsEnabled;
             }
             set
             {
+                dbmsEnabled = value;
                 cbDbms.Enabled = value;
             }
         }

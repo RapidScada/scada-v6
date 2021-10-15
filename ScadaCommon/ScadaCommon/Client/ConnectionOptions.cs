@@ -46,8 +46,8 @@ namespace Scada.Client
             Name = "";
             Host = "localhost";
             Port = 10000;
-            Username = "guest";
-            Password = "12345";
+            Username = "";
+            Password = "";
             Instance = "";
             Timeout = 10000;
             SecretKey = null;

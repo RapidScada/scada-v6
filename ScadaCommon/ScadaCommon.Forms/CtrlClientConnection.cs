@@ -18,6 +18,8 @@ namespace Scada.Forms
     public partial class CtrlClientConnection : UserControl
     {
         private ConnectionOptions connectionOptions;
+        private bool nameEnabled;
+        private bool instanceEnabled;
         private bool secretKeyChanged;
 
 
@@ -27,7 +29,10 @@ namespace Scada.Forms
         public CtrlClientConnection()
         {
             InitializeComponent();
+
             connectionOptions = null;
+            nameEnabled = txtName.Enabled;
+            instanceEnabled = txtInstance.Enabled;
             secretKeyChanged = false;
         }
 
@@ -82,10 +87,11 @@ namespace Scada.Forms
         {
             get
             {
-                return txtName.Enabled;
+                return nameEnabled;
             }
             set
             {
+                nameEnabled = value;
                 txtName.Enabled = value;
             }
         }
@@ -97,10 +103,11 @@ namespace Scada.Forms
         {
             get
             {
-                return txtInstance.Enabled;
+                return instanceEnabled;
             }
             set
             {
+                instanceEnabled = value;
                 txtInstance.Enabled = value;
             }
         }

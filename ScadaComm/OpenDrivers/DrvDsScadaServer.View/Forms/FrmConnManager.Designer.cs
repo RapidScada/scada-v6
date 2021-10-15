@@ -121,7 +121,7 @@ namespace Scada.Comm.Drivers.DrvDsScadaServer.View.Forms
             this.ctrlClientConnection.InstanceEnabled = false;
             this.ctrlClientConnection.Location = new System.Drawing.Point(238, 12);
             this.ctrlClientConnection.Name = "ctrlClientConnection";
-            this.ctrlClientConnection.NameEnabled = false;
+            this.ctrlClientConnection.NameEnabled = true;
             this.ctrlClientConnection.Size = new System.Drawing.Size(300, 366);
             this.ctrlClientConnection.TabIndex = 1;
             this.ctrlClientConnection.NameChanged += new System.EventHandler(this.ctrlClientConnection_NameChanged);

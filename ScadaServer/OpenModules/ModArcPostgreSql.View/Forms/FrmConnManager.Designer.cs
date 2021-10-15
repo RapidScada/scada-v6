@@ -119,7 +119,7 @@ namespace Scada.Server.Modules.ModArcPostgreSql.View.Forms
             // 
             this.ctrlDbConnection.BuildConnectionStringFunc = null;
             this.ctrlDbConnection.ConnectionOptions = null;
-            this.ctrlDbConnection.DbmsEnabled = true;
+            this.ctrlDbConnection.DbmsEnabled = false;
             this.ctrlDbConnection.Location = new System.Drawing.Point(238, 12);
             this.ctrlDbConnection.Name = "ctrlDbConnection";
             this.ctrlDbConnection.NameEnabled = true;
