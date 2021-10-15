@@ -196,7 +196,7 @@ namespace Scada.Forms
         private void FrmEntitySelect_Load(object sender, EventArgs e)
         {
             FormTranslator.Translate(this, GetType().FullName);
-            Text = string.Format(Text, baseTable.Name);
+            Text = string.Format(Text, baseTable.Title);
             FillTable();
         }
 
