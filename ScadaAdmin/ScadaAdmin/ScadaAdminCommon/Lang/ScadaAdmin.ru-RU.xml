@@ -254,12 +254,6 @@
     <Phrase key="DbConnectionOK">Соединение с БД в норме.</Phrase>
     <Phrase key="DbConnectionError">Ошибка при соединении с БД:</Phrase>
   </Dictionary>
-  <Dictionary key="Scada.Admin.App.Forms.Deployment.FrmObjSelect">
-    <Phrase key="this">Выбор объектов</Phrase>
-    <Phrase key="lblFilter">Фильтр</Phrase>
-    <Phrase key="btnSelect">Выбрать</Phrase>
-    <Phrase key="btnCancel">Отмена</Phrase>
-  </Dictionary>
   <Dictionary key="Scada.Admin.App.Forms.Deployment.FrmProfileEdit">
     <Phrase key="this">Редактирование профиля</Phrase>
     <Phrase key="tabGeneral">Основные параметры</Phrase>

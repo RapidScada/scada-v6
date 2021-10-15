@@ -207,10 +207,10 @@ namespace Scada.Admin.App.Controls.Deployment
             if (configBase != null)
             {
                 ScadaUtils.ParseRange(txtObjFilter.Text, true, false, out IList<int> objNums);
-                FrmObjSelect frmObjSelect = new(configBase) { ObjNums = objNums };
+                FrmEntitySelect frmEntitySelect = new(configBase.ObjTable) { SelectedIDs = objNums };
 
-                if (frmObjSelect.ShowDialog() == DialogResult.OK)
-                    txtObjFilter.Text = ScadaUtils.ToShortString(frmObjSelect.ObjNums);
+                if (frmEntitySelect.ShowDialog() == DialogResult.OK)
+                    txtObjFilter.Text = ScadaUtils.ToShortString(frmEntitySelect.SelectedIDs);
             }
         }
     }

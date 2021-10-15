@@ -254,12 +254,6 @@
     <Phrase key="DbConnectionOK">Database connection is OK.</Phrase>
     <Phrase key="DbConnectionError">Database connection error:</Phrase>
   </Dictionary>
-  <Dictionary key="Scada.Admin.App.Forms.Deployment.FrmObjSelect">
-    <Phrase key="this">Select Objects</Phrase>
-    <Phrase key="lblFilter">Filter</Phrase>
-    <Phrase key="btnSelect">Select</Phrase>
-    <Phrase key="btnCancel">Cancel</Phrase>
-  </Dictionary>
   <Dictionary key="Scada.Admin.App.Forms.Deployment.FrmProfileEdit">
     <Phrase key="this">Edit Profile</Phrase>
     <Phrase key="tabGeneral">General</Phrase>
