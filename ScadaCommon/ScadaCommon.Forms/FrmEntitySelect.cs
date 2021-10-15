@@ -64,8 +64,9 @@ namespace Scada.Forms
             public PropertyDescriptor DescrProp { get; }
         }
 
-        private readonly IBaseTable baseTable;     // the table containing entities to select
-        private BindingList<SelectableItem> items; // the items to select
+        private readonly IBaseTable baseTable;                 // the table containing entities to select
+        private BindingList<SelectableItem> items;             // the items to select
+        private Dictionary<int, SelectableItem> selectedItems; // the selected items
 
 
         /// <summary>
@@ -84,6 +85,8 @@ namespace Scada.Forms
         {
             this.baseTable = baseTable ?? throw new ArgumentNullException(nameof(baseTable));
             items = null;
+            selectedItems = null;
+
             MultiSelect = true;
             SelectedIDs = null;
             SelectedID = 0;
@@ -111,25 +114,28 @@ namespace Scada.Forms
         /// </summary>
         private void FillTable()
         {
-            // prepare table data
-            HashSet<int> idSet = MultiSelect && SelectedIDs != null
+            // get selected IDs
+            HashSet<int> selectedIdSet = MultiSelect && SelectedIDs != null
                 ? new HashSet<int>(SelectedIDs)
                 : new HashSet<int>();
 
             if (!MultiSelect && SelectedID > 0)
-                idSet.Add(SelectedID);
+                selectedIdSet.Add(SelectedID);
 
+            // prepare table data
             ItemProps srcProps = new(baseTable.ItemType);
             ItemProps destProps = new(typeof(SelectableItem));
             bool nameExists = srcProps.NameProp != null;
             bool codeExists = srcProps.CodeProp != null;
             bool descrExists = srcProps.DescrProp != null;
+
             items = new BindingList<SelectableItem>();
+            selectedItems = new Dictionary<int, SelectableItem>();
 
             foreach (object srcItem in baseTable.EnumerateItems())
             {
                 SelectableItem item = new() { ID = baseTable.GetPkValue(srcItem) };
-                item.Selected = idSet.Contains(item.ID);
+                item.Selected = selectedIdSet.Contains(item.ID);
 
                 if (nameExists)
                     destProps.NameProp.SetValue(item, srcProps.NameProp.GetValue(srcItem));
@@ -140,10 +146,11 @@ namespace Scada.Forms
                 if (descrExists)
                     destProps.DescrProp.SetValue(item, srcProps.DescrProp.GetValue(srcItem));
 
-                if (!MultiSelect)
-                    item.PropertyChanged += Item_PropertyChanged;
-
+                item.PropertyChanged += Item_PropertyChanged;
                 items.Add(item);
+
+                if (item.Selected)
+                    selectedItems[item.ID] = item;
             }
 
             // display data
@@ -202,13 +209,22 @@ namespace Scada.Forms
 
         private void Item_PropertyChanged(object sender, PropertyChangedEventArgs e)
         {
-            // deselect other items
-            if (sender is SelectableItem changedItem && changedItem.Selected && !MultiSelect)
+            if (sender is SelectableItem changedItem)
             {
-                foreach (SelectableItem item in items)
+                // update selected IDs
+                if (changedItem.Selected)
+                    selectedItems[changedItem.ID] = changedItem;
+                else
+                    selectedItems.Remove(changedItem.ID);
+
+                // deselect other items
+                if (!MultiSelect && changedItem.Selected)
                 {
-                    if (item.Selected && item.ID != changedItem.ID)
-                        item.Selected = false;
+                    foreach (SelectableItem item in selectedItems.Values.ToArray()) // make copy of values
+                    {
+                        if (item.ID != changedItem.ID)
+                            item.Selected = false;
+                    }
                 }
             }
         }
@@ -237,10 +253,7 @@ namespace Scada.Forms
         private void btnSelect_Click(object sender, EventArgs e)
         {
             // get IDs of the selected items
-            SelectedIDs = (from item in items 
-                   where item.Selected
-                   select item.ID).ToArray();
-
+            SelectedIDs = selectedItems.Keys.ToList();
             SelectedID = SelectedIDs.FirstOrDefault();
             DialogResult = DialogResult.OK;
         }
