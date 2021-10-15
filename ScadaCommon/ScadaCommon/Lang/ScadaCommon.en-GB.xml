@@ -102,4 +102,17 @@
     <Phrase key="lblPassword">Password</Phrase>
     <Phrase key="chkConnectionString">Connection string</Phrase>
   </Dictionary>
+  <Dictionary key="Scada.Forms.FrmEntitySelect">
+    <Phrase key="this">Select from {0}</Phrase>
+    <Phrase key="lblFilter">Filter</Phrase>
+    <Phrase key="btnApplyFilter">Apply</Phrase>
+    <Phrase key="chkOnlySelected">Show only selected rows</Phrase>
+    <Phrase key="colSelected">Selected</Phrase>
+    <Phrase key="colID">ID</Phrase>
+    <Phrase key="colName">Name</Phrase>
+    <Phrase key="colCode">Code</Phrase>
+    <Phrase key="colDescr">Description</Phrase>
+    <Phrase key="btnSelect">Select</Phrase>
+    <Phrase key="btnCancel">Cancel</Phrase>
+  </Dictionary>
 </ScadaDictionaries>

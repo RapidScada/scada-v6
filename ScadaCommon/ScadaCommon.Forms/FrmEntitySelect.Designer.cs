@@ -35,9 +35,14 @@ namespace Scada.Forms
             this.btnApplyFilter = new System.Windows.Forms.Button();
             this.chkOnlySelected = new System.Windows.Forms.CheckBox();
             this.dataGridView = new System.Windows.Forms.DataGridView();
+            this.colSelected = new System.Windows.Forms.DataGridViewCheckBoxColumn();
+            this.colID = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.colName = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.colCode = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.colDescr = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.bindingSource = new System.Windows.Forms.BindingSource(this.components);
             this.btnSelect = new System.Windows.Forms.Button();
             this.btnCancel = new System.Windows.Forms.Button();
-            this.bindingSource = new System.Windows.Forms.BindingSource(this.components);
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.bindingSource)).BeginInit();
             this.SuspendLayout();
@@ -57,18 +62,20 @@ namespace Scada.Forms
             | System.Windows.Forms.AnchorStyles.Right)));
             this.txtFilter.Location = new System.Drawing.Point(12, 27);
             this.txtFilter.Name = "txtFilter";
-            this.txtFilter.Size = new System.Drawing.Size(379, 23);
+            this.txtFilter.Size = new System.Drawing.Size(374, 23);
             this.txtFilter.TabIndex = 1;
+            this.txtFilter.KeyDown += new System.Windows.Forms.KeyEventHandler(this.txtFilter_KeyDown);
             // 
             // btnApplyFilter
             // 
             this.btnApplyFilter.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.btnApplyFilter.Location = new System.Drawing.Point(397, 27);
+            this.btnApplyFilter.Location = new System.Drawing.Point(392, 27);
             this.btnApplyFilter.Name = "btnApplyFilter";
-            this.btnApplyFilter.Size = new System.Drawing.Size(75, 23);
+            this.btnApplyFilter.Size = new System.Drawing.Size(80, 23);
             this.btnApplyFilter.TabIndex = 2;
             this.btnApplyFilter.Text = "Apply";
             this.btnApplyFilter.UseVisualStyleBackColor = true;
+            this.btnApplyFilter.Click += new System.EventHandler(this.btnApplyFilter_Click);
             // 
             // chkOnlySelected
             // 
@@ -79,6 +86,7 @@ namespace Scada.Forms
             this.chkOnlySelected.TabIndex = 3;
             this.chkOnlySelected.Text = "Show only selected rows";
             this.chkOnlySelected.UseVisualStyleBackColor = true;
+            this.chkOnlySelected.CheckedChanged += new System.EventHandler(this.chkOnlySelected_CheckedChanged);
             // 
             // dataGridView
             // 
@@ -88,15 +96,62 @@ namespace Scada.Forms
             this.dataGridView.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
+            this.dataGridView.AutoGenerateColumns = false;
             this.dataGridView.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.dataGridView.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
+            this.colSelected,
+            this.colID,
+            this.colName,
+            this.colCode,
+            this.colDescr});
             this.dataGridView.DataSource = this.bindingSource;
             this.dataGridView.Location = new System.Drawing.Point(12, 81);
             this.dataGridView.Name = "dataGridView";
-            this.dataGridView.RowHeadersVisible = false;
             this.dataGridView.RowTemplate.Height = 25;
             this.dataGridView.Size = new System.Drawing.Size(460, 439);
             this.dataGridView.StandardTab = true;
             this.dataGridView.TabIndex = 4;
+            this.dataGridView.CellMouseUp += new System.Windows.Forms.DataGridViewCellMouseEventHandler(this.dataGridView_CellMouseUp);
+            // 
+            // colSelected
+            // 
+            this.colSelected.DataPropertyName = "Selected";
+            this.colSelected.HeaderText = "Selected";
+            this.colSelected.Name = "colSelected";
+            this.colSelected.Resizable = System.Windows.Forms.DataGridViewTriState.True;
+            this.colSelected.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.Automatic;
+            // 
+            // colID
+            // 
+            this.colID.DataPropertyName = "ID";
+            this.colID.HeaderText = "ID";
+            this.colID.Name = "colID";
+            this.colID.ReadOnly = true;
+            // 
+            // colName
+            // 
+            this.colName.DataPropertyName = "Name";
+            this.colName.HeaderText = "Name";
+            this.colName.Name = "colName";
+            this.colName.ReadOnly = true;
+            // 
+            // colCode
+            // 
+            this.colCode.DataPropertyName = "Code";
+            this.colCode.HeaderText = "Code";
+            this.colCode.Name = "colCode";
+            this.colCode.ReadOnly = true;
+            // 
+            // colDescr
+            // 
+            this.colDescr.DataPropertyName = "Descr";
+            this.colDescr.HeaderText = "Description";
+            this.colDescr.Name = "colDescr";
+            this.colDescr.ReadOnly = true;
+            // 
+            // bindingSource
+            // 
+            this.bindingSource.AllowNew = false;
             // 
             // btnSelect
             // 
@@ -107,6 +162,7 @@ namespace Scada.Forms
             this.btnSelect.TabIndex = 5;
             this.btnSelect.Text = "Select";
             this.btnSelect.UseVisualStyleBackColor = true;
+            this.btnSelect.Click += new System.EventHandler(this.btnSelect_Click);
             // 
             // btnCancel
             // 
@@ -117,10 +173,6 @@ namespace Scada.Forms
             this.btnCancel.TabIndex = 6;
             this.btnCancel.Text = "Cancel";
             this.btnCancel.UseVisualStyleBackColor = true;
-            // 
-            // bindingSource
-            // 
-            this.bindingSource.AllowNew = false;
             // 
             // FrmEntitySelect
             // 
@@ -137,9 +189,11 @@ namespace Scada.Forms
             this.Controls.Add(this.lblFilter);
             this.MaximizeBox = false;
             this.MinimizeBox = false;
+            this.MinimumSize = new System.Drawing.Size(200, 300);
             this.Name = "FrmEntitySelect";
             this.ShowIcon = false;
             this.ShowInTaskbar = false;
+            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
             this.Text = "Select from {0}";
             this.Load += new System.EventHandler(this.FrmEntitySelect_Load);
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView)).EndInit();
@@ -159,5 +213,10 @@ namespace Scada.Forms
         private System.Windows.Forms.Button btnSelect;
         private System.Windows.Forms.Button btnCancel;
         private System.Windows.Forms.BindingSource bindingSource;
+        private System.Windows.Forms.DataGridViewCheckBoxColumn colSelected;
+        private System.Windows.Forms.DataGridViewTextBoxColumn colID;
+        private System.Windows.Forms.DataGridViewTextBoxColumn colName;
+        private System.Windows.Forms.DataGridViewTextBoxColumn colCode;
+        private System.Windows.Forms.DataGridViewTextBoxColumn colDescr;
     }
 }
