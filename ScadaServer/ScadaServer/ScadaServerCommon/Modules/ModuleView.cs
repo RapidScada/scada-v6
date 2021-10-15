@@ -20,7 +20,7 @@
  * 
  * Author   : Mikhail Shiryaev
  * Created  : 2020
- * Modified : 2020
+ * Modified : 2021
  */
 
 using Scada.Server.Archives;
@@ -60,13 +60,6 @@ namespace Scada.Server.Modules
         /// </summary>
         public abstract string Descr { get; }
 
-
-        /// <summary>
-        /// Loads language dictionaries.
-        /// </summary>
-        public virtual void LoadDictionaries()
-        {
-        }
 
         /// <summary>
         /// Indicates whether the module can create an archive of the specified kind.

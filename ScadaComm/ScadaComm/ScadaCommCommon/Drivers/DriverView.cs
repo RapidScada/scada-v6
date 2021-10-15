@@ -81,13 +81,6 @@ namespace Scada.Comm.Drivers
 
 
         /// <summary>
-        /// Loads language dictionaries.
-        /// </summary>
-        public virtual void LoadDictionaries()
-        {
-        }
-
-        /// <summary>
         /// Creates a new communication channel user interface.
         /// </summary>
         public virtual ChannelView CreateChannelView(ChannelConfig channelConfig)

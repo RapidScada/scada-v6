@@ -92,6 +92,13 @@ namespace Scada
 
 
         /// <summary>
+        /// Loads language dictionaries.
+        /// </summary>
+        public virtual void LoadDictionaries()
+        {
+        }
+
+        /// <summary>
         /// Shows a modal dialog box for editing module properties.
         /// </summary>
         public virtual bool ShowProperties()
