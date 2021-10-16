@@ -1,38 +1,16 @@
-﻿/*
- * Copyright 2021 Rapid Software LLC
- * 
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- * 
- *     http://www.apache.org/licenses/LICENSE-2.0
- * 
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
- * 
- * 
- * Product  : Rapid SCADA
- * Module   : DrvDsOpcUaServer
- * Summary  : Represents data source options
- * 
- * Author   : Mikhail Shiryaev
- * Created  : 2021
- * Modified : 2021
- */
+﻿// Copyright (c) Rapid Software LLC. All rights reserved.
+// Licensed under the Apache License, Version 2.0. See License.txt in the project root for license information.
 
 using Scada.Config;
 using System.Collections.Generic;
 
-namespace Scada.Comm.Drivers.DrvDsOpcUaServer.Logic
+namespace Scada.Comm.Drivers.DrvDsOpcUaServer
 {
     /// <summary>
     /// Represents data source options.
     /// <para>Представляет параметры источника данных.</para>
     /// </summary>
-    internal class OpcUaServerDSO
+    public class OpcUaServerDSO
     {
         /// <summary>
         /// Initializes a new instance of the class.
@@ -49,9 +27,9 @@ namespace Scada.Comm.Drivers.DrvDsOpcUaServer.Logic
 
 
         /// <summary>
-        /// Gets a value indicating whether to automatically accept client certificates.
+        /// Gets or sets a value indicating whether to automatically accept client certificates.
         /// </summary>
-        public bool AutoAccept { get; private set; }
+        public bool AutoAccept { get; set; }
 
         /// <summary>
         /// Gets or sets the server username.
@@ -72,5 +50,19 @@ namespace Scada.Comm.Drivers.DrvDsOpcUaServer.Logic
         /// Gets the device IDs that filter data sent to the server.
         /// </summary>
         public List<int> DeviceFilter { get; private set; }
+
+
+        /// <summary>
+        /// Adds the options to the list.
+        /// </summary>
+        public void AddToOptionList(OptionList options)
+        {
+            options.Clear();
+            options["AutoAccept"] = AutoAccept.ToString().ToLowerInvariant();
+            options["Username"] = Username;
+            options["Password"] = ScadaUtils.Encrypt(Password);
+            options["ConfigFileName"] = ConfigFileName;
+            options["DeviceFilter"] = ScadaUtils.ToShortString(DeviceFilter);
+        }
     }
 }

@@ -11,6 +11,16 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <None Remove="Config\DrvDsOpcUaServer.Linux.xml" />
+    <None Remove="Config\DrvDsOpcUaServer.Win.xml" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <EmbeddedResource Include="Config\DrvDsOpcUaServer.Linux.xml" />
+    <EmbeddedResource Include="Config\DrvDsOpcUaServer.Win.xml" />
+  </ItemGroup>
+
+  <ItemGroup>
     <Reference Include="ScadaCommon">
       <HintPath>..\..\..\ScadaCommon\ScadaCommon\bin\Release\netstandard2.0\ScadaCommon.dll</HintPath>
     </Reference>

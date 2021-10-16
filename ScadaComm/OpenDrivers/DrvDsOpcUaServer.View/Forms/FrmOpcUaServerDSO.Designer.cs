@@ -29,6 +29,7 @@ namespace Scada.Comm.Drivers.DrvDsOpcUaServer.View.Forms
         /// </summary>
         private void InitializeComponent()
         {
+            this.components = new System.ComponentModel.Container();
             this.chkAutoAccept = new System.Windows.Forms.CheckBox();
             this.lblUsername = new System.Windows.Forms.Label();
             this.txtUsername = new System.Windows.Forms.TextBox();
@@ -38,12 +39,15 @@ namespace Scada.Comm.Drivers.DrvDsOpcUaServer.View.Forms
             this.txtConfigFileName = new System.Windows.Forms.TextBox();
             this.btnCreateConfigWin = new System.Windows.Forms.Button();
             this.btnCreateConfigLinux = new System.Windows.Forms.Button();
-            this.btnOpenConfig = new System.Windows.Forms.Button();
+            this.btnBrowseConfig = new System.Windows.Forms.Button();
             this.lblDeviceFilter = new System.Windows.Forms.Label();
             this.txtDeviceFilter = new System.Windows.Forms.TextBox();
             this.btnSelectDevices = new System.Windows.Forms.Button();
             this.btnOK = new System.Windows.Forms.Button();
             this.btnCancel = new System.Windows.Forms.Button();
+            this.toolTip = new System.Windows.Forms.ToolTip(this.components);
+            this.openFileDialog = new System.Windows.Forms.OpenFileDialog();
+            this.saveFileDialog = new System.Windows.Forms.SaveFileDialog();
             this.SuspendLayout();
             // 
             // chkAutoAccept
@@ -94,9 +98,9 @@ namespace Scada.Comm.Drivers.DrvDsOpcUaServer.View.Forms
             this.lblConfigFileName.AutoSize = true;
             this.lblConfigFileName.Location = new System.Drawing.Point(9, 122);
             this.lblConfigFileName.Name = "lblConfigFileName";
-            this.lblConfigFileName.Size = new System.Drawing.Size(133, 15);
+            this.lblConfigFileName.Size = new System.Drawing.Size(100, 15);
             this.lblConfigFileName.TabIndex = 5;
-            this.lblConfigFileName.Text = "Configuration file name";
+            this.lblConfigFileName.Text = "Configuration file";
             // 
             // txtConfigFileName
             // 
@@ -114,6 +118,7 @@ namespace Scada.Comm.Drivers.DrvDsOpcUaServer.View.Forms
             this.btnCreateConfigWin.Size = new System.Drawing.Size(23, 23);
             this.btnCreateConfigWin.TabIndex = 7;
             this.btnCreateConfigWin.UseVisualStyleBackColor = true;
+            this.btnCreateConfigWin.Click += new System.EventHandler(this.btnCreateConfig_Click);
             // 
             // btnCreateConfigLinux
             // 
@@ -124,16 +129,18 @@ namespace Scada.Comm.Drivers.DrvDsOpcUaServer.View.Forms
             this.btnCreateConfigLinux.Size = new System.Drawing.Size(23, 23);
             this.btnCreateConfigLinux.TabIndex = 8;
             this.btnCreateConfigLinux.UseVisualStyleBackColor = true;
+            this.btnCreateConfigLinux.Click += new System.EventHandler(this.btnCreateConfig_Click);
             // 
-            // btnOpenConfig
+            // btnBrowseConfig
             // 
-            this.btnOpenConfig.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
-            this.btnOpenConfig.Image = global::Scada.Comm.Drivers.DrvDsOpcUaServer.View.Properties.Resources.open;
-            this.btnOpenConfig.Location = new System.Drawing.Point(349, 140);
-            this.btnOpenConfig.Name = "btnOpenConfig";
-            this.btnOpenConfig.Size = new System.Drawing.Size(23, 23);
-            this.btnOpenConfig.TabIndex = 9;
-            this.btnOpenConfig.UseVisualStyleBackColor = true;
+            this.btnBrowseConfig.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
+            this.btnBrowseConfig.Image = global::Scada.Comm.Drivers.DrvDsOpcUaServer.View.Properties.Resources.open;
+            this.btnBrowseConfig.Location = new System.Drawing.Point(349, 140);
+            this.btnBrowseConfig.Name = "btnBrowseConfig";
+            this.btnBrowseConfig.Size = new System.Drawing.Size(23, 23);
+            this.btnBrowseConfig.TabIndex = 9;
+            this.btnBrowseConfig.UseVisualStyleBackColor = true;
+            this.btnBrowseConfig.Click += new System.EventHandler(this.btnBrowseConfig_Click);
             // 
             // lblDeviceFilter
             // 
@@ -160,6 +167,7 @@ namespace Scada.Comm.Drivers.DrvDsOpcUaServer.View.Forms
             this.btnSelectDevices.Size = new System.Drawing.Size(23, 23);
             this.btnSelectDevices.TabIndex = 12;
             this.btnSelectDevices.UseVisualStyleBackColor = true;
+            this.btnSelectDevices.Click += new System.EventHandler(this.btnSelectDevices_Click);
             // 
             // btnOK
             // 
@@ -169,6 +177,7 @@ namespace Scada.Comm.Drivers.DrvDsOpcUaServer.View.Forms
             this.btnOK.TabIndex = 13;
             this.btnOK.Text = "OK";
             this.btnOK.UseVisualStyleBackColor = true;
+            this.btnOK.Click += new System.EventHandler(this.btnOK_Click);
             // 
             // btnCancel
             // 
@@ -179,17 +188,29 @@ namespace Scada.Comm.Drivers.DrvDsOpcUaServer.View.Forms
             this.btnCancel.Text = "Cancel";
             this.btnCancel.UseVisualStyleBackColor = true;
             // 
+            // openFileDialog
+            // 
+            this.openFileDialog.DefaultExt = "*.xml";
+            this.openFileDialog.Filter = "XML Files (*.xml)|*.xml|All Files (*.*)|*.*";
+            // 
+            // saveFileDialog
+            // 
+            this.saveFileDialog.DefaultExt = "*.xml";
+            this.saveFileDialog.Filter = "XML Files (*.xml)|*.xml|All Files (*.*)|*.*";
+            // 
             // FrmOpcUaServerDSO
             // 
+            this.AcceptButton = this.btnOK;
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.CancelButton = this.btnCancel;
             this.ClientSize = new System.Drawing.Size(384, 258);
             this.Controls.Add(this.btnCancel);
             this.Controls.Add(this.btnOK);
             this.Controls.Add(this.btnSelectDevices);
             this.Controls.Add(this.txtDeviceFilter);
             this.Controls.Add(this.lblDeviceFilter);
-            this.Controls.Add(this.btnOpenConfig);
+            this.Controls.Add(this.btnBrowseConfig);
             this.Controls.Add(this.btnCreateConfigLinux);
             this.Controls.Add(this.btnCreateConfigWin);
             this.Controls.Add(this.txtConfigFileName);
@@ -206,6 +227,7 @@ namespace Scada.Comm.Drivers.DrvDsOpcUaServer.View.Forms
             this.ShowInTaskbar = false;
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
             this.Text = "Data Source Options";
+            this.Load += new System.EventHandler(this.FrmOpcUaServerDSO_Load);
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -221,11 +243,14 @@ namespace Scada.Comm.Drivers.DrvDsOpcUaServer.View.Forms
         private System.Windows.Forms.TextBox txtConfigFileName;
         private System.Windows.Forms.Button btnCreateConfigWin;
         private System.Windows.Forms.Button btnCreateConfigLinux;
-        private System.Windows.Forms.Button btnOpenConfig;
+        private System.Windows.Forms.Button btnBrowseConfig;
         private System.Windows.Forms.Label lblDeviceFilter;
         private System.Windows.Forms.TextBox txtDeviceFilter;
         private System.Windows.Forms.Button btnSelectDevices;
         private System.Windows.Forms.Button btnOK;
         private System.Windows.Forms.Button btnCancel;
+        private System.Windows.Forms.ToolTip toolTip;
+        private System.Windows.Forms.OpenFileDialog openFileDialog;
+        private System.Windows.Forms.SaveFileDialog saveFileDialog;
     }
 }

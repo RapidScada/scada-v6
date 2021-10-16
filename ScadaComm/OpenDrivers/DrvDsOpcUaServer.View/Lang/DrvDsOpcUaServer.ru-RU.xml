@@ -1,0 +1,18 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<DrvDsOpcUaServerDictionaries>
+  <Dictionary key="Scada.Comm.Drivers.DrvDsOpcUaServer.View.Forms.FrmOpcUaServerDSO">
+    <Phrase key="this">Параметры источника данных</Phrase>
+    <Phrase key="chkAutoAccept">Автоматически принимать сертификаты</Phrase>
+    <Phrase key="lblUsername">Имя пользователя</Phrase>
+    <Phrase key="lblPassword">Пароль</Phrase>
+    <Phrase key="lblConfigFileName">Файл конфигурации</Phrase>
+    <Phrase key="btnCreateConfigWin.ToolTip">Создать файл конфигурации для Windows</Phrase>
+    <Phrase key="btnCreateConfigLinux.ToolTip">Создать файл конфигурации для Linux</Phrase>
+    <Phrase key="btnBrowseConfig.ToolTip">Обзор</Phrase>
+    <Phrase key="lblDeviceFilter">Фильтр КП</Phrase>
+    <Phrase key="btnSelectDevices.ToolTip">Выбрать КП</Phrase>
+    <Phrase key="btnOK">OK</Phrase>
+    <Phrase key="btnCancel">Отмена</Phrase>
+    <Phrase key="ConfigDirRequired">Файл конфигурации должен располагаться внутри {0}</Phrase>
+  </Dictionary>
+</DrvDsOpcUaServerDictionaries>
