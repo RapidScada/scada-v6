@@ -27,6 +27,7 @@ namespace Scada.Storages.FileStorage
             string instanceDir = storageContext.AppDirs.InstanceDir;
             baseDir = Path.Combine(instanceDir, "BaseDAT");
             viewDir = Path.Combine(instanceDir, "Views");
+            IsFileStorage = true;
         }
 
 

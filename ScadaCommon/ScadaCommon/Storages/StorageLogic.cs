@@ -43,6 +43,7 @@ namespace Scada.Storages
         {
             StorageContext = storageContext ?? throw new ArgumentNullException(nameof(storageContext));
             IsReady = false;
+            IsFileStorage = false;
             ViewAvailable = false;
         }
 
@@ -61,6 +62,11 @@ namespace Scada.Storages
         /// Gets or sets a value indicating whether the storage is ready for reading and writing.
         /// </summary>
         public bool IsReady { get; set; }
+
+        /// <summary>
+        /// Gets a value indicating whether the storage works with the file system.
+        /// </summary>
+        public bool IsFileStorage { get; protected set; }
 
         /// <summary>
         /// Gets a value indicating whether a client application can load a view from the storage.

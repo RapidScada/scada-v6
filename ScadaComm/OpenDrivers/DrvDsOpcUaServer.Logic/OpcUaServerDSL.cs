@@ -31,6 +31,7 @@ using Scada.Comm.DataSources;
 using Scada.Comm.Devices;
 using Scada.Lang;
 using Scada.Log;
+using Scada.Storages;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -79,7 +80,7 @@ namespace Scada.Comm.Drivers.DrvDsOpcUaServer.Logic
             };
 
             // load the application configuration
-            WriteConfigFile(out string configFileName);
+            PrepareConfigFile(out string configFileName);
             ApplicationConfiguration opcConfig = await opcApp.LoadApplicationConfiguration(configFileName, false);
 
             // check the application certificate
@@ -101,29 +102,25 @@ namespace Scada.Comm.Drivers.DrvDsOpcUaServer.Logic
         }
 
         /// <summary>
-        /// Writes an OPC UA configuration file depending on operating system.
+        /// Creates an OPC UA configuration file if does not exist or is outdated.
         /// </summary>
-        private void WriteConfigFile(out string configFileName)
+        private void PrepareConfigFile(out string configFileName)
         {
-            string shortFileName = string.IsNullOrEmpty(options.ConfigFileName) ?
+            string shortFileName = string.IsNullOrEmpty(options.ConfigFileName) ? 
                 DriverUtils.DefaultConfigFileName : options.ConfigFileName;
             configFileName = Path.Combine(CommContext.AppDirs.ConfigDir, shortFileName);
 
-            if (!File.Exists(configFileName))
+            if (!CommContext.Storage.IsFileStorage &&
+                CommContext.Storage.GetFileInfo(DataCategory.Config, shortFileName).Exists)
             {
-                string suffix = ScadaUtils.IsRunningOnWin ? "Win" : "Linux";
-                string resourceName = $"Scada.Comm.Drivers.DrvDsOpcUaServer.Logic.Config.DrvDsOpcUaServer.{suffix}.xml";
-                string fileContents;
-
-                using (Stream stream = Assembly.GetExecutingAssembly().GetManifestResourceStream(resourceName))
-                {
-                    using (StreamReader reader = new StreamReader(stream))
-                    {
-                        fileContents = reader.ReadToEnd();
-                    }
-                }
-
-                File.WriteAllText(configFileName, fileContents, Encoding.UTF8);
+                // get configuration from database
+                string contents = CommContext.Storage.ReadText(DataCategory.Config, shortFileName);
+                File.WriteAllText(configFileName, contents, Encoding.UTF8);
+            }
+            else if (!File.Exists(configFileName))
+            {
+                // create configration file 
+                DriverUtils.WriteConfigFile(configFileName, ScadaUtils.IsRunningOnWin);
             }
         }
 

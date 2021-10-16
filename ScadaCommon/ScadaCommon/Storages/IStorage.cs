@@ -45,6 +45,11 @@ namespace Scada.Storages
         bool IsReady { get; }
 
         /// <summary>
+        /// Gets a value indicating whether the storage works with the file system.
+        /// </summary>
+        bool IsFileStorage { get; }
+
+        /// <summary>
         /// Gets a value indicating whether a client application can load a view from the storage.
         /// </summary>
         /// <remarks>
