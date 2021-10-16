@@ -17,7 +17,7 @@ namespace Scada.Comm.Drivers.DrvDsOpcUaServer
         /// </summary>
         public OpcUaServerDSO(OptionList options)
         {
-            AutoAccept = options.GetValueAsBool("AutoAccept");
+            AutoAccept = options.GetValueAsBool("AutoAccept", true);
             Username = options.GetValueAsString("Username");
             Password = ScadaUtils.Decrypt(options.GetValueAsString("Password"));
             ConfigFileName = options.GetValueAsString("ConfigFileName");
