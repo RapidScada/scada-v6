@@ -28,7 +28,7 @@
       <Option name="DeviceFilter" value="" />
     </DataSource>
     <DataSource active="false" code="OpcUaServer" name="OPC UA Server" driver="DrvDsOpcUaServer">
-      <Option name="AutoAccept" value="false" />
+      <Option name="AutoAccept" value="true" />
       <Option name="Username" value="opc" />
       <Option name="Password" value="B9D0F030265751578B00E9801C69320C" />
       <Option name="ConfigFileName" value="" />
