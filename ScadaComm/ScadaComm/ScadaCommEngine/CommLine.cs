@@ -338,7 +338,7 @@ namespace Scada.Comm.Engine
                     }
 
                     // session
-                    deviceWrapper = SelectDevice(ref deviceIndex);
+                    deviceWrapper = SelectDevice(ref deviceIndex, out bool hasPriority);
                     deviceLogic = deviceWrapper.DeviceLogic;
                     bool sendAllData = false;
                     
@@ -348,7 +348,7 @@ namespace Scada.Comm.Engine
                         sendAllDataDT = utcNow;
                     }
 
-                    if (CheckSessionIsRequired(deviceLogic, utcNow))
+                    if (hasPriority || CheckSessionIsRequired(deviceLogic, utcNow))
                     {
                         requiredSessionCnt++;
                         channel.BeforeSession(deviceLogic);
@@ -504,13 +504,14 @@ namespace Scada.Comm.Engine
         /// <summary>
         /// Selects a device to poll.
         /// </summary>
-        private DeviceWrapper SelectDevice(ref int deviceIndex)
+        private DeviceWrapper SelectDevice(ref int deviceIndex, out bool hasPriority)
         {
             lock (priorityPoll)
             {
-                return priorityPoll.Count > 0 ?
-                    priorityPoll.Dequeue() :
-                    devices[deviceIndex++];
+                hasPriority = priorityPoll.Count > 0;
+                return hasPriority
+                    ? priorityPoll.Dequeue()
+                    : devices[deviceIndex++];
             }
         }
 
@@ -544,7 +545,7 @@ namespace Scada.Comm.Engine
                 }
                 else if (timeIsSet)
                 {
-                    // polling once a day at a specified time
+                    // polling once a day at the specified time
                     return pollingOptions.Time <= nowTime /*time to poll*/ &&
                         (lastSessionDate < nowDate || lastSessionTime < pollingOptions.Time /*after an extra poll*/);
                 }
