@@ -131,6 +131,23 @@ namespace Scada.Forms
                     column.Width = MaxColumnWidth;
             }
         }
+        
+        /// <summary>
+        /// Draws a list box item representing a tab.
+        /// </summary>
+        public static void DrawTabItem(this ListBox listBox, DrawItemEventArgs e)
+        {
+            const int PaddingLeft = 5;
+            string text = (string)listBox.Items[e.Index];
+            SizeF textSize = e.Graphics.MeasureString(text, listBox.Font);
+            Brush brush = e.State.HasFlag(DrawItemState.Selected) ?
+                SystemBrushes.HighlightText : SystemBrushes.WindowText;
+
+            e.DrawBackground();
+            e.Graphics.DrawString(text, listBox.Font, brush,
+                e.Bounds.Left + PaddingLeft, e.Bounds.Top + (listBox.ItemHeight - textSize.Height) / 2);
+            e.DrawFocusRectangle();
+        }
 
         /// <summary>
         /// Tests whether the specified area is visible on any of the available screens.

@@ -32,6 +32,7 @@ namespace Scada.Admin.Extensions.ExtCommConfig
             public const string Driver = ImagePrefix + "driver.png";
             public const string GeneralOptions = ImagePrefix + "general_options.png";
             public const string Line = ImagePrefix + "line.png";
+            public const string LineInactive = ImagePrefix + "line_inactive.png";
             public const string Lines = ImagePrefix + "lines.png";
             public const string LineOptions = ImagePrefix + "general_options.png";
         }
@@ -61,30 +62,38 @@ namespace Scada.Admin.Extensions.ExtCommConfig
         /// <summary>
         /// Creates a tree node that represents communication lines.
         /// </summary>
-        private TreeNode CreateCommLinesNode(CommApp commApp)
+        private TreeNode CreateLinesNode(CommApp commApp)
         {
             TreeNode commLinesNode = TreeViewExtensions.CreateNode(ExtensionPhrases.LinesNode, ImageKey.Lines);
 
             foreach (LineConfig lineConfig in commApp.AppConfig.Lines)
             {
-                commLinesNode.Nodes.Add(CreateCommLineNode(lineConfig));
+                commLinesNode.Nodes.Add(CreateLineNode(lineConfig));
             }
 
             return commLinesNode;
         }
 
         /// <summary>
-        /// Creates a tree node that represents communication lines.
+        /// Creates a tree node that represents the specified communication line.
         /// </summary>
-        private TreeNode CreateCommLineNode(LineConfig lineConfig)
+        private TreeNode CreateLineNode(LineConfig lineConfig)
         {
-            TreeNode commLineNode = TreeViewExtensions.CreateNode(
+            TreeNode lineNode = TreeViewExtensions.CreateNode(
                 CommUtils.GetLineTitle(lineConfig.CommLineNum, lineConfig.Name),
-                lineConfig.Active ? ImageKey.Line : ImageKey.Line);
+                lineConfig.Active ? ImageKey.Line : ImageKey.LineInactive);
 
-            commLineNode.Nodes.Add(TreeViewExtensions.CreateNode(
-                ExtensionPhrases.LineOptionsNode, ImageKey.LineOptions));
-            return commLineNode;
+            TreeNode lineOptionsNode = TreeViewExtensions.CreateNode(
+                ExtensionPhrases.LineOptionsNode, ImageKey.LineOptions);
+            
+            lineOptionsNode.Tag = new TreeNodeTag
+            {
+                FormType = typeof(FrmLineOptions),
+                //FormArgs = new object[] { AdminContext, commApp }
+            };
+
+            lineNode.Nodes.Add(lineOptionsNode);
+            return lineNode;
         }
 
         /// <summary>
@@ -138,7 +147,7 @@ namespace Scada.Admin.Extensions.ExtCommConfig
                         FormArgs = new object[] { AdminContext, commApp }
                     }
                 },
-                CreateCommLinesNode(commApp)
+                CreateLinesNode(commApp)
             };
         }
 
@@ -153,6 +162,7 @@ namespace Scada.Admin.Extensions.ExtCommConfig
                 { ImageKey.Driver, Resources.driver },
                 { ImageKey.GeneralOptions, Resources.general_options },
                 { ImageKey.Line, Resources.line },
+                { ImageKey.LineInactive, Resources.line_inactive },
                 { ImageKey.Lines, Resources.lines }
             };
         }

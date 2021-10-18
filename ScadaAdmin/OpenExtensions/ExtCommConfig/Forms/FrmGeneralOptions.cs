@@ -1,4 +1,7 @@
-﻿using Scada.Admin.Project;
+﻿// Copyright (c) Rapid Software LLC. All rights reserved.
+// Licensed under the Apache License, Version 2.0. See License.txt in the project root for license information.
+
+using Scada.Admin.Project;
 using Scada.Comm.Config;
 using Scada.Forms;
 using Scada.Log;
@@ -15,6 +18,10 @@ using WinControl;
 
 namespace Scada.Admin.Extensions.ExtCommConfig.Forms
 {
+    /// <summary>
+    /// Represents a form for editing general options.
+    /// <para>Форма для редактирования основных параметров.</para>
+    /// </summary>
     public partial class FrmGeneralOptions : Form, IChildForm
     {
         private readonly ILog log;              // the application log

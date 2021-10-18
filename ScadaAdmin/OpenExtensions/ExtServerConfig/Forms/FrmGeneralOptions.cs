@@ -16,7 +16,7 @@ namespace Scada.Admin.Extensions.ExtServerConfig.Forms
 {
     /// <summary>
     /// Represents a form for editing general options.
-    /// <para>Форма для редактирования общих параметров.</para>
+    /// <para>Форма для редактирования основных параметров.</para>
     /// </summary>
     public partial class FrmGeneralOptions : Form, IChildForm
     {
