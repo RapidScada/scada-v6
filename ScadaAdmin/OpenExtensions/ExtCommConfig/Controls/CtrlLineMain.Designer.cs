@@ -37,21 +37,28 @@ namespace Scada.Admin.Extensions.ExtCommConfig.Controls
             this.chkIsBound = new System.Windows.Forms.CheckBox();
             this.chkActive = new System.Windows.Forms.CheckBox();
             this.gbLineOptions = new System.Windows.Forms.GroupBox();
-            this.lblReqRetries = new System.Windows.Forms.Label();
-            this.numReqRetries = new System.Windows.Forms.NumericUpDown();
-            this.lblCycleDelay = new System.Windows.Forms.Label();
-            this.numCycleDelay = new System.Windows.Forms.NumericUpDown();
-            this.lblCmdEnabled = new System.Windows.Forms.Label();
-            this.chkCmdEnabled = new System.Windows.Forms.CheckBox();
-            this.lblPollAfterCmd = new System.Windows.Forms.Label();
-            this.chkPollAfterCmd = new System.Windows.Forms.CheckBox();
-            this.lblDetailedLog = new System.Windows.Forms.Label();
             this.chkDetailedLog = new System.Windows.Forms.CheckBox();
+            this.lblDetailedLog = new System.Windows.Forms.Label();
+            this.chkPollAfterCmd = new System.Windows.Forms.CheckBox();
+            this.lblPollAfterCmd = new System.Windows.Forms.Label();
+            this.chkCmdEnabled = new System.Windows.Forms.CheckBox();
+            this.lblCmdEnabled = new System.Windows.Forms.Label();
+            this.numCycleDelay = new System.Windows.Forms.NumericUpDown();
+            this.lblCycleDelay = new System.Windows.Forms.Label();
+            this.numReqRetries = new System.Windows.Forms.NumericUpDown();
+            this.lblReqRetries = new System.Windows.Forms.Label();
+            this.gbChannel = new System.Windows.Forms.GroupBox();
+            this.txtChannelOptions = new System.Windows.Forms.TextBox();
+            this.lblChannelOptions = new System.Windows.Forms.Label();
+            this.btnChannelProperties = new System.Windows.Forms.Button();
+            this.cbChannelType = new System.Windows.Forms.ComboBox();
+            this.lblChannelType = new System.Windows.Forms.Label();
             this.gbLine.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.numCommLineNum)).BeginInit();
             this.gbLineOptions.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.numReqRetries)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.numCycleDelay)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.numReqRetries)).BeginInit();
+            this.gbChannel.SuspendLayout();
             this.SuspendLayout();
             // 
             // gbLine
@@ -147,14 +154,80 @@ namespace Scada.Admin.Extensions.ExtCommConfig.Controls
             this.gbLineOptions.TabStop = false;
             this.gbLineOptions.Text = "Line Options";
             // 
-            // lblReqRetries
+            // chkDetailedLog
             // 
-            this.lblReqRetries.AutoSize = true;
-            this.lblReqRetries.Location = new System.Drawing.Point(13, 26);
-            this.lblReqRetries.Name = "lblReqRetries";
-            this.lblReqRetries.Size = new System.Drawing.Size(187, 15);
-            this.lblReqRetries.TabIndex = 0;
-            this.lblReqRetries.Text = "Number of request retries on error";
+            this.chkDetailedLog.AutoSize = true;
+            this.chkDetailedLog.Location = new System.Drawing.Point(430, 142);
+            this.chkDetailedLog.Name = "chkDetailedLog";
+            this.chkDetailedLog.Size = new System.Drawing.Size(15, 14);
+            this.chkDetailedLog.TabIndex = 9;
+            this.chkDetailedLog.UseVisualStyleBackColor = true;
+            // 
+            // lblDetailedLog
+            // 
+            this.lblDetailedLog.AutoSize = true;
+            this.lblDetailedLog.Location = new System.Drawing.Point(10, 142);
+            this.lblDetailedLog.Name = "lblDetailedLog";
+            this.lblDetailedLog.Size = new System.Drawing.Size(70, 15);
+            this.lblDetailedLog.TabIndex = 8;
+            this.lblDetailedLog.Text = "Detailed log";
+            // 
+            // chkPollAfterCmd
+            // 
+            this.chkPollAfterCmd.AutoSize = true;
+            this.chkPollAfterCmd.Location = new System.Drawing.Point(430, 113);
+            this.chkPollAfterCmd.Name = "chkPollAfterCmd";
+            this.chkPollAfterCmd.Size = new System.Drawing.Size(15, 14);
+            this.chkPollAfterCmd.TabIndex = 7;
+            this.chkPollAfterCmd.UseVisualStyleBackColor = true;
+            // 
+            // lblPollAfterCmd
+            // 
+            this.lblPollAfterCmd.AutoSize = true;
+            this.lblPollAfterCmd.Location = new System.Drawing.Point(10, 113);
+            this.lblPollAfterCmd.Name = "lblPollAfterCmd";
+            this.lblPollAfterCmd.Size = new System.Drawing.Size(149, 15);
+            this.lblPollAfterCmd.TabIndex = 6;
+            this.lblPollAfterCmd.Text = "Poll device after command";
+            // 
+            // chkCmdEnabled
+            // 
+            this.chkCmdEnabled.AutoSize = true;
+            this.chkCmdEnabled.Location = new System.Drawing.Point(430, 84);
+            this.chkCmdEnabled.Name = "chkCmdEnabled";
+            this.chkCmdEnabled.Size = new System.Drawing.Size(15, 14);
+            this.chkCmdEnabled.TabIndex = 5;
+            this.chkCmdEnabled.UseVisualStyleBackColor = true;
+            // 
+            // lblCmdEnabled
+            // 
+            this.lblCmdEnabled.AutoSize = true;
+            this.lblCmdEnabled.Location = new System.Drawing.Point(10, 84);
+            this.lblCmdEnabled.Name = "lblCmdEnabled";
+            this.lblCmdEnabled.Size = new System.Drawing.Size(114, 15);
+            this.lblCmdEnabled.TabIndex = 4;
+            this.lblCmdEnabled.Text = "Commands enabled";
+            // 
+            // numCycleDelay
+            // 
+            this.numCycleDelay.Location = new System.Drawing.Point(387, 51);
+            this.numCycleDelay.Maximum = new decimal(new int[] {
+            600000,
+            0,
+            0,
+            0});
+            this.numCycleDelay.Name = "numCycleDelay";
+            this.numCycleDelay.Size = new System.Drawing.Size(100, 23);
+            this.numCycleDelay.TabIndex = 3;
+            // 
+            // lblCycleDelay
+            // 
+            this.lblCycleDelay.AutoSize = true;
+            this.lblCycleDelay.Location = new System.Drawing.Point(10, 55);
+            this.lblCycleDelay.Name = "lblCycleDelay";
+            this.lblCycleDelay.Size = new System.Drawing.Size(155, 15);
+            this.lblCycleDelay.TabIndex = 2;
+            this.lblCycleDelay.Text = "Delay after polling cycle, ms";
             // 
             // numReqRetries
             // 
@@ -173,96 +246,93 @@ namespace Scada.Admin.Extensions.ExtCommConfig.Controls
             0,
             0});
             // 
-            // lblCycleDelay
+            // lblReqRetries
             // 
-            this.lblCycleDelay.AutoSize = true;
-            this.lblCycleDelay.Location = new System.Drawing.Point(13, 55);
-            this.lblCycleDelay.Name = "lblCycleDelay";
-            this.lblCycleDelay.Size = new System.Drawing.Size(155, 15);
-            this.lblCycleDelay.TabIndex = 2;
-            this.lblCycleDelay.Text = "Delay after polling cycle, ms";
+            this.lblReqRetries.AutoSize = true;
+            this.lblReqRetries.Location = new System.Drawing.Point(10, 26);
+            this.lblReqRetries.Name = "lblReqRetries";
+            this.lblReqRetries.Size = new System.Drawing.Size(187, 15);
+            this.lblReqRetries.TabIndex = 0;
+            this.lblReqRetries.Text = "Number of request retries on error";
             // 
-            // numCycleDelay
+            // gbChannel
             // 
-            this.numCycleDelay.Location = new System.Drawing.Point(387, 51);
-            this.numCycleDelay.Maximum = new decimal(new int[] {
-            600000,
-            0,
-            0,
-            0});
-            this.numCycleDelay.Name = "numCycleDelay";
-            this.numCycleDelay.Size = new System.Drawing.Size(100, 23);
-            this.numCycleDelay.TabIndex = 3;
+            this.gbChannel.Controls.Add(this.txtChannelOptions);
+            this.gbChannel.Controls.Add(this.lblChannelOptions);
+            this.gbChannel.Controls.Add(this.btnChannelProperties);
+            this.gbChannel.Controls.Add(this.cbChannelType);
+            this.gbChannel.Controls.Add(this.lblChannelType);
+            this.gbChannel.Location = new System.Drawing.Point(0, 284);
+            this.gbChannel.Name = "gbChannel";
+            this.gbChannel.Padding = new System.Windows.Forms.Padding(10, 3, 10, 10);
+            this.gbChannel.Size = new System.Drawing.Size(500, 244);
+            this.gbChannel.TabIndex = 2;
+            this.gbChannel.TabStop = false;
+            this.gbChannel.Text = "Communication Channel";
             // 
-            // lblCmdEnabled
+            // txtChannelOptions
             // 
-            this.lblCmdEnabled.AutoSize = true;
-            this.lblCmdEnabled.Location = new System.Drawing.Point(13, 84);
-            this.lblCmdEnabled.Name = "lblCmdEnabled";
-            this.lblCmdEnabled.Size = new System.Drawing.Size(114, 15);
-            this.lblCmdEnabled.TabIndex = 4;
-            this.lblCmdEnabled.Text = "Commands enabled";
+            this.txtChannelOptions.Location = new System.Drawing.Point(13, 81);
+            this.txtChannelOptions.Multiline = true;
+            this.txtChannelOptions.Name = "txtChannelOptions";
+            this.txtChannelOptions.ReadOnly = true;
+            this.txtChannelOptions.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
+            this.txtChannelOptions.Size = new System.Drawing.Size(474, 150);
+            this.txtChannelOptions.TabIndex = 4;
             // 
-            // chkCmdEnabled
+            // lblChannelOptions
             // 
-            this.chkCmdEnabled.AutoSize = true;
-            this.chkCmdEnabled.Location = new System.Drawing.Point(430, 84);
-            this.chkCmdEnabled.Name = "chkCmdEnabled";
-            this.chkCmdEnabled.Size = new System.Drawing.Size(15, 14);
-            this.chkCmdEnabled.TabIndex = 5;
-            this.chkCmdEnabled.UseVisualStyleBackColor = true;
+            this.lblChannelOptions.AutoSize = true;
+            this.lblChannelOptions.Location = new System.Drawing.Point(10, 63);
+            this.lblChannelOptions.Name = "lblChannelOptions";
+            this.lblChannelOptions.Size = new System.Drawing.Size(49, 15);
+            this.lblChannelOptions.TabIndex = 3;
+            this.lblChannelOptions.Text = "Options";
             // 
-            // lblPollAfterCmd
+            // btnChannelProperties
             // 
-            this.lblPollAfterCmd.AutoSize = true;
-            this.lblPollAfterCmd.Location = new System.Drawing.Point(13, 113);
-            this.lblPollAfterCmd.Name = "lblPollAfterCmd";
-            this.lblPollAfterCmd.Size = new System.Drawing.Size(149, 15);
-            this.lblPollAfterCmd.TabIndex = 6;
-            this.lblPollAfterCmd.Text = "Poll device after command";
+            this.btnChannelProperties.Location = new System.Drawing.Point(412, 37);
+            this.btnChannelProperties.Name = "btnChannelProperties";
+            this.btnChannelProperties.Size = new System.Drawing.Size(75, 23);
+            this.btnChannelProperties.TabIndex = 2;
+            this.btnChannelProperties.Text = "Properties";
+            this.btnChannelProperties.UseVisualStyleBackColor = true;
             // 
-            // chkPollAfterCmd
+            // cbChannelType
             // 
-            this.chkPollAfterCmd.AutoSize = true;
-            this.chkPollAfterCmd.Location = new System.Drawing.Point(430, 113);
-            this.chkPollAfterCmd.Name = "chkPollAfterCmd";
-            this.chkPollAfterCmd.Size = new System.Drawing.Size(15, 14);
-            this.chkPollAfterCmd.TabIndex = 7;
-            this.chkPollAfterCmd.UseVisualStyleBackColor = true;
+            this.cbChannelType.FormattingEnabled = true;
+            this.cbChannelType.Location = new System.Drawing.Point(13, 37);
+            this.cbChannelType.Name = "cbChannelType";
+            this.cbChannelType.Size = new System.Drawing.Size(393, 23);
+            this.cbChannelType.TabIndex = 1;
             // 
-            // lblDetailedLog
+            // lblChannelType
             // 
-            this.lblDetailedLog.AutoSize = true;
-            this.lblDetailedLog.Location = new System.Drawing.Point(13, 142);
-            this.lblDetailedLog.Name = "lblDetailedLog";
-            this.lblDetailedLog.Size = new System.Drawing.Size(70, 15);
-            this.lblDetailedLog.TabIndex = 8;
-            this.lblDetailedLog.Text = "Detailed log";
-            // 
-            // chkDetailedLog
-            // 
-            this.chkDetailedLog.AutoSize = true;
-            this.chkDetailedLog.Location = new System.Drawing.Point(430, 142);
-            this.chkDetailedLog.Name = "chkDetailedLog";
-            this.chkDetailedLog.Size = new System.Drawing.Size(15, 14);
-            this.chkDetailedLog.TabIndex = 9;
-            this.chkDetailedLog.UseVisualStyleBackColor = true;
+            this.lblChannelType.AutoSize = true;
+            this.lblChannelType.Location = new System.Drawing.Point(10, 19);
+            this.lblChannelType.Name = "lblChannelType";
+            this.lblChannelType.Size = new System.Drawing.Size(31, 15);
+            this.lblChannelType.TabIndex = 0;
+            this.lblChannelType.Text = "Type";
             // 
             // CtrlLineMain
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.Controls.Add(this.gbChannel);
             this.Controls.Add(this.gbLineOptions);
             this.Controls.Add(this.gbLine);
             this.Name = "CtrlLineMain";
-            this.Size = new System.Drawing.Size(550, 600);
+            this.Size = new System.Drawing.Size(550, 550);
             this.gbLine.ResumeLayout(false);
             this.gbLine.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.numCommLineNum)).EndInit();
             this.gbLineOptions.ResumeLayout(false);
             this.gbLineOptions.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.numReqRetries)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.numCycleDelay)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.numReqRetries)).EndInit();
+            this.gbChannel.ResumeLayout(false);
+            this.gbChannel.PerformLayout();
             this.ResumeLayout(false);
 
         }
@@ -287,5 +357,11 @@ namespace Scada.Admin.Extensions.ExtCommConfig.Controls
         private System.Windows.Forms.Label lblPollAfterCmd;
         private System.Windows.Forms.CheckBox chkCmdEnabled;
         private System.Windows.Forms.Label lblCmdEnabled;
+        private System.Windows.Forms.GroupBox gbChannel;
+        private System.Windows.Forms.Button btnChannelProperties;
+        private System.Windows.Forms.ComboBox cbChannelType;
+        private System.Windows.Forms.Label lblChannelType;
+        private System.Windows.Forms.TextBox txtChannelOptions;
+        private System.Windows.Forms.Label lblChannelOptions;
     }
 }

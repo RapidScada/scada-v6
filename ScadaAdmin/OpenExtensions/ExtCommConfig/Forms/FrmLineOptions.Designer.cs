@@ -47,7 +47,7 @@ namespace Scada.Admin.Extensions.ExtCommConfig.Forms
             "Device Polling"});
             this.lbTabs.Location = new System.Drawing.Point(0, 0);
             this.lbTabs.Name = "lbTabs";
-            this.lbTabs.Size = new System.Drawing.Size(150, 461);
+            this.lbTabs.Size = new System.Drawing.Size(150, 561);
             this.lbTabs.TabIndex = 0;
             this.lbTabs.DrawItem += new System.Windows.Forms.DrawItemEventHandler(this.lbTabs_DrawItem);
             this.lbTabs.SelectedIndexChanged += new System.EventHandler(this.lbTabs_SelectedIndexChanged);
@@ -56,14 +56,14 @@ namespace Scada.Admin.Extensions.ExtCommConfig.Forms
             // 
             this.ctrlLineMain.Location = new System.Drawing.Point(159, 12);
             this.ctrlLineMain.Name = "ctrlLineMain";
-            this.ctrlLineMain.Size = new System.Drawing.Size(550, 300);
+            this.ctrlLineMain.Size = new System.Drawing.Size(550, 550);
             this.ctrlLineMain.TabIndex = 1;
             // 
             // FrmLineOptions
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(734, 461);
+            this.ClientSize = new System.Drawing.Size(734, 561);
             this.Controls.Add(this.ctrlLineMain);
             this.Controls.Add(this.lbTabs);
             this.Name = "FrmLineOptions";

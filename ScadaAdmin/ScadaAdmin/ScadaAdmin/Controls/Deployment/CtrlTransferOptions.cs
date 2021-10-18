@@ -83,7 +83,7 @@ namespace Scada.Admin.App.Controls.Deployment
         }
 
         /// <summary>
-        /// Raises a OptionsChanged event.
+        /// Raises an OptionsChanged event.
         /// </summary>
         private void OnOptionsChanged()
         {
