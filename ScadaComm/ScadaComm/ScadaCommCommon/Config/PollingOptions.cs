@@ -57,6 +57,7 @@ namespace Scada.Comm.Config
         /// </summary>
         public PollingOptions(int timeout, int delay)
         {
+            PollOnCmd = false;
             Timeout = timeout;
             Delay = delay;
             Time = TimeSpan.Zero;
@@ -65,6 +66,11 @@ namespace Scada.Comm.Config
             CustomOptions = new OptionList();
         }
 
+
+        /// <summary>
+        /// Gets or sets a value indicating whether to poll the device only on command.
+        /// </summary>
+        public bool PollOnCmd { get; set; }
 
         /// <summary>
         /// Gets or sets the request timeout, ms.
@@ -105,6 +111,7 @@ namespace Scada.Comm.Config
             if (xmlElem == null)
                 throw new ArgumentNullException(nameof(xmlElem));
 
+            PollOnCmd = xmlElem.GetAttrAsBool("pollOnCmd", PollOnCmd);
             Timeout = xmlElem.GetAttrAsInt("timeout", Timeout);
             Delay = xmlElem.GetAttrAsInt("delay", Delay);
             Time = xmlElem.GetAttrAsTimeSpan("time", Time);
@@ -121,6 +128,7 @@ namespace Scada.Comm.Config
             if (xmlElem == null)
                 throw new ArgumentNullException(nameof(xmlElem));
 
+            xmlElem.SetAttribute("pollOnCmd", PollOnCmd);
             xmlElem.SetAttribute("timeout", Timeout);
             xmlElem.SetAttribute("delay", Delay);
             xmlElem.SetAttribute("time", Time);

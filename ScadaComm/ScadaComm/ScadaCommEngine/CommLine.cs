@@ -521,10 +521,12 @@ namespace Scada.Comm.Engine
         private bool CheckSessionIsRequired(DeviceLogic deviceLogic, DateTime utcNow)
         {
             PollingOptions pollingOptions = deviceLogic.PollingOptions;
-            bool timeIsSet = pollingOptions.Time > TimeSpan.Zero;
-            bool periodIsSet = pollingOptions.Period > TimeSpan.Zero;
 
-            if (timeIsSet || periodIsSet)
+            if (pollingOptions.PollOnCmd)
+            {
+                return false;
+            }
+            else if (pollingOptions.Time > TimeSpan.Zero || pollingOptions.Period > TimeSpan.Zero)
             {
                 DateTime localNow = utcNow.ToLocalTime();
                 DateTime nowDate = localNow.Date;
@@ -532,7 +534,7 @@ namespace Scada.Comm.Engine
                 DateTime lastSessionDate = deviceLogic.LastSessionTime.Date;
                 TimeSpan lastSessionTime = deviceLogic.LastSessionTime.TimeOfDay;
 
-                if (periodIsSet)
+                if (pollingOptions.Period > TimeSpan.Zero) // period is set
                 {
                     // periodic polling
                     double timeInSec = pollingOptions.Time.TotalSeconds;
@@ -543,7 +545,7 @@ namespace Scada.Comm.Engine
                         (lastSessionTime.TotalSeconds <= n * periodInSec + timeInSec ||
                         lastSessionTime > nowTime /*session was yesterday*/);
                 }
-                else if (timeIsSet)
+                else if (pollingOptions.Time > TimeSpan.Zero) // time is set
                 {
                     // polling once a day at the specified time
                     return pollingOptions.Time <= nowTime /*time to poll*/ &&
