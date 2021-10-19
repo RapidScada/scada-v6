@@ -31,6 +31,8 @@ namespace Scada.Admin.Extensions.ExtCommConfig.Forms
         {
             this.lbTabs = new System.Windows.Forms.ListBox();
             this.ctrlLineMain = new Scada.Admin.Extensions.ExtCommConfig.Controls.CtrlLineMain();
+            this.ctrlLineCustom = new Scada.Admin.Extensions.ExtCommConfig.Controls.CtrlLineCustom();
+            this.ctrlLinePolling = new Scada.Admin.Extensions.ExtCommConfig.Controls.CtrlLinePolling();
             this.SuspendLayout();
             // 
             // lbTabs
@@ -58,12 +60,31 @@ namespace Scada.Admin.Extensions.ExtCommConfig.Forms
             this.ctrlLineMain.Name = "ctrlLineMain";
             this.ctrlLineMain.Size = new System.Drawing.Size(550, 550);
             this.ctrlLineMain.TabIndex = 1;
+            this.ctrlLineMain.Visible = false;
+            // 
+            // ctrlLineCustom
+            // 
+            this.ctrlLineCustom.Location = new System.Drawing.Point(150, 0);
+            this.ctrlLineCustom.Name = "ctrlLineCustom";
+            this.ctrlLineCustom.Size = new System.Drawing.Size(550, 450);
+            this.ctrlLineCustom.TabIndex = 2;
+            this.ctrlLineCustom.Visible = false;
+            // 
+            // ctrlLinePolling
+            // 
+            this.ctrlLinePolling.Location = new System.Drawing.Point(150, 0);
+            this.ctrlLinePolling.Name = "ctrlLinePolling";
+            this.ctrlLinePolling.Size = new System.Drawing.Size(700, 550);
+            this.ctrlLinePolling.TabIndex = 3;
+            this.ctrlLinePolling.Visible = false;
             // 
             // FrmLineOptions
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(734, 561);
+            this.Controls.Add(this.ctrlLinePolling);
+            this.Controls.Add(this.ctrlLineCustom);
             this.Controls.Add(this.ctrlLineMain);
             this.Controls.Add(this.lbTabs);
             this.Name = "FrmLineOptions";
@@ -77,5 +98,7 @@ namespace Scada.Admin.Extensions.ExtCommConfig.Forms
 
         private System.Windows.Forms.ListBox lbTabs;
         private Controls.CtrlLineMain ctrlLineMain;
+        private Controls.CtrlLineCustom ctrlLineCustom;
+        private Controls.CtrlLinePolling ctrlLinePolling;
     }
 }

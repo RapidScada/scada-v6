@@ -26,13 +26,15 @@ namespace Scada.Admin.Extensions.ExtCommConfig.Forms
         public FrmLineOptions()
         {
             InitializeComponent();
+            ctrlLineCustom.Dock = DockStyle.Fill;
+            ctrlLinePolling.Dock = DockStyle.Fill;
         }
 
 
         private void FrmLineOptions_Load(object sender, EventArgs e)
         {
             FormTranslator.Translate(this, GetType().FullName);
-
+            lbTabs.SelectedIndex = 0;
         }
 
         private void lbTabs_DrawItem(object sender, DrawItemEventArgs e)
@@ -42,7 +44,10 @@ namespace Scada.Admin.Extensions.ExtCommConfig.Forms
 
         private void lbTabs_SelectedIndexChanged(object sender, EventArgs e)
         {
-
+            int tabIndex = lbTabs.SelectedIndex;
+            ctrlLineMain.Visible = tabIndex == 0;
+            ctrlLineCustom.Visible = tabIndex == 1;
+            ctrlLinePolling.Visible = tabIndex == 2;
         }
     }
 }

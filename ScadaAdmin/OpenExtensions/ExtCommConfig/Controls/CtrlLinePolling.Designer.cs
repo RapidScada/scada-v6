@@ -518,7 +518,7 @@
             this.btnAddDevice.Location = new System.Drawing.Point(9, 12);
             this.btnAddDevice.Margin = new System.Windows.Forms.Padding(9, 12, 3, 3);
             this.btnAddDevice.Name = "btnAddDevice";
-            this.btnAddDevice.Size = new System.Drawing.Size(75, 23);
+            this.btnAddDevice.Size = new System.Drawing.Size(80, 23);
             this.btnAddDevice.TabIndex = 0;
             this.btnAddDevice.Text = "Add";
             this.btnAddDevice.UseVisualStyleBackColor = true;
@@ -526,9 +526,9 @@
             // 
             // btnMoveUpDevice
             // 
-            this.btnMoveUpDevice.Location = new System.Drawing.Point(90, 12);
+            this.btnMoveUpDevice.Location = new System.Drawing.Point(95, 12);
             this.btnMoveUpDevice.Name = "btnMoveUpDevice";
-            this.btnMoveUpDevice.Size = new System.Drawing.Size(75, 23);
+            this.btnMoveUpDevice.Size = new System.Drawing.Size(80, 23);
             this.btnMoveUpDevice.TabIndex = 1;
             this.btnMoveUpDevice.Text = "Move Up";
             this.btnMoveUpDevice.UseVisualStyleBackColor = true;
@@ -536,9 +536,9 @@
             // 
             // btnMoveDownDevice
             // 
-            this.btnMoveDownDevice.Location = new System.Drawing.Point(171, 12);
+            this.btnMoveDownDevice.Location = new System.Drawing.Point(181, 12);
             this.btnMoveDownDevice.Name = "btnMoveDownDevice";
-            this.btnMoveDownDevice.Size = new System.Drawing.Size(75, 23);
+            this.btnMoveDownDevice.Size = new System.Drawing.Size(80, 23);
             this.btnMoveDownDevice.TabIndex = 2;
             this.btnMoveDownDevice.Text = "Move Down";
             this.btnMoveDownDevice.UseVisualStyleBackColor = true;
@@ -546,9 +546,9 @@
             // 
             // btnDeleteDevice
             // 
-            this.btnDeleteDevice.Location = new System.Drawing.Point(252, 12);
+            this.btnDeleteDevice.Location = new System.Drawing.Point(267, 12);
             this.btnDeleteDevice.Name = "btnDeleteDevice";
-            this.btnDeleteDevice.Size = new System.Drawing.Size(75, 23);
+            this.btnDeleteDevice.Size = new System.Drawing.Size(80, 23);
             this.btnDeleteDevice.TabIndex = 3;
             this.btnDeleteDevice.Text = "Delete";
             this.btnDeleteDevice.UseVisualStyleBackColor = true;
@@ -557,10 +557,10 @@
             // btnPasteDevice
             // 
             this.btnPasteDevice.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.btnPasteDevice.Location = new System.Drawing.Point(613, 12);
+            this.btnPasteDevice.Location = new System.Drawing.Point(608, 12);
             this.btnPasteDevice.Margin = new System.Windows.Forms.Padding(3, 3, 12, 3);
             this.btnPasteDevice.Name = "btnPasteDevice";
-            this.btnPasteDevice.Size = new System.Drawing.Size(75, 23);
+            this.btnPasteDevice.Size = new System.Drawing.Size(80, 23);
             this.btnPasteDevice.TabIndex = 6;
             this.btnPasteDevice.Text = "Paste";
             this.btnPasteDevice.UseVisualStyleBackColor = true;
@@ -569,9 +569,9 @@
             // btnCopyDevice
             // 
             this.btnCopyDevice.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.btnCopyDevice.Location = new System.Drawing.Point(532, 12);
+            this.btnCopyDevice.Location = new System.Drawing.Point(522, 12);
             this.btnCopyDevice.Name = "btnCopyDevice";
-            this.btnCopyDevice.Size = new System.Drawing.Size(75, 23);
+            this.btnCopyDevice.Size = new System.Drawing.Size(80, 23);
             this.btnCopyDevice.TabIndex = 5;
             this.btnCopyDevice.Text = "Copy";
             this.btnCopyDevice.UseVisualStyleBackColor = true;
@@ -580,9 +580,9 @@
             // btnCutDevice
             // 
             this.btnCutDevice.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.btnCutDevice.Location = new System.Drawing.Point(451, 12);
+            this.btnCutDevice.Location = new System.Drawing.Point(436, 12);
             this.btnCutDevice.Name = "btnCutDevice";
-            this.btnCutDevice.Size = new System.Drawing.Size(75, 23);
+            this.btnCutDevice.Size = new System.Drawing.Size(80, 23);
             this.btnCutDevice.TabIndex = 4;
             this.btnCutDevice.Text = "Cut";
             this.btnCutDevice.UseVisualStyleBackColor = true;

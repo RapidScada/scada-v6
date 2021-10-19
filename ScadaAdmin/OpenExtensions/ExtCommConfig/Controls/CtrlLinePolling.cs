@@ -288,6 +288,7 @@ namespace Scada.Admin.Extensions.ExtCommConfig.Controls
         public void ConfigToControls(List<DeviceConfig> devicePolling)
         {
             ValidateInit();
+            FillDriverComboBox();
 
             try
             {
@@ -337,7 +338,6 @@ namespace Scada.Admin.Extensions.ExtCommConfig.Controls
 
         private void CtrlLineReqSequence_Load(object sender, EventArgs e)
         {
-            FillDriverComboBox();
             SetControlsEnabled();
             btnPasteDevice.Enabled = false;
         }

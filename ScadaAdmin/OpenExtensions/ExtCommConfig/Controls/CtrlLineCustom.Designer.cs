@@ -128,7 +128,7 @@
             this.btnAddOption.Location = new System.Drawing.Point(9, 12);
             this.btnAddOption.Margin = new System.Windows.Forms.Padding(9, 12, 3, 3);
             this.btnAddOption.Name = "btnAddOption";
-            this.btnAddOption.Size = new System.Drawing.Size(75, 23);
+            this.btnAddOption.Size = new System.Drawing.Size(80, 23);
             this.btnAddOption.TabIndex = 0;
             this.btnAddOption.Text = "Add";
             this.btnAddOption.UseVisualStyleBackColor = true;
@@ -136,9 +136,9 @@
             // 
             // btnDeleteOption
             // 
-            this.btnDeleteOption.Location = new System.Drawing.Point(90, 12);
+            this.btnDeleteOption.Location = new System.Drawing.Point(95, 12);
             this.btnDeleteOption.Name = "btnDeleteOption";
-            this.btnDeleteOption.Size = new System.Drawing.Size(75, 23);
+            this.btnDeleteOption.Size = new System.Drawing.Size(80, 23);
             this.btnDeleteOption.TabIndex = 1;
             this.btnDeleteOption.Text = "Delete";
             this.btnDeleteOption.UseVisualStyleBackColor = true;
