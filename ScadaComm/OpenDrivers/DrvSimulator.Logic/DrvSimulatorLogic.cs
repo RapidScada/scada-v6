@@ -10,7 +10,7 @@ namespace Scada.Comm.Drivers.DrvSimulator.Logic
     /// Implements the driver logic.
     /// <para>Реализует логику драйвера.</para>
     /// </summary>
-    public class DrvSimulatorLogic : DriverLogic
+    internal class DrvSimulatorLogic : DriverLogic
     {
         /// <summary>
         /// Initializes a new instance of the class.

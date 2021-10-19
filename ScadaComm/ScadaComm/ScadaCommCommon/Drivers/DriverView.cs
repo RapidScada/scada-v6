@@ -42,9 +42,9 @@ namespace Scada.Comm.Drivers
         public DriverView()
         {
             AppConfig = null;
+            CanCreateDataSource = false;
             CanCreateChannel = false;
             CanCreateDevice = false;
-            CanCreateDataSource = false;
         }
 
 
@@ -55,6 +55,11 @@ namespace Scada.Comm.Drivers
         public CommConfig AppConfig { get; set; }
 
         /// <summary>
+        /// Gets a value indicating whether the driver can create a data source.
+        /// </summary>
+        public bool CanCreateDataSource { get; protected set; }
+
+        /// <summary>
         /// Gets a value indicating whether the driver can create a communication channel.
         /// </summary>
         public bool CanCreateChannel { get; protected set; }
@@ -63,11 +68,6 @@ namespace Scada.Comm.Drivers
         /// Gets a value indicating whether the driver can create a device.
         /// </summary>
         public bool CanCreateDevice { get; protected set; }
-
-        /// <summary>
-        /// Gets a value indicating whether the driver can create a data source.
-        /// </summary>
-        public bool CanCreateDataSource { get; protected set; }
 
         /// <summary>
         /// Gets the driver name.
@@ -81,6 +81,14 @@ namespace Scada.Comm.Drivers
 
 
         /// <summary>
+        /// Creates a new data source user interface.
+        /// </summary>
+        public virtual DataSourceView CreateDataSourceView(DataSourceConfig dataSourceConfig)
+        {
+            return null;
+        }
+
+        /// <summary>
         /// Creates a new communication channel user interface.
         /// </summary>
         public virtual ChannelView CreateChannelView(ChannelConfig channelConfig)
@@ -92,14 +100,6 @@ namespace Scada.Comm.Drivers
         /// Creates a new device user interface.
         /// </summary>
         public virtual DeviceView CreateDeviceView(LineConfig lineConfig, DeviceConfig deviceConfig)
-        {
-            return null;
-        }
-
-        /// <summary>
-        /// Creates a new data source user interface.
-        /// </summary>
-        public virtual DataSourceView CreateDataSourceView(DataSourceConfig dataSourceConfig)
         {
             return null;
         }

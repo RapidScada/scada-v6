@@ -1,6 +1,8 @@
 ﻿// Copyright (c) Rapid Software LLC. All rights reserved.
 // Licensed under the Apache License, Version 2.0. See License.txt in the project root for license information.
 
+using Scada.Comm.Config;
+using Scada.Comm.Devices;
 using Scada.Lang;
 
 namespace Scada.Comm.Drivers.DrvSimulator.View
@@ -11,6 +13,15 @@ namespace Scada.Comm.Drivers.DrvSimulator.View
     /// </summary>
     public class DrvSimulatorView : DriverView
     {
+        /// <summary>
+        /// Initializes a new instance of the class.
+        /// </summary>
+        public DrvSimulatorView()
+        {
+            CanCreateDevice = true;
+        }
+
+
         /// <summary>
         /// Gets the driver name.
         /// </summary>
@@ -38,6 +49,15 @@ namespace Scada.Comm.Drivers.DrvSimulator.View
                     "4, DO - set relay state;\n" +
                     "5, AO - set analog output.";
             }
+        }
+
+
+        /// <summary>
+        /// Creates a new device user interface.
+        /// </summary>
+        public override DeviceView CreateDeviceView(LineConfig lineConfig, DeviceConfig deviceConfig)
+        {
+            return new DevSimulatorView(this, lineConfig, deviceConfig);
         }
     }
 }

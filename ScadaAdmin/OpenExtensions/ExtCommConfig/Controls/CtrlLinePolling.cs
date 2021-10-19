@@ -229,10 +229,6 @@ namespace Scada.Admin.Extensions.ExtCommConfig.Controls
             {
                 ScadaUiUtils.ShowError(ExtensionPhrases.UnableCreateDeviceView);
             }
-            else if (!deviceView.CanShowProperties)
-            {
-                ScadaUiUtils.ShowInfo(ExtensionPhrases.NoDeviceProperties);
-            }
             else
             {
                 return deviceView;
@@ -564,15 +560,22 @@ namespace Scada.Admin.Extensions.ExtCommConfig.Controls
             if (GetSelectedItem(out _, out DeviceConfig deviceConfig) &&
                 GetDeviceView(deviceConfig) is DeviceView deviceView)
             {
-                if (deviceView.ShowProperties() || deviceView.DeviceConfigModified)
+                if (deviceView.CanShowProperties)
                 {
-                    DisplayDevice(deviceConfig);
-                    OnConfigChanged();
-                }
+                    if (deviceView.ShowProperties() || deviceView.DeviceConfigModified)
+                    {
+                        DisplayDevice(deviceConfig);
+                        OnConfigChanged();
+                    }
 
-                if (deviceView.LineConfigModified)
+                    if (deviceView.LineConfigModified)
+                    {
+                        OnLineConfigChanged();
+                    }
+                }
+                else
                 {
-                    OnLineConfigChanged();
+                    ScadaUiUtils.ShowInfo(ExtensionPhrases.NoDeviceProperties);
                 }
             }
         }
