@@ -90,9 +90,6 @@ namespace Scada.Admin.Extensions.ExtCommConfig.Forms
         private void FrmLineOptions_Load(object sender, EventArgs e)
         {
             FormTranslator.Translate(this, GetType().FullName);
-            FormTranslator.Translate(ctrlLineMain, ctrlLineMain.GetType().FullName);
-            FormTranslator.Translate(ctrlLineCustom, ctrlLineCustom.GetType().FullName);
-            FormTranslator.Translate(ctrlLinePolling, ctrlLinePolling.GetType().FullName);
             Text = string.Format(ExtensionPhrases.LineConfigTitle, lineConfig.CommLineNum);
 
             ctrlLineMain.ConfigToControls(lineConfig);

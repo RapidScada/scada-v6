@@ -7,7 +7,72 @@
     <Phrase key="LinesNode">Communication Lines</Phrase>
     <Phrase key="LineOptionsNode">Line Options</Phrase>
   </Dictionary>
+  <Dictionary key="Scada.Admin.Extensions.ExtCommConfig.Controls.CtrlLineMain">
+    <Phrase key="gbLine">Communication Line</Phrase>
+    <Phrase key="chkActive">Active</Phrase>
+    <Phrase key="chkIsBound">Bound to the configuration database</Phrase>
+    <Phrase key="lblCommLineNum">Number</Phrase>
+    <Phrase key="lblName">Name</Phrase>
+    <Phrase key="gbLineOptions">Line Options</Phrase>
+    <Phrase key="lblReqRetries">Number of request retries on error</Phrase>
+    <Phrase key="lblCycleDelay">Delay after polling cycle, ms</Phrase>
+    <Phrase key="lblCmdEnabled">Commands enabled</Phrase>
+    <Phrase key="lblPollAfterCmd">Poll device after command</Phrase>
+    <Phrase key="lblDetailedLog">Detailed log</Phrase>
+    <Phrase key="gbChannel">Communication Channel</Phrase>
+    <Phrase key="lblChannelType">Type</Phrase>
+    <Phrase key="btnChannelProperties">Properties</Phrase>
+    <Phrase key="lblChannelOptions">Options</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Admin.Extensions.ExtCommConfig.Controls.CtrlLineCustom">
+    <Phrase key="btnAddOption">Add</Phrase>
+    <Phrase key="btnDeleteOption">Delete</Phrase>
+    <Phrase key="colOptionName">Name</Phrase>
+    <Phrase key="colOptionValue">Value</Phrase>
+    <Phrase key="gbSelectedOption">Selected Option</Phrase>
+    <Phrase key="lblOptionName">Name</Phrase>
+    <Phrase key="lblOptionValue">Value</Phrase>
+  </Dictionary>
   <Dictionary key="Scada.Admin.Extensions.ExtCommConfig.Controls.CtrlLinePolling">
+    <Phrase key="btnAddDevice">Add</Phrase>
+    <Phrase key="btnMoveUpDevice">Move Up</Phrase>
+    <Phrase key="btnMoveDownDevice">Move Down</Phrase>
+    <Phrase key="btnDeleteDevice">Delete</Phrase>
+    <Phrase key="btnCutDevice">Cut</Phrase>
+    <Phrase key="btnCopyDevice">Copy</Phrase>
+    <Phrase key="btnPasteDevice">Paste</Phrase>
+    <Phrase key="colOrder">#</Phrase>
+    <Phrase key="colActive">Active</Phrase>
+    <Phrase key="colPollOnCmd">Poll on Command</Phrase>
+    <Phrase key="colIsBound">Bound</Phrase>
+    <Phrase key="colNumber">Number</Phrase>
+    <Phrase key="colName">Name</Phrase>
+    <Phrase key="colDriver">Driver</Phrase>
+    <Phrase key="colNumAddress">Numeric Address</Phrase>
+    <Phrase key="colStrAddress">String Address</Phrase>
+    <Phrase key="colTimeout">Timeout</Phrase>
+    <Phrase key="colDelay">Delay</Phrase>
+    <Phrase key="colTime">Time</Phrase>
+    <Phrase key="colPeriod">Period</Phrase>
+    <Phrase key="colCmdLine">Command Line</Phrase>
+    <Phrase key="gbSelectedDevice">Selected Device</Phrase>
+    <Phrase key="chkActive">Active</Phrase>
+    <Phrase key="chkPollOnCmd">Poll only on command</Phrase>
+    <Phrase key="chkIsBound">Bound to the configuration database</Phrase>
+    <Phrase key="lblDeviceNum">Number</Phrase>
+    <Phrase key="lblName">Name</Phrase>
+    <Phrase key="lblDriver">Driver</Phrase>
+    <Phrase key="lblNumAddress">Numeric address</Phrase>
+    <Phrase key="lblStrAddress">String address or host name</Phrase>
+    <Phrase key="lblTimeout">Timeout</Phrase>
+    <Phrase key="lblDelay">Delay</Phrase>
+    <Phrase key="lblTime">Time</Phrase>
+    <Phrase key="lblPeriod">Period</Phrase>
+    <Phrase key="lblCmdLine">Command line</Phrase>
+    <Phrase key="lblCustomOptions">Options</Phrase>
+    <Phrase key="btnDeviceProperties">Properties</Phrase>
+    <Phrase key="btnResetPollingOptions">Reset</Phrase>
+    <Phrase key="btnResetPollingOptions.ToolTip">Set the device polling options to default</Phrase>
     <Phrase key="DeviceNotSupported">The driver does not support creating devices.</Phrase>
     <Phrase key="UnableCreateDeviceView">Unable to create device user interface.</Phrase>
     <Phrase key="NoDeviceProperties">The device does not provide a properties window.</Phrase>
@@ -55,6 +120,9 @@
     <Phrase key="lblMaxLogSize">Maximum log file size, MB</Phrase>
   </Dictionary>
   <Dictionary key="Scada.Admin.Extensions.ExtCommConfig.Forms.FrmLineConfig">
+    <Phrase key="lbTabs.Items[0]">Main Options</Phrase>
+    <Phrase key="lbTabs.Items[1]">Custom Options</Phrase>
+    <Phrase key="lbTabs.Items[2]">Device Polling</Phrase>
     <Phrase key="LineConfigTitle">Line {0} Options</Phrase>
   </Dictionary>
 </ExtCommConfigDictionaries>

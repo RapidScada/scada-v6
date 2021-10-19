@@ -35,8 +35,8 @@ namespace Scada.Admin.Extensions.ExtCommConfig.Controls
         /// </summary>
         private void SetColumnNames()
         {
-            colParamName.Name = nameof(colParamName);
-            colParamValue.Name = nameof(colParamValue);
+            colOptionName.Name = nameof(colOptionName);
+            colOptionValue.Name = nameof(colOptionValue);
         }
         
         /// <summary>
@@ -127,6 +127,7 @@ namespace Scada.Admin.Extensions.ExtCommConfig.Controls
 
         private void CtrlLineCustomParams_Load(object sender, EventArgs e)
         {
+            FormTranslator.Translate(this, GetType().FullName);
             SetControlsEnabled();
         }
 

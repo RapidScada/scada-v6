@@ -70,6 +70,7 @@ namespace Scada.Admin.Extensions.ExtCommConfig.Controls
         {
             colOrder.Name = nameof(colOrder);
             colActive.Name = nameof(colActive);
+            colPollOnCmd.Name = nameof(colPollOnCmd);
             colIsBound.Name = nameof(colIsBound);
             colNumber.Name = nameof(colNumber);
             colName.Name = nameof(colName);
@@ -350,6 +351,7 @@ namespace Scada.Admin.Extensions.ExtCommConfig.Controls
 
         private void CtrlLineReqSequence_Load(object sender, EventArgs e)
         {
+            FormTranslator.Translate(this, GetType().FullName, toolTip);
             SetControlsEnabled();
             btnPasteDevice.Enabled = false;
         }

@@ -34,8 +34,8 @@
             this.txtOptionName = new System.Windows.Forms.TextBox();
             this.lblOptionName = new System.Windows.Forms.Label();
             this.lvCustomOptions = new System.Windows.Forms.ListView();
-            this.colParamName = new System.Windows.Forms.ColumnHeader();
-            this.colParamValue = new System.Windows.Forms.ColumnHeader();
+            this.colOptionName = new System.Windows.Forms.ColumnHeader();
+            this.colOptionValue = new System.Windows.Forms.ColumnHeader();
             this.btnAddOption = new System.Windows.Forms.Button();
             this.btnDeleteOption = new System.Windows.Forms.Button();
             this.gbSelectedOption.SuspendLayout();
@@ -97,8 +97,8 @@
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.lvCustomOptions.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
-            this.colParamName,
-            this.colParamValue});
+            this.colOptionName,
+            this.colOptionValue});
             this.lvCustomOptions.FullRowSelect = true;
             this.lvCustomOptions.GridLines = true;
             this.lvCustomOptions.HideSelection = false;
@@ -113,15 +113,15 @@
             this.lvCustomOptions.View = System.Windows.Forms.View.Details;
             this.lvCustomOptions.SelectedIndexChanged += new System.EventHandler(this.lvCustomOptions_SelectedIndexChanged);
             // 
-            // colParamName
+            // colOptionName
             // 
-            this.colParamName.Text = "Name";
-            this.colParamName.Width = 200;
+            this.colOptionName.Text = "Name";
+            this.colOptionName.Width = 200;
             // 
-            // colParamValue
+            // colOptionValue
             // 
-            this.colParamValue.Text = "Value";
-            this.colParamValue.Width = 300;
+            this.colOptionValue.Text = "Value";
+            this.colOptionValue.Width = 300;
             // 
             // btnAddOption
             // 
@@ -169,8 +169,8 @@
         private System.Windows.Forms.TextBox txtOptionName;
         private System.Windows.Forms.Label lblOptionName;
         private System.Windows.Forms.ListView lvCustomOptions;
-        private System.Windows.Forms.ColumnHeader colParamName;
-        private System.Windows.Forms.ColumnHeader colParamValue;
+        private System.Windows.Forms.ColumnHeader colOptionName;
+        private System.Windows.Forms.ColumnHeader colOptionValue;
         private System.Windows.Forms.Button btnAddOption;
         private System.Windows.Forms.Button btnDeleteOption;
     }

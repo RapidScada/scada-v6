@@ -87,6 +87,12 @@ namespace Scada.Admin.Extensions.ExtCommConfig.Controls
         /// </summary>
         public event EventHandler ConfigChanged;
 
+
+        private void CtrlLineMain_Load(object sender, EventArgs e)
+        {
+            FormTranslator.Translate(this, GetType().FullName);
+        }
+
         private void control_Changed(object sender, EventArgs e)
         {
             if (!changing)

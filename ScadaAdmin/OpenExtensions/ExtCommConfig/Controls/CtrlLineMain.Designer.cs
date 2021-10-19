@@ -333,6 +333,7 @@ namespace Scada.Admin.Extensions.ExtCommConfig.Controls
             this.Controls.Add(this.gbLine);
             this.Name = "CtrlLineMain";
             this.Size = new System.Drawing.Size(550, 550);
+            this.Load += new System.EventHandler(this.CtrlLineMain_Load);
             this.gbLine.ResumeLayout(false);
             this.gbLine.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.numCommLineNum)).EndInit();
