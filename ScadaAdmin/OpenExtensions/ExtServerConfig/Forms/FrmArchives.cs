@@ -221,6 +221,7 @@ namespace Scada.Admin.Extensions.ExtServerConfig.Forms
         {
             int index = 0;
             lvArchive.InsertItem(CreateArchiveItem(archiveConfig, ref index), true);
+            txtCode.Focus();
             ChildFormTag.Modified = true;
         }
 
@@ -283,7 +284,7 @@ namespace Scada.Admin.Extensions.ExtServerConfig.Forms
 
         private void btnAdd_Click(object sender, EventArgs e)
         {
-            AddArchiveItem(new ArchiveConfig());
+            AddArchiveItem(new ArchiveConfig { Active = true });
         }
 
         private void btnMoveUp_Click(object sender, EventArgs e)
