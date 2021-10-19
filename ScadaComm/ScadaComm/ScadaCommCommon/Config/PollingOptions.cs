@@ -33,6 +33,7 @@ namespace Scada.Comm.Config
     /// Represents device polling options.
     /// <para>Представляет параметры опроса КП.</para>
     /// </summary>
+    [Serializable]
     public class PollingOptions
     {
         /// <summary>

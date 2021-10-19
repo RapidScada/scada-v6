@@ -32,6 +32,7 @@ namespace Scada.Comm.Config
     /// Represents a device configuration in a polling sequence.
     /// <para>Представляет конфигурацию устройства в последовательности опроса.</para>
     /// </summary>
+    [Serializable]
     public class DeviceConfig
     {
         /// <summary>
@@ -39,8 +40,8 @@ namespace Scada.Comm.Config
         /// </summary>
         public DeviceConfig()
         {
-            Active = true;
-            IsBound = true;
+            Active = false;
+            IsBound = false;
             DeviceNum = 0;
             Name = "";
             Driver = "";

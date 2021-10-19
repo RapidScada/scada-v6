@@ -30,32 +30,32 @@
         {
             this.components = new System.ComponentModel.Container();
             this.gbSelectedDevice = new System.Windows.Forms.GroupBox();
-            this.chkPollOnCmd = new System.Windows.Forms.CheckBox();
+            this.btnResetPollingOptions = new System.Windows.Forms.Button();
+            this.btnDeviceProperties = new System.Windows.Forms.Button();
             this.txtCustomOptions = new System.Windows.Forms.TextBox();
             this.lblCustomOptions = new System.Windows.Forms.Label();
-            this.btnDeviceProperties = new System.Windows.Forms.Button();
-            this.btnResetPollingOptions = new System.Windows.Forms.Button();
-            this.cbDriver = new System.Windows.Forms.ComboBox();
             this.txtCmdLine = new System.Windows.Forms.TextBox();
-            this.dtpPeriod = new System.Windows.Forms.DateTimePicker();
-            this.dtpTime = new System.Windows.Forms.DateTimePicker();
             this.lblCmdLine = new System.Windows.Forms.Label();
+            this.dtpPeriod = new System.Windows.Forms.DateTimePicker();
             this.lblPeriod = new System.Windows.Forms.Label();
+            this.dtpTime = new System.Windows.Forms.DateTimePicker();
             this.lblTime = new System.Windows.Forms.Label();
             this.numDelay = new System.Windows.Forms.NumericUpDown();
             this.lblDelay = new System.Windows.Forms.Label();
-            this.lblTimeout = new System.Windows.Forms.Label();
             this.numTimeout = new System.Windows.Forms.NumericUpDown();
-            this.lblStrAddress = new System.Windows.Forms.Label();
+            this.lblTimeout = new System.Windows.Forms.Label();
             this.txtStrAddress = new System.Windows.Forms.TextBox();
-            this.lblNumAddress = new System.Windows.Forms.Label();
+            this.lblStrAddress = new System.Windows.Forms.Label();
             this.numNumAddress = new System.Windows.Forms.NumericUpDown();
+            this.lblNumAddress = new System.Windows.Forms.Label();
+            this.cbDriver = new System.Windows.Forms.ComboBox();
             this.lblDriver = new System.Windows.Forms.Label();
+            this.txtName = new System.Windows.Forms.TextBox();
             this.lblName = new System.Windows.Forms.Label();
             this.numDeviceNum = new System.Windows.Forms.NumericUpDown();
             this.lblDeviceNum = new System.Windows.Forms.Label();
-            this.txtName = new System.Windows.Forms.TextBox();
             this.chkIsBound = new System.Windows.Forms.CheckBox();
+            this.chkPollOnCmd = new System.Windows.Forms.CheckBox();
             this.chkActive = new System.Windows.Forms.CheckBox();
             this.lvDevicePolling = new System.Windows.Forms.ListView();
             this.colOrder = new System.Windows.Forms.ColumnHeader();
@@ -126,15 +126,26 @@
             this.gbSelectedDevice.TabStop = false;
             this.gbSelectedDevice.Text = "Selected Device";
             // 
-            // chkPollOnCmd
+            // btnResetPollingOptions
             // 
-            this.chkPollOnCmd.AutoSize = true;
-            this.chkPollOnCmd.Location = new System.Drawing.Point(119, 22);
-            this.chkPollOnCmd.Name = "chkPollOnCmd";
-            this.chkPollOnCmd.Size = new System.Drawing.Size(147, 19);
-            this.chkPollOnCmd.TabIndex = 1;
-            this.chkPollOnCmd.Text = "Poll only on command";
-            this.chkPollOnCmd.UseVisualStyleBackColor = true;
+            this.btnResetPollingOptions.Location = new System.Drawing.Point(119, 223);
+            this.btnResetPollingOptions.Name = "btnResetPollingOptions";
+            this.btnResetPollingOptions.Size = new System.Drawing.Size(100, 23);
+            this.btnResetPollingOptions.TabIndex = 26;
+            this.btnResetPollingOptions.Text = "Reset";
+            this.toolTip.SetToolTip(this.btnResetPollingOptions, "Set the device polling options to default");
+            this.btnResetPollingOptions.UseVisualStyleBackColor = true;
+            this.btnResetPollingOptions.Click += new System.EventHandler(this.btnResetPollingOptions_Click);
+            // 
+            // btnDeviceProperties
+            // 
+            this.btnDeviceProperties.Location = new System.Drawing.Point(13, 223);
+            this.btnDeviceProperties.Name = "btnDeviceProperties";
+            this.btnDeviceProperties.Size = new System.Drawing.Size(100, 23);
+            this.btnDeviceProperties.TabIndex = 25;
+            this.btnDeviceProperties.Text = "Properies";
+            this.btnDeviceProperties.UseVisualStyleBackColor = true;
+            this.btnDeviceProperties.Click += new System.EventHandler(this.btnDeviceProperties_Click);
             // 
             // txtCustomOptions
             // 
@@ -156,43 +167,22 @@
             this.lblCustomOptions.TabIndex = 23;
             this.lblCustomOptions.Text = "Options";
             // 
-            // btnDeviceProperties
-            // 
-            this.btnDeviceProperties.Location = new System.Drawing.Point(13, 223);
-            this.btnDeviceProperties.Name = "btnDeviceProperties";
-            this.btnDeviceProperties.Size = new System.Drawing.Size(100, 23);
-            this.btnDeviceProperties.TabIndex = 25;
-            this.btnDeviceProperties.Text = "Properies";
-            this.btnDeviceProperties.UseVisualStyleBackColor = true;
-            this.btnDeviceProperties.Click += new System.EventHandler(this.btnDeviceProps_Click);
-            // 
-            // btnResetPollingOptions
-            // 
-            this.btnResetPollingOptions.Location = new System.Drawing.Point(119, 223);
-            this.btnResetPollingOptions.Name = "btnResetPollingOptions";
-            this.btnResetPollingOptions.Size = new System.Drawing.Size(100, 23);
-            this.btnResetPollingOptions.TabIndex = 26;
-            this.btnResetPollingOptions.Text = "Reset";
-            this.toolTip.SetToolTip(this.btnResetPollingOptions, "Set the device polling options to default");
-            this.btnResetPollingOptions.UseVisualStyleBackColor = true;
-            this.btnResetPollingOptions.Click += new System.EventHandler(this.btnResetReqParams_Click);
-            // 
-            // cbDriver
-            // 
-            this.cbDriver.FormattingEnabled = true;
-            this.cbDriver.Location = new System.Drawing.Point(331, 62);
-            this.cbDriver.Name = "cbDriver";
-            this.cbDriver.Size = new System.Drawing.Size(100, 23);
-            this.cbDriver.TabIndex = 8;
-            this.cbDriver.TextChanged += new System.EventHandler(this.cbDeviceDll_TextChanged);
-            // 
             // txtCmdLine
             // 
             this.txtCmdLine.Location = new System.Drawing.Point(13, 194);
             this.txtCmdLine.Name = "txtCmdLine";
             this.txtCmdLine.Size = new System.Drawing.Size(418, 23);
             this.txtCmdLine.TabIndex = 22;
-            this.txtCmdLine.TextChanged += new System.EventHandler(this.txtDeviceCmdLine_TextChanged);
+            this.txtCmdLine.TextChanged += new System.EventHandler(this.txtCmdLine_TextChanged);
+            // 
+            // lblCmdLine
+            // 
+            this.lblCmdLine.AutoSize = true;
+            this.lblCmdLine.Location = new System.Drawing.Point(10, 176);
+            this.lblCmdLine.Name = "lblCmdLine";
+            this.lblCmdLine.Size = new System.Drawing.Size(86, 15);
+            this.lblCmdLine.TabIndex = 21;
+            this.lblCmdLine.Text = "Command line";
             // 
             // dtpPeriod
             // 
@@ -204,7 +194,16 @@
             this.dtpPeriod.Size = new System.Drawing.Size(100, 23);
             this.dtpPeriod.TabIndex = 20;
             this.dtpPeriod.Value = new System.DateTime(2018, 1, 1, 0, 1, 0, 0);
-            this.dtpPeriod.ValueChanged += new System.EventHandler(this.dtpDevicePeriod_ValueChanged);
+            this.dtpPeriod.ValueChanged += new System.EventHandler(this.dtpPeriod_ValueChanged);
+            // 
+            // lblPeriod
+            // 
+            this.lblPeriod.AutoSize = true;
+            this.lblPeriod.Location = new System.Drawing.Point(328, 132);
+            this.lblPeriod.Name = "lblPeriod";
+            this.lblPeriod.Size = new System.Drawing.Size(41, 15);
+            this.lblPeriod.TabIndex = 19;
+            this.lblPeriod.Text = "Period";
             // 
             // dtpTime
             // 
@@ -216,25 +215,7 @@
             this.dtpTime.Size = new System.Drawing.Size(100, 23);
             this.dtpTime.TabIndex = 18;
             this.dtpTime.Value = new System.DateTime(2018, 1, 1, 10, 0, 0, 0);
-            this.dtpTime.ValueChanged += new System.EventHandler(this.dtpDeviceTime_ValueChanged);
-            // 
-            // lblCmdLine
-            // 
-            this.lblCmdLine.AutoSize = true;
-            this.lblCmdLine.Location = new System.Drawing.Point(10, 176);
-            this.lblCmdLine.Name = "lblCmdLine";
-            this.lblCmdLine.Size = new System.Drawing.Size(86, 15);
-            this.lblCmdLine.TabIndex = 21;
-            this.lblCmdLine.Text = "Command line";
-            // 
-            // lblPeriod
-            // 
-            this.lblPeriod.AutoSize = true;
-            this.lblPeriod.Location = new System.Drawing.Point(328, 132);
-            this.lblPeriod.Name = "lblPeriod";
-            this.lblPeriod.Size = new System.Drawing.Size(41, 15);
-            this.lblPeriod.TabIndex = 19;
-            this.lblPeriod.Text = "Period";
+            this.dtpTime.ValueChanged += new System.EventHandler(this.dtpTime_ValueChanged);
             // 
             // lblTime
             // 
@@ -261,7 +242,7 @@
             this.numDelay.Name = "numDelay";
             this.numDelay.Size = new System.Drawing.Size(100, 23);
             this.numDelay.TabIndex = 16;
-            this.numDelay.ValueChanged += new System.EventHandler(this.numDeviceDelay_ValueChanged);
+            this.numDelay.ValueChanged += new System.EventHandler(this.numDelay_ValueChanged);
             // 
             // lblDelay
             // 
@@ -271,15 +252,6 @@
             this.lblDelay.Size = new System.Drawing.Size(36, 15);
             this.lblDelay.TabIndex = 15;
             this.lblDelay.Text = "Delay";
-            // 
-            // lblTimeout
-            // 
-            this.lblTimeout.AutoSize = true;
-            this.lblTimeout.Location = new System.Drawing.Point(10, 132);
-            this.lblTimeout.Name = "lblTimeout";
-            this.lblTimeout.Size = new System.Drawing.Size(51, 15);
-            this.lblTimeout.TabIndex = 13;
-            this.lblTimeout.Text = "Timeout";
             // 
             // numTimeout
             // 
@@ -297,7 +269,24 @@
             this.numTimeout.Name = "numTimeout";
             this.numTimeout.Size = new System.Drawing.Size(100, 23);
             this.numTimeout.TabIndex = 14;
-            this.numTimeout.ValueChanged += new System.EventHandler(this.numDeviceTimeout_ValueChanged);
+            this.numTimeout.ValueChanged += new System.EventHandler(this.numTimeout_ValueChanged);
+            // 
+            // lblTimeout
+            // 
+            this.lblTimeout.AutoSize = true;
+            this.lblTimeout.Location = new System.Drawing.Point(10, 132);
+            this.lblTimeout.Name = "lblTimeout";
+            this.lblTimeout.Size = new System.Drawing.Size(51, 15);
+            this.lblTimeout.TabIndex = 13;
+            this.lblTimeout.Text = "Timeout";
+            // 
+            // txtStrAddress
+            // 
+            this.txtStrAddress.Location = new System.Drawing.Point(119, 106);
+            this.txtStrAddress.Name = "txtStrAddress";
+            this.txtStrAddress.Size = new System.Drawing.Size(312, 23);
+            this.txtStrAddress.TabIndex = 12;
+            this.txtStrAddress.TextChanged += new System.EventHandler(this.txtStrAddress_TextChanged);
             // 
             // lblStrAddress
             // 
@@ -307,23 +296,6 @@
             this.lblStrAddress.Size = new System.Drawing.Size(154, 15);
             this.lblStrAddress.TabIndex = 11;
             this.lblStrAddress.Text = "String address or host name";
-            // 
-            // txtStrAddress
-            // 
-            this.txtStrAddress.Location = new System.Drawing.Point(119, 106);
-            this.txtStrAddress.Name = "txtStrAddress";
-            this.txtStrAddress.Size = new System.Drawing.Size(312, 23);
-            this.txtStrAddress.TabIndex = 12;
-            this.txtStrAddress.TextChanged += new System.EventHandler(this.txtDeviceCallNum_TextChanged);
-            // 
-            // lblNumAddress
-            // 
-            this.lblNumAddress.AutoSize = true;
-            this.lblNumAddress.Location = new System.Drawing.Point(10, 88);
-            this.lblNumAddress.Name = "lblNumAddress";
-            this.lblNumAddress.Size = new System.Drawing.Size(96, 15);
-            this.lblNumAddress.TabIndex = 9;
-            this.lblNumAddress.Text = "Numeric address";
             // 
             // numNumAddress
             // 
@@ -336,7 +308,25 @@
             this.numNumAddress.Name = "numNumAddress";
             this.numNumAddress.Size = new System.Drawing.Size(100, 23);
             this.numNumAddress.TabIndex = 10;
-            this.numNumAddress.ValueChanged += new System.EventHandler(this.numDeviceAddress_ValueChanged);
+            this.numNumAddress.ValueChanged += new System.EventHandler(this.numNumAddress_ValueChanged);
+            // 
+            // lblNumAddress
+            // 
+            this.lblNumAddress.AutoSize = true;
+            this.lblNumAddress.Location = new System.Drawing.Point(10, 88);
+            this.lblNumAddress.Name = "lblNumAddress";
+            this.lblNumAddress.Size = new System.Drawing.Size(96, 15);
+            this.lblNumAddress.TabIndex = 9;
+            this.lblNumAddress.Text = "Numeric address";
+            // 
+            // cbDriver
+            // 
+            this.cbDriver.FormattingEnabled = true;
+            this.cbDriver.Location = new System.Drawing.Point(331, 62);
+            this.cbDriver.Name = "cbDriver";
+            this.cbDriver.Size = new System.Drawing.Size(100, 23);
+            this.cbDriver.TabIndex = 8;
+            this.cbDriver.TextChanged += new System.EventHandler(this.cbDriver_TextChanged);
             // 
             // lblDriver
             // 
@@ -346,6 +336,14 @@
             this.lblDriver.Size = new System.Drawing.Size(38, 15);
             this.lblDriver.TabIndex = 7;
             this.lblDriver.Text = "Driver";
+            // 
+            // txtName
+            // 
+            this.txtName.Location = new System.Drawing.Point(119, 62);
+            this.txtName.Name = "txtName";
+            this.txtName.Size = new System.Drawing.Size(206, 23);
+            this.txtName.TabIndex = 6;
+            this.txtName.TextChanged += new System.EventHandler(this.txtName_TextChanged);
             // 
             // lblName
             // 
@@ -367,7 +365,7 @@
             this.numDeviceNum.Name = "numDeviceNum";
             this.numDeviceNum.Size = new System.Drawing.Size(100, 23);
             this.numDeviceNum.TabIndex = 4;
-            this.numDeviceNum.ValueChanged += new System.EventHandler(this.numDeviceNumber_ValueChanged);
+            this.numDeviceNum.ValueChanged += new System.EventHandler(this.numDeviceNum_ValueChanged);
             // 
             // lblDeviceNum
             // 
@@ -378,14 +376,6 @@
             this.lblDeviceNum.TabIndex = 3;
             this.lblDeviceNum.Text = "Number";
             // 
-            // txtName
-            // 
-            this.txtName.Location = new System.Drawing.Point(119, 62);
-            this.txtName.Name = "txtName";
-            this.txtName.Size = new System.Drawing.Size(206, 23);
-            this.txtName.TabIndex = 6;
-            this.txtName.TextChanged += new System.EventHandler(this.txtDeviceName_TextChanged);
-            // 
             // chkIsBound
             // 
             this.chkIsBound.AutoSize = true;
@@ -395,7 +385,18 @@
             this.chkIsBound.TabIndex = 2;
             this.chkIsBound.Text = "Bound to the configuration database";
             this.chkIsBound.UseVisualStyleBackColor = true;
-            this.chkIsBound.CheckedChanged += new System.EventHandler(this.chkDeviceBound_CheckedChanged);
+            this.chkIsBound.CheckedChanged += new System.EventHandler(this.chkIsBound_CheckedChanged);
+            // 
+            // chkPollOnCmd
+            // 
+            this.chkPollOnCmd.AutoSize = true;
+            this.chkPollOnCmd.Location = new System.Drawing.Point(119, 22);
+            this.chkPollOnCmd.Name = "chkPollOnCmd";
+            this.chkPollOnCmd.Size = new System.Drawing.Size(147, 19);
+            this.chkPollOnCmd.TabIndex = 1;
+            this.chkPollOnCmd.Text = "Poll only on command";
+            this.chkPollOnCmd.UseVisualStyleBackColor = true;
+            this.chkPollOnCmd.CheckedChanged += new System.EventHandler(this.chkPollOnCmd_CheckedChanged);
             // 
             // chkActive
             // 
@@ -406,7 +407,7 @@
             this.chkActive.TabIndex = 0;
             this.chkActive.Text = "Active";
             this.chkActive.UseVisualStyleBackColor = true;
-            this.chkActive.CheckedChanged += new System.EventHandler(this.chkDeviceActive_CheckedChanged);
+            this.chkActive.CheckedChanged += new System.EventHandler(this.chkActive_CheckedChanged);
             // 
             // lvDevicePolling
             // 
@@ -440,7 +441,8 @@
             this.lvDevicePolling.TabIndex = 7;
             this.lvDevicePolling.UseCompatibleStateImageBehavior = false;
             this.lvDevicePolling.View = System.Windows.Forms.View.Details;
-            this.lvDevicePolling.SelectedIndexChanged += new System.EventHandler(this.lvReqSequence_SelectedIndexChanged);
+            this.lvDevicePolling.SelectedIndexChanged += new System.EventHandler(this.lvDevicePolling_SelectedIndexChanged);
+            this.lvDevicePolling.DoubleClick += new System.EventHandler(this.lvDevicePolling_DoubleClick);
             // 
             // colOrder
             // 

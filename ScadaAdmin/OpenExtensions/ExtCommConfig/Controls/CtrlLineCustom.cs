@@ -122,7 +122,6 @@ namespace Scada.Admin.Extensions.ExtCommConfig.Controls
         /// <summary>
         /// Occurs when the options change.
         /// </summary>
-        [Category("Property Changed")]
         public event EventHandler OptionsChanged;
 
 

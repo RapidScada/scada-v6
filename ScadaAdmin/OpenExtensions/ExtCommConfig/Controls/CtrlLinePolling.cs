@@ -15,6 +15,9 @@ using System.IO;
 using Scada.Comm.Config;
 using Scada.Lang;
 using Scada.Forms;
+using Scada.Admin.Project;
+using Scada.Admin.Extensions.ExtCommConfig.Code;
+using Scada.Comm.Drivers;
 
 namespace Scada.Admin.Extensions.ExtCommConfig.Controls
 {
@@ -24,9 +27,10 @@ namespace Scada.Admin.Extensions.ExtCommConfig.Controls
     /// </summary>
     public partial class CtrlLinePolling : UserControl
     {
-        private IAdminContext adminContext; // the Administrator context
-        private bool changing;              // controls are being changed programmatically
-        private Settings.KP deviceBuf; // buffer to copy device
+        private IAdminContext adminContext;   // the Administrator context
+        private CommApp commApp;              // the Communicator application in a project
+        private bool changing;                // controls are being changed programmatically
+        private DeviceConfig deviceClipboard; // contains the copied device
 
 
         /// <summary>
@@ -39,43 +43,22 @@ namespace Scada.Admin.Extensions.ExtCommConfig.Controls
 
             SetColumnNames();
             adminContext = null;
+            commApp = null;
             changing = false;
-            deviceBuf = null;
-            CommLine = null;
-            Environment = null;
-            CustomParams = null;
+            deviceClipboard = null;
         }
 
 
         /// <summary>
-        /// Gets or sets the communication line settings to edit.
+        /// Validates that the control is initialized.
         /// </summary>
-        public Settings.CommLine CommLine { get; set; }
-
-        /// <summary>
-        /// Gets or sets the application environment.
-        /// </summary>
-        public CommEnvironment Environment { get; set; }
-
-        /// <summary>
-        /// Gets or sets the working copy of the custom parameters.
-        /// </summary>
-        public SortedList<string, string> CustomParams { get; set; }
-
-
-        /// <summary>
-        /// Validates the required control properties.
-        /// </summary>
-        private void ValidateProps()
+        private void ValidateInit()
         {
-            if (CommLine == null)
-                throw new InvalidOperationException("CommLine must not be null.");
+            if (adminContext == null)
+                throw new InvalidOperationException("Administrator context must not be null.");
 
-            if (Environment == null)
-                throw new InvalidOperationException("Environment must not be null.");
-
-            if (CustomParams == null)
-                throw new InvalidOperationException("CustomParams must not be null.");
+            if (commApp == null)
+                throw new InvalidOperationException("Communicator application must not be null.");
         }
 
         /// <summary>
@@ -216,23 +199,59 @@ namespace Scada.Admin.Extensions.ExtCommConfig.Controls
             int index = 0;
             lvDevicePolling.InsertItem(CreateDeviceItem(deviceConfig, ref index), true);
             numDeviceNum.Focus();
-            OnSettingsChanged();
+            OnConfigChanged();
         }
 
         /// <summary>
-        /// Raises a SettingsChanged event.
+        /// Gets a new instance of the device user interface.
         /// </summary>
-        private void OnSettingsChanged()
+        private DeviceView GetDeviceView(DeviceConfig deviceConfig)
         {
-            SettingsChanged?.Invoke(this, EventArgs.Empty);
+            ValidateInit();
+
+            if (string.IsNullOrEmpty(deviceConfig.Driver))
+            {
+                ScadaUiUtils.ShowError(ExtensionPhrases.DriverNotSpecified);
+            }
+            else if (!ExtensionUtils.GetDriverView(adminContext, commApp, deviceConfig.Driver,
+                out DriverView driverView, out string message))
+            {
+                ScadaUiUtils.ShowError(message);
+            }
+            else if (!driverView.CanCreateDevice)
+            {
+                ScadaUiUtils.ShowError(ExtensionPhrases.DataSourceNotSupported);
+            }
+            else if (driverView.CreateDeviceView(deviceConfig) is not DeviceView deviceView)
+            {
+                ScadaUiUtils.ShowError(ExtensionPhrases.UnableCreateDataSourceView);
+            }
+            else if (!deviceView.CanShowProperties)
+            {
+                ScadaUiUtils.ShowInfo(ExtensionPhrases.NoDataSourceView);
+            }
+            else
+            {
+                return deviceView;
+            }
+
+            return null;
         }
 
         /// <summary>
-        /// Raises a CustomParamsChanged event.
+        /// Raises a ConfigChanged event.
         /// </summary>
-        private void OnCustomParamsChanged()
+        private void OnConfigChanged()
         {
-            CustomParamsChanged?.Invoke(this, EventArgs.Empty);
+            ConfigChanged?.Invoke(this, EventArgs.Empty);
+        }
+
+        /// <summary>
+        /// Raises a LineConfigChanged event.
+        /// </summary>
+        private void OnLineConfigChanged()
+        {
+            LineConfigChanged?.Invoke(this, EventArgs.Empty);
         }
 
         /// <summary>
@@ -264,12 +283,11 @@ namespace Scada.Admin.Extensions.ExtCommConfig.Controls
 
 
         /// <summary>
-        /// Setup the controls according to the settings.
+        /// Sets the controls according to the configuration.
         /// </summary>
-        public void SettingsToControls()
+        public void ConfigToControls(List<DeviceConfig> devicePolling)
         {
-            ValidateProps();
-            FillDriverComboBox();
+            ValidateInit();
 
             try
             {
@@ -277,9 +295,9 @@ namespace Scada.Admin.Extensions.ExtCommConfig.Controls
                 lvDevicePolling.Items.Clear();
                 int index = 0;
 
-                foreach (Settings.KP kp in CommLine.ReqSequence)
+                foreach (DeviceConfig deviceConfig in devicePolling)
                 {
-                    lvDevicePolling.Items.Add(CreateDeviceItem(kp.Clone(), ref index));
+                    lvDevicePolling.Items.Add(CreateDeviceItem(deviceConfig.DeepClone(), ref index));
                 }
 
                 if (lvDevicePolling.Items.Count > 0)
@@ -292,135 +310,63 @@ namespace Scada.Admin.Extensions.ExtCommConfig.Controls
         }
 
         /// <summary>
-        /// Sets the settings according to the controls.
+        /// Sets the configuration according to the controls.
         /// </summary>
-        public void ControlsToSettings()
+        public void ControlsToConfig(List<DeviceConfig> devicePolling)
         {
-            ValidateProps();
-            CommLine.ReqSequence.Clear();
+            ValidateInit();
+            devicePolling.Clear();
 
             foreach (ListViewItem item in lvDevicePolling.Items)
             {
-                CommLine.ReqSequence.Add((Settings.KP)item.Tag);
+                devicePolling.Add((DeviceConfig)item.Tag);
             }
         }
 
 
         /// <summary>
-        /// Occurs when the settings changes.
+        /// Occurs when any configuration changes.
         /// </summary>
-        public event EventHandler SettingsChanged;
+        public event EventHandler ConfigChanged;
 
         /// <summary>
-        /// Occurs when the custom line parameters changes.
+        /// Occurs when the communication line configuration changes.
         /// </summary>
-        public event EventHandler CustomParamsChanged;
+        public event EventHandler LineConfigChanged;
 
 
         private void CtrlLineReqSequence_Load(object sender, EventArgs e)
         {
+            FillDriverComboBox();
             SetControlsEnabled();
             btnPasteDevice.Enabled = false;
         }
 
         private void btnAddDevice_Click(object sender, EventArgs e)
         {
-            // add a new device
-            AddDevice(new Settings.KP());
+            AddDeviceItem(new DeviceConfig
+            {
+                Active = true,
+                IsBound = true
+            });
         }
 
         private void btnMoveUpDevice_Click(object sender, EventArgs e)
         {
-            // move up the selected item
-            if (lvDevicePolling.SelectedIndices.Count > 0)
-            {
-                int index = lvDevicePolling.SelectedIndices[0];
-
-                if (index > 0)
-                {
-                    try
-                    {
-                        lvDevicePolling.BeginUpdate();
-                        ListViewItem item = lvDevicePolling.Items[index];
-                        ListViewItem prevItem = lvDevicePolling.Items[index - 1];
-
-                        lvDevicePolling.Items.RemoveAt(index);
-                        lvDevicePolling.Items.Insert(index - 1, item);
-
-                        item.Text = index.ToString();
-                        prevItem.Text = (index + 1).ToString();
-                    }
-                    finally
-                    {
-                        lvDevicePolling.EndUpdate();
-                        lvDevicePolling.Focus();
-                    }
-                }
-            }
+            if (lvDevicePolling.MoveUpSelectedItem(true))
+                OnConfigChanged();
         }
 
         private void btnMoveDownDevice_Click(object sender, EventArgs e)
         {
-            // move down the selected item
-            if (lvDevicePolling.SelectedIndices.Count > 0)
-            {
-                int index = lvDevicePolling.SelectedIndices[0];
-
-                if (index < lvDevicePolling.Items.Count - 1)
-                {
-                    try
-                    {
-                        lvDevicePolling.BeginUpdate();
-                        ListViewItem item = lvDevicePolling.Items[index];
-                        ListViewItem nextItem = lvDevicePolling.Items[index + 1];
-
-                        lvDevicePolling.Items.RemoveAt(index);
-                        lvDevicePolling.Items.Insert(index + 1, item);
-
-                        item.Text = (index + 2).ToString();
-                        nextItem.Text = (index + 1).ToString();
-                    }
-                    finally
-                    {
-                        lvDevicePolling.EndUpdate();
-                        lvDevicePolling.Focus();
-                    }
-                }
-            }
+            if (lvDevicePolling.MoveDownSelectedItem(true))
+                OnConfigChanged();
         }
 
         private void btnDeleteDevice_Click(object sender, EventArgs e)
         {
-            if (lvDevicePolling.SelectedIndices.Count > 0)
-            {
-                try
-                {
-                    // delete the selected device
-                    lvDevicePolling.BeginUpdate();
-                    int index = lvDevicePolling.SelectedIndices[0];
-                    lvDevicePolling.Items.RemoveAt(index);
-
-                    if (lvDevicePolling.Items.Count > 0)
-                    {
-                        // select an item
-                        if (index >= lvDevicePolling.Items.Count)
-                            index = lvDevicePolling.Items.Count - 1;
-                        lvDevicePolling.Items[index].Selected = true;
-
-                        // update item numbers
-                        for (int i = index, cnt = lvDevicePolling.Items.Count; i < cnt; i++)
-                        {
-                            lvDevicePolling.Items[i].Text = (i + 1).ToString();
-                        }
-                    }
-                }
-                finally
-                {
-                    lvDevicePolling.EndUpdate();
-                    lvDevicePolling.Focus();
-                    OnSettingsChanged();
-                }
-            }
+            if (lvDevicePolling.RemoveSelectedItem(true))
+                OnConfigChanged();
         }
 
         private void btnCutDevice_Click(object sender, EventArgs e)
@@ -433,10 +379,10 @@ namespace Scada.Admin.Extensions.ExtCommConfig.Controls
         private void btnCopyDevice_Click(object sender, EventArgs e)
         {
             // copy the selected device
-            if (GetSelectedItem(out ListViewItem item, out Settings.KP kp))
+            if (GetSelectedItem(out _, out DeviceConfig deviceConfig))
             {
                 btnPasteDevice.Enabled = true;
-                deviceBuf = kp.Clone();
+                deviceClipboard = deviceConfig.DeepClone();
             }
 
             lvDevicePolling.Focus();
@@ -445,196 +391,191 @@ namespace Scada.Admin.Extensions.ExtCommConfig.Controls
         private void btnPasteDevice_Click(object sender, EventArgs e)
         {
             // paste the copied device
-            if (deviceBuf == null)
+            if (deviceClipboard == null)
                 lvDevicePolling.Focus();
             else
-                AddDevice(deviceBuf.Clone());
+                AddDeviceItem(deviceClipboard.DeepClone());
         }
 
-        private void lvReqSequence_SelectedIndexChanged(object sender, EventArgs e)
+        private void lvDevicePolling_SelectedIndexChanged(object sender, EventArgs e)
         {
             // display the selected item properties
             changing = true;
-
-            Settings.KP kp = lvDevicePolling.SelectedItems.Count > 0 ?
-                (Settings.KP)lvDevicePolling.SelectedItems[0].Tag : null;
-
-            DisplayDevice(kp);
+            GetSelectedItem(out _, out DeviceConfig deviceConfig);
+            DisplayDevice(deviceConfig);
             SetControlsEnabled();
             changing = false;
         }
 
-        private void chkDeviceActive_CheckedChanged(object sender, EventArgs e)
+        private void lvDevicePolling_DoubleClick(object sender, EventArgs e)
         {
-            if (!changing && GetSelectedItem(out ListViewItem item, out Settings.KP kp))
+            btnDeviceProperties_Click(null, null);
+        }
+
+        private void chkActive_CheckedChanged(object sender, EventArgs e)
+        {
+            if (!changing && GetSelectedItem(out ListViewItem item, out DeviceConfig deviceConfig))
             {
-                kp.Active = chkActive.Checked;
-                item.SubItems[1].Text = chkActive.Checked ? "V" : " ";
-                OnSettingsChanged();
+                deviceConfig.Active = chkActive.Checked;
+                item.SubItems[1].Text = AdminUtils.GetCheckedString(chkActive.Checked);
+                OnConfigChanged();
             }
         }
 
-        private void chkDeviceBound_CheckedChanged(object sender, EventArgs e)
+        private void chkPollOnCmd_CheckedChanged(object sender, EventArgs e)
         {
-            if (!changing && GetSelectedItem(out ListViewItem item, out Settings.KP kp))
+            if (!changing && GetSelectedItem(out ListViewItem item, out DeviceConfig deviceConfig))
             {
-                kp.Bind = chkIsBound.Checked;
-                item.SubItems[2].Text = chkIsBound.Checked ? "V" : " ";
-                OnSettingsChanged();
+                deviceConfig.PollingOptions.PollOnCmd = chkPollOnCmd.Checked;
+                item.SubItems[2].Text = AdminUtils.GetCheckedString(chkPollOnCmd.Checked);
+                OnConfigChanged();
             }
         }
 
-        private void numDeviceNumber_ValueChanged(object sender, EventArgs e)
+        private void chkIsBound_CheckedChanged(object sender, EventArgs e)
         {
-            if (!changing && GetSelectedItem(out ListViewItem item, out Settings.KP kp))
+            if (!changing && GetSelectedItem(out ListViewItem item, out DeviceConfig deviceConfig))
             {
-                kp.Number = decimal.ToInt32(numDeviceNum.Value);
-                item.SubItems[3].Text = numDeviceNum.Value.ToString();
-                OnSettingsChanged();
+                deviceConfig.IsBound = chkIsBound.Checked;
+                item.SubItems[3].Text = AdminUtils.GetCheckedString(chkIsBound.Checked);
+                OnConfigChanged();
             }
         }
 
-        private void txtDeviceName_TextChanged(object sender, EventArgs e)
+        private void numDeviceNum_ValueChanged(object sender, EventArgs e)
         {
-            if (!changing && GetSelectedItem(out ListViewItem item, out Settings.KP kp))
+            if (!changing && GetSelectedItem(out ListViewItem item, out DeviceConfig deviceConfig))
             {
-                kp.Name = txtName.Text;
-                item.SubItems[4].Text = txtName.Text;
-                OnSettingsChanged();
+                deviceConfig.DeviceNum = decimal.ToInt32(numDeviceNum.Value);
+                item.SubItems[4].Text = numDeviceNum.Value.ToString();
+                OnConfigChanged();
             }
         }
 
-        private void cbDeviceDll_TextChanged(object sender, EventArgs e)
+        private void txtName_TextChanged(object sender, EventArgs e)
         {
-            if (!changing && GetSelectedItem(out ListViewItem item, out Settings.KP kp))
+            if (!changing && GetSelectedItem(out ListViewItem item, out DeviceConfig deviceConfig))
             {
-                kp.Dll = cbDriver.Text;
-                item.SubItems[5].Text = cbDriver.Text;
-                OnSettingsChanged();
+                deviceConfig.Name = txtName.Text;
+                item.SubItems[5].Text = txtName.Text;
+                OnConfigChanged();
             }
         }
 
-        private void numDeviceAddress_ValueChanged(object sender, EventArgs e)
+        private void cbDriver_TextChanged(object sender, EventArgs e)
         {
-            if (!changing && GetSelectedItem(out ListViewItem item, out Settings.KP kp))
+            if (!changing && GetSelectedItem(out ListViewItem item, out DeviceConfig deviceConfig))
             {
-                kp.Address = decimal.ToInt32(numNumAddress.Value);
-                item.SubItems[6].Text = numNumAddress.Value.ToString();
-                OnSettingsChanged();
+                deviceConfig.Driver = cbDriver.Text;
+                item.SubItems[6].Text = cbDriver.Text;
+                OnConfigChanged();
             }
         }
 
-        private void txtDeviceCallNum_TextChanged(object sender, EventArgs e)
+        private void numNumAddress_ValueChanged(object sender, EventArgs e)
         {
-            if (!changing && GetSelectedItem(out ListViewItem item, out Settings.KP kp))
+            if (!changing && GetSelectedItem(out ListViewItem item, out DeviceConfig deviceConfig))
             {
-                kp.CallNum = txtStrAddress.Text;
-                item.SubItems[7].Text = txtStrAddress.Text;
-                OnSettingsChanged();
+                deviceConfig.NumAddress = decimal.ToInt32(numNumAddress.Value);
+                item.SubItems[7].Text = numNumAddress.Value.ToString();
+                OnConfigChanged();
             }
         }
 
-        private void numDeviceTimeout_ValueChanged(object sender, EventArgs e)
+        private void txtStrAddress_TextChanged(object sender, EventArgs e)
         {
-            if (!changing && GetSelectedItem(out ListViewItem item, out Settings.KP kp))
+            if (!changing && GetSelectedItem(out ListViewItem item, out DeviceConfig deviceConfig))
             {
-                kp.Timeout = decimal.ToInt32(numTimeout.Value);
-                item.SubItems[8].Text = numTimeout.Value.ToString();
-                OnSettingsChanged();
+                deviceConfig.StrAddress = txtStrAddress.Text;
+                item.SubItems[8].Text = txtStrAddress.Text;
+                OnConfigChanged();
             }
         }
 
-        private void numDeviceDelay_ValueChanged(object sender, EventArgs e)
+        private void numTimeout_ValueChanged(object sender, EventArgs e)
         {
-            if (!changing && GetSelectedItem(out ListViewItem item, out Settings.KP kp))
+            if (!changing && GetSelectedItem(out ListViewItem item, out DeviceConfig deviceConfig))
             {
-                kp.Delay = decimal.ToInt32(numDelay.Value);
-                item.SubItems[9].Text = numDelay.Value.ToString();
-                OnSettingsChanged();
+                deviceConfig.PollingOptions.Timeout = decimal.ToInt32(numTimeout.Value);
+                item.SubItems[9].Text = numTimeout.Value.ToString();
+                OnConfigChanged();
             }
         }
 
-        private void dtpDeviceTime_ValueChanged(object sender, EventArgs e)
+        private void numDelay_ValueChanged(object sender, EventArgs e)
         {
-            if (!changing && GetSelectedItem(out ListViewItem item, out Settings.KP kp))
+            if (!changing && GetSelectedItem(out ListViewItem item, out DeviceConfig deviceConfig))
             {
-                kp.Time = new DateTime(DateTime.MinValue.Year, DateTime.MinValue.Month, DateTime.MinValue.Day,
-                    dtpTime.Value.Hour, dtpTime.Value.Minute, dtpTime.Value.Second);
-                item.SubItems[10].Text = kp.Time.ToString("T", Localization.Culture);
-                OnSettingsChanged();
+                deviceConfig.PollingOptions.Delay = decimal.ToInt32(numDelay.Value);
+                item.SubItems[10].Text = numDelay.Value.ToString();
+                OnConfigChanged();
             }
         }
 
-        private void dtpDevicePeriod_ValueChanged(object sender, EventArgs e)
+        private void dtpTime_ValueChanged(object sender, EventArgs e)
         {
-            if (!changing && GetSelectedItem(out ListViewItem item, out Settings.KP kp))
+            if (!changing && GetSelectedItem(out ListViewItem item, out DeviceConfig deviceConfig))
             {
-                kp.Period = new TimeSpan(dtpPeriod.Value.Hour, dtpPeriod.Value.Minute, 
-                    dtpPeriod.Value.Second);
-                item.SubItems[11].Text = kp.Period.ToString();
-                OnSettingsChanged();
+                deviceConfig.PollingOptions.Time = 
+                    new TimeSpan(dtpTime.Value.Hour, dtpTime.Value.Minute, dtpTime.Value.Second);
+                item.SubItems[11].Text = deviceConfig.PollingOptions.Time.ToString();
+                OnConfigChanged();
             }
         }
 
-        private void txtDeviceCmdLine_TextChanged(object sender, EventArgs e)
+        private void dtpPeriod_ValueChanged(object sender, EventArgs e)
         {
-            if (!changing && GetSelectedItem(out ListViewItem item, out Settings.KP kp))
+            if (!changing && GetSelectedItem(out ListViewItem item, out DeviceConfig deviceConfig))
             {
-                kp.CmdLine = txtCmdLine.Text;
-                item.SubItems[12].Text = txtCmdLine.Text;
-                OnSettingsChanged();
+                deviceConfig.PollingOptions.Period = 
+                    new TimeSpan(dtpPeriod.Value.Hour, dtpPeriod.Value.Minute, dtpPeriod.Value.Second);
+                item.SubItems[12].Text = deviceConfig.PollingOptions.Period.ToString();
+                OnConfigChanged();
             }
         }
 
-        private void btnResetReqParams_Click(object sender, EventArgs e)
+        private void txtCmdLine_TextChanged(object sender, EventArgs e)
         {
-            // set the request parameters of the selected device by default
-            if (GetSelectedItem(out ListViewItem item, out Settings.KP kp))
+            if (!changing && GetSelectedItem(out ListViewItem item, out DeviceConfig deviceConfig))
             {
-                if (Environment.TryGetKPView(kp, true, null, out KPView kpView, out string errMsg))
+                deviceConfig.PollingOptions.CmdLine = txtCmdLine.Text;
+                item.SubItems[13].Text = txtCmdLine.Text;
+                OnConfigChanged();
+            }
+        }
+
+        private void btnDeviceProperties_Click(object sender, EventArgs e)
+        {
+            // show device properties
+            if (GetSelectedItem(out _, out DeviceConfig deviceConfig) &&
+                GetDeviceView(deviceConfig) is DeviceView deviceView)
+            {
+                if (deviceView.ShowProperties() || deviceView.DeviceConfigModified)
                 {
-                    KPReqParams reqParams = kpView.DefaultReqParams;
-                    numTimeout.SetValue(reqParams.Timeout);
-                    numDelay.SetValue(reqParams.Delay);
-                    dtpTime.SetTime(reqParams.Time);
-                    dtpPeriod.SetTime(reqParams.Period);
-                    txtCmdLine.Text = reqParams.CmdLine;
-                    OnSettingsChanged();
+                    DisplayDevice(deviceConfig);
+                    OnConfigChanged();
                 }
-                else
+
+                if (deviceView.LineConfigModified)
                 {
-                    ScadaUiUtils.ShowError(errMsg);
+                    OnLineConfigChanged();
                 }
             }
         }
 
-        private void btnDeviceProps_Click(object sender, EventArgs e)
+        private void btnResetPollingOptions_Click(object sender, EventArgs e)
         {
-            // show the properties of the selected device
-            if (GetSelectedItem(out ListViewItem item, out Settings.KP kp))
+            // set polling options to default
+            if (GetSelectedItem(out _, out DeviceConfig deviceConfig) &&
+                GetDeviceView(deviceConfig) is DeviceView deviceView)
             {
-                if (Environment.TryGetKPView(kp, false, CustomParams, out KPView kpView, out string errMsg))
-                {
-                    if (kpView.CanShowProps)
-                    {
-                        kpView.ShowProps();
-
-                        if (kpView.KPProps.Modified)
-                        {
-                            txtCmdLine.Text = kpView.KPProps.CmdLine;
-                            OnCustomParamsChanged();
-                            OnSettingsChanged();
-                        }
-                    }
-                    else
-                    {
-                        ScadaUiUtils.ShowWarning(CommShellPhrases.NoDeviceProps);
-                    }
-                }
-                else
-                {
-                    ScadaUiUtils.ShowError(errMsg);
-                }
+                PollingOptions pollingOptions = deviceView.GetPollingOptions();
+                numTimeout.SetValue(pollingOptions.Timeout);
+                numDelay.SetValue(pollingOptions.Delay);
+                dtpTime.SetTime(pollingOptions.Time);
+                dtpPeriod.SetTime(pollingOptions.Period);
+                txtCmdLine.Text = pollingOptions.CmdLine;
+                OnConfigChanged();
             }
         }
     }

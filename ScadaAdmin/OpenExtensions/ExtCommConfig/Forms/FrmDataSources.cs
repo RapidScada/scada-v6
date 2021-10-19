@@ -204,6 +204,7 @@ namespace Scada.Admin.Extensions.ExtCommConfig.Forms
         {
             int index = 0;
             lvDataSource.InsertItem(CreateDataSourceItem(dataSourceConfig, ref index), true);
+            txtCode.Focus();
             ChildFormTag.Modified = true;
         }
 
@@ -250,7 +251,7 @@ namespace Scada.Admin.Extensions.ExtCommConfig.Forms
 
         private void btnAdd_Click(object sender, EventArgs e)
         {
-            AddDataSourceItem(new DataSourceConfig());
+            AddDataSourceItem(new DataSourceConfig { Active = true });
         }
 
         private void btnMoveUp_Click(object sender, EventArgs e)
