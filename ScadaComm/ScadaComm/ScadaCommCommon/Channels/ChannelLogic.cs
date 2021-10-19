@@ -59,7 +59,7 @@ namespace Scada.Comm.Channels
             LineContext = lineContext ?? throw new ArgumentNullException(nameof(lineContext));
             ChannelConfig = channelConfig ?? throw new ArgumentNullException(nameof(channelConfig));
             Log = lineContext.Log;
-            Title = channelConfig.TypeName;
+            Title = channelConfig.TypeCode;
         }
 
 

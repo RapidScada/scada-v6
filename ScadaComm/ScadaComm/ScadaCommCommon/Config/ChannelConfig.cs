@@ -20,7 +20,7 @@
  * 
  * Author   : Mikhail Shiryaev
  * Created  : 2020
- * Modified : 2020
+ * Modified : 2021
  */
 
 using Scada.Config;
@@ -40,16 +40,16 @@ namespace Scada.Comm.Config
         /// </summary>
         public ChannelConfig()
         {
-            TypeName = "";
+            TypeCode = "";
             Driver = "";
             CustomOptions = new OptionList();
         }
 
         
         /// <summary>
-        /// Gets or sets the type name.
+        /// Gets or sets the channel type code.
         /// </summary>
-        public string TypeName { get; set; }
+        public string TypeCode { get; set; }
 
         /// <summary>
         /// Gets or sets the code of the driver that implements the channel.
@@ -70,7 +70,7 @@ namespace Scada.Comm.Config
             if (xmlElem == null)
                 throw new ArgumentNullException(nameof(xmlElem));
 
-            TypeName = xmlElem.GetAttrAsString("type");
+            TypeCode = xmlElem.GetAttrAsString("type");
             Driver = xmlElem.GetAttrAsString("driver");
             CustomOptions.LoadFromXml(xmlElem);
         }
@@ -83,7 +83,7 @@ namespace Scada.Comm.Config
             if (xmlElem == null)
                 throw new ArgumentNullException(nameof(xmlElem));
 
-            xmlElem.SetAttribute("type", TypeName);
+            xmlElem.SetAttribute("type", TypeCode);
             xmlElem.SetAttribute("driver", Driver);
             CustomOptions.SaveToXml(xmlElem);
         }

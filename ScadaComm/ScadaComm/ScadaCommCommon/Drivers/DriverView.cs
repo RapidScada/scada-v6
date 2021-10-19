@@ -27,6 +27,7 @@ using Scada.Comm.Channels;
 using Scada.Comm.Config;
 using Scada.Comm.DataSources;
 using Scada.Comm.Devices;
+using System.Collections.Generic;
 
 namespace Scada.Comm.Drivers
 {
@@ -78,6 +79,11 @@ namespace Scada.Comm.Drivers
         /// Gets the driver description.
         /// </summary>
         public abstract string Descr { get; }
+
+        /// <summary>
+        /// Gets the communication channel types provided by the driver.
+        /// </summary>
+        public virtual ICollection<ChannelTypeName> ChannelTypes => null;
 
 
         /// <summary>

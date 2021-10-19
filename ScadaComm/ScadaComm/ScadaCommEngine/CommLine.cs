@@ -819,7 +819,7 @@ namespace Scada.Comm.Engine
             CommLine commLine = new CommLine(lineConfig, coreLogic);
 
             // create communication channel
-            if (string.IsNullOrEmpty(lineConfig.Channel.TypeName))
+            if (string.IsNullOrEmpty(lineConfig.Channel.TypeCode))
             {
                 ChannelLogic channelLogic = new ChannelLogic(commLine, lineConfig.Channel); // stub
                 commLine.channel = new ChannelWrapper(channelLogic, commLine.Log);
