@@ -20,7 +20,7 @@
  * 
  * Author   : Mikhail Shiryaev
  * Created  : 2020
- * Modified : 2020
+ * Modified : 2021
  */
 
 using Scada.Agent;
@@ -58,7 +58,6 @@ namespace Scada
 
             BaseDataSet = parentView.BaseDataSet;
             AppDirs = parentView.AppDirs;
-            ScadaClient = parentView.ScadaClient;
             AgentClient = parentView.AgentClient;
         }
 
@@ -72,12 +71,6 @@ namespace Scada
         /// Gets or sets the application directories.
         /// </summary>
         public AppDirs AppDirs { get; set; }
-
-        /// <summary>
-        /// Gets or sets the client to interact with the server.
-        /// </summary>
-        /// <remarks>Can be null.</remarks>
-        public ScadaClient ScadaClient { get; set; }
 
         /// <summary>
         /// Gets or sets the client to interact with the agent.
