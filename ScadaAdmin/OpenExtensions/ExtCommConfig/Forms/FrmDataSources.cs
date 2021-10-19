@@ -350,7 +350,7 @@ namespace Scada.Admin.Extensions.ExtCommConfig.Forms
             if (!changing && GetSelectedItem(out ListViewItem item, out DataSourceConfig dataSourceConfig))
             {
                 dataSourceConfig.Driver = cbDriver.Text;
-                item.SubItems[5].Text = cbDriver.Text;
+                item.SubItems[4].Text = cbDriver.Text;
                 ChildFormTag.Modified = true;
             }
         }
