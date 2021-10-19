@@ -7,6 +7,11 @@
     <Phrase key="LinesNode">Communication Lines</Phrase>
     <Phrase key="LineOptionsNode">Line Options</Phrase>
   </Dictionary>
+  <Dictionary key="Scada.Admin.Extensions.ExtCommConfig.Controls.CtrlLinePolling.CtrlLinePolling">
+    <Phrase key="DeviceNotSupported">The driver does not support creating devices.</Phrase>
+    <Phrase key="UnableCreateDeviceView">Unable to create device user interface.</Phrase>
+    <Phrase key="NoDeviceProperties">The device does not provide a properties window.</Phrase>
+  </Dictionary>
   <Dictionary key="Scada.Admin.Extensions.ExtCommConfig.Forms.FrmDataSources">
     <Phrase key="this">Data Sources</Phrase>
     <Phrase key="btnAdd">Add</Phrase>
@@ -31,7 +36,7 @@
     <Phrase key="DriverNotSpecified">Driver is not specified.</Phrase>
     <Phrase key="DataSourceNotSupported">The driver does not support creating data sources.</Phrase>
     <Phrase key="UnableCreateDataSourceView">Unable to create data source user interface.</Phrase>
-    <Phrase key="NoDataSourceView">The data source does not provide user interface.</Phrase>
+    <Phrase key="NoDataSourceProperties">The data source does not provide a properties window.</Phrase>
   </Dictionary>
   <Dictionary key="Scada.Admin.Extensions.ExtCommConfig.Forms.FrmDrivers">
     <Phrase key="this">Drivers</Phrase>

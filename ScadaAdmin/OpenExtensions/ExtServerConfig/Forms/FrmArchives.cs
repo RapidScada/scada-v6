@@ -423,7 +423,7 @@ namespace Scada.Admin.Extensions.ExtServerConfig.Forms
                 }
                 else if (!archiveView.CanShowProperties)
                 {
-                    ScadaUiUtils.ShowInfo(ExtensionPhrases.NoArchiveView);
+                    ScadaUiUtils.ShowInfo(ExtensionPhrases.NoArchiveProperties);
                 }
                 else if (archiveView.ShowProperties())
                 {

@@ -90,6 +90,7 @@ namespace Scada.Admin.App.Controls.Deployment
             OptionsChanged?.Invoke(this, EventArgs.Empty);
         }
 
+
         /// <summary>
         /// Initializes the control.
         /// </summary>

@@ -18,11 +18,16 @@ namespace Scada.Admin.Extensions.ExtCommConfig.Code
         public static string LinesNode { get; private set; }
         public static string LineOptionsNode { get; private set; }
 
+        // Scada.Admin.Extensions.ExtCommConfig.Controls.CtrlLinePolling
+        public static string DeviceNotSupported { get; private set; }
+        public static string UnableCreateDeviceView { get; private set; }
+        public static string NoDeviceProperties { get; private set; }
+
         // Scada.Admin.Extensions.ExtCommConfig.Forms.FrmDataSources
         public static string DriverNotSpecified { get; private set; }
         public static string DataSourceNotSupported { get; private set; }
         public static string UnableCreateDataSourceView { get; private set; }
-        public static string NoDataSourceView { get; private set; }
+        public static string NoDataSourceProperties { get; private set; }
 
         public static void Init()
         {
@@ -33,11 +38,16 @@ namespace Scada.Admin.Extensions.ExtCommConfig.Code
             LinesNode = dict["LinesNode"];
             LineOptionsNode = dict["LineOptionsNode"];
 
+            dict = Locale.GetDictionary("Scada.Admin.Extensions.ExtCommConfig.Controls.CtrlLinePolling");
+            DeviceNotSupported = dict["DeviceNotSupported"];
+            UnableCreateDeviceView = dict["UnableCreateDeviceView"];
+            NoDeviceProperties = dict["NoDeviceProperties"];
+
             dict = Locale.GetDictionary("Scada.Admin.Extensions.ExtCommConfig.Forms.FrmDataSources");
             DriverNotSpecified = dict["DriverNotSpecified"];
             DataSourceNotSupported = dict["DataSourceNotSupported"];
             UnableCreateDataSourceView = dict["UnableCreateDataSourceView"];
-            NoDataSourceView = dict["NoDataSourceView"];
+            NoDataSourceProperties = dict["NoDataSourceProperties"];
         }
     }
 }

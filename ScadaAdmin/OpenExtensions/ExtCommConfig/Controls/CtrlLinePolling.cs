@@ -29,6 +29,7 @@ namespace Scada.Admin.Extensions.ExtCommConfig.Controls
     {
         private IAdminContext adminContext;   // the Administrator context
         private CommApp commApp;              // the Communicator application in a project
+        private LineConfig lineConfig;        // the communication line configuration
         private bool changing;                // controls are being changed programmatically
         private DeviceConfig deviceClipboard; // contains the copied device
 
@@ -44,6 +45,7 @@ namespace Scada.Admin.Extensions.ExtCommConfig.Controls
             SetColumnNames();
             adminContext = null;
             commApp = null;
+            lineConfig = null;
             changing = false;
             deviceClipboard = null;
         }
@@ -220,15 +222,15 @@ namespace Scada.Admin.Extensions.ExtCommConfig.Controls
             }
             else if (!driverView.CanCreateDevice)
             {
-                ScadaUiUtils.ShowError(ExtensionPhrases.DataSourceNotSupported);
+                ScadaUiUtils.ShowError(ExtensionPhrases.DeviceNotSupported);
             }
-            else if (driverView.CreateDeviceView(deviceConfig) is not DeviceView deviceView)
+            else if (driverView.CreateDeviceView(lineConfig, deviceConfig) is not DeviceView deviceView)
             {
-                ScadaUiUtils.ShowError(ExtensionPhrases.UnableCreateDataSourceView);
+                ScadaUiUtils.ShowError(ExtensionPhrases.UnableCreateDeviceView);
             }
             else if (!deviceView.CanShowProperties)
             {
-                ScadaUiUtils.ShowInfo(ExtensionPhrases.NoDataSourceView);
+                ScadaUiUtils.ShowInfo(ExtensionPhrases.NoDeviceProperties);
             }
             else
             {
@@ -281,6 +283,16 @@ namespace Scada.Admin.Extensions.ExtCommConfig.Controls
             };
         }
 
+
+        /// <summary>
+        /// Initializes the control.
+        /// </summary>
+        public void Init(IAdminContext adminContext, CommApp commApp, LineConfig lineConfig)
+        {
+            this.adminContext = adminContext ?? throw new ArgumentNullException(nameof(adminContext));
+            this.commApp = commApp ?? throw new ArgumentNullException(nameof(commApp));
+            this.lineConfig = lineConfig ?? throw new ArgumentNullException(nameof(lineConfig));
+        }
 
         /// <summary>
         /// Sets the controls according to the configuration.

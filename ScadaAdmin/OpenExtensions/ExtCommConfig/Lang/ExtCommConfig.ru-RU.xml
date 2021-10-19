@@ -7,6 +7,11 @@
     <Phrase key="LinesNode">Линии связи</Phrase>
     <Phrase key="LineOptionsNode">Параметры линии</Phrase>
   </Dictionary>
+  <Dictionary key="Scada.Admin.Extensions.ExtCommConfig.Controls.CtrlLinePolling.CtrlLinePolling">
+    <Phrase key="DeviceNotSupported">Драйвер не поддерживает создание КП.</Phrase>
+    <Phrase key="UnableCreateDeviceView">Невозможно создать пользовательский интерфейс КП.</Phrase>
+    <Phrase key="NoDeviceProperties">КП не предоставляет окно свойств.</Phrase>
+  </Dictionary>
   <Dictionary key="Scada.Admin.Extensions.ExtCommConfig.Forms.FrmDataSources">
     <Phrase key="this">Источники данных</Phrase>
     <Phrase key="btnAdd">Добавить</Phrase>
@@ -31,7 +36,7 @@
     <Phrase key="DriverNotSpecified">Драйвер не указан.</Phrase>
     <Phrase key="DataSourceNotSupported">Драйвер не поддерживает создание источников данных.</Phrase>
     <Phrase key="UnableCreateDataSourceView">Невозможно создать пользовательский интерфейс источника данных.</Phrase>
-    <Phrase key="NoDataSourceView">Источник данных не предоставляет пользовательский интерфейс.</Phrase>
+    <Phrase key="NoDataSourceProperties">Источник данных не предоставляет окно свойств.</Phrase>
   </Dictionary>
   <Dictionary key="Scada.Admin.Extensions.ExtCommConfig.Forms.FrmDrivers">
     <Phrase key="this">Драйверы</Phrase>

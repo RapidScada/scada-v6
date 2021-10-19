@@ -83,6 +83,7 @@ namespace Scada.Admin.Extensions.ExtCommConfig.Controls
             this.txtName.Name = "txtName";
             this.txtName.Size = new System.Drawing.Size(368, 23);
             this.txtName.TabIndex = 5;
+            this.txtName.TextChanged += new System.EventHandler(this.control_Changed);
             // 
             // lblName
             // 
@@ -104,6 +105,7 @@ namespace Scada.Admin.Extensions.ExtCommConfig.Controls
             this.numCommLineNum.Name = "numCommLineNum";
             this.numCommLineNum.Size = new System.Drawing.Size(100, 23);
             this.numCommLineNum.TabIndex = 3;
+            this.numCommLineNum.ValueChanged += new System.EventHandler(this.control_Changed);
             // 
             // lblCommLineNum
             // 
@@ -123,6 +125,7 @@ namespace Scada.Admin.Extensions.ExtCommConfig.Controls
             this.chkIsBound.TabIndex = 1;
             this.chkIsBound.Text = "Bound to the configuration database";
             this.chkIsBound.UseVisualStyleBackColor = true;
+            this.chkIsBound.CheckedChanged += new System.EventHandler(this.control_Changed);
             // 
             // chkActive
             // 
@@ -133,6 +136,7 @@ namespace Scada.Admin.Extensions.ExtCommConfig.Controls
             this.chkActive.TabIndex = 0;
             this.chkActive.Text = "Active";
             this.chkActive.UseVisualStyleBackColor = true;
+            this.chkActive.CheckedChanged += new System.EventHandler(this.control_Changed);
             // 
             // gbLineOptions
             // 
@@ -162,6 +166,7 @@ namespace Scada.Admin.Extensions.ExtCommConfig.Controls
             this.chkDetailedLog.Size = new System.Drawing.Size(15, 14);
             this.chkDetailedLog.TabIndex = 9;
             this.chkDetailedLog.UseVisualStyleBackColor = true;
+            this.chkDetailedLog.CheckedChanged += new System.EventHandler(this.control_Changed);
             // 
             // lblDetailedLog
             // 
@@ -180,6 +185,7 @@ namespace Scada.Admin.Extensions.ExtCommConfig.Controls
             this.chkPollAfterCmd.Size = new System.Drawing.Size(15, 14);
             this.chkPollAfterCmd.TabIndex = 7;
             this.chkPollAfterCmd.UseVisualStyleBackColor = true;
+            this.chkPollAfterCmd.CheckedChanged += new System.EventHandler(this.control_Changed);
             // 
             // lblPollAfterCmd
             // 
@@ -198,6 +204,7 @@ namespace Scada.Admin.Extensions.ExtCommConfig.Controls
             this.chkCmdEnabled.Size = new System.Drawing.Size(15, 14);
             this.chkCmdEnabled.TabIndex = 5;
             this.chkCmdEnabled.UseVisualStyleBackColor = true;
+            this.chkCmdEnabled.CheckedChanged += new System.EventHandler(this.control_Changed);
             // 
             // lblCmdEnabled
             // 
@@ -219,6 +226,7 @@ namespace Scada.Admin.Extensions.ExtCommConfig.Controls
             this.numCycleDelay.Name = "numCycleDelay";
             this.numCycleDelay.Size = new System.Drawing.Size(100, 23);
             this.numCycleDelay.TabIndex = 3;
+            this.numCycleDelay.ValueChanged += new System.EventHandler(this.control_Changed);
             // 
             // lblCycleDelay
             // 
@@ -245,6 +253,7 @@ namespace Scada.Admin.Extensions.ExtCommConfig.Controls
             0,
             0,
             0});
+            this.numReqRetries.ValueChanged += new System.EventHandler(this.control_Changed);
             // 
             // lblReqRetries
             // 

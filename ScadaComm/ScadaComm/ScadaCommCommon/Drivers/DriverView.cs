@@ -91,7 +91,7 @@ namespace Scada.Comm.Drivers
         /// <summary>
         /// Creates a new device user interface.
         /// </summary>
-        public virtual DeviceView CreateDeviceView(DeviceConfig deviceConfig)
+        public virtual DeviceView CreateDeviceView(LineConfig lineConfig, DeviceConfig deviceConfig)
         {
             return null;
         }

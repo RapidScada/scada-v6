@@ -20,7 +20,7 @@ namespace Scada.Admin.Extensions.ExtServerConfig.Code
         public static string ModuleNotSpecified { get; private set; }
         public static string ArchiveNotSupported { get; private set; }
         public static string UnableCreateArchiveView { get; private set; }
-        public static string NoArchiveView { get; private set; }
+        public static string NoArchiveProperties { get; private set; }
 
         public static void Init()
         {
@@ -33,7 +33,7 @@ namespace Scada.Admin.Extensions.ExtServerConfig.Code
             ModuleNotSpecified = dict["ModuleNotSpecified"];
             ArchiveNotSupported = dict["ArchiveNotSupported"];
             UnableCreateArchiveView = dict["UnableCreateArchiveView"];
-            NoArchiveView = dict["NoArchiveView"];
+            NoArchiveProperties = dict["NoArchiveProperties"];
         }
     }
 }

@@ -379,7 +379,7 @@ namespace Scada.Admin.Extensions.ExtCommConfig.Forms
                 }
                 else if (!dataSourceView.CanShowProperties)
                 {
-                    ScadaUiUtils.ShowInfo(ExtensionPhrases.NoDataSourceView);
+                    ScadaUiUtils.ShowInfo(ExtensionPhrases.NoDataSourceProperties);
                 }
                 else if (dataSourceView.ShowProperties())
                 {

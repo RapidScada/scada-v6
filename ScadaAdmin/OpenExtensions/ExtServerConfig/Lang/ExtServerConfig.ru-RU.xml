@@ -31,7 +31,7 @@
     <Phrase key="ModuleNotSpecified">Модуль не указан.</Phrase>
     <Phrase key="ArchiveNotSupported">Модуль не поддерживает создание архивов вида {0}.</Phrase>
     <Phrase key="UnableCreateArchiveView">Невозможно создать пользовательский интерфейс архива.</Phrase>
-    <Phrase key="NoArchiveView">Архив не предоставляет пользовательский интерфейс.</Phrase>
+    <Phrase key="NoArchiveProperties">Архив не предоставляет окно свойств.</Phrase>
   </Dictionary>
   <Dictionary key="Scada.Admin.Extensions.ExtServerConfig.Forms.FrmGeneralOptions">
     <Phrase key="this">Основные параметры</Phrase>

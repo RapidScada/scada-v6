@@ -193,7 +193,7 @@
             this.dtpPeriod.ShowUpDown = true;
             this.dtpPeriod.Size = new System.Drawing.Size(100, 23);
             this.dtpPeriod.TabIndex = 20;
-            this.dtpPeriod.Value = new System.DateTime(2018, 1, 1, 0, 1, 0, 0);
+            this.dtpPeriod.Value = new System.DateTime(2021, 1, 1, 0, 0, 0, 0);
             this.dtpPeriod.ValueChanged += new System.EventHandler(this.dtpPeriod_ValueChanged);
             // 
             // lblPeriod
@@ -214,7 +214,7 @@
             this.dtpTime.ShowUpDown = true;
             this.dtpTime.Size = new System.Drawing.Size(100, 23);
             this.dtpTime.TabIndex = 18;
-            this.dtpTime.Value = new System.DateTime(2018, 1, 1, 10, 0, 0, 0);
+            this.dtpTime.Value = new System.DateTime(2021, 1, 1, 0, 0, 0, 0);
             this.dtpTime.ValueChanged += new System.EventHandler(this.dtpTime_ValueChanged);
             // 
             // lblTime

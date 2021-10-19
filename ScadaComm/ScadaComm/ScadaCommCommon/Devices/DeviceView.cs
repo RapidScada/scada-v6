@@ -24,6 +24,8 @@
  */
 
 using Scada.Comm.Config;
+using Scada.Comm.Drivers;
+using System;
 using System.Collections.Generic;
 
 namespace Scada.Comm.Devices
@@ -37,37 +39,38 @@ namespace Scada.Comm.Devices
         /// <summary>
         /// Initializes a new instance of the class.
         /// </summary>
-        public DeviceView(int deviceNum)
+        public DeviceView(DriverView parentView, LineConfig lineConfig, DeviceConfig deviceConfig)
+            : base(parentView)
         {
-            DeviceNum = deviceNum;
-            AppConfig = null;
-            LineConfig = null;
-            DeviceConfig = null;
+            AppConfig = parentView.AppConfig;
+            LineConfig = lineConfig ?? throw new ArgumentNullException(nameof(lineConfig));
+            DeviceConfig = deviceConfig ?? throw new ArgumentNullException(nameof(deviceConfig));
+            DeviceNum = deviceConfig.DeviceNum;
             LineConfigModified = false;
             DeviceConfigModified = false;
         }
 
 
         /// <summary>
-        /// Gets the device number.
-        /// </summary>
-        public int DeviceNum { get; protected set; }
-
-        /// <summary>
-        /// Gets or sets the application configuration.
+        /// Gets the application configuration.
         /// </summary>
         /// <remarks>Do not modify the configuration.</remarks>
-        public CommConfig AppConfig { get; set; }
+        public CommConfig AppConfig { get; }
 
         /// <summary>
-        /// Gets or sets the communication line configuration.
+        /// Gets the communication line configuration.
         /// </summary>
-        public LineConfig LineConfig { get; set; }
+        public LineConfig LineConfig { get; }
 
         /// <summary>
-        /// Gets or sets the device configuration.
+        /// Gets the device configuration.
         /// </summary>
-        public DeviceConfig DeviceConfig { get; set; }
+        public DeviceConfig DeviceConfig { get; }
+
+        /// <summary>
+        /// Gets the device number.
+        /// </summary>
+        public int DeviceNum { get; }
 
         /// <summary>
         /// Gets a value indicating whether the communication line configuration was modified by a user.

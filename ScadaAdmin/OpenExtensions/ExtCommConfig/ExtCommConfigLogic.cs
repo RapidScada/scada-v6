@@ -68,7 +68,7 @@ namespace Scada.Admin.Extensions.ExtCommConfig
 
             foreach (LineConfig lineConfig in commApp.AppConfig.Lines)
             {
-                commLinesNode.Nodes.Add(CreateLineNode(lineConfig));
+                commLinesNode.Nodes.Add(CreateLineNode(commApp, lineConfig));
             }
 
             return commLinesNode;
@@ -77,7 +77,7 @@ namespace Scada.Admin.Extensions.ExtCommConfig
         /// <summary>
         /// Creates a tree node that represents the specified communication line.
         /// </summary>
-        private TreeNode CreateLineNode(LineConfig lineConfig)
+        private TreeNode CreateLineNode(CommApp commApp, LineConfig lineConfig)
         {
             TreeNode lineNode = TreeViewExtensions.CreateNode(
                 CommUtils.GetLineTitle(lineConfig.CommLineNum, lineConfig.Name),
@@ -88,8 +88,8 @@ namespace Scada.Admin.Extensions.ExtCommConfig
             
             lineOptionsNode.Tag = new TreeNodeTag
             {
-                FormType = typeof(FrmLineOptions),
-                //FormArgs = new object[] { AdminContext, commApp }
+                FormType = typeof(FrmLineConfig),
+                FormArgs = new object[] { AdminContext, commApp, lineConfig }
             };
 
             lineNode.Nodes.Add(lineOptionsNode);

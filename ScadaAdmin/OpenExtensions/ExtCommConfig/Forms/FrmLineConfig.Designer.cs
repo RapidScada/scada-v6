@@ -1,7 +1,7 @@
 ﻿
 namespace Scada.Admin.Extensions.ExtCommConfig.Forms
 {
-    partial class FrmLineOptions
+    partial class FrmLineConfig
     {
         /// <summary>
         /// Required designer variable.
@@ -61,6 +61,7 @@ namespace Scada.Admin.Extensions.ExtCommConfig.Forms
             this.ctrlLineMain.Size = new System.Drawing.Size(550, 550);
             this.ctrlLineMain.TabIndex = 1;
             this.ctrlLineMain.Visible = false;
+            this.ctrlLineMain.ConfigChanged += new System.EventHandler(this.ctrlLineMain_ConfigChanged);
             // 
             // ctrlLineCustom
             // 
@@ -69,6 +70,7 @@ namespace Scada.Admin.Extensions.ExtCommConfig.Forms
             this.ctrlLineCustom.Size = new System.Drawing.Size(550, 450);
             this.ctrlLineCustom.TabIndex = 2;
             this.ctrlLineCustom.Visible = false;
+            this.ctrlLineCustom.OptionsChanged += new System.EventHandler(this.ctrlLineCustom_OptionsChanged);
             // 
             // ctrlLinePolling
             // 
@@ -77,8 +79,10 @@ namespace Scada.Admin.Extensions.ExtCommConfig.Forms
             this.ctrlLinePolling.Size = new System.Drawing.Size(700, 550);
             this.ctrlLinePolling.TabIndex = 3;
             this.ctrlLinePolling.Visible = false;
+            this.ctrlLinePolling.ConfigChanged += new System.EventHandler(this.ctrlLinePolling_ConfigChanged);
+            this.ctrlLinePolling.LineConfigChanged += new System.EventHandler(this.ctrlLinePolling_LineConfigChanged);
             // 
-            // FrmLineOptions
+            // FrmLineConfig
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
@@ -87,7 +91,7 @@ namespace Scada.Admin.Extensions.ExtCommConfig.Forms
             this.Controls.Add(this.ctrlLineCustom);
             this.Controls.Add(this.ctrlLineMain);
             this.Controls.Add(this.lbTabs);
-            this.Name = "FrmLineOptions";
+            this.Name = "FrmLineConfig";
             this.Text = "Line Options";
             this.Load += new System.EventHandler(this.FrmLineOptions_Load);
             this.ResumeLayout(false);

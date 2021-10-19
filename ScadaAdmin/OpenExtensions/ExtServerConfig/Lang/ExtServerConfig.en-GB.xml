@@ -31,7 +31,7 @@
     <Phrase key="ModuleNotSpecified">Module is not specified.</Phrase>
     <Phrase key="ArchiveNotSupported">The module does not support creating archives of the {0} kind.</Phrase>
     <Phrase key="UnableCreateArchiveView">Unable to create archive user interface.</Phrase>
-    <Phrase key="NoArchiveView">The archive does not provide user interface.</Phrase>
+    <Phrase key="NoArchiveProperties">The archive does not provide a properties window.</Phrase>
   </Dictionary>
   <Dictionary key="Scada.Admin.Extensions.ExtServerConfig.Forms.FrmGeneralOptions">
     <Phrase key="this">General Options</Phrase>
