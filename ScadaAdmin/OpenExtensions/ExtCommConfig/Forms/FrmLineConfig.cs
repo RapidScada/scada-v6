@@ -1,6 +1,7 @@
 ﻿// Copyright (c) Rapid Software LLC. All rights reserved.
 // Licensed under the Apache License, Version 2.0. See License.txt in the project root for license information.
 
+using Scada.Admin.Extensions.ExtCommConfig.Code;
 using Scada.Admin.Project;
 using Scada.Comm.Config;
 using Scada.Forms;
@@ -75,15 +76,25 @@ namespace Scada.Admin.Extensions.ExtCommConfig.Forms
             ControlsToConfig();
 
             if (commApp.SaveConfig(out string errMsg))
+            {
+                Text = string.Format(ExtensionPhrases.LineConfigTitle, lineConfig.CommLineNum);
                 ChildFormTag.Modified = false;
+            }
             else
+            {
                 adminContext.ErrLog.HandleError(errMsg);
+            }
         }
 
 
         private void FrmLineOptions_Load(object sender, EventArgs e)
         {
             FormTranslator.Translate(this, GetType().FullName);
+            FormTranslator.Translate(ctrlLineMain, ctrlLineMain.GetType().FullName);
+            FormTranslator.Translate(ctrlLineCustom, ctrlLineCustom.GetType().FullName);
+            FormTranslator.Translate(ctrlLinePolling, ctrlLinePolling.GetType().FullName);
+            Text = string.Format(ExtensionPhrases.LineConfigTitle, lineConfig.CommLineNum);
+
             ctrlLineMain.ConfigToControls(lineConfig);
             ctrlLinePolling.Init(adminContext, commApp, lineConfig);
             lbTabs.SelectedIndex = 0;

@@ -457,6 +457,7 @@
             // colPollOnCmd
             // 
             this.colPollOnCmd.Text = "Poll on Command";
+            this.colPollOnCmd.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             // 
             // colIsBound
             // 

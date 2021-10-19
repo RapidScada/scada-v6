@@ -7,7 +7,7 @@
     <Phrase key="LinesNode">Communication Lines</Phrase>
     <Phrase key="LineOptionsNode">Line Options</Phrase>
   </Dictionary>
-  <Dictionary key="Scada.Admin.Extensions.ExtCommConfig.Controls.CtrlLinePolling.CtrlLinePolling">
+  <Dictionary key="Scada.Admin.Extensions.ExtCommConfig.Controls.CtrlLinePolling">
     <Phrase key="DeviceNotSupported">The driver does not support creating devices.</Phrase>
     <Phrase key="UnableCreateDeviceView">Unable to create device user interface.</Phrase>
     <Phrase key="NoDeviceProperties">The device does not provide a properties window.</Phrase>
@@ -53,5 +53,8 @@
     <Phrase key="lblEnableCommands">Enable telecontrol commands</Phrase>
     <Phrase key="lblEnableFileCommands">Read telecontrol commands from files</Phrase>
     <Phrase key="lblMaxLogSize">Maximum log file size, MB</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Admin.Extensions.ExtCommConfig.Forms.FrmLineConfig">
+    <Phrase key="LineConfigTitle">Line {0} Options</Phrase>
   </Dictionary>
 </ExtCommConfigDictionaries>

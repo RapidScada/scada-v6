@@ -7,7 +7,7 @@
     <Phrase key="LinesNode">Линии связи</Phrase>
     <Phrase key="LineOptionsNode">Параметры линии</Phrase>
   </Dictionary>
-  <Dictionary key="Scada.Admin.Extensions.ExtCommConfig.Controls.CtrlLinePolling.CtrlLinePolling">
+  <Dictionary key="Scada.Admin.Extensions.ExtCommConfig.Controls.CtrlLinePolling">
     <Phrase key="DeviceNotSupported">Драйвер не поддерживает создание КП.</Phrase>
     <Phrase key="UnableCreateDeviceView">Невозможно создать пользовательский интерфейс КП.</Phrase>
     <Phrase key="NoDeviceProperties">КП не предоставляет окно свойств.</Phrase>
@@ -53,5 +53,8 @@
     <Phrase key="lblEnableCommands">Разрешить команды телеуправления</Phrase>
     <Phrase key="lblEnableFileCommands">Считывать команды телеуправления из файлов</Phrase>
     <Phrase key="lblMaxLogSize">Максимальный размер файла журнала, МБ</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Admin.Extensions.ExtCommConfig.Forms.FrmLineConfig">
+    <Phrase key="LineConfigTitle">Параметры линии {0}</Phrase>
   </Dictionary>
 </ExtCommConfigDictionaries>
