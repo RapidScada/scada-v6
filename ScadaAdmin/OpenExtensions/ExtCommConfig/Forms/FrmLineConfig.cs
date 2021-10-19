@@ -20,6 +20,7 @@ namespace Scada.Admin.Extensions.ExtCommConfig.Forms
         private readonly IAdminContext adminContext; // the Administrator context
         private readonly CommApp commApp;            // the Communicator application in a project
         private readonly LineConfig lineConfig;      // the communication line configuration
+        private bool mainOptionsReady;               // the main options control is displaying actual options
         private bool customOptionsReady;             // the custom options control is displaying actual options
         private bool devicePollingReady;             // the device polling control is displaying actual options
 
@@ -43,6 +44,7 @@ namespace Scada.Admin.Extensions.ExtCommConfig.Forms
             this.adminContext = adminContext ?? throw new ArgumentNullException(nameof(adminContext));
             this.commApp = commApp ?? throw new ArgumentNullException(nameof(commApp));
             this.lineConfig = lineConfig ?? throw new ArgumentNullException(nameof(lineConfig));
+            mainOptionsReady = false;
             customOptionsReady = false;
             devicePollingReady = false;
         }
@@ -59,7 +61,8 @@ namespace Scada.Admin.Extensions.ExtCommConfig.Forms
         /// </summary>
         private void ControlsToConfig()
         {
-            ctrlLineMain.ControlsToConfig(lineConfig);
+            if (mainOptionsReady)
+                ctrlLineMain.ControlsToConfig(lineConfig);
 
             if (customOptionsReady)
                 ctrlLineCustom.ControlsToOptions(lineConfig.CustomOptions);
@@ -92,7 +95,7 @@ namespace Scada.Admin.Extensions.ExtCommConfig.Forms
             FormTranslator.Translate(this, GetType().FullName);
             Text = string.Format(ExtensionPhrases.LineConfigTitle, lineConfig.CommLineNum);
 
-            ctrlLineMain.ConfigToControls(lineConfig);
+            ctrlLineMain.Init(adminContext, commApp);
             ctrlLinePolling.Init(adminContext, commApp, lineConfig);
             lbTabs.SelectedIndex = 0;
         }
@@ -109,13 +112,19 @@ namespace Scada.Admin.Extensions.ExtCommConfig.Forms
             ctrlLineCustom.Visible = tabIndex == 1;
             ctrlLinePolling.Visible = tabIndex == 2;
 
-            if (ctrlLineCustom.Visible)
+            if (ctrlLineMain.Visible && !mainOptionsReady)
+            {
+                ctrlLineMain.ConfigToControls(lineConfig);
+                mainOptionsReady = true;
+            }
+
+            if (ctrlLineCustom.Visible && !customOptionsReady)
             {
                 ctrlLineCustom.OptionsToControls(lineConfig.CustomOptions);
                 customOptionsReady = true;
             }
 
-            if (ctrlLinePolling.Visible)
+            if (ctrlLinePolling.Visible && !devicePollingReady)
             {
                 ctrlLinePolling.ConfigToControls(lineConfig.DevicePolling);
                 devicePollingReady = true;

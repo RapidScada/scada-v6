@@ -306,14 +306,17 @@ namespace Scada.Admin.Extensions.ExtCommConfig.Controls
             this.btnChannelProperties.TabIndex = 2;
             this.btnChannelProperties.Text = "Properties";
             this.btnChannelProperties.UseVisualStyleBackColor = true;
+            this.btnChannelProperties.Click += new System.EventHandler(this.btnChannelProperties_Click);
             // 
             // cbChannelType
             // 
+            this.cbChannelType.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.cbChannelType.FormattingEnabled = true;
             this.cbChannelType.Location = new System.Drawing.Point(13, 37);
             this.cbChannelType.Name = "cbChannelType";
             this.cbChannelType.Size = new System.Drawing.Size(393, 23);
             this.cbChannelType.TabIndex = 1;
+            this.cbChannelType.SelectedIndexChanged += new System.EventHandler(this.cbChannelType_SelectedIndexChanged);
             // 
             // lblChannelType
             // 

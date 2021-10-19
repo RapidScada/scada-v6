@@ -66,6 +66,20 @@ namespace Scada.Config
         }
 
         /// <summary>
+        /// Copies the options from the current list to the specified list.
+        /// </summary>
+        public void CopyTo(OptionList list)
+        {
+            if (list == null)
+                throw new ArgumentNullException(nameof(list));
+
+            foreach (KeyValuePair<string, string> pair in this)
+            {
+                list[pair.Key] = pair.Value;
+            }
+        }
+
+        /// <summary>
         /// Returns a string that represents the current object.
         /// </summary>
         public override string ToString()

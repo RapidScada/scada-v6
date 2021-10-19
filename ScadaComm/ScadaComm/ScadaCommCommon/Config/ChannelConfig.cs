@@ -33,6 +33,7 @@ namespace Scada.Comm.Config
     /// Represents a communication channel configuration.
     /// <para>Представляет конфигурацию канала связи.</para>
     /// </summary>
+    [Serializable]
     public class ChannelConfig
     {
         /// <summary>

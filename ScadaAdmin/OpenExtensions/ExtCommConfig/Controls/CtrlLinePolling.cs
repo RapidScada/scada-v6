@@ -61,6 +61,9 @@ namespace Scada.Admin.Extensions.ExtCommConfig.Controls
 
             if (commApp == null)
                 throw new InvalidOperationException("Communicator application must not be null.");
+
+            if (lineConfig == null)
+                throw new InvalidOperationException("Communication line configuration must not be null.");
         }
 
         /// <summary>

@@ -18,6 +18,12 @@ namespace Scada.Admin.Extensions.ExtCommConfig.Code
         public static string LinesNode { get; private set; }
         public static string LineOptionsNode { get; private set; }
 
+        // Scada.Admin.Extensions.ExtCommConfig.Controls.CtrlLineMain
+        public static string UndefinedChannelType { get; private set; }
+        public static string ChannelNotSupported { get; private set; }
+        public static string UnableCreateChannelView { get; private set; }
+        public static string NoChannelProperties { get; private set; }
+
         // Scada.Admin.Extensions.ExtCommConfig.Controls.CtrlLinePolling
         public static string DeviceNotSupported { get; private set; }
         public static string UnableCreateDeviceView { get; private set; }
@@ -40,6 +46,12 @@ namespace Scada.Admin.Extensions.ExtCommConfig.Code
             DataSourcesNode = dict["DataSourcesNode"];
             LinesNode = dict["LinesNode"];
             LineOptionsNode = dict["LineOptionsNode"];
+
+            dict = Locale.GetDictionary("Scada.Admin.Extensions.ExtCommConfig.Controls.CtrlLineMain");
+            UndefinedChannelType = dict["UndefinedChannelType"];
+            ChannelNotSupported = dict["ChannelNotSupported"];
+            UnableCreateChannelView = dict["UnableCreateChannelView"];
+            NoChannelProperties = dict["NoChannelProperties"];
 
             dict = Locale.GetDictionary("Scada.Admin.Extensions.ExtCommConfig.Controls.CtrlLinePolling");
             DeviceNotSupported = dict["DeviceNotSupported"];

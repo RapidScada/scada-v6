@@ -23,6 +23,10 @@
     <Phrase key="lblChannelType">Type</Phrase>
     <Phrase key="btnChannelProperties">Properties</Phrase>
     <Phrase key="lblChannelOptions">Options</Phrase>
+    <Phrase key="UndefinedChannelType">Undefined</Phrase>
+    <Phrase key="ChannelNotSupported">The driver does not support creating communication channels.</Phrase>
+    <Phrase key="UnableCreateChannelView">Unable to create communication channel user interface.</Phrase>
+    <Phrase key="NoChannelProperties">The communication channel does not provide a properties window.</Phrase>
   </Dictionary>
   <Dictionary key="Scada.Admin.Extensions.ExtCommConfig.Controls.CtrlLineCustom">
     <Phrase key="btnAddOption">Add</Phrase>

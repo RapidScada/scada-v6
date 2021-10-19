@@ -23,6 +23,10 @@
     <Phrase key="lblChannelType">Тип</Phrase>
     <Phrase key="btnChannelProperties">Свойства</Phrase>
     <Phrase key="lblChannelOptions">Параметры</Phrase>
+    <Phrase key="UndefinedChannelType">Не задан</Phrase>
+    <Phrase key="ChannelNotSupported">Драйвер не поддерживает создание каналов связи.</Phrase>
+    <Phrase key="UnableCreateChannelView">Невозможно создать пользовательский интерфейс канала связи.</Phrase>
+    <Phrase key="NoChannelProperties">Канал связи не предоставляет окно свойств.</Phrase>
   </Dictionary>
   <Dictionary key="Scada.Admin.Extensions.ExtCommConfig.Controls.CtrlLineCustom">
     <Phrase key="btnAddOption">Добавить</Phrase>
