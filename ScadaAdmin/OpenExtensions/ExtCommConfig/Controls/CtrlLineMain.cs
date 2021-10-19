@@ -25,10 +25,10 @@ namespace Scada.Admin.Extensions.ExtCommConfig.Controls
         /// </summary>
         private class ChannelTypeItem
         {
-            public bool IsEmpty => string.IsNullOrEmpty(Driver);
             public string TypeCode { get; set; }
             public string TypeName { get; set; }
             public string Driver { get; set; }
+            public bool IsEmpty => string.IsNullOrEmpty(Driver);
             public override string ToString() => TypeName;
         }
 
