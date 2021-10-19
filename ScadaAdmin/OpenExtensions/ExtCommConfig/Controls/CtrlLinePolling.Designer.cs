@@ -487,7 +487,7 @@
             // colStrAddress
             // 
             this.colStrAddress.Text = "String Address";
-            this.colStrAddress.Width = 100;
+            this.colStrAddress.Width = 150;
             // 
             // colTimeout
             // 
