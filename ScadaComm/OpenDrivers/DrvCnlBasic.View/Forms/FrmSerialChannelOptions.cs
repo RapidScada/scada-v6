@@ -60,8 +60,13 @@ namespace Scada.Comm.Drivers.DrvCnlBasic.View.Forms
         private void ControlsToOptions()
         {
             options.PortName = cbPortName.Text;
-            options.BaudRate = int.Parse(cbBaudRate.Text);
-            options.DataBits = int.Parse(cbDataBits.Text);
+
+            if (int.TryParse(cbBaudRate.Text, out int baudRate))
+                options.BaudRate = baudRate;
+
+            if (int.TryParse(cbDataBits.Text, out int dataBits))
+                options.DataBits = dataBits;
+
             options.Parity = (Parity)cbParity.SelectedIndex;
             options.StopBits = (StopBits)(cbStopBits.SelectedIndex + 1);
             options.DtrEnable = chkDtrEnable.Checked;
