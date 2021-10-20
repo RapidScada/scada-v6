@@ -80,13 +80,7 @@ namespace Scada.Server.Modules.ModArcBasic.View
         /// </summary>
         public override ArchiveView CreateArchiveView(ArchiveConfig archiveConfig)
         {
-            return archiveConfig.Kind switch
-            {
-                ArchiveKind.Current => new BasicCAV(this, archiveConfig),
-                ArchiveKind.Historical => new BasicHAV(this, archiveConfig),
-                ArchiveKind.Events => new BasicEAV(this, archiveConfig),
-                _ => null
-            };
+            return new BasicArchiveView(this, archiveConfig);
         }
     }
 }

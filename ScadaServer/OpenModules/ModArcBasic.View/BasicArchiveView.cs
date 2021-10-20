@@ -9,15 +9,15 @@ using System.Windows.Forms;
 namespace Scada.Server.Modules.ModArcBasic.View
 {
     /// <summary>
-    /// Implements the event data archive user interface.
-    /// <para>Реализует пользовательский интерфейс архива событий.</para>
+    /// Implements the archive user interface.
+    /// <para>Реализует пользовательский интерфейс архива.</para>
     /// </summary>
-    internal class BasicEAV : ArchiveView
+    internal class BasicArchiveView : ArchiveView
     {
         /// <summary>
         /// Initializes a new instance of the class.
         /// </summary>
-        public BasicEAV(ModuleView parentView, ArchiveConfig archiveConfig)
+        public BasicArchiveView(ModuleView parentView, ArchiveConfig archiveConfig)
             : base(parentView, archiveConfig)
         {
             CanShowProperties = true;
@@ -28,7 +28,15 @@ namespace Scada.Server.Modules.ModArcBasic.View
         /// </summary>
         public override bool ShowProperties()
         {
-            return new FrmBasicEAO(AppDirs, ArchiveConfig).ShowDialog() == DialogResult.OK;
+            Form form = ArchiveConfig.Kind switch
+            {
+                ArchiveKind.Current => new FrmBasicCAO(AppDirs, ArchiveConfig),
+                ArchiveKind.Historical => new FrmBasicHAO(AppDirs, ArchiveConfig),
+                ArchiveKind.Events => new FrmBasicEAO(AppDirs, ArchiveConfig),
+                _ => null
+            };
+
+            return form != null && form.ShowDialog() == DialogResult.OK;
         }
     }
 }
