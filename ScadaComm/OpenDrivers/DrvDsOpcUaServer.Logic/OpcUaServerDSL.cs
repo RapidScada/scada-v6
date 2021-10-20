@@ -80,6 +80,7 @@ namespace Scada.Comm.Drivers.DrvDsOpcUaServer.Logic
             };
 
             // load the application configuration
+            // TODO: use stream instead of file after updating OPCFoundation.NetStandard.Opc.Ua
             PrepareConfigFile(out string configFileName);
             ApplicationConfiguration opcConfig = await opcApp.LoadApplicationConfiguration(configFileName, false);
 
