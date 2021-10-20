@@ -61,7 +61,7 @@ namespace Scada.Comm.Drivers.DrvCnlBasic.Logic
         /// </summary>
         public override ChannelLogic CreateChannel(ILineContext lineContext, ChannelConfig channelConfig)
         {
-            switch (channelConfig.TypeName)
+            switch (channelConfig.TypeCode)
             {
                 case ChannelTypeName.Serial:
                     return new SerialChannelLogic(lineContext, channelConfig);
