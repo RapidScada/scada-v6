@@ -19,7 +19,7 @@ namespace Scada.Comm.Drivers.DrvCnlBasic.Logic
     /// Implements TCP server channel logic.
     /// <para>Реализует логику канала TCP-сервер.</para>
     /// </summary>
-    public class TcpServerChannel : ChannelLogic
+    public class TcpServerChannelLogic : ChannelLogic
     {
         /// <summary>
         /// The maximum length of the identification packet.
@@ -41,7 +41,7 @@ namespace Scada.Comm.Drivers.DrvCnlBasic.Logic
         /// <summary>
         /// Initializes a new instance of the class.
         /// </summary>
-        public TcpServerChannel(ILineContext lineContext, ChannelConfig channelConfig)
+        public TcpServerChannelLogic(ILineContext lineContext, ChannelConfig channelConfig)
             : base(lineContext, channelConfig)
         {
             options = new TcpServerChannelOptions(channelConfig.CustomOptions);

@@ -4,10 +4,10 @@
 namespace Scada.Comm.Drivers.DrvCnlBasic.Logic
 {
     /// <summary>
-    /// Specifies the names of the channel types supported by the driver.
-    /// <para>Задает имена типов каналов, поддерживаемые драйвером.</para>
+    /// Specifies the codes of the channel types supported by the driver.
+    /// <para>Задает коды типов каналов, поддерживаемые драйвером.</para>
     /// </summary>
-    internal static class ChannelTypeName
+    internal static class ChannelTypeCode
     {
         public const string Serial = "Serial";
         public const string TcpClient = "TcpClient";

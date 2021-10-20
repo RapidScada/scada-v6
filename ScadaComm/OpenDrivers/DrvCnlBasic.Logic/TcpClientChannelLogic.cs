@@ -16,7 +16,7 @@ namespace Scada.Comm.Drivers.DrvCnlBasic.Logic
     /// Implements TCP client channel logic.
     /// <para>Реализует логику канала TCP-клиент.</para>
     /// </summary>
-    public class TcpClientChannel : ChannelLogic
+    public class TcpClientChannelLogic : ChannelLogic
     {
         protected readonly TcpClientChannelOptions options; // the channel options
 
@@ -30,7 +30,7 @@ namespace Scada.Comm.Drivers.DrvCnlBasic.Logic
         /// <summary>
         /// Initializes a new instance of the class.
         /// </summary>
-        public TcpClientChannel(ILineContext lineContext, ChannelConfig channelConfig)
+        public TcpClientChannelLogic(ILineContext lineContext, ChannelConfig channelConfig)
             : base(lineContext, channelConfig)
         {
             options = new TcpClientChannelOptions(channelConfig.CustomOptions);
