@@ -9,8 +9,8 @@ using System.Windows.Forms;
 namespace Scada.Comm.Drivers.DrvCnlBasic.View
 {
     /// <summary>
-    /// Implements user interface of a basic communication channel.
-    /// <para>Реализует пользовательский интерфейс основого канала связи.</para>
+    /// Implements the communication channel user interface.
+    /// <para>Реализует пользовательский интерфейс канала связи.</para>
     /// </summary>
     internal class BasicChannelView : ChannelView
     {
