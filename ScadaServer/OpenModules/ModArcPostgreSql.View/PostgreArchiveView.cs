@@ -9,15 +9,15 @@ using System.Windows.Forms;
 namespace Scada.Server.Modules.ModArcPostgreSql.View
 {
     /// <summary>
-    /// Implements the event data archive user interface.
-    /// <para>Реализует пользовательский интерфейс архива событий.</para>
+    /// Implements the archive user interface.
+    /// <para>Реализует пользовательский интерфейс архива.</para>
     /// </summary>
-    internal class PostgreEAV : ArchiveView
+    internal class PostgreArchiveView : ArchiveView
     {
         /// <summary>
         /// Initializes a new instance of the class.
         /// </summary>
-        public PostgreEAV(ModuleView parentView, ArchiveConfig archiveConfig)
+        public PostgreArchiveView(ModuleView parentView, ArchiveConfig archiveConfig)
             : base(parentView, archiveConfig)
         {
             CanShowProperties = true;
@@ -28,7 +28,15 @@ namespace Scada.Server.Modules.ModArcPostgreSql.View
         /// </summary>
         public override bool ShowProperties()
         {
-            return new FrmPostgreEAO(AppDirs, ArchiveConfig).ShowDialog() == DialogResult.OK;
+            Form form = ArchiveConfig.Kind switch
+            {
+                ArchiveKind.Current => new FrmPostgreCAO(AppDirs, ArchiveConfig),
+                ArchiveKind.Historical => new FrmPostgreHAO(AppDirs, ArchiveConfig),
+                ArchiveKind.Events => new FrmPostgreEAO(AppDirs, ArchiveConfig),
+                _ => null
+            };
+
+            return form != null && form.ShowDialog() == DialogResult.OK;
         }
     }
 }

@@ -80,13 +80,7 @@ namespace Scada.Server.Modules.ModArcPostgreSql.View
         /// </summary>
         public override ArchiveView CreateArchiveView(ArchiveConfig archiveConfig)
         {
-            return archiveConfig.Kind switch
-            {
-                ArchiveKind.Current => new PostgreCAV(this, archiveConfig),
-                ArchiveKind.Historical => new PostgreHAV(this, archiveConfig),
-                ArchiveKind.Events => new PostgreEAV(this, archiveConfig),
-                _ => null
-            };
+            return new PostgreArchiveView(this, archiveConfig);
         }
     }
 }
