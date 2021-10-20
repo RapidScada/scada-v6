@@ -1,0 +1,25 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<DrvCnlBasicDictionaries>
+  <Dictionary key="Scada.Comm.Drivers.DrvCnlBasic.View.Forms.FrmSerialChannelOptions">
+    <Phrase key="this">Serial Port Options</Phrase>
+    <Phrase key="gbPort">Serial Port</Phrase>
+    <Phrase key="lblPortName">Port name</Phrase>
+    <Phrase key="lblBaudRate">Baud rate</Phrase>
+    <Phrase key="lblDataBits">Data bits</Phrase>
+    <Phrase key="lblParity">Parity</Phrase>
+    <Phrase key="cbParity.Item[0]">None</Phrase>
+    <Phrase key="cbParity.Item[1]">Odd</Phrase>
+    <Phrase key="cbParity.Item[2]">Even</Phrase>
+    <Phrase key="cbParity.Item[3]">Mark</Phrase>
+    <Phrase key="cbParity.Item[4]">Space</Phrase>
+    <Phrase key="lblStopBits">Stop bits</Phrase>
+    <Phrase key="lblDtrEnable">DTR</Phrase>
+    <Phrase key="lblRtsEnable">RTS</Phrase>
+    <Phrase key="gbMode">Operating Mode</Phrase>
+    <Phrase key="lblBehavior">Behavior</Phrase>
+    <Phrase key="cbBehavior.Item[0]">Master</Phrase>
+    <Phrase key="cbBehavior.Item[1]">Slave</Phrase>
+    <Phrase key="btnOK">OK</Phrase>
+    <Phrase key="btnCancel">Cancel</Phrase>
+  </Dictionary>
+</DrvCnlBasicDictionaries>

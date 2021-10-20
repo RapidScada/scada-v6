@@ -1,0 +1,25 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<DrvCnlBasicDictionaries>
+  <Dictionary key="Scada.Comm.Drivers.DrvCnlBasic.View.Forms.FrmSerialChannelOptions">
+    <Phrase key="this">Параметры последовательного порта</Phrase>
+    <Phrase key="gbPort">Последовательный порт</Phrase>
+    <Phrase key="lblPortName">Имя порта</Phrase>
+    <Phrase key="lblBaudRate">Скорость</Phrase>
+    <Phrase key="lblDataBits">Биты данных</Phrase>
+    <Phrase key="lblParity">Чётность</Phrase>
+    <Phrase key="cbParity.Item[0]">Нет</Phrase>
+    <Phrase key="cbParity.Item[1]">Нечёт</Phrase>
+    <Phrase key="cbParity.Item[2]">Чёт</Phrase>
+    <Phrase key="cbParity.Item[3]">Маркер (1)</Phrase>
+    <Phrase key="cbParity.Item[4]">Пробел (0)</Phrase>
+    <Phrase key="lblStopBits">Стоп. биты</Phrase>
+    <Phrase key="lblDtrEnable">DTR</Phrase>
+    <Phrase key="lblRtsEnable">RTS</Phrase>
+    <Phrase key="gbMode">Режим работы</Phrase>
+    <Phrase key="lblBehavior">Поведение</Phrase>
+    <Phrase key="cbBehavior.Item[0]">Master</Phrase>
+    <Phrase key="cbBehavior.Item[1]">Slave</Phrase>
+    <Phrase key="btnOK">OK</Phrase>
+    <Phrase key="btnCancel">Отмена</Phrase>
+  </Dictionary>
+</DrvCnlBasicDictionaries>

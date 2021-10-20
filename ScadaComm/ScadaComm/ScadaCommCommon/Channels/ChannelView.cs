@@ -20,12 +20,12 @@
  * 
  * Author   : Mikhail Shiryaev
  * Created  : 2020
- * Modified : 2020
+ * Modified : 2021
  */
 
+using Scada.Comm.Config;
+using Scada.Comm.Drivers;
 using System;
-using System.Collections.Generic;
-using System.Text;
 
 namespace Scada.Comm.Channels
 {
@@ -35,5 +35,26 @@ namespace Scada.Comm.Channels
     /// </summary>
     public abstract class ChannelView : LibraryView
     {
+        /// <summary>
+        /// Initializes a new instance of the class.
+        /// </summary>
+        public ChannelView(DriverView parentView, ChannelConfig channelConfig)
+            : base(parentView)
+        {
+            AppConfig = parentView.AppConfig;
+            ChannelConfig = channelConfig ?? throw new ArgumentNullException(nameof(channelConfig));
+        }
+
+
+        /// <summary>
+        /// Gets the application configuration.
+        /// </summary>
+        /// <remarks>Do not modify the configuration.</remarks>
+        public CommConfig AppConfig { get; }
+
+        /// <summary>
+        /// Gets the communication channel configuration.
+        /// </summary>
+        public ChannelConfig ChannelConfig { get; }
     }
 }

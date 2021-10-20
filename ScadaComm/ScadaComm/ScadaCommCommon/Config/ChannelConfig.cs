@@ -86,7 +86,9 @@ namespace Scada.Comm.Config
 
             xmlElem.SetAttribute("type", TypeCode);
             xmlElem.SetAttribute("driver", Driver);
-            CustomOptions.SaveToXml(xmlElem);
+
+            if (!string.IsNullOrEmpty(Driver))
+                CustomOptions.SaveToXml(xmlElem);
         }
     }
 }

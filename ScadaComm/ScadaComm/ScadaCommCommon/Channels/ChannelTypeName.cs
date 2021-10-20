@@ -32,6 +32,16 @@ namespace Scada.Comm.Channels
     public struct ChannelTypeName
     {
         /// <summary>
+        /// Initializes a new instance of the structure.
+        /// </summary>
+        public ChannelTypeName(string code, string name)
+        {
+            Code = code;
+            Name = name;
+        }
+
+
+        /// <summary>
         /// Gets or sets the channel type code.
         /// </summary>
         public string Code { get; set; }
