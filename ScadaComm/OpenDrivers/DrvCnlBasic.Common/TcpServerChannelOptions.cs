@@ -1,10 +1,10 @@
-﻿using Scada.Comm.Channels;
-using Scada.Config;
-using System;
-using System.Collections.Generic;
-using System.Text;
+﻿// Copyright (c) Rapid Software LLC. All rights reserved.
+// Licensed under the Apache License, Version 2.0. See License.txt in the project root for license information.
 
-namespace Scada.Comm.Drivers.DrvCnlBasic.Logic.Options
+using Scada.Comm.Channels;
+using Scada.Config;
+
+namespace Scada.Comm.Drivers.DrvCnlBasic
 {
     /// <summary>
     /// Represents TCP server channel options.
