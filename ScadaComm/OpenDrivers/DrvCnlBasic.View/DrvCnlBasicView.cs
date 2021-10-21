@@ -94,7 +94,7 @@ namespace Scada.Comm.Drivers.DrvCnlBasic.View
             if (!Locale.LoadDictionaries(AppDirs.LangDir, DriverUtils.DriverCode, out string errMsg))
                 ScadaUiUtils.ShowError(errMsg);
 
-            //DriverPhrases.Init();
+            DriverPhrases.Init();
         }
 
         /// <summary>

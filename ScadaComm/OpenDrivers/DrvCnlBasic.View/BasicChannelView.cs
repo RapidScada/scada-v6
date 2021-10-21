@@ -4,6 +4,7 @@
 using Scada.Comm.Channels;
 using Scada.Comm.Config;
 using Scada.Comm.Drivers.DrvCnlBasic.View.Forms;
+using Scada.Forms;
 using System.Windows.Forms;
 
 namespace Scada.Comm.Drivers.DrvCnlBasic.View
@@ -31,13 +32,21 @@ namespace Scada.Comm.Drivers.DrvCnlBasic.View
             Form form = ChannelConfig.TypeCode switch
             {
                 ChannelTypeCode.SerialPort => new FrmSerialPortChannelOptions(ChannelConfig),
-                ChannelTypeCode.TcpClient => new FrmSerialPortChannelOptions(ChannelConfig),
+                ChannelTypeCode.TcpClient => new FrmTcpClientChannelOptions(ChannelConfig),
                 ChannelTypeCode.TcpServer => new FrmSerialPortChannelOptions(ChannelConfig),
                 ChannelTypeCode.Udp => new FrmSerialPortChannelOptions(ChannelConfig),
                 _ => null
             };
 
-            return form != null && form.ShowDialog() == DialogResult.OK;
+            if (form == null)
+            {
+                ScadaUiUtils.ShowError(DriverPhrases.ChannelTypeNotFound);
+                return false;
+            }
+            else
+            {
+                return form.ShowDialog() == DialogResult.OK;
+            }
         }
     }
 }

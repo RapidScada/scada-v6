@@ -1,5 +1,8 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <DrvCnlBasicDictionaries>
+  <Dictionary key="Scada.Comm.Drivers.DrvCnlBasic.View.BasicChannelView">
+    <Phrase key="ChannelTypeNotFound">Тип канала связи не найден.</Phrase>
+  </Dictionary>
   <Dictionary key="Scada.Comm.Drivers.DrvCnlBasic.View.Forms.FrmSerialPortChannelOptions">
     <Phrase key="this">Параметры последовательного порта</Phrase>
     <Phrase key="gbPort">Последовательный порт</Phrase>
@@ -21,5 +24,27 @@
     <Phrase key="cbBehavior.Items[1]">Slave</Phrase>
     <Phrase key="btnOK">OK</Phrase>
     <Phrase key="btnCancel">Отмена</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Comm.Drivers.DrvCnlBasic.View.Forms.FrmTcpClientChannelOptions">
+    <Phrase key="this">Параметры TCP-клиента</Phrase>
+    <Phrase key="gbMode">Режим работы</Phrase>
+    <Phrase key="lblBehavior">Поведение</Phrase>
+    <Phrase key="pbBehaviorHint.ToolTip">Master - Коммуникатор отправляет запрос устройству и получает ответ.&#13;&#10;Slave - Коммуникатор пассивно ожидает данные от устройства.</Phrase>
+    <Phrase key="lblConnectionMode">Режим соединения</Phrase>
+    <Phrase key="cbConnectionMode.Items[0]">Индивидуальное</Phrase>
+    <Phrase key="cbConnectionMode.Items[1]">Общее</Phrase>
+    <Phrase key="pbConnectionModeHint.ToolTip">Индивидуальное - Коммуникатор устанавливает отдельное TCP-соединение с каждым устройством.&#13;&#10;Общее - Коммуникатор устанавливает одно общее соединение для всех устройств на линии связи,&#13;&#10;используя указанный удалённый IP-адрес. &#13;&#10;Общее соединение используется, например, если устройства подключены через шлюз Ethernet - Serial.</Phrase>
+    <Phrase key="gbConnection">Соединение</Phrase>
+    <Phrase key="lblHost">Удалённый хост</Phrase>
+    <Phrase key="pbHostHint.ToolTip">Удалённое DNS-имя или IP-адрес при использовании общего соединения.</Phrase>
+    <Phrase key="lblTcpPort">Удалённый TCP-порт</Phrase>
+    <Phrase key="pbTcpPortHint.ToolTip">В режиме индивидуального соединения используется как TCP-порт по умолчанию, если не указан порт для КП.&#13;&#10;В режиме общего соединения параметр  обязателен.&#13;&#10;Порт 502 используется Modbus TCP по умолчанию.</Phrase>
+    <Phrase key="lblReconnectAfter">Переподключение, с</Phrase>
+    <Phrase key="pbReconnectAfterHint.ToolTip">Задаёт интервал времени для повторного подключения после неудачной попытки.</Phrase>
+    <Phrase key="lblStayConnected">Оставаться на связи</Phrase>
+    <Phrase key="pbStayConnectedHint.ToolTip">Если параметр установлен, то соединение между сеансами связи сохраняется.&#13;&#10;В противном случае соединение разрывается после каждого сеанса.</Phrase>
+    <Phrase key="btnOK">OK</Phrase>
+    <Phrase key="btnCancel">Отмена</Phrase>
+    <Phrase key="HostRequired">Требуется имя удалённого хоста.</Phrase>
   </Dictionary>
 </DrvCnlBasicDictionaries>

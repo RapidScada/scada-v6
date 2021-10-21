@@ -1,5 +1,8 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <DrvCnlBasicDictionaries>
+  <Dictionary key="Scada.Comm.Drivers.DrvCnlBasic.View.BasicChannelView">
+    <Phrase key="ChannelTypeNotFound">Communication channel type not found.</Phrase>
+  </Dictionary>
   <Dictionary key="Scada.Comm.Drivers.DrvCnlBasic.View.Forms.FrmSerialPortChannelOptions">
     <Phrase key="this">Serial Port Options</Phrase>
     <Phrase key="gbPort">Serial Port</Phrase>
@@ -21,5 +24,27 @@
     <Phrase key="cbBehavior.Items[1]">Slave</Phrase>
     <Phrase key="btnOK">OK</Phrase>
     <Phrase key="btnCancel">Cancel</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Comm.Drivers.DrvCnlBasic.View.Forms.FrmTcpClientChannelOptions">
+    <Phrase key="this">TCP Client Options</Phrase>
+    <Phrase key="gbMode">Operating Mode</Phrase>
+    <Phrase key="lblBehavior">Behavior</Phrase>
+    <Phrase key="pbBehaviorHint.ToolTip">Master - Communicator sends request to a device and receives answer.&#13;&#10;Slave - Communicator passively waits for data from a device.</Phrase>
+    <Phrase key="lblConnectionMode">Connection mode</Phrase>
+    <Phrase key="cbConnectionMode.Items[0]">Individual</Phrase>
+    <Phrase key="cbConnectionMode.Items[1]">Shared</Phrase>
+    <Phrase key="pbConnectionModeHint.ToolTip">Individual - Communicator establishes an individual TCP connection with each device.&#13;&#10;Shared - Communicator establishes a single shared connection for all devices of the communication line&#13;&#10;using specified remote IP address.&#13;&#10;Shared connection is used, for example, if the devices are connected via an Ethernet - Serial gateway.</Phrase>
+    <Phrase key="gbConnection">Connection</Phrase>
+    <Phrase key="lblHost">Remote host</Phrase>
+    <Phrase key="pbHostHint.ToolTip">Remote DNS name or IP address in case of using shared connection.</Phrase>
+    <Phrase key="lblTcpPort">Remote TCP port</Phrase>
+    <Phrase key="pbTcpPortHint.ToolTip">In individual connection mode it is used as a default TCP port if no port is specified for a device.&#13;&#10;In shared connection mode the parameter is required.&#13;&#10;The 502 port is the default Modbus TCP port.</Phrase>
+    <Phrase key="lblReconnectAfter">Reconnect, sec</Phrase>
+    <Phrase key="pbReconnectAfterHint.ToolTip">Specifies time interval to reconnect after an unsuccessful attempt.</Phrase>
+    <Phrase key="lblStayConnected">Stay connected</Phrase>
+    <Phrase key="pbStayConnectedHint.ToolTip">If set, the connection is active between communication sessions.&#13;&#10;Otherwise, the connection is terminated after each session.</Phrase>
+    <Phrase key="btnOK">OK</Phrase>
+    <Phrase key="btnCancel">Cancel</Phrase>
+    <Phrase key="HostRequired">Remote host is required.</Phrase>
   </Dictionary>
 </DrvCnlBasicDictionaries>

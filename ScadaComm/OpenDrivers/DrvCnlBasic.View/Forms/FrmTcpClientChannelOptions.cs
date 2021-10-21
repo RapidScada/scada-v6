@@ -1,9 +1,10 @@
 ﻿// Copyright (c) Rapid Software LLC. All rights reserved.
 // Licensed under the Apache License, Version 2.0. See License.txt in the project root for license information.
 
+using Scada.Comm.Channels;
 using Scada.Comm.Config;
+using Scada.Forms;
 using System;
-using System.Collections.Generic;
 using System.Windows.Forms;
 
 namespace Scada.Comm.Drivers.DrvCnlBasic.View.Forms
@@ -36,72 +37,68 @@ namespace Scada.Comm.Drivers.DrvCnlBasic.View.Forms
         }
 
 
+        /// <summary>
+        /// Sets the controls according to the options.
+        /// </summary>
+        private void OptionsToControls()
+        {
+            cbBehavior.SelectedIndex = (int)options.Behavior;
+            cbConnectionMode.SelectedIndex = (int)options.ConnectionMode;
+            txtHost.Text = options.Host;
+            numTcpPort.SetValue(options.TcpPort);
+            numReconnectAfter.SetValue(options.ReconnectAfter);
+            chkStayConnected.Checked = options.StayConnected;
+        }
+
+        /// <summary>
+        /// Sets the options according to the controls.
+        /// </summary>
+        private void ControlsToOptions()
+        {
+            options.Behavior = (ChannelBehavior)cbBehavior.SelectedIndex;
+            options.ConnectionMode = (ConnectionMode)cbConnectionMode.SelectedIndex;
+            options.Host = txtHost.Text;
+            options.TcpPort = Convert.ToInt32(numTcpPort.Value);
+            options.ReconnectAfter = Convert.ToInt32(numReconnectAfter.Value);
+            options.StayConnected = chkStayConnected.Checked;
+
+            options.AddToOptionList(channelConfig.CustomOptions);
+        }
+
+        /// <summary>
+        /// Validates the form controls.
+        /// </summary>
+        private bool ValidateControls()
+        {
+            if ((ConnectionMode)cbConnectionMode.SelectedIndex == ConnectionMode.Shared &&
+                string.IsNullOrWhiteSpace(txtHost.Text))
+            {
+                ScadaUiUtils.ShowError(DriverPhrases.HostRequired);
+                return false;
+            }
+
+            return true;
+        }
+
+
         private void FrmCommTcpClientProps_Load(object sender, EventArgs e)
         {
-            /*
-            // перевод формы
-            Translator.TranslateForm(this, "Scada.Comm.Channels.FrmCommTcpClientProps", toolTip);
-
-            // инициализация настроек канала связи
-            settings = new CommTcpClientLogic.Settings();
-            settings.Init(commCnlParams, false);
-
-            // установка элементов управления в соответствии с параметрами канала связи
-            cbBehavior.Text = settings.Behavior.ToString();
-            cbConnMode.SetSelectedItem(settings.ConnMode, 
-                new Dictionary<string, int>() { { "Individual", 0 }, { "Shared", 1 } });
-            txtHost.Text = settings.Host;
-            numTcpPort.SetValue(settings.TcpPort);
-            numReconnectAfter.SetValue(settings.ReconnectAfter);
-            chkStayConnected.Checked = settings.StayConnected;
-
-            modified = false;*/
+            FormTranslator.Translate(this, GetType().FullName, toolTip);
+            OptionsToControls();
         }
 
-        private void control_Changed(object sender, EventArgs e)
+        private void cbConnectionMode_SelectedIndexChanged(object sender, EventArgs e)
         {
-        }
-
-        private void cbConnMode_SelectedIndexChanged(object sender, EventArgs e)
-        {
-            txtHost.Enabled = cbConnMode.SelectedIndex == 1; // Shared
+            txtHost.Enabled = cbConnectionMode.SelectedIndex == (int)ConnectionMode.Shared;
         }
 
         private void btnOK_Click(object sender, EventArgs e)
         {
-            /*CommTcpChannelLogic.ConnectionModes newConnMode = 
-                (CommTcpChannelLogic.ConnectionModes)cbConnMode.GetSelectedItem(
-                    new Dictionary<int, object>() {
-                        { 0, CommTcpChannelLogic.ConnectionModes.Individual },
-                        { 1, CommTcpChannelLogic.ConnectionModes.Shared } });
-
-            if (newConnMode == CommTcpChannelLogic.ConnectionModes.Shared &&
-                string.IsNullOrWhiteSpace(txtHost.Text)) // проверка настроек
+            if (ValidateControls())
             {
-                ScadaUiUtils.ShowError(CommPhrases.HostRequired);
-            }
-            else
-            {
-                // изменение настроек в соответствии с элементами управления
-                if (modified)
-                {
-                    settings.Behavior = cbBehavior.ParseText<CommChannelLogic.OperatingBehaviors>();
-                    settings.ConnMode = newConnMode;
-                    settings.Host = txtHost.Text;
-                    settings.TcpPort = Convert.ToInt32(numTcpPort.Value);
-                    settings.ReconnectAfter = Convert.ToInt32(numReconnectAfter.Value);
-                    settings.StayConnected = chkStayConnected.Checked;
-
-                    settings.SetCommCnlParams(commCnlParams);
-                }
-
+                ControlsToOptions();
                 DialogResult = DialogResult.OK;
-            }*/
-        }
-
-        private void btnCancel_Click(object sender, EventArgs e)
-        {
-            DialogResult = DialogResult.Cancel;
+            }
         }
     }
 }
