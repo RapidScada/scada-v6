@@ -82,7 +82,7 @@ namespace Scada.Comm.Devices
             DeviceStats = new DeviceStats();
 
             terminated = false;
-            connection = null;
+            connection = ConnectionStub.Instance;
             lastInfoLength = 0;
         }
 
