@@ -93,7 +93,6 @@
             this.cbDeviceMapping.FormattingEnabled = true;
             this.cbDeviceMapping.Items.AddRange(new object[] {
             "By IP address",
-            "By hello packet",
             "Driver determined"});
             this.cbDeviceMapping.Location = new System.Drawing.Point(175, 51);
             this.cbDeviceMapping.Name = "cbDeviceMapping";

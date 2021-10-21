@@ -76,9 +76,8 @@
     <Phrase key="pbBehaviorHint.ToolTip">Master - Коммуникатор отправляет запрос устройству и получает ответ.&#13;&#10;Slave - Коммуникатор пассивно ожидает данные от устройства.</Phrase>
     <Phrase key="lblDeviceMapping">Сопоставление КП</Phrase>
     <Phrase key="cbDeviceMapping.Items[0]">По IP-адресу</Phrase>
-    <Phrase key="cbDeviceMapping.Items[1]">По первому пакету</Phrase>
-    <Phrase key="cbDeviceMapping.Items[2]">Определяется драйвером</Phrase>
-    <Phrase key="pbDeviceMappingHint.ToolTip">Способ привязки нового входящего соединения к КП:&#13;&#10;По IP-адресу - удалённый IP-адрес устройства совпадает со строковым адресом КП.&#13;&#10;По первому пакету - первый полученный от устройства пакет содержит строковый адрес КП.&#13;&#10;Определяется драйвером - алгоритм реализован в драйвере КП.</Phrase>
+    <Phrase key="cbDeviceMapping.Items[1]">Определяется драйвером</Phrase>
+    <Phrase key="pbDeviceMappingHint.ToolTip">Способ привязки нового входящего соединения к КП:&#13;&#10;По IP-адресу - удалённый IP-адрес устройства совпадает со строковым адресом КП.&#13;&#10;Определяется драйвером - алгоритм реализован в драйвере КП.</Phrase>
     <Phrase key="gbConnection">Соединение</Phrase>
     <Phrase key="lblLocalUdpPort">Локальный UDP-порт</Phrase>
     <Phrase key="pbLocalUdpPortHint.ToolTip">Локальный UDP-порт для входящих соединений.&#13;&#10;Входящие соединения должны быть разрешены брандмауэром.</Phrase>

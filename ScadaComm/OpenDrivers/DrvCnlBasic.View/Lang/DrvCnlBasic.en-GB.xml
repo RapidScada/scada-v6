@@ -76,9 +76,8 @@
     <Phrase key="pbBehaviorHint.ToolTip">Master - Communicator sends request to a device and receives answer.&#13;&#10;Slave - Communicator passively waits for data from a device.</Phrase>
     <Phrase key="lblDeviceMapping">Device mapping</Phrase>
     <Phrase key="cbDeviceMapping.Items[0]">By IP address</Phrase>
-    <Phrase key="cbDeviceMapping.Items[1]">By hello packet</Phrase>
-    <Phrase key="cbDeviceMapping.Items[2]">Driver determined</Phrase>
-    <Phrase key="pbDeviceMappingHint.ToolTip">The method of binding a new incoming connection to a device:&#13;&#10;By IP address - remote IP address equals a device string address.&#13;&#10;By hello packet - a first package received from a device contains the string address.&#13;&#10;Driver determined - algorithm is implemented in the device driver.</Phrase>
+    <Phrase key="cbDeviceMapping.Items[1]">Driver determined</Phrase>
+    <Phrase key="pbDeviceMappingHint.ToolTip">The method of binding a new incoming connection to a device:&#13;&#10;By IP address - remote IP address equals a device string address.&#13;&#10;Driver determined - algorithm is implemented in the device driver.</Phrase>
     <Phrase key="gbConnection">Connection</Phrase>
     <Phrase key="lblLocalUdpPort">Local UDP port</Phrase>
     <Phrase key="pbLocalUdpPortHint.ToolTip">Local UDP port for incoming connections.&#13;&#10;Incoming connections must be allowed by a firewall.</Phrase>

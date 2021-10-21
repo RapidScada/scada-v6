@@ -44,7 +44,12 @@ namespace Scada.Comm.Drivers.DrvCnlBasic.View.Forms
         private void OptionsToControls()
         {
             cbBehavior.SelectedIndex = (int)options.Behavior;
-            cbDeviceMapping.SelectedIndex = (int)options.DeviceMapping;
+
+            if (options.DeviceMapping == DeviceMapping.ByIPAddress)
+                cbDeviceMapping.SelectedIndex = 0;
+            else if (options.DeviceMapping == DeviceMapping.ByDriver)
+                cbDeviceMapping.SelectedIndex = 1;
+
             numLocalUdpPort.SetValue(options.LocalUdpPort);
             numRemoteUdpPort.SetValue(options.RemoteUdpPort);
             txtRemoteIpAddress.Text = options.RemoteIpAddress;
@@ -56,7 +61,12 @@ namespace Scada.Comm.Drivers.DrvCnlBasic.View.Forms
         private void ControlsToOptions()
         {
             options.Behavior = (ChannelBehavior)cbBehavior.SelectedIndex;
-            options.DeviceMapping = (DeviceMapping)cbDeviceMapping.SelectedIndex;
+
+            if (cbDeviceMapping.SelectedIndex == 0)
+                options.DeviceMapping = DeviceMapping.ByIPAddress;
+            else if (cbDeviceMapping.SelectedIndex == 1)
+                options.DeviceMapping = DeviceMapping.ByDriver;
+
             options.LocalUdpPort = Convert.ToInt32(numLocalUdpPort.Value);
             options.RemoteUdpPort = Convert.ToInt32(numRemoteUdpPort.Value);
             options.RemoteIpAddress = txtRemoteIpAddress.Text;
