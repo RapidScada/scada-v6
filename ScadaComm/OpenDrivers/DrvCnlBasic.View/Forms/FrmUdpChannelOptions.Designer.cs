@@ -1,6 +1,6 @@
 ﻿namespace Scada.Comm.Drivers.DrvCnlBasic.View.Forms
 {
-    partial class FrmTcpServerChannelOptions
+    partial class FrmUdpChannelOptions
     {
         /// <summary>
         /// Required designer variable.
@@ -33,31 +33,31 @@
             this.pbDeviceMappingHint = new System.Windows.Forms.PictureBox();
             this.cbDeviceMapping = new System.Windows.Forms.ComboBox();
             this.lblDeviceMapping = new System.Windows.Forms.Label();
-            this.pbConnectionModeHint = new System.Windows.Forms.PictureBox();
-            this.cbConnectionMode = new System.Windows.Forms.ComboBox();
-            this.lblConnectionMode = new System.Windows.Forms.Label();
             this.pbBehaviorHint = new System.Windows.Forms.PictureBox();
             this.cbBehavior = new System.Windows.Forms.ComboBox();
             this.lblBehavior = new System.Windows.Forms.Label();
             this.btnOK = new System.Windows.Forms.Button();
             this.btnCancel = new System.Windows.Forms.Button();
             this.gbConnection = new System.Windows.Forms.GroupBox();
-            this.pbClientLifetimeHint = new System.Windows.Forms.PictureBox();
-            this.numClientLifetime = new System.Windows.Forms.NumericUpDown();
-            this.lblClientLifetime = new System.Windows.Forms.Label();
-            this.pbTcpPortHint = new System.Windows.Forms.PictureBox();
-            this.numTcpPort = new System.Windows.Forms.NumericUpDown();
-            this.lblTcpPort = new System.Windows.Forms.Label();
+            this.pbRemoteIpAddressHint = new System.Windows.Forms.PictureBox();
+            this.txtRemoteIpAddress = new System.Windows.Forms.TextBox();
+            this.lblRemoteIpAddress = new System.Windows.Forms.Label();
+            this.pbRemoteUdpPortHint = new System.Windows.Forms.PictureBox();
+            this.numRemoteUdpPort = new System.Windows.Forms.NumericUpDown();
+            this.lblRemoteUdpPort = new System.Windows.Forms.Label();
+            this.pbLocalUdpPortHint = new System.Windows.Forms.PictureBox();
+            this.numLocalUdpPort = new System.Windows.Forms.NumericUpDown();
+            this.lblLocalUdpPort = new System.Windows.Forms.Label();
             this.toolTip = new System.Windows.Forms.ToolTip(this.components);
             this.gbMode.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pbDeviceMappingHint)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.pbConnectionModeHint)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pbBehaviorHint)).BeginInit();
             this.gbConnection.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.pbClientLifetimeHint)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.numClientLifetime)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.pbTcpPortHint)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.numTcpPort)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pbRemoteIpAddressHint)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pbRemoteUdpPortHint)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.numRemoteUdpPort)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pbLocalUdpPortHint)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.numLocalUdpPort)).BeginInit();
             this.SuspendLayout();
             // 
             // gbMode
@@ -65,16 +65,13 @@
             this.gbMode.Controls.Add(this.pbDeviceMappingHint);
             this.gbMode.Controls.Add(this.cbDeviceMapping);
             this.gbMode.Controls.Add(this.lblDeviceMapping);
-            this.gbMode.Controls.Add(this.pbConnectionModeHint);
-            this.gbMode.Controls.Add(this.cbConnectionMode);
-            this.gbMode.Controls.Add(this.lblConnectionMode);
             this.gbMode.Controls.Add(this.pbBehaviorHint);
             this.gbMode.Controls.Add(this.cbBehavior);
             this.gbMode.Controls.Add(this.lblBehavior);
             this.gbMode.Location = new System.Drawing.Point(12, 12);
             this.gbMode.Name = "gbMode";
             this.gbMode.Padding = new System.Windows.Forms.Padding(10, 3, 10, 10);
-            this.gbMode.Size = new System.Drawing.Size(360, 116);
+            this.gbMode.Size = new System.Drawing.Size(360, 87);
             this.gbMode.TabIndex = 0;
             this.gbMode.TabStop = false;
             this.gbMode.Text = "Operating Mode";
@@ -82,12 +79,13 @@
             // pbDeviceMappingHint
             // 
             this.pbDeviceMappingHint.Image = global::Scada.Comm.Drivers.DrvCnlBasic.View.Properties.Resources.info;
-            this.pbDeviceMappingHint.Location = new System.Drawing.Point(331, 83);
+            this.pbDeviceMappingHint.Location = new System.Drawing.Point(331, 54);
             this.pbDeviceMappingHint.Name = "pbDeviceMappingHint";
             this.pbDeviceMappingHint.Size = new System.Drawing.Size(16, 16);
             this.pbDeviceMappingHint.SizeMode = System.Windows.Forms.PictureBoxSizeMode.AutoSize;
-            this.pbDeviceMappingHint.TabIndex = 7;
+            this.pbDeviceMappingHint.TabIndex = 4;
             this.pbDeviceMappingHint.TabStop = false;
+            this.toolTip.SetToolTip(this.pbDeviceMappingHint, "\r\n");
             // 
             // cbDeviceMapping
             // 
@@ -97,51 +95,19 @@
             "By IP address",
             "By hello packet",
             "Driver determined"});
-            this.cbDeviceMapping.Location = new System.Drawing.Point(175, 80);
+            this.cbDeviceMapping.Location = new System.Drawing.Point(175, 51);
             this.cbDeviceMapping.Name = "cbDeviceMapping";
             this.cbDeviceMapping.Size = new System.Drawing.Size(150, 23);
-            this.cbDeviceMapping.TabIndex = 6;
+            this.cbDeviceMapping.TabIndex = 3;
             // 
             // lblDeviceMapping
             // 
             this.lblDeviceMapping.AutoSize = true;
-            this.lblDeviceMapping.Location = new System.Drawing.Point(13, 84);
+            this.lblDeviceMapping.Location = new System.Drawing.Point(13, 55);
             this.lblDeviceMapping.Name = "lblDeviceMapping";
             this.lblDeviceMapping.Size = new System.Drawing.Size(93, 15);
-            this.lblDeviceMapping.TabIndex = 5;
+            this.lblDeviceMapping.TabIndex = 2;
             this.lblDeviceMapping.Text = "Device mapping";
-            // 
-            // pbConnectionModeHint
-            // 
-            this.pbConnectionModeHint.Image = global::Scada.Comm.Drivers.DrvCnlBasic.View.Properties.Resources.info;
-            this.pbConnectionModeHint.Location = new System.Drawing.Point(331, 54);
-            this.pbConnectionModeHint.Name = "pbConnectionModeHint";
-            this.pbConnectionModeHint.Size = new System.Drawing.Size(16, 16);
-            this.pbConnectionModeHint.SizeMode = System.Windows.Forms.PictureBoxSizeMode.AutoSize;
-            this.pbConnectionModeHint.TabIndex = 4;
-            this.pbConnectionModeHint.TabStop = false;
-            // 
-            // cbConnectionMode
-            // 
-            this.cbConnectionMode.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this.cbConnectionMode.FormattingEnabled = true;
-            this.cbConnectionMode.Items.AddRange(new object[] {
-            "Индивидуальное",
-            "Общее"});
-            this.cbConnectionMode.Location = new System.Drawing.Point(175, 51);
-            this.cbConnectionMode.Name = "cbConnectionMode";
-            this.cbConnectionMode.Size = new System.Drawing.Size(150, 23);
-            this.cbConnectionMode.TabIndex = 3;
-            this.cbConnectionMode.SelectedIndexChanged += new System.EventHandler(this.cbConnectionMode_SelectedIndexChanged);
-            // 
-            // lblConnectionMode
-            // 
-            this.lblConnectionMode.AutoSize = true;
-            this.lblConnectionMode.Location = new System.Drawing.Point(13, 55);
-            this.lblConnectionMode.Name = "lblConnectionMode";
-            this.lblConnectionMode.Size = new System.Drawing.Size(103, 15);
-            this.lblConnectionMode.TabIndex = 2;
-            this.lblConnectionMode.Text = "Connection mode";
             // 
             // pbBehaviorHint
             // 
@@ -150,8 +116,9 @@
             this.pbBehaviorHint.Name = "pbBehaviorHint";
             this.pbBehaviorHint.Size = new System.Drawing.Size(16, 16);
             this.pbBehaviorHint.SizeMode = System.Windows.Forms.PictureBoxSizeMode.AutoSize;
-            this.pbBehaviorHint.TabIndex = 8;
+            this.pbBehaviorHint.TabIndex = 5;
             this.pbBehaviorHint.TabStop = false;
+            this.toolTip.SetToolTip(this.pbBehaviorHint, "\r\n");
             // 
             // cbBehavior
             // 
@@ -164,6 +131,7 @@
             this.cbBehavior.Name = "cbBehavior";
             this.cbBehavior.Size = new System.Drawing.Size(150, 23);
             this.cbBehavior.TabIndex = 1;
+            this.cbBehavior.SelectedIndexChanged += new System.EventHandler(this.cbBehavior_SelectedIndexChanged);
             // 
             // lblBehavior
             // 
@@ -195,101 +163,130 @@
             // 
             // gbConnection
             // 
-            this.gbConnection.Controls.Add(this.pbClientLifetimeHint);
-            this.gbConnection.Controls.Add(this.numClientLifetime);
-            this.gbConnection.Controls.Add(this.lblClientLifetime);
-            this.gbConnection.Controls.Add(this.pbTcpPortHint);
-            this.gbConnection.Controls.Add(this.numTcpPort);
-            this.gbConnection.Controls.Add(this.lblTcpPort);
-            this.gbConnection.Location = new System.Drawing.Point(12, 134);
+            this.gbConnection.Controls.Add(this.pbRemoteIpAddressHint);
+            this.gbConnection.Controls.Add(this.txtRemoteIpAddress);
+            this.gbConnection.Controls.Add(this.lblRemoteIpAddress);
+            this.gbConnection.Controls.Add(this.pbRemoteUdpPortHint);
+            this.gbConnection.Controls.Add(this.numRemoteUdpPort);
+            this.gbConnection.Controls.Add(this.lblRemoteUdpPort);
+            this.gbConnection.Controls.Add(this.pbLocalUdpPortHint);
+            this.gbConnection.Controls.Add(this.numLocalUdpPort);
+            this.gbConnection.Controls.Add(this.lblLocalUdpPort);
+            this.gbConnection.Location = new System.Drawing.Point(12, 105);
             this.gbConnection.Name = "gbConnection";
             this.gbConnection.Padding = new System.Windows.Forms.Padding(10, 3, 10, 10);
-            this.gbConnection.Size = new System.Drawing.Size(360, 87);
+            this.gbConnection.Size = new System.Drawing.Size(360, 116);
             this.gbConnection.TabIndex = 1;
             this.gbConnection.TabStop = false;
             this.gbConnection.Text = "Connection";
             // 
-            // pbClientLifetimeHint
+            // pbRemoteIpAddressHint
             // 
-            this.pbClientLifetimeHint.Image = global::Scada.Comm.Drivers.DrvCnlBasic.View.Properties.Resources.info;
-            this.pbClientLifetimeHint.Location = new System.Drawing.Point(331, 54);
-            this.pbClientLifetimeHint.Name = "pbClientLifetimeHint";
-            this.pbClientLifetimeHint.Size = new System.Drawing.Size(16, 16);
-            this.pbClientLifetimeHint.SizeMode = System.Windows.Forms.PictureBoxSizeMode.AutoSize;
-            this.pbClientLifetimeHint.TabIndex = 9;
-            this.pbClientLifetimeHint.TabStop = false;
+            this.pbRemoteIpAddressHint.Image = global::Scada.Comm.Drivers.DrvCnlBasic.View.Properties.Resources.info;
+            this.pbRemoteIpAddressHint.Location = new System.Drawing.Point(331, 83);
+            this.pbRemoteIpAddressHint.Name = "pbRemoteIpAddressHint";
+            this.pbRemoteIpAddressHint.Size = new System.Drawing.Size(16, 16);
+            this.pbRemoteIpAddressHint.SizeMode = System.Windows.Forms.PictureBoxSizeMode.AutoSize;
+            this.pbRemoteIpAddressHint.TabIndex = 9;
+            this.pbRemoteIpAddressHint.TabStop = false;
             // 
-            // numClientLifetime
+            // txtRemoteIpAddress
             // 
-            this.numClientLifetime.Location = new System.Drawing.Point(175, 51);
-            this.numClientLifetime.Maximum = new decimal(new int[] {
-            3600,
-            0,
-            0,
-            0});
-            this.numClientLifetime.Minimum = new decimal(new int[] {
-            1,
-            0,
-            0,
-            0});
-            this.numClientLifetime.Name = "numClientLifetime";
-            this.numClientLifetime.Size = new System.Drawing.Size(150, 23);
-            this.numClientLifetime.TabIndex = 3;
-            this.numClientLifetime.Value = new decimal(new int[] {
-            1,
-            0,
-            0,
-            0});
+            this.txtRemoteIpAddress.Location = new System.Drawing.Point(175, 80);
+            this.txtRemoteIpAddress.Name = "txtRemoteIpAddress";
+            this.txtRemoteIpAddress.Size = new System.Drawing.Size(150, 23);
+            this.txtRemoteIpAddress.TabIndex = 5;
             // 
-            // lblClientLifetime
+            // lblRemoteIpAddress
             // 
-            this.lblClientLifetime.AutoSize = true;
-            this.lblClientLifetime.Location = new System.Drawing.Point(13, 55);
-            this.lblClientLifetime.Name = "lblClientLifetime";
-            this.lblClientLifetime.Size = new System.Drawing.Size(114, 15);
-            this.lblClientLifetime.TabIndex = 2;
-            this.lblClientLifetime.Text = "Inactive lifetime, sec";
+            this.lblRemoteIpAddress.AutoSize = true;
+            this.lblRemoteIpAddress.Location = new System.Drawing.Point(13, 84);
+            this.lblRemoteIpAddress.Name = "lblRemoteIpAddress";
+            this.lblRemoteIpAddress.Size = new System.Drawing.Size(104, 15);
+            this.lblRemoteIpAddress.TabIndex = 4;
+            this.lblRemoteIpAddress.Text = "Remote IP address";
             // 
-            // pbTcpPortHint
+            // pbRemoteUdpPortHint
             // 
-            this.pbTcpPortHint.Image = global::Scada.Comm.Drivers.DrvCnlBasic.View.Properties.Resources.info;
-            this.pbTcpPortHint.Location = new System.Drawing.Point(331, 25);
-            this.pbTcpPortHint.Name = "pbTcpPortHint";
-            this.pbTcpPortHint.Size = new System.Drawing.Size(16, 16);
-            this.pbTcpPortHint.SizeMode = System.Windows.Forms.PictureBoxSizeMode.AutoSize;
-            this.pbTcpPortHint.TabIndex = 8;
-            this.pbTcpPortHint.TabStop = false;
+            this.pbRemoteUdpPortHint.Image = global::Scada.Comm.Drivers.DrvCnlBasic.View.Properties.Resources.info;
+            this.pbRemoteUdpPortHint.Location = new System.Drawing.Point(331, 54);
+            this.pbRemoteUdpPortHint.Name = "pbRemoteUdpPortHint";
+            this.pbRemoteUdpPortHint.Size = new System.Drawing.Size(16, 16);
+            this.pbRemoteUdpPortHint.SizeMode = System.Windows.Forms.PictureBoxSizeMode.AutoSize;
+            this.pbRemoteUdpPortHint.TabIndex = 5;
+            this.pbRemoteUdpPortHint.TabStop = false;
             // 
-            // numTcpPort
+            // numRemoteUdpPort
             // 
-            this.numTcpPort.Location = new System.Drawing.Point(175, 22);
-            this.numTcpPort.Maximum = new decimal(new int[] {
+            this.numRemoteUdpPort.Location = new System.Drawing.Point(175, 51);
+            this.numRemoteUdpPort.Maximum = new decimal(new int[] {
             65535,
             0,
             0,
             0});
-            this.numTcpPort.Minimum = new decimal(new int[] {
+            this.numRemoteUdpPort.Minimum = new decimal(new int[] {
             1,
             0,
             0,
             0});
-            this.numTcpPort.Name = "numTcpPort";
-            this.numTcpPort.Size = new System.Drawing.Size(150, 23);
-            this.numTcpPort.TabIndex = 1;
-            this.numTcpPort.Value = new decimal(new int[] {
+            this.numRemoteUdpPort.Name = "numRemoteUdpPort";
+            this.numRemoteUdpPort.Size = new System.Drawing.Size(150, 23);
+            this.numRemoteUdpPort.TabIndex = 3;
+            this.numRemoteUdpPort.Value = new decimal(new int[] {
             1,
             0,
             0,
             0});
             // 
-            // lblTcpPort
+            // lblRemoteUdpPort
             // 
-            this.lblTcpPort.AutoSize = true;
-            this.lblTcpPort.Location = new System.Drawing.Point(13, 26);
-            this.lblTcpPort.Name = "lblTcpPort";
-            this.lblTcpPort.Size = new System.Drawing.Size(83, 15);
-            this.lblTcpPort.TabIndex = 0;
-            this.lblTcpPort.Text = "Local TCP port";
+            this.lblRemoteUdpPort.AutoSize = true;
+            this.lblRemoteUdpPort.Location = new System.Drawing.Point(13, 55);
+            this.lblRemoteUdpPort.Name = "lblRemoteUdpPort";
+            this.lblRemoteUdpPort.Size = new System.Drawing.Size(99, 15);
+            this.lblRemoteUdpPort.TabIndex = 2;
+            this.lblRemoteUdpPort.Text = "Remote UDP port";
+            // 
+            // pbLocalUdpPortHint
+            // 
+            this.pbLocalUdpPortHint.Image = global::Scada.Comm.Drivers.DrvCnlBasic.View.Properties.Resources.info;
+            this.pbLocalUdpPortHint.Location = new System.Drawing.Point(331, 25);
+            this.pbLocalUdpPortHint.Name = "pbLocalUdpPortHint";
+            this.pbLocalUdpPortHint.Size = new System.Drawing.Size(16, 16);
+            this.pbLocalUdpPortHint.SizeMode = System.Windows.Forms.PictureBoxSizeMode.AutoSize;
+            this.pbLocalUdpPortHint.TabIndex = 8;
+            this.pbLocalUdpPortHint.TabStop = false;
+            // 
+            // numLocalUdpPort
+            // 
+            this.numLocalUdpPort.Location = new System.Drawing.Point(175, 22);
+            this.numLocalUdpPort.Maximum = new decimal(new int[] {
+            65535,
+            0,
+            0,
+            0});
+            this.numLocalUdpPort.Minimum = new decimal(new int[] {
+            1,
+            0,
+            0,
+            0});
+            this.numLocalUdpPort.Name = "numLocalUdpPort";
+            this.numLocalUdpPort.Size = new System.Drawing.Size(150, 23);
+            this.numLocalUdpPort.TabIndex = 1;
+            this.numLocalUdpPort.Value = new decimal(new int[] {
+            1,
+            0,
+            0,
+            0});
+            // 
+            // lblLocalUdpPort
+            // 
+            this.lblLocalUdpPort.AutoSize = true;
+            this.lblLocalUdpPort.Location = new System.Drawing.Point(13, 26);
+            this.lblLocalUdpPort.Name = "lblLocalUdpPort";
+            this.lblLocalUdpPort.Size = new System.Drawing.Size(86, 15);
+            this.lblLocalUdpPort.TabIndex = 0;
+            this.lblLocalUdpPort.Text = "Local UDP port";
             // 
             // toolTip
             // 
@@ -297,7 +294,7 @@
             this.toolTip.InitialDelay = 500;
             this.toolTip.ReshowDelay = 100;
             // 
-            // FrmTcpServerChannelOptions
+            // FrmUdpChannelOptions
             // 
             this.AcceptButton = this.btnOK;
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
@@ -311,22 +308,22 @@
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedDialog;
             this.MaximizeBox = false;
             this.MinimizeBox = false;
-            this.Name = "FrmTcpServerChannelOptions";
+            this.Name = "FrmUdpChannelOptions";
             this.ShowInTaskbar = false;
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
-            this.Text = "TCP Server Options";
-            this.Load += new System.EventHandler(this.FrmCommTcpServerProps_Load);
+            this.Text = "UDP Options";
+            this.Load += new System.EventHandler(this.FrmCommUdpProps_Load);
             this.gbMode.ResumeLayout(false);
             this.gbMode.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pbDeviceMappingHint)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.pbConnectionModeHint)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.pbBehaviorHint)).EndInit();
             this.gbConnection.ResumeLayout(false);
             this.gbConnection.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.pbClientLifetimeHint)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.numClientLifetime)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.pbTcpPortHint)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.numTcpPort)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pbRemoteIpAddressHint)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pbRemoteUdpPortHint)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.numRemoteUdpPort)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pbLocalUdpPortHint)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.numLocalUdpPort)).EndInit();
             this.ResumeLayout(false);
 
         }
@@ -338,20 +335,20 @@
         private System.Windows.Forms.Label lblBehavior;
         private System.Windows.Forms.Button btnOK;
         private System.Windows.Forms.Button btnCancel;
-        private System.Windows.Forms.ComboBox cbConnectionMode;
-        private System.Windows.Forms.Label lblConnectionMode;
-        private System.Windows.Forms.GroupBox gbConnection;
-        private System.Windows.Forms.Label lblTcpPort;
-        private System.Windows.Forms.Label lblClientLifetime;
-        private System.Windows.Forms.NumericUpDown numClientLifetime;
-        private System.Windows.Forms.PictureBox pbConnectionModeHint;
-        private System.Windows.Forms.ToolTip toolTip;
-        private System.Windows.Forms.PictureBox pbDeviceMappingHint;
         private System.Windows.Forms.ComboBox cbDeviceMapping;
         private System.Windows.Forms.Label lblDeviceMapping;
-        private System.Windows.Forms.NumericUpDown numTcpPort;
+        private System.Windows.Forms.GroupBox gbConnection;
+        private System.Windows.Forms.Label lblRemoteUdpPort;
+        private System.Windows.Forms.Label lblLocalUdpPort;
+        private System.Windows.Forms.TextBox txtRemoteIpAddress;
+        private System.Windows.Forms.NumericUpDown numRemoteUdpPort;
+        private System.Windows.Forms.PictureBox pbDeviceMappingHint;
+        private System.Windows.Forms.ToolTip toolTip;
+        private System.Windows.Forms.PictureBox pbRemoteUdpPortHint;
+        private System.Windows.Forms.Label lblRemoteIpAddress;
+        private System.Windows.Forms.NumericUpDown numLocalUdpPort;
+        private System.Windows.Forms.PictureBox pbLocalUdpPortHint;
+        private System.Windows.Forms.PictureBox pbRemoteIpAddressHint;
         private System.Windows.Forms.PictureBox pbBehaviorHint;
-        private System.Windows.Forms.PictureBox pbClientLifetimeHint;
-        private System.Windows.Forms.PictureBox pbTcpPortHint;
     }
 }

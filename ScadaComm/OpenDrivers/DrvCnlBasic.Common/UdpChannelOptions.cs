@@ -52,5 +52,19 @@ namespace Scada.Comm.Drivers.DrvCnlBasic
         /// Gets or sets the device mapping mode.
         /// </summary>
         public DeviceMapping DeviceMapping { get; set; }
+
+
+        /// <summary>
+        /// Adds the options to the list.
+        /// </summary>
+        public void AddToOptionList(OptionList options)
+        {
+            options.Clear();
+            options["LocalUdpPort"] = LocalUdpPort.ToString();
+            options["RemoteUdpPort"] = RemoteUdpPort.ToString();
+            options["RemoteIpAddress"] = RemoteIpAddress;
+            options["Behavior"] = Behavior.ToString();
+            options["DeviceMapping"] = DeviceMapping.ToString();
+        }
     }
 }

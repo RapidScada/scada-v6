@@ -34,7 +34,7 @@ namespace Scada.Comm.Drivers.DrvCnlBasic.View
                 ChannelTypeCode.SerialPort => new FrmSerialPortChannelOptions(ChannelConfig),
                 ChannelTypeCode.TcpClient => new FrmTcpClientChannelOptions(ChannelConfig),
                 ChannelTypeCode.TcpServer => new FrmTcpServerChannelOptions(ChannelConfig),
-                ChannelTypeCode.Udp => new FrmSerialPortChannelOptions(ChannelConfig),
+                ChannelTypeCode.Udp => new FrmUdpChannelOptions(ChannelConfig),
                 _ => null
             };
 
