@@ -2,7 +2,7 @@
 
   <PropertyGroup>
     <TargetFramework>netstandard2.0</TargetFramework>
-    <RootNamespace>Scada.Comm.Drivers.DrvCnlBasic.Logic</RootNamespace>
+    <RootNamespace>Scada.Comm.Drivers.DrvModbus.Logic</RootNamespace>
     <Version>6.0.0</Version>
     <Authors>Mikhail Shiryaev</Authors>
     <Company>Rapid Software LLC</Company>
@@ -11,11 +11,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="System.IO.Ports" Version="5.0.1" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <ProjectReference Include="..\DrvCnlBasic.Common\DrvCnlBasic.Common.csproj" />
+    <ProjectReference Include="..\DrvModbus.Common\DrvModbus.Common.csproj" />
   </ItemGroup>
 
   <ItemGroup>

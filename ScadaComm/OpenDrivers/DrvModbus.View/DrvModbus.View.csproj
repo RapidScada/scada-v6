@@ -1,8 +1,9 @@
-<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFramework>netstandard2.0</TargetFramework>
-    <RootNamespace>Scada.Comm.Drivers.DrvCnlBasic.Logic</RootNamespace>
+    <TargetFramework>net5.0-windows</TargetFramework>
+    <UseWindowsForms>true</UseWindowsForms>
+    <RootNamespace>Scada.Comm.Drivers.DrvModbus.View</RootNamespace>
     <Version>6.0.0</Version>
     <Authors>Mikhail Shiryaev</Authors>
     <Company>Rapid Software LLC</Company>
@@ -11,11 +12,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="System.IO.Ports" Version="5.0.1" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <ProjectReference Include="..\DrvCnlBasic.Common\DrvCnlBasic.Common.csproj" />
+    <ProjectReference Include="..\DrvModbus.Common\DrvModbus.Common.csproj" />
   </ItemGroup>
 
   <ItemGroup>
@@ -24,6 +21,9 @@
     </Reference>
     <Reference Include="ScadaCommon">
       <HintPath>..\..\..\ScadaCommon\ScadaCommon\bin\Release\netstandard2.0\ScadaCommon.dll</HintPath>
+    </Reference>
+    <Reference Include="ScadaCommon.Forms">
+      <HintPath>..\..\..\ScadaCommon\ScadaCommon.Forms\bin\Release\net5.0-windows\ScadaCommon.Forms.dll</HintPath>
     </Reference>
     <Reference Include="ScadaCommon.Log">
       <HintPath>..\..\..\ScadaCommon\ScadaCommon.Log\bin\Release\netstandard2.0\ScadaCommon.Log.dll</HintPath>
