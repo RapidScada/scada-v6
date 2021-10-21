@@ -1,6 +1,6 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <DrvCnlBasicDictionaries>
-  <Dictionary key="Scada.Comm.Drivers.DrvCnlBasic.View.Forms.FrmSerialChannelOptions">
+  <Dictionary key="Scada.Comm.Drivers.DrvCnlBasic.View.Forms.FrmSerialPortChannelOptions">
     <Phrase key="this">Параметры последовательного порта</Phrase>
     <Phrase key="gbPort">Последовательный порт</Phrase>
     <Phrase key="lblPortName">Имя порта</Phrase>

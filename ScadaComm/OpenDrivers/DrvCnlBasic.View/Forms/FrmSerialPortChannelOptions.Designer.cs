@@ -1,6 +1,6 @@
 ﻿namespace Scada.Comm.Drivers.DrvCnlBasic.View.Forms
 {
-    partial class FrmSerialChannelOptions
+    partial class FrmSerialPortChannelOptions
     {
         /// <summary>
         /// Required designer variable.

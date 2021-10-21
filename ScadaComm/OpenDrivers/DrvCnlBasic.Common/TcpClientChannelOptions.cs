@@ -55,5 +55,20 @@ namespace Scada.Comm.Drivers.DrvCnlBasic
         /// Gets or sets the connection mode.
         /// </summary>
         public ConnectionMode ConnectionMode { get; set; }
+
+
+        /// <summary>
+        /// Adds the options to the list.
+        /// </summary>
+        public void AddToOptionList(OptionList options)
+        {
+            options.Clear();
+            options["Host"] = Host;
+            options["TcpPort"] = TcpPort.ToString();
+            options["ReconnectAfter"] = ReconnectAfter.ToString();
+            options["StayConnected"] = StayConnected.ToString().ToLowerInvariant();
+            options["Behavior"] = Behavior.ToString();
+            options["ConnectionMode"] = ConnectionMode.ToString();
+        }
     }
 }

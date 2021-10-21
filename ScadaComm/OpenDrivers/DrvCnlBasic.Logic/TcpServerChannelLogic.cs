@@ -16,7 +16,7 @@ using System.Threading;
 namespace Scada.Comm.Drivers.DrvCnlBasic.Logic
 {
     /// <summary>
-    /// Implements TCP server channel logic.
+    /// Implements the TCP server channel logic.
     /// <para>Реализует логику канала TCP-сервер.</para>
     /// </summary>
     public class TcpServerChannelLogic : ChannelLogic

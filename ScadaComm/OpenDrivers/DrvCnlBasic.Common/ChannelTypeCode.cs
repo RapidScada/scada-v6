@@ -9,7 +9,7 @@ namespace Scada.Comm.Drivers.DrvCnlBasic
     /// </summary>
     public static class ChannelTypeCode
     {
-        public const string Serial = "Serial";
+        public const string SerialPort = "SerialPort";
         public const string TcpClient = "TcpClient";
         public const string TcpServer = "TcpServer";
         public const string Udp = "Udp";

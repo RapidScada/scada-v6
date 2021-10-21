@@ -16,7 +16,7 @@ using System.Threading;
 namespace Scada.Comm.Drivers.DrvCnlBasic.Logic
 {
     /// <summary>
-    /// Implements UDP connection.
+    /// Implements the UDP connection.
     /// <para>Реализует соединение по протоколу UDP.</para>
     /// </summary>
     public class UdpConnection : Connection

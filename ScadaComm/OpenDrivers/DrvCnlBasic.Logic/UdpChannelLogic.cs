@@ -14,7 +14,7 @@ using System.Threading;
 namespace Scada.Comm.Drivers.DrvCnlBasic.Logic
 {
     /// <summary>
-    /// Implements UDP channel logic.
+    /// Implements the UDP channel logic.
     /// <para>Реализует логику канала UDP.</para>
     /// </summary>
     public class UdpChannelLogic : ChannelLogic

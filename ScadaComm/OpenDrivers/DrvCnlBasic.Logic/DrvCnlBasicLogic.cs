@@ -41,8 +41,8 @@ namespace Scada.Comm.Drivers.DrvCnlBasic.Logic
         {
             switch (channelConfig.TypeCode)
             {
-                case ChannelTypeCode.Serial:
-                    return new SerialChannelLogic(lineContext, channelConfig);
+                case ChannelTypeCode.SerialPort:
+                    return new SerialPortChannelLogic(lineContext, channelConfig);
 
                 case ChannelTypeCode.TcpClient:
                     return new TcpClientChannelLogic(lineContext, channelConfig);

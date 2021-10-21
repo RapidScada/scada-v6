@@ -1,6 +1,6 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <DrvCnlBasicDictionaries>
-  <Dictionary key="Scada.Comm.Drivers.DrvCnlBasic.View.Forms.FrmSerialChannelOptions">
+  <Dictionary key="Scada.Comm.Drivers.DrvCnlBasic.View.Forms.FrmSerialPortChannelOptions">
     <Phrase key="this">Serial Port Options</Phrase>
     <Phrase key="gbPort">Serial Port</Phrase>
     <Phrase key="lblPortName">Port name</Phrase>

@@ -15,10 +15,10 @@ using System.Threading;
 namespace Scada.Comm.Drivers.DrvCnlBasic.Logic
 {
     /// <summary>
-    /// Implements serial port connection.
+    /// Implements the serial port connection.
     /// <para>Реализует соединение через последовательный порт.</para>
     /// </summary>
-    internal class SerialConnection : Connection
+    internal class SerialPortConnection : Connection
     {
         /// <summary>
         /// The port reopening interval.
@@ -31,7 +31,7 @@ namespace Scada.Comm.Drivers.DrvCnlBasic.Logic
         /// <summary>
         /// Initializes a new instance of the class.
         /// </summary>
-        public SerialConnection(ILog log, SerialPort serialPort)
+        public SerialPortConnection(ILog log, SerialPort serialPort)
             : base(log)
         {
             openFailDT = DateTime.MinValue;

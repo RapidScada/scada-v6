@@ -12,20 +12,20 @@ using System.Threading;
 namespace Scada.Comm.Drivers.DrvCnlBasic.Logic
 {
     /// <summary>
-    /// Implements serial port channel logic.
+    /// Implements the serial port channel logic.
     /// <para>Реализует логику канала последовательного порта.</para>
     /// </summary>
-    internal class SerialChannelLogic : ChannelLogic
+    internal class SerialPortChannelLogic : ChannelLogic
     {
         /// <summary>
         /// The maximum time allowed to elapse before the arrival of the next byte, ms.
         /// </summary>
         protected const int ReadIntervalTimeout = 100;
 
-        protected readonly SerialChannelOptions options;    // the channel options
+        protected readonly SerialPortChannelOptions options;    // the channel options
         protected readonly IncomingRequestArgs requestArgs; // the incoming request arguments
 
-        protected SerialConnection serialConn; // the serial connection
+        protected SerialPortConnection serialConn; // the serial connection
         protected Thread thread;               // the thread for receiving data in slave mode
         protected volatile bool terminated;    // necessary to stop the thread
 
@@ -33,10 +33,10 @@ namespace Scada.Comm.Drivers.DrvCnlBasic.Logic
         /// <summary>
         /// Initializes a new instance of the class.
         /// </summary>
-        public SerialChannelLogic(ILineContext lineContext, ChannelConfig channelConfig)
+        public SerialPortChannelLogic(ILineContext lineContext, ChannelConfig channelConfig)
             : base(lineContext, channelConfig)
         {
-            options = new SerialChannelOptions(channelConfig.CustomOptions);
+            options = new SerialPortChannelOptions(channelConfig.CustomOptions);
             requestArgs = new IncomingRequestArgs();
 
             serialConn = null;
@@ -142,7 +142,7 @@ namespace Scada.Comm.Drivers.DrvCnlBasic.Logic
         {
             CheckBehaviorSupport();
 
-            serialConn = new SerialConnection(Log, new SerialPort(
+            serialConn = new SerialPortConnection(Log, new SerialPort(
                 options.PortName, options.BaudRate, options.Parity, options.DataBits, options.StopBits)
             { 
                 DtrEnable = options.DtrEnable, 

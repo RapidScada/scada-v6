@@ -18,7 +18,7 @@ using System.Threading;
 namespace Scada.Comm.Drivers.DrvCnlBasic.Logic
 {
     /// <summary>
-    /// Implements TCP connection.
+    /// Implements the TCP connection.
     /// <para>Реализует соединение по протоколу TCP.</para>
     /// </summary>
     public class TcpConnection : Connection

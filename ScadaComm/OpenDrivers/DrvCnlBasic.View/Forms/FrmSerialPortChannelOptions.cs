@@ -14,16 +14,16 @@ namespace Scada.Comm.Drivers.DrvCnlBasic.View.Forms
     /// Represents a form for editing serial port options.
     /// <para>Представляет форму для редактирования параметров последовательного порта.</para>
     /// </summary>
-    internal partial class FrmSerialChannelOptions : Form
+    internal partial class FrmSerialPortChannelOptions : Form
     {
-        private readonly ChannelConfig channelConfig;  // the communication channel configuration
-        private readonly SerialChannelOptions options; // the communication channel options
+        private readonly ChannelConfig channelConfig;      // the communication channel configuration
+        private readonly SerialPortChannelOptions options; // the communication channel options
 
 
         /// <summary>
         /// Initializes a new instance of the class.
         /// </summary>
-        private FrmSerialChannelOptions()
+        private FrmSerialPortChannelOptions()
         {
             InitializeComponent();
         }
@@ -31,11 +31,11 @@ namespace Scada.Comm.Drivers.DrvCnlBasic.View.Forms
         /// <summary>
         /// Initializes a new instance of the class.
         /// </summary>
-        public FrmSerialChannelOptions(ChannelConfig channelConfig)
+        public FrmSerialPortChannelOptions(ChannelConfig channelConfig)
             : this()
         {
             this.channelConfig = channelConfig ?? throw new ArgumentNullException(nameof(channelConfig));
-            options = new SerialChannelOptions(channelConfig.CustomOptions);
+            options = new SerialPortChannelOptions(channelConfig.CustomOptions);
         }
 
 

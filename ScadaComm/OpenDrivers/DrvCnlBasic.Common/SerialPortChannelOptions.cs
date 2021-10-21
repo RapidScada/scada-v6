@@ -11,12 +11,12 @@ namespace Scada.Comm.Drivers.DrvCnlBasic
     /// Represents options of a serial port channel.
     /// <para>Представляет параметры канала последовательного порта.</para>
     /// </summary>
-    public class SerialChannelOptions
+    public class SerialPortChannelOptions
     {
         /// <summary>
         /// Initializes a new instance of the class.
         /// </summary>
-        public SerialChannelOptions(OptionList options)
+        public SerialPortChannelOptions(OptionList options)
         {
             PortName = options.GetValueAsString("PortName", "COM1");
             BaudRate = options.GetValueAsInt("BaudRate", 9600);

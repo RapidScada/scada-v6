@@ -30,10 +30,10 @@ namespace Scada.Comm.Drivers.DrvCnlBasic.View
         {
             Form form = ChannelConfig.TypeCode switch
             {
-                ChannelTypeCode.Serial => new FrmSerialChannelOptions(ChannelConfig),
-                ChannelTypeCode.TcpClient => new FrmSerialChannelOptions(ChannelConfig),
-                ChannelTypeCode.TcpServer => new FrmSerialChannelOptions(ChannelConfig),
-                ChannelTypeCode.Udp => new FrmSerialChannelOptions(ChannelConfig),
+                ChannelTypeCode.SerialPort => new FrmSerialPortChannelOptions(ChannelConfig),
+                ChannelTypeCode.TcpClient => new FrmSerialPortChannelOptions(ChannelConfig),
+                ChannelTypeCode.TcpServer => new FrmSerialPortChannelOptions(ChannelConfig),
+                ChannelTypeCode.Udp => new FrmSerialPortChannelOptions(ChannelConfig),
                 _ => null
             };
 

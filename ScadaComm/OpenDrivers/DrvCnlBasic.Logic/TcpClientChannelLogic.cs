@@ -13,7 +13,7 @@ using System.Threading;
 namespace Scada.Comm.Drivers.DrvCnlBasic.Logic
 {
     /// <summary>
-    /// Implements TCP client channel logic.
+    /// Implements the TCP client channel logic.
     /// <para>Реализует логику канала TCP-клиент.</para>
     /// </summary>
     public class TcpClientChannelLogic : ChannelLogic
