@@ -49,5 +49,19 @@ namespace Scada.Comm.Drivers.DrvCnlBasic
         /// Gets or sets the device mapping mode.
         /// </summary>
         public DeviceMapping DeviceMapping { get; set; }
+
+
+        /// <summary>
+        /// Adds the options to the list.
+        /// </summary>
+        public void AddToOptionList(OptionList options)
+        {
+            options.Clear();
+            options["TcpPort"] = TcpPort.ToString();
+            options["ClientLifetime"] = ClientLifetime.ToString();
+            options["Behavior"] = Behavior.ToString();
+            options["ConnectionMode"] = ConnectionMode.ToString();
+            options["DeviceMapping"] = DeviceMapping.ToString();
+        }
     }
 }

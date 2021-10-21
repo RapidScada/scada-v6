@@ -47,4 +47,26 @@
     <Phrase key="btnCancel">Отмена</Phrase>
     <Phrase key="HostRequired">Требуется имя удалённого хоста.</Phrase>
   </Dictionary>
+  <Dictionary key="Scada.Comm.Drivers.DrvCnlBasic.View.Forms.FrmTcpServerChannelOptions">
+    <Phrase key="this">Параметры TCP-сервера</Phrase>
+    <Phrase key="gbMode">Режим работы</Phrase>
+    <Phrase key="lblBehavior">Поведение</Phrase>
+    <Phrase key="pbBehaviorHint.ToolTip">Master - после установки соединения Коммуникатор отправляет запрос устройству и получает ответ.&#13;&#10;Slave - Коммуникатор пассивно ожидает данные от устройства.</Phrase>
+    <Phrase key="lblConnectionMode">Режим соединения</Phrase>
+    <Phrase key="cbConnectionMode.Items[0]">Индивидуальное</Phrase>
+    <Phrase key="cbConnectionMode.Items[1]">Общее</Phrase>
+    <Phrase key="pbConnectionModeHint.ToolTip">Индивидуальное - Коммуникатор устанавливает отдельное TCP-соединение с каждым устройством.&#13;&#10;Общее - Коммуникатор устанавливает одно общее соединение для всех устройств на линии связи.&#13;&#10;Общее соединение используется, например, если устройства подключены через шлюз Ethernet - Serial.</Phrase>
+    <Phrase key="lblDeviceMapping">Сопоставление КП</Phrase>
+    <Phrase key="cbDeviceMapping.Items[0]">По IP-адресу</Phrase>
+    <Phrase key="cbDeviceMapping.Items[1]">По первому пакету</Phrase>
+    <Phrase key="cbDeviceMapping.Items[2]">Определяется драйвером</Phrase>
+    <Phrase key="pbDeviceMappingHint.ToolTip">Способ привязки нового входящего соединения к КП:&#13;&#10;По IP-адресу - удалённый IP-адрес устройства совпадает со строковым адресом КП.&#13;&#10;По первому пакету - первый полученный от устройства пакет содержит строковый адрес КП.&#13;&#10;Определяется драйвером - алгоритм реализован в драйвере КП.</Phrase>
+    <Phrase key="gbConnection">Соединение</Phrase>
+    <Phrase key="lblTcpPort">Локальный TCP-порт</Phrase>
+    <Phrase key="pbTcpPortHint.ToolTip">Локальный TCP-порт для входящих соединений.&#13;&#10;Входящие соединения должны быть разрешены брандмауэром.</Phrase>
+    <Phrase key="lblClientLifetime">Время неактивности, с</Phrase>
+    <Phrase key="pbClientLifetimeHint.ToolTip">Время, по истечении которого неактивный клиент отключается.</Phrase>
+    <Phrase key="btnOK">OK</Phrase>
+    <Phrase key="btnCancel">Отмена</Phrase>
+  </Dictionary>
 </DrvCnlBasicDictionaries>

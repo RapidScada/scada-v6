@@ -47,4 +47,26 @@
     <Phrase key="btnCancel">Cancel</Phrase>
     <Phrase key="HostRequired">Remote host is required.</Phrase>
   </Dictionary>
+  <Dictionary key="Scada.Comm.Drivers.DrvCnlBasic.View.Forms.FrmTcpServerChannelOptions">
+    <Phrase key="this">TCP Server Options</Phrase>
+    <Phrase key="gbMode">Operating Mode</Phrase>
+    <Phrase key="lblBehavior">Behavior</Phrase>
+    <Phrase key="pbBehaviorHint.ToolTip">Master - after establishing connection Communicator sends request to a device and receives answer.&#13;&#10;Slave - Communicator passively waits for data from a device.</Phrase>
+    <Phrase key="lblConnectionMode">Connection mode</Phrase>
+    <Phrase key="cbConnectionMode.Items[0]">Individual</Phrase>
+    <Phrase key="cbConnectionMode.Items[1]">Shared</Phrase>
+    <Phrase key="pbConnectionModeHint.ToolTip">Individual - Communicator establishes an individual TCP connection with each device.&#13;&#10;Shared - Communicator establishes a single shared connection for all devices of the communication line.&#13;&#10;Shared connection is used, for example, if the devices are connected via an Ethernet - Serial gateway.</Phrase>
+    <Phrase key="lblDeviceMapping">Device mapping</Phrase>
+    <Phrase key="cbDeviceMapping.Items[0]">By IP address</Phrase>
+    <Phrase key="cbDeviceMapping.Items[1]">By hello packet</Phrase>
+    <Phrase key="cbDeviceMapping.Items[2]">Driver determined</Phrase>
+    <Phrase key="pbDeviceMappingHint.ToolTip">The method of binding a new incoming connection to a device:&#13;&#10;By IP address - remote IP address equals a device string address.&#13;&#10;By hello packet - a first package received from a device contains the string address.&#13;&#10;Driver determined - algorithm is implemented in the device driver.</Phrase>
+    <Phrase key="gbConnection">Connection</Phrase>
+    <Phrase key="lblTcpPort">Local TCP port</Phrase>
+    <Phrase key="pbTcpPortHint.ToolTip">Local TCP port for incoming connections.&#13;&#10;Incoming connections must be allowed by a firewall.</Phrase>
+    <Phrase key="lblClientLifetime">Inactive lifetime, sec</Phrase>
+    <Phrase key="pbClientLifetimeHint.ToolTip">The time after which an inactive client is disconnected.</Phrase>
+    <Phrase key="btnOK">OK</Phrase>
+    <Phrase key="btnCancel">Cancel</Phrase>
+  </Dictionary>
 </DrvCnlBasicDictionaries>
