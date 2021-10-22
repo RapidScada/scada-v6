@@ -21,7 +21,7 @@ namespace Scada.Comm.Drivers.DrvModbus.Protocol
         /// <summary>
         /// The default input buffer size in bytes.
         /// </summary>
-        private const int DefInBufSize = 300;
+        private const int DefaultInBufSize = 300;
 
         private Connection connection; // the device connection
         private ILog log;              // the communication line log
@@ -31,7 +31,7 @@ namespace Scada.Comm.Drivers.DrvModbus.Protocol
         /// Initializes a new instance of the class.
         /// </summary>
         public ModbusPoll()
-            : this(DefInBufSize)
+            : this(DefaultInBufSize)
         {
         }
 

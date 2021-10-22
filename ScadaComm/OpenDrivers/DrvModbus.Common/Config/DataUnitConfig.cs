@@ -85,7 +85,7 @@ namespace Scada.Comm.Drivers.DrvModbus.Config
 
 
         /// <summary>
-        /// Gets the maximum number of elements depending on the data table type.
+        /// Gets the maximum number of elements depending on the data block.
         /// </summary>
         public virtual int GetMaxElemCnt(DataBlock dataBlock)
         {
