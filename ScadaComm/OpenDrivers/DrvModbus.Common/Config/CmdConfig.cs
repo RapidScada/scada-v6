@@ -73,8 +73,8 @@ namespace Scada.Comm.Drivers.DrvModbus.Config
                 throw new ArgumentNullException(nameof(xmlElem));
 
             DataBlock = xmlElem.GetAttrAsEnum("dataBlock", xmlElem.GetAttrAsEnum<DataBlock>("tableType"));
-            Address = xmlElem.GetAttrAsInt("address");
             Multiple = xmlElem.GetAttrAsBool("multiple");
+            Address = xmlElem.GetAttrAsInt("address");
             ElemType = xmlElem.GetAttrAsEnum("elemType", DefaultElemType);
             ElemCnt = xmlElem.GetAttrAsInt("elemCnt", 1);
             ByteOrder = xmlElem.GetAttrAsString("byteOrder");
@@ -91,8 +91,8 @@ namespace Scada.Comm.Drivers.DrvModbus.Config
                 throw new ArgumentNullException(nameof(xmlElem));
 
             xmlElem.SetAttribute("dataBlock", DataBlock);
-            xmlElem.SetAttribute("address", Address);
             xmlElem.SetAttribute("multiple", Multiple);
+            xmlElem.SetAttribute("address", Address);
 
             if (ElemTypeEnabled)
                 xmlElem.SetAttribute("elemType", ElemType.ToString().ToLowerInvariant());
