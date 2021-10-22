@@ -40,11 +40,11 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DrvCnlBasic.View", "DrvCnlB
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "DrvModbus", "DrvModbus", "{7CD0E214-65B2-4A37-875D-CDDFD4787FEA}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DrvModbus.Common", "DrvModbus.Common\DrvModbus.Common.csproj", "{92D69956-673B-410A-BC9C-06FD08073693}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DrvModbus.Common", "DrvModbus.Common\DrvModbus.Common.csproj", "{92D69956-673B-410A-BC9C-06FD08073693}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DrvModbus.Logic", "DrvModbus.Logic\DrvModbus.Logic.csproj", "{290BC569-57B6-482C-8436-7479CE099171}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DrvModbus.Logic", "DrvModbus.Logic\DrvModbus.Logic.csproj", "{290BC569-57B6-482C-8436-7479CE099171}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DrvModbus.View", "DrvModbus.View\DrvModbus.View.csproj", "{0E23F057-4094-4269-85E1-AF0414E8495B}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DrvModbus.View", "DrvModbus.View\DrvModbus.View.csproj", "{0E23F057-4094-4269-85E1-AF0414E8495B}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
