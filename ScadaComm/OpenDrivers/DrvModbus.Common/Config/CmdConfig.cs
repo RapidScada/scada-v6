@@ -20,6 +20,9 @@ namespace Scada.Comm.Drivers.DrvModbus.Config
             : base()
         {
             Multiple = false;
+            ElemType = ElemType.Undefined;
+            ElemCnt = 1;
+            ByteOrder = "";
             CmdNum = 0;
         }
 
@@ -30,9 +33,35 @@ namespace Scada.Comm.Drivers.DrvModbus.Config
         public bool Multiple { get; set; }
 
         /// <summary>
+        /// Gets or sets the command element type.
+        /// </summary>
+        public ElemType ElemType { get; set; }
+
+        /// <summary>
+        /// Gets or sets the number of elements written by the command.
+        /// </summary>
+        public int ElemCnt { get; set; }
+
+        /// <summary>
+        /// Gets or sets the byte order.
+        /// </summary>
+        public string ByteOrder { get; set; }
+
+        /// <summary>
         /// Gets or sets the device command number.
         /// </summary>
         public int CmdNum { get; set; }
+
+        /// <summary>
+        /// Gets a value indicating whether the data type selection is applicable for the command.
+        /// </summary>
+        public override bool ElemTypeEnabled
+        {
+            get
+            {
+                return DataBlock == DataBlock.HoldingRegisters && Multiple;
+            }
+        }
 
 
         /// <summary>
@@ -44,8 +73,11 @@ namespace Scada.Comm.Drivers.DrvModbus.Config
                 throw new ArgumentNullException(nameof(xmlElem));
 
             DataBlock = xmlElem.GetAttrAsEnum("dataBlock", xmlElem.GetAttrAsEnum<DataBlock>("tableType"));
-            Multiple = xmlElem.GetAttrAsBool("multiple");
             Address = xmlElem.GetAttrAsInt("address");
+            Multiple = xmlElem.GetAttrAsBool("multiple");
+            ElemType = xmlElem.GetAttrAsEnum("elemType", DefaultElemType);
+            ElemCnt = xmlElem.GetAttrAsInt("elemCnt", 1);
+            ByteOrder = xmlElem.GetAttrAsString("byteOrder");
             CmdNum = xmlElem.GetAttrAsInt("cmdNum");
             Name = xmlElem.GetAttrAsString("name");
         }
@@ -59,8 +91,18 @@ namespace Scada.Comm.Drivers.DrvModbus.Config
                 throw new ArgumentNullException(nameof(xmlElem));
 
             xmlElem.SetAttribute("dataBlock", DataBlock);
-            xmlElem.SetAttribute("multiple", Multiple);
             xmlElem.SetAttribute("address", Address);
+            xmlElem.SetAttribute("multiple", Multiple);
+
+            if (ElemTypeEnabled)
+                xmlElem.SetAttribute("elemType", ElemType.ToString().ToLowerInvariant());
+
+            if (Multiple)
+                xmlElem.SetAttribute("elemCnt", ElemCnt);
+
+            if (ByteOrderEnabled)
+                xmlElem.SetAttribute("byteOrder", ByteOrder);
+
             xmlElem.SetAttribute("cmdNum", CmdNum);
             xmlElem.SetAttribute("name", Name);
         }

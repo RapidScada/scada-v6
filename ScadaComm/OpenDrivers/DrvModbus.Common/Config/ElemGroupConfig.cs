@@ -57,10 +57,18 @@ namespace Scada.Comm.Drivers.DrvModbus.Config
             Address = xmlElem.GetAttrAsInt("address");
             Name = xmlElem.GetAttrAsString("name");
 
+            ElemType defaultElemType = DefaultElemType;
+            int maxElemCnt = MaxElemCnt;
+
             foreach (XmlElement elemElem in xmlElem.SelectNodes("Elem"))
             {
+                if (Elems.Count >= maxElemCnt)
+                    break;
+
                 ElemConfig elemConfig = CreateElemConfig();
-                elemConfig.LoadFromXml(elemElem);
+                elemConfig.Name = elemElem.GetAttrAsString("name");
+                elemConfig.ElemType = elemElem.GetAttrAsEnum("type", defaultElemType);
+                elemConfig.ByteOrder = elemElem.GetAttrAsString("byteOrder");
                 Elems.Add(elemConfig);
             }
         }
@@ -77,6 +85,21 @@ namespace Scada.Comm.Drivers.DrvModbus.Config
             xmlElem.SetAttribute("dataBlock", DataBlock);
             xmlElem.SetAttribute("address", Address);
             xmlElem.SetAttribute("name", Name);
+
+            bool elemTypeEnabled = ElemTypeEnabled;
+            bool byteOrderEnabled = ByteOrderEnabled;
+
+            foreach (ElemConfig elemConfig in Elems)
+            {
+                XmlElement elemElem = xmlElem.AppendElem("Elem");
+                elemElem.SetAttribute("name", elemConfig.Name);
+
+                if (elemTypeEnabled)
+                    elemElem.SetAttribute("type", elemConfig.ElemType.ToString().ToLowerInvariant());
+
+                if (byteOrderEnabled && !string.IsNullOrEmpty(elemConfig.ByteOrder))
+                    elemElem.SetAttribute("byteOrder", elemConfig.ByteOrder);
+            }
         }
     }
 }

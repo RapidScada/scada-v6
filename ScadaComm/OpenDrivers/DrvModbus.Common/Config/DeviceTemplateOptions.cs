@@ -98,7 +98,7 @@ namespace Scada.Comm.Drivers.DrvModbus.Config
         /// <summary>
         /// Gets the appropriate default byte order as array.
         /// </summary>
-        public int[] GetDefByteOrder(int elemCnt)
+        public int[] GetDefaultByteOrder(int elemCnt)
         {
             switch (elemCnt)
             {

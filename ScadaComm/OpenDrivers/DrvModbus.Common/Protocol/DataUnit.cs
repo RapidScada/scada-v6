@@ -46,7 +46,7 @@ namespace Scada.Comm.Drivers.DrvModbus.Protocol
         public ushort Address { get; set; }
 
         /// <summary>
-        /// Gets a description of the request that represents the data unit.
+        /// Gets a description of the request that reads or writes the data unit.
         /// </summary>
         public abstract string ReqDescr { get; }
 
@@ -90,50 +90,6 @@ namespace Scada.Comm.Drivers.DrvModbus.Protocol
         /// Gets the number of bytes specified in the response packet.
         /// </summary>
         public byte RespByteCnt { get; protected set; }
-
-        /// <summary>
-        /// Gets the maximum number of elements.
-        /// </summary>
-        public int MaxElemCnt
-        {
-            get
-            {
-                return GetMaxElemCnt(DataBlock);
-            }
-        }
-
-        /// <summary>
-        /// Gets the default element type.
-        /// </summary>
-        public ElemType DefElemType
-        {
-            get
-            {
-                return GetDefElemType(DataBlock);
-            }
-        }
-
-        /// <summary>
-        /// Gets a value indicating whether the data type selection is applicable for the data unit.
-        /// </summary>
-        public virtual bool ElemTypeEnabled
-        {
-            get
-            {
-                return DataBlock == DataBlock.InputRegisters || DataBlock == DataBlock.HoldingRegisters;
-            }
-        }
-
-        /// <summary>
-        /// Gets a value indicating whether the byte order is applicable for the data unit.
-        /// </summary>
-        public virtual bool ByteOrderEnabled
-        {
-            get
-            {
-                return DataBlock == DataBlock.InputRegisters || DataBlock == DataBlock.HoldingRegisters;
-            }
-        }
 
 
         /// <summary>
@@ -221,23 +177,6 @@ namespace Scada.Comm.Drivers.DrvModbus.Protocol
             }
 
             return result;
-        }
-
-        /// <summary>
-        /// Gets the maximum number of elements depending on the data table type.
-        /// </summary>
-        public virtual int GetMaxElemCnt(DataBlock dataBlock)
-        {
-            return dataBlock == DataBlock.DiscreteInputs || dataBlock == DataBlock.Coils ? 2000 : 125;
-        }
-
-        /// <summary>
-        /// Gets the element type depending on the data table type.
-        /// </summary>
-        public virtual ElemType GetDefElemType(DataBlock dataBlock)
-        {
-            return dataBlock == DataBlock.DiscreteInputs || dataBlock == DataBlock.Coils ?
-                ElemType.Bool : ElemType.UShort;
         }
     }
 }

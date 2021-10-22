@@ -3,7 +3,6 @@
 
 using System;
 using System.Collections.Generic;
-using System.Xml;
 
 namespace Scada.Comm.Drivers.DrvModbus.Protocol
 {
@@ -23,7 +22,6 @@ namespace Scada.Comm.Drivers.DrvModbus.Protocol
             : base(dataBlock)
         {
             reqDescr = "";
-            Active = true;
             Elems = new List<Elem>();
             ElemData = null;
             StartTagIdx = -1;
@@ -36,22 +34,7 @@ namespace Scada.Comm.Drivers.DrvModbus.Protocol
 
 
         /// <summary>
-        /// Gets or sets a value indicating whether the element group is active.
-        /// </summary>
-        public bool Active { get; set; }
-
-        /// <summary>
-        /// Gets the elements of the group.
-        /// </summary>
-        public List<Elem> Elems { get; private set; }
-
-        /// <summary>
-        /// Gets the raw data of the group elements.
-        /// </summary>
-        public byte[][] ElemData { get; private set; }
-
-        /// <summary>
-        /// Gets a description of the request that represents the element group.
+        /// Gets a description of the request that reads the element group.
         /// </summary>
         public override string ReqDescr
         {
@@ -62,6 +45,16 @@ namespace Scada.Comm.Drivers.DrvModbus.Protocol
                 return reqDescr;
             }
         }
+
+        /// <summary>
+        /// Gets the elements of the group.
+        /// </summary>
+        public List<Elem> Elems { get; private set; }
+
+        /// <summary>
+        /// Gets the raw data of the group elements.
+        /// </summary>
+        public byte[][] ElemData { get; private set; }
 
         /// <summary>
         /// Gets or sets the device tag index that corresponds to the start element.
@@ -183,93 +176,6 @@ namespace Scada.Comm.Drivers.DrvModbus.Protocol
         }
 
         /// <summary>
-        /// Loads the group from the XML node.
-        /// </summary>
-        public virtual void LoadFromXml(XmlElement groupElem)
-        {
-            if (groupElem == null)
-                throw new ArgumentNullException(nameof(groupElem));
-
-            Name = groupElem.GetAttribute("name");
-            Address = (ushort)groupElem.GetAttrAsInt("address");
-            Active = groupElem.GetAttrAsBool("active", true);
-
-            XmlNodeList elemNodes = groupElem.SelectNodes("Elem");
-            int maxElemCnt = MaxElemCnt;
-            ElemType defElemType = DefElemType;
-
-            foreach (XmlElement elemElem in elemNodes)
-            {
-                if (Elems.Count >= maxElemCnt)
-                    break;
-
-                Elem elem = CreateElem();
-                elem.Name = elemElem.GetAttribute("name");
-                elem.ElemType = elemElem.GetAttrAsEnum("type", defElemType);
-
-                if (ByteOrderEnabled)
-                {
-                    elem.ByteOrderStr = elemElem.GetAttribute("byteOrder");
-                    elem.ByteOrder = ModbusUtils.ParseByteOrder(elem.ByteOrderStr);
-                }
-
-                Elems.Add(elem);
-            }
-        }
-
-        /// <summary>
-        /// Saves the group into the XML node.
-        /// </summary>
-        public virtual void SaveToXml(XmlElement groupElem)
-        {
-            if (groupElem == null)
-                throw new ArgumentNullException(nameof(groupElem));
-
-            groupElem.SetAttribute("active", Active);
-            groupElem.SetAttribute("dataBlock", DataBlock);
-            groupElem.SetAttribute("address", Address);
-            groupElem.SetAttribute("name", Name);
-
-            foreach (Elem elem in Elems)
-            {
-                XmlElement elemElem = groupElem.AppendElem("Elem");
-                elemElem.SetAttribute("name", elem.Name);
-
-                if (ElemTypeEnabled)
-                    elemElem.SetAttribute("type", elem.ElemType.ToString().ToLowerInvariant());
-
-                if (ByteOrderEnabled)
-                    elemElem.SetAttribute("byteOrder", elem.ByteOrderStr);
-            }
-        }
-
-        /// <summary>
-        /// Copies the group properties from the source group.
-        /// </summary>
-        public virtual void CopyFrom(ElemGroup srcGroup)
-        {
-            if (srcGroup == null)
-                throw new ArgumentNullException(nameof(srcGroup));
-
-            Name = srcGroup.Name;
-            Address = srcGroup.Address;
-            Active = srcGroup.Active;
-            StartTagIdx = srcGroup.StartTagIdx;
-            StartTagNum = srcGroup.StartTagNum;
-            Elems.Clear();
-
-            foreach (Elem srcElem in srcGroup.Elems)
-            {
-                Elem destElem = CreateElem();
-                destElem.Name = srcElem.Name;
-                destElem.ElemType = srcElem.ElemType;
-                destElem.ByteOrder = srcElem.ByteOrder; // copy the array reference
-                destElem.ByteOrderStr = srcElem.ByteOrderStr;
-                Elems.Add(destElem);
-            }
-        }
-
-        /// <summary>
         /// Creates a new Modbus element.
         /// </summary>
         public virtual Elem CreateElem()
@@ -293,7 +199,7 @@ namespace Scada.Comm.Drivers.DrvModbus.Protocol
                 case DataBlock.InputRegisters:
                     FuncCode = FuncCodes.ReadInputRegisters;
                     break;
-                default: // DataBlock.HoldingRegisters:
+                case DataBlock.HoldingRegisters:
                     FuncCode = FuncCodes.ReadHoldingRegisters;
                     break;
             }

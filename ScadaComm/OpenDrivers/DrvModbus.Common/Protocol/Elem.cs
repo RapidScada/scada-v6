@@ -17,7 +17,6 @@ namespace Scada.Comm.Drivers.DrvModbus.Protocol
             Name = "";
             ElemType = ElemType.Bool;
             ByteOrder = null;
-            ByteOrderStr = "";
         }
 
 
@@ -30,6 +29,11 @@ namespace Scada.Comm.Drivers.DrvModbus.Protocol
         /// Gets or sets the element type.
         /// </summary>
         public ElemType ElemType { get; set; }
+
+        /// <summary>
+        /// Gets or sets the byte order.
+        /// </summary>
+        public int[] ByteOrder { get; set; }
 
         /// <summary>
         /// Gets the quantity of addresses.
@@ -52,15 +56,5 @@ namespace Scada.Comm.Drivers.DrvModbus.Protocol
                 return ModbusUtils.GetDataLength(ElemType);
             }
         }
-
-        /// <summary>
-        /// Gets or sets the byte order array.
-        /// </summary>
-        public int[] ByteOrder { get; set; }
-
-        /// <summary>
-        /// Gets or sets the string representation of the byte order.
-        /// </summary>
-        public string ByteOrderStr { get; set; }
     }
 }

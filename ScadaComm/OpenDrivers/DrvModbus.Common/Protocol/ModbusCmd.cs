@@ -2,7 +2,6 @@
 // Licensed under the Apache License, Version 2.0. See License.txt in the project root for license information.
 
 using System;
-using System.Xml;
 
 namespace Scada.Comm.Drivers.DrvModbus.Protocol
 {
@@ -26,10 +25,9 @@ namespace Scada.Comm.Drivers.DrvModbus.Protocol
 
             reqDescr = "";
             Multiple = multiple;
-            ElemType = DefElemType;
+            ElemType = ElemType.Undefined;
             ElemCnt = 1;
             ByteOrder = null;
-            ByteOrderStr = "";
             CmdNum = 1;
             Value = 0;
             Data = null;
@@ -41,7 +39,7 @@ namespace Scada.Comm.Drivers.DrvModbus.Protocol
 
 
         /// <summary>
-        /// Gets a description of the request that represents the command.
+        /// Gets a description of the request that writes the command.
         /// </summary>
         public override string ReqDescr
         {
@@ -64,30 +62,14 @@ namespace Scada.Comm.Drivers.DrvModbus.Protocol
         public ElemType ElemType { get; set; }
 
         /// <summary>
-        /// Gets a value indicating whether the data type selection is applicable for the command.
-        /// </summary>
-        public override bool ElemTypeEnabled
-        {
-            get
-            {
-                return DataBlock == DataBlock.HoldingRegisters && Multiple;
-            }
-        }
-
-        /// <summary>
         /// Gets or sets the number of elements written by the command.
         /// </summary>
         public int ElemCnt { get; set; }
 
         /// <summary>
-        /// Gets or sets the byte order array.
+        /// Gets or sets the byte order.
         /// </summary>
         public int[] ByteOrder { get; set; }
-
-        /// <summary>
-        /// Gets or sets the string representation of the byte order.
-        /// </summary>
-        public string ByteOrderStr { get; set; }
 
         /// <summary>
         /// Gets or sets the device command number.
@@ -198,73 +180,13 @@ namespace Scada.Comm.Drivers.DrvModbus.Protocol
         }
 
         /// <summary>
-        /// Loads the command from the XML node.
-        /// </summary>
-        public virtual void LoadFromXml(XmlElement cmdElem)
-        {
-            if (cmdElem == null)
-                throw new ArgumentNullException(nameof(cmdElem));
-
-            Address = (ushort)cmdElem.GetAttrAsInt("address");
-            ElemType = cmdElem.GetAttrAsEnum("elemType", DefElemType);
-            ElemCnt = cmdElem.GetAttrAsInt("elemCnt", 1);
-            Name = cmdElem.GetAttribute("name");
-            CmdNum = cmdElem.GetAttrAsInt("cmdNum");
-
-            if (ByteOrderEnabled)
-            {
-                ByteOrderStr = cmdElem.GetAttribute("byteOrder");
-                ByteOrder = ModbusUtils.ParseByteOrder(ByteOrderStr);
-            }
-        }
-
-        /// <summary>
-        /// Saves the command into the XML node.
-        /// </summary>
-        public virtual void SaveToXml(XmlElement cmdElem)
-        {
-            if (cmdElem == null)
-                throw new ArgumentNullException(nameof(cmdElem));
-
-            cmdElem.SetAttribute("dataBlock", DataBlock);
-            cmdElem.SetAttribute("multiple", Multiple);
-            cmdElem.SetAttribute("address", Address);
-
-            if (ElemTypeEnabled)
-                cmdElem.SetAttribute("elemType", ElemType.ToString().ToLowerInvariant());
-
-            if (Multiple)
-                cmdElem.SetAttribute("elemCnt", ElemCnt);
-
-            if (ByteOrderEnabled)
-                cmdElem.SetAttribute("byteOrder", ByteOrderStr);
-
-            cmdElem.SetAttribute("cmdNum", CmdNum);
-            cmdElem.SetAttribute("name", Name);
-        }
-
-        /// <summary>
-        /// Copies the command properties from the source command.
-        /// </summary>
-        public virtual void CopyFrom(ModbusCmd srcCmd)
-        {
-            if (srcCmd == null)
-                throw new ArgumentNullException(nameof(srcCmd));
-
-            ElemCnt = srcCmd.ElemCnt;
-            Address = srcCmd.Address;
-            Name = srcCmd.Name;
-            CmdNum = srcCmd.CmdNum;
-        }
-
-        /// <summary>
         /// Updates the function code according to the data block.
         /// </summary>
         public void UpdateFuncCode()
         {
             if (DataBlock == DataBlock.Coils)
                 FuncCode = Multiple ? FuncCodes.WriteMultipleCoils : FuncCodes.WriteSingleCoil;
-            else
+            else if (DataBlock == DataBlock.HoldingRegisters)
                 FuncCode = Multiple ? FuncCodes.WriteMultipleRegisters : FuncCodes.WriteSingleRegister;
         }
 
