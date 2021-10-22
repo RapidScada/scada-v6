@@ -32,22 +32,6 @@ namespace Scada.Comm.Drivers.DrvModbus.Config
 
 
         /// <summary>
-        /// Creates a new element group configuration.
-        /// </summary>
-        protected virtual ElemGroupConfig CreateElemGroupConfig()
-        {
-            return new ElemGroupConfig();
-        }
-
-        /// <summary>
-        /// Creates a new command configuration.
-        /// </summary>
-        protected virtual CmdConfig CreateCmdConfig()
-        {
-            return new CmdConfig();
-        }
-
-        /// <summary>
         /// Sets the default values.
         /// </summary>
         protected override void SetToDefault()
@@ -137,6 +121,23 @@ namespace Scada.Comm.Drivers.DrvModbus.Config
         protected override string BuildSaveErrorMessage(Exception ex)
         {
             return ScadaUtils.BuildErrorMessage(ex, DriverPhrases.SaveTemplateError);
+        }
+
+
+        /// <summary>
+        /// Creates a new element group configuration.
+        /// </summary>
+        public virtual ElemGroupConfig CreateElemGroupConfig()
+        {
+            return new ElemGroupConfig();
+        }
+
+        /// <summary>
+        /// Creates a new command configuration.
+        /// </summary>
+        public virtual CmdConfig CreateCmdConfig()
+        {
+            return new CmdConfig();
         }
     }
 }

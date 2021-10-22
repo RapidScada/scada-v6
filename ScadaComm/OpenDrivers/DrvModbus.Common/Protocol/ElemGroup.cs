@@ -25,7 +25,6 @@ namespace Scada.Comm.Drivers.DrvModbus.Protocol
             Elems = new List<Elem>();
             ElemData = null;
             StartTagIdx = -1;
-            StartTagNum = 0;
 
             // define function codes
             FuncCode = ModbusUtils.GetReadFuncCode(dataBlock);
@@ -60,11 +59,6 @@ namespace Scada.Comm.Drivers.DrvModbus.Protocol
         /// Gets or sets the device tag index that corresponds to the start element.
         /// </summary>
         public int StartTagIdx { get; set; }
-
-        /// <summary>
-        /// Gets or sets the device tag number that corresponds to the start element.
-        /// </summary>
-        public int StartTagNum { get; set; }
 
 
         /// <summary>

@@ -22,6 +22,7 @@ namespace Scada.Comm.Drivers.DrvModbus.Config
         {
             Active = false;
             Elems = new List<ElemConfig>();
+            StartTagNum = 0;
         }
 
 
@@ -34,6 +35,11 @@ namespace Scada.Comm.Drivers.DrvModbus.Config
         /// Gets the configuration of the elements.
         /// </summary>
         public List<ElemConfig> Elems { get; private set; }
+
+        /// <summary>
+        /// Gets or sets the device tag number that corresponds to the start element.
+        /// </summary>
+        public int StartTagNum { get; set; }
 
 
         /// <summary>

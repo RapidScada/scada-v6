@@ -30,12 +30,12 @@ namespace Scada.Comm.Drivers.DrvModbus.View
         /// <summary>
         /// Получить или установить адрес, начинающийся от 0
         /// </summary>
-        public ushort Address { get; set; }
+        public int Address { get; set; }
 
         /// <summary>
         /// Получить или установить сигнал КП
         /// </summary>
-        public int Signal { get; set; }
+        public int TagNum { get; set; }
 
         /// <summary>
         /// Получить строковую запись диапазона адресов элемента
@@ -55,7 +55,7 @@ namespace Scada.Comm.Drivers.DrvModbus.View
         {
             get
             {
-                return $"{(string.IsNullOrEmpty(Elem.Name) ? DriverPhrases.UnnamedElem : Elem.Name)} ({AddressRange})";
+                return $"{(string.IsNullOrEmpty(Elem.Name) ? DriverPhrases.DefElemName : Elem.Name)} ({AddressRange})";
             }
         }
     }

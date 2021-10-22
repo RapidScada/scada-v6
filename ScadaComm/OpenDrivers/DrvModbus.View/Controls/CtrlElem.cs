@@ -65,7 +65,7 @@ namespace Scada.Comm.Drivers.DrvModbus.View.Controls
             {
                 txtElemName.Text = elemInfo.Elem.Name;
                 txtElemAddress.Text = elemInfo.AddressRange;
-                txtElemSignal.Text = elemInfo.Signal.ToString();
+                txtElemSignal.Text = elemInfo.TagNum.ToString();
                 ElemType elemType = elemInfo.Elem.ElemType;
 
                 if (elemType == ElemType.Bool)

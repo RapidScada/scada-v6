@@ -105,9 +105,9 @@ namespace Scada.Comm.Drivers.DrvModbus.Protocol
         }
 
         /// <summary>
-        /// Gets the data table name.
+        /// Gets the data block name.
         /// </summary>
-        public static string GetTableTypeName(DataBlock dataBlock)
+        public static string GetDataBlockName(DataBlock dataBlock)
         {
             switch (dataBlock)
             {
