@@ -215,7 +215,7 @@ namespace Scada.Comm.Config
             catch (Exception ex)
             {
                 lineConfig = null;
-                errMsg = ScadaUtils.BuildErrorMessage(ex, CommonPhrases.LoadAppConfigError);
+                errMsg = ScadaUtils.BuildErrorMessage(ex, CommonPhrases.LoadConfigError);
                 return false;
             }
         }

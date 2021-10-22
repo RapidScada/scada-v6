@@ -120,7 +120,7 @@ namespace Scada.Admin.Config
             }
             catch (Exception ex)
             {
-                errMsg = ScadaUtils.BuildErrorMessage(ex, CommonPhrases.LoadAppConfigError);
+                errMsg = ScadaUtils.BuildErrorMessage(ex, CommonPhrases.LoadConfigError);
                 return false;
             }
         }
@@ -159,7 +159,7 @@ namespace Scada.Admin.Config
             }
             catch (Exception ex)
             {
-                errMsg = ScadaUtils.BuildErrorMessage(ex, CommonPhrases.SaveAppConfigError);
+                errMsg = ScadaUtils.BuildErrorMessage(ex, CommonPhrases.SaveConfigError);
                 return false;
             }
         }
