@@ -25,6 +25,7 @@
 
 using Scada.Comm.Drivers.DrvModbus.Config;
 using Scada.Comm.Drivers.DrvModbus.Protocol;
+using Scada.Comm.Drivers.DrvModbus.View.Properties;
 using Scada.Forms;
 using Scada.Lang;
 using System;
@@ -133,6 +134,22 @@ namespace Scada.Comm.Drivers.DrvModbus.View.Forms
         {
             grsNode.Text = DriverPhrases.GrsNode;
             cmdsNode.Text = DriverPhrases.CmdsNode;
+        }
+
+        /// <summary>
+        /// Takes the tree view and loads them into an image list.
+        /// </summary>
+        private void TakeTreeViewImages()
+        {
+            // loading images from resources instead of storing in image list prevents them from corruption
+            ilTree.Images.Add("cmd.png", Resources.cmd);
+            ilTree.Images.Add("cmds.png", Resources.cmds);
+            ilTree.Images.Add("elem.png", Resources.elem);
+            ilTree.Images.Add("group.png", Resources.group);
+            ilTree.Images.Add("group_inactive.png", Resources.group_inactive);
+
+            grsNode.SetImageKey("group.png");
+            cmdsNode.SetImageKey("cmds.png");
         }
 
         /// <summary>
@@ -470,6 +487,7 @@ namespace Scada.Comm.Drivers.DrvModbus.View.Forms
             TranslateTree();
 
             // настройка элементов управления
+            TakeTreeViewImages();
             openFileDialog.InitialDirectory = appDirs.ConfigDir;
             saveFileDialog.InitialDirectory = appDirs.ConfigDir;
             btnEditSettingsExt.Visible = uiCustomization.ExtendedSettingsAvailable;
@@ -860,17 +878,7 @@ namespace Scada.Comm.Drivers.DrvModbus.View.Forms
 
         private void ctrlElem_ObjectChanged(object sender, ObjectChangedEventArgs e)
         {
-            // установка признака изменения конфигурации
-            Modified = true;
 
-            // отображение изменений элемента в дереве
-            TreeUpdateTypes treeUpdateTypes = (TreeUpdateTypes)e.ChangeArgument;
-
-            if (treeUpdateTypes.HasFlag(TreeUpdateTypes.CurrentNode))
-                selNode.Text = selElemInfo.Caption;
-
-            if (treeUpdateTypes.HasFlag(TreeUpdateTypes.NextSiblings))
-                UpdateElemNodes(selNode.Parent);
         }
 
         private void ctrlCmd_ObjectChanged(object sender, ObjectChangedEventArgs e)

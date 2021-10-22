@@ -143,9 +143,15 @@ namespace Scada.Comm.Drivers.DrvModbus.View.Controls
         /// </summary>
         private void ShowFuncCode(CmdConfig modbusCmd)
         {
-            byte funcCode = ModbusUtils.GetWriteFuncCode(modbusCmd.DataBlock, modbusCmd.Multiple);
-            txtCmdFuncCode.Text = modbusCmd == null ? "" :
-                string.Format("{0} ({1}H)", funcCode, funcCode.ToString("X2"));
+            if (modbusCmd == null)
+            {
+                txtCmdFuncCode.Text = "";
+            }
+            else
+            {
+                byte funcCode = ModbusUtils.GetWriteFuncCode(modbusCmd.DataBlock, modbusCmd.Multiple);
+                txtCmdFuncCode.Text = string.Format("{0} ({1}H)", funcCode, funcCode.ToString("X2"));
+            }
         }
 
         /// <summary>

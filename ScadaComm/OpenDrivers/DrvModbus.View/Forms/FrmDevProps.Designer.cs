@@ -29,7 +29,6 @@
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
-            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(FrmDevProps));
             this.gbDevice = new System.Windows.Forms.GroupBox();
             this.btnBrowseDevTemplate = new System.Windows.Forms.Button();
             this.btnCreateDevTemplate = new System.Windows.Forms.Button();
@@ -65,10 +64,10 @@
             // btnBrowseDevTemplate
             // 
             this.btnBrowseDevTemplate.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
-            this.btnBrowseDevTemplate.Image = ((System.Drawing.Image)(resources.GetObject("btnBrowseDevTemplate.Image")));
+            this.btnBrowseDevTemplate.Image = global::Scada.Comm.Drivers.DrvModbus.View.Properties.Resources.open_shift;
             this.btnBrowseDevTemplate.Location = new System.Drawing.Point(174, 32);
             this.btnBrowseDevTemplate.Name = "btnBrowseDevTemplate";
-            this.btnBrowseDevTemplate.Size = new System.Drawing.Size(20, 20);
+            this.btnBrowseDevTemplate.Size = new System.Drawing.Size(23, 23);
             this.btnBrowseDevTemplate.TabIndex = 2;
             this.toolTip.SetToolTip(this.btnBrowseDevTemplate, "Browse for template");
             this.btnBrowseDevTemplate.UseVisualStyleBackColor = true;
@@ -77,10 +76,10 @@
             // btnCreateDevTemplate
             // 
             this.btnCreateDevTemplate.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
-            this.btnCreateDevTemplate.Image = ((System.Drawing.Image)(resources.GetObject("btnCreateDevTemplate.Image")));
+            this.btnCreateDevTemplate.Image = global::Scada.Comm.Drivers.DrvModbus.View.Properties.Resources.blank_shift;
             this.btnCreateDevTemplate.Location = new System.Drawing.Point(200, 32);
             this.btnCreateDevTemplate.Name = "btnCreateDevTemplate";
-            this.btnCreateDevTemplate.Size = new System.Drawing.Size(20, 20);
+            this.btnCreateDevTemplate.Size = new System.Drawing.Size(23, 23);
             this.btnCreateDevTemplate.TabIndex = 3;
             this.toolTip.SetToolTip(this.btnCreateDevTemplate, "Create new template");
             this.btnCreateDevTemplate.UseVisualStyleBackColor = true;
@@ -89,10 +88,10 @@
             // btnEditDevTemplate
             // 
             this.btnEditDevTemplate.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
-            this.btnEditDevTemplate.Image = ((System.Drawing.Image)(resources.GetObject("btnEditDevTemplate.Image")));
+            this.btnEditDevTemplate.Image = global::Scada.Comm.Drivers.DrvModbus.View.Properties.Resources.edit;
             this.btnEditDevTemplate.Location = new System.Drawing.Point(226, 32);
             this.btnEditDevTemplate.Name = "btnEditDevTemplate";
-            this.btnEditDevTemplate.Size = new System.Drawing.Size(20, 20);
+            this.btnEditDevTemplate.Size = new System.Drawing.Size(23, 23);
             this.btnEditDevTemplate.TabIndex = 4;
             this.toolTip.SetToolTip(this.btnEditDevTemplate, "Edit template");
             this.btnEditDevTemplate.UseVisualStyleBackColor = true;
@@ -102,7 +101,7 @@
             // 
             this.txtDevTemplate.Location = new System.Drawing.Point(13, 32);
             this.txtDevTemplate.Name = "txtDevTemplate";
-            this.txtDevTemplate.Size = new System.Drawing.Size(155, 20);
+            this.txtDevTemplate.Size = new System.Drawing.Size(155, 23);
             this.txtDevTemplate.TabIndex = 1;
             this.txtDevTemplate.TextChanged += new System.EventHandler(this.txtDevTemplate_TextChanged);
             // 
@@ -111,7 +110,7 @@
             this.lblDevTemplate.AutoSize = true;
             this.lblDevTemplate.Location = new System.Drawing.Point(10, 16);
             this.lblDevTemplate.Name = "lblDevTemplate";
-            this.lblDevTemplate.Size = new System.Drawing.Size(84, 13);
+            this.lblDevTemplate.Size = new System.Drawing.Size(92, 15);
             this.lblDevTemplate.TabIndex = 0;
             this.lblDevTemplate.Text = "Device template";
             // 
@@ -137,7 +136,7 @@
             "Modbus TCP"});
             this.cbTransMode.Location = new System.Drawing.Point(13, 32);
             this.cbTransMode.Name = "cbTransMode";
-            this.cbTransMode.Size = new System.Drawing.Size(233, 21);
+            this.cbTransMode.Size = new System.Drawing.Size(233, 23);
             this.cbTransMode.TabIndex = 1;
             this.cbTransMode.SelectedIndexChanged += new System.EventHandler(this.control_Changed);
             // 
@@ -146,7 +145,7 @@
             this.lblTransMode.AutoSize = true;
             this.lblTransMode.Location = new System.Drawing.Point(10, 16);
             this.lblTransMode.Name = "lblTransMode";
-            this.lblTransMode.Size = new System.Drawing.Size(46, 13);
+            this.lblTransMode.Size = new System.Drawing.Size(52, 15);
             this.lblTransMode.TabIndex = 0;
             this.lblTransMode.Text = "Protocol";
             // 

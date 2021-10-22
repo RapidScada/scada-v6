@@ -31,9 +31,8 @@
             this.components = new System.ComponentModel.Container();
             System.Windows.Forms.TreeNode treeNode1 = new System.Windows.Forms.TreeNode("Element groups");
             System.Windows.Forms.TreeNode treeNode2 = new System.Windows.Forms.TreeNode("Commands");
-            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(FrmDevTemplate));
             this.treeView = new System.Windows.Forms.TreeView();
-            this.imageList = new System.Windows.Forms.ImageList(this.components);
+            this.ilTree = new System.Windows.Forms.ImageList(this.components);
             this.toolStrip = new System.Windows.Forms.ToolStrip();
             this.btnNew = new System.Windows.Forms.ToolStripButton();
             this.btnOpen = new System.Windows.Forms.ToolStripButton();
@@ -66,16 +65,16 @@
             | System.Windows.Forms.AnchorStyles.Right)));
             this.treeView.HideSelection = false;
             this.treeView.ImageIndex = 0;
-            this.treeView.ImageList = this.imageList;
+            this.treeView.ImageList = this.ilTree;
             this.treeView.Location = new System.Drawing.Point(13, 19);
             this.treeView.Name = "treeView";
-            treeNode1.ImageKey = "group.png";
+            treeNode1.ImageKey = "(по умолчанию)";
             treeNode1.Name = "grsNode";
-            treeNode1.SelectedImageKey = "group.png";
+            treeNode1.SelectedImageKey = "(по умолчанию)";
             treeNode1.Text = "Element groups";
-            treeNode2.ImageIndex = 3;
+            treeNode2.ImageKey = "(по умолчанию)";
             treeNode2.Name = "cmdsNode";
-            treeNode2.SelectedImageKey = "cmds.png";
+            treeNode2.SelectedImageKey = "(по умолчанию)";
             treeNode2.Text = "Commands";
             this.treeView.Nodes.AddRange(new System.Windows.Forms.TreeNode[] {
             treeNode1,
@@ -86,15 +85,11 @@
             this.treeView.TabIndex = 0;
             this.treeView.AfterSelect += new System.Windows.Forms.TreeViewEventHandler(this.treeView_AfterSelect);
             // 
-            // imageList
+            // ilTree
             // 
-            this.imageList.ImageStream = ((System.Windows.Forms.ImageListStreamer)(resources.GetObject("imageList.ImageStream")));
-            this.imageList.TransparentColor = System.Drawing.Color.Transparent;
-            this.imageList.Images.SetKeyName(0, "group.png");
-            this.imageList.Images.SetKeyName(1, "group_inactive.png");
-            this.imageList.Images.SetKeyName(2, "elem.png");
-            this.imageList.Images.SetKeyName(3, "cmds.png");
-            this.imageList.Images.SetKeyName(4, "cmd.png");
+            this.ilTree.ColorDepth = System.Windows.Forms.ColorDepth.Depth24Bit;
+            this.ilTree.ImageSize = new System.Drawing.Size(16, 16);
+            this.ilTree.TransparentColor = System.Drawing.Color.Transparent;
             // 
             // toolStrip
             // 
@@ -122,7 +117,7 @@
             // btnNew
             // 
             this.btnNew.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-            this.btnNew.Image = ((System.Drawing.Image)(resources.GetObject("btnNew.Image")));
+            this.btnNew.Image = global::Scada.Comm.Drivers.DrvModbus.View.Properties.Resources.blank;
             this.btnNew.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.btnNew.Name = "btnNew";
             this.btnNew.Size = new System.Drawing.Size(23, 22);
@@ -132,7 +127,7 @@
             // btnOpen
             // 
             this.btnOpen.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-            this.btnOpen.Image = ((System.Drawing.Image)(resources.GetObject("btnOpen.Image")));
+            this.btnOpen.Image = global::Scada.Comm.Drivers.DrvModbus.View.Properties.Resources.open;
             this.btnOpen.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.btnOpen.Name = "btnOpen";
             this.btnOpen.Size = new System.Drawing.Size(23, 22);
@@ -142,7 +137,7 @@
             // btnSave
             // 
             this.btnSave.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-            this.btnSave.Image = ((System.Drawing.Image)(resources.GetObject("btnSave.Image")));
+            this.btnSave.Image = global::Scada.Comm.Drivers.DrvModbus.View.Properties.Resources.save;
             this.btnSave.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.btnSave.Name = "btnSave";
             this.btnSave.Size = new System.Drawing.Size(23, 22);
@@ -152,7 +147,7 @@
             // btnSaveAs
             // 
             this.btnSaveAs.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-            this.btnSaveAs.Image = ((System.Drawing.Image)(resources.GetObject("btnSaveAs.Image")));
+            this.btnSaveAs.Image = global::Scada.Comm.Drivers.DrvModbus.View.Properties.Resources.save_as;
             this.btnSaveAs.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.btnSaveAs.Name = "btnSaveAs";
             this.btnSaveAs.Size = new System.Drawing.Size(23, 22);
@@ -167,7 +162,7 @@
             // btnAddElemGroup
             // 
             this.btnAddElemGroup.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-            this.btnAddElemGroup.Image = ((System.Drawing.Image)(resources.GetObject("btnAddElemGroup.Image")));
+            this.btnAddElemGroup.Image = global::Scada.Comm.Drivers.DrvModbus.View.Properties.Resources.group;
             this.btnAddElemGroup.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.btnAddElemGroup.Name = "btnAddElemGroup";
             this.btnAddElemGroup.Size = new System.Drawing.Size(23, 22);
@@ -177,7 +172,7 @@
             // btnAddElem
             // 
             this.btnAddElem.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-            this.btnAddElem.Image = ((System.Drawing.Image)(resources.GetObject("btnAddElem.Image")));
+            this.btnAddElem.Image = global::Scada.Comm.Drivers.DrvModbus.View.Properties.Resources.elem;
             this.btnAddElem.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.btnAddElem.Name = "btnAddElem";
             this.btnAddElem.Size = new System.Drawing.Size(23, 22);
@@ -187,7 +182,7 @@
             // btnAddCmd
             // 
             this.btnAddCmd.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-            this.btnAddCmd.Image = ((System.Drawing.Image)(resources.GetObject("btnAddCmd.Image")));
+            this.btnAddCmd.Image = global::Scada.Comm.Drivers.DrvModbus.View.Properties.Resources.cmd;
             this.btnAddCmd.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.btnAddCmd.Name = "btnAddCmd";
             this.btnAddCmd.Size = new System.Drawing.Size(23, 22);
@@ -197,7 +192,7 @@
             // btnMoveUp
             // 
             this.btnMoveUp.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-            this.btnMoveUp.Image = ((System.Drawing.Image)(resources.GetObject("btnMoveUp.Image")));
+            this.btnMoveUp.Image = global::Scada.Comm.Drivers.DrvModbus.View.Properties.Resources.move_up;
             this.btnMoveUp.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.btnMoveUp.Name = "btnMoveUp";
             this.btnMoveUp.Size = new System.Drawing.Size(23, 22);
@@ -207,7 +202,7 @@
             // btnMoveDown
             // 
             this.btnMoveDown.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-            this.btnMoveDown.Image = ((System.Drawing.Image)(resources.GetObject("btnMoveDown.Image")));
+            this.btnMoveDown.Image = global::Scada.Comm.Drivers.DrvModbus.View.Properties.Resources.move_down;
             this.btnMoveDown.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.btnMoveDown.Name = "btnMoveDown";
             this.btnMoveDown.Size = new System.Drawing.Size(23, 22);
@@ -217,7 +212,7 @@
             // btnDelete
             // 
             this.btnDelete.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-            this.btnDelete.Image = ((System.Drawing.Image)(resources.GetObject("btnDelete.Image")));
+            this.btnDelete.Image = global::Scada.Comm.Drivers.DrvModbus.View.Properties.Resources.delete;
             this.btnDelete.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.btnDelete.Name = "btnDelete";
             this.btnDelete.Size = new System.Drawing.Size(23, 22);
@@ -232,7 +227,7 @@
             // btnEditSettings
             // 
             this.btnEditSettings.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-            this.btnEditSettings.Image = ((System.Drawing.Image)(resources.GetObject("btnEditSettings.Image")));
+            this.btnEditSettings.Image = global::Scada.Comm.Drivers.DrvModbus.View.Properties.Resources.options;
             this.btnEditSettings.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.btnEditSettings.Name = "btnEditSettings";
             this.btnEditSettings.Size = new System.Drawing.Size(23, 22);
@@ -242,7 +237,7 @@
             // btnEditSettingsExt
             // 
             this.btnEditSettingsExt.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-            this.btnEditSettingsExt.Image = ((System.Drawing.Image)(resources.GetObject("btnEditSettingsExt.Image")));
+            this.btnEditSettingsExt.Image = global::Scada.Comm.Drivers.DrvModbus.View.Properties.Resources.options_extended;
             this.btnEditSettingsExt.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.btnEditSettingsExt.Name = "btnEditSettingsExt";
             this.btnEditSettingsExt.Size = new System.Drawing.Size(23, 22);
@@ -284,6 +279,7 @@
             this.ctrlElemGroup.Settings = null;
             this.ctrlElemGroup.Size = new System.Drawing.Size(280, 245);
             this.ctrlElemGroup.TabIndex = 2;
+            this.ctrlElemGroup.ObjectChanged += new System.EventHandler<Scada.Forms.ObjectChangedEventArgs>(this.ctrlElemGroup_ObjectChanged);
             // 
             // ctrlElem
             // 
@@ -293,6 +289,7 @@
             this.ctrlElem.Name = "ctrlElem";
             this.ctrlElem.Size = new System.Drawing.Size(280, 271);
             this.ctrlElem.TabIndex = 3;
+            this.ctrlElem.ObjectChanged += new System.EventHandler<Scada.Forms.ObjectChangedEventArgs>(this.ctrlElem_ObjectChanged);
             // 
             // ctrlCmd
             // 
@@ -303,6 +300,7 @@
             this.ctrlCmd.Settings = null;
             this.ctrlCmd.Size = new System.Drawing.Size(280, 324);
             this.ctrlCmd.TabIndex = 4;
+            this.ctrlCmd.ObjectChanged += new System.EventHandler<Scada.Forms.ObjectChangedEventArgs>(this.ctrlCmd_ObjectChanged);
             // 
             // FrmDevTemplate
             // 
@@ -345,7 +343,7 @@
         private System.Windows.Forms.ToolStripButton btnMoveDown;
         private System.Windows.Forms.ToolStripButton btnDelete;
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator1;
-        private System.Windows.Forms.ImageList imageList;
+        private System.Windows.Forms.ImageList ilTree;
         private System.Windows.Forms.GroupBox gbDevTemplate;
         private System.Windows.Forms.OpenFileDialog openFileDialog;
         private System.Windows.Forms.SaveFileDialog saveFileDialog;

@@ -105,6 +105,8 @@ namespace Scada.Comm.Drivers.DrvModbus.Config
             {
                 cmdConfig.SaveToXml(cmdsElem.AppendElem("Cmd"));
             }
+
+            xmlDoc.Save(writer);
         }
 
         /// <summary>

@@ -4,6 +4,7 @@
 using Scada.Comm.Config;
 using Scada.Comm.Devices;
 using Scada.Comm.Drivers.DrvModbus.View.Forms;
+using Scada.Forms;
 using Scada.Lang;
 
 namespace Scada.Comm.Drivers.DrvModbus.View
@@ -47,17 +48,17 @@ namespace Scada.Comm.Drivers.DrvModbus.View
                     "Пользовательский параметр линии связи:\n" +
                     "TransMode - режим передачи данных (RTU, ASCII, TCP).\n\n" +
                     "Параметр командной строки:\n" +
-                    "имя файла шаблона.\n\n" +
+                    "имя файла шаблона устройства.\n\n" +
                     "Команды ТУ:\n" +
-                    "определяются шаблоном." :
+                    "определяются шаблоном устройства." :
 
                     "Provides interaction with controllers via Modbus protocol.\n\n" +
                     "Custom communication line parameter:\n" +
                     "TransMode - data transmission mode (RTU, ASCII, TCP).\n\n" +
                     "Command line parameter:\n" +
-                    "template file name.\n\n" +
+                    "device template file name.\n\n" +
                     "Commands:\n" +
-                    "defined by template.";
+                    "defined by device template.";
             }
         }
 
@@ -75,6 +76,10 @@ namespace Scada.Comm.Drivers.DrvModbus.View
         /// </summary>
         public override void LoadDictionaries()
         {
+            if (!Locale.LoadDictionaries(AppDirs.LangDir, DriverUtils.DriverCode, out string errMsg))
+                ScadaUiUtils.ShowError(errMsg);
+
+            DriverPhrases.Init();
         }
 
         /// <summary>
