@@ -65,6 +65,22 @@ namespace Scada.Config
         protected virtual void Save(TextWriter writer)
         {
         }
+        
+        /// <summary>
+        /// Builds an error message for the load operation.
+        /// </summary>
+        protected virtual string BuildLoadErrorMessage(Exception ex)
+        {
+            return ScadaUtils.BuildErrorMessage(ex, CommonPhrases.LoadConfigError);
+        }
+
+        /// <summary>
+        /// Builds an error message for the save operation.
+        /// </summary>
+        protected virtual string BuildSaveErrorMessage(Exception ex)
+        {
+            return ScadaUtils.BuildErrorMessage(ex, CommonPhrases.SaveConfigError);
+        }
 
 
         /// <summary>
@@ -86,7 +102,7 @@ namespace Scada.Config
             }
             catch (Exception ex)
             {
-                errMsg = ScadaUtils.BuildErrorMessage(ex, CommonPhrases.LoadAppConfigError);
+                errMsg = BuildLoadErrorMessage(ex);
                 return false;
             }
         }
@@ -110,7 +126,7 @@ namespace Scada.Config
             }
             catch (Exception ex)
             {
-                errMsg = ScadaUtils.BuildErrorMessage(ex, CommonPhrases.LoadAppConfigError);
+                errMsg = ScadaUtils.BuildErrorMessage(ex, CommonPhrases.LoadConfigError);
                 return false;
             }
         }
@@ -132,7 +148,7 @@ namespace Scada.Config
             }
             catch (Exception ex)
             {
-                errMsg = ScadaUtils.BuildErrorMessage(ex, CommonPhrases.SaveAppConfigError);
+                errMsg = BuildSaveErrorMessage(ex);
                 return false;
             }
         }

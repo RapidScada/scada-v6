@@ -64,7 +64,7 @@ namespace Scada.Comm.Lang
 
         public static void Init()
         {
-            // set phrases depending on locale, because the service logic supports only 2 languages
+            // set phrases that are used in the bilingual service logic, depending on the locale
             if (Locale.IsRussian)
             {
                 ErrorInDriver = "Ошибка при вызове метода {0} драйвера {1}";
@@ -113,6 +113,10 @@ namespace Scada.Comm.Lang
 
                 DriverMessage = "Driver {0}: {1}";
             }
+
+
+            // load phrases that are used in the multilingual user interface from dictionaries
+            // no phrases yet
         }
     }
 }

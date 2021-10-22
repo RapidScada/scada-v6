@@ -18,8 +18,6 @@ namespace Scada.Comm.Drivers.DrvModbus.Protocol
         public static string Command { get; set; }
         public static string DeviceError { get; set; }
         public static string IllegalDataTable { get; set; }
-        public static string LoadTemplateError { get; set; }
-        public static string SaveTemplateError { get; set; }
         public static string OK { get; set; }
         public static string CrcError { get; set; }
         public static string LrcError { get; set; }
@@ -40,8 +38,6 @@ namespace Scada.Comm.Drivers.DrvModbus.Protocol
                 Command = "Команда \"{0}\"";
                 DeviceError = "Ошибка устройства";
                 IllegalDataTable = "Недопустимая таблица данных для команды.";
-                LoadTemplateError = "Ошибка при загрузке шаблона устройства";
-                SaveTemplateError = "Ошибка при сохранении шаблона устройства";
                 OK = "OK!";
                 CrcError = "Ошибка CRC!";
                 LrcError = "Ошибка LRC!";
@@ -60,8 +56,6 @@ namespace Scada.Comm.Drivers.DrvModbus.Protocol
                 Command = "Command \"{0}\"";
                 DeviceError = "Device error";
                 IllegalDataTable = "Illegal data table for the command.";
-                LoadTemplateError = "Error loading device template";
-                SaveTemplateError = "Error saving device template";
                 OK = "OK!";
                 CrcError = "CRC error!";
                 LrcError = "LRC error!";

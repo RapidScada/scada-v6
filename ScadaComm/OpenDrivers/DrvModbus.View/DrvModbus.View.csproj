@@ -30,4 +30,13 @@
     </Reference>
   </ItemGroup>
 
+  <ItemGroup>
+    <None Update="Lang\DrvModbus.ru-RU.xml">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="Lang\DrvModbus.en-GB.xml">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
+
 </Project>

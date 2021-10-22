@@ -76,10 +76,6 @@ namespace Scada.Server.Lang
         public static string HistoricalArchiveKind { get; private set; }
         public static string EventsArchiveKind { get; private set; }
 
-        // Scada.Server.Modules
-        public static string LoadModuleConfigError { get; private set; }
-        public static string SaveModuleConfigError { get; private set; }
-
         public static void Init()
         {
             // set phrases that are used in the bilingual service logic, depending on the locale
@@ -158,10 +154,6 @@ namespace Scada.Server.Lang
             CurrentArchiveKind = dict.GetPhrase("CurrentArchiveKind");
             HistoricalArchiveKind = dict.GetPhrase("HistoricalArchiveKind");
             EventsArchiveKind = dict.GetPhrase("EventsArchiveKind");
-
-            dict = Locale.GetDictionary("Scada.Server.Modules");
-            LoadModuleConfigError = dict.GetPhrase("LoadModuleConfigError");
-            SaveModuleConfigError = dict.GetPhrase("SaveModuleConfigError");
         }
     }
 }

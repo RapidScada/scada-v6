@@ -48,8 +48,8 @@
     <Phrase key="FileNotFound">File not found.</Phrase>
     <Phrase key="NamedFileNotFound">File {0} not found.</Phrase>
     <Phrase key="DirectoryNotExists">Directory does not exist.</Phrase>
-    <Phrase key="LoadAppConfigError">Error loading application configuration</Phrase>
-    <Phrase key="SaveAppConfigError">Error saving application configuration</Phrase>
+    <Phrase key="LoadConfigError">Error loading configuration</Phrase>
+    <Phrase key="SaveConfigError">Error saving configuration</Phrase>
     <Phrase key="LoadViewError">Error loading view</Phrase>
     <Phrase key="SaveViewError">Error saving view</Phrase>
   </Dictionary>

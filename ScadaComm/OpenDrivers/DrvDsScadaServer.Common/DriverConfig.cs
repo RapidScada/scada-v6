@@ -10,8 +10,8 @@ using System.Xml;
 namespace Scada.Comm.Drivers.DrvDsScadaServer
 {
     /// <summary>
-    /// Represents a module configuration.
-    /// <para>Представляет конфигурацию модуля.</para>
+    /// Represents a driver configuration.
+    /// <para>Представляет конфигурацию драйвера.</para>
     /// </summary>
     public class DriverConfig : BaseConfig
     {

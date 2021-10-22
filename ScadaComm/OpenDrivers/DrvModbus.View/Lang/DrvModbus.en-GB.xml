@@ -1,0 +1,7 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<DrvModbusDictionaries>
+  <Dictionary key="Scada.Comm.Drivers.DrvModbus.Config.DeviceTemplate">
+    <Phrase key="LoadTemplateError">Error loading device template</Phrase>
+    <Phrase key="SaveTemplateError">Error saving device template</Phrase>
+  </Dictionary>
+</DrvModbusDictionaries>

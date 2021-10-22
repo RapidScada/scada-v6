@@ -2,6 +2,7 @@
 // Licensed under the Apache License, Version 2.0. See License.txt in the project root for license information.
 
 using Scada.Config;
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Xml;
@@ -120,6 +121,22 @@ namespace Scada.Comm.Drivers.DrvModbus.Config
             {
                 cmdConfig.SaveToXml(cmdsElem.AppendElem("Cmd"));
             }
+        }
+
+        /// <summary>
+        /// Builds an error message for the load operation.
+        /// </summary>
+        protected override string BuildLoadErrorMessage(Exception ex)
+        {
+            return ScadaUtils.BuildErrorMessage(ex, DriverPhrases.LoadTemplateError);
+        }
+
+        /// <summary>
+        /// Builds an error message for the save operation.
+        /// </summary>
+        protected override string BuildSaveErrorMessage(Exception ex)
+        {
+            return ScadaUtils.BuildErrorMessage(ex, DriverPhrases.SaveTemplateError);
         }
     }
 }
