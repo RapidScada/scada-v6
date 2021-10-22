@@ -39,7 +39,7 @@ namespace Scada.Comm.Drivers.DrvModbus.Config
         /// <summary>
         /// Creates a new element configuration.
         /// </summary>
-        protected virtual ElemConfig CreateElemConfig()
+        public virtual ElemConfig CreateElemConfig()
         {
             return new ElemConfig();
         }

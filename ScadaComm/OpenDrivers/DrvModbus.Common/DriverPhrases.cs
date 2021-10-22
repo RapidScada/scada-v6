@@ -11,6 +11,11 @@ namespace Scada.Comm.Drivers.DrvModbus
     /// </summary>
     public static class DriverPhrases
     {
+        // TODO: dictionaries
+        public static string UnnamedElem { get; private set; }
+        public static string AddressHint { get; private set; }
+        public static string ElemRemoveWarning { get; private set; }
+
         // Scada.Comm.Drivers.DrvModbus.Config.DeviceTemplate
         public static string LoadTemplateError { get; private set; }
         public static string SaveTemplateError { get; private set; }

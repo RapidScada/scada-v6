@@ -36,5 +36,16 @@ namespace Scada.Comm.Drivers.DrvModbus.Config
         /// Gets or sets the byte order.
         /// </summary>
         public string ByteOrder { get; set; }
+
+        /// <summary>
+        /// Gets the quantity of addresses.
+        /// </summary>
+        public virtual int Quantity
+        {
+            get
+            {
+                return ModbusUtils.GetQuantity(ElemType);
+            }
+        }
     }
 }

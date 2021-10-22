@@ -38,6 +38,17 @@ namespace Scada.Comm.Drivers.DrvModbus.Config
         public int Address { get; set; }
 
         /// <summary>
+        /// Gets the maximum number of elements.
+        /// </summary>
+        public int MaxElemCnt
+        {
+            get
+            {
+                return GetMaxElemCnt(DataBlock);
+            }
+        }
+
+        /// <summary>
         /// Gets the default element type.
         /// </summary>
         public virtual ElemType DefaultElemType
@@ -47,19 +58,6 @@ namespace Scada.Comm.Drivers.DrvModbus.Config
                 return DataBlock == DataBlock.DiscreteInputs || DataBlock == DataBlock.Coils 
                     ? ElemType.Bool 
                     : ElemType.UShort;
-            }
-        }
-
-        /// <summary>
-        /// Gets the maximum number of elements.
-        /// </summary>
-        public virtual int MaxElemCnt
-        {
-            get
-            {
-                return DataBlock == DataBlock.DiscreteInputs || DataBlock == DataBlock.Coils
-                    ? 2000
-                    : 125;
             }
         }
 
@@ -83,6 +81,17 @@ namespace Scada.Comm.Drivers.DrvModbus.Config
             {
                 return DataBlock == DataBlock.InputRegisters || DataBlock == DataBlock.HoldingRegisters;
             }
+        }
+
+
+        /// <summary>
+        /// Gets the maximum number of elements depending on the data table type.
+        /// </summary>
+        public virtual int GetMaxElemCnt(DataBlock dataBlock)
+        {
+            return dataBlock == DataBlock.DiscreteInputs || dataBlock == DataBlock.Coils 
+                ? 2000 
+                : 125;
         }
     }
 }

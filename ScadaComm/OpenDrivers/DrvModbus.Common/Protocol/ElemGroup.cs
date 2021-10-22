@@ -28,7 +28,7 @@ namespace Scada.Comm.Drivers.DrvModbus.Protocol
             StartTagNum = 0;
 
             // define function codes
-            UpdateFuncCode();
+            FuncCode = ModbusUtils.GetReadFuncCode(dataBlock);
             ExcFuncCode = (byte)(FuncCode | 0x80);
         }
 
@@ -181,28 +181,6 @@ namespace Scada.Comm.Drivers.DrvModbus.Protocol
         public virtual Elem CreateElem()
         {
             return new Elem();
-        }
-
-        /// <summary>
-        /// Updates the function code according to the data block.
-        /// </summary>
-        public void UpdateFuncCode()
-        {
-            switch (DataBlock)
-            {
-                case DataBlock.DiscreteInputs:
-                    FuncCode = FuncCodes.ReadDiscreteInputs;
-                    break;
-                case DataBlock.Coils:
-                    FuncCode = FuncCodes.ReadCoils;
-                    break;
-                case DataBlock.InputRegisters:
-                    FuncCode = FuncCodes.ReadInputRegisters;
-                    break;
-                case DataBlock.HoldingRegisters:
-                    FuncCode = FuncCodes.ReadHoldingRegisters;
-                    break;
-            }
         }
 
         /// <summary>

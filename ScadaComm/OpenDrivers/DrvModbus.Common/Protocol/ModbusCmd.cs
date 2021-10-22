@@ -33,7 +33,7 @@ namespace Scada.Comm.Drivers.DrvModbus.Protocol
             Data = null;
 
             // define function codes
-            UpdateFuncCode();
+            FuncCode = ModbusUtils.GetWriteFuncCode(dataBlock, multiple);
             ExcFuncCode = (byte)(FuncCode | 0x80);
         }
 
@@ -177,17 +177,6 @@ namespace Scada.Comm.Drivers.DrvModbus.Protocol
             {
                 return false;
             }
-        }
-
-        /// <summary>
-        /// Updates the function code according to the data block.
-        /// </summary>
-        public void UpdateFuncCode()
-        {
-            if (DataBlock == DataBlock.Coils)
-                FuncCode = Multiple ? FuncCodes.WriteMultipleCoils : FuncCodes.WriteSingleCoil;
-            else if (DataBlock == DataBlock.HoldingRegisters)
-                FuncCode = Multiple ? FuncCodes.WriteMultipleRegisters : FuncCodes.WriteSingleRegister;
         }
 
         /// <summary>

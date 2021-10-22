@@ -270,6 +270,45 @@ namespace Scada.Comm.Drivers.DrvModbus.Protocol
         }
 
         /// <summary>
+        /// Gets the function code for reading depending on the data block.
+        /// </summary>
+        public static byte GetReadFuncCode(DataBlock dataBlock)
+        {
+            switch (dataBlock)
+            {
+                case DataBlock.DiscreteInputs:
+                    return FuncCodes.ReadDiscreteInputs;
+
+                case DataBlock.Coils:
+                    return FuncCodes.ReadCoils;
+
+                case DataBlock.InputRegisters:
+                    return FuncCodes.ReadInputRegisters;
+
+                default: // DataBlock.HoldingRegisters
+                    return FuncCodes.ReadHoldingRegisters;
+            }
+        }
+
+        /// <summary>
+        /// Gets the function code for writing depending on the data block.
+        /// </summary>
+        public static byte GetWriteFuncCode(DataBlock dataBlock, bool multiple)
+        {
+            switch (dataBlock)
+            {
+                case DataBlock.Coils:
+                    return multiple ? FuncCodes.WriteMultipleCoils : FuncCodes.WriteSingleCoil;
+
+                case DataBlock.HoldingRegisters:
+                    return multiple ? FuncCodes.WriteMultipleRegisters : FuncCodes.WriteSingleRegister;
+
+                default:
+                    return 0;
+            }
+        }
+
+        /// <summary>
         /// Determines whether the specified function is a read function.
         /// </summary>
         public static bool IsReadFunction(byte funcCode)

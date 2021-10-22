@@ -15,7 +15,7 @@ namespace Scada.Comm.Drivers.DrvModbus.Protocol
         public Elem()
         {
             Name = "";
-            ElemType = ElemType.Bool;
+            ElemType = ElemType.Undefined;
             ByteOrder = null;
         }
 
