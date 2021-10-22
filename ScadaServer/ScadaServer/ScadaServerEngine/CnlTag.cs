@@ -34,8 +34,8 @@ namespace Scada.Server.Engine
     /// <para>Представляет метаданные канала.</para>
     /// </summary>
     /// <remarks>
-    /// Used for channels of the following types: Input, InputOutput, Calculated.
-    /// <para>Используется для каналов следующих типов: Input, InputOutput, Calculated.</para>
+    /// Used for channels of the following types: Input, InputOutput, Calculated, CalculatedOutput.
+    /// <para>Используется для каналов следующих типов: Input, InputOutput, Calculated, CalculatedOutput.</para>
     /// </remarks>
     internal class CnlTag
     {

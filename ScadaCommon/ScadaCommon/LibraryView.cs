@@ -43,7 +43,6 @@ namespace Scada
         {
             BaseDataSet = null;
             AppDirs = null;
-            ScadaClient = null;
             AgentClient = null;
             CanShowProperties = false;
         }

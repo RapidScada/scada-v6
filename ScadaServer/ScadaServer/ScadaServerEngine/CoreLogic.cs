@@ -280,7 +280,7 @@ namespace Scada.Server.Engine
 
                     if (CnlTypeID.IsInput(cnl.CnlTypeID))
                         measCnlTags.Add(cnlTag);
-                    else if (cnl.CnlTypeID == CnlTypeID.Calculated)
+                    else if (CnlTypeID.IsCalculated(cnl.CnlTypeID))
                         calcCnlTags.Add(cnlTag);
 
                     if (lim != null && lim.IsBoundToCnl)

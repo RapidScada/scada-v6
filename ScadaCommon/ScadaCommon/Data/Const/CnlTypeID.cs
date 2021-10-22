@@ -42,18 +42,23 @@ namespace Scada.Data.Const
         public const int InputOutput = 2;
 
         /// <summary>
-        /// Channel defines a telecontrol command.
-        /// </summary>
-        public const int Output = 3;
-
-        /// <summary>
         /// Channel values are calculated using a formula.
         /// </summary>
-        public const int Calculated = 4;
+        public const int Calculated = 3;
+
+        /// <summary>
+        /// Channel values are calculated and can be written.
+        /// </summary>
+        public const int CalculatedOutput = 4;
+
+        /// <summary>
+        /// Channel defines a telecontrol command.
+        /// </summary>
+        public const int Output = 5;
 
 
         /// <summary>
-        /// Determines whether the channel type relates to an input channel.
+        /// Determines whether the channel type relates to an input channel (not calculated).
         /// </summary>
         public static bool IsInput(int? cnlTypeID)
         {
@@ -65,7 +70,16 @@ namespace Scada.Data.Const
         /// </summary>
         public static bool IsOutput(int? cnlTypeID)
         {
-            return cnlTypeID.HasValue && (cnlTypeID == InputOutput || cnlTypeID == Output);
+            return cnlTypeID.HasValue && 
+                (cnlTypeID == InputOutput || cnlTypeID == CalculatedOutput || cnlTypeID == Output);
+        }
+
+        /// <summary>
+        /// Determines whether the channel type relates to a calculated channel.
+        /// </summary>
+        public static bool IsCalculated(int? cnlTypeID)
+        {
+            return cnlTypeID.HasValue && (cnlTypeID == Calculated || cnlTypeID == CalculatedOutput);
         }
 
         /// <summary>
@@ -73,7 +87,8 @@ namespace Scada.Data.Const
         /// </summary>
         public static bool IsArchivable(int? cnlTypeID)
         {
-            return cnlTypeID.HasValue && (cnlTypeID == Input || cnlTypeID == InputOutput || cnlTypeID == Calculated);
+            return cnlTypeID.HasValue && (cnlTypeID == Input || cnlTypeID == InputOutput || 
+                cnlTypeID == Calculated || cnlTypeID == CalculatedOutput);
         }
     }
 }

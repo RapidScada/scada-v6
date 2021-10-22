@@ -12,12 +12,17 @@
   </CnlType>
   <CnlType>
     <CnlTypeID>3</CnlTypeID>
-    <Name>Output</Name>
-    <Descr>Channel defines a telecontrol command</Descr>
+    <Name>Calculated</Name>
+    <Descr>Channel values are calculated using a formula</Descr>
   </CnlType>
   <CnlType>
     <CnlTypeID>4</CnlTypeID>
-    <Name>Calculated</Name>
-    <Descr>Channel values are calculated using a formula</Descr>
+    <Name>Calculated/output</Name>
+    <Descr>Channel values are calculated and can be written</Descr>
+  </CnlType>
+  <CnlType>
+    <CnlTypeID>5</CnlTypeID>
+    <Name>Output</Name>
+    <Descr>Channel defines a telecontrol command</Descr>
   </CnlType>
 </ArrayOfCnlType>

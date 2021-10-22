@@ -33,8 +33,8 @@ namespace Scada.Server.Engine
     /// <para>Представляет метаданные выходного канала.</para>
     /// </summary>
     /// <remarks>
-    /// Used for channels of the following types: InputOutput, Output.
-    /// <para>Используется для каналов следующих типов: InputOutput, Output.</para>
+    /// Used for channels of the following types: InputOutput, CalculatedOutput, Output.
+    /// <para>Используется для каналов следующих типов: InputOutput, CalculatedOutput, Output.</para>
     /// </remarks>
     internal class OutCnlTag
     {
