@@ -605,7 +605,6 @@ namespace Scada.Comm.Engine
                     deviceHeader = $"Devices ({devices.Count})";
                 }
 
-
                 channel.ChannelLogic.AppendInfo(sb);
 
                 if (SharedData.Count > 0)
