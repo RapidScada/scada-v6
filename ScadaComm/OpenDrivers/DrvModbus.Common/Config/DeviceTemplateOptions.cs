@@ -98,21 +98,21 @@ namespace Scada.Comm.Drivers.DrvModbus.Config
         /// <summary>
         /// Gets the appropriate default byte order as array.
         /// </summary>
-        public int[] GetDefaultByteOrder(int elemCnt)
+        public int[] GetDefaultByteOrder(int byteCnt)
         {
-            switch (elemCnt)
+            switch (byteCnt)
             {
-                case 1:
+                case 2:
                     if (byteOrderArr2 == null)
                         byteOrderArr2 = ModbusUtils.ParseByteOrder(DefByteOrder2);
                     return byteOrderArr2;
 
-                case 2:
+                case 4:
                     if (byteOrderArr4 == null)
                         byteOrderArr4 = ModbusUtils.ParseByteOrder(DefByteOrder4);
                     return byteOrderArr4;
 
-                case 4:
+                case 8:
                     if (byteOrderArr8 == null)
                         byteOrderArr8 = ModbusUtils.ParseByteOrder(DefByteOrder8);
                     return byteOrderArr8;

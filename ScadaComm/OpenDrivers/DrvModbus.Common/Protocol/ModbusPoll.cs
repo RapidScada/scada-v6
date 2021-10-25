@@ -18,46 +18,35 @@ namespace Scada.Comm.Drivers.DrvModbus.Protocol
         /// </summary>
         public delegate bool RequestDelegate(DataUnit dataUnit);
 
-        /// <summary>
-        /// The default input buffer size in bytes.
-        /// </summary>
-        private const int DefaultInBufSize = 300;
-
-        private Connection connection; // the device connection
-        private ILog log;              // the communication line log
+        protected Connection connection; // the device connection
+        protected ILog log;              // the communication line log
 
 
         /// <summary>
         /// Initializes a new instance of the class.
         /// </summary>
-        public ModbusPoll()
-            : this(DefaultInBufSize)
-        {
-        }
-
-        /// <summary>
-        /// Initializes a new instance of the class.
-        /// </summary>
-        public ModbusPoll(int inBufSize)
+        public ModbusPoll(TransMode transMode, int inBufSize)
         {
             connection = ConnectionStub.Instance;
             log = LogStub.Instance;
 
+            TransMode = transMode;
             InBuf = new byte[inBufSize];
-            TransactionID = 0;
             Timeout = 0;
+            TransactionID = 0;
+            ChooseRequestMethod();
         }
 
+
+        /// <summary>
+        /// Gets the data transfer mode.
+        /// </summary>
+        public TransMode TransMode { get; }
 
         /// <summary>
         /// Gets the input buffer.
         /// </summary>
         public byte[] InBuf { get; protected set; }
-
-        /// <summary>
-        /// Gets the current transaction ID in the TCP mode.
-        /// </summary>
-        public ushort TransactionID { get; protected set; }
 
         /// <summary>
         /// Gets or sets the reading timeout, ms.
@@ -94,11 +83,41 @@ namespace Scada.Comm.Drivers.DrvModbus.Protocol
             }
         }
 
+        /// <summary>
+        /// Gets the current transaction ID in the TCP mode.
+        /// </summary>
+        public ushort TransactionID { get; protected set; }
+
+        /// <summary>
+        /// Gets the request method.
+        /// </summary>
+        public RequestDelegate DoRequest { get; protected set; }
+
+
+        /// <summary>
+        /// Sets the request method according to the data transfer mode.
+        /// </summary>
+        protected void ChooseRequestMethod()
+        {
+            switch (TransMode)
+            {
+                case TransMode.RTU:
+                    DoRequest = RtuRequest;
+                    break;
+
+                case TransMode.ASCII:
+                    DoRequest = AsciiRequest;
+                    break;
+                default: // TransMode.TCP
+                    DoRequest = TcpRequest;
+                    break;
+            }
+        }
 
         /// <summary>
         /// Performs a request in the PDU mode.
         /// </summary>
-        public bool RtuRequest(DataUnit dataUnit)
+        protected bool RtuRequest(DataUnit dataUnit)
         {
             bool result = false;
 
@@ -180,7 +199,7 @@ namespace Scada.Comm.Drivers.DrvModbus.Protocol
         /// <summary>
         /// Performs a request in the ASCII mode.
         /// </summary>
-        public bool AsciiRequest(DataUnit dataUnit)
+        protected bool AsciiRequest(DataUnit dataUnit)
         {
             bool result = false;
 
@@ -254,7 +273,7 @@ namespace Scada.Comm.Drivers.DrvModbus.Protocol
         /// <summary>
         /// Performs a request in the TCP mode.
         /// </summary>
-        public bool TcpRequest(DataUnit dataUnit)
+        protected bool TcpRequest(DataUnit dataUnit)
         {
             bool result = false;
 
@@ -316,22 +335,6 @@ namespace Scada.Comm.Drivers.DrvModbus.Protocol
             }
 
             return result;
-        }
-
-        /// <summary>
-        /// Gets the response method according to the data transfer mode.
-        /// </summary>
-        public RequestDelegate GetRequestMethod(TransMode transMode)
-        {
-            switch (transMode)
-            {
-                case TransMode.RTU:
-                    return RtuRequest;
-                case TransMode.ASCII:
-                    return AsciiRequest;
-                default: // TransMode.TCP
-                    return TcpRequest;
-            }
         }
     }
 }

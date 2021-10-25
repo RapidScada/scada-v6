@@ -36,9 +36,9 @@ namespace Scada.Comm.Drivers.DrvModbus.Protocol
         public string Name { get; set; }
 
         /// <summary>
-        /// Gets or sets the data block.
+        /// Gets the data block.
         /// </summary>
-        public DataBlock DataBlock { get; set; }
+        public DataBlock DataBlock { get; }
 
         /// <summary>
         /// Gets or sets the address of the start element.
