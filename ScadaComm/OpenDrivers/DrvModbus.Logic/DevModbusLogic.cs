@@ -70,22 +70,22 @@ namespace Scada.Comm.Drivers.DrvModbus.Logic
             if (deviceModel != null)
             {
                 // calculate input buffer size
-                int inBufSize = 0;
+                int bufferSize = 0;
 
                 foreach (ElemGroup elemGroup in deviceModel.ElemGroups)
                 {
-                    if (inBufSize < elemGroup.RespAduLen)
-                        inBufSize = elemGroup.RespAduLen;
+                    if (bufferSize < elemGroup.RespAduLen)
+                        bufferSize = elemGroup.RespAduLen;
                 }
 
                 foreach (ModbusCmd cmd in deviceModel.Cmds)
                 {
-                    if (inBufSize < cmd.RespAduLen)
-                        inBufSize = cmd.RespAduLen;
+                    if (bufferSize < cmd.RespAduLen)
+                        bufferSize = cmd.RespAduLen;
                 }
 
                 // create polling object
-                modbusPoll = new ModbusPoll(transMode, inBufSize)
+                modbusPoll = new ModbusPoll(transMode, bufferSize)
                 {
                     Timeout = PollingOptions.Timeout,
                     Connection = Connection,
@@ -270,6 +270,9 @@ namespace Scada.Comm.Drivers.DrvModbus.Logic
                     deviceTemplate.Options.GetDefaultByteOrder(
                         ModbusUtils.GetDataLength(cmdConfig.ElemType) * cmdConfig.ElemCnt);
                 modbusCmd.CmdNum = cmdConfig.CmdNum;
+
+                modbusCmd.InitReqPDU();
+                modbusCmd.InitReqADU(deviceModel.Addr, transMode);
                 deviceModel.Cmds.Add(modbusCmd);
             }
 
