@@ -20,10 +20,16 @@ namespace Scada.Comm.Drivers.DrvModbus.Protocol
         {
             cmdByNum = null;
 
+            Addr = 0;
             ElemGroups = new List<ElemGroup>();
             Cmds = new List<ModbusCmd>();
         }
 
+
+        /// <summary>
+        /// Gets or sets the device address (unit ID).
+        /// </summary>
+        public byte Addr { get; set; }
 
         /// <summary>
         /// Gets the element groups.
