@@ -20,7 +20,7 @@
  * 
  * Author   : Mikhail Shiryaev
  * Created  : 2020
- * Modified : 2020
+ * Modified : 2021
  */
 
 using Scada.Comm.DataSources;
@@ -103,8 +103,8 @@ namespace Scada.Comm.Engine
         public void AppendInfo(StringBuilder sb)
         {
             string header = Locale.IsRussian ?
-                "Источники данных (" + dataSources.Count + ")" :
-                "Data Sources (" + dataSources.Count + ")";
+                $"Источники данных ({dataSources.Count})" :
+                $"Data Sources ({dataSources.Count})";
 
             sb
                 .AppendLine()

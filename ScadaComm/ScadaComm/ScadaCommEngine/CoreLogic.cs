@@ -710,13 +710,16 @@ namespace Scada.Comm.Engine
                 if (dataSourceHolder != null)
                     dataSourceHolder.AppendInfo(sb);
 
+                if (SharedData.Count > 0)
+                    EngineUtils.AppendSharedData(sb, SharedData);
+
                 if (commLines != null)
                 {
                     lock (commLineLock)
                     {
                         string header = Locale.IsRussian ?
-                            "Линии связи (" + commLines.Count + ")" :
-                            "Communication Lines (" + commLines.Count + ")";
+                            $"Линии связи ({commLines.Count})" :
+                            $"Communication Lines ({commLines.Count})";
 
                         sb
                             .AppendLine()

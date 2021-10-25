@@ -23,7 +23,10 @@
  * Modified : 2021
  */
 
+using Scada.Lang;
+using System.Collections.Generic;
 using System.Reflection;
+using System.Text;
 
 namespace Scada.Comm.Engine
 {
@@ -37,5 +40,28 @@ namespace Scada.Comm.Engine
         /// The application version.
         /// </summary>
         public static readonly string AppVersion = Assembly.GetExecutingAssembly().GetName().Version.ToString();
+
+        /// <summary>
+        /// Appends information about the shared data to the string builder.
+        /// </summary>
+        public static void AppendSharedData(StringBuilder sb, IDictionary<string, object> sharedData)
+        {
+            string header = Locale.IsRussian ?
+                $"Общие данные ({sharedData.Count})" :
+                $"Shared Data ({sharedData.Count})";
+
+            sb
+                .AppendLine()
+                .AppendLine(header)
+                .Append('-', header.Length).AppendLine();
+
+            foreach (KeyValuePair<string, object> pair in sharedData)
+            {
+                sb
+                    .Append(pair.Key)
+                    .Append(" = ")
+                    .AppendLine(pair.Value?.ToString() ?? "null");
+            }
+        }
     }
 }
