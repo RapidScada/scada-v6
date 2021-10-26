@@ -89,16 +89,20 @@ namespace Scada.Server.Config
             if (rootElem.SelectSingleNode("ListenerOptions") is XmlNode listenerOptionsNode)
                 ListenerOptions.LoadFromXml(listenerOptionsNode);
 
-            HashSet<string> moduleCodes = new HashSet<string>();
+            HashSet<string> moduleCodeSet = new HashSet<string>();
+
+            void AddModuleCode(string moduleCode)
+            {
+                if (!string.IsNullOrEmpty(moduleCode) && moduleCodeSet.Add(moduleCode.ToLowerInvariant()))
+                    ModuleCodes.Add(moduleCode);
+            }
 
             if (rootElem.SelectSingleNode("Modules") is XmlNode modulesNode)
             {
                 foreach (XmlElement moduleElem in modulesNode.SelectNodes("Module"))
                 {
                     string moduleCode = ScadaUtils.RemoveFileNameSuffixes(moduleElem.GetAttribute("code"));
-
-                    if (moduleCodes.Add(moduleCode.ToLowerInvariant())) // check uniqueness
-                        ModuleCodes.Add(moduleCode);
+                    AddModuleCode(moduleCode);
                 }
             }
 
@@ -110,8 +114,8 @@ namespace Scada.Server.Config
                     archiveConfig.LoadFromXml(archiveElem);
                     Archives.Add(archiveConfig);
 
-                    if (archiveConfig.Active && moduleCodes.Add(archiveConfig.Module.ToLowerInvariant()))
-                        ModuleCodes.Add(archiveConfig.Module);
+                    if (archiveConfig.Active)
+                        AddModuleCode(archiveConfig.Module);
                 }
             }
         }
