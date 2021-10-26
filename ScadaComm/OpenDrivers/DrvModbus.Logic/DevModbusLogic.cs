@@ -136,8 +136,8 @@ namespace Scada.Comm.Drivers.DrvModbus.Logic
             if (string.IsNullOrEmpty(fileName))
             {
                 Log.WriteLine(string.Format(Locale.IsRussian ?
-                    "Ошибка: Не задан шаблон устройства для {1}" :
-                    "Error: Device template is undefined for {1}", Title));
+                    "Ошибка: Не задан шаблон устройства для {0}" :
+                    "Error: Device template is undefined for {0}", Title));
             }
             else
             {
@@ -150,8 +150,8 @@ namespace Scada.Comm.Drivers.DrvModbus.Logic
                 else
                 {
                     Log.WriteLine(string.Format(Locale.IsRussian ?
-                        "Загрузка шаблона устройства из файла {1}" :
-                        "Load device template from file {1}", fileName));
+                        "Загрузка шаблона устройства из файла {0}" :
+                        "Load device template from file {0}", fileName));
 
                     DeviceTemplate newTemplate = CreateDeviceTemplate();
                     templateDict.Add(fileName, newTemplate);
@@ -188,7 +188,7 @@ namespace Scada.Comm.Drivers.DrvModbus.Logic
         /// </summary>
         public override void OnCommLineStart()
         {
-            transMode = PollingOptions.CustomOptions.GetValueAsEnum("TransMode", TransMode.RTU);
+            transMode = LineContext.LineConfig.CustomOptions.GetValueAsEnum("TransMode", TransMode.RTU);
         }
 
         /// <summary>
@@ -224,13 +224,14 @@ namespace Scada.Comm.Drivers.DrvModbus.Logic
             {
                 bool groupActive = elemGroupConfig.Active;
                 ElemGroup elemGroup = null;
-                TagGroup tagGroup = new TagGroup(elemGroupConfig.Name) { Hidden = groupActive };
+                TagGroup tagGroup = new TagGroup(elemGroupConfig.Name) { Hidden = !groupActive };
 
                 if (groupActive)
                 {
                     elemGroup = deviceModel.CreateElemGroup(elemGroupConfig.DataBlock);
                     elemGroup.Name = elemGroupConfig.Name;
                     elemGroup.Address = (ushort)elemGroupConfig.Address;
+                    elemGroup.StartTagIdx = DeviceTags.Count;
                 }
 
                 foreach (ElemConfig elemConfig in elemGroupConfig.Elems)

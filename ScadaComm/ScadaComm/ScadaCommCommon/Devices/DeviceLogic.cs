@@ -73,7 +73,7 @@ namespace Scada.Comm.Devices
             StrAddress = deviceConfig.StrAddress;
             PollingOptions = deviceConfig.PollingOptions;
             CanSendCommands = false;
-            ConnectionRequired = false;
+            ConnectionRequired = true;
             DeviceStatus = DeviceStatus.Undefined;
             LastSessionTime = DateTime.MinValue;
             LastCommandTime = DateTime.MinValue;
