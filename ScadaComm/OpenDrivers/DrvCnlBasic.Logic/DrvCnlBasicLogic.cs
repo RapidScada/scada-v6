@@ -3,9 +3,6 @@
 
 using Scada.Comm.Channels;
 using Scada.Comm.Config;
-using System;
-using System.Collections.Generic;
-using System.Text;
 
 namespace Scada.Comm.Drivers.DrvCnlBasic.Logic
 {
@@ -30,7 +27,7 @@ namespace Scada.Comm.Drivers.DrvCnlBasic.Logic
         {
             get
             {
-                return "DrvCnlBasic";
+                return DriverUtils.DriverCode;
             }
         }
 
