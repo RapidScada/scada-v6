@@ -32,9 +32,9 @@ namespace Scada.Comm.Drivers.DrvModbus.Logic
             }
         }
 
-        private TransMode transMode;       // the data transfer mode of the communication line
+        protected TransMode transMode;     // the data transfer mode of the communication line
         protected DeviceModel deviceModel; // the device model
-        private ModbusPoll modbusPoll;     // implements device polling
+        protected ModbusPoll modbusPoll;   // implements device polling
 
 
         /// <summary>
@@ -47,6 +47,12 @@ namespace Scada.Comm.Drivers.DrvModbus.Logic
             deviceModel = null;
             modbusPoll = null;
         }
+
+
+        /// <summary>
+        /// Gets the shared data key of the template dictionary.
+        /// </summary>
+        protected virtual string TemplateDictKey => "Modbus.Templates";
 
 
         /// <summary>
@@ -112,7 +118,6 @@ namespace Scada.Comm.Drivers.DrvModbus.Logic
         /// </summary>
         protected virtual TemplateDict GetTemplateDict()
         {
-            const string TemplateDictKey = "Modbus.Templates";
             TemplateDict templateDict = LineContext.SharedData.ContainsKey(TemplateDictKey) ?
                 LineContext.SharedData[TemplateDictKey] as TemplateDict : null;
 
