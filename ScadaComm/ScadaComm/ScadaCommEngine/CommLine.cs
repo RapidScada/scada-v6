@@ -607,7 +607,7 @@ namespace Scada.Comm.Engine
 
                 channel.ChannelLogic.AppendInfo(sb);
 
-                if (SharedData.Count > 0)
+                if (SharedData != null && SharedData.Count > 0)
                     EngineUtils.AppendSharedData(sb, SharedData);
 
                 sb
@@ -822,7 +822,7 @@ namespace Scada.Comm.Engine
             CommLine commLine = new CommLine(lineConfig, coreLogic);
 
             // create communication channel
-            if (string.IsNullOrEmpty(lineConfig.Channel.TypeCode))
+            if (string.IsNullOrEmpty(lineConfig.Channel.Driver))
             {
                 ChannelLogic channelLogic = new ChannelLogic(commLine, lineConfig.Channel); // stub
                 commLine.channel = new ChannelWrapper(channelLogic, commLine.Log);
@@ -835,8 +835,8 @@ namespace Scada.Comm.Engine
             else
             {
                 throw new ScadaException(Locale.IsRussian ?
-                    "Драйвер для создания канала связи не найден." :
-                    "Driver for creating communication channel not found.");
+                    "Драйвер канала связи {0} не найден." :
+                    "Communication channel driver {0} not found.", lineConfig.Channel.Driver);
             }
 
             // create devices

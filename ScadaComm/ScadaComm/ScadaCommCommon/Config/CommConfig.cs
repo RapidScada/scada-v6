@@ -77,20 +77,31 @@ namespace Scada.Comm.Config
         /// </summary>
         private void FillDriverCodes()
         {
-            HashSet<string> driverCodes = new HashSet<string>();
+            HashSet<string> driverCodeSet = new HashSet<string>();
+
+            void AddDriverCode(string driverCode)
+            {
+                if (!string.IsNullOrEmpty(driverCode) && driverCodeSet.Add(driverCode.ToLowerInvariant()))
+                    DriverCodes.Add(driverCode);
+            }
 
             foreach (DataSourceConfig dataSourceConfig in DataSources)
             {
-                if (dataSourceConfig.Active && driverCodes.Add(dataSourceConfig.Driver.ToLowerInvariant()))
-                    DriverCodes.Add(dataSourceConfig.Driver);
+                if (dataSourceConfig.Active)
+                    AddDriverCode(dataSourceConfig.Driver);
             }
 
             foreach (LineConfig lineConfig in Lines)
             {
-                foreach (DeviceConfig deviceConfig in lineConfig.DevicePolling)
+                if (lineConfig.Active)
                 {
-                    if (deviceConfig.Active && driverCodes.Add(deviceConfig.Driver.ToLowerInvariant()))
-                        DriverCodes.Add(deviceConfig.Driver);
+                    AddDriverCode(lineConfig.Channel.Driver);
+
+                    foreach (DeviceConfig deviceConfig in lineConfig.DevicePolling)
+                    {
+                        if (deviceConfig.Active)
+                            AddDriverCode(deviceConfig.Driver);
+                    }
                 }
             }
 

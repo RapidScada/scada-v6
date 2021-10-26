@@ -710,7 +710,7 @@ namespace Scada.Comm.Engine
                 if (dataSourceHolder != null)
                     dataSourceHolder.AppendInfo(sb);
 
-                if (SharedData.Count > 0)
+                if (SharedData != null && SharedData.Count > 0)
                     EngineUtils.AppendSharedData(sb, SharedData);
 
                 if (commLines != null)
