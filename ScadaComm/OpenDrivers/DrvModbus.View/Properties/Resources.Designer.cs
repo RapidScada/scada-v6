@@ -73,16 +73,6 @@ namespace Scada.Comm.Drivers.DrvModbus.View.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
-        internal static System.Drawing.Bitmap blank_shift {
-            get {
-                object obj = ResourceManager.GetObject("blank_shift", resourceCulture);
-                return ((System.Drawing.Bitmap)(obj));
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized resource of type System.Drawing.Bitmap.
-        /// </summary>
         internal static System.Drawing.Bitmap cmd {
             get {
                 object obj = ResourceManager.GetObject("cmd", resourceCulture);
@@ -176,16 +166,6 @@ namespace Scada.Comm.Drivers.DrvModbus.View.Properties {
         internal static System.Drawing.Bitmap open {
             get {
                 object obj = ResourceManager.GetObject("open", resourceCulture);
-                return ((System.Drawing.Bitmap)(obj));
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized resource of type System.Drawing.Bitmap.
-        /// </summary>
-        internal static System.Drawing.Bitmap open_shift {
-            get {
-                object obj = ResourceManager.GetObject("open_shift", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }

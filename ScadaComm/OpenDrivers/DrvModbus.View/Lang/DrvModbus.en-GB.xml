@@ -4,6 +4,20 @@
     <Phrase key="LoadTemplateError">Error loading device template</Phrase>
     <Phrase key="SaveTemplateError">Error saving device template</Phrase>
   </Dictionary>
+  <Dictionary key="Scada.Comm.Drivers.DrvModbus.View.Forms.FrmDeviceProps">
+    <Phrase key="this">Device {0} Properties</Phrase>
+    <Phrase key="gbCommLine">Communication Line</Phrase>
+    <Phrase key="lblTransMode">Protocol</Phrase>
+    <Phrase key="gbDevice">Device</Phrase>
+    <Phrase key="lblTemplateFileName">Device template</Phrase>
+    <Phrase key="btnBrowseTemplate">Browse...</Phrase>
+    <Phrase key="btnCreateTemplate">Create</Phrase>
+    <Phrase key="btnEditTemplate">Edit</Phrase>
+    <Phrase key="btnOK">OK</Phrase>
+    <Phrase key="btnCancel">Cancel</Phrase>
+    <Phrase key="ConfigDirRequired">The device template file must be located inside {0}</Phrase>
+    <Phrase key="TemplateNotExists">The device template file does not exist.</Phrase>
+  </Dictionary>
   <Dictionary key="Scada.Comm.Drivers.DrvModbus.View.Forms.FrmTemplateOptions">
     <Phrase key="this">Template Options</Phrase>
     <Phrase key="gbAddressing">Addressing</Phrase>

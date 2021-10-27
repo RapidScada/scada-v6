@@ -75,8 +75,8 @@
             // 
             // pnlBase
             // 
-            this.pnlBase.Controls.Add(this.rbZeroBased);
             this.pnlBase.Controls.Add(this.rbOneBased);
+            this.pnlBase.Controls.Add(this.rbZeroBased);
             this.pnlBase.Location = new System.Drawing.Point(13, 22);
             this.pnlBase.Name = "pnlBase";
             this.pnlBase.Size = new System.Drawing.Size(230, 17);
@@ -84,8 +84,8 @@
             // 
             // pnlNotation
             // 
-            this.pnlNotation.Controls.Add(this.rbDec);
             this.pnlNotation.Controls.Add(this.rbHex);
+            this.pnlNotation.Controls.Add(this.rbDec);
             this.pnlNotation.Location = new System.Drawing.Point(13, 47);
             this.pnlNotation.Name = "pnlNotation";
             this.pnlNotation.Size = new System.Drawing.Size(230, 17);
@@ -152,8 +152,8 @@
             // 
             // gbAddressing
             // 
-            this.gbAddressing.Controls.Add(this.pnlBase);
             this.gbAddressing.Controls.Add(this.pnlNotation);
+            this.gbAddressing.Controls.Add(this.pnlBase);
             this.gbAddressing.Location = new System.Drawing.Point(12, 12);
             this.gbAddressing.Name = "gbAddressing";
             this.gbAddressing.Padding = new System.Windows.Forms.Padding(10, 3, 10, 10);
@@ -164,13 +164,13 @@
             // 
             // gbDefByteOrder
             // 
-            this.gbDefByteOrder.Controls.Add(this.lblDefByteOrder8);
-            this.gbDefByteOrder.Controls.Add(this.txtDefByteOrder8);
-            this.gbDefByteOrder.Controls.Add(this.lblDefByteOrder4);
-            this.gbDefByteOrder.Controls.Add(this.txtDefByteOrder4);
-            this.gbDefByteOrder.Controls.Add(this.lblDefByteOrder2);
-            this.gbDefByteOrder.Controls.Add(this.txtDefByteOrder2);
             this.gbDefByteOrder.Controls.Add(this.lblDefByteOrderExample);
+            this.gbDefByteOrder.Controls.Add(this.txtDefByteOrder8);
+            this.gbDefByteOrder.Controls.Add(this.lblDefByteOrder8);
+            this.gbDefByteOrder.Controls.Add(this.txtDefByteOrder4);
+            this.gbDefByteOrder.Controls.Add(this.lblDefByteOrder4);
+            this.gbDefByteOrder.Controls.Add(this.txtDefByteOrder2);
+            this.gbDefByteOrder.Controls.Add(this.lblDefByteOrder2);
             this.gbDefByteOrder.Location = new System.Drawing.Point(12, 95);
             this.gbDefByteOrder.Name = "gbDefByteOrder";
             this.gbDefByteOrder.Padding = new System.Windows.Forms.Padding(10, 3, 10, 10);
@@ -227,10 +227,10 @@
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.CancelButton = this.btnCancel;
             this.ClientSize = new System.Drawing.Size(284, 322);
-            this.Controls.Add(this.gbDefByteOrder);
-            this.Controls.Add(this.gbAddressing);
             this.Controls.Add(this.btnCancel);
             this.Controls.Add(this.btnOK);
+            this.Controls.Add(this.gbDefByteOrder);
+            this.Controls.Add(this.gbAddressing);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedDialog;
             this.MaximizeBox = false;
             this.MinimizeBox = false;

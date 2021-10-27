@@ -5,6 +5,7 @@ using Scada.Comm.Config;
 using Scada.Comm.Devices;
 using Scada.Comm.Drivers.DrvModbus.View.Forms;
 using System;
+using System.Windows.Forms;
 
 namespace Scada.Comm.Drivers.DrvModbus.View
 {
@@ -31,8 +32,16 @@ namespace Scada.Comm.Drivers.DrvModbus.View
         /// </summary>
         public override bool ShowProperties()
         {
-            FrmDeviceProps.ShowDialog(DeviceNum, LineConfig, DeviceConfig, AppDirs, customUi);
-            return false;
+            if (new FrmDeviceProps(AppDirs, LineConfig, DeviceConfig, customUi).ShowDialog() == DialogResult.OK)
+            {
+                LineConfigModified = true;
+                DeviceConfigModified = true;
+                return true;
+            }
+            else
+            {
+                return false;
+            }
         }
     }
 }

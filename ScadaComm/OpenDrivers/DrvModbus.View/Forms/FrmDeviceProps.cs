@@ -26,6 +26,7 @@
 using Scada.Comm.Config;
 using Scada.Comm.Drivers.DrvModbus.Protocol;
 using Scada.Forms;
+using Scada.Lang;
 using System;
 using System.IO;
 using System.Windows.Forms;
@@ -38,147 +39,150 @@ namespace Scada.Comm.Drivers.DrvModbus.View.Forms
     /// </summary>
     public partial class FrmDeviceProps : Form
     {
-        private int kpNum;                       // номер КП
-        private LineConfig lineConfig;
-        private DeviceConfig deviceConfig;
-        private AppDirs appDirs;                 // директории приложения
-        private CustomUi uiCustomization; // the customization object
+        private readonly AppDirs appDirs;           // the application directories
+        private readonly LineConfig lineConfig;     // the communication line configuration
+        private readonly DeviceConfig deviceConfig; // the device configuration
+        private readonly CustomUi customUi;         // the UI customization object
 
 
         /// <summary>
-        /// Конструктор, ограничивающий создание формы без параметров
+        /// Initializes a new instance of the class.
         /// </summary>
         private FrmDeviceProps()
         {
             InitializeComponent();
         }
 
-
         /// <summary>
-        /// Редактировать шаблон устройства
+        /// Initializes a new instance of the class.
         /// </summary>
-        private void EditDevTemplate(string fileName)
+        public FrmDeviceProps(AppDirs appDirs, LineConfig lineConfig, DeviceConfig deviceConfig, CustomUi customUi)
+            : this()
         {
-            FrmDeviceTemplate.ShowDialog(appDirs, uiCustomization, true, ref fileName);
-
-            if (!string.IsNullOrEmpty(fileName))
-                txtDevTemplate.Text = MakeRelative(fileName);
-        }
-
-        /// <summary>
-        /// Преобразовать имя файла, которое задано относительно директории конфигурации, в абсолютное
-        /// </summary>
-        private string MakeAbsolute(string fileName)
-        {
-            return Path.IsPathRooted(fileName) ?
-                fileName : Path.Combine(appDirs.ConfigDir, fileName);
-        }
-
-        /// <summary>
-        /// Преобразовать имя файла в относительное по отношению к директории конфигурации, 
-        /// если файл находится внутри этой директоии
-        /// </summary>
-        private string MakeRelative(string fileName)
-        {
-            return fileName.StartsWith(appDirs.ConfigDir, StringComparison.OrdinalIgnoreCase) ?
-                fileName.Substring(appDirs.ConfigDir.Length) : fileName;
+            this.appDirs = appDirs ?? throw new ArgumentNullException(nameof(appDirs));
+            this.lineConfig = lineConfig ?? throw new ArgumentNullException(nameof(lineConfig));
+            this.deviceConfig = deviceConfig ?? throw new ArgumentNullException(nameof(deviceConfig));
+            this.customUi = customUi ?? throw new ArgumentNullException(nameof(customUi));
         }
 
 
         /// <summary>
-        /// Отобразить форму модально
+        /// Sets the controls according to the configuration.
         /// </summary>
-        public static void ShowDialog(int kpNum, LineConfig lineConfig, DeviceConfig deviceConfig, AppDirs appDirs, CustomUi uiCustomization)
+        private void ConfigToControls()
         {
-            FrmDeviceProps frmDevProps = new FrmDeviceProps
+            cbTransMode.SelectedIndex = (int)lineConfig.CustomOptions.GetValueAsEnum("TransMode", TransMode.RTU);
+            txtTemplateFileName.Text = deviceConfig.PollingOptions.CmdLine;
+        }
+
+        /// <summary>
+        /// Sets the configuration according to the controls.
+        /// </summary>
+        private void ControlsToConfig()
+        {
+            lineConfig.CustomOptions["TransMode"] = ((TransMode)cbTransMode.SelectedIndex).ToString();
+            deviceConfig.PollingOptions.CmdLine = txtTemplateFileName.Text;
+        }
+
+        /// <summary>
+        /// Validates the form controls.
+        /// </summary>
+        private bool ValidateControls()
+        {
+            if (!File.Exists(GetTemplatePath()))
             {
-                kpNum = kpNum,
-                lineConfig = lineConfig ?? throw new ArgumentNullException("lineConfig"),
-                deviceConfig = deviceConfig ?? throw new ArgumentNullException("deviceConfig"),
-                appDirs = appDirs ?? throw new ArgumentNullException("appDirs"),
-                uiCustomization = uiCustomization ?? throw new ArgumentNullException("uiCustomization")
-            };
-            frmDevProps.ShowDialog();
+                ScadaUiUtils.ShowError(DriverPhrases.TemplateNotExists);
+                return false;
+            }
+
+            return true;
+        }
+
+        /// <summary>
+        /// Validates the path of the device template file.
+        /// </summary>
+        private bool ValidateTemplatePath(string fileName, out string shortFileName)
+        {
+            if (fileName.StartsWith(appDirs.ConfigDir))
+            {
+                shortFileName = fileName[appDirs.ConfigDir.Length..];
+                return true;
+            }
+            else
+            {
+                ScadaUiUtils.ShowError(DriverPhrases.ConfigDirRequired, appDirs.ConfigDir);
+                shortFileName = "";
+                return false;
+            }
+        }
+
+        /// <summary>
+        /// Gets the file path of the device template.
+        /// </summary>
+        private string GetTemplatePath()
+        {
+            return Path.Combine(appDirs.ConfigDir, txtTemplateFileName.Text);
+        }
+
+        /// <summary>
+        /// Shows a form for editing the device template.
+        /// </summary>
+        private void EditDeviceTemplate(string fileName = "")
+        {
+            FrmDeviceTemplate.ShowDialog(appDirs, customUi, true, ref fileName);
+
+            if (!string.IsNullOrEmpty(fileName) &&
+                ValidateTemplatePath(openFileDialog.FileName, out string shortFileName))
+            {
+                txtTemplateFileName.Text = shortFileName;
+            }
         }
 
 
         private void FrmDevProps_Load(object sender, EventArgs e)
         {
-            // перевод формы
-            FormTranslator.Translate(this, "Scada.Comm.Devices.Modbus.UI.FrmDevProps", toolTip);
-            openFileDialog.SetFilter(DriverPhrases.TemplateFileFilter);
+            FormTranslator.Translate(this, GetType().FullName);
+            openFileDialog.SetFilter(CommonPhrases.XmlFileFilter);
 
-            // вывод заголовка
-            Text = string.Format(Text, kpNum);
+            Text = string.Format(Text, deviceConfig.DeviceNum);
+            ConfigToControls();
+        }
 
-            // установка элементов управления в соответствии со свойствами КП
-            TransMode transMode = lineConfig.CustomOptions.GetValueAsEnum("TransMode", TransMode.RTU);
-            cbTransMode.SelectedIndex = (int)transMode;
-            txtDevTemplate.Text = deviceConfig.PollingOptions.CmdLine;
-            //kpProps.Modified = false;
+        private void txtTemplate_TextChanged(object sender, EventArgs e)
+        {
+            btnEditTemplate.Enabled = !string.IsNullOrWhiteSpace(txtTemplateFileName.Text);
+        }
 
-            // настройка элементов управления
+        private void btnBrowse_Click(object sender, EventArgs e)
+        {
+            // show dialog to select template file
             openFileDialog.InitialDirectory = appDirs.ConfigDir;
-        }
-
-        private void control_Changed(object sender, EventArgs e)
-        {
-            //kpProps.Modified = true;
-        }
-
-        private void txtDevTemplate_TextChanged(object sender, EventArgs e)
-        {
-            //kpProps.Modified = true;
-            btnEditDevTemplate.Enabled = txtDevTemplate.Text.Trim() != "";
-        }
-
-        private void btnBrowseDevTemplate_Click(object sender, EventArgs e)
-        {
             openFileDialog.FileName = "";
-            if (openFileDialog.ShowDialog() == DialogResult.OK)
-                txtDevTemplate.Text = MakeRelative(openFileDialog.FileName);
-            txtDevTemplate.Select();
+
+            if (openFileDialog.ShowDialog() == DialogResult.OK &&
+                ValidateTemplatePath(openFileDialog.FileName, out string shortFileName))
+            {
+                txtTemplateFileName.Text = shortFileName;
+            }
         }
 
-        private void btnCreateDevTemplate_Click(object sender, EventArgs e)
+        private void btnCreate_Click(object sender, EventArgs e)
         {
-            EditDevTemplate("");
-            txtDevTemplate.Select();
+            EditDeviceTemplate();
         }
 
-        private void btnEditDevTemplate_Click(object sender, EventArgs e)
+        private void btnEdit_Click(object sender, EventArgs e)
         {
-            EditDevTemplate(MakeAbsolute(txtDevTemplate.Text));
-            txtDevTemplate.Select();
+            EditDeviceTemplate(GetTemplatePath());
         }
 
         private void btnOK_Click(object sender, EventArgs e)
         {
-            // проверка существования файла шаблона устройства
-            if (!File.Exists(MakeAbsolute(txtDevTemplate.Text)))
+            if (ValidateControls())
             {
-                ScadaUiUtils.ShowError(DriverPhrases.TemplNotExists);
-                return;
+                ControlsToConfig();
+                DialogResult = DialogResult.OK;
             }
-
-            // изменение свойств КП в соответствии с элементами управления
-            lineConfig.CustomOptions["TransMode"] = ((TransMode)cbTransMode.SelectedIndex).ToString();
-            deviceConfig.PollingOptions.CmdLine = txtDevTemplate.Text;
-
-            /*if (kpProps.Modified)
-            {
-                kpProps.CustomParams["TransMode"] = (string)cbTransMode.GetSelectedItem(
-                    new Dictionary<int, object>() { { 0, "RTU" }, { 1, "ASCII" }, { 2, "TCP" } });
-                kpProps.CmdLine = txtDevTemplate.Text;
-            }*/
-
-            DialogResult = DialogResult.OK;
-        }
-
-        private void btnCancel_Click(object sender, EventArgs e)
-        {
-            //kpProps.Modified = false;
-            DialogResult = DialogResult.Cancel;
         }
     }
 }

@@ -23,10 +23,6 @@ namespace Scada.Comm.Drivers.DrvModbus
         public static string SaveTemplateConfirm { get; private set; }
         public static string ElemCntExceeded { get; private set; }
         public static string ElemRemoveWarning { get; private set; }
-        public static string TemplateFileFilter { get; private set; }
-
-        // Scada.Comm.Devices.Modbus.UI.FrmDevProps
-        public static string TemplNotExists { get; private set; }
 
 
 
@@ -34,12 +30,19 @@ namespace Scada.Comm.Drivers.DrvModbus
         public static string LoadTemplateError { get; private set; }
         public static string SaveTemplateError { get; private set; }
 
+        // Scada.Comm.Drivers.DrvModbus.View.Forms.FrmDeviceProps
+        public static string ConfigDirRequired { get; private set; }
+        public static string TemplateNotExists { get; private set; }
+
         public static void Init()
         {
             LocaleDict dict = Locale.GetDictionary("Scada.Comm.Drivers.DrvModbus.Config.DeviceTemplate");
             LoadTemplateError = dict["LoadTemplateError"];
             SaveTemplateError = dict["SaveTemplateError"];
 
+            dict = Locale.GetDictionary("Scada.Comm.Drivers.DrvModbus.View.Forms.FrmDeviceProps");
+            ConfigDirRequired = dict["ConfigDirRequired"];
+            TemplateNotExists = dict["TemplateNotExists"];
 
             dict = Locale.GetDictionary("Temp");
             TemplFormTitle = dict["TemplFormTitle"];
@@ -52,8 +55,6 @@ namespace Scada.Comm.Drivers.DrvModbus
             SaveTemplateConfirm = dict["SaveTemplateConfirm"];
             ElemCntExceeded = dict["ElemCntExceeded"];
             ElemRemoveWarning = dict["ElemRemoveWarning"];
-            TemplateFileFilter = dict["TemplateFileFilter"];
-            TemplNotExists = dict["TemplNotExists"];
         }
     }
 }

@@ -482,8 +482,8 @@ namespace Scada.Comm.Drivers.DrvModbus.View.Forms
         {
             // перевод формы
             FormTranslator.Translate(this, "Scada.Comm.Devices.Modbus.UI.FrmDevTemplate");
-            openFileDialog.SetFilter(DriverPhrases.TemplateFileFilter);
-            saveFileDialog.SetFilter(DriverPhrases.TemplateFileFilter);
+            openFileDialog.SetFilter(CommonPhrases.XmlFileFilter);
+            saveFileDialog.SetFilter(CommonPhrases.XmlFileFilter);
             TranslateTree();
 
             // настройка элементов управления
