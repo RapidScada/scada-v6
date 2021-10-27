@@ -14,15 +14,15 @@ namespace Scada.Comm.Drivers.DrvModbus.View
     /// </summary>
     public class DevModbusView : DeviceView
     {
-        private readonly UiCustomization uiCustomization;
+        private readonly CustomUi customUi;
 
         /// <summary>
         /// Initializes a new instance of the class.
         /// </summary>
         public DevModbusView(DriverView parentView, LineConfig lineConfig, DeviceConfig deviceConfig, 
-            UiCustomization uiCustomization) : base(parentView, lineConfig, deviceConfig)
+            CustomUi customUi) : base(parentView, lineConfig, deviceConfig)
         {
-            this.uiCustomization = uiCustomization ?? throw new ArgumentNullException(nameof(uiCustomization));
+            this.customUi = customUi ?? throw new ArgumentNullException(nameof(customUi));
             CanShowProperties = true;
         }
 
@@ -31,7 +31,7 @@ namespace Scada.Comm.Drivers.DrvModbus.View
         /// </summary>
         public override bool ShowProperties()
         {
-            FrmDevProps.ShowDialog(DeviceNum, LineConfig, DeviceConfig, AppDirs, uiCustomization);
+            FrmDevProps.ShowDialog(DeviceNum, LineConfig, DeviceConfig, AppDirs, customUi);
             return false;
         }
     }

@@ -46,7 +46,7 @@ namespace Scada.Comm.Drivers.DrvModbus.View.Forms
         private const string NewFileName = "KpModbus_NewTemplate.xml";
 
         private AppDirs appDirs;                 // директории приложения
-        private UiCustomization uiCustomization; // the customization object
+        private CustomUi uiCustomization; // the customization object
         private string initialFileName;          // имя файла шаблона для открытия при запуске формы
         private string fileName;                 // имя файла шаблона устройства
         private bool saveOnly;                   // разрешена только команда сохранения при работе с файлами
@@ -117,7 +117,7 @@ namespace Scada.Comm.Drivers.DrvModbus.View.Forms
         /// </summary>
         private void LoadTemplate(string fname)
         {
-            template = uiCustomization.TemplateFactory.CreateDeviceTemplate();
+            template = uiCustomization.CreateDeviceTemplate();
             fileName = fname;
             SetFormTitle();
 
@@ -453,7 +453,7 @@ namespace Scada.Comm.Drivers.DrvModbus.View.Forms
         /// <summary>
         /// Отобразить форму модально
         /// </summary>
-        public static void ShowDialog(AppDirs appDirs, UiCustomization uiCustomization)
+        public static void ShowDialog(AppDirs appDirs, CustomUi uiCustomization)
         {
             string fileName = "";
             ShowDialog(appDirs, uiCustomization, false, ref fileName);
@@ -462,7 +462,7 @@ namespace Scada.Comm.Drivers.DrvModbus.View.Forms
         /// <summary>
         /// Отобразить форму модально, открыв заданный файл
         /// </summary>
-        public static void ShowDialog(AppDirs appDirs, UiCustomization uiCustomization, 
+        public static void ShowDialog(AppDirs appDirs, CustomUi uiCustomization, 
             bool saveOnly, ref string fileName)
         {
             FrmDevTemplate frmDevTemplate = new FrmDevTemplate
@@ -490,7 +490,7 @@ namespace Scada.Comm.Drivers.DrvModbus.View.Forms
             TakeTreeViewImages();
             openFileDialog.InitialDirectory = appDirs.ConfigDir;
             saveFileDialog.InitialDirectory = appDirs.ConfigDir;
-            btnEditSettingsExt.Visible = uiCustomization.ExtendedSettingsAvailable;
+            btnEditSettingsExt.Visible = uiCustomization.ExtendedOptionsAvailable;
             ctrlElem.Top = ctrlCmd.Top = ctrlElemGroup.Top;
 
             if (saveOnly)
@@ -502,7 +502,7 @@ namespace Scada.Comm.Drivers.DrvModbus.View.Forms
             if (string.IsNullOrEmpty(initialFileName))
             {
                 saveFileDialog.FileName = NewFileName;
-                template = uiCustomization.TemplateFactory.CreateDeviceTemplate();
+                template = uiCustomization.CreateDeviceTemplate();
                 FillTree();
             }
             else
@@ -524,7 +524,7 @@ namespace Scada.Comm.Drivers.DrvModbus.View.Forms
             if (CheckChanges())
             {
                 saveFileDialog.FileName = NewFileName;
-                template = uiCustomization.TemplateFactory.CreateDeviceTemplate();
+                template = uiCustomization.CreateDeviceTemplate();
                 fileName = "";
                 SetFormTitle();
                 FillTree();
@@ -780,7 +780,7 @@ namespace Scada.Comm.Drivers.DrvModbus.View.Forms
         private void btnEditSettingsExt_Click(object sender, EventArgs e)
         {
             // редактирование расширенных настроек
-            if (uiCustomization.ShowExtendedSettings(template))
+            if (uiCustomization.ShowExtendedOptions(template))
             {
                 FillTree();
                 Modified = true;

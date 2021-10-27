@@ -42,7 +42,7 @@ namespace Scada.Comm.Drivers.DrvModbus.View.Forms
         private LineConfig lineConfig;
         private DeviceConfig deviceConfig;
         private AppDirs appDirs;                 // директории приложения
-        private UiCustomization uiCustomization; // the customization object
+        private CustomUi uiCustomization; // the customization object
 
 
         /// <summary>
@@ -88,7 +88,7 @@ namespace Scada.Comm.Drivers.DrvModbus.View.Forms
         /// <summary>
         /// Отобразить форму модально
         /// </summary>
-        public static void ShowDialog(int kpNum, LineConfig lineConfig, DeviceConfig deviceConfig, AppDirs appDirs, UiCustomization uiCustomization)
+        public static void ShowDialog(int kpNum, LineConfig lineConfig, DeviceConfig deviceConfig, AppDirs appDirs, CustomUi uiCustomization)
         {
             FrmDevProps frmDevProps = new FrmDevProps
             {

@@ -66,9 +66,9 @@ namespace Scada.Comm.Drivers.DrvModbus.View
         /// <summary>
         /// Gets a UI customization object.
         /// </summary>
-        protected virtual UiCustomization GetUiCustomization()
+        protected virtual CustomUi GetCustomUi()
         {
-            return new UiCustomization();
+            return new CustomUi();
         }
 
         /// <summary>
@@ -87,7 +87,7 @@ namespace Scada.Comm.Drivers.DrvModbus.View
         /// </summary>
         public override bool ShowProperties()
         {
-            FrmDevTemplate.ShowDialog(AppDirs, GetUiCustomization());
+            FrmDevTemplate.ShowDialog(AppDirs, GetCustomUi());
             return false;
         }
 
@@ -96,7 +96,7 @@ namespace Scada.Comm.Drivers.DrvModbus.View
         /// </summary>
         public override DeviceView CreateDeviceView(LineConfig lineConfig, DeviceConfig deviceConfig)
         {
-            return new DevModbusView(this, lineConfig, deviceConfig, GetUiCustomization());
+            return new DevModbusView(this, lineConfig, deviceConfig, GetCustomUi());
         }
     }
 }
