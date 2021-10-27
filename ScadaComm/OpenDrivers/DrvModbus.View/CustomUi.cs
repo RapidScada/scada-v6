@@ -12,32 +12,19 @@ namespace Scada.Comm.Drivers.DrvModbus.View
     public class CustomUi
     {
         /// <summary>
-        /// Creates a new device template.
-        /// </summary>
-        public virtual DeviceTemplate CreateDeviceTemplate()
-        {
-            return new DeviceTemplate();
-        }
-
-        /// <summary>
         /// Gets a value indicating whether to display the extended options button.
         /// </summary>
-        public virtual bool ExtendedOptionsAvailable
-        {
-            get
-            {
-                return false;
-            }
-        }
-
+        public virtual bool ExtendedOptionsAvailable => false;
 
         /// <summary>
         /// Shows the extended template options as a modal dialog box.
         /// </summary>
         /// <returns>Returns true if the options changed.</returns>
-        public virtual bool ShowExtendedOptions(DeviceTemplate deviceTemplate)
-        {
-            return false;
-        }
+        public virtual bool ShowExtendedOptions(DeviceTemplate deviceTemplate) => false;
+
+        /// <summary>
+        /// Creates a new device template.
+        /// </summary>
+        public virtual DeviceTemplate CreateDeviceTemplate() => new();
     }
 }
