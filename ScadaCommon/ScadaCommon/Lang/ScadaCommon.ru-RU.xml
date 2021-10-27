@@ -79,6 +79,7 @@
     <Phrase key="HiddenPassword">*****</Phrase>
     <Phrase key="NewConnection">Новое соединение</Phrase>
     <Phrase key="UnnamedConnection">&lt;Безымянное соединение&gt;</Phrase>
+    <Phrase key="XmlFileFilter">Файлы XML (*.xml)|*.xml|Все файлы (*.*)|*.*</Phrase>
   </Dictionary>
   <Dictionary key="Scada.Forms.CtrlClientConnection">
     <Phrase key="gbConnectionOptions">Параметры соединения</Phrase>

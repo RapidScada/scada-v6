@@ -112,6 +112,7 @@ namespace Scada.Lang
         public static string HiddenPassword { get; private set; }
         public static string NewConnection { get; private set; }
         public static string UnnamedConnection { get; private set; }
+        public static string XmlFileFilter { get; private set; }
 
         static CommonPhrases()
         {
@@ -213,6 +214,7 @@ namespace Scada.Lang
             HiddenPassword = dict["HiddenPassword"];
             NewConnection = dict["NewConnection"];
             UnnamedConnection = dict["UnnamedConnection"];
+            XmlFileFilter = dict["XmlFileFilter"];
         }
     }
 }
