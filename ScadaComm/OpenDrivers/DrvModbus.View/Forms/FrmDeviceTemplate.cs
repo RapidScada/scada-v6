@@ -38,7 +38,7 @@ namespace Scada.Comm.Drivers.DrvModbus.View.Forms
     /// Editing device template form.
     /// <para>Форма редактирования шаблона устройства.</para>
     /// </summary>
-    public partial class FrmDevTemplate : Form
+    public partial class FrmDeviceTemplate : Form
     {
         /// <summary>
         /// Имя файла нового шаблона устройства
@@ -64,7 +64,7 @@ namespace Scada.Comm.Drivers.DrvModbus.View.Forms
         /// <summary>
         /// Конструктор, ограничивающий создание формы без параметров
         /// </summary>
-        private FrmDevTemplate()
+        private FrmDeviceTemplate()
         {
             InitializeComponent();
 
@@ -465,7 +465,7 @@ namespace Scada.Comm.Drivers.DrvModbus.View.Forms
         public static void ShowDialog(AppDirs appDirs, CustomUi uiCustomization, 
             bool saveOnly, ref string fileName)
         {
-            FrmDevTemplate frmDevTemplate = new FrmDevTemplate
+            FrmDeviceTemplate frmDevTemplate = new FrmDeviceTemplate
             {
                 appDirs = appDirs ?? throw new ArgumentNullException("appDirs"),
                 uiCustomization = uiCustomization ?? throw new ArgumentNullException("uiCustomization"),

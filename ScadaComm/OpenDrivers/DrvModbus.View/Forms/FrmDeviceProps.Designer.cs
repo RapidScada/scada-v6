@@ -1,6 +1,6 @@
 ﻿namespace Scada.Comm.Drivers.DrvModbus.View.Forms
 {
-    partial class FrmDevProps
+    partial class FrmDeviceProps
     {
         /// <summary>
         /// Required designer variable.

@@ -31,7 +31,7 @@ namespace Scada.Comm.Drivers.DrvModbus.View
         /// </summary>
         public override bool ShowProperties()
         {
-            FrmDevProps.ShowDialog(DeviceNum, LineConfig, DeviceConfig, AppDirs, customUi);
+            FrmDeviceProps.ShowDialog(DeviceNum, LineConfig, DeviceConfig, AppDirs, customUi);
             return false;
         }
     }

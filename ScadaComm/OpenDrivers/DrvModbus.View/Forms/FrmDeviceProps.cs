@@ -36,7 +36,7 @@ namespace Scada.Comm.Drivers.DrvModbus.View.Forms
     /// Device and communication line properties form
     /// <para>Форма настройки свойств КП и линии связи</para>
     /// </summary>
-    public partial class FrmDevProps : Form
+    public partial class FrmDeviceProps : Form
     {
         private int kpNum;                       // номер КП
         private LineConfig lineConfig;
@@ -48,7 +48,7 @@ namespace Scada.Comm.Drivers.DrvModbus.View.Forms
         /// <summary>
         /// Конструктор, ограничивающий создание формы без параметров
         /// </summary>
-        private FrmDevProps()
+        private FrmDeviceProps()
         {
             InitializeComponent();
         }
@@ -59,7 +59,7 @@ namespace Scada.Comm.Drivers.DrvModbus.View.Forms
         /// </summary>
         private void EditDevTemplate(string fileName)
         {
-            FrmDevTemplate.ShowDialog(appDirs, uiCustomization, true, ref fileName);
+            FrmDeviceTemplate.ShowDialog(appDirs, uiCustomization, true, ref fileName);
 
             if (!string.IsNullOrEmpty(fileName))
                 txtDevTemplate.Text = MakeRelative(fileName);
@@ -90,7 +90,7 @@ namespace Scada.Comm.Drivers.DrvModbus.View.Forms
         /// </summary>
         public static void ShowDialog(int kpNum, LineConfig lineConfig, DeviceConfig deviceConfig, AppDirs appDirs, CustomUi uiCustomization)
         {
-            FrmDevProps frmDevProps = new FrmDevProps
+            FrmDeviceProps frmDevProps = new FrmDeviceProps
             {
                 kpNum = kpNum,
                 lineConfig = lineConfig ?? throw new ArgumentNullException("lineConfig"),
