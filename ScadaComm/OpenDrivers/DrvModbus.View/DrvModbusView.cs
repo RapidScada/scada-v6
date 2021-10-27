@@ -87,7 +87,7 @@ namespace Scada.Comm.Drivers.DrvModbus.View
         /// </summary>
         public override bool ShowProperties()
         {
-            FrmDeviceTemplate.ShowDialog(AppDirs, GetCustomUi());
+            new FrmDeviceTemplate(AppDirs, GetCustomUi()).ShowDialog();
             return false;
         }
 

@@ -13,28 +13,28 @@ namespace Scada.Comm.Drivers.DrvModbus.View
     public enum TreeUpdateTypes
     {
         /// <summary>
-        /// Обновление не требуется
+        /// No update.
         /// </summary>
         None = 0,
 
         /// <summary>
-        /// Текущий узел
+        /// Update only current node.
         /// </summary>
         CurrentNode = 1,
 
         /// <summary>
-        /// Дочерние узлы
+        /// Update child nodes, not including the current node.
         /// </summary>
         ChildNodes = 2,
 
         /// <summary>
-        /// Узлы того же уровня, следующие за текущим
+        /// Update siblings after the current node.
         /// </summary>
         NextSiblings = 4,
 
         /// <summary>
-        /// Обновить сигналы
+        /// Number of child nodes changed.
         /// </summary>
-        UpdateSignals = 8
+        ChildCount = 8
     }
 }

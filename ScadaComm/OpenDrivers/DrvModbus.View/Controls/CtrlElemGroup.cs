@@ -17,33 +17,44 @@ namespace Scada.Comm.Drivers.DrvModbus.View.Controls
     /// </summary>
     public partial class CtrlElemGroup : UserControl
     {
-        private ElemGroupConfig elemGroup;
+        private ElemGroupConfig elemGroup; // the element group configuration
 
 
         /// <summary>
-        /// Конструктор
+        /// Initializes a new instance of the class.
         /// </summary>
         public CtrlElemGroup()
         {
             InitializeComponent();
             elemGroup = null;
-            Settings = null;
+            TemplateOptions = null;
         }
 
 
         /// <summary>
-        /// Получить признак отображения адресов, начиная с 0
+        /// Gets a value indicating whether addresses are displayed starting from zero.
         /// </summary>
         private bool ZeroAddr
         {
             get
             {
-                return Settings == null ? false : Settings.ZeroAddr;
+                return TemplateOptions != null && TemplateOptions.ZeroAddr;
             }
         }
 
         /// <summary>
-        /// Получить смещение адреса
+        /// Gets a value indicating whether addresses are displayed as decimals.
+        /// </summary>
+        private bool DecAddr
+        {
+            get
+            {
+                return TemplateOptions != null && TemplateOptions.DecAddr;
+            }
+        }
+
+        /// <summary>
+        /// Gets the address shift.
         /// </summary>
         private int AddrShift
         {
@@ -54,18 +65,7 @@ namespace Scada.Comm.Drivers.DrvModbus.View.Controls
         }
 
         /// <summary>
-        /// Получить признак отображения адресов в 10-тичной системе
-        /// </summary>
-        private bool DecAddr
-        {
-            get
-            {
-                return Settings == null ? false : Settings.DecAddr;
-            }
-        }
-
-        /// <summary>
-        /// Получить обозначение системы счисления адресов
+        /// Gets the address numbering notation.
         /// </summary>
         private string AddrNotation
         {
@@ -76,12 +76,12 @@ namespace Scada.Comm.Drivers.DrvModbus.View.Controls
         }
 
         /// <summary>
-        /// Получить или установить ссылку настройки шаблона
+        /// Gets or sets a reference to the device template options.
         /// </summary>
-        public DeviceTemplateOptions Settings { get; set; }
+        public DeviceTemplateOptions TemplateOptions { get; set; }
 
         /// <summary>
-        /// Получить или установить редактируемую группу элементов
+        /// Gets or sets the element group for editing.
         /// </summary>
         public ElemGroupConfig ElemGroup
         {
@@ -91,17 +91,17 @@ namespace Scada.Comm.Drivers.DrvModbus.View.Controls
             }
             set
             {
-                elemGroup = null; // чтобы не вызывалось событие ObjectChanged
-                ShowElemGroupProps(value);
+                elemGroup = null; // to avoid ObjectChanged event
+                ShowElemGroupConfig(value);
                 elemGroup = value;
             }
         }
 
 
         /// <summary>
-        /// Отобразить свойства группы элементов
+        /// Shows the element group configuration.
         /// </summary>
-        private void ShowElemGroupProps(ElemGroupConfig elemGroup)
+        private void ShowElemGroupConfig(ElemGroupConfig elemGroup)
         {
             numGrAddress.Value = 1;
             numGrAddress.Minimum = AddrShift;
@@ -113,7 +113,7 @@ namespace Scada.Comm.Drivers.DrvModbus.View.Controls
             {
                 chkGrActive.Checked = false;
                 txtGrName.Text = "";
-                cbGrTableType.SelectedIndex = 0;
+                cbGrDataBlock.SelectedIndex = 0;
                 numGrAddress.Value = AddrShift;
                 lblGrAddressHint.Text = "";
                 numGrElemCnt.Value = 1;
@@ -123,7 +123,7 @@ namespace Scada.Comm.Drivers.DrvModbus.View.Controls
             {
                 chkGrActive.Checked = elemGroup.Active;
                 txtGrName.Text = elemGroup.Name;
-                cbGrTableType.SelectedIndex = (int)elemGroup.DataBlock;
+                cbGrDataBlock.SelectedIndex = (int)elemGroup.DataBlock;
                 numGrAddress.Value = elemGroup.Address + AddrShift;
                 lblGrAddressHint.Text = string.Format(DriverPhrases.AddressHint, AddrNotation, AddrShift);
                 numGrElemCnt.Value = 1;
@@ -134,7 +134,7 @@ namespace Scada.Comm.Drivers.DrvModbus.View.Controls
         }
 
         /// <summary>
-        /// Отобразить код функции группы элементов
+        /// Shows the function code of the element group.
         /// </summary>
         private void ShowFuncCode(ElemGroupConfig elemGroup)
         {
@@ -150,7 +150,7 @@ namespace Scada.Comm.Drivers.DrvModbus.View.Controls
         }
 
         /// <summary>
-        /// Вызвать событие ObjectChanged
+        /// Raises an ObjectChanged event.
         /// </summary>
         private void OnObjectChanged(object changeArgument)
         {
@@ -158,7 +158,7 @@ namespace Scada.Comm.Drivers.DrvModbus.View.Controls
         }
 
         /// <summary>
-        /// Установить фокус ввода
+        /// Sets input focus to the control.
         /// </summary>
         public void SetFocus()
         {
@@ -167,7 +167,7 @@ namespace Scada.Comm.Drivers.DrvModbus.View.Controls
 
 
         /// <summary>
-        /// Событие возникающее при изменении свойств редактируемого объекта
+        /// Occurs when the edited object changes.
         /// </summary>
         [Category("Property Changed")]
         public event EventHandler<ObjectChangedEventArgs> ObjectChanged;
@@ -175,7 +175,7 @@ namespace Scada.Comm.Drivers.DrvModbus.View.Controls
 
         private void chkGrActive_CheckedChanged(object sender, EventArgs e)
         {
-            // изменение активности группы элементов
+            // update group activity
             if (elemGroup != null)
             {
                 elemGroup.Active = chkGrActive.Checked;
@@ -185,7 +185,7 @@ namespace Scada.Comm.Drivers.DrvModbus.View.Controls
 
         private void txtGrName_TextChanged(object sender, EventArgs e)
         {
-            // изменение наименования группы элементов
+            // update group name
             if (elemGroup != null)
             {
                 elemGroup.Name = txtGrName.Text;
@@ -193,42 +193,41 @@ namespace Scada.Comm.Drivers.DrvModbus.View.Controls
             }
         }
 
-        private void cbGrTableType_SelectedIndexChanged(object sender, EventArgs e)
+        private void cbGrDataBlock_SelectedIndexChanged(object sender, EventArgs e)
         {
-            // изменение типа таблицы данных группы элементов
+            // update group data block
             if (elemGroup != null)
             {
-                DataBlock dataBlock = (DataBlock)cbGrTableType.SelectedIndex;
+                DataBlock dataBlock = (DataBlock)cbGrDataBlock.SelectedIndex;
                 int maxElemCnt = elemGroup.GetMaxElemCnt(dataBlock);
 
                 bool cancel = elemGroup.Elems.Count > maxElemCnt &&
-                    MessageBox.Show(string.Format(DriverPhrases.ElemRemoveWarning, maxElemCnt), 
+                    MessageBox.Show(
+                        string.Format(DriverPhrases.ElemRemoveWarning, maxElemCnt), 
                         CommonPhrases.QuestionCaption, MessageBoxButtons.YesNoCancel, 
                         MessageBoxIcon.Question) != DialogResult.Yes;
 
                 if (cancel)
                 {
-                    cbGrTableType.SelectedIndexChanged -= cbGrTableType_SelectedIndexChanged;
-                    cbGrTableType.SelectedIndex = (int)elemGroup.DataBlock;
-                    cbGrTableType.SelectedIndexChanged += cbGrTableType_SelectedIndexChanged;
+                    // revert selected item
+                    cbGrDataBlock.SelectedIndexChanged -= cbGrDataBlock_SelectedIndexChanged;
+                    cbGrDataBlock.SelectedIndex = (int)elemGroup.DataBlock;
+                    cbGrDataBlock.SelectedIndexChanged += cbGrDataBlock_SelectedIndexChanged;
                 }
                 else
                 {
-                    // установка типа таблицы данных
+                    // set data block
                     elemGroup.DataBlock = dataBlock;
                     ShowFuncCode(elemGroup);
 
-                    // ограничение макс. количества элементов в группе
+                    // limit element count
                     if (numGrElemCnt.Value > maxElemCnt)
                         numGrElemCnt.Value = maxElemCnt;
                     numGrElemCnt.Maximum = maxElemCnt;
 
-                    // установка типа элементов группы по умолчанию
+                    // reset type of elements
                     ElemType elemType = elemGroup.DefaultElemType;
-                    foreach (ElemConfig elem in elemGroup.Elems)
-                    {
-                        elem.ElemType = elemType;
-                    }
+                    elemGroup.Elems.ForEach(elem => elem.ElemType = elemType);
 
                     OnObjectChanged(TreeUpdateTypes.CurrentNode | TreeUpdateTypes.ChildNodes);
                 }
@@ -237,7 +236,7 @@ namespace Scada.Comm.Drivers.DrvModbus.View.Controls
 
         private void numGrAddress_ValueChanged(object sender, EventArgs e)
         {
-            // изменение адреса начального элемента в группе
+            // update group address
             if (elemGroup != null)
             {
                 elemGroup.Address = (ushort)(numGrAddress.Value - AddrShift);
@@ -247,7 +246,7 @@ namespace Scada.Comm.Drivers.DrvModbus.View.Controls
 
         private void numGrElemCnt_ValueChanged(object sender, EventArgs e)
         {
-            // изменение количества элементов в группе
+            // update number of elements
             if (elemGroup != null)
             {
                 int oldElemCnt = elemGroup.Elems.Count;
@@ -255,8 +254,9 @@ namespace Scada.Comm.Drivers.DrvModbus.View.Controls
 
                 if (oldElemCnt < newElemCnt)
                 {
-                    // добавление новых элементов
+                    // add new elements
                     ElemType elemType = elemGroup.DefaultElemType;
+
                     for (int elemInd = oldElemCnt; elemInd < newElemCnt; elemInd++)
                     {
                         ElemConfig elem = elemGroup.CreateElemConfig();
@@ -266,14 +266,14 @@ namespace Scada.Comm.Drivers.DrvModbus.View.Controls
                 }
                 else if (oldElemCnt > newElemCnt)
                 {
-                    // удаление лишних элементов
+                    // remove redundant elements
                     for (int i = newElemCnt; i < oldElemCnt; i++)
                     {
                         elemGroup.Elems.RemoveAt(newElemCnt);
                     }
                 }
 
-                OnObjectChanged(TreeUpdateTypes.UpdateSignals);
+                OnObjectChanged(TreeUpdateTypes.ChildCount);
             }
         }
     }

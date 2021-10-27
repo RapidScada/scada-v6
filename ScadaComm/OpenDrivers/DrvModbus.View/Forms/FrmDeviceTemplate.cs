@@ -1,27 +1,5 @@
-﻿/*
- * Copyright 2021 Mikhail Shiryaev
- * 
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- * 
- *     http://www.apache.org/licenses/LICENSE-2.0
- * 
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
- * 
- * 
- * Product  : Rapid SCADA
- * Module   : KpModbus
- * Summary  : Editing device template form
- * 
- * Author   : Mikhail Shiryaev
- * Created  : 2012
- * Modified : 2021
- */
+﻿// Copyright (c) Rapid Software LLC. All rights reserved.
+// Licensed under the Apache License, Version 2.0. See License.txt in the project root for license information.
 
 using Scada.Comm.Drivers.DrvModbus.Config;
 using Scada.Comm.Drivers.DrvModbus.Protocol;
@@ -35,8 +13,8 @@ using System.Windows.Forms;
 namespace Scada.Comm.Drivers.DrvModbus.View.Forms
 {
     /// <summary>
-    /// Editing device template form.
-    /// <para>Форма редактирования шаблона устройства.</para>
+    /// Represents a form for editing a device template.
+    /// <para>Представляет форму для редактирования шаблона устройства.</para>
     /// </summary>
     public partial class FrmDeviceTemplate : Form
     {
@@ -45,11 +23,8 @@ namespace Scada.Comm.Drivers.DrvModbus.View.Forms
         /// </summary>
         private const string NewFileName = "KpModbus_NewTemplate.xml";
 
-        private AppDirs appDirs;                 // директории приложения
-        private CustomUi uiCustomization; // the customization object
-        private string initialFileName;          // имя файла шаблона для открытия при запуске формы
-        private string fileName;                 // имя файла шаблона устройства
-        private bool saveOnly;                   // разрешена только команда сохранения при работе с файлами
+        private readonly AppDirs appDirs;   // the application directories
+        private readonly CustomUi customUi; // the UI customization object
 
         private DeviceTemplate template; // редактируемый шаблон устройства
         private bool modified;           // признак изменения шаблона устройства
@@ -62,16 +37,21 @@ namespace Scada.Comm.Drivers.DrvModbus.View.Forms
 
 
         /// <summary>
-        /// Конструктор, ограничивающий создание формы без параметров
+        /// Initializes a new instance of the class.
         /// </summary>
         private FrmDeviceTemplate()
         {
             InitializeComponent();
+        }
 
-            appDirs = null;
-            initialFileName = "";
-            fileName = "";
-            saveOnly = false;
+        /// <summary>
+        /// Initializes a new instance of the class.
+        /// </summary>
+        public FrmDeviceTemplate(AppDirs appDirs, CustomUi customUi)
+            : this()
+        {
+            this.appDirs = appDirs ?? throw new ArgumentNullException(nameof(appDirs));
+            this.customUi = customUi ?? throw new ArgumentNullException(nameof(customUi));
 
             template = null;
             modified = false;
@@ -81,6 +61,9 @@ namespace Scada.Comm.Drivers.DrvModbus.View.Forms
             selNode = null;
             grsNode = treeView.Nodes["grsNode"];
             cmdsNode = treeView.Nodes["cmdsNode"];
+
+            SaveOnly = false;
+            FileName = "";
         }
 
 
@@ -101,6 +84,16 @@ namespace Scada.Comm.Drivers.DrvModbus.View.Forms
             }
         }
 
+        /// <summary>
+        /// Gets or sets a value indicating whether only the save file command is allowed.
+        /// </summary>
+        public bool SaveOnly { get; set; }
+
+        /// <summary>
+        /// Gets or sets the device template file name.
+        /// </summary>
+        public string FileName { get; set; }
+
 
         /// <summary>
         /// Установить заголовок формы
@@ -108,7 +101,7 @@ namespace Scada.Comm.Drivers.DrvModbus.View.Forms
         private void SetFormTitle()
         {
             Text = DriverPhrases.TemplFormTitle + " - " + 
-                (fileName == "" ? NewFileName : Path.GetFileName(fileName)) +
+                (FileName == "" ? NewFileName : Path.GetFileName(FileName)) +
                 (Modified ? "*" : "");
         }
 
@@ -117,8 +110,8 @@ namespace Scada.Comm.Drivers.DrvModbus.View.Forms
         /// </summary>
         private void LoadTemplate(string fname)
         {
-            template = uiCustomization.CreateDeviceTemplate();
-            fileName = fname;
+            template = customUi.CreateDeviceTemplate();
+            FileName = fname;
             SetFormTitle();
 
             if (!template.Load(fname, out string errMsg))
@@ -344,7 +337,7 @@ namespace Scada.Comm.Drivers.DrvModbus.View.Forms
         private void ShowElemGroupProps(ElemGroupConfig elemGroup)
         {
             ctrlElemGroup.Visible = true;
-            ctrlElemGroup.Settings = template.Options;
+            ctrlElemGroup.TemplateOptions = template.Options;
             ctrlElemGroup.ElemGroup = elemGroup;
             ctrlElem.Visible = false;
             ctrlCmd.Visible = false;
@@ -391,14 +384,14 @@ namespace Scada.Comm.Drivers.DrvModbus.View.Forms
             // определение имени файла
             string newFileName = "";
 
-            if (saveAs || fileName == "")
+            if (saveAs || FileName == "")
             {
                 if (saveFileDialog.ShowDialog() == DialogResult.OK)
                     newFileName = saveFileDialog.FileName;
             }
             else
             {
-                newFileName = fileName;
+                newFileName = FileName;
             }
 
             if (newFileName == "")
@@ -411,7 +404,7 @@ namespace Scada.Comm.Drivers.DrvModbus.View.Forms
                 string errMsg;
                 if (template.Save(newFileName, out errMsg))
                 {
-                    fileName = newFileName;
+                    FileName = newFileName;
                     Modified = false;
                     return true;
                 }
@@ -450,38 +443,10 @@ namespace Scada.Comm.Drivers.DrvModbus.View.Forms
         }
 
 
-        /// <summary>
-        /// Отобразить форму модально
-        /// </summary>
-        public static void ShowDialog(AppDirs appDirs, CustomUi uiCustomization)
-        {
-            string fileName = "";
-            ShowDialog(appDirs, uiCustomization, false, ref fileName);
-        }
-
-        /// <summary>
-        /// Отобразить форму модально, открыв заданный файл
-        /// </summary>
-        public static void ShowDialog(AppDirs appDirs, CustomUi uiCustomization, 
-            bool saveOnly, ref string fileName)
-        {
-            FrmDeviceTemplate frmDevTemplate = new FrmDeviceTemplate
-            {
-                appDirs = appDirs ?? throw new ArgumentNullException("appDirs"),
-                uiCustomization = uiCustomization ?? throw new ArgumentNullException("uiCustomization"),
-                initialFileName = fileName,
-                saveOnly = saveOnly
-            };
-
-            frmDevTemplate.ShowDialog();
-            fileName = frmDevTemplate.fileName;
-        }
-
-
         private void FrmDevTemplate_Load(object sender, EventArgs e)
         {
             // перевод формы
-            FormTranslator.Translate(this, "Scada.Comm.Devices.Modbus.UI.FrmDevTemplate");
+            FormTranslator.Translate(this, GetType().FullName);
             openFileDialog.SetFilter(CommonPhrases.XmlFileFilter);
             saveFileDialog.SetFilter(CommonPhrases.XmlFileFilter);
             TranslateTree();
@@ -490,25 +455,25 @@ namespace Scada.Comm.Drivers.DrvModbus.View.Forms
             TakeTreeViewImages();
             openFileDialog.InitialDirectory = appDirs.ConfigDir;
             saveFileDialog.InitialDirectory = appDirs.ConfigDir;
-            btnEditSettingsExt.Visible = uiCustomization.ExtendedOptionsAvailable;
+            btnEditOptionsExt.Visible = customUi.ExtendedOptionsAvailable;
             ctrlElem.Top = ctrlCmd.Top = ctrlElemGroup.Top;
 
-            if (saveOnly)
+            if (SaveOnly)
             {
                 btnNew.Visible = false;
                 btnOpen.Visible = false;
             }
 
-            if (string.IsNullOrEmpty(initialFileName))
+            if (string.IsNullOrEmpty(FileName))
             {
                 saveFileDialog.FileName = NewFileName;
-                template = uiCustomization.CreateDeviceTemplate();
+                template = customUi.CreateDeviceTemplate();
                 FillTree();
             }
             else
             {
-                saveFileDialog.FileName = initialFileName;
-                LoadTemplate(initialFileName);
+                saveFileDialog.FileName = FileName;
+                LoadTemplate(FileName);
             }
         }
 
@@ -524,8 +489,8 @@ namespace Scada.Comm.Drivers.DrvModbus.View.Forms
             if (CheckChanges())
             {
                 saveFileDialog.FileName = NewFileName;
-                template = uiCustomization.CreateDeviceTemplate();
-                fileName = "";
+                template = customUi.CreateDeviceTemplate();
+                FileName = "";
                 SetFormTitle();
                 FillTree();
             }
@@ -780,7 +745,7 @@ namespace Scada.Comm.Drivers.DrvModbus.View.Forms
         private void btnEditSettingsExt_Click(object sender, EventArgs e)
         {
             // редактирование расширенных настроек
-            if (uiCustomization.ShowExtendedOptions(template))
+            if (customUi.ShowExtendedOptions(template))
             {
                 FillTree();
                 Modified = true;
@@ -833,7 +798,7 @@ namespace Scada.Comm.Drivers.DrvModbus.View.Forms
             if (treeUpdateTypes.HasFlag(TreeUpdateTypes.ChildNodes))
                 UpdateElemNodes();
 
-            if (treeUpdateTypes.HasFlag(TreeUpdateTypes.UpdateSignals))
+            if (treeUpdateTypes.HasFlag(TreeUpdateTypes.ChildCount))
             {
                 treeView.BeginUpdate();
                 int oldElemCnt = selNode.Nodes.Count;

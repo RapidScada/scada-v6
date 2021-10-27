@@ -46,8 +46,8 @@
             this.btnMoveDown = new System.Windows.Forms.ToolStripButton();
             this.btnDelete = new System.Windows.Forms.ToolStripButton();
             this.toolStripSeparator2 = new System.Windows.Forms.ToolStripSeparator();
-            this.btnEditSettings = new System.Windows.Forms.ToolStripButton();
-            this.btnEditSettingsExt = new System.Windows.Forms.ToolStripButton();
+            this.btnEditOptions = new System.Windows.Forms.ToolStripButton();
+            this.btnEditOptionsExt = new System.Windows.Forms.ToolStripButton();
             this.gbDevTemplate = new System.Windows.Forms.GroupBox();
             this.openFileDialog = new System.Windows.Forms.OpenFileDialog();
             this.saveFileDialog = new System.Windows.Forms.SaveFileDialog();
@@ -66,7 +66,7 @@
             this.treeView.HideSelection = false;
             this.treeView.ImageIndex = 0;
             this.treeView.ImageList = this.ilTree;
-            this.treeView.Location = new System.Drawing.Point(13, 19);
+            this.treeView.Location = new System.Drawing.Point(13, 22);
             this.treeView.Name = "treeView";
             treeNode1.ImageKey = "(по умолчанию)";
             treeNode1.Name = "grsNode";
@@ -81,7 +81,7 @@
             treeNode2});
             this.treeView.SelectedImageIndex = 0;
             this.treeView.ShowRootLines = false;
-            this.treeView.Size = new System.Drawing.Size(254, 469);
+            this.treeView.Size = new System.Drawing.Size(274, 466);
             this.treeView.TabIndex = 0;
             this.treeView.AfterSelect += new System.Windows.Forms.TreeViewEventHandler(this.treeView_AfterSelect);
             // 
@@ -106,11 +106,11 @@
             this.btnMoveDown,
             this.btnDelete,
             this.toolStripSeparator2,
-            this.btnEditSettings,
-            this.btnEditSettingsExt});
+            this.btnEditOptions,
+            this.btnEditOptionsExt});
             this.toolStrip.Location = new System.Drawing.Point(0, 0);
             this.toolStrip.Name = "toolStrip";
-            this.toolStrip.Size = new System.Drawing.Size(590, 25);
+            this.toolStrip.Size = new System.Drawing.Size(630, 25);
             this.toolStrip.TabIndex = 0;
             this.toolStrip.Text = "toolStrip1";
             // 
@@ -121,7 +121,7 @@
             this.btnNew.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.btnNew.Name = "btnNew";
             this.btnNew.Size = new System.Drawing.Size(23, 22);
-            this.btnNew.ToolTipText = "Create new template";
+            this.btnNew.ToolTipText = "New Template";
             this.btnNew.Click += new System.EventHandler(this.btnNew_Click);
             // 
             // btnOpen
@@ -131,7 +131,7 @@
             this.btnOpen.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.btnOpen.Name = "btnOpen";
             this.btnOpen.Size = new System.Drawing.Size(23, 22);
-            this.btnOpen.ToolTipText = "Open template";
+            this.btnOpen.ToolTipText = "Open Template";
             this.btnOpen.Click += new System.EventHandler(this.btnOpen_Click);
             // 
             // btnSave
@@ -141,7 +141,7 @@
             this.btnSave.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.btnSave.Name = "btnSave";
             this.btnSave.Size = new System.Drawing.Size(23, 22);
-            this.btnSave.ToolTipText = "Save template";
+            this.btnSave.ToolTipText = "Save Template";
             this.btnSave.Click += new System.EventHandler(this.btnSave_Click);
             // 
             // btnSaveAs
@@ -151,7 +151,7 @@
             this.btnSaveAs.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.btnSaveAs.Name = "btnSaveAs";
             this.btnSaveAs.Size = new System.Drawing.Size(23, 22);
-            this.btnSaveAs.ToolTipText = "Save template as";
+            this.btnSaveAs.ToolTipText = "Save Template As";
             this.btnSaveAs.Click += new System.EventHandler(this.btnSave_Click);
             // 
             // toolStripSeparator1
@@ -166,7 +166,7 @@
             this.btnAddElemGroup.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.btnAddElemGroup.Name = "btnAddElemGroup";
             this.btnAddElemGroup.Size = new System.Drawing.Size(23, 22);
-            this.btnAddElemGroup.ToolTipText = "Add element group";
+            this.btnAddElemGroup.ToolTipText = "Add Element Group";
             this.btnAddElemGroup.Click += new System.EventHandler(this.btnAddElemGroup_Click);
             // 
             // btnAddElem
@@ -176,7 +176,7 @@
             this.btnAddElem.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.btnAddElem.Name = "btnAddElem";
             this.btnAddElem.Size = new System.Drawing.Size(23, 22);
-            this.btnAddElem.ToolTipText = "Add element";
+            this.btnAddElem.ToolTipText = "Add Element";
             this.btnAddElem.Click += new System.EventHandler(this.btnAddElem_Click);
             // 
             // btnAddCmd
@@ -186,7 +186,7 @@
             this.btnAddCmd.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.btnAddCmd.Name = "btnAddCmd";
             this.btnAddCmd.Size = new System.Drawing.Size(23, 22);
-            this.btnAddCmd.ToolTipText = "Add command";
+            this.btnAddCmd.ToolTipText = "Add Command";
             this.btnAddCmd.Click += new System.EventHandler(this.btnAddCmd_Click);
             // 
             // btnMoveUp
@@ -196,7 +196,7 @@
             this.btnMoveUp.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.btnMoveUp.Name = "btnMoveUp";
             this.btnMoveUp.Size = new System.Drawing.Size(23, 22);
-            this.btnMoveUp.ToolTipText = "Move up";
+            this.btnMoveUp.ToolTipText = "Move Up";
             this.btnMoveUp.Click += new System.EventHandler(this.btnMoveUp_Click);
             // 
             // btnMoveDown
@@ -206,7 +206,7 @@
             this.btnMoveDown.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.btnMoveDown.Name = "btnMoveDown";
             this.btnMoveDown.Size = new System.Drawing.Size(23, 22);
-            this.btnMoveDown.ToolTipText = "Move down";
+            this.btnMoveDown.ToolTipText = "Move Down";
             this.btnMoveDown.Click += new System.EventHandler(this.btnMoveDown_Click);
             // 
             // btnDelete
@@ -224,25 +224,25 @@
             this.toolStripSeparator2.Name = "toolStripSeparator2";
             this.toolStripSeparator2.Size = new System.Drawing.Size(6, 25);
             // 
-            // btnEditSettings
+            // btnEditOptions
             // 
-            this.btnEditSettings.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-            this.btnEditSettings.Image = global::Scada.Comm.Drivers.DrvModbus.View.Properties.Resources.options;
-            this.btnEditSettings.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.btnEditSettings.Name = "btnEditSettings";
-            this.btnEditSettings.Size = new System.Drawing.Size(23, 22);
-            this.btnEditSettings.ToolTipText = "Edit template settings";
-            this.btnEditSettings.Click += new System.EventHandler(this.btnEditSettings_Click);
+            this.btnEditOptions.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            this.btnEditOptions.Image = global::Scada.Comm.Drivers.DrvModbus.View.Properties.Resources.options;
+            this.btnEditOptions.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.btnEditOptions.Name = "btnEditOptions";
+            this.btnEditOptions.Size = new System.Drawing.Size(23, 22);
+            this.btnEditOptions.ToolTipText = "Edit Template Options";
+            this.btnEditOptions.Click += new System.EventHandler(this.btnEditSettings_Click);
             // 
-            // btnEditSettingsExt
+            // btnEditOptionsExt
             // 
-            this.btnEditSettingsExt.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-            this.btnEditSettingsExt.Image = global::Scada.Comm.Drivers.DrvModbus.View.Properties.Resources.options_extended;
-            this.btnEditSettingsExt.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.btnEditSettingsExt.Name = "btnEditSettingsExt";
-            this.btnEditSettingsExt.Size = new System.Drawing.Size(23, 22);
-            this.btnEditSettingsExt.ToolTipText = "Edit extended settings";
-            this.btnEditSettingsExt.Click += new System.EventHandler(this.btnEditSettingsExt_Click);
+            this.btnEditOptionsExt.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            this.btnEditOptionsExt.Image = global::Scada.Comm.Drivers.DrvModbus.View.Properties.Resources.options_extended;
+            this.btnEditOptionsExt.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.btnEditOptionsExt.Name = "btnEditOptionsExt";
+            this.btnEditOptionsExt.Size = new System.Drawing.Size(23, 22);
+            this.btnEditOptionsExt.ToolTipText = "Edit Extended Options";
+            this.btnEditOptionsExt.Click += new System.EventHandler(this.btnEditSettingsExt_Click);
             // 
             // gbDevTemplate
             // 
@@ -253,10 +253,10 @@
             this.gbDevTemplate.Location = new System.Drawing.Point(12, 28);
             this.gbDevTemplate.Name = "gbDevTemplate";
             this.gbDevTemplate.Padding = new System.Windows.Forms.Padding(10, 3, 10, 10);
-            this.gbDevTemplate.Size = new System.Drawing.Size(280, 501);
+            this.gbDevTemplate.Size = new System.Drawing.Size(300, 501);
             this.gbDevTemplate.TabIndex = 1;
             this.gbDevTemplate.TabStop = false;
-            this.gbDevTemplate.Text = "Device template";
+            this.gbDevTemplate.Text = "Device Template";
             // 
             // openFileDialog
             // 
@@ -274,39 +274,39 @@
             // 
             this.ctrlElemGroup.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.ctrlElemGroup.ElemGroup = null;
-            this.ctrlElemGroup.Location = new System.Drawing.Point(298, 28);
+            this.ctrlElemGroup.Location = new System.Drawing.Point(318, 28);
             this.ctrlElemGroup.Name = "ctrlElemGroup";
-            this.ctrlElemGroup.Settings = null;
-            this.ctrlElemGroup.Size = new System.Drawing.Size(280, 245);
+            this.ctrlElemGroup.Size = new System.Drawing.Size(300, 273);
             this.ctrlElemGroup.TabIndex = 2;
+            this.ctrlElemGroup.TemplateOptions = null;
             this.ctrlElemGroup.ObjectChanged += new System.EventHandler<Scada.Forms.ObjectChangedEventArgs>(this.ctrlElemGroup_ObjectChanged);
             // 
             // ctrlElem
             // 
             this.ctrlElem.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.ctrlElem.ElemInfo = null;
-            this.ctrlElem.Location = new System.Drawing.Point(298, 201);
+            this.ctrlElem.Location = new System.Drawing.Point(318, 205);
             this.ctrlElem.Name = "ctrlElem";
-            this.ctrlElem.Size = new System.Drawing.Size(280, 271);
+            this.ctrlElem.Size = new System.Drawing.Size(300, 271);
             this.ctrlElem.TabIndex = 3;
             this.ctrlElem.ObjectChanged += new System.EventHandler<Scada.Forms.ObjectChangedEventArgs>(this.ctrlElem_ObjectChanged);
             // 
             // ctrlCmd
             // 
             this.ctrlCmd.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.ctrlCmd.Location = new System.Drawing.Point(298, 205);
+            this.ctrlCmd.Location = new System.Drawing.Point(318, 205);
             this.ctrlCmd.ModbusCmd = null;
             this.ctrlCmd.Name = "ctrlCmd";
             this.ctrlCmd.Settings = null;
-            this.ctrlCmd.Size = new System.Drawing.Size(280, 324);
+            this.ctrlCmd.Size = new System.Drawing.Size(300, 324);
             this.ctrlCmd.TabIndex = 4;
             this.ctrlCmd.ObjectChanged += new System.EventHandler<Scada.Forms.ObjectChangedEventArgs>(this.ctrlCmd_ObjectChanged);
             // 
-            // FrmDevTemplate
+            // FrmDeviceTemplate
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(590, 541);
+            this.ClientSize = new System.Drawing.Size(630, 541);
             this.Controls.Add(this.ctrlElemGroup);
             this.Controls.Add(this.ctrlElem);
             this.Controls.Add(this.ctrlCmd);
@@ -314,8 +314,8 @@
             this.Controls.Add(this.toolStrip);
             this.MaximizeBox = false;
             this.MinimizeBox = false;
-            this.MinimumSize = new System.Drawing.Size(606, 500);
-            this.Name = "FrmDevTemplate";
+            this.MinimumSize = new System.Drawing.Size(646, 450);
+            this.Name = "FrmDeviceTemplate";
             this.ShowIcon = false;
             this.ShowInTaskbar = false;
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
@@ -353,7 +353,7 @@
         private Scada.Comm.Drivers.DrvModbus.View.Controls.CtrlElem ctrlElem;
         private Scada.Comm.Drivers.DrvModbus.View.Controls.CtrlElemGroup ctrlElemGroup;
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator2;
-        private System.Windows.Forms.ToolStripButton btnEditSettings;
-        private System.Windows.Forms.ToolStripButton btnEditSettingsExt;
+        private System.Windows.Forms.ToolStripButton btnEditOptions;
+        private System.Windows.Forms.ToolStripButton btnEditOptionsExt;
     }
 }
