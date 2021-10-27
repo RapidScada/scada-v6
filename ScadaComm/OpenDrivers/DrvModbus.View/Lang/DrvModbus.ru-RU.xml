@@ -4,6 +4,27 @@
     <Phrase key="LoadTemplateError">Ошибка при загрузке шаблона устройства</Phrase>
     <Phrase key="SaveTemplateError">Ошибка при сохранении шаблона устройства</Phrase>
   </Dictionary>
+  <Dictionary key="Scada.Comm.Drivers.DrvModbus.View.Controls">
+    <Phrase key="AddressHint">{0}, начиная с {1}</Phrase>
+    <Phrase key="ElemRemoveWarning">Блок данных допускает не более {0} элементов.&#13;&#10;Лишние элементы будут удалены. Продолжить?</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Comm.Drivers.DrvModbus.View.Controls.CtrlCmd">
+  </Dictionary>
+  <Dictionary key="Scada.Comm.Drivers.DrvModbus.View.Controls.CtrlElem">
+  </Dictionary>
+  <Dictionary key="Scada.Comm.Drivers.DrvModbus.View.Controls.CtrlElemGroup">
+    <Phrase key="gbElemGroup">Параметры группы элементов</Phrase>
+    <Phrase key="chkGrActive">Активность</Phrase>
+    <Phrase key="lblGrName">Наименование</Phrase>
+    <Phrase key="lblGrDataBlock">Блок данных</Phrase>
+    <Phrase key="cbGrTableType.Items[0]">Discrete Inputs (Дискретные входы, 1X)</Phrase>
+    <Phrase key="cbGrTableType.Items[1]">Coils (Флаги, 0X)</Phrase>
+    <Phrase key="cbGrTableType.Items[2]">Input Registers (Входные регистры, 3X)</Phrase>
+    <Phrase key="cbGrTableType.Items[3]">Holding Registers (Регистры хранения, 4X)</Phrase>
+    <Phrase key="lblGrFuncCode">Код функции</Phrase>
+    <Phrase key="lblGrAddress">Адрес нач. элемента</Phrase>
+    <Phrase key="lblGrElemCnt">Количество элементов</Phrase>
+  </Dictionary>
   <Dictionary key="Scada.Comm.Drivers.DrvModbus.View.Forms.FrmDeviceProps">
     <Phrase key="this">Свойства КП {0}</Phrase>
     <Phrase key="gbCommLine">Линия связи</Phrase>

@@ -200,7 +200,7 @@
             this.cbGrDataBlock.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.cbGrDataBlock.FormattingEnabled = true;
             this.cbGrDataBlock.Items.AddRange(new object[] {
-            "Discretes Inputs (1X)",
+            "Discrete Inputs (1X)",
             "Coils (0X)",
             "Input Registers (3X)",
             "Holding Registers (4X)"});

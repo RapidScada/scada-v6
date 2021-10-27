@@ -19,16 +19,18 @@ namespace Scada.Comm.Drivers.DrvModbus
         public static string DefGrName { get; private set; }
         public static string DefElemName { get; private set; }
         public static string DefCmdName { get; private set; }
-        public static string AddressHint { get; private set; }
         public static string SaveTemplateConfirm { get; private set; }
         public static string ElemCntExceeded { get; private set; }
-        public static string ElemRemoveWarning { get; private set; }
 
 
 
         // Scada.Comm.Drivers.DrvModbus.Config.DeviceTemplate
         public static string LoadTemplateError { get; private set; }
         public static string SaveTemplateError { get; private set; }
+
+        // Scada.Comm.Drivers.DrvModbus.View.Controls
+        public static string AddressHint { get; private set; }
+        public static string ElemRemoveWarning { get; private set; }
 
         // Scada.Comm.Drivers.DrvModbus.View.Forms.FrmDeviceProps
         public static string ConfigDirRequired { get; private set; }
@@ -39,6 +41,10 @@ namespace Scada.Comm.Drivers.DrvModbus
             LocaleDict dict = Locale.GetDictionary("Scada.Comm.Drivers.DrvModbus.Config.DeviceTemplate");
             LoadTemplateError = dict["LoadTemplateError"];
             SaveTemplateError = dict["SaveTemplateError"];
+
+            dict = Locale.GetDictionary("Scada.Comm.Drivers.DrvModbus.View.Controls");
+            AddressHint = dict["AddressHint"];
+            ElemRemoveWarning = dict["ElemRemoveWarning"];
 
             dict = Locale.GetDictionary("Scada.Comm.Drivers.DrvModbus.View.Forms.FrmDeviceProps");
             ConfigDirRequired = dict["ConfigDirRequired"];
@@ -51,10 +57,8 @@ namespace Scada.Comm.Drivers.DrvModbus
             DefGrName = dict["DefGrName"];
             DefElemName = dict["DefElemName"];
             DefCmdName = dict["DefCmdName"];
-            AddressHint = dict["AddressHint"];
             SaveTemplateConfirm = dict["SaveTemplateConfirm"];
             ElemCntExceeded = dict["ElemCntExceeded"];
-            ElemRemoveWarning = dict["ElemRemoveWarning"];
         }
     }
 }

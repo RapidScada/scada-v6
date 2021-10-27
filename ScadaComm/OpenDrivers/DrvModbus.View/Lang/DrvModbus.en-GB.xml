@@ -4,6 +4,27 @@
     <Phrase key="LoadTemplateError">Error loading device template</Phrase>
     <Phrase key="SaveTemplateError">Error saving device template</Phrase>
   </Dictionary>
+  <Dictionary key="Scada.Comm.Drivers.DrvModbus.View.Controls">
+    <Phrase key="AddressHint">{0}, starting from {1}</Phrase>
+    <Phrase key="ElemRemoveWarning">The data block allows a maximum of {0} elements.&#13;&#10;Extra elements will be removed. Continue?</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Comm.Drivers.DrvModbus.View.Controls.CtrlCmd">
+  </Dictionary>
+  <Dictionary key="Scada.Comm.Drivers.DrvModbus.View.Controls.CtrlElem">
+  </Dictionary>
+  <Dictionary key="Scada.Comm.Drivers.DrvModbus.View.Controls.CtrlElemGroup">
+    <Phrase key="gbElemGroup">Element Group Parameters</Phrase>
+    <Phrase key="chkGrActive">Active</Phrase>
+    <Phrase key="lblGrName">Name</Phrase>
+    <Phrase key="lblGrDataBlock">Data block</Phrase>
+    <Phrase key="cbGrTableType.Items[0]">Discrete Inputs (1X)</Phrase>
+    <Phrase key="cbGrTableType.Items[1]">Coils (0X)</Phrase>
+    <Phrase key="cbGrTableType.Items[2]">Input Registers (3X)</Phrase>
+    <Phrase key="cbGrTableType.Items[3]">Holding Registers (4X)</Phrase>
+    <Phrase key="lblGrFuncCode">Function code</Phrase>
+    <Phrase key="lblGrAddress">Start element address</Phrase>
+    <Phrase key="lblGrElemCnt">Element count</Phrase>
+  </Dictionary>
   <Dictionary key="Scada.Comm.Drivers.DrvModbus.View.Forms.FrmDeviceProps">
     <Phrase key="this">Device {0} Properties</Phrase>
     <Phrase key="gbCommLine">Communication Line</Phrase>

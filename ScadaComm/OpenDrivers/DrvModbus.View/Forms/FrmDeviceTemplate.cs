@@ -193,7 +193,7 @@ namespace Scada.Comm.Drivers.DrvModbus.View.Forms
             grNode.Tag = elemGroup;
 
             int elemAddr = elemGroup.Address;
-            int elemTagNum = elemGroup.StartTagNum + 1;
+            int elemTagNum = elemGroup.StartTagNum;
 
             foreach (ElemConfig elem in elemGroup.Elems)
             {
@@ -273,7 +273,7 @@ namespace Scada.Comm.Drivers.DrvModbus.View.Forms
             if (grNode.Tag is ElemGroupConfig elemGroup)
             {
                 int elemAddr = elemGroup.Address;
-                int elemTagNum = elemGroup.StartTagNum + 1;
+                int elemTagNum = elemGroup.StartTagNum;
 
                 foreach (TreeNode elemNode in grNode.Nodes)
                 {
@@ -447,6 +447,9 @@ namespace Scada.Comm.Drivers.DrvModbus.View.Forms
         {
             // перевод формы
             FormTranslator.Translate(this, GetType().FullName);
+            FormTranslator.Translate(ctrlElemGroup, ctrlElemGroup.GetType().FullName);
+            FormTranslator.Translate(ctrlElem, ctrlElem.GetType().FullName);
+            FormTranslator.Translate(ctrlCmd, ctrlCmd.GetType().FullName);
             openFileDialog.SetFilter(CommonPhrases.XmlFileFilter);
             saveFileDialog.SetFilter(CommonPhrases.XmlFileFilter);
             TranslateTree();

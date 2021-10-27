@@ -57,11 +57,15 @@ namespace Scada.Comm.Drivers.DrvModbus.Config
             // element groups
             if (rootElem.SelectSingleNode("ElemGroups") is XmlNode elemGroupsNode)
             {
+                int tagCnt = 0;
+
                 foreach (XmlElement elemGroupElem in elemGroupsNode.SelectNodes("ElemGroup"))
                 {
                     ElemGroupConfig elemGroupConfig = CreateElemGroupConfig();
                     elemGroupConfig.LoadFromXml(elemGroupElem);
+                    elemGroupConfig.StartTagNum = tagCnt + 1;
                     ElemGroups.Add(elemGroupConfig);
+                    tagCnt += elemGroupConfig.Elems.Count;
                 }
             }
 

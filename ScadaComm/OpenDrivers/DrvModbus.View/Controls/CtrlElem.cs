@@ -56,7 +56,7 @@ namespace Scada.Comm.Drivers.DrvModbus.View.Controls
             {
                 txtElemName.Text = "";
                 txtElemAddress.Text = "";
-                txtElemSignal.Text = "";
+                txtElemTagNum.Text = "";
                 rbBool.Checked = true;
                 txtElemByteOrder.Text = "";
                 gbElem.Enabled = false;
@@ -65,7 +65,7 @@ namespace Scada.Comm.Drivers.DrvModbus.View.Controls
             {
                 txtElemName.Text = elemInfo.Elem.Name;
                 txtElemAddress.Text = elemInfo.AddressRange;
-                txtElemSignal.Text = elemInfo.TagNum.ToString();
+                txtElemTagNum.Text = elemInfo.TagNum.ToString();
                 ElemType elemType = elemInfo.Elem.ElemType;
 
                 if (elemType == ElemType.Bool)
