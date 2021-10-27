@@ -4,4 +4,19 @@
     <Phrase key="LoadTemplateError">Error loading device template</Phrase>
     <Phrase key="SaveTemplateError">Error saving device template</Phrase>
   </Dictionary>
+  <Dictionary key="Scada.Comm.Drivers.DrvModbus.View.Forms.FrmTemplateOptions">
+    <Phrase key="this">Template Options</Phrase>
+    <Phrase key="gbAddressing">Addressing</Phrase>
+    <Phrase key="rbZeroBased">Zero-based</Phrase>
+    <Phrase key="rbOneBased">One-based</Phrase>
+    <Phrase key="rbDec">Decimal</Phrase>
+    <Phrase key="rbHex">Hexadecimal</Phrase>
+    <Phrase key="gbDefByteOrder">Default byte order</Phrase>
+    <Phrase key="lblDefByteOrder2">2 bytes</Phrase>
+    <Phrase key="lblDefByteOrder4">4 bytes</Phrase>
+    <Phrase key="lblDefByteOrder8">8 bytes</Phrase>
+    <Phrase key="lblDefByteOrderExample">For example, 01234567</Phrase>
+    <Phrase key="btnOK">OK</Phrase>
+    <Phrase key="btnCancel">Cancel</Phrase>
+  </Dictionary>
 </DrvModbusDictionaries>

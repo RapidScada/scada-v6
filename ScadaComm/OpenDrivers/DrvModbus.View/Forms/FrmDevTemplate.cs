@@ -766,7 +766,9 @@ namespace Scada.Comm.Drivers.DrvModbus.View.Forms
         private void btnEditSettings_Click(object sender, EventArgs e)
         {
             // редактирование настроек шаблона
-            if (FrmTemplateSettings.ShowDialog(template.Options))
+            FrmTemplateOptions frmTemplateOptions = new(template.Options);
+
+            if (frmTemplateOptions.ShowDialog() == DialogResult.OK)
             {
                 // полное обновление дерева
                 FillTree();
