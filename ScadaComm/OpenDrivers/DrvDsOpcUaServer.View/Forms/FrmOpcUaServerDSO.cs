@@ -119,6 +119,9 @@ namespace Scada.Comm.Drivers.DrvDsOpcUaServer.View.Forms
         private void FrmOpcUaServerDSO_Load(object sender, EventArgs e)
         {
             FormTranslator.Translate(this, GetType().FullName, toolTip);
+            openFileDialog.SetFilter(CommonPhrases.XmlFileFilter);
+            saveFileDialog.SetFilter(CommonPhrases.XmlFileFilter);
+
             OptionsToControls();
         }
 
