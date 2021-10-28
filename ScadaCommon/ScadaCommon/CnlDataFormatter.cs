@@ -141,11 +141,12 @@ namespace Scada
             {
                 case DataTypeID.Double:
                     return FormatIsHex(format)
-                        ? ((int)cnlVal).ToString(format, culture)
+                        ? ((int)cnlVal).ToString(format, culture) + 'h'
                         : cnlVal.ToString(format, culture);
 
                 case DataTypeID.Int64:
-                    return CnlDataConverter.DoubleToInt64(cnlVal).ToString(format, culture);
+                    string s = CnlDataConverter.DoubleToInt64(cnlVal).ToString(format, culture);
+                    return FormatIsHex(format) ? s + 'h' : s;
 
                 default:
                     return FormatError;

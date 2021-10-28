@@ -225,6 +225,11 @@ namespace Scada.Comm.Devices
                             : val.ToString();
                     }
 
+                    bool FormatIsHex(string format)
+                    {
+                        return format[0] == 'x' || format[0] == 'X';
+                    }
+
                     if (deviceTag.DataType == TagDataType.Int64)
                     {
                         long longVal = BitConverter.DoubleToInt64Bits(cnlData.Val);
@@ -236,12 +241,20 @@ namespace Scada.Comm.Devices
 
                             case TagFormatType.Date:
                                 DateTime dt = new DateTime(longVal, DateTimeKind.Utc).ToLocalTime();
-                                return string.IsNullOrEmpty(tagFormat.Format) ?
-                                    dt.ToLocalizedString() : dt.ToString(tagFormat.Format);
+                                return string.IsNullOrEmpty(tagFormat.Format) 
+                                    ? dt.ToLocalizedString() 
+                                    : dt.ToString(tagFormat.Format);
 
                             default:
-                                return string.IsNullOrEmpty(tagFormat.Format) ?
-                                    longVal.ToString() : longVal.ToString(tagFormat.Format);
+                                if (string.IsNullOrEmpty(tagFormat.Format))
+                                {
+                                    return longVal.ToString();
+                                }
+                                else
+                                {
+                                    string s = longVal.ToString(tagFormat.Format);
+                                    return FormatIsHex(tagFormat.Format) ? s + 'h' : s;
+                                }
                         }
                     }
                     else
@@ -255,12 +268,16 @@ namespace Scada.Comm.Devices
 
                             case TagFormatType.Date:
                                 DateTime dt = DateTime.FromOADate(doubleVal);
-                                return string.IsNullOrEmpty(tagFormat.Format) ?
-                                    dt.ToLocalizedString() : dt.ToString(tagFormat.Format);
+                                return string.IsNullOrEmpty(tagFormat.Format) 
+                                    ? dt.ToLocalizedString() 
+                                    : dt.ToString(tagFormat.Format);
 
                             default:
-                                return string.IsNullOrEmpty(tagFormat.Format) ?
-                                    doubleVal.ToString() : doubleVal.ToString(tagFormat.Format);
+                                return string.IsNullOrEmpty(tagFormat.Format) 
+                                    ? doubleVal.ToString(DefaultFormat) 
+                                    : FormatIsHex(tagFormat.Format) 
+                                        ? ((int)doubleVal).ToString(tagFormat.Format) + 'h' 
+                                        : doubleVal.ToString(tagFormat.Format);
                         }
                     }
                 }

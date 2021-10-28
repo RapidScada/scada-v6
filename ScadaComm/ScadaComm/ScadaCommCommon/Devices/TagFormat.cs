@@ -43,6 +43,10 @@ namespace Scada.Comm.Devices
         /// </summary>
         public static readonly TagFormat IntNumber = new TagFormat(TagFormatType.Number, "N0");
         /// <summary>
+        /// The default hexadecimal format.
+        /// </summary>
+        public static readonly TagFormat HexNumber = new TagFormat(TagFormatType.Number, "X4");
+        /// <summary>
         /// The default date and time format.
         /// </summary>
         public static readonly TagFormat DateTime = new TagFormat(TagFormatType.Date, "G");
