@@ -298,9 +298,9 @@ namespace Scada.Comm.Drivers.DrvModbus.Protocol
             {
                 int pduLen = InBuf[4] * 256 + InBuf[5] - 1;
 
-                if (InBuf[0] == dataUnit.ReqADU[0] && InBuf[1] == dataUnit.ReqADU[1] && 
-                    InBuf[2] == 0 && InBuf[3] == 0 && pduLen > 0 &&
-                    InBuf[6] == dataUnit.ReqADU[6])
+                if (InBuf[0] == dataUnit.ReqADU[0] && InBuf[1] == dataUnit.ReqADU[1] && // transaction ID
+                    InBuf[2] == 0 && InBuf[3] == 0 && pduLen > 0 &&                     // protocol ID
+                    InBuf[6] == dataUnit.ReqADU[6])                                     // unit ID
                 {
                     // read PDU
                     readCnt = Connection.Read(InBuf, 7, pduLen, Timeout, ProtocolFormat.Hex, out logText);

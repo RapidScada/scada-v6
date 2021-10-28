@@ -1,6 +1,7 @@
 ﻿// Copyright (c) Rapid Software LLC. All rights reserved.
 // Licensed under the Apache License, Version 2.0. See License.txt in the project root for license information.
 
+using System;
 using System.Text;
 
 namespace Scada.Comm.Drivers.DrvModbus.Protocol
@@ -111,50 +112,52 @@ namespace Scada.Comm.Drivers.DrvModbus.Protocol
         /// </summary>
         public virtual void InitReqADU(byte devAddr, TransMode transMode)
         {
-            if (ReqPDU != null)
+            if (ReqPDU == null)
+                return;
+
+            int pduLen = ReqPDU.Length;
+
+            switch (transMode)
             {
-                int pduLen = ReqPDU.Length;
+                case TransMode.RTU:
+                    ReqADU = new byte[pduLen + 3];
+                    ReqADU[0] = devAddr;
+                    Buffer.BlockCopy(ReqPDU, 0, ReqADU, 1, ReqPDU.Length);
+                    ushort crc = ModbusUtils.CRC16(ReqADU, 0, pduLen + 1);
+                    ReqADU[pduLen + 1] = (byte)(crc % 256);
+                    ReqADU[pduLen + 2] = (byte)(crc / 256);
+                    RespAduLen = RespPduLen + 3;
+                    break;
 
-                switch (transMode)
-                {
-                    case TransMode.RTU:
-                        ReqADU = new byte[pduLen + 3];
-                        ReqADU[0] = devAddr;
-                        ReqPDU.CopyTo(ReqADU, 1);
-                        ushort crc = ModbusUtils.CRC16(ReqADU, 0, pduLen + 1);
-                        ReqADU[pduLen + 1] = (byte)(crc % 256);
-                        ReqADU[pduLen + 2] = (byte)(crc / 256);
-                        RespAduLen = RespPduLen + 3;
-                        break;
+                case TransMode.ASCII:
+                    byte[] aduBuf = new byte[pduLen + 2];
+                    aduBuf[0] = devAddr;
+                    Buffer.BlockCopy(ReqPDU, 0, aduBuf, 1, ReqPDU.Length);
+                    aduBuf[pduLen + 1] = ModbusUtils.LRC(aduBuf, 0, pduLen + 1);
 
-                    case TransMode.ASCII:
-                        byte[] aduBuf = new byte[pduLen + 2];
-                        aduBuf[0] = devAddr;
-                        ReqPDU.CopyTo(aduBuf, 1);
-                        aduBuf[pduLen + 1] = ModbusUtils.LRC(aduBuf, 0, pduLen + 1);
+                    StringBuilder sbADU = new StringBuilder();
+                    foreach (byte b in aduBuf)
+                    {
+                        sbADU.Append(b.ToString("X2"));
+                    }
 
-                        StringBuilder sbADU = new StringBuilder();
-                        foreach (byte b in aduBuf)
-                            sbADU.Append(b.ToString("X2"));
+                    ReqADU = Encoding.ASCII.GetBytes(sbADU.ToString());
+                    ReqStr = ModbusUtils.Colon + sbADU;
+                    RespAduLen = RespPduLen + 2;
+                    break;
 
-                        ReqADU = Encoding.Default.GetBytes(sbADU.ToString());
-                        ReqStr = ModbusUtils.Colon + sbADU;
-                        RespAduLen = RespPduLen + 2;
-                        break;
-
-                    default: // TransModes.TCP
-                        ReqADU = new byte[pduLen + 7];
-                        ReqADU[0] = 0;
-                        ReqADU[1] = 0;
-                        ReqADU[2] = 0;
-                        ReqADU[3] = 0;
-                        ReqADU[4] = (byte)((pduLen + 1) / 256);
-                        ReqADU[5] = (byte)((pduLen + 1) % 256);
-                        ReqADU[6] = devAddr;
-                        ReqPDU.CopyTo(ReqADU, 7);
-                        RespAduLen = RespPduLen + 7;
-                        break;
-                }
+                default: // TransModes.TCP
+                    ReqADU = new byte[pduLen + 7];
+                    ReqADU[0] = 0;
+                    ReqADU[1] = 0;
+                    ReqADU[2] = 0;
+                    ReqADU[3] = 0;
+                    ReqADU[4] = (byte)((pduLen + 1) / 256);
+                    ReqADU[5] = (byte)((pduLen + 1) % 256);
+                    ReqADU[6] = devAddr;
+                    Buffer.BlockCopy(ReqPDU, 0, ReqADU, 7, ReqPDU.Length);
+                    RespAduLen = RespPduLen + 7;
+                    break;
             }
         }
 

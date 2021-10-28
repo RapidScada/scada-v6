@@ -20,8 +20,12 @@ namespace Scada.Comm.Drivers.DrvModbus.Protocol
         public ModbusCmd(DataBlock dataBlock, bool multiple)
             : base(dataBlock)
         {
-            if (!(dataBlock == DataBlock.Coils || dataBlock == DataBlock.HoldingRegisters))
-                throw new InvalidOperationException(ModbusPhrases.IllegalDataTable);
+            if (dataBlock != DataBlock.Coils &&
+                dataBlock != DataBlock.HoldingRegisters &&
+                dataBlock != DataBlock.Custom)
+            {
+                throw new InvalidOperationException(ModbusPhrases.IllegalDataBlock);
+            }
 
             reqDescr = "";
             Multiple = multiple;

@@ -19,6 +19,7 @@ namespace Scada.Comm.Drivers.DrvModbus.Config
         public CmdConfig()
             : base()
         {
+            DataBlock = DataBlock.Coils;
             Multiple = false;
             CustomFuncCode = 0;
             ElemType = ElemType.Undefined;
@@ -121,7 +122,7 @@ namespace Scada.Comm.Drivers.DrvModbus.Config
                 if (Multiple)
                     xmlElem.SetAttribute("elemCnt", ElemCnt);
 
-                if (ByteOrderEnabled)
+                if (ByteOrderEnabled && !string.IsNullOrEmpty(ByteOrder))
                     xmlElem.SetAttribute("byteOrder", ByteOrder);
             }
 

@@ -17,7 +17,7 @@ namespace Scada.Comm.Drivers.DrvModbus.Protocol
         public static string Request { get; set; }
         public static string Command { get; set; }
         public static string DeviceError { get; set; }
-        public static string IllegalDataTable { get; set; }
+        public static string IllegalDataBlock { get; set; }
         public static string OK { get; set; }
         public static string CrcError { get; set; }
         public static string LrcError { get; set; }
@@ -37,7 +37,7 @@ namespace Scada.Comm.Drivers.DrvModbus.Protocol
                 Request = "Запрос значений группы элементов \"{0}\"";
                 Command = "Команда \"{0}\"";
                 DeviceError = "Ошибка устройства";
-                IllegalDataTable = "Недопустимая таблица данных для команды.";
+                IllegalDataBlock = "Недопустимый блок данных.";
                 OK = "OK!";
                 CrcError = "Ошибка CRC!";
                 LrcError = "Ошибка LRC!";
@@ -55,7 +55,7 @@ namespace Scada.Comm.Drivers.DrvModbus.Protocol
                 Request = "Request element group \"{0}\"";
                 Command = "Command \"{0}\"";
                 DeviceError = "Device error";
-                IllegalDataTable = "Illegal data table for the command.";
+                IllegalDataBlock = "Illegal data block.";
                 OK = "OK!";
                 CrcError = "CRC error!";
                 LrcError = "LRC error!";

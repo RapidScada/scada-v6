@@ -287,8 +287,11 @@ namespace Scada.Comm.Drivers.DrvModbus.Protocol
                 case DataBlock.InputRegisters:
                     return FuncCodes.ReadInputRegisters;
 
-                default: // DataBlock.HoldingRegisters
+                case DataBlock.HoldingRegisters:
                     return FuncCodes.ReadHoldingRegisters;
+
+                default:
+                    return 0;
             }
         }
 
