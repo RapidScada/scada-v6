@@ -20,6 +20,7 @@ namespace Scada.Comm.Drivers.DrvModbus.Config
             : base()
         {
             Multiple = false;
+            CustomFuncCode = 0;
             ElemType = ElemType.Undefined;
             ElemCnt = 1;
             ByteOrder = "";
@@ -32,6 +33,11 @@ namespace Scada.Comm.Drivers.DrvModbus.Config
         /// Gets or sets a value indicating whether the command writes multiple elements.
         /// </summary>
         public bool Multiple { get; set; }
+
+        /// <summary>
+        /// Gets or sets the custom function code.
+        /// </summary>
+        public int CustomFuncCode { get; set; }
 
         /// <summary>
         /// Gets or sets the command element type.
@@ -80,6 +86,7 @@ namespace Scada.Comm.Drivers.DrvModbus.Config
 
             DataBlock = xmlElem.GetAttrAsEnum("dataBlock", xmlElem.GetAttrAsEnum<DataBlock>("tableType"));
             Multiple = xmlElem.GetAttrAsBool("multiple");
+            CustomFuncCode = xmlElem.GetAttrAsInt("funcCode");
             Address = xmlElem.GetAttrAsInt("address");
             ElemType = xmlElem.GetAttrAsEnum("elemType", DefaultElemType);
             ElemCnt = xmlElem.GetAttrAsInt("elemCnt", 1);
@@ -99,16 +106,24 @@ namespace Scada.Comm.Drivers.DrvModbus.Config
 
             xmlElem.SetAttribute("dataBlock", DataBlock);
             xmlElem.SetAttribute("multiple", Multiple);
-            xmlElem.SetAttribute("address", Address);
 
-            if (ElemTypeEnabled)
-                xmlElem.SetAttribute("elemType", ElemType.ToString().ToLowerInvariant());
+            if (DataBlock == DataBlock.Custom)
+            {
+                xmlElem.SetAttribute("funcCode", CustomFuncCode);
+            }
+            else
+            {
+                xmlElem.SetAttribute("address", Address);
 
-            if (Multiple)
-                xmlElem.SetAttribute("elemCnt", ElemCnt);
+                if (ElemTypeEnabled)
+                    xmlElem.SetAttribute("elemType", ElemType.ToString().ToLowerInvariant());
 
-            if (ByteOrderEnabled)
-                xmlElem.SetAttribute("byteOrder", ByteOrder);
+                if (Multiple)
+                    xmlElem.SetAttribute("elemCnt", ElemCnt);
+
+                if (ByteOrderEnabled)
+                    xmlElem.SetAttribute("byteOrder", ByteOrder);
+            }
 
             xmlElem.SetAttribute("cmdNum", CmdNum);
             xmlElem.SetAttribute("cmdCode", CmdCode);

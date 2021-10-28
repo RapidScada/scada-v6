@@ -55,9 +55,11 @@ namespace Scada.Comm.Drivers.DrvModbus.Config
         {
             get
             {
-                return DataBlock == DataBlock.DiscreteInputs || DataBlock == DataBlock.Coils 
-                    ? ElemType.Bool 
-                    : ElemType.UShort;
+                return DataBlock == DataBlock.Custom
+                    ? ElemType.Undefined
+                    : DataBlock == DataBlock.DiscreteInputs || DataBlock == DataBlock.Coils
+                        ? ElemType.Bool
+                        : ElemType.UShort;
             }
         }
 

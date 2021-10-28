@@ -300,7 +300,7 @@
             this.cbCmdDataBlock.Name = "cbCmdDataBlock";
             this.cbCmdDataBlock.Size = new System.Drawing.Size(274, 23);
             this.cbCmdDataBlock.TabIndex = 8;
-            this.cbCmdDataBlock.SelectedIndexChanged += new System.EventHandler(this.cbCmdTableType_SelectedIndexChanged);
+            this.cbCmdDataBlock.SelectedIndexChanged += new System.EventHandler(this.cbCmdDataBlock_SelectedIndexChanged);
             // 
             // lblCmdDataBlock
             // 

@@ -27,6 +27,11 @@ namespace Scada.Comm.Drivers.DrvModbus.Protocol
         /// <summary>
         /// Holding registers, 16 bits, read and write, 4X addressing.
         /// </summary>
-        HoldingRegisters
+        HoldingRegisters,
+
+        /// <summary>
+        /// Custom data block.
+        /// </summary>
+        Custom
     }
 }

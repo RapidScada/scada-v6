@@ -91,6 +91,9 @@ namespace Scada.Comm.Drivers.DrvModbus.Logic
             modbusCmd.CmdNum = cmdConfig.CmdNum;
             modbusCmd.CmdCode = cmdConfig.CmdCode;
 
+            if (cmdConfig.DataBlock == DataBlock.Custom)
+                modbusCmd.SetFuncCode((byte)cmdConfig.CustomFuncCode);
+
             modbusCmd.InitReqPDU();
             modbusCmd.InitReqADU(deviceModel.Addr, transMode);
             return modbusCmd;
@@ -409,7 +412,7 @@ namespace Scada.Comm.Drivers.DrvModbus.Logic
             if ((deviceModel.GetCmd(cmd.CmdCode) ?? deviceModel.GetCmd(cmd.CmdNum)) is ModbusCmd modbusCmd)
             {
                 // prepare Modbus command
-                if (modbusCmd.Multiple)
+                if (modbusCmd.Multiple || modbusCmd.DataBlock == DataBlock.Custom)
                 {
                     modbusCmd.Value = 0;
 

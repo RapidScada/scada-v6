@@ -33,9 +33,7 @@ namespace Scada.Comm.Drivers.DrvModbus.Protocol
             Value = 0;
             Data = null;
 
-            // define function codes
-            FuncCode = ModbusUtils.GetWriteFuncCode(dataBlock, multiple);
-            ExcFuncCode = (byte)(FuncCode | 0x80);
+            SetFuncCode(ModbusUtils.GetWriteFuncCode(dataBlock, multiple));
         }
 
 
@@ -98,7 +96,21 @@ namespace Scada.Comm.Drivers.DrvModbus.Protocol
         /// </summary>
         public override void InitReqPDU()
         {
-            if (Multiple)
+            if (DataBlock == DataBlock.Custom)
+            {
+                // build PDU for custom command
+                int dataLength = Data == null ? 0 : Data.Length;
+                ReqPDU = new byte[1 + dataLength];
+                ReqPDU[0] = FuncCode;
+                
+                if (dataLength > 0)
+                    Buffer.BlockCopy(Data, 0, ReqPDU, 1, dataLength);
+
+                RespPduLen = Multiple
+                    ? 1              // assuming no data in response
+                    : ReqPDU.Length; // assuming echo
+            }
+            else if (Multiple)
             {
                 // build PDU for WriteMultipleCoils and WriteMultipleRegisters commands
                 int quantity;   // quantity of registers
@@ -168,7 +180,8 @@ namespace Scada.Comm.Drivers.DrvModbus.Protocol
         {
             if (base.DecodeRespPDU(buffer, offset, length, out errMsg))
             {
-                if (buffer[offset + 1] == ReqPDU[1] && buffer[offset + 2] == ReqPDU[2] &&
+                if (DataBlock == DataBlock.Custom ||
+                    buffer[offset + 1] == ReqPDU[1] && buffer[offset + 2] == ReqPDU[2] &&
                     buffer[offset + 3] == ReqPDU[3] && buffer[offset + 4] == ReqPDU[4])
                 {
                     return true;

@@ -26,9 +26,7 @@ namespace Scada.Comm.Drivers.DrvModbus.Protocol
             ElemData = null;
             StartTagIdx = -1;
 
-            // define function codes
-            FuncCode = ModbusUtils.GetReadFuncCode(dataBlock);
-            ExcFuncCode = (byte)(FuncCode | 0x80);
+            SetFuncCode(ModbusUtils.GetReadFuncCode(dataBlock));
         }
 
 

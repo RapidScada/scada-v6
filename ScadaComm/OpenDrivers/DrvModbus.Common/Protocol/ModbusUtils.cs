@@ -117,8 +117,10 @@ namespace Scada.Comm.Drivers.DrvModbus.Protocol
                     return "Coils";
                 case DataBlock.InputRegisters:
                     return "Input Registers";
-                default: // DataBlock.HoldingRegisters
+                case DataBlock.HoldingRegisters:
                     return "Holding Registers";
+                default: // DataBlock.Custom
+                    return "Custom";
             }
         }
 

@@ -357,8 +357,8 @@ namespace Scada.Comm.Drivers.DrvModbus.View.Forms
             ctrlElemGroup.Visible = false;
             ctrlElem.Visible = false;
             ctrlCmd.Visible = true;
-            ctrlCmd.Settings = template.Options;
-            ctrlCmd.ModbusCmd = modbusCmd;
+            ctrlCmd.TemplateOptions = template.Options;
+            ctrlCmd.Cmd = modbusCmd;
         }
 
         /// <summary>
@@ -368,7 +368,7 @@ namespace Scada.Comm.Drivers.DrvModbus.View.Forms
         {
             ctrlElemGroup.ElemGroup = null;
             ctrlElem.ElemTag = null;
-            ctrlCmd.ModbusCmd = null;
+            ctrlCmd.Cmd = null;
         }
 
         /// <summary>

@@ -93,6 +93,15 @@ namespace Scada.Comm.Drivers.DrvModbus.Protocol
 
 
         /// <summary>
+        /// Sets the request and exception function codes.
+        /// </summary>
+        public void SetFuncCode(byte funcCode)
+        {
+            FuncCode = funcCode;
+            ExcFuncCode = (byte)(funcCode | 0x80);
+        }
+
+        /// <summary>
         /// Initializes the request PDU and calculates the response length.
         /// </summary>
         public abstract void InitReqPDU();
