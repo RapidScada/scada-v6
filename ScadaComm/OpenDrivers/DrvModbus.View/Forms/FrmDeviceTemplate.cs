@@ -29,7 +29,7 @@ namespace Scada.Comm.Drivers.DrvModbus.View.Forms
         private DeviceTemplate template; // редактируемый шаблон устройства
         private bool modified;           // признак изменения шаблона устройства
         private ElemGroupConfig selElemGroup;  // выбранная группа элементов
-        private ElemInfo selElemInfo;    // информация о выбранном элементе
+        private ElemTag selElemInfo;    // информация о выбранном элементе
         private CmdConfig selCmd;        // выбранная команда
         private TreeNode selNode;        // выбранный узел дерева
         private TreeNode grsNode;        // узел дерева "Группы элементов"
@@ -100,7 +100,7 @@ namespace Scada.Comm.Drivers.DrvModbus.View.Forms
         /// </summary>
         private void SetFormTitle()
         {
-            Text = DriverPhrases.TemplFormTitle + " - " + 
+            Text = DriverPhrases.TemplateFormTitle + " - " + 
                 (FileName == "" ? NewFileName : Path.GetFileName(FileName)) +
                 (Modified ? "*" : "");
         }
@@ -125,8 +125,8 @@ namespace Scada.Comm.Drivers.DrvModbus.View.Forms
         /// </summary>
         private void TranslateTree()
         {
-            grsNode.Text = DriverPhrases.GrsNode;
-            cmdsNode.Text = DriverPhrases.CmdsNode;
+            grsNode.Text = DriverPhrases.ElemGroupsNode;
+            cmdsNode.Text = DriverPhrases.CommandsNode;
         }
 
         /// <summary>
@@ -187,7 +187,7 @@ namespace Scada.Comm.Drivers.DrvModbus.View.Forms
         /// </summary>
         private TreeNode NewElemGroupNode(ElemGroupConfig elemGroup)
         {
-            string name = elemGroup.Name == "" ? DriverPhrases.DefGrName : elemGroup.Name;
+            string name = elemGroup.Name == "" ? DriverPhrases.UnnamedElemGroup : elemGroup.Name;
             TreeNode grNode = new TreeNode(name + " (" + ModbusUtils.GetDataBlockName(elemGroup.DataBlock) + ")");
             grNode.ImageKey = grNode.SelectedImageKey = elemGroup.Active ? "group.png" : "group_inactive.png";
             grNode.Tag = elemGroup;
@@ -197,16 +197,11 @@ namespace Scada.Comm.Drivers.DrvModbus.View.Forms
 
             foreach (ElemConfig elem in elemGroup.Elems)
             {
-                ElemInfo elemInfo = new ElemInfo()
+                grNode.Nodes.Add(NewElemNode(new ElemTag(template.Options, elemGroup, elem)
                 {
-                    Elem = elem,
-                    ElemGroup = elemGroup,
-                    Settings = template.Options,
                     Address = elemAddr,
                     TagNum = elemTagNum++
-                };
-
-                grNode.Nodes.Add(NewElemNode(elemInfo));
+                }));
                 elemAddr += (ushort)elem.Quantity;
             }
 
@@ -216,9 +211,9 @@ namespace Scada.Comm.Drivers.DrvModbus.View.Forms
         /// <summary>
         /// Создать узел элемента группы
         /// </summary>
-        private TreeNode NewElemNode(ElemInfo elemInfo)
+        private TreeNode NewElemNode(ElemTag elemInfo)
         {
-            TreeNode elemNode = new TreeNode(elemInfo.Caption);
+            TreeNode elemNode = new TreeNode(elemInfo.NodeText);
             elemNode.ImageKey = elemNode.SelectedImageKey = "elem.png";
             elemNode.Tag = elemInfo;
             return elemNode;
@@ -240,7 +235,7 @@ namespace Scada.Comm.Drivers.DrvModbus.View.Forms
         /// </summary>
         private string GetCmdCaption(CmdConfig modbusCmd)
         {
-            return (string.IsNullOrEmpty(modbusCmd.Name) ? DriverPhrases.DefCmdName : modbusCmd.Name) +
+            return (string.IsNullOrEmpty(modbusCmd.Name) ? DriverPhrases.UnnamedCommand : modbusCmd.Name) +
                 " (" + ModbusUtils.GetDataBlockName(modbusCmd.DataBlock) + ", " +
                 ModbusUtils.GetAddressRange(modbusCmd.Address, 
                     modbusCmd.ElemCnt * ModbusUtils.GetQuantity(modbusCmd.ElemType),
@@ -255,7 +250,7 @@ namespace Scada.Comm.Drivers.DrvModbus.View.Forms
             if (selElemGroup != null)
             {
                 selNode.ImageKey = selNode.SelectedImageKey = selElemGroup.Active ? "group.png" : "group_inactive.png";
-                selNode.Text = (selElemGroup.Name == "" ? DriverPhrases.DefGrName : selElemGroup.Name) + 
+                selNode.Text = (selElemGroup.Name == "" ? DriverPhrases.UnnamedElemGroup : selElemGroup.Name) + 
                     " (" + ModbusUtils.GetDataBlockName(selElemGroup.DataBlock) + ")";
             }
         }
@@ -277,10 +272,10 @@ namespace Scada.Comm.Drivers.DrvModbus.View.Forms
 
                 foreach (TreeNode elemNode in grNode.Nodes)
                 {
-                    ElemInfo elemInfo = elemNode.Tag as ElemInfo;
+                    ElemTag elemInfo = elemNode.Tag as ElemTag;
                     elemInfo.Address = elemAddr;
                     elemInfo.TagNum = elemTagNum++;
-                    elemNode.Text = elemInfo.Caption;
+                    elemNode.Text = elemInfo.NodeText;
                     elemAddr += (ushort)elemInfo.Elem.Quantity;
                 }
             }
@@ -315,7 +310,7 @@ namespace Scada.Comm.Drivers.DrvModbus.View.Forms
 
                 foreach (TreeNode elemNode in grNode.Nodes)
                 {
-                    ElemInfo elem = elemNode.Tag as ElemInfo;
+                    ElemTag elem = elemNode.Tag as ElemTag;
                     elem.TagNum = elemTagNum++;
                 }
             }
@@ -346,11 +341,11 @@ namespace Scada.Comm.Drivers.DrvModbus.View.Forms
         /// <summary>
         /// Отобразить свойства элемента
         /// </summary>
-        private void ShowElemProps(ElemInfo elemInfo)
+        private void ShowElemProps(ElemTag elemInfo)
         {
             ctrlElemGroup.Visible = false;
             ctrlElem.Visible = true;
-            ctrlElem.ElemInfo = elemInfo;
+            ctrlElem.ElemTag = elemInfo;
             ctrlCmd.Visible = false;
         }
 
@@ -372,7 +367,7 @@ namespace Scada.Comm.Drivers.DrvModbus.View.Forms
         private void DisableProps()
         {
             ctrlElemGroup.ElemGroup = null;
-            ctrlElem.ElemInfo = null;
+            ctrlElem.ElemTag = null;
             ctrlCmd.ModbusCmd = null;
         }
 
@@ -554,17 +549,14 @@ namespace Scada.Comm.Drivers.DrvModbus.View.Forms
                 return;
             }
 
-            ElemInfo elemInfo = new ElemInfo();
-            elemInfo.Elem = elemGroup.CreateElemConfig();
-            elemInfo.Elem.ElemType = elemGroup.DefaultElemType;
-            elemInfo.ElemGroup = elemGroup;
-            elemInfo.Settings = template.Options;
-            int ind = selNode.Tag is ElemInfo ? selNode.Index + 1 : elemGroup.Elems.Count;
-            elemGroup.Elems.Insert(ind, elemInfo.Elem);
+            ElemConfig elem = elemGroup.CreateElemConfig();
+            elem.ElemType = elemGroup.DefaultElemType;
+            int ind = selNode.Tag is ElemTag ? selNode.Index + 1 : elemGroup.Elems.Count;
+            elemGroup.Elems.Insert(ind, elem);
 
             // создание узла дерева элемента
-            TreeNode elemNode = NewElemNode(elemInfo);
-            TreeNode grNode = selNode.Tag is ElemInfo ? selNode.Parent : selNode;
+            TreeNode elemNode = NewElemNode(new ElemTag(template.Options, elemGroup, elem));
+            TreeNode grNode = selNode.Tag is ElemTag ? selNode.Parent : selNode;
             grNode.Nodes.Insert(ind, elemNode);
             UpdateElemNodes(grNode);
             UpdateSignals(grNode);
@@ -614,7 +606,7 @@ namespace Scada.Comm.Drivers.DrvModbus.View.Forms
             else if (selElemInfo != null)
             {
                 // перемещение элемента вверх
-                ElemInfo prevElemInfo = prevNode.Tag as ElemInfo;
+                ElemTag prevElemInfo = prevNode.Tag as ElemTag;
 
                 selElemInfo.ElemGroup.Elems.RemoveAt(prevInd);
                 selElemInfo.ElemGroup.Elems.Insert(prevInd + 1, prevElemInfo.Elem);
@@ -668,7 +660,7 @@ namespace Scada.Comm.Drivers.DrvModbus.View.Forms
             else if (selElemInfo != null)
             {
                 // перемещение элемента вниз
-                ElemInfo nextElemInfo = nextNode.Tag as ElemInfo;
+                ElemTag nextElemInfo = nextNode.Tag as ElemTag;
 
                 selElemInfo.ElemGroup.Elems.RemoveAt(nextInd);
                 selElemInfo.ElemGroup.Elems.Insert(nextInd - 1, nextElemInfo.Elem);
@@ -762,7 +754,7 @@ namespace Scada.Comm.Drivers.DrvModbus.View.Forms
             selNode = e.Node;
             object tag = selNode.Tag;
             selElemGroup = tag as ElemGroupConfig;
-            selElemInfo = tag as ElemInfo;
+            selElemInfo = tag as ElemTag;
             selCmd = tag as CmdConfig;
 
             if (selElemGroup != null)
@@ -818,15 +810,10 @@ namespace Scada.Comm.Drivers.DrvModbus.View.Forms
 
                         if (elemInd >= oldElemCnt)
                         {
-                            ElemInfo elemInfo = new ElemInfo()
+                            selNode.Nodes.Add(NewElemNode(new ElemTag(template.Options, selElemGroup, elem)
                             {
-                                Elem = elem,
-                                ElemGroup = selElemGroup,
-                                Settings = template.Options,
                                 Address = elemAddr
-                            };
-
-                            selNode.Nodes.Add(NewElemNode(elemInfo));
+                            }));
                         }
 
                         elemAddr += (ushort)elem.Quantity;
@@ -848,7 +835,17 @@ namespace Scada.Comm.Drivers.DrvModbus.View.Forms
 
         private void ctrlElem_ObjectChanged(object sender, ObjectChangedEventArgs e)
         {
+            // установка признака изменения конфигурации
+            Modified = true;
 
+            // отображение изменений элемента в дереве
+            TreeUpdateTypes treeUpdateTypes = (TreeUpdateTypes)e.ChangeArgument;
+
+            if (treeUpdateTypes.HasFlag(TreeUpdateTypes.CurrentNode))
+                selNode.Text = selElemInfo.NodeText;
+
+            if (treeUpdateTypes.HasFlag(TreeUpdateTypes.NextSiblings))
+                UpdateElemNodes(selNode.Parent);
         }
 
         private void ctrlCmd_ObjectChanged(object sender, ObjectChangedEventArgs e)

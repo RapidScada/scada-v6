@@ -145,7 +145,7 @@ namespace Scada.Comm.Drivers.DrvModbus.View.Controls
             else
             {
                 byte funcCode = ModbusUtils.GetReadFuncCode(elemGroup.DataBlock);
-                txtGrFuncCode.Text = string.Format("{0} ({1}H)", funcCode, funcCode.ToString("X2"));
+                txtGrFuncCode.Text = string.Format("{0} ({1}h)", funcCode, funcCode.ToString("X2"));
             }
         }
 

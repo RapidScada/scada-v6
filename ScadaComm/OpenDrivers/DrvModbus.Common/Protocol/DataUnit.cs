@@ -41,7 +41,7 @@ namespace Scada.Comm.Drivers.DrvModbus.Protocol
         public DataBlock DataBlock { get; }
 
         /// <summary>
-        /// Gets or sets the address of the start element.
+        /// Gets or sets the zero-based address of the start element.
         /// </summary>
         public ushort Address { get; set; }
 

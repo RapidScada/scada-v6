@@ -11,81 +11,83 @@ using System.Windows.Forms;
 namespace Scada.Comm.Drivers.DrvModbus.View.Controls
 {
     /// <summary>
-    /// The control for editing element
-    /// <para>Элемент управления для редактирования элемента Modbus</para>
+    /// Represents a control for editing a Modbus element.
+    /// <para>Представляет элемент управления для редактирования элемента Modbus.</para>
     /// </summary>
     public partial class CtrlElem : UserControl
     {
-        private ElemInfo elemInfo;
+        private ElemTag elemTag; // the element metadata
 
 
         /// <summary>
-        /// Конструктор
+        /// Initializes a new instance of the class.
         /// </summary>
         public CtrlElem()
         {
             InitializeComponent();
-            elemInfo = null;
+            elemTag = null;
         }
 
 
         /// <summary>
-        /// Получить или установить редактируемый элемент
+        /// Gets or sets the element for editing.
         /// </summary>
-        public ElemInfo ElemInfo
+        public ElemTag ElemTag
         {
             get
             {
-                return elemInfo;
+                return elemTag;
             }
             set
             {
-                elemInfo = null; // чтобы не вызывалось событие ObjectChanged
-                ShowElemProps(value);
-                elemInfo = value;
+                elemTag = null; // to avoid ObjectChanged event
+                ShowElemConfig(value);
+                elemTag = value;
             }
         }
 
 
         /// <summary>
-        /// Отобразить свойства элемента
+        /// Shows the element configuration.
         /// </summary>
-        private void ShowElemProps(ElemInfo elemInfo)
+        private void ShowElemConfig(ElemTag elemTag)
         {
-            if (elemInfo == null)
+            if (elemTag == null)
             {
                 txtElemName.Text = "";
-                txtElemAddress.Text = "";
+                txtElemTagCode.Text = "";
                 txtElemTagNum.Text = "";
+                txtElemAddress.Text = "";
                 rbBool.Checked = true;
                 txtElemByteOrder.Text = "";
+                chkElemReadOnly.Checked = false;
+                chkElemIsBitMask.Checked = false;
                 gbElem.Enabled = false;
             }
             else
             {
-                txtElemName.Text = elemInfo.Elem.Name;
-                txtElemAddress.Text = elemInfo.AddressRange;
-                txtElemTagNum.Text = elemInfo.TagNum.ToString();
-                ElemType elemType = elemInfo.Elem.ElemType;
+                ElemGroupConfig elemGroup = elemTag.ElemGroup;
+                ElemConfig elem = elemTag.Elem;
 
-                if (elemType == ElemType.Bool)
+                txtElemName.Text = elem.Name;
+                txtElemTagCode.Text = elem.TagCode;
+                txtElemTagNum.Text = elemTag.TagNum.ToString();
+                txtElemAddress.Text = elemTag.AddressRange;
+
+                if (elem.ElemType == ElemType.Bool)
                 {
                     rbUShort.Enabled = rbShort.Enabled = rbUInt.Enabled = rbInt.Enabled =
                         rbULong.Enabled = rbLong.Enabled = rbFloat.Enabled = rbDouble.Enabled = false;
                     rbBool.Enabled = true;
-                    txtElemByteOrder.Text = "";
-                    txtElemByteOrder.Enabled = false;
                 }
                 else
                 {
                     rbUShort.Enabled = rbShort.Enabled = rbUInt.Enabled = rbInt.Enabled =
                         rbULong.Enabled = rbLong.Enabled = rbFloat.Enabled = rbDouble.Enabled = true;
                     rbBool.Enabled = false;
-                    txtElemByteOrder.Text = elemInfo.Elem.ByteOrder;
-                    txtElemByteOrder.Enabled = true;
                 }
 
-                switch (elemType)
+                switch (elem.ElemType)
                 {
                     case ElemType.UShort:
                         rbUShort.Checked = true;
@@ -116,20 +118,26 @@ namespace Scada.Comm.Drivers.DrvModbus.View.Controls
                         break;
                 }
 
+                txtElemByteOrder.Text = elem.ByteOrder;
+                txtElemByteOrder.Enabled = elemGroup.ByteOrderEnabled;
+                chkElemReadOnly.Checked = elem.ReadOnly;
+                chkElemReadOnly.Enabled = elemGroup.ReadOnlyEnabled;
+                chkElemIsBitMask.Checked = elem.IsBitMask;
+                chkElemIsBitMask.Enabled = elemGroup.BitMaskEnabled;
                 gbElem.Enabled = true;
             }
         }
 
         /// <summary>
-        /// Вызвать событие ObjectChanged
+        /// Raises an ObjectChanged event.
         /// </summary>
         private void OnObjectChanged(object changeArgument)
         {
-            ObjectChanged?.Invoke(this, new ObjectChangedEventArgs(elemInfo, changeArgument));
+            ObjectChanged?.Invoke(this, new ObjectChangedEventArgs(elemTag, changeArgument));
         }
 
         /// <summary>
-        /// Установить фокус ввода
+        /// Sets input focus to the control.
         /// </summary>
         public void SetFocus()
         {
@@ -138,7 +146,7 @@ namespace Scada.Comm.Drivers.DrvModbus.View.Controls
 
 
         /// <summary>
-        /// Событие возникающее при изменении свойств редактируемого объекта
+        /// Occurs when the edited object changes.
         /// </summary>
         [Category("Property Changed")]
         public event EventHandler<ObjectChangedEventArgs> ObjectChanged;
@@ -146,51 +154,86 @@ namespace Scada.Comm.Drivers.DrvModbus.View.Controls
 
         private void txtElemName_TextChanged(object sender, EventArgs e)
         {
-            // изменение наименования элемента
-            if (elemInfo != null)
+            // update element name
+            if (elemTag != null)
             {
-                elemInfo.Elem.Name = txtElemName.Text;
+                bool updateTagCode = elemTag.Elem.Name == elemTag.Elem.TagCode;
+                elemTag.Elem.Name = txtElemName.Text;
                 OnObjectChanged(TreeUpdateTypes.CurrentNode);
+
+                if (updateTagCode)
+                    txtElemTagCode.Text = txtElemName.Text;
+            }
+        }
+
+        private void txtElemTagCode_TextChanged(object sender, EventArgs e)
+        {
+            // update tag code
+            if (elemTag != null)
+            {
+                elemTag.Elem.TagCode = txtElemTagCode.Text;
+                OnObjectChanged(TreeUpdateTypes.None);
             }
         }
 
         private void rbType_CheckedChanged(object sender, EventArgs e)
         {
-            // изменение типа элемента
-            if (elemInfo != null && ((RadioButton)sender).Checked)
+            // update element type
+            if (elemTag != null && ((RadioButton)sender).Checked)
             {
-                ElemConfig elem = elemInfo.Elem;
+                ElemType elemType;
 
                 if (rbUShort.Checked)
-                    elem.ElemType = ElemType.UShort;
+                    elemType = ElemType.UShort;
                 else if (rbShort.Checked)
-                    elem.ElemType = ElemType.Short;
+                    elemType = ElemType.Short;
                 else if (rbUInt.Checked)
-                    elem.ElemType = ElemType.UInt;
+                    elemType = ElemType.UInt;
                 else if (rbInt.Checked)
-                    elem.ElemType = ElemType.Int;
+                    elemType = ElemType.Int;
                 else if (rbULong.Checked)
-                    elem.ElemType = ElemType.ULong;
+                    elemType = ElemType.ULong;
                 else if (rbLong.Checked)
-                    elem.ElemType = ElemType.Long;
+                    elemType = ElemType.Long;
                 else if (rbFloat.Checked)
-                    elem.ElemType = ElemType.Float;
+                    elemType = ElemType.Float;
                 else if (rbDouble.Checked)
-                    elem.ElemType = ElemType.Double;
+                    elemType = ElemType.Double;
                 else
-                    elem.ElemType = ElemType.Bool;
+                    elemType = ElemType.Bool;
 
-                txtElemAddress.Text = elemInfo.AddressRange;
+                elemTag.Elem.ElemType = elemType;
+                txtElemAddress.Text = elemTag.AddressRange;
                 OnObjectChanged(TreeUpdateTypes.CurrentNode | TreeUpdateTypes.NextSiblings);
             }
         }
 
         private void txtByteOrder_TextChanged(object sender, EventArgs e)
         {
-            // изменение порядка байт элемента
-            if (elemInfo != null)
+            // update byte order
+            if (elemTag != null)
             {
-                elemInfo.Elem.ByteOrder = txtElemByteOrder.Text;
+                elemTag.Elem.ByteOrder = txtElemByteOrder.Text;
+                OnObjectChanged(TreeUpdateTypes.None);
+            }
+        }
+
+        private void chkElemReadOnly_CheckedChanged(object sender, EventArgs e)
+        {
+            // update read only
+            if (elemTag != null)
+            {
+                elemTag.Elem.ReadOnly = chkElemReadOnly.Checked;
+                OnObjectChanged(TreeUpdateTypes.None);
+            }
+        }
+
+        private void chkElemIsBitMask_CheckedChanged(object sender, EventArgs e)
+        {
+            // update bit mask
+            if (elemTag != null)
+            {
+                elemTag.Elem.IsBitMask = chkElemIsBitMask.Checked;
                 OnObjectChanged(TreeUpdateTypes.None);
             }
         }

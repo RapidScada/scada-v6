@@ -56,16 +56,44 @@ namespace Scada.Comm.Drivers.DrvModbus.Logic
 
 
         /// <summary>
-        /// Gets the device tag format depending on the Modbus element type.
+        /// Creates a new Modbus command based on the element configuration.
         /// </summary>
-        private TagFormat GetTagFormat(ElemType elemType)
+        private ModbusCmd CreateModbusCmd(DeviceTemplateOptions options, 
+            ElemGroupConfig elemGroupConfig, ElemConfig elemConfig, int elemIndex)
         {
-            if (elemType == ElemType.Bool)
-                return TagFormat.OffOn;
-            else if (elemType == ElemType.Float || elemType == ElemType.Double)
-                return TagFormat.FloatNumber;
-            else
-                return TagFormat.IntNumber;
+            ModbusCmd modbusCmd = deviceModel.CreateModbusCmd(elemGroupConfig.DataBlock, false);
+            modbusCmd.Name = elemConfig.Name;
+            modbusCmd.Address = (ushort)(elemGroupConfig.Address + elemIndex);
+            modbusCmd.ElemType = elemConfig.ElemType;
+            modbusCmd.ElemCnt = 1;
+            modbusCmd.ByteOrder = ModbusUtils.ParseByteOrder(elemConfig.ByteOrder) ??
+                options.GetDefaultByteOrder(ModbusUtils.GetDataLength(elemConfig.ElemType));
+            modbusCmd.CmdNum = 0;
+            modbusCmd.CmdCode = elemConfig.TagCode;
+
+            modbusCmd.InitReqPDU();
+            modbusCmd.InitReqADU(deviceModel.Addr, transMode);
+            return modbusCmd;
+        }
+
+        /// <summary>
+        /// Creates a new Modbus command based on the command configuration.
+        /// </summary>
+        private ModbusCmd CreateModbusCmd(DeviceTemplateOptions options, CmdConfig cmdConfig)
+        {
+            ModbusCmd modbusCmd = deviceModel.CreateModbusCmd(cmdConfig.DataBlock, cmdConfig.Multiple);
+            modbusCmd.Name = cmdConfig.Name;
+            modbusCmd.Address = (ushort)cmdConfig.Address;
+            modbusCmd.ElemType = cmdConfig.ElemType;
+            modbusCmd.ElemCnt = cmdConfig.ElemCnt;
+            modbusCmd.ByteOrder = ModbusUtils.ParseByteOrder(cmdConfig.ByteOrder) ??
+                options.GetDefaultByteOrder(ModbusUtils.GetDataLength(cmdConfig.ElemType) * cmdConfig.ElemCnt);
+            modbusCmd.CmdNum = cmdConfig.CmdNum;
+            modbusCmd.CmdCode = cmdConfig.CmdCode;
+
+            modbusCmd.InitReqPDU();
+            modbusCmd.InitReqADU(deviceModel.Addr, transMode);
+            return modbusCmd;
         }
 
         /// <summary>
@@ -110,6 +138,21 @@ namespace Scada.Comm.Drivers.DrvModbus.Logic
             {
                 DeviceData.Set(tagIdx, elemGroup.GetElemVal(elemIdx));
             }
+        }
+
+        /// <summary>
+        /// Gets the device tag format depending on the Modbus element type.
+        /// </summary>
+        private static TagFormat GetTagFormat(ElemConfig elemConfig)
+        {
+            if (elemConfig.ElemType == ElemType.Bool)
+                return TagFormat.OffOn;
+            else if (elemConfig.ElemType == ElemType.Float || elemConfig.ElemType == ElemType.Double)
+                return TagFormat.FloatNumber;
+            else if (elemConfig.IsBitMask)
+                return TagFormat.HexNumber;
+            else
+                return TagFormat.IntNumber;
         }
 
 
@@ -228,8 +271,10 @@ namespace Scada.Comm.Drivers.DrvModbus.Logic
             foreach (ElemGroupConfig elemGroupConfig in deviceTemplate.ElemGroups)
             {
                 bool groupActive = elemGroupConfig.Active;
+                bool groupCommands = groupActive && elemGroupConfig.ReadOnlyEnabled;
                 ElemGroup elemGroup = null;
                 TagGroup tagGroup = new TagGroup(elemGroupConfig.Name) { Hidden = !groupActive };
+                int elemIndex = 0;
 
                 if (groupActive)
                 {
@@ -241,6 +286,7 @@ namespace Scada.Comm.Drivers.DrvModbus.Logic
 
                 foreach (ElemConfig elemConfig in elemGroupConfig.Elems)
                 {
+                    // add model element
                     if (groupActive)
                     {
                         Elem elem = elemGroup.CreateElem();
@@ -251,7 +297,17 @@ namespace Scada.Comm.Drivers.DrvModbus.Logic
                         elemGroup.Elems.Add(elem);
                     }
 
-                    tagGroup.AddTag("", elemConfig.Name).Format = GetTagFormat(elemConfig.ElemType);
+                    // add model command
+                    if (groupCommands && !elemConfig.ReadOnly)
+                    {
+                        deviceModel.Cmds.Add(
+                            CreateModbusCmd(deviceTemplate.Options, elemGroupConfig, elemConfig, elemIndex));
+                    }
+
+                    // add device tag
+                    tagGroup.AddTag(elemConfig.TagCode, elemConfig.Name).Format = GetTagFormat(elemConfig);
+
+                    elemIndex++;
                 }
 
                 if (groupActive)
@@ -267,19 +323,7 @@ namespace Scada.Comm.Drivers.DrvModbus.Logic
             // add model commands
             foreach (CmdConfig cmdConfig in deviceTemplate.Cmds)
             {
-                ModbusCmd modbusCmd = deviceModel.CreateModbusCmd(cmdConfig.DataBlock, cmdConfig.Multiple);
-                modbusCmd.Name = cmdConfig.Name;
-                modbusCmd.Address = (ushort)cmdConfig.Address;
-                modbusCmd.ElemType = cmdConfig.ElemType;
-                modbusCmd.ElemCnt = cmdConfig.ElemCnt;
-                modbusCmd.ByteOrder = ModbusUtils.ParseByteOrder(cmdConfig.ByteOrder) ?? 
-                    deviceTemplate.Options.GetDefaultByteOrder(
-                        ModbusUtils.GetDataLength(cmdConfig.ElemType) * cmdConfig.ElemCnt);
-                modbusCmd.CmdNum = cmdConfig.CmdNum;
-
-                modbusCmd.InitReqPDU();
-                modbusCmd.InitReqADU(deviceModel.Addr, transMode);
-                deviceModel.Cmds.Add(modbusCmd);
+                deviceModel.Cmds.Add(CreateModbusCmd(deviceTemplate.Options, cmdConfig));
             }
 
             deviceModel.InitCmdMap();
@@ -362,7 +406,7 @@ namespace Scada.Comm.Drivers.DrvModbus.Logic
         {
             base.SendCommand(cmd);
 
-            if (deviceModel.GetCmd(cmd.CmdNum) is ModbusCmd modbusCmd)
+            if ((deviceModel.GetCmd(cmd.CmdCode) ?? deviceModel.GetCmd(cmd.CmdNum)) is ModbusCmd modbusCmd)
             {
                 // prepare Modbus command
                 if (modbusCmd.Multiple)

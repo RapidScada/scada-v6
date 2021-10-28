@@ -29,7 +29,7 @@
         private void InitializeComponent()
         {
             this.gbElem = new System.Windows.Forms.GroupBox();
-            this.chkIsBitMask = new System.Windows.Forms.CheckBox();
+            this.chkElemIsBitMask = new System.Windows.Forms.CheckBox();
             this.chkElemReadOnly = new System.Windows.Forms.CheckBox();
             this.lblElemByteOrderExample = new System.Windows.Forms.Label();
             this.txtElemByteOrder = new System.Windows.Forms.TextBox();
@@ -57,7 +57,7 @@
             // 
             // gbElem
             // 
-            this.gbElem.Controls.Add(this.chkIsBitMask);
+            this.gbElem.Controls.Add(this.chkElemIsBitMask);
             this.gbElem.Controls.Add(this.chkElemReadOnly);
             this.gbElem.Controls.Add(this.lblElemByteOrderExample);
             this.gbElem.Controls.Add(this.txtElemByteOrder);
@@ -88,15 +88,16 @@
             this.gbElem.TabStop = false;
             this.gbElem.Text = "Element Parameters";
             // 
-            // chkIsBitMask
+            // chkElemIsBitMask
             // 
-            this.chkIsBitMask.AutoSize = true;
-            this.chkIsBitMask.Location = new System.Drawing.Point(13, 363);
-            this.chkIsBitMask.Name = "chkIsBitMask";
-            this.chkIsBitMask.Size = new System.Drawing.Size(71, 19);
-            this.chkIsBitMask.TabIndex = 22;
-            this.chkIsBitMask.Text = "Bit mask";
-            this.chkIsBitMask.UseVisualStyleBackColor = true;
+            this.chkElemIsBitMask.AutoSize = true;
+            this.chkElemIsBitMask.Location = new System.Drawing.Point(13, 363);
+            this.chkElemIsBitMask.Name = "chkElemIsBitMask";
+            this.chkElemIsBitMask.Size = new System.Drawing.Size(71, 19);
+            this.chkElemIsBitMask.TabIndex = 22;
+            this.chkElemIsBitMask.Text = "Bit mask";
+            this.chkElemIsBitMask.UseVisualStyleBackColor = true;
+            this.chkElemIsBitMask.CheckedChanged += new System.EventHandler(this.chkElemIsBitMask_CheckedChanged);
             // 
             // chkElemReadOnly
             // 
@@ -107,6 +108,7 @@
             this.chkElemReadOnly.TabIndex = 21;
             this.chkElemReadOnly.Text = "Read only";
             this.chkElemReadOnly.UseVisualStyleBackColor = true;
+            this.chkElemReadOnly.CheckedChanged += new System.EventHandler(this.chkElemReadOnly_CheckedChanged);
             // 
             // lblElemByteOrderExample
             // 
@@ -292,6 +294,7 @@
             this.txtElemTagCode.Name = "txtElemTagCode";
             this.txtElemTagCode.Size = new System.Drawing.Size(134, 23);
             this.txtElemTagCode.TabIndex = 3;
+            this.txtElemTagCode.TextChanged += new System.EventHandler(this.txtElemTagCode_TextChanged);
             // 
             // lblElemTagCode
             // 
@@ -356,7 +359,7 @@
         private System.Windows.Forms.Label lblElemName;
         private System.Windows.Forms.Label lblElemTagCode;
         private System.Windows.Forms.TextBox txtElemTagCode;
-        private System.Windows.Forms.CheckBox chkIsBitMask;
+        private System.Windows.Forms.CheckBox chkElemIsBitMask;
         private System.Windows.Forms.CheckBox chkElemReadOnly;
     }
 }

@@ -37,6 +37,28 @@ namespace Scada.Comm.Drivers.DrvModbus.Config
         public List<ElemConfig> Elems { get; private set; }
 
         /// <summary>
+        /// Gets a value indicating whether the read only flag is applicable for the elements.
+        /// </summary>
+        public virtual bool ReadOnlyEnabled
+        {
+            get
+            {
+                return DataBlock == DataBlock.Coils || DataBlock == DataBlock.HoldingRegisters;
+            }
+        }
+
+        /// <summary>
+        /// Gets a value indicating whether the bit mask flag is applicable for the elements.
+        /// </summary>
+        public virtual bool BitMaskEnabled
+        {
+            get
+            {
+                return DataBlock == DataBlock.InputRegisters || DataBlock == DataBlock.HoldingRegisters;
+            }
+        }
+
+        /// <summary>
         /// Gets or sets the device tag number that corresponds to the start element.
         /// </summary>
         public int StartTagNum { get; set; }
@@ -64,6 +86,8 @@ namespace Scada.Comm.Drivers.DrvModbus.Config
             Name = xmlElem.GetAttrAsString("name");
 
             ElemType defaultElemType = DefaultElemType;
+            bool defaultReadOnly = !ReadOnlyEnabled;
+            bool defaultBitMask = !BitMaskEnabled;
             int maxElemCnt = MaxElemCnt;
 
             foreach (XmlElement elemElem in xmlElem.SelectNodes("Elem"))
@@ -75,6 +99,8 @@ namespace Scada.Comm.Drivers.DrvModbus.Config
                 elemConfig.Name = elemElem.GetAttrAsString("name");
                 elemConfig.ElemType = elemElem.GetAttrAsEnum("type", defaultElemType);
                 elemConfig.ByteOrder = elemElem.GetAttrAsString("byteOrder");
+                elemConfig.ReadOnly = elemElem.GetAttrAsBool("readOnly", defaultReadOnly);
+                elemConfig.IsBitMask = elemElem.GetAttrAsBool("isBitMask", defaultBitMask);
                 Elems.Add(elemConfig);
             }
         }
@@ -94,6 +120,8 @@ namespace Scada.Comm.Drivers.DrvModbus.Config
 
             bool elemTypeEnabled = ElemTypeEnabled;
             bool byteOrderEnabled = ByteOrderEnabled;
+            bool readOnlyEnabled = ReadOnlyEnabled;
+            bool bitMaskEnabled = BitMaskEnabled;
 
             foreach (ElemConfig elemConfig in Elems)
             {
@@ -105,6 +133,12 @@ namespace Scada.Comm.Drivers.DrvModbus.Config
 
                 if (byteOrderEnabled && !string.IsNullOrEmpty(elemConfig.ByteOrder))
                     elemElem.SetAttribute("byteOrder", elemConfig.ByteOrder);
+
+                if (readOnlyEnabled)
+                    elemElem.SetAttribute("readOnly", elemConfig.ReadOnly.ToString().ToLowerInvariant());
+
+                if (bitMaskEnabled)
+                    elemElem.SetAttribute("isBitMask", elemConfig.IsBitMask.ToString().ToLowerInvariant());
             }
         }
     }

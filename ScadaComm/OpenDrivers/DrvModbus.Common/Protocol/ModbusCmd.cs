@@ -28,7 +28,8 @@ namespace Scada.Comm.Drivers.DrvModbus.Protocol
             ElemType = ElemType.Undefined;
             ElemCnt = 1;
             ByteOrder = null;
-            CmdNum = 1;
+            CmdNum = 0;
+            CmdCode = "";
             Value = 0;
             Data = null;
 
@@ -72,9 +73,14 @@ namespace Scada.Comm.Drivers.DrvModbus.Protocol
         public int[] ByteOrder { get; set; }
 
         /// <summary>
-        /// Gets or sets the device command number.
+        /// Gets or sets the command number.
         /// </summary>
         public int CmdNum { get; set; }
+
+        /// <summary>
+        /// Gets or sets the command code.
+        /// </summary>
+        public string CmdCode { get; set; }
 
         /// <summary>
         /// Gets or sets the command value.

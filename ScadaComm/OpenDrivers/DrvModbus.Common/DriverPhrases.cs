@@ -11,19 +11,6 @@ namespace Scada.Comm.Drivers.DrvModbus
     /// </summary>
     public static class DriverPhrases
     {
-        // TODO: dictionaries
-        // Scada.Comm.Devices.Modbus.UI.FrmDevTemplate
-        public static string TemplFormTitle { get; private set; }
-        public static string GrsNode { get; private set; }
-        public static string CmdsNode { get; private set; }
-        public static string DefGrName { get; private set; }
-        public static string DefElemName { get; private set; }
-        public static string DefCmdName { get; private set; }
-        public static string SaveTemplateConfirm { get; private set; }
-        public static string ElemCntExceeded { get; private set; }
-
-
-
         // Scada.Comm.Drivers.DrvModbus.Config.DeviceTemplate
         public static string LoadTemplateError { get; private set; }
         public static string SaveTemplateError { get; private set; }
@@ -35,6 +22,16 @@ namespace Scada.Comm.Drivers.DrvModbus
         // Scada.Comm.Drivers.DrvModbus.View.Forms.FrmDeviceProps
         public static string ConfigDirRequired { get; private set; }
         public static string TemplateNotExists { get; private set; }
+
+        // Scada.Comm.Drivers.DrvModbus.View.Forms.FrmDeviceTemplate
+        public static string TemplateFormTitle { get; private set; }
+        public static string ElemGroupsNode { get; private set; }
+        public static string CommandsNode { get; private set; }
+        public static string UnnamedElemGroup { get; private set; }
+        public static string UnnamedElem { get; private set; }
+        public static string UnnamedCommand { get; private set; }
+        public static string SaveTemplateConfirm { get; private set; }
+        public static string ElemCntExceeded { get; private set; }
 
         public static void Init()
         {
@@ -50,13 +47,13 @@ namespace Scada.Comm.Drivers.DrvModbus
             ConfigDirRequired = dict["ConfigDirRequired"];
             TemplateNotExists = dict["TemplateNotExists"];
 
-            dict = Locale.GetDictionary("Temp");
-            TemplFormTitle = dict["TemplFormTitle"];
-            GrsNode = dict["GrsNode"];
-            CmdsNode = dict["CmdsNode"];
-            DefGrName = dict["DefGrName"];
-            DefElemName = dict["DefElemName"];
-            DefCmdName = dict["DefCmdName"];
+            dict = Locale.GetDictionary("Scada.Comm.Drivers.DrvModbus.View.Forms.FrmDeviceTemplate");
+            TemplateFormTitle = dict["TemplateFormTitle"];
+            ElemGroupsNode = dict["ElemGroupsNode"];
+            CommandsNode = dict["CommandsNode"];
+            UnnamedElemGroup = dict["UnnamedElemGroup"];
+            UnnamedElem = dict["UnnamedElem"];
+            UnnamedCommand = dict["UnnamedCommand"];
             SaveTemplateConfirm = dict["SaveTemplateConfirm"];
             ElemCntExceeded = dict["ElemCntExceeded"];
         }

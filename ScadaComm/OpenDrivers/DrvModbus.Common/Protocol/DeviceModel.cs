@@ -11,7 +11,8 @@ namespace Scada.Comm.Drivers.DrvModbus.Protocol
     /// </summary>
     public class DeviceModel
     {
-        private Dictionary<int, ModbusCmd> cmdByNum; // the commands accessed by number
+        private Dictionary<int, ModbusCmd> cmdByNum;     // the commands accessed by number
+        private Dictionary<string, ModbusCmd> cmdByCode; // the commands accessed by code
 
         /// <summary>
         /// Initializes a new instance of the class.
@@ -19,6 +20,7 @@ namespace Scada.Comm.Drivers.DrvModbus.Protocol
         public DeviceModel()
         {
             cmdByNum = null;
+            cmdByCode = null;
 
             Addr = 0;
             ElemGroups = new List<ElemGroup>();
@@ -64,11 +66,15 @@ namespace Scada.Comm.Drivers.DrvModbus.Protocol
         public void InitCmdMap()
         {
             cmdByNum = new Dictionary<int, ModbusCmd>();
+            cmdByCode = new Dictionary<string, ModbusCmd>();
 
             foreach (ModbusCmd cmd in Cmds)
             { 
-                if (cmdByNum.ContainsKey(cmd.CmdNum))
-                    cmdByNum.Add(cmd.CmdNum, cmd); 
+                if (cmd.CmdNum > 0 && cmdByNum.ContainsKey(cmd.CmdNum))
+                    cmdByNum.Add(cmd.CmdNum, cmd);
+
+                if (!string.IsNullOrEmpty(cmd.CmdCode) && cmdByCode.ContainsKey(cmd.CmdCode))
+                    cmdByCode.Add(cmd.CmdCode, cmd);
             };
         }
 
@@ -77,7 +83,16 @@ namespace Scada.Comm.Drivers.DrvModbus.Protocol
         /// </summary>
         public ModbusCmd GetCmd(int cmdNum)
         {
-            return cmdByNum != null && cmdByNum.TryGetValue(cmdNum, out ModbusCmd cmd) ? cmd : null;
+            return cmdByNum != null && cmdNum > 0 && cmdByNum.TryGetValue(cmdNum, out ModbusCmd cmd) ? cmd : null;
+        }
+
+        /// <summary>
+        /// Gets a command by the specified code.
+        /// </summary>
+        public ModbusCmd GetCmd(string cmdCode)
+        {
+            return cmdByCode != null && !string.IsNullOrEmpty(cmdCode) && 
+                cmdByCode.TryGetValue(cmdCode, out ModbusCmd cmd) ? cmd : null;
         }
     }
 }

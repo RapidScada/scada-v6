@@ -24,6 +24,7 @@ namespace Scada.Comm.Drivers.DrvModbus.Config
             ElemCnt = 1;
             ByteOrder = "";
             CmdNum = 0;
+            CmdCode = "";
         }
 
 
@@ -48,9 +49,14 @@ namespace Scada.Comm.Drivers.DrvModbus.Config
         public string ByteOrder { get; set; }
 
         /// <summary>
-        /// Gets or sets the device command number.
+        /// Gets or sets the command number.
         /// </summary>
         public int CmdNum { get; set; }
+
+        /// <summary>
+        /// Gets or sets the command code.
+        /// </summary>
+        public string CmdCode { get; set; }
 
         /// <summary>
         /// Gets a value indicating whether the data type selection is applicable for the command.
@@ -79,6 +85,7 @@ namespace Scada.Comm.Drivers.DrvModbus.Config
             ElemCnt = xmlElem.GetAttrAsInt("elemCnt", 1);
             ByteOrder = xmlElem.GetAttrAsString("byteOrder");
             CmdNum = xmlElem.GetAttrAsInt("cmdNum");
+            CmdCode = xmlElem.GetAttrAsString("cmdCode");
             Name = xmlElem.GetAttrAsString("name");
         }
 
@@ -104,6 +111,7 @@ namespace Scada.Comm.Drivers.DrvModbus.Config
                 xmlElem.SetAttribute("byteOrder", ByteOrder);
 
             xmlElem.SetAttribute("cmdNum", CmdNum);
+            xmlElem.SetAttribute("cmdCode", CmdCode);
             xmlElem.SetAttribute("name", Name);
         }
     }

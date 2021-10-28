@@ -11,6 +11,25 @@
   <Dictionary key="Scada.Comm.Drivers.DrvModbus.View.Controls.CtrlCmd">
   </Dictionary>
   <Dictionary key="Scada.Comm.Drivers.DrvModbus.View.Controls.CtrlElem">
+    <Phrase key="gbElem">Element Parameters</Phrase>
+    <Phrase key="lblElemName">Name</Phrase>
+    <Phrase key="lblElemTagCode">Tag code</Phrase>
+    <Phrase key="lblElemTagNum">Tag number</Phrase>
+    <Phrase key="lblElemAddress">Address</Phrase>
+    <Phrase key="lblElemType">Type:</Phrase>
+    <Phrase key="rbUShort">ushort (2 bytes)</Phrase>
+    <Phrase key="rbShort">short (2 bytes)</Phrase>
+    <Phrase key="rbUInt">uint (4 bytes)</Phrase>
+    <Phrase key="rbInt">int (4 bytes)</Phrase>
+    <Phrase key="rbULong">ulong (8 bytes)</Phrase>
+    <Phrase key="rbLong">long (8 bytes)</Phrase>
+    <Phrase key="rbFloat">float (4 bytes)</Phrase>
+    <Phrase key="rbDouble">double (8 bytes)</Phrase>
+    <Phrase key="rbBool">bool (1 bit)</Phrase>
+    <Phrase key="lblElemByteOrder">Byte order</Phrase>
+    <Phrase key="lblElemByteOrderExample">For example, 01234567</Phrase>
+    <Phrase key="chkElemReadOnly">Read only</Phrase>
+    <Phrase key="chkElemIsBitMask">Bit mask</Phrase>
   </Dictionary>
   <Dictionary key="Scada.Comm.Drivers.DrvModbus.View.Controls.CtrlElemGroup">
     <Phrase key="gbElemGroup">Element Group Parameters</Phrase>

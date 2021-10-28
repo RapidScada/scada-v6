@@ -33,7 +33,7 @@ namespace Scada.Comm.Drivers.DrvModbus.Config
         public DataBlock DataBlock { get; set; }
 
         /// <summary>
-        /// Gets or sets the address of the start element.
+        /// Gets or sets the zero-based address of the start element.
         /// </summary>
         public int Address { get; set; }
 

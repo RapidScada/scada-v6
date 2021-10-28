@@ -284,7 +284,7 @@
             // ctrlElem
             // 
             this.ctrlElem.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.ctrlElem.ElemInfo = null;
+            this.ctrlElem.ElemTag = null;
             this.ctrlElem.Location = new System.Drawing.Point(318, 70);
             this.ctrlElem.Name = "ctrlElem";
             this.ctrlElem.Size = new System.Drawing.Size(300, 395);

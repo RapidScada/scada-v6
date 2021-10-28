@@ -11,6 +11,25 @@
   <Dictionary key="Scada.Comm.Drivers.DrvModbus.View.Controls.CtrlCmd">
   </Dictionary>
   <Dictionary key="Scada.Comm.Drivers.DrvModbus.View.Controls.CtrlElem">
+    <Phrase key="gbElem">Параметры элемента</Phrase>
+    <Phrase key="lblElemName">Наименование</Phrase>
+    <Phrase key="lblElemTagCode">Код тега</Phrase>
+    <Phrase key="lblElemTagNum">Номер тега</Phrase>
+    <Phrase key="lblElemAddress">Адрес</Phrase>
+    <Phrase key="lblElemType">Тип:</Phrase>
+    <Phrase key="rbUShort">ushort (2 байта)</Phrase>
+    <Phrase key="rbShort">short (2 байта)</Phrase>
+    <Phrase key="rbUInt">uint (4 байта)</Phrase>
+    <Phrase key="rbInt">int (4 байта)</Phrase>
+    <Phrase key="rbULong">ulong (8 байт)</Phrase>
+    <Phrase key="rbLong">long (8 байт)</Phrase>
+    <Phrase key="rbFloat">float (4 байта)</Phrase>
+    <Phrase key="rbDouble">double (8 байта)</Phrase>
+    <Phrase key="rbBool">bool (1 бит)</Phrase>
+    <Phrase key="lblElemByteOrder">Порядок байт</Phrase>
+    <Phrase key="lblElemByteOrderExample">Например, 01234567</Phrase>
+    <Phrase key="chkElemReadOnly">Только чтение</Phrase>
+    <Phrase key="chkElemIsBitMask">Битовая маска</Phrase>
   </Dictionary>
   <Dictionary key="Scada.Comm.Drivers.DrvModbus.View.Controls.CtrlElemGroup">
     <Phrase key="gbElemGroup">Параметры группы элементов</Phrase>

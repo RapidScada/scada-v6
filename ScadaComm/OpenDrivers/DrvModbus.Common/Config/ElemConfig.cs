@@ -17,8 +17,11 @@ namespace Scada.Comm.Drivers.DrvModbus.Config
         public ElemConfig()
         {
             Name = "";
+            TagCode = "";
             ElemType = ElemType.Undefined;
             ByteOrder = "";
+            ReadOnly = false;
+            IsBitMask = false;
         }
 
 
@@ -26,6 +29,11 @@ namespace Scada.Comm.Drivers.DrvModbus.Config
         /// Gets or sets the element name.
         /// </summary>
         public string Name { get; set; }
+
+        /// <summary>
+        /// Gets or sets the tag code associated with the element.
+        /// </summary>
+        public string TagCode { get; set; }
 
         /// <summary>
         /// Gets or sets the element type.
@@ -36,6 +44,16 @@ namespace Scada.Comm.Drivers.DrvModbus.Config
         /// Gets or sets the byte order.
         /// </summary>
         public string ByteOrder { get; set; }
+
+        /// <summary>
+        /// Gets a value indicating whether the element is read only.
+        /// </summary>
+        public bool ReadOnly { get; set; }
+
+        /// <summary>
+        /// Gets a value indicating whether the element represents a bit mask.
+        /// </summary>
+        public bool IsBitMask { get; set; }
 
         /// <summary>
         /// Gets the quantity of addresses.
