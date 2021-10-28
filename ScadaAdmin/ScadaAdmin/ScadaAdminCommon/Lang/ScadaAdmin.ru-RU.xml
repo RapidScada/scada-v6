@@ -105,10 +105,10 @@
     <Phrase key="Name">Наименование</Phrase>
     <Phrase key="IsBoundToCnl">Привязана к каналам</Phrase>
     <Phrase key="IsShared">Общая</Phrase>
-    <Phrase key="LoLo">Аварийно низкая</Phrase>
-    <Phrase key="Low">Низкая</Phrase>
-    <Phrase key="High">Высокая</Phrase>
-    <Phrase key="HiHi">Аварийно высокая</Phrase>
+    <Phrase key="LoLo">Нижняя аварийная</Phrase>
+    <Phrase key="Low">Нижняя</Phrase>
+    <Phrase key="High">Верхняя</Phrase>
+    <Phrase key="HiHi">Верхняя аварийная</Phrase>
     <Phrase key="Deadband">Зона нечувствительности</Phrase>
   </Dictionary>
   <Dictionary key="Scada.Admin.App.Code.ColumnBuilder.ObjTable">
@@ -383,10 +383,10 @@
     <Phrase key="lblUnit">Размерность</Phrase>
     <Phrase key="gbLim">Границы</Phrase>
     <Phrase key="chkShared">Показывать только общие границы</Phrase>
-    <Phrase key="lblLoLo">Авар. низкая</Phrase>
-    <Phrase key="lblLow">Низкая</Phrase>
-    <Phrase key="lblHigh">Высокая</Phrase>
-    <Phrase key="lblHiHi">Авар. высокая</Phrase>
+    <Phrase key="lblLoLo">Нижняя авар.</Phrase>
+    <Phrase key="lblLow">Нижняя</Phrase>
+    <Phrase key="lblHigh">Верхняя</Phrase>
+    <Phrase key="lblHiHi">Верхняя авар.</Phrase>
     <Phrase key="lblDeadband">Зона нечувств.</Phrase>
     <Phrase key="pageArchives">Архивы</Phrase>
     <Phrase key="pageEvents">События</Phrase>
