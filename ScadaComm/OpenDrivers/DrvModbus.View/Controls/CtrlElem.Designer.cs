@@ -120,7 +120,7 @@
             // 
             this.lblElemByteOrderExample.AutoSize = true;
             this.lblElemByteOrderExample.ForeColor = System.Drawing.SystemColors.GrayText;
-            this.lblElemByteOrderExample.Location = new System.Drawing.Point(153, 313);
+            this.lblElemByteOrderExample.Location = new System.Drawing.Point(150, 313);
             this.lblElemByteOrderExample.Name = "lblElemByteOrderExample";
             this.lblElemByteOrderExample.Size = new System.Drawing.Size(126, 15);
             this.lblElemByteOrderExample.TabIndex = 21;

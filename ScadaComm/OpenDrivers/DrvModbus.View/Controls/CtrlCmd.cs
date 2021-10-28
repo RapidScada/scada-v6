@@ -112,7 +112,7 @@ namespace Scada.Comm.Drivers.DrvModbus.View.Controls
             if (modbusCmd == null)
             {
                 txtCmdName.Text = "";
-                cbCmdTableType.SelectedIndex = 0;
+                cbCmdDataBlock.SelectedIndex = 0;
                 numCmdAddress.Value = AddrShift;
                 lblCmdAddressHint.Text = "";
                 cbCmdElemType.SelectedIndex = 0;
@@ -124,7 +124,7 @@ namespace Scada.Comm.Drivers.DrvModbus.View.Controls
             else
             {
                 txtCmdName.Text = modbusCmd.Name;
-                cbCmdTableType.SelectedIndex = modbusCmd.DataBlock == DataBlock.Coils ? 0 : 1;
+                cbCmdDataBlock.SelectedIndex = modbusCmd.DataBlock == DataBlock.Coils ? 0 : 1;
                 chkCmdMultiple.Checked = modbusCmd.Multiple;
                 numCmdAddress.Value = modbusCmd.Address + AddrShift;
                 lblCmdAddressHint.Text = string.Format(DriverPhrases.AddressHint, AddrNotation, AddrShift);
@@ -145,12 +145,12 @@ namespace Scada.Comm.Drivers.DrvModbus.View.Controls
         {
             if (modbusCmd == null)
             {
-                txtCmdFuncCode.Text = "";
+                txtCmdFuncCodeHex.Text = "";
             }
             else
             {
                 byte funcCode = ModbusUtils.GetWriteFuncCode(modbusCmd.DataBlock, modbusCmd.Multiple);
-                txtCmdFuncCode.Text = string.Format("{0} ({1}h)", funcCode, funcCode.ToString("X2"));
+                txtCmdFuncCodeHex.Text = string.Format("{0} ({1}h)", funcCode, funcCode.ToString("X2"));
             }
         }
 
@@ -205,12 +205,27 @@ namespace Scada.Comm.Drivers.DrvModbus.View.Controls
             }
         }
 
+        private void txtCmdCode_TextChanged(object sender, EventArgs e)
+        {
+
+        }
+
+        private void numCmdNum_ValueChanged(object sender, EventArgs e)
+        {
+            // изменение номера команды КП
+            if (modbusCmd != null)
+            {
+                modbusCmd.CmdNum = (int)numCmdNum.Value;
+                OnObjectChanged(TreeUpdateTypes.None);
+            }
+        }
+
         private void cbCmdTableType_SelectedIndexChanged(object sender, EventArgs e)
         {
             // изменение типа таблицы данных команды
             if (modbusCmd != null)
             {
-                modbusCmd.DataBlock = cbCmdTableType.SelectedIndex == 0 ? DataBlock.Coils : DataBlock.HoldingRegisters;
+                modbusCmd.DataBlock = cbCmdDataBlock.SelectedIndex == 0 ? DataBlock.Coils : DataBlock.HoldingRegisters;
                 ShowFuncCode(modbusCmd);
                 ShowByteOrder(modbusCmd);
 
@@ -242,6 +257,11 @@ namespace Scada.Comm.Drivers.DrvModbus.View.Controls
 
                 OnObjectChanged(TreeUpdateTypes.None);
             }
+        }
+
+        private void numCmdFuncCode_ValueChanged(object sender, EventArgs e)
+        {
+
         }
 
         private void numCmdAddress_ValueChanged(object sender, EventArgs e)
@@ -292,16 +312,6 @@ namespace Scada.Comm.Drivers.DrvModbus.View.Controls
             if (modbusCmd != null)
             {
                 modbusCmd.ByteOrder = txtCmdByteOrder.Text;
-                OnObjectChanged(TreeUpdateTypes.None);
-            }
-        }
-
-        private void numCmdNum_ValueChanged(object sender, EventArgs e)
-        {
-            // изменение номера команды КП
-            if (modbusCmd != null)
-            {
-                modbusCmd.CmdNum = (int)numCmdNum.Value;
                 OnObjectChanged(TreeUpdateTypes.None);
             }
         }

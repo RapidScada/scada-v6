@@ -9,6 +9,33 @@
     <Phrase key="ElemRemoveWarning">Блок данных допускает не более {0} элементов.&#13;&#10;Лишние элементы будут удалены. Продолжить?</Phrase>
   </Dictionary>
   <Dictionary key="Scada.Comm.Drivers.DrvModbus.View.Controls.CtrlCmd">
+    <Phrase key="gbCmd">Параметры команды</Phrase>
+    <Phrase key="lblCmdName">Наименование</Phrase>
+    <Phrase key="lblCmdCode">Код команды</Phrase>
+    <Phrase key="lblCmdCodeWarn">Заполните код</Phrase>
+    <Phrase key="lblCmdNum">Номер команды</Phrase>
+    <Phrase key="lblCmdDataBlock">Блок данных</Phrase>
+    <Phrase key="cbCmdDataBlock.Items[0]">Coils (Флаги, 0X)</Phrase>
+    <Phrase key="cbCmdDataBlock.Items[1]">Holding Registers (Регистры хранения, 4X)</Phrase>
+    <Phrase key="cbCmdDataBlock.Items[2]">Пользовательский</Phrase>
+    <Phrase key="chkCmdMultiple">Множественная команда</Phrase>
+    <Phrase key="lblCmdFuncCode">Код функции</Phrase>
+    <Phrase key="lblCmdFuncCodeHex">16-ричный</Phrase>
+    <Phrase key="lblCmdAddress">Адрес элемента</Phrase>
+    <Phrase key="lblCmdElemType">Тип элементов</Phrase>
+    <Phrase key="cbCmdElemType.Items[0]">Не определён</Phrase>
+    <Phrase key="cbCmdElemType.Items[1]">ushort (2 байта)</Phrase>
+    <Phrase key="cbCmdElemType.Items[2]">short (2 байта)</Phrase>
+    <Phrase key="cbCmdElemType.Items[3]">uint (4 байта)</Phrase>
+    <Phrase key="cbCmdElemType.Items[4]">int (4 байта)</Phrase>
+    <Phrase key="cbCmdElemType.Items[5]">ulong (8 байт)</Phrase>
+    <Phrase key="cbCmdElemType.Items[6]">long (8 байт)</Phrase>
+    <Phrase key="cbCmdElemType.Items[7]">float (4 байта)</Phrase>
+    <Phrase key="cbCmdElemType.Items[8]">double (8 байт)</Phrase>
+    <Phrase key="cbCmdElemType.Items[9]">bool (1 бит)</Phrase>
+    <Phrase key="lblCmdElemCnt">Количество элементов</Phrase>
+    <Phrase key="lblCmdByteOrder">Порядок байт</Phrase>
+    <Phrase key="lblCmdByteOrderExample">Например, 01234567</Phrase>
   </Dictionary>
   <Dictionary key="Scada.Comm.Drivers.DrvModbus.View.Controls.CtrlElem">
     <Phrase key="gbElem">Параметры элемента</Phrase>

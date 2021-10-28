@@ -9,6 +9,33 @@
     <Phrase key="ElemRemoveWarning">The data block allows a maximum of {0} elements.&#13;&#10;Extra elements will be removed. Continue?</Phrase>
   </Dictionary>
   <Dictionary key="Scada.Comm.Drivers.DrvModbus.View.Controls.CtrlCmd">
+    <Phrase key="gbCmd">Command Parameters</Phrase>
+    <Phrase key="lblCmdName">Name</Phrase>
+    <Phrase key="lblCmdCode">Command code</Phrase>
+    <Phrase key="lblCmdCodeWarn">Fill command code</Phrase>
+    <Phrase key="lblCmdNum">Command number</Phrase>
+    <Phrase key="lblCmdDataBlock">Data block</Phrase>
+    <Phrase key="cbCmdDataBlock.Items[0]">Coils (0X)</Phrase>
+    <Phrase key="cbCmdDataBlock.Items[1]">Holding Registers (4X)</Phrase>
+    <Phrase key="cbCmdDataBlock.Items[2]">Custom</Phrase>
+    <Phrase key="chkCmdMultiple">Multiple</Phrase>
+    <Phrase key="lblCmdFuncCode">Function code</Phrase>
+    <Phrase key="lblCmdFuncCodeHex">Hexadecimal</Phrase>
+    <Phrase key="lblCmdAddress">Element address</Phrase>
+    <Phrase key="lblCmdElemType">Element type</Phrase>
+    <Phrase key="cbCmdElemType.Items[0]">Undefined</Phrase>
+    <Phrase key="cbCmdElemType.Items[1]">ushort (2 bytes)</Phrase>
+    <Phrase key="cbCmdElemType.Items[2]">short (2 bytes)</Phrase>
+    <Phrase key="cbCmdElemType.Items[3]">uint (4 bytes)</Phrase>
+    <Phrase key="cbCmdElemType.Items[4]">int (4 bytes)</Phrase>
+    <Phrase key="cbCmdElemType.Items[5]">ulong (8 bytes)</Phrase>
+    <Phrase key="cbCmdElemType.Items[6]">long (8 bytes)</Phrase>
+    <Phrase key="cbCmdElemType.Items[7]">float (4 bytes)</Phrase>
+    <Phrase key="cbCmdElemType.Items[8]">double (8 bytes)</Phrase>
+    <Phrase key="cbCmdElemType.Items[9]">bool (1 bit)</Phrase>
+    <Phrase key="lblCmdElemCnt">Element count</Phrase>
+    <Phrase key="lblCmdByteOrder">Byte order</Phrase>
+    <Phrase key="lblCmdByteOrderExample">For example, 01234567</Phrase>
   </Dictionary>
   <Dictionary key="Scada.Comm.Drivers.DrvModbus.View.Controls.CtrlElem">
     <Phrase key="gbElem">Element Parameters</Phrase>

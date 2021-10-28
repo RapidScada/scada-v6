@@ -29,8 +29,8 @@
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
-            System.Windows.Forms.TreeNode treeNode3 = new System.Windows.Forms.TreeNode("Element groups");
-            System.Windows.Forms.TreeNode treeNode4 = new System.Windows.Forms.TreeNode("Commands");
+            System.Windows.Forms.TreeNode treeNode1 = new System.Windows.Forms.TreeNode("Element groups");
+            System.Windows.Forms.TreeNode treeNode2 = new System.Windows.Forms.TreeNode("Commands");
             this.treeView = new System.Windows.Forms.TreeView();
             this.ilTree = new System.Windows.Forms.ImageList(this.components);
             this.toolStrip = new System.Windows.Forms.ToolStrip();
@@ -68,17 +68,17 @@
             this.treeView.ImageList = this.ilTree;
             this.treeView.Location = new System.Drawing.Point(13, 22);
             this.treeView.Name = "treeView";
-            treeNode3.ImageKey = "(по умолчанию)";
-            treeNode3.Name = "grsNode";
-            treeNode3.SelectedImageKey = "(по умолчанию)";
-            treeNode3.Text = "Element groups";
-            treeNode4.ImageKey = "(по умолчанию)";
-            treeNode4.Name = "cmdsNode";
-            treeNode4.SelectedImageKey = "(по умолчанию)";
-            treeNode4.Text = "Commands";
+            treeNode1.ImageKey = "(по умолчанию)";
+            treeNode1.Name = "grsNode";
+            treeNode1.SelectedImageKey = "(по умолчанию)";
+            treeNode1.Text = "Element groups";
+            treeNode2.ImageKey = "(по умолчанию)";
+            treeNode2.Name = "cmdsNode";
+            treeNode2.SelectedImageKey = "(по умолчанию)";
+            treeNode2.Text = "Commands";
             this.treeView.Nodes.AddRange(new System.Windows.Forms.TreeNode[] {
-            treeNode3,
-            treeNode4});
+            treeNode1,
+            treeNode2});
             this.treeView.SelectedImageIndex = 0;
             this.treeView.ShowRootLines = false;
             this.treeView.Size = new System.Drawing.Size(274, 466);
@@ -294,11 +294,11 @@
             // ctrlCmd
             // 
             this.ctrlCmd.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.ctrlCmd.Location = new System.Drawing.Point(318, 205);
+            this.ctrlCmd.Location = new System.Drawing.Point(318, 120);
             this.ctrlCmd.ModbusCmd = null;
             this.ctrlCmd.Name = "ctrlCmd";
             this.ctrlCmd.Settings = null;
-            this.ctrlCmd.Size = new System.Drawing.Size(300, 324);
+            this.ctrlCmd.Size = new System.Drawing.Size(300, 409);
             this.ctrlCmd.TabIndex = 4;
             this.ctrlCmd.ObjectChanged += new System.EventHandler<Scada.Forms.ObjectChangedEventArgs>(this.ctrlCmd_ObjectChanged);
             // 
