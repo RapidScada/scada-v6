@@ -14,6 +14,7 @@
     <Phrase key="gbElem">Параметры элемента</Phrase>
     <Phrase key="lblElemName">Наименование</Phrase>
     <Phrase key="lblElemTagCode">Код тега</Phrase>
+    <Phrase key="lblElemTagCodeWarn">Заполните код тега</Phrase>
     <Phrase key="lblElemTagNum">Номер тега</Phrase>
     <Phrase key="lblElemAddress">Адрес</Phrase>
     <Phrase key="lblElemType">Тип:</Phrase>

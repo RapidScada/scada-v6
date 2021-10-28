@@ -56,6 +56,7 @@ namespace Scada.Comm.Drivers.DrvModbus.View.Controls
             {
                 txtElemName.Text = "";
                 txtElemTagCode.Text = "";
+                pnlElemTagCodeWarn.Visible = false;
                 txtElemTagNum.Text = "";
                 txtElemAddress.Text = "";
                 rbBool.Checked = true;
@@ -71,6 +72,7 @@ namespace Scada.Comm.Drivers.DrvModbus.View.Controls
 
                 txtElemName.Text = elem.Name;
                 txtElemTagCode.Text = elem.TagCode;
+                pnlElemTagCodeWarn.Visible = string.IsNullOrEmpty(elem.TagCode);
                 txtElemTagNum.Text = elemTag.TagNum.ToString();
                 txtElemAddress.Text = elemTag.AddressRange;
 
@@ -172,6 +174,7 @@ namespace Scada.Comm.Drivers.DrvModbus.View.Controls
             if (elemTag != null)
             {
                 elemTag.Elem.TagCode = txtElemTagCode.Text;
+                pnlElemTagCodeWarn.Visible = txtElemTagCode.Text == "";
                 OnObjectChanged(TreeUpdateTypes.None);
             }
         }

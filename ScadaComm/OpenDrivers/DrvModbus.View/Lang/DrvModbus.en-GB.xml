@@ -14,6 +14,7 @@
     <Phrase key="gbElem">Element Parameters</Phrase>
     <Phrase key="lblElemName">Name</Phrase>
     <Phrase key="lblElemTagCode">Tag code</Phrase>
+    <Phrase key="lblElemTagCodeWarn">Fill tag code</Phrase>
     <Phrase key="lblElemTagNum">Tag number</Phrase>
     <Phrase key="lblElemAddress">Address</Phrase>
     <Phrase key="lblElemType">Type:</Phrase>
