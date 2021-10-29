@@ -7,7 +7,10 @@ using Scada.Comm.Drivers.DrvModbus.View.Properties;
 using Scada.Forms;
 using Scada.Lang;
 using System;
+using System.Collections.Generic;
 using System.IO;
+using System.Linq;
+using System.Text;
 using System.Windows.Forms;
 
 namespace Scada.Comm.Drivers.DrvModbus.View.Forms
@@ -482,6 +485,80 @@ namespace Scada.Comm.Drivers.DrvModbus.View.Forms
             }
         }
 
+        /// <summary>
+        /// Validates the device template.
+        /// </summary>
+        private bool ValidateTemplate(out string message)
+        {
+            HashSet<string> codes = new();           // all tag and command codes
+            HashSet<int> cmdNums = new();            // all command numbers
+            HashSet<string> duplicatedCodes = new(); // duplicated tag and command codes
+            HashSet<int> duplicatedCmdNums = new();  // duplicated command numbers
+            bool emptyTagCodeExists = false;         // there are empty tag codes
+            bool emptyCmdCodeExists = false;         // there are empty command codes
+
+            foreach (ElemGroupConfig elemGroup in template.ElemGroups)
+            {
+                foreach (ElemConfig elem in elemGroup.Elems)
+                {
+                    if (string.IsNullOrEmpty(elem.TagCode))
+                        emptyTagCodeExists = true;
+                    else if (!codes.Add(elem.TagCode))
+                        duplicatedCodes.Add(elem.TagCode);
+                }
+            }
+
+            foreach (CmdConfig cmd in template.Cmds)
+            {
+                if (string.IsNullOrEmpty(cmd.CmdCode))
+                    emptyCmdCodeExists = true;
+                else if (!codes.Add(cmd.CmdCode))
+                    duplicatedCodes.Add(cmd.CmdCode);
+
+                if (cmd.CmdNum > 0 && !cmdNums.Add(cmd.CmdNum))
+                    duplicatedCmdNums.Add(cmd.CmdNum);
+            }
+
+            StringBuilder sbMessage = new();
+
+            if (duplicatedCodes.Count > 0)
+            {
+                List<string> list = duplicatedCodes.ToList();
+                list.Sort();
+                sbMessage
+                    .AppendLine(DriverPhrases.DuplicatedCodes)
+                    .Append(string.Join(", ", list))
+                    .AppendLine(".");
+            }
+
+            if (duplicatedCmdNums.Count > 0)
+            {
+                List<int> list = duplicatedCmdNums.ToList();
+                list.Sort();
+                sbMessage
+                    .AppendLine(DriverPhrases.DuplicatedCmdNums)
+                    .Append(string.Join(", ", list))
+                    .AppendLine(".");
+            }
+
+            if (emptyTagCodeExists)
+                sbMessage.AppendLine(DriverPhrases.EmptyTagCodes);
+
+            if (emptyCmdCodeExists)
+                sbMessage.AppendLine(DriverPhrases.EmptyCmdCodes);
+
+            if (sbMessage.Length > 0)
+            {
+                message = sbMessage.ToString().TrimEnd();
+                return false;
+            }
+            else
+            {
+                message = DriverPhrases.VerificationPassed;
+                return true;
+            }
+        }
+
 
         private void FrmDevTemplate_Load(object sender, EventArgs e)
         {
@@ -713,7 +790,10 @@ namespace Scada.Comm.Drivers.DrvModbus.View.Forms
 
         private void btnValidate_Click(object sender, EventArgs e)
         {
-
+            if (ValidateTemplate(out string message))
+                ScadaUiUtils.ShowInfo(message);
+            else
+                ScadaUiUtils.ShowWarning(message);
         }
 
 

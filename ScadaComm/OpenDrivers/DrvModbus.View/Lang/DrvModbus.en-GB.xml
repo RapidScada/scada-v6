@@ -109,6 +109,11 @@
     <Phrase key="UnnamedCommand">&lt;Unnamed Command&gt;</Phrase>
     <Phrase key="SaveTemplateConfirm">Template has been modified. Save the changes?</Phrase>
     <Phrase key="ElemCntExceeded">The data block allows a maximum of {0} elements.</Phrase>
+    <Phrase key="DuplicatedCodes">Duplicated tag and command codes:</Phrase>
+    <Phrase key="DuplicatedCmdNums">Duplicated command numbers:</Phrase>
+    <Phrase key="EmptyTagCodes">Empty tag codes found.</Phrase>
+    <Phrase key="EmptyCmdCodes">Empty command codes found.</Phrase>
+    <Phrase key="VerificationPassed">Verification passed successfully.</Phrase>
   </Dictionary>
   <Dictionary key="Scada.Comm.Drivers.DrvModbus.View.Forms.FrmTemplateOptions">
     <Phrase key="this">Template Options</Phrase>

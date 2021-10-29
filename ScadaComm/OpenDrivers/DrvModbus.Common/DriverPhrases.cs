@@ -32,6 +32,11 @@ namespace Scada.Comm.Drivers.DrvModbus
         public static string UnnamedCommand { get; private set; }
         public static string SaveTemplateConfirm { get; private set; }
         public static string ElemCntExceeded { get; private set; }
+        public static string DuplicatedCodes { get; private set; }
+        public static string DuplicatedCmdNums { get; private set; }
+        public static string EmptyTagCodes { get; private set; }
+        public static string EmptyCmdCodes { get; private set; }
+        public static string VerificationPassed { get; private set; }
 
         public static void Init()
         {
@@ -56,6 +61,11 @@ namespace Scada.Comm.Drivers.DrvModbus
             UnnamedCommand = dict["UnnamedCommand"];
             SaveTemplateConfirm = dict["SaveTemplateConfirm"];
             ElemCntExceeded = dict["ElemCntExceeded"];
+            DuplicatedCodes = dict["DuplicatedCodes"];
+            DuplicatedCmdNums = dict["DuplicatedCmdNums"];
+            EmptyTagCodes = dict["EmptyTagCodes"];
+            EmptyCmdCodes = dict["EmptyCmdCodes"];
+            VerificationPassed = dict["VerificationPassed"];
         }
     }
 }
