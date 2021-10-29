@@ -101,6 +101,8 @@
     <Phrase key="btnEditOptionsExt.ToolTip">Редактировать расширенные параметры</Phrase>
     <Phrase key="btnValidate.ToolTip">Проверить шаблон</Phrase>
     <Phrase key="gbTemplate">Шаблон устройства</Phrase>
+    <Phrase key="miCollapseElemGroups">Свернуть группы элементов</Phrase>
+    <Phrase key="miCloneElemConfig">Клонировать параметры элемента</Phrase>
     <Phrase key="TemplateTitle">{0} - MODBUS. Редактор шаблонов устройств</Phrase>
     <Phrase key="ElemGroupsNode">Группы элементов</Phrase>
     <Phrase key="CommandsNode">Команды</Phrase>
@@ -114,6 +116,7 @@
     <Phrase key="EmptyTagCodes">Найдены пустые коды тегов.</Phrase>
     <Phrase key="EmptyCmdCodes">Найдены пустые коды команд.</Phrase>
     <Phrase key="VerificationPassed">Проверка пройдена успешно.</Phrase>
+    <Phrase key="CloneElemConfigConfirm">Нажмите &quot;Да&quot;, чтобы клонировать параметры элемента в остальные элементы группы.</Phrase>
   </Dictionary>
   <Dictionary key="Scada.Comm.Drivers.DrvModbus.View.Forms.FrmTemplateOptions">
     <Phrase key="this">Параметры шаблона</Phrase>

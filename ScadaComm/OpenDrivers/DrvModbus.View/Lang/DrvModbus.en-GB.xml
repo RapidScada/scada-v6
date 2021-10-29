@@ -101,6 +101,8 @@
     <Phrase key="btnEditOptionsExt.ToolTip">Edit Extended Options</Phrase>
     <Phrase key="btnValidate.ToolTip">Validate Template</Phrase>
     <Phrase key="gbTemplate">Device Template</Phrase>
+    <Phrase key="miCollapseElemGroups">Collapse Element Groups</Phrase>
+    <Phrase key="miCloneElemConfig">Clone Element Parameters</Phrase>
     <Phrase key="TemplateTitle">{0} - MODBUS. Device Template Editor</Phrase>
     <Phrase key="ElemGroupsNode">Element Groups</Phrase>
     <Phrase key="CommandsNode">Commands</Phrase>
@@ -114,6 +116,7 @@
     <Phrase key="EmptyTagCodes">Empty tag codes found.</Phrase>
     <Phrase key="EmptyCmdCodes">Empty command codes found.</Phrase>
     <Phrase key="VerificationPassed">Verification passed successfully.</Phrase>
+    <Phrase key="CloneElemConfigConfirm">Click Yes to clone the element parameters to the sibling elements of the group.</Phrase>
   </Dictionary>
   <Dictionary key="Scada.Comm.Drivers.DrvModbus.View.Forms.FrmTemplateOptions">
     <Phrase key="this">Template Options</Phrase>

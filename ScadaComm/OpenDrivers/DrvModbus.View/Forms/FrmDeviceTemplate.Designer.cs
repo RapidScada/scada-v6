@@ -29,9 +29,12 @@
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
-            System.Windows.Forms.TreeNode treeNode3 = new System.Windows.Forms.TreeNode("Element groups");
-            System.Windows.Forms.TreeNode treeNode4 = new System.Windows.Forms.TreeNode("Commands");
+            System.Windows.Forms.TreeNode treeNode1 = new System.Windows.Forms.TreeNode("Element groups");
+            System.Windows.Forms.TreeNode treeNode2 = new System.Windows.Forms.TreeNode("Commands");
             this.treeView = new System.Windows.Forms.TreeView();
+            this.cmsTree = new System.Windows.Forms.ContextMenuStrip(this.components);
+            this.miCollapseElemGroups = new System.Windows.Forms.ToolStripMenuItem();
+            this.miCloneElemConfig = new System.Windows.Forms.ToolStripMenuItem();
             this.ilTree = new System.Windows.Forms.ImageList(this.components);
             this.toolStrip = new System.Windows.Forms.ToolStrip();
             this.btnNew = new System.Windows.Forms.ToolStripButton();
@@ -55,6 +58,7 @@
             this.ctrlElemGroup = new Scada.Comm.Drivers.DrvModbus.View.Controls.CtrlElemGroup();
             this.ctrlElem = new Scada.Comm.Drivers.DrvModbus.View.Controls.CtrlElem();
             this.ctrlCmd = new Scada.Comm.Drivers.DrvModbus.View.Controls.CtrlCmd();
+            this.cmsTree.SuspendLayout();
             this.toolStrip.SuspendLayout();
             this.gbTemplate.SuspendLayout();
             this.SuspendLayout();
@@ -64,27 +68,54 @@
             this.treeView.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
+            this.treeView.ContextMenuStrip = this.cmsTree;
             this.treeView.HideSelection = false;
             this.treeView.ImageIndex = 0;
             this.treeView.ImageList = this.ilTree;
             this.treeView.Location = new System.Drawing.Point(13, 22);
             this.treeView.Name = "treeView";
-            treeNode3.ImageKey = "(по умолчанию)";
-            treeNode3.Name = "elemGroupsNode";
-            treeNode3.SelectedImageKey = "(по умолчанию)";
-            treeNode3.Text = "Element groups";
-            treeNode4.ImageKey = "(по умолчанию)";
-            treeNode4.Name = "commandsNode";
-            treeNode4.SelectedImageKey = "(по умолчанию)";
-            treeNode4.Text = "Commands";
+            treeNode1.ImageKey = "(по умолчанию)";
+            treeNode1.Name = "elemGroupsNode";
+            treeNode1.SelectedImageKey = "(по умолчанию)";
+            treeNode1.Text = "Element groups";
+            treeNode2.ImageKey = "(по умолчанию)";
+            treeNode2.Name = "commandsNode";
+            treeNode2.SelectedImageKey = "(по умолчанию)";
+            treeNode2.Text = "Commands";
             this.treeView.Nodes.AddRange(new System.Windows.Forms.TreeNode[] {
-            treeNode3,
-            treeNode4});
+            treeNode1,
+            treeNode2});
             this.treeView.SelectedImageIndex = 0;
             this.treeView.ShowRootLines = false;
             this.treeView.Size = new System.Drawing.Size(274, 466);
             this.treeView.TabIndex = 0;
             this.treeView.AfterSelect += new System.Windows.Forms.TreeViewEventHandler(this.treeView_AfterSelect);
+            this.treeView.NodeMouseClick += new System.Windows.Forms.TreeNodeMouseClickEventHandler(this.treeView_NodeMouseClick);
+            // 
+            // cmsTree
+            // 
+            this.cmsTree.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.miCollapseElemGroups,
+            this.miCloneElemConfig});
+            this.cmsTree.Name = "cmsTree";
+            this.cmsTree.Size = new System.Drawing.Size(214, 70);
+            this.cmsTree.Opening += new System.ComponentModel.CancelEventHandler(this.cmsTree_Opening);
+            // 
+            // miCollapseElemGroups
+            // 
+            this.miCollapseElemGroups.Image = global::Scada.Comm.Drivers.DrvModbus.View.Properties.Resources.collapse_all;
+            this.miCollapseElemGroups.Name = "miCollapseElemGroups";
+            this.miCollapseElemGroups.Size = new System.Drawing.Size(213, 22);
+            this.miCollapseElemGroups.Text = "Collapse Element Groups";
+            this.miCollapseElemGroups.Click += new System.EventHandler(this.miCollapseElemGroups_Click);
+            // 
+            // miCloneElemConfig
+            // 
+            this.miCloneElemConfig.Image = global::Scada.Comm.Drivers.DrvModbus.View.Properties.Resources.clone;
+            this.miCloneElemConfig.Name = "miCloneElemConfig";
+            this.miCloneElemConfig.Size = new System.Drawing.Size(213, 22);
+            this.miCloneElemConfig.Text = "Clone Element Parameters";
+            this.miCloneElemConfig.Click += new System.EventHandler(this.miCloneElemConfig_Click);
             // 
             // ilTree
             // 
@@ -334,6 +365,7 @@
             this.Text = "MODBUS. Device Template Editor";
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.FrmDevTemplate_FormClosing);
             this.Load += new System.EventHandler(this.FrmDevTemplate_Load);
+            this.cmsTree.ResumeLayout(false);
             this.toolStrip.ResumeLayout(false);
             this.toolStrip.PerformLayout();
             this.gbTemplate.ResumeLayout(false);
@@ -368,5 +400,8 @@
         private System.Windows.Forms.ToolStripButton btnEditOptions;
         private System.Windows.Forms.ToolStripButton btnEditOptionsExt;
         private System.Windows.Forms.ToolStripButton btnValidate;
+        private System.Windows.Forms.ContextMenuStrip cmsTree;
+        private System.Windows.Forms.ToolStripMenuItem miCollapseElemGroups;
+        private System.Windows.Forms.ToolStripMenuItem miCloneElemConfig;
     }
 }

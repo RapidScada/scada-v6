@@ -8,6 +8,7 @@ using Scada.Forms;
 using Scada.Lang;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.IO;
 using System.Linq;
 using System.Text;
@@ -563,7 +564,7 @@ namespace Scada.Comm.Drivers.DrvModbus.View.Forms
         private void FrmDevTemplate_Load(object sender, EventArgs e)
         {
             // translate form
-            FormTranslator.Translate(this, GetType().FullName);
+            FormTranslator.Translate(this, GetType().FullName, null, cmsTree);
             FormTranslator.Translate(ctrlElemGroup, ctrlElemGroup.GetType().FullName);
             FormTranslator.Translate(ctrlElem, ctrlElem.GetType().FullName);
             FormTranslator.Translate(ctrlCmd, ctrlCmd.GetType().FullName);
@@ -805,6 +806,56 @@ namespace Scada.Comm.Drivers.DrvModbus.View.Forms
             selectedCmd = selectedNode.Tag as CmdConfig;
             ShowSelectedItem();
             SetButtonsEnabled();
+        }
+
+        private void treeView_NodeMouseClick(object sender, TreeNodeMouseClickEventArgs e)
+        {
+            // select tree node on right click
+            if (e.Button == MouseButtons.Right && e.Node != null)
+                treeView.SelectedNode = e.Node;
+        }
+
+        private void cmsTree_Opening(object sender, CancelEventArgs e)
+        {
+            miCloneElemConfig.Enabled = selectedElemTag != null;
+        }
+
+        private void miCollapseElemGroups_Click(object sender, EventArgs e)
+        {
+            // collapse element group nodes
+            treeView.BeginUpdate();
+
+            foreach (TreeNode groupNode in elemGroupsNode.Nodes)
+            {
+                groupNode.Collapse();
+            }
+
+            treeView.EndUpdate();
+        }
+
+        private void miCloneElemConfig_Click(object sender, EventArgs e)
+        {
+            // copy element parameters to siblings
+            if (selectedElemTag != null &&
+                MessageBox.Show(DriverPhrases.CloneElemConfigConfirm, CommonPhrases.QuestionCaption,
+                    MessageBoxButtons.YesNoCancel, MessageBoxIcon.Question) == DialogResult.Yes)
+            {
+                ElemConfig selectedElem = selectedElemTag.Elem;
+
+                foreach (ElemConfig elemConfig in selectedElemTag.ElemGroup.Elems)
+                {
+                    if (elemConfig != selectedElem)
+                    {
+                        elemConfig.ElemType = selectedElem.ElemType;
+                        elemConfig.ByteOrder = selectedElem.ByteOrder;
+                        elemConfig.ReadOnly = selectedElem.ReadOnly;
+                        elemConfig.IsBitMask = selectedElem.IsBitMask;
+                    }
+                }
+
+                UpdateElemNodes(selectedNode.Parent);
+                Modified = true;
+            }
         }
 
         private void ctrlElemGroup_ObjectChanged(object sender, ObjectChangedEventArgs e)

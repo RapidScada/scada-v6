@@ -37,6 +37,7 @@ namespace Scada.Comm.Drivers.DrvModbus
         public static string EmptyTagCodes { get; private set; }
         public static string EmptyCmdCodes { get; private set; }
         public static string VerificationPassed { get; private set; }
+        public static string CloneElemConfigConfirm { get; private set; }
 
         public static void Init()
         {
@@ -66,6 +67,7 @@ namespace Scada.Comm.Drivers.DrvModbus
             EmptyTagCodes = dict["EmptyTagCodes"];
             EmptyCmdCodes = dict["EmptyCmdCodes"];
             VerificationPassed = dict["VerificationPassed"];
+            CloneElemConfigConfirm = dict["CloneElemConfigConfirm"];
         }
     }
 }
