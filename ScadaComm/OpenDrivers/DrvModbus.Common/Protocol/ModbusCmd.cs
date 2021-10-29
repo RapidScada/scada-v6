@@ -110,9 +110,7 @@ namespace Scada.Comm.Drivers.DrvModbus.Protocol
                 if (dataLength > 0)
                     Buffer.BlockCopy(Data, 0, ReqPDU, 1, dataLength);
 
-                RespPduLen = Multiple
-                    ? 1              // assuming no data in response
-                    : ReqPDU.Length; // assuming echo
+                RespPduLen = ReqPDU.Length; // assuming echo
             }
             else if (Multiple)
             {

@@ -12,7 +12,7 @@
     <Phrase key="gbCmd">Command Parameters</Phrase>
     <Phrase key="lblCmdName">Name</Phrase>
     <Phrase key="lblCmdCode">Command code</Phrase>
-    <Phrase key="lblCmdCodeWarn">Fill command code</Phrase>
+    <Phrase key="lblCmdCodeWarn">Fill out code</Phrase>
     <Phrase key="lblCmdNum">Command number</Phrase>
     <Phrase key="lblCmdDataBlock">Data block</Phrase>
     <Phrase key="cbCmdDataBlock.Items[0]">Coils (0X)</Phrase>
@@ -41,7 +41,7 @@
     <Phrase key="gbElem">Element Parameters</Phrase>
     <Phrase key="lblElemName">Name</Phrase>
     <Phrase key="lblElemTagCode">Tag code</Phrase>
-    <Phrase key="lblElemTagCodeWarn">Fill tag code</Phrase>
+    <Phrase key="lblElemTagCodeWarn">Fill out code</Phrase>
     <Phrase key="lblElemTagNum">Tag number</Phrase>
     <Phrase key="lblElemAddress">Address</Phrase>
     <Phrase key="lblElemType">Type:</Phrase>

@@ -221,8 +221,6 @@ namespace Scada.Comm.Drivers.DrvModbus.View.Controls
                     ShowFuncCode(elemGroup);
 
                     // limit element count
-                    if (numGrElemCnt.Value > maxElemCnt)
-                        numGrElemCnt.Value = maxElemCnt;
                     numGrElemCnt.Maximum = maxElemCnt;
 
                     // reset type of elements

@@ -17,7 +17,7 @@
     <Phrase key="lblCmdDataBlock">Блок данных</Phrase>
     <Phrase key="cbCmdDataBlock.Items[0]">Coils (Флаги, 0X)</Phrase>
     <Phrase key="cbCmdDataBlock.Items[1]">Holding Registers (Регистры хранения, 4X)</Phrase>
-    <Phrase key="cbCmdDataBlock.Items[2]">Пользовательский</Phrase>
+    <Phrase key="cbCmdDataBlock.Items[2]">Custom (Пользовательский)</Phrase>
     <Phrase key="chkCmdMultiple">Множественная команда</Phrase>
     <Phrase key="lblCmdFuncCode">Код функции</Phrase>
     <Phrase key="lblCmdFuncCodeHex">16-ричный</Phrase>
@@ -41,7 +41,7 @@
     <Phrase key="gbElem">Параметры элемента</Phrase>
     <Phrase key="lblElemName">Наименование</Phrase>
     <Phrase key="lblElemTagCode">Код тега</Phrase>
-    <Phrase key="lblElemTagCodeWarn">Заполните код тега</Phrase>
+    <Phrase key="lblElemTagCodeWarn">Заполните код</Phrase>
     <Phrase key="lblElemTagNum">Номер тега</Phrase>
     <Phrase key="lblElemAddress">Адрес</Phrase>
     <Phrase key="lblElemType">Тип:</Phrase>

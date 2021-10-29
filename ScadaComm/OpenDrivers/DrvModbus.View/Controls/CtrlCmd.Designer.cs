@@ -348,9 +348,9 @@
             this.lblCmdCodeWarn.ForeColor = System.Drawing.Color.Red;
             this.lblCmdCodeWarn.Location = new System.Drawing.Point(19, 4);
             this.lblCmdCodeWarn.Name = "lblCmdCodeWarn";
-            this.lblCmdCodeWarn.Size = new System.Drawing.Size(109, 15);
+            this.lblCmdCodeWarn.Size = new System.Drawing.Size(72, 15);
             this.lblCmdCodeWarn.TabIndex = 0;
-            this.lblCmdCodeWarn.Text = "Fill command code";
+            this.lblCmdCodeWarn.Text = "Fill out code";
             // 
             // pbCmdCodeWarn
             // 

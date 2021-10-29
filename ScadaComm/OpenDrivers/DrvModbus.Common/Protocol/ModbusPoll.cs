@@ -128,69 +128,59 @@ namespace Scada.Comm.Drivers.DrvModbus.Protocol
 
             // receive response
             // partial read to calculate PDU length
-            int readCnt = Connection.Read(InBuf, 0, 5, Timeout, ProtocolFormat.Hex, out logText);
+            const int FirstCount = 2;
+            int readCnt = Connection.Read(InBuf, 0, FirstCount, Timeout, ProtocolFormat.Hex, out logText);
             log.WriteLine(logText);
 
-            if (readCnt == 5)
+            if (readCnt != FirstCount)
+            {
+                log.WriteLine(ModbusPhrases.CommErrorWithExclamation);
+            }
+            else if (InBuf[0] != dataUnit.ReqADU[0]) // validate device address
+            {
+                log.WriteLine(ModbusPhrases.IncorrectDevAddr);
+            }
+            else if (!(InBuf[1] == dataUnit.FuncCode || InBuf[1] == dataUnit.ExcFuncCode)) // validate function code
+            {
+                log.WriteLine(ModbusPhrases.IncorrectPduFuncCode);
+            }
+            else
             {
                 int pduLen;
                 int count;
 
-                if (InBuf[0] != dataUnit.ReqADU[0]) // validate device address
+                if (InBuf[1] == dataUnit.FuncCode)
                 {
-                    log.WriteLine(ModbusPhrases.IncorrectDevAddr);
+                    pduLen = dataUnit.RespPduLen;
+                    count = dataUnit.RespAduLen - FirstCount;
                 }
-                else if (!(InBuf[1] == dataUnit.FuncCode || InBuf[1] == dataUnit.ExcFuncCode))
+                else // exception received
                 {
-                    log.WriteLine(ModbusPhrases.IncorrectPduFuncCode);
+                    pduLen = 2;
+                    count = 3;
+                }
+
+                // read rest of response
+                readCnt = Connection.Read(InBuf, FirstCount, count, Timeout, ProtocolFormat.Hex, out logText);
+                log.WriteLine(logText);
+
+                if (readCnt != count)
+                {
+                    log.WriteLine(ModbusPhrases.CommErrorWithExclamation);
+                }
+                else if (InBuf[pduLen + 1] + InBuf[pduLen + 2] * 256 != ModbusUtils.CRC16(InBuf, 0, pduLen + 1))
+                {
+                    log.WriteLine(ModbusPhrases.CrcError);
+                }
+                else if (dataUnit.DecodeRespPDU(InBuf, 1, pduLen, out string errMsg))
+                {
+                    log.WriteLine(ModbusPhrases.OK);
+                    result = true;
                 }
                 else
                 {
-                    if (InBuf[1] == dataUnit.FuncCode)
-                    {
-                        // read end of response
-                        pduLen = dataUnit.RespPduLen;
-                        count = dataUnit.RespAduLen - 5;
-
-                        readCnt = Connection.Read(InBuf, 5, count, Timeout, ProtocolFormat.Hex, out logText);
-                        log.WriteLine(logText);
-                    }
-                    else // exception received
-                    {
-                        pduLen = 2;
-                        count = 0;
-                        readCnt = 0;
-                    }
-
-                    if (readCnt == count)
-                    {
-                        if (InBuf[pduLen + 1] + InBuf[pduLen + 2] * 256 == ModbusUtils.CRC16(InBuf, 0, pduLen + 1))
-                        {
-                            // decode response
-                            if (dataUnit.DecodeRespPDU(InBuf, 1, pduLen, out string errMsg))
-                            {
-                                log.WriteLine(ModbusPhrases.OK);
-                                result = true;
-                            }
-                            else
-                            {
-                                log.WriteLine(errMsg + "!");
-                            }
-                        }
-                        else
-                        {
-                            log.WriteLine(ModbusPhrases.CrcError);
-                        }
-                    }
-                    else
-                    {
-                        log.WriteLine(ModbusPhrases.CommErrorWithExclamation);
-                    }
+                    log.WriteLine(errMsg + "!");
                 }
-            }
-            else
-            {
-                log.WriteLine(ModbusPhrases.CommErrorWithExclamation);
             }
 
             return result;

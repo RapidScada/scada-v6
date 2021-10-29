@@ -106,7 +106,6 @@ namespace Scada.Comm.Drivers.DrvModbus.Config
                 throw new ArgumentNullException(nameof(xmlElem));
 
             xmlElem.SetAttribute("dataBlock", DataBlock);
-            xmlElem.SetAttribute("multiple", Multiple);
 
             if (DataBlock == DataBlock.Custom)
             {
@@ -114,6 +113,7 @@ namespace Scada.Comm.Drivers.DrvModbus.Config
             }
             else
             {
+                xmlElem.SetAttribute("multiple", Multiple);
                 xmlElem.SetAttribute("address", Address);
 
                 if (ElemTypeEnabled)

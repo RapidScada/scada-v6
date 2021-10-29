@@ -309,9 +309,9 @@
             this.lblElemTagCodeWarn.ForeColor = System.Drawing.Color.Red;
             this.lblElemTagCodeWarn.Location = new System.Drawing.Point(19, 4);
             this.lblElemTagCodeWarn.Name = "lblElemTagCodeWarn";
-            this.lblElemTagCodeWarn.Size = new System.Drawing.Size(71, 15);
+            this.lblElemTagCodeWarn.Size = new System.Drawing.Size(72, 15);
             this.lblElemTagCodeWarn.TabIndex = 0;
-            this.lblElemTagCodeWarn.Text = "Fill tag code";
+            this.lblElemTagCodeWarn.Text = "Fill out code";
             // 
             // pbElemTagCodeWarn
             // 

@@ -136,14 +136,17 @@ namespace Scada.Comm.Drivers.DrvModbus.View.Controls
                     DataBlock.HoldingRegisters => 1,
                     _ => 2
                 };
-                chkCmdMultiple.Checked = cmd.Multiple;
 
                 if (cmd.DataBlock == DataBlock.Custom)
                 {
+                    chkCmdMultiple.Checked = false;
+                    chkCmdMultiple.Enabled = false;
                     pnlCmdElem.Visible = false;
                 }
                 else
                 {
+                    chkCmdMultiple.Checked = cmd.Multiple;
+                    chkCmdMultiple.Enabled = true;
                     numCmdAddress.SetValue(cmd.Address + AddrShift);
                     lblCmdAddressHint.Text = string.Format(DriverPhrases.AddressHint, AddrNotation, AddrShift);
                     cbCmdElemType.SelectedIndex = (int)cmd.ElemType;
@@ -167,25 +170,16 @@ namespace Scada.Comm.Drivers.DrvModbus.View.Controls
             {
                 numCmdFuncCode.Value = 0;
                 numCmdFuncCode.ReadOnly = true;
-                txtCmdFuncCodeHex.Text = "";
+            }
+            else if (cmd.DataBlock == DataBlock.Custom)
+            {
+                numCmdFuncCode.Value = (byte)cmd.CustomFuncCode;
+                numCmdFuncCode.ReadOnly = false;
             }
             else
             {
-                byte funcCode;
-
-                if (cmd.DataBlock == DataBlock.Custom)
-                {
-                    funcCode = (byte)cmd.CustomFuncCode;
-                    numCmdFuncCode.ReadOnly = false;
-                }
-                else
-                {
-                    funcCode = ModbusUtils.GetWriteFuncCode(cmd.DataBlock, cmd.Multiple);
-                    numCmdFuncCode.ReadOnly = true;
-                }
-
-                numCmdFuncCode.Value = funcCode;
-                txtCmdFuncCodeHex.Text = funcCode.ToString("X2") + 'h';
+                numCmdFuncCode.Value = ModbusUtils.GetWriteFuncCode(cmd.DataBlock, cmd.Multiple);
+                numCmdFuncCode.ReadOnly = true;
             }
         }
 
@@ -281,12 +275,21 @@ namespace Scada.Comm.Drivers.DrvModbus.View.Controls
                 ShowByteOrder(cmd);
                 OnObjectChanged(TreeUpdateTypes.CurrentNode);
 
+                if (cmd.DataBlock == DataBlock.Custom)
+                {
+                    chkCmdMultiple.Checked = false;
+                    chkCmdMultiple.Enabled = false;
+                    pnlCmdElem.Visible = false;
+                }
+                else
+                {
+                    chkCmdMultiple.Enabled = true;
+                    pnlCmdElem.Visible = true;
+                }
+
                 cbCmdElemType.SelectedIndex = (int)cmd.DefaultElemType;
                 cbCmdElemType.Enabled = cmd.ElemTypeEnabled;
                 numCmdElemCnt.Maximum = cmd.MaxElemCnt;
-                numCmdElemCnt.SetValue(cmd.ElemCnt);
-                numCmdElemCnt.Enabled = cmd.Multiple;
-                pnlCmdElem.Visible = cmd.DataBlock != DataBlock.Custom;
             }
         }
 
@@ -302,20 +305,28 @@ namespace Scada.Comm.Drivers.DrvModbus.View.Controls
 
                 cbCmdElemType.SelectedIndex = (int)cmd.DefaultElemType;
                 cbCmdElemType.Enabled = cmd.ElemTypeEnabled;
-                numCmdElemCnt.Enabled = cmd.Multiple;
 
-                if (!cmd.Multiple)
+                if (cmd.Multiple)
+                {
+                    numCmdElemCnt.Enabled = true;
+                }
+                else
+                {
                     numCmdElemCnt.Value = 1;
+                    numCmdElemCnt.Enabled = false;
+                }
             }
         }
 
         private void numCmdFuncCode_ValueChanged(object sender, EventArgs e)
         {
             // update function code
+            int funcCode = Convert.ToInt32(numCmdFuncCode.Value);
+            txtCmdFuncCodeHex.Text = funcCode.ToString("X2") + 'h';
+
             if (cmd != null)
             {
-                cmd.CustomFuncCode = Convert.ToInt32(numCmdFuncCode.Value);
-                txtCmdFuncCodeHex.Text = cmd.CustomFuncCode.ToString("X2") + 'h';
+                cmd.CustomFuncCode = funcCode;
                 OnObjectChanged(TreeUpdateTypes.None);
             }
         }
