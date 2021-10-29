@@ -103,9 +103,9 @@ namespace Scada.Comm.Drivers.DrvModbus.View.Controls
         /// </summary>
         private void ShowElemGroupConfig(ElemGroupConfig elemGroup)
         {
-            numGrAddress.Value = 1;
             numGrAddress.Minimum = AddrShift;
             numGrAddress.Maximum = ushort.MaxValue + AddrShift;
+            numGrAddress.Value = 1;
             numGrAddress.Hexadecimal = !DecAddr;
             ShowFuncCode(elemGroup);
 
@@ -114,7 +114,7 @@ namespace Scada.Comm.Drivers.DrvModbus.View.Controls
                 chkGrActive.Checked = false;
                 txtGrName.Text = "";
                 cbGrDataBlock.SelectedIndex = 0;
-                numGrAddress.Value = AddrShift;
+                numGrAddress.SetValue(AddrShift);
                 lblGrAddressHint.Text = "";
                 numGrElemCnt.Value = 1;
                 gbElemGroup.Enabled = false;
@@ -124,11 +124,10 @@ namespace Scada.Comm.Drivers.DrvModbus.View.Controls
                 chkGrActive.Checked = elemGroup.Active;
                 txtGrName.Text = elemGroup.Name;
                 cbGrDataBlock.SelectedIndex = (int)elemGroup.DataBlock;
-                numGrAddress.Value = elemGroup.Address + AddrShift;
+                numGrAddress.SetValue(elemGroup.Address + AddrShift);
                 lblGrAddressHint.Text = string.Format(DriverPhrases.AddressHint, AddrNotation, AddrShift);
-                numGrElemCnt.Value = 1;
                 numGrElemCnt.Maximum = elemGroup.MaxElemCnt;
-                numGrElemCnt.Value = elemGroup.Elems.Count;
+                numGrElemCnt.SetValue(elemGroup.Elems.Count);
                 gbElemGroup.Enabled = true;
             }
         }

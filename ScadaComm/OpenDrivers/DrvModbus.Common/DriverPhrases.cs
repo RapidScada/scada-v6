@@ -24,7 +24,7 @@ namespace Scada.Comm.Drivers.DrvModbus
         public static string TemplateNotExists { get; private set; }
 
         // Scada.Comm.Drivers.DrvModbus.View.Forms.FrmDeviceTemplate
-        public static string TemplateFormTitle { get; private set; }
+        public static string TemplateTitle { get; private set; }
         public static string ElemGroupsNode { get; private set; }
         public static string CommandsNode { get; private set; }
         public static string UnnamedElemGroup { get; private set; }
@@ -48,7 +48,7 @@ namespace Scada.Comm.Drivers.DrvModbus
             TemplateNotExists = dict["TemplateNotExists"];
 
             dict = Locale.GetDictionary("Scada.Comm.Drivers.DrvModbus.View.Forms.FrmDeviceTemplate");
-            TemplateFormTitle = dict["TemplateFormTitle"];
+            TemplateTitle = dict["TemplateTitle"];
             ElemGroupsNode = dict["ElemGroupsNode"];
             CommandsNode = dict["CommandsNode"];
             UnnamedElemGroup = dict["UnnamedElemGroup"];

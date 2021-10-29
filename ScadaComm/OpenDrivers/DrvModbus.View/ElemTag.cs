@@ -73,5 +73,14 @@ namespace Scada.Comm.Drivers.DrvModbus.View
                 return $"{(string.IsNullOrEmpty(Elem.Name) ? DriverPhrases.UnnamedElem : Elem.Name)} ({AddressRange})";
             }
         }
+
+
+        /// <summary>
+        /// Returns a string that represents the current object.
+        /// </summary>
+        public override string ToString()
+        {
+            return NodeText;
+        }
     }
 }

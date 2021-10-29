@@ -86,6 +86,16 @@
     <Phrase key="ConfigDirRequired">The device template file must be located inside {0}</Phrase>
     <Phrase key="TemplateNotExists">The device template file does not exist.</Phrase>
   </Dictionary>
+  <Dictionary key="Scada.Comm.Drivers.DrvModbus.View.Forms.FrmDeviceTemplate">
+    <Phrase key="TemplateTitle">{0} - MODBUS. Device Template Editor</Phrase>
+    <Phrase key="ElemGroupsNode">Element Groups</Phrase>
+    <Phrase key="CommandsNode">Commands</Phrase>
+    <Phrase key="UnnamedElemGroup">&lt;Unnamed Group&gt;</Phrase>
+    <Phrase key="UnnamedElem">&lt;Unnamed Element&gt;</Phrase>
+    <Phrase key="UnnamedCommand">&lt;Unnamed Command&gt;</Phrase>
+    <Phrase key="SaveTemplateConfirm">Template has been modified. Save the changes?</Phrase>
+    <Phrase key="ElemCntExceeded">The data block allows a maximum of {0} elements.</Phrase>
+  </Dictionary>
   <Dictionary key="Scada.Comm.Drivers.DrvModbus.View.Forms.FrmTemplateOptions">
     <Phrase key="this">Template Options</Phrase>
     <Phrase key="gbAddressing">Addressing</Phrase>

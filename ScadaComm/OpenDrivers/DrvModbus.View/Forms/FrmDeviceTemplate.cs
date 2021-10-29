@@ -23,17 +23,17 @@ namespace Scada.Comm.Drivers.DrvModbus.View.Forms
         /// </summary>
         private const string NewFileName = "KpModbus_NewTemplate.xml";
 
-        private readonly AppDirs appDirs;   // the application directories
-        private readonly CustomUi customUi; // the UI customization object
+        private readonly AppDirs appDirs;          // the application directories
+        private readonly CustomUi customUi;        // the UI customization object
+        private readonly TreeNode elemGroupsNode;  // the tree node containing element groups
+        private readonly TreeNode commandsNode;    // the tree node containing commands
 
-        private DeviceTemplate template; // редактируемый шаблон устройства
-        private bool modified;           // признак изменения шаблона устройства
-        private ElemGroupConfig selElemGroup;  // выбранная группа элементов
-        private ElemTag selElemInfo;    // информация о выбранном элементе
-        private CmdConfig selCmd;        // выбранная команда
-        private TreeNode selNode;        // выбранный узел дерева
-        private TreeNode grsNode;        // узел дерева "Группы элементов"
-        private TreeNode cmdsNode;       // узел дерева "Команды"
+        private DeviceTemplate template;           // the device template for editing
+        private bool modified;                     // indicates that the device template is modified
+        private TreeNode selectedNode;             // the selected tree node
+        private ElemGroupConfig selectedElemGroup; // the selected element group configuration
+        private ElemTag selectedElemTag;           // the selected element metadata
+        private CmdConfig selectedCmd;             // the selected command configuration
 
 
         /// <summary>
@@ -52,15 +52,15 @@ namespace Scada.Comm.Drivers.DrvModbus.View.Forms
         {
             this.appDirs = appDirs ?? throw new ArgumentNullException(nameof(appDirs));
             this.customUi = customUi ?? throw new ArgumentNullException(nameof(customUi));
+            elemGroupsNode = treeView.Nodes["elemGroupsNode"];
+            commandsNode = treeView.Nodes["commandsNode"];
 
             template = null;
             modified = false;
-            selElemGroup = null;
-            selElemInfo = null;
-            selCmd = null;
-            selNode = null;
-            grsNode = treeView.Nodes["grsNode"];
-            cmdsNode = treeView.Nodes["cmdsNode"];
+            selectedNode = null;
+            selectedElemGroup = null;
+            selectedElemTag = null;
+            selectedCmd = null;
 
             SaveOnly = false;
             FileName = "";
@@ -68,7 +68,7 @@ namespace Scada.Comm.Drivers.DrvModbus.View.Forms
 
 
         /// <summary>
-        /// Получить или установить признак изменения шаблона устройства
+        /// Gets or sets a value indicating whether the device template is modified.
         /// </summary>
         private bool Modified
         {
@@ -92,42 +92,9 @@ namespace Scada.Comm.Drivers.DrvModbus.View.Forms
         /// <summary>
         /// Gets or sets the device template file name.
         /// </summary>
+        /// <remarks>Empty if the device template is not saved on disk.</remarks>
         public string FileName { get; set; }
 
-
-        /// <summary>
-        /// Установить заголовок формы
-        /// </summary>
-        private void SetFormTitle()
-        {
-            Text = DriverPhrases.TemplateFormTitle + " - " + 
-                (FileName == "" ? NewFileName : Path.GetFileName(FileName)) +
-                (Modified ? "*" : "");
-        }
-
-        /// <summary>
-        /// Загрузить шаблон устройства из файла
-        /// </summary>
-        private void LoadTemplate(string fname)
-        {
-            template = customUi.CreateDeviceTemplate();
-            FileName = fname;
-            SetFormTitle();
-
-            if (!template.Load(fname, out string errMsg))
-                ScadaUiUtils.ShowError(errMsg);
-
-            FillTree();
-        }
-
-        /// <summary>
-        /// Перевести текст основных узлов дерева
-        /// </summary>
-        private void TranslateTree()
-        {
-            grsNode.Text = DriverPhrases.ElemGroupsNode;
-            cmdsNode.Text = DriverPhrases.CommandsNode;
-        }
 
         /// <summary>
         /// Takes the tree view and loads them into an image list.
@@ -141,230 +108,290 @@ namespace Scada.Comm.Drivers.DrvModbus.View.Forms
             ilTree.Images.Add("group.png", Resources.group);
             ilTree.Images.Add("group_inactive.png", Resources.group_inactive);
 
-            grsNode.SetImageKey("group.png");
-            cmdsNode.SetImageKey("cmds.png");
+            elemGroupsNode.SetImageKey("group.png");
+            commandsNode.SetImageKey("cmds.png");
         }
 
         /// <summary>
-        /// Заполнить дерево в соответствии с шаблоном устройства
+        /// Sets the form title.
+        /// </summary>
+        private void SetFormTitle()
+        {
+            Text = (Modified ? "*" : "") + string.Format(DriverPhrases.TemplateTitle, 
+                string.IsNullOrEmpty(FileName) ? NewFileName : Path.GetFileName(FileName));
+        }
+
+        /// <summary>
+        /// Loads the device template from the specified file.
+        /// </summary>
+        private void LoadTemplate(string fileName)
+        {
+            template = customUi.CreateDeviceTemplate();
+
+            if (!template.Load(fileName, out string errMsg))
+                ScadaUiUtils.ShowError(errMsg);
+
+            FileName = fileName;
+            SetFormTitle();
+            FillTree();
+            Modified = false;
+        }
+
+        /// <summary>
+        /// Fills the tree view according to the device template.
         /// </summary>
         private void FillTree()
         {
-            // обнуление выбранных объектов и снятие признака изменения
-            selElemGroup = null;
-            selElemInfo = null;
-            selCmd = null;
-            selNode = null;
-            ShowElemGroupProps(null);
-            Modified = false;
+            // reset selected objects
+            selectedNode = null;
+            selectedElemGroup = null;
+            selectedElemTag = null;
+            selectedCmd = null;
+            ShowElemGroupConfig(null);
 
-            // приостановка отрисовки дерева
-            treeView.BeginUpdate();
+            try
+            {
+                treeView.BeginUpdate();
+                elemGroupsNode.Nodes.Clear();
+                commandsNode.Nodes.Clear();
 
-            // очистка дерева
-            grsNode.Nodes.Clear();
-            cmdsNode.Nodes.Clear();
-            treeView.SelectedNode = grsNode;
+                // fill element groups
+                foreach (ElemGroupConfig elemGroup in template.ElemGroups)
+                {
+                    elemGroupsNode.Nodes.Add(CreateElemGroupNode(elemGroup));
+                }
 
-            // заполнение узла групп элементов
-            foreach (ElemGroupConfig elemGroup in template.ElemGroups)
-                grsNode.Nodes.Add(NewElemGroupNode(elemGroup));
+                // fill commands
+                foreach (CmdConfig modbusCmd in template.Cmds)
+                {
+                    commandsNode.Nodes.Add(CreateCmdNode(modbusCmd));
+                }
 
-            // заполнение узла команд
-            foreach (CmdConfig modbusCmd in template.Cmds)
-                cmdsNode.Nodes.Add(NewCmdNode(modbusCmd));
-
-            // раскрытие основных узлов дерева
-            grsNode.Expand();
-            cmdsNode.Expand();
-
-            // возобновление отрисовки дерева
-            treeView.EndUpdate();
+                elemGroupsNode.Expand();
+                commandsNode.Expand();
+                treeView.SelectedNode = elemGroupsNode;
+            }
+            finally
+            {
+                treeView.EndUpdate();
+            }
         }
 
         /// <summary>
-        /// Создать узел группы элементов
+        /// Creates a node that represents the specified element group.
         /// </summary>
-        private TreeNode NewElemGroupNode(ElemGroupConfig elemGroup)
+        private TreeNode CreateElemGroupNode(ElemGroupConfig elemGroup)
         {
-            string name = elemGroup.Name == "" ? DriverPhrases.UnnamedElemGroup : elemGroup.Name;
-            TreeNode grNode = new TreeNode(name + " (" + ModbusUtils.GetDataBlockName(elemGroup.DataBlock) + ")");
-            grNode.ImageKey = grNode.SelectedImageKey = elemGroup.Active ? "group.png" : "group_inactive.png";
-            grNode.Tag = elemGroup;
+            TreeNode groupNode = new(GetElemGroupNodeText(elemGroup)) { Tag = elemGroup };
+            groupNode.SetImageKey(elemGroup.Active ? "group.png" : "group_inactive.png");
 
             int elemAddr = elemGroup.Address;
             int elemTagNum = elemGroup.StartTagNum;
 
             foreach (ElemConfig elem in elemGroup.Elems)
             {
-                grNode.Nodes.Add(NewElemNode(new ElemTag(template.Options, elemGroup, elem)
+                groupNode.Nodes.Add(CreateElemNode(new ElemTag(template.Options, elemGroup, elem)
                 {
                     Address = elemAddr,
                     TagNum = elemTagNum++
                 }));
-                elemAddr += (ushort)elem.Quantity;
+
+                elemAddr += elem.Quantity;
             }
 
-            return grNode;
-        }
-        
-        /// <summary>
-        /// Создать узел элемента группы
-        /// </summary>
-        private TreeNode NewElemNode(ElemTag elemInfo)
-        {
-            TreeNode elemNode = new TreeNode(elemInfo.NodeText);
-            elemNode.ImageKey = elemNode.SelectedImageKey = "elem.png";
-            elemNode.Tag = elemInfo;
-            return elemNode;
+            return groupNode;
         }
 
         /// <summary>
-        /// Создать узел команды
+        /// Creates a node that represents the specified element.
         /// </summary>
-        private TreeNode NewCmdNode(CmdConfig modbusCmd)
+        private static TreeNode CreateElemNode(ElemTag elemTag)
         {
-            TreeNode cmdNode = new TreeNode(GetCmdCaption(modbusCmd));
-            cmdNode.ImageKey = cmdNode.SelectedImageKey = "cmd.png";
-            cmdNode.Tag = modbusCmd;
+            return TreeViewExtensions.CreateNode(elemTag, "elem.png");
+        }
+
+        /// <summary>
+        /// Creates a node that represents the specified command.
+        /// </summary>
+        private TreeNode CreateCmdNode(CmdConfig cmd)
+        {
+            TreeNode cmdNode = new(GetCmdNodeText(cmd)) { Tag = cmd };
+            cmdNode.SetImageKey("cmd.png");
             return cmdNode;
         }
 
         /// <summary>
-        /// Получить обозначение команды в дереве
+        /// Gets the command node text.
         /// </summary>
-        private string GetCmdCaption(CmdConfig modbusCmd)
+        private static string GetElemGroupNodeText(ElemGroupConfig elemGroup)
         {
-            return (string.IsNullOrEmpty(modbusCmd.Name) ? DriverPhrases.UnnamedCommand : modbusCmd.Name) +
-                " (" + ModbusUtils.GetDataBlockName(modbusCmd.DataBlock) + ", " +
-                ModbusUtils.GetAddressRange(modbusCmd.Address, 
-                    modbusCmd.ElemCnt * ModbusUtils.GetQuantity(modbusCmd.ElemType),
-                    template.Options.ZeroAddr, template.Options.DecAddr) + ")";
+            return string.Format("{0} ({1})",
+                string.IsNullOrEmpty(elemGroup.Name) ? DriverPhrases.UnnamedElemGroup : elemGroup.Name,
+                ModbusUtils.GetDataBlockName(elemGroup.DataBlock));
         }
 
         /// <summary>
-        /// Обновить узел выбранной группы элементов
+        /// Gets the command node text.
         /// </summary>
-        private void UpdateElemGroupNode()
+        private string GetCmdNodeText(CmdConfig cmd)
         {
-            if (selElemGroup != null)
+            string cmdName = string.IsNullOrEmpty(cmd.Name) ? DriverPhrases.UnnamedCommand : cmd.Name;
+            string blockName = ModbusUtils.GetDataBlockName(cmd.DataBlock);
+
+            if (cmd.DataBlock == DataBlock.Custom)
             {
-                selNode.ImageKey = selNode.SelectedImageKey = selElemGroup.Active ? "group.png" : "group_inactive.png";
-                selNode.Text = (selElemGroup.Name == "" ? DriverPhrases.UnnamedElemGroup : selElemGroup.Name) + 
-                    " (" + ModbusUtils.GetDataBlockName(selElemGroup.DataBlock) + ")";
+                return string.Format("{0} ({1})", cmdName, blockName);
+            }
+            else
+            {
+                string addrRange = ModbusUtils.GetAddressRange(cmd.Address,
+                    cmd.ElemCnt * ModbusUtils.GetQuantity(cmd.ElemType),
+                    template.Options.ZeroAddr, template.Options.DecAddr);
+                return string.Format("{0} ({1}, {2})", cmdName, blockName, addrRange);
             }
         }
 
         /// <summary>
-        /// Обновить узлы элементов выбранной группы
+        /// Updates the image and text of the selected element group node.
         /// </summary>
-        private void UpdateElemNodes(TreeNode grNode = null)
+        private void UpdateElemGroupNode()
         {
-            treeView.BeginUpdate();
-
-            if (grNode == null)
-                grNode = selNode;
-
-            if (grNode.Tag is ElemGroupConfig elemGroup)
+            if (selectedElemGroup != null)
             {
-                int elemAddr = elemGroup.Address;
-                int elemTagNum = elemGroup.StartTagNum;
+                selectedNode.SetImageKey(selectedElemGroup.Active ? "group.png" : "group_inactive.png");
+                selectedNode.Text = GetElemGroupNodeText(selectedElemGroup);
+            }
+        }
 
-                foreach (TreeNode elemNode in grNode.Nodes)
-                {
-                    ElemTag elemInfo = elemNode.Tag as ElemTag;
-                    elemInfo.Address = elemAddr;
-                    elemInfo.TagNum = elemTagNum++;
-                    elemNode.Text = elemInfo.NodeText;
-                    elemAddr += (ushort)elemInfo.Elem.Quantity;
-                }
+        /// <summary>
+        /// Updates the child nodes of the specified element group node.
+        /// Affects the element address, tag number and node text.
+        /// </summary>
+        private void UpdateElemNodes(TreeNode groupNode)
+        {
+            if (groupNode?.Tag is not ElemGroupConfig elemGroup)
+                return;
+
+            treeView.BeginUpdate();
+            int elemAddr = elemGroup.Address;
+            int elemTagNum = elemGroup.StartTagNum;
+
+            foreach (TreeNode elemNode in groupNode.Nodes)
+            {
+                ElemTag elemTag = (ElemTag)elemNode.Tag;
+                elemTag.Address = elemAddr;
+                elemTag.TagNum = elemTagNum++;
+                elemNode.Text = elemTag.NodeText;
+                elemAddr += (ushort)elemTag.Elem.Quantity;
             }
 
             treeView.EndUpdate();
         }
 
         /// <summary>
-        /// Обновить сигналы КП элементов групп, начиная с заданного узла дерева
+        /// Updates the tag numbers starting from the specified element group node.
         /// </summary>
-        private void UpdateSignals(TreeNode startGrNode)
+        private void UpdateTagNums(TreeNode startGroupNode)
         {
-            // проверка корректности заданного узла дерева
-            if (!(startGrNode.Tag is ElemGroup))
+            // validate start node
+            if (startGroupNode?.Tag is not ElemGroupConfig)
                 return;
 
-            // определение начального индекса тегов КП
-            TreeNode prevGrNode = startGrNode.PrevNode;
-            ElemGroupConfig prevElemGroup = prevGrNode == null ? null : prevGrNode.Tag as ElemGroupConfig;
-            int tagNum = prevElemGroup == null ? 1 : prevElemGroup.StartTagNum + prevElemGroup.Elems.Count;
+            // get start tag number
+            TreeNode prevGroupNode = startGroupNode.PrevNode;
+            int tagNum = prevGroupNode?.Tag is ElemGroupConfig prevElemGroup
+                ? prevElemGroup.StartTagNum + prevElemGroup.Elems.Count
+                : 1;
 
-            // обновление групп и их элементов
-            int grNodeCnt = grsNode.Nodes.Count;
-
-            for (int i = startGrNode.Index; i < grNodeCnt; i++)
+            // update element groups and elements
+            for (int nodeIdx = startGroupNode.Index, nodeCnt = elemGroupsNode.Nodes.Count; 
+                nodeIdx < nodeCnt; nodeIdx++)
             {
-                TreeNode grNode = grsNode.Nodes[i];
-                ElemGroupConfig elemGroup = grNode.Tag as ElemGroupConfig;
+                TreeNode groupNode = elemGroupsNode.Nodes[nodeIdx];
+                ElemGroupConfig elemGroup = (ElemGroupConfig)groupNode.Tag;
                 elemGroup.StartTagNum = tagNum;
+
                 int elemTagNum = tagNum;
                 tagNum += elemGroup.Elems.Count;
 
-                foreach (TreeNode elemNode in grNode.Nodes)
+                foreach (TreeNode elemNode in groupNode.Nodes)
                 {
-                    ElemTag elem = elemNode.Tag as ElemTag;
+                    ElemTag elem = (ElemTag)elemNode.Tag;
                     elem.TagNum = elemTagNum++;
                 }
             }
         }
 
         /// <summary>
-        /// Обновить узел выбранной команды
+        /// Updates the text of the selected command node.
         /// </summary>
         private void UpdateCmdNode()
         {
-            if (selCmd != null)
-                selNode.Text = GetCmdCaption(selCmd);
+            if (selectedCmd != null)
+                selectedNode.Text = GetCmdNodeText(selectedCmd);
         }
 
-
         /// <summary>
-        /// Отобразить свойства группы элементов
+        /// Shows the element group configuration.
         /// </summary>
-        private void ShowElemGroupProps(ElemGroupConfig elemGroup)
+        private void ShowElemGroupConfig(ElemGroupConfig elemGroup)
         {
             ctrlElemGroup.Visible = true;
-            ctrlElemGroup.TemplateOptions = template.Options;
-            ctrlElemGroup.ElemGroup = elemGroup;
             ctrlElem.Visible = false;
             ctrlCmd.Visible = false;
+
+            ctrlElemGroup.TemplateOptions = template.Options;
+            ctrlElemGroup.ElemGroup = elemGroup;
         }
 
         /// <summary>
-        /// Отобразить свойства элемента
+        /// Shows the element configuration.
         /// </summary>
-        private void ShowElemProps(ElemTag elemInfo)
+        private void ShowElemConfig(ElemTag elemTag)
         {
             ctrlElemGroup.Visible = false;
             ctrlElem.Visible = true;
-            ctrlElem.ElemTag = elemInfo;
             ctrlCmd.Visible = false;
+
+            ctrlElem.ElemTag = elemTag;
         }
 
         /// <summary>
-        /// Отобразить свойства команды
+        /// Shows the command configuration.
         /// </summary>
-        private void ShowCmdProps(CmdConfig modbusCmd)
+        private void ShowCmdConfig(CmdConfig cmd)
         {
             ctrlElemGroup.Visible = false;
             ctrlElem.Visible = false;
             ctrlCmd.Visible = true;
+
             ctrlCmd.TemplateOptions = template.Options;
-            ctrlCmd.Cmd = modbusCmd;
+            ctrlCmd.Cmd = cmd;
         }
 
         /// <summary>
-        /// Заблокировать редактирование свойств
+        /// Shows the configuration of the currently selected item.
         /// </summary>
-        private void DisableProps()
+        private void ShowSelectedItem()
+        {
+            if (selectedElemGroup != null)
+                ShowElemGroupConfig(selectedElemGroup);
+            else if (selectedElemTag != null)
+                ShowElemConfig(selectedElemTag);
+            else if (selectedCmd != null)
+                ShowCmdConfig(selectedCmd);
+            else if (selectedNode == elemGroupsNode)
+                ShowElemGroupConfig(null);
+            else if (selectedNode == commandsNode)
+                ShowCmdConfig(null);
+            else // never performed
+                DisableItemConfig();
+        }
+
+        /// <summary>
+        /// Disables the controls for editing item configuration.
+        /// </summary>
+        private void DisableItemConfig()
         {
             ctrlElemGroup.ElemGroup = null;
             ctrlElem.ElemTag = null;
@@ -372,15 +399,39 @@ namespace Scada.Comm.Drivers.DrvModbus.View.Forms
         }
 
         /// <summary>
-        /// Сохраненить изменения
+        /// Enables or disables the buttons.
+        /// </summary>
+        private void SetButtonsEnabled()
+        {
+            btnAddElem.Enabled = selectedElemGroup != null || selectedElemTag != null;
+
+            if (selectedElemGroup == null && selectedCmd == null &&
+                (selectedElemTag == null || selectedElemTag.ElemGroup.Elems.Count <= 1)) // do not delete last element
+            {
+                btnMoveUp.Enabled = false;
+                btnMoveDown.Enabled = false;
+                btnDelete.Enabled = false;
+            }
+            else
+            {
+                btnMoveUp.Enabled = treeView.MoveUpSelectedNodeIsEnabled(TreeNodeBehavior.WithinParent);
+                btnMoveDown.Enabled = treeView.MoveDownSelectedNodeIsEnabled(TreeNodeBehavior.WithinParent);
+                btnDelete.Enabled = true;
+            }
+        }
+
+        /// <summary>
+        /// Saves the changes.
         /// </summary>
         private bool SaveChanges(bool saveAs)
         {
-            // определение имени файла
+            // define file name
             string newFileName = "";
 
-            if (saveAs || FileName == "")
+            if (saveAs || string.IsNullOrEmpty(FileName))
             {
+                saveFileDialog.FileName = string.IsNullOrEmpty(FileName) ? NewFileName : Path.GetFileName(FileName);
+
                 if (saveFileDialog.ShowDialog() == DialogResult.OK)
                     newFileName = saveFileDialog.FileName;
             }
@@ -395,9 +446,8 @@ namespace Scada.Comm.Drivers.DrvModbus.View.Forms
             }
             else
             {
-                // сохранение шаблона устройства
-                string errMsg;
-                if (template.Save(newFileName, out errMsg))
+                // save device template
+                if (template.Save(newFileName, out string errMsg))
                 {
                     FileName = newFileName;
                     Modified = false;
@@ -412,24 +462,19 @@ namespace Scada.Comm.Drivers.DrvModbus.View.Forms
         }
 
         /// <summary>
-        /// Преверить необходимость сохранения изменений
+        /// Confirms that the device template can be closed.
         /// </summary>
-        private bool CheckChanges()
+        private bool ConfirmCloseTemplate()
         {
-            if (modified)
+            if (Modified)
             {
-                DialogResult result = MessageBox.Show(DriverPhrases.SaveTemplateConfirm,
-                    CommonPhrases.QuestionCaption, MessageBoxButtons.YesNoCancel, MessageBoxIcon.Question);
-
-                switch (result)
+                return MessageBox.Show(DriverPhrases.SaveTemplateConfirm, CommonPhrases.QuestionCaption, 
+                    MessageBoxButtons.YesNoCancel, MessageBoxIcon.Question) switch
                 {
-                    case DialogResult.Yes:
-                        return SaveChanges(false);
-                    case DialogResult.No:
-                        return true;
-                    default:
-                        return false;
-                }
+                    DialogResult.Yes => SaveChanges(false),
+                    DialogResult.No => true,
+                    _ => false,
+                };
             }
             else
             {
@@ -440,21 +485,22 @@ namespace Scada.Comm.Drivers.DrvModbus.View.Forms
 
         private void FrmDevTemplate_Load(object sender, EventArgs e)
         {
-            // перевод формы
+            // translate form
             FormTranslator.Translate(this, GetType().FullName);
             FormTranslator.Translate(ctrlElemGroup, ctrlElemGroup.GetType().FullName);
             FormTranslator.Translate(ctrlElem, ctrlElem.GetType().FullName);
             FormTranslator.Translate(ctrlCmd, ctrlCmd.GetType().FullName);
             openFileDialog.SetFilter(CommonPhrases.XmlFileFilter);
             saveFileDialog.SetFilter(CommonPhrases.XmlFileFilter);
-            TranslateTree();
+            elemGroupsNode.Text = DriverPhrases.ElemGroupsNode;
+            commandsNode.Text = DriverPhrases.CommandsNode;
 
-            // настройка элементов управления
+            // setup controls
             TakeTreeViewImages();
             openFileDialog.InitialDirectory = appDirs.ConfigDir;
             saveFileDialog.InitialDirectory = appDirs.ConfigDir;
-            btnEditOptionsExt.Visible = customUi.ExtendedOptionsAvailable;
             ctrlElem.Top = ctrlCmd.Top = ctrlElemGroup.Top;
+            btnEditOptionsExt.Visible = customUi.ExtendedOptionsAvailable;
 
             if (SaveOnly)
             {
@@ -464,282 +510,200 @@ namespace Scada.Comm.Drivers.DrvModbus.View.Forms
 
             if (string.IsNullOrEmpty(FileName))
             {
-                saveFileDialog.FileName = NewFileName;
                 template = customUi.CreateDeviceTemplate();
                 FillTree();
+                Modified = false;
             }
             else
             {
-                saveFileDialog.FileName = FileName;
                 LoadTemplate(FileName);
             }
         }
 
         private void FrmDevTemplate_FormClosing(object sender, FormClosingEventArgs e)
         {
-            e.Cancel = !CheckChanges();
+            e.Cancel = !ConfirmCloseTemplate();
         }
 
 
         private void btnNew_Click(object sender, EventArgs e)
         {
-            // создание шаблона устройства
-            if (CheckChanges())
+            // create device template
+            if (ConfirmCloseTemplate())
             {
-                saveFileDialog.FileName = NewFileName;
                 template = customUi.CreateDeviceTemplate();
                 FileName = "";
                 SetFormTitle();
                 FillTree();
+                Modified = false;
             }
         }
 
         private void btnOpen_Click(object sender, EventArgs e)
         {
-            // открытие шаблона устройства из файла
-            if (CheckChanges())
+            // open device template
+            if (ConfirmCloseTemplate())
             {
                 openFileDialog.FileName = "";
 
                 if (openFileDialog.ShowDialog() == DialogResult.OK)
-                {
-                    saveFileDialog.FileName = openFileDialog.FileName;
                     LoadTemplate(openFileDialog.FileName);
-                }
             }
         }
 
         private void btnSave_Click(object sender, EventArgs e)
         {
-            // сохранение шаблона устройства в файл
+            // save device template
             SaveChanges(sender == btnSaveAs);
         }
 
 
         private void btnAddElemGroup_Click(object sender, EventArgs e)
         {
-            // создание группы элементов и добавление в шаблон устройства
+            // add new element group
             ElemGroupConfig elemGroup = template.CreateElemGroupConfig();
-            elemGroup.Elems.Add(elemGroup.CreateElemConfig());
-            int ind = selNode != null && selNode.Tag is ElemGroup ? selNode.Index + 1 : template.ElemGroups.Count;
-            template.ElemGroups.Insert(ind, elemGroup);
+            elemGroup.Elems.Add(elemGroup.CreateElemConfig()); // at least one element
 
-            // создание узла дерева группы элементов
-            TreeNode grNode = NewElemGroupNode(elemGroup);
-            grsNode.Nodes.Insert(ind, grNode);
-            UpdateSignals(grNode);
-            grNode.Expand();
-            treeView.SelectedNode = grNode;
+            TreeNode groupNode = CreateElemGroupNode(elemGroup);
+            treeView.Insert(elemGroupsNode, groupNode, template.ElemGroups, elemGroup);
+            groupNode.Expand();
+
+            UpdateTagNums(groupNode);
             ctrlElemGroup.SetFocus();
-
-            // установка признака изменения
             Modified = true;
         }
 
         private void btnAddElem_Click(object sender, EventArgs e)
         {
-            // создание элемента и добавление в шаблон устройства
-            ElemGroupConfig elemGroup = selElemGroup == null ? selElemInfo.ElemGroup : selElemGroup;
-            int maxElemCnt = elemGroup.MaxElemCnt;
+            // add new element
+            if ((selectedElemGroup ?? selectedElemTag?.ElemGroup) is not ElemGroupConfig elemGroup)
+                return;
 
-            if (elemGroup.Elems.Count >= maxElemCnt)
+            if (elemGroup.Elems.Count >= elemGroup.MaxElemCnt)
             {
-                MessageBox.Show(string.Format(DriverPhrases.ElemCntExceeded, maxElemCnt), 
+                MessageBox.Show(string.Format(DriverPhrases.ElemCntExceeded, elemGroup.MaxElemCnt),
                     CommonPhrases.WarningCaption, MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 return;
             }
 
             ElemConfig elem = elemGroup.CreateElemConfig();
             elem.ElemType = elemGroup.DefaultElemType;
-            int ind = selNode.Tag is ElemTag ? selNode.Index + 1 : elemGroup.Elems.Count;
-            elemGroup.Elems.Insert(ind, elem);
+            ElemTag elemTag = new ElemTag(template.Options, elemGroup, elem);
 
-            // создание узла дерева элемента
-            TreeNode elemNode = NewElemNode(new ElemTag(template.Options, elemGroup, elem));
-            TreeNode grNode = selNode.Tag is ElemTag ? selNode.Parent : selNode;
-            grNode.Nodes.Insert(ind, elemNode);
-            UpdateElemNodes(grNode);
-            UpdateSignals(grNode);
-            treeView.SelectedNode = elemNode;
+            TreeNode elemNode = CreateElemNode(elemTag);
+            TreeNode groupNode = selectedNode.Tag is ElemTag ? selectedNode.Parent : selectedNode;
+            treeView.Insert(groupNode, elemNode, elemGroup.Elems, elem);
+
+            UpdateElemNodes(groupNode);
+            UpdateTagNums(groupNode);
+            ShowElemConfig(elemTag);
             ctrlElem.SetFocus();
-
-            // установка признака изменения
             Modified = true;
         }
 
         private void btnAddCmd_Click(object sender, EventArgs e)
         {
-            // создание команды и добавление в шаблон устройства
-            CmdConfig modbusCmd = template.CreateCmdConfig();
-            int ind = selNode != null && selNode.Tag is ModbusCmd ? selNode.Index + 1 : template.Cmds.Count;
-            template.Cmds.Insert(ind, modbusCmd);
-
-            // создание узла дерева команды
-            TreeNode cmdNode = NewCmdNode(modbusCmd);
-            cmdsNode.Nodes.Insert(ind, cmdNode);
-            treeView.SelectedNode = cmdNode;
+            // add new command
+            CmdConfig cmd = template.CreateCmdConfig();
+            treeView.Insert(commandsNode, CreateCmdNode(cmd), template.Cmds, cmd);
             ctrlCmd.SetFocus();
-
-            // установка признака изменения
             Modified = true;
         }
 
         private void btnMoveUp_Click(object sender, EventArgs e)
         {
-            // перемещение объекта вверх
-            TreeNode prevNode = selNode.PrevNode;
-            int prevInd = prevNode.Index;
-
-            if (selElemGroup != null)
+            if (selectedElemGroup != null)
             {
-                // перемещение группы элементов вверх
-                ElemGroupConfig prevElemGroup = prevNode.Tag as ElemGroupConfig;
-
-                template.ElemGroups.RemoveAt(prevInd);
-                template.ElemGroups.Insert(prevInd + 1, prevElemGroup);
-
-                grsNode.Nodes.RemoveAt(prevInd);
-                grsNode.Nodes.Insert(prevInd + 1, prevNode);
-
-                UpdateSignals(selNode);
+                // move up element group
+                treeView.MoveUpSelectedNode(template.ElemGroups);
+                UpdateTagNums(selectedNode);
             }
-            else if (selElemInfo != null)
+            else if (selectedElemTag != null)
             {
-                // перемещение элемента вверх
-                ElemTag prevElemInfo = prevNode.Tag as ElemTag;
-
-                selElemInfo.ElemGroup.Elems.RemoveAt(prevInd);
-                selElemInfo.ElemGroup.Elems.Insert(prevInd + 1, prevElemInfo.Elem);
-
-                TreeNode grNode = selNode.Parent;
-                grNode.Nodes.RemoveAt(prevInd);
-                grNode.Nodes.Insert(prevInd + 1, prevNode);
-
-                UpdateElemNodes(grNode);
-                ShowElemProps(selElemInfo);
+                // move up element
+                treeView.MoveUpSelectedNode(selectedElemTag.ElemGroup.Elems);
+                UpdateElemNodes(selectedNode.Parent);
+                ShowElemConfig(selectedElemTag);
             }
-            else if (selCmd != null)
+            else if (selectedCmd != null)
             {
-                // перемещение команды вверх
-                CmdConfig prevCmd = prevNode.Tag as CmdConfig;
-
-                template.Cmds.RemoveAt(prevInd);
-                template.Cmds.Insert(prevInd + 1, prevCmd);
-
-                cmdsNode.Nodes.RemoveAt(prevInd);
-                cmdsNode.Nodes.Insert(prevInd + 1, prevNode);
+                // move up command
+                treeView.MoveUpSelectedNode(template.Cmds);
             }
 
-            // установка доступности кнопок
-            btnMoveUp.Enabled = selNode.PrevNode != null;
-            btnMoveDown.Enabled = selNode.NextNode != null;
-
-            // установка признака изменения
+            btnMoveUp.Enabled = treeView.MoveUpSelectedNodeIsEnabled(TreeNodeBehavior.WithinParent);
+            btnMoveDown.Enabled = treeView.MoveDownSelectedNodeIsEnabled(TreeNodeBehavior.WithinParent);
             Modified = true;
         }
 
         private void btnMoveDown_Click(object sender, EventArgs e)
         {
-            // перемещение объекта вниз
-            TreeNode nextNode = selNode.NextNode;
-            int nextInd = nextNode.Index;
-
-            if (selElemGroup != null)
+            if (selectedElemGroup != null)
             {
-                // перемещение группы элементов вниз
-                ElemGroupConfig nextElemGroup = nextNode.Tag as ElemGroupConfig;
-
-                template.ElemGroups.RemoveAt(nextInd);
-                template.ElemGroups.Insert(nextInd - 1, nextElemGroup);
-
-                grsNode.Nodes.RemoveAt(nextInd);
-                grsNode.Nodes.Insert(nextInd - 1, nextNode);
-
-                UpdateSignals(nextNode);
+                // move down element group
+                treeView.MoveDownSelectedNode(template.ElemGroups);
+                UpdateTagNums(selectedNode.NextNode);
             }
-            else if (selElemInfo != null)
+            else if (selectedElemTag != null)
             {
-                // перемещение элемента вниз
-                ElemTag nextElemInfo = nextNode.Tag as ElemTag;
-
-                selElemInfo.ElemGroup.Elems.RemoveAt(nextInd);
-                selElemInfo.ElemGroup.Elems.Insert(nextInd - 1, nextElemInfo.Elem);
-
-                TreeNode grNode = selNode.Parent;
-                grNode.Nodes.RemoveAt(nextInd);
-                grNode.Nodes.Insert(nextInd - 1, nextNode);
-
-                UpdateElemNodes(grNode);
-                ShowElemProps(selElemInfo);
+                // move down element
+                treeView.MoveDownSelectedNode(selectedElemTag.ElemGroup.Elems);
+                UpdateElemNodes(selectedNode.Parent);
+                ShowElemConfig(selectedElemTag);
             }
-            else if (selCmd != null)
+            else if (selectedCmd != null)
             {
-                // перемещение команды вниз
-                CmdConfig nextCmd = nextNode.Tag as CmdConfig;
-
-                template.Cmds.RemoveAt(nextInd);
-                template.Cmds.Insert(nextInd - 1, nextCmd);
-
-                cmdsNode.Nodes.RemoveAt(nextInd);
-                cmdsNode.Nodes.Insert(nextInd - 1, nextNode);
+                // move down command
+                treeView.MoveDownSelectedNode(template.Cmds);
             }
 
-            // установка доступности кнопок
-            btnMoveUp.Enabled = selNode.PrevNode != null;
-            btnMoveDown.Enabled = selNode.NextNode != null;
-
-            // установка признака изменения
+            btnMoveUp.Enabled = treeView.MoveUpSelectedNodeIsEnabled(TreeNodeBehavior.WithinParent);
+            btnMoveDown.Enabled = treeView.MoveDownSelectedNodeIsEnabled(TreeNodeBehavior.WithinParent);
             Modified = true;
         }
 
         private void btnDelete_Click(object sender, EventArgs e)
         {
-            if (selElemGroup != null)
+            if (selectedElemGroup != null)
             {
-                // удаление группы элементов
-                template.ElemGroups.Remove(selElemGroup);
-                grsNode.Nodes.Remove(selNode);
+                // delete element group
+                treeView.RemoveSelectedNode(template.ElemGroups);
             }
-            else if (selElemInfo != null)
+            else if (selectedElemTag != null)
             {
-                // удаление элемента
-                ElemGroupConfig elemGroup = selElemInfo.ElemGroup;
-                elemGroup.Elems.Remove(selElemInfo.Elem);
-                TreeNode grNode = selNode.Parent;
-                grsNode.Nodes.Remove(selNode);
-                
-                UpdateElemNodes(grNode);
-                UpdateSignals(grNode);
-                ShowElemProps(selElemInfo);
+                // delete element
+                TreeNode groupNode = selectedNode.Parent;
+                treeView.RemoveSelectedNode(selectedElemTag.ElemGroup.Elems);
+                UpdateElemNodes(groupNode);
+                UpdateTagNums(groupNode);
+                ShowSelectedItem();
+                SetButtonsEnabled();
             }
-            else if (selCmd != null)
+            else if (selectedCmd != null)
             {
-                // удаление команды
-                template.Cmds.Remove(selCmd);
-                cmdsNode.Nodes.Remove(selNode);
+                // delete command
+                treeView.RemoveSelectedNode(template.Cmds);
             }
 
-            // установка признака изменения
             Modified = true;
         }
 
-        private void btnEditSettings_Click(object sender, EventArgs e)
+
+        private void btnEditOptions_Click(object sender, EventArgs e)
         {
-            // редактирование настроек шаблона
+            // edit template options
             FrmTemplateOptions frmTemplateOptions = new(template.Options);
 
             if (frmTemplateOptions.ShowDialog() == DialogResult.OK)
             {
-                // полное обновление дерева
                 FillTree();
-                // установка признака изменения
                 Modified = true;
             }
         }
 
-        private void btnEditSettingsExt_Click(object sender, EventArgs e)
+        private void btnEditOptionsExt_Click(object sender, EventArgs e)
         {
-            // редактирование расширенных настроек
+            // edit extended template options
             if (customUi.ShowExtendedOptions(template))
             {
                 FillTree();
@@ -750,114 +714,94 @@ namespace Scada.Comm.Drivers.DrvModbus.View.Forms
 
         private void treeView_AfterSelect(object sender, TreeViewEventArgs e)
         {
-            // отображение выбранного объекта и его свойств
-            selNode = e.Node;
-            object tag = selNode.Tag;
-            selElemGroup = tag as ElemGroupConfig;
-            selElemInfo = tag as ElemTag;
-            selCmd = tag as CmdConfig;
-
-            if (selElemGroup != null)
-                ShowElemGroupProps(selElemGroup);
-            else if (selElemInfo != null)
-                ShowElemProps(selElemInfo);
-            else if (selCmd != null)
-                ShowCmdProps(selCmd);
-            else if (selNode == grsNode)
-                ShowElemGroupProps(null);
-            else if (selNode == cmdsNode)
-                ShowCmdProps(null);
-            else // не выполняется
-                DisableProps();
-
-            // установка доступности кнопок
-            btnAddElem.Enabled = selElemGroup != null || selElemInfo != null;
-            bool nodeIsOk = selElemGroup != null || selCmd != null ||
-                selElemInfo != null && selElemInfo.ElemGroup.Elems.Count > 1 /*последний не удалять*/;
-            btnMoveUp.Enabled = nodeIsOk && selNode.PrevNode != null;
-            btnMoveDown.Enabled = nodeIsOk && selNode.NextNode != null;
-            btnDelete.Enabled = nodeIsOk;
+            selectedNode = e.Node;
+            selectedElemGroup = selectedNode.Tag as ElemGroupConfig;
+            selectedElemTag = selectedNode.Tag as ElemTag;
+            selectedCmd = selectedNode.Tag as CmdConfig;
+            ShowSelectedItem();
+            SetButtonsEnabled();
         }
 
         private void ctrlElemGroup_ObjectChanged(object sender, ObjectChangedEventArgs e)
         {
-            // установка признака изменения конфигурации
-            Modified = true;
+            if (selectedElemGroup == null)
+                return;
 
-            // отображение изменений группы элементов в дереве
+            Modified = true;
             TreeUpdateTypes treeUpdateTypes = (TreeUpdateTypes)e.ChangeArgument;
 
             if (treeUpdateTypes.HasFlag(TreeUpdateTypes.CurrentNode))
                 UpdateElemGroupNode();
 
             if (treeUpdateTypes.HasFlag(TreeUpdateTypes.ChildNodes))
-                UpdateElemNodes();
+                UpdateElemNodes(selectedNode);
 
             if (treeUpdateTypes.HasFlag(TreeUpdateTypes.ChildCount))
             {
                 treeView.BeginUpdate();
-                int oldElemCnt = selNode.Nodes.Count;
-                int newElemCnt = selElemGroup.Elems.Count;
+                int oldElemCnt = selectedNode.Nodes.Count;
+                int newElemCnt = selectedElemGroup.Elems.Count;
 
                 if (oldElemCnt < newElemCnt)
                 {
-                    // добавление узлов дерева для новых элементов
-                    int elemAddr = selElemGroup.Address;
+                    // add tree nodes for new elements
+                    int elemAddr = selectedElemGroup.Address;
 
-                    for (int elemInd = 0; elemInd < newElemCnt; elemInd++)
+                    for (int elemIdx = 0; elemIdx < newElemCnt; elemIdx++)
                     {
-                        ElemConfig elem = selElemGroup.Elems[elemInd];
+                        ElemConfig elem = selectedElemGroup.Elems[elemIdx];
 
-                        if (elemInd >= oldElemCnt)
+                        if (elemIdx >= oldElemCnt)
                         {
-                            selNode.Nodes.Add(NewElemNode(new ElemTag(template.Options, selElemGroup, elem)
-                            {
-                                Address = elemAddr
-                            }));
+                            selectedNode.Nodes.Add(CreateElemNode(
+                                new ElemTag(template.Options, selectedElemGroup, elem)
+                                {
+                                    Address = elemAddr
+                                }));
                         }
 
-                        elemAddr += (ushort)elem.Quantity;
+                        elemAddr += elem.Quantity;
                     }
                 }
                 else if (oldElemCnt > newElemCnt)
                 {
-                    // удаление лишних узлов дерева
+                    // remove redundant tree nodes
                     for (int i = newElemCnt; i < oldElemCnt; i++)
                     {
-                        selNode.Nodes.RemoveAt(newElemCnt);
+                        selectedNode.Nodes.RemoveAt(newElemCnt);
                     }
                 }
 
-                UpdateSignals(selNode);
+                UpdateTagNums(selectedNode);
                 treeView.EndUpdate();
             }
         }
 
         private void ctrlElem_ObjectChanged(object sender, ObjectChangedEventArgs e)
         {
-            // установка признака изменения конфигурации
-            Modified = true;
+            if (selectedElemTag != null)
+            {
+                Modified = true;
+                TreeUpdateTypes treeUpdateTypes = (TreeUpdateTypes)e.ChangeArgument;
 
-            // отображение изменений элемента в дереве
-            TreeUpdateTypes treeUpdateTypes = (TreeUpdateTypes)e.ChangeArgument;
+                if (treeUpdateTypes.HasFlag(TreeUpdateTypes.CurrentNode))
+                    selectedNode.Text = selectedElemTag.NodeText;
 
-            if (treeUpdateTypes.HasFlag(TreeUpdateTypes.CurrentNode))
-                selNode.Text = selElemInfo.NodeText;
-
-            if (treeUpdateTypes.HasFlag(TreeUpdateTypes.NextSiblings))
-                UpdateElemNodes(selNode.Parent);
+                if (treeUpdateTypes.HasFlag(TreeUpdateTypes.NextSiblings))
+                    UpdateElemNodes(selectedNode.Parent);
+            }
         }
 
         private void ctrlCmd_ObjectChanged(object sender, ObjectChangedEventArgs e)
         {
-            // установка признака изменения конфигурации
-            Modified = true;
+            if (selectedCmd != null)
+            {
+                Modified = true;
+                TreeUpdateTypes treeUpdateTypes = (TreeUpdateTypes)e.ChangeArgument;
 
-            // отображение изменений команды в дереве
-            TreeUpdateTypes treeUpdateTypes = (TreeUpdateTypes)e.ChangeArgument;
-
-            if (treeUpdateTypes.HasFlag(TreeUpdateTypes.CurrentNode))
-                UpdateCmdNode();
+                if (treeUpdateTypes.HasFlag(TreeUpdateTypes.CurrentNode))
+                    UpdateCmdNode();
+            }
         }
     }
 }

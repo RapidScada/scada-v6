@@ -96,11 +96,12 @@ namespace Scada.Comm.Drivers.DrvModbus.Config
                     break;
 
                 ElemConfig elemConfig = CreateElemConfig();
-                elemConfig.Name = elemElem.GetAttrAsString("name");
                 elemConfig.ElemType = elemElem.GetAttrAsEnum("type", defaultElemType);
                 elemConfig.ByteOrder = elemElem.GetAttrAsString("byteOrder");
                 elemConfig.ReadOnly = elemElem.GetAttrAsBool("readOnly", defaultReadOnly);
                 elemConfig.IsBitMask = elemElem.GetAttrAsBool("isBitMask", defaultBitMask);
+                elemConfig.TagCode = elemElem.GetAttrAsString("tagCode");
+                elemConfig.Name = elemElem.GetAttrAsString("name");
                 Elems.Add(elemConfig);
             }
         }
@@ -126,7 +127,6 @@ namespace Scada.Comm.Drivers.DrvModbus.Config
             foreach (ElemConfig elemConfig in Elems)
             {
                 XmlElement elemElem = xmlElem.AppendElem("Elem");
-                elemElem.SetAttribute("name", elemConfig.Name);
 
                 if (elemTypeEnabled)
                     elemElem.SetAttribute("type", elemConfig.ElemType.ToString().ToLowerInvariant());
@@ -139,6 +139,9 @@ namespace Scada.Comm.Drivers.DrvModbus.Config
 
                 if (bitMaskEnabled)
                     elemElem.SetAttribute("isBitMask", elemConfig.IsBitMask.ToString().ToLowerInvariant());
+
+                elemElem.SetAttribute("tagCode", elemConfig.TagCode);
+                elemElem.SetAttribute("name", elemConfig.Name);
             }
         }
     }

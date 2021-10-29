@@ -86,6 +86,16 @@
     <Phrase key="ConfigDirRequired">Файл шаблона устройства должен располагаться внутри {0}</Phrase>
     <Phrase key="TemplateNotExists">Файл шаблона устройства не существует.</Phrase>
   </Dictionary>
+  <Dictionary key="Scada.Comm.Drivers.DrvModbus.View.Forms.FrmDeviceTemplate">
+    <Phrase key="TemplateTitle">{0} - MODBUS. Редактор шаблонов устройств</Phrase>
+    <Phrase key="ElemGroupsNode">Группы элементов</Phrase>
+    <Phrase key="CommandsNode">Команды</Phrase>
+    <Phrase key="UnnamedElemGroup">&lt;Безымянная группа&gt;</Phrase>
+    <Phrase key="UnnamedElem">&lt;Безымянный элемент&gt;</Phrase>
+    <Phrase key="UnnamedCommand">&lt;Безымянная команда&gt;</Phrase>
+    <Phrase key="SaveTemplateConfirm">Шаблон устройства был изменён. Сохранить изменения?</Phrase>
+    <Phrase key="ElemCntExceeded">Блок данных допускает не более {0} элементов.</Phrase>
+  </Dictionary>
   <Dictionary key="Scada.Comm.Drivers.DrvModbus.View.Forms.FrmTemplateOptions">
     <Phrase key="this">Параметры шаблона</Phrase>
     <Phrase key="gbAddressing">Адресация</Phrase>

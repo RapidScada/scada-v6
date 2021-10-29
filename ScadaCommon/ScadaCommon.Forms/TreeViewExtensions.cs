@@ -587,6 +587,16 @@ namespace Scada.Forms
         /// <summary>
         /// Removes the selected tree node and the associated list item.
         /// </summary>
+        /// <remarks>Use this method if list items do not implement ITreeNode.</remarks>
+        public static void RemoveSelectedNode(this TreeView treeView, IList list)
+        {
+            if (treeView.SelectedNode != null)
+                RemoveNode(treeView, treeView.SelectedNode, list);
+        }
+
+        /// <summary>
+        /// Removes the selected tree node and the associated list item.
+        /// </summary>
         /// <remarks>Use this method if the underlying list items implement ITreeNode.</remarks>
         public static void RemoveSelectedNode(this TreeView treeView)
         {

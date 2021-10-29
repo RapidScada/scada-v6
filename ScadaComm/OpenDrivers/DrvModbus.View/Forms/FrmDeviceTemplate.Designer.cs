@@ -69,11 +69,11 @@
             this.treeView.Location = new System.Drawing.Point(13, 22);
             this.treeView.Name = "treeView";
             treeNode1.ImageKey = "(по умолчанию)";
-            treeNode1.Name = "grsNode";
+            treeNode1.Name = "elemGroupsNode";
             treeNode1.SelectedImageKey = "(по умолчанию)";
             treeNode1.Text = "Element groups";
             treeNode2.ImageKey = "(по умолчанию)";
-            treeNode2.Name = "cmdsNode";
+            treeNode2.Name = "commandsNode";
             treeNode2.SelectedImageKey = "(по умолчанию)";
             treeNode2.Text = "Commands";
             this.treeView.Nodes.AddRange(new System.Windows.Forms.TreeNode[] {
@@ -232,7 +232,7 @@
             this.btnEditOptions.Name = "btnEditOptions";
             this.btnEditOptions.Size = new System.Drawing.Size(23, 22);
             this.btnEditOptions.ToolTipText = "Edit Template Options";
-            this.btnEditOptions.Click += new System.EventHandler(this.btnEditSettings_Click);
+            this.btnEditOptions.Click += new System.EventHandler(this.btnEditOptions_Click);
             // 
             // btnEditOptionsExt
             // 
@@ -242,7 +242,7 @@
             this.btnEditOptionsExt.Name = "btnEditOptionsExt";
             this.btnEditOptionsExt.Size = new System.Drawing.Size(23, 22);
             this.btnEditOptionsExt.ToolTipText = "Edit Extended Options";
-            this.btnEditOptionsExt.Click += new System.EventHandler(this.btnEditSettingsExt_Click);
+            this.btnEditOptionsExt.Click += new System.EventHandler(this.btnEditOptionsExt_Click);
             // 
             // gbDevTemplate
             // 
@@ -294,12 +294,12 @@
             // ctrlCmd
             // 
             this.ctrlCmd.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.ctrlCmd.Location = new System.Drawing.Point(318, 120);
             this.ctrlCmd.Cmd = null;
+            this.ctrlCmd.Location = new System.Drawing.Point(318, 120);
             this.ctrlCmd.Name = "ctrlCmd";
-            this.ctrlCmd.TemplateOptions = null;
             this.ctrlCmd.Size = new System.Drawing.Size(300, 409);
             this.ctrlCmd.TabIndex = 4;
+            this.ctrlCmd.TemplateOptions = null;
             this.ctrlCmd.ObjectChanged += new System.EventHandler<Scada.Forms.ObjectChangedEventArgs>(this.ctrlCmd_ObjectChanged);
             // 
             // FrmDeviceTemplate
