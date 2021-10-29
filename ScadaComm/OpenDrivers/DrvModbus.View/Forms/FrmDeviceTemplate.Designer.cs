@@ -29,8 +29,8 @@
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
-            System.Windows.Forms.TreeNode treeNode1 = new System.Windows.Forms.TreeNode("Element groups");
-            System.Windows.Forms.TreeNode treeNode2 = new System.Windows.Forms.TreeNode("Commands");
+            System.Windows.Forms.TreeNode treeNode3 = new System.Windows.Forms.TreeNode("Element groups");
+            System.Windows.Forms.TreeNode treeNode4 = new System.Windows.Forms.TreeNode("Commands");
             this.treeView = new System.Windows.Forms.TreeView();
             this.ilTree = new System.Windows.Forms.ImageList(this.components);
             this.toolStrip = new System.Windows.Forms.ToolStrip();
@@ -48,14 +48,15 @@
             this.toolStripSeparator2 = new System.Windows.Forms.ToolStripSeparator();
             this.btnEditOptions = new System.Windows.Forms.ToolStripButton();
             this.btnEditOptionsExt = new System.Windows.Forms.ToolStripButton();
-            this.gbDevTemplate = new System.Windows.Forms.GroupBox();
+            this.btnValidate = new System.Windows.Forms.ToolStripButton();
+            this.gbTemplate = new System.Windows.Forms.GroupBox();
             this.openFileDialog = new System.Windows.Forms.OpenFileDialog();
             this.saveFileDialog = new System.Windows.Forms.SaveFileDialog();
             this.ctrlElemGroup = new Scada.Comm.Drivers.DrvModbus.View.Controls.CtrlElemGroup();
             this.ctrlElem = new Scada.Comm.Drivers.DrvModbus.View.Controls.CtrlElem();
             this.ctrlCmd = new Scada.Comm.Drivers.DrvModbus.View.Controls.CtrlCmd();
             this.toolStrip.SuspendLayout();
-            this.gbDevTemplate.SuspendLayout();
+            this.gbTemplate.SuspendLayout();
             this.SuspendLayout();
             // 
             // treeView
@@ -68,17 +69,17 @@
             this.treeView.ImageList = this.ilTree;
             this.treeView.Location = new System.Drawing.Point(13, 22);
             this.treeView.Name = "treeView";
-            treeNode1.ImageKey = "(по умолчанию)";
-            treeNode1.Name = "elemGroupsNode";
-            treeNode1.SelectedImageKey = "(по умолчанию)";
-            treeNode1.Text = "Element groups";
-            treeNode2.ImageKey = "(по умолчанию)";
-            treeNode2.Name = "commandsNode";
-            treeNode2.SelectedImageKey = "(по умолчанию)";
-            treeNode2.Text = "Commands";
+            treeNode3.ImageKey = "(по умолчанию)";
+            treeNode3.Name = "elemGroupsNode";
+            treeNode3.SelectedImageKey = "(по умолчанию)";
+            treeNode3.Text = "Element groups";
+            treeNode4.ImageKey = "(по умолчанию)";
+            treeNode4.Name = "commandsNode";
+            treeNode4.SelectedImageKey = "(по умолчанию)";
+            treeNode4.Text = "Commands";
             this.treeView.Nodes.AddRange(new System.Windows.Forms.TreeNode[] {
-            treeNode1,
-            treeNode2});
+            treeNode3,
+            treeNode4});
             this.treeView.SelectedImageIndex = 0;
             this.treeView.ShowRootLines = false;
             this.treeView.Size = new System.Drawing.Size(274, 466);
@@ -107,7 +108,8 @@
             this.btnDelete,
             this.toolStripSeparator2,
             this.btnEditOptions,
-            this.btnEditOptionsExt});
+            this.btnEditOptionsExt,
+            this.btnValidate});
             this.toolStrip.Location = new System.Drawing.Point(0, 0);
             this.toolStrip.Name = "toolStrip";
             this.toolStrip.Size = new System.Drawing.Size(630, 25);
@@ -244,19 +246,29 @@
             this.btnEditOptionsExt.ToolTipText = "Edit Extended Options";
             this.btnEditOptionsExt.Click += new System.EventHandler(this.btnEditOptionsExt_Click);
             // 
-            // gbDevTemplate
+            // btnValidate
             // 
-            this.gbDevTemplate.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            this.btnValidate.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            this.btnValidate.Image = global::Scada.Comm.Drivers.DrvModbus.View.Properties.Resources.validate;
+            this.btnValidate.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.btnValidate.Name = "btnValidate";
+            this.btnValidate.Size = new System.Drawing.Size(23, 22);
+            this.btnValidate.ToolTipText = "Validate Template";
+            this.btnValidate.Click += new System.EventHandler(this.btnValidate_Click);
+            // 
+            // gbTemplate
+            // 
+            this.gbTemplate.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.gbDevTemplate.Controls.Add(this.treeView);
-            this.gbDevTemplate.Location = new System.Drawing.Point(12, 28);
-            this.gbDevTemplate.Name = "gbDevTemplate";
-            this.gbDevTemplate.Padding = new System.Windows.Forms.Padding(10, 3, 10, 10);
-            this.gbDevTemplate.Size = new System.Drawing.Size(300, 501);
-            this.gbDevTemplate.TabIndex = 1;
-            this.gbDevTemplate.TabStop = false;
-            this.gbDevTemplate.Text = "Device Template";
+            this.gbTemplate.Controls.Add(this.treeView);
+            this.gbTemplate.Location = new System.Drawing.Point(12, 28);
+            this.gbTemplate.Name = "gbTemplate";
+            this.gbTemplate.Padding = new System.Windows.Forms.Padding(10, 3, 10, 10);
+            this.gbTemplate.Size = new System.Drawing.Size(300, 501);
+            this.gbTemplate.TabIndex = 1;
+            this.gbTemplate.TabStop = false;
+            this.gbTemplate.Text = "Device Template";
             // 
             // openFileDialog
             // 
@@ -310,7 +322,7 @@
             this.Controls.Add(this.ctrlElemGroup);
             this.Controls.Add(this.ctrlElem);
             this.Controls.Add(this.ctrlCmd);
-            this.Controls.Add(this.gbDevTemplate);
+            this.Controls.Add(this.gbTemplate);
             this.Controls.Add(this.toolStrip);
             this.MaximizeBox = false;
             this.MinimizeBox = false;
@@ -324,7 +336,7 @@
             this.Load += new System.EventHandler(this.FrmDevTemplate_Load);
             this.toolStrip.ResumeLayout(false);
             this.toolStrip.PerformLayout();
-            this.gbDevTemplate.ResumeLayout(false);
+            this.gbTemplate.ResumeLayout(false);
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -344,7 +356,7 @@
         private System.Windows.Forms.ToolStripButton btnDelete;
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator1;
         private System.Windows.Forms.ImageList ilTree;
-        private System.Windows.Forms.GroupBox gbDevTemplate;
+        private System.Windows.Forms.GroupBox gbTemplate;
         private System.Windows.Forms.OpenFileDialog openFileDialog;
         private System.Windows.Forms.SaveFileDialog saveFileDialog;
         private System.Windows.Forms.ToolStripButton btnSaveAs;
@@ -355,5 +367,6 @@
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator2;
         private System.Windows.Forms.ToolStripButton btnEditOptions;
         private System.Windows.Forms.ToolStripButton btnEditOptionsExt;
+        private System.Windows.Forms.ToolStripButton btnValidate;
     }
 }

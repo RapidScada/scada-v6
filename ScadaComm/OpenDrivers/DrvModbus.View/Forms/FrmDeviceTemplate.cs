@@ -711,6 +711,11 @@ namespace Scada.Comm.Drivers.DrvModbus.View.Forms
             }
         }
 
+        private void btnValidate_Click(object sender, EventArgs e)
+        {
+
+        }
+
 
         private void treeView_AfterSelect(object sender, TreeViewEventArgs e)
         {

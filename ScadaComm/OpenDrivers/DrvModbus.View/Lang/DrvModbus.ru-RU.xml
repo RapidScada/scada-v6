@@ -87,6 +87,20 @@
     <Phrase key="TemplateNotExists">Файл шаблона устройства не существует.</Phrase>
   </Dictionary>
   <Dictionary key="Scada.Comm.Drivers.DrvModbus.View.Forms.FrmDeviceTemplate">
+    <Phrase key="btnNew.ToolTip">Новый шаблон</Phrase>
+    <Phrase key="btnOpen.ToolTip">Открыть шаблон</Phrase>
+    <Phrase key="btnSave.ToolTip">Сохранить шаблон</Phrase>
+    <Phrase key="btnSaveAs.ToolTip">Сохранить шаблон как</Phrase>
+    <Phrase key="btnAddElemGroup.ToolTip">Добавить группу элементов</Phrase>
+    <Phrase key="btnAddElem.ToolTip">Добавить элемент</Phrase>
+    <Phrase key="btnAddCmd.ToolTip">Добавить команду</Phrase>
+    <Phrase key="btnMoveUp.ToolTip">Переместить вверх</Phrase>
+    <Phrase key="btnMoveDown.ToolTip">Переместить вниз</Phrase>
+    <Phrase key="btnDelete.ToolTip">Удалить</Phrase>
+    <Phrase key="btnEditOptions.ToolTip">Редактировать параметры шаблона</Phrase>
+    <Phrase key="btnEditOptionsExt.ToolTip">Редактировать расширенные параметры</Phrase>
+    <Phrase key="btnValidate.ToolTip">Проверить шаблон</Phrase>
+    <Phrase key="gbTemplate">Шаблон устройства</Phrase>
     <Phrase key="TemplateTitle">{0} - MODBUS. Редактор шаблонов устройств</Phrase>
     <Phrase key="ElemGroupsNode">Группы элементов</Phrase>
     <Phrase key="CommandsNode">Команды</Phrase>
