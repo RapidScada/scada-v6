@@ -51,7 +51,6 @@ namespace Scada.Admin.App.Forms
     public partial class FrmMain : Form, IMainForm
     {
         private readonly AppData appData;                 // the common data of the application
-        //private readonly CommShell commShell;             // the shell to edit Communicator settings
         private readonly ExplorerBuilder explorerBuilder; // the object to manipulate the explorer tree
         private FrmStartPage frmStartPage;                // the start page
         private bool preventNodeExpand;                   // prevent a tree node from expanding or collapsing
