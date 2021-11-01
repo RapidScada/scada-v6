@@ -1,8 +1,14 @@
 ﻿// Copyright (c) Rapid Software LLC. All rights reserved.
 // Licensed under the Apache License, Version 2.0. See License.txt in the project root for license information.
 
+using Scada.Admin.Extensions.ExtCommConfig.Code;
+using Scada.Admin.Project;
+using Scada.Comm.Config;
+using Scada.Forms;
+using Scada.Lang;
 using System;
 using System.ComponentModel;
+using System.Linq;
 using System.Windows.Forms;
 
 namespace Scada.Admin.Extensions.ExtCommConfig.Controls
@@ -13,14 +19,36 @@ namespace Scada.Admin.Extensions.ExtCommConfig.Controls
     /// </summary>
     public partial class CtrlContextMenu : UserControl
     {
+        private readonly IAdminContext adminContext; // the Administrator context
+
+
         /// <summary>
         /// Initializes a new instance of the class.
         /// </summary>
-        public CtrlContextMenu()
+        private CtrlContextMenu()
         {
             InitializeComponent();
         }
 
+        /// <summary>
+        /// Initializes a new instance of the class.
+        /// </summary>
+        public CtrlContextMenu(IAdminContext adminContext)
+            : this()
+        {
+            this.adminContext = adminContext ?? throw new ArgumentNullException(nameof(adminContext));
+        }
+
+
+        /// <summary>
+        /// Gets the explorer tree.
+        /// </summary>
+        private TreeView ExplorerTree => adminContext.MainForm.ExplorerTree;
+
+        /// <summary>
+        /// Gets the selected node of the explorer tree.
+        /// </summary>
+        private TreeNode SelectedNode => adminContext.MainForm.SelectedNode;
 
         /// <summary>
         /// Gets the communication line context menu.
@@ -33,21 +61,46 @@ namespace Scada.Admin.Extensions.ExtCommConfig.Controls
         public ContextMenuStrip DeviceMenu => cmsDevice;
 
 
+
+        /// <summary>
+        /// Gets the Communicator application from the selected node, and validates the node type.
+        /// </summary>
+        private bool GetCommApp(out CommApp commApp, params string[] allowedNodeTypes)
+        {
+            if (SelectedNode?.Tag is CommNodeTag commNodeTag &&
+                (allowedNodeTypes == null || allowedNodeTypes.Contains(commNodeTag.NodeType)))
+            {
+                commApp = commNodeTag.CommApp;
+                return true;
+            }
+            else
+            {
+                commApp = null;
+                return false;
+            }
+        }
+
+        /// <summary>
+        /// Saves the Communicator configuration.
+        /// </summary>
+        private void SaveCommConfig(CommApp commApp)
+        {
+            if (!commApp.SaveConfig(out string errMsg))
+                adminContext.ErrLog.HandleError(errMsg);
+        }
+
+
         private void cmsLine_Opening(object sender, CancelEventArgs e)
         {
             // enable or disable menu items
-            /*TreeNode selectedNode = tvExplorer.SelectedNode;
-            bool isCommLineNode = selectedNode != null && selectedNode.TagIs(CommNodeType.CommLine);
-            bool isLocal = FindClosestInstance(selectedNode, out LiveInstance liveInstance) &&
-                liveInstance.CommEnvironment.AgentClient != null && liveInstance.CommEnvironment.AgentClient.IsLocal;
+            bool isLineNode = SelectedNode != null && SelectedNode.TagIs(CommNodeType.Line);
+            miLineMoveUp.Enabled = isLineNode && SelectedNode.PrevNode != null;
+            miLineMoveDown.Enabled = isLineNode && SelectedNode.NextNode != null;
+            miLineDelete.Enabled = isLineNode;
 
-            miCommLineMoveUp.Enabled = isCommLineNode && selectedNode.PrevNode != null;
-            miCommLineMoveDown.Enabled = isCommLineNode && selectedNode.NextNode != null;
-            miCommLineDelete.Enabled = isCommLineNode;
-
-            miCommLineStart.Enabled = isCommLineNode && isLocal;
-            miCommLineStop.Enabled = isCommLineNode && isLocal;
-            miCommLineRestart.Enabled = isCommLineNode && isLocal;*/
+            miLineStart.Enabled = isLineNode;
+            miLineStop.Enabled = isLineNode;
+            miLineRestart.Enabled = isLineNode;
         }
 
         private void miLineImport_Click(object sender, EventArgs e)
@@ -146,65 +199,51 @@ namespace Scada.Admin.Extensions.ExtCommConfig.Controls
 
         private void miLineAdd_Click(object sender, EventArgs e)
         {
-            // add new communication line
-            /*TreeNode selectedNode = tvExplorer.SelectedNode;
-
-            if (selectedNode != null &&
-                (selectedNode.TagIs(CommNodeType.CommLines) || selectedNode.TagIs(CommNodeType.CommLine)) &&
-                FindClosestInstance(selectedNode, out LiveInstance liveInstance))
+            // add new line
+            if (GetCommApp(out CommApp commApp, CommNodeType.Lines, CommNodeType.Line))
             {
-                TreeNode commLinesNode = selectedNode.FindClosest(CommNodeType.CommLines);
-                TreeNode commLineNode = commShell.CreateCommLineNode(liveInstance.CommEnvironment);
-                commLineNode.ContextMenuStrip = cmsCommLine;
-                commLineNode.Expand();
-                tvExplorer.Insert(commLinesNode, commLineNode);
-                SaveCommConfig(liveInstance);
-            }*/
+                TreeNode linesNode = SelectedNode.FindClosest(CommNodeType.Lines);
+                TreeNode lineNode = new TreeViewBuilder(adminContext, this).CreateLineNode(commApp, new LineConfig());
+                lineNode.Expand();
+                ExplorerTree.Insert(linesNode, lineNode);
+                SaveCommConfig(commApp);
+            }
         }
 
         private void miLineMoveUp_Click(object sender, EventArgs e)
         {
-            // move up selected communication line
-            /*TreeNode selectedNode = tvExplorer.SelectedNode;
-
-            if (selectedNode != null && selectedNode.TagIs(CommNodeType.CommLine) &&
-                FindClosestInstance(selectedNode, out LiveInstance liveInstance))
+            // move up selected line
+            if (GetCommApp(out CommApp commApp, CommNodeType.Line))
             {
-                tvExplorer.MoveUpSelectedNode(TreeViewUtils.MoveBehavior.WithinParent);
-                SaveCommConfig(liveInstance);
-            }*/
+                ExplorerTree.MoveUpSelectedNode(TreeNodeBehavior.WithinParent);
+                SaveCommConfig(commApp);
+            }
         }
 
         private void miLineMoveDown_Click(object sender, EventArgs e)
         {
-            // move up selected communication line
-            /*TreeNode selectedNode = tvExplorer.SelectedNode;
-
-            if (selectedNode != null && selectedNode.TagIs(CommNodeType.CommLine) &&
-                FindClosestInstance(selectedNode, out LiveInstance liveInstance))
+            // move up selected line
+            if (GetCommApp(out CommApp commApp, CommNodeType.Line))
             {
-                tvExplorer.MoveDownSelectedNode(TreeViewUtils.MoveBehavior.WithinParent);
-                SaveCommConfig(liveInstance);
-            }*/
+                ExplorerTree.MoveDownSelectedNode(TreeNodeBehavior.WithinParent);
+                SaveCommConfig(commApp);
+            }
         }
 
         private void miLineDelete_Click(object sender, EventArgs e)
         {
-            // delete selected communication line
-            /*TreeNode selectedNode = tvExplorer.SelectedNode;
-
-            if (selectedNode != null && selectedNode.TagIs(CommNodeType.CommLine) &&
-                FindClosestInstance(selectedNode, out LiveInstance liveInstance) &&
-                MessageBox.Show(AppPhrases.ConfirmDeleteCommLine, CommonPhrases.QuestionCaption, 
-                MessageBoxButtons.YesNoCancel, MessageBoxIcon.Question) == DialogResult.Yes)
+            // delete selected line
+            if (GetCommApp(out CommApp commApp, CommNodeType.Line) &&
+                MessageBox.Show(ExtensionPhrases.ConfirmDeleteLine, CommonPhrases.QuestionCaption,
+                    MessageBoxButtons.YesNoCancel, MessageBoxIcon.Question) == DialogResult.Yes)
             {
-                CloseChildForms(selectedNode);
-                tvExplorer.RemoveSelectedNode();
-                SaveCommConfig(liveInstance);
-            }*/
+                adminContext.MainForm.CloseChildForms(SelectedNode, false);
+                ExplorerTree.RemoveSelectedNode();
+                SaveCommConfig(commApp);
+            }
         }
 
-        private void miLineStart_Click(object sender, EventArgs e)
+        private void miLineStartStop_Click(object sender, EventArgs e)
         {
             // start, stop or restart communication line
             /*TreeNode selectedNode = tvExplorer.SelectedNode;
@@ -227,16 +266,6 @@ namespace Scada.Admin.Extensions.ExtCommConfig.Controls
                 else
                     ScadaUiUtils.ShowError(msg);
             }*/
-        }
-
-        private void miLineStop_Click(object sender, EventArgs e)
-        {
-
-        }
-
-        private void miLineRestart_Click(object sender, EventArgs e)
-        {
-
         }
 
 
@@ -304,18 +333,5 @@ namespace Scada.Admin.Extensions.ExtCommConfig.Controls
                 }
             }*/
         }
-
-        /*private bool SaveCommConfig(LiveInstance liveInstance)
-        {
-            if (liveInstance.ProjectInstance.CommApp.SaveConfig(out string errMsg))
-            {
-                return true;
-            }
-            else
-            {
-                Log.HandleError(errMsg);
-                return false;
-            }
-        }*/
     }
 }

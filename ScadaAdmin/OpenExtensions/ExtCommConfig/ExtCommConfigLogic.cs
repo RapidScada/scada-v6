@@ -3,12 +3,9 @@
 
 using Scada.Admin.Extensions.ExtCommConfig.Code;
 using Scada.Admin.Extensions.ExtCommConfig.Controls;
-using Scada.Admin.Extensions.ExtCommConfig.Forms;
 using Scada.Admin.Extensions.ExtCommConfig.Properties;
 using Scada.Admin.Lang;
 using Scada.Admin.Project;
-using Scada.Comm;
-using Scada.Comm.Config;
 using Scada.Forms;
 using Scada.Lang;
 using System.Collections.Generic;
@@ -23,22 +20,6 @@ namespace Scada.Admin.Extensions.ExtCommConfig
     /// </summary>
     public class ExtCommConfigLogic : ExtensionLogic
     {
-        /// <summary>
-        /// Specifies the image keys.
-        /// </summary>
-        private static class ImageKey
-        {
-            private const string ImagePrefix = "comm_config_";
-            public const string DataSource = ImagePrefix + "data_source.png";
-            public const string Driver = ImagePrefix + "driver.png";
-            public const string GeneralOptions = ImagePrefix + "general_options.png";
-            public const string Line = ImagePrefix + "line.png";
-            public const string LineInactive = ImagePrefix + "line_inactive.png";
-            public const string Lines = ImagePrefix + "lines.png";
-            public const string LineOptions = ImagePrefix + "general_options.png";
-        }
-
-
         private CtrlContextMenu ctrlContextMenu; // contains the context menus
 
 
@@ -65,45 +46,6 @@ namespace Scada.Admin.Extensions.ExtCommConfig
 
 
         /// <summary>
-        /// Creates a tree node that represents communication lines.
-        /// </summary>
-        private TreeNode CreateLinesNode(CommApp commApp)
-        {
-            TreeNode linesNode = TreeViewExtensions.CreateNode(ExtensionPhrases.LinesNode, ImageKey.Lines);
-            linesNode.ContextMenuStrip = ctrlContextMenu.LineMenu;
-
-            foreach (LineConfig lineConfig in commApp.AppConfig.Lines)
-            {
-                linesNode.Nodes.Add(CreateLineNode(commApp, lineConfig));
-            }
-
-            return linesNode;
-        }
-
-        /// <summary>
-        /// Creates a tree node that represents the specified communication line.
-        /// </summary>
-        private TreeNode CreateLineNode(CommApp commApp, LineConfig lineConfig)
-        {
-            TreeNode lineNode = TreeViewExtensions.CreateNode(
-                CommUtils.GetLineTitle(lineConfig.CommLineNum, lineConfig.Name),
-                lineConfig.Active ? ImageKey.Line : ImageKey.LineInactive);
-            lineNode.ContextMenuStrip = ctrlContextMenu.LineMenu;
-
-            TreeNode lineOptionsNode = TreeViewExtensions.CreateNode(
-                ExtensionPhrases.LineOptionsNode, ImageKey.LineOptions);
-            
-            lineOptionsNode.Tag = new TreeNodeTag
-            {
-                FormType = typeof(FrmLineConfig),
-                FormArgs = new object[] { AdminContext, commApp, lineConfig }
-            };
-
-            lineNode.Nodes.Add(lineOptionsNode);
-            return lineNode;
-        }
-
-        /// <summary>
         /// Loads language dictionaries.
         /// </summary>
         public override void LoadDictionaries()
@@ -126,45 +68,13 @@ namespace Scada.Admin.Extensions.ExtCommConfig
             // do not create IWin32Window objects in constructor
             if (ctrlContextMenu == null)
             {
-                ctrlContextMenu = new CtrlContextMenu();
+                ctrlContextMenu = new CtrlContextMenu(AdminContext);
                 FormTranslator.Translate(ctrlContextMenu, ctrlContextMenu.GetType().FullName);
             }
 
             // create tree nodes
-            return new TreeNode[]
-            {
-                new TreeNode(ExtensionPhrases.GeneralOptionsNode)
-                {
-                    ImageKey = ImageKey.GeneralOptions,
-                    SelectedImageKey = ImageKey.GeneralOptions,
-                    Tag = new TreeNodeTag
-                    {
-                        FormType = typeof(FrmGeneralOptions),
-                        FormArgs = new object[] { AdminContext.ErrLog, commApp }
-                    }
-                },
-                new TreeNode(ExtensionPhrases.DriversNode)
-                {
-                    ImageKey = ImageKey.Driver,
-                    SelectedImageKey = ImageKey.Driver,
-                    Tag = new TreeNodeTag
-                    {
-                        FormType = typeof(FrmDrivers),
-                        FormArgs = new object[] { AdminContext, commApp }
-                    }
-                },
-                new TreeNode(ExtensionPhrases.DataSourcesNode)
-                {
-                    ImageKey = ImageKey.DataSource,
-                    SelectedImageKey = ImageKey.DataSource,
-                    Tag = new TreeNodeTag
-                    {
-                        FormType = typeof(FrmDataSources),
-                        FormArgs = new object[] { AdminContext, commApp }
-                    }
-                },
-                CreateLinesNode(commApp)
-            };
+            TreeViewBuilder treeViewBuilder = new(AdminContext, ctrlContextMenu);
+            return treeViewBuilder.CreateTreeNodes(commApp);
         }
 
         /// <summary>

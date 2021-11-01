@@ -19,6 +19,7 @@
     <Phrase key="miLineRestart">Restart Line</Phrase>
     <Phrase key="miDeviceCommand">Send Command...</Phrase>
     <Phrase key="miDeviceProperties">Properies</Phrase>
+    <Phrase key="ConfirmDeleteLine">Are you sure you want to delete the communication line?</Phrase>
   </Dictionary>
   <Dictionary key="Scada.Admin.Extensions.ExtCommConfig.Controls.CtrlLineMain">
     <Phrase key="gbLine">Communication Line</Phrase>

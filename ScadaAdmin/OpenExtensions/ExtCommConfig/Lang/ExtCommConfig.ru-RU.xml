@@ -19,6 +19,7 @@
     <Phrase key="miLineRestart">Перезапустить линию</Phrase>
     <Phrase key="miDeviceCommand">Отправить команду...</Phrase>
     <Phrase key="miDeviceProperties">Свойства</Phrase>
+    <Phrase key="ConfirmDeleteCommLine">Вы уверены, что хотите удалить линию связи?</Phrase>
   </Dictionary>
   <Dictionary key="Scada.Admin.Extensions.ExtCommConfig.Controls.CtrlLineMain">
     <Phrase key="gbLine">Линия связи</Phrase>
