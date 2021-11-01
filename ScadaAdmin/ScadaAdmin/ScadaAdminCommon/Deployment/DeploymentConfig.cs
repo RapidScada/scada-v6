@@ -150,9 +150,10 @@ namespace Scada.Admin.Deployment
         /// <summary>
         /// Removes profiles belong to the specified instance.
         /// </summary>
-        public void RemoveProfilesByInstance(int instanceID, out bool profilesAffected)
+        /// <returns>Returns true if profiles are found and removed; otherwise, false.</returns>
+        public bool RemoveProfilesByInstance(int instanceID)
         {
-            profilesAffected = false;
+            bool profilesAffected = false;
 
             for (int i = Profiles.Count - 1; i >= 0; i--)
             {
@@ -162,6 +163,8 @@ namespace Scada.Admin.Deployment
                     profilesAffected = true;
                 }
             }
+
+            return profilesAffected;
         }
     }
 }

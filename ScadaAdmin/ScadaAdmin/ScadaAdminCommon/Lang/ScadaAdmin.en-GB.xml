@@ -536,7 +536,6 @@
     <Phrase key="ConfirmDeleteDirectory">Are you sure you want to delete the folder?</Phrase>
     <Phrase key="ConfirmDeleteFile">Are you sure you want to delete the file?</Phrase>
     <Phrase key="ConfirmDeleteInstance">Are you sure you want to delete the instance?</Phrase>
-    <Phrase key="ConfirmDeleteCommLine">Are you sure you want to delete the communication line?</Phrase>
     <Phrase key="FileOperationError">Error operating with file system</Phrase>
     <Phrase key="DirectoryAlreadyExists">Directory already exists.</Phrase>
     <Phrase key="FileAlreadyExists">File already exists.</Phrase>

@@ -31,15 +31,15 @@ namespace Scada.Admin.App.Code
     /// </summary>
     internal static class ExplorerNodeType
     {
-        public const string Project = "Project";
-        public const string Base = "Base";
-        public const string BaseTable = "BaseTable";
-        public const string Views = "Views";
-        public const string Instances = "Instances";
-        public const string Instance = "Instance";
-        public const string App = "App";
-        public const string AppConfig = "AppConfig";
-        public const string Directory = "Directory";
-        public const string File = "File";
+        public const string Project = nameof(Project);
+        public const string Base = nameof(Base);
+        public const string BaseTable = nameof(BaseTable);
+        public const string Views = nameof(Views);
+        public const string Instances = nameof(Instances);
+        public const string Instance = nameof(Instance);
+        public const string App = nameof(App);
+        public const string AppConfig = nameof(AppConfig);
+        public const string Directory = nameof(Directory);
+        public const string File = nameof(File);
     }
 }

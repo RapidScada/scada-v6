@@ -152,7 +152,6 @@ namespace Scada.Admin.App.Code
         public static string ConfirmDeleteDirectory { get; private set; }
         public static string ConfirmDeleteFile { get; private set; }
         public static string ConfirmDeleteInstance { get; private set; }
-        public static string ConfirmDeleteCommLine { get; private set; }
         public static string FileOperationError { get; private set; }
         public static string DirectoryAlreadyExists { get; private set; }
         public static string FileAlreadyExists { get; private set; }
@@ -296,7 +295,6 @@ namespace Scada.Admin.App.Code
             ConfirmDeleteDirectory = dict["ConfirmDeleteDirectory"];
             ConfirmDeleteFile = dict["ConfirmDeleteFile"];
             ConfirmDeleteInstance = dict["ConfirmDeleteInstance"];
-            ConfirmDeleteCommLine = dict["ConfirmDeleteCommLine"];
             FileOperationError = dict["FileOperationError"];
             DirectoryAlreadyExists = dict["DirectoryAlreadyExists"];
             FileAlreadyExists = dict["FileAlreadyExists"];

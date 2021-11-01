@@ -16,49 +16,36 @@
  * 
  * Product  : Rapid SCADA
  * Module   : ScadaAdminCommon
- * Summary  : Defines functionality to access the Administrator environment
+ * Summary  : Defines functionality to access the explorer tree
  * 
  * Author   : Mikhail Shiryaev
  * Created  : 2021
  * Modified : 2021
  */
 
-using Scada.Admin.Config;
-using Scada.Admin.Project;
-using Scada.Log;
 using System.Windows.Forms;
 
 namespace Scada.Admin.Extensions
 {
     /// <summary>
-    /// Defines functionality to access the Administrator environment.
-    /// <para>Определяет функциональность для доступа к окружению Администратора.</para>
+    /// Defines functionality to access the main form of the application.
+    /// <para>Определяет функциональность для доступа к главной форме приложения.</para>
     /// </summary>
-    public interface IAdminContext
+    public interface IMainForm
     {
-        /// <summary>
-        /// Gets the application configuration.
-        /// </summary>
-        AdminConfig AppConfig { get; }
-
-        /// <summary>
-        /// Gets the application directories.
-        /// </summary>
-        AdminDirs AppDirs { get; }
-
-        /// <summary>
-        /// Gets the application error log.
-        /// </summary>
-        ILog ErrLog { get; }
-
-        /// <summary>
-        /// Gets the project currently open.
-        /// </summary>
-        public ScadaProject CurrentProject { get; }
-
         /// <summary>
         /// Gets the explorer tree.
         /// </summary>
-        public IMainForm MainForm { get; }
+        TreeView ExplorerTree { get; }
+
+        /// <summary>
+        /// Gets the selected node of the explorer tree.
+        /// </summary>
+        TreeNode SelectedNode { get; }
+
+        /// <summary>
+        /// Closes the child forms corresponding to the specified tree node.
+        /// </summary>
+        void CloseChildForms(TreeNode treeNode, bool saveChanges);
     }
 }

@@ -53,6 +53,7 @@ namespace Scada.Admin.App.Code
             ErrLog = LogStub.Instance;
             ExtensionHolder = null;
             CurrentProject = null;
+            MainForm = null;
         }
 
 
@@ -88,6 +89,11 @@ namespace Scada.Admin.App.Code
         /// Gets or sets the project currently open.
         /// </summary>
         public ScadaProject CurrentProject { get; set; }
+
+        /// <summary>
+        /// Gets or sets the referense to the main form.
+        /// </summary>
+        public IMainForm MainForm { get; set; }
 
 
         /// <summary>

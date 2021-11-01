@@ -40,6 +40,24 @@ namespace Scada.Admin.App.Code
     internal static class AppUtils
     {
         /// <summary>
+        /// The hyperlink to the documentation in English.
+        /// </summary>
+        public const string DocEnUrl = "https://rapidscada.net/doc/content/latest/en/";
+        /// <summary>
+        /// The hyperlink to the documentation in Russian.
+        /// </summary>
+        public const string DocRuUrl = "https://rapidscada.net/doc/content/latest/ru/";
+        /// <summary>
+        /// The hyperlink to the support in English.
+        /// </summary>
+        public const string SupportEnUrl = "https://forum.rapidscada.org/";
+        /// <summary>
+        /// The hyperlink to the support in Russian.
+        /// </summary>
+        public const string SupportRuUrl = "https://forum.rapidscada.ru/";
+
+
+        /// <summary>
         /// Gets a list of archive bits.
         /// </summary>
         public static List<BitItem> GetArchiveBits(BaseTable<Archive> archiveTable)

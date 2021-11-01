@@ -536,7 +536,6 @@
     <Phrase key="ConfirmDeleteDirectory">Вы уверены, что хотите удалить папку?</Phrase>
     <Phrase key="ConfirmDeleteFile">Вы уверены, что хотите удалить файл?</Phrase>
     <Phrase key="ConfirmDeleteInstance">Вы уверены, что хотите удалить экземпляр?</Phrase>
-    <Phrase key="ConfirmDeleteCommLine">Вы уверены, что хотите удалить линию связи?</Phrase>
     <Phrase key="FileOperationError">Ошибка при работе с файловой системой</Phrase>
     <Phrase key="DirectoryAlreadyExists">Директория уже существует.</Phrase>
     <Phrase key="FileAlreadyExists">Файл уже существует.</Phrase>
