@@ -33,6 +33,7 @@ namespace Scada.Server
     /// Represents listener options.
     /// <para>Представляет параметры прослушивателя.</para>
     /// </summary>
+    [Serializable]
     public class ListenerOptions
     {
         /// <summary>

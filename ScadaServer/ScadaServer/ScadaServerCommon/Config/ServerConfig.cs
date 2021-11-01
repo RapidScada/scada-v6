@@ -24,6 +24,7 @@
  */
 
 using Scada.Config;
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Xml;
@@ -34,6 +35,7 @@ namespace Scada.Server.Config
     /// Represents server configuration.
     /// <para>Представляет конфигурацию сервера.</para>
     /// </summary>
+    [Serializable]
     public class ServerConfig : BaseConfig
     {
         /// <summary>

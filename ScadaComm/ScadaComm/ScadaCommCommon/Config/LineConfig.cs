@@ -35,8 +35,16 @@ namespace Scada.Comm.Config
     /// Represents a communication line configuration.
     /// <para>Представляет конфигурацию линии связи.</para>
     /// </summary>
+    [Serializable]
     public class LineConfig : ITreeNode
     {
+        /// <summary>
+        /// The parent configuration.
+        /// </summary>
+        [NonSerialized]
+        protected CommConfig parentConfig;
+
+
         /// <summary>
         /// Initializes a new instance of the class.
         /// </summary>
@@ -108,7 +116,17 @@ namespace Scada.Comm.Config
         /// <summary>
         /// Gets or sets the parent tree node.
         /// </summary>
-        public ITreeNode Parent { get; set; }
+        public ITreeNode Parent
+        {
+            get
+            {
+                return parentConfig;
+            }
+            set
+            {
+                parentConfig = value == null ? null : (CommConfig)value;
+            }
+        }
 
         /// <summary>
         /// Gets the child tree nodes.

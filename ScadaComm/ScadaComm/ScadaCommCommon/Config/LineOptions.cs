@@ -32,6 +32,7 @@ namespace Scada.Comm.Config
     /// Represents communication line options.
     /// <para>Представляет параметры линии связи.</para>
     /// </summary>
+    [Serializable]
     public class LineOptions
     {
         /// <summary>

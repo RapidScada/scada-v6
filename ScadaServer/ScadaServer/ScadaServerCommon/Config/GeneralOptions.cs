@@ -33,6 +33,7 @@ namespace Scada.Server.Config
     /// Represents general server options.
     /// <para>Представляет основные параметры сервера.</para>
     /// </summary>
+    [Serializable]
     public class GeneralOptions
     {
         /// <summary>

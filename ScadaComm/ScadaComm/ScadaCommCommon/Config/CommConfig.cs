@@ -39,6 +39,7 @@ namespace Scada.Comm.Config
     /// Represents Communicator configuration.
     /// <para>Представляет конфигурацию Коммуникатора.</para>
     /// </summary>
+    [Serializable]
     public class CommConfig : BaseConfig, ITreeNode
     {
         /// <summary>

@@ -37,6 +37,13 @@ namespace Scada.Comm.Config
     public class DeviceConfig : ITreeNode
     {
         /// <summary>
+        /// The parent configuration.
+        /// </summary>
+        [NonSerialized]
+        protected LineConfig parentConfig;
+
+
+        /// <summary>
         /// Initializes a new instance of the class.
         /// </summary>
         public DeviceConfig()
@@ -96,7 +103,17 @@ namespace Scada.Comm.Config
         /// <summary>
         /// Gets or sets the parent tree node.
         /// </summary>
-        public ITreeNode Parent { get; set; }
+        public ITreeNode Parent
+        {
+            get
+            {
+                return parentConfig;
+            }
+            set
+            {
+                parentConfig = value == null ? null : (LineConfig)value;
+            }
+        }
 
         /// <summary>
         /// Gets the child tree nodes.
