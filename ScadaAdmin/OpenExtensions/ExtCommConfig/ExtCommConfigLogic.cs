@@ -20,16 +20,12 @@ namespace Scada.Admin.Extensions.ExtCommConfig
     /// </summary>
     public class ExtCommConfigLogic : ExtensionLogic
     {
-        private CtrlContextMenu ctrlContextMenu; // contains the context menus
-
-
         /// <summary>
         /// Initializes a new instance of the class.
         /// </summary>
         public ExtCommConfigLogic(IAdminContext adminContext)
             : base(adminContext)
         {
-            ctrlContextMenu = null;
         }
 
 
@@ -65,15 +61,15 @@ namespace Scada.Admin.Extensions.ExtCommConfig
                 return null;
 
             // create context menus
-            // do not create IWin32Window objects in constructor
-            if (ctrlContextMenu == null)
+            // do not create IWin32Window objects before calling SetCompatibleTextRenderingDefault
+            if (ExtensionUtils.ContextMenuControl == null)
             {
-                ctrlContextMenu = new CtrlContextMenu(AdminContext);
-                FormTranslator.Translate(ctrlContextMenu, ctrlContextMenu.GetType().FullName);
+                ExtensionUtils.ContextMenuControl = new CtrlContextMenu(AdminContext);
+                FormTranslator.Translate(ExtensionUtils.ContextMenuControl, typeof(CtrlContextMenu).FullName);
             }
 
             // create tree nodes
-            TreeViewBuilder treeViewBuilder = new(AdminContext, ctrlContextMenu);
+            TreeViewBuilder treeViewBuilder = new(AdminContext, ExtensionUtils.ContextMenuControl);
             return treeViewBuilder.CreateTreeNodes(commApp);
         }
 

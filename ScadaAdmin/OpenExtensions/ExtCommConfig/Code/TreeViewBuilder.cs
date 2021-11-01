@@ -8,6 +8,7 @@ using Scada.Comm;
 using Scada.Comm.Config;
 using Scada.Forms;
 using System;
+using System.Collections;
 using System.Windows.Forms;
 
 namespace Scada.Admin.Extensions.ExtCommConfig.Code
@@ -71,6 +72,43 @@ namespace Scada.Admin.Extensions.ExtCommConfig.Code
 
             lineNode.Nodes.Add(lineOptionsNode);
             return lineNode;
+        }
+        
+        /// <summary>
+        /// Updates the node that represents a communication line and its child nodes.
+        /// </summary>
+        public void UpdateLineNode(TreeNode lineNode)
+        {
+            if (lineNode == null)
+                throw new ArgumentNullException(nameof(lineNode));
+
+            try
+            {
+                lineNode.TreeView?.BeginUpdate();
+
+                // update line text and image
+                CommNodeTag nodeTag = (CommNodeTag)lineNode.Tag;
+                LineConfig lineConfig = (LineConfig)nodeTag.RelatedObject;
+                lineNode.Text = CommUtils.GetLineTitle(lineConfig.CommLineNum, lineConfig.Name);
+                lineNode.SetImageKey(lineConfig.Active ? ImageKey.Line : ImageKey.LineInactive);
+
+                // remove existing device nodes
+                foreach (TreeNode lineSubnode in new ArrayList(lineNode.Nodes))
+                {
+                    if (lineSubnode.TagIs(CommNodeType.Device))
+                        lineSubnode.Remove();
+                }
+
+                // add new device nodes
+                /*foreach (DeviceConfig deviceConfig in lineConfig.DevicePolling)
+                {
+                    lineNode.Nodes.Add(CreateDeviceNode(nodeTag.CommApp, deviceConfig));
+                }*/
+            }
+            finally
+            {
+                lineNode.TreeView?.EndUpdate();
+            }
         }
 
         /// <summary>

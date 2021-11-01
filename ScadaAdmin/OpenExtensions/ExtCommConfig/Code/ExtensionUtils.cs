@@ -1,6 +1,7 @@
 ﻿// Copyright (c) Rapid Software LLC. All rights reserved.
 // Licensed under the Apache License, Version 2.0. See License.txt in the project root for license information.
 
+using Scada.Admin.Extensions.ExtCommConfig.Controls;
 using Scada.Admin.Project;
 using Scada.Comm.Drivers;
 using System;
@@ -13,6 +14,11 @@ namespace Scada.Admin.Extensions.ExtCommConfig.Code
     /// </summary>
     internal static class ExtensionUtils
     {
+        /// <summary>
+        /// Gets or sets the control that contains the context menus.
+        /// </summary>
+        public static CtrlContextMenu ContextMenuControl { get; set; } = null;
+
         /// <summary>
         /// Gets a new instance of the module user interface.
         /// </summary>

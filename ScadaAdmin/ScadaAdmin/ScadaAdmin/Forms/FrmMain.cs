@@ -361,23 +361,6 @@ namespace Scada.Admin.App.Forms
         }
 
         /// <summary>
-        /// Updates hints of the child forms corresponding to the specified node and its children.
-        /// </summary>
-        private void UpdateChildFormHints(TreeNode treeNode)
-        {
-            if (treeNode == null)
-                return;
-
-            foreach (TreeNode node in treeNode.IterateNodes())
-            {
-                if (node.Tag is TreeNodeTag tag && tag.ExistingForm != null)
-                {
-                    wctrlMain.UpdateHint(tag.ExistingForm, node.FullPath);
-                }
-            }
-        }
-
-        /// <summary>
         /// Updates file names of the opened text editors corresponding to the specified node and its children.
         /// </summary>
         private void UpdateTextEditorFileNames(TreeNode treeNode)
@@ -401,39 +384,6 @@ namespace Scada.Admin.App.Forms
                 }
             }
         }
-
-        /// <summary>
-        /// Updates nodes and forms of the communication line.
-        /// </summary>
-        /*private void UpdateCommLine(TreeNode commLineNode, CommEnvironment commEnvironment)
-        {
-            // close or update child forms
-            foreach (TreeNode node in commLineNode.Nodes)
-            {
-                if (node.Tag is TreeNodeTag tag && tag.ExistingForm != null)
-                {
-                    if (node.TagIs(CommNodeType.Device))
-                        wctrlMain.CloseForm(tag.ExistingForm);
-                    else if (node.TagIs(CommNodeType.LineStats))
-                        ((IChildForm)tag.ExistingForm).ChildFormTag.SendMessage(this, CommMessage.UpdateFileName);
-                }
-            }
-
-            // update the explorer
-            try
-            {
-                tvExplorer.BeginUpdate();
-                commShell.UpdateCommLineNode(commLineNode, commEnvironment);
-                explorerBuilder.SetContextMenus(commLineNode);
-            }
-            finally
-            {
-                tvExplorer.EndUpdate();
-            }
-
-            // update form hints
-            UpdateChildFormHints(commLineNode);
-        }*/
 
         /// <summary>
         /// Updates parameters of the open communication line related to the specified node.
@@ -988,7 +938,7 @@ namespace Scada.Admin.App.Forms
         }
 
         /// <summary>
-        /// Closes the child forms corresponding to the specified node.
+        /// Closes the child forms corresponding to the specified tree node and its subnodes.
         /// </summary>
         private void CloseChildForms(TreeNode treeNode, bool saveChanges, bool skipRoot)
         {
@@ -997,22 +947,49 @@ namespace Scada.Admin.App.Forms
 
             foreach (TreeNode node in skipRoot ? treeNode.Nodes.IterateNodes() : treeNode.IterateNodes())
             {
-                if (node.Tag is TreeNodeTag tag && tag.ExistingForm != null)
-                {
-                    if (saveChanges && tag.ExistingForm is IChildForm childForm && childForm.ChildFormTag.Modified)
-                        childForm.Save();
+                if (node.Tag is TreeNodeTag tag)
+                    CloseChildForm(tag.ExistingForm, saveChanges);
+            }
+        }
 
-                    wctrlMain.CloseForm(tag.ExistingForm);
-                }
+
+        /// <summary>
+        /// Closes the specified child form.
+        /// </summary>
+        public void CloseChildForm(Form form, bool saveChanges)
+        {
+            if (form != null)
+            {
+                if (saveChanges && form is IChildForm childForm && childForm.ChildFormTag.Modified)
+                    childForm.Save();
+
+                wctrlMain.CloseForm(form);
             }
         }
 
         /// <summary>
-        /// Closes the child forms corresponding to the specified node.
+        /// Closes the child forms corresponding to the specified tree node and its subnodes.
         /// </summary>
         public void CloseChildForms(TreeNode treeNode, bool saveChanges)
         {
             CloseChildForms(treeNode, saveChanges, false);
+        }
+
+        /// <summary>
+        /// Updates hints of the child form tabs corresponding to the specified tree node and its subnodes.
+        /// </summary>
+        public void UpdateChildFormHints(TreeNode treeNode)
+        {
+            if (treeNode == null)
+                return;
+
+            foreach (TreeNode node in treeNode.IterateNodes())
+            {
+                if (node.Tag is TreeNodeTag tag && tag.ExistingForm != null)
+                {
+                    wctrlMain.UpdateHint(tag.ExistingForm, node.FullPath);
+                }
+            }
         }
 
 

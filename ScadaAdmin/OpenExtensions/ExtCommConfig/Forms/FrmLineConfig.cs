@@ -72,6 +72,33 @@ namespace Scada.Admin.Extensions.ExtCommConfig.Forms
         }
 
         /// <summary>
+        /// Updates the main form according to the configuration changes.
+        /// </summary>
+        private void UpdateMainForm()
+        {
+            if (ChildFormTag?.TreeNode?.FindClosest(CommNodeType.Line) is not TreeNode lineNode)
+                return;
+
+            // close or update child forms
+            foreach (TreeNode node in lineNode.Nodes)
+            {
+                if (node.Tag is TreeNodeTag tag && tag.ExistingForm != null)
+                {
+                    if (node.TagIs(CommNodeType.Device))
+                        adminContext.MainForm.CloseChildForm(tag.ExistingForm, false);
+                    //else if (node.TagIs(CommNodeType.LineStats))
+                    //    ((IChildForm)tag.ExistingForm).ChildFormTag.SendMessage(this, CommMessage.UpdateFileName);
+                }
+            }
+
+            // update explorer
+            new TreeViewBuilder(adminContext, ExtensionUtils.ContextMenuControl).UpdateLineNode(lineNode);
+
+            // update tab hints
+            adminContext.MainForm.UpdateChildFormHints(lineNode);
+        }
+
+        /// <summary>
         /// Saves the changes of the child form data.
         /// </summary>
         public void Save()
@@ -81,6 +108,7 @@ namespace Scada.Admin.Extensions.ExtCommConfig.Forms
             if (commApp.SaveConfig(out string errMsg))
             {
                 Text = string.Format(ExtensionPhrases.LineConfigTitle, lineConfig.CommLineNum);
+                UpdateMainForm();
                 ChildFormTag.Modified = false;
             }
             else

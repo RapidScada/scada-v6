@@ -43,9 +43,20 @@ namespace Scada.Admin.Extensions
         /// </summary>
         TreeNode SelectedNode { get; }
 
+
         /// <summary>
-        /// Closes the child forms corresponding to the specified tree node.
+        /// Closes the specified child form.
+        /// </summary>
+        void CloseChildForm(Form form, bool saveChanges);
+
+        /// <summary>
+        /// Closes the child forms corresponding to the specified tree node and its subnodes.
         /// </summary>
         void CloseChildForms(TreeNode treeNode, bool saveChanges);
+
+        /// <summary>
+        /// Updates hints of the child form tabs corresponding to the specified tree node and its subnodes.
+        /// </summary>
+        void UpdateChildFormHints(TreeNode treeNode);
     }
 }

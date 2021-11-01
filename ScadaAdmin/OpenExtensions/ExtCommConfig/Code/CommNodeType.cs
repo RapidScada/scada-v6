@@ -15,5 +15,7 @@ namespace Scada.Admin.Extensions.ExtCommConfig.Code
         public const string Lines = nameof(Lines);
         public const string Line = nameof(Line);
         public const string LineOptions = nameof(LineOptions);
+        public const string LineStats = nameof(LineStats);
+        public const string Device = nameof(Device);
     }
 }
