@@ -24,6 +24,7 @@
  */
 
 using System;
+using System.Collections;
 using System.Xml;
 
 namespace Scada.Comm.Config
@@ -33,7 +34,7 @@ namespace Scada.Comm.Config
     /// <para>Представляет конфигурацию устройства в последовательности опроса.</para>
     /// </summary>
     [Serializable]
-    public class DeviceConfig
+    public class DeviceConfig : ITreeNode
     {
         /// <summary>
         /// Initializes a new instance of the class.
@@ -48,6 +49,7 @@ namespace Scada.Comm.Config
             NumAddress = 0;
             StrAddress = "";
             PollingOptions = new PollingOptions();
+            Parent = null;
         }
 
 
@@ -91,7 +93,23 @@ namespace Scada.Comm.Config
         /// </summary>
         public PollingOptions PollingOptions { get; private set; }
         
-        
+        /// <summary>
+        /// Gets or sets the parent tree node.
+        /// </summary>
+        public ITreeNode Parent { get; set; }
+
+        /// <summary>
+        /// Gets the child tree nodes.
+        /// </summary>
+        public IList Children
+        {
+            get
+            {
+                return null;
+            }
+        }
+
+
         /// <summary>
         /// Loads the configuration from the XML node.
         /// </summary>

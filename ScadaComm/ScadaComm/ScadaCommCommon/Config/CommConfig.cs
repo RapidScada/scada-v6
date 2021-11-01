@@ -28,6 +28,7 @@ using Scada.Config;
 using Scada.Lang;
 using Scada.Storages;
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.IO;
 using System.Xml;
@@ -38,7 +39,7 @@ namespace Scada.Comm.Config
     /// Represents Communicator configuration.
     /// <para>Представляет конфигурацию Коммуникатора.</para>
     /// </summary>
-    public class CommConfig : BaseConfig
+    public class CommConfig : BaseConfig, ITreeNode
     {
         /// <summary>
         /// The default configuration file name.
@@ -70,6 +71,32 @@ namespace Scada.Comm.Config
         /// Gets the codes of the drivers used.
         /// </summary>
         public List<string> DriverCodes { get; private set; }
+        
+        /// <summary>
+        /// Gets or sets the parent tree node.
+        /// </summary>
+        ITreeNode ITreeNode.Parent
+        {
+            get
+            {
+                return null;
+            }
+            set
+            {
+                throw new InvalidOperationException();
+            }
+        }
+
+        /// <summary>
+        /// Gets the child tree nodes.
+        /// </summary>
+        IList ITreeNode.Children
+        {
+            get
+            {
+                return Lines;
+            }
+        }
 
 
         /// <summary>
@@ -149,7 +176,7 @@ namespace Scada.Comm.Config
             {
                 foreach (XmlElement lineElem in linesNode.SelectNodes("Line"))
                 {
-                    LineConfig lineConfig = new LineConfig();
+                    LineConfig lineConfig = new LineConfig { Parent = this };
                     lineConfig.LoadFromXml(lineElem);
                     Lines.Add(lineConfig);
                 }

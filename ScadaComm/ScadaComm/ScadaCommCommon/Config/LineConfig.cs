@@ -25,6 +25,7 @@
 
 using Scada.Config;
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Xml;
 
@@ -34,7 +35,7 @@ namespace Scada.Comm.Config
     /// Represents a communication line configuration.
     /// <para>Представляет конфигурацию линии связи.</para>
     /// </summary>
-    public class LineConfig
+    public class LineConfig : ITreeNode
     {
         /// <summary>
         /// Initializes a new instance of the class.
@@ -49,6 +50,7 @@ namespace Scada.Comm.Config
             Channel = new ChannelConfig();
             CustomOptions = new OptionList();
             DevicePolling = new List<DeviceConfig>();
+            Parent = null;
         }
 
 
@@ -102,8 +104,24 @@ namespace Scada.Comm.Config
         /// Gets the polling sequence of the devices.
         /// </summary>
         public List<DeviceConfig> DevicePolling { get; private set; }
-        
-        
+
+        /// <summary>
+        /// Gets or sets the parent tree node.
+        /// </summary>
+        public ITreeNode Parent { get; set; }
+
+        /// <summary>
+        /// Gets the child tree nodes.
+        /// </summary>
+        public IList Children
+        {
+            get
+            {
+                return DevicePolling;
+            }
+        }
+
+
         /// <summary>
         /// Loads the configuration from the XML node.
         /// </summary>
@@ -130,7 +148,7 @@ namespace Scada.Comm.Config
             {
                 foreach (XmlElement deviceElem in devicePollingNode.SelectNodes("Device"))
                 {
-                    DeviceConfig deviceConfig = new DeviceConfig();
+                    DeviceConfig deviceConfig = new DeviceConfig { Parent = this };
                     deviceConfig.LoadFromXml(deviceElem);
                     DevicePolling.Add(deviceConfig);
                 }
