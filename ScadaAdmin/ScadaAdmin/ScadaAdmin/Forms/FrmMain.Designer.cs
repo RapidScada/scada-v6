@@ -95,18 +95,6 @@
             this.pnlRight = new System.Windows.Forms.Panel();
             this.wctrlMain = new WinControl.WinControl();
             this.ofdProject = new System.Windows.Forms.OpenFileDialog();
-            this.cmsCommLine = new System.Windows.Forms.ContextMenuStrip(this.components);
-            this.miCommLineImport = new System.Windows.Forms.ToolStripMenuItem();
-            this.miCommLineSync = new System.Windows.Forms.ToolStripMenuItem();
-            this.miCommLineSep1 = new System.Windows.Forms.ToolStripSeparator();
-            this.miCommLineAdd = new System.Windows.Forms.ToolStripMenuItem();
-            this.miCommLineMoveUp = new System.Windows.Forms.ToolStripMenuItem();
-            this.miCommLineMoveDown = new System.Windows.Forms.ToolStripMenuItem();
-            this.miCommLineDelete = new System.Windows.Forms.ToolStripMenuItem();
-            this.miCommLineSep2 = new System.Windows.Forms.ToolStripSeparator();
-            this.miCommLineStart = new System.Windows.Forms.ToolStripMenuItem();
-            this.miCommLineStop = new System.Windows.Forms.ToolStripMenuItem();
-            this.miCommLineRestart = new System.Windows.Forms.ToolStripMenuItem();
             this.cmsInstance = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.miInstanceAdd = new System.Windows.Forms.ToolStripMenuItem();
             this.miInstanceMoveUp = new System.Windows.Forms.ToolStripMenuItem();
@@ -143,25 +131,20 @@
             this.miFileItemRename = new System.Windows.Forms.ToolStripMenuItem();
             this.cmsApp = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.miAppOpenInExplorer = new System.Windows.Forms.ToolStripMenuItem();
-            this.cmsDevice = new System.Windows.Forms.ContextMenuStrip(this.components);
-            this.miDeviceCommand = new System.Windows.Forms.ToolStripMenuItem();
-            this.miDeviceProperties = new System.Windows.Forms.ToolStripMenuItem();
+            this.miAppReloadConfig = new System.Windows.Forms.ToolStripMenuItem();
             this.cmsCnlTable = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.miCnlTableComm = new System.Windows.Forms.ToolStripMenuItem();
             this.miCnlTableRefresh = new System.Windows.Forms.ToolStripMenuItem();
-            this.miAppReloadConfig = new System.Windows.Forms.ToolStripMenuItem();
             this.msMain.SuspendLayout();
             this.tsMain.SuspendLayout();
             this.ssMain.SuspendLayout();
             this.pnlLeft.SuspendLayout();
             this.pnlRight.SuspendLayout();
-            this.cmsCommLine.SuspendLayout();
             this.cmsInstance.SuspendLayout();
             this.cmsProject.SuspendLayout();
             this.cmsDirectory.SuspendLayout();
             this.cmsFileItem.SuspendLayout();
             this.cmsApp.SuspendLayout();
-            this.cmsDevice.SuspendLayout();
             this.cmsCnlTable.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -364,7 +347,7 @@
             this.miToolsAddLine.Enabled = false;
             this.miToolsAddLine.Image = global::Scada.Admin.App.Properties.Resources.add_line;
             this.miToolsAddLine.Name = "miToolsAddLine";
-            this.miToolsAddLine.Size = new System.Drawing.Size(180, 22);
+            this.miToolsAddLine.Size = new System.Drawing.Size(169, 22);
             this.miToolsAddLine.Text = "Add Line...";
             this.miToolsAddLine.Click += new System.EventHandler(this.miToolsAddLine_Click);
             // 
@@ -373,7 +356,7 @@
             this.miToolsAddDevice.Enabled = false;
             this.miToolsAddDevice.Image = global::Scada.Admin.App.Properties.Resources.add_device;
             this.miToolsAddDevice.Name = "miToolsAddDevice";
-            this.miToolsAddDevice.Size = new System.Drawing.Size(180, 22);
+            this.miToolsAddDevice.Size = new System.Drawing.Size(169, 22);
             this.miToolsAddDevice.Text = "Add Device...";
             this.miToolsAddDevice.Click += new System.EventHandler(this.miToolsAddDevice_Click);
             // 
@@ -382,20 +365,20 @@
             this.miToolsCreateCnls.Enabled = false;
             this.miToolsCreateCnls.Image = global::Scada.Admin.App.Properties.Resources.create_cnls;
             this.miToolsCreateCnls.Name = "miToolsCreateCnls";
-            this.miToolsCreateCnls.Size = new System.Drawing.Size(180, 22);
+            this.miToolsCreateCnls.Size = new System.Drawing.Size(169, 22);
             this.miToolsCreateCnls.Text = "Create Channels...";
             this.miToolsCreateCnls.Click += new System.EventHandler(this.miToolsCreateCnls_Click);
             // 
             // miToolsSep1
             // 
             this.miToolsSep1.Name = "miToolsSep1";
-            this.miToolsSep1.Size = new System.Drawing.Size(177, 6);
+            this.miToolsSep1.Size = new System.Drawing.Size(166, 6);
             // 
             // miToolsCloneCnls
             // 
             this.miToolsCloneCnls.Enabled = false;
             this.miToolsCloneCnls.Name = "miToolsCloneCnls";
-            this.miToolsCloneCnls.Size = new System.Drawing.Size(180, 22);
+            this.miToolsCloneCnls.Size = new System.Drawing.Size(169, 22);
             this.miToolsCloneCnls.Text = "Clone Channels...";
             this.miToolsCloneCnls.Click += new System.EventHandler(this.miToolsCloneCnls_Click);
             // 
@@ -403,7 +386,7 @@
             // 
             this.miToolsCnlMap.Enabled = false;
             this.miToolsCnlMap.Name = "miToolsCnlMap";
-            this.miToolsCnlMap.Size = new System.Drawing.Size(180, 22);
+            this.miToolsCnlMap.Size = new System.Drawing.Size(169, 22);
             this.miToolsCnlMap.Text = "Channel Map...";
             this.miToolsCnlMap.Click += new System.EventHandler(this.miToolsCnlMap_Click);
             // 
@@ -411,27 +394,27 @@
             // 
             this.miToolsCheckIntegrity.Enabled = false;
             this.miToolsCheckIntegrity.Name = "miToolsCheckIntegrity";
-            this.miToolsCheckIntegrity.Size = new System.Drawing.Size(180, 22);
+            this.miToolsCheckIntegrity.Size = new System.Drawing.Size(169, 22);
             this.miToolsCheckIntegrity.Text = "Check Integrity";
             this.miToolsCheckIntegrity.Click += new System.EventHandler(this.miToolsCheckIntegrity_Click);
             // 
             // miToolsSep2
             // 
             this.miToolsSep2.Name = "miToolsSep2";
-            this.miToolsSep2.Size = new System.Drawing.Size(177, 6);
+            this.miToolsSep2.Size = new System.Drawing.Size(166, 6);
             // 
             // miToolsOptions
             // 
             this.miToolsOptions.Image = global::Scada.Admin.App.Properties.Resources.options;
             this.miToolsOptions.Name = "miToolsOptions";
-            this.miToolsOptions.Size = new System.Drawing.Size(180, 22);
+            this.miToolsOptions.Size = new System.Drawing.Size(169, 22);
             this.miToolsOptions.Text = "Options...";
             this.miToolsOptions.Click += new System.EventHandler(this.miToolsOptions_Click);
             // 
             // miToolsCulture
             // 
             this.miToolsCulture.Name = "miToolsCulture";
-            this.miToolsCulture.Size = new System.Drawing.Size(180, 22);
+            this.miToolsCulture.Size = new System.Drawing.Size(169, 22);
             this.miToolsCulture.Text = "Language...";
             this.miToolsCulture.Click += new System.EventHandler(this.miToolsCulture_Click);
             // 
@@ -755,106 +738,6 @@
             this.ofdProject.DefaultExt = "*.rsproj";
             this.ofdProject.Filter = "Projects (*.rsproj)|*.rsproj|All Files (*.*)|*.*";
             // 
-            // cmsCommLine
-            // 
-            this.cmsCommLine.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.miCommLineImport,
-            this.miCommLineSync,
-            this.miCommLineSep1,
-            this.miCommLineAdd,
-            this.miCommLineMoveUp,
-            this.miCommLineMoveDown,
-            this.miCommLineDelete,
-            this.miCommLineSep2,
-            this.miCommLineStart,
-            this.miCommLineStop,
-            this.miCommLineRestart});
-            this.cmsCommLine.Name = "cmsCommLine";
-            this.cmsCommLine.Size = new System.Drawing.Size(164, 214);
-            this.cmsCommLine.Opening += new System.ComponentModel.CancelEventHandler(this.cmsCommLine_Opening);
-            // 
-            // miCommLineImport
-            // 
-            this.miCommLineImport.Image = global::Scada.Admin.App.Properties.Resources.import;
-            this.miCommLineImport.Name = "miCommLineImport";
-            this.miCommLineImport.Size = new System.Drawing.Size(163, 22);
-            this.miCommLineImport.Text = "Import...";
-            this.miCommLineImport.Click += new System.EventHandler(this.miCommLineImport_Click);
-            // 
-            // miCommLineSync
-            // 
-            this.miCommLineSync.Image = global::Scada.Admin.App.Properties.Resources.sync;
-            this.miCommLineSync.Name = "miCommLineSync";
-            this.miCommLineSync.Size = new System.Drawing.Size(163, 22);
-            this.miCommLineSync.Text = "Synchronize...";
-            this.miCommLineSync.Click += new System.EventHandler(this.miCommLineSync_Click);
-            // 
-            // miCommLineSep1
-            // 
-            this.miCommLineSep1.Name = "miCommLineSep1";
-            this.miCommLineSep1.Size = new System.Drawing.Size(160, 6);
-            // 
-            // miCommLineAdd
-            // 
-            this.miCommLineAdd.Image = global::Scada.Admin.App.Properties.Resources.add;
-            this.miCommLineAdd.Name = "miCommLineAdd";
-            this.miCommLineAdd.Size = new System.Drawing.Size(163, 22);
-            this.miCommLineAdd.Text = "Add Line";
-            this.miCommLineAdd.Click += new System.EventHandler(this.miCommLineAdd_Click);
-            // 
-            // miCommLineMoveUp
-            // 
-            this.miCommLineMoveUp.Image = global::Scada.Admin.App.Properties.Resources.move_up;
-            this.miCommLineMoveUp.Name = "miCommLineMoveUp";
-            this.miCommLineMoveUp.Size = new System.Drawing.Size(163, 22);
-            this.miCommLineMoveUp.Text = "Move Line Up";
-            this.miCommLineMoveUp.Click += new System.EventHandler(this.miCommLineMoveUp_Click);
-            // 
-            // miCommLineMoveDown
-            // 
-            this.miCommLineMoveDown.Image = global::Scada.Admin.App.Properties.Resources.move_down;
-            this.miCommLineMoveDown.Name = "miCommLineMoveDown";
-            this.miCommLineMoveDown.Size = new System.Drawing.Size(163, 22);
-            this.miCommLineMoveDown.Text = "Move Line Down";
-            this.miCommLineMoveDown.Click += new System.EventHandler(this.miCommLineMoveDown_Click);
-            // 
-            // miCommLineDelete
-            // 
-            this.miCommLineDelete.Image = global::Scada.Admin.App.Properties.Resources.delete;
-            this.miCommLineDelete.Name = "miCommLineDelete";
-            this.miCommLineDelete.Size = new System.Drawing.Size(163, 22);
-            this.miCommLineDelete.Text = "Delete Line";
-            this.miCommLineDelete.Click += new System.EventHandler(this.miCommLineDelete_Click);
-            // 
-            // miCommLineSep2
-            // 
-            this.miCommLineSep2.Name = "miCommLineSep2";
-            this.miCommLineSep2.Size = new System.Drawing.Size(160, 6);
-            // 
-            // miCommLineStart
-            // 
-            this.miCommLineStart.Image = global::Scada.Admin.App.Properties.Resources.start;
-            this.miCommLineStart.Name = "miCommLineStart";
-            this.miCommLineStart.Size = new System.Drawing.Size(163, 22);
-            this.miCommLineStart.Text = "Start Line";
-            this.miCommLineStart.Click += new System.EventHandler(this.miCommLineStartStop_Click);
-            // 
-            // miCommLineStop
-            // 
-            this.miCommLineStop.Image = global::Scada.Admin.App.Properties.Resources.stop;
-            this.miCommLineStop.Name = "miCommLineStop";
-            this.miCommLineStop.Size = new System.Drawing.Size(163, 22);
-            this.miCommLineStop.Text = "Stop Line";
-            this.miCommLineStop.Click += new System.EventHandler(this.miCommLineStartStop_Click);
-            // 
-            // miCommLineRestart
-            // 
-            this.miCommLineRestart.Image = global::Scada.Admin.App.Properties.Resources.restart;
-            this.miCommLineRestart.Name = "miCommLineRestart";
-            this.miCommLineRestart.Size = new System.Drawing.Size(163, 22);
-            this.miCommLineRestart.Text = "Restart Line";
-            this.miCommLineRestart.Click += new System.EventHandler(this.miCommLineStartStop_Click);
-            // 
             // cmsInstance
             // 
             this.cmsInstance.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
@@ -1143,7 +1026,7 @@
             this.miAppOpenInExplorer,
             this.miAppReloadConfig});
             this.cmsApp.Name = "cmsServer";
-            this.cmsApp.Size = new System.Drawing.Size(220, 70);
+            this.cmsApp.Size = new System.Drawing.Size(220, 48);
             // 
             // miAppOpenInExplorer
             // 
@@ -1153,30 +1036,13 @@
             this.miAppOpenInExplorer.Text = "Open Folder in File Explorer";
             this.miAppOpenInExplorer.Click += new System.EventHandler(this.miDirectoryOpenInExplorer_Click);
             // 
-            // cmsDevice
+            // miAppReloadConfig
             // 
-            this.cmsDevice.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.miDeviceCommand,
-            this.miDeviceProperties});
-            this.cmsDevice.Name = "cmsDevice";
-            this.cmsDevice.Size = new System.Drawing.Size(170, 48);
-            this.cmsDevice.Opening += new System.ComponentModel.CancelEventHandler(this.cmsDevice_Opening);
-            // 
-            // miDeviceCommand
-            // 
-            this.miDeviceCommand.Image = global::Scada.Admin.App.Properties.Resources.cmd;
-            this.miDeviceCommand.Name = "miDeviceCommand";
-            this.miDeviceCommand.Size = new System.Drawing.Size(169, 22);
-            this.miDeviceCommand.Text = "Send Command...";
-            this.miDeviceCommand.Click += new System.EventHandler(this.miDeviceCommand_Click);
-            // 
-            // miDeviceProperties
-            // 
-            this.miDeviceProperties.Image = global::Scada.Admin.App.Properties.Resources.properties;
-            this.miDeviceProperties.Name = "miDeviceProperties";
-            this.miDeviceProperties.Size = new System.Drawing.Size(169, 22);
-            this.miDeviceProperties.Text = "Properies";
-            this.miDeviceProperties.Click += new System.EventHandler(this.miDeviceProperties_Click);
+            this.miAppReloadConfig.Image = global::Scada.Admin.App.Properties.Resources.refresh;
+            this.miAppReloadConfig.Name = "miAppReloadConfig";
+            this.miAppReloadConfig.Size = new System.Drawing.Size(219, 22);
+            this.miAppReloadConfig.Text = "Reload Configuration";
+            this.miAppReloadConfig.Click += new System.EventHandler(this.miAppReloadConfig_Click);
             // 
             // cmsCnlTable
             // 
@@ -1202,14 +1068,6 @@
             this.miCnlTableRefresh.Size = new System.Drawing.Size(187, 22);
             this.miCnlTableRefresh.Text = "Refresh";
             this.miCnlTableRefresh.Click += new System.EventHandler(this.miCnlTableRefresh_Click);
-            // 
-            // miAppReloadConfig
-            // 
-            this.miAppReloadConfig.Image = global::Scada.Admin.App.Properties.Resources.refresh;
-            this.miAppReloadConfig.Name = "miAppReloadConfig";
-            this.miAppReloadConfig.Size = new System.Drawing.Size(219, 22);
-            this.miAppReloadConfig.Text = "Reload Configuration";
-            this.miAppReloadConfig.Click += new System.EventHandler(this.miAppReloadConfig_Click);
             // 
             // FrmMain
             // 
@@ -1240,13 +1098,11 @@
             this.ssMain.PerformLayout();
             this.pnlLeft.ResumeLayout(false);
             this.pnlRight.ResumeLayout(false);
-            this.cmsCommLine.ResumeLayout(false);
             this.cmsInstance.ResumeLayout(false);
             this.cmsProject.ResumeLayout(false);
             this.cmsDirectory.ResumeLayout(false);
             this.cmsFileItem.ResumeLayout(false);
             this.cmsApp.ResumeLayout(false);
-            this.cmsDevice.ResumeLayout(false);
             this.cmsCnlTable.ResumeLayout(false);
             this.ResumeLayout(false);
             this.PerformLayout();
@@ -1280,11 +1136,6 @@
         private WinControl.WinControl wctrlMain;
         private System.Windows.Forms.ImageList ilExplorer;
         private System.Windows.Forms.OpenFileDialog ofdProject;
-        private System.Windows.Forms.ContextMenuStrip cmsCommLine;
-        private System.Windows.Forms.ToolStripMenuItem miCommLineAdd;
-        private System.Windows.Forms.ToolStripMenuItem miCommLineMoveUp;
-        private System.Windows.Forms.ToolStripMenuItem miCommLineMoveDown;
-        private System.Windows.Forms.ToolStripMenuItem miCommLineDelete;
         private System.Windows.Forms.ContextMenuStrip cmsInstance;
         private System.Windows.Forms.ToolStripMenuItem miInstanceAdd;
         private System.Windows.Forms.ToolStripMenuItem miInstanceMoveUp;
@@ -1332,13 +1183,6 @@
         private System.Windows.Forms.ToolStripMenuItem miInstanceOpenInExplorer;
         private System.Windows.Forms.ContextMenuStrip cmsApp;
         private System.Windows.Forms.ToolStripMenuItem miAppOpenInExplorer;
-        private System.Windows.Forms.ToolStripSeparator miCommLineSep2;
-        private System.Windows.Forms.ToolStripMenuItem miCommLineStart;
-        private System.Windows.Forms.ToolStripMenuItem miCommLineStop;
-        private System.Windows.Forms.ToolStripMenuItem miCommLineRestart;
-        private System.Windows.Forms.ContextMenuStrip cmsDevice;
-        private System.Windows.Forms.ToolStripMenuItem miDeviceCommand;
-        private System.Windows.Forms.ToolStripMenuItem miDeviceProperties;
         private System.Windows.Forms.ToolStripMenuItem miToolsCulture;
         private System.Windows.Forms.ToolStripMenuItem miToolsCnlMap;
         private System.Windows.Forms.ToolStripSeparator miToolsSep1;
@@ -1351,9 +1195,6 @@
         private System.Windows.Forms.ToolStripMenuItem miFileExportTable;
         private System.Windows.Forms.ToolStripSeparator miFileSep3;
         private System.Windows.Forms.ToolStripMenuItem miToolsCloneCnls;
-        private System.Windows.Forms.ToolStripMenuItem miCommLineImport;
-        private System.Windows.Forms.ToolStripMenuItem miCommLineSync;
-        private System.Windows.Forms.ToolStripSeparator miCommLineSep1;
         private System.Windows.Forms.ToolStripMenuItem miFileShowStartPage;
         private System.Windows.Forms.ToolStripSeparator miFileSep4;
         private System.Windows.Forms.ToolStripButton btnDeployInstanceProfile;

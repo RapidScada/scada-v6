@@ -7,6 +7,19 @@
     <Phrase key="LinesNode">Линии связи</Phrase>
     <Phrase key="LineOptionsNode">Параметры линии</Phrase>
   </Dictionary>
+  <Dictionary key="Scada.Admin.Extensions.ExtCommConfig.Controls.CtrlContextMenu">
+    <Phrase key="miLineImport">Импортировать...</Phrase>
+    <Phrase key="miLineSync">Сихронизировать...</Phrase>
+    <Phrase key="miLineAdd">Добавить линию</Phrase>
+    <Phrase key="miLineMoveUp">Переместить линию вверх</Phrase>
+    <Phrase key="miLineMoveDown">Переместить линию вниз</Phrase>
+    <Phrase key="miLineDelete">Удалить линию</Phrase>
+    <Phrase key="miLineStart">Запустить линию</Phrase>
+    <Phrase key="miLineStop">Остановить линию</Phrase>
+    <Phrase key="miLineRestart">Перезапустить линию</Phrase>
+    <Phrase key="miDeviceCommand">Отправить команду...</Phrase>
+    <Phrase key="miDeviceProperties">Свойства</Phrase>
+  </Dictionary>
   <Dictionary key="Scada.Admin.Extensions.ExtCommConfig.Controls.CtrlLineMain">
     <Phrase key="gbLine">Линия связи</Phrase>
     <Phrase key="chkActive">Активна</Phrase>

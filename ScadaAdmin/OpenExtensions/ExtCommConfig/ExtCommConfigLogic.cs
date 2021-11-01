@@ -2,6 +2,7 @@
 // Licensed under the Apache License, Version 2.0. See License.txt in the project root for license information.
 
 using Scada.Admin.Extensions.ExtCommConfig.Code;
+using Scada.Admin.Extensions.ExtCommConfig.Controls;
 using Scada.Admin.Extensions.ExtCommConfig.Forms;
 using Scada.Admin.Extensions.ExtCommConfig.Properties;
 using Scada.Admin.Lang;
@@ -38,12 +39,16 @@ namespace Scada.Admin.Extensions.ExtCommConfig
         }
 
 
+        private CtrlContextMenu ctrlContextMenu; // contains the context menus
+
+
         /// <summary>
         /// Initializes a new instance of the class.
         /// </summary>
         public ExtCommConfigLogic(IAdminContext adminContext)
             : base(adminContext)
         {
+            ctrlContextMenu = null;
         }
 
 
@@ -64,14 +69,15 @@ namespace Scada.Admin.Extensions.ExtCommConfig
         /// </summary>
         private TreeNode CreateLinesNode(CommApp commApp)
         {
-            TreeNode commLinesNode = TreeViewExtensions.CreateNode(ExtensionPhrases.LinesNode, ImageKey.Lines);
+            TreeNode linesNode = TreeViewExtensions.CreateNode(ExtensionPhrases.LinesNode, ImageKey.Lines);
+            linesNode.ContextMenuStrip = ctrlContextMenu.LineMenu;
 
             foreach (LineConfig lineConfig in commApp.AppConfig.Lines)
             {
-                commLinesNode.Nodes.Add(CreateLineNode(commApp, lineConfig));
+                linesNode.Nodes.Add(CreateLineNode(commApp, lineConfig));
             }
 
-            return commLinesNode;
+            return linesNode;
         }
 
         /// <summary>
@@ -82,6 +88,7 @@ namespace Scada.Admin.Extensions.ExtCommConfig
             TreeNode lineNode = TreeViewExtensions.CreateNode(
                 CommUtils.GetLineTitle(lineConfig.CommLineNum, lineConfig.Name),
                 lineConfig.Active ? ImageKey.Line : ImageKey.LineInactive);
+            lineNode.ContextMenuStrip = ctrlContextMenu.LineMenu;
 
             TreeNode lineOptionsNode = TreeViewExtensions.CreateNode(
                 ExtensionPhrases.LineOptionsNode, ImageKey.LineOptions);
@@ -115,6 +122,15 @@ namespace Scada.Admin.Extensions.ExtCommConfig
             if (relatedObject is not CommApp commApp)
                 return null;
 
+            // create context menus
+            // do not create IWin32Window objects in constructor
+            if (ctrlContextMenu == null)
+            {
+                ctrlContextMenu = new CtrlContextMenu();
+                FormTranslator.Translate(ctrlContextMenu, ctrlContextMenu.GetType().FullName);
+            }
+
+            // create tree nodes
             return new TreeNode[]
             {
                 new TreeNode(ExtensionPhrases.GeneralOptionsNode)

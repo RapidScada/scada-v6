@@ -7,6 +7,19 @@
     <Phrase key="LinesNode">Communication Lines</Phrase>
     <Phrase key="LineOptionsNode">Line Options</Phrase>
   </Dictionary>
+  <Dictionary key="Scada.Admin.Extensions.ExtCommConfig.Controls.CtrlContextMenu">
+    <Phrase key="miLineImport">Import...</Phrase>
+    <Phrase key="miLineSync">Synchronize...</Phrase>
+    <Phrase key="miLineAdd">Add Line</Phrase>
+    <Phrase key="miLineMoveUp">Move Line Up</Phrase>
+    <Phrase key="miLineMoveDown">Move Line Down</Phrase>
+    <Phrase key="miLineDelete">Delete Line</Phrase>
+    <Phrase key="miLineStart">Start Line</Phrase>
+    <Phrase key="miLineStop">Stop Line</Phrase>
+    <Phrase key="miLineRestart">Restart Line</Phrase>
+    <Phrase key="miDeviceCommand">Send Command...</Phrase>
+    <Phrase key="miDeviceProperties">Properies</Phrase>
+  </Dictionary>
   <Dictionary key="Scada.Admin.Extensions.ExtCommConfig.Controls.CtrlLineMain">
     <Phrase key="gbLine">Communication Line</Phrase>
     <Phrase key="chkActive">Active</Phrase>

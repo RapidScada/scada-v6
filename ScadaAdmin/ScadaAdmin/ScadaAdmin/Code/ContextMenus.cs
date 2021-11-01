@@ -44,9 +44,5 @@ namespace Scada.Admin.App.Code
         public ContextMenuStrip InstanceMenu { get; set; }
 
         public ContextMenuStrip AppMenu { get; set; }
-
-        public ContextMenuStrip CommLineMenu { get; set; }
-
-        public ContextMenuStrip DeviceMenu { get; set; }
     }
 }

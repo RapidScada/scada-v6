@@ -545,24 +545,6 @@ namespace Scada.Admin.App.Code
         }
 
         /// <summary>
-        /// Defines context menus of the node and its child nodes.
-        /// </summary>
-        /// <remarks>The method works for communication line.</remarks>
-        /*public void SetContextMenus(TreeNode parentNode)
-        {
-            foreach (TreeNode treeNode in TreeViewUtils.IterateNodes(parentNode))
-            {
-                if (treeNode.Tag is TreeNodeTag tag)
-                {
-                    if (tag.NodeType == CommNodeType.CommLines || tag.NodeType == CommNodeType.CommLine)
-                        treeNode.ContextMenuStrip = contextMenus.CommLineMenu;
-                    else if (tag.NodeType == CommNodeType.Device)
-                        treeNode.ContextMenuStrip = contextMenus.DeviceMenu;
-                }
-            }
-        }*/
-
-        /// <summary>
         /// Sets the node image as open or closed folder.
         /// </summary>
         public static void SetFolderImage(TreeNode treeNode)
