@@ -36,10 +36,12 @@ using Scada.Forms;
 using Scada.Lang;
 using Scada.Log;
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Drawing;
 using System.IO;
+using System.Linq;
 using System.Windows.Forms;
 using WinControl;
 
@@ -127,6 +129,35 @@ namespace Scada.Admin.App.Forms
             Text = AppPhrases.EmptyTitle;
             wctrlMain.MessageText = AppPhrases.WelcomeMessage;
             ofdProject.SetFilter(AppPhrases.ProjectFileFilter);
+        }
+
+        /// <summary>
+        /// Adds main menu items and toolbar buttons created by the extensions.
+        /// </summary>
+        private void AddMainMenuItems()
+        {
+            // main menu items
+            ArrayList existingMenuItems = new(miTools.DropDownItems);
+            miTools.DropDownItems.Clear();
+
+            foreach (ToolStripItem item in appData.ExtensionHolder.GetMainMenuItems())
+            {
+                miTools.DropDownItems.Add(item);
+            }
+
+            if (miTools.DropDownItems.Count > 0)
+                miTools.DropDownItems.Add(new ToolStripSeparator());
+
+            foreach (ToolStripItem item in existingMenuItems)
+            {
+                miTools.DropDownItems.Add(item);
+            }
+
+            // toolbar buttons
+            foreach (ToolStripItem item in appData.ExtensionHolder.GetToobarButtons())
+            {
+                tsMain.Items.Add(item);
+            }
         }
 
         /// <summary>
@@ -881,6 +912,7 @@ namespace Scada.Admin.App.Forms
         private void FrmMain_Load(object sender, EventArgs e)
         {
             LocalizeForm();
+            AddMainMenuItems();
             TakeExplorerImages();
             SetMenuItemsEnabled();
             LoadAppState();

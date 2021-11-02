@@ -127,11 +127,11 @@ namespace Scada.Admin.App.Code
         /// <summary>
         /// Calls the GetMainMenuItems method of the extensions.
         /// </summary>
-        public ICollection<ToolStripMenuItem> GetMainMenuItems()
+        public ICollection<ToolStripItem> GetMainMenuItems()
         {
             lock (extensionLock)
             {
-                List<ToolStripMenuItem> items = new();
+                List<ToolStripItem> items = new();
 
                 foreach (ExtensionLogic extensionLogic in extensions)
                 {
@@ -154,18 +154,21 @@ namespace Scada.Admin.App.Code
         /// <summary>
         /// Calls the GetToobarButtons method of the extensions.
         /// </summary>
-        public ICollection<ToolStripButton> GetToobarButtons()
+        public ICollection<ToolStripItem> GetToobarButtons()
         {
             lock (extensionLock)
             {
-                List<ToolStripButton> items = new();
+                List<ToolStripItem> items = new();
 
                 foreach (ExtensionLogic extensionLogic in extensions)
                 {
                     try
                     {
                         if (extensionLogic.GetToobarButtons() is ToolStripButton[] buttons)
+                        {
+                            items.Add(new ToolStripSeparator());
                             items.AddRange(buttons);
+                        }
                     }
                     catch (Exception ex)
                     {
