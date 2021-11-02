@@ -1,4 +1,17 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <ExtProjectToolsDictionaries>
-  
+  <Dictionary key="Scada.Admin.Extensions.ExtProjectTools.Controls.CtrlMainMenu">
+    <Phrase key="miProjectTools">Project Tools</Phrase>
+    <Phrase key="miAddLine">Add Line...</Phrase>
+    <Phrase key="miAddDevice">Add Device...</Phrase>
+    <Phrase key="miCreateChannels">Create Channels...</Phrase>
+    <Phrase key="miCloneChannels">Clone Channels...</Phrase>
+    <Phrase key="miChannelMap">Channel Map...</Phrase>
+    <Phrase key="miCheckIntegrity">Check Integrity</Phrase>
+    <Phrase key="miImportTable">Import Table...</Phrase>
+    <Phrase key="miExportTable">Export Table...</Phrase>
+    <Phrase key="btnAddLine.ToolTip">Add Line</Phrase>
+    <Phrase key="btnAddDevice.ToolTip">Add Device</Phrase>
+    <Phrase key="btnCreateChannels.ToolTip">Create Channels</Phrase>
+  </Dictionary>
 </ExtProjectToolsDictionaries>

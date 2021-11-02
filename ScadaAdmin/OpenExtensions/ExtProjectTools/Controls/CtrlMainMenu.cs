@@ -13,12 +13,24 @@ namespace Scada.Admin.Extensions.ExtProjectTools.Controls
     /// </summary>
     public partial class CtrlMainMenu : UserControl
     {
+        private readonly IAdminContext adminContext; // the Administrator context
+
+
         /// <summary>
         /// Initializes a new instance of the class.
         /// </summary>
-        public CtrlMainMenu()
+        private CtrlMainMenu()
         {
             InitializeComponent();
+        }
+
+        /// <summary>
+        /// Initializes a new instance of the class.
+        /// </summary>
+        public CtrlMainMenu(IAdminContext adminContext)
+            : this()
+        {
+            this.adminContext = adminContext ?? throw new ArgumentNullException(nameof(adminContext));
         }
 
 
@@ -35,13 +47,64 @@ namespace Scada.Admin.Extensions.ExtProjectTools.Controls
         /// </summary>
         public ToolStripButton[] GetToobarButtons()
         {
-            return new ToolStripButton[] { btnAddLine };
+            return new ToolStripButton[] { btnAddLine, btnAddDevice, btnCreateChannels };
+        }
+
+        /// <summary>
+        /// Enables or disables main menu items and toolbar buttons.
+        /// </summary>
+        public void SetMenuItemsEnabled()
+        {
+            bool projectIsOpen = adminContext.CurrentProject != null;
+            miAddLine.Enabled = btnAddLine.Enabled = projectIsOpen;
+            miAddDevice.Enabled = btnAddDevice.Enabled = projectIsOpen;
+            miCreateChannels.Enabled = btnCreateChannels.Enabled = projectIsOpen;
+            miCloneChannels.Enabled = projectIsOpen;
+            miChannelMap.Enabled = projectIsOpen;
+            miCheckIntegrity.Enabled = projectIsOpen;
+            miImportTable.Enabled = projectIsOpen;
+            miExportTable.Enabled = projectIsOpen;
         }
 
 
         private void miAddLine_Click(object sender, EventArgs e)
         {
             ScadaUiUtils.ShowInfo("Test");
+        }
+
+        private void miAddDevice_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void miCreateChannels_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void miCloneChannels_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void miChannelMap_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void miCheckIntegrity_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void miImportTable_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void miExportTable_Click(object sender, EventArgs e)
+        {
+
         }
     }
 }

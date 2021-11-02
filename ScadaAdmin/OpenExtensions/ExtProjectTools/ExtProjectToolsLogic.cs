@@ -37,7 +37,7 @@ namespace Scada.Admin.Extensions.ExtProjectTools
             {
                 if (ctrlMainMenu == null)
                 {
-                    ctrlMainMenu = new CtrlMainMenu();
+                    ctrlMainMenu = new CtrlMainMenu(AdminContext);
                     FormTranslator.Translate(ctrlMainMenu, ctrlMainMenu.GetType().FullName);
                 }
 
@@ -89,6 +89,14 @@ namespace Scada.Admin.Extensions.ExtProjectTools
         public override ToolStripButton[] GetToobarButtons()
         {
             return CtrlMainMenu.GetToobarButtons();
+        }
+
+        /// <summary>
+        /// Enables or disables main menu items and toolbar buttons.
+        /// </summary>
+        public override void SetMenuItemsEnabled()
+        {
+            CtrlMainMenu.SetMenuItemsEnabled();
         }
     }
 }
