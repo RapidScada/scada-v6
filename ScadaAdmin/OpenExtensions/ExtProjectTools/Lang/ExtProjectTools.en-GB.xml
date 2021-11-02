@@ -1,5 +1,14 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <ExtProjectToolsDictionaries>
+  <Dictionary key="Scada.Admin.Extensions.ExtProjectTools.Code.IntegrityCheck">
+    <Phrase key="IntegrityCheckTitle">Integrity Check</Phrase>
+    <Phrase key="TableCorrect">OK</Phrase>
+    <Phrase key="TableHasErrors">Error</Phrase>
+    <Phrase key="LostPrimaryKeys">Lost primary keys: </Phrase>
+    <Phrase key="BaseCorrect">The configuration database is correct.</Phrase>
+    <Phrase key="BaseHasErrors">The configuration database has errors.</Phrase>
+    <Phrase key="IntegrityCheckError">Error checking integrity</Phrase>
+  </Dictionary>
   <Dictionary key="Scada.Admin.Extensions.ExtProjectTools.Controls.CtrlMainMenu">
     <Phrase key="miProjectTools">Project Tools</Phrase>
     <Phrase key="miAddLine">Add Line...</Phrase>

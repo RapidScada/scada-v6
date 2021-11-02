@@ -76,6 +76,7 @@ namespace Scada.Lang
         public static string UserTable { get; private set; }
         public static string ViewTable { get; private set; }
         public static string ViewTypeTable { get; private set; }
+        public static string IndexNotFound { get; private set; }
 
         // Scada.Files
         public static string FileNotFound { get; private set; }
@@ -178,6 +179,7 @@ namespace Scada.Lang
             UserTable = dict["UserTable"];
             ViewTable = dict["ViewTable"];
             ViewTypeTable = dict["ViewTypeTable"];
+            IndexNotFound = dict["IndexNotFound"];
 
             dict = Locale.GetDictionary("Scada.Files");
             FileNotFound = dict["FileNotFound"];

@@ -1,8 +1,10 @@
 ﻿// Copyright (c) Rapid Software LLC. All rights reserved.
 // Licensed under the Apache License, Version 2.0. See License.txt in the project root for license information.
 
+using Scada.Admin.Extensions.ExtProjectTools.Code;
 using Scada.Forms;
 using System;
+using System.IO;
 using System.Windows.Forms;
 
 namespace Scada.Admin.Extensions.ExtProjectTools.Controls
@@ -94,7 +96,12 @@ namespace Scada.Admin.Extensions.ExtProjectTools.Controls
 
         private void miCheckIntegrity_Click(object sender, EventArgs e)
         {
-
+            // check integrity
+            if (adminContext.CurrentProject != null)
+            {
+                new IntegrityCheck(adminContext.ErrLog, adminContext.CurrentProject.ConfigBase)
+                    .Execute(Path.Combine(adminContext.AppDirs.LogDir, IntegrityCheck.OutputFileName));
+            }
         }
 
         private void miImportTable_Click(object sender, EventArgs e)

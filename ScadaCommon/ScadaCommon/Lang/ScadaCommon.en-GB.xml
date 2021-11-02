@@ -43,6 +43,7 @@
     <Phrase key="UserTable">Users</Phrase>
     <Phrase key="ViewTable">Views</Phrase>
     <Phrase key="ViewTypeTable">View types</Phrase>
+    <Phrase key="IndexNotFound">Index not found.</Phrase>
   </Dictionary>
   <Dictionary key="Scada.Files">
     <Phrase key="FileNotFound">File not found.</Phrase>

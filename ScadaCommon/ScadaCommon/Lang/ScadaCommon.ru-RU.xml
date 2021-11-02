@@ -43,6 +43,7 @@
     <Phrase key="UserTable">Пользователи</Phrase>
     <Phrase key="ViewTable">Представления</Phrase>
     <Phrase key="ViewTypeTable">Типы представлений</Phrase>
+    <Phrase key="IndexNotFound">Индекс не найден.</Phrase>
   </Dictionary>
   <Dictionary key="Scada.Files">
     <Phrase key="FileNotFound">Не найден файл.</Phrase>

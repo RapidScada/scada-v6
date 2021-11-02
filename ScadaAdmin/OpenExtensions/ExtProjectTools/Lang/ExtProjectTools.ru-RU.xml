@@ -1,5 +1,14 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <ExtProjectToolsDictionaries>
+  <Dictionary key="Scada.Admin.Extensions.ExtProjectTools.Code.IntegrityCheck">
+    <Phrase key="IntegrityCheckTitle">Проверка целостности</Phrase>
+    <Phrase key="TableCorrect">Норма</Phrase>
+    <Phrase key="TableHasErrors">Ошибка</Phrase>
+    <Phrase key="LostPrimaryKeys">Потерянные первичные ключи: </Phrase>
+    <Phrase key="BaseCorrect">База конфигурации корректна.</Phrase>
+    <Phrase key="BaseHasErrors">База конфигурации содержит ошибки.</Phrase>
+    <Phrase key="IntegrityCheckError">Ошибка при проверке целостности</Phrase>
+  </Dictionary>
   <Dictionary key="Scada.Admin.Extensions.ExtProjectTools.Controls.CtrlMainMenu">
     <Phrase key="miProjectTools">Инструменты проекта</Phrase>
     <Phrase key="miAddLine">Добавить линию...</Phrase>
