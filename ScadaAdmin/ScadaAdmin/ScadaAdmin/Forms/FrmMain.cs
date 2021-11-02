@@ -31,6 +31,7 @@ using Scada.Admin.App.Properties;
 using Scada.Admin.Deployment;
 using Scada.Admin.Extensions;
 using Scada.Admin.Project;
+using Scada.Comm.Config;
 using Scada.Forms;
 using Scada.Lang;
 using Scada.Log;
@@ -165,20 +166,10 @@ namespace Scada.Admin.App.Forms
             // file
             miFileSave.Enabled = btnFileSave.Enabled = false;
             miFileSaveAll.Enabled = btnFileSaveAll.Enabled = false;
-            miFileImportTable.Enabled = projectIsOpen;
-            miFileExportTable.Enabled = projectIsOpen;
             miFileCloseProject.Enabled = projectIsOpen;
 
             // deploy
             SetDeployMenuItemsEnabled();
-
-            // tools
-            //miToolsAddLine.Enabled = btnToolsAddLine.Enabled = projectIsOpen;
-            //miToolsAddDevice.Enabled = btnToolsAddDevice.Enabled = projectIsOpen;
-            //miToolsCreateCnls.Enabled = btnToolsCreateCnls.Enabled = projectIsOpen;
-            //miToolsCloneCnls.Enabled = projectIsOpen;
-            //miToolsCnlMap.Enabled = projectIsOpen;
-            //miToolsCheckIntegrity.Enabled = projectIsOpen;
         }
 
         /// <summary>
@@ -217,11 +208,11 @@ namespace Scada.Admin.App.Forms
         /// </summary>
         private void SetDeployMenuItemsEnabled()
         {
-            //bool instanceExists = Project != null && Project.Instances.Count > 0;
-            //miDeployInstanceProfile.Enabled = btnDeployInstanceProfile.Enabled = instanceExists;
-            //miDeployDownloadConfig.Enabled = btnDeployDownloadConfig.Enabled = instanceExists;
-            //miDeployUploadConfig.Enabled = btnDeployUploadConfig.Enabled = instanceExists;
-            //miDeployInstanceStatus.Enabled = btnDeployInstanceStatus.Enabled = instanceExists;
+            bool instanceExists = Project != null && Project.Instances.Count > 0;
+            miDeployInstanceProfile.Enabled = btnDeployInstanceProfile.Enabled = instanceExists;
+            miDeployDownloadConfig.Enabled = btnDeployDownloadConfig.Enabled = instanceExists;
+            miDeployUploadConfig.Enabled = btnDeployUploadConfig.Enabled = instanceExists;
+            miDeployInstanceStatus.Enabled = btnDeployInstanceStatus.Enabled = instanceExists;
         }
 
         /// <summary>
@@ -333,23 +324,6 @@ namespace Scada.Admin.App.Forms
         }
 
         /// <summary>
-        /// Finds a tree node that contains the related object.
-        /// </summary>
-        private TreeNode FindTreeNode(object relatedObject, TreeNode startNode)
-        {
-            if (startNode == null)
-                return null;
-
-            foreach (TreeNode node in startNode.IterateNodes())
-            {
-                if (node.Tag is TreeNodeTag tag && tag.RelatedObject == relatedObject)
-                    return node;
-            }
-
-            return null;
-        }
-
-        /// <summary>
         /// Gets the related object of the tree node.
         /// </summary>
         private static T GetRelatedObject<T>(TreeNode treeNode, bool throwOnError = true) where T : class
@@ -381,30 +355,6 @@ namespace Scada.Admin.App.Forms
                             new Dictionary<string, object> { { "FileName", fileItem.Path } });
                     }
                 }
-            }
-        }
-
-        /// <summary>
-        /// Updates parameters of the open communication line related to the specified node.
-        /// </summary>
-        private void UpdateLineParams(TreeNode siblingNode)
-        {
-            /*if (siblingNode?.FindSibling(CommNodeType.LineParams) is TreeNode lineParamsNode &&
-                ((TreeNodeTag)lineParamsNode.Tag).ExistingForm is IChildForm childForm)
-            {
-                childForm.ChildFormTag.SendMessage(this, CommMessage.UpdateLineParams);
-            }*/
-        }
-
-        /// <summary>
-        /// Refreshes data of the table forms having the specified item type.
-        /// </summary>
-        private void RefreshBaseTables(Type itemType)
-        {
-            foreach (Form form in wctrlMain.Forms)
-            {
-                if (form is FrmBaseTable frmBaseTable && frmBaseTable.ItemType == itemType)
-                    frmBaseTable.ChildFormTag.SendMessage(this, AdminMessage.RefreshData);
             }
         }
 
@@ -531,30 +481,6 @@ namespace Scada.Admin.App.Forms
         }
 
         /// <summary>
-        /// Finds the instance and its node by name.
-        /// </summary>
-        private bool FindInstance(string instanceName, out TreeNode instanceNode, out LiveInstance liveInstance)
-        {
-            if (Project != null)
-            {
-                foreach (TreeNode treeNode in explorerBuilder.InstancesNode.Nodes)
-                {
-                    if (treeNode.Tag is TreeNodeTag tag && tag.RelatedObject is LiveInstance liveInst &&
-                        string.Equals(liveInst.ProjectInstance.Name, instanceName, StringComparison.OrdinalIgnoreCase))
-                    {
-                        instanceNode = treeNode;
-                        liveInstance = liveInst;
-                        return true;
-                    }
-                }
-            }
-
-            instanceNode = null;
-            liveInstance = null;
-            return false;
-        }
-
-        /// <summary>
         /// Prepares data and fills the instance node.
         /// </summary>
         private void PrepareInstanceNode(TreeNode instanceNode, LiveInstance liveInstance)
@@ -612,30 +538,6 @@ namespace Scada.Admin.App.Forms
                 //liveInstance.CommEnvironment = CreateCommEnvironment(liveInstance);
             }
         }
-
-        /// <summary>
-        /// Creates a new Server environment for the specified instance.
-        /// </summary>
-        /*private ServerEnvironment CreateServerEnvironment(LiveInstance liveInstance)
-        {
-            return new ServerEnvironment(
-                new ServerDirs(appData.AppSettings.PathOptions.ServerDir, liveInstance.ProjectInstance), log)
-            {
-                AgentClient = liveInstance.AgentClient
-            };
-        }*/
-
-        /// <summary>
-        /// Creates a new Communicator environment for the specified instance.
-        /// </summary>
-        /*private CommEnvironment CreateCommEnvironment(LiveInstance liveInstance)
-        {
-            return new CommEnvironment(
-                new CommDirs(appData.AppSettings.PathOptions.CommDir, liveInstance.ProjectInstance), log)
-            {
-                AgentClient = liveInstance.AgentClient
-            };
-        }*/
 
         /// <summary>
         /// Gets the current deployment profile of the instance.
@@ -727,22 +629,6 @@ namespace Scada.Admin.App.Forms
         {
             if (!Project.Save(Project.FileName, out string errMsg))
                 Log.HandleError(errMsg);
-        }
-
-        /// <summary>
-        /// Saves the Communicator configuration and optionally updates the explorer.
-        /// </summary>
-        private bool SaveCommConfig(LiveInstance liveInstance)
-        {
-            if (liveInstance.ProjectInstance.CommApp.SaveConfig(out string errMsg))
-            {
-                return true;
-            }
-            else
-            {
-                Log.HandleError(errMsg);
-                return false;
-            }
         }
 
         /// <summary>
@@ -1148,47 +1034,9 @@ namespace Scada.Admin.App.Forms
         private void wctrlMain_ChildFormMessage(object sender, FormMessageEventArgs e)
         {
             if (e.Message == AdminMessage.NewProject)
-            {
                 NewProject();
-            }
             else if (e.Message == AdminMessage.OpenProject)
-            {
                 OpenProject(e.GetArgument("Path") as string);
-            }
-
-            // TreeNode sourceNode = FindTreeNode(e.Source);
-            /*else if (FindClosestInstance(sourceNode, out LiveInstance liveInstance))
-            {
-                /*if (e.Message == ServerMessage.SaveSettings)
-                {
-                    // save the Server settings
-                    if (!liveInstance.ProjectInstance.ServerApp.SaveSettings(out string errMsg))
-                    {
-                        Log.HandleError(errMsg);
-                        e.Cancel = true;
-                    }
-                }
-                else if (e.Message == CommMessage.SaveSettings)
-                {
-                    // save the Communicator settings
-                    if (SaveCommConfig(liveInstance))
-                    {
-                        TreeNode commLineNode = sourceNode.FindClosest(CommNodeType.CommLine);
-                        if (commLineNode != null)
-                            UpdateCommLine(commLineNode, liveInstance.CommEnvironment);
-                    }
-                    else
-                    {
-                        e.Cancel = true;
-                    }
-                }
-                else if (e.Message == CommMessage.UpdateLineParams)
-                {
-                    // refresh parameters of the specified line if they are open
-                    UpdateLineParams(FindTreeNode(e.Source));
-                    SaveCommConfig(liveInstance);
-                }
-            }*/
         }
 
         private void wctrlMain_ChildFormModifiedChanged(object sender, ChildFormEventArgs e)
@@ -1237,34 +1085,6 @@ namespace Scada.Admin.App.Forms
         private void miFileSaveAll_Click(object sender, EventArgs e)
         {
             SaveAll();
-        }
-
-        private void miFileImportTable_Click(object sender, EventArgs e)
-        {
-            // import a configuration database table
-            if (Project != null)
-            {
-                /*FrmTableImport frmTableImport = new FrmTableImport(project.ConfigBase, appData)
-                {
-                    SelectedItemType = (wctrlMain.ActiveForm as FrmBaseTable)?.ItemType
-                };
-
-                if (frmTableImport.ShowDialog() == DialogResult.OK)
-                    RefreshBaseTables(frmTableImport.SelectedItemType);*/
-            }
-        }
-
-        private void miFileExportTable_Click(object sender, EventArgs e)
-        {
-            // export a configuration database table
-            if (Project != null)
-            {
-                /*new FrmTableExport(project.ConfigBase, appData)
-                {
-                    SelectedItemType = (wctrlMain.ActiveForm as FrmBaseTable)?.ItemType
-                }
-                .ShowDialog();*/
-            }
         }
 
         private void miFileClose_Click(object sender, EventArgs e)
@@ -1374,149 +1194,6 @@ namespace Scada.Admin.App.Forms
             }
         }
 
-        private void miToolsAddLine_Click(object sender, EventArgs e)
-        {
-            // show a line add form
-            /*if (Project != null)
-            {
-                FrmLineAdd frmLineAdd = new FrmLineAdd(project, appData.State.RecentSelection);
-
-                if (frmLineAdd.ShowDialog() == DialogResult.OK)
-                {
-                    RefreshBaseTables(typeof(CommLine));
-
-                    // add the communication line to the explorer
-                    if (frmLineAdd.CommLineSettings != null && 
-                        FindInstance(frmLineAdd.InstanceName, out TreeNode instanceNode, out LiveInstance liveInstance))
-                    {
-                        if (liveInstance.IsReady)
-                        {
-                            TreeNode commLinesNode = instanceNode.FindFirst(CommNodeType.CommLines);
-                            TreeNode commLineNode = commShell.CreateCommLineNode(frmLineAdd.CommLineSettings,
-                                liveInstance.CommEnvironment);
-                            commLineNode.ContextMenuStrip = cmsCommLine;
-                            commLinesNode.Nodes.Add(commLineNode);
-                            tvExplorer.SelectedNode = commLineNode;
-                        }
-                        else
-                        {
-                            PrepareInstanceNode(instanceNode, liveInstance);
-                            tvExplorer.SelectedNode = FindTreeNode(frmLineAdd.CommLineSettings, instanceNode);
-                        }
-
-                        SaveCommConfig(liveInstance);
-                    }
-                }
-            }*/
-        }
-
-        private void miToolsAddDevice_Click(object sender, EventArgs e)
-        {
-            // show a device add form
-            /*if (Project != null)
-            {
-                FrmDeviceAdd frmDeviceAdd = new FrmDeviceAdd(project, appData.State.RecentSelection);
-
-                if (frmDeviceAdd.ShowDialog() == DialogResult.OK)
-                {
-                    RefreshBaseTables(typeof(KP));
-
-                    if (frmDeviceAdd.KPSettings != null &&
-                        FindInstance(frmDeviceAdd.InstanceName, out TreeNode instanceNode, out LiveInstance liveInstance))
-                    {
-                        // add the device to the explorer
-                        if (liveInstance.IsReady)
-                        {
-                            TreeNode commLineNode = FindTreeNode(frmDeviceAdd.CommLineSettings, instanceNode);
-                            TreeNode kpNode = commShell.CreateDeviceNode(frmDeviceAdd.KPSettings, 
-                                frmDeviceAdd.CommLineSettings, liveInstance.CommEnvironment);
-                            kpNode.ContextMenuStrip = cmsDevice;
-                            commLineNode.Nodes.Add(kpNode);
-                            tvExplorer.SelectedNode = kpNode;
-                            UpdateLineParams(kpNode);
-                        }
-                        else
-                        {
-                            PrepareInstanceNode(instanceNode, liveInstance);
-                            tvExplorer.SelectedNode = FindTreeNode(frmDeviceAdd.KPSettings, instanceNode);
-                        }
-
-                        // set the device request parameters by default
-                        if (liveInstance.CommEnvironment.TryGetKPView(frmDeviceAdd.KPSettings, true, null,
-                            out KPView kpView, out string errMsg))
-                        {
-                            frmDeviceAdd.KPSettings.SetReqParams(kpView.DefaultReqParams);
-                        }
-                        else
-                        {
-                            ScadaUiUtils.ShowError(errMsg);
-                        }
-
-                        SaveCommConfig(liveInstance);
-                    }
-                }
-            }*/
-        }
-
-        private void miToolsCreateCnls_Click(object sender, EventArgs e)
-        {
-            // show a channel creation wizard
-            /*if (Project != null)
-            {
-                FrmCnlCreate frmCnlCreate = new FrmCnlCreate(project, appData.State.RecentSelection, appData);
-
-                if (frmCnlCreate.ShowDialog() == DialogResult.OK)
-                {
-                    RefreshBaseTables(typeof(InCnl));
-                    RefreshBaseTables(typeof(OutCnl));
-                }
-            }*/
-        }
-
-        private void miToolsCloneCnls_Click(object sender, EventArgs e)
-        {
-            // show a cloning channels form
-            /*if (project != null)
-            {
-                FrmCnlClone frmCnlClone = new FrmCnlClone(project.ConfigBase, appData)
-                {
-                    InCnlsSelected = !(wctrlMain.ActiveForm is FrmBaseTable frmBaseTable &&
-                        frmBaseTable.ItemType == typeof(CtrlCnl))
-                };
-
-                frmCnlClone.ShowDialog();
-
-                if (frmCnlClone.InCnlsCloned)
-                    RefreshBaseTables(typeof(InCnl));
-
-                if (frmCnlClone.OutCnlsCloned)
-                    RefreshBaseTables(typeof(CtrlCnl));
-            }*/
-        }
-
-        private void miToolsCnlMap_Click(object sender, EventArgs e)
-        {
-            // show a channel map form
-            /*if (project != null)
-            {
-                Type itemType = (wctrlMain.ActiveForm as FrmBaseTable)?.ItemType;
-
-                new FrmCnlMap(project.ConfigBase, appData)
-                {
-                    IncludeInCnls = itemType != typeof(CtrlCnl),
-                    IncludeOutCnls = itemType != typeof(InCnl)
-                }
-                .ShowDialog();
-            }*/
-        }
-
-        private void miToolsCheckIntegrity_Click(object sender, EventArgs e)
-        {
-            // check integrity
-            /*if (project != null)
-                new IntegrityCheck(project.ConfigBase, appData).Execute();*/
-        }
-
         private void miToolsOptions_Click(object sender, EventArgs e)
         {
             // edit the application settings
@@ -1545,18 +1222,18 @@ namespace Scada.Admin.App.Forms
             if (wctrlMain.ActiveForm is FrmBaseTable frmBaseTable)
                 frmBaseTable.PrepareToClose();
 
-            wctrlMain.CloseActiveForm(out bool cancel);
+            wctrlMain.CloseActiveForm(out _);
         }
 
         private void miWindowCloseAll_Click(object sender, EventArgs e)
         {
             PrepareToCloseAll();
-            wctrlMain.CloseAllForms(out bool cancel);
+            wctrlMain.CloseAllForms(out _);
         }
 
         private void miWindowCloseAllButActive_Click(object sender, EventArgs e)
         {
-            wctrlMain.CloseAllButActive(out bool cancel);
+            wctrlMain.CloseAllButActive(out _);
         }
 
         private void miHelpDoc_Click(object sender, EventArgs e)
@@ -1636,9 +1313,7 @@ namespace Scada.Admin.App.Forms
         private void miCnlTableComm_Click(object sender, EventArgs e)
         {
             // find a device tree node of Communicator
-            TreeNode selectedNode = tvExplorer.SelectedNode;
-
-            if (selectedNode != null && selectedNode.Tag is TreeNodeTag tag1 &&
+            if (tvExplorer.SelectedNode?.Tag is TreeNodeTag tag1 &&
                 tag1.RelatedObject is BaseTableItem baseTableItem && baseTableItem.DeviceNum > 0)
             {
                 int deviceNum = baseTableItem.DeviceNum;
@@ -1652,12 +1327,13 @@ namespace Scada.Admin.App.Forms
                         {
                             PrepareInstanceNode(treeNode);
                         }
-                        /*else if (tag2.RelatedObject is Comm.Settings.KP kp && kp.Number == deviceNum)
+                        else if (tag2.RelatedObject is DeviceConfig deviceConfig && 
+                            deviceConfig.DeviceNum == deviceNum)
                         {
                             tvExplorer.SelectedNode = treeNode;
                             nodeFound = true;
                             break;
-                        }*/
+                        }
                     }
                 }
 

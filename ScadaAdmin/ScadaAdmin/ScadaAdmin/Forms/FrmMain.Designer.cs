@@ -39,12 +39,9 @@
             this.miFileSave = new System.Windows.Forms.ToolStripMenuItem();
             this.miFileSaveAll = new System.Windows.Forms.ToolStripMenuItem();
             this.miFileSep2 = new System.Windows.Forms.ToolStripSeparator();
-            this.miFileImportTable = new System.Windows.Forms.ToolStripMenuItem();
-            this.miFileExportTable = new System.Windows.Forms.ToolStripMenuItem();
-            this.miFileSep3 = new System.Windows.Forms.ToolStripSeparator();
             this.miFileClose = new System.Windows.Forms.ToolStripMenuItem();
             this.miFileCloseProject = new System.Windows.Forms.ToolStripMenuItem();
-            this.miFileSep4 = new System.Windows.Forms.ToolStripSeparator();
+            this.miFileSep3 = new System.Windows.Forms.ToolStripSeparator();
             this.miFileExit = new System.Windows.Forms.ToolStripMenuItem();
             this.miDeploy = new System.Windows.Forms.ToolStripMenuItem();
             this.miDeployInstanceProfile = new System.Windows.Forms.ToolStripMenuItem();
@@ -52,14 +49,6 @@
             this.miDeployUploadConfig = new System.Windows.Forms.ToolStripMenuItem();
             this.miDeployInstanceStatus = new System.Windows.Forms.ToolStripMenuItem();
             this.miTools = new System.Windows.Forms.ToolStripMenuItem();
-            this.miToolsAddLine = new System.Windows.Forms.ToolStripMenuItem();
-            this.miToolsAddDevice = new System.Windows.Forms.ToolStripMenuItem();
-            this.miToolsCreateCnls = new System.Windows.Forms.ToolStripMenuItem();
-            this.miToolsSep1 = new System.Windows.Forms.ToolStripSeparator();
-            this.miToolsCloneCnls = new System.Windows.Forms.ToolStripMenuItem();
-            this.miToolsCnlMap = new System.Windows.Forms.ToolStripMenuItem();
-            this.miToolsCheckIntegrity = new System.Windows.Forms.ToolStripMenuItem();
-            this.miToolsSep2 = new System.Windows.Forms.ToolStripSeparator();
             this.miToolsOptions = new System.Windows.Forms.ToolStripMenuItem();
             this.miToolsCulture = new System.Windows.Forms.ToolStripMenuItem();
             this.miWindow = new System.Windows.Forms.ToolStripMenuItem();
@@ -81,10 +70,6 @@
             this.btnDeployDownloadConfig = new System.Windows.Forms.ToolStripButton();
             this.btnDeployUploadConfig = new System.Windows.Forms.ToolStripButton();
             this.btnDeployInstanceStatus = new System.Windows.Forms.ToolStripButton();
-            this.toolSep2 = new System.Windows.Forms.ToolStripSeparator();
-            this.btnToolsAddLine = new System.Windows.Forms.ToolStripButton();
-            this.btnToolsAddDevice = new System.Windows.Forms.ToolStripButton();
-            this.btnToolsCreateCnls = new System.Windows.Forms.ToolStripButton();
             this.ssMain = new System.Windows.Forms.StatusStrip();
             this.lblSelectedInstance = new System.Windows.Forms.ToolStripStatusLabel();
             this.lblSelectedProfile = new System.Windows.Forms.ToolStripStatusLabel();
@@ -171,12 +156,9 @@
             this.miFileSave,
             this.miFileSaveAll,
             this.miFileSep2,
-            this.miFileImportTable,
-            this.miFileExportTable,
-            this.miFileSep3,
             this.miFileClose,
             this.miFileCloseProject,
-            this.miFileSep4,
+            this.miFileSep3,
             this.miFileExit});
             this.miFile.Name = "miFile";
             this.miFile.Size = new System.Drawing.Size(37, 20);
@@ -236,25 +218,6 @@
             this.miFileSep2.Name = "miFileSep2";
             this.miFileSep2.Size = new System.Drawing.Size(192, 6);
             // 
-            // miFileImportTable
-            // 
-            this.miFileImportTable.Name = "miFileImportTable";
-            this.miFileImportTable.Size = new System.Drawing.Size(195, 22);
-            this.miFileImportTable.Text = "Import Table...";
-            this.miFileImportTable.Click += new System.EventHandler(this.miFileImportTable_Click);
-            // 
-            // miFileExportTable
-            // 
-            this.miFileExportTable.Name = "miFileExportTable";
-            this.miFileExportTable.Size = new System.Drawing.Size(195, 22);
-            this.miFileExportTable.Text = "Export Table...";
-            this.miFileExportTable.Click += new System.EventHandler(this.miFileExportTable_Click);
-            // 
-            // miFileSep3
-            // 
-            this.miFileSep3.Name = "miFileSep3";
-            this.miFileSep3.Size = new System.Drawing.Size(192, 6);
-            // 
             // miFileClose
             // 
             this.miFileClose.Name = "miFileClose";
@@ -269,10 +232,10 @@
             this.miFileCloseProject.Text = "Close Project";
             this.miFileCloseProject.Click += new System.EventHandler(this.miFileCloseProject_Click);
             // 
-            // miFileSep4
+            // miFileSep3
             // 
-            this.miFileSep4.Name = "miFileSep4";
-            this.miFileSep4.Size = new System.Drawing.Size(192, 6);
+            this.miFileSep3.Name = "miFileSep3";
+            this.miFileSep3.Size = new System.Drawing.Size(192, 6);
             // 
             // miFileExit
             // 
@@ -328,93 +291,24 @@
             // miTools
             // 
             this.miTools.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.miToolsAddLine,
-            this.miToolsAddDevice,
-            this.miToolsCreateCnls,
-            this.miToolsSep1,
-            this.miToolsCloneCnls,
-            this.miToolsCnlMap,
-            this.miToolsCheckIntegrity,
-            this.miToolsSep2,
             this.miToolsOptions,
             this.miToolsCulture});
             this.miTools.Name = "miTools";
             this.miTools.Size = new System.Drawing.Size(46, 20);
             this.miTools.Text = "&Tools";
             // 
-            // miToolsAddLine
-            // 
-            this.miToolsAddLine.Enabled = false;
-            this.miToolsAddLine.Image = global::Scada.Admin.App.Properties.Resources.add_line;
-            this.miToolsAddLine.Name = "miToolsAddLine";
-            this.miToolsAddLine.Size = new System.Drawing.Size(169, 22);
-            this.miToolsAddLine.Text = "Add Line...";
-            this.miToolsAddLine.Click += new System.EventHandler(this.miToolsAddLine_Click);
-            // 
-            // miToolsAddDevice
-            // 
-            this.miToolsAddDevice.Enabled = false;
-            this.miToolsAddDevice.Image = global::Scada.Admin.App.Properties.Resources.add_device;
-            this.miToolsAddDevice.Name = "miToolsAddDevice";
-            this.miToolsAddDevice.Size = new System.Drawing.Size(169, 22);
-            this.miToolsAddDevice.Text = "Add Device...";
-            this.miToolsAddDevice.Click += new System.EventHandler(this.miToolsAddDevice_Click);
-            // 
-            // miToolsCreateCnls
-            // 
-            this.miToolsCreateCnls.Enabled = false;
-            this.miToolsCreateCnls.Image = global::Scada.Admin.App.Properties.Resources.create_cnls;
-            this.miToolsCreateCnls.Name = "miToolsCreateCnls";
-            this.miToolsCreateCnls.Size = new System.Drawing.Size(169, 22);
-            this.miToolsCreateCnls.Text = "Create Channels...";
-            this.miToolsCreateCnls.Click += new System.EventHandler(this.miToolsCreateCnls_Click);
-            // 
-            // miToolsSep1
-            // 
-            this.miToolsSep1.Name = "miToolsSep1";
-            this.miToolsSep1.Size = new System.Drawing.Size(166, 6);
-            // 
-            // miToolsCloneCnls
-            // 
-            this.miToolsCloneCnls.Enabled = false;
-            this.miToolsCloneCnls.Name = "miToolsCloneCnls";
-            this.miToolsCloneCnls.Size = new System.Drawing.Size(169, 22);
-            this.miToolsCloneCnls.Text = "Clone Channels...";
-            this.miToolsCloneCnls.Click += new System.EventHandler(this.miToolsCloneCnls_Click);
-            // 
-            // miToolsCnlMap
-            // 
-            this.miToolsCnlMap.Enabled = false;
-            this.miToolsCnlMap.Name = "miToolsCnlMap";
-            this.miToolsCnlMap.Size = new System.Drawing.Size(169, 22);
-            this.miToolsCnlMap.Text = "Channel Map...";
-            this.miToolsCnlMap.Click += new System.EventHandler(this.miToolsCnlMap_Click);
-            // 
-            // miToolsCheckIntegrity
-            // 
-            this.miToolsCheckIntegrity.Enabled = false;
-            this.miToolsCheckIntegrity.Name = "miToolsCheckIntegrity";
-            this.miToolsCheckIntegrity.Size = new System.Drawing.Size(169, 22);
-            this.miToolsCheckIntegrity.Text = "Check Integrity";
-            this.miToolsCheckIntegrity.Click += new System.EventHandler(this.miToolsCheckIntegrity_Click);
-            // 
-            // miToolsSep2
-            // 
-            this.miToolsSep2.Name = "miToolsSep2";
-            this.miToolsSep2.Size = new System.Drawing.Size(166, 6);
-            // 
             // miToolsOptions
             // 
             this.miToolsOptions.Image = global::Scada.Admin.App.Properties.Resources.options;
             this.miToolsOptions.Name = "miToolsOptions";
-            this.miToolsOptions.Size = new System.Drawing.Size(169, 22);
+            this.miToolsOptions.Size = new System.Drawing.Size(135, 22);
             this.miToolsOptions.Text = "Options...";
             this.miToolsOptions.Click += new System.EventHandler(this.miToolsOptions_Click);
             // 
             // miToolsCulture
             // 
             this.miToolsCulture.Name = "miToolsCulture";
-            this.miToolsCulture.Size = new System.Drawing.Size(169, 22);
+            this.miToolsCulture.Size = new System.Drawing.Size(135, 22);
             this.miToolsCulture.Text = "Language...";
             this.miToolsCulture.Click += new System.EventHandler(this.miToolsCulture_Click);
             // 
@@ -502,11 +396,7 @@
             this.btnDeployInstanceProfile,
             this.btnDeployDownloadConfig,
             this.btnDeployUploadConfig,
-            this.btnDeployInstanceStatus,
-            this.toolSep2,
-            this.btnToolsAddLine,
-            this.btnToolsAddDevice,
-            this.btnToolsCreateCnls});
+            this.btnDeployInstanceStatus});
             this.tsMain.Location = new System.Drawing.Point(0, 24);
             this.tsMain.Name = "tsMain";
             this.tsMain.Size = new System.Drawing.Size(784, 25);
@@ -596,44 +486,6 @@
             this.btnDeployInstanceStatus.Size = new System.Drawing.Size(23, 22);
             this.btnDeployInstanceStatus.ToolTipText = "Instance Status";
             this.btnDeployInstanceStatus.Click += new System.EventHandler(this.miDeployInstanceStatus_Click);
-            // 
-            // toolSep2
-            // 
-            this.toolSep2.Name = "toolSep2";
-            this.toolSep2.Size = new System.Drawing.Size(6, 25);
-            // 
-            // btnToolsAddLine
-            // 
-            this.btnToolsAddLine.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-            this.btnToolsAddLine.Enabled = false;
-            this.btnToolsAddLine.Image = global::Scada.Admin.App.Properties.Resources.add_line;
-            this.btnToolsAddLine.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.btnToolsAddLine.Name = "btnToolsAddLine";
-            this.btnToolsAddLine.Size = new System.Drawing.Size(23, 22);
-            this.btnToolsAddLine.ToolTipText = "Add Line";
-            this.btnToolsAddLine.Click += new System.EventHandler(this.miToolsAddLine_Click);
-            // 
-            // btnToolsAddDevice
-            // 
-            this.btnToolsAddDevice.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-            this.btnToolsAddDevice.Enabled = false;
-            this.btnToolsAddDevice.Image = global::Scada.Admin.App.Properties.Resources.add_device;
-            this.btnToolsAddDevice.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.btnToolsAddDevice.Name = "btnToolsAddDevice";
-            this.btnToolsAddDevice.Size = new System.Drawing.Size(23, 22);
-            this.btnToolsAddDevice.ToolTipText = "Add Device";
-            this.btnToolsAddDevice.Click += new System.EventHandler(this.miToolsAddDevice_Click);
-            // 
-            // btnToolsCreateCnls
-            // 
-            this.btnToolsCreateCnls.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-            this.btnToolsCreateCnls.Enabled = false;
-            this.btnToolsCreateCnls.Image = global::Scada.Admin.App.Properties.Resources.create_cnls;
-            this.btnToolsCreateCnls.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.btnToolsCreateCnls.Name = "btnToolsCreateCnls";
-            this.btnToolsCreateCnls.Size = new System.Drawing.Size(23, 22);
-            this.btnToolsCreateCnls.ToolTipText = "Create Channels";
-            this.btnToolsCreateCnls.Click += new System.EventHandler(this.miToolsCreateCnls_Click);
             // 
             // ssMain
             // 
@@ -1184,31 +1036,16 @@
         private System.Windows.Forms.ContextMenuStrip cmsApp;
         private System.Windows.Forms.ToolStripMenuItem miAppOpenInExplorer;
         private System.Windows.Forms.ToolStripMenuItem miToolsCulture;
-        private System.Windows.Forms.ToolStripMenuItem miToolsCnlMap;
-        private System.Windows.Forms.ToolStripSeparator miToolsSep1;
         private System.Windows.Forms.ToolStripMenuItem miWindow;
         private System.Windows.Forms.ToolStripMenuItem miWindowCloseActive;
         private System.Windows.Forms.ToolStripMenuItem miWindowCloseAll;
         private System.Windows.Forms.ToolStripMenuItem miWindowCloseAllButActive;
-        private System.Windows.Forms.ToolStripMenuItem miToolsCheckIntegrity;
-        private System.Windows.Forms.ToolStripMenuItem miFileImportTable;
-        private System.Windows.Forms.ToolStripMenuItem miFileExportTable;
-        private System.Windows.Forms.ToolStripSeparator miFileSep3;
-        private System.Windows.Forms.ToolStripMenuItem miToolsCloneCnls;
         private System.Windows.Forms.ToolStripMenuItem miFileShowStartPage;
-        private System.Windows.Forms.ToolStripSeparator miFileSep4;
+        private System.Windows.Forms.ToolStripSeparator miFileSep3;
         private System.Windows.Forms.ToolStripButton btnDeployInstanceProfile;
         private System.Windows.Forms.ToolStripButton btnDeployDownloadConfig;
         private System.Windows.Forms.ToolStripButton btnDeployUploadConfig;
         private System.Windows.Forms.ToolStripButton btnDeployInstanceStatus;
-        private System.Windows.Forms.ToolStripSeparator toolSep2;
-        private System.Windows.Forms.ToolStripMenuItem miToolsAddLine;
-        private System.Windows.Forms.ToolStripMenuItem miToolsAddDevice;
-        private System.Windows.Forms.ToolStripMenuItem miToolsCreateCnls;
-        private System.Windows.Forms.ToolStripSeparator miToolsSep2;
-        private System.Windows.Forms.ToolStripButton btnToolsAddLine;
-        private System.Windows.Forms.ToolStripButton btnToolsAddDevice;
-        private System.Windows.Forms.ToolStripButton btnToolsCreateCnls;
         private System.Windows.Forms.ContextMenuStrip cmsCnlTable;
         private System.Windows.Forms.ToolStripMenuItem miCnlTableRefresh;
         private System.Windows.Forms.ToolStripMenuItem miCnlTableComm;
