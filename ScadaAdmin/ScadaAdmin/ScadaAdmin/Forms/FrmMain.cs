@@ -188,19 +188,16 @@ namespace Scada.Admin.App.Forms
         }
 
         /// <summary>
-        /// Enables or disables menu items and tool buttons.
+        /// Enables or disables main menu items and toolbar buttons.
         /// </summary>
         private void SetMenuItemsEnabled()
         {
-            bool projectIsOpen = Project != null;
-
-            // file
             miFileSave.Enabled = btnFileSave.Enabled = false;
             miFileSaveAll.Enabled = btnFileSaveAll.Enabled = false;
-            miFileCloseProject.Enabled = projectIsOpen;
+            miFileCloseProject.Enabled = Project != null;
 
-            // deploy
             SetDeployMenuItemsEnabled();
+            appData.ExtensionHolder.SetMenuItemsEnabled();
         }
 
         /// <summary>
