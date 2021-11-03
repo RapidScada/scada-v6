@@ -49,7 +49,7 @@ namespace Scada.Admin.Extensions
             {
                 if (File.Exists(fileName))
                 {
-                    Assembly assembly = Assembly.LoadFile(fileName);
+                    Assembly assembly = Assembly.LoadFrom(fileName);
                     Type type = assembly.GetType(typeName, true);
                     extensionLogic = (ExtensionLogic)Activator.CreateInstance(type, adminContext);
 

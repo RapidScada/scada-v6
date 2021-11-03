@@ -1,13 +1,16 @@
 ﻿// Copyright (c) Rapid Software LLC. All rights reserved.
 // Licensed under the Apache License, Version 2.0. See License.txt in the project root for license information.
 
+using CsvHelper;
 using Scada.Admin.Extensions.ExtProjectTools.Code;
 using Scada.Admin.Project;
 using Scada.Data.Adapters;
 using Scada.Data.Tables;
 using Scada.Forms;
+using Scada.Lang;
 using Scada.Log;
 using System;
+using System.IO;
 using System.Linq;
 using System.Windows.Forms;
 
@@ -164,11 +167,18 @@ namespace Scada.Admin.Extensions.ExtProjectTools.Forms
                     case BaseTableFormat.DAT:
                         new BaseTableAdapter() { FileName = fileName }.Update(filteredTable);
                         break;
+
                     case BaseTableFormat.XML:
                         filteredTable.Save(fileName);
                         break;
+
                     case BaseTableFormat.CSV:
-                        //new CsvConverter(destFileName).ConvertToCsv(destTable);
+                        using (StreamWriter writer = new(fileName))
+                        {
+                            using CsvWriter csvWriter = new(writer, Locale.Culture);
+                            csvWriter.WriteRecords(filteredTable.EnumerateItems());
+                        }
+
                         break;
                 }
 
