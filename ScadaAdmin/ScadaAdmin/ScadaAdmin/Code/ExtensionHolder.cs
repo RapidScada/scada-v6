@@ -137,7 +137,7 @@ namespace Scada.Admin.App.Code
                 {
                     try
                     {
-                        if (extensionLogic.GetMainMenuItems() is ToolStripMenuItem[] menuItems)
+                        if (extensionLogic.GetMainMenuItems() is ToolStripItem[] menuItems)
                             items.AddRange(menuItems);
                     }
                     catch (Exception ex)
@@ -164,7 +164,7 @@ namespace Scada.Admin.App.Code
                 {
                     try
                     {
-                        if (extensionLogic.GetToobarButtons() is ToolStripButton[] buttons)
+                        if (extensionLogic.GetToobarButtons() is ToolStripItem[] buttons)
                         {
                             items.Add(new ToolStripSeparator());
                             items.AddRange(buttons);
