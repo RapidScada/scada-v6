@@ -118,6 +118,12 @@ namespace Scada.Admin.App.Forms
         /// </summary>
         TreeNode IMainForm.SelectedNode => tvExplorer.SelectedNode;
 
+        /// <summary>
+        /// Gets the item type of the configuration database table of the active child form.
+        /// </summary>
+        Type IMainForm.ActiveBaseTable => (wctrlMain.ActiveForm as FrmBaseTable)?.ItemType;
+
+
 
         /// <summary>
         /// Applies localization to the form.

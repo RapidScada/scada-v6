@@ -53,4 +53,16 @@
     <Phrase key="CloneChannelsComplete">Cloning completed successfully.&#13;&#10;{0} channel(s) added.</Phrase>
     <Phrase key="CloneChannelsError">Error cloning channels</Phrase>
   </Dictionary>
+  <Dictionary key="Scada.Admin.Extensions.ExtProjectTools.Forms.FrmTableExport">
+    <Phrase key="this">Export Table</Phrase>
+    <Phrase key="lblTable">Table</Phrase>
+    <Phrase key="lblFormat">Format</Phrase>
+    <Phrase key="gbIDs">IDs</Phrase>
+    <Phrase key="lblStartID">Start</Phrase>
+    <Phrase key="lblEndID">End</Phrase>
+    <Phrase key="btnExport">Export</Phrase>
+    <Phrase key="btnClose">Close</Phrase>
+    <Phrase key="ExportTableFilter">Tables (*.dat;*.xml;*.csv)|*.dat;*.xml;*.csv|All Files (*.*)|*.*</Phrase>
+    <Phrase key="ExportTableError">Error exporting table</Phrase>
+  </Dictionary>
 </ExtProjectToolsDictionaries>

@@ -44,6 +44,11 @@ namespace Scada.Admin.Extensions
         /// </summary>
         TreeNode SelectedNode { get; }
 
+        /// <summary>
+        /// Gets the item type of the configuration database table of the active child form.
+        /// </summary>
+        Type ActiveBaseTable { get; }
+
 
         /// <summary>
         /// Closes the specified child form.

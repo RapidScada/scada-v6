@@ -37,6 +37,10 @@ namespace Scada.Admin.Extensions.ExtProjectTools.Code
         public static string CloneChannelsComplete { get; private set; }
         public static string CloneChannelsError { get; private set; }
 
+        // Scada.Admin.Extensions.ExtProjectTools.Forms.FrmTableExport
+        public static string ExportTableFilter { get; private set; }
+        public static string ExportTableError { get; private set; }
+
         public static void Init()
         {
             LocaleDict dict = Locale.GetDictionary("Scada.Admin.Extensions.ExtProjectTools.Code.ChannelMap");
@@ -62,6 +66,10 @@ namespace Scada.Admin.Extensions.ExtProjectTools.Code
             KeepUnchanged = dict["KeepUnchanged"];
             CloneChannelsComplete = dict["CloneChannelsComplete"];
             CloneChannelsError = dict["CloneChannelsError"];
+
+            dict = Locale.GetDictionary("Scada.Admin.Extensions.ExtProjectTools.Forms.FrmTableExport");
+            ExportTableFilter = dict["ExportTableFilter"];
+            ExportTableError = dict["ExportTableError"];
         }
     }
 }

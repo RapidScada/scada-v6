@@ -130,7 +130,15 @@ namespace Scada.Admin.Extensions.ExtProjectTools.Controls
 
         private void miExportTable_Click(object sender, EventArgs e)
         {
-
+            // export table
+            if (adminContext.CurrentProject != null)
+            {
+                new FrmTableExport(adminContext.ErrLog, adminContext.CurrentProject.ConfigBase)
+                {
+                    SelectedItemType = adminContext.MainForm.ActiveBaseTable
+                }
+                .ShowDialog();
+            }
         }
     }
 }
