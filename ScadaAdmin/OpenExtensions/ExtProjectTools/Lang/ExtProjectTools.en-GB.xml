@@ -35,4 +35,22 @@
     <Phrase key="btnAddDevice.ToolTip">Add Device</Phrase>
     <Phrase key="btnCreateChannels.ToolTip">Create Channels</Phrase>
   </Dictionary>
+  <Dictionary key="Scada.Admin.Extensions.ExtProjectTools.Forms.FrmCnlClone">
+    <Phrase key="this">Clone Channels</Phrase>
+    <Phrase key="gbSrcNums">Source Channel Numbers</Phrase>
+    <Phrase key="lblSrcStartNum">Start</Phrase>
+    <Phrase key="lblSrcEndNum">End</Phrase>
+    <Phrase key="gbDestNums">Destination Channel Numbers</Phrase>
+    <Phrase key="lblDestStartNum">Start</Phrase>
+    <Phrase key="lblDestEndNum">End</Phrase>
+    <Phrase key="gbOptions">Options</Phrase>
+    <Phrase key="lblReplaceObj">Replace object</Phrase>
+    <Phrase key="lblReplaceDevice">Replace device</Phrase>
+    <Phrase key="chkUpdateFormulas">Update channel numbers in formulas</Phrase>
+    <Phrase key="btnClone">Clone</Phrase>
+    <Phrase key="btnClose">Close</Phrase>
+    <Phrase key="KeepUnchanged">&lt;Keep unchanged&gt;</Phrase>
+    <Phrase key="CloneChannelsComplete">Cloning completed successfully.&#13;&#10;{0} channel(s) added.</Phrase>
+    <Phrase key="CloneChannelsError">Error cloning channels</Phrase>
+  </Dictionary>
 </ExtProjectToolsDictionaries>

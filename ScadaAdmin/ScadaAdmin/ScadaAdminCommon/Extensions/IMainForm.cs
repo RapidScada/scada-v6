@@ -23,6 +23,7 @@
  * Modified : 2021
  */
 
+using System;
 using System.Windows.Forms;
 
 namespace Scada.Admin.Extensions
@@ -50,13 +51,18 @@ namespace Scada.Admin.Extensions
         void CloseChildForm(Form form, bool saveChanges);
 
         /// <summary>
-        /// Closes the child forms corresponding to the specified tree node and its subnodes.
+        /// Closes child forms corresponding to the specified tree node and its subnodes.
         /// </summary>
         void CloseChildForms(TreeNode treeNode, bool saveChanges);
 
         /// <summary>
-        /// Updates hints of the child form tabs corresponding to the specified tree node and its subnodes.
+        /// Updates hints of child form tabs corresponding to the specified tree node and its subnodes.
         /// </summary>
         void UpdateChildFormHints(TreeNode treeNode);
+
+        /// <summary>
+        /// Refreshes child forms that contains a configuration database table with the specified item type.
+        /// </summary>
+        void RefreshBaseTables(Type itemType);
     }
 }

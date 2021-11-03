@@ -851,7 +851,7 @@ namespace Scada.Admin.App.Forms
         }
 
         /// <summary>
-        /// Closes the child forms corresponding to the specified tree node and its subnodes.
+        /// Closes child forms corresponding to the specified tree node and its subnodes.
         /// </summary>
         private void CloseChildForms(TreeNode treeNode, bool saveChanges, bool skipRoot)
         {
@@ -881,7 +881,7 @@ namespace Scada.Admin.App.Forms
         }
 
         /// <summary>
-        /// Closes the child forms corresponding to the specified tree node and its subnodes.
+        /// Closes child forms corresponding to the specified tree node and its subnodes.
         /// </summary>
         public void CloseChildForms(TreeNode treeNode, bool saveChanges)
         {
@@ -889,7 +889,7 @@ namespace Scada.Admin.App.Forms
         }
 
         /// <summary>
-        /// Updates hints of the child form tabs corresponding to the specified tree node and its subnodes.
+        /// Updates hints of child form tabs corresponding to the specified tree node and its subnodes.
         /// </summary>
         public void UpdateChildFormHints(TreeNode treeNode)
         {
@@ -902,6 +902,18 @@ namespace Scada.Admin.App.Forms
                 {
                     wctrlMain.UpdateHint(tag.ExistingForm, node.FullPath);
                 }
+            }
+        }
+
+        /// <summary>
+        /// Refreshes child forms that contains a configuration database table with the specified item type.
+        /// </summary>
+        public void RefreshBaseTables(Type itemType)
+        {
+            foreach (Form form in wctrlMain.Forms)
+            {
+                if (form is FrmBaseTable frmBaseTable && frmBaseTable.ItemType == itemType)
+                    frmBaseTable.ChildFormTag.SendMessage(this, AdminMessage.RefreshData);
             }
         }
 

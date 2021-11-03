@@ -344,6 +344,17 @@ namespace Scada.Data.Tables
         }
 
         /// <summary>
+        /// Returns an enumerable collection of the table items.
+        /// </summary>
+        public IEnumerable<T> Enumerate()
+        {
+            foreach (T item in Items.Values)
+            {
+                yield return item;
+            }
+        }
+
+        /// <summary>
         /// Selects the items that match the specified filter.
         /// </summary>
         public IEnumerable SelectItems(TableFilter filter, bool indexRequired = false)

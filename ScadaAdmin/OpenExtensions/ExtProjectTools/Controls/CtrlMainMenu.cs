@@ -2,6 +2,8 @@
 // Licensed under the Apache License, Version 2.0. See License.txt in the project root for license information.
 
 using Scada.Admin.Extensions.ExtProjectTools.Code;
+using Scada.Admin.Extensions.ExtProjectTools.Forms;
+using Scada.Data.Entities;
 using Scada.Forms;
 using System;
 using System.IO;
@@ -87,7 +89,15 @@ namespace Scada.Admin.Extensions.ExtProjectTools.Controls
 
         private void miCloneChannels_Click(object sender, EventArgs e)
         {
+            // clone channels
+            if (adminContext.CurrentProject != null)
+            {
+                FrmCnlClone frmCnlClone = new(adminContext, adminContext.CurrentProject.ConfigBase);
+                frmCnlClone.ShowDialog();
 
+                if (frmCnlClone.ChannelsCloned)
+                    adminContext.MainForm.RefreshBaseTables(typeof(Cnl));
+            }
         }
 
         private void miChannelMap_Click(object sender, EventArgs e)

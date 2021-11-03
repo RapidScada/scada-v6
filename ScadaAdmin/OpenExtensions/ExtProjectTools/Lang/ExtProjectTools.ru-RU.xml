@@ -35,4 +35,22 @@
     <Phrase key="btnAddDevice.ToolTip">Добавить КП</Phrase>
     <Phrase key="btnCreateChannels.ToolTip">Создать каналы</Phrase>
   </Dictionary>
+  <Dictionary key="Scada.Admin.Extensions.ExtProjectTools.Forms.FrmCnlClone">
+    <Phrase key="this">Клонирование каналов</Phrase>
+    <Phrase key="gbSrcNums">Исходные номера каналов</Phrase>
+    <Phrase key="lblSrcStartNum">Начальный</Phrase>
+    <Phrase key="lblSrcEndNum">Конечный</Phrase>
+    <Phrase key="gbDestNums">Номера новых каналов</Phrase>
+    <Phrase key="lblDestStartNum">Начальный</Phrase>
+    <Phrase key="lblDestEndNum">Конечный</Phrase>
+    <Phrase key="gbOptions">Параметры</Phrase>
+    <Phrase key="lblReplaceObj">Замена объекта</Phrase>
+    <Phrase key="lblReplaceDevice">Замена КП</Phrase>
+    <Phrase key="chkUpdateFormulas">Обновить номера каналов в формулах</Phrase>
+    <Phrase key="btnClone">Клонировать</Phrase>
+    <Phrase key="btnClose">Закрыть</Phrase>
+    <Phrase key="KeepUnchanged">&lt;Без изменений&gt;</Phrase>
+    <Phrase key="CloneChannelsComplete">Клонирование завершено успешно.&#13;&#10;Добавлено каналов: {0}.</Phrase>
+    <Phrase key="CloneChannelsError">Ошибка при клонировании каналов</Phrase>
+  </Dictionary>
 </ExtProjectToolsDictionaries>

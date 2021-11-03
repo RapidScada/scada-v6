@@ -32,6 +32,11 @@ namespace Scada.Admin.Extensions.ExtProjectTools.Code
         public static string BaseHasErrors { get; private set; }
         public static string IntegrityCheckError { get; private set; }
 
+        // Scada.Admin.Extensions.ExtProjectTools.Forms.FrmCnlClone
+        public static string KeepUnchanged { get; private set; }
+        public static string CloneChannelsComplete { get; private set; }
+        public static string CloneChannelsError { get; private set; }
+
         public static void Init()
         {
             LocaleDict dict = Locale.GetDictionary("Scada.Admin.Extensions.ExtProjectTools.Code.ChannelMap");
@@ -52,6 +57,11 @@ namespace Scada.Admin.Extensions.ExtProjectTools.Code
             LostPrimaryKeys = dict["LostPrimaryKeys"];
             BaseHasErrors = dict["BaseHasErrors"];
             IntegrityCheckError = dict["IntegrityCheckError"];
+
+            dict = Locale.GetDictionary("Scada.Admin.Extensions.ExtProjectTools.Forms.FrmCnlClone");
+            KeepUnchanged = dict["KeepUnchanged"];
+            CloneChannelsComplete = dict["CloneChannelsComplete"];
+            CloneChannelsError = dict["CloneChannelsError"];
         }
     }
 }
