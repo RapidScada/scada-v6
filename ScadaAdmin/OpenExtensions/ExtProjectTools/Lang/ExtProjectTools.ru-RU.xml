@@ -1,5 +1,16 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <ExtProjectToolsDictionaries>
+  <Dictionary key="Scada.Admin.Extensions.ExtProjectTools.Code.ChannelMap">
+    <Phrase key="MapByDeviceTitle">Каналы по КП</Phrase>
+    <Phrase key="MapByObjectTitle">Каналы по объектам</Phrase>
+    <Phrase key="ChannelsCaption">Каналы : </Phrase>
+    <Phrase key="DeviceCaption">[{0}] {1}</Phrase>
+    <Phrase key="ObjectCaption">[{0}] {1}</Phrase>
+    <Phrase key="EmptyDevice">Пустой КП</Phrase>
+    <Phrase key="EmptyObject">Пустой объект</Phrase>
+    <Phrase key="NoChannels">Каналы отсутствуют</Phrase>
+    <Phrase key="GenerateMapError">Ошибка при генерации карты каналов</Phrase>
+  </Dictionary>
   <Dictionary key="Scada.Admin.Extensions.ExtProjectTools.Code.IntegrityCheck">
     <Phrase key="IntegrityCheckTitle">Проверка целостности</Phrase>
     <Phrase key="TableCorrect">Норма</Phrase>
@@ -15,7 +26,8 @@
     <Phrase key="miAddDevice">Добавить КП...</Phrase>
     <Phrase key="miCreateChannels">Создать каналы...</Phrase>
     <Phrase key="miCloneChannels">Клонировать каналы...</Phrase>
-    <Phrase key="miChannelMap">Карта каналов...</Phrase>
+    <Phrase key="miChannelMapByDevice">Карта каналов по КП</Phrase>
+    <Phrase key="miChannelMapByObject">Карта каналов по объектам</Phrase>
     <Phrase key="miCheckIntegrity">Проверить целостность</Phrase>
     <Phrase key="miImportTable">Импортировать таблицу...</Phrase>
     <Phrase key="miExportTable">Экспортировать таблицу...</Phrase>

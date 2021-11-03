@@ -11,6 +11,18 @@ namespace Scada.Admin.Extensions.ExtProjectTools.Code
     /// </summary>
     internal class ExtensionPhrases
     {
+        // Scada.Admin.Extensions.ExtProjectTools.Code.ChannelMap
+        public static string MapByDeviceTitle { get; private set; }
+        public static string MapByObjectTitle { get; private set; }
+        public static string ChannelsCaption { get; private set; }
+        public static string DeviceCaption { get; private set; }
+        public static string ObjectCaption { get; private set; }
+        public static string EmptyDevice { get; private set; }
+        public static string EmptyObject { get; private set; }
+        public static string NoChannels { get; private set; }
+        public static string GenerateMapError { get; private set; }
+
+
         // Scada.Admin.Extensions.ExtProjectTools.Code.IntegrityCheck
         public static string IntegrityCheckTitle { get; private set; }
         public static string TableCorrect { get; private set; }
@@ -22,7 +34,18 @@ namespace Scada.Admin.Extensions.ExtProjectTools.Code
 
         public static void Init()
         {
-            LocaleDict dict = Locale.GetDictionary("Scada.Admin.Extensions.ExtProjectTools.Code.IntegrityCheck");
+            LocaleDict dict = Locale.GetDictionary("Scada.Admin.Extensions.ExtProjectTools.Code.ChannelMap");
+            MapByDeviceTitle = dict["MapByDeviceTitle"];
+            MapByObjectTitle = dict["MapByObjectTitle"];
+            ChannelsCaption = dict["ChannelsCaption"];
+            DeviceCaption = dict["DeviceCaption"];
+            ObjectCaption = dict["ObjectCaption"];
+            EmptyDevice = dict["EmptyDevice"];
+            EmptyObject = dict["EmptyObject"];
+            NoChannels = dict["NoChannels"];
+            GenerateMapError = dict["GenerateMapError"];
+
+            dict = Locale.GetDictionary("Scada.Admin.Extensions.ExtProjectTools.Code.IntegrityCheck");
             IntegrityCheckTitle = dict["IntegrityCheckTitle"];
             TableCorrect = dict["TableCorrect"];
             TableHasErrors = dict["TableHasErrors"];

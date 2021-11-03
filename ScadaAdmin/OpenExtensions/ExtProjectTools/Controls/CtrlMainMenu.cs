@@ -62,7 +62,8 @@ namespace Scada.Admin.Extensions.ExtProjectTools.Controls
             miAddDevice.Enabled = btnAddDevice.Enabled = projectIsOpen;
             miCreateChannels.Enabled = btnCreateChannels.Enabled = projectIsOpen;
             miCloneChannels.Enabled = projectIsOpen;
-            miChannelMap.Enabled = projectIsOpen;
+            miChannelMapByDevice.Enabled = projectIsOpen;
+            miChannelMapByObject.Enabled = projectIsOpen;
             miCheckIntegrity.Enabled = projectIsOpen;
             miImportTable.Enabled = projectIsOpen;
             miExportTable.Enabled = projectIsOpen;
@@ -91,7 +92,15 @@ namespace Scada.Admin.Extensions.ExtProjectTools.Controls
 
         private void miChannelMap_Click(object sender, EventArgs e)
         {
-
+            // generate channel map
+            if (adminContext.CurrentProject != null)
+            {
+                new ChannelMap(adminContext.ErrLog, adminContext.CurrentProject.ConfigBase)
+                {
+                    GroupByDevices = sender == miChannelMapByDevice
+                }
+                .Generate(Path.Combine(adminContext.AppDirs.LogDir, ChannelMap.MapFileName));
+            }
         }
 
         private void miCheckIntegrity_Click(object sender, EventArgs e)
