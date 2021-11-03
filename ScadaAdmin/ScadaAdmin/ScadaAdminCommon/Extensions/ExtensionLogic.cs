@@ -83,7 +83,7 @@ namespace Scada.Admin.Extensions
         /// <summary>
         /// Gets menu items to add to the main menu.
         /// </summary>
-        public virtual ToolStripMenuItem[] GetMainMenuItems()
+        public virtual ToolStripItem[] GetMainMenuItems()
         {
             return null;
         }
@@ -91,7 +91,7 @@ namespace Scada.Admin.Extensions
         /// <summary>
         /// Gets tool buttons to add to the toolbar.
         /// </summary>
-        public virtual ToolStripButton[] GetToobarButtons()
+        public virtual ToolStripItem[] GetToobarButtons()
         {
             return null;
         }

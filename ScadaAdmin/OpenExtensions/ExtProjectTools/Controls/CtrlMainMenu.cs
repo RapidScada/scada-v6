@@ -39,17 +39,17 @@ namespace Scada.Admin.Extensions.ExtProjectTools.Controls
         /// <summary>
         /// Gets menu items to add to the main menu.
         /// </summary>
-        public ToolStripMenuItem[] GetMainMenuItems()
+        public ToolStripItem[] GetMainMenuItems()
         {
-            return new ToolStripMenuItem[] { miProjectTools };
+            return new ToolStripItem[] { miProjectTools };
         }
 
         /// <summary>
         /// Gets tool buttons to add to the toolbar.
         /// </summary>
-        public ToolStripButton[] GetToobarButtons()
+        public ToolStripItem[] GetToobarButtons()
         {
-            return new ToolStripButton[] { btnAddLine, btnAddDevice, btnCreateChannels };
+            return new ToolStripItem[] { btnAddLine, btnAddDevice, btnCreateChannels };
         }
 
         /// <summary>
