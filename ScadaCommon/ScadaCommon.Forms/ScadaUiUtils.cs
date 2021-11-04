@@ -57,6 +57,18 @@ namespace Scada.Forms
         }
 
         /// <summary>
+        /// Appends the error text to the string builder.
+        /// </summary>
+        public static void AppendError(this StringBuilder stringBuilder, Label label,
+            string text, params object[] args)
+        {
+            if (label == null)
+                throw new ArgumentNullException(nameof(label));
+
+            stringBuilder.Append(label.Text).Append(": ").AppendLine(ScadaUtils.FormatText(text, args));
+        }
+
+        /// <summary>
         /// Writes the error to the log and displays a error message.
         /// </summary>
         public static void HandleError(this ILog log, string text)
