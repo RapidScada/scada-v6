@@ -112,17 +112,9 @@ namespace Scada.Admin.Extensions.ExtProjectTools.Forms
 
                 if (srcStartNum <= srcEndNum)
                 {
-                    // normalize channel range
-                    const int MinCnlNum = 1;
-                    const int MaxCnlNum = int.MaxValue;
-                    int shiftNum = destStartNum - srcStartNum;
-
-                    if (shiftNum > 0)
-                        srcEndNum = Math.Min(srcEndNum, MaxCnlNum - shiftNum);
-                    else
-                        srcStartNum = Math.Max(srcStartNum, MinCnlNum + shiftNum);
-
                     // create new channels
+                    ExtensionUtils.NormalizeIdRange(ConfigBase.MinID, ConfigBase.MaxID, 
+                        ref srcStartNum, ref srcEndNum, destStartNum, out int numOffset);
                     List<Cnl> cnlsToAdd = new(srcEndNum - srcStartNum + 1);
 
                     foreach (Cnl cnl in cnlTable.EnumerateItems())
@@ -135,10 +127,10 @@ namespace Scada.Admin.Extensions.ExtProjectTools.Forms
                         {
                             break;
                         }
-                        else if (!cnlTable.PkExists(cnl.CnlNum + shiftNum))
+                        else if (!cnlTable.PkExists(cnl.CnlNum + numOffset))
                         {
                             Cnl newCnl = ScadaUtils.DeepClone(cnl);
-                            newCnl.CnlNum = cnl.CnlNum + shiftNum;
+                            newCnl.CnlNum = cnl.CnlNum + numOffset;
 
                             if (replaceObjNum >= 0)
                                 newCnl.ObjNum = replaceObjNum > 0 ? replaceObjNum : null;
@@ -148,8 +140,8 @@ namespace Scada.Admin.Extensions.ExtProjectTools.Forms
 
                             if (updateFormulas)
                             {
-                                newCnl.InFormula = UpdateFormula(newCnl.InFormula, shiftNum);
-                                newCnl.OutFormula = UpdateFormula(newCnl.OutFormula, shiftNum);
+                                newCnl.InFormula = UpdateFormula(newCnl.InFormula, numOffset);
+                                newCnl.OutFormula = UpdateFormula(newCnl.OutFormula, numOffset);
                             }
 
                             cnlsToAdd.Add(newCnl);

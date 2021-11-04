@@ -7,7 +7,7 @@ namespace Scada.Admin.Extensions.ExtProjectTools.Code
     /// Specifies the file formats of the configuration database table.
     /// <para>Задает форматы файлов таблиц базы конфигурации.</para>
     /// </summary>
-    public enum BaseTableFormat
+    internal enum BaseTableFormat
     {
         /// <summary>
         /// Binary runtime tables.

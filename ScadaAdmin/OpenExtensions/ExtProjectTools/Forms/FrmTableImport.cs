@@ -1,8 +1,10 @@
 ﻿// Copyright (c) Rapid Software LLC. All rights reserved.
 // Licensed under the Apache License, Version 2.0. See License.txt in the project root for license information.
 
+using CsvHelper;
 using Scada.Admin.Extensions.ExtProjectTools.Code;
 using Scada.Admin.Project;
+using Scada.Data.Adapters;
 using Scada.Data.Tables;
 using Scada.Forms;
 using Scada.Lang;
@@ -19,14 +21,6 @@ namespace Scada.Admin.Extensions.ExtProjectTools.Forms
     /// </summary>
     public partial class FrmTableImport : Form
     {
-        /// <summary>
-        /// Represents an item of the table list.
-        private class TableItem
-        {
-            public IBaseTable BaseTable { get; init; }
-            public override string ToString() => BaseTable.Title;
-        }
-
         private readonly ILog log;              // the application log
         private readonly ConfigBase configBase; // the configuration database
 
@@ -52,38 +46,43 @@ namespace Scada.Admin.Extensions.ExtProjectTools.Forms
 
 
         /// <summary>
+        /// Gets the source start ID.
+        /// </summary>
+        private int SrcStartID
+        {
+            get
+            {
+                return chkSrcStartID.Checked ? Convert.ToInt32(numSrcStartID.Value) : 0;
+            }
+        }
+
+        /// <summary>
+        /// Gets the source end ID.
+        /// </summary>
+        private int SrcEndID
+        {
+            get
+            {
+                return chkSrcEndID.Checked ? Convert.ToInt32(numSrcEndID.Value) : ConfigBase.MaxID;
+            }
+        }
+
+        /// <summary>
+        /// Gets the destination start ID.
+        /// </summary>
+        private int DestStartID
+        {
+            get
+            {
+                return chkDestStartID.Checked ? Convert.ToInt32(numDestStartID.Value) : SrcStartID;
+            }
+        }
+
+        /// <summary>
         /// Gets or sets the item type of the selected table.
         /// </summary>
         public Type SelectedItemType { get; set; }
 
-
-        /// <summary>
-        /// Fills the combo box with the tables.
-        /// </summary>
-        private void FillTableList()
-        {
-            try
-            {
-                cbTable.BeginUpdate();
-                int selectedIndex = 0;
-                int index = 0;
-
-                foreach (IBaseTable baseTable in configBase.AllTables)
-                {
-                    if (baseTable.ItemType == SelectedItemType)
-                        selectedIndex = index;
-
-                    cbTable.Items.Add(new TableItem { BaseTable = baseTable });
-                    index++;
-                }
-
-                cbTable.SelectedIndex = selectedIndex;
-            }
-            finally
-            {
-                cbTable.EndUpdate();
-            }
-        }
 
         /// <summary>
         /// Calculates the end destination ID.
@@ -100,28 +99,74 @@ namespace Scada.Admin.Extensions.ExtProjectTools.Forms
         /// <summary>
         /// Imports the table.
         /// </summary>
-        private bool Import(IBaseTable baseTable, BaseTableFormat format)
+        private bool ImportTable(string fileName, IBaseTable baseTable, BaseTableFormat format,
+            int srcStartID, int srcEndID, int destStartID)
         {
+            if (!File.Exists(fileName))
+            {
+                ScadaUiUtils.ShowError(CommonPhrases.FileNotFound);
+                return false;
+            }
+
             try
             {
-                string srcfileName = openFileDialog.FileName;
-                int srcStartID = chkSrcStartID.Checked ? Convert.ToInt32(numSrcStartID.Value) : 0;
+                // open source table
+                IBaseTable srcTable = BaseTableFactory.GetBaseTable(baseTable);
 
-                if (File.Exists(srcfileName))
+                switch (format)
                 {
-                    //new ImportExport().ImportBaseTable(srcfileName, format, baseTable,
-                    //    srcStartID,
-                    //    chkSrcEndID.Checked ? Convert.ToInt32(numSrcEndID.Value) : int.MaxValue,
-                    //    chkDestStartID.Checked ? Convert.ToInt32(numDestStartID.Value) : srcStartID,
-                    //    out int affectedRows);
-                    //ScadaUiUtils.ShowInfo(string.Format(ExtensionPhrases.ImportTableComplete, affectedRows));
-                    return true;
+                    case BaseTableFormat.DAT:
+                        new BaseTableAdapter { FileName = fileName }.Fill(srcTable);
+                        break;
+
+                    case BaseTableFormat.XML:
+                        srcTable.Load(fileName);
+                        break;
+
+                    case BaseTableFormat.CSV:
+                        using (StreamReader reader = new(fileName))
+                        {
+                            using CsvReader csvReader = new(reader, Locale.Culture);
+                            foreach (object record in csvReader.GetRecords(srcTable.ItemType))
+                            {
+                                srcTable.AddObject(record);
+                            }
+                        }
+                        break;
                 }
-                else
+
+                // copy data from source table to destination
+                ExtensionUtils.NormalizeIdRange(0, ConfigBase.MaxID,
+                    ref srcStartID, ref srcEndID, destStartID, out int idOffset);
+                int affectedRows = 0;
+
+                foreach (object item in srcTable.EnumerateItems())
                 {
-                    ScadaUiUtils.ShowError(CommonPhrases.FileNotFound);
-                    return false;
+                    int itemID = srcTable.GetPkValue(item);
+
+                    if (itemID < srcStartID)
+                    {
+                        continue;
+                    }
+                    else if (itemID > srcEndID)
+                    {
+                        break;
+                    }
+                    else
+                    {
+                        if (idOffset != 0)
+                            srcTable.SetPkValue(item, itemID + idOffset);
+
+                        baseTable.AddObject(item);
+                        affectedRows++;
+                    }
                 }
+
+                if (affectedRows > 0)
+                    baseTable.Modified = true;
+
+                ScadaUiUtils.ShowInfo(string.Format(ExtensionPhrases.ImportTableComplete, affectedRows));
+                return true;
             }
             catch (Exception ex)
             {
@@ -135,7 +180,7 @@ namespace Scada.Admin.Extensions.ExtProjectTools.Forms
         {
             FormTranslator.Translate(this, GetType().FullName);
             openFileDialog.SetFilter(ExtensionPhrases.ImportTableFilter);
-            FillTableList();
+            ExtensionUtils.FillTableList(cbTable, configBase, SelectedItemType);
         }
 
         private void btnBrowse_Click(object sender, EventArgs e)
@@ -175,14 +220,17 @@ namespace Scada.Admin.Extensions.ExtProjectTools.Forms
 
         private void btnImport_Click(object sender, EventArgs e)
         {
-            if (cbTable.SelectedItem is TableItem tableItem)
+            if (cbTable.SelectedItem is BaseTableItem item)
             {
-                SelectedItemType = tableItem.BaseTable.ItemType;
-                BaseTableFormat format = 
-                    string.Equals(Path.GetExtension(txtSrcFile.Text), ".xml", StringComparison.OrdinalIgnoreCase) ?
-                        BaseTableFormat.XML : BaseTableFormat.DAT;
+                SelectedItemType = item.BaseTable.ItemType;
+                BaseTableFormat format = Path.GetExtension(txtSrcFile.Text).ToLowerInvariant() switch
+                {
+                    ".xml" => BaseTableFormat.XML,
+                    ".csv" => BaseTableFormat.CSV,
+                    _ => BaseTableFormat.DAT
+                };
 
-                if (Import(tableItem.BaseTable, format))
+                if (ImportTable(txtSrcFile.Text, item.BaseTable, format, SrcStartID, SrcEndID, DestStartID))
                     DialogResult = DialogResult.OK;
             }
         }

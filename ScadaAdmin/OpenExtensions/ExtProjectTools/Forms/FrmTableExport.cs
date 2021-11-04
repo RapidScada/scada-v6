@@ -11,7 +11,6 @@ using Scada.Lang;
 using Scada.Log;
 using System;
 using System.IO;
-using System.Linq;
 using System.Windows.Forms;
 
 namespace Scada.Admin.Extensions.ExtProjectTools.Forms
@@ -22,14 +21,6 @@ namespace Scada.Admin.Extensions.ExtProjectTools.Forms
     /// </summary>
     public partial class FrmTableExport : Form
     {
-        /// <summary>
-        /// Represents an item of the table list.
-        private class TableItem
-        {
-            public IBaseTable BaseTable { get; init; }
-            public override string ToString() => BaseTable.Title;
-        }
-
         private readonly ILog log;              // the application log
         private readonly ConfigBase configBase; // the configuration database
 
@@ -57,7 +48,7 @@ namespace Scada.Admin.Extensions.ExtProjectTools.Forms
         /// <summary>
         /// Gets the start ID.
         /// </summary>
-        protected int StartID
+        private int StartID
         {
             get
             {
@@ -68,11 +59,11 @@ namespace Scada.Admin.Extensions.ExtProjectTools.Forms
         /// <summary>
         /// Gets the end ID.
         /// </summary>
-        protected int EndID
+        private int EndID
         {
             get
             {
-                return chkEndID.Checked ? Convert.ToInt32(numEndID.Value) : int.MaxValue;
+                return chkEndID.Checked ? Convert.ToInt32(numEndID.Value) : ConfigBase.MaxID;
             }
         }
 
@@ -81,34 +72,6 @@ namespace Scada.Admin.Extensions.ExtProjectTools.Forms
         /// </summary>
         public Type SelectedItemType { get; set; }
 
-
-        /// <summary>
-        /// Fills the combo box with the tables.
-        /// </summary>
-        private void FillTableList()
-        {
-            try
-            {
-                cbTable.BeginUpdate();
-                int selectedIndex = 0;
-                int index = 0;
-
-                foreach (IBaseTable baseTable in configBase.AllTables.OrderBy(t => t.Title))
-                {
-                    if (baseTable.ItemType == SelectedItemType)
-                        selectedIndex = index;
-
-                    cbTable.Items.Add(new TableItem { BaseTable = baseTable });
-                    index++;
-                }
-
-                cbTable.SelectedIndex = selectedIndex;
-            }
-            finally
-            {
-                cbTable.EndUpdate();
-            }
-        }
 
         /// <summary>
         /// Gets the output file name and the selected table format.
@@ -139,7 +102,7 @@ namespace Scada.Admin.Extensions.ExtProjectTools.Forms
                 // filter table
                 IBaseTable filteredTable;
 
-                if (0 < startID || endID < int.MaxValue)
+                if (0 < startID || endID < ConfigBase.MaxID)
                 {
                     filteredTable = BaseTableFactory.GetBaseTable(baseTable);
 
@@ -165,7 +128,7 @@ namespace Scada.Admin.Extensions.ExtProjectTools.Forms
                 switch (format)
                 {
                     case BaseTableFormat.DAT:
-                        new BaseTableAdapter() { FileName = fileName }.Update(filteredTable);
+                        new BaseTableAdapter { FileName = fileName }.Update(filteredTable);
                         break;
 
                     case BaseTableFormat.XML:
@@ -178,7 +141,6 @@ namespace Scada.Admin.Extensions.ExtProjectTools.Forms
                             using CsvWriter csvWriter = new(writer, Locale.Culture);
                             csvWriter.WriteRecords(filteredTable.EnumerateItems());
                         }
-
                         break;
                 }
 
@@ -196,8 +158,7 @@ namespace Scada.Admin.Extensions.ExtProjectTools.Forms
         {
             FormTranslator.Translate(this, GetType().FullName);
             saveFileDialog.SetFilter(ExtensionPhrases.ExportTableFilter);
-
-            FillTableList();
+            ExtensionUtils.FillTableList(cbTable, configBase, SelectedItemType);
             cbFormat.SelectedIndex = 0;
         }
 
@@ -213,13 +174,13 @@ namespace Scada.Admin.Extensions.ExtProjectTools.Forms
 
         private void btnExport_Click(object sender, EventArgs e)
         {
-            if (cbTable.SelectedItem is TableItem tableItem)
+            if (cbTable.SelectedItem is BaseTableItem item)
             {
-                SelectedItemType = tableItem.BaseTable.ItemType;
-                saveFileDialog.FileName = GetOutputFileName(tableItem.BaseTable, out BaseTableFormat format);
+                SelectedItemType = item.BaseTable.ItemType;
+                saveFileDialog.FileName = GetOutputFileName(item.BaseTable, out BaseTableFormat format);
 
                 if (saveFileDialog.ShowDialog() == DialogResult.OK &&
-                    ExportTable(saveFileDialog.FileName, tableItem.BaseTable, format, StartID, EndID))
+                    ExportTable(saveFileDialog.FileName, item.BaseTable, format, StartID, EndID))
                 {
                     DialogResult = DialogResult.OK;
                 }

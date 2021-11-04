@@ -125,7 +125,17 @@ namespace Scada.Admin.Extensions.ExtProjectTools.Controls
 
         private void miImportTable_Click(object sender, EventArgs e)
         {
+            // import table
+            if (adminContext.CurrentProject != null)
+            {
+                FrmTableImport frmTableImport = new(adminContext.ErrLog, adminContext.CurrentProject.ConfigBase)
+                {
+                    SelectedItemType = adminContext.MainForm.ActiveBaseTable
+                };
 
+                if (frmTableImport.ShowDialog() == DialogResult.OK)
+                    adminContext.MainForm.RefreshBaseTables(frmTableImport.SelectedItemType);
+            }
         }
 
         private void miExportTable_Click(object sender, EventArgs e)
