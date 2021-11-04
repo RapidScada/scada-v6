@@ -69,5 +69,10 @@ namespace Scada.Admin.Extensions
         /// Refreshes child forms that contains a configuration database table with the specified item type.
         /// </summary>
         void RefreshBaseTables(Type itemType);
+
+        /// <summary>
+        /// Finds an instance tree node by instance name.
+        /// </summary>
+        TreeNode FindInstanceNode(string instanceName, out bool justPrepared);
     }
 }

@@ -270,7 +270,7 @@ namespace Scada.Admin.App.Forms
         }
 
         /// <summary>
-        /// Executes an action related to the node.
+        /// Executes an action related to the tree node.
         /// </summary>
         private void ExecNodeAction(TreeNode treeNode)
         {
@@ -302,7 +302,7 @@ namespace Scada.Admin.App.Forms
         }
 
         /// <summary>
-        /// Executes an action to open the file associated with the node.
+        /// Executes an action to open the file associated with the tree node.
         /// </summary>
         private void ExecOpenFileAction(TreeNode treeNode)
         {
@@ -366,7 +366,7 @@ namespace Scada.Admin.App.Forms
         }
 
         /// <summary>
-        /// Updates file names of the opened text editors corresponding to the specified node and its children.
+        /// Updates file names of open text editors corresponding to the specified tree node and its children.
         /// </summary>
         private void UpdateTextEditorFileNames(TreeNode treeNode)
         {
@@ -403,7 +403,7 @@ namespace Scada.Admin.App.Forms
         }
 
         /// <summary>
-        /// Saves the child forms corresponding to the specified node and its children.
+        /// Saves the child forms corresponding to the specified tree node and its children.
         /// </summary>
         private static void SaveChildForms(TreeNode treeNode)
         {
@@ -421,7 +421,7 @@ namespace Scada.Admin.App.Forms
         }
 
         /// <summary>
-        /// Gets the path associated with the specified node.
+        /// Gets the path associated with the specified tree node.
         /// </summary>
         private bool TryGetFilePath(TreeNode treeNode, out string path)
         {
@@ -470,7 +470,7 @@ namespace Scada.Admin.App.Forms
         }
 
         /// <summary>
-        /// Finds the closest instance in the explorer starting from the specified node and traversing up.
+        /// Finds the closest instance in the explorer starting from the specified tree node and traversing up.
         /// </summary>
         private static bool FindClosestInstance(TreeNode treeNode, out LiveInstance liveInstance)
         {
@@ -513,11 +513,15 @@ namespace Scada.Admin.App.Forms
         }
 
         /// <summary>
-        /// Prepares data and fills the instance node.
+        /// Prepares data and fills the instance tree node.
         /// </summary>
-        private void PrepareInstanceNode(TreeNode instanceNode, LiveInstance liveInstance)
+        private bool PrepareInstanceNode(TreeNode instanceNode, LiveInstance liveInstance)
         {
-            if (!liveInstance.IsReady)
+            if (liveInstance.IsReady)
+            {
+                return false; // already prepared
+            }
+            else
             {
                 if (liveInstance.ProjectInstance.LoadAppConfig(out string errMsg))
                 {
@@ -532,11 +536,13 @@ namespace Scada.Admin.App.Forms
                 {
                     Log.HandleError(errMsg);
                 }
+
+                return true; // just prepared
             }
         }
 
         /// <summary>
-        /// Prepares data and fills the instance node.
+        /// Prepares data and fills the instance tree node.
         /// </summary>
         private void PrepareInstanceNode(TreeNode instanceNode)
         {
@@ -545,7 +551,7 @@ namespace Scada.Admin.App.Forms
         }
 
         /// <summary>
-        /// Refreshes the content of the instance node.
+        /// Refreshes the content of the instance tree node.
         /// </summary>
         private void RefreshInstanceNode(TreeNode instanceNode, LiveInstance liveInstance)
         {
@@ -918,6 +924,29 @@ namespace Scada.Admin.App.Forms
                 if (form is FrmBaseTable frmBaseTable && frmBaseTable.ItemType == itemType)
                     frmBaseTable.ChildFormTag.SendMessage(this, AdminMessage.RefreshData);
             }
+        }
+
+        /// <summary>
+        /// Finds an instance tree node by instance name.
+        /// </summary>
+        public TreeNode FindInstanceNode(string instanceName, out bool justPrepared)
+        {
+            if (Project != null)
+            {
+                foreach (TreeNode treeNode in explorerBuilder.InstancesNode.Nodes)
+                {
+                    if (treeNode.Tag is TreeNodeTag tag && tag.RelatedObject is LiveInstance liveInstance &&
+                        string.Equals(liveInstance.ProjectInstance.Name, instanceName, 
+                        StringComparison.OrdinalIgnoreCase))
+                    {
+                        justPrepared = PrepareInstanceNode(treeNode, liveInstance);
+                        return treeNode;
+                    }
+                }
+            }
+
+            justPrepared = false;
+            return null;
         }
 
 

@@ -107,6 +107,20 @@ namespace Scada.Admin.Extensions.ExtCommConfig.Controls
         }
 
         /// <summary>
+        /// Finds a tree node that contains the specified related object.
+        /// </summary>
+        private static TreeNode FindNode(TreeNode startNode, object relatedObject)
+        {
+            foreach (TreeNode node in startNode.IterateNodes())
+            {
+                if (node.Tag is TreeNodeTag tag && tag.RelatedObject == relatedObject)
+                    return node;
+            }
+
+            return null;
+        }
+
+        /// <summary>
         /// Gets menu items to add to the main menu.
         /// </summary>
         public ToolStripItem[] GetMainMenuItems()
@@ -140,27 +154,29 @@ namespace Scada.Admin.Extensions.ExtCommConfig.Controls
                 {
                     adminContext.MainForm.RefreshBaseTables(typeof(CommLine));
 
-                    // add the communication line to the explorer
-                    /*if (frmLineAdd.LineConfig != null &&
-                        FindInstance(frmLineAdd.InstanceName, out TreeNode instanceNode, out LiveInstance liveInstance))
+                    if (frmLineAdd.Instance != null && frmLineAdd.LineConfig != null)
                     {
-                        if (liveInstance.IsReady)
+                        // update explorer
+                        if (adminContext.MainForm.FindInstanceNode(frmLineAdd.Instance.Name, out bool justPrepared) is
+                            TreeNode instanceNode)
                         {
-                            TreeNode commLinesNode = instanceNode.FindFirst(CommNodeType.CommLines);
-                            TreeNode commLineNode = commShell.CreateCommLineNode(frmLineAdd.CommLineSettings,
-                                liveInstance.CommEnvironment);
-                            commLineNode.ContextMenuStrip = cmsCommLine;
-                            commLinesNode.Nodes.Add(commLineNode);
-                            tvExplorer.SelectedNode = commLineNode;
-                        }
-                        else
-                        {
-                            PrepareInstanceNode(instanceNode, liveInstance);
-                            tvExplorer.SelectedNode = FindTreeNode(frmLineAdd.CommLineSettings, instanceNode);
+                            if (justPrepared)
+                            {
+                                ExplorerTree.SelectedNode = FindNode(instanceNode, frmLineAdd.LineConfig);
+                            }
+                            else if (instanceNode.FindFirst(CommNodeType.Lines) is TreeNode linesNode)
+                            {
+                                TreeNode lineNode = 
+                                    new TreeViewBuilder(adminContext, ExtensionUtils.ContextMenuControl)
+                                    .CreateLineNode(frmLineAdd.Instance.CommApp, frmLineAdd.LineConfig);
+                                linesNode.Nodes.Add(lineNode);
+                                ExplorerTree.SelectedNode = lineNode;
+                            }
                         }
 
-                        SaveCommSettigns(liveInstance);
-                    }*/
+                        // save configuration
+                        SaveCommConfig(frmLineAdd.Instance.CommApp);
+                    }
                 }
             }
         }

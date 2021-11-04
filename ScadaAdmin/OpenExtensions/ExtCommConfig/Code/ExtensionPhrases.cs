@@ -18,7 +18,7 @@ namespace Scada.Admin.Extensions.ExtCommConfig.Code
         public static string LinesNode { get; private set; }
         public static string LineOptionsNode { get; private set; }
 
-        // Scada.Admin.Extensions.ExtCommConfig.Controls.CtrlContextMenu
+        // Scada.Admin.Extensions.ExtCommConfig.Controls.CtrlExtensionMenu
         public static string ConfirmDeleteLine { get; private set; }
 
         // Scada.Admin.Extensions.ExtCommConfig.Controls.CtrlLineMain
@@ -54,7 +54,7 @@ namespace Scada.Admin.Extensions.ExtCommConfig.Code
             LinesNode = dict["LinesNode"];
             LineOptionsNode = dict["LineOptionsNode"];
 
-            dict = Locale.GetDictionary("Scada.Admin.Extensions.ExtCommConfig.Controls.CtrlContextMenu");
+            dict = Locale.GetDictionary("Scada.Admin.Extensions.ExtCommConfig.Controls.CtrlExtensionMenu");
             ConfirmDeleteLine = dict["ConfirmDeleteLine"];
 
             dict = Locale.GetDictionary("Scada.Admin.Extensions.ExtCommConfig.Controls.CtrlLineMain");

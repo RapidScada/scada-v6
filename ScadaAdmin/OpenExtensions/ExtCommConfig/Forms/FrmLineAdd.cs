@@ -40,7 +40,8 @@ namespace Scada.Admin.Extensions.ExtCommConfig.Forms
         {
             this.project = project ?? throw new ArgumentNullException(nameof(project));
             this.recentSelection = recentSelection ?? throw new ArgumentNullException(nameof(recentSelection));
-            InstanceName = "";
+
+            Instance = null;
             LineConfig = null;
 
             numCommLineNum.Maximum = ConfigBase.MaxID;
@@ -50,9 +51,9 @@ namespace Scada.Admin.Extensions.ExtCommConfig.Forms
 
 
         /// <summary>
-        /// Gets the name of the instance affected in Communicator.
+        /// Gets the instance affected in Communicator.
         /// </summary>
-        public string InstanceName { get; private set; }
+        public ProjectInstance Instance { get; private set; }
 
         /// <summary>
         /// Gets the communication line configuration added to Communicator.
@@ -182,7 +183,8 @@ namespace Scada.Admin.Extensions.ExtCommConfig.Forms
                         instance.CommApp.AppConfig.Lines.Add(LineConfig);
                     }
 
-                    InstanceName = recentSelection.InstanceName = instance.Name;
+                    Instance = instance;
+                    recentSelection.InstanceName = instance.Name;
                 }
 
                 recentSelection.CommLineNum = commLineEntity.CommLineNum;
