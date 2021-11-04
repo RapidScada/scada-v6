@@ -121,7 +121,50 @@ namespace Scada.Admin.Extensions.ExtProjectTools.Controls
 
         private void miAddDevice_Click(object sender, EventArgs e)
         {
+            // add device
+            /*if (adminContext.CurrentProject != null)
+            {
+                FrmDeviceAdd frmDeviceAdd = new FrmDeviceAdd(project, appData.AppState.RecentSelection);
 
+                if (frmDeviceAdd.ShowDialog() == DialogResult.OK)
+                {
+                    RefreshBaseTables(typeof(KP));
+
+                    if (frmDeviceAdd.KPSettings != null &&
+                        FindInstance(frmDeviceAdd.InstanceName, out TreeNode instanceNode, out LiveInstance liveInstance))
+                    {
+                        // add the device to the explorer
+                        if (liveInstance.IsReady)
+                        {
+                            TreeNode commLineNode = FindTreeNode(frmDeviceAdd.CommLineSettings, instanceNode);
+                            TreeNode kpNode = commShell.CreateDeviceNode(frmDeviceAdd.KPSettings,
+                                frmDeviceAdd.CommLineSettings, liveInstance.CommEnvironment);
+                            kpNode.ContextMenuStrip = cmsDevice;
+                            commLineNode.Nodes.Add(kpNode);
+                            tvExplorer.SelectedNode = kpNode;
+                            UpdateLineParams(kpNode);
+                        }
+                        else
+                        {
+                            PrepareInstanceNode(instanceNode, liveInstance);
+                            tvExplorer.SelectedNode = FindTreeNode(frmDeviceAdd.KPSettings, instanceNode);
+                        }
+
+                        // set the device request parameters by default
+                        if (liveInstance.CommEnvironment.TryGetKPView(frmDeviceAdd.KPSettings, true, null,
+                            out KPView kpView, out string errMsg))
+                        {
+                            frmDeviceAdd.KPSettings.SetReqParams(kpView.DefaultReqParams);
+                        }
+                        else
+                        {
+                            ScadaUiUtils.ShowError(errMsg);
+                        }
+
+                        SaveCommSettigns(liveInstance);
+                    }
+                }
+            }*/
         }
 
         private void miCreateChannels_Click(object sender, EventArgs e)
