@@ -17,8 +17,7 @@ namespace Scada.Admin.Extensions.ExtProjectTools.Controls
     /// </summary>
     public partial class CtrlMainMenu : UserControl
     {
-        private readonly IAdminContext adminContext;      // the Administrator context
-        private readonly RecentSelection recentSelection; // the recently selected objects
+        private readonly IAdminContext adminContext; // the Administrator context
 
 
         /// <summary>
@@ -36,8 +35,6 @@ namespace Scada.Admin.Extensions.ExtProjectTools.Controls
             : this()
         {
             this.adminContext = adminContext ?? throw new ArgumentNullException(nameof(adminContext));
-            recentSelection = new RecentSelection();
-
             SetMenuItemsEnabled();
             adminContext.CurrentProjectChanged += AdminContext_CurrentProjectChanged;
         }
@@ -49,9 +46,6 @@ namespace Scada.Admin.Extensions.ExtProjectTools.Controls
         private void SetMenuItemsEnabled()
         {
             bool projectIsOpen = adminContext.CurrentProject != null;
-            miAddLine.Enabled = btnAddLine.Enabled = projectIsOpen;
-            miAddDevice.Enabled = btnAddDevice.Enabled = projectIsOpen;
-            miCreateChannels.Enabled = btnCreateChannels.Enabled = projectIsOpen;
             miCloneChannels.Enabled = projectIsOpen;
             miChannelMapByDevice.Enabled = projectIsOpen;
             miChannelMapByObject.Enabled = projectIsOpen;
@@ -68,108 +62,10 @@ namespace Scada.Admin.Extensions.ExtProjectTools.Controls
             return new ToolStripItem[] { miProjectTools };
         }
 
-        /// <summary>
-        /// Gets tool buttons to add to the toolbar.
-        /// </summary>
-        public ToolStripItem[] GetToobarButtons()
-        {
-            return new ToolStripItem[] { btnAddLine, btnAddDevice, btnCreateChannels };
-        }
-
 
         private void AdminContext_CurrentProjectChanged(object sender, EventArgs e)
         {
             SetMenuItemsEnabled();
-            recentSelection.Reset();
-        }
-
-        private void miAddLine_Click(object sender, EventArgs e)
-        {
-            // add communication line
-            if (adminContext.CurrentProject != null)
-            {
-                FrmLineAdd frmLineAdd = new(adminContext.CurrentProject, recentSelection);
-
-                if (frmLineAdd.ShowDialog() == DialogResult.OK)
-                {
-                    adminContext.MainForm.RefreshBaseTables(typeof(CommLine));
-
-                    // add the communication line to the explorer
-                    /*if (frmLineAdd.LineConfig != null &&
-                        FindInstance(frmLineAdd.InstanceName, out TreeNode instanceNode, out LiveInstance liveInstance))
-                    {
-                        if (liveInstance.IsReady)
-                        {
-                            TreeNode commLinesNode = instanceNode.FindFirst(CommNodeType.CommLines);
-                            TreeNode commLineNode = commShell.CreateCommLineNode(frmLineAdd.CommLineSettings,
-                                liveInstance.CommEnvironment);
-                            commLineNode.ContextMenuStrip = cmsCommLine;
-                            commLinesNode.Nodes.Add(commLineNode);
-                            tvExplorer.SelectedNode = commLineNode;
-                        }
-                        else
-                        {
-                            PrepareInstanceNode(instanceNode, liveInstance);
-                            tvExplorer.SelectedNode = FindTreeNode(frmLineAdd.CommLineSettings, instanceNode);
-                        }
-
-                        SaveCommSettigns(liveInstance);
-                    }*/
-                }
-            }
-        }
-
-        private void miAddDevice_Click(object sender, EventArgs e)
-        {
-            // add device
-            /*if (adminContext.CurrentProject != null)
-            {
-                FrmDeviceAdd frmDeviceAdd = new FrmDeviceAdd(project, appData.AppState.RecentSelection);
-
-                if (frmDeviceAdd.ShowDialog() == DialogResult.OK)
-                {
-                    RefreshBaseTables(typeof(KP));
-
-                    if (frmDeviceAdd.KPSettings != null &&
-                        FindInstance(frmDeviceAdd.InstanceName, out TreeNode instanceNode, out LiveInstance liveInstance))
-                    {
-                        // add the device to the explorer
-                        if (liveInstance.IsReady)
-                        {
-                            TreeNode commLineNode = FindTreeNode(frmDeviceAdd.CommLineSettings, instanceNode);
-                            TreeNode kpNode = commShell.CreateDeviceNode(frmDeviceAdd.KPSettings,
-                                frmDeviceAdd.CommLineSettings, liveInstance.CommEnvironment);
-                            kpNode.ContextMenuStrip = cmsDevice;
-                            commLineNode.Nodes.Add(kpNode);
-                            tvExplorer.SelectedNode = kpNode;
-                            UpdateLineParams(kpNode);
-                        }
-                        else
-                        {
-                            PrepareInstanceNode(instanceNode, liveInstance);
-                            tvExplorer.SelectedNode = FindTreeNode(frmDeviceAdd.KPSettings, instanceNode);
-                        }
-
-                        // set the device request parameters by default
-                        if (liveInstance.CommEnvironment.TryGetKPView(frmDeviceAdd.KPSettings, true, null,
-                            out KPView kpView, out string errMsg))
-                        {
-                            frmDeviceAdd.KPSettings.SetReqParams(kpView.DefaultReqParams);
-                        }
-                        else
-                        {
-                            ScadaUiUtils.ShowError(errMsg);
-                        }
-
-                        SaveCommSettigns(liveInstance);
-                    }
-                }
-            }*/
-        }
-
-        private void miCreateChannels_Click(object sender, EventArgs e)
-        {
-
         }
 
         private void miCloneChannels_Click(object sender, EventArgs e)

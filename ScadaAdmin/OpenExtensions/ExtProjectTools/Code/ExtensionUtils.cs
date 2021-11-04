@@ -16,16 +16,6 @@ namespace Scada.Admin.Extensions.ExtProjectTools.Code
     internal static class ExtensionUtils
     {
         /// <summary>
-        /// Gets the maximum length of entity names.
-        /// </summary>
-        public const int NameLength = 100;
-        /// <summary>
-        /// Gets the maximum length of entity descriptions.
-        /// </summary>
-        public const int DescrLength = 1000;
-
-
-        /// <summary>
         /// Normalizes the source IDs for importing into the configuration database table.
         /// </summary>
         public static void NormalizeIdRange(int minID, int maxID, 

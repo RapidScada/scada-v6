@@ -16,7 +16,7 @@ namespace Scada.Admin.Extensions.ExtProjectTools
     /// </summary>
     public class ExtProjectToolsLogic : ExtensionLogic
     {
-        private CtrlMainMenu ctrlMainMenu; // contains menu and toolbar
+        private CtrlMainMenu ctrlMainMenu; // contains main menu
 
 
         /// <summary>
@@ -70,26 +70,11 @@ namespace Scada.Admin.Extensions.ExtProjectTools
         }
 
         /// <summary>
-        /// Loads configuration.
-        /// </summary>
-        public override void LoadConfig()
-        {
-        }
-
-        /// <summary>
         /// Gets menu items to add to the main menu.
         /// </summary>
         public override ToolStripItem[] GetMainMenuItems()
         {
             return CtrlMainMenu.GetMainMenuItems();
-        }
-
-        /// <summary>
-        /// Gets tool buttons to add to the toolbar.
-        /// </summary>
-        public override ToolStripItem[] GetToobarButtons()
-        {
-            return CtrlMainMenu.GetToobarButtons();
         }
     }
 }

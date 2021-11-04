@@ -22,18 +22,12 @@
   </Dictionary>
   <Dictionary key="Scada.Admin.Extensions.ExtProjectTools.Controls.CtrlMainMenu">
     <Phrase key="miProjectTools">Project Tools</Phrase>
-    <Phrase key="miAddLine">Add Line...</Phrase>
-    <Phrase key="miAddDevice">Add Device...</Phrase>
-    <Phrase key="miCreateChannels">Create Channels...</Phrase>
     <Phrase key="miCloneChannels">Clone Channels...</Phrase>
     <Phrase key="miChannelMapByDevice">Channel Map by Device</Phrase>
     <Phrase key="miChannelMapByObject">Channel Map by Object</Phrase>
     <Phrase key="miCheckIntegrity">Check Integrity</Phrase>
     <Phrase key="miImportTable">Import Table...</Phrase>
     <Phrase key="miExportTable">Export Table...</Phrase>
-    <Phrase key="btnAddLine.ToolTip">Add Line</Phrase>
-    <Phrase key="btnAddDevice.ToolTip">Add Device</Phrase>
-    <Phrase key="btnCreateChannels.ToolTip">Create Channels</Phrase>
   </Dictionary>
   <Dictionary key="Scada.Admin.Extensions.ExtProjectTools.Forms.FrmCnlClone">
     <Phrase key="this">Clone Channels</Phrase>
@@ -52,20 +46,6 @@
     <Phrase key="KeepUnchanged">&lt;Keep unchanged&gt;</Phrase>
     <Phrase key="CloneChannelsComplete">Cloning completed successfully.&#13;&#10;{0} channel(s) added.</Phrase>
     <Phrase key="CloneChannelsError">Error cloning channels</Phrase>
-  </Dictionary>
-  <Dictionary key="Scada.Admin.Extensions.ExtProjectTools.Forms.FrmLineAdd">
-    <Phrase key="this">Add Communication Line</Phrase>
-    <Phrase key="gbLine">Communication Line</Phrase>
-    <Phrase key="lblCommLineNum">Number</Phrase>
-    <Phrase key="lblName">Name</Phrase>
-    <Phrase key="lblDescr">Description</Phrase>
-    <Phrase key="gbComm">Communicator</Phrase>
-    <Phrase key="chkAddToComm">Add line to Communicator</Phrase>
-    <Phrase key="lblInstance">Instance</Phrase>
-    <Phrase key="btnOK">OK</Phrase>
-    <Phrase key="btnCancel">Cancel</Phrase>
-    <Phrase key="LineExistsInConfigBase">A communication line with the same number already exists in the configuration database.</Phrase>
-    <Phrase key="LineExistsInCommConfig">A communication line with the same number already exists in the Communicator configuration.</Phrase>
   </Dictionary>
   <Dictionary key="Scada.Admin.Extensions.ExtProjectTools.Forms.FrmTableExport">
     <Phrase key="this">Export Table</Phrase>

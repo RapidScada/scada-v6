@@ -19,9 +19,6 @@
     <Reference Include="ScadaAdminCommon">
       <HintPath>..\..\ScadaAdmin\ScadaAdminCommon\bin\Release\net5.0-windows\ScadaAdminCommon.dll</HintPath>
     </Reference>
-    <Reference Include="ScadaCommCommon">
-      <HintPath>..\..\..\ScadaComm\ScadaComm\ScadaCommCommon\bin\Release\netstandard2.0\ScadaCommCommon.dll</HintPath>
-    </Reference>
     <Reference Include="ScadaCommon">
       <HintPath>..\..\..\ScadaCommon\ScadaCommon\bin\Release\netstandard2.0\ScadaCommon.dll</HintPath>
     </Reference>
