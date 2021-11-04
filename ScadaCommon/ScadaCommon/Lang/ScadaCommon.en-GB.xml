@@ -77,6 +77,7 @@
     <Phrase key="QuestionCaption">Question</Phrase>
     <Phrase key="ErrorCaption">Error</Phrase>
     <Phrase key="WarningCaption">Warning</Phrase>
+    <Phrase key="CorrectErrors">Please correct the following errors:</Phrase>
     <Phrase key="HiddenPassword">*****</Phrase>
     <Phrase key="NewConnection">New Connection</Phrase>
     <Phrase key="UnnamedConnection">&lt;Unnamed Connection&gt;</Phrase>

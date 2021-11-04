@@ -77,6 +77,7 @@
     <Phrase key="QuestionCaption">Вопрос</Phrase>
     <Phrase key="ErrorCaption">Ошибка</Phrase>
     <Phrase key="WarningCaption">Предупреждение</Phrase>
+    <Phrase key="CorrectErrors">Пожалуйста, исправьте следующие ошибки:</Phrase>
     <Phrase key="HiddenPassword">*****</Phrase>
     <Phrase key="NewConnection">Новое соединение</Phrase>
     <Phrase key="UnnamedConnection">&lt;Безымянное соединение&gt;</Phrase>

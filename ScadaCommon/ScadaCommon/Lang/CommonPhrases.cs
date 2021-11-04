@@ -110,6 +110,7 @@ namespace Scada.Lang
         public static string QuestionCaption { get; private set; }
         public static string ErrorCaption { get; private set; }
         public static string WarningCaption { get; private set; }
+        public static string CorrectErrors { get; private set; }
         public static string HiddenPassword { get; private set; }
         public static string NewConnection { get; private set; }
         public static string UnnamedConnection { get; private set; }
@@ -213,6 +214,7 @@ namespace Scada.Lang
             QuestionCaption = dict["QuestionCaption"];
             ErrorCaption = dict["ErrorCaption"];
             WarningCaption = dict["WarningCaption"];
+            CorrectErrors = dict["CorrectErrors"];
             HiddenPassword = dict["HiddenPassword"];
             NewConnection = dict["NewConnection"];
             UnnamedConnection = dict["UnnamedConnection"];
