@@ -1,7 +1,7 @@
 ﻿// Copyright (c) Rapid Software LLC. All rights reserved.
 // Licensed under the Apache License, Version 2.0. See License.txt in the project root for license information.
 
-using Scada.Admin.Extensions.ExtProjectTools.Code;
+using Scada.Admin.Extensions.ExtCommConfig.Code;
 using Scada.Admin.Project;
 using Scada.Comm.Config;
 using Scada.Data.Entities;
@@ -12,7 +12,7 @@ using System.Linq;
 using System.Text;
 using System.Windows.Forms;
 
-namespace Scada.Admin.Extensions.ExtProjectTools.Forms
+namespace Scada.Admin.Extensions.ExtCommConfig.Forms
 {
     /// <summary>
     /// Represents a form for adding a communication line.
@@ -177,9 +177,9 @@ namespace Scada.Admin.Extensions.ExtProjectTools.Forms
                 {
                     if (instance.CommApp.Enabled)
                     {
-                        //LineConfig = CommConfigConverter.CreateLineConfig(commLineEntity);
-                        //LineConfig.Parent = instance.CommApp.AppConfig;
-                        //instance.CommApp.AppConfig.Lines.Add(LineConfig);
+                        LineConfig = CommConfigConverter.CreateLineConfig(commLineEntity);
+                        LineConfig.Parent = instance.CommApp.AppConfig;
+                        instance.CommApp.AppConfig.Lines.Add(LineConfig);
                     }
 
                     InstanceName = recentSelection.InstanceName = instance.Name;

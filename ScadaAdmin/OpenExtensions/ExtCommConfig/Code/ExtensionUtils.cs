@@ -15,9 +15,19 @@ namespace Scada.Admin.Extensions.ExtCommConfig.Code
     internal static class ExtensionUtils
     {
         /// <summary>
+        /// Gets the maximum length of entity names.
+        /// </summary>
+        public const int NameLength = 100;
+        /// <summary>
+        /// Gets the maximum length of entity descriptions.
+        /// </summary>
+        public const int DescrLength = 1000;
+
+
+        /// <summary>
         /// Gets or sets the control that contains the context menus.
         /// </summary>
-        public static CtrlContextMenu ContextMenuControl { get; set; } = null;
+        public static CtrlExtensionMenu ContextMenuControl { get; set; } = null;
 
         /// <summary>
         /// Gets a new instance of the module user interface.

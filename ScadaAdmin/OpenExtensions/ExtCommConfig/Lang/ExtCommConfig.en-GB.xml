@@ -7,7 +7,14 @@
     <Phrase key="LinesNode">Communication Lines</Phrase>
     <Phrase key="LineOptionsNode">Line Options</Phrase>
   </Dictionary>
-  <Dictionary key="Scada.Admin.Extensions.ExtCommConfig.Controls.CtrlContextMenu">
+  <Dictionary key="Scada.Admin.Extensions.ExtCommConfig.Controls.CtrlExtensionMenu">
+    <Phrase key="miWizards">Wizards</Phrase>
+    <Phrase key="miAddLine">Add Line...</Phrase>
+    <Phrase key="miAddDevice">Add Device...</Phrase>
+    <Phrase key="miCreateChannels">Create Channels...</Phrase>
+    <Phrase key="btnAddLine.ToolTip">Add Line</Phrase>
+    <Phrase key="btnAddDevice.ToolTip">Add Device</Phrase>
+    <Phrase key="btnCreateChannels.ToolTip">Create Channels</Phrase>
     <Phrase key="miLineImport">Import...</Phrase>
     <Phrase key="miLineSync">Synchronize...</Phrase>
     <Phrase key="miLineAdd">Add Line</Phrase>
@@ -136,6 +143,20 @@
     <Phrase key="lblEnableCommands">Enable telecontrol commands</Phrase>
     <Phrase key="lblEnableFileCommands">Read telecontrol commands from files</Phrase>
     <Phrase key="lblMaxLogSize">Maximum log file size, MB</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Admin.Extensions.ExtCommConfig.Forms.FrmLineAdd">
+    <Phrase key="this">Add Communication Line</Phrase>
+    <Phrase key="gbLine">Communication Line</Phrase>
+    <Phrase key="lblCommLineNum">Number</Phrase>
+    <Phrase key="lblName">Name</Phrase>
+    <Phrase key="lblDescr">Description</Phrase>
+    <Phrase key="gbComm">Communicator</Phrase>
+    <Phrase key="chkAddToComm">Add line to Communicator</Phrase>
+    <Phrase key="lblInstance">Instance</Phrase>
+    <Phrase key="btnOK">OK</Phrase>
+    <Phrase key="btnCancel">Cancel</Phrase>
+    <Phrase key="LineExistsInConfigBase">A communication line with the same number already exists in the configuration database.</Phrase>
+    <Phrase key="LineExistsInCommConfig">A communication line with the same number already exists in the Communicator configuration.</Phrase>
   </Dictionary>
   <Dictionary key="Scada.Admin.Extensions.ExtCommConfig.Forms.FrmLineConfig">
     <Phrase key="lbTabs.Items[0]">Main Options</Phrase>

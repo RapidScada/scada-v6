@@ -38,6 +38,10 @@ namespace Scada.Admin.Extensions.ExtCommConfig.Code
         public static string UnableCreateDataSourceView { get; private set; }
         public static string NoDataSourceProperties { get; private set; }
 
+        // Scada.Admin.Extensions.ExtProjectTools.Forms.FrmLineAdd
+        public static string LineExistsInConfigBase { get; private set; }
+        public static string LineExistsInCommConfig { get; private set; }
+
         // Scada.Admin.Extensions.ExtCommConfig.Forms.FrmLineConfig
         public static string LineConfigTitle { get; private set; }
 
@@ -69,6 +73,10 @@ namespace Scada.Admin.Extensions.ExtCommConfig.Code
             DataSourceNotSupported = dict["DataSourceNotSupported"];
             UnableCreateDataSourceView = dict["UnableCreateDataSourceView"];
             NoDataSourceProperties = dict["NoDataSourceProperties"];
+
+            dict = Locale.GetDictionary("Scada.Admin.Extensions.ExtCommConfig.Forms.FrmLineAdd");
+            LineExistsInConfigBase = dict["LineExistsInConfigBase"];
+            LineExistsInCommConfig = dict["LineExistsInCommConfig"];
 
             dict = Locale.GetDictionary("Scada.Admin.Extensions.ExtCommConfig.Forms.FrmLineConfig");
             LineConfigTitle = dict["LineConfigTitle"];

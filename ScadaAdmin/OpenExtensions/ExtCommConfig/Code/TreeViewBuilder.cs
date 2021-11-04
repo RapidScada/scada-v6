@@ -20,13 +20,13 @@ namespace Scada.Admin.Extensions.ExtCommConfig.Code
     internal class TreeViewBuilder
     {
         private readonly IAdminContext adminContext;      // the Administrator context
-        private readonly CtrlContextMenu ctrlContextMenu; // contains the context menus
+        private readonly CtrlExtensionMenu ctrlContextMenu; // contains the context menus
 
 
         /// <summary>
         /// Initializes a new instance of the class.
         /// </summary>
-        public TreeViewBuilder(IAdminContext adminContext, CtrlContextMenu ctrlContextMenu)
+        public TreeViewBuilder(IAdminContext adminContext, CtrlExtensionMenu ctrlContextMenu)
         {
             this.adminContext = adminContext ?? throw new ArgumentNullException(nameof(adminContext));
             this.ctrlContextMenu = ctrlContextMenu ?? throw new ArgumentNullException(nameof(ctrlContextMenu));

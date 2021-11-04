@@ -30,6 +30,24 @@ namespace Scada.Admin.Extensions.ExtCommConfig
 
 
         /// <summary>
+        /// Get the extension menu control.
+        /// </summary>
+        private CtrlExtensionMenu CtrlExtensionMenu
+        {
+            get
+            {
+                // do not create IWin32Window objects before calling SetCompatibleTextRenderingDefault
+                if (ExtensionUtils.ContextMenuControl == null)
+                {
+                    ExtensionUtils.ContextMenuControl = new CtrlExtensionMenu(AdminContext);
+                    FormTranslator.Translate(ExtensionUtils.ContextMenuControl, typeof(CtrlExtensionMenu).FullName);
+                }
+
+                return ExtensionUtils.ContextMenuControl;
+            }
+        }
+
+        /// <summary>
         /// Gets the extension code.
         /// </summary>
         public override string Code
@@ -53,6 +71,22 @@ namespace Scada.Admin.Extensions.ExtCommConfig
         }
 
         /// <summary>
+        /// Gets menu items to add to the main menu.
+        /// </summary>
+        public override ToolStripItem[] GetMainMenuItems()
+        {
+            return CtrlExtensionMenu.GetMainMenuItems();
+        }
+
+        /// <summary>
+        /// Gets tool buttons to add to the toolbar.
+        /// </summary>
+        public override ToolStripItem[] GetToobarButtons()
+        {
+            return CtrlExtensionMenu.GetToobarButtons();
+        }
+
+        /// <summary>
         /// Gets tree nodes to add to the explorer tree.
         /// </summary>
         public override TreeNode[] GetTreeNodes(object relatedObject)
@@ -60,15 +94,6 @@ namespace Scada.Admin.Extensions.ExtCommConfig
             if (relatedObject is not CommApp commApp)
                 return null;
 
-            // create context menus
-            // do not create IWin32Window objects before calling SetCompatibleTextRenderingDefault
-            if (ExtensionUtils.ContextMenuControl == null)
-            {
-                ExtensionUtils.ContextMenuControl = new CtrlContextMenu(AdminContext);
-                FormTranslator.Translate(ExtensionUtils.ContextMenuControl, typeof(CtrlContextMenu).FullName);
-            }
-
-            // create tree nodes
             TreeViewBuilder treeViewBuilder = new(AdminContext, ExtensionUtils.ContextMenuControl);
             return treeViewBuilder.CreateTreeNodes(commApp);
         }

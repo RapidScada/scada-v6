@@ -7,7 +7,14 @@
     <Phrase key="LinesNode">Линии связи</Phrase>
     <Phrase key="LineOptionsNode">Параметры линии</Phrase>
   </Dictionary>
-  <Dictionary key="Scada.Admin.Extensions.ExtCommConfig.Controls.CtrlContextMenu">
+  <Dictionary key="Scada.Admin.Extensions.ExtCommConfig.Controls.CtrlExtensionMenu">
+    <Phrase key="miWizards">Мастеры</Phrase>
+    <Phrase key="miAddLine">Добавить линию...</Phrase>
+    <Phrase key="miAddDevice">Добавить КП...</Phrase>
+    <Phrase key="miCreateChannels">Создать каналы...</Phrase>
+    <Phrase key="btnAddLine.ToolTip">Добавить линию</Phrase>
+    <Phrase key="btnAddDevice.ToolTip">Добавить КП</Phrase>
+    <Phrase key="btnCreateChannels.ToolTip">Создать каналы</Phrase>
     <Phrase key="miLineImport">Импортировать...</Phrase>
     <Phrase key="miLineSync">Сихронизировать...</Phrase>
     <Phrase key="miLineAdd">Добавить линию</Phrase>
@@ -136,6 +143,20 @@
     <Phrase key="lblEnableCommands">Разрешить команды телеуправления</Phrase>
     <Phrase key="lblEnableFileCommands">Считывать команды телеуправления из файлов</Phrase>
     <Phrase key="lblMaxLogSize">Максимальный размер файла журнала, МБ</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Admin.Extensions.ExtCommConfig.Forms.FrmLineAdd">
+    <Phrase key="this">Добавление линии связи</Phrase>
+    <Phrase key="gbLine">Линия связи</Phrase>
+    <Phrase key="lblCommLineNum">Номер</Phrase>
+    <Phrase key="lblName">Наименование</Phrase>
+    <Phrase key="lblDescr">Описание</Phrase>
+    <Phrase key="gbComm">Коммуникатор</Phrase>
+    <Phrase key="chkAddToComm">Добавить линию в Коммуникатор</Phrase>
+    <Phrase key="lblInstance">Экземпляр</Phrase>
+    <Phrase key="btnOK">OK</Phrase>
+    <Phrase key="btnCancel">Отмена</Phrase>
+    <Phrase key="LineExistsInConfigBase">Линия связи с таким номером уже существует в базе конфигурации.</Phrase>
+    <Phrase key="LineExistsInCommConfig">Линия связи с таким номером уже существует в конфигурации Коммуникатора.</Phrase>
   </Dictionary>
   <Dictionary key="Scada.Admin.Extensions.ExtCommConfig.Forms.FrmLineConfig">
     <Phrase key="lbTabs.Items[0]">Основные</Phrase>
