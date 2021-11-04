@@ -53,6 +53,20 @@
     <Phrase key="CloneChannelsComplete">Cloning completed successfully.&#13;&#10;{0} channel(s) added.</Phrase>
     <Phrase key="CloneChannelsError">Error cloning channels</Phrase>
   </Dictionary>
+  <Dictionary key="Scada.Admin.Extensions.ExtProjectTools.Forms.FrmLineAdd">
+    <Phrase key="this">Add Communication Line</Phrase>
+    <Phrase key="gbLine">Communication Line</Phrase>
+    <Phrase key="lblCommLineNum">Number</Phrase>
+    <Phrase key="lblName">Name</Phrase>
+    <Phrase key="lblDescr">Description</Phrase>
+    <Phrase key="gbComm">Communicator</Phrase>
+    <Phrase key="chkAddToComm">Add line to Communicator</Phrase>
+    <Phrase key="lblInstance">Instance</Phrase>
+    <Phrase key="btnOK">OK</Phrase>
+    <Phrase key="btnCancel">Cancel</Phrase>
+    <Phrase key="LineExistsInConfigBase">A communication line with the same number already exists in the configuration database.</Phrase>
+    <Phrase key="LineExistsInCommConfig">A communication line with the same number already exists in the Communicator configuration.</Phrase>
+  </Dictionary>
   <Dictionary key="Scada.Admin.Extensions.ExtProjectTools.Forms.FrmTableExport">
     <Phrase key="this">Export Table</Phrase>
     <Phrase key="lblTable">Table</Phrase>

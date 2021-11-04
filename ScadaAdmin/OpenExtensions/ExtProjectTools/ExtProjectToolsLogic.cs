@@ -91,13 +91,5 @@ namespace Scada.Admin.Extensions.ExtProjectTools
         {
             return CtrlMainMenu.GetToobarButtons();
         }
-
-        /// <summary>
-        /// Enables or disables main menu items and toolbar buttons.
-        /// </summary>
-        public override void SetMenuItemsEnabled()
-        {
-            CtrlMainMenu.SetMenuItemsEnabled();
-        }
     }
 }

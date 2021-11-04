@@ -125,7 +125,7 @@ namespace Scada.Admin.Extensions.ExtProjectTools.Controls
             this.miImportTable,
             this.miExportTable});
             this.miProjectTools.Name = "miProjectTools";
-            this.miProjectTools.Size = new System.Drawing.Size(180, 22);
+            this.miProjectTools.Size = new System.Drawing.Size(141, 22);
             this.miProjectTools.Text = "Project Tools";
             // 
             // miAddLine
