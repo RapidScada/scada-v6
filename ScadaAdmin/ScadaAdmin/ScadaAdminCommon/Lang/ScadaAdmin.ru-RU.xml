@@ -233,7 +233,6 @@
     <Phrase key="lblMaskBits">Побитно</Phrase>
   </Dictionary>
   <Dictionary key="Scada.Admin.App.Forms">
-    <Phrase key="CorrectErrors">Пожалуйста, исправьте следующие ошибки:</Phrase>
     <Phrase key="SelectedColumn">Выбор</Phrase>
     <Phrase key="NoProfileConnections">Профиль не содержит соединений.</Phrase>
     <Phrase key="ExtensionNotFound">Расширение &quot;{0}&quot; не найдено.</Phrase>

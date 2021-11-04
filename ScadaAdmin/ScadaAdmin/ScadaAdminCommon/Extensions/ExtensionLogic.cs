@@ -113,13 +113,6 @@ namespace Scada.Admin.Extensions
         }
 
         /// <summary>
-        /// Enables or disables main menu items and toolbar buttons.
-        /// </summary>
-        public virtual void SetMenuItemsEnabled()
-        {
-        }
-
-        /// <summary>
         /// Tests a database connection.
         /// </summary>
         public virtual bool TestDbConnection(DbConnectionOptions connectionOptions, out string errMsg)

@@ -26,6 +26,7 @@
 using Scada.Admin.Config;
 using Scada.Admin.Project;
 using Scada.Log;
+using System;
 using System.Windows.Forms;
 
 namespace Scada.Admin.Extensions
@@ -60,5 +61,11 @@ namespace Scada.Admin.Extensions
         /// Gets the explorer tree.
         /// </summary>
         public IMainForm MainForm { get; }
+
+
+        /// <summary>
+        /// Occurs when the current project changes.
+        /// </summary>
+        event EventHandler CurrentProjectChanged;
     }
 }

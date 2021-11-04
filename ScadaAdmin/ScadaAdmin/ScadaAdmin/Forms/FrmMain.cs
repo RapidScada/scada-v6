@@ -201,9 +201,7 @@ namespace Scada.Admin.App.Forms
             miFileSave.Enabled = btnFileSave.Enabled = false;
             miFileSaveAll.Enabled = btnFileSaveAll.Enabled = false;
             miFileCloseProject.Enabled = Project != null;
-
             SetDeployMenuItemsEnabled();
-            appData.ExtensionHolder.SetMenuItemsEnabled();
         }
 
         /// <summary>
@@ -719,7 +717,6 @@ namespace Scada.Admin.App.Forms
                     frmNewProject.ProjectTemplate, out ScadaProject newProject, out string errMsg))
                 {
                     appData.State.AddRecentProject(newProject.FileName);
-                    appData.State.RecentSelection.Reset();
                     appData.CurrentProject = newProject;
                     LoadConfigBase();
                     Text = string.Format(AppPhrases.ProjectTitle, Project.Name);

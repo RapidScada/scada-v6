@@ -239,27 +239,5 @@ namespace Scada.Admin.App.Code
                 return items;
             }
         }
-
-        /// <summary>
-        /// Calls the SetMenuItemsEnabled method of the extensions.
-        /// </summary>
-        public void SetMenuItemsEnabled()
-        {
-            lock (extensionLock)
-            {
-                foreach (ExtensionLogic extensionLogic in extensions)
-                {
-                    try
-                    {
-                        extensionLogic.SetMenuItemsEnabled();
-                    }
-                    catch (Exception ex)
-                    {
-                        log.WriteError(ex, AdminPhrases.ErrorInExtension,
-                            nameof(SetMenuItemsEnabled), extensionLogic.Code);
-                    }
-                }
-            }
-        }
     }
 }

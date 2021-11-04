@@ -233,7 +233,6 @@
     <Phrase key="lblMaskBits">Bits</Phrase>
   </Dictionary>
   <Dictionary key="Scada.Admin.App.Forms">
-    <Phrase key="CorrectErrors">Please correct the following errors:</Phrase>
     <Phrase key="SelectedColumn">Selected</Phrase>
     <Phrase key="NoProfileConnections">The profile does not contain connections.</Phrase>
     <Phrase key="ExtensionNotFound">Extension &quot;{0}&quot; not found.</Phrase>

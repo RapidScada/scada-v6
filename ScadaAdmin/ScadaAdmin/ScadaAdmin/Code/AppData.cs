@@ -42,6 +42,9 @@ namespace Scada.Admin.App.Code
     /// </summary>
     public sealed class AppData : IAdminContext
     {
+        private ScadaProject currentProject; // the project currently open
+
+
         /// <summary>
         /// Initializes a new instance of the class.
         /// </summary>
@@ -88,7 +91,21 @@ namespace Scada.Admin.App.Code
         /// <summary>
         /// Gets or sets the project currently open.
         /// </summary>
-        public ScadaProject CurrentProject { get; set; }
+        public ScadaProject CurrentProject
+        {
+            get
+            {
+                return currentProject;
+            }
+            set
+            {
+                ScadaProject prevProject = currentProject;
+                currentProject = value;
+
+                if (currentProject != prevProject)
+                    OnCurrentProjectChanged();
+            }
+        }
 
         /// <summary>
         /// Gets or sets the referense to the main form.
@@ -189,6 +206,14 @@ namespace Scada.Admin.App.Code
             }
         }
 
+        /// <summary>
+        /// Raises a CurrentProjectChanged event.
+        /// </summary>
+        private void OnCurrentProjectChanged()
+        {
+            CurrentProjectChanged?.Invoke(this, EventArgs.Empty);
+        }
+
 
         /// <summary>
         /// Initializes the common application data.
@@ -222,5 +247,11 @@ namespace Scada.Admin.App.Code
         {
             return Path.Combine(AppDirs.ExeDir, "..", "Config", InstanceConfig.DefaultFileName);
         }
+
+
+        /// <summary>
+        /// Occurs when the current project changes.
+        /// </summary>
+        public event EventHandler CurrentProjectChanged;
     }
 }

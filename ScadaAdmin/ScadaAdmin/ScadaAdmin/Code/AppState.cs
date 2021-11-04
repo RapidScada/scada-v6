@@ -70,11 +70,6 @@ namespace Scada.Admin.App.Code
         /// </summary>
         public List<string> RecentProjects { get; private set; }
 
-        /// <summary>
-        /// Gets the recently selected objects.
-        /// </summary>
-        public RecentSelection RecentSelection { get; private set; }
-
 
         /// <summary>
         /// Sets the default values.
@@ -84,7 +79,6 @@ namespace Scada.Admin.App.Code
             MainFormState = new MainFormState();
             ProjectDir = AdminUtils.ProjectDir;
             RecentProjects = new List<string>();
-            RecentSelection = new RecentSelection();
         }
 
         /// <summary>

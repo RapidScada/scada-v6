@@ -131,7 +131,7 @@ namespace Scada.Admin.App.Forms.Tables
 
             if (sbError.Length > 0)
             {
-                ScadaUiUtils.ShowError(AppPhrases.CorrectErrors + Environment.NewLine + sbError);
+                ScadaUiUtils.ShowError(CommonPhrases.CorrectErrors + Environment.NewLine + sbError);
                 return false;
             }
             else if (dataGridView.CurrentRow == null)

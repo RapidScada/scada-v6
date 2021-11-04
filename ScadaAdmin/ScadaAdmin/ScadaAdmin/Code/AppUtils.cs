@@ -130,17 +130,5 @@ namespace Scada.Admin.App.Code
                 comboBox.SelectedValue = cell.Value;
             }
         }
-
-        /// <summary>
-        /// Appends the error text to the string builder.
-        /// </summary>
-        public static void AppendError(this StringBuilder stringBuilder, Label label, 
-            string text, params object[] args)
-        {
-            if (label == null)
-                throw new ArgumentNullException(nameof(label));
-
-            stringBuilder.Append(label.Text).Append(": ").AppendLine(ScadaUtils.FormatText(text, args));
-        }
     }
 }

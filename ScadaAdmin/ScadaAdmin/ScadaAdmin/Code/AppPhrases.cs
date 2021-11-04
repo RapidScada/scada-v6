@@ -71,7 +71,6 @@ namespace Scada.Admin.App.Code
         public static string InvalidObjectFilter { get; private set; }
 
         // Scada.Admin.App.Forms
-        public static string CorrectErrors { get; private set; }
         public static string SelectedColumn { get; private set; }
         public static string NoProfileConnections { get; private set; }
         public static string ExtensionNotFound { get; private set; }
@@ -214,7 +213,6 @@ namespace Scada.Admin.App.Code
             InvalidObjectFilter = dict["InvalidObjectFilter"];
 
             dict = Locale.GetDictionary("Scada.Admin.App.Forms");
-            CorrectErrors = dict["CorrectErrors"];
             SelectedColumn = dict["SelectedColumn"];
             NoProfileConnections = dict["NoProfileConnections"];
             ExtensionNotFound = dict["ExtensionNotFound"];
