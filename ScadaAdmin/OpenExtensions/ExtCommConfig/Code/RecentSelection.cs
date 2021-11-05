@@ -36,7 +36,7 @@ namespace Scada.Admin.Extensions.ExtCommConfig.Code
         /// <summary>
         /// Gets or sets the ID of the recently selected device type.
         /// </summary>
-        public int DeviceTypeID { get; set; }
+        public int DevTypeID { get; set; }
 
         /// <summary>
         /// Gets or sets the number of the recently selected object.
@@ -52,7 +52,7 @@ namespace Scada.Admin.Extensions.ExtCommConfig.Code
             InstanceName = "";
             CommLineNum = 0;
             DeviceNum = 0;
-            DeviceTypeID = 0;
+            DevTypeID = 0;
             ObjNum = 0;
         }
     }

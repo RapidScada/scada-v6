@@ -66,8 +66,8 @@ namespace Scada.Admin.Extensions.ExtCommConfig.Forms
         /// </summary>
         private void FillInstanceList()
         {
-            cbInstance.DisplayMember = "Name";
             cbInstance.ValueMember = "Name";
+            cbInstance.DisplayMember = "Name";
             cbInstance.DataSource = project.Instances;
 
             try
@@ -169,11 +169,11 @@ namespace Scada.Admin.Extensions.ExtCommConfig.Forms
                     Descr = txtDescr.Text
                 };
 
-                // add line in the configuration database
+                // add line to the configuration database
                 project.ConfigBase.CommLineTable.AddItem(commLineEntity);
                 project.ConfigBase.CommLineTable.Modified = true;
 
-                // add line in Communicator configuration
+                // add line to Communicator configuration
                 if (chkAddToComm.Checked && cbInstance.SelectedItem is ProjectInstance instance)
                 {
                     if (instance.CommApp.Enabled)

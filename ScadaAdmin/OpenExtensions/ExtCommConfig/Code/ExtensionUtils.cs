@@ -15,6 +15,10 @@ namespace Scada.Admin.Extensions.ExtCommConfig.Code
     internal static class ExtensionUtils
     {
         /// <summary>
+        /// Gets the maximum length of entity text fields.
+        /// </summary>
+        public const int DefaultLength = 100;
+        /// <summary>
         /// Gets the maximum length of entity names.
         /// </summary>
         public const int NameLength = 100;

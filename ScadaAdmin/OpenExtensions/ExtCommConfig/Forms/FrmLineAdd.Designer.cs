@@ -80,15 +80,15 @@
             // 
             // txtName
             // 
-            this.txtName.Location = new System.Drawing.Point(94, 37);
+            this.txtName.Location = new System.Drawing.Point(119, 37);
             this.txtName.Name = "txtName";
-            this.txtName.Size = new System.Drawing.Size(253, 23);
+            this.txtName.Size = new System.Drawing.Size(228, 23);
             this.txtName.TabIndex = 3;
             // 
             // lblName
             // 
             this.lblName.AutoSize = true;
-            this.lblName.Location = new System.Drawing.Point(91, 19);
+            this.lblName.Location = new System.Drawing.Point(116, 19);
             this.lblName.Name = "lblName";
             this.lblName.Size = new System.Drawing.Size(39, 15);
             this.lblName.TabIndex = 2;
@@ -103,7 +103,7 @@
             0,
             0});
             this.numCommLineNum.Name = "numCommLineNum";
-            this.numCommLineNum.Size = new System.Drawing.Size(75, 23);
+            this.numCommLineNum.Size = new System.Drawing.Size(100, 23);
             this.numCommLineNum.TabIndex = 1;
             this.numCommLineNum.Value = new decimal(new int[] {
             1,

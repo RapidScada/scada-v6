@@ -38,6 +38,12 @@ namespace Scada.Admin.Extensions.ExtCommConfig.Code
         public static string UnableCreateDataSourceView { get; private set; }
         public static string NoDataSourceProperties { get; private set; }
 
+        // Scada.Admin.Extensions.ExtProjectTools.Forms.FrmDeviceAdd
+        public static string DeviceExistsInConfigBase { get; private set; }
+        public static string DeviceExistsInLineConfig { get; private set; }
+        public static string ChooseCommLine { get; private set; }
+        public static string CommLineNotFound { get; private set; }
+
         // Scada.Admin.Extensions.ExtProjectTools.Forms.FrmLineAdd
         public static string LineExistsInConfigBase { get; private set; }
         public static string LineExistsInCommConfig { get; private set; }
@@ -73,6 +79,12 @@ namespace Scada.Admin.Extensions.ExtCommConfig.Code
             DataSourceNotSupported = dict["DataSourceNotSupported"];
             UnableCreateDataSourceView = dict["UnableCreateDataSourceView"];
             NoDataSourceProperties = dict["NoDataSourceProperties"];
+
+            dict = Locale.GetDictionary("Scada.Admin.Extensions.ExtCommConfig.Forms.FrmDeviceAdd");
+            DeviceExistsInConfigBase = dict["DeviceExistsInConfigBase"];
+            DeviceExistsInLineConfig = dict["DeviceExistsInLineConfig"];
+            ChooseCommLine = dict["ChooseCommLine"];
+            CommLineNotFound = dict["CommLineNotFound"];
 
             dict = Locale.GetDictionary("Scada.Admin.Extensions.ExtCommConfig.Forms.FrmLineAdd");
             LineExistsInConfigBase = dict["LineExistsInConfigBase"];
