@@ -49,7 +49,7 @@ namespace Scada.Comm.Config
         /// Initializes a new instance of the class.
         /// </summary>
         public PollingOptions()
-            : this(DefaultTimeout, DefaultDelay)
+            : this(0, 0)
         {
         }
 
@@ -136,6 +136,24 @@ namespace Scada.Comm.Config
             xmlElem.SetAttribute("period", Period);
             xmlElem.SetAttribute("cmdLine", CmdLine);
             CustomOptions.SaveToXml(xmlElem);
+        }
+
+        /// <summary>
+        /// Copies the current object to the other.
+        /// </summary>
+        public void CopyTo(PollingOptions destination)
+        {
+            if (destination == null)
+                throw new ArgumentNullException(nameof(destination));
+
+            destination.PollOnCmd = PollOnCmd;
+            destination.Timeout = Timeout;
+            destination.Delay = Delay;
+            destination.Time = Time;
+            destination.Period = Period;
+            destination.CmdLine = CmdLine;
+            destination.CustomOptions.Clear();
+            CustomOptions.CopyTo(destination.CustomOptions);
         }
 
         /// <summary>

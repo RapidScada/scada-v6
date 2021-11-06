@@ -48,8 +48,8 @@ namespace Scada.Comm.Config
         /// </summary>
         public DeviceConfig()
         {
-            Active = false;
-            IsBound = false;
+            Active = true;
+            IsBound = true;
             DeviceNum = 0;
             Name = "";
             Driver = "";
