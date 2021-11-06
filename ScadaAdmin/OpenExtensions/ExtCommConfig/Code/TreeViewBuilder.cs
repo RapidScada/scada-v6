@@ -19,17 +19,17 @@ namespace Scada.Admin.Extensions.ExtCommConfig.Code
     /// </summary>
     internal class TreeViewBuilder
     {
-        private readonly IAdminContext adminContext;      // the Administrator context
-        private readonly CtrlExtensionMenu ctrlContextMenu; // contains the context menus
+        private readonly IAdminContext adminContext;    // the Administrator context
+        private readonly CtrlExtensionMenu menuControl; // contains the menus
 
 
         /// <summary>
         /// Initializes a new instance of the class.
         /// </summary>
-        public TreeViewBuilder(IAdminContext adminContext, CtrlExtensionMenu ctrlContextMenu)
+        public TreeViewBuilder(IAdminContext adminContext, CtrlExtensionMenu menuControl)
         {
             this.adminContext = adminContext ?? throw new ArgumentNullException(nameof(adminContext));
-            this.ctrlContextMenu = ctrlContextMenu ?? throw new ArgumentNullException(nameof(ctrlContextMenu));
+            this.menuControl = menuControl ?? throw new ArgumentNullException(nameof(menuControl));
         }
 
 
@@ -39,7 +39,7 @@ namespace Scada.Admin.Extensions.ExtCommConfig.Code
         private TreeNode CreateLinesNode(CommApp commApp)
         {
             TreeNode linesNode = TreeViewExtensions.CreateNode(ExtensionPhrases.LinesNode, ImageKey.Lines);
-            linesNode.ContextMenuStrip = ctrlContextMenu.LineMenu;
+            linesNode.ContextMenuStrip = menuControl.LineMenu;
             linesNode.Tag = new CommNodeTag(commApp, commApp.AppConfig, CommNodeType.Lines);
 
             foreach (LineConfig lineConfig in commApp.AppConfig.Lines)
@@ -58,7 +58,7 @@ namespace Scada.Admin.Extensions.ExtCommConfig.Code
             TreeNode lineNode = TreeViewExtensions.CreateNode(
                 CommUtils.GetLineTitle(lineConfig.CommLineNum, lineConfig.Name),
                 lineConfig.Active ? ImageKey.Line : ImageKey.LineInactive);
-            lineNode.ContextMenuStrip = ctrlContextMenu.LineMenu;
+            lineNode.ContextMenuStrip = menuControl.LineMenu;
             lineNode.Tag = new CommNodeTag(commApp, lineConfig, CommNodeType.Line);
 
             TreeNode lineOptionsNode = TreeViewExtensions.CreateNode(

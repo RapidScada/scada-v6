@@ -37,13 +37,13 @@ namespace Scada.Admin.Extensions.ExtCommConfig
             get
             {
                 // do not create IWin32Window objects before calling SetCompatibleTextRenderingDefault
-                if (ExtensionUtils.ContextMenuControl == null)
+                if (ExtensionUtils.MenuControl == null)
                 {
-                    ExtensionUtils.ContextMenuControl = new CtrlExtensionMenu(AdminContext);
-                    FormTranslator.Translate(ExtensionUtils.ContextMenuControl, typeof(CtrlExtensionMenu).FullName);
+                    ExtensionUtils.MenuControl = new CtrlExtensionMenu(AdminContext);
+                    FormTranslator.Translate(ExtensionUtils.MenuControl, typeof(CtrlExtensionMenu).FullName);
                 }
 
-                return ExtensionUtils.ContextMenuControl;
+                return ExtensionUtils.MenuControl;
             }
         }
 
@@ -91,11 +91,9 @@ namespace Scada.Admin.Extensions.ExtCommConfig
         /// </summary>
         public override TreeNode[] GetTreeNodes(object relatedObject)
         {
-            if (relatedObject is not CommApp commApp)
-                return null;
-
-            TreeViewBuilder treeViewBuilder = new(AdminContext, ExtensionUtils.ContextMenuControl);
-            return treeViewBuilder.CreateTreeNodes(commApp);
+            return relatedObject is CommApp commApp
+                ? new TreeViewBuilder(AdminContext, ExtensionUtils.MenuControl).CreateTreeNodes(commApp)
+                : null;
         }
 
         /// <summary>

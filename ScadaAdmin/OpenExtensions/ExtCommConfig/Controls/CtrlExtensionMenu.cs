@@ -17,8 +17,8 @@ using WinControl;
 namespace Scada.Admin.Extensions.ExtCommConfig.Controls
 {
     /// <summary>
-    /// Represents a control that contains context menus for the explorer tree.
-    /// <para>Представляет элемент управления, содержащий контекстные меню для дерева проводника.</para>
+    /// Represents a control that contains menus of the extension.
+    /// <para>Представляет элемент управления, содержащий меню расширения.</para>
     /// </summary>
     public partial class CtrlExtensionMenu : UserControl
     {
@@ -180,8 +180,7 @@ namespace Scada.Admin.Extensions.ExtCommConfig.Controls
                             }
                             else if (instanceNode.FindFirst(CommNodeType.Lines) is TreeNode linesNode)
                             {
-                                TreeNode lineNode = 
-                                    new TreeViewBuilder(adminContext, ExtensionUtils.ContextMenuControl)
+                                TreeNode lineNode = new TreeViewBuilder(adminContext, this)
                                     .CreateLineNode(frmLineAdd.Instance.CommApp, frmLineAdd.LineConfig);
                                 linesNode.Nodes.Add(lineNode);
                                 ExplorerTree.SelectedNode = lineNode;
@@ -200,7 +199,7 @@ namespace Scada.Admin.Extensions.ExtCommConfig.Controls
             // add device
             if (adminContext.CurrentProject != null)
             {
-                FrmDeviceAdd frmDeviceAdd = new(adminContext.AppDirs, adminContext.CurrentProject, recentSelection);
+                FrmDeviceAdd frmDeviceAdd = new(adminContext, adminContext.CurrentProject, recentSelection);
 
                 if (frmDeviceAdd.ShowDialog() == DialogResult.OK)
                 {
@@ -218,8 +217,7 @@ namespace Scada.Admin.Extensions.ExtCommConfig.Controls
                             }
                             else if (FindNode(instanceNode, frmDeviceAdd.LineConfig) is TreeNode lineNode)
                             {
-                                //TreeNode deviceNode =
-                                //    new TreeViewBuilder(adminContext, ExtensionUtils.ContextMenuControl)
+                                //TreeNode deviceNode = new TreeViewBuilder(adminContext, this)
                                 //    .CreateDeviceNode(frmDeviceAdd.Instance.CommApp, frmDeviceAdd.DeviceConfig);
                                 //lineNode.Nodes.Add(deviceNode);
                                 //ExplorerTree.SelectedNode = deviceNode;

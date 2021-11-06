@@ -5,6 +5,7 @@ using Scada.Admin.Extensions.ExtCommConfig.Controls;
 using Scada.Admin.Project;
 using Scada.Comm.Drivers;
 using System;
+using System.Collections.Generic;
 
 namespace Scada.Admin.Extensions.ExtCommConfig.Code
 {
@@ -29,9 +30,15 @@ namespace Scada.Admin.Extensions.ExtCommConfig.Code
 
 
         /// <summary>
-        /// Gets or sets the control that contains the context menus.
+        /// The driver view cache.
         /// </summary>
-        public static CtrlExtensionMenu ContextMenuControl { get; set; } = null;
+        private static readonly Dictionary<string, DriverView> driverViewCache = new();
+
+
+        /// <summary>
+        /// Gets or sets the control that contains the menus.
+        /// </summary>
+        public static CtrlExtensionMenu MenuControl { get; set; } = null;
 
         /// <summary>
         /// Gets a new instance of the module user interface.
@@ -44,12 +51,18 @@ namespace Scada.Admin.Extensions.ExtCommConfig.Code
             if (commApp == null)
                 throw new ArgumentNullException(nameof(commApp));
 
-            if (DriverFactory.GetDriverView(adminContext.AppDirs.LibDir, driverCode, out driverView, out message))
+            if (driverViewCache.TryGetValue(driverCode, out driverView))
+            {
+                message = "Driver view has been retrieved from the cache.";
+                return true;
+            }
+            else if (DriverFactory.GetDriverView(adminContext.AppDirs.LibDir, driverCode, out driverView, out message))
             {
                 driverView.BaseDataSet = adminContext.CurrentProject.ConfigBase;
                 driverView.AppDirs = adminContext.AppDirs.CreateDirsForView(commApp.ConfigDir);
                 driverView.AppConfig = commApp.AppConfig;
                 driverView.LoadDictionaries();
+                driverViewCache.Add(driverCode, driverView);
                 return true;
             }
             else

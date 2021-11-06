@@ -92,7 +92,7 @@ namespace Scada.Admin.Extensions.ExtCommConfig.Forms
             }
 
             // update explorer
-            new TreeViewBuilder(adminContext, ExtensionUtils.ContextMenuControl).UpdateLineNode(lineNode);
+            new TreeViewBuilder(adminContext, ExtensionUtils.MenuControl).UpdateLineNode(lineNode);
 
             // update tab hints
             adminContext.MainForm.UpdateChildFormHints(lineNode);

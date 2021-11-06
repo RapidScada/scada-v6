@@ -7,7 +7,6 @@ using Scada.Comm.Config;
 using Scada.Comm.Devices;
 using Scada.Comm.Drivers;
 using Scada.Data.Entities;
-using Scada.Data.Tables;
 using Scada.Forms;
 using Scada.Lang;
 using System;
@@ -25,7 +24,7 @@ namespace Scada.Admin.Extensions.ExtCommConfig.Forms
     /// </summary>
     public partial class FrmDeviceAdd : Form
     {
-        private readonly AdminDirs appDirs;               // the application directories
+        private readonly IAdminContext adminContext;      // the Administrator context
         private readonly ScadaProject project;            // the project under development
         private readonly RecentSelection recentSelection; // the recently selected objects
 
@@ -41,10 +40,10 @@ namespace Scada.Admin.Extensions.ExtCommConfig.Forms
         /// <summary>
         /// Initializes a new instance of the class.
         /// </summary>
-        public FrmDeviceAdd(AdminDirs appDirs, ScadaProject project, RecentSelection recentSelection)
+        public FrmDeviceAdd(IAdminContext adminContext, ScadaProject project, RecentSelection recentSelection)
             : this()
         {
-            this.appDirs = appDirs ?? throw new ArgumentNullException(nameof(appDirs));
+            this.adminContext = adminContext ?? throw new ArgumentNullException(nameof(adminContext));
             this.project = project ?? throw new ArgumentNullException(nameof(project));
             this.recentSelection = recentSelection ?? throw new ArgumentNullException(nameof(recentSelection));
             
@@ -239,7 +238,7 @@ namespace Scada.Admin.Extensions.ExtCommConfig.Forms
         {
             if (!string.IsNullOrEmpty(DeviceConfig.Driver))
             {
-                if (DriverFactory.GetDriverView(appDirs.LibDir, DeviceConfig.Driver, 
+                if (ExtensionUtils.GetDriverView(adminContext, Instance.CommApp, DeviceConfig.Driver, 
                     out DriverView driverView, out string message))
                 {
                     if (driverView.CanCreateDevice)
