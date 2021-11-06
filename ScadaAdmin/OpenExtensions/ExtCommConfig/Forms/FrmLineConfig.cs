@@ -128,6 +128,7 @@ namespace Scada.Admin.Extensions.ExtCommConfig.Forms
             ctrlLinePolling.Init(adminContext, commApp, lineConfig);
             lbTabs.SelectedIndex = 0;
         }
+
         private void ChildFormTag_MainFormMessage(object sender, FormMessageEventArgs e)
         {
             // refresh displayed configuration
