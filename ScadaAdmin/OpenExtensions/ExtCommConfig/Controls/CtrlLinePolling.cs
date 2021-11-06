@@ -357,11 +357,7 @@ namespace Scada.Admin.Extensions.ExtCommConfig.Controls
 
         private void btnAddDevice_Click(object sender, EventArgs e)
         {
-            AddDeviceItem(new DeviceConfig
-            {
-                Active = true,
-                IsBound = true
-            });
+            AddDeviceItem(new DeviceConfig());
         }
 
         private void btnMoveUpDevice_Click(object sender, EventArgs e)

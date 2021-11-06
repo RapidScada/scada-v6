@@ -29,6 +29,8 @@
         private void InitializeComponent()
         {
             this.gbDevice = new System.Windows.Forms.GroupBox();
+            this.txtDescr = new System.Windows.Forms.TextBox();
+            this.lblDescr = new System.Windows.Forms.Label();
             this.cbCommLine = new System.Windows.Forms.ComboBox();
             this.lblCommLine = new System.Windows.Forms.Label();
             this.txtStrAddress = new System.Windows.Forms.TextBox();
@@ -37,8 +39,8 @@
             this.lblNumAddress = new System.Windows.Forms.Label();
             this.cbDevType = new System.Windows.Forms.ComboBox();
             this.lblDevType = new System.Windows.Forms.Label();
-            this.txtDescr = new System.Windows.Forms.TextBox();
-            this.lblDescr = new System.Windows.Forms.Label();
+            this.txtCode = new System.Windows.Forms.TextBox();
+            this.lblCode = new System.Windows.Forms.Label();
             this.txtName = new System.Windows.Forms.TextBox();
             this.lblName = new System.Windows.Forms.Label();
             this.numDeviceNum = new System.Windows.Forms.NumericUpDown();
@@ -49,8 +51,6 @@
             this.chkAddToComm = new System.Windows.Forms.CheckBox();
             this.btnCancel = new System.Windows.Forms.Button();
             this.btnOK = new System.Windows.Forms.Button();
-            this.lblCode = new System.Windows.Forms.Label();
-            this.txtCode = new System.Windows.Forms.TextBox();
             this.gbDevice.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.numDeviceNum)).BeginInit();
             this.gbComm.SuspendLayout();
@@ -82,6 +82,22 @@
             this.gbDevice.TabStop = false;
             this.gbDevice.Text = "Device";
             // 
+            // txtDescr
+            // 
+            this.txtDescr.Location = new System.Drawing.Point(13, 257);
+            this.txtDescr.Name = "txtDescr";
+            this.txtDescr.Size = new System.Drawing.Size(334, 23);
+            this.txtDescr.TabIndex = 15;
+            // 
+            // lblDescr
+            // 
+            this.lblDescr.AutoSize = true;
+            this.lblDescr.Location = new System.Drawing.Point(10, 239);
+            this.lblDescr.Name = "lblDescr";
+            this.lblDescr.Size = new System.Drawing.Size(67, 15);
+            this.lblDescr.TabIndex = 14;
+            this.lblDescr.Text = "Description";
+            // 
             // cbCommLine
             // 
             this.cbCommLine.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
@@ -112,9 +128,9 @@
             this.lblStrAddress.AutoSize = true;
             this.lblStrAddress.Location = new System.Drawing.Point(116, 151);
             this.lblStrAddress.Name = "lblStrAddress";
-            this.lblStrAddress.Size = new System.Drawing.Size(83, 15);
+            this.lblStrAddress.Size = new System.Drawing.Size(154, 15);
             this.lblStrAddress.TabIndex = 10;
-            this.lblStrAddress.Text = "String Address";
+            this.lblStrAddress.Text = "String address or host name";
             // 
             // txtNumAddress
             // 
@@ -150,21 +166,21 @@
             this.lblDevType.TabIndex = 6;
             this.lblDevType.Text = "Device type";
             // 
-            // txtDescr
+            // txtCode
             // 
-            this.txtDescr.Location = new System.Drawing.Point(13, 257);
-            this.txtDescr.Name = "txtDescr";
-            this.txtDescr.Size = new System.Drawing.Size(334, 23);
-            this.txtDescr.TabIndex = 15;
+            this.txtCode.Location = new System.Drawing.Point(13, 81);
+            this.txtCode.Name = "txtCode";
+            this.txtCode.Size = new System.Drawing.Size(334, 23);
+            this.txtCode.TabIndex = 5;
             // 
-            // lblDescr
+            // lblCode
             // 
-            this.lblDescr.AutoSize = true;
-            this.lblDescr.Location = new System.Drawing.Point(10, 239);
-            this.lblDescr.Name = "lblDescr";
-            this.lblDescr.Size = new System.Drawing.Size(67, 15);
-            this.lblDescr.TabIndex = 14;
-            this.lblDescr.Text = "Description";
+            this.lblCode.AutoSize = true;
+            this.lblCode.Location = new System.Drawing.Point(10, 63);
+            this.lblCode.Name = "lblCode";
+            this.lblCode.Size = new System.Drawing.Size(35, 15);
+            this.lblCode.TabIndex = 4;
+            this.lblCode.Text = "Code";
             // 
             // txtName
             // 
@@ -270,22 +286,6 @@
             this.btnOK.Text = "OK";
             this.btnOK.UseVisualStyleBackColor = true;
             this.btnOK.Click += new System.EventHandler(this.btnOK_Click);
-            // 
-            // lblCode
-            // 
-            this.lblCode.AutoSize = true;
-            this.lblCode.Location = new System.Drawing.Point(10, 63);
-            this.lblCode.Name = "lblCode";
-            this.lblCode.Size = new System.Drawing.Size(35, 15);
-            this.lblCode.TabIndex = 4;
-            this.lblCode.Text = "Code";
-            // 
-            // txtCode
-            // 
-            this.txtCode.Location = new System.Drawing.Point(13, 81);
-            this.txtCode.Name = "txtCode";
-            this.txtCode.Size = new System.Drawing.Size(334, 23);
-            this.txtCode.TabIndex = 5;
             // 
             // FrmDeviceAdd
             // 

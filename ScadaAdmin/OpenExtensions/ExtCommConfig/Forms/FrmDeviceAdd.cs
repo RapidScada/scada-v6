@@ -4,6 +4,8 @@
 using Scada.Admin.Extensions.ExtCommConfig.Code;
 using Scada.Admin.Project;
 using Scada.Comm.Config;
+using Scada.Comm.Devices;
+using Scada.Comm.Drivers;
 using Scada.Data.Entities;
 using Scada.Data.Tables;
 using Scada.Forms;
@@ -23,6 +25,7 @@ namespace Scada.Admin.Extensions.ExtCommConfig.Forms
     /// </summary>
     public partial class FrmDeviceAdd : Form
     {
+        private readonly AdminDirs appDirs;               // the application directories
         private readonly ScadaProject project;            // the project under development
         private readonly RecentSelection recentSelection; // the recently selected objects
 
@@ -38,9 +41,10 @@ namespace Scada.Admin.Extensions.ExtCommConfig.Forms
         /// <summary>
         /// Initializes a new instance of the class.
         /// </summary>
-        public FrmDeviceAdd(ScadaProject project, RecentSelection recentSelection)
+        public FrmDeviceAdd(AdminDirs appDirs, ScadaProject project, RecentSelection recentSelection)
             : this()
         {
+            this.appDirs = appDirs ?? throw new ArgumentNullException(nameof(appDirs));
             this.project = project ?? throw new ArgumentNullException(nameof(project));
             this.recentSelection = recentSelection ?? throw new ArgumentNullException(nameof(recentSelection));
             
@@ -69,6 +73,17 @@ namespace Scada.Admin.Extensions.ExtCommConfig.Forms
         /// Gets the communication line configuration of the device added to Communicator.
         /// </summary>
         public LineConfig LineConfig { get; private set; }
+
+        /// <summary>
+        /// Gets a value indicating whether a device has been added to the Communicator configuration.
+        /// </summary>
+        public bool AddedToComm
+        {
+            get
+            {
+                return Instance != null && DeviceConfig != null && LineConfig != null;
+            }
+        }
 
 
         /// <summary>
@@ -121,7 +136,8 @@ namespace Scada.Admin.Extensions.ExtCommConfig.Forms
             }
             catch
             {
-                cbInstance.SelectedIndex = 0;
+                if (cbInstance.Items.Count > 0)
+                    cbInstance.SelectedIndex = 0;
             }
         }
         
@@ -145,9 +161,6 @@ namespace Scada.Admin.Extensions.ExtCommConfig.Forms
 
             if (string.IsNullOrWhiteSpace(txtName.Text))
                 sbError.AppendError(lblName, CommonPhrases.NonemptyRequired);
-
-            if ((int)cbDevType.SelectedValue <= 0)
-                sbError.AppendError(lblDevType, CommonPhrases.NonemptyRequired);
 
             if (txtNumAddress.Text != "" && !int.TryParse(txtNumAddress.Text, out _))
                 sbError.AppendError(lblNumAddress, CommonPhrases.IntegerRequired);
@@ -188,7 +201,7 @@ namespace Scada.Admin.Extensions.ExtCommConfig.Forms
                 // check that communication line is selected
                 if (commLineNum <= 0)
                 {
-                    ScadaUiUtils.ShowError(ExtensionPhrases.ChooseCommLine);
+                    ScadaUiUtils.ShowError(ExtensionPhrases.ChooseLine);
                     return false;
                 }
 
@@ -204,7 +217,7 @@ namespace Scada.Admin.Extensions.ExtCommConfig.Forms
 
                 if (lineConfig == null)
                 {
-                    ScadaUiUtils.ShowError(ExtensionPhrases.CommLineNotFound);
+                    ScadaUiUtils.ShowError(ExtensionPhrases.LineNotFoundInCommConfig);
                     return false;
                 }
 
@@ -217,6 +230,32 @@ namespace Scada.Admin.Extensions.ExtCommConfig.Forms
             }
 
             return true;
+        }
+
+        /// <summary>
+        /// Sets the default polling options of the added device.
+        /// </summary>
+        private void SetPollingOptions()
+        {
+            if (!string.IsNullOrEmpty(DeviceConfig.Driver))
+            {
+                if (DriverFactory.GetDriverView(appDirs.LibDir, DeviceConfig.Driver, 
+                    out DriverView driverView, out string message))
+                {
+                    if (driverView.CanCreateDevice)
+                    {
+                        DeviceView deviceView = driverView.CreateDeviceView(LineConfig, DeviceConfig);
+                        PollingOptions pollingOptions = deviceView?.GetPollingOptions();
+
+                        if (pollingOptions != null)
+                            pollingOptions.CopyTo(DeviceConfig.PollingOptions);
+                    }
+                }
+                else
+                {
+                    ScadaUiUtils.ShowError(message);
+                }
+            }
         }
 
 
@@ -234,15 +273,16 @@ namespace Scada.Admin.Extensions.ExtCommConfig.Forms
         {
             if (ValidateControls() && CheckFeasibility(out LineConfig lineConfig))
             {
+                // create new device
+                int devTypeID = (int)cbDevType.SelectedValue;
                 int commLineNum = (int)cbCommLine.SelectedValue;
 
-                // create new device
                 Device deviceEntity = new()
                 {
                     DeviceNum = Convert.ToInt32(numDeviceNum.Value),
                     Name = txtName.Text,
                     Code = txtCode.Text,
-                    DevTypeID = (int)cbDevType.SelectedValue,
+                    DevTypeID = devTypeID > 0 ? devTypeID : null,
                     NumAddress = txtNumAddress.Text == "" ? null : int.Parse(txtNumAddress.Text),
                     StrAddress = txtStrAddress.Text,
                     CommLineNum = commLineNum > 0 ? commLineNum : null,
@@ -254,24 +294,25 @@ namespace Scada.Admin.Extensions.ExtCommConfig.Forms
                 project.ConfigBase.DeviceTable.Modified = true;
 
                 // add device to Communicator configuration
-                if (chkAddToComm.Checked && cbInstance.SelectedItem is ProjectInstance instance && lineConfig != null)
+                if (chkAddToComm.Checked && cbInstance.SelectedItem is ProjectInstance instance)
                 {
-                    if (instance.CommApp.Enabled)
+                    Instance = instance;
+                    recentSelection.InstanceName = instance.Name;
+
+                    if (instance.CommApp.Enabled && lineConfig != null)
                     {
                         DeviceConfig = CommConfigConverter.CreateDeviceConfig(deviceEntity, 
                             project.ConfigBase.DevTypeTable);
                         DeviceConfig.Parent = lineConfig;
                         lineConfig.DevicePolling.Add(DeviceConfig);
                         LineConfig = lineConfig;
+                        SetPollingOptions();
                     }
-
-                    Instance = instance;
-                    recentSelection.InstanceName = instance.Name;
                 }
 
                 recentSelection.CommLineNum = commLineNum;
                 recentSelection.DeviceNum = deviceEntity.DeviceNum;
-                recentSelection.DevTypeID = deviceEntity.DevTypeID ?? 0;
+                recentSelection.DevTypeID = devTypeID;
                 DialogResult = DialogResult.OK;
             }
         }

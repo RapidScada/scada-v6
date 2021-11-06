@@ -60,6 +60,17 @@ namespace Scada.Admin.Extensions.ExtCommConfig.Forms
         /// </summary>
         public LineConfig LineConfig { get; private set; }
 
+        /// <summary>
+        /// Gets a value indicating whether a communication line has been added to the Communicator configuration.
+        /// </summary>
+        public bool AddedToComm
+        {
+            get
+            {
+                return Instance != null && LineConfig != null;
+            }
+        }
+
 
         /// <summary>
         /// Fills the combo box with the instances.
@@ -77,7 +88,8 @@ namespace Scada.Admin.Extensions.ExtCommConfig.Forms
             }
             catch
             {
-                cbInstance.SelectedIndex = 0;
+                if (cbInstance.Items.Count > 0)
+                    cbInstance.SelectedIndex = 0;
             }
         }
 
@@ -176,15 +188,15 @@ namespace Scada.Admin.Extensions.ExtCommConfig.Forms
                 // add line to Communicator configuration
                 if (chkAddToComm.Checked && cbInstance.SelectedItem is ProjectInstance instance)
                 {
+                    Instance = instance;
+                    recentSelection.InstanceName = instance.Name;
+
                     if (instance.CommApp.Enabled)
                     {
                         LineConfig = CommConfigConverter.CreateLineConfig(commLineEntity);
                         LineConfig.Parent = instance.CommApp.AppConfig;
                         instance.CommApp.AppConfig.Lines.Add(LineConfig);
                     }
-
-                    Instance = instance;
-                    recentSelection.InstanceName = instance.Name;
                 }
 
                 recentSelection.CommLineNum = commLineEntity.CommLineNum;

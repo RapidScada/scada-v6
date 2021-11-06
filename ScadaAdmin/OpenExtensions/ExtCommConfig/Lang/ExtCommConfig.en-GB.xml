@@ -128,6 +128,27 @@
     <Phrase key="UnableCreateDataSourceView">Unable to create data source user interface.</Phrase>
     <Phrase key="NoDataSourceProperties">The data source does not provide a properties window.</Phrase>
   </Dictionary>
+  <Dictionary key="Scada.Admin.Extensions.ExtCommConfig.Forms.FrmDeviceAdd">
+    <Phrase key="this">Add Device</Phrase>
+    <Phrase key="gbDevice">Device</Phrase>
+    <Phrase key="lblDeviceNum">Number</Phrase>
+    <Phrase key="lblName">Name</Phrase>
+    <Phrase key="lblCode">Code</Phrase>
+    <Phrase key="lblDevType">Device type</Phrase>
+    <Phrase key="lblNumAddress">Numeric address</Phrase>
+    <Phrase key="lblStrAddress">String address or host name</Phrase>
+    <Phrase key="lblCommLine">Communication line</Phrase>
+    <Phrase key="lblDescr">Description</Phrase>
+    <Phrase key="gbComm">Communicator</Phrase>
+    <Phrase key="chkAddToComm">Add device to Communicator</Phrase>
+    <Phrase key="lblInstance">Instance</Phrase>
+    <Phrase key="btnOK">OK</Phrase>
+    <Phrase key="btnCancel">Cancel</Phrase>
+    <Phrase key="DeviceExistsInConfigBase">A device with the same number already exists in the configuration database.</Phrase>
+    <Phrase key="DeviceExistsInLineConfig">A device with the same number already exists in the communication line configuration.</Phrase>
+    <Phrase key="LineNotFoundInCommConfig">The communication line not found in the Communicator configuration.</Phrase>
+    <Phrase key="ChooseLine">Please choose a communication line.</Phrase>
+  </Dictionary>
   <Dictionary key="Scada.Admin.Extensions.ExtCommConfig.Forms.FrmDrivers">
     <Phrase key="this">Drivers</Phrase>
     <Phrase key="lblDrivers">Available drivers:</Phrase>

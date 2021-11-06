@@ -12,6 +12,7 @@ using System;
 using System.ComponentModel;
 using System.Linq;
 using System.Windows.Forms;
+using WinControl;
 
 namespace Scada.Admin.Extensions.ExtCommConfig.Controls
 {
@@ -154,7 +155,7 @@ namespace Scada.Admin.Extensions.ExtCommConfig.Controls
                 {
                     adminContext.MainForm.RefreshBaseTables(typeof(CommLine));
 
-                    if (frmLineAdd.Instance != null && frmLineAdd.LineConfig != null)
+                    if (frmLineAdd.AddedToComm)
                     {
                         // update explorer
                         if (adminContext.MainForm.FindInstanceNode(frmLineAdd.Instance.Name, out bool justPrepared) is
@@ -184,49 +185,46 @@ namespace Scada.Admin.Extensions.ExtCommConfig.Controls
         private void miAddDevice_Click(object sender, EventArgs e)
         {
             // add device
-            /*if (adminContext.CurrentProject != null)
+            if (adminContext.CurrentProject != null)
             {
-                FrmDeviceAdd frmDeviceAdd = new FrmDeviceAdd(project, appData.AppState.RecentSelection);
+                FrmDeviceAdd frmDeviceAdd = new(adminContext.AppDirs, adminContext.CurrentProject, recentSelection);
 
                 if (frmDeviceAdd.ShowDialog() == DialogResult.OK)
                 {
-                    RefreshBaseTables(typeof(KP));
+                    adminContext.MainForm.RefreshBaseTables(typeof(Device));
 
-                    if (frmDeviceAdd.KPSettings != null &&
-                        FindInstance(frmDeviceAdd.InstanceName, out TreeNode instanceNode, out LiveInstance liveInstance))
+                    if (frmDeviceAdd.AddedToComm)
                     {
-                        // add the device to the explorer
-                        if (liveInstance.IsReady)
+                        // update explorer
+                        if (adminContext.MainForm.FindInstanceNode(frmDeviceAdd.Instance.Name, out bool justPrepared) is
+                            TreeNode instanceNode)
                         {
-                            TreeNode commLineNode = FindTreeNode(frmDeviceAdd.CommLineSettings, instanceNode);
-                            TreeNode kpNode = commShell.CreateDeviceNode(frmDeviceAdd.KPSettings,
-                                frmDeviceAdd.CommLineSettings, liveInstance.CommEnvironment);
-                            kpNode.ContextMenuStrip = cmsDevice;
-                            commLineNode.Nodes.Add(kpNode);
-                            tvExplorer.SelectedNode = kpNode;
-                            UpdateLineParams(kpNode);
-                        }
-                        else
-                        {
-                            PrepareInstanceNode(instanceNode, liveInstance);
-                            tvExplorer.SelectedNode = FindTreeNode(frmDeviceAdd.KPSettings, instanceNode);
+                            if (justPrepared)
+                            {
+                                //ExplorerTree.SelectedNode = FindNode(instanceNode, frmDeviceAdd.DeviceConfig);
+                            }
+                            else if (FindNode(instanceNode, frmDeviceAdd.LineConfig) is TreeNode lineNode)
+                            {
+                                //TreeNode deviceNode =
+                                //    new TreeViewBuilder(adminContext, ExtensionUtils.ContextMenuControl)
+                                //    .CreateDeviceNode(frmDeviceAdd.Instance.CommApp, frmDeviceAdd.DeviceConfig);
+                                //lineNode.Nodes.Add(deviceNode);
+                                //ExplorerTree.SelectedNode = deviceNode;
+
+                                if (lineNode.FindFirst(CommNodeType.LineOptions) is TreeNode lineOptionsNode &&
+                                    lineOptionsNode.Tag is TreeNodeTag tag && 
+                                    tag.ExistingForm is IChildForm childForm)
+                                {
+                                    childForm.ChildFormTag.SendMessage(null, AdminMessage.RefreshData);
+                                }
+                            }
                         }
 
-                        // set the device request parameters by default
-                        if (liveInstance.CommEnvironment.TryGetKPView(frmDeviceAdd.KPSettings, true, null,
-                            out KPView kpView, out string errMsg))
-                        {
-                            frmDeviceAdd.KPSettings.SetReqParams(kpView.DefaultReqParams);
-                        }
-                        else
-                        {
-                            ScadaUiUtils.ShowError(errMsg);
-                        }
-
-                        SaveCommSettigns(liveInstance);
+                        // save configuration
+                        SaveCommConfig(frmDeviceAdd.Instance.CommApp);
                     }
                 }
-            }*/
+            }
         }
 
         private void miCreateChannels_Click(object sender, EventArgs e)

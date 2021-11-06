@@ -41,8 +41,8 @@ namespace Scada.Admin.Extensions.ExtCommConfig.Code
         // Scada.Admin.Extensions.ExtProjectTools.Forms.FrmDeviceAdd
         public static string DeviceExistsInConfigBase { get; private set; }
         public static string DeviceExistsInLineConfig { get; private set; }
-        public static string ChooseCommLine { get; private set; }
-        public static string CommLineNotFound { get; private set; }
+        public static string LineNotFoundInCommConfig { get; private set; }
+        public static string ChooseLine { get; private set; }
 
         // Scada.Admin.Extensions.ExtProjectTools.Forms.FrmLineAdd
         public static string LineExistsInConfigBase { get; private set; }
@@ -83,8 +83,8 @@ namespace Scada.Admin.Extensions.ExtCommConfig.Code
             dict = Locale.GetDictionary("Scada.Admin.Extensions.ExtCommConfig.Forms.FrmDeviceAdd");
             DeviceExistsInConfigBase = dict["DeviceExistsInConfigBase"];
             DeviceExistsInLineConfig = dict["DeviceExistsInLineConfig"];
-            ChooseCommLine = dict["ChooseCommLine"];
-            CommLineNotFound = dict["CommLineNotFound"];
+            LineNotFoundInCommConfig = dict["LineNotFoundInCommConfig"];
+            ChooseLine = dict["ChooseLine"];
 
             dict = Locale.GetDictionary("Scada.Admin.Extensions.ExtCommConfig.Forms.FrmLineAdd");
             LineExistsInConfigBase = dict["LineExistsInConfigBase"];
