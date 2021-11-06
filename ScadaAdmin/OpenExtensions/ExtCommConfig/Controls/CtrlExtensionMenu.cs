@@ -122,6 +122,19 @@ namespace Scada.Admin.Extensions.ExtCommConfig.Controls
         }
 
         /// <summary>
+        /// Refreshes an open child form that shows the communication line configuration.
+        /// </summary>
+        private static void RefreshLineConfg(TreeNode lineNode)
+        {
+            if (lineNode.FindFirst(CommNodeType.LineOptions) is TreeNode lineOptionsNode &&
+                lineOptionsNode.Tag is TreeNodeTag tag &&
+                tag.ExistingForm is IChildForm childForm)
+            {
+                childForm.ChildFormTag.SendMessage(null, AdminMessage.RefreshData);
+            }
+        }
+
+        /// <summary>
         /// Gets menu items to add to the main menu.
         /// </summary>
         public ToolStripItem[] GetMainMenuItems()
@@ -210,13 +223,7 @@ namespace Scada.Admin.Extensions.ExtCommConfig.Controls
                                 //    .CreateDeviceNode(frmDeviceAdd.Instance.CommApp, frmDeviceAdd.DeviceConfig);
                                 //lineNode.Nodes.Add(deviceNode);
                                 //ExplorerTree.SelectedNode = deviceNode;
-
-                                if (lineNode.FindFirst(CommNodeType.LineOptions) is TreeNode lineOptionsNode &&
-                                    lineOptionsNode.Tag is TreeNodeTag tag && 
-                                    tag.ExistingForm is IChildForm childForm)
-                                {
-                                    childForm.ChildFormTag.SendMessage(null, AdminMessage.RefreshData);
-                                }
+                                RefreshLineConfg(lineNode);
                             }
                         }
 
