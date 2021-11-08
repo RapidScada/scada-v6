@@ -48,6 +48,7 @@ namespace Scada.Comm.Drivers.DrvSimulator.Logic
             : base(commContext, lineContext, deviceConfig)
         {
             CanSendCommands = true;
+            ConnectionRequired = false;
         }
 
 
