@@ -16,7 +16,7 @@
  * 
  * Product  : Rapid SCADA
  * Module   : ScadaServerEngine
- * Summary  : Represents a server manager
+ * Summary  : Represents a Server manager
  * 
  * Author   : Mikhail Shiryaev
  * Created  : 2015
@@ -36,14 +36,14 @@ using System.Reflection;
 namespace Scada.Server.Engine
 {
     /// <summary>
-    /// Represents a server manager.
-    /// <para>Представляет менеджер сервера.</para>
+    /// Represents a Server manager.
+    /// <para>Представляет менеджер Сервера.</para>
     /// </summary>
     public class Manager
     {
         private ILog log;                      // the application log
         private StorageWrapper storageWrapper; // contains the application storage
-        private CoreLogic coreLogic;           // the server logic instance
+        private CoreLogic coreLogic;           // the Server logic instance
 
 
         /// <summary>
