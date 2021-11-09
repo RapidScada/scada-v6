@@ -16,7 +16,7 @@
  * 
  * Product  : Rapid SCADA
  * Module   : ScadaServerCommon
- * Summary  : Represents server configuration
+ * Summary  : Represents Server configuration
  * 
  * Author   : Mikhail Shiryaev
  * Created  : 2013
@@ -32,8 +32,8 @@ using System.Xml;
 namespace Scada.Server.Config
 {
     /// <summary>
-    /// Represents server configuration.
-    /// <para>Представляет конфигурацию сервера.</para>
+    /// Represents Server configuration.
+    /// <para>Представляет конфигурацию Сервера.</para>
     /// </summary>
     [Serializable]
     public class ServerConfig : BaseConfig
