@@ -16,7 +16,7 @@
  * 
  * Product  : Rapid SCADA
  * Module   : ScadaServerEngine
- * Summary  : Implements of the core server logic
+ * Summary  : Implements the core Server logic
  * 
  * Author   : Mikhail Shiryaev
  * Created  : 2020
@@ -44,8 +44,8 @@ using System.Threading;
 namespace Scada.Server.Engine
 {
     /// <summary>
-    /// Implements of the core server logic.
-    /// <para>Реализует основную логику сервера.</para>
+    /// Implements the core Server logic.
+    /// <para>Реализует основную логику Сервера.</para>
     /// </summary>
     internal class CoreLogic : ICnlDataChangeHandler
     {

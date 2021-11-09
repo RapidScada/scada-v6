@@ -16,7 +16,7 @@
  * 
  * Product  : Rapid SCADA
  * Module   : ScadaCommEngine
- * Summary  : Implements of the core Communicator logic
+ * Summary  : Implements the core Communicator logic
  * 
  * Author   : Mikhail Shiryaev
  * Created  : 2020
@@ -44,7 +44,7 @@ using System.Threading.Tasks;
 namespace Scada.Comm.Engine
 {
     /// <summary>
-    /// Implements of the core Communicator logic.
+    /// Implements the core Communicator logic.
     /// <para>Реализует основную логику Коммуникатора.</para>
     /// </summary>
     internal class CoreLogic : ICommContext
