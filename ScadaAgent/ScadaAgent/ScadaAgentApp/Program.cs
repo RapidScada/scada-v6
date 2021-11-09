@@ -23,7 +23,10 @@
  * Modified : 2021
  */
 
+using Scada.Agent.Engine;
 using System;
+using System.IO;
+using System.Threading;
 
 namespace Scada.Agent.App
 {
@@ -39,6 +42,25 @@ namespace Scada.Agent.App
         static void Main(string[] args)
         {
             Console.WriteLine("Starting Agent...");
+            Manager manager = new();
+
+            if (manager.StartService())
+                Console.WriteLine("Agent is started successfully");
+            else
+                Console.WriteLine("Agent is started with errors");
+
+            // stop the service if 'x' is pressed or a stop file exists
+            Console.WriteLine("Press 'x' or create 'agentstop' file to stop Agent");
+            FileListener stopFileListener = new(Path.Combine(manager.AppDirs.CmdDir, "agentstop"));
+
+            while (!(Console.KeyAvailable && Console.ReadKey(true).Key == ConsoleKey.X || stopFileListener.FileFound))
+            {
+                Thread.Sleep(ScadaUtils.ThreadDelay);
+            }
+
+            manager.StopService();
+            stopFileListener.Terminate();
+            stopFileListener.DeleteFile();
             Console.WriteLine("Agent is stopped");
         }
     }

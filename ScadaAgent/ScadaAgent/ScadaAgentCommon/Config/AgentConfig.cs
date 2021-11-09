@@ -38,6 +38,12 @@ namespace Scada.Agent.Config
     public class AgentConfig
     {
         /// <summary>
+        /// The default configuration file name.
+        /// </summary>
+        public const string DefaultFileName = "ScadaAgentConfig.xml";
+
+
+        /// <summary>
         /// Initializes a new instance of the class.
         /// </summary>
         public AgentConfig()
