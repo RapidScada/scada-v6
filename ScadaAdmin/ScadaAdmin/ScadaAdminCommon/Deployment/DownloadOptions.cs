@@ -23,12 +23,15 @@
  * Modified : 2021
  */
 
+using System;
+
 namespace Scada.Admin.Deployment
 {
     /// <summary>
     /// Represents configuration download options.
     /// <para>Представляет параметры скачивания конфигурации с сервера.</para>
     /// </summary>
+    [Serializable]
     public class DownloadOptions : TransferOptions
     {
         /// <summary>

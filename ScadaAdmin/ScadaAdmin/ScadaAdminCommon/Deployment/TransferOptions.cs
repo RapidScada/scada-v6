@@ -34,6 +34,7 @@ namespace Scada.Admin.Deployment
     /// Represents configuration transfer options.
     /// <para>Представляет параметры передачи конфигурации.</para>
     /// </summary>
+    [Serializable]
     public abstract class TransferOptions
     {
         /// <summary>

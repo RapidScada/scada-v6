@@ -39,12 +39,11 @@ namespace Scada.Admin.App.Forms.Deployment
     /// </summary>
     public partial class FrmDownloadConfig : Form, IDeploymentForm
     {
-        private readonly AppData appData;                   // the common data of the application
-        private readonly ScadaProject project;              // the project under development
-        private readonly ProjectInstance instance;          // the affected instance
-        private readonly string initialProfileName;         // the initial instance profile name
-        private ConnectionOptions initialConnectionOptions; // the copy of the initial Agent connection options
-        private bool transferOptionsModified;               // the selected upload options were modified
+        private readonly AppData appData;          // the common data of the application
+        private readonly ScadaProject project;     // the project under development
+        private readonly ProjectInstance instance; // the affected instance
+        private DeploymentProfile initialProfile;  // the initial deployment profile
+        private bool transferOptionsModified;      // the selected upload options were modified
 
 
         /// <summary>
@@ -64,8 +63,7 @@ namespace Scada.Admin.App.Forms.Deployment
             this.appData = appData ?? throw new ArgumentNullException(nameof(appData));
             this.project = project ?? throw new ArgumentNullException(nameof(project));
             this.instance = instance ?? throw new ArgumentNullException(nameof(instance));
-            initialProfileName = instance.DeploymentProfile;
-            initialConnectionOptions = null;
+            initialProfile = null;
             transferOptionsModified = false;
 
             ProfileChanged = false;
@@ -120,29 +118,27 @@ namespace Scada.Admin.App.Forms.Deployment
             ctrlTransferOptions.Init(null, false);
             ctrlProfileSelector.Init(appData, project.DeploymentConfig, instance);
 
-            if (ctrlProfileSelector.SelectedProfile?.AgentConnectionOptions is ConnectionOptions connectionOptions)
-                initialConnectionOptions = connectionOptions.DeepClone();
+            if (ctrlProfileSelector.SelectedProfile != null)
+                initialProfile = ctrlProfileSelector.SelectedProfile.DeepClone();
         }
 
         private void FrmDownloadConfig_FormClosed(object sender, FormClosedEventArgs e)
         {
-            ConnectionModified = !ConnectionOptions.Equals(
-                initialConnectionOptions, ctrlProfileSelector.SelectedProfile?.AgentConnectionOptions);
+            ConnectionModified = IDeploymentForm.ConnectionsDifferent(
+                initialProfile, ctrlProfileSelector.SelectedProfile);
         }
 
         private void ctrlProfileSelector_SelectedProfileChanged(object sender, EventArgs e)
         {
             // display selected download options
-            DeploymentProfile deploymentProfile = ctrlProfileSelector.SelectedProfile;
-
-            if (deploymentProfile == null)
+            if (ctrlProfileSelector.SelectedProfile == null)
             {
                 ctrlTransferOptions.Disable();
                 btnDownload.Enabled = false;
             }
             else
             {
-                ctrlTransferOptions.OptionsToControls(deploymentProfile.DownloadOptions);
+                ctrlTransferOptions.OptionsToControls(ctrlProfileSelector.SelectedProfile.DownloadOptions);
                 btnDownload.Enabled = true;
             }
 
@@ -169,7 +165,7 @@ namespace Scada.Admin.App.Forms.Deployment
 
                 // download
                 instance.DeploymentProfile = profile.Name;
-                ProfileChanged = initialProfileName != profile.Name;
+                ProfileChanged = IDeploymentForm.ProfilesDifferent(initialProfile, profile);
                 BaseModified = profile.DownloadOptions.IncludeBase;
                 ViewModified = profile.DownloadOptions.IncludeView;
                 InstanceModified = profile.DownloadOptions.IncludeInstance;

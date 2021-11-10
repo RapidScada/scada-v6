@@ -34,6 +34,7 @@ namespace Scada.Admin.Deployment
     /// Represents a deployment profile.
     /// <para>Представляет профиль развёртывания.</para>
     /// </summary>
+    [Serializable]
     public class DeploymentProfile
     {
         /// <summary>

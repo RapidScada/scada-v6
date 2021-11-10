@@ -253,6 +253,32 @@
     <Phrase key="DbConnectionOK">Соединение с БД в норме.</Phrase>
     <Phrase key="DbConnectionError">Ошибка при соединении с БД:</Phrase>
   </Dictionary>
+  <Dictionary key="Scada.Admin.App.Forms.Deployment.FrmInstanceStatus">
+    <Phrase key="this">Статус экземпляра</Phrase>
+    <Phrase key="gbAction">Действия</Phrase>
+    <Phrase key="btnConnect">Соединиться</Phrase>
+    <Phrase key="btnDisconnect">Разъединиться</Phrase>
+    <Phrase key="gbStatus">Статус</Phrase>
+    <Phrase key="lblServerStatus">Сервер</Phrase>
+    <Phrase key="btnStartServer">Старт</Phrase>
+    <Phrase key="btnStopServer">Стоп</Phrase>
+    <Phrase key="btnRestartServer">Рестарт</Phrase>
+    <Phrase key="lblCommStatus">Коммуникатор</Phrase>
+    <Phrase key="btnStartComm">Старт</Phrase>
+    <Phrase key="btnStopComm">Стоп</Phrase>
+    <Phrase key="btnRestartComm">Рестарт</Phrase>
+    <Phrase key="lblWebStatus">Вебстанция</Phrase>
+    <Phrase key="txtWebStatus">Статус не доступен</Phrase>
+    <Phrase key="btnStartWeb">Старт</Phrase>
+    <Phrase key="btnStopWeb">Стоп</Phrase>
+    <Phrase key="btnRestartWeb">Рестарт</Phrase>
+    <Phrase key="lblUpdateTime">Обновлено</Phrase>
+    <Phrase key="btnClose">Закрыть</Phrase>
+    <Phrase key="ControlServiceSuccessful">Команда управления службой выполнена успешно.</Phrase>
+    <Phrase key="UnableControlService">Невозможно выполнить команду управления службой.</Phrase>
+    <Phrase key="ControlServiceError">Ошибка при отправке команды управления службой.</Phrase>
+    <Phrase key="AgentDisabled">Агент отключен</Phrase>
+  </Dictionary>
   <Dictionary key="Scada.Admin.App.Forms.Deployment.FrmProfileEdit">
     <Phrase key="this">Редактирование профиля</Phrase>
     <Phrase key="tabGeneral">Основные параметры</Phrase>

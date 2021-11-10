@@ -253,6 +253,32 @@
     <Phrase key="DbConnectionOK">Database connection is OK.</Phrase>
     <Phrase key="DbConnectionError">Database connection error:</Phrase>
   </Dictionary>
+  <Dictionary key="Scada.Admin.App.Forms.Deployment.FrmInstanceStatus">
+    <Phrase key="this">Instance Status</Phrase>
+    <Phrase key="gbAction">Actions</Phrase>
+    <Phrase key="btnConnect">Connect</Phrase>
+    <Phrase key="btnDisconnect">Disconnect</Phrase>
+    <Phrase key="gbStatus">Status</Phrase>
+    <Phrase key="lblServerStatus">Server</Phrase>
+    <Phrase key="btnStartServer">Start</Phrase>
+    <Phrase key="btnStopServer">Stop</Phrase>
+    <Phrase key="btnRestartServer">Restart</Phrase>
+    <Phrase key="lblCommStatus">Communicator</Phrase>
+    <Phrase key="btnStartComm">Start</Phrase>
+    <Phrase key="btnStopComm">Stop</Phrase>
+    <Phrase key="btnRestartComm">Restart</Phrase>
+    <Phrase key="lblWebStatus">Webstation</Phrase>
+    <Phrase key="txtWebStatus">Status not available</Phrase>
+    <Phrase key="btnStartWeb">Start</Phrase>
+    <Phrase key="btnStopWeb">Stop</Phrase>
+    <Phrase key="btnRestartWeb">Restart</Phrase>
+    <Phrase key="lblUpdateTime">Update time</Phrase>
+    <Phrase key="btnClose">Close</Phrase>
+    <Phrase key="ControlServiceSuccessful">Service control command completed successfully.</Phrase>
+    <Phrase key="UnableControlService">Unable to execute service control command.</Phrase>
+    <Phrase key="ControlServiceError">Error sending service control command.</Phrase>
+    <Phrase key="AgentDisabled">Agent disabled</Phrase>
+  </Dictionary>
   <Dictionary key="Scada.Admin.App.Forms.Deployment.FrmProfileEdit">
     <Phrase key="this">Edit Profile</Phrase>
     <Phrase key="tabGeneral">General</Phrase>

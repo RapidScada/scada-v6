@@ -23,6 +23,7 @@
  * Modified : 2021
  */
 
+using System;
 using System.Collections.Generic;
 using System.Xml;
 
@@ -32,6 +33,7 @@ namespace Scada.Admin.Deployment
     /// Represents configuration upload options.
     /// <para>Представляет параметры передачи конфигурации на сервер.</para>
     /// </summary>
+    [Serializable]
     public class UploadOptions : TransferOptions
     {
         /// <summary>

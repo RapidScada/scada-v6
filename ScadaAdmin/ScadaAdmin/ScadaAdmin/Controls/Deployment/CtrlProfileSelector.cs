@@ -148,6 +148,14 @@ namespace Scada.Admin.App.Controls.Deployment
             SelectedProfileChanged?.Invoke(this, EventArgs.Empty);
         }
 
+        /// <summary>
+        /// Raises a ProfileEdited event.
+        /// </summary>
+        private void OnProfileEdited()
+        {
+            ProfileEdited?.Invoke(this, EventArgs.Empty);
+        }
+
 
         /// <summary>
         /// Initializes the control.
@@ -166,8 +174,12 @@ namespace Scada.Admin.App.Controls.Deployment
         /// <summary>
         /// Occurs when the selected profile changes.
         /// </summary>
-        [Category("Property Changed")]
         public event EventHandler SelectedProfileChanged;
+
+        /// <summary>
+        /// Occurs after a profile has been edited.
+        /// </summary>
+        public event EventHandler ProfileEdited;
 
 
         private void cbProfile_SelectedIndexChanged(object sender, EventArgs e)
@@ -238,6 +250,7 @@ namespace Scada.Admin.App.Controls.Deployment
 
                 // save deployment settings
                 SaveDeploymentConfig();
+                OnProfileEdited();
             }
         }
 

@@ -192,7 +192,6 @@ namespace Scada.Admin.App.Controls.Deployment
         /// <summary>
         /// Occurs when the options change.
         /// </summary>
-        [Category("Property Changed")]
         public event EventHandler OptionsChanged;
 
 

@@ -1240,11 +1240,11 @@ namespace Scada.Admin.App.Forms
                 LoadDeploymentConfig();
 
                 // open instance status form
-                /*FrmInstanceStatus frmInstanceStatus = new(appData, Project, liveInstance.ProjectInstance);
+                FrmInstanceStatus frmInstanceStatus = new(appData, Project, liveInstance.ProjectInstance);
                 frmInstanceStatus.ShowDialog();
 
                 // take changes into account
-                HandleDeploymentChanges(frmInstanceStatus, liveInstance);*/
+                HandleDeploymentChanges(frmInstanceStatus, liveInstance);
             }
         }
 

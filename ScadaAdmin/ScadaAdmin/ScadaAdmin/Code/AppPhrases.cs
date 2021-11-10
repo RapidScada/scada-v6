@@ -82,6 +82,12 @@ namespace Scada.Admin.App.Code
         public static string DbConnectionOK { get; private set; }
         public static string DbConnectionError { get; private set; }
 
+        // Scada.Admin.App.Forms.Deployment.FrmInstanceStatus
+        public static string ControlServiceSuccessful { get; private set; }
+        public static string UnableControlService { get; private set; }
+        public static string ControlServiceError { get; private set; }
+        public static string AgentDisabled { get; private set; }
+
         // Scada.Admin.App.Forms.Deployment.FrmProfileEdit
         public static string ProfileNameDuplicated { get; private set; }
 
@@ -223,6 +229,12 @@ namespace Scada.Admin.App.Code
             AgentConnectionError = dict["AgentConnectionError"];
             DbConnectionOK = dict["DbConnectionOK"];
             DbConnectionError = dict["DbConnectionError"];
+
+            dict = Locale.GetDictionary("Scada.Admin.App.Forms.Deployment.FrmInstanceStatus");
+            ControlServiceSuccessful = dict["ControlServiceSuccessful"];
+            UnableControlService = dict["UnableControlService"];
+            ControlServiceError = dict["ControlServiceError"];
+            AgentDisabled = dict["AgentDisabled"];
 
             dict = Locale.GetDictionary("Scada.Admin.App.Forms.Deployment.FrmProfileEdit");
             ProfileNameDuplicated = dict["ProfileNameDuplicated"];

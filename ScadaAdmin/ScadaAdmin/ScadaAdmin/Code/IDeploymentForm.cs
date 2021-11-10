@@ -23,6 +23,9 @@
  * Modified : 2021
  */
 
+using Scada.Admin.Deployment;
+using Scada.Client;
+
 namespace Scada.Admin.App.Code
 {
     /// <summary>
@@ -40,5 +43,40 @@ namespace Scada.Admin.App.Code
         /// Gets a value indicating whether the Agent connection options were modified.
         /// </summary>
         bool ConnectionModified { get; }
+
+
+        /// <summary>
+        /// Determines whether two specified profiles have the different names.
+        /// </summary>
+        static bool ProfilesDifferent(DeploymentProfile profile1, DeploymentProfile profile2)
+        {
+            if (profile1 == profile2)
+                return false;
+            else if (profile1 == null || profile2 == null)
+                return true;
+            else
+                return profile1.Name != profile2.Name;
+        }
+
+        /// <summary>
+        /// Determines whether two specified profiles have the different Agent connections.
+        /// </summary>
+        static bool ConnectionsDifferent(DeploymentProfile profile1, DeploymentProfile profile2)
+        {
+            if (profile1 == profile2)
+            {
+                return false;
+            }
+            else if (profile1 == null || profile2 == null)
+            {
+                return true;
+            }
+            else
+            {
+                return !ConnectionOptions.Equals(
+                    profile1.AgentEnabled ? profile1.AgentConnectionOptions : null,
+                    profile2.AgentEnabled ? profile2.AgentConnectionOptions : null);
+            }
+        }
     }
 }

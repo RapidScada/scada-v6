@@ -44,10 +44,10 @@ namespace Scada.Admin.App.Forms.Deployment
     /// </summary>
     public partial class FrmInstanceProfile : Form, IDeploymentForm
     {
-        private readonly AppData appData;                   // the common data of the application
-        private readonly ScadaProject project;              // the project under development
-        private readonly ProjectInstance instance;          // the affected instance
-        private ConnectionOptions initialConnectionOptions; // the copy of the initial Agent connection options
+        private readonly AppData appData;          // the common data of the application
+        private readonly ScadaProject project;     // the project under development
+        private readonly ProjectInstance instance; // the affected instance
+        private DeploymentProfile initialProfile;  // the initial deployment profile
 
 
         /// <summary>
@@ -67,7 +67,7 @@ namespace Scada.Admin.App.Forms.Deployment
             this.appData = appData ?? throw new ArgumentNullException(nameof(appData));
             this.project = project ?? throw new ArgumentNullException(nameof(project));
             this.instance = instance ?? throw new ArgumentNullException(nameof(instance));
-            initialConnectionOptions = null;
+            initialProfile = null;
 
             ProfileChanged = false;
             ConnectionModified = false;
@@ -138,14 +138,14 @@ namespace Scada.Admin.App.Forms.Deployment
 
             ctrlProfileSelector.Init(appData, project.DeploymentConfig, instance);
 
-            if (ctrlProfileSelector.SelectedProfile?.AgentConnectionOptions is ConnectionOptions connectionOptions)
-                initialConnectionOptions = connectionOptions.DeepClone();
+            if (ctrlProfileSelector.SelectedProfile != null)
+                initialProfile = ctrlProfileSelector.SelectedProfile.DeepClone();
         }
 
         private void FrmInstanceProfile_FormClosed(object sender, FormClosedEventArgs e)
         {
-            ConnectionModified = !ConnectionOptions.Equals(
-                initialConnectionOptions, ctrlProfileSelector.SelectedProfile?.AgentConnectionOptions);
+            ConnectionModified = IDeploymentForm.ConnectionsDifferent(
+                initialProfile, ctrlProfileSelector.SelectedProfile);
         }
 
         private void ctrlProfileSelector_SelectedProfileChanged(object sender, EventArgs e)
@@ -155,20 +155,20 @@ namespace Scada.Admin.App.Forms.Deployment
 
         private void btnTest_Click(object sender, EventArgs e)
         {
-            if (ctrlProfileSelector.SelectedProfile is DeploymentProfile deploymentProfile)
+            if (ctrlProfileSelector.SelectedProfile is DeploymentProfile profile)
             {
                 StringBuilder sbTestResult = new();
                 bool agentOK = false;
                 bool dbOK = false;
 
-                if (deploymentProfile.AgentEnabled || deploymentProfile.DbEnabled)
+                if (profile.AgentEnabled || profile.DbEnabled)
                 {
                     Cursor = Cursors.WaitCursor;
 
                     // test Agent connection
-                    if (deploymentProfile.AgentEnabled)
+                    if (profile.AgentEnabled)
                     {
-                        if (TestAgentConnection(deploymentProfile.AgentConnectionOptions, out string errMsg))
+                        if (TestAgentConnection(profile.AgentConnectionOptions, out string errMsg))
                         {
                             sbTestResult.Append(AppPhrases.AgentConnectionOK);
                             agentOK = true;
@@ -184,10 +184,9 @@ namespace Scada.Admin.App.Forms.Deployment
                     }
 
                     // test database connection
-                    if (deploymentProfile.DbEnabled && agentOK)
+                    if (profile.DbEnabled && agentOK)
                     {
-                        if (TestDbConnection(deploymentProfile.Extension, deploymentProfile.DbConnectionOptions,
-                            out string errMsg))
+                        if (TestDbConnection(profile.Extension, profile.DbConnectionOptions, out string errMsg))
                         {
                             sbTestResult.Append(AppPhrases.DbConnectionOK);
                             dbOK = true;
@@ -219,9 +218,8 @@ namespace Scada.Admin.App.Forms.Deployment
         private void btnOK_Click(object sender, EventArgs e)
         {
             // set instance profile
-            string selectedProfileName = ctrlProfileSelector.SelectedProfile?.Name ?? "";
-            ProfileChanged = instance.DeploymentProfile != selectedProfileName;
-            instance.DeploymentProfile = selectedProfileName;
+            instance.DeploymentProfile = ctrlProfileSelector.SelectedProfile?.Name ?? "";
+            ProfileChanged = IDeploymentForm.ProfilesDifferent(initialProfile, ctrlProfileSelector.SelectedProfile);
             DialogResult = DialogResult.OK;
         }
     }

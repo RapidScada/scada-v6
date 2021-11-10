@@ -34,6 +34,7 @@ namespace Scada.Admin.Deployment
     /// Represents a deployment configuration.
     /// <para>Представляет конфигурацию развёртывания.</para>
     /// </summary>
+    [Serializable]
     public class DeploymentConfig
     {
         /// <summary>
