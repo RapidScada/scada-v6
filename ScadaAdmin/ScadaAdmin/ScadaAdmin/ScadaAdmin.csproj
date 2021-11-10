@@ -57,6 +57,9 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Reference Include="AgentClient">
+      <HintPath>..\..\..\ScadaAgent\ScadaAgent\AgentClient\bin\Release\netstandard2.0\AgentClient.dll</HintPath>
+    </Reference>
     <Reference Include="ScadaCommCommon">
       <HintPath>..\..\..\ScadaComm\ScadaComm\ScadaCommCommon\bin\Release\netstandard2.0\ScadaCommCommon.dll</HintPath>
     </Reference>

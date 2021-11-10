@@ -42,8 +42,6 @@ namespace Scada.Admin.App.Code
         {
             ProjectInstance = projectInstance ?? throw new ArgumentNullException(nameof(projectInstance));
             AgentClient = null;
-            //ServerEnvironment = null;
-            //CommEnvironment = null;
             IsReady = false;
         }
 
@@ -59,17 +57,8 @@ namespace Scada.Admin.App.Code
         public IAgentClient AgentClient { get; set; }
 
         /// <summary>
-        /// Gets or sets the Server environment.
-        /// </summary>
-        //public ServerEnvironment ServerEnvironment { get; set; }
-
-        /// <summary>
-        /// Gets or sets the Communicator environment.
-        /// </summary>
-        //public CommEnvironment CommEnvironment { get; set; }
-
-        /// <summary>
-        /// Gets or sets a value indicating whether this object is ready to use.
+        /// Gets or sets a value indicating whether the instance configuration is loaded and 
+        /// the agent client is created.
         /// </summary>
         public bool IsReady { get; set; }
     }

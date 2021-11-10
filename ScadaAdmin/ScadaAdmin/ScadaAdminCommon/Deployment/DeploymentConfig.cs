@@ -148,6 +148,26 @@ namespace Scada.Admin.Deployment
         }
 
         /// <summary>
+        /// Updates the instance name of the Agent connection options for profiles belong to the specified instance.
+        /// </summary>
+        /// <returns>Returns true if profiles are found and updated; otherwise, false.</returns>
+        public bool UpdateInstanceName(int instanceID, string instanceName)
+        {
+            bool profilesAffected = false;
+
+            foreach (DeploymentProfile profile in Profiles.Values)
+            {
+                if (profile.InstanceID == instanceID)
+                {
+                    profile.AgentConnectionOptions.Instance = instanceName;
+                    profilesAffected = true;
+                }
+            }
+
+            return profilesAffected;
+        }
+
+        /// <summary>
         /// Removes profiles belong to the specified instance.
         /// </summary>
         /// <returns>Returns true if profiles are found and removed; otherwise, false.</returns>

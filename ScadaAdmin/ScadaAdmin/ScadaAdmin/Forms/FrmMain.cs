@@ -31,6 +31,8 @@ using Scada.Admin.App.Properties;
 using Scada.Admin.Deployment;
 using Scada.Admin.Extensions;
 using Scada.Admin.Project;
+using Scada.Agent;
+using Scada.Agent.Client;
 using Scada.Comm.Config;
 using Scada.Forms;
 using Scada.Lang;
@@ -122,7 +124,6 @@ namespace Scada.Admin.App.Forms
         /// Gets the item type of the configuration database table of the active child form.
         /// </summary>
         Type IMainForm.ActiveBaseTable => (wctrlMain.ActiveForm as FrmBaseTable)?.ItemType;
-
 
 
         /// <summary>
@@ -527,8 +528,6 @@ namespace Scada.Admin.App.Forms
                 {
                     LoadDeploymentConfig();
                     InitAgentClient(liveInstance);
-                    //liveInstance.ServerEnvironment = CreateServerEnvironment(liveInstance);
-                    //liveInstance.CommEnvironment = CreateCommEnvironment(liveInstance);
                     explorerBuilder.FillInstanceNode(instanceNode);
                     liveInstance.IsReady = true;
                 }
@@ -566,18 +565,6 @@ namespace Scada.Admin.App.Forms
         }
 
         /// <summary>
-        /// Recreates Server and Communicator environments of the instance, if the instance is ready.
-        /// </summary>
-        private void RefreshEnvironments(LiveInstance liveInstance)
-        {
-            if (liveInstance.IsReady)
-            {
-                //liveInstance.ServerEnvironment = CreateServerEnvironment(liveInstance);
-                //liveInstance.CommEnvironment = CreateCommEnvironment(liveInstance);
-            }
-        }
-
-        /// <summary>
         /// Gets the current deployment profile of the instance.
         /// </summary>
         private DeploymentProfile GetDeploymentProfile(LiveInstance liveInstance)
@@ -600,35 +587,10 @@ namespace Scada.Admin.App.Forms
         /// </summary>
         private void InitAgentClient(LiveInstance liveInstance)
         {
-            /*DeploymentProfile profile = GetDeploymentProfile(liveInstance);
-
-            if (profile == null)
-            {
-                liveInstance.AgentClient = null;
-            }
-            else
-            {
-                ConnectionSettings connSettings = profile.ConnectionSettings.Clone();
-                connSettings.ScadaInstance = liveInstance.ProjectInstance.Name;
-                liveInstance.AgentClient = new AgentWcfClient(connSettings);
-            }*/
-        }
-
-        /// <summary>
-        /// Updates the Agent client of the specified instance.
-        /// </summary>
-        private void UpdateAgentClient(LiveInstance liveInstance)
-        {
-            /*if (liveInstance.ServerEnvironment != null || liveInstance.CommEnvironment != null)
-            {
-                InitAgentClient(liveInstance);
-
-                if (liveInstance.ServerEnvironment != null)
-                    liveInstance.ServerEnvironment.AgentClient = liveInstance.AgentClient;
-
-                if (liveInstance.CommEnvironment != null)
-                    liveInstance.CommEnvironment.AgentClient = liveInstance.AgentClient;
-            }*/
+            DeploymentProfile profile = GetDeploymentProfile(liveInstance);
+            liveInstance.AgentClient = profile != null && profile.AgentEnabled
+                ? new AgentClient(profile.AgentConnectionOptions)
+                : null;
         }
 
         /// <summary>
@@ -638,13 +600,13 @@ namespace Scada.Admin.App.Forms
         {
             if (deploymentForm.ProfileChanged)
             {
-                UpdateAgentClient(liveInstance);
+                InitAgentClient(liveInstance);
                 SaveProject();
                 ShowStatus(liveInstance.ProjectInstance);
             }
             else if (deploymentForm.ConnectionModified)
             {
-                UpdateAgentClient(liveInstance);
+                InitAgentClient(liveInstance);
             }
         }
 
@@ -658,6 +620,15 @@ namespace Scada.Admin.App.Forms
             {
                 Log.HandleError(errMsg);
             }
+        }
+
+        /// <summary>
+        /// Saves the deployment configuration of the current project.
+        /// </summary>
+        private void SaveDeploymentConfig()
+        {
+            if (!Project.DeploymentConfig.Save(out string errMsg))
+                Log.HandleError(errMsg);
         }
 
         /// <summary>
@@ -947,6 +918,16 @@ namespace Scada.Admin.App.Forms
 
             justPrepared = false;
             return null;
+        }
+
+        /// <summary>
+        /// Gets the Agent client corresponding to the specified tree node.
+        /// </summary>
+        public IAgentClient GetAgentClient(TreeNode treeNode)
+        {
+            return FindInstanceForDeploy(treeNode, out _, out LiveInstance liveInstance)
+                ? liveInstance.AgentClient
+                : null;
         }
 
 
@@ -1792,11 +1773,8 @@ namespace Scada.Admin.App.Forms
                 if (!liveInstance.ProjectInstance.DeleteInstanceFiles(out string errMsg))
                     Log.HandleError(errMsg);
 
-                if (Project.DeploymentConfig.RemoveProfilesByInstance(liveInstance.ProjectInstance.ID) &&
-                    !Project.DeploymentConfig.Save(out errMsg))
-                {
-                    Log.HandleError(errMsg);
-                }
+                if (Project.DeploymentConfig.RemoveProfilesByInstance(liveInstance.ProjectInstance.ID))
+                    SaveDeploymentConfig();
 
                 SetDeployMenuItemsEnabled();
                 SaveProject();
@@ -1841,11 +1819,15 @@ namespace Scada.Admin.App.Forms
                     if (!projectInstance.Rename(frmItemName.ItemName, out string errMsg))
                         Log.HandleError(errMsg);
 
+                    if (Project.DeploymentConfig.UpdateInstanceName(projectInstance.ID, projectInstance.Name))
+                        SaveDeploymentConfig();
+
                     selectedNode.Text = projectInstance.Name;
                     CloseChildForms(selectedNode, false);
-                    RefreshEnvironments(liveInstance);
                     RefreshInstanceNode(selectedNode, liveInstance);
+                    InitAgentClient(liveInstance);
                     SaveProject();
+                    ShowStatus(projectInstance);
                 }
             }
         }

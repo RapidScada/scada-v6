@@ -27,6 +27,8 @@ using Scada.Admin.App.Code;
 using Scada.Admin.Deployment;
 using Scada.Admin.Extensions;
 using Scada.Admin.Project;
+using Scada.Agent;
+using Scada.Agent.Client;
 using Scada.Client;
 using Scada.Config;
 using Scada.Forms;
@@ -86,36 +88,18 @@ namespace Scada.Admin.App.Forms.Deployment
         /// <summary>
         /// Tests an Agent connection.
         /// </summary>
-        private bool TestAgentConnection(ConnectionOptions connectionOptions, out string errMsg)
+        private static bool TestAgentConnection(ConnectionOptions connectionOptions, out string errMsg)
         {
-            errMsg = "Not implemented.";
-            return false;
-
-            /*try
+            try
             {
-                Cursor = Cursors.WaitCursor;
-                DeploymentProfile profile = ctrlProfileSelector.SelectedProfile;
-
-                if (profile != null)
-                {
-                    ConnectionSettings connSettings = profile.ConnectionSettings.Clone();
-                    connSettings.ScadaInstance = instance.Name;
-                    IAgentClient agentClient = new AgentWcfClient(connSettings);
-
-                    bool testResult = agentClient.TestConnection(out string errMsg);
-                    Cursor = Cursors.Default;
-
-                    if (testResult)
-                        ScadaUiUtils.ShowInfo(AppPhrases.ConnectionOK);
-                    else
-                        ScadaUiUtils.ShowError(errMsg);
-                }
+                IAgentClient agentClient = new AgentClient(connectionOptions);
+                return agentClient.TestConnection(out errMsg);
             }
             catch (Exception ex)
             {
-                Cursor = Cursors.Default;
-                appData.ProcError(ex, AppPhrases.TestConnectionError);
-            }*/
+                errMsg = ex.Message;
+                return false;
+            }
         }
 
         /// <summary>
@@ -135,11 +119,7 @@ namespace Scada.Admin.App.Forms.Deployment
             {
                 try
                 {
-                    if (extensionLogic.TestDbConnection(connectionOptions, out errMsg))
-                    {
-                        errMsg = "";
-                        return true;
-                    }
+                    return extensionLogic.TestDbConnection(connectionOptions, out errMsg);
                 }
                 catch (Exception ex)
                 {
@@ -183,6 +163,8 @@ namespace Scada.Admin.App.Forms.Deployment
 
                 if (deploymentProfile.AgentEnabled || deploymentProfile.DbEnabled)
                 {
+                    Cursor = Cursors.WaitCursor;
+
                     // test Agent connection
                     if (deploymentProfile.AgentEnabled)
                     {
@@ -219,6 +201,8 @@ namespace Scada.Admin.App.Forms.Deployment
                     {
                         dbOK = true;
                     }
+
+                    Cursor = Cursors.Default;
                 }
                 else
                 {

@@ -132,9 +132,9 @@ namespace Scada.Admin.App.Controls.Deployment
         }
 
         /// <summary>
-        /// Saves the deployments configuration.
+        /// Saves the deployment configuration.
         /// </summary>
-        private void SaveDeploymentSettings()
+        private void SaveDeploymentConfig()
         {
             if (!deploymentConfig.Save(out string errMsg))
                 appData.ErrLog.HandleError(errMsg);
@@ -198,7 +198,7 @@ namespace Scada.Admin.App.Controls.Deployment
             if (frmProfileEdit.ShowDialog() == DialogResult.OK)
             {
                 AddProfileToLists(profile);
-                SaveDeploymentSettings();
+                SaveDeploymentConfig();
             }
         }
 
@@ -237,7 +237,7 @@ namespace Scada.Admin.App.Controls.Deployment
                     profile.InstanceID = projectInstance.ID;
 
                 // save deployment settings
-                SaveDeploymentSettings();
+                SaveDeploymentConfig();
             }
         }
 
@@ -270,7 +270,7 @@ namespace Scada.Admin.App.Controls.Deployment
                 }
 
                 // save deployment settings
-                SaveDeploymentSettings();
+                SaveDeploymentConfig();
             }
         }
     }

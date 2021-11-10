@@ -60,7 +60,7 @@ namespace Scada.Agent.Client
         /// </summary>
         public bool TestConnection(out string errMsg)
         {
-            errMsg = "";
+            errMsg = "Not implemented";
             return false;
         }
 

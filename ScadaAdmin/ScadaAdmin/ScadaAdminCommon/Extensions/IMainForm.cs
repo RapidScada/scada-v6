@@ -23,6 +23,7 @@
  * Modified : 2021
  */
 
+using Scada.Agent;
 using System;
 using System.Windows.Forms;
 
@@ -74,5 +75,10 @@ namespace Scada.Admin.Extensions
         /// Finds an instance tree node by instance name.
         /// </summary>
         TreeNode FindInstanceNode(string instanceName, out bool justPrepared);
+
+        /// <summary>
+        /// Gets the Agent client corresponding to the specified tree node.
+        /// </summary>
+        IAgentClient GetAgentClient(TreeNode treeNode);
     }
 }
