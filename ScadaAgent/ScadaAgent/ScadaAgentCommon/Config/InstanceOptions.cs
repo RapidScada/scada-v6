@@ -16,7 +16,7 @@
  * 
  * Product  : Rapid SCADA
  * Module   : ScadaAgentCommon
- * Summary  : Represents an instance configuration
+ * Summary  : Represents instance options
  * 
  * Author   : Mikhail Shiryaev
  * Created  : 2021
@@ -29,15 +29,15 @@ using System.Xml;
 namespace Scada.Agent.Config
 {
     /// <summary>
-    /// Represents an instance configuration.
-    /// <para>Представляет конфигурацию экземпляра.</para>
+    /// Represents instance options.
+    /// <para>Представляет параметры экземпляра.</para>
     /// </summary>
-    public class InstanceConfig
+    public class InstanceOptions
     {
         /// <summary>
         /// Initializes a new instance of the class.
         /// </summary>
-        public InstanceConfig()
+        public InstanceOptions()
         {
             Active = true;
             Name = "";

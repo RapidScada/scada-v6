@@ -24,6 +24,7 @@
  */
 
 using Scada.Agent.Config;
+using Scada.Config;
 using Scada.Lang;
 using Scada.Log;
 using System;
@@ -99,9 +100,8 @@ namespace Scada.Agent.Engine
             log.WriteBreak();
 
             // load culture
-            if (!Locale.LoadCulture(
-                    Path.Combine(AppDirs.InstanceDir, "Config", Scada.Config.InstanceConfig.DefaultFileName),
-                    out string errMsg))
+            if (!Locale.LoadCulture(Path.Combine(AppDirs.InstanceDir, "Config", InstanceConfig.DefaultFileName),
+                out string errMsg))
             {
                 log.WriteError(errMsg);
             }

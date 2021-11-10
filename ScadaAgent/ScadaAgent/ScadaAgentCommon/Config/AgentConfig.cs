@@ -63,9 +63,9 @@ namespace Scada.Agent.Config
         public ReverseConnectionOptions ReverseConnectionOptions { get; private set; }
         
         /// <summary>
-        /// Gets the configuration of the instances.
+        /// Gets the options of the instances.
         /// </summary>
-        public List<InstanceConfig> Instances { get; private set; }
+        public List<InstanceOptions> Instances { get; private set; }
 
 
         /// <summary>
@@ -75,7 +75,7 @@ namespace Scada.Agent.Config
         {
             ListenerOptions = new ListenerOptions();
             ReverseConnectionOptions = new ReverseConnectionOptions();
-            Instances = new List<InstanceConfig>();
+            Instances = new List<InstanceOptions>();
         }
 
 
@@ -105,7 +105,7 @@ namespace Scada.Agent.Config
                 {
                     foreach (XmlElement instanceElem in instancesNode.SelectNodes("Instance"))
                     {
-                        InstanceConfig instanceConfig = new InstanceConfig();
+                        InstanceOptions instanceConfig = new InstanceOptions();
                         instanceConfig.LoadFromXml(instanceElem);
                         Instances.Add(instanceConfig);
                     }

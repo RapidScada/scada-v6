@@ -48,14 +48,14 @@ namespace Scada.Agent
         bool TestConnection(out string errMsg);
 
         /// <summary>
-        /// Sends the command to the service.
-        /// </summary>
-        bool ControlService(ServiceApp serviceApp, ServiceCommand cmd);
-
-        /// <summary>
         /// Gets the current status of the specified service.
         /// </summary>
         bool GetServiceStatus(ServiceApp serviceApp, out ServiceStatus serviceStatus);
+
+        /// <summary>
+        /// Sends the command to the service.
+        /// </summary>
+        bool ControlService(ServiceApp serviceApp, ServiceCommand cmd);
 
         /// <summary>
         /// Downloads the configuration to the file.
