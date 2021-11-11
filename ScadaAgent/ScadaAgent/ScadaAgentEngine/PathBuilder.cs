@@ -36,15 +36,15 @@ namespace Scada.Agent.Engine
     /// </summary>
     internal class PathBuilder
     {
-        private readonly string baseDirectory; // the base directory
+        private readonly string instanceDir; // the instance directory
 
 
         /// <summary>
         /// Initializes a new instance of the class.
         /// </summary>
-        public PathBuilder(string baseDirectory)
+        public PathBuilder(string instanceDir)
         {
-            this.baseDirectory = baseDirectory ?? throw new ArgumentNullException(nameof(baseDirectory));
+            this.instanceDir = instanceDir ?? throw new ArgumentNullException(nameof(instanceDir));
         }
 
 
@@ -141,7 +141,7 @@ namespace Scada.Agent.Engine
         /// </summary>
         public string GetAbsolutePath(RelativePath relativePath)
         {
-            List<string> paths = new List<string> { baseDirectory };
+            List<string> paths = new List<string> { instanceDir };
 
             if (FolderToString(relativePath.TopFolder, out string path))
                 paths.Add(path);
