@@ -27,7 +27,7 @@ namespace Scada.Log
 {
     /// <summary>
     /// Specifies the log message types.
-    /// <para>Задает типы сообщений журнала.</para>
+    /// <para>Задаёт типы сообщений журнала.</para>
     /// </summary>
     public enum LogMessageType
     {

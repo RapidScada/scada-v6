@@ -27,7 +27,7 @@ namespace Scada.Data.Models
 {
     /// <summary>
     /// Specifies the event text formats.
-    /// <para>Задает форматы текста событий.</para>
+    /// <para>Задаёт форматы текста событий.</para>
     /// </summary>
     public enum EventTextFormat
     {

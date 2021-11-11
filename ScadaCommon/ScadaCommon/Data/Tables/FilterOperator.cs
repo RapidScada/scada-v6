@@ -29,7 +29,7 @@ namespace Scada.Data.Tables
 {
     /// <summary>
     /// Specifies the filter operators.
-    /// <para>Задает операторы фильтра.</para>
+    /// <para>Задаёт операторы фильтра.</para>
     /// </summary>
     public enum FilterOperator : byte
     {

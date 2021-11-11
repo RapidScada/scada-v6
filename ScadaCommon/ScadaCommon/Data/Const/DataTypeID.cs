@@ -29,7 +29,7 @@ namespace Scada.Data.Const
 {
     /// <summary>
     /// Specifies the data type IDs of the channels.
-    /// <para>Задает идентификаторы типов данных каналов.</para>
+    /// <para>Задаёт идентификаторы типов данных каналов.</para>
     /// </summary>
     public static class DataTypeID
     {

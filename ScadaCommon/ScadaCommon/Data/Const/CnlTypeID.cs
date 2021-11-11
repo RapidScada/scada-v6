@@ -27,7 +27,7 @@ namespace Scada.Data.Const
 {
     /// <summary>
     /// Specifies the channel type IDs.
-    /// <para>Задает идентификаторы типов каналов.</para>
+    /// <para>Задаёт идентификаторы типов каналов.</para>
     /// </summary>
     public static class CnlTypeID
     {

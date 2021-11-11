@@ -27,7 +27,7 @@ namespace Scada.Client
 {
     /// <summary>
     /// Specifies the client communication states.
-    /// <para>Задает состояния связи клиента.</para>
+    /// <para>Задаёт состояния связи клиента.</para>
     /// </summary>
     public enum ClientState
     {

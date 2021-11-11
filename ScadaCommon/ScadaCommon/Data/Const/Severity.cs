@@ -27,7 +27,7 @@ namespace Scada.Data.Const
 {
     /// <summary>
     /// Specifies the severity levels.
-    /// <para>Задает уровни серьезности.</para>
+    /// <para>Задаёт уровни серьезности.</para>
     /// </summary>
     public static class Severity
     {

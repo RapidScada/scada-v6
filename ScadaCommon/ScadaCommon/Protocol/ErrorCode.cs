@@ -27,7 +27,7 @@ namespace Scada.Protocol
 {
     /// <summary>
     /// Specifies the error codes.
-    /// <para>Задает коды ошибок.</para>
+    /// <para>Задаёт коды ошибок.</para>
     /// </summary>
     public enum ErrorCode : byte
     {

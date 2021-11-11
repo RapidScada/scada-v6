@@ -29,7 +29,7 @@ namespace Scada.Protocol
 {
     /// <summary>
     /// Specifies the top level folders.
-    /// <para>Задает папки верхнего уровня.</para>
+    /// <para>Задаёт папки верхнего уровня.</para>
     /// </summary>
     public enum TopFolder : byte
     {

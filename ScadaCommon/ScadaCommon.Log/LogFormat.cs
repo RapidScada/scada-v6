@@ -27,7 +27,7 @@ namespace Scada.Log
 {
     /// <summary>
     /// Specifies the log formats.
-    /// <para>Задает форматы журнала.</para>
+    /// <para>Задаёт форматы журнала.</para>
     /// </summary>
     public enum LogFormat
     {

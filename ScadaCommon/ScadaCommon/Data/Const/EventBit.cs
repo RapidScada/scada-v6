@@ -27,7 +27,7 @@ namespace Scada.Data.Const
 {
     /// <summary>
     /// Specifies the event bits.
-    /// <para>Задает биты событий.</para>
+    /// <para>Задаёт биты событий.</para>
     /// </summary>
     public static class EventBit
     {

@@ -29,7 +29,7 @@ namespace Scada.Data.Const
 {
     /// <summary>
     /// Specifies the role IDs.
-    /// <para>Задает идентификаторы ролей.</para>
+    /// <para>Задаёт идентификаторы ролей.</para>
     /// </summary>
     public static class RoleID
     {

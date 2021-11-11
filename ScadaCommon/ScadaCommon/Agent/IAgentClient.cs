@@ -43,7 +43,7 @@ namespace Scada.Agent
 
 
         /// <summary>
-        /// Tests the connection with the agent.
+        /// Tests the connection with the Agent service.
         /// </summary>
         bool TestConnection(out string errMsg);
 

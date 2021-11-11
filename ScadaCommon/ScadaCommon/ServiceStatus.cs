@@ -29,7 +29,7 @@ namespace Scada
 {
     /// <summary>
     /// Specifies the service statuses.
-    /// <para>Задает статусы службы.</para>
+    /// <para>Задаёт статусы службы.</para>
     /// </summary>
     public enum ServiceStatus : byte
     {

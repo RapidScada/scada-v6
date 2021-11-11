@@ -29,7 +29,7 @@ namespace Scada.Data.Tables
 {
     /// <summary>
     /// Specifies the table types.
-    /// <para>Задает типы таблиц.</para>
+    /// <para>Задаёт типы таблиц.</para>
     /// </summary>
     public static class TableType
     {

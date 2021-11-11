@@ -5,7 +5,7 @@ namespace Scada.Forms
 {
     /// <summary>
     /// Specifies the behaviors when moving a node.
-    /// <para>Задает поведение при перемещении узла.</para>
+    /// <para>Задаёт поведение при перемещении узла.</para>
     /// </summary>
     public enum TreeNodeBehavior
     {

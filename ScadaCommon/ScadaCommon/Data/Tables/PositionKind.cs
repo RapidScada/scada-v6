@@ -27,7 +27,7 @@ namespace Scada.Data.Tables
 {
     /// <summary>
     /// Specifies the kinds of data positions.
-    /// <para>Задает виды позиций данных.</para>
+    /// <para>Задаёт виды позиций данных.</para>
     /// </summary>
     public enum PositionKind
     {

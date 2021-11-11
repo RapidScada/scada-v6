@@ -29,7 +29,7 @@ namespace Scada.Data.Const
 {
     /// <summary>
     /// Specifies the data archive bits.
-    /// <para>Задает биты архивов данных.</para>
+    /// <para>Задаёт биты архивов данных.</para>
     /// </summary>
     public static class ArchiveBit
     {

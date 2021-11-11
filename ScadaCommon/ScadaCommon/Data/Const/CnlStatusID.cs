@@ -29,7 +29,7 @@ namespace Scada.Data.Const
 {
     /// <summary>
     /// Specifies the channel status IDs.
-    /// <para>Задает идентификаторы статусов каналов.</para>
+    /// <para>Задаёт идентификаторы статусов каналов.</para>
     /// </summary>
     public static class CnlStatusID
     {

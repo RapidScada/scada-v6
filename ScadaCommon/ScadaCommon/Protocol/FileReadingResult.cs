@@ -27,7 +27,7 @@ namespace Scada.Protocol
 {
     /// <summary>
     /// Specifies the results of reading from a file.
-    /// <para>Задает результаты чтения из файла.</para>
+    /// <para>Задаёт результаты чтения из файла.</para>
     /// </summary>
     public enum FileReadingResult : byte
     {

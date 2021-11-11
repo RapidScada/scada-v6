@@ -29,7 +29,7 @@ namespace Scada.Data.Tables
 {
     /// <summary>
     /// Specifies the data type IDs for columns in the application tables.
-    /// <para>Задает идентификаторы типов данных для столбцов в таблицах приложений.</para>
+    /// <para>Задаёт идентификаторы типов данных для столбцов в таблицах приложений.</para>
     /// </summary>
     public enum ColumnDataType : byte
     {
