@@ -276,7 +276,7 @@
     <Phrase key="btnClose">Закрыть</Phrase>
     <Phrase key="ControlServiceSuccessful">Команда управления службой выполнена успешно.</Phrase>
     <Phrase key="UnableControlService">Невозможно выполнить команду управления службой.</Phrase>
-    <Phrase key="ControlServiceError">Ошибка при отправке команды управления службой.</Phrase>
+    <Phrase key="ControlServiceError">Ошибка при отправке команды управления службой</Phrase>
     <Phrase key="AgentDisabled">Агент отключен</Phrase>
   </Dictionary>
   <Dictionary key="Scada.Admin.App.Forms.Deployment.FrmProfileEdit">

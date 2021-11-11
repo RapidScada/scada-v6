@@ -170,12 +170,12 @@ namespace Scada.Admin.App.Forms.Deployment
                     {
                         if (TestAgentConnection(profile.AgentConnectionOptions, out string errMsg))
                         {
-                            sbTestResult.Append(AppPhrases.AgentConnectionOK);
+                            sbTestResult.AppendLine(AppPhrases.AgentConnectionOK);
                             agentOK = true;
                         }
                         else
                         {
-                            sbTestResult.AppendLine(AppPhrases.AgentConnectionError).Append(errMsg);
+                            sbTestResult.AppendLine(AppPhrases.AgentConnectionError).AppendLine(errMsg);
                         }
                     }
                     else
@@ -188,12 +188,12 @@ namespace Scada.Admin.App.Forms.Deployment
                     {
                         if (TestDbConnection(profile.Extension, profile.DbConnectionOptions, out string errMsg))
                         {
-                            sbTestResult.Append(AppPhrases.DbConnectionOK);
+                            sbTestResult.AppendLine(AppPhrases.DbConnectionOK);
                             dbOK = true;
                         }
                         else
                         {
-                            sbTestResult.AppendLine(AppPhrases.DbConnectionError).Append(errMsg);
+                            sbTestResult.AppendLine(AppPhrases.DbConnectionError).AppendLine(errMsg);
                         }
                     }
                     else

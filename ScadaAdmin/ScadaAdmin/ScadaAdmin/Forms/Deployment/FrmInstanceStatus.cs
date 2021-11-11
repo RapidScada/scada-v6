@@ -143,14 +143,20 @@ namespace Scada.Admin.App.Forms.Deployment
             {
                 try
                 {
-                    txtServerStatus.Text = agentClient.GetServiceStatus(ServiceApp.Server, out ServiceStatus status) 
-                        ? status.ToString(Locale.IsRussian) 
-                        : CommonPhrases.UndefinedSign;
-                    txtUpdateTime.Text = DateTime.Now.ToLocalizedString();
+                    lock (agentClient)
+                    {
+                        txtServerStatus.Text = agentClient.GetServiceStatus(ServiceApp.Server, out ServiceStatus status)
+                            ? status.ToString(Locale.IsRussian)
+                            : CommonPhrases.UndefinedSign;
+                    }
                 }
                 catch (Exception ex)
                 {
                     txtServerStatus.Text = ex.Message;
+                }
+                finally
+                {
+                    txtUpdateTime.Text = DateTime.Now.ToLocalizedString();
                 }
             });
         }
@@ -164,14 +170,20 @@ namespace Scada.Admin.App.Forms.Deployment
             {
                 try
                 {
-                    txtCommStatus.Text = agentClient.GetServiceStatus(ServiceApp.Comm, out ServiceStatus status) 
-                        ? status.ToString(Locale.IsRussian) 
-                        : CommonPhrases.UndefinedSign;
-                    txtUpdateTime.Text = DateTime.Now.ToLocalizedString();
+                    lock (agentClient)
+                    {
+                        txtCommStatus.Text = agentClient.GetServiceStatus(ServiceApp.Comm, out ServiceStatus status)
+                            ? status.ToString(Locale.IsRussian)
+                            : CommonPhrases.UndefinedSign;
+                    }
                 }
                 catch (Exception ex)
                 {
                     txtCommStatus.Text = ex.Message;
+                }
+                finally
+                {
+                    txtUpdateTime.Text = DateTime.Now.ToLocalizedString();
                 }
             });
         }
@@ -185,14 +197,20 @@ namespace Scada.Admin.App.Forms.Deployment
             {
                 try
                 {
-                    if (agentClient.ControlService(serviceApp, command))
+                    bool commandResult;
+                    lock (agentClient) 
+                    { 
+                        commandResult = agentClient.ControlService(serviceApp, command);
+                    }
+
+                    if (commandResult)
                         ScadaUiUtils.ShowInfo(AppPhrases.ControlServiceSuccessful);
                     else
                         ScadaUiUtils.ShowError(AppPhrases.UnableControlService);
                 }
                 catch (Exception ex)
                 {
-                    appData.ErrLog.HandleError(ex, AppPhrases.ControlServiceError);
+                    ScadaUiUtils.ShowError(ScadaUtils.BuildErrorMessage(ex, AppPhrases.ControlServiceError));
                 }
             }
         }

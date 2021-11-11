@@ -276,7 +276,7 @@
     <Phrase key="btnClose">Close</Phrase>
     <Phrase key="ControlServiceSuccessful">Service control command completed successfully.</Phrase>
     <Phrase key="UnableControlService">Unable to execute service control command.</Phrase>
-    <Phrase key="ControlServiceError">Error sending service control command.</Phrase>
+    <Phrase key="ControlServiceError">Error sending service control command</Phrase>
     <Phrase key="AgentDisabled">Agent disabled</Phrase>
   </Dictionary>
   <Dictionary key="Scada.Admin.App.Forms.Deployment.FrmProfileEdit">
