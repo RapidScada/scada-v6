@@ -29,7 +29,7 @@ namespace Scada
     /// Specifies the primary applications that run as services.
     /// <para>Задаёт основные приложения, которые работают как службы.</para>
     /// </summary>
-    public enum ServiceApp
+    public enum ServiceApp : byte
     {
         /// <summary>
         /// Unknown application.

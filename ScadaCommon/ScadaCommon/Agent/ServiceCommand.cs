@@ -20,7 +20,7 @@
  * 
  * Author   : Mikhail Shiryaev
  * Created  : 2018
- * Modified : 2020
+ * Modified : 2021
  */
 
 #pragma warning disable 1591 // Missing XML comment for publicly visible type or member
@@ -29,12 +29,12 @@ namespace Scada.Agent
 {
     /// <summary>
     /// Specifies the service control commands.
-    /// <para>Задает команды управления сервисом.</para>
+    /// <para>Задаёт команды управления сервисом.</para>
     /// </summary>
-    public enum ServiceCommand
+    public enum ServiceCommand : byte
     {
-        Start,
-        Stop,
-        Restart
+        Start = 0,
+        Stop = 1,
+        Restart = 2
     }
 }
