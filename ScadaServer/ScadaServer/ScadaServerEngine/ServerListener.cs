@@ -100,11 +100,11 @@ namespace Scada.Server.Engine
                 cnlData = coreLogic.GetCurrentData(cnlNums, useCache, out cnlListID);
             }
 
-            byte[] outBuf = client.OutBuf;
-            response = new ResponsePacket(request, outBuf);
+            buffer = client.OutBuf;
+            response = new ResponsePacket(request, buffer);
             index = ArgumentIndex;
-            CopyInt64(cnlListID, outBuf, ref index);
-            CopyCnlDataArray(cnlData, outBuf, ref index);
+            CopyInt64(cnlListID, buffer, ref index);
+            CopyCnlDataArray(cnlData, buffer, ref index);
             response.BufferLength = index;
         }
 
