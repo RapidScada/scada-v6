@@ -16,7 +16,7 @@
  * 
  * Product  : Rapid SCADA
  * Module   : Server Worker
- * Summary  : Implements the server service
+ * Summary  : Implements the Server service
  * 
  * Author   : Mikhail Shiryaev
  * Created  : 2021

@@ -180,7 +180,7 @@ namespace Scada.Server.Engine
         public ConcurrentDictionary<string, object> SharedData { get; private set; }
 
         /// <summary>
-        /// Gets a value indicating whether the server is ready.
+        /// Gets a value indicating whether the Server service is ready.
         /// </summary>
         public bool IsReady
         {

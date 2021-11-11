@@ -16,7 +16,7 @@
  * 
  * Product  : Rapid SCADA
  * Module   : ScadaServerCommon
- * Summary  : The phrases used by the server and its modules
+ * Summary  : The phrases used by Server and its modules
  * 
  * Author   : Mikhail Shiryaev
  * Created  : 2020
@@ -30,8 +30,8 @@ using Scada.Lang;
 namespace Scada.Server.Lang
 {
     /// <summary>
-    /// The phrases used by the server and its modules.
-    /// <para>Фразы, используемые сервером и его модулями.</para>
+    /// The phrases used by Server and its modules.
+    /// <para>Фразы, используемые Сервером и его модулями.</para>
     /// </summary>
     public static class ServerPhrases
     {
