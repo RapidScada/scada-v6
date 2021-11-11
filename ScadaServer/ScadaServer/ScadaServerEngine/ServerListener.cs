@@ -69,7 +69,7 @@ namespace Scada.Server.Engine
 
 
         /// <summary>
-        /// Gets the client tag or creates it if necessary.
+        /// Gets the client tag, or throws an exception if it is undefined.
         /// </summary>
         private ClientTag GetClientTag(ConnectedClient client)
         {

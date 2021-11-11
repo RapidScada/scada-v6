@@ -1058,6 +1058,9 @@ namespace Scada.Server
 
                         if (!string.IsNullOrEmpty(roleName))
                             sb.Append(" (").Append(roleName).Append(")");
+
+                        if (client.Tag?.ToString() is string tagStr && tagStr != "")
+                            sb.Append("; ").Append(tagStr);
                     }
 
                     sb.Append("; ").AppendLine(client.ActivityTime.ToLocalTime().ToLocalizedTimeString());
