@@ -51,7 +51,7 @@ namespace Scada.Admin.Deployment
             AgentConnectionOptions = new ConnectionOptions
             {
                 Port = 10002,
-                Username = "ScadaAgent",
+                Username = "ScadaAdmin",
                 Password = ""
             };
             DbConnectionOptions = new DbConnectionOptions();

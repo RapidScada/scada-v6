@@ -47,6 +47,7 @@ namespace Scada.Admin.App.Forms.Deployment
         private readonly ProjectInstance instance; // the affected instance
         private DeploymentProfile initialProfile;  // the initial deployment profile
         private IAgentClient agentClient;          // the Agent client
+        private volatile bool connected;           // indicates that status is polled
 
 
         /// <summary>
@@ -68,6 +69,7 @@ namespace Scada.Admin.App.Forms.Deployment
             this.instance = instance ?? throw new ArgumentNullException(nameof(instance));
             initialProfile = null;
             agentClient = null;
+            connected = false;
 
             ProfileChanged = false;
             ConnectionModified = false;
@@ -90,8 +92,9 @@ namespace Scada.Admin.App.Forms.Deployment
         /// </summary>
         private void Connect()
         {
-            if (!timer.Enabled)
+            if (!connected)
             {
+                connected = true;
                 btnConnect.Enabled = false;
                 btnDisconnect.Enabled = true;
                 gbStatus.Enabled = true;
@@ -104,6 +107,7 @@ namespace Scada.Admin.App.Forms.Deployment
         /// </summary>
         private void Disconnect()
         {
+            connected = false;
             timer.Stop();
             agentClient = null;
             btnConnect.Enabled = true;
@@ -135,55 +139,37 @@ namespace Scada.Admin.App.Forms.Deployment
         }
 
         /// <summary>
-        /// Gets the Server status asynchronously.
+        /// Gets the current status of the specified service asynchronously.
         /// </summary>
-        private async Task GetServerStatusAsync()
+        private async Task GetServiceStatusAsync(IAgentClient client, ServiceApp serviceApp, TextBox statusTextBox)
         {
             await Task.Run(() =>
             {
-                try
-                {
-                    lock (agentClient)
-                    {
-                        txtServerStatus.Text = agentClient.GetServiceStatus(ServiceApp.Server, out ServiceStatus status)
-                            ? status.ToString(Locale.IsRussian)
-                            : CommonPhrases.UndefinedSign;
-                    }
-                }
-                catch (Exception ex)
-                {
-                    txtServerStatus.Text = ex.Message;
-                }
-                finally
-                {
-                    txtUpdateTime.Text = DateTime.Now.ToLocalizedString();
-                }
-            });
-        }
+                if (client == null)
+                    return;
 
-        /// <summary>
-        /// Gets the Communicator status asynchronously.
-        /// </summary>
-        private async Task GetCommStatusAsync()
-        {
-            await Task.Run(() =>
-            {
                 try
                 {
-                    lock (agentClient)
+                    lock (client)
                     {
-                        txtCommStatus.Text = agentClient.GetServiceStatus(ServiceApp.Comm, out ServiceStatus status)
-                            ? status.ToString(Locale.IsRussian)
-                            : CommonPhrases.UndefinedSign;
+                        bool statusOK = client.GetServiceStatus(serviceApp, out ServiceStatus status);
+
+                        if (connected)
+                        {
+                            statusTextBox.Text = statusOK
+                                ? status.ToString(Locale.IsRussian)
+                                : CommonPhrases.UndefinedSign;
+                            txtUpdateTime.Text = DateTime.Now.ToLocalizedString();
+                        }
                     }
                 }
                 catch (Exception ex)
                 {
-                    txtCommStatus.Text = ex.Message;
-                }
-                finally
-                {
-                    txtUpdateTime.Text = DateTime.Now.ToLocalizedString();
+                    if (connected)
+                    {
+                        statusTextBox.Text = ex.Message;
+                        txtUpdateTime.Text = DateTime.Now.ToLocalizedString();
+                    }
                 }
             });
         }
@@ -191,27 +177,27 @@ namespace Scada.Admin.App.Forms.Deployment
         /// <summary>
         /// Sends the command to the service.
         /// </summary>
-        private void ControlService(ServiceApp serviceApp, ServiceCommand command)
+        private static void ControlService(IAgentClient client, ServiceApp serviceApp, ServiceCommand command)
         {
-            if (agentClient != null)
-            {
-                try
-                {
-                    bool commandResult;
-                    lock (agentClient) 
-                    { 
-                        commandResult = agentClient.ControlService(serviceApp, command);
-                    }
+            if (client == null)
+                return;
 
-                    if (commandResult)
-                        ScadaUiUtils.ShowInfo(AppPhrases.ControlServiceSuccessful);
-                    else
-                        ScadaUiUtils.ShowError(AppPhrases.UnableControlService);
+            try
+            {
+                bool commandResult;
+                lock (client) 
+                { 
+                    commandResult = client.ControlService(serviceApp, command);
                 }
-                catch (Exception ex)
-                {
-                    ScadaUiUtils.ShowError(ScadaUtils.BuildErrorMessage(ex, AppPhrases.ControlServiceError));
-                }
+
+                if (commandResult)
+                    ScadaUiUtils.ShowInfo(AppPhrases.ControlServiceSuccessful);
+                else
+                    ScadaUiUtils.ShowError(AppPhrases.UnableControlService);
+            }
+            catch (Exception ex)
+            {
+                ScadaUiUtils.ShowError(ScadaUtils.BuildErrorMessage(ex, AppPhrases.ControlServiceError));
             }
         }
 
@@ -292,7 +278,7 @@ namespace Scada.Admin.App.Forms.Deployment
 
             // send command to application
             if (serviceApp != null && serviceCommand != null)
-                ControlService(serviceApp.Value, serviceCommand.Value);
+                ControlService(agentClient, serviceApp.Value, serviceCommand.Value);
         }
 
         private async void timer_Tick(object sender, EventArgs e)
@@ -310,10 +296,10 @@ namespace Scada.Admin.App.Forms.Deployment
             // request status
             if (agentClient != null)
             {
-                await GetServerStatusAsync();
-                await GetCommStatusAsync();
+                await GetServiceStatusAsync(agentClient, ServiceApp.Server, txtServerStatus);
+                await GetServiceStatusAsync(agentClient, ServiceApp.Comm, txtCommStatus);
 
-                if (agentClient != null)
+                if (connected)
                     timer.Start();
             }
         }
