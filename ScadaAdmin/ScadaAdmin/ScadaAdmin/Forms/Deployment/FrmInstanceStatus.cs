@@ -220,7 +220,7 @@ namespace Scada.Admin.App.Forms.Deployment
 
         private void FrmInstanceStatus_FormClosed(object sender, FormClosedEventArgs e)
         {
-            timer.Stop();
+            Disconnect();
             ConnectionModified = IDeploymentForm.ConnectionsDifferent(
                 initialProfile, ctrlProfileSelector.SelectedProfile);
         }

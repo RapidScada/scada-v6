@@ -268,7 +268,7 @@
     <Phrase key="btnStopComm">Стоп</Phrase>
     <Phrase key="btnRestartComm">Рестарт</Phrase>
     <Phrase key="lblWebStatus">Вебстанция</Phrase>
-    <Phrase key="txtWebStatus">Статус не доступен</Phrase>
+    <Phrase key="txtWebStatus">не доступен</Phrase>
     <Phrase key="btnStartWeb">Старт</Phrase>
     <Phrase key="btnStopWeb">Стоп</Phrase>
     <Phrase key="btnRestartWeb">Рестарт</Phrase>

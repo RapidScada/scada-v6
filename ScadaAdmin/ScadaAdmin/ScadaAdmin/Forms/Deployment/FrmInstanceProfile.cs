@@ -92,8 +92,10 @@ namespace Scada.Admin.App.Forms.Deployment
         {
             try
             {
-                IAgentClient agentClient = new AgentClient(connectionOptions);
-                return agentClient.TestConnection(out errMsg);
+                AgentClient agentClient = new(connectionOptions);
+                bool testOK = agentClient.TestConnection(out errMsg);
+                agentClient.TerminateSession();
+                return testOK;
             }
             catch (Exception ex)
             {

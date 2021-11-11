@@ -147,7 +147,7 @@
             this.txtWebStatus.ReadOnly = true;
             this.txtWebStatus.Size = new System.Drawing.Size(150, 23);
             this.txtWebStatus.TabIndex = 11;
-            this.txtWebStatus.Text = "Status not available";
+            this.txtWebStatus.Text = "Not available";
             // 
             // lblWebStatus
             // 
