@@ -52,7 +52,8 @@ namespace Scada.Agent.Engine
         private ServiceStatus serviceStatus;    // the current service status
         private int lastInfoLength;             // the last info text length
 
-        private AgentListener listener;         // the TCP listener
+        private AgentListener listener;                      // the TCP listener
+        private Dictionary<string, ScadaInstance> instances; // the instances accessed by name
 
 
         /// <summary>
@@ -63,7 +64,7 @@ namespace Scada.Agent.Engine
             this.appConfig = appConfig ?? throw new ArgumentNullException(nameof(appConfig));
             this.appDirs = appDirs ?? throw new ArgumentNullException(nameof(appDirs));
             this.log = log ?? throw new ArgumentNullException(nameof(log));
-            infoFileName = Path.Combine(appDirs.LogDir, AgentUtils.InfoFileName);
+            infoFileName = Path.Combine(appDirs.LogDir, EngineUtils.InfoFileName);
 
             thread = null;
             terminated = false;
@@ -73,6 +74,19 @@ namespace Scada.Agent.Engine
             lastInfoLength = 0;
 
             listener = null;
+            instances = null;
+        }
+
+
+        /// <summary>
+        /// Gets a value indicating whether the Agent service is ready.
+        /// </summary>
+        public bool IsReady
+        {
+            get
+            {
+                return serviceStatus == ServiceStatus.Normal;
+            }
         }
 
 
@@ -88,6 +102,13 @@ namespace Scada.Agent.Engine
             WriteInfo();
 
             listener = new AgentListener(this, appConfig.ListenerOptions, log);
+            instances = new Dictionary<string, ScadaInstance>(appConfig.Instances.Count);
+
+            foreach (InstanceOptions instanceOptions in appConfig.Instances)
+            {
+                if (instanceOptions.Active && !string.IsNullOrEmpty(instanceOptions.Name))
+                    instances.Add(instanceOptions.Name, new ScadaInstance(log, instanceOptions));
+            }
         }
 
         /// <summary>
@@ -156,7 +177,7 @@ namespace Scada.Agent.Engine
                         .Append("Запуск       : ").AppendLine(startDT.ToLocalizedString())
                         .Append("Время работы : ").AppendLine(workSpanStr)
                         .Append("Статус       : ").AppendLine(serviceStatus.ToString(true))
-                        .Append("Версия       : ").AppendLine(AgentUtils.AppVersion);
+                        .Append("Версия       : ").AppendLine(EngineUtils.AppVersion);
                 }
                 else
                 {
@@ -166,7 +187,7 @@ namespace Scada.Agent.Engine
                         .Append("Started        : ").AppendLine(startDT.ToLocalizedString())
                         .Append("Execution time : ").AppendLine(workSpanStr)
                         .Append("Status         : ").AppendLine(serviceStatus.ToString(false))
-                        .Append("Version        : ").AppendLine(AgentUtils.AppVersion);
+                        .Append("Version        : ").AppendLine(EngineUtils.AppVersion);
                 }
 
                 if (listener != null)
@@ -266,6 +287,22 @@ namespace Scada.Agent.Engine
                 serviceStatus = ServiceStatus.Error;
                 WriteInfo();
                 log.WriteError(ex, CommonPhrases.StopLogicError);
+            }
+        }
+
+        /// <summary>
+        /// Gets the instance by name.
+        /// </summary>
+        public bool GetInstance(string name, out ScadaInstance scadaInstance)
+        {
+            if (instances == null)
+            {
+                scadaInstance = null;
+                return false;
+            }
+            else
+            {
+                return instances.TryGetValue(name, out scadaInstance);
             }
         }
     }

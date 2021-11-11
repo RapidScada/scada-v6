@@ -66,6 +66,14 @@ namespace Scada.Protocol
             Path = path ?? "";
         }
 
+        /// <summary>
+        /// Initializes a new instance of the class.
+        /// </summary>
+        public RelativePath(ServiceApp serviceApp, AppFolder appFolder, string path = "")
+            : this(GetAppFolder(serviceApp), appFolder, path)
+        {
+        }
+
 
         /// <summary>
         /// Gets the directory ID based to the top and application folders.
@@ -134,6 +142,27 @@ namespace Scada.Protocol
 
             sbPath.Append(Path);
             return sbPath.ToString();
+        }
+
+        /// <summary>
+        /// Gets the top folder corresponding to the specified service application.
+        /// </summary>
+        public static TopFolder GetAppFolder(ServiceApp serviceApp)
+        {
+            switch (serviceApp)
+            {
+                case ServiceApp.Server:
+                    return TopFolder.Server;
+
+                case ServiceApp.Comm:
+                    return TopFolder.Comm;
+
+                case ServiceApp.Web:
+                    return TopFolder.Web;
+
+                default:
+                    throw new ScadaException("Unable to define top folder.");
+            }
         }
     }
 }

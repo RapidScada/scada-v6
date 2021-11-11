@@ -25,9 +25,12 @@
 
 using Scada.Client;
 using Scada.Data.Models;
+using Scada.Lang;
 using Scada.Protocol;
 using System;
 using System.Collections.Generic;
+using static Scada.BinaryConverter;
+using static Scada.Protocol.ProtocolUtils;
 
 namespace Scada.Agent.Client
 {
@@ -56,12 +59,32 @@ namespace Scada.Agent.Client
 
 
         /// <summary>
-        /// Tests the connection with the agent.
+        /// Tests the connection with the Agent service.
         /// </summary>
         public bool TestConnection(out string errMsg)
         {
-            errMsg = "Not implemented";
-            return false;
+            try
+            {
+                RestoreConnection();
+
+                if (ClientState == ClientState.LoggedIn)
+                {
+                    errMsg = "";
+                    return true;
+                }
+                else
+                {
+                    errMsg = Locale.IsRussian ?
+                        "Агент недоступен" :
+                        "Agent unavailable";
+                    return false;
+                }
+            }
+            catch (Exception ex)
+            {
+                errMsg = ex.Message;
+                return false;
+            }
         }
 
         /// <summary>
@@ -69,8 +92,17 @@ namespace Scada.Agent.Client
         /// </summary>
         public bool GetServiceStatus(ServiceApp serviceApp, out ServiceStatus serviceStatus)
         {
-            serviceStatus = ServiceStatus.Undefined;
-            return false;
+            RestoreConnection();
+
+            DataPacket request = CreateRequest(FunctionID.GetServiceStatus);
+            outBuf[ArgumentIndex] = (byte)serviceApp;
+            request.ArgumentLength = 1;
+            SendRequest(request);
+
+            ReceiveResponse(request);
+            bool parsed = inBuf[ArgumentIndex] > 0;
+            serviceStatus = (ServiceStatus)inBuf[ArgumentIndex + 1];
+            return parsed;
         }
 
         /// <summary>
@@ -78,7 +110,16 @@ namespace Scada.Agent.Client
         /// </summary>
         public bool ControlService(ServiceApp serviceApp, ServiceCommand cmd)
         {
-            return false;
+            RestoreConnection();
+
+            DataPacket request = CreateRequest(FunctionID.ControlService);
+            outBuf[ArgumentIndex] = (byte)serviceApp;
+            outBuf[ArgumentIndex + 1] = (byte)cmd;
+            request.ArgumentLength = 2;
+            SendRequest(request);
+
+            ReceiveResponse(request);
+            return inBuf[ArgumentIndex] > 0;
         }
 
         /// <summary>

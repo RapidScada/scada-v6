@@ -96,7 +96,7 @@ namespace Scada.Agent.Engine
             AppDirs.Init(exeDir);
 
             // initialize log
-            log = new LogFile(LogFormat.Full, Path.Combine(AppDirs.LogDir, AgentUtils.LogFileName));
+            log = new LogFile(LogFormat.Full, Path.Combine(AppDirs.LogDir, EngineUtils.LogFileName));
             log.WriteBreak();
 
             // load culture
@@ -109,7 +109,7 @@ namespace Scada.Agent.Engine
             // prepare to start service
             log.WriteAction(Locale.IsRussian ?
                 "Агент {0} запущен" :
-                "Agent {0} started", AgentUtils.AppVersion);
+                "Agent {0} started", EngineUtils.AppVersion);
 
             AgentConfig appConfig = new AgentConfig();
 

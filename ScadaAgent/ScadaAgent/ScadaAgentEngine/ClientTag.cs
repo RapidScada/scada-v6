@@ -15,33 +15,30 @@
  * 
  * 
  * Product  : Rapid SCADA
- * Module   : ScadaAgentCommon
- * Summary  : The class provides helper methods for the Agent application
+ * Module   : ScadaAgentEngine
+ * Summary  : Represents an object associated with a connected client
  * 
  * Author   : Mikhail Shiryaev
- * Created  : 2018
+ * Created  : 2021
  * Modified : 2021
  */
 
-namespace Scada.Agent
+namespace Scada.Agent.Engine
 {
     /// <summary>
-    /// The class provides helper methods for the Agent application.
-    /// <para>Класс, предоставляющий вспомогательные методы для приложения Агент.</para>
+    /// Represents an object associated with a connected client.
+    /// <para>Представляет объект, связанный с подключенным клиентом.</para>
     /// </summary>
-    public static class AgentUtils
+    internal class ClientTag
     {
         /// <summary>
-        /// The application version.
+        /// Gets or sets the instance.
         /// </summary>
-        public const string AppVersion = "6.0.0.0";
+        public ScadaInstance Instance { get; set; } = null;
+
         /// <summary>
-        /// The application log file name.
+        /// Returns a string that represents the current object.
         /// </summary>
-        public const string LogFileName = "ScadaAgent.log";
-        /// <summary>
-        /// The application information file name.
-        /// </summary>
-        public const string InfoFileName = "ScadaAgent.txt";
+        public override string ToString() => Instance?.Name;
     }
 }
