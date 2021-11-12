@@ -28,8 +28,10 @@ using Scada.Lang;
 using Scada.Log;
 using Scada.Protocol;
 using System;
+using System.Diagnostics;
 using System.IO;
 using System.Text;
+using System.Threading;
 
 namespace Scada.Agent.Engine
 {
@@ -39,9 +41,15 @@ namespace Scada.Agent.Engine
     /// </summary>
     internal class ScadaInstance
     {
+        /// <summary>
+        /// The number of milliseconds to wait for lock.
+        /// </summary>
+        private const int LockTimeout = 1000;
+
         private readonly ILog log;                        // the application log
         private readonly InstanceOptions instanceOptions; // the instance options
         private readonly PathBuilder pathBuilder;         // builds file paths
+        private readonly ReaderWriterLockSlim configLock; // synchronizes access to the instance configuration
 
 
         /// <summary>
@@ -52,6 +60,7 @@ namespace Scada.Agent.Engine
             this.log = log ?? throw new ArgumentNullException(nameof(log));
             this.instanceOptions = instanceOptions ?? throw new ArgumentNullException(nameof(instanceOptions));
             pathBuilder = new PathBuilder(instanceOptions.Directory);
+            configLock = new ReaderWriterLockSlim();
         }
 
 
@@ -74,6 +83,26 @@ namespace Scada.Agent.Engine
                     return "ScadaComm.txt";
                 default:
                     throw new ArgumentException("Service not supported.");
+            }
+        }
+
+        /// <summary>
+        /// Gets the file name of the service command.
+        /// </summary>
+        private string GetCommandFileName(ServiceCommand command)
+        {
+            string ext = ScadaUtils.IsRunningOnWin ? ".bat" : ".sh";
+
+            switch (command)
+            {
+                case ServiceCommand.Start:
+                    return "svc_start" + ext;
+                case ServiceCommand.Stop:
+                    return "svc_stop" + ext;
+                case ServiceCommand.Restart:
+                    return "svc_restart" + ext;
+                default:
+                    throw new ArgumentException("Command not supported.");
             }
         }
 
@@ -117,13 +146,13 @@ namespace Scada.Agent.Engine
         {
             try
             {
-                string fileName = pathBuilder.GetAbsolutePath(
+                string statusFileName = pathBuilder.GetAbsolutePath(
                     new RelativePath(serviceApp, AppFolder.Log, GetStatusFileName(serviceApp)));
 
-                if (File.Exists(fileName))
+                if (File.Exists(statusFileName))
                 {
                     using (FileStream stream = 
-                        new FileStream(fileName, FileMode.Open, FileAccess.Read, FileShare.ReadWrite))
+                        new FileStream(statusFileName, FileMode.Open, FileAccess.Read, FileShare.ReadWrite))
                     {
                         using (StreamReader reader = new StreamReader(stream, Encoding.UTF8))
                         {
@@ -162,6 +191,57 @@ namespace Scada.Agent.Engine
             }
 
             serviceStatus = ServiceStatus.Undefined;
+            return false;
+        }
+
+        /// <summary>
+        /// Sends the command to the service.
+        /// </summary>
+        public bool ControlService(ServiceApp serviceApp, ServiceCommand cmd)
+        {
+            try
+            {
+                if (configLock.TryEnterReadLock(LockTimeout))
+                {
+                    try
+                    {
+                        string batchFileName = pathBuilder.GetAbsolutePath(
+                            new RelativePath(serviceApp, AppFolder.Root, GetCommandFileName(cmd)));
+
+                        if (File.Exists(batchFileName))
+                        {
+                            Process.Start(new ProcessStartInfo
+                            {
+                                FileName = batchFileName,
+                                UseShellExecute = false
+                            });
+                            return true;
+                        }
+                        else
+                        {
+                            log.WriteError(Locale.IsRussian ?
+                                "Не найден файл команды управления службой {0}" :
+                                "Service control command file not found {0}", batchFileName);
+                            return false;
+                        }
+                    }
+                    finally
+                    {
+                        configLock.ExitReadLock();
+                    }
+                }
+                else
+                {
+                    log.WriteError(EnginePhrases.InstanceLocked, nameof(ControlService), Name);
+                }
+            }
+            catch (Exception ex)
+            {
+                log.WriteError(ex, Locale.IsRussian ?
+                   "Ошибка при отправке команды управления службой" :
+                   "Error sending service control command");
+            }
+
             return false;
         }
     }

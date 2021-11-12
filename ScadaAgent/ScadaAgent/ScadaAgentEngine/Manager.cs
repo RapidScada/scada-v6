@@ -70,6 +70,7 @@ namespace Scada.Agent.Engine
                 log.WriteError(errMsg);
 
             CommonPhrases.Init();
+            EnginePhrases.Init();
             return true;
         }
 

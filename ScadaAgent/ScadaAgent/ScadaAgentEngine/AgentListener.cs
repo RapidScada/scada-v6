@@ -79,16 +79,31 @@ namespace Scada.Agent.Engine
         {
             ScadaInstance instance = GetClientInstance(client);
             ServiceApp serviceApp = (ServiceApp)request.Buffer[ArgumentIndex];
-            bool statusOK = instance.GetServiceStatus(serviceApp, out ServiceStatus serviceStatus);
+            bool result = instance.GetServiceStatus(serviceApp, out ServiceStatus serviceStatus);
 
             byte[] buffer = client.OutBuf;
             response = new ResponsePacket(request, buffer);
             int index = ArgumentIndex;
-            CopyBool(statusOK, buffer, ref index);
+            CopyBool(result, buffer, ref index);
             CopyByte((byte)serviceStatus, buffer, ref index);
             response.BufferLength = index;
         }
+        
+        /// <summary>
+        /// Sends the command to the service.
+        /// </summary>
+        private void ControlService(ConnectedClient client, DataPacket request, out ResponsePacket response)
+        {
+            ScadaInstance instance = GetClientInstance(client);
+            ServiceApp serviceApp = (ServiceApp)request.Buffer[ArgumentIndex];
+            ServiceCommand serviceCommand = (ServiceCommand)request.Buffer[ArgumentIndex + 1];
+            bool result = instance.ControlService(serviceApp, serviceCommand);
 
+            response = new ResponsePacket(request, client.OutBuf);
+            int index = ArgumentIndex;
+            CopyBool(result, client.OutBuf, ref index);
+            response.BufferLength = index;
+        }
 
         /// <summary>
         /// Gets the server name and version.
@@ -186,6 +201,10 @@ namespace Scada.Agent.Engine
             {
                 case FunctionID.GetServiceStatus:
                     GetServiceStatus(client, request, out response);
+                    break;
+
+                case FunctionID.ControlService:
+                    ControlService(client, request, out response);
                     break;
 
                 default:
