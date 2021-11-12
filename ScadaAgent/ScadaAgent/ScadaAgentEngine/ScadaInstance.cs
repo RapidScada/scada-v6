@@ -123,20 +123,31 @@ namespace Scada.Agent.Engine
                 return false;
             }
 
-            if (string.Equals(instanceOptions.AdminUser.Username, username, StringComparison.OrdinalIgnoreCase) &&
-                instanceOptions.AdminUser.Password == password)
+            if (string.Equals(instanceOptions.AdminUser.Username, username, StringComparison.OrdinalIgnoreCase))
             {
-                roleID = AgentRoleID.Administrator;
-                errMsg = "";
-                return true;
+                if (instanceOptions.AdminUser.Password == password)
+                {
+                    roleID = AgentRoleID.Administrator;
+                    errMsg = "";
+                    return true;
+                }
             }
-            else
+
+            if (instanceOptions.ProxyMode && 
+                string.Equals(instanceOptions.AgentUser.Username, username, StringComparison.OrdinalIgnoreCase))
             {
-                errMsg = Locale.IsRussian ?
-                    "Неверное имя пользователя или пароль" :
-                    "Invalid username or password";
-                return false;
+                if (instanceOptions.AgentUser.Password == password)
+                {
+                    roleID = AgentRoleID.Agent;
+                    errMsg = "";
+                    return true;
+                }
             }
+
+            errMsg = Locale.IsRussian ?
+                "Неверное имя пользователя или пароль" :
+                "Invalid username or password";
+            return false;
         }
 
         /// <summary>
