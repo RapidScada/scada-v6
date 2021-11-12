@@ -23,6 +23,8 @@
  * Modified : 2021
  */
 
+using Scada.Lang;
+
 namespace Scada.Agent.Engine
 {
     /// <summary>
@@ -32,13 +34,40 @@ namespace Scada.Agent.Engine
     internal class ClientTag
     {
         /// <summary>
+        /// Initializes a new instance of the class.
+        /// </summary>
+        public ClientTag(bool isReverse)
+        {
+            IsReverse = isReverse;
+        }
+
+
+        /// <summary>
+        /// Gets a value indicating whether the current tag belongs to a reverse client.
+        /// </summary>
+        public bool IsReverse { get; }
+
+        /// <summary>
         /// Gets or sets the instance.
         /// </summary>
         public ScadaInstance Instance { get; set; } = null;
 
+
         /// <summary>
         /// Returns a string that represents the current object.
         /// </summary>
-        public override string ToString() => Instance?.Name;
+        public override string ToString()
+        {
+            if (IsReverse)
+            {
+                return Locale.IsRussian
+                    ? (Instance?.Name ?? "Экземпляр не найден") + "; Обратный клиент"
+                    : (Instance?.Name ?? "Instanse not found") + "; Reverse client";
+            }
+            else
+            {
+                return Instance?.Name;
+            }
+        }
     }
 }

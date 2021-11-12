@@ -9,7 +9,7 @@
     <Name>Reverse Connection</Name>
     <Host>localhost</Host>
     <Port>10002</Port>
-    <User>ScadaComm</User>
+    <Username>ScadaAgent</Username>
     <Password>B9D0F030265751578B00E9801C69320C</Password>
     <Instance>Default</Instance>
     <Timeout>10000</Timeout>

@@ -23,13 +23,14 @@
  * Modified : 2021
  */
 
+using Scada.Agent.Config;
+using Scada.Client;
 using Scada.Lang;
 using Scada.Log;
 using Scada.Protocol;
 using Scada.Server;
 using System;
-using System.Collections.Generic;
-using System.Text;
+using System.Threading;
 using static Scada.BinaryConverter;
 using static Scada.Protocol.ProtocolUtils;
 
@@ -41,18 +42,83 @@ namespace Scada.Agent.Engine
     /// </summary>
     internal class AgentListener : BaseListener
     {
-        private readonly CoreLogic coreLogic; // the Agent logic instance
+        private readonly CoreLogic coreLogic;                               // the Agent logic instance
+        private readonly ReverseConnectionOptions reverseConnectionOptions; // the reverse connection options
+        
+        private ReverseClient reverseClient;           // the client that connects to the main Agent
+        private Thread reverseClientThread;            // the reverse client thread
+        private volatile bool reverseClientTerminated; // requires to stop the reverse client thread
 
 
         /// <summary>
         /// Initializes a new instance of the class.
         /// </summary>
-        public AgentListener(CoreLogic coreLogic, ListenerOptions listenerOptions, ILog log)
+        public AgentListener(CoreLogic coreLogic, ListenerOptions listenerOptions,
+            ReverseConnectionOptions reverseConnectionOptions, ILog log) 
             : base(listenerOptions, log)
         {
             this.coreLogic = coreLogic ?? throw new ArgumentNullException(nameof(coreLogic));
+            this.reverseConnectionOptions = reverseConnectionOptions ?? 
+                throw new ArgumentNullException(nameof(reverseConnectionOptions));
+
+            reverseClient = null;
+            reverseClientThread = null;
+            reverseClientTerminated = false;
         }
 
+
+        /// <summary>
+        /// Executes the reverse client loop.
+        /// </summary>
+        private void ReverseClientExecute()
+        {
+            reverseClient = new ReverseClient(reverseConnectionOptions);
+
+            while (!reverseClientTerminated)
+            {
+                try
+                {
+                    // reconnect reverse client
+                    if (reverseClient.ClientState != ClientState.LoggedIn && reverseClient.ConnectionAllowed)
+                    {
+                        if (reverseClient.RestoreConnection(out string errMsg))
+                        {
+                            if (CreateSession(out ConnectedClient client))
+                            {
+                                Thread clientThread = new Thread(ClientExecute);
+                                client.Init(reverseClient.TcpClient, clientThread);
+                                client.IsLoggedIn = true;
+                                client.Username = reverseConnectionOptions.Username;
+                                client.UserID = reverseClient.UserID;
+                                client.RoleID = reverseClient.RoleID;
+
+                                coreLogic.GetInstance(reverseConnectionOptions.Instance, out ScadaInstance instance);
+                                client.Tag = new ClientTag(true) { Instance = instance };
+
+                                log.WriteAction(Locale.IsRussian ?
+                                    "Обратный клиент подключился к {0}" :
+                                    "Reverse client connected to {0}", client.Address);
+                                clientThread.Start(client);
+                            }
+                        }
+                        else if (!string.IsNullOrEmpty(errMsg))
+                        {
+                            log.WriteError(errMsg);
+                        }
+                    }
+                }
+                catch (Exception ex)
+                {
+                    log.WriteError(ex, Locale.IsRussian ?
+                        "Ошибка в цикле обратного клиента" :
+                        "Error in the reverse client loop");
+                }
+                finally
+                {
+                    Thread.Sleep(ScadaUtils.ThreadDelay);
+                }
+            }
+        }
 
         /// <summary>
         /// Gets the client tag, or throws an exception if it is undefined.
@@ -105,6 +171,7 @@ namespace Scada.Agent.Engine
             response.BufferLength = index;
         }
 
+
         /// <summary>
         /// Gets the server name and version.
         /// </summary>
@@ -124,11 +191,49 @@ namespace Scada.Agent.Engine
         }
 
         /// <summary>
+        /// Performs actions when starting the listener.
+        /// </summary>
+        protected override void OnListenerStart()
+        {
+            // start reverse client thread
+            if (reverseConnectionOptions.Enabled)
+            {
+                reverseClientThread = new Thread(ReverseClientExecute);
+                reverseClientThread.Start();
+            }
+        }
+
+        /// <summary>
+        /// Performs actions when stopping the listener.
+        /// </summary>
+        protected override void OnListenerStop()
+        {
+            // stop reverse client thread
+            if (reverseClientThread != null)
+            {
+                reverseClientTerminated = true;
+                reverseClientThread.Join();
+            }
+        }
+
+        /// <summary>
         /// Performs actions when initializing the connected client.
         /// </summary>
         protected override void OnClientInit(ConnectedClient client)
         {
-            client.Tag = new ClientTag();
+            client.Tag = new ClientTag(false);
+        }
+
+        /// <summary>
+        /// Performs actions when disconnecting the client.
+        /// </summary>
+        protected override void OnClientDisconnect(ConnectedClient client)
+        {
+            // disconnect inactive reverse client
+            if (client.Tag is ClientTag clientTag && clientTag.IsReverse)
+            {
+                reverseClient.MarkAsDisconnected();
+            }
         }
 
         /// <summary>

@@ -105,6 +105,8 @@ namespace Scada.Client
             ClientState = ClientState.Disconnected;
             SessionID = 0;
             ServerName = "";
+            UserID = 0;
+            RoleID = 0;
         }
 
 
@@ -154,6 +156,16 @@ namespace Scada.Client
         /// Gets the server name and version.
         /// </summary>
         public string ServerName { get; protected set; }
+
+        /// <summary>
+        /// Get the user ID.
+        /// </summary>
+        public int UserID { get; protected set; }
+
+        /// <summary>
+        /// Get the user role ID.
+        /// </summary>
+        public int RoleID { get; protected set; }
 
 
         /// <summary>
@@ -255,7 +267,9 @@ namespace Scada.Client
                     }
 
                     Login(ConnectionOptions.Username, ConnectionOptions.Password, 
-                        out bool loggedIn, out _, out _, out string errMsg);
+                        out bool loggedIn, out int userID, out int roleID, out string errMsg);
+                    UserID = userID;
+                    RoleID = roleID;
 
                     if (loggedIn)
                     {

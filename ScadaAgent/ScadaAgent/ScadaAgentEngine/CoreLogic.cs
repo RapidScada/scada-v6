@@ -101,7 +101,7 @@ namespace Scada.Agent.Engine
             serviceStatus = ServiceStatus.Starting;
             WriteInfo();
 
-            listener = new AgentListener(this, appConfig.ListenerOptions, log);
+            listener = new AgentListener(this, appConfig.ListenerOptions, appConfig.ReverseConnectionOptions, log);
             instances = new Dictionary<string, ScadaInstance>(appConfig.Instances.Count);
 
             foreach (InstanceOptions instanceOptions in appConfig.Instances)

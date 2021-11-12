@@ -172,13 +172,13 @@ namespace Scada.Server
                         tcpClient.SendTimeout = listenerOptions.Timeout;
                         tcpClient.ReceiveTimeout = listenerOptions.Timeout;
 
-                        Thread clientTread = new Thread(ClientExecute);
-                        client.Init(tcpClient, clientTread);
+                        Thread clientThread = new Thread(ClientExecute);
+                        client.Init(tcpClient, clientThread);
                         OnClientInit(client);
                         log.WriteAction(Locale.IsRussian ?
                             "Клиент {0} подключился" :
                             "Client {0} connected", client.Address);
-                        clientTread.Start(client);
+                        clientThread.Start(client);
                     }
 
                     // disconnect inactive clients
@@ -290,6 +290,7 @@ namespace Scada.Server
                 client.Terminated = true;
                 client.JoinThread();
                 client.Disconnect();
+                OnClientDisconnect(client);
 
                 log.WriteAction(Locale.IsRussian ?
                     "Клиент {0} отключился" :
@@ -882,9 +883,30 @@ namespace Scada.Server
         }
 
         /// <summary>
+        /// Performs actions when starting the listener.
+        /// </summary>
+        protected virtual void OnListenerStart()
+        {
+        }
+
+        /// <summary>
+        /// Performs actions when stopping the listener.
+        /// </summary>
+        protected virtual void OnListenerStop()
+        {
+        }
+
+        /// <summary>
         /// Performs actions when initializing the connected client.
         /// </summary>
         protected virtual void OnClientInit(ConnectedClient client)
+        {
+        }
+
+        /// <summary>
+        /// Performs actions when disconnecting the client.
+        /// </summary>
+        protected virtual void OnClientDisconnect(ConnectedClient client)
         {
         }
 
@@ -979,6 +1001,7 @@ namespace Scada.Server
                         "Start listener on port {0}", listenerOptions.Port);
 
                     PrepareListener();
+                    OnListenerStart();
                     thread = new Thread(Execute);
                     thread.Start();
                 }
@@ -1015,6 +1038,7 @@ namespace Scada.Server
 
                     terminated = true;
                     thread.Join();
+                    OnListenerStop();
                     FinalizeListener();
 
                     log.WriteAction(Locale.IsRussian ?
