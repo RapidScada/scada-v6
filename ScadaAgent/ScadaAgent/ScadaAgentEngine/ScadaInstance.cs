@@ -69,6 +69,11 @@ namespace Scada.Agent.Engine
         /// </summary>
         public string Name => instanceOptions.Name;
 
+        /// <summary>
+        /// Gets a value indicating whether the instance is deployed on another host.
+        /// </summary>
+        public bool ProxyMode => instanceOptions.ProxyMode;
+
 
         /// <summary>
         /// Gets the file name that contains the service status.

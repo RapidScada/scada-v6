@@ -188,6 +188,9 @@ namespace Scada.Server
                         disconnectDT = utcNow;
                         RemoveInactiveSessions();
                     }
+
+                    // custom processing
+                    OnIteration();
                 }
                 catch (Exception ex)
                 {
@@ -893,6 +896,13 @@ namespace Scada.Server
         /// Performs actions when stopping the listener.
         /// </summary>
         protected virtual void OnListenerStop()
+        {
+        }
+
+        /// <summary>
+        /// Performs actions on a new iteration of the work cycle.
+        /// </summary>
+        protected virtual void OnIteration()
         {
         }
 

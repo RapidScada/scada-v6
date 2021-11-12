@@ -42,12 +42,18 @@ namespace Scada.Agent.Engine
     /// </summary>
     internal class AgentListener : BaseListener
     {
+        /// <summary>
+        /// The period for pinging remote Agents.
+        /// </summary>
+        private static readonly TimeSpan PingAgentPeriod = TimeSpan.FromSeconds(10);
+
         private readonly CoreLogic coreLogic;                               // the Agent logic instance
         private readonly ReverseConnectionOptions reverseConnectionOptions; // the reverse connection options
         
         private ReverseClient reverseClient;           // the client that connects to the main Agent
         private Thread reverseClientThread;            // the reverse client thread
         private volatile bool reverseClientTerminated; // requires to stop the reverse client thread
+        private DateTime pingAgentDT;                  // the last time when remote Agents were pinged
 
 
         /// <summary>
@@ -64,6 +70,7 @@ namespace Scada.Agent.Engine
             reverseClient = null;
             reverseClientThread = null;
             reverseClientTerminated = false;
+            pingAgentDT = DateTime.MinValue;
         }
 
 
@@ -83,7 +90,7 @@ namespace Scada.Agent.Engine
                     {
                         if (reverseClient.RestoreConnection(out string errMsg))
                         {
-                            if (CreateSession(out ConnectedClient client))
+                            if (CreateSession(reverseClient.SessionID, out ConnectedClient client))
                             {
                                 Thread clientThread = new Thread(ClientExecute);
                                 client.Init(reverseClient.TcpClient, clientThread);
@@ -121,6 +128,42 @@ namespace Scada.Agent.Engine
         }
 
         /// <summary>
+        /// Creates a new session with the predefined ID.
+        /// </summary>
+        private bool CreateSession(long sessionID, out ConnectedClient client)
+        {
+            bool sessionOK;
+
+            if (clients.Count < MaxSessionCount)
+            {
+                client = new ConnectedClient();
+                sessionOK = clients.TryAdd(sessionID, client);
+            }
+            else
+            {
+                client = null;
+                sessionOK = false;
+            }
+
+            if (sessionOK)
+            {
+                log.WriteAction(Locale.IsRussian ?
+                    "Создана сессия с ид. {0}" :
+                    "Session with ID {0} created", sessionID);
+                client.SessionID = sessionID;
+                return true;
+            }
+            else
+            {
+                log.WriteError(Locale.IsRussian ?
+                    "Не удалось создать сессию" :
+                    "Unable to create session");
+                client = null;
+                return false;
+            }
+        }
+
+        /// <summary>
         /// Gets the client tag, or throws an exception if it is undefined.
         /// </summary>
         private ClientTag GetClientTag(ConnectedClient client)
@@ -130,20 +173,54 @@ namespace Scada.Agent.Engine
         }
 
         /// <summary>
-        /// Gets the instance associated with the client, or throws an exception if it is undefined.
+        /// Gets the instance associated with the client.
         /// </summary>
-        private ScadaInstance GetClientInstance(ConnectedClient client)
+        private bool GetClientInstance(ConnectedClient client, out ScadaInstance scadaInstance)
         {
-            return GetClientTag(client).Instance ?? 
-                throw new InvalidOperationException("Client instance must not be null.");
+            scadaInstance = GetClientTag(client).Instance;
+            return scadaInstance != null;
+        }
+
+        /// <summary>
+        /// Sends requests to remote Agents to keep them connected.
+        /// </summary>
+        private void PingRemoteAgents()
+        {
+            foreach (ConnectedClient client in clients.Values)
+            {
+                try
+                {
+                    if (client.RoleID == AgentRoleID.Agent && 
+                        client.Tag is ClientTag clientTag && !clientTag.IsReverse)
+                    {
+                        DataPacket request = new DataPacket
+                        {
+                            TransactionID = 0,
+                            DataLength = 10,
+                            SessionID = client.SessionID,
+                            FunctionID = 0x0505, // new function, Agent heartbeat
+                            Buffer = client.OutBuf
+                        };
+
+                        request.Encode();
+                        client.NetStream.Write(request.Buffer, 0, request.BufferLength);
+                    }
+                }
+                catch (Exception ex)
+                {
+                    log.WriteError(ex, Locale.IsRussian ?
+                        "Ошибка при пинге удалённого Агента {0}" :
+                        "Error pinging remote Agent {0}", client.Address);
+                }
+            }
         }
 
         /// <summary>
         /// Gets the current status of the specified service.
         /// </summary>
-        private void GetServiceStatus(ConnectedClient client, DataPacket request, out ResponsePacket response)
+        private void GetServiceStatus(ConnectedClient client, ScadaInstance instance, DataPacket request,
+            out ResponsePacket response)
         {
-            ScadaInstance instance = GetClientInstance(client);
             ServiceApp serviceApp = (ServiceApp)request.Buffer[ArgumentIndex];
             bool result = instance.GetServiceStatus(serviceApp, out ServiceStatus serviceStatus);
 
@@ -158,9 +235,9 @@ namespace Scada.Agent.Engine
         /// <summary>
         /// Sends the command to the service.
         /// </summary>
-        private void ControlService(ConnectedClient client, DataPacket request, out ResponsePacket response)
+        private void ControlService(ConnectedClient client, ScadaInstance instance, DataPacket request, 
+            out ResponsePacket response)
         {
-            ScadaInstance instance = GetClientInstance(client);
             ServiceApp serviceApp = (ServiceApp)request.Buffer[ArgumentIndex];
             ServiceCommand serviceCommand = (ServiceCommand)request.Buffer[ArgumentIndex + 1];
             bool result = instance.ControlService(serviceApp, serviceCommand);
@@ -217,6 +294,21 @@ namespace Scada.Agent.Engine
         }
 
         /// <summary>
+        /// Performs actions on a new iteration of the work cycle.
+        /// </summary>
+        protected override void OnIteration()
+        {
+            // ping remote agents
+            DateTime utcNow = DateTime.UtcNow;
+
+            if (utcNow - pingAgentDT >= PingAgentPeriod)
+            {
+                pingAgentDT = utcNow;
+                PingRemoteAgents();
+            }
+        }
+
+        /// <summary>
         /// Performs actions when initializing the connected client.
         /// </summary>
         protected override void OnClientInit(ConnectedClient client)
@@ -244,45 +336,36 @@ namespace Scada.Agent.Engine
         {
             if (client.IsLoggedIn)
             {
-                userID = 0;
-                roleID = 0;
                 errMsg = Locale.IsRussian ?
                     "Пользователь уже выполнил вход" :
                     "User is already logged in";
-                return false;
             }
-            else if (coreLogic.GetInstance(instance, out ScadaInstance scadaInstance))
+            else if (!coreLogic.GetInstance(instance, out ScadaInstance scadaInstance))
             {
-                if (scadaInstance.ValidateUser(username, password, out userID, out roleID, out errMsg))
-                {
-                    log.WriteAction(Locale.IsRussian ?
-                        "Пользователь {0} успешно аутентифицирован" :
-                        "User {0} is successfully authenticated", username);
-
-                    client.IsLoggedIn = true;
-                    client.Username = username;
-                    client.UserID = userID;
-                    client.RoleID = roleID;
-                    GetClientTag(client).Instance = scadaInstance;
-                    return true;
-                }
-                else
-                {
-                    log.WriteError(Locale.IsRussian ?
-                        "Ошибка аутентификации пользователя {0}: {1}" :
-                        "Authentication failed for user {0}: {1}", username, errMsg);
-                    return false;
-                }
-            }
-            else
-            {
-                userID = 0;
-                roleID = 0;
                 errMsg = Locale.IsRussian ?
                     "Неизвестный экземпляр" :
                     "Unknown instance";
-                return false;
             }
+            else if (scadaInstance.ValidateUser(username, password, out userID, out roleID, out errMsg))
+            {
+                log.WriteAction(Locale.IsRussian ?
+                    "Пользователь {0} успешно аутентифицирован" :
+                    "User {0} is successfully authenticated", username);
+
+                client.IsLoggedIn = true;
+                client.Username = username;
+                client.UserID = userID;
+                client.RoleID = roleID;
+                GetClientTag(client).Instance = scadaInstance;
+                return true;
+            }
+
+            userID = 0;
+            roleID = 0;
+            log.WriteError(Locale.IsRussian ?
+                "Ошибка аутентификации пользователя {0}: {1}" :
+                "Authentication failed for user {0}: {1}", username, errMsg);
+            return false;
         }
 
         /// <summary>
@@ -299,22 +382,41 @@ namespace Scada.Agent.Engine
         protected override void ProcessCustomRequest(ConnectedClient client, DataPacket request,
             out ResponsePacket response, out bool handled)
         {
-            response = null;
-            handled = true;
-
-            switch (request.FunctionID)
+            if (!GetClientInstance(client, out ScadaInstance instance))
             {
-                case FunctionID.GetServiceStatus:
-                    GetServiceStatus(client, request, out response);
-                    break;
+                response = new ResponsePacket(request, client.OutBuf);
+                response.SetError(ErrorCode.InvalidOperation);
+                handled = true;
+            }
+            else if (instance.ProxyMode)
+            {
+                response = new ResponsePacket(request, client.OutBuf);
+                response.SetError(ErrorCode.IllegalFunction);
+                handled = true;
+            }
+            else
+            {
+                response = null;
+                handled = true;
 
-                case FunctionID.ControlService:
-                    ControlService(client, request, out response);
-                    break;
+                switch (request.FunctionID)
+                {
+                    case FunctionID.GetServiceStatus:
+                        GetServiceStatus(client, instance, request, out response);
+                        break;
 
-                default:
-                    handled = false;
-                    break;
+                    case FunctionID.ControlService:
+                        ControlService(client, instance, request, out response);
+                        break;
+
+                    case 0x0505:
+                        // no response
+                        break;
+
+                    default:
+                        handled = false;
+                        break;
+                }
             }
         }
     }
