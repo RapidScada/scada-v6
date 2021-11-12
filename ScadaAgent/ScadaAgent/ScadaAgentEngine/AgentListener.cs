@@ -43,9 +43,9 @@ namespace Scada.Agent.Engine
     internal class AgentListener : BaseListener
     {
         /// <summary>
-        /// The period for pinging remote Agents.
+        /// The period for sending heartbeat to remote Agents.
         /// </summary>
-        private static readonly TimeSpan PingAgentPeriod = TimeSpan.FromSeconds(10);
+        private static readonly TimeSpan HeartbeatPeriod = TimeSpan.FromSeconds(30);
 
         private readonly CoreLogic coreLogic;                               // the Agent logic instance
         private readonly ReverseConnectionOptions reverseConnectionOptions; // the reverse connection options
@@ -53,7 +53,7 @@ namespace Scada.Agent.Engine
         private ReverseClient reverseClient;           // the client that connects to the main Agent
         private Thread reverseClientThread;            // the reverse client thread
         private volatile bool reverseClientTerminated; // requires to stop the reverse client thread
-        private DateTime pingAgentDT;                  // the last time when remote Agents were pinged
+        private DateTime heartbeatDT;                  // the last time a heartbeat was sent to remote Agents
 
 
         /// <summary>
@@ -70,7 +70,7 @@ namespace Scada.Agent.Engine
             reverseClient = null;
             reverseClientThread = null;
             reverseClientTerminated = false;
-            pingAgentDT = DateTime.MinValue;
+            heartbeatDT = DateTime.MinValue;
         }
 
 
@@ -182,35 +182,36 @@ namespace Scada.Agent.Engine
         }
 
         /// <summary>
-        /// Sends requests to remote Agents to keep them connected.
+        /// Sends hearbeat requests to remote Agents to keep them connected.
         /// </summary>
-        private void PingRemoteAgents()
+        private void SendHearbeat()
         {
             foreach (ConnectedClient client in clients.Values)
             {
-                try
+                if (client.RoleID == AgentRoleID.Agent &&
+                    client.Tag is ClientTag clientTag && !clientTag.IsReverse)
                 {
-                    if (client.RoleID == AgentRoleID.Agent && 
-                        client.Tag is ClientTag clientTag && !clientTag.IsReverse)
+                    DataPacket request = new DataPacket
                     {
-                        DataPacket request = new DataPacket
-                        {
-                            TransactionID = 0,
-                            DataLength = 10,
-                            SessionID = client.SessionID,
-                            FunctionID = 0x0505, // new function, Agent heartbeat
-                            Buffer = client.OutBuf
-                        };
+                        TransactionID = 0,
+                        DataLength = 10,
+                        SessionID = client.SessionID,
+                        FunctionID = FunctionID.AgentHeartbeat,
+                        Buffer = client.OutBuf
+                    };
 
+                    try
+                    {
                         request.Encode();
                         client.NetStream.Write(request.Buffer, 0, request.BufferLength);
+                        client.RegisterActivity();
                     }
-                }
-                catch (Exception ex)
-                {
-                    log.WriteError(ex, Locale.IsRussian ?
-                        "Ошибка при пинге удалённого Агента {0}" :
-                        "Error pinging remote Agent {0}", client.Address);
+                    catch (Exception ex)
+                    {
+                        log.WriteError(Locale.IsRussian ?
+                            "Ошибка при отправке пульса {0}: {1}" :
+                            "Error sending heartbeat to {0}: {1}", client.Address, ex.Message);
+                    }
                 }
             }
         }
@@ -298,13 +299,13 @@ namespace Scada.Agent.Engine
         /// </summary>
         protected override void OnIteration()
         {
-            // ping remote agents
+            // send heartbeat to Agents
             DateTime utcNow = DateTime.UtcNow;
 
-            if (utcNow - pingAgentDT >= PingAgentPeriod)
+            if (utcNow - heartbeatDT >= HeartbeatPeriod)
             {
-                pingAgentDT = utcNow;
-                PingRemoteAgents();
+                heartbeatDT = utcNow;
+                SendHearbeat();
             }
         }
 
@@ -390,9 +391,19 @@ namespace Scada.Agent.Engine
             }
             else if (instance.ProxyMode)
             {
-                response = new ResponsePacket(request, client.OutBuf);
-                response.SetError(ErrorCode.IllegalFunction);
-                handled = true;
+                if (client.RoleID == AgentRoleID.Administrator)
+                {
+                    // TODO: redirect request to remote Agent
+                    response = new ResponsePacket(request, client.OutBuf);
+                    response.SetError(ErrorCode.IllegalFunction);
+                    handled = true;
+                }
+                else
+                {
+                    // TODO: redirect response to Administrator
+                    response = null;
+                    handled = true;
+                }
             }
             else
             {
@@ -409,7 +420,7 @@ namespace Scada.Agent.Engine
                         ControlService(client, instance, request, out response);
                         break;
 
-                    case 0x0505:
+                    case FunctionID.AgentHeartbeat:
                         // no response
                         break;
 

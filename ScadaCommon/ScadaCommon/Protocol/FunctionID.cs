@@ -63,6 +63,7 @@ namespace Scada.Protocol
 
         public const ushort GetServiceStatus = 0x0501;
         public const ushort ControlService = 0x0502;
+        public const ushort AgentHeartbeat = 0x0505;
 
         private static readonly Dictionary<ushort, string> FunctionNames = new Dictionary<ushort, string>
         {
