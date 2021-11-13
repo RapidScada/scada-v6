@@ -200,10 +200,37 @@ namespace Scada.Agent.Engine
         {
             if (instance.ProxyMode && clientBundles.TryGetValue(instance.Name, out ClientBundle clientBundle))
             {
-                if (client.RoleID == AgentRoleID.Administrator)
-                    clientBundle.AdminClient = client;
-                else if (client.RoleID == AgentRoleID.Agent)
-                    clientBundle.AgentClient = client;
+                lock (clientBundle)
+                {
+                    if (client.RoleID == AgentRoleID.Administrator)
+                        clientBundle.AdminClient = client;
+                    else if (client.RoleID == AgentRoleID.Agent)
+                        clientBundle.AgentClient = client;
+                }
+            }
+        }
+
+        /// <summary>
+        /// Unregisters the disconnected connected client for the proxy instance.
+        /// </summary>
+        private void UnregisterClient(ConnectedClient client, ScadaInstance instance)
+        {
+            if (instance != null && instance.ProxyMode && 
+                clientBundles.TryGetValue(instance.Name, out ClientBundle clientBundle))
+            {
+                lock (clientBundle)
+                {
+                    if (client.RoleID == AgentRoleID.Administrator)
+                    {
+                        if (clientBundle.AdminClient == client)
+                            clientBundle.AdminClient = null;
+                    }
+                    else if (client.RoleID == AgentRoleID.Agent)
+                    {
+                        if (clientBundle.AgentClient == client)
+                            clientBundle.AgentClient = null;
+                    }
+                }
             }
         }
 
@@ -271,6 +298,10 @@ namespace Scada.Agent.Engine
                         "Ошибка при переадресации запроса на {0}: {1}" :
                         "Error redirecting request to {0}: {1}", agentClient.Address, ex.Message);
                     return false;
+                }
+                finally
+                {
+                    dataPacket.SessionID = adminClient.SessionID;
                 }
             }
             else
@@ -422,10 +453,14 @@ namespace Scada.Agent.Engine
         /// </summary>
         protected override void OnClientDisconnect(ConnectedClient client)
         {
-            // disconnect inactive reverse client
-            if (client.Tag is ClientTag clientTag && clientTag.IsReverse)
+            if (client.Tag is ClientTag clientTag)
             {
-                reverseClient.MarkAsDisconnected();
+                // disconnect inactive reverse client
+                if (clientTag.IsReverse)
+                    reverseClient.MarkAsDisconnected();
+
+                // unregister client of proxy instance
+                UnregisterClient(client, clientTag.Instance);
             }
         }
 
