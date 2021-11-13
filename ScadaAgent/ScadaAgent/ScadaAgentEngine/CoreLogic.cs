@@ -31,6 +31,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Text;
 using System.Threading;
+using System.Linq;
 
 namespace Scada.Agent.Engine
 {
@@ -288,6 +289,16 @@ namespace Scada.Agent.Engine
                 WriteInfo();
                 log.WriteError(ex, CommonPhrases.StopLogicError);
             }
+        }
+
+        /// <summary>
+        /// Gets the names of the proxy instances.
+        /// </summary>
+        public IEnumerable<string> GetProxyInstanceNames()
+        {
+            return from i in instances.Values
+                   where i.ProxyMode
+                   select i.Name;
         }
 
         /// <summary>

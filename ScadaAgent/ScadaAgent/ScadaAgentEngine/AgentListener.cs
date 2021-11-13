@@ -30,6 +30,7 @@ using Scada.Log;
 using Scada.Protocol;
 using Scada.Server;
 using System;
+using System.Collections.Generic;
 using System.Threading;
 using static Scada.BinaryConverter;
 using static Scada.Protocol.ProtocolUtils;
@@ -43,12 +44,22 @@ namespace Scada.Agent.Engine
     internal class AgentListener : BaseListener
     {
         /// <summary>
+        /// Consolidates clients of a proxy instance.
+        /// </summary>
+        private class ClientBundle
+        {
+            public ConnectedClient AdminClient { get; set; }
+            public ConnectedClient AgentClient { get; set; }
+        }
+
+        /// <summary>
         /// The period for sending heartbeat to remote Agents.
         /// </summary>
         private static readonly TimeSpan HeartbeatPeriod = TimeSpan.FromSeconds(30);
 
         private readonly CoreLogic coreLogic;                               // the Agent logic instance
         private readonly ReverseConnectionOptions reverseConnectionOptions; // the reverse connection options
+        private readonly Dictionary<string, ClientBundle> clientBundles;    // the clients of proxy instances
         
         private ReverseClient reverseClient;           // the client that connects to the main Agent
         private Thread reverseClientThread;            // the reverse client thread
@@ -66,6 +77,7 @@ namespace Scada.Agent.Engine
             this.coreLogic = coreLogic ?? throw new ArgumentNullException(nameof(coreLogic));
             this.reverseConnectionOptions = reverseConnectionOptions ?? 
                 throw new ArgumentNullException(nameof(reverseConnectionOptions));
+            clientBundles = new Dictionary<string, ClientBundle>();
 
             reverseClient = null;
             reverseClientThread = null;
@@ -182,36 +194,114 @@ namespace Scada.Agent.Engine
         }
 
         /// <summary>
+        /// Registers the newly connected client for the proxy instance.
+        /// </summary>
+        private void RegisterClient(ConnectedClient client, ScadaInstance instance)
+        {
+            if (instance.ProxyMode && clientBundles.TryGetValue(instance.Name, out ClientBundle clientBundle))
+            {
+                if (client.RoleID == AgentRoleID.Administrator)
+                    clientBundle.AdminClient = client;
+                else if (client.RoleID == AgentRoleID.Agent)
+                    clientBundle.AgentClient = client;
+            }
+        }
+
+        /// <summary>
         /// Sends hearbeat requests to remote Agents to keep them connected.
         /// </summary>
         private void SendHearbeat()
         {
-            foreach (ConnectedClient client in clients.Values)
+            foreach (ClientBundle clientBundle in clientBundles.Values)
             {
-                if (client.RoleID == AgentRoleID.Agent &&
-                    client.Tag is ClientTag clientTag && !clientTag.IsReverse)
+                if (clientBundle.AgentClient is ConnectedClient agentClient &&
+                    agentClient.Tag is ClientTag clientTag && !clientTag.IsReverse)
                 {
                     DataPacket request = new DataPacket
                     {
                         TransactionID = 0,
                         DataLength = 10,
-                        SessionID = client.SessionID,
+                        SessionID = agentClient.SessionID,
                         FunctionID = FunctionID.AgentHeartbeat,
-                        Buffer = client.OutBuf
+                        Buffer = agentClient.OutBuf
                     };
 
                     try
                     {
                         request.Encode();
-                        client.NetStream.Write(request.Buffer, 0, request.BufferLength);
-                        client.RegisterActivity();
+
+                        lock (agentClient)
+                        {
+                            agentClient.NetStream.Write(request.Buffer, 0, request.BufferLength);
+                            agentClient.RegisterActivity();
+                        }
                     }
                     catch (Exception ex)
                     {
                         log.WriteError(Locale.IsRussian ?
                             "Ошибка при отправке пульса {0}: {1}" :
-                            "Error sending heartbeat to {0}: {1}", client.Address, ex.Message);
+                            "Error sending heartbeat to {0}: {1}", agentClient.Address, ex.Message);
                     }
+                }
+            }
+        }
+
+        /// <summary>
+        /// Redirects the request from the Administrator client to an Agent client.
+        /// </summary>
+        private bool RedirectRequest(ConnectedClient adminClient, ScadaInstance instance, DataPacket dataPacket)
+        {
+            if (clientBundles.TryGetValue(instance.Name, out ClientBundle clientBundle) &&
+                clientBundle.AdminClient == adminClient &&
+                clientBundle.AgentClient is ConnectedClient agentClient)
+            {
+                try
+                {
+                    lock (agentClient)
+                    {
+                        dataPacket.SessionID = agentClient.SessionID;
+                        dataPacket.Encode();
+                        agentClient.NetStream.Write(dataPacket.Buffer, 0, dataPacket.BufferLength);
+                    }
+                    return true;
+                }
+                catch (Exception ex)
+                {
+                    log.WriteError(Locale.IsRussian ?
+                        "Ошибка при переадресации запроса на {0}: {1}" :
+                        "Error redirecting request to {0}: {1}", agentClient.Address, ex.Message);
+                    return false;
+                }
+            }
+            else
+            {
+                return false;
+            }
+        }
+
+        /// <summary>
+        /// Redirects the response from the Agent client to an Administrator client.
+        /// </summary>
+        private void RedirectResponse(ConnectedClient agentClient, ScadaInstance instance, DataPacket dataPacket)
+        {
+            if (clientBundles.TryGetValue(instance.Name, out ClientBundle clientBundle) &&
+                clientBundle.AgentClient == agentClient &&
+                clientBundle.AdminClient is ConnectedClient adminClient)
+            {
+                try
+                {
+                    lock (adminClient)
+                    {
+                        dataPacket.SessionID = adminClient.SessionID;
+                        dataPacket.Encode();
+                        adminClient.NetStream.Write(dataPacket.Buffer, 0, dataPacket.BufferLength);
+                    }
+                }
+                catch (Exception ex)
+                {
+                    log.WriteError(Locale.IsRussian ?
+                        "Ошибка при переадресации ответа на {0}: {1}" :
+                        "Error redirecting response to {0}: {1}", agentClient.Address, ex.Message);
                 }
             }
         }
@@ -273,6 +363,16 @@ namespace Scada.Agent.Engine
         /// </summary>
         protected override void OnListenerStart()
         {
+            // create empty client bundles
+            foreach (string instanceName in coreLogic.GetProxyInstanceNames())
+            {
+                clientBundles.Add(instanceName, new ClientBundle
+                {
+                    AdminClient = null,
+                    AgentClient = null
+                });
+            }
+
             // start reverse client thread
             if (reverseConnectionOptions.Enabled)
             {
@@ -358,6 +458,7 @@ namespace Scada.Agent.Engine
                 client.UserID = userID;
                 client.RoleID = roleID;
                 GetClientTag(client).Instance = scadaInstance;
+                RegisterClient(client, scadaInstance);
                 return true;
             }
 
@@ -383,33 +484,33 @@ namespace Scada.Agent.Engine
         protected override void ProcessCustomRequest(ConnectedClient client, DataPacket request,
             out ResponsePacket response, out bool handled)
         {
+            response = null;
+            handled = true;
+
             if (!GetClientInstance(client, out ScadaInstance instance))
             {
                 response = new ResponsePacket(request, client.OutBuf);
                 response.SetError(ErrorCode.InvalidOperation);
-                handled = true;
             }
             else if (instance.ProxyMode)
             {
                 if (client.RoleID == AgentRoleID.Administrator)
                 {
-                    // TODO: redirect request to remote Agent
-                    response = new ResponsePacket(request, client.OutBuf);
-                    response.SetError(ErrorCode.IllegalFunction);
-                    handled = true;
+                    // redirect request to remote Agent
+                    if (!RedirectRequest(client, instance, request))
+                    {
+                        response = new ResponsePacket(request, client.OutBuf);
+                        response.SetError(ErrorCode.ProxyError);
+                    }
                 }
                 else
                 {
-                    // TODO: redirect response to Administrator
-                    response = null;
-                    handled = true;
+                    // redirect response to Administrator
+                    RedirectResponse(client, instance, request);
                 }
             }
             else
             {
-                response = null;
-                handled = true;
-
                 switch (request.FunctionID)
                 {
                     case FunctionID.GetServiceStatus:
