@@ -1,0 +1,1 @@
+psql -a -U postgres -d rapid_scada -f 02_create_objects.sql 2> create_objects.err
