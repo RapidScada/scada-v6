@@ -12,6 +12,10 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="System.IO.Ports" Version="6.0.0" />
+  </ItemGroup>
+
+  <ItemGroup>
     <ProjectReference Include="..\ScadaCommCommon\ScadaCommCommon.csproj" />
     <ProjectReference Include="..\ScadaCommEngine\ScadaCommEngine.csproj" />
   </ItemGroup>

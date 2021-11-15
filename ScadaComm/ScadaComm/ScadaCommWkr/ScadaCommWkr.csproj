@@ -15,6 +15,7 @@
     <PackageReference Include="Microsoft.Extensions.Hosting" Version="5.0.0" />
     <PackageReference Include="Microsoft.Extensions.Hosting.Systemd" Version="5.0.1" />
     <PackageReference Include="Microsoft.Extensions.Hosting.WindowsServices" Version="5.0.1" />
+    <PackageReference Include="System.IO.Ports" Version="6.0.0" />
   </ItemGroup>
 
   <ItemGroup>
