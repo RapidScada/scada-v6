@@ -623,7 +623,7 @@ namespace Scada.Server
         {
             int index = ArgumentIndex;
             RelativePath filePath = GetFilePath(client.InBuf, ref index);
-            ShortFileInfo fileInfo = GetFileInfo(filePath);
+            ShortFileInfo fileInfo = GetFileInfo(client, filePath);
 
             byte[] outBuf = client.OutBuf;
             response = new ResponsePacket(request, outBuf);
@@ -656,7 +656,7 @@ namespace Scada.Server
             int count = GetInt32(buffer, ref index);
             SeekOrigin origin = buffer[index++] == 0 ? SeekOrigin.Begin : SeekOrigin.End;
             DateTime newerThan = GetTime(buffer, ref index);
-            ShortFileInfo fileInfo = GetFileInfo(filePath);
+            ShortFileInfo fileInfo = GetFileInfo(client, filePath);
 
             if (!fileInfo.Exists)
             {
@@ -672,7 +672,7 @@ namespace Scada.Server
             }
             else
             {
-                using (BinaryReader reader = OpenRead(filePath))
+                using (BinaryReader reader = OpenRead(client, filePath))
                 {
                     Stream stream = reader.BaseStream;
 
@@ -759,7 +759,7 @@ namespace Scada.Server
                 ThrowBlockNumberException();
 
             // check whether file is accepted
-            bool fileAccepted = AcceptFileUpload(filePath);
+            bool fileAccepted = AcceptFileUpload(client, filePath);
             response = new ResponsePacket(request, client.OutBuf) { ArgumentLength = 1 };
             CopyBool(fileAccepted, client.OutBuf, ArgumentIndex);
             client.SendResponse(response);
@@ -775,7 +775,7 @@ namespace Scada.Server
 
                 try
                 {
-                    using (BinaryWriter writer = OpenWrite(filePath))
+                    using (BinaryWriter writer = OpenWrite(client, filePath))
                     {
                         while (!endOfFile && !client.Terminated)
                         {
@@ -830,7 +830,7 @@ namespace Scada.Server
                 }
                 catch
                 {
-                    BreakWriting(filePath);
+                    BreakWriting(client, filePath);
                     throw;
                 }
             }
@@ -956,7 +956,7 @@ namespace Scada.Server
         /// <summary>
         /// Accepts or rejects the file upload.
         /// </summary>
-        protected virtual bool AcceptFileUpload(RelativePath path)
+        protected virtual bool AcceptFileUpload(ConnectedClient client, RelativePath path)
         {
             return false;
         }
@@ -964,7 +964,7 @@ namespace Scada.Server
         /// <summary>
         /// Gets the information associated with the specified file.
         /// </summary>
-        protected virtual ShortFileInfo GetFileInfo(RelativePath path)
+        protected virtual ShortFileInfo GetFileInfo(ConnectedClient client, RelativePath path)
         {
             return ShortFileInfo.FileNotExists;
         }
@@ -972,7 +972,7 @@ namespace Scada.Server
         /// <summary>
         /// Opens an existing file for reading.
         /// </summary>
-        protected virtual BinaryReader OpenRead(RelativePath path)
+        protected virtual BinaryReader OpenRead(ConnectedClient client, RelativePath path)
         {
             throw new ProtocolException(ErrorCode.InvalidOperation, Locale.IsRussian ?
                 "Операция не реализована." :
@@ -982,7 +982,7 @@ namespace Scada.Server
         /// <summary>
         /// Opens an existing file or creates a new file for writing.
         /// </summary>
-        protected virtual BinaryWriter OpenWrite(RelativePath path)
+        protected virtual BinaryWriter OpenWrite(ConnectedClient client, RelativePath path)
         {
             throw new ProtocolException(ErrorCode.InvalidOperation, Locale.IsRussian ?
                 "Операция не реализована." :
@@ -992,7 +992,7 @@ namespace Scada.Server
         /// <summary>
         /// Breaks writing and deletes the corrupted file.
         /// </summary>
-        protected virtual void BreakWriting(RelativePath path)
+        protected virtual void BreakWriting(ConnectedClient client, RelativePath path)
         {
         }
 

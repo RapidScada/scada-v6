@@ -627,7 +627,7 @@ namespace Scada.Server.Engine
         /// <summary>
         /// Gets the information associated with the specified file.
         /// </summary>
-        protected override ShortFileInfo GetFileInfo(RelativePath path)
+        protected override ShortFileInfo GetFileInfo(ConnectedClient client, RelativePath path)
         {
             switch (path.TopFolder)
             {
@@ -654,7 +654,7 @@ namespace Scada.Server.Engine
         /// <summary>
         /// Opens an existing file for reading.
         /// </summary>
-        protected override BinaryReader OpenRead(RelativePath path)
+        protected override BinaryReader OpenRead(ConnectedClient client, RelativePath path)
         {
             switch (path.TopFolder)
             {
