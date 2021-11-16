@@ -31,6 +31,8 @@ using Scada.Protocol;
 using Scada.Server;
 using System;
 using System.Collections.Generic;
+using System.IO;
+using System.Text;
 using System.Threading;
 using static Scada.BinaryConverter;
 using static Scada.Protocol.ProtocolUtils;
@@ -182,6 +184,15 @@ namespace Scada.Agent.Engine
         {
             return client.Tag as ClientTag ?? 
                 throw new InvalidOperationException("Client tag must not be null.");
+        }
+
+        /// <summary>
+        /// Gets the instance associated with the client, or throws an exception if it is undefined.
+        /// </summary>
+        private ScadaInstance GetClientInstance(ConnectedClient client)
+        {
+            return GetClientTag(client).Instance ??
+                throw new InvalidOperationException("Client instance must not be null.");
         }
 
         /// <summary>
@@ -564,6 +575,26 @@ namespace Scada.Agent.Engine
                         handled = false;
                         break;
                 }
+            }
+        }
+
+        /// <summary>
+        /// Opens an existing file for reading.
+        /// </summary>
+        protected override BinaryReader OpenRead(ConnectedClient client, RelativePath path)
+        {
+            if (path.AppFolder == AppFolder.Log)
+            {
+                Stream stream = new FileStream(
+                    GetClientInstance(client).PathBuilder.GetAbsolutePath(path),
+                    FileMode.Open, FileAccess.Read, FileShare.ReadWrite);
+                return new BinaryReader(stream, Encoding.UTF8, false);
+            }
+            else
+            {
+                throw new ProtocolException(ErrorCode.IllegalFunctionArguments, Locale.IsRussian ?
+                    "Путь файла не поддерживается." :
+                    "File path not supported.");
             }
         }
     }

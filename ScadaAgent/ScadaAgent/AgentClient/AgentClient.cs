@@ -29,6 +29,8 @@ using Scada.Lang;
 using Scada.Protocol;
 using System;
 using System.Collections.Generic;
+using System.IO;
+using System.Text;
 using static Scada.BinaryConverter;
 using static Scada.Protocol.ProtocolUtils;
 
@@ -56,6 +58,26 @@ namespace Scada.Agent.Client
         /// Gets a value indicating whether the connection is local.
         /// </summary>
         public bool IsLocal { get; }
+
+
+        /// <summary>
+        /// Reads all lines of the stream.
+        /// </summary>
+        private List<string> ReadAllLines(Stream stream)
+        {
+            stream.Position = 0;
+            List<string> lines = new List<string>();
+
+            using (StreamReader reader = new StreamReader(stream, Encoding.UTF8))
+            {
+                while (!reader.EndOfStream)
+                {
+                    lines.Add(reader.ReadLine());
+                }
+            }
+
+            return lines;
+        }
 
 
         /// <summary>
@@ -143,8 +165,28 @@ namespace Scada.Agent.Client
         /// </summary>
         public bool ReadTextFile(RelativePath path, ref DateTime newerThan, out ICollection<string> lines)
         {
-            lines = null;
-            return false;
+            DownloadFile(path, 0, 0, false, newerThan, true, 
+                () => new MemoryStream(), out DateTime lastWriteTime, 
+                out FileReadingResult readingResult, out Stream stream);
+
+            try
+            {
+                if (readingResult == FileReadingResult.Completed)
+                {
+                    lines = ReadAllLines(stream);
+                    newerThan = lastWriteTime;
+                    return true;
+                }
+                else
+                {
+                    lines = null;
+                    return false;
+                }
+            }
+            finally
+            {
+                stream?.Dispose();
+            }
         }
 
         /// <summary>
@@ -152,8 +194,28 @@ namespace Scada.Agent.Client
         /// </summary>
         public bool ReadTextFile(RelativePath path, long offsetFromEnd, ref DateTime newerThan, out ICollection<string> lines)
         {
-            lines = null;
-            return false;
+            DownloadFile(path, offsetFromEnd, 0, true, newerThan, true,
+                () => new MemoryStream(), out DateTime lastWriteTime,
+                out FileReadingResult readingResult, out Stream stream);
+
+            try
+            {
+                if (readingResult == FileReadingResult.Completed)
+                {
+                    lines = ReadAllLines(stream);
+                    newerThan = lastWriteTime;
+                    return true;
+                }
+                else
+                {
+                    lines = null;
+                    return false;
+                }
+            }
+            finally
+            {
+                stream?.Dispose();
+            }
         }
 
         /// <summary>

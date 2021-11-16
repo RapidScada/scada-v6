@@ -48,7 +48,6 @@ namespace Scada.Agent.Engine
 
         private readonly ILog log;                        // the application log
         private readonly InstanceOptions instanceOptions; // the instance options
-        private readonly PathBuilder pathBuilder;         // builds file paths
         private readonly ReaderWriterLockSlim configLock; // synchronizes access to the instance configuration
 
 
@@ -59,8 +58,8 @@ namespace Scada.Agent.Engine
         {
             this.log = log ?? throw new ArgumentNullException(nameof(log));
             this.instanceOptions = instanceOptions ?? throw new ArgumentNullException(nameof(instanceOptions));
-            pathBuilder = new PathBuilder(instanceOptions.Directory);
             configLock = new ReaderWriterLockSlim();
+            PathBuilder = new PathBuilder(instanceOptions.Directory);
         }
 
 
@@ -73,6 +72,11 @@ namespace Scada.Agent.Engine
         /// Gets a value indicating whether the instance is deployed on another host.
         /// </summary>
         public bool ProxyMode => instanceOptions.ProxyMode;
+
+        /// <summary>
+        /// Gets the path builder.
+        /// </summary>
+        public PathBuilder PathBuilder { get; }
 
 
         /// <summary>
@@ -162,7 +166,7 @@ namespace Scada.Agent.Engine
         {
             try
             {
-                string statusFileName = pathBuilder.GetAbsolutePath(
+                string statusFileName = PathBuilder.GetAbsolutePath(
                     new RelativePath(serviceApp, AppFolder.Log, GetStatusFileName(serviceApp)));
 
                 if (File.Exists(statusFileName))
@@ -175,7 +179,7 @@ namespace Scada.Agent.Engine
                             const int MaxLineCount = 10;
                             int lineCount = 0;
 
-                            while (reader.Peek() >= 0 && lineCount < MaxLineCount)
+                            while (!reader.EndOfStream && lineCount < MaxLineCount)
                             {
                                 string line = reader.ReadLine();
                                 lineCount++;
@@ -221,7 +225,7 @@ namespace Scada.Agent.Engine
                 {
                     try
                     {
-                        string batchFileName = pathBuilder.GetAbsolutePath(
+                        string batchFileName = PathBuilder.GetAbsolutePath(
                             new RelativePath(serviceApp, AppFolder.Root, GetCommandFileName(cmd)));
 
                         if (File.Exists(batchFileName))
