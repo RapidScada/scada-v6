@@ -37,12 +37,6 @@ namespace Scada.Agent
     public interface IAgentClient
     {
         /// <summary>
-        /// Gets a value indicating whether the connection is local.
-        /// </summary>
-        bool IsLocal { get; }
-
-
-        /// <summary>
         /// Tests the connection with the Agent service.
         /// </summary>
         bool TestConnection(out string errMsg);
