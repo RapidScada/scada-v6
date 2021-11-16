@@ -377,9 +377,9 @@ namespace Scada.Admin.App.Forms
             foreach (TreeNode node in treeNode.IterateNodes())
             {
                 if (node.Tag is TreeNodeTag tag && tag.RelatedObject is FileItem fileItem &&
-                    node.Parent.Tag is TreeNodeTag parentTag && parentTag.RelatedObject is FileItem parenFileItem)
+                    node.Parent.Tag is TreeNodeTag parentTag && parentTag.RelatedObject is FileItem parentFileItem)
                 {
-                    fileItem.Path = Path.Combine(parenFileItem.Path, fileItem.Name);
+                    fileItem.Path = Path.Combine(parentFileItem.Path, fileItem.Name);
 
                     if (tag.ExistingForm is FrmTextEditor form)
                     {
@@ -603,10 +603,24 @@ namespace Scada.Admin.App.Forms
                 InitAgentClient(liveInstance);
                 SaveProject();
                 ShowStatus(liveInstance.ProjectInstance);
+                MessageToChildForms(AdminMessage.UpdateAgentClient);
             }
             else if (deploymentForm.ConnectionModified)
             {
                 InitAgentClient(liveInstance);
+                MessageToChildForms(AdminMessage.UpdateAgentClient);
+            }
+        }
+
+        /// <summary>
+        /// Sends the specified message to the child forms that support IChildForm.
+        /// </summary>
+        private void MessageToChildForms(string message)
+        {
+            foreach (Form form in wctrlMain.Forms)
+            {
+                if (form is IChildForm childForm)
+                    childForm.ChildFormTag.SendMessage(this, message);
             }
         }
 

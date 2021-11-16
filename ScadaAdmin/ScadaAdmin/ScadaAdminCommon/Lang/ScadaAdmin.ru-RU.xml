@@ -593,6 +593,10 @@
     <Phrase key="LoadDeploymentConfigError">Ошибка при загрузке конфигурации развёртывания</Phrase>
     <Phrase key="SaveDeploymentConfigError">Ошибка при сохранении конфигурации развёртывания</Phrase>
   </Dictionary>
+  <Dictionary key="Scada.Admin.Extensions">
+    <Phrase key="AgentDisabled">Соединение с Агентом отключено</Phrase>
+    <Phrase key="FileLoading">Загрузка...</Phrase>
+  </Dictionary>
   <Dictionary key="Scada.Admin.Project">
     <Phrase key="CreateAppConfigError">Ошибка при создании конфигурации приложения {0}</Phrase>
     <Phrase key="DeleteAppConfigError">Ошибка при удалении конфигурации приложения {0}</Phrase>

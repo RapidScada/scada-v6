@@ -42,6 +42,11 @@ namespace Scada.Admin
         public const string UpdateFileName = "Admin.UpdateFileName";
 
         /// <summary>
+        /// Causes a statistics form to get a new Agent client.
+        /// </summary>
+        public const string UpdateAgentClient = "Admin.UpdateAgentClient";
+
+        /// <summary>
         /// Creates a new project.
         /// </summary>
         public const string NewProject = "Admin.NewProject";

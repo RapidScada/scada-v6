@@ -593,6 +593,10 @@
     <Phrase key="LoadDeploymentConfigError">Error loading deployment configuration</Phrase>
     <Phrase key="SaveDeploymentConfigError">Error saving deployment configuration</Phrase>
   </Dictionary>
+  <Dictionary key="Scada.Admin.Extensions">
+    <Phrase key="AgentDisabled">Agent connection is disabled</Phrase>
+    <Phrase key="FileLoading">Loading...</Phrase>
+  </Dictionary>
   <Dictionary key="Scada.Admin.Project">
     <Phrase key="CreateAppConfigError">Error creating configuration of the {0} application</Phrase>
     <Phrase key="DeleteAppConfigError">Error deleting configuration of the {0} application</Phrase>
