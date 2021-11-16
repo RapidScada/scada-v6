@@ -6,6 +6,7 @@
     <Phrase key="DataSourcesNode">Data Sources</Phrase>
     <Phrase key="LinesNode">Communication Lines</Phrase>
     <Phrase key="LineOptionsNode">Line Options</Phrase>
+    <Phrase key="LineStatsNode">Line Stats</Phrase>
   </Dictionary>
   <Dictionary key="Scada.Admin.Extensions.ExtCommConfig.Controls.CtrlExtensionMenu">
     <Phrase key="miWizards">Wizards</Phrase>
@@ -184,5 +185,11 @@
     <Phrase key="lbTabs.Items[1]">Custom Options</Phrase>
     <Phrase key="lbTabs.Items[2]">Device Polling</Phrase>
     <Phrase key="LineConfigTitle">Line {0} Options</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Admin.Extensions.ExtCommConfig.Forms.FrmLineStats">
+    <Phrase key="lbTabs.Items[0]">Line State</Phrase>
+    <Phrase key="lbTabs.Items[1]">Line Log</Phrase>
+    <Phrase key="chkPause">Pause</Phrase>
+    <Phrase key="LineStatsTitle">Line {0} Stats</Phrase>
   </Dictionary>
 </ExtCommConfigDictionaries>

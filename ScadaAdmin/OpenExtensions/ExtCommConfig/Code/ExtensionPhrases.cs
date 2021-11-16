@@ -17,6 +17,7 @@ namespace Scada.Admin.Extensions.ExtCommConfig.Code
         public static string DataSourcesNode { get; private set; }
         public static string LinesNode { get; private set; }
         public static string LineOptionsNode { get; private set; }
+        public static string LineStatsNode { get; private set; }
 
         // Scada.Admin.Extensions.ExtCommConfig.Controls.CtrlExtensionMenu
         public static string ConfirmDeleteLine { get; private set; }
@@ -51,6 +52,9 @@ namespace Scada.Admin.Extensions.ExtCommConfig.Code
         // Scada.Admin.Extensions.ExtCommConfig.Forms.FrmLineConfig
         public static string LineConfigTitle { get; private set; }
 
+        // Scada.Admin.Extensions.ExtCommConfig.Forms.FrmLineStats
+        public static string LineStatsTitle { get; private set; }
+
         public static void Init()
         {
             LocaleDict dict = Locale.GetDictionary("Scada.Admin.Extensions.ExtCommConfig.ExtCommConfigLogic");
@@ -59,6 +63,7 @@ namespace Scada.Admin.Extensions.ExtCommConfig.Code
             DataSourcesNode = dict["DataSourcesNode"];
             LinesNode = dict["LinesNode"];
             LineOptionsNode = dict["LineOptionsNode"];
+            LineStatsNode = dict["LineStatsNode"];
 
             dict = Locale.GetDictionary("Scada.Admin.Extensions.ExtCommConfig.Controls.CtrlExtensionMenu");
             ConfirmDeleteLine = dict["ConfirmDeleteLine"];
@@ -92,6 +97,9 @@ namespace Scada.Admin.Extensions.ExtCommConfig.Code
 
             dict = Locale.GetDictionary("Scada.Admin.Extensions.ExtCommConfig.Forms.FrmLineConfig");
             LineConfigTitle = dict["LineConfigTitle"];
+
+            dict = Locale.GetDictionary("Scada.Admin.Extensions.ExtCommConfig.Forms.FrmLineStats");
+            LineStatsTitle = dict["LineStatsTitle"];
         }
     }
 }

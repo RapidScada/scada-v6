@@ -61,16 +61,30 @@ namespace Scada.Admin.Extensions.ExtCommConfig.Code
             lineNode.ContextMenuStrip = menuControl.LineMenu;
             lineNode.Tag = new CommNodeTag(commApp, lineConfig, CommNodeType.Line);
 
-            TreeNode lineOptionsNode = TreeViewExtensions.CreateNode(
-                ExtensionPhrases.LineOptionsNode, ImageKey.LineOptions);
-
-            lineOptionsNode.Tag = new CommNodeTag(commApp, null, CommNodeType.LineOptions)
+            lineNode.Nodes.AddRange(new TreeNode[]
             {
-                FormType = typeof(FrmLineConfig),
-                FormArgs = new object[] { adminContext, commApp, lineConfig }
-            };
+                new TreeNode(ExtensionPhrases.LineOptionsNode)
+                {
+                    ImageKey = ImageKey.Options,
+                    SelectedImageKey = ImageKey.Options,
+                    Tag = new CommNodeTag(commApp, null, CommNodeType.LineOptions)
+                    {
+                        FormType = typeof(FrmLineConfig),
+                        FormArgs = new object[] { adminContext, commApp, lineConfig }
+                    }
+                },
+                new TreeNode(ExtensionPhrases.LineStatsNode)
+                {
+                    ImageKey = ImageKey.Stats,
+                    SelectedImageKey = ImageKey.Stats,
+                    Tag = new CommNodeTag(commApp, null, CommNodeType.LineOptions)
+                    {
+                        FormType = typeof(FrmLineStats),
+                        FormArgs = new object[] { adminContext, lineConfig }
+                    }
+                }
+            });
 
-            lineNode.Nodes.Add(lineOptionsNode);
             return lineNode;
         }
         
@@ -123,8 +137,8 @@ namespace Scada.Admin.Extensions.ExtCommConfig.Code
             {
                 new TreeNode(ExtensionPhrases.GeneralOptionsNode)
                 {
-                    ImageKey = ImageKey.GeneralOptions,
-                    SelectedImageKey = ImageKey.GeneralOptions,
+                    ImageKey = ImageKey.Options,
+                    SelectedImageKey = ImageKey.Options,
                     Tag = new CommNodeTag(commApp, null, CommNodeType.GeneralOptions)
                     {
                         FormType = typeof(FrmGeneralOptions),

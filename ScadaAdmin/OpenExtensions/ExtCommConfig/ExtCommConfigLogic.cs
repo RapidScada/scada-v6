@@ -105,10 +105,11 @@ namespace Scada.Admin.Extensions.ExtCommConfig
             {
                 { ImageKey.DataSource, Resources.data_source },
                 { ImageKey.Driver, Resources.driver },
-                { ImageKey.GeneralOptions, Resources.general_options },
+                { ImageKey.Options, Resources.options },
                 { ImageKey.Line, Resources.line },
                 { ImageKey.LineInactive, Resources.line_inactive },
-                { ImageKey.Lines, Resources.lines }
+                { ImageKey.Lines, Resources.lines },
+                { ImageKey.Stats, Resources.stats }
             };
         }
     }
