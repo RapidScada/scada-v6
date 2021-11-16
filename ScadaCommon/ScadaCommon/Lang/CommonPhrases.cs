@@ -54,6 +54,7 @@ namespace Scada.Lang
         public static string ConnOptionsNotFound { get; private set; }
         public static string DatabaseNotSupported { get; private set; }
         public static string OperationNotSupported { get; private set; }
+        public static string NoData { get; private set; }
 
         // Scada.ConfigBase
         public static string ArchiveTable { get; private set; }
@@ -158,6 +159,7 @@ namespace Scada.Lang
             ConnOptionsNotFound = dict["ConnOptionsNotFound"];
             DatabaseNotSupported = dict["DatabaseNotSupported"];
             OperationNotSupported = dict["OperationNotSupported"];
+            NoData = dict["NoData"];
 
             dict = Locale.GetDictionary("Scada.ConfigBase");
             ArchiveTable = dict["ArchiveTable"];

@@ -21,6 +21,7 @@
     <Phrase key="ConnOptionsNotFound">Connection options not found.</Phrase>
     <Phrase key="DatabaseNotSupported">Database not supported.</Phrase>
     <Phrase key="OperationNotSupported">Operation not supported.</Phrase>
+    <Phrase key="NoData">No data</Phrase>
   </Dictionary>
   <Dictionary key="Scada.ConfigBase">
     <Phrase key="ArchiveTable">Archives</Phrase>
