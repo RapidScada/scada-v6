@@ -48,22 +48,13 @@ namespace Scada.Agent.Client
         public AgentClient(ConnectionOptions connectionOptions)
             : base(connectionOptions)
         {
-            IsLocal = 
-                string.Equals(connectionOptions.Host, "localhost", StringComparison.OrdinalIgnoreCase) ||
-                string.Equals(connectionOptions.Host, "127.0.0.1");
         }
-
-
-        /// <summary>
-        /// Gets a value indicating whether the connection is local.
-        /// </summary>
-        public bool IsLocal { get; }
 
 
         /// <summary>
         /// Reads all lines of the stream.
         /// </summary>
-        private List<string> ReadAllLines(Stream stream)
+        private List<string> ReadAllLines(Stream stream, bool skipFirstLine)
         {
             stream.Position = 0;
             List<string> lines = new List<string>();
@@ -72,7 +63,10 @@ namespace Scada.Agent.Client
             {
                 while (!reader.EndOfStream)
                 {
-                    lines.Add(reader.ReadLine());
+                    if (skipFirstLine)
+                        skipFirstLine = false;
+                    else
+                        lines.Add(reader.ReadLine());
                 }
             }
 
@@ -173,7 +167,7 @@ namespace Scada.Agent.Client
             {
                 if (readingResult == FileReadingResult.Completed)
                 {
-                    lines = ReadAllLines(stream);
+                    lines = ReadAllLines(stream, false);
                     newerThan = lastWriteTime;
                     return true;
                 }
@@ -202,7 +196,7 @@ namespace Scada.Agent.Client
             {
                 if (readingResult == FileReadingResult.Completed)
                 {
-                    lines = ReadAllLines(stream);
+                    lines = ReadAllLines(stream, true);
                     newerThan = lastWriteTime;
                     return true;
                 }
