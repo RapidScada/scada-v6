@@ -27,6 +27,19 @@ namespace Scada.Forms
         /// The maximum column width in DataGridView in pixels.
         /// </summary>
         private const int MaxColumnWidth = 500;
+        
+        /// <summary>
+        /// The log refresh interval for local access, ms.
+        /// </summary>
+        public const int LogLocalRefreshInterval = 500;
+        /// <summary>
+        /// The log refresh interval for remote access, ms.
+        /// </summary>
+        public const int LogRemoteRefreshInterval = 1000;
+        /// <summary>
+        /// The log refresh interval when a form is hidden, ms.
+        /// </summary>
+        public const int LogInactiveRefreshInterval = 10000;
 
 
         /// <summary>

@@ -57,12 +57,13 @@ namespace Scada.Forms
         /// <summary>
         /// Refresh log content with Agent.
         /// </summary>
-        protected void RefreshWithAgent()
+        public void RefreshWithAgent()
         {
             try
             {
-                if (FullLogView && AgentClient.ReadTextFile(logPath, ref logFileAge, out ICollection<string> lines) ||
-                    !FullLogView && AgentClient.ReadTextFile(logPath, LogViewSize, ref logFileAge, out lines))
+                if (AgentClient != null &&
+                    (FullLogView && AgentClient.ReadTextFile(logPath, ref logFileAge, out ICollection<string> lines) ||
+                    !FullLogView && AgentClient.ReadTextFile(logPath, LogViewSize, ref logFileAge, out lines)))
                 {
                     if (!listBox.IsDisposed)
                         SetLines(lines);
@@ -72,20 +73,6 @@ namespace Scada.Forms
             {
                 if (!listBox.IsDisposed)
                     SetFirstLine(ex.Message);
-            }
-        }
-
-        /// <summary>
-        /// Refresh log content.
-        /// </summary>
-        public void Refresh()
-        {
-            if (AgentClient != null)
-            {
-                if (AgentClient.IsLocal)
-                    RefreshFromFile();
-                else
-                    RefreshWithAgent();
             }
         }
     }
