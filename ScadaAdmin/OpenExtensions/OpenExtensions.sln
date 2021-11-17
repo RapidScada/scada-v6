@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio Version 16
-VisualStudioVersion = 16.0.31624.102
+# Visual Studio Version 17
+VisualStudioVersion = 17.0.31903.59
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ExtServerConfig", "ExtServerConfig\ExtServerConfig.csproj", "{6D49F5C4-2039-4309-A1ED-A3214E7A8613}"
 EndProject
@@ -14,7 +14,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ExtDepPostgreSql", "ExtDepP
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ExtCommConfig", "ExtCommConfig\ExtCommConfig.csproj", "{99813C21-620D-48A1-BEA6-E6F2E362421A}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ExtProjectTools", "ExtProjectTools\ExtProjectTools.csproj", "{558824BF-EDFF-438F-859D-5730257AA93B}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ExtProjectTools", "ExtProjectTools\ExtProjectTools.csproj", "{558824BF-EDFF-438F-859D-5730257AA93B}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ExtDepAgent", "ExtDepAgent\ExtDepAgent.csproj", "{BFDA2019-8A0D-4580-8597-16783FD71429}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -38,6 +40,10 @@ Global
 		{558824BF-EDFF-438F-859D-5730257AA93B}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{558824BF-EDFF-438F-859D-5730257AA93B}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{558824BF-EDFF-438F-859D-5730257AA93B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{BFDA2019-8A0D-4580-8597-16783FD71429}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{BFDA2019-8A0D-4580-8597-16783FD71429}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{BFDA2019-8A0D-4580-8597-16783FD71429}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{BFDA2019-8A0D-4580-8597-16783FD71429}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

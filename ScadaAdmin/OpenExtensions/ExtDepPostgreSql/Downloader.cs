@@ -14,7 +14,7 @@ using static Scada.Storages.PostgreSqlStorage.PostgreSqlStorageShared;
 namespace Scada.Admin.Extensions.ExtDepPostgreSql
 {
     /// <summary>
-    /// Downloads the configuration.
+    /// Downloads configuration.
     /// <para>Скачивает конфигурацию.</para>
     /// </summary>
     internal class Downloader

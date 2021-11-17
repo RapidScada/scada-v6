@@ -19,7 +19,7 @@ using static Scada.Storages.PostgreSqlStorage.PostgreSqlStorageShared;
 namespace Scada.Admin.Extensions.ExtDepPostgreSql
 {
     /// <summary>
-    /// Uploads the configuration.
+    /// Uploads configuration.
     /// <para>Передаёт конфигурацию.</para>
     /// </summary>
     internal class Uploader
