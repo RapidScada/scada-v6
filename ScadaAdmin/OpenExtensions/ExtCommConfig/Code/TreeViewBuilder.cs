@@ -77,7 +77,7 @@ namespace Scada.Admin.Extensions.ExtCommConfig.Code
                 {
                     ImageKey = ImageKey.Stats,
                     SelectedImageKey = ImageKey.Stats,
-                    Tag = new CommNodeTag(commApp, null, CommNodeType.LineOptions)
+                    Tag = new CommNodeTag(commApp, null, CommNodeType.LineStats)
                     {
                         FormType = typeof(FrmLineStats),
                         FormArgs = new object[] { adminContext, lineConfig }

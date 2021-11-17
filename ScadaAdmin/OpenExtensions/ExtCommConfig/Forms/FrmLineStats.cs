@@ -61,6 +61,15 @@ namespace Scada.Admin.Extensions.ExtCommConfig.Forms
         /// </summary>
         private void InitLogBoxes()
         {
+            UpdateAgentClients();
+            UpdateLogPaths();
+        }
+
+        /// <summary>
+        /// Updates the Agent clients of the log boxes.
+        /// </summary>
+        private void UpdateAgentClients()
+        {
             IAgentClient agentClient = adminContext.MainForm.GetAgentClient(ChildFormTag?.TreeNode);
             stateBox.AgentClient = agentClient;
             logBox.AgentClient = agentClient;
@@ -74,12 +83,18 @@ namespace Scada.Admin.Extensions.ExtCommConfig.Forms
             {
                 stateBox.SetFirstLine(AdminPhrases.FileLoading);
                 logBox.SetFirstLine(AdminPhrases.FileLoading);
-
-                stateBox.LogPath = new RelativePath(TopFolder.Comm, AppFolder.Log, 
-                    CommUtils.GetLineLogFileName(lineConfig.CommLineNum, "txt"));
-                logBox.LogPath = new RelativePath(TopFolder.Comm, AppFolder.Log, 
-                    CommUtils.GetLineLogFileName(lineConfig.CommLineNum, "log"));
             }
+        }
+
+        /// <summary>
+        /// Updates the paths of the log boxes.
+        /// </summary>
+        private void UpdateLogPaths()
+        {
+            stateBox.LogPath = new RelativePath(TopFolder.Comm, AppFolder.Log,
+                CommUtils.GetLineLogFileName(lineConfig.CommLineNum, ".txt"));
+            logBox.LogPath = new RelativePath(TopFolder.Comm, AppFolder.Log,
+                CommUtils.GetLineLogFileName(lineConfig.CommLineNum, ".log"));
         }
 
         /// <summary>
@@ -125,7 +140,7 @@ namespace Scada.Admin.Extensions.ExtCommConfig.Forms
             }
             else if (e.Message == AdminMessage.UpdateAgentClient)
             {
-                InitLogBoxes();
+                UpdateAgentClients();
             }
         }
 

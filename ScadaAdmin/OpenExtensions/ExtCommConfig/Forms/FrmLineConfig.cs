@@ -82,12 +82,13 @@ namespace Scada.Admin.Extensions.ExtCommConfig.Forms
             // close or update child forms
             foreach (TreeNode node in lineNode.Nodes)
             {
-                if (node.Tag is TreeNodeTag tag && tag.ExistingForm != null)
+                if (node.Tag is TreeNodeTag tag && tag.ExistingForm != null && 
+                    tag.ExistingForm is IChildForm childForm)
                 {
                     if (node.TagIs(CommNodeType.Device))
                         adminContext.MainForm.CloseChildForm(tag.ExistingForm, false);
-                    //else if (node.TagIs(CommNodeType.LineStats))
-                    //    ((IChildForm)tag.ExistingForm).ChildFormTag.SendMessage(this, CommMessage.UpdateFileName);
+                    else if (node.TagIs(CommNodeType.LineStats))
+                        childForm.ChildFormTag.SendMessage(this, AdminMessage.UpdateFileName);
                 }
             }
 
