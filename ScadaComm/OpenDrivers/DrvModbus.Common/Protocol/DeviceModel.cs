@@ -70,10 +70,10 @@ namespace Scada.Comm.Drivers.DrvModbus.Protocol
 
             foreach (ModbusCmd cmd in Cmds)
             { 
-                if (cmd.CmdNum > 0 && cmdByNum.ContainsKey(cmd.CmdNum))
+                if (cmd.CmdNum > 0 && !cmdByNum.ContainsKey(cmd.CmdNum))
                     cmdByNum.Add(cmd.CmdNum, cmd);
 
-                if (!string.IsNullOrEmpty(cmd.CmdCode) && cmdByCode.ContainsKey(cmd.CmdCode))
+                if (!string.IsNullOrEmpty(cmd.CmdCode) && !cmdByCode.ContainsKey(cmd.CmdCode))
                     cmdByCode.Add(cmd.CmdCode, cmd);
             };
         }

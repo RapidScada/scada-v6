@@ -20,7 +20,7 @@ namespace Scada.Comm.Drivers.DrvModbus.Config
         public ElemGroupConfig()
             : base()
         {
-            Active = false;
+            Active = true;
             Elems = new List<ElemConfig>();
             StartTagNum = 0;
         }
