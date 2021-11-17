@@ -288,6 +288,7 @@ namespace Scada.Forms
             catch (Exception ex)
             {
                 SetFirstLine(ex.Message);
+                logFileAge = DateTime.MinValue;
             }
         }
 

@@ -69,7 +69,7 @@ namespace Scada.Server
         /// <summary>
         /// The period of disconnection of inactive clients.
         /// </summary>
-        private static readonly TimeSpan DisconnectPeriod = TimeSpan.FromSeconds(5);
+        protected static readonly TimeSpan DisconnectPeriod = TimeSpan.FromSeconds(5);
         /// <summary>
         /// The time after which an inactive client is disconnected.
         /// </summary>
@@ -119,7 +119,15 @@ namespace Scada.Server
             protector = null;
             thread = null;
             terminated = false;
+
+            CustomFunctions = null;
         }
+
+
+        /// <summary>
+        /// Gets or sets the standard function IDs that require custom processing by a derived listener.
+        /// </summary>
+        protected HashSet<int> CustomFunctions { get; set; }
 
 
         /// <summary>
@@ -452,39 +460,46 @@ namespace Scada.Server
                 // process standard request
                 bool handled = true; // request was handled
 
-                switch (request.FunctionID)
+                if (CustomFunctions == null || !CustomFunctions.Contains(request.FunctionID))
                 {
-                    case FunctionID.GetSessionInfo:
-                        GetSessionInfo(client, request, out response);
-                        break;
+                    switch (request.FunctionID)
+                    {
+                        case FunctionID.GetSessionInfo:
+                            GetSessionInfo(client, request, out response);
+                            break;
 
-                    case FunctionID.Login:
-                        Login(client, request, out response);
-                        break;
+                        case FunctionID.Login:
+                            Login(client, request, out response);
+                            break;
 
-                    case FunctionID.GetStatus:
-                        GetStatus(client, request, out response);
-                        break;
+                        case FunctionID.GetStatus:
+                            GetStatus(client, request, out response);
+                            break;
 
-                    case FunctionID.TerminateSession:
-                        TerminateSession(client, request);
-                        break;
+                        case FunctionID.TerminateSession:
+                            TerminateSession(client, request);
+                            break;
 
-                    case FunctionID.GetFileInfo:
-                        GetFileInfo(client, request, out response);
-                        break;
+                        case FunctionID.GetFileInfo:
+                            GetFileInfo(client, request, out response);
+                            break;
 
-                    case FunctionID.DownloadFile:
-                        DownloadFile(client, request);
-                        break;
+                        case FunctionID.DownloadFile:
+                            DownloadFile(client, request);
+                            break;
 
-                    case FunctionID.UploadFile:
-                        UploadFile(client, request, out response);
-                        break;
+                        case FunctionID.UploadFile:
+                            UploadFile(client, request, out response);
+                            break;
 
-                    default:
-                        handled = false;
-                        break;
+                        default:
+                            handled = false;
+                            break;
+                    }
+                }
+                else
+                {
+                    handled = false;
                 }
 
                 // process custom request

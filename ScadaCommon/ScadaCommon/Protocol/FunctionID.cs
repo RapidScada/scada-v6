@@ -61,9 +61,10 @@ namespace Scada.Protocol
         public const ushort GetCommand = 0x0402;
         public const ushort DisableGettingCommands = 0x0403;
 
-        public const ushort GetServiceStatus = 0x0501;
-        public const ushort ControlService = 0x0502;
-        public const ushort AgentHeartbeat = 0x0505;
+        public const ushort AgentHeartbeat = 0x0501;
+        public const ushort GetServiceStatus = 0x0502;
+        public const ushort ControlService = 0x0503;
+        public const ushort WriteCommandFile = 0x0504;
 
         private static readonly Dictionary<ushort, string> FunctionNames = new Dictionary<ushort, string>
         {
@@ -88,6 +89,7 @@ namespace Scada.Protocol
             { SendCommand, nameof(SendCommand) },
             { GetCommand, nameof(GetCommand) },
             { DisableGettingCommands, nameof(DisableGettingCommands) },
+            { AgentHeartbeat, nameof(AgentHeartbeat) },
             { GetServiceStatus, nameof(GetServiceStatus) },
             { ControlService, nameof(ControlService) }
         };

@@ -167,13 +167,14 @@ namespace Scada.Agent.Client
         /// </summary>
         public bool ReadTextFile(RelativePath path, long offsetFromEnd, ref DateTime newerThan, out ICollection<string> lines)
         {
-            bool readFromEnd = offsetFromEnd > 0;
-            DownloadFile(path, offsetFromEnd, 0, readFromEnd, newerThan, false,
-                () => new MemoryStream(), out DateTime lastWriteTime,
-                out FileReadingResult readingResult, out Stream stream);
+            Stream stream = null;
 
             try
             {
+                bool readFromEnd = offsetFromEnd > 0;
+                DownloadFile(path, offsetFromEnd, 0, readFromEnd, newerThan, false, () => new MemoryStream(),
+                    out DateTime lastWriteTime, out FileReadingResult readingResult, out stream);
+
                 if (readingResult == FileReadingResult.Completed)
                 {
                     lines = ReadAllLines(stream, readFromEnd);
@@ -191,6 +192,12 @@ namespace Scada.Agent.Client
                         "Ошибка при чтении файла {0}: {1}" :
                         "Error reading file {0}: {1}", path, readingResult.ToString(Locale.IsRussian));
                 }
+            }
+            catch (ProtocolException ex)
+            {
+                throw new ScadaException(String.Format(Locale.IsRussian ?
+                    "Ошибка при чтении файла {0}: {1}" :
+                    "Error reading file {0}: {1}", path, ex.Message), ex);
             }
             finally
             {

@@ -20,7 +20,7 @@
  * 
  * Author   : Mikhail Shiryaev
  * Created  : 2020
- * Modified : 2020
+ * Modified : 2021
  */
 
 using System;
@@ -37,7 +37,7 @@ namespace Scada.Protocol
         /// Initializes a new instance of the class.
         /// </summary>
         public ProtocolException(ErrorCode errorCode)
-            : base(errorCode.ToString())
+            : base(GetErrorMessage(errorCode))
         {
             ErrorCode = errorCode;
         }
@@ -56,5 +56,36 @@ namespace Scada.Protocol
         /// Gets the error code.
         /// </summary>
         public ErrorCode ErrorCode { get; protected set; }
+
+
+        /// <summary>
+        /// Gets an error message according to the specified error code.
+        /// </summary>
+        private static string GetErrorMessage(ErrorCode errorCode)
+        {
+            switch (errorCode)
+            {
+                case ErrorCode.IllegalFunction:
+                    return errorCode + ": Function not supported.";
+
+                case ErrorCode.IllegalFunctionArguments:
+                    return errorCode + ": Some function arguments are not valid.";
+
+                case ErrorCode.AccessDenied:
+                    return errorCode + ": Function is not available due to security reasons.";
+
+                case ErrorCode.InvalidOperation:
+                    return errorCode + ": Function call is invalid for the current state of the client or server.";
+
+                case ErrorCode.ProxyError:
+                    return errorCode + ": Error processing request by a proxy.";
+
+                case ErrorCode.InternalServerError:
+                    return errorCode + ": Error while processing the operation.";
+
+                default:
+                    return errorCode.ToString();
+            }
+        }
     }
 }

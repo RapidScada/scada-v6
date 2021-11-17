@@ -73,6 +73,8 @@ namespace Scada.Forms
             {
                 if (AgentClient != null && !listBox.IsDisposed)
                     SetFirstLine(ex.Message);
+
+                logFileAge = DateTime.MinValue;
             }
         }
     }

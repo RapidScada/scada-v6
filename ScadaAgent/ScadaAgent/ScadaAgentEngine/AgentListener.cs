@@ -85,6 +85,12 @@ namespace Scada.Agent.Engine
             reverseClientThread = null;
             reverseClientTerminated = false;
             heartbeatDT = DateTime.MinValue;
+
+            CustomFunctions = new HashSet<int> 
+            { 
+                FunctionID.DownloadFile, 
+                FunctionID.UploadFile 
+            };
         }
 
 
@@ -559,6 +565,10 @@ namespace Scada.Agent.Engine
             {
                 switch (request.FunctionID)
                 {
+                    case FunctionID.AgentHeartbeat:
+                        // no response
+                        break;
+
                     case FunctionID.GetServiceStatus:
                         GetServiceStatus(client, instance, request, out response);
                         break;
@@ -567,8 +577,12 @@ namespace Scada.Agent.Engine
                         ControlService(client, instance, request, out response);
                         break;
 
-                    case FunctionID.AgentHeartbeat:
-                        // no response
+                    case FunctionID.DownloadFile:
+                        DownloadFile(client, request);
+                        break;
+
+                    case FunctionID.UploadFile:
+                        UploadFile(client, request, out response);
                         break;
 
                     default:
