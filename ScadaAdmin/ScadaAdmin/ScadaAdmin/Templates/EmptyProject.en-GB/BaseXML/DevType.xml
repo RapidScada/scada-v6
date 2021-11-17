@@ -81,7 +81,7 @@
   <DevType>
     <DevTypeID>214</DevTypeID>
     <Name>Modbus</Name>
-    <Driver>KpModbus.dll</Driver>
+    <Driver>DrvModbus</Driver>
     <Descr>Interacting with controllers via Modbus protocol</Descr>
   </DevType>
   <DevType>
