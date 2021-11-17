@@ -579,6 +579,22 @@ namespace Scada.Agent.Engine
         }
 
         /// <summary>
+        /// Gets the information associated with the specified file.
+        /// </summary>
+        protected override ShortFileInfo GetFileInfo(ConnectedClient client, RelativePath path)
+        {
+            if (path.AppFolder == AppFolder.Log)
+            {
+                string fileName = GetClientInstance(client).PathBuilder.GetAbsolutePath(path);
+                return new ShortFileInfo(new FileInfo(fileName));
+            }
+            else
+            {
+                throw new ProtocolException(ErrorCode.IllegalFunctionArguments, CommonPhrases.PathNotSupported);
+            }
+        }
+
+        /// <summary>
         /// Opens an existing file for reading.
         /// </summary>
         protected override BinaryReader OpenRead(ConnectedClient client, RelativePath path)
@@ -592,9 +608,7 @@ namespace Scada.Agent.Engine
             }
             else
             {
-                throw new ProtocolException(ErrorCode.IllegalFunctionArguments, Locale.IsRussian ?
-                    "Путь файла не поддерживается." :
-                    "File path not supported.");
+                throw new ProtocolException(ErrorCode.IllegalFunctionArguments, CommonPhrases.PathNotSupported);
             }
         }
     }

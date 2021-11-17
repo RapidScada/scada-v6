@@ -159,28 +159,7 @@ namespace Scada.Agent.Client
         /// </summary>
         public bool ReadTextFile(RelativePath path, ref DateTime newerThan, out ICollection<string> lines)
         {
-            DownloadFile(path, 0, 0, false, newerThan, true, 
-                () => new MemoryStream(), out DateTime lastWriteTime, 
-                out FileReadingResult readingResult, out Stream stream);
-
-            try
-            {
-                if (readingResult == FileReadingResult.Completed)
-                {
-                    lines = ReadAllLines(stream, false);
-                    newerThan = lastWriteTime;
-                    return true;
-                }
-                else
-                {
-                    lines = null;
-                    return false;
-                }
-            }
-            finally
-            {
-                stream?.Dispose();
-            }
+            return ReadTextFile(path, 0, ref newerThan, out lines);
         }
 
         /// <summary>
@@ -188,7 +167,8 @@ namespace Scada.Agent.Client
         /// </summary>
         public bool ReadTextFile(RelativePath path, long offsetFromEnd, ref DateTime newerThan, out ICollection<string> lines)
         {
-            DownloadFile(path, offsetFromEnd, 0, true, newerThan, true,
+            bool readFromEnd = offsetFromEnd > 0;
+            DownloadFile(path, offsetFromEnd, 0, readFromEnd, newerThan, false,
                 () => new MemoryStream(), out DateTime lastWriteTime,
                 out FileReadingResult readingResult, out Stream stream);
 
@@ -196,14 +176,20 @@ namespace Scada.Agent.Client
             {
                 if (readingResult == FileReadingResult.Completed)
                 {
-                    lines = ReadAllLines(stream, true);
+                    lines = ReadAllLines(stream, readFromEnd);
                     newerThan = lastWriteTime;
                     return true;
                 }
-                else
+                else if (readingResult == FileReadingResult.FileOutdated)
                 {
                     lines = null;
                     return false;
+                }
+                else
+                {
+                    throw new ScadaException(Locale.IsRussian ?
+                        "Ошибка при чтении файла {0}: {1}" :
+                        "Error reading file {0}: {1}", path, readingResult.ToString(Locale.IsRussian));
                 }
             }
             finally
