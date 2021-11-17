@@ -24,6 +24,7 @@
  */
 
 using System;
+using System.IO;
 
 namespace Scada
 {
@@ -42,6 +43,21 @@ namespace Scada
             LastWriteTime = DateTime.MinValue,
             Length = 0
         };
+
+
+        /// <summary>
+        /// Initializes a new instance of the structure.
+        /// </summary>
+        public ShortFileInfo(FileInfo fileInfo)
+        {
+            if (fileInfo == null)
+                throw new ArgumentNullException(nameof(fileInfo));
+
+            Exists = fileInfo.Exists;
+            LastWriteTime = fileInfo.Exists ? fileInfo.LastWriteTimeUtc : DateTime.MinValue;
+            Length = fileInfo.Exists ? fileInfo.Length : 0;
+        }
+
 
         /// <summary>
         /// Gets or sets a value indicating whether the file exists.

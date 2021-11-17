@@ -50,6 +50,7 @@
     <Phrase key="FileNotFound">Не найден файл.</Phrase>
     <Phrase key="NamedFileNotFound">Файл {0} не найден.</Phrase>
     <Phrase key="DirectoryNotExists">Директория не существует.</Phrase>
+    <Phrase key="PathNotSupported">Путь не поддерживается.</Phrase>
     <Phrase key="LoadConfigError">Ошибка при загрузке конфигурации</Phrase>
     <Phrase key="SaveConfigError">Ошибка при сохранении конфигурации</Phrase>
     <Phrase key="LoadViewError">Ошибка при загрузке представления</Phrase>

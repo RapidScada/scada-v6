@@ -65,13 +65,13 @@ namespace Scada.Forms
                     (FullLogView && AgentClient.ReadTextFile(logPath, ref logFileAge, out ICollection<string> lines) ||
                     !FullLogView && AgentClient.ReadTextFile(logPath, LogViewSize, ref logFileAge, out lines)))
                 {
-                    if (!listBox.IsDisposed)
+                    if (AgentClient != null && !listBox.IsDisposed)
                         SetLines(lines);
                 }
             }
             catch (Exception ex)
             {
-                if (!listBox.IsDisposed)
+                if (AgentClient != null && !listBox.IsDisposed)
                     SetFirstLine(ex.Message);
             }
         }

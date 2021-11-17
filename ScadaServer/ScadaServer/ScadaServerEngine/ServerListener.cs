@@ -645,9 +645,7 @@ namespace Scada.Server.Engine
                     return coreLogic.Storage.GetFileInfo(DataCategory.View, path.Path);
 
                 default:
-                    throw new ProtocolException(ErrorCode.IllegalFunctionArguments, Locale.IsRussian ?
-                        "Путь файла не поддерживается." :
-                        "File path not supported.");
+                    throw new ProtocolException(ErrorCode.IllegalFunctionArguments, CommonPhrases.PathNotSupported);
             }
         }
 
@@ -675,9 +673,7 @@ namespace Scada.Server.Engine
                     return coreLogic.Storage.OpenBinary(DataCategory.View, path.Path);
 
                 default:
-                    throw new ProtocolException(ErrorCode.IllegalFunctionArguments, Locale.IsRussian ?
-                        "Путь файла не поддерживается." :
-                        "File path not supported.");
+                    throw new ProtocolException(ErrorCode.IllegalFunctionArguments, CommonPhrases.PathNotSupported);
             }
         }
 
