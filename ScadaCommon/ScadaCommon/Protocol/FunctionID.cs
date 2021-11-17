@@ -91,7 +91,8 @@ namespace Scada.Protocol
             { DisableGettingCommands, nameof(DisableGettingCommands) },
             { AgentHeartbeat, nameof(AgentHeartbeat) },
             { GetServiceStatus, nameof(GetServiceStatus) },
-            { ControlService, nameof(ControlService) }
+            { ControlService, nameof(ControlService) },
+            { WriteCommandFile, nameof(WriteCommandFile) }
         };
 
         /// <summary>
