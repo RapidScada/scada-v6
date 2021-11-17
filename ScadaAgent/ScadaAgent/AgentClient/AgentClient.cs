@@ -195,7 +195,7 @@ namespace Scada.Agent.Client
             }
             catch (ProtocolException ex)
             {
-                throw new ScadaException(String.Format(Locale.IsRussian ?
+                throw new ScadaException(string.Format(Locale.IsRussian ?
                     "Ошибка при чтении файла {0}: {1}" :
                     "Error reading file {0}: {1}", path, ex.Message), ex);
             }
