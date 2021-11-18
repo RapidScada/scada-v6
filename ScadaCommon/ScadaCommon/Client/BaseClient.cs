@@ -641,21 +641,13 @@ namespace Scada.Client
         /// Downloads the file.
         /// </summary>
         public void DownloadFile(RelativePath relativePath, long offset, int count, bool readFromEnd,
-            DateTime newerThan, string destFileName, out DateTime lastWriteTime, out FileReadingResult readingResult)
+            DateTime newerThan, bool throwOnFail, string destFileName, 
+            out DateTime lastWriteTime, out FileReadingResult readingResult)
         {
-            DownloadFile(relativePath, offset, count, readFromEnd, newerThan, false,
+            DownloadFile(relativePath, offset, count, readFromEnd, newerThan, throwOnFail,
                 () => { return new FileStream(destFileName, FileMode.Create, FileAccess.Write, FileShare.Read); },
                 out lastWriteTime, out readingResult, out Stream stream);
             stream?.Dispose();
-        }
-
-        /// <summary>
-        /// Downloads the file.
-        /// </summary>
-        public void DownloadFile(RelativePath relativePath, Stream stream, out FileReadingResult readingResult)
-        {
-            DownloadFile(relativePath, 0, 0, false, DateTime.MinValue, false, () => stream, 
-                out _, out readingResult, out _);
         }
 
         /// <summary>
@@ -665,6 +657,16 @@ namespace Scada.Client
         {
             DownloadFile(relativePath, 0, 0, false, DateTime.MinValue, throwOnFail, () => stream, 
                 out _, out FileReadingResult readingResult, out _);
+            return readingResult == FileReadingResult.Completed;
+        }
+
+        /// <summary>
+        /// Downloads the file or throws an exception on failure.
+        /// </summary>
+        public bool DownloadFile(RelativePath relativePath, string destFileName, bool throwOnFail = false)
+        {
+            DownloadFile(relativePath, 0, 0, false, DateTime.MinValue, throwOnFail, destFileName,
+                out _, out FileReadingResult readingResult);
             return readingResult == FileReadingResult.Completed;
         }
 

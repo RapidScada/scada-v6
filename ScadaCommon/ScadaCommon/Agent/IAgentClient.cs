@@ -52,9 +52,9 @@ namespace Scada.Agent
         bool ControlService(ServiceApp serviceApp, ServiceCommand cmd);
 
         /// <summary>
-        /// Downloads the configuration to the file.
+        /// Downloads the configuration part to the file.
         /// </summary>
-        void DownloadConfig(string destFileName, ConfigTransferOptions transferOptions);
+        void DownloadConfig(string destFileName, TopFolder topFolder);
 
         /// <summary>
         /// Uploads the configuration from the file.

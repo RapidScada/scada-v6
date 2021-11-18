@@ -70,7 +70,7 @@ namespace Scada.Protocol
         /// Initializes a new instance of the class.
         /// </summary>
         public RelativePath(ServiceApp serviceApp, AppFolder appFolder, string path = "")
-            : this(GetAppFolder(serviceApp), appFolder, path)
+            : this(GetTopFolder(serviceApp), appFolder, path)
         {
         }
 
@@ -147,7 +147,7 @@ namespace Scada.Protocol
         /// <summary>
         /// Gets the top folder corresponding to the specified service application.
         /// </summary>
-        public static TopFolder GetAppFolder(ServiceApp serviceApp)
+        public static TopFolder GetTopFolder(ServiceApp serviceApp)
         {
             switch (serviceApp)
             {

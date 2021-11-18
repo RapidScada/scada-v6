@@ -38,6 +38,7 @@ namespace Scada.Protocol
         View = 2,
         Server = 3,
         Comm = 4,
-        Web = 5
+        Web = 5,
+        Agent = 6
     }
 }
