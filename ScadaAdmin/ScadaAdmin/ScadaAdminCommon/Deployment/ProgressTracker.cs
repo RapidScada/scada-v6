@@ -141,6 +141,16 @@ namespace Scada.Admin.Deployment
         }
 
         /// <summary>
+        /// Updates the subtask.
+        /// </summary>
+        public void UpdateSubtask(int subtaskIndex, int subtaskCount)
+        {
+            this.subtaskIndex = subtaskIndex;
+            this.subtaskCount = subtaskCount;
+            UpdateProgress();
+        }
+
+        /// <summary>
         /// Marks progress as complete.
         /// </summary>
         public void SetCompleted()

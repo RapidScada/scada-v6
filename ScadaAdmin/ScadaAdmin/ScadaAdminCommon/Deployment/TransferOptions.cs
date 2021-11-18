@@ -139,9 +139,10 @@ namespace Scada.Admin.Deployment
 
             if (IgnoreRegKeys)
             {
-                options.IgnoredPaths.Add(new RelativePath(TopFolder.Server, AppFolder.Config, "*_Reg.xml"));
-                options.IgnoredPaths.Add(new RelativePath(TopFolder.Comm, AppFolder.Config, "*_Reg.xml"));
-                options.IgnoredPaths.Add(new RelativePath(TopFolder.Web, AppFolder.Config, "*_Reg.xml"));
+                string path = "*" + AdminUtils.RegFileSuffix;
+                options.IgnoredPaths.Add(new RelativePath(TopFolder.Server, AppFolder.Config, path));
+                options.IgnoredPaths.Add(new RelativePath(TopFolder.Comm, AppFolder.Config, path));
+                options.IgnoredPaths.Add(new RelativePath(TopFolder.Web, AppFolder.Config, path));
             }
 
             return options;
