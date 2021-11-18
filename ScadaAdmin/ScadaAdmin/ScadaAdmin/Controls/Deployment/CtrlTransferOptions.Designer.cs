@@ -34,7 +34,7 @@
             this.lblObjFilter = new System.Windows.Forms.Label();
             this.chkIgnoreRegKeys = new System.Windows.Forms.CheckBox();
             this.lblIgnore = new System.Windows.Forms.Label();
-            this.lblInclude = new System.Windows.Forms.Label();
+            this.chkRestartWeb = new System.Windows.Forms.CheckBox();
             this.chkIncludeWeb = new System.Windows.Forms.CheckBox();
             this.chkRestartComm = new System.Windows.Forms.CheckBox();
             this.chkIncludeComm = new System.Windows.Forms.CheckBox();
@@ -42,7 +42,7 @@
             this.chkIncludeServer = new System.Windows.Forms.CheckBox();
             this.chkIncludeView = new System.Windows.Forms.CheckBox();
             this.chkIncludeBase = new System.Windows.Forms.CheckBox();
-            this.chkRestartWeb = new System.Windows.Forms.CheckBox();
+            this.lblInclude = new System.Windows.Forms.Label();
             this.gbOptions.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -120,14 +120,16 @@
             this.lblIgnore.TabIndex = 9;
             this.lblIgnore.Text = "Ignore:";
             // 
-            // lblInclude
+            // chkRestartWeb
             // 
-            this.lblInclude.AutoSize = true;
-            this.lblInclude.Location = new System.Drawing.Point(10, 19);
-            this.lblInclude.Name = "lblInclude";
-            this.lblInclude.Size = new System.Drawing.Size(49, 15);
-            this.lblInclude.TabIndex = 0;
-            this.lblInclude.Text = "Include:";
+            this.chkRestartWeb.AutoSize = true;
+            this.chkRestartWeb.Location = new System.Drawing.Point(150, 137);
+            this.chkRestartWeb.Name = "chkRestartWeb";
+            this.chkRestartWeb.Size = new System.Drawing.Size(125, 19);
+            this.chkRestartWeb.TabIndex = 8;
+            this.chkRestartWeb.Text = "Restart Webstation";
+            this.chkRestartWeb.UseVisualStyleBackColor = true;
+            this.chkRestartWeb.CheckedChanged += new System.EventHandler(this.control_Changed);
             // 
             // chkIncludeWeb
             // 
@@ -206,15 +208,14 @@
             this.chkIncludeBase.UseVisualStyleBackColor = true;
             this.chkIncludeBase.CheckedChanged += new System.EventHandler(this.control_Changed);
             // 
-            // chkRestartWeb
+            // lblInclude
             // 
-            this.chkRestartWeb.AutoSize = true;
-            this.chkRestartWeb.Location = new System.Drawing.Point(150, 137);
-            this.chkRestartWeb.Name = "chkRestartWeb";
-            this.chkRestartWeb.Size = new System.Drawing.Size(125, 19);
-            this.chkRestartWeb.TabIndex = 8;
-            this.chkRestartWeb.Text = "Restart Webstation";
-            this.chkRestartWeb.UseVisualStyleBackColor = true;
+            this.lblInclude.AutoSize = true;
+            this.lblInclude.Location = new System.Drawing.Point(10, 19);
+            this.lblInclude.Name = "lblInclude";
+            this.lblInclude.Size = new System.Drawing.Size(49, 15);
+            this.lblInclude.TabIndex = 0;
+            this.lblInclude.Text = "Include:";
             // 
             // CtrlTransferOptions
             // 

@@ -157,8 +157,8 @@ namespace Scada.Admin.Deployment
             xmlElem.AppendElem("DbEnabled", DbEnabled);
             AgentConnectionOptions.SaveToXml(xmlElem.AppendElem("AgentConnectionOptions"));
             DbConnectionOptions.SaveToXml(xmlElem.AppendElem("DbConnectionOptions"));
-            DownloadOptions.SaveToXml(xmlElem.AppendElem("DownloadSettings"));
-            UploadOptions.SaveToXml(xmlElem.AppendElem("UploadSettings"));
+            DownloadOptions.SaveToXml(xmlElem.AppendElem("DownloadOptions"));
+            UploadOptions.SaveToXml(xmlElem.AppendElem("UploadOptions"));
         }
 
         /// <summary>

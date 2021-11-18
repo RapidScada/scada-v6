@@ -167,6 +167,7 @@ namespace Scada.Admin.App.Controls.Deployment
             {
                 uploadOptions.RestartServer = chkRestartServer.Checked;
                 uploadOptions.RestartComm = chkRestartComm.Checked;
+                uploadOptions.RestartWeb = chkRestartWeb.Checked;
                 uploadOptions.SetObjectFilter(ScadaUtils.ParseRange(txtObjFilter.Text, true, true));
             }
         }

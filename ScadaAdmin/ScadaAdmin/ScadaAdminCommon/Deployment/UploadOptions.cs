@@ -65,6 +65,11 @@ namespace Scada.Admin.Deployment
         public bool RestartWeb { get; set; }
 
         /// <summary>
+        /// Gets a value indicating whether to restart at least one service.
+        /// </summary>
+        public bool RestartAnyService => RestartServer || RestartComm || RestartWeb;
+
+        /// <summary>
         /// Gets the object numbers to filter the uploaded configuration.
         /// </summary>
         public List<int> ObjectFilter { get; private set; }
@@ -101,6 +106,7 @@ namespace Scada.Admin.Deployment
             base.SaveToXml(xmlElem);
             xmlElem.AppendElem("RestartServer", RestartServer);
             xmlElem.AppendElem("RestartComm", RestartComm);
+            xmlElem.AppendElem("RestartWeb", RestartWeb);
             xmlElem.AppendElem("ObjectFilter", ScadaUtils.ToShortString(ObjectFilter));
         }
     }

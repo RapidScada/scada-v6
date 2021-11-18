@@ -754,7 +754,11 @@ namespace Scada.Admin.Extensions.ExtDepPostgreSql
                 UploadAppConfig(uploadOptions.IncludeComm, instance.CommApp);
                 UploadAppConfig(uploadOptions.IncludeWeb, instance.WebApp);
 
-                if (profile.AgentEnabled)
+                if (!uploadOptions.RestartAnyService)
+                {
+                    SkipTask();
+                }
+                else if (profile.AgentEnabled)
                 {
                     IAgentClient agentClient = new AgentClient(profile.AgentConnectionOptions);
                     new ServiceStarter(agentClient, uploadOptions, transferControl, progressTracker).RestartServices();
