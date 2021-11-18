@@ -58,7 +58,7 @@ namespace Scada.Admin.Extensions
             }
             else
             {
-                transferControl.WriteMessage(Locale.IsRussian ?
+                transferControl.WriteError(Locale.IsRussian ?
                     "Команда управления службой не выполнена" :
                     "Service control command failed");
             }

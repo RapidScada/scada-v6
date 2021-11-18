@@ -53,6 +53,11 @@ namespace Scada.Admin.Deployment
         /// Writes the message to a terminal.
         /// </summary>
         void WriteMessage(string text);
+        
+        /// <summary>
+        /// Writes the error message to a terminal.
+        /// </summary>
+        void WriteError(string text);
 
         /// <summary>
         /// Writes an empty line to a terminal.

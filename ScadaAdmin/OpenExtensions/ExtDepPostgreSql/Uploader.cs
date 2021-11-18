@@ -762,7 +762,7 @@ namespace Scada.Admin.Extensions.ExtDepPostgreSql
                 else
                 {
                     transferControl.WriteLine();
-                    transferControl.WriteMessage(Locale.IsRussian ?
+                    transferControl.WriteError(Locale.IsRussian ?
                         "Невозможно перезапустить службы, потому что Агент отключен" :
                         "Unable to restart services because Agent is disabled");
                     SkipTask();

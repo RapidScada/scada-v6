@@ -31,17 +31,19 @@ namespace Scada.Admin.App.Forms.Deployment
         {
             this.lblStatus = new System.Windows.Forms.Label();
             this.progressBar = new System.Windows.Forms.ProgressBar();
-            this.txtLog = new System.Windows.Forms.TextBox();
             this.btnBreak = new System.Windows.Forms.Button();
             this.btnClose = new System.Windows.Forms.Button();
             this.pbDownload = new System.Windows.Forms.PictureBox();
             this.pbUpload = new System.Windows.Forms.PictureBox();
             this.pbSuccess = new System.Windows.Forms.PictureBox();
             this.pbError = new System.Windows.Forms.PictureBox();
+            this.pnlLogHolder = new System.Windows.Forms.Panel();
+            this.txtLog = new System.Windows.Forms.RichTextBox();
             ((System.ComponentModel.ISupportInitialize)(this.pbDownload)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pbUpload)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pbSuccess)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pbError)).BeginInit();
+            this.pnlLogHolder.SuspendLayout();
             this.SuspendLayout();
             // 
             // lblStatus
@@ -61,17 +63,6 @@ namespace Scada.Admin.App.Forms.Deployment
             this.progressBar.Name = "progressBar";
             this.progressBar.Size = new System.Drawing.Size(660, 23);
             this.progressBar.TabIndex = 1;
-            // 
-            // txtLog
-            // 
-            this.txtLog.BackColor = System.Drawing.SystemColors.Window;
-            this.txtLog.Location = new System.Drawing.Point(12, 79);
-            this.txtLog.Multiline = true;
-            this.txtLog.Name = "txtLog";
-            this.txtLog.ReadOnly = true;
-            this.txtLog.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
-            this.txtLog.Size = new System.Drawing.Size(660, 341);
-            this.txtLog.TabIndex = 2;
             // 
             // btnBreak
             // 
@@ -133,6 +124,28 @@ namespace Scada.Admin.App.Forms.Deployment
             this.pbError.TabStop = false;
             this.pbError.Visible = false;
             // 
+            // pnlLogHolder
+            // 
+            this.pnlLogHolder.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.pnlLogHolder.Controls.Add(this.txtLog);
+            this.pnlLogHolder.Location = new System.Drawing.Point(12, 79);
+            this.pnlLogHolder.Name = "pnlLogHolder";
+            this.pnlLogHolder.Size = new System.Drawing.Size(660, 331);
+            this.pnlLogHolder.TabIndex = 2;
+            // 
+            // txtLog
+            // 
+            this.txtLog.BackColor = System.Drawing.SystemColors.Window;
+            this.txtLog.BorderStyle = System.Windows.Forms.BorderStyle.None;
+            this.txtLog.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.txtLog.Location = new System.Drawing.Point(0, 0);
+            this.txtLog.Name = "txtLog";
+            this.txtLog.ReadOnly = true;
+            this.txtLog.Size = new System.Drawing.Size(658, 329);
+            this.txtLog.TabIndex = 0;
+            this.txtLog.Text = "";
+            this.txtLog.WordWrap = false;
+            // 
             // FrmTransfer
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
@@ -141,7 +154,7 @@ namespace Scada.Admin.App.Forms.Deployment
             this.ClientSize = new System.Drawing.Size(684, 461);
             this.Controls.Add(this.btnClose);
             this.Controls.Add(this.btnBreak);
-            this.Controls.Add(this.txtLog);
+            this.Controls.Add(this.pnlLogHolder);
             this.Controls.Add(this.progressBar);
             this.Controls.Add(this.lblStatus);
             this.Controls.Add(this.pbError);
@@ -160,6 +173,7 @@ namespace Scada.Admin.App.Forms.Deployment
             ((System.ComponentModel.ISupportInitialize)(this.pbUpload)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.pbSuccess)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.pbError)).EndInit();
+            this.pnlLogHolder.ResumeLayout(false);
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -169,12 +183,13 @@ namespace Scada.Admin.App.Forms.Deployment
 
         private System.Windows.Forms.Label lblStatus;
         private System.Windows.Forms.ProgressBar progressBar;
-        private System.Windows.Forms.TextBox txtLog;
         private System.Windows.Forms.Button btnBreak;
         private System.Windows.Forms.Button btnClose;
         private System.Windows.Forms.PictureBox pbDownload;
         private System.Windows.Forms.PictureBox pbUpload;
         private System.Windows.Forms.PictureBox pbSuccess;
         private System.Windows.Forms.PictureBox pbError;
+        private System.Windows.Forms.Panel pnlLogHolder;
+        private System.Windows.Forms.RichTextBox txtLog;
     }
 }

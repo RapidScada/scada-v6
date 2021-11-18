@@ -30,6 +30,7 @@ using Scada.Admin.Project;
 using Scada.Forms;
 using System;
 using System.Diagnostics;
+using System.Drawing;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Forms;
@@ -48,6 +49,7 @@ namespace Scada.Admin.App.Forms.Deployment
         private readonly DeploymentProfile profile;  // the deployment profile
 
         private readonly Action<string> writeMessageAction;    // wraps the WriteMessage method
+        private readonly Action<string> writeErrorAction;      // wraps the WriteError method
         private readonly Action<bool> setCancelEnabledAction;  // wraps the SetCancelEnabled method
         private readonly Action<double> setProgressAction;     // wraps the SetProgress method
         private readonly Action<bool, double> setResultAction; // wraps the SetResult method
@@ -79,6 +81,7 @@ namespace Scada.Admin.App.Forms.Deployment
             this.profile = profile ?? throw new ArgumentNullException(nameof(profile));
 
             writeMessageAction = s => WriteMessage(s);
+            writeErrorAction = s => WriteError(s);
             setCancelEnabledAction = b => SetCancelEnabled(b);
             setProgressAction = d => SetProgress(d);
             setResultAction = (b, d) => SetResult(b, d);
@@ -158,12 +161,12 @@ namespace Scada.Admin.App.Forms.Deployment
                 catch (OperationCanceledException)
                 {
                     SetResult(false, 0);
-                    WriteMessage(AppPhrases.OperationCanceled);
+                    WriteError(AppPhrases.OperationCanceled);
                 }
                 catch (Exception ex)
                 {
                     SetResult(false, 0);
-                    WriteMessage(ScadaUtils.BuildErrorMessage(ex, AppPhrases.DownloadError));
+                    WriteError(ScadaUtils.BuildErrorMessage(ex, AppPhrases.DownloadError));
                 }
             });
         }
@@ -188,12 +191,12 @@ namespace Scada.Admin.App.Forms.Deployment
                 catch (OperationCanceledException)
                 {
                     SetResult(false, 0);
-                    WriteMessage(AppPhrases.OperationCanceled);
+                    WriteError(AppPhrases.OperationCanceled);
                 }
                 catch (Exception ex)
                 {
                     SetResult(false, 0);
-                    WriteMessage(ScadaUtils.BuildErrorMessage(ex, AppPhrases.UploadError));
+                    WriteError(ScadaUtils.BuildErrorMessage(ex, AppPhrases.UploadError));
                 }
             });
         }
@@ -288,7 +291,28 @@ namespace Scada.Admin.App.Forms.Deployment
                 txtLog.AppendText(Environment.NewLine);
             }
         }
-        
+
+        /// <summary>
+        /// Writes the error message to a terminal.
+        /// </summary>
+        public void WriteError(string text)
+        {
+            if (InvokeRequired)
+            {
+                Invoke(writeErrorAction, text);
+            }
+            else
+            {
+                txtLog.SelectionStart = txtLog.TextLength;
+                txtLog.SelectionLength = 0;
+
+                txtLog.SelectionColor = Color.FromKnownColor(KnownColor.Red);
+                txtLog.AppendText(text);
+                txtLog.AppendText(Environment.NewLine);
+                txtLog.SelectionColor = txtLog.ForeColor;
+            }
+        }
+
         /// <summary>
         /// Writes an empty line to a terminal.
         /// </summary>
