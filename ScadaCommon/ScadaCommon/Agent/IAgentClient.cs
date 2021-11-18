@@ -59,7 +59,7 @@ namespace Scada.Agent
         /// <summary>
         /// Uploads the configuration from the file.
         /// </summary>
-        void UploadConfig(string srcFileName, ConfigTransferOptions transferOptions);
+        void UploadConfig(string srcFileName);
 
         /// <summary>
         /// Reads the text file.
