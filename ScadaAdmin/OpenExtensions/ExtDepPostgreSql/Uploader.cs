@@ -5,6 +5,8 @@ using Npgsql;
 using NpgsqlTypes;
 using Scada.Admin.Deployment;
 using Scada.Admin.Project;
+using Scada.Agent;
+using Scada.Agent.Client;
 using Scada.Data.Entities;
 using Scada.Data.Tables;
 using Scada.Lang;
@@ -27,7 +29,7 @@ namespace Scada.Admin.Extensions.ExtDepPostgreSql
         /// <summary>
         /// The number of upload tasks.
         /// </summary>
-        private const int TaskCount = 14;
+        private const int TaskCount = 15;
 
         private readonly ScadaProject project;
         private readonly ProjectInstance instance;
@@ -751,6 +753,20 @@ namespace Scada.Admin.Extensions.ExtDepPostgreSql
                 UploadAppConfig(uploadOptions.IncludeServer, instance.ServerApp);
                 UploadAppConfig(uploadOptions.IncludeComm, instance.CommApp);
                 UploadAppConfig(uploadOptions.IncludeWeb, instance.WebApp);
+
+                if (profile.AgentEnabled)
+                {
+                    IAgentClient agentClient = new AgentClient(profile.AgentConnectionOptions);
+                    new ServiceStarter(agentClient, uploadOptions, transferControl, progressTracker).RestartServices();
+                }
+                else
+                {
+                    transferControl.WriteLine();
+                    transferControl.WriteMessage(Locale.IsRussian ?
+                        "Невозможно перезапустить службы, потому что Агент отключен" :
+                        "Unable to restart services because Agent is disabled");
+                    SkipTask();
+                }
             }
             finally
             {
