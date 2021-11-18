@@ -139,11 +139,33 @@ namespace Scada.Agent.Client
         }
 
         /// <summary>
-        /// Downloads the configuration to the file.
+        /// Downloads the configuration part to the file.
         /// </summary>
-        public void DownloadConfig(string destFileName, ConfigTransferOptions transferOptions)
+        public void DownloadConfig(string destFileName, TopFolder topFolder)
         {
+            const string AllFiles = "*.*";
+            RelativePath relativePath;
 
+            switch (topFolder)
+            {
+                case TopFolder.Base:
+                case TopFolder.View:
+                    relativePath = new RelativePath(topFolder, AppFolder.Root, AllFiles);
+                    break;
+
+                case TopFolder.Server:
+                case TopFolder.Comm:
+                case TopFolder.Web:
+                    relativePath = new RelativePath(topFolder, AppFolder.Config, AllFiles);
+                    break;
+
+                default:
+                    throw new ScadaException(Locale.IsRussian ?
+                        "Невозможно определить файлы для скачивания." :
+                        "Unable to define files to download.");
+            }
+
+            DownloadFile(relativePath, destFileName, true);
         }
 
         /// <summary>
@@ -151,7 +173,15 @@ namespace Scada.Agent.Client
         /// </summary>
         public void UploadConfig(string srcFileName)
         {
+            UploadFile(srcFileName, new RelativePath(TopFolder.Agent, AppFolder.Temp, Path.GetFileName(srcFileName)),
+                out bool fileAccepted);
 
+            if (!fileAccepted)
+            {
+                throw new ScadaException(Locale.IsRussian ?
+                    "Конфигурация отклонена Агентом." :
+                    "Configuration rejected by Agent.");
+            }
         }
 
         /// <summary>
@@ -202,7 +232,7 @@ namespace Scada.Agent.Client
         /// </summary>
         public void SendCommand(ServiceApp serviceApp, TeleCommand cmd)
         {
-
+            
         }
     }
 }
