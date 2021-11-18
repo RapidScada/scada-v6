@@ -5,6 +5,7 @@ using Scada.Admin.Deployment;
 using Scada.Admin.Project;
 using Scada.Agent;
 using Scada.Agent.Client;
+using Scada.Client;
 using Scada.Data.Adapters;
 using Scada.Data.Entities;
 using Scada.Data.Tables;
@@ -224,6 +225,13 @@ namespace Scada.Admin.Extensions.ExtDepAgent
         /// </summary>
         private void TransferConfig(string srcFileName, IAgentClient agentClient)
         {
+            transferControl.ThrowIfCancellationRequested();
+            transferControl.WriteLine();
+            transferControl.WriteMessage(Locale.IsRussian ?
+                "Передача конфигурации" :
+                "Transfer configuration");
+
+            agentClient.UploadConfig(srcFileName);
             progressTracker.TaskIndex++;
         }
 
@@ -291,7 +299,8 @@ namespace Scada.Admin.Extensions.ExtDepAgent
 
                 foreach (FileInfo fileInfo in srcDirInfo.EnumerateFiles("*", SearchOption.AllDirectories))
                 {
-                    if (!ignoreRegKeys || fileInfo.Name.EndsWith("_Reg.xml", StringComparison.OrdinalIgnoreCase))
+                    if (!ignoreRegKeys || 
+                        fileInfo.Name.EndsWith(AdminUtils.RegFileSuffix, StringComparison.OrdinalIgnoreCase))
                     {
                         string entryName = entryPrefix + fileInfo.FullName[srcDirLen..].Replace('\\', '/');
                         zipArchive.CreateEntryFromFile(fileInfo.FullName, entryName, CompressionLevel.Fastest);
@@ -334,7 +343,10 @@ namespace Scada.Admin.Extensions.ExtDepAgent
 
             try
             {
-                IAgentClient agentClient = new AgentClient(profile.AgentConnectionOptions);
+                AgentClient agentClient = new(profile.AgentConnectionOptions);
+                agentClient.Progress += (object sender, ProgressEventArgs e) =>
+                    progressTracker.UpdateSubtask(e.BlockNumber - 1, e.BlockCount);
+
                 TestAgentConnection(agentClient);
                 CompressConfig(tempFileName);
                 TransferConfig(tempFileName, agentClient);

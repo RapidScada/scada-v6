@@ -120,7 +120,7 @@ namespace Scada.Admin.Extensions.ExtDepPostgreSql
                 "Download configuration of the {0} application", app.AppName));
 
             string sql = $"SELECT path, contents FROM {Schema}.app_config WHERE app_id = @appID" +
-                (downloadOptions.IgnoreRegKeys ? " AND path NOT LIKE '%_Reg.xml'" : "");
+                (downloadOptions.IgnoreRegKeys ? $" AND path NOT LIKE '%{AdminUtils.RegFileSuffix}'" : "");
             NpgsqlCommand cmd = new(sql, conn);
             cmd.Parameters.AddWithValue("appID", (int)app.ServiceApp);
             int fileCount = 0;

@@ -426,7 +426,7 @@ namespace Scada.Admin.Extensions.ExtDepPostgreSql
                 "Clear configuration of the {0} application", app.AppName));
 
             string sql = $"DELETE FROM {Schema}.app_config WHERE app_id = @appID" +
-                (uploadOptions.IgnoreRegKeys ? " AND path NOT LIKE '%_Reg.xml'" : "");
+                (uploadOptions.IgnoreRegKeys ? $" AND path NOT LIKE '%{AdminUtils.RegFileSuffix}'" : "");
             NpgsqlCommand cmd = new(sql, conn);
             cmd.Parameters.AddWithValue("appID", (int)app.ServiceApp);
             cmd.ExecuteNonQuery();
@@ -504,7 +504,7 @@ namespace Scada.Admin.Extensions.ExtDepPostgreSql
 
                     foreach (FileInfo fileInfo in configDirInfo.EnumerateFiles("*", SearchOption.AllDirectories))
                     {
-                        if (!fileInfo.Name.EndsWith("_Reg.xml", StringComparison.OrdinalIgnoreCase))
+                        if (!fileInfo.Name.EndsWith(AdminUtils.RegFileSuffix, StringComparison.OrdinalIgnoreCase))
                             fileInfoList.Add(fileInfo);
                     }
 
