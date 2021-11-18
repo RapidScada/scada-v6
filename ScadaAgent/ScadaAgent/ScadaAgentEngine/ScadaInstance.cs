@@ -45,6 +45,10 @@ namespace Scada.Agent.Engine
         /// The number of milliseconds to wait for lock.
         /// </summary>
         private const int LockTimeout = 1000;
+        /// <summary>
+        /// The number of milliseconds to wait for service command process.
+        /// </summary>
+        private const int ProcessTimeout = 5000;
 
         private readonly ILog log;                        // the application log
         private readonly InstanceOptions instanceOptions; // the instance options
@@ -230,19 +234,38 @@ namespace Scada.Agent.Engine
 
                         if (File.Exists(batchFileName))
                         {
-                            Process.Start(new ProcessStartInfo
+                            ProcessStartInfo startInfo = new ProcessStartInfo
                             {
                                 FileName = batchFileName,
                                 UseShellExecute = false
-                            });
-                            return true;
+                            };
+
+                            using (Process process = Process.Start(startInfo))
+                            {
+                                if (!process.WaitForExit(ProcessTimeout))
+                                {
+                                    log.WriteError(Locale.IsRussian ?
+                                        "Процесс не завершился за {0} мс. Файл {0}" :
+                                        "Process did not complete in {0} ms. File {0}", 
+                                        ProcessTimeout, batchFileName);
+                                }
+                                else if (process.ExitCode == 0)
+                                {
+                                    return true;
+                                }
+                                else
+                                {
+                                    log.WriteError(Locale.IsRussian ?
+                                        "Процесс завершён с ошибкой. Файл {0}" :
+                                        "Process completed with an error. File {0}", batchFileName);
+                                }
+                            }
                         }
                         else
                         {
                             log.WriteError(Locale.IsRussian ?
                                 "Не найден файл команды управления службой {0}" :
                                 "Service control command file not found {0}", batchFileName);
-                            return false;
                         }
                     }
                     finally

@@ -149,7 +149,7 @@ namespace Scada.Agent.Client
         /// <summary>
         /// Uploads the configuration from the file.
         /// </summary>
-        public void UploadConfig(string srcFileName, ConfigTransferOptions transferOptions)
+        public void UploadConfig(string srcFileName)
         {
 
         }
