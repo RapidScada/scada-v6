@@ -49,7 +49,7 @@ namespace Scada.Admin.Extensions.ExtDepAgent
         public override void UploadConfig(ScadaProject project, ProjectInstance instance, DeploymentProfile profile,
             ITransferControl transferControl)
         {
-            new Uploader(project, instance, profile, transferControl).Upload();
+            new Uploader(AdminContext.AppDirs, project, instance, profile, transferControl).Upload();
         }
     }
 }
