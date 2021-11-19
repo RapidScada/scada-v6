@@ -31,7 +31,14 @@ namespace Scada.Admin.Extensions
             this.uploadOptions = uploadOptions ?? throw new ArgumentNullException(nameof(uploadOptions));
             this.transferControl = transferControl ?? throw new ArgumentNullException(nameof(transferControl));
             this.progressTracker = progressTracker ?? throw new ArgumentNullException(nameof(progressTracker));
+            ProcessTimeout = 0;
         }
+
+
+        /// <summary>
+        /// The number of milliseconds to wait for service command process.
+        /// </summary>
+        public int ProcessTimeout { get; set; }
 
 
         /// <summary>
@@ -50,7 +57,7 @@ namespace Scada.Admin.Extensions
             transferControl.ThrowIfCancellationRequested();
             transferControl.WriteMessage(string.Format(cmdFormat, ScadaUtils.GetAppName(serviceApp)));
 
-            if (agentClient.ControlService(serviceApp, cmd))
+            if (agentClient.ControlService(serviceApp, cmd, ProcessTimeout))
             {
                 transferControl.WriteMessage(Locale.IsRussian ?
                     "Команда управления службой выполнена успешно" :
@@ -62,6 +69,15 @@ namespace Scada.Admin.Extensions
                     "Команда управления службой не выполнена" :
                     "Service control command failed");
             }
+        }
+
+        /// <summary>
+        /// Sets the process timeout based on the specified connection timeout.
+        /// </summary>
+        public ServiceStarter SetProcessTimeout(int connectionTimeout)
+        {
+            ProcessTimeout = Math.Max(0, connectionTimeout - 1000);
+            return this;
         }
 
         /// <summary>

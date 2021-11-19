@@ -187,7 +187,7 @@ namespace Scada.Admin.App.Forms.Deployment
                 bool commandResult;
                 lock (client) 
                 { 
-                    commandResult = client.ControlService(serviceApp, command);
+                    commandResult = client.ControlService(serviceApp, command, 0);
                 }
 
                 if (commandResult)

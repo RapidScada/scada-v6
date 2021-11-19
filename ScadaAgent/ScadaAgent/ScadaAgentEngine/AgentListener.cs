@@ -360,7 +360,7 @@ namespace Scada.Agent.Engine
         private void GetServiceStatus(ConnectedClient client, ScadaInstance instance, DataPacket request,
             out ResponsePacket response)
         {
-            ServiceApp serviceApp = (ServiceApp)request.Buffer[ArgumentIndex];
+            ServiceApp serviceApp = (ServiceApp)client.InBuf[ArgumentIndex];
             bool result = instance.GetServiceStatus(serviceApp, out ServiceStatus serviceStatus);
 
             byte[] buffer = client.OutBuf;
@@ -377,12 +377,15 @@ namespace Scada.Agent.Engine
         private void ControlService(ConnectedClient client, ScadaInstance instance, DataPacket request, 
             out ResponsePacket response)
         {
-            ServiceApp serviceApp = (ServiceApp)request.Buffer[ArgumentIndex];
-            ServiceCommand serviceCommand = (ServiceCommand)request.Buffer[ArgumentIndex + 1];
-            bool result = instance.ControlService(serviceApp, serviceCommand);
+            byte[] buffer = client.InBuf;
+            int index = ArgumentIndex;
+            ServiceApp serviceApp = (ServiceApp)GetByte(buffer, ref index);
+            ServiceCommand serviceCommand = (ServiceCommand)GetByte(buffer, ref index);
+            int timeout = GetInt32(buffer, ref index);
+            bool result = instance.ControlService(serviceApp, serviceCommand, timeout);
 
             response = new ResponsePacket(request, client.OutBuf);
-            int index = ArgumentIndex;
+            index = ArgumentIndex;
             CopyBool(result, client.OutBuf, ref index);
             response.BufferLength = index;
         }

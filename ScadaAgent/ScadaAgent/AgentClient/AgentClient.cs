@@ -124,14 +124,16 @@ namespace Scada.Agent.Client
         /// <summary>
         /// Sends the command to the service.
         /// </summary>
-        public bool ControlService(ServiceApp serviceApp, ServiceCommand cmd)
+        public bool ControlService(ServiceApp serviceApp, ServiceCommand cmd, int timeout)
         {
             RestoreConnection();
 
             DataPacket request = CreateRequest(FunctionID.ControlService);
-            outBuf[ArgumentIndex] = (byte)serviceApp;
-            outBuf[ArgumentIndex + 1] = (byte)cmd;
-            request.ArgumentLength = 2;
+            int index = ArgumentIndex;
+            CopyByte((byte)serviceApp, outBuf, ref index);
+            CopyByte((byte)cmd, outBuf, ref index);
+            CopyInt32(timeout, outBuf, ref index);
+            request.BufferLength = index;
             SendRequest(request);
 
             ReceiveResponse(request);

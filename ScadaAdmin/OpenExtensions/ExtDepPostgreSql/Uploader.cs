@@ -761,7 +761,9 @@ namespace Scada.Admin.Extensions.ExtDepPostgreSql
                 else if (profile.AgentEnabled)
                 {
                     IAgentClient agentClient = new AgentClient(profile.AgentConnectionOptions);
-                    new ServiceStarter(agentClient, uploadOptions, transferControl, progressTracker).RestartServices();
+                    new ServiceStarter(agentClient, uploadOptions, transferControl, progressTracker)
+                        .SetProcessTimeout(profile.AgentConnectionOptions.Timeout)
+                        .RestartServices();
                 }
                 else
                 {

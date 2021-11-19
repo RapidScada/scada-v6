@@ -45,10 +45,6 @@ namespace Scada.Agent.Engine
         /// The number of milliseconds to wait for lock.
         /// </summary>
         private const int LockTimeout = 1000;
-        /// <summary>
-        /// The number of milliseconds to wait for service command process.
-        /// </summary>
-        private const int ProcessTimeout = 5000;
 
         private readonly ILog log;                        // the application log
         private readonly InstanceOptions instanceOptions; // the instance options
@@ -221,7 +217,7 @@ namespace Scada.Agent.Engine
         /// <summary>
         /// Sends the command to the service.
         /// </summary>
-        public bool ControlService(ServiceApp serviceApp, ServiceCommand cmd)
+        public bool ControlService(ServiceApp serviceApp, ServiceCommand cmd, int timeout)
         {
             try
             {
@@ -242,12 +238,15 @@ namespace Scada.Agent.Engine
 
                             using (Process process = Process.Start(startInfo))
                             {
-                                if (!process.WaitForExit(ProcessTimeout))
+                                if (timeout <= 0)
+                                {
+                                    return true;
+                                }
+                                else if (!process.WaitForExit(timeout))
                                 {
                                     log.WriteError(Locale.IsRussian ?
                                         "Процесс не завершился за {0} мс. Файл {0}" :
-                                        "Process did not complete in {0} ms. File {0}", 
-                                        ProcessTimeout, batchFileName);
+                                        "Process did not complete in {0} ms. File {0}", timeout, batchFileName);
                                 }
                                 else if (process.ExitCode == 0)
                                 {

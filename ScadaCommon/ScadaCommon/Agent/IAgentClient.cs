@@ -49,7 +49,7 @@ namespace Scada.Agent
         /// <summary>
         /// Sends the command to the service.
         /// </summary>
-        bool ControlService(ServiceApp serviceApp, ServiceCommand cmd);
+        bool ControlService(ServiceApp serviceApp, ServiceCommand cmd, int timeout);
 
         /// <summary>
         /// Downloads the configuration part to the file.
