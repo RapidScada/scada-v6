@@ -28,8 +28,11 @@ using Scada.Lang;
 using Scada.Log;
 using Scada.Protocol;
 using System;
+using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
+using System.IO.Compression;
+using System.Linq;
 using System.Text;
 using System.Threading;
 
@@ -285,6 +288,98 @@ namespace Scada.Agent.Engine
             }
 
             return false;
+        }
+
+        /// <summary>
+        /// Packs the configuration to the archive.
+        /// </summary>
+        public bool PackConfig(string destFileName, RelativePath searchPath)
+        {
+            return true;
+        }
+
+        /// <summary>
+        /// Unpacks the configuration from the archive.
+        /// </summary>
+        public bool UnpackConfig(string srcFileName)
+        {
+            try
+            {
+                /*
+                // delete the existing configuration
+                List<RelPath> configPaths = GetConfigPaths(configOptions.ConfigParts);
+                PathDict pathDict = PrepareIgnoredPaths(configOptions.IgnoredPaths);
+
+                foreach (RelPath relPath in configPaths)
+                {
+                    ClearDir(relPath, pathDict);
+                }
+
+                // delete a project information file
+                string instanceDir = instanceOptions.Directory;
+                string projectInfoFileName = Path.Combine(instanceDir, ProjectInfoEntryName);
+                File.Delete(projectInfoFileName);
+
+                // define allowed directories to unpack
+                ConfigParts configParts = configOptions.ConfigParts;
+                List<string> allowedEntries = new List<string> { ProjectInfoEntryName };
+
+                foreach (ConfigParts configPart in AllConfigParts)
+                {
+                    if (configParts.HasFlag(configPart))
+                        allowedEntries.Add(DirectoryBuilder.GetDirectory(configPart, '/'));
+                }
+                */
+
+                using (FileStream fileStream =
+                    new FileStream(srcFileName, FileMode.Open, FileAccess.Read, FileShare.Read))
+                {
+                    using (ZipArchive zipArchive = new ZipArchive(fileStream, ZipArchiveMode.Read))
+                    {
+                        // get upload options
+                        TransferOptions uploadOptions = new TransferOptions();
+                        ZipArchiveEntry optionsEntry = zipArchive.GetEntry(AgentConst.UploadOptionsEntry);
+
+                        if (optionsEntry == null)
+                        {
+                            throw new ScadaException(Locale.IsRussian ?
+                                "Параметры передачи не найдены." :
+                                "Upload options not found.");
+                        }
+
+                        using (Stream optionsStream = optionsEntry.Open())
+                        {
+                            uploadOptions.Load(optionsStream);
+                        }
+
+                        // delete existing configuration
+
+                        // unpack configuration
+                        string instanceDir = instanceOptions.Directory;
+                        List<string> allowedEntries = new List<string> { AgentConst.ProjectInfoEntry };
+
+                        foreach (ZipArchiveEntry entry in zipArchive.Entries)
+                        {
+                            if (allowedEntries.Any(s => entry.FullName.StartsWith(s, StringComparison.Ordinal)))
+                            {
+                                string relPath = entry.FullName.Replace('/', Path.DirectorySeparatorChar);
+                                string destFileName = Path.Combine(instanceDir, relPath);
+                                Directory.CreateDirectory(Path.GetDirectoryName(destFileName));
+                                entry.ExtractToFile(destFileName, true);
+                            }
+                        }
+
+                        return true;
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                log.WriteError(ex, Locale.IsRussian ?
+                    "Ошибка при распаковке конфигурации из архива" :
+                    "Error unpacking configuration from archive");
+                return false;
+            }
         }
     }
 }

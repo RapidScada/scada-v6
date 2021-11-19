@@ -628,5 +628,37 @@ namespace Scada.Agent.Engine
                 throw new ProtocolException(ErrorCode.IllegalFunctionArguments, CommonPhrases.PathNotSupported);
             }
         }
+
+        /// <summary>
+        /// Opens an existing file or creates a new file for writing.
+        /// </summary>
+        protected override BinaryWriter OpenWrite(ConnectedClient client, RelativePath path)
+        {
+            Stream stream = new FileStream(
+                GetClientInstance(client).PathBuilder.GetAbsolutePath(path),
+                FileMode.Create, FileAccess.Write, FileShare.ReadWrite);
+            return new BinaryWriter(stream, Encoding.UTF8, false);
+        }
+
+        /// <summary>
+        /// Accepts or rejects the file upload.
+        /// </summary>
+        protected override bool AcceptFileUpload(ConnectedClient client, RelativePath path)
+        {
+            return 
+                path.TopFolder == TopFolder.Agent && path.AppFolder == AppFolder.Temp ||
+                path.TopFolder == TopFolder.Comm && path.AppFolder == AppFolder.Cmd;
+        }
+
+        /// <summary>
+        /// Breaks writing and deletes the corrupted file.
+        /// </summary>
+        protected override void BreakWriting(ConnectedClient client, RelativePath path)
+        {
+            string fileName = GetClientInstance(client).PathBuilder.GetAbsolutePath(path);
+
+            if (File.Exists(fileName))
+                File.Delete(fileName);
+        }
     }
 }

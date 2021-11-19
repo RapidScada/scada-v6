@@ -969,14 +969,6 @@ namespace Scada.Server
         }
 
         /// <summary>
-        /// Accepts or rejects the file upload.
-        /// </summary>
-        protected virtual bool AcceptFileUpload(ConnectedClient client, RelativePath path)
-        {
-            return false;
-        }
-
-        /// <summary>
         /// Gets the information associated with the specified file.
         /// </summary>
         protected virtual ShortFileInfo GetFileInfo(ConnectedClient client, RelativePath path)
@@ -1002,6 +994,14 @@ namespace Scada.Server
             throw new ProtocolException(ErrorCode.InvalidOperation, Locale.IsRussian ?
                 "Операция не реализована." :
                 "Operation is not implemented.");
+        }
+
+        /// <summary>
+        /// Accepts or rejects the file upload.
+        /// </summary>
+        protected virtual bool AcceptFileUpload(ConnectedClient client, RelativePath path)
+        {
+            return false;
         }
 
         /// <summary>

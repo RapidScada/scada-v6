@@ -41,6 +41,15 @@ namespace Scada.Agent.Engine
     /// </summary>
     internal class CoreLogic
     {
+        /// <summary>
+        /// The period of deleting temporary files.
+        /// </summary>
+        private static readonly TimeSpan DeleteTempFilePeriod = TimeSpan.FromMinutes(1);
+        /// <summary>
+        /// The lifetime of temporary files.
+        /// </summary>
+        private static readonly TimeSpan TempFileLifetime = TimeSpan.FromMinutes(10);
+
         private readonly AgentConfig appConfig; // the application configuration
         private readonly AppDirs appDirs;       // the application directories
         private readonly ILog log;              // the application log
@@ -119,7 +128,8 @@ namespace Scada.Agent.Engine
         {
             try
             {
-                DateTime writeInfoDT = DateTime.MinValue; // the timestamp of writing application info
+                DateTime writeInfoDT = DateTime.MinValue;
+                DateTime delTempFileDT = DateTime.MinValue;
                 serviceStatus = ServiceStatus.Normal;
 
                 while (!terminated)
@@ -127,6 +137,13 @@ namespace Scada.Agent.Engine
                     try
                     {
                         DateTime utcNow = DateTime.UtcNow;
+
+                        // delete temporary files
+                        if (utcNow - delTempFileDT >= DeleteTempFilePeriod)
+                        {
+                            delTempFileDT = utcNow;
+                            DeleteOutdatedTempFiles();
+                        }
 
                         // write application info
                         if (utcNow - writeInfoDT >= ScadaUtils.WriteInfoPeriod)
@@ -151,8 +168,64 @@ namespace Scada.Agent.Engine
             }
             finally
             {
+                DeleteAllTempFiles();
                 serviceStatus = ServiceStatus.Terminated;
                 WriteInfo();
+            }
+        }
+
+        /// <summary>
+        /// Deletes the outdated temporary files.
+        /// </summary>
+        private void DeleteOutdatedTempFiles()
+        {
+            try
+            {
+                DateTime utcNow = DateTime.UtcNow;
+                DirectoryInfo tempDirInfo = new DirectoryInfo(appDirs.TempDir);
+
+                foreach (FileInfo fileInfo in tempDirInfo.EnumerateFiles())
+                {
+                    if (utcNow - fileInfo.CreationTimeUtc >= TempFileLifetime)
+                    {
+                        fileInfo.Delete();
+                        log.WriteAction(string.Format(Locale.IsRussian ?
+                            "Удалён временный файл {0}" :
+                            "Temporary file {0} deleted", fileInfo.Name));
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                log.WriteError(ex, Locale.IsRussian ?
+                    "Ошибка при удалении устаревших временных файлов" :
+                    "Error deleting outdated temporary files");
+            }
+        }
+
+        /// <summary>
+        /// Deletes all temporary files.
+        /// </summary>
+        private void DeleteAllTempFiles()
+        {
+            try
+            {
+                DirectoryInfo tempDirInfo = new DirectoryInfo(appDirs.TempDir);
+
+                foreach (FileInfo fileInfo in tempDirInfo.EnumerateFiles())
+                {
+                    fileInfo.Delete();
+                }
+
+                log.WriteAction(Locale.IsRussian ?
+                    "Удалены все временные файлы" :
+                    "All temporary files deleted");
+            }
+            catch (Exception ex)
+            {
+                log.WriteError(ex, Locale.IsRussian ?
+                    "Ошибка при удалении всех временных файлов" :
+                    "Error deleting all temporary files");
             }
         }
 

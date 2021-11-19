@@ -145,20 +145,19 @@ namespace Scada.Agent.Client
         /// </summary>
         public void DownloadConfig(string destFileName, TopFolder topFolder)
         {
-            const string AllFiles = "*.*";
             RelativePath relativePath;
 
             switch (topFolder)
             {
                 case TopFolder.Base:
                 case TopFolder.View:
-                    relativePath = new RelativePath(topFolder, AppFolder.Root, AllFiles);
+                    relativePath = new RelativePath(topFolder, AppFolder.Root, AgentConst.AllFilesPattern);
                     break;
 
                 case TopFolder.Server:
                 case TopFolder.Comm:
                 case TopFolder.Web:
-                    relativePath = new RelativePath(topFolder, AppFolder.Config, AllFiles);
+                    relativePath = new RelativePath(topFolder, AppFolder.Config, AgentConst.AllFilesPattern);
                     break;
 
                 default:

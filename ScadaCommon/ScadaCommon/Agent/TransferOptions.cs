@@ -34,7 +34,7 @@ namespace Scada.Agent
     /// <para>Представляет параметры передачи конфигурации.</para>
     /// </summary>
     [Serializable]
-    public abstract class TransferOptions
+    public class TransferOptions
     {
         /// <summary>
         /// Initializes a new instance of the class.

@@ -55,6 +55,10 @@ namespace Scada.Agent.Engine
         {
             switch (topFolder)
             {
+                case TopFolder.Root:
+                    path = "";
+                    return false;
+
                 case TopFolder.Base:
                     path = "BaseDAT";
                     return true;
@@ -75,9 +79,12 @@ namespace Scada.Agent.Engine
                     path = "ScadaWeb";
                     return true;
 
+                case TopFolder.Agent:
+                    path = "ScadaAgent";
+                    return true;
+
                 default:
-                    path = "";
-                    return false;
+                    throw new ScadaException("Unknown top folder.");
             }
         }
 
@@ -88,6 +95,10 @@ namespace Scada.Agent.Engine
         {
             switch (appFolder)
             {
+                case AppFolder.Root:
+                    path = "";
+                    return false;
+
                 case AppFolder.Cmd:
                     path = "Cmd";
                     return true;
@@ -113,8 +124,7 @@ namespace Scada.Agent.Engine
                     return true;
 
                 default:
-                    path = "";
-                    return false;
+                    throw new ScadaException("Unknown application folder.");
             }
         }
 

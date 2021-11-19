@@ -186,7 +186,8 @@ namespace Scada.Admin.Extensions.ExtDepAgent
                     "Добавление информации о проекте" :
                     "Add project information");
 
-                using (Stream entryStream = zipArchive.CreateEntry("Project.txt", CompressionLevel.Fastest).Open())
+                using (Stream entryStream = 
+                    zipArchive.CreateEntry(AgentConst.ProjectInfoEntry, CompressionLevel.Fastest).Open())
                 {
                     using StreamWriter writer = new(entryStream, Encoding.UTF8);
                     writer.Write(project.GetInfo());
@@ -199,7 +200,7 @@ namespace Scada.Admin.Extensions.ExtDepAgent
                     "Add transfer options");
 
                 using (Stream entryStream = 
-                    zipArchive.CreateEntry("UploadOptions.xml", CompressionLevel.Fastest).Open())
+                    zipArchive.CreateEntry(AgentConst.UploadOptionsEntry, CompressionLevel.Fastest).Open())
                 {
                     uploadOptions.Save(entryStream);
                 }
