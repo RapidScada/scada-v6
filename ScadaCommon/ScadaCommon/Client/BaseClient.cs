@@ -574,6 +574,8 @@ namespace Scada.Client
             DateTime newerThan, bool throwOnFail, Func<Stream> createStreamFunc,
             out DateTime lastWriteTime, out FileReadingResult readingResult, out Stream stream)
         {
+            if (relativePath == null)
+                throw new ArgumentNullException(nameof(relativePath));
             if (createStreamFunc == null)
                 throw new ArgumentNullException(nameof(createStreamFunc));
 
@@ -655,6 +657,9 @@ namespace Scada.Client
         /// </summary>
         public bool DownloadFile(RelativePath relativePath, Stream stream, bool throwOnFail = false)
         {
+            if (stream == null)
+                throw new ArgumentNullException(nameof(stream));
+
             DownloadFile(relativePath, 0, 0, false, DateTime.MinValue, throwOnFail, () => stream, 
                 out _, out FileReadingResult readingResult, out _);
             return readingResult == FileReadingResult.Completed;
@@ -673,63 +678,76 @@ namespace Scada.Client
         /// <summary>
         /// Uploads the file.
         /// </summary>
+        public void UploadFile(Stream stream, RelativePath destPath, out bool fileAccepted)
+        {
+            if (stream == null)
+                throw new ArgumentNullException(nameof(stream));
+            if (destPath == null)
+                throw new ArgumentNullException(nameof(destPath));
+
+            RestoreConnection();
+
+            // request permission to upload file
+            const int FileDataIndex = ArgumentIndex + 9;
+            const int BlockCapacity = BufferLenght - FileDataIndex;
+            long bytesToReadTotal = stream.Length;
+            int blockCount = (int)Math.Ceiling((double)bytesToReadTotal / BlockCapacity);
+
+            DataPacket request = CreateRequest(FunctionID.UploadFile);
+            int index = ArgumentIndex;
+            CopyInt32(0, outBuf, ref index);
+            CopyInt32(blockCount, outBuf, ref index);
+            CopyFileName(destPath.DirectoryID, destPath.Path, outBuf, ref index);
+            request.BufferLength = index;
+            SendRequest(request);
+
+            ReceiveResponse(request);
+            fileAccepted = inBuf[ArgumentIndex] > 0;
+
+            // upload file
+            if (fileAccepted)
+            {
+                int blockNumber = 0;
+                long bytesReadTotal = 0;
+                bool endOfFile = false;
+                request = null;
+
+                while (!endOfFile)
+                {
+                    // read from file
+                    int bytesToRead = (int)Math.Min(bytesToReadTotal - bytesReadTotal, BlockCapacity);
+                    int bytesRead = stream.Read(outBuf, FileDataIndex, bytesToRead);
+                    bytesReadTotal += bytesRead;
+                    endOfFile = bytesRead < bytesToRead || bytesReadTotal == bytesToReadTotal;
+
+                    // send data
+                    request = CreateRequest(FunctionID.UploadFile, 0, false);
+                    index = ArgumentIndex;
+                    CopyInt32(++blockNumber, outBuf, ref index);
+                    CopyBool(endOfFile, outBuf, ref index);
+                    CopyInt32(bytesRead, outBuf, ref index);
+                    request.BufferLength = FileDataIndex + bytesRead;
+                    SendRequest(request);
+                    OnProgress(blockNumber, blockCount);
+                }
+
+                if (request != null)
+                    ReceiveResponse(request);
+                }
+        }
+
+        /// <summary>
+        /// Uploads the file.
+        /// </summary>
         public void UploadFile(string srcFileName, RelativePath destPath, out bool fileAccepted)
         {
             if (!File.Exists(srcFileName))
                 throw new ScadaException(CommonPhrases.FileNotFound);
 
-            RestoreConnection();
-
-            using (FileStream stream =
+            using (FileStream stream = 
                 new FileStream(srcFileName, FileMode.Open, FileAccess.Read, FileShare.ReadWrite))
             {
-                // request permission to upload file
-                const int FileDataIndex = ArgumentIndex + 9;
-                const int BlockCapacity = BufferLenght - FileDataIndex;
-                long bytesToReadTotal = stream.Length;
-                int blockCount = (int)Math.Ceiling((double)bytesToReadTotal / BlockCapacity);
-
-                DataPacket request = CreateRequest(FunctionID.UploadFile);
-                int index = ArgumentIndex;
-                CopyInt32(0, outBuf, ref index);
-                CopyInt32(blockCount, outBuf, ref index);
-                CopyFileName(destPath.DirectoryID, destPath.Path, outBuf, ref index);
-                request.BufferLength = index;
-                SendRequest(request);
-
-                ReceiveResponse(request);
-                fileAccepted = inBuf[ArgumentIndex] > 0;
-
-                // upload file
-                if (fileAccepted)
-                {
-                    int blockNumber = 0;
-                    long bytesReadTotal = 0;
-                    bool endOfFile = false;
-                    request = null;
-
-                    while (!endOfFile)
-                    {
-                        // read from file
-                        int bytesToRead = (int)Math.Min(bytesToReadTotal - bytesReadTotal, BlockCapacity);
-                        int bytesRead = stream.Read(outBuf, FileDataIndex, bytesToRead);
-                        bytesReadTotal += bytesRead;
-                        endOfFile = bytesRead < bytesToRead || bytesReadTotal == bytesToReadTotal;
-
-                        // send data
-                        request = CreateRequest(FunctionID.UploadFile, 0, false);
-                        index = ArgumentIndex;
-                        CopyInt32(++blockNumber, outBuf, ref index);
-                        CopyBool(endOfFile, outBuf, ref index);
-                        CopyInt32(bytesRead, outBuf, ref index);
-                        request.BufferLength = FileDataIndex + bytesRead;
-                        SendRequest(request);
-                        OnProgress(blockNumber, blockCount);
-                    }
-
-                    if (request != null)
-                        ReceiveResponse(request);
-                }
+                UploadFile(stream, destPath, out fileAccepted);
             }
         }
 

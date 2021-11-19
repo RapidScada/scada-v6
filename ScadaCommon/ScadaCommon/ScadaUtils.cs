@@ -25,10 +25,12 @@
 
 using Scada.Lang;
 using System;
+using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Runtime.InteropServices;
 using System.Runtime.Serialization.Formatters.Binary;
+using System.Text;
 
 namespace Scada
 {
@@ -231,6 +233,24 @@ namespace Scada
                 int dotIndex = fileName.IndexOf('.');
                 return dotIndex >= 0 ? fileName.Substring(0, dotIndex) : fileName;
             }
+        }
+
+        /// <summary>
+        /// Reads all lines from the stream.
+        /// </summary>
+        public static List<string> ReadAllLines(this Stream stream)
+        {
+            List<string> lines = new List<string>();
+
+            using (StreamReader reader = new StreamReader(stream, Encoding.UTF8))
+            {
+                while (!reader.EndOfStream)
+                {
+                    lines.Add(reader.ReadLine());
+                }
+            }
+
+            return lines;
         }
 
         /// <summary>
