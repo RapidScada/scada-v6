@@ -20,7 +20,7 @@
  * 
  * Author   : Mikhail Shiryaev
  * Created  : 2020
- * Modified : 2020
+ * Modified : 2021
  */
 
 using Scada.Data.Models;
@@ -40,6 +40,11 @@ namespace Scada.Comm.Engine
     /// </summary>
     internal class CommandReader
     {
+        /// <summary>
+        /// The minimum file age to process a command.
+        /// </summary>
+        private static readonly TimeSpan MinFileAge = TimeSpan.FromMilliseconds(500);
+
         private readonly CoreLogic coreLogic; // the Communicator logic instance
         private readonly string cmdDir;       // the directory of commands
         private readonly ILog log;            // the application log
@@ -63,16 +68,26 @@ namespace Scada.Comm.Engine
         /// </summary>
         private void Execute()
         {
+            DirectoryInfo cmdDirInfo = new DirectoryInfo(cmdDir);
+
             while (!terminated)
             {
                 try
                 {
-                    if (Directory.Exists(cmdDir))
+                    if (cmdDirInfo.Exists)
                     {
-                        foreach (string fileName in 
-                            Directory.EnumerateFiles(cmdDir, "*.dat", SearchOption.TopDirectoryOnly))
+                        DateTime utcNow = DateTime.UtcNow;
+
+                        foreach (FileInfo fileInfo in 
+                            cmdDirInfo.EnumerateFiles("*.dat", SearchOption.TopDirectoryOnly))
                         {
+                            // skip potentially incomplete file
+                            if (utcNow - fileInfo.LastWriteTimeUtc < MinFileAge)
+                                continue;
+
+                            // process file
                             TeleCommand cmd = new TeleCommand();
+                            string fileName = fileInfo.FullName;
 
                             try
                             {
