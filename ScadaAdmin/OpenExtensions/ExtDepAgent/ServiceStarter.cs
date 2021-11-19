@@ -85,9 +85,12 @@ namespace Scada.Admin.Extensions
         /// </summary>
         public void RestartServices()
         {
-            bool restartServer = uploadOptions.RestartServer && (uploadOptions.IncludeBase || uploadOptions.IncludeServer);
-            bool restartComm = uploadOptions.RestartComm && (uploadOptions.IncludeBase || uploadOptions.IncludeComm);
-            bool restartWeb = uploadOptions.RestartWeb && (uploadOptions.IncludeBase || uploadOptions.IncludeWeb);
+            bool restartServer = uploadOptions.RestartServer && 
+                (uploadOptions.IncludeBase || uploadOptions.IncludeServer);
+            bool restartComm = uploadOptions.RestartComm && 
+                (uploadOptions.IncludeBase || uploadOptions.IncludeComm);
+            bool restartWeb = uploadOptions.RestartWeb && 
+                (uploadOptions.IncludeBase || uploadOptions.IncludeView || uploadOptions.IncludeWeb);
 
             if (restartServer || restartComm || restartWeb)
             {
