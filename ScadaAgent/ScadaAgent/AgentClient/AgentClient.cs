@@ -52,9 +52,9 @@ namespace Scada.Agent.Client
 
 
         /// <summary>
-        /// Reads all lines of the stream.
+        /// Reads all lines from the stream.
         /// </summary>
-        private List<string> ReadAllLines(Stream stream, bool skipFirstLine)
+        private static List<string> ReadAllLines(Stream stream, bool skipFirstLine)
         {
             stream.Position = 0;
             List<string> lines = new List<string>();
@@ -234,7 +234,21 @@ namespace Scada.Agent.Client
         /// </summary>
         public void SendCommand(ServiceApp serviceApp, TeleCommand cmd)
         {
-            
+            using (MemoryStream stream = new MemoryStream())
+            {
+                cmd.Save(stream);
+                stream.Position = 0;
+
+                string fileName = string.Format("cmd_{0}.dat", ScadaUtils.GenerateUniqueID());
+                UploadFile(stream, new RelativePath(serviceApp, AppFolder.Cmd, fileName), out bool fileAccepted);
+
+                if (!fileAccepted)
+                {
+                    throw new ScadaException(Locale.IsRussian ?
+                        "Команда отклонена Агентом." :
+                        "Command rejected by Agent.");
+                }
+            }
         }
     }
 }
