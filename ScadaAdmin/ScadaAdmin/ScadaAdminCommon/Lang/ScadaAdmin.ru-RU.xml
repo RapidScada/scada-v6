@@ -511,8 +511,8 @@
     <Phrase key="btnFileSaveAll.ToolTip">Сохранить все</Phrase>
     <Phrase key="btnDeployInstanceProfile.ToolTip">Профиль развёртывания</Phrase>
     <Phrase key="btnDeployDownloadConfig.ToolTip">Скачать конфигурацию</Phrase>
-    <Phrase key="btnDeployUploadConfig.ToolTip">Передать конфигурацию</Phrase>
-    <Phrase key="btnDeployInstanceStatus.ToolTip">Статус экземпляра</Phrase>
+    <Phrase key="btnDeployUploadConfig.ToolTip">Передать конфигурацию (Ctrl+U)</Phrase>
+    <Phrase key="btnDeployInstanceStatus.ToolTip">Статус экземпляра (Ctrl+I)</Phrase>
     <Phrase key="miProjectOpenInExplorer">Открыть папку в проводнике</Phrase>
     <Phrase key="miProjectRename">Переименовать проект</Phrase>
     <Phrase key="miProjectProperties">Свойства</Phrase>

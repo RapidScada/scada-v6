@@ -511,8 +511,8 @@
     <Phrase key="btnFileSaveAll.ToolTip">Save All</Phrase>
     <Phrase key="btnDeployInstanceProfile.ToolTip">Deployment Profile</Phrase>
     <Phrase key="btnDeployDownloadConfig.ToolTip">Download Configuration</Phrase>
-    <Phrase key="btnDeployUploadConfig.ToolTip">Upload Configuration</Phrase>
-    <Phrase key="btnDeployInstanceStatus.ToolTip">Instance Status</Phrase>
+    <Phrase key="btnDeployUploadConfig.ToolTip">Upload Configuration (Ctrl+U)</Phrase>
+    <Phrase key="btnDeployInstanceStatus.ToolTip">Instance Status (Ctrl+I)</Phrase>
     <Phrase key="miProjectOpenInExplorer">Open Folder in File Explorer</Phrase>
     <Phrase key="miProjectRename">Rename Project</Phrase>
     <Phrase key="miProjectProperties">Properties</Phrase>

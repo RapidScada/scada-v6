@@ -260,7 +260,7 @@
             // 
             this.miDeployInstanceProfile.Image = global::Scada.Admin.App.Properties.Resources.deploy_profile;
             this.miDeployInstanceProfile.Name = "miDeployInstanceProfile";
-            this.miDeployInstanceProfile.Size = new System.Drawing.Size(214, 22);
+            this.miDeployInstanceProfile.Size = new System.Drawing.Size(240, 22);
             this.miDeployInstanceProfile.Text = "Deployment Profile...";
             this.miDeployInstanceProfile.Click += new System.EventHandler(this.miDeployInstanceProfile_Click);
             // 
@@ -268,7 +268,7 @@
             // 
             this.miDeployDownloadConfig.Image = global::Scada.Admin.App.Properties.Resources.download;
             this.miDeployDownloadConfig.Name = "miDeployDownloadConfig";
-            this.miDeployDownloadConfig.Size = new System.Drawing.Size(214, 22);
+            this.miDeployDownloadConfig.Size = new System.Drawing.Size(240, 22);
             this.miDeployDownloadConfig.Text = "Download Configuration...";
             this.miDeployDownloadConfig.Click += new System.EventHandler(this.miDeployDownloadConfig_Click);
             // 
@@ -276,7 +276,8 @@
             // 
             this.miDeployUploadConfig.Image = global::Scada.Admin.App.Properties.Resources.upload;
             this.miDeployUploadConfig.Name = "miDeployUploadConfig";
-            this.miDeployUploadConfig.Size = new System.Drawing.Size(214, 22);
+            this.miDeployUploadConfig.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.U)));
+            this.miDeployUploadConfig.Size = new System.Drawing.Size(240, 22);
             this.miDeployUploadConfig.Text = "Upload Configuration...";
             this.miDeployUploadConfig.Click += new System.EventHandler(this.miDeployUploadConfig_Click);
             // 
@@ -284,7 +285,8 @@
             // 
             this.miDeployInstanceStatus.Image = global::Scada.Admin.App.Properties.Resources.status;
             this.miDeployInstanceStatus.Name = "miDeployInstanceStatus";
-            this.miDeployInstanceStatus.Size = new System.Drawing.Size(214, 22);
+            this.miDeployInstanceStatus.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.I)));
+            this.miDeployInstanceStatus.Size = new System.Drawing.Size(240, 22);
             this.miDeployInstanceStatus.Text = "Instance Status...";
             this.miDeployInstanceStatus.Click += new System.EventHandler(this.miDeployInstanceStatus_Click);
             // 
@@ -301,14 +303,14 @@
             // 
             this.miToolsOptions.Image = global::Scada.Admin.App.Properties.Resources.options;
             this.miToolsOptions.Name = "miToolsOptions";
-            this.miToolsOptions.Size = new System.Drawing.Size(135, 22);
+            this.miToolsOptions.Size = new System.Drawing.Size(180, 22);
             this.miToolsOptions.Text = "Options...";
             this.miToolsOptions.Click += new System.EventHandler(this.miToolsOptions_Click);
             // 
             // miToolsCulture
             // 
             this.miToolsCulture.Name = "miToolsCulture";
-            this.miToolsCulture.Size = new System.Drawing.Size(135, 22);
+            this.miToolsCulture.Size = new System.Drawing.Size(180, 22);
             this.miToolsCulture.Text = "Language...";
             this.miToolsCulture.Click += new System.EventHandler(this.miToolsCulture_Click);
             // 
@@ -474,7 +476,7 @@
             this.btnDeployUploadConfig.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.btnDeployUploadConfig.Name = "btnDeployUploadConfig";
             this.btnDeployUploadConfig.Size = new System.Drawing.Size(23, 22);
-            this.btnDeployUploadConfig.ToolTipText = "Upload Configuration";
+            this.btnDeployUploadConfig.ToolTipText = "Upload Configuration (Ctrl+U)";
             this.btnDeployUploadConfig.Click += new System.EventHandler(this.miDeployUploadConfig_Click);
             // 
             // btnDeployInstanceStatus
@@ -484,7 +486,7 @@
             this.btnDeployInstanceStatus.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.btnDeployInstanceStatus.Name = "btnDeployInstanceStatus";
             this.btnDeployInstanceStatus.Size = new System.Drawing.Size(23, 22);
-            this.btnDeployInstanceStatus.ToolTipText = "Instance Status";
+            this.btnDeployInstanceStatus.ToolTipText = "Instance Status (Ctrl+I)";
             this.btnDeployInstanceStatus.Click += new System.EventHandler(this.miDeployInstanceStatus_Click);
             // 
             // ssMain
