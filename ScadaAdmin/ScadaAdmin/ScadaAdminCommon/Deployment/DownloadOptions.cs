@@ -23,6 +23,7 @@
  * Modified : 2021
  */
 
+using Scada.Agent;
 using System;
 
 namespace Scada.Admin.Deployment

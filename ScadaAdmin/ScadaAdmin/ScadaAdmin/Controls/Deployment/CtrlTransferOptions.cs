@@ -27,6 +27,7 @@ using Scada.Admin.App.Code;
 using Scada.Admin.App.Forms.Deployment;
 using Scada.Admin.Deployment;
 using Scada.Admin.Project;
+using Scada.Agent;
 using Scada.Forms;
 using System;
 using System.Collections.Generic;

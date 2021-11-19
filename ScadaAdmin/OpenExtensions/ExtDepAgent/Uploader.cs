@@ -199,10 +199,9 @@ namespace Scada.Admin.Extensions.ExtDepAgent
                     "Add transfer options");
 
                 using (Stream entryStream = 
-                    zipArchive.CreateEntry("TransferOptions.xml", CompressionLevel.Fastest).Open())
+                    zipArchive.CreateEntry("UploadOptions.xml", CompressionLevel.Fastest).Open())
                 {
-                    using StreamWriter writer = new(entryStream, Encoding.UTF8);
-                    uploadOptions.ToConfigTransferOpions().Save(writer);
+                    uploadOptions.Save(entryStream);
                 }
 
                 progressTracker.TaskIndex++;
