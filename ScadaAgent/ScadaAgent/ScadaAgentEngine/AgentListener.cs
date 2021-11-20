@@ -55,6 +55,14 @@ namespace Scada.Agent.Engine
         }
 
         /// <summary>
+        /// Represents a context of an upload operation.
+        /// </summary>
+        private class UploadContext
+        {
+            public string FileName { get; set; }
+        }
+
+        /// <summary>
         /// The period for sending heartbeat to remote Agents.
         /// </summary>
         private static readonly TimeSpan HeartbeatPeriod = TimeSpan.FromSeconds(30);
@@ -630,35 +638,49 @@ namespace Scada.Agent.Engine
         }
 
         /// <summary>
-        /// Opens an existing file or creates a new file for writing.
-        /// </summary>
-        protected override BinaryWriter OpenWrite(ConnectedClient client, RelativePath path)
-        {
-            Stream stream = new FileStream(
-                GetClientInstance(client).PathBuilder.GetAbsolutePath(path),
-                FileMode.Create, FileAccess.Write, FileShare.ReadWrite);
-            return new BinaryWriter(stream, Encoding.UTF8, false);
-        }
-
-        /// <summary>
         /// Accepts or rejects the file upload.
         /// </summary>
-        protected override bool AcceptFileUpload(ConnectedClient client, RelativePath path)
+        protected override bool AcceptUpload(ConnectedClient client, RelativePath path, out object uploadContext)
         {
-            return 
+            uploadContext = new UploadContext 
+            { 
+                FileName = GetClientInstance(client).PathBuilder.GetAbsolutePath(path) 
+            };
+
+            return
                 path.TopFolder == TopFolder.Agent && path.AppFolder == AppFolder.Temp ||
                 path.TopFolder == TopFolder.Comm && path.AppFolder == AppFolder.Cmd;
         }
 
         /// <summary>
+        /// Opens an existing file or creates a new file for writing.
+        /// </summary>
+        protected override BinaryWriter OpenWrite(ConnectedClient client, RelativePath path, object uploadContext)
+        {
+            string fileName = ((UploadContext)uploadContext).FileName;
+            Stream stream = new FileStream(fileName, FileMode.Create, FileAccess.Write, FileShare.ReadWrite);
+            return new BinaryWriter(stream, Encoding.UTF8, false);
+        }
+
+        /// <summary>
+        /// Processes the successfully uploaded file.
+        /// </summary>
+        protected override void ProcessFile(ConnectedClient client, RelativePath path, object uploadContext)
+        {
+            if (path.Path.StartsWith(AgentConst.UploadConfigPrefix))
+            {
+                string fileName = ((UploadContext)uploadContext).FileName;
+                GetClientInstance(client).UnpackConfig(fileName);
+            }
+        }
+
+        /// <summary>
         /// Breaks writing and deletes the corrupted file.
         /// </summary>
-        protected override void BreakWriting(ConnectedClient client, RelativePath path)
+        protected override void BreakWriting(ConnectedClient client, RelativePath path, object uploadContext)
         {
-            string fileName = GetClientInstance(client).PathBuilder.GetAbsolutePath(path);
-
-            if (File.Exists(fileName))
-                File.Delete(fileName);
+            string fileName = ((UploadContext)uploadContext).FileName;
+            File.Delete(fileName);
         }
     }
 }

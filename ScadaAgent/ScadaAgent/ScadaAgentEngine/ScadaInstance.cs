@@ -118,6 +118,78 @@ namespace Scada.Agent.Engine
             }
         }
 
+        /// <summary>
+        /// Gets the directories affected by the uploaded configuration.
+        /// </summary>
+        private List<string> GetAffectedDirectories(TransferOptions uploadOptions)
+        {
+            List<string> dirs = new List<string>();
+
+            void AddDir(RelativePath relativePath)
+            {
+                dirs.Add(ScadaUtils.NormalDir(PathBuilder.GetAbsolutePath(relativePath)));
+            }
+
+            if (uploadOptions.IncludeBase)
+                AddDir(new RelativePath(TopFolder.Base));
+
+            if (uploadOptions.IncludeView)
+                AddDir(new RelativePath(TopFolder.View));
+
+            if (uploadOptions.IncludeServer)
+                AddDir(new RelativePath(TopFolder.Server, AppFolder.Config));
+
+            if (uploadOptions.IncludeComm)
+                AddDir(new RelativePath(TopFolder.Comm, AppFolder.Config));
+
+            if (uploadOptions.IncludeView)
+                AddDir(new RelativePath(TopFolder.Web, AppFolder.Config));
+
+            return dirs;
+        }
+
+        /// <summary>
+        /// Clears the specified directory.
+        /// </summary>
+        private static void ClearDirectory(string path, bool keepRegKeys)
+        {
+            DirectoryInfo dirInfo = new DirectoryInfo(path);
+
+            if (dirInfo.Exists)
+                ClearDirectory(dirInfo, keepRegKeys, out _);
+        }
+
+        /// <summary>
+        /// Clears the specified directory recursively.
+        /// </summary>
+        private static void ClearDirectory(DirectoryInfo dirInfo, bool keepRegKeys, out bool dirEmpty)
+        {
+            // delete subdirectories
+            foreach (DirectoryInfo subdirInfo in dirInfo.EnumerateDirectories("*", SearchOption.TopDirectoryOnly))
+            {
+                ClearDirectory(subdirInfo, keepRegKeys, out bool subdirEmpty);
+
+                if (subdirEmpty)
+                    subdirInfo.Delete();
+            }
+
+            // delete files
+            dirEmpty = true;
+
+            foreach (FileInfo fileInfo in dirInfo.EnumerateFiles("*", SearchOption.AllDirectories))
+            {
+                if (keepRegKeys &&
+                    fileInfo.Name.EndsWith(ScadaUtils.RegFileSuffix, StringComparison.OrdinalIgnoreCase))
+                {
+                    dirEmpty = false;
+                }
+                else
+                {
+                    fileInfo.Delete();
+                }
+            }
+        }
+
 
         /// <summary>
         /// Validates the username and password.
@@ -305,32 +377,6 @@ namespace Scada.Agent.Engine
         {
             try
             {
-                /*
-                // delete the existing configuration
-                List<RelPath> configPaths = GetConfigPaths(configOptions.ConfigParts);
-                PathDict pathDict = PrepareIgnoredPaths(configOptions.IgnoredPaths);
-
-                foreach (RelPath relPath in configPaths)
-                {
-                    ClearDir(relPath, pathDict);
-                }
-
-                // delete a project information file
-                string instanceDir = instanceOptions.Directory;
-                string projectInfoFileName = Path.Combine(instanceDir, ProjectInfoEntryName);
-                File.Delete(projectInfoFileName);
-
-                // define allowed directories to unpack
-                ConfigParts configParts = configOptions.ConfigParts;
-                List<string> allowedEntries = new List<string> { ProjectInfoEntryName };
-
-                foreach (ConfigParts configPart in AllConfigParts)
-                {
-                    if (configParts.HasFlag(configPart))
-                        allowedEntries.Add(DirectoryBuilder.GetDirectory(configPart, '/'));
-                }
-                */
-
                 using (FileStream fileStream =
                     new FileStream(srcFileName, FileMode.Open, FileAccess.Read, FileShare.Read))
                 {
@@ -353,17 +399,19 @@ namespace Scada.Agent.Engine
                         }
 
                         // delete existing configuration
+                        List<string> affectedDirs = GetAffectedDirectories(uploadOptions);
+                        affectedDirs.ForEach(dir => ClearDirectory(dir, uploadOptions.IgnoreRegKeys));
+                        File.Delete(Path.Combine(instanceOptions.Directory, AgentConst.ProjectInfoEntry));
 
                         // unpack configuration
-                        string instanceDir = instanceOptions.Directory;
-                        List<string> allowedEntries = new List<string> { AgentConst.ProjectInfoEntry };
-
                         foreach (ZipArchiveEntry entry in zipArchive.Entries)
                         {
-                            if (allowedEntries.Any(s => entry.FullName.StartsWith(s, StringComparison.Ordinal)))
+                            string entryPath = entry.FullName.Replace('/', Path.DirectorySeparatorChar);
+                            string destFileName = Path.Combine(instanceOptions.Directory, entryPath);
+
+                            if (affectedDirs.Any(s => destFileName.StartsWith(s, StringComparison.Ordinal)) ||
+                                entry.FullName == AgentConst.ProjectInfoEntry)
                             {
-                                string relPath = entry.FullName.Replace('/', Path.DirectorySeparatorChar);
-                                string destFileName = Path.Combine(instanceDir, relPath);
                                 Directory.CreateDirectory(Path.GetDirectoryName(destFileName));
                                 entry.ExtractToFile(destFileName, true);
                             }
