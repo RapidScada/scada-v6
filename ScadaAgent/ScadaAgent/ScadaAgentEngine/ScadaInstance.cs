@@ -149,7 +149,7 @@ namespace Scada.Agent.Engine
         }
 
         /// <summary>
-        /// Packs the directory to the archive recursively.
+        /// Recursively packs the directory to the archive.
         /// </summary>
         private static void PackDirectory(ZipArchive zipArchive, string path, string entryPrefix)
         {
@@ -185,7 +185,7 @@ namespace Scada.Agent.Engine
         }
 
         /// <summary>
-        /// Clears the specified directory recursively.
+        /// Recursively clears the specified directory.
         /// </summary>
         private static void ClearDirectory(DirectoryInfo dirInfo, bool keepRegKeys, out bool dirEmpty)
         {
@@ -395,7 +395,7 @@ namespace Scada.Agent.Engine
             try
             {
                 configFolder.Path = "";
-                string configDir = PathBuilder.GetAbsolutePath(configFolder);
+                string configDir = ScadaUtils.NormalDir(PathBuilder.GetAbsolutePath(configFolder));
                 int instanceDirLen = ScadaUtils.NormalDir(instanceOptions.Directory).Length;
                 string entryPrefix = configDir.Substring(instanceDirLen).Replace('\\', '/');
 

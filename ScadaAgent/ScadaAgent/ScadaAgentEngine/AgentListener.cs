@@ -638,6 +638,15 @@ namespace Scada.Agent.Engine
                 string fileName = GetClientInstance(client).PathBuilder.GetAbsolutePath(path);
                 return new ShortFileInfo(new FileInfo(fileName));
             }
+            else if (IsConfigFolder(path) && path.Path.StartsWith(AgentConst.DownloadConfigPrefix))
+            {
+                return new ShortFileInfo
+                {
+                    Exists = true,
+                    LastWriteTime = DateTime.MinValue,
+                    Length = 0
+                };
+            }
             else
             {
                 throw new ProtocolException(ErrorCode.IllegalFunctionArguments, CommonPhrases.PathNotSupported);
