@@ -4,8 +4,8 @@
 using Npgsql;
 using NpgsqlTypes;
 using Scada.Admin.Deployment;
+using Scada.Admin.Lang;
 using Scada.Admin.Project;
-using Scada.Agent;
 using Scada.Agent.Client;
 using Scada.Data.Entities;
 using Scada.Data.Tables;
@@ -355,7 +355,7 @@ namespace Scada.Admin.Extensions.ExtDepPostgreSql
                 }
 
                 trans.Commit();
-                transferControl.WriteMessage(string.Format(ExtensionPhrases.FileCount, viewFiles.Count));
+                transferControl.WriteMessage(string.Format(AdminPhrases.FileCount, viewFiles.Count));
                 progressTracker.TaskIndex++;
             }
             catch
@@ -479,7 +479,7 @@ namespace Scada.Admin.Extensions.ExtDepPostgreSql
                 }
 
                 trans.Commit();
-                transferControl.WriteMessage(string.Format(ExtensionPhrases.FileCount, configFiles.Count));
+                transferControl.WriteMessage(string.Format(AdminPhrases.FileCount, configFiles.Count));
                 progressTracker.TaskIndex++;
             }
             catch
@@ -519,14 +519,6 @@ namespace Scada.Admin.Extensions.ExtDepPostgreSql
             {
                 return Array.Empty<FileInfo>();
             }
-        }
-
-        /// <summary>
-        /// Skips a task, increasing progress.
-        /// </summary>
-        private void SkipTask(int taskCount = 1)
-        {
-            progressTracker.TaskIndex += taskCount;
         }
 
         /// <summary>
@@ -683,12 +675,10 @@ namespace Scada.Admin.Extensions.ExtDepPostgreSql
         public void Upload()
         {
             if (!profile.DbEnabled)
-                throw new ScadaException(ExtensionPhrases.DbNotEnabled);
+                throw new ScadaException(AdminPhrases.DbNotEnabled);
 
             transferControl.SetCancelEnabled(true);
-            transferControl.WriteMessage(Locale.IsRussian ?
-                "Передача конфигурации" :
-                "Upload configutation");
+            transferControl.WriteMessage(AdminPhrases.UploadConfig);
 
             try
             {
@@ -705,7 +695,7 @@ namespace Scada.Admin.Extensions.ExtDepPostgreSql
                 }
                 else
                 {
-                    SkipTask(3);
+                    progressTracker.SkipTask(3);
                 }
 
                 if (uploadOptions.IncludeView)
@@ -715,7 +705,7 @@ namespace Scada.Admin.Extensions.ExtDepPostgreSql
                 }
                 else
                 {
-                    SkipTask(2);
+                    progressTracker.SkipTask(2);
                 }
 
                 bool clearAllAppConfig = !uploadOptions.IgnoreRegKeys &&
@@ -726,7 +716,7 @@ namespace Scada.Admin.Extensions.ExtDepPostgreSql
                 if (clearAllAppConfig)
                     ClearAllAppConfig();
                 else
-                    SkipTask();
+                    progressTracker.SkipTask();
 
                 void UploadAppConfig(bool includeApp, ProjectApp app)
                 {
@@ -734,7 +724,7 @@ namespace Scada.Admin.Extensions.ExtDepPostgreSql
                     {
                         if (clearAllAppConfig)
                         {
-                            SkipTask();
+                            progressTracker.SkipTask();
                             transferControl.WriteLine();
                         }
                         else
@@ -746,7 +736,7 @@ namespace Scada.Admin.Extensions.ExtDepPostgreSql
                     }
                     else
                     {
-                        SkipTask(2);
+                        progressTracker.SkipTask(2);
                     }
                 }
 
@@ -756,14 +746,15 @@ namespace Scada.Admin.Extensions.ExtDepPostgreSql
 
                 if (!uploadOptions.RestartAnyService)
                 {
-                    SkipTask();
+                    progressTracker.SkipTask();
                 }
                 else if (profile.AgentEnabled)
                 {
-                    IAgentClient agentClient = new AgentClient(profile.AgentConnectionOptions);
+                    AgentClient agentClient = new AgentClient(profile.AgentConnectionOptions);
                     new ServiceStarter(agentClient, uploadOptions, transferControl, progressTracker)
                         .SetProcessTimeout(profile.AgentConnectionOptions.Timeout)
                         .RestartServices();
+                    agentClient.TerminateSession();
                 }
                 else
                 {
@@ -771,7 +762,7 @@ namespace Scada.Admin.Extensions.ExtDepPostgreSql
                     transferControl.WriteError(Locale.IsRussian ?
                         "Невозможно перезапустить службы, потому что Агент отключен" :
                         "Unable to restart services because Agent is disabled");
-                    SkipTask();
+                    progressTracker.SkipTask();
                 }
             }
             finally
@@ -782,9 +773,7 @@ namespace Scada.Admin.Extensions.ExtDepPostgreSql
 
             progressTracker.SetCompleted();
             transferControl.WriteLine();
-            transferControl.WriteMessage(Locale.IsRussian ?
-                "Передача конфигурации завершена успешно" :
-                "Configuration uploaded successfully");
+            transferControl.WriteMessage(AdminPhrases.UploadConfigCompleted);
         }
     }
 }

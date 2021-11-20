@@ -3,6 +3,7 @@
 
 using Npgsql;
 using Scada.Admin.Deployment;
+using Scada.Admin.Lang;
 using Scada.Admin.Project;
 using Scada.Data.Tables;
 using Scada.Lang;
@@ -104,7 +105,7 @@ namespace Scada.Admin.Extensions.ExtDepPostgreSql
                 fileCount++;
             }
 
-            transferControl.WriteMessage(string.Format(ExtensionPhrases.FileCount, fileCount));
+            transferControl.WriteMessage(string.Format(AdminPhrases.FileCount, fileCount));
             progressTracker.TaskIndex++;
         }
 
@@ -140,15 +141,7 @@ namespace Scada.Admin.Extensions.ExtDepPostgreSql
                 fileCount++;
             }
 
-            transferControl.WriteMessage(string.Format(ExtensionPhrases.FileCount, fileCount));
-            progressTracker.TaskIndex++;
-        }
-
-        /// <summary>
-        /// Skips a task, increasing progress.
-        /// </summary>
-        private void SkipTask()
-        {
+            transferControl.WriteMessage(string.Format(AdminPhrases.FileCount, fileCount));
             progressTracker.TaskIndex++;
         }
 
@@ -159,12 +152,10 @@ namespace Scada.Admin.Extensions.ExtDepPostgreSql
         public void Download()
         {
             if (!profile.DbEnabled)
-                throw new ScadaException(ExtensionPhrases.DbNotEnabled);
+                throw new ScadaException(AdminPhrases.DbNotEnabled);
 
             transferControl.SetCancelEnabled(true);
-            transferControl.WriteMessage(Locale.IsRussian ?
-                "Скачивание конфигурации" :
-                "Download configutation");
+            transferControl.WriteMessage(AdminPhrases.DownloadConfig);
 
             try
             {
@@ -174,27 +165,27 @@ namespace Scada.Admin.Extensions.ExtDepPostgreSql
                 if (downloadOptions.IncludeBase)
                     DownloadBase();
                 else
-                    SkipTask();
+                    progressTracker.SkipTask();
 
                 if (downloadOptions.IncludeView)
                     DownloadViews();
                 else
-                    SkipTask();
+                    progressTracker.SkipTask();
 
                 if (downloadOptions.IncludeServer)
                     DownloadAppConfig(instance.ServerApp);
                 else
-                    SkipTask();
+                    progressTracker.SkipTask();
 
                 if (downloadOptions.IncludeComm)
                     DownloadAppConfig(instance.CommApp);
                 else
-                    SkipTask();
+                    progressTracker.SkipTask();
 
                 if (downloadOptions.IncludeWeb)
                     DownloadAppConfig(instance.WebApp);
                 else
-                    SkipTask();
+                    progressTracker.SkipTask();
             }
             finally
             {
@@ -204,9 +195,7 @@ namespace Scada.Admin.Extensions.ExtDepPostgreSql
 
             progressTracker.SetCompleted();
             transferControl.WriteLine();
-            transferControl.WriteMessage(Locale.IsRussian ?
-                "Скачивание конфигурации завершено успешно" :
-                "Configuration downloaded successfully");
+            transferControl.WriteMessage(AdminPhrases.DownloadConfigCompleted);
         }
     }
 }
