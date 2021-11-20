@@ -60,7 +60,7 @@ namespace Scada.Admin.Extensions.ExtDepAgent
         private string GetTempFileName()
         {
             return Path.Combine(appDirs.TempDir, 
-                string.Format("upload_config_{0}.zip", ScadaUtils.GenerateUniqueID()));
+                AgentConst.UploadConfigPrefix + ScadaUtils.GenerateUniqueID() + ".zip");
         }
 
         /// <summary>
@@ -300,7 +300,7 @@ namespace Scada.Admin.Extensions.ExtDepAgent
                 foreach (FileInfo fileInfo in srcDirInfo.EnumerateFiles("*", SearchOption.AllDirectories))
                 {
                     if (!ignoreRegKeys || 
-                        fileInfo.Name.EndsWith(AdminUtils.RegFileSuffix, StringComparison.OrdinalIgnoreCase))
+                        !fileInfo.Name.EndsWith(ScadaUtils.RegFileSuffix, StringComparison.OrdinalIgnoreCase))
                     {
                         string entryName = entryPrefix + fileInfo.FullName[srcDirLen..].Replace('\\', '/');
                         zipArchive.CreateEntryFromFile(fileInfo.FullName, entryName, CompressionLevel.Fastest);
