@@ -49,10 +49,6 @@ namespace Scada.Admin
         /// The default directory of the projects.
         /// </summary>
         public const string ProjectDir = @"C:\SCADA\Projects\";
-        /// <summary>
-        /// The ending of a registration key file name.
-        /// </summary>
-        public const string RegFileSuffix = "_Reg.xml";
 
         /// <summary>
         /// Validates the name of a project item.
