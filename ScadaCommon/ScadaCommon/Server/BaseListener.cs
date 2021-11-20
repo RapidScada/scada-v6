@@ -774,7 +774,7 @@ namespace Scada.Server
                 ThrowBlockNumberException();
 
             // check whether file is accepted
-            bool fileAccepted = AcceptFileUpload(client, filePath);
+            bool fileAccepted = AcceptUpload(client, filePath, out object uploadContext);
             response = new ResponsePacket(request, client.OutBuf) { ArgumentLength = 1 };
             CopyBool(fileAccepted, client.OutBuf, ArgumentIndex);
             client.SendResponse(response);
@@ -790,7 +790,7 @@ namespace Scada.Server
 
                 try
                 {
-                    using (BinaryWriter writer = OpenWrite(client, filePath))
+                    using (BinaryWriter writer = OpenWrite(client, filePath, uploadContext))
                     {
                         while (!endOfFile && !client.Terminated)
                         {
@@ -842,10 +842,12 @@ namespace Scada.Server
                             "Операция отменена." :
                             "Operation cancelled.");
                     }
+
+                    ProcessFile(client, filePath, uploadContext);
                 }
                 catch
                 {
-                    BreakWriting(client, filePath);
+                    BreakWriting(client, filePath, uploadContext);
                     throw;
                 }
             }
@@ -987,9 +989,18 @@ namespace Scada.Server
         }
 
         /// <summary>
+        /// Accepts or rejects the file upload.
+        /// </summary>
+        protected virtual bool AcceptUpload(ConnectedClient client, RelativePath path, out object uploadContext)
+        {
+            uploadContext = null;
+            return false;
+        }
+
+        /// <summary>
         /// Opens an existing file or creates a new file for writing.
         /// </summary>
-        protected virtual BinaryWriter OpenWrite(ConnectedClient client, RelativePath path)
+        protected virtual BinaryWriter OpenWrite(ConnectedClient client, RelativePath path, object uploadContext)
         {
             throw new ProtocolException(ErrorCode.InvalidOperation, Locale.IsRussian ?
                 "Операция не реализована." :
@@ -997,17 +1008,16 @@ namespace Scada.Server
         }
 
         /// <summary>
-        /// Accepts or rejects the file upload.
+        /// Processes the successfully uploaded file.
         /// </summary>
-        protected virtual bool AcceptFileUpload(ConnectedClient client, RelativePath path)
+        protected virtual void ProcessFile(ConnectedClient client, RelativePath path, object uploadContext)
         {
-            return false;
         }
 
         /// <summary>
         /// Breaks writing and deletes the corrupted file.
         /// </summary>
-        protected virtual void BreakWriting(ConnectedClient client, RelativePath path)
+        protected virtual void BreakWriting(ConnectedClient client, RelativePath path, object uploadContext)
         {
         }
 

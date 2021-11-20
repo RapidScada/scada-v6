@@ -49,6 +49,10 @@ namespace Scada
         /// </summary>
         public const int ThreadWait = 10000;
         /// <summary>
+        /// The ending of a registration key file name.
+        /// </summary>
+        public const string RegFileSuffix = "_Reg.xml";
+        /// <summary>
         /// Generates parts of unique IDs.
         /// </summary>
         private static readonly Random UniqueIDGenerator = new Random();

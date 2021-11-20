@@ -60,6 +60,15 @@ namespace Scada.Protocol
         /// <summary>
         /// Initializes a new instance of the class.
         /// </summary>
+        public RelativePath(TopFolder topFolder)
+        {
+            DirectoryID = (byte)topFolder;
+            Path = "";
+        }
+
+        /// <summary>
+        /// Initializes a new instance of the class.
+        /// </summary>
         public RelativePath(TopFolder topFolder, AppFolder appFolder, string path = "")
         {
             DirectoryID = (byte)topFolder | ((byte)appFolder << 8);

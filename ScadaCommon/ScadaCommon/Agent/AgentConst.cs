@@ -42,6 +42,11 @@ namespace Scada.Agent
         public const string UploadOptionsEntry = "UploadOptions.xml";
 
         /// <summary>
+        /// The beginning of an uploaded configuration file.
+        /// </summary>
+        public const string UploadConfigPrefix = "upload_config_";
+
+        /// <summary>
         /// The search pattern to get all files in a directory.
         /// </summary>
         public const string AllFilesPattern = "*";
