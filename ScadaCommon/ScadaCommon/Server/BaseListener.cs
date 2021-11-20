@@ -842,14 +842,14 @@ namespace Scada.Server
                             "Операция отменена." :
                             "Operation cancelled.");
                     }
-
-                    ProcessFile(client, filePath, uploadContext);
                 }
                 catch
                 {
                     BreakWriting(client, filePath, uploadContext);
                     throw;
                 }
+
+                ProcessFile(client, filePath, uploadContext);
             }
             else
             {
@@ -1008,16 +1008,16 @@ namespace Scada.Server
         }
 
         /// <summary>
-        /// Processes the successfully uploaded file.
+        /// Breaks writing and deletes the corrupted file.
         /// </summary>
-        protected virtual void ProcessFile(ConnectedClient client, RelativePath path, object uploadContext)
+        protected virtual void BreakWriting(ConnectedClient client, RelativePath path, object uploadContext)
         {
         }
 
         /// <summary>
-        /// Breaks writing and deletes the corrupted file.
+        /// Processes the successfully uploaded file.
         /// </summary>
-        protected virtual void BreakWriting(ConnectedClient client, RelativePath path, object uploadContext)
+        protected virtual void ProcessFile(ConnectedClient client, RelativePath path, object uploadContext)
         {
         }
 

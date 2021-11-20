@@ -149,6 +149,31 @@ namespace Scada.Agent.Engine
         }
 
         /// <summary>
+        /// Packs the directory to the archive recursively.
+        /// </summary>
+        private static void PackDirectory(ZipArchive zipArchive, string path, string entryPrefix)
+        {
+            DirectoryInfo dirInfo = new DirectoryInfo(path);
+
+            if (dirInfo.Exists)
+            {
+                // pack subdirectories
+                foreach (DirectoryInfo subdirInfo in dirInfo.EnumerateDirectories("*", SearchOption.TopDirectoryOnly))
+                {
+                    PackDirectory(zipArchive, subdirInfo.FullName, entryPrefix + dirInfo.Name + '/');
+                }
+
+                // pack files
+                int dirLen = ScadaUtils.NormalDir(path).Length;
+                foreach (FileInfo fileInfo in dirInfo.EnumerateFiles("*", SearchOption.TopDirectoryOnly))
+                {
+                    string entryName = entryPrefix + fileInfo.FullName.Substring(dirLen).Replace('\\', '/');
+                    zipArchive.CreateEntryFromFile(fileInfo.FullName, entryName, CompressionLevel.Fastest);
+                }
+            }
+        }
+
+        /// <summary>
         /// Clears the specified directory.
         /// </summary>
         private static void ClearDirectory(string path, bool keepRegKeys)
@@ -365,9 +390,32 @@ namespace Scada.Agent.Engine
         /// <summary>
         /// Packs the configuration to the archive.
         /// </summary>
-        public bool PackConfig(string destFileName, RelativePath searchPath)
+        public bool PackConfig(string destFileName, RelativePath configFolder)
         {
-            return true;
+            try
+            {
+                configFolder.Path = "";
+                string configDir = PathBuilder.GetAbsolutePath(configFolder);
+                int instanceDirLen = ScadaUtils.NormalDir(instanceOptions.Directory).Length;
+                string entryPrefix = configDir.Substring(instanceDirLen).Replace('\\', '/');
+
+                using (FileStream fileStream =
+                    new FileStream(destFileName, FileMode.Create, FileAccess.Write, FileShare.Read))
+                {
+                    using (ZipArchive zipArchive = new ZipArchive(fileStream, ZipArchiveMode.Create))
+                    {
+                        PackDirectory(zipArchive, configDir, entryPrefix);
+                        return true;
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                log.WriteError(ex, Locale.IsRussian ?
+                    "Ошибка при упаковке конфигурации в архив" :
+                    "Error packing configuration into archive");
+                return false;
+            }
         }
 
         /// <summary>

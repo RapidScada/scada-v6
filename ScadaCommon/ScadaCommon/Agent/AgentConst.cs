@@ -47,8 +47,8 @@ namespace Scada.Agent
         public const string UploadConfigPrefix = "upload_config_";
 
         /// <summary>
-        /// The search pattern to get all files in a directory.
+        /// The beginning of a downloaded configuration file.
         /// </summary>
-        public const string AllFilesPattern = "*";
+        public const string DownloadConfigPrefix = "download_config_";
     }
 }

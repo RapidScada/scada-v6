@@ -60,6 +60,7 @@ namespace Scada.Agent.Engine
         private class UploadContext
         {
             public string FileName { get; set; }
+            public bool IsConfig { get; set; }
         }
 
         /// <summary>
@@ -80,9 +81,9 @@ namespace Scada.Agent.Engine
         /// <summary>
         /// Initializes a new instance of the class.
         /// </summary>
-        public AgentListener(CoreLogic coreLogic, ListenerOptions listenerOptions,
-            ReverseConnectionOptions reverseConnectionOptions, ILog log) 
-            : base(listenerOptions, log)
+        public AgentListener(CoreLogic coreLogic, ListenerOptions listenerOptions, 
+            ReverseConnectionOptions reverseConnectionOptions)
+            : base(listenerOptions, coreLogic.Log)
         {
             this.coreLogic = coreLogic ?? throw new ArgumentNullException(nameof(coreLogic));
             this.reverseConnectionOptions = reverseConnectionOptions ?? 
@@ -398,6 +399,30 @@ namespace Scada.Agent.Engine
             response.BufferLength = index;
         }
 
+        /// <summary>
+        /// Checks that the specified path contains a service.
+        /// </summary>
+        private static bool IsServiceFolder(RelativePath path)
+        {
+            return
+                path.TopFolder == TopFolder.Server ||
+                path.TopFolder == TopFolder.Comm ||
+                path.TopFolder == TopFolder.Web;
+        }
+
+        /// <summary>
+        /// Checks that the specified path contains configuration.
+        /// </summary>
+        private static bool IsConfigFolder(RelativePath path)
+        {
+            return
+                path.TopFolder == TopFolder.Base ||
+                path.TopFolder == TopFolder.View ||
+                path.TopFolder == TopFolder.Server && path.AppFolder == AppFolder.Config ||
+                path.TopFolder == TopFolder.Comm && path.AppFolder == AppFolder.Config ||
+                path.TopFolder == TopFolder.Web && path.AppFolder == AppFolder.Config;
+        }
+
 
         /// <summary>
         /// Gets the server name and version.
@@ -624,17 +649,26 @@ namespace Scada.Agent.Engine
         /// </summary>
         protected override BinaryReader OpenRead(ConnectedClient client, RelativePath path)
         {
-            if (path.AppFolder == AppFolder.Log)
+            ScadaInstance instance = GetClientInstance(client);
+            string fileName;
+
+            if (IsServiceFolder(path) && path.AppFolder == AppFolder.Log)
             {
-                Stream stream = new FileStream(
-                    GetClientInstance(client).PathBuilder.GetAbsolutePath(path),
-                    FileMode.Open, FileAccess.Read, FileShare.ReadWrite);
-                return new BinaryReader(stream, Encoding.UTF8, false);
+                fileName = instance.PathBuilder.GetAbsolutePath(path);
+            }
+            else if (IsConfigFolder(path) && path.Path.StartsWith(AgentConst.DownloadConfigPrefix))
+            {
+                fileName = Path.Combine(coreLogic.AppDirs.TempDir, path.Path);
+                if (!instance.PackConfig(fileName, path))
+                    throw new ProtocolException(ErrorCode.InternalServerError);
             }
             else
             {
                 throw new ProtocolException(ErrorCode.IllegalFunctionArguments, CommonPhrases.PathNotSupported);
             }
+
+            Stream stream = new FileStream(fileName, FileMode.Open, FileAccess.Read, FileShare.ReadWrite);
+            return new BinaryReader(stream, Encoding.UTF8, false);
         }
 
         /// <summary>
@@ -642,14 +676,15 @@ namespace Scada.Agent.Engine
         /// </summary>
         protected override bool AcceptUpload(ConnectedClient client, RelativePath path, out object uploadContext)
         {
-            uploadContext = new UploadContext 
+            UploadContext context = new UploadContext 
             { 
-                FileName = GetClientInstance(client).PathBuilder.GetAbsolutePath(path) 
+                FileName = GetClientInstance(client).PathBuilder.GetAbsolutePath(path),
+                IsConfig = path.TopFolder == TopFolder.Agent && path.AppFolder == AppFolder.Temp &&
+                    path.Path.StartsWith(AgentConst.UploadConfigPrefix)
             };
 
-            return
-                path.TopFolder == TopFolder.Agent && path.AppFolder == AppFolder.Temp ||
-                path.TopFolder == TopFolder.Comm && path.AppFolder == AppFolder.Cmd;
+            uploadContext = context;
+            return context.IsConfig || path.TopFolder == TopFolder.Comm && path.AppFolder == AppFolder.Cmd;
         }
 
         /// <summary>
@@ -658,20 +693,8 @@ namespace Scada.Agent.Engine
         protected override BinaryWriter OpenWrite(ConnectedClient client, RelativePath path, object uploadContext)
         {
             string fileName = ((UploadContext)uploadContext).FileName;
-            Stream stream = new FileStream(fileName, FileMode.Create, FileAccess.Write, FileShare.ReadWrite);
+            Stream stream = new FileStream(fileName, FileMode.Create, FileAccess.Write, FileShare.Read);
             return new BinaryWriter(stream, Encoding.UTF8, false);
-        }
-
-        /// <summary>
-        /// Processes the successfully uploaded file.
-        /// </summary>
-        protected override void ProcessFile(ConnectedClient client, RelativePath path, object uploadContext)
-        {
-            if (path.Path.StartsWith(AgentConst.UploadConfigPrefix))
-            {
-                string fileName = ((UploadContext)uploadContext).FileName;
-                GetClientInstance(client).UnpackConfig(fileName);
-            }
         }
 
         /// <summary>
@@ -681,6 +704,20 @@ namespace Scada.Agent.Engine
         {
             string fileName = ((UploadContext)uploadContext).FileName;
             File.Delete(fileName);
+        }
+
+        /// <summary>
+        /// Processes the successfully uploaded file.
+        /// </summary>
+        protected override void ProcessFile(ConnectedClient client, RelativePath path, object uploadContext)
+        {
+            UploadContext context = (UploadContext)uploadContext;
+
+            if (context.IsConfig)
+            {
+                if (!GetClientInstance(client).UnpackConfig(context.FileName))
+                    throw new ProtocolException(ErrorCode.InternalServerError);
+            }
         }
     }
 }

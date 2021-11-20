@@ -145,19 +145,26 @@ namespace Scada.Agent.Client
         /// </summary>
         public void DownloadConfig(string destFileName, TopFolder topFolder)
         {
+            if (destFileName == null)
+                throw new ArgumentNullException(nameof(destFileName));
+
             RelativePath relativePath;
+            string shortFileName = Path.GetFileName(destFileName);
+
+            if (!shortFileName.StartsWith(AgentConst.DownloadConfigPrefix))
+                throw new ArgumentException("Invalid file name.", nameof(destFileName));
 
             switch (topFolder)
             {
                 case TopFolder.Base:
                 case TopFolder.View:
-                    relativePath = new RelativePath(topFolder, AppFolder.Root, AgentConst.AllFilesPattern);
+                    relativePath = new RelativePath(topFolder, AppFolder.Root, shortFileName);
                     break;
 
                 case TopFolder.Server:
                 case TopFolder.Comm:
                 case TopFolder.Web:
-                    relativePath = new RelativePath(topFolder, AppFolder.Config, AgentConst.AllFilesPattern);
+                    relativePath = new RelativePath(topFolder, AppFolder.Config, shortFileName);
                     break;
 
                 default:

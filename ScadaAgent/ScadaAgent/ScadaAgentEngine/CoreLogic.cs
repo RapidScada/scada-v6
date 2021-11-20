@@ -51,8 +51,6 @@ namespace Scada.Agent.Engine
         private static readonly TimeSpan TempFileLifetime = TimeSpan.FromMinutes(10);
 
         private readonly AgentConfig appConfig; // the application configuration
-        private readonly AppDirs appDirs;       // the application directories
-        private readonly ILog log;              // the application log
         private readonly string infoFileName;   // the full file name to write application information
 
         private Thread thread;                  // the working thread of the logic
@@ -72,9 +70,10 @@ namespace Scada.Agent.Engine
         public CoreLogic(AgentConfig appConfig, AppDirs appDirs, ILog log)
         {
             this.appConfig = appConfig ?? throw new ArgumentNullException(nameof(appConfig));
-            this.appDirs = appDirs ?? throw new ArgumentNullException(nameof(appDirs));
-            this.log = log ?? throw new ArgumentNullException(nameof(log));
             infoFileName = Path.Combine(appDirs.LogDir, EngineUtils.InfoFileName);
+
+            AppDirs = appDirs ?? throw new ArgumentNullException(nameof(appDirs));
+            Log = log ?? throw new ArgumentNullException(nameof(log));
 
             thread = null;
             terminated = false;
@@ -87,6 +86,16 @@ namespace Scada.Agent.Engine
             instances = null;
         }
 
+
+        /// <summary>
+        /// Gets the application directories.
+        /// </summary>
+        public AppDirs AppDirs { get; }
+
+        /// <summary>
+        /// Gets the application log.
+        /// </summary>
+        public ILog Log { get; }
 
         /// <summary>
         /// Gets a value indicating whether the Agent service is ready.
@@ -111,13 +120,13 @@ namespace Scada.Agent.Engine
             serviceStatus = ServiceStatus.Starting;
             WriteInfo();
 
-            listener = new AgentListener(this, appConfig.ListenerOptions, appConfig.ReverseConnectionOptions, log);
+            listener = new AgentListener(this, appConfig.ListenerOptions, appConfig.ReverseConnectionOptions);
             instances = new Dictionary<string, ScadaInstance>(appConfig.Instances.Count);
 
             foreach (InstanceOptions instanceOptions in appConfig.Instances)
             {
                 if (instanceOptions.Active && !string.IsNullOrEmpty(instanceOptions.Name))
-                    instances.Add(instanceOptions.Name, new ScadaInstance(log, instanceOptions));
+                    instances.Add(instanceOptions.Name, new ScadaInstance(Log, instanceOptions));
             }
         }
 
@@ -154,7 +163,7 @@ namespace Scada.Agent.Engine
                     }
                     catch (Exception ex)
                     {
-                        log.WriteError(ex, CommonPhrases.LogicCycleError);
+                        Log.WriteError(ex, CommonPhrases.LogicCycleError);
                     }
                     finally
                     {
@@ -164,7 +173,7 @@ namespace Scada.Agent.Engine
             }
             catch (Exception ex)
             {
-                log.WriteError(ex, CommonPhrases.ThreadFatalError);
+                Log.WriteError(ex, CommonPhrases.ThreadFatalError);
             }
             finally
             {
@@ -182,14 +191,14 @@ namespace Scada.Agent.Engine
             try
             {
                 DateTime utcNow = DateTime.UtcNow;
-                DirectoryInfo tempDirInfo = new DirectoryInfo(appDirs.TempDir);
+                DirectoryInfo tempDirInfo = new DirectoryInfo(AppDirs.TempDir);
 
                 foreach (FileInfo fileInfo in tempDirInfo.EnumerateFiles())
                 {
                     if (utcNow - fileInfo.CreationTimeUtc >= TempFileLifetime)
                     {
                         fileInfo.Delete();
-                        log.WriteAction(string.Format(Locale.IsRussian ?
+                        Log.WriteAction(string.Format(Locale.IsRussian ?
                             "Удалён временный файл {0}" :
                             "Temporary file {0} deleted", fileInfo.Name));
                     }
@@ -197,7 +206,7 @@ namespace Scada.Agent.Engine
             }
             catch (Exception ex)
             {
-                log.WriteError(ex, Locale.IsRussian ?
+                Log.WriteError(ex, Locale.IsRussian ?
                     "Ошибка при удалении устаревших временных файлов" :
                     "Error deleting outdated temporary files");
             }
@@ -210,20 +219,20 @@ namespace Scada.Agent.Engine
         {
             try
             {
-                DirectoryInfo tempDirInfo = new DirectoryInfo(appDirs.TempDir);
+                DirectoryInfo tempDirInfo = new DirectoryInfo(AppDirs.TempDir);
 
                 foreach (FileInfo fileInfo in tempDirInfo.EnumerateFiles())
                 {
                     fileInfo.Delete();
                 }
 
-                log.WriteAction(Locale.IsRussian ?
+                Log.WriteAction(Locale.IsRussian ?
                     "Удалены все временные файлы" :
                     "All temporary files deleted");
             }
             catch (Exception ex)
             {
-                log.WriteError(ex, Locale.IsRussian ?
+                Log.WriteError(ex, Locale.IsRussian ?
                     "Ошибка при удалении всех временных файлов" :
                     "Error deleting all temporary files");
             }
@@ -283,7 +292,7 @@ namespace Scada.Agent.Engine
             }
             catch (Exception ex)
             {
-                log.WriteError(ex, CommonPhrases.WriteInfoError);
+                Log.WriteError(ex, CommonPhrases.WriteInfoError);
             }
         }
 
@@ -297,7 +306,7 @@ namespace Scada.Agent.Engine
             {
                 if (thread == null)
                 {
-                    log.WriteAction(CommonPhrases.StartLogic);
+                    Log.WriteAction(CommonPhrases.StartLogic);
                     PrepareProcessing();
 
                     if (listener.Start())
@@ -308,14 +317,14 @@ namespace Scada.Agent.Engine
                 }
                 else
                 {
-                    log.WriteAction(CommonPhrases.LogicAlreadyStarted);
+                    Log.WriteAction(CommonPhrases.LogicAlreadyStarted);
                 }
 
                 return thread != null;
             }
             catch (Exception ex)
             {
-                log.WriteError(ex, CommonPhrases.StartLogicError);
+                Log.WriteError(ex, CommonPhrases.StartLogicError);
                 return false;
             }
             finally
@@ -349,9 +358,9 @@ namespace Scada.Agent.Engine
                     serviceStatus = ServiceStatus.Terminating;
 
                     if (thread.Join(ScadaUtils.ThreadWait))
-                        log.WriteAction(CommonPhrases.LogicStopped);
+                        Log.WriteAction(CommonPhrases.LogicStopped);
                     else
-                        log.WriteAction(CommonPhrases.UnableToStopLogic);
+                        Log.WriteAction(CommonPhrases.UnableToStopLogic);
 
                     thread = null;
                 }
@@ -360,7 +369,7 @@ namespace Scada.Agent.Engine
             {
                 serviceStatus = ServiceStatus.Error;
                 WriteInfo();
-                log.WriteError(ex, CommonPhrases.StopLogicError);
+                Log.WriteError(ex, CommonPhrases.StopLogicError);
             }
         }
 
