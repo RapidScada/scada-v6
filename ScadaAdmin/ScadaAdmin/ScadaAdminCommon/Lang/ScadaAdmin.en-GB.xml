@@ -594,8 +594,15 @@
     <Phrase key="SaveDeploymentConfigError">Error saving deployment configuration</Phrase>
   </Dictionary>
   <Dictionary key="Scada.Admin.Extensions">
-    <Phrase key="AgentDisabled">Agent connection is disabled</Phrase>
+    <Phrase key="AgentNotEnabled">Agent is not enabled in the deployment profile.</Phrase>
+    <Phrase key="DbNotEnabled">Database is not enabled in the deployment profile.</Phrase>
+    <Phrase key="UploadConfig">Upload configutation</Phrase>
+    <Phrase key="UploadConfigCompleted">Configuration uploaded successfully</Phrase>
+    <Phrase key="DownloadConfig">Download configutation</Phrase>
+    <Phrase key="DownloadConfigCompleted">Configuration downloaded successfully</Phrase>
+    <Phrase key="FileCount">File count: {0}</Phrase>
     <Phrase key="FileLoading">Loading...</Phrase>
+    <Phrase key=""></Phrase>
   </Dictionary>
   <Dictionary key="Scada.Admin.Project">
     <Phrase key="CreateAppConfigError">Error creating configuration of the {0} application</Phrase>

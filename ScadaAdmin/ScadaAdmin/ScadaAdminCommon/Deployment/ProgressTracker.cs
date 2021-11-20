@@ -141,6 +141,14 @@ namespace Scada.Admin.Deployment
         }
 
         /// <summary>
+        /// Skips a task, increasing progress.
+        /// </summary>
+        public void SkipTask(int taskCount = 1)
+        {
+            TaskIndex += taskCount;
+        }
+
+        /// <summary>
         /// Updates the subtask.
         /// </summary>
         public void UpdateSubtask(int subtaskIndex, int subtaskCount)

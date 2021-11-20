@@ -44,7 +44,13 @@ namespace Scada.Admin.Lang
         public static string SaveDeploymentConfigError { get; private set; }
 
         // Scada.Admin.Extenstions
-        public static string AgentDisabled { get; private set; }
+        public static string AgentNotEnabled { get; private set; }
+        public static string DbNotEnabled { get; private set; }
+        public static string UploadConfig { get; private set; }
+        public static string UploadConfigCompleted { get; private set; }
+        public static string DownloadConfig { get; private set; }
+        public static string DownloadConfigCompleted { get; private set; }
+        public static string FileCount { get; private set; }
         public static string FileLoading { get; private set; }
 
         // Scada.Admin.Project
@@ -94,7 +100,13 @@ namespace Scada.Admin.Lang
             SaveDeploymentConfigError = dict["SaveDeploymentConfigError"];
 
             dict = Locale.GetDictionary("Scada.Admin.Extensions");
-            AgentDisabled = dict["AgentDisabled"];
+            AgentNotEnabled = dict["AgentNotEnabled"];
+            DbNotEnabled = dict["DbNotEnabled"];
+            UploadConfig = dict["UploadConfig"];
+            UploadConfigCompleted = dict["UploadConfigCompleted"];
+            DownloadConfig = dict["DownloadConfig"];
+            DownloadConfigCompleted = dict["DownloadConfigCompleted"];
+            FileCount = dict["FileCount"];
             FileLoading = dict["FileLoading"];
 
             dict = Locale.GetDictionary("Scada.Admin.Project");

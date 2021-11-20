@@ -594,7 +594,13 @@
     <Phrase key="SaveDeploymentConfigError">Ошибка при сохранении конфигурации развёртывания</Phrase>
   </Dictionary>
   <Dictionary key="Scada.Admin.Extensions">
-    <Phrase key="AgentDisabled">Соединение с Агентом отключено</Phrase>
+    <Phrase key="AgentNotEnabled">Агент не включен в профиле развёртывания.</Phrase>
+    <Phrase key="DbNotEnabled">База данных не включена в профиле развёртывания.</Phrase>
+    <Phrase key="UploadConfig">Передача конфигурации</Phrase>
+    <Phrase key="UploadConfigCompleted">Передача конфигурации завершена успешно</Phrase>
+    <Phrase key="DownloadConfig">Скачивание конфигурации</Phrase>
+    <Phrase key="DownloadConfigCompleted">Скачивание конфигурации завершено успешно</Phrase>
+    <Phrase key="FileCount">Количество файлов: {0}</Phrase>
     <Phrase key="FileLoading">Загрузка...</Phrase>
   </Dictionary>
   <Dictionary key="Scada.Admin.Project">
