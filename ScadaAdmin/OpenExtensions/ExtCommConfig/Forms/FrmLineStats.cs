@@ -76,8 +76,8 @@ namespace Scada.Admin.Extensions.ExtCommConfig.Forms
 
             if (agentClient == null)
             {
-                stateBox.SetFirstLine(AdminPhrases.AgentDisabled);
-                logBox.SetFirstLine(AdminPhrases.AgentDisabled);
+                stateBox.SetFirstLine(AdminPhrases.AgentNotEnabled);
+                logBox.SetFirstLine(AdminPhrases.AgentNotEnabled);
             }
             else
             {
