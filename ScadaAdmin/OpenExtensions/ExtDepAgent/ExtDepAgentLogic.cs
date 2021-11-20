@@ -2,7 +2,9 @@
 // Licensed under the Apache License, Version 2.0. See License.txt in the project root for license information.
 
 using Scada.Admin.Deployment;
+using Scada.Admin.Lang;
 using Scada.Admin.Project;
+using Scada.Lang;
 
 namespace Scada.Admin.Extensions.ExtDepAgent
 {
@@ -33,6 +35,17 @@ namespace Scada.Admin.Extensions.ExtDepAgent
             }
         }
 
+
+        /// <summary>
+        /// Loads language dictionaries.
+        /// </summary>
+        public override void LoadDictionaries()
+        {
+            if (!Locale.LoadDictionaries(AdminContext.AppDirs.LangDir, Code, out string errMsg))
+                AdminContext.ErrLog.WriteError(AdminPhrases.ExtensionMessage, Code, errMsg);
+
+            ExtensionPhrases.Init();
+        }
 
         /// <summary>
         /// Downloads the configuration.

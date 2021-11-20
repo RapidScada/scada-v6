@@ -1,0 +1,18 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ExtDepAgentDictionaries>
+  <Dictionary key="Scada.Admin.Extensions.ExtDepAgent.Downloader">
+    <Phrase key="ImportTable">Импорт таблицы {0}</Phrase>
+    <Phrase key="ExtractArchive">Распаковка архива</Phrase>
+    <Phrase key="MergeDirectory">Слияние директории</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Admin.Extensions.ExtDepAgent.Uploader">
+    <Phrase key="TestAgentConn">Проверка соединения с Агентом</Phrase>
+    <Phrase key="CompressConfig">Сжатие конфигурации</Phrase>
+    <Phrase key="CompressBase">Сжатие базы конфигурации</Phrase>
+    <Phrase key="CompressViews">Сжатие представлений</Phrase>
+    <Phrase key="CompressAppConfig">Сжатие конфигурации приложения {0}</Phrase>
+    <Phrase key="AddProjectInfo">Добавление информации о проекте</Phrase>
+    <Phrase key="AddTransferOptions">Добавление параметров передачи</Phrase>
+    <Phrase key="TransferConfig">Передача конфигурации</Phrase>
+  </Dictionary>
+</ExtDepAgentDictionaries>

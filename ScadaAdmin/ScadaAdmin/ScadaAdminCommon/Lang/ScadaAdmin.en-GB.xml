@@ -600,8 +600,16 @@
     <Phrase key="UploadConfigCompleted">Configuration uploaded successfully</Phrase>
     <Phrase key="DownloadConfig">Download configutation</Phrase>
     <Phrase key="DownloadConfigCompleted">Configuration downloaded successfully</Phrase>
+    <Phrase key="DownloadBase">Download the configuration database</Phrase>
+    <Phrase key="DownloadViews">Download views</Phrase>
+    <Phrase key="DownloadAppConfig">Download configuration of the {0} application</Phrase>
     <Phrase key="FileCount">File count: {0}</Phrase>
     <Phrase key="FileLoading">Loading...</Phrase>
+    <Phrase key="StartNamedService">Start the {0} service</Phrase>
+    <Phrase key="StopNamedService">Stop the {0} service</Phrase>
+    <Phrase key="RestartNamedService">Restart the {0} service</Phrase>
+    <Phrase key="ServiceCommandCompleted">Service control command completed successfully</Phrase>
+    <Phrase key="ServiceCommandFailed">Service control command failed</Phrase>
     <Phrase key=""></Phrase>
   </Dictionary>
   <Dictionary key="Scada.Admin.Project">

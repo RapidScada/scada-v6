@@ -600,8 +600,16 @@
     <Phrase key="UploadConfigCompleted">Передача конфигурации завершена успешно</Phrase>
     <Phrase key="DownloadConfig">Скачивание конфигурации</Phrase>
     <Phrase key="DownloadConfigCompleted">Скачивание конфигурации завершено успешно</Phrase>
+    <Phrase key="DownloadBase">Скачивание базы конфигурации</Phrase>
+    <Phrase key="DownloadViews">Скачивание представлений</Phrase>
+    <Phrase key="DownloadAppConfig">Скачивание конфигурации приложения {0}</Phrase>
     <Phrase key="FileCount">Количество файлов: {0}</Phrase>
     <Phrase key="FileLoading">Загрузка...</Phrase>
+    <Phrase key="StartNamedService">Запуск службы {0}</Phrase>
+    <Phrase key="StopNamedService">Остановка службы {0}</Phrase>
+    <Phrase key="RestartNamedService">Перезапуск службы {0}</Phrase>
+    <Phrase key="ServiceCommandCompleted">Команда управления службой выполнена успешно</Phrase>
+    <Phrase key="ServiceCommandFailed">Команда управления службой не выполнена</Phrase>
   </Dictionary>
   <Dictionary key="Scada.Admin.Project">
     <Phrase key="CreateAppConfigError">Ошибка при создании конфигурации приложения {0}</Phrase>

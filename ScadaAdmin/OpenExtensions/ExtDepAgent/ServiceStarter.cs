@@ -2,6 +2,7 @@
 // Licensed under the Apache License, Version 2.0. See License.txt in the project root for license information.
 
 using Scada.Admin.Deployment;
+using Scada.Admin.Lang;
 using Scada.Agent;
 using Scada.Lang;
 using System;
@@ -48,9 +49,9 @@ namespace Scada.Admin.Extensions
         {
             string cmdFormat = cmd switch
             {
-                ServiceCommand.Start => Locale.IsRussian ? "Запуск службы {0}" : "Start the {0} service",
-                ServiceCommand.Stop => Locale.IsRussian ? "Остановка службы {0}" : "Stop the {0} service",
-                ServiceCommand.Restart => Locale.IsRussian ? "Перезапуск службы {0}" : "Restart the {0} service",
+                ServiceCommand.Start => AdminPhrases.StartNamedService,
+                ServiceCommand.Stop => AdminPhrases.StopNamedService,
+                ServiceCommand.Restart => AdminPhrases.RestartNamedService,
                 _ => throw new ScadaException("Unknown service control command.")
             };
 
@@ -58,17 +59,9 @@ namespace Scada.Admin.Extensions
             transferControl.WriteMessage(string.Format(cmdFormat, ScadaUtils.GetAppName(serviceApp)));
 
             if (agentClient.ControlService(serviceApp, cmd, ProcessTimeout))
-            {
-                transferControl.WriteMessage(Locale.IsRussian ?
-                    "Команда управления службой выполнена успешно" :
-                    "Service control command completed successfully");
-            }
+                transferControl.WriteMessage(AdminPhrases.ServiceCommandCompleted);
             else
-            {
-                transferControl.WriteError(Locale.IsRussian ?
-                    "Команда управления службой не выполнена" :
-                    "Service control command failed");
-            }
+                transferControl.WriteError(AdminPhrases.ServiceCommandFailed);
         }
 
         /// <summary>

@@ -50,8 +50,16 @@ namespace Scada.Admin.Lang
         public static string UploadConfigCompleted { get; private set; }
         public static string DownloadConfig { get; private set; }
         public static string DownloadConfigCompleted { get; private set; }
+        public static string DownloadBase { get; private set; }
+        public static string DownloadViews { get; private set; }
+        public static string DownloadAppConfig { get; private set; }
         public static string FileCount { get; private set; }
         public static string FileLoading { get; private set; }
+        public static string StartNamedService { get; private set; }
+        public static string StopNamedService { get; private set; }
+        public static string RestartNamedService { get; private set; }
+        public static string ServiceCommandCompleted { get; private set; }
+        public static string ServiceCommandFailed { get; private set; }
 
         // Scada.Admin.Project
         public static string CreateAppConfigError { get; private set; }
@@ -106,8 +114,16 @@ namespace Scada.Admin.Lang
             UploadConfigCompleted = dict["UploadConfigCompleted"];
             DownloadConfig = dict["DownloadConfig"];
             DownloadConfigCompleted = dict["DownloadConfigCompleted"];
+            DownloadBase = dict["DownloadBase"];
+            DownloadViews = dict["DownloadViews"];
+            DownloadAppConfig = dict["DownloadAppConfig"];
             FileCount = dict["FileCount"];
             FileLoading = dict["FileLoading"];
+            StartNamedService = dict["StartNamedService"];
+            StopNamedService = dict["StopNamedService"];
+            RestartNamedService = dict["RestartNamedService"];
+            ServiceCommandCompleted = dict["ServiceCommandCompleted"];
+            ServiceCommandFailed = dict["ServiceCommandFailed"];
 
             dict = Locale.GetDictionary("Scada.Admin.Project");
             CreateAppConfigError = dict["CreateAppConfigError"];

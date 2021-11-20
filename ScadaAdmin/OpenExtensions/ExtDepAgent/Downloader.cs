@@ -81,9 +81,7 @@ namespace Scada.Admin.Extensions.ExtDepAgent
         {
             transferControl.ThrowIfCancellationRequested();
             transferControl.WriteLine();
-            transferControl.WriteMessage(Locale.IsRussian ?
-                "Скачивание базы конфигурации" :
-                "Download the configuration database");
+            transferControl.WriteMessage(AdminPhrases.DownloadBase);
 
             GetTempFileName(out string tempFileName, out string extractDir);
             agentClient.DownloadConfig(tempFileName, TopFolder.Base);
@@ -92,9 +90,7 @@ namespace Scada.Admin.Extensions.ExtDepAgent
             foreach (IBaseTable baseTable in project.ConfigBase.AllTables)
             {
                 transferControl.ThrowIfCancellationRequested();
-                transferControl.WriteMessage(string.Format(Locale.IsRussian ?
-                    "Импорт таблицы {0}" :
-                    "Import the {0} table", baseTable.Name));
+                transferControl.WriteMessage(string.Format(ExtensionPhrases.ImportTable, baseTable.Name));
                 string datFileName = Path.Combine(extractDir, "BaseDAT", baseTable.FileNameDat);
 
                 if (File.Exists(datFileName))
@@ -121,9 +117,7 @@ namespace Scada.Admin.Extensions.ExtDepAgent
         {
             transferControl.ThrowIfCancellationRequested();
             transferControl.WriteLine();
-            transferControl.WriteMessage(Locale.IsRussian ?
-                "Скачивание представлений" :
-                "Download views");
+            transferControl.WriteMessage(AdminPhrases.DownloadViews);
 
             GetTempFileName(out string tempFileName, out string extractDir);
             agentClient.DownloadConfig(tempFileName, TopFolder.View);
@@ -139,9 +133,7 @@ namespace Scada.Admin.Extensions.ExtDepAgent
         {
             transferControl.ThrowIfCancellationRequested();
             transferControl.WriteLine();
-            transferControl.WriteMessage(string.Format(Locale.IsRussian ?
-                "Скачивание конфигурации приложения {0}" :
-                "Download configuration of the {0} application", app.AppName));
+            transferControl.WriteMessage(string.Format(AdminPhrases.DownloadAppConfig, app.AppName));
 
             GetTempFileName(out string tempFileName, out string extractDir);
             agentClient.DownloadConfig(tempFileName, RelativePath.GetTopFolder(app.ServiceApp));
@@ -156,9 +148,7 @@ namespace Scada.Admin.Extensions.ExtDepAgent
         private void ExtractArchive(string srcFileName, string destDir, bool ignoreRegKeys)
         {
             transferControl.ThrowIfCancellationRequested();
-            transferControl.WriteMessage(Locale.IsRussian ?
-                "Распаковка архива" :
-                "Extract archive");
+            transferControl.WriteMessage(ExtensionPhrases.ExtractArchive);
 
             using FileStream fileStream = new(srcFileName, FileMode.Open, FileAccess.Read, FileShare.Read);
             using ZipArchive zipArchive = new(fileStream, ZipArchiveMode.Read);
@@ -183,10 +173,7 @@ namespace Scada.Admin.Extensions.ExtDepAgent
         private void MergeDirectory(string srcDirName, string destDirName)
         {
             transferControl.ThrowIfCancellationRequested();
-            transferControl.WriteMessage(Locale.IsRussian ?
-                "Слияние директории" :
-                "Merge directory");
-
+            transferControl.WriteMessage(ExtensionPhrases.MergeDirectory);
             MergeDirectory(new DirectoryInfo(srcDirName), new DirectoryInfo(destDirName));
         }
 

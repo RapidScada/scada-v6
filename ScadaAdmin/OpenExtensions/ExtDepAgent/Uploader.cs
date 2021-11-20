@@ -69,9 +69,7 @@ namespace Scada.Admin.Extensions.ExtDepAgent
         /// </summary>
         private void TestAgentConnection(IAgentClient agentClient)
         {
-            transferControl.WriteMessage(Locale.IsRussian ?
-                "Проверка соединения с Агентом" :
-                "Test Agent connection");
+            transferControl.WriteMessage(ExtensionPhrases.TestAgentConn);
 
             if (!agentClient.TestConnection(out string errMsg))
                 throw new ScadaException(errMsg);
@@ -86,9 +84,7 @@ namespace Scada.Admin.Extensions.ExtDepAgent
         {
             transferControl.ThrowIfCancellationRequested();
             transferControl.WriteLine();
-            transferControl.WriteMessage(Locale.IsRussian ?
-                "Сжатие конфигурации" :
-                "Compress configuration");
+            transferControl.WriteMessage(ExtensionPhrases.CompressConfig);
 
             // archive path separator is '/'
             FileStream fileStream = null;
@@ -106,9 +102,7 @@ namespace Scada.Admin.Extensions.ExtDepAgent
                 if (uploadOptions.IncludeBase)
                 {
                     transferControl.ThrowIfCancellationRequested();
-                    transferControl.WriteMessage(Locale.IsRussian ?
-                        "Сжатие базы конфигурации" :
-                        "Compress the configuration database");
+                    transferControl.WriteMessage(ExtensionPhrases.CompressBase);
 
                     foreach (IBaseTable srcTable in project.ConfigBase.AllTables)
                     {
@@ -136,9 +130,7 @@ namespace Scada.Admin.Extensions.ExtDepAgent
                 if (uploadOptions.IncludeView)
                 {
                     transferControl.ThrowIfCancellationRequested();
-                    transferControl.WriteMessage(Locale.IsRussian ?
-                        "Сжатие представлений" :
-                        "Compress views");
+                    transferControl.WriteMessage(ExtensionPhrases.CompressViews);
 
                     if (filterByObj)
                     {
@@ -155,9 +147,8 @@ namespace Scada.Admin.Extensions.ExtDepAgent
                 if (uploadOptions.IncludeServer && instance.ServerApp.Enabled)
                 {
                     transferControl.ThrowIfCancellationRequested();
-                    transferControl.WriteMessage(Locale.IsRussian ?
-                        "Сжатие конфигурации Сервера" :
-                        "Compress Server configuration");
+                    transferControl.WriteMessage(string.Format(ExtensionPhrases.CompressAppConfig, 
+                        CommonPhrases.ServerAppName));
                     PackDirectory(zipArchive, instance.ServerApp.AppDir, "ScadaServer/", ignoreRegKeys);
                 }
 
@@ -165,9 +156,8 @@ namespace Scada.Admin.Extensions.ExtDepAgent
                 if (uploadOptions.IncludeComm && instance.CommApp.Enabled)
                 {
                     transferControl.ThrowIfCancellationRequested();
-                    transferControl.WriteMessage(Locale.IsRussian ?
-                        "Сжатие конфигурации Коммуникатора" :
-                        "Compress Server Communicator");
+                    transferControl.WriteMessage(string.Format(ExtensionPhrases.CompressAppConfig,
+                        CommonPhrases.CommAppName));
                     PackDirectory(zipArchive, instance.CommApp.AppDir, "ScadaComm/", ignoreRegKeys);
                 }
 
@@ -175,17 +165,14 @@ namespace Scada.Admin.Extensions.ExtDepAgent
                 if (uploadOptions.IncludeWeb && instance.WebApp.Enabled)
                 {
                     transferControl.ThrowIfCancellationRequested();
-                    transferControl.WriteMessage(Locale.IsRussian ?
-                        "Сжатие конфигурации Вебстанции" :
-                        "Compress Webstation configuration");
+                    transferControl.WriteMessage(string.Format(ExtensionPhrases.CompressAppConfig,
+                        CommonPhrases.WebAppName));
                     PackDirectory(zipArchive, instance.WebApp.AppDir, "ScadaWeb/", ignoreRegKeys);
                 }
 
                 // add project information
                 transferControl.ThrowIfCancellationRequested();
-                transferControl.WriteMessage(Locale.IsRussian ?
-                    "Добавление информации о проекте" :
-                    "Add project information");
+                transferControl.WriteMessage(ExtensionPhrases.AddProjectInfo);
 
                 using (Stream entryStream = 
                     zipArchive.CreateEntry(AgentConst.ProjectInfoEntry, CompressionLevel.Fastest).Open())
@@ -196,9 +183,7 @@ namespace Scada.Admin.Extensions.ExtDepAgent
 
                 // add transfer options
                 transferControl.ThrowIfCancellationRequested();
-                transferControl.WriteMessage(Locale.IsRussian ?
-                    "Добавление параметров передачи" :
-                    "Add transfer options");
+                transferControl.WriteMessage(ExtensionPhrases.AddTransferOptions);
 
                 using (Stream entryStream = 
                     zipArchive.CreateEntry(AgentConst.UploadOptionsEntry, CompressionLevel.Fastest).Open())
@@ -207,12 +192,6 @@ namespace Scada.Admin.Extensions.ExtDepAgent
                 }
 
                 progressTracker.TaskIndex++;
-            }
-            catch (Exception ex)
-            {
-                throw new ScadaException(Locale.IsRussian ?
-                    "Ошибка при сжатии конфигурации" :
-                    "Error compressing configuration", ex);
             }
             finally
             {
@@ -228,9 +207,7 @@ namespace Scada.Admin.Extensions.ExtDepAgent
         {
             transferControl.ThrowIfCancellationRequested();
             transferControl.WriteLine();
-            transferControl.WriteMessage(Locale.IsRussian ?
-                "Передача конфигурации" :
-                "Transfer configuration");
+            transferControl.WriteMessage(ExtensionPhrases.TransferConfig);
 
             agentClient.UploadConfig(srcFileName);
             progressTracker.TaskIndex++;
