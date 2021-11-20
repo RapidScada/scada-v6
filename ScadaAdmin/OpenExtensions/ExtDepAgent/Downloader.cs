@@ -9,7 +9,6 @@ using Scada.Agent.Client;
 using Scada.Client;
 using Scada.Data.Adapters;
 using Scada.Data.Tables;
-using Scada.Lang;
 using Scada.Protocol;
 using System;
 using System.Collections.Generic;
