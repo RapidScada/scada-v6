@@ -2,6 +2,7 @@
 // Licensed under the Apache License, Version 2.0. See License.txt in the project root for license information.
 
 using Scada.Admin.Deployment;
+using Scada.Admin.Lang;
 using Scada.Admin.Project;
 using Scada.Agent;
 using Scada.Agent.Client;
@@ -299,29 +300,12 @@ namespace Scada.Admin.Extensions.ExtDepAgent
 
                 foreach (FileInfo fileInfo in srcDirInfo.EnumerateFiles("*", SearchOption.AllDirectories))
                 {
-                    if (!ignoreRegKeys || 
-                        !fileInfo.Name.EndsWith(ScadaUtils.RegFileSuffix, StringComparison.OrdinalIgnoreCase))
-                    {
-                        string entryName = entryPrefix + fileInfo.FullName[srcDirLen..].Replace('\\', '/');
-                        zipArchive.CreateEntryFromFile(fileInfo.FullName, entryName, CompressionLevel.Fastest);
-                    }
-                }
-            }
-        }
+                    if (ignoreRegKeys && fileInfo.Name.EndsWith(ScadaUtils.RegFileSuffix))
+                        continue;
 
-        /// <summary>
-        /// Deletes the specified temporary file.
-        /// </summary>
-        private static void DeleteTempFile(string fileName)
-        {
-            try
-            {
-                if (File.Exists(fileName))
-                    File.Delete(fileName);
-            }
-            catch
-            {
-                // do nothing
+                    string entryName = entryPrefix + fileInfo.FullName[srcDirLen..].Replace('\\', '/');
+                    zipArchive.CreateEntryFromFile(fileInfo.FullName, entryName, CompressionLevel.Fastest);
+                }
             }
         }
 
@@ -332,12 +316,10 @@ namespace Scada.Admin.Extensions.ExtDepAgent
         public void Upload()
         {
             if (!profile.AgentEnabled)
-                throw new ScadaException(ExtensionPhrases.AgentNotEnabled);
+                throw new ScadaException(AdminPhrases.AgentNotEnabled);
 
             transferControl.SetCancelEnabled(true);
-            transferControl.WriteMessage(Locale.IsRussian ?
-                "Передача конфигурации" :
-                "Upload configutation");
+            transferControl.WriteMessage(AdminPhrases.UploadConfig);
 
             string tempFileName = GetTempFileName();
 
@@ -354,17 +336,18 @@ namespace Scada.Admin.Extensions.ExtDepAgent
                 new ServiceStarter(agentClient, uploadOptions, transferControl, progressTracker)
                     .SetProcessTimeout(profile.AgentConnectionOptions.Timeout)
                     .RestartServices();
+
+                agentClient.TerminateSession();
             }
             finally
             {
-                DeleteTempFile(tempFileName);
+                try { File.Delete(tempFileName); }
+                catch { }
             }
 
             progressTracker.SetCompleted();
             transferControl.WriteLine();
-            transferControl.WriteMessage(Locale.IsRussian ?
-                "Передача конфигурации завершена успешно" :
-                "Configuration uploaded successfully");
+            transferControl.WriteMessage(AdminPhrases.UploadConfigCompleted);
         }
     }
 }

@@ -40,7 +40,7 @@ namespace Scada.Admin.Extensions.ExtDepAgent
         public override void DownloadConfig(ScadaProject project, ProjectInstance instance, DeploymentProfile profile,
             ITransferControl transferControl)
         {
-            new Downloader(project, instance, profile, transferControl).Download();
+            new Downloader(AdminContext.AppDirs, project, instance, profile, transferControl).Download();
         }
 
         /// <summary>
