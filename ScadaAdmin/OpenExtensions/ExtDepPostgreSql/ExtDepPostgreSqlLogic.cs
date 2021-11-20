@@ -3,6 +3,7 @@
 
 using Npgsql;
 using Scada.Admin.Deployment;
+using Scada.Admin.Lang;
 using Scada.Admin.Project;
 using Scada.Config;
 using Scada.Lang;
@@ -38,6 +39,17 @@ namespace Scada.Admin.Extensions.ExtDepPostgreSql
             }
         }
 
+
+        /// <summary>
+        /// Loads language dictionaries.
+        /// </summary>
+        public override void LoadDictionaries()
+        {
+            if (!Locale.LoadDictionaries(AdminContext.AppDirs.LangDir, Code, out string errMsg))
+                AdminContext.ErrLog.WriteError(AdminPhrases.ExtensionMessage, Code, errMsg);
+
+            ExtensionPhrases.Init();
+        }
 
         /// <summary>
         /// Tests a database connection.

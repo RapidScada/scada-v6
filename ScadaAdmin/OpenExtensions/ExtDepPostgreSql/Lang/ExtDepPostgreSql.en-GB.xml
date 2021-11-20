@@ -1,0 +1,26 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ExtDepPostgreSqlDictionaries>
+  <Dictionary key="Scada.Admin.Extensions.ExtDepPostgreSql.Downloader">
+    <Phrase key="DownloadTable">Download the {0} table</Phrase>
+    <Phrase key="DownloadView">"Download view &quot;{0}&quot;</Phrase>
+    <Phrase key="DownloadConfigFile">Download configuration file &quot;{0}&quot;</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Admin.Extensions.ExtDepPostgreSql.Uploader">
+    <Phrase key="CreateSchema">Create database schema</Phrase>
+    <Phrase key="CreateAppDict">Create application dictionary</Phrase>
+    <Phrase key="ClearBase">Clear the configuration database</Phrase>
+    <Phrase key="CreateBase">Create the configuration database</Phrase>
+    <Phrase key="DeleteTable">Delete the {0} table</Phrase>
+    <Phrase key="CreateTable">Create the {0} table</Phrase>
+    <Phrase key="CreateFKs">Create foreign keys</Phrase>
+    <Phrase key="CreateTableFKs">Create foreign keys for the {0} table</Phrase>
+    <Phrase key="ClearViews">Clear views</Phrase>
+    <Phrase key="CreateViews">Create views</Phrase>
+    <Phrase key="CreateView">Create view &quot;{0}&quot;</Phrase>
+    <Phrase key="ClearAllAppConfig">Clear configuration of all applications</Phrase>
+    <Phrase key="ClearAppConfig">Clear configuration of the {0} application</Phrase>
+    <Phrase key="CreateAppConfig">Create configuration of the {0} application</Phrase>
+    <Phrase key="CreateConfigFile">Create configuration file &quot;{0}&quot;</Phrase>
+    <Phrase key="UnableRestartServices">Unable to restart services because Agent is disabled</Phrase>
+  </Dictionary>
+</ExtDepPostgreSqlDictionaries>

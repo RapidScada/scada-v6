@@ -62,9 +62,7 @@ namespace Scada.Admin.Extensions.ExtDepPostgreSql
         private void CreateSchema()
         {
             transferControl.ThrowIfCancellationRequested();
-            transferControl.WriteMessage(Locale.IsRussian ?
-                "Создание схемы базы данных" :
-                "Create database schema");
+            transferControl.WriteMessage(ExtensionPhrases.CreateSchema);
 
             string sql = "CREATE SCHEMA IF NOT EXISTS " + Schema;
             new NpgsqlCommand(sql, conn).ExecuteNonQuery();
@@ -77,9 +75,7 @@ namespace Scada.Admin.Extensions.ExtDepPostgreSql
         private void CreateAppTable()
         {
             transferControl.ThrowIfCancellationRequested();
-            transferControl.WriteMessage(Locale.IsRussian ?
-                "Создание справочника приложений" :
-                "Create application dictionary");
+            transferControl.WriteMessage(ExtensionPhrases.CreateAppDict);
             NpgsqlTransaction trans = null;
 
             try
@@ -120,9 +116,7 @@ namespace Scada.Admin.Extensions.ExtDepPostgreSql
         {
             transferControl.ThrowIfCancellationRequested();
             transferControl.WriteLine();
-            transferControl.WriteMessage(Locale.IsRussian ?
-                "Очистка базы конфигурации" :
-                "Clear the configuration database");
+            transferControl.WriteMessage(ExtensionPhrases.ClearBase);
             NpgsqlTransaction trans = null;
 
             try
@@ -133,9 +127,7 @@ namespace Scada.Admin.Extensions.ExtDepPostgreSql
                 foreach (IBaseTable baseTable in project.ConfigBase.AllTables)
                 {
                     transferControl.ThrowIfCancellationRequested();
-                    transferControl.WriteMessage(string.Format(Locale.IsRussian ?
-                        "Удаление таблицы {0}" :
-                        "Delete the {0} table", baseTable.Name));
+                    transferControl.WriteMessage(string.Format(ExtensionPhrases.DeleteTable, baseTable.Name));
 
                     string sql = $"DROP TABLE IF EXISTS {GetBaseTableName(baseTable)} CASCADE";
                     new NpgsqlCommand(sql, conn, trans).ExecuteNonQuery();
@@ -159,9 +151,7 @@ namespace Scada.Admin.Extensions.ExtDepPostgreSql
         {
             transferControl.ThrowIfCancellationRequested();
             transferControl.WriteLine();
-            transferControl.WriteMessage(Locale.IsRussian ?
-                "Создание базы конфигурации" :
-                "Create the configuration database");
+            transferControl.WriteMessage(ExtensionPhrases.CreateBase);
             NpgsqlTransaction trans = null;
 
             try
@@ -172,9 +162,7 @@ namespace Scada.Admin.Extensions.ExtDepPostgreSql
                 foreach (IBaseTable baseTable in project.ConfigBase.AllTables)
                 {
                     transferControl.ThrowIfCancellationRequested();
-                    transferControl.WriteMessage(string.Format(Locale.IsRussian ?
-                        "Создание таблицы {0}" :
-                        "Create the {0} table", baseTable.Name));
+                    transferControl.WriteMessage(string.Format(ExtensionPhrases.CreateTable, baseTable.Name));
 
                     string sql = GetBaseTableDDL(baseTable);
                     new NpgsqlCommand(sql, conn, trans).ExecuteNonQuery();
@@ -258,9 +246,7 @@ namespace Scada.Admin.Extensions.ExtDepPostgreSql
         {
             transferControl.ThrowIfCancellationRequested();
             transferControl.WriteLine();
-            transferControl.WriteMessage(Locale.IsRussian ?
-                "Создание внешних ключей" :
-                "Create foreign keys");
+            transferControl.WriteMessage(ExtensionPhrases.CreateFKs);
             NpgsqlTransaction trans = null;
 
             try
@@ -271,9 +257,7 @@ namespace Scada.Admin.Extensions.ExtDepPostgreSql
                 foreach (IBaseTable baseTable in project.ConfigBase.AllTables)
                 {
                     transferControl.ThrowIfCancellationRequested();
-                    transferControl.WriteMessage(string.Format(Locale.IsRussian ?
-                        "Создание внешних ключей таблицы {0}" :
-                        "Create foreign keys for the {0} table", baseTable.Name));
+                    transferControl.WriteMessage(string.Format(ExtensionPhrases.CreateTableFKs, baseTable.Name));
 
                     foreach (TableRelation relation in baseTable.DependsOn)
                     {
@@ -301,9 +285,7 @@ namespace Scada.Admin.Extensions.ExtDepPostgreSql
         {
             transferControl.ThrowIfCancellationRequested();
             transferControl.WriteLine();
-            transferControl.WriteMessage(Locale.IsRussian ?
-                "Очистка представлений" :
-                "Clear views");
+            transferControl.WriteMessage(ExtensionPhrases.ClearViews);
 
             string sql = $"DROP TABLE IF EXISTS {Schema}.view_file CASCADE";
             new NpgsqlCommand(sql, conn).ExecuteNonQuery();
@@ -316,9 +298,7 @@ namespace Scada.Admin.Extensions.ExtDepPostgreSql
         private void CreateViews()
         {
             transferControl.ThrowIfCancellationRequested();
-            transferControl.WriteMessage(Locale.IsRussian ?
-                "Создание представлений" :
-                "Create views");
+            transferControl.WriteMessage(ExtensionPhrases.CreateViews);
             NpgsqlTransaction trans = null;
 
             try
@@ -342,9 +322,7 @@ namespace Scada.Admin.Extensions.ExtDepPostgreSql
                     foreach (FileInfo fileInfo in viewFiles)
                     {
                         transferControl.ThrowIfCancellationRequested();
-                        transferControl.WriteMessage(string.Format(Locale.IsRussian ?
-                            "Создание представления \"{0}\"" :
-                            "Create view \"{0}\"", fileInfo.Name));
+                        transferControl.WriteMessage(string.Format(ExtensionPhrases.CreateView, fileInfo.Name));
 
                         pathParam.Value = fileInfo.FullName[viewDirLen..];
                         contentsParam.Value = File.ReadAllBytes(fileInfo.FullName);
@@ -405,9 +383,7 @@ namespace Scada.Admin.Extensions.ExtDepPostgreSql
         {
             transferControl.ThrowIfCancellationRequested();
             transferControl.WriteLine();
-            transferControl.WriteMessage(Locale.IsRussian ?
-                "Очистка конфигурации всех приложений" :
-                "Clear configuration of all applications");
+            transferControl.WriteMessage(ExtensionPhrases.ClearAllAppConfig);
 
             string sql = $"DROP TABLE IF EXISTS {Schema}.app_config CASCADE";
             new NpgsqlCommand(sql, conn).ExecuteNonQuery();
@@ -421,9 +397,7 @@ namespace Scada.Admin.Extensions.ExtDepPostgreSql
         {
             transferControl.ThrowIfCancellationRequested();
             transferControl.WriteLine();
-            transferControl.WriteMessage(string.Format(Locale.IsRussian ?
-                "Очистка конфигурации приложения {0}" :
-                "Clear configuration of the {0} application", app.AppName));
+            transferControl.WriteMessage(string.Format(ExtensionPhrases.ClearAppConfig, app.AppName));
 
             string sql = $"DELETE FROM {Schema}.app_config WHERE app_id = @appID" +
                 (uploadOptions.IgnoreRegKeys ? $" AND path NOT LIKE '%{ScadaUtils.RegFileSuffix}'" : "");
@@ -439,9 +413,7 @@ namespace Scada.Admin.Extensions.ExtDepPostgreSql
         private void CreateAppConfig(ProjectApp app)
         {
             transferControl.ThrowIfCancellationRequested();
-            transferControl.WriteMessage(string.Format(Locale.IsRussian ?
-                "Создание конфигурации приложения {0}" :
-                "Create configuration of the {0} application", app.AppName));
+            transferControl.WriteMessage(string.Format(ExtensionPhrases.CreateAppConfig, app.AppName));
             NpgsqlTransaction trans = null;
 
             try
@@ -466,9 +438,7 @@ namespace Scada.Admin.Extensions.ExtDepPostgreSql
                     foreach (FileInfo fileInfo in configFiles)
                     {
                         transferControl.ThrowIfCancellationRequested();
-                        transferControl.WriteMessage(string.Format(Locale.IsRussian ?
-                            "Создание файла конфигурации \"{0}\"" :
-                            "Create configuration file \"{0}\"", fileInfo.Name));
+                        transferControl.WriteMessage(string.Format(ExtensionPhrases.CreateConfigFile, fileInfo.Name));
 
                         pathParam.Value = fileInfo.FullName[configDirLen..];
                         contentsParam.Value = File.ReadAllText(fileInfo.FullName, Encoding.UTF8);
@@ -759,9 +729,7 @@ namespace Scada.Admin.Extensions.ExtDepPostgreSql
                 else
                 {
                     transferControl.WriteLine();
-                    transferControl.WriteError(Locale.IsRussian ?
-                        "Невозможно перезапустить службы, потому что Агент отключен" :
-                        "Unable to restart services because Agent is disabled");
+                    transferControl.WriteError(ExtensionPhrases.UnableRestartServices);
                     progressTracker.SkipTask();
                 }
             }

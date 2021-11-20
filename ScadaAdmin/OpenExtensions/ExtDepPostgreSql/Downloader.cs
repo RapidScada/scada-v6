@@ -6,7 +6,6 @@ using Scada.Admin.Deployment;
 using Scada.Admin.Lang;
 using Scada.Admin.Project;
 using Scada.Data.Tables;
-using Scada.Lang;
 using System;
 using System.IO;
 using System.Text;
@@ -57,17 +56,13 @@ namespace Scada.Admin.Extensions.ExtDepPostgreSql
         {
             transferControl.ThrowIfCancellationRequested();
             transferControl.WriteLine();
-            transferControl.WriteMessage(Locale.IsRussian ?
-                "Скачивание базы конфигурации" :
-                "Download the configuration database");
+            transferControl.WriteMessage(AdminPhrases.DownloadBase);
             progressTracker.SubtaskCount = project.ConfigBase.AllTables.Length;
 
             foreach (IBaseTable baseTable in project.ConfigBase.AllTables)
             {
                 transferControl.ThrowIfCancellationRequested();
-                transferControl.WriteMessage(string.Format(Locale.IsRussian ?
-                    "Скачивание таблицы {0}" :
-                    "Download the {0} table", baseTable.Name));
+                transferControl.WriteMessage(string.Format(ExtensionPhrases.DownloadTable, baseTable.Name));
                 ReadBaseTable(baseTable, conn);
                 progressTracker.SubtaskIndex++;
             }
@@ -82,9 +77,7 @@ namespace Scada.Admin.Extensions.ExtDepPostgreSql
         {
             transferControl.ThrowIfCancellationRequested();
             transferControl.WriteLine();
-            transferControl.WriteMessage(Locale.IsRussian ?
-                "Скачивание представлений" :
-                "Download views");
+            transferControl.WriteMessage(AdminPhrases.DownloadViews);
 
             string sql = $"SELECT path, contents FROM {Schema}.view_file";
             NpgsqlCommand cmd = new(sql, conn);
@@ -95,9 +88,7 @@ namespace Scada.Admin.Extensions.ExtDepPostgreSql
             {
                 transferControl.ThrowIfCancellationRequested();
                 string path = reader.GetString(0);
-                transferControl.WriteMessage(string.Format(Locale.IsRussian ?
-                    "Скачивание представления \"{0}\"" :
-                    "Download view \"{0}\"", path));
+                transferControl.WriteMessage(string.Format(ExtensionPhrases.DownloadView, path));
 
                 string absolutePath = Path.Combine(project.Views.ViewDir, path);
                 Directory.CreateDirectory(Path.GetDirectoryName(absolutePath));
@@ -116,9 +107,7 @@ namespace Scada.Admin.Extensions.ExtDepPostgreSql
         {
             transferControl.ThrowIfCancellationRequested();
             transferControl.WriteLine();
-            transferControl.WriteMessage(string.Format(Locale.IsRussian ?
-                "Скачивание конфигурации приложения {0}" :
-                "Download configuration of the {0} application", app.AppName));
+            transferControl.WriteMessage(string.Format(AdminPhrases.DownloadAppConfig, app.AppName));
 
             string sql = $"SELECT path, contents FROM {Schema}.app_config WHERE app_id = @appID" +
                 (downloadOptions.IgnoreRegKeys ? $" AND path NOT LIKE '%{ScadaUtils.RegFileSuffix}'" : "");
@@ -131,9 +120,7 @@ namespace Scada.Admin.Extensions.ExtDepPostgreSql
             {
                 transferControl.ThrowIfCancellationRequested();
                 string path = reader.GetString(0);
-                transferControl.WriteMessage(string.Format(Locale.IsRussian ?
-                    "Скачивание файла конфигурации \"{0}\"" :
-                    "Download configuration file \"{0}\"", path));
+                transferControl.WriteMessage(string.Format(ExtensionPhrases.DownloadConfigFile, path));
 
                 string absolutePath = Path.Combine(app.ConfigDir, path);
                 Directory.CreateDirectory(Path.GetDirectoryName(absolutePath));
