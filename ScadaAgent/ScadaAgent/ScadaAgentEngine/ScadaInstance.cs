@@ -57,12 +57,15 @@ namespace Scada.Agent.Engine
         /// <summary>
         /// Initializes a new instance of the class.
         /// </summary>
-        public ScadaInstance(ILog log, InstanceOptions instanceOptions)
+        public ScadaInstance(AppDirs appDirs, ILog log, InstanceOptions instanceOptions)
         {
+            if (appDirs == null)
+                throw new ArgumentNullException(nameof(appDirs));
+
             this.log = log ?? throw new ArgumentNullException(nameof(log));
             this.instanceOptions = instanceOptions ?? throw new ArgumentNullException(nameof(instanceOptions));
             configLock = new ReaderWriterLockSlim();
-            PathBuilder = new PathBuilder(instanceOptions.Directory);
+            PathBuilder = new PathBuilder(instanceOptions.Directory, appDirs.ExeDir);
         }
 
 

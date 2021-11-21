@@ -126,7 +126,7 @@ namespace Scada.Agent.Engine
             foreach (InstanceOptions instanceOptions in appConfig.Instances)
             {
                 if (instanceOptions.Active && !string.IsNullOrEmpty(instanceOptions.Name))
-                    instances.Add(instanceOptions.Name, new ScadaInstance(Log, instanceOptions));
+                    instances.Add(instanceOptions.Name, new ScadaInstance(AppDirs, Log, instanceOptions));
             }
         }
 

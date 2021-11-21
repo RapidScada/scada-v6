@@ -37,14 +37,16 @@ namespace Scada.Agent.Engine
     internal class PathBuilder
     {
         private readonly string instanceDir; // the instance directory
+        private readonly string agentDir;    // the application directory
 
 
         /// <summary>
         /// Initializes a new instance of the class.
         /// </summary>
-        public PathBuilder(string instanceDir)
+        public PathBuilder(string instanceDir, string agentDir)
         {
             this.instanceDir = instanceDir ?? throw new ArgumentNullException(nameof(instanceDir));
+            this.agentDir = agentDir ?? throw new ArgumentNullException(nameof(agentDir));
         }
 
 
@@ -79,12 +81,8 @@ namespace Scada.Agent.Engine
                     path = "ScadaWeb";
                     return true;
 
-                case TopFolder.Agent:
-                    path = "ScadaAgent";
-                    return true;
-
                 default:
-                    throw new ScadaException("Unknown top folder.");
+                    throw new ScadaException("Top folder not supported.");
             }
         }
 
@@ -124,7 +122,7 @@ namespace Scada.Agent.Engine
                     return true;
 
                 default:
-                    throw new ScadaException("Unknown application folder.");
+                    throw new ScadaException("Application folder not supported.");
             }
         }
 
@@ -151,10 +149,19 @@ namespace Scada.Agent.Engine
         /// </summary>
         public string GetAbsolutePath(RelativePath relativePath)
         {
-            List<string> paths = new List<string> { instanceDir };
+            List<string> paths = new List<string>();
+            string path;
 
-            if (FolderToString(relativePath.TopFolder, out string path))
-                paths.Add(path);
+            if (relativePath.TopFolder == TopFolder.Agent)
+            {
+                paths.Add(agentDir);
+            }
+            else
+            {
+                paths.Add(instanceDir);
+                if (FolderToString(relativePath.TopFolder, out path))
+                    paths.Add(path);
+            }
 
             if (FolderToString(relativePath.AppFolder, relativePath.TopFolder == TopFolder.Web, out path))
                 paths.Add(path);
