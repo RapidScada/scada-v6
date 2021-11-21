@@ -256,16 +256,9 @@ namespace Scada.Client
                     Disconnect();
                     Connect();
 
-                    GetSessionInfo(out long sessionID, out ushort protocolVersion, out string serverName);
+                    GetSessionInfo(out long sessionID, out string serverName);
                     SessionID = sessionID;
                     ServerName = serverName;
-
-                    if (protocolVersion != ProtocolVersion)
-                    {
-                        throw new ScadaException(Locale.IsRussian ?
-                            "Несовместимая версия протокола." :
-                            "Incompatible protocol version.");
-                    }
 
                     Login(ConnectionOptions.Username, ConnectionOptions.Password, 
                         out bool loggedIn, out int userID, out int roleID, out string errMsg);
@@ -467,7 +460,7 @@ namespace Scada.Client
         /// <summary>
         /// Gets the information about the current session.
         /// </summary>
-        protected void GetSessionInfo(out long sessionID, out ushort protocolVersion, out string serverName)
+        protected void GetSessionInfo(out long sessionID, out string serverName)
         {
             DataPacket request = CreateRequest(FunctionID.GetSessionInfo, 10);
             SendRequest(request);
@@ -475,8 +468,23 @@ namespace Scada.Client
             DataPacket response = ReceiveResponse(request);
             sessionID = response.SessionID;
             int index = ArgumentIndex;
-            protocolVersion = GetUInt16(inBuf, ref index);
+            ushort protocolVersion = GetUInt16(inBuf, ref index);
             serverName = GetString(inBuf, ref index);
+            string serverStamp = GetString(inBuf, ref index);
+
+            if (protocolVersion != ProtocolVersion)
+            {
+                throw new ProtocolException(ErrorCode.InvalidOperation, Locale.IsRussian ?
+                    "Несовместимая версия протокола." :
+                    "Incompatible protocol version.");
+            }
+
+            if (serverStamp != GetServerStamp(sessionID, ConnectionOptions.SecretKey))
+            {
+                throw new ProtocolException(ErrorCode.AccessDenied, Locale.IsRussian ?
+                    "Секретные ключи сервера и клиента не совпадают." :
+                    "Server and client secret keys do not match.");
+            }
         }
 
         /// <summary>

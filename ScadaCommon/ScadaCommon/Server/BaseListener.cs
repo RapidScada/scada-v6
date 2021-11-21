@@ -541,6 +541,7 @@ namespace Scada.Server
             int index = ArgumentIndex;
             CopyUInt16(ProtocolVersion, outBuf, ref index);
             CopyString(GetServerName(), outBuf, ref index);
+            CopyString(GetServerStamp(client.SessionID, listenerOptions.SecretKey), outBuf, ref index);
             response.BufferLength = index;
         }
 

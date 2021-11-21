@@ -20,7 +20,7 @@
  * 
  * Author   : Mikhail Shiryaev
  * Created  : 2020
- * Modified : 2020
+ * Modified : 2021
  */
 
 using Scada.Lang;
@@ -76,9 +76,9 @@ namespace Scada.Protocol
         /// </summary>
         public static string EncryptPassword(string password, long sessionID, byte[] secretKey)
         {
-            return secretKey == null ?
-                password :
-                ScadaUtils.Encrypt(password, secretKey, CreateIV(sessionID));
+            return secretKey == null 
+                ? password 
+                : ScadaUtils.Encrypt(password, secretKey, CreateIV(sessionID));
         }
 
         /// <summary>
@@ -86,9 +86,20 @@ namespace Scada.Protocol
         /// </summary>
         public static string DecryptPassword(string encryptedPassword, long sessionID, byte[] secretKey)
         {
-            return secretKey == null ?
-                encryptedPassword :
-                ScadaUtils.Decrypt(encryptedPassword, secretKey, CreateIV(sessionID));
+            return secretKey == null
+                ? encryptedPassword 
+                : ScadaUtils.Decrypt(encryptedPassword, secretKey, CreateIV(sessionID));
+        }
+
+        /// <summary>
+        /// Gets an encrypted server stamp.
+        /// </summary>
+        public static string GetServerStamp(long sessionID, byte[] secretKey)
+        {
+            byte[] bytes = secretKey == null
+                ? BitConverter.GetBytes(sessionID)
+                : ScadaUtils.EncryptBytes(BitConverter.GetBytes(sessionID), secretKey, CreateIV(sessionID));
+            return ScadaUtils.ComputeHash(bytes);
         }
 
         /// <summary>
