@@ -106,8 +106,7 @@ namespace Scada.Admin.Extensions.ExtDepAgent
 
                     foreach (IBaseTable srcTable in project.ConfigBase.AllTables)
                     {
-                        using Stream entryStream = 
-                            zipArchive.CreateEntry("BaseDAT/" + srcTable.FileNameDat, CompressionLevel.Fastest).Open();
+                        transferControl.ThrowIfCancellationRequested();
 
                         // filter source table by objects if needed
                         IBaseTable baseTable = srcTable;
@@ -121,6 +120,8 @@ namespace Scada.Admin.Extensions.ExtDepAgent
                         }
 
                         // convert table to DAT format
+                        using Stream entryStream =
+                            zipArchive.CreateEntry("BaseDAT/" + srcTable.FileNameDat, CompressionLevel.Fastest).Open();
                         BaseTableAdapter baseAdapter = new() { Stream = entryStream };
                         baseAdapter.Update(baseTable);
                     }
@@ -252,13 +253,14 @@ namespace Scada.Admin.Extensions.ExtDepAgent
         /// <summary>
         /// Adds the specified files to the archive.
         /// </summary>
-        private static void PackFiles(ZipArchive zipArchive, string srcDir, IEnumerable<string> srcFileNames, 
+        private void PackFiles(ZipArchive zipArchive, string srcDir, IEnumerable<string> srcFileNames, 
             string entryPrefix)
         {
             int srcDirLen = srcDir.Length;
 
             foreach (string srcFileName in srcFileNames)
             {
+                transferControl.ThrowIfCancellationRequested();
                 string entryName = entryPrefix + srcFileName[srcDirLen..].Replace('\\', '/');
                 zipArchive.CreateEntryFromFile(srcFileName, entryName, CompressionLevel.Fastest);
             }
@@ -267,7 +269,7 @@ namespace Scada.Admin.Extensions.ExtDepAgent
         /// <summary>
         /// Adds the directory content to the archive.
         /// </summary>
-        private static void PackDirectory(ZipArchive zipArchive, string srcDir, string entryPrefix, bool ignoreRegKeys)
+        private void PackDirectory(ZipArchive zipArchive, string srcDir, string entryPrefix, bool ignoreRegKeys)
         {
             DirectoryInfo srcDirInfo = new(srcDir);
 
@@ -277,6 +279,8 @@ namespace Scada.Admin.Extensions.ExtDepAgent
 
                 foreach (FileInfo fileInfo in srcDirInfo.EnumerateFiles("*", SearchOption.AllDirectories))
                 {
+                    transferControl.ThrowIfCancellationRequested();
+
                     if (ignoreRegKeys && fileInfo.Name.EndsWith(ScadaUtils.RegFileSuffix))
                         continue;
 

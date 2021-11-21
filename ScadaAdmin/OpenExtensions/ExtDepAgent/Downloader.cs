@@ -154,6 +154,8 @@ namespace Scada.Admin.Extensions.ExtDepAgent
 
             foreach (ZipArchiveEntry zipEntry in zipArchive.Entries)
             {
+                transferControl.ThrowIfCancellationRequested();
+
                 if (ignoreRegKeys && zipEntry.Name.EndsWith(ScadaUtils.RegFileSuffix))
                     continue;
 
@@ -204,8 +206,9 @@ namespace Scada.Admin.Extensions.ExtDepAgent
         /// <summary>
         /// Recursively moves the files overwriting the existing files.
         /// </summary>
-        private void MergeDirectory(DirectoryInfo srcDirInfo, DirectoryInfo destDirInfo)
+        private static void MergeDirectory(DirectoryInfo srcDirInfo, DirectoryInfo destDirInfo)
         {
+            // do not interrupt merge
             // create necessary directories
             if (!destDirInfo.Exists)
                 destDirInfo.Create();
