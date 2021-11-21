@@ -839,7 +839,7 @@ namespace Scada.Server
 
                     if (uploadState == FileUploadState.UploadCanceled || client.Terminated)
                     {
-                        throw new ProtocolException(ErrorCode.InvalidOperation, Locale.IsRussian ?
+                        throw new ProtocolException(ErrorCode.OperationCanceled, Locale.IsRussian ?
                             "Операция отменена." :
                             "Operation canceled.");
                     }

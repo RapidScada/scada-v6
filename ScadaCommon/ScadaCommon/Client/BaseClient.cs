@@ -755,8 +755,6 @@ namespace Scada.Client
 
                 if (request != null)
                     ReceiveResponse(request);
-
-                cancellationToken?.ThrowIfCancellationRequested();
             }
         }
 

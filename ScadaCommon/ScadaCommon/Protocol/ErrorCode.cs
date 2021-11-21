@@ -57,13 +57,18 @@ namespace Scada.Protocol
         InvalidOperation = 0x04,
 
         /// <summary>
+        /// Operation has been canceled.
+        /// </summary>
+        OperationCanceled = 0x05,
+
+        /// <summary>
         /// Error processing request by a proxy.
         /// </summary>
-        ProxyError = 0x05,
+        ProxyError = 0x06,
 
         /// <summary>
         /// Error while processing the operation.
         /// </summary>
-        InternalServerError = 0x06
+        InternalServerError = 0x07
     }
 }

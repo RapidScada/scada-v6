@@ -77,6 +77,9 @@ namespace Scada.Protocol
                 case ErrorCode.InvalidOperation:
                     return errorCode + ": Function call is invalid for the current state of the client or server.";
 
+                case ErrorCode.OperationCanceled:
+                    return errorCode + ": Operation has been canceled.";
+
                 case ErrorCode.ProxyError:
                     return errorCode + ": Error processing request by a proxy.";
 
