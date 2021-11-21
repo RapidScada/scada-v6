@@ -31,6 +31,7 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Text;
+using System.Threading;
 using static Scada.BinaryConverter;
 using static Scada.Protocol.ProtocolUtils;
 
@@ -179,10 +180,10 @@ namespace Scada.Agent.Client
         /// <summary>
         /// Uploads the configuration from the file.
         /// </summary>
-        public void UploadConfig(string srcFileName)
+        public void UploadConfig(string srcFileName, CancellationToken cancellationToken)
         {
             UploadFile(srcFileName, new RelativePath(TopFolder.Agent, AppFolder.Temp, Path.GetFileName(srcFileName)),
-                out bool fileAccepted);
+                out bool fileAccepted, cancellationToken);
 
             if (!fileAccepted)
             {

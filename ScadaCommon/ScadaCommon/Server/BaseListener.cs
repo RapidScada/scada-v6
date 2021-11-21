@@ -768,7 +768,7 @@ namespace Scada.Server
         protected void UploadFile(ConnectedClient client, DataPacket request, out ResponsePacket response)
         {
             DecodeUploadPacket(request, out int blockNumber, out _, 
-                out RelativePath filePath, out bool endOfFile, out _, out _);
+                out RelativePath filePath, out FileUploadState uploadState, out _, out _);
 
             if (blockNumber != 0)
                 ThrowBlockNumberException();
@@ -792,7 +792,7 @@ namespace Scada.Server
                 {
                     using (BinaryWriter writer = OpenWrite(client, filePath, uploadContext))
                     {
-                        while (!endOfFile && !client.Terminated)
+                        while (uploadState == FileUploadState.DataAvailable && !client.Terminated)
                         {
                             // wait for data
                             DateTime endWaitingDT = DateTime.UtcNow.AddMilliseconds(client.TcpClient.ReceiveTimeout);
@@ -805,7 +805,7 @@ namespace Scada.Server
                             if (ReceiveDataPacket(client, out DataPacket dataPacket))
                             {
                                 DecodeUploadPacket(dataPacket, out int newBlockNumber, out int blockCount, 
-                                    out RelativePath path, out endOfFile, out int bytesToWrite, out int fileDataIndex);
+                                    out RelativePath path, out uploadState, out int bytesToWrite, out int fileDataIndex);
 
                                 if (dataPacket.TransactionID != request.TransactionID)
                                 {
@@ -836,11 +836,11 @@ namespace Scada.Server
                         }
                     }
 
-                    if (client.Terminated)
+                    if (uploadState == FileUploadState.UploadCanceled || client.Terminated)
                     {
                         throw new ProtocolException(ErrorCode.InvalidOperation, Locale.IsRussian ?
                             "Операция отменена." :
-                            "Operation cancelled.");
+                            "Operation canceled.");
                     }
                 }
                 catch
@@ -865,7 +865,7 @@ namespace Scada.Server
         /// </summary>
         protected void DecodeUploadPacket(DataPacket dataPacket,
             out int blockNumber, out int blockCount, out RelativePath filePath,
-            out bool endOfFile, out int bytesToWrite, out int fileDataIndex)
+            out FileUploadState uploadState, out int bytesToWrite, out int fileDataIndex)
         {
             byte[] buffer = dataPacket.Buffer;
             int index = ArgumentIndex;
@@ -875,7 +875,7 @@ namespace Scada.Server
             {
                 blockCount = GetInt32(buffer, ref index);
                 filePath = GetFilePath(buffer, ref index);
-                endOfFile = false;
+                uploadState = FileUploadState.DataAvailable;
                 bytesToWrite = 0;
                 fileDataIndex = -1;
             }
@@ -883,7 +883,7 @@ namespace Scada.Server
             {
                 blockCount = 0;
                 filePath = RelativePath.Empty;
-                endOfFile = GetBool(buffer, ref index);
+                uploadState = (FileUploadState)GetByte(buffer, ref index);
                 bytesToWrite = GetInt32(buffer, ref index);
                 fileDataIndex = index;
             }

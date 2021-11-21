@@ -30,6 +30,7 @@ using System;
 using System.IO;
 using System.Net;
 using System.Net.Sockets;
+using System.Threading;
 using static Scada.BinaryConverter;
 using static Scada.Protocol.ProtocolUtils;
 
@@ -678,7 +679,8 @@ namespace Scada.Client
         /// <summary>
         /// Uploads the file.
         /// </summary>
-        public void UploadFile(Stream stream, RelativePath destPath, out bool fileAccepted)
+        public void UploadFile(Stream stream, RelativePath destPath, out bool fileAccepted,
+            CancellationToken? cancellationToken = null)
         {
             if (stream == null)
                 throw new ArgumentNullException(nameof(stream));
@@ -709,22 +711,34 @@ namespace Scada.Client
             {
                 int blockNumber = 0;
                 long bytesReadTotal = 0;
-                bool endOfFile = false;
+                int bytesRead;
+                FileUploadState uploadState = FileUploadState.DataAvailable;
                 request = null;
 
-                while (!endOfFile)
+                while (uploadState == FileUploadState.DataAvailable)
                 {
-                    // read from file
-                    int bytesToRead = (int)Math.Min(bytesToReadTotal - bytesReadTotal, BlockCapacity);
-                    int bytesRead = stream.Read(outBuf, FileDataIndex, bytesToRead);
-                    bytesReadTotal += bytesRead;
-                    endOfFile = bytesRead < bytesToRead || bytesReadTotal == bytesToReadTotal;
+                    if (cancellationToken.HasValue && cancellationToken.Value.IsCancellationRequested)
+                    {
+                        // cancel upload
+                        bytesRead = 0;
+                        uploadState = FileUploadState.UploadCanceled;
+                    }
+                    else
+                    {
+                        // read from file
+                        int bytesToRead = (int)Math.Min(bytesToReadTotal - bytesReadTotal, BlockCapacity);
+                        bytesRead = stream.Read(outBuf, FileDataIndex, bytesToRead);
+                        bytesReadTotal += bytesRead;
+
+                        if (bytesRead < bytesToRead || bytesReadTotal == bytesToReadTotal)
+                            uploadState = FileUploadState.EndOfFile;
+                    }
 
                     // send data
                     request = CreateRequest(FunctionID.UploadFile, 0, false);
                     index = ArgumentIndex;
                     CopyInt32(++blockNumber, outBuf, ref index);
-                    CopyBool(endOfFile, outBuf, ref index);
+                    CopyByte((byte)uploadState, outBuf, ref index);
                     CopyInt32(bytesRead, outBuf, ref index);
                     request.BufferLength = FileDataIndex + bytesRead;
                     SendRequest(request);
@@ -733,13 +747,16 @@ namespace Scada.Client
 
                 if (request != null)
                     ReceiveResponse(request);
-                }
+
+                cancellationToken?.ThrowIfCancellationRequested();
+            }
         }
 
         /// <summary>
         /// Uploads the file.
         /// </summary>
-        public void UploadFile(string srcFileName, RelativePath destPath, out bool fileAccepted)
+        public void UploadFile(string srcFileName, RelativePath destPath, out bool fileAccepted,
+            CancellationToken? cancellationToken = null)
         {
             if (!File.Exists(srcFileName))
                 throw new ScadaException(CommonPhrases.FileNotFound);
@@ -747,7 +764,7 @@ namespace Scada.Client
             using (FileStream stream = 
                 new FileStream(srcFileName, FileMode.Open, FileAccess.Read, FileShare.ReadWrite))
             {
-                UploadFile(stream, destPath, out fileAccepted);
+                UploadFile(stream, destPath, out fileAccepted, cancellationToken);
             }
         }
 

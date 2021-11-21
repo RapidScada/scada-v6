@@ -210,7 +210,7 @@ namespace Scada.Admin.Extensions.ExtDepAgent
             transferControl.WriteLine();
             transferControl.WriteMessage(ExtensionPhrases.TransferConfig);
 
-            agentClient.UploadConfig(srcFileName);
+            agentClient.UploadConfig(srcFileName, transferControl.CancellationToken);
             progressTracker.TaskIndex++;
         }
 

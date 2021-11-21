@@ -27,6 +27,7 @@ using Scada.Data.Models;
 using Scada.Protocol;
 using System;
 using System.Collections.Generic;
+using System.Threading;
 
 namespace Scada.Agent
 {
@@ -59,7 +60,7 @@ namespace Scada.Agent
         /// <summary>
         /// Uploads the configuration from the file.
         /// </summary>
-        void UploadConfig(string srcFileName);
+        void UploadConfig(string srcFileName, CancellationToken cancellationToken);
 
         /// <summary>
         /// Reads the text file.
