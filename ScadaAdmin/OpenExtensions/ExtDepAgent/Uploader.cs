@@ -209,6 +209,8 @@ namespace Scada.Admin.Extensions.ExtDepAgent
             transferControl.ThrowIfCancellationRequested();
             transferControl.WriteLine();
             transferControl.WriteMessage(ExtensionPhrases.TransferConfig);
+            transferControl.WriteMessage(string.Format(ExtensionPhrases.ArchiveSize, 
+                new FileInfo(srcFileName).Length.ToString("N0", Locale.Culture)));
 
             agentClient.UploadConfig(srcFileName, transferControl.CancellationToken);
             progressTracker.TaskIndex++;

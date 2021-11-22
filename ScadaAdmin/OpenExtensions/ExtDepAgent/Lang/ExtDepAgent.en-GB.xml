@@ -14,5 +14,6 @@
     <Phrase key="AddProjectInfo">Add project information</Phrase>
     <Phrase key="AddTransferOptions">Add transfer options</Phrase>
     <Phrase key="TransferConfig">Transfer configuration</Phrase>
+    <Phrase key="ArchiveSize">Archive size: {0} bytes</Phrase>
   </Dictionary>
 </ExtDepAgentDictionaries>

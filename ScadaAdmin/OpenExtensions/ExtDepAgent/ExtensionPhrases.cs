@@ -25,6 +25,7 @@ namespace Scada.Admin.Extensions.ExtDepAgent
         public static string AddProjectInfo { get; private set; }
         public static string AddTransferOptions { get; private set; }
         public static string TransferConfig { get; private set; }
+        public static string ArchiveSize { get; private set; }
 
         public static void Init()
         {
@@ -42,6 +43,7 @@ namespace Scada.Admin.Extensions.ExtDepAgent
             AddProjectInfo = dict["AddProjectInfo"];
             AddTransferOptions = dict["AddTransferOptions"];
             TransferConfig = dict["TransferConfig"];
+            ArchiveSize = dict["ArchiveSize"];
         }
     }
 }

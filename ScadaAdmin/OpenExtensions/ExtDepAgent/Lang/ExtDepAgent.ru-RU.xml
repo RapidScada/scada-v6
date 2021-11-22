@@ -14,5 +14,6 @@
     <Phrase key="AddProjectInfo">Добавление информации о проекте</Phrase>
     <Phrase key="AddTransferOptions">Добавление параметров передачи</Phrase>
     <Phrase key="TransferConfig">Передача конфигурации</Phrase>
+    <Phrase key="ArchiveSize">Размер архива: {0} байт</Phrase>
   </Dictionary>
 </ExtDepAgentDictionaries>
