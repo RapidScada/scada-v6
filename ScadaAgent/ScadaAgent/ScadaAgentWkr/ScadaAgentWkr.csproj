@@ -1,0 +1,52 @@
+<Project Sdk="Microsoft.NET.Sdk.Worker">
+
+  <PropertyGroup>
+    <TargetFramework>net6.0</TargetFramework>
+    <Nullable>enable</Nullable>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <UserSecretsId>dotnet-ScadaAgentWkr-F53983DD-5CCC-49A5-926A-07A711B87C72</UserSecretsId>
+    <RootNamespace>Scada.Agent.Wkr</RootNamespace>
+    <Version>6.0.0</Version>
+    <Authors>Mikhail Shiryaev</Authors>
+    <Company>Rapid Software LLC</Company>
+    <Product>Rapid SCADA</Product>
+    <Copyright>Copyright © 2021</Copyright>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Content Include="..\..\..\ScadaCommon\ScadaCommon\Lang\ScadaCommon.en-GB.xml" Link="Lang\ScadaCommon.en-GB.xml">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="..\..\..\ScadaCommon\ScadaCommon\Lang\ScadaCommon.ru-RU.xml" Link="Lang\ScadaCommon.ru-RU.xml">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="..\ScadaAgentCommon\Config\ScadaAgentConfig.xml" Link="Config\ScadaAgentConfig.xml">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.Extensions.Hosting" Version="6.0.0" />
+    <PackageReference Include="Microsoft.Extensions.Hosting.Systemd" Version="6.0.0" />
+    <PackageReference Include="Microsoft.Extensions.Hosting.WindowsServices" Version="6.0.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\ScadaAgentCommon\ScadaAgentCommon.csproj" />
+    <ProjectReference Include="..\ScadaAgentEngine\ScadaAgentEngine.csproj" />
+  </ItemGroup>
+	
+  <ItemGroup>
+    <Reference Include="ScadaCommon">
+      <HintPath>..\..\..\ScadaCommon\ScadaCommon\bin\Release\netstandard2.0\ScadaCommon.dll</HintPath>
+    </Reference>
+    <Reference Include="ScadaCommon.Log">
+      <HintPath>..\..\..\ScadaCommon\ScadaCommon.Log\bin\Release\netstandard2.0\ScadaCommon.Log.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+	
+  <ItemGroup>
+    <Folder Include="Config\" />
+    <Folder Include="Lang\" />
+  </ItemGroup>
+</Project>

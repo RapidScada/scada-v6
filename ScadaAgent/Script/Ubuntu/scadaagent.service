@@ -1,0 +1,13 @@
+[Unit]
+Description=Rapid SCADA Agent
+
+[Service]
+Type=notify
+WorkingDirectory=/opt/scada/ScadaAgent
+ExecStart=/usr/bin/dotnet /opt/scada/ScadaAgent/ScadaAgentWkr.dll
+Restart=always
+RestartSec=10
+SyslogIdentifier=scadaagent
+
+[Install]
+WantedBy=multi-user.target
