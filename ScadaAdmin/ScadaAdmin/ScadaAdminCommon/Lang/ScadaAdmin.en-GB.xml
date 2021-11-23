@@ -213,7 +213,7 @@
     <Phrase key="gbOptions">Options</Phrase>
     <Phrase key="lblInclude">Include:</Phrase>
     <Phrase key="chkIncludeBase">Configuration database</Phrase>
-    <Phrase key="chkIncludeInterface">Interface</Phrase>
+    <Phrase key="chkIncludeView">Views</Phrase>
     <Phrase key="chkIncludeServer">Server</Phrase>
     <Phrase key="chkRestartServer">Restart Server</Phrase>
     <Phrase key="chkIncludeComm">Communicator</Phrase>

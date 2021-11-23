@@ -213,7 +213,7 @@
     <Phrase key="gbOptions">Параметры</Phrase>
     <Phrase key="lblInclude">Включить:</Phrase>
     <Phrase key="chkIncludeBase">База конфигурации</Phrase>
-    <Phrase key="chkIncludeInterface">Интерфейс</Phrase>
+    <Phrase key="chkIncludeView">Представления</Phrase>
     <Phrase key="chkIncludeServer">Сервер</Phrase>
     <Phrase key="chkRestartServer">Перезапустить Сервер</Phrase>
     <Phrase key="chkIncludeComm">Коммуникатор</Phrase>
