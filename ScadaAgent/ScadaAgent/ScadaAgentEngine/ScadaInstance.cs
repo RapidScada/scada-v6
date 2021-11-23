@@ -163,7 +163,7 @@ namespace Scada.Agent.Engine
                 // pack subdirectories
                 foreach (DirectoryInfo subdirInfo in dirInfo.EnumerateDirectories("*", SearchOption.TopDirectoryOnly))
                 {
-                    PackDirectory(zipArchive, subdirInfo.FullName, entryPrefix + dirInfo.Name + '/');
+                    PackDirectory(zipArchive, subdirInfo.FullName, entryPrefix + subdirInfo.Name + '/');
                 }
 
                 // pack files

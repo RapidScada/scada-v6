@@ -268,7 +268,8 @@ namespace Scada.Agent.Engine
             foreach (ClientBundle clientBundle in clientBundles.Values)
             {
                 if (clientBundle.AgentClient is ConnectedClient agentClient &&
-                    agentClient.Tag is ClientTag clientTag && !clientTag.IsReverse)
+                    agentClient.Tag is ClientTag clientTag && !clientTag.IsReverse &&
+                    (heartbeatDT - agentClient.ActivityTime).TotalMilliseconds > agentClient.TcpClient.ReceiveTimeout)
                 {
                     DataPacket request = new DataPacket
                     {
@@ -315,6 +316,7 @@ namespace Scada.Agent.Engine
                         dataPacket.SessionID = agentClient.SessionID;
                         dataPacket.Encode();
                         agentClient.NetStream.Write(dataPacket.Buffer, 0, dataPacket.BufferLength);
+                        agentClient.RegisterActivity();
                     }
                     return true;
                 }
