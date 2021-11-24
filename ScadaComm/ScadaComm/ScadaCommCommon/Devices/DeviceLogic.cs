@@ -68,7 +68,7 @@ namespace Scada.Comm.Devices
             ReqRetries = lineContext.LineConfig.LineOptions.ReqRetries;
             IsBound = lineContext.LineConfig.IsBound && deviceConfig.IsBound;
             DeviceNum = deviceConfig.DeviceNum;
-            Title = CommUtils.GetDeviceTitle(DeviceNum, deviceConfig.Name);
+            Title = CommUtils.GetDeviceTitle(deviceConfig);
             NumAddress = deviceConfig.NumAddress;
             StrAddress = deviceConfig.StrAddress;
             PollingOptions = deviceConfig.PollingOptions;

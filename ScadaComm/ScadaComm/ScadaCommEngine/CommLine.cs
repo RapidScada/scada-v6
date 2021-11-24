@@ -99,7 +99,7 @@ namespace Scada.Comm.Engine
             maxDeviceTitleLength = 0;
             channel = null;
 
-            Title = CommUtils.GetLineTitle(CommLineNum, lineConfig.Name);
+            Title = CommUtils.GetLineTitle(lineConfig);
             SharedData = null;
             Log = new LogFile(LogFormat.Simple)
             {

@@ -23,6 +23,7 @@
  * Modified : 2021
  */
 
+using Scada.Comm.Config;
 using Scada.Comm.Devices;
 using System.Text;
 
@@ -65,11 +66,27 @@ namespace Scada.Comm
         }
         
         /// <summary>
+        /// Gets the communication line title.
+        /// </summary>
+        public static string GetLineTitle(LineConfig lineConfig)
+        {
+            return GetLineTitle(lineConfig.CommLineNum, lineConfig.Name);
+        }
+
+        /// <summary>
         /// Gets the device title.
         /// </summary>
         public static string GetDeviceTitle(int deviceNum, string name)
         {
             return $"[{deviceNum}] {name}";
+        }
+
+        /// <summary>
+        /// Gets the device title.
+        /// </summary>
+        public static string GetDeviceTitle(DeviceConfig deviceConfig)
+        {
+            return GetDeviceTitle(deviceConfig.DeviceNum, deviceConfig.Name);
         }
 
         /// <summary>
