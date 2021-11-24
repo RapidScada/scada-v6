@@ -16,6 +16,10 @@ namespace Scada.Forms
     public class RemoteLogBox : LogBox
     {
         /// <summary>
+        /// The client of the Agent service.
+        /// </summary>
+        protected IAgentClient agentClient;
+        /// <summary>
         /// The remote path of the log.
         /// </summary>
         protected RelativePath logPath;
@@ -27,15 +31,26 @@ namespace Scada.Forms
         public RemoteLogBox(ListBox listBox, bool colorize = false)
             : base(listBox, colorize)
         {
+            agentClient = null;
             logPath = new RelativePath();
-            AgentClient = null;
         }
 
 
         /// <summary>
         /// Gets or sets the client of the Agent service.
         /// </summary>
-        public IAgentClient AgentClient { get; set; }
+        public IAgentClient AgentClient
+        {
+            get 
+            { 
+                return agentClient; 
+            }
+            set
+            {
+                agentClient = value;
+                logFileAge = DateTime.MinValue;
+            }
+        }
 
         /// <summary>
         /// Gets or sets the remote path of the log.
@@ -61,28 +76,21 @@ namespace Scada.Forms
         {
             try
             {
-                IAgentClient agentClient = AgentClient;
-                ICollection<string> lines = null;
-
-                if (agentClient != null)
+                if (AgentClient is IAgentClient agentClient)
                 {
+                    ICollection<string> lines;
+
                     lock (agentClient.SyncRoot)
                     {
                         if (FullLogView)
-                        {
-                            if (!agentClient.ReadTextFile(logPath, ref logFileAge, out lines))
-                                lines = null;
-                        }
+                            agentClient.ReadTextFile(logPath, ref logFileAge, out lines);
                         else
-                        {
-                            if (!agentClient.ReadTextFile(logPath, LogViewSize, ref logFileAge, out lines))
-                                lines = null;
-                        }
+                            agentClient.ReadTextFile(logPath, LogViewSize, ref logFileAge, out lines);
                     }
-                }
 
-                if (AgentClient != null && lines != null && !listBox.IsDisposed)
-                    SetLines(lines);
+                    if (AgentClient != null && !listBox.IsDisposed && lines != null)
+                        SetLines(lines);
+                }
             }
             catch (Exception ex)
             {
