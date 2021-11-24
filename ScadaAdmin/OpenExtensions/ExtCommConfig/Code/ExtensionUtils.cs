@@ -3,7 +3,10 @@
 
 using Scada.Admin.Extensions.ExtCommConfig.Controls;
 using Scada.Admin.Project;
+using Scada.Comm.Config;
+using Scada.Comm.Devices;
 using Scada.Comm.Drivers;
+using Scada.Forms;
 using System;
 using System.Collections.Generic;
 
@@ -69,6 +72,46 @@ namespace Scada.Admin.Extensions.ExtCommConfig.Code
             {
                 return false;
             }
+        }
+
+        /// <summary>
+        /// Gets a new instance of the device user interface.
+        /// </summary>
+        public static DeviceView GetDeviceView(IAdminContext adminContext, CommApp commApp, 
+            LineConfig lineConfig, DeviceConfig deviceConfig)
+        {
+            if (adminContext == null)
+                throw new ArgumentNullException(nameof(adminContext));
+            if (commApp == null)
+                throw new ArgumentNullException(nameof(commApp));
+            if (lineConfig == null)
+                throw new ArgumentNullException(nameof(lineConfig));
+            if (deviceConfig == null)
+                throw new ArgumentNullException(nameof(deviceConfig));
+
+            if (string.IsNullOrEmpty(deviceConfig.Driver))
+            {
+                ScadaUiUtils.ShowError(ExtensionPhrases.DriverNotSpecified);
+            }
+            else if (!ExtensionUtils.GetDriverView(adminContext, commApp, deviceConfig.Driver,
+                out DriverView driverView, out string message))
+            {
+                ScadaUiUtils.ShowError(message);
+            }
+            else if (!driverView.CanCreateDevice)
+            {
+                ScadaUiUtils.ShowError(ExtensionPhrases.DeviceNotSupported);
+            }
+            else if (driverView.CreateDeviceView(lineConfig, deviceConfig) is not DeviceView deviceView)
+            {
+                ScadaUiUtils.ShowError(ExtensionPhrases.UnableCreateDeviceView);
+            }
+            else
+            {
+                return deviceView;
+            }
+
+            return null;
         }
     }
 }

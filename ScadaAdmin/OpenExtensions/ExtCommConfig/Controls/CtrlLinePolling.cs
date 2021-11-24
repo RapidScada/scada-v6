@@ -214,30 +214,7 @@ namespace Scada.Admin.Extensions.ExtCommConfig.Controls
         private DeviceView GetDeviceView(DeviceConfig deviceConfig)
         {
             ValidateInit();
-
-            if (string.IsNullOrEmpty(deviceConfig.Driver))
-            {
-                ScadaUiUtils.ShowError(ExtensionPhrases.DriverNotSpecified);
-            }
-            else if (!ExtensionUtils.GetDriverView(adminContext, commApp, deviceConfig.Driver,
-                out DriverView driverView, out string message))
-            {
-                ScadaUiUtils.ShowError(message);
-            }
-            else if (!driverView.CanCreateDevice)
-            {
-                ScadaUiUtils.ShowError(ExtensionPhrases.DeviceNotSupported);
-            }
-            else if (driverView.CreateDeviceView(lineConfig, deviceConfig) is not DeviceView deviceView)
-            {
-                ScadaUiUtils.ShowError(ExtensionPhrases.UnableCreateDeviceView);
-            }
-            else
-            {
-                return deviceView;
-            }
-
-            return null;
+            return ExtensionUtils.GetDeviceView(adminContext, commApp, lineConfig, deviceConfig);
         }
 
         /// <summary>

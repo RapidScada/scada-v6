@@ -152,7 +152,7 @@
   </Dictionary>
   <Dictionary key="Scada.Admin.Extensions.ExtCommConfig.Forms.FrmDeviceData">
     <Phrase key="this">Device {0}</Phrase>
-    <Phrase key="btnDeviceProps">Properties</Phrase>
+    <Phrase key="btnDeviceProperties">Properties</Phrase>
     <Phrase key="btnSendCommand">Command</Phrase>
   </Dictionary>
   <Dictionary key="Scada.Admin.Extensions.ExtCommConfig.Forms.FrmDrivers">

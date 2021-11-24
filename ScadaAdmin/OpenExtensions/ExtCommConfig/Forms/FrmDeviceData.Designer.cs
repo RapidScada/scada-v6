@@ -32,7 +32,7 @@
             this.lbDeviceData = new System.Windows.Forms.ListBox();
             this.btnSendCommand = new System.Windows.Forms.Button();
             this.tmrRefresh = new System.Windows.Forms.Timer(this.components);
-            this.btnDeviceProps = new System.Windows.Forms.Button();
+            this.btnDeviceProperties = new System.Windows.Forms.Button();
             this.SuspendLayout();
             // 
             // lbDeviceData
@@ -65,15 +65,15 @@
             this.tmrRefresh.Interval = 1000;
             this.tmrRefresh.Tick += new System.EventHandler(this.tmrRefresh_Tick);
             // 
-            // btnDeviceProps
+            // btnDeviceProperties
             // 
-            this.btnDeviceProps.Location = new System.Drawing.Point(12, 12);
-            this.btnDeviceProps.Name = "btnDeviceProps";
-            this.btnDeviceProps.Size = new System.Drawing.Size(75, 23);
-            this.btnDeviceProps.TabIndex = 0;
-            this.btnDeviceProps.Text = "Properties";
-            this.btnDeviceProps.UseVisualStyleBackColor = true;
-            this.btnDeviceProps.Click += new System.EventHandler(this.btnDeviceProps_Click);
+            this.btnDeviceProperties.Location = new System.Drawing.Point(12, 12);
+            this.btnDeviceProperties.Name = "btnDeviceProperties";
+            this.btnDeviceProperties.Size = new System.Drawing.Size(75, 23);
+            this.btnDeviceProperties.TabIndex = 0;
+            this.btnDeviceProperties.Text = "Properties";
+            this.btnDeviceProperties.UseVisualStyleBackColor = true;
+            this.btnDeviceProperties.Click += new System.EventHandler(this.btnDeviceProperties_Click);
             // 
             // FrmDeviceData
             // 
@@ -82,7 +82,7 @@
             this.ClientSize = new System.Drawing.Size(684, 411);
             this.Controls.Add(this.lbDeviceData);
             this.Controls.Add(this.btnSendCommand);
-            this.Controls.Add(this.btnDeviceProps);
+            this.Controls.Add(this.btnDeviceProperties);
             this.Name = "FrmDeviceData";
             this.Text = "Device {0} Data";
             this.FormClosed += new System.Windows.Forms.FormClosedEventHandler(this.FrmDeviceData_FormClosed);
@@ -97,6 +97,6 @@
         private System.Windows.Forms.ListBox lbDeviceData;
         private System.Windows.Forms.Button btnSendCommand;
         private System.Windows.Forms.Timer tmrRefresh;
-        private System.Windows.Forms.Button btnDeviceProps;
+        private System.Windows.Forms.Button btnDeviceProperties;
     }
 }
