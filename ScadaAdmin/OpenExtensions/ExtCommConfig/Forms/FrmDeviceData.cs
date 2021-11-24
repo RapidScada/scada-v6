@@ -28,7 +28,7 @@ namespace Scada.Admin.Extensions.ExtCommConfig.Forms
         private readonly LineConfig lineConfig;      // the communication line configuration
         private readonly DeviceConfig deviceConfig;  // the device configuration
         private readonly RemoteLogBox dataBox;       // updates device data
-        //private FrmDeviceCommand frmDeviceCommand;   // the form to send commands
+        private FrmDeviceCommand frmDeviceCommand;   // the form for sending commands
 
 
         /// <summary>
@@ -50,7 +50,7 @@ namespace Scada.Admin.Extensions.ExtCommConfig.Forms
             this.lineConfig = lineConfig ?? throw new ArgumentNullException(nameof(lineConfig));
             this.deviceConfig = deviceConfig ?? throw new ArgumentNullException(nameof(deviceConfig));
             dataBox = new RemoteLogBox(lbDeviceData) { FullLogView = true };
-            //frmDeviceCommand = null;
+            frmDeviceCommand = null;
         }
 
 
@@ -78,9 +78,15 @@ namespace Scada.Admin.Extensions.ExtCommConfig.Forms
             dataBox.AgentClient = agentClient;
 
             if (agentClient == null)
+            {
                 dataBox.SetFirstLine(AdminPhrases.AgentNotEnabled);
+                btnSendCommand.Enabled = false;
+            }
             else
+            {
                 dataBox.SetFirstLine(AdminPhrases.FileLoading);
+                btnSendCommand.Enabled = true;
+            }
         }
 
         /// <summary>
@@ -179,11 +185,15 @@ namespace Scada.Admin.Extensions.ExtCommConfig.Forms
 
         private void btnSendCommand_Click(object sender, EventArgs e)
         {
-            // show the device command form
-            /*if (frmDeviceCommand == null)
-                frmDeviceCommand = new FrmDeviceCommand(kp, environment);
+            // show device command form
+            if (dataBox.AgentClient is IAgentClient agentClient)
+            {
+                if (frmDeviceCommand == null)
+                    frmDeviceCommand = new FrmDeviceCommand(adminContext.ErrLog, deviceConfig);
 
-            frmDeviceCommand.ShowDialog();*/
+                frmDeviceCommand.AgentClient = agentClient;
+                frmDeviceCommand.ShowDialog();
+            }
         }
     }
 }

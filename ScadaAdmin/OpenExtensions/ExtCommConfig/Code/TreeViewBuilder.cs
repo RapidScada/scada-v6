@@ -55,7 +55,7 @@ namespace Scada.Admin.Extensions.ExtCommConfig.Code
         /// </summary>
         private TreeNode CreateDeviceNode(CommApp commApp, LineConfig lineConfig, DeviceConfig deviceConfig)
         {
-            return new TreeNode(CommUtils.GetDeviceTitle(deviceConfig.DeviceNum, deviceConfig.Name))
+            return new TreeNode(CommUtils.GetDeviceTitle(deviceConfig))
             {
                 ImageKey = ImageKey.Device,
                 SelectedImageKey = ImageKey.Device,

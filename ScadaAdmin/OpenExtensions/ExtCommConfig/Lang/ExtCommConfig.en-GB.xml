@@ -150,6 +150,19 @@
     <Phrase key="LineNotFoundInCommConfig">The communication line not found in the Communicator configuration.</Phrase>
     <Phrase key="ChooseLine">Please choose a communication line.</Phrase>
   </Dictionary>
+  <Dictionary key="Scada.Admin.Extensions.ExtCommConfig.Forms.FrmDeviceCommand">
+    <Phrase key="this">Command to {0}</Phrase>
+    <Phrase key="lblCmdNum">Command number</Phrase>
+    <Phrase key="lblCmdCode">Command code</Phrase>
+    <Phrase key="rbNumVal">Numeric</Phrase>
+    <Phrase key="rbStrData">String data</Phrase>
+    <Phrase key="rbHexData">Hexadecimal data</Phrase>
+    <Phrase key="btnOff">Off</Phrase>
+    <Phrase key="btnOn">On</Phrase>
+    <Phrase key="btnSend">Send</Phrase>
+    <Phrase key="btnClose">Close</Phrase>
+    <Phrase key="SendCommandError">Error sending command</Phrase>
+  </Dictionary>
   <Dictionary key="Scada.Admin.Extensions.ExtCommConfig.Forms.FrmDeviceData">
     <Phrase key="this">Device {0}</Phrase>
     <Phrase key="btnDeviceProperties">Properties</Phrase>

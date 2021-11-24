@@ -150,6 +150,19 @@
     <Phrase key="LineNotFoundInCommConfig">Линия связи не найдена в конфигурации Коммуникатора.</Phrase>
     <Phrase key="ChooseLine">Выберите линию связи.</Phrase>
   </Dictionary>
+  <Dictionary key="Scada.Admin.Extensions.ExtCommConfig.Forms.FrmDeviceCommand">
+    <Phrase key="this">Команда {0}</Phrase>
+    <Phrase key="lblCmdNum">Номер команды</Phrase>
+    <Phrase key="lblCmdCode">Код команды</Phrase>
+    <Phrase key="rbNumVal">Число</Phrase>
+    <Phrase key="rbStrData">Строка</Phrase>
+    <Phrase key="rbHexData">16-ричные данные</Phrase>
+    <Phrase key="btnOff">Откл</Phrase>
+    <Phrase key="btnOn">Вкл</Phrase>
+    <Phrase key="btnSend">Отправить</Phrase>
+    <Phrase key="btnClose">Закрыть</Phrase>
+    <Phrase key="SendCommandError">Ошибка при отправке команды</Phrase>
+  </Dictionary>
   <Dictionary key="Scada.Admin.Extensions.ExtCommConfig.Forms.FrmDeviceData">
     <Phrase key="this">КП {0}</Phrase>
     <Phrase key="btnDeviceProperties">Свойства</Phrase>

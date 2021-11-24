@@ -260,7 +260,7 @@ namespace Scada.Data.Models
                 .Append("RecursionLevel=").AppendLine(RecursionLevel.ToString())
                 .AppendLine("End=");
 
-            using (StreamWriter writer = new StreamWriter(stream, Encoding.UTF8))
+            using (StreamWriter writer = new StreamWriter(stream, Encoding.UTF8, 1024, true))
             {
                 writer.Write(sb.ToString());
             }
