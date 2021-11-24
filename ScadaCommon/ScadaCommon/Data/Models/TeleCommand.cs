@@ -246,7 +246,8 @@ namespace Scada.Data.Models
             if (stream == null)
                 throw new ArgumentNullException(nameof(stream));
 
-            StringBuilder sb = new StringBuilder("[TeleCommand]")
+            StringBuilder sb = new StringBuilder()
+                .AppendLine("[TeleCommand]")
                 .Append("CommandID=").AppendLine(CommandID.ToString())
                 .Append("CreationTime=").AppendLine(CreationTime.ToString(DateTimeFormatInfo.InvariantInfo))
                 .Append("UserID=").AppendLine(UserID.ToString())
@@ -254,7 +255,7 @@ namespace Scada.Data.Models
                 .Append("ObjNum=").AppendLine(ObjNum.ToString())
                 .Append("DeviceNum=").AppendLine(DeviceNum.ToString())
                 .Append("CmdNum=").AppendLine(CmdNum.ToString())
-                .Append("CmdCode=").AppendLine("CmdCode")
+                .Append("CmdCode=").AppendLine(CmdCode)
                 .Append("CmdVal=").AppendLine(CmdVal.ToString(NumberFormatInfo.InvariantInfo))
                 .Append("CmdData=").AppendLine(ScadaUtils.BytesToHex(CmdData))
                 .Append("RecursionLevel=").AppendLine(RecursionLevel.ToString())

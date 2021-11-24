@@ -65,6 +65,7 @@ namespace Scada.Admin.Extensions.ExtCommConfig.Forms
                 return new TeleCommand
                 {
                     CreationTime = DateTime.UtcNow,
+                    DeviceNum = deviceConfig.DeviceNum,
                     CmdNum = Convert.ToInt32(numCmdNum.Value),
                     CmdCode = txtCmdCode.Text
                 };
