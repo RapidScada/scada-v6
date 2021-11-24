@@ -104,6 +104,7 @@ namespace Scada.Admin.Extensions.ExtCommConfig
             return new Dictionary<string, Image>
             {
                 { ImageKey.DataSource, Resources.data_source },
+                { ImageKey.Device, Resources.device },
                 { ImageKey.Driver, Resources.driver },
                 { ImageKey.Options, Resources.options },
                 { ImageKey.Line, Resources.line },

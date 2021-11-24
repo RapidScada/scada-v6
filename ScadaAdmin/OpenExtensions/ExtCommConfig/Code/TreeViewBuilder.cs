@@ -51,6 +51,24 @@ namespace Scada.Admin.Extensions.ExtCommConfig.Code
         }
 
         /// <summary>
+        /// Creates a tree node that represents the device.
+        /// </summary>
+        private TreeNode CreateDeviceNode(CommApp commApp, DeviceConfig deviceConfig)
+        {
+            return new TreeNode(CommUtils.GetDeviceTitle(deviceConfig.DeviceNum, deviceConfig.Name))
+            {
+                ImageKey = ImageKey.Device,
+                SelectedImageKey = ImageKey.Device,
+                Tag = new CommNodeTag(commApp, null, CommNodeType.Device)
+                {
+                    FormType = typeof(FrmDeviceData),
+                    FormArgs = new object[] { adminContext, deviceConfig }
+                }
+            };
+        }
+
+
+        /// <summary>
         /// Creates a tree node that represents the specified communication line.
         /// </summary>
         public TreeNode CreateLineNode(CommApp commApp, LineConfig lineConfig)
@@ -85,6 +103,11 @@ namespace Scada.Admin.Extensions.ExtCommConfig.Code
                 }
             });
 
+            foreach (DeviceConfig deviceConfig in lineConfig.DevicePolling)
+            {
+                lineNode.Nodes.Add(CreateDeviceNode(commApp, deviceConfig));
+            }
+
             return lineNode;
         }
         
@@ -114,10 +137,10 @@ namespace Scada.Admin.Extensions.ExtCommConfig.Code
                 }
 
                 // add new device nodes
-                /*foreach (DeviceConfig deviceConfig in lineConfig.DevicePolling)
+                foreach (DeviceConfig deviceConfig in lineConfig.DevicePolling)
                 {
                     lineNode.Nodes.Add(CreateDeviceNode(nodeTag.CommApp, deviceConfig));
-                }*/
+                }
             }
             finally
             {
