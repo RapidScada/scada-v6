@@ -74,7 +74,7 @@ namespace Scada.Admin.Extensions.ExtCommConfig.Forms
         /// </summary>
         private void UpdateAgentClient()
         {
-            IAgentClient agentClient = adminContext.MainForm.GetAgentClient(ChildFormTag?.TreeNode);
+            IAgentClient agentClient = adminContext.MainForm.GetAgentClient(ChildFormTag?.TreeNode, false);
             dataBox.AgentClient = agentClient;
 
             if (agentClient == null)

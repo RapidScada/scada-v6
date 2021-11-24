@@ -167,6 +167,17 @@ namespace Scada.Client
         /// Get the user role ID.
         /// </summary>
         public int RoleID { get; protected set; }
+        
+        /// <summary>
+        /// Gets an object that can be used to synchronize access to the client.
+        /// </summary>
+        public object SyncRoot
+        {
+            get
+            {
+                return this;
+            }
+        }
 
 
         /// <summary>

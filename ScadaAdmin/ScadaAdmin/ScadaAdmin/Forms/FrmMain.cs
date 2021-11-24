@@ -587,8 +587,16 @@ namespace Scada.Admin.App.Forms
         /// </summary>
         private void InitAgentClient(LiveInstance liveInstance)
         {
+            liveInstance.AgentClient = CreateAgentClient(liveInstance);
+        }
+
+        /// <summary>
+        /// Creates a new Agent client for the specified instance.
+        /// </summary>
+        private IAgentClient CreateAgentClient(LiveInstance liveInstance)
+        {
             DeploymentProfile profile = GetDeploymentProfile(liveInstance);
-            liveInstance.AgentClient = profile != null && profile.AgentEnabled
+            return profile != null && profile.AgentEnabled
                 ? new AgentClient(profile.AgentConnectionOptions)
                 : null;
         }
@@ -937,10 +945,12 @@ namespace Scada.Admin.App.Forms
         /// <summary>
         /// Gets the Agent client corresponding to the specified tree node.
         /// </summary>
-        public IAgentClient GetAgentClient(TreeNode treeNode)
+        public IAgentClient GetAgentClient(TreeNode treeNode, bool createNew)
         {
             return FindInstanceForDeploy(treeNode, out _, out LiveInstance liveInstance)
-                ? liveInstance.AgentClient
+                ? createNew 
+                    ? CreateAgentClient(liveInstance) 
+                    : liveInstance.AgentClient
                 : null;
         }
 

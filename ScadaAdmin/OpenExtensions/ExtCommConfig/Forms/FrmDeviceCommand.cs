@@ -115,13 +115,22 @@ namespace Scada.Admin.Extensions.ExtCommConfig.Forms
         {
             try
             {
-                AgentClient.SendCommand(ServiceApp.Comm, cmd);
-                return true;
+                Cursor = Cursors.WaitCursor;
+
+                lock (AgentClient.SyncRoot)
+                {
+                    AgentClient.SendCommand(ServiceApp.Comm, cmd);
+                    return true;
+                }
             }
             catch (Exception ex)
             {
                 log.HandleError(ex, ExtensionPhrases.SendCommandError);
                 return false;
+            }
+            finally
+            {
+                Cursor = Cursors.Default;
             }
         }
 

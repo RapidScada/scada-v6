@@ -79,6 +79,7 @@ namespace Scada.Admin.Extensions
         /// <summary>
         /// Gets the Agent client corresponding to the specified tree node.
         /// </summary>
-        IAgentClient GetAgentClient(TreeNode treeNode);
+        /// <remarks>The existing client must be synchronized in case of multi-threaded access.</remarks>
+        IAgentClient GetAgentClient(TreeNode treeNode, bool createNew);
     }
 }

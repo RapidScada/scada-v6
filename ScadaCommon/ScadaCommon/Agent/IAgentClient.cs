@@ -38,6 +38,12 @@ namespace Scada.Agent
     public interface IAgentClient
     {
         /// <summary>
+        /// Gets an object that can be used to synchronize access to the client.
+        /// </summary>
+        object SyncRoot { get; }
+
+
+        /// <summary>
         /// Tests the connection with the Agent service.
         /// </summary>
         bool TestConnection(out string errMsg);
