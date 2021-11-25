@@ -108,6 +108,19 @@ namespace Scada.Admin.Extensions.ExtCommConfig.Controls
         }
 
         /// <summary>
+        /// Refreshes an open child form that shows the communication line configuration.
+        /// </summary>
+        private void RefreshLineConfg(TreeNode lineNode)
+        {
+            if (lineNode.FindFirst(CommNodeType.LineOptions) is TreeNode lineOptionsNode &&
+                lineOptionsNode.Tag is TreeNodeTag tag &&
+                tag.ExistingForm is IChildForm childForm)
+            {
+                childForm.ChildFormTag.SendMessage(this, AdminMessage.RefreshData);
+            }
+        }
+
+        /// <summary>
         /// Finds a tree node that contains the specified related object.
         /// </summary>
         private static TreeNode FindNode(TreeNode startNode, object relatedObject)
@@ -121,18 +134,6 @@ namespace Scada.Admin.Extensions.ExtCommConfig.Controls
             return null;
         }
 
-        /// <summary>
-        /// Refreshes an open child form that shows the communication line configuration.
-        /// </summary>
-        private static void RefreshLineConfg(TreeNode lineNode)
-        {
-            if (lineNode.FindFirst(CommNodeType.LineOptions) is TreeNode lineOptionsNode &&
-                lineOptionsNode.Tag is TreeNodeTag tag &&
-                tag.ExistingForm is IChildForm childForm)
-            {
-                childForm.ChildFormTag.SendMessage(null, AdminMessage.RefreshData);
-            }
-        }
 
         /// <summary>
         /// Gets menu items to add to the main menu.
