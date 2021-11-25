@@ -419,16 +419,7 @@ namespace Scada.Admin.Extensions.ExtCommConfig.Controls
 
         private void cmsDevice_Opening(object sender, CancelEventArgs e)
         {
-            /*if (FindClosestInstance(tvExplorer.SelectedNode, out LiveInstance liveInstance))
-            {
-                IAgentClient agentClient = liveInstance.CommEnvironment.AgentClient;
-                miDeviceCommand.Enabled = agentClient != null && agentClient.IsLocal;
-            }
-            else
-            {
-                miDeviceCommand.Enabled = false;
-                miDeviceProperties.Enabled = false;
-            }*/
+            miDeviceCommand.Enabled = adminContext.MainForm.GetAgentClient(SelectedNode, false) is not null;
         }
 
         private void miDeviceCommand_Click(object sender, EventArgs e)
