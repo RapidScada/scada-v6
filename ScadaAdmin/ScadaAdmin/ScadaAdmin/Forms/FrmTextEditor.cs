@@ -115,11 +115,11 @@ namespace Scada.Admin.App.Forms
 
         private void FrmTextEditor_Load(object sender, EventArgs e)
         {
-            ChildFormTag.MainFormMessage += ChildFormTag_MainFormMessage;
+            ChildFormTag.MessageToChildForm += ChildFormTag_MessageToChildForm;
             LoadFile();
         }
 
-        private void ChildFormTag_MainFormMessage(object sender, FormMessageEventArgs e)
+        private void ChildFormTag_MessageToChildForm(object sender, FormMessageEventArgs e)
         {
             // update file name in case of renaming a file or its parent directory
             if (e.Message == AdminMessage.UpdateFileName && 

@@ -753,7 +753,7 @@ namespace Scada.Admin.App.Forms.Tables
             if (lblCount.Text.Contains("{0}"))
                 bindingNavigator.CountItemFormat = lblCount.Text;
 
-            ChildFormTag.MainFormMessage += ChildFormTag_MainFormMessage;
+            ChildFormTag.MessageToChildForm += ChildFormTag_MessageToChildForm;
             btnProperties.Visible = ProperiesAvailable;
             btnAddNew.Visible = false;
         }
@@ -799,7 +799,7 @@ namespace Scada.Admin.App.Forms.Tables
             }
         }
 
-        private void ChildFormTag_MainFormMessage(object sender, FormMessageEventArgs e)
+        private void ChildFormTag_MessageToChildForm(object sender, FormMessageEventArgs e)
         {
             if (e.Message == AdminMessage.RefreshData)
                 btnRefresh_Click(null, null);

@@ -111,7 +111,7 @@ namespace Scada.Admin.Extensions.ExtCommConfig.Forms
             FormTranslator.Translate(this, GetType().FullName);
             Text = string.Format(ExtensionPhrases.LineStatsTitle, lineConfig.CommLineNum);
 
-            ChildFormTag.MainFormMessage += ChildFormTag_MainFormMessage;
+            ChildFormTag.MessageToChildForm += ChildFormTag_MessageToChildForm;
             lbTabs.SelectedIndex = 0;
 
             InitLogBoxes();
@@ -131,7 +131,7 @@ namespace Scada.Admin.Extensions.ExtCommConfig.Forms
                 : ScadaUiUtils.LogInactiveRefreshInterval;
         }
 
-        private void ChildFormTag_MainFormMessage(object sender, FormMessageEventArgs e)
+        private void ChildFormTag_MessageToChildForm(object sender, FormMessageEventArgs e)
         {
             if (e.Message == AdminMessage.UpdateFileName)
             {

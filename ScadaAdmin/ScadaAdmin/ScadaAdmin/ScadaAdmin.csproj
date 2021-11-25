@@ -93,7 +93,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="WinControl" Version="2.0.0" />
+    <PackageReference Include="WinControl" Version="2.1.0" />
   </ItemGroup>
 
   <ItemGroup>

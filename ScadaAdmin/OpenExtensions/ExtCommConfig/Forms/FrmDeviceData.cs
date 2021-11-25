@@ -124,7 +124,7 @@ namespace Scada.Admin.Extensions.ExtCommConfig.Forms
             FormTranslator.Translate(this, GetType().FullName);
             Text = string.Format(Text, deviceConfig.DeviceNum);
 
-            ChildFormTag.MainFormMessage += ChildFormTag_MainFormMessage;
+            ChildFormTag.MessageToChildForm += ChildFormTag_MessageToChildForm;
 
             InitLogBox();
             tmrRefresh.Interval = ScadaUiUtils.LogRemoteRefreshInterval;
@@ -143,7 +143,7 @@ namespace Scada.Admin.Extensions.ExtCommConfig.Forms
                 : ScadaUiUtils.LogInactiveRefreshInterval;
         }
 
-        private void ChildFormTag_MainFormMessage(object sender, FormMessageEventArgs e)
+        private void ChildFormTag_MessageToChildForm(object sender, FormMessageEventArgs e)
         {
             if (e.Message == AdminMessage.UpdateAgentClient)
                 UpdateAgentClient();

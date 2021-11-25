@@ -124,13 +124,13 @@ namespace Scada.Admin.Extensions.ExtCommConfig.Forms
             FormTranslator.Translate(this, GetType().FullName);
             Text = string.Format(ExtensionPhrases.LineConfigTitle, lineConfig.CommLineNum);
 
-            ChildFormTag.MainFormMessage += ChildFormTag_MainFormMessage;
+            ChildFormTag.MessageToChildForm += ChildFormTag_MessageToChildForm;
             ctrlLineMain.Init(adminContext, commApp);
             ctrlLinePolling.Init(adminContext, commApp, lineConfig);
             lbTabs.SelectedIndex = 0;
         }
 
-        private void ChildFormTag_MainFormMessage(object sender, FormMessageEventArgs e)
+        private void ChildFormTag_MessageToChildForm(object sender, FormMessageEventArgs e)
         {
             // refresh displayed configuration
             if (e.Message == AdminMessage.RefreshData)
