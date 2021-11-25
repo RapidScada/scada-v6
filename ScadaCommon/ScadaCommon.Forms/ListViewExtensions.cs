@@ -63,6 +63,7 @@ namespace Scada.Forms
                 {
                     try
                     {
+                        listView.Focus(); // to avoid NullReferenceException on .NET 6
                         listView.BeginUpdate();
                         ListViewItem item = listView.Items[index];
                         ListViewItem prevItem = listView.Items[index - 1];
@@ -102,6 +103,7 @@ namespace Scada.Forms
                 {
                     try
                     {
+                        listView.Focus(); // to avoid NullReferenceException on .NET 6
                         listView.BeginUpdate();
                         ListViewItem item = listView.Items[index];
                         ListViewItem nextItem = listView.Items[index + 1];
@@ -137,6 +139,7 @@ namespace Scada.Forms
             {
                 try
                 {
+                    listView.Focus(); // to avoid NullReferenceException on .NET 6
                     listView.BeginUpdate();
                     int index = listView.SelectedIndices[0];
                     listView.Items.RemoveAt(index);
