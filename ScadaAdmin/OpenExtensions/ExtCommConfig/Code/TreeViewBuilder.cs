@@ -51,24 +51,6 @@ namespace Scada.Admin.Extensions.ExtCommConfig.Code
         }
 
         /// <summary>
-        /// Creates a tree node that represents the device.
-        /// </summary>
-        private TreeNode CreateDeviceNode(CommApp commApp, LineConfig lineConfig, DeviceConfig deviceConfig)
-        {
-            return new TreeNode(CommUtils.GetDeviceTitle(deviceConfig))
-            {
-                ImageKey = ImageKey.Device,
-                SelectedImageKey = ImageKey.Device,
-                Tag = new CommNodeTag(commApp, null, CommNodeType.Device)
-                {
-                    FormType = typeof(FrmDeviceData),
-                    FormArgs = new object[] { adminContext, commApp, lineConfig, deviceConfig }
-                }
-            };
-        }
-
-
-        /// <summary>
         /// Creates a tree node that represents the specified communication line.
         /// </summary>
         public TreeNode CreateLineNode(CommApp commApp, LineConfig lineConfig)
@@ -146,6 +128,24 @@ namespace Scada.Admin.Extensions.ExtCommConfig.Code
             {
                 lineNode.TreeView?.EndUpdate();
             }
+        }
+
+        /// <summary>
+        /// Creates a tree node that represents the device.
+        /// </summary>
+        public TreeNode CreateDeviceNode(CommApp commApp, LineConfig lineConfig, DeviceConfig deviceConfig)
+        {
+            return new TreeNode(CommUtils.GetDeviceTitle(deviceConfig))
+            {
+                ImageKey = ImageKey.Device,
+                SelectedImageKey = ImageKey.Device,
+                ContextMenuStrip = menuControl.DeviceMenu,
+                Tag = new CommNodeTag(commApp, deviceConfig, CommNodeType.Device)
+                {
+                    FormType = typeof(FrmDeviceData),
+                    FormArgs = new object[] { adminContext, commApp, lineConfig, deviceConfig }
+                }
+            };
         }
 
         /// <summary>

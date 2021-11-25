@@ -214,14 +214,14 @@ namespace Scada.Admin.Extensions.ExtCommConfig.Controls
                         {
                             if (justPrepared)
                             {
-                                //ExplorerTree.SelectedNode = FindNode(instanceNode, frmDeviceAdd.DeviceConfig);
+                                ExplorerTree.SelectedNode = FindNode(instanceNode, frmDeviceAdd.DeviceConfig);
                             }
                             else if (FindNode(instanceNode, frmDeviceAdd.LineConfig) is TreeNode lineNode)
                             {
-                                //TreeNode deviceNode = new TreeViewBuilder(adminContext, this)
-                                //    .CreateDeviceNode(frmDeviceAdd.Instance.CommApp, frmDeviceAdd.DeviceConfig);
-                                //lineNode.Nodes.Add(deviceNode);
-                                //ExplorerTree.SelectedNode = deviceNode;
+                                TreeNode deviceNode = new TreeViewBuilder(adminContext, this).CreateDeviceNode(
+                                    frmDeviceAdd.Instance.CommApp, frmDeviceAdd.LineConfig, frmDeviceAdd.DeviceConfig);
+                                lineNode.Nodes.Add(deviceNode);
+                                ExplorerTree.SelectedNode = deviceNode;
                                 RefreshLineConfg(lineNode);
                             }
                         }
