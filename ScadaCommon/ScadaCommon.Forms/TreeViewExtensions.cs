@@ -42,9 +42,7 @@ namespace Scada.Forms
         /// </summary>
         public static TreeNode CreateNode(object tag, string imageKey, bool expand = false)
         {
-            if (tag == null)
-                throw new ArgumentNullException(nameof(tag));
-
+            ArgumentNullException.ThrowIfNull(tag, nameof(tag));
             TreeNode node = CreateNode(tag.ToString(), imageKey, expand);
             node.Tag = tag;
             return node;
@@ -120,8 +118,7 @@ namespace Scada.Forms
         /// </summary>
         public static TreeNode FindFirst(this TreeNode treeNode, Type tagType)
         {
-            if (tagType == null)
-                throw new ArgumentNullException(nameof(tagType));
+            ArgumentNullException.ThrowIfNull(tagType, nameof(tagType));
 
             foreach (TreeNode childNode in IterateNodes(treeNode))
             {
@@ -152,8 +149,7 @@ namespace Scada.Forms
         /// </summary>
         public static TreeNode FindClosest(this TreeNode treeNode, Type tagType)
         {
-            if (tagType == null)
-                throw new ArgumentNullException(nameof(tagType));
+            ArgumentNullException.ThrowIfNull(tagType, nameof(tagType));
 
             while (treeNode != null && !treeNode.TagIs(tagType))
             {
@@ -182,8 +178,7 @@ namespace Scada.Forms
         /// </summary>
         public static TreeNode FindSibling(this TreeNode treeNode, Type tagType)
         {
-            if (tagType == null)
-                throw new ArgumentNullException(nameof(tagType));
+            ArgumentNullException.ThrowIfNull(tagType, nameof(tagType));
 
             if (treeNode != null && treeNode.Parent != null)
             {
@@ -275,12 +270,9 @@ namespace Scada.Forms
         public static void Add(this TreeView treeView, TreeNode parentNode, TreeNode nodeToAdd, 
             IList destList, object objToAdd)
         {
-            if (nodeToAdd == null)
-                throw new ArgumentNullException(nameof(nodeToAdd));
-            if (destList == null)
-                throw new ArgumentNullException(nameof(destList));
-            if (objToAdd == null)
-                throw new ArgumentNullException(nameof(objToAdd));
+            ArgumentNullException.ThrowIfNull(nodeToAdd, nameof(nodeToAdd));
+            ArgumentNullException.ThrowIfNull(destList, nameof(destList));
+            ArgumentNullException.ThrowIfNull(objToAdd, nameof(objToAdd));
 
             TreeNodeCollection nodes = treeView.GetChildNodes(parentNode);
             nodes.Add(nodeToAdd);
@@ -293,8 +285,7 @@ namespace Scada.Forms
         /// </summary>
         public static void Add(this TreeView treeView, TreeNode parentNode, TreeNode nodeToAdd)
         {
-            if (parentNode == null)
-                throw new ArgumentNullException(nameof(parentNode));
+            ArgumentNullException.ThrowIfNull(parentNode, nameof(parentNode));
 
             if (GetRelatedObject(parentNode) is ITreeNode parentObj &&
                 GetRelatedObject(nodeToAdd) is ITreeNode objToAdd)
@@ -310,12 +301,9 @@ namespace Scada.Forms
         public static void Insert(this TreeView treeView, TreeNode parentNode, TreeNode nodeToInsert, 
             IList destList, object objToInsert)
         {
-            if (nodeToInsert == null)
-                throw new ArgumentNullException(nameof(nodeToInsert));
-            if (destList == null)
-                throw new ArgumentNullException(nameof(destList));
-            if (objToInsert == null)
-                throw new ArgumentNullException(nameof(objToInsert));
+            ArgumentNullException.ThrowIfNull(nodeToInsert, nameof(nodeToInsert));
+            ArgumentNullException.ThrowIfNull(destList, nameof(destList));
+            ArgumentNullException.ThrowIfNull(objToInsert, nameof(objToInsert));
 
             int index = treeView.FindInsertIndex(parentNode);
             TreeNodeCollection nodes = treeView.GetChildNodes(parentNode);

@@ -200,14 +200,13 @@ namespace Scada.Forms
         /// </summary>
         public void SetLines(ICollection<string> lines)
         {
-            if (lines == null)
-                throw new ArgumentNullException(nameof(lines));
-
+            ArgumentNullException.ThrowIfNull(lines, nameof(lines));
             Graphics graphics = null;
-            listBox.BeginUpdate();
 
             try
             {
+                listBox.BeginUpdate();
+
                 if (listBox.DrawMode == DrawMode.OwnerDrawFixed)
                 {
                     graphics = listBox.CreateGraphics();

@@ -75,9 +75,7 @@ namespace Scada.Forms
         public static void AppendError(this StringBuilder stringBuilder, Label label,
             string text, params object[] args)
         {
-            if (label == null)
-                throw new ArgumentNullException(nameof(label));
-
+            ArgumentNullException.ThrowIfNull(label, nameof(label));
             stringBuilder.Append(label.Text).Append(": ").AppendLine(ScadaUtils.FormatText(text, args));
         }
 

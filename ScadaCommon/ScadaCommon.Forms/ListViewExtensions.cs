@@ -17,8 +17,7 @@ namespace Scada.Forms
         /// </summary>
         public static void InsertItem(this ListView listView, ListViewItem item, bool updateOrder = false)
         {
-            if (item == null)
-                throw new ArgumentNullException(nameof(item));
+            ArgumentNullException.ThrowIfNull(item, nameof(item));
 
             try
             {
