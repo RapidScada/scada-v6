@@ -1,14 +1,14 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFramework>net5.0-windows</TargetFramework>
+    <TargetFramework>net6.0-windows</TargetFramework>
     <UseWindowsForms>true</UseWindowsForms>
     <RootNamespace>Scada.Admin</RootNamespace>
     <Version>6.0.0</Version>
     <Authors>Mikhail Shiryaev</Authors>
     <Company>Rapid Software LLC</Company>
     <Product>Rapid SCADA</Product>
-    <Copyright>Copyright © 2018-2021</Copyright>
+    <Copyright>Copyright © 2021</Copyright>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
@@ -29,7 +29,7 @@
       <HintPath>..\..\..\ScadaServer\ScadaServer\ScadaServerCommon\bin\Release\netstandard2.0\ScadaServerCommon.dll</HintPath>
     </Reference>
     <Reference Include="ScadaWebCommon.Subset">
-      <HintPath>..\..\..\ScadaWeb\ScadaWeb\ScadaWebCommon.Subset\bin\Release\net5.0\ScadaWebCommon.Subset.dll</HintPath>
+      <HintPath>..\..\..\ScadaWeb\ScadaWeb\ScadaWebCommon.Subset\bin\Release\net6.0\ScadaWebCommon.Subset.dll</HintPath>
     </Reference>
   </ItemGroup>
 
