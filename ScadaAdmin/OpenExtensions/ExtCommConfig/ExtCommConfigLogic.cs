@@ -40,8 +40,8 @@ namespace Scada.Admin.Extensions.ExtCommConfig
                 if (ExtensionUtils.MenuControl == null)
                 {
                     ExtensionUtils.MenuControl = new CtrlExtensionMenu(AdminContext);
-                    FormTranslator.Translate(ExtensionUtils.MenuControl.AllContextMenus, 
-                        typeof(CtrlExtensionMenu).FullName);
+                    FormTranslator.Translate(ExtensionUtils.MenuControl, typeof(CtrlExtensionMenu).FullName, 
+                        null, ExtensionUtils.MenuControl.AllContextMenus);
                 }
 
                 return ExtensionUtils.MenuControl;

@@ -160,22 +160,16 @@ namespace Scada.Forms
         /// <summary>
         /// Translates the control using the specified dictionary.
         /// </summary>
-        public static void Translate(Control control, string dictName, ToolTip toolTip = null)
+        public static void Translate(Control control, string dictName, 
+            ToolTip toolTip = null, params ContextMenuStrip[] contextMenus)
         {
             if (control != null && Locale.Dictionaries.TryGetValue(dictName, out LocaleDict localeDict))
             {
-                Translate(new Control[] { control }, toolTip, ControlPhrases.GetControlDict(localeDict));
-            }
-        }
+                Dictionary<string, ControlPhrases> controlDict = ControlPhrases.GetControlDict(localeDict);
+                Translate(new Control[] { control }, toolTip, controlDict);
 
-        /// <summary>
-        /// Translates the context menus using the specified dictionary.
-        /// </summary>
-        public static void Translate(ContextMenuStrip[] contextMenus, string dictName)
-        {
-            if (contextMenus != null && Locale.Dictionaries.TryGetValue(dictName, out LocaleDict localeDict))
-            {
-                Translate(contextMenus, null, ControlPhrases.GetControlDict(localeDict));
+                if (contextMenus != null)
+                    Translate(contextMenus, null, controlDict);
             }
         }
     }
