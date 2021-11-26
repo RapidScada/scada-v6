@@ -167,5 +167,16 @@ namespace Scada.Forms
                 Translate(new Control[] { control }, toolTip, ControlPhrases.GetControlDict(localeDict));
             }
         }
+
+        /// <summary>
+        /// Translates the context menus using the specified dictionary.
+        /// </summary>
+        public static void Translate(ContextMenuStrip[] contextMenus, string dictName)
+        {
+            if (contextMenus != null && Locale.Dictionaries.TryGetValue(dictName, out LocaleDict localeDict))
+            {
+                Translate(contextMenus, null, ControlPhrases.GetControlDict(localeDict));
+            }
+        }
     }
 }

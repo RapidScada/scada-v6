@@ -72,6 +72,11 @@ namespace Scada.Admin.Extensions.ExtCommConfig.Controls
         /// </summary>
         public ContextMenuStrip DeviceMenu => cmsDevice;
 
+        /// <summary>
+        /// Gets all context menus.
+        /// </summary>
+        public ContextMenuStrip[] AllContextMenus => new ContextMenuStrip[] { cmsLine, cmsDevice };
+
 
         /// <summary>
         /// Enables or disables main menu items and toolbar buttons.
