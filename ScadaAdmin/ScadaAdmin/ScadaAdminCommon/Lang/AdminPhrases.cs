@@ -60,6 +60,8 @@ namespace Scada.Admin.Lang
         public static string RestartNamedService { get; private set; }
         public static string ServiceCommandCompleted { get; private set; }
         public static string ServiceCommandFailed { get; private set; }
+        public static string CommandSent { get; private set; }
+        public static string SendCommandError { get; private set; }
 
         // Scada.Admin.Project
         public static string CreateAppConfigError { get; private set; }
@@ -124,6 +126,8 @@ namespace Scada.Admin.Lang
             RestartNamedService = dict["RestartNamedService"];
             ServiceCommandCompleted = dict["ServiceCommandCompleted"];
             ServiceCommandFailed = dict["ServiceCommandFailed"];
+            CommandSent = dict["CommandSent"];
+            SendCommandError = dict["SendCommandError"];
 
             dict = Locale.GetDictionary("Scada.Admin.Project");
             CreateAppConfigError = dict["CreateAppConfigError"];

@@ -12,7 +12,6 @@
     <Phrase key="DeviceNotSupported">The driver does not support creating devices.</Phrase>
     <Phrase key="UnableCreateDeviceView">Unable to create device user interface.</Phrase>
     <Phrase key="NoDeviceProperties">The device does not provide a properties window.</Phrase>
-    <Phrase key="SendCommandError">Error sending command</Phrase>
   </Dictionary>
   <Dictionary key="Scada.Admin.Extensions.ExtCommConfig.Controls.CtrlExtensionMenu">
     <Phrase key="miWizards">Wizards</Phrase>
@@ -32,6 +31,7 @@
     <Phrase key="miLineStop">Stop Line</Phrase>
     <Phrase key="miLineRestart">Restart Line</Phrase>
     <Phrase key="miDeviceCommand">Send Command...</Phrase>
+    <Phrase key="miDevicePoll">Poll Device</Phrase>
     <Phrase key="miDeviceProperties">Properies</Phrase>
     <Phrase key="ConfirmDeleteLine">Are you sure you want to delete the communication line?</Phrase>
   </Dictionary>

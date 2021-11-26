@@ -12,7 +12,6 @@
     <Phrase key="DeviceNotSupported">Драйвер не поддерживает создание КП.</Phrase>
     <Phrase key="UnableCreateDeviceView">Невозможно создать пользовательский интерфейс КП.</Phrase>
     <Phrase key="NoDeviceProperties">КП не предоставляет окно свойств.</Phrase>
-    <Phrase key="SendCommandError">Ошибка при отправке команды</Phrase>
   </Dictionary>
   <Dictionary key="Scada.Admin.Extensions.ExtCommConfig.Controls.CtrlExtensionMenu">
     <Phrase key="miWizards">Мастеры</Phrase>
@@ -32,6 +31,7 @@
     <Phrase key="miLineStop">Остановить линию</Phrase>
     <Phrase key="miLineRestart">Перезапустить линию</Phrase>
     <Phrase key="miDeviceCommand">Отправить команду...</Phrase>
+    <Phrase key="miDevicePoll">Опросить</Phrase>
     <Phrase key="miDeviceProperties">Свойства</Phrase>
     <Phrase key="ConfirmDeleteLine">Вы уверены, что хотите удалить линию связи?</Phrase>
   </Dictionary>

@@ -23,7 +23,6 @@ namespace Scada.Admin.Extensions.ExtCommConfig.Code
         public static string DeviceNotSupported { get; private set; }
         public static string UnableCreateDeviceView { get; private set; }
         public static string NoDeviceProperties { get; private set; }
-        public static string SendCommandError { get; private set; }
 
         // Scada.Admin.Extensions.ExtCommConfig.Controls.CtrlExtensionMenu
         public static string ConfirmDeleteLine { get; private set; }
@@ -70,7 +69,6 @@ namespace Scada.Admin.Extensions.ExtCommConfig.Code
             DeviceNotSupported = dict["DeviceNotSupported"];
             UnableCreateDeviceView = dict["UnableCreateDeviceView"];
             NoDeviceProperties = dict["NoDeviceProperties"];
-            SendCommandError = dict["SendCommandError"];
 
             dict = Locale.GetDictionary("Scada.Admin.Extensions.ExtCommConfig.Controls.CtrlExtensionMenu");
             ConfirmDeleteLine = dict["ConfirmDeleteLine"];

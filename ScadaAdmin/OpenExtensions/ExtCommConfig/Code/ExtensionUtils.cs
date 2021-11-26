@@ -2,6 +2,7 @@
 // Licensed under the Apache License, Version 2.0. See License.txt in the project root for license information.
 
 using Scada.Admin.Extensions.ExtCommConfig.Controls;
+using Scada.Admin.Lang;
 using Scada.Admin.Project;
 using Scada.Agent;
 using Scada.Comm.Config;
@@ -9,7 +10,6 @@ using Scada.Comm.Devices;
 using Scada.Comm.Drivers;
 using Scada.Data.Models;
 using Scada.Forms;
-using Scada.Log;
 using System;
 using System.Collections.Generic;
 using System.Windows.Forms;
@@ -172,7 +172,7 @@ namespace Scada.Admin.Extensions.ExtCommConfig.Code
             }
             catch (Exception ex)
             {
-                adminContext.ErrLog.HandleError(ex, ExtensionPhrases.SendCommandError);
+                adminContext.ErrLog.HandleError(ex, AdminPhrases.SendCommandError);
                 return false;
             }
             finally

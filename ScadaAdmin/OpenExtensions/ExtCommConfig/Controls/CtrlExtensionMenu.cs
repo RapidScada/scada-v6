@@ -416,7 +416,8 @@ namespace Scada.Admin.Extensions.ExtCommConfig.Controls
                     else
                         cmd.CmdCode = CommCommands.RestartLine;
 
-                    ExtensionUtils.SendCommand(adminContext, agentClient, cmd);
+                    if (ExtensionUtils.SendCommand(adminContext, agentClient, cmd))
+                        ScadaUiUtils.ShowInfo(AdminPhrases.CommandSent);
                 }
                 else
                 {
@@ -451,12 +452,15 @@ namespace Scada.Admin.Extensions.ExtCommConfig.Controls
             {
                 if (adminContext.MainForm.GetAgentClient(SelectedNode, false) is IAgentClient agentClient)
                 {
-                    ExtensionUtils.SendCommand(adminContext, agentClient, new TeleCommand
+                    if (ExtensionUtils.SendCommand(adminContext, agentClient, new TeleCommand
                     {
                         CreationTime = DateTime.UtcNow,
                         DeviceNum = deviceConfig.DeviceNum,
                         CmdCode = CommCommands.PollDevice
-                    });
+                    }))
+                    {
+                        ScadaUiUtils.ShowInfo(AdminPhrases.CommandSent);
+                    }
                 }
                 else
                 {
