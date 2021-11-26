@@ -188,7 +188,17 @@ namespace Scada.Admin.Extensions.ExtCommConfig.Code
                         FormArgs = new object[] { adminContext, commApp }
                     }
                 },
-                CreateLinesNode(commApp)
+                CreateLinesNode(commApp),
+                new TreeNode(ExtensionPhrases.LogsNode)
+                {
+                    ImageKey = ImageKey.Stats,
+                    SelectedImageKey = ImageKey.Stats,
+                    Tag = new CommNodeTag(commApp, null, CommNodeType.Logs)
+                    {
+                        FormType = typeof(FrmLogs),
+                        FormArgs = new object[] { adminContext }
+                    }
+                }
             };
         }
     }

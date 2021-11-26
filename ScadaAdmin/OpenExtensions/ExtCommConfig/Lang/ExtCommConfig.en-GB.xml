@@ -7,6 +7,7 @@
     <Phrase key="LinesNode">Communication Lines</Phrase>
     <Phrase key="LineOptionsNode">Line Options</Phrase>
     <Phrase key="LineStatsNode">Line Stats</Phrase>
+    <Phrase key="LogsNode">Logs</Phrase>
   </Dictionary>
   <Dictionary key="Scada.Admin.Extensions.ExtCommConfig.Code.ExtensionUtils">
     <Phrase key="DeviceNotSupported">The driver does not support creating devices.</Phrase>

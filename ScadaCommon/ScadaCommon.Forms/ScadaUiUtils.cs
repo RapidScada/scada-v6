@@ -159,6 +159,9 @@ namespace Scada.Forms
         /// </summary>
         public static void DrawTabItem(this ListBox listBox, DrawItemEventArgs e)
         {
+            if (e.Index < 0)
+                return;
+
             const int PaddingLeft = 5;
             string text = (string)listBox.Items[e.Index];
             SizeF textSize = e.Graphics.MeasureString(text, listBox.Font);

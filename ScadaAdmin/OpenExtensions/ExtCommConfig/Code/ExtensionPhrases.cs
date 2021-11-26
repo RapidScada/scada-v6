@@ -18,6 +18,7 @@ namespace Scada.Admin.Extensions.ExtCommConfig.Code
         public static string LinesNode { get; private set; }
         public static string LineOptionsNode { get; private set; }
         public static string LineStatsNode { get; private set; }
+        public static string LogsNode { get; private set; }
 
         // Scada.Admin.Extensions.ExtCommConfig.Code.ExtensionUtils
         public static string DeviceNotSupported { get; private set; }
@@ -64,6 +65,7 @@ namespace Scada.Admin.Extensions.ExtCommConfig.Code
             LinesNode = dict["LinesNode"];
             LineOptionsNode = dict["LineOptionsNode"];
             LineStatsNode = dict["LineStatsNode"];
+            LogsNode = dict["LogsNode"];
 
             dict = Locale.GetDictionary("Scada.Admin.Extensions.ExtCommConfig.Code.ExtensionUtils");
             DeviceNotSupported = dict["DeviceNotSupported"];
