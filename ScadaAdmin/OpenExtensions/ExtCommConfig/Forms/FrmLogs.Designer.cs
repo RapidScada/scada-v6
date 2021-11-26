@@ -31,6 +31,7 @@
             this.components = new System.ComponentModel.Container();
             this.pnlLeft = new System.Windows.Forms.Panel();
             this.lbFiles = new System.Windows.Forms.ListBox();
+            this.lblLoadFileList = new System.Windows.Forms.Label();
             this.cbFilter = new System.Windows.Forms.ComboBox();
             this.chkPause = new System.Windows.Forms.CheckBox();
             this.lbLog = new System.Windows.Forms.ListBox();
@@ -40,6 +41,7 @@
             // 
             // pnlLeft
             // 
+            this.pnlLeft.Controls.Add(this.lblLoadFileList);
             this.pnlLeft.Controls.Add(this.lbFiles);
             this.pnlLeft.Controls.Add(this.cbFilter);
             this.pnlLeft.Dock = System.Windows.Forms.DockStyle.Left;
@@ -56,16 +58,24 @@
             this.lbFiles.FormattingEnabled = true;
             this.lbFiles.IntegralHeight = false;
             this.lbFiles.ItemHeight = 25;
-            this.lbFiles.Items.AddRange(new object[] {
-            "ScadaComm.log",
-            "ScadaComm.txt",
-            "DrvDsOpcUaServer_OpcUaServer.log"});
             this.lbFiles.Location = new System.Drawing.Point(0, 23);
             this.lbFiles.Name = "lbFiles";
             this.lbFiles.Size = new System.Drawing.Size(250, 388);
             this.lbFiles.TabIndex = 1;
             this.lbFiles.DrawItem += new System.Windows.Forms.DrawItemEventHandler(this.lbFiles_DrawItem);
             this.lbFiles.SelectedIndexChanged += new System.EventHandler(this.lbFiles_SelectedIndexChanged);
+            // 
+            // lblLoadFileList
+            // 
+            this.lblLoadFileList.BackColor = System.Drawing.SystemColors.Window;
+            this.lblLoadFileList.Dock = System.Windows.Forms.DockStyle.Top;
+            this.lblLoadFileList.Location = new System.Drawing.Point(0, 23);
+            this.lblLoadFileList.Name = "lblLoadFileList";
+            this.lblLoadFileList.Size = new System.Drawing.Size(250, 25);
+            this.lblLoadFileList.TabIndex = 3;
+            this.lblLoadFileList.Text = "Loading file list...";
+            this.lblLoadFileList.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            this.lblLoadFileList.Visible = false;
             // 
             // cbFilter
             // 
@@ -141,5 +151,6 @@
         private System.Windows.Forms.CheckBox chkPause;
         private System.Windows.Forms.ListBox lbLog;
         private System.Windows.Forms.Timer tmrRefresh;
+        private System.Windows.Forms.Label lblLoadFileList;
     }
 }

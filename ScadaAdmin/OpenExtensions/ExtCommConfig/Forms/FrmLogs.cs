@@ -7,6 +7,7 @@ using Scada.Forms;
 using Scada.Lang;
 using Scada.Protocol;
 using System;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using WinControl;
@@ -21,6 +22,8 @@ namespace Scada.Admin.Extensions.ExtCommConfig.Forms
     {
         private readonly IAdminContext adminContext; // the Administrator context
         private readonly RemoteLogBox logBox;        // updates log
+        private IAgentClient agentClient;            // interacts with Agent
+        private bool fileNamesLoaded;                // indicates that file names are loaded
         private bool isClosed;                       // indicates that the form is closed
 
 
@@ -40,6 +43,8 @@ namespace Scada.Admin.Extensions.ExtCommConfig.Forms
         {
             this.adminContext = adminContext ?? throw new ArgumentNullException(nameof(adminContext));
             logBox = new RemoteLogBox(lbLog) { AutoScroll = true };
+            agentClient = null;
+            fileNamesLoaded = false;
             isClosed = false;
         }
 
@@ -64,8 +69,11 @@ namespace Scada.Admin.Extensions.ExtCommConfig.Forms
         /// </summary>
         private void UpdateAgentClient(bool setFirstLine)
         {
-            IAgentClient agentClient = adminContext.MainForm.GetAgentClient(ChildFormTag?.TreeNode, false);
+            agentClient = adminContext.MainForm.GetAgentClient(ChildFormTag?.TreeNode, false);
             logBox.AgentClient = agentClient;
+
+            lbFiles.Items.Clear();
+            fileNamesLoaded = false;
 
             if (setFirstLine)
                 SetFirstLine();
@@ -92,6 +100,71 @@ namespace Scada.Admin.Extensions.ExtCommConfig.Forms
                 logBox.SetFirstLine(CommonPhrases.NoData);
             else
                 logBox.SetFirstLine(AdminPhrases.FileLoading);
+        }
+
+        /// <summary>
+        /// Clears the list of file names.
+        /// </summary>
+        private void ClearFileList()
+        {
+            lbFiles.Items.Clear();
+            UpdateLogPath();
+        }
+
+        /// <summary>
+        /// Loads the list of file names.
+        /// </summary>
+        private void LoadFileList()
+        {
+            if (agentClient is not IAgentClient localAgentClient)
+                return;
+
+            try
+            {
+                lbFiles.BeginUpdate();
+                lbFiles.Items.Clear();
+
+                ICollection<string> fileNames;
+                string prefix = GetFilePrefix();
+
+                lock (localAgentClient.SyncRoot)
+                {
+                    fileNames = localAgentClient.GetFileList(new RelativePath(TopFolder.Comm, AppFolder.Log, "*"));
+                }
+
+                foreach (string fileName in fileNames)
+                {
+                    if (string.IsNullOrEmpty(prefix) || fileName.StartsWith(prefix))
+                        lbFiles.Items.Add(fileName);
+                }
+
+                if (lbFiles.Items.Count > 0)
+                    lbFiles.SelectedIndex = 0;
+
+                fileNamesLoaded = true;
+            }
+            catch (Exception ex)
+            {
+                logBox.SetFirstLine(ex.Message);
+            }
+            finally
+            {
+                lbFiles.EndUpdate();
+            }
+        }
+
+        /// <summary>
+        /// Gets the file prefix according to the file filter.
+        /// </summary>
+        private string GetFilePrefix()
+        {
+            return cbFilter.SelectedIndex switch
+            {
+                0 => "ScadaComm.",
+                1 => "line",
+                2 => "device",
+                _ => ""
+            };
         }
 
         /// <summary>
@@ -137,6 +210,8 @@ namespace Scada.Admin.Extensions.ExtCommConfig.Forms
         private void cbFilter_SelectedIndexChanged(object sender, EventArgs e)
         {
             chkPause.Checked = false;
+            fileNamesLoaded = false;
+            ClearFileList();
         }
 
         private void lbFiles_DrawItem(object sender, DrawItemEventArgs e)
@@ -156,8 +231,17 @@ namespace Scada.Admin.Extensions.ExtCommConfig.Forms
             {
                 tmrRefresh.Stop();
 
-                if (!chkPause.Checked && !string.IsNullOrEmpty(logBox.LogPath.Path))
-                    await Task.Run(() => logBox.RefreshWithAgent());
+                if (fileNamesLoaded)
+                {
+                    if (!chkPause.Checked && !string.IsNullOrEmpty(logBox.LogPath.Path))
+                        await Task.Run(() => logBox.RefreshWithAgent());
+                }
+                else
+                {
+                    lblLoadFileList.Visible = true;
+                    await Task.Run(() => LoadFileList());
+                    lblLoadFileList.Visible = false;
+                }
 
                 if (!isClosed)
                     tmrRefresh.Start();

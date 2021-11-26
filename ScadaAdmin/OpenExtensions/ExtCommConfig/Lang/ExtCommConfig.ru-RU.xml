@@ -219,6 +219,7 @@
     <Phrase key="cbFilter.Items[1]">Линии связи</Phrase>
     <Phrase key="cbFilter.Items[2]">КП</Phrase>
     <Phrase key="cbFilter.Items[3]">Все файлы</Phrase>
+    <Phrase key="lblLoadFileList">Загрузка списка файлов...</Phrase>
     <Phrase key="chkPause">Пауза</Phrase>
   </Dictionary>
 </ExtCommConfigDictionaries>

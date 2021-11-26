@@ -219,6 +219,7 @@
     <Phrase key="cbFilter.Items[1]">Communication Lines</Phrase>
     <Phrase key="cbFilter.Items[2]">Devices</Phrase>
     <Phrase key="cbFilter.Items[3]">All Files</Phrase>
+    <Phrase key="lblLoadFileList">Loading file list...</Phrase>
     <Phrase key="chkPause">Pause</Phrase>
   </Dictionary>
 </ExtCommConfigDictionaries>

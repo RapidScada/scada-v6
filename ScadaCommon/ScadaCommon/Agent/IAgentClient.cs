@@ -69,6 +69,11 @@ namespace Scada.Agent
         void UploadConfig(string srcFileName, CancellationToken cancellationToken);
 
         /// <summary>
+        /// Gets a list of short file names in the specified path.
+        /// </summary>
+        ICollection<string> GetFileList(RelativePath path);
+
+        /// <summary>
         /// Reads the text file.
         /// </summary>
         bool ReadTextFile(RelativePath path, ref DateTime newerThan, out ICollection<string> lines);
