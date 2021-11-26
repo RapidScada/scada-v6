@@ -444,6 +444,27 @@ namespace Scada.Admin.Extensions.ExtCommConfig.Controls
             }
         }
 
+        private void miDevicePoll_Click(object sender, EventArgs e)
+        {
+            // send command to poll device
+            if (SelectedNode?.GetRelatedObject() is DeviceConfig deviceConfig)
+            {
+                if (adminContext.MainForm.GetAgentClient(SelectedNode, false) is IAgentClient agentClient)
+                {
+                    ExtensionUtils.SendCommand(adminContext, agentClient, new TeleCommand
+                    {
+                        CreationTime = DateTime.UtcNow,
+                        DeviceNum = deviceConfig.DeviceNum,
+                        CmdCode = CommCommands.PollDevice
+                    });
+                }
+                else
+                {
+                    ScadaUiUtils.ShowWarning(AdminPhrases.AgentNotEnabled);
+                }
+            }
+        }
+
         private void miDeviceProperties_Click(object sender, EventArgs e)
         {
             // show device properties

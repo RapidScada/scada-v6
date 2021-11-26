@@ -44,6 +44,7 @@ namespace Scada.Admin.Extensions.ExtCommConfig.Controls
             this.miLineRestart = new System.Windows.Forms.ToolStripMenuItem();
             this.cmsDevice = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.miDeviceCommand = new System.Windows.Forms.ToolStripMenuItem();
+            this.miDevicePoll = new System.Windows.Forms.ToolStripMenuItem();
             this.miDeviceProperties = new System.Windows.Forms.ToolStripMenuItem();
             this.menuStrip = new System.Windows.Forms.MenuStrip();
             this.miTools = new System.Windows.Forms.ToolStripMenuItem();
@@ -165,9 +166,10 @@ namespace Scada.Admin.Extensions.ExtCommConfig.Controls
             // 
             this.cmsDevice.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.miDeviceCommand,
+            this.miDevicePoll,
             this.miDeviceProperties});
             this.cmsDevice.Name = "cmsDevice";
-            this.cmsDevice.Size = new System.Drawing.Size(170, 48);
+            this.cmsDevice.Size = new System.Drawing.Size(170, 70);
             // 
             // miDeviceCommand
             // 
@@ -176,6 +178,14 @@ namespace Scada.Admin.Extensions.ExtCommConfig.Controls
             this.miDeviceCommand.Size = new System.Drawing.Size(169, 22);
             this.miDeviceCommand.Text = "Send Command...";
             this.miDeviceCommand.Click += new System.EventHandler(this.miDeviceCommand_Click);
+            // 
+            // miDevicePoll
+            // 
+            this.miDevicePoll.Image = global::Scada.Admin.Extensions.ExtCommConfig.Properties.Resources.poll;
+            this.miDevicePoll.Name = "miDevicePoll";
+            this.miDevicePoll.Size = new System.Drawing.Size(169, 22);
+            this.miDevicePoll.Text = "Poll Device";
+            this.miDevicePoll.Click += new System.EventHandler(this.miDevicePoll_Click);
             // 
             // miDeviceProperties
             // 
@@ -209,14 +219,14 @@ namespace Scada.Admin.Extensions.ExtCommConfig.Controls
             this.miAddDevice,
             this.miCreateChannels});
             this.miWizards.Name = "miWizards";
-            this.miWizards.Size = new System.Drawing.Size(180, 22);
+            this.miWizards.Size = new System.Drawing.Size(115, 22);
             this.miWizards.Text = "Wizards";
             // 
             // miAddLine
             // 
             this.miAddLine.Image = global::Scada.Admin.Extensions.ExtCommConfig.Properties.Resources.add_line;
             this.miAddLine.Name = "miAddLine";
-            this.miAddLine.Size = new System.Drawing.Size(180, 22);
+            this.miAddLine.Size = new System.Drawing.Size(169, 22);
             this.miAddLine.Text = "Add Line...";
             this.miAddLine.Click += new System.EventHandler(this.miAddLine_Click);
             // 
@@ -224,7 +234,7 @@ namespace Scada.Admin.Extensions.ExtCommConfig.Controls
             // 
             this.miAddDevice.Image = global::Scada.Admin.Extensions.ExtCommConfig.Properties.Resources.add_device;
             this.miAddDevice.Name = "miAddDevice";
-            this.miAddDevice.Size = new System.Drawing.Size(180, 22);
+            this.miAddDevice.Size = new System.Drawing.Size(169, 22);
             this.miAddDevice.Text = "Add Device...";
             this.miAddDevice.Click += new System.EventHandler(this.miAddDevice_Click);
             // 
@@ -232,7 +242,7 @@ namespace Scada.Admin.Extensions.ExtCommConfig.Controls
             // 
             this.miCreateChannels.Image = global::Scada.Admin.Extensions.ExtCommConfig.Properties.Resources.create_cnls;
             this.miCreateChannels.Name = "miCreateChannels";
-            this.miCreateChannels.Size = new System.Drawing.Size(180, 22);
+            this.miCreateChannels.Size = new System.Drawing.Size(169, 22);
             this.miCreateChannels.Text = "Create Channels...";
             this.miCreateChannels.Click += new System.EventHandler(this.miCreateChannels_Click);
             // 
@@ -323,5 +333,6 @@ namespace Scada.Admin.Extensions.ExtCommConfig.Controls
         private System.Windows.Forms.ToolStripButton btnAddLine;
         private System.Windows.Forms.ToolStripButton btnAddDevice;
         private System.Windows.Forms.ToolStripButton btnCreateChannels;
+        private System.Windows.Forms.ToolStripMenuItem miDevicePoll;
     }
 }
