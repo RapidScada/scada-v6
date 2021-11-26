@@ -23,6 +23,7 @@ namespace Scada.Admin.Extensions.ExtCommConfig.Code
         public static string DeviceNotSupported { get; private set; }
         public static string UnableCreateDeviceView { get; private set; }
         public static string NoDeviceProperties { get; private set; }
+        public static string SendCommandError { get; private set; }
 
         // Scada.Admin.Extensions.ExtCommConfig.Controls.CtrlExtensionMenu
         public static string ConfirmDeleteLine { get; private set; }
@@ -44,9 +45,6 @@ namespace Scada.Admin.Extensions.ExtCommConfig.Code
         public static string DeviceExistsInLineConfig { get; private set; }
         public static string LineNotFoundInCommConfig { get; private set; }
         public static string ChooseLine { get; private set; }
-
-        // Scada.Admin.Extensions.ExtProjectTools.Forms.FrmDeviceCommand
-        public static string SendCommandError { get; private set; }
 
         // Scada.Admin.Extensions.ExtProjectTools.Forms.FrmLineAdd
         public static string LineExistsInConfigBase { get; private set; }
@@ -72,6 +70,7 @@ namespace Scada.Admin.Extensions.ExtCommConfig.Code
             DeviceNotSupported = dict["DeviceNotSupported"];
             UnableCreateDeviceView = dict["UnableCreateDeviceView"];
             NoDeviceProperties = dict["NoDeviceProperties"];
+            SendCommandError = dict["SendCommandError"];
 
             dict = Locale.GetDictionary("Scada.Admin.Extensions.ExtCommConfig.Controls.CtrlExtensionMenu");
             ConfirmDeleteLine = dict["ConfirmDeleteLine"];
@@ -93,9 +92,6 @@ namespace Scada.Admin.Extensions.ExtCommConfig.Code
             DeviceExistsInLineConfig = dict["DeviceExistsInLineConfig"];
             LineNotFoundInCommConfig = dict["LineNotFoundInCommConfig"];
             ChooseLine = dict["ChooseLine"];
-
-            dict = Locale.GetDictionary("Scada.Admin.Extensions.ExtCommConfig.Forms.FrmDeviceCommand");
-            SendCommandError = dict["SendCommandError"];
 
             dict = Locale.GetDictionary("Scada.Admin.Extensions.ExtCommConfig.Forms.FrmLineAdd");
             LineExistsInConfigBase = dict["LineExistsInConfigBase"];

@@ -12,6 +12,7 @@
     <Phrase key="DeviceNotSupported">The driver does not support creating devices.</Phrase>
     <Phrase key="UnableCreateDeviceView">Unable to create device user interface.</Phrase>
     <Phrase key="NoDeviceProperties">The device does not provide a properties window.</Phrase>
+    <Phrase key="SendCommandError">Error sending command</Phrase>
   </Dictionary>
   <Dictionary key="Scada.Admin.Extensions.ExtCommConfig.Controls.CtrlExtensionMenu">
     <Phrase key="miWizards">Wizards</Phrase>
@@ -163,7 +164,6 @@
     <Phrase key="btnOn">On</Phrase>
     <Phrase key="btnSend">Send</Phrase>
     <Phrase key="btnClose">Close</Phrase>
-    <Phrase key="SendCommandError">Error sending command</Phrase>
   </Dictionary>
   <Dictionary key="Scada.Admin.Extensions.ExtCommConfig.Forms.FrmDeviceData">
     <Phrase key="this">Device {0}</Phrase>

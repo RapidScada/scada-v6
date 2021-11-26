@@ -21,7 +21,7 @@ namespace Scada.Admin.Extensions.ExtCommConfig.Forms
     /// </summary>
     public partial class FrmDeviceCommand : Form
     {
-        private readonly ILog log;                   // the application log
+        private readonly IAdminContext adminContext; // the Administrator context
         private readonly DeviceConfig deviceConfig;  // the device configuration
 
 
@@ -36,10 +36,10 @@ namespace Scada.Admin.Extensions.ExtCommConfig.Forms
         /// <summary>
         /// Initializes a new instance of the class.
         /// </summary>
-        public FrmDeviceCommand(ILog log, DeviceConfig deviceConfig)
+        public FrmDeviceCommand(IAdminContext adminContext, DeviceConfig deviceConfig)
             : this()
         {
-            this.log = log ?? throw new ArgumentNullException(nameof(log));
+            this.adminContext = adminContext ?? throw new ArgumentNullException(nameof(adminContext));
             this.deviceConfig = deviceConfig ?? throw new ArgumentNullException(nameof(deviceConfig));
             AgentClient = null;
 
@@ -108,33 +108,6 @@ namespace Scada.Admin.Extensions.ExtCommConfig.Forms
             return false;
         }
 
-        /// <summary>
-        /// Sends the telecontrol command.
-        /// </summary>
-        private bool SendCommand(TeleCommand cmd)
-        {
-            try
-            {
-                Cursor = Cursors.WaitCursor;
-
-                lock (AgentClient.SyncRoot)
-                {
-                    AgentClient.SendCommand(ServiceApp.Comm, cmd);
-                    return true;
-                }
-            }
-            catch (Exception ex)
-            {
-                log.HandleError(ex, ExtensionPhrases.SendCommandError);
-                return false;
-            }
-            finally
-            {
-                Cursor = Cursors.Default;
-            }
-        }
-
-
         private void rb_CheckedChanged(object sender, EventArgs e)
         {
             if (sender is RadioButton radioButton && radioButton.Checked)
@@ -166,7 +139,7 @@ namespace Scada.Admin.Extensions.ExtCommConfig.Forms
         {
             if (AgentClient == null)
                 ScadaUiUtils.ShowError(AdminPhrases.AgentNotEnabled);
-            else if (CreateCommand(out TeleCommand cmd) && SendCommand(cmd))
+            else if (CreateCommand(out TeleCommand cmd) && ExtensionUtils.SendCommand(adminContext, AgentClient, cmd))
                 DialogResult = DialogResult.OK;
         }
     }

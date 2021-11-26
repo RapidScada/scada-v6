@@ -50,6 +50,11 @@ namespace Scada.Admin.Extensions
         /// </summary>
         Type ActiveBaseTable { get; }
 
+        /// <summary>
+        /// Gets or sets the cursor.
+        /// </summary>
+        Cursor Cursor { get; set; }
+
 
         /// <summary>
         /// Closes the specified child form.

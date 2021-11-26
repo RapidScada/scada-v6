@@ -3,10 +3,13 @@
 
 using Scada.Admin.Extensions.ExtCommConfig.Controls;
 using Scada.Admin.Project;
+using Scada.Agent;
 using Scada.Comm.Config;
 using Scada.Comm.Devices;
 using Scada.Comm.Drivers;
+using Scada.Data.Models;
 using Scada.Forms;
+using Scada.Log;
 using System;
 using System.Collections.Generic;
 using System.Windows.Forms;
@@ -145,6 +148,36 @@ namespace Scada.Admin.Extensions.ExtCommConfig.Code
                 {
                     ScadaUiUtils.ShowInfo(ExtensionPhrases.NoDeviceProperties);
                 }
+            }
+        }
+
+        /// <summary>
+        /// Sends the telecontrol command.
+        /// </summary>
+        public static bool SendCommand(IAdminContext adminContext, IAgentClient agentClient, TeleCommand cmd)
+        {
+            ArgumentNullException.ThrowIfNull(adminContext, nameof(adminContext));
+            ArgumentNullException.ThrowIfNull(agentClient, nameof(agentClient));
+            ArgumentNullException.ThrowIfNull(cmd, nameof(cmd));
+
+            try
+            {
+                adminContext.MainForm.Cursor = Cursors.WaitCursor;
+
+                lock (agentClient.SyncRoot)
+                {
+                    agentClient.SendCommand(ServiceApp.Comm, cmd);
+                    return true;
+                }
+            }
+            catch (Exception ex)
+            {
+                adminContext.ErrLog.HandleError(ex, ExtensionPhrases.SendCommandError);
+                return false;
+            }
+            finally
+            {
+                adminContext.MainForm.Cursor = Cursors.Default;
             }
         }
     }

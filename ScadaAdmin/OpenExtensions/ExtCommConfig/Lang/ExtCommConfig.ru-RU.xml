@@ -12,6 +12,7 @@
     <Phrase key="DeviceNotSupported">Драйвер не поддерживает создание КП.</Phrase>
     <Phrase key="UnableCreateDeviceView">Невозможно создать пользовательский интерфейс КП.</Phrase>
     <Phrase key="NoDeviceProperties">КП не предоставляет окно свойств.</Phrase>
+    <Phrase key="SendCommandError">Ошибка при отправке команды</Phrase>
   </Dictionary>
   <Dictionary key="Scada.Admin.Extensions.ExtCommConfig.Controls.CtrlExtensionMenu">
     <Phrase key="miWizards">Мастеры</Phrase>
@@ -163,7 +164,6 @@
     <Phrase key="btnOn">Вкл</Phrase>
     <Phrase key="btnSend">Отправить</Phrase>
     <Phrase key="btnClose">Закрыть</Phrase>
-    <Phrase key="SendCommandError">Ошибка при отправке команды</Phrase>
   </Dictionary>
   <Dictionary key="Scada.Admin.Extensions.ExtCommConfig.Forms.FrmDeviceData">
     <Phrase key="this">КП {0}</Phrase>

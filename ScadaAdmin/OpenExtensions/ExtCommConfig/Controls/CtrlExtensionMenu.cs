@@ -6,8 +6,10 @@ using Scada.Admin.Extensions.ExtCommConfig.Forms;
 using Scada.Admin.Lang;
 using Scada.Admin.Project;
 using Scada.Agent;
+using Scada.Comm;
 using Scada.Comm.Config;
 using Scada.Data.Entities;
+using Scada.Data.Models;
 using Scada.Forms;
 using Scada.Lang;
 using System;
@@ -240,6 +242,7 @@ namespace Scada.Admin.Extensions.ExtCommConfig.Controls
 
         }
 
+
         private void cmsLine_Opening(object sender, CancelEventArgs e)
         {
             // enable or disable menu items
@@ -396,26 +399,30 @@ namespace Scada.Admin.Extensions.ExtCommConfig.Controls
         private void miLineStartStop_Click(object sender, EventArgs e)
         {
             // start, stop or restart communication line
-            /*TreeNode selectedNode = tvExplorer.SelectedNode;
-
-            if (selectedNode != null && selectedNode.TagIs(CommNodeType.CommLine) &&
-                FindClosestInstance(selectedNode, out LiveInstance liveInstance))
+            if (SelectedNode?.GetRelatedObject() is LineConfig lineConfig)
             {
-                Comm.Settings.CommLine commLine = GetRelatedObject<Comm.Settings.CommLine>(selectedNode);
-                CommLineCmd commLineCmd;
+                if (adminContext.MainForm.GetAgentClient(SelectedNode, false) is IAgentClient agentClient)
+                {
+                    TeleCommand cmd = new() 
+                    { 
+                        CreationTime = DateTime.UtcNow,
+                        CmdVal = lineConfig.CommLineNum
+                    };
 
-                if (sender == miCommLineStart)
-                    commLineCmd = CommLineCmd.StartLine;
-                else if (sender == miCommLineStop)
-                    commLineCmd = CommLineCmd.StopLine;
-                else
-                    commLineCmd = CommLineCmd.RestartLine;
+                    if (sender == miLineStart)
+                        cmd.CmdCode = CommCommands.StartLine;
+                    else if (sender == miLineStop)
+                        cmd.CmdCode = CommCommands.StopLine;
+                    else
+                        cmd.CmdCode = CommCommands.RestartLine;
 
-                if (new CommLineCommand(commLine, liveInstance.CommEnvironment).Send(commLineCmd, out string msg))
-                    ScadaUiUtils.ShowInfo(msg);
+                    ExtensionUtils.SendCommand(adminContext, agentClient, cmd);
+                }
                 else
-                    ScadaUiUtils.ShowError(msg);
-            }*/
+                {
+                    ScadaUiUtils.ShowWarning(AdminPhrases.AgentNotEnabled);
+                }
+            }
         }
 
 
@@ -426,7 +433,7 @@ namespace Scada.Admin.Extensions.ExtCommConfig.Controls
             {
                 if (adminContext.MainForm.GetAgentClient(SelectedNode, false) is IAgentClient agentClient)
                 {
-                    FrmDeviceCommand frmDeviceCommand = new(adminContext.ErrLog, deviceConfig);
+                    FrmDeviceCommand frmDeviceCommand = new(adminContext, deviceConfig);
                     frmDeviceCommand.AgentClient = agentClient;
                     frmDeviceCommand.ShowDialog();
                 }

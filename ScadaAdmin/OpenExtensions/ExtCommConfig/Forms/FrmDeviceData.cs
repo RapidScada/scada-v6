@@ -157,7 +157,7 @@ namespace Scada.Admin.Extensions.ExtCommConfig.Forms
             if (dataBox.AgentClient is IAgentClient agentClient)
             {
                 if (frmDeviceCommand == null)
-                    frmDeviceCommand = new FrmDeviceCommand(adminContext.ErrLog, deviceConfig);
+                    frmDeviceCommand = new FrmDeviceCommand(adminContext, deviceConfig);
 
                 frmDeviceCommand.AgentClient = agentClient;
                 frmDeviceCommand.ShowDialog();
