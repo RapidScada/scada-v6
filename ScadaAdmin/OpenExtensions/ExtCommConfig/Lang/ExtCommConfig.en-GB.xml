@@ -8,6 +8,11 @@
     <Phrase key="LineOptionsNode">Line Options</Phrase>
     <Phrase key="LineStatsNode">Line Stats</Phrase>
   </Dictionary>
+  <Dictionary key="Scada.Admin.Extensions.ExtCommConfig.Code.ExtensionUtils">
+    <Phrase key="DeviceNotSupported">The driver does not support creating devices.</Phrase>
+    <Phrase key="UnableCreateDeviceView">Unable to create device user interface.</Phrase>
+    <Phrase key="NoDeviceProperties">The device does not provide a properties window.</Phrase>
+  </Dictionary>
   <Dictionary key="Scada.Admin.Extensions.ExtCommConfig.Controls.CtrlExtensionMenu">
     <Phrase key="miWizards">Wizards</Phrase>
     <Phrase key="miAddLine">Add Line...</Phrase>
@@ -99,9 +104,6 @@
     <Phrase key="btnDeviceProperties">Properties</Phrase>
     <Phrase key="btnResetPollingOptions">Reset</Phrase>
     <Phrase key="btnResetPollingOptions.ToolTip">Set the device polling options to default</Phrase>
-    <Phrase key="DeviceNotSupported">The driver does not support creating devices.</Phrase>
-    <Phrase key="UnableCreateDeviceView">Unable to create device user interface.</Phrase>
-    <Phrase key="NoDeviceProperties">The device does not provide a properties window.</Phrase>
   </Dictionary>
   <Dictionary key="Scada.Admin.Extensions.ExtCommConfig.Forms.FrmDataSources">
     <Phrase key="this">Data Sources</Phrase>

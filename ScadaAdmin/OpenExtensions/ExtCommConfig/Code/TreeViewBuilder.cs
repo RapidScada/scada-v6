@@ -87,7 +87,7 @@ namespace Scada.Admin.Extensions.ExtCommConfig.Code
 
             foreach (DeviceConfig deviceConfig in lineConfig.DevicePolling)
             {
-                lineNode.Nodes.Add(CreateDeviceNode(commApp, lineConfig, deviceConfig));
+                lineNode.Nodes.Add(CreateDeviceNode(commApp, deviceConfig));
             }
 
             return lineNode;
@@ -121,7 +121,7 @@ namespace Scada.Admin.Extensions.ExtCommConfig.Code
                 // add new device nodes
                 foreach (DeviceConfig deviceConfig in lineConfig.DevicePolling)
                 {
-                    lineNode.Nodes.Add(CreateDeviceNode(nodeTag.CommApp, lineConfig, deviceConfig));
+                    lineNode.Nodes.Add(CreateDeviceNode(nodeTag.CommApp, deviceConfig));
                 }
             }
             finally
@@ -133,7 +133,7 @@ namespace Scada.Admin.Extensions.ExtCommConfig.Code
         /// <summary>
         /// Creates a tree node that represents the device.
         /// </summary>
-        public TreeNode CreateDeviceNode(CommApp commApp, LineConfig lineConfig, DeviceConfig deviceConfig)
+        public TreeNode CreateDeviceNode(CommApp commApp, DeviceConfig deviceConfig)
         {
             return new TreeNode(CommUtils.GetDeviceTitle(deviceConfig))
             {
@@ -143,7 +143,7 @@ namespace Scada.Admin.Extensions.ExtCommConfig.Code
                 Tag = new CommNodeTag(commApp, deviceConfig, CommNodeType.Device)
                 {
                     FormType = typeof(FrmDeviceData),
-                    FormArgs = new object[] { adminContext, commApp, lineConfig, deviceConfig }
+                    FormArgs = new object[] { adminContext, commApp, deviceConfig }
                 }
             };
         }

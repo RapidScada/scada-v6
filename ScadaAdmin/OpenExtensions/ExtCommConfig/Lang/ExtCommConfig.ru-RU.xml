@@ -8,6 +8,11 @@
     <Phrase key="LineOptionsNode">Параметры линии</Phrase>
     <Phrase key="LineStatsNode">Статистика линии</Phrase>
   </Dictionary>
+  <Dictionary key="Scada.Admin.Extensions.ExtCommConfig.Code.ExtensionUtils">
+    <Phrase key="DeviceNotSupported">Драйвер не поддерживает создание КП.</Phrase>
+    <Phrase key="UnableCreateDeviceView">Невозможно создать пользовательский интерфейс КП.</Phrase>
+    <Phrase key="NoDeviceProperties">КП не предоставляет окно свойств.</Phrase>
+  </Dictionary>
   <Dictionary key="Scada.Admin.Extensions.ExtCommConfig.Controls.CtrlExtensionMenu">
     <Phrase key="miWizards">Мастеры</Phrase>
     <Phrase key="miAddLine">Добавить линию...</Phrase>
@@ -99,9 +104,6 @@
     <Phrase key="btnDeviceProperties">Свойства</Phrase>
     <Phrase key="btnResetPollingOptions">Сброс</Phrase>
     <Phrase key="btnResetPollingOptions.ToolTip">Установить параметры опроса КП по умолчанию</Phrase>
-    <Phrase key="DeviceNotSupported">Драйвер не поддерживает создание КП.</Phrase>
-    <Phrase key="UnableCreateDeviceView">Невозможно создать пользовательский интерфейс КП.</Phrase>
-    <Phrase key="NoDeviceProperties">КП не предоставляет окно свойств.</Phrase>
   </Dictionary>
   <Dictionary key="Scada.Admin.Extensions.ExtCommConfig.Forms.FrmDataSources">
     <Phrase key="this">Источники данных</Phrase>

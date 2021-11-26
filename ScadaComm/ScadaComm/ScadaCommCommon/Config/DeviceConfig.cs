@@ -40,7 +40,7 @@ namespace Scada.Comm.Config
         /// The parent configuration.
         /// </summary>
         [NonSerialized]
-        protected LineConfig parentConfig;
+        protected LineConfig parentLine;
 
 
         /// <summary>
@@ -99,7 +99,18 @@ namespace Scada.Comm.Config
         /// Gets the polling options.
         /// </summary>
         public PollingOptions PollingOptions { get; private set; }
-        
+
+        /// <summary>
+        /// Gets the parent communication line configuration.
+        /// </summary>
+        public LineConfig ParentLine
+        {
+            get
+            {
+                return parentLine;
+            }
+        }
+
         /// <summary>
         /// Gets or sets the parent tree node.
         /// </summary>
@@ -107,11 +118,11 @@ namespace Scada.Comm.Config
         {
             get
             {
-                return parentConfig;
+                return parentLine;
             }
             set
             {
-                parentConfig = value == null ? null : (LineConfig)value;
+                parentLine = value == null ? null : (LineConfig)value;
             }
         }
 

@@ -168,7 +168,6 @@ namespace Scada.Admin.Extensions.ExtCommConfig.Controls
             this.miDeviceProperties});
             this.cmsDevice.Name = "cmsDevice";
             this.cmsDevice.Size = new System.Drawing.Size(170, 48);
-            this.cmsDevice.Opening += new System.ComponentModel.CancelEventHandler(this.cmsDevice_Opening);
             // 
             // miDeviceCommand
             // 

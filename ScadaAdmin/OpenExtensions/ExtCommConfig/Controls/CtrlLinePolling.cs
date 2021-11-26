@@ -214,7 +214,7 @@ namespace Scada.Admin.Extensions.ExtCommConfig.Controls
         private DeviceView GetDeviceView(DeviceConfig deviceConfig)
         {
             ValidateInit();
-            return ExtensionUtils.GetDeviceView(adminContext, commApp, lineConfig, deviceConfig);
+            return ExtensionUtils.GetDeviceView(adminContext, commApp, deviceConfig);
         }
 
         /// <summary>

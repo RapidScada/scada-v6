@@ -3,7 +3,9 @@
 
 using Scada.Admin.Extensions.ExtCommConfig.Code;
 using Scada.Admin.Extensions.ExtCommConfig.Forms;
+using Scada.Admin.Lang;
 using Scada.Admin.Project;
+using Scada.Agent;
 using Scada.Comm.Config;
 using Scada.Data.Entities;
 using Scada.Forms;
@@ -127,7 +129,7 @@ namespace Scada.Admin.Extensions.ExtCommConfig.Controls
         {
             foreach (TreeNode node in startNode.IterateNodes())
             {
-                if (node.Tag is TreeNodeTag tag && tag.RelatedObject == relatedObject)
+                if (node.GetRelatedObject() == relatedObject)
                     return node;
             }
 
@@ -218,8 +220,8 @@ namespace Scada.Admin.Extensions.ExtCommConfig.Controls
                             }
                             else if (FindNode(instanceNode, frmDeviceAdd.LineConfig) is TreeNode lineNode)
                             {
-                                TreeNode deviceNode = new TreeViewBuilder(adminContext, this).CreateDeviceNode(
-                                    frmDeviceAdd.Instance.CommApp, frmDeviceAdd.LineConfig, frmDeviceAdd.DeviceConfig);
+                                TreeNode deviceNode = new TreeViewBuilder(adminContext, this)
+                                    .CreateDeviceNode(frmDeviceAdd.Instance.CommApp, frmDeviceAdd.DeviceConfig);
                                 lineNode.Nodes.Add(deviceNode);
                                 ExplorerTree.SelectedNode = deviceNode;
                                 RefreshLineConfg(lineNode);
@@ -417,60 +419,32 @@ namespace Scada.Admin.Extensions.ExtCommConfig.Controls
         }
 
 
-        private void cmsDevice_Opening(object sender, CancelEventArgs e)
-        {
-            miDeviceCommand.Enabled = adminContext.MainForm.GetAgentClient(SelectedNode, false) is not null;
-        }
-
         private void miDeviceCommand_Click(object sender, EventArgs e)
         {
             // show device command form
-            /*TreeNode selectedNode = tvExplorer.SelectedNode;
-
-            if (selectedNode != null && selectedNode.TagIs(CommNodeType.Device) &&
-                FindClosestInstance(selectedNode, out LiveInstance liveInstance))
+            if (SelectedNode?.GetRelatedObject() is DeviceConfig deviceConfig)
             {
-                Comm.Settings.KP kp = GetRelatedObject<Comm.Settings.KP>(selectedNode);
-                new FrmDeviceCommand(kp, liveInstance.CommEnvironment).ShowDialog();
-            }*/
+                if (adminContext.MainForm.GetAgentClient(SelectedNode, false) is IAgentClient agentClient)
+                {
+                    FrmDeviceCommand frmDeviceCommand = new(adminContext.ErrLog, deviceConfig);
+                    frmDeviceCommand.AgentClient = agentClient;
+                    frmDeviceCommand.ShowDialog();
+                }
+                else
+                {
+                    ScadaUiUtils.ShowWarning(AdminPhrases.AgentNotEnabled);
+                }
+            }
         }
 
         private void miDeviceProperties_Click(object sender, EventArgs e)
         {
-            // show the device properties
-            /*TreeNode selectedNode = tvExplorer.SelectedNode;
-
-            if (selectedNode != null && selectedNode.TagIs(CommNodeType.Device) &&
-                selectedNode.FindClosest(CommNodeType.CommLine) is TreeNode commLineNode &&
-                FindClosestInstance(selectedNode, out LiveInstance liveInstance))
+            // show device properties
+            if (GetCommApp(out CommApp commApp, CommNodeType.Device) &&
+                SelectedNode?.GetRelatedObject() is DeviceConfig deviceConfig)
             {
-                Comm.Settings.CommLine commLine = GetRelatedObject<Comm.Settings.CommLine>(commLineNode);
-                Comm.Settings.KP kp = GetRelatedObject<Comm.Settings.KP>(selectedNode);
-
-                if (liveInstance.CommEnvironment.TryGetKPView(kp, false, commLine.CustomParams, 
-                    out KPView kpView, out string errMsg))
-                {
-                    if (kpView.CanShowProps)
-                    {
-                        kpView.ShowProps();
-
-                        if (kpView.KPProps.Modified)
-                        {
-                            kp.CmdLine = kpView.KPProps.CmdLine;
-                            UpdateLineParams(selectedNode);
-                            SaveCommConfig(liveInstance);
-                        }
-                    }
-                    else
-                    {
-                        ScadaUiUtils.ShowWarning(CommShellPhrases.NoDeviceProps);
-                    }
-                }
-                else
-                {
-                    ScadaUiUtils.ShowError(errMsg);
-                }
-            }*/
+                ExtensionUtils.ShowDeviceProperties(adminContext, commApp, deviceConfig, SelectedNode);
+            }
         }
     }
 }

@@ -357,16 +357,6 @@ namespace Scada.Admin.App.Forms
         }
 
         /// <summary>
-        /// Gets the related object of the tree node.
-        /// </summary>
-        private static T GetRelatedObject<T>(TreeNode treeNode, bool throwOnError = true) where T : class
-        {
-            return throwOnError ?
-                (T)((TreeNodeTag)treeNode.Tag).RelatedObject :
-                ((TreeNodeTag)treeNode.Tag).RelatedObject as T;
-        }
-
-        /// <summary>
         /// Updates file names of open text editors corresponding to the specified tree node and its children.
         /// </summary>
         private void UpdateTextEditorFileNames(TreeNode treeNode)
@@ -377,7 +367,7 @@ namespace Scada.Admin.App.Forms
             foreach (TreeNode node in treeNode.IterateNodes())
             {
                 if (node.Tag is TreeNodeTag tag && tag.RelatedObject is FileItem fileItem &&
-                    node.Parent.Tag is TreeNodeTag parentTag && parentTag.RelatedObject is FileItem parentFileItem)
+                    node.Parent.GetRelatedObject() is FileItem parentFileItem)
                 {
                     fileItem.Path = Path.Combine(parentFileItem.Path, fileItem.Name);
 
@@ -484,7 +474,7 @@ namespace Scada.Admin.App.Forms
             }
             else
             {
-                liveInstance = GetRelatedObject<LiveInstance>(instanceNode);
+                liveInstance = (LiveInstance)instanceNode.GetRelatedObject();
                 return true;
             }
         }
@@ -503,7 +493,7 @@ namespace Scada.Admin.App.Forms
 
                 if (instanceNode != null)
                 {
-                    liveInstance = GetRelatedObject<LiveInstance>(instanceNode);
+                    liveInstance = (LiveInstance)instanceNode.GetRelatedObject();
                     return true;
                 }
             }
@@ -545,7 +535,7 @@ namespace Scada.Admin.App.Forms
         /// </summary>
         private void PrepareInstanceNode(TreeNode instanceNode)
         {
-            if (instanceNode.Tag is TreeNodeTag tag && tag.RelatedObject is LiveInstance liveInstance)
+            if (instanceNode.GetRelatedObject() is LiveInstance liveInstance)
                 PrepareInstanceNode(instanceNode, liveInstance);
         }
 
@@ -928,7 +918,7 @@ namespace Scada.Admin.App.Forms
             {
                 foreach (TreeNode treeNode in explorerBuilder.InstancesNode.Nodes)
                 {
-                    if (treeNode.Tag is TreeNodeTag tag && tag.RelatedObject is LiveInstance liveInstance &&
+                    if (treeNode.GetRelatedObject() is LiveInstance liveInstance &&
                         string.Equals(liveInstance.ProjectInstance.Name, instanceName, 
                         StringComparison.OrdinalIgnoreCase))
                     {
@@ -1383,29 +1373,28 @@ namespace Scada.Admin.App.Forms
         private void cmsCnlTable_Opening(object sender, CancelEventArgs e)
         {
             // enable or disable the menu item
-            TreeNode selectedNode = tvExplorer.SelectedNode;
-            miCnlTableComm.Enabled = selectedNode != null && selectedNode.Tag is TreeNodeTag tag && 
-                tag.RelatedObject is BaseTableItem baseTableItem && baseTableItem.DeviceNum > 0;
+            miCnlTableComm.Enabled = tvExplorer.SelectedNode?.GetRelatedObject() is BaseTableItem baseTableItem && 
+                baseTableItem.DeviceNum > 0;
         }
 
         private void miCnlTableComm_Click(object sender, EventArgs e)
         {
             // find a device tree node of Communicator
-            if (tvExplorer.SelectedNode?.Tag is TreeNodeTag tag1 &&
-                tag1.RelatedObject is BaseTableItem baseTableItem && baseTableItem.DeviceNum > 0)
+            if (tvExplorer.SelectedNode?.GetRelatedObject() is BaseTableItem baseTableItem && 
+                baseTableItem.DeviceNum > 0)
             {
                 int deviceNum = baseTableItem.DeviceNum;
                 bool nodeFound = false;
 
                 foreach (TreeNode treeNode in explorerBuilder.InstancesNode.Nodes.IterateNodes())
                 {
-                    if (treeNode.Tag is TreeNodeTag tag2)
+                    if (treeNode.Tag is TreeNodeTag tag)
                     {
-                        if (tag2.NodeType == ExplorerNodeType.Instance)
+                        if (tag.NodeType == ExplorerNodeType.Instance)
                         {
                             PrepareInstanceNode(treeNode);
                         }
-                        else if (tag2.RelatedObject is DeviceConfig deviceConfig && 
+                        else if (tag.RelatedObject is DeviceConfig deviceConfig && 
                             deviceConfig.DeviceNum == deviceNum)
                         {
                             tvExplorer.SelectedNode = treeNode;

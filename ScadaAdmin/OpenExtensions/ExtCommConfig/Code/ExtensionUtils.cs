@@ -9,6 +9,8 @@ using Scada.Comm.Drivers;
 using Scada.Forms;
 using System;
 using System.Collections.Generic;
+using System.Windows.Forms;
+using WinControl;
 
 namespace Scada.Admin.Extensions.ExtCommConfig.Code
 {
@@ -43,16 +45,27 @@ namespace Scada.Admin.Extensions.ExtCommConfig.Code
         /// </summary>
         public static CtrlExtensionMenu MenuControl { get; set; } = null;
 
+
+        /// <summary>
+        /// Refreshes the corresponding line configuration form.
+        /// </summary>
+        private static void RefreshLineConfigForm(TreeNode deviceTreeNode)
+        {
+            if (deviceTreeNode?.FindSibling(CommNodeType.LineOptions) is TreeNode lineOptionsNode &&
+                lineOptionsNode.Tag is TreeNodeTag tag && tag.ExistingForm is IChildForm childForm)
+            {
+                childForm.ChildFormTag.SendMessage(null, AdminMessage.RefreshData);
+            }
+        }
+
         /// <summary>
         /// Gets a new instance of the module user interface.
         /// </summary>
         public static bool GetDriverView(IAdminContext adminContext, CommApp commApp, string driverCode,
             out DriverView driverView, out string message)
         {
-            if (adminContext == null)
-                throw new ArgumentNullException(nameof(adminContext));
-            if (commApp == null)
-                throw new ArgumentNullException(nameof(commApp));
+            ArgumentNullException.ThrowIfNull(adminContext, nameof(adminContext));
+            ArgumentNullException.ThrowIfNull(commApp, nameof(commApp));
 
             if (driverViewCache.TryGetValue(driverCode, out driverView))
             {
@@ -77,23 +90,17 @@ namespace Scada.Admin.Extensions.ExtCommConfig.Code
         /// <summary>
         /// Gets a new instance of the device user interface.
         /// </summary>
-        public static DeviceView GetDeviceView(IAdminContext adminContext, CommApp commApp, 
-            LineConfig lineConfig, DeviceConfig deviceConfig)
+        public static DeviceView GetDeviceView(IAdminContext adminContext, CommApp commApp, DeviceConfig deviceConfig)
         {
-            if (adminContext == null)
-                throw new ArgumentNullException(nameof(adminContext));
-            if (commApp == null)
-                throw new ArgumentNullException(nameof(commApp));
-            if (lineConfig == null)
-                throw new ArgumentNullException(nameof(lineConfig));
-            if (deviceConfig == null)
-                throw new ArgumentNullException(nameof(deviceConfig));
+            ArgumentNullException.ThrowIfNull(adminContext, nameof(adminContext));
+            ArgumentNullException.ThrowIfNull(commApp, nameof(commApp));
+            ArgumentNullException.ThrowIfNull(deviceConfig, nameof(deviceConfig));
 
             if (string.IsNullOrEmpty(deviceConfig.Driver))
             {
                 ScadaUiUtils.ShowError(ExtensionPhrases.DriverNotSpecified);
             }
-            else if (!ExtensionUtils.GetDriverView(adminContext, commApp, deviceConfig.Driver,
+            else if (!GetDriverView(adminContext, commApp, deviceConfig.Driver,
                 out DriverView driverView, out string message))
             {
                 ScadaUiUtils.ShowError(message);
@@ -102,7 +109,7 @@ namespace Scada.Admin.Extensions.ExtCommConfig.Code
             {
                 ScadaUiUtils.ShowError(ExtensionPhrases.DeviceNotSupported);
             }
-            else if (driverView.CreateDeviceView(lineConfig, deviceConfig) is not DeviceView deviceView)
+            else if (driverView.CreateDeviceView(deviceConfig.ParentLine, deviceConfig) is not DeviceView deviceView)
             {
                 ScadaUiUtils.ShowError(ExtensionPhrases.UnableCreateDeviceView);
             }
@@ -112,6 +119,33 @@ namespace Scada.Admin.Extensions.ExtCommConfig.Code
             }
 
             return null;
+        }
+
+        /// <summary>
+        /// Shows a device properties form.
+        /// </summary>
+        public static void ShowDeviceProperties(IAdminContext adminContext, CommApp commApp, DeviceConfig deviceConfig,
+            TreeNode deviceTreeNode)
+        {
+            if (GetDeviceView(adminContext, commApp, deviceConfig) is DeviceView deviceView)
+            {
+                if (deviceView.CanShowProperties)
+                {
+                    if (deviceView.ShowProperties() ||
+                        deviceView.DeviceConfigModified ||
+                        deviceView.LineConfigModified)
+                    {
+                        RefreshLineConfigForm(deviceTreeNode);
+
+                        if (!commApp.SaveConfig(out string errMsg))
+                            adminContext.ErrLog.HandleError(errMsg);
+                    }
+                }
+                else
+                {
+                    ScadaUiUtils.ShowInfo(ExtensionPhrases.NoDeviceProperties);
+                }
+            }
         }
     }
 }

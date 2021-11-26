@@ -25,7 +25,6 @@ namespace Scada.Admin.Extensions.ExtCommConfig.Forms
     {
         private readonly IAdminContext adminContext; // the Administrator context
         private readonly CommApp commApp;            // the Communicator application in a project
-        private readonly LineConfig lineConfig;      // the communication line configuration
         private readonly DeviceConfig deviceConfig;  // the device configuration
         private readonly RemoteLogBox dataBox;       // updates device data
         private FrmDeviceCommand frmDeviceCommand;   // the form for sending commands
@@ -42,12 +41,11 @@ namespace Scada.Admin.Extensions.ExtCommConfig.Forms
         /// <summary>
         /// Initializes a new instance of the class.
         /// </summary>
-        public FrmDeviceData(IAdminContext adminContext, CommApp commApp, 
-            LineConfig lineConfig, DeviceConfig deviceConfig) : this()
+        public FrmDeviceData(IAdminContext adminContext, CommApp commApp, DeviceConfig deviceConfig) : 
+            this()
         {
             this.adminContext = adminContext ?? throw new ArgumentNullException(nameof(adminContext));
             this.commApp = commApp ?? throw new ArgumentNullException(nameof(commApp));
-            this.lineConfig = lineConfig ?? throw new ArgumentNullException(nameof(lineConfig));
             this.deviceConfig = deviceConfig ?? throw new ArgumentNullException(nameof(deviceConfig));
             dataBox = new RemoteLogBox(lbDeviceData) { FullLogView = true };
             frmDeviceCommand = null;
@@ -96,18 +94,6 @@ namespace Scada.Admin.Extensions.ExtCommConfig.Forms
         {
             dataBox.LogPath = new RelativePath(TopFolder.Comm, AppFolder.Log,
                 CommUtils.GetDeviceLogFileName(deviceConfig.DeviceNum, ".txt"));
-        }
-
-        /// <summary>
-        /// Refreshes the corresponding line configuration form.
-        /// </summary>
-        private void RefreshLineConfigForm()
-        {
-            if (ChildFormTag?.TreeNode?.FindSibling(CommNodeType.LineOptions) is TreeNode lineOptionsNode &&
-                lineOptionsNode.Tag is TreeNodeTag tag && tag.ExistingForm is IChildForm childForm)
-            {
-                childForm.ChildFormTag.SendMessage(this, AdminMessage.RefreshData);
-            }
         }
 
         /// <summary>
@@ -162,25 +148,7 @@ namespace Scada.Admin.Extensions.ExtCommConfig.Forms
         private void btnDeviceProperties_Click(object sender, EventArgs e)
         {
             // show device properties
-            if (ExtensionUtils.GetDeviceView(adminContext, commApp, lineConfig, deviceConfig) is DeviceView deviceView)
-            {
-                if (deviceView.CanShowProperties)
-                {
-                    if (deviceView.ShowProperties() || 
-                        deviceView.DeviceConfigModified || 
-                        deviceView.LineConfigModified)
-                    {
-                        RefreshLineConfigForm();
-
-                        if (!commApp.SaveConfig(out string errMsg))
-                            adminContext.ErrLog.HandleError(errMsg);
-                    }
-                }
-                else
-                {
-                    ScadaUiUtils.ShowInfo(ExtensionPhrases.NoDeviceProperties);
-                }
-            }
+            ExtensionUtils.ShowDeviceProperties(adminContext, commApp, deviceConfig, ChildFormTag?.TreeNode);
         }
 
         private void btnSendCommand_Click(object sender, EventArgs e)

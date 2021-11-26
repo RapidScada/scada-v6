@@ -19,6 +19,11 @@ namespace Scada.Admin.Extensions.ExtCommConfig.Code
         public static string LineOptionsNode { get; private set; }
         public static string LineStatsNode { get; private set; }
 
+        // Scada.Admin.Extensions.ExtCommConfig.Code.ExtensionUtils
+        public static string DeviceNotSupported { get; private set; }
+        public static string UnableCreateDeviceView { get; private set; }
+        public static string NoDeviceProperties { get; private set; }
+
         // Scada.Admin.Extensions.ExtCommConfig.Controls.CtrlExtensionMenu
         public static string ConfirmDeleteLine { get; private set; }
 
@@ -27,11 +32,6 @@ namespace Scada.Admin.Extensions.ExtCommConfig.Code
         public static string ChannelNotSupported { get; private set; }
         public static string UnableCreateChannelView { get; private set; }
         public static string NoChannelProperties { get; private set; }
-
-        // Scada.Admin.Extensions.ExtCommConfig.Controls.CtrlLinePolling
-        public static string DeviceNotSupported { get; private set; }
-        public static string UnableCreateDeviceView { get; private set; }
-        public static string NoDeviceProperties { get; private set; }
 
         // Scada.Admin.Extensions.ExtCommConfig.Forms.FrmDataSources
         public static string DriverNotSpecified { get; private set; }
@@ -68,6 +68,11 @@ namespace Scada.Admin.Extensions.ExtCommConfig.Code
             LineOptionsNode = dict["LineOptionsNode"];
             LineStatsNode = dict["LineStatsNode"];
 
+            dict = Locale.GetDictionary("Scada.Admin.Extensions.ExtCommConfig.Code.ExtensionUtils");
+            DeviceNotSupported = dict["DeviceNotSupported"];
+            UnableCreateDeviceView = dict["UnableCreateDeviceView"];
+            NoDeviceProperties = dict["NoDeviceProperties"];
+
             dict = Locale.GetDictionary("Scada.Admin.Extensions.ExtCommConfig.Controls.CtrlExtensionMenu");
             ConfirmDeleteLine = dict["ConfirmDeleteLine"];
 
@@ -76,11 +81,6 @@ namespace Scada.Admin.Extensions.ExtCommConfig.Code
             ChannelNotSupported = dict["ChannelNotSupported"];
             UnableCreateChannelView = dict["UnableCreateChannelView"];
             NoChannelProperties = dict["NoChannelProperties"];
-
-            dict = Locale.GetDictionary("Scada.Admin.Extensions.ExtCommConfig.Controls.CtrlLinePolling");
-            DeviceNotSupported = dict["DeviceNotSupported"];
-            UnableCreateDeviceView = dict["UnableCreateDeviceView"];
-            NoDeviceProperties = dict["NoDeviceProperties"];
 
             dict = Locale.GetDictionary("Scada.Admin.Extensions.ExtCommConfig.Forms.FrmDataSources");
             DriverNotSpecified = dict["DriverNotSpecified"];
