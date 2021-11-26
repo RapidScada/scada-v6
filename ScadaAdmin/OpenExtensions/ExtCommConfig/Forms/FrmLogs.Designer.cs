@@ -57,8 +57,8 @@
             this.lbFiles.IntegralHeight = false;
             this.lbFiles.ItemHeight = 25;
             this.lbFiles.Items.AddRange(new object[] {
-            "ScadaServer.log",
-            "ScadaServer.txt",
+            "ScadaComm.log",
+            "ScadaComm.txt",
             "DrvDsOpcUaServer_OpcUaServer.log"});
             this.lbFiles.Location = new System.Drawing.Point(0, 23);
             this.lbFiles.Name = "lbFiles";
@@ -92,7 +92,6 @@
             this.chkPause.TabIndex = 2;
             this.chkPause.Text = "Pause";
             this.chkPause.UseVisualStyleBackColor = true;
-            this.chkPause.CheckedChanged += new System.EventHandler(this.chkPause_CheckedChanged);
             // 
             // lbLog
             // 

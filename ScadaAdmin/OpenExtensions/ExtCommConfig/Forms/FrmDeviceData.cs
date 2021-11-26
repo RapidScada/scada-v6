@@ -28,6 +28,7 @@ namespace Scada.Admin.Extensions.ExtCommConfig.Forms
         private readonly DeviceConfig deviceConfig;  // the device configuration
         private readonly RemoteLogBox dataBox;       // updates device data
         private FrmDeviceCommand frmDeviceCommand;   // the form for sending commands
+        private bool isClosed;                       // indicates that the form is closed
 
 
         /// <summary>
@@ -49,6 +50,7 @@ namespace Scada.Admin.Extensions.ExtCommConfig.Forms
             this.deviceConfig = deviceConfig ?? throw new ArgumentNullException(nameof(deviceConfig));
             dataBox = new RemoteLogBox(lbDeviceData) { FullLogView = true };
             frmDeviceCommand = null;
+            isClosed = false;
         }
 
 
@@ -97,7 +99,7 @@ namespace Scada.Admin.Extensions.ExtCommConfig.Forms
         }
 
         /// <summary>
-        /// Saves the settings.
+        /// Saves the changes of the child form data.
         /// </summary>
         public void Save()
         {
@@ -119,6 +121,7 @@ namespace Scada.Admin.Extensions.ExtCommConfig.Forms
 
         private void FrmDeviceData_FormClosed(object sender, FormClosedEventArgs e)
         {
+            isClosed = true;
             tmrRefresh.Stop();
         }
 
@@ -141,7 +144,9 @@ namespace Scada.Admin.Extensions.ExtCommConfig.Forms
             {
                 tmrRefresh.Stop();
                 await Task.Run(() => dataBox.RefreshWithAgent());
-                tmrRefresh.Start();
+
+                if (!isClosed)
+                    tmrRefresh.Start();
             }
         }
 

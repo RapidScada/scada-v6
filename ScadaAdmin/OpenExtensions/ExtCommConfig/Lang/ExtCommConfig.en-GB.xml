@@ -213,4 +213,12 @@
     <Phrase key="chkPause">Pause</Phrase>
     <Phrase key="LineStatsTitle">Line {0} Stats</Phrase>
   </Dictionary>
+  <Dictionary key="Scada.Admin.Extensions.ExtCommConfig.Forms.FrmLogs">
+    <Phrase key="this">Logs</Phrase>
+    <Phrase key="cbFilter.Items[0]">Application</Phrase>
+    <Phrase key="cbFilter.Items[1]">Communication Lines</Phrase>
+    <Phrase key="cbFilter.Items[2]">Devices</Phrase>
+    <Phrase key="cbFilter.Items[3]">All Files</Phrase>
+    <Phrase key="chkPause">Pause</Phrase>
+  </Dictionary>
 </ExtCommConfigDictionaries>

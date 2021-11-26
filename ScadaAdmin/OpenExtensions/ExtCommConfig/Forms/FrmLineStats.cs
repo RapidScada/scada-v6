@@ -25,7 +25,8 @@ namespace Scada.Admin.Extensions.ExtCommConfig.Forms
         private readonly LineConfig lineConfig;      // the communication line configuration
         private readonly RemoteLogBox stateBox;      // updates state
         private readonly RemoteLogBox logBox;        // updates log
-        private bool stateTabActive; // indicates that the State tab is currently active
+        private bool stateTabActive;                 // indicates that the State tab is currently active
+        private bool isClosed;                       // indicates that the form is closed
 
 
         /// <summary>
@@ -47,6 +48,7 @@ namespace Scada.Admin.Extensions.ExtCommConfig.Forms
             stateBox = new RemoteLogBox(lbState) { FullLogView = true };
             logBox = new RemoteLogBox(lbLog, true) { AutoScroll = true };
             stateTabActive = true;
+            isClosed = false;
         }
 
 
@@ -98,7 +100,7 @@ namespace Scada.Admin.Extensions.ExtCommConfig.Forms
         }
 
         /// <summary>
-        /// Saves the settings.
+        /// Saves the changes of the child form data.
         /// </summary>
         public void Save()
         {
@@ -121,6 +123,7 @@ namespace Scada.Admin.Extensions.ExtCommConfig.Forms
 
         private void FrmLineStats_FormClosed(object sender, FormClosedEventArgs e)
         {
+            isClosed = true;
             tmrRefresh.Stop();
         }
 
@@ -179,7 +182,8 @@ namespace Scada.Admin.Extensions.ExtCommConfig.Forms
                 else if (!chkPause.Checked)
                     await Task.Run(() => logBox.RefreshWithAgent());
 
-                tmrRefresh.Start();
+                if (!isClosed)
+                    tmrRefresh.Start();
             }
         }
     }
