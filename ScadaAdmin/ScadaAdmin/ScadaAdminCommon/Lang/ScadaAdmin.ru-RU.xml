@@ -613,6 +613,11 @@
     <Phrase key="CommandSent">Команда отправлена.</Phrase>
     <Phrase key="SendCommandError">Ошибка при отправке команды</Phrase>
   </Dictionary>
+  <Dictionary key="Scada.Admin.Forms.FrmLogs">
+    <Phrase key="this">Журналы</Phrase>
+    <Phrase key="lblLoadFileList">Загрузка списка файлов...</Phrase>
+    <Phrase key="chkPause">Пауза</Phrase>
+  </Dictionary>
   <Dictionary key="Scada.Admin.Project">
     <Phrase key="CreateAppConfigError">Ошибка при создании конфигурации приложения {0}</Phrase>
     <Phrase key="DeleteAppConfigError">Ошибка при удалении конфигурации приложения {0}</Phrase>

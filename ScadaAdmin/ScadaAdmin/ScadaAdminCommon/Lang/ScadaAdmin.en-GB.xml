@@ -613,6 +613,11 @@
     <Phrase key="CommandSent">Command has been sent.</Phrase>
     <Phrase key="SendCommandError">Error sending command</Phrase>
   </Dictionary>
+  <Dictionary key="Scada.Admin.Forms.FrmLogs">
+    <Phrase key="this">Logs</Phrase>
+    <Phrase key="lblLoadFileList">Loading file list...</Phrase>
+    <Phrase key="chkPause">Pause</Phrase>
+  </Dictionary>
   <Dictionary key="Scada.Admin.Project">
     <Phrase key="CreateAppConfigError">Error creating configuration of the {0} application</Phrase>
     <Phrase key="DeleteAppConfigError">Error deleting configuration of the {0} application</Phrase>
