@@ -8,6 +8,7 @@ using Scada.Lang;
 using Scada.Protocol;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using WinControl;
@@ -123,25 +124,19 @@ namespace Scada.Admin.Extensions.ExtCommConfig.Forms
             {
                 lbFiles.BeginUpdate();
                 lbFiles.Items.Clear();
-
                 ICollection<string> fileNames;
-                string prefix = GetFilePrefix();
 
                 lock (localAgentClient.SyncRoot)
                 {
-                    fileNames = localAgentClient.GetFileList(new RelativePath(TopFolder.Comm, AppFolder.Log, "*"));
+                    fileNames = localAgentClient.GetFileList(
+                        new RelativePath(TopFolder.Comm, AppFolder.Log), GetSearchPattern());
                 }
 
-                foreach (string fileName in fileNames)
-                {
-                    if (string.IsNullOrEmpty(prefix) || fileName.StartsWith(prefix))
-                        lbFiles.Items.Add(fileName);
-                }
+                lbFiles.Items.AddRange(fileNames.ToArray());
+                fileNamesLoaded = true;
 
                 if (lbFiles.Items.Count > 0)
                     lbFiles.SelectedIndex = 0;
-
-                fileNamesLoaded = true;
             }
             catch (Exception ex)
             {
@@ -154,16 +149,16 @@ namespace Scada.Admin.Extensions.ExtCommConfig.Forms
         }
 
         /// <summary>
-        /// Gets the file prefix according to the file filter.
+        /// Gets the search pattern prefix according to the file filter.
         /// </summary>
-        private string GetFilePrefix()
+        private string GetSearchPattern()
         {
             return cbFilter.SelectedIndex switch
             {
-                0 => "ScadaComm.",
-                1 => "line",
-                2 => "device",
-                _ => ""
+                0 => "ScadaComm.*",
+                1 => "line*.*",
+                2 => "device*.*",
+                _ => "*"
             };
         }
 
@@ -240,7 +235,9 @@ namespace Scada.Admin.Extensions.ExtCommConfig.Forms
                 {
                     lblLoadFileList.Visible = true;
                     await Task.Run(() => LoadFileList());
-                    lblLoadFileList.Visible = false;
+
+                    if (fileNamesLoaded)
+                        lblLoadFileList.Visible = false;
                 }
 
                 if (!isClosed)
