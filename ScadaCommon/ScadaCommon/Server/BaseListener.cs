@@ -480,6 +480,10 @@ namespace Scada.Server
                             TerminateSession(client, request);
                             break;
 
+                        case FunctionID.GetFileList:
+                            GetFileList(client, request, out response);
+                            break;
+
                         case FunctionID.GetFileInfo:
                             GetFileInfo(client, request, out response);
                             break;
@@ -630,6 +634,36 @@ namespace Scada.Server
             ResponsePacket response = new ResponsePacket(request, client.OutBuf);
             client.SendResponse(response);
             client.Terminated = true;
+        }
+
+        /// <summary>
+        /// Gets a list of short file names in the specified path.
+        /// </summary>
+        protected void GetFileList(ConnectedClient client, DataPacket request, out ResponsePacket response)
+        {
+            byte[] buffer = client.InBuf;
+            int index = ArgumentIndex;
+            ICollection<string> fileList = GetFileList(client,
+                GetBool(buffer, ref index),
+                GetFilePath(buffer, ref index),
+                GetString(buffer, ref index));
+
+            buffer = client.OutBuf;
+            response = new ResponsePacket(request, buffer);
+            index = ArgumentIndex;
+            int itemIndex = 0;
+            ushort itemCount = (ushort)fileList.Count;
+            CopyUInt16(itemCount, buffer, ref index);
+
+            foreach (string fileName in fileList)
+            {
+                CopyString(fileName, buffer, ref index);
+
+                if (++itemIndex >= itemCount)
+                    break;
+            }
+
+            response.BufferLength = index;
         }
 
         /// <summary>
@@ -969,6 +1003,15 @@ namespace Scada.Server
         {
             response = null;
             handled = false;
+        }
+
+        /// <summary>
+        /// Gets a list of short names of files or directories in the specified path.
+        /// </summary>
+        protected virtual ICollection<string> GetFileList(ConnectedClient client, 
+            bool searchForFiles, RelativePath path, string searchPattern)
+        {
+            return Array.Empty<string>();
         }
 
         /// <summary>

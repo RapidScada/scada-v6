@@ -71,7 +71,7 @@ namespace Scada.Agent
         /// <summary>
         /// Gets a list of short file names in the specified path.
         /// </summary>
-        ICollection<string> GetFileList(RelativePath path);
+        ICollection<string> GetFileList(RelativePath path, string searchPattern);
 
         /// <summary>
         /// Reads the text file.

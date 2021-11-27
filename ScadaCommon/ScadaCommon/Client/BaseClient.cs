@@ -27,6 +27,7 @@ using Scada.Lang;
 using Scada.Log;
 using Scada.Protocol;
 using System;
+using System.Collections.Generic;
 using System.IO;
 using System.Net;
 using System.Net.Sockets;
@@ -521,6 +522,34 @@ namespace Scada.Client
         }
 
         /// <summary>
+        /// Gets a list of short names of files or directories in the specified path.
+        /// </summary>
+        protected ICollection<string> GetFileList(bool searchForFiles, RelativePath path, string searchPattern)
+        {
+            RestoreConnection();
+
+            DataPacket request = CreateRequest(FunctionID.GetFileList);
+            int index = ArgumentIndex;
+            CopyBool(searchForFiles, outBuf, ref index);
+            CopyFileName(path.DirectoryID, path.Path, outBuf, ref index);
+            CopyString(searchPattern, outBuf, ref index);
+            request.BufferLength = index;
+            SendRequest(request);
+
+            ReceiveResponse(request);
+            index = ArgumentIndex;
+            int itemCount = GetUInt16(inBuf, ref index);
+            List<string> fileList = new List<string>(itemCount);
+
+            for (int i = 0; i < itemCount; i++)
+            {
+                fileList.Add(GetString(inBuf, ref index));
+            }
+
+            return fileList;
+        }
+
+        /// <summary>
         /// Raises the Progress event.
         /// </summary>
         protected void OnProgress(int blockNumber, int blockCount)
@@ -565,15 +594,31 @@ namespace Scada.Client
         }
 
         /// <summary>
-        /// Gets the information about the file.
+        /// Gets a list of short file names in the specified path.
         /// </summary>
-        public ShortFileInfo GetFileInfo(RelativePath relativePath)
+        public ICollection<string> GetFileList(RelativePath path, string searchPattern)
+        {
+            return GetFileList(true, path, searchPattern);
+        }
+
+        /// <summary>
+        /// Gets a list of short directory names in the specified path.
+        /// </summary>
+        public ICollection<string> GetDirectoryList(RelativePath path, string searchPattern)
+        {
+            return GetFileList(false, path, searchPattern);
+        }
+
+        /// <summary>
+        /// Gets the information associated with the file.
+        /// </summary>
+        public ShortFileInfo GetFileInfo(RelativePath path)
         {
             RestoreConnection();
 
             DataPacket request = CreateRequest(FunctionID.GetFileInfo);
             int index = ArgumentIndex;
-            CopyFileName(relativePath.DirectoryID, relativePath.Path, outBuf, ref index);
+            CopyFileName(path.DirectoryID, path.Path, outBuf, ref index);
             request.BufferLength = index;
             SendRequest(request);
 
@@ -590,12 +635,12 @@ namespace Scada.Client
         /// <summary>
         /// Downloads the file.
         /// </summary>
-        public void DownloadFile(RelativePath relativePath, long offset, int count, bool readFromEnd,
+        public void DownloadFile(RelativePath path, long offset, int count, bool readFromEnd,
             DateTime newerThan, bool throwOnFail, Func<Stream> createStreamFunc,
             out DateTime lastWriteTime, out FileReadingResult readingResult, out Stream stream)
         {
-            if (relativePath == null)
-                throw new ArgumentNullException(nameof(relativePath));
+            if (path == null)
+                throw new ArgumentNullException(nameof(path));
             if (createStreamFunc == null)
                 throw new ArgumentNullException(nameof(createStreamFunc));
 
@@ -603,7 +648,7 @@ namespace Scada.Client
 
             DataPacket request = CreateRequest(FunctionID.DownloadFile);
             int index = ArgumentIndex;
-            CopyFileName(relativePath.DirectoryID, relativePath.Path, outBuf, ref index);
+            CopyFileName(path.DirectoryID, path.Path, outBuf, ref index);
             CopyInt64(offset, outBuf, ref index);
             CopyInt32(count, outBuf, ref index);
             CopyBool(readFromEnd, outBuf, ref index);
@@ -648,7 +693,7 @@ namespace Scada.Client
                 {
                     throw new ProtocolException(ErrorCode.InternalServerError, string.Format(Locale.IsRussian ?
                         "Ошибка при чтении файла {0}: {1}" :
-                        "Error reading file {0}: {1}", relativePath, readingResult.ToString(Locale.IsRussian)));
+                        "Error reading file {0}: {1}", path, readingResult.ToString(Locale.IsRussian)));
                 }
             }
             catch
@@ -662,11 +707,11 @@ namespace Scada.Client
         /// <summary>
         /// Downloads the file.
         /// </summary>
-        public void DownloadFile(RelativePath relativePath, long offset, int count, bool readFromEnd,
+        public void DownloadFile(RelativePath path, long offset, int count, bool readFromEnd,
             DateTime newerThan, bool throwOnFail, string destFileName, 
             out DateTime lastWriteTime, out FileReadingResult readingResult)
         {
-            DownloadFile(relativePath, offset, count, readFromEnd, newerThan, throwOnFail,
+            DownloadFile(path, offset, count, readFromEnd, newerThan, throwOnFail,
                 () => { return new FileStream(destFileName, FileMode.Create, FileAccess.Write, FileShare.Read); },
                 out lastWriteTime, out readingResult, out Stream stream);
             stream?.Dispose();
@@ -675,12 +720,12 @@ namespace Scada.Client
         /// <summary>
         /// Downloads the file or throws an exception on failure.
         /// </summary>
-        public bool DownloadFile(RelativePath relativePath, Stream stream, bool throwOnFail = false)
+        public bool DownloadFile(RelativePath path, Stream stream, bool throwOnFail = false)
         {
             if (stream == null)
                 throw new ArgumentNullException(nameof(stream));
 
-            DownloadFile(relativePath, 0, 0, false, DateTime.MinValue, throwOnFail, () => stream, 
+            DownloadFile(path, 0, 0, false, DateTime.MinValue, throwOnFail, () => stream, 
                 out _, out FileReadingResult readingResult, out _);
             return readingResult == FileReadingResult.Completed;
         }
@@ -688,9 +733,9 @@ namespace Scada.Client
         /// <summary>
         /// Downloads the file or throws an exception on failure.
         /// </summary>
-        public bool DownloadFile(RelativePath relativePath, string destFileName, bool throwOnFail = false)
+        public bool DownloadFile(RelativePath path, string destFileName, bool throwOnFail = false)
         {
-            DownloadFile(relativePath, 0, 0, false, DateTime.MinValue, throwOnFail, destFileName,
+            DownloadFile(path, 0, 0, false, DateTime.MinValue, throwOnFail, destFileName,
                 out _, out FileReadingResult readingResult);
             return readingResult == FileReadingResult.Completed;
         }

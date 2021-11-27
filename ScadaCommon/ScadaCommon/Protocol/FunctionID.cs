@@ -40,9 +40,10 @@ namespace Scada.Protocol
         public const ushort GetStatus = 0x0003;
         public const ushort TerminateSession = 0x0004;
 
-        public const ushort GetFileInfo = 0x0101;
-        public const ushort DownloadFile = 0x0102;
-        public const ushort UploadFile = 0x0103;
+        public const ushort GetFileList = 0x0101;
+        public const ushort GetFileInfo = 0x0102;
+        public const ushort DownloadFile = 0x0103;
+        public const ushort UploadFile = 0x0104;
 
         public const ushort GetCurrentData = 0x0201;
         public const ushort GetTrends = 0x0202;
@@ -72,6 +73,7 @@ namespace Scada.Protocol
             { Login, nameof(Login) },
             { GetStatus, nameof(GetStatus) },
             { TerminateSession, nameof(TerminateSession) },
+            { GetFileList, nameof(GetFileList) },
             { GetFileInfo, nameof(GetFileInfo) },
             { DownloadFile, nameof(DownloadFile) },
             { UploadFile, nameof(UploadFile) },
