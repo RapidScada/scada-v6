@@ -9,7 +9,7 @@ namespace Scada.Admin.Extensions.ExtCommConfig.Forms
 {
     /// <summary>
     /// Represents a form for displaying Communicator logs.
-    /// <para>Представляет форму для отображения журналов.</para>
+    /// <para>Представляет форму для отображения журналов Коммуникатора.</para>
     /// </summary>
     public class FrmCommLogs : FrmLogs, IChildForm
     {
