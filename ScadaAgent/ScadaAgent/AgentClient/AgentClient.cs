@@ -192,14 +192,6 @@ namespace Scada.Agent.Client
                     "Configuration rejected by Agent.");
             }
         }
-        
-        /// <summary>
-        /// Gets a list of short file names in the specified path.
-        /// </summary>
-        public ICollection<string> GetFileList(RelativePath path)
-        {
-            return new string[] { "ScadaComm.log", "ScadaComm.txt", "DrvDsOpcUaServer_OpcUaServer.log" };
-        }
 
         /// <summary>
         /// Reads the text file.

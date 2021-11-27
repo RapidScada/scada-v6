@@ -32,6 +32,7 @@ using Scada.Server;
 using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 using System.Text;
 using System.Threading;
 using static Scada.BinaryConverter;
@@ -631,11 +632,30 @@ namespace Scada.Agent.Engine
         }
 
         /// <summary>
+        /// Gets a list of short names of files or directories in the specified path.
+        /// </summary>
+        protected override ICollection<string> GetFileList(ConnectedClient client,
+            bool searchForFiles, RelativePath path, string searchPattern)
+        {
+            if (IsServiceFolder(path) && path.AppFolder == AppFolder.Log && searchForFiles)
+            {
+                string directory = GetClientInstance(client).PathBuilder.GetAbsolutePath(path);
+                return Directory.EnumerateFiles(directory, searchPattern, SearchOption.TopDirectoryOnly)
+                    .Select(fullName => Path.GetFileName(fullName))
+                    .ToArray();
+            }
+            else
+            {
+                return Array.Empty<string>();
+            }
+        }
+
+        /// <summary>
         /// Gets the information associated with the specified file.
         /// </summary>
         protected override ShortFileInfo GetFileInfo(ConnectedClient client, RelativePath path)
         {
-            if (path.AppFolder == AppFolder.Log)
+            if (IsServiceFolder(path) && path.AppFolder == AppFolder.Log)
             {
                 string fileName = GetClientInstance(client).PathBuilder.GetAbsolutePath(path);
                 return new ShortFileInfo(new FileInfo(fileName));
