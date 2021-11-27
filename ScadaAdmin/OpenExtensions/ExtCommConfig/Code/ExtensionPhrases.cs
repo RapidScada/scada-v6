@@ -34,6 +34,12 @@ namespace Scada.Admin.Extensions.ExtCommConfig.Code
         public static string UnableCreateChannelView { get; private set; }
         public static string NoChannelProperties { get; private set; }
 
+        // Scada.Admin.Extensions.ExtCommConfig.Forms.FrmCommLogs
+        public static string AppFilter { get; private set; }
+        public static string LinesFilter { get; private set; }
+        public static string DevicesFilter { get; private set; }
+        public static string AllFilesFilter { get; private set; }
+
         // Scada.Admin.Extensions.ExtCommConfig.Forms.FrmDataSources
         public static string DriverNotSpecified { get; private set; }
         public static string DataSourceNotSupported { get; private set; }
@@ -80,6 +86,12 @@ namespace Scada.Admin.Extensions.ExtCommConfig.Code
             ChannelNotSupported = dict["ChannelNotSupported"];
             UnableCreateChannelView = dict["UnableCreateChannelView"];
             NoChannelProperties = dict["NoChannelProperties"];
+
+            dict = Locale.GetDictionary("Scada.Admin.Extensions.ExtCommConfig.Forms.FrmCommLogs");
+            AppFilter = dict["AppFilter"];
+            LinesFilter = dict["LinesFilter"];
+            DevicesFilter = dict["DevicesFilter"];
+            AllFilesFilter = dict["AllFilesFilter"];
 
             dict = Locale.GetDictionary("Scada.Admin.Extensions.ExtCommConfig.Forms.FrmDataSources");
             DriverNotSpecified = dict["DriverNotSpecified"];

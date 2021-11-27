@@ -195,7 +195,7 @@ namespace Scada.Admin.Extensions.ExtCommConfig.Code
                     SelectedImageKey = ImageKey.Stats,
                     Tag = new CommNodeTag(commApp, null, CommNodeType.Logs)
                     {
-                        FormType = typeof(FrmLogs),
+                        FormType = typeof(FrmCommLogs),
                         FormArgs = new object[] { adminContext }
                     }
                 }

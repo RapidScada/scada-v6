@@ -107,6 +107,12 @@
     <Phrase key="btnResetPollingOptions">Reset</Phrase>
     <Phrase key="btnResetPollingOptions.ToolTip">Set the device polling options to default</Phrase>
   </Dictionary>
+  <Dictionary key="Scada.Admin.Extensions.ExtCommConfig.Forms.FrmCommLogs">
+    <Phrase key="AppFilter">Application</Phrase>
+    <Phrase key="LinesFilter">Communication Lines</Phrase>
+    <Phrase key="DevicesFilter">Devices</Phrase>
+    <Phrase key="AllFilesFilter">All Files</Phrase>
+  </Dictionary>
   <Dictionary key="Scada.Admin.Extensions.ExtCommConfig.Forms.FrmDataSources">
     <Phrase key="this">Data Sources</Phrase>
     <Phrase key="btnAdd">Add</Phrase>
@@ -212,14 +218,5 @@
     <Phrase key="lbTabs.Items[1]">Line Log</Phrase>
     <Phrase key="chkPause">Pause</Phrase>
     <Phrase key="LineStatsTitle">Line {0} Stats</Phrase>
-  </Dictionary>
-  <Dictionary key="Scada.Admin.Extensions.ExtCommConfig.Forms.FrmLogs">
-    <Phrase key="this">Logs</Phrase>
-    <Phrase key="cbFilter.Items[0]">Application</Phrase>
-    <Phrase key="cbFilter.Items[1]">Communication Lines</Phrase>
-    <Phrase key="cbFilter.Items[2]">Devices</Phrase>
-    <Phrase key="cbFilter.Items[3]">All Files</Phrase>
-    <Phrase key="lblLoadFileList">Loading file list...</Phrase>
-    <Phrase key="chkPause">Pause</Phrase>
   </Dictionary>
 </ExtCommConfigDictionaries>
