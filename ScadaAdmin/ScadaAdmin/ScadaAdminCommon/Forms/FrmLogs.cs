@@ -139,7 +139,7 @@ namespace Scada.Admin.Forms
         /// </summary>
         private void UpdateLogPath()
         {
-            logBox.LogPath = new RelativePath(TopFolder.Comm, AppFolder.Log, 
+            logBox.LogPath = new RelativePath(ServiceApp, AppFolder.Log, 
                 lbFiles.SelectedItem == null ? "" : lbFiles.SelectedItem.ToString());
             SetFirstLine();
         }
