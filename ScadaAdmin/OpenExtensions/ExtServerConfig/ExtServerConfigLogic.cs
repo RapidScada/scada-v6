@@ -29,6 +29,7 @@ namespace Scada.Admin.Extensions.ExtServerConfig
             private const string ImagePrefix = "server_config_";
             public const string Archive = ImagePrefix + "archive.png";
             public const string GeneralOptions = ImagePrefix + "general_options.png";
+            public const string Logs = ImagePrefix + "logs.png";
             public const string Module = ImagePrefix + "module.png";
         }
 
@@ -104,6 +105,16 @@ namespace Scada.Admin.Extensions.ExtServerConfig
                         FormType = typeof(FrmArchives),
                         FormArgs = new object[] { AdminContext, serverApp }
                     }
+                },
+                new TreeNode(ExtensionPhrases.LogsNode)
+                {
+                    ImageKey = ImageKey.Logs,
+                    SelectedImageKey = ImageKey.Logs,
+                    Tag = new TreeNodeTag
+                    {
+                        FormType = typeof(FrmServerLogs),
+                        FormArgs = new object[] { AdminContext }
+                    }
                 }
             };
         }
@@ -117,6 +128,7 @@ namespace Scada.Admin.Extensions.ExtServerConfig
             {
                 { ImageKey.Archive, Resources.archive },
                 { ImageKey.GeneralOptions, Resources.general_options },
+                { ImageKey.Logs, Resources.logs },
                 { ImageKey.Module, Resources.module }
             };
         }

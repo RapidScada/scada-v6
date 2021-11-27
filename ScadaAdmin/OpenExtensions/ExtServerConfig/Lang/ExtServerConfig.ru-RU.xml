@@ -4,6 +4,7 @@
     <Phrase key="GeneralOptionsNode">Основные параметры</Phrase>
     <Phrase key="ModulesNode">Модули</Phrase>
     <Phrase key="ArchivesNode">Архивы</Phrase>
+    <Phrase key="LogsNode">Журналы</Phrase>
   </Dictionary>
   <Dictionary key="Scada.Admin.Extensions.ExtServerConfig.Forms.FrmArchives">
     <Phrase key="this">Архивы</Phrase>
@@ -55,5 +56,10 @@
     <Phrase key="btnMoveDown">Вниз</Phrase>
     <Phrase key="btnProperties">Свойства</Phrase>
     <Phrase key="lblDescr">Описание</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Admin.Extensions.ExtServerConfig.Forms.FrmServerLogs">
+    <Phrase key="AppFilter">Приложение</Phrase>
+    <Phrase key="ModulesFilter">Модули</Phrase>
+    <Phrase key="AllFilesFilter">Все файлы</Phrase>
   </Dictionary>
 </ExtServerConfigDictionaries>

@@ -4,6 +4,7 @@
     <Phrase key="GeneralOptionsNode">General Options</Phrase>
     <Phrase key="ModulesNode">Modules</Phrase>
     <Phrase key="ArchivesNode">Archives</Phrase>
+    <Phrase key="LogsNode">Logs</Phrase>
   </Dictionary>
   <Dictionary key="Scada.Admin.Extensions.ExtServerConfig.Forms.FrmArchives">
     <Phrase key="this">Archives</Phrase>
@@ -55,5 +56,10 @@
     <Phrase key="btnMoveDown">Move Down</Phrase>
     <Phrase key="btnProperties">Properties</Phrase>
     <Phrase key="lblDescr">Description</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Admin.Extensions.ExtServerConfig.Forms.FrmServerLogs">
+    <Phrase key="AppFilter">Application</Phrase>
+    <Phrase key="ModulesFilter">Modules</Phrase>
+    <Phrase key="AllFilesFilter">All Files</Phrase>
   </Dictionary>
 </ExtServerConfigDictionaries>
