@@ -617,6 +617,7 @@
     <Phrase key="this">Журналы</Phrase>
     <Phrase key="lblLoadFileList">Загрузка списка файлов...</Phrase>
     <Phrase key="chkPause">Пауза</Phrase>
+    <Phrase key="AllFilesFilter">Все файлы</Phrase>
   </Dictionary>
   <Dictionary key="Scada.Admin.Project">
     <Phrase key="CreateAppConfigError">Ошибка при создании конфигурации приложения {0}</Phrase>

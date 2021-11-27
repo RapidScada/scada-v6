@@ -111,7 +111,6 @@
     <Phrase key="AppFilter">Приложение</Phrase>
     <Phrase key="LinesFilter">Линии связи</Phrase>
     <Phrase key="DevicesFilter">КП</Phrase>
-    <Phrase key="AllFilesFilter">Все файлы</Phrase>
   </Dictionary>
   <Dictionary key="Scada.Admin.Extensions.ExtCommConfig.Forms.FrmDataSources">
     <Phrase key="this">Источники данных</Phrase>

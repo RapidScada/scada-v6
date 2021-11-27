@@ -210,7 +210,7 @@ namespace Scada.Admin.Forms
         {
             FilterComboBox.Items.Add(new FilterItem
             {
-                Name = "All Files",
+                Name = AdminPhrases.AllFilesFilter,
                 SearchPattern = "*"
             });
             FilterComboBox.SelectedIndex = 0;

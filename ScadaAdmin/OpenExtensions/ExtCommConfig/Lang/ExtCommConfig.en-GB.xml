@@ -111,7 +111,6 @@
     <Phrase key="AppFilter">Application</Phrase>
     <Phrase key="LinesFilter">Communication Lines</Phrase>
     <Phrase key="DevicesFilter">Devices</Phrase>
-    <Phrase key="AllFilesFilter">All Files</Phrase>
   </Dictionary>
   <Dictionary key="Scada.Admin.Extensions.ExtCommConfig.Forms.FrmDataSources">
     <Phrase key="this">Data Sources</Phrase>

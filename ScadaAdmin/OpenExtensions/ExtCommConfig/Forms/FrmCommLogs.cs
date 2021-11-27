@@ -43,15 +43,10 @@ namespace Scada.Admin.Extensions.ExtCommConfig.Forms
                 {
                     Name = ExtensionPhrases.DevicesFilter,
                     SearchPattern = "device*.*"
-                },
-                new FilterItem
-                {
-                    Name = ExtensionPhrases.AllFilesFilter,
-                    SearchPattern = "*"
                 }
             });
-            
-            FilterComboBox.SelectedIndex = 0;
+
+            base.FillFilter();
         }
     }
 }

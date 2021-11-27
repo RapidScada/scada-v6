@@ -617,6 +617,7 @@
     <Phrase key="this">Logs</Phrase>
     <Phrase key="lblLoadFileList">Loading file list...</Phrase>
     <Phrase key="chkPause">Pause</Phrase>
+    <Phrase key="AllFilesFilter">All Files</Phrase>
   </Dictionary>
   <Dictionary key="Scada.Admin.Project">
     <Phrase key="CreateAppConfigError">Error creating configuration of the {0} application</Phrase>

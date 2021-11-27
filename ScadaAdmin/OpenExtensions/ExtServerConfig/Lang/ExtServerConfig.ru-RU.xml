@@ -60,6 +60,5 @@
   <Dictionary key="Scada.Admin.Extensions.ExtServerConfig.Forms.FrmServerLogs">
     <Phrase key="AppFilter">Приложение</Phrase>
     <Phrase key="ModulesFilter">Модули</Phrase>
-    <Phrase key="AllFilesFilter">Все файлы</Phrase>
   </Dictionary>
 </ExtServerConfigDictionaries>

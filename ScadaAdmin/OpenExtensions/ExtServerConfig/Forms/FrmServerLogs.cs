@@ -38,15 +38,10 @@ namespace Scada.Admin.Extensions.ExtServerConfig.Forms
                 {
                     Name = ExtensionPhrases.ModulesFilter,
                     SearchPattern = "Mod*.*"
-                },
-                new FilterItem
-                {
-                    Name = ExtensionPhrases.AllFilesFilter,
-                    SearchPattern = "*"
                 }
             });
-            
-            FilterComboBox.SelectedIndex = 0;
+
+            base.FillFilter();
         }
     }
 }

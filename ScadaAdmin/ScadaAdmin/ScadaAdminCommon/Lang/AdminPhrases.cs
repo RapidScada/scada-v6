@@ -63,6 +63,9 @@ namespace Scada.Admin.Lang
         public static string CommandSent { get; private set; }
         public static string SendCommandError { get; private set; }
 
+        // Scada.Admin.Forms.FrmLogs
+        public static string AllFilesFilter { get; private set; }
+
         // Scada.Admin.Project
         public static string CreateAppConfigError { get; private set; }
         public static string DeleteAppConfigError { get; private set; }
@@ -128,6 +131,9 @@ namespace Scada.Admin.Lang
             ServiceCommandFailed = dict["ServiceCommandFailed"];
             CommandSent = dict["CommandSent"];
             SendCommandError = dict["SendCommandError"];
+
+            dict = Locale.GetDictionary("Scada.Admin.Forms.FrmLogs");
+            AllFilesFilter = dict["AllFilesFilter"];
 
             dict = Locale.GetDictionary("Scada.Admin.Project");
             CreateAppConfigError = dict["CreateAppConfigError"];

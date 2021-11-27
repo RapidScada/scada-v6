@@ -26,7 +26,6 @@ namespace Scada.Admin.Extensions.ExtServerConfig.Code
         // Scada.Admin.Extensions.ExtServerConfig.Forms.FrmServerLogs
         public static string AppFilter { get; private set; }
         public static string ModulesFilter { get; private set; }
-        public static string AllFilesFilter { get; private set; }
 
         public static void Init()
         {
@@ -45,7 +44,6 @@ namespace Scada.Admin.Extensions.ExtServerConfig.Code
             dict = Locale.GetDictionary("Scada.Admin.Extensions.ExtServerConfig.Forms.FrmServerLogs");
             AppFilter = dict["AppFilter"];
             ModulesFilter = dict["ModulesFilter"];
-            AllFilesFilter = dict["AllFilesFilter"];
         }
     }
 }
