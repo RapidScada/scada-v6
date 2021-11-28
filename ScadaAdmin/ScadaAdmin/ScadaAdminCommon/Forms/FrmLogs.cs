@@ -65,9 +65,11 @@ namespace Scada.Admin.Forms
 
         private readonly IAdminContext adminContext; // the Administrator context
         private readonly RemoteLogBox logBox;        // updates log
-        private IAgentClient agentClient;            // interacts with Agent
-        private bool fileNamesLoaded;                // indicates that file names are loaded
-        private bool isClosed;                       // indicates that the form is closed
+
+        private IAgentClient agentClient; // interacts with Agent
+        private bool fileNamesLoaded;     // indicates that file names are loaded
+        private bool firstTick;           // indicates the first timer tick
+        private bool isClosed;            // indicates that the form is closed
 
 
         /// <summary>
@@ -86,13 +88,31 @@ namespace Scada.Admin.Forms
         {
             this.adminContext = adminContext ?? throw new ArgumentNullException(nameof(adminContext));
             logBox = new RemoteLogBox(lbLog) { AutoScroll = true };
+
             agentClient = null;
             fileNamesLoaded = false;
+            firstTick = true;
             isClosed = false;
 
             ServiceApp = ServiceApp.Unknown;
         }
 
+
+        /// <summary>
+        /// Gets or sets a value indicating whether file names are loaded.
+        /// </summary>
+        private bool FileNamesLoaded
+        {
+            get
+            {
+                return fileNamesLoaded;
+            }
+            set
+            {
+                fileNamesLoaded = value;
+                lblLoadFileList.Visible = !fileNamesLoaded && agentClient != null;
+            }
+        }
 
         /// <summary>
         /// Gets or sets the application which logs are displayed.
@@ -128,7 +148,7 @@ namespace Scada.Admin.Forms
             logBox.AgentClient = agentClient;
 
             lbFiles.Items.Clear();
-            fileNamesLoaded = false;
+            FileNamesLoaded = false;
 
             if (setFirstLine)
                 SetFirstLine();
@@ -163,6 +183,7 @@ namespace Scada.Admin.Forms
         private void ClearFileList()
         {
             lbFiles.Items.Clear();
+            FileNamesLoaded = false;
             UpdateLogPath();
         }
 
@@ -188,7 +209,7 @@ namespace Scada.Admin.Forms
                 }
 
                 lbFiles.Items.AddRange(fileNames.ToArray());
-                fileNamesLoaded = true;
+                FileNamesLoaded = true;
 
                 if (lbFiles.Items.Count > 0)
                     lbFiles.SelectedIndex = 0;
@@ -233,7 +254,6 @@ namespace Scada.Admin.Forms
             
             FillFilter();
             InitLogBox();
-            tmrRefresh.Interval = ScadaUiUtils.LogRemoteRefreshInterval;
             tmrRefresh.Start();
         }
 
@@ -245,9 +265,12 @@ namespace Scada.Admin.Forms
 
         private void FrmLogs_VisibleChanged(object sender, EventArgs e)
         {
-            tmrRefresh.Interval = Visible
-                ? ScadaUiUtils.LogRemoteRefreshInterval
-                : ScadaUiUtils.LogInactiveRefreshInterval;
+            if (!firstTick)
+            {
+                tmrRefresh.Interval = Visible
+                    ? ScadaUiUtils.LogRemoteRefreshInterval
+                    : ScadaUiUtils.LogInactiveRefreshInterval;
+            }
         }
 
         private void ChildFormTag_MessageToChildForm(object sender, FormMessageEventArgs e)
@@ -259,7 +282,6 @@ namespace Scada.Admin.Forms
         private void cbFilter_SelectedIndexChanged(object sender, EventArgs e)
         {
             chkPause.Checked = false;
-            fileNamesLoaded = false;
             ClearFileList();
         }
 
@@ -280,18 +302,20 @@ namespace Scada.Admin.Forms
             {
                 tmrRefresh.Stop();
 
-                if (fileNamesLoaded)
+                if (firstTick)
+                {
+                    firstTick = false;
+                    tmrRefresh.Interval = ScadaUiUtils.LogRemoteRefreshInterval;
+                }
+
+                if (FileNamesLoaded)
                 {
                     if (!chkPause.Checked && !string.IsNullOrEmpty(logBox.LogPath.Path))
                         await Task.Run(() => logBox.RefreshWithAgent());
                 }
                 else
                 {
-                    lblLoadFileList.Visible = true;
                     await Task.Run(() => LoadFileList());
-
-                    if (fileNamesLoaded)
-                        lblLoadFileList.Visible = false;
                 }
 
                 if (!isClosed)

@@ -116,7 +116,6 @@
             // 
             // tmrRefresh
             // 
-            this.tmrRefresh.Interval = 1000;
             this.tmrRefresh.Tick += new System.EventHandler(this.tmrRefresh_Tick);
             // 
             // FrmLogs
