@@ -67,26 +67,21 @@ namespace Scada.Web
             foreach (string fileName in
                 Directory.EnumerateFiles(WebContext.AppDirs.ExeDir, "Plg*.dll", SearchOption.TopDirectoryOnly))
             {
-                if (!WebContext.PluginHolder.ContainsPlugin(
+                if (WebContext.PluginHolder.ContainsPlugin(
                     ScadaUtils.RemoveFileNameSuffixes(Path.GetFileName(fileName))))
                 {
-                    continue;
-                }
-
-                try
-                {
-                    Assembly assembly = Assembly.LoadFrom(fileName);
-
-                    if (fileName.EndsWith(".Views.dll"))
+                    try
+                    {
+                        Assembly assembly = Assembly.LoadFrom(fileName);
                         apm.ApplicationParts.Add(new CompiledRazorAssemblyPart(assembly));
-                    else
                         apm.ApplicationParts.Add(new AssemblyPart(assembly));
-                }
-                catch (Exception ex)
-                {
-                    WebContext.Log.WriteError(ex, Locale.IsRussian ?
-                        "Ошибка при загрузке части приложения из файла {0}" :
-                        "Error loading application part from file {0}", fileName);
+                    }
+                    catch (Exception ex)
+                    {
+                        WebContext.Log.WriteError(ex, Locale.IsRussian ?
+                            "Ошибка при загрузке части приложения из файла {0}" :
+                            "Error loading application part from file {0}", fileName);
+                    }
                 }
             }
         }
