@@ -27,7 +27,7 @@ namespace Scada.Comm.Drivers.DrvModbus.Logic
         {
             get
             {
-                return DriverUtils.DriverCode;
+                return ModbusDriverUtils.DriverCode;
             }
         }
 

@@ -69,7 +69,7 @@ namespace Scada.Comm.Drivers.DrvModbus.View.Forms
         {
             if (!File.Exists(GetTemplatePath()))
             {
-                ScadaUiUtils.ShowError(DriverPhrases.TemplateNotExists);
+                ScadaUiUtils.ShowError(ModbusDriverPhrases.TemplateNotExists);
                 return false;
             }
 
@@ -88,7 +88,7 @@ namespace Scada.Comm.Drivers.DrvModbus.View.Forms
             }
             else
             {
-                ScadaUiUtils.ShowError(DriverPhrases.ConfigDirRequired, appDirs.ConfigDir);
+                ScadaUiUtils.ShowError(ModbusDriverPhrases.ConfigDirRequired, appDirs.ConfigDir);
                 shortFileName = "";
                 return false;
             }

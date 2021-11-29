@@ -76,10 +76,10 @@ namespace Scada.Comm.Drivers.DrvModbus.View
         /// </summary>
         public override void LoadDictionaries()
         {
-            if (!Locale.LoadDictionaries(AppDirs.LangDir, DriverUtils.DriverCode, out string errMsg))
+            if (!Locale.LoadDictionaries(AppDirs.LangDir, ModbusDriverUtils.DriverCode, out string errMsg))
                 ScadaUiUtils.ShowError(errMsg);
 
-            DriverPhrases.Init();
+            ModbusDriverPhrases.Init();
         }
 
         /// <summary>

@@ -7,7 +7,7 @@ namespace Scada.Comm.Drivers.DrvModbus
     /// The class provides helper methods for the driver.
     /// <para>Класс, предоставляющий вспомогательные методы для драйвера.</para>
     /// </summary>
-    public static class DriverUtils
+    public static class ModbusDriverUtils
     {
         /// <summary>
         /// The driver code.

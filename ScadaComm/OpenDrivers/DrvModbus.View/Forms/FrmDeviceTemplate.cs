@@ -121,7 +121,7 @@ namespace Scada.Comm.Drivers.DrvModbus.View.Forms
         /// </summary>
         private void SetFormTitle()
         {
-            Text = (Modified ? "*" : "") + string.Format(DriverPhrases.TemplateTitle, 
+            Text = (Modified ? "*" : "") + string.Format(ModbusDriverPhrases.TemplateTitle, 
                 string.IsNullOrEmpty(FileName) ? NewFileName : Path.GetFileName(FileName));
         }
 
@@ -230,7 +230,7 @@ namespace Scada.Comm.Drivers.DrvModbus.View.Forms
         private static string GetElemGroupNodeText(ElemGroupConfig elemGroup)
         {
             return string.Format("{0} ({1})",
-                string.IsNullOrEmpty(elemGroup.Name) ? DriverPhrases.UnnamedElemGroup : elemGroup.Name,
+                string.IsNullOrEmpty(elemGroup.Name) ? ModbusDriverPhrases.UnnamedElemGroup : elemGroup.Name,
                 ModbusUtils.GetDataBlockName(elemGroup.DataBlock));
         }
 
@@ -239,7 +239,7 @@ namespace Scada.Comm.Drivers.DrvModbus.View.Forms
         /// </summary>
         private string GetCmdNodeText(CmdConfig cmd)
         {
-            string cmdName = string.IsNullOrEmpty(cmd.Name) ? DriverPhrases.UnnamedCommand : cmd.Name;
+            string cmdName = string.IsNullOrEmpty(cmd.Name) ? ModbusDriverPhrases.UnnamedCommand : cmd.Name;
             string blockName = ModbusUtils.GetDataBlockName(cmd.DataBlock);
 
             if (cmd.DataBlock == DataBlock.Custom)
@@ -472,7 +472,7 @@ namespace Scada.Comm.Drivers.DrvModbus.View.Forms
         {
             if (Modified)
             {
-                return MessageBox.Show(DriverPhrases.SaveTemplateConfirm, CommonPhrases.QuestionCaption, 
+                return MessageBox.Show(ModbusDriverPhrases.SaveTemplateConfirm, CommonPhrases.QuestionCaption, 
                     MessageBoxButtons.YesNoCancel, MessageBoxIcon.Question) switch
                 {
                     DialogResult.Yes => SaveChanges(false),
@@ -527,7 +527,7 @@ namespace Scada.Comm.Drivers.DrvModbus.View.Forms
                 List<string> list = duplicatedCodes.ToList();
                 list.Sort();
                 sbMessage
-                    .AppendLine(DriverPhrases.DuplicatedCodes)
+                    .AppendLine(ModbusDriverPhrases.DuplicatedCodes)
                     .Append(string.Join(", ", list))
                     .AppendLine(".");
             }
@@ -537,16 +537,16 @@ namespace Scada.Comm.Drivers.DrvModbus.View.Forms
                 List<int> list = duplicatedCmdNums.ToList();
                 list.Sort();
                 sbMessage
-                    .AppendLine(DriverPhrases.DuplicatedCmdNums)
+                    .AppendLine(ModbusDriverPhrases.DuplicatedCmdNums)
                     .Append(string.Join(", ", list))
                     .AppendLine(".");
             }
 
             if (emptyTagCodeExists)
-                sbMessage.AppendLine(DriverPhrases.EmptyTagCodes);
+                sbMessage.AppendLine(ModbusDriverPhrases.EmptyTagCodes);
 
             if (emptyCmdCodeExists)
-                sbMessage.AppendLine(DriverPhrases.EmptyCmdCodes);
+                sbMessage.AppendLine(ModbusDriverPhrases.EmptyCmdCodes);
 
             if (sbMessage.Length > 0)
             {
@@ -555,7 +555,7 @@ namespace Scada.Comm.Drivers.DrvModbus.View.Forms
             }
             else
             {
-                message = DriverPhrases.VerificationPassed;
+                message = ModbusDriverPhrases.VerificationPassed;
                 return true;
             }
         }
@@ -570,8 +570,8 @@ namespace Scada.Comm.Drivers.DrvModbus.View.Forms
             FormTranslator.Translate(ctrlCmd, ctrlCmd.GetType().FullName);
             openFileDialog.SetFilter(CommonPhrases.XmlFileFilter);
             saveFileDialog.SetFilter(CommonPhrases.XmlFileFilter);
-            elemGroupsNode.Text = DriverPhrases.ElemGroupsNode;
-            commandsNode.Text = DriverPhrases.CommandsNode;
+            elemGroupsNode.Text = ModbusDriverPhrases.ElemGroupsNode;
+            commandsNode.Text = ModbusDriverPhrases.CommandsNode;
 
             // setup controls
             TakeTreeViewImages();
@@ -659,7 +659,7 @@ namespace Scada.Comm.Drivers.DrvModbus.View.Forms
 
             if (elemGroup.Elems.Count >= elemGroup.MaxElemCnt)
             {
-                MessageBox.Show(string.Format(DriverPhrases.ElemCntExceeded, elemGroup.MaxElemCnt),
+                MessageBox.Show(string.Format(ModbusDriverPhrases.ElemCntExceeded, elemGroup.MaxElemCnt),
                     CommonPhrases.WarningCaption, MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 return;
             }
@@ -837,7 +837,7 @@ namespace Scada.Comm.Drivers.DrvModbus.View.Forms
         {
             // copy element parameters to siblings
             if (selectedElemTag != null &&
-                MessageBox.Show(DriverPhrases.CloneElemConfigConfirm, CommonPhrases.QuestionCaption,
+                MessageBox.Show(ModbusDriverPhrases.CloneElemConfigConfirm, CommonPhrases.QuestionCaption,
                     MessageBoxButtons.YesNoCancel, MessageBoxIcon.Question) == DialogResult.Yes)
             {
                 ElemConfig selectedElem = selectedElemTag.Elem;

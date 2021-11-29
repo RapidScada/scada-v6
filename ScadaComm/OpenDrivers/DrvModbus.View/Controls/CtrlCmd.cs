@@ -148,7 +148,7 @@ namespace Scada.Comm.Drivers.DrvModbus.View.Controls
                     chkCmdMultiple.Checked = cmd.Multiple;
                     chkCmdMultiple.Enabled = true;
                     numCmdAddress.SetValue(cmd.Address + AddrShift);
-                    lblCmdAddressHint.Text = string.Format(DriverPhrases.AddressHint, AddrNotation, AddrShift);
+                    lblCmdAddressHint.Text = string.Format(ModbusDriverPhrases.AddressHint, AddrNotation, AddrShift);
                     cbCmdElemType.SelectedIndex = (int)cmd.ElemType;
                     cbCmdElemType.Enabled = cmd.ElemTypeEnabled;
                     numCmdElemCnt.Maximum = cmd.MaxElemCnt;

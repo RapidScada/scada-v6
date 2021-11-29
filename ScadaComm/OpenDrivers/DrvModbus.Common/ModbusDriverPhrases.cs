@@ -9,7 +9,7 @@ namespace Scada.Comm.Drivers.DrvModbus
     /// The phrases used by the driver.
     /// <para>Фразы, используемые драйвером.</para>
     /// </summary>
-    public static class DriverPhrases
+    public static class ModbusDriverPhrases
     {
         // Scada.Comm.Drivers.DrvModbus.Config.DeviceTemplate
         public static string LoadTemplateError { get; private set; }
