@@ -55,6 +55,10 @@ namespace Scada.Comm.Lang
         public static string UnableFindDevice { get; private set; }
 
         // Devices
+        public static string ResponseOK { get; private set; }
+        public static string ResponseError { get; private set; }
+        public static string ResponseCsError { get; private set; }
+        public static string ResponseCrcError { get; private set; }
         public static string InvalidCommand { get; private set; }
         public static string Off { get; private set; }
         public static string On { get; private set; }
@@ -83,6 +87,10 @@ namespace Scada.Comm.Lang
                 WriteLineError = "Ошибка при записи строки";
                 UnableFindDevice = "Не удалось найти ни одного КП с адресом {0}";
 
+                ResponseOK = "OK";
+                ResponseError = "Ошибка связи";
+                ResponseCsError = "Ошибка КС";
+                ResponseCrcError = "Ошибка CRC";
                 InvalidCommand = "Ошибка: недопустимая команда";
                 Off = "Откл";
                 On = "Вкл";
@@ -107,6 +115,10 @@ namespace Scada.Comm.Lang
                 WriteLineError = "Error writing line";
                 UnableFindDevice = "Unable to find any device with address {0}";
 
+                ResponseOK = "OK";
+                ResponseError = "Error: communication failed";
+                ResponseCsError = "Error: invalid checksum";
+                ResponseCrcError = "Error: invalid CRC";
                 InvalidCommand = "Error: invalid command";
                 Off = "Off";
                 On = "On";

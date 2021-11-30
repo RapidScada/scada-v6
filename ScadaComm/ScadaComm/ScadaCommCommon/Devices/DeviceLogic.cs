@@ -430,7 +430,6 @@ namespace Scada.Comm.Devices
         /// </summary>
         public virtual void ReceiveIncomingRequest(Connection conn, IncomingRequestArgs requestArgs)
         {
-
         }
 
         /// <summary>
@@ -439,7 +438,6 @@ namespace Scada.Comm.Devices
         public virtual void ProcessIncomingRequest(byte[] buffer, int offset, int count, 
             IncomingRequestArgs requestArgs)
         {
-
         }
 
         /// <summary>
