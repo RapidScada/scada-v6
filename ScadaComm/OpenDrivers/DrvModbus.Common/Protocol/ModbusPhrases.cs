@@ -38,7 +38,7 @@ namespace Scada.Comm.Drivers.DrvModbus.Protocol
                 Command = "Команда \"{0}\"";
                 DeviceError = "Ошибка устройства";
                 IllegalDataBlock = "Недопустимый блок данных.";
-                OK = "OK!";
+                OK = "OK";
                 CrcError = "Ошибка CRC!";
                 LrcError = "Ошибка LRC!";
                 CommErrorWithExclamation = "Ошибка связи!";
@@ -56,7 +56,7 @@ namespace Scada.Comm.Drivers.DrvModbus.Protocol
                 Command = "Command \"{0}\"";
                 DeviceError = "Device error";
                 IllegalDataBlock = "Illegal data block.";
-                OK = "OK!";
+                OK = "OK";
                 CrcError = "CRC error!";
                 LrcError = "LRC error!";
                 CommErrorWithExclamation = "Communication error!";

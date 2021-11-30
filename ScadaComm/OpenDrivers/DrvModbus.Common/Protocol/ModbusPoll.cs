@@ -18,8 +18,14 @@ namespace Scada.Comm.Drivers.DrvModbus.Protocol
         /// </summary>
         public delegate bool RequestDelegate(DataUnit dataUnit);
 
-        protected Connection connection; // the device connection
-        protected ILog log;              // the communication line log
+        /// <summary>
+        /// The device connection.
+        /// </summary>
+        protected Connection connection;
+        /// <summary>
+        /// The communication line log.
+        /// </summary>
+        protected ILog log;
 
 
         /// <summary>
