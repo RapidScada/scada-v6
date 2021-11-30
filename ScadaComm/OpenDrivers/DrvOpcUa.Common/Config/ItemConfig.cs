@@ -22,7 +22,6 @@ namespace Scada.Comm.Drivers.DrvOpcUa.Config
             DisplayName = "";
             IsArray = false;
             ArrayLen = 1;
-            CnlNum = 0;
             Tag = null;
         }
 
@@ -53,11 +52,6 @@ namespace Scada.Comm.Drivers.DrvOpcUa.Config
         public int ArrayLen { get; set; }
 
         /// <summary>
-        /// Gets or sets the input channel number to which the item is bound.
-        /// </summary>
-        public int CnlNum { get; set; }
-
-        /// <summary>
         /// Gets or sets the object that contains data related to the item.
         /// </summary>
         public object Tag { get; set; }
@@ -76,7 +70,6 @@ namespace Scada.Comm.Drivers.DrvOpcUa.Config
             DisplayName = xmlElem.GetAttrAsString("displayName");
             IsArray = xmlElem.GetAttrAsBool("isArray");
             ArrayLen = xmlElem.GetAttrAsInt("arrayLen");
-            CnlNum = xmlElem.GetAttrAsInt("cnlNum");
         }
 
         /// <summary>
@@ -92,7 +85,6 @@ namespace Scada.Comm.Drivers.DrvOpcUa.Config
             xmlElem.SetAttribute("displayName", DisplayName);
             xmlElem.SetAttribute("isArray", IsArray);
             xmlElem.SetAttribute("arrayLen", ArrayLen);
-            xmlElem.SetAttribute("cnlNum", CnlNum);
         }
     }
 }

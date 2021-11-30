@@ -19,7 +19,7 @@ namespace Scada.Comm.Drivers.DrvOpcUa
     /// Helper methods to work using OPC UA.
     /// <para>Вспомогательные методы для работы с OPC UA.</para>
     /// </summary>
-    public class OpcUaHelper
+    public class OpcHelper
     {
         /// <summary>
         /// The runtime kinds.
@@ -44,7 +44,7 @@ namespace Scada.Comm.Drivers.DrvOpcUa
         /// <summary>
         /// Initializes a new instance of the class.
         /// </summary>
-        public OpcUaHelper(AppDirs appDirs, ILog log, int deviceNum, RuntimeKind runtime)
+        public OpcHelper(AppDirs appDirs, ILog log, int deviceNum, RuntimeKind runtime)
         {
             this.appDirs = appDirs ?? throw new ArgumentNullException(nameof(appDirs));
             this.log = log ?? throw new ArgumentNullException(nameof(log));
@@ -102,7 +102,7 @@ namespace Scada.Comm.Drivers.DrvOpcUa
         /// <summary>
         /// Connects to the OPC server asynchronously.
         /// </summary>
-        public async Task<bool> ConnectAsync(ConnectionOptions connectionOptions, int operationTimeout = -1)
+        public async Task<bool> ConnectAsync(OpcConnectionOptions connectionOptions, int operationTimeout = -1)
         {
             AutoAccept = false;
             OpcSession = null;

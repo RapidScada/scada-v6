@@ -10,15 +10,15 @@ using System.Xml;
 namespace Scada.Comm.Drivers.DrvOpcUa.Config
 {
     /// <summary>
-    /// Represents a driver configuration for a device.
-    /// <para>Представляет конфигурацию драйвера для устройства.</para>
+    /// Represents a configuration of an OPC UA device.
+    /// <para>Представляет конфигурацию устройства OPC UA.</para>
     /// </summary>
-    public class DeviceConfig
+    public class OpcDeviceConfig
     {
         /// <summary>
         /// Initializes a new instance of the class.
         /// </summary>
-        public DeviceConfig()
+        public OpcDeviceConfig()
         {
             SetToDefault();
         }
@@ -27,7 +27,7 @@ namespace Scada.Comm.Drivers.DrvOpcUa.Config
         /// <summary>
         /// Gets the connection options.
         /// </summary>
-        public ConnectionOptions ConnectionOptions { get; private set; }
+        public OpcConnectionOptions ConnectionOptions { get; private set; }
 
         /// <summary>
         /// Gets the subscriptions.
@@ -45,7 +45,7 @@ namespace Scada.Comm.Drivers.DrvOpcUa.Config
         /// </summary>
         private void SetToDefault()
         {
-            ConnectionOptions = new ConnectionOptions();
+            ConnectionOptions = new OpcConnectionOptions();
             Subscriptions = new List<SubscriptionConfig>();
             Commands = new List<CommandConfig>();
         }
@@ -110,7 +110,7 @@ namespace Scada.Comm.Drivers.DrvOpcUa.Config
                 XmlDeclaration xmlDecl = xmlDoc.CreateXmlDeclaration("1.0", "utf-8", null);
                 xmlDoc.AppendChild(xmlDecl);
 
-                XmlElement rootElem = xmlDoc.CreateElement("DrvOpcUa");
+                XmlElement rootElem = xmlDoc.CreateElement("OpcDeviceConfig");
                 xmlDoc.AppendChild(rootElem);
 
                 ConnectionOptions.SaveToXml(rootElem.AppendElem("ConnectionOptions"));

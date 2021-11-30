@@ -11,12 +11,12 @@ namespace Scada.Comm.Drivers.DrvOpcUa.Config
     /// Represents the OPC server connection options.
     /// <para>Представляет параметры соединения с OPC-сервером.</para>
     /// </summary>
-    public class ConnectionOptions
+    public class OpcConnectionOptions
     {
         /// <summary>
         /// Initializes a new instance of the class.
         /// </summary>
-        public ConnectionOptions()
+        public OpcConnectionOptions()
         {
             ServerUrl = "";
             SecurityMode = MessageSecurityMode.None;
