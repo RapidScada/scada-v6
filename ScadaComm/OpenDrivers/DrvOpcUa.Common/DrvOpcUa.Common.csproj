@@ -10,7 +10,21 @@
     <Copyright>Copyright © 2021</Copyright>
   </PropertyGroup>
 
-	<ItemGroup>
+  <ItemGroup>
+    <None Remove="Config\DrvOpcUa.Linux.xml" />
+    <None Remove="Config\DrvOpcUa.Win.xml" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <EmbeddedResource Include="Config\DrvOpcUa.Linux.xml" />
+    <EmbeddedResource Include="Config\DrvOpcUa.Win.xml" />
+  </ItemGroup>
+	
+  <ItemGroup>
+    <PackageReference Include="OPCFoundation.NetStandard.Opc.Ua" Version="1.4.365.48" />
+  </ItemGroup>
+
+  <ItemGroup>
     <Reference Include="ScadaCommCommon">
       <HintPath>..\..\ScadaComm\ScadaCommCommon\bin\Release\netstandard2.0\ScadaCommCommon.dll</HintPath>
     </Reference>

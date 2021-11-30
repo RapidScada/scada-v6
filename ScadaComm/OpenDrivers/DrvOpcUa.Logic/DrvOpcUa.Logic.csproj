@@ -9,6 +9,10 @@
     <Product>Rapid SCADA</Product>
     <Copyright>Copyright © 2021</Copyright>
   </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\DrvOpcUa.Common\DrvOpcUa.Common.csproj" />
+  </ItemGroup>
 	
   <ItemGroup>
     <Reference Include="ScadaCommCommon">
