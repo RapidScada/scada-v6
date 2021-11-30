@@ -438,6 +438,35 @@ namespace Scada.Comm.Devices
         }
 
         /// <summary>
+        /// Gets the date and time value of the tag.
+        /// </summary>
+        public DateTime GetDateTime(int tagIndex)
+        {
+            CnlData cnlData = this[tagIndex];
+
+            if (cnlData.IsDefined)
+            {
+                DeviceTag deviceTag = deviceTags[tagIndex];
+                
+                if (deviceTag.DataType == TagDataType.Int64)
+                    return new DateTime(BitConverter.DoubleToInt64Bits(cnlData.Val), DateTimeKind.Utc);
+                else if (deviceTag.DataType == TagDataType.Double)
+                    return DateTime.FromOADate(cnlData.Val);
+            }
+
+            return DateTime.MinValue;
+        }
+
+        /// <summary>
+        /// Gets the date and time value of the tag.
+        /// </summary>
+        public DateTime GetDateTime(string tagCode)
+        {
+            DeviceTag deviceTag = deviceTags[tagCode];
+            return GetDateTime(deviceTag.Index);
+        }
+
+        /// <summary>
         /// Sets the floating point value and status of the tag.
         /// </summary>
         public void Set(int tagIndex, double val, int stat)
@@ -550,7 +579,8 @@ namespace Scada.Comm.Devices
         /// </summary>
         public void SetAscii(string tagCode, string s, int stat)
         {
-            SetByteArray(tagCode, Encoding.ASCII.GetBytes(s ?? ""), stat);
+            DeviceTag deviceTag = deviceTags[tagCode];
+            SetAscii(deviceTag.Index, s, stat);
         }
 
         /// <summary>
@@ -566,7 +596,30 @@ namespace Scada.Comm.Devices
         /// </summary>
         public void SetUnicode(string tagCode, string s, int stat)
         {
-            SetByteArray(tagCode, Encoding.Unicode.GetBytes(s ?? ""), stat);
+            DeviceTag deviceTag = deviceTags[tagCode];
+            SetUnicode(deviceTag.Index, s, stat);
+        }
+
+        /// <summary>
+        /// Sets the date and time value and status of the tag.
+        /// </summary>
+        public void SetDateTime(int tagIndex, DateTime dateTime, int stat)
+        {
+            DeviceTag deviceTag = deviceTags[tagIndex];
+
+            if (deviceTag.DataType == TagDataType.Int64)
+                SetInt64(tagIndex, dateTime.ToUniversalTime().Ticks, stat);
+            else if (deviceTag.DataType == TagDataType.Double)
+                Set(tagIndex, dateTime.ToUniversalTime().ToOADate(), stat);
+        }
+
+        /// <summary>
+        /// Sets the date and time value and status of the tag.
+        /// </summary>
+        public void SetDateTime(string tagCode, DateTime dateTime, int stat)
+        {
+            DeviceTag deviceTag = deviceTags[tagCode];
+            SetDateTime(deviceTag.Index, dateTime, stat);
         }
 
         /// <summary>
