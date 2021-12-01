@@ -1,0 +1,6 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<PlgSchemeDictionaries>
+  <Dictionary key="Scada.Web.Plugins.PlgScheme.Areas.Scheme.Pages.SchemeView">
+    <Phrase key="SchemeViewTitle">Scheme {0}</Phrase>
+  </Dictionary>
+</PlgSchemeDictionaries>

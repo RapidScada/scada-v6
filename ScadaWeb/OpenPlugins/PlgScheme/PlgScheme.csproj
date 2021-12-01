@@ -12,7 +12,25 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Content Remove="compilerconfig.json" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Remove="lang\PlgScheme.en-GB.xml" />
+    <None Remove="lang\PlgScheme.ru-RU.xml" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Content Include="lang\PlgScheme.ru-RU.xml" />
+    <Content Include="lang\PlgScheme.en-GB.xml" />
+  </ItemGroup>
+
+  <ItemGroup>
     <FrameworkReference Include="Microsoft.AspNetCore.App" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Include="compilerconfig.json" />
   </ItemGroup>
 
   <ItemGroup>
