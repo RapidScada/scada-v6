@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio Version 16
-VisualStudioVersion = 16.0.31321.278
+# Visual Studio Version 17
+VisualStudioVersion = 17.0.31912.275
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "PlgMain", "PlgMain", "{00E81568-B4A8-4226-B454-2FDBA389CDC8}"
 EndProject
@@ -14,6 +14,12 @@ EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PlgChart", "PlgChart\PlgChart.csproj", "{2FC1E95A-822F-47A9-8DCB-B3D5EE5011BB}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PlgChart.Common", "PlgChart.Common\PlgChart.Common.csproj", "{74078489-FD8B-437D-AA19-C26CDA6A5099}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "PlgScheme", "PlgScheme", "{1C746D2E-749E-408B-A180-63AD78EFFAFC}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PlgScheme.Common", "PlgScheme.Common\PlgScheme.Common.csproj", "{731F7D35-42AB-4648-9900-6F2C2B95EC9A}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PlgScheme", "PlgScheme\PlgScheme.csproj", "{276855A0-2D48-4DD9-AF63-A5B38EC88DD6}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -37,6 +43,14 @@ Global
 		{74078489-FD8B-437D-AA19-C26CDA6A5099}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{74078489-FD8B-437D-AA19-C26CDA6A5099}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{74078489-FD8B-437D-AA19-C26CDA6A5099}.Release|Any CPU.Build.0 = Release|Any CPU
+		{731F7D35-42AB-4648-9900-6F2C2B95EC9A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{731F7D35-42AB-4648-9900-6F2C2B95EC9A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{731F7D35-42AB-4648-9900-6F2C2B95EC9A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{731F7D35-42AB-4648-9900-6F2C2B95EC9A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{276855A0-2D48-4DD9-AF63-A5B38EC88DD6}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{276855A0-2D48-4DD9-AF63-A5B38EC88DD6}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{276855A0-2D48-4DD9-AF63-A5B38EC88DD6}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{276855A0-2D48-4DD9-AF63-A5B38EC88DD6}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -46,6 +60,8 @@ Global
 		{613F2B4A-4A63-49EB-91A3-3FD0AE389B8B} = {00E81568-B4A8-4226-B454-2FDBA389CDC8}
 		{2FC1E95A-822F-47A9-8DCB-B3D5EE5011BB} = {DABBA5AD-314E-4424-AA5B-C57D60C4E581}
 		{74078489-FD8B-437D-AA19-C26CDA6A5099} = {DABBA5AD-314E-4424-AA5B-C57D60C4E581}
+		{731F7D35-42AB-4648-9900-6F2C2B95EC9A} = {1C746D2E-749E-408B-A180-63AD78EFFAFC}
+		{276855A0-2D48-4DD9-AF63-A5B38EC88DD6} = {1C746D2E-749E-408B-A180-63AD78EFFAFC}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {19C6959B-66D1-4335-AA8A-0E2F23894099}
