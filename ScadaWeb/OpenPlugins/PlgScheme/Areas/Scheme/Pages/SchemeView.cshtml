@@ -31,11 +31,13 @@ else
 {
     <div id="divSchWrapper" class="scheme-wrapper">
     </div>
-    <div id="divToolbar"><asp:Label 
-        ID="lblFitScreenBtn" runat="server" CssClass="tool-btn" ToolTip="Fit to Screen"><i class="fa fa-arrows"></i></asp:Label><asp:Label 
-        ID="lblFitWidthBtn" runat="server" CssClass="tool-btn" ToolTip="Fit to Width"><i class="fa fa-arrows-h"></i></asp:Label><asp:Label 
-        ID="lblZoomOutBtn" runat="server" CssClass="tool-btn" ToolTip="Zoom Out"><i class="fa fa-search-minus"></i></asp:Label><asp:Label 
-        ID="lblZoomInBtn" runat="server" CssClass="tool-btn" ToolTip="Zoom In"><i class="fa fa-search-plus"></i></asp:Label><span id="spanCurScale">100%</span><div id="divDebugTools"><span 
+    <div id="divToolbar"><span 
+        id="lblFitScreenBtn" class="tool-btn" title="Fit to Screen"><i class="fas fa-arrows-alt"></i></span><span
+        id="lblFitWidthBtn" class="tool-btn" title="Fit to Width"><i class="fas fa-arrows-alt-h"></i></span><span
+        id="lblZoomOutBtn" class="tool-btn" title="Zoom Out"><i class="fas fa-search-minus"></i></span><span
+        id="lblZoomInBtn" class="tool-btn" title="Zoom In"><i class="fas fa-search-plus"></i></span><span 
+        id="spanCurScale">100%</span><div 
+        id="divDebugTools"><span 
             id="spanLoadSchemeBtn" class="tool-btn">Load Scheme</span><span 
             id="spanCreateDomBtn" class="tool-btn">Create DOM</span><span 
             id="spanStartUpdBtn" class="tool-btn">Start Updating</span><span 

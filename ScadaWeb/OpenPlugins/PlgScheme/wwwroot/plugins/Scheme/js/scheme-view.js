@@ -8,7 +8,7 @@ var DEBUG_MODE = false;
 // Scheme object
 var scheme = null;
 // Notifier control
-var notifier = null;
+//var notifier = null;
 // Possible scale values
 var scaleVals = [0.1, 0.25, 0.5, 0.75, 1, 1.25, 1.5, 2, 2.5, 3, 4, 5];
 
@@ -24,6 +24,10 @@ var controlRight = controlRight || false;
 // Scheme options
 var schemeOptions = schemeOptions || scada.scheme.defaultOptions;
 
+// New variables
+var viewHub = ViewHub.getInstance();
+var mainApi = new MainApi();
+
 // Scheme environment object accessible by the scheme and its components
 scada.scheme.env = {
     // Localized phrases
@@ -35,7 +39,8 @@ scada.scheme.env = {
     sendCommand: function (ctrlCnlNum, cmdVal, viewID, componentID) {
         scheme.sendCommand(ctrlCnlNum, cmdVal, viewID, componentID, function (success) {
             if (!success) {
-                notifier.addNotification(phrases.UnableSendCommand, scada.NotifTypes.ERROR, notifier.DEF_NOTIF_LIFETIME);
+                console.error("Unable to send command");
+                //notifier.addNotification(phrases.UnableSendCommand, scada.NotifTypes.ERROR, notifier.DEF_NOTIF_LIFETIME);
             }
         });
     }
@@ -48,8 +53,9 @@ function loadScheme(viewID) {
             if (!DEBUG_MODE) {
                 // show errors
                 if (Array.isArray(scheme.loadErrors) && scheme.loadErrors.length > 0) {
-                    notifier.addNotification(scheme.loadErrors.join("<br/>"),
-                        scada.NotifTypes.ERROR, notifier.INFINITE_NOTIF_LIFETIME);
+                    console.error(scheme.loadErrors.join("<br/>"));
+                    /*notifier.addNotification(scheme.loadErrors.join("<br/>"),
+                        scada.NotifTypes.ERROR, notifier.INFINITE_NOTIF_LIFETIME);*/
                 }
 
                 // show scheme
@@ -59,9 +65,10 @@ function loadScheme(viewID) {
                 startUpdatingScheme();
             }
         } else {
-            notifier.addNotification(phrases.LoadSchemeError +
+            console.error("Error loading scheme");
+            /*notifier.addNotification(phrases.LoadSchemeError +
                 " <input type='button' value='" + phrases.ReloadButton + "' onclick='reloadScheme()' />",
-                scada.NotifTypes.ERROR, notifier.INFINITE_NOTIF_LIFETIME);
+                scada.NotifTypes.ERROR, notifier.INFINITE_NOTIF_LIFETIME);*/
         }
     });
 }
@@ -73,9 +80,10 @@ function reloadScheme() {
 
 // Start cyclic scheme updating process
 function startUpdatingScheme() {
-    scheme.updateData(scada.clientAPI, function (success) {
+    scheme.updateData(mainApi, function (success) {
         if (!success) {
-            notifier.addNotification(phrases.UpdateError, scada.NotifTypes.ERROR, notifier.DEF_NOTIF_LIFETIME);
+            console.error("Error updating scheme");
+            //notifier.addNotification(phrases.UpdateError, scada.NotifTypes.ERROR, notifier.DEF_NOTIF_LIFETIME);
         }
 
         setTimeout(startUpdatingScheme, refrRate);
@@ -205,15 +213,16 @@ function initDebugTools() {
     });
 
     $("#spanAddNotifBtn").click(function () {
-        notifier.addNotification(scada.utils.getCurTime() + " Test notification",
-            scada.NotifTypes.INFO, notifier.DEF_NOTIF_LIFETIME);
+        console.info("Test notification");
+        /*notifier.addNotification(scada.utils.getCurTime() + " Test notification",
+            scada.NotifTypes.INFO, notifier.DEF_NOTIF_LIFETIME);*/
     });
 }
 
 $(document).ready(function () {
     // setup client API
-    scada.clientAPI.rootPath = "../../";
-    scada.clientAPI.ajaxQueue = scada.ajaxQueueLocator.getAjaxQueue();
+    //scada.clientAPI.rootPath = "../../";
+    //scada.clientAPI.ajaxQueue = scada.ajaxQueueLocator.getAjaxQueue();
 
     // create scheme
     var divSchWrapper = $("#divSchWrapper");
@@ -223,12 +232,12 @@ $(document).ready(function () {
 
     // setup user interface
     initToolbar();
-    scada.utils.styleIOS(divSchWrapper);
+    //scada.utils.styleIOS(divSchWrapper);
     updateLayout();
-    notifier = new scada.Notifier("#divNotif");
-    notifier.startClearingNotifications();
+    //notifier = new scada.Notifier("#divNotif");
+    //notifier.startClearingNotifications();
 
-    $(window).on("resize " + scada.EventTypes.UPDATE_LAYOUT, function () {
+    $(window).on("resize " + ScadaEventType.UPDATE_LAYOUT, function () {
         updateLayout();
         updateScale();
     });
