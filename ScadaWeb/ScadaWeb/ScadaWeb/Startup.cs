@@ -96,6 +96,7 @@ namespace Scada.Web
                 })
                 .AddJsonOptions(options =>
                 {
+                    // TODO: use default options
                     options.JsonSerializerOptions.IgnoreReadOnlyFields = true;
                     options.JsonSerializerOptions.IgnoreReadOnlyProperties = true;
                 });
