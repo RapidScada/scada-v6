@@ -2,7 +2,6 @@
 // Licensed under the Apache License, Version 2.0. See License.txt in the project root for license information.
 
 using Scada.Admin.Extensions.ExtCommConfig.Controls;
-using Scada.Admin.Lang;
 using Scada.Admin.Project;
 using Scada.Agent;
 using Scada.Comm.Config;
@@ -10,6 +9,7 @@ using Scada.Comm.Devices;
 using Scada.Comm.Drivers;
 using Scada.Data.Models;
 using Scada.Forms;
+using Scada.Lang;
 using System;
 using System.Collections.Generic;
 using System.Windows.Forms;
@@ -72,6 +72,7 @@ namespace Scada.Admin.Extensions.ExtCommConfig.Code
 
             if (driverViewCache.TryGetValue(driverCode, out driverView))
             {
+                driverView.AgentClient = adminContext.MainForm.GetAgentClient(false);
                 message = "Driver view has been retrieved from the cache.";
                 return true;
             }
@@ -79,6 +80,7 @@ namespace Scada.Admin.Extensions.ExtCommConfig.Code
             {
                 driverView.BaseDataSet = adminContext.CurrentProject.ConfigBase;
                 driverView.AppDirs = adminContext.AppDirs.CreateDirsForView(commApp.ConfigDir);
+                driverView.AgentClient = adminContext.MainForm.GetAgentClient(false);
                 driverView.AppConfig = commApp.AppConfig;
                 driverView.LoadDictionaries();
                 driverViewCache.Add(driverCode, driverView);
@@ -172,7 +174,7 @@ namespace Scada.Admin.Extensions.ExtCommConfig.Code
             }
             catch (Exception ex)
             {
-                adminContext.ErrLog.HandleError(ex, AdminPhrases.SendCommandError);
+                adminContext.ErrLog.HandleError(ex, CommonPhrases.SendCommandError);
                 return false;
             }
             finally

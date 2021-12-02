@@ -422,7 +422,7 @@ namespace Scada.Admin.Extensions.ExtCommConfig.Controls
                         cmd.CmdCode = CommCommands.RestartLine;
 
                     if (ExtensionUtils.SendCommand(adminContext, agentClient, cmd))
-                        ScadaUiUtils.ShowInfo(AdminPhrases.CommandSent);
+                        ScadaUiUtils.ShowInfo(CommonPhrases.CommandSent);
                 }
                 else
                 {
@@ -464,7 +464,7 @@ namespace Scada.Admin.Extensions.ExtCommConfig.Controls
                         CmdCode = CommCommands.PollDevice
                     }))
                     {
-                        ScadaUiUtils.ShowInfo(AdminPhrases.CommandSent);
+                        ScadaUiUtils.ShowInfo(CommonPhrases.CommandSent);
                     }
                 }
                 else

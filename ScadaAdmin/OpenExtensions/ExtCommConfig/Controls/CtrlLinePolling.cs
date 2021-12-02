@@ -287,7 +287,9 @@ namespace Scada.Admin.Extensions.ExtCommConfig.Controls
 
                 foreach (DeviceConfig deviceConfig in devicePolling)
                 {
-                    lvDevicePolling.Items.Add(CreateDeviceItem(deviceConfig.DeepClone(), ref index));
+                    DeviceConfig deviceConfigCopy = deviceConfig.DeepClone();
+                    deviceConfigCopy.Parent = deviceConfig.Parent; // line reference
+                    lvDevicePolling.Items.Add(CreateDeviceItem(deviceConfigCopy, ref index));
                 }
 
                 if (lvDevicePolling.Items.Count > 0)
