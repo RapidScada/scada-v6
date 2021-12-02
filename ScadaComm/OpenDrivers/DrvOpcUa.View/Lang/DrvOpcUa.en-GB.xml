@@ -24,7 +24,7 @@
     <Phrase key="btnSecurityOptions.ToolTip">Security Options</Phrase>
     <Phrase key="gbServerBrowse">Server Browse</Phrase>
     <Phrase key="btnViewAttrs.ToolTip">View Attributes</Phrase>
-    <Phrase key="gbDevice">Device</Phrase>
+    <Phrase key="gbDevice">Device Subscriptions</Phrase>
     <Phrase key="btnAddItem.ToolTip">Add Selected Item</Phrase>
     <Phrase key="btnAddSubscription.ToolTip">Add Subscription</Phrase>
     <Phrase key="btnMoveUpItem.ToolTip">Move Up</Phrase>
@@ -61,6 +61,7 @@
     <Phrase key="cbSecurityMode.Items[1]">Sign</Phrase>
     <Phrase key="cbSecurityMode.Items[2]">Sign and encrypt</Phrase>
     <Phrase key="lblSecurityPolicy">Security policy</Phrase>
+    <Phrase key="cbSecurityPolicy.Items[0]">None</Phrase>
     <Phrase key="lblAuthenticationMode">Authentication mode</Phrase>
     <Phrase key="cbAuthenticationMode.Items[0]">Anonymous</Phrase>
     <Phrase key="cbAuthenticationMode.Items[1]">Username and password</Phrase>

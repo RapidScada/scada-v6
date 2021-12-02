@@ -28,76 +28,76 @@
         /// </summary>
         private void InitializeComponent()
         {
-            this.dbSubscription = new System.Windows.Forms.GroupBox();
+            this.gbSubscription = new System.Windows.Forms.GroupBox();
             this.numPublishingInterval = new System.Windows.Forms.NumericUpDown();
             this.lblPublishingInterval = new System.Windows.Forms.Label();
             this.txtDisplayName = new System.Windows.Forms.TextBox();
             this.lblDisplayName = new System.Windows.Forms.Label();
             this.chkSubscrActive = new System.Windows.Forms.CheckBox();
-            this.dbSubscription.SuspendLayout();
+            this.gbSubscription.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.numPublishingInterval)).BeginInit();
             this.SuspendLayout();
             // 
-            // dbSubscription
+            // gbSubscription
             // 
-            this.dbSubscription.Controls.Add(this.numPublishingInterval);
-            this.dbSubscription.Controls.Add(this.lblPublishingInterval);
-            this.dbSubscription.Controls.Add(this.txtDisplayName);
-            this.dbSubscription.Controls.Add(this.lblDisplayName);
-            this.dbSubscription.Controls.Add(this.chkSubscrActive);
-            this.dbSubscription.Location = new System.Drawing.Point(0, 0);
-            this.dbSubscription.Name = "dbSubscription";
-            this.dbSubscription.Padding = new System.Windows.Forms.Padding(10, 3, 10, 10);
-            this.dbSubscription.Size = new System.Drawing.Size(230, 407);
-            this.dbSubscription.TabIndex = 0;
-            this.dbSubscription.TabStop = false;
-            this.dbSubscription.Text = "Subscription Parameters";
+            this.gbSubscription.Controls.Add(this.numPublishingInterval);
+            this.gbSubscription.Controls.Add(this.lblPublishingInterval);
+            this.gbSubscription.Controls.Add(this.txtDisplayName);
+            this.gbSubscription.Controls.Add(this.lblDisplayName);
+            this.gbSubscription.Controls.Add(this.chkSubscrActive);
+            this.gbSubscription.Location = new System.Drawing.Point(0, 0);
+            this.gbSubscription.Name = "gbSubscription";
+            this.gbSubscription.Padding = new System.Windows.Forms.Padding(10, 3, 10, 10);
+            this.gbSubscription.Size = new System.Drawing.Size(250, 500);
+            this.gbSubscription.TabIndex = 0;
+            this.gbSubscription.TabStop = false;
+            this.gbSubscription.Text = "Subscription Parameters";
             // 
             // numPublishingInterval
             // 
-            this.numPublishingInterval.Location = new System.Drawing.Point(13, 94);
+            this.numPublishingInterval.Location = new System.Drawing.Point(13, 106);
             this.numPublishingInterval.Maximum = new decimal(new int[] {
             1000000,
             0,
             0,
             0});
             this.numPublishingInterval.Name = "numPublishingInterval";
-            this.numPublishingInterval.Size = new System.Drawing.Size(100, 20);
+            this.numPublishingInterval.Size = new System.Drawing.Size(100, 23);
             this.numPublishingInterval.TabIndex = 4;
             this.numPublishingInterval.ValueChanged += new System.EventHandler(this.numPublishingInterval_ValueChanged);
             // 
             // lblPublishingInterval
             // 
             this.lblPublishingInterval.AutoSize = true;
-            this.lblPublishingInterval.Location = new System.Drawing.Point(10, 78);
+            this.lblPublishingInterval.Location = new System.Drawing.Point(10, 88);
             this.lblPublishingInterval.Name = "lblPublishingInterval";
-            this.lblPublishingInterval.Size = new System.Drawing.Size(92, 13);
+            this.lblPublishingInterval.Size = new System.Drawing.Size(105, 15);
             this.lblPublishingInterval.TabIndex = 3;
             this.lblPublishingInterval.Text = "Publishing interval";
             // 
             // txtDisplayName
             // 
-            this.txtDisplayName.Location = new System.Drawing.Point(13, 55);
+            this.txtDisplayName.Location = new System.Drawing.Point(13, 62);
             this.txtDisplayName.Name = "txtDisplayName";
-            this.txtDisplayName.Size = new System.Drawing.Size(204, 20);
+            this.txtDisplayName.Size = new System.Drawing.Size(224, 23);
             this.txtDisplayName.TabIndex = 2;
             this.txtDisplayName.TextChanged += new System.EventHandler(this.txtDisplayName_TextChanged);
             // 
             // lblDisplayName
             // 
             this.lblDisplayName.AutoSize = true;
-            this.lblDisplayName.Location = new System.Drawing.Point(10, 39);
+            this.lblDisplayName.Location = new System.Drawing.Point(10, 44);
             this.lblDisplayName.Name = "lblDisplayName";
-            this.lblDisplayName.Size = new System.Drawing.Size(70, 13);
+            this.lblDisplayName.Size = new System.Drawing.Size(78, 15);
             this.lblDisplayName.TabIndex = 1;
             this.lblDisplayName.Text = "Display name";
             // 
             // chkSubscrActive
             // 
             this.chkSubscrActive.AutoSize = true;
-            this.chkSubscrActive.Location = new System.Drawing.Point(13, 19);
+            this.chkSubscrActive.Location = new System.Drawing.Point(13, 22);
             this.chkSubscrActive.Name = "chkSubscrActive";
-            this.chkSubscrActive.Size = new System.Drawing.Size(56, 17);
+            this.chkSubscrActive.Size = new System.Drawing.Size(59, 19);
             this.chkSubscrActive.TabIndex = 0;
             this.chkSubscrActive.Text = "Active";
             this.chkSubscrActive.UseVisualStyleBackColor = true;
@@ -107,11 +107,11 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.Controls.Add(this.dbSubscription);
+            this.Controls.Add(this.gbSubscription);
             this.Name = "CtrlSubscription";
-            this.Size = new System.Drawing.Size(230, 407);
-            this.dbSubscription.ResumeLayout(false);
-            this.dbSubscription.PerformLayout();
+            this.Size = new System.Drawing.Size(250, 500);
+            this.gbSubscription.ResumeLayout(false);
+            this.gbSubscription.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.numPublishingInterval)).EndInit();
             this.ResumeLayout(false);
 
@@ -119,7 +119,7 @@
 
         #endregion
 
-        private System.Windows.Forms.GroupBox dbSubscription;
+        private System.Windows.Forms.GroupBox gbSubscription;
         private System.Windows.Forms.CheckBox chkSubscrActive;
         private System.Windows.Forms.NumericUpDown numPublishingInterval;
         private System.Windows.Forms.Label lblPublishingInterval;

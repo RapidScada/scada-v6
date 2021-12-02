@@ -63,52 +63,52 @@
             this.gbItem.Location = new System.Drawing.Point(0, 0);
             this.gbItem.Name = "gbItem";
             this.gbItem.Padding = new System.Windows.Forms.Padding(10, 3, 10, 10);
-            this.gbItem.Size = new System.Drawing.Size(230, 407);
+            this.gbItem.Size = new System.Drawing.Size(250, 500);
             this.gbItem.TabIndex = 0;
             this.gbItem.TabStop = false;
             this.gbItem.Text = "Item Parameters";
             // 
             // txtSignal
             // 
-            this.txtSignal.Location = new System.Drawing.Point(13, 234);
+            this.txtSignal.Location = new System.Drawing.Point(13, 263);
             this.txtSignal.Name = "txtSignal";
             this.txtSignal.ReadOnly = true;
-            this.txtSignal.Size = new System.Drawing.Size(100, 20);
+            this.txtSignal.Size = new System.Drawing.Size(100, 23);
             this.txtSignal.TabIndex = 11;
             // 
             // lblSignal
             // 
             this.lblSignal.AutoSize = true;
-            this.lblSignal.Location = new System.Drawing.Point(10, 218);
+            this.lblSignal.Location = new System.Drawing.Point(10, 245);
             this.lblSignal.Name = "lblSignal";
-            this.lblSignal.Size = new System.Drawing.Size(36, 13);
+            this.lblSignal.Size = new System.Drawing.Size(39, 15);
             this.lblSignal.TabIndex = 10;
             this.lblSignal.Text = "Signal";
             // 
             // numCnlNum
             // 
-            this.numCnlNum.Location = new System.Drawing.Point(13, 195);
+            this.numCnlNum.Location = new System.Drawing.Point(13, 219);
             this.numCnlNum.Maximum = new decimal(new int[] {
             65535,
             0,
             0,
             0});
             this.numCnlNum.Name = "numCnlNum";
-            this.numCnlNum.Size = new System.Drawing.Size(100, 20);
+            this.numCnlNum.Size = new System.Drawing.Size(100, 23);
             this.numCnlNum.TabIndex = 9;
             // 
             // lblCnlNum
             // 
             this.lblCnlNum.AutoSize = true;
-            this.lblCnlNum.Location = new System.Drawing.Point(10, 179);
+            this.lblCnlNum.Location = new System.Drawing.Point(10, 201);
             this.lblCnlNum.Name = "lblCnlNum";
-            this.lblCnlNum.Size = new System.Drawing.Size(72, 13);
+            this.lblCnlNum.Size = new System.Drawing.Size(80, 15);
             this.lblCnlNum.TabIndex = 8;
             this.lblCnlNum.Text = "Input channel";
             // 
             // numArrayLen
             // 
-            this.numArrayLen.Location = new System.Drawing.Point(13, 156);
+            this.numArrayLen.Location = new System.Drawing.Point(13, 175);
             this.numArrayLen.Maximum = new decimal(new int[] {
             1000,
             0,
@@ -120,7 +120,7 @@
             0,
             0});
             this.numArrayLen.Name = "numArrayLen";
-            this.numArrayLen.Size = new System.Drawing.Size(100, 20);
+            this.numArrayLen.Size = new System.Drawing.Size(100, 23);
             this.numArrayLen.TabIndex = 7;
             this.numArrayLen.Value = new decimal(new int[] {
             1,
@@ -132,18 +132,18 @@
             // lblArrayLen
             // 
             this.lblArrayLen.AutoSize = true;
-            this.lblArrayLen.Location = new System.Drawing.Point(10, 140);
+            this.lblArrayLen.Location = new System.Drawing.Point(10, 157);
             this.lblArrayLen.Name = "lblArrayLen";
-            this.lblArrayLen.Size = new System.Drawing.Size(63, 13);
+            this.lblArrayLen.Size = new System.Drawing.Size(72, 15);
             this.lblArrayLen.TabIndex = 6;
             this.lblArrayLen.Text = "Array length";
             // 
             // chkIsArray
             // 
             this.chkIsArray.AutoSize = true;
-            this.chkIsArray.Location = new System.Drawing.Point(13, 120);
+            this.chkIsArray.Location = new System.Drawing.Point(13, 135);
             this.chkIsArray.Name = "chkIsArray";
-            this.chkIsArray.Size = new System.Drawing.Size(60, 17);
+            this.chkIsArray.Size = new System.Drawing.Size(63, 19);
             this.chkIsArray.TabIndex = 5;
             this.chkIsArray.Text = "Is array";
             this.chkIsArray.UseVisualStyleBackColor = true;
@@ -151,44 +151,44 @@
             // 
             // txtNodeID
             // 
-            this.txtNodeID.Location = new System.Drawing.Point(13, 94);
+            this.txtNodeID.Location = new System.Drawing.Point(13, 106);
             this.txtNodeID.Name = "txtNodeID";
             this.txtNodeID.ReadOnly = true;
-            this.txtNodeID.Size = new System.Drawing.Size(204, 20);
+            this.txtNodeID.Size = new System.Drawing.Size(224, 23);
             this.txtNodeID.TabIndex = 4;
             // 
             // lblNodeID
             // 
             this.lblNodeID.AutoSize = true;
-            this.lblNodeID.Location = new System.Drawing.Point(10, 78);
+            this.lblNodeID.Location = new System.Drawing.Point(10, 88);
             this.lblNodeID.Name = "lblNodeID";
-            this.lblNodeID.Size = new System.Drawing.Size(47, 13);
+            this.lblNodeID.Size = new System.Drawing.Size(50, 15);
             this.lblNodeID.TabIndex = 3;
             this.lblNodeID.Text = "Node ID";
             // 
             // txtDisplayName
             // 
-            this.txtDisplayName.Location = new System.Drawing.Point(13, 55);
+            this.txtDisplayName.Location = new System.Drawing.Point(13, 62);
             this.txtDisplayName.Name = "txtDisplayName";
-            this.txtDisplayName.Size = new System.Drawing.Size(204, 20);
+            this.txtDisplayName.Size = new System.Drawing.Size(224, 23);
             this.txtDisplayName.TabIndex = 2;
             this.txtDisplayName.TextChanged += new System.EventHandler(this.txtDisplayName_TextChanged);
             // 
             // lblDisplayName
             // 
             this.lblDisplayName.AutoSize = true;
-            this.lblDisplayName.Location = new System.Drawing.Point(10, 39);
+            this.lblDisplayName.Location = new System.Drawing.Point(10, 44);
             this.lblDisplayName.Name = "lblDisplayName";
-            this.lblDisplayName.Size = new System.Drawing.Size(70, 13);
+            this.lblDisplayName.Size = new System.Drawing.Size(78, 15);
             this.lblDisplayName.TabIndex = 1;
             this.lblDisplayName.Text = "Display name";
             // 
             // chkItemActive
             // 
             this.chkItemActive.AutoSize = true;
-            this.chkItemActive.Location = new System.Drawing.Point(13, 19);
+            this.chkItemActive.Location = new System.Drawing.Point(13, 22);
             this.chkItemActive.Name = "chkItemActive";
-            this.chkItemActive.Size = new System.Drawing.Size(56, 17);
+            this.chkItemActive.Size = new System.Drawing.Size(59, 19);
             this.chkItemActive.TabIndex = 0;
             this.chkItemActive.Text = "Active";
             this.chkItemActive.UseVisualStyleBackColor = true;
@@ -200,7 +200,7 @@
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.Controls.Add(this.gbItem);
             this.Name = "CtrlItem";
-            this.Size = new System.Drawing.Size(230, 407);
+            this.Size = new System.Drawing.Size(250, 500);
             this.gbItem.ResumeLayout(false);
             this.gbItem.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.numCnlNum)).EndInit();

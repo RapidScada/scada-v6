@@ -30,7 +30,7 @@ namespace Scada.Comm.Drivers.DrvOpcUa
 
         public static void Init()
         {
-            LocaleDict dict = Locale.GetDictionary("Scada.Comm.Devices.OpcUa.UI.FrmConfig");
+            LocaleDict dict = Locale.GetDictionary("Scada.Comm.Drivers.DrvOpcUa.View.Forms.FrmConfig");
             ConnectServerError = dict[nameof(ConnectServerError)];
             DisconnectServerError = dict[nameof(DisconnectServerError)];
             BrowseServerError = dict[nameof(BrowseServerError)];
@@ -44,7 +44,7 @@ namespace Scada.Comm.Drivers.DrvOpcUa
             EmptyCommand = dict[nameof(EmptyCommand)];
             UnknownDataType = dict[nameof(UnknownDataType)];
 
-            dict = Locale.GetDictionary("Scada.Comm.Devices.OpcUa.UI.FrmNodeAttr");
+            dict = Locale.GetDictionary("Scada.Comm.Drivers.DrvOpcUa.View.Forms.FrmNodeAttr");
             ReadAttrError = dict[nameof(ReadAttrError)];
         }
     }

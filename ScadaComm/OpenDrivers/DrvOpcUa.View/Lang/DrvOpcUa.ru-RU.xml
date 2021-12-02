@@ -24,7 +24,7 @@
     <Phrase key="btnSecurityOptions.ToolTip">Настройки безопасности</Phrase>
     <Phrase key="gbServerBrowse">Обзор сервера</Phrase>
     <Phrase key="btnViewAttrs.ToolTip">Просмотреть атрибуты</Phrase>
-    <Phrase key="gbDevice">КП</Phrase>
+    <Phrase key="gbDevice">Подписки КП</Phrase>
     <Phrase key="btnAddItem.ToolTip">Добавить выбранный элемент</Phrase>
     <Phrase key="btnAddSubscription.ToolTip">Добавить подписку</Phrase>
     <Phrase key="btnMoveUpItem.ToolTip">Переместить вверх</Phrase>
@@ -61,6 +61,7 @@
     <Phrase key="cbSecurityMode.Items[1]">Подпись</Phrase>
     <Phrase key="cbSecurityMode.Items[2]">Подпись и шифрование</Phrase>
     <Phrase key="lblSecurityPolicy">Политика безопасности</Phrase>
+    <Phrase key="cbSecurityPolicy.Items[0]">Нет</Phrase>
     <Phrase key="lblAuthenticationMode">Режим аутентификации</Phrase>
     <Phrase key="cbAuthenticationMode.Items[0]">Анонимно</Phrase>
     <Phrase key="cbAuthenticationMode.Items[1]">Имя пользователя и пароль</Phrase>

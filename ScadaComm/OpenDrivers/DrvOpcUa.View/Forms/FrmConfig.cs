@@ -7,6 +7,7 @@ using Scada.Comm.Drivers.DrvOpcUa.Config;
 using Scada.Comm.Lang;
 using Scada.Forms;
 using Scada.Lang;
+using Scada.Log;
 
 namespace Scada.Comm.Drivers.DrvOpcUa.View.Forms
 {
@@ -52,8 +53,8 @@ namespace Scada.Comm.Drivers.DrvOpcUa.View.Forms
         private FrmConfig()
         {
             InitializeComponent();
-            ctrlSubscription.Visible = false;
-            ctrlItem.Visible = false;
+            ctrlSubscription.Top = ctrlItem.Top = gbEmptyItem.Top;
+            ctrlSubscription.Visible = ctrlItem.Visible = false;
             //ctrlCommand.Visible = false;
         }
 
@@ -200,7 +201,7 @@ namespace Scada.Comm.Drivers.DrvOpcUa.View.Forms
         {
             try
             {
-                OpcHelper helper = new(appDirs, null, kpNum, OpcHelper.RuntimeKind.View) // TODO: log
+                OpcHelper helper = new(appDirs, LogStub.Instance, kpNum, OpcHelper.RuntimeKind.View)
                 {
                     CertificateValidation = CertificateValidator_CertificateValidation
                 };
@@ -626,6 +627,8 @@ namespace Scada.Comm.Drivers.DrvOpcUa.View.Forms
         {
             // translate form
             FormTranslator.Translate(this, GetType().FullName, toolTip);
+            FormTranslator.Translate(ctrlSubscription, ctrlSubscription.GetType().FullName);
+            FormTranslator.Translate(ctrlItem, ctrlItem.GetType().FullName);
             Text = string.Format(Text, kpNum);
 
             // load configuration
@@ -901,6 +904,11 @@ namespace Scada.Comm.Drivers.DrvOpcUa.View.Forms
                 if (treeUpdateTypes.HasFlag(TreeUpdateTypes.CurrentNode))
                     selectedNode.Text = GetDisplayName(commandConfig.DisplayName, DriverPhrases.EmptyCommand);
             }
+        }
+
+        private void btnOptions_Click(object sender, EventArgs e)
+        {
+
         }
 
         private void btnSave_Click(object sender, EventArgs e)

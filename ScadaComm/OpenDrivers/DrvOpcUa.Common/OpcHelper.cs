@@ -83,16 +83,26 @@ namespace Scada.Comm.Drivers.DrvOpcUa
             if (!File.Exists(fileName))
             {
                 string resourceName = ScadaUtils.IsRunningOnWin ?
-                    "Scada.Comm.Drivers.DrvOpcUa.Config.Win.xml" :
-                    "Scada.Comm.Drivers.DrvOpcUa.Config.Linux.xml";
+                    "Scada.Comm.Drivers.DrvOpcUa.Config.DrvOpcUa.Win.xml" :
+                    "Scada.Comm.Drivers.DrvOpcUa.Config.DrvOpcUa.Linux.xml";
                 string fileContents;
+                Stream stream = null;
 
-                using (Stream stream = Assembly.GetExecutingAssembly().GetManifestResourceStream(resourceName))
+                try
                 {
+                    stream = Assembly.GetExecutingAssembly().GetManifestResourceStream(resourceName) ??
+                        throw new ScadaException(String.Format(Locale.IsRussian ?
+                            "Ресурс {0} не найден." :
+                            "Resource {0} not found.", resourceName));
+
                     using (StreamReader reader = new StreamReader(stream))
                     {
                         fileContents = reader.ReadToEnd();
                     }
+                }
+                finally
+                {
+                    stream?.Close();
                 }
 
                 File.WriteAllText(fileName, fileContents, Encoding.UTF8);
@@ -149,8 +159,9 @@ namespace Scada.Comm.Drivers.DrvOpcUa
             }
 
             // create session
-            EndpointDescription selectedEndpoint = CoreClientUtils.SelectEndpoint(
-                connectionOptions.ServerUrl, haveAppCertificate, operationTimeout);
+            EndpointDescription selectedEndpoint = operationTimeout > 0
+                ? CoreClientUtils.SelectEndpoint(connectionOptions.ServerUrl, haveAppCertificate, operationTimeout)
+                : CoreClientUtils.SelectEndpoint(connectionOptions.ServerUrl, haveAppCertificate);
             selectedEndpoint.SecurityMode = connectionOptions.SecurityMode;
             selectedEndpoint.SecurityPolicyUri = connectionOptions.GetSecurityPolicy();
             EndpointConfiguration endpointConfiguration = EndpointConfiguration.Create(config);
