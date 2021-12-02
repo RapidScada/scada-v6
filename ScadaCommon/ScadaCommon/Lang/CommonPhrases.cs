@@ -54,7 +54,9 @@ namespace Scada.Lang
         public static string ConnOptionsNotFound { get; private set; }
         public static string DatabaseNotSupported { get; private set; }
         public static string OperationNotSupported { get; private set; }
-        public static string NoData { get; private set; }
+        public static string CommandSent { get; private set; }
+        public static string SendCommandError { get; private set; }
+        public static string AgentDisabled { get; private set; }
 
         // Scada.ConfigBase
         public static string ArchiveTable { get; private set; }
@@ -112,6 +114,7 @@ namespace Scada.Lang
         public static string QuestionCaption { get; private set; }
         public static string ErrorCaption { get; private set; }
         public static string WarningCaption { get; private set; }
+        public static string NoData { get; private set; }
         public static string CorrectErrors { get; private set; }
         public static string HiddenPassword { get; private set; }
         public static string NewConnection { get; private set; }
@@ -160,7 +163,9 @@ namespace Scada.Lang
             ConnOptionsNotFound = dict["ConnOptionsNotFound"];
             DatabaseNotSupported = dict["DatabaseNotSupported"];
             OperationNotSupported = dict["OperationNotSupported"];
-            NoData = dict["NoData"];
+            CommandSent = dict["CommandSent"];
+            SendCommandError = dict["SendCommandError"];
+            AgentDisabled = dict["AgentDisabled"];
 
             dict = Locale.GetDictionary("Scada.ConfigBase");
             ArchiveTable = dict["ArchiveTable"];
@@ -218,6 +223,7 @@ namespace Scada.Lang
             QuestionCaption = dict["QuestionCaption"];
             ErrorCaption = dict["ErrorCaption"];
             WarningCaption = dict["WarningCaption"];
+            NoData = dict["NoData"];
             CorrectErrors = dict["CorrectErrors"];
             HiddenPassword = dict["HiddenPassword"];
             NewConnection = dict["NewConnection"];

@@ -21,7 +21,9 @@
     <Phrase key="ConnOptionsNotFound">Параметры соединения не найдены.</Phrase>
     <Phrase key="DatabaseNotSupported">База данных не поддерживается.</Phrase>
     <Phrase key="OperationNotSupported">Операция не поддерживается.</Phrase>
-    <Phrase key="NoData">Нет данных</Phrase>
+    <Phrase key="CommandSent">Команда отправлена.</Phrase>
+    <Phrase key="SendCommandError">Ошибка при отправке команды</Phrase>
+    <Phrase key="AgentDisabled">Агент отключен.</Phrase>
   </Dictionary>
   <Dictionary key="Scada.ConfigBase">
     <Phrase key="ArchiveTable">Архивы</Phrase>
@@ -79,6 +81,7 @@
     <Phrase key="QuestionCaption">Вопрос</Phrase>
     <Phrase key="ErrorCaption">Ошибка</Phrase>
     <Phrase key="WarningCaption">Предупреждение</Phrase>
+    <Phrase key="NoData">Нет данных</Phrase>
     <Phrase key="CorrectErrors">Пожалуйста, исправьте следующие ошибки:</Phrase>
     <Phrase key="HiddenPassword">*****</Phrase>
     <Phrase key="NewConnection">Новое соединение</Phrase>
