@@ -610,8 +610,6 @@
     <Phrase key="RestartNamedService">Перезапуск службы {0}</Phrase>
     <Phrase key="ServiceCommandCompleted">Команда управления службой выполнена успешно</Phrase>
     <Phrase key="ServiceCommandFailed">Команда управления службой не выполнена</Phrase>
-    <Phrase key="CommandSent">Команда отправлена.</Phrase>
-    <Phrase key="SendCommandError">Ошибка при отправке команды</Phrase>
   </Dictionary>
   <Dictionary key="Scada.Admin.Forms.FrmLogs">
     <Phrase key="this">Журналы</Phrase>

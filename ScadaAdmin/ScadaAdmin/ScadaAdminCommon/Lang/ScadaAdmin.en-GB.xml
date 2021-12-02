@@ -610,8 +610,6 @@
     <Phrase key="RestartNamedService">Restart the {0} service</Phrase>
     <Phrase key="ServiceCommandCompleted">Service control command completed successfully</Phrase>
     <Phrase key="ServiceCommandFailed">Service control command failed</Phrase>
-    <Phrase key="CommandSent">Command has been sent.</Phrase>
-    <Phrase key="SendCommandError">Error sending command</Phrase>
   </Dictionary>
   <Dictionary key="Scada.Admin.Forms.FrmLogs">
     <Phrase key="this">Logs</Phrase>
