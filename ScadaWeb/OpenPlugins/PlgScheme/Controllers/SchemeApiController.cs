@@ -54,50 +54,50 @@ namespace Scada.Web.Plugins.PlgScheme.Controllers
         /// <summary>
         /// Получить компоненты схемы.
         /// </summary>
-        public Dto<ComponentsPacket> GetComponents(int viewID, long viewStamp, int startIndex, int count)
+        public Dto<ComponentPacket> GetComponents(int viewID, long viewStamp, int startIndex, int count)
         {
             try
             {
                 if (viewLoader.GetView(viewID, out SchemeView schemeView, out string errMsg))
                 {
-                    ComponentsPacket componentsPacket = new(count);
+                    ComponentPacket componentsPacket = new(count);
                     componentsPacket.CopyComponents(schemeView.Components.Values, startIndex, count);
-                    return Dto<ComponentsPacket>.Success(componentsPacket);
+                    return Dto<ComponentPacket>.Success(componentsPacket);
                 }
                 else
                 {
-                    return Dto<ComponentsPacket>.Fail(errMsg);
+                    return Dto<ComponentPacket>.Fail(errMsg);
                 }
             }
             catch (Exception ex)
             {
                 webContext.Log.WriteError(ex, WebPhrases.ErrorInWebApi, nameof(GetComponents));
-                return Dto<ComponentsPacket>.Fail(ex.Message);
+                return Dto<ComponentPacket>.Fail(ex.Message);
             }
         }
 
         /// <summary>
         /// Получить изображения схемы.
         /// </summary>
-        public Dto<ImagesPacket> GetImages(int viewID, long viewStamp, int startIndex, int totalDataSize)
+        public Dto<ImagePacket> GetImages(int viewID, long viewStamp, int startIndex, int totalDataSize)
         {
             try
             {
                 if (viewLoader.GetView(viewID, out SchemeView schemeView, out string errMsg))
                 {
-                    ImagesPacket imagesPacket = new();
+                    ImagePacket imagesPacket = new();
                     imagesPacket.CopyImages(schemeView.SchemeDoc.Images.Values, startIndex, totalDataSize);
-                    return Dto<ImagesPacket>.Success(imagesPacket);
+                    return Dto<ImagePacket>.Success(imagesPacket);
                 }
                 else
                 {
-                    return Dto<ImagesPacket>.Fail(errMsg);
+                    return Dto<ImagePacket>.Fail(errMsg);
                 }
             }
             catch (Exception ex)
             {
                 webContext.Log.WriteError(ex, WebPhrases.ErrorInWebApi, nameof(GetImages));
-                return Dto<ImagesPacket>.Fail(ex.Message);
+                return Dto<ImagePacket>.Fail(ex.Message);
             }
         }
 

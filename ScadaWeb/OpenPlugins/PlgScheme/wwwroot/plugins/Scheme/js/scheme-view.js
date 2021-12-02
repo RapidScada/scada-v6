@@ -1,39 +1,34 @@
-﻿// Rapid SCADA namespace
+﻿// Namespaces
 var scada = scada || {};
-// Scheme namespace
 scada.scheme = scada.scheme || {};
 
 // Used for testing
 var DEBUG_MODE = false;
 // Scheme object
 var scheme = null;
-// Notifier control
-//var notifier = null;
 // Possible scale values
 var scaleVals = [0.1, 0.25, 0.5, 0.75, 1, 1.25, 1.5, 2, 2.5, 3, 4, 5];
-
-// The variables below must be defined in Scheme.aspx
-// View ID
-var viewID = viewID || 0;
-// Scheme refresh rate
-var refrRate = refrRate || 1000;
-// Localized phrases
-var phrases = phrases || {};
-// View control right
-var controlRight = controlRight || false;
-// Scheme options
-var schemeOptions = schemeOptions || scada.scheme.defaultOptions;
-
-// New variables
-var viewHub = ViewHub.getInstance();
+// Provides access to current data
 var mainApi = new MainApi();
+
+// The variables below are set from SchemeView.cshtml
+// View ID
+var viewID = 0;
+// Scheme refresh rate
+var refrRate = 1000;
+// Localized phrases
+var phrases = {};
+// View control right
+var controlRight = false;
+// Scheme options
+var schemeOptions = scada.scheme.defaultOptions;
 
 // Scheme environment object accessible by the scheme and its components
 scada.scheme.env = {
     // Localized phrases
     phrases: phrases,
     // The view hub object
-    viewHub: scada.viewHubLocator ? scada.viewHubLocator.getViewHub() : null,
+    viewHub: ViewHub.getInstance(),
 
     // Send telecommand
     sendCommand: function (ctrlCnlNum, cmdVal, viewID, componentID) {

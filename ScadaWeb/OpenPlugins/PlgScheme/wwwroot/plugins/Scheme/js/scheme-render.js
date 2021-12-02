@@ -1,28 +1,16 @@
-﻿/*
- * Scheme rendering
- *
- * Author   : Mikhail Shiryaev
- * Created  : 2016
- * Modified : 2021
- *
- * Requires:
- * - jquery
- * - eventtypes.js
- * - schemecommon.js
- *
- * Inheritance hierarchy:
- * Renderer
- *   SchemeRenderer
- *   ComponentRenderer
- *     StaticTextRenderer
- *       DynamicTextRenderer
- *     StaticPictureRenderer
- *       DynamicPictureRenderer
- */
+﻿// Renders a scheme.
+// Depends on jquery, scada-common.js, scheme-common.js
+// Contains classes:
+//     Renderer
+//         SchemeRenderer
+//         ComponentRenderer
+//             StaticTextRenderer
+//                 DynamicTextRenderer
+//             StaticPictureRenderer
+//                 DynamicPictureRenderer
 
-// Rapid SCADA namespace
+// Namespaces
 var scada = scada || {};
-// Scheme namespace
 scada.scheme = scada.scheme || {};
 
 /********** Renderer **********/
@@ -157,7 +145,7 @@ scada.scheme.SchemeRenderer.prototype = Object.create(scada.scheme.Renderer.prot
 scada.scheme.SchemeRenderer.constructor = scada.scheme.SchemeRenderer;
 
 scada.scheme.SchemeRenderer.prototype._setTitle = function (title, renderContext) {
-    if (title && renderContext.schemeEnv.viewHub) {
+    /*if (title && renderContext.schemeEnv.viewHub) {
         document.title = title + " - " + renderContext.schemeEnv.viewHub.getEnv().productName;
 
         // set title of a popup in case the scheme is in the popup
@@ -168,7 +156,7 @@ scada.scheme.SchemeRenderer.prototype._setTitle = function (title, renderContext
 
         // send notification about title change
         renderContext.schemeEnv.viewHub.notify(scada.EventTypes.VIEW_TITLE_CHANGED, window, document.title);
-    }
+    }*/
 };
 
 scada.scheme.SchemeRenderer.prototype._calcScale = function (component, scaleType, scaleValue) {
@@ -181,11 +169,11 @@ scada.scheme.SchemeRenderer.prototype._calcScale = function (component, scaleTyp
     }
     else if (component.parentDomElem) {
         var areaWidth = component.parentDomElem.innerWidth();
-        var schemeWidth = component.props.size.Width;
+        var schemeWidth = component.props.size.width;
         var horScale = areaWidth / schemeWidth;
 
         if (scaleType === ScaleTypes.FIT_SCREEN) {
-            var schemeHeight = component.props.size.Height;
+            var schemeHeight = component.props.size.height;
             var areaHeight = component.parentDomElem.innerHeight();
             var vertScale = areaHeight / schemeHeight;
             return Math.min(horScale, vertScale);
@@ -219,8 +207,8 @@ scada.scheme.SchemeRenderer.prototype.refreshImages = function (component, rende
 scada.scheme.SchemeRenderer.prototype.updateDom = function (component, renderContext) {
     if (component.dom) {
         var props = component.props; // scheme document properties
-        var schemeWidth = props.size.Width;
-        var schemeHeight = props.size.Height;
+        var schemeWidth = props.size.width;
+        var schemeHeight = props.size.height;
 
         var divScheme = component.dom.first();
         divScheme.css({
@@ -415,25 +403,27 @@ scada.scheme.ComponentRenderer.prototype.bindAction = function (jqObj, component
 
         if (!renderContext.editMode) {
             var viewHub = renderContext.schemeEnv.viewHub;
-            var dialogs = viewHub ? viewHub.dialogs : null;
+            //var dialogs = viewHub ? viewHub.dialogs : null;
 
             jqObj.click(function () {
                 switch (props.action) {
                     case Actions.DRAW_DIAGRAM:
-                        if (dialogs) {
+                        viewHub.features.chart.show(props.inCnlNum, new Date().toISOString().slice(0, 10));
+                        /*if (dialogs) {
                             var date = viewHub.curViewDateMs ? new Date(viewHub.curViewDateMs) : new Date();
                             dialogs.showChart(props.inCnlNum, renderContext.viewID, date);
                         } else {
                             console.warn("Dialogs object is undefined");
-                        }
+                        }*/
                         break;
 
                     case Actions.SEND_COMMAND:
-                        if (dialogs) {
+                        viewHub.features.command.show(props.ctrlCnlNum);
+                        /*if (dialogs) {
                             dialogs.showCmd(props.ctrlCnlNum, renderContext.viewID);
                         } else {
                             console.warn("Dialogs object is undefined");
-                        }
+                        }*/
                         break;
 
                     case Actions.SEND_COMMAND_NOW:

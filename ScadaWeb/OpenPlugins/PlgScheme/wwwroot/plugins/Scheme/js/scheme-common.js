@@ -1,17 +1,8 @@
-﻿/*
- * Scheme common objects
- *
- * Author   : Mikhail Shiryaev
- * Created  : 2016
- * Modified : 2021
- *
- * Requires:
- * - jquery
- */
+﻿// Contains common scheme objects.
+// No dependencies.
 
-// Rapid SCADA namespace
+// Namespaces
 var scada = scada || {};
-// Scheme namespace
 scada.scheme = scada.scheme || {};
 
 // Compare operators enumeration

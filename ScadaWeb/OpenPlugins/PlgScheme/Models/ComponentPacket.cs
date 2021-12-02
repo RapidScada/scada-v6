@@ -10,15 +10,15 @@ namespace Scada.Web.Plugins.PlgScheme.Models
     /// The class for transfer scheme components
     /// <para>Класс для передачи компонентов схемы</para>
     /// </summary>
-    public class ComponentsPacket
+    public class ComponentPacket
     {
         /// <summary>
         /// Конструктор
         /// </summary>
-        public ComponentsPacket(int capacity)
+        public ComponentPacket(int capacity)
         {
             EndOfComponents = false;
-            Components = new List<BaseComponent>(capacity);
+            Components = new List<object>(capacity);
         }
 
 
@@ -30,7 +30,8 @@ namespace Scada.Web.Plugins.PlgScheme.Models
         /// <summary>
         /// Получить компоненты схемы
         /// </summary>
-        public List<BaseComponent> Components { get; protected set; }
+        /// <remarks>Use the Object type to transfer the complete hierarchy of component properties.</remarks>
+        public List<object> Components { get; protected set; }
 
 
         /// <summary>

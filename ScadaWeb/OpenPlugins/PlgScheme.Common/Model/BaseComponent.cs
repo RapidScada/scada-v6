@@ -119,17 +119,12 @@ namespace Scada.Web.Plugins.PlgScheme.Model
         #region Attributes
         [DisplayName("Type name"), Category(Categories.Design), ReadOnly(true)]
         [Description("The full name of the scheme component type.")]
-        [JsonInclude]
         #endregion
         public string TypeName
         {
             get
             {
                 return GetType().FullName;
-            }
-            set
-            {
-                // include in JSON
             }
         }
 

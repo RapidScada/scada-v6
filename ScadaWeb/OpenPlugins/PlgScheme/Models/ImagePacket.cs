@@ -10,12 +10,12 @@ namespace Scada.Web.Plugins.PlgScheme.Models
     /// The class for transfer scheme images
     /// <para>Класс для передачи изображений схемы</para>
     /// </summary>
-    public class ImagesPacket
+    public class ImagePacket
     {
         /// <summary>
         /// Конструктор
         /// </summary>
-        public ImagesPacket()
+        public ImagePacket()
         {
             EndOfImages = false;
             Images = new List<ImageRecord>();
