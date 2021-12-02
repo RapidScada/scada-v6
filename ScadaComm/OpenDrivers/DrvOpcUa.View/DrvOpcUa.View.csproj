@@ -32,10 +32,6 @@
   </ItemGroup>
 	
   <ItemGroup>
-    <Folder Include="Forms\" />
-  </ItemGroup>
-	
-  <ItemGroup>
     <None Update="Lang\DrvOpcUa.en-GB.xml">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>

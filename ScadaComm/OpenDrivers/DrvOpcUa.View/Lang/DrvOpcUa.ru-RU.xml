@@ -55,7 +55,7 @@
     <Phrase key="ReadAttrError">Ошибка при чтении атрибутов с OPC-сервера</Phrase>
   </Dictionary>
   <Dictionary key="Scada.Comm.Drivers.DrvOpcUa.View.Forms.FrmSecurityOptions">
-    <Phrase key="this">Настройки безопасности</Phrase>
+    <Phrase key="this">Параметры безопасности</Phrase>
     <Phrase key="lblSecurityMode">Режим безопасности</Phrase>
     <Phrase key="cbSecurityMode.Items[0]">Нет</Phrase>
     <Phrase key="cbSecurityMode.Items[1]">Подпись</Phrase>
