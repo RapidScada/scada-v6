@@ -16,7 +16,7 @@
     <Phrase key="lblPublishingInterval">Publishing interval</Phrase>
   </Dictionary>
   <Dictionary key="Scada.Comm.Drivers.DrvOpcUa.View.Forms.FrmConfig">
-    <Phrase key="this">OPC UA - Device {0} Properties</Phrase>
+    <Phrase key="this">Device {0} Properties - OPC UA</Phrase>
     <Phrase key="gbConnection">Connection</Phrase>
     <Phrase key="lblServerUrl">Server URL</Phrase>
     <Phrase key="btnConnect.ToolTip">Connect to Server</Phrase>

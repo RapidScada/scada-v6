@@ -16,7 +16,7 @@
     <Phrase key="lblPublishingInterval">Интервал публикации</Phrase>
   </Dictionary>
   <Dictionary key="Scada.Comm.Drivers.DrvOpcUa.View.Forms.FrmConfig">
-    <Phrase key="this">OPC UA - Свойства КП {0}</Phrase>
+    <Phrase key="this">Свойства КП {0} - OPC UA</Phrase>
     <Phrase key="gbConnection">Соединение</Phrase>
     <Phrase key="lblServerUrl">Адрес сервера</Phrase>
     <Phrase key="btnConnect.ToolTip">Соединиться с сервером</Phrase>

@@ -3,6 +3,7 @@
 
 using Scada.Comm.Config;
 using Scada.Comm.Devices;
+using Scada.Comm.Drivers.DrvOpcUa.View.Forms;
 
 namespace Scada.Comm.Drivers.DrvOpcUa.View
 {
@@ -26,16 +27,7 @@ namespace Scada.Comm.Drivers.DrvOpcUa.View
         /// </summary>
         public override bool ShowProperties()
         {
-            /*if (new FrmDeviceProps(AppDirs, LineConfig, DeviceConfig, customUi).ShowDialog() == DialogResult.OK)
-            {
-                LineConfigModified = true;
-                DeviceConfigModified = true;
-                return true;
-            }
-            else
-            {
-                return false;
-            }*/
+            new FrmConfig(AppDirs, DeviceNum).ShowDialog();
             return false;
         }
     }

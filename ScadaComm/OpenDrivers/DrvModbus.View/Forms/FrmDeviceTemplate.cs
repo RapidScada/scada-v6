@@ -666,7 +666,7 @@ namespace Scada.Comm.Drivers.DrvModbus.View.Forms
 
             ElemConfig elem = elemGroup.CreateElemConfig();
             elem.ElemType = elemGroup.DefaultElemType;
-            ElemTag elemTag = new ElemTag(template.Options, elemGroup, elem);
+            ElemTag elemTag = new(template.Options, elemGroup, elem);
 
             TreeNode elemNode = CreateElemNode(elemTag);
             TreeNode groupNode = selectedNode.Tag is ElemTag ? selectedNode.Parent : selectedNode;
