@@ -22,8 +22,8 @@
     </Subscription>
   </Subscriptions>
   <Commands>
-    <Command nodeID="ns=3;s=Int32AnalogItem" displayName="Int32AnalogItem" cmdNum="1" cmdCode="" dataType="System.Int32" />
-    <Command nodeID="ns=3;s=DoubleAnalogItem" displayName="DoubleAnalogItem" cmdNum="2" cmdCode="" dataType="System.Double" />
-    <Command nodeID="ns=6;s=MyMethod" displayName="MyMethod" cmdNum="3" cmdCode="" isMethod="true" />
+    <Command nodeID="ns=3;s=Int32AnalogItem" parentNodeID="" displayName="Int32AnalogItem" cmdNum="1" cmdCode="" dataType="System.Int32" />
+    <Command nodeID="ns=3;s=DoubleAnalogItem" parentNodeID="" displayName="DoubleAnalogItem" cmdNum="2" cmdCode="" dataType="System.Double" />
+    <Command nodeID="ns=6;s=MyMethod" parentNodeID="" displayName="MyMethod" cmdNum="3" cmdCode="" isMethod="true" />
   </Commands>
 </OpcDeviceConfig>

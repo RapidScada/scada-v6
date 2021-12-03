@@ -301,7 +301,7 @@ namespace Scada.Comm.Drivers.DrvModbus.Logic
                     }
 
                     // add model command
-                    if (groupCommands && !elemConfig.ReadOnly)
+                    if (groupCommands && !elemConfig.ReadOnly && !string.IsNullOrEmpty(elemConfig.TagCode))
                     {
                         deviceModel.Cmds.Add(
                             CreateModbusCmd(deviceTemplate.Options, elemGroupConfig, elemConfig, elemIndex));

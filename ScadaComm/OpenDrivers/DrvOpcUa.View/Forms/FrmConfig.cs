@@ -353,13 +353,12 @@ namespace Scada.Comm.Drivers.DrvOpcUa.View.Forms
         /// </summary>
         private bool AddItem(TreeNode serverNode)
         {
-            if (serverNode?.Tag is ServerNodeTag serverNodeTag &&
-                (serverNodeTag.NodeClass == NodeClass.Variable || serverNodeTag.NodeClass == NodeClass.Method))
+            if (serverNode?.Tag is ServerNodeTag serverNodeTag && 
+                serverNodeTag.ClassIs(NodeClass.Variable, NodeClass.Method))
             {
-                if (GetTopParentNode(tvDevice.SelectedNode) == commandsNode ||
-                    serverNodeTag.NodeClass == NodeClass.Method)
+                if (GetTopParentNode(tvDevice.SelectedNode) == commandsNode || serverNodeTag.ClassIs(NodeClass.Method))
                 {
-                    return AddCommand(serverNodeTag);
+                    return AddCommand(serverNodeTag, serverNode.Parent?.Tag as ServerNodeTag);
                 }
                 else
                 {
@@ -374,18 +373,23 @@ namespace Scada.Comm.Drivers.DrvOpcUa.View.Forms
         /// <summary>
         /// Adds a new command to the configuration.
         /// </summary>
-        private bool AddCommand(ServerNodeTag serverNodeTag)
+        private bool AddCommand(ServerNodeTag serverNodeTag, ServerNodeTag parentServerNodeTag)
         {
             // add new command
             CommandConfig commandConfig = new()
             {
-                NodeID = serverNodeTag.NodeId.ToString(),
+                NodeID = serverNodeTag.NodeIdStr,
                 DisplayName = serverNodeTag.DisplayName,
                 CmdCode = GetTagCode(serverNodeTag),
-                IsMethod = serverNodeTag.NodeClass == NodeClass.Method
+                IsMethod = serverNodeTag.ClassIs(NodeClass.Method)
             };
 
-            if (!commandConfig.IsMethod)
+            if (commandConfig.IsMethod)
+            {
+                if (parentServerNodeTag != null)
+                    commandConfig.ParentNodeID = parentServerNodeTag.NodeIdStr;
+            }
+            else
             {
                 if (GetDataTypeName(serverNodeTag.NodeId, out string dataTypeName))
                     commandConfig.DataTypeName = dataTypeName;
@@ -406,7 +410,7 @@ namespace Scada.Comm.Drivers.DrvOpcUa.View.Forms
             // create new monitored item
             ItemConfig itemConfig = new()
             {
-                NodeID = serverNodeTag.NodeId.ToString(),
+                NodeID = serverNodeTag.NodeIdStr,
                 DisplayName = serverNodeTag.DisplayName,
                 TagCode = GetTagCode(serverNodeTag),
                 Tag = new ItemConfigTag(0)
@@ -445,7 +449,7 @@ namespace Scada.Comm.Drivers.DrvOpcUa.View.Forms
         {
             return deviceConfig.EditingOptions.DefaultTagCode switch
             {
-                DefaultTagCode.NodeID => serverNodeTag.NodeId.ToString(),
+                DefaultTagCode.NodeID => serverNodeTag.NodeIdStr,
                 _ => serverNodeTag.DisplayName
             };
         }
@@ -537,7 +541,7 @@ namespace Scada.Comm.Drivers.DrvOpcUa.View.Forms
         private void SetDeviceButtonsEnabled()
         {
             btnAddItem.Enabled = tvServer.SelectedNode?.Tag is ServerNodeTag serverNodeTag && 
-                (serverNodeTag.NodeClass == NodeClass.Variable || serverNodeTag.NodeClass == NodeClass.Method);
+                serverNodeTag.ClassIs(NodeClass.Variable, NodeClass.Method);
 
             bool deviceNodeTagDefined = tvDevice.SelectedNode?.Tag != null;
             btnMoveUpItem.Enabled = deviceNodeTagDefined && tvDevice.SelectedNode.PrevNode != null;
@@ -744,11 +748,8 @@ namespace Scada.Comm.Drivers.DrvOpcUa.View.Forms
 
         private void btnViewAttrs_Click(object sender, EventArgs e)
         {
-            if (opcSession != null &&
-                tvServer.SelectedNode?.Tag is ServerNodeTag serverNodeTag)
-            {
+            if (opcSession != null && tvServer.SelectedNode?.Tag is ServerNodeTag serverNodeTag)
                 new FrmNodeAttr(opcSession, serverNodeTag.NodeId).ShowDialog();
-            }
         }
 
         private void tvServer_AfterSelect(object sender, TreeViewEventArgs e)

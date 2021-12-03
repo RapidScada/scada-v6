@@ -30,10 +30,17 @@ namespace Scada.Comm.Drivers.DrvOpcUa.View
 
         public NodeId NodeId { get; }
 
+        public string NodeIdStr => NodeId == null ? "" : NodeId.ToString();
+
         public NodeClass NodeClass { get; }
 
         public Type DataType { get; }
 
         public bool IsFilled { get; set; }
+
+
+        public bool ClassIs(NodeClass nodeClass) => NodeClass == nodeClass;
+
+        public bool ClassIs(params NodeClass[] nodeClasses) => nodeClasses.Any(x => x == NodeClass);
     }
 }

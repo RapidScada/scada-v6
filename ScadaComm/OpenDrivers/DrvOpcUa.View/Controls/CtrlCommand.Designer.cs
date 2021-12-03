@@ -31,6 +31,9 @@
             this.gbCommand = new System.Windows.Forms.GroupBox();
             this.txtDataType = new System.Windows.Forms.TextBox();
             this.lblDataType = new System.Windows.Forms.Label();
+            this.chkIsMethod = new System.Windows.Forms.CheckBox();
+            this.txtParentNodeID = new System.Windows.Forms.TextBox();
+            this.lblParentNodeID = new System.Windows.Forms.Label();
             this.txtNodeID = new System.Windows.Forms.TextBox();
             this.lblNodeID = new System.Windows.Forms.Label();
             this.numCmdNum = new System.Windows.Forms.NumericUpDown();
@@ -39,16 +42,17 @@
             this.lblCmdCode = new System.Windows.Forms.Label();
             this.txtDisplayName = new System.Windows.Forms.TextBox();
             this.lblDisplayName = new System.Windows.Forms.Label();
-            this.chkIsMethod = new System.Windows.Forms.CheckBox();
             this.gbCommand.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.numCmdNum)).BeginInit();
             this.SuspendLayout();
             // 
             // gbCommand
             // 
+            this.gbCommand.Controls.Add(this.chkIsMethod);
             this.gbCommand.Controls.Add(this.txtDataType);
             this.gbCommand.Controls.Add(this.lblDataType);
-            this.gbCommand.Controls.Add(this.chkIsMethod);
+            this.gbCommand.Controls.Add(this.txtParentNodeID);
+            this.gbCommand.Controls.Add(this.lblParentNodeID);
             this.gbCommand.Controls.Add(this.txtNodeID);
             this.gbCommand.Controls.Add(this.lblNodeID);
             this.gbCommand.Controls.Add(this.numCmdNum);
@@ -67,20 +71,48 @@
             // 
             // txtDataType
             // 
-            this.txtDataType.Location = new System.Drawing.Point(13, 238);
+            this.txtDataType.Location = new System.Drawing.Point(13, 257);
             this.txtDataType.Name = "txtDataType";
             this.txtDataType.ReadOnly = true;
             this.txtDataType.Size = new System.Drawing.Size(224, 23);
-            this.txtDataType.TabIndex = 10;
+            this.txtDataType.TabIndex = 11;
             // 
             // lblDataType
             // 
             this.lblDataType.AutoSize = true;
-            this.lblDataType.Location = new System.Drawing.Point(10, 220);
+            this.lblDataType.Location = new System.Drawing.Point(10, 239);
             this.lblDataType.Name = "lblDataType";
             this.lblDataType.Size = new System.Drawing.Size(57, 15);
-            this.lblDataType.TabIndex = 9;
+            this.lblDataType.TabIndex = 10;
             this.lblDataType.Text = "Data type";
+            // 
+            // chkIsMethod
+            // 
+            this.chkIsMethod.AutoSize = true;
+            this.chkIsMethod.Enabled = false;
+            this.chkIsMethod.Location = new System.Drawing.Point(13, 286);
+            this.chkIsMethod.Name = "chkIsMethod";
+            this.chkIsMethod.Size = new System.Drawing.Size(79, 19);
+            this.chkIsMethod.TabIndex = 12;
+            this.chkIsMethod.Text = "Is method";
+            this.chkIsMethod.UseVisualStyleBackColor = true;
+            // 
+            // txtParentNodeID
+            // 
+            this.txtParentNodeID.Location = new System.Drawing.Point(13, 213);
+            this.txtParentNodeID.Name = "txtParentNodeID";
+            this.txtParentNodeID.ReadOnly = true;
+            this.txtParentNodeID.Size = new System.Drawing.Size(224, 23);
+            this.txtParentNodeID.TabIndex = 9;
+            // 
+            // lblParentNodeID
+            // 
+            this.lblParentNodeID.AutoSize = true;
+            this.lblParentNodeID.Location = new System.Drawing.Point(10, 195);
+            this.lblParentNodeID.Name = "lblParentNodeID";
+            this.lblParentNodeID.Size = new System.Drawing.Size(85, 15);
+            this.lblParentNodeID.TabIndex = 8;
+            this.lblParentNodeID.Text = "Parent node ID";
             // 
             // txtNodeID
             // 
@@ -155,17 +187,6 @@
             this.lblDisplayName.TabIndex = 0;
             this.lblDisplayName.Text = "Display name";
             // 
-            // chkIsMethod
-            // 
-            this.chkIsMethod.AutoSize = true;
-            this.chkIsMethod.Enabled = false;
-            this.chkIsMethod.Location = new System.Drawing.Point(13, 198);
-            this.chkIsMethod.Name = "chkIsMethod";
-            this.chkIsMethod.Size = new System.Drawing.Size(79, 19);
-            this.chkIsMethod.TabIndex = 8;
-            this.chkIsMethod.Text = "Is method";
-            this.chkIsMethod.UseVisualStyleBackColor = true;
-            // 
             // CtrlCommand
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
@@ -194,5 +215,7 @@
         private TextBox txtCmdCode;
         private Label lblCmdCode;
         private CheckBox chkIsMethod;
+        private TextBox txtParentNodeID;
+        private Label lblParentNodeID;
     }
 }

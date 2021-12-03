@@ -6,8 +6,9 @@
     <Phrase key="lblCmdCode">Command code</Phrase>
     <Phrase key="lblCmdNum">Command number</Phrase>
     <Phrase key="lblNodeID">Node ID</Phrase>
-    <Phrase key="chkIsMethod">Is method</Phrase>
+    <Phrase key="lblParentNodeID">Parent node ID</Phrase>
     <Phrase key="lblDataType">Data type</Phrase>
+    <Phrase key="chkIsMethod">Is method</Phrase>
   </Dictionary>
   <Dictionary key="Scada.Comm.Drivers.DrvOpcUa.View.Controls.CtrlItem">
     <Phrase key="gbItem">Item Parameters</Phrase>

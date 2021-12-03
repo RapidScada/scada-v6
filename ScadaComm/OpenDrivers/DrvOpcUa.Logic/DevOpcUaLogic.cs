@@ -12,6 +12,7 @@ using Scada.Data.Models;
 using Scada.Lang;
 using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Threading;
 
 namespace Scada.Comm.Drivers.DrvOpcUa.Logic
@@ -39,10 +40,18 @@ namespace Scada.Comm.Drivers.DrvOpcUa.Logic
         /// <summary>
         /// Represents metadata about a monitored item.
         /// </summary>
-        public class ItemTag
+        private class ItemTag
         {
             public ItemConfig ItemConfig { get; set; }
             public DeviceTag DeviceTag { get; set; }
+        }
+
+        /// <summary>
+        /// Represents metadata about a device tag.
+        /// </summary>
+        private class DeviceTagMeta
+        {
+            public Type ItemDataType { get; set; }
         }
 
 
@@ -63,7 +72,8 @@ namespace Scada.Comm.Drivers.DrvOpcUa.Logic
         private Session opcSession;                           // the OPC session
         private SessionReconnectHandler reconnectHandler;     // the object needed to reconnect
         private Dictionary<uint, SubscriptionTag> subscrByID; // the subscription tags accessed by IDs
-        private Dictionary<int, CommandConfig> cmdByNum;      // the commands accessed by their numbers
+        private Dictionary<int, CommandConfig> cmdByNum;      // the commands accessed by number
+        private Dictionary<string, CommandConfig> cmdByCode;  // the commands accessed by code
 
 
         /// <summary>
@@ -74,18 +84,57 @@ namespace Scada.Comm.Drivers.DrvOpcUa.Logic
         {
             opcLock = new object();
             opcDeviceConfig = null;
-            autoAccept = true;
+            autoAccept = false;
             connected = false;
             connAttemptDT = DateTime.MinValue;
             opcSession = null;
             reconnectHandler = null;
             subscrByID = null;
             cmdByNum = null;
+            cmdByCode = null;
 
             CanSendCommands = true;
             ConnectionRequired = false;
         }
 
+
+        /// <summary>
+        /// Initializes a command maps.
+        /// </summary>
+        private void InitCmdMaps()
+        {
+            cmdByNum = new Dictionary<int, CommandConfig>();
+            cmdByCode = new Dictionary<string, CommandConfig>();
+
+            // explicit commands
+            foreach (CommandConfig commandConfig in opcDeviceConfig.Commands)
+            {
+                if (commandConfig.CmdNum > 0 && !cmdByNum.ContainsKey(commandConfig.CmdNum))
+                    cmdByNum.Add(commandConfig.CmdNum, commandConfig);
+
+                if (!string.IsNullOrEmpty(commandConfig.CmdCode) && !cmdByCode.ContainsKey(commandConfig.CmdCode))
+                    cmdByCode.Add(commandConfig.CmdCode, commandConfig);
+            }
+
+            // commands from subscriptions
+            foreach (SubscriptionConfig subscriptionConfig in opcDeviceConfig.Subscriptions)
+            {
+                foreach (ItemConfig itemConfig in subscriptionConfig.Items)
+                {
+                    if (itemConfig.Active && !itemConfig.IsArray && 
+                        !string.IsNullOrEmpty(itemConfig.TagCode) && !cmdByCode.ContainsKey(itemConfig.TagCode))
+                    {
+                        // created command based on item, having empty data type
+                        cmdByCode.Add(itemConfig.TagCode, new CommandConfig
+                        {
+                            NodeID = itemConfig.NodeID,
+                            DisplayName = itemConfig.DisplayName,
+                            CmdCode = itemConfig.TagCode
+                        });
+                    }
+                }
+            }
+        }
 
         /// <summary>
         /// Connects to the OPC server.
@@ -100,7 +149,7 @@ namespace Scada.Comm.Drivers.DrvOpcUa.Logic
                 };
 
                 connected = helper.ConnectAsync(opcDeviceConfig.ConnectionOptions, PollingOptions.Timeout).Result;
-                autoAccept = autoAccept || helper.AutoAccept; // TODO: autoAccept always true?
+                autoAccept = helper.AutoAccept;
                 opcSession = helper.OpcSession;
                 opcSession.KeepAlive += OpcSession_KeepAlive;
                 opcSession.Notification += OpcSession_Notification;
@@ -317,9 +366,8 @@ namespace Scada.Comm.Drivers.DrvOpcUa.Logic
         {
             foreach (MonitoredItemNotification change in notificationMessage.GetDataChanges(false))
             {
-                MonitoredItem monitoredItem = subscriptionTag.Subscription.FindItemByClientHandle(change.ClientHandle);
-
-                if (monitoredItem != null)
+                if (subscriptionTag.Subscription.FindItemByClientHandle(change.ClientHandle) is 
+                    MonitoredItem monitoredItem)
                 {
                     if (subscriptionTag.ItemsByNodeID.TryGetValue(monitoredItem.StartNodeId.ToString(),
                         out ItemTag itemTag))
@@ -333,13 +381,21 @@ namespace Scada.Comm.Drivers.DrvOpcUa.Logic
 
                         if (itemTag.ItemConfig.IsArray)
                         {
-                            if (itemTag.ItemConfig.ArrayLen > 0 && change.Value.Value is Array valArr)
+                            if (change.Value.Value is Array valArr)
                             {
-                                for (int i = 0, len = Math.Min(itemTag.ItemConfig.ArrayLen, valArr.Length); 
-                                    i < len; i++)
+                                int arrLen = Math.Min(itemTag.ItemConfig.ArrayLength, valArr.Length);
+                                double[] arr = new double[arrLen];
+                                TagFormat tagFormat = TagFormat.FloatNumber;
+
+                                for (int i = 0; i < arrLen; i++)
                                 {
-                                    SetTagData(tagIndex++, valArr.GetValue(i), tagStatus);
+                                    arr[i] = ConvertArrayElem(valArr.GetValue(i), out TagFormat format);
+                                    if (i == 0)
+                                        tagFormat = format;
                                 }
+
+                                DeviceData.SetDoubleArray(tagIndex, arr, tagStatus);
+                                DeviceTags[tagIndex].Format = tagFormat;
                             }
                         }
                         else
@@ -372,34 +428,272 @@ namespace Scada.Comm.Drivers.DrvOpcUa.Logic
         }
 
         /// <summary>
+        /// Converts the array element value received from the OPC server to a double.
+        /// </summary>
+        private double ConvertArrayElem(object val, out TagFormat tagFormat)
+        {
+            try
+            {
+                if (val is string strVal)
+                {
+                    // string arrays not supported
+                    tagFormat = TagFormat.FloatNumber;
+                    return 0.0;
+                }
+                else if (val is DateTime dtVal)
+                {
+                    tagFormat = TagFormat.DateTime;
+                    return dtVal.ToOADate();
+                }
+                else
+                {
+                    tagFormat = TagFormat.FloatNumber;
+                    return Convert.ToDouble(val);
+                }
+            }
+            catch (Exception ex)
+            {
+                Log.WriteInfo(ScadaUtils.BuildErrorMessage(ex, Locale.IsRussian ?
+                    "Ошибка при конвертировании элемента массива" :
+                    "Error converting array element"));
+                tagFormat = TagFormat.FloatNumber;
+                return 0.0;
+            }
+        }
+
+        /// <summary>
         /// Sets value, status and format of the specified tag.
         /// </summary>
         private void SetTagData(int tagIndex, object val, int stat)
         {
             try
             {
+                DeviceTag deviceTag = DeviceTags[tagIndex];
+
+                if (deviceTag.Aux is DeviceTagMeta tagMeta && val != null)
+                    tagMeta.ItemDataType = val.GetType();
+
                 if (val is string strVal)
                 {
+                    deviceTag.DataType = TagDataType.Unicode;
+                    deviceTag.Format = TagFormat.String;
                     DeviceData.SetUnicode(tagIndex, strVal, stat);
-                    DeviceTags[tagIndex].Format = TagFormat.String;
                 }
                 else if (val is DateTime dtVal)
                 {
+                    deviceTag.DataType = TagDataType.Double;
+                    deviceTag.Format = TagFormat.DateTime;
                     DeviceData.SetDateTime(tagIndex, dtVal, stat);
-                    DeviceTags[tagIndex].Format = TagFormat.DateTime;
                 }
                 else
                 {
+                    deviceTag.DataType = TagDataType.Double;
+                    deviceTag.Format = TagFormat.FloatNumber;
                     DeviceData.Set(tagIndex, Convert.ToDouble(val), stat);
-                    DeviceTags[tagIndex].Format = TagFormat.FloatNumber;
                 }
             }
             catch (Exception ex)
             {
-                Log.WriteError(ex, Locale.IsRussian ?
+                Log.WriteInfo(ScadaUtils.BuildErrorMessage(ex, Locale.IsRussian ?
                     "Ошибка при установке данных тега" :
-                    "Error setting tag data");
+                    "Error setting tag data"));
             }
+        }
+
+        /// <summary>
+        /// Finds a command configuration by command code or number.
+        /// </summary>
+        private bool FindCommandConfig(TeleCommand cmd, out CommandConfig commandConfig)
+        {
+            if (cmdByCode != null && !string.IsNullOrEmpty(cmd.CmdCode) &&
+                cmdByCode.TryGetValue(cmd.CmdCode, out commandConfig))
+            {
+                return true;
+            }
+
+            if (cmdByNum != null && cmd.CmdNum > 0 &&
+                cmdByNum.TryGetValue(cmd.CmdNum, out commandConfig))
+            {
+                return true;
+            }
+
+            commandConfig = null;
+            return false;
+        }
+
+        /// <summary>
+        /// Writes an item value to the OPC server.
+        /// </summary>
+        private bool WriteItemValue(CommandConfig commandConfig, double cmdVal)
+        {
+            // prepare value to write
+            string dataTypeName = commandConfig.DataTypeName;
+            Type itemDataType = null;
+            object itemVal;
+
+            if (string.IsNullOrEmpty(dataTypeName))
+            {
+                if (DeviceTags.TryGetTag(commandConfig.CmdCode, out DeviceTag deviceTag) &&
+                    deviceTag.Aux is DeviceTagMeta tagMeta)
+                {
+                    itemDataType = tagMeta.ItemDataType;
+                }
+            }
+            else
+            {
+                itemDataType = Type.GetType(dataTypeName, false, true);
+            }
+
+            if (itemDataType == null)
+            {
+                throw new ScadaException(Locale.IsRussian ?
+                    "Не удалось получить тип данных {0}" :
+                    "Unable to get data type {0}", dataTypeName);
+            }
+
+            if (itemDataType.IsArray)
+            {
+                throw new ScadaException(Locale.IsRussian ?
+                    "Тип данных {0} не поддерживается" :
+                    "Data type {0} not supported", dataTypeName);
+            }
+
+            try
+            {
+                itemVal = Convert.ChangeType(cmdVal, itemDataType);
+            }
+            catch
+            {
+                throw new ScadaException(Locale.IsRussian ?
+                    "Не удалось привести значение команды к типу {0}" :
+                    "Unable to convert command value to the type {0}", itemDataType.FullName);
+            }
+
+            // write value
+            Log.WriteLine(Locale.IsRussian ?
+                "Отправка значения OPC-серверу: {0} = {1}" :
+                "Send value to the OPC server: {0} = {1}", commandConfig.DisplayName, itemVal);
+
+            WriteValue valueToWrite = new WriteValue
+            {
+                NodeId = commandConfig.NodeID,
+                AttributeId = Attributes.Value,
+                Value = new DataValue(new Variant(itemVal))
+            };
+
+            opcSession.Write(null, new WriteValueCollection { valueToWrite },
+                out StatusCodeCollection results, out _);
+
+            if (StatusCode.IsGood(results[0]))
+            {
+                Log.WriteLine(CommPhrases.ResponseOK);
+                return true;
+            }
+            else
+            {
+                Log.WriteLine(CommPhrases.ResponseError);
+                return false;
+            }
+        }
+
+        /// <summary>
+        /// Calls a method of the OPC server.
+        /// </summary>
+        private bool CallMethod(CommandConfig commandConfig, string cmdData)
+        {
+            Log.WriteLine(Locale.IsRussian ?
+                "Вызов метода {0}" :
+                "Call the {0} method", commandConfig.DisplayName);
+
+            IList<object> methodResults = opcSession.Call(
+                new NodeId(commandConfig.ParentNodeID), 
+                new NodeId(commandConfig.NodeID),
+                GetMethodArgs(cmdData));
+
+            if (methodResults == null)
+            {
+                Log.WriteLine(CommPhrases.ResponseOK);
+            }
+            else
+            {
+                for (int i = 0, cnt = methodResults.Count; i < cnt; i++)
+                {
+                    Log.WriteLine("Result[{0}] = {1}", i, methodResults[i]);
+                }
+            }
+
+            return true;
+        }
+
+        /// <summary>
+        /// Gets OPC method arguments from command data.
+        /// </summary>
+        private object[] GetMethodArgs(string cmdData)
+        {
+            if (string.IsNullOrEmpty(cmdData))
+                return null;
+
+            // each line contains argument data type and value, for example
+            // double 1.2
+            List<object> args = new List<object>();
+            string[] lines = cmdData.Split('\n');
+
+            foreach (string line in lines)
+            {
+                int colonIdx = line.IndexOf(':');
+
+                if (colonIdx >= 0)
+                {
+                    string typeName = line.Substring(0, colonIdx).ToLowerInvariant();
+                    string argVal = line.Substring(colonIdx + 1);
+
+                    try
+                    {
+                        if (typeName == "bool" || typeName == "boolean")
+                            args.Add(bool.Parse(argVal));
+                        else if (typeName == "byte")
+                            args.Add(byte.Parse(argVal, CultureInfo.InvariantCulture));
+                        else if (typeName == "double")
+                            args.Add(double.Parse(argVal, CultureInfo.InvariantCulture));
+                        else if (typeName == "short" || typeName == "int16")
+                            args.Add(short.Parse(argVal, CultureInfo.InvariantCulture));
+                        else if (typeName == "int" || typeName == "int32")
+                            args.Add(int.Parse(argVal, CultureInfo.InvariantCulture));
+                        else if (typeName == "long" || typeName == "int64")
+                            args.Add(long.Parse(argVal, CultureInfo.InvariantCulture));
+                        else if (typeName == "sbyte")
+                            args.Add(sbyte.Parse(argVal, CultureInfo.InvariantCulture));
+                        else if (typeName == "float" || typeName == "single")
+                            args.Add(float.Parse(argVal, CultureInfo.InvariantCulture));
+                        else if (typeName == "ushort" || typeName == "uint16")
+                            args.Add(ushort.Parse(argVal, CultureInfo.InvariantCulture));
+                        else if (typeName == "uint" || typeName == "uint32")
+                            args.Add(uint.Parse(argVal, CultureInfo.InvariantCulture));
+                        else if (typeName == "ulong" || typeName == "uint64")
+                            args.Add(ulong.Parse(argVal, CultureInfo.InvariantCulture));
+                        else
+                        {
+                            throw new ScadaException(Locale.IsRussian ?
+                                "Неизвестный тип данных аргумента \"{0}\"" :
+                                "Unknown argument data type \"{0}\"", typeName);
+                        }
+                    }
+                    catch (FormatException)
+                    {
+                        throw new ScadaException(Locale.IsRussian ?
+                            "Неверное значение аргумента \"{0}\"" :
+                            "Invalid argument value \"{0}\"", argVal);
+                    }
+                }
+                else
+                {
+                    throw new ScadaException(Locale.IsRussian ?
+                        "Неверный аргумент метода \"{0}\"" :
+                        "Invalid method argument \"{0}\"", line);
+                }
+            }
+
+            return args.ToArray();
         }
 
 
@@ -412,11 +706,7 @@ namespace Scada.Comm.Drivers.DrvOpcUa.Logic
 
             if (opcDeviceConfig.Load(OpcDeviceConfig.GetFileName(AppDirs.ConfigDir, DeviceNum), out string errMsg))
             {
-                InitDeviceTags();
-
-                // fill the command dictionary
-                cmdByNum = new Dictionary<int, CommandConfig>();
-                opcDeviceConfig.Commands.ForEach(c => cmdByNum[c.CmdNum] = c);
+                InitCmdMaps();
             }
             else
             {
@@ -447,7 +737,8 @@ namespace Scada.Comm.Drivers.DrvOpcUa.Logic
 
                 foreach (ItemConfig itemConfig in subscriptionConfig.Items)
                 {
-                    DeviceTag deviceTag = tagGroup.AddTag(itemConfig.NodeID, itemConfig.DisplayName);
+                    DeviceTag deviceTag = tagGroup.AddTag(itemConfig.TagCode, itemConfig.DisplayName);
+                    deviceTag.Aux = new DeviceTagMeta();
                     itemConfig.Tag = deviceTag;
 
                     if (itemConfig.IsArray)
@@ -508,74 +799,31 @@ namespace Scada.Comm.Drivers.DrvOpcUa.Logic
                 if (!connected)
                 {
                     Log.WriteLine(Locale.IsRussian ?
-                        "Невозможно отправить команду ТУ, т.к. соединение с OPC-сервером не установлено" :
-                        "Unable to send command because connection with the OPC server is not established");
+                        "Ошибка: соединение с OPC-сервером не установлено" :
+                        "Error: connection with the OPC server is not established");
                 }
-                else if (!cmdByNum.TryGetValue(cmd.CmdNum, out CommandConfig commandConfig))
+                else if (!FindCommandConfig(cmd, out CommandConfig commandConfig))
                 {
                     Log.WriteLine(CommPhrases.InvalidCommand);
                 }
                 else
                 {
-                    // prepare value to write
-                    string dataTypeName = commandConfig.DataTypeName;
-                    Type itemType = Type.GetType(dataTypeName, false, true);
-                    object itemVal;
-
-                    if (itemType == null)
-                    {
-                        throw new ScadaException(string.Format(Locale.IsRussian ?
-                            "Не удалось получить тип данных {0}" :
-                            "Unable to get data type {0}", dataTypeName));
-                    }
-
-                    if (itemType.IsArray)
-                    {
-                        throw new ScadaException(string.Format(Locale.IsRussian ?
-                            "Тип данных {0} не поддерживается" :
-                            "Data type {0} not supported", dataTypeName));
-                    }
-
                     try
                     {
-                        itemVal = Convert.ChangeType(cmd.CmdVal, itemType);
+                        LastRequestOK = commandConfig.IsMethod
+                            ? CallMethod(commandConfig, cmd.GetCmdDataString())
+                            : WriteItemValue(commandConfig, cmd.CmdVal);
                     }
-                    catch
+                    catch (ScadaException ex)
                     {
-                        throw new ScadaException(string.Format(Locale.IsRussian ?
-                            "Не удалось привести значение команды к типу {0}" :
-                            "Unable to convert command value to the type {0}", itemType.FullName));
-                    }
-
-                    // write value
-                    Log.WriteLine(Locale.IsRussian ?
-                        "Отправка значения OPC-серверу: {0} = {1}" :
-                        "Send value to the OPC server: {0} = {1}", commandConfig.DisplayName, itemVal);
-
-                    WriteValue valueToWrite = new WriteValue
-                    {
-                        NodeId = commandConfig.NodeID,
-                        AttributeId = Attributes.Value,
-                        Value = new DataValue(new Variant(itemVal))
-                    };
-
-                    opcSession.Write(null, new WriteValueCollection { valueToWrite }, 
-                        out StatusCodeCollection results, out _);
-
-                    if (StatusCode.IsGood(results[0]))
-                    {
-                        Log.WriteLine(CommPhrases.ResponseOK);
-                        LastRequestOK = true;
-                    }
-                    else
-                    {
-                        Log.WriteLine(CommPhrases.ResponseError);
+                        Log.WriteLine(CommPhrases.ErrorPrefix + ex.Message);
                     }
                 }
+
+                FinishCommand();
             }
             finally
             {
-                FinishCommand();
                 Monitor.Exit(opcLock);
             }
         }

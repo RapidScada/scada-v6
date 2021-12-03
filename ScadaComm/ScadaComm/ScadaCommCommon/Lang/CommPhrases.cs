@@ -60,6 +60,7 @@ namespace Scada.Comm.Lang
         public static string ResponseCsError { get; private set; }
         public static string ResponseCrcError { get; private set; }
         public static string InvalidCommand { get; private set; }
+        public static string ErrorPrefix { get; private set; }
         public static string Off { get; private set; }
         public static string On { get; private set; }
 
@@ -102,6 +103,7 @@ namespace Scada.Comm.Lang
                 ResponseCsError = "Ошибка КС";
                 ResponseCrcError = "Ошибка CRC";
                 InvalidCommand = "Ошибка: недопустимая команда";
+                ErrorPrefix = "Ошибка: ";
                 Off = "Откл";
                 On = "Вкл";
 
@@ -130,6 +132,7 @@ namespace Scada.Comm.Lang
                 ResponseCsError = "Error: invalid checksum";
                 ResponseCrcError = "Error: invalid CRC";
                 InvalidCommand = "Error: invalid command";
+                ErrorPrefix = "Error: ";
                 Off = "Off";
                 On = "On";
 

@@ -18,6 +18,7 @@ namespace Scada.Comm.Drivers.DrvOpcUa.Config
         public CommandConfig()
         {
             NodeID = "";
+            ParentNodeID = "";
             DisplayName = "";
             CmdNum = 0;
             CmdCode = "";
@@ -27,9 +28,14 @@ namespace Scada.Comm.Drivers.DrvOpcUa.Config
 
 
         /// <summary>
-        /// Gets or sets the OPC UA node ID.
+        /// Gets or sets the OPC node ID.
         /// </summary>
         public string NodeID { get; set; }
+
+        /// <summary>
+        /// Gets or sets the ID of the parent OPC node.
+        /// </summary>
+        public string ParentNodeID { get; set; }
 
         /// <summary>
         /// Gets or sets the display name.
@@ -66,6 +72,7 @@ namespace Scada.Comm.Drivers.DrvOpcUa.Config
                 throw new ArgumentNullException(nameof(xmlElem));
 
             NodeID = xmlElem.GetAttrAsString("nodeID");
+            ParentNodeID = xmlElem.GetAttrAsString("parentNodeID");
             DisplayName = xmlElem.GetAttrAsString("displayName");
             CmdNum = xmlElem.GetAttrAsInt("cmdNum");
             CmdCode = xmlElem.GetAttrAsString("cmdCode");
@@ -82,6 +89,7 @@ namespace Scada.Comm.Drivers.DrvOpcUa.Config
                 throw new ArgumentNullException(nameof(xmlElem));
 
             xmlElem.SetAttribute("nodeID", NodeID);
+            xmlElem.SetAttribute("parentNodeID", ParentNodeID);
             xmlElem.SetAttribute("displayName", DisplayName);
             xmlElem.SetAttribute("cmdNum", CmdNum);
             xmlElem.SetAttribute("cmdCode", CmdCode);

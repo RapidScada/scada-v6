@@ -54,8 +54,9 @@ namespace Scada.Comm.Drivers.DrvOpcUa.View.Controls
                 txtCmdCode.Text = commandConfig.CmdCode;
                 numCmdNum.SetValue(commandConfig.CmdNum);
                 txtNodeID.Text = commandConfig.NodeID;
-                chkIsMethod.Checked = commandConfig.IsMethod;
+                txtParentNodeID.Text = commandConfig.ParentNodeID;
                 txtDataType.Text = commandConfig.DataTypeName;
+                chkIsMethod.Checked = commandConfig.IsMethod;
             }
         }
 
