@@ -14,6 +14,7 @@
     <Phrase key="chkItemActive">Активен</Phrase>
     <Phrase key="lblDisplayName">Наименование</Phrase>
     <Phrase key="lblTagCode">Код тега</Phrase>
+    <Phrase key="lblTagNum">Номер тега</Phrase>
     <Phrase key="lblNodeID">Идентификатор узла</Phrase>
     <Phrase key="chkIsArray">Массив</Phrase>
     <Phrase key="lblArrayLen">Длина массива</Phrase>
@@ -41,6 +42,7 @@
     <Phrase key="btnDeleteItem.ToolTip">Удалить</Phrase>
     <Phrase key="gbEmptyItem">Параметры элемента</Phrase>
     <Phrase key="lblEmptyItem">Элемент не выбран</Phrase>
+    <Phrase key="btnEditingOptions">Параметры</Phrase>
     <Phrase key="btnSave">Сохранить</Phrase>
     <Phrase key="btnClose">Закрыть</Phrase>
     <Phrase key="ConnectServerError">Ошибка при соединении с OPC-сервером</Phrase>
@@ -55,6 +57,14 @@
     <Phrase key="UnnamedItem">&lt;Безымянный элемент&gt;</Phrase>
     <Phrase key="UnnamedCommand">&lt;Безымянная команда&gt;</Phrase>
     <Phrase key="UnknownDataType">Неизвестный тип данных &quot;{0}&quot;.</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Comm.Drivers.DrvOpcUa.View.Forms.FrmEditingOptions">
+    <Phrase key="this">Параметры редактирования</Phrase>
+    <Phrase key="lblDefaultTagCode">Код тега по умолчанию</Phrase>
+    <Phrase key="cbDefaultTagCode.Items[0]">Идентификатор узла</Phrase>
+    <Phrase key="cbDefaultTagCode.Items[1]">Наименование</Phrase>
+    <Phrase key="btnOK">OK</Phrase>
+    <Phrase key="btnCancel">Отмена</Phrase>
   </Dictionary>
   <Dictionary key="Scada.Comm.Drivers.DrvOpcUa.View.Forms.FrmNodeAttr">
     <Phrase key="this">Атрибуты узла</Phrase>

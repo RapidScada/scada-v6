@@ -949,9 +949,10 @@ namespace Scada.Comm.Drivers.DrvOpcUa.View.Forms
             }
         }
 
-        private void btnOptions_Click(object sender, EventArgs e)
+        private void btnEditingOptions_Click(object sender, EventArgs e)
         {
-
+            if (new FrmEditingOptions(deviceConfig.EditingOptions).ShowDialog() == DialogResult.OK)
+                Modified = true;
         }
 
         private void btnSave_Click(object sender, EventArgs e)

@@ -53,7 +53,7 @@
             this.lblEmptyItem = new System.Windows.Forms.Label();
             this.ctrlItem = new Scada.Comm.Drivers.DrvOpcUa.View.Controls.CtrlItem();
             this.ctrlSubscription = new Scada.Comm.Drivers.DrvOpcUa.View.Controls.CtrlSubscription();
-            this.btnOptions = new System.Windows.Forms.Button();
+            this.btnEditingOptions = new System.Windows.Forms.Button();
             this.ctrlCommand = new Scada.Comm.Drivers.DrvOpcUa.View.Controls.CtrlCommand();
             this.gbDevice.SuspendLayout();
             this.gbServerBrowse.SuspendLayout();
@@ -327,15 +327,15 @@
             this.ctrlSubscription.TabIndex = 4;
             this.ctrlSubscription.ObjectChanged += new System.EventHandler<Scada.Forms.ObjectChangedEventArgs>(this.ctrlItem_ObjectChanged);
             // 
-            // btnOptions
+            // btnEditingOptions
             // 
-            this.btnOptions.Location = new System.Drawing.Point(12, 607);
-            this.btnOptions.Name = "btnOptions";
-            this.btnOptions.Size = new System.Drawing.Size(75, 23);
-            this.btnOptions.TabIndex = 7;
-            this.btnOptions.Text = "Options";
-            this.btnOptions.UseVisualStyleBackColor = true;
-            this.btnOptions.Click += new System.EventHandler(this.btnOptions_Click);
+            this.btnEditingOptions.Location = new System.Drawing.Point(12, 607);
+            this.btnEditingOptions.Name = "btnEditingOptions";
+            this.btnEditingOptions.Size = new System.Drawing.Size(100, 23);
+            this.btnEditingOptions.TabIndex = 7;
+            this.btnEditingOptions.Text = "Options";
+            this.btnEditingOptions.UseVisualStyleBackColor = true;
+            this.btnEditingOptions.Click += new System.EventHandler(this.btnEditingOptions_Click);
             // 
             // ctrlCommand
             // 
@@ -354,7 +354,7 @@
             this.ClientSize = new System.Drawing.Size(884, 642);
             this.Controls.Add(this.btnClose);
             this.Controls.Add(this.btnSave);
-            this.Controls.Add(this.btnOptions);
+            this.Controls.Add(this.btnEditingOptions);
             this.Controls.Add(this.ctrlCommand);
             this.Controls.Add(this.ctrlItem);
             this.Controls.Add(this.ctrlSubscription);
@@ -405,7 +405,7 @@
         private System.Windows.Forms.Label lblEmptyItem;
         private Scada.Comm.Drivers.DrvOpcUa.View.Controls.CtrlItem ctrlItem;
         private System.Windows.Forms.Button btnViewAttrs;
-        private Button btnOptions;
+        private Button btnEditingOptions;
         private Controls.CtrlCommand ctrlCommand;
     }
 }
