@@ -24,7 +24,7 @@
     <Phrase key="btnSecurityOptions.ToolTip">Настройки безопасности</Phrase>
     <Phrase key="gbServerBrowse">Обзор сервера</Phrase>
     <Phrase key="btnViewAttrs.ToolTip">Просмотреть атрибуты</Phrase>
-    <Phrase key="gbDevice">Подписки КП</Phrase>
+    <Phrase key="gbDevice">Конфигурация КП</Phrase>
     <Phrase key="btnAddItem.ToolTip">Добавить выбранный элемент</Phrase>
     <Phrase key="btnAddSubscription.ToolTip">Добавить подписку</Phrase>
     <Phrase key="btnMoveUpItem.ToolTip">Переместить вверх</Phrase>

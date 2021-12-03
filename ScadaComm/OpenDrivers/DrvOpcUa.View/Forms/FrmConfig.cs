@@ -23,6 +23,7 @@ namespace Scada.Comm.Drivers.DrvOpcUa.View.Forms
         /// </summary>
         private static class ImageKey
         {
+            public const string Command = "cmd.png";
             public const string Empty = "empty.png";
             public const string FolderOpen = "folder_open.png";
             public const string FolderClosed = "folder_closed.png";
@@ -67,9 +68,8 @@ namespace Scada.Comm.Drivers.DrvOpcUa.View.Forms
         private FrmConfig()
         {
             InitializeComponent();
-            ctrlSubscription.Top = ctrlItem.Top = gbEmptyItem.Top;
-            ctrlSubscription.Visible = ctrlItem.Visible = false;
-            //ctrlCommand.Visible = false;
+            ctrlSubscription.Top = ctrlItem.Top = ctrlCommand.Top = gbEmptyItem.Top;
+            ctrlSubscription.Visible = ctrlItem.Visible = ctrlCommand.Visible = false;
         }
 
         /// <summary>
@@ -114,6 +114,8 @@ namespace Scada.Comm.Drivers.DrvOpcUa.View.Forms
         private void TakeTreeViewImages()
         {
             // loading images from resources instead of storing in image list prevents them from corruption
+            ilTree.Images.Add(ImageKey.Command, Resources.cmd);
+            ilTree.Images.Add(ImageKey.Empty, Resources.empty);
             ilTree.Images.Add(ImageKey.FolderClosed, Resources.folder_closed);
             ilTree.Images.Add(ImageKey.FolderOpen, Resources.folder_open);
             ilTree.Images.Add(ImageKey.Method, Resources.method);
@@ -208,7 +210,7 @@ namespace Scada.Comm.Drivers.DrvOpcUa.View.Forms
         {
             TreeNode commandNode = TreeViewExtensions.CreateNode(
                 GetDisplayName(commandConfig.DisplayName, DriverPhrases.EmptyCommand), 
-                "command.png");
+                ImageKey.Command);
             commandNode.Tag = commandConfig;
             return commandNode;
         }
@@ -874,7 +876,7 @@ namespace Scada.Comm.Drivers.DrvOpcUa.View.Forms
             gbEmptyItem.Visible = false;
             ctrlSubscription.Visible = false;
             ctrlItem.Visible = false;
-            //ctrlCommand.Visible = false;
+            ctrlCommand.Visible = false;
             object deviceNodeTag = e.Node?.Tag;
 
             if (deviceNodeTag is SubscriptionConfig subscriptionConfig)
@@ -889,8 +891,8 @@ namespace Scada.Comm.Drivers.DrvOpcUa.View.Forms
             }
             else if (deviceNodeTag is CommandConfig commandConfig)
             {
-                //ctrlCommand.CommandConfig = commandConfig;
-                //ctrlCommand.Visible = true;
+                ctrlCommand.CommandConfig = commandConfig;
+                ctrlCommand.Visible = true;
             }
             else
             {

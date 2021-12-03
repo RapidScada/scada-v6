@@ -54,6 +54,7 @@
             this.ctrlItem = new Scada.Comm.Drivers.DrvOpcUa.View.Controls.CtrlItem();
             this.ctrlSubscription = new Scada.Comm.Drivers.DrvOpcUa.View.Controls.CtrlSubscription();
             this.btnOptions = new System.Windows.Forms.Button();
+            this.ctrlCommand = new Scada.Comm.Drivers.DrvOpcUa.View.Controls.CtrlCommand();
             this.gbDevice.SuspendLayout();
             this.gbServerBrowse.SuspendLayout();
             this.gbConnection.SuspendLayout();
@@ -67,7 +68,7 @@
             this.btnClose.Location = new System.Drawing.Point(797, 607);
             this.btnClose.Name = "btnClose";
             this.btnClose.Size = new System.Drawing.Size(75, 23);
-            this.btnClose.TabIndex = 8;
+            this.btnClose.TabIndex = 9;
             this.btnClose.Text = "Close";
             this.btnClose.UseVisualStyleBackColor = true;
             // 
@@ -78,7 +79,7 @@
             this.btnSave.Location = new System.Drawing.Point(716, 607);
             this.btnSave.Name = "btnSave";
             this.btnSave.Size = new System.Drawing.Size(75, 23);
-            this.btnSave.TabIndex = 7;
+            this.btnSave.TabIndex = 8;
             this.btnSave.Text = "Save";
             this.btnSave.UseVisualStyleBackColor = true;
             this.btnSave.Click += new System.EventHandler(this.btnSave_Click);
@@ -97,7 +98,7 @@
             this.gbDevice.Size = new System.Drawing.Size(299, 500);
             this.gbDevice.TabIndex = 2;
             this.gbDevice.TabStop = false;
-            this.gbDevice.Text = "Device Subscriptions";
+            this.gbDevice.Text = "Device Configuration";
             // 
             // tvDevice
             // 
@@ -331,10 +332,19 @@
             this.btnOptions.Location = new System.Drawing.Point(12, 607);
             this.btnOptions.Name = "btnOptions";
             this.btnOptions.Size = new System.Drawing.Size(75, 23);
-            this.btnOptions.TabIndex = 9;
+            this.btnOptions.TabIndex = 7;
             this.btnOptions.Text = "Options";
             this.btnOptions.UseVisualStyleBackColor = true;
             this.btnOptions.Click += new System.EventHandler(this.btnOptions_Click);
+            // 
+            // ctrlCommand
+            // 
+            this.ctrlCommand.CommandConfig = null;
+            this.ctrlCommand.Location = new System.Drawing.Point(622, 270);
+            this.ctrlCommand.Name = "ctrlCommand";
+            this.ctrlCommand.Size = new System.Drawing.Size(250, 500);
+            this.ctrlCommand.TabIndex = 6;
+            this.ctrlCommand.ObjectChanged += new System.EventHandler<Scada.Forms.ObjectChangedEventArgs>(this.ctrlItem_ObjectChanged);
             // 
             // FrmConfig
             // 
@@ -345,6 +355,7 @@
             this.Controls.Add(this.btnClose);
             this.Controls.Add(this.btnSave);
             this.Controls.Add(this.btnOptions);
+            this.Controls.Add(this.ctrlCommand);
             this.Controls.Add(this.ctrlItem);
             this.Controls.Add(this.ctrlSubscription);
             this.Controls.Add(this.gbEmptyItem);
@@ -395,5 +406,6 @@
         private Scada.Comm.Drivers.DrvOpcUa.View.Controls.CtrlItem ctrlItem;
         private System.Windows.Forms.Button btnViewAttrs;
         private Button btnOptions;
+        private Controls.CtrlCommand ctrlCommand;
     }
 }

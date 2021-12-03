@@ -24,7 +24,7 @@
     <Phrase key="btnSecurityOptions.ToolTip">Security Options</Phrase>
     <Phrase key="gbServerBrowse">Server Browse</Phrase>
     <Phrase key="btnViewAttrs.ToolTip">View Attributes</Phrase>
-    <Phrase key="gbDevice">Device Subscriptions</Phrase>
+    <Phrase key="gbDevice">Device Configuration</Phrase>
     <Phrase key="btnAddItem.ToolTip">Add Selected Item</Phrase>
     <Phrase key="btnAddSubscription.ToolTip">Add Subscription</Phrase>
     <Phrase key="btnMoveUpItem.ToolTip">Move Up</Phrase>
