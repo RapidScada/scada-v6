@@ -73,16 +73,6 @@ namespace Scada.Comm.Drivers.DrvOpcUa.View.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
-        internal static System.Drawing.Bitmap _object {
-            get {
-                object obj = ResourceManager.GetObject("object", resourceCulture);
-                return ((System.Drawing.Bitmap)(obj));
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized resource of type System.Drawing.Bitmap.
-        /// </summary>
         internal static System.Drawing.Bitmap add {
             get {
                 object obj = ResourceManager.GetObject("add", resourceCulture);
@@ -196,6 +186,16 @@ namespace Scada.Comm.Drivers.DrvOpcUa.View.Properties {
         internal static System.Drawing.Bitmap move_up {
             get {
                 object obj = ResourceManager.GetObject("move_up", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap obj {
+            get {
+                object obj = ResourceManager.GetObject("obj", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }

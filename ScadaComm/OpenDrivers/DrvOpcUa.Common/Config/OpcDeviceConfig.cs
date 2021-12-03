@@ -30,6 +30,11 @@ namespace Scada.Comm.Drivers.DrvOpcUa.Config
         public OpcConnectionOptions ConnectionOptions { get; private set; }
 
         /// <summary>
+        /// Gets the editing options.
+        /// </summary>
+        public EditingOptions EditingOptions { get; private set; }
+
+        /// <summary>
         /// Gets the subscriptions.
         /// </summary>
         public List<SubscriptionConfig> Subscriptions { get; private set; }
@@ -46,6 +51,7 @@ namespace Scada.Comm.Drivers.DrvOpcUa.Config
         private void SetToDefault()
         {
             ConnectionOptions = new OpcConnectionOptions();
+            EditingOptions = new EditingOptions();
             Subscriptions = new List<SubscriptionConfig>();
             Commands = new List<CommandConfig>();
         }
@@ -68,6 +74,9 @@ namespace Scada.Comm.Drivers.DrvOpcUa.Config
 
                 if (rootElem.SelectSingleNode("ConnectionOptions") is XmlNode connectionOptionsNode)
                     ConnectionOptions.LoadFromXml(connectionOptionsNode);
+
+                if (rootElem.SelectSingleNode("EditingOptions") is XmlNode editingOptionsNode)
+                    EditingOptions.LoadFromXml(editingOptionsNode);
 
                 if (rootElem.SelectSingleNode("Subscriptions") is XmlNode subscriptionsNode)
                 {
@@ -114,6 +123,7 @@ namespace Scada.Comm.Drivers.DrvOpcUa.Config
                 xmlDoc.AppendChild(rootElem);
 
                 ConnectionOptions.SaveToXml(rootElem.AppendElem("ConnectionOptions"));
+                EditingOptions.SaveToXml(rootElem.AppendElem("EditingOptions"));
                 XmlElement subscriptionsElem = rootElem.AppendElem("Subscriptions");
                 XmlElement commandsElem = rootElem.AppendElem("Commands");
 

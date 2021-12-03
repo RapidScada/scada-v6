@@ -19,8 +19,10 @@ namespace Scada.Comm.Drivers.DrvOpcUa.Config
         {
             NodeID = "";
             DisplayName = "";
-            DataTypeName = "";
             CmdNum = 0;
+            CmdCode = "";
+            IsMethod = false;
+            DataTypeName = "";
         }
 
 
@@ -35,14 +37,24 @@ namespace Scada.Comm.Drivers.DrvOpcUa.Config
         public string DisplayName { get; set; }
 
         /// <summary>
-        /// Gets or sets the data type name.
-        /// </summary>
-        public string DataTypeName { get; set; }
-
-        /// <summary>
         /// Gets or sets the command number.
         /// </summary>
         public int CmdNum { get; set; }
+
+        /// <summary>
+        /// Gets or sets the command code.
+        /// </summary>
+        public string CmdCode { get; set; }
+
+        /// <summary>
+        /// Gets or sets a value indicating whether the command calls an OPC method.
+        /// </summary>
+        public bool IsMethod { get; set; }
+
+        /// <summary>
+        /// Gets or sets the data type name of an OPC variable.
+        /// </summary>
+        public string DataTypeName { get; set; }
 
 
         /// <summary>
@@ -55,8 +67,10 @@ namespace Scada.Comm.Drivers.DrvOpcUa.Config
 
             NodeID = xmlElem.GetAttrAsString("nodeID");
             DisplayName = xmlElem.GetAttrAsString("displayName");
-            DataTypeName = xmlElem.GetAttrAsString("dataType");
             CmdNum = xmlElem.GetAttrAsInt("cmdNum");
+            CmdCode = xmlElem.GetAttrAsString("cmdCode");
+            IsMethod = xmlElem.GetAttrAsBool("isMethod");
+            DataTypeName = xmlElem.GetAttrAsString("dataType");
         }
 
         /// <summary>
@@ -69,8 +83,12 @@ namespace Scada.Comm.Drivers.DrvOpcUa.Config
 
             xmlElem.SetAttribute("nodeID", NodeID);
             xmlElem.SetAttribute("displayName", DisplayName);
-            xmlElem.SetAttribute("dataType", DataTypeName);
             xmlElem.SetAttribute("cmdNum", CmdNum);
+            xmlElem.SetAttribute("cmdCode", CmdCode);
+            xmlElem.SetAttribute("isMethod", IsMethod);
+
+            if (!IsMethod)
+                xmlElem.SetAttribute("dataType", DataTypeName);
         }
     }
 }

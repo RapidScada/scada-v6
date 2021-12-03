@@ -4,6 +4,7 @@
 using Opc.Ua;
 using Opc.Ua.Client;
 using Scada.Comm.Drivers.DrvOpcUa.Config;
+using Scada.Comm.Drivers.DrvOpcUa.View.Properties;
 using Scada.Comm.Lang;
 using Scada.Forms;
 using Scada.Lang;
@@ -17,9 +18,22 @@ namespace Scada.Comm.Drivers.DrvOpcUa.View.Forms
     /// </summary>
     public partial class FrmConfig : Form
     {
-        private const string FolderOpenImageKey = "folder_open.png";
-        private const string FolderClosedImageKey = "folder_closed.png";
+        /// <summary>
+        /// Specifies the image keys.
+        /// </summary>
+        private static class ImageKey
+        {
+            public const string Empty = "empty.png";
+            public const string FolderOpen = "folder_open.png";
+            public const string FolderClosed = "folder_closed.png";
+            public const string Method = "method.png";
+            public const string Object = "obj.png";
+            public const string Variable = "variable.png";
+        }
 
+        /// <summary>
+        /// Specifies the supported data types of OPC variables.
+        /// </summary>
         private static readonly Dictionary<string, Type> KnownTypes = new()
         {
             {  "boolean", typeof(Boolean) },
@@ -95,6 +109,19 @@ namespace Scada.Comm.Drivers.DrvOpcUa.View.Forms
 
 
         /// <summary>
+        /// Takes the tree view and loads them into an image list.
+        /// </summary>
+        private void TakeTreeViewImages()
+        {
+            // loading images from resources instead of storing in image list prevents them from corruption
+            ilTree.Images.Add(ImageKey.FolderClosed, Resources.folder_closed);
+            ilTree.Images.Add(ImageKey.FolderOpen, Resources.folder_open);
+            ilTree.Images.Add(ImageKey.Method, Resources.method);
+            ilTree.Images.Add(ImageKey.Object, Resources.obj);
+            ilTree.Images.Add(ImageKey.Variable, Resources.variable);
+        }
+
+        /// <summary>
         /// Sets the controls according to the configuration.
         /// </summary>
         private void ConfigToControls()
@@ -115,8 +142,8 @@ namespace Scada.Comm.Drivers.DrvOpcUa.View.Forms
                 tvDevice.BeginUpdate();
                 tvDevice.Nodes.Clear();
 
-                subscriptionsNode = TreeViewExtensions.CreateNode(DriverPhrases.SubscriptionsNode, FolderClosedImageKey);
-                commandsNode = TreeViewExtensions.CreateNode(DriverPhrases.CommandsNode, FolderClosedImageKey);
+                subscriptionsNode = TreeViewExtensions.CreateNode(DriverPhrases.SubscriptionsNode, ImageKey.FolderClosed);
+                commandsNode = TreeViewExtensions.CreateNode(DriverPhrases.CommandsNode, ImageKey.FolderClosed);
                 int signal = 1;
 
                 foreach (SubscriptionConfig subscriptionConfig in deviceConfig.Subscriptions)
@@ -156,8 +183,8 @@ namespace Scada.Comm.Drivers.DrvOpcUa.View.Forms
         private static TreeNode CreateSubscriptionNode(SubscriptionConfig subscriptionConfig)
         {
             TreeNode subscriptionNode = TreeViewExtensions.CreateNode(
-                GetDisplayName(subscriptionConfig.DisplayName, DriverPhrases.EmptySubscription),
-                FolderClosedImageKey);
+                GetDisplayName(subscriptionConfig.DisplayName, DriverPhrases.EmptySubscription), 
+                ImageKey.FolderClosed);
             subscriptionNode.Tag = subscriptionConfig;
             return subscriptionNode;
         }
@@ -169,7 +196,7 @@ namespace Scada.Comm.Drivers.DrvOpcUa.View.Forms
         {
             TreeNode itemNode = TreeViewExtensions.CreateNode(
                 GetDisplayName(itemConfig.DisplayName, DriverPhrases.EmptyItem), 
-                "variable.png");
+                ImageKey.Variable);
             itemNode.Tag = itemConfig;
             return itemNode;
         }
@@ -303,7 +330,7 @@ namespace Scada.Comm.Drivers.DrvOpcUa.View.Forms
                         childNode.Tag = new ServerNodeTag(rd, opcSession.NamespaceUris);
 
                         // allow to expand any node
-                        TreeNode emptyNode = TreeViewExtensions.CreateNode(DriverPhrases.EmptyNode, "empty.png");
+                        TreeNode emptyNode = TreeViewExtensions.CreateNode(DriverPhrases.EmptyNode, ImageKey.Empty);
                         childNode.Nodes.Add(emptyNode);
 
                         nodeCollection.Add(childNode);
@@ -329,11 +356,11 @@ namespace Scada.Comm.Drivers.DrvOpcUa.View.Forms
         private static string SelectImageKey(NodeClass nodeClass)
         {
             if (nodeClass.HasFlag(NodeClass.Object))
-                return "object.png";
+                return ImageKey.Object;
             else if (nodeClass.HasFlag(NodeClass.Method))
-                return "method.png";
+                return ImageKey.Method;
             else
-                return "variable.png";
+                return ImageKey.Variable;
         }
 
         /// <summary>
@@ -522,7 +549,7 @@ namespace Scada.Comm.Drivers.DrvOpcUa.View.Forms
         private static void SetFolderImage(TreeNode treeNode)
         {
             if (treeNode.ImageKey.StartsWith("folder_"))
-                treeNode.SetImageKey(treeNode.IsExpanded ? FolderOpenImageKey : FolderClosedImageKey);
+                treeNode.SetImageKey(treeNode.IsExpanded ? ImageKey.FolderOpen : ImageKey.FolderClosed);
         }
 
         /// <summary>
@@ -638,6 +665,7 @@ namespace Scada.Comm.Drivers.DrvOpcUa.View.Forms
                 ScadaUiUtils.ShowError(errMsg);
 
             // display configuration
+            TakeTreeViewImages();
             ConfigToControls();
             SetConnButtonsEnabled();
             SetServerButtonsEnabled();
