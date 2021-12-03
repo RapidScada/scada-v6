@@ -52,25 +52,12 @@ namespace Scada.Comm.Drivers.DrvOpcUa.View.Controls
             {
                 chkItemActive.Checked = itemConfig.Active;
                 txtDisplayName.Text = itemConfig.DisplayName;
+                txtTagCode.Text = itemConfig.TagCode;
+                txtTagNum.Text = itemConfig?.Tag is ItemConfigTag tag ? tag.TagNumStr : "";
                 txtNodeID.Text = itemConfig.NodeID;
                 chkIsArray.Checked = itemConfig.IsArray;
                 numArrayLen.Enabled = itemConfig.IsArray;
                 numArrayLen.SetValue(itemConfig.ArrayLen);
-
-                if (itemConfig.Tag is ItemConfigTag tag)
-                    txtSignal.Text = tag.GetTagNumInfo();
-            }
-        }
-
-        /// <summary>
-        /// Updates the information in the item tag.
-        /// </summary>
-        private void UpdateTag()
-        {
-            if (itemConfig.Tag is ItemConfigTag tag)
-            {
-                tag.SetLength(itemConfig.IsArray, itemConfig.ArrayLen);
-                txtSignal.Text = tag.GetTagNumInfo();
             }
         }
 
@@ -91,12 +78,11 @@ namespace Scada.Comm.Drivers.DrvOpcUa.View.Controls
         }
 
         /// <summary>
-        /// Shows a range of tag numbers.
+        /// Refreshes the displayed tag number.
         /// </summary>
-        public void ShowTagNum()
+        public void RefreshTagNum()
         {
-            if (itemConfig?.Tag is ItemConfigTag tag)
-                txtSignal.Text = tag.GetTagNumInfo();
+            txtTagNum.Text = itemConfig?.Tag is ItemConfigTag tag ? tag.TagNumStr : "";
         }
 
 
@@ -125,6 +111,15 @@ namespace Scada.Comm.Drivers.DrvOpcUa.View.Controls
             }
         }
 
+        private void txtTagCode_TextChanged(object sender, EventArgs e)
+        {
+            if (itemConfig != null)
+            {
+                itemConfig.TagCode = txtTagCode.Text;
+                OnObjectChanged(TreeUpdateTypes.None);
+            }
+        }
+
         private void chkIsArray_CheckedChanged(object sender, EventArgs e)
         {
             if (itemConfig != null)
@@ -141,7 +136,6 @@ namespace Scada.Comm.Drivers.DrvOpcUa.View.Controls
                     numArrayLen.Enabled = false;
                 }
 
-                UpdateTag();
                 OnObjectChanged(TreeUpdateTypes.None);
             }
         }
@@ -151,7 +145,6 @@ namespace Scada.Comm.Drivers.DrvOpcUa.View.Controls
             if (itemConfig != null)
             {
                 itemConfig.ArrayLen = Convert.ToInt32(numArrayLen.Value);
-                UpdateTag();
                 OnObjectChanged(TreeUpdateTypes.UpdateTagNums);
             }
         }

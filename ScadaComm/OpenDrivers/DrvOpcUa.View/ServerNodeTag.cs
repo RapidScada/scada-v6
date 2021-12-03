@@ -13,21 +13,26 @@ namespace Scada.Comm.Drivers.DrvOpcUa.View
     {
         public ServerNodeTag(ReferenceDescription rd, NamespaceTable namespaceTable)
         {
+            if (rd == null)
+                throw new ArgumentNullException(nameof(rd));
+            if (namespaceTable == null)
+                throw new ArgumentNullException(nameof(namespaceTable));
+
             DisplayName = rd.DisplayName.Text;
-            OpcNodeId = ExpandedNodeId.ToNodeId(rd.NodeId, namespaceTable);
+            NodeId = ExpandedNodeId.ToNodeId(rd.NodeId, namespaceTable);
             NodeClass = rd.NodeClass;
             DataType = null;
             IsFilled = false;
         }
 
 
-        public string DisplayName { get; private set; }
+        public string DisplayName { get; }
 
-        public NodeId OpcNodeId { get; private set; }
+        public NodeId NodeId { get; }
 
-        public NodeClass NodeClass { get; private set; }
+        public NodeClass NodeClass { get; }
 
-        public Type DataType { get; private set; }
+        public Type DataType { get; }
 
         public bool IsFilled { get; set; }
     }

@@ -62,7 +62,7 @@
             0,
             0});
             this.numPublishingInterval.Name = "numPublishingInterval";
-            this.numPublishingInterval.Size = new System.Drawing.Size(100, 23);
+            this.numPublishingInterval.Size = new System.Drawing.Size(120, 23);
             this.numPublishingInterval.TabIndex = 4;
             this.numPublishingInterval.ValueChanged += new System.EventHandler(this.numPublishingInterval_ValueChanged);
             // 

@@ -20,9 +20,9 @@ namespace Scada.Comm.Drivers.DrvOpcUa
         public static string EmptyNode { get; private set; }
         public static string SubscriptionsNode { get; private set; }
         public static string CommandsNode { get; private set; }
-        public static string EmptySubscription { get; private set; }
-        public static string EmptyItem { get; private set; }
-        public static string EmptyCommand { get; private set; }
+        public static string UnnamedSubscription { get; private set; }
+        public static string UnnamedItem { get; private set; }
+        public static string UnnamedCommand { get; private set; }
         public static string UnknownDataType { get; private set; }
 
         // Scada.Comm.Drivers.DrvOpcUa.View.Forms.FrmNodeAttr
@@ -39,9 +39,9 @@ namespace Scada.Comm.Drivers.DrvOpcUa
             EmptyNode = dict[nameof(EmptyNode)];
             SubscriptionsNode = dict[nameof(SubscriptionsNode)];
             CommandsNode = dict[nameof(CommandsNode)];
-            EmptySubscription = dict[nameof(EmptySubscription)];
-            EmptyItem = dict[nameof(EmptyItem)];
-            EmptyCommand = dict[nameof(EmptyCommand)];
+            UnnamedSubscription = dict[nameof(UnnamedSubscription)];
+            UnnamedItem = dict[nameof(UnnamedItem)];
+            UnnamedCommand = dict[nameof(UnnamedCommand)];
             UnknownDataType = dict[nameof(UnknownDataType)];
 
             dict = Locale.GetDictionary("Scada.Comm.Drivers.DrvOpcUa.View.Forms.FrmNodeAttr");

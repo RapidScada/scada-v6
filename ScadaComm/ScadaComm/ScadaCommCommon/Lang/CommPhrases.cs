@@ -66,6 +66,16 @@ namespace Scada.Comm.Lang
         // Drivers
         public static string DriverMessage { get; private set; }
 
+        // Scada.Comm.Devices
+        public static string LoadDeviceConfigError { get; private set; }
+        public static string SaveDeviceConfigError { get; private set; }
+        public static string SaveDeviceConfigConfirm { get; private set; }
+
+        // Scada.Comm.Drivers
+        public static string LoadDriverConfigError { get; private set; }
+        public static string SaveDriverConfigError { get; private set; }
+        public static string SaveDriverConfigConfirm { get; private set; }
+
         public static void Init()
         {
             // set phrases that are used in the bilingual service logic, depending on the locale
@@ -128,7 +138,15 @@ namespace Scada.Comm.Lang
 
 
             // load phrases that are used in the multilingual user interface from dictionaries
-            // no phrases yet
+            LocaleDict dict = Locale.GetDictionary("Scada.Comm.Devices");
+            LoadDeviceConfigError = dict["LoadDeviceConfigError"];
+            SaveDeviceConfigError = dict["SaveDeviceConfigError"];
+            SaveDeviceConfigConfirm = dict["SaveDeviceConfigConfirm"];
+
+            dict = Locale.GetDictionary("Scada.Comm.Drivers");
+            LoadDriverConfigError = dict["LoadDriverConfigError"];
+            SaveDriverConfigError = dict["SaveDriverConfigError"];
+            SaveDriverConfigConfirm = dict["SaveDriverConfigConfirm"];
         }
     }
 }

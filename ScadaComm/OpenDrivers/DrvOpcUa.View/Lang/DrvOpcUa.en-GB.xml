@@ -1,13 +1,23 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <DrvOpcUaDictionaries>
+  <Dictionary key="Scada.Comm.Drivers.DrvOpcUa.View.Controls.CtrlCommand">
+    <Phrase key="gbCommand">Command Parameters</Phrase>
+    <Phrase key="lblDisplayName">Display name</Phrase>
+    <Phrase key="lblCmdCode">Command code</Phrase>
+    <Phrase key="lblCmdNum">Command number</Phrase>
+    <Phrase key="lblNodeID">Node ID</Phrase>
+    <Phrase key="chkIsMethod">Is method</Phrase>
+    <Phrase key="lblDataType">Data type</Phrase>
+  </Dictionary>
   <Dictionary key="Scada.Comm.Drivers.DrvOpcUa.View.Controls.CtrlItem">
     <Phrase key="gbItem">Item Parameters</Phrase>
     <Phrase key="chkItemActive">Active</Phrase>
+    <Phrase key="lblDisplayName">Display name</Phrase>
+    <Phrase key="lblTagCode">Tag code</Phrase>
+    <Phrase key="lblTagNum">Tag number</Phrase>
     <Phrase key="lblNodeID">Node ID</Phrase>
     <Phrase key="chkIsArray">Is array</Phrase>
     <Phrase key="lblArrayLen">Array length</Phrase>
-    <Phrase key="lblCnlNum">Input channel</Phrase>
-    <Phrase key="lblSignal">Signal</Phrase>
   </Dictionary>
   <Dictionary key="Scada.Comm.Drivers.DrvOpcUa.View.Controls.CtrlSubscription">
     <Phrase key="gbSubscription">Subscription Parameters</Phrase>
@@ -42,9 +52,9 @@
     <Phrase key="EmptyNode">Empty</Phrase>
     <Phrase key="SubscriptionsNode">Subscriptions</Phrase>
     <Phrase key="CommandsNode">Commands</Phrase>
-    <Phrase key="EmptySubscription">&lt;Subscription&gt;</Phrase>
-    <Phrase key="EmptyItem">&lt;Item&gt;</Phrase>
-    <Phrase key="EmptyCommand">&lt;Command&gt;</Phrase>
+    <Phrase key="UnnamedSubscription">&lt;Unnamed Subscription&gt;</Phrase>
+    <Phrase key="UnnamedItem">&lt;Unnamed Item&gt;</Phrase>
+    <Phrase key="UnnamedCommand">&lt;Unnamed Command&gt;</Phrase>
     <Phrase key="UnknownDataType">Data type &quot;{0}&quot; is unknown.</Phrase>
   </Dictionary>
   <Dictionary key="Scada.Comm.Drivers.DrvOpcUa.View.Forms.FrmNodeAttr">

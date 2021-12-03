@@ -29,10 +29,8 @@
         private void InitializeComponent()
         {
             this.gbItem = new System.Windows.Forms.GroupBox();
-            this.txtSignal = new System.Windows.Forms.TextBox();
-            this.lblSignal = new System.Windows.Forms.Label();
-            this.numCnlNum = new System.Windows.Forms.NumericUpDown();
-            this.lblCnlNum = new System.Windows.Forms.Label();
+            this.txtTagNum = new System.Windows.Forms.TextBox();
+            this.lblTagNum = new System.Windows.Forms.Label();
             this.numArrayLen = new System.Windows.Forms.NumericUpDown();
             this.lblArrayLen = new System.Windows.Forms.Label();
             this.chkIsArray = new System.Windows.Forms.CheckBox();
@@ -41,22 +39,23 @@
             this.txtDisplayName = new System.Windows.Forms.TextBox();
             this.lblDisplayName = new System.Windows.Forms.Label();
             this.chkItemActive = new System.Windows.Forms.CheckBox();
+            this.lblTagCode = new System.Windows.Forms.Label();
+            this.txtTagCode = new System.Windows.Forms.TextBox();
             this.gbItem.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.numCnlNum)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.numArrayLen)).BeginInit();
             this.SuspendLayout();
             // 
             // gbItem
             // 
-            this.gbItem.Controls.Add(this.txtSignal);
-            this.gbItem.Controls.Add(this.lblSignal);
-            this.gbItem.Controls.Add(this.numCnlNum);
-            this.gbItem.Controls.Add(this.lblCnlNum);
             this.gbItem.Controls.Add(this.numArrayLen);
             this.gbItem.Controls.Add(this.lblArrayLen);
             this.gbItem.Controls.Add(this.chkIsArray);
             this.gbItem.Controls.Add(this.txtNodeID);
             this.gbItem.Controls.Add(this.lblNodeID);
+            this.gbItem.Controls.Add(this.txtTagNum);
+            this.gbItem.Controls.Add(this.lblTagNum);
+            this.gbItem.Controls.Add(this.txtTagCode);
+            this.gbItem.Controls.Add(this.lblTagCode);
             this.gbItem.Controls.Add(this.txtDisplayName);
             this.gbItem.Controls.Add(this.lblDisplayName);
             this.gbItem.Controls.Add(this.chkItemActive);
@@ -68,47 +67,26 @@
             this.gbItem.TabStop = false;
             this.gbItem.Text = "Item Parameters";
             // 
-            // txtSignal
+            // txtTagNum
             // 
-            this.txtSignal.Location = new System.Drawing.Point(13, 263);
-            this.txtSignal.Name = "txtSignal";
-            this.txtSignal.ReadOnly = true;
-            this.txtSignal.Size = new System.Drawing.Size(100, 23);
-            this.txtSignal.TabIndex = 11;
+            this.txtTagNum.Location = new System.Drawing.Point(13, 150);
+            this.txtTagNum.Name = "txtTagNum";
+            this.txtTagNum.ReadOnly = true;
+            this.txtTagNum.Size = new System.Drawing.Size(120, 23);
+            this.txtTagNum.TabIndex = 6;
             // 
-            // lblSignal
+            // lblTagNum
             // 
-            this.lblSignal.AutoSize = true;
-            this.lblSignal.Location = new System.Drawing.Point(10, 245);
-            this.lblSignal.Name = "lblSignal";
-            this.lblSignal.Size = new System.Drawing.Size(39, 15);
-            this.lblSignal.TabIndex = 10;
-            this.lblSignal.Text = "Signal";
-            // 
-            // numCnlNum
-            // 
-            this.numCnlNum.Location = new System.Drawing.Point(13, 219);
-            this.numCnlNum.Maximum = new decimal(new int[] {
-            65535,
-            0,
-            0,
-            0});
-            this.numCnlNum.Name = "numCnlNum";
-            this.numCnlNum.Size = new System.Drawing.Size(100, 23);
-            this.numCnlNum.TabIndex = 9;
-            // 
-            // lblCnlNum
-            // 
-            this.lblCnlNum.AutoSize = true;
-            this.lblCnlNum.Location = new System.Drawing.Point(10, 201);
-            this.lblCnlNum.Name = "lblCnlNum";
-            this.lblCnlNum.Size = new System.Drawing.Size(80, 15);
-            this.lblCnlNum.TabIndex = 8;
-            this.lblCnlNum.Text = "Input channel";
+            this.lblTagNum.AutoSize = true;
+            this.lblTagNum.Location = new System.Drawing.Point(10, 132);
+            this.lblTagNum.Name = "lblTagNum";
+            this.lblTagNum.Size = new System.Drawing.Size(70, 15);
+            this.lblTagNum.TabIndex = 5;
+            this.lblTagNum.Text = "Tag number";
             // 
             // numArrayLen
             // 
-            this.numArrayLen.Location = new System.Drawing.Point(13, 175);
+            this.numArrayLen.Location = new System.Drawing.Point(13, 263);
             this.numArrayLen.Maximum = new decimal(new int[] {
             1000,
             0,
@@ -120,8 +98,8 @@
             0,
             0});
             this.numArrayLen.Name = "numArrayLen";
-            this.numArrayLen.Size = new System.Drawing.Size(100, 23);
-            this.numArrayLen.TabIndex = 7;
+            this.numArrayLen.Size = new System.Drawing.Size(120, 23);
+            this.numArrayLen.TabIndex = 11;
             this.numArrayLen.Value = new decimal(new int[] {
             1,
             0,
@@ -132,38 +110,38 @@
             // lblArrayLen
             // 
             this.lblArrayLen.AutoSize = true;
-            this.lblArrayLen.Location = new System.Drawing.Point(10, 157);
+            this.lblArrayLen.Location = new System.Drawing.Point(10, 245);
             this.lblArrayLen.Name = "lblArrayLen";
             this.lblArrayLen.Size = new System.Drawing.Size(72, 15);
-            this.lblArrayLen.TabIndex = 6;
+            this.lblArrayLen.TabIndex = 10;
             this.lblArrayLen.Text = "Array length";
             // 
             // chkIsArray
             // 
             this.chkIsArray.AutoSize = true;
-            this.chkIsArray.Location = new System.Drawing.Point(13, 135);
+            this.chkIsArray.Location = new System.Drawing.Point(13, 223);
             this.chkIsArray.Name = "chkIsArray";
             this.chkIsArray.Size = new System.Drawing.Size(63, 19);
-            this.chkIsArray.TabIndex = 5;
+            this.chkIsArray.TabIndex = 9;
             this.chkIsArray.Text = "Is array";
             this.chkIsArray.UseVisualStyleBackColor = true;
             this.chkIsArray.CheckedChanged += new System.EventHandler(this.chkIsArray_CheckedChanged);
             // 
             // txtNodeID
             // 
-            this.txtNodeID.Location = new System.Drawing.Point(13, 106);
+            this.txtNodeID.Location = new System.Drawing.Point(13, 194);
             this.txtNodeID.Name = "txtNodeID";
             this.txtNodeID.ReadOnly = true;
             this.txtNodeID.Size = new System.Drawing.Size(224, 23);
-            this.txtNodeID.TabIndex = 4;
+            this.txtNodeID.TabIndex = 8;
             // 
             // lblNodeID
             // 
             this.lblNodeID.AutoSize = true;
-            this.lblNodeID.Location = new System.Drawing.Point(10, 88);
+            this.lblNodeID.Location = new System.Drawing.Point(10, 176);
             this.lblNodeID.Name = "lblNodeID";
             this.lblNodeID.Size = new System.Drawing.Size(50, 15);
-            this.lblNodeID.TabIndex = 3;
+            this.lblNodeID.TabIndex = 7;
             this.lblNodeID.Text = "Node ID";
             // 
             // txtDisplayName
@@ -194,6 +172,23 @@
             this.chkItemActive.UseVisualStyleBackColor = true;
             this.chkItemActive.CheckedChanged += new System.EventHandler(this.chkItemActive_CheckedChanged);
             // 
+            // lblTagCode
+            // 
+            this.lblTagCode.AutoSize = true;
+            this.lblTagCode.Location = new System.Drawing.Point(10, 88);
+            this.lblTagCode.Name = "lblTagCode";
+            this.lblTagCode.Size = new System.Drawing.Size(54, 15);
+            this.lblTagCode.TabIndex = 3;
+            this.lblTagCode.Text = "Tag code";
+            // 
+            // txtTagCode
+            // 
+            this.txtTagCode.Location = new System.Drawing.Point(13, 106);
+            this.txtTagCode.Name = "txtTagCode";
+            this.txtTagCode.Size = new System.Drawing.Size(224, 23);
+            this.txtTagCode.TabIndex = 4;
+            this.txtTagCode.TextChanged += new System.EventHandler(this.txtTagCode_TextChanged);
+            // 
             // CtrlItem
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
@@ -203,7 +198,6 @@
             this.Size = new System.Drawing.Size(250, 500);
             this.gbItem.ResumeLayout(false);
             this.gbItem.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.numCnlNum)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.numArrayLen)).EndInit();
             this.ResumeLayout(false);
 
@@ -220,9 +214,9 @@
         private System.Windows.Forms.CheckBox chkIsArray;
         private System.Windows.Forms.Label lblArrayLen;
         private System.Windows.Forms.NumericUpDown numArrayLen;
-        private System.Windows.Forms.Label lblSignal;
-        private System.Windows.Forms.NumericUpDown numCnlNum;
-        private System.Windows.Forms.Label lblCnlNum;
-        private System.Windows.Forms.TextBox txtSignal;
+        private System.Windows.Forms.Label lblTagNum;
+        private System.Windows.Forms.TextBox txtTagNum;
+        private TextBox txtTagCode;
+        private Label lblTagCode;
     }
 }

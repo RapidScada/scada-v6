@@ -51,9 +51,11 @@ namespace Scada.Comm.Drivers.DrvOpcUa.View.Controls
             if (commandConfig != null)
             {
                 txtDisplayName.Text = commandConfig.DisplayName;
-                txtNodeID.Text = commandConfig.NodeID;
-                txtDataType.Text = commandConfig.DataTypeName;
+                txtCmdCode.Text = commandConfig.CmdCode;
                 numCmdNum.SetValue(commandConfig.CmdNum);
+                txtNodeID.Text = commandConfig.NodeID;
+                chkIsMethod.Checked = commandConfig.IsMethod;
+                txtDataType.Text = commandConfig.DataTypeName;
             }
         }
 
@@ -87,6 +89,15 @@ namespace Scada.Comm.Drivers.DrvOpcUa.View.Controls
             {
                 commandConfig.DisplayName = txtDisplayName.Text;
                 OnObjectChanged(TreeUpdateTypes.CurrentNode);
+            }
+        }
+
+        private void txtCmdCode_TextChanged(object sender, EventArgs e)
+        {
+            if (commandConfig != null)
+            {
+                commandConfig.CmdCode = txtCmdCode.Text;
+                OnObjectChanged(TreeUpdateTypes.None);
             }
         }
 

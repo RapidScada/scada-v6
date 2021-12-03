@@ -12,10 +12,9 @@ namespace Scada.Comm.Drivers.DrvOpcUa.View
         /// <summary>
         /// Initializes a new instance of the class.
         /// </summary>
-        public ItemConfigTag(int tagNum, bool isArray, int arrayLen)
+        public ItemConfigTag(int tagNum)
         {
             TagNum = tagNum;
-            SetLength(isArray, arrayLen);
         }
 
 
@@ -25,27 +24,8 @@ namespace Scada.Comm.Drivers.DrvOpcUa.View
         public int TagNum { get; set; }
 
         /// <summary>
-        /// Gets or sets the quantity of tags.
+        /// Gets a string representation of the tag number.
         /// </summary>
-        public int Length { get; set; }
-
-
-        /// <summary>
-        /// Normalizes and sets the quantity of tags.
-        /// </summary>
-        public void SetLength(bool isArray, int arrayLen)
-        {
-            Length = isArray && arrayLen > 1 ? arrayLen : 1;
-        }
-
-        /// <summary>
-        /// Gets a range of tag numbers.
-        /// </summary>
-        public string GetTagNumInfo()
-        {
-            return Length > 1 ?
-                TagNum + " - " + (TagNum + Length - 1) :
-                TagNum.ToString();
-        }
+        public string TagNumStr => TagNum.ToString();
     }
 }

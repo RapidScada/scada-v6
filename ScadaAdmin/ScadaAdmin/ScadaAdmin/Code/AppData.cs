@@ -27,6 +27,7 @@ using Scada.Admin.Config;
 using Scada.Admin.Extensions;
 using Scada.Admin.Lang;
 using Scada.Admin.Project;
+using Scada.Comm.Lang;
 using Scada.Config;
 using Scada.Lang;
 using Scada.Log;
@@ -140,7 +141,7 @@ namespace Scada.Admin.App.Code
             AdminPhrases.Init();
             AppPhrases.Init();
             ServerPhrases.Init();
-            CommonPhrases.Init();
+            CommPhrases.Init();
         }
 
         /// <summary>

@@ -50,16 +50,15 @@ namespace Scada.Comm.Drivers.DrvOpcUa.View.Forms
             {  "uint64", typeof(UInt64) },
         };
 
-        private readonly AppDirs appDirs;           // the application directories
-        private readonly int kpNum;                 // the device number
+        private readonly AppDirs appDirs;              // the application directories
+        private readonly int deviceNum;                // the device number
         private readonly OpcDeviceConfig deviceConfig; // the device configuration
-        private string configFileName;              // the configuration file name
-        private bool modified;                      // the configuration was modified
-        private bool changing;                      // controls are being changed programmatically
-        private int? maxCmdNum;                     // the maximum command number
-        private Session opcSession;                 // the OPC session
-        private TreeNode subscriptionsNode;         // the tree node of the subscriptions
-        private TreeNode commandsNode;              // the tree node of the commands
+        private string configFileName;                 // the configuration file name
+        private bool modified;                         // the configuration was modified
+        private bool changing;                         // controls are being changed programmatically
+        private Session opcSession;                    // the OPC session
+        private TreeNode subscriptionsNode;            // the tree node of the subscriptions
+        private TreeNode commandsNode;                 // the tree node of the commands
 
 
         /// <summary>
@@ -75,16 +74,15 @@ namespace Scada.Comm.Drivers.DrvOpcUa.View.Forms
         /// <summary>
         /// Initializes a new instance of the class.
         /// </summary>
-        public FrmConfig(AppDirs appDirs, int kpNum)
+        public FrmConfig(AppDirs appDirs, int deviceNum)
             : this()
         {
             this.appDirs = appDirs ?? throw new ArgumentNullException(nameof(appDirs));
-            this.kpNum = kpNum;
+            this.deviceNum = deviceNum;
             deviceConfig = new OpcDeviceConfig();
             configFileName = "";
             modified = false;
             changing = false;
-            maxCmdNum = null;
             opcSession = null;
             subscriptionsNode = null;
             commandsNode = null;
@@ -146,7 +144,7 @@ namespace Scada.Comm.Drivers.DrvOpcUa.View.Forms
 
                 subscriptionsNode = TreeViewExtensions.CreateNode(DriverPhrases.SubscriptionsNode, ImageKey.FolderClosed);
                 commandsNode = TreeViewExtensions.CreateNode(DriverPhrases.CommandsNode, ImageKey.FolderClosed);
-                int signal = 1;
+                int tagNum = 1;
 
                 foreach (SubscriptionConfig subscriptionConfig in deviceConfig.Subscriptions)
                 {
@@ -156,10 +154,8 @@ namespace Scada.Comm.Drivers.DrvOpcUa.View.Forms
                     foreach (ItemConfig itemConfig in subscriptionConfig.Items)
                     {
                         subscriptionNode.Nodes.Add(CreateItemNode(itemConfig));
-
-                        ItemConfigTag tag = new(signal, itemConfig.IsArray, itemConfig.ArrayLen);
-                        signal += tag.Length;
-                        itemConfig.Tag = tag;
+                        itemConfig.Tag = new ItemConfigTag(tagNum);
+                        tagNum++;
                     }
                 }
 
@@ -185,7 +181,7 @@ namespace Scada.Comm.Drivers.DrvOpcUa.View.Forms
         private static TreeNode CreateSubscriptionNode(SubscriptionConfig subscriptionConfig)
         {
             TreeNode subscriptionNode = TreeViewExtensions.CreateNode(
-                GetDisplayName(subscriptionConfig.DisplayName, DriverPhrases.EmptySubscription), 
+                GetDisplayName(subscriptionConfig.DisplayName, DriverPhrases.UnnamedSubscription), 
                 ImageKey.FolderClosed);
             subscriptionNode.Tag = subscriptionConfig;
             return subscriptionNode;
@@ -197,7 +193,7 @@ namespace Scada.Comm.Drivers.DrvOpcUa.View.Forms
         private static TreeNode CreateItemNode(ItemConfig itemConfig)
         {
             TreeNode itemNode = TreeViewExtensions.CreateNode(
-                GetDisplayName(itemConfig.DisplayName, DriverPhrases.EmptyItem), 
+                GetDisplayName(itemConfig.DisplayName, DriverPhrases.UnnamedItem), 
                 ImageKey.Variable);
             itemNode.Tag = itemConfig;
             return itemNode;
@@ -209,7 +205,7 @@ namespace Scada.Comm.Drivers.DrvOpcUa.View.Forms
         private static TreeNode CreateCommandNode(CommandConfig commandConfig)
         {
             TreeNode commandNode = TreeViewExtensions.CreateNode(
-                GetDisplayName(commandConfig.DisplayName, DriverPhrases.EmptyCommand), 
+                GetDisplayName(commandConfig.DisplayName, DriverPhrases.UnnamedCommand), 
                 ImageKey.Command);
             commandNode.Tag = commandConfig;
             return commandNode;
@@ -230,7 +226,7 @@ namespace Scada.Comm.Drivers.DrvOpcUa.View.Forms
         {
             try
             {
-                OpcHelper helper = new(appDirs, LogStub.Instance, kpNum, OpcHelper.RuntimeKind.View)
+                OpcHelper helper = new(appDirs, LogStub.Instance, deviceNum, OpcHelper.RuntimeKind.View)
                 {
                     CertificateValidation = CertificateValidator_CertificateValidation
                 };
@@ -248,7 +244,7 @@ namespace Scada.Comm.Drivers.DrvOpcUa.View.Forms
             }
             catch (Exception ex)
             {
-                ScadaUiUtils.ShowError(DriverPhrases.ConnectServerError + ":" + Environment.NewLine + ex.Message); // TODO: BuildErrorMessage everywhere
+                ScadaUiUtils.ShowError(ScadaUtils.BuildErrorMessage(ex, DriverPhrases.ConnectServerError));
                 return false;
             }
             finally
@@ -278,7 +274,7 @@ namespace Scada.Comm.Drivers.DrvOpcUa.View.Forms
             }
             catch (Exception ex)
             {
-                ScadaUiUtils.ShowError(DriverPhrases.DisconnectServerError + ":" + Environment.NewLine + ex.Message);
+                ScadaUiUtils.ShowError(ScadaUtils.BuildErrorMessage(ex, DriverPhrases.DisconnectServerError));
             }
             finally
             {
@@ -311,7 +307,7 @@ namespace Scada.Comm.Drivers.DrvOpcUa.View.Forms
                     fillNodeRequired = !nodeTag.IsFilled;
                     nodeCollection = treeNode.Nodes;
                     serverNodeTag = nodeTag;
-                    nodeId = nodeTag.OpcNodeId;
+                    nodeId = nodeTag.NodeId;
                 }
 
                 if (fillNodeRequired && nodeId != null && opcSession != null)
@@ -344,7 +340,7 @@ namespace Scada.Comm.Drivers.DrvOpcUa.View.Forms
             }
             catch (Exception ex)
             {
-                ScadaUiUtils.ShowError(DriverPhrases.BrowseServerError + ":" + Environment.NewLine + ex.Message);
+                ScadaUiUtils.ShowError(ScadaUtils.BuildErrorMessage(ex, DriverPhrases.BrowseServerError));
             }
             finally
             {
@@ -353,86 +349,105 @@ namespace Scada.Comm.Drivers.DrvOpcUa.View.Forms
         }
 
         /// <summary>
-        /// Selects an image key depending on the node class.
-        /// </summary>
-        private static string SelectImageKey(NodeClass nodeClass)
-        {
-            if (nodeClass.HasFlag(NodeClass.Object))
-                return ImageKey.Object;
-            else if (nodeClass.HasFlag(NodeClass.Method))
-                return ImageKey.Method;
-            else
-                return ImageKey.Variable;
-        }
-
-        /// <summary>
         /// Adds a new item to the configuration.
         /// </summary>
         private bool AddItem(TreeNode serverNode)
         {
             if (serverNode?.Tag is ServerNodeTag serverNodeTag &&
-                serverNodeTag.NodeClass == NodeClass.Variable)
+                (serverNodeTag.NodeClass == NodeClass.Variable || serverNodeTag.NodeClass == NodeClass.Method))
             {
-                if (GetTopParentNode(tvDevice.SelectedNode) == commandsNode)
+                if (GetTopParentNode(tvDevice.SelectedNode) == commandsNode ||
+                    serverNodeTag.NodeClass == NodeClass.Method)
                 {
-                    // add a new command
-                    if (GetDataTypeName(serverNodeTag.OpcNodeId, out string dataTypeName))
-                    {
-                        CommandConfig commandConfig = new()
-                        {
-                            NodeID = serverNodeTag.OpcNodeId.ToString(),
-                            DisplayName = serverNodeTag.DisplayName,
-                            DataTypeName = dataTypeName,
-                            CmdNum = GetNextCmdNum()
-                        };
-
-                        tvDevice.Insert(commandsNode, CreateCommandNode(commandConfig),
-                            deviceConfig.Commands, commandConfig);
-
-                        Modified = true;
-                        return true;
-                    }
+                    return AddCommand(serverNodeTag);
                 }
                 else
                 {
-                    // create a new monitored item
-                    ItemConfig itemConfig = new()
-                    {
-                        NodeID = serverNodeTag.OpcNodeId.ToString(),
-                        DisplayName = serverNodeTag.DisplayName,
-                    };
-
-                    itemConfig.Tag = new ItemConfigTag(0, itemConfig.IsArray, itemConfig.ArrayLen);
-
-                    // find a subscription
-                    TreeNode deviceNode = tvDevice.SelectedNode;
-                    TreeNode subscriptionNode = deviceNode?.FindClosest(typeof(SubscriptionConfig)) ??
-                        subscriptionsNode.LastNode;
-                    SubscriptionConfig subscriptionConfig;
-
-                    // add a new subscription
-                    if (subscriptionNode == null)
-                    {
-                        subscriptionConfig = new SubscriptionConfig();
-                        subscriptionNode = CreateSubscriptionNode(subscriptionConfig);
-                        tvDevice.Insert(subscriptionsNode, subscriptionNode,
-                            deviceConfig.Subscriptions, subscriptionConfig);
-                    }
-                    else
-                    {
-                        subscriptionConfig = (SubscriptionConfig)subscriptionNode.Tag;
-                    }
-
-                    // add the monitored item
-                    TreeNode itemNode = CreateItemNode(itemConfig);
-                    tvDevice.Insert(subscriptionNode, itemNode, subscriptionConfig.Items, itemConfig);
-                    UpdateSignals(itemNode);
-                    Modified = true;
+                    AddItemToSubscription(serverNodeTag);
                     return true;
                 }
             }
 
             return false;
+        }
+
+        /// <summary>
+        /// Adds a new command to the configuration.
+        /// </summary>
+        private bool AddCommand(ServerNodeTag serverNodeTag)
+        {
+            // add new command
+            CommandConfig commandConfig = new()
+            {
+                NodeID = serverNodeTag.NodeId.ToString(),
+                DisplayName = serverNodeTag.DisplayName,
+                CmdCode = GetTagCode(serverNodeTag),
+                IsMethod = serverNodeTag.NodeClass == NodeClass.Method
+            };
+
+            if (!commandConfig.IsMethod)
+            {
+                if (GetDataTypeName(serverNodeTag.NodeId, out string dataTypeName))
+                    commandConfig.DataTypeName = dataTypeName;
+                else
+                    return false;
+            }
+
+            tvDevice.Insert(commandsNode, CreateCommandNode(commandConfig), deviceConfig.Commands, commandConfig);
+            Modified = true;
+            return true;
+        }
+
+        /// <summary>
+        /// Adds a new subscription item to the configuration.
+        /// </summary>
+        private void AddItemToSubscription(ServerNodeTag serverNodeTag)
+        {
+            // create new monitored item
+            ItemConfig itemConfig = new()
+            {
+                NodeID = serverNodeTag.NodeId.ToString(),
+                DisplayName = serverNodeTag.DisplayName,
+                TagCode = GetTagCode(serverNodeTag),
+                Tag = new ItemConfigTag(0)
+            };
+
+            // find subscription
+            TreeNode deviceNode = tvDevice.SelectedNode;
+            TreeNode subscriptionNode = deviceNode?.FindClosest(typeof(SubscriptionConfig)) ??
+                subscriptionsNode.LastNode;
+            SubscriptionConfig subscriptionConfig;
+
+            // add new subscription
+            if (subscriptionNode == null)
+            {
+                subscriptionConfig = new SubscriptionConfig();
+                subscriptionNode = CreateSubscriptionNode(subscriptionConfig);
+                tvDevice.Insert(subscriptionsNode, subscriptionNode,
+                    deviceConfig.Subscriptions, subscriptionConfig);
+            }
+            else
+            {
+                subscriptionConfig = (SubscriptionConfig)subscriptionNode.Tag;
+            }
+
+            // add monitored item
+            TreeNode itemNode = CreateItemNode(itemConfig);
+            tvDevice.Insert(subscriptionNode, itemNode, subscriptionConfig.Items, itemConfig);
+            UpdateTagNums(itemNode);
+            Modified = true;
+        }
+
+        /// <summary>
+        /// Gets the tag code depending on the editing options.
+        /// </summary>
+        private string GetTagCode(ServerNodeTag serverNodeTag)
+        {
+            return deviceConfig.EditingOptions.DefaultTagCode switch
+            {
+                DefaultTagCode.NodeID => serverNodeTag.NodeId.ToString(),
+                _ => serverNodeTag.DisplayName
+            };
         }
 
         /// <summary>
@@ -485,25 +500,10 @@ namespace Scada.Comm.Drivers.DrvOpcUa.View.Forms
             }
             catch (Exception ex)
             {
-                ScadaUiUtils.ShowError(DriverPhrases.GetDataTypeError + ":" + Environment.NewLine + ex.Message);
+                ScadaUiUtils.ShowError(ScadaUtils.BuildErrorMessage(ex, DriverPhrases.GetDataTypeError));
                 dataTypeName = "";
                 return false;
             }
-        }
-
-        /// <summary>
-        /// Gets the next command number.
-        /// </summary>
-        private int GetNextCmdNum()
-        {
-            if (maxCmdNum == null)
-            {
-                maxCmdNum = deviceConfig.Commands.Any() ? 
-                    deviceConfig.Commands.Max(x => x.CmdNum) : 
-                    0;
-            }
-
-            return (++maxCmdNum).Value;
         }
 
         /// <summary>
@@ -537,12 +537,99 @@ namespace Scada.Comm.Drivers.DrvOpcUa.View.Forms
         private void SetDeviceButtonsEnabled()
         {
             btnAddItem.Enabled = tvServer.SelectedNode?.Tag is ServerNodeTag serverNodeTag && 
-                serverNodeTag.NodeClass == NodeClass.Variable;
+                (serverNodeTag.NodeClass == NodeClass.Variable || serverNodeTag.NodeClass == NodeClass.Method);
 
             bool deviceNodeTagDefined = tvDevice.SelectedNode?.Tag != null;
             btnMoveUpItem.Enabled = deviceNodeTagDefined && tvDevice.SelectedNode.PrevNode != null;
             btnMoveDownItem.Enabled = deviceNodeTagDefined && tvDevice.SelectedNode.NextNode != null;
             btnDeleteItem.Enabled = deviceNodeTagDefined;
+        }
+
+        /// <summary>
+        /// Update signals if 2 elements are reversed.
+        /// </summary>
+        private void SwapSignals(TreeNode treeNode1, TreeNode treeNode2)
+        {
+            if (treeNode1?.Tag is ItemConfig itemConfig1 &&
+                treeNode2?.Tag is ItemConfig itemConfig2 &&
+                itemConfig1.Tag is ItemConfigTag itemConfigTag1 &&
+                itemConfig2.Tag is ItemConfigTag itemConfigTag2)
+            {
+                int signal1 = itemConfigTag1.TagNum;
+                itemConfigTag1.TagNum = itemConfigTag2.TagNum;
+                itemConfigTag2.TagNum = signal1;
+                ctrlItem.RefreshTagNum();
+            }
+        }
+
+        /// <summary>
+        /// Update tag numbers starting from the specified node.
+        /// </summary>
+        private void UpdateTagNums(TreeNode startNode)
+        {
+            TreeNode startSubscrNode = startNode?.FindClosest(typeof(SubscriptionConfig));
+
+            if (startSubscrNode != null)
+            {
+                // define initial tag number
+                int tagNum = 1;
+                TreeNode subscrNode = startSubscrNode.PrevNode;
+
+                while (subscrNode != null)
+                {
+                    if (subscrNode.LastNode?.Tag is ItemConfig itemConfig &&
+                        itemConfig.Tag is ItemConfigTag tag)
+                    {
+                        tagNum = tag.TagNum + 1;
+                        break;
+                    }
+
+                    subscrNode = subscrNode.PrevNode;
+                }
+
+                // recalculate tag numbers
+                subscrNode = startSubscrNode;
+
+                while (subscrNode != null)
+                {
+                    foreach (TreeNode itemNode in subscrNode.Nodes)
+                    {
+                        if (itemNode.Tag is ItemConfig itemConfig &&
+                            itemConfig.Tag is ItemConfigTag tag)
+                        {
+                            tag.TagNum = tagNum;
+                            tagNum++;
+                        }
+                    }
+
+                    subscrNode = subscrNode.NextNode;
+                }
+
+                ctrlItem.RefreshTagNum();
+            }
+        }
+
+        /// <summary>
+        /// Validates the certificate.
+        /// </summary>
+        private void CertificateValidator_CertificateValidation(CertificateValidator validator,
+            CertificateValidationEventArgs e)
+        {
+            if (e.Error.StatusCode == StatusCodes.BadCertificateUntrusted)
+                e.Accept = true;
+        }
+
+        /// <summary>
+        /// Selects an image key depending on the node class.
+        /// </summary>
+        private static string SelectImageKey(NodeClass nodeClass)
+        {
+            if (nodeClass.HasFlag(NodeClass.Object))
+                return ImageKey.Object;
+            else if (nodeClass.HasFlag(NodeClass.Method))
+                return ImageKey.Method;
+            else
+                return ImageKey.Variable;
         }
 
         /// <summary>
@@ -577,80 +664,6 @@ namespace Scada.Comm.Drivers.DrvOpcUa.View.Forms
             }
         }
 
-        /// <summary>
-        /// Update signals if 2 elements are reversed.
-        /// </summary>
-        private void SwapSignals(TreeNode treeNode1, TreeNode treeNode2)
-        {
-            if (treeNode1?.Tag is ItemConfig itemConfig1 &&
-                treeNode2?.Tag is ItemConfig itemConfig2 &&
-                itemConfig1.Tag is ItemConfigTag itemConfigTag1 &&
-                itemConfig2.Tag is ItemConfigTag itemConfigTag2)
-            {
-                int signal1 = itemConfigTag1.TagNum;
-                itemConfigTag1.TagNum = itemConfigTag2.TagNum;
-                itemConfigTag2.TagNum = signal1;
-                ctrlItem.ShowTagNum();
-            }
-        }
-
-        /// <summary>
-        /// Update signals starting from the specified node.
-        /// </summary>
-        private void UpdateSignals(TreeNode startNode)
-        {
-            TreeNode startSubscrNode = startNode?.FindClosest(typeof(SubscriptionConfig));
-
-            if (startSubscrNode != null)
-            {
-                // define initial signal
-                int signal = 1;
-                TreeNode subscrNode = startSubscrNode.PrevNode;
-
-                while (subscrNode != null)
-                {
-                    if (subscrNode.LastNode?.Tag is ItemConfig itemConfig &&
-                        itemConfig.Tag is ItemConfigTag tag)
-                    {
-                        signal = tag.TagNum + tag.Length;
-                        break;
-                    }
-
-                    subscrNode = subscrNode.PrevNode;
-                }
-
-                // recalculate signals
-                subscrNode = startSubscrNode;
-
-                while (subscrNode != null)
-                {
-                    foreach (TreeNode itemNode in subscrNode.Nodes)
-                    {
-                        if (itemNode.Tag is ItemConfig itemConfig &&
-                            itemConfig.Tag is ItemConfigTag tag)
-                        {
-                            tag.TagNum = signal;
-                            signal += tag.Length;
-                        }
-                    }
-
-                    subscrNode = subscrNode.NextNode;
-                }
-
-                ctrlItem.ShowTagNum();
-            }
-        }
-
-        /// <summary>
-        /// Validates the certificate.
-        /// </summary>
-        private void CertificateValidator_CertificateValidation(CertificateValidator validator,
-            CertificateValidationEventArgs e)
-        {
-            if (e.Error.StatusCode == StatusCodes.BadCertificateUntrusted)
-                e.Accept = true;
-        }
-
 
         private void FrmConfig_Load(object sender, EventArgs e)
         {
@@ -658,10 +671,11 @@ namespace Scada.Comm.Drivers.DrvOpcUa.View.Forms
             FormTranslator.Translate(this, GetType().FullName, toolTip);
             FormTranslator.Translate(ctrlSubscription, ctrlSubscription.GetType().FullName);
             FormTranslator.Translate(ctrlItem, ctrlItem.GetType().FullName);
-            Text = string.Format(Text, kpNum);
+            FormTranslator.Translate(ctrlCommand, ctrlCommand.GetType().FullName);
+            Text = string.Format(Text, deviceNum);
 
             // load configuration
-            configFileName = OpcDeviceConfig.GetFileName(appDirs.ConfigDir, kpNum);
+            configFileName = OpcDeviceConfig.GetFileName(appDirs.ConfigDir, deviceNum);
 
             if (File.Exists(configFileName) && !deviceConfig.Load(configFileName, out string errMsg))
                 ScadaUiUtils.ShowError(errMsg);
@@ -679,7 +693,7 @@ namespace Scada.Comm.Drivers.DrvOpcUa.View.Forms
         {
             if (Modified)
             {
-                DialogResult result = MessageBox.Show("CommPhrases.SaveKpSettingsConfirm", // TODO: phrase
+                DialogResult result = MessageBox.Show(CommPhrases.SaveDeviceConfigConfirm,
                     CommonPhrases.QuestionCaption, MessageBoxButtons.YesNoCancel, MessageBoxIcon.Question);
 
                 switch (result)
@@ -733,7 +747,7 @@ namespace Scada.Comm.Drivers.DrvOpcUa.View.Forms
             if (opcSession != null &&
                 tvServer.SelectedNode?.Tag is ServerNodeTag serverNodeTag)
             {
-                new FrmNodeAttr(opcSession, serverNodeTag.OpcNodeId).ShowDialog();
+                new FrmNodeAttr(opcSession, serverNodeTag.NodeId).ShowDialog();
             }
         }
 
@@ -793,7 +807,7 @@ namespace Scada.Comm.Drivers.DrvOpcUa.View.Forms
             if (deviceNodeTag is SubscriptionConfig)
             {
                 tvDevice.MoveUpSelectedNode(deviceConfig.Subscriptions);
-                UpdateSignals(selectedNode);
+                UpdateTagNums(selectedNode);
             }
             else if (deviceNodeTag is ItemConfig)
             {
@@ -820,7 +834,7 @@ namespace Scada.Comm.Drivers.DrvOpcUa.View.Forms
             if (deviceNodeTag is SubscriptionConfig)
             {
                 tvDevice.MoveDownSelectedNode(deviceConfig.Subscriptions);
-                UpdateSignals(selectedNode);
+                UpdateTagNums(selectedNode);
             }
             else if (deviceNodeTag is ItemConfig)
             {
@@ -848,7 +862,7 @@ namespace Scada.Comm.Drivers.DrvOpcUa.View.Forms
             {
                 TreeNode nextSubscrNode = selectedNode.NextNode;
                 tvDevice.RemoveNode(selectedNode, deviceConfig.Subscriptions);
-                UpdateSignals(nextSubscrNode);
+                UpdateTagNums(nextSubscrNode);
             }
             else if (deviceNodeTag is ItemConfig)
             {
@@ -856,13 +870,12 @@ namespace Scada.Comm.Drivers.DrvOpcUa.View.Forms
                 {
                     TreeNode subscrNode = selectedNode.Parent;
                     tvDevice.RemoveNode(selectedNode, subscriptionConfig.Items);
-                    UpdateSignals(subscrNode);
+                    UpdateTagNums(subscrNode);
                 }
             }
             else if (deviceNodeTag is CommandConfig)
             {
                 tvDevice.RemoveNode(selectedNode, deviceConfig.Commands);
-                maxCmdNum = null; // need to recalculate maximum command number
             }
 
             Modified = true;
@@ -919,20 +932,20 @@ namespace Scada.Comm.Drivers.DrvOpcUa.View.Forms
             if (e.ChangedObject is SubscriptionConfig subscriptionConfig)
             {
                 if (treeUpdateTypes.HasFlag(TreeUpdateTypes.CurrentNode))
-                    selectedNode.Text = GetDisplayName(subscriptionConfig.DisplayName, DriverPhrases.EmptySubscription);
+                    selectedNode.Text = GetDisplayName(subscriptionConfig.DisplayName, DriverPhrases.UnnamedSubscription);
             }
             else if (e.ChangedObject is ItemConfig itemConfig)
             {
                 if (treeUpdateTypes.HasFlag(TreeUpdateTypes.CurrentNode))
-                    selectedNode.Text = GetDisplayName(itemConfig.DisplayName, DriverPhrases.EmptyItem);
+                    selectedNode.Text = GetDisplayName(itemConfig.DisplayName, DriverPhrases.UnnamedItem);
 
                 if (treeUpdateTypes.HasFlag(TreeUpdateTypes.UpdateTagNums))
-                    UpdateSignals(selectedNode);
+                    UpdateTagNums(selectedNode);
             }
             else if (e.ChangedObject is CommandConfig commandConfig)
             {
                 if (treeUpdateTypes.HasFlag(TreeUpdateTypes.CurrentNode))
-                    selectedNode.Text = GetDisplayName(commandConfig.DisplayName, DriverPhrases.EmptyCommand);
+                    selectedNode.Text = GetDisplayName(commandConfig.DisplayName, DriverPhrases.UnnamedCommand);
             }
         }
 

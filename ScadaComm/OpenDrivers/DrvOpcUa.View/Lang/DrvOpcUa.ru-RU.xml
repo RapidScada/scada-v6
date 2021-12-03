@@ -1,13 +1,22 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <KpOpcUaDictionaries>
+  <Dictionary key="Scada.Comm.Drivers.DrvOpcUa.View.Controls.CtrlCommand">
+    <Phrase key="gbCommand">Параметры команды</Phrase>
+    <Phrase key="lblDisplayName">Наименование</Phrase>
+    <Phrase key="lblCmdCode">Код команды</Phrase>
+    <Phrase key="lblCmdNum">Номер команды</Phrase>
+    <Phrase key="lblNodeID">Идентификатор узла</Phrase>
+    <Phrase key="chkIsMethod">Метод</Phrase>
+    <Phrase key="lblDataType">Тип данных</Phrase>
+  </Dictionary>
   <Dictionary key="Scada.Comm.Drivers.DrvOpcUa.View.Controls.CtrlItem">
     <Phrase key="gbItem">Параметры элемента</Phrase>
     <Phrase key="chkItemActive">Активен</Phrase>
+    <Phrase key="lblDisplayName">Наименование</Phrase>
+    <Phrase key="lblTagCode">Код тега</Phrase>
     <Phrase key="lblNodeID">Идентификатор узла</Phrase>
     <Phrase key="chkIsArray">Массив</Phrase>
     <Phrase key="lblArrayLen">Длина массива</Phrase>
-    <Phrase key="lblCnlNum">Входной канал</Phrase>
-    <Phrase key="lblSignal">Сигнал</Phrase>
   </Dictionary>
   <Dictionary key="Scada.Comm.Drivers.DrvOpcUa.View.Controls.CtrlSubscription">
     <Phrase key="gbSubscription">Параметры подписки</Phrase>
@@ -42,9 +51,9 @@
     <Phrase key="EmptyNode">Пусто</Phrase>
     <Phrase key="SubscriptionsNode">Подписки</Phrase>
     <Phrase key="CommandsNode">Команды</Phrase>
-    <Phrase key="EmptySubscription">&lt;Подписка&gt;</Phrase>
-    <Phrase key="EmptyItem">&lt;Элемент&gt;</Phrase>
-    <Phrase key="EmptyCommand">&lt;Комманда&gt;</Phrase>
+    <Phrase key="UnnamedSubscription">&lt;Безымянная подписка&gt;</Phrase>
+    <Phrase key="UnnamedItem">&lt;Безымянный элемент&gt;</Phrase>
+    <Phrase key="UnnamedCommand">&lt;Безымянная команда&gt;</Phrase>
     <Phrase key="UnknownDataType">Неизвестный тип данных &quot;{0}&quot;.</Phrase>
   </Dictionary>
   <Dictionary key="Scada.Comm.Drivers.DrvOpcUa.View.Forms.FrmNodeAttr">

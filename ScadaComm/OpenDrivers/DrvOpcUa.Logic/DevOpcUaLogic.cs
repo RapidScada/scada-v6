@@ -451,7 +451,7 @@ namespace Scada.Comm.Drivers.DrvOpcUa.Logic
                     itemConfig.Tag = deviceTag;
 
                     if (itemConfig.IsArray)
-                        deviceTag.DataLen = itemConfig.ArrayLen;
+                        deviceTag.DataLen = itemConfig.ArrayLength;
                 }
 
                 DeviceTags.AddGroup(tagGroup);

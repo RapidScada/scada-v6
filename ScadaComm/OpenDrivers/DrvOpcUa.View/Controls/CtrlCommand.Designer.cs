@@ -29,26 +29,32 @@
         private void InitializeComponent()
         {
             this.gbCommand = new System.Windows.Forms.GroupBox();
-            this.numCmdNum = new System.Windows.Forms.NumericUpDown();
-            this.lblCmdNum = new System.Windows.Forms.Label();
             this.txtDataType = new System.Windows.Forms.TextBox();
             this.lblDataType = new System.Windows.Forms.Label();
             this.txtNodeID = new System.Windows.Forms.TextBox();
             this.lblNodeID = new System.Windows.Forms.Label();
+            this.numCmdNum = new System.Windows.Forms.NumericUpDown();
+            this.lblCmdNum = new System.Windows.Forms.Label();
+            this.txtCmdCode = new System.Windows.Forms.TextBox();
+            this.lblCmdCode = new System.Windows.Forms.Label();
             this.txtDisplayName = new System.Windows.Forms.TextBox();
             this.lblDisplayName = new System.Windows.Forms.Label();
+            this.chkIsMethod = new System.Windows.Forms.CheckBox();
             this.gbCommand.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.numCmdNum)).BeginInit();
             this.SuspendLayout();
             // 
             // gbCommand
             // 
-            this.gbCommand.Controls.Add(this.numCmdNum);
-            this.gbCommand.Controls.Add(this.lblCmdNum);
             this.gbCommand.Controls.Add(this.txtDataType);
             this.gbCommand.Controls.Add(this.lblDataType);
+            this.gbCommand.Controls.Add(this.chkIsMethod);
             this.gbCommand.Controls.Add(this.txtNodeID);
             this.gbCommand.Controls.Add(this.lblNodeID);
+            this.gbCommand.Controls.Add(this.numCmdNum);
+            this.gbCommand.Controls.Add(this.lblCmdNum);
+            this.gbCommand.Controls.Add(this.txtCmdCode);
+            this.gbCommand.Controls.Add(this.lblCmdCode);
             this.gbCommand.Controls.Add(this.txtDisplayName);
             this.gbCommand.Controls.Add(this.lblDisplayName);
             this.gbCommand.Location = new System.Drawing.Point(0, 0);
@@ -59,71 +65,78 @@
             this.gbCommand.TabStop = false;
             this.gbCommand.Text = "Command Parameters";
             // 
+            // txtDataType
+            // 
+            this.txtDataType.Location = new System.Drawing.Point(13, 238);
+            this.txtDataType.Name = "txtDataType";
+            this.txtDataType.ReadOnly = true;
+            this.txtDataType.Size = new System.Drawing.Size(224, 23);
+            this.txtDataType.TabIndex = 10;
+            // 
+            // lblDataType
+            // 
+            this.lblDataType.AutoSize = true;
+            this.lblDataType.Location = new System.Drawing.Point(10, 220);
+            this.lblDataType.Name = "lblDataType";
+            this.lblDataType.Size = new System.Drawing.Size(57, 15);
+            this.lblDataType.TabIndex = 9;
+            this.lblDataType.Text = "Data type";
+            // 
+            // txtNodeID
+            // 
+            this.txtNodeID.Location = new System.Drawing.Point(13, 169);
+            this.txtNodeID.Name = "txtNodeID";
+            this.txtNodeID.ReadOnly = true;
+            this.txtNodeID.Size = new System.Drawing.Size(224, 23);
+            this.txtNodeID.TabIndex = 7;
+            // 
+            // lblNodeID
+            // 
+            this.lblNodeID.AutoSize = true;
+            this.lblNodeID.Location = new System.Drawing.Point(10, 151);
+            this.lblNodeID.Name = "lblNodeID";
+            this.lblNodeID.Size = new System.Drawing.Size(50, 15);
+            this.lblNodeID.TabIndex = 6;
+            this.lblNodeID.Text = "Node ID";
+            // 
             // numCmdNum
             // 
-            this.numCmdNum.Location = new System.Drawing.Point(13, 169);
+            this.numCmdNum.Location = new System.Drawing.Point(13, 125);
             this.numCmdNum.Maximum = new decimal(new int[] {
-            65535,
-            0,
-            0,
-            0});
-            this.numCmdNum.Minimum = new decimal(new int[] {
-            1,
+            2147483647,
             0,
             0,
             0});
             this.numCmdNum.Name = "numCmdNum";
             this.numCmdNum.Size = new System.Drawing.Size(120, 23);
-            this.numCmdNum.TabIndex = 7;
-            this.numCmdNum.Value = new decimal(new int[] {
-            1,
-            0,
-            0,
-            0});
+            this.numCmdNum.TabIndex = 5;
             this.numCmdNum.ValueChanged += new System.EventHandler(this.numCmdNum_ValueChanged);
             // 
             // lblCmdNum
             // 
             this.lblCmdNum.AutoSize = true;
-            this.lblCmdNum.Location = new System.Drawing.Point(10, 151);
+            this.lblCmdNum.Location = new System.Drawing.Point(10, 107);
             this.lblCmdNum.Name = "lblCmdNum";
             this.lblCmdNum.Size = new System.Drawing.Size(109, 15);
-            this.lblCmdNum.TabIndex = 6;
+            this.lblCmdNum.TabIndex = 4;
             this.lblCmdNum.Text = "Command number";
             // 
-            // txtDataType
+            // txtCmdCode
             // 
-            this.txtDataType.Location = new System.Drawing.Point(13, 125);
-            this.txtDataType.Name = "txtDataType";
-            this.txtDataType.ReadOnly = true;
-            this.txtDataType.Size = new System.Drawing.Size(224, 23);
-            this.txtDataType.TabIndex = 5;
+            this.txtCmdCode.Location = new System.Drawing.Point(13, 81);
+            this.txtCmdCode.Name = "txtCmdCode";
+            this.txtCmdCode.Size = new System.Drawing.Size(224, 23);
+            this.txtCmdCode.TabIndex = 3;
+            this.txtCmdCode.TextChanged += new System.EventHandler(this.txtCmdCode_TextChanged);
             // 
-            // lblDataType
+            // lblCmdCode
             // 
-            this.lblDataType.AutoSize = true;
-            this.lblDataType.Location = new System.Drawing.Point(10, 107);
-            this.lblDataType.Name = "lblDataType";
-            this.lblDataType.Size = new System.Drawing.Size(57, 15);
-            this.lblDataType.TabIndex = 4;
-            this.lblDataType.Text = "Data type";
-            // 
-            // txtNodeID
-            // 
-            this.txtNodeID.Location = new System.Drawing.Point(13, 81);
-            this.txtNodeID.Name = "txtNodeID";
-            this.txtNodeID.ReadOnly = true;
-            this.txtNodeID.Size = new System.Drawing.Size(224, 23);
-            this.txtNodeID.TabIndex = 3;
-            // 
-            // lblNodeID
-            // 
-            this.lblNodeID.AutoSize = true;
-            this.lblNodeID.Location = new System.Drawing.Point(10, 63);
-            this.lblNodeID.Name = "lblNodeID";
-            this.lblNodeID.Size = new System.Drawing.Size(50, 15);
-            this.lblNodeID.TabIndex = 2;
-            this.lblNodeID.Text = "Node ID";
+            this.lblCmdCode.AutoSize = true;
+            this.lblCmdCode.Location = new System.Drawing.Point(10, 63);
+            this.lblCmdCode.Name = "lblCmdCode";
+            this.lblCmdCode.Size = new System.Drawing.Size(93, 15);
+            this.lblCmdCode.TabIndex = 2;
+            this.lblCmdCode.Text = "Command code";
             // 
             // txtDisplayName
             // 
@@ -141,6 +154,17 @@
             this.lblDisplayName.Size = new System.Drawing.Size(78, 15);
             this.lblDisplayName.TabIndex = 0;
             this.lblDisplayName.Text = "Display name";
+            // 
+            // chkIsMethod
+            // 
+            this.chkIsMethod.AutoSize = true;
+            this.chkIsMethod.Enabled = false;
+            this.chkIsMethod.Location = new System.Drawing.Point(13, 198);
+            this.chkIsMethod.Name = "chkIsMethod";
+            this.chkIsMethod.Size = new System.Drawing.Size(79, 19);
+            this.chkIsMethod.TabIndex = 8;
+            this.chkIsMethod.Text = "Is method";
+            this.chkIsMethod.UseVisualStyleBackColor = true;
             // 
             // CtrlCommand
             // 
@@ -167,5 +191,8 @@
         private System.Windows.Forms.Label lblDataType;
         private System.Windows.Forms.NumericUpDown numCmdNum;
         private System.Windows.Forms.Label lblCmdNum;
+        private TextBox txtCmdCode;
+        private Label lblCmdCode;
+        private CheckBox chkIsMethod;
     }
 }

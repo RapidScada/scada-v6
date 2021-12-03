@@ -58,6 +58,17 @@ namespace Scada.Comm.Drivers.DrvOpcUa.Config
         public int ArrayLen { get; set; }
 
         /// <summary>
+        /// Gets the normalized array length.
+        /// </summary>
+        public int ArrayLength
+        {
+            get
+            {
+                return Math.Max(ArrayLen, 1);
+            }
+        }
+
+        /// <summary>
         /// Gets or sets the object that contains data related to the item.
         /// </summary>
         public object Tag { get; set; }
