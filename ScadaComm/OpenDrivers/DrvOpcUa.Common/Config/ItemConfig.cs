@@ -21,6 +21,7 @@ namespace Scada.Comm.Drivers.DrvOpcUa.Config
             NodeID = "";
             DisplayName = "";
             TagCode = "";
+            IsString = false;
             IsArray = false;
             ArrayLen = 0;
             Tag = null;
@@ -46,6 +47,11 @@ namespace Scada.Comm.Drivers.DrvOpcUa.Config
         /// Gets or sets the tag code associated with the item.
         /// </summary>
         public string TagCode { get; set; }
+
+        /// <summary>
+        /// Gets or sets a value indicating that the item data type is a string.
+        /// </summary>
+        public bool IsString { get; set; }
 
         /// <summary>
         /// Gets or sets a value indicating that the item data type is an array.
@@ -86,6 +92,7 @@ namespace Scada.Comm.Drivers.DrvOpcUa.Config
             NodeID = xmlElem.GetAttrAsString("nodeID");
             DisplayName = xmlElem.GetAttrAsString("displayName");
             TagCode = xmlElem.GetAttrAsString("tagCode");
+            IsString = xmlElem.GetAttrAsBool("isString");
             IsArray = xmlElem.GetAttrAsBool("isArray");
             ArrayLen = xmlElem.GetAttrAsInt("arrayLen");
         }
@@ -102,9 +109,10 @@ namespace Scada.Comm.Drivers.DrvOpcUa.Config
             xmlElem.SetAttribute("nodeID", NodeID);
             xmlElem.SetAttribute("displayName", DisplayName);
             xmlElem.SetAttribute("tagCode", TagCode);
+            xmlElem.SetAttribute("isString", IsString);
             xmlElem.SetAttribute("isArray", IsArray);
 
-            if (IsArray)
+            if (IsString || IsArray)
                 xmlElem.SetAttribute("arrayLen", ArrayLen);
         }
     }

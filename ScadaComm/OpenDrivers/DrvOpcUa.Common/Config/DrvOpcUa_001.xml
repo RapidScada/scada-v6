@@ -13,15 +13,15 @@
   </EditingOptions>
   <Subscriptions>
     <Subscription active="true" displayName="Demo Subscription" publishingInterval="1000">
-      <Item active="true" nodeID="ns=5;s=Counter1" displayName="Counter1" tagCode="" isArray="false" />
-      <Item active="true" nodeID="ns=5;s=Random1" displayName="Random1" tagCode="" isArray="false" />
-      <Item active="true" nodeID="ns=5;s=Sinusoid1" displayName="Sinusoid1" tagCode="" isArray="false" />
-      <Item active="true" nodeID="ns=3;s=Int32AnalogItem" displayName="Int32AnalogItem" tagCode="" isArray="false" />
-      <Item active="true" nodeID="ns=5;s=Int64AnalogItem" displayName="Int64AnalogItem" tagCode="ns=5;s=Int64AnalogItem" isArray="false" />
-      <Item active="true" nodeID="ns=3;s=DoubleAnalogItem" displayName="DoubleAnalogItem" tagCode="" isArray="false" />
-      <Item active="true" nodeID="ns=3;s=DoubleAnalogItemArray" displayName="DoubleAnalogItemArray" tagCode="" isArray="true" arrayLen="5" />
-      <Item active="true" nodeID="ns=5;s=DateTimeDataItem" displayName="DateTimeDataItem" tagCode="ns=5;s=DateTimeDataItem" isArray="false" />
-      <Item active="true" nodeID="ns=5;s=StringDataItem" displayName="StringDataItem" tagCode="ns=5;s=StringDataItem" isArray="false" />
+      <Item active="true" nodeID="ns=3;i=1001" displayName="Counter" tagCode="ns=3;i=1001" isString="false" isArray="false" />
+      <Item active="true" nodeID="ns=3;i=1002" displayName="Random" tagCode="ns=3;i=1002" isString="false" isArray="false" />
+      <Item active="true" nodeID="ns=3;i=1004" displayName="Sinusoid" tagCode="ns=3;i=1004" isString="false" isArray="false" />
+      <Item active="true" nodeID="ns=5;s=Int32AnalogItem" displayName="Int32AnalogItem" tagCode="ns=5;s=Int32AnalogItem" isString="false" isArray="false" />
+      <Item active="true" nodeID="ns=5;s=Int64AnalogItem" displayName="Int64AnalogItem" tagCode="ns=5;s=Int64AnalogItem" isString="false" isArray="false" />
+      <Item active="true" nodeID="ns=5;s=DoubleAnalogItem" displayName="DoubleAnalogItem" tagCode="ns=5;s=DoubleAnalogItem" isString="false" isArray="false" />
+      <Item active="true" nodeID="ns=5;s=DoubleAnalogItemArray" displayName="DoubleAnalogItemArray" tagCode="ns=5;s=DoubleAnalogItemArray" isString="false" isArray="true" arrayLen="5" />
+      <Item active="true" nodeID="ns=5;s=DateTimeDataItem" displayName="DateTimeDataItem" tagCode="ns=5;s=DateTimeDataItem" isString="false" isArray="false" />
+      <Item active="true" nodeID="ns=5;s=StringDataItem" displayName="StringDataItem" tagCode="ns=5;s=StringDataItem" isString="true" isArray="false" arrayLen="1" />
     </Subscription>
   </Subscriptions>
   <Commands>

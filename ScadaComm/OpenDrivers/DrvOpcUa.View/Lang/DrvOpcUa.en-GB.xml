@@ -17,8 +17,9 @@
     <Phrase key="lblTagCode">Tag code</Phrase>
     <Phrase key="lblTagNum">Tag number</Phrase>
     <Phrase key="lblNodeID">Node ID</Phrase>
+    <Phrase key="chkIsString">Is string</Phrase>
     <Phrase key="chkIsArray">Is array</Phrase>
-    <Phrase key="lblArrayLen">Array length</Phrase>
+    <Phrase key="lblArrayLen">String or array length</Phrase>
   </Dictionary>
   <Dictionary key="Scada.Comm.Drivers.DrvOpcUa.View.Controls.CtrlSubscription">
     <Phrase key="gbSubscription">Subscription Parameters</Phrase>

@@ -17,8 +17,9 @@
     <Phrase key="lblTagCode">Код тега</Phrase>
     <Phrase key="lblTagNum">Номер тега</Phrase>
     <Phrase key="lblNodeID">Идентификатор узла</Phrase>
+    <Phrase key="chkIsString">Строка</Phrase>
     <Phrase key="chkIsArray">Массив</Phrase>
-    <Phrase key="lblArrayLen">Длина массива</Phrase>
+    <Phrase key="lblArrayLen">Длина строки или массива</Phrase>
   </Dictionary>
   <Dictionary key="Scada.Comm.Drivers.DrvOpcUa.View.Controls.CtrlSubscription">
     <Phrase key="gbSubscription">Параметры подписки</Phrase>

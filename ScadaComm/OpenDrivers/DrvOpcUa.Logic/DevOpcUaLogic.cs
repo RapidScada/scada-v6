@@ -118,8 +118,8 @@ namespace Scada.Comm.Drivers.DrvOpcUa.Logic
             {
                 foreach (ItemConfig itemConfig in subscriptionConfig.Items)
                 {
-                    if (itemConfig.Active && !itemConfig.IsArray && 
-                        !string.IsNullOrEmpty(itemConfig.TagCode) && !cmdByCode.ContainsKey(itemConfig.TagCode))
+                    if (itemConfig.Active && !string.IsNullOrEmpty(itemConfig.TagCode) && 
+                        !cmdByCode.ContainsKey(itemConfig.TagCode))
                     {
                         // created command based on item, having empty data type
                         cmdByCode.Add(itemConfig.TagCode, new CommandConfig
@@ -346,24 +346,21 @@ namespace Scada.Comm.Drivers.DrvOpcUa.Logic
                         int tagStatus = StatusCode.IsGood(change.Value.StatusCode) ? 
                             CnlStatusID.Defined : CnlStatusID.Undefined;
 
-                        if (itemTag.ItemConfig.IsArray)
+                        if (itemTag.ItemConfig.IsArray && change.Value.Value is Array arrVal)
                         {
-                            if (change.Value.Value is Array valArr)
+                            int arrLen = Math.Min(itemTag.ItemConfig.ArrayLength, arrVal.Length);
+                            double[] arr = new double[arrLen];
+                            TagFormat tagFormat = TagFormat.FloatNumber;
+
+                            for (int i = 0; i < arrLen; i++)
                             {
-                                int arrLen = Math.Min(itemTag.ItemConfig.ArrayLength, valArr.Length);
-                                double[] arr = new double[arrLen];
-                                TagFormat tagFormat = TagFormat.FloatNumber;
-
-                                for (int i = 0; i < arrLen; i++)
-                                {
-                                    arr[i] = ConvertArrayElem(valArr.GetValue(i), out TagFormat format);
-                                    if (i == 0)
-                                        tagFormat = format;
-                                }
-
-                                DeviceData.SetDoubleArray(tagIndex, arr, tagStatus);
-                                DeviceTags[tagIndex].Format = tagFormat;
+                                arr[i] = ConvertArrayElem(arrVal.GetValue(i), out TagFormat format);
+                                if (i == 0)
+                                    tagFormat = format;
                             }
+
+                            DeviceData.SetDoubleArray(tagIndex, arr, tagStatus);
+                            DeviceTags[tagIndex].Format = tagFormat;
                         }
                         else
                         {
@@ -491,7 +488,7 @@ namespace Scada.Comm.Drivers.DrvOpcUa.Logic
         /// <summary>
         /// Writes an item value to the OPC server.
         /// </summary>
-        private bool WriteItemValue(CommandConfig commandConfig, double cmdVal)
+        private bool WriteItemValue(CommandConfig commandConfig, double cmdVal, string cmdData)
         {
             // prepare value to write
             string dataTypeName = commandConfig.DataTypeName;
@@ -527,13 +524,15 @@ namespace Scada.Comm.Drivers.DrvOpcUa.Logic
 
             try
             {
-                itemVal = Convert.ChangeType(cmdVal, itemDataType);
+                itemVal = itemDataType == typeof(string)
+                    ? cmdData
+                    : Convert.ChangeType(cmdVal, itemDataType);
             }
             catch
             {
                 throw new ScadaException(Locale.IsRussian ?
-                    "Не удалось привести значение команды к типу {0}" :
-                    "Unable to convert command value to the type {0}", itemDataType.FullName);
+                    "Не удалось привести значение к типу {0}" :
+                    "Unable to convert value to the type {0}", itemDataType.FullName);
             }
 
             // write value
@@ -589,6 +588,7 @@ namespace Scada.Comm.Drivers.DrvOpcUa.Logic
                 }
             }
 
+            Log.WriteLine(CommPhrases.ResponseOK);
             return true;
         }
 
@@ -681,8 +681,16 @@ namespace Scada.Comm.Drivers.DrvOpcUa.Logic
                     deviceTag.Aux = new DeviceTagMeta();
                     itemConfig.Tag = deviceTag;
 
-                    if (itemConfig.IsArray)
+                    if (itemConfig.IsString)
+                    {
+                        deviceTag.DataLen = DriverUtils.GetTagDataLength(itemConfig.ArrayLength);
+                        deviceTag.DataType = TagDataType.Unicode;
+                        deviceTag.Format = TagFormat.String;
+                    }
+                    else if (itemConfig.IsArray)
+                    {
                         deviceTag.DataLen = itemConfig.ArrayLength;
+                    }
                 }
 
                 DeviceTags.AddGroup(tagGroup);
@@ -752,7 +760,7 @@ namespace Scada.Comm.Drivers.DrvOpcUa.Logic
                     {
                         LastRequestOK = commandConfig.IsMethod
                             ? CallMethod(commandConfig, cmd.GetCmdDataString())
-                            : WriteItemValue(commandConfig, cmd.CmdVal);
+                            : WriteItemValue(commandConfig, cmd.CmdVal, cmd.GetCmdDataString());
                     }
                     catch (ScadaException ex)
                     {

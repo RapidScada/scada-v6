@@ -21,7 +21,6 @@ namespace Scada.Comm.Drivers.DrvOpcUa.View
             DisplayName = rd.DisplayName.Text;
             NodeId = ExpandedNodeId.ToNodeId(rd.NodeId, namespaceTable);
             NodeClass = rd.NodeClass;
-            DataType = null;
             IsFilled = false;
         }
 
@@ -33,8 +32,6 @@ namespace Scada.Comm.Drivers.DrvOpcUa.View
         public string NodeIdStr => NodeId == null ? "" : NodeId.ToString();
 
         public NodeClass NodeClass { get; }
-
-        public Type DataType { get; }
 
         public bool IsFilled { get; set; }
 

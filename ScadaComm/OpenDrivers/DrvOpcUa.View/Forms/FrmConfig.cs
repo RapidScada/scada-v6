@@ -395,6 +395,12 @@ namespace Scada.Comm.Drivers.DrvOpcUa.View.Forms
                 Tag = new ItemConfigTag(0)
             };
 
+            if (GetDataTypeName(serverNodeTag.NodeId, out string dataTypeName) &&
+                dataTypeName == typeof(string).FullName)
+            {
+                itemConfig.IsString = true;
+            }
+
             // find subscription
             TreeNode deviceNode = tvDevice.SelectedNode;
             TreeNode subscriptionNode = deviceNode?.FindClosest(typeof(SubscriptionConfig)) ??

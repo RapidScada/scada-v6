@@ -55,9 +55,26 @@ namespace Scada.Comm.Drivers.DrvOpcUa.View.Controls
                 txtTagCode.Text = itemConfig.TagCode;
                 txtTagNum.Text = itemConfig?.Tag is ItemConfigTag tag ? tag.TagNumStr : "";
                 txtNodeID.Text = itemConfig.NodeID;
+                chkIsString.Checked = itemConfig.IsString;
                 chkIsArray.Checked = itemConfig.IsArray;
-                numArrayLen.Enabled = itemConfig.IsArray;
+                numArrayLen.Enabled = itemConfig.IsString || itemConfig.IsArray;
                 numArrayLen.SetValue(itemConfig.ArrayLen);
+            }
+        }
+
+        /// <summary>
+        /// Enables or disables the array length control.
+        /// </summary>
+        private void SetArrayLengthEnabled()
+        {
+            if (chkIsString.Checked || chkIsArray.Checked)
+            {
+                numArrayLen.Enabled = true;
+            }
+            else
+            {
+                numArrayLen.SetValue(1);
+                numArrayLen.Enabled = false;
             }
         }
 
@@ -120,23 +137,35 @@ namespace Scada.Comm.Drivers.DrvOpcUa.View.Controls
             }
         }
 
+        private void chkIsString_CheckedChanged(object sender, EventArgs e)
+        {
+            if (itemConfig != null)
+            {
+                itemConfig.IsString = chkIsString.Checked;
+
+                chkIsArray.CheckedChanged -= chkIsArray_CheckedChanged;
+                itemConfig.IsArray = false;
+                chkIsArray.Checked = false;
+                chkIsArray.CheckedChanged += chkIsArray_CheckedChanged;
+
+                OnObjectChanged(TreeUpdateTypes.None);
+                SetArrayLengthEnabled();
+            }
+        }
+
         private void chkIsArray_CheckedChanged(object sender, EventArgs e)
         {
             if (itemConfig != null)
             {
-                if (chkIsArray.Checked)
-                {
-                    itemConfig.IsArray = true;
-                    numArrayLen.Enabled = true;
-                }
-                else
-                {
-                    itemConfig.IsArray = false;
-                    numArrayLen.SetValue(1);
-                    numArrayLen.Enabled = false;
-                }
+                itemConfig.IsArray = chkIsArray.Checked;
+
+                chkIsString.CheckedChanged -= chkIsString_CheckedChanged;
+                itemConfig.IsString = false;
+                chkIsString.Checked = false;
+                chkIsString.CheckedChanged += chkIsString_CheckedChanged;
 
                 OnObjectChanged(TreeUpdateTypes.None);
+                SetArrayLengthEnabled();
             }
         }
 
