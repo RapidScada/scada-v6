@@ -410,7 +410,6 @@ namespace Scada.Admin.Extensions.ExtCommConfig.Controls
                 {
                     TeleCommand cmd = new() 
                     { 
-                        CreationTime = DateTime.UtcNow,
                         CmdVal = lineConfig.CommLineNum
                     };
 

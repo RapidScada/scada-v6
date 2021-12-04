@@ -241,12 +241,22 @@ namespace Scada.Agent.Client
         /// </summary>
         public void SendCommand(ServiceApp serviceApp, TeleCommand cmd)
         {
+            // initialize command ID and timestamp
+            DateTime utcNow = DateTime.UtcNow;
+
+            if (cmd.CommandID == 0)
+                cmd.CommandID = ScadaUtils.GenerateUniqueID(utcNow);
+
+            if (cmd.CreationTime == DateTime.MinValue)
+                cmd.CreationTime = utcNow;
+
+            // upload command
             using (MemoryStream stream = new MemoryStream())
             {
                 cmd.Save(stream);
                 stream.Position = 0;
 
-                string fileName = string.Format("cmd_{0}.dat", ScadaUtils.GenerateUniqueID());
+                string fileName = string.Format("cmd_{0}.dat", cmd.CommandID);
                 UploadFile(stream, new RelativePath(serviceApp, AppFolder.Cmd, fileName), out bool fileAccepted);
 
                 if (!fileAccepted)
