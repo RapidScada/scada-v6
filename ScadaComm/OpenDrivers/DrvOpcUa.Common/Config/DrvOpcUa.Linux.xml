@@ -83,6 +83,10 @@
       <StoreType>Directory</StoreType>
       <StorePath>%LocalApplicationData%/OPC Foundation/pki/rejected</StorePath>
     </RejectedCertificateStore>
+
+    <!-- WARNING: The following setting (to automatically accept untrusted certificates) should be used
+    for easy debugging purposes ONLY and turned off for production deployments! -->
+    <AutoAcceptUntrustedCertificates>true</AutoAcceptUntrustedCertificates>
     
     <!-- WARNING: SHA1 signed certficates are by default rejected and should be phased out. -->
     <RejectSHA1SignedCertificates>true</RejectSHA1SignedCertificates>
@@ -102,10 +106,6 @@
       <StoreType>Directory</StoreType>
       <StorePath>%LocalApplicationData%/OPC Foundation/pki/trustedUser</StorePath>
     </TrustedUserCertificates>
-
-    <!-- WARNING: The following setting (to automatically accept untrusted certificates) should be used
-    for easy debugging purposes ONLY and turned off for production deployments! -->
-    <AutoAcceptUntrustedCertificates>false</AutoAcceptUntrustedCertificates>
     
   </SecurityConfiguration>
 

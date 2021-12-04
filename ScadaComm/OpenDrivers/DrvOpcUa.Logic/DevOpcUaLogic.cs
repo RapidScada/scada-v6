@@ -65,7 +65,6 @@ namespace Scada.Comm.Drivers.DrvOpcUa.Logic
 
         private readonly object opcLock;                      // synchronizes communication with OPC server
         private OpcDeviceConfig opcDeviceConfig;              // the device configuration
-        private bool autoAccept;                              // auto accept OPC server certificate
         private bool connected;                               // connection with OPC server is established
         private DateTime connAttemptDT;                       // the time stamp of a connection attempt
         private Session opcSession;                           // the OPC session
@@ -83,7 +82,6 @@ namespace Scada.Comm.Drivers.DrvOpcUa.Logic
         {
             opcLock = new object();
             opcDeviceConfig = null;
-            autoAccept = false;
             connected = false;
             connAttemptDT = DateTime.MinValue;
             opcSession = null;
@@ -142,13 +140,8 @@ namespace Scada.Comm.Drivers.DrvOpcUa.Logic
         {
             try
             {
-                OpcHelper helper = new OpcHelper(AppDirs, Log, DeviceNum, OpcHelper.RuntimeKind.Logic)
-                {
-                    CertificateValidation = CertificateValidator_CertificateValidation
-                };
-
+                OpcHelper helper = new OpcHelper(AppDirs, Log, DeviceNum, true);
                 connected = helper.ConnectAsync(opcDeviceConfig.ConnectionOptions, PollingOptions.Timeout).Result;
-                autoAccept = helper.AutoAccept;
                 opcSession = helper.OpcSession;
                 opcSession.KeepAlive += OpcSession_KeepAlive;
                 opcSession.Notification += OpcSession_Notification;
@@ -239,31 +232,6 @@ namespace Scada.Comm.Drivers.DrvOpcUa.Logic
                 Log.WriteError(ex, Locale.IsRussian ?
                     "Ошибка при очистке подписок" :
                     "Error clearing subscriptions");
-            }
-        }
-
-        /// <summary>
-        /// Validates the certificate.
-        /// </summary>
-        private void CertificateValidator_CertificateValidation(CertificateValidator validator,
-            CertificateValidationEventArgs e)
-        {
-            if (e.Error.StatusCode == StatusCodes.BadCertificateUntrusted)
-            {
-                e.Accept = autoAccept;
-
-                if (autoAccept)
-                {
-                    Log.WriteLine(Locale.IsRussian ?
-                        "Принятый сертификат: {0}" :
-                        "Accepted certificate: {0}", e.Certificate.Subject);
-                }
-                else
-                {
-                    Log.WriteLine(Locale.IsRussian ?
-                        "Отклоненный сертификат: {0}" :
-                        "Rejected certificate: {0}", e.Certificate.Subject);
-                }
             }
         }
 

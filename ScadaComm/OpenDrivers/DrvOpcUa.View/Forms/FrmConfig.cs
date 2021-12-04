@@ -208,10 +208,7 @@ namespace Scada.Comm.Drivers.DrvOpcUa.View.Forms
         {
             try
             {
-                OpcHelper helper = new(appDirs, LogStub.Instance, deviceNum, OpcHelper.RuntimeKind.View)
-                {
-                    CertificateValidation = CertificateValidator_CertificateValidation
-                };
+                OpcHelper helper = new(appDirs, LogStub.Instance, deviceNum, false) { AutoAccept = true };
 
                 if (await helper.ConnectAsync(deviceConfig.ConnectionOptions))
                 {
@@ -593,16 +590,6 @@ namespace Scada.Comm.Drivers.DrvOpcUa.View.Forms
 
                 ctrlItem.RefreshTagNum();
             }
-        }
-
-        /// <summary>
-        /// Validates the certificate.
-        /// </summary>
-        private void CertificateValidator_CertificateValidation(CertificateValidator validator,
-            CertificateValidationEventArgs e)
-        {
-            if (e.Error.StatusCode == StatusCodes.BadCertificateUntrusted)
-                e.Accept = true;
         }
 
         /// <summary>

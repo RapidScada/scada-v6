@@ -22,11 +22,6 @@ namespace Scada.Comm.Drivers.DrvOpcUa
     public class OpcHelper
     {
         /// <summary>
-        /// The runtime kinds.
-        /// </summary>
-        public enum RuntimeKind { Logic, View };
-
-        /// <summary>
         /// The OPC UA configuration file name for the logic runtime.
         /// </summary>
         private const string LogicOpcConfig = "DrvOpcUa.Logic.xml";
@@ -38,34 +33,28 @@ namespace Scada.Comm.Drivers.DrvOpcUa
         private readonly AppDirs appDirs;     // the application directories
         private readonly ILog log;            // the communication line log
         private readonly string deviceNumStr; // the device number as a string
-        private readonly RuntimeKind runtime; // the runtime kind
+        private readonly bool isLogicRuntime; // the runtime kind
 
 
         /// <summary>
         /// Initializes a new instance of the class.
         /// </summary>
-        public OpcHelper(AppDirs appDirs, ILog log, int deviceNum, RuntimeKind runtime)
+        public OpcHelper(AppDirs appDirs, ILog log, int deviceNum, bool isLogicRuntime)
         {
             this.appDirs = appDirs ?? throw new ArgumentNullException(nameof(appDirs));
             this.log = log ?? throw new ArgumentNullException(nameof(log));
             deviceNumStr = deviceNum.ToString("D3");
-            this.runtime = runtime;
+            this.isLogicRuntime = isLogicRuntime;
 
             AutoAccept = false;
             OpcSession = null;
-            CertificateValidation = null;
         }
 
 
         /// <summary>
-        /// Gets or sets the certificate validation method.
+        /// Gets or sets a value indicating whether to automatically accept server certificates.
         /// </summary>
-        public CertificateValidationEventHandler CertificateValidation { get; set; }
-
-        /// <summary>
-        /// Gets a value indicating whether to automatically accept server certificates.
-        /// </summary>
-        public bool AutoAccept { get; private set; }
+        public bool AutoAccept { get; set; }
 
         /// <summary>
         /// Gets the OPC session
@@ -78,7 +67,7 @@ namespace Scada.Comm.Drivers.DrvOpcUa
         /// </summary>
         private void WriteConfigFile(out string fileName)
         {
-            fileName = Path.Combine(appDirs.ConfigDir, runtime == RuntimeKind.View ? ViewOpcConfig : LogicOpcConfig);
+            fileName = Path.Combine(appDirs.ConfigDir, isLogicRuntime ? LogicOpcConfig : ViewOpcConfig);
 
             if (!File.Exists(fileName))
             {
@@ -110,13 +99,35 @@ namespace Scada.Comm.Drivers.DrvOpcUa
         }
 
         /// <summary>
+        /// Validates the certificate.
+        /// </summary>
+        private void CertificateValidator_CertificateValidation(CertificateValidator validator,
+            CertificateValidationEventArgs e)
+        {
+            if (e.Error.StatusCode == StatusCodes.BadCertificateUntrusted)
+            {
+                e.Accept = AutoAccept;
+
+                if (AutoAccept)
+                {
+                    log.WriteLine(Locale.IsRussian ?
+                        "Принятый сертификат: {0}" :
+                        "Accepted certificate: {0}", e.Certificate.Subject);
+                }
+                else
+                {
+                    log.WriteLine(Locale.IsRussian ?
+                        "Отклоненный сертификат: {0}" :
+                        "Rejected certificate: {0}", e.Certificate.Subject);
+                }
+            }
+        }
+
+        /// <summary>
         /// Connects to the OPC server asynchronously.
         /// </summary>
         public async Task<bool> ConnectAsync(OpcConnectionOptions connectionOptions, int operationTimeout = -1)
         {
-            AutoAccept = false;
-            OpcSession = null;
-
             ApplicationInstance application = new ApplicationInstance
             {
                 ApplicationName = string.Format("DrvOpcUa_{0} Driver", deviceNumStr),
@@ -125,6 +136,7 @@ namespace Scada.Comm.Drivers.DrvOpcUa
             };
 
             // load the application configuration
+            // TODO: use stream instead of file after updating OPCFoundation.NetStandard.Opc.Ua
             WriteConfigFile(out string configFileName);
             ApplicationConfiguration config = await application.LoadApplicationConfiguration(configFileName, false);
 
@@ -144,12 +156,9 @@ namespace Scada.Comm.Drivers.DrvOpcUa
                     config.SecurityConfiguration.ApplicationCertificate.Certificate);
 
                 if (config.SecurityConfiguration.AutoAcceptUntrustedCertificates)
-                {
                     AutoAccept = true;
-                }
 
-                if (CertificateValidation != null)
-                    config.CertificateValidator.CertificateValidation += CertificateValidation;
+                config.CertificateValidator.CertificateValidation += CertificateValidator_CertificateValidation;
             }
             else
             {
