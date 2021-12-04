@@ -32,24 +32,6 @@ namespace Scada.Comm.Drivers.DrvOpcUa.View.Forms
             public const string Variable = "variable.png";
         }
 
-        /// <summary>
-        /// Specifies the supported data types of OPC variables.
-        /// </summary>
-        private static readonly Dictionary<string, Type> KnownTypes = new()
-        {
-            {  "boolean", typeof(Boolean) },
-            {  "byte", typeof(Byte) },
-            {  "double", typeof(Double) },
-            {  "int16", typeof(Int16) },
-            {  "int32", typeof(Int32) },
-            {  "int64", typeof(Int64) },
-            {  "sbyte", typeof(SByte) },
-            {  "float", typeof(Single) },
-            {  "uint16", typeof(UInt16) },
-            {  "uint32", typeof(UInt32) },
-            {  "uint64", typeof(UInt64) },
-        };
-
         private readonly AppDirs appDirs;              // the application directories
         private readonly int deviceNum;                // the device number
         private readonly OpcDeviceConfig deviceConfig; // the device configuration
@@ -490,7 +472,7 @@ namespace Scada.Comm.Drivers.DrvOpcUa.View.Forms
                         "Unable to get data type from OPC server.");
                 }
 
-                if (KnownTypes.TryGetValue(dataType.DisplayName.Text.ToLowerInvariant(), out Type type))
+                if (KnownTypes.GetType(dataType.DisplayName.Text, out Type type))
                 {
                     dataTypeName = type.FullName;
                     return true;
@@ -679,7 +661,7 @@ namespace Scada.Comm.Drivers.DrvOpcUa.View.Forms
             Text = string.Format(Text, deviceNum);
 
             // load configuration
-            configFileName = OpcDeviceConfig.GetFileName(appDirs.ConfigDir, deviceNum);
+            configFileName = Path.Combine(appDirs.ConfigDir, OpcDeviceConfig.GetFileName(deviceNum));
 
             if (File.Exists(configFileName) && !deviceConfig.Load(configFileName, out string errMsg))
                 ScadaUiUtils.ShowError(errMsg);

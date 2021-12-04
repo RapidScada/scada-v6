@@ -1,7 +1,8 @@
 ﻿// Copyright (c) Rapid Software LLC. All rights reserved.
 // Licensed under the Apache License, Version 2.0. See License.txt in the project root for license information.
 
-using Scada.Lang;
+using Scada.Comm.Lang;
+using Scada.Config;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -13,17 +14,8 @@ namespace Scada.Comm.Drivers.DrvOpcUa.Config
     /// Represents a configuration of an OPC UA device.
     /// <para>Представляет конфигурацию устройства OPC UA.</para>
     /// </summary>
-    public class OpcDeviceConfig
+    public class OpcDeviceConfig : BaseConfig
     {
-        /// <summary>
-        /// Initializes a new instance of the class.
-        /// </summary>
-        public OpcDeviceConfig()
-        {
-            SetToDefault();
-        }
-
-
         /// <summary>
         /// Gets the connection options.
         /// </summary>
@@ -48,7 +40,7 @@ namespace Scada.Comm.Drivers.DrvOpcUa.Config
         /// <summary>
         /// Sets the default values.
         /// </summary>
-        private void SetToDefault()
+        protected override void SetToDefault()
         {
             ConnectionOptions = new OpcConnectionOptions();
             EditingOptions = new EditingOptions();
@@ -57,103 +49,93 @@ namespace Scada.Comm.Drivers.DrvOpcUa.Config
         }
 
         /// <summary>
-        /// Loads the configuration from the specified file.
+        /// Loads the configuration from the specified reader.
         /// </summary>
-        public bool Load(string fileName, out string errMsg)
+        protected override void Load(TextReader reader)
         {
-            try
+            XmlDocument xmlDoc = new XmlDocument();
+            xmlDoc.Load(reader);
+            XmlElement rootElem = xmlDoc.DocumentElement;
+
+            if (rootElem.SelectSingleNode("ConnectionOptions") is XmlNode connectionOptionsNode)
+                ConnectionOptions.LoadFromXml(connectionOptionsNode);
+
+            if (rootElem.SelectSingleNode("EditingOptions") is XmlNode editingOptionsNode)
+                EditingOptions.LoadFromXml(editingOptionsNode);
+
+            if (rootElem.SelectSingleNode("Subscriptions") is XmlNode subscriptionsNode)
             {
-                SetToDefault();
-
-                if (!File.Exists(fileName))
-                    throw new FileNotFoundException(string.Format(CommonPhrases.NamedFileNotFound, fileName));
-
-                XmlDocument xmlDoc = new XmlDocument();
-                xmlDoc.Load(fileName);
-                XmlElement rootElem = xmlDoc.DocumentElement;
-
-                if (rootElem.SelectSingleNode("ConnectionOptions") is XmlNode connectionOptionsNode)
-                    ConnectionOptions.LoadFromXml(connectionOptionsNode);
-
-                if (rootElem.SelectSingleNode("EditingOptions") is XmlNode editingOptionsNode)
-                    EditingOptions.LoadFromXml(editingOptionsNode);
-
-                if (rootElem.SelectSingleNode("Subscriptions") is XmlNode subscriptionsNode)
+                foreach (XmlElement subscriptionElem in subscriptionsNode.SelectNodes("Subscription"))
                 {
-                    foreach (XmlElement subscriptionElem in subscriptionsNode.SelectNodes("Subscription"))
-                    {
-                        SubscriptionConfig subscriptionConfig = new SubscriptionConfig();
-                        subscriptionConfig.LoadFromXml(subscriptionElem);
-                        Subscriptions.Add(subscriptionConfig);
-                    }
+                    SubscriptionConfig subscriptionConfig = new SubscriptionConfig();
+                    subscriptionConfig.LoadFromXml(subscriptionElem);
+                    Subscriptions.Add(subscriptionConfig);
                 }
-
-                if (rootElem.SelectSingleNode("Commands") is XmlNode commandsNode)
-                {
-                    foreach (XmlElement commandElem in commandsNode.SelectNodes("Command"))
-                    {
-                        CommandConfig commandConfig = new CommandConfig();
-                        commandConfig.LoadFromXml(commandElem);
-                        Commands.Add(commandConfig);
-                    }
-                }
-
-                errMsg = "";
-                return true;
             }
-            catch (Exception ex)
+
+            if (rootElem.SelectSingleNode("Commands") is XmlNode commandsNode)
             {
-                errMsg = ScadaUtils.BuildErrorMessage(ex, CommonPhrases.LoadConfigError);
-                return false;
+                foreach (XmlElement commandElem in commandsNode.SelectNodes("Command"))
+                {
+                    CommandConfig commandConfig = new CommandConfig();
+                    commandConfig.LoadFromXml(commandElem);
+                    Commands.Add(commandConfig);
+                }
             }
         }
 
         /// <summary>
-        /// Saves the configuration to the specified file.
+        /// Saves the configuration to the specified writer.
         /// </summary>
-        public bool Save(string fileName, out string errMsg)
+        protected override void Save(TextWriter writer)
         {
-            try
+            XmlDocument xmlDoc = new XmlDocument();
+            XmlDeclaration xmlDecl = xmlDoc.CreateXmlDeclaration("1.0", "utf-8", null);
+            xmlDoc.AppendChild(xmlDecl);
+
+            XmlElement rootElem = xmlDoc.CreateElement("OpcDeviceConfig");
+            xmlDoc.AppendChild(rootElem);
+
+            ConnectionOptions.SaveToXml(rootElem.AppendElem("ConnectionOptions"));
+            EditingOptions.SaveToXml(rootElem.AppendElem("EditingOptions"));
+            XmlElement subscriptionsElem = rootElem.AppendElem("Subscriptions");
+            XmlElement commandsElem = rootElem.AppendElem("Commands");
+
+            foreach (SubscriptionConfig subscriptionConfig in Subscriptions)
             {
-                XmlDocument xmlDoc = new XmlDocument();
-                XmlDeclaration xmlDecl = xmlDoc.CreateXmlDeclaration("1.0", "utf-8", null);
-                xmlDoc.AppendChild(xmlDecl);
-
-                XmlElement rootElem = xmlDoc.CreateElement("OpcDeviceConfig");
-                xmlDoc.AppendChild(rootElem);
-
-                ConnectionOptions.SaveToXml(rootElem.AppendElem("ConnectionOptions"));
-                EditingOptions.SaveToXml(rootElem.AppendElem("EditingOptions"));
-                XmlElement subscriptionsElem = rootElem.AppendElem("Subscriptions");
-                XmlElement commandsElem = rootElem.AppendElem("Commands");
-
-                foreach (SubscriptionConfig subscriptionConfig in Subscriptions)
-                {
-                    subscriptionConfig.SaveToXml(subscriptionsElem.AppendElem("Subscription"));
-                }
-
-                foreach (CommandConfig commandConfig in Commands)
-                {
-                    commandConfig.SaveToXml(commandsElem.AppendElem("Command"));
-                }
-
-                xmlDoc.Save(fileName);
-                errMsg = "";
-                return true;
+                subscriptionConfig.SaveToXml(subscriptionsElem.AppendElem("Subscription"));
             }
-            catch (Exception ex)
+
+            foreach (CommandConfig commandConfig in Commands)
             {
-                errMsg = ScadaUtils.BuildErrorMessage(ex, CommonPhrases.SaveConfigError);
-                return false;
+                commandConfig.SaveToXml(commandsElem.AppendElem("Command"));
             }
+
+            xmlDoc.Save(writer);
         }
 
         /// <summary>
-        /// Gets the configuration file name.
+        /// Builds an error message for the load operation.
         /// </summary>
-        public static string GetFileName(string configDir, int deviceNum)
+        protected override string BuildLoadErrorMessage(Exception ex)
         {
-            return Path.Combine(configDir, "KpOpcUa_" + deviceNum.ToString("D3") + ".xml");
+            return ScadaUtils.BuildErrorMessage(ex, CommPhrases.LoadDeviceConfigError);
+        }
+
+        /// <summary>
+        /// Builds an error message for the save operation.
+        /// </summary>
+        protected override string BuildSaveErrorMessage(Exception ex)
+        {
+            return ScadaUtils.BuildErrorMessage(ex, CommPhrases.SaveDeviceConfigError);
+        }
+
+        /// <summary>
+        /// Gets the short name of the device configuration file.
+        /// </summary>
+        public static string GetFileName(int deviceNum)
+        {
+            return $"KpOpcUa_{deviceNum:D3}.xml";
         }
     }
 }

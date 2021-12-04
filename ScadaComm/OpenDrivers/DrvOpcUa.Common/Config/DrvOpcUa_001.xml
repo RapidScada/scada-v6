@@ -1,12 +1,12 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <OpcDeviceConfig>
   <ConnectionOptions>
-    <ServerUrl>opc.tcp://HP:53530/OPCUA/SimulationServer</ServerUrl>
-    <SecurityMode>SignAndEncrypt</SecurityMode>
-    <SecurityPolicy>Basic128Rsa15</SecurityPolicy>
+    <ServerUrl>opc.tcp://SERVER:53530/OPCUA/SimulationServer</ServerUrl>
+    <SecurityMode>None</SecurityMode>
+    <SecurityPolicy>None</SecurityPolicy>
     <AuthenticationMode>Anonymous</AuthenticationMode>
-    <Username></Username>
-    <Password></Password>
+    <Username />
+    <Password />
   </ConnectionOptions>
   <EditingOptions>
     <DefaultTagCode>NodeID</DefaultTagCode>
@@ -14,16 +14,18 @@
   <Subscriptions>
     <Subscription active="true" displayName="Demo Subscription" publishingInterval="1000">
       <Item active="true" nodeID="ns=5;s=Counter1" displayName="Counter1" tagCode="" isArray="false" />
-      <Item active="true" nodeID="ns=5;s=Random1" displayName="DisplayName Random1" tagCode="" isArray="false" />
+      <Item active="true" nodeID="ns=5;s=Random1" displayName="Random1" tagCode="" isArray="false" />
       <Item active="true" nodeID="ns=5;s=Sinusoid1" displayName="Sinusoid1" tagCode="" isArray="false" />
       <Item active="true" nodeID="ns=3;s=Int32AnalogItem" displayName="Int32AnalogItem" tagCode="" isArray="false" />
+      <Item active="true" nodeID="ns=5;s=Int64AnalogItem" displayName="Int64AnalogItem" tagCode="ns=5;s=Int64AnalogItem" isArray="false" />
       <Item active="true" nodeID="ns=3;s=DoubleAnalogItem" displayName="DoubleAnalogItem" tagCode="" isArray="false" />
       <Item active="true" nodeID="ns=3;s=DoubleAnalogItemArray" displayName="DoubleAnalogItemArray" tagCode="" isArray="true" arrayLen="5" />
+      <Item active="true" nodeID="ns=5;s=DateTimeDataItem" displayName="DateTimeDataItem" tagCode="ns=5;s=DateTimeDataItem" isArray="false" />
+      <Item active="true" nodeID="ns=5;s=StringDataItem" displayName="StringDataItem" tagCode="ns=5;s=StringDataItem" isArray="false" />
     </Subscription>
   </Subscriptions>
   <Commands>
-    <Command nodeID="ns=3;s=Int32AnalogItem" parentNodeID="" displayName="Int32AnalogItem" cmdNum="1" cmdCode="" dataType="System.Int32" />
-    <Command nodeID="ns=3;s=DoubleAnalogItem" parentNodeID="" displayName="DoubleAnalogItem" cmdNum="2" cmdCode="" dataType="System.Double" />
-    <Command nodeID="ns=6;s=MyMethod" parentNodeID="" displayName="MyMethod" cmdNum="3" cmdCode="" isMethod="true" />
+    <Command nodeID="ns=5;s=DoubleDataItem" parentNodeID="" displayName="DoubleDataItem" cmdNum="0" cmdCode="ns=5;s=DoubleDataItem" isMethod="false" dataType="System.Double" />
+    <Command nodeID="ns=6;s=MyMethod" parentNodeID="ns=6;s=MyDevice" displayName="MyMethod" cmdNum="0" cmdCode="ns=6;s=MyMethod" isMethod="true" />
   </Commands>
 </OpcDeviceConfig>

@@ -12,7 +12,6 @@ using Scada.Data.Models;
 using Scada.Lang;
 using System;
 using System.Collections.Generic;
-using System.Globalization;
 using System.Threading;
 
 namespace Scada.Comm.Drivers.DrvOpcUa.Logic
@@ -631,10 +630,10 @@ namespace Scada.Comm.Drivers.DrvOpcUa.Logic
         private object[] GetMethodArgs(string cmdData)
         {
             if (string.IsNullOrEmpty(cmdData))
-                return null;
+                return Array.Empty<object>();
 
-            // each line contains argument data type and value, for example
-            // double 1.2
+            // each line contains argument type and value, for example
+            // double: 1.2
             List<object> args = new List<object>();
             string[] lines = cmdData.Split('\n');
 
@@ -644,39 +643,12 @@ namespace Scada.Comm.Drivers.DrvOpcUa.Logic
 
                 if (colonIdx >= 0)
                 {
-                    string typeName = line.Substring(0, colonIdx).ToLowerInvariant();
+                    string typeName = line.Substring(0, colonIdx);
                     string argVal = line.Substring(colonIdx + 1);
 
                     try
                     {
-                        if (typeName == "bool" || typeName == "boolean")
-                            args.Add(bool.Parse(argVal));
-                        else if (typeName == "byte")
-                            args.Add(byte.Parse(argVal, CultureInfo.InvariantCulture));
-                        else if (typeName == "double")
-                            args.Add(double.Parse(argVal, CultureInfo.InvariantCulture));
-                        else if (typeName == "short" || typeName == "int16")
-                            args.Add(short.Parse(argVal, CultureInfo.InvariantCulture));
-                        else if (typeName == "int" || typeName == "int32")
-                            args.Add(int.Parse(argVal, CultureInfo.InvariantCulture));
-                        else if (typeName == "long" || typeName == "int64")
-                            args.Add(long.Parse(argVal, CultureInfo.InvariantCulture));
-                        else if (typeName == "sbyte")
-                            args.Add(sbyte.Parse(argVal, CultureInfo.InvariantCulture));
-                        else if (typeName == "float" || typeName == "single")
-                            args.Add(float.Parse(argVal, CultureInfo.InvariantCulture));
-                        else if (typeName == "ushort" || typeName == "uint16")
-                            args.Add(ushort.Parse(argVal, CultureInfo.InvariantCulture));
-                        else if (typeName == "uint" || typeName == "uint32")
-                            args.Add(uint.Parse(argVal, CultureInfo.InvariantCulture));
-                        else if (typeName == "ulong" || typeName == "uint64")
-                            args.Add(ulong.Parse(argVal, CultureInfo.InvariantCulture));
-                        else
-                        {
-                            throw new ScadaException(Locale.IsRussian ?
-                                "Неизвестный тип данных аргумента \"{0}\"" :
-                                "Unknown argument data type \"{0}\"", typeName);
-                        }
+                        args.Add(KnownTypes.Parse(typeName, argVal));
                     }
                     catch (FormatException)
                     {
@@ -704,7 +676,7 @@ namespace Scada.Comm.Drivers.DrvOpcUa.Logic
         {
             opcDeviceConfig = new OpcDeviceConfig();
 
-            if (opcDeviceConfig.Load(OpcDeviceConfig.GetFileName(AppDirs.ConfigDir, DeviceNum), out string errMsg))
+            if (opcDeviceConfig.Load(Storage, OpcDeviceConfig.GetFileName(DeviceNum), out string errMsg))
             {
                 InitCmdMaps();
             }
