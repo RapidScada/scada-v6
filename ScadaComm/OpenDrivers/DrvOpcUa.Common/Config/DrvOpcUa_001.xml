@@ -21,7 +21,7 @@
       <Item active="true" nodeID="ns=5;s=DoubleAnalogItem" displayName="DoubleAnalogItem" tagCode="ns=5;s=DoubleAnalogItem" isString="false" isArray="false" />
       <Item active="true" nodeID="ns=5;s=DoubleAnalogItemArray" displayName="DoubleAnalogItemArray" tagCode="ns=5;s=DoubleAnalogItemArray" isString="false" isArray="true" arrayLen="5" />
       <Item active="true" nodeID="ns=5;s=DateTimeDataItem" displayName="DateTimeDataItem" tagCode="ns=5;s=DateTimeDataItem" isString="false" isArray="false" />
-      <Item active="true" nodeID="ns=5;s=StringDataItem" displayName="StringDataItem" tagCode="ns=5;s=StringDataItem" isString="true" isArray="false" arrayLen="1" />
+      <Item active="true" nodeID="ns=5;s=StringDataItem" displayName="StringDataItem" tagCode="ns=5;s=StringDataItem" isString="true" isArray="false" arrayLen="10" />
     </Subscription>
   </Subscriptions>
   <Commands>

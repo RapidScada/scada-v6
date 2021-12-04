@@ -524,9 +524,12 @@ namespace Scada.Comm.Drivers.DrvOpcUa.Logic
 
             try
             {
-                itemVal = itemDataType == typeof(string)
-                    ? cmdData
-                    : Convert.ChangeType(cmdVal, itemDataType);
+                if (itemDataType == typeof(string))
+                    itemVal = cmdData;
+                else if (itemDataType == typeof(DateTime))
+                    itemVal = DateTime.FromOADate(cmdVal);
+                else
+                    itemVal = Convert.ChangeType(cmdVal, itemDataType);
             }
             catch
             {
