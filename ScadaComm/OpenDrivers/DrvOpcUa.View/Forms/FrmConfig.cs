@@ -368,12 +368,13 @@ namespace Scada.Comm.Drivers.DrvOpcUa.View.Forms
                 if (parentServerNodeTag != null)
                     commandConfig.ParentNodeID = parentServerNodeTag.NodeIdStr;
             }
+            else if (GetDataTypeName(serverNodeTag.NodeId, out string dataTypeName))
+            {
+                commandConfig.DataTypeName = dataTypeName;
+            }
             else
             {
-                if (GetDataTypeName(serverNodeTag.NodeId, out string dataTypeName))
-                    commandConfig.DataTypeName = dataTypeName;
-                else
-                    return false;
+                return false;
             }
 
             tvDevice.Insert(commandsNode, CreateCommandNode(commandConfig), deviceConfig.Commands, commandConfig);
@@ -395,11 +396,8 @@ namespace Scada.Comm.Drivers.DrvOpcUa.View.Forms
                 Tag = new ItemConfigTag(0)
             };
 
-            if (GetDataTypeName(serverNodeTag.NodeId, out string dataTypeName) &&
-                dataTypeName == typeof(string).FullName)
-            {
-                itemConfig.IsString = true;
-            }
+            if (GetDataTypeName(serverNodeTag.NodeId, out string dataTypeName))
+                itemConfig.DataTypeName = dataTypeName;
 
             // find subscription
             TreeNode deviceNode = tvDevice.SelectedNode;

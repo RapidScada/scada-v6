@@ -55,26 +55,12 @@ namespace Scada.Comm.Drivers.DrvOpcUa.View.Controls
                 txtTagCode.Text = itemConfig.TagCode;
                 txtTagNum.Text = itemConfig?.Tag is ItemConfigTag tag ? tag.TagNumStr : "";
                 txtNodeID.Text = itemConfig.NodeID;
+                txtDataType.Text = itemConfig.DataTypeName;
                 chkIsString.Checked = itemConfig.IsString;
                 chkIsArray.Checked = itemConfig.IsArray;
-                numArrayLen.Enabled = itemConfig.IsString || itemConfig.IsArray;
-                numArrayLen.SetValue(itemConfig.ArrayLen);
-            }
-        }
-
-        /// <summary>
-        /// Enables or disables the array length control.
-        /// </summary>
-        private void SetArrayLengthEnabled()
-        {
-            if (chkIsString.Checked || chkIsArray.Checked)
-            {
-                numArrayLen.Enabled = true;
-            }
-            else
-            {
-                numArrayLen.SetValue(1);
-                numArrayLen.Enabled = false;
+                chkIsArray.Enabled = !itemConfig.IsString;
+                numDataLen.Enabled = itemConfig.IsString || itemConfig.IsArray;
+                numDataLen.SetValue(itemConfig.DataLen);
             }
         }
 
@@ -137,35 +123,22 @@ namespace Scada.Comm.Drivers.DrvOpcUa.View.Controls
             }
         }
 
-        private void chkIsString_CheckedChanged(object sender, EventArgs e)
-        {
-            if (itemConfig != null)
-            {
-                itemConfig.IsString = chkIsString.Checked;
-
-                chkIsArray.CheckedChanged -= chkIsArray_CheckedChanged;
-                itemConfig.IsArray = false;
-                chkIsArray.Checked = false;
-                chkIsArray.CheckedChanged += chkIsArray_CheckedChanged;
-
-                OnObjectChanged(TreeUpdateTypes.None);
-                SetArrayLengthEnabled();
-            }
-        }
-
         private void chkIsArray_CheckedChanged(object sender, EventArgs e)
         {
             if (itemConfig != null)
             {
                 itemConfig.IsArray = chkIsArray.Checked;
-
-                chkIsString.CheckedChanged -= chkIsString_CheckedChanged;
-                itemConfig.IsString = false;
-                chkIsString.Checked = false;
-                chkIsString.CheckedChanged += chkIsString_CheckedChanged;
-
                 OnObjectChanged(TreeUpdateTypes.None);
-                SetArrayLengthEnabled();
+
+                if (chkIsString.Checked || chkIsArray.Checked)
+                {
+                    numDataLen.Enabled = true;
+                }
+                else
+                {
+                    numDataLen.SetValue(1);
+                    numDataLen.Enabled = false;
+                }
             }
         }
 
@@ -173,7 +146,7 @@ namespace Scada.Comm.Drivers.DrvOpcUa.View.Controls
         {
             if (itemConfig != null)
             {
-                itemConfig.ArrayLen = Convert.ToInt32(numArrayLen.Value);
+                itemConfig.DataLen = Convert.ToInt32(numDataLen.Value);
                 OnObjectChanged(TreeUpdateTypes.UpdateTagNums);
             }
         }

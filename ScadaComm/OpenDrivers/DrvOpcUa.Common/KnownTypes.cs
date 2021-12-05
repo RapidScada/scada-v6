@@ -16,18 +16,19 @@ namespace Scada.Comm.Drivers.DrvOpcUa
     {
         private static readonly Dictionary<string, Type> TypesByName = new Dictionary<string, Type>
         {
-            { "boolean", typeof(Boolean) },
-            { "byte", typeof(Byte) },
-            { "double", typeof(Double) },
-            { "int16", typeof(Int16) },
-            { "int32", typeof(Int32) },
-            { "int64", typeof(Int64) },
-            { "sbyte", typeof(SByte) },
-            { "string", typeof(String) },
-            { "float", typeof(Single) },
-            { "uint16", typeof(UInt16) },
-            { "uint32", typeof(UInt32) },
-            { "uint64", typeof(UInt64) }
+            { "boolean", typeof(bool) },
+            { "byte", typeof(byte) },
+            { "datetime", typeof(DateTime) },
+            { "double", typeof(double) },
+            { "int16", typeof(short) },
+            { "int32", typeof(int) },
+            { "int64", typeof(long) },
+            { "sbyte", typeof(sbyte) },
+            { "string", typeof(string) },
+            { "float", typeof(float) },
+            { "uint16", typeof(ushort) },
+            { "uint32", typeof(uint) },
+            { "uint64", typeof(ulong) }
         };
 
 
@@ -61,6 +62,8 @@ namespace Scada.Comm.Drivers.DrvOpcUa
                 return bool.Parse(s);
             else if (typeName == "byte")
                 return byte.Parse(s, CultureInfo.InvariantCulture);
+            else if (typeName == "datetime")
+                return DateTime.Parse(s, CultureInfo.InvariantCulture);
             else if (typeName == "double")
                 return double.Parse(s, CultureInfo.InvariantCulture);
             else if (typeName == "int16" || typeName == "short")

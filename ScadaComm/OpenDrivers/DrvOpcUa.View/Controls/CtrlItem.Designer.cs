@@ -29,9 +29,12 @@
         private void InitializeComponent()
         {
             this.gbItem = new System.Windows.Forms.GroupBox();
-            this.numArrayLen = new System.Windows.Forms.NumericUpDown();
-            this.lblArrayLen = new System.Windows.Forms.Label();
+            this.numDataLen = new System.Windows.Forms.NumericUpDown();
+            this.lblDataLen = new System.Windows.Forms.Label();
             this.chkIsArray = new System.Windows.Forms.CheckBox();
+            this.chkIsString = new System.Windows.Forms.CheckBox();
+            this.txtDataType = new System.Windows.Forms.TextBox();
+            this.lblDataType = new System.Windows.Forms.Label();
             this.txtNodeID = new System.Windows.Forms.TextBox();
             this.lblNodeID = new System.Windows.Forms.Label();
             this.txtTagNum = new System.Windows.Forms.TextBox();
@@ -41,17 +44,18 @@
             this.txtDisplayName = new System.Windows.Forms.TextBox();
             this.lblDisplayName = new System.Windows.Forms.Label();
             this.chkItemActive = new System.Windows.Forms.CheckBox();
-            this.chkIsString = new System.Windows.Forms.CheckBox();
             this.gbItem.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.numArrayLen)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.numDataLen)).BeginInit();
             this.SuspendLayout();
             // 
             // gbItem
             // 
-            this.gbItem.Controls.Add(this.numArrayLen);
-            this.gbItem.Controls.Add(this.lblArrayLen);
+            this.gbItem.Controls.Add(this.numDataLen);
+            this.gbItem.Controls.Add(this.lblDataLen);
             this.gbItem.Controls.Add(this.chkIsArray);
             this.gbItem.Controls.Add(this.chkIsString);
+            this.gbItem.Controls.Add(this.txtDataType);
+            this.gbItem.Controls.Add(this.lblDataType);
             this.gbItem.Controls.Add(this.txtNodeID);
             this.gbItem.Controls.Add(this.lblNodeID);
             this.gbItem.Controls.Add(this.txtTagNum);
@@ -69,48 +73,76 @@
             this.gbItem.TabStop = false;
             this.gbItem.Text = "Item Parameters";
             // 
-            // numArrayLen
+            // numDataLen
             // 
-            this.numArrayLen.Location = new System.Drawing.Point(13, 288);
-            this.numArrayLen.Maximum = new decimal(new int[] {
+            this.numDataLen.Location = new System.Drawing.Point(13, 332);
+            this.numDataLen.Maximum = new decimal(new int[] {
             1000,
             0,
             0,
             0});
-            this.numArrayLen.Minimum = new decimal(new int[] {
+            this.numDataLen.Minimum = new decimal(new int[] {
             1,
             0,
             0,
             0});
-            this.numArrayLen.Name = "numArrayLen";
-            this.numArrayLen.Size = new System.Drawing.Size(120, 23);
-            this.numArrayLen.TabIndex = 12;
-            this.numArrayLen.Value = new decimal(new int[] {
+            this.numDataLen.Name = "numDataLen";
+            this.numDataLen.Size = new System.Drawing.Size(120, 23);
+            this.numDataLen.TabIndex = 12;
+            this.numDataLen.Value = new decimal(new int[] {
             1,
             0,
             0,
             0});
-            this.numArrayLen.ValueChanged += new System.EventHandler(this.numArrayLen_ValueChanged);
+            this.numDataLen.ValueChanged += new System.EventHandler(this.numArrayLen_ValueChanged);
             // 
-            // lblArrayLen
+            // lblDataLen
             // 
-            this.lblArrayLen.AutoSize = true;
-            this.lblArrayLen.Location = new System.Drawing.Point(10, 270);
-            this.lblArrayLen.Name = "lblArrayLen";
-            this.lblArrayLen.Size = new System.Drawing.Size(118, 15);
-            this.lblArrayLen.TabIndex = 11;
-            this.lblArrayLen.Text = "String or array length";
+            this.lblDataLen.AutoSize = true;
+            this.lblDataLen.Location = new System.Drawing.Point(10, 314);
+            this.lblDataLen.Name = "lblDataLen";
+            this.lblDataLen.Size = new System.Drawing.Size(118, 15);
+            this.lblDataLen.TabIndex = 11;
+            this.lblDataLen.Text = "String or array length";
             // 
             // chkIsArray
             // 
             this.chkIsArray.AutoSize = true;
-            this.chkIsArray.Location = new System.Drawing.Point(13, 248);
+            this.chkIsArray.Location = new System.Drawing.Point(13, 292);
             this.chkIsArray.Name = "chkIsArray";
             this.chkIsArray.Size = new System.Drawing.Size(63, 19);
             this.chkIsArray.TabIndex = 10;
             this.chkIsArray.Text = "Is array";
             this.chkIsArray.UseVisualStyleBackColor = true;
             this.chkIsArray.CheckedChanged += new System.EventHandler(this.chkIsArray_CheckedChanged);
+            // 
+            // chkIsString
+            // 
+            this.chkIsString.AutoSize = true;
+            this.chkIsString.Enabled = false;
+            this.chkIsString.Location = new System.Drawing.Point(13, 267);
+            this.chkIsString.Name = "chkIsString";
+            this.chkIsString.Size = new System.Drawing.Size(67, 19);
+            this.chkIsString.TabIndex = 9;
+            this.chkIsString.Text = "Is string";
+            this.chkIsString.UseVisualStyleBackColor = true;
+            // 
+            // txtDataType
+            // 
+            this.txtDataType.Location = new System.Drawing.Point(13, 238);
+            this.txtDataType.Name = "txtDataType";
+            this.txtDataType.ReadOnly = true;
+            this.txtDataType.Size = new System.Drawing.Size(224, 23);
+            this.txtDataType.TabIndex = 14;
+            // 
+            // lblDataType
+            // 
+            this.lblDataType.AutoSize = true;
+            this.lblDataType.Location = new System.Drawing.Point(10, 220);
+            this.lblDataType.Name = "lblDataType";
+            this.lblDataType.Size = new System.Drawing.Size(57, 15);
+            this.lblDataType.TabIndex = 13;
+            this.lblDataType.Text = "Data type";
             // 
             // txtNodeID
             // 
@@ -191,17 +223,6 @@
             this.chkItemActive.UseVisualStyleBackColor = true;
             this.chkItemActive.CheckedChanged += new System.EventHandler(this.chkItemActive_CheckedChanged);
             // 
-            // chkIsString
-            // 
-            this.chkIsString.AutoSize = true;
-            this.chkIsString.Location = new System.Drawing.Point(13, 223);
-            this.chkIsString.Name = "chkIsString";
-            this.chkIsString.Size = new System.Drawing.Size(67, 19);
-            this.chkIsString.TabIndex = 9;
-            this.chkIsString.Text = "Is string";
-            this.chkIsString.UseVisualStyleBackColor = true;
-            this.chkIsString.CheckedChanged += new System.EventHandler(this.chkIsString_CheckedChanged);
-            // 
             // CtrlItem
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
@@ -211,7 +232,7 @@
             this.Size = new System.Drawing.Size(250, 500);
             this.gbItem.ResumeLayout(false);
             this.gbItem.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.numArrayLen)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.numDataLen)).EndInit();
             this.ResumeLayout(false);
 
         }
@@ -225,12 +246,14 @@
         private System.Windows.Forms.TextBox txtNodeID;
         private System.Windows.Forms.Label lblNodeID;
         private System.Windows.Forms.CheckBox chkIsArray;
-        private System.Windows.Forms.Label lblArrayLen;
-        private System.Windows.Forms.NumericUpDown numArrayLen;
+        private System.Windows.Forms.Label lblDataLen;
+        private System.Windows.Forms.NumericUpDown numDataLen;
         private System.Windows.Forms.Label lblTagNum;
         private System.Windows.Forms.TextBox txtTagNum;
         private TextBox txtTagCode;
         private Label lblTagCode;
         private CheckBox chkIsString;
+        private TextBox txtDataType;
+        private Label lblDataType;
     }
 }

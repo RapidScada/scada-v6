@@ -21,9 +21,9 @@ namespace Scada.Comm.Drivers.DrvOpcUa.Config
             NodeID = "";
             DisplayName = "";
             TagCode = "";
-            IsString = false;
+            DataTypeName = "";
             IsArray = false;
-            ArrayLen = 0;
+            DataLen = 0;
             Tag = null;
         }
 
@@ -49,9 +49,20 @@ namespace Scada.Comm.Drivers.DrvOpcUa.Config
         public string TagCode { get; set; }
 
         /// <summary>
+        /// Gets or sets the data type name of an OPC variable.
+        /// </summary>
+        public string DataTypeName { get; set; }
+
+        /// <summary>
         /// Gets or sets a value indicating that the item data type is a string.
         /// </summary>
-        public bool IsString { get; set; }
+        public bool IsString
+        {
+            get
+            {
+                return string.Equals(DataTypeName, typeof(string).FullName, StringComparison.OrdinalIgnoreCase);
+            }
+        }
 
         /// <summary>
         /// Gets or sets a value indicating that the item data type is an array.
@@ -59,18 +70,18 @@ namespace Scada.Comm.Drivers.DrvOpcUa.Config
         public bool IsArray { get; set; }
 
         /// <summary>
-        /// Get or sets the array length if the item represents an array.
+        /// Get or sets the data length if the item represents a string or an array.
         /// </summary>
-        public int ArrayLen { get; set; }
+        public int DataLen { get; set; }
 
         /// <summary>
-        /// Gets the normalized array length.
+        /// Gets the normalized data length.
         /// </summary>
-        public int ArrayLength
+        public int DataLength
         {
             get
             {
-                return Math.Max(ArrayLen, 1);
+                return Math.Max(DataLen, 1);
             }
         }
 
@@ -92,9 +103,9 @@ namespace Scada.Comm.Drivers.DrvOpcUa.Config
             NodeID = xmlElem.GetAttrAsString("nodeID");
             DisplayName = xmlElem.GetAttrAsString("displayName");
             TagCode = xmlElem.GetAttrAsString("tagCode");
-            IsString = xmlElem.GetAttrAsBool("isString");
+            DataTypeName = xmlElem.GetAttrAsString("dataType");
             IsArray = xmlElem.GetAttrAsBool("isArray");
-            ArrayLen = xmlElem.GetAttrAsInt("arrayLen");
+            DataLen = xmlElem.GetAttrAsInt("dataLen");
         }
 
         /// <summary>
@@ -109,11 +120,11 @@ namespace Scada.Comm.Drivers.DrvOpcUa.Config
             xmlElem.SetAttribute("nodeID", NodeID);
             xmlElem.SetAttribute("displayName", DisplayName);
             xmlElem.SetAttribute("tagCode", TagCode);
-            xmlElem.SetAttribute("isString", IsString);
+            xmlElem.SetAttribute("dataType", DataTypeName);
             xmlElem.SetAttribute("isArray", IsArray);
 
             if (IsString || IsArray)
-                xmlElem.SetAttribute("arrayLen", ArrayLen);
+                xmlElem.SetAttribute("dataLen", DataLength);
         }
     }
 }

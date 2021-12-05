@@ -50,7 +50,7 @@ namespace Scada.Comm.Drivers.DrvOpcUa.Logic
         /// </summary>
         private class DeviceTagMeta
         {
-            public Type ItemDataType { get; set; }
+            public Type ActualDataType { get; set; }
         }
 
 
@@ -126,7 +126,8 @@ namespace Scada.Comm.Drivers.DrvOpcUa.Logic
                         {
                             NodeID = itemConfig.NodeID,
                             DisplayName = itemConfig.DisplayName,
-                            CmdCode = itemConfig.TagCode
+                            CmdCode = itemConfig.TagCode,
+                            DataTypeName = itemConfig.DataTypeName
                         });
                     }
                 }
@@ -348,7 +349,7 @@ namespace Scada.Comm.Drivers.DrvOpcUa.Logic
 
                         if (itemTag.ItemConfig.IsArray && change.Value.Value is Array arrVal)
                         {
-                            int arrLen = Math.Min(itemTag.ItemConfig.ArrayLength, arrVal.Length);
+                            int arrLen = Math.Min(itemTag.ItemConfig.DataLength, arrVal.Length);
                             double[] arr = new double[arrLen];
                             TagFormat tagFormat = TagFormat.FloatNumber;
 
@@ -435,7 +436,7 @@ namespace Scada.Comm.Drivers.DrvOpcUa.Logic
                 DeviceTag deviceTag = DeviceTags[tagIndex];
 
                 if (deviceTag.Aux is DeviceTagMeta tagMeta && val != null)
-                    tagMeta.ItemDataType = val.GetType();
+                    tagMeta.ActualDataType = val.GetType();
 
                 if (val is string strVal)
                 {
@@ -490,7 +491,7 @@ namespace Scada.Comm.Drivers.DrvOpcUa.Logic
         /// </summary>
         private bool WriteItemValue(CommandConfig commandConfig, double cmdVal, string cmdData)
         {
-            // prepare value to write
+            // get data type
             string dataTypeName = commandConfig.DataTypeName;
             Type itemDataType = null;
             object itemVal;
@@ -500,7 +501,7 @@ namespace Scada.Comm.Drivers.DrvOpcUa.Logic
                 if (DeviceTags.TryGetTag(commandConfig.CmdCode, out DeviceTag deviceTag) &&
                     deviceTag.Aux is DeviceTagMeta tagMeta)
                 {
-                    itemDataType = tagMeta.ItemDataType;
+                    itemDataType = tagMeta.ActualDataType;
                 }
             }
             else
@@ -522,6 +523,7 @@ namespace Scada.Comm.Drivers.DrvOpcUa.Logic
                     "Data type {0} not supported", dataTypeName);
             }
 
+            // define command value
             try
             {
                 if (itemDataType == typeof(string))
@@ -686,13 +688,13 @@ namespace Scada.Comm.Drivers.DrvOpcUa.Logic
 
                     if (itemConfig.IsString)
                     {
-                        deviceTag.DataLen = DriverUtils.GetTagDataLength(itemConfig.ArrayLength);
+                        deviceTag.DataLen = DriverUtils.GetTagDataLength(itemConfig.DataLength);
                         deviceTag.DataType = TagDataType.Unicode;
                         deviceTag.Format = TagFormat.String;
                     }
                     else if (itemConfig.IsArray)
                     {
-                        deviceTag.DataLen = itemConfig.ArrayLength;
+                        deviceTag.DataLen = itemConfig.DataLength;
                     }
                 }
 
