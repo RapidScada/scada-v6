@@ -1144,7 +1144,7 @@ namespace Scada.Data.Adapters
                 try
                 {
                     inStream = new FileStream(srcPageFileName, FileMode.Open, FileAccess.Read, FileShare.ReadWrite);
-                    outStream = new FileStream(pageFileName, FileMode.Create, FileAccess.Write, FileShare.ReadWrite);
+                    outStream = new FileStream(pageFileName, FileMode.Open, FileAccess.Write, FileShare.ReadWrite);
                     reader = new BinaryReader(inStream, Encoding.UTF8, false);
                     writer = new BinaryWriter(outStream, Encoding.UTF8, false);
 
