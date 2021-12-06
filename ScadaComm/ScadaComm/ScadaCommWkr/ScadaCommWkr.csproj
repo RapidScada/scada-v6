@@ -12,6 +12,18 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Content Include="..\ScadaCommCommon\Config\ScadaCommConfig.xml" Link="Config\ScadaCommConfig.xml">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="..\ScadaCommCommon\Lang\ScadaComm.en-GB.xml" Link="Lang\ScadaComm.en-GB.xml">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="..\ScadaCommCommon\Lang\ScadaComm.ru-RU.xml" Link="Lang\ScadaComm.ru-RU.xml">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+  </ItemGroup>
+
+  <ItemGroup>
     <PackageReference Include="Microsoft.Extensions.Hosting" Version="6.0.0" />
     <PackageReference Include="Microsoft.Extensions.Hosting.Systemd" Version="6.0.0" />
     <PackageReference Include="Microsoft.Extensions.Hosting.WindowsServices" Version="6.0.0" />
@@ -30,5 +42,10 @@
     <Reference Include="ScadaCommon.Log">
       <HintPath>..\..\..\ScadaCommon\ScadaCommon.Log\bin\Release\netstandard2.0\ScadaCommon.Log.dll</HintPath>
     </Reference>
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="Config\" />
+    <Folder Include="Lang\" />
   </ItemGroup>
 </Project>
