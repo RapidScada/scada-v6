@@ -121,9 +121,11 @@ namespace Scada.Server.Modules.ModArcBasic.Logic
                         else
                         {
                             // update the current page
-                            appLog.WriteAction(Locale.IsRussian ?
+                            string msg = string.Format(Locale.IsRussian ?
                                 "Обновление номеров каналов страницы {0}" :
                                 "Update channel numbers of the page {0}", pageFileName);
+                            appLog.WriteAction(ServerPhrases.ArchiveMessage, Code, msg);
+                            arcLog?.WriteAction(msg);
                             adapter.UpdatePageChannels(page, srcCnlNums);
                         }
                     }
@@ -131,9 +133,11 @@ namespace Scada.Server.Modules.ModArcBasic.Logic
                 else
                 {
                     // updating the entire table structure would take too long, so just backup the table
-                    appLog.WriteAction(Locale.IsRussian ?
+                    string msg = string.Format(Locale.IsRussian ?
                         "Резервное копирование таблицы {0}" :
                         "Backup the table {0}", tableDir);
+                    appLog.WriteAction(ServerPhrases.ArchiveMessage, Code, msg);
+                    arcLog?.WriteAction(msg);
                     adapter.BackupTable(currentTable);
                 }
             }
