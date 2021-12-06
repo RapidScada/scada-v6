@@ -130,7 +130,7 @@ namespace Scada.Server.Modules.ModArcPostgreSql.Logic
                 stopwatch.Restart();
                 conn.Open();
                 DbUtils.CreatePartition(conn, queryBuilder.HistoricalTable, 
-                    today, archiveOptions.PartitionSize,out string partitionName);
+                    today, archiveOptions.PartitionSize, out string partitionName);
                 stopwatch.Stop();
 
                 hasError = false;

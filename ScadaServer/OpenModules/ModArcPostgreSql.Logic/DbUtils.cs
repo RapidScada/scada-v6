@@ -140,7 +140,7 @@ namespace Scada.Server.Modules.ModArcPostgreSql.Logic
 
             new NpgsqlCommand(
                 $"CREATE TABLE IF NOT EXISTS {partitionName} PARTITION OF {tableName} " +
-                $"FOR VALUES FROM('{startDate:yyyy-MM-dd}') TO ('{endDate:yyyy-MM-dd}')",
+                $"FOR VALUES FROM('{startDate:yyyy-MM-dd} 00:00:00Z') TO ('{endDate:yyyy-MM-dd} 00:00:00Z')",
                 conn).ExecuteNonQuery();
         }
 
