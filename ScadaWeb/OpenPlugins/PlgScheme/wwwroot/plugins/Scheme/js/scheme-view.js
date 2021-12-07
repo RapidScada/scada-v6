@@ -1,4 +1,7 @@
-﻿// Namespaces
+﻿// Displays a scheme.
+// Depends on jquery, bootstrap, scada-common.js, main-api.js, view-hub.js
+
+// Namespaces
 var scada = scada || {};
 scada.scheme = scada.scheme || {};
 

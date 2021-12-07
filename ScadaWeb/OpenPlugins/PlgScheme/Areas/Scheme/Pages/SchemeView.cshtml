@@ -10,6 +10,7 @@
 
 @section Scripts {
     <script src="~/js/view-hub.js" asp-append-version="true"></script>
+    <script src="~/js/components/modal.js" asp-append-version="true"></script>
     <script src="~/plugins/Main/js/main-api.js" asp-append-version="true"></script>
     <script src="~/plugins/Scheme/js/scheme-common.js" asp-append-version="true"></script>
     <script src="~/plugins/Scheme/js/scheme-model.js" asp-append-version="true"></script>
@@ -17,31 +18,22 @@
     <script src="~/plugins/Scheme/js/scheme-view.js" asp-append-version="true"></script>
     <script>
         viewID = @Model.ViewID;
-        controlRight = true;
+        controlRight = @Model.ControlRight.ToLowerString();
     </script>
 }
 
-@if (Model.ViewError)
-{
-    <div id="divError" class="box-center fs-2 text-danger">
-        @Model.ErrorMessage
+<div id="divSchWrapper" class="scheme-wrapper">
+</div>
+<div id="divToolbar"><span 
+    id="lblFitScreenBtn" class="tool-btn" title="Fit to Screen"><i class="fas fa-arrows-alt"></i></span><span
+    id="lblFitWidthBtn" class="tool-btn" title="Fit to Width"><i class="fas fa-arrows-alt-h"></i></span><span
+    id="lblZoomOutBtn" class="tool-btn" title="Zoom Out"><i class="fas fa-search-minus"></i></span><span
+    id="lblZoomInBtn" class="tool-btn" title="Zoom In"><i class="fas fa-search-plus"></i></span><span 
+    id="spanCurScale">100%</span><div 
+    id="divDebugTools"><span 
+        id="spanLoadSchemeBtn" class="tool-btn">Load Scheme</span><span 
+        id="spanCreateDomBtn" class="tool-btn">Create DOM</span><span 
+        id="spanStartUpdBtn" class="tool-btn">Start Updating</span><span 
+        id="spanAddNotifBtn" class="tool-btn">Add Notification</span>
     </div>
-}
-else
-{
-    <div id="divSchWrapper" class="scheme-wrapper">
-    </div>
-    <div id="divToolbar"><span 
-        id="lblFitScreenBtn" class="tool-btn" title="Fit to Screen"><i class="fas fa-arrows-alt"></i></span><span
-        id="lblFitWidthBtn" class="tool-btn" title="Fit to Width"><i class="fas fa-arrows-alt-h"></i></span><span
-        id="lblZoomOutBtn" class="tool-btn" title="Zoom Out"><i class="fas fa-search-minus"></i></span><span
-        id="lblZoomInBtn" class="tool-btn" title="Zoom In"><i class="fas fa-search-plus"></i></span><span 
-        id="spanCurScale">100%</span><div 
-        id="divDebugTools"><span 
-            id="spanLoadSchemeBtn" class="tool-btn">Load Scheme</span><span 
-            id="spanCreateDomBtn" class="tool-btn">Create DOM</span><span 
-            id="spanStartUpdBtn" class="tool-btn">Start Updating</span><span 
-            id="spanAddNotifBtn" class="tool-btn">Add Notification</span>
-        </div>
-    </div>
-}
+</div>

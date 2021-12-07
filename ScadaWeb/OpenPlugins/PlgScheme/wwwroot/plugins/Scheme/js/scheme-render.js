@@ -145,18 +145,20 @@ scada.scheme.SchemeRenderer.prototype = Object.create(scada.scheme.Renderer.prot
 scada.scheme.SchemeRenderer.constructor = scada.scheme.SchemeRenderer;
 
 scada.scheme.SchemeRenderer.prototype._setTitle = function (title, renderContext) {
-    /*if (title && renderContext.schemeEnv.viewHub) {
-        document.title = title + " - " + renderContext.schemeEnv.viewHub.getEnv().productName;
+    let viewHub = renderContext.schemeEnv.viewHub;
+
+    if (title && viewHub) {
+        // set the document title
+        document.title = title + " - " + viewHub.appEnv.productName;
 
         // set title of a popup in case the scheme is in the popup
-        var popup = scada.popupLocator.getPopup();
-        if (popup) {
-            popup.setModalTitle(window, document.title);
+        if (viewHub.modalManager.isModal(window)) {
+            viewHub.modalManager.setTitle(window, document.title);
         }
 
         // send notification about title change
-        renderContext.schemeEnv.viewHub.notify(scada.EventTypes.VIEW_TITLE_CHANGED, window, document.title);
-    }*/
+        viewHub.notifyMainWindow(ScadaEventType.UPDATE_TITLE);
+    }
 };
 
 scada.scheme.SchemeRenderer.prototype._calcScale = function (component, scaleType, scaleValue) {
