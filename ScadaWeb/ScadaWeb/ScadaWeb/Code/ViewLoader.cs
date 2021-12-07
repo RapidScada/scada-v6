@@ -84,7 +84,7 @@ namespace Scada.Web.Code
             }
 
             // check access rights
-            if (!userContext.Rights.GetRightByObj(viewEntity.ObjNum ?? 0).View)
+            if (!userContext.Rights.GetRightByView(viewEntity).View)
             {
                 errMsg = WebPhrases.InsufficientViewRights;
                 return false;

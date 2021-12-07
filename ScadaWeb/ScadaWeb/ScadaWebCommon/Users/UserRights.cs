@@ -23,6 +23,7 @@
  * Modified : 2021
  */
 
+using Scada.Data.Entities;
 using Scada.Data.Models;
 using Scada.Lang;
 using System;
@@ -172,6 +173,14 @@ namespace Scada.Web.Users
                     ? right
                     : Right.Empty;
             }
+        }
+
+        /// <summary>
+        /// Gets the access rights on the specified view.
+        /// </summary>
+        public Right GetRightByView(View viewEntity)
+        {
+            return GetRightByObj(viewEntity?.ObjNum ?? 0);
         }
 
         /// <summary>

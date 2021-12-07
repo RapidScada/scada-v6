@@ -1,9 +1,13 @@
 ﻿// Provides data exchange between view frame and data window frame.
 // Depends on scada-common.js
 class ViewHub {
-    constructor(appEnv) {
+    constructor(mainWindow, appEnv, modalManager) {
+        // The reference to the main window object.
+        this.mainWindow = mainWindow;
         // The application environment.
         this.appEnv = appEnv;
+        // Manages modal dialogs.
+        this.modalManager = modalManager;
         // The current view ID.
         this.viewID = 0;
         // Provides access to plugin features.
@@ -28,6 +32,11 @@ class ViewHub {
     // Gets the view page URL.
     getViewUrl(viewID) {
         return appEnv.rootPath + "View/" + viewID;
+    }
+
+    // Pulls the trigger of the main window.
+    notifyMainWindow(eventType, opt_extraParams) {
+        this.mainWindow.$(this.mainWindow).trigger(eventType, opt_extraParams);
     }
 
     // Finds an existing or create a new view hub instance.

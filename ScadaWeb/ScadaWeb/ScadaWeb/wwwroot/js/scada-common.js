@@ -135,8 +135,13 @@ class ScadaUtils {
 // Specifies event types.
 // Do not use dots in event type names because dots are used by event listeners to separate event name and namespace.
 class ScadaEventType {
-    // Notifies controls that the layout should be updated.
+    // Notifies a page that the layout should be updated.
+    // No parameters.
     static UPDATE_LAYOUT = "rs:updateLayout";
+
+    // Notifies a page that the title should be updated.
+    // No parameters.
+    static UPDATE_TITLE = "rs:updateTitle";
 
     // Notifies that a modal dialog button has been clicked.
     // Event parameter: button value.

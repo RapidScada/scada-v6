@@ -1,6 +1,6 @@
 ﻿// Depends on jquery, scada-common.js, view-hub.js, main-layout.js
 
-var viewHub = new ViewHub(appEnv);
+var viewHub = new ViewHub(window, appEnv, modalManager);
 
 var viewPage = {
     _DATA_WINDOW_VISIBLE_KEY: "View.DataWindowVisible",
@@ -30,6 +30,12 @@ var viewPage = {
         $(window)
             .on(ScadaEventType.UPDATE_LAYOUT, function () {
                 thisObj.updateLayout();
+            })
+            .on(ScadaEventType.UPDATE_TITLE, function () {
+                let frameWnd = $("#frameView")[0].contentWindow;
+                if (ScadaUtils.checkAccessToFrame(frameWnd)) {
+                    document.title = frameWnd.document.title;
+                }
             })
             .on("popstate", function (event) {
                 // load view from history
@@ -166,7 +172,7 @@ var viewPage = {
         let frameView = ScadaUtils.replaceFrame($("#frameView"), viewFrameUrl);
 
         frameView.on("load", function () {
-            var frameWnd = frameView[0].contentWindow;
+            let frameWnd = frameView[0].contentWindow;
 
             if (ScadaUtils.checkAccessToFrame(frameWnd)) {
                 // update page title

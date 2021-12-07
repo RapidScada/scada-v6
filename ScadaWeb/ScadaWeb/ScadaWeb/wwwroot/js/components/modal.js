@@ -57,7 +57,7 @@ class ModalManager {
     static _findButton(modalWnd, buttonValue) {
         return $(modalWnd.frameElement).closest(".modal")
             .find(".modal-footer button[data-rs-value='" + buttonValue + "']");
-    };
+    }
 
     // Gets a bootstrap modal instance associated with the jQuery object.
     static _getModalObject(modalElem) {
@@ -67,7 +67,7 @@ class ModalManager {
     // Truncates the title if it is too long.
     static _truncateTitle(s) {
         return s.length <= ModalManager.MAX_TITLE_LEN ? s : s.substr(0, ModalManager.MAX_TITLE_LEN) + "…";
-    };
+    }
 
     // Finds an existing manager instance.
     static _findInstance() {
@@ -82,6 +82,11 @@ class ModalManager {
         }
 
         return null;
+    }
+
+    // Determines if the specified window is a modal dialog.
+    isModal(wnd) {
+        return $(wnd.frameElement).closest(".modal").length > 0;
     }
 
     // Opens the modal dialog containing the specified page.
