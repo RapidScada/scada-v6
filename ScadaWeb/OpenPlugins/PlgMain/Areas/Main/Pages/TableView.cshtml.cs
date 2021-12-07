@@ -266,7 +266,8 @@ namespace Scada.Web.Plugins.PlgMain.Areas.Main.Pages
 
             // rows
             BaseTable<Cnl> cnlTable = webContext.BaseDataSet.CnlTable;
-            bool enableCommands = webContext.AppConfig.GeneralOptions.EnableCommands;
+            bool enableCommands = webContext.AppConfig.GeneralOptions.EnableCommands && 
+                userContext.Rights.GetRightByView(tableView.ViewEntity).Control;
             sbHtml.AppendLine("<tbody>");
 
             foreach (TableItem tableItem in tableView.VisibleItems)
