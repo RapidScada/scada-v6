@@ -284,7 +284,7 @@ scada.scheme.ComponentRenderer.prototype._getDynamicColor = function (color, cnl
         if (color === this.STATUS_COLOR) {
             var curCnlDataExt = renderContext.curCnlDataMap ?
                 renderContext.curCnlDataMap.get(cnlNum) : null;
-            return curCnlDataExt ? curCnlDataExt.Color : "";
+            return curCnlDataExt ? curCnlDataExt.Color : ""; // TODO: fix color
         } else {
             return color;
         }
@@ -856,8 +856,6 @@ scada.scheme.RenderContext.prototype.getCnlDataExt = function (cnlNum) {
             d: { cnlNum: 0, val: 0.0, stat: 0 },
             df: { dispVal: "", colors: [] }
         };
-        var renderer = new scada.scheme.Renderer();
-        curCnlDataExt.Color = renderer.STATUS_DISPLAY_COLOR;
     }
 
     /*var curCnlDataExt = this.curCnlDataMap.get(cnlNum);

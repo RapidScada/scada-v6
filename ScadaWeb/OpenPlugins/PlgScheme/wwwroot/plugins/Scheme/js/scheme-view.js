@@ -5,8 +5,12 @@
 var scada = scada || {};
 scada.scheme = scada.scheme || {};
 
+// How long to show the error badge
+const ERROR_DISPLAY_DURATION = 10000; // ms
 // Used for testing
-var DEBUG_MODE = false;
+const DEBUG_MODE = false;
+// Identifies the error badge display timeout
+var errorTimeoutID = 0;
 // Scheme object
 var scheme = null;
 // Possible scale values
@@ -38,6 +42,7 @@ scada.scheme.env = {
         scheme.sendCommand(ctrlCnlNum, cmdVal, viewID, componentID, function (success) {
             if (!success) {
                 console.error("Unable to send command");
+                showErrorBadge();
                 //notifier.addNotification(phrases.UnableSendCommand, scada.NotifTypes.ERROR, notifier.DEF_NOTIF_LIFETIME);
             }
         });
@@ -51,7 +56,11 @@ function loadScheme(viewID) {
             if (!DEBUG_MODE) {
                 // show errors
                 if (Array.isArray(scheme.loadErrors) && scheme.loadErrors.length > 0) {
-                    console.error(scheme.loadErrors.join("<br/>"));
+                    for (let err of scheme.loadErrors) {
+                        console.error(err);
+                    }
+
+                    showErrorBadge();
                     /*notifier.addNotification(scheme.loadErrors.join("<br/>"),
                         scada.NotifTypes.ERROR, notifier.INFINITE_NOTIF_LIFETIME);*/
                 }
@@ -64,6 +73,7 @@ function loadScheme(viewID) {
             }
         } else {
             console.error("Error loading scheme");
+            showErrorBadge();
             /*notifier.addNotification(phrases.LoadSchemeError +
                 " <input type='button' value='" + phrases.ReloadButton + "' onclick='reloadScheme()' />",
                 scada.NotifTypes.ERROR, notifier.INFINITE_NOTIF_LIFETIME);*/
@@ -81,6 +91,7 @@ function startUpdatingScheme() {
     scheme.updateData(mainApi, function (success) {
         if (!success) {
             console.error("Error updating scheme");
+            showErrorBadge();
             //notifier.addNotification(phrases.UpdateError, scada.NotifTypes.ERROR, notifier.DEF_NOTIF_LIFETIME);
         }
 
@@ -191,6 +202,17 @@ function updateLayout() {
         .outerWidth(windowWidth)
         .outerHeight($(window).height() - notifHeight);
     divToolbar.css("top", notifHeight);
+}
+
+// Show error badge for a period of time
+function showErrorBadge() {
+    clearTimeout(errorTimeoutID);
+    $("#spanErrorBadge").removeClass("hidden");
+
+    errorTimeoutID = setTimeout(function () {
+        $("#spanErrorBadge").addClass("hidden");
+        errorTimeoutID = 0;
+    }, ERROR_DISPLAY_DURATION);
 }
 
 // Initialize debug tools

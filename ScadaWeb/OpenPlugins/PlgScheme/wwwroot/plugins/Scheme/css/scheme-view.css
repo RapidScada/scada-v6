@@ -44,8 +44,6 @@ body {
   margin: 0;
   padding: 0;
   background-color: #f1f1f1;
-  font-family: Verdana, Geneva, Tahoma, sans-serif;
-  font-size: 12px;
   overflow: hidden;
 }
 
@@ -53,15 +51,16 @@ body {
 #divToolbar {
   position: fixed;
   height: 30px;
+  line-height: 30px;
+  font-size: 14px;
   left: 0;
   top: 0;
   color: #9ca1a6;
   display: inline-block;
   font-size: 14px;
-  opacity: 0.5;
   white-space: nowrap;
 }
-#divToolbar:hover {
+#divToolbar:hover span {
   opacity: 1;
 }
 #divToolbar .tool-btn {
@@ -73,6 +72,7 @@ body {
   display: inline-block;
   line-height: 30px;
   vertical-align: top;
+  opacity: 0.5;
 }
 #divToolbar .tool-btn:hover {
   color: #00b9eb;
@@ -87,11 +87,9 @@ body {
   display: inline-block;
   line-height: 30px;
   vertical-align: top;
+  opacity: 0.5;
   cursor: default;
   font-size: 12px;
-}
-#spanCurScale:hover {
-  opacity: 1;
 }
 
 /* Debug tools */
@@ -101,4 +99,10 @@ body {
   /*inline-block*/
   font-size: 12px;
   vertical-align: top;
+}
+
+/* Scheme */
+#divSchWrapper {
+  font-family: Verdana, Geneva, Tahoma, sans-serif;
+  font-size: 12px;
 }

@@ -6,14 +6,13 @@ $toolbar-fore-color: $main-menu-fore-color-dark;
 $tool-btn-back-color: white;
 $tool-btn-hover-fore-color: $main-menu-item-hover-fore-color;
 $toolbar-height: 30px;
+$toolbar-font-size: 14px;
 $data-font-size: 12px;
 
 body {
     margin: 0;
     padding: 0;
     background-color: $scheme-back-color;
-    font-family: $scheme-font-family;
-    font-size: $data-font-size;
     overflow: hidden;
 }
 
@@ -28,20 +27,22 @@ body {
     display: inline-block;
     line-height: $toolbar-height;
     vertical-align: top;
+    opacity: 0.5;
 }
 
 #divToolbar {
     position: fixed;
     height: $toolbar-height;
+    line-height: $toolbar-height;
+    font-size: $toolbar-font-size;
     left: 0;
     top: 0;
     color: $toolbar-fore-color;
     display: inline-block;
     font-size: 14px;
-    opacity: 0.5;
     white-space: nowrap;
 
-    &:hover {
+    &:hover span {
         opacity: 1;
     }
 
@@ -58,17 +59,18 @@ body {
     @include tool-button;
     cursor: default;
     font-size: 12px;
-
-    &:hover {
-        opacity: 1;
-    }
 }
 
 /* Debug tools */
-
 #divDebugTools {
     padding: 0 10px;
     display: none; /*inline-block*/
     font-size: 12px;
     vertical-align: top;
+}
+
+/* Scheme */
+#divSchWrapper {
+    font-family: $scheme-font-family;
+    font-size: $data-font-size;
 }

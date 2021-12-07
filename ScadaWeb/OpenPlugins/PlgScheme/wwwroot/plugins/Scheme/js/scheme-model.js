@@ -653,16 +653,15 @@ scada.scheme.Scheme.prototype.updateData = function (mainApi, callback) {
     mainApi.getCurDataByView(this._cnlFilter.viewID, this._cnlFilter.cnlListID, function (dto) {
         if (dto.ok) {
             thisScheme._cnlFilter.cnlListID = dto.data.cnlListID;
-            thisScheme.renderContext.curCnlDataMap = mainApi.mapCurData(dto.data);
-
-            for (var component of thisScheme.componentMap.values()) {
-                thisScheme._updateComponentData(component);
-            }
-
-            callback(true);
-        } else {
-            callback(false);
         }
+
+        thisScheme.renderContext.curCnlDataMap = mainApi.mapCurData(dto.data);
+
+        for (let component of thisScheme.componentMap.values()) {
+            thisScheme._updateComponentData(component);
+        }
+
+        callback(dto.ok);
     });
 };
 
