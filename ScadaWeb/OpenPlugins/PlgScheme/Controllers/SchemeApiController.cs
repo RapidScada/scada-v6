@@ -4,7 +4,6 @@
 using Microsoft.AspNetCore.Mvc;
 using Scada.Web.Api;
 using Scada.Web.Lang;
-using Scada.Web.Plugins.PlgScheme.Model;
 using Scada.Web.Plugins.PlgScheme.Models;
 using Scada.Web.Services;
 using System;
@@ -36,18 +35,18 @@ namespace Scada.Web.Plugins.PlgScheme.Controllers
         /// <summary>
         /// Получить свойства документа схемы.
         /// </summary>
-        public Dto<SchemeDocument> GetSchemeDoc(int viewID, long viewStamp)
+        public Dto<DocumentPacket> GetSchemeDoc(int viewID, long viewStamp)
         {
             try
             {
                 return viewLoader.GetView(viewID, out SchemeView schemeView, out string errMsg)
-                    ? Dto<SchemeDocument>.Success(schemeView.SchemeDoc)
-                    : Dto<SchemeDocument>.Fail(errMsg);
+                    ? Dto<DocumentPacket>.Success(new DocumentPacket(schemeView))
+                    : Dto<DocumentPacket>.Fail(errMsg);
             }
             catch (Exception ex)
             {
                 webContext.Log.WriteError(ex, WebPhrases.ErrorInWebApi, nameof(GetSchemeDoc));
-                return Dto<SchemeDocument>.Fail(ex.Message);
+                return Dto<DocumentPacket>.Fail(ex.Message);
             }
         }
 
@@ -60,7 +59,7 @@ namespace Scada.Web.Plugins.PlgScheme.Controllers
             {
                 if (viewLoader.GetView(viewID, out SchemeView schemeView, out string errMsg))
                 {
-                    ComponentPacket componentsPacket = new(count);
+                    ComponentPacket componentsPacket = new(schemeView.ViewStamp, count);
                     componentsPacket.CopyComponents(schemeView.Components.Values, startIndex, count);
                     return Dto<ComponentPacket>.Success(componentsPacket);
                 }
@@ -85,9 +84,9 @@ namespace Scada.Web.Plugins.PlgScheme.Controllers
             {
                 if (viewLoader.GetView(viewID, out SchemeView schemeView, out string errMsg))
                 {
-                    ImagePacket imagesPacket = new();
-                    imagesPacket.CopyImages(schemeView.SchemeDoc.Images.Values, startIndex, totalDataSize);
-                    return Dto<ImagePacket>.Success(imagesPacket);
+                    ImagePacket imagePacket = new(schemeView.ViewStamp);
+                    imagePacket.CopyImages(schemeView.SchemeDoc.Images.Values, startIndex, totalDataSize);
+                    return Dto<ImagePacket>.Success(imagePacket);
                 }
                 else
                 {
@@ -104,23 +103,23 @@ namespace Scada.Web.Plugins.PlgScheme.Controllers
         /// <summary>
         /// Получить ошибки при загрузке схемы.
         /// </summary>
-        public Dto<string[]> GetLoadErrors(int viewID, long viewStamp)
+        public Dto<ErrorPacket> GetLoadErrors(int viewID, long viewStamp)
         {
             try
             {
                 if (viewLoader.GetView(viewID, out SchemeView schemeView, out string errMsg))
                 {
-                    return Dto<string[]>.Success(schemeView.LoadErrors.ToArray());
+                    return Dto<ErrorPacket>.Success(new ErrorPacket(schemeView));
                 }
                 else
                 {
-                    return Dto<string[]>.Fail(errMsg);
+                    return Dto<ErrorPacket>.Fail(errMsg);
                 }
             }
             catch (Exception ex)
             {
                 webContext.Log.WriteError(ex, WebPhrases.ErrorInWebApi, nameof(GetLoadErrors));
-                return Dto<string[]>.Fail(ex.Message);
+                return Dto<ErrorPacket>.Fail(ex.Message);
             }
         }
 

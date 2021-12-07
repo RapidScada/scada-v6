@@ -7,34 +7,35 @@ using System.Collections.Generic;
 namespace Scada.Web.Plugins.PlgScheme.Models
 {
     /// <summary>
-    /// The class for transfer scheme images
-    /// <para>Класс для передачи изображений схемы</para>
+    /// Represents a package containing scheme images.
+    /// <para>Представляет пакет, содержащий изображения схемы.</para>
     /// </summary>
-    public class ImagePacket
+    public class ImagePacket : SchemePacket
     {
         /// <summary>
-        /// Конструктор
+        /// Initializes a new instance of the class.
         /// </summary>
-        public ImagePacket()
+        public ImagePacket(long viewStamp)
         {
+            ViewStamp = viewStamp.ToString();
             EndOfImages = false;
             Images = new List<ImageRecord>();
         }
 
 
         /// <summary>
-        /// Получить или установить признак, что считаны все изображения схемы
+        /// Получить признак, что считаны все изображения схемы.
         /// </summary>
-        public bool EndOfImages { get; set; }
+        public bool EndOfImages { get; private set; }
 
         /// <summary>
-        /// Получить изображения схемы
+        /// Получить изображения схемы.
         /// </summary>
-        public List<ImageRecord> Images { get; protected set; }
+        public List<ImageRecord> Images { get; }
 
 
         /// <summary>
-        /// Копировать заданные изображения в объект для передачи данных
+        /// Копировать заданные изображения в объект для передачи данных.
         /// </summary>
         public void CopyImages(ICollection<Image> srcImages, int startIndex, int totalDataSize)
         {

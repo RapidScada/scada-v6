@@ -8,13 +8,13 @@ using System.IO;
 namespace Scada.Web.Plugins.PlgScheme.Models
 {
     /// <summary>
-    /// The class for transfer scheme image
-    /// <para>Класс для передачи изображения схемы</para>
+    /// Represents a record containing image data.
+    /// <para>Представляет запись, содержащую данные изображения.</para>
     /// </summary>
     public class ImageRecord
     {
         /// <summary>
-        /// Конструктор
+        /// Initializes a new instance of the class.
         /// </summary>
         public ImageRecord(Image image)
         {
@@ -25,23 +25,23 @@ namespace Scada.Web.Plugins.PlgScheme.Models
 
 
         /// <summary>
-        /// Получить наименование
+        /// Получить наименование.
         /// </summary>
-        public string Name { get; set; }
+        public string Name { get; }
 
         /// <summary>
-        /// Получить медиа-тип
+        /// Получить медиа-тип.
         /// </summary>
-        public string MediaType { get; set; }
+        public string MediaType { get; private set; }
 
         /// <summary>
-        /// Получить данные в формате base 64
+        /// Получить данные в формате base 64.
         /// </summary>
-        public string Data { get; set; }
+        public string Data { get; }
 
 
         /// <summary>
-        /// Установить медиа-тип на основе наименования
+        /// Установить медиа-тип на основе наименования.
         /// </summary>
         private void SetMediaType()
         {

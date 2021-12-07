@@ -48,6 +48,7 @@ namespace Scada.Data.Models
         public BaseView(View viewEntity)
         {
             ViewEntity = viewEntity ?? throw new ArgumentNullException(nameof(viewEntity));
+            ViewStamp = ScadaUtils.GenerateUniqueID();
             StoredOnServer = true;
             Args = ParseArgs();
             Title = GetTitle();
@@ -61,6 +62,11 @@ namespace Scada.Data.Models
         /// Gets the view entity stored in the configuration database.
         /// </summary>
         public View ViewEntity { get; }
+
+        /// <summary>
+        /// Gets the view stamp to check view integrity during loading from cache.
+        /// </summary>
+        public long ViewStamp { get; }
 
         /// <summary>
         /// Gets a value indicating whether to download a view from the server.
