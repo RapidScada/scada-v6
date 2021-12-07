@@ -271,6 +271,14 @@ namespace Scada
         }
 
         /// <summary>
+        /// Converts the specified boolean value to a lowercase string representation.
+        /// </summary>
+        public static string ToLowerString(this bool b)
+        {
+            return b.ToString().ToLowerInvariant();
+        }
+
+        /// <summary>
         /// Converts the service status to a string.
         /// </summary>
         public static string ToString(this ServiceStatus serviceStatus, bool isRussian)

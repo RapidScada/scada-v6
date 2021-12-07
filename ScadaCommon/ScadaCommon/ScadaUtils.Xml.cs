@@ -13,8 +13,8 @@ namespace Scada
         {
             if (value == null)
                 return "";
-            else if (value is bool)
-                return value.ToString().ToLowerInvariant();
+            else if (value is bool boolValue)
+                return boolValue.ToLowerString();
             else if (value is double doubleValue)
                 return doubleValue.ToString(NumberFormatInfo.InvariantInfo);
             else if (value is DateTime dateTime)
