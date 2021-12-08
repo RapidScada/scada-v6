@@ -528,28 +528,30 @@ namespace Scada.Comm.Engine
             }
             else if (pollingOptions.Time > TimeSpan.Zero || pollingOptions.Period > TimeSpan.Zero)
             {
+                // local polling time is used
                 DateTime localNow = utcNow.ToLocalTime();
                 DateTime nowDate = localNow.Date;
                 TimeSpan nowTime = localNow.TimeOfDay;
-                DateTime lastSessionDate = deviceLogic.LastSessionTime.Date;
-                TimeSpan lastSessionTime = deviceLogic.LastSessionTime.TimeOfDay;
+                DateTime localSessionDT = deviceLogic.LastSessionTime.ToLocalTime();
+                DateTime sessionDate = localSessionDT.Date;
+                TimeSpan sessionTime = localSessionDT.TimeOfDay;
 
                 if (pollingOptions.Period > TimeSpan.Zero) // period is set
                 {
                     // periodic polling
                     double timeInSec = pollingOptions.Time.TotalSeconds;
                     double periodInSec = pollingOptions.Period.TotalSeconds;
-                    int n = (int)((nowTime.TotalSeconds - timeInSec) / periodInSec) + 1;
+                    int sessionNum = (int)((nowTime.TotalSeconds - timeInSec) / periodInSec);
 
                     return pollingOptions.Time <= nowTime /*time to poll*/ &&
-                        (lastSessionTime.TotalSeconds <= n * periodInSec + timeInSec ||
-                        lastSessionTime > nowTime /*session was yesterday*/);
+                        (sessionTime.TotalSeconds < sessionNum * periodInSec + timeInSec ||
+                        sessionTime > nowTime /*session was yesterday*/);
                 }
                 else if (pollingOptions.Time > TimeSpan.Zero) // time is set
                 {
                     // polling once a day at the specified time
                     return pollingOptions.Time <= nowTime /*time to poll*/ &&
-                        (lastSessionDate < nowDate || lastSessionTime < pollingOptions.Time /*after an extra poll*/);
+                        (sessionDate < nowDate || sessionTime < pollingOptions.Time /*after an extra poll*/);
                 }
             }
 
