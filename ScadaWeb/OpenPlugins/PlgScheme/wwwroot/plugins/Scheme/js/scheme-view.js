@@ -5,18 +5,19 @@
 var scada = scada || {};
 scada.scheme = scada.scheme || {};
 
-// How long to show the error badge
-const ERROR_DISPLAY_DURATION = 10000; // ms
 // Used for testing
 const DEBUG_MODE = false;
-// Identifies the error badge display timeout
-var errorTimeoutID = 0;
+// How long to show the error badge
+const ERROR_DISPLAY_DURATION = 10000; // ms
+
 // Scheme object
 var scheme = null;
 // Possible scale values
 var scaleVals = [0.1, 0.25, 0.5, 0.75, 1, 1.25, 1.5, 2, 2.5, 3, 4, 5];
 // Provides access to current data
 var mainApi = new MainApi();
+// Identifies the error badge display timeout
+var errorTimeoutID = 0;
 
 // The variables below are set from SchemeView.cshtml
 // View ID
@@ -43,7 +44,6 @@ scada.scheme.env = {
             if (!success) {
                 console.error("Unable to send command");
                 showErrorBadge();
-                //notifier.addNotification(phrases.UnableSendCommand, scada.NotifTypes.ERROR, notifier.DEF_NOTIF_LIFETIME);
             }
         });
     }
@@ -58,11 +58,10 @@ function loadScheme(viewID) {
                 if (Array.isArray(scheme.loadErrors) && scheme.loadErrors.length > 0) {
                     for (let err of scheme.loadErrors) {
                         console.error(err);
+                        addNotification(err, true);
                     }
 
                     showErrorBadge();
-                    /*notifier.addNotification(scheme.loadErrors.join("<br/>"),
-                        scada.NotifTypes.ERROR, notifier.INFINITE_NOTIF_LIFETIME);*/
                 }
 
                 // show scheme
@@ -72,11 +71,10 @@ function loadScheme(viewID) {
                 startUpdatingScheme();
             }
         } else {
-            console.error("Error loading scheme");
+            let msg = "Scheme loading failed";
+            console.error(msg);
+            addNotification(msg, true);
             showErrorBadge();
-            /*notifier.addNotification(phrases.LoadSchemeError +
-                " <input type='button' value='" + phrases.ReloadButton + "' onclick='reloadScheme()' />",
-                scada.NotifTypes.ERROR, notifier.INFINITE_NOTIF_LIFETIME);*/
         }
     });
 }
@@ -90,9 +88,8 @@ function reloadScheme() {
 function startUpdatingScheme() {
     scheme.updateData(mainApi, function (success) {
         if (!success) {
-            console.error("Error updating scheme");
+            console.error("Error updating scheme data");
             showErrorBadge();
-            //notifier.addNotification(phrases.UpdateError, scada.NotifTypes.ERROR, notifier.DEF_NOTIF_LIFETIME);
         }
 
         setTimeout(startUpdatingScheme, refrRate);
@@ -103,25 +100,25 @@ function startUpdatingScheme() {
 function initToolbar() {
     var ScaleTypes = scada.scheme.ScaleTypes;
 
-    $("#lblFitScreenBtn").click(function () {
+    $("#spanFitScreenBtn").click(function () {
         scheme.setScale(ScaleTypes.FIT_SCREEN, 0);
         displayScale();
         saveScale();
     });
 
-    $("#lblFitWidthBtn").click(function () {
+    $("#spanFitWidthBtn").click(function () {
         scheme.setScale(ScaleTypes.FIT_WIDTH, 0);
         displayScale();
         saveScale();
     });
 
-    $("#lblZoomInBtn").click(function (event) {
+    $("#spanZoomInBtn").click(function (event) {
         scheme.setScale(ScaleTypes.NUMERIC, getNextScale());
         displayScale();
         saveScale();
     });
 
-    $("#lblZoomOutBtn").click(function (event) {
+    $("#spanZoomOutBtn").click(function (event) {
         scheme.setScale(ScaleTypes.NUMERIC, getPrevScale());
         displayScale();
         saveScale();
@@ -190,11 +187,11 @@ function updateScale() {
 
 // Update layout of the top level div elements
 function updateLayout() {
-    var divNotif = $("#divNotif");
-    var divSchWrapper = $("#divSchWrapper");
-    var divToolbar = $("#divToolbar");
-    var notifHeight = divNotif.css("display") === "block" ? divNotif.outerHeight() : 0;
-    var windowWidth = $(window).width();
+    let divNotif = $("#divNotif");
+    let divSchWrapper = $("#divSchWrapper");
+    let divToolbar = $("#divToolbar");
+    let notifHeight = divNotif.css("display") === "block" ? divNotif.outerHeight() : 0;
+    let windowWidth = $(window).width();
 
     $("body").css("padding-top", notifHeight);
     divNotif.outerWidth(windowWidth);
@@ -215,6 +212,23 @@ function showErrorBadge() {
     }, ERROR_DISPLAY_DURATION);
 }
 
+// Add a notification message
+function addNotification(messageHtml, isError) {
+    let divMessage = $("<div class='message'></div>").html(messageHtml);
+
+    if (isError) {
+        divMessage.addClass("error");
+    }
+
+    let divNotif = $("#divNotif");
+    divNotif
+        .removeClass("hidden")
+        .append(divMessage)
+        .scrollTop(divNotif.prop("scrollHeight"));
+
+    $(window).trigger(ScadaEventType.UPDATE_LAYOUT);
+}
+
 // Initialize debug tools
 function initDebugTools() {
     $("#divDebugTools").css("display", "inline-block");
@@ -233,9 +247,7 @@ function initDebugTools() {
     });
 
     $("#spanAddNotifBtn").click(function () {
-        console.info("Test notification");
-        /*notifier.addNotification(scada.utils.getCurTime() + " Test notification",
-            scada.NotifTypes.INFO, notifier.DEF_NOTIF_LIFETIME);*/
+        addNotification("Test notification", true);
     });
 }
 
@@ -254,8 +266,6 @@ $(document).ready(function () {
     initToolbar();
     //scada.utils.styleIOS(divSchWrapper);
     updateLayout();
-    //notifier = new scada.Notifier("#divNotif");
-    //notifier.startClearingNotifications();
 
     $(window).on("resize " + ScadaEventType.UPDATE_LAYOUT, function () {
         updateLayout();

@@ -47,6 +47,26 @@ body {
   overflow: hidden;
 }
 
+/* Notification Panel */
+#divNotif {
+  position: fixed;
+  top: 0;
+  left: 0;
+  max-height: 100px;
+  padding: 10px;
+  background-color: white;
+  border-bottom: 1px solid #ced4da;
+  font-size: 12px;
+  overflow: auto;
+  white-space: nowrap;
+}
+#divNotif .message {
+  color: #0073aa;
+}
+#divNotif .message.error {
+  color: red;
+}
+
 /* Toolbar (above the scheme) */
 #divToolbar {
   position: fixed;

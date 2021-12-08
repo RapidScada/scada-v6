@@ -1,7 +1,11 @@
 ﻿@import '../../../css/_variables.scss';
 @import '_scheme';
 
-$notif-back-color: white;
+$notifier-back-color: white;
+$notifier-border-color: $gray-400;
+$notifier-msg-fore-color: #0073aa;
+$notifier-err-fore-color: red;
+
 $toolbar-fore-color: $main-menu-fore-color-dark;
 $tool-btn-back-color: white;
 $tool-btn-hover-fore-color: $main-menu-item-hover-fore-color;
@@ -16,8 +20,30 @@ body {
     overflow: hidden;
 }
 
-/* Toolbar (above the scheme) */
+/* Notification Panel */
 
+#divNotif {
+    position: fixed;
+    top: 0;
+    left: 0;
+    max-height: 100px;
+    padding: 10px;
+    background-color: $notifier-back-color;
+    border-bottom: 1px solid $notifier-border-color;
+    font-size: $data-font-size;
+    overflow: auto;
+    white-space: nowrap;
+
+    .message {
+        color: $notifier-msg-fore-color;
+    }
+
+    .message.error {
+        color: $notifier-err-fore-color;
+    }
+}
+
+/* Toolbar (above the scheme) */
 @mixin tool-button {
     height: $toolbar-height;
     margin: 0 5px 0 0;

@@ -2,5 +2,10 @@
 <PlgSchemeDictionaries>
   <Dictionary key="Scada.Web.Plugins.PlgScheme.Areas.Scheme.Pages.SchemeView">
     <Phrase key="SchemeViewTitle">Scheme {0}</Phrase>
+    <Phrase key="spanFitScreenBtn_ToolTip">Fit to Screen</Phrase>
+    <Phrase key="spanFitWidthBtn_ToolTip">Fit to Width</Phrase>
+    <Phrase key="spanZoomOutBtn_ToolTip">Zoom Out</Phrase>
+    <Phrase key="spanZoomInBtn_ToolTip">Zoom In</Phrase>
+    <Phrase key="spanErrorBadge">Error</Phrase>
   </Dictionary>
 </PlgSchemeDictionaries>
