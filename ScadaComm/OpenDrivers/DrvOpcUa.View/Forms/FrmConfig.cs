@@ -691,6 +691,11 @@ namespace Scada.Comm.Drivers.DrvOpcUa.View.Forms
             }
         }
 
+        private void FrmConfig_FormClosed(object sender, FormClosedEventArgs e)
+        {
+            opcSession?.Close();
+        }
+
         private async void btnConnect_ClickAsync(object sender, EventArgs e)
         {
             if (string.IsNullOrWhiteSpace(deviceConfig.ConnectionOptions.ServerUrl))

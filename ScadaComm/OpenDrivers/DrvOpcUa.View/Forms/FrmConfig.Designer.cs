@@ -370,6 +370,7 @@
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
             this.Text = "Device {0} Properties - OPC UA";
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.FrmConfig_FormClosing);
+            this.FormClosed += new System.Windows.Forms.FormClosedEventHandler(this.FrmConfig_FormClosed);
             this.Load += new System.EventHandler(this.FrmConfig_Load);
             this.gbDevice.ResumeLayout(false);
             this.gbServerBrowse.ResumeLayout(false);
