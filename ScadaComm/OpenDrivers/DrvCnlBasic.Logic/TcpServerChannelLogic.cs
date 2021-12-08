@@ -97,10 +97,10 @@ namespace Scada.Comm.Drivers.DrvCnlBasic.Logic
                     // open incoming connections
                     while (tcpListener.Pending() && !terminated)
                     {
+                        conn = new TcpConnection(Log, tcpListener.AcceptTcpClient());
                         Log.WriteAction(Locale.IsRussian ?
                             "Соединение с клиентом {0}" :
                             "Connect to the client {0}", conn.RemoteAddress);
-                        conn = new TcpConnection(Log, tcpListener.AcceptTcpClient());
 
                         if (options.ConnectionMode == ConnectionMode.Shared)
                         {
