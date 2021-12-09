@@ -125,7 +125,9 @@ namespace Scada.Web.Code
             try
             {
                 BaseView view = (BaseView)Activator.CreateInstance(viewType, viewEntity);
-                view.Prepare();
+
+                if (webContext.PluginHolder.GetPluginByViewType(viewType, out PluginLogic pluginLogic))
+                    pluginLogic.PrepareView(view);
 
                 if (view.StoredOnServer)
                 {

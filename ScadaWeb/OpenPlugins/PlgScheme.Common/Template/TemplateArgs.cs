@@ -1,6 +1,7 @@
 ﻿// Copyright (c) Rapid Software LLC. All rights reserved.
 // Licensed under the Apache License, Version 2.0. See License.txt in the project root for license information.
 
+using System;
 using System.Collections.Generic;
 
 namespace Scada.Web.Plugins.PlgScheme.Template
@@ -14,12 +15,13 @@ namespace Scada.Web.Plugins.PlgScheme.Template
         /// <summary>
         /// Initializes a new instance of the class.
         /// </summary>
-        public TemplateArgs()
+        public TemplateArgs(IDictionary<string, string> args)
         {
-            InCnlOffset = 0;
-            CtrlCnlOffset = 0;
-            TitleCompID = 0;
-            BindingFileName = "";
+            ArgumentNullException.ThrowIfNull(args, nameof(args));
+            InCnlOffset = args.GetValueAsInt("inCnlOffset");
+            CtrlCnlOffset = args.GetValueAsInt("ctrlCnlOffset");
+            TitleCompID = args.GetValueAsInt("titleCompID");
+            BindingFileName = args.GetValueAsString("bindingFileName");
         }
 
 
@@ -42,17 +44,5 @@ namespace Scada.Web.Plugins.PlgScheme.Template
         /// Gets or sets the name of the file that defines bindings.
         /// </summary>
         public string BindingFileName { get; set; }
-
-
-        /// <summary>
-        /// Initializes the template arguments.
-        /// </summary>
-        public void Init(SortedList<string, string> args)
-        {
-            InCnlOffset = args.GetValueAsInt("inCnlOffset");
-            CtrlCnlOffset = args.GetValueAsInt("ctrlCnlOffset");
-            TitleCompID = args.GetValueAsInt("titleCompID");
-            BindingFileName = args.GetValueAsString("bindingFileName");
-        }
     }
 }

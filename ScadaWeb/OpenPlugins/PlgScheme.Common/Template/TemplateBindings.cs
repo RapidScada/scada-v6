@@ -1,10 +1,8 @@
 ﻿// Copyright (c) Rapid Software LLC. All rights reserved.
 // Licensed under the Apache License, Version 2.0. See License.txt in the project root for license information.
 
-using Scada.Lang;
 using System;
 using System.Collections.Generic;
-using System.IO;
 using System.Xml;
 
 namespace Scada.Web.Plugins.PlgScheme.Template
@@ -59,9 +57,6 @@ namespace Scada.Web.Plugins.PlgScheme.Template
             {
                 SetToDefault();
 
-                if (!File.Exists(fileName))
-                    throw new FileNotFoundException(string.Format(CommonPhrases.NamedFileNotFound, fileName));
-
                 XmlDocument xmlDoc = new();
                 xmlDoc.Load(fileName);
                 XmlElement rootElem = xmlDoc.DocumentElement;
@@ -80,7 +75,7 @@ namespace Scada.Web.Plugins.PlgScheme.Template
             }
             catch (Exception ex)
             {
-                throw new ScadaException(SchemePhrases.LoadTemplateBindingsError + ": " + ex.Message);
+                throw new ScadaException(ScadaUtils.BuildErrorMessage(ex, SchemePhrases.LoadTemplateBindingsError));
             }
         }
 
@@ -137,7 +132,7 @@ namespace Scada.Web.Plugins.PlgScheme.Template
             }
             catch (Exception ex)
             {
-                errMsg = SchemePhrases.SaveTemplateBindingsError + ": " + ex.Message;
+                errMsg = ScadaUtils.BuildErrorMessage(ex, SchemePhrases.SaveTemplateBindingsError);
                 return false;
             }
         }

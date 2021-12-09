@@ -42,12 +42,13 @@ namespace Scada.Web.Plugins
     /// </summary>
     public class PluginHolder
     {
-        private readonly List<PluginLogic> plugins; // the plugins used
+        private readonly List<PluginLogic> plugins;                   // the plugins used
         private readonly Dictionary<string, PluginLogic> pluginMap;   // the plugins accessed by code
+        private readonly Dictionary<string, PluginLogic> pluginByViewType; // the plugins accessed by view type name
         private readonly Dictionary<string, ViewSpec> viewSpecByCode; // the view specifications accessed by code
         private readonly Dictionary<string, ViewSpec> viewSpecByExt;  // the view specifications accessed by extension
-        private readonly object pluginLock;         // synchronizes access to the modules
-        private ILog log;                           // the application log
+        private readonly object pluginLock;                           // synchronizes access to the modules
+        private ILog log;                                             // the application log
 
 
         /// <summary>
@@ -57,6 +58,7 @@ namespace Scada.Web.Plugins
         {
             plugins = new List<PluginLogic>();
             pluginMap = new Dictionary<string, PluginLogic>();
+            pluginByViewType = new Dictionary<string, PluginLogic>();
             viewSpecByCode = new Dictionary<string, ViewSpec>();
             viewSpecByExt = new Dictionary<string, ViewSpec>();
             pluginLock = new object();
@@ -113,6 +115,9 @@ namespace Scada.Web.Plugins
                         if (!viewSpecByExt.ContainsKey(ext))
                             viewSpecByExt.Add(ext, viewSpec);
                     }
+
+                    if (viewSpec.ViewType != null && !pluginByViewType.ContainsKey(viewSpec.ViewType.FullName))
+                        pluginByViewType.Add(viewSpec.ViewType.FullName, pluginLogic);
                 }
             }
         }
@@ -148,6 +153,22 @@ namespace Scada.Web.Plugins
         public bool ContainsPlugin(string pluginCode)
         {
             return !string.IsNullOrEmpty(pluginCode) && pluginMap.ContainsKey(pluginCode);
+        }
+        
+        /// <summary>
+        /// Gets the plugin by view type.
+        /// </summary>
+        public bool GetPluginByViewType(Type viewType, out PluginLogic pluginLogic)
+        {
+            if (viewType == null)
+            {
+                pluginLogic = null;
+                return false;
+            }
+            else
+            {
+                return pluginByViewType.TryGetValue(viewType.FullName, out pluginLogic);
+            }
         }
 
         /// <summary>

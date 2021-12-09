@@ -26,21 +26,16 @@ namespace Scada.Web.Plugins.PlgScheme
         /// Стандартные типы компонентов, ключ - полное имя типа.
         /// </summary>
         private static readonly Dictionary<string, Type> StandardCompTypes;
-        /// <summary>
-        /// Экземпляр объекта менеджера.
-        /// </summary>
-        private static readonly CompManager instance;
 
+        private readonly ILog log;                                      // журнал приложения
         private readonly object syncLock;                               // объект для синхронизации доступа
         private readonly List<CompLibSpec> allSpecs;                    // все спецификации библиотек
         private readonly Dictionary<string, CompFactory> factsByPrefix; // фабрики компонентов, ключ - XML-префикс
         private readonly Dictionary<string, CompLibSpec> specsByType;   // спецификации библиотек, ключ - имя типа компонента
-        private AppDirs appDirs; // директории веб-приложения
-        private ILog log;        // журнал приложения
 
 
         /// <summary>
-        /// Статический конструктор.
+        /// Initializes the class.
         /// </summary>
         static CompManager()
         {
@@ -51,18 +46,15 @@ namespace Scada.Web.Plugins.PlgScheme
                 { typeof(StaticPicture).FullName, typeof(StaticPicture) },
                 { typeof(DynamicPicture).FullName, typeof(DynamicPicture) }
             };
-
-            instance = new CompManager();
         }
 
         /// <summary>
-        /// Конструктор, ограничивающий создание объекта из других классов.
+        /// Initializes a new instance of the class.
         /// </summary>
-        private CompManager()
+        public CompManager(ILog log)
         {
+            this.log = log ?? throw new ArgumentNullException(nameof(log));
             syncLock = new object();
-            appDirs = null;
-            log = new LogStub();
             allSpecs = new List<CompLibSpec>();
             factsByPrefix = new Dictionary<string, CompFactory>();
             specsByType = new Dictionary<string, CompLibSpec>();
@@ -88,13 +80,21 @@ namespace Scada.Web.Plugins.PlgScheme
         }
 
         /// <summary>
+        /// Проверить, что тип компонента относится к стандартным типам.
+        /// </summary>
+        private static bool TypeIsStrandard(Type compType)
+        {
+            return compType == typeof(StaticText) || compType == typeof(DynamicText) || 
+                compType == typeof(StaticPicture) || compType == typeof(DynamicPicture);
+        }
+
+
+        /// <summary>
         /// Добавить компоненты в словари.
         /// </summary>
-        private bool AddComponents(ISchemeComp schemeComp)
+        public bool AddComponents(ISchemeComp schemeComp)
         {
-            CompLibSpec compLibSpec = schemeComp.CompLibSpec;
-
-            if (compLibSpec != null)
+            if (schemeComp.CompLibSpec is CompLibSpec compLibSpec)
             {
                 if (compLibSpec.Validate(out string errMsg) && compLibSpec.CompFactory != null)
                 {
@@ -122,29 +122,12 @@ namespace Scada.Web.Plugins.PlgScheme
         }
 
         /// <summary>
-        /// Проверить, что тип компонента относится к стандартным типам.
-        /// </summary>
-        private static bool TypeIsStrandard(Type compType)
-        {
-            return compType == typeof(StaticText) || compType == typeof(DynamicText) || 
-                compType == typeof(StaticPicture) || compType == typeof(DynamicPicture);
-        }
-
-
-        /// <summary>
-        /// Инициализировать менеджер компонентов.
-        /// </summary>
-        public void Init(AppDirs appDirs, ILog log)
-        {
-            this.appDirs = appDirs ?? throw new ArgumentNullException(nameof(appDirs));
-            this.log = log ?? throw new ArgumentNullException(nameof(log));
-        }
-
-        /// <summary>
         /// Загрузить компоненты из файлов.
         /// </summary>
-        public void LoadCompFromFiles()
+        public void LoadCompFromFiles(AppDirs appDirs)
         {
+            ArgumentNullException.ThrowIfNull(appDirs, nameof(appDirs));
+
             try
             {
                 lock (syncLock)
@@ -154,10 +137,9 @@ namespace Scada.Web.Plugins.PlgScheme
                         "Load components from files");
 
                     ClearDicts();
-                    DirectoryInfo dirInfo = new(appDirs.ExeDir);
-                    FileInfo[] fileInfoArr = dirInfo.GetFiles(CompLibMask, SearchOption.TopDirectoryOnly);
 
-                    foreach (FileInfo fileInfo in fileInfoArr)
+                    foreach (FileInfo fileInfo in new DirectoryInfo(appDirs.ExeDir)
+                        .EnumerateFiles(CompLibMask, SearchOption.TopDirectoryOnly))
                     {
                         string fileName = fileInfo.FullName;
                         //PluginSpec pluginSpec = PluginSpec.CreateFromDll(fileName, out string errMsg);
@@ -201,38 +183,6 @@ namespace Scada.Web.Plugins.PlgScheme
                 log.WriteError(ex, Locale.IsRussian?
                     "Ошибка при загрузке компонентов из файлов" :
                     "Error loading components from files");
-            }
-        }
-
-        /// <summary>
-        /// Извлечь компоненты из загруженных плагинов.
-        /// </summary>
-        public void RetrieveCompFromPlugins(List<object> pluginSpecs)
-        {
-            try
-            {
-                lock (syncLock)
-                {
-                    log.WriteAction(Locale.IsRussian ?
-                        "Извлечение компонентов из установленных плагинов" :
-                        "Retrieve components from the installed plugins");
-                    ClearDicts();
-
-                    if (pluginSpecs != null)
-                    {
-                        /*foreach (PluginSpec pluginSpec in pluginSpecs)
-                        {
-                            if (pluginSpec is ISchemeComp)
-                                AddComponents((ISchemeComp)pluginSpec, null);
-                        }*/
-                    }
-                }
-            }
-            catch (Exception ex)
-            {
-                log.WriteError(ex, Locale.IsRussian ?
-                    "Ошибка при извлечении компонентов из установленных плагинов" :
-                    "Error retrieving components from the installed plugins");
             }
         }
 
@@ -419,15 +369,6 @@ namespace Scada.Web.Plugins.PlgScheme
 
                 return allScripts;
             }
-        }
-
-
-        /// <summary>
-        /// Получить единственный экземпляр менеджера.
-        /// </summary>
-        public static CompManager GetInstance()
-        {
-            return instance;
         }
     }
 }

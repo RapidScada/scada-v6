@@ -65,13 +65,6 @@ scada.scheme.ScaleTypes = {
     FIT_WIDTH: 2
 };
 
-// The default scheme options
-scada.scheme.defaultOptions = {
-    scaleType: scada.scheme.ScaleTypes.NUMERIC,
-    scaleValue: 1.0,
-    rememberScale: true
-};
-
 // Scheme calculations
 scada.scheme.calc = {
     // Compare two values using the specified operator

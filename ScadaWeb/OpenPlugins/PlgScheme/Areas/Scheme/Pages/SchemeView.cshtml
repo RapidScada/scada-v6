@@ -1,5 +1,6 @@
 ﻿@page "{id:int?}"
 @model SchemeViewModel
+@inject PluginContext pluginContext 
 @{
     Layout = "_BasicLayout";
     dynamic dict = Locale.GetDictionary("Scada.Web.Plugins.PlgScheme.Areas.Scheme.Pages.SchemeView");
@@ -20,6 +21,7 @@
     <script>
         viewID = @Model.ViewID;
         controlRight = @Model.ControlRight.ToLowerString();
+        schemeOptions = @WebUtils.ObjectToJs(pluginContext.Options);
     </script>
 }
 

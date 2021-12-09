@@ -26,6 +26,7 @@
 using Microsoft.AspNetCore.Mvc.Filters;
 using Microsoft.Extensions.DependencyInjection;
 using Scada.Data.Entities;
+using Scada.Data.Models;
 using Scada.Log;
 using Scada.Web.Services;
 using Scada.Web.TreeView;
@@ -153,6 +154,13 @@ namespace Scada.Web.Plugins
         public virtual List<MenuItem> GetUserMenuItems(User user, UserRights userRights)
         {
             return null;
+        }
+
+        /// <summary>
+        /// Prepares the specified view provided by the plugin.
+        /// </summary>
+        public virtual void PrepareView(BaseView view)
+        {
         }
     }
 }

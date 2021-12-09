@@ -11,7 +11,7 @@ namespace Scada.Web.Plugins.PlgScheme.Model.PropertyGrid
     /// Type attributes translation
     /// <para>Перевод атрибутов типа</para>
     /// </summary>
-    public class AttrTranslator
+    public static class AttrTranslator
     {
         /// <summary>
         /// Атрибуты свойства

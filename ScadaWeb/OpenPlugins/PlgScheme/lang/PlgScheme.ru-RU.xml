@@ -8,4 +8,14 @@
     <Phrase key="spanZoomInBtn_ToolTip">Увеличить</Phrase>
     <Phrase key="spanErrorBadge">Ошибка</Phrase>
   </Dictionary>
+  <Dictionary key="Scada.Web.Plugins.PlgScheme.Template.TemplateBindings">
+    <Phrase key="LoadTemplateBindingsError">Ошибка при загрузке привязок шаблона схемы</Phrase>
+    <Phrase key="SaveTemplateBindingsError">Ошибка при сохранении привязок шаблона схемы</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Web.Plugins.PlgScheme.CompManager">
+    <Phrase key="UnknownComponent">Неизвестный компонент {0}</Phrase>
+    <Phrase key="CompLibraryNotFound">Не найдена библиотека для компонента {0}</Phrase>
+    <Phrase key="UnableCreateComponent">Невозможно создать компонент {0}</Phrase>
+    <Phrase key="ErrorCreatingComponent">Ошибка при создании компонента {0}</Phrase>
+  </Dictionary>
 </PlgSchemeDictionaries>

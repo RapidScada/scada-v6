@@ -29,7 +29,11 @@ var refrRate = 1000;
 // View control right
 var controlRight = false;
 // Scheme options
-var schemeOptions = scada.scheme.defaultOptions;
+var schemeOptions = {
+    scaleType: scada.scheme.ScaleTypes.NUMERIC,
+    scaleValue: 1.0,
+    rememberScale: true
+};
 
 // Scheme environment object accessible by the scheme and its components
 scada.scheme.env = {
