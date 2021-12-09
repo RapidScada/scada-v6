@@ -158,13 +158,6 @@ namespace Scada.Data.Models
 
 
         /// <summary>
-        /// Prepares the view before loading.
-        /// </summary>
-        public virtual void Prepare()
-        {
-        }
-
-        /// <summary>
         /// Loads the view from the specified stream.
         /// </summary>
         public virtual void LoadView(Stream stream)

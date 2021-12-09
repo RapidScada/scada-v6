@@ -86,6 +86,7 @@ namespace Scada.Lang
         public static string NamedFileNotFound { get; private set; }
         public static string DirectoryNotExists { get; private set; }
         public static string PathNotSupported { get; private set; }
+        public static string InvalidFileFormat { get; private set; }
         public static string LoadConfigError { get; private set; }
         public static string SaveConfigError { get; private set; }
         public static string LoadViewError { get; private set; }
@@ -195,6 +196,7 @@ namespace Scada.Lang
             NamedFileNotFound = dict["NamedFileNotFound"];
             DirectoryNotExists = dict["DirectoryNotExists"];
             PathNotSupported = dict["PathNotSupported"];
+            InvalidFileFormat = dict["InvalidFileFormat"];
             LoadConfigError = dict["LoadConfigError"];
             SaveConfigError = dict["SaveConfigError"];
             LoadViewError = dict["LoadViewError"];
