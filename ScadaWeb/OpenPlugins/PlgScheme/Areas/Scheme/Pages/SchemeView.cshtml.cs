@@ -30,7 +30,8 @@ namespace Scada.Web.Plugins.PlgScheme.Areas.Scheme.Pages
         {
             ViewID = id ?? userContext.Views.GetFirstViewID() ?? 0;
             View viewEntity = webContext.BaseDataSet.ViewTable.GetItem(ViewID);
-            ControlRight = userContext.Rights.GetRightByView(viewEntity).Control;
+            ControlRight = webContext.AppConfig.GeneralOptions.EnableCommands &&
+                userContext.Rights.GetRightByView(viewEntity).Control;
             ViewData["Title"] = string.Format(PluginPhrases.SchemeViewTitle, ViewID);
         }
     }

@@ -405,27 +405,15 @@ scada.scheme.ComponentRenderer.prototype.bindAction = function (jqObj, component
 
         if (!renderContext.editMode) {
             var viewHub = renderContext.schemeEnv.viewHub;
-            //var dialogs = viewHub ? viewHub.dialogs : null;
 
             jqObj.click(function () {
                 switch (props.action) {
                     case Actions.DRAW_DIAGRAM:
                         viewHub.features.chart.show(props.inCnlNum, new Date().toISOString().slice(0, 10));
-                        /*if (dialogs) {
-                            var date = viewHub.curViewDateMs ? new Date(viewHub.curViewDateMs) : new Date();
-                            dialogs.showChart(props.inCnlNum, renderContext.viewID, date);
-                        } else {
-                            console.warn("Dialogs object is undefined");
-                        }*/
                         break;
 
                     case Actions.SEND_COMMAND:
                         viewHub.features.command.show(props.ctrlCnlNum);
-                        /*if (dialogs) {
-                            dialogs.showCmd(props.ctrlCnlNum, renderContext.viewID);
-                        } else {
-                            console.warn("Dialogs object is undefined");
-                        }*/
                         break;
 
                     case Actions.SEND_COMMAND_NOW:

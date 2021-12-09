@@ -2,8 +2,11 @@
 // Licensed under the Apache License, Version 2.0. See License.txt in the project root for license information.
 
 using Microsoft.AspNetCore.Mvc;
+using Scada.Data.Models;
 using Scada.Web.Api;
 using Scada.Web.Lang;
+using Scada.Web.Plugins.PlgScheme.Model;
+using Scada.Web.Plugins.PlgScheme.Model.DataTypes;
 using Scada.Web.Plugins.PlgScheme.Models;
 using Scada.Web.Services;
 using System;
@@ -19,15 +22,20 @@ namespace Scada.Web.Plugins.PlgScheme.Controllers
     public class SchemeApiController : ControllerBase
     {
         private readonly IWebContext webContext;
+        private readonly IUserContext userContext;
+        private readonly IClientAccessor clientAccessor;
         private readonly IViewLoader viewLoader;
 
 
         /// <summary>
         /// Initializes a new instance of the class.
         /// </summary>
-        public SchemeApiController(IWebContext webContext, IViewLoader viewLoader)
+        public SchemeApiController(IWebContext webContext, IUserContext userContext,
+            IClientAccessor clientAccessor, IViewLoader viewLoader)
         {
             this.webContext = webContext;
+            this.userContext = userContext;
+            this.clientAccessor = clientAccessor;
             this.viewLoader = viewLoader;
         }
 
@@ -128,7 +136,41 @@ namespace Scada.Web.Plugins.PlgScheme.Controllers
         /// </summary>
         public Dto<bool> SendCommand(int ctrlCnlNum, double cmdVal, int viewID, int componentID)
         {
-            return Dto<bool>.Fail("Not implemented.");
+            try
+            {
+                if (viewLoader.GetView(viewID, out SchemeView schemeView, out string errMsg))
+                {
+                    if (webContext.AppConfig.GeneralOptions.EnableCommands &&
+                        userContext.Rights.GetRightByView(schemeView.ViewEntity).Control &&
+                        schemeView.Components.TryGetValue(componentID, out BaseComponent component) &&
+                        component is IDynamicComponent dynamicComponent &&
+                        dynamicComponent.Action == Actions.SendCommandNow &&
+                        dynamicComponent.CtrlCnlNum == ctrlCnlNum)
+                    {
+                        clientAccessor.ScadaClient.SendCommand(new TeleCommand
+                        {
+                            CnlNum = ctrlCnlNum,
+                            CmdVal = cmdVal
+                        }, out CommandResult commandResult);
+
+                        if (commandResult.IsSuccessful)
+                            return Dto<bool>.Success(true);
+                        else
+                            errMsg = commandResult.ErrorMessage;
+                    }
+                    else
+                    {
+                        errMsg = WebPhrases.AccessDenied;
+                    }
+                }
+
+                return Dto<bool>.Fail(errMsg);
+            }
+            catch (Exception ex)
+            {
+                webContext.Log.WriteError(ex, WebPhrases.ErrorInWebApi, nameof(SendCommand));
+                return Dto<bool>.Fail(ex.Message);
+            }
         }
     }
 }

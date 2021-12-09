@@ -14,6 +14,8 @@ const ERROR_DISPLAY_DURATION = 10000; // ms
 var scheme = null;
 // Possible scale values
 var scaleVals = [0.1, 0.25, 0.5, 0.75, 1, 1.25, 1.5, 2, 2.5, 3, 4, 5];
+// View hub object
+var viewHub = ViewHub.getInstance();
 // Provides access to current data
 var mainApi = new MainApi();
 // Identifies the error badge display timeout
@@ -24,8 +26,6 @@ var errorTimeoutID = 0;
 var viewID = 0;
 // Scheme refresh rate
 var refrRate = 1000;
-// Localized phrases
-var phrases = {};
 // View control right
 var controlRight = false;
 // Scheme options
@@ -33,10 +33,8 @@ var schemeOptions = scada.scheme.defaultOptions;
 
 // Scheme environment object accessible by the scheme and its components
 scada.scheme.env = {
-    // Localized phrases
-    phrases: phrases,
-    // The view hub object
-    viewHub: ViewHub.getInstance(),
+    // View hub object
+    viewHub: viewHub,
 
     // Send telecommand
     sendCommand: function (ctrlCnlNum, cmdVal, viewID, componentID) {
@@ -71,10 +69,8 @@ function loadScheme(viewID) {
                 startUpdatingScheme();
             }
         } else {
-            let msg = "Scheme loading failed";
-            console.error(msg);
-            addNotification(msg, true);
-            showErrorBadge();
+            console.error("Scheme loading failed");
+            showErrorBadge(true);
         }
     });
 }
@@ -201,15 +197,20 @@ function updateLayout() {
     divToolbar.css("top", notifHeight);
 }
 
-// Show error badge for a period of time
-function showErrorBadge() {
+// Show error badge for a period of time or permanently
+function showErrorBadge(opt_permanent) {
     clearTimeout(errorTimeoutID);
-    $("#spanErrorBadge").removeClass("hidden");
+    let spanErrorBadge = $("#spanErrorBadge");
+    spanErrorBadge.removeClass("hidden");
 
-    errorTimeoutID = setTimeout(function () {
-        $("#spanErrorBadge").addClass("hidden");
-        errorTimeoutID = 0;
-    }, ERROR_DISPLAY_DURATION);
+    if (opt_permanent) {
+        spanErrorBadge.addClass("permanent");
+    } else if (!spanErrorBadge.hasClass("permanent")) {
+        errorTimeoutID = setTimeout(function () {
+            $("#spanErrorBadge").addClass("hidden");
+            errorTimeoutID = 0;
+        }, ERROR_DISPLAY_DURATION);
+    }
 }
 
 // Add a notification message
@@ -253,8 +254,7 @@ function initDebugTools() {
 
 $(document).ready(function () {
     // setup client API
-    //scada.clientAPI.rootPath = "../../";
-    //scada.clientAPI.ajaxQueue = scada.ajaxQueueLocator.getAjaxQueue();
+    mainApi.rootPath = viewHub.appEnv.rootPath;
 
     // create scheme
     var divSchWrapper = $("#divSchWrapper");
