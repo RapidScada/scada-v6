@@ -7,6 +7,7 @@
  *
  * Requires:
  * - jquery
+ * - modal.js
  * - scheme-common.js
  * - scheme-render.js
  */
@@ -45,28 +46,28 @@ scada.scheme.ButtonRenderer.prototype.createDom = function (component, renderCon
         "<div class='basic-button-icon'></div><div class='basic-button-label'></div></div></div>");
 
     this.prepareComponent(btnComp, component);
-    this.setFont(btnComp, props.Font);
-    this.setForeColor(btnComp, props.ForeColor);
+    this.setFont(btnComp, props.font);
+    this.setForeColor(btnComp, props.foreColor);
     this.bindAction(btnComp, component, renderContext);
 
     if (!renderContext.editMode) {
-        this._setState(btnComp, props.BoundProperty, false);
+        this._setState(btnComp, props.boundProperty, false);
     }
 
     // set image
-    if (props.ImageName) {
-        var image = renderContext.getImage(props.ImageName);
+    if (props.imageName) {
+        var image = renderContext.getImage(props.imageName);
         $("<img />")
             .css({
-                "width": props.ImageSize.Width,
-                "height": props.ImageSize.Height
+                "width": props.imageSize.width,
+                "height": props.imageSize.height
             })
             .attr("src", this.imageToDataURL(image))
             .appendTo(btnContainer.find(".basic-button-icon"));
     }
 
     // set text
-    btnContainer.find(".basic-button-label").text(props.Text);
+    btnContainer.find(".basic-button-label").text(props.text);
 
     btnComp.append(btnContainer);
     component.dom = btnComp;
@@ -75,9 +76,9 @@ scada.scheme.ButtonRenderer.prototype.createDom = function (component, renderCon
 scada.scheme.ButtonRenderer.prototype.refreshImages = function (component, renderContext, imageNames) {
     var props = component.props;
 
-    if (Array.isArray(imageNames) && imageNames.includes(props.ImageName)) {
+    if (Array.isArray(imageNames) && imageNames.includes(props.imageName)) {
         var btnComp = component.dom;
-        var image = renderContext.getImage(props.ImageName);
+        var image = renderContext.getImage(props.imageName);
         btnComp.find("img").attr("src", this.imageToDataURL(image));
     }
 };
@@ -85,11 +86,11 @@ scada.scheme.ButtonRenderer.prototype.refreshImages = function (component, rende
 scada.scheme.ButtonRenderer.prototype.updateData = function (component, renderContext) {
     var props = component.props;
 
-    if (props.InCnlNum > 0 && props.BoundProperty) {
+    if (props.inCnlNum > 0 && props.boundProperty) {
         var btnComp = component.dom;
-        var cnlDataExt = renderContext.getCnlDataExt(props.InCnlNum);
-        var state = cnlDataExt.Val > 0 && cnlDataExt.Stat > 0;
-        this._setState(btnComp, props.BoundProperty, state);
+        var cnlDataExt = renderContext.getCnlDataExt(props.inCnlNum);
+        var state = cnlDataExt.d.val > 0 && cnlDataExt.d.stat > 0;
+        this._setState(btnComp, props.boundProperty, state);
     }
 };
 
@@ -107,15 +108,15 @@ scada.scheme.LedRenderer.prototype.createDom = function (component, renderContex
 
     var divComp = $("<div id='comp" + component.id + "' class='basic-led'></div>");
     this.prepareComponent(divComp, component, false, true);
-    this.setBackColor(divComp, props.BackColor);
+    this.setBackColor(divComp, props.backColor);
     this.bindAction(divComp, component, renderContext);
 
-    if (props.BorderWidth > 0) {
+    if (props.borderWidth > 0) {
         var divBorder = $("<div class='basic-led-border'></div>").appendTo(divComp);
-        this.setBorderColor(divBorder, props.BorderColor);
-        this.setBorderWidth(divBorder, props.BorderWidth);
+        this.setBorderColor(divBorder, props.borderColor);
+        this.setBorderWidth(divBorder, props.borderWidth);
 
-        var opacity = props.BorderOpacity / 100;
+        var opacity = props.borderOpacity / 100;
         if (opacity < 0) {
             opacity = 0;
         } else if (opacity > 1) {
@@ -132,23 +133,23 @@ scada.scheme.LedRenderer.prototype.createDom = function (component, renderContex
 scada.scheme.LedRenderer.prototype.updateData = function (component, renderContext) {
     var props = component.props;
 
-    if (props.InCnlNum > 0) {
+    if (props.inCnlNum > 0) {
         var divComp = component.dom;
-        var cnlDataExt = renderContext.getCnlDataExt(props.InCnlNum);
-        var backColor = props.BackColor;
+        var cnlDataExt = renderContext.getCnlDataExt(props.inCnlNum);
+        var backColor = props.backColor;
 
         // define background color according to the channel status
         if (backColor === this.STATUS_COLOR) {
-            backColor = cnlDataExt.Color;
+            backColor = this._getStatusColor(cnlDataExt);
         }
 
         // define background color according to the led conditions and channel value
-        if (cnlDataExt.Stat > 0 && props.Conditions) {
-            var cnlVal = cnlDataExt.Val;
+        if (cnlDataExt.d.stat > 0 && props.conditions) {
+            var cnlVal = cnlDataExt.d.val;
 
-            for (var cond of props.Conditions) {
+            for (var cond of props.conditions) {
                 if (scada.scheme.calc.conditionSatisfied(cond, cnlVal)) {
-                    backColor = cond.Color;
+                    backColor = cond.color;
                     break;
                 }
             }
@@ -158,9 +159,9 @@ scada.scheme.LedRenderer.prototype.updateData = function (component, renderConte
         divComp.css("background-color", backColor);
 
         // set border color
-        if (props.BorderColor === this.STATUS_COLOR) {
+        if (props.borderColor === this.STATUS_COLOR) {
             var divBorder = divComp.children(".basic-led-border");
-            divBorder.css("border-color", cnlDataExt.Color);
+            divBorder.css("border-color", this._getStatusColor(cnlDataExt));
         }
     }
 };
@@ -199,53 +200,48 @@ scada.scheme.LinkRenderer.prototype.createDom = function (component, renderConte
 
     spanComp.hover(
         function () {
-            thisRenderer.setBackColor(spanComp, props.BackColorOnHover);
-            thisRenderer.setBorderColor(spanComp, props.BorderColorOnHover);
-            thisRenderer.setForeColor(spanComp, props.ForeColorOnHover);
-            thisRenderer._setUnderline(spanComp, props.UnderlineOnHover);
+            thisRenderer.setBackColor(spanComp, props.backColorOnHover);
+            thisRenderer.setBorderColor(spanComp, props.borderColorOnHover);
+            thisRenderer.setForeColor(spanComp, props.foreColorOnHover);
+            thisRenderer._setUnderline(spanComp, props.underlineOnHover);
         },
         function () {
-            thisRenderer.setBackColor(spanComp, props.BackColor, true);
-            thisRenderer.setBorderColor(spanComp, props.BorderColor, true);
-            thisRenderer.setForeColor(spanComp, props.ForeColor, true);
-            thisRenderer._restoreUnderline(spanComp, props.Font);
+            thisRenderer.setBackColor(spanComp, props.backColor, true);
+            thisRenderer.setBorderColor(spanComp, props.borderColor, true);
+            thisRenderer.setForeColor(spanComp, props.foreColor, true);
+            thisRenderer._restoreUnderline(spanComp, props.font);
         }
     );
 
     // configure link
-    if (props.Url || props.ViewID > 0) {
+    if (props.url || props.viewID > 0) {
         spanComp.addClass("action");
 
         if (!renderContext.editMode) {
             spanComp.click(function () {
                 let url = "";
+                let viewHub = renderContext.schemeEnv.viewHub;
 
-                if (props.ViewID > 0) {
-                    let viewHub = renderContext.schemeEnv.viewHub;
-                    if (viewHub) {
-                        url = viewHub.getFullViewUrl(props.ViewID, props.Target === 2 /*Popup*/);
-                    }
+                if (props.viewID > 0) {
+                    url = viewHub.getViewUrl(props.viewID, props.target === 2 /*Popup*/);
                 } else {
-                    url = props.Url;
+                    url = props.url;
 
-                    // insert input channel values into the address
-                    for (let i = 0, cnlCnt = props.CnlNums.length; i < cnlCnt; i++) {
+                    // insert input channel values into the URL
+                    for (let i = 0, cnlCnt = props.cnlNums.length; i < cnlCnt; i++) {
                         let cnlVal = thisRenderer.cnlVals[i];
                         url = url.replace("{" + i + "}", isNaN(cnlVal) ? "" : cnlVal);
                     }
                 }
 
                 if (url) {
-                    switch (props.Target) {
+                    switch (props.target) {
                         case 1: // Blank
                             window.open(url);
                             break;
                         case 2: // Popup
-                            var popup = scada.popupLocator.getPopup();
-                            if (popup) {
-                                popup.showModal(url,
-                                    new scada.ModalOptions(null, props.PopupSize.Width, props.PopupSize.Height));
-                            }
+                            viewHub.modalManager.showModal(url,
+                                new ModalOptions(null, props.popupSize.width, props.popupSize.height));
                             break;
                         default: // Self
                             window.top.location = url;
@@ -261,13 +257,13 @@ scada.scheme.LinkRenderer.prototype.createDom = function (component, renderConte
 
 scada.scheme.LinkRenderer.prototype.updateData = function (component, renderContext) {
     var props = component.props;
-    var cnlCnt = props.CnlNums.length;
+    var cnlCnt = props.cnlNums.length;
 
     // get the current values of the input channels specified for the link
     if (cnlCnt > 0) {
         for (let i = 0; i < cnlCnt; i++) {
-            var cnlDataExt = renderContext.getCnlDataExt(props.CnlNums[i]);
-            this.cnlVals[i] = cnlDataExt.Stat > 0 ? cnlDataExt.Val : NaN;
+            var cnlDataExt = renderContext.getCnlDataExt(props.cnlNums[i]);
+            this.cnlVals[i] = cnlDataExt.d.stat > 0 ? cnlDataExt.d.val : NaN;
         }
     }
 };
@@ -283,18 +279,18 @@ scada.scheme.ToggleRenderer.constructor = scada.scheme.ToggleRenderer;
 
 scada.scheme.ToggleRenderer.prototype._applySize = function (divComp, divContainer, divLever, component) {
     var props = component.props;
-    var borders = (props.BorderWidth + props.Padding) * 2;
-    var minSize = Math.min(props.Size.Width, props.Size.Height);
+    var borders = (props.borderWidth + props.padding) * 2;
+    var minSize = Math.min(props.size.width, props.size.height);
 
     divComp.css({
         "border-radius": minSize / 2,
-        "padding": props.Padding
+        "padding": props.padding
     });
 
     divContainer.css({
-        "width": props.Size.Width - borders,
-        "min-width": props.Size.Width - borders, // required for scaling
-        "height": props.Size.Height - borders
+        "width": props.size.width - borders,
+        "min-width": props.size.width - borders, // required for scaling
+        "height": props.size.height - borders
     });
 
     divLever.css({
@@ -312,7 +308,7 @@ scada.scheme.ToggleRenderer.prototype.createDom = function (component, renderCon
 
     this.prepareComponent(divComp, component, true);
     this.bindAction(divComp, component, renderContext);
-    this.setBackColor(divLever, props.LeverColor);
+    this.setBackColor(divLever, props.leverColor);
     this._applySize(divComp, divContainer, divLever, component);
 
     if (!renderContext.editMode) {
@@ -337,16 +333,16 @@ scada.scheme.ToggleRenderer.prototype.updateData = function (component, renderCo
     var props = component.props;
     component.cmdVal = 0;
 
-    if (props.InCnlNum > 0) {
+    if (props.inCnlNum > 0) {
         var divComp = component.dom;
-        var cnlDataExt = renderContext.getCnlDataExt(props.InCnlNum);
+        var cnlDataExt = renderContext.getCnlDataExt(props.inCnlNum);
 
         divComp.removeClass("undef");
         divComp.removeClass("on");
         divComp.removeClass("off");
 
-        if (cnlDataExt.Stat > 0) {
-            if (cnlDataExt.Val > 0) {
+        if (cnlDataExt.d.stat > 0) {
+            if (cnlDataExt.d.val > 0) {
                 divComp.addClass("on");
             } else {
                 divComp.addClass("off");
@@ -357,11 +353,11 @@ scada.scheme.ToggleRenderer.prototype.updateData = function (component, renderCo
         }
 
         // set colors that depend on status
-        var statusColor = cnlDataExt.Color;
-        this.setBackColor(divComp, props.BackColor, true, statusColor);
-        this.setBorderColor(divComp, props.BorderColor, true, statusColor);
+        var statusColor = this._getStatusColor(cnlDataExt);
+        this.setBackColor(divComp, props.backColor, true, statusColor);
+        this.setBorderColor(divComp, props.borderColor, true, statusColor);
 
-        if (props.LeverColor === this.STATUS_COLOR) {
+        if (props.leverColor === this.STATUS_COLOR) {
             // execute the find method if the color depends on status
             divComp.find(".basic-toggle-lever").css("background-color", statusColor);
         }
