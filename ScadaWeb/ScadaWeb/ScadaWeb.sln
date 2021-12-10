@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio Version 16
-VisualStudioVersion = 16.0.31205.134
+# Visual Studio Version 17
+VisualStudioVersion = 17.0.31919.166
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ScadaWeb", "ScadaWeb\ScadaWeb.csproj", "{B4495BF2-C904-4BFE-BF3B-FE38CF0FC378}"
 EndProject
@@ -9,7 +9,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ScadaWebCommon", "ScadaWebC
 EndProject
 Project("{D954291E-2A0B-460D-934E-DC6B0785DB48}") = "ScadaWebCommon.Shared", "ScadaWebCommon.Shared\ScadaWebCommon.Shared.shproj", "{5A665A6E-40B7-44B3-91ED-9BB9E1F89482}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ScadaWebCommon.Subset", "ScadaWebCommon.Subset\ScadaWebCommon.Subset.csproj", "{E7FEC001-D5B7-41A0-BD8D-FB8A3F4BDE51}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ScadaWebCommon.Subset", "ScadaWebCommon.Subset\ScadaWebCommon.Subset.csproj", "{E7FEC001-D5B7-41A0-BD8D-FB8A3F4BDE51}"
 EndProject
 Global
 	GlobalSection(SharedMSBuildProjectFiles) = preSolution

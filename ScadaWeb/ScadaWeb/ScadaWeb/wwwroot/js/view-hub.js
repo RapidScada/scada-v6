@@ -30,8 +30,10 @@ class ViewHub {
     }
 
     // Gets the view page URL.
-    getViewUrl(viewID) {
-        return appEnv.rootPath + "View/" + viewID;
+    getViewUrl(viewID, opt_openInFrame) {
+        return opt_openInFrame
+            ? appEnv.rootPath + "ViewFrame/" + viewID
+            : appEnv.rootPath + "View/" + viewID;
     }
 
     // Pulls the trigger of the main window.

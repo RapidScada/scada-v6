@@ -1,0 +1,20 @@
+﻿@page "{id:int?}"
+@model ViewFrameModel
+@{
+    Layout = "_BasicLayout";
+    dynamic dict = Locale.GetDictionary("Scada.Web.Pages.ViewFrame");
+    ViewBag.Title = dict.PageTitle;
+}
+
+@if (Model.ViewError)
+{
+    <div class="box-center fs-2 text-danger">
+        @Model.ErrorMessage
+    </div>
+}
+else
+{
+    <div class="box-center fs-2 text-primary">
+        Redirect to view page...
+    </div>
+}

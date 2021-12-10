@@ -68,6 +68,9 @@
     <Phrase key="PageTitle">Представление</Phrase>
     <Phrase key="divHideDataWindowBtn_ToolTip">Скрыть окно данных</Phrase>
   </Dictionary>
+  <Dictionary key="Scada.Web.Pages.ViewFrame">
+    <Phrase key="PageTitle">Представление</Phrase>
+  </Dictionary>
   <Dictionary key="Scada.Web.Plugins">
     <Phrase key="LoadPluginConfigError">Ошибка при загрузке конфигурации плагина</Phrase>
     <Phrase key="SavePluginConfigError">Ошибка при сохранении конфигурации плагина</Phrase>
