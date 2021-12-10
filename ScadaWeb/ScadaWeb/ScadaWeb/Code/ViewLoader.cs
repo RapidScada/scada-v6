@@ -165,10 +165,13 @@ namespace Scada.Web.Code
             // load resources
             if (view.Resources != null)
             {
-                foreach (KeyValuePair<string, string> pair in view.Resources)
+                foreach (ViewResource resource in view.Resources)
                 {
-                    using BinaryReader reader = webContext.Storage.OpenBinary(DataCategory.View, pair.Value);
-                    view.LoadResource(pair.Key, reader.BaseStream);
+                    if (resource != null)
+                    {
+                        using BinaryReader reader = webContext.Storage.OpenBinary(DataCategory.View, resource.Path);
+                        view.LoadResource(resource, reader.BaseStream);
+                    }
                 }
             }
         }
@@ -190,13 +193,16 @@ namespace Scada.Web.Code
             // load resources
             if (view.Resources != null)
             {
-                foreach (KeyValuePair<string, string> pair in view.Resources)
+                foreach (ViewResource resource in view.Resources)
                 {
-                    using MemoryStream memoryStream = new();
-                    RelativePath relativePath = new(TopFolder.View, AppFolder.Root, pair.Value);
-                    clientAccessor.ScadaClient.DownloadFile(relativePath, memoryStream, true);
-                    memoryStream.Position = 0;
-                    view.LoadResource(pair.Key, memoryStream);
+                    if (resource != null)
+                    {
+                        using MemoryStream memoryStream = new();
+                        RelativePath relativePath = new(TopFolder.View, AppFolder.Root, resource.Path);
+                        clientAccessor.ScadaClient.DownloadFile(relativePath, memoryStream, true);
+                        memoryStream.Position = 0;
+                        view.LoadResource(resource, memoryStream);
+                    }
                 }
             }
         }

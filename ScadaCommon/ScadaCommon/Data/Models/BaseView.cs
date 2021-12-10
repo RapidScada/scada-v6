@@ -84,9 +84,9 @@ namespace Scada.Data.Models
         public string Title { get; protected set; }
 
         /// <summary>
-        /// Gets the view resources. Key is a resource name, value is a path relative to the view directory.
+        /// Gets the view resources.
         /// </summary>
-        public Dictionary<string, string> Resources { get; protected set; }
+        public List<ViewResource> Resources { get; protected set; }
 
         /// <summary>
         /// Gets the ordered no-duplicates list of channel numbers included in the view.
@@ -165,9 +165,9 @@ namespace Scada.Data.Models
         }
 
         /// <summary>
-        /// Loads the view resource specified in the reference.
+        /// Loads the view resource from the specified stream.
         /// </summary>
-        public virtual void LoadResource(string resourceName, Stream stream)
+        public virtual void LoadResource(ViewResource resource, Stream stream)
         {
         }
 
