@@ -69,19 +69,19 @@ namespace Scada.Web.Plugins.PlgScheme
         }
 
         /// <summary>
-        /// Получить свойства документа схемы.
+        /// Gets the scheme document properties.
         /// </summary>
         public SchemeDocument SchemeDoc { get; protected set; }
 
         /// <summary>
-        /// Получить компоненты схемы, ключ - идентификатор компонента.
+        /// Gets the scheme components accessed by component ID.
         /// </summary>
         public SortedList<int, BaseComponent> Components { get; protected set; }
 
         /// <summary>
-        /// Получить ошибки при загрузке схемы.
+        /// Gets the errors occurred during download.
         /// </summary>
-        /// <remarks>Необходимо для контроля загрузки библиотек и компонентов.</remarks>
+        /// <remarks>Allows to control loading of libraries and components.</remarks>
         public List<string> LoadErrors { get; protected set; }
 
 
@@ -105,15 +105,14 @@ namespace Scada.Web.Plugins.PlgScheme
         /// </summary>
         public override void LoadView(Stream stream)
         {
-            // load component bindings
-            if (string.IsNullOrEmpty(templateArgs.BindingFileName))
+            // add template bindings as resource
+            if (!string.IsNullOrEmpty(templateArgs.BindingFileName))
             {
-                templateBindings = null;
-            }
-            else
-            {
-                templateBindings = new TemplateBindings();
-                //templateBindings.Load(Path.Combine(SchemeContext.AppDirs.ConfigDir, templateArgs.BindingFileName));
+                Resources.Add(new ViewResource 
+                { 
+                    Name = nameof(TemplateBindings), 
+                    Path = templateArgs.BindingFileName 
+                });
             }
 
             // load XML document
@@ -125,10 +124,6 @@ namespace Scada.Web.Plugins.PlgScheme
             if (!rootElem.Name.Equals("SchemeView", StringComparison.OrdinalIgnoreCase))
                 throw new ScadaException(CommonPhrases.InvalidFileFormat);
 
-            // get channel offsets in template mode
-            int inCnlOffset = templateArgs.InCnlOffset;
-            int ctrlCnlOffset = templateArgs.CtrlCnlOffset;
-
             // load scheme document
             if (rootElem.SelectSingleNode("Scheme") is XmlNode schemeNode)
             {
@@ -137,21 +132,17 @@ namespace Scada.Web.Plugins.PlgScheme
                 // update scheme title
                 if (string.IsNullOrEmpty(Title) && !string.IsNullOrEmpty(SchemeDoc.Title))
                     Title = SchemeDoc.Title;
-
-                // add view channels
-                AddInCnlNums(SchemeDoc.CnlFilter, inCnlOffset);
             }
 
             // load scheme components
             if (rootElem.SelectSingleNode("Components") is XmlNode componentsNode)
             {
-                HashSet<string> errNodeNames = new(); // имена узлов незагруженных компонентов
+                HashSet<string> errNodeNames = new(); // node names of unloaded components
                 LoadErrors.AddRange(CompManager.LoadErrors);
-                SortedDictionary<int, ComponentBinding> componentBindings = templateBindings?.ComponentBindings;
 
                 foreach (XmlNode compNode in componentsNode.ChildNodes)
                 {
-                    // создание компонента
+                    // create component
                     BaseComponent component = CompManager.CreateComponent(compNode, out string errMsg);
 
                     if (component == null)
@@ -161,47 +152,14 @@ namespace Scada.Web.Plugins.PlgScheme
                             LoadErrors.Add(errMsg);
                     }
 
-                    // загрузка компонента и добавление его в представление
+                    // load component and add it to view
                     component.SchemeView = this;
                     component.LoadFromXml(compNode);
                     Components[component.ID] = component;
 
-                    // добавление каналов представления
-                    if (component is IDynamicComponent dynamicComponent)
-                    {
-                        if (componentBindings != null &&
-                            componentBindings.TryGetValue(component.ID, out ComponentBinding binding))
-                        {
-                            dynamicComponent.InCnlNum = binding.InCnlNum;
-                            dynamicComponent.CtrlCnlNum = binding.CtrlCnlNum;
-                        }
-                        else
-                        {
-                            if (inCnlOffset > 0 && dynamicComponent.InCnlNum > 0)
-                                dynamicComponent.InCnlNum += inCnlOffset;
-                            if (ctrlCnlOffset > 0 && dynamicComponent.CtrlCnlNum > 0)
-                                dynamicComponent.CtrlCnlNum += ctrlCnlOffset;
-                        }
-
-                        AddCnlNum(dynamicComponent.InCnlNum);
-                        AddCnlNum(dynamicComponent.CtrlCnlNum);
-                    }
-
-                    AddInCnlNums(component.GetInCnlNums(), inCnlOffset);
-                    AddInCnlNums(component.GetCtrlCnlNums(), ctrlCnlOffset);
-
-                    // определение макс. идентификатора компонентов
+                    // get max component ID
                     if (component.ID > maxComponentID)
                         maxComponentID = component.ID;
-                }
-
-                // set text of title component
-                int titleCompID = templateBindings == null ? templateArgs.TitleCompID : templateBindings.TitleCompID;
-                if (titleCompID > 0 &&
-                    Components.TryGetValue(titleCompID, out BaseComponent titleComponent) &&
-                    titleComponent is StaticText staticText)
-                {
-                    staticText.Text = Title;
                 }
             }
 
@@ -221,7 +179,73 @@ namespace Scada.Web.Plugins.PlgScheme
         }
 
         /// <summary>
-        /// Загрузить схему из файла.
+        /// Loads the view resource from the specified stream.
+        /// </summary>
+        public override void LoadResource(ViewResource resource, Stream stream)
+        {
+            if (resource.Name == nameof(TemplateBindings))
+            {
+                templateBindings = new TemplateBindings();
+                templateBindings.Load(stream);
+            }
+        }
+
+        /// <summary>
+        /// Builds the view after loading the view itself and all required resources.
+        /// </summary>
+        public override void Build()
+        {
+            // get channel offsets in template mode
+            int inCnlOffset = templateArgs.InCnlOffset;
+            int ctrlCnlOffset = templateArgs.CtrlCnlOffset;
+
+            // add channels from scheme document
+            AddInCnlNums(SchemeDoc.CnlFilter, inCnlOffset);
+
+            // update channels in components
+            SortedDictionary<int, ComponentBinding> componentBindings = templateBindings?.ComponentBindings;
+
+            foreach (BaseComponent component in Components.Values)
+            {
+                if (component is IDynamicComponent dynamicComponent)
+                {
+                    if (componentBindings != null &&
+                        componentBindings.TryGetValue(component.ID, out ComponentBinding binding))
+                    {
+                        dynamicComponent.InCnlNum = binding.InCnlNum;
+                        dynamicComponent.CtrlCnlNum = binding.CtrlCnlNum;
+                    }
+                    else
+                    {
+                        if (inCnlOffset > 0 && dynamicComponent.InCnlNum > 0)
+                            dynamicComponent.InCnlNum += inCnlOffset;
+                        if (ctrlCnlOffset > 0 && dynamicComponent.CtrlCnlNum > 0)
+                            dynamicComponent.CtrlCnlNum += ctrlCnlOffset;
+                    }
+
+                    AddCnlNum(dynamicComponent.InCnlNum);
+                    AddCnlNum(dynamicComponent.CtrlCnlNum);
+                }
+
+                AddInCnlNums(component.GetInCnlNums(), inCnlOffset);
+                AddInCnlNums(component.GetCtrlCnlNums(), ctrlCnlOffset);
+            }
+
+            // set title component text
+            int titleCompID = templateBindings == null 
+                ? templateArgs.TitleCompID 
+                : templateBindings.TitleCompID;
+
+            if (titleCompID > 0 &&
+                Components.TryGetValue(titleCompID, out BaseComponent titleComponent) &&
+                titleComponent is StaticText staticText)
+            {
+                staticText.Text = Title;
+            }
+        }
+
+        /// <summary>
+        /// Loads the scheme from the specified file.
         /// </summary>
         public bool LoadFromFile(string fileName, out string errMsg)
         {
@@ -243,7 +267,7 @@ namespace Scada.Web.Plugins.PlgScheme
         }
 
         /// <summary>
-        /// Сохранить схему в файле.
+        /// Saves the scheme to the specified file.
         /// </summary>
         public bool SaveToFile(string fileName, out string errMsg)
         {
@@ -253,17 +277,17 @@ namespace Scada.Web.Plugins.PlgScheme
                 XmlDeclaration xmlDecl = xmlDoc.CreateXmlDeclaration("1.0", "utf-8", null);
                 xmlDoc.AppendChild(xmlDecl);
 
-                // запись заголовка представления
+                // view title
                 XmlElement rootElem = xmlDoc.CreateElement("SchemeView");
                 rootElem.SetAttribute("title", SchemeDoc.Title);
                 xmlDoc.AppendChild(rootElem);
 
-                // запись документа схемы
+                // scheme document
                 XmlElement documentElem = xmlDoc.CreateElement("Scheme");
                 rootElem.AppendChild(documentElem);
                 SchemeDoc.SaveToXml(documentElem);
 
-                // запись компонентов схемы
+                // scheme components
                 HashSet<string> prefixes = new();
                 XmlElement componentsElem = xmlDoc.CreateElement("Components");
                 rootElem.AppendChild(componentsElem);
@@ -279,16 +303,16 @@ namespace Scada.Web.Plugins.PlgScheme
                         Type compType = component.GetType();
                         CompLibSpec compLibSpec = CompManager.GetSpecByType(compType);
 
-                        // добавление пространства имён
+                        // add namespace
                         if (compLibSpec != null && !prefixes.Contains(compLibSpec.XmlPrefix))
                         {
                             rootElem.SetAttribute("xmlns:" + compLibSpec.XmlPrefix, compLibSpec.XmlNs);
                             prefixes.Add(compLibSpec.XmlPrefix);
                         }
 
-                        // создание XML-элемента компонента
+                        // create XML element of component
                         XmlElement componentElem = compLibSpec == null ?
-                            xmlDoc.CreateElement(compType.Name) /*стандартный компонент*/ :
+                            xmlDoc.CreateElement(compType.Name) /*standard component*/ :
                             xmlDoc.CreateElement(compLibSpec.XmlPrefix, compType.Name, compLibSpec.XmlNs);
 
                         componentsElem.AppendChild(componentElem);
@@ -296,7 +320,7 @@ namespace Scada.Web.Plugins.PlgScheme
                     }
                 }
 
-                // запись изображений схемы
+                // scheme images
                 XmlElement imagesElem = xmlDoc.CreateElement("Images");
                 rootElem.AppendChild(imagesElem);
 
@@ -319,7 +343,7 @@ namespace Scada.Web.Plugins.PlgScheme
         }
 
         /// <summary>
-        /// Получить следующий идентификатор компонента схемы.
+        /// Gets the next component ID.
         /// </summary>
         public int GetNextComponentID()
         {

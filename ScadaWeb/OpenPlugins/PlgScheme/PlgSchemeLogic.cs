@@ -7,6 +7,7 @@ using Scada.Lang;
 using Scada.Web.Lang;
 using Scada.Web.Plugins.PlgScheme.Code;
 using Scada.Web.Services;
+using System;
 using System.Collections.Generic;
 
 namespace Scada.Web.Plugins.PlgScheme
@@ -18,6 +19,7 @@ namespace Scada.Web.Plugins.PlgScheme
     public class PlgSchemeLogic : PluginLogic
     {
         private readonly PluginContext pluginContext;
+        private readonly CompManager compManager;
 
 
         /// <summary>
@@ -26,7 +28,8 @@ namespace Scada.Web.Plugins.PlgScheme
         public PlgSchemeLogic(IWebContext webContext)
             : base(webContext)
         {
-            pluginContext = new PluginContext(Log);
+            pluginContext = new PluginContext();
+            compManager = new CompManager(Log);
         }
 
 
@@ -40,6 +43,32 @@ namespace Scada.Web.Plugins.PlgScheme
         /// </summary>
         public override ICollection<ViewSpec> ViewSpecs => new ViewSpec[] { new SchemeViewSpec() };
 
+
+        /// <summary>
+        /// Retrieves scheme components from the installed plugins.
+        /// </summary>
+        private void RetrieveComponents(IEnumerable<PluginLogic> plugins)
+        {
+            Log.WriteAction(WebPhrases.PluginMessage, PluginUtils.PluginCode, Locale.IsRussian ?
+                "Извлечение компонентов схем из установленных плагинов" :
+                "Retrieve scheme components from the installed plugins");
+
+            foreach (PluginLogic pluginLogic in plugins)
+            {
+                try
+                {
+                    if (pluginLogic is ISchemeComp schemeComp)
+                        compManager.AddComponents(schemeComp);
+                }
+                catch (Exception ex)
+                {
+                    Log.WriteError(ex, WebPhrases.PluginMessage, PluginUtils.PluginCode, 
+                        string.Format(Locale.IsRussian ?
+                            "Ошибка при извлечении компонентов из плагина {0}" :
+                            "Error retrieving components from the {0} plugin", pluginLogic.Code));
+                }
+            }
+        }
 
         /// <summary>
         /// Loads language dictionaries.
@@ -59,7 +88,7 @@ namespace Scada.Web.Plugins.PlgScheme
         public override void LoadConfig()
         {
             pluginContext.LoadOptions(WebContext.AppConfig.GetOptions("Scheme"));
-            pluginContext.RetrieveComponents(WebContext.PluginHolder.EnumeratePlugins());
+            RetrieveComponents(WebContext.PluginHolder.EnumeratePlugins());
         }
 
         /// <summary>
@@ -76,7 +105,7 @@ namespace Scada.Web.Plugins.PlgScheme
         public override void PrepareView(BaseView view)
         {
             if (view is SchemeView schemeView)
-                schemeView.CompManager = pluginContext.CompManager;
+                schemeView.CompManager = compManager;
         }
     }
 }

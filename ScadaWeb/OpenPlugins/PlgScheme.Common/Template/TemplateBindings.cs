@@ -3,6 +3,7 @@
 
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Xml;
 
 namespace Scada.Web.Plugins.PlgScheme.Template
@@ -49,33 +50,26 @@ namespace Scada.Web.Plugins.PlgScheme.Template
         }
 
         /// <summary>
-        /// Loads the bindings from the specified file.
+        /// Loads the bindings from the specified stream.
         /// </summary>
-        public void Load(string fileName)
+        public void Load(Stream stream)
         {
-            try
+            ArgumentNullException.ThrowIfNull(stream, nameof(stream));
+
+            XmlDocument xmlDoc = new();
+            xmlDoc.Load(stream);
+            XmlElement rootElem = xmlDoc.DocumentElement;
+
+            TemplateFileName = rootElem.GetChildAsString("TemplateFileName");
+            TitleCompID = rootElem.GetChildAsInt("TitleCompID");
+
+            foreach (XmlElement bindingElem in rootElem.SelectNodes("Binding"))
             {
-                SetToDefault();
+                ComponentBinding binding = new();
+                binding.LoadFromXml(bindingElem);
 
-                XmlDocument xmlDoc = new();
-                xmlDoc.Load(fileName);
-                XmlElement rootElem = xmlDoc.DocumentElement;
-
-                TemplateFileName = rootElem.GetChildAsString("TemplateFileName");
-                TitleCompID = rootElem.GetChildAsInt("TitleCompID");
-
-                foreach (XmlElement bindingElem in rootElem.SelectNodes("Binding"))
-                {
-                    ComponentBinding binding = new();
-                    binding.LoadFromXml(bindingElem);
-
-                    if (binding.CompID > 0)
-                        ComponentBindings[binding.CompID] = binding;
-                }
-            }
-            catch (Exception ex)
-            {
-                throw new ScadaException(ScadaUtils.BuildErrorMessage(ex, SchemePhrases.LoadTemplateBindingsError));
+                if (binding.CompID > 0)
+                    ComponentBindings[binding.CompID] = binding;
             }
         }
 
@@ -86,13 +80,19 @@ namespace Scada.Web.Plugins.PlgScheme.Template
         {
             try
             {
-                Load(fileName);
+                SetToDefault();
+
+                using (FileStream stream = new(fileName, FileMode.Open, FileAccess.Read, FileShare.ReadWrite))
+                {
+                    Load(stream);
+                }
+
                 errMsg = "";
                 return true;
             }
             catch (Exception ex)
             {
-                errMsg = ex.Message;
+                errMsg = ScadaUtils.BuildErrorMessage(ex, SchemePhrases.LoadTemplateBindingsError);
                 return false;
             }
         }
