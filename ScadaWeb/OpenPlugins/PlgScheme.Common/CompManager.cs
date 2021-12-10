@@ -338,7 +338,7 @@ namespace Scada.Web.Plugins.PlgScheme
         /// <summary>
         /// Получить объединённый список стилей компонентов.
         /// </summary>
-        public List<string> GetAllStyles()
+        public List<string> GetAllStyles(string rootPath)
         {
             lock (syncLock)
             {
@@ -346,7 +346,7 @@ namespace Scada.Web.Plugins.PlgScheme
 
                 foreach (CompLibSpec spec in allSpecs)
                 {
-                    allStyles.AddRange(spec.Styles);
+                    spec.Styles.ForEach(s => allStyles.Add(rootPath + s));
                 }
 
                 return allStyles;
@@ -356,7 +356,7 @@ namespace Scada.Web.Plugins.PlgScheme
         /// <summary>
         /// Получить объединённый список скриптов компонентов.
         /// </summary>
-        public List<string> GetAllScripts()
+        public List<string> GetAllScripts(string rootPath)
         {
             lock (syncLock)
             {
@@ -364,7 +364,7 @@ namespace Scada.Web.Plugins.PlgScheme
 
                 foreach (CompLibSpec spec in allSpecs)
                 {
-                    allScripts.AddRange(spec.Scripts);
+                    spec.Scripts.ForEach(s => allScripts.Add(rootPath + s));
                 }
 
                 return allScripts;

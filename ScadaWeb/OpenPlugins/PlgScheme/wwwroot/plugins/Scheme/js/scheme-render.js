@@ -278,13 +278,18 @@ scada.scheme.ComponentRenderer = function () {
 scada.scheme.ComponentRenderer.prototype = Object.create(scada.scheme.Renderer.prototype);
 scada.scheme.ComponentRenderer.constructor = scada.scheme.ComponentRenderer;
 
+// Get a status color from the extended channel data
+scada.scheme.ComponentRenderer.prototype._getStatusColor = function (cnlDataExt) {
+    return cnlDataExt.df.colors.length > 0 ? cnlDataExt.df.colors[0] : this.STATUS_DISPLAY_COLOR;
+};
+
 // Get dynamic color that may depend on input channel status
 scada.scheme.ComponentRenderer.prototype._getDynamicColor = function (color, cnlNum, renderContext) {
     if (color) {
         if (color === this.STATUS_COLOR) {
-            var curCnlDataExt = renderContext.curCnlDataMap ?
-                renderContext.curCnlDataMap.get(cnlNum) : null;
-            return curCnlDataExt ? curCnlDataExt.Color : ""; // TODO: fix color
+            return renderContext.curCnlDataMap
+                ? this._getStatusColor(renderContext.curCnlDataMap.get(cnlNum))
+                : this.STATUS_DISPLAY_COLOR;
         } else {
             return color;
         }
@@ -658,12 +663,11 @@ scada.scheme.DynamicTextRenderer.prototype.updateData = function (component, ren
         }
 
         // choose and set colors of the component
-        var statusColor = cnlDataExt.df.colors.length > 0 ? cnlDataExt.df.colors[0] : this.STATUS_DISPLAY_COLOR;
         var isHovered = spanComp.is(":hover");
-
         var backColor = this.chooseColor(isHovered, props.backColor, props.backColorOnHover);
         var borderColor = this.chooseColor(isHovered, props.borderColor, props.borderColorOnHover);
         var foreColor = this.chooseColor(isHovered, props.foreColor, props.foreColorOnHover);
+        var statusColor = this._getStatusColor(cnlDataExt);
 
         this.setBackColor(spanComp, backColor, true, statusColor);
         this.setBorderColor(spanComp, borderColor, true, statusColor);
@@ -803,11 +807,10 @@ scada.scheme.DynamicPictureRenderer.prototype.updateData = function (component, 
         this.setBackgroundImage(divComp, image, true);
 
         // choose and set colors of the component
-        var statusColor = cnlDataExt.df.colors.length > 0 ? cnlDataExt.df.colors[0] : this.STATUS_DISPLAY_COLOR;
         var isHovered = divComp.is(":hover");
-
         var backColor = this.chooseColor(isHovered, props.backColor, props.backColorOnHover);
         var borderColor = this.chooseColor(isHovered, props.borderColor, props.borderColorOnHover);
+        var statusColor = this._getStatusColor(cnlDataExt);
 
         this.setBackColor(divComp, backColor, true, statusColor);
         this.setBorderColor(divComp, borderColor, true, statusColor);
@@ -845,14 +848,6 @@ scada.scheme.RenderContext.prototype.getCnlDataExt = function (cnlNum) {
             df: { dispVal: "", colors: [] }
         };
     }
-
-    /*var curCnlDataExt = this.curCnlDataMap.get(cnlNum);
-
-    if (!curCnlDataExt) {
-        curCnlDataExt = new scada.CnlDataExt();
-        var renderer = new scada.scheme.Renderer();
-        curCnlDataExt.Color = renderer.STATUS_DISPLAY_COLOR;
-    }*/
 
     return curCnlDataExt;
 };

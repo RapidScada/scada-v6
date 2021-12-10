@@ -5,6 +5,8 @@ using Microsoft.AspNetCore.Mvc.RazorPages;
 using Scada.Data.Entities;
 using Scada.Web.Plugins.PlgScheme.Code;
 using Scada.Web.Services;
+using System.Collections.Generic;
+using System.Text;
 
 namespace Scada.Web.Plugins.PlgScheme.Areas.Scheme.Pages
 {

@@ -25,11 +25,11 @@ namespace Scada.Web.Plugins.PlgScheme
 
         public static void Init()
         {
-            LocaleDict dict = Locale.GetDictionary("Scada.Scheme.Template.TemplateBindings");
+            LocaleDict dict = Locale.GetDictionary("Scada.Web.Plugins.PlgScheme.Template.TemplateBindings");
             LoadTemplateBindingsError = dict.GetPhrase("LoadTemplateBindingsError");
             SaveTemplateBindingsError = dict.GetPhrase("SaveTemplateBindingsError");
 
-            dict = Locale.GetDictionary("Scada.Scheme.CompManager");
+            dict = Locale.GetDictionary("Scada.Web.Plugins.PlgScheme.CompManager");
             UnknownComponent = dict.GetPhrase("UnknownComponent");
             CompLibraryNotFound = dict.GetPhrase("CompLibraryNotFound");
             UnableCreateComponent = dict.GetPhrase("UnableCreateComponent");

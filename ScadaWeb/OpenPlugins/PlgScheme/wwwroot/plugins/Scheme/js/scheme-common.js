@@ -106,13 +106,13 @@ scada.scheme.calc = {
     // Check if the condition is satisfied by the input channel value
     conditionSatisfied: function (cond, cnlVal) {
         var LogicalOperators = scada.scheme.LogicalOperators;
-        var comp1 = this.compare(cnlVal, cond.CompareArgument1, cond.CompareOperator1);
+        var comp1 = this.compare(cnlVal, cond.compareArgument1, cond.compareOperator1);
 
-        if (cond.LogicalOperator === LogicalOperators.NONE) {
+        if (cond.logicalOperator === LogicalOperators.NONE) {
             return comp1;
         } else {
-            var comp2 = this.compare(cnlVal, cond.CompareArgument2, cond.CompareOperator2);
-            return this.isTrue(comp1, comp2, cond.LogicalOperator);
+            var comp2 = this.compare(cnlVal, cond.compareArgument2, cond.compareOperator2);
+            return this.isTrue(comp1, comp2, cond.logicalOperator);
         }
     }
 };

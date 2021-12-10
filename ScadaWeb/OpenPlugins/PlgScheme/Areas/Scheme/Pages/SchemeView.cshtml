@@ -4,10 +4,16 @@
 @{
     Layout = "_BasicLayout";
     dynamic dict = Locale.GetDictionary("Scada.Web.Plugins.PlgScheme.Areas.Scheme.Pages.SchemeView");
+    const string PluginRoot = "~/plugins/";
 }
 
 @section Styles {
     <link href="~/plugins/Scheme/css/scheme-view.min.css" rel="stylesheet" asp-append-version="true" />
+
+    @foreach (var url in pluginContext.CompManager.GetAllStyles(PluginRoot))
+    {
+        <link href="@url" rel="stylesheet" asp-append-version="true" />
+    }
 }
 
 @section Scripts {
@@ -23,6 +29,11 @@
         controlRight = @Model.ControlRight.ToLowerString();
         schemeOptions = @WebUtils.ObjectToJs(pluginContext.Options);
     </script>
+
+    @foreach (var url in pluginContext.CompManager.GetAllScripts(PluginRoot))
+    {
+        <script src="@url" asp-append-version="true"></script>
+    }
 }
 
 <div id="divNotif" class="hidden"></div>
