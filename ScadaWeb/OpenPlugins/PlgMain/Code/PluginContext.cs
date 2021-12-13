@@ -2,6 +2,7 @@
 // Licensed under the Apache License, Version 2.0. See License.txt in the project root for license information.
 
 using Scada.Config;
+using Scada.Web.Config;
 
 namespace Scada.Web.Plugins.PlgMain.Code
 {
@@ -27,9 +28,12 @@ namespace Scada.Web.Plugins.PlgMain.Code
         /// <summary>
         /// Loads the plugin options.
         /// </summary>
-        public void LoadOptions(OptionList options)
+        public void LoadOptions(WebConfig webConfig)
         {
-            Options = new PluginOptions(options);
+            Options = new PluginOptions(webConfig.GetOptions("Main"))
+            {
+                RefreshRate = webConfig.DisplayOptions.RefreshRate
+            };
         }
     }
 }

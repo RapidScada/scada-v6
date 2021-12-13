@@ -73,7 +73,7 @@ namespace Scada.Web.Plugins.PlgMain
         /// </summary>
         public override void LoadConfig()
         {
-            pluginContext.LoadOptions(WebContext.AppConfig.GetOptions("Main"));
+            pluginContext.LoadOptions(WebContext.AppConfig);
         }
 
         /// <summary>

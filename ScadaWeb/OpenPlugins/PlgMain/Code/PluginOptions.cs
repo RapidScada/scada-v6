@@ -17,9 +17,7 @@ namespace Scada.Web.Plugins.PlgMain.Code
         /// </summary>
         public PluginOptions(OptionList options)
         {
-            if (options == null)
-                throw new ArgumentNullException(nameof(options));
-
+            ArgumentNullException.ThrowIfNull(options, nameof(options));
             RefreshRate = options.GetValueAsInt("RefreshRate", 1000);
             TableArchiveCode = options.GetValueAsString("TableArchiveCode");
             TablePeriod = options.GetValueAsInt("TablePeriod", 60);
@@ -31,7 +29,7 @@ namespace Scada.Web.Plugins.PlgMain.Code
 
 
         /// <summary>
-        /// Gets or sets the data refresh rate.
+        /// Gets or sets the data refresh rate in milliseconds.
         /// </summary>
         public int RefreshRate { get; set; }
 
