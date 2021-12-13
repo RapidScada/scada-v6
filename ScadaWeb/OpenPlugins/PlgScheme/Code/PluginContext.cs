@@ -4,6 +4,7 @@
 using Scada.Config;
 using Scada.Lang;
 using Scada.Log;
+using Scada.Web.Config;
 using Scada.Web.Lang;
 using System;
 using System.Collections.Generic;
@@ -44,9 +45,12 @@ namespace Scada.Web.Plugins.PlgScheme.Code
         /// <summary>
         /// Loads the scheme options.
         /// </summary>
-        public void LoadOptions(OptionList options)
+        public void LoadOptions(WebConfig webConfig)
         {
-            Options = new SchemeOptions(options);
+            Options = new SchemeOptions(webConfig.GetOptions("Scheme"))
+            {
+                RefreshRate = webConfig.DisplayOptions.RefreshRate
+            };
         }
 
         /// <summary>

@@ -24,12 +24,11 @@ var errorTimeoutID = 0;
 // The variables below are set from SchemeView.cshtml
 // View ID
 var viewID = 0;
-// Scheme refresh rate
-var refrRate = 1000;
 // View control right
 var controlRight = false;
 // Scheme options
 var schemeOptions = {
+    refreshRate: 1000,
     scaleType: scada.scheme.ScaleTypes.NUMERIC,
     scaleValue: 1.0,
     rememberScale: true
@@ -92,7 +91,7 @@ function startUpdatingScheme() {
             showErrorBadge();
         }
 
-        setTimeout(startUpdatingScheme, refrRate);
+        setTimeout(startUpdatingScheme, schemeOptions.refreshRate);
     });
 }
 

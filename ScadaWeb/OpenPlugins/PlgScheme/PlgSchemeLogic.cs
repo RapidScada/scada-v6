@@ -59,7 +59,7 @@ namespace Scada.Web.Plugins.PlgScheme
         /// </summary>
         public override void LoadConfig()
         {
-            pluginContext.LoadOptions(WebContext.AppConfig.GetOptions("Scheme"));
+            pluginContext.LoadOptions(WebContext.AppConfig);
             pluginContext.RetrieveComponents(WebContext.PluginHolder.EnumeratePlugins());
         }
 

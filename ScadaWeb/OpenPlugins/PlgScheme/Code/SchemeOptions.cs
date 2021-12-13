@@ -18,11 +18,17 @@ namespace Scada.Web.Plugins.PlgScheme.Code
         public SchemeOptions(OptionList options)
         {
             ArgumentNullException.ThrowIfNull(options, nameof(options));
+            RefreshRate = options.GetValueAsInt("RefreshRate", 1000);
             ScaleType = options.GetValueAsEnum("ScaleType", ScaleType.Numeric);
             ScaleValue = options.GetValueAsDouble("ScaleValue", 100) / 100;
             RememberScale = options.GetValueAsBool("RememberScale", true);
         }
 
+
+        /// <summary>
+        /// Gets or sets the data refresh rate in milliseconds.
+        /// </summary>
+        public int RefreshRate { get; set; }
 
         /// <summary>
         /// Gets or sets the scale type.
