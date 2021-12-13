@@ -42,6 +42,7 @@ namespace Scada.Web.Config
             ShowHeader = true;
             ShowMainMenu = true;
             ShowViewExplorer = true;
+            RefreshRate = 1000;
         }
 
 
@@ -60,6 +61,11 @@ namespace Scada.Web.Config
         /// </summary>
         public bool ShowViewExplorer { get; set; }
 
+        /// <summary>
+        /// Gets or sets the data refresh rate in milliseconds.
+        /// </summary>
+        public int RefreshRate { get; set; }
+
 
         /// <summary>
         /// Loads the options from the XML node.
@@ -72,6 +78,7 @@ namespace Scada.Web.Config
             ShowHeader = xmlNode.GetChildAsBool("ShowHeader", ShowHeader);
             ShowMainMenu = xmlNode.GetChildAsBool("ShowMainMenu", ShowMainMenu);
             ShowViewExplorer = xmlNode.GetChildAsBool("ShowViewExplorer", ShowViewExplorer);
+            RefreshRate = xmlNode.GetChildAsInt("RefreshRate", RefreshRate);
         }
 
         /// <summary>
@@ -85,6 +92,7 @@ namespace Scada.Web.Config
             xmlElem.AppendElem("ShowHeader", ShowHeader);
             xmlElem.AppendElem("ShowMainMenu", ShowMainMenu);
             xmlElem.AppendElem("ShowViewExplorer", ShowViewExplorer);
+            xmlElem.AppendElem("RefreshRate", RefreshRate);
         }
     }
 }

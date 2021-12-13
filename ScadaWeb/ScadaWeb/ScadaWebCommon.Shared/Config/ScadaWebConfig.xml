@@ -27,6 +27,7 @@
     <ShowHeader>true</ShowHeader>
     <ShowMainMenu>true</ShowMainMenu>
     <ShowViewExplorer>true</ShowViewExplorer>
+    <RefreshRate>1000</RefreshRate>
   </DisplayOptions>
   <Plugins>
     <Plugin code="PlgChart" />
@@ -46,7 +47,6 @@
       <Option name="GapBetweenPoints" value="90" />
     </OptionGroup>
     <OptionGroup name="Main">
-      <Option name="RefreshRate" value="1000" />
       <Option name="TableArchiveCode" value="Hour" />
       <Option name="TablePeriod" value="60" />
       <Option name="EventArchiveCode" value="Events" />
