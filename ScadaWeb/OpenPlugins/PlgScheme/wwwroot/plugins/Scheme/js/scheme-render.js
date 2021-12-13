@@ -655,7 +655,8 @@ scada.scheme.DynamicTextRenderer.prototype.updateData = function (component, ren
         // show value of the appropriate input channel
         switch (props.showValue) {
             case ShowValueKinds.SHOW_WITH_UNIT:
-                spanText.text(cnlDataExt.df.dispVal); // TODO: add unit from channel properties
+                let unit = cnlDataExt.d.stat > 0 ? renderContext.getUnit(props.inCnlNum, " ") : "";
+                spanText.text(cnlDataExt.df.dispVal + unit);
                 break;
             case ShowValueKinds.SHOW_WITHOUT_UNIT:
                 spanText.text(cnlDataExt.df.dispVal);
@@ -831,6 +832,7 @@ scada.scheme.UnknownComponentRenderer.constructor = scada.scheme.UnknownComponen
 // Render context type
 scada.scheme.RenderContext = function () {
     this.curCnlDataMap = null;
+    this.unitMap = null;
     this.editMode = false;
     this.schemeEnv = null;
     this.viewID = 0;
@@ -840,7 +842,7 @@ scada.scheme.RenderContext = function () {
 
 // Get defined channel data even if they don't exist in the map
 scada.scheme.RenderContext.prototype.getCnlDataExt = function (cnlNum) {
-    let curCnlDataExt = this.curCnlDataMap.get(cnlNum);
+    let curCnlDataExt = this.curCnlDataMap ? this.curCnlDataMap.get(cnlNum) : null;
 
     if (!curCnlDataExt) {
         curCnlDataExt = {
@@ -852,9 +854,17 @@ scada.scheme.RenderContext.prototype.getCnlDataExt = function (cnlNum) {
     return curCnlDataExt;
 };
 
+// Get a unit by the channel number, or an empty string if channel does not exist
+scada.scheme.RenderContext.prototype.getUnit = function (cnlNum, opt_prefix) {
+    let unit = this.unitMap ? this.unitMap.get(cnlNum) : null;
+    return unit
+        ? opt_prefix + unit
+        : "";
+};
+
 // Get scheme image object by the image name
 scada.scheme.RenderContext.prototype.getImage = function (imageName) {
-    return this.imageMap.get(imageName);
+    return this.imageMap ? this.imageMap.get(imageName) : null;
 };
 
 /********** Renderer Map **********/

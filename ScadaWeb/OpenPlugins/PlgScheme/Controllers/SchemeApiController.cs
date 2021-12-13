@@ -2,6 +2,7 @@
 // Licensed under the Apache License, Version 2.0. See License.txt in the project root for license information.
 
 using Microsoft.AspNetCore.Mvc;
+using Scada.Data.Entities;
 using Scada.Data.Models;
 using Scada.Web.Api;
 using Scada.Web.Lang;
@@ -47,9 +48,16 @@ namespace Scada.Web.Plugins.PlgScheme.Controllers
         {
             try
             {
-                return viewLoader.GetView(viewID, out SchemeView schemeView, out string errMsg)
-                    ? Dto<DocumentPacket>.Success(new DocumentPacket(schemeView))
-                    : Dto<DocumentPacket>.Fail(errMsg);
+                if (viewLoader.GetView(viewID, out SchemeView schemeView, out string errMsg))
+                {
+                    DocumentPacket documentPacket = new(schemeView);
+                    documentPacket.FillCnlProps(webContext.BaseDataSet);
+                    return Dto<DocumentPacket>.Success(documentPacket);
+                }
+                else
+                {
+                    return Dto<DocumentPacket>.Fail(errMsg);
+                }
             }
             catch (Exception ex)
             {
@@ -105,29 +113,6 @@ namespace Scada.Web.Plugins.PlgScheme.Controllers
             {
                 webContext.Log.WriteError(ex, WebPhrases.ErrorInWebApi, nameof(GetImages));
                 return Dto<ImagePacket>.Fail(ex.Message);
-            }
-        }
-
-        /// <summary>
-        /// Получить ошибки при загрузке схемы.
-        /// </summary>
-        public Dto<ErrorPacket> GetLoadErrors(int viewID, long viewStamp)
-        {
-            try
-            {
-                if (viewLoader.GetView(viewID, out SchemeView schemeView, out string errMsg))
-                {
-                    return Dto<ErrorPacket>.Success(new ErrorPacket(schemeView));
-                }
-                else
-                {
-                    return Dto<ErrorPacket>.Fail(errMsg);
-                }
-            }
-            catch (Exception ex)
-            {
-                webContext.Log.WriteError(ex, WebPhrases.ErrorInWebApi, nameof(GetLoadErrors));
-                return Dto<ErrorPacket>.Fail(ex.Message);
             }
         }
 

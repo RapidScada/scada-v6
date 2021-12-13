@@ -28,8 +28,7 @@ scada.scheme.LoadStates = {
     DOC_LOADING: 1,
     COMPONENTS_LOADING: 2,
     IMAGES_LOADING: 3,
-    ERRORS_LOADING: 4,
-    COMPLETE: 5
+    COMPLETE: 4
 };
 
 /********** Channel Filter **********/
@@ -155,11 +154,8 @@ scada.scheme.Scheme.prototype._loadPart = function (viewOrEditorID, callback) {
         case LoadStates.IMAGES_LOADING:
             this._loadImages(viewOrEditorID, callback);
             break;
-        case LoadStates.ERRORS_LOADING:
-            this._loadErrors(viewOrEditorID, callback);
-            break;
         case LoadStates.COMPLETE:
-            console.warn("Scheme loading is already complete");
+            console.warn("Scheme loading is already completed");
             callback(true, true);
             break;
         default:
@@ -239,6 +235,8 @@ scada.scheme.Scheme.prototype._obtainSchemeDoc = function (receivedData) {
         if (this._viewStampsMatched(this.viewStamp, receivedData.viewStamp)) {
             this.type = "";
             this.props = receivedData.schemeDoc;
+            this.loadErrors = receivedData.loadErrors;
+            this._createUnitMap(receivedData.cnlProps);
             this.viewStamp = receivedData.viewStamp;
             return true;
         } else {
@@ -248,6 +246,19 @@ scada.scheme.Scheme.prototype._obtainSchemeDoc = function (receivedData) {
     catch (ex) {
         console.error(ScadaUtils.getCurrentTime() + " Error obtaining scheme properties:", ex.message);
         return false;
+    }
+};
+
+// Create a unit map from the channel properties
+scada.scheme.Scheme.prototype._createUnitMap = function (cnlProps) {
+    this.renderContext.unitMap = new Map();
+
+    if (Array.isArray(cnlProps)) {
+        for (let elem of cnlProps) {
+            if (elem.cnlNum > 0 && elem.unit) {
+                this.renderContext.unitMap.set(elem.cnlNum, elem.unit);
+            }
+        }
     }
 };
 
@@ -376,9 +387,11 @@ scada.scheme.Scheme.prototype._loadImages = function (viewOrEditorID, callback) 
                 thisScheme._logSuccessfulRequest(operation);
                 if (thisScheme._obtainImages(data.data)) {
                     if (data.data.endOfImages) {
-                        thisScheme.loadState = scada.scheme.LoadStates.ERRORS_LOADING;
+                        thisScheme.loadState = scada.scheme.LoadStates.COMPLETE;
+                        callback(true, true);
+                    } else {
+                        callback(true, false);
                     }
-                    callback(true, false);
                 } else {
                     callback(false, false);
                 }
@@ -447,50 +460,6 @@ scada.scheme.Scheme.prototype._validateImage = function (receivedImage) {
     return typeof receivedImage !== "undefined" &&
         typeof receivedImage.name !== "undefined" &&
         typeof receivedImage.data !== "undefined";
-};
-
-// Load scheme images
-// callback is a function (success, complete)
-scada.scheme.Scheme.prototype._loadErrors = function (viewOrEditorID, callback) {
-    var operation = this.serviceUrl + "GetLoadErrors";
-    var thisScheme = this;
-
-    this.ajaxQueue.ajax({
-        url: operation +
-            this._getAccessParamStr(viewOrEditorID) +
-            "&viewStamp=" + this.viewStamp,
-        method: "GET",
-        dataType: "json",
-        cache: false
-    })
-    .done(function (data, textStatus, jqXHR) {
-        try {
-            if (data.ok) {
-                thisScheme._logSuccessfulRequest(operation);
-                receivedData = data.data;
-
-                if (typeof receivedData.viewStamp !== "undefined" &&
-                    thisScheme._viewStampsMatched(thisScheme.viewStamp, receivedData.viewStamp)) {
-                    thisScheme.loadErrors = receivedData.errors;
-                    thisScheme.loadState = scada.scheme.LoadStates.COMPLETE;
-                    callback(true, true);
-                } else {
-                    callback(false, false);
-                }
-            } else {
-                thisScheme._logServiceError(operation, data.msg);
-                callback(false, false);
-            }
-        }
-        catch (ex) {
-            thisScheme._logProcessingError(operation, ex.message);
-            callback(false, false);
-        }
-    })
-    .fail(function (jqXHR, textStatus, errorThrown) {
-        thisScheme._logFailedRequest(operation, jqXHR);
-        callback(false, false);
-    });
 };
 
 // Update the component using the current input channel data

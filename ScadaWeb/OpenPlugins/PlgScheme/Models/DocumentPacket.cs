@@ -1,8 +1,11 @@
 ﻿// Copyright (c) Rapid Software LLC. All rights reserved.
 // Licensed under the Apache License, Version 2.0. See License.txt in the project root for license information.
 
+using Scada.Data.Entities;
+using Scada.Data.Models;
 using Scada.Web.Plugins.PlgScheme.Model;
 using System;
+using System.Collections.Generic;
 
 namespace Scada.Web.Plugins.PlgScheme.Models
 {
@@ -20,11 +23,50 @@ namespace Scada.Web.Plugins.PlgScheme.Models
             ArgumentNullException.ThrowIfNull(schemeView, nameof(schemeView));
             ViewStamp = schemeView.ViewStamp.ToString();
             SchemeDoc = schemeView.SchemeDoc;
+            LoadErrors = schemeView.LoadErrors;
+            CnlProps = new List<CnlProps>();
         }
+
 
         /// <summary>
         /// Gets the scheme document properties.
         /// </summary>
         public SchemeDocument SchemeDoc { get; }
+
+        /// <summary>
+        /// Gets the errors occurred during download.
+        /// </summary>
+        public List<string> LoadErrors { get; }
+
+        /// <summary>
+        /// Gets the properties of the scheme channels.
+        /// </summary>
+        public List<CnlProps> CnlProps { get; }
+
+
+        /// <summary>
+        /// Fills the channel properties.
+        /// </summary>
+        public void FillCnlProps(BaseDataSet baseDataSet)
+        {
+            ArgumentNullException.ThrowIfNull(baseDataSet, nameof(baseDataSet));
+
+            if (SchemeDoc?.SchemeView == null)
+                throw new InvalidOperationException("Scheme view must not be null.");
+
+            foreach (int cnlNum in SchemeDoc.SchemeView.CnlNumList)
+            {
+                if (baseDataSet.CnlTable.GetItem(cnlNum) is Cnl cnl)
+                {
+                    CnlProps.Add(new CnlProps
+                    {
+                        CnlNum = cnlNum,
+                        Unit = cnl.UnitID.HasValue
+                            ? baseDataSet.UnitTable.GetItem(cnl.UnitID.Value)?.Name
+                            : null
+                    });
+                }
+            }
+        }
     }
 }
