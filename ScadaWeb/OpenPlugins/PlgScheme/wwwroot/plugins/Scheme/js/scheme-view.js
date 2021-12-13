@@ -69,6 +69,7 @@ function loadScheme(viewID) {
                 scheme.createDom(controlRight);
                 loadScale();
                 displayScale();
+                alignHorizontally();
                 startUpdatingScheme();
             }
         } else {
@@ -100,27 +101,19 @@ function initToolbar() {
     var ScaleTypes = scada.scheme.ScaleTypes;
 
     $("#spanFitScreenBtn").click(function () {
-        scheme.setScale(ScaleTypes.FIT_SCREEN, 0);
-        displayScale();
-        saveScale();
+        changeScale(ScaleTypes.FIT_SCREEN, 0);
     });
 
     $("#spanFitWidthBtn").click(function () {
-        scheme.setScale(ScaleTypes.FIT_WIDTH, 0);
-        displayScale();
-        saveScale();
+        changeScale(ScaleTypes.FIT_WIDTH, 0);
     });
 
-    $("#spanZoomInBtn").click(function (event) {
-        scheme.setScale(ScaleTypes.NUMERIC, getNextScale());
-        displayScale();
-        saveScale();
+    $("#spanZoomInBtn").click(function () {
+        changeScale(ScaleTypes.NUMERIC, getNextScale());
     });
 
-    $("#spanZoomOutBtn").click(function (event) {
-        scheme.setScale(ScaleTypes.NUMERIC, getPrevScale());
-        displayScale();
-        saveScale();
+    $("#spanZoomOutBtn").click(function () {
+        changeScale(ScaleTypes.NUMERIC, getPrevScale());
     });
 }
 
@@ -146,6 +139,14 @@ function getNextScale() {
         }
     }
     return curScale;
+}
+
+// Change scheme scale
+function changeScale(scaleType, scaleValue) {
+    scheme.setScale(scaleType, scaleValue);
+    displayScale();
+    saveScale();
+    alignHorizontally();
 }
 
 // Display the scheme scale
@@ -200,6 +201,16 @@ function updateLayout() {
     divToolbar.css("top", notifHeight);
 }
 
+// Align scheme horizontally within its wrapper
+function alignHorizontally() {
+    let divSchWrapper = $("#divSchWrapper");
+    let actualSchemeWidth = scheme.dom[0].getBoundingClientRect().width;
+    let wrapperWidth = divSchWrapper.innerWidth();
+    divSchWrapper.css("padding-left", wrapperWidth > actualSchemeWidth
+        ? parseInt((wrapperWidth - actualSchemeWidth) / 2)
+        : 0);
+};
+
 // Show error badge for a period of time or permanently
 function showErrorBadge(opt_permanent) {
     clearTimeout(errorTimeoutID);
@@ -243,6 +254,7 @@ function initDebugTools() {
 
     $("#spanCreateDomBtn").click(function () {
         scheme.createDom();
+        alignHorizontally();
     });
 
     $("#spanStartUpdBtn").click(function () {
@@ -273,6 +285,7 @@ $(document).ready(function () {
     $(window).on("resize " + ScadaEventType.UPDATE_LAYOUT, function () {
         updateLayout();
         updateScale();
+        alignHorizontally();
     });
 
     if (DEBUG_MODE) {
