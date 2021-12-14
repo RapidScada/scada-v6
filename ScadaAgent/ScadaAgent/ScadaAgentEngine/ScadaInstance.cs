@@ -24,6 +24,7 @@
  */
 
 using Scada.Agent.Config;
+using Scada.Config;
 using Scada.Lang;
 using Scada.Log;
 using Scada.Protocol;
@@ -50,22 +51,24 @@ namespace Scada.Agent.Engine
         private const int LockTimeout = 1000;
 
         private readonly ILog log;                        // the application log
-        private readonly InstanceOptions instanceOptions; // the instance options
+        private readonly InstanceOptions instanceOptions; // the instance options from the Agent configuration
+        private readonly InstanceConfig instanceConfig;   // the instance configuration used by the applications
         private readonly ReaderWriterLockSlim configLock; // synchronizes access to the instance configuration
 
 
         /// <summary>
         /// Initializes a new instance of the class.
         /// </summary>
-        public ScadaInstance(AppDirs appDirs, ILog log, InstanceOptions instanceOptions)
+        public ScadaInstance(AppDirs appDirs, ILog log, InstanceOptions instanceOptions, InstanceConfig instanceConfig)
         {
             if (appDirs == null)
                 throw new ArgumentNullException(nameof(appDirs));
 
             this.log = log ?? throw new ArgumentNullException(nameof(log));
             this.instanceOptions = instanceOptions ?? throw new ArgumentNullException(nameof(instanceOptions));
+            this.instanceConfig = instanceConfig ?? throw new ArgumentNullException(nameof(instanceConfig));
             configLock = new ReaderWriterLockSlim();
-            PathBuilder = new PathBuilder(instanceOptions.Directory, appDirs.ExeDir);
+            PathBuilder = new PathBuilder(instanceOptions.Directory, instanceConfig.LogDir, appDirs.ExeDir);
         }
 
 

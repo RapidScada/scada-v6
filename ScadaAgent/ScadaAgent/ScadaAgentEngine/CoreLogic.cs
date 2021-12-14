@@ -32,6 +32,7 @@ using System.IO;
 using System.Text;
 using System.Threading;
 using System.Linq;
+using Scada.Config;
 
 namespace Scada.Agent.Engine
 {
@@ -123,10 +124,37 @@ namespace Scada.Agent.Engine
             listener = new AgentListener(this, appConfig.ListenerOptions, appConfig.ReverseConnectionOptions);
             instances = new Dictionary<string, ScadaInstance>(appConfig.Instances.Count);
 
+            // create instances
             foreach (InstanceOptions instanceOptions in appConfig.Instances)
             {
-                if (instanceOptions.Active && !string.IsNullOrEmpty(instanceOptions.Name))
-                    instances.Add(instanceOptions.Name, new ScadaInstance(AppDirs, Log, instanceOptions));
+                if (!instanceOptions.Active || string.IsNullOrEmpty(instanceOptions.Name) || 
+                    instances.ContainsKey(instanceOptions.Name))
+                {
+                    // ignore instance silently
+                    continue;
+                }
+
+                if (!instanceOptions.ProxyMode && string.IsNullOrEmpty(instanceOptions.Directory))
+                {
+                    Log.WriteError(Locale.IsRussian ?
+                        "Экземпляр {0} игнорируется, потому что директория не задана" :
+                        "The {0} instance is ignored because the directory is not specified", 
+                        instanceOptions.Name);
+                    continue;
+                }
+
+                InstanceConfig instanceConfig = new InstanceConfig();
+
+                if (!instanceOptions.ProxyMode &&
+                    !instanceConfig.Load(InstanceConfig.GetConfigFileName(instanceOptions.Directory), 
+                    out string errMsg))
+                {
+                    Log.WriteError(Locale.IsRussian ?
+                        "Ошибка при загрузке конфигурации экземпляра {0}: {1}" :
+                        "Error loading the {0} instance configuration: {1}", instanceOptions.Name, errMsg);
+                }
+
+                instances.Add(instanceOptions.Name, new ScadaInstance(AppDirs, Log, instanceOptions, instanceConfig));
             }
         }
 

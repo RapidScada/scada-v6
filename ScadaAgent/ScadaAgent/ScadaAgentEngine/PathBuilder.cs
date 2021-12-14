@@ -36,17 +36,21 @@ namespace Scada.Agent.Engine
     /// </summary>
     internal class PathBuilder
     {
-        private readonly string instanceDir; // the instance directory
-        private readonly string agentDir;    // the application directory
+        private readonly string instanceDir;    // the instance directory
+        private readonly string instanceLogDir; // the instance log directory
+        private readonly string agentShortDir;  // the short name of the Agent directory
 
 
         /// <summary>
         /// Initializes a new instance of the class.
         /// </summary>
-        public PathBuilder(string instanceDir, string agentDir)
+        public PathBuilder(string instanceDir, string instanceLogDir, string agentDir)
         {
             this.instanceDir = instanceDir ?? throw new ArgumentNullException(nameof(instanceDir));
-            this.agentDir = agentDir ?? throw new ArgumentNullException(nameof(agentDir));
+            this.instanceLogDir = instanceLogDir ?? throw new ArgumentNullException(nameof(instanceLogDir));
+
+            DirectoryInfo agentDirInfo = new DirectoryInfo(agentDir);
+            agentShortDir = agentDirInfo.Name;
         }
 
 
@@ -81,8 +85,12 @@ namespace Scada.Agent.Engine
                     path = "ScadaWeb";
                     return true;
 
+                case TopFolder.Agent:
+                    path = agentShortDir;
+                    return true;
+
                 default:
-                    throw new ScadaException("Top folder not supported.");
+                    throw new ScadaException("Top folder {0} not supported.", topFolder);
             }
         }
 
@@ -122,7 +130,7 @@ namespace Scada.Agent.Engine
                     return true;
 
                 default:
-                    throw new ScadaException("Application folder not supported.");
+                    throw new ScadaException("Application folder {0} not supported.", appFolder);
             }
         }
 
@@ -150,18 +158,14 @@ namespace Scada.Agent.Engine
         public string GetAbsolutePath(RelativePath relativePath)
         {
             List<string> paths = new List<string>();
-            string path;
 
-            if (relativePath.TopFolder == TopFolder.Agent)
-            {
-                paths.Add(agentDir);
-            }
+            if (relativePath.AppFolder == AppFolder.Log && !string.IsNullOrEmpty(instanceLogDir))
+                paths.Add(instanceLogDir);
             else
-            {
                 paths.Add(instanceDir);
-                if (FolderToString(relativePath.TopFolder, out path))
-                    paths.Add(path);
-            }
+
+            if (FolderToString(relativePath.TopFolder, out string path))
+                paths.Add(path);
 
             if (FolderToString(relativePath.AppFolder, relativePath.TopFolder == TopFolder.Web, out path))
                 paths.Add(path);

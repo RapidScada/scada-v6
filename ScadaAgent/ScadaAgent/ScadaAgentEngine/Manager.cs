@@ -92,20 +92,25 @@ namespace Scada.Agent.Engine
             System.Diagnostics.Debugger.Launch();
 #endif
 
-            // initialize directories
-            string exeDir = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location);
-            AppDirs.Init(exeDir);
+            // load instance configuration
+            AppDirs.Init(Assembly.GetExecutingAssembly());
+            InstanceConfig instanceConfig = new InstanceConfig();
+            Locale.SetCultureToEnglish();
+
+            if (instanceConfig.Load(InstanceConfig.GetConfigFileName(AppDirs.InstanceDir), out string errMsg))
+            {
+                Locale.SetCulture(instanceConfig.Culture);
+                AppDirs.UpdateLogDir(instanceConfig.LogDir);
+            }
+            else
+            {
+                Console.WriteLine(errMsg);
+                Locale.SetCultureToDefault();
+            }
 
             // initialize log
             log = new LogFile(LogFormat.Full, Path.Combine(AppDirs.LogDir, EngineUtils.LogFileName));
             log.WriteBreak();
-
-            // load culture
-            if (!Locale.LoadCulture(Path.Combine(AppDirs.InstanceDir, "Config", InstanceConfig.DefaultFileName),
-                out string errMsg))
-            {
-                log.WriteError(errMsg);
-            }
 
             // prepare to start service
             log.WriteAction(Locale.IsRussian ?
