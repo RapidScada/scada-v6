@@ -279,7 +279,6 @@ $(document).ready(function () {
 
     // setup user interface
     initToolbar();
-    //scada.utils.styleIOS(divSchWrapper);
     updateLayout();
 
     $(window).on("resize " + ScadaEventType.UPDATE_LAYOUT, function () {
