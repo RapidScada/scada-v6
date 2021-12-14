@@ -39,6 +39,7 @@ namespace Scada.Web
         public WebDirs()
             : base()
         {
+            IsLowercase = true;
             PluginDir = "";
         }
 
@@ -53,10 +54,6 @@ namespace Scada.Web
         public override void Init(string exeDir)
         {
             base.Init(exeDir);
-            ConfigDir = ExeDir + "config" + Path.DirectorySeparatorChar;
-            LangDir = ExeDir + "lang" + Path.DirectorySeparatorChar;
-            LogDir = ExeDir + "log" + Path.DirectorySeparatorChar;
-            StorageDir = ExeDir + "storage" + Path.DirectorySeparatorChar;
             PluginDir = ScadaUtils.NormalDir(Path.Combine(ExeDir, "wwwroot", "plugins"));
         }
     }
