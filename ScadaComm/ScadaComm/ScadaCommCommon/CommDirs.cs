@@ -20,10 +20,8 @@
  * 
  * Author   : Mikhail Shiryaev
  * Created  : 2015
- * Modified : 2020
+ * Modified : 2021
  */
-
-using System.IO;
 
 namespace Scada.Comm
 {
@@ -55,7 +53,7 @@ namespace Scada.Comm
         public override void Init(string exeDir)
         {
             base.Init(exeDir);
-            DrvDir = ExeDir + "Drv" + Path.DirectorySeparatorChar;
+            DrvDir = AppendDir(ExeDir, "Drv");
         }
 
         /// <summary>
