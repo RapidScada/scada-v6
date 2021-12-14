@@ -20,10 +20,8 @@
  * 
  * Author   : Mikhail Shiryaev
  * Created  : 2015
- * Modified : 2020
+ * Modified : 2021
  */
-
-using System.IO;
 
 namespace Scada.Server
 {
@@ -55,7 +53,7 @@ namespace Scada.Server
         public override void Init(string exeDir)
         {
             base.Init(exeDir);
-            ModDir = ExeDir + "Mod" + Path.DirectorySeparatorChar;
+            ModDir = AppendDir(ExeDir, "Mod");
         }
 
         /// <summary>
