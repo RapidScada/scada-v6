@@ -38,6 +38,7 @@ using Scada.Web.Plugins;
 using Scada.Web.Services;
 using System;
 using System.IO;
+using System.Reflection;
 using System.Threading;
 
 namespace Scada.Web.Code
@@ -172,14 +173,17 @@ namespace Scada.Web.Code
         /// </summary>
         private void LoadInstanceConfig()
         {
-            if (InstanceConfig.Load(Path.Combine(AppDirs.InstanceDir, "Config", InstanceConfig.DefaultFileName),
-                out string errMsg))
+            Locale.SetCultureToEnglish();
+
+            if (InstanceConfig.Load(InstanceConfig.GetConfigFileName(AppDirs.InstanceDir), out string errMsg))
             {
                 Locale.SetCulture(InstanceConfig.Culture);
+                AppDirs.UpdateLogDir(InstanceConfig.LogDir);
             }
             else
             {
                 Log.WriteError(errMsg);
+                Locale.SetCultureToDefault();
             }
         }
 
@@ -407,9 +411,10 @@ namespace Scada.Web.Code
         /// <summary>
         /// Initializes the application context.
         /// </summary>
-        public bool Init(string exeDir)
+        public bool Init()
         {
-            AppDirs.Init(exeDir);
+            AppDirs.Init(Assembly.GetExecutingAssembly());
+            LoadInstanceConfig();
 
             Log = new LogFile(LogFormat.Full)
             {
@@ -418,7 +423,6 @@ namespace Scada.Web.Code
             };
 
             Log.WriteBreak();
-            LoadInstanceConfig();
             LocalizeApp();
 
             Log.WriteAction(Locale.IsRussian ?

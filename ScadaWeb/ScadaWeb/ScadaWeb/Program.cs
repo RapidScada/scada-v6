@@ -47,10 +47,9 @@ namespace Scada.Web
         /// </summary>
         private static void InitContext()
         {
-            string exeDir = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location);
             webContext = new WebContext();
             
-            if (webContext.Init(exeDir))
+            if (webContext.Init())
             {
                 webContext.StartProcessing();
                 webContext.WaitForPlugins();
