@@ -62,6 +62,12 @@ namespace Scada.Config
         public string Culture { get; set; }
 
         /// <summary>
+        /// Gets the root directory of log files.
+        /// </summary>
+        /// <remarks>An empty value is equivalent to the instance directory.</remarks>
+        public string LogDir { get; set; }
+
+        /// <summary>
         /// Gets or sets the code of the active storage.
         /// </summary>
         public string ActiveStorage { get; set; }
@@ -78,6 +84,7 @@ namespace Scada.Config
         private void SetToDefault()
         {
             Culture = Locale.DefaultCulture.Name;
+            LogDir = "";
             ActiveStorage = DefaultStorageCode;
             Storages = new SortedList<string, XmlElement>();
         }
@@ -96,6 +103,7 @@ namespace Scada.Config
                 XmlElement rootElem = xmlDoc.DocumentElement;
                 
                 Culture = rootElem.GetChildAsString("Culture");
+                LogDir = rootElem.GetChildAsString("LogDir");
                 ActiveStorage = rootElem.GetChildAsString("ActiveStorage");
 
                 if (rootElem.SelectSingleNode("Storages") is XmlNode storagesNode)
@@ -134,6 +142,7 @@ namespace Scada.Config
                 xmlDoc.AppendChild(rootElem);
 
                 rootElem.AppendElem("Culture", Culture);
+                rootElem.AppendElem("LogDir", LogDir);
                 rootElem.AppendElem("ActiveStorage", ActiveStorage);
 
                 XmlElement storagesElem = rootElem.AppendElem("Storages");
@@ -164,6 +173,14 @@ namespace Scada.Config
             return Storages.TryGetValue(ActiveStorage, out XmlElement xmlElement) 
                 ? xmlElement 
                 : new XmlDocument().CreateElement("Storage");
+        }
+
+        /// <summary>
+        /// Gets the instance configuration file name.
+        /// </summary>
+        public static string GetConfigFileName(string instanceDir)
+        {
+            return Path.Combine(instanceDir, "Config", DefaultFileName);
         }
     }
 }

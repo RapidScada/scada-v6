@@ -26,6 +26,7 @@
 using Scada.Lang;
 using System;
 using System.IO;
+using System.Reflection;
 
 namespace Scada
 {
@@ -40,6 +41,7 @@ namespace Scada
         /// </summary>
         public AppDirs()
         {
+            IsLowercase = false;
             InstanceDir = "";
             ExeDir = "";
             ConfigDir = "";
@@ -49,6 +51,11 @@ namespace Scada
             TempDir = "";
         }
 
+
+        /// <summary>
+        /// Gets or sets a value indicating whether application directories should be lowercase.
+        /// </summary>
+        protected bool IsLowercase { get; set; }
 
         /// <summary>
         /// Gets the directory of the current instance.
@@ -110,6 +117,14 @@ namespace Scada
 
 
         /// <summary>
+        /// Appends the child directory to the parent directory.
+        /// </summary>
+        protected virtual string AppendDir(string parentDir, string childDir)
+        {
+            return ScadaUtils.NormalDir(Path.Combine(parentDir, IsLowercase ? childDir.ToLowerInvariant() : childDir));
+        }
+
+        /// <summary>
         /// Checks that the directories exist.
         /// </summary>
         public bool CheckExistence(out string errMsg)
@@ -136,12 +151,64 @@ namespace Scada
         {
             ExeDir = ScadaUtils.NormalDir(exeDir);
             InstanceDir = ScadaUtils.NormalDir(Path.GetFullPath(Path.Combine(exeDir, "..")));
-            CmdDir = ExeDir + "Cmd" + Path.DirectorySeparatorChar;
-            ConfigDir = ExeDir + "Config" + Path.DirectorySeparatorChar;
-            LangDir = ExeDir + "Lang" + Path.DirectorySeparatorChar;
-            LogDir = ExeDir + "Log" + Path.DirectorySeparatorChar;
-            StorageDir = ExeDir + "Storage" + Path.DirectorySeparatorChar;
-            TempDir = ExeDir + "Temp" + Path.DirectorySeparatorChar;
+            CmdDir = AppendDir(ExeDir, "Cmd");
+            ConfigDir = AppendDir(ExeDir, "Config");
+            LangDir = AppendDir(ExeDir, "Lang");
+            LogDir = AppendDir(ExeDir, "Log");
+            StorageDir = AppendDir(ExeDir, "Storage");
+            TempDir = AppendDir(ExeDir, "Temp");
+        }
+
+        /// <summary>
+        /// Initializes the directories based on the assembly location.
+        /// </summary>
+        public virtual void Init(Assembly assembly)
+        {
+            if (assembly == null)
+                throw new ArgumentNullException(nameof(assembly));
+
+            Init(Path.GetDirectoryName(assembly.Location));
+        }
+
+        /// <summary>
+        /// Updates the log directory and creates it, if necessary.
+        /// </summary>
+        public virtual bool UpdateLogDir(string instanceLogDir, out string errMsg)
+        {
+            if (!string.IsNullOrEmpty(instanceLogDir))
+            {
+                DirectoryInfo exeDirInfo = new DirectoryInfo(ExeDir);
+                LogDir = AppendDir(Path.Combine(instanceLogDir, exeDirInfo.Name), "Log");
+            }
+
+            if (string.IsNullOrEmpty(LogDir))
+            {
+                errMsg = "Log directory is empty";
+                return false;
+            }
+
+            try
+            {
+                Directory.CreateDirectory(LogDir);
+                errMsg = "";
+                return true;
+            }
+            catch (Exception ex)
+            {
+                errMsg = ScadaUtils.BuildErrorMessage(ex, Locale.IsRussian ?
+                    "Ошибка при создании директории журналов" :
+                    "Error creating log directory");
+                return false;
+            }
+        }
+
+        /// <summary>
+        /// Updates the log directory, logging possible errors to the console.
+        /// </summary>
+        public virtual void UpdateLogDir(string instanceLogDir)
+        {
+            if (!UpdateLogDir(instanceLogDir, out string errMsg))
+                Console.WriteLine(errMsg);
         }
 
         /// <summary>

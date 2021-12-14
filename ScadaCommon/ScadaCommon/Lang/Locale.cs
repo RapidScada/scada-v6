@@ -39,12 +39,22 @@ namespace Scada.Lang
     public static class Locale
     {
         /// <summary>
+        /// The name of the English culture.
+        /// </summary>
+        private const string EnglishCultureName = "en-GB";
+        /// <summary>
+        /// The name of the Russian culture.
+        /// </summary>
+        private const string RussianCultureName = "ru-RU";
+
+
+        /// <summary>
         /// Initializes the class.
         /// </summary>
         static Locale()
         {
             IsRussian = CultureIsRussian(CultureInfo.CurrentCulture);
-            DefaultCulture = Culture = CultureInfo.GetCultureInfo(IsRussian ? "ru-RU" : "en-GB");
+            DefaultCulture = Culture = CultureInfo.GetCultureInfo(IsRussian ? RussianCultureName : EnglishCultureName);
             Dictionaries = new Dictionary<string, LocaleDict>();
         }
 
@@ -149,8 +159,9 @@ namespace Scada.Lang
         {
             try
             {
-                Culture = string.IsNullOrEmpty(cultureName) ?
-                    DefaultCulture : CultureInfo.GetCultureInfo(cultureName);
+                Culture = string.IsNullOrEmpty(cultureName) 
+                    ? DefaultCulture 
+                    : CultureInfo.GetCultureInfo(cultureName);
             }
             catch
             {
@@ -160,6 +171,24 @@ namespace Scada.Lang
             {
                 IsRussian = CultureIsRussian(Culture);
             }
+        }
+
+        /// <summary>
+        /// Sets the culture to the English culture.
+        /// </summary>
+        public static void SetCultureToEnglish()
+        {
+            Culture = CultureInfo.GetCultureInfo(EnglishCultureName);
+            IsRussian = false;
+        }
+
+        /// <summary>
+        /// Sets the culture to the default.
+        /// </summary>
+        public static void SetCultureToDefault()
+        {
+            Culture = DefaultCulture;
+            IsRussian = CultureIsRussian(Culture);
         }
 
         /// <summary>

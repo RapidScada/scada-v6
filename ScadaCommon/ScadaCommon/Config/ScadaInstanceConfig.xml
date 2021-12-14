@@ -1,6 +1,7 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <ScadaInstanceConfig>
   <Culture>en-GB</Culture>
+  <LogDir></LogDir>
   <ActiveStorage>FileStorage</ActiveStorage>  
   <Storages>
     <Storage code="FileStorage">
