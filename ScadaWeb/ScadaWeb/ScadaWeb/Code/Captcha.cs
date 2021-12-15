@@ -86,6 +86,17 @@ namespace Scada.Web.Code
 
 
         /// <summary>
+        /// Returns a random integer that is within a specified range.
+        /// </summary>
+        private static int NextRandom(int minValue, int maxValue)
+        {
+            lock (RandomGenerator)
+            {
+                return RandomGenerator.Next(minValue, maxValue);
+            }
+        }
+
+        /// <summary>
         /// Writes the captcha image to the specified stream.
         /// </summary>
         private void WriteImage(Stream stream, string text)
@@ -123,7 +134,7 @@ namespace Scada.Web.Code
             {
                 string symbol = text[i].ToString();
                 float symbolWidth = paint.MeasureText(symbol);
-                float angle = RandomGenerator.Next(-options.MaxRotationAngle, options.MaxRotationAngle);
+                float angle = NextRandom(-options.MaxRotationAngle, options.MaxRotationAngle);
 
                 canvas.ResetMatrix();
                 canvas.RotateDegrees(angle, symbolX + symbolWidth / 2, options.ImageHeight / 2);
@@ -142,10 +153,7 @@ namespace Scada.Web.Code
         /// </summary>
         public string GenerateCode()
         {
-            lock (RandomGenerator)
-            {
-                return RandomGenerator.Next(options.MinCodeValue, options.MaxCodeValue).ToString();
-            }
+            return NextRandom(options.MinCodeValue, options.MaxCodeValue).ToString();
         }
 
         /// <summary>
