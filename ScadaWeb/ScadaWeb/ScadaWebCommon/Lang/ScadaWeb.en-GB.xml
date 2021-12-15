@@ -57,6 +57,7 @@
     <Phrase key="NotReady">The application is not ready. Try again later.</Phrase>
     <Phrase key="lblUsername">Username</Phrase>
     <Phrase key="lblPassword">Password</Phrase>
+    <Phrase key="lblCaptcha">Protection code</Phrase>
     <Phrase key="lblRememberMe">Remember me</Phrase>
     <Phrase key="btnLogin">Login</Phrase>
   </Dictionary>

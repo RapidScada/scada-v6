@@ -25,10 +25,12 @@
 
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.Cookies;
+using Microsoft.AspNetCore.Html;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Scada.Lang;
+using Scada.Web.Code;
 using Scada.Web.Config;
 using Scada.Web.Lang;
 using Scada.Web.Plugins;
@@ -48,6 +50,8 @@ namespace Scada.Web.Pages
     [BindProperties]
     public class LoginModel : PageModel
     {
+        private const string CaptchaSessionKey = "ScadaWeb.CaptchaCode";
+
         private readonly IWebContext webContext;
         private readonly IClientAccessor clientAccessor;
 
@@ -62,6 +66,8 @@ namespace Scada.Web.Pages
         public string Username { get; set; }
 
         public string Password { get; set; }
+
+        public string CaptchaCode { get; set; }
 
         public bool RememberMe { get; set; }
 
@@ -176,6 +182,14 @@ namespace Scada.Web.Pages
                 webContext.AppConfig.GeneralOptions.DefaultStartPage,
                 WebPath.DefaultStartPage.PrependTilda()));
             return LocalRedirect(url);
+        }
+
+        public HtmlString GetCaptchaImage()
+        {
+            Captcha captcha = new();
+            string captchaCode = captcha.GenerateCode();
+            HttpContext.Session.SetString(CaptchaSessionKey, captchaCode);
+            return new HtmlString(captcha.GenerateImageSrc(captchaCode));
         }
 
         public async Task<IActionResult> OnGetAsync(string returnUrl = null)

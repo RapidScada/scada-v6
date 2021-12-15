@@ -55,6 +55,7 @@
     <Phrase key="NotReady">Приложение не готово. Повторите попытку позже.</Phrase>
     <Phrase key="lblUsername">Имя пользователя</Phrase>
     <Phrase key="lblPassword">Пароль</Phrase>
+    <Phrase key="lblCaptcha">Защитный код</Phrase>
     <Phrase key="lblRememberMe">Запомнить меня</Phrase>
     <Phrase key="btnLogin">Войти</Phrase>
   </Dictionary>

@@ -30,6 +30,14 @@
                 <label id="lblPassword" for="txtPassword" class="form-label">@dict.lblPassword</label>
                 <input type="password" id="txtPassword" class="form-control" asp-for="Password" />
             </div>
+            @if (webContext.AppConfig.LoginOptions.RequireCaptcha)
+            {
+                <div class="mb-3">
+                    <label id="lblCaptcha" for="txtCaptcha" class="form-label">@dict.lblCaptcha</label>
+                    <img id="imgCaptcha" src="@Model.GetCaptchaImage()" />
+                    <input type="text" id="txtCaptcha" class="form-control" autocomplete="off" asp-for="CaptchaCode" />
+                </div>
+            }
             <div class="row mb-3">
                 <div class="col">
                     @if (webContext.AppConfig.LoginOptions.AllowRememberMe)

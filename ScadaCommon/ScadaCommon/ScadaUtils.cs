@@ -314,8 +314,11 @@ namespace Scada
         /// </summary>
         public static long GenerateUniqueID(DateTime nowDT)
         {
-            long unixTime = new DateTimeOffset(nowDT).ToUnixTimeSeconds();
-            return ((unixTime << 32) + UniqueIDGenerator.Next(1, int.MaxValue)) & 0x7FFFFFFFFFFFFFFF;
+            lock (UniqueIDGenerator)
+            {
+                long unixTime = new DateTimeOffset(nowDT).ToUnixTimeSeconds();
+                return ((unixTime << 32) + UniqueIDGenerator.Next(1, int.MaxValue)) & 0x7FFFFFFFFFFFFFFF;
+            }
         }
 
         /// <summary>
