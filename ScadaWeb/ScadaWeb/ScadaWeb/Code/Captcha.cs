@@ -23,7 +23,12 @@
  * Modified : 2021
  */
 
-using SkiaSharp;
+using SixLabors.Fonts;
+using SixLabors.ImageSharp;
+using SixLabors.ImageSharp.Drawing.Processing;
+using SixLabors.ImageSharp.Formats.Png;
+using SixLabors.ImageSharp.PixelFormats;
+using SixLabors.ImageSharp.Processing;
 using System;
 using System.IO;
 
@@ -63,6 +68,14 @@ namespace Scada.Web.Code
             ArgumentNullException.ThrowIfNull(stream, nameof(stream));
             ArgumentNullException.ThrowIfNull(text, nameof(text));
 
+            using (Image image = new Image<Rgba32>(500, 100))
+            {
+                Font font = SystemFonts.Find("Arial").CreateFont(15, FontStyle.Regular);
+                image.Mutate(x => x.DrawText(text, font, Color.Black, new PointF(10, 10)));
+                image.Save(stream, PngFormat.Instance);
+            }
+
+            /*
             // crate a surface
             var info = new SKImageInfo(256, 256);
             using (var surface = SKSurface.Create(info))
@@ -89,7 +102,7 @@ namespace Scada.Web.Code
                 using var image = surface.Snapshot();
                 using var data = image.Encode(SKEncodedImageFormat.Png, 100);
                 data.SaveTo(stream);
-            }
+            }*/
 
             /*const int CaptchaWidth = 200;
             const int CaptchaHeight = 30;
