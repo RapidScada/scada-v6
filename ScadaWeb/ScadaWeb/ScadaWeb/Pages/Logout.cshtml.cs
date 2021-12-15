@@ -75,7 +75,7 @@ namespace Scada.Web.Pages
             }
 
             JustLogout = true;
-            return LocalRedirect(WebPath.LoginPage);
+            return RedirectToPage(WebPath.LoginPage);
         }
     }
 }

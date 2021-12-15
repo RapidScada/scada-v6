@@ -7,7 +7,7 @@ namespace Scada.Web.Pages
     {
         public IActionResult OnGet()
         {
-            return LocalRedirect(WebPath.LoginPage);
+            return RedirectToPage(WebPath.LoginPage);
         }
     }
 }

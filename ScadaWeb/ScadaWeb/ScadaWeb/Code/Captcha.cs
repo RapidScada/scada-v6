@@ -49,7 +49,7 @@ namespace Scada.Web.Code
                 ImageWidth = 500;
                 ImageHeight = 100;
                 Color = SKColors.DimGray;
-                TextSize = 100;
+                TextSize = ImageHeight;
                 FontFamily = "Arial";
             }
             public int MinCodeValue { get; init; }
