@@ -54,12 +54,14 @@ namespace Scada.Web.Pages
 
         private readonly IWebContext webContext;
         private readonly IClientAccessor clientAccessor;
+        private readonly dynamic dict;
 
 
         public LoginModel(IWebContext webContext, IClientAccessor clientAccessor)
         {
             this.webContext = webContext;
             this.clientAccessor = clientAccessor;
+            dict = Locale.GetDictionary("Scada.Web.Pages.Login");
         }
 
 
@@ -83,7 +85,6 @@ namespace Scada.Web.Pages
             }
             else
             {
-                dynamic dict = Locale.GetDictionary("Scada.Web.Pages.Login");
                 ModelState.AddModelError(string.Empty, dict.NotReady);
                 return false;
             }
@@ -218,7 +219,23 @@ namespace Scada.Web.Pages
 
         public async Task<IActionResult> OnPostAsync(string returnUrl = null)
         {
-            return CheckReady() && ModelState.IsValid
+            CheckReady();
+
+            // validate captcha
+            if (webContext.AppConfig.LoginOptions.RequireCaptcha)
+            {
+                string requiredCode = HttpContext.Session.GetString(CaptchaSessionKey);
+
+                if (string.IsNullOrEmpty(requiredCode) || string.IsNullOrEmpty(CaptchaCode) ||
+                    !string.Equals(requiredCode, CaptchaCode.Trim(), StringComparison.OrdinalIgnoreCase))
+                {
+                    ModelState.AddModelError(string.Empty, dict.InvalidCaptcha);
+                    ModelState.Remove(nameof(CaptchaCode));
+                    CaptchaCode = "";
+                }
+            }
+
+            return ModelState.IsValid
                 ? await ValidateUserAsync(returnUrl)
                 : Page();
         }

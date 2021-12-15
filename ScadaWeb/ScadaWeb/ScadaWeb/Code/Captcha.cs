@@ -23,12 +23,7 @@
  * Modified : 2021
  */
 
-using SixLabors.Fonts;
-using SixLabors.ImageSharp;
-using SixLabors.ImageSharp.Drawing.Processing;
-using SixLabors.ImageSharp.Formats.Png;
-using SixLabors.ImageSharp.PixelFormats;
-using SixLabors.ImageSharp.Processing;
+using SkiaSharp;
 using System;
 using System.IO;
 
@@ -40,114 +35,127 @@ namespace Scada.Web.Code
     /// </summary>
     public class Captcha
     {
-        private static readonly Random RandomGenerator = new();
-
-
-        public Captcha()
+        /// <summary>
+        /// Represents captcha options.
+        /// </summary>
+        public class Options
         {
-        }
-
-
-        public string GenerateCode()
-        {
-            lock (RandomGenerator)
+            public Options()
             {
-                return RandomGenerator.Next(100000, 999999).ToString();
+                MinCodeValue = 100000;
+                MaxCodeValue = MinCodeValue * 10;
+                MaxRotationAngle = 45;
+                SpacingFactor = 0.75f;
+                ImageWidth = 500;
+                ImageHeight = 100;
+                Color = SKColors.DimGray;
+                TextSize = 100;
+                FontFamily = "Arial";
             }
+            public int MinCodeValue { get; init; }
+            public int MaxCodeValue { get; init; }
+            public int MaxRotationAngle { get; init; }
+            public float SpacingFactor { get; init; }
+            public int ImageWidth { get; init; }
+            public int ImageHeight { get; init; }
+            public SKColor Color { get; init; }
+            public int TextSize { get; init; }
+            public string FontFamily { get; init; }
         }
 
-        public string GenerateImageSrc(string text)
+
+        private static readonly Random RandomGenerator = new();
+        private readonly Options options;
+
+
+        /// <summary>
+        /// Initializes a new instance of the class.
+        /// </summary>
+        public Captcha()
+            : this(new Options())
         {
-            using MemoryStream stream = new();
-            Write(stream, text);
-            return "data:image/png;base64," + Convert.ToBase64String(stream.ToArray());
         }
 
-        public void Write(Stream stream, string text)
+        /// <summary>
+        /// Initializes a new instance of the class.
+        /// </summary>
+        public Captcha(Options options)
+        {
+            this.options = options ?? throw new ArgumentNullException(nameof(options));
+        }
+
+
+        /// <summary>
+        /// Writes the captcha image to the specified stream.
+        /// </summary>
+        private void WriteImage(Stream stream, string text)
         {
             ArgumentNullException.ThrowIfNull(stream, nameof(stream));
             ArgumentNullException.ThrowIfNull(text, nameof(text));
 
-            using (Image image = new Image<Rgba32>(500, 100))
+            // create surface
+            SKImageInfo imageInfo = new(options.ImageWidth, options.ImageHeight);
+            using SKSurface surface = SKSurface.Create(imageInfo);
+
+            // create paint
+            using SKPaint paint = new()
             {
-                Font font = SystemFonts.Find("Arial").CreateFont(15, FontStyle.Regular);
-                image.Mutate(x => x.DrawText(text, font, Color.Black, new PointF(10, 10)));
-                image.Save(stream, PngFormat.Instance);
+                Color = options.Color,
+                IsAntialias = true,
+                Style = SKPaintStyle.Fill,
+                TextAlign = SKTextAlign.Left,
+                TextSize = options.TextSize,
+            };
+
+            if (!string.IsNullOrEmpty(options.FontFamily))
+                paint.Typeface = SKTypeface.FromFamilyName(options.FontFamily);
+
+            // draw image
+            SKCanvas canvas = surface.Canvas;
+            canvas.Clear(SKColors.Transparent);
+
+            SKRect textBounds = new();
+            paint.MeasureText(text, ref textBounds);
+            float symbolX = 0;
+            float symbolY = imageInfo.Rect.MidY - textBounds.MidY;
+
+            for (int i = 0, len = text.Length; i < len; i++)
+            {
+                string symbol = text[i].ToString();
+                float symbolWidth = paint.MeasureText(symbol);
+                float angle = RandomGenerator.Next(-options.MaxRotationAngle, options.MaxRotationAngle);
+
+                canvas.ResetMatrix();
+                canvas.RotateDegrees(angle, symbolX + symbolWidth / 2, options.ImageHeight / 2);
+                canvas.DrawText(symbol, symbolX, symbolY, paint);
+                symbolX += symbolWidth * options.SpacingFactor;
             }
 
-            /*
-            // crate a surface
-            var info = new SKImageInfo(256, 256);
-            using (var surface = SKSurface.Create(info))
+            // save image
+            using SKImage image = surface.Snapshot();
+            using SKData data = image.Encode(SKEncodedImageFormat.Png, 100);
+            data.SaveTo(stream);
+        }
+
+        /// <summary>
+        /// Generates a numeric captcha code.
+        /// </summary>
+        public string GenerateCode()
+        {
+            lock (RandomGenerator)
             {
-                // the the canvas and properties
-                var canvas = surface.Canvas;
-
-                // make sure the canvas is blank
-                canvas.Clear(SKColors.White);
-
-                // draw some text
-                var paint = new SKPaint
-                {
-                    Color = SKColors.Black,
-                    IsAntialias = true,
-                    Style = SKPaintStyle.Fill,
-                    TextAlign = SKTextAlign.Center,
-                    TextSize = 24
-                };
-                var coord = new SKPoint(info.Width / 2, (info.Height + paint.TextSize) / 2);
-                canvas.DrawText(text, coord, paint);
-
-                // save the file
-                using var image = surface.Snapshot();
-                using var data = image.Encode(SKEncodedImageFormat.Png, 100);
-                data.SaveTo(stream);
-            }*/
-
-            /*const int CaptchaWidth = 200;
-            const int CaptchaHeight = 30;
-            const int FontSize = CaptchaHeight;
-            const int MaxAngle = 45;
-            const float SymbolStep = 0.5f;
-
-            Bitmap bitmap = null;
-            Graphics graphics = null;
-
-            Font font = null;
-            Brush brush = Brushes.DimGray;
-
-            try
-            {
-                bitmap = new Bitmap(CaptchaWidth, CaptchaHeight);
-                graphics = Graphics.FromImage(bitmap);
-                font = new Font("Arial", FontSize, GraphicsUnit.Pixel);
-
-                float symbolX = 0;
-                graphics.Clear(Color.White);
-                graphics.TextRenderingHint = TextRenderingHint.AntiAlias;
-
-                for (int i = 0, len = text.Length; i < len; i++)
-                {
-                    string symbol = text[i].ToString();
-                    float symbolWidth = graphics.MeasureString(symbol, font).Width;
-                    float angle = RandomGenerator.Next(-MaxAngle, MaxAngle);
-
-                    graphics.ResetTransform();
-                    graphics.TranslateTransform(symbolX + symbolWidth / 2, CaptchaHeight / 2);
-                    graphics.RotateTransform(angle);
-
-                    graphics.DrawString(symbol, font, brush, -symbolWidth / 2, -FontSize / 2);
-                    symbolX += symbolWidth * SymbolStep;
-                }
-
-                bitmap.Save(stream, ImageFormat.Jpeg);
+                return RandomGenerator.Next(options.MinCodeValue, options.MaxCodeValue).ToString();
             }
-            finally
-            {
-                bitmap?.Dispose();
-                graphics?.Dispose();
-                font?.Dispose();
-            }*/
+        }
+
+        /// <summary>
+        /// Generates an image source to insert into HTML markup.
+        /// </summary>
+        public string GenerateImageSrc(string text)
+        {
+            using MemoryStream stream = new();
+            WriteImage(stream, text);
+            return "data:image/png;base64," + Convert.ToBase64String(stream.ToArray());
         }
     }
 }

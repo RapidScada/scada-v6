@@ -1,7 +1,6 @@
 ﻿@import '../_variables';
 
 $loginbox-width: 400px;
-$captcha-height: 3em;
 
 body {
     background-color: $gray-100;
@@ -26,6 +25,6 @@ body {
 
 #imgCaptcha {
     width: 100%;
-    height: $captcha-height;
+    height: auto;
     margin-bottom: 0.5rem;
 }

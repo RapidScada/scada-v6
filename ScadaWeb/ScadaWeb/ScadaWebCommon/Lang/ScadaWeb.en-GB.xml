@@ -55,6 +55,7 @@
   <Dictionary key="Scada.Web.Pages.Login">
     <Phrase key="PageTitle">Login</Phrase>
     <Phrase key="NotReady">The application is not ready. Try again later.</Phrase>
+    <Phrase key="InvalidCaptcha">Invalid protection code.</Phrase>
     <Phrase key="lblUsername">Username</Phrase>
     <Phrase key="lblPassword">Password</Phrase>
     <Phrase key="lblCaptcha">Protection code</Phrase>
