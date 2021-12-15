@@ -17,11 +17,11 @@
     <SecretKey>0E063D581B1DB27B8E984993DED65CE99284A706756C706C7F3B12C44BD55D4D</SecretKey>
   </ConnectionOptions>
   <LoginOptions>
-    <!-- CaptchaMode: Disabled | Enabled | OnFail -->
-    <CaptchaMode>Disabled</CaptchaMode>
+    <RequireCaptcha>false</RequireCaptcha>
     <AllowRememberMe>true</AllowRememberMe>
     <RememberMeExpires>30</RememberMeExpires>
-    <AutoLoginAs></AutoLoginAs>
+    <AutoLoginUsername></AutoLoginUsername>
+    <AutoLoginPassword></AutoLoginPassword>
   </LoginOptions>
   <DisplayOptions>
     <ShowHeader>true</ShowHeader>

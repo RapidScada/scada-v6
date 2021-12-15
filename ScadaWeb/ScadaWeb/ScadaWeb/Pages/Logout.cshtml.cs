@@ -47,6 +47,9 @@ namespace Scada.Web.Pages
             this.webContext = webContext;
         }
 
+        [TempData]
+        public bool JustLogout { get; set; }
+
         public async Task<IActionResult> OnGetAsync()
         {
             if (User.IsAuthenticated())
@@ -71,7 +74,8 @@ namespace Scada.Web.Pages
                 webContext.PluginHolder.OnUserLogout(userLoginArgs);
             }
 
-            return RedirectToPage(WebPath.LoginPage);
+            JustLogout = true;
+            return LocalRedirect(WebPath.LoginPage);
         }
     }
 }

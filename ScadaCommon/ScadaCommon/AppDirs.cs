@@ -41,7 +41,7 @@ namespace Scada
         /// </summary>
         public AppDirs()
         {
-            IsLowercase = false;
+            Lowercase = false;
             InstanceDir = "";
             ExeDir = "";
             ConfigDir = "";
@@ -55,7 +55,7 @@ namespace Scada
         /// <summary>
         /// Gets or sets a value indicating whether application directories should be lowercase.
         /// </summary>
-        protected bool IsLowercase { get; set; }
+        protected bool Lowercase { get; set; }
 
         /// <summary>
         /// Gets the directory of the current instance.
@@ -121,7 +121,7 @@ namespace Scada
         /// </summary>
         protected virtual string AppendDir(string parentDir, string childDir)
         {
-            return ScadaUtils.NormalDir(Path.Combine(parentDir, IsLowercase ? childDir.ToLowerInvariant() : childDir));
+            return ScadaUtils.NormalDir(Path.Combine(parentDir, Lowercase ? childDir.ToLowerInvariant() : childDir));
         }
 
         /// <summary>

@@ -9,7 +9,6 @@
     <Import_RootNamespace>Scada.Web</Import_RootNamespace>
   </PropertyGroup>
   <ItemGroup>
-    <Compile Include="$(MSBuildThisFileDirectory)Config\CaptchaMode.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Config\DisplayOptions.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Config\GeneralOptions.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Config\LoginOptions.cs" />

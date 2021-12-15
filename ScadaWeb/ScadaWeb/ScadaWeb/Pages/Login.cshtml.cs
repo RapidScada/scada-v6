@@ -65,6 +65,9 @@ namespace Scada.Web.Pages
 
         public bool RememberMe { get; set; }
 
+        [TempData]
+        public bool JustLogout { get; set; }
+
 
         private bool CheckReady()
         {
@@ -77,6 +80,63 @@ namespace Scada.Web.Pages
                 dynamic dict = Locale.GetDictionary("Scada.Web.Pages.Login");
                 ModelState.AddModelError(string.Empty, dict.NotReady);
                 return false;
+            }
+        }
+
+        private async Task<IActionResult> ValidateUserAsync(string returnUrl)
+        {
+            bool userIsValid = false;
+            int userID = 0;
+            int roleID = 0;
+            string errMsg;
+            string friendlyError;
+
+            // check user by server
+            try
+            {
+                userIsValid = clientAccessor.ScadaClient
+                    .ValidateUser(Username, Password, out userID, out roleID, out errMsg);
+                friendlyError = errMsg;
+            }
+            catch (Exception ex)
+            {
+                errMsg = ex.Message;
+                friendlyError = WebPhrases.ClientError;
+            }
+
+            // check user by plugins
+            UserLoginArgs userLoginArgs = new()
+            {
+                Username = Username,
+                UserID = userID,
+                RoleID = roleID,
+                SessionID = HttpContext.Session.Id,
+                RemoteIP = HttpContext.Connection.RemoteIpAddress?.ToString(),
+                UserIsValid = userIsValid,
+                ErrorMessage = errMsg,
+                FriendlyError = friendlyError
+            };
+
+            webContext.PluginHolder.OnUserLogin(userLoginArgs);
+
+            // show login result
+            if (userLoginArgs.UserIsValid)
+            {
+                await LoginAsync(Username, userID, roleID);
+                webContext.Log.WriteAction(Locale.IsRussian ?
+                    "Пользователь {0} вошёл в систему {0}, IP {1}" :
+                    "User {0} is logged in, IP {1}",
+                    Username, userLoginArgs.RemoteIP);
+                return RedirectToStartPage(returnUrl, userID);
+            }
+            else
+            {
+                webContext.Log.WriteError(Locale.IsRussian ?
+                    "Неудачная попытка входа в систему пользователя {0}, IP {1}: {2}" :
+                    "Unsuccessful login attempt for user {0}, IP {1}: {2}",
+                    Username, userLoginArgs.RemoteIP, userLoginArgs.ErrorMessage);
+                ModelState.AddModelError(string.Empty, userLoginArgs.FriendlyError);
+                return Page();
             }
         }
 
@@ -118,72 +178,35 @@ namespace Scada.Web.Pages
             return LocalRedirect(url);
         }
 
-        public IActionResult OnGet(string returnUrl = null)
+        public async Task<IActionResult> OnGetAsync(string returnUrl = null)
         {
-            return CheckReady() && User.IsAuthenticated()
-                ? RedirectToStartPage(returnUrl, User.GetUserID())
-                : Page();
+            bool isReady = CheckReady();
+            LoginOptions loginOptions = webContext.AppConfig.LoginOptions;
+
+            // already logged in
+            if (isReady && User.IsAuthenticated())
+                return RedirectToStartPage(returnUrl, User.GetUserID());
+
+            // auto login
+            if (!string.IsNullOrEmpty(loginOptions.AutoLoginUsername))
+            {
+                Username = loginOptions.AutoLoginUsername;
+                Password = loginOptions.AutoLoginPassword;
+                RememberMe = loginOptions.AllowRememberMe;
+
+                if (isReady && !JustLogout)
+                    return await ValidateUserAsync(returnUrl);
+            }
+
+            // normal login
+            return Page();
         }
 
         public async Task<IActionResult> OnPostAsync(string returnUrl = null)
         {
-            if (CheckReady() && ModelState.IsValid)
-            {
-                bool userIsValid = false;
-                int userID = 0;
-                int roleID = 0;
-                string errMsg;
-                string friendlyError;
-
-                // check user by server
-                try
-                {
-                    userIsValid = clientAccessor.ScadaClient
-                        .ValidateUser(Username, Password, out userID, out roleID, out errMsg);
-                    friendlyError = errMsg;
-                }
-                catch (Exception ex)
-                {
-                    errMsg = ex.Message;
-                    friendlyError = WebPhrases.ClientError;
-                }
-
-                // check user by plugins
-                UserLoginArgs userLoginArgs = new()
-                {
-                    Username = Username,
-                    UserID = userID,
-                    RoleID = roleID,
-                    SessionID = HttpContext.Session.Id,
-                    RemoteIP = HttpContext.Connection.RemoteIpAddress?.ToString(),
-                    UserIsValid = userIsValid,
-                    ErrorMessage = errMsg,
-                    FriendlyError = friendlyError
-                };
-
-                webContext.PluginHolder.OnUserLogin(userLoginArgs);
-
-                // show login result
-                if (userLoginArgs.UserIsValid)
-                {
-                    await LoginAsync(Username, userID, roleID);
-                    webContext.Log.WriteAction(Locale.IsRussian ?
-                        "Пользователь {0} вошёл в систему {0}, IP {1}" :
-                        "User {0} is logged in, IP {1}",
-                        Username, userLoginArgs.RemoteIP);
-                    return RedirectToStartPage(returnUrl, userID);
-                }
-                else
-                {
-                    webContext.Log.WriteError(Locale.IsRussian ?
-                        "Неудачная попытка входа в систему пользователя {0}, IP {1}: {2}" :
-                        "Unsuccessful login attempt for user {0}, IP {1}: {2}",
-                        Username, userLoginArgs.RemoteIP, userLoginArgs.ErrorMessage);
-                    ModelState.AddModelError(string.Empty, userLoginArgs.FriendlyError);
-                }
-            }
-
-            return Page();
+            return CheckReady() && ModelState.IsValid
+                ? await ValidateUserAsync(returnUrl)
+                : Page();
         }
     }
 }

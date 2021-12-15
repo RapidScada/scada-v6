@@ -39,17 +39,18 @@ namespace Scada.Web.Config
         /// </summary>
         public LoginOptions()
         {
-            CaptchaMode = CaptchaMode.Disabled;
+            RequireCaptcha = false;
             AllowRememberMe = false;
             RememberMeExpires = 30;
-            AutoLoginAs = "";
+            AutoLoginUsername = "";
+            AutoLoginPassword = "";
         }
 
 
         /// <summary>
-        /// Gets or sets the captcha mode.
+        /// Gets or sets a value indicating whether to require a captcha at login.
         /// </summary>
-        public CaptchaMode CaptchaMode { get; set; }
+        public bool RequireCaptcha { get; set; }
 
         /// <summary>
         /// Gets or sets a value indicating whether a user is allowed to remember login.
@@ -64,7 +65,12 @@ namespace Scada.Web.Config
         /// <summary>
         /// Gets or sets the username for automatic login.
         /// </summary>
-        public string AutoLoginAs { get; set; }
+        public string AutoLoginUsername { get; set; }
+
+        /// <summary>
+        /// Gets or sets the password for automatic login.
+        /// </summary>
+        public string AutoLoginPassword { get; set; }
 
 
 
@@ -76,10 +82,11 @@ namespace Scada.Web.Config
             if (xmlNode == null)
                 throw new ArgumentNullException(nameof(xmlNode));
 
-            CaptchaMode = xmlNode.GetChildAsEnum("CaptchaMode", CaptchaMode);
+            RequireCaptcha = xmlNode.GetChildAsBool("RequireCaptcha", RequireCaptcha);
             AllowRememberMe = xmlNode.GetChildAsBool("AllowRememberMe", AllowRememberMe);
             RememberMeExpires = xmlNode.GetChildAsInt("RememberMeExpires", RememberMeExpires);
-            AutoLoginAs = xmlNode.GetChildAsString("AutoLoginAs", AutoLoginAs);
+            AutoLoginUsername = xmlNode.GetChildAsString("AutoLoginUsername");
+            AutoLoginPassword = ScadaUtils.Decrypt(xmlNode.GetChildAsString("AutoLoginPassword"));
         }
 
         /// <summary>
@@ -90,10 +97,11 @@ namespace Scada.Web.Config
             if (xmlElem == null)
                 throw new ArgumentNullException(nameof(xmlElem));
 
-            xmlElem.AppendElem("CaptchaMode", CaptchaMode);
+            xmlElem.AppendElem("RequireCaptcha", RequireCaptcha);
             xmlElem.AppendElem("AllowRememberMe", AllowRememberMe);
             xmlElem.AppendElem("RememberMeExpires", RememberMeExpires);
-            xmlElem.AppendElem("AutoLoginAs", AutoLoginAs);
+            xmlElem.AppendElem("AutoLoginUsername", AutoLoginUsername);
+            xmlElem.AppendElem("AutoLoginPassword", ScadaUtils.Encrypt(AutoLoginPassword));
         }
     }
 }

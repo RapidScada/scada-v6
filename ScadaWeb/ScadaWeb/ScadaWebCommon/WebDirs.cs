@@ -39,7 +39,7 @@ namespace Scada.Web
         public WebDirs()
             : base()
         {
-            IsLowercase = true;
+            Lowercase = true;
             PluginDir = "";
         }
 
