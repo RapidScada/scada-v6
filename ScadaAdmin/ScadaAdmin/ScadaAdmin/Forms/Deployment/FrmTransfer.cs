@@ -166,7 +166,7 @@ namespace Scada.Admin.App.Forms.Deployment
                 catch (Exception ex)
                 {
                     SetResult(false, 0);
-                    WriteError(ScadaUtils.BuildErrorMessage(ex, AppPhrases.DownloadError));
+                    WriteError(ex.BuildErrorMessage(AppPhrases.DownloadError));
                 }
             });
         }
@@ -196,7 +196,7 @@ namespace Scada.Admin.App.Forms.Deployment
                 catch (Exception ex)
                 {
                     SetResult(false, 0);
-                    WriteError(ScadaUtils.BuildErrorMessage(ex, AppPhrases.UploadError));
+                    WriteError(ex.BuildErrorMessage(AppPhrases.UploadError));
                 }
             });
         }

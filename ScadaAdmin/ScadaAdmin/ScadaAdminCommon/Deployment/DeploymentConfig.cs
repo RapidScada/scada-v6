@@ -96,7 +96,7 @@ namespace Scada.Admin.Deployment
             }
             catch (Exception ex)
             {
-                errMsg = ScadaUtils.BuildErrorMessage(ex, AdminPhrases.LoadDeploymentConfigError);
+                errMsg = ex.BuildErrorMessage(AdminPhrases.LoadDeploymentConfigError);
                 return false;
             }
         }
@@ -127,7 +127,7 @@ namespace Scada.Admin.Deployment
             }
             catch (Exception ex)
             {
-                errMsg = ScadaUtils.BuildErrorMessage(ex, AdminPhrases.SaveDeploymentConfigError);
+                errMsg = ex.BuildErrorMessage(AdminPhrases.SaveDeploymentConfigError);
                 return false;
             }
         }

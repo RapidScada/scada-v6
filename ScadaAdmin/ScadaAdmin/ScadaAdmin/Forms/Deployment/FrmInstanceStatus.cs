@@ -197,7 +197,7 @@ namespace Scada.Admin.App.Forms.Deployment
             }
             catch (Exception ex)
             {
-                ScadaUiUtils.ShowError(ScadaUtils.BuildErrorMessage(ex, AppPhrases.ControlServiceError));
+                ScadaUiUtils.ShowError(ex.BuildErrorMessage(AppPhrases.ControlServiceError));
             }
         }
 

@@ -205,7 +205,7 @@ namespace Scada.Admin.Project
             }
             catch (Exception ex)
             {
-                errMsg = ScadaUtils.BuildErrorMessage(ex, AdminPhrases.CreateInstanceFilesError);
+                errMsg = ex.BuildErrorMessage(AdminPhrases.CreateInstanceFilesError);
                 return false;
             }
         }
@@ -225,7 +225,7 @@ namespace Scada.Admin.Project
             }
             catch (Exception ex)
             {
-                errMsg = ScadaUtils.BuildErrorMessage(ex, AdminPhrases.DeleteInstanceFilesError);
+                errMsg = ex.BuildErrorMessage(AdminPhrases.DeleteInstanceFilesError);
                 return false;
             }
         }
@@ -254,7 +254,7 @@ namespace Scada.Admin.Project
             }
             catch (Exception ex)
             {
-                errMsg = ScadaUtils.BuildErrorMessage(ex, AdminPhrases.RenameInstanceError);
+                errMsg = ex.BuildErrorMessage(AdminPhrases.RenameInstanceError);
                 return false;
             }
         }

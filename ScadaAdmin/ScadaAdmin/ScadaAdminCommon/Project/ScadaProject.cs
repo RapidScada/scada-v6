@@ -236,7 +236,7 @@ namespace Scada.Admin.Project
             }
             catch (Exception ex)
             {
-                errMsg = ScadaUtils.BuildErrorMessage(ex, AdminPhrases.LoadProjectError);
+                errMsg = ex.BuildErrorMessage(AdminPhrases.LoadProjectError);
                 return false;
             }
         }
@@ -285,7 +285,7 @@ namespace Scada.Admin.Project
             }
             catch (Exception ex)
             {
-                errMsg = ScadaUtils.BuildErrorMessage(ex, AdminPhrases.SaveProjectError);
+                errMsg = ex.BuildErrorMessage(AdminPhrases.SaveProjectError);
                 return false;
             }
         }
@@ -319,7 +319,7 @@ namespace Scada.Admin.Project
             }
             catch (Exception ex)
             {
-                errMsg = ScadaUtils.BuildErrorMessage(ex, AdminPhrases.RenameProjectError);
+                errMsg = ex.BuildErrorMessage(AdminPhrases.RenameProjectError);
                 return false;
             }
         }
@@ -445,7 +445,7 @@ namespace Scada.Admin.Project
             catch (Exception ex)
             {
                 project = null;
-                errMsg = ScadaUtils.BuildErrorMessage(ex, AdminPhrases.CreateProjectError);
+                errMsg = ex.BuildErrorMessage(AdminPhrases.CreateProjectError);
                 return false;
             }
         }
@@ -466,7 +466,7 @@ namespace Scada.Admin.Project
             catch (Exception ex)
             {
                 description = "";
-                errMsg = ScadaUtils.BuildErrorMessage(ex, AdminPhrases.LoadProjectDescrError);
+                errMsg = ex.BuildErrorMessage(AdminPhrases.LoadProjectDescrError);
                 return false;
             }
         }

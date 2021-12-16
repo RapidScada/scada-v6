@@ -169,7 +169,7 @@ namespace Scada.Admin.Project
             }
             catch (Exception ex)
             {
-                errMsg = ScadaUtils.BuildErrorMessage(ex, AdminPhrases.CreateAppConfigError, AppName);
+                errMsg = ex.BuildErrorMessage(AdminPhrases.CreateAppConfigError, AppName);
                 return false;
             }
         }
@@ -187,7 +187,7 @@ namespace Scada.Admin.Project
             }
             catch (Exception ex)
             {
-                errMsg = ScadaUtils.BuildErrorMessage(ex, AdminPhrases.DeleteAppConfigError, AppName);
+                errMsg = ex.BuildErrorMessage(AdminPhrases.DeleteAppConfigError, AppName);
                 return false;
             }
         }
