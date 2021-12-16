@@ -261,7 +261,7 @@ namespace Scada.Web.Plugins.PlgScheme
             }
             catch (Exception ex)
             {
-                errMsg = ScadaUtils.BuildErrorMessage(ex, CommonPhrases.LoadViewError);
+                errMsg = ex.BuildErrorMessage(CommonPhrases.LoadViewError);
                 return false;
             }
         }
@@ -337,7 +337,7 @@ namespace Scada.Web.Plugins.PlgScheme
             }
             catch (Exception ex)
             {
-                errMsg = ScadaUtils.BuildErrorMessage(ex, CommonPhrases.SaveViewError);
+                errMsg = ex.BuildErrorMessage(CommonPhrases.SaveViewError);
                 return false;
             }
         }

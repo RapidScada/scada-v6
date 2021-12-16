@@ -92,7 +92,7 @@ namespace Scada.Web.Plugins.PlgScheme.Template
             }
             catch (Exception ex)
             {
-                errMsg = ScadaUtils.BuildErrorMessage(ex, SchemePhrases.LoadTemplateBindingsError);
+                errMsg = ex.BuildErrorMessage(SchemePhrases.LoadTemplateBindingsError);
                 return false;
             }
         }
@@ -132,7 +132,7 @@ namespace Scada.Web.Plugins.PlgScheme.Template
             }
             catch (Exception ex)
             {
-                errMsg = ScadaUtils.BuildErrorMessage(ex, SchemePhrases.SaveTemplateBindingsError);
+                errMsg = ex.BuildErrorMessage(SchemePhrases.SaveTemplateBindingsError);
                 return false;
             }
         }
