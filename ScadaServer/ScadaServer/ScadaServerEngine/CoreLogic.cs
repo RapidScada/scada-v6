@@ -708,7 +708,7 @@ namespace Scada.Server.Engine
                         .Append("Запуск       : ").AppendLine(startDT.ToLocalizedString())
                         .Append("Время работы : ").AppendLine(workSpanStr)
                         .Append("Статус       : ").AppendLine(serviceStatus.ToString(true))
-                        .Append("Версия       : ").AppendLine(ServerUtils.AppVersion);
+                        .Append("Версия       : ").AppendLine(EngineUtils.AppVersion);
                 }
                 else
                 {
@@ -718,7 +718,7 @@ namespace Scada.Server.Engine
                         .Append("Started        : ").AppendLine(startDT.ToLocalizedString())
                         .Append("Execution time : ").AppendLine(workSpanStr)
                         .Append("Status         : ").AppendLine(serviceStatus.ToString(false))
-                        .Append("Version        : ").AppendLine(ServerUtils.AppVersion);
+                        .Append("Version        : ").AppendLine(EngineUtils.AppVersion);
                 }
 
                 if (archiveHolder != null)

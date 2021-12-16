@@ -127,7 +127,7 @@ namespace Scada.Server.Engine
             // prepare to start service
             log.WriteAction(Locale.IsRussian ?
                 "Сервер {0} запущен" :
-                "Server {0} started", ServerUtils.AppVersion);
+                "Server {0} started", EngineUtils.AppVersion);
 
             storageWrapper = new StorageWrapper(new StorageContext
             {

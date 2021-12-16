@@ -465,8 +465,8 @@ namespace Scada.Server.Engine
         protected override string GetServerName()
         {
             return Locale.IsRussian ?
-                "Сервер " + ServerUtils.AppVersion :
-                "Server " + ServerUtils.AppVersion;
+                "Сервер " + EngineUtils.AppVersion :
+                "Server " + EngineUtils.AppVersion;
         }
 
         /// <summary>

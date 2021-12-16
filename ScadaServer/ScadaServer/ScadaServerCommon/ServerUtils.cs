@@ -32,10 +32,6 @@ namespace Scada.Server
     public static class ServerUtils
     {
         /// <summary>
-        /// The application version.
-        /// </summary>
-        public const string AppVersion = "6.0.0.0";
-        /// <summary>
         /// The application log file name.
         /// </summary>
         public const string LogFileName = "ScadaServer.log";
