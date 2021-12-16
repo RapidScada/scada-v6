@@ -90,6 +90,25 @@ namespace Scada.Web.Pages
             }
         }
 
+        private void ValidateCaptcha()
+        {
+            if (webContext.AppConfig.LoginOptions.RequireCaptcha)
+            {
+                string requiredCode = HttpContext.Session.GetString(CaptchaSessionKey);
+
+                if (string.IsNullOrEmpty(requiredCode) || string.IsNullOrEmpty(CaptchaCode) ||
+                    !string.Equals(requiredCode, CaptchaCode.Trim(), StringComparison.OrdinalIgnoreCase))
+                {
+                    webContext.Log.WriteError(Locale.IsRussian ?
+                        "Указан неверный защитный код, IP {0}" :
+                        "Invalid captcha specified, IP {0}", HttpContext.Connection.RemoteIpAddress);
+                    ModelState.AddModelError(string.Empty, dict.InvalidCaptcha);
+                    ModelState.Remove(nameof(CaptchaCode));
+                    CaptchaCode = "";
+                }
+            }
+        }
+
         private async Task<IActionResult> ValidateUserAsync(string returnUrl)
         {
             bool userIsValid = false;
@@ -220,20 +239,7 @@ namespace Scada.Web.Pages
         public async Task<IActionResult> OnPostAsync(string returnUrl = null)
         {
             CheckReady();
-
-            // validate captcha
-            if (webContext.AppConfig.LoginOptions.RequireCaptcha)
-            {
-                string requiredCode = HttpContext.Session.GetString(CaptchaSessionKey);
-
-                if (string.IsNullOrEmpty(requiredCode) || string.IsNullOrEmpty(CaptchaCode) ||
-                    !string.Equals(requiredCode, CaptchaCode.Trim(), StringComparison.OrdinalIgnoreCase))
-                {
-                    ModelState.AddModelError(string.Empty, dict.InvalidCaptcha);
-                    ModelState.Remove(nameof(CaptchaCode));
-                    CaptchaCode = "";
-                }
-            }
+            ValidateCaptcha();
 
             return ModelState.IsValid
                 ? await ValidateUserAsync(returnUrl)

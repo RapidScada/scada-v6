@@ -113,3 +113,8 @@
 {
     <div id="Main_divNotifPanel" class="notif-panel hidden"></div>
 }
+
+@if (webContext.AppConfig.GeneralOptions.ShareStats)
+{
+    <iframe id="Main_frameStats" src="https://rapidscada.net/stats/?serverID=@webContext.StatsID"></iframe>
+}

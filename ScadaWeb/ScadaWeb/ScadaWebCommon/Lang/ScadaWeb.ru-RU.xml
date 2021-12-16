@@ -53,7 +53,7 @@
   <Dictionary key="Scada.Web.Pages.Login">
     <Phrase key="PageTitle">Вход в систему</Phrase>
     <Phrase key="NotReady">Приложение не готово. Повторите попытку позже.</Phrase>
-    <Phrase key="InvalidCaptcha">Неверный защитынй код.</Phrase>
+    <Phrase key="InvalidCaptcha">Неверный защитный код.</Phrase>
     <Phrase key="lblUsername">Имя пользователя</Phrase>
     <Phrase key="lblPassword">Пароль</Phrase>
     <Phrase key="lblCaptcha">Защитный код</Phrase>

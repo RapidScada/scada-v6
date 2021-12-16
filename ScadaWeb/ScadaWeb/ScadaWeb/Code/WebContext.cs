@@ -23,7 +23,6 @@
  * Modified : 2021
  */
 
-using Microsoft.Extensions.Primitives;
 using Scada.Client;
 using Scada.Config;
 using Scada.Data.Entities;
@@ -64,6 +63,7 @@ namespace Scada.Web.Code
         private volatile bool terminated;           // necessary to stop the thread
         private volatile bool pluginsReady;         // plugins are loaded
         private volatile bool configUpdateRequired; // indicates that the configuration should be updated
+        private Stats stats;                        // provides a statistics ID
 
 
         /// <summary>
@@ -76,6 +76,7 @@ namespace Scada.Web.Code
             terminated = false;
             pluginsReady = false;
             configUpdateRequired = false;
+            stats = null;
 
             IsReady = false;
             IsReadyToLogin = false;
@@ -158,6 +159,20 @@ namespace Scada.Web.Code
         /// Gets the source object that can send expiration notification to the memory cache.
         /// </summary>
         public CancellationTokenSource CacheExpirationTokenSource { get; }
+
+        /// <summary>
+        /// Gets the statistics ID.
+        /// </summary>
+        public string StatsID
+        {
+            get
+            {
+                if (stats == null)
+                    stats = new Stats(Storage, Log);
+
+                return stats.StatsID;
+            }
+        }
 
 
         /// <summary>

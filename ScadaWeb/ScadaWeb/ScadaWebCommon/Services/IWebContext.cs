@@ -106,6 +106,11 @@ namespace Scada.Web.Services
         /// </summary>
         CancellationTokenSource CacheExpirationTokenSource { get; }
 
+        /// <summary>
+        /// Gets the statistics ID.
+        /// </summary>
+        string StatsID { get; }
+
 
         /// <summary>
         /// Gets a specification of the specified view entity.
