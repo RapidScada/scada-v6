@@ -313,7 +313,7 @@ namespace Scada.Web.Plugins.PlgMain.Controllers
             }
             catch (Exception ex)
             {
-                webContext.Log.WriteError(ex, WebPhrases.ErrorInWebApi, nameof(GetCurData));
+                webContext.Log.WriteError(ex.BuildErrorMessage(WebPhrases.ErrorInWebApi, nameof(GetCurData)));
                 return Dto<IEnumerable<CurDataPoint>>.Fail(ex.Message);
             }
         }
@@ -346,7 +346,7 @@ namespace Scada.Web.Plugins.PlgMain.Controllers
             }
             catch (Exception ex)
             {
-                webContext.Log.WriteError(ex, WebPhrases.ErrorInWebApi, nameof(GetCurDataStep1));
+                webContext.Log.WriteError(ex.BuildErrorMessage(WebPhrases.ErrorInWebApi, nameof(GetCurDataStep1)));
                 return Dto<CurData>.Fail(ex.Message);
             }
         }
@@ -364,7 +364,7 @@ namespace Scada.Web.Plugins.PlgMain.Controllers
             }
             catch (Exception ex)
             {
-                webContext.Log.WriteError(ex, WebPhrases.ErrorInWebApi, nameof(GetCurDataStep2));
+                webContext.Log.WriteError(ex.BuildErrorMessage(WebPhrases.ErrorInWebApi, nameof(GetCurDataStep2)));
                 return Dto<CurData>.Fail(ex.Message);
             }
         }
@@ -394,7 +394,7 @@ namespace Scada.Web.Plugins.PlgMain.Controllers
             }
             catch (Exception ex)
             {
-                webContext.Log.WriteError(ex, WebPhrases.ErrorInWebApi, nameof(GetCurDataByView));
+                webContext.Log.WriteError(ex.BuildErrorMessage(WebPhrases.ErrorInWebApi, nameof(GetCurDataByView)));
                 return Dto<CurData>.Fail(ex.Message);
             }
         }
@@ -418,7 +418,7 @@ namespace Scada.Web.Plugins.PlgMain.Controllers
             }
             catch (Exception ex)
             {
-                webContext.Log.WriteError(ex, WebPhrases.ErrorInWebApi, nameof(GetHistData));
+                webContext.Log.WriteError(ex.BuildErrorMessage(WebPhrases.ErrorInWebApi, nameof(GetHistData)));
                 return Dto<HistData>.Fail(ex.Message);
             }
         }
@@ -452,7 +452,7 @@ namespace Scada.Web.Plugins.PlgMain.Controllers
             }
             catch (Exception ex)
             {
-                webContext.Log.WriteError(ex, WebPhrases.ErrorInWebApi, nameof(GetHistDataByView));
+                webContext.Log.WriteError(ex.BuildErrorMessage(WebPhrases.ErrorInWebApi, nameof(GetHistDataByView)));
                 return Dto<HistData>.Fail(ex.Message);
             }
         }
@@ -482,7 +482,7 @@ namespace Scada.Web.Plugins.PlgMain.Controllers
             }
             catch (Exception ex)
             {
-                webContext.Log.WriteError(ex, WebPhrases.ErrorInWebApi, nameof(GetEvents));
+                webContext.Log.WriteError(ex.BuildErrorMessage(WebPhrases.ErrorInWebApi, nameof(GetEvents)));
                 return Dto<EventPacket>.Fail(ex.Message);
             }
         }
@@ -511,7 +511,7 @@ namespace Scada.Web.Plugins.PlgMain.Controllers
             }
             catch (Exception ex)
             {
-                webContext.Log.WriteError(ex, WebPhrases.ErrorInWebApi, nameof(GetEvents));
+                webContext.Log.WriteError(ex.BuildErrorMessage(WebPhrases.ErrorInWebApi, nameof(GetEvents)));
                 return Dto<EventPacket>.Fail(ex.Message);
             }
         }
@@ -539,7 +539,8 @@ namespace Scada.Web.Plugins.PlgMain.Controllers
             }
             catch (Exception ex)
             {
-                webContext.Log.WriteError(ex, WebPhrases.ErrorInWebApi, nameof(GetLastAvailableEvents));
+                webContext.Log.WriteError(ex.BuildErrorMessage(WebPhrases.ErrorInWebApi, 
+                    nameof(GetLastAvailableEvents)));
                 return Dto<EventPacket>.Fail(ex.Message);
             }
         }
@@ -572,7 +573,7 @@ namespace Scada.Web.Plugins.PlgMain.Controllers
             }
             catch (Exception ex)
             {
-                webContext.Log.WriteError(ex, WebPhrases.ErrorInWebApi, nameof(GetLastEventsByView));
+                webContext.Log.WriteError(ex.BuildErrorMessage(WebPhrases.ErrorInWebApi, nameof(GetLastEventsByView)));
                 return Dto<EventPacket>.Fail(ex.Message);
             }
         }
@@ -594,7 +595,7 @@ namespace Scada.Web.Plugins.PlgMain.Controllers
             }
             catch (Exception ex)
             {
-                webContext.Log.WriteError(ex, WebPhrases.ErrorInWebApi, nameof(GetArcWriteTime));
+                webContext.Log.WriteError(ex.BuildErrorMessage(WebPhrases.ErrorInWebApi, nameof(GetArcWriteTime)));
                 return Dto<long>.Fail(ex.Message);
             }
         }

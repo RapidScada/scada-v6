@@ -94,7 +94,7 @@ namespace Scada.Forms
         public static void HandleError(this ILog log, Exception ex, string text = "", params object[] args)
         {
             log.WriteError(ex, text, args);
-            ShowError(ScadaUtils.BuildErrorMessage(ex, text, args));
+            ShowError(ex.BuildErrorMessage(text, args));
         }
 
         /// <summary>

@@ -61,7 +61,7 @@ namespace Scada.Web.Plugins.PlgScheme.Controllers
             }
             catch (Exception ex)
             {
-                webContext.Log.WriteError(ex, WebPhrases.ErrorInWebApi, nameof(GetSchemeDoc));
+                webContext.Log.WriteError(ex.BuildErrorMessage(WebPhrases.ErrorInWebApi, nameof(GetSchemeDoc)));
                 return Dto<DocumentPacket>.Fail(ex.Message);
             }
         }
@@ -86,7 +86,7 @@ namespace Scada.Web.Plugins.PlgScheme.Controllers
             }
             catch (Exception ex)
             {
-                webContext.Log.WriteError(ex, WebPhrases.ErrorInWebApi, nameof(GetComponents));
+                webContext.Log.WriteError(ex.BuildErrorMessage(WebPhrases.ErrorInWebApi, nameof(GetComponents)));
                 return Dto<ComponentPacket>.Fail(ex.Message);
             }
         }
@@ -111,7 +111,7 @@ namespace Scada.Web.Plugins.PlgScheme.Controllers
             }
             catch (Exception ex)
             {
-                webContext.Log.WriteError(ex, WebPhrases.ErrorInWebApi, nameof(GetImages));
+                webContext.Log.WriteError(ex.BuildErrorMessage(WebPhrases.ErrorInWebApi, nameof(GetImages)));
                 return Dto<ImagePacket>.Fail(ex.Message);
             }
         }
@@ -153,7 +153,7 @@ namespace Scada.Web.Plugins.PlgScheme.Controllers
             }
             catch (Exception ex)
             {
-                webContext.Log.WriteError(ex, WebPhrases.ErrorInWebApi, nameof(SendCommand));
+                webContext.Log.WriteError(ex.BuildErrorMessage(WebPhrases.ErrorInWebApi, nameof(SendCommand)));
                 return Dto<bool>.Fail(ex.Message);
             }
         }

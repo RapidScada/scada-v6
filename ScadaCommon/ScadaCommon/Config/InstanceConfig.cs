@@ -120,7 +120,7 @@ namespace Scada.Config
             }
             catch (Exception ex)
             {
-                errMsg = ScadaUtils.BuildErrorMessage(ex, Locale.IsRussian ?
+                errMsg = ex.BuildErrorMessage(Locale.IsRussian ?
                     "Ошибка при загрузке конфигурации экземпляра" :
                     "Error loading instance configuration");
                 return false;
@@ -158,7 +158,7 @@ namespace Scada.Config
             }
             catch (Exception ex)
             {
-                errMsg = ScadaUtils.BuildErrorMessage(ex, Locale.IsRussian ?
+                errMsg = ex.BuildErrorMessage(Locale.IsRussian ?
                     "Ошибка при сохранении конфигурации экземпляра" :
                     "Error saving instance configuration");
                 return false;

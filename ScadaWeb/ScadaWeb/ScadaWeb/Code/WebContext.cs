@@ -393,11 +393,34 @@ namespace Scada.Web.Code
         /// </summary>
         private bool ReadBase(out BaseDataSet baseDataSet)
         {
+            // check connection
+            ScadaClient scadaClient = new(AppConfig.ConnectionOptions);
+
+            try
+            {
+                scadaClient.GetStatus(out bool serverIsReady, out bool userIsLoggedIn);
+
+                if (!serverIsReady)
+                {
+                    throw new ScadaException(Locale.IsRussian ?
+                        "Сервер не готов" :
+                        "Server is not ready");
+                }
+            }
+            catch (Exception ex)
+            {
+                Log.WriteError(ex.BuildErrorMessage(Locale.IsRussian ?
+                    "Ошибка при проверке соединения с сервером" :
+                    "Error checking server connection"));
+                baseDataSet = null;
+                return false;
+            }
+
+            // receive tables
             string tableName = Locale.IsRussian ? "неопределена" : "undefined";
 
             try
             {
-                ScadaClient scadaClient = new(AppConfig.ConnectionOptions);
                 baseDataSet = new BaseDataSet();
 
                 foreach (IBaseTable baseTable in baseDataSet.AllTables)

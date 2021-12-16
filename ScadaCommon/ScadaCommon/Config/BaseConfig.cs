@@ -71,7 +71,7 @@ namespace Scada.Config
         /// </summary>
         protected virtual string BuildLoadErrorMessage(Exception ex)
         {
-            return ScadaUtils.BuildErrorMessage(ex, CommonPhrases.LoadConfigError);
+            return ex.BuildErrorMessage(CommonPhrases.LoadConfigError);
         }
 
         /// <summary>
@@ -79,7 +79,7 @@ namespace Scada.Config
         /// </summary>
         protected virtual string BuildSaveErrorMessage(Exception ex)
         {
-            return ScadaUtils.BuildErrorMessage(ex, CommonPhrases.SaveConfigError);
+            return ex.BuildErrorMessage(CommonPhrases.SaveConfigError);
         }
 
 

@@ -195,7 +195,7 @@ namespace Scada
             }
             catch (Exception ex)
             {
-                errMsg = ScadaUtils.BuildErrorMessage(ex, Locale.IsRussian ?
+                errMsg = ex.BuildErrorMessage(Locale.IsRussian ?
                     "Ошибка при создании директории журналов" :
                     "Error creating log directory");
                 return false;

@@ -231,7 +231,7 @@ namespace Scada.Data.Models
             }
             catch (Exception ex)
             {
-                errMsg = ScadaUtils.BuildErrorMessage(ex, Locale.IsRussian ?
+                errMsg = ex.BuildErrorMessage(Locale.IsRussian ?
                     "Ошибка при загрузке команды ТУ" :
                     "Error loading telecontrol command");
                 return false;
@@ -285,7 +285,7 @@ namespace Scada.Data.Models
             }
             catch (Exception ex)
             {
-                errMsg = ScadaUtils.BuildErrorMessage(ex, Locale.IsRussian ?
+                errMsg = ex.BuildErrorMessage(Locale.IsRussian ?
                     "Ошибка при сохранении команды ТУ" :
                     "Error saving telecontrol command");
                 return false;

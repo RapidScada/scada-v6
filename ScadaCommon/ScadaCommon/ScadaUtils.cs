@@ -416,14 +416,16 @@ namespace Scada
         /// <summary>
         /// Builds an error message combining the exception message, the specified text and arguments.
         /// </summary>
-        public static string BuildErrorMessage(Exception ex, string text = "", params object[] args)
+        public static string BuildErrorMessage(this Exception ex, string text = "", params object[] args)
         {
-            if (ex == null)
-                throw new ArgumentNullException(nameof(ex));
+            string message = ex?.Message ?? "";
 
-            return string.IsNullOrEmpty(text)
-                ? ex.Message
-                : FormatText(text, args) + ":" + Environment.NewLine + ex.Message;
+            if (string.IsNullOrEmpty(text))
+                return message;
+            else if (string.IsNullOrEmpty(message))
+                return FormatText(text, args);
+            else
+                return FormatText(text, args) + ":" + Environment.NewLine + message;
         }
 
         /// <summary>
