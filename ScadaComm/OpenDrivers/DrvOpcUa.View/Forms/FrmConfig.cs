@@ -223,7 +223,7 @@ namespace Scada.Comm.Drivers.DrvOpcUa.View.Forms
             }
             catch (Exception ex)
             {
-                ScadaUiUtils.ShowError(ScadaUtils.BuildErrorMessage(ex, DriverPhrases.ConnectServerError));
+                ScadaUiUtils.ShowError(ex.BuildErrorMessage(DriverPhrases.ConnectServerError));
                 return false;
             }
             finally
@@ -253,7 +253,7 @@ namespace Scada.Comm.Drivers.DrvOpcUa.View.Forms
             }
             catch (Exception ex)
             {
-                ScadaUiUtils.ShowError(ScadaUtils.BuildErrorMessage(ex, DriverPhrases.DisconnectServerError));
+                ScadaUiUtils.ShowError(ex.BuildErrorMessage(DriverPhrases.DisconnectServerError));
             }
             finally
             {
@@ -319,7 +319,7 @@ namespace Scada.Comm.Drivers.DrvOpcUa.View.Forms
             }
             catch (Exception ex)
             {
-                ScadaUiUtils.ShowError(ScadaUtils.BuildErrorMessage(ex, DriverPhrases.BrowseServerError));
+                ScadaUiUtils.ShowError(ex.BuildErrorMessage(DriverPhrases.BrowseServerError));
             }
             finally
             {
@@ -487,7 +487,7 @@ namespace Scada.Comm.Drivers.DrvOpcUa.View.Forms
             }
             catch (Exception ex)
             {
-                ScadaUiUtils.ShowError(ScadaUtils.BuildErrorMessage(ex, DriverPhrases.GetDataTypeError));
+                ScadaUiUtils.ShowError(ex.BuildErrorMessage(DriverPhrases.GetDataTypeError));
                 dataTypeName = "";
                 return false;
             }

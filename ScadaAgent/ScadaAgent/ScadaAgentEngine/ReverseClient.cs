@@ -81,7 +81,7 @@ namespace Scada.Agent.Engine
             }
             catch (Exception ex)
             {
-                errMsg = ScadaUtils.BuildErrorMessage(ex, Locale.IsRussian ?
+                errMsg = ex.BuildErrorMessage(Locale.IsRussian ?
                     "Ошибка при подключении обратного клиента" :
                     "Error connecting reverse client");
                 return false;

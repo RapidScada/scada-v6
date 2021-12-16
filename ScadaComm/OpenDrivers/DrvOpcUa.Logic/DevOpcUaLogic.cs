@@ -418,7 +418,7 @@ namespace Scada.Comm.Drivers.DrvOpcUa.Logic
             }
             catch (Exception ex)
             {
-                Log.WriteInfo(ScadaUtils.BuildErrorMessage(ex, Locale.IsRussian ?
+                Log.WriteInfo(ex.BuildErrorMessage(Locale.IsRussian ?
                     "Ошибка при конвертировании элемента массива" :
                     "Error converting array element"));
                 tagFormat = TagFormat.FloatNumber;
@@ -459,7 +459,7 @@ namespace Scada.Comm.Drivers.DrvOpcUa.Logic
             }
             catch (Exception ex)
             {
-                Log.WriteInfo(ScadaUtils.BuildErrorMessage(ex, Locale.IsRussian ?
+                Log.WriteInfo(ex.BuildErrorMessage(Locale.IsRussian ?
                     "Ошибка при установке данных тега" :
                     "Error setting tag data"));
             }

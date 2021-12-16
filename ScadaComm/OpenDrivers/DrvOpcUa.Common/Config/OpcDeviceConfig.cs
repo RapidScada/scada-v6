@@ -119,7 +119,7 @@ namespace Scada.Comm.Drivers.DrvOpcUa.Config
         /// </summary>
         protected override string BuildLoadErrorMessage(Exception ex)
         {
-            return ScadaUtils.BuildErrorMessage(ex, CommPhrases.LoadDeviceConfigError);
+            return ex.BuildErrorMessage(CommPhrases.LoadDeviceConfigError);
         }
 
         /// <summary>
@@ -127,7 +127,7 @@ namespace Scada.Comm.Drivers.DrvOpcUa.Config
         /// </summary>
         protected override string BuildSaveErrorMessage(Exception ex)
         {
-            return ScadaUtils.BuildErrorMessage(ex, CommPhrases.SaveDeviceConfigError);
+            return ex.BuildErrorMessage(CommPhrases.SaveDeviceConfigError);
         }
 
         /// <summary>

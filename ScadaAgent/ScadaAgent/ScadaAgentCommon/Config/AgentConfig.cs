@@ -116,7 +116,7 @@ namespace Scada.Agent.Config
             }
             catch (Exception ex)
             {
-                errMsg = ScadaUtils.BuildErrorMessage(ex, CommonPhrases.LoadConfigError);
+                errMsg = ex.BuildErrorMessage(CommonPhrases.LoadConfigError);
                 return false;
             }
         }
