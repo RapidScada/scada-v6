@@ -51,7 +51,7 @@ namespace Scada.Web.Code
         /// <summary>
         /// Specifies the configuration update steps.
         /// </summary>
-        private enum UpdateConfigStep { Idle, ReadBase }
+        private enum UpdateConfigStep { Idle, LoadConfig, ReadBase }
 
         /// <summary>
         /// The period of attempts to read the configuration database.
@@ -336,8 +336,12 @@ namespace Scada.Web.Code
                             if (configUpdateRequired)
                             {
                                 configUpdateRequired = false;
-                                step = UpdateConfigStep.ReadBase;
+                                step = UpdateConfigStep.LoadConfig;
                             }
+                            break;
+
+                        case UpdateConfigStep.LoadConfig:
+                            step = UpdateConfigStep.ReadBase;
                             break;
 
                         case UpdateConfigStep.ReadBase:
@@ -546,6 +550,15 @@ namespace Scada.Web.Code
                 ViewType viewType = BaseDataSet.ViewTypeTable.GetItem(viewEntity.ViewTypeID.Value);
                 return viewType == null ? null : PluginHolder.GetViewSpecByCode(viewType.Code);
             }
+        }
+
+        /// <summary>
+        /// Reloads the application configuration and resets the memory cache.
+        /// </summary>
+        public void ReloadConfig()
+        {
+            configUpdateRequired = true;
+            CacheExpirationTokenSource.Cancel();
         }
     }
 }
