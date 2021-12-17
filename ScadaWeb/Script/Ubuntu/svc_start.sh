@@ -1,2 +1,2 @@
 #!/bin/sh
-sudo systemctl start scadaweb
+systemctl start scadaweb

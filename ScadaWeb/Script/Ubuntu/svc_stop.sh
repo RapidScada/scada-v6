@@ -1,2 +1,2 @@
 #!/bin/sh
-sudo systemctl stop scadaweb
+systemctl stop scadaweb
