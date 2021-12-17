@@ -460,6 +460,27 @@ namespace Scada.Web.Code
             }
         }
 
+        /// <summary>
+        /// Cancels and renews the cache expiration token.
+        /// </summary>
+        private void ResetCacheExpirationToken()
+        {
+            try
+            {
+                CacheExpirationTokenSource.Cancel();
+            }
+            catch (Exception ex)
+            {
+                Log.WriteError(ex, Locale.IsRussian ?
+                    "Ошибка при очистке кэша" :
+                    "Error clearing memory cache");
+            }
+            finally
+            {
+                CacheExpirationTokenSource = new CancellationTokenSource();
+            }
+        }
+
 
         /// <summary>
         /// Initializes the application context.
@@ -579,8 +600,7 @@ namespace Scada.Web.Code
                     "Reload configuration");
                 IsReadyToLogin = false;
                 configUpdateRequired = true;
-                CacheExpirationTokenSource.Cancel();
-                CacheExpirationTokenSource = new CancellationTokenSource();
+                ResetCacheExpirationToken();
                 return true;
             }
             else
@@ -602,8 +622,7 @@ namespace Scada.Web.Code
                 Log.WriteAction(Locale.IsRussian ?
                     "Очистка кэша" :
                     "Reset memory cache");
-                CacheExpirationTokenSource.Cancel();
-                CacheExpirationTokenSource = new CancellationTokenSource();
+                ResetCacheExpirationToken();
             }
         }
     }
