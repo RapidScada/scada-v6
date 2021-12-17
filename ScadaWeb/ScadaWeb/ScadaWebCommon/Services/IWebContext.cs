@@ -116,5 +116,15 @@ namespace Scada.Web.Services
         /// Gets a specification of the specified view entity.
         /// </summary>
         ViewSpec GetViewSpec(View viewEntity);
+
+        /// <summary>
+        /// Reloads the application configuration and resets the memory cache.
+        /// </summary>
+        bool ReloadConfig();
+        
+        /// <summary>
+        /// Resets the memory cache.
+        /// </summary>
+        void ResetCache();
     }
 }

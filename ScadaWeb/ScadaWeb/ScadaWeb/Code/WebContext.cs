@@ -51,19 +51,20 @@ namespace Scada.Web.Code
         /// <summary>
         /// Specifies the configuration update steps.
         /// </summary>
-        private enum UpdateConfigStep { Idle, LoadConfig, ReadBase }
+        private enum ConfigUpdateStep { Idle, LoadConfig, ReadBase }
 
         /// <summary>
         /// The period of attempts to read the configuration database.
         /// </summary>
         private static readonly TimeSpan ReadBasePeriod = TimeSpan.FromSeconds(10);
 
-        private StorageWrapper storageWrapper;      // contains the application storage
-        private Thread configThread;                // the configuration update thread
-        private volatile bool terminated;           // necessary to stop the thread
-        private volatile bool pluginsReady;         // plugins are loaded
-        private volatile bool configUpdateRequired; // indicates that the configuration should be updated
-        private Stats stats;                        // provides a statistics ID
+        private StorageWrapper storageWrapper;     // contains the application storage
+        private Thread configThread;               // the configuration update thread
+        private volatile bool terminated;          // necessary to stop the thread
+        private volatile bool pluginsReady;        // plugins are loaded
+        private bool configUpdateRequired;         // indicates that the configuration should be updated
+        private ConfigUpdateStep configUpdateStep; // the current step of configuration update
+        private Stats stats;                       // provides a statistics ID
 
 
         /// <summary>
@@ -76,6 +77,7 @@ namespace Scada.Web.Code
             terminated = false;
             pluginsReady = false;
             configUpdateRequired = false;
+            configUpdateStep = ConfigUpdateStep.Idle;
             stats = null;
 
             IsReady = false;
@@ -113,7 +115,7 @@ namespace Scada.Web.Code
         /// <summary>
         /// Gets the application configuration.
         /// </summary>
-        public WebConfig AppConfig { get; }
+        public WebConfig AppConfig { get; private set; }
 
         /// <summary>
         /// Gets the application directories.
@@ -153,7 +155,7 @@ namespace Scada.Web.Code
         /// <summary>
         /// Gets the object containing plugins.
         /// </summary>
-        public PluginHolder PluginHolder { get; }
+        public PluginHolder PluginHolder { get; private set; }
 
         /// <summary>
         /// Gets the source object that can send expiration notification to the memory cache.
@@ -197,24 +199,8 @@ namespace Scada.Web.Code
             }
             else
             {
-                Log.WriteError(errMsg);
+                Console.WriteLine(errMsg);
                 Locale.SetCultureToDefault();
-            }
-        }
-
-        /// <summary>
-        /// Loads the application configuration.
-        /// </summary>
-        private void LoadAppConfig()
-        {
-            if (AppConfig.Load(Storage, WebConfig.DefaultFileName, out string errMsg))
-            {
-                if (Log is LogFile logFile)
-                    logFile.CapacityMB = AppConfig.GeneralOptions.MaxLogSize;
-            }
-            else
-            {
-                Log.WriteError(errMsg);
             }
         }
 
@@ -231,43 +217,6 @@ namespace Scada.Web.Code
 
             CommonPhrases.Init();
             WebPhrases.Init();
-        }
-
-        /// <summary>
-        /// Initializes the application storage.
-        /// </summary>
-        private bool InitStorage()
-        {
-            storageWrapper = new StorageWrapper(new StorageContext
-            {
-                App = ServiceApp.Web,
-                AppDirs = AppDirs,
-                Log = Log
-            }, InstanceConfig);
-
-            return storageWrapper.InitStorage();
-        }
-
-        /// <summary>
-        /// Initializes plugins.
-        /// </summary>
-        private void InitPlugins()
-        {
-            PluginHolder.Log = Log;
-
-            foreach (string pluginCode in AppConfig.PluginCodes)
-            {
-                if (PluginFactory.GetPluginLogic(AppDirs.ExeDir, pluginCode, this,
-                    out PluginLogic pluginLogic, out string message))
-                {
-                    Log.WriteAction(message);
-                    PluginHolder.AddPlugin(pluginLogic);
-                }
-                else
-                {
-                    Log.WriteError(message);
-                }
-            }
         }
 
         /// <summary>
@@ -288,108 +237,68 @@ namespace Scada.Web.Code
         }
 
         /// <summary>
-        /// Stops the configuration update thread.
+        /// Initializes the application storage.
         /// </summary>
-        private void StopProcessing()
+        private bool InitStorage()
         {
-            try
+            storageWrapper = new StorageWrapper(new StorageContext
             {
-                if (configThread != null)
-                {
-                    terminated = true;
-                    configThread.Join();
-                    configThread = null;
-                }
+                App = ServiceApp.Web,
+                AppDirs = AppDirs,
+                Log = Log
+            }, InstanceConfig);
+
+            return storageWrapper.InitStorage();
+        }
+
+        /// <summary>
+        /// Loads the application configuration.
+        /// </summary>
+        private bool LoadAppConfig(out WebConfig webConfig)
+        {
+            webConfig = new WebConfig();
+
+            if (webConfig.Load(Storage, WebConfig.DefaultFileName, out string errMsg))
+            {
+                if (Log is LogFile logFile)
+                    logFile.CapacityMB = webConfig.GeneralOptions.MaxLogSize;
+
+                UpdateCulture();
+                return true;
             }
-            catch (Exception ex)
+            else
             {
-                Log.WriteError(ex, Locale.IsRussian ?
-                    "Ошибка при остановке обновления конфигурации" :
-                    "Error stopping configuration update");
+                Log.WriteError(errMsg);
+                webConfig = null;
+                return false;
             }
         }
 
         /// <summary>
-        /// Updates the configuration in a separate thread.
+        /// Initializes plugins.
         /// </summary>
-        private void ExecuteConfigUpdate()
+        private PluginHolder InitPlugins(WebConfig webConfig)
         {
-            LoadAppConfig();
-            UpdateCulture();
+            PluginHolder pluginHolder = new() { Log = Log };
 
-            InitPlugins();
-            PluginHolder.DefineFeaturedPlugins(AppConfig.PluginAssignment);
-            PluginHolder.LoadDictionaries();
-            PluginHolder.LoadConfig();
-            pluginsReady = true;
-
-            UpdateConfigStep step = UpdateConfigStep.Idle;
-            DateTime readBaseDT = DateTime.MinValue;
-
-            while (!terminated)
+            foreach (string pluginCode in webConfig.PluginCodes)
             {
-                try
+                if (PluginFactory.GetPluginLogic(AppDirs.ExeDir, pluginCode, this,
+                    out PluginLogic pluginLogic, out string message))
                 {
-                    switch (step)
-                    {
-                        case UpdateConfigStep.Idle:
-                            if (configUpdateRequired)
-                            {
-                                configUpdateRequired = false;
-                                step = UpdateConfigStep.LoadConfig;
-                            }
-                            break;
-
-                        case UpdateConfigStep.LoadConfig:
-                            step = UpdateConfigStep.ReadBase;
-                            break;
-
-                        case UpdateConfigStep.ReadBase:
-                            DateTime utcNow = DateTime.UtcNow;
-
-                            if (utcNow - readBaseDT >= ReadBasePeriod)
-                            {
-                                readBaseDT = utcNow;
-
-                                if (ReadBase(out BaseDataSet baseDataSet))
-                                {
-                                    step = UpdateConfigStep.Idle;
-                                    BaseDataSet = baseDataSet;
-                                    RightMatrix = new RightMatrix(baseDataSet);
-                                    Enums = new EnumDict(baseDataSet);
-                                    IsReadyToLogin = true;
-
-                                    if (IsReady)
-                                    {
-                                        Log.WriteInfo(Locale.IsRussian ?
-                                            "Приложение готово к входу пользователей" :
-                                            "The application is ready for user login");
-                                    }
-                                    else
-                                    {
-                                        IsReady = true;
-                                        Log.WriteInfo(Locale.IsRussian ?
-                                            "Приложение готово к работе" :
-                                            "The application is ready for operating");
-                                    }
-
-                                    PluginHolder.OnAppReady();
-                                }
-                            }
-                            break;
-                    }
+                    Log.WriteAction(message);
+                    pluginHolder.AddPlugin(pluginLogic);
                 }
-                catch (Exception ex)
+                else
                 {
-                    Log.WriteError(ex, Locale.IsRussian ?
-                        "Ошибка при обновлении конфигурации" :
-                        "Error updating configuration");
-                }
-                finally
-                {
-                    Thread.Sleep(ScadaUtils.ThreadDelay);
+                    Log.WriteError(message);
                 }
             }
+
+            pluginHolder.DefineFeaturedPlugins(webConfig.PluginAssignment);
+            pluginHolder.LoadDictionaries();
+            pluginHolder.LoadConfig();
+            return pluginHolder;
         }
 
         /// <summary>
@@ -446,6 +355,108 @@ namespace Scada.Web.Code
                     "Error receiving the configuration database, the {0} table", tableName);
                 baseDataSet = null;
                 return false;
+            }
+        }
+
+        /// <summary>
+        /// Updates the configuration in a separate thread.
+        /// </summary>
+        private void ExecuteConfigUpdate()
+        {
+            DateTime readBaseDT = DateTime.MinValue;
+
+            while (!terminated)
+            {
+                try
+                {
+                    switch (configUpdateStep)
+                    {
+                        case ConfigUpdateStep.Idle:
+                            if (configUpdateRequired)
+                            {
+                                configUpdateRequired = false;
+                                configUpdateStep = ConfigUpdateStep.LoadConfig;
+                            }
+                            break;
+
+                        case ConfigUpdateStep.LoadConfig:
+                            if (LoadAppConfig(out WebConfig webConfig))
+                            {
+                                AppConfig = webConfig;
+                                PluginHolder = InitPlugins(webConfig);
+                            }
+
+                            pluginsReady = true;
+                            configUpdateStep = ConfigUpdateStep.ReadBase;
+                            break;
+
+                        case ConfigUpdateStep.ReadBase:
+                            DateTime utcNow = DateTime.UtcNow;
+
+                            if (utcNow - readBaseDT >= ReadBasePeriod)
+                            {
+                                readBaseDT = utcNow;
+
+                                if (ReadBase(out BaseDataSet baseDataSet))
+                                {
+                                    BaseDataSet = baseDataSet;
+                                    RightMatrix = new RightMatrix(baseDataSet);
+                                    Enums = new EnumDict(baseDataSet);
+                                    IsReadyToLogin = true;
+
+                                    if (IsReady)
+                                    {
+                                        Log.WriteInfo(Locale.IsRussian ?
+                                            "Приложение готово к входу пользователей" :
+                                            "The application is ready for user login");
+                                    }
+                                    else
+                                    {
+                                        IsReady = true;
+                                        Log.WriteInfo(Locale.IsRussian ?
+                                            "Приложение готово к работе" :
+                                            "The application is ready for operating");
+                                    }
+
+                                    PluginHolder.OnAppReady();
+                                    configUpdateStep = ConfigUpdateStep.Idle;
+                                }
+                            }
+                            break;
+                    }
+                }
+                catch (Exception ex)
+                {
+                    Log.WriteError(ex, Locale.IsRussian ?
+                        "Ошибка при обновлении конфигурации" :
+                        "Error updating configuration");
+                }
+                finally
+                {
+                    Thread.Sleep(ScadaUtils.ThreadDelay);
+                }
+            }
+        }
+
+        /// <summary>
+        /// Stops the configuration update thread.
+        /// </summary>
+        private void StopProcessing()
+        {
+            try
+            {
+                if (configThread != null)
+                {
+                    terminated = true;
+                    configThread.Join();
+                    configThread = null;
+                }
+            }
+            catch (Exception ex)
+            {
+                Log.WriteError(ex, Locale.IsRussian ?
+                    "Ошибка при остановке обновления конфигурации" :
+                    "Error stopping configuration update");
             }
         }
 
@@ -508,6 +519,7 @@ namespace Scada.Web.Code
                     terminated = false;
                     pluginsReady = false;
                     configUpdateRequired = true;
+                    configUpdateStep = ConfigUpdateStep.Idle;
                     IsReadyToLogin = false;
 
                     configThread = new Thread(ExecuteConfigUpdate);
@@ -538,8 +550,7 @@ namespace Scada.Web.Code
         /// </summary>
         public ViewSpec GetViewSpec(View viewEntity)
         {
-            if (viewEntity == null)
-                throw new ArgumentNullException(nameof(viewEntity));
+            ArgumentNullException.ThrowIfNull(viewEntity, nameof(viewEntity));
 
             if (viewEntity.ViewTypeID == null)
             {
@@ -555,10 +566,43 @@ namespace Scada.Web.Code
         /// <summary>
         /// Reloads the application configuration and resets the memory cache.
         /// </summary>
-        public void ReloadConfig()
+        public bool ReloadConfig()
         {
-            configUpdateRequired = true;
-            CacheExpirationTokenSource.Cancel();
+            if (configThread == null || terminated)
+            {
+                return false;
+            }
+            else if (configUpdateStep == ConfigUpdateStep.Idle)
+            {
+                Log.WriteAction(Locale.IsRussian ?
+                    "Перезагрузка конфигурации" :
+                    "Reload configuration");
+                IsReadyToLogin = false;
+                configUpdateRequired = true;
+                CacheExpirationTokenSource.Cancel();
+                return true;
+            }
+            else
+            {
+                Log.WriteWarning(Locale.IsRussian ?
+                    "Перезагрузка конфигурации уже выполняется" :
+                    "Reload configuration is already in progress");
+                return false;
+            }
+        }
+
+        /// <summary>
+        /// Resets the memory cache.
+        /// </summary>
+        public void ResetCache()
+        {
+            if (configThread != null && !terminated)
+            {
+                Log.WriteAction(Locale.IsRussian ?
+                    "Очистка кэша" :
+                    "Reset memory cache");
+                CacheExpirationTokenSource.Cancel();
+            }
         }
     }
 }
