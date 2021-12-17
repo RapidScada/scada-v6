@@ -6,6 +6,6 @@ if [ "$(systemctl is-active scadaweb)" == "active" ]; then
     wget -q -O - "http://localhost:5000/ConfigReload"
     rm -f ./cmd/webreload
 else
-    echo "Start Webstation"
+    echo "Restart Webstation service"
     systemctl restart scadaweb
 fi
