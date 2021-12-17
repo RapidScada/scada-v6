@@ -26,6 +26,8 @@
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Builder;
+using Microsoft.AspNetCore.DataProtection;
+using Microsoft.AspNetCore.DataProtection.KeyManagement;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpOverrides;
 using Microsoft.AspNetCore.Mvc.ApplicationParts;
@@ -115,6 +117,11 @@ namespace Scada.Web
                     WebContext.PluginHolder.AddFilters(options.Filters);
                 })
                 .ConfigureApplicationPartManager(ConfigureApplicationParts);
+
+            services
+                .AddDataProtection()
+                .PersistKeysToFileSystem(new DirectoryInfo(WebContext.AppDirs.StorageDir))
+                .AddKeyManagementOptions(options => options.XmlEncryptor = new XmlEncryptor());
 
             services
                 .AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)

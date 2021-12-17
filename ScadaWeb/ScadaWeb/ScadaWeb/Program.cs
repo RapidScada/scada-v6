@@ -28,8 +28,6 @@ using Microsoft.Extensions.Hosting;
 using Scada.Lang;
 using Scada.Web.Code;
 using System;
-using System.IO;
-using System.Reflection;
 
 namespace Scada.Web
 {
@@ -89,6 +87,10 @@ namespace Scada.Web
         /// </summary>
         public static void Main(string[] args)
         {
+#if DEBUG
+            System.Diagnostics.Debugger.Launch();
+#endif
+
             InitContext();
             RunWebHost(args);
             webContext.FinalizeContext();
