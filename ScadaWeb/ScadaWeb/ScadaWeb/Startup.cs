@@ -63,6 +63,7 @@ namespace Scada.Web
 
         public IWebContext WebContext { get; }
 
+
         // Loads plugins to integrate their pages and controllers into the web application.
         private void ConfigureApplicationParts(ApplicationPartManager apm)
         {
@@ -86,6 +87,12 @@ namespace Scada.Web
                     }
                 }
             }
+        }
+
+        // Checks if the application storage directory is writable.
+        private bool CheckStorageDir()
+        {
+            return true; // TODO: check dir
         }
 
         // This method gets called by the runtime. Use this method to add services to the container.
@@ -118,10 +125,13 @@ namespace Scada.Web
                 })
                 .ConfigureApplicationPartManager(ConfigureApplicationParts);
 
-            services
-                .AddDataProtection()
-                .PersistKeysToFileSystem(new DirectoryInfo(WebContext.AppDirs.StorageDir))
-                .AddKeyManagementOptions(options => options.XmlEncryptor = new XmlEncryptor());
+            if (CheckStorageDir())
+            {
+                services
+                    .AddDataProtection()
+                    .PersistKeysToFileSystem(new DirectoryInfo(WebContext.AppDirs.StorageDir))
+                    .AddKeyManagementOptions(options => options.XmlEncryptor = new XmlEncryptor());
+            }
 
             services
                 .AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
