@@ -160,7 +160,7 @@ namespace Scada.Web.Code
         /// <summary>
         /// Gets the source object that can send expiration notification to the memory cache.
         /// </summary>
-        public CancellationTokenSource CacheExpirationTokenSource { get; }
+        public CancellationTokenSource CacheExpirationTokenSource { get; private set; }
 
         /// <summary>
         /// Gets the statistics ID.
@@ -296,8 +296,6 @@ namespace Scada.Web.Code
             }
 
             pluginHolder.DefineFeaturedPlugins(webConfig.PluginAssignment);
-            pluginHolder.LoadDictionaries();
-            pluginHolder.LoadConfig();
             return pluginHolder;
         }
 
@@ -384,6 +382,8 @@ namespace Scada.Web.Code
                             {
                                 AppConfig = webConfig;
                                 PluginHolder = InitPlugins(webConfig);
+                                PluginHolder.LoadDictionaries();
+                                PluginHolder.LoadConfig();
                             }
 
                             pluginsReady = true;
@@ -580,6 +580,7 @@ namespace Scada.Web.Code
                 IsReadyToLogin = false;
                 configUpdateRequired = true;
                 CacheExpirationTokenSource.Cancel();
+                CacheExpirationTokenSource = new CancellationTokenSource();
                 return true;
             }
             else
@@ -602,6 +603,7 @@ namespace Scada.Web.Code
                     "Очистка кэша" :
                     "Reset memory cache");
                 CacheExpirationTokenSource.Cancel();
+                CacheExpirationTokenSource = new CancellationTokenSource();
             }
         }
     }

@@ -204,11 +204,18 @@ function updateLayout() {
 // Align scheme horizontally within its wrapper
 function alignHorizontally() {
     let divSchWrapper = $("#divSchWrapper");
-    let actualSchemeWidth = scheme.dom[0].getBoundingClientRect().width;
-    let wrapperWidth = divSchWrapper.innerWidth();
-    divSchWrapper.css("padding-left", wrapperWidth > actualSchemeWidth
-        ? parseInt((wrapperWidth - actualSchemeWidth) / 2)
-        : 0);
+    let wrapperPadding = 0;
+
+    if (scheme.dom) {
+        let actualSchemeWidth = scheme.dom[0].getBoundingClientRect().width;
+        let wrapperWidth = divSchWrapper.innerWidth();
+
+        if (wrapperWidth > actualSchemeWidth) {
+            wrapperPadding = parseInt((wrapperWidth - actualSchemeWidth) / 2);
+        }
+    }
+
+    divSchWrapper.css("padding-left", wrapperPadding);
 };
 
 // Show error badge for a period of time or permanently

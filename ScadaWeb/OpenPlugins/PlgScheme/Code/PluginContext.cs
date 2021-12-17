@@ -69,14 +69,20 @@ namespace Scada.Web.Plugins.PlgScheme.Code
                 try
                 {
                     if (pluginLogic is ISchemeComp schemeComp)
+                    {
                         CompManager.AddComponents(schemeComp);
+                        log.WriteAction(WebPhrases.PluginMessage, PluginUtils.PluginCode, 
+                            string.Format(Locale.IsRussian ?
+                                "Добавлены компоненты из плагина {0}" :
+                                "Added components from the {0} plugin", pluginLogic.Code));
+                    }
                 }
                 catch (Exception ex)
                 {
                     log.WriteError(ex, WebPhrases.PluginMessage, PluginUtils.PluginCode,
                         string.Format(Locale.IsRussian ?
-                            "Ошибка при извлечении компонентов из плагина {0}" :
-                            "Error retrieving components from the {0} plugin", pluginLogic.Code));
+                            "Ошибка при добавлении компонентов из плагина {0}" :
+                            "Error adding components from the {0} plugin", pluginLogic.Code));
                 }
             }
         }
