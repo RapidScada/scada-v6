@@ -37,6 +37,7 @@ namespace Scada.Web
         public const string Root = "/";
         public const string AboutPage = "/About";
         public const string AccessDeniedPage = "/AccessDenied";
+        public const string ConfigReloadPage = "/ConfigReload";
         public const string ErrorPage = "/Error";
         public const string IndexPage = "/Index";
         public const string LoginPage = "/Login";

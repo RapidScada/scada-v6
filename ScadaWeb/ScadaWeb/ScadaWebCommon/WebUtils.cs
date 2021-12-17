@@ -24,9 +24,11 @@
  */
 
 using Microsoft.AspNetCore.Html;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Scada.Lang;
 using System.Collections.Generic;
+using System.Net;
 using System.Security.Claims;
 using System.Text;
 using System.Text.Json;
@@ -168,6 +170,21 @@ namespace Scada.Web
         {
             return new HtmlString(string.Format("JSON.parse('{0}')",
                 HttpUtility.JavaScriptStringEncode(JsonSerializer.Serialize(obj, JsonOptions))));
+        }
+
+        /// <summary>
+        /// Determines whether the specified connection is local.
+        /// </summary>
+        public static bool IsLocal(this ConnectionInfo connection)
+        {
+            if (connection.RemoteIpAddress != null)
+            {
+                return connection.LocalIpAddress == null
+                    ? IPAddress.IsLoopback(connection.RemoteIpAddress)
+                    : connection.RemoteIpAddress.Equals(connection.LocalIpAddress);
+            }
+
+            return false;
         }
     }
 }
