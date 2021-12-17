@@ -1,2 +1,2 @@
 #!/bin/sh
-sudo systemctl restart scadacomm
+systemctl restart scadacomm

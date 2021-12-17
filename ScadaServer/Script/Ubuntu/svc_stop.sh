@@ -1,2 +1,2 @@
 #!/bin/sh
-sudo systemctl stop scadaserver
+systemctl stop scadaserver

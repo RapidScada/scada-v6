@@ -1,2 +1,2 @@
 #!/bin/sh
-sudo systemctl stop scadacomm
+systemctl stop scadacomm
