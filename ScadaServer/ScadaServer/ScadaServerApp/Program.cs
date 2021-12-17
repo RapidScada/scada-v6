@@ -51,17 +51,17 @@ namespace Scada.Server.App
                 Console.WriteLine("Server is started with errors");
 
             // stop the service if 'x' is pressed or a stop file exists
+            const int ThreadDelay = 500;
             Console.WriteLine("Press 'x' or create 'serverstop' file to stop Server");
-            FileListener stopFileListener = new(Path.Combine(manager.AppDirs.CmdDir, "serverstop"));
+            string stopFileName = Path.Combine(manager.AppDirs.CmdDir, "serverstop");
 
-            while (!(Console.KeyAvailable && Console.ReadKey(true).Key == ConsoleKey.X || stopFileListener.FileFound))
+            while (!(Console.KeyAvailable && Console.ReadKey(true).Key == ConsoleKey.X || File.Exists(stopFileName)))
             {
-                Thread.Sleep(ScadaUtils.ThreadDelay);
+                Thread.Sleep(ThreadDelay);
             }
 
             manager.StopService();
-            stopFileListener.Terminate();
-            stopFileListener.DeleteFile();
+            try { File.Delete(stopFileName); } catch { }
             Console.WriteLine("Server is stopped");
         }
     }

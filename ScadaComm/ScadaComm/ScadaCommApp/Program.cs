@@ -23,7 +23,6 @@
  * Modified : 2021
  */
 
-using Scada;
 using Scada.Comm.Engine;
 using System;
 using System.IO;
@@ -49,17 +48,17 @@ namespace Scada.Comm.App
                 Console.WriteLine("Communicator is started with errors");
 
             // stop the service if 'x' is pressed or a stop file exists
+            const int ThreadDelay = 500;
             Console.WriteLine("Press 'x' or create 'commstop' file to stop Communicator");
-            FileListener stopFileListener = new(Path.Combine(manager.AppDirs.CmdDir, "commstop"));
+            string stopFileName = Path.Combine(manager.AppDirs.CmdDir, "commstop");
 
-            while (!(Console.KeyAvailable && Console.ReadKey(true).Key == ConsoleKey.X || stopFileListener.FileFound))
+            while (!(Console.KeyAvailable && Console.ReadKey(true).Key == ConsoleKey.X || File.Exists(stopFileName)))
             {
-                Thread.Sleep(ScadaUtils.ThreadDelay);
+                Thread.Sleep(ThreadDelay);
             }
 
             manager.StopService();
-            stopFileListener.Terminate();
-            stopFileListener.DeleteFile();
+            try { File.Delete(stopFileName); } catch { }
             Console.WriteLine("Communicator is stopped");
         }
     }

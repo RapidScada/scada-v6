@@ -50,17 +50,17 @@ namespace Scada.Agent.App
                 Console.WriteLine("Agent is started with errors");
 
             // stop the service if 'x' is pressed or a stop file exists
+            const int ThreadDelay = 500;
             Console.WriteLine("Press 'x' or create 'agentstop' file to stop Agent");
-            FileListener stopFileListener = new(Path.Combine(manager.AppDirs.CmdDir, "agentstop"));
+            string stopFileName = Path.Combine(manager.AppDirs.CmdDir, "agentstop");
 
-            while (!(Console.KeyAvailable && Console.ReadKey(true).Key == ConsoleKey.X || stopFileListener.FileFound))
+            while (!(Console.KeyAvailable && Console.ReadKey(true).Key == ConsoleKey.X || File.Exists(stopFileName)))
             {
-                Thread.Sleep(ScadaUtils.ThreadDelay);
+                Thread.Sleep(ThreadDelay);
             }
 
             manager.StopService();
-            stopFileListener.Terminate();
-            stopFileListener.DeleteFile();
+            try { File.Delete(stopFileName); } catch { }
             Console.WriteLine("Agent is stopped");
         }
     }
