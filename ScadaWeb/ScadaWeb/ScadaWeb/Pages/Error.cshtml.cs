@@ -28,7 +28,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.Extensions.Logging;
 using Scada.Lang;
-using Scada.Web.Services;
+using Scada.Log;
 using System;
 using System.Diagnostics;
 
@@ -47,12 +47,12 @@ namespace Scada.Web.Pages
         public bool ShowRequestId => !string.IsNullOrEmpty(RequestId);
 
         private readonly ILogger<ErrorModel> _logger;
-        private readonly IWebContext _webContext;
+        private readonly ILog _log;
 
-        public ErrorModel(ILogger<ErrorModel> logger, IWebContext webContext)
+        public ErrorModel(ILogger<ErrorModel> logger, ILog log)
         {
             _logger = logger;
-            _webContext = webContext;
+            _log = log;
         }
 
         private bool GetLastError(out Exception ex)
@@ -67,7 +67,7 @@ namespace Scada.Web.Pages
             if (GetLastError(out Exception ex))
             {
                 _logger.LogError(ex, CommonPhrases.UnhandledException);
-                _webContext.Log.WriteError(ex, CommonPhrases.UnhandledException);
+                _log.WriteError(ex, CommonPhrases.UnhandledException);
             }
 
             RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier;
