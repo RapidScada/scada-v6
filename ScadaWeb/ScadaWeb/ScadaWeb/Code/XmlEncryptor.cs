@@ -24,6 +24,9 @@
  */
 
 using Microsoft.AspNetCore.DataProtection.XmlEncryption;
+using Microsoft.Extensions.DependencyInjection;
+using Scada.Log;
+using System;
 using System.Xml.Linq;
 
 namespace Scada.Web.Code
@@ -34,16 +37,51 @@ namespace Scada.Web.Code
     /// </summary>
     internal class XmlEncryptor : IXmlEncryptor, IXmlDecryptor
     {
+        private readonly ILog log;
+
+
+        public XmlEncryptor(ILog log)
+        {
+            this.log = log ?? throw new ArgumentNullException(nameof(log));
+        }
+
+        public XmlEncryptor(IServiceProvider services)
+        {
+            log = services.GetRequiredService<ILog>();
+        }
+
+
         public EncryptedXmlInfo Encrypt(XElement plaintextElement)
         {
-            string encryptedValue = ScadaUtils.Encrypt(plaintextElement.Document.ToString());
-            return new EncryptedXmlInfo(new XElement("value", encryptedValue), typeof(XmlEncryptor));
+            ArgumentNullException.ThrowIfNull(plaintextElement, nameof(plaintextElement));
+
+            try
+            {
+                XNamespace xNamespace = "http://schemas.asp.net/2015/03/dataProtection";
+                string encryptedValue = ScadaUtils.Encrypt(plaintextElement.ToString());
+                return new EncryptedXmlInfo(new XElement(xNamespace + "value", encryptedValue), typeof(XmlEncryptor));
+            }
+            catch (Exception ex)
+            {
+                log.WriteError(ex);
+                throw;
+            }
         }
 
         public XElement Decrypt(XElement encryptedElement)
         {
-            string decryptedValue = ScadaUtils.Decrypt(encryptedElement.Value);
-            return XElement.Parse(decryptedValue);
+            ArgumentNullException.ThrowIfNull(encryptedElement, nameof(encryptedElement));
+
+            try
+            {
+                string decryptedValue = ScadaUtils.Decrypt(encryptedElement.Value);
+                return XElement.Parse(decryptedValue);
+            }
+            catch (Exception ex)
+            {
+                log.WriteError(ex);
+                throw;
+            }
         }
     }
 }

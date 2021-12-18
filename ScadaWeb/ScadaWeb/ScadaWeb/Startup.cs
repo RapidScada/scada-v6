@@ -27,7 +27,6 @@ using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.DataProtection;
-using Microsoft.AspNetCore.DataProtection.KeyManagement;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpOverrides;
 using Microsoft.AspNetCore.Mvc.ApplicationParts;
@@ -64,7 +63,9 @@ namespace Scada.Web
         public IWebContext WebContext { get; }
 
 
-        // Loads plugins to integrate their pages and controllers into the web application.
+        /// <summary>
+        /// Loads plugins to integrate their pages and controllers into the web application.
+        /// </summary>
         private void ConfigureApplicationParts(ApplicationPartManager apm)
         {
             foreach (string fileName in
@@ -89,13 +90,9 @@ namespace Scada.Web
             }
         }
 
-        // Checks if the application storage directory is writable.
-        private bool CheckStorageDir()
-        {
-            return true; // TODO: check dir
-        }
-
-        // This method gets called by the runtime. Use this method to add services to the container.
+        /// <summary>
+        /// This method gets called by the runtime. Use this method to add services to the container.
+        /// </summary>
         public void ConfigureServices(IServiceCollection services)
         {
             services
@@ -125,13 +122,13 @@ namespace Scada.Web
                 })
                 .ConfigureApplicationPartManager(ConfigureApplicationParts);
 
-            if (CheckStorageDir())
-            {
-                services
-                    .AddDataProtection()
-                    .PersistKeysToFileSystem(new DirectoryInfo(WebContext.AppDirs.StorageDir))
-                    .AddKeyManagementOptions(options => options.XmlEncryptor = new XmlEncryptor());
-            }
+            services
+                .AddDataProtection()
+                .AddKeyManagementOptions(options =>
+                {
+                    options.XmlRepository = new XmlRepository(WebContext.Storage, WebContext.Log);
+                    options.XmlEncryptor = new XmlEncryptor(WebContext.Log);
+                });
 
             services
                 .AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
@@ -163,6 +160,7 @@ namespace Scada.Web
                 .AddHttpContextAccessor()
                 .AddSession()
                 .AddSingleton(WebContext)
+                .AddSingleton(WebContext.Log)
                 .AddScoped(UserContextFactory.GetUserContext)
                 .AddScoped<IClientAccessor, ClientAccessor>()
                 .AddScoped<IViewLoader, ViewLoader>()
@@ -171,7 +169,9 @@ namespace Scada.Web
             WebContext.PluginHolder.AddServices(services);
         }
 
-        // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
+        /// <summary>
+        /// This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
+        /// </summary>
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
             app.UseForwardedHeaders();
