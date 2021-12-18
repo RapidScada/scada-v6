@@ -513,10 +513,11 @@ namespace Scada.Storages.PostgreSqlStorage
             string sql =
                 $"SELECT path FROM {GetTableName(category)} " +
                 "WHERE " + (category == DataCategory.View ? "" : "app_id = @appID AND ") +
-                "path LIKE @path AND path LIKE @searchPattern";
+                "path LIKE @path AND substring(path from @pathLen) LIKE @searchPattern";
 
             NpgsqlCommand cmd = new NpgsqlCommand(sql, conn);
             cmd.Parameters.AddWithValue("path", EscapePath(path) + "%");
+            cmd.Parameters.AddWithValue("pathLen", path == null ? 0 : path.Length);
             cmd.Parameters.AddWithValue("searchPattern", 
                 string.IsNullOrEmpty(searchPattern) ? "%" : searchPattern.Replace('*', '%'));
 
