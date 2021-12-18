@@ -6,6 +6,7 @@ using Scada.Config;
 using Scada.Data.Tables;
 using Scada.Lang;
 using System;
+using System.Collections.Generic;
 using System.Data;
 using System.IO;
 using System.Text;
@@ -95,7 +96,7 @@ namespace Scada.Storages.PostgreSqlStorage
             string sql = $"SELECT contents FROM {tableName} WHERE app_id = @appID AND path = @path LIMIT 1";
             NpgsqlCommand cmd = new NpgsqlCommand(sql, conn);
             cmd.Parameters.AddWithValue("appID", (int)app);
-            cmd.Parameters.AddWithValue("path", path);
+            cmd.Parameters.AddWithValue("path", NormalizePath(path));
 
             try
             {
@@ -124,7 +125,7 @@ namespace Scada.Storages.PostgreSqlStorage
         {
             string sql = $"SELECT contents FROM {tableName} WHERE path = @path LIMIT 1";
             NpgsqlCommand cmd = new NpgsqlCommand(sql, conn);
-            cmd.Parameters.AddWithValue("path", path);
+            cmd.Parameters.AddWithValue("path", NormalizePath(path));
 
             try
             {
@@ -158,7 +159,7 @@ namespace Scada.Storages.PostgreSqlStorage
 
             NpgsqlCommand cmd = new NpgsqlCommand(sql, conn);
             cmd.Parameters.AddWithValue("appID", (int)app);
-            cmd.Parameters.AddWithValue("path", path);
+            cmd.Parameters.AddWithValue("path", NormalizePath(path));
             cmd.Parameters.AddWithValue("writeTime", DateTime.UtcNow);
             cmd.Parameters.AddWithValue("contents", 
                 string.IsNullOrEmpty(contents) ? (object)DBNull.Value : contents);
@@ -187,7 +188,7 @@ namespace Scada.Storages.PostgreSqlStorage
                 "ON CONFLICT (path) DO UPDATE SET contents = @contents, write_time = @writeTime";
 
             NpgsqlCommand cmd = new NpgsqlCommand(sql, conn);
-            cmd.Parameters.AddWithValue("path", path);
+            cmd.Parameters.AddWithValue("path", NormalizePath(path));
             cmd.Parameters.AddWithValue("writeTime", DateTime.UtcNow);
             cmd.Parameters.AddWithValue("contents", 
                 bytes == null || bytes.Length == 0 ? (object)DBNull.Value : bytes);
@@ -212,7 +213,7 @@ namespace Scada.Storages.PostgreSqlStorage
         {
             string sql = $"SELECT contents FROM {GetTableName(DataCategory.View)} WHERE path = @path LIMIT 1";
             NpgsqlCommand cmd = new NpgsqlCommand(sql, conn);
-            cmd.Parameters.AddWithValue("path", path);
+            cmd.Parameters.AddWithValue("path", NormalizePath(path));
             
             NpgsqlDataReader reader = null;
             bool postponeClose = false;
@@ -271,6 +272,24 @@ namespace Scada.Storages.PostgreSqlStorage
                 default:
                     throw new ScadaException("Data category not supported.");
             }
+        }
+
+        /// <summary>
+        /// Sets separators in the specified path to backslashes.
+        /// </summary>
+        private static string NormalizePath(string path)
+        {
+            return string.IsNullOrEmpty(path) ? "" : path.Replace('/', '\\');
+        }
+
+        /// <summary>
+        /// Escapes special characters in the specified path for an SQL query.
+        /// </summary>
+        private static string EscapePath(string path)
+        {
+            return string.IsNullOrEmpty(path) 
+                ? ""
+                : path.Replace('/', '\\').Replace("\\", "\\\\");
         }
 
 
@@ -451,7 +470,7 @@ namespace Scada.Storages.PostgreSqlStorage
                 "path = @path LIMIT 1";
 
             NpgsqlCommand cmd = new NpgsqlCommand(sql, conn);
-            cmd.Parameters.AddWithValue("path", path);
+            cmd.Parameters.AddWithValue("path", NormalizePath(path));
 
             if (category != DataCategory.View)
                 cmd.Parameters.AddWithValue("appID", (int)App);
@@ -483,6 +502,47 @@ namespace Scada.Storages.PostgreSqlStorage
             }
 
             return ShortFileInfo.FileNotExists;
+        }
+
+        /// <summary>
+        /// Gets a list of file paths that match the specified pattern.
+        /// </summary>
+        public override ICollection<string> GetFileList(DataCategory category, string path, string searchPattern)
+        {
+            List<string> fileList = new List<string>();
+            string sql =
+                $"SELECT path FROM {GetTableName(category)} " +
+                "WHERE " + (category == DataCategory.View ? "" : "app_id = @appID AND ") +
+                "path LIKE @path AND path LIKE @searchPattern";
+
+            NpgsqlCommand cmd = new NpgsqlCommand(sql, conn);
+            cmd.Parameters.AddWithValue("path", EscapePath(path) + "%");
+            cmd.Parameters.AddWithValue("searchPattern", 
+                string.IsNullOrEmpty(searchPattern) ? "%" : searchPattern.Replace('*', '%'));
+
+            if (category != DataCategory.View)
+                cmd.Parameters.AddWithValue("appID", (int)App);
+
+            try
+            {
+                Monitor.Enter(conn);
+                conn.Open();
+
+                using (NpgsqlDataReader reader = cmd.ExecuteReader())
+                {
+                    while (reader.Read())
+                    {
+                        fileList.Add(reader.GetString(0));
+                    }
+                }
+            }
+            finally
+            {
+                conn.Close();
+                Monitor.Exit(conn);
+            }
+
+            return fileList;
         }
     }
 }

@@ -25,6 +25,7 @@
 
 using Scada.Data.Tables;
 using System;
+using System.Collections.Generic;
 using System.IO;
 using System.Xml;
 
@@ -138,5 +139,10 @@ namespace Scada.Storages
         /// Gets information associated with the file.
         /// </summary>
         public abstract ShortFileInfo GetFileInfo(DataCategory category, string path);
+
+        /// <summary>
+        /// Gets a list of file paths that match the specified pattern.
+        /// </summary>
+        public abstract ICollection<string> GetFileList(DataCategory category, string path, string searchPattern);
     }
 }

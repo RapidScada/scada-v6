@@ -3,6 +3,7 @@
 
 using Scada.Data.Adapters;
 using Scada.Data.Tables;
+using System.Collections.Generic;
 using System.IO;
 using System.Text;
 
@@ -134,6 +135,14 @@ namespace Scada.Storages.FileStorage
                     Length = fileInfo.Length
                 }
                 : ShortFileInfo.FileNotExists;
+        }
+
+        /// <summary>
+        /// Gets a list of file paths that match the specified pattern.
+        /// </summary>
+        public override ICollection<string> GetFileList(DataCategory category, string path, string searchPattern)
+        {
+            return Directory.GetFiles(GetFileName(category, path), searchPattern, SearchOption.AllDirectories);
         }
     }
 }
