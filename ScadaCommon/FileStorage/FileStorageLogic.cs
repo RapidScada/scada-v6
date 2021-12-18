@@ -3,6 +3,7 @@
 
 using Scada.Data.Adapters;
 using Scada.Data.Tables;
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Text;
@@ -56,6 +57,14 @@ namespace Scada.Storages.FileStorage
         }
 
         /// <summary>
+        /// Creates all directories and subdirectories for the specified file name.
+        /// </summary>
+        private static void ForceDirectory(string fileName)
+        {
+            Directory.CreateDirectory(Path.GetDirectoryName(fileName));
+        }
+
+        /// <summary>
         /// Reads text from the file.
         /// </summary>
         public override string ReadText(DataCategory category, string path)
@@ -91,6 +100,7 @@ namespace Scada.Storages.FileStorage
         public override void WriteText(DataCategory category, string path, string contents)
         {
             string fileName = GetFileName(category, path);
+            ForceDirectory(fileName);
             File.WriteAllText(fileName, contents, Encoding.UTF8);
         }
 
@@ -100,6 +110,7 @@ namespace Scada.Storages.FileStorage
         public override void WriteBytes(DataCategory category, string path, byte[] bytes)
         {
             string fileName = GetFileName(category, path);
+            ForceDirectory(fileName);
             File.WriteAllBytes(fileName, bytes);
         }
 
@@ -142,7 +153,10 @@ namespace Scada.Storages.FileStorage
         /// </summary>
         public override ICollection<string> GetFileList(DataCategory category, string path, string searchPattern)
         {
-            return Directory.GetFiles(GetFileName(category, path), searchPattern, SearchOption.AllDirectories);
+            string directory = GetFileName(category, path);
+            return Directory.Exists(directory)
+                ? Directory.GetFiles(directory, searchPattern, SearchOption.AllDirectories)
+                : Array.Empty<string>();
         }
     }
 }
