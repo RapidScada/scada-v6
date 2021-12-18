@@ -282,16 +282,6 @@ namespace Scada.Storages.PostgreSqlStorage
             return string.IsNullOrEmpty(path) ? "" : path.Replace('/', '\\');
         }
 
-        /// <summary>
-        /// Escapes special characters in the specified path for an SQL query.
-        /// </summary>
-        private static string EscapePath(string path)
-        {
-            return string.IsNullOrEmpty(path) 
-                ? ""
-                : path.Replace('/', '\\').Replace("\\", "\\\\");
-        }
-
 
         /// <summary>
         /// Loads the configuration from the XML node.
@@ -513,13 +503,15 @@ namespace Scada.Storages.PostgreSqlStorage
             string sql =
                 $"SELECT path FROM {GetTableName(category)} " +
                 "WHERE " + (category == DataCategory.View ? "" : "app_id = @appID AND ") +
-                "path LIKE @path AND substring(path from @pathLen) LIKE @searchPattern";
+                "starts_with(path, @path) AND substring(path from @pathLen) LIKE @searchPattern";
+            // TODO: split_part(path, '\', -1) LIKE @searchPattern after porting on PostgreSQL 14
 
             NpgsqlCommand cmd = new NpgsqlCommand(sql, conn);
-            cmd.Parameters.AddWithValue("path", EscapePath(path) + "%");
-            cmd.Parameters.AddWithValue("pathLen", path == null ? 0 : path.Length);
-            cmd.Parameters.AddWithValue("searchPattern", 
-                string.IsNullOrEmpty(searchPattern) ? "%" : searchPattern.Replace('*', '%'));
+            cmd.Parameters.AddWithValue("path", NormalizePath(path));
+            cmd.Parameters.AddWithValue("pathLen", (path ?? "").Length + 1);
+            cmd.Parameters.AddWithValue("searchPattern", string.IsNullOrEmpty(searchPattern) 
+                ? "%" 
+                : searchPattern.Replace('*', '%').Replace('?', '_'));
 
             if (category != DataCategory.View)
                 cmd.Parameters.AddWithValue("appID", (int)App);
