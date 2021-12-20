@@ -3,6 +3,7 @@
 
 using Scada.Data.Entities;
 using Scada.Data.Models;
+using Scada.Data.Tables;
 using Scada.Lang;
 using System;
 using System.Collections.Generic;
@@ -31,13 +32,25 @@ namespace Scada.Web.Plugins.PlgMain
         /// <summary>
         /// Gets the table items.
         /// </summary>
-        public List<TableItem> Items { get; }
+        public List<TableItem> Items { get; protected set; }
 
         /// <summary>
         /// Gets the items that are not hidden.
         /// </summary>
         public List<TableItem> VisibleItems { get; }
 
+
+        /// <summary>
+        /// Adds the item to the lists.
+        /// </summary>
+        protected void AddItem(TableItem item)
+        {
+            Items.Add(item);
+            AddCnlNum(item.CnlNum);
+
+            if (!item.Hidden)
+                VisibleItems.Add(item);
+        }
 
         /// <summary>
         /// Loads the view from the specified stream.
@@ -52,12 +65,7 @@ namespace Scada.Web.Plugins.PlgMain
             {
                 TableItem item = new();
                 item.LoadFromXml(xmlElem);
-
                 Items.Add(item);
-                AddCnlNum(item.CnlNum);
-
-                if (!item.Hidden)
-                    VisibleItems.Add(item);
             }
 
             foreach (XmlElement itemElem in rootElem.SelectNodes("Item"))
@@ -77,10 +85,52 @@ namespace Scada.Web.Plugins.PlgMain
         /// </summary>
         public override void Bind(BaseDataSet baseDataSet)
         {
-            foreach (TableItem item in Items)
+            List<TableItem> initialItems = Items;
+            Items = new List<TableItem>();
+
+            foreach (TableItem item in initialItems)
             {
-                if (item.CnlNum > 0 && baseDataSet.CnlTable.GetItem(item.CnlNum) is Cnl cnl)
-                    item.Cnl = cnl;
+                if (item.CnlNum > 0)
+                {
+                    // update item
+                    if (baseDataSet.CnlTable.GetItem(item.CnlNum) is Cnl cnl)
+                    {
+                        item.Cnl = cnl;
+
+                        if (item.AutoText)
+                            item.Text = cnl.Name;
+                    }
+
+                    AddItem(item);
+                }
+                else if (item.DeviceNum <= 0)
+                {
+                    AddItem(item);
+                }
+                else if (baseDataSet.DeviceTable.GetItem(item.DeviceNum) is Device device)
+                {
+                    // create item for device title
+                    AddItem(new TableItem
+                    {
+                        Hidden = item.Hidden,
+                        AutoText = item.AutoText,
+                        Text = item.AutoText ? device.Name : item.Text
+                    });
+
+                    // create items for device channels
+                    foreach (Cnl cnl in 
+                        baseDataSet.CnlTable.Select(new TableFilter("DeviceNum", item.DeviceNum), true))
+                    {
+                        AddItem(new TableItem
+                        {
+                            CnlNum = cnl.CnlNum,
+                            Hidden = item.Hidden,
+                            AutoText = true,
+                            Text = cnl.Name,
+                            Cnl = cnl
+                        });
+                    }
+                }
             }
         }
 

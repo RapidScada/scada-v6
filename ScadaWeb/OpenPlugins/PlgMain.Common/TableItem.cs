@@ -19,8 +19,10 @@ namespace Scada.Web.Plugins.PlgMain
         public TableItem()
         {
             CnlNum = 0;
-            Text = "";
+            DeviceNum = 0;
             Hidden = false;
+            AutoText = true;
+            Text = "";
             Cnl = null;
         }
 
@@ -31,14 +33,24 @@ namespace Scada.Web.Plugins.PlgMain
         public int CnlNum { get; set; }
 
         /// <summary>
-        /// Gets or sets the displayed text.
+        /// Gets or sets the device number.
         /// </summary>
-        public string Text { get; set; }
+        public int DeviceNum { get; set; }
 
         /// <summary>
         /// Gets or sets a value indicating whether the item is hidden, but affects event filtering.
         /// </summary>
         public bool Hidden { get; set; }
+
+        /// <summary>
+        /// Gets or sets a value indicating whether to use the entity name as the item text.
+        /// </summary>
+        public bool AutoText { get; set; }
+
+        /// <summary>
+        /// Gets or sets the displayed text.
+        /// </summary>
+        public string Text { get; set; }
 
         /// <summary>
         /// Gets or sets the channel properties.
@@ -51,12 +63,12 @@ namespace Scada.Web.Plugins.PlgMain
         /// </summary>
         public void LoadFromXml(XmlElement xmlElem)
         {
-            if (xmlElem == null)
-                throw new ArgumentNullException(nameof(xmlElem));
-
+            ArgumentNullException.ThrowIfNull(xmlElem, nameof(xmlElem));
             CnlNum = xmlElem.GetAttrAsInt("cnlNum");
-            Text = xmlElem.InnerText;
+            DeviceNum = xmlElem.GetAttrAsInt("deviceNum");
             Hidden = xmlElem.GetAttrAsBool("hidden");
+            AutoText = xmlElem.GetAttrAsBool("autoText");
+            Text = xmlElem.InnerText;
         }
 
         /// <summary>
@@ -64,12 +76,21 @@ namespace Scada.Web.Plugins.PlgMain
         /// </summary>
         public void SaveToXml(XmlElement xmlElem)
         {
-            if (xmlElem == null)
-                throw new ArgumentNullException(nameof(xmlElem));
+            ArgumentNullException.ThrowIfNull(xmlElem, nameof(xmlElem));
+            
+            if (CnlNum > 0)
+                xmlElem.SetAttribute("cnlNum", CnlNum);
 
-            xmlElem.SetAttribute("cnlNum", CnlNum);
-            xmlElem.InnerText = Text;
-            xmlElem.SetAttribute("hidden", Hidden);
+            if (DeviceNum > 0)
+                xmlElem.SetAttribute("deviceNum", DeviceNum);
+
+            if (Hidden)
+                xmlElem.SetAttribute("hidden", Hidden);
+
+            if (AutoText)
+                xmlElem.SetAttribute("autoText", AutoText);
+            else
+                xmlElem.InnerText = Text;
         }
     }
 }
