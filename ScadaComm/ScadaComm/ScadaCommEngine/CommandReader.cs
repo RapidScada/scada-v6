@@ -52,6 +52,9 @@ namespace Scada.Comm.Engine
         private Thread thread;                // the working thread of the reader
         private volatile bool terminated;     // necessary to stop the thread
 
+        /// <summary>
+        /// Initializes a new instance of the class.
+        /// </summary>
         public CommandReader(CoreLogic coreLogic)
         {
             this.coreLogic = coreLogic ?? throw new ArgumentNullException(nameof(coreLogic));

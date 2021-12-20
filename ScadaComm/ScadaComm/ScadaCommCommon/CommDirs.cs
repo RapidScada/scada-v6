@@ -23,6 +23,8 @@
  * Modified : 2021
  */
 
+using System.IO;
+
 namespace Scada.Comm
 {
     /// <summary>
@@ -61,7 +63,24 @@ namespace Scada.Comm
         /// </summary>
         public override string[] GetRequiredDirs()
         {
-            return new string[] { CmdDir, ConfigDir, LangDir, LogDir, DrvDir, StorageDir };
+            return new string[] { LangDir, LogDir, DrvDir };
+        }
+
+        /// <summary>
+        /// Finds an assembly in the application directories.
+        /// </summary>
+        public bool FindAssembly(string simpleName, out string path)
+        {
+            foreach (string basePath in new string[] { ExeDir, DrvDir })
+            {
+                path = Path.Combine(basePath, simpleName + ".dll");
+
+                if (File.Exists(path))
+                    return true;
+            }
+
+            path = "";
+            return false;
         }
     }
 }

@@ -26,6 +26,8 @@
 using Scada.Comm.Engine;
 using System;
 using System.IO;
+using System.Reflection;
+using System.Runtime.Loader;
 using System.Threading;
 
 namespace Scada.Comm.App
@@ -41,6 +43,12 @@ namespace Scada.Comm.App
             // start the service
             Console.WriteLine("Starting Communicator...");
             Manager manager = new();
+
+            AssemblyLoadContext.Default.Resolving += (AssemblyLoadContext context, AssemblyName name) =>
+            {
+                return manager.AppDirs.FindAssembly(name.Name, out string path) ? 
+                    context.LoadFromAssemblyPath(path) : null;
+            };
 
             if (manager.StartService())
                 Console.WriteLine("Communicator is started successfully");
