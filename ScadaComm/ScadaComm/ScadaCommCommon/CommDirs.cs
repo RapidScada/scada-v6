@@ -67,7 +67,7 @@ namespace Scada.Comm
         }
 
         /// <summary>
-        /// Finds an assembly in the application directories.
+        /// Finds the specified assembly in the application directories.
         /// </summary>
         public bool FindAssembly(string simpleName, out string path)
         {
