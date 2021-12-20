@@ -1,0 +1,11 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<TableView>
+  <Item>Simulator</Item>
+  <Item cnlNum="101" />
+  <Item cnlNum="102" overwriteText="true">Square</Item>
+  <Item cnlNum="103" hidden="true" />
+  <Item />
+  <Item deviceNum="1" />
+  <Item deviceNum="2" overwriteText="true">My Device</Item>
+  <Item deviceNum="3" hidden="true" />
+</TableView>
