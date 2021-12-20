@@ -61,7 +61,7 @@ namespace Scada.Server
         /// </summary>
         public override string[] GetRequiredDirs()
         {
-            return new string[] { ConfigDir, LangDir, LogDir, ModDir, StorageDir };
+            return new string[] { LangDir, LogDir, ModDir };
         }
     }
 }
