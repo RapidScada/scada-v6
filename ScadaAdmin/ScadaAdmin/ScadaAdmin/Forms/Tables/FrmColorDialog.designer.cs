@@ -44,14 +44,14 @@
             this.lbColor.ItemHeight = 19;
             this.lbColor.Location = new System.Drawing.Point(12, 35);
             this.lbColor.Name = "lbColor";
-            this.lbColor.Size = new System.Drawing.Size(260, 285);
+            this.lbColor.Size = new System.Drawing.Size(260, 300);
             this.lbColor.TabIndex = 3;
             this.lbColor.DrawItem += new System.Windows.Forms.DrawItemEventHandler(this.lbColor_DrawItem);
             this.lbColor.DoubleClick += new System.EventHandler(this.lbColor_DoubleClick);
             // 
             // btnOK
             // 
-            this.btnOK.Location = new System.Drawing.Point(116, 326);
+            this.btnOK.Location = new System.Drawing.Point(116, 351);
             this.btnOK.Name = "btnOK";
             this.btnOK.Size = new System.Drawing.Size(75, 23);
             this.btnOK.TabIndex = 4;
@@ -62,7 +62,7 @@
             // btnCancel
             // 
             this.btnCancel.DialogResult = System.Windows.Forms.DialogResult.Cancel;
-            this.btnCancel.Location = new System.Drawing.Point(197, 326);
+            this.btnCancel.Location = new System.Drawing.Point(197, 351);
             this.btnCancel.Name = "btnCancel";
             this.btnCancel.Size = new System.Drawing.Size(75, 23);
             this.btnCancel.TabIndex = 5;
@@ -108,7 +108,7 @@
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.CancelButton = this.btnCancel;
-            this.ClientSize = new System.Drawing.Size(284, 361);
+            this.ClientSize = new System.Drawing.Size(284, 386);
             this.Controls.Add(this.rbSortByColor);
             this.Controls.Add(this.rbSortByAbc);
             this.Controls.Add(this.lblSort);

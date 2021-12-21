@@ -36,7 +36,7 @@ namespace Scada.Admin.App.Forms.Tables
             // 
             // btnOK
             // 
-            this.btnOK.Location = new System.Drawing.Point(216, 426);
+            this.btnOK.Location = new System.Drawing.Point(216, 437);
             this.btnOK.Name = "btnOK";
             this.btnOK.Size = new System.Drawing.Size(75, 23);
             this.btnOK.TabIndex = 1;
@@ -46,7 +46,7 @@ namespace Scada.Admin.App.Forms.Tables
             // 
             // btnCancel
             // 
-            this.btnCancel.Location = new System.Drawing.Point(297, 426);
+            this.btnCancel.Location = new System.Drawing.Point(297, 437);
             this.btnCancel.Name = "btnCancel";
             this.btnCancel.Size = new System.Drawing.Size(75, 23);
             this.btnCancel.TabIndex = 2;
@@ -60,7 +60,7 @@ namespace Scada.Admin.App.Forms.Tables
             this.ctrlBitMask.MaskBits = null;
             this.ctrlBitMask.MaskValue = 0;
             this.ctrlBitMask.Name = "ctrlBitMask";
-            this.ctrlBitMask.Size = new System.Drawing.Size(360, 411);
+            this.ctrlBitMask.Size = new System.Drawing.Size(360, 412);
             this.ctrlBitMask.TabIndex = 0;
             // 
             // FrmBitMask
@@ -69,7 +69,7 @@ namespace Scada.Admin.App.Forms.Tables
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.CancelButton = this.btnCancel;
-            this.ClientSize = new System.Drawing.Size(384, 461);
+            this.ClientSize = new System.Drawing.Size(384, 472);
             this.Controls.Add(this.ctrlBitMask);
             this.Controls.Add(this.btnCancel);
             this.Controls.Add(this.btnOK);

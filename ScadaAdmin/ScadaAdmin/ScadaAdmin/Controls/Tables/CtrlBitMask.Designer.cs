@@ -34,6 +34,8 @@ namespace Scada.Admin.App.Controls.Tables
             this.lblMaskBits = new System.Windows.Forms.Label();
             this.txtMaskValue = new System.Windows.Forms.TextBox();
             this.lblMaskValue = new System.Windows.Forms.Label();
+            this.pnlBitMask = new System.Windows.Forms.Panel();
+            this.pnlBitMask.SuspendLayout();
             this.SuspendLayout();
             // 
             // btnResetMask
@@ -57,7 +59,7 @@ namespace Scada.Admin.App.Controls.Tables
             this.lbMaskBits.IntegralHeight = false;
             this.lbMaskBits.Location = new System.Drawing.Point(0, 62);
             this.lbMaskBits.Name = "lbMaskBits";
-            this.lbMaskBits.Size = new System.Drawing.Size(360, 349);
+            this.lbMaskBits.Size = new System.Drawing.Size(360, 350);
             this.lbMaskBits.TabIndex = 9;
             this.lbMaskBits.ItemCheck += new System.Windows.Forms.ItemCheckEventHandler(this.lbMaskBits_ItemCheck);
             // 
@@ -89,20 +91,30 @@ namespace Scada.Admin.App.Controls.Tables
             this.lblMaskValue.TabIndex = 5;
             this.lblMaskValue.Text = "Decimal value";
             // 
+            // pnlBitMask
+            // 
+            this.pnlBitMask.Controls.Add(this.lbMaskBits);
+            this.pnlBitMask.Controls.Add(this.lblMaskBits);
+            this.pnlBitMask.Controls.Add(this.btnResetMask);
+            this.pnlBitMask.Controls.Add(this.txtMaskValue);
+            this.pnlBitMask.Controls.Add(this.lblMaskValue);
+            this.pnlBitMask.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.pnlBitMask.Location = new System.Drawing.Point(0, 0);
+            this.pnlBitMask.Name = "pnlBitMask";
+            this.pnlBitMask.Size = new System.Drawing.Size(360, 412);
+            this.pnlBitMask.TabIndex = 10;
+            // 
             // CtrlBitMask
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.Controls.Add(this.btnResetMask);
-            this.Controls.Add(this.lbMaskBits);
-            this.Controls.Add(this.lblMaskBits);
-            this.Controls.Add(this.txtMaskValue);
-            this.Controls.Add(this.lblMaskValue);
+            this.Controls.Add(this.pnlBitMask);
             this.Margin = new System.Windows.Forms.Padding(3, 0, 3, 3);
             this.Name = "CtrlBitMask";
-            this.Size = new System.Drawing.Size(360, 411);
+            this.Size = new System.Drawing.Size(360, 412);
+            this.pnlBitMask.ResumeLayout(false);
+            this.pnlBitMask.PerformLayout();
             this.ResumeLayout(false);
-            this.PerformLayout();
 
         }
 
@@ -113,5 +125,6 @@ namespace Scada.Admin.App.Controls.Tables
         private System.Windows.Forms.Label lblMaskBits;
         private System.Windows.Forms.TextBox txtMaskValue;
         private System.Windows.Forms.Label lblMaskValue;
+        private System.Windows.Forms.Panel pnlBitMask;
     }
 }

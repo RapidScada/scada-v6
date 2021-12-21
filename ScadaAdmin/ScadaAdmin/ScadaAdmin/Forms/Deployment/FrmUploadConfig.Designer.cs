@@ -36,7 +36,7 @@
             // 
             // btnUpload
             // 
-            this.btnUpload.Location = new System.Drawing.Point(325, 410);
+            this.btnUpload.Location = new System.Drawing.Point(325, 420);
             this.btnUpload.Name = "btnUpload";
             this.btnUpload.Size = new System.Drawing.Size(75, 23);
             this.btnUpload.TabIndex = 2;
@@ -47,7 +47,7 @@
             // btnClose
             // 
             this.btnClose.DialogResult = System.Windows.Forms.DialogResult.Cancel;
-            this.btnClose.Location = new System.Drawing.Point(406, 410);
+            this.btnClose.Location = new System.Drawing.Point(406, 420);
             this.btnClose.Name = "btnClose";
             this.btnClose.Size = new System.Drawing.Size(75, 23);
             this.btnClose.TabIndex = 3;
@@ -75,7 +75,7 @@
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.CancelButton = this.btnClose;
-            this.ClientSize = new System.Drawing.Size(493, 445);
+            this.ClientSize = new System.Drawing.Size(493, 455);
             this.Controls.Add(this.ctrlTransferOptions);
             this.Controls.Add(this.ctrlProfileSelector);
             this.Controls.Add(this.btnClose);

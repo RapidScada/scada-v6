@@ -77,7 +77,7 @@
             this.txtPlainText.Font = new System.Drawing.Font("Consolas", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
             this.txtPlainText.Location = new System.Drawing.Point(12, 12);
             this.txtPlainText.Name = "txtPlainText";
-            this.txtPlainText.Size = new System.Drawing.Size(760, 508);
+            this.txtPlainText.Size = new System.Drawing.Size(760, 498);
             this.txtPlainText.TabIndex = 0;
             this.txtPlainText.Text = "";
             this.txtPlainText.WordWrap = false;

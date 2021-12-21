@@ -50,7 +50,10 @@ namespace Scada.Admin.App.Forms.Tables
             this.lblQuantity = new System.Windows.Forms.Label();
             this.cbFormat = new System.Windows.Forms.ComboBox();
             this.lblFormat = new System.Windows.Forms.Label();
+            this.txtOutFormula = new System.Windows.Forms.TextBox();
+            this.lblOutFormula = new System.Windows.Forms.Label();
             this.txtInFormula = new System.Windows.Forms.TextBox();
+            this.lblInFormula = new System.Windows.Forms.Label();
             this.chkFormulaEnabled = new System.Windows.Forms.CheckBox();
             this.txtTagCode = new System.Windows.Forms.TextBox();
             this.lblTagCode = new System.Windows.Forms.Label();
@@ -80,9 +83,6 @@ namespace Scada.Admin.App.Forms.Tables
             this.pnlBottom = new System.Windows.Forms.Panel();
             this.btnCancel = new System.Windows.Forms.Button();
             this.btnOK = new System.Windows.Forms.Button();
-            this.lblInFormula = new System.Windows.Forms.Label();
-            this.lblOutFormula = new System.Windows.Forms.Label();
-            this.txtOutFormula = new System.Windows.Forms.TextBox();
             this.tabControl.SuspendLayout();
             this.pageGeneral.SuspendLayout();
             this.gbLim.SuspendLayout();
@@ -328,12 +328,37 @@ namespace Scada.Admin.App.Forms.Tables
             this.lblFormat.TabIndex = 26;
             this.lblFormat.Text = "Format";
             // 
+            // txtOutFormula
+            // 
+            this.txtOutFormula.Location = new System.Drawing.Point(38, 349);
+            this.txtOutFormula.Name = "txtOutFormula";
+            this.txtOutFormula.Size = new System.Drawing.Size(430, 23);
+            this.txtOutFormula.TabIndex = 25;
+            // 
+            // lblOutFormula
+            // 
+            this.lblOutFormula.AutoSize = true;
+            this.lblOutFormula.Location = new System.Drawing.Point(5, 353);
+            this.lblOutFormula.Name = "lblOutFormula";
+            this.lblOutFormula.Size = new System.Drawing.Size(27, 15);
+            this.lblOutFormula.TabIndex = 24;
+            this.lblOutFormula.Text = "Out";
+            // 
             // txtInFormula
             // 
             this.txtInFormula.Location = new System.Drawing.Point(38, 320);
             this.txtInFormula.Name = "txtInFormula";
             this.txtInFormula.Size = new System.Drawing.Size(430, 23);
             this.txtInFormula.TabIndex = 23;
+            // 
+            // lblInFormula
+            // 
+            this.lblInFormula.AutoSize = true;
+            this.lblInFormula.Location = new System.Drawing.Point(5, 324);
+            this.lblInFormula.Name = "lblInFormula";
+            this.lblInFormula.Size = new System.Drawing.Size(17, 15);
+            this.lblInFormula.TabIndex = 22;
+            this.lblInFormula.Text = "In";
             // 
             // chkFormulaEnabled
             // 
@@ -532,7 +557,7 @@ namespace Scada.Admin.App.Forms.Tables
             this.pageArchives.Location = new System.Drawing.Point(4, 24);
             this.pageArchives.Name = "pageArchives";
             this.pageArchives.Padding = new System.Windows.Forms.Padding(3);
-            this.pageArchives.Size = new System.Drawing.Size(476, 520);
+            this.pageArchives.Size = new System.Drawing.Size(476, 555);
             this.pageArchives.TabIndex = 1;
             this.pageArchives.Text = "Archives";
             this.pageArchives.UseVisualStyleBackColor = true;
@@ -544,7 +569,7 @@ namespace Scada.Admin.App.Forms.Tables
             this.bmArchive.MaskBits = null;
             this.bmArchive.MaskValue = 0;
             this.bmArchive.Name = "bmArchive";
-            this.bmArchive.Size = new System.Drawing.Size(460, 506);
+            this.bmArchive.Size = new System.Drawing.Size(460, 543);
             this.bmArchive.TabIndex = 0;
             // 
             // pageEvents
@@ -553,7 +578,7 @@ namespace Scada.Admin.App.Forms.Tables
             this.pageEvents.Location = new System.Drawing.Point(4, 24);
             this.pageEvents.Name = "pageEvents";
             this.pageEvents.Padding = new System.Windows.Forms.Padding(3);
-            this.pageEvents.Size = new System.Drawing.Size(476, 520);
+            this.pageEvents.Size = new System.Drawing.Size(476, 555);
             this.pageEvents.TabIndex = 2;
             this.pageEvents.Text = "Events";
             this.pageEvents.UseVisualStyleBackColor = true;
@@ -565,7 +590,7 @@ namespace Scada.Admin.App.Forms.Tables
             this.bmEvent.MaskBits = null;
             this.bmEvent.MaskValue = 0;
             this.bmEvent.Name = "bmEvent";
-            this.bmEvent.Size = new System.Drawing.Size(460, 506);
+            this.bmEvent.Size = new System.Drawing.Size(460, 543);
             this.bmEvent.TabIndex = 0;
             // 
             // pnlBottom
@@ -598,31 +623,6 @@ namespace Scada.Admin.App.Forms.Tables
             this.btnOK.Text = "OK";
             this.btnOK.UseVisualStyleBackColor = true;
             this.btnOK.Click += new System.EventHandler(this.btnOK_Click);
-            // 
-            // lblInFormula
-            // 
-            this.lblInFormula.AutoSize = true;
-            this.lblInFormula.Location = new System.Drawing.Point(5, 324);
-            this.lblInFormula.Name = "lblInFormula";
-            this.lblInFormula.Size = new System.Drawing.Size(17, 15);
-            this.lblInFormula.TabIndex = 22;
-            this.lblInFormula.Text = "In";
-            // 
-            // lblOutFormula
-            // 
-            this.lblOutFormula.AutoSize = true;
-            this.lblOutFormula.Location = new System.Drawing.Point(5, 353);
-            this.lblOutFormula.Name = "lblOutFormula";
-            this.lblOutFormula.Size = new System.Drawing.Size(27, 15);
-            this.lblOutFormula.TabIndex = 24;
-            this.lblOutFormula.Text = "Out";
-            // 
-            // txtOutFormula
-            // 
-            this.txtOutFormula.Location = new System.Drawing.Point(38, 349);
-            this.txtOutFormula.Name = "txtOutFormula";
-            this.txtOutFormula.Size = new System.Drawing.Size(430, 23);
-            this.txtOutFormula.TabIndex = 25;
             // 
             // FrmCnl
             // 
