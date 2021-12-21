@@ -54,8 +54,6 @@ namespace Scada.Forms
             // 
             // gbConnectionOptions
             // 
-            this.gbConnectionOptions.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
             this.gbConnectionOptions.Controls.Add(this.btnPaste);
             this.gbConnectionOptions.Controls.Add(this.txtSecretKey);
             this.gbConnectionOptions.Controls.Add(this.lblSecretKey);
@@ -73,6 +71,7 @@ namespace Scada.Forms
             this.gbConnectionOptions.Controls.Add(this.lblHost);
             this.gbConnectionOptions.Controls.Add(this.txtName);
             this.gbConnectionOptions.Controls.Add(this.lblName);
+            this.gbConnectionOptions.Dock = System.Windows.Forms.DockStyle.Top;
             this.gbConnectionOptions.Location = new System.Drawing.Point(0, 0);
             this.gbConnectionOptions.Name = "gbConnectionOptions";
             this.gbConnectionOptions.Padding = new System.Windows.Forms.Padding(10, 3, 10, 10);
