@@ -107,8 +107,7 @@ namespace Scada.Forms
             this.dataGridView.DataSource = this.bindingSource;
             this.dataGridView.Location = new System.Drawing.Point(12, 81);
             this.dataGridView.Name = "dataGridView";
-            this.dataGridView.RowTemplate.Height = 25;
-            this.dataGridView.Size = new System.Drawing.Size(460, 439);
+            this.dataGridView.Size = new System.Drawing.Size(460, 429);
             this.dataGridView.StandardTab = true;
             this.dataGridView.TabIndex = 4;
             this.dataGridView.CellMouseUp += new System.Windows.Forms.DataGridViewCellMouseEventHandler(this.dataGridView_CellMouseUp);
