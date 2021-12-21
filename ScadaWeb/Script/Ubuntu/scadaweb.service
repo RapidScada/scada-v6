@@ -8,7 +8,6 @@ Restart=always
 RestartSec=10
 KillSignal=SIGINT
 SyslogIdentifier=scadaweb
-User=www-data
 Environment=ASPNETCORE_ENVIRONMENT=Production
 Environment=DOTNET_PRINT_TELEMETRY_MESSAGE=false
 
