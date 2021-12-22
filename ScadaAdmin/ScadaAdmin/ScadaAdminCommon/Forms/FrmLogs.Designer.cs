@@ -66,7 +66,7 @@
             // 
             this.lbFiles.BorderStyle = System.Windows.Forms.BorderStyle.None;
             this.lbFiles.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.lbFiles.DrawMode = System.Windows.Forms.DrawMode.OwnerDrawFixed;
+            this.lbFiles.DrawMode = System.Windows.Forms.DrawMode.OwnerDrawVariable;
             this.lbFiles.FormattingEnabled = true;
             this.lbFiles.IntegralHeight = false;
             this.lbFiles.ItemHeight = 25;
@@ -75,6 +75,7 @@
             this.lbFiles.Size = new System.Drawing.Size(250, 388);
             this.lbFiles.TabIndex = 1;
             this.lbFiles.DrawItem += new System.Windows.Forms.DrawItemEventHandler(this.lbFiles_DrawItem);
+            this.lbFiles.MeasureItem += new System.Windows.Forms.MeasureItemEventHandler(this.lbFiles_MeasureItem);
             this.lbFiles.SelectedIndexChanged += new System.EventHandler(this.lbFiles_SelectedIndexChanged);
             // 
             // cbFilter

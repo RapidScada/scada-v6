@@ -162,15 +162,15 @@ namespace Scada.Forms
             if (e.Index < 0)
                 return;
 
-            const int PaddingLeft = 5;
-            string text = (string)listBox.Items[e.Index];
-            SizeF textSize = e.Graphics.MeasureString(text, listBox.Font);
+            string text = listBox.Items[e.Index]?.ToString() ?? "";
+            SizeF textSize = e.Graphics.MeasureString("0", listBox.Font);
+            int paddingLeft = (int)textSize.Width;
             Brush brush = e.State.HasFlag(DrawItemState.Selected) ?
                 SystemBrushes.HighlightText : SystemBrushes.WindowText;
 
             e.DrawBackground();
             e.Graphics.DrawString(text, listBox.Font, brush,
-                e.Bounds.Left + PaddingLeft, e.Bounds.Top + (listBox.ItemHeight - textSize.Height) / 2);
+                e.Bounds.Left + paddingLeft, e.Bounds.Top + (e.Bounds.Height - textSize.Height) / 2);
             e.DrawFocusRectangle();
         }
 

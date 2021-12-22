@@ -31,6 +31,7 @@ using Scada.Lang;
 using Scada.Protocol;
 using System;
 using System.Collections.Generic;
+using System.Drawing;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Windows.Forms;
@@ -283,6 +284,12 @@ namespace Scada.Admin.Forms
         {
             chkPause.Checked = false;
             ClearFileList();
+        }
+
+        private void lbFiles_MeasureItem(object sender, MeasureItemEventArgs e)
+        {
+            SizeF textSize = e.Graphics.MeasureString("0", lbFiles.Font);
+            e.ItemHeight = (int)(textSize.Height * 1.5);
         }
 
         private void lbFiles_DrawItem(object sender, DrawItemEventArgs e)
