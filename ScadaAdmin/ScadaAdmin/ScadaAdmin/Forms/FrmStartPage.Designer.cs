@@ -72,7 +72,7 @@
             | System.Windows.Forms.AnchorStyles.Left)));
             this.lbRecentProjects.BorderStyle = System.Windows.Forms.BorderStyle.None;
             this.lbRecentProjects.ContextMenuStrip = this.cmsProjectList;
-            this.lbRecentProjects.DrawMode = System.Windows.Forms.DrawMode.OwnerDrawFixed;
+            this.lbRecentProjects.DrawMode = System.Windows.Forms.DrawMode.OwnerDrawVariable;
             this.lbRecentProjects.Font = new System.Drawing.Font("Verdana", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
             this.lbRecentProjects.FormattingEnabled = true;
             this.lbRecentProjects.IntegralHeight = false;
@@ -84,6 +84,7 @@
             this.lbRecentProjects.TabIndex = 2;
             this.lbRecentProjects.MouseClick += new System.Windows.Forms.MouseEventHandler(this.lbRecentProjects_MouseClick);
             this.lbRecentProjects.DrawItem += new System.Windows.Forms.DrawItemEventHandler(this.lbRecentProjects_DrawItem);
+            this.lbRecentProjects.MeasureItem += new System.Windows.Forms.MeasureItemEventHandler(this.lbRecentProjects_MeasureItem);
             this.lbRecentProjects.KeyDown += new System.Windows.Forms.KeyEventHandler(this.lbRecentProjects_KeyDown);
             this.lbRecentProjects.MouseLeave += new System.EventHandler(this.lbRecentProjects_MouseLeave);
             this.lbRecentProjects.MouseMove += new System.Windows.Forms.MouseEventHandler(this.lbRecentProjects_MouseMove);

@@ -235,21 +235,29 @@ namespace Scada.Admin.App.Forms
             }
         }
 
+        private void lbRecentProjects_MeasureItem(object sender, MeasureItemEventArgs e)
+        {
+            SizeF textSize = e.Graphics.MeasureString("0", itemMainFont);
+            e.ItemHeight = (int)(textSize.Height * 3);
+        }
+
         private void lbRecentProjects_DrawItem(object sender, DrawItemEventArgs e)
         {
             if (e.Index >= 0)
             {
-                const int PaddingLeft = 5;
+                SizeF textSize = e.Graphics.MeasureString("0", itemMainFont);
+                int paddingLeft = (int)textSize.Width;
+                float lineHeigth = textSize.Height;
                 ProjectItem item = (ProjectItem)lbRecentProjects.Items[e.Index];
 
                 e.Graphics.FillRectangle(e.Index == hoverItemIndex ?
                     SystemBrushes.ControlLight : SystemBrushes.Window, e.Bounds);
 
                 e.Graphics.DrawString(item.FileName, itemMainFont, SystemBrushes.WindowText,
-                    e.Bounds.Left + PaddingLeft, e.Bounds.Top + 9);
+                    e.Bounds.Left + paddingLeft, e.Bounds.Top + (int)(lineHeigth * 0.5));
 
                 e.Graphics.DrawString(item.Directory, itemHintFont, SystemBrushes.GrayText,
-                    e.Bounds.Left + PaddingLeft, e.Bounds.Top + 27);
+                    e.Bounds.Left + paddingLeft, e.Bounds.Top + (int)(lineHeigth * 1.5));
 
                 e.DrawFocusRectangle();
             }
