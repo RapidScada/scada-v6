@@ -77,6 +77,11 @@ namespace Scada.Admin.Extensions
         void RefreshBaseTables(Type itemType);
 
         /// <summary>
+        /// Finds a tree node that represents a configuration database table.
+        /// </summary>
+        TreeNode FindBaseTableNode(Type itemType, object filterArgument);
+
+        /// <summary>
         /// Finds an instance tree node by instance name.
         /// </summary>
         TreeNode FindInstanceNode(string instanceName, out bool justPrepared);

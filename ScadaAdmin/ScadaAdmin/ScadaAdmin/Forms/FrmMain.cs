@@ -34,6 +34,7 @@ using Scada.Admin.Project;
 using Scada.Agent;
 using Scada.Agent.Client;
 using Scada.Comm.Config;
+using Scada.Data.Entities;
 using Scada.Forms;
 using Scada.Lang;
 using Scada.Log;
@@ -907,6 +908,35 @@ namespace Scada.Admin.App.Forms
                 if (form is FrmBaseTable frmBaseTable && frmBaseTable.ItemType == itemType)
                     frmBaseTable.ChildFormTag.SendMessage(this, AdminMessage.RefreshData);
             }
+        }
+
+        /// <summary>
+        /// Finds a tree node that represents a configuration database table.
+        /// </summary>
+        public TreeNode FindBaseTableNode(Type itemType, object filterArgument)
+        {
+            ArgumentNullException.ThrowIfNull(itemType, nameof(itemType));
+
+            if (Project != null && explorerBuilder.BaseTableNodes.TryGetValue(itemType.Name, out TreeNode treeNode))
+            {
+                if (filterArgument == null)
+                {
+                    return treeNode;
+                }
+                else if (itemType == typeof(Cnl) && filterArgument is int deviceNum)
+                {
+                    foreach (TreeNode childNode in treeNode.Nodes)
+                    {
+                        if (childNode.GetRelatedObject() is BaseTableItem baseTableItem && 
+                            baseTableItem.DeviceNum == deviceNum)
+                        {
+                            return childNode;
+                        }
+                    }
+                }
+            }
+
+            return null;
         }
 
         /// <summary>

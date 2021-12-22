@@ -78,7 +78,7 @@ namespace Scada.Admin.App.Code
         public TreeNode BaseNode { get; private set; }
 
         /// <summary>
-        /// Gets the configuration database table nodes by names.
+        /// Gets the configuration database table nodes accesed by table name (item type name).
         /// </summary>
         public Dictionary<string, TreeNode> BaseTableNodes { get; private set; }
 
