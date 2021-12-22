@@ -158,26 +158,26 @@ namespace Scada.Data.Models
         {
             AllTables = new IBaseTable[]
             {
-                ArchiveTable = new BaseTable<Archive>("Archive", "ArchiveID", CommonPhrases.ArchiveTable),
-                CnlTable = new BaseTable<Cnl>("Cnl", "CnlNum", CommonPhrases.CnlTable),
-                CnlStatusTable = new BaseTable<CnlStatus>("CnlStatus", "CnlStatusID", CommonPhrases.CnlStatusTable),
-                CnlTypeTable = new BaseTable<CnlType>("CnlType", "CnlTypeID", CommonPhrases.CnlTypeTable),
-                CommLineTable = new BaseTable<CommLine>("CommLine", "CommLineNum", CommonPhrases.CommLineTable),
-                DataTypeTable = new BaseTable<DataType>("DataType", "DataTypeID", CommonPhrases.DataTypeTable),
-                DeviceTable = new BaseTable<Device>("Device", "DeviceNum", CommonPhrases.DeviceTable),
-                DevTypeTable = new BaseTable<DevType>("DevType", "DevTypeID", CommonPhrases.DevTypeTable),
-                FormatTable = new BaseTable<Format>("Format", "FormatID", CommonPhrases.FormatTable),
-                LimTable = new BaseTable<Lim>("Lim", "LimID", CommonPhrases.LimTable),
-                ObjTable = new BaseTable<Obj>("Obj", "ObjNum", CommonPhrases.ObjTable),
-                ObjRightTable = new BaseTable<ObjRight>("ObjRight", "ObjRightID", CommonPhrases.ObjRightTable),
-                QuantityTable = new BaseTable<Quantity>("Quantity", "QuantityID", CommonPhrases.QuantityTable),
-                RoleTable = new BaseTable<Role>("Role", "RoleID", CommonPhrases.RoleTable),
-                RoleRefTable = new BaseTable<RoleRef>("RoleRef", "RoleRefID", CommonPhrases.RoleRefTable),
-                ScriptTable = new BaseTable<Script>("Script", "ScriptID", CommonPhrases.ScriptTable),
-                UnitTable = new BaseTable<Unit>("Unit", "UnitID", CommonPhrases.UnitTable),
-                UserTable = new BaseTable<User>("User", "UserID", CommonPhrases.UserTable),
-                ViewTable = new BaseTable<View>("View", "ViewID", CommonPhrases.ViewTable),
-                ViewTypeTable = new BaseTable<ViewType>("ViewType", "ViewTypeID", CommonPhrases.ViewTypeTable)
+                ArchiveTable = new BaseTable<Archive>("ArchiveID", CommonPhrases.ArchiveTable),
+                CnlTable = new BaseTable<Cnl>("CnlNum", CommonPhrases.CnlTable),
+                CnlStatusTable = new BaseTable<CnlStatus>("CnlStatusID", CommonPhrases.CnlStatusTable),
+                CnlTypeTable = new BaseTable<CnlType>("CnlTypeID", CommonPhrases.CnlTypeTable),
+                CommLineTable = new BaseTable<CommLine>("CommLineNum", CommonPhrases.CommLineTable),
+                DataTypeTable = new BaseTable<DataType>("DataTypeID", CommonPhrases.DataTypeTable),
+                DeviceTable = new BaseTable<Device>("DeviceNum", CommonPhrases.DeviceTable),
+                DevTypeTable = new BaseTable<DevType>("DevTypeID", CommonPhrases.DevTypeTable),
+                FormatTable = new BaseTable<Format>("FormatID", CommonPhrases.FormatTable),
+                LimTable = new BaseTable<Lim>("LimID", CommonPhrases.LimTable),
+                ObjTable = new BaseTable<Obj>("ObjNum", CommonPhrases.ObjTable),
+                ObjRightTable = new BaseTable<ObjRight>("ObjRightID", CommonPhrases.ObjRightTable),
+                QuantityTable = new BaseTable<Quantity>("QuantityID", CommonPhrases.QuantityTable),
+                RoleTable = new BaseTable<Role>("RoleID", CommonPhrases.RoleTable),
+                RoleRefTable = new BaseTable<RoleRef>("RoleRefID", CommonPhrases.RoleRefTable),
+                ScriptTable = new BaseTable<Script>("ScriptID", CommonPhrases.ScriptTable),
+                UnitTable = new BaseTable<Unit>("UnitID", CommonPhrases.UnitTable),
+                UserTable = new BaseTable<User>("UserID", CommonPhrases.UserTable),
+                ViewTable = new BaseTable<View>("ViewID", CommonPhrases.ViewTable),
+                ViewTypeTable = new BaseTable<ViewType>("ViewTypeID", CommonPhrases.ViewTypeTable)
             };
         }
 

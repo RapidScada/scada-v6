@@ -51,9 +51,9 @@ namespace Scada.Data.Tables
         /// <summary>
         /// Initializes a new instance of the class.
         /// </summary>
-        public BaseTable(string name, string primaryKey, string title)
+        public BaseTable(string primaryKey, string title)
         {
-            Name = name ?? throw new ArgumentNullException(nameof(name));
+            Name = ItemType.Name;
             PrimaryKey = primaryKey;
             Title = title;
             Items = new SortedDictionary<int, T>();
@@ -68,6 +68,7 @@ namespace Scada.Data.Tables
         /// <summary>
         /// Gets the table name.
         /// </summary>
+        /// <remarks>Equal to the short name of the item type.</remarks>
         public string Name { get; }
 
         /// <summary>
