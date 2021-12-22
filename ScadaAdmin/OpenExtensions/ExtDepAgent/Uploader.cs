@@ -221,7 +221,7 @@ namespace Scada.Admin.Extensions.ExtDepAgent
         /// </summary>
         private static IBaseTable GetFilteredTable<T>(IBaseTable srcTable, List<int> objNums)
         {
-            IBaseTable destTable = new BaseTable<T>(srcTable.Name, srcTable.PrimaryKey, srcTable.Title);
+            IBaseTable destTable = new BaseTable<T>(srcTable.PrimaryKey, srcTable.Title);
 
             foreach (int objNum in objNums)
             {
