@@ -31,10 +31,12 @@
     <Phrase key="miLineStart">Запустить линию</Phrase>
     <Phrase key="miLineStop">Остановить линию</Phrase>
     <Phrase key="miLineRestart">Перезапустить линию</Phrase>
+    <Phrase key="miDeviceChannels">Перейти к каналам</Phrase>
     <Phrase key="miDeviceCommand">Отправить команду...</Phrase>
     <Phrase key="miDevicePoll">Опросить</Phrase>
     <Phrase key="miDeviceProperties">Свойства</Phrase>
     <Phrase key="ConfirmDeleteLine">Вы уверены, что хотите удалить линию связи?</Phrase>
+    <Phrase key="CnlNodeNotFound">Узел каналов не найден.</Phrase>
   </Dictionary>
   <Dictionary key="Scada.Admin.Extensions.ExtCommConfig.Controls.CtrlLineMain">
     <Phrase key="gbLine">Линия связи</Phrase>

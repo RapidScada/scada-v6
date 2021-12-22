@@ -31,10 +31,12 @@
     <Phrase key="miLineStart">Start Line</Phrase>
     <Phrase key="miLineStop">Stop Line</Phrase>
     <Phrase key="miLineRestart">Restart Line</Phrase>
+    <Phrase key="miDeviceChannels">Go to Channels</Phrase>
     <Phrase key="miDeviceCommand">Send Command...</Phrase>
     <Phrase key="miDevicePoll">Poll Device</Phrase>
     <Phrase key="miDeviceProperties">Properies</Phrase>
     <Phrase key="ConfirmDeleteLine">Are you sure you want to delete the communication line?</Phrase>
+    <Phrase key="CnlNodeNotFound">Channel node not found.</Phrase>
   </Dictionary>
   <Dictionary key="Scada.Admin.Extensions.ExtCommConfig.Controls.CtrlLineMain">
     <Phrase key="gbLine">Communication Line</Phrase>

@@ -431,6 +431,23 @@ namespace Scada.Admin.Extensions.ExtCommConfig.Controls
         }
 
 
+        private void miDeviceChannels_Click(object sender, EventArgs e)
+        {
+            // select channel table node
+            if (SelectedNode?.GetRelatedObject() is DeviceConfig deviceConfig)
+            {
+                if (adminContext.MainForm.FindBaseTableNode(typeof(Cnl), deviceConfig.DeviceNum) is
+                    TreeNode treeNode)
+                {
+                    ExplorerTree.SelectedNode = treeNode;
+                }
+                else
+                {
+                    ScadaUiUtils.ShowWarning(ExtensionPhrases.CnlNodeNotFound);
+                }
+            }
+        }
+
         private void miDeviceCommand_Click(object sender, EventArgs e)
         {
             // show device command form

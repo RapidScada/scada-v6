@@ -56,6 +56,7 @@ namespace Scada.Admin.Extensions.ExtCommConfig.Controls
             this.btnAddLine = new System.Windows.Forms.ToolStripButton();
             this.btnAddDevice = new System.Windows.Forms.ToolStripButton();
             this.btnCreateChannels = new System.Windows.Forms.ToolStripButton();
+            this.miDeviceChannels = new System.Windows.Forms.ToolStripMenuItem();
             this.cmsLine.SuspendLayout();
             this.cmsDevice.SuspendLayout();
             this.menuStrip.SuspendLayout();
@@ -165,17 +166,18 @@ namespace Scada.Admin.Extensions.ExtCommConfig.Controls
             // cmsDevice
             // 
             this.cmsDevice.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.miDeviceChannels,
             this.miDeviceCommand,
             this.miDevicePoll,
             this.miDeviceProperties});
             this.cmsDevice.Name = "cmsDevice";
-            this.cmsDevice.Size = new System.Drawing.Size(170, 70);
+            this.cmsDevice.Size = new System.Drawing.Size(181, 114);
             // 
             // miDeviceCommand
             // 
             this.miDeviceCommand.Image = global::Scada.Admin.Extensions.ExtCommConfig.Properties.Resources.cmd;
             this.miDeviceCommand.Name = "miDeviceCommand";
-            this.miDeviceCommand.Size = new System.Drawing.Size(169, 22);
+            this.miDeviceCommand.Size = new System.Drawing.Size(180, 22);
             this.miDeviceCommand.Text = "Send Command...";
             this.miDeviceCommand.Click += new System.EventHandler(this.miDeviceCommand_Click);
             // 
@@ -183,7 +185,7 @@ namespace Scada.Admin.Extensions.ExtCommConfig.Controls
             // 
             this.miDevicePoll.Image = global::Scada.Admin.Extensions.ExtCommConfig.Properties.Resources.poll;
             this.miDevicePoll.Name = "miDevicePoll";
-            this.miDevicePoll.Size = new System.Drawing.Size(169, 22);
+            this.miDevicePoll.Size = new System.Drawing.Size(180, 22);
             this.miDevicePoll.Text = "Poll Device";
             this.miDevicePoll.Click += new System.EventHandler(this.miDevicePoll_Click);
             // 
@@ -191,7 +193,7 @@ namespace Scada.Admin.Extensions.ExtCommConfig.Controls
             // 
             this.miDeviceProperties.Image = global::Scada.Admin.Extensions.ExtCommConfig.Properties.Resources.properties;
             this.miDeviceProperties.Name = "miDeviceProperties";
-            this.miDeviceProperties.Size = new System.Drawing.Size(169, 22);
+            this.miDeviceProperties.Size = new System.Drawing.Size(180, 22);
             this.miDeviceProperties.Text = "Properies";
             this.miDeviceProperties.Click += new System.EventHandler(this.miDeviceProperties_Click);
             // 
@@ -288,6 +290,14 @@ namespace Scada.Admin.Extensions.ExtCommConfig.Controls
             this.btnCreateChannels.ToolTipText = "Create Channels";
             this.btnCreateChannels.Click += new System.EventHandler(this.miCreateChannels_Click);
             // 
+            // miDeviceChannels
+            // 
+            this.miDeviceChannels.Image = global::Scada.Admin.Extensions.ExtCommConfig.Properties.Resources._goto;
+            this.miDeviceChannels.Name = "miDeviceChannels";
+            this.miDeviceChannels.Size = new System.Drawing.Size(180, 22);
+            this.miDeviceChannels.Text = "Go to Channels";
+            this.miDeviceChannels.Click += new System.EventHandler(this.miDeviceChannels_Click);
+            // 
             // CtrlExtensionMenu
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
@@ -334,5 +344,6 @@ namespace Scada.Admin.Extensions.ExtCommConfig.Controls
         private System.Windows.Forms.ToolStripButton btnAddDevice;
         private System.Windows.Forms.ToolStripButton btnCreateChannels;
         private System.Windows.Forms.ToolStripMenuItem miDevicePoll;
+        private System.Windows.Forms.ToolStripMenuItem miDeviceChannels;
     }
 }
