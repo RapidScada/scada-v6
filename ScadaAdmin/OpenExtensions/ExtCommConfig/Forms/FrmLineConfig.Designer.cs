@@ -39,7 +39,7 @@ namespace Scada.Admin.Extensions.ExtCommConfig.Forms
             // 
             this.lbTabs.BorderStyle = System.Windows.Forms.BorderStyle.None;
             this.lbTabs.Dock = System.Windows.Forms.DockStyle.Left;
-            this.lbTabs.DrawMode = System.Windows.Forms.DrawMode.OwnerDrawFixed;
+            this.lbTabs.DrawMode = System.Windows.Forms.DrawMode.OwnerDrawVariable;
             this.lbTabs.FormattingEnabled = true;
             this.lbTabs.IntegralHeight = false;
             this.lbTabs.ItemHeight = 25;
@@ -52,6 +52,7 @@ namespace Scada.Admin.Extensions.ExtCommConfig.Forms
             this.lbTabs.Size = new System.Drawing.Size(150, 561);
             this.lbTabs.TabIndex = 0;
             this.lbTabs.DrawItem += new System.Windows.Forms.DrawItemEventHandler(this.lbTabs_DrawItem);
+            this.lbTabs.MeasureItem += new System.Windows.Forms.MeasureItemEventHandler(this.lbTabs_MeasureItem);
             this.lbTabs.SelectedIndexChanged += new System.EventHandler(this.lbTabs_SelectedIndexChanged);
             // 
             // ctrlLineMain

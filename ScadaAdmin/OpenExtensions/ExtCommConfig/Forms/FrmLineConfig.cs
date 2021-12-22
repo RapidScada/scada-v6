@@ -6,6 +6,7 @@ using Scada.Admin.Project;
 using Scada.Comm.Config;
 using Scada.Forms;
 using System;
+using System.Drawing;
 using System.Windows.Forms;
 using WinControl;
 
@@ -146,6 +147,12 @@ namespace Scada.Admin.Extensions.ExtCommConfig.Forms
 
                 ChildFormTag.Modified = false;
             }
+        }
+
+        private void lbTabs_MeasureItem(object sender, MeasureItemEventArgs e)
+        {
+            SizeF textSize = e.Graphics.MeasureString("0", lbTabs.Font);
+            e.ItemHeight = (int)(textSize.Height * 1.5);
         }
 
         private void lbTabs_DrawItem(object sender, DrawItemEventArgs e)
