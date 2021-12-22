@@ -32,8 +32,6 @@ namespace Scada.Admin.Extensions.ExtCommConfig.Forms
         private FrmLineConfig()
         {
             InitializeComponent();
-            ctrlLineCustom.Dock = DockStyle.Fill;
-            ctrlLinePolling.Dock = DockStyle.Fill;
         }
 
         /// <summary>

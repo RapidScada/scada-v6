@@ -80,16 +80,19 @@
             this.btnCopyDevice = new System.Windows.Forms.Button();
             this.btnCutDevice = new System.Windows.Forms.Button();
             this.toolTip = new System.Windows.Forms.ToolTip(this.components);
+            this.pnlTop = new System.Windows.Forms.Panel();
+            this.pnlBottom = new System.Windows.Forms.Panel();
             this.gbSelectedDevice.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.numDelay)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.numTimeout)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.numNumAddress)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.numDeviceNum)).BeginInit();
+            this.pnlTop.SuspendLayout();
+            this.pnlBottom.SuspendLayout();
             this.SuspendLayout();
             // 
             // gbSelectedDevice
             // 
-            this.gbSelectedDevice.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
             this.gbSelectedDevice.Controls.Add(this.btnResetPollingOptions);
             this.gbSelectedDevice.Controls.Add(this.btnDeviceProperties);
             this.gbSelectedDevice.Controls.Add(this.txtCustomOptions);
@@ -117,12 +120,11 @@
             this.gbSelectedDevice.Controls.Add(this.chkIsBound);
             this.gbSelectedDevice.Controls.Add(this.chkPollOnCmd);
             this.gbSelectedDevice.Controls.Add(this.chkActive);
-            this.gbSelectedDevice.Location = new System.Drawing.Point(9, 279);
-            this.gbSelectedDevice.Margin = new System.Windows.Forms.Padding(9, 3, 3, 12);
+            this.gbSelectedDevice.Location = new System.Drawing.Point(0, 3);
             this.gbSelectedDevice.Name = "gbSelectedDevice";
             this.gbSelectedDevice.Padding = new System.Windows.Forms.Padding(10, 3, 10, 10);
             this.gbSelectedDevice.Size = new System.Drawing.Size(650, 259);
-            this.gbSelectedDevice.TabIndex = 8;
+            this.gbSelectedDevice.TabIndex = 0;
             this.gbSelectedDevice.TabStop = false;
             this.gbSelectedDevice.Text = "Selected Device";
             // 
@@ -411,9 +413,6 @@
             // 
             // lvDevicePolling
             // 
-            this.lvDevicePolling.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
             this.lvDevicePolling.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
             this.colOrder,
             this.colActive,
@@ -429,16 +428,16 @@
             this.colTime,
             this.colPeriod,
             this.colCmdLine});
+            this.lvDevicePolling.Dock = System.Windows.Forms.DockStyle.Fill;
             this.lvDevicePolling.FullRowSelect = true;
             this.lvDevicePolling.GridLines = true;
-            this.lvDevicePolling.HideSelection = false;
-            this.lvDevicePolling.Location = new System.Drawing.Point(9, 41);
+            this.lvDevicePolling.Location = new System.Drawing.Point(0, 29);
             this.lvDevicePolling.Margin = new System.Windows.Forms.Padding(9, 3, 12, 3);
             this.lvDevicePolling.MultiSelect = false;
             this.lvDevicePolling.Name = "lvDevicePolling";
             this.lvDevicePolling.ShowItemToolTips = true;
-            this.lvDevicePolling.Size = new System.Drawing.Size(679, 232);
-            this.lvDevicePolling.TabIndex = 7;
+            this.lvDevicePolling.Size = new System.Drawing.Size(700, 521);
+            this.lvDevicePolling.TabIndex = 1;
             this.lvDevicePolling.UseCompatibleStateImageBehavior = false;
             this.lvDevicePolling.View = System.Windows.Forms.View.Details;
             this.lvDevicePolling.SelectedIndexChanged += new System.EventHandler(this.lvDevicePolling_SelectedIndexChanged);
@@ -516,8 +515,7 @@
             // 
             // btnAddDevice
             // 
-            this.btnAddDevice.Location = new System.Drawing.Point(9, 12);
-            this.btnAddDevice.Margin = new System.Windows.Forms.Padding(9, 12, 3, 3);
+            this.btnAddDevice.Location = new System.Drawing.Point(0, 0);
             this.btnAddDevice.Name = "btnAddDevice";
             this.btnAddDevice.Size = new System.Drawing.Size(80, 23);
             this.btnAddDevice.TabIndex = 0;
@@ -527,7 +525,7 @@
             // 
             // btnMoveUpDevice
             // 
-            this.btnMoveUpDevice.Location = new System.Drawing.Point(95, 12);
+            this.btnMoveUpDevice.Location = new System.Drawing.Point(86, 0);
             this.btnMoveUpDevice.Name = "btnMoveUpDevice";
             this.btnMoveUpDevice.Size = new System.Drawing.Size(80, 23);
             this.btnMoveUpDevice.TabIndex = 1;
@@ -537,7 +535,7 @@
             // 
             // btnMoveDownDevice
             // 
-            this.btnMoveDownDevice.Location = new System.Drawing.Point(181, 12);
+            this.btnMoveDownDevice.Location = new System.Drawing.Point(172, 0);
             this.btnMoveDownDevice.Name = "btnMoveDownDevice";
             this.btnMoveDownDevice.Size = new System.Drawing.Size(80, 23);
             this.btnMoveDownDevice.TabIndex = 2;
@@ -547,7 +545,7 @@
             // 
             // btnDeleteDevice
             // 
-            this.btnDeleteDevice.Location = new System.Drawing.Point(267, 12);
+            this.btnDeleteDevice.Location = new System.Drawing.Point(258, 0);
             this.btnDeleteDevice.Name = "btnDeleteDevice";
             this.btnDeleteDevice.Size = new System.Drawing.Size(80, 23);
             this.btnDeleteDevice.TabIndex = 3;
@@ -558,8 +556,7 @@
             // btnPasteDevice
             // 
             this.btnPasteDevice.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.btnPasteDevice.Location = new System.Drawing.Point(608, 12);
-            this.btnPasteDevice.Margin = new System.Windows.Forms.Padding(3, 3, 12, 3);
+            this.btnPasteDevice.Location = new System.Drawing.Point(620, 0);
             this.btnPasteDevice.Name = "btnPasteDevice";
             this.btnPasteDevice.Size = new System.Drawing.Size(80, 23);
             this.btnPasteDevice.TabIndex = 6;
@@ -570,7 +567,7 @@
             // btnCopyDevice
             // 
             this.btnCopyDevice.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.btnCopyDevice.Location = new System.Drawing.Point(522, 12);
+            this.btnCopyDevice.Location = new System.Drawing.Point(534, 0);
             this.btnCopyDevice.Name = "btnCopyDevice";
             this.btnCopyDevice.Size = new System.Drawing.Size(80, 23);
             this.btnCopyDevice.TabIndex = 5;
@@ -581,7 +578,7 @@
             // btnCutDevice
             // 
             this.btnCutDevice.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.btnCutDevice.Location = new System.Drawing.Point(436, 12);
+            this.btnCutDevice.Location = new System.Drawing.Point(448, 0);
             this.btnCutDevice.Name = "btnCutDevice";
             this.btnCutDevice.Size = new System.Drawing.Size(80, 23);
             this.btnCutDevice.TabIndex = 4;
@@ -589,19 +586,37 @@
             this.btnCutDevice.UseVisualStyleBackColor = true;
             this.btnCutDevice.Click += new System.EventHandler(this.btnCutDevice_Click);
             // 
+            // pnlTop
+            // 
+            this.pnlTop.Controls.Add(this.btnPasteDevice);
+            this.pnlTop.Controls.Add(this.btnCopyDevice);
+            this.pnlTop.Controls.Add(this.btnCutDevice);
+            this.pnlTop.Controls.Add(this.btnDeleteDevice);
+            this.pnlTop.Controls.Add(this.btnMoveDownDevice);
+            this.pnlTop.Controls.Add(this.btnMoveUpDevice);
+            this.pnlTop.Controls.Add(this.btnAddDevice);
+            this.pnlTop.Dock = System.Windows.Forms.DockStyle.Top;
+            this.pnlTop.Location = new System.Drawing.Point(0, 0);
+            this.pnlTop.Name = "pnlTop";
+            this.pnlTop.Size = new System.Drawing.Size(700, 29);
+            this.pnlTop.TabIndex = 0;
+            // 
+            // pnlBottom
+            // 
+            this.pnlBottom.Controls.Add(this.gbSelectedDevice);
+            this.pnlBottom.Dock = System.Windows.Forms.DockStyle.Bottom;
+            this.pnlBottom.Location = new System.Drawing.Point(0, 288);
+            this.pnlBottom.Name = "pnlBottom";
+            this.pnlBottom.Size = new System.Drawing.Size(700, 262);
+            this.pnlBottom.TabIndex = 2;
+            // 
             // CtrlLinePolling
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.Controls.Add(this.gbSelectedDevice);
+            this.Controls.Add(this.pnlBottom);
             this.Controls.Add(this.lvDevicePolling);
-            this.Controls.Add(this.btnPasteDevice);
-            this.Controls.Add(this.btnCopyDevice);
-            this.Controls.Add(this.btnCutDevice);
-            this.Controls.Add(this.btnDeleteDevice);
-            this.Controls.Add(this.btnMoveDownDevice);
-            this.Controls.Add(this.btnMoveUpDevice);
-            this.Controls.Add(this.btnAddDevice);
+            this.Controls.Add(this.pnlTop);
             this.Name = "CtrlLinePolling";
             this.Size = new System.Drawing.Size(700, 550);
             this.Load += new System.EventHandler(this.CtrlLineReqSequence_Load);
@@ -611,6 +626,8 @@
             ((System.ComponentModel.ISupportInitialize)(this.numTimeout)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.numNumAddress)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.numDeviceNum)).EndInit();
+            this.pnlTop.ResumeLayout(false);
+            this.pnlBottom.ResumeLayout(false);
             this.ResumeLayout(false);
 
         }
@@ -668,5 +685,7 @@
         private System.Windows.Forms.Label lblCustomOptions;
         private System.Windows.Forms.CheckBox chkPollOnCmd;
         private System.Windows.Forms.ColumnHeader colPollOnCmd;
+        private System.Windows.Forms.Panel pnlTop;
+        private System.Windows.Forms.Panel pnlBottom;
     }
 }

@@ -66,18 +66,24 @@ namespace Scada.Admin.Extensions.ExtCommConfig.Forms
             // 
             // ctrlLineCustom
             // 
-            this.ctrlLineCustom.Location = new System.Drawing.Point(150, 0);
+            this.ctrlLineCustom.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.ctrlLineCustom.Location = new System.Drawing.Point(159, 12);
             this.ctrlLineCustom.Name = "ctrlLineCustom";
-            this.ctrlLineCustom.Size = new System.Drawing.Size(550, 450);
+            this.ctrlLineCustom.Size = new System.Drawing.Size(563, 537);
             this.ctrlLineCustom.TabIndex = 2;
             this.ctrlLineCustom.Visible = false;
             this.ctrlLineCustom.OptionsChanged += new System.EventHandler(this.ctrlLineCustom_OptionsChanged);
             // 
             // ctrlLinePolling
             // 
-            this.ctrlLinePolling.Location = new System.Drawing.Point(150, 0);
+            this.ctrlLinePolling.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.ctrlLinePolling.Location = new System.Drawing.Point(159, 12);
             this.ctrlLinePolling.Name = "ctrlLinePolling";
-            this.ctrlLinePolling.Size = new System.Drawing.Size(700, 550);
+            this.ctrlLinePolling.Size = new System.Drawing.Size(563, 537);
             this.ctrlLinePolling.TabIndex = 3;
             this.ctrlLinePolling.Visible = false;
             this.ctrlLinePolling.ConfigChanged += new System.EventHandler(this.ctrlLinePolling_ConfigChanged);

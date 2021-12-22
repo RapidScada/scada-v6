@@ -38,22 +38,24 @@
             this.colOptionValue = new System.Windows.Forms.ColumnHeader();
             this.btnAddOption = new System.Windows.Forms.Button();
             this.btnDeleteOption = new System.Windows.Forms.Button();
+            this.pnlTop = new System.Windows.Forms.Panel();
+            this.pnlBottom = new System.Windows.Forms.Panel();
             this.gbSelectedOption.SuspendLayout();
+            this.pnlTop.SuspendLayout();
+            this.pnlBottom.SuspendLayout();
             this.SuspendLayout();
             // 
             // gbSelectedOption
             // 
-            this.gbSelectedOption.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-            this.gbSelectedOption.Controls.Add(this.lblOptionValue);
             this.gbSelectedOption.Controls.Add(this.txtOptionValue);
+            this.gbSelectedOption.Controls.Add(this.lblOptionValue);
             this.gbSelectedOption.Controls.Add(this.txtOptionName);
             this.gbSelectedOption.Controls.Add(this.lblOptionName);
-            this.gbSelectedOption.Location = new System.Drawing.Point(9, 365);
-            this.gbSelectedOption.Margin = new System.Windows.Forms.Padding(9, 3, 3, 12);
+            this.gbSelectedOption.Location = new System.Drawing.Point(0, 3);
             this.gbSelectedOption.Name = "gbSelectedOption";
             this.gbSelectedOption.Padding = new System.Windows.Forms.Padding(10, 3, 10, 10);
             this.gbSelectedOption.Size = new System.Drawing.Size(500, 73);
-            this.gbSelectedOption.TabIndex = 3;
+            this.gbSelectedOption.TabIndex = 0;
             this.gbSelectedOption.TabStop = false;
             this.gbSelectedOption.Text = "Selected Option";
             // 
@@ -93,22 +95,18 @@
             // 
             // lvCustomOptions
             // 
-            this.lvCustomOptions.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
             this.lvCustomOptions.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
             this.colOptionName,
             this.colOptionValue});
+            this.lvCustomOptions.Dock = System.Windows.Forms.DockStyle.Fill;
             this.lvCustomOptions.FullRowSelect = true;
             this.lvCustomOptions.GridLines = true;
-            this.lvCustomOptions.HideSelection = false;
-            this.lvCustomOptions.Location = new System.Drawing.Point(9, 41);
-            this.lvCustomOptions.Margin = new System.Windows.Forms.Padding(9, 3, 12, 3);
+            this.lvCustomOptions.Location = new System.Drawing.Point(0, 29);
             this.lvCustomOptions.MultiSelect = false;
             this.lvCustomOptions.Name = "lvCustomOptions";
             this.lvCustomOptions.ShowItemToolTips = true;
-            this.lvCustomOptions.Size = new System.Drawing.Size(529, 318);
-            this.lvCustomOptions.TabIndex = 2;
+            this.lvCustomOptions.Size = new System.Drawing.Size(550, 421);
+            this.lvCustomOptions.TabIndex = 1;
             this.lvCustomOptions.UseCompatibleStateImageBehavior = false;
             this.lvCustomOptions.View = System.Windows.Forms.View.Details;
             this.lvCustomOptions.SelectedIndexChanged += new System.EventHandler(this.lvCustomOptions_SelectedIndexChanged);
@@ -125,8 +123,7 @@
             // 
             // btnAddOption
             // 
-            this.btnAddOption.Location = new System.Drawing.Point(9, 12);
-            this.btnAddOption.Margin = new System.Windows.Forms.Padding(9, 12, 3, 3);
+            this.btnAddOption.Location = new System.Drawing.Point(0, 0);
             this.btnAddOption.Name = "btnAddOption";
             this.btnAddOption.Size = new System.Drawing.Size(80, 23);
             this.btnAddOption.TabIndex = 0;
@@ -136,7 +133,7 @@
             // 
             // btnDeleteOption
             // 
-            this.btnDeleteOption.Location = new System.Drawing.Point(95, 12);
+            this.btnDeleteOption.Location = new System.Drawing.Point(86, 0);
             this.btnDeleteOption.Name = "btnDeleteOption";
             this.btnDeleteOption.Size = new System.Drawing.Size(80, 23);
             this.btnDeleteOption.TabIndex = 1;
@@ -144,19 +141,39 @@
             this.btnDeleteOption.UseVisualStyleBackColor = true;
             this.btnDeleteOption.Click += new System.EventHandler(this.btnDeleteOption_Click);
             // 
+            // pnlTop
+            // 
+            this.pnlTop.Controls.Add(this.btnDeleteOption);
+            this.pnlTop.Controls.Add(this.btnAddOption);
+            this.pnlTop.Dock = System.Windows.Forms.DockStyle.Top;
+            this.pnlTop.Location = new System.Drawing.Point(0, 0);
+            this.pnlTop.Name = "pnlTop";
+            this.pnlTop.Size = new System.Drawing.Size(550, 29);
+            this.pnlTop.TabIndex = 0;
+            // 
+            // pnlBottom
+            // 
+            this.pnlBottom.Controls.Add(this.gbSelectedOption);
+            this.pnlBottom.Dock = System.Windows.Forms.DockStyle.Bottom;
+            this.pnlBottom.Location = new System.Drawing.Point(0, 374);
+            this.pnlBottom.Name = "pnlBottom";
+            this.pnlBottom.Size = new System.Drawing.Size(550, 76);
+            this.pnlBottom.TabIndex = 2;
+            // 
             // CtrlLineCustom
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.Controls.Add(this.btnDeleteOption);
-            this.Controls.Add(this.btnAddOption);
-            this.Controls.Add(this.gbSelectedOption);
+            this.Controls.Add(this.pnlBottom);
             this.Controls.Add(this.lvCustomOptions);
+            this.Controls.Add(this.pnlTop);
             this.Name = "CtrlLineCustom";
             this.Size = new System.Drawing.Size(550, 450);
             this.Load += new System.EventHandler(this.CtrlLineCustomParams_Load);
             this.gbSelectedOption.ResumeLayout(false);
             this.gbSelectedOption.PerformLayout();
+            this.pnlTop.ResumeLayout(false);
+            this.pnlBottom.ResumeLayout(false);
             this.ResumeLayout(false);
 
         }
@@ -173,5 +190,7 @@
         private System.Windows.Forms.ColumnHeader colOptionValue;
         private System.Windows.Forms.Button btnAddOption;
         private System.Windows.Forms.Button btnDeleteOption;
+        private System.Windows.Forms.Panel pnlTop;
+        private System.Windows.Forms.Panel pnlBottom;
     }
 }
