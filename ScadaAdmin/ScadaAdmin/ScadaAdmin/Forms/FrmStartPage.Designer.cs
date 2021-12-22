@@ -68,8 +68,6 @@
             // 
             // lbRecentProjects
             // 
-            this.lbRecentProjects.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left)));
             this.lbRecentProjects.BorderStyle = System.Windows.Forms.BorderStyle.None;
             this.lbRecentProjects.ContextMenuStrip = this.cmsProjectList;
             this.lbRecentProjects.DrawMode = System.Windows.Forms.DrawMode.OwnerDrawVariable;

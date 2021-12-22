@@ -186,6 +186,7 @@ namespace Scada.Admin.App.Forms
         {
             pnlContent.Height = Height;
             pnlContent.Left = Math.Max(0, (Width - pnlContent.Width) / 2);
+            lbRecentProjects.Height = Height - lbRecentProjects.Top;
         }
 
 
