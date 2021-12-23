@@ -219,7 +219,7 @@ namespace Scada.Admin.App.Forms.Tables
             if (!found || endReached)
             {
                 if (showMsg)
-                    ScadaUiUtils.ShowInfo(foundSomething ? AppPhrases.SearchComplete : AppPhrases.ValueNotFound);
+                    ScadaUiUtils.ShowInfo(foundSomething ? AppPhrases.SearchCompleted : AppPhrases.ValueNotFound);
 
                 ResetSearch();
             }

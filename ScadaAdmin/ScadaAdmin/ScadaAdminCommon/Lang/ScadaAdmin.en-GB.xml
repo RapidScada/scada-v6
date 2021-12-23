@@ -385,7 +385,7 @@
     <Phrase key="btnReplaceAll">Replace All</Phrase>
     <Phrase key="btnClose">Close</Phrase>
     <Phrase key="ValueNotFound">The specified value was not found.</Phrase>
-    <Phrase key="SearchComplete">Search completed.</Phrase>
+    <Phrase key="SearchCompleted">Search completed.</Phrase>
     <Phrase key="ReplaceCount">{0} occurrence(s) replaced.</Phrase>
   </Dictionary>
   <Dictionary key="Scada.Admin.App.Forms.Tables.FrmCnl">

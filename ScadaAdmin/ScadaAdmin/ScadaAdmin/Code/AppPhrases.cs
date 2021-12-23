@@ -120,7 +120,7 @@ namespace Scada.Admin.App.Code
 
         // Scada.Admin.App.Forms.Tables.FrmFind
         public static string ValueNotFound { get; private set; }
-        public static string SearchComplete { get; private set; }
+        public static string SearchCompleted { get; private set; }
         public static string ReplaceCount { get; private set; }
 
         // Scada.Admin.App.Forms.Tables.FrmTextDialog
@@ -268,7 +268,7 @@ namespace Scada.Admin.App.Code
 
             dict = Locale.GetDictionary("Scada.Admin.App.Forms.Tables.FrmFind");
             ValueNotFound = dict["ValueNotFound"];
-            SearchComplete = dict["SearchComplete"];
+            SearchCompleted = dict["SearchCompleted"];
             ReplaceCount = dict["ReplaceCount"];
 
             dict = Locale.GetDictionary("Scada.Admin.App.Forms.Tables.FrmTextDialog");
