@@ -119,11 +119,10 @@ namespace Scada.Admin.Extensions.ExtCommConfig.Controls
         /// <summary>
         /// Refreshes an open child form that shows the communication line configuration.
         /// </summary>
-        private void RefreshLineConfg(TreeNode lineNode)
+        private void RefreshLineConfigForm(TreeNode lineNode)
         {
             if (lineNode.FindFirst(CommNodeType.LineOptions) is TreeNode lineOptionsNode &&
-                lineOptionsNode.Tag is TreeNodeTag tag &&
-                tag.ExistingForm is IChildForm childForm)
+                lineOptionsNode.Tag is TreeNodeTag tag && tag.ExistingForm is IChildForm childForm)
             {
                 childForm.ChildFormTag.SendMessage(this, AdminMessage.RefreshData);
             }
@@ -231,7 +230,7 @@ namespace Scada.Admin.Extensions.ExtCommConfig.Controls
                                     .CreateDeviceNode(frmDeviceAdd.Instance.CommApp, frmDeviceAdd.DeviceConfig);
                                 lineNode.Nodes.Add(deviceNode);
                                 ExplorerTree.SelectedNode = deviceNode;
-                                RefreshLineConfg(lineNode);
+                                RefreshLineConfigForm(lineNode);
                             }
                         }
 
@@ -261,101 +260,53 @@ namespace Scada.Admin.Extensions.ExtCommConfig.Controls
             miLineRestart.Enabled = isLineNode;
         }
 
-        private void miLineImport_Click(object sender, EventArgs e)
-        {
-            // import Communicator settings
-            /*TreeNode selectedNode = tvExplorer.SelectedNode;
-
-            if (selectedNode != null &&
-                FindClosestInstance(selectedNode, out LiveInstance liveInstance))
-            {
-                CommEnvironment commEnv = liveInstance.CommEnvironment;
-                FrmCommImport frmCommImport = new FrmCommImport(project, liveInstance.ProjectInstance, commEnv);
-                TreeNode lastAddedNode = null;
-
-                if (selectedNode.TagIs(CommNodeType.CommLines))
-                {
-                    // import communication lines and devices
-                    if (frmCommImport.ShowDialog() == DialogResult.OK)
-                    {
-                        foreach (Comm.Settings.CommLine commLineSettings in frmCommImport.ImportedCommLines)
-                        {
-                            TreeNode commLineNode = commShell.CreateCommLineNode(commLineSettings, commEnv);
-                            selectedNode.Nodes.Add(commLineNode);
-                            lastAddedNode = commLineNode;
-                        }
-                    }
-                }
-                else if (selectedNode.TagIs(CommNodeType.CommLine))
-                {
-                    // import only devices
-                    Comm.Settings.CommLine commLineSettings = GetRelatedObject<Comm.Settings.CommLine>(selectedNode);
-                    frmCommImport.CommLineSettings = commLineSettings;
-
-                    if (frmCommImport.ShowDialog() == DialogResult.OK)
-                    {
-                        foreach (Comm.Settings.KP kpSettings in frmCommImport.ImportedDevices)
-                        {
-                            TreeNode kpNode = commShell.CreateDeviceNode(kpSettings, commLineSettings, commEnv);
-                            selectedNode.Nodes.Add(kpNode);
-                            lastAddedNode = kpNode;
-                        }
-
-                        UpdateLineParams(lastAddedNode);
-                    }
-                }
-
-                if (lastAddedNode != null)
-                {
-                    explorerBuilder.SetContextMenus(selectedNode);
-                    tvExplorer.SelectedNode = lastAddedNode;
-                    SaveCommConfig(liveInstance);
-                }
-            }*/
-        }
-
         private void miLineSync_Click(object sender, EventArgs e)
         {
             // sync communication lines and devices
-            new FrmSync().ShowDialog();
-
-            // synchronize Communicator settings
-            /*TreeNode selectedNode = tvExplorer.SelectedNode;
-
-            if (selectedNode != null &&
-                (selectedNode.TagIs(CommNodeType.CommLines) || selectedNode.TagIs(CommNodeType.CommLine)) &&
-                FindClosestInstance(selectedNode, out LiveInstance liveInstance))
+            if (GetCommApp(out CommApp commApp, CommNodeType.Lines, CommNodeType.Line))
             {
-                FrmCommSync frmCommSync = new FrmCommSync(project, liveInstance.ProjectInstance)
-                {
-                    CommLineSettings = GetRelatedObject<Comm.Settings.CommLine>(selectedNode, false)
-                };
+                FrmSync frmSync = new(adminContext, commApp.AppConfig);
 
-                if (frmCommSync.ShowDialog() == DialogResult.OK)
+                if (frmSync.ShowDialog() == DialogResult.OK)
                 {
-                    TreeNode commLinesNode = selectedNode.FindClosest(CommNodeType.CommLines);
-
-                    if (frmCommSync.CommLineSettings == null)
+                    if (frmSync.BaseToComm)
                     {
-                        commShell.UpdateNodeText(commLinesNode);
-                        UpdateChildFormHints(commLinesNode);
+                        // update explorer and open forms
+                        TreeNode linesNode = SelectedNode?.FindClosest(CommNodeType.Lines);
 
-                        foreach (TreeNode commLineNode in commLinesNode.Nodes)
+                        if (frmSync.AddedToComm)
                         {
-                            UpdateLineParams(commLineNode.FindFirst(CommNodeType.LineParams));
+                            adminContext.MainForm.CloseChildForms(linesNode, false);
+                            new TreeViewBuilder(adminContext, this).UpdateLinesNode(linesNode);
                         }
+                        else
+                        {
+                            foreach (TreeNode lineNode in linesNode.Nodes)
+                            {
+                                TreeViewBuilder.UpdateLineNodeText(lineNode);
+                                RefreshLineConfigForm(lineNode);
+
+                                foreach (TreeNode lineSubnode in lineNode.Nodes)
+                                {
+                                    if (lineSubnode.TagIs(CommNodeType.Device))
+                                        TreeViewBuilder.UpdateDeviceNodeText(lineSubnode);
+                                }
+                            }
+
+                            adminContext.MainForm.UpdateChildFormHints(linesNode);
+                        }
+
+                        // save configuration
+                        SaveCommConfig(commApp);
                     }
                     else
                     {
-                        TreeNode commLineNode = FindTreeNode(frmCommSync.CommLineSettings, commLinesNode);
-                        commShell.UpdateNodeText(commLineNode);
-                        UpdateChildFormHints(commLineNode);
-                        UpdateLineParams(commLineNode.FindFirst(CommNodeType.LineParams));
+                        // refresh open tables
+                        adminContext.MainForm.RefreshBaseTables(typeof(CommLine));
+                        adminContext.MainForm.RefreshBaseTables(typeof(Device));
                     }
-
-                    SaveCommConfig(liveInstance);
-                }
-            }*/
+                };
+            }
         }
 
         private void miLineAdd_Click(object sender, EventArgs e)

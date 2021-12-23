@@ -51,6 +51,38 @@ namespace Scada.Admin.Extensions.ExtCommConfig.Code
         }
 
         /// <summary>
+        /// Updates the tree node that represents communication lines and its child nodes.
+        /// </summary>
+        public void UpdateLinesNode(TreeNode linesNode)
+        {
+            ArgumentNullException.ThrowIfNull(linesNode, nameof(linesNode));
+
+            try
+            {
+                linesNode.TreeView?.BeginUpdate();
+
+                // remove existing line nodes
+                foreach (TreeNode lineNode in new ArrayList(linesNode.Nodes))
+                {
+                    lineNode.Remove();
+                }
+
+                // add new line nodes
+                CommNodeTag nodeTag = (CommNodeTag)linesNode.Tag;
+                CommApp commApp = nodeTag.CommApp;
+
+                foreach (LineConfig lineConfig in commApp.AppConfig.Lines)
+                {
+                    linesNode.Nodes.Add(CreateLineNode(commApp, lineConfig));
+                }
+            }
+            finally
+            {
+                linesNode.TreeView?.EndUpdate();
+            }
+        }
+
+        /// <summary>
         /// Creates a tree node that represents the specified communication line.
         /// </summary>
         public TreeNode CreateLineNode(CommApp commApp, LineConfig lineConfig)
@@ -94,12 +126,11 @@ namespace Scada.Admin.Extensions.ExtCommConfig.Code
         }
         
         /// <summary>
-        /// Updates the node that represents a communication line and its child nodes.
+        /// Updates the tree node that represents a communication line and its child nodes.
         /// </summary>
         public void UpdateLineNode(TreeNode lineNode)
         {
-            if (lineNode == null)
-                throw new ArgumentNullException(nameof(lineNode));
+            ArgumentNullException.ThrowIfNull(lineNode, nameof(lineNode));
 
             try
             {
@@ -108,7 +139,7 @@ namespace Scada.Admin.Extensions.ExtCommConfig.Code
                 // update line text and image
                 CommNodeTag nodeTag = (CommNodeTag)lineNode.Tag;
                 LineConfig lineConfig = (LineConfig)nodeTag.RelatedObject;
-                lineNode.Text = CommUtils.GetLineTitle(lineConfig.CommLineNum, lineConfig.Name);
+                lineNode.Text = CommUtils.GetLineTitle(lineConfig);
                 lineNode.SetImageKey(lineConfig.Active ? ImageKey.Line : ImageKey.LineInactive);
 
                 // remove existing device nodes
@@ -131,6 +162,17 @@ namespace Scada.Admin.Extensions.ExtCommConfig.Code
         }
 
         /// <summary>
+        /// Updates text of the tree node that represents a communication line.
+        /// </summary>
+        public static void UpdateLineNodeText(TreeNode lineNode)
+        {
+            ArgumentNullException.ThrowIfNull(lineNode, nameof(lineNode));
+            CommNodeTag nodeTag = (CommNodeTag)lineNode.Tag;
+            LineConfig lineConfig = (LineConfig)nodeTag.RelatedObject;
+            lineNode.Text = CommUtils.GetLineTitle(lineConfig);
+        }
+
+        /// <summary>
         /// Creates a tree node that represents the device.
         /// </summary>
         public TreeNode CreateDeviceNode(CommApp commApp, DeviceConfig deviceConfig)
@@ -149,12 +191,22 @@ namespace Scada.Admin.Extensions.ExtCommConfig.Code
         }
 
         /// <summary>
+        /// Updates text of the tree node that represents a device.
+        /// </summary>
+        public static void UpdateDeviceNodeText(TreeNode deviceNode)
+        {
+            ArgumentNullException.ThrowIfNull(deviceNode, nameof(deviceNode));
+            CommNodeTag nodeTag = (CommNodeTag)deviceNode.Tag;
+            DeviceConfig deviceConfig = (DeviceConfig)nodeTag.RelatedObject;
+            deviceNode.Text = CommUtils.GetDeviceTitle(deviceConfig);
+        }
+
+        /// <summary>
         /// Creates tree nodes for the explorer tree.
         /// </summary>
         public TreeNode[] CreateTreeNodes(CommApp commApp)
         {
-            if (commApp == null)
-                throw new ArgumentNullException(nameof(commApp));
+            ArgumentNullException.ThrowIfNull(commApp, nameof(commApp));
 
             return new TreeNode[]
             {

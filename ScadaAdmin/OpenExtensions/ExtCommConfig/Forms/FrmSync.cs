@@ -1,15 +1,9 @@
 ﻿// Copyright (c) Rapid Software LLC. All rights reserved.
 // Licensed under the Apache License, Version 2.0. See License.txt in the project root for license information.
 
+using Scada.Comm.Config;
 using Scada.Forms;
 using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 
 namespace Scada.Admin.Extensions.ExtCommConfig.Forms
@@ -23,7 +17,7 @@ namespace Scada.Admin.Extensions.ExtCommConfig.Forms
         /// <summary>
         /// Initializes a new instance of the class.
         /// </summary>
-        public FrmSync()
+        private FrmSync()
         {
             InitializeComponent();
 
@@ -32,6 +26,33 @@ namespace Scada.Admin.Extensions.ExtCommConfig.Forms
             btnNext.Left = btnSync.Left;
             btnSync.Visible = false;
         }
+        
+        /// <summary>
+        /// Initializes a new instance of the class.
+        /// </summary>
+        public FrmSync(IAdminContext adminContext, CommConfig commConfig)
+            : this()
+        {
+            SelectedLineNum = 0;
+        }
+
+
+        /// <summary>
+        /// Gets or sets the selected line number.
+        /// </summary>
+        public int SelectedLineNum { get; set; }
+
+        /// <summary>
+        /// Gets a value indicating whether the sync is performed from the configuration database to Communicator.
+        /// </summary>
+        public bool BaseToComm { get; }
+
+        /// <summary>
+        /// Gets a value indicating whether a communication line or device has been added to 
+        /// the Communicator configuration.
+        /// </summary>
+        public bool AddedToComm { get; }
+
 
         private void FrmSync_Load(object sender, EventArgs e)
         {

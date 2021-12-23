@@ -31,7 +31,6 @@ namespace Scada.Admin.Extensions.ExtCommConfig.Controls
         {
             this.components = new System.ComponentModel.Container();
             this.cmsLine = new System.Windows.Forms.ContextMenuStrip(this.components);
-            this.miLineImport = new System.Windows.Forms.ToolStripMenuItem();
             this.miLineSync = new System.Windows.Forms.ToolStripMenuItem();
             this.miCommLineSep1 = new System.Windows.Forms.ToolStripSeparator();
             this.miLineAdd = new System.Windows.Forms.ToolStripMenuItem();
@@ -43,6 +42,7 @@ namespace Scada.Admin.Extensions.ExtCommConfig.Controls
             this.miLineStop = new System.Windows.Forms.ToolStripMenuItem();
             this.miLineRestart = new System.Windows.Forms.ToolStripMenuItem();
             this.cmsDevice = new System.Windows.Forms.ContextMenuStrip(this.components);
+            this.miDeviceChannels = new System.Windows.Forms.ToolStripMenuItem();
             this.miDeviceCommand = new System.Windows.Forms.ToolStripMenuItem();
             this.miDevicePoll = new System.Windows.Forms.ToolStripMenuItem();
             this.miDeviceProperties = new System.Windows.Forms.ToolStripMenuItem();
@@ -56,7 +56,6 @@ namespace Scada.Admin.Extensions.ExtCommConfig.Controls
             this.btnAddLine = new System.Windows.Forms.ToolStripButton();
             this.btnAddDevice = new System.Windows.Forms.ToolStripButton();
             this.btnCreateChannels = new System.Windows.Forms.ToolStripButton();
-            this.miDeviceChannels = new System.Windows.Forms.ToolStripMenuItem();
             this.cmsLine.SuspendLayout();
             this.cmsDevice.SuspendLayout();
             this.menuStrip.SuspendLayout();
@@ -66,7 +65,6 @@ namespace Scada.Admin.Extensions.ExtCommConfig.Controls
             // cmsLine
             // 
             this.cmsLine.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.miLineImport,
             this.miLineSync,
             this.miCommLineSep1,
             this.miLineAdd,
@@ -78,35 +76,27 @@ namespace Scada.Admin.Extensions.ExtCommConfig.Controls
             this.miLineStop,
             this.miLineRestart});
             this.cmsLine.Name = "cmsCommLine";
-            this.cmsLine.Size = new System.Drawing.Size(164, 214);
+            this.cmsLine.Size = new System.Drawing.Size(181, 214);
             this.cmsLine.Opening += new System.ComponentModel.CancelEventHandler(this.cmsLine_Opening);
-            // 
-            // miLineImport
-            // 
-            this.miLineImport.Image = global::Scada.Admin.Extensions.ExtCommConfig.Properties.Resources.import;
-            this.miLineImport.Name = "miLineImport";
-            this.miLineImport.Size = new System.Drawing.Size(163, 22);
-            this.miLineImport.Text = "Import...";
-            this.miLineImport.Click += new System.EventHandler(this.miLineImport_Click);
             // 
             // miLineSync
             // 
             this.miLineSync.Image = global::Scada.Admin.Extensions.ExtCommConfig.Properties.Resources.sync;
             this.miLineSync.Name = "miLineSync";
-            this.miLineSync.Size = new System.Drawing.Size(163, 22);
+            this.miLineSync.Size = new System.Drawing.Size(180, 22);
             this.miLineSync.Text = "Synchronize...";
             this.miLineSync.Click += new System.EventHandler(this.miLineSync_Click);
             // 
             // miCommLineSep1
             // 
             this.miCommLineSep1.Name = "miCommLineSep1";
-            this.miCommLineSep1.Size = new System.Drawing.Size(160, 6);
+            this.miCommLineSep1.Size = new System.Drawing.Size(177, 6);
             // 
             // miLineAdd
             // 
             this.miLineAdd.Image = global::Scada.Admin.Extensions.ExtCommConfig.Properties.Resources.add;
             this.miLineAdd.Name = "miLineAdd";
-            this.miLineAdd.Size = new System.Drawing.Size(163, 22);
+            this.miLineAdd.Size = new System.Drawing.Size(180, 22);
             this.miLineAdd.Text = "Add Line";
             this.miLineAdd.Click += new System.EventHandler(this.miLineAdd_Click);
             // 
@@ -114,7 +104,7 @@ namespace Scada.Admin.Extensions.ExtCommConfig.Controls
             // 
             this.miLineMoveUp.Image = global::Scada.Admin.Extensions.ExtCommConfig.Properties.Resources.move_up;
             this.miLineMoveUp.Name = "miLineMoveUp";
-            this.miLineMoveUp.Size = new System.Drawing.Size(163, 22);
+            this.miLineMoveUp.Size = new System.Drawing.Size(180, 22);
             this.miLineMoveUp.Text = "Move Line Up";
             this.miLineMoveUp.Click += new System.EventHandler(this.miLineMoveUp_Click);
             // 
@@ -122,7 +112,7 @@ namespace Scada.Admin.Extensions.ExtCommConfig.Controls
             // 
             this.miLineMoveDown.Image = global::Scada.Admin.Extensions.ExtCommConfig.Properties.Resources.move_down;
             this.miLineMoveDown.Name = "miLineMoveDown";
-            this.miLineMoveDown.Size = new System.Drawing.Size(163, 22);
+            this.miLineMoveDown.Size = new System.Drawing.Size(180, 22);
             this.miLineMoveDown.Text = "Move Line Down";
             this.miLineMoveDown.Click += new System.EventHandler(this.miLineMoveDown_Click);
             // 
@@ -130,20 +120,20 @@ namespace Scada.Admin.Extensions.ExtCommConfig.Controls
             // 
             this.miLineDelete.Image = global::Scada.Admin.Extensions.ExtCommConfig.Properties.Resources.delete;
             this.miLineDelete.Name = "miLineDelete";
-            this.miLineDelete.Size = new System.Drawing.Size(163, 22);
+            this.miLineDelete.Size = new System.Drawing.Size(180, 22);
             this.miLineDelete.Text = "Delete Line";
             this.miLineDelete.Click += new System.EventHandler(this.miLineDelete_Click);
             // 
             // miCommLineSep2
             // 
             this.miCommLineSep2.Name = "miCommLineSep2";
-            this.miCommLineSep2.Size = new System.Drawing.Size(160, 6);
+            this.miCommLineSep2.Size = new System.Drawing.Size(177, 6);
             // 
             // miLineStart
             // 
             this.miLineStart.Image = global::Scada.Admin.Extensions.ExtCommConfig.Properties.Resources.start;
             this.miLineStart.Name = "miLineStart";
-            this.miLineStart.Size = new System.Drawing.Size(163, 22);
+            this.miLineStart.Size = new System.Drawing.Size(180, 22);
             this.miLineStart.Text = "Start Line";
             this.miLineStart.Click += new System.EventHandler(this.miLineStartStop_Click);
             // 
@@ -151,7 +141,7 @@ namespace Scada.Admin.Extensions.ExtCommConfig.Controls
             // 
             this.miLineStop.Image = global::Scada.Admin.Extensions.ExtCommConfig.Properties.Resources.stop;
             this.miLineStop.Name = "miLineStop";
-            this.miLineStop.Size = new System.Drawing.Size(163, 22);
+            this.miLineStop.Size = new System.Drawing.Size(180, 22);
             this.miLineStop.Text = "Stop Line";
             this.miLineStop.Click += new System.EventHandler(this.miLineStartStop_Click);
             // 
@@ -159,7 +149,7 @@ namespace Scada.Admin.Extensions.ExtCommConfig.Controls
             // 
             this.miLineRestart.Image = global::Scada.Admin.Extensions.ExtCommConfig.Properties.Resources.restart;
             this.miLineRestart.Name = "miLineRestart";
-            this.miLineRestart.Size = new System.Drawing.Size(163, 22);
+            this.miLineRestart.Size = new System.Drawing.Size(180, 22);
             this.miLineRestart.Text = "Restart Line";
             this.miLineRestart.Click += new System.EventHandler(this.miLineStartStop_Click);
             // 
@@ -171,13 +161,21 @@ namespace Scada.Admin.Extensions.ExtCommConfig.Controls
             this.miDevicePoll,
             this.miDeviceProperties});
             this.cmsDevice.Name = "cmsDevice";
-            this.cmsDevice.Size = new System.Drawing.Size(181, 114);
+            this.cmsDevice.Size = new System.Drawing.Size(170, 92);
+            // 
+            // miDeviceChannels
+            // 
+            this.miDeviceChannels.Image = global::Scada.Admin.Extensions.ExtCommConfig.Properties.Resources._goto;
+            this.miDeviceChannels.Name = "miDeviceChannels";
+            this.miDeviceChannels.Size = new System.Drawing.Size(169, 22);
+            this.miDeviceChannels.Text = "Go to Channels";
+            this.miDeviceChannels.Click += new System.EventHandler(this.miDeviceChannels_Click);
             // 
             // miDeviceCommand
             // 
             this.miDeviceCommand.Image = global::Scada.Admin.Extensions.ExtCommConfig.Properties.Resources.cmd;
             this.miDeviceCommand.Name = "miDeviceCommand";
-            this.miDeviceCommand.Size = new System.Drawing.Size(180, 22);
+            this.miDeviceCommand.Size = new System.Drawing.Size(169, 22);
             this.miDeviceCommand.Text = "Send Command...";
             this.miDeviceCommand.Click += new System.EventHandler(this.miDeviceCommand_Click);
             // 
@@ -185,7 +183,7 @@ namespace Scada.Admin.Extensions.ExtCommConfig.Controls
             // 
             this.miDevicePoll.Image = global::Scada.Admin.Extensions.ExtCommConfig.Properties.Resources.poll;
             this.miDevicePoll.Name = "miDevicePoll";
-            this.miDevicePoll.Size = new System.Drawing.Size(180, 22);
+            this.miDevicePoll.Size = new System.Drawing.Size(169, 22);
             this.miDevicePoll.Text = "Poll Device";
             this.miDevicePoll.Click += new System.EventHandler(this.miDevicePoll_Click);
             // 
@@ -193,7 +191,7 @@ namespace Scada.Admin.Extensions.ExtCommConfig.Controls
             // 
             this.miDeviceProperties.Image = global::Scada.Admin.Extensions.ExtCommConfig.Properties.Resources.properties;
             this.miDeviceProperties.Name = "miDeviceProperties";
-            this.miDeviceProperties.Size = new System.Drawing.Size(180, 22);
+            this.miDeviceProperties.Size = new System.Drawing.Size(169, 22);
             this.miDeviceProperties.Text = "Properies";
             this.miDeviceProperties.Click += new System.EventHandler(this.miDeviceProperties_Click);
             // 
@@ -290,14 +288,6 @@ namespace Scada.Admin.Extensions.ExtCommConfig.Controls
             this.btnCreateChannels.ToolTipText = "Create Channels";
             this.btnCreateChannels.Click += new System.EventHandler(this.miCreateChannels_Click);
             // 
-            // miDeviceChannels
-            // 
-            this.miDeviceChannels.Image = global::Scada.Admin.Extensions.ExtCommConfig.Properties.Resources._goto;
-            this.miDeviceChannels.Name = "miDeviceChannels";
-            this.miDeviceChannels.Size = new System.Drawing.Size(180, 22);
-            this.miDeviceChannels.Text = "Go to Channels";
-            this.miDeviceChannels.Click += new System.EventHandler(this.miDeviceChannels_Click);
-            // 
             // CtrlExtensionMenu
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
@@ -319,7 +309,6 @@ namespace Scada.Admin.Extensions.ExtCommConfig.Controls
         #endregion
 
         private System.Windows.Forms.ContextMenuStrip cmsLine;
-        private System.Windows.Forms.ToolStripMenuItem miLineImport;
         private System.Windows.Forms.ToolStripMenuItem miLineSync;
         private System.Windows.Forms.ToolStripSeparator miCommLineSep1;
         private System.Windows.Forms.ToolStripMenuItem miLineAdd;

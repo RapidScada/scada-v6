@@ -22,7 +22,6 @@
     <Phrase key="btnAddLine.ToolTip">Добавить линию</Phrase>
     <Phrase key="btnAddDevice.ToolTip">Добавить КП</Phrase>
     <Phrase key="btnCreateChannels.ToolTip">Создать каналы</Phrase>
-    <Phrase key="miLineImport">Импортировать...</Phrase>
     <Phrase key="miLineSync">Сихронизировать...</Phrase>
     <Phrase key="miLineAdd">Добавить линию</Phrase>
     <Phrase key="miLineMoveUp">Переместить линию вверх</Phrase>

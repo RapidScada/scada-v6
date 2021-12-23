@@ -22,7 +22,6 @@
     <Phrase key="btnAddLine.ToolTip">Add Line</Phrase>
     <Phrase key="btnAddDevice.ToolTip">Add Device</Phrase>
     <Phrase key="btnCreateChannels.ToolTip">Create Channels</Phrase>
-    <Phrase key="miLineImport">Import...</Phrase>
     <Phrase key="miLineSync">Synchronize...</Phrase>
     <Phrase key="miLineAdd">Add Line</Phrase>
     <Phrase key="miLineMoveUp">Move Line Up</Phrase>
