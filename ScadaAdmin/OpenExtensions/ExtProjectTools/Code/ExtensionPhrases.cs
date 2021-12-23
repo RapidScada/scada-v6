@@ -34,7 +34,7 @@ namespace Scada.Admin.Extensions.ExtProjectTools.Code
 
         // Scada.Admin.Extensions.ExtProjectTools.Forms.FrmCnlClone
         public static string KeepUnchanged { get; private set; }
-        public static string CloneChannelsComplete { get; private set; }
+        public static string CloneChannelsCompleted { get; private set; }
         public static string CloneChannelsError { get; private set; }
 
         // Scada.Admin.Extensions.ExtProjectTools.Forms.FrmTableExport
@@ -43,7 +43,7 @@ namespace Scada.Admin.Extensions.ExtProjectTools.Code
 
         // Scada.Admin.Extensions.ExtProjectTools.Forms.FrmTableImport
         public static string ImportTableFilter { get; private set; }
-        public static string ImportTableComplete { get; private set; }
+        public static string ImportTableCompleted { get; private set; }
         public static string ImportTableError { get; private set; }
 
         public static void Init()
@@ -69,7 +69,7 @@ namespace Scada.Admin.Extensions.ExtProjectTools.Code
 
             dict = Locale.GetDictionary("Scada.Admin.Extensions.ExtProjectTools.Forms.FrmCnlClone");
             KeepUnchanged = dict["KeepUnchanged"];
-            CloneChannelsComplete = dict["CloneChannelsComplete"];
+            CloneChannelsCompleted = dict["CloneChannelsCompleted"];
             CloneChannelsError = dict["CloneChannelsError"];
 
             dict = Locale.GetDictionary("Scada.Admin.Extensions.ExtProjectTools.Forms.FrmTableExport");
@@ -78,7 +78,7 @@ namespace Scada.Admin.Extensions.ExtProjectTools.Code
 
             dict = Locale.GetDictionary("Scada.Admin.Extensions.ExtProjectTools.Forms.FrmTableImport");
             ImportTableFilter = dict["ImportTableFilter"];
-            ImportTableComplete = dict["ImportTableComplete"];
+            ImportTableCompleted = dict["ImportTableCompleted"];
             ImportTableError = dict["ImportTableError"];
         }
     }

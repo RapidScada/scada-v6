@@ -165,7 +165,7 @@ namespace Scada.Admin.Extensions.ExtProjectTools.Forms
                 if (affectedRows > 0)
                     baseTable.Modified = true;
 
-                ScadaUiUtils.ShowInfo(string.Format(ExtensionPhrases.ImportTableComplete, affectedRows));
+                ScadaUiUtils.ShowInfo(string.Format(ExtensionPhrases.ImportTableCompleted, affectedRows));
                 return true;
             }
             catch (Exception ex)

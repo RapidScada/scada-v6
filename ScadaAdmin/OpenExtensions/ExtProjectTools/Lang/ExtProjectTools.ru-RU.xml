@@ -44,7 +44,7 @@
     <Phrase key="btnClone">Клонировать</Phrase>
     <Phrase key="btnClose">Закрыть</Phrase>
     <Phrase key="KeepUnchanged">&lt;Без изменений&gt;</Phrase>
-    <Phrase key="CloneChannelsComplete">Клонирование завершено успешно.&#13;&#10;Добавлено каналов: {0}.</Phrase>
+    <Phrase key="CloneChannelsCompleted">Клонирование завершено успешно.&#13;&#10;Добавлено каналов: {0}.</Phrase>
     <Phrase key="CloneChannelsError">Ошибка при клонировании каналов</Phrase>
   </Dictionary>
   <Dictionary key="Scada.Admin.Extensions.ExtProjectTools.Forms.FrmTableExport">

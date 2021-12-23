@@ -156,7 +156,7 @@ namespace Scada.Admin.Extensions.ExtProjectTools.Forms
                 if (affectedRows > 0)
                     cnlTable.Modified = true;
 
-                ScadaUiUtils.ShowInfo(string.Format(ExtensionPhrases.CloneChannelsComplete, affectedRows));
+                ScadaUiUtils.ShowInfo(string.Format(ExtensionPhrases.CloneChannelsCompleted, affectedRows));
                 return true;
             }
             catch (Exception ex)

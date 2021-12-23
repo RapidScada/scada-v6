@@ -44,7 +44,7 @@
     <Phrase key="btnClone">Clone</Phrase>
     <Phrase key="btnClose">Close</Phrase>
     <Phrase key="KeepUnchanged">&lt;Keep unchanged&gt;</Phrase>
-    <Phrase key="CloneChannelsComplete">Cloning completed successfully.&#13;&#10;{0} channel(s) added.</Phrase>
+    <Phrase key="CloneChannelsCompleted">Cloning completed successfully.&#13;&#10;{0} channel(s) added.</Phrase>
     <Phrase key="CloneChannelsError">Error cloning channels</Phrase>
   </Dictionary>
   <Dictionary key="Scada.Admin.Extensions.ExtProjectTools.Forms.FrmTableExport">
@@ -73,7 +73,7 @@
     <Phrase key="btnImport">Import</Phrase>
     <Phrase key="btnClose">Close</Phrase>
     <Phrase key="ImportTableFilter">Tables (*.dat;*.xml;*.csv)|*.dat;*.xml;*.csv|All Files (*.*)|*.*</Phrase>
-    <Phrase key="ImportTableComplete">Import completed successfully.&#13;&#10;{0} row(s) affected.</Phrase>
+    <Phrase key="ImportTableCompleted">Import completed successfully.&#13;&#10;{0} row(s) affected.</Phrase>
     <Phrase key="ImportTableError">Error importing table</Phrase>
   </Dictionary>
 </ExtProjectToolsDictionaries>
