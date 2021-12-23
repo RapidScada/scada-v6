@@ -41,9 +41,9 @@
             this.lblSyncDirection.AutoSize = true;
             this.lblSyncDirection.Location = new System.Drawing.Point(-3, 0);
             this.lblSyncDirection.Name = "lblSyncDirection";
-            this.lblSyncDirection.Size = new System.Drawing.Size(127, 15);
+            this.lblSyncDirection.Size = new System.Drawing.Size(187, 15);
             this.lblSyncDirection.TabIndex = 0;
-            this.lblSyncDirection.Text = "Choose sync direction:";
+            this.lblSyncDirection.Text = "Choose synchronization direction:";
             // 
             // rbBaseToComm
             // 

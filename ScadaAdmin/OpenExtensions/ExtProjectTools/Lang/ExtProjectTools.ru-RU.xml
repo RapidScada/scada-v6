@@ -73,7 +73,7 @@
     <Phrase key="btnImport">Импорт</Phrase>
     <Phrase key="btnClose">Закрыть</Phrase>
     <Phrase key="ImportTableFilter">Таблицы (*.dat;*.xml;*.csv)|*.dat;*.xml;*.csv|Все файлы (*.*)|*.*</Phrase>
-    <Phrase key="ImportTableComplete">Импорт завершён успешно.&#13;&#10;Затронуто строк: {0}.</Phrase>
+    <Phrase key="ImportTableCompleted">Импорт завершён успешно.&#13;&#10;Затронуто строк: {0}.</Phrase>
     <Phrase key="ImportTableError">Ошибка при импорте таблицы</Phrase>
   </Dictionary>
 </ExtProjectToolsDictionaries>

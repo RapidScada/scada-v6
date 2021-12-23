@@ -62,6 +62,11 @@ namespace Scada.Admin.Extensions.ExtCommConfig.Code
         // Scada.Admin.Extensions.ExtCommConfig.Forms.FrmLineStats
         public static string LineStatsTitle { get; private set; }
 
+        // Scada.Admin.Extensions.ExtCommConfig.Forms.FrmSync
+        public static string SyncCompleted { get; private set; }
+        public static string NoDataToSync { get; private set; }
+
+
         public static void Init()
         {
             LocaleDict dict = Locale.GetDictionary("Scada.Admin.Extensions.ExtCommConfig.ExtCommConfigLogic");
@@ -114,6 +119,10 @@ namespace Scada.Admin.Extensions.ExtCommConfig.Code
 
             dict = Locale.GetDictionary("Scada.Admin.Extensions.ExtCommConfig.Forms.FrmLineStats");
             LineStatsTitle = dict["LineStatsTitle"];
+
+            dict = Locale.GetDictionary("Scada.Admin.Extensions.ExtCommConfig.Forms.FrmSync");
+            SyncCompleted = dict["SyncCompleted"];
+            NoDataToSync = dict["NoDataToSync"];
         }
     }
 }

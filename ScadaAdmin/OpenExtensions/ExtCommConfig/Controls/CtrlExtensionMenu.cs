@@ -265,7 +265,10 @@ namespace Scada.Admin.Extensions.ExtCommConfig.Controls
             // sync communication lines and devices
             if (GetCommApp(out CommApp commApp, CommNodeType.Lines, CommNodeType.Line))
             {
-                FrmSync frmSync = new(adminContext, commApp.AppConfig);
+                FrmSync frmSync = new(adminContext.CurrentProject, commApp.AppConfig);
+
+                if (SelectedNode.GetRelatedObject() is LineConfig lineConfig)
+                    frmSync.SelectedLineNum = lineConfig.CommLineNum;
 
                 if (frmSync.ShowDialog() == DialogResult.OK)
                 {

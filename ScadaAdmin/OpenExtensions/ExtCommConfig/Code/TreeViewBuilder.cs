@@ -87,8 +87,7 @@ namespace Scada.Admin.Extensions.ExtCommConfig.Code
         /// </summary>
         public TreeNode CreateLineNode(CommApp commApp, LineConfig lineConfig)
         {
-            TreeNode lineNode = TreeViewExtensions.CreateNode(
-                CommUtils.GetLineTitle(lineConfig.CommLineNum, lineConfig.Name),
+            TreeNode lineNode = TreeViewExtensions.CreateNode(CommUtils.GetLineTitle(lineConfig),
                 lineConfig.Active ? ImageKey.Line : ImageKey.LineInactive);
             lineNode.ContextMenuStrip = menuControl.LineMenu;
             lineNode.Tag = new CommNodeTag(commApp, lineConfig, CommNodeType.Line);

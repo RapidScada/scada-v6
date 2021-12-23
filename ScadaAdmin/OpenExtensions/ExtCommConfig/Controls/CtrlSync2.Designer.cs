@@ -29,7 +29,7 @@
         private void InitializeComponent()
         {
             this.lblSelect = new System.Windows.Forms.Label();
-            this.treeView1 = new System.Windows.Forms.TreeView();
+            this.treeView = new System.Windows.Forms.TreeView();
             this.SuspendLayout();
             // 
             // lblSelect
@@ -41,18 +41,20 @@
             this.lblSelect.TabIndex = 0;
             this.lblSelect.Text = "Select lines and devices to sync:";
             // 
-            // treeView1
+            // treeView
             // 
-            this.treeView1.Location = new System.Drawing.Point(0, 18);
-            this.treeView1.Name = "treeView1";
-            this.treeView1.Size = new System.Drawing.Size(360, 400);
-            this.treeView1.TabIndex = 1;
+            this.treeView.CheckBoxes = true;
+            this.treeView.Location = new System.Drawing.Point(0, 18);
+            this.treeView.Name = "treeView";
+            this.treeView.Size = new System.Drawing.Size(360, 400);
+            this.treeView.TabIndex = 1;
+            this.treeView.AfterCheck += new System.Windows.Forms.TreeViewEventHandler(this.treeView_AfterCheck);
             // 
             // CtrlSync2
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.Controls.Add(this.treeView1);
+            this.Controls.Add(this.treeView);
             this.Controls.Add(this.lblSelect);
             this.Name = "CtrlSync2";
             this.Size = new System.Drawing.Size(360, 418);
@@ -64,6 +66,6 @@
         #endregion
 
         private System.Windows.Forms.Label lblSelect;
-        private System.Windows.Forms.TreeView treeView1;
+        private System.Windows.Forms.TreeView treeView;
     }
 }
