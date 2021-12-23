@@ -32,7 +32,7 @@
             this.rbBaseToComm = new System.Windows.Forms.RadioButton();
             this.rbCommToBase = new System.Windows.Forms.RadioButton();
             this.pbInfo = new System.Windows.Forms.PictureBox();
-            this.lblInfo1 = new System.Windows.Forms.Label();
+            this.lblInfo = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.pbInfo)).BeginInit();
             this.SuspendLayout();
             // 
@@ -48,6 +48,7 @@
             // rbBaseToComm
             // 
             this.rbBaseToComm.AutoSize = true;
+            this.rbBaseToComm.Checked = true;
             this.rbBaseToComm.Location = new System.Drawing.Point(0, 18);
             this.rbBaseToComm.Name = "rbBaseToComm";
             this.rbBaseToComm.Size = new System.Drawing.Size(247, 19);
@@ -63,7 +64,6 @@
             this.rbCommToBase.Name = "rbCommToBase";
             this.rbCommToBase.Size = new System.Drawing.Size(245, 19);
             this.rbCommToBase.TabIndex = 2;
-            this.rbCommToBase.TabStop = true;
             this.rbCommToBase.Text = "Communicator to configuration database";
             this.rbCommToBase.UseVisualStyleBackColor = true;
             // 
@@ -76,14 +76,14 @@
             this.pbInfo.TabIndex = 3;
             this.pbInfo.TabStop = false;
             // 
-            // lblInfo1
+            // lblInfo
             // 
-            this.lblInfo1.AutoSize = true;
-            this.lblInfo1.Location = new System.Drawing.Point(22, 75);
-            this.lblInfo1.Name = "lblInfo1";
-            this.lblInfo1.Size = new System.Drawing.Size(227, 120);
-            this.lblInfo1.TabIndex = 4;
-            this.lblInfo1.Text = "Missing lines and devices will be created.\r\nExisting lines and devices will be up" +
+            this.lblInfo.AutoSize = true;
+            this.lblInfo.Location = new System.Drawing.Point(22, 75);
+            this.lblInfo.Name = "lblInfo";
+            this.lblInfo.Size = new System.Drawing.Size(227, 120);
+            this.lblInfo.TabIndex = 4;
+            this.lblInfo.Text = "Missing lines and devices will be created.\r\nExisting lines and devices will be up" +
     "dated.\r\n\r\nAffected properties:\r\n- Communication line name\r\n- Device name\r\n- Devi" +
     "ce driver\r\n- Device address";
             // 
@@ -91,7 +91,7 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.Controls.Add(this.lblInfo1);
+            this.Controls.Add(this.lblInfo);
             this.Controls.Add(this.pbInfo);
             this.Controls.Add(this.rbCommToBase);
             this.Controls.Add(this.rbBaseToComm);
@@ -110,6 +110,6 @@
         private System.Windows.Forms.RadioButton rbBaseToComm;
         private System.Windows.Forms.RadioButton rbCommToBase;
         private System.Windows.Forms.PictureBox pbInfo;
-        private System.Windows.Forms.Label lblInfo1;
+        private System.Windows.Forms.Label lblInfo;
     }
 }

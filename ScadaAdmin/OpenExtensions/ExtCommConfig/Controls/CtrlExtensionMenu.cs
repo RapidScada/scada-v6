@@ -316,6 +316,9 @@ namespace Scada.Admin.Extensions.ExtCommConfig.Controls
 
         private void miLineSync_Click(object sender, EventArgs e)
         {
+            // sync communication lines and devices
+            new FrmSync().ShowDialog();
+
             // synchronize Communicator settings
             /*TreeNode selectedNode = tvExplorer.SelectedNode;
 

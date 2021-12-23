@@ -109,6 +109,15 @@
     <Phrase key="btnResetPollingOptions">Сброс</Phrase>
     <Phrase key="btnResetPollingOptions.ToolTip">Установить параметры опроса КП по умолчанию</Phrase>
   </Dictionary>
+  <Dictionary key="Scada.Admin.Extensions.ExtCommConfig.Controls.CtrlSync1">
+    <Phrase key="lblSyncDirection">Выберите направление синхронизации:</Phrase>
+    <Phrase key="rbBaseToComm">Из базы конфигурации в Коммуникатор</Phrase>
+    <Phrase key="rbCommToBase">Из Коммуникатора в базу конфигурации</Phrase>
+    <Phrase key="lblInfo">Отсутствующие линии и КП будут созданы.&#13;&#10;Существующие линии и КП будут обновлены.&#13;&#10;&#13;&#10;Затрагиваемые свойства:&#13;&#10;- Наименование линии связи&#13;&#10;- Наименование КП&#13;&#10;- Драйвер КП&#13;&#10;- Адрес КП</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Admin.Extensions.ExtCommConfig.Controls.CtrlSync2">
+    <Phrase key="lblSelect">Выберите линии и КП для синхронизации:</Phrase>
+  </Dictionary>
   <Dictionary key="Scada.Admin.Extensions.ExtCommConfig.Forms.FrmCommLogs">
     <Phrase key="AppFilter">Приложение</Phrase>
     <Phrase key="LinesFilter">Линии связи</Phrase>
@@ -219,5 +228,11 @@
     <Phrase key="lbTabs.Items[1]">Журнал линии</Phrase>
     <Phrase key="chkPause">Пауза</Phrase>
     <Phrase key="LineStatsTitle">Статистика линии {0}</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Admin.Extensions.ExtCommConfig.Forms.FrmSync">
+    <Phrase key="this">Синхронизация линий и КП</Phrase>
+    <Phrase key="btnNext">Далее</Phrase>
+    <Phrase key="btnSync">Выполнить</Phrase>
+    <Phrase key="btnCancel">Отмена</Phrase>
   </Dictionary>
 </ExtCommConfigDictionaries>

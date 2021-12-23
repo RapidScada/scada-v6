@@ -109,6 +109,15 @@
     <Phrase key="btnResetPollingOptions">Reset</Phrase>
     <Phrase key="btnResetPollingOptions.ToolTip">Set the device polling options to default</Phrase>
   </Dictionary>
+  <Dictionary key="Scada.Admin.Extensions.ExtCommConfig.Controls.CtrlSync1">
+    <Phrase key="lblSyncDirection">Choose sync direction:</Phrase>
+    <Phrase key="rbBaseToComm">Configuration database to Communicator</Phrase>
+    <Phrase key="rbCommToBase">Communicator to configuration database</Phrase>
+    <Phrase key="lblInfo">Missing lines and devices will be created.&#13;&#10;Existing lines and devices will be updated.&#13;&#10;&#13;&#10;Affected properties:&#13;&#10;- Communication line name&#13;&#10;- Device name&#13;&#10;- Device driver&#13;&#10;- Device address</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Admin.Extensions.ExtCommConfig.Controls.CtrlSync2">
+    <Phrase key="lblSelect">Select lines and devices to sync:</Phrase>
+  </Dictionary>
   <Dictionary key="Scada.Admin.Extensions.ExtCommConfig.Forms.FrmCommLogs">
     <Phrase key="AppFilter">Application</Phrase>
     <Phrase key="LinesFilter">Communication Lines</Phrase>
@@ -219,5 +228,11 @@
     <Phrase key="lbTabs.Items[1]">Line Log</Phrase>
     <Phrase key="chkPause">Pause</Phrase>
     <Phrase key="LineStatsTitle">Line {0} Stats</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Admin.Extensions.ExtCommConfig.Forms.FrmSync">
+    <Phrase key="this">Synchronize Lines and Devices</Phrase>
+    <Phrase key="btnNext">Next</Phrase>
+    <Phrase key="btnSync">Sync</Phrase>
+    <Phrase key="btnCancel">Cancel</Phrase>
   </Dictionary>
 </ExtCommConfigDictionaries>
