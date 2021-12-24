@@ -27,6 +27,47 @@ namespace Scada.Admin.Extensions.ExtCommConfig.Controls
             InitializeComponent();
         }
 
+
+        /// <summary>
+        /// Gets or sets the selected device name.
+        /// </summary>
+        public string DeviceName
+        {
+            get
+            {
+                return txtDevice.Text;
+            }
+            set
+            {
+                txtDevice.Text = value ?? "";
+            }
+        }
+
+
+        /// <summary>
+        /// Initializes the control.
+        /// </summary>
+        public void Init()
+        {
+        }
+
+        /// <summary>
+        /// Sets the input focus.
+        /// </summary>
+        public void SetFocus()
+        {
+            numStartCnlNum.Select();
+        }
+        
+        /// <summary>
+        /// Sets the channel numbers by default.
+        /// </summary>
+        public void ResetCnlNums(int cnlCnt)
+        {
+
+        }
+
+
         private void numStartCnlNum_ValueChanged(object sender, EventArgs e)
         {
 
