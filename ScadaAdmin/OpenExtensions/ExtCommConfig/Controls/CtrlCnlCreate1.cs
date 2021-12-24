@@ -186,7 +186,7 @@ namespace Scada.Admin.Extensions.ExtCommConfig.Controls
                             }
                         }
 
-                        deviceItem.CnlPrototypes = deviceItem.DeviceView.GetCnls();
+                        deviceItem.CnlPrototypes = deviceItem.DeviceView.GetCnlPrototypes();
                         int cnlCnt = deviceItem.CnlPrototypes?.Count ?? 0;
 
                         txtInfo.Text = string.Format(ExtensionPhrases.DeviceInfo, 
