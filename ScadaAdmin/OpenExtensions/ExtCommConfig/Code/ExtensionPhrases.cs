@@ -65,6 +65,7 @@ namespace Scada.Admin.Extensions.ExtCommConfig.Code
         // Scada.Admin.Extensions.ExtCommConfig.Forms.FrmSync
         public static string SyncCompleted { get; private set; }
         public static string NoDataToSync { get; private set; }
+        public static string SyncCompletedWithError { get; private set; }
 
 
         public static void Init()
@@ -122,6 +123,7 @@ namespace Scada.Admin.Extensions.ExtCommConfig.Code
 
             dict = Locale.GetDictionary("Scada.Admin.Extensions.ExtCommConfig.Forms.FrmSync");
             SyncCompleted = dict["SyncCompleted"];
+            SyncCompletedWithError = dict["SyncCompletedWithError"];
             NoDataToSync = dict["NoDataToSync"];
         }
     }

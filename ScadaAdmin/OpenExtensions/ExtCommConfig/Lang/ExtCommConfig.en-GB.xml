@@ -234,6 +234,7 @@
     <Phrase key="btnSync">Sync</Phrase>
     <Phrase key="btnCancel">Cancel</Phrase>
     <Phrase key="SyncCompleted">Synchronization completed successfully.</Phrase>
+    <Phrase key="SyncCompletedWithError">Synchronization completed with error:&#13;&#10;{0}</Phrase>
     <Phrase key="NoDataToSync">No data selected for synchronization.</Phrase>
   </Dictionary>
 </ExtCommConfigDictionaries>

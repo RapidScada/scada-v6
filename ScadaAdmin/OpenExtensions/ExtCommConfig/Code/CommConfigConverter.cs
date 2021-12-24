@@ -10,22 +10,32 @@ namespace Scada.Admin.Extensions.ExtCommConfig.Code
 {
     /// <summary>
     /// Converts entities of the configuration database to Communicator configuration.
-    /// <para>Преобразует сущности базы конфигурации в настройки Коммуникатора.</para>
+    /// <para>Преобразует сущности базы конфигурации в конфигурацию Коммуникатора.</para>
     /// </summary>
     public static class CommConfigConverter
     {
+        /// <summary>
+        /// Gets a driver name from the device type table.
+        /// </summary>
+        private static string GetDriver(int? devTypeID, BaseTable<DevType> devTypeTable)
+        {
+            return devTypeTable != null && devTypeID.HasValue &&
+                devTypeTable.GetItem(devTypeID.Value) is DevType devTypeEntity
+                ? devTypeEntity.Driver ?? ""
+                : "";
+        }
+
         /// <summary>
         /// Creates a communication line configuration based on the specified entity.
         /// </summary>
         public static LineConfig CreateLineConfig(CommLine commLineEntity)
         {
-            if (commLineEntity == null)
-                throw new ArgumentNullException(nameof(commLineEntity));
+            ArgumentNullException.ThrowIfNull(commLineEntity, nameof(commLineEntity));
 
             return new LineConfig
             {
                 CommLineNum = commLineEntity.CommLineNum,
-                Name = commLineEntity.Name
+                Name = commLineEntity.Name ?? ""
             };
         }
 
@@ -34,9 +44,7 @@ namespace Scada.Admin.Extensions.ExtCommConfig.Code
         /// </summary>
         public static DeviceConfig CreateDeviceConfig(Device deviceEntity, BaseTable<DevType> devTypeTable)
         {
-            if (deviceEntity == null)
-                throw new ArgumentNullException(nameof(deviceEntity));
-
+            ArgumentNullException.ThrowIfNull(deviceEntity, nameof(deviceEntity));
             DeviceConfig deviceConfig = new() { DeviceNum = deviceEntity.DeviceNum };
             CopyDeviceProps(deviceEntity, deviceConfig, devTypeTable);
             return deviceConfig;
@@ -48,18 +56,13 @@ namespace Scada.Admin.Extensions.ExtCommConfig.Code
         public static void CopyDeviceProps(Device srcDeviceEntity, DeviceConfig destDeviceConfig,
             BaseTable<DevType> devTypeTable)
         {
-            if (srcDeviceEntity == null)
-                throw new ArgumentNullException(nameof(srcDeviceEntity));
-            if (destDeviceConfig == null)
-                throw new ArgumentNullException(nameof(destDeviceConfig));
+            ArgumentNullException.ThrowIfNull(srcDeviceEntity, nameof(srcDeviceEntity));
+            ArgumentNullException.ThrowIfNull(destDeviceConfig, nameof(destDeviceConfig));
 
-            destDeviceConfig.Name = srcDeviceEntity.Name;
-            destDeviceConfig.Driver = devTypeTable != null && srcDeviceEntity.DevTypeID.HasValue &&
-                devTypeTable.Items.TryGetValue(srcDeviceEntity.DevTypeID.Value, out DevType devTypeEntity)
-                ? devTypeEntity.Driver 
-                : "";
+            destDeviceConfig.Name = srcDeviceEntity.Name ?? "";
+            destDeviceConfig.Driver = GetDriver(srcDeviceEntity.DevTypeID, devTypeTable);
             destDeviceConfig.NumAddress = srcDeviceEntity.NumAddress ?? 0;
-            destDeviceConfig.StrAddress = srcDeviceEntity.StrAddress;
+            destDeviceConfig.StrAddress = srcDeviceEntity.StrAddress ?? "";
         }
     }
 }

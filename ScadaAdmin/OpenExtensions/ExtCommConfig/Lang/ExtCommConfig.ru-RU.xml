@@ -234,6 +234,7 @@
     <Phrase key="btnSync">Выполнить</Phrase>
     <Phrase key="btnCancel">Отмена</Phrase>
     <Phrase key="SyncCompleted">Синхронизация успешно завершена.</Phrase>
+    <Phrase key="SyncCompletedWithError">Синхронизация завершена с ошибкой:&#13;&#10;{0}</Phrase>
     <Phrase key="NoDataToSync">Данные для синхронизации не выбраны.</Phrase>
   </Dictionary>
 </ExtCommConfigDictionaries>

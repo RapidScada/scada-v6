@@ -4,10 +4,11 @@
 using Scada.Admin.Extensions.ExtCommConfig.Code;
 using Scada.Admin.Project;
 using Scada.Comm.Config;
+using Scada.Comm.Devices;
+using Scada.Comm.Drivers;
 using Scada.Data.Entities;
 using Scada.Data.Tables;
 using Scada.Forms;
-using Scada.Lang;
 using System;
 using System.Collections.Generic;
 using System.Windows.Forms;
@@ -20,8 +21,11 @@ namespace Scada.Admin.Extensions.ExtCommConfig.Forms
     /// </summary>
     public partial class FrmSync : Form
     {
-        private readonly ScadaProject project;  // the project under development
-        private readonly CommConfig commConfig; // the Communicator configuration
+        private readonly IAdminContext adminContext; // the Administrator context
+        private readonly ScadaProject project;       // the project under development
+        private readonly CommApp commApp;            // the Communicator application in a project
+        private readonly CommConfig commConfig;      // the Communicator configuration
+        private string lastErrorMessage;             // the last error message during sync
 
 
         /// <summary>
@@ -40,11 +44,14 @@ namespace Scada.Admin.Extensions.ExtCommConfig.Forms
         /// <summary>
         /// Initializes a new instance of the class.
         /// </summary>
-        public FrmSync(ScadaProject project, CommConfig commConfig)
+        public FrmSync(IAdminContext adminContext, ScadaProject project, CommApp commApp)
             : this()
         {
+            this.adminContext = adminContext ?? throw new ArgumentNullException(nameof(adminContext));
             this.project = project ?? throw new ArgumentNullException(nameof(project));
-            this.commConfig = commConfig ?? throw new ArgumentNullException(nameof(commConfig));
+            this.commApp = commApp ?? throw new ArgumentNullException(nameof(commApp));
+            commConfig = commApp.AppConfig;
+            lastErrorMessage = "";
 
             SelectedLineNum = 0;
             AddedToComm = false;
@@ -69,6 +76,91 @@ namespace Scada.Admin.Extensions.ExtCommConfig.Forms
 
 
         /// <summary>
+        /// Finds the communication line in the Communicator configuration, or returns an insertion index.
+        /// </summary>
+        private bool FindCommLine(int commLineNum, out LineConfig lineConfig, out int insertIndex)
+        {
+            int index = 0;
+            insertIndex = -1;
+
+            foreach (LineConfig line in commConfig.Lines)
+            {
+                if (line.CommLineNum == commLineNum)
+                {
+                    lineConfig = line;
+                    return true;
+                }
+
+                index++;
+
+                if (commLineNum < line.CommLineNum && insertIndex < 0)
+                    insertIndex = index;
+            }
+
+            if (insertIndex < 0)
+                insertIndex = commConfig.Lines.Count;
+
+            lineConfig = null;
+            return false;
+        }
+
+        /// <summary>
+        /// Finds the device within the communication line, or returns an insertion index.
+        /// </summary>
+        private static bool FindDevice(int deviceNum, LineConfig lineConfig, out DeviceConfig deviceConfig, 
+            out int insertIndex)
+        {
+            int index = 0;
+            insertIndex = -1;
+
+            foreach (DeviceConfig device in lineConfig.DevicePolling)
+            {
+                if (device.DeviceNum == deviceNum)
+                {
+                    deviceConfig = device;
+                    return true;
+                }
+
+                index++;
+
+                if (deviceNum < device.DeviceNum && insertIndex < 0)
+                    insertIndex = index;
+            }
+
+            if (insertIndex < 0)
+                insertIndex = lineConfig.DevicePolling.Count;
+
+            deviceConfig = null;
+            return false;
+        }
+
+        /// <summary>
+        /// Sets the default polling options for the specified device.
+        /// </summary>
+        private void SetPollingOptions(DeviceConfig deviceConfig)
+        {
+            if (!string.IsNullOrEmpty(deviceConfig.Driver))
+            {
+                if (ExtensionUtils.GetDriverView(adminContext, commApp, deviceConfig.Driver,
+                    out DriverView driverView, out string message))
+                {
+                    if (driverView.CanCreateDevice)
+                    {
+                        DeviceView deviceView = driverView.CreateDeviceView(deviceConfig.ParentLine, deviceConfig);
+                        PollingOptions pollingOptions = deviceView?.GetPollingOptions();
+
+                        if (pollingOptions != null)
+                            pollingOptions.CopyTo(deviceConfig.PollingOptions);
+                    }
+                }
+                else
+                {
+                    lastErrorMessage = message;
+                }
+            }
+        }
+
+        /// <summary>
         /// Imports communication lines and devices to the Communicator configuration.
         /// </summary>
         private void ImportToComm(List<TreeNode> selectedLineNodes)
@@ -77,7 +169,44 @@ namespace Scada.Admin.Extensions.ExtCommConfig.Forms
             {
                 if (lineNode.GetRelatedObject() is CommLine commLine)
                 {
+                    // communication line
+                    if (FindCommLine(commLine.CommLineNum, out LineConfig lineConfig, out int insertIndex))
+                    {
+                        // update existing line
+                        lineConfig.Name = commLine.Name;
+                    }
+                    else
+                    {
+                        // add new line
+                        lineConfig = CommConfigConverter.CreateLineConfig(commLine);
+                        lineConfig.Parent = commConfig;
+                        commConfig.Lines.Insert(insertIndex, lineConfig);
+                        AddedToComm = true;
+                    }
 
+                    // devices
+                    foreach (TreeNode deviceNode in lineNode.Nodes)
+                    {
+                        if (deviceNode.Checked && deviceNode.GetRelatedObject() is Device device)
+                        {
+                            if (FindDevice(device.DeviceNum, lineConfig, out DeviceConfig deviceConfig, out insertIndex))
+                            {
+                                // update existing device
+                                CommConfigConverter.CopyDeviceProps(device, deviceConfig, 
+                                    project.ConfigBase.DevTypeTable);
+                            }
+                            else
+                            {
+                                // add new device
+                                deviceConfig = CommConfigConverter.CreateDeviceConfig(device, 
+                                    project.ConfigBase.DevTypeTable);
+                                deviceConfig.Parent = lineConfig;
+                                SetPollingOptions(deviceConfig);
+                                lineConfig.DevicePolling.Insert(insertIndex, deviceConfig);
+                                AddedToComm = true;
+                            }
+                        }
+                    }
                 }
             }
         }
@@ -180,7 +309,11 @@ namespace Scada.Admin.Extensions.ExtCommConfig.Forms
                 else
                     ImportToBase(selectedLineNodes);
 
-                ScadaUiUtils.ShowInfo(ExtensionPhrases.SyncCompleted);
+                if (string.IsNullOrEmpty(lastErrorMessage))
+                    ScadaUiUtils.ShowInfo(ExtensionPhrases.SyncCompleted);
+                else
+                    ScadaUiUtils.ShowError(ExtensionPhrases.SyncCompletedWithError, lastErrorMessage);
+
                 DialogResult = DialogResult.OK;
             }
             else
