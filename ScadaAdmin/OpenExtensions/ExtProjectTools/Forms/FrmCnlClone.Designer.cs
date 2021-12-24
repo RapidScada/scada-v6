@@ -71,7 +71,7 @@
             // 
             // numSrcEndNum
             // 
-            this.numSrcEndNum.Location = new System.Drawing.Point(155, 37);
+            this.numSrcEndNum.Location = new System.Drawing.Point(158, 37);
             this.numSrcEndNum.Maximum = new decimal(new int[] {
             2147483647,
             0,
@@ -149,11 +149,6 @@
             // 
             // numDestEndNum
             // 
-            this.numDestEndNum.Increment = new decimal(new int[] {
-            0,
-            0,
-            0,
-            0});
             this.numDestEndNum.Location = new System.Drawing.Point(158, 37);
             this.numDestEndNum.Maximum = new decimal(new int[] {
             2147483647,
