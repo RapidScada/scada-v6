@@ -29,6 +29,7 @@
         private void InitializeComponent()
         {
             this.lblStep = new System.Windows.Forms.Label();
+            this.ctrlCnlCreate1 = new Scada.Admin.Extensions.ExtCommConfig.Controls.CtrlCnlCreate1();
             this.SuspendLayout();
             // 
             // lblStep
@@ -42,11 +43,19 @@
             this.lblStep.Text = "Step 1 of 3: Step description";
             this.lblStep.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
+            // ctrlCnlCreate1
+            // 
+            this.ctrlCnlCreate1.Location = new System.Drawing.Point(12, 33);
+            this.ctrlCnlCreate1.Name = "ctrlCnlCreate1";
+            this.ctrlCnlCreate1.Size = new System.Drawing.Size(360, 200);
+            this.ctrlCnlCreate1.TabIndex = 1;
+            // 
             // FrmCnlCreate
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(384, 450);
+            this.Controls.Add(this.ctrlCnlCreate1);
             this.Controls.Add(this.lblStep);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedDialog;
             this.MaximizeBox = false;
@@ -63,5 +72,6 @@
         #endregion
 
         private System.Windows.Forms.Label lblStep;
+        private Controls.CtrlCnlCreate1 ctrlCnlCreate1;
     }
 }

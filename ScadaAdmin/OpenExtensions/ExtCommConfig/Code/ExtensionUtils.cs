@@ -95,35 +95,56 @@ namespace Scada.Admin.Extensions.ExtCommConfig.Code
         /// <summary>
         /// Gets a new instance of the device user interface.
         /// </summary>
-        public static DeviceView GetDeviceView(IAdminContext adminContext, CommApp commApp, DeviceConfig deviceConfig)
+        public static bool GetDeviceView(IAdminContext adminContext, CommApp commApp, DeviceConfig deviceConfig,
+            out DeviceView deviceView, out string errMsg)
         {
             ArgumentNullException.ThrowIfNull(adminContext, nameof(adminContext));
             ArgumentNullException.ThrowIfNull(commApp, nameof(commApp));
             ArgumentNullException.ThrowIfNull(deviceConfig, nameof(deviceConfig));
+            deviceView = null;
 
             if (string.IsNullOrEmpty(deviceConfig.Driver))
             {
-                ScadaUiUtils.ShowError(ExtensionPhrases.DriverNotSpecified);
+                errMsg = ExtensionPhrases.DriverNotSpecified;
+                return false;
             }
-            else if (!GetDriverView(adminContext, commApp, deviceConfig.Driver,
-                out DriverView driverView, out string message))
+            else if (!GetDriverView(adminContext, commApp, deviceConfig.Driver, 
+                out DriverView driverView, out errMsg))
             {
-                ScadaUiUtils.ShowError(message);
+                return false;
             }
             else if (!driverView.CanCreateDevice)
             {
-                ScadaUiUtils.ShowError(ExtensionPhrases.DeviceNotSupported);
+                errMsg = ExtensionPhrases.DeviceNotSupported;
+                return false;
             }
-            else if (driverView.CreateDeviceView(deviceConfig.ParentLine, deviceConfig) is not DeviceView deviceView)
+            else if (driverView.CreateDeviceView(deviceConfig.ParentLine, deviceConfig) is DeviceView newDeviceView)
             {
-                ScadaUiUtils.ShowError(ExtensionPhrases.UnableCreateDeviceView);
+                deviceView = newDeviceView;
+                errMsg = "";
+                return true;
             }
             else
             {
+                errMsg = ExtensionPhrases.UnableCreateDeviceView;
+                return false;
+            }
+        }
+
+        /// <summary>
+        /// Gets a new instance of the device user interface.
+        /// </summary>
+        public static DeviceView GetDeviceView(IAdminContext adminContext, CommApp commApp, DeviceConfig deviceConfig)
+        {
+            if (GetDeviceView(adminContext, commApp, deviceConfig, out DeviceView deviceView, out string message))
+            {
                 return deviceView;
             }
-
-            return null;
+            else
+            {
+                ScadaUiUtils.ShowError(message);
+                return null;
+            }
         }
 
         /// <summary>

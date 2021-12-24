@@ -25,6 +25,12 @@ namespace Scada.Admin.Extensions.ExtCommConfig.Code
         public static string UnableCreateDeviceView { get; private set; }
         public static string NoDeviceProperties { get; private set; }
 
+        // Scada.Admin.Extensions.ExtCommConfig.Controls.CtrlCnlCreate1
+        public static string AllCommLines { get; private set; }
+        public static string DeviceInfo { get; private set; }
+        public static string DeviceNotFound { get; private set; }
+        public static string NoDeviceSelected { get; private set; }
+
         // Scada.Admin.Extensions.ExtCommConfig.Controls.CtrlExtensionMenu
         public static string ConfirmDeleteLine { get; private set; }
         public static string CnlNodeNotFound { get; private set; }
@@ -83,6 +89,12 @@ namespace Scada.Admin.Extensions.ExtCommConfig.Code
             DeviceNotSupported = dict["DeviceNotSupported"];
             UnableCreateDeviceView = dict["UnableCreateDeviceView"];
             NoDeviceProperties = dict["NoDeviceProperties"];
+
+            dict = Locale.GetDictionary("Scada.Admin.Extensions.ExtCommConfig.Controls.CtrlCnlCreate1");
+            AllCommLines = dict["AllCommLines"];
+            DeviceInfo = dict["DeviceInfo"];
+            DeviceNotFound = dict["DeviceNotFound"];
+            NoDeviceSelected = dict["NoDeviceSelected"];
 
             dict = Locale.GetDictionary("Scada.Admin.Extensions.ExtCommConfig.Controls.CtrlExtensionMenu");
             ConfirmDeleteLine = dict["ConfirmDeleteLine"];

@@ -14,6 +14,12 @@
     <Phrase key="UnableCreateDeviceView">Невозможно создать пользовательский интерфейс КП.</Phrase>
     <Phrase key="NoDeviceProperties">КП не предоставляет окно свойств.</Phrase>
   </Dictionary>
+  <Dictionary key="Scada.Admin.Extensions.ExtCommConfig.Controls.CtrlCnlCreate1">
+    <Phrase key="AllCommLines">&lt;Все линии связи&gt;</Phrase>
+    <Phrase key="DeviceInfo">Драйвер: {0}&#13;&#10;Экземпляр: {1}&#13;&#10;Каналы: {2}</Phrase>
+    <Phrase key="DeviceNotFound">КП не найден в Коммуникаторе.</Phrase>
+    <Phrase key="NoDeviceSelected">КП не выбран.</Phrase>
+  </Dictionary>
   <Dictionary key="Scada.Admin.Extensions.ExtCommConfig.Controls.CtrlExtensionMenu">
     <Phrase key="miWizards">Мастеры</Phrase>
     <Phrase key="miAddLine">Добавить линию...</Phrase>
