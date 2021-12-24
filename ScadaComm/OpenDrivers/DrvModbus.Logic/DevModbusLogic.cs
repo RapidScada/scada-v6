@@ -308,8 +308,7 @@ namespace Scada.Comm.Drivers.DrvModbus.Logic
                     }
 
                     // add device tag
-                    tagGroup.AddTag(elemConfig.TagCode, elemConfig.Name).Format = GetTagFormat(elemConfig);
-
+                    tagGroup.AddTag(elemConfig.TagCode, elemConfig.Name).SetFormat(GetTagFormat(elemConfig));
                     elemIndex++;
                 }
 
