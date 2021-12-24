@@ -22,4 +22,6 @@
     </Reference>
   </ItemGroup>
 
+  <Import Project="..\DrvSimulator.Shared\DrvSimulator.Shared.projitems" Label="Shared" />
+
 </Project>

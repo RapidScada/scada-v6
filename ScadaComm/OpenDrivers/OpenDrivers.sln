@@ -52,9 +52,16 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DrvOpcUa.Logic", "DrvOpcUa.
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DrvOpcUa.Common", "DrvOpcUa.Common\DrvOpcUa.Common.csproj", "{A6613F43-43D0-47A4-B021-4FE880A1FCFF}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DrvOpcUa.View", "DrvOpcUa.View\DrvOpcUa.View.csproj", "{7EA68E49-E03B-48AD-A379-B852C7EA7E75}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DrvOpcUa.View", "DrvOpcUa.View\DrvOpcUa.View.csproj", "{7EA68E49-E03B-48AD-A379-B852C7EA7E75}"
+EndProject
+Project("{D954291E-2A0B-460D-934E-DC6B0785DB48}") = "DrvSimulator.Shared", "DrvSimulator.Shared\DrvSimulator.Shared.shproj", "{459D0B20-51A9-4AA8-8CCC-9F5B34A74029}"
 EndProject
 Global
+	GlobalSection(SharedMSBuildProjectFiles) = preSolution
+		DrvSimulator.Shared\DrvSimulator.Shared.projitems*{459d0b20-51a9-4aa8-8ccc-9f5b34a74029}*SharedItemsImports = 13
+		DrvSimulator.Shared\DrvSimulator.Shared.projitems*{48043839-37e7-40ae-92e2-a31a79204cf5}*SharedItemsImports = 5
+		DrvSimulator.Shared\DrvSimulator.Shared.projitems*{8f1c993e-1a67-494a-a5b9-9aedaa8feb9c}*SharedItemsImports = 5
+	EndGlobalSection
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
 		Release|Any CPU = Release|Any CPU
@@ -150,6 +157,7 @@ Global
 		{428EFBC5-35DF-452D-B624-64135FAF0271} = {C3F9CD2B-A658-4308-87DF-B1CE5CA3189F}
 		{A6613F43-43D0-47A4-B021-4FE880A1FCFF} = {C3F9CD2B-A658-4308-87DF-B1CE5CA3189F}
 		{7EA68E49-E03B-48AD-A379-B852C7EA7E75} = {C3F9CD2B-A658-4308-87DF-B1CE5CA3189F}
+		{459D0B20-51A9-4AA8-8CCC-9F5B34A74029} = {AC204E06-2ED1-4E19-9B95-5237F44B3454}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {961AA4C1-5D08-4B24-AE6B-99F3AB1A7AEF}

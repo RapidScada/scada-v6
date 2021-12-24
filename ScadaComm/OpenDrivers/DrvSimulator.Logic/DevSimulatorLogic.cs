@@ -97,20 +97,25 @@ namespace Scada.Comm.Drivers.DrvSimulator.Logic
         /// </summary>
         public override void InitDeviceTags()
         {
-            TagGroup tagGroup = new TagGroup("Inputs");
+            foreach (CnlPrototypeGroup group in CnlPrototypeFactory.GetCnlPrototypeGroups())
+            {
+                DeviceTags.AddGroup(group.ToTagGroup());
+            }
+
+            /*TagGroup tagGroup = new TagGroup("Inputs");
             tagGroup.AddTag("Sin", "Sine");
-            tagGroup.AddTag("Sqr", "Square").Format = TagFormat.OffOn;
+            tagGroup.AddTag("Sqr", "Square").SetFormat(TagFormat.OffOn);
             tagGroup.AddTag("Tr", "Triangle");
             DeviceTags.AddGroup(tagGroup);
 
             tagGroup = new TagGroup("Outputs");
-            tagGroup.AddTag("DO", "Relay State").Format = TagFormat.OffOn;
+            tagGroup.AddTag("DO", "Relay State").SetFormat(TagFormat.OffOn);
             tagGroup.AddTag("AO", "Analog Output");
             DeviceTags.AddGroup(tagGroup);
 
             tagGroup = new TagGroup("Random");
-            tagGroup.AddTag("RA", "Array").DataLen = ArrayLength;
-            DeviceTags.AddGroup(tagGroup);
+            tagGroup.AddTag("RA", "Array").SetDataLen(ArrayLength);
+            DeviceTags.AddGroup(tagGroup);*/
         }
 
         /// <summary>
@@ -138,14 +143,14 @@ namespace Scada.Comm.Drivers.DrvSimulator.Logic
                 Log.WriteLine(Locale.IsRussian ?
                     "Установить состояние реле в {0}" :
                     "Set the relay state to {0}", relayVal);
-                DeviceData.Set(3, relayVal);
+                DeviceData.Set(cmd.CmdCode, relayVal);
             }
             else if (cmd.CmdCode == "AO" || cmd.CmdNum == 5)
             {
                 Log.WriteLine(Locale.IsRussian ?
                     "Установить аналоговый выход в {0}" :
                     "Set the analog output to {0}", cmd.CmdVal);
-                DeviceData.Set(4, cmd.CmdVal);
+                DeviceData.Set(cmd.CmdCode, cmd.CmdVal);
             }
             else
             {

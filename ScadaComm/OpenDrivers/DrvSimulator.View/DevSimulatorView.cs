@@ -3,6 +3,7 @@
 
 using Scada.Comm.Config;
 using Scada.Comm.Devices;
+using System.Collections.Generic;
 
 namespace Scada.Comm.Drivers.DrvSimulator.View
 {
@@ -18,6 +19,14 @@ namespace Scada.Comm.Drivers.DrvSimulator.View
         public DevSimulatorView(DriverView parentView, LineConfig lineConfig, DeviceConfig deviceConfig)
             : base(parentView, lineConfig, deviceConfig)
         {
+        }
+
+        /// <summary>
+        /// Gets the channel prototypes for the device.
+        /// </summary>
+        public override ICollection<CnlPrototype> GetCnlPrototypes()
+        {
+            return CnlPrototypeFactory.GetCnlPrototypes();
         }
     }
 }
