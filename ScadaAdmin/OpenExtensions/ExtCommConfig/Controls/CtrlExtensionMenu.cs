@@ -243,7 +243,14 @@ namespace Scada.Admin.Extensions.ExtCommConfig.Controls
 
         private void miCreateChannels_Click(object sender, EventArgs e)
         {
+            // create channels
+            if (adminContext.CurrentProject != null)
+            {
+                FrmCnlCreate frmCnlCreate = new(adminContext, adminContext.CurrentProject, recentSelection);
 
+                if (frmCnlCreate.ShowDialog() == DialogResult.OK)
+                    adminContext.MainForm.RefreshBaseTables(typeof(Cnl));
+            }
         }
 
 
