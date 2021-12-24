@@ -43,7 +43,11 @@ namespace Scada.Admin.Extensions.ExtCommConfig.Forms
         private void FrmCnlCreate_Load(object sender, EventArgs e)
         {
             FormTranslator.Translate(this, GetType().FullName);
+            FormTranslator.Translate(ctrlCnlCreate1, ctrlCnlCreate1.GetType().FullName);
+            FormTranslator.Translate(ctrlCnlCreate2, ctrlCnlCreate2.GetType().FullName);
+
             ctrlCnlCreate1.Init(adminContext, project, recentSelection);
+            ctrlCnlCreate2.Init(project, recentSelection);
         }
     }
 }

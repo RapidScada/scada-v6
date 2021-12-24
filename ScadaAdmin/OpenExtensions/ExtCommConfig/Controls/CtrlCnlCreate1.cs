@@ -155,7 +155,7 @@ namespace Scada.Admin.Extensions.ExtCommConfig.Controls
             IEnumerable<Device> devices = commLineNum > 0 
                 ? project.ConfigBase.DeviceTable.Select(new TableFilter("CommLineNum", commLineNum), true)
                 : project.ConfigBase.DeviceTable.Enumerate();
-            cbDevice.DataSource = devices.ToList();
+            cbDevice.DataSource = devices.OrderBy(device => device.Name).ToList();
 
             try { cbDevice.SelectedValue = recentSelection.DeviceNum; }
             catch { cbDevice.SelectedValue = null; }

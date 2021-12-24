@@ -30,6 +30,7 @@
         {
             this.lblStep = new System.Windows.Forms.Label();
             this.ctrlCnlCreate1 = new Scada.Admin.Extensions.ExtCommConfig.Controls.CtrlCnlCreate1();
+            this.ctrlCnlCreate2 = new Scada.Admin.Extensions.ExtCommConfig.Controls.CtrlCnlCreate2();
             this.SuspendLayout();
             // 
             // lblStep
@@ -50,11 +51,20 @@
             this.ctrlCnlCreate1.Size = new System.Drawing.Size(360, 200);
             this.ctrlCnlCreate1.TabIndex = 1;
             // 
+            // ctrlCnlCreate2
+            // 
+            this.ctrlCnlCreate2.DeviceName = "";
+            this.ctrlCnlCreate2.Location = new System.Drawing.Point(12, 33);
+            this.ctrlCnlCreate2.Name = "ctrlCnlCreate2";
+            this.ctrlCnlCreate2.Size = new System.Drawing.Size(360, 100);
+            this.ctrlCnlCreate2.TabIndex = 2;
+            // 
             // FrmCnlCreate
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(384, 450);
+            this.Controls.Add(this.ctrlCnlCreate2);
             this.Controls.Add(this.ctrlCnlCreate1);
             this.Controls.Add(this.lblStep);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedDialog;
@@ -73,5 +83,6 @@
 
         private System.Windows.Forms.Label lblStep;
         private Controls.CtrlCnlCreate1 ctrlCnlCreate1;
+        private Controls.CtrlCnlCreate2 ctrlCnlCreate2;
     }
 }
