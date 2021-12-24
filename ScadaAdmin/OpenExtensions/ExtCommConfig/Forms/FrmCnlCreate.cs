@@ -49,5 +49,25 @@ namespace Scada.Admin.Extensions.ExtCommConfig.Forms
             ctrlCnlCreate1.Init(adminContext, project, recentSelection);
             ctrlCnlCreate2.Init(project, recentSelection);
         }
+
+        private void ctrlCnlCreate1_SelectedDeviceChanged(object sender, EventArgs e)
+        {
+
+        }
+
+        private void btnBack_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void btnNext_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void btnCreate_Click(object sender, EventArgs e)
+        {
+
+        }
     }
 }
