@@ -23,9 +23,8 @@
  * Modified : 2021
  */
 
-#pragma warning disable 1591 // Missing XML comment for publicly visible type or member
-
 using Scada.Data.Entities;
+using System;
 
 namespace Scada.Comm.Devices
 {
@@ -35,10 +34,67 @@ namespace Scada.Comm.Devices
     /// </summary>
     public class CnlPrototype : Cnl
     {
-        public Format Format { get; set; }
+        /// <summary>
+        /// Gets or sets the channel format code.
+        /// </summary>
+        public string FormatCode { get; set; }
 
+        /// <summary>
+        /// Gets or sets the channel quantity code.
+        /// </summary>
         public string QuantityCode { get; set; }
 
+        /// <summary>
+        /// Gets or sets the channel unit code.
+        /// </summary>
         public string UnitCode { get; set; }
+
+
+        /// <summary>
+        /// Gets a tag format by the format code of the channel prototype.
+        /// </summary>
+        private TagFormat GetTagFormat()
+        {
+            // TODO: use constants
+            switch (FormatCode)
+            {
+                case "G": 
+                    return TagFormat.FloatNumber;
+
+                default: 
+                    return null;
+            }
+        }
+
+        /// <summary>
+        /// Sets the channel format code.
+        /// </summary>
+        public CnlPrototype SetFormat(string formatCode)
+        {
+            FormatCode = formatCode;
+            return this;
+        }
+
+        /// <summary>
+        /// Executes the specified action that sets the channel prototype properties.
+        /// </summary>
+        public CnlPrototype Setup(Action<CnlPrototype> action)
+        {
+            action?.Invoke(this);
+            return this;
+        }
+
+        /// <summary>
+        /// Converts the channel prototype to a device tag.
+        /// </summary>
+        public DeviceTag ToDeviceTag()
+        {
+            return new DeviceTag(TagCode, Name)
+            {
+                DataType = (TagDataType)DataTypeID,
+                DataLen = DataLen ?? 1,
+                Format = GetTagFormat()
+            };
+        }
     }
 }

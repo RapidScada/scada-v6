@@ -139,6 +139,33 @@ namespace Scada.Comm.Devices
 
 
         /// <summary>
+        /// Sets the tag data type.
+        /// </summary>
+        public DeviceTag SetDataType(TagDataType dataType)
+        {
+            DataType = dataType;
+            return this;
+        }
+
+        /// <summary>
+        /// Sets the tag data length.
+        /// </summary>
+        public DeviceTag SetDataLen(int dataLen)
+        {
+            DataLen = dataLen;
+            return this;
+        }
+
+        /// <summary>
+        /// Sets the tag format.
+        /// </summary>
+        public DeviceTag SetFormat(TagFormat format)
+        {
+            Format = format;
+            return this;
+        }
+
+        /// <summary>
         /// Returns a string that represents the current object.
         /// </summary>
         public override string ToString()

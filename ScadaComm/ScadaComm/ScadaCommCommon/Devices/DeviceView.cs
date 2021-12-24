@@ -94,7 +94,7 @@ namespace Scada.Comm.Devices
         /// <summary>
         /// Gets the channel prototypes for the device.
         /// </summary>
-        public virtual ICollection<CnlPrototype> GetCnls()
+        public virtual ICollection<CnlPrototype> GetCnlPrototypes()
         {
             return null;
         }
