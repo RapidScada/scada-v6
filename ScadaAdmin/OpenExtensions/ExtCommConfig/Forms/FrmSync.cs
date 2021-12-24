@@ -91,10 +91,10 @@ namespace Scada.Admin.Extensions.ExtCommConfig.Forms
                     return true;
                 }
 
-                index++;
-
                 if (commLineNum < line.CommLineNum && insertIndex < 0)
                     insertIndex = index;
+
+                index++;
             }
 
             if (insertIndex < 0)
@@ -121,10 +121,10 @@ namespace Scada.Admin.Extensions.ExtCommConfig.Forms
                     return true;
                 }
 
-                index++;
-
                 if (deviceNum < device.DeviceNum && insertIndex < 0)
                     insertIndex = index;
+
+                index++;
             }
 
             if (insertIndex < 0)
