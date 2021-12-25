@@ -265,35 +265,32 @@ namespace Scada.Web.Plugins.PlgMain.Areas.Main.Pages
             sbHtml.AppendLine("</tr></thead>");
 
             // rows
-            BaseTable<Cnl> cnlTable = webContext.BaseDataSet.CnlTable;
             bool enableCommands = webContext.AppConfig.GeneralOptions.EnableCommands && 
                 userContext.Rights.GetRightByView(tableView.ViewEntity).Control;
             sbHtml.AppendLine("<tbody>");
 
             foreach (TableItem tableItem in tableView.VisibleItems)
             {
-                int cnlNum = tableItem.CnlNum;
-                Cnl cnl = cnlNum > 0 ? cnlTable.GetItem(cnlNum) : null;
-                string showVal = CnlTypeID.IsArchivable(cnl?.CnlTypeID) ? "true" : "false";
+                string showVal = CnlTypeID.IsArchivable(tableItem.Cnl?.CnlTypeID).ToLowerString();
                 string itemText = string.IsNullOrWhiteSpace(tableItem.Text) ?
                     "&nbsp;" : HttpUtility.HtmlEncode(tableItem.Text);
 
-                sbHtml.Append("<tr class='row-item' data-cnlnum='").Append(cnlNum)
+                sbHtml.Append("<tr class='row-item' data-cnlnum='").Append(tableItem.CnlNum)
                     .Append("' data-showval='").Append(showVal).AppendLine("'>")
                     .Append("<td><div class='item'>");
 
                 if (tableItem.CnlNum > 0)
                 {
                     sbHtml
-                        .Append("<span class='item-icon'><img src='").Append(GetQuantityIconUrl(cnl))
+                        .Append("<span class='item-icon'><img src='").Append(GetQuantityIconUrl(tableItem.Cnl))
                         .Append("' data-bs-toggle='tooltip' data-bs-placement='right' data-bs-html='true' title='");
-                    AddTooltipHtml(sbHtml, cnlNum, cnl);
+                    AddTooltipHtml(sbHtml, tableItem.CnlNum, tableItem.Cnl);
 
                     sbHtml
                         .Append("' /></span>")
                         .Append("<span class='item-text item-link'>").Append(itemText).Append("</span>");
 
-                    if (enableCommands && CnlTypeID.IsOutput(cnl?.CnlTypeID))
+                    if (enableCommands && CnlTypeID.IsOutput(tableItem.Cnl?.CnlTypeID))
                     {
                         sbHtml
                             .Append("<span class='item-cmd' title='").Append(PluginPhrases.SendCommandTip)
