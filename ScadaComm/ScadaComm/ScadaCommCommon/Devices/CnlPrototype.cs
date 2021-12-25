@@ -55,11 +55,30 @@ namespace Scada.Comm.Devices
         /// </summary>
         private TagFormat GetTagFormat()
         {
-            // TODO: use constants
+            if (string.IsNullOrEmpty(FormatCode))
+                return null;
+
             switch (FormatCode)
             {
-                case "G": 
-                    return TagFormat.FloatNumber;
+                case Data.Const.FormatCode.N0:
+                    return TagFormat.IntNumber;
+
+                case Data.Const.FormatCode.X:
+                case Data.Const.FormatCode.X2:
+                case Data.Const.FormatCode.X4:
+                case Data.Const.FormatCode.X8:
+                    return TagFormat.HexNumber;
+
+                case Data.Const.FormatCode.DateTime:
+                case Data.Const.FormatCode.Date:
+                case Data.Const.FormatCode.Time:
+                    return TagFormat.DateTime;
+
+                case Data.Const.FormatCode.String:
+                    return TagFormat.String;
+
+                case Data.Const.FormatCode.OffOn:
+                    return TagFormat.OffOn;
 
                 default: 
                     return null;
@@ -76,9 +95,9 @@ namespace Scada.Comm.Devices
         }
 
         /// <summary>
-        /// Executes the specified action that sets the channel prototype properties.
+        /// Executes the specified action that configures the channel prototype properties.
         /// </summary>
-        public CnlPrototype Setup(Action<CnlPrototype> action)
+        public CnlPrototype Configure(Action<CnlPrototype> action)
         {
             action?.Invoke(this);
             return this;
