@@ -37,5 +37,15 @@ namespace Scada.Data.Const
         public const int Int64 = 1;
         public const int ASCII = 2;
         public const int Unicode = 3;
+
+        public static bool IsNumeric(int? dataTypeID)
+        {
+            return dataTypeID == null || dataTypeID == Double || dataTypeID == Int64;
+        }
+
+        public static bool IsString(int? dataTypeID)
+        {
+            return dataTypeID == ASCII || dataTypeID == Unicode;
+        }
     }
 }
