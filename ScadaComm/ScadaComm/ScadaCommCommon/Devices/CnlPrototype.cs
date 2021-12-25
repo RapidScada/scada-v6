@@ -110,7 +110,7 @@ namespace Scada.Comm.Devices
         {
             return new DeviceTag(TagCode, Name)
             {
-                DataType = (TagDataType)DataTypeID,
+                DataType = (TagDataType)(DataTypeID ?? 0),
                 DataLen = DataLen ?? 1,
                 Format = GetTagFormat()
             };
