@@ -1,50 +1,65 @@
-﻿using Scada.Comm.Devices;
+﻿// Copyright (c) Rapid Software LLC. All rights reserved.
+// Licensed under the Apache License, Version 2.0. See License.txt in the project root for license information.
+
+using Scada.Comm.Devices;
 using Scada.Data.Const;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace Scada.Comm.Drivers.DrvSimulator
 {
+    /// <summary>
+    /// Creates channel prototypes for a simulator device.
+    /// <para>Создает прототипы каналов для симулятора устройства.</para>
+    /// </summary>
     internal static class CnlPrototypeFactory
     {
         /// <summary>
         /// The length of the array tag.
         /// </summary>
-        public const int ArrayLength = 3;
+        private const int ArrayLength = 3;
 
+        /// <summary>
+        /// Gets the grouped channel prototypes.
+        /// </summary>
         public static List<CnlPrototypeGroup> GetCnlPrototypeGroups()
         {
             List<CnlPrototypeGroup> groups = new List<CnlPrototypeGroup>();
 
             CnlPrototypeGroup group = new CnlPrototypeGroup("Inputs");
-            group.AddCnlPrototype("Sin", "Sine");
-            group.AddCnlPrototype("Sqr", "Square").SetFormat("OffOn"); // TODO: use constant
-            group.AddCnlPrototype("Tr", "Triangle");
+            group.AddCnlPrototype(TagCode.Sin, "Sine");
+            group.AddCnlPrototype(TagCode.Sqr, "Square").SetFormat(FormatCode.OffOn);
+            group.AddCnlPrototype(TagCode.Tri, "Triangle");
             groups.Add(group);
 
             group = new CnlPrototypeGroup("Outputs");
-            group.AddCnlPrototype("DO", "Relay State").Setup(cnl =>
+            group.AddCnlPrototype(TagCode.DO, "Relay State").Configure(cnl =>
             {
                 cnl.CnlTypeID = CnlTypeID.InputOutput;
-                cnl.FormatCode = "OffOn"; // TODO: use constant
+                cnl.FormatCode = FormatCode.OffOn;
+                cnl.QuantityCode = QuantityCode.RelayState;
             });
-            group.AddCnlPrototype("AO", "Analog Output").Setup(cnl =>
+            group.AddCnlPrototype(TagCode.AO, "Analog Output").Configure(cnl =>
             {
                 cnl.CnlTypeID = CnlTypeID.InputOutput;
+                cnl.QuantityCode = QuantityCode.Current;
+                cnl.UnitCode = UnitCode.Milliampere;
             });
             groups.Add(group);
 
             group = new CnlPrototypeGroup("Random");
-            group.AddCnlPrototype("RA", "Array").Setup(cnl => cnl.DataLen = ArrayLength);
+            group.AddCnlPrototype(TagCode.RA, "Array").Configure(cnl => cnl.DataLen = ArrayLength);
             groups.Add(group);
 
             return groups;
         }
 
+        /// <summary>
+        /// Gets a flatten list of the channel prototypes.
+        /// </summary>
         public static List<CnlPrototype> GetCnlPrototypes()
         {
-            List<CnlPrototype> cnlPrototypes = new List<CnlPrototype>();
-            GetCnlPrototypeGroups().ForEach(group => cnlPrototypes.AddRange(group.CnlPrototypes));
-            return cnlPrototypes;
+            return GetCnlPrototypeGroups().SelectMany(group => group.CnlPrototypes).ToList();
         }
     }
 }

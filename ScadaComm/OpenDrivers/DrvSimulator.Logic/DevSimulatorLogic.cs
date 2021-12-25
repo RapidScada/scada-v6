@@ -8,7 +8,6 @@ using Scada.Data.Const;
 using Scada.Data.Models;
 using Scada.Lang;
 using System;
-using System.Threading;
 
 namespace Scada.Comm.Drivers.DrvSimulator.Logic
 {
@@ -30,15 +29,15 @@ namespace Scada.Comm.Drivers.DrvSimulator.Logic
         /// The period of triangular waves in minutes.
         /// </summary>
         private const int TrianglePeriod = 30;
-        /// <summary>
-        /// The length of the array tag.
-        /// </summary>
-        private const int ArrayLength = 3;
 
         /// <summary>
         /// The random number generator.
         /// </summary>
         private readonly Random Random = new Random();
+        /// <summary>
+        /// The array containing random values.
+        /// </summary>
+        private double[] randomArray = null;
 
 
         /// <summary>
@@ -62,18 +61,18 @@ namespace Scada.Comm.Drivers.DrvSimulator.Logic
                 return d - Math.Truncate(d);
             }
 
-            double x = DateTime.Now.TimeOfDay.TotalMinutes;
+            double x = DateTime.UtcNow.TimeOfDay.TotalMinutes;
             double y1 = Math.Sin(2 * Math.PI * x / SinePeriod);
             double y2 = Frac(x / SquarePeriod) <= 0.5 ? 1 : 0;
             double y3 = Frac(x / TrianglePeriod) <= 0.5 ? x % TrianglePeriod : TrianglePeriod - x % TrianglePeriod;
 
-            Log.WriteLine(DeviceTags[0].Name + " = " + y1);
-            Log.WriteLine(DeviceTags[1].Name + " = " + y2);
-            Log.WriteLine(DeviceTags[2].Name + " = " + y3);
+            Log.WriteLine(DeviceTags[TagCode.Sin].Name + " = " + y1);
+            Log.WriteLine(DeviceTags[TagCode.Sqr].Name + " = " + y2);
+            Log.WriteLine(DeviceTags[TagCode.Tri].Name + " = " + y3);
 
-            DeviceData.Set(0, y1);
-            DeviceData.Set(1, y2);
-            DeviceData.Set(2, y3);
+            DeviceData.Set(TagCode.Sin, y1);
+            DeviceData.Set(TagCode.Sqr, y2);
+            DeviceData.Set(TagCode.Tri, y3);
         }
 
         /// <summary>
@@ -81,14 +80,14 @@ namespace Scada.Comm.Drivers.DrvSimulator.Logic
         /// </summary>
         private void SimulateArray()
         {
-            double[] vals = new double[ArrayLength];
+            randomArray = randomArray ?? new double[DeviceTags[TagCode.RA].DataLength];
 
-            for (int i = 0; i < ArrayLength; i++)
+            for (int i = 0; i < randomArray.Length; i++)
             {
-                vals[i] = Random.NextDouble() * 10;
+                randomArray[i] = Random.NextDouble() * 10;
             }
 
-            DeviceData.SetDoubleArray("RA", vals, CnlStatusID.Defined);
+            DeviceData.SetDoubleArray(TagCode.RA, randomArray, CnlStatusID.Defined);
         }
 
 
@@ -101,21 +100,6 @@ namespace Scada.Comm.Drivers.DrvSimulator.Logic
             {
                 DeviceTags.AddGroup(group.ToTagGroup());
             }
-
-            /*TagGroup tagGroup = new TagGroup("Inputs");
-            tagGroup.AddTag("Sin", "Sine");
-            tagGroup.AddTag("Sqr", "Square").SetFormat(TagFormat.OffOn);
-            tagGroup.AddTag("Tr", "Triangle");
-            DeviceTags.AddGroup(tagGroup);
-
-            tagGroup = new TagGroup("Outputs");
-            tagGroup.AddTag("DO", "Relay State").SetFormat(TagFormat.OffOn);
-            tagGroup.AddTag("AO", "Analog Output");
-            DeviceTags.AddGroup(tagGroup);
-
-            tagGroup = new TagGroup("Random");
-            tagGroup.AddTag("RA", "Array").SetDataLen(ArrayLength);
-            DeviceTags.AddGroup(tagGroup);*/
         }
 
         /// <summary>
@@ -137,20 +121,20 @@ namespace Scada.Comm.Drivers.DrvSimulator.Logic
         {
             base.SendCommand(cmd);
 
-            if (cmd.CmdCode == "DO" || cmd.CmdNum == 4)
+            if (cmd.CmdCode == TagCode.DO)
             {
                 double relayVal = cmd.CmdVal > 0 ? 1 : 0;
                 Log.WriteLine(Locale.IsRussian ?
                     "Установить состояние реле в {0}" :
                     "Set the relay state to {0}", relayVal);
-                DeviceData.Set(cmd.CmdCode, relayVal);
+                DeviceData.Set(TagCode.DO, relayVal);
             }
-            else if (cmd.CmdCode == "AO" || cmd.CmdNum == 5)
+            else if (cmd.CmdCode == TagCode.AO)
             {
                 Log.WriteLine(Locale.IsRussian ?
                     "Установить аналоговый выход в {0}" :
                     "Set the analog output to {0}", cmd.CmdVal);
-                DeviceData.Set(cmd.CmdCode, cmd.CmdVal);
+                DeviceData.Set(TagCode.AO, cmd.CmdVal);
             }
             else
             {
