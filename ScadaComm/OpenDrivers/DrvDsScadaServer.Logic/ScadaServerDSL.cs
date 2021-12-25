@@ -352,8 +352,14 @@ namespace Scada.Comm.Drivers.DrvDsScadaServer.Logic
                 {
                     if (deviceTag.Cnl != null)
                     {
-                        cnlNums.Add(deviceTag.Cnl.CnlNum);
-                        destDataLength += deviceTag.DataLength;
+                        int tagDataLength = deviceTag.DataLength;
+
+                        for (int i = 0; i < tagDataLength; i++)
+                        {
+                            cnlNums.Add(deviceTag.Cnl.CnlNum + i);
+                        }
+
+                        destDataLength += tagDataLength;
                     }
                 }
 
