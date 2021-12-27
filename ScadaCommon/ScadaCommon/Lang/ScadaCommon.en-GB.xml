@@ -26,6 +26,7 @@
     <Phrase key="AgentDisabled">Agent is disabled.</Phrase>
   </Dictionary>
   <Dictionary key="Scada.ConfigBase">
+    <Phrase key="UndefinedTable">Undefined</Phrase>
     <Phrase key="ArchiveTable">Archives</Phrase>
     <Phrase key="CnlTable">Channels</Phrase>
     <Phrase key="CnlStatusTable">Channel statuses</Phrase>

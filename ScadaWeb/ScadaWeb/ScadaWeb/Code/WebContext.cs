@@ -25,6 +25,7 @@
 
 using Scada.Client;
 using Scada.Config;
+using Scada.Data.Const;
 using Scada.Data.Entities;
 using Scada.Data.Models;
 using Scada.Data.Tables;
@@ -36,6 +37,7 @@ using Scada.Web.Lang;
 using Scada.Web.Plugins;
 using Scada.Web.Services;
 using System;
+using System.Collections.Generic;
 using System.IO;
 using System.Reflection;
 using System.Threading;
@@ -328,7 +330,7 @@ namespace Scada.Web.Code
             }
 
             // receive tables
-            string tableName = Locale.IsRussian ? "неопределена" : "undefined";
+            string tableName = CommonPhrases.UndefinedTable;
 
             try
             {
@@ -340,7 +342,9 @@ namespace Scada.Web.Code
                     scadaClient.DownloadBaseTable(baseTable);
                 }
 
+                tableName = CommonPhrases.UndefinedTable;
                 scadaClient.TerminateSession();
+                PostprocessBase(baseDataSet);
                 Log.WriteAction(Locale.IsRussian ?
                     "База конфигурации получена успешно" :
                     "The configuration database has been received successfully");
@@ -354,6 +358,39 @@ namespace Scada.Web.Code
                 baseDataSet = null;
                 return false;
             }
+        }
+
+        /// <summary>
+        /// Post-processes the received configuration database.
+        /// </summary>
+        private static void PostprocessBase(BaseDataSet baseDataSet)
+        {
+            // duplicate channels for arrays
+            List<Cnl> duplicatedCnls = new();
+
+            foreach (Cnl cnl in baseDataSet.CnlTable.Enumerate())
+            {
+                if (cnl.IsNumericArray() && CnlTypeID.IsArchivable(cnl.CnlTypeID))
+                {
+                    string name = cnl.Name;
+                    int dataLen = cnl.DataLen.Value;
+                    int cnlTypeID = CnlTypeID.UnsetOutput(cnl.CnlTypeID);
+
+                    cnl.Name = name + "[0]";
+                    cnl.DataLen = null;
+
+                    for (int i = 1; i < dataLen; i++)
+                    {
+                        Cnl newCnl = cnl.ShallowCopy();
+                        newCnl.CnlNum = cnl.CnlNum + i;
+                        newCnl.Name = name + "[" + i + "]";
+                        newCnl.CnlTypeID = cnlTypeID;
+                        duplicatedCnls.Add(newCnl);
+                    }
+                }
+            }
+
+            duplicatedCnls.ForEach(cnl => baseDataSet.CnlTable.AddItem(cnl));
         }
 
         /// <summary>

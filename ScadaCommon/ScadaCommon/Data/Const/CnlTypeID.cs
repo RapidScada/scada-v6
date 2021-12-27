@@ -90,5 +90,25 @@ namespace Scada.Data.Const
             return cnlTypeID.HasValue && (cnlTypeID == Input || cnlTypeID == InputOutput || 
                 cnlTypeID == Calculated || cnlTypeID == CalculatedOutput);
         }
+
+        /// <summary>
+        /// Changes the channel type by removing the output function.
+        /// </summary>
+        public static int UnsetOutput(int cnlTypeID)
+        {
+            switch (cnlTypeID)
+            {
+                case Input:
+                case InputOutput:
+                    return Input;
+
+                case Calculated:
+                case CalculatedOutput:
+                    return Calculated;
+
+                default:
+                    throw new ScadaException("Unable to change channel type.");
+            }
+        }
     }
 }

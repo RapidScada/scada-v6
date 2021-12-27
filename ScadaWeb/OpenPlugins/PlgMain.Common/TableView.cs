@@ -44,33 +44,13 @@ namespace Scada.Web.Plugins.PlgMain
         /// <summary>
         /// Adds the item to the lists.
         /// </summary>
-        protected void AddItem(TableItem item, bool allowRecursion = true)
+        protected void AddItem(TableItem item)
         {
-            if (allowRecursion && item.Cnl != null && item.Cnl.DataLen > 1 && 
-                DataTypeID.IsNumeric(item.Cnl.DataTypeID))
-            {
-                // array elements
-                for (int i = 0, len = item.Cnl.DataLen.Value; i < len; i++)
-                {
-                    AddItem(new TableItem
-                    {
-                        CnlNum = item.Cnl.CnlNum + i,
-                        Hidden = item.Hidden,
-                        AutoText = item.AutoText,
-                        Text = string.Format("{0}[{1}]", item.Text, i),
-                        Cnl = item.Cnl
-                    }, false);
-                }
-            }
-            else
-            {
-                // regular item
-                Items.Add(item);
-                AddCnlNum(item.CnlNum);
+            Items.Add(item);
+            AddCnlNum(item.CnlNum);
 
-                if (!item.Hidden)
-                    VisibleItems.Add(item);
-            }
+            if (!item.Hidden)
+                VisibleItems.Add(item);
         }
 
         /// <summary>

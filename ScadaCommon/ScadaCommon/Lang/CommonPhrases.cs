@@ -59,6 +59,7 @@ namespace Scada.Lang
         public static string AgentDisabled { get; private set; }
 
         // Scada.ConfigBase
+        public static string UndefinedTable { get; private set; }
         public static string ArchiveTable { get; private set; }
         public static string CnlTable { get; private set; }
         public static string CnlStatusTable { get; private set; }
@@ -169,6 +170,7 @@ namespace Scada.Lang
             AgentDisabled = dict["AgentDisabled"];
 
             dict = Locale.GetDictionary("Scada.ConfigBase");
+            UndefinedTable = dict["UndefinedTable"];
             ArchiveTable = dict["ArchiveTable"];
             CnlTable = dict["CnlTable"];
             CnlStatusTable = dict["CnlStatusTable"];

@@ -26,11 +26,14 @@
 using Scada.Lang;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.IO;
 using System.Linq;
 using System.Runtime.InteropServices;
 using System.Runtime.Serialization.Formatters.Binary;
 using System.Text;
+using System.Xml;
+using System.Xml.Serialization;
 
 namespace Scada
 {
@@ -278,27 +281,70 @@ namespace Scada
         /// <summary>
         /// Makes a full copy of the specified object.
         /// </summary>
-        /// <remarks>A cloned object and its children must have the Serializable attribute.</remarks>
+        /// <remarks>
+        /// A cloned object and its children must have the Serializable attribute.
+        /// BinaryFormatter is not recommended, see https://aka.ms/binaryformatter
+        /// </remarks>
         public static object DeepClone(this object obj, SerializationBinder binder = null)
         {
-            using (MemoryStream ms = new MemoryStream())
+            using (MemoryStream stream = new MemoryStream())
             {
-                BinaryFormatter bf = new BinaryFormatter();
+                BinaryFormatter formatter = new BinaryFormatter();
+                
                 if (binder != null)
-                    bf.Binder = binder;
-                bf.Serialize(ms, obj);
+                    formatter.Binder = binder;
 
-                ms.Position = 0;
-                return bf.Deserialize(ms);
+                formatter.Serialize(stream, obj);
+                stream.Position = 0;
+                return formatter.Deserialize(stream);
             }
         }
 
         /// <summary>
-        /// Makes a full copy of the specified object.
+        /// Creates a full copy of the specified object.
         /// </summary>
         public static T DeepClone<T>(this T obj, SerializationBinder binder = null)
         {
             return (T)DeepClone((object)obj, binder);
+        }
+
+        /// <summary>
+        /// Creates a full copy of the specified object using XmlSerializer.
+        /// </summary>
+        public static T SafeClone<T>(this T obj)
+        {
+            XmlSerializer serializer = new XmlSerializer(typeof(T));
+
+            using (MemoryStream stream = new MemoryStream())
+            {
+                using (XmlWriter writer = XmlWriter.Create(stream))
+                {
+                    serializer.Serialize(writer, obj);
+                }
+
+                stream.Position = 0;
+
+                using (XmlReader reader = XmlReader.Create(stream))
+                {
+                    return (T)serializer.Deserialize(reader);
+                }
+            }
+        }
+
+        /// <summary>
+        /// Creates a shallow copy of the specified object.
+        /// </summary>
+        public static T ShallowCopy<T>(this T obj)
+        {
+            object newObj = Activator.CreateInstance(typeof(T));
+
+            foreach (PropertyDescriptor prop in TypeDescriptor.GetProperties(typeof(T)))
+            {
+                object val = prop.GetValue(obj);
+                prop.SetValue(newObj, val);
+            }
+
+            return (T)newObj;
         }
 
         /// <summary>
