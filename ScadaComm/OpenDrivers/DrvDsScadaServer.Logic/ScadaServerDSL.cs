@@ -549,7 +549,7 @@ namespace Scada.Comm.Drivers.DrvDsScadaServer.Logic
                 return false;
             }
 
-            string tableName = Locale.IsRussian ? "неопределена" : "undefined";
+            string tableName = CommonPhrases.UndefinedTable;
 
             try
             {
