@@ -105,7 +105,7 @@ namespace Scada.Data.Models
                 {
                     string part = parts[i];
                     int colonIdx = part.IndexOf(':');
-                    string value = colonIdx < 0 ? part.Trim() : part.Substring(0, colonIdx - 1).Trim();
+                    string value = colonIdx < 0 ? part.Trim() : part.Substring(0, colonIdx).Trim();
                     string color = colonIdx < 0 ? "" : part.Substring(colonIdx + 1).Trim();
                     enumFormat.Values[i] = value;
 
