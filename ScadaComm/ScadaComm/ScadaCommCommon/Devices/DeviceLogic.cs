@@ -384,7 +384,6 @@ namespace Scada.Comm.Devices
         /// </summary>
         public virtual void InitDeviceData()
         {
-            DeviceTags.AddStatusTag();
             DeviceData.Init(DeviceTags);
         }
         

@@ -103,6 +103,7 @@ namespace Scada.Comm.Engine
             try
             {
                 DeviceLogic.InitDeviceTags();
+                DeviceLogic.DeviceTags.AddStatusTag();
             }
             catch (Exception ex)
             {
