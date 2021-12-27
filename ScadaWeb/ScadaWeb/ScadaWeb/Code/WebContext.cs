@@ -306,6 +306,10 @@ namespace Scada.Web.Code
         /// </summary>
         private bool ReadBase(out BaseDataSet baseDataSet)
         {
+            Log.WriteAction(Locale.IsRussian ?
+                "Приём базы конфигурации" :
+                "Receive the configuration database");
+
             // check connection
             ScadaClient scadaClient = new(AppConfig.ConnectionOptions);
 
