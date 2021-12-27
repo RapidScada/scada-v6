@@ -150,7 +150,7 @@ namespace Scada.Comm.Devices
                     int tagIndex = deviceTag.Index;
                     dataView.SetDisplayValue(tagIndex, 0, FormatTagData(deviceTag));
 
-                    if (deviceTag.IsArray)
+                    if (deviceTag.IsNumericArray)
                     {
                         for (int i = 0, len = deviceTag.DataLength; i < len; i++)
                         {

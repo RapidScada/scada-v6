@@ -107,9 +107,9 @@ namespace Scada.Comm.Devices
         }
 
         /// <summary>
-        /// Gets a value indicating whether the tag is a numeric array.
+        /// Gets a value indicating whether the tag represents an array of numbers.
         /// </summary>
-        public bool IsArray
+        public bool IsNumericArray
         {
             get
             {
