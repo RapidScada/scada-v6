@@ -29,7 +29,6 @@ namespace Scada.Forms
         /// </summary>
         private void InitializeComponent()
         {
-            this.components = new System.ComponentModel.Container();
             this.lblFilter = new System.Windows.Forms.Label();
             this.txtFilter = new System.Windows.Forms.TextBox();
             this.btnApplyFilter = new System.Windows.Forms.Button();
@@ -40,11 +39,9 @@ namespace Scada.Forms
             this.colName = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.colCode = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.colDescr = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.bindingSource = new System.Windows.Forms.BindingSource(this.components);
             this.btnSelect = new System.Windows.Forms.Button();
             this.btnCancel = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.bindingSource)).BeginInit();
             this.SuspendLayout();
             // 
             // lblFilter
@@ -96,7 +93,6 @@ namespace Scada.Forms
             this.dataGridView.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.dataGridView.AutoGenerateColumns = false;
             this.dataGridView.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.dataGridView.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
             this.colSelected,
@@ -104,7 +100,6 @@ namespace Scada.Forms
             this.colName,
             this.colCode,
             this.colDescr});
-            this.dataGridView.DataSource = this.bindingSource;
             this.dataGridView.Location = new System.Drawing.Point(12, 81);
             this.dataGridView.Name = "dataGridView";
             this.dataGridView.Size = new System.Drawing.Size(460, 429);
@@ -147,10 +142,6 @@ namespace Scada.Forms
             this.colDescr.HeaderText = "Description";
             this.colDescr.Name = "colDescr";
             this.colDescr.ReadOnly = true;
-            // 
-            // bindingSource
-            // 
-            this.bindingSource.AllowNew = false;
             // 
             // btnSelect
             // 
@@ -196,7 +187,6 @@ namespace Scada.Forms
             this.Text = "Select from {0}";
             this.Load += new System.EventHandler(this.FrmEntitySelect_Load);
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.bindingSource)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -211,7 +201,6 @@ namespace Scada.Forms
         private System.Windows.Forms.DataGridView dataGridView;
         private System.Windows.Forms.Button btnSelect;
         private System.Windows.Forms.Button btnCancel;
-        private System.Windows.Forms.BindingSource bindingSource;
         private System.Windows.Forms.DataGridViewCheckBoxColumn colSelected;
         private System.Windows.Forms.DataGridViewTextBoxColumn colID;
         private System.Windows.Forms.DataGridViewTextBoxColumn colName;
