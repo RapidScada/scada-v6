@@ -1,10 +1,22 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <ScadaAdminConfig>
   <Extensions>
+    <Extension code="ExtDepAgent" />
+    <Extension code="ExtDepPostgreSql" />
     <Extension code="ExtServerConfig" />
+    <Extension code="ExtCommConfig" />
+    <Extension code="ExtProjectTools" />
   </Extensions>
   <FileAssociations>
     <Association ext="sch" path="C:\SCADA\ScadaSchemeEditor\ScadaSchemeEditor.exe" />
     <Association ext="tbl" path="C:\SCADA\ScadaTableEditor\ScadaTableEditor.exe" />
   </FileAssociations>
+  <CustomOptions>
+    <OptionGroup name="ChannelWizard">
+      <Option name="Multiplicity" value="100" />
+      <Option name="Shift" value="1" />
+      <Option name="Gap" value="10" />
+      <Option name="PrependDeviceName" value="true" />
+    </OptionGroup>
+  </CustomOptions>
 </ScadaAdminConfig>

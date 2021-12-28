@@ -50,7 +50,7 @@ namespace Scada.Admin.Extensions.ExtCommConfig.Controls
 
 
         /// <summary>
-        /// Gets the selected object.
+        /// Gets the selected device.
         /// </summary>
         public Device SelectedDevice => cbDevice.SelectedItem as Device;
 
@@ -62,7 +62,7 @@ namespace Scada.Admin.Extensions.ExtCommConfig.Controls
         /// <summary>
         /// Gets a value indicating whether channels can be created.
         /// </summary>
-        public bool StatusOK => CnlPrototypes != null && CnlPrototypes.Count > 0;
+        public bool StatusOK => SelectedDevice != null && CnlPrototypes != null && CnlPrototypes.Count > 0;
 
 
         /// <summary>

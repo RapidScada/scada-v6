@@ -31,12 +31,12 @@
             this.txtDevice = new System.Windows.Forms.TextBox();
             this.lblDevice = new System.Windows.Forms.Label();
             this.gbCnlNums = new System.Windows.Forms.GroupBox();
+            this.btnReset = new System.Windows.Forms.Button();
+            this.btnMap = new System.Windows.Forms.Button();
             this.numEndCnlNum = new System.Windows.Forms.NumericUpDown();
             this.lblEndCnlNum = new System.Windows.Forms.Label();
             this.numStartCnlNum = new System.Windows.Forms.NumericUpDown();
             this.lblStartCnlNum = new System.Windows.Forms.Label();
-            this.btnMap = new System.Windows.Forms.Button();
-            this.btnReset = new System.Windows.Forms.Button();
             this.gbCnlNums.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.numEndCnlNum)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.numStartCnlNum)).BeginInit();
@@ -75,8 +75,33 @@
             this.gbCnlNums.TabStop = false;
             this.gbCnlNums.Text = "Channel Numbers";
             // 
+            // btnReset
+            // 
+            this.btnReset.Location = new System.Drawing.Point(272, 66);
+            this.btnReset.Name = "btnReset";
+            this.btnReset.Size = new System.Drawing.Size(75, 23);
+            this.btnReset.TabIndex = 5;
+            this.btnReset.Text = "Reset";
+            this.btnReset.UseVisualStyleBackColor = true;
+            this.btnReset.Click += new System.EventHandler(this.btnReset_Click);
+            // 
+            // btnMap
+            // 
+            this.btnMap.Location = new System.Drawing.Point(272, 37);
+            this.btnMap.Name = "btnMap";
+            this.btnMap.Size = new System.Drawing.Size(75, 23);
+            this.btnMap.TabIndex = 4;
+            this.btnMap.Text = "Map";
+            this.btnMap.UseVisualStyleBackColor = true;
+            this.btnMap.Click += new System.EventHandler(this.btnMap_Click);
+            // 
             // numEndCnlNum
             // 
+            this.numEndCnlNum.Increment = new decimal(new int[] {
+            0,
+            0,
+            0,
+            0});
             this.numEndCnlNum.Location = new System.Drawing.Point(142, 37);
             this.numEndCnlNum.Maximum = new decimal(new int[] {
             2147483647,
@@ -128,26 +153,6 @@
             this.lblStartCnlNum.Size = new System.Drawing.Size(31, 15);
             this.lblStartCnlNum.TabIndex = 0;
             this.lblStartCnlNum.Text = "Start";
-            // 
-            // btnMap
-            // 
-            this.btnMap.Location = new System.Drawing.Point(272, 37);
-            this.btnMap.Name = "btnMap";
-            this.btnMap.Size = new System.Drawing.Size(75, 23);
-            this.btnMap.TabIndex = 4;
-            this.btnMap.Text = "Map";
-            this.btnMap.UseVisualStyleBackColor = true;
-            this.btnMap.Click += new System.EventHandler(this.btnMap_Click);
-            // 
-            // btnReset
-            // 
-            this.btnReset.Location = new System.Drawing.Point(272, 66);
-            this.btnReset.Name = "btnReset";
-            this.btnReset.Size = new System.Drawing.Size(75, 23);
-            this.btnReset.TabIndex = 5;
-            this.btnReset.Text = "Reset";
-            this.btnReset.UseVisualStyleBackColor = true;
-            this.btnReset.Click += new System.EventHandler(this.btnReset_Click);
             // 
             // CtrlCnlCreate3
             // 

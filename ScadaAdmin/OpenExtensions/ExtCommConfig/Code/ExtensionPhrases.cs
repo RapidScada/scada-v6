@@ -45,6 +45,7 @@ namespace Scada.Admin.Extensions.ExtCommConfig.Code
         public static string CreateCnlsStep1 { get; private set; }
         public static string CreateCnlsStep2 { get; private set; }
         public static string CreateCnlsStep3 { get; private set; }
+        public static string CreateCnlsCompleted { get; private set; }
 
         // Scada.Admin.Extensions.ExtCommConfig.Forms.FrmCommLogs
         public static string AppFilter { get; private set; }
@@ -115,6 +116,7 @@ namespace Scada.Admin.Extensions.ExtCommConfig.Code
             CreateCnlsStep1 = dict["CreateCnlsStep1"];
             CreateCnlsStep2 = dict["CreateCnlsStep2"];
             CreateCnlsStep3 = dict["CreateCnlsStep3"];
+            CreateCnlsCompleted = dict["CreateCnlsCompleted"];
 
             dict = Locale.GetDictionary("Scada.Admin.Extensions.ExtCommConfig.Forms.FrmCommLogs");
             AppFilter = dict["AppFilter"];

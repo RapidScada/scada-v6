@@ -35,6 +35,15 @@ namespace Scada.Comm.Devices
     public class CnlPrototype : Cnl
     {
         /// <summary>
+        /// Initializes a new instance of the class.
+        /// </summary>
+        public CnlPrototype()
+        {
+            CnlTypeID = Data.Const.CnlTypeID.Input;
+        }
+
+
+        /// <summary>
         /// Gets or sets the channel format code.
         /// </summary>
         public string FormatCode { get; set; }

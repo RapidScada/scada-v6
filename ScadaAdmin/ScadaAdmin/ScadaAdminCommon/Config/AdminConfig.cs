@@ -23,6 +23,7 @@
  * Modified : 2021
  */
 
+using Scada.Config;
 using Scada.Lang;
 using System;
 using System.Collections.Generic;
@@ -62,6 +63,11 @@ namespace Scada.Admin.Config
         /// </summary>
         public SortedList<string, string> FileAssociations { get; private set; }
 
+        /// <summary>
+        /// Gets the groups of custom options.
+        /// </summary>
+        public SortedList<string, OptionList> CustomOptions { get; private set; }
+
 
         /// <summary>
         /// Sets the default values.
@@ -69,11 +75,8 @@ namespace Scada.Admin.Config
         private void SetToDefault()
         {
             ExtensionCodes = new List<string>();
-            FileAssociations = new SortedList<string, string>
-            {
-                { "sch", @"C:\SCADA\ScadaSchemeEditor\ScadaSchemeEditor.exe" },
-                { "tbl", @"C:\SCADA\ScadaTableEditor\ScadaTableEditor.exe" }
-            };
+            FileAssociations = new SortedList<string, string>();
+            CustomOptions = new SortedList<string, OptionList>();
         }
 
         /// <summary>
@@ -115,6 +118,16 @@ namespace Scada.Admin.Config
                     }
                 }
 
+                if (rootElem.SelectSingleNode("CustomOptions") is XmlNode customOptionsNode)
+                {
+                    foreach (XmlElement optionGroupElem in customOptionsNode.SelectNodes("OptionGroup"))
+                    {
+                        OptionList optionList = new();
+                        optionList.LoadFromXml(optionGroupElem);
+                        CustomOptions[optionGroupElem.GetAttrAsString("name")] = optionList;
+                    }
+                }
+
                 errMsg = "";
                 return true;
             }
@@ -153,6 +166,14 @@ namespace Scada.Admin.Config
                     associationElem.SetAttribute("path", pair.Value);
                 }
 
+                XmlElement customOptionsElem = rootElem.AppendElem("CustomOptions");
+                foreach (KeyValuePair<string, OptionList> pair in CustomOptions)
+                {
+                    XmlElement optionGroupElem = customOptionsElem.AppendElem("OptionGroup");
+                    optionGroupElem.SetAttribute("name", pair.Key);
+                    pair.Value.SaveToXml(optionGroupElem);
+                }
+
                 xmlDoc.Save(fileName);
                 errMsg = "";
                 return true;
@@ -162,6 +183,14 @@ namespace Scada.Admin.Config
                 errMsg = ex.BuildErrorMessage(CommonPhrases.SaveConfigError);
                 return false;
             }
+        }
+
+        /// <summary>
+        /// Gets the list of options by the specified group name, or an empty list if the group is not found.
+        /// </summary>
+        public OptionList GetOptions(string groupName)
+        {
+            return CustomOptions.TryGetValue(groupName, out OptionList options) ? options : new OptionList();
         }
     }
 }

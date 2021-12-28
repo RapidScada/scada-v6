@@ -127,6 +127,7 @@
     <Phrase key="CreateCnlsStep1">Step 1 of 3: Select a device</Phrase>
     <Phrase key="CreateCnlsStep2">Step 2 of 3: Select an object of newly created channels</Phrase>
     <Phrase key="CreateCnlsStep3">Step 3 of 3: Assign channel numbers</Phrase>
+    <Phrase key="CreateCnlsCompleted">Channel creation completed successfully.&#13;&#10;{0} channel(s) added.</Phrase>
   </Dictionary>
   <Dictionary key="Scada.Admin.Extensions.ExtCommConfig.Forms.FrmCommLogs">
     <Phrase key="AppFilter">Application</Phrase>

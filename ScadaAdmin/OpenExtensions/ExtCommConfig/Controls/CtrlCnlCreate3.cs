@@ -1,14 +1,10 @@
 ﻿// Copyright (c) Rapid Software LLC. All rights reserved.
 // Licensed under the Apache License, Version 2.0. See License.txt in the project root for license information.
 
+using Scada.Admin.Extensions.ExtCommConfig.Code;
+using Scada.Admin.Project;
+using Scada.Forms;
 using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 
 namespace Scada.Admin.Extensions.ExtCommConfig.Controls
@@ -19,6 +15,12 @@ namespace Scada.Admin.Extensions.ExtCommConfig.Controls
     /// </summary>
     public partial class CtrlCnlCreate3 : UserControl
     {
+        private ScadaProject project;         // the project under development
+        private ChannelWizardOptions options; // the channel wizard options
+        private int lastStartCnlNum;          // the last calculated start channel number
+        private int lastCnlCnt;               // the last specified number of channels
+
+
         /// <summary>
         /// Initializes a new instance of the class.
         /// </summary>
@@ -43,12 +45,45 @@ namespace Scada.Admin.Extensions.ExtCommConfig.Controls
             }
         }
 
+        /// <summary>
+        /// Gets the start channel number.
+        /// </summary>
+        public int StartCnlNum => Convert.ToInt32(numStartCnlNum.Value);
+
+
+        /// <summary>
+        /// Calculates a start channel number.
+        /// </summary>
+        private bool CalcStartCnlNum(int cnlCnt, out int startCnlNum)
+        {
+            startCnlNum = options.Multiplicity + options.Shift;
+            int prevCnlNum = 0;
+
+            foreach (int cnlNum in project.ConfigBase.CnlTable.EnumerateKeys())
+            {
+                if (prevCnlNum < startCnlNum && startCnlNum <= cnlNum)
+                {
+                    if (startCnlNum + cnlCnt + options.Gap <= cnlNum)
+                        return true;
+                    else
+                        startCnlNum += options.Multiplicity;
+                }
+
+                prevCnlNum = cnlNum;
+            }
+
+            return startCnlNum <= ushort.MaxValue;
+        }
 
         /// <summary>
         /// Initializes the control.
         /// </summary>
-        public void Init()
+        public void Init(ScadaProject project, ChannelWizardOptions options)
         {
+            this.project = project ?? throw new ArgumentNullException(nameof(project));
+            this.options = options ?? throw new ArgumentNullException(nameof(options));
+            lastStartCnlNum = 1;
+            lastCnlCnt = 0;
         }
 
         /// <summary>
@@ -64,13 +99,30 @@ namespace Scada.Admin.Extensions.ExtCommConfig.Controls
         /// </summary>
         public void ResetCnlNums(int cnlCnt)
         {
+            lastStartCnlNum = 1;
+            lastCnlCnt = cnlCnt;
 
+            if (cnlCnt > 0)
+            {
+                gbCnlNums.Enabled = true;
+
+                if (CalcStartCnlNum(cnlCnt, out int startCnlNum))
+                    lastStartCnlNum = startCnlNum;
+            }
+            else
+            {
+                gbCnlNums.Enabled = false;
+            }
+
+            numStartCnlNum.SetValue(lastStartCnlNum);
+            numEndCnlNum.SetValue(lastStartCnlNum + lastCnlCnt - 1);
         }
 
 
         private void numStartCnlNum_ValueChanged(object sender, EventArgs e)
         {
-
+            int startCnlNum = Convert.ToInt32(numStartCnlNum.Value);
+            numEndCnlNum.SetValue(startCnlNum + lastCnlCnt - 1);
         }
 
         private void btnMap_Click(object sender, EventArgs e)
@@ -80,7 +132,8 @@ namespace Scada.Admin.Extensions.ExtCommConfig.Controls
 
         private void btnReset_Click(object sender, EventArgs e)
         {
-
+            if (lastStartCnlNum > 0)
+                numStartCnlNum.SetValue(lastStartCnlNum);
         }
     }
 }

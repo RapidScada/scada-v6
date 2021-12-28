@@ -24,6 +24,7 @@
  */
 
 using Scada.Data.Const;
+using System;
 
 namespace Scada.Data.Entities
 {
@@ -39,6 +40,14 @@ namespace Scada.Data.Entities
         public static bool IsNumericArray(this Cnl cnl)
         {
             return cnl.DataLen > 1 && DataTypeID.IsNumeric(cnl.DataTypeID);
+        }
+
+        /// <summary>
+        /// Gets the normalized data length of the specified channel.
+        /// </summary>
+        public static int GetDataLength(this Cnl cnl)
+        {
+            return cnl.DataLen.HasValue ? Math.Max(cnl.DataLen.Value, 1) : 1;
         }
     }
 }
