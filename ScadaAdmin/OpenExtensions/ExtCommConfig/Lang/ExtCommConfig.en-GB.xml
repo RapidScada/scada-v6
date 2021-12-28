@@ -15,10 +15,18 @@
     <Phrase key="NoDeviceProperties">The device does not provide a properties window.</Phrase>
   </Dictionary>
   <Dictionary key="Scada.Admin.Extensions.ExtCommConfig.Controls.CtrlCnlCreate1">
+    <Phrase key="lblCommLine">Communication line</Phrase>
+    <Phrase key="lblDevice">Device</Phrase>
     <Phrase key="AllCommLines">&lt;All communication lines&gt;</Phrase>
     <Phrase key="DeviceInfo">Driver: {0}&#13;&#10;Instance: {1}&#13;&#10;Channels: {2}</Phrase>
     <Phrase key="DeviceNotFound">Device not found in Communicator.</Phrase>
     <Phrase key="NoDeviceSelected">No device selected.</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Admin.Extensions.ExtCommConfig.Controls.CtrlCnlCreate2">
+    <Phrase key="lblDevice">Device</Phrase>
+    <Phrase key="lblObj">Object</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Admin.Extensions.ExtCommConfig.Controls.CtrlCnlCreate3">
   </Dictionary>
   <Dictionary key="Scada.Admin.Extensions.ExtCommConfig.Controls.CtrlExtensionMenu">
     <Phrase key="miWizards">Wizards</Phrase>
@@ -124,6 +132,12 @@
     <Phrase key="lblSelect">Select lines and devices to synchronize:</Phrase>
   </Dictionary>
   <Dictionary key="Scada.Admin.Extensions.ExtCommConfig.Forms.FrmCnlCreate">
+    <Phrase key="this">Create Channels</Phrase>
+    <Phrase key="chkPreview">Preview</Phrase>
+    <Phrase key="btnBack">&lt; Back</Phrase>
+    <Phrase key="btnNext">Next &gt;</Phrase>
+    <Phrase key="btnCreate">Create</Phrase>
+    <Phrase key="btnCancel">Cancel</Phrase>
     <Phrase key="CreateCnlsStep1">Step 1 of 3: Select a device</Phrase>
     <Phrase key="CreateCnlsStep2">Step 2 of 3: Select an object of newly created channels</Phrase>
     <Phrase key="CreateCnlsStep3">Step 3 of 3: Assign channel numbers</Phrase>

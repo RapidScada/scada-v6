@@ -189,10 +189,12 @@ namespace Scada.Admin.Extensions.ExtCommConfig.Forms
         /// <summary>
         /// Adds the specified channels into the configuration database.
         /// </summary>
-        private void AddChannels(List<Cnl> cnls)
+        private void AddChannels(List<Cnl> cnls, bool silent)
         {
             cnls.ForEach(cnl => project.ConfigBase.CnlTable.AddItem(cnl));
-            ScadaUiUtils.ShowInfo(ExtensionPhrases.CreateCnlsCompleted, cnls.Count);
+
+            if (!silent)
+                ScadaUiUtils.ShowInfo(ExtensionPhrases.CreateCnlsCompleted, cnls.Count);
         }
 
         /// <summary>
@@ -239,13 +241,10 @@ namespace Scada.Admin.Extensions.ExtCommConfig.Forms
             {
                 List<Cnl> cnls = CreateChannels();
 
-                if (chkPreview.Checked)
+                if (!chkPreview.Checked ||
+                    new FrmCnlPreview(cnls).ShowDialog() == DialogResult.OK)
                 {
-
-                }
-                else
-                {
-                    AddChannels(cnls);
+                    AddChannels(cnls, chkPreview.Checked);
                     DialogResult = DialogResult.OK;
                 }
             }

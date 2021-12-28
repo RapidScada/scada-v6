@@ -68,6 +68,7 @@
             // 
             // ctrlCnlCreate3
             // 
+            this.ctrlCnlCreate3.DeviceName = "";
             this.ctrlCnlCreate3.Location = new System.Drawing.Point(12, 33);
             this.ctrlCnlCreate3.Name = "ctrlCnlCreate3";
             this.ctrlCnlCreate3.Size = new System.Drawing.Size(360, 160);
@@ -76,6 +77,8 @@
             // chkPreview
             // 
             this.chkPreview.AutoSize = true;
+            this.chkPreview.Checked = true;
+            this.chkPreview.CheckState = System.Windows.Forms.CheckState.Checked;
             this.chkPreview.Location = new System.Drawing.Point(12, 251);
             this.chkPreview.Name = "chkPreview";
             this.chkPreview.Size = new System.Drawing.Size(67, 19);
