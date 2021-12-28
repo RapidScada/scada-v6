@@ -129,6 +129,17 @@
     <Phrase key="CreateCnlsStep3">Шаг 3 из 3: Назначьте номера каналов</Phrase>
     <Phrase key="CreateCnlsCompleted">Создание каналов завершено успешно.&#13;&#10;{0} channel(s) added.</Phrase>
   </Dictionary>
+  <Dictionary key="Scada.Admin.Extensions.ExtCommConfig.Forms.FrmCnlPreview">
+    <Phrase key="this">Предварительный просмотр каналов</Phrase>
+    <Phrase key="btnDelete">Удалить</Phrase>
+    <Phrase key="colCnlNum">Номер</Phrase>
+    <Phrase key="colActive">Активный</Phrase>
+    <Phrase key="colName">Наименование</Phrase>
+    <Phrase key="colTagNum">Номер тега</Phrase>
+    <Phrase key="colTagCode">Код тега</Phrase>
+    <Phrase key="btnAdd">Добавить</Phrase>
+    <Phrase key="btnCancel">Отмена</Phrase>
+  </Dictionary>
   <Dictionary key="Scada.Admin.Extensions.ExtCommConfig.Forms.FrmCommLogs">
     <Phrase key="AppFilter">Приложение</Phrase>
     <Phrase key="LinesFilter">Линии связи</Phrase>

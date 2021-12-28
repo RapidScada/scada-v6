@@ -129,6 +129,17 @@
     <Phrase key="CreateCnlsStep3">Step 3 of 3: Assign channel numbers</Phrase>
     <Phrase key="CreateCnlsCompleted">Channel creation completed successfully.&#13;&#10;{0} channel(s) added.</Phrase>
   </Dictionary>
+  <Dictionary key="Scada.Admin.Extensions.ExtCommConfig.Forms.FrmCnlPreview">
+    <Phrase key="this">Preview Channels</Phrase>
+    <Phrase key="btnDelete">Delete</Phrase>
+    <Phrase key="colCnlNum">Number</Phrase>
+    <Phrase key="colActive">Active</Phrase>
+    <Phrase key="colName">Name</Phrase>
+    <Phrase key="colTagNum">Tag Number</Phrase>
+    <Phrase key="colTagCode">Tag Code</Phrase>
+    <Phrase key="btnAdd">Add</Phrase>
+    <Phrase key="btnCancel">Cancel</Phrase>
+  </Dictionary>
   <Dictionary key="Scada.Admin.Extensions.ExtCommConfig.Forms.FrmCommLogs">
     <Phrase key="AppFilter">Application</Phrase>
     <Phrase key="LinesFilter">Communication Lines</Phrase>
