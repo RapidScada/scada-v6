@@ -60,7 +60,7 @@ namespace Scada.Comm.Drivers.DrvOpcUa.Config
         {
             get
             {
-                return string.Equals(DataTypeName, typeof(string).FullName, StringComparison.OrdinalIgnoreCase);
+                return DriverUtils.DataTypeEquals(DataTypeName, typeof(string));
             }
         }
 
