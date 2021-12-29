@@ -39,6 +39,7 @@ namespace Scada.Comm.Devices
         /// </summary>
         public CnlPrototype()
         {
+            Active = true;
             CnlTypeID = Data.Const.CnlTypeID.Input;
         }
 
