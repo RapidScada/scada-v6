@@ -249,10 +249,24 @@ namespace Scada.Admin.App.Code
             return Path.Combine(AppDirs.ExeDir, "..", "Config", InstanceConfig.DefaultFileName);
         }
 
+        /// <summary>
+        /// Sends the message to the extensions.
+        /// </summary>
+        public bool MessageToExtensions(MessageEventArgs e)
+        {
+            MessageToExtension?.Invoke(this, e);
+            return e != null && e.BoolResult;
+        }
+
 
         /// <summary>
         /// Occurs when the current project changes.
         /// </summary>
         public event EventHandler CurrentProjectChanged;
+
+        /// <summary>
+        /// Occurs when some extension sends a message to other extensions.
+        /// </summary>
+        public event EventHandler<MessageEventArgs> MessageToExtension;
     }
 }

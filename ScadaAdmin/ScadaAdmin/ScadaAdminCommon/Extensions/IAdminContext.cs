@@ -27,7 +27,6 @@ using Scada.Admin.Config;
 using Scada.Admin.Project;
 using Scada.Log;
 using System;
-using System.Windows.Forms;
 
 namespace Scada.Admin.Extensions
 {
@@ -55,17 +54,28 @@ namespace Scada.Admin.Extensions
         /// <summary>
         /// Gets the project currently open.
         /// </summary>
-        public ScadaProject CurrentProject { get; }
+        ScadaProject CurrentProject { get; }
 
         /// <summary>
         /// Gets the explorer tree.
         /// </summary>
-        public IMainForm MainForm { get; }
+        IMainForm MainForm { get; }
+
+
+        /// <summary>
+        /// Sends the message to the extensions.
+        /// </summary>
+        bool MessageToExtensions(MessageEventArgs e);
 
 
         /// <summary>
         /// Occurs when the current project changes.
         /// </summary>
         event EventHandler CurrentProjectChanged;
+        
+        /// <summary>
+        /// Occurs when some extension sends a message to other extensions.
+        /// </summary>
+        event EventHandler<MessageEventArgs> MessageToExtension;
     }
 }
