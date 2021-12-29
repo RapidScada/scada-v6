@@ -129,17 +129,16 @@ namespace Scada.Comm.Drivers.DrvDsOpcUaServer.Logic
         {
             NodeId opcDataType = DataTypeIds.Double;
             object defaultValue = 0.0;
-            bool isArray = deviceTag.IsArray;
 
             switch (deviceTag.DataType)
             {
                 case TagDataType.Double:
-                    defaultValue = isArray ? (object)new double[deviceTag.DataLength] : 0.0;
+                    defaultValue = deviceTag.IsNumericArray ? (object)new double[deviceTag.DataLength] : 0.0;
                     break;
 
                 case TagDataType.Int64:
                     opcDataType = DataTypeIds.Int64;
-                    defaultValue = isArray ? (object)new long[deviceTag.DataLength] : (long)0;
+                    defaultValue = deviceTag.IsNumericArray ? (object)new long[deviceTag.DataLength] : 0;
                     break;
 
                 case TagDataType.ASCII:
@@ -150,7 +149,7 @@ namespace Scada.Comm.Drivers.DrvDsOpcUaServer.Logic
             }
 
             BaseDataVariableState variable = CreateVariable(parent, pathPrefix + deviceTag.Code, 
-                deviceTag.Code, deviceTag.Name, opcDataType, isArray, defaultValue);
+                deviceTag.Code, deviceTag.Name, opcDataType, deviceTag.IsNumericArray, defaultValue);
             return variable;
         }
 
@@ -277,15 +276,15 @@ namespace Scada.Comm.Drivers.DrvDsOpcUaServer.Logic
                 switch (deviceTag.DataType)
                 {
                     case TagDataType.Double:
-                        value = deviceTag.IsArray ? 
-                            (object)CnlDataConverter.GetDoubleArray(cnlData, dataIndex, dataLength) : 
-                            CnlDataConverter.GetDouble(cnlData, dataIndex);
+                        value = deviceTag.IsNumericArray 
+                            ? (object)CnlDataConverter.GetDoubleArray(cnlData, dataIndex, dataLength) 
+                            : CnlDataConverter.GetDouble(cnlData, dataIndex);
                         break;
 
                     case TagDataType.Int64:
-                        value = deviceTag.IsArray ?
-                            (object)CnlDataConverter.GetInt64Array(cnlData, dataIndex, dataLength) :
-                            CnlDataConverter.GetInt64(cnlData, dataIndex);
+                        value = deviceTag.IsNumericArray 
+                            ? (object)CnlDataConverter.GetInt64Array(cnlData, dataIndex, dataLength) 
+                            : CnlDataConverter.GetInt64(cnlData, dataIndex);
                         break;
 
                     case TagDataType.ASCII:
@@ -334,14 +333,14 @@ namespace Scada.Comm.Drivers.DrvDsOpcUaServer.Logic
                     switch (deviceTag.DataType)
                     {
                         case TagDataType.Double:
-                            if (deviceTag.IsArray)
+                            if (deviceTag.IsNumericArray)
                                 cmdData = DoubleArrayToCmdData(value as Array, deviceTag.DataLength);
                             else
                                 cmdVal = Convert.ToDouble(value);
                             break;
 
                         case TagDataType.Int64:
-                            if (deviceTag.IsArray)
+                            if (deviceTag.IsNumericArray)
                                 cmdData = Int64ArrayToCmdData(value as Array, deviceTag.DataLength);
                             else
                                 cmdVal = Convert.ToInt64(value);
