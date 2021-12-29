@@ -23,7 +23,8 @@ namespace Scada.Admin.Extensions.ExtProjectTools.Forms
         /// <summary>
         /// The known functions that contain a channel number argument.
         /// </summary>
-        private static readonly string[] KnownFunctions = { "N(", "Val(", "Stat(", "SetVal(", "SetStat(", "SetData(" };
+        private static readonly string[] KnownFunctions = { "N(", "Val(", "Stat(", "Data(", "Time(", "Deriv(", 
+            "PrevVal(", "PrevStat(", "PrevData(", "PrevTime(", "SetVal(", "SetStat(", "SetData(" };
         /// <summary>
         /// The possible end symbols of an argument.
         /// </summary>
