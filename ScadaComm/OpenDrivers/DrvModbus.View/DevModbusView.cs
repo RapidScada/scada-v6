@@ -3,8 +3,14 @@
 
 using Scada.Comm.Config;
 using Scada.Comm.Devices;
+using Scada.Comm.Drivers.DrvModbus.Config;
+using Scada.Comm.Drivers.DrvModbus.Protocol;
 using Scada.Comm.Drivers.DrvModbus.View.Forms;
+using Scada.Data.Const;
+using Scada.Data.Models;
 using System;
+using System.Collections.Generic;
+using System.IO;
 using System.Windows.Forms;
 
 namespace Scada.Comm.Drivers.DrvModbus.View
@@ -27,6 +33,26 @@ namespace Scada.Comm.Drivers.DrvModbus.View
             CanShowProperties = true;
         }
 
+
+        /// <summary>
+        /// Loads a device template from the configuration file.
+        /// </summary>
+        protected DeviceTemplate LoadDeviceTemplate()
+        {
+            DeviceTemplate deviceTemplate = null;
+            string fileName = DeviceConfig.PollingOptions.CmdLine.Trim();
+
+            if (!string.IsNullOrEmpty(fileName))
+            {
+                deviceTemplate = customUi.CreateDeviceTemplate();
+
+                if (!deviceTemplate.Load(Path.Combine(AppDirs.ConfigDir, fileName), out string errMsg))
+                    throw new ScadaException(errMsg);
+            }
+
+            return deviceTemplate;
+        }
+
         /// <summary>
         /// Shows a modal dialog box for editing device properties.
         /// </summary>
@@ -42,6 +68,80 @@ namespace Scada.Comm.Drivers.DrvModbus.View
             {
                 return false;
             }
+        }
+
+        /// <summary>
+        /// Gets the channel prototypes for the device.
+        /// </summary>
+        public override ICollection<CnlPrototype> GetCnlPrototypes()
+        {
+            if (LoadDeviceTemplate() is not DeviceTemplate deviceTemplate)
+                return null;
+
+            List<CnlPrototype> cnlPrototypes = new();
+            int tagNum = 1;
+            int eventMask = new EventMask { Enabled = true, StatusChange = true, Command = true }.Value;
+            int bitEventMask = new EventMask { Enabled = true, DataChange = true, Command = true }.Value;
+            int cmdEventMask = new EventMask { Enabled = true, Command = true }.Value;
+
+            foreach (ElemGroupConfig elemGroupConfig in deviceTemplate.ElemGroups)
+            {
+                foreach (ElemConfig elemConfig in elemGroupConfig.Elems)
+                {
+                    // create channel for element
+                    cnlPrototypes.Add(new CnlPrototype
+                    {
+                        Active = elemGroupConfig.Active,
+                        Name = elemConfig.Name,
+                        CnlTypeID = elemConfig.ReadOnly ? CnlTypeID.Input : CnlTypeID.InputOutput,
+                        TagNum = string.IsNullOrEmpty(elemConfig.TagCode) ? tagNum : null,
+                        TagCode = elemConfig.TagCode,
+                        FormatCode = elemConfig.ElemType == ElemType.Bool
+                            ? FormatCode.OffOn 
+                            : elemConfig.IsBitMask ? FormatCode.X : null,
+                        EventMask = elemConfig.ElemType == ElemType.Bool ? bitEventMask : eventMask
+                    });
+
+                    // create channels for bit mask
+                    if (elemConfig.IsBitMask && elemConfig.ElemType != ElemType.Bool)
+                    {
+                        for (int bit = 0, bitCnt = ModbusUtils.GetDataLength(elemConfig.ElemType) * 8; 
+                            bit < bitCnt; bit++)
+                        {
+                            cnlPrototypes.Add(new CnlPrototype
+                            {
+                                Active = elemGroupConfig.Active,
+                                Name = elemConfig.Name + "[" + bit + "]",
+                                CnlTypeID = elemConfig.ReadOnly ? CnlTypeID.Calculated : CnlTypeID.CalculatedOutput,
+                                FormatCode = FormatCode.OffOn,
+                                FormulaEnabled = false,
+                                InFormula = $"GetBit(DataRel({-bit - 1}), {bit})",
+                                OutFormula = elemConfig.ReadOnly ? null : $"SetBit(DataRel({-bit - 1}), {bit}, Cmd)",
+                                EventMask = bitEventMask
+                            });
+                        }
+                    }
+
+                    tagNum++;
+                }
+            }
+
+            // create channels for commands
+            foreach (CmdConfig cmdConfig in deviceTemplate.Cmds)
+            {
+                cnlPrototypes.Add(new CnlPrototype
+                {
+                    Name = cmdConfig.Name,
+                    CnlTypeID = CnlTypeID.Output,
+                    TagNum = string.IsNullOrEmpty(cmdConfig.CmdCode) ? cmdConfig.CmdNum : null,
+                    TagCode = cmdConfig.CmdCode,
+                    FormatCode = cmdConfig.DataBlock == DataBlock.Coils && !cmdConfig.Multiple ? 
+                        FormatCode.OffOn : null,
+                    EventMask = cmdEventMask
+                });
+            }
+
+            return cnlPrototypes;
         }
     }
 }
