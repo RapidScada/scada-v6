@@ -215,7 +215,7 @@ namespace Scada.Admin.Extensions.ExtCommConfig.Forms
 
             ctrlCnlCreate1.Init(adminContext, project, recentSelection);
             ctrlCnlCreate2.Init(project, recentSelection);
-            ctrlCnlCreate3.Init(project, options);
+            ctrlCnlCreate3.Init(adminContext, project, options);
             ApplyStep(0);
         }
 

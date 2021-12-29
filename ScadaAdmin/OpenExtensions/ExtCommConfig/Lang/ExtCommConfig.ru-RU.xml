@@ -26,6 +26,14 @@
     <Phrase key="lblDevice">КП</Phrase>
     <Phrase key="lblObj">Объект</Phrase>
   </Dictionary>
+  <Dictionary key="Scada.Admin.Extensions.ExtCommConfig.Controls.CtrlCnlCreate3">
+    <Phrase key="lblDevice">КП</Phrase>
+    <Phrase key="gbCnlNums">Номера каналов</Phrase>
+    <Phrase key="lblStartCnlNum">Начальный</Phrase>
+    <Phrase key="lblEndCnlNum">Конечный</Phrase>
+    <Phrase key="btnMap">Карта</Phrase>
+    <Phrase key="btnReset">Сброс</Phrase>
+  </Dictionary>
   <Dictionary key="Scada.Admin.Extensions.ExtCommConfig.Controls.CtrlExtensionMenu">
     <Phrase key="miWizards">Мастеры</Phrase>
     <Phrase key="miAddLine">Добавить линию...</Phrase>

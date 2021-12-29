@@ -37,6 +37,7 @@ namespace Scada.Admin.Extensions.ExtProjectTools.Controls
             this.adminContext = adminContext ?? throw new ArgumentNullException(nameof(adminContext));
             SetMenuItemsEnabled();
             adminContext.CurrentProjectChanged += AdminContext_CurrentProjectChanged;
+            adminContext.MessageToExtension += AdminContext_MessageToExtension;
         }
 
 
@@ -63,9 +64,30 @@ namespace Scada.Admin.Extensions.ExtProjectTools.Controls
         }
 
 
+        /// <summary>
+        /// Generates a channel map.
+        /// </summary>
+        private void GenerateChannelMap(bool groupByDevices)
+        {
+            if (adminContext.CurrentProject != null)
+            {
+                new ChannelMap(adminContext.ErrLog, adminContext.CurrentProject.ConfigBase)
+                {
+                    GroupByDevices = groupByDevices
+                }
+                .Generate(Path.Combine(adminContext.AppDirs.LogDir, ChannelMap.MapFileName));
+            }
+        }
+
         private void AdminContext_CurrentProjectChanged(object sender, EventArgs e)
         {
             SetMenuItemsEnabled();
+        }
+
+        private void AdminContext_MessageToExtension(object sender, MessageEventArgs e)
+        {
+            if (e.Message == "ExtProjectTools.GenerateChannelMap")
+                GenerateChannelMap((bool)e.Arguments["GroupByDevices"]);
         }
 
         private void miCloneChannels_Click(object sender, EventArgs e)
@@ -83,15 +105,7 @@ namespace Scada.Admin.Extensions.ExtProjectTools.Controls
 
         private void miChannelMap_Click(object sender, EventArgs e)
         {
-            // generate channel map
-            if (adminContext.CurrentProject != null)
-            {
-                new ChannelMap(adminContext.ErrLog, adminContext.CurrentProject.ConfigBase)
-                {
-                    GroupByDevices = sender == miChannelMapByDevice
-                }
-                .Generate(Path.Combine(adminContext.AppDirs.LogDir, ChannelMap.MapFileName));
-            }
+            GenerateChannelMap(sender == miChannelMapByDevice);
         }
 
         private void miCheckIntegrity_Click(object sender, EventArgs e)

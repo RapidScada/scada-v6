@@ -5,6 +5,7 @@ using Scada.Admin.Extensions.ExtCommConfig.Code;
 using Scada.Admin.Project;
 using Scada.Forms;
 using System;
+using System.Collections.Generic;
 using System.Windows.Forms;
 
 namespace Scada.Admin.Extensions.ExtCommConfig.Controls
@@ -15,6 +16,7 @@ namespace Scada.Admin.Extensions.ExtCommConfig.Controls
     /// </summary>
     public partial class CtrlCnlCreate3 : UserControl
     {
+        private IAdminContext adminContext;   // the Administrator context
         private ScadaProject project;         // the project under development
         private ChannelWizardOptions options; // the channel wizard options
         private int lastStartCnlNum;          // the last calculated start channel number
@@ -78,8 +80,9 @@ namespace Scada.Admin.Extensions.ExtCommConfig.Controls
         /// <summary>
         /// Initializes the control.
         /// </summary>
-        public void Init(ScadaProject project, ChannelWizardOptions options)
+        public void Init(IAdminContext adminContext, ScadaProject project, ChannelWizardOptions options)
         {
+            this.adminContext = adminContext ?? throw new ArgumentNullException(nameof(adminContext));
             this.project = project ?? throw new ArgumentNullException(nameof(project));
             this.options = options ?? throw new ArgumentNullException(nameof(options));
             lastStartCnlNum = 1;
@@ -127,7 +130,12 @@ namespace Scada.Admin.Extensions.ExtCommConfig.Controls
 
         private void btnMap_Click(object sender, EventArgs e)
         {
-
+            // send message to generate map
+            adminContext.MessageToExtensions(new MessageEventArgs
+            {
+                Message = "ExtProjectTools.GenerateChannelMap",
+                Arguments = new Dictionary<string, object> { { "GroupByDevices", true } }
+            });
         }
 
         private void btnReset_Click(object sender, EventArgs e)

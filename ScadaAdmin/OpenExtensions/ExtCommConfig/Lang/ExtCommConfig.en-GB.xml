@@ -27,6 +27,12 @@
     <Phrase key="lblObj">Object</Phrase>
   </Dictionary>
   <Dictionary key="Scada.Admin.Extensions.ExtCommConfig.Controls.CtrlCnlCreate3">
+    <Phrase key="lblDevice">Device</Phrase>
+    <Phrase key="gbCnlNums">Channel Numbers</Phrase>
+    <Phrase key="lblStartCnlNum">Start</Phrase>
+    <Phrase key="lblEndCnlNum">End</Phrase>
+    <Phrase key="btnMap">Map</Phrase>
+    <Phrase key="btnReset">Reset</Phrase>
   </Dictionary>
   <Dictionary key="Scada.Admin.Extensions.ExtCommConfig.Controls.CtrlExtensionMenu">
     <Phrase key="miWizards">Wizards</Phrase>
