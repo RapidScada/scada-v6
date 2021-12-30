@@ -35,11 +35,59 @@ namespace Scada.Data.Entities
     public static class EntityExtensions
     {
         /// <summary>
-        /// Determines if the channel represents an array of numbers.
+        /// Determines whether the channel data type is numeric.
+        /// </summary>
+        public static bool IsNumeric(this Cnl cnl)
+        {
+            return DataTypeID.IsNumeric(cnl.DataTypeID);
+        }
+
+        /// <summary>
+        /// Determines whether the channel data type is string.
+        /// </summary>
+        public static bool IsString(this Cnl cnl)
+        {
+            return DataTypeID.IsString(cnl.DataTypeID);
+        }
+
+        /// <summary>
+        /// Determines whether the channel represents an array of numbers.
         /// </summary>
         public static bool IsNumericArray(this Cnl cnl)
         {
             return cnl.DataLen > 1 && DataTypeID.IsNumeric(cnl.DataTypeID);
+        }
+
+        /// <summary>
+        /// Determines whether the channel type relates to an input channel (not calculated).
+        /// </summary>
+        public static bool IsInput(this Cnl cnl)
+        {
+            return CnlTypeID.IsInput(cnl.CnlTypeID);
+        }
+
+        /// <summary>
+        /// Determines whether the channel type relates to an output channel.
+        /// </summary>
+        public static bool IsOutput(this Cnl cnl)
+        {
+            return CnlTypeID.IsOutput(cnl.CnlTypeID);
+        }
+
+        /// <summary>
+        /// Determines whether the channel type relates to a calculated channel.
+        /// </summary>
+        public static bool IsCalculated(this Cnl cnl)
+        {
+            return CnlTypeID.IsCalculated(cnl.CnlTypeID);
+        }
+
+        /// <summary>
+        /// Determines whether the channel can be written to an archive, depending on its type.
+        /// </summary>
+        public static bool IsArchivable(this Cnl cnl)
+        {
+            return CnlTypeID.IsArchivable(cnl.CnlTypeID);
         }
 
         /// <summary>
