@@ -120,7 +120,7 @@ namespace Scada
         public static string GetUnicode(CnlData[] buffer, int index, int count)
         {
             byte[] array = GetByteArray(buffer, index, count);
-            return Encoding.ASCII.GetString(array).TrimEnd((char)0);
+            return Encoding.Unicode.GetString(array).TrimEnd((char)0);
         }
 
         /// <summary>
@@ -174,7 +174,7 @@ namespace Scada
         /// </summary>
         public static string DoubleToUnicode(double cnlVal)
         {
-            return Encoding.ASCII.GetString(BitConverter.GetBytes(cnlVal)).TrimEnd((char)0);
+            return Encoding.Unicode.GetString(BitConverter.GetBytes(cnlVal)).TrimEnd((char)0);
         }
     }
 }
