@@ -271,26 +271,29 @@ namespace Scada.Web.Plugins.PlgMain.Areas.Main.Pages
 
             foreach (TableItem tableItem in tableView.VisibleItems)
             {
-                string showVal = CnlTypeID.IsArchivable(tableItem.Cnl?.CnlTypeID).ToLowerString();
+                Cnl itemCnl = tableItem.Cnl;
+                bool showVal = itemCnl != null && itemCnl.IsArchivable();
+                int joinLen = showVal && itemCnl.DataLen > 1 && itemCnl.IsString() ? itemCnl.DataLen.Value : 1;
                 string itemText = string.IsNullOrWhiteSpace(tableItem.Text) ?
                     "&nbsp;" : HttpUtility.HtmlEncode(tableItem.Text);
 
                 sbHtml.Append("<tr class='row-item' data-cnlnum='").Append(tableItem.CnlNum)
-                    .Append("' data-showval='").Append(showVal).AppendLine("'>")
+                    .Append("' data-showval='").Append(showVal.ToLowerString())
+                    .Append("' data-joinlen='").Append(joinLen).AppendLine("'>")
                     .Append("<td><div class='item'>");
 
                 if (tableItem.CnlNum > 0)
                 {
                     sbHtml
-                        .Append("<span class='item-icon'><img src='").Append(GetQuantityIconUrl(tableItem.Cnl))
+                        .Append("<span class='item-icon'><img src='").Append(GetQuantityIconUrl(itemCnl))
                         .Append("' data-bs-toggle='tooltip' data-bs-placement='right' data-bs-html='true' title='");
-                    AddTooltipHtml(sbHtml, tableItem.CnlNum, tableItem.Cnl);
+                    AddTooltipHtml(sbHtml, tableItem.CnlNum, itemCnl);
 
                     sbHtml
                         .Append("' /></span>")
                         .Append("<span class='item-text item-link'>").Append(itemText).Append("</span>");
 
-                    if (enableCommands && CnlTypeID.IsOutput(tableItem.Cnl?.CnlTypeID))
+                    if (enableCommands && itemCnl != null && itemCnl.IsOutput())
                     {
                         sbHtml
                             .Append("<span class='item-cmd' title='").Append(PluginPhrases.SendCommandTip)

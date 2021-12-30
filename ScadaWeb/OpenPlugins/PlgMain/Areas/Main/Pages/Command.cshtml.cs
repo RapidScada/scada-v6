@@ -73,7 +73,7 @@ namespace Scada.Web.Plugins.PlgMain.Areas.Main.Pages
         {
             Cnl cnl = webContext.BaseDataSet.CnlTable.GetItem(cnlNum);
 
-            if (cnl == null || !CnlTypeID.IsOutput(cnl.CnlTypeID))
+            if (cnl == null || !cnl.IsOutput())
             {
                 HasError = true;
                 Message = string.Format(dict.OutCnlNotFound, cnl);

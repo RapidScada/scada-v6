@@ -2,9 +2,10 @@
 
 // Represent metadata about a data cell.
 class CellMeta {
-    constructor(cnlNum, showVal, cellElem) {
+    constructor(cnlNum, showVal, joinLen, cellElem) {
         this.cnlNum = cnlNum;
         this.showVal = showVal;
+        this.joinLen = joinLen;
         this.cellElem = cellElem;
     }
 }
@@ -90,8 +91,9 @@ function initCurCells() {
     $("table.table-main:first tr.row-item").each(function () {
         let cnlNum = parseInt($(this).attr("data-cnlnum"));
         let showVal = $(this).attr("data-showval") === "true";
+        let joinLen = parseInt($(this).attr("data-joinlen"));
         let cell = $(this).children("td.cell-cur:first");
-        curCells.push(new CellMeta(cnlNum, showVal, cell));
+        curCells.push(new CellMeta(cnlNum, showVal, joinLen, cell));
     });
 }
 
@@ -104,6 +106,7 @@ function initHistCols() {
         let rowElem = $(this);
         let cnlNum = parseInt(rowElem.attr("data-cnlnum"));
         let showVal = rowElem.attr("data-showval") === "true";
+        let joinLen = parseInt(rowElem.attr("data-joinlen"));
 
         rowElem.children("td.cell-hist").each(function (index) {
             let cellElem = $(this);
@@ -116,7 +119,7 @@ function initHistCols() {
                 histCols[index] = colMeta;
             }
 
-            colMeta.cells.push(new CellMeta(cnlNum, showVal, cellElem));
+            colMeta.cells.push(new CellMeta(cnlNum, showVal, joinLen, cellElem));
         });
     });
 }
@@ -281,7 +284,14 @@ function showCurData(data) {
 
     for (let cellMeta of curCells) {
         let record = map.get(cellMeta.cnlNum);
-        displayCell(cellMeta, record);
+        let subrecords = [];
+
+        // append string parts
+        for (let i = 1; i < cellMeta.joinLen; i++) {
+            subrecords.push(map.get(cellMeta.cnlNum + i));
+        }
+
+        displayCell(cellMeta, record, subrecords);
     }
 }
 
@@ -302,11 +312,20 @@ function showHistData(data) {
                 if (recordIdx >= 0) {
                     let cnlNumIdx = map.get(cellMeta.cnlNum);
                     let record = cnlNumIdx >= 0 ? data.trends[cnlNumIdx][recordIdx] : null;
-                    displayCell(cellMeta, record);
+                    let subrecords = [];
+
+                    // append string parts
+                    for (let i = 1; i < cellMeta.joinLen; i++) {
+                        let cnlNumIdx = map.get(cellMeta.cnlNum + i);
+                        let subrecord = cnlNumIdx >= 0 ? data.trends[cnlNumIdx][recordIdx] : null;
+                        subrecords.push(subrecord);
+                    }
+
+                    displayCell(cellMeta, record, subrecords);
                 } else if (isNext && cellMeta.cnlNum > 0) {
                     cellMeta.cellElem.text(NEXT_TIME_SYMBOL).css(DEFAULT_CELL_COLOR);
                 } else {
-                    displayCell(cellMeta, null);
+                    displayCell(cellMeta, null, null);
                 }
             }
         }
@@ -330,11 +349,21 @@ function findRecordIndex(timestamps, time, startIdx) {
     return ~timestampCnt;
 }
 
-function displayCell(cellMeta, record) {
+function displayCell(cellMeta, record, subrecords) {
     let cellElem = cellMeta.cellElem;
 
     if (cellMeta.showVal && record) {
-        cellElem.text(record.df.dispVal);
+        let cellText = record.df.dispVal;
+
+        if (Array.isArray(subrecords) && subrecords.length > 0) {
+            for (let subrecord of subrecords) {
+                if (subrecord) {
+                    cellText += subrecord.df.dispVal;
+                }
+            }
+        }
+
+        cellElem.text(cellText);
         cellElem.css("color", getCellColor(record));
     } else {
         cellElem.text("");

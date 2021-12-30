@@ -93,16 +93,41 @@ namespace Scada.Web.Plugins.PlgMain
             {
                 if (item.CnlNum > 0)
                 {
-                    // update item
-                    if (baseDataSet.CnlTable.GetItem(item.CnlNum) is Cnl cnl)
+                    // update item according to channel
+                    Cnl cnl = baseDataSet.CnlTable.GetItem(item.CnlNum);
+
+                    if (cnl != null)
                     {
                         item.Cnl = cnl;
 
                         if (item.AutoText)
                             item.Text = cnl.Name;
+
+                        if (cnl.IsNumericArray())
+                            item.Text += "[0]";
                     }
 
+                    // add item
                     AddItem(item);
+
+                    // add items for array or string
+                    if (cnl?.DataLen > 1)
+                    {
+                        bool hidden = cnl.IsString();
+
+                        for (int i = 1, len = cnl.DataLen.Value; i < len; i++)
+                        {
+                            int newCnlNum = cnl.CnlNum + i;
+                            AddItem(new TableItem
+                            {
+                                CnlNum = newCnlNum,
+                                Hidden = hidden,
+                                AutoText = item.AutoText,
+                                Text = item.Text + "[" + i + "]",
+                                Cnl = baseDataSet.CnlTable.GetItem(newCnlNum)
+                            });
+                        }
+                    }
                 }
                 else if (item.DeviceNum <= 0)
                 {
@@ -119,17 +144,23 @@ namespace Scada.Web.Plugins.PlgMain
                     });
 
                     // create items for device channels
+                    // note that Webstation duplicates channels for arrays and strings
+                    int hiddenCnlNum = 0;
+
                     foreach (Cnl cnl in 
                         baseDataSet.CnlTable.Select(new TableFilter("DeviceNum", item.DeviceNum), true))
                     {
                         AddItem(new TableItem
                         {
                             CnlNum = cnl.CnlNum,
-                            Hidden = item.Hidden,
+                            Hidden = item.Hidden || cnl.CnlNum <= hiddenCnlNum,
                             AutoText = true,
                             Text = cnl.Name,
                             Cnl = cnl
                         });
+
+                        if (cnl.DataLen > 1 && cnl.IsString())
+                            hiddenCnlNum = cnl.CnlNum + cnl.DataLen.Value - 1;
                     }
                 }
             }
