@@ -311,7 +311,7 @@ namespace Scada
             if (ev.TextFormat == EventTextFormat.Command)
             {
                 // Command Value, Data. Custom text
-                sbDescr.Append(Locale.IsRussian ? "Команда: " : "Command: ");
+                sbDescr.Append(CommonPhrases.CommandDescrPrefix);
                 dataFormatted = FormatCnlData(new CnlData(ev.CnlVal, CnlStatusID.Defined), 
                     DataTypeID.Double, cnl?.FormatID ?? 0);
 
@@ -334,11 +334,8 @@ namespace Scada
 
                 if (ev.TextFormat == EventTextFormat.Full || ev.TextFormat == EventTextFormat.AutoText)
                 {
-                    string statusName = baseDataSet.CnlStatusTable.GetItem(ev.CnlStat)?.Name;
-
-                    if (string.IsNullOrEmpty(statusName))
-                        statusName = (Locale.IsRussian ? "Статус " : "Status ") + ev.CnlStat;
-
+                    string statusName = baseDataSet.CnlStatusTable.GetItem(ev.CnlStat)?.Name ??
+                        string.Format(CommonPhrases.StatusFormat, ev.CnlStat);
                     sbDescr.Append(statusName).Append(", ").Append(dataFormatted.DispVal);
                 }
             }

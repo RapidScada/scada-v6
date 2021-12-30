@@ -123,6 +123,10 @@ namespace Scada.Lang
         public static string UnnamedConnection { get; private set; }
         public static string XmlFileFilter { get; private set; }
 
+        // Scada.CnlDataFormatter
+        public static string CommandDescrPrefix { get; private set; }
+        public static string StatusFormat { get; private set; }
+
         static CommonPhrases()
         {
             // the phrases below may be required before loading dictionaries
@@ -233,6 +237,10 @@ namespace Scada.Lang
             NewConnection = dict["NewConnection"];
             UnnamedConnection = dict["UnnamedConnection"];
             XmlFileFilter = dict["XmlFileFilter"];
+
+            dict = Locale.GetDictionary("Scada.CnlDataFormatter");
+            CommandDescrPrefix = dict["CommandDescrPrefix"];
+            StatusFormat = dict["StatusFormat"];
         }
     }
 }

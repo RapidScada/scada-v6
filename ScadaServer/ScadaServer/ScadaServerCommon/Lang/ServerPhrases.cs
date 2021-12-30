@@ -76,6 +76,9 @@ namespace Scada.Server.Lang
         public static string HistoricalArchiveKind { get; private set; }
         public static string EventsArchiveKind { get; private set; }
 
+        // Scada.Server.Engine.CoreLogic
+        public static string CommandSentBy { get; private set; }
+
         public static void Init()
         {
             // set phrases that are used in the bilingual service logic, depending on the locale
@@ -154,6 +157,9 @@ namespace Scada.Server.Lang
             CurrentArchiveKind = dict.GetPhrase("CurrentArchiveKind");
             HistoricalArchiveKind = dict.GetPhrase("HistoricalArchiveKind");
             EventsArchiveKind = dict.GetPhrase("EventsArchiveKind");
+
+            dict = Locale.GetDictionary("Scada.Server.Engine.CoreLogic");
+            CommandSentBy = dict.GetPhrase("CommandSentBy");
         }
     }
 }

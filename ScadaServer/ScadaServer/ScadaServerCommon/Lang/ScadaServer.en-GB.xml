@@ -6,4 +6,7 @@
     <Phrase key="HistoricalArchiveKind">Historical</Phrase>
     <Phrase key="EventsArchiveKind">Events</Phrase>
   </Dictionary>
+  <Dictionary key="Scada.Server.Engine.CoreLogic">
+    <Phrase key="CommandSentBy">Sent by {0}</Phrase>
+  </Dictionary>
 </ScadaServerDictionaries>

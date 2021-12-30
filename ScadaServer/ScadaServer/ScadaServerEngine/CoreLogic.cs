@@ -32,6 +32,7 @@ using Scada.Lang;
 using Scada.Log;
 using Scada.Server.Archives;
 using Scada.Server.Config;
+using Scada.Server.Lang;
 using Scada.Server.Modules;
 using Scada.Storages;
 using System;
@@ -924,6 +925,7 @@ namespace Scada.Server.Engine
             if (eventMask.Enabled && eventMask.Command)
             {
                 DateTime utcNow = DateTime.UtcNow;
+                string userName = ConfigBase.UserTable.GetItem(command.UserID)?.Name;
 
                 EnqueueEvent(ArchiveMask.Default, new Event
                 {
@@ -935,6 +937,7 @@ namespace Scada.Server.Engine
                     CnlVal = double.IsNaN(command.CmdVal) ? 0.0 : command.CmdVal,
                     CnlStat = double.IsNaN(command.CmdVal) ? CnlStatusID.Undefined : CnlStatusID.Defined,
                     TextFormat = EventTextFormat.Command,
+                    Text = string.Format(ServerPhrases.CommandSentBy, userName),
                     Data = command.CmdData
                 });
             }
