@@ -273,14 +273,14 @@ namespace Scada.Server.Engine
             // add new channel tag to collections
             void AddCnlTag(Cnl cnl, Lim lim)
             {
-                if (CnlTypeID.IsArchivable(cnl.CnlTypeID))
+                if (cnl.IsArchivable())
                 {
                     CnlTag cnlTag = new CnlTag(index++, cnlNum, cnl, lim);
                     cnlTags.Add(cnlNum++, cnlTag);
 
-                    if (CnlTypeID.IsInput(cnl.CnlTypeID))
+                    if (cnl.IsInput())
                         measCnlTags.Add(cnlTag);
-                    else if (CnlTypeID.IsCalculated(cnl.CnlTypeID))
+                    else if (cnl.IsCalculated())
                         calcCnlTags.Add(cnlTag);
 
                     if (lim != null && lim.IsBoundToCnl)
@@ -291,7 +291,7 @@ namespace Scada.Server.Engine
             // add new output channel tag
             void AddOutCnlTag(Cnl cnl)
             {
-                if (CnlTypeID.IsOutput(cnl.CnlTypeID))
+                if (cnl.IsOutput())
                     outCnlTags.Add(cnl.CnlNum, new OutCnlTag(cnl));
             }
 
@@ -1235,7 +1235,7 @@ namespace Scada.Server.Engine
                     {
                         CnlData newCnlData = cnlData[i];
 
-                        if (applyFormulas && cnlTag.Cnl.FormulaEnabled && CnlTypeID.IsInput(cnlTag.Cnl.CnlTypeID))
+                        if (applyFormulas && cnlTag.Cnl.FormulaEnabled && cnlTag.Cnl.IsInput())
                         {
                             newCnlData = calc.CalcCnlData(cnlTag, newCnlData);
                             cnlData[i] = newCnlData;
@@ -1306,8 +1306,7 @@ namespace Scada.Server.Engine
                                 {
                                     CnlData newCnlData = slice.CnlData[i];
 
-                                    if (applyFormulas && cnlTag.Cnl.FormulaEnabled && 
-                                        CnlTypeID.IsInput(cnlTag.Cnl.CnlTypeID))
+                                    if (applyFormulas && cnlTag.Cnl.FormulaEnabled && cnlTag.Cnl.IsInput())
                                     {
                                         newCnlData = calc.CalcCnlData(cnlTag, newCnlData);
                                         UpdateCnlStatus(archiveLogic, timestamp, cnlTag, ref newCnlData);
