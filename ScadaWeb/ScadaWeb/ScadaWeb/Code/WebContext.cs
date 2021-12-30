@@ -369,25 +369,29 @@ namespace Scada.Web.Code
         /// </summary>
         private static void PostprocessBase(BaseDataSet baseDataSet)
         {
-            // duplicate channels for arrays
+            // duplicate channels for arrays and strings
             List<Cnl> duplicatedCnls = new();
 
             foreach (Cnl cnl in baseDataSet.CnlTable.Enumerate())
             {
-                if (cnl.IsNumericArray() && CnlTypeID.IsArchivable(cnl.CnlTypeID))
+                if (cnl.DataLen > 1 && cnl.IsArchivable())
                 {
                     string name = cnl.Name;
                     int dataLen = cnl.DataLen.Value;
                     int cnlTypeID = CnlTypeID.UnsetOutput(cnl.CnlTypeID);
 
-                    cnl.Name = name + "[0]";
-                    cnl.DataLen = null;
+                    if (cnl.IsNumeric())
+                    {
+                        cnl.Name += "[0]";
+                        cnl.DataLen = null;
+                    }
 
                     for (int i = 1; i < dataLen; i++)
                     {
                         Cnl newCnl = cnl.ShallowCopy();
                         newCnl.CnlNum = cnl.CnlNum + i;
                         newCnl.Name = name + "[" + i + "]";
+                        newCnl.DataLen = null;
                         newCnl.CnlTypeID = cnlTypeID;
                         duplicatedCnls.Add(newCnl);
                     }
