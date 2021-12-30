@@ -353,7 +353,7 @@ namespace Scada.Comm.Devices
         {
             foreach (Cnl cnl in baseDataSet.CnlTable.SelectItems(new TableFilter("DeviceNum", DeviceNum), true))
             {
-                if (cnl.Active && CnlTypeID.IsInput(cnl.CnlTypeID))
+                if (cnl.Active && cnl.IsInput())
                 {
                     DeviceTag deviceTag = null;
 
