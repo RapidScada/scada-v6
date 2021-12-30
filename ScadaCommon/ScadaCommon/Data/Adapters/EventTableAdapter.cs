@@ -82,15 +82,15 @@ namespace Scada.Data.Adapters
         /// <summary>
         /// The event acknowledged field index.
         /// </summary>
-        protected const int AckIndex = 58;
+        protected const int AckIndex = 54;
         /// <summary>
         /// The text block count field index.
         /// </summary>
-        protected const int TextBlockCountIndex = 73;
+        protected const int TextBlockCountIndex = 68;
         /// <summary>
         /// The data block count field index.
         /// </summary>
-        protected const int DataBlockCountIndex = 76;
+        protected const int DataBlockCountIndex = 71;
 
 
         /// <summary>
