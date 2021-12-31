@@ -24,10 +24,6 @@ namespace Scada.Comm.Drivers.DrvCnlBasic.Logic
     public class TcpConnection : Connection
     {
         /// <summary>
-        /// The timeout for reading one byte, ms.
-        /// </summary>
-        protected const int OneByteReadTimeout = 10;
-        /// <summary>
         /// The maximum number of characters per line.
         /// </summary>
         protected const int MaxLineLength = 1024;

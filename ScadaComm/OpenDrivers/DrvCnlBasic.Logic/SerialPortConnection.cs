@@ -170,9 +170,8 @@ namespace Scada.Comm.Drivers.DrvCnlBasic.Logic
         {
             try
             {
-                // this read method avoids ObjectDisposedException when the thread is aborted
                 int readCnt = 0;
-                SerialPort.ReadTimeout = 0;
+                SerialPort.ReadTimeout = timeout;
                 Stopwatch stopwatch = Stopwatch.StartNew();
 
                 while (readCnt < count && stopwatch.ElapsedMilliseconds <= timeout)
@@ -205,7 +204,7 @@ namespace Scada.Comm.Drivers.DrvCnlBasic.Logic
                 int readCnt = 0;
                 int curInd = offset;
                 stopReceived = false;
-                SerialPort.ReadTimeout = 0;
+                SerialPort.ReadTimeout = OneByteReadTimeout;
                 Stopwatch stopwatch = Stopwatch.StartNew();
 
                 while (readCnt < maxCount && !stopReceived && stopwatch.ElapsedMilliseconds <= timeout)
@@ -245,7 +244,7 @@ namespace Scada.Comm.Drivers.DrvCnlBasic.Logic
             {
                 List<string> lines = new List<string>();
                 stopReceived = false;
-                SerialPort.ReadTimeout = ScadaUtils.IsRunningOnWin ? 0 : timeout; // TODO: check on Linux
+                SerialPort.ReadTimeout = timeout;
                 Stopwatch stopwatch = Stopwatch.StartNew();
 
                 while (!stopReceived && stopwatch.ElapsedMilliseconds <= timeout)

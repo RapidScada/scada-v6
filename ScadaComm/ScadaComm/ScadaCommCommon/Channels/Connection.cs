@@ -39,10 +39,6 @@ namespace Scada.Comm.Channels
     public abstract class Connection
     {
         /// <summary>
-        /// The delay for data accumulation in the internal connection buffer, ms.
-        /// </summary>
-        protected const int DataAccumDelay = 10;
-        /// <summary>
         /// The default timeout for read operations, ms.
         /// </summary>
         protected const int DefaultReadTimeout = 5000;
@@ -50,6 +46,14 @@ namespace Scada.Comm.Channels
         /// The default timeout for write operations, ms.
         /// </summary>
         protected const int DefaultWriteTimeout = 5000;
+        /// <summary>
+        /// The timeout for reading one byte, ms.
+        /// </summary>
+        protected const int OneByteReadTimeout = 10;
+        /// <summary>
+        /// The delay for data accumulation in the internal connection buffer, ms.
+        /// </summary>
+        protected const int DataAccumDelay = 10;
 
 
         /// <summary>
