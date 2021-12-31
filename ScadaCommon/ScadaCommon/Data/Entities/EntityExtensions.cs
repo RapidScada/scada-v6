@@ -51,6 +51,14 @@ namespace Scada.Data.Entities
         }
 
         /// <summary>
+        /// Determines whether the channel represents an array or string.
+        /// </summary>
+        public static bool IsArray(this Cnl cnl)
+        {
+            return cnl.DataLen > 1;
+        }
+
+        /// <summary>
         /// Determines whether the channel represents an array of numbers.
         /// </summary>
         public static bool IsNumericArray(this Cnl cnl)

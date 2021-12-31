@@ -24,6 +24,7 @@
  */
 
 using Scada.Data.Entities;
+using Scada.Data.Tables;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -154,6 +155,30 @@ namespace Scada.Data.Models
                 if (index < 0)
                     CnlNumList.Insert(~index, cnlNum);
             }
+        }
+
+        /// <summary>
+        /// Adds additional channel numbers for the channels representing arrays.
+        /// </summary>
+        protected void AddCnlNumsForArrays(BaseTable<Cnl> cnlTable)
+        {
+            if (cnlTable == null)
+                throw new ArgumentNullException(nameof(cnlTable));
+
+            List<int> cnlNumsToAdd = new List<int>();
+
+            foreach (int cnlNum in CnlNumList)
+            {
+                if (cnlTable.GetItem(cnlNum) is Cnl cnl && cnl.IsArray())
+                {
+                    for (int i = 1, len = cnl.DataLen.Value; i < len; i++)
+                    {
+                        cnlNumsToAdd.Add(cnl.CnlNum + i);
+                    }
+                }
+            }
+
+            cnlNumsToAdd.ForEach(cnl => AddCnlNum(cnl));
         }
 
 
