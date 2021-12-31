@@ -312,7 +312,7 @@ namespace Scada.Comm.Engine
                     DeviceLogic deviceLogic;
 
                     // commands
-                    while (DequeueCommand(utcNow, out TeleCommand cmd, out deviceWrapper))
+                    while (!terminated && DequeueCommand(utcNow, out TeleCommand cmd, out deviceWrapper))
                     {
                         deviceLogic = deviceWrapper.DeviceLogic;
                         channel.BeforeSession(deviceLogic);
