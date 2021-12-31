@@ -1,7 +1,6 @@
 ﻿// Copyright (c) Rapid Software LLC. All rights reserved.
 // Licensed under the Apache License, Version 2.0. See License.txt in the project root for license information.
 
-using Scada.Data.Const;
 using Scada.Data.Entities;
 using Scada.Data.Models;
 using Scada.Data.Tables;
@@ -52,6 +51,18 @@ namespace Scada.Web.Plugins.PlgMain
             if (!item.Hidden)
                 VisibleItems.Add(item);
         }
+
+        /// <summary>
+        /// Removes the device name from the beginning of the channel name.
+        /// </summary>
+        protected static string TrimDeviceName(string deviceName, string cnlName)
+        {
+            return !string.IsNullOrEmpty(deviceName) && !string.IsNullOrEmpty(cnlName) && 
+                cnlName.StartsWith(deviceName, StringComparison.Ordinal)
+                ? cnlName[deviceName.Length..].TrimStart('-', '.', ' ')
+                : cnlName;
+        }
+
 
         /// <summary>
         /// Loads the view from the specified stream.
@@ -155,7 +166,7 @@ namespace Scada.Web.Plugins.PlgMain
                             CnlNum = cnl.CnlNum,
                             Hidden = item.Hidden || cnl.CnlNum <= hiddenCnlNum,
                             AutoText = true,
-                            Text = cnl.Name,
+                            Text = TrimDeviceName(device.Name, cnl.Name),
                             Cnl = cnl
                         });
 
