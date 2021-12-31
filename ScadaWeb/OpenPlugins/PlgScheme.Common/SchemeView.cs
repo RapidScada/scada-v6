@@ -245,6 +245,14 @@ namespace Scada.Web.Plugins.PlgScheme
         }
 
         /// <summary>
+        /// Binds the view to the configuration database.
+        /// </summary>
+        public override void Bind(BaseDataSet baseDataSet)
+        {
+            AddCnlNumsForArrays(baseDataSet.CnlTable);
+        }
+
+        /// <summary>
         /// Loads the scheme from the specified file.
         /// </summary>
         public bool LoadFromFile(string fileName, out string errMsg)

@@ -236,7 +236,7 @@ scada.scheme.Scheme.prototype._obtainSchemeDoc = function (receivedData) {
             this.type = "";
             this.props = receivedData.schemeDoc;
             this.loadErrors = receivedData.loadErrors;
-            this._createUnitMap(receivedData.cnlProps);
+            this._createCnlPropsMap(receivedData.cnlProps);
             this.viewStamp = receivedData.viewStamp;
             return true;
         } else {
@@ -249,14 +249,14 @@ scada.scheme.Scheme.prototype._obtainSchemeDoc = function (receivedData) {
     }
 };
 
-// Create a unit map from the channel properties
-scada.scheme.Scheme.prototype._createUnitMap = function (cnlProps) {
-    this.renderContext.unitMap = new Map();
+// Create a map of the channel properties
+scada.scheme.Scheme.prototype._createCnlPropsMap = function (cnlProps) {
+    this.renderContext.cnlPropsMap = new Map();
 
     if (Array.isArray(cnlProps)) {
-        for (let elem of cnlProps) {
-            if (elem.cnlNum > 0 && elem.unit) {
-                this.renderContext.unitMap.set(elem.cnlNum, elem.unit);
+        for (let cnlPropsElem of cnlProps) {
+            if (cnlPropsElem.cnlNum > 0) {
+                this.renderContext.cnlPropsMap.set(cnlPropsElem.cnlNum, cnlPropsElem);
             }
         }
     }

@@ -1,5 +1,5 @@
 ﻿// Renders a scheme.
-// Depends on jquery, scada-common.js, scheme-common.js
+// Depends on jquery, scada-common.js, main-api.js, scheme-common.js
 // Contains classes:
 //     Renderer
 //         SchemeRenderer
@@ -650,12 +650,13 @@ scada.scheme.DynamicTextRenderer.prototype.updateData = function (component, ren
         var ShowValueKinds = scada.scheme.ShowValueKinds;
         var spanComp = component.dom;
         var spanText = spanComp.children();
-        var cnlDataExt = renderContext.getCnlDataExt(props.inCnlNum);
+        var cnlProps = renderContext.getCnlProps(props.inCnlNum);
+        var cnlDataExt = renderContext.getCnlDataExt(props.inCnlNum, cnlProps.joinLen);
 
         // show value of the appropriate input channel
         switch (props.showValue) {
             case ShowValueKinds.SHOW_WITH_UNIT:
-                let unit = cnlDataExt.d.stat > 0 ? renderContext.getUnit(props.inCnlNum, " ") : "";
+                let unit = cnlDataExt.d.stat > 0 && cnlProps.unit ? " " + cnlProps.unit : "";
                 spanText.text(cnlDataExt.df.dispVal + unit);
                 break;
             case ShowValueKinds.SHOW_WITHOUT_UNIT:
@@ -832,7 +833,7 @@ scada.scheme.UnknownComponentRenderer.constructor = scada.scheme.UnknownComponen
 // Render context type
 scada.scheme.RenderContext = function () {
     this.curCnlDataMap = null;
-    this.unitMap = null;
+    this.cnlPropsMap = null;
     this.editMode = false;
     this.schemeEnv = null;
     this.viewID = 0;
@@ -840,26 +841,24 @@ scada.scheme.RenderContext = function () {
     this.controlRight = true;
 };
 
-// Get defined channel data even if they don't exist in the map
-scada.scheme.RenderContext.prototype.getCnlDataExt = function (cnlNum) {
-    let curCnlDataExt = this.curCnlDataMap ? this.curCnlDataMap.get(cnlNum) : null;
-
-    if (!curCnlDataExt) {
-        curCnlDataExt = {
-            d: { cnlNum: 0, val: 0.0, stat: 0 },
-            df: { dispVal: "", colors: [] }
-        };
-    }
-
-    return curCnlDataExt;
+// Get a non-null channel data by the specified channel number
+scada.scheme.RenderContext.prototype.getCnlDataExt = function (cnlNum, opt_joinLen) {
+    return MainApi.getCurData(this.curCnlDataMap, cnlNum, opt_joinLen);
 };
 
-// Get a unit by the channel number, or an empty string if channel does not exist
-scada.scheme.RenderContext.prototype.getUnit = function (cnlNum, opt_prefix) {
-    let unit = this.unitMap ? this.unitMap.get(cnlNum) : null;
-    return unit
-        ? opt_prefix + unit
-        : "";
+// Get a non-null channel properties by the specified channel number
+scada.scheme.RenderContext.prototype.getCnlProps = function (cnlNum) {
+    let cnlProps = this.cnlPropsMap ? this.cnlPropsMap.get(cnlNum) : null;
+
+    if (!cnlProps) {
+        cnlProps = {
+            cnlNum: 0,
+            joinLen: 1,
+            unit: ""
+        }
+    }
+
+    return cnlProps;
 };
 
 // Get scheme image object by the image name

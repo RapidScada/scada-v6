@@ -58,13 +58,7 @@ namespace Scada.Web.Plugins.PlgScheme.Models
             {
                 if (baseDataSet.CnlTable.GetItem(cnlNum) is Cnl cnl)
                 {
-                    CnlProps.Add(new CnlProps
-                    {
-                        CnlNum = cnlNum,
-                        Unit = cnl.UnitID.HasValue
-                            ? baseDataSet.UnitTable.GetItem(cnl.UnitID.Value)?.Name
-                            : null
-                    });
+                    CnlProps.Add(new CnlProps(cnl, baseDataSet));
                 }
             }
         }
