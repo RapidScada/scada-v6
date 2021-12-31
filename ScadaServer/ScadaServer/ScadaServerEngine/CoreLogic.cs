@@ -306,9 +306,9 @@ namespace Scada.Server.Engine
                     AddOutCnlTag(cnl);
 
                     // add channel tags if one channel row defines multiple channels
-                    if (cnl.DataLen > 1)
+                    if (cnl.IsArray())
                     {
-                        for (int i = 1, cnt = cnl.DataLen.Value; i < cnt; i++)
+                        for (int i = 1, len = cnl.DataLen.Value; i < len; i++)
                         {
                             AddCnlTag(cnl, lim);
                         }
