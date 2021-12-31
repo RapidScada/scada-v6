@@ -374,7 +374,7 @@ namespace Scada.Web.Code
 
             foreach (Cnl cnl in baseDataSet.CnlTable.Enumerate())
             {
-                if (cnl.DataLen > 1 && cnl.IsArchivable())
+                if (cnl.IsArray() && cnl.IsArchivable())
                 {
                     string name = cnl.Name;
                     int dataLen = cnl.DataLen.Value;
