@@ -6,6 +6,7 @@ using Scada.Comm.Devices;
 using Scada.Comm.Drivers.DrvOpcUa.Config;
 using Scada.Comm.Drivers.DrvOpcUa.View.Forms;
 using Scada.Data.Const;
+using Scada.Data.Models;
 
 namespace Scada.Comm.Drivers.DrvOpcUa.View
 {
@@ -50,6 +51,8 @@ namespace Scada.Comm.Drivers.DrvOpcUa.View
             // create channels for subscriptions
             List<CnlPrototype> cnlPrototypes = new();
             int tagNum = 1;
+            int eventMask = new EventMask { Enabled = true, StatusChange = true, Command = true }.Value;
+            int cmdEventMask = new EventMask { Enabled = true, Command = true }.Value;
 
             foreach (SubscriptionConfig subscriptionConfig in opcDeviceConfig.Subscriptions)
             {
@@ -61,7 +64,8 @@ namespace Scada.Comm.Drivers.DrvOpcUa.View
                         Name = itemConfig.DisplayName,
                         CnlTypeID = CnlTypeID.InputOutput,
                         TagNum = string.IsNullOrEmpty(itemConfig.TagCode) ? tagNum : null,
-                        TagCode = itemConfig.TagCode
+                        TagCode = itemConfig.TagCode,
+                        EventMask = eventMask
                     };
 
                     if (itemConfig.IsString)
@@ -91,7 +95,8 @@ namespace Scada.Comm.Drivers.DrvOpcUa.View
                     Name = commandConfig.DisplayName,
                     CnlTypeID = CnlTypeID.Output,
                     TagNum = string.IsNullOrEmpty(commandConfig.CmdCode) ? commandConfig.CmdNum : null,
-                    TagCode = commandConfig.CmdCode
+                    TagCode = commandConfig.CmdCode,
+                    EventMask = cmdEventMask
                 };
 
                 if (commandConfig.IsMethod)

@@ -80,15 +80,21 @@ namespace Scada.Comm.Drivers.DrvModbus.View
 
             List<CnlPrototype> cnlPrototypes = new();
             int tagNum = 1;
-            int eventMask = new EventMask { Enabled = true, StatusChange = true, Command = true }.Value;
-            int bitEventMask = new EventMask { Enabled = true, DataChange = true, Command = true }.Value;
-            int cmdEventMask = new EventMask { Enabled = true, Command = true }.Value;
 
             foreach (ElemGroupConfig elemGroupConfig in deviceTemplate.ElemGroups)
             {
                 foreach (ElemConfig elemConfig in elemGroupConfig.Elems)
                 {
                     // create channel for element
+                    bool isBool = elemConfig.ElemType == ElemType.Bool;
+                    int eventMask = new EventMask 
+                    { 
+                        Enabled = true, 
+                        DataChange = isBool, 
+                        StatusChange = !isBool, 
+                        Command = !elemConfig.ReadOnly 
+                    }.Value;
+
                     cnlPrototypes.Add(new CnlPrototype
                     {
                         Active = elemGroupConfig.Active,
@@ -96,15 +102,22 @@ namespace Scada.Comm.Drivers.DrvModbus.View
                         CnlTypeID = elemConfig.ReadOnly ? CnlTypeID.Input : CnlTypeID.InputOutput,
                         TagNum = string.IsNullOrEmpty(elemConfig.TagCode) ? tagNum : null,
                         TagCode = elemConfig.TagCode,
-                        FormatCode = elemConfig.ElemType == ElemType.Bool
+                        FormatCode = isBool 
                             ? FormatCode.OffOn 
                             : elemConfig.IsBitMask ? FormatCode.X : null,
-                        EventMask = elemConfig.ElemType == ElemType.Bool ? bitEventMask : eventMask
+                        EventMask = eventMask
                     });
 
                     // create channels for bit mask
                     if (elemConfig.IsBitMask && elemConfig.ElemType != ElemType.Bool)
                     {
+                        eventMask = new EventMask
+                        {
+                            Enabled = true,
+                            DataChange = true,
+                            Command = !elemConfig.ReadOnly
+                        }.Value;
+
                         for (int bit = 0, bitCnt = ModbusUtils.GetDataLength(elemConfig.ElemType) * 8; 
                             bit < bitCnt; bit++)
                         {
@@ -117,7 +130,7 @@ namespace Scada.Comm.Drivers.DrvModbus.View
                                 FormulaEnabled = false,
                                 InFormula = $"GetBit(DataRel({-bit - 1}), {bit})",
                                 OutFormula = elemConfig.ReadOnly ? null : $"SetBit(DataRel({-bit - 1}), {bit}, Cmd)",
-                                EventMask = bitEventMask
+                                EventMask = eventMask
                             });
                         }
                     }
@@ -127,6 +140,8 @@ namespace Scada.Comm.Drivers.DrvModbus.View
             }
 
             // create channels for commands
+            int cmdEventMask = new EventMask { Enabled = true, Command = true }.Value;
+
             foreach (CmdConfig cmdConfig in deviceTemplate.Cmds)
             {
                 cnlPrototypes.Add(new CnlPrototype
