@@ -273,7 +273,7 @@ namespace Scada.Web.Plugins.PlgMain.Areas.Main.Pages
             {
                 Cnl itemCnl = tableItem.Cnl;
                 bool showVal = itemCnl != null && itemCnl.IsArchivable();
-                int joinLen = showVal && itemCnl.DataLen > 1 && itemCnl.IsString() ? itemCnl.DataLen.Value : 1;
+                int joinLen = itemCnl != null && itemCnl.IsString() ? itemCnl.GetDataLength() : 1;
                 string itemText = string.IsNullOrWhiteSpace(tableItem.Text) ?
                     "&nbsp;" : HttpUtility.HtmlEncode(tableItem.Text);
 

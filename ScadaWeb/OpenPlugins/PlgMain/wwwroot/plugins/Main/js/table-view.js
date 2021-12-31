@@ -283,15 +283,8 @@ function showCurData(data) {
     let map = mainApi.mapCurData(data);
 
     for (let cellMeta of curCells) {
-        let record = map.get(cellMeta.cnlNum);
-        let subrecords = [];
-
-        // append string parts
-        for (let i = 1; i < cellMeta.joinLen; i++) {
-            subrecords.push(map.get(cellMeta.cnlNum + i));
-        }
-
-        displayCell(cellMeta, record, subrecords);
+        let record = MainApi.getCurData(map, cellMeta.cnlNum, cellMeta.joinLen);
+        displayCell(cellMeta, record);
     }
 }
 
@@ -349,15 +342,15 @@ function findRecordIndex(timestamps, time, startIdx) {
     return ~timestampCnt;
 }
 
-function displayCell(cellMeta, record, subrecords) {
+function displayCell(cellMeta, record, opt_subrecords) {
     let cellElem = cellMeta.cellElem;
 
     if (cellMeta.showVal && record) {
         let cellText = record.df.dispVal;
 
-        if (Array.isArray(subrecords) && subrecords.length > 0) {
-            for (let subrecord of subrecords) {
-                if (subrecord) {
+        if (Array.isArray(opt_subrecords) && record.d.stat > 0) {
+            for (let subrecord of opt_subrecords) {
+                if (subrecord && subrecord.d.stat > 0) {
                     cellText += subrecord.df.dispVal;
                 }
             }

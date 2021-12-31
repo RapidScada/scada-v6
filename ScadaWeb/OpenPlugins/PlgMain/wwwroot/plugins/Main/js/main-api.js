@@ -201,4 +201,29 @@ class MainApi {
 
         return map;
     }
+
+    // Gets a non-null current data record from the map by the channel number.
+    static getCurData(curDataMap, cnlNum, opt_joinLen) {
+        let record = curDataMap ? curDataMap.get(cnlNum) : null;
+
+        if (!record) {
+            record = {
+                d: { cnlNum: 0, val: 0.0, stat: 0 },
+                df: { dispVal: "", colors: [] }
+            };
+        }
+
+        if (opt_joinLen > 1 && curDataMap && record.d.stat > 0) {
+            record = JSON.parse(JSON.stringify(record)); // clone record
+
+            for (let i = 1; i < opt_joinLen; i++) {
+                let subrecord = curDataMap.get(cnlNum + i);
+                if (subrecord && subrecord.d.stat > 0) {
+                    record.df.dispVal += subrecord.df.dispVal;
+                }
+            }
+        }
+
+        return record;
+    }
 }

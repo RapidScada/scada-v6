@@ -111,7 +111,7 @@ namespace Scada.Web.Plugins.PlgMain
                     AddItem(item);
 
                     // add items for array or string
-                    if (cnl?.DataLen > 1)
+                    if (cnl != null && cnl.IsArray())
                     {
                         bool hidden = cnl.IsString();
 
@@ -159,7 +159,7 @@ namespace Scada.Web.Plugins.PlgMain
                             Cnl = cnl
                         });
 
-                        if (cnl.DataLen > 1 && cnl.IsString())
+                        if (cnl.IsArray() && cnl.IsString())
                             hiddenCnlNum = cnl.CnlNum + cnl.DataLen.Value - 1;
                     }
                 }
