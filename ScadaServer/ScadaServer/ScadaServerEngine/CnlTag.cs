@@ -84,6 +84,11 @@ namespace Scada.Server.Engine
         public Cnl Cnl { get; }
 
         /// <summary>
+        /// Gets the index of the array element if the channel represents an array.
+        /// </summary>
+        public int ArrIdx => Cnl == null ? 0 : CnlNum - Cnl.CnlNum;
+
+        /// <summary>
         /// Gets the channel limits.
         /// </summary>
         public Lim Lim { get; }

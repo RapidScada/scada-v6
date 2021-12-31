@@ -38,6 +38,6 @@ namespace Scada.Server.Engine
         /// Handles the changes of the current channel data.
         /// </summary>
         void HandleCurDataChanged(CnlTag cnlTag, ref CnlData cnlData, CnlData prevCnlData, 
-            DateTime timestamp, DateTime prevTimestamp);
+            CnlData prevCnlDataDef, DateTime timestamp, DateTime prevTimestamp);
     }
 }

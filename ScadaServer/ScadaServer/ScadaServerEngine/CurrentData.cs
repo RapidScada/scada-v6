@@ -59,6 +59,7 @@ namespace Scada.Server.Engine
             int cnlCnt = cnlTags.Count;
             CnlData = new CnlData[cnlCnt];
             PrevCnlData = new CnlData[cnlCnt];
+            PrevCnlDataDef = new CnlData[cnlCnt];
             Timestamps = new DateTime[cnlCnt];
             PrevTimestamps = new DateTime[cnlCnt];
         }
@@ -85,6 +86,11 @@ namespace Scada.Server.Engine
         public CnlData[] PrevCnlData { get; }
 
         /// <summary>
+        /// Gets the previous channel data with a defined status.
+        /// </summary>
+        public CnlData[] PrevCnlDataDef { get; }
+
+        /// <summary>
         /// Gets the current channel timestamps.
         /// </summary>
         public DateTime[] Timestamps { get; }
@@ -109,10 +115,15 @@ namespace Scada.Server.Engine
             int cnlIndex = cnlTag.Index;
             DateTime prevTimestamp = Timestamps[cnlIndex];
             CnlData prevCnlData = CnlData[cnlIndex];
-            cnlDataChangeHandler.HandleCurDataChanged(cnlTag, ref cnlData, prevCnlData, nowDT, prevTimestamp);
+            CnlData prevCnlDataDef = prevCnlData.IsDefined ? prevCnlData : PrevCnlDataDef[cnlIndex];
+            cnlDataChangeHandler.HandleCurDataChanged(cnlTag, ref cnlData, prevCnlData, 
+                prevCnlDataDef, nowDT, prevTimestamp);
 
             PrevTimestamps[cnlIndex] = prevTimestamp;
             PrevCnlData[cnlIndex] = prevCnlData;
+
+            if (prevCnlData.IsDefined)
+                PrevCnlDataDef[cnlIndex] = prevCnlData;
 
             Timestamps[cnlIndex] = nowDT;
             CnlData[cnlIndex] = cnlData;

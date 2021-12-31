@@ -881,18 +881,26 @@ namespace Scada.Server.Engine
         /// <summary>
         /// Generates an event based on channel data.
         /// </summary>
-        private void GenerateEvent(CnlTag cnlTag, CnlData cnlData, CnlData prevCnlData)
+        private void GenerateEvent(CnlTag cnlTag, CnlData cnlData, CnlData prevCnlData, CnlData prevCnlDataDef)
         {
             Cnl cnl = cnlTag.Cnl;
             EventMask eventMask = new EventMask(cnl.EventMask);
 
+            bool DataChanged() => cnlData.IsDefined && prevCnlDataDef.IsDefined && 
+                cnlData != prevCnlDataDef && cnl.IsNumeric();
+            bool ValueChanged() => cnlData.IsDefined && prevCnlDataDef.IsDefined && 
+                !cnlData.Val.Equals(prevCnlDataDef.Val) && cnl.IsNumeric(); // NaN == NaN
+            bool StatusChanged() => cnlData.IsDefined && prevCnlDataDef.IsDefined &&
+                cnlData.Stat != prevCnlDataDef.Stat && (cnl.IsNumeric() || cnlTag.ArrIdx == 0);
+            bool UndefinedChanged() => cnlData.IsUndefined != prevCnlData.IsUndefined && 
+                (cnl.IsNumeric() || cnlTag.ArrIdx == 0);
+
             if (eventMask.Enabled)
             {
-                if (eventMask.DataChange && cnlData != prevCnlData ||
-                    eventMask.ValueChange && !cnlData.Val.Equals(prevCnlData.Val) /*NaN == NaN*/ ||
-                    eventMask.StatusChange && cnlData.Stat != prevCnlData.Stat ||
-                    eventMask.CnlUndefined &&
-                    (cnlData.IsUndefined && prevCnlData.IsDefined || cnlData.IsDefined && prevCnlData.IsUndefined))
+                if (eventMask.DataChange && DataChanged() ||
+                    eventMask.ValueChange && ValueChanged() ||
+                    eventMask.StatusChange && StatusChanged() ||
+                    eventMask.CnlUndefined && UndefinedChanged())
                 {
                     CnlStatus cnlStatus = ConfigBase.CnlStatusTable.GetItem(cnlData.Stat);
                     DateTime utcNow = DateTime.UtcNow;
@@ -1522,11 +1530,11 @@ namespace Scada.Server.Engine
         /// <summary>
         /// Handles the changes of the current channel data.
         /// </summary>
-        void ICnlDataChangeHandler.HandleCurDataChanged(CnlTag cnlTag, ref CnlData cnlData, CnlData prevCnlData,
-            DateTime timestamp, DateTime prevTimestamp)
+        void ICnlDataChangeHandler.HandleCurDataChanged(CnlTag cnlTag, ref CnlData cnlData, CnlData prevCnlData, 
+            CnlData prevCnlDataDef, DateTime timestamp, DateTime prevTimestamp)
         {
             UpdateCnlStatus(cnlTag, ref cnlData, prevCnlData);
-            GenerateEvent(cnlTag, cnlData, prevCnlData);
+            GenerateEvent(cnlTag, cnlData, prevCnlData, prevCnlDataDef);
         }
     }
 }
