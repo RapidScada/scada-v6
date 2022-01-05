@@ -62,11 +62,16 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DrvTester.Logic", "DrvTeste
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DrvTester.View", "DrvTester.View\DrvTester.View.csproj", "{EDAF9A96-07DA-4A2D-AB7C-B299378F4433}"
 EndProject
+Project("{D954291E-2A0B-460D-934E-DC6B0785DB48}") = "DrvTester.Shared", "DrvTester.Shared\DrvTester.Shared.shproj", "{1A325222-6683-4D81-8293-AC5BD4C8D3BA}"
+EndProject
 Global
 	GlobalSection(SharedMSBuildProjectFiles) = preSolution
+		DrvTester.Shared\DrvTester.Shared.projitems*{1a325222-6683-4d81-8293-ac5bd4c8d3ba}*SharedItemsImports = 13
 		DrvSimulator.Shared\DrvSimulator.Shared.projitems*{459d0b20-51a9-4aa8-8ccc-9f5b34a74029}*SharedItemsImports = 13
 		DrvSimulator.Shared\DrvSimulator.Shared.projitems*{48043839-37e7-40ae-92e2-a31a79204cf5}*SharedItemsImports = 5
 		DrvSimulator.Shared\DrvSimulator.Shared.projitems*{8f1c993e-1a67-494a-a5b9-9aedaa8feb9c}*SharedItemsImports = 5
+		DrvTester.Shared\DrvTester.Shared.projitems*{b7f37122-5eb4-4cf6-b7e9-79e6d0e2083d}*SharedItemsImports = 5
+		DrvTester.Shared\DrvTester.Shared.projitems*{edaf9a96-07da-4a2d-ab7c-b299378f4433}*SharedItemsImports = 5
 	EndGlobalSection
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -174,6 +179,7 @@ Global
 		{459D0B20-51A9-4AA8-8CCC-9F5B34A74029} = {AC204E06-2ED1-4E19-9B95-5237F44B3454}
 		{B7F37122-5EB4-4CF6-B7E9-79E6D0E2083D} = {910F529C-3F58-4452-94BB-A421C13B5B7B}
 		{EDAF9A96-07DA-4A2D-AB7C-B299378F4433} = {910F529C-3F58-4452-94BB-A421C13B5B7B}
+		{1A325222-6683-4D81-8293-AC5BD4C8D3BA} = {910F529C-3F58-4452-94BB-A421C13B5B7B}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {961AA4C1-5D08-4B24-AE6B-99F3AB1A7AEF}

@@ -43,13 +43,13 @@ namespace Scada.Comm.Drivers.DrvTester.View
                 return Locale.IsRussian ?
                     "Предназначен для проверки каналов связи.\n\n" +
                     "Команды ТУ:\n" +
-                    "1, SendBin - отправить бинарные данные;\n" +
-                    "2, SendStr - отправить строку." :
+                    "1, SendStr - отправить строку;\n" +
+                    "2, SendBin - отправить бинарные данные." :
 
                     "Designed for testing communication channels.\n\n" +
                     "Commands:\n" +
-                    "1, SendBin - send binary data;\n" +
-                    "2, SendStr - send string.";
+                    "1, SendStr - send string;\n" +
+                    "2, SendBin - send binary data.";
             }
         }
 
