@@ -55,7 +55,6 @@ namespace Scada.Comm.Drivers.DrvTester.Logic
         public override void Session()
         {
             base.Session();
-
             Stopwatch stopwatch = Stopwatch.StartNew();
 
             if (options.ReadMode == ReadMode.Binary)
