@@ -5,7 +5,9 @@ using Scada.Comm.Config;
 using Scada.Comm.Devices;
 using Scada.Comm.Lang;
 using Scada.Data.Models;
+using Scada.Lang;
 using System;
+using System.Diagnostics;
 
 namespace Scada.Comm.Drivers.DrvTester.Logic
 {
@@ -24,6 +26,26 @@ namespace Scada.Comm.Drivers.DrvTester.Logic
             CanSendCommands = true;
         }
 
+
+        /// <summary>
+        /// Performs actions after setting the connection.
+        /// </summary>
+        public override void OnConnectionSet()
+        {
+            if (Connection != null)
+                Connection.NewLine = "\x0D";
+        }
+
+        /// <summary>
+        /// Performs a communication session.
+        /// </summary>
+        public override void Session()
+        {
+            base.Session();
+            FinishRequest();
+            FinishSession();
+        }
+
         /// <summary>
         /// Sends the telecontrol command.
         /// </summary>
@@ -34,11 +56,23 @@ namespace Scada.Comm.Drivers.DrvTester.Logic
             if (cmd.CmdCode == "SendBin" || cmd.CmdNum == 1)
             {
                 byte[] buffer = cmd.CmdData ?? Array.Empty<byte>();
+                Stopwatch stopwatch = Stopwatch.StartNew();
                 Connection.Write(buffer, 0, buffer.Length);
+                stopwatch.Stop();
+
+                Log.WriteLine(Locale.IsRussian ?
+                    "Отправлено за {0} мс" :
+                    "Sent in {0} ms", stopwatch.ElapsedMilliseconds);
             }
             else if (cmd.CmdCode == "SendStr" || cmd.CmdNum == 2)
             {
+                Stopwatch stopwatch = Stopwatch.StartNew();
                 Connection.WriteLine(cmd.GetCmdDataString());
+                stopwatch.Stop();
+
+                Log.WriteLine(Locale.IsRussian ?
+                    "Отправлено за {0} мс" :
+                    "Sent in {0} ms", stopwatch.ElapsedMilliseconds);
             }
             else
             {

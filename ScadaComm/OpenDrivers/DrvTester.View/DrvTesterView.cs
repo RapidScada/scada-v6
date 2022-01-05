@@ -1,6 +1,8 @@
 ﻿// Copyright (c) Rapid Software LLC. All rights reserved.
 // Licensed under the Apache License, Version 2.0. See License.txt in the project root for license information.
 
+using Scada.Comm.Config;
+using Scada.Comm.Devices;
 using Scada.Lang;
 
 namespace Scada.Comm.Drivers.DrvTester.View
@@ -11,6 +13,15 @@ namespace Scada.Comm.Drivers.DrvTester.View
     /// </summary>
     public class DrvTesterView : DriverView
     {
+        /// <summary>
+        /// Initializes a new instance of the class.
+        /// </summary>
+        public DrvTesterView()
+        {
+            CanCreateDevice = true;
+        }
+
+
         /// <summary>
         /// Gets the driver name.
         /// </summary>
@@ -40,6 +51,15 @@ namespace Scada.Comm.Drivers.DrvTester.View
                     "1, SendBin - send binary data;\n" +
                     "2, SendStr - send string.";
             }
+        }
+
+
+        /// <summary>
+        /// Creates a new device user interface.
+        /// </summary>
+        public override DeviceView CreateDeviceView(LineConfig lineConfig, DeviceConfig deviceConfig)
+        {
+            return new DevTesterView(this, lineConfig, deviceConfig);
         }
     }
 }
