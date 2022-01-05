@@ -121,7 +121,7 @@ namespace Scada.Comm.Drivers.DrvSimulator.Logic
         {
             base.SendCommand(cmd);
 
-            if (cmd.CmdCode == TagCode.DO)
+            if (cmd.CmdCode == TagCode.DO || cmd.CmdNum == 4)
             {
                 double relayVal = cmd.CmdVal > 0 ? 1 : 0;
                 Log.WriteLine(Locale.IsRussian ?
@@ -129,7 +129,7 @@ namespace Scada.Comm.Drivers.DrvSimulator.Logic
                     "Set the relay state to {0}", relayVal);
                 DeviceData.Set(TagCode.DO, relayVal);
             }
-            else if (cmd.CmdCode == TagCode.AO)
+            else if (cmd.CmdCode == TagCode.AO || cmd.CmdNum == 5)
             {
                 Log.WriteLine(Locale.IsRussian ?
                     "Установить аналоговый выход в {0}" :
