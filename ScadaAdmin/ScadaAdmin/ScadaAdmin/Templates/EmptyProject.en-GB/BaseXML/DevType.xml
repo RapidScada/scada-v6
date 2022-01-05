@@ -199,6 +199,12 @@
     <Descr>Implements Enron Modbus https://www.simplymodbus.ca/Enron.htm</Descr>
   </DevType>
   <DevType>
+    <DevTypeID>234</DevTypeID>
+    <Name>Tester</Name>
+    <Driver>DrvTester</Driver>
+    <Descr>Designed for testing communication channels</Descr>
+  </DevType>
+  <DevType>
     <DevTypeID>1001</DevTypeID>
     <Name>Custom driver</Name>
     <Descr>Add custom items starting from this row</Descr>
