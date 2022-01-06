@@ -23,6 +23,16 @@ namespace Scada.Comm.Drivers.DrvTester.View
         }
 
         /// <summary>
+        /// Gets the default polling options for the device.
+        /// </summary>
+        public override PollingOptions GetPollingOptions()
+        {
+            PollingOptions pollingOptions = PollingOptions.CreateDefault();
+            new TesterOptions().AddToOptionList(pollingOptions.CustomOptions);
+            return pollingOptions;
+        }
+
+        /// <summary>
         /// Shows a modal dialog box for editing device properties.
         /// </summary>
         public override bool ShowProperties()

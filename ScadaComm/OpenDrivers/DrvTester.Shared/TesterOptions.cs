@@ -15,6 +15,14 @@ namespace Scada.Comm.Drivers.DrvTester
         /// <summary>
         /// Initializes a new instance of the class.
         /// </summary>
+        public TesterOptions()
+            : this(new OptionList())
+        {
+        }
+
+        /// <summary>
+        /// Initializes a new instance of the class.
+        /// </summary>
         public TesterOptions(OptionList options)
         {
             ReadMode = options.GetValueAsEnum<ReadMode>("ReadMode");
