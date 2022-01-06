@@ -123,7 +123,7 @@ namespace Scada.Comm.Channels
                 {
                     throw new ScadaException(Locale.IsRussian ?
                         "Поведение {0} канала связи не поддерживается КП {1}." :
-                        "{0} behavior of the communication channel is not supprted by the device {1}",
+                        "{0} behavior of the communication channel is not supported by the device {1}",
                         Behavior, deviceLogic.Title);
                 }
             }
