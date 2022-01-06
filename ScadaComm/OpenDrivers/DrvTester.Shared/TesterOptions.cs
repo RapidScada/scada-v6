@@ -2,6 +2,7 @@
 // Licensed under the Apache License, Version 2.0. See License.txt in the project root for license information.
 
 using Scada.Config;
+using System.ComponentModel;
 
 namespace Scada.Comm.Drivers.DrvTester
 {
@@ -23,24 +24,30 @@ namespace Scada.Comm.Drivers.DrvTester
         }
 
 
-        /// <summary>
-        /// Gets or sets the reading mode.
-        /// </summary>
+        [Description("The reading mode.")]
         public ReadMode ReadMode { get; set; }
 
-        /// <summary>
-        /// Gets or sets the length of the buffer length for binary data.
-        /// </summary>
+        [Description("The length of the input buffer for binary data.")]
         public int BufferLength { get; set; }
 
-        /// <summary>
-        /// Gets or sets the stop code for reading binary data. If zero, no stop condition is used.
-        /// </summary>
+        [Description("The stop code for reading binary data. If zero, no stop condition is used.")]
         public byte BinStopCode { get; set; }
 
-        /// <summary>
-        /// Gets or sets the line end to stop reading text. If empty, one line is read.
-        /// </summary>
+        [Description("The line end to stop reading text. If empty, one line is read.")]
         public string StopEnding { get; set; }
+
+
+        /// <summary>
+        /// Adds the options to the list.
+        /// </summary>
+        [Description("")]
+        public void AddToOptionList(OptionList options)
+        {
+            options.Clear();
+            options["ReadMode"] = ReadMode.ToString();
+            options["BufferLength"] = BufferLength.ToString();
+            options["BinStopCode"] = BinStopCode.ToString();
+            options["StopEnding"] = StopEnding;
+        }
     }
 }

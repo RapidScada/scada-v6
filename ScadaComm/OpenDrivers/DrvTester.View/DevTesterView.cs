@@ -3,6 +3,7 @@
 
 using Scada.Comm.Config;
 using Scada.Comm.Devices;
+using Scada.Forms;
 
 namespace Scada.Comm.Drivers.DrvTester.View
 {
@@ -18,6 +19,26 @@ namespace Scada.Comm.Drivers.DrvTester.View
         public DevTesterView(DriverView parentView, LineConfig lineConfig, DeviceConfig deviceConfig)
             : base(parentView, lineConfig, deviceConfig)
         {
+            CanShowProperties = true;
+        }
+
+        /// <summary>
+        /// Shows a modal dialog box for editing device properties.
+        /// </summary>
+        public override bool ShowProperties()
+        {
+            TesterOptions options = new(DeviceConfig.PollingOptions.CustomOptions);
+            FrmOptions frmOptions = new() { Options = options };
+
+            if (frmOptions.ShowDialog() == DialogResult.OK)
+            {
+                options.AddToOptionList(DeviceConfig.PollingOptions.CustomOptions);
+                return true;
+            }
+            else
+            {
+                return false;
+            }
         }
     }
 }
