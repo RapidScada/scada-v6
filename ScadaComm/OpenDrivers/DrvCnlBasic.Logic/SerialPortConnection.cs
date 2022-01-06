@@ -181,7 +181,10 @@ namespace Scada.Comm.Drivers.DrvCnlBasic.Logic
 
                     // accumulate data in the internal port buffer
                     if (readCnt < count)
+                    {
+                        SerialPort.ReadTimeout = OneByteReadTimeout;
                         Thread.Sleep(DataAccumDelay);
+                    }
                 }
 
                 logText = BuildReadLogText(buffer, offset, count, readCnt, format);
@@ -250,17 +253,20 @@ namespace Scada.Comm.Drivers.DrvCnlBasic.Logic
                 while (!stopReceived && stopwatch.ElapsedMilliseconds <= timeout)
                 {
                     string line;
-                    try { line = SerialPort.ReadLine().Trim(); }
-                    catch (TimeoutException) { line = ""; }
+                    try { line = SerialPort.ReadLine(); }
+                    catch (TimeoutException) { line = null; }
 
-                    if (line != "")
+                    if (line != null)
                     {
                         lines.Add(line);
                         stopReceived = stopCond.CheckCondition(lines, line);
                     }
 
                     if (!stopReceived)
+                    {
+                        SerialPort.ReadTimeout = OneByteReadTimeout;
                         Thread.Sleep(DataAccumDelay);
+                    }
                 }
 
                 logText = BuildReadLinesLogText(lines);

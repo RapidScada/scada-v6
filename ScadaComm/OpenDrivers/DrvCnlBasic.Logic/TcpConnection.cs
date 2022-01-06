@@ -414,16 +414,13 @@ namespace Scada.Comm.Drivers.DrvCnlBasic.Logic
             {
                 List<string> lines = new List<string>();
                 stopReceived = false;
-
-                DateTime utcNowDT = DateTime.UtcNow;
-                DateTime startDT = utcNowDT;
-                DateTime stopDT = startDT.AddMilliseconds(timeout);
                 NetStream.ReadTimeout = OneByteReadTimeout;
+                Stopwatch stopwatch = Stopwatch.StartNew();
 
                 StringBuilder sbLine = new StringBuilder(MaxLineLength);
                 byte[] buffer = new byte[1];
 
-                while (!stopReceived && startDT <= utcNowDT && utcNowDT <= stopDT)
+                while (!stopReceived && stopwatch.ElapsedMilliseconds <= timeout)
                 {
                     // read one byte
                     bool readOk;
@@ -450,8 +447,6 @@ namespace Scada.Comm.Drivers.DrvCnlBasic.Logic
                         sbLine.Clear();
                         stopReceived = stopCond.CheckCondition(lines, line);
                     }
-
-                    utcNowDT = DateTime.UtcNow;
                 }
 
                 logText = BuildReadLinesLogText(lines);
