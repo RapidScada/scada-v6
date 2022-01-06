@@ -32,7 +32,7 @@ namespace Scada.Server.Modules.ModArcBasic
         public override void AddToOptionList(OptionList options)
         {
             base.AddToOptionList(options);
-            options["UseCopyDir"] = UseCopyDir.ToString().ToLowerInvariant();
+            options["UseCopyDir"] = UseCopyDir.ToLowerString();
         }
     }
 }

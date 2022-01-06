@@ -70,13 +70,13 @@ namespace Scada.Comm.Drivers.DrvDsScadaServer
         public void AddToOptionList(OptionList options)
         {
             options.Clear();
-            options["UseDefaultConn"] = UseDefaultConn.ToString().ToLowerInvariant();
+            options["UseDefaultConn"] = UseDefaultConn.ToLowerString();
             options["Connection"] = Connection;
             options["MaxQueueSize"] = MaxQueueSize.ToString();
             options["MaxCurDataAge"] = MaxCurDataAge.ToString();
             options["DataLifetime"] = DataLifetime.ToString();
-            options["ClientLogEnabled"] = ClientLogEnabled.ToString().ToLowerInvariant();
-            options["DeviceFilter"] = ScadaUtils.ToShortString(DeviceFilter);
+            options["ClientLogEnabled"] = ClientLogEnabled.ToLowerString();
+            options["DeviceFilter"] = DeviceFilter.ToShortString();
         }
     }
 }

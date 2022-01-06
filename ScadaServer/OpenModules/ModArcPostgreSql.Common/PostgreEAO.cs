@@ -52,7 +52,7 @@ namespace Scada.Server.Modules.ModArcPostgreSql
         public override void AddToOptionList(OptionList options)
         {
             base.AddToOptionList(options);
-            options["UseStorageConn"] = UseStorageConn.ToString().ToLowerInvariant();
+            options["UseStorageConn"] = UseStorageConn.ToLowerString();
             options["Connection"] = Connection;
             options["MaxQueueSize"] = MaxQueueSize.ToString();
             options["PartitionSize"] = PartitionSize.ToString();

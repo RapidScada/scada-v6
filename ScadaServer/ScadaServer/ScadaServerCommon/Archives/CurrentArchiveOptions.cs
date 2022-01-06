@@ -1,5 +1,5 @@
 ﻿/*
- * Copyright 2021 Rapid Software LLC
+ * Copyright 2022 Rapid Software LLC
  * 
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -20,7 +20,7 @@
  * 
  * Author   : Mikhail Shiryaev
  * Created  : 2020
- * Modified : 2021
+ * Modified : 2022
  */
 
 using System;
@@ -65,7 +65,7 @@ namespace Scada.Server.Archives
         {
             options.Clear();
             options["WritingPeriod"] = WritingPeriod.ToString();
-            options["LogEnabled"] = LogEnabled.ToString().ToLowerInvariant();
+            options["LogEnabled"] = LogEnabled.ToLowerString();
         }
     }
 }

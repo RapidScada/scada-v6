@@ -60,7 +60,7 @@ namespace Scada.Comm.Drivers.DrvDsOpcUaServer.View.Forms
             txtUsername.Text = options.Username;
             txtPassword.Text = options.Password;
             txtConfigFileName.Text = options.ConfigFileName;
-            txtDeviceFilter.Text = ScadaUtils.ToShortString(options.DeviceFilter);
+            txtDeviceFilter.Text = options.DeviceFilter.ToShortString();
         }
 
         /// <summary>
@@ -159,7 +159,7 @@ namespace Scada.Comm.Drivers.DrvDsOpcUaServer.View.Forms
             FrmEntitySelect frmEntitySelect = new(baseDataSet.DeviceTable) { SelectedIDs = deviceNums };
 
             if (frmEntitySelect.ShowDialog() == DialogResult.OK)
-                txtDeviceFilter.Text = ScadaUtils.ToShortString(frmEntitySelect.SelectedIDs);
+                txtDeviceFilter.Text = frmEntitySelect.SelectedIDs.ToShortString();
         }
 
         private void btnOK_Click(object sender, EventArgs e)

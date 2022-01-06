@@ -81,8 +81,8 @@ namespace Scada.Comm.Drivers.DrvCnlBasic
             options["DataBits"] = DataBits.ToString();
             options["Parity"] = Parity.ToString();
             options["StopBits"] = StopBits.ToString();
-            options["DtrEnable"] = DtrEnable.ToString().ToLowerInvariant();
-            options["RtsEnable"] = RtsEnable.ToString().ToLowerInvariant();
+            options["DtrEnable"] = DtrEnable.ToLowerString();
+            options["RtsEnable"] = RtsEnable.ToLowerString();
             options["Behavior"] = Behavior.ToString();
         }
     }

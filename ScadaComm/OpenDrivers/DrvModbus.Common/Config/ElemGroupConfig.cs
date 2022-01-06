@@ -135,10 +135,10 @@ namespace Scada.Comm.Drivers.DrvModbus.Config
                     elemElem.SetAttribute("byteOrder", elemConfig.ByteOrder);
 
                 if (readOnlyEnabled)
-                    elemElem.SetAttribute("readOnly", elemConfig.ReadOnly.ToString().ToLowerInvariant());
+                    elemElem.SetAttribute("readOnly", elemConfig.ReadOnly.ToLowerString());
 
                 if (bitMaskEnabled)
-                    elemElem.SetAttribute("isBitMask", elemConfig.IsBitMask.ToString().ToLowerInvariant());
+                    elemElem.SetAttribute("isBitMask", elemConfig.IsBitMask.ToLowerString());
 
                 elemElem.SetAttribute("tagCode", elemConfig.TagCode);
                 elemElem.SetAttribute("name", elemConfig.Name);

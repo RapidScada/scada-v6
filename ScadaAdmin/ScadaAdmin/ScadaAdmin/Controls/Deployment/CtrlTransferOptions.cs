@@ -143,7 +143,7 @@ namespace Scada.Admin.App.Controls.Deployment
                 chkRestartServer.Checked = uploadOptions.RestartServer;
                 chkRestartComm.Checked = uploadOptions.RestartComm;
                 chkRestartWeb.Checked = uploadOptions.RestartWeb;
-                txtObjFilter.Text = ScadaUtils.ToShortString(uploadOptions.ObjectFilter);
+                txtObjFilter.Text = uploadOptions.ObjectFilter.ToShortString();
             }
 
             changing = false;
@@ -212,7 +212,7 @@ namespace Scada.Admin.App.Controls.Deployment
                 FrmEntitySelect frmEntitySelect = new(configBase.ObjTable) { SelectedIDs = objNums };
 
                 if (frmEntitySelect.ShowDialog() == DialogResult.OK)
-                    txtObjFilter.Text = ScadaUtils.ToShortString(frmEntitySelect.SelectedIDs);
+                    txtObjFilter.Text = frmEntitySelect.SelectedIDs.ToShortString();
             }
         }
     }

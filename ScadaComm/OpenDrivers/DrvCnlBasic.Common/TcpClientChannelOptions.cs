@@ -66,7 +66,7 @@ namespace Scada.Comm.Drivers.DrvCnlBasic
             options["Host"] = Host;
             options["TcpPort"] = TcpPort.ToString();
             options["ReconnectAfter"] = ReconnectAfter.ToString();
-            options["StayConnected"] = StayConnected.ToString().ToLowerInvariant();
+            options["StayConnected"] = StayConnected.ToLowerString();
             options["Behavior"] = Behavior.ToString();
             options["ConnectionMode"] = ConnectionMode.ToString();
         }

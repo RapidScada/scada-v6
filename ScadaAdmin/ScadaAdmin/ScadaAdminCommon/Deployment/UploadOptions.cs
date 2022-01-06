@@ -108,7 +108,7 @@ namespace Scada.Admin.Deployment
             xmlElem.AppendElem("RestartServer", RestartServer);
             xmlElem.AppendElem("RestartComm", RestartComm);
             xmlElem.AppendElem("RestartWeb", RestartWeb);
-            xmlElem.AppendElem("ObjectFilter", ScadaUtils.ToShortString(ObjectFilter));
+            xmlElem.AppendElem("ObjectFilter", ObjectFilter.ToShortString());
         }
     }
 }

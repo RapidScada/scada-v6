@@ -58,11 +58,11 @@ namespace Scada.Comm.Drivers.DrvDsOpcUaServer
         public void AddToOptionList(OptionList options)
         {
             options.Clear();
-            options["AutoAccept"] = AutoAccept.ToString().ToLowerInvariant();
+            options["AutoAccept"] = AutoAccept.ToLowerString();
             options["Username"] = Username;
             options["Password"] = ScadaUtils.Encrypt(Password);
             options["ConfigFileName"] = ConfigFileName;
-            options["DeviceFilter"] = ScadaUtils.ToShortString(DeviceFilter);
+            options["DeviceFilter"] = DeviceFilter.ToShortString();
         }
     }
 }
