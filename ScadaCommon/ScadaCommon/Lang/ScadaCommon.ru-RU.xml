@@ -125,6 +125,11 @@
     <Phrase key="btnSelect">Выбрать</Phrase>
     <Phrase key="btnCancel">Отмена</Phrase>
   </Dictionary>
+  <Dictionary key="Scada.Forms.FrmOptions">
+    <Phrase key="this">Параметры</Phrase>
+    <Phrase key="btnOK">OK</Phrase>
+    <Phrase key="btnCancel">Отмена</Phrase>
+  </Dictionary>
   <Dictionary key="Scada.CnlDataFormatter">
     <Phrase key="CommandDescrPrefix">Команда: </Phrase>
     <Phrase key="StatusFormat">Статус {0}</Phrase>

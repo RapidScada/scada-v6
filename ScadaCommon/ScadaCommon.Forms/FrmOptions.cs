@@ -44,7 +44,7 @@ namespace Scada.Forms
         private void FrmOptions_Load(object sender, EventArgs e)
         {
             FormTranslator.Translate(this, GetType().FullName);
-            //propertyGrid.SelectedObject = options;
+            propertyGrid.SelectedObject = options;
         }
 
         private void btnOK_Click(object sender, EventArgs e)

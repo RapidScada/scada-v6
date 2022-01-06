@@ -66,8 +66,10 @@
             // 
             // FrmOptions
             // 
+            this.AcceptButton = this.btnOK;
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.CancelButton = this.btnCancel;
             this.ClientSize = new System.Drawing.Size(384, 461);
             this.Controls.Add(this.btnCancel);
             this.Controls.Add(this.btnOK);
@@ -77,6 +79,7 @@
             this.Name = "FrmOptions";
             this.ShowIcon = false;
             this.ShowInTaskbar = false;
+            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
             this.Text = "Options";
             this.Load += new System.EventHandler(this.FrmOptions_Load);
             this.ResumeLayout(false);
