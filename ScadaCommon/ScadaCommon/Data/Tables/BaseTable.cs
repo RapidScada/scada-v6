@@ -1,5 +1,5 @@
 ﻿/*
- * Copyright 2021 Rapid Software LLC
+ * Copyright 2022 Rapid Software LLC
  * 
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -20,7 +20,7 @@
  * 
  * Author   : Mikhail Shiryaev
  * Created  : 2018
- * Modified : 2021
+ * Modified : 2022
  */
 
 using System;
@@ -36,6 +36,7 @@ namespace Scada.Data.Tables
     /// Represents the table of the configuration database.
     /// <para>Представляет таблицу базы конфигурации.</para>
     /// </summary>
+    /// <remarks>Reading is thread safe, writing requires synchronization.</remarks>
     public class BaseTable<T> : IBaseTable
     {
         /// <summary>
@@ -188,8 +189,11 @@ namespace Scada.Data.Tables
             {
                 foreach (TableIndex index in Indexes.Values)
                 {
-                    if (index.IsReady)
-                        index.AddToIndex(item, itemKey);
+                    lock (index)
+                    {
+                        if (index.IsReady)
+                            index.AddToIndex(item, itemKey);
+                    }
                 }
             }
         }
@@ -203,8 +207,11 @@ namespace Scada.Data.Tables
             {
                 foreach (TableIndex index in Indexes.Values)
                 {
-                    if (index.IsReady)
-                        index.RemoveFromIndex(item, key);
+                    lock (index)
+                    {
+                        if (index.IsReady)
+                            index.RemoveFromIndex(item, key);
+                    }
                 }
             }
         }
@@ -310,8 +317,11 @@ namespace Scada.Data.Tables
         {
             if (Indexes.TryGetValue(columnName, out index))
             {
-                if (!index.IsReady)
-                    index.AddRangeToIndex(Items);
+                lock (index)
+                {
+                    if (!index.IsReady)
+                        index.AddRangeToIndex(Items);
+                }
 
                 return true;
             }
