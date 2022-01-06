@@ -441,19 +441,19 @@ namespace Scada.Comm.Drivers.DrvCnlBasic.Logic
                         }
                         else
                         {
-                            sb.AppendLine(Locale.IsRussian ?
+                            sb.Append(Locale.IsRussian ?
                                 "Все КП привязаны" :
                                 "All devices are bound");
                         }
                     }
                     else
                     {
-                        sb.AppendLine(Locale.IsRussian ? 
+                        sb.Append(Locale.IsRussian ? 
                             "Привязанные КП отсутствуют" : 
                             "No bound devices");
                     }
 
-                    sb.Append("; ").Append(conn.ActivityTime.ToLocalizedTimeString());
+                    sb.Append("; ").AppendLine(conn.ActivityTime.ToLocalizedTimeString());
                 }
             }
             else
