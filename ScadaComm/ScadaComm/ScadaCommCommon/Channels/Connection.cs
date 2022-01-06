@@ -134,9 +134,26 @@ namespace Scada.Comm.Channels
         /// </summary>
         protected static string BuildReadLinesLogText(List<string> lines)
         {
-            return CommPhrases.ReceiveNotation + ": " + (lines.Count > 0 ? 
-                string.Join(Environment.NewLine, lines) : 
-                (Locale.IsRussian ? "нет данных" : "no data"));
+            StringBuilder sbLines = new StringBuilder(CommPhrases.ReceiveNotation);
+            sbLines.Append(": ");
+            int lineCnt = lines.Count;
+
+            if (lineCnt > 0)
+            {
+                for (int i = 0; i < lineCnt; i++)
+                {
+                    if (i > 0)
+                        sbLines.AppendLine();
+
+                    sbLines.Append(lines[i].Trim(CommUtils.NewLineChars));
+                }
+            }
+            else
+            {
+                sbLines.Append(Locale.IsRussian ? "нет данных" : "no data");
+            }
+
+            return sbLines.ToString();
         }
 
         /// <summary>

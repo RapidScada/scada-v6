@@ -57,6 +57,10 @@ namespace Scada.Comm
         /// The predefined tag code for device status.
         /// </summary>
         public const string StatusTagCode = "Status";
+        /// <summary>
+        /// The new line characters.
+        /// </summary>
+        public static char[] NewLineChars = new char[] { '\r', '\n' };
 
         /// <summary>
         /// Gets the communication line title.

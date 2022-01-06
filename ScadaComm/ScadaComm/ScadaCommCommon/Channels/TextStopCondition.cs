@@ -110,6 +110,8 @@ namespace Scada.Comm.Channels
             }
             else if (StopEndings != null)
             {
+                lastLine = lastLine.TrimEnd(CommUtils.NewLineChars);
+
                 for (int i = 0, len = StopEndings.Length; i < len && !stopReceived; i++)
                 {
                     stopReceived = lastLine.EndsWith(StopEndings[i], StringComparison.OrdinalIgnoreCase);
