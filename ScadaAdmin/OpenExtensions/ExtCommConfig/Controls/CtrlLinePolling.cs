@@ -18,6 +18,7 @@ using Scada.Forms;
 using Scada.Admin.Project;
 using Scada.Admin.Extensions.ExtCommConfig.Code;
 using Scada.Comm.Drivers;
+using Scada.Config;
 
 namespace Scada.Admin.Extensions.ExtCommConfig.Controls
 {
@@ -183,7 +184,7 @@ namespace Scada.Admin.Extensions.ExtCommConfig.Controls
                 chkActive.Checked = deviceConfig.Active;
                 chkPollOnCmd.Checked = pollingOptions.PollOnCmd;
                 chkIsBound.Checked = deviceConfig.IsBound;
-                numDeviceNum.SetValue(deviceConfig. DeviceNum);
+                numDeviceNum.SetValue(deviceConfig.DeviceNum);
                 txtName.Text = deviceConfig.Name;
                 cbDriver.Text = deviceConfig.Driver;
                 numNumAddress.SetValue(deviceConfig.NumAddress);
@@ -195,6 +196,16 @@ namespace Scada.Admin.Extensions.ExtCommConfig.Controls
                 txtCmdLine.Text = pollingOptions.CmdLine;
                 txtCustomOptions.Text = pollingOptions.CustomOptions.ToString();
             }
+        }
+
+        /// <summary>
+        /// Replaces the existing custom options of the device with the new custom options.
+        /// </summary>
+        private void ReplaceDeviceOptions(OptionList existingCustomOptions, OptionList newCustomOptions)
+        {
+            existingCustomOptions.Clear();
+            newCustomOptions.CopyTo(existingCustomOptions);
+            txtCustomOptions.Text = existingCustomOptions.ToString();
         }
 
         /// <summary>
@@ -565,11 +576,13 @@ namespace Scada.Admin.Extensions.ExtCommConfig.Controls
                 GetDeviceView(deviceConfig) is DeviceView deviceView)
             {
                 PollingOptions pollingOptions = deviceView.GetPollingOptions();
+                chkPollOnCmd.Checked = pollingOptions.PollOnCmd;
                 numTimeout.SetValue(pollingOptions.Timeout);
                 numDelay.SetValue(pollingOptions.Delay);
                 dtpTime.SetTime(pollingOptions.Time);
                 dtpPeriod.SetTime(pollingOptions.Period);
                 txtCmdLine.Text = pollingOptions.CmdLine;
+                ReplaceDeviceOptions(deviceConfig.PollingOptions.CustomOptions, pollingOptions.CustomOptions);
                 OnConfigChanged();
             }
         }
