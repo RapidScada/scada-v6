@@ -120,7 +120,7 @@ namespace Scada.Admin.Extensions.ExtServerConfig
         }
 
         /// <summary>
-        /// Gets the images used by the explorer tree.
+        /// Gets images used by the explorer tree.
         /// </summary>
         public override Dictionary<string, Image> GetTreeViewImages()
         {
