@@ -1,5 +1,5 @@
 ﻿/*
- * Copyright 2021 Rapid Software LLC
+ * Copyright 2022 Rapid Software LLC
  * 
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -20,7 +20,7 @@
  * 
  * Author   : Mikhail Shiryaev
  * Created  : 2021
- * Modified : 2021
+ * Modified : 2022
  */
 
 using Scada.Admin.Deployment;
@@ -59,6 +59,12 @@ namespace Scada.Admin.Extensions
         /// Gets the extension code.
         /// </summary>
         public abstract string Code { get; }
+
+        /// <summary>
+        /// Gets the file extensions for which the extension provides an editor.
+        /// </summary>
+        /// <remarks>The period is not included.</remarks>
+        public virtual ICollection<string> FileExtensions => null;
 
         /// <summary>
         /// Gets a value indicating whether the extension supports project deployment.
@@ -105,9 +111,17 @@ namespace Scada.Admin.Extensions
         }
 
         /// <summary>
-        /// Gets the images used by the explorer tree.
+        /// Gets images used by the explorer tree.
         /// </summary>
         public virtual Dictionary<string, Image> GetTreeViewImages()
+        {
+            return null;
+        }
+
+        /// <summary>
+        /// Gets a form to edit the specified file.
+        /// </summary>
+        public virtual Form GetEditorForm(string fileName)
         {
             return null;
         }

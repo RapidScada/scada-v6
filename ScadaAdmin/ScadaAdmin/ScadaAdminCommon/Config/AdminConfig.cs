@@ -61,6 +61,7 @@ namespace Scada.Admin.Config
         /// <summary>
         /// Gets the associations between file extensions and editors.
         /// </summary>
+        /// <remarks>The period is not included.</remarks>
         public SortedList<string, string> FileAssociations { get; private set; }
 
         /// <summary>

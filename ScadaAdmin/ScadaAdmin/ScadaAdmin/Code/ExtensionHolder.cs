@@ -1,5 +1,5 @@
 ﻿/*
- * Copyright 2021 Rapid Software LLC
+ * Copyright 2022 Rapid Software LLC
  * 
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -20,7 +20,7 @@
  * 
  * Author   : Mikhail Shiryaev
  * Created  : 2021
- * Modified : 2021
+ * Modified : 2022
  */
 
 using Scada.Admin.Extensions;
@@ -30,6 +30,8 @@ using Scada.Log;
 using System;
 using System.Collections.Generic;
 using System.Drawing;
+using System.IO;
+using System.Threading;
 using System.Windows.Forms;
 
 namespace Scada.Admin.App.Code
@@ -43,6 +45,7 @@ namespace Scada.Admin.App.Code
         private readonly ILog log;                        // the application log
         private readonly List<ExtensionLogic> extensions; // all the extensions
         private readonly Dictionary<string, ExtensionLogic> extensionMap; // the extensions accessed by code
+        private readonly Dictionary<string, ExtensionLogic> fileExtMap;   // the extensions accessed by file extension
         private readonly object extensionLock;            // synchronizes access to the extensions
 
 
@@ -54,9 +57,34 @@ namespace Scada.Admin.App.Code
             this.log = log ?? throw new ArgumentNullException(nameof(log));
             extensions = new List<ExtensionLogic>();
             extensionMap = new Dictionary<string, ExtensionLogic>();
+            fileExtMap = new Dictionary<string, ExtensionLogic>();
             extensionLock = new object();
         }
 
+
+        /// <summary>
+        /// Retrieves file extensions from the specified extension and adds them to the map.
+        /// </summary>
+        private void RetrieveFileExtensions(ExtensionLogic extensionLogic)
+        {
+            ICollection<string> fileExtensions = extensionLogic.FileExtensions;
+
+            if (fileExtensions != null)
+            {
+                foreach (string ext in fileExtensions)
+                {
+                    if (!string.IsNullOrEmpty(ext))
+                    {
+                        string extL = ext.ToLowerInvariant();
+
+                        if (!fileExtMap.ContainsKey(extL))
+                        {
+                            fileExtMap.Add(extL, extensionLogic);
+                        }
+                    }
+                }
+            }
+        }
 
         /// <summary>
         /// Adds the specified extension to the lists.
@@ -71,6 +99,7 @@ namespace Scada.Admin.App.Code
 
             extensions.Add(extensionLogic);
             extensionMap.Add(extensionLogic.Code, extensionLogic);
+            RetrieveFileExtensions(extensionLogic);
         }
 
         /// <summary>
@@ -238,6 +267,31 @@ namespace Scada.Admin.App.Code
 
                 return items;
             }
+        }
+
+        /// <summary>
+        /// Calls the GetEditorForm method of the corresponding extension.
+        /// </summary>
+        public Form GetEditorForm(string fileName)
+        {
+            if (fileExtMap.TryGetValue(AppUtils.GetExtensionLower(fileName), out ExtensionLogic extensionLogic))
+            {
+                try
+                {
+                    Monitor.Enter(extensionLock);
+                    return extensionLogic.GetEditorForm(fileName);
+                }
+                catch (Exception ex)
+                {
+                    log.WriteError(ex, AdminPhrases.ErrorInExtension, nameof(GetEditorForm), extensionLogic.Code);
+                }
+                finally
+                {
+                    Monitor.Exit(extensionLock);
+                }
+            }
+
+            return null;
         }
     }
 }

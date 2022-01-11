@@ -1,5 +1,5 @@
 ﻿/*
- * Copyright 2021 Rapid Software LLC
+ * Copyright 2022 Rapid Software LLC
  * 
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -20,7 +20,7 @@
  * 
  * Author   : Mikhail Shiryaev
  * Created  : 2018
- * Modified : 2021
+ * Modified : 2022
  */
 
 using Scada.Admin.App.Code;
@@ -312,25 +312,24 @@ namespace Scada.Admin.App.Forms
             {
                 if (tag.ExistingForm == null)
                 {
-                    string ext = Path.GetExtension(fileItem.Name).TrimStart('.').ToLowerInvariant();
-
-                    if (appData.AppConfig.FileAssociations.TryGetValue(ext, out string exePath) && 
-                        File.Exists(exePath))
+                    if (appData.AppConfig.FileAssociations.TryGetValue(
+                        AppUtils.GetExtensionLower(fileItem.Name), out string exePath) && File.Exists(exePath))
                     {
                         // run external editor
                         ScadaUiUtils.StartProcess(exePath, $"\"{fileItem.Path}\"");
                     }
                     else
                     {
-                        // create and display a new text editor form
-                        FrmTextEditor form = new(appData, fileItem.Path);
+                        // create editor form by extension or use default text editor
+                        Form form = appData.ExtensionHolder.GetEditorForm(fileItem.Path) ?? 
+                            new FrmTextEditor(appData, fileItem.Path);
                         tag.ExistingForm = form;
                         wctrlMain.AddForm(form, treeNode.FullPath, ilExplorer.Images[treeNode.ImageKey], treeNode);
                     }
                 }
                 else
                 {
-                    // activate the existing form
+                    // activate existing form
                     wctrlMain.ActivateForm(tag.ExistingForm);
                 }
             }
