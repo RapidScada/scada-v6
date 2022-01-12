@@ -31,4 +31,13 @@
     </Reference>
   </ItemGroup>
 
+  <ItemGroup>
+    <None Update="Lang\ExtTableEditor.ru-RU.xml">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="Lang\ExtTableEditor.en-GB.xml">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
+
 </Project>
