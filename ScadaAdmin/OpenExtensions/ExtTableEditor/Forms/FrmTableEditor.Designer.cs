@@ -29,9 +29,9 @@
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle3 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle2 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle7 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle9 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle8 = new System.Windows.Forms.DataGridViewCellStyle();
             this.pnlLeft = new System.Windows.Forms.Panel();
             this.treeView = new System.Windows.Forms.TreeView();
             this.lblHint = new System.Windows.Forms.Label();
@@ -42,6 +42,7 @@
             this.colAutoText = new System.Windows.Forms.DataGridViewCheckBoxColumn();
             this.colText = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.colHidden = new System.Windows.Forms.DataGridViewCheckBoxColumn();
+            this.bindingSource = new System.Windows.Forms.BindingSource(this.components);
             this.toolStrip = new System.Windows.Forms.ToolStrip();
             this.btnRefreshBase = new System.Windows.Forms.ToolStripButton();
             this.btnAddItem = new System.Windows.Forms.ToolStripButton();
@@ -49,11 +50,12 @@
             this.btnMoveUpItem = new System.Windows.Forms.ToolStripButton();
             this.btnMoveDownItem = new System.Windows.Forms.ToolStripButton();
             this.btnDeleteItem = new System.Windows.Forms.ToolStripButton();
-            this.bindingSource = new System.Windows.Forms.BindingSource(this.components);
+            this.cmsDevice = new System.Windows.Forms.ContextMenuStrip(this.components);
+            this.ilTree = new System.Windows.Forms.ImageList(this.components);
             this.pnlLeft.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView)).BeginInit();
-            this.toolStrip.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.bindingSource)).BeginInit();
+            this.toolStrip.SuspendLayout();
             this.SuspendLayout();
             // 
             // pnlLeft
@@ -69,8 +71,11 @@
             // treeView
             // 
             this.treeView.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.treeView.ImageIndex = 0;
+            this.treeView.ImageList = this.ilTree;
             this.treeView.Location = new System.Drawing.Point(0, 0);
             this.treeView.Name = "treeView";
+            this.treeView.SelectedImageIndex = 0;
             this.treeView.Size = new System.Drawing.Size(300, 376);
             this.treeView.TabIndex = 0;
             this.treeView.BeforeCollapse += new System.Windows.Forms.TreeViewCancelEventHandler(this.treeView_BeforeCollapse);
@@ -105,14 +110,15 @@
             // 
             // dataGridView
             // 
-            dataGridViewCellStyle1.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
-            dataGridViewCellStyle1.BackColor = System.Drawing.SystemColors.Control;
-            dataGridViewCellStyle1.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
-            dataGridViewCellStyle1.ForeColor = System.Drawing.SystemColors.WindowText;
-            dataGridViewCellStyle1.SelectionBackColor = System.Drawing.SystemColors.Highlight;
-            dataGridViewCellStyle1.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
-            dataGridViewCellStyle1.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
-            this.dataGridView.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle1;
+            this.dataGridView.AutoGenerateColumns = false;
+            dataGridViewCellStyle7.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
+            dataGridViewCellStyle7.BackColor = System.Drawing.SystemColors.Control;
+            dataGridViewCellStyle7.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
+            dataGridViewCellStyle7.ForeColor = System.Drawing.SystemColors.WindowText;
+            dataGridViewCellStyle7.SelectionBackColor = System.Drawing.SystemColors.Highlight;
+            dataGridViewCellStyle7.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
+            dataGridViewCellStyle7.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
+            this.dataGridView.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle7;
             this.dataGridView.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.dataGridView.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
             this.colCnlNum,
@@ -120,25 +126,26 @@
             this.colAutoText,
             this.colText,
             this.colHidden});
-            dataGridViewCellStyle3.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
-            dataGridViewCellStyle3.BackColor = System.Drawing.SystemColors.Window;
-            dataGridViewCellStyle3.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
-            dataGridViewCellStyle3.ForeColor = System.Drawing.SystemColors.ControlText;
-            dataGridViewCellStyle3.SelectionBackColor = System.Drawing.SystemColors.Highlight;
-            dataGridViewCellStyle3.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
-            dataGridViewCellStyle3.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
-            this.dataGridView.DefaultCellStyle = dataGridViewCellStyle3;
-            this.dataGridView.Dock = System.Windows.Forms.DockStyle.Fill;
             this.dataGridView.DataSource = this.bindingSource;
+            dataGridViewCellStyle9.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
+            dataGridViewCellStyle9.BackColor = System.Drawing.SystemColors.Window;
+            dataGridViewCellStyle9.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
+            dataGridViewCellStyle9.ForeColor = System.Drawing.SystemColors.ControlText;
+            dataGridViewCellStyle9.SelectionBackColor = System.Drawing.SystemColors.Highlight;
+            dataGridViewCellStyle9.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
+            dataGridViewCellStyle9.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
+            this.dataGridView.DefaultCellStyle = dataGridViewCellStyle9;
+            this.dataGridView.Dock = System.Windows.Forms.DockStyle.Fill;
             this.dataGridView.Location = new System.Drawing.Point(303, 25);
             this.dataGridView.Name = "dataGridView";
+            this.dataGridView.ShowCellToolTips = false;
             this.dataGridView.Size = new System.Drawing.Size(431, 436);
             this.dataGridView.TabIndex = 3;
             this.dataGridView.CellFormatting += new System.Windows.Forms.DataGridViewCellFormattingEventHandler(this.dataGridView_CellFormatting);
             this.dataGridView.CellValidating += new System.Windows.Forms.DataGridViewCellValidatingEventHandler(this.dataGridView_CellValidating);
             this.dataGridView.CellValueChanged += new System.Windows.Forms.DataGridViewCellEventHandler(this.dataGridView_CellValueChanged);
-            this.dataGridView.RowsRemoved += new System.Windows.Forms.DataGridViewRowsRemovedEventHandler(this.dataGridView_RowsRemoved);
             this.dataGridView.SelectionChanged += new System.EventHandler(this.dataGridView_SelectionChanged);
+            this.dataGridView.UserDeletedRow += new System.Windows.Forms.DataGridViewRowEventHandler(this.dataGridView_UserDeletedRow);
             // 
             // colCnlNum
             // 
@@ -163,8 +170,8 @@
             // colText
             // 
             this.colText.DataPropertyName = "Text";
-            dataGridViewCellStyle2.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
-            this.colText.DefaultCellStyle = dataGridViewCellStyle2;
+            dataGridViewCellStyle8.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+            this.colText.DefaultCellStyle = dataGridViewCellStyle8;
             this.colText.HeaderText = "Text";
             this.colText.Name = "colText";
             this.colText.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
@@ -175,6 +182,10 @@
             this.colHidden.DataPropertyName = "Hidden";
             this.colHidden.HeaderText = "Hidden";
             this.colHidden.Name = "colHidden";
+            // 
+            // bindingSource
+            // 
+            this.bindingSource.AllowNew = false;
             // 
             // toolStrip
             // 
@@ -229,7 +240,7 @@
             this.btnMoveUpItem.Name = "btnMoveUpItem";
             this.btnMoveUpItem.Size = new System.Drawing.Size(23, 22);
             this.btnMoveUpItem.ToolTipText = "Move Item Up";
-            this.btnMoveUpItem.Click += new System.EventHandler(this.btnMoveUpItem_Click);
+            this.btnMoveUpItem.Click += new System.EventHandler(this.btnMoveUpDownItem_Click);
             // 
             // btnMoveDownItem
             // 
@@ -239,7 +250,7 @@
             this.btnMoveDownItem.Name = "btnMoveDownItem";
             this.btnMoveDownItem.Size = new System.Drawing.Size(23, 22);
             this.btnMoveDownItem.ToolTipText = "Move Item Down";
-            this.btnMoveDownItem.Click += new System.EventHandler(this.btnMoveDownItem_Click);
+            this.btnMoveDownItem.Click += new System.EventHandler(this.btnMoveUpDownItem_Click);
             // 
             // btnDeleteItem
             // 
@@ -250,6 +261,17 @@
             this.btnDeleteItem.Size = new System.Drawing.Size(23, 22);
             this.btnDeleteItem.ToolTipText = "Delete Selected Items";
             this.btnDeleteItem.Click += new System.EventHandler(this.btnDeleteItem_Click);
+            // 
+            // cmsDevice
+            // 
+            this.cmsDevice.Name = "cmsDevice";
+            this.cmsDevice.Size = new System.Drawing.Size(61, 4);
+            // 
+            // ilTree
+            // 
+            this.ilTree.ColorDepth = System.Windows.Forms.ColorDepth.Depth32Bit;
+            this.ilTree.ImageSize = new System.Drawing.Size(16, 16);
+            this.ilTree.TransparentColor = System.Drawing.Color.Transparent;
             // 
             // FrmTableEditor
             // 
@@ -265,9 +287,9 @@
             this.Load += new System.EventHandler(this.FrmTableEditor_Load);
             this.pnlLeft.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.bindingSource)).EndInit();
             this.toolStrip.ResumeLayout(false);
             this.toolStrip.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.bindingSource)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -293,5 +315,7 @@
         private DataGridViewTextBoxColumn colText;
         private DataGridViewCheckBoxColumn colHidden;
         private BindingSource bindingSource;
+        private ContextMenuStrip cmsDevice;
+        private ImageList ilTree;
     }
 }
