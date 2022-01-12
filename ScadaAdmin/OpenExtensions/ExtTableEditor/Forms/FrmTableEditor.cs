@@ -73,5 +73,35 @@ namespace Scada.Admin.Extensions.ExtTableEditor.Forms
                 Text = Path.GetFileName(fileName);
             }
         }
+
+        private void btnRefreshBase_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void btnAddItem_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void btnAddEmptyItem_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void btnMoveUpItem_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void btnMoveDownItem_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void btnDeleteItem_Click(object sender, EventArgs e)
+        {
+
+        }
     }
 }
