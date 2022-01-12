@@ -17,6 +17,9 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Reference Include="PlgMain.Common">
+      <HintPath>..\..\..\ScadaWeb\OpenPlugins\PlgMain.Common\bin\Release\net6.0\PlgMain.Common.dll</HintPath>
+    </Reference>
     <Reference Include="ScadaAdminCommon">
       <HintPath>..\..\ScadaAdmin\ScadaAdminCommon\bin\Release\net6.0-windows\ScadaAdminCommon.dll</HintPath>
     </Reference>
