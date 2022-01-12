@@ -16,7 +16,7 @@
  * 
  * Product  : Rapid SCADA
  * Module   : Administrator
- * Summary  : Form for creating a new file
+ * Summary  : Represents a form for creating a new file
  * 
  * Author   : Mikhail Shiryaev
  * Created  : 2018
@@ -32,8 +32,8 @@ using System.Windows.Forms;
 namespace Scada.Admin.App.Forms
 {
     /// <summary>
-    /// Form for creating a new file.
-    /// <para>Форма создания нового файла.</para>
+    /// Represents a form for creating a new file.
+    /// <para>Представляет форму для создания нового файла.</para>
     /// </summary>
     public partial class FrmFileNew : Form
     {

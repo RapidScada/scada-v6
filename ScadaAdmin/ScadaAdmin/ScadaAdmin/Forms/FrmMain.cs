@@ -357,7 +357,7 @@ namespace Scada.Admin.App.Forms
         }
 
         /// <summary>
-        /// Updates file names of open text editors corresponding to the specified tree node and its children.
+        /// Updates file names of the open editors corresponding to the specified tree node and its children.
         /// </summary>
         private void UpdateTextEditorFileNames(TreeNode treeNode)
         {
@@ -371,10 +371,10 @@ namespace Scada.Admin.App.Forms
                 {
                     fileItem.Path = Path.Combine(parentFileItem.Path, fileItem.Name);
 
-                    if (tag.ExistingForm is FrmTextEditor form)
+                    if (tag.ExistingForm is IChildForm childForm)
                     {
-                        wctrlMain.UpdateHint(form, node.FullPath);
-                        form.ChildFormTag.SendMessage(this, AdminMessage.UpdateFileName,
+                        wctrlMain.UpdateHint(tag.ExistingForm, node.FullPath);
+                        childForm.ChildFormTag.SendMessage(this, AdminMessage.UpdateFileName,
                             new Dictionary<string, object> { { "FileName", fileItem.Path } });
                     }
                 }
@@ -1691,10 +1691,10 @@ namespace Scada.Admin.App.Forms
                             fileItem.Update(new FileInfo(newFileName));
                             selectedNode.Text = fileItem.Name;
 
-                            if (tag.ExistingForm is FrmTextEditor form)
+                            if (tag.ExistingForm is IChildForm childForm)
                             {
                                 wctrlMain.UpdateHint(tag.ExistingForm, selectedNode.FullPath);
-                                form.ChildFormTag.SendMessage(this, AdminMessage.UpdateFileName,
+                                childForm.ChildFormTag.SendMessage(this, AdminMessage.UpdateFileName,
                                     new Dictionary<string, object> { { "FileName", newFileName } });
                             }
                         }

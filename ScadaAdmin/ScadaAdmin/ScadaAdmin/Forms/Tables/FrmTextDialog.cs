@@ -35,10 +35,6 @@ namespace Scada.Admin.App.Forms.Tables
     /// Represents a modal form for editing text.
     /// <para>Представляет модальную форму для редактирования текста.</para>
     /// </summary>
-    /// <summary>
-    /// Form for editing source code of a formula.
-    /// <para>Форма редактирования исходного кода формулы.</para>
-    /// </summary>
     public partial class FrmTextDialog : Form
     {
         /// <summary>

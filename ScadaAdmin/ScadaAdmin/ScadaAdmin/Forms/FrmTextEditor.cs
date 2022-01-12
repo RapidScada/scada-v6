@@ -16,7 +16,7 @@
  * 
  * Product  : Rapid SCADA
  * Module   : Administrator
- * Summary  : Form for editing a text file
+ * Summary  : Represents a form for editing a text file
  * 
  * Author   : Mikhail Shiryaev
  * Created  : 2018
@@ -34,13 +34,13 @@ using WinControl;
 namespace Scada.Admin.App.Forms
 {
     /// <summary>
-    /// Form for editing a text file.
-    /// <para>Форма редактирования текстового файла.</para>
+    /// Represents a form for editing a text file.
+    /// <para>Представляет форму для редактирования текстового файла.</para>
     /// </summary>
     public partial class FrmTextEditor : Form, IChildForm
     {
         private readonly AppData appData; // the common data of the application
-        private string fileName;          // full name of the edited file
+        private string fileName;          // the full name of the edited file
         private bool changing;            // controls are being changed programmatically
 
 
