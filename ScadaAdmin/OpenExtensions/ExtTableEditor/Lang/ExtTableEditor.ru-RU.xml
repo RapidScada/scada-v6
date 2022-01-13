@@ -1,6 +1,19 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <ExtTableEditorDictionaries>
-  <Dictionary key="">
-    <Phrase key=""></Phrase>
+  <Dictionary key="Scada.Admin.Extensions.ExtTableEditor.Forms.FrmTableEditor">
+    <Phrase key="btnRefreshBase.ToolTip">Обновить базу конфигурации</Phrase>
+    <Phrase key="btnAddItem.ToolTip">Добавить элемент</Phrase>
+    <Phrase key="btnAddEmptyItem.ToolTip">Добавить пустой элемент</Phrase>
+    <Phrase key="btnMoveUpItem.ToolTip">Переместить элемент вверх</Phrase>
+    <Phrase key="btnMoveDownItem.ToolTip">Переместить элемент вниз</Phrase>
+    <Phrase key="btnDeleteItem.ToolTip">Удалить выбранные элементы</Phrase>
+    <Phrase key="lblHint">Нажмите Enter или дважды щелкните узел, чтобы добавить его в таблицу. Щелкните правой кнопкой мыши узел КП, чтобы отобразить контекстное меню.</Phrase>
+    <Phrase key="colCnlNum">Канал</Phrase>
+    <Phrase key="colDeviceNum">КП</Phrase>
+    <Phrase key="colAutoText">Авто текст</Phrase>
+    <Phrase key="colText">Текст</Phrase>
+    <Phrase key="colHidden">Скрыть</Phrase>
+    <Phrase key="miDeviceAddDevice">Добавить КП</Phrase>
+    <Phrase key="miDeviceAddAllChannels">Добавить все каналы</Phrase>
   </Dictionary>
 </ExtTableEditorDictionaries>

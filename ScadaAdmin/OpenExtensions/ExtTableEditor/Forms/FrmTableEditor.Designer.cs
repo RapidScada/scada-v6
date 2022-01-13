@@ -29,11 +29,12 @@
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle7 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle9 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle8 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle3 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle2 = new System.Windows.Forms.DataGridViewCellStyle();
             this.pnlLeft = new System.Windows.Forms.Panel();
             this.treeView = new System.Windows.Forms.TreeView();
+            this.ilTree = new System.Windows.Forms.ImageList(this.components);
             this.lblHint = new System.Windows.Forms.Label();
             this.splVert = new System.Windows.Forms.Splitter();
             this.dataGridView = new System.Windows.Forms.DataGridView();
@@ -51,11 +52,13 @@
             this.btnMoveDownItem = new System.Windows.Forms.ToolStripButton();
             this.btnDeleteItem = new System.Windows.Forms.ToolStripButton();
             this.cmsDevice = new System.Windows.Forms.ContextMenuStrip(this.components);
-            this.ilTree = new System.Windows.Forms.ImageList(this.components);
+            this.miDeviceAddDevice = new System.Windows.Forms.ToolStripMenuItem();
+            this.miDeviceAddAllChannels = new System.Windows.Forms.ToolStripMenuItem();
             this.pnlLeft.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.bindingSource)).BeginInit();
             this.toolStrip.SuspendLayout();
+            this.cmsDevice.SuspendLayout();
             this.SuspendLayout();
             // 
             // pnlLeft
@@ -86,6 +89,12 @@
             this.treeView.KeyDown += new System.Windows.Forms.KeyEventHandler(this.treeView_KeyDown);
             this.treeView.MouseDown += new System.Windows.Forms.MouseEventHandler(this.treeView_MouseDown);
             // 
+            // ilTree
+            // 
+            this.ilTree.ColorDepth = System.Windows.Forms.ColorDepth.Depth32Bit;
+            this.ilTree.ImageSize = new System.Drawing.Size(16, 16);
+            this.ilTree.TransparentColor = System.Drawing.Color.Transparent;
+            // 
             // lblHint
             // 
             this.lblHint.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
@@ -111,14 +120,14 @@
             // dataGridView
             // 
             this.dataGridView.AutoGenerateColumns = false;
-            dataGridViewCellStyle7.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
-            dataGridViewCellStyle7.BackColor = System.Drawing.SystemColors.Control;
-            dataGridViewCellStyle7.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
-            dataGridViewCellStyle7.ForeColor = System.Drawing.SystemColors.WindowText;
-            dataGridViewCellStyle7.SelectionBackColor = System.Drawing.SystemColors.Highlight;
-            dataGridViewCellStyle7.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
-            dataGridViewCellStyle7.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
-            this.dataGridView.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle7;
+            dataGridViewCellStyle1.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
+            dataGridViewCellStyle1.BackColor = System.Drawing.SystemColors.Control;
+            dataGridViewCellStyle1.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
+            dataGridViewCellStyle1.ForeColor = System.Drawing.SystemColors.WindowText;
+            dataGridViewCellStyle1.SelectionBackColor = System.Drawing.SystemColors.Highlight;
+            dataGridViewCellStyle1.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
+            dataGridViewCellStyle1.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
+            this.dataGridView.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle1;
             this.dataGridView.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.dataGridView.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
             this.colCnlNum,
@@ -127,14 +136,14 @@
             this.colText,
             this.colHidden});
             this.dataGridView.DataSource = this.bindingSource;
-            dataGridViewCellStyle9.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
-            dataGridViewCellStyle9.BackColor = System.Drawing.SystemColors.Window;
-            dataGridViewCellStyle9.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
-            dataGridViewCellStyle9.ForeColor = System.Drawing.SystemColors.ControlText;
-            dataGridViewCellStyle9.SelectionBackColor = System.Drawing.SystemColors.Highlight;
-            dataGridViewCellStyle9.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
-            dataGridViewCellStyle9.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
-            this.dataGridView.DefaultCellStyle = dataGridViewCellStyle9;
+            dataGridViewCellStyle3.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
+            dataGridViewCellStyle3.BackColor = System.Drawing.SystemColors.Window;
+            dataGridViewCellStyle3.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
+            dataGridViewCellStyle3.ForeColor = System.Drawing.SystemColors.ControlText;
+            dataGridViewCellStyle3.SelectionBackColor = System.Drawing.SystemColors.Highlight;
+            dataGridViewCellStyle3.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
+            dataGridViewCellStyle3.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
+            this.dataGridView.DefaultCellStyle = dataGridViewCellStyle3;
             this.dataGridView.Dock = System.Windows.Forms.DockStyle.Fill;
             this.dataGridView.Location = new System.Drawing.Point(303, 25);
             this.dataGridView.Name = "dataGridView";
@@ -170,8 +179,8 @@
             // colText
             // 
             this.colText.DataPropertyName = "Text";
-            dataGridViewCellStyle8.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
-            this.colText.DefaultCellStyle = dataGridViewCellStyle8;
+            dataGridViewCellStyle2.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+            this.colText.DefaultCellStyle = dataGridViewCellStyle2;
             this.colText.HeaderText = "Text";
             this.colText.Name = "colText";
             this.colText.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
@@ -200,7 +209,6 @@
             this.toolStrip.Name = "toolStrip";
             this.toolStrip.Size = new System.Drawing.Size(734, 25);
             this.toolStrip.TabIndex = 0;
-            this.toolStrip.Text = "toolStrip1";
             // 
             // btnRefreshBase
             // 
@@ -264,14 +272,26 @@
             // 
             // cmsDevice
             // 
+            this.cmsDevice.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.miDeviceAddDevice,
+            this.miDeviceAddAllChannels});
             this.cmsDevice.Name = "cmsDevice";
-            this.cmsDevice.Size = new System.Drawing.Size(61, 4);
+            this.cmsDevice.Size = new System.Drawing.Size(166, 48);
+            this.cmsDevice.Opening += new System.ComponentModel.CancelEventHandler(this.cmsDevice_Opening);
             // 
-            // ilTree
+            // miDeviceAddDevice
             // 
-            this.ilTree.ColorDepth = System.Windows.Forms.ColorDepth.Depth32Bit;
-            this.ilTree.ImageSize = new System.Drawing.Size(16, 16);
-            this.ilTree.TransparentColor = System.Drawing.Color.Transparent;
+            this.miDeviceAddDevice.Name = "miDeviceAddDevice";
+            this.miDeviceAddDevice.Size = new System.Drawing.Size(165, 22);
+            this.miDeviceAddDevice.Text = "Add Device";
+            this.miDeviceAddDevice.Click += new System.EventHandler(this.miDeviceAddDevice_Click);
+            // 
+            // miDeviceAddAllChannels
+            // 
+            this.miDeviceAddAllChannels.Name = "miDeviceAddAllChannels";
+            this.miDeviceAddAllChannels.Size = new System.Drawing.Size(165, 22);
+            this.miDeviceAddAllChannels.Text = "Add All Channels";
+            this.miDeviceAddAllChannels.Click += new System.EventHandler(this.miDeviceAddAllChannels_Click);
             // 
             // FrmTableEditor
             // 
@@ -290,6 +310,7 @@
             ((System.ComponentModel.ISupportInitialize)(this.bindingSource)).EndInit();
             this.toolStrip.ResumeLayout(false);
             this.toolStrip.PerformLayout();
+            this.cmsDevice.ResumeLayout(false);
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -317,5 +338,7 @@
         private BindingSource bindingSource;
         private ContextMenuStrip cmsDevice;
         private ImageList ilTree;
+        private ToolStripMenuItem miDeviceAddDevice;
+        private ToolStripMenuItem miDeviceAddAllChannels;
     }
 }

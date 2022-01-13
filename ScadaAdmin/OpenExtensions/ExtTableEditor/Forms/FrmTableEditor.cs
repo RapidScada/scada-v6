@@ -9,6 +9,7 @@ using Scada.Data.Tables;
 using Scada.Forms;
 using Scada.Lang;
 using Scada.Web.Plugins.PlgMain;
+using System.ComponentModel;
 using WinControl;
 
 namespace Scada.Admin.Extensions.ExtTableEditor.Forms
@@ -266,6 +267,73 @@ namespace Scada.Admin.Extensions.ExtTableEditor.Forms
         }
 
         /// <summary>
+        /// Inserts the item in the table.
+        /// </summary>
+        private void InsertTableItem(TableItem item)
+        {
+            // get insert index
+            int newInd;
+
+            if (dataGridView.SelectedRows.Count > 0)
+            {
+                newInd = -1;
+
+                foreach (DataGridViewRow row in dataGridView.SelectedRows)
+                {
+                    if (newInd < row.Index)
+                        newInd = row.Index;
+                }
+
+                newInd++;
+            }
+            else if (dataGridView.CurrentRow != null)
+            {
+                newInd = dataGridView.CurrentRow.Index + 1;
+            }
+            else
+            {
+                newInd = dataGridView.Rows.Count;
+            }
+
+            // insert item
+            tableView.Items.Insert(newInd, item);
+            bindingSource.ResetBindings(false);
+            SelectTableItem(newInd, !treeView.Focused);
+            ChildFormTag.Modified = true;
+        }
+
+        /// <summary>
+        /// Creates and inserts an item in the table.
+        /// </summary>
+        private void InsertTableItem(TreeNode node)
+        {
+            if (node == null)
+                return;
+
+            if (node.Tag is Device device)
+            {
+                if (device.DeviceNum > 0)
+                {
+                    InsertTableItem(new TableItem
+                    {
+                        DeviceNum = device.DeviceNum,
+                        Text = device.Name,
+                        AutoText = true
+                    });
+                }
+            }
+            else if (node.Tag is Cnl cnl)
+            {
+                InsertTableItem(new TableItem 
+                { 
+                    CnlNum = cnl.CnlNum, 
+                    Text = cnl.Name, 
+                    AutoText = true 
+                });
+            }
+        }
+
+        /// <summary>
         /// Saves the file.
         /// </summary>
         public void Save()
@@ -279,7 +347,7 @@ namespace Scada.Admin.Extensions.ExtTableEditor.Forms
 
         private void FrmTableEditor_Load(object sender, EventArgs e)
         {
-            FormTranslator.Translate(this, GetType().FullName);
+            FormTranslator.Translate(this, GetType().FullName, null, cmsDevice);
             ChildFormTag.MessageToChildForm += ChildFormTag_MessageToChildForm;
             Text = Path.GetFileName(fileName);
 
@@ -308,12 +376,12 @@ namespace Scada.Admin.Extensions.ExtTableEditor.Forms
 
         private void btnAddItem_Click(object sender, EventArgs e)
         {
-
+            InsertTableItem(treeView.SelectedNode);
         }
 
         private void btnAddEmptyItem_Click(object sender, EventArgs e)
         {
-
+            InsertTableItem(new TableItem());
         }
 
         private void btnMoveUpDownItem_Click(object sender, EventArgs e)
@@ -375,30 +443,44 @@ namespace Scada.Admin.Extensions.ExtTableEditor.Forms
         }
 
 
+        private void cmsDevice_Opening(object sender, CancelEventArgs e)
+        {
+            if (treeView.SelectedNode?.Tag is Device device)
+                miDeviceAddDevice.Enabled = device.DeviceNum > 0;
+            else
+                e.Cancel = true;
+        }
+
+        private void miDeviceAddDevice_Click(object sender, EventArgs e)
+        {
+            InsertTableItem(treeView.SelectedNode);
+        }
+
+        private void miDeviceAddAllChannels_Click(object sender, EventArgs e)
+        {
+            // insert table items for selected device and related channels
+            if (treeView.SelectedNode?.Tag is Device device)
+            {
+                FillDeviceNodeIfNeeded(treeView.SelectedNode);
+                InsertTableItem(new TableItem { Text = device.Name });
+
+                foreach (TreeNode cnlNode in treeView.SelectedNode.Nodes)
+                {
+                    InsertTableItem(cnlNode);
+                }
+            }
+        }
+
+
         private void treeView_KeyDown(object sender, KeyEventArgs e)
         {
             if (e.KeyCode == Keys.Enter && treeView.SelectedNode is TreeNode node)
             {
-                //InsertTableItem(node);
+                InsertTableItem(node);
 
                 // select next node
-                if (node.Nodes.Count > 0)
-                {
-                    node.Expand(); // may fill channels on expand
-
-                    if (node.Nodes.Count > 0)
-                        treeView.SelectedNode = node.Nodes[0];
-                    else if (node.NextNode != null)
-                        treeView.SelectedNode = node.NextNode;
-                }
-                else if (node.NextNode != null)
-                {
+                if (node.NextNode != null)
                     treeView.SelectedNode = node.NextNode;
-                }
-                else if (node.Parent != null && node.Parent.NextNode != null)
-                {
-                    treeView.SelectedNode = node.Parent.NextNode;
-                }
             }
         }
 
@@ -421,8 +503,8 @@ namespace Scada.Admin.Extensions.ExtTableEditor.Forms
 
         private void treeView_NodeMouseDoubleClick(object sender, TreeNodeMouseClickEventArgs e)
         {
-            //if (e.Button == MouseButtons.Left)
-            //    InsertTableItem(e.Node);
+            if (e.Button == MouseButtons.Left)
+                InsertTableItem(e.Node);
         }
 
         private void treeView_BeforeExpand(object sender, TreeViewCancelEventArgs e)

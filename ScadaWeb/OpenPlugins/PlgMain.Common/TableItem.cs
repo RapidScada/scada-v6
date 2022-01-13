@@ -21,7 +21,7 @@ namespace Scada.Web.Plugins.PlgMain
             CnlNum = 0;
             DeviceNum = 0;
             Hidden = false;
-            AutoText = true;
+            AutoText = false;
             Text = "";
             Cnl = null;
         }
@@ -89,7 +89,7 @@ namespace Scada.Web.Plugins.PlgMain
 
             if (AutoText)
                 xmlElem.SetAttribute("autoText", AutoText);
-            else
+            else if (!string.IsNullOrEmpty(Text))
                 xmlElem.InnerText = Text;
         }
     }

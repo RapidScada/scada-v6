@@ -1,6 +1,19 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <ExtTableEditorDictionaries>
-  <Dictionary key="">
-    <Phrase key=""></Phrase>
+  <Dictionary key="Scada.Admin.Extensions.ExtTableEditor.Forms.FrmTableEditor">
+    <Phrase key="btnRefreshBase.ToolTip">Refresh Configuration Database</Phrase>
+    <Phrase key="btnAddItem.ToolTip">Add Item</Phrase>
+    <Phrase key="btnAddEmptyItem.ToolTip">Add Empty Item</Phrase>
+    <Phrase key="btnMoveUpItem.ToolTip">Move Item Up</Phrase>
+    <Phrase key="btnMoveDownItem.ToolTip">Move Item Down</Phrase>
+    <Phrase key="btnDeleteItem.ToolTip">Delete Selected Items</Phrase>
+    <Phrase key="lblHint">Press Enter or double-click a node to add it to the table. Right-click a device node to display the context menu.</Phrase>
+    <Phrase key="colCnlNum">Channel</Phrase>
+    <Phrase key="colDeviceNum">Device</Phrase>
+    <Phrase key="colAutoText">Auto Text</Phrase>
+    <Phrase key="colText">Text</Phrase>
+    <Phrase key="colHidden">Hidden</Phrase>
+    <Phrase key="miDeviceAddDevice">Add Device</Phrase>
+    <Phrase key="miDeviceAddAllChannels">Add All Channels</Phrase>
   </Dictionary>
 </ExtTableEditorDictionaries>
