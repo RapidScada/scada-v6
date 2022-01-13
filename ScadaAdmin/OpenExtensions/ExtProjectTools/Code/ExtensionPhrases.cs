@@ -15,10 +15,6 @@ namespace Scada.Admin.Extensions.ExtProjectTools.Code
         public static string MapByDeviceTitle { get; private set; }
         public static string MapByObjectTitle { get; private set; }
         public static string ChannelsCaption { get; private set; }
-        public static string DeviceCaption { get; private set; }
-        public static string ObjectCaption { get; private set; }
-        public static string EmptyDevice { get; private set; }
-        public static string EmptyObject { get; private set; }
         public static string NoChannels { get; private set; }
         public static string GenerateMapError { get; private set; }
 
@@ -52,10 +48,6 @@ namespace Scada.Admin.Extensions.ExtProjectTools.Code
             MapByDeviceTitle = dict["MapByDeviceTitle"];
             MapByObjectTitle = dict["MapByObjectTitle"];
             ChannelsCaption = dict["ChannelsCaption"];
-            DeviceCaption = dict["DeviceCaption"];
-            ObjectCaption = dict["ObjectCaption"];
-            EmptyDevice = dict["EmptyDevice"];
-            EmptyObject = dict["EmptyObject"];
             NoChannels = dict["NoChannels"];
             GenerateMapError = dict["GenerateMapError"];
 

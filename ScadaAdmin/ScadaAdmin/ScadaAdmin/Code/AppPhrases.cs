@@ -50,15 +50,12 @@ namespace Scada.Admin.App.Code
         public static string BaseNode { get; private set; }
         public static string PrimaryTablesNode { get; private set; }
         public static string SecondaryTablesNode { get; private set; }
-        public static string TableByDeviceNode { get; private set; }
-        public static string EmptyDeviceNode { get; private set; }
         public static string ViewsNode { get; private set; }
         public static string InstancesNode { get; private set; }
         public static string ServerNode { get; private set; }
         public static string CommNode { get; private set; }
         public static string WebNode { get; private set; }
         public static string AppConfigNode { get; private set; }
-        public static string EmptyNode { get; private set; }
         public static string DeviceFilter { get; private set; }
         public static string EmptyDeviceFilter { get; private set; }
 
@@ -198,15 +195,12 @@ namespace Scada.Admin.App.Code
             BaseNode = dict["BaseNode"];
             PrimaryTablesNode = dict["PrimaryTablesNode"];
             SecondaryTablesNode = dict["SecondaryTablesNode"];
-            TableByDeviceNode = dict["TableByDeviceNode"];
-            EmptyDeviceNode = dict["EmptyDeviceNode"];
             ViewsNode = dict["ViewsNode"];
             InstancesNode = dict["InstancesNode"];
             ServerNode = dict["ServerNode"];
             CommNode = dict["CommNode"];
             WebNode = dict["WebNode"];
             AppConfigNode = dict["AppConfigNode"];
-            EmptyNode = dict["EmptyNode"];
             DeviceFilter = dict["DeviceFilter"];
             EmptyDeviceFilter = dict["EmptyDeviceFilter"];
 

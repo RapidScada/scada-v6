@@ -1,6 +1,7 @@
 ﻿// Copyright (c) Rapid Software LLC. All rights reserved.
 // Licensed under the Apache License, Version 2.0. See License.txt in the project root for license information.
 
+using Scada.Admin.Lang;
 using Scada.Admin.Project;
 using Scada.Data.Entities;
 using Scada.Data.Tables;
@@ -77,26 +78,26 @@ namespace Scada.Admin.Extensions.ExtProjectTools.Code
                         {
                             foreach (Device device in configBase.DeviceTable.EnumerateItems())
                             {
-                                writer.WriteLine(string.Format(ExtensionPhrases.DeviceCaption, 
+                                writer.WriteLine(string.Format(CommonPhrases.EntityCaption, 
                                     device.DeviceNum, device.Name));
                                 writer.Write(ExtensionPhrases.ChannelsCaption);
                                 WriteCnls(writer, tableIndex, device.DeviceNum);
                                 writer.WriteLine();
                             }
 
-                            writer.WriteLine(ExtensionPhrases.EmptyDevice);
+                            writer.WriteLine(AdminPhrases.EmptyDevice);
                         }
                         else
                         {
                             foreach (Obj obj in configBase.ObjTable.EnumerateItems())
                             {
-                                writer.WriteLine(string.Format(ExtensionPhrases.ObjectCaption, obj.ObjNum, obj.Name));
+                                writer.WriteLine(string.Format(CommonPhrases.EntityCaption, obj.ObjNum, obj.Name));
                                 writer.Write(ExtensionPhrases.ChannelsCaption);
                                 WriteCnls(writer, tableIndex, obj.ObjNum);
                                 writer.WriteLine();
                             }
 
-                            writer.WriteLine(ExtensionPhrases.EmptyObject);
+                            writer.WriteLine(AdminPhrases.EmptyObject);
                         }
 
                         // channels with unspecified device or object

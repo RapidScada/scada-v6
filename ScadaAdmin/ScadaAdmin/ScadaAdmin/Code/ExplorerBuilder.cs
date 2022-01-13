@@ -1,5 +1,5 @@
 ﻿/*
- * Copyright 2021 Rapid Software LLC
+ * Copyright 2022 Rapid Software LLC
  * 
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -20,15 +20,17 @@
  * 
  * Author   : Mikhail Shiryaev
  * Created  : 2018
- * Modified : 2021
+ * Modified : 2022
  */
 
 using Scada.Admin.App.Forms.Tables;
 using Scada.Admin.Extensions;
+using Scada.Admin.Lang;
 using Scada.Admin.Project;
 using Scada.Data.Entities;
 using Scada.Data.Tables;
 using Scada.Forms;
+using Scada.Lang;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -177,14 +179,14 @@ namespace Scada.Admin.App.Code
         {
             foreach (Device device in configBase.DeviceTable.EnumerateItems())
             {
-                string nodeText = string.Format(AppPhrases.TableByDeviceNode, device.DeviceNum, device.Name);
+                string nodeText = string.Format(CommonPhrases.EntityCaption, device.DeviceNum, device.Name);
                 TreeNode cnlsByDeviceNode = TreeViewExtensions.CreateNode(nodeText, "table.png");
                 cnlsByDeviceNode.ContextMenuStrip = contextMenus.CnlTableMenu;
                 cnlsByDeviceNode.Tag = CreateBaseTableTag(configBase.CnlTable, CreateFilterByDevice(device));
                 cnlTableNode.Nodes.Add(cnlsByDeviceNode);
             }
 
-            TreeNode cnlsEmptyDeviceNode = TreeViewExtensions.CreateNode(AppPhrases.EmptyDeviceNode, "table.png");
+            TreeNode cnlsEmptyDeviceNode = TreeViewExtensions.CreateNode(AdminPhrases.EmptyDevice, "table.png");
             cnlsEmptyDeviceNode.ContextMenuStrip = contextMenus.CnlTableMenu;
             cnlsEmptyDeviceNode.Tag = CreateBaseTableTag(configBase.CnlTable, CreateFilterByDevice(null));
             cnlTableNode.Nodes.Add(cnlsEmptyDeviceNode);
@@ -261,7 +263,7 @@ namespace Scada.Admin.App.Code
         /// </summary>
         private static TreeNode CreateEmptyNode()
         {
-            return TreeViewExtensions.CreateNode(AppPhrases.EmptyNode, "empty.png");
+            return TreeViewExtensions.CreateNode(CommonPhrases.EmptyData, "empty.png");
         }
 
         /// <summary>

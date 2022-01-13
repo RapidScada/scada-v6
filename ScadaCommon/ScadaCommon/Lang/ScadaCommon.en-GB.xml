@@ -48,6 +48,7 @@
     <Phrase key="ViewTable">Views</Phrase>
     <Phrase key="ViewTypeTable">View types</Phrase>
     <Phrase key="IndexNotFound">Index not found.</Phrase>
+    <Phrase key="EntityCaption">[{0}] {1}</Phrase>
   </Dictionary>
   <Dictionary key="Scada.Files">
     <Phrase key="FileNotFound">File not found.</Phrase>
@@ -84,6 +85,7 @@
     <Phrase key="ErrorCaption">Error</Phrase>
     <Phrase key="WarningCaption">Warning</Phrase>
     <Phrase key="NoData">No data</Phrase>
+    <Phrase key="EmptyData">Empty</Phrase>
     <Phrase key="CorrectErrors">Please correct the following errors:</Phrase>
     <Phrase key="HiddenPassword">*****</Phrase>
     <Phrase key="NewConnection">New Connection</Phrase>

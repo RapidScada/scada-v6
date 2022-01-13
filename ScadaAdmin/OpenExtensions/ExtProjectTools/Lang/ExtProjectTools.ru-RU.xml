@@ -4,10 +4,6 @@
     <Phrase key="MapByDeviceTitle">Каналы по КП</Phrase>
     <Phrase key="MapByObjectTitle">Каналы по объектам</Phrase>
     <Phrase key="ChannelsCaption">Каналы : </Phrase>
-    <Phrase key="DeviceCaption">[{0}] {1}</Phrase>
-    <Phrase key="ObjectCaption">[{0}] {1}</Phrase>
-    <Phrase key="EmptyDevice">Пустой КП</Phrase>
-    <Phrase key="EmptyObject">Пустой объект</Phrase>
     <Phrase key="NoChannels">Каналы отсутствуют</Phrase>
     <Phrase key="GenerateMapError">Ошибка при генерации карты каналов</Phrase>
   </Dictionary>

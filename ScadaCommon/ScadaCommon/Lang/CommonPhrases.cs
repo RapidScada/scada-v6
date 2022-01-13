@@ -81,6 +81,7 @@ namespace Scada.Lang
         public static string ViewTable { get; private set; }
         public static string ViewTypeTable { get; private set; }
         public static string IndexNotFound { get; private set; }
+        public static string EntityCaption { get; private set; }
 
         // Scada.Files
         public static string FileNotFound { get; private set; }
@@ -117,6 +118,7 @@ namespace Scada.Lang
         public static string ErrorCaption { get; private set; }
         public static string WarningCaption { get; private set; }
         public static string NoData { get; private set; }
+        public static string EmptyData { get; private set; }
         public static string CorrectErrors { get; private set; }
         public static string HiddenPassword { get; private set; }
         public static string NewConnection { get; private set; }
@@ -196,6 +198,7 @@ namespace Scada.Lang
             ViewTable = dict["ViewTable"];
             ViewTypeTable = dict["ViewTypeTable"];
             IndexNotFound = dict["IndexNotFound"];
+            EntityCaption = dict["EntityCaption"];
 
             dict = Locale.GetDictionary("Scada.Files");
             FileNotFound = dict["FileNotFound"];
@@ -232,6 +235,7 @@ namespace Scada.Lang
             ErrorCaption = dict["ErrorCaption"];
             WarningCaption = dict["WarningCaption"];
             NoData = dict["NoData"];
+            EmptyData = dict["EmptyData"];
             CorrectErrors = dict["CorrectErrors"];
             HiddenPassword = dict["HiddenPassword"];
             NewConnection = dict["NewConnection"];

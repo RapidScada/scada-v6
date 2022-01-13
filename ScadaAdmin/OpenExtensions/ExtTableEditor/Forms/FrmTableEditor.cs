@@ -2,6 +2,7 @@
 // Licensed under the Apache License, Version 2.0. See License.txt in the project root for license information.
 
 using Scada.Admin.Extensions.ExtTableEditor.Properties;
+using Scada.Admin.Lang;
 using Scada.Admin.Project;
 using Scada.Data.Entities;
 using Scada.Data.Tables;
@@ -78,18 +79,18 @@ namespace Scada.Admin.Extensions.ExtTableEditor.Forms
 
                 foreach (Device device in configBase.DeviceTable.EnumerateItems())
                 {
-                    string nodeText = string.Format("[{0}] {1}", device.DeviceNum, device.Name);
+                    string nodeText = string.Format(CommonPhrases.EntityCaption, device.DeviceNum, device.Name);
                     TreeNode deviceNode = TreeViewExtensions.CreateNode(nodeText, "device.png");
                     deviceNode.ContextMenuStrip = cmsDevice;
                     deviceNode.Tag = device;
-                    deviceNode.Nodes.Add(TreeViewExtensions.CreateNode("Empty", "empty.png"));
+                    deviceNode.Nodes.Add(TreeViewExtensions.CreateNode(CommonPhrases.EmptyData, "empty.png"));
                     treeView.Nodes.Add(deviceNode);
                 }
 
-                TreeNode emptyDeviceNode = TreeViewExtensions.CreateNode("TablePhrases.EmptyDeviceNode", "device.png");
+                TreeNode emptyDeviceNode = TreeViewExtensions.CreateNode(AdminPhrases.EmptyDevice, "device.png");
                 emptyDeviceNode.ContextMenuStrip = cmsDevice;
-                emptyDeviceNode.Tag = new Device { DeviceNum = 0, Name = "TablePhrases.EmptyDeviceNode" };
-                emptyDeviceNode.Nodes.Add(TreeViewExtensions.CreateNode("Empty", "empty.png"));
+                emptyDeviceNode.Tag = new Device { DeviceNum = 0, Name = AdminPhrases.EmptyDevice };
+                emptyDeviceNode.Nodes.Add(TreeViewExtensions.CreateNode(CommonPhrases.EmptyData, "empty.png"));
                 treeView.Nodes.Add(emptyDeviceNode);
             }
             finally
@@ -111,7 +112,7 @@ namespace Scada.Admin.Extensions.ExtTableEditor.Forms
                 foreach (Cnl cnl in configBase.CnlTable.SelectItems(
                     new TableFilter("DeviceNum", device.DeviceNum), true))
                 {
-                    string nodeText = string.Format("[{0}] {1}", cnl.CnlNum, cnl.Name);
+                    string nodeText = string.Format(CommonPhrases.EntityCaption, cnl.CnlNum, cnl.Name);
                     TreeNode cnlNode = TreeViewExtensions.CreateNode(nodeText, "cnl.png");
                     cnlNode.Tag = cnl;
                     deviceNode.Nodes.Add(cnlNode);

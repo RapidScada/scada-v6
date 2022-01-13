@@ -43,7 +43,7 @@ namespace Scada.Admin.Lang
         public static string LoadDeploymentConfigError { get; private set; }
         public static string SaveDeploymentConfigError { get; private set; }
 
-        // Scada.Admin.Extenstions
+        // Scada.Admin.Extensions
         public static string AgentNotEnabled { get; private set; }
         public static string DbNotEnabled { get; private set; }
         public static string UploadConfig { get; private set; }
@@ -60,6 +60,8 @@ namespace Scada.Admin.Lang
         public static string RestartNamedService { get; private set; }
         public static string ServiceCommandCompleted { get; private set; }
         public static string ServiceCommandFailed { get; private set; }
+        public static string EmptyDevice { get; private set; }
+        public static string EmptyObject { get; private set; }
 
         // Scada.Admin.Forms.FrmLogs
         public static string AllFilesFilter { get; private set; }
@@ -127,6 +129,8 @@ namespace Scada.Admin.Lang
             RestartNamedService = dict["RestartNamedService"];
             ServiceCommandCompleted = dict["ServiceCommandCompleted"];
             ServiceCommandFailed = dict["ServiceCommandFailed"];
+            EmptyDevice = dict["EmptyDevice"];
+            EmptyObject = dict["EmptyObject"];
 
             dict = Locale.GetDictionary("Scada.Admin.Forms.FrmLogs");
             AllFilesFilter = dict["AllFilesFilter"];

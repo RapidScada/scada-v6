@@ -4,10 +4,6 @@
     <Phrase key="MapByDeviceTitle">Channels by Device</Phrase>
     <Phrase key="MapByObjectTitle">Channels by Object</Phrase>
     <Phrase key="ChannelsCaption">Channels : </Phrase>
-    <Phrase key="DeviceCaption">[{0}] {1}</Phrase>
-    <Phrase key="ObjectCaption">[{0}] {1}</Phrase>
-    <Phrase key="EmptyDevice">Empty device</Phrase>
-    <Phrase key="EmptyObject">Empty object</Phrase>
     <Phrase key="NoChannels">No channels</Phrase>
     <Phrase key="GenerateMapError">Error generating channel map</Phrase>
   </Dictionary>

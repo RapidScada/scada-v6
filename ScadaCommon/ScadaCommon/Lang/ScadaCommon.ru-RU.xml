@@ -48,6 +48,7 @@
     <Phrase key="ViewTable">Представления</Phrase>
     <Phrase key="ViewTypeTable">Типы представлений</Phrase>
     <Phrase key="IndexNotFound">Индекс не найден.</Phrase>
+    <Phrase key="EntityCaption">[{0}] {1}</Phrase>
   </Dictionary>
   <Dictionary key="Scada.Files">
     <Phrase key="FileNotFound">Не найден файл.</Phrase>
@@ -84,6 +85,7 @@
     <Phrase key="ErrorCaption">Ошибка</Phrase>
     <Phrase key="WarningCaption">Предупреждение</Phrase>
     <Phrase key="NoData">Нет данных</Phrase>
+    <Phrase key="EmptyData">Пусто</Phrase>
     <Phrase key="CorrectErrors">Пожалуйста, исправьте следующие ошибки:</Phrase>
     <Phrase key="HiddenPassword">*****</Phrase>
     <Phrase key="NewConnection">Новое соединение</Phrase>

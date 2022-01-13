@@ -188,15 +188,12 @@
     <Phrase key="BaseNode">Configuration Database</Phrase>
     <Phrase key="PrimaryTablesNode">Primary Tables</Phrase>
     <Phrase key="SecondaryTablesNode">Secondary Tables</Phrase>
-    <Phrase key="TableByDeviceNode">[{0}] {1}</Phrase>
-    <Phrase key="EmptyDeviceNode">Empty device</Phrase>
     <Phrase key="ViewsNode">Views</Phrase>
     <Phrase key="InstancesNode">Instances</Phrase>
     <Phrase key="ServerNode">Server</Phrase>
     <Phrase key="CommNode">Communicator</Phrase>
     <Phrase key="WebNode">Webstation</Phrase>
     <Phrase key="AppConfigNode">Configuration Files</Phrase>
-    <Phrase key="EmptyNode">Empty</Phrase>
     <Phrase key="DeviceFilter">Device {0}</Phrase>
     <Phrase key="EmptyDeviceFilter">Empty device</Phrase>
   </Dictionary>
@@ -610,6 +607,8 @@
     <Phrase key="RestartNamedService">Restart the {0} service</Phrase>
     <Phrase key="ServiceCommandCompleted">Service control command completed successfully</Phrase>
     <Phrase key="ServiceCommandFailed">Service control command failed</Phrase>
+    <Phrase key="EmptyDevice">Empty device</Phrase>
+    <Phrase key="EmptyObject">Empty object</Phrase>
   </Dictionary>
   <Dictionary key="Scada.Admin.Forms.FrmLogs">
     <Phrase key="this">Logs</Phrase>
