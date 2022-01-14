@@ -403,7 +403,9 @@
     <Phrase key="lblFormat">Формат</Phrase>
     <Phrase key="lblQuantity">Величина</Phrase>
     <Phrase key="lblUnit">Размерность</Phrase>
-    <Phrase key="gbLim">Границы</Phrase>
+    <Phrase key="pageLim">Границы</Phrase>
+    <Phrase key="lblLim">Граница</Phrase>
+    <Phrase key="btnCreateLim">Создать</Phrase>
     <Phrase key="chkShared">Показывать только общие границы</Phrase>
     <Phrase key="lblLoLo">Нижняя авар.</Phrase>
     <Phrase key="lblLow">Нижняя</Phrase>

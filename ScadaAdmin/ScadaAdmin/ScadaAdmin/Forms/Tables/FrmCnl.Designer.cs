@@ -31,19 +31,6 @@ namespace Scada.Admin.App.Forms.Tables
         {
             this.tabControl = new System.Windows.Forms.TabControl();
             this.pageGeneral = new System.Windows.Forms.TabPage();
-            this.gbLim = new System.Windows.Forms.GroupBox();
-            this.txtDeadband = new System.Windows.Forms.TextBox();
-            this.lblDeadband = new System.Windows.Forms.Label();
-            this.txtHiHi = new System.Windows.Forms.TextBox();
-            this.lblHiHi = new System.Windows.Forms.Label();
-            this.txtHigh = new System.Windows.Forms.TextBox();
-            this.lblHigh = new System.Windows.Forms.Label();
-            this.txtLow = new System.Windows.Forms.TextBox();
-            this.lblLow = new System.Windows.Forms.Label();
-            this.txtLoLo = new System.Windows.Forms.TextBox();
-            this.lblLoLo = new System.Windows.Forms.Label();
-            this.chkShared = new System.Windows.Forms.CheckBox();
-            this.cbLim = new System.Windows.Forms.ComboBox();
             this.cbUnit = new System.Windows.Forms.ComboBox();
             this.lblUnit = new System.Windows.Forms.Label();
             this.cbQuantity = new System.Windows.Forms.ComboBox();
@@ -76,6 +63,21 @@ namespace Scada.Admin.App.Forms.Tables
             this.txtCnlNum = new System.Windows.Forms.TextBox();
             this.lblCnlNum = new System.Windows.Forms.Label();
             this.chkActive = new System.Windows.Forms.CheckBox();
+            this.pageLim = new System.Windows.Forms.TabPage();
+            this.txtDeadband = new System.Windows.Forms.TextBox();
+            this.lblDeadband = new System.Windows.Forms.Label();
+            this.txtHiHi = new System.Windows.Forms.TextBox();
+            this.lblHiHi = new System.Windows.Forms.Label();
+            this.txtHigh = new System.Windows.Forms.TextBox();
+            this.lblHigh = new System.Windows.Forms.Label();
+            this.txtLow = new System.Windows.Forms.TextBox();
+            this.lblLow = new System.Windows.Forms.Label();
+            this.txtLoLo = new System.Windows.Forms.TextBox();
+            this.lblLoLo = new System.Windows.Forms.Label();
+            this.chkShared = new System.Windows.Forms.CheckBox();
+            this.btnCreateLim = new System.Windows.Forms.Button();
+            this.cbLim = new System.Windows.Forms.ComboBox();
+            this.lblLim = new System.Windows.Forms.Label();
             this.pageArchives = new System.Windows.Forms.TabPage();
             this.bmArchive = new Scada.Admin.App.Controls.Tables.CtrlBitMask();
             this.pageEvents = new System.Windows.Forms.TabPage();
@@ -85,7 +87,7 @@ namespace Scada.Admin.App.Forms.Tables
             this.btnOK = new System.Windows.Forms.Button();
             this.tabControl.SuspendLayout();
             this.pageGeneral.SuspendLayout();
-            this.gbLim.SuspendLayout();
+            this.pageLim.SuspendLayout();
             this.pageArchives.SuspendLayout();
             this.pageEvents.SuspendLayout();
             this.pnlBottom.SuspendLayout();
@@ -94,18 +96,18 @@ namespace Scada.Admin.App.Forms.Tables
             // tabControl
             // 
             this.tabControl.Controls.Add(this.pageGeneral);
+            this.tabControl.Controls.Add(this.pageLim);
             this.tabControl.Controls.Add(this.pageArchives);
             this.tabControl.Controls.Add(this.pageEvents);
             this.tabControl.Dock = System.Windows.Forms.DockStyle.Fill;
             this.tabControl.Location = new System.Drawing.Point(0, 0);
             this.tabControl.Name = "tabControl";
             this.tabControl.SelectedIndex = 0;
-            this.tabControl.Size = new System.Drawing.Size(484, 583);
+            this.tabControl.Size = new System.Drawing.Size(484, 452);
             this.tabControl.TabIndex = 0;
             // 
             // pageGeneral
             // 
-            this.pageGeneral.Controls.Add(this.gbLim);
             this.pageGeneral.Controls.Add(this.cbUnit);
             this.pageGeneral.Controls.Add(this.lblUnit);
             this.pageGeneral.Controls.Add(this.cbQuantity);
@@ -141,138 +143,10 @@ namespace Scada.Admin.App.Forms.Tables
             this.pageGeneral.Location = new System.Drawing.Point(4, 24);
             this.pageGeneral.Name = "pageGeneral";
             this.pageGeneral.Padding = new System.Windows.Forms.Padding(3);
-            this.pageGeneral.Size = new System.Drawing.Size(476, 555);
+            this.pageGeneral.Size = new System.Drawing.Size(476, 424);
             this.pageGeneral.TabIndex = 0;
             this.pageGeneral.Text = "General";
             this.pageGeneral.UseVisualStyleBackColor = true;
-            // 
-            // gbLim
-            // 
-            this.gbLim.Controls.Add(this.txtDeadband);
-            this.gbLim.Controls.Add(this.lblDeadband);
-            this.gbLim.Controls.Add(this.txtHiHi);
-            this.gbLim.Controls.Add(this.lblHiHi);
-            this.gbLim.Controls.Add(this.txtHigh);
-            this.gbLim.Controls.Add(this.lblHigh);
-            this.gbLim.Controls.Add(this.txtLow);
-            this.gbLim.Controls.Add(this.lblLow);
-            this.gbLim.Controls.Add(this.txtLoLo);
-            this.gbLim.Controls.Add(this.lblLoLo);
-            this.gbLim.Controls.Add(this.chkShared);
-            this.gbLim.Controls.Add(this.cbLim);
-            this.gbLim.Location = new System.Drawing.Point(8, 422);
-            this.gbLim.Name = "gbLim";
-            this.gbLim.Padding = new System.Windows.Forms.Padding(10, 3, 10, 10);
-            this.gbLim.Size = new System.Drawing.Size(460, 127);
-            this.gbLim.TabIndex = 32;
-            this.gbLim.TabStop = false;
-            this.gbLim.Text = "Limits";
-            // 
-            // txtDeadband
-            // 
-            this.txtDeadband.Location = new System.Drawing.Point(365, 91);
-            this.txtDeadband.Name = "txtDeadband";
-            this.txtDeadband.ReadOnly = true;
-            this.txtDeadband.Size = new System.Drawing.Size(82, 23);
-            this.txtDeadband.TabIndex = 11;
-            // 
-            // lblDeadband
-            // 
-            this.lblDeadband.AutoSize = true;
-            this.lblDeadband.Location = new System.Drawing.Point(362, 73);
-            this.lblDeadband.Name = "lblDeadband";
-            this.lblDeadband.Size = new System.Drawing.Size(61, 15);
-            this.lblDeadband.TabIndex = 10;
-            this.lblDeadband.Text = "Deadband";
-            // 
-            // txtHiHi
-            // 
-            this.txtHiHi.Location = new System.Drawing.Point(277, 91);
-            this.txtHiHi.Name = "txtHiHi";
-            this.txtHiHi.ReadOnly = true;
-            this.txtHiHi.Size = new System.Drawing.Size(82, 23);
-            this.txtHiHi.TabIndex = 9;
-            // 
-            // lblHiHi
-            // 
-            this.lblHiHi.AutoSize = true;
-            this.lblHiHi.Location = new System.Drawing.Point(274, 73);
-            this.lblHiHi.Name = "lblHiHi";
-            this.lblHiHi.Size = new System.Drawing.Size(86, 15);
-            this.lblHiHi.TabIndex = 8;
-            this.lblHiHi.Text = "Extremely high";
-            // 
-            // txtHigh
-            // 
-            this.txtHigh.Location = new System.Drawing.Point(189, 91);
-            this.txtHigh.Name = "txtHigh";
-            this.txtHigh.ReadOnly = true;
-            this.txtHigh.Size = new System.Drawing.Size(82, 23);
-            this.txtHigh.TabIndex = 7;
-            // 
-            // lblHigh
-            // 
-            this.lblHigh.AutoSize = true;
-            this.lblHigh.Location = new System.Drawing.Point(186, 73);
-            this.lblHigh.Name = "lblHigh";
-            this.lblHigh.Size = new System.Drawing.Size(33, 15);
-            this.lblHigh.TabIndex = 6;
-            this.lblHigh.Text = "High";
-            // 
-            // txtLow
-            // 
-            this.txtLow.Location = new System.Drawing.Point(101, 91);
-            this.txtLow.Name = "txtLow";
-            this.txtLow.ReadOnly = true;
-            this.txtLow.Size = new System.Drawing.Size(82, 23);
-            this.txtLow.TabIndex = 5;
-            // 
-            // lblLow
-            // 
-            this.lblLow.AutoSize = true;
-            this.lblLow.Location = new System.Drawing.Point(98, 73);
-            this.lblLow.Name = "lblLow";
-            this.lblLow.Size = new System.Drawing.Size(29, 15);
-            this.lblLow.TabIndex = 4;
-            this.lblLow.Text = "Low";
-            // 
-            // txtLoLo
-            // 
-            this.txtLoLo.Location = new System.Drawing.Point(13, 91);
-            this.txtLoLo.Name = "txtLoLo";
-            this.txtLoLo.ReadOnly = true;
-            this.txtLoLo.Size = new System.Drawing.Size(82, 23);
-            this.txtLoLo.TabIndex = 3;
-            // 
-            // lblLoLo
-            // 
-            this.lblLoLo.AutoSize = true;
-            this.lblLoLo.Location = new System.Drawing.Point(10, 73);
-            this.lblLoLo.Name = "lblLoLo";
-            this.lblLoLo.Size = new System.Drawing.Size(81, 15);
-            this.lblLoLo.TabIndex = 2;
-            this.lblLoLo.Text = "Extremely low";
-            // 
-            // chkShared
-            // 
-            this.chkShared.AutoSize = true;
-            this.chkShared.Location = new System.Drawing.Point(13, 51);
-            this.chkShared.Name = "chkShared";
-            this.chkShared.Size = new System.Drawing.Size(151, 19);
-            this.chkShared.TabIndex = 1;
-            this.chkShared.Text = "Show only shared limits";
-            this.chkShared.UseVisualStyleBackColor = true;
-            this.chkShared.CheckedChanged += new System.EventHandler(this.chkShared_CheckedChanged);
-            // 
-            // cbLim
-            // 
-            this.cbLim.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this.cbLim.FormattingEnabled = true;
-            this.cbLim.Location = new System.Drawing.Point(13, 22);
-            this.cbLim.Name = "cbLim";
-            this.cbLim.Size = new System.Drawing.Size(434, 23);
-            this.cbLim.TabIndex = 0;
-            this.cbLim.SelectedIndexChanged += new System.EventHandler(this.cbLim_SelectedIndexChanged);
             // 
             // cbUnit
             // 
@@ -551,13 +425,160 @@ namespace Scada.Admin.App.Forms.Tables
             this.chkActive.Text = "Active";
             this.chkActive.UseVisualStyleBackColor = true;
             // 
+            // pageLim
+            // 
+            this.pageLim.Controls.Add(this.txtDeadband);
+            this.pageLim.Controls.Add(this.lblDeadband);
+            this.pageLim.Controls.Add(this.txtHiHi);
+            this.pageLim.Controls.Add(this.lblHiHi);
+            this.pageLim.Controls.Add(this.txtHigh);
+            this.pageLim.Controls.Add(this.lblHigh);
+            this.pageLim.Controls.Add(this.txtLow);
+            this.pageLim.Controls.Add(this.lblLow);
+            this.pageLim.Controls.Add(this.txtLoLo);
+            this.pageLim.Controls.Add(this.lblLoLo);
+            this.pageLim.Controls.Add(this.chkShared);
+            this.pageLim.Controls.Add(this.btnCreateLim);
+            this.pageLim.Controls.Add(this.cbLim);
+            this.pageLim.Controls.Add(this.lblLim);
+            this.pageLim.Location = new System.Drawing.Point(4, 24);
+            this.pageLim.Name = "pageLim";
+            this.pageLim.Padding = new System.Windows.Forms.Padding(3);
+            this.pageLim.Size = new System.Drawing.Size(476, 424);
+            this.pageLim.TabIndex = 3;
+            this.pageLim.Text = "Limits";
+            this.pageLim.UseVisualStyleBackColor = true;
+            // 
+            // txtDeadband
+            // 
+            this.txtDeadband.Location = new System.Drawing.Point(380, 93);
+            this.txtDeadband.Name = "txtDeadband";
+            this.txtDeadband.ReadOnly = true;
+            this.txtDeadband.Size = new System.Drawing.Size(88, 23);
+            this.txtDeadband.TabIndex = 13;
+            // 
+            // lblDeadband
+            // 
+            this.lblDeadband.AutoSize = true;
+            this.lblDeadband.Location = new System.Drawing.Point(377, 75);
+            this.lblDeadband.Name = "lblDeadband";
+            this.lblDeadband.Size = new System.Drawing.Size(61, 15);
+            this.lblDeadband.TabIndex = 12;
+            this.lblDeadband.Text = "Deadband";
+            // 
+            // txtHiHi
+            // 
+            this.txtHiHi.Location = new System.Drawing.Point(287, 93);
+            this.txtHiHi.Name = "txtHiHi";
+            this.txtHiHi.ReadOnly = true;
+            this.txtHiHi.Size = new System.Drawing.Size(87, 23);
+            this.txtHiHi.TabIndex = 11;
+            // 
+            // lblHiHi
+            // 
+            this.lblHiHi.AutoSize = true;
+            this.lblHiHi.Location = new System.Drawing.Point(284, 75);
+            this.lblHiHi.Name = "lblHiHi";
+            this.lblHiHi.Size = new System.Drawing.Size(86, 15);
+            this.lblHiHi.TabIndex = 10;
+            this.lblHiHi.Text = "Extremely high";
+            // 
+            // txtHigh
+            // 
+            this.txtHigh.Location = new System.Drawing.Point(194, 93);
+            this.txtHigh.Name = "txtHigh";
+            this.txtHigh.ReadOnly = true;
+            this.txtHigh.Size = new System.Drawing.Size(87, 23);
+            this.txtHigh.TabIndex = 9;
+            // 
+            // lblHigh
+            // 
+            this.lblHigh.AutoSize = true;
+            this.lblHigh.Location = new System.Drawing.Point(191, 75);
+            this.lblHigh.Name = "lblHigh";
+            this.lblHigh.Size = new System.Drawing.Size(33, 15);
+            this.lblHigh.TabIndex = 8;
+            this.lblHigh.Text = "High";
+            // 
+            // txtLow
+            // 
+            this.txtLow.Location = new System.Drawing.Point(101, 93);
+            this.txtLow.Name = "txtLow";
+            this.txtLow.ReadOnly = true;
+            this.txtLow.Size = new System.Drawing.Size(87, 23);
+            this.txtLow.TabIndex = 7;
+            // 
+            // lblLow
+            // 
+            this.lblLow.AutoSize = true;
+            this.lblLow.Location = new System.Drawing.Point(98, 75);
+            this.lblLow.Name = "lblLow";
+            this.lblLow.Size = new System.Drawing.Size(29, 15);
+            this.lblLow.TabIndex = 6;
+            this.lblLow.Text = "Low";
+            // 
+            // txtLoLo
+            // 
+            this.txtLoLo.Location = new System.Drawing.Point(8, 93);
+            this.txtLoLo.Name = "txtLoLo";
+            this.txtLoLo.ReadOnly = true;
+            this.txtLoLo.Size = new System.Drawing.Size(87, 23);
+            this.txtLoLo.TabIndex = 5;
+            // 
+            // lblLoLo
+            // 
+            this.lblLoLo.AutoSize = true;
+            this.lblLoLo.Location = new System.Drawing.Point(5, 75);
+            this.lblLoLo.Name = "lblLoLo";
+            this.lblLoLo.Size = new System.Drawing.Size(81, 15);
+            this.lblLoLo.TabIndex = 4;
+            this.lblLoLo.Text = "Extremely low";
+            // 
+            // chkShared
+            // 
+            this.chkShared.AutoSize = true;
+            this.chkShared.Location = new System.Drawing.Point(8, 53);
+            this.chkShared.Name = "chkShared";
+            this.chkShared.Size = new System.Drawing.Size(151, 19);
+            this.chkShared.TabIndex = 3;
+            this.chkShared.Text = "Show only shared limits";
+            this.chkShared.UseVisualStyleBackColor = true;
+            // 
+            // btnCreateLim
+            // 
+            this.btnCreateLim.Location = new System.Drawing.Point(393, 24);
+            this.btnCreateLim.Name = "btnCreateLim";
+            this.btnCreateLim.Size = new System.Drawing.Size(75, 23);
+            this.btnCreateLim.TabIndex = 2;
+            this.btnCreateLim.Text = "Create";
+            this.btnCreateLim.UseVisualStyleBackColor = true;
+            // 
+            // cbLim
+            // 
+            this.cbLim.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.cbLim.FormattingEnabled = true;
+            this.cbLim.Location = new System.Drawing.Point(8, 24);
+            this.cbLim.Name = "cbLim";
+            this.cbLim.Size = new System.Drawing.Size(379, 23);
+            this.cbLim.TabIndex = 1;
+            this.cbLim.SelectedIndexChanged += new System.EventHandler(this.cbLim_SelectedIndexChanged);
+            // 
+            // lblLim
+            // 
+            this.lblLim.AutoSize = true;
+            this.lblLim.Location = new System.Drawing.Point(5, 6);
+            this.lblLim.Name = "lblLim";
+            this.lblLim.Size = new System.Drawing.Size(34, 15);
+            this.lblLim.TabIndex = 0;
+            this.lblLim.Text = "Limit";
+            // 
             // pageArchives
             // 
             this.pageArchives.Controls.Add(this.bmArchive);
             this.pageArchives.Location = new System.Drawing.Point(4, 24);
             this.pageArchives.Name = "pageArchives";
             this.pageArchives.Padding = new System.Windows.Forms.Padding(3);
-            this.pageArchives.Size = new System.Drawing.Size(476, 555);
+            this.pageArchives.Size = new System.Drawing.Size(476, 424);
             this.pageArchives.TabIndex = 1;
             this.pageArchives.Text = "Archives";
             this.pageArchives.UseVisualStyleBackColor = true;
@@ -569,7 +590,7 @@ namespace Scada.Admin.App.Forms.Tables
             this.bmArchive.MaskBits = null;
             this.bmArchive.MaskValue = 0;
             this.bmArchive.Name = "bmArchive";
-            this.bmArchive.Size = new System.Drawing.Size(460, 543);
+            this.bmArchive.Size = new System.Drawing.Size(460, 410);
             this.bmArchive.TabIndex = 0;
             // 
             // pageEvents
@@ -578,7 +599,7 @@ namespace Scada.Admin.App.Forms.Tables
             this.pageEvents.Location = new System.Drawing.Point(4, 24);
             this.pageEvents.Name = "pageEvents";
             this.pageEvents.Padding = new System.Windows.Forms.Padding(3);
-            this.pageEvents.Size = new System.Drawing.Size(476, 555);
+            this.pageEvents.Size = new System.Drawing.Size(476, 424);
             this.pageEvents.TabIndex = 2;
             this.pageEvents.Text = "Events";
             this.pageEvents.UseVisualStyleBackColor = true;
@@ -590,7 +611,7 @@ namespace Scada.Admin.App.Forms.Tables
             this.bmEvent.MaskBits = null;
             this.bmEvent.MaskValue = 0;
             this.bmEvent.Name = "bmEvent";
-            this.bmEvent.Size = new System.Drawing.Size(460, 543);
+            this.bmEvent.Size = new System.Drawing.Size(460, 410);
             this.bmEvent.TabIndex = 0;
             // 
             // pnlBottom
@@ -598,7 +619,7 @@ namespace Scada.Admin.App.Forms.Tables
             this.pnlBottom.Controls.Add(this.btnCancel);
             this.pnlBottom.Controls.Add(this.btnOK);
             this.pnlBottom.Dock = System.Windows.Forms.DockStyle.Bottom;
-            this.pnlBottom.Location = new System.Drawing.Point(0, 583);
+            this.pnlBottom.Location = new System.Drawing.Point(0, 452);
             this.pnlBottom.Name = "pnlBottom";
             this.pnlBottom.Size = new System.Drawing.Size(484, 41);
             this.pnlBottom.TabIndex = 1;
@@ -630,7 +651,7 @@ namespace Scada.Admin.App.Forms.Tables
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.CancelButton = this.btnCancel;
-            this.ClientSize = new System.Drawing.Size(484, 624);
+            this.ClientSize = new System.Drawing.Size(484, 493);
             this.Controls.Add(this.tabControl);
             this.Controls.Add(this.pnlBottom);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedDialog;
@@ -645,8 +666,8 @@ namespace Scada.Admin.App.Forms.Tables
             this.tabControl.ResumeLayout(false);
             this.pageGeneral.ResumeLayout(false);
             this.pageGeneral.PerformLayout();
-            this.gbLim.ResumeLayout(false);
-            this.gbLim.PerformLayout();
+            this.pageLim.ResumeLayout(false);
+            this.pageLim.PerformLayout();
             this.pageArchives.ResumeLayout(false);
             this.pageEvents.ResumeLayout(false);
             this.pnlBottom.ResumeLayout(false);
@@ -692,9 +713,14 @@ namespace Scada.Admin.App.Forms.Tables
         private System.Windows.Forms.ComboBox cbQuantity;
         private System.Windows.Forms.ComboBox cbUnit;
         private System.Windows.Forms.Label lblUnit;
-        private System.Windows.Forms.GroupBox gbLim;
-        private System.Windows.Forms.ComboBox cbLim;
-        private System.Windows.Forms.CheckBox chkShared;
+        private Controls.Tables.CtrlBitMask bmArchive;
+        private Controls.Tables.CtrlBitMask bmEvent;
+        private System.Windows.Forms.Label lblInFormula;
+        private System.Windows.Forms.TextBox txtOutFormula;
+        private System.Windows.Forms.Label lblOutFormula;
+        private System.Windows.Forms.TabPage pageLim;
+        private System.Windows.Forms.TextBox txtDeadband;
+        private System.Windows.Forms.Label lblDeadband;
         private System.Windows.Forms.TextBox txtHiHi;
         private System.Windows.Forms.Label lblHiHi;
         private System.Windows.Forms.TextBox txtHigh;
@@ -703,12 +729,9 @@ namespace Scada.Admin.App.Forms.Tables
         private System.Windows.Forms.Label lblLow;
         private System.Windows.Forms.TextBox txtLoLo;
         private System.Windows.Forms.Label lblLoLo;
-        private System.Windows.Forms.TextBox txtDeadband;
-        private System.Windows.Forms.Label lblDeadband;
-        private Controls.Tables.CtrlBitMask bmArchive;
-        private Controls.Tables.CtrlBitMask bmEvent;
-        private System.Windows.Forms.Label lblInFormula;
-        private System.Windows.Forms.TextBox txtOutFormula;
-        private System.Windows.Forms.Label lblOutFormula;
+        private System.Windows.Forms.CheckBox chkShared;
+        private System.Windows.Forms.ComboBox cbLim;
+        private System.Windows.Forms.Label lblLim;
+        private System.Windows.Forms.Button btnCreateLim;
     }
 }

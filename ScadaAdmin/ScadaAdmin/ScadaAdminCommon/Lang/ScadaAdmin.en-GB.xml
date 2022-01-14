@@ -403,7 +403,9 @@
     <Phrase key="lblFormat">Format</Phrase>
     <Phrase key="lblQuantity">Quantity</Phrase>
     <Phrase key="lblUnit">Unit</Phrase>
-    <Phrase key="gbLim">Limits</Phrase>
+    <Phrase key="pageLim">Limits</Phrase>
+    <Phrase key="lblLim">Limit</Phrase>
+    <Phrase key="btnCreateLim">Create</Phrase>
     <Phrase key="chkShared">Show only shared limits</Phrase>
     <Phrase key="lblLoLo">Extremely low</Phrase>
     <Phrase key="lblLow">Low</Phrase>
