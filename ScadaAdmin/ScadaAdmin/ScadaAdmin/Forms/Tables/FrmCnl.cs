@@ -254,7 +254,8 @@ namespace Scada.Admin.App.Forms.Tables
 
         private void btnCreateLim_Click(object sender, EventArgs e)
         {
-            new FrmLimCreate().ShowDialog();
+            int.TryParse(txtCnlNum.Text, out int cnlNum);
+            new FrmLimCreate { CnlNum = cnlNum }.ShowDialog();
         }
 
         private void chkShared_CheckedChanged(object sender, EventArgs e)

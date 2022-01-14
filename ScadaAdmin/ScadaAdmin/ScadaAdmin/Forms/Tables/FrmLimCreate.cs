@@ -26,7 +26,9 @@
 using Scada.Admin.Project;
 using Scada.Data.Entities;
 using Scada.Forms;
+using Scada.Lang;
 using System;
+using System.Text;
 using System.Windows.Forms;
 
 namespace Scada.Admin.App.Forms.Tables
@@ -45,24 +47,91 @@ namespace Scada.Admin.App.Forms.Tables
             InitializeComponent();
 
             numLimID.Maximum = ConfigBase.MaxID;
-            LimEntity = new Lim();
+            CnlNum = 0;
+            LimEntity = null;
         }
 
 
         /// <summary>
+        /// Gets or sets the channel number for which a limit is created.
+        /// </summary>
+        public int CnlNum { get; set; }
+
+        /// <summary>
         /// Gets the limit.
         /// </summary>
-        public Lim LimEntity { get; }
+        public Lim LimEntity { get; private set; }
+
+
+        /// <summary>
+        /// Validates the form controls.
+        /// </summary>
+        private bool ValidateControls()
+        {
+            StringBuilder sbError = new();
+
+            if (string.IsNullOrWhiteSpace(txtName.Text))
+                sbError.AppendError(lblName, CommonPhrases.NonemptyRequired);
+
+            if (txtLoLo.Text != "" && !ScadaUtils.TryParseDouble(txtLoLo.Text, out _))
+                sbError.AppendError(lblLoLo, CommonPhrases.RealRequired);
+
+            if (txtLow.Text != "" && !ScadaUtils.TryParseDouble(txtLow.Text, out _))
+                sbError.AppendError(lblLow, CommonPhrases.RealRequired);
+
+            if (txtHigh.Text != "" && !ScadaUtils.TryParseDouble(txtHigh.Text, out _))
+                sbError.AppendError(lblHigh, CommonPhrases.RealRequired);
+
+            if (txtHiHi.Text != "" && !ScadaUtils.TryParseDouble(txtHiHi.Text, out _))
+                sbError.AppendError(lblHiHi, CommonPhrases.RealRequired);
+
+            if (txtDeadband.Text != "" && !ScadaUtils.TryParseDouble(txtDeadband.Text, out _))
+                sbError.AppendError(lblDeadband, CommonPhrases.RealRequired);
+
+            if (sbError.Length > 0)
+            {
+                ScadaUiUtils.ShowError(CommonPhrases.CorrectErrors + Environment.NewLine + sbError);
+                return false;
+            }
+            else
+            {
+                return true;
+            }
+        }
+
+        /// <summary>
+        /// Sets the entity properties according to the controls.
+        /// </summary>
+        private void ControlsToEntity()
+        {
+            LimEntity = new Lim
+            {
+                LimID = Convert.ToInt32(numLimID.Value),
+                Name = txtName.Text,
+                IsBoundToCnl = chkIsBoundToCnl.Checked,
+                IsShared = chkIsShared.Checked,
+                LoLo = txtLoLo.Text == "" ? null : ScadaUtils.ParseDouble(txtLoLo.Text),
+                Low = txtLow.Text == "" ? null : ScadaUtils.ParseDouble(txtLow.Text),
+                High = txtHigh.Text == "" ? null : ScadaUtils.ParseDouble(txtHigh.Text),
+                HiHi = txtHiHi.Text == "" ? null : ScadaUtils.ParseDouble(txtHiHi.Text),
+                Deadband = txtDeadband.Text == "" ? null : ScadaUtils.ParseDouble(txtDeadband.Text)
+            };
+        }
 
 
         private void FrmLimCreate_Load(object sender, EventArgs e)
         {
             FormTranslator.Translate(this, GetType().FullName);
+            txtName.Text = string.Format(txtName.Text, CnlNum);
         }
 
         private void btnOK_Click(object sender, EventArgs e)
         {
-            DialogResult = DialogResult.OK;
+            if (ValidateControls())
+            {
+                ControlsToEntity();
+                DialogResult = DialogResult.OK;
+            }
         }
     }
 }

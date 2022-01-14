@@ -385,6 +385,21 @@
     <Phrase key="SearchCompleted">Поиск завершён.</Phrase>
     <Phrase key="ReplaceCount">{0} вхождений заменено.</Phrase>
   </Dictionary>
+  <Dictionary key="Scada.Admin.App.Forms.Tables.FrmLimCreate">
+    <Phrase key="this">Создание границы</Phrase>
+    <Phrase key="lblLimID">Идент.</Phrase>
+    <Phrase key="lblName">Наименование</Phrase>
+    <Phrase key="txtName">Граница для канала {0}</Phrase>
+    <Phrase key="chkIsBoundToCnl">Привязана к каналам</Phrase>
+    <Phrase key="chkIsShared">Общая</Phrase>
+    <Phrase key="lblLoLo">Нижняя авар.</Phrase>
+    <Phrase key="lblLow">Нижняя</Phrase>
+    <Phrase key="lblHigh">Верхняя</Phrase>
+    <Phrase key="lblHiHi">Верхняя авар.</Phrase>
+    <Phrase key="lblDeadband">Зона нечувств.</Phrase>
+    <Phrase key="btnOK">OK</Phrase>
+    <Phrase key="btnCancel">Отмена</Phrase>
+  </Dictionary>
   <Dictionary key="Scada.Admin.App.Forms.Tables.FrmCnl">
     <Phrase key="this">Свойства канала</Phrase>
     <Phrase key="pageGeneral">Основные</Phrase>
@@ -407,10 +422,10 @@
     <Phrase key="lblLim">Граница</Phrase>
     <Phrase key="btnCreateLim">Создать</Phrase>
     <Phrase key="chkShared">Показывать только общие границы</Phrase>
-    <Phrase key="lblLoLo">Нижняя аварийная</Phrase>
+    <Phrase key="lblLoLo">Нижняя авар.</Phrase>
     <Phrase key="lblLow">Нижняя</Phrase>
     <Phrase key="lblHigh">Верхняя</Phrase>
-    <Phrase key="lblHiHi">Верхняя аварийная</Phrase>
+    <Phrase key="lblHiHi">Верхняя авар.</Phrase>
     <Phrase key="lblDeadband">Зона нечувств.</Phrase>
     <Phrase key="pageArchives">Архивы</Phrase>
     <Phrase key="pageEvents">События</Phrase>

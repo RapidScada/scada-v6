@@ -385,6 +385,21 @@
     <Phrase key="SearchCompleted">Search completed.</Phrase>
     <Phrase key="ReplaceCount">{0} occurrence(s) replaced.</Phrase>
   </Dictionary>
+  <Dictionary key="Scada.Admin.App.Forms.Tables.FrmLimCreate">
+    <Phrase key="this">Create Limit</Phrase>
+    <Phrase key="lblLimID">ID</Phrase>
+    <Phrase key="lblName">Name</Phrase>
+    <Phrase key="txtName">Limit for channel {0}</Phrase>
+    <Phrase key="chkIsBoundToCnl">Bound to channels</Phrase>
+    <Phrase key="chkIsShared">Shared</Phrase>
+    <Phrase key="lblLoLo">Extremely low</Phrase>
+    <Phrase key="lblLow">Low</Phrase>
+    <Phrase key="lblHigh">High</Phrase>
+    <Phrase key="lblHiHi">Extremely high</Phrase>
+    <Phrase key="lblDeadband">Deadband</Phrase>
+    <Phrase key="btnOK">OK</Phrase>
+    <Phrase key="btnCancel">Cancel</Phrase>
+  </Dictionary>
   <Dictionary key="Scada.Admin.App.Forms.Tables.FrmCnl">
     <Phrase key="this">Channel Properties</Phrase>
     <Phrase key="pageGeneral">General</Phrase>
