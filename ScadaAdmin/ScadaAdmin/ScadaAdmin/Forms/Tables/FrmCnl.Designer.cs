@@ -451,16 +451,16 @@ namespace Scada.Admin.App.Forms.Tables
             // 
             // txtDeadband
             // 
-            this.txtDeadband.Location = new System.Drawing.Point(380, 93);
+            this.txtDeadband.Location = new System.Drawing.Point(8, 137);
             this.txtDeadband.Name = "txtDeadband";
             this.txtDeadband.ReadOnly = true;
-            this.txtDeadband.Size = new System.Drawing.Size(88, 23);
+            this.txtDeadband.Size = new System.Drawing.Size(110, 23);
             this.txtDeadband.TabIndex = 13;
             // 
             // lblDeadband
             // 
             this.lblDeadband.AutoSize = true;
-            this.lblDeadband.Location = new System.Drawing.Point(377, 75);
+            this.lblDeadband.Location = new System.Drawing.Point(5, 119);
             this.lblDeadband.Name = "lblDeadband";
             this.lblDeadband.Size = new System.Drawing.Size(61, 15);
             this.lblDeadband.TabIndex = 12;
@@ -468,16 +468,16 @@ namespace Scada.Admin.App.Forms.Tables
             // 
             // txtHiHi
             // 
-            this.txtHiHi.Location = new System.Drawing.Point(287, 93);
+            this.txtHiHi.Location = new System.Drawing.Point(356, 93);
             this.txtHiHi.Name = "txtHiHi";
             this.txtHiHi.ReadOnly = true;
-            this.txtHiHi.Size = new System.Drawing.Size(87, 23);
+            this.txtHiHi.Size = new System.Drawing.Size(112, 23);
             this.txtHiHi.TabIndex = 11;
             // 
             // lblHiHi
             // 
             this.lblHiHi.AutoSize = true;
-            this.lblHiHi.Location = new System.Drawing.Point(284, 75);
+            this.lblHiHi.Location = new System.Drawing.Point(353, 75);
             this.lblHiHi.Name = "lblHiHi";
             this.lblHiHi.Size = new System.Drawing.Size(86, 15);
             this.lblHiHi.TabIndex = 10;
@@ -485,16 +485,16 @@ namespace Scada.Admin.App.Forms.Tables
             // 
             // txtHigh
             // 
-            this.txtHigh.Location = new System.Drawing.Point(194, 93);
+            this.txtHigh.Location = new System.Drawing.Point(240, 93);
             this.txtHigh.Name = "txtHigh";
             this.txtHigh.ReadOnly = true;
-            this.txtHigh.Size = new System.Drawing.Size(87, 23);
+            this.txtHigh.Size = new System.Drawing.Size(110, 23);
             this.txtHigh.TabIndex = 9;
             // 
             // lblHigh
             // 
             this.lblHigh.AutoSize = true;
-            this.lblHigh.Location = new System.Drawing.Point(191, 75);
+            this.lblHigh.Location = new System.Drawing.Point(237, 75);
             this.lblHigh.Name = "lblHigh";
             this.lblHigh.Size = new System.Drawing.Size(33, 15);
             this.lblHigh.TabIndex = 8;
@@ -502,16 +502,16 @@ namespace Scada.Admin.App.Forms.Tables
             // 
             // txtLow
             // 
-            this.txtLow.Location = new System.Drawing.Point(101, 93);
+            this.txtLow.Location = new System.Drawing.Point(124, 93);
             this.txtLow.Name = "txtLow";
             this.txtLow.ReadOnly = true;
-            this.txtLow.Size = new System.Drawing.Size(87, 23);
+            this.txtLow.Size = new System.Drawing.Size(110, 23);
             this.txtLow.TabIndex = 7;
             // 
             // lblLow
             // 
             this.lblLow.AutoSize = true;
-            this.lblLow.Location = new System.Drawing.Point(98, 75);
+            this.lblLow.Location = new System.Drawing.Point(121, 75);
             this.lblLow.Name = "lblLow";
             this.lblLow.Size = new System.Drawing.Size(29, 15);
             this.lblLow.TabIndex = 6;
@@ -522,7 +522,7 @@ namespace Scada.Admin.App.Forms.Tables
             this.txtLoLo.Location = new System.Drawing.Point(8, 93);
             this.txtLoLo.Name = "txtLoLo";
             this.txtLoLo.ReadOnly = true;
-            this.txtLoLo.Size = new System.Drawing.Size(87, 23);
+            this.txtLoLo.Size = new System.Drawing.Size(110, 23);
             this.txtLoLo.TabIndex = 5;
             // 
             // lblLoLo
@@ -552,6 +552,7 @@ namespace Scada.Admin.App.Forms.Tables
             this.btnCreateLim.TabIndex = 2;
             this.btnCreateLim.Text = "Create";
             this.btnCreateLim.UseVisualStyleBackColor = true;
+            this.btnCreateLim.Click += new System.EventHandler(this.btnCreateLim_Click);
             // 
             // cbLim
             // 

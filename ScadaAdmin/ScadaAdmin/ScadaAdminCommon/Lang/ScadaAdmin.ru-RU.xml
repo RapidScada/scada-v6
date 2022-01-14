@@ -407,10 +407,10 @@
     <Phrase key="lblLim">Граница</Phrase>
     <Phrase key="btnCreateLim">Создать</Phrase>
     <Phrase key="chkShared">Показывать только общие границы</Phrase>
-    <Phrase key="lblLoLo">Нижняя авар.</Phrase>
+    <Phrase key="lblLoLo">Нижняя аварийная</Phrase>
     <Phrase key="lblLow">Нижняя</Phrase>
     <Phrase key="lblHigh">Верхняя</Phrase>
-    <Phrase key="lblHiHi">Верхняя авар.</Phrase>
+    <Phrase key="lblHiHi">Верхняя аварийная</Phrase>
     <Phrase key="lblDeadband">Зона нечувств.</Phrase>
     <Phrase key="pageArchives">Архивы</Phrase>
     <Phrase key="pageEvents">События</Phrase>

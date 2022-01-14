@@ -1,5 +1,5 @@
 ﻿/*
- * Copyright 2021 Rapid Software LLC
+ * Copyright 2022 Rapid Software LLC
  * 
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -20,7 +20,7 @@
  * 
  * Author   : Mikhail Shiryaev
  * Created  : 2010
- * Modified : 2021
+ * Modified : 2022
  */
 
 using Scada.Admin.App.Code;
@@ -250,6 +250,11 @@ namespace Scada.Admin.App.Forms.Tables
                 txtHiHi.Text = "";
                 txtDeadband.Text = "";
             }
+        }
+
+        private void btnCreateLim_Click(object sender, EventArgs e)
+        {
+            new FrmLimCreate().ShowDialog();
         }
 
         private void chkShared_CheckedChanged(object sender, EventArgs e)
