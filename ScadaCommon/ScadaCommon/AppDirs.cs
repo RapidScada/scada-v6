@@ -1,5 +1,5 @@
 ﻿/*
- * Copyright 2021 Rapid Software LLC
+ * Copyright 2022 Rapid Software LLC
  * 
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -20,7 +20,7 @@
  * 
  * Author   : Mikhail Shiryaev
  * Created  : 2015
- * Modified : 2021
+ * Modified : 2022
  */
 
 using Scada.Lang;
@@ -99,7 +99,7 @@ namespace Scada
         public string TempDir { get; protected set; }
 
         /// <summary>
-        /// Checks that the directories exist.
+        /// Checks that the required directories exist.
         /// </summary>
         public bool Exist
         {
@@ -149,14 +149,30 @@ namespace Scada
         /// </summary>
         public virtual void Init(string exeDir)
         {
+            Init(exeDir, null);
+        }
+
+        /// <summary>
+        /// Initializes the directories based on the executable file directory and common application data directory.
+        /// </summary>
+        /// <remarks>Common application data directory should be writable.</remarks>
+        public virtual void Init(string exeDir, string commonDataDir)
+        {
+            if (string.IsNullOrEmpty(exeDir))
+                throw new ArgumentException("Executable directory must not be empty.", nameof(exeDir));
+
+            string dataDir = string.IsNullOrEmpty(commonDataDir)
+                ? exeDir
+                : Path.Combine(commonDataDir, new DirectoryInfo(exeDir).Name);
+
             ExeDir = ScadaUtils.NormalDir(exeDir);
             InstanceDir = ScadaUtils.NormalDir(Path.GetFullPath(Path.Combine(exeDir, "..")));
-            CmdDir = AppendDir(ExeDir, "Cmd");
-            ConfigDir = AppendDir(ExeDir, "Config");
-            LangDir = AppendDir(ExeDir, "Lang");
-            LogDir = AppendDir(ExeDir, "Log");
-            StorageDir = AppendDir(ExeDir, "Storage");
-            TempDir = AppendDir(ExeDir, "Temp");
+            CmdDir = AppendDir(dataDir, "Cmd");
+            ConfigDir = AppendDir(dataDir, "Config");
+            LangDir = AppendDir(exeDir, "Lang");
+            LogDir = AppendDir(dataDir, "Log");
+            StorageDir = AppendDir(dataDir, "Storage");
+            TempDir = AppendDir(dataDir, "Temp");
         }
 
         /// <summary>
@@ -212,9 +228,41 @@ namespace Scada
         }
 
         /// <summary>
+        /// Creates the application data directories if necessary.
+        /// </summary>
+        public virtual bool CreateDataDirs(out string errMsg)
+        {
+            try
+            {
+                foreach (string dir in GetDataDirs())
+                {
+                    Directory.CreateDirectory(dir);
+                }
+
+                errMsg = "";
+                return true;
+            }
+            catch (Exception ex)
+            {
+                errMsg = ex.BuildErrorMessage(Locale.IsRussian ?
+                    "Ошибка при создании директорий данных" :
+                    "Error creating data directories");
+                return false;
+            }
+        }
+
+        /// <summary>
         /// Gets the directories required for the application.
         /// </summary>
         public virtual string[] GetRequiredDirs()
+        {
+            return Array.Empty<string>();
+        }
+
+        /// <summary>
+        /// Gets the application data directories.
+        /// </summary>
+        public virtual string[] GetDataDirs()
         {
             return Array.Empty<string>();
         }

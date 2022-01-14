@@ -48,7 +48,7 @@
             // 
             // btnOK
             // 
-            this.btnOK.Location = new System.Drawing.Point(216, 64);
+            this.btnOK.Location = new System.Drawing.Point(216, 81);
             this.btnOK.Name = "btnOK";
             this.btnOK.Size = new System.Drawing.Size(75, 23);
             this.btnOK.TabIndex = 1;
@@ -59,7 +59,7 @@
             // btnCancel
             // 
             this.btnCancel.DialogResult = System.Windows.Forms.DialogResult.Cancel;
-            this.btnCancel.Location = new System.Drawing.Point(297, 64);
+            this.btnCancel.Location = new System.Drawing.Point(297, 81);
             this.btnCancel.Name = "btnCancel";
             this.btnCancel.Size = new System.Drawing.Size(75, 23);
             this.btnCancel.TabIndex = 2;
@@ -72,7 +72,7 @@
             this.pnlInfo.Controls.Add(this.lblInfo);
             this.pnlInfo.Location = new System.Drawing.Point(12, 39);
             this.pnlInfo.Name = "pnlInfo";
-            this.pnlInfo.Size = new System.Drawing.Size(360, 21);
+            this.pnlInfo.Size = new System.Drawing.Size(360, 36);
             this.pnlInfo.TabIndex = 3;
             // 
             // pbInfo
@@ -90,9 +90,10 @@
             this.lblInfo.ForeColor = System.Drawing.SystemColors.GrayText;
             this.lblInfo.Location = new System.Drawing.Point(22, 3);
             this.lblInfo.Name = "lblInfo";
-            this.lblInfo.Size = new System.Drawing.Size(297, 15);
+            this.lblInfo.Size = new System.Drawing.Size(297, 30);
             this.lblInfo.TabIndex = 0;
-            this.lblInfo.Text = "Changes will take effect after restarting the application.";
+            this.lblInfo.Text = "Administrator permissions needed.\r\nChanges will take effect after restarting the " +
+    "application.";
             // 
             // FrmCulture
             // 
@@ -100,7 +101,7 @@
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.CancelButton = this.btnCancel;
-            this.ClientSize = new System.Drawing.Size(384, 99);
+            this.ClientSize = new System.Drawing.Size(384, 116);
             this.Controls.Add(this.pnlInfo);
             this.Controls.Add(this.btnCancel);
             this.Controls.Add(this.btnOK);

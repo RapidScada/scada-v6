@@ -434,7 +434,7 @@
   </Dictionary>
   <Dictionary key="Scada.Admin.App.Forms.Tools.FrmCulture">
     <Phrase key="this">Language</Phrase>
-    <Phrase key="lblInfo">Changes will take effect after restarting the application.</Phrase>
+    <Phrase key="lblInfo">Administrator permissions needed.&#13;&#10;Changes will take effect after restarting the application.</Phrase>
     <Phrase key="btnOK">OK</Phrase>
     <Phrase key="btnCancel">Cancel</Phrase>
     <Phrase key="LoadCulturesError">Error loading cultures</Phrase>

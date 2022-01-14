@@ -1,5 +1,5 @@
 ﻿/*
- * Copyright 2021 Rapid Software LLC
+ * Copyright 2022 Rapid Software LLC
  * 
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -20,10 +20,8 @@
  * 
  * Author   : Mikhail Shiryaev
  * Created  : 2018
- * Modified : 2021
+ * Modified : 2022
  */
-
-using System.IO;
 
 namespace Scada.Admin
 {
@@ -39,10 +37,15 @@ namespace Scada.Admin
         public AdminDirs()
             : base()
         {
+            CommonDataDir = "";
             LibDir = "";
             TemplateDir = "";
         }
 
+        /// <summary>
+        /// Gets the common application data directory.
+        /// </summary>
+        public string CommonDataDir { get; protected set; }
 
         /// <summary>
         /// Gets the directory of modules, drivers and other external libraries.
@@ -56,13 +59,22 @@ namespace Scada.Admin
 
 
         /// <summary>
-        /// Initializes the directories based on the directory of the executable file.
+        /// Initializes the directories based on the executable file directory and common application data directory.
         /// </summary>
-        public override void Init(string exeDir)
+        public override void Init(string exeDir, string commonDataDir)
         {
-            base.Init(exeDir);
-            LibDir = ExeDir + "Lib" + Path.DirectorySeparatorChar;
-            TemplateDir = ExeDir + "Templates" + Path.DirectorySeparatorChar;
+            base.Init(exeDir, commonDataDir);
+            CommonDataDir = commonDataDir;
+            LibDir = AppendDir(exeDir, "Lib");
+            TemplateDir = AppendDir(exeDir, "Templates");
+        }
+
+        /// <summary>
+        /// Gets the application data directories.
+        /// </summary>
+        public override string[] GetDataDirs()
+        {
+            return new string[] { ConfigDir, LogDir, TempDir };
         }
 
         /// <summary>
@@ -71,7 +83,7 @@ namespace Scada.Admin
         public AppDirs CreateDirsForView(string configDir)
         {
             AdminDirs appDirs = new();
-            appDirs.Init(ExeDir);
+            appDirs.Init(ExeDir, CommonDataDir);
             appDirs.ConfigDir = configDir;
             return appDirs;
         }

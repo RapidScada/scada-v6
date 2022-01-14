@@ -434,7 +434,7 @@
   </Dictionary>
   <Dictionary key="Scada.Admin.App.Forms.Tools.FrmCulture">
     <Phrase key="this">Язык</Phrase>
-    <Phrase key="lblInfo">Изменения вступят в силу после перезапуска приложения.</Phrase>
+    <Phrase key="lblInfo">Требуются права администратора.&#13;&#10;Изменения вступят в силу после перезапуска приложения.</Phrase>
     <Phrase key="btnOK">OK</Phrase>
     <Phrase key="btnCancel">Отмена</Phrase>
     <Phrase key="LoadCulturesError">Ошибка при загрузке культур</Phrase>
