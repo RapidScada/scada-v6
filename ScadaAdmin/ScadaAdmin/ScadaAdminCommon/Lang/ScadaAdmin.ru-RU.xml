@@ -389,7 +389,6 @@
     <Phrase key="this">Создание границы</Phrase>
     <Phrase key="lblLimID">Идент.</Phrase>
     <Phrase key="lblName">Наименование</Phrase>
-    <Phrase key="txtName">Граница для канала {0}</Phrase>
     <Phrase key="chkIsBoundToCnl">Привязана к каналам</Phrase>
     <Phrase key="chkIsShared">Общая</Phrase>
     <Phrase key="lblLoLo">Нижняя авар.</Phrase>
@@ -399,6 +398,8 @@
     <Phrase key="lblDeadband">Зона нечувств.</Phrase>
     <Phrase key="btnOK">OK</Phrase>
     <Phrase key="btnCancel">Отмена</Phrase>
+    <Phrase key="LimExistsInConfigBase">Граница с таким идентификатором уже существует в базе конфигурации.</Phrase>
+    <Phrase key="DefaultLimName">Граница для канала {0}</Phrase>
   </Dictionary>
   <Dictionary key="Scada.Admin.App.Forms.Tables.FrmCnl">
     <Phrase key="this">Свойства канала</Phrase>

@@ -1,5 +1,5 @@
 ﻿/*
- * Copyright 2021 Rapid Software LLC
+ * Copyright 2022 Rapid Software LLC
  * 
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -20,7 +20,7 @@
  * 
  * Author   : Mikhail Shiryaev
  * Created  : 2018
- * Modified : 2019
+ * Modified : 2022
  */
 
 using System;
@@ -58,6 +58,24 @@ namespace Scada.Data.Tables
             }
 
             return item;
+        }
+
+        /// <summary>
+        /// Copies the item properties to the row.
+        /// </summary>
+        public static void CopyItemToRow(object item, DataRow row)
+        {
+            if (item == null)
+                throw new ArgumentNullException(nameof(item));
+            if (row == null)
+                throw new ArgumentNullException(nameof(row));
+
+            PropertyDescriptorCollection props = TypeDescriptor.GetProperties(item.GetType());
+
+            foreach (PropertyDescriptor prop in props)
+            {
+                row[prop.Name] = prop.GetValue(item) ?? DBNull.Value;
+            }
         }
 
         /// <summary>

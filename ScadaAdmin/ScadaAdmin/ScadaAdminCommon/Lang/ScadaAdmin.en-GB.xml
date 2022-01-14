@@ -389,7 +389,6 @@
     <Phrase key="this">Create Limit</Phrase>
     <Phrase key="lblLimID">ID</Phrase>
     <Phrase key="lblName">Name</Phrase>
-    <Phrase key="txtName">Limit for channel {0}</Phrase>
     <Phrase key="chkIsBoundToCnl">Bound to channels</Phrase>
     <Phrase key="chkIsShared">Shared</Phrase>
     <Phrase key="lblLoLo">Extremely low</Phrase>
@@ -399,6 +398,8 @@
     <Phrase key="lblDeadband">Deadband</Phrase>
     <Phrase key="btnOK">OK</Phrase>
     <Phrase key="btnCancel">Cancel</Phrase>
+    <Phrase key="LimExistsInConfigBase">A limit with the same ID already exists in the configuration database.</Phrase>
+    <Phrase key="DefaultLimName">Limit for channel {0}</Phrase>
   </Dictionary>
   <Dictionary key="Scada.Admin.App.Forms.Tables.FrmCnl">
     <Phrase key="this">Channel Properties</Phrase>

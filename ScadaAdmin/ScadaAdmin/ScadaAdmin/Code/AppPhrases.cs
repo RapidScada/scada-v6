@@ -120,6 +120,10 @@ namespace Scada.Admin.App.Code
         public static string SearchCompleted { get; private set; }
         public static string ReplaceCount { get; private set; }
 
+        // Scada.Admin.App.Forms.Tables.FrmLimCreate
+        public static string LimExistsInConfigBase { get; private set; }
+        public static string DefaultLimName { get; private set; }
+
         // Scada.Admin.App.Forms.Tables.FrmTextDialog
         public static string TextLine { get; private set; }
         public static string TextLength { get; private set; }
@@ -264,6 +268,10 @@ namespace Scada.Admin.App.Code
             ValueNotFound = dict["ValueNotFound"];
             SearchCompleted = dict["SearchCompleted"];
             ReplaceCount = dict["ReplaceCount"];
+
+            dict = Locale.GetDictionary("Scada.Admin.App.Forms.Tables.FrmLimCreate");
+            LimExistsInConfigBase = dict["LimExistsInConfigBase"];
+            DefaultLimName = dict["DefaultLimName"];
 
             dict = Locale.GetDictionary("Scada.Admin.App.Forms.Tables.FrmTextDialog");
             TextLine = dict["TextLine"];

@@ -26,6 +26,8 @@
 using Scada.Admin.App.Code;
 using Scada.Admin.App.Controls.Tables;
 using Scada.Admin.Project;
+using Scada.Data.Entities;
+using Scada.Data.Tables;
 using Scada.Forms;
 using Scada.Lang;
 using System;
@@ -42,6 +44,7 @@ namespace Scada.Admin.App.Forms.Tables
     public partial class FrmCnl : Form
     {
         private readonly DataGridView dataGridView;
+        private readonly ConfigBase configBase;
 
 
         /// <summary>
@@ -55,10 +58,11 @@ namespace Scada.Admin.App.Forms.Tables
         /// <summary>
         /// Initializes a new instance of the class.
         /// </summary>
-        public FrmCnl(DataGridView dataGridView)
+        public FrmCnl(DataGridView dataGridView, ConfigBase configBase)
             : this()
         {
             this.dataGridView = dataGridView ?? throw new ArgumentNullException(nameof(dataGridView));
+            this.configBase = configBase ?? throw new ArgumentNullException(nameof(configBase));
         }
 
 
@@ -102,6 +106,21 @@ namespace Scada.Admin.App.Forms.Tables
         private void SetFormulaEnabled()
         {
             txtInFormula.Enabled = txtOutFormula.Enabled = chkFormulaEnabled.Checked;
+        }
+
+        /// <summary>
+        /// Sets the shared filter for limits.
+        /// </summary>
+        private void SetSharedFilter(DataTable limTable, object selectedValue)
+        {
+            limTable.DefaultView.RowFilter = chkShared.Checked
+                ? "IsShared = true OR LimID IS NULL" + (selectedValue is int intVal ? " OR LimID = " + intVal : "")
+                : "";
+
+            cbLim.DisplayMember = "Name";
+            cbLim.ValueMember = "LimID";
+            cbLim.DataSource = limTable;
+            cbLim.SelectedValue = selectedValue;
         }
 
         /// <summary>
@@ -254,8 +273,26 @@ namespace Scada.Admin.App.Forms.Tables
 
         private void btnCreateLim_Click(object sender, EventArgs e)
         {
+            // create new limit
             int.TryParse(txtCnlNum.Text, out int cnlNum);
-            new FrmLimCreate { CnlNum = cnlNum }.ShowDialog();
+            FrmLimCreate frmLimCreate = new(configBase) { CnlNum = cnlNum };
+
+            if (frmLimCreate.ShowDialog() == DialogResult.OK)
+            {
+                // add limit to the configuration database
+                Lim lim = frmLimCreate.LimEntity;
+                configBase.LimTable.AddItem(lim);
+
+                // add combo box item
+                if (cbLim.DataSource is DataTable limTable)
+                {
+                    cbLim.DataSource = null;
+                    DataRow row = limTable.NewRow();
+                    TableConverter.CopyItemToRow(lim, row);
+                    limTable.Rows.Add(row);
+                    SetSharedFilter(limTable, lim.LimID);
+                }
+            }
         }
 
         private void chkShared_CheckedChanged(object sender, EventArgs e)
@@ -265,15 +302,7 @@ namespace Scada.Admin.App.Forms.Tables
             {
                 object selVal = cbLim.SelectedValue;
                 cbLim.DataSource = null;
-
-                limTable.DefaultView.RowFilter = chkShared.Checked
-                    ? "IsShared = true OR LimID IS NULL" + (selVal is int intVal ? " OR LimID = " + intVal : "")
-                    : "";
-
-                cbLim.DisplayMember = "Name";
-                cbLim.ValueMember = "LimID";
-                cbLim.DataSource = limTable;
-                cbLim.SelectedValue = selVal;
+                SetSharedFilter(limTable, selVal);
             }
         }
 

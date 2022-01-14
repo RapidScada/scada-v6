@@ -467,7 +467,7 @@ namespace Scada.Admin.App.Forms.Tables
                 Form form = null;
 
                 if (baseTable.ItemType == typeof(Cnl))
-                    form = new FrmCnl(dataGridView);
+                    form = new FrmCnl(dataGridView, project.ConfigBase);
 
                 if (form != null && form.ShowDialog() == DialogResult.OK)
                     EndEdit();

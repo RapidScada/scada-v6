@@ -543,6 +543,7 @@ namespace Scada.Admin.App.Forms.Tables
             this.chkShared.TabIndex = 3;
             this.chkShared.Text = "Show only shared limits";
             this.chkShared.UseVisualStyleBackColor = true;
+            this.chkShared.CheckedChanged += new System.EventHandler(this.chkShared_CheckedChanged);
             // 
             // btnCreateLim
             // 

@@ -23,6 +23,7 @@
  * Modified : 2022
  */
 
+using Scada.Admin.App.Code;
 using Scada.Admin.Project;
 using Scada.Data.Entities;
 using Scada.Forms;
@@ -39,16 +40,30 @@ namespace Scada.Admin.App.Forms.Tables
     /// </summary>
     public partial class FrmLimCreate : Form
     {
+        private readonly ConfigBase configBase;
+
+
         /// <summary>
         /// Initializes a new instance of the class.
         /// </summary>
-        public FrmLimCreate()
+        private FrmLimCreate()
         {
             InitializeComponent();
+        }
 
-            numLimID.Maximum = ConfigBase.MaxID;
+        /// <summary>
+        /// Initializes a new instance of the class.
+        /// </summary>
+        public FrmLimCreate(ConfigBase configBase)
+            : this()
+        {
+            this.configBase = configBase ?? throw new ArgumentNullException(nameof(configBase));
+
             CnlNum = 0;
             LimEntity = null;
+
+            numLimID.Value = configBase.LimTable.GetNextPk();
+            numLimID.Maximum = ConfigBase.MaxID;
         }
 
 
@@ -100,6 +115,20 @@ namespace Scada.Admin.App.Forms.Tables
         }
 
         /// <summary>
+        /// Checks feasibility of adding a device.
+        /// </summary>
+        private bool CheckFeasibility()
+        {
+            if (configBase.LimTable.PkExists(Convert.ToInt32(numLimID.Value)))
+            {
+                ScadaUiUtils.ShowError(AppPhrases.LimExistsInConfigBase);
+                return false;
+            }
+
+            return true;
+        }
+
+        /// <summary>
         /// Sets the entity properties according to the controls.
         /// </summary>
         private void ControlsToEntity()
@@ -122,12 +151,14 @@ namespace Scada.Admin.App.Forms.Tables
         private void FrmLimCreate_Load(object sender, EventArgs e)
         {
             FormTranslator.Translate(this, GetType().FullName);
-            txtName.Text = string.Format(txtName.Text, CnlNum);
+
+            if (CnlNum > 0)
+                txtName.Text = string.Format(AppPhrases.DefaultLimName, CnlNum);
         }
 
         private void btnOK_Click(object sender, EventArgs e)
         {
-            if (ValidateControls())
+            if (ValidateControls() && CheckFeasibility())
             {
                 ControlsToEntity();
                 DialogResult = DialogResult.OK;
