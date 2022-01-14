@@ -27,6 +27,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.ComponentModel;
+using System.Linq;
 using System.Xml;
 using System.Xml.Serialization;
 
@@ -298,6 +299,14 @@ namespace Scada.Data.Tables
         public bool PkExists(int key)
         {
             return Items.ContainsKey(key);
+        }
+
+        /// <summary>
+        /// Gets the next primary key value to add a new item.
+        /// </summary>
+        public int GetNextPk()
+        {
+            return Items.Count > 0 ? Items.Keys.Last() + 1 : 1;
         }
 
         /// <summary>

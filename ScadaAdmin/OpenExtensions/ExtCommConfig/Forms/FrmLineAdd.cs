@@ -101,7 +101,7 @@ namespace Scada.Admin.Extensions.ExtCommConfig.Forms
             if (recentSelection.CommLineNum > 0)
                 numCommLineNum.SetValue(recentSelection.CommLineNum + 1);
             else if (project.ConfigBase.CommLineTable.ItemCount > 0)
-                numCommLineNum.SetValue(project.ConfigBase.CommLineTable.Items.Values.Last().CommLineNum + 1);
+                numCommLineNum.SetValue(project.ConfigBase.CommLineTable.GetNextPk());
         }
 
         /// <summary>

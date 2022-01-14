@@ -148,7 +148,7 @@ namespace Scada.Admin.Extensions.ExtCommConfig.Forms
             if (recentSelection.DeviceNum > 0)
                 numDeviceNum.SetValue(recentSelection.DeviceNum + 1);
             else if (project.ConfigBase.DeviceTable.ItemCount > 0)
-                numDeviceNum.SetValue(project.ConfigBase.DeviceTable.Items.Values.Last().DeviceNum + 1);
+                numDeviceNum.SetValue(project.ConfigBase.DeviceTable.GetNextPk());
         }
 
         /// <summary>
