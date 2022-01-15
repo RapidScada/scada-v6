@@ -282,9 +282,9 @@
     <Phrase key="lblName">Наименование профиля</Phrase>
     <Phrase key="lblExtension">Расширение</Phrase>
     <Phrase key="lblWebUrl">Адрес Вебстанции</Phrase>
-    <Phrase key="tabAgentConnection">Соединение с Агентом</Phrase>
+    <Phrase key="pageAgentConnection">Соединение с Агентом</Phrase>
     <Phrase key="chkAgentEnabled">Агент включен</Phrase>
-    <Phrase key="tabDbConnection">Соединение с БД</Phrase>
+    <Phrase key="pageDbConnection">Соединение с БД</Phrase>
     <Phrase key="chkDbEnabled">База данных включена</Phrase>
     <Phrase key="btnOK">OK</Phrase>
     <Phrase key="btnCancel">Отмена</Phrase>
