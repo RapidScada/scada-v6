@@ -1293,7 +1293,9 @@ namespace Scada.Admin.App.Forms
 
         private void miToolsOptions_Click(object sender, EventArgs e)
         {
-            // edit the application settings
+            // edit application configuration
+            new FrmConfig().ShowDialog();
+
             /*FrmSettings frmSettings = new FrmSettings(appData);
 
             if (frmSettings.ShowDialog() == DialogResult.OK && frmSettings.ReopenNeeded)
