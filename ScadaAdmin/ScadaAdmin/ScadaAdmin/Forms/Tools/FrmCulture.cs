@@ -24,7 +24,6 @@
  */
 
 using Scada.Admin.App.Code;
-using Scada.Config;
 using Scada.Forms;
 using Scada.Lang;
 using System;

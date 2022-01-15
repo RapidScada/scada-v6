@@ -122,6 +122,8 @@
             this.lbActiveExt.Name = "lbActiveExt";
             this.lbActiveExt.Size = new System.Drawing.Size(338, 276);
             this.lbActiveExt.TabIndex = 8;
+            this.lbActiveExt.SelectedIndexChanged += new System.EventHandler(this.lbActiveExt_SelectedIndexChanged);
+            this.lbActiveExt.DoubleClick += new System.EventHandler(this.lbActiveExt_DoubleClick);
             // 
             // btnExtProperties
             // 
@@ -131,6 +133,7 @@
             this.btnExtProperties.TabIndex = 7;
             this.btnExtProperties.Text = "Properties";
             this.btnExtProperties.UseVisualStyleBackColor = true;
+            this.btnExtProperties.Click += new System.EventHandler(this.btnExtProperties_Click);
             // 
             // btnMoveDownExt
             // 
@@ -140,6 +143,7 @@
             this.btnMoveDownExt.TabIndex = 6;
             this.btnMoveDownExt.Text = "Move Down";
             this.btnMoveDownExt.UseVisualStyleBackColor = true;
+            this.btnMoveDownExt.Click += new System.EventHandler(this.btnMoveDownExt_Click);
             // 
             // btnMoveUpExt
             // 
@@ -149,6 +153,7 @@
             this.btnMoveUpExt.TabIndex = 5;
             this.btnMoveUpExt.Text = "Move Up";
             this.btnMoveUpExt.UseVisualStyleBackColor = true;
+            this.btnMoveUpExt.Click += new System.EventHandler(this.btnMoveUpExt_Click);
             // 
             // btnDeactivateExt
             // 
@@ -158,6 +163,7 @@
             this.btnDeactivateExt.TabIndex = 4;
             this.btnDeactivateExt.Text = "Deactivate";
             this.btnDeactivateExt.UseVisualStyleBackColor = true;
+            this.btnDeactivateExt.Click += new System.EventHandler(this.btnDeactivateExt_Click);
             // 
             // lblActiveExt
             // 
@@ -177,6 +183,8 @@
             this.lbUnusedExt.Name = "lbUnusedExt";
             this.lbUnusedExt.Size = new System.Drawing.Size(316, 277);
             this.lbUnusedExt.TabIndex = 2;
+            this.lbUnusedExt.SelectedIndexChanged += new System.EventHandler(this.lbUnusedExt_SelectedIndexChanged);
+            this.lbUnusedExt.DoubleClick += new System.EventHandler(this.lbUnusedExt_DoubleClick);
             // 
             // btnActivateExt
             // 
@@ -186,6 +194,7 @@
             this.btnActivateExt.TabIndex = 1;
             this.btnActivateExt.Text = "Activate";
             this.btnActivateExt.UseVisualStyleBackColor = true;
+            this.btnActivateExt.Click += new System.EventHandler(this.btnActivateExt_Click);
             // 
             // lblUnusedExt
             // 
@@ -227,6 +236,8 @@
             this.lvAssoc.TabIndex = 4;
             this.lvAssoc.UseCompatibleStateImageBehavior = false;
             this.lvAssoc.View = System.Windows.Forms.View.Details;
+            this.lvAssoc.SelectedIndexChanged += new System.EventHandler(this.lvAssoc_SelectedIndexChanged);
+            this.lvAssoc.DoubleClick += new System.EventHandler(this.lvAssoc_DoubleClick);
             // 
             // colExt
             // 
@@ -247,6 +258,7 @@
             this.btnRegisterRsproj.TabIndex = 3;
             this.btnRegisterRsproj.Text = "Register *.rsproj";
             this.btnRegisterRsproj.UseVisualStyleBackColor = true;
+            this.btnRegisterRsproj.Click += new System.EventHandler(this.btnRegisterRsproj_Click);
             // 
             // btnDeleteAssoc
             // 
@@ -256,6 +268,7 @@
             this.btnDeleteAssoc.TabIndex = 2;
             this.btnDeleteAssoc.Text = "Delete";
             this.btnDeleteAssoc.UseVisualStyleBackColor = true;
+            this.btnDeleteAssoc.Click += new System.EventHandler(this.btnDeleteAssoc_Click);
             // 
             // btnEditAssoc
             // 
@@ -265,6 +278,7 @@
             this.btnEditAssoc.TabIndex = 1;
             this.btnEditAssoc.Text = "Edit";
             this.btnEditAssoc.UseVisualStyleBackColor = true;
+            this.btnEditAssoc.Click += new System.EventHandler(this.btnEditAssoc_Click);
             // 
             // btnAddAssoc
             // 
@@ -274,6 +288,7 @@
             this.btnAddAssoc.TabIndex = 0;
             this.btnAddAssoc.Text = "Add";
             this.btnAddAssoc.UseVisualStyleBackColor = true;
+            this.btnAddAssoc.Click += new System.EventHandler(this.btnAddAssoc_Click);
             // 
             // pnlBottom
             // 
@@ -333,6 +348,7 @@
             this.btnOK.TabIndex = 0;
             this.btnOK.Text = "OK";
             this.btnOK.UseVisualStyleBackColor = true;
+            this.btnOK.Click += new System.EventHandler(this.btnOK_Click);
             // 
             // FrmConfig
             // 
@@ -350,6 +366,7 @@
             this.ShowInTaskbar = false;
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
             this.Text = "Options";
+            this.Load += new System.EventHandler(this.FrmConfig_Load);
             this.tabControl.ResumeLayout(false);
             this.pageExt.ResumeLayout(false);
             this.pageExt.PerformLayout();
