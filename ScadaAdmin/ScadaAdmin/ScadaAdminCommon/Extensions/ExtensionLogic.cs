@@ -46,6 +46,7 @@ namespace Scada.Admin.Extensions
         public ExtensionLogic(IAdminContext adminContext)
         {
             AdminContext = adminContext ?? throw new ArgumentNullException(nameof(adminContext));
+            CanShowProperties = false;
             CanDeploy = false;
         }
 
@@ -61,10 +62,25 @@ namespace Scada.Admin.Extensions
         public abstract string Code { get; }
 
         /// <summary>
+        /// Gets the extension name.
+        /// </summary>
+        public abstract string Name { get; }
+
+        /// <summary>
+        /// Gets the extension description.
+        /// </summary>
+        public abstract string Descr { get; }
+
+        /// <summary>
         /// Gets the file extensions for which the extension provides an editor.
         /// </summary>
         /// <remarks>The period is not included.</remarks>
         public virtual ICollection<string> FileExtensions => null;
+
+        /// <summary>
+        /// Gets a value indicating whether the extension can show a properties dialog box.
+        /// </summary>
+        public bool CanShowProperties { get; protected set; }
 
         /// <summary>
         /// Gets a value indicating whether the extension supports project deployment.
@@ -84,6 +100,14 @@ namespace Scada.Admin.Extensions
         /// </summary>
         public virtual void LoadConfig()
         {
+        }
+
+        /// <summary>
+        /// Shows a modal dialog box for editing extension properties.
+        /// </summary>
+        public virtual bool ShowProperties()
+        {
+            return false;
         }
 
         /// <summary>

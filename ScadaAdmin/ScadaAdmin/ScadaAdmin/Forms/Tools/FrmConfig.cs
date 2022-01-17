@@ -30,6 +30,7 @@ using Scada.Forms;
 using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Text;
 using System.Windows.Forms;
 
 namespace Scada.Admin.App.Forms.Tools
@@ -172,11 +173,86 @@ namespace Scada.Admin.App.Forms.Tools
         }
 
         /// <summary>
+        /// Initializes the extension item if needed.
+        /// </summary>
+        private void InitExtensionItem(ExtentionItem extensionItem)
+        {
+            if (!extensionItem.IsInitialized)
+            {
+                /*extensionItem.IsInitialized = true;
+
+                if (ExtensionUtils.GetModuleView(adminContext, serverApp, moduleItem.ModuleCode,
+                    out ModuleView moduleView, out string message))
+                {
+                    extensionItem.Descr = BuildExtensionDescr(moduleView);
+                    extensionItem.ExtensionLogic = moduleView;
+                }
+                else
+                {
+                    extensionItem.Descr = message;
+                    extensionItem.ExtensionLogic = null;
+                }*/
+            }
+        }
+
+        /// <summary>
+        /// Shows a description of the specified extension item.
+        /// </summary>
+        private void ShowExtensionDescr(object item)
+        {
+            if (item is ExtentionItem extensionItem)
+            {
+                InitExtensionItem(extensionItem);
+                txtExtDescr.Text = extensionItem.Descr;
+            }
+        }
+
+        /// <summary>
+        /// Enables or disables the buttons.
+        /// </summary>
+        private void SetButtonsEnabled()
+        {
+            btnActivateExt.Enabled = lbUnusedExt.SelectedItem is ExtentionItem;
+
+            if (lbActiveExt.SelectedItem is ExtentionItem extensionItem)
+            {
+                btnDeactivateExt.Enabled = true;
+                btnMoveUpExt.Enabled = lbActiveExt.SelectedIndex > 0;
+                btnMoveDownExt.Enabled = lbActiveExt.SelectedIndex < lbActiveExt.Items.Count - 1;
+                btnExtProperties.Enabled = extensionItem.ExtensionLogic != null && 
+                    extensionItem.ExtensionLogic.CanShowProperties;
+            }
+            else
+            {
+                btnDeactivateExt.Enabled = false;
+                btnMoveUpExt.Enabled = false;
+                btnMoveDownExt.Enabled = false;
+                btnExtProperties.Enabled = false;
+            }
+        }
+
+        /// <summary>
         /// Creates a new list view item represents a file association.
         /// </summary>
         private static ListViewItem CreateAssocItem(string ext, string path, bool selected = false)
         {
             return new ListViewItem(new string[] { ext, path }) { Selected = selected };
+        }
+
+        /// <summary>
+        /// Build the extension description.
+        /// </summary>
+        private static string BuildExtensionDescr(ExtensionLogic extensionLogic)
+        {
+            string title = string.Format("{0} {1}",
+                extensionLogic.Name,
+                extensionLogic.GetType().Assembly.GetName().Version);
+
+            return new StringBuilder()
+                .AppendLine(title)
+                .AppendLine(new string('-', title.Length))
+                .Append(extensionLogic.Descr?.Replace("\n", Environment.NewLine))
+                .ToString();
         }
 
 
@@ -193,47 +269,93 @@ namespace Scada.Admin.App.Forms.Tools
 
         private void btnActivateExt_Click(object sender, EventArgs e)
         {
-
+            // move the selected extension from unused extensions to active extensions
+            if (lbUnusedExt.SelectedItem is ExtentionItem extentionItem)
+            {
+                lbUnusedExt.Items.RemoveAt(lbUnusedExt.SelectedIndex);
+                lbActiveExt.SelectedIndex = lbActiveExt.Items.Add(extentionItem);
+                lbActiveExt.Focus();
+            }
         }
 
         private void btnDeactivateExt_Click(object sender, EventArgs e)
         {
-
+            // move the selected extension from active extensions to unused extensions
+            if (lbActiveExt.SelectedItem is ExtentionItem extentionItem)
+            {
+                lbActiveExt.Items.RemoveAt(lbActiveExt.SelectedIndex);
+                lbUnusedExt.SelectedIndex = lbUnusedExt.Items.Add(extentionItem);
+                lbUnusedExt.Focus();
+            }
         }
 
         private void btnMoveUpExt_Click(object sender, EventArgs e)
         {
+            // move up the selected extension
+            if (lbActiveExt.SelectedItem is ExtentionItem extentionItem)
+            {
+                int curInd = lbActiveExt.SelectedIndex;
+                int prevInd = curInd - 1;
 
+                if (prevInd >= 0)
+                {
+                    lbActiveExt.Items.RemoveAt(curInd);
+                    lbActiveExt.Items.Insert(prevInd, extentionItem);
+                    lbActiveExt.SelectedIndex = prevInd;
+                    lbActiveExt.Focus();
+                }
+            }
         }
 
         private void btnMoveDownExt_Click(object sender, EventArgs e)
         {
+            // move down the selected extension
+            if (lbActiveExt.SelectedItem is ExtentionItem extentionItem)
+            {
+                int curInd = lbActiveExt.SelectedIndex;
+                int nextInd = curInd + 1;
 
+                if (nextInd < lbActiveExt.Items.Count)
+                {
+                    lbActiveExt.Items.RemoveAt(curInd);
+                    lbActiveExt.Items.Insert(nextInd, extentionItem);
+                    lbActiveExt.SelectedIndex = nextInd;
+                    lbActiveExt.Focus();
+                }
+            }
         }
 
         private void btnExtProperties_Click(object sender, EventArgs e)
         {
-
+            // show properties of the selected extension
+            if (lbActiveExt.SelectedItem is ExtentionItem extentionItem &&
+                extentionItem.ExtensionLogic != null && extentionItem.ExtensionLogic.CanShowProperties)
+            {
+                lbActiveExt.Focus();
+                extentionItem.ExtensionLogic.ShowProperties();
+            }
         }
 
         private void lbUnusedExt_SelectedIndexChanged(object sender, EventArgs e)
         {
-
+            ShowExtensionDescr(lbUnusedExt.SelectedItem);
+            SetButtonsEnabled();
         }
 
         private void lbUnusedExt_DoubleClick(object sender, EventArgs e)
         {
-
+            btnActivateExt_Click(null, null);
         }
 
         private void lbActiveExt_SelectedIndexChanged(object sender, EventArgs e)
         {
-
+            ShowExtensionDescr(lbActiveExt.SelectedItem);
+            SetButtonsEnabled();
         }
 
         private void lbActiveExt_DoubleClick(object sender, EventArgs e)
         {
-
+            btnExtProperties_Click(null, null);
         }
 
 
