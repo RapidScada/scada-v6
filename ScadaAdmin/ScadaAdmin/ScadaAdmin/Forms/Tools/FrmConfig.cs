@@ -173,25 +173,38 @@ namespace Scada.Admin.App.Forms.Tools
         }
 
         /// <summary>
+        /// Sets the configuration according to the controls.
+        /// </summary>
+        private void ControlsToConfig()
+        {
+            config.ExtensionCodes.Clear();
+
+            foreach (ExtentionItem item in lbActiveExt.Items)
+            {
+                config.ExtensionCodes.Add(item.ExtentionCode);
+            }
+        }
+
+        /// <summary>
         /// Initializes the extension item if needed.
         /// </summary>
         private void InitExtensionItem(ExtentionItem extensionItem)
         {
             if (!extensionItem.IsInitialized)
             {
-                /*extensionItem.IsInitialized = true;
+                extensionItem.IsInitialized = true;
 
-                if (ExtensionUtils.GetModuleView(adminContext, serverApp, moduleItem.ModuleCode,
-                    out ModuleView moduleView, out string message))
+                if (ExtensionFactory.GetExtensionLogic(appData.AppDirs.LibDir, extensionItem.ExtentionCode, appData,
+                    out ExtensionLogic extensionLogic, out string message))
                 {
-                    extensionItem.Descr = BuildExtensionDescr(moduleView);
-                    extensionItem.ExtensionLogic = moduleView;
+                    extensionItem.Descr = BuildExtensionDescr(extensionLogic);
+                    extensionItem.ExtensionLogic = extensionLogic;
                 }
                 else
                 {
                     extensionItem.Descr = message;
                     extensionItem.ExtensionLogic = null;
-                }*/
+                }
             }
         }
 
@@ -392,9 +405,14 @@ namespace Scada.Admin.App.Forms.Tools
         private void btnOK_Click(object sender, EventArgs e)
         {
             if (config.Save(ConfigFileName, out string errMsg))
+            {
+                ControlsToConfig();
                 DialogResult = DialogResult.OK;
+            }
             else
+            {
                 appData.ErrLog.HandleError(errMsg);
+            }
         }
     }
 }
