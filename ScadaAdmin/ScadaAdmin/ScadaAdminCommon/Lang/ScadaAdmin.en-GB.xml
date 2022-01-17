@@ -450,6 +450,29 @@
     <Phrase key="TextLine">Line: {0}</Phrase>
     <Phrase key="TextLength">Length: {0} of {1}</Phrase>
   </Dictionary>
+  <Dictionary key="Scada.Admin.App.Forms.Tools.FrmConfig">
+    <Phrase key="this">Options</Phrase>
+    <Phrase key="pageExt">Extenstions</Phrase>
+    <Phrase key="lblUnusedExt">Unused extensions:</Phrase>
+    <Phrase key="btnActivateExt">Activate</Phrase>
+    <Phrase key="lblActiveExt">Active extensions:</Phrase>
+    <Phrase key="btnDeactivateExt">Deactivate</Phrase>
+    <Phrase key="btnMoveUpExt">Move Up</Phrase>
+    <Phrase key="btnMoveDownExt">Move Down</Phrase>
+    <Phrase key="btnExtProperties">Properties</Phrase>
+    <Phrase key="lblExtDescr">Description</Phrase>
+    <Phrase key="pageFileAssoc">File Associations</Phrase>
+    <Phrase key="btnAddAssoc">Add</Phrase>
+    <Phrase key="btnEditAssoc">Edit</Phrase>
+    <Phrase key="btnDeleteAssoc">Delete</Phrase>
+    <Phrase key="btnRegisterRsproj">Register *.rsproj</Phrase>
+    <Phrase key="colExt">File Extenstion</Phrase>
+    <Phrase key="colPath">Executable Path</Phrase>
+    <Phrase key="lblInfo">Changes will take effect after restarting the application.</Phrase>
+    <Phrase key="btnOK">OK</Phrase>
+    <Phrase key="btnCancel">Cancel</Phrase>
+    <Phrase key="RsprojRegistered">The extension &quot;rsproj&quot; has been registered successfully.</Phrase>
+  </Dictionary>
   <Dictionary key="Scada.Admin.App.Forms.Tools.FrmCulture">
     <Phrase key="this">Language</Phrase>
     <Phrase key="lblInfo">Administrator permissions needed.&#13;&#10;Changes will take effect after restarting the application.</Phrase>

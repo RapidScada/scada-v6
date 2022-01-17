@@ -800,6 +800,16 @@ namespace Scada.Admin.App.Forms
         }
 
         /// <summary>
+        /// Gets the start project from the command line arguments.
+        /// </summary>
+        private static bool GetStartProject(out string fileName)
+        {
+            string[] args = Environment.GetCommandLineArgs();
+            fileName = args.Length > 1 ? args[1] : "";
+            return File.Exists(fileName);
+        }
+
+        /// <summary>
         /// Shows the start page.
         /// </summary>
         private void ShowStartPage()
@@ -981,8 +991,12 @@ namespace Scada.Admin.App.Forms
             TakeExplorerImages();
             SetMenuItemsEnabled();
             LoadAppState();
-            ShowStartPage();
             ShowStatus(null);
+
+            if (GetStartProject(out string fileName))
+                OpenProject(fileName);
+            else
+                ShowStartPage();
         }
 
         private void FrmMain_FormClosing(object sender, FormClosingEventArgs e)

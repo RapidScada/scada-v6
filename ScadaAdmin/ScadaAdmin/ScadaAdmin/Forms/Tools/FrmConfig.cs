@@ -23,6 +23,7 @@
  * Modified : 2022
  */
 
+using Microsoft.Win32;
 using Scada.Admin.App.Code;
 using Scada.Admin.Config;
 using Scada.Admin.Extensions;
@@ -31,6 +32,7 @@ using Scada.Lang;
 using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Runtime.InteropServices;
 using System.Text;
 using System.Windows.Forms;
 
@@ -76,6 +78,9 @@ namespace Scada.Admin.App.Forms.Tools
         {
             this.appData = appData ?? throw new ArgumentNullException(nameof(appData));
             config = new AdminConfig();
+
+            colExt.Name = nameof(colExt);
+            colPath.Name = nameof(colPath);
         }
 
 
@@ -161,7 +166,7 @@ namespace Scada.Admin.App.Forms.Tools
 
                 foreach (KeyValuePair<string, string> pair in config.FileAssociations)
                 {
-                    lvAssoc.Items.Add(CreateAssocItem(pair.Key, pair.Value));
+                    lvAssoc.Items.Add(CreateAssociationItem(pair.Key, pair.Value));
                 }
 
                 if (lvAssoc.Items.Count > 0)
@@ -277,7 +282,7 @@ namespace Scada.Admin.App.Forms.Tools
         /// <summary>
         /// Creates a new list view item represents a file association.
         /// </summary>
-        private static ListViewItem CreateAssocItem(string ext, string path, bool selected = false)
+        private static ListViewItem CreateAssociationItem(string ext, string path, bool selected = false)
         {
             return new ListViewItem(new string[] { ext, path }) { Selected = selected };
         }
@@ -297,6 +302,22 @@ namespace Scada.Admin.App.Forms.Tools
                 .Append(extensionLogic.Descr?.Replace("\n", Environment.NewLine))
                 .ToString();
         }
+
+        /// <summary>
+        /// Registers the file association.
+        /// </summary>
+        private static void RegisterAssociation(string ext, string path)
+        {
+            using (RegistryKey key = Registry.CurrentUser.CreateSubKey("Software\\Classes\\" + ext))
+            {
+                key.CreateSubKey("shell\\open\\command").SetValue("", $"\"{path}\" \"%1\"");
+            }
+
+            SHChangeNotify(0x08000000, 0x0000, IntPtr.Zero, IntPtr.Zero);
+        }
+
+        [DllImport("shell32.dll", CharSet = CharSet.Auto, SetLastError = true)]
+        private static extern void SHChangeNotify(uint wEventId, uint uFlags, IntPtr dwItem1, IntPtr dwItem2);
 
 
         private void FrmConfig_Load(object sender, EventArgs e)
@@ -411,7 +432,7 @@ namespace Scada.Admin.App.Forms.Tools
 
             if (form.ShowDialog() == DialogResult.OK)
             {
-                lvAssoc.Items.Add(CreateAssocItem(form.FileExtension, form.ExecutablePath, true));
+                lvAssoc.Items.Add(CreateAssociationItem(form.FileExtension, form.ExecutablePath, true));
                 lvAssoc.Focus();
             }
         }
@@ -431,7 +452,7 @@ namespace Scada.Admin.App.Forms.Tools
                 if (form.ShowDialog() == DialogResult.OK)
                 {
                     lvAssoc.Items.RemoveAt(item.Index);
-                    lvAssoc.Items.Add(CreateAssocItem(form.FileExtension, form.ExecutablePath, true));
+                    lvAssoc.Items.Add(CreateAssociationItem(form.FileExtension, form.ExecutablePath, true));
                     lvAssoc.Focus();
                 }
             }
@@ -457,7 +478,8 @@ namespace Scada.Admin.App.Forms.Tools
 
         private void btnRegisterRsproj_Click(object sender, EventArgs e)
         {
-
+            RegisterAssociation(".rsproj", Application.ExecutablePath);
+            ScadaUiUtils.ShowInfo(AppPhrases.RsprojRegistered);
         }
 
         private void lvAssoc_SelectedIndexChanged(object sender, EventArgs e)

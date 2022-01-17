@@ -253,9 +253,9 @@
             // btnRegisterRsproj
             // 
             this.btnRegisterRsproj.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.btnRegisterRsproj.Location = new System.Drawing.Point(568, 8);
+            this.btnRegisterRsproj.Location = new System.Drawing.Point(548, 8);
             this.btnRegisterRsproj.Name = "btnRegisterRsproj";
-            this.btnRegisterRsproj.Size = new System.Drawing.Size(100, 23);
+            this.btnRegisterRsproj.Size = new System.Drawing.Size(120, 23);
             this.btnRegisterRsproj.TabIndex = 3;
             this.btnRegisterRsproj.Text = "Register *.rsproj";
             this.btnRegisterRsproj.UseVisualStyleBackColor = true;

@@ -128,6 +128,9 @@ namespace Scada.Admin.App.Code
         public static string TextLine { get; private set; }
         public static string TextLength { get; private set; }
 
+        // Scada.Admin.App.Forms.Tools.FrmConfig
+        public static string RsprojRegistered { get; private set; }
+
         // Scada.Admin.App.Forms.Tools.FrmCulture
         public static string LoadCulturesError { get; private set; }
         public static string CultureRequired { get; private set; }
@@ -284,6 +287,9 @@ namespace Scada.Admin.App.Code
             LoadCulturesError = dict["LoadCulturesError"];
             CultureRequired = dict["CultureRequired"];
             CultureNotFound = dict["CultureNotFound"];
+
+            dict = Locale.GetDictionary("Scada.Admin.App.Forms.Tools.FrmConfig");
+            RsprojRegistered = dict["RsprojRegistered"];
 
             dict = Locale.GetDictionary("Scada.Admin.App.Forms.Tools.FrmFileAssociation");
             ExecutableFileFilter = dict.GetPhrase("ExecutableFileFilter");

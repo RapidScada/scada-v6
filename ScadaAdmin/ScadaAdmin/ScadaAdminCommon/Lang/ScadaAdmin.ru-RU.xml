@@ -450,6 +450,29 @@
     <Phrase key="TextLine">Строка: {0}</Phrase>
     <Phrase key="TextLength">Длина: {0} из {1}</Phrase>
   </Dictionary>
+  <Dictionary key="Scada.Admin.App.Forms.Tools.FrmConfig">
+    <Phrase key="this">Настройки</Phrase>
+    <Phrase key="pageExt">Расширения</Phrase>
+    <Phrase key="lblUnusedExt">Неиспользуемые расширения:</Phrase>
+    <Phrase key="btnActivateExt">Включить</Phrase>
+    <Phrase key="lblActiveExt">Активные расширения:</Phrase>
+    <Phrase key="btnDeactivateExt">Отключить</Phrase>
+    <Phrase key="btnMoveUpExt">Вверх</Phrase>
+    <Phrase key="btnMoveDownExt">Вниз</Phrase>
+    <Phrase key="btnExtProperties">Свойства</Phrase>
+    <Phrase key="lblExtDescr">Описание</Phrase>
+    <Phrase key="pageFileAssoc">Сопоставления файлов</Phrase>
+    <Phrase key="btnAddAssoc">Добавить</Phrase>
+    <Phrase key="btnEditAssoc">Изменить</Phrase>
+    <Phrase key="btnDeleteAssoc">Удалить</Phrase>
+    <Phrase key="btnRegisterRsproj">Регистр. *.rsproj</Phrase>
+    <Phrase key="colExt">Расширение файла</Phrase>
+    <Phrase key="colPath">Путь к исполняемому файлу</Phrase>
+    <Phrase key="lblInfo">Изменения вступят в силу после перезапуска приложения.</Phrase>
+    <Phrase key="btnOK">OK</Phrase>
+    <Phrase key="btnCancel">Отмена</Phrase>
+    <Phrase key="RsprojRegistered">Расширение &quot;rsproj&quot; успешно зарегистрировано.</Phrase>
+  </Dictionary>
   <Dictionary key="Scada.Admin.App.Forms.Tools.FrmCulture">
     <Phrase key="this">Язык</Phrase>
     <Phrase key="lblInfo">Требуются права администратора.&#13;&#10;Изменения вступят в силу после перезапуска приложения.</Phrase>
