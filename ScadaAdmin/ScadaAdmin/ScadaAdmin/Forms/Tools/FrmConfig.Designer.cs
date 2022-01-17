@@ -45,7 +45,7 @@
             this.lvAssoc = new System.Windows.Forms.ListView();
             this.colExt = new System.Windows.Forms.ColumnHeader();
             this.colPath = new System.Windows.Forms.ColumnHeader();
-            this.btnRegisterRsproj = new System.Windows.Forms.Button();
+            this.btnRegisterProjectExt = new System.Windows.Forms.Button();
             this.btnDeleteAssoc = new System.Windows.Forms.Button();
             this.btnEditAssoc = new System.Windows.Forms.Button();
             this.btnAddAssoc = new System.Windows.Forms.Button();
@@ -209,7 +209,7 @@
             // pageFileAssoc
             // 
             this.pageFileAssoc.Controls.Add(this.lvAssoc);
-            this.pageFileAssoc.Controls.Add(this.btnRegisterRsproj);
+            this.pageFileAssoc.Controls.Add(this.btnRegisterProjectExt);
             this.pageFileAssoc.Controls.Add(this.btnDeleteAssoc);
             this.pageFileAssoc.Controls.Add(this.btnEditAssoc);
             this.pageFileAssoc.Controls.Add(this.btnAddAssoc);
@@ -250,16 +250,16 @@
             this.colPath.Text = "Executable Path";
             this.colPath.Width = 500;
             // 
-            // btnRegisterRsproj
+            // btnRegisterProjectExt
             // 
-            this.btnRegisterRsproj.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.btnRegisterRsproj.Location = new System.Drawing.Point(548, 8);
-            this.btnRegisterRsproj.Name = "btnRegisterRsproj";
-            this.btnRegisterRsproj.Size = new System.Drawing.Size(120, 23);
-            this.btnRegisterRsproj.TabIndex = 3;
-            this.btnRegisterRsproj.Text = "Register *.rsproj";
-            this.btnRegisterRsproj.UseVisualStyleBackColor = true;
-            this.btnRegisterRsproj.Click += new System.EventHandler(this.btnRegisterRsproj_Click);
+            this.btnRegisterProjectExt.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.btnRegisterProjectExt.Location = new System.Drawing.Point(548, 8);
+            this.btnRegisterProjectExt.Name = "btnRegisterProjectExt";
+            this.btnRegisterProjectExt.Size = new System.Drawing.Size(120, 23);
+            this.btnRegisterProjectExt.TabIndex = 3;
+            this.btnRegisterProjectExt.Text = "Register .rsproj";
+            this.btnRegisterProjectExt.UseVisualStyleBackColor = true;
+            this.btnRegisterProjectExt.Click += new System.EventHandler(this.btnRegisterProjectExt_Click);
             // 
             // btnDeleteAssoc
             // 
@@ -402,7 +402,7 @@
         private System.Windows.Forms.Button btnDeleteAssoc;
         private System.Windows.Forms.Button btnEditAssoc;
         private System.Windows.Forms.Button btnAddAssoc;
-        private System.Windows.Forms.Button btnRegisterRsproj;
+        private System.Windows.Forms.Button btnRegisterProjectExt;
         private System.Windows.Forms.ListView lvAssoc;
         private System.Windows.Forms.ColumnHeader colExt;
         private System.Windows.Forms.ColumnHeader colPath;

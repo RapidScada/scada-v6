@@ -476,10 +476,10 @@ namespace Scada.Admin.App.Forms.Tools
             }
         }
 
-        private void btnRegisterRsproj_Click(object sender, EventArgs e)
+        private void btnRegisterProjectExt_Click(object sender, EventArgs e)
         {
-            RegisterAssociation(".rsproj", Application.ExecutablePath);
-            ScadaUiUtils.ShowInfo(AppPhrases.RsprojRegistered);
+            RegisterAssociation(AdminUtils.ProjectExt, Application.ExecutablePath);
+            ScadaUiUtils.ShowInfo(string.Format(AppPhrases.ProjectExtRegistered, AdminUtils.ProjectExt));
         }
 
         private void lvAssoc_SelectedIndexChanged(object sender, EventArgs e)
@@ -496,15 +496,12 @@ namespace Scada.Admin.App.Forms.Tools
         {
             if (ValidateControls())
             {
+                ControlsToConfig();
+
                 if (config.Save(ConfigFileName, out string errMsg))
-                {
-                    ControlsToConfig();
                     DialogResult = DialogResult.OK;
-                }
                 else
-                {
                     appData.ErrLog.HandleError(errMsg);
-                }
             }
         }
     }

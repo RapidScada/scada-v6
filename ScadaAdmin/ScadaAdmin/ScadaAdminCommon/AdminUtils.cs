@@ -46,9 +46,9 @@ namespace Scada.Admin
         /// </summary>
         public const string ProjectExt = ".rsproj";
         /// <summary>
-        /// The default directory of the projects.
+        /// The short name of the default project directory.
         /// </summary>
-        public const string ProjectDir = @"C:\SCADA\Projects\";
+        public const string ProjectDir = "ScadaProjects";
 
         /// <summary>
         /// Validates the name of a project item.

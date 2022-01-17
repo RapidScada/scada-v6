@@ -77,7 +77,9 @@ namespace Scada.Admin.App.Code
         private void SetToDefault()
         {
             MainFormState = new MainFormState();
-            ProjectDir = AdminUtils.ProjectDir;
+            ProjectDir = Path.Combine(
+                Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments),
+                AdminUtils.ProjectDir);
             RecentProjects = new List<string>();
         }
 

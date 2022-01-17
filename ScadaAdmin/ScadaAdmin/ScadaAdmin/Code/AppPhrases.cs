@@ -129,7 +129,7 @@ namespace Scada.Admin.App.Code
         public static string TextLength { get; private set; }
 
         // Scada.Admin.App.Forms.Tools.FrmConfig
-        public static string RsprojRegistered { get; private set; }
+        public static string ProjectExtRegistered { get; private set; }
 
         // Scada.Admin.App.Forms.Tools.FrmCulture
         public static string LoadCulturesError { get; private set; }
@@ -177,7 +177,8 @@ namespace Scada.Admin.App.Code
         public static string ChooseProjectLocation { get; private set; }
         public static string ProjectNameEmpty { get; private set; }
         public static string ProjectNameInvalid { get; private set; }
-        public static string ProjectLocationNotExists { get; private set; }
+        public static string ProjectLocationEmpty { get; private set; }
+        public static string ProjectLocationInvalid { get; private set; }
         public static string ProjectAlreadyExists { get; private set; }
         public static string ProjectTemplateEmpty { get; private set; }
         public static string ProjectTemplateNotFound { get; private set; }
@@ -289,7 +290,7 @@ namespace Scada.Admin.App.Code
             CultureNotFound = dict["CultureNotFound"];
 
             dict = Locale.GetDictionary("Scada.Admin.App.Forms.Tools.FrmConfig");
-            RsprojRegistered = dict["RsprojRegistered"];
+            ProjectExtRegistered = dict["ProjectExtRegistered"];
 
             dict = Locale.GetDictionary("Scada.Admin.App.Forms.Tools.FrmFileAssociation");
             ExecutableFileFilter = dict.GetPhrase("ExecutableFileFilter");
@@ -332,7 +333,8 @@ namespace Scada.Admin.App.Code
             ChooseProjectLocation = dict["ChooseProjectLocation"];
             ProjectNameEmpty = dict["ProjectNameEmpty"];
             ProjectNameInvalid = dict["ProjectNameInvalid"];
-            ProjectLocationNotExists = dict["ProjectLocationNotExists"];
+            ProjectLocationEmpty = dict["ProjectLocationEmpty"];
+            ProjectLocationInvalid = dict["ProjectLocationInvalid"];
             ProjectAlreadyExists = dict["ProjectAlreadyExists"];
             ProjectTemplateEmpty = dict["ProjectTemplateEmpty"];
             ProjectTemplateNotFound = dict["ProjectTemplateNotFound"];

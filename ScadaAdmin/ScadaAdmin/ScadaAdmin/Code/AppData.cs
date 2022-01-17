@@ -221,7 +221,7 @@ namespace Scada.Admin.App.Code
         /// </summary>
         public void Init(string exeDir)
         {
-            AppDirs.Init(exeDir, Environment.GetFolderPath(Environment.SpecialFolder.CommonApplicationData));
+            AppDirs.Init(exeDir, Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData));
             AppDirs.CreateDataDirs(out _);
 
             ErrLog = new LogFile(LogFormat.Full)
