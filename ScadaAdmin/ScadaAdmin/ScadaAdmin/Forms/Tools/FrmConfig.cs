@@ -27,6 +27,7 @@ using Scada.Admin.App.Code;
 using Scada.Admin.Config;
 using Scada.Admin.Extensions;
 using Scada.Forms;
+using Scada.Lang;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -221,9 +222,9 @@ namespace Scada.Admin.App.Forms.Tools
         }
 
         /// <summary>
-        /// Enables or disables the buttons.
+        /// Enables or disables the extension buttons.
         /// </summary>
-        private void SetButtonsEnabled()
+        private void SetExtensionButtonsEnabled()
         {
             btnActivateExt.Enabled = lbUnusedExt.SelectedItem is ExtentionItem;
 
@@ -242,6 +243,35 @@ namespace Scada.Admin.App.Forms.Tools
                 btnMoveDownExt.Enabled = false;
                 btnExtProperties.Enabled = false;
             }
+        }
+
+        /// <summary>
+        /// Enables or disables the file association buttons.
+        /// </summary>
+        private void SetAssociationButtonsEnabled()
+        {
+            btnEditAssoc.Enabled = btnDeleteAssoc.Enabled = lvAssoc.SelectedItems.Count > 0;
+        }
+
+        /// <summary>
+        /// Validates the form controls.
+        /// </summary>
+        private bool ValidateControls()
+        {
+            // warnings
+            StringBuilder sbWarn = new();
+
+            foreach (ListViewItem item in lvAssoc.Items)
+            {
+                string path = item.SubItems[1].Text;
+                if (!string.IsNullOrWhiteSpace(path) && !File.Exists(path))
+                    sbWarn.AppendLine(string.Format(CommonPhrases.NamedFileNotFound, path));
+            }
+
+            if (sbWarn.Length > 0)
+                ScadaUiUtils.ShowWarning(sbWarn.ToString());
+
+            return true;
         }
 
         /// <summary>
@@ -278,6 +308,8 @@ namespace Scada.Admin.App.Forms.Tools
 
             ConfigToControls();
             FillUnusedExtensions();
+            SetExtensionButtonsEnabled();
+            SetAssociationButtonsEnabled();
         }
 
         private void btnActivateExt_Click(object sender, EventArgs e)
@@ -345,14 +377,14 @@ namespace Scada.Admin.App.Forms.Tools
                 extentionItem.ExtensionLogic != null && extentionItem.ExtensionLogic.CanShowProperties)
             {
                 lbActiveExt.Focus();
-                extentionItem.ExtensionLogic.ShowProperties();
+                extentionItem.ExtensionLogic.ShowProperties(config.CustomOptions);
             }
         }
 
         private void lbUnusedExt_SelectedIndexChanged(object sender, EventArgs e)
         {
             ShowExtensionDescr(lbUnusedExt.SelectedItem);
-            SetButtonsEnabled();
+            SetExtensionButtonsEnabled();
         }
 
         private void lbUnusedExt_DoubleClick(object sender, EventArgs e)
@@ -363,7 +395,7 @@ namespace Scada.Admin.App.Forms.Tools
         private void lbActiveExt_SelectedIndexChanged(object sender, EventArgs e)
         {
             ShowExtensionDescr(lbActiveExt.SelectedItem);
-            SetButtonsEnabled();
+            SetExtensionButtonsEnabled();
         }
 
         private void lbActiveExt_DoubleClick(object sender, EventArgs e)
@@ -374,17 +406,53 @@ namespace Scada.Admin.App.Forms.Tools
 
         private void btnAddAssoc_Click(object sender, EventArgs e)
         {
+            // add new file association
+            FrmFileAssociation form = new();
 
+            if (form.ShowDialog() == DialogResult.OK)
+            {
+                lvAssoc.Items.Add(CreateAssocItem(form.FileExtension, form.ExecutablePath, true));
+                lvAssoc.Focus();
+            }
         }
 
         private void btnEditAssoc_Click(object sender, EventArgs e)
         {
+            // edit selected file association
+            if (lvAssoc.SelectedItems.Count > 0)
+            {
+                ListViewItem item = lvAssoc.SelectedItems[0];
+                FrmFileAssociation form = new()
+                {
+                    FileExtension = item.SubItems[0].Text,
+                    ExecutablePath = item.SubItems[1].Text
+                };
 
+                if (form.ShowDialog() == DialogResult.OK)
+                {
+                    lvAssoc.Items.RemoveAt(item.Index);
+                    lvAssoc.Items.Add(CreateAssocItem(form.FileExtension, form.ExecutablePath, true));
+                    lvAssoc.Focus();
+                }
+            }
         }
 
         private void btnDeleteAssoc_Click(object sender, EventArgs e)
         {
+            // delete selected file association
+            if (lvAssoc.SelectedItems.Count > 0)
+            {
+                int index = lvAssoc.SelectedIndices[0];
+                lvAssoc.Items.RemoveAt(index);
 
+                if (lvAssoc.Items.Count > 0)
+                {
+                    index = Math.Min(index, lvAssoc.Items.Count - 1);
+                    lvAssoc.Items[index].Selected = true;
+                }
+
+                lvAssoc.Focus();
+            }
         }
 
         private void btnRegisterRsproj_Click(object sender, EventArgs e)
@@ -394,24 +462,27 @@ namespace Scada.Admin.App.Forms.Tools
 
         private void lvAssoc_SelectedIndexChanged(object sender, EventArgs e)
         {
-
+            SetAssociationButtonsEnabled();
         }
 
         private void lvAssoc_DoubleClick(object sender, EventArgs e)
         {
-
+            btnEditAssoc_Click(null, null);
         }
 
         private void btnOK_Click(object sender, EventArgs e)
         {
-            if (config.Save(ConfigFileName, out string errMsg))
+            if (ValidateControls())
             {
-                ControlsToConfig();
-                DialogResult = DialogResult.OK;
-            }
-            else
-            {
-                appData.ErrLog.HandleError(errMsg);
+                if (config.Save(ConfigFileName, out string errMsg))
+                {
+                    ControlsToConfig();
+                    DialogResult = DialogResult.OK;
+                }
+                else
+                {
+                    appData.ErrLog.HandleError(errMsg);
+                }
             }
         }
     }

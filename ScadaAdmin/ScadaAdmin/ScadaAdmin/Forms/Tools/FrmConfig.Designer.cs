@@ -97,6 +97,7 @@
             // 
             // txtExtDescr
             // 
+            this.txtExtDescr.Font = new System.Drawing.Font("Consolas", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
             this.txtExtDescr.Location = new System.Drawing.Point(8, 355);
             this.txtExtDescr.Multiline = true;
             this.txtExtDescr.Name = "txtExtDescr";

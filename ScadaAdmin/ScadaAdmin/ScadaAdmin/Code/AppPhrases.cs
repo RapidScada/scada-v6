@@ -1,5 +1,5 @@
 ﻿/*
- * Copyright 2021 Rapid Software LLC
+ * Copyright 2022 Rapid Software LLC
  * 
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -20,7 +20,7 @@
  * 
  * Author   : Mikhail Shiryaev
  * Created  : 2018
- * Modified : 2021
+ * Modified : 2022
  */
 
 using Scada.Lang;
@@ -132,6 +132,9 @@ namespace Scada.Admin.App.Code
         public static string LoadCulturesError { get; private set; }
         public static string CultureRequired { get; private set; }
         public static string CultureNotFound { get; private set; }
+
+        // Scada.Admin.App.Forms.Tools.FrmFileAssociation
+        public static string ExecutableFileFilter { get; private set; }
 
         // Scada.Admin.App.Forms.FrmFileNew
         public static string FileNameEmpty { get; private set; }
@@ -281,6 +284,9 @@ namespace Scada.Admin.App.Code
             LoadCulturesError = dict["LoadCulturesError"];
             CultureRequired = dict["CultureRequired"];
             CultureNotFound = dict["CultureNotFound"];
+
+            dict = Locale.GetDictionary("Scada.Admin.App.Forms.Tools.FrmFileAssociation");
+            ExecutableFileFilter = dict.GetPhrase("ExecutableFileFilter");
 
             dict = Locale.GetDictionary("Scada.Admin.App.Forms.FrmFileNew");
             FileNameEmpty = dict["FileNameEmpty"];

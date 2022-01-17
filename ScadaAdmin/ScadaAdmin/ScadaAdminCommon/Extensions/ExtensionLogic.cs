@@ -105,9 +105,8 @@ namespace Scada.Admin.Extensions
         /// <summary>
         /// Shows a modal dialog box for editing extension properties.
         /// </summary>
-        public virtual bool ShowProperties()
+        public virtual void ShowProperties(SortedList<string, OptionList> customOptions)
         {
-            return false;
         }
 
         /// <summary>

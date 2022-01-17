@@ -459,6 +459,15 @@
     <Phrase key="CultureRequired">Пожалуйста, введите непустой язык.</Phrase>
     <Phrase key="CultureNotFound">Указанная культура не найдена.</Phrase>
   </Dictionary>
+  <Dictionary key="Scada.Admin.App.Forms.Tools.FrmFileAssociation">
+    <Phrase key="this">Сопоставление файла</Phrase>
+    <Phrase key="lblExt">Расширение файла</Phrase>
+    <Phrase key="lblPath">Путь к исполняемому файлу</Phrase>
+    <Phrase key="btnBrowse">Обзор...</Phrase>
+    <Phrase key="btnOK">OK</Phrase>
+    <Phrase key="btnCancel">Отмена</Phrase>
+    <Phrase key="ExecutableFileFilter">Исполняемые файлы (*.exe)|*.exe|Все файлы (*.*)|*.*</Phrase>
+  </Dictionary>
   <Dictionary key="Scada.Admin.App.Forms.FrmFileNew">
     <Phrase key="this">Новый файл</Phrase>
     <Phrase key="lbFileType.Items[0]">Схема</Phrase>

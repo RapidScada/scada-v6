@@ -459,6 +459,15 @@
     <Phrase key="CultureRequired">Please enter a non-empty language.</Phrase>
     <Phrase key="CultureNotFound">The specified culture not found.</Phrase>
   </Dictionary>
+  <Dictionary key="Scada.Admin.App.Forms.Tools.FrmFileAssociation">
+    <Phrase key="this">File Association</Phrase>
+    <Phrase key="lblExt">File extension</Phrase>
+    <Phrase key="lblPath">Executable path</Phrase>
+    <Phrase key="btnBrowse">Browse...</Phrase>
+    <Phrase key="btnOK">OK</Phrase>
+    <Phrase key="btnCancel">Cancel</Phrase>
+    <Phrase key="ExecutableFileFilter">Executable files (*.exe)|*.exe|All Files (*.*)|*.*</Phrase>
+  </Dictionary>
   <Dictionary key="Scada.Admin.App.Forms.FrmFileNew">
     <Phrase key="this">New File</Phrase>
     <Phrase key="lbFileType.Items[0]">Scheme View</Phrase>
