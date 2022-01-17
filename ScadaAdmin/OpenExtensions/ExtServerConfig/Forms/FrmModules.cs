@@ -322,15 +322,15 @@ namespace Scada.Admin.Extensions.ExtServerConfig.Forms
             SetButtonsEnabled();
         }
 
+        private void lbUnusedModules_DoubleClick(object sender, EventArgs e)
+        {
+            btnActivate_Click(null, null);
+        }
+
         private void lbActiveModules_SelectedIndexChanged(object sender, EventArgs e)
         {
             ShowItemDescr(lbActiveModules.SelectedItem);
             SetButtonsEnabled();
-        }
-
-        private void lbUnusedModules_DoubleClick(object sender, EventArgs e)
-        {
-            btnActivate_Click(null, null);
         }
 
         private void lbActiveModules_DoubleClick(object sender, EventArgs e)
