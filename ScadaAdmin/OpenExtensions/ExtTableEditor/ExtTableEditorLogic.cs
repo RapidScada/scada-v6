@@ -34,6 +34,30 @@ namespace Scada.Admin.Extensions.ExtTableEditor
         }
 
         /// <summary>
+        /// Gets the extension name.
+        /// </summary>
+        public override string Name
+        {
+            get
+            {
+                return Locale.IsRussian ? "Редактор Таблиц" : "Table Editor";
+            }
+        }
+
+        /// <summary>
+        /// Gets the extension description.
+        /// </summary>
+        public override string Descr
+        {
+            get
+            {
+                return Locale.IsRussian ?
+                    "Расширение предоставляет редактор для создания табличных представлений." :
+                    "The extension provides an editor for creating table views.";
+            }
+        }
+
+        /// <summary>
         /// Gets the file extensions for which the extension provides an editor.
         /// </summary>
         public override ICollection<string> FileExtensions => new string[] { "tbl" };

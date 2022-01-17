@@ -57,6 +57,30 @@ namespace Scada.Admin.Extensions.ExtProjectTools
             }
         }
 
+        /// <summary>
+        /// Gets the extension name.
+        /// </summary>
+        public override string Name
+        {
+            get
+            {
+                return Locale.IsRussian ? "Инструменты проекта" : "Project Tools";
+            }
+        }
+
+        /// <summary>
+        /// Gets the extension description.
+        /// </summary>
+        public override string Descr
+        {
+            get
+            {
+                return Locale.IsRussian ?
+                    "Расширение предоставляет инструменты для удобного редактирования проектов." :
+                    "The extension provides tools for handy project editing.";
+            }
+        }
+
 
         /// <summary>
         /// Loads language dictionaries.

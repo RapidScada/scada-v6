@@ -39,6 +39,30 @@ namespace Scada.Admin.Extensions.ExtDepPostgreSql
             }
         }
 
+        /// <summary>
+        /// Gets the extension name.
+        /// </summary>
+        public override string Name
+        {
+            get
+            {
+                return Locale.IsRussian ? "Развёртывание в Postgre SQL" : "Deployment to Postgre SQL";
+            }
+        }
+
+        /// <summary>
+        /// Gets the extension description.
+        /// </summary>
+        public override string Descr
+        {
+            get
+            {
+                return Locale.IsRussian ?
+                    "Расширение обеспечивает передачу проекта в базу данных Postgre SQL." :
+                    "The extension provides project transfer to a Postgre SQL database.";
+            }
+        }
+
 
         /// <summary>
         /// Loads language dictionaries.

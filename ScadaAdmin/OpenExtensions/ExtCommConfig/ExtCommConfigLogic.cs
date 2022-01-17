@@ -26,6 +26,7 @@ namespace Scada.Admin.Extensions.ExtCommConfig
         public ExtCommConfigLogic(IAdminContext adminContext)
             : base(adminContext)
         {
+            CanShowProperties = true;
         }
 
 
@@ -56,6 +57,30 @@ namespace Scada.Admin.Extensions.ExtCommConfig
             get
             {
                 return "ExtCommConfig";
+            }
+        }
+
+        /// <summary>
+        /// Gets the extension name.
+        /// </summary>
+        public override string Name
+        {
+            get
+            {
+                return Locale.IsRussian ? "Конфигуратор Коммуникатора" : "Communicator Configurator";
+            }
+        }
+
+        /// <summary>
+        /// Gets the extension description.
+        /// </summary>
+        public override string Descr
+        {
+            get
+            {
+                return Locale.IsRussian ?
+                    "Расширение предоставляет пользовательский интерфейс для конфигурирования приложения Коммуникатор." :
+                    "The extension provides a user interface for configuring the Communicator application.";
             }
         }
 

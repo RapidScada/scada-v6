@@ -54,6 +54,30 @@ namespace Scada.Admin.Extensions.ExtServerConfig
             }
         }
 
+        /// <summary>
+        /// Gets the extension name.
+        /// </summary>
+        public override string Name
+        {
+            get
+            {
+                return Locale.IsRussian ? "Конфигуратор Сервера" : "Server Configurator";
+            }
+        }
+
+        /// <summary>
+        /// Gets the extension description.
+        /// </summary>
+        public override string Descr
+        {
+            get
+            {
+                return Locale.IsRussian ?
+                    "Расширение предоставляет пользовательский интерфейс для конфигурирования приложения Сервер." :
+                    "The extension provides a user interface for configuring the Server application.";
+            }
+        }
+
 
         /// <summary>
         /// Loads language dictionaries.

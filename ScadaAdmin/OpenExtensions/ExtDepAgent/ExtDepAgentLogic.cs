@@ -35,6 +35,30 @@ namespace Scada.Admin.Extensions.ExtDepAgent
             }
         }
 
+        /// <summary>
+        /// Gets the extension name.
+        /// </summary>
+        public override string Name
+        {
+            get
+            {
+                return Locale.IsRussian ? "Развёртывание с Агентом" : "Deployment with Agent";
+            }
+        }
+
+        /// <summary>
+        /// Gets the extension description.
+        /// </summary>
+        public override string Descr
+        {
+            get
+            {
+                return Locale.IsRussian ?
+                    "Расширение обеспечивает передачу проекта с помощью службы Агента." :
+                    "The extension provides project transfer using the Agent service.";
+            }
+        }
+
 
         /// <summary>
         /// Loads language dictionaries.
