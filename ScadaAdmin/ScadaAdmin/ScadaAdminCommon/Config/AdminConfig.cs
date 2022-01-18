@@ -207,11 +207,19 @@ namespace Scada.Admin.Config
         }
 
         /// <summary>
-        /// Gets the list of options by the specified group name, or an empty list if the group is not found.
+        /// Gets the list of options by the specified group name, or an empty list if the group is missing.
         /// </summary>
-        public OptionList GetOptions(string groupName)
+        public OptionList GetOptions(string groupName, bool addIfMissing = false)
         {
-            return CustomOptions.TryGetValue(groupName, out OptionList options) ? options : new OptionList();
+            if (!CustomOptions.TryGetValue(groupName, out OptionList options))
+            {
+                options = new OptionList();
+
+                if (addIfMissing)
+                    CustomOptions.Add(groupName, options);
+            }
+
+            return options;
         }
     }
 }

@@ -398,7 +398,7 @@ namespace Scada.Admin.App.Forms.Tools
                 extentionItem.ExtensionLogic != null && extentionItem.ExtensionLogic.CanShowProperties)
             {
                 lbActiveExt.Focus();
-                extentionItem.ExtensionLogic.ShowProperties(config.CustomOptions);
+                extentionItem.ExtensionLogic.ShowProperties(config);
             }
         }
 

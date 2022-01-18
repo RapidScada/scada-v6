@@ -23,6 +23,7 @@
  * Modified : 2022
  */
 
+using Scada.Admin.Config;
 using Scada.Admin.Deployment;
 using Scada.Admin.Project;
 using Scada.Config;
@@ -105,7 +106,7 @@ namespace Scada.Admin.Extensions
         /// <summary>
         /// Shows a modal dialog box for editing extension properties.
         /// </summary>
-        public virtual void ShowProperties(SortedList<string, OptionList> customOptions)
+        public virtual void ShowProperties(AdminConfig adminConfig)
         {
         }
 
