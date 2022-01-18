@@ -1,5 +1,5 @@
 ﻿/*
- * Copyright 2021 Rapid Software LLC
+ * Copyright 2022 Rapid Software LLC
  * 
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -20,7 +20,7 @@
  * 
  * Author   : Mikhail Shiryaev
  * Created  : 2021
- * Modified : 2021
+ * Modified : 2022
  */
 
 using Scada.Client;
@@ -191,11 +191,19 @@ namespace Scada.Web.Config
         }
 
         /// <summary>
-        /// Gets the list of options by the specified group name, or an empty list if the group is not found.
+        /// Gets the list of options by the specified group name, or an empty list if the group is missing.
         /// </summary>
-        public OptionList GetOptions(string groupName)
+        public OptionList GetOptions(string groupName, bool addIfMissing = false)
         {
-            return CustomOptions.TryGetValue(groupName, out OptionList options) ? options : new OptionList();
+            if (!CustomOptions.TryGetValue(groupName, out OptionList options))
+            {
+                options = new OptionList();
+
+                if (addIfMissing)
+                    CustomOptions.Add(groupName, options);
+            }
+
+            return options;
         }
     }
 }
