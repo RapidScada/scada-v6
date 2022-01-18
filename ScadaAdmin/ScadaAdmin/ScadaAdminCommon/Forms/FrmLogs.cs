@@ -20,7 +20,7 @@
  * 
  * Author   : Mikhail Shiryaev
  * Created  : 2021
- * Modified : 2021
+ * Modified : 2022
  */
 
 using Scada.Admin.Extensions;
@@ -96,6 +96,15 @@ namespace Scada.Admin.Forms
             isClosed = false;
 
             ServiceApp = ServiceApp.Unknown;
+        }
+
+        /// <summary>
+        /// Initializes a new instance of the class.
+        /// </summary>
+        public FrmLogs(IAdminContext adminContext, ServiceApp serviceApp)
+            : this(adminContext)
+        {
+            ServiceApp = serviceApp;
         }
 
 

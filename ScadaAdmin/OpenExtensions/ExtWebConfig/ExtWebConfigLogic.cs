@@ -99,7 +99,7 @@ namespace Scada.Admin.Extensions.ExtWebConfig
                     Tag = new TreeNodeTag
                     {
                         FormType = typeof(FrmLogs),
-                        FormArgs = new object[] { AdminContext }
+                        FormArgs = new object[] { AdminContext, ServiceApp.Web }
                     }
                 }
             };
