@@ -91,6 +91,7 @@ namespace Scada.Admin.Config
                 "ExtDepPostgreSql",
                 "ExtServerConfig",
                 "ExtCommConfig",
+                "ExtWebConfig",
                 "ExtProjectTools",
                 "ExtTableEditor"
             };

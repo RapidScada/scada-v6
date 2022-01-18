@@ -5,6 +5,7 @@
     <Extension code="ExtDepPostgreSql" />
     <Extension code="ExtServerConfig" />
     <Extension code="ExtCommConfig" />
+    <Extension code="ExtWebConfig" />
     <Extension code="ExtProjectTools" />
     <Extension code="ExtTableEditor" />
   </Extensions>
