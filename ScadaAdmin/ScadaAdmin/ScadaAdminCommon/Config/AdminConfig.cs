@@ -1,5 +1,5 @@
 ﻿/*
- * Copyright 2021 Rapid Software LLC
+ * Copyright 2022 Rapid Software LLC
  * 
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -20,7 +20,7 @@
  * 
  * Author   : Mikhail Shiryaev
  * Created  : 2018
- * Modified : 2021
+ * Modified : 2022
  */
 
 using Scada.Config;
@@ -49,7 +49,7 @@ namespace Scada.Admin.Config
         /// </summary>
         public AdminConfig()
         {
-            SetToDefault();
+            Clear();
         }
 
 
@@ -71,12 +71,35 @@ namespace Scada.Admin.Config
 
 
         /// <summary>
-        /// Sets the default values.
+        /// Clears the configuration.
         /// </summary>
-        private void SetToDefault()
+        private void Clear()
         {
             ExtensionCodes = new List<string>();
             FileAssociations = new SortedList<string, string>();
+            CustomOptions = new SortedList<string, OptionList>();
+        }
+
+        /// <summary>
+        /// Sets the default values.
+        /// </summary>
+        public void SetToDefault(string instanceDir)
+        {
+            ExtensionCodes = new List<string> 
+            {
+                "ExtDepAgent",
+                "ExtDepPostgreSql",
+                "ExtServerConfig",
+                "ExtCommConfig",
+                "ExtProjectTools",
+                "ExtTableEditor"
+            };
+
+            FileAssociations = new SortedList<string, string>
+            {
+                { "sch", Path.Combine(instanceDir, @"ScadaSchemeEditor\ScadaSchemeEditor.exe") }
+            };
+
             CustomOptions = new SortedList<string, OptionList>();
         }
 
@@ -87,10 +110,7 @@ namespace Scada.Admin.Config
         {
             try
             {
-                SetToDefault();
-
-                if (!File.Exists(fileName))
-                    throw new FileNotFoundException(string.Format(CommonPhrases.NamedFileNotFound, fileName));
+                Clear();
 
                 XmlDocument xmlDoc = new();
                 xmlDoc.Load(fileName);

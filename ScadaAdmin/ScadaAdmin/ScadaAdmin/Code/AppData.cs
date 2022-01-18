@@ -149,8 +149,22 @@ namespace Scada.Admin.App.Code
         /// </summary>
         private void LoadAppConfig()
         {
-            if (!AppConfig.Load(Path.Combine(AppDirs.ConfigDir, AdminConfig.DefaultFileName), out string errMsg))
-                ErrLog.WriteError(errMsg);
+            string fileName = Path.Combine(AppDirs.ConfigDir, AdminConfig.DefaultFileName);
+
+            if (File.Exists(fileName))
+            {
+                // load existing configuration
+                if (!AppConfig.Load(fileName, out string errMsg))
+                    ErrLog.WriteError(errMsg);
+            }
+            else
+            {
+                // use default configuration
+                AppConfig.SetToDefault(AppDirs.InstanceDir);
+
+                if (!AppConfig.Save(fileName, out string errMsg))
+                    ErrLog.WriteError(errMsg);
+            }
         }
 
         /// <summary>
