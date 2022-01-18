@@ -230,7 +230,8 @@ namespace Scada.Admin.Forms
             }
             finally
             {
-                lbFiles.EndUpdate();
+                if (!lbFiles.IsDisposed)
+                    lbFiles.EndUpdate();
             }
         }
 

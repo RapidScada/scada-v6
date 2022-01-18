@@ -70,6 +70,24 @@ namespace Scada.Forms
 
 
         /// <summary>
+        /// Sets the first line of the list box.
+        /// </summary>
+        public override void SetFirstLine(string s)
+        {
+            if (AgentClient != null && !listBox.IsDisposed)
+                base.SetFirstLine(s);
+        }
+
+        /// <summary>
+        /// Sets the list box lines.
+        /// </summary>
+        public override void SetLines(ICollection<string> lines)
+        {
+            if (AgentClient != null && !listBox.IsDisposed)
+                base.SetLines(lines);
+        }
+
+        /// <summary>
         /// Refresh log content with Agent.
         /// </summary>
         public void RefreshWithAgent()
@@ -88,15 +106,13 @@ namespace Scada.Forms
                             agentClient.ReadTextFile(logPath, LogViewSize, ref logFileAge, out lines);
                     }
 
-                    if (AgentClient != null && !listBox.IsDisposed && lines != null)
+                    if (lines != null)
                         SetLines(lines);
                 }
             }
             catch (Exception ex)
             {
-                if (AgentClient != null && !listBox.IsDisposed)
-                    SetFirstLine(ex.Message);
-
+                SetFirstLine(ex.Message);
                 logFileAge = DateTime.MinValue;
             }
         }

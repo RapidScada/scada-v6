@@ -181,7 +181,7 @@ namespace Scada.Forms
         /// <summary>
         /// Sets the first line of the list box.
         /// </summary>
-        public void SetFirstLine(string s)
+        public virtual void SetFirstLine(string s)
         {
             try
             {
@@ -198,7 +198,7 @@ namespace Scada.Forms
         /// <summary>
         /// Sets the list box lines.
         /// </summary>
-        public void SetLines(ICollection<string> lines)
+        public virtual void SetLines(ICollection<string> lines)
         {
             ArgumentNullException.ThrowIfNull(lines, nameof(lines));
             Graphics graphics = null;
