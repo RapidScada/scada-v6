@@ -34,13 +34,13 @@
             this.lblShift = new System.Windows.Forms.Label();
             this.numShift = new System.Windows.Forms.NumericUpDown();
             this.lblGap = new System.Windows.Forms.Label();
-            this.numericUpDown3 = new System.Windows.Forms.NumericUpDown();
+            this.numGap = new System.Windows.Forms.NumericUpDown();
             this.chkPrependDeviceName = new System.Windows.Forms.CheckBox();
             this.btnOK = new System.Windows.Forms.Button();
             this.btnCancel = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.numMultiplicity)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.numShift)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.numericUpDown3)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.numGap)).BeginInit();
             this.SuspendLayout();
             // 
             // lblMultiplicity
@@ -123,18 +123,18 @@
             this.lblGap.TabIndex = 5;
             this.lblGap.Text = "Gap";
             // 
-            // numericUpDown3
+            // numGap
             // 
-            this.numericUpDown3.Location = new System.Drawing.Point(12, 71);
-            this.numericUpDown3.Maximum = new decimal(new int[] {
+            this.numGap.Location = new System.Drawing.Point(12, 71);
+            this.numGap.Maximum = new decimal(new int[] {
             10000,
             0,
             0,
             0});
-            this.numericUpDown3.Name = "numericUpDown3";
-            this.numericUpDown3.Size = new System.Drawing.Size(150, 23);
-            this.numericUpDown3.TabIndex = 6;
-            this.numericUpDown3.Value = new decimal(new int[] {
+            this.numGap.Name = "numGap";
+            this.numGap.Size = new System.Drawing.Size(150, 23);
+            this.numGap.TabIndex = 6;
+            this.numGap.Value = new decimal(new int[] {
             10,
             0,
             0,
@@ -158,6 +158,7 @@
             this.btnOK.TabIndex = 8;
             this.btnOK.Text = "OK";
             this.btnOK.UseVisualStyleBackColor = true;
+            this.btnOK.Click += new System.EventHandler(this.btnOK_Click);
             // 
             // btnCancel
             // 
@@ -178,7 +179,7 @@
             this.Controls.Add(this.btnCancel);
             this.Controls.Add(this.btnOK);
             this.Controls.Add(this.chkPrependDeviceName);
-            this.Controls.Add(this.numericUpDown3);
+            this.Controls.Add(this.numGap);
             this.Controls.Add(this.lblGap);
             this.Controls.Add(this.numShift);
             this.Controls.Add(this.lblShift);
@@ -192,9 +193,10 @@
             this.ShowInTaskbar = false;
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
             this.Text = "Extension Options";
+            this.Load += new System.EventHandler(this.FrmExtensionOptions_Load);
             ((System.ComponentModel.ISupportInitialize)(this.numMultiplicity)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.numShift)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.numericUpDown3)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.numGap)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -208,7 +210,7 @@
         private System.Windows.Forms.Label lblShift;
         private System.Windows.Forms.NumericUpDown numShift;
         private System.Windows.Forms.Label lblGap;
-        private System.Windows.Forms.NumericUpDown numericUpDown3;
+        private System.Windows.Forms.NumericUpDown numGap;
         private System.Windows.Forms.CheckBox chkPrependDeviceName;
         private System.Windows.Forms.Button btnOK;
         private System.Windows.Forms.Button btnCancel;

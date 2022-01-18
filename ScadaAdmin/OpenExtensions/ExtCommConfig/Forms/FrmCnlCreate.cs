@@ -76,7 +76,7 @@ namespace Scada.Admin.Extensions.ExtCommConfig.Forms
             this.adminContext = adminContext ?? throw new ArgumentNullException(nameof(adminContext));
             this.project = project ?? throw new ArgumentNullException(nameof(project));
             this.recentSelection = recentSelection ?? throw new ArgumentNullException(nameof(recentSelection));
-            options = new ChannelWizardOptions(adminContext.AppConfig.GetOptions("ChannelWizard"));
+            options = new ChannelWizardOptions(adminContext.AppConfig.GetOptions(ChannelWizardOptions.GroupName));
             step = 1;
         }
 

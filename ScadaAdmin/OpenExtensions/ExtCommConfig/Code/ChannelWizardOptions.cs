@@ -13,6 +13,12 @@ namespace Scada.Admin.Extensions.ExtCommConfig.Code
     public class ChannelWizardOptions
     {
         /// <summary>
+        /// The name of the group containing the wizard options.
+        /// </summary>
+        public const string GroupName = "ChannelWizard";
+
+
+        /// <summary>
         /// Initializes a new instance of the class.
         /// </summary>
         public ChannelWizardOptions(OptionList options)
@@ -44,5 +50,17 @@ namespace Scada.Admin.Extensions.ExtCommConfig.Code
         /// Gets or sets a value indicating whether to prepend a device name in channel names.
         /// </summary>
         public bool PrependDeviceName { get; set; }
+
+
+        /// <summary>
+        /// Adds the options to the list.
+        /// </summary>
+        public void AddToOptionList(OptionList options)
+        {
+            options["Multiplicity"] = Multiplicity.ToString();
+            options["Shift"] = Shift.ToString();
+            options["Gap"] = Gap.ToString();
+            options["PrependDeviceName"] = PrependDeviceName.ToLowerString();
+        }
     }
 }

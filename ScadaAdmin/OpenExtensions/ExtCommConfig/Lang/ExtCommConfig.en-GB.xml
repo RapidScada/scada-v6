@@ -235,6 +235,15 @@
     <Phrase key="btnProperties">Properties</Phrase>
     <Phrase key="lblDescr">Description</Phrase>
   </Dictionary>
+  <Dictionary key="Scada.Admin.Extensions.ExtCommConfig.Forms.FrmExtensionOptions">
+    <Phrase key="this">Extension Options</Phrase>
+    <Phrase key="lblMultiplicity">Multiplicity</Phrase>
+    <Phrase key="lblShift">Shift</Phrase>
+    <Phrase key="lblGap">Gap</Phrase>
+    <Phrase key="chkPrependDeviceName">Prepend device name</Phrase>
+    <Phrase key="btnOK">OK</Phrase>
+    <Phrase key="btnCancel">Cancel</Phrase>
+  </Dictionary>
   <Dictionary key="Scada.Admin.Extensions.ExtCommConfig.Forms.FrmGeneralOptions">
     <Phrase key="this">General Options</Phrase>
     <Phrase key="gbGeneralOptions">General Options</Phrase>
