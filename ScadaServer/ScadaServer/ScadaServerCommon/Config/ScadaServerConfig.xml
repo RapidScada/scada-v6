@@ -37,6 +37,15 @@
       <Option name="WritingPeriod" value="1" />
       <Option name="WritingUnit" value="Hour" />
     </Archive>
+    <Archive active="false" code="Day" name="Daily archive" kind="Historical" module="ModArcBasic">
+      <Option name="LogEnabled" value="false" />
+      <Option name="PullToPeriod" value="0" />
+      <Option name="Retention" value="365" />
+      <Option name="UseCopyDir" value="false" />
+      <Option name="WritingMode" value="AutoWithPeriod" />
+      <Option name="WritingPeriod" value="24" />
+      <Option name="WritingUnit" value="Hour" />
+    </Archive>
     <Archive active="true" code="Events" name="Event Archive" kind="Events" module="ModArcBasic">
       <Option name="LogEnabled" value="false" />
       <Option name="Retention" value="365" />
@@ -71,6 +80,18 @@
       <Option name="UseStorageConn" value="true" />
       <Option name="WritingMode" value="AutoWithPeriod" />
       <Option name="WritingPeriod" value="1" />
+      <Option name="WritingUnit" value="Hour" />
+    </Archive>
+    <Archive active="false" code="DayCopy" name="Daily archive copy" kind="Historical" module="ModArcPostgreSql">
+      <Option name="Connection" value="" />
+      <Option name="LogEnabled" value="false" />
+      <Option name="MaxQueueSize" value="1000" />
+      <Option name="PartitionSize" value="OneMonth" />
+      <Option name="PullToPeriod" value="0" />
+      <Option name="Retention" value="365" />
+      <Option name="UseStorageConn" value="true" />
+      <Option name="WritingMode" value="AutoWithPeriod" />
+      <Option name="WritingPeriod" value="24" />
       <Option name="WritingUnit" value="Hour" />
     </Archive>
     <Archive active="false" code="EventsCopy" name="Event Archive" kind="Events" module="ModArcPostgreSql">
