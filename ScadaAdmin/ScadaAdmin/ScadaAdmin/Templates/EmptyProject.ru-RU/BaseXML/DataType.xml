@@ -1,0 +1,23 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ArrayOfDataType xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+  <DataType>
+    <DataTypeID>0</DataTypeID>
+    <Name>Double</Name>
+    <Descr>64-битное число с плавающей точкой</Descr>
+  </DataType>
+  <DataType>
+    <DataTypeID>1</DataTypeID>
+    <Name>Integer</Name>
+    <Descr>64-битное целое число со знаком</Descr>
+  </DataType>
+  <DataType>
+    <DataTypeID>2</DataTypeID>
+    <Name>ASCII string</Name>
+    <Descr>Только латинские символы. 8 символов на канал</Descr>
+  </DataType>
+  <DataType>
+    <DataTypeID>3</DataTypeID>
+    <Name>Unicode string</Name>
+    <Descr>Формат UTF-16 с порядком байт от младшего к старшему. 4 символа на канал</Descr>
+  </DataType>
+</ArrayOfDataType>

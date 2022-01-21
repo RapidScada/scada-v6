@@ -2,319 +2,319 @@
 <ArrayOfUnit xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
   <Unit>
     <UnitID>1</UnitID>
-    <Name>m</Name>
+    <Name>м</Name>
     <Code>m</Code>
-    <Descr>Meter</Descr>
+    <Descr>Метр</Descr>
   </Unit>
   <Unit>
     <UnitID>2</UnitID>
-    <Name>mm</Name>
+    <Name>мм</Name>
     <Code>mm</Code>
-    <Descr>Millimeter</Descr>
+    <Descr>Миллиметр</Descr>
   </Unit>
   <Unit>
     <UnitID>3</UnitID>
-    <Name>km</Name>
+    <Name>км</Name>
     <Code>km</Code>
-    <Descr>Kilometer</Descr>
+    <Descr>Километр</Descr>
   </Unit>
   <Unit>
     <UnitID>4</UnitID>
-    <Name>g</Name>
+    <Name>г</Name>
     <Code>g</Code>
-    <Descr>Gram</Descr>
+    <Descr>Грам</Descr>
   </Unit>
   <Unit>
     <UnitID>5</UnitID>
-    <Name>kg</Name>
+    <Name>кг</Name>
     <Code>kg</Code>
-    <Descr>Kilogram</Descr>
+    <Descr>Килограм</Descr>
   </Unit>
   <Unit>
     <UnitID>6</UnitID>
-    <Name>t</Name>
+    <Name>т</Name>
     <Code>t</Code>
-    <Descr>Tonne</Descr>
+    <Descr>Тонна</Descr>
   </Unit>
   <Unit>
     <UnitID>11</UnitID>
-    <Name>s</Name>
+    <Name>с</Name>
     <Code>s</Code>
-    <Descr>Second</Descr>
+    <Descr>Секунда</Descr>
   </Unit>
   <Unit>
     <UnitID>12</UnitID>
-    <Name>ms</Name>
+    <Name>мс</Name>
     <Code>ms</Code>
-    <Descr>Millisecond</Descr>
+    <Descr>Миллисекунда</Descr>
   </Unit>
   <Unit>
     <UnitID>13</UnitID>
-    <Name>min</Name>
+    <Name>мин</Name>
     <Code>Minute</Code>
-    <Descr>Minute</Descr>
+    <Descr>Минута</Descr>
   </Unit>
   <Unit>
     <UnitID>14</UnitID>
-    <Name>h</Name>
+    <Name>ч</Name>
     <Code>Hour</Code>
-    <Descr>Hour</Descr>
+    <Descr>Час</Descr>
   </Unit>
   <Unit>
     <UnitID>15</UnitID>
-    <Name>day</Name>
+    <Name>день</Name>
     <Code>Day</Code>
-    <Descr>Day</Descr>
+    <Descr>День</Descr>
   </Unit>
   <Unit>
     <UnitID>21</UnitID>
     <Name>K</Name>
     <Code>Kelvin</Code>
-    <Descr>Kelvin</Descr>
+    <Descr>Градусы Кельвина</Descr>
   </Unit>
   <Unit>
     <UnitID>22</UnitID>
     <Name>°C</Name>
     <Code>Celsius</Code>
-    <Descr>Celsius</Descr>
+    <Descr>Градусы Цельсия</Descr>
   </Unit>
   <Unit>
     <UnitID>23</UnitID>
     <Name>°F</Name>
     <Code>Fahrenheit</Code>
-    <Descr>Fahrenheit</Descr>
+    <Descr>Градусы Фаренгейта</Descr>
   </Unit>
   <Unit>
     <UnitID>31</UnitID>
-    <Name>m/s</Name>
+    <Name>м/с</Name>
     <Code>m/s</Code>
-    <Descr>Meters per second</Descr>
+    <Descr>Метров в секунду</Descr>
   </Unit>
   <Unit>
     <UnitID>32</UnitID>
-    <Name>km/h</Name>
+    <Name>км/ч</Name>
     <Code>km/h</Code>
-    <Descr>Kilometers per hour</Descr>
+    <Descr>Километров в час</Descr>
   </Unit>
   <Unit>
     <UnitID>33</UnitID>
-    <Name>m/s²</Name>
+    <Name>м/с²</Name>
     <Code>m/s2</Code>
-    <Descr>Meter per second squared</Descr>
+    <Descr>Метр на секунду в квадрате</Descr>
   </Unit>
   <Unit>
     <UnitID>41</UnitID>
-    <Name>V</Name>
+    <Name>В</Name>
     <Code>V</Code>
-    <Descr>Volt</Descr>
+    <Descr>Вольт</Descr>
   </Unit>
   <Unit>
     <UnitID>42</UnitID>
-    <Name>kV</Name>
+    <Name>кВ</Name>
     <Code>kV</Code>
-    <Descr>Kilovolt</Descr>
+    <Descr>Киловольт</Descr>
   </Unit>
   <Unit>
     <UnitID>43</UnitID>
-    <Name>A</Name>
+    <Name>А</Name>
     <Code>A</Code>
-    <Descr>Ampere</Descr>
+    <Descr>Ампер</Descr>
   </Unit>
   <Unit>
     <UnitID>44</UnitID>
-    <Name>mA</Name>
+    <Name>мА</Name>
     <Code>mA</Code>
-    <Descr>Milliampere</Descr>
+    <Descr>Миллиампер</Descr>
   </Unit>
   <Unit>
     <UnitID>51</UnitID>
-    <Name>W</Name>
+    <Name>Вт</Name>
     <Code>W</Code>
-    <Descr>Watt</Descr>
+    <Descr>Ватт</Descr>
   </Unit>
   <Unit>
     <UnitID>52</UnitID>
-    <Name>kW</Name>
+    <Name>кВт</Name>
     <Code>kW</Code>
-    <Descr>Kilowatt</Descr>
+    <Descr>Киловатт</Descr>
   </Unit>
   <Unit>
     <UnitID>53</UnitID>
-    <Name>MW</Name>
+    <Name>МВт</Name>
     <Code>MW</Code>
-    <Descr>Megawatt</Descr>
+    <Descr>Мегаватт</Descr>
   </Unit>
   <Unit>
     <UnitID>54</UnitID>
-    <Name>var</Name>
+    <Name>вар</Name>
     <Code>var</Code>
-    <Descr>Volt-ampere reactive</Descr>
+    <Descr>Вольт-ампер реактивный</Descr>
   </Unit>
   <Unit>
     <UnitID>55</UnitID>
-    <Name>kVAR</Name>
+    <Name>квар</Name>
     <Code>kVAR</Code>
-    <Descr>Kilovolt-ampere reactive</Descr>
+    <Descr>Киловольт-ампер реактивный</Descr>
   </Unit>
   <Unit>
     <UnitID>56</UnitID>
-    <Name>MVAR</Name>
+    <Name>Мвар</Name>
     <Code>MVAR</Code>
-    <Descr>Megavolt-ampere reactive</Descr>
+    <Descr>Мегавольт-ампер реактивный</Descr>
   </Unit>
   <Unit>
     <UnitID>57</UnitID>
-    <Name>VA</Name>
+    <Name>В∙А</Name>
     <Code>VA</Code>
-    <Descr>Volt-ampere</Descr>
+    <Descr>Вольт-ампер</Descr>
   </Unit>
   <Unit>
     <UnitID>58</UnitID>
-    <Name>kVA</Name>
+    <Name>кВ∙А</Name>
     <Code>kVA</Code>
-    <Descr>Kilovolt-ampere</Descr>
+    <Descr>Киловольт-ампер</Descr>
   </Unit>
   <Unit>
     <UnitID>59</UnitID>
-    <Name>MVA</Name>
+    <Name>МВ∙А</Name>
     <Code>MVA</Code>
-    <Descr>Megavolt-ampere</Descr>
+    <Descr>Мегавольт-ампер</Descr>
   </Unit>
   <Unit>
     <UnitID>61</UnitID>
-    <Name>kWh</Name>
+    <Name>кВт∙ч</Name>
     <Code>kWh</Code>
-    <Descr>Kilowatt-hour</Descr>
+    <Descr>Киловатт-час</Descr>
   </Unit>
   <Unit>
     <UnitID>62</UnitID>
-    <Name>MWh</Name>
+    <Name>МВт∙ч</Name>
     <Code>MWh</Code>
-    <Descr>Megawatt-hour</Descr>
+    <Descr>Мегаватт-час</Descr>
   </Unit>
   <Unit>
     <UnitID>63</UnitID>
-    <Name>kVARh</Name>
+    <Name>квар∙ч</Name>
     <Code>kVARh</Code>
-    <Descr>Kilovolt-ampere-reactive-hour</Descr>
+    <Descr>Киловар-час</Descr>
   </Unit>
   <Unit>
     <UnitID>64</UnitID>
-    <Name>MVARh</Name>
+    <Name>Мвар∙ч</Name>
     <Code>MVARh</Code>
-    <Descr>Megavolt-ampere-reactive-hour</Descr>
+    <Descr>Мегавар-час</Descr>
   </Unit>
   <Unit>
     <UnitID>65</UnitID>
-    <Name>Hz</Name>
+    <Name>Гц</Name>
     <Code>Hz</Code>
-    <Descr>Hertz</Descr>
+    <Descr>Герц</Descr>
   </Unit>
   <Unit>
     <UnitID>71</UnitID>
-    <Name>Pa</Name>
+    <Name>Па</Name>
     <Code>Pa</Code>
-    <Descr>Pascal</Descr>
+    <Descr>Паскаль</Descr>
   </Unit>
   <Unit>
     <UnitID>72</UnitID>
-    <Name>kPa</Name>
+    <Name>кПа</Name>
     <Code>kPa</Code>
-    <Descr>Kilopascal</Descr>
+    <Descr>Килопаскаль</Descr>
   </Unit>
   <Unit>
     <UnitID>73</UnitID>
-    <Name>MPa</Name>
+    <Name>МПа</Name>
     <Code>MPa</Code>
-    <Descr>Megapascal</Descr>
+    <Descr>Мегапаскаль</Descr>
   </Unit>
   <Unit>
     <UnitID>74</UnitID>
-    <Name>at</Name>
+    <Name>ат</Name>
     <Code>at</Code>
-    <Descr>Technical atmosphere</Descr>
+    <Descr>Техническая атмосфера</Descr>
   </Unit>
   <Unit>
     <UnitID>75</UnitID>
-    <Name>atm</Name>
+    <Name>атм</Name>
     <Code>atm</Code>
-    <Descr>Standard atmosphere</Descr>
+    <Descr>Физическая атмосфера</Descr>
   </Unit>
   <Unit>
     <UnitID>81</UnitID>
-    <Name>m³</Name>
+    <Name>м³</Name>
     <Code>m3</Code>
-    <Descr>Cubic meter</Descr>
+    <Descr>Кубический метр</Descr>
   </Unit>
   <Unit>
     <UnitID>82</UnitID>
-    <Name>kg/m³</Name>
+    <Name>кг/м³</Name>
     <Code>kg/m3</Code>
-    <Descr>Kilogram per cubic meter</Descr>
+    <Descr>Килограмм на кубический метр</Descr>
   </Unit>
   <Unit>
     <UnitID>83</UnitID>
-    <Name>m³/s</Name>
+    <Name>м³/с</Name>
     <Code>m3/s</Code>
-    <Descr>Cubic meters per second</Descr>
+    <Descr>Кубических метров в секунду</Descr>
   </Unit>
   <Unit>
     <UnitID>84</UnitID>
-    <Name>m³/h</Name>
+    <Name>м³/ч</Name>
     <Code>m3/h</Code>
-    <Descr>Cubic meters per hour</Descr>
+    <Descr>Кубических метров в час</Descr>
   </Unit>
   <Unit>
     <UnitID>91</UnitID>
-    <Name>J</Name>
+    <Name>Дж</Name>
     <Code>J</Code>
-    <Descr>Joule</Descr>
+    <Descr>Джоуль</Descr>
   </Unit>
   <Unit>
     <UnitID>92</UnitID>
-    <Name>kJ</Name>
+    <Name>кДж</Name>
     <Code>kJ</Code>
-    <Descr>Kilojoule</Descr>
+    <Descr>Килоджоуль</Descr>
   </Unit>
   <Unit>
     <UnitID>93</UnitID>
-    <Name>MJ</Name>
+    <Name>МДж</Name>
     <Code>MJ</Code>
-    <Descr>Megajoule</Descr>
+    <Descr>Мегаджоуль</Descr>
   </Unit>
   <Unit>
     <UnitID>94</UnitID>
-    <Name>cal</Name>
+    <Name>кал</Name>
     <Code>cal</Code>
-    <Descr>Calorie</Descr>
+    <Descr>Калория</Descr>
   </Unit>
   <Unit>
     <UnitID>95</UnitID>
-    <Name>kcal</Name>
+    <Name>ккал</Name>
     <Code>kcal</Code>
-    <Descr>Kilocalorie</Descr>
+    <Descr>Килокалория</Descr>
   </Unit>
   <Unit>
     <UnitID>96</UnitID>
-    <Name>Gcal</Name>
+    <Name>Гкал</Name>
     <Code>Gcal</Code>
-    <Descr>Gigacalorie</Descr>
+    <Descr>Гигакалория</Descr>
   </Unit>
   <Unit>
     <UnitID>101</UnitID>
     <Name>%</Name>
     <Code>%</Code>
-    <Descr>Percent</Descr>
+    <Descr>Процент</Descr>
   </Unit>
   <Unit>
     <UnitID>102</UnitID>
-    <Name>pcs</Name>
+    <Name>шт</Name>
     <Code>pcs</Code>
-    <Descr>Pieces</Descr>
+    <Descr>Штука</Descr>
   </Unit>
   <Unit>
     <UnitID>1001</UnitID>
-    <Name>Custom unit</Name>
-    <Descr>Add custom items starting from this row</Descr>
+    <Name>Пользовательская размерность</Name>
+    <Descr>Добавляйте пользовательские элементы, начиная с этой строки</Descr>
   </Unit>
 </ArrayOfUnit>

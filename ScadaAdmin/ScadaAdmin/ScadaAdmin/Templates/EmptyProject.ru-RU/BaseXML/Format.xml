@@ -2,14 +2,14 @@
 <ArrayOfFormat xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
   <Format>
     <FormatID>1</FormatID>
-    <Name>General</Name>
+    <Name>Общий</Name>
     <Code>G</Code>
     <IsNumber>true</IsNumber>
     <IsEnum>false</IsEnum>
     <IsDate>false</IsDate>
     <IsString>false</IsString>
     <Frmt>G</Frmt>
-    <Descr>The more compact of either fixed-point or scientific notation</Descr>
+    <Descr>Наиболее компактная запись с фиксированной точкой или экспоненциальная</Descr>
   </Format>
   <Format>
     <FormatID>2</FormatID>
@@ -20,7 +20,7 @@
     <IsDate>false</IsDate>
     <IsString>false</IsString>
     <Frmt>N0</Frmt>
-    <Descr>Integral and decimal digits, group separators, and a decimal separator</Descr>
+    <Descr>Целые и десятичные цифры, разделители групп и десятичный разделитель</Descr>
   </Format>
   <Format>
     <FormatID>3</FormatID>
@@ -84,18 +84,18 @@
   </Format>
   <Format>
     <FormatID>9</FormatID>
-    <Name>Hexadecimal</Name>
+    <Name>16-ричный</Name>
     <Code>X</Code>
     <IsNumber>true</IsNumber>
     <IsEnum>false</IsEnum>
     <IsDate>false</IsDate>
     <IsString>false</IsString>
     <Frmt>X</Frmt>
-    <Descr>Hexadecimal representation of a number</Descr>
+    <Descr>Шестнадцатеричное представление числа</Descr>
   </Format>
   <Format>
     <FormatID>10</FormatID>
-    <Name>Hexadecimal 2 digits</Name>
+    <Name>16-ричный 2 цифры</Name>
     <Code>X2</Code>
     <IsNumber>true</IsNumber>
     <IsEnum>false</IsEnum>
@@ -105,7 +105,7 @@
   </Format>
   <Format>
     <FormatID>11</FormatID>
-    <Name>Hexadecimal 4 digits</Name>
+    <Name>16-ричный 4 цифры</Name>
     <Code>X4</Code>
     <IsNumber>true</IsNumber>
     <IsEnum>false</IsEnum>
@@ -115,7 +115,7 @@
   </Format>
   <Format>
     <FormatID>12</FormatID>
-    <Name>Hexadecimal 8 digits</Name>
+    <Name>16-ричный 8 цифры</Name>
     <Code>X8</Code>
     <IsNumber>true</IsNumber>
     <IsEnum>false</IsEnum>
@@ -125,100 +125,100 @@
   </Format>
   <Format>
     <FormatID>21</FormatID>
-    <Name>Off-On</Name>
+    <Name>Откл-Вкл</Name>
     <Code>OffOn</Code>
     <IsNumber>false</IsNumber>
     <IsEnum>true</IsEnum>
     <IsDate>false</IsDate>
     <IsString>false</IsString>
-    <Frmt>Off; On</Frmt>
+    <Frmt>Откл; Вкл</Frmt>
   </Format>
   <Format>
     <FormatID>22</FormatID>
-    <Name>No-Yes</Name>
+    <Name>Нет-Да</Name>
     <Code>NoYes</Code>
     <IsNumber>false</IsNumber>
     <IsEnum>true</IsEnum>
     <IsDate>false</IsDate>
     <IsString>false</IsString>
-    <Frmt>No; Yes</Frmt>
+    <Frmt>Нет; Да</Frmt>
   </Format>
   <Format>
     <FormatID>23</FormatID>
-    <Name>Off</Name>
+    <Name>Откл</Name>
     <Code>Off</Code>
     <IsNumber>false</IsNumber>
     <IsEnum>true</IsEnum>
     <IsDate>false</IsDate>
     <IsString>false</IsString>
-    <Frmt>Off: red</Frmt>
+    <Frmt>Откл: red</Frmt>
   </Format>
   <Format>
     <FormatID>24</FormatID>
-    <Name>On</Name>
+    <Name>Вкл</Name>
     <Code>On</Code>
     <IsNumber>false</IsNumber>
     <IsEnum>true</IsEnum>
     <IsDate>false</IsDate>
     <IsString>false</IsString>
-    <Frmt>; On: green</Frmt>
+    <Frmt>; Вкл: green</Frmt>
   </Format>
   <Format>
     <FormatID>25</FormatID>
-    <Name>Execute</Name>
+    <Name>Выполнить</Name>
     <Code>Execute</Code>
     <IsNumber>false</IsNumber>
     <IsEnum>true</IsEnum>
     <IsDate>false</IsDate>
     <IsString>false</IsString>
-    <Frmt>; Execute</Frmt>
+    <Frmt>; Выполнить</Frmt>
   </Format>
   <Format>
     <FormatID>26</FormatID>
-    <Name>Device status</Name>
+    <Name>Статус КП</Name>
     <Code>DeviceStatus</Code>
     <IsNumber>false</IsNumber>
     <IsEnum>true</IsEnum>
     <IsDate>false</IsDate>
     <IsString>false</IsString>
-    <Frmt>Undefined: black; Normal: green; Error: red</Frmt>
+    <Frmt>Неопределён: black; Норма: green; Ошибка: red</Frmt>
   </Format>
   <Format>
     <FormatID>31</FormatID>
-    <Name>Date and time</Name>
+    <Name>Дата и время</Name>
     <Code>DateTime</Code>
     <IsNumber>false</IsNumber>
     <IsEnum>false</IsEnum>
     <IsDate>true</IsDate>
     <IsString>false</IsString>
     <Frmt>G</Frmt>
-    <Descr>General date/time pattern (long time)</Descr>
+    <Descr>Общий шаблон даты/времени (длинное время)</Descr>
   </Format>
   <Format>
     <FormatID>32</FormatID>
-    <Name>Date</Name>
+    <Name>Дата</Name>
     <Code>Date</Code>
     <IsNumber>false</IsNumber>
     <IsEnum>false</IsEnum>
     <IsDate>true</IsDate>
     <IsString>false</IsString>
     <Frmt>d</Frmt>
-    <Descr>Short date pattern</Descr>
+    <Descr>Короткая запись даты</Descr>
   </Format>
   <Format>
     <FormatID>33</FormatID>
-    <Name>Time</Name>
+    <Name>Время</Name>
     <Code>Time</Code>
     <IsNumber>false</IsNumber>
     <IsEnum>false</IsEnum>
     <IsDate>true</IsDate>
     <IsString>false</IsString>
     <Frmt>T</Frmt>
-    <Descr>Long time pattern</Descr>
+    <Descr>Длинная запись времени</Descr>
   </Format>
   <Format>
     <FormatID>41</FormatID>
-    <Name>String</Name>
+    <Name>Строка</Name>
     <Code>String</Code>
     <IsNumber>false</IsNumber>
     <IsEnum>false</IsEnum>
@@ -227,12 +227,12 @@
   </Format>
   <Format>
     <FormatID>101</FormatID>
-    <Name>Custom format</Name>
+    <Name>Пользовательский формат</Name>
     <IsNumber>false</IsNumber>
     <IsEnum>false</IsEnum>
     <IsDate>false</IsDate>
     <IsString>false</IsString>
     <Frmt>G</Frmt>
-    <Descr>Add custom items starting from this row</Descr>
+    <Descr>Добавляйте пользовательские элементы, начиная с этой строки</Descr>
   </Format>
 </ArrayOfFormat>

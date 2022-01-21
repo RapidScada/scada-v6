@@ -1,0 +1,28 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ArrayOfCnlType xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+  <CnlType>
+    <CnlTypeID>1</CnlTypeID>
+    <Name>Входной</Name>
+    <Descr>Значения канала считываются с устройства</Descr>
+  </CnlType>
+  <CnlType>
+    <CnlTypeID>2</CnlTypeID>
+    <Name>Входной/выходной</Name>
+    <Descr>Значения канала могут быть считаны и записаны</Descr>
+  </CnlType>
+  <CnlType>
+    <CnlTypeID>3</CnlTypeID>
+    <Name>Расчётный</Name>
+    <Descr>Значения канала рассчитываются по формуле</Descr>
+  </CnlType>
+  <CnlType>
+    <CnlTypeID>4</CnlTypeID>
+    <Name>Расчётный/выходной</Name>
+    <Descr>Значения канала рассчитываются и могут быть записаны</Descr>
+  </CnlType>
+  <CnlType>
+    <CnlTypeID>5</CnlTypeID>
+    <Name>Выходной</Name>
+    <Descr>Канал определяет команду телеуправления</Descr>
+  </CnlType>
+</ArrayOfCnlType>

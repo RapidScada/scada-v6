@@ -1,0 +1,80 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ArrayOfArchive xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+  <Archive>
+    <ArchiveID>1</ArchiveID>
+    <Name>Текущие данные</Name>
+    <Code>Cur</Code>
+    <IsDefault>true</IsDefault>
+    <Bit>0</Bit>
+  </Archive>
+  <Archive>
+    <ArchiveID>2</ArchiveID>
+    <Name>Минутный архив</Name>
+    <Code>Min</Code>
+    <IsDefault>true</IsDefault>
+    <Bit>1</Bit>
+  </Archive>
+  <Archive>
+    <ArchiveID>3</ArchiveID>
+    <Name>Часовой архив</Name>
+    <Code>Hour</Code>
+    <IsDefault>true</IsDefault>
+    <Bit>2</Bit>
+  </Archive>
+  <Archive>
+    <ArchiveID>4</ArchiveID>
+    <Name>Дневной архив</Name>
+    <Code>Day</Code>
+    <IsDefault>true</IsDefault>
+    <Bit>3</Bit>
+  </Archive>
+  <Archive>
+    <ArchiveID>5</ArchiveID>
+    <Name>Архив событий</Name>
+    <Code>Events</Code>
+    <IsDefault>true</IsDefault>
+    <Bit>4</Bit>
+  </Archive>
+  <Archive>
+    <ArchiveID>6</ArchiveID>
+    <Name>Копия текущих данных</Name>
+    <Code>CurCopy</Code>
+    <IsDefault>true</IsDefault>
+    <Bit>5</Bit>
+  </Archive>
+  <Archive>
+    <ArchiveID>7</ArchiveID>
+    <Name>Копия минутного архива</Name>
+    <Code>MinCopy</Code>
+    <IsDefault>true</IsDefault>
+    <Bit>6</Bit>
+  </Archive>
+  <Archive>
+    <ArchiveID>8</ArchiveID>
+    <Name>Копия часового архива</Name>
+    <Code>HourCopy</Code>
+    <IsDefault>true</IsDefault>
+    <Bit>7</Bit>
+  </Archive>
+  <Archive>
+    <ArchiveID>9</ArchiveID>
+    <Name>Копия дневного архива</Name>
+    <Code>DayCopy</Code>
+    <IsDefault>true</IsDefault>
+    <Bit>8</Bit>
+  </Archive>
+  <Archive>
+    <ArchiveID>10</ArchiveID>
+    <Name>Копия архива событий</Name>
+    <Code>EventsCopy</Code>
+    <IsDefault>true</IsDefault>
+    <Bit>9</Bit>
+  </Archive>
+  <Archive>
+    <ArchiveID>101</ArchiveID>
+    <Name>Пользовательский архив</Name>
+    <IsDefault>false</IsDefault>
+    <Bit>16</Bit>
+    <Descr>Добавляйте пользовательские элементы, начиная с этой строки</Descr>
+  </Archive>
+</ArrayOfArchive>

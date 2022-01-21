@@ -2,103 +2,103 @@
 <ArrayOfCnlStatus xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
   <CnlStatus>
     <CnlStatusID>0</CnlStatusID>
-    <Name>Undefined</Name>
+    <Name>Не определён</Name>
     <MainColor>Black</MainColor>
     <SecondColor>Gray</SecondColor>
     <BackColor>Silver</BackColor>
     <Severity>500</Severity>
     <AckRequired>false</AckRequired>
-    <Descr>Channel value is undefined</Descr>
+    <Descr>Значение канала не определено</Descr>
   </CnlStatus>
   <CnlStatus>
     <CnlStatusID>1</CnlStatusID>
-    <Name>Defined</Name>
+    <Name>Определён</Name>
     <MainColor>Black</MainColor>
     <SecondColor>Gray</SecondColor>
     <BackColor>Silver</BackColor>
     <Severity>750</Severity>
     <AckRequired>false</AckRequired>
-    <Descr>Channel value is defined</Descr>
+    <Descr>Значение канала определено</Descr>
   </CnlStatus>
   <CnlStatus>
     <CnlStatusID>2</CnlStatusID>
-    <Name>Archival</Name>
+    <Name>Архивный</Name>
     <MainColor>Purple</MainColor>
     <SecondColor>Purple</SecondColor>
     <BackColor>Orchid</BackColor>
     <Severity xsi:nil="true" />
     <AckRequired>false</AckRequired>
-    <Descr>Channel value has been received as archival</Descr>
+    <Descr>Значение канала получено как архивное</Descr>
   </CnlStatus>
   <CnlStatus>
     <CnlStatusID>3</CnlStatusID>
-    <Name>Formula error</Name>
+    <Name>Ошибка в формуле</Name>
     <MainColor>Silver</MainColor>
     <SecondColor>Silver</SecondColor>
     <BackColor>Silver</BackColor>
     <Severity>250</Severity>
     <AckRequired>false</AckRequired>
-    <Descr>Error calculating channel value using a formula</Descr>
+    <Descr>При расчёте значения канала по формуле произошла ошибка</Descr>
   </CnlStatus>
   <CnlStatus>
     <CnlStatusID>4</CnlStatusID>
-    <Name>Unreliable</Name>
+    <Name>Недостоверный</Name>
     <MainColor>Silver</MainColor>
     <SecondColor>Silver</SecondColor>
     <BackColor>Silver</BackColor>
     <Severity>750</Severity>
     <AckRequired>false</AckRequired>
-    <Descr>Channel value is defined but unreliable</Descr>
+    <Descr>Значение канала определено, но недостоверно</Descr>
   </CnlStatus>
   <CnlStatus>
     <CnlStatusID>11</CnlStatusID>
-    <Name>Extremely low</Name>
+    <Name>Аварийное занижение</Name>
     <MainColor>Blue</MainColor>
     <SecondColor>Blue</SecondColor>
     <BackColor>DodgerBlue</BackColor>
     <Severity>1</Severity>
     <AckRequired>true</AckRequired>
-    <Descr>Channel value is less than the LoLo limit</Descr>
+    <Descr>Значение канала меньше нижней аварийной границы</Descr>
   </CnlStatus>
   <CnlStatus>
     <CnlStatusID>12</CnlStatusID>
-    <Name>Low</Name>
+    <Name>Занижение</Name>
     <MainColor>Cyan</MainColor>
     <SecondColor>Cyan</SecondColor>
     <BackColor>Cyan</BackColor>
     <Severity>250</Severity>
     <AckRequired>true</AckRequired>
-    <Descr>Channel value is less than the lower limit</Descr>
+    <Descr>Значение канала меньше нижней границы</Descr>
   </CnlStatus>
   <CnlStatus>
     <CnlStatusID>13</CnlStatusID>
-    <Name>Normal</Name>
+    <Name>Норма</Name>
     <MainColor>Black</MainColor>
     <SecondColor>Black</SecondColor>
     <BackColor>LightGreen</BackColor>
     <Severity>500</Severity>
     <AckRequired>false</AckRequired>
-    <Descr>Channel value is inside the limits</Descr>
+    <Descr>Значение канала находится в пределах заданных границ</Descr>
   </CnlStatus>
   <CnlStatus>
     <CnlStatusID>14</CnlStatusID>
-    <Name>High</Name>
+    <Name>Завышение</Name>
     <MainColor>Orange</MainColor>
     <SecondColor>Orange</SecondColor>
     <BackColor>Wheat</BackColor>
     <Severity>250</Severity>
     <AckRequired>true</AckRequired>
-    <Descr>Channel value is greater than the upper limit</Descr>
+    <Descr>Значение канала больше верхней границы</Descr>
   </CnlStatus>
   <CnlStatus>
     <CnlStatusID>15</CnlStatusID>
-    <Name>Extremely high</Name>
+    <Name>Аварийное завышение</Name>
     <MainColor>Red</MainColor>
     <SecondColor>Red</SecondColor>
     <BackColor>LightCoral</BackColor>
     <Severity>1</Severity>
     <AckRequired>true</AckRequired>
-    <Descr>Channel value is greater than the HiHi limit</Descr>
+    <Descr>Значение канала больше верхней аварийной границы</Descr>
   </CnlStatus>
   <CnlStatus>
     <CnlStatusID>21</CnlStatusID>
@@ -111,7 +111,7 @@
   </CnlStatus>
   <CnlStatus>
     <CnlStatusID>22</CnlStatusID>
-    <Name>Warning</Name>
+    <Name>Предупреждение</Name>
     <MainColor>Orange</MainColor>
     <SecondColor>Orange</SecondColor>
     <BackColor>Wheat</BackColor>
@@ -120,7 +120,7 @@
   </CnlStatus>
   <CnlStatus>
     <CnlStatusID>23</CnlStatusID>
-    <Name>Error</Name>
+    <Name>Ошибка</Name>
     <MainColor>Red</MainColor>
     <SecondColor>Red</SecondColor>
     <BackColor>LightCoral</BackColor>
@@ -129,9 +129,9 @@
   </CnlStatus>
   <CnlStatus>
     <CnlStatusID>101</CnlStatusID>
-    <Name>Custom status</Name>
+    <Name>Пользовательский статус</Name>
     <Severity xsi:nil="true" />
     <AckRequired>false</AckRequired>
-    <Descr>Add custom items starting from this row</Descr>
+    <Descr>Добавляйте пользовательские элементы, начиная с этой строки</Descr>
   </CnlStatus>
 </ArrayOfCnlStatus>

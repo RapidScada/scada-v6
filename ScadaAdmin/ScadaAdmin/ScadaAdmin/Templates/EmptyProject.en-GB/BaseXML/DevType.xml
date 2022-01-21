@@ -76,7 +76,7 @@
     <DevTypeID>213</DevTypeID>
     <Name>Guard</Name>
     <Driver>DrvGuardGate</Driver>
-    <Descr>Export arrivals and departures to Guard system</Descr>
+    <Descr>Exports entries and exits of employees to the Guard system</Descr>
   </DevType>
   <DevType>
     <DevTypeID>214</DevTypeID>

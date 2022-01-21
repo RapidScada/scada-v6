@@ -1,0 +1,212 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ArrayOfDevType xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+  <DevType>
+    <DevTypeID>201</DevTypeID>
+    <Name>ВКТ-4М исп. 1.2</Name>
+    <Driver>DrvVkt4M</Driver>
+    <Descr>Тепловычислитель ВКТ-4М исп. 1.2 производства ЗАО "НПФ Теплоком"</Descr>
+  </DevType>
+  <DevType>
+    <DevTypeID>202</DevTypeID>
+    <Name>ВКТ-7 модели 01-03</Name>
+    <Driver>DrvVkt7</Driver>
+    <Descr>Тепловычислитель ВКТ-7 модели 01 - 03 производства ЗАО "НПФ Теплоком"</Descr>
+  </DevType>
+  <DevType>
+    <DevTypeID>203</DevTypeID>
+    <Name>Parsec NC-xxxx</Name>
+    <Driver>DrvNc</Driver>
+    <Descr>Контроллер доступа Parsec NC-xxxx производства ООО "НПО Релвест СБ"</Descr>
+  </DevType>
+  <DevType>
+    <DevTypeID>204</DevTypeID>
+    <Name>Болид С2000</Name>
+    <Driver>DrvS2000</Driver>
+    <Descr>Пульт С2000 и устройства ОПС производства НВП "Болид"</Descr>
+  </DevType>
+  <DevType>
+    <DevTypeID>205</DevTypeID>
+    <Name>SMS-центр</Name>
+    <Driver>DrvSms</Driver>
+    <Descr>Отправляет и принимает SMS-сообщения с использованием AT-команд</Descr>
+  </DevType>
+  <DevType>
+    <DevTypeID>206</DevTypeID>
+    <Name>Signal-3</Name>
+    <Driver>DrvSignal3</Driver>
+    <Descr>Охранное устройство Signal-3</Descr>
+  </DevType>
+  <DevType>
+    <DevTypeID>207</DevTypeID>
+    <Name>АЧЦ-RS-232</Name>
+    <Driver>DrvClockE</Driver>
+    <Descr>Часы АЧЦ-RS-232 производства ОАО "Завод Эталон"</Descr>
+  </DevType>
+  <DevType>
+    <DevTypeID>208</DevTypeID>
+    <Name>ЦЭ6850</Name>
+    <Driver>DrvCE6850</Driver>
+    <Descr>Электросчётчик ЦЭ6850 (6822, 6823, 6827, 6828, 6850М) производства ОАО "Энергомера"</Descr>
+  </DevType>
+  <DevType>
+    <DevTypeID>209</DevTypeID>
+    <Name>ADAM-6015</Name>
+    <Driver>DrvAdam6015</Driver>
+    <Descr>Модуль аналогового ввода для термометров сопротивления Advantech ADAM-6015</Descr>
+  </DevType>
+  <DevType>
+    <DevTypeID>210</DevTypeID>
+    <Name>ADAM-4068</Name>
+    <Driver>DrvAdam4068</Driver>
+    <Descr>Модуль релейной коммутации Advantech ADAM-4068</Descr>
+  </DevType>
+  <DevType>
+    <DevTypeID>211</DevTypeID>
+    <Name>Сканер штрихкодов</Name>
+    <Driver>DrvBarcodeScanner</Driver>
+    <Descr>Принимает данные со сканера штрихкодов</Descr>
+  </DevType>
+  <DevType>
+    <DevTypeID>212</DevTypeID>
+    <Name>СКУД</Name>
+    <Driver>DrvAccess</Driver>
+    <Descr>Управление доступом: взаимодействует со считывателями, релейными модулями, контроллерами доступа</Descr>
+  </DevType>
+  <DevType>
+    <DevTypeID>213</DevTypeID>
+    <Name>Часовой</Name>
+    <Driver>DrvGuardGate</Driver>
+    <Descr>Экспортирует входы и выходы сотрудников в систему Часовой</Descr>
+  </DevType>
+  <DevType>
+    <DevTypeID>214</DevTypeID>
+    <Name>Modbus</Name>
+    <Driver>DrvModbus</Driver>
+    <Descr>Взаимодействует с контроллерами по протоколу Modbus</Descr>
+  </DevType>
+  <DevType>
+    <DevTypeID>215</DevTypeID>
+    <Name>OPC</Name>
+    <Driver>DrvOpc</Driver>
+    <Descr>Взаимодействует с контроллерами по спецификациям OPC DA и OPC AE</Descr>
+  </DevType>
+  <DevType>
+    <DevTypeID>216</DevTypeID>
+    <Name>Болид С2000-ПП</Name>
+    <Driver>DrvS2000PP</Driver>
+    <Descr>Преобразователь протокола С2000-ПП производства НВП "Болид"</Descr>
+  </DevType>
+  <DevType>
+    <DevTypeID>217</DevTypeID>
+    <Name>СИ ИГЛА</Name>
+    <Driver>DrvIgla</Driver>
+    <Descr>СИ ИГЛА производства ООО "НПП "ИИТ"</Descr>
+  </DevType>
+  <DevType>
+    <DevTypeID>218</DevTypeID>
+    <Name>ИВТМ-7М</Name>
+    <Driver>DrvIvtm7M</Driver>
+    <Descr>Термогигрометр ИВТМ-7М производства ЗАО "ЭКСИС"</Descr>
+  </DevType>
+  <DevType>
+    <DevTypeID>219</DevTypeID>
+    <Name>СПТ943</Name>
+    <Driver>DrvSpt943</Driver>
+    <Descr>Тепловычислитель СПТ943 производства АО НПФ ЛОГИКА</Descr>
+  </DevType>
+  <DevType>
+    <DevTypeID>220</DevTypeID>
+    <Name>SNMP</Name>
+    <Driver>DrvSnmp</Driver>
+    <Descr>Взаимодействует с контроллерами по протоколу SNMP</Descr>
+  </DevType>
+  <DevType>
+    <DevTypeID>221</DevTypeID>
+    <Name>Email</Name>
+    <Driver>DrvEmail</Driver>
+    <Descr>Отправляет уведомлений по электронной почте</Descr>
+  </DevType>
+  <DevType>
+    <DevTypeID>222</DevTypeID>
+    <Name>Wiren Board ST</Name>
+    <Driver>DrvWirenBoardST</Driver>
+    <Descr>Контроллер Wiren Board с заказной прошивкой Sensor-Tools</Descr>
+  </DevType>
+  <DevType>
+    <DevTypeID>223</DevTypeID>
+    <Name>HTTP-уведомления</Name>
+    <Driver>DrvHttpNotif</Driver>
+    <Descr>Отправляет уведомления с помощью HTTP-запросов</Descr>
+  </DevType>
+  <DevType>
+    <DevTypeID>224</DevTypeID>
+    <Name>Telegram</Name>
+    <Driver>DrvTelegram</Driver>
+    <Descr>Отправляет уведомления через Telegram</Descr>
+  </DevType>
+  <DevType>
+    <DevTypeID>225</DevTypeID>
+    <Name>Ратеос Азимут</Name>
+    <Driver>DrvAzimuth</Driver>
+    <Descr>Контроллеры Азимут производства ООО "Ратеос"</Descr>
+  </DevType>
+  <DevType>
+    <DevTypeID>226</DevTypeID>
+    <Name>CE30X</Name>
+    <Driver>DrvCE301</Driver>
+    <Descr>Электросчётчики CE30X, использующие стандарт IEC 61107-2011, производства АО "Концерн Энергомера"</Descr>
+  </DevType>
+  <DevType>
+    <DevTypeID>227</DevTypeID>
+    <Name>DB Import</Name>
+    <Driver>DrvDbImport</Driver>
+    <Descr>Импорт из базы данных</Descr>
+  </DevType>
+  <DevType>
+    <DevTypeID>228</DevTypeID>
+    <Name>Modbus YLC</Name>
+    <Driver>DrvModbusYlc</Driver>
+    <Descr>Расширяет драйвер Modbus в соответствии со спецификацией Coster Group</Descr>
+  </DevType>
+  <DevType>
+    <DevTypeID>229</DevTypeID>
+    <Name>Modbus Slave</Name>
+    <Driver>DrvModbusSlave</Driver>
+    <Descr>Предоставляет данные контроллерам и стороннему ПО как ведомое устройство Modbus</Descr>
+  </DevType>
+  <DevType>
+    <DevTypeID>230</DevTypeID>
+    <Name>Simulator</Name>
+    <Driver>DrvSimulator</Driver>
+    <Descr>Симулирует значения тегов</Descr>
+  </DevType>
+  <DevType>
+    <DevTypeID>231</DevTypeID>
+    <Name>MQTT</Name>
+    <Driver>DrvMqtt</Driver>
+    <Descr>Взаимодействует с контроллерами по протоколу MQTT</Descr>
+  </DevType>
+  <DevType>
+    <DevTypeID>232</DevTypeID>
+    <Name>OPC UA</Name>
+    <Driver>DrvOpcUa</Driver>
+    <Descr>Взаимодействует с контроллерами по спецификации OPC UA</Descr>
+  </DevType>
+  <DevType>
+    <DevTypeID>233</DevTypeID>
+    <Name>Enron Modbus</Name>
+    <Driver>DrvEnronModbus</Driver>
+    <Descr>Реализует Enron Modbus https://www.simplymodbus.ca/Enron.htm</Descr>
+  </DevType>
+  <DevType>
+    <DevTypeID>234</DevTypeID>
+    <Name>Tester</Name>
+    <Driver>DrvTester</Driver>
+    <Descr>Предназначен для проверки каналов связи</Descr>
+  </DevType>
+  <DevType>
+    <DevTypeID>1001</DevTypeID>
+    <Name>Пользовательский драйвер</Name>
+    <Descr>Добавляйте пользовательские элементы, начиная с этой строки</Descr>
+  </DevType>
+</ArrayOfDevType>

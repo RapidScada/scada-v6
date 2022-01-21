@@ -20,7 +20,7 @@
  * 
  * Author   : Mikhail Shiryaev
  * Created  : 2021
- * Modified : 2021
+ * Modified : 2022
  */
 
 #pragma warning disable 1591 // Missing XML comment for publicly visible type or member
@@ -73,6 +73,7 @@ namespace Scada.Data.Const
         public const string Megapascal = "MPa";
         public const string TechnicalAtmosphere = "at";
         public const string StandardAtmosphere = "atm";
+        public const string CubicMeter = "m3";
         public const string KilogramPerCubicMeter = "kg/m3";
         public const string CubicMetersPerSecond = "m3/s";
         public const string CubicMetersPerHour = "m3/h";
