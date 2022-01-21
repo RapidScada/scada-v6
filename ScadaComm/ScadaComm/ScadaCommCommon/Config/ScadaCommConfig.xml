@@ -19,23 +19,24 @@
   </ConnectionOptions>
   <DataSources>
     <DataSource active="true" code="ScadaServer" name="Server Data Source" driver="DrvDsScadaServer">
-      <Option name="UseDefaultConn" value="true" />
-      <Option name="Connection" value="" />
-      <Option name="MaxQueueSize" value="1000" />
-      <Option name="MaxCurDataAge" value="60" />
-      <Option name="DataLifetime" value="3600" />
       <Option name="ClientLogEnabled" value="false" />
+      <Option name="Connection" value="" />
+      <Option name="DataLifetime" value="3600" />
       <Option name="DeviceFilter" value="" />
+      <Option name="MaxCurDataAge" value="60" />
+      <Option name="MaxQueueSize" value="1000" />
+      <Option name="UseDefaultConn" value="true" />
     </DataSource>
     <DataSource active="false" code="OpcUaServer" name="OPC UA Server" driver="DrvDsOpcUaServer">
       <Option name="AutoAccept" value="false" />
-      <Option name="Username" value="opc" />
-      <Option name="Password" value="B9D0F030265751578B00E9801C69320C" />
       <Option name="ConfigFileName" value="" />
       <Option name="DeviceFilter" value="" />
+      <Option name="Password" value="B9D0F030265751578B00E9801C69320C" />
+      <Option name="Username" value="opc" />
     </DataSource>
   </DataSources>
   <Lines>
+    <!-- Communication line example
     <Line active="true" isBound="true" number="1" name="My Line">
       <LineOptions>
         <ReqRetries>3</ReqRetries>
@@ -60,5 +61,6 @@
         </Device>
       </DevicePolling>
     </Line>
+    -->
   </Lines>
 </ScadaCommConfig>

@@ -20,7 +20,7 @@
  * 
  * Author   : Mikhail Shiryaev
  * Created  : 2008
- * Modified : 2021
+ * Modified : 2022
  */
 
 using Scada.Client;
@@ -195,7 +195,7 @@ namespace Scada.Comm.Config
             XmlDeclaration xmlDecl = xmlDoc.CreateXmlDeclaration("1.0", "utf-8", null);
             xmlDoc.AppendChild(xmlDecl);
 
-            XmlElement rootElem = xmlDoc.CreateElement("ScadaServerConfig");
+            XmlElement rootElem = xmlDoc.CreateElement("ScadaCommConfig");
             xmlDoc.AppendChild(rootElem);
 
             GeneralOptions.SaveToXml(rootElem.AppendElem("GeneralOptions"));

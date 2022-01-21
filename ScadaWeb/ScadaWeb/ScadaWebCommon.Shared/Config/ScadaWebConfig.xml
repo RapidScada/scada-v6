@@ -33,13 +33,14 @@
     <Plugin code="PlgChart" />
     <Plugin code="PlgMain" />
     <Plugin code="PlgScheme" />
+    <Plugin code="PlgSchBasicComp" />
   </Plugins>
   <PluginAssignment>
     <ChartFeature>PlgChart</ChartFeature>
     <CommandFeature>PlgMain</CommandFeature>
     <EventAckFeature>PlgMain</EventAckFeature>
-    <UserManagementFeature>PlgUserManagement</UserManagementFeature>
-    <NotificationFeature>PlgNotification</NotificationFeature>
+    <UserManagementFeature></UserManagementFeature>
+    <NotificationFeature></NotificationFeature>
   </PluginAssignment>
   <CustomOptions>
     <OptionGroup name="Chart">
