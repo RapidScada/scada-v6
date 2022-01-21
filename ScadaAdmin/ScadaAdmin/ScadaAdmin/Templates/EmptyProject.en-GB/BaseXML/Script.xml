@@ -7,8 +7,8 @@
 // Возвращает бит n значения val.
 public double GetBit(double val, int n)
 {
-    ulong uintVal = (ulong)val;
-    return (uintVal &gt;&gt; n) &amp; 1ul;
+    ulong ulVal = (ulong)val;
+    return (ulVal &gt;&gt; n) &amp; 1ul;
 }
 
 // Returns a channel data consists of the n-th bit of the value and the channel status.
@@ -22,8 +22,8 @@ public CnlData GetBit(CnlData cnlData, int n)
 // Устанавливает бит n значения val.
 public double SetBit(double val, int n, double isOn)
 {
-    ulong uintVal = (ulong)val;
-    return isOn &gt; 0 ? uintVal | (1ul &lt;&lt; n) : uintVal &amp; ~(1ul &lt;&lt; n);
+    ulong ulVal = (ulong)val;
+    return isOn &gt; 0 ? ulVal | (1ul &lt;&lt; n) : ulVal &amp; ~(1ul &lt;&lt; n);
 }
 
 // Returns the n-th byte of the specified value.
@@ -74,6 +74,6 @@ public long UnixTime()
   <Script>
     <ScriptID>101</ScriptID>
     <Name>Custom script</Name>
-    <Source>// Add custom items starting from this row</Source>
+    <Descr>Add custom items starting from this row</Descr>
   </Script>
 </ArrayOfScript>
