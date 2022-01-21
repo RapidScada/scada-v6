@@ -1,0 +1,79 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ArrayOfScript xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+  <Script>
+    <ScriptID>1</ScriptID>
+    <Name>Bit operations</Name>
+    <Source>// Returns the n-th bit of the specified value.
+// Возвращает бит n значения val.
+public double GetBit(double val, int n)
+{
+    ulong uintVal = (ulong)val;
+    return (uintVal &gt;&gt; n) &amp; 1ul;
+}
+
+// Returns a channel data consists of the n-th bit of the value and the channel status.
+// Возвращает данные канала, состоящие из бита n значения и статуса канала.
+public CnlData GetBit(CnlData cnlData, int n)
+{
+    return NewData(GetBit(cnlData.Val, n), cnlData.Stat);
+}
+
+// Sets the n-th bit of the specified value.
+// Устанавливает бит n значения val.
+public double SetBit(double val, int n, bool isOn)
+{
+    ulong uintVal = (ulong)val;
+    return isOn ? uintVal | (1ul &lt;&lt; n) : uintVal &amp; ~(1ul &lt;&lt; n);
+}
+
+// Returns the n-th byte of the specified value.
+// Возвращает байт n значения val.
+double GetByte(double val, int n)
+{
+    UInt64 uintVal = (UInt64)val;
+    return (uintVal &gt;&gt; (n * 8)) &amp; 0xFF;
+}
+</Source>
+  </Script>
+  <Script>
+    <ScriptID>2</ScriptID>
+    <Name>Channel data</Name>
+    <Source>// Returns channel data relative to the current channel.
+// Возвращает данные канала относительно текущего канала.
+public CnlData DataRel(int cnlNumOffset)
+{
+  return Data(CnlNum + cnlNumOffset);
+}
+</Source>
+  </Script>
+  <Script>
+    <ScriptID>3</ScriptID>
+    <Name>Date and time</Name>
+    <Source>// Gets the current date and time as a floating-point number using the server time zone.
+// Получает текущую дату и время в виде числа с плавающей точкой, используя часовой пояс сервера.
+public double Now()
+{
+    return DateTime.Now.ToOADate();
+}
+
+// Gets the current date and time as a floating-point number using the universal time zone.
+// Получает текущую дату и время в виде числа с плавающей точкой, используя универсальный часовой пояс.
+public double UtcNow()
+{
+    return DateTime.UtcNow.ToOADate();
+}
+
+// Gets the current Unix time, the number of seconds that have elapsed since the Unix epoch.
+// Получает текущее время Unix, количество секунд, прошедших с момента 1970-01-01 0:00:00 (UTC).
+public long UnixTime()
+{
+    return new DateTimeOffset(DateTime.UtcNow).ToUnixTimeSeconds();
+}
+</Source>
+  </Script>
+  <Script>
+    <ScriptID>101</ScriptID>
+    <Name>Custom script</Name>
+    <Source>// Add custom items starting from this row</Source>
+  </Script>
+</ArrayOfScript>

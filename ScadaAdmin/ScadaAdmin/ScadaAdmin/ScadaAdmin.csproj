@@ -136,6 +136,9 @@
     <None Update="Templates\EmptyProject.en-GB\BaseXML\Role.xml">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
+    <None Update="Templates\EmptyProject.en-GB\BaseXML\Script.xml">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
     <None Update="Templates\EmptyProject.en-GB\BaseXML\Unit.xml">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
@@ -167,6 +170,9 @@
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
     <None Update="Templates\EmptyProject.ru-RU\BaseXML\Role.xml">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="Templates\EmptyProject.ru-RU\BaseXML\Unit.xml">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
     <None Update="Templates\EmptyProject.ru-RU\BaseXML\ViewType.xml">
