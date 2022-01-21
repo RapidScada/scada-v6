@@ -1,0 +1,39 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ArrayOfRole xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+  <Role>
+    <RoleID>0</RoleID>
+    <Name>Отключен</Name>
+    <Code>ScadaDisabled</Code>
+    <Descr>Доступ запрещён</Descr>
+  </Role>
+  <Role>
+    <RoleID>1</RoleID>
+    <Name>Администратор</Name>
+    <Code>ScadaAdmin</Code>
+    <Descr>Полный доступ</Descr>
+  </Role>
+  <Role>
+    <RoleID>2</RoleID>
+    <Name>Диспетчер</Name>
+    <Code>ScadaDispatcher</Code>
+    <Descr>Может просматривать информацию и отправлять команды</Descr>
+  </Role>
+  <Role>
+    <RoleID>3</RoleID>
+    <Name>Гость</Name>
+    <Code>ScadaGuest</Code>
+    <Descr>Может просматривать информацию</Descr>
+  </Role>
+  <Role>
+    <RoleID>4</RoleID>
+    <Name>Приложение</Name>
+    <Code>ScadaApp</Code>
+    <Descr>Взаимодействует с сервером</Descr>
+  </Role>
+  <Role>
+    <RoleID>101</RoleID>
+    <Name>Пользовательская роль</Name>
+    <Code />
+    <Descr>Добавляйте пользовательские элементы, начиная с этой строки</Descr>
+  </Role>
+</ArrayOfRole>
