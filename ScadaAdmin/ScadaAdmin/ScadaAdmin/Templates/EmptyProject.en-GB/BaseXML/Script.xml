@@ -20,10 +20,10 @@ public CnlData GetBit(CnlData cnlData, int n)
 
 // Sets the n-th bit of the specified value.
 // Устанавливает бит n значения val.
-public double SetBit(double val, int n, bool isOn)
+public double SetBit(double val, int n, double isOn)
 {
     ulong uintVal = (ulong)val;
-    return isOn ? uintVal | (1ul &lt;&lt; n) : uintVal &amp; ~(1ul &lt;&lt; n);
+    return isOn &gt; 0 ? uintVal | (1ul &lt;&lt; n) : uintVal &amp; ~(1ul &lt;&lt; n);
 }
 
 // Returns the n-th byte of the specified value.
