@@ -20,7 +20,7 @@
  * 
  * Author   : Mikhail Shiryaev
  * Created  : 2020
- * Modified : 2020
+ * Modified : 2022
  */
 
 using Microsoft.CodeAnalysis;
@@ -132,7 +132,7 @@ namespace Scada.Server.Engine
             // add formulas
             foreach (Cnl cnl in cnlTable.EnumerateItems())
             {
-                if (cnl.FormulaEnabled)
+                if (cnl.Active && cnl.FormulaEnabled)
                 {
                     bool inFormulaExists = !string.IsNullOrEmpty(cnl.InFormula);
                     bool outFormulaExists = !string.IsNullOrEmpty(cnl.OutFormula);
@@ -230,6 +230,7 @@ namespace Scada.Server.Engine
                 Path.Combine(dotnetDir, "netstandard.dll"),
                 Path.Combine(dotnetDir, "System.Runtime.dll"),
                 typeof(object).Assembly.Location,
+                typeof(Console).Assembly.Location,
                 typeof(Enumerable).Assembly.Location,
                 typeof(File).Assembly.Location,
                 typeof(Math).Assembly.Location,
