@@ -20,7 +20,7 @@
  * 
  * Author   : Mikhail Shiryaev
  * Created  : 2020
- * Modified : 2020
+ * Modified : 2022
  */
 
 using Scada.Data.Const;
@@ -35,9 +35,13 @@ namespace Scada.Data.Models
     public struct CnlData
     {
         /// <summary>
-        /// Represents an empty channel data.
+        /// Specifies an empty channel data.
         /// </summary>
         public static readonly CnlData Empty = new CnlData(0.0, 0);
+        /// <summary>
+        /// Specifies a zero value with the defined status.
+        /// </summary>
+        public static readonly CnlData Zero = new CnlData(0.0, 1);
 
 
         /// <summary>
