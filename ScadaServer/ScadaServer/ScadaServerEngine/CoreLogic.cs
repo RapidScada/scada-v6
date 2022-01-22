@@ -20,7 +20,7 @@
  * 
  * Author   : Mikhail Shiryaev
  * Created  : 2020
- * Modified : 2021
+ * Modified : 2022
  */
 
 using Scada.Config;
@@ -609,7 +609,7 @@ namespace Scada.Server.Engine
 
                 foreach (CnlTag cnlTag in calcCnlTags)
                 {
-                    CnlData newCnlData = calc.CalcCnlData(cnlTag, curData.CnlData[cnlTag.Index]);
+                    CnlData newCnlData = calc.CalcCnlData(cnlTag, CnlData.Zero);
                     curData.SetCurCnlData(cnlTag, newCnlData, nowDT);
                 }
             }
