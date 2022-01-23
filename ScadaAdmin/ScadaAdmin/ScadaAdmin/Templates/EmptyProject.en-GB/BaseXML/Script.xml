@@ -263,9 +263,9 @@ public CnlData EveryHour(Func&lt;double&gt; getValFunc)
   <Script>
     <ScriptID>7</ScriptID>
     <Name>Counters</Name>
-    <Source>// Counts a switching of the specified channel.
-// Подсчитывает переключения заданного канала.
-public double CountSwitch(int cnlNum)
+    <Source>// Counts a pulse of the specified channel.
+// Подсчитывает импульс заданного канала.
+public double CountPulse(int cnlNum)
 {
     CnlData cnlData = Data(cnlNum);
     CnlData prevCnlData = PrevData(cnlNum);
