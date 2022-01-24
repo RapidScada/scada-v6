@@ -32,13 +32,13 @@
     <QuantityID>5</QuantityID>
     <Name>Скорость</Name>
     <Code>v</Code>
-    <Icon>vel.png</Icon>
+    <Icon>v_.png</Icon>
   </Quantity>
   <Quantity>
     <QuantityID>6</QuantityID>
     <Name>Ускорение</Name>
     <Code>a</Code>
-    <Icon>accel.png</Icon>
+    <Icon>a_.png</Icon>
   </Quantity>
   <Quantity>
     <QuantityID>11</QuantityID>
