@@ -1,2 +1,2 @@
 #!/bin/sh
-systemctl start scadaserver
+systemctl start scadaserver6

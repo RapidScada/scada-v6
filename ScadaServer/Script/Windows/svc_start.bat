@@ -1,1 +1,1 @@
-net start ScadaServerService
+net start ScadaServer6

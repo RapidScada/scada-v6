@@ -1,2 +1,2 @@
 #!/bin/sh
-systemctl restart scadaserver
+systemctl restart scadaserver6

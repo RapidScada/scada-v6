@@ -1,2 +1,3 @@
-cd /d "%~dp0"
-C:\Windows\Microsoft.NET\Framework\v4.0.30319\InstallUtil.exe ScadaServerSvc.exe
+SET filepath="%cd%\ScadaServerWkr.exe"
+sc create ScadaServer6 binPath= %filepath%
+sc description ScadaServer6 "Rapid SCADA Server"
