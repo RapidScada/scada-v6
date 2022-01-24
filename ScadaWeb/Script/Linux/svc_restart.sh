@@ -1,5 +1,5 @@
 #!/bin/bash
-if [ "$(systemctl is-active scadaweb)" == "active" ]; then
+if [ "$(systemctl is-active scadaweb6)" == "active" ]; then
     echo "Reload Webstation configration"
     cd "$(dirname "$0")"
     touch ./cmd/webreload
@@ -7,5 +7,5 @@ if [ "$(systemctl is-active scadaweb)" == "active" ]; then
     rm -f ./cmd/webreload
 else
     echo "Restart Webstation service"
-    systemctl restart scadaweb
+    systemctl restart scadaweb6
 fi

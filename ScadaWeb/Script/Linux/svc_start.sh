@@ -1,2 +1,2 @@
 #!/bin/sh
-systemctl start scadaweb
+systemctl start scadaweb6
