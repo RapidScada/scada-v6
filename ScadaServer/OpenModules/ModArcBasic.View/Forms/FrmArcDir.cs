@@ -14,6 +14,7 @@ namespace Scada.Server.Modules.ModArcBasic.View.Forms
     /// </summary>
     public partial class FrmArcDir : Form
     {
+        private readonly AppDirs appDirs;           // the application directories
         private readonly string configFileName;     // the module configuration file name
         private readonly ModuleConfig moduleConfig; // the module configuration
 
@@ -29,10 +30,11 @@ namespace Scada.Server.Modules.ModArcBasic.View.Forms
         /// <summary>
         /// Initializes a new instance of the class.
         /// </summary>
-        public FrmArcDir(string configDir)
+        public FrmArcDir(AppDirs appDirs)
             : this()
         {
-            configFileName = Path.Combine(configDir, ModuleConfig.DefaultFileName);
+            this.appDirs = appDirs ?? throw new ArgumentNullException(nameof(appDirs));
+            configFileName = Path.Combine(appDirs.ConfigDir, ModuleConfig.DefaultFileName);
             moduleConfig = new ModuleConfig();
         }
 
@@ -89,8 +91,8 @@ namespace Scada.Server.Modules.ModArcBasic.View.Forms
         {
             if (windows)
             {
-                txtArcDir.Text = @"C:\SCADA\Archive\";
-                txtArcCopyDir.Text = @"C:\SCADA\ArchiveCopy\";
+                txtArcDir.Text = appDirs.InstanceDir + "Archive\\";
+                txtArcCopyDir.Text = appDirs.InstanceDir + "ArchiveCopy\\";
             }
             else
             {

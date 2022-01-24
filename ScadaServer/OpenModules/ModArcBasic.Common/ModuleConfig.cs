@@ -41,17 +41,8 @@ namespace Scada.Server.Modules.ModArcBasic
         protected override void SetToDefault()
         {
             UseDefaultDir = true;
-
-            if (ScadaUtils.IsRunningOnWin)
-            {
-                ArcDir = @"C:\SCADA\Archive\";
-                ArcCopyDir = @"C:\SCADA\ArchiveCopy\";
-            }
-            else
-            {
-                ArcDir = "/opt/scada/Archive/";
-                ArcCopyDir = "/opt/scada/ArchiveCopy/";
-            }
+            ArcDir = "";
+            ArcCopyDir = "";
         }
 
         /// <summary>

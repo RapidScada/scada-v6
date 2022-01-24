@@ -69,7 +69,7 @@ namespace Scada.Server.Modules.ModArcBasic.View.Forms
 
         private void btnShowDir_Click(object sender, EventArgs e)
         {
-            new FrmArcDir(appDirs.ConfigDir).ShowDialog();
+            new FrmArcDir(appDirs).ShowDialog();
         }
 
         private void btnOK_Click(object sender, EventArgs e)
