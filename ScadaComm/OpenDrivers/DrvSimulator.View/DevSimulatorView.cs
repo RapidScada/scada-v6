@@ -21,6 +21,15 @@ namespace Scada.Comm.Drivers.DrvSimulator.View
         {
         }
 
+
+        /// <summary>
+        /// Gets the default polling options for the device.
+        /// </summary>
+        public override PollingOptions GetPollingOptions()
+        {
+            return new PollingOptions(0, 1000);
+        }
+
         /// <summary>
         /// Gets the channel prototypes for the device.
         /// </summary>
