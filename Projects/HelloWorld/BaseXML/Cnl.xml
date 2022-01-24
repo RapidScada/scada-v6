@@ -1,0 +1,117 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ArrayOfCnl xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+  <Cnl>
+    <CnlNum>101</CnlNum>
+    <Active>true</Active>
+    <Name>Simulator - Sine</Name>
+    <DataTypeID xsi:nil="true" />
+    <DataLen xsi:nil="true" />
+    <CnlTypeID>1</CnlTypeID>
+    <ObjNum>1</ObjNum>
+    <DeviceNum>1</DeviceNum>
+    <TagNum xsi:nil="true" />
+    <TagCode>Sin</TagCode>
+    <FormulaEnabled>false</FormulaEnabled>
+    <FormatID xsi:nil="true" />
+    <QuantityID xsi:nil="true" />
+    <UnitID xsi:nil="true" />
+    <LimID xsi:nil="true" />
+    <ArchiveMask xsi:nil="true" />
+    <EventMask xsi:nil="true" />
+  </Cnl>
+  <Cnl>
+    <CnlNum>102</CnlNum>
+    <Active>true</Active>
+    <Name>Simulator - Square</Name>
+    <DataTypeID xsi:nil="true" />
+    <DataLen xsi:nil="true" />
+    <CnlTypeID>1</CnlTypeID>
+    <ObjNum>1</ObjNum>
+    <DeviceNum>1</DeviceNum>
+    <TagNum xsi:nil="true" />
+    <TagCode>Sqr</TagCode>
+    <FormulaEnabled>false</FormulaEnabled>
+    <FormatID>21</FormatID>
+    <QuantityID xsi:nil="true" />
+    <UnitID xsi:nil="true" />
+    <LimID xsi:nil="true" />
+    <ArchiveMask xsi:nil="true" />
+    <EventMask xsi:nil="true" />
+  </Cnl>
+  <Cnl>
+    <CnlNum>103</CnlNum>
+    <Active>true</Active>
+    <Name>Simulator - Triangle</Name>
+    <DataTypeID xsi:nil="true" />
+    <DataLen xsi:nil="true" />
+    <CnlTypeID>1</CnlTypeID>
+    <ObjNum>1</ObjNum>
+    <DeviceNum>1</DeviceNum>
+    <TagNum xsi:nil="true" />
+    <TagCode>Tri</TagCode>
+    <FormulaEnabled>false</FormulaEnabled>
+    <FormatID xsi:nil="true" />
+    <QuantityID xsi:nil="true" />
+    <UnitID xsi:nil="true" />
+    <LimID xsi:nil="true" />
+    <ArchiveMask xsi:nil="true" />
+    <EventMask xsi:nil="true" />
+  </Cnl>
+  <Cnl>
+    <CnlNum>104</CnlNum>
+    <Active>true</Active>
+    <Name>Simulator - Relay State</Name>
+    <DataTypeID xsi:nil="true" />
+    <DataLen xsi:nil="true" />
+    <CnlTypeID>2</CnlTypeID>
+    <ObjNum>1</ObjNum>
+    <DeviceNum>1</DeviceNum>
+    <TagNum xsi:nil="true" />
+    <TagCode>DO</TagCode>
+    <FormulaEnabled>false</FormulaEnabled>
+    <FormatID>21</FormatID>
+    <QuantityID>12</QuantityID>
+    <UnitID xsi:nil="true" />
+    <LimID xsi:nil="true" />
+    <ArchiveMask xsi:nil="true" />
+    <EventMask>5</EventMask>
+  </Cnl>
+  <Cnl>
+    <CnlNum>105</CnlNum>
+    <Active>true</Active>
+    <Name>Simulator - Analog Output</Name>
+    <DataTypeID xsi:nil="true" />
+    <DataLen xsi:nil="true" />
+    <CnlTypeID>2</CnlTypeID>
+    <ObjNum>1</ObjNum>
+    <DeviceNum>1</DeviceNum>
+    <TagNum xsi:nil="true" />
+    <TagCode>AO</TagCode>
+    <FormulaEnabled>false</FormulaEnabled>
+    <FormatID xsi:nil="true" />
+    <QuantityID>22</QuantityID>
+    <UnitID>44</UnitID>
+    <LimID xsi:nil="true" />
+    <ArchiveMask xsi:nil="true" />
+    <EventMask>5</EventMask>
+  </Cnl>
+  <Cnl>
+    <CnlNum>106</CnlNum>
+    <Active>true</Active>
+    <Name>Simulator - Array</Name>
+    <DataTypeID xsi:nil="true" />
+    <DataLen>3</DataLen>
+    <CnlTypeID>1</CnlTypeID>
+    <ObjNum>1</ObjNum>
+    <DeviceNum>1</DeviceNum>
+    <TagNum xsi:nil="true" />
+    <TagCode>RA</TagCode>
+    <FormulaEnabled>false</FormulaEnabled>
+    <FormatID xsi:nil="true" />
+    <QuantityID xsi:nil="true" />
+    <UnitID xsi:nil="true" />
+    <LimID xsi:nil="true" />
+    <ArchiveMask xsi:nil="true" />
+    <EventMask xsi:nil="true" />
+  </Cnl>
+</ArrayOfCnl>
