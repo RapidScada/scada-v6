@@ -4,7 +4,7 @@
     <InstanceID>1</InstanceID>
     <Name>Default Profile</Name>
     <Extension>ExtDepAgent</Extension>
-    <WebUrl>http://localhost:8080</WebUrl>
+    <WebUrl />
     <AgentEnabled>true</AgentEnabled>
     <DbEnabled>false</DbEnabled>
     <AgentConnectionOptions>
