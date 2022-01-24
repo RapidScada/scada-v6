@@ -1,0 +1,23 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ArrayOfDataType xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+  <DataType>
+    <DataTypeID>0</DataTypeID>
+    <Name>Double</Name>
+    <Descr>64-bit floating-point number</Descr>
+  </DataType>
+  <DataType>
+    <DataTypeID>1</DataTypeID>
+    <Name>Integer</Name>
+    <Descr>64-bit signed integer</Descr>
+  </DataType>
+  <DataType>
+    <DataTypeID>2</DataTypeID>
+    <Name>ASCII string</Name>
+    <Descr>Only Latin characters. 8 characters per channel</Descr>
+  </DataType>
+  <DataType>
+    <DataTypeID>3</DataTypeID>
+    <Name>Unicode string</Name>
+    <Descr>UTF-16 format using the little endian byte order. 4 characters per channel</Descr>
+  </DataType>
+</ArrayOfDataType>

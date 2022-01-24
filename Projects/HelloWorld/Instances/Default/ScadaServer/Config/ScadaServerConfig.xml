@@ -1,0 +1,106 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ScadaServerConfig>
+  <GeneralOptions>
+    <UnrelIfInactive>300</UnrelIfInactive>
+    <MaxLogSize>1</MaxLogSize>
+  </GeneralOptions>
+  <ListenerOptions>
+    <Port>10000</Port>
+    <Timeout>10000</Timeout>
+    <SecretKey>0E063D581B1DB27B8E984993DED65CE99284A706756C706C7F3B12C44BD55D4D</SecretKey>
+  </ListenerOptions>
+  <Modules>
+    <Module code="ModArcBasic" />
+    <Module code="ModArcPostgreSql" />
+  </Modules>
+  <Archives>
+    <Archive active="true" code="Cur" name="Current Data" kind="Current" module="ModArcBasic">
+      <Option name="LogEnabled" value="false" />
+      <Option name="UseCopyDir" value="false" />
+      <Option name="WritingPeriod" value="30" />
+    </Archive>
+    <Archive active="true" code="Min" name="Minute Archive" kind="Historical" module="ModArcBasic">
+      <Option name="LogEnabled" value="false" />
+      <Option name="PullToPeriod" value="0" />
+      <Option name="Retention" value="365" />
+      <Option name="UseCopyDir" value="false" />
+      <Option name="WritingMode" value="AutoWithPeriod" />
+      <Option name="WritingPeriod" value="1" />
+      <Option name="WritingUnit" value="Minute" />
+    </Archive>
+    <Archive active="true" code="Hour" name="Hourly Archive" kind="Historical" module="ModArcBasic">
+      <Option name="LogEnabled" value="false" />
+      <Option name="PullToPeriod" value="0" />
+      <Option name="Retention" value="365" />
+      <Option name="UseCopyDir" value="false" />
+      <Option name="WritingMode" value="AutoWithPeriod" />
+      <Option name="WritingPeriod" value="1" />
+      <Option name="WritingUnit" value="Hour" />
+    </Archive>
+    <Archive active="false" code="Day" name="Daily archive" kind="Historical" module="ModArcBasic">
+      <Option name="LogEnabled" value="false" />
+      <Option name="PullToPeriod" value="0" />
+      <Option name="Retention" value="365" />
+      <Option name="UseCopyDir" value="false" />
+      <Option name="WritingMode" value="AutoWithPeriod" />
+      <Option name="WritingPeriod" value="24" />
+      <Option name="WritingUnit" value="Hour" />
+    </Archive>
+    <Archive active="true" code="Events" name="Event Archive" kind="Events" module="ModArcBasic">
+      <Option name="LogEnabled" value="false" />
+      <Option name="Retention" value="365" />
+      <Option name="UseCopyDir" value="false" />
+    </Archive>
+    <Archive active="false" code="CurCopy" name="Current Data" kind="Current" module="ModArcPostgreSql">
+      <Option name="Connection" value="" />
+      <Option name="LogEnabled" value="false" />
+      <Option name="MaxQueueSize" value="1000" />
+      <Option name="UseStorageConn" value="true" />
+      <Option name="WritingPeriod" value="30" />
+    </Archive>
+    <Archive active="false" code="MinCopy" name="Minute Archive" kind="Historical" module="ModArcPostgreSql">
+      <Option name="Connection" value="" />
+      <Option name="LogEnabled" value="false" />
+      <Option name="MaxQueueSize" value="1000" />
+      <Option name="PartitionSize" value="OneMonth" />
+      <Option name="PullToPeriod" value="0" />
+      <Option name="Retention" value="365" />
+      <Option name="UseStorageConn" value="true" />
+      <Option name="WritingMode" value="AutoWithPeriod" />
+      <Option name="WritingPeriod" value="1" />
+      <Option name="WritingUnit" value="Minute" />
+    </Archive>
+    <Archive active="false" code="HourCopy" name="Hourly Archive" kind="Historical" module="ModArcPostgreSql">
+      <Option name="Connection" value="" />
+      <Option name="LogEnabled" value="false" />
+      <Option name="MaxQueueSize" value="1000" />
+      <Option name="PartitionSize" value="OneMonth" />
+      <Option name="PullToPeriod" value="0" />
+      <Option name="Retention" value="365" />
+      <Option name="UseStorageConn" value="true" />
+      <Option name="WritingMode" value="AutoWithPeriod" />
+      <Option name="WritingPeriod" value="1" />
+      <Option name="WritingUnit" value="Hour" />
+    </Archive>
+    <Archive active="false" code="DayCopy" name="Daily archive copy" kind="Historical" module="ModArcPostgreSql">
+      <Option name="Connection" value="" />
+      <Option name="LogEnabled" value="false" />
+      <Option name="MaxQueueSize" value="1000" />
+      <Option name="PartitionSize" value="OneMonth" />
+      <Option name="PullToPeriod" value="0" />
+      <Option name="Retention" value="365" />
+      <Option name="UseStorageConn" value="true" />
+      <Option name="WritingMode" value="AutoWithPeriod" />
+      <Option name="WritingPeriod" value="24" />
+      <Option name="WritingUnit" value="Hour" />
+    </Archive>
+    <Archive active="false" code="EventsCopy" name="Event Archive" kind="Events" module="ModArcPostgreSql">
+      <Option name="Connection" value="" />
+      <Option name="LogEnabled" value="false" />
+      <Option name="MaxQueueSize" value="1000" />
+      <Option name="PartitionSize" value="OneMonth" />
+      <Option name="Retention" value="365" />
+      <Option name="UseStorageConn" value="true" />
+    </Archive>
+  </Archives>
+</ScadaServerConfig>

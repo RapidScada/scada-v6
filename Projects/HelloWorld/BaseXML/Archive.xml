@@ -1,0 +1,80 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ArrayOfArchive xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+  <Archive>
+    <ArchiveID>1</ArchiveID>
+    <Name>Current data</Name>
+    <Code>Cur</Code>
+    <IsDefault>true</IsDefault>
+    <Bit>0</Bit>
+  </Archive>
+  <Archive>
+    <ArchiveID>2</ArchiveID>
+    <Name>Minute archive</Name>
+    <Code>Min</Code>
+    <IsDefault>true</IsDefault>
+    <Bit>1</Bit>
+  </Archive>
+  <Archive>
+    <ArchiveID>3</ArchiveID>
+    <Name>Hourly archive</Name>
+    <Code>Hour</Code>
+    <IsDefault>true</IsDefault>
+    <Bit>2</Bit>
+  </Archive>
+  <Archive>
+    <ArchiveID>4</ArchiveID>
+    <Name>Daily archive</Name>
+    <Code>Day</Code>
+    <IsDefault>true</IsDefault>
+    <Bit>3</Bit>
+  </Archive>
+  <Archive>
+    <ArchiveID>5</ArchiveID>
+    <Name>Event archive</Name>
+    <Code>Events</Code>
+    <IsDefault>true</IsDefault>
+    <Bit>4</Bit>
+  </Archive>
+  <Archive>
+    <ArchiveID>6</ArchiveID>
+    <Name>Current data copy</Name>
+    <Code>CurCopy</Code>
+    <IsDefault>true</IsDefault>
+    <Bit>5</Bit>
+  </Archive>
+  <Archive>
+    <ArchiveID>7</ArchiveID>
+    <Name>Minute archive copy</Name>
+    <Code>MinCopy</Code>
+    <IsDefault>true</IsDefault>
+    <Bit>6</Bit>
+  </Archive>
+  <Archive>
+    <ArchiveID>8</ArchiveID>
+    <Name>Hourly archive copy</Name>
+    <Code>HourCopy</Code>
+    <IsDefault>true</IsDefault>
+    <Bit>7</Bit>
+  </Archive>
+  <Archive>
+    <ArchiveID>9</ArchiveID>
+    <Name>Daily archive copy</Name>
+    <Code>DayCopy</Code>
+    <IsDefault>true</IsDefault>
+    <Bit>8</Bit>
+  </Archive>
+  <Archive>
+    <ArchiveID>10</ArchiveID>
+    <Name>Event archive copy</Name>
+    <Code>EventsCopy</Code>
+    <IsDefault>true</IsDefault>
+    <Bit>9</Bit>
+  </Archive>
+  <Archive>
+    <ArchiveID>101</ArchiveID>
+    <Name>Custom archive</Name>
+    <IsDefault>false</IsDefault>
+    <Bit>16</Bit>
+    <Descr>Add custom items starting from this row</Descr>
+  </Archive>
+</ArrayOfArchive>

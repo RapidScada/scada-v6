@@ -1,0 +1,39 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ArrayOfRole xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+  <Role>
+    <RoleID>0</RoleID>
+    <Name>Disabled</Name>
+    <Code>ScadaDisabled</Code>
+    <Descr>Access denied</Descr>
+  </Role>
+  <Role>
+    <RoleID>1</RoleID>
+    <Name>Administrator</Name>
+    <Code>ScadaAdmin</Code>
+    <Descr>Full access</Descr>
+  </Role>
+  <Role>
+    <RoleID>2</RoleID>
+    <Name>Dispatcher</Name>
+    <Code>ScadaDispatcher</Code>
+    <Descr>Can view information and send commands</Descr>
+  </Role>
+  <Role>
+    <RoleID>3</RoleID>
+    <Name>Guest</Name>
+    <Code>ScadaGuest</Code>
+    <Descr>Can view information</Descr>
+  </Role>
+  <Role>
+    <RoleID>4</RoleID>
+    <Name>Application</Name>
+    <Code>ScadaApp</Code>
+    <Descr>Interacts with the server</Descr>
+  </Role>
+  <Role>
+    <RoleID>101</RoleID>
+    <Name>Custom role</Name>
+    <Code />
+    <Descr>Add custom items starting from this row</Descr>
+  </Role>
+</ArrayOfRole>
