@@ -1,2 +1,2 @@
-net stop ScadaCommService
-net start ScadaCommService
+net stop ScadaComm6
+net start ScadaComm6

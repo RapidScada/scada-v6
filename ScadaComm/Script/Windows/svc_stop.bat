@@ -1,1 +1,1 @@
-net stop ScadaCommService
+net stop ScadaComm6

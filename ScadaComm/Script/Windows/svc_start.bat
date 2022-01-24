@@ -1,1 +1,1 @@
-net start ScadaCommService
+net start ScadaComm6

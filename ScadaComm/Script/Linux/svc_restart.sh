@@ -1,2 +1,2 @@
 #!/bin/sh
-systemctl restart scadacomm
+systemctl restart scadacomm6

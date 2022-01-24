@@ -1,2 +1,2 @@
 #!/bin/sh
-systemctl start scadacomm
+systemctl start scadacomm6
