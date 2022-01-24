@@ -3,7 +3,7 @@
   <Obj>
     <ObjNum>1</ObjNum>
     <Name>Enterprise</Name>
-    <Code>E</Code>
+    <Code>Ent</Code>
     <ParentObjNum xsi:nil="true" />
   </Obj>
 </ArrayOfObj>
