@@ -46,7 +46,9 @@
       </LineOptions>
       <Channel type="" driver="" />
       <CustomOptions />
-      <DevicePolling />
+      <DevicePolling>
+        <Device active="true" isBound="true" number="1" name="Simulator" driver="DrvSimulator" numAddress="0" strAddress="" pollOnCmd="false" timeout="0" delay="1000" time="00:00:00" period="00:00:00" cmdLine="" />
+      </DevicePolling>
     </Line>
   </Lines>
 </ScadaCommConfig>
