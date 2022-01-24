@@ -18,7 +18,7 @@
   <Instances>
     <Instance active="true" name="Default">
       <ProxyMode>false</ProxyMode>
-      <Directory>C:\SCADA\</Directory>
+      <Directory>C:\Program Files\SCADA\</Directory>
       <AdminUser>
         <Username>ScadaAdmin</Username>
         <Password>B9D0F030265751578B00E9801C69320C</Password>
