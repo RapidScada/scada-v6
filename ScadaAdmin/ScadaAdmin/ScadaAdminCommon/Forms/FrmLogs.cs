@@ -223,6 +223,8 @@ namespace Scada.Admin.Forms
 
                 if (lbFiles.Items.Count > 0)
                     lbFiles.SelectedIndex = 0;
+                else
+                    logBox.SetFirstLine(CommonPhrases.NoData);
             }
             catch (Exception ex)
             {
