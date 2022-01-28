@@ -4,6 +4,7 @@
     <Phrase key="ImportTable">Import the {0} table</Phrase>
     <Phrase key="ExtractArchive">Extract archive</Phrase>
     <Phrase key="MergeDirectory">Merge directory</Phrase>
+    <Phrase key="NothingToMerge">No data to merge</Phrase>
   </Dictionary>
   <Dictionary key="Scada.Admin.Extensions.ExtDepAgent.Uploader">
     <Phrase key="TestAgentConn">Test Agent connection</Phrase>

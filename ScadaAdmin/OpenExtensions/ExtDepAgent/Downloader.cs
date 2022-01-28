@@ -174,8 +174,16 @@ namespace Scada.Admin.Extensions.ExtDepAgent
         private void MergeDirectory(string srcDirName, string destDirName)
         {
             transferControl.ThrowIfCancellationRequested();
-            transferControl.WriteMessage(ExtensionPhrases.MergeDirectory);
-            MergeDirectory(new DirectoryInfo(srcDirName), new DirectoryInfo(destDirName));
+
+            if (Directory.Exists(srcDirName))
+            {
+                transferControl.WriteMessage(ExtensionPhrases.MergeDirectory);
+                MergeDirectory(new DirectoryInfo(srcDirName), new DirectoryInfo(destDirName));
+            }
+            else
+            {
+                transferControl.WriteMessage(ExtensionPhrases.NothingToMerge);
+            }
         }
 
         /// <summary>

@@ -15,6 +15,7 @@ namespace Scada.Admin.Extensions.ExtDepAgent
         public static string ImportTable { get; private set; }
         public static string ExtractArchive { get; private set; }
         public static string MergeDirectory { get; private set; }
+        public static string NothingToMerge { get; private set; }
 
         // Scada.Admin.Extensions.ExtDepAgent.Uploader
         public static string TestAgentConn { get; private set; }
@@ -33,6 +34,7 @@ namespace Scada.Admin.Extensions.ExtDepAgent
             ImportTable = dict["ImportTable"];
             ExtractArchive = dict["ExtractArchive"];
             MergeDirectory = dict["MergeDirectory"];
+            NothingToMerge = dict["NothingToMerge"];
 
             dict = Locale.GetDictionary("Scada.Admin.Extensions.ExtDepAgent.Uploader");
             TestAgentConn = dict["TestAgentConn"];

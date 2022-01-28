@@ -4,6 +4,7 @@
     <Phrase key="ImportTable">Импорт таблицы {0}</Phrase>
     <Phrase key="ExtractArchive">Распаковка архива</Phrase>
     <Phrase key="MergeDirectory">Слияние директории</Phrase>
+    <Phrase key="NothingToMerge">Отсутствуют данные для слияния</Phrase>
   </Dictionary>
   <Dictionary key="Scada.Admin.Extensions.ExtDepAgent.Uploader">
     <Phrase key="TestAgentConn">Проверка соединения с Агентом</Phrase>
