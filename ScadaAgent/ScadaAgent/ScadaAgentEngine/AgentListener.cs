@@ -20,7 +20,7 @@
  * 
  * Author   : Mikhail Shiryaev
  * Created  : 2021
- * Modified : 2021
+ * Modified : 2022
  */
 
 using Scada.Agent.Config;
@@ -640,14 +640,16 @@ namespace Scada.Agent.Engine
             if (IsServiceFolder(path) && path.AppFolder == AppFolder.Log && searchForFiles)
             {
                 string directory = GetClientInstance(client).PathBuilder.GetAbsolutePath(path);
-                return Directory.EnumerateFiles(directory, searchPattern, SearchOption.TopDirectoryOnly)
-                    .Select(fullName => Path.GetFileName(fullName))
-                    .ToArray();
+
+                if (Directory.Exists(directory))
+                {
+                    return Directory.EnumerateFiles(directory, searchPattern, SearchOption.TopDirectoryOnly)
+                        .Select(fullName => Path.GetFileName(fullName))
+                        .ToArray();
+                }
             }
-            else
-            {
-                return Array.Empty<string>();
-            }
+
+            return Array.Empty<string>();
         }
 
         /// <summary>
