@@ -1,5 +1,5 @@
 ﻿/*
- * Copyright 2021 Mikhail Shiryaev
+ * Copyright 2022 Mikhail Shiryaev
  * 
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -20,7 +20,7 @@
  * 
  * Author   : Mikhail Shiryaev
  * Created  : 2019
- * Modified : 2019
+ * Modified : 2022
  */
 
 using System;
@@ -36,11 +36,11 @@ namespace Scada.Data.Tables
         /// <summary>
         /// Gets a new instance of the table having the specified item type.
         /// </summary>
-        public static IBaseTable GetBaseTable(Type itemType, string name, string primaryKey, string title)
+        public static IBaseTable GetBaseTable(Type itemType, string primaryKey, string title)
         {
             Type genericType = typeof(BaseTable<>);
             Type constructedType = genericType.MakeGenericType(itemType);
-            return (IBaseTable)Activator.CreateInstance(constructedType, name, primaryKey, title);
+            return (IBaseTable)Activator.CreateInstance(constructedType, primaryKey, title);
         }
 
         /// <summary>
@@ -48,8 +48,7 @@ namespace Scada.Data.Tables
         /// </summary>
         public static IBaseTable GetBaseTable(IBaseTable templateTable)
         {
-            return GetBaseTable(templateTable.ItemType, 
-                templateTable.Name, templateTable.PrimaryKey, templateTable.Title);
+            return GetBaseTable(templateTable.ItemType, templateTable.PrimaryKey, templateTable.Title);
         }
     }
 }
