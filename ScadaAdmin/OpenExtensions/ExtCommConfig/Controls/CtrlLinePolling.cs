@@ -347,7 +347,7 @@ namespace Scada.Admin.Extensions.ExtCommConfig.Controls
 
         private void btnAddDevice_Click(object sender, EventArgs e)
         {
-            AddDeviceItem(new DeviceConfig());
+            AddDeviceItem(new DeviceConfig { Parent = lineConfig });
         }
 
         private void btnMoveUpDevice_Click(object sender, EventArgs e)
