@@ -451,6 +451,7 @@ namespace Scada.Web.Code
 
                                     if (IsReady)
                                     {
+                                        ResetCacheExpirationToken(); // after reading the configuration database
                                         Log.WriteInfo(Locale.IsRussian ?
                                             "Приложение готово к входу пользователей" :
                                             "The application is ready for user login");
@@ -645,7 +646,6 @@ namespace Scada.Web.Code
                     "Reload configuration");
                 IsReadyToLogin = false;
                 configUpdateRequired = true;
-                ResetCacheExpirationToken();
                 return true;
             }
             else
