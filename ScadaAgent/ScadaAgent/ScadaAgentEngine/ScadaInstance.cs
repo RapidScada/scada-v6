@@ -20,7 +20,7 @@
  * 
  * Author   : Mikhail Shiryaev
  * Created  : 2018
- * Modified : 2021
+ * Modified : 2022
  */
 
 using Scada.Agent.Config;
@@ -148,7 +148,7 @@ namespace Scada.Agent.Engine
             if (uploadOptions.IncludeComm)
                 AddDir(new RelativePath(TopFolder.Comm, AppFolder.Config));
 
-            if (uploadOptions.IncludeView)
+            if (uploadOptions.IncludeWeb)
                 AddDir(new RelativePath(TopFolder.Web, AppFolder.Config));
 
             return dirs;
