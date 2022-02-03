@@ -609,5 +609,16 @@ namespace Scada.Web.Plugins.PlgMain.Controllers
                 ? Dto<string>.Success(view.GetType().Name)
                 : Dto<string>.Fail(errMsg);
         }
+
+        /// <summary>
+        /// Sends the telecontrol command.
+        /// </summary>
+        [HttpPost]
+        public Dto<bool> SendCommand(int cnlNum, double cmdVal, bool isHex, string cmdData)
+        {
+            // TODO: Dto<void>
+            webContext.Log.WriteLine($"!!!{cnlNum} {cmdVal} {isHex} {cmdData}");
+            return Dto<bool>.Success(true);
+        }
     }
 }

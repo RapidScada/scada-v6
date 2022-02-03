@@ -54,6 +54,7 @@
       <Option name="EventCount" value="100" />
       <Option name="EventDepth" value="2" />
       <Option name="CommandPassword" value="false" />
+      <Option name="CommandApi" value="false" />
     </OptionGroup>
     <OptionGroup name="Scheme">
       <!-- ScaleType: Numeric | FitScreen | FitWidth -->
