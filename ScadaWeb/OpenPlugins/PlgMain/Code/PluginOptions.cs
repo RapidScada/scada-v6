@@ -25,6 +25,7 @@ namespace Scada.Web.Plugins.PlgMain.Code
             EventCount = options.GetValueAsInt("EventCount", 100);
             EventDepth = options.GetValueAsInt("EventDepth", 2);
             CommandPassword = options.GetValueAsBool("CommandPassword");
+            CommandApi = options.GetValueAsBool("CommandApi");
         }
 
 
@@ -62,5 +63,10 @@ namespace Scada.Web.Plugins.PlgMain.Code
         /// Gets or sets a value indicating whether a password is required to send a command.
         /// </summary>
         public bool CommandPassword { get; set; }
+
+        /// <summary>
+        /// Gets or sets a value indicating whether a command can be sent using a web API.
+        /// </summary>
+        public bool CommandApi { get; set; }
     }
 }

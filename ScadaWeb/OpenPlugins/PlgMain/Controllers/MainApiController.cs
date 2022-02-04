@@ -6,6 +6,7 @@ using Microsoft.Extensions.Caching.Memory;
 using Scada.Data.Entities;
 using Scada.Data.Models;
 using Scada.Data.Tables;
+using Scada.Lang;
 using Scada.Web.Api;
 using Scada.Web.Authorization;
 using Scada.Web.Lang;
@@ -38,19 +39,21 @@ namespace Scada.Web.Plugins.PlgMain.Controllers
         private readonly IClientAccessor clientAccessor;
         private readonly IViewLoader viewLoader;
         private readonly IMemoryCache memoryCache;
+        private readonly PluginContext pluginContext;
 
 
         /// <summary>
         /// Initializes a new instance of the class.
         /// </summary>
-        public MainApiController(IWebContext webContext, IUserContext userContext, 
-            IClientAccessor clientAccessor, IViewLoader viewLoader, IMemoryCache memoryCache)
+        public MainApiController(IWebContext webContext, IUserContext userContext, IClientAccessor clientAccessor,
+            IViewLoader viewLoader, IMemoryCache memoryCache, PluginContext pluginContext)
         {
             this.webContext = webContext;
             this.userContext = userContext;
             this.clientAccessor = clientAccessor;
             this.viewLoader = viewLoader;
             this.memoryCache = memoryCache;
+            this.pluginContext = pluginContext;
         }
 
 
@@ -616,8 +619,54 @@ namespace Scada.Web.Plugins.PlgMain.Controllers
         [HttpPost]
         public Dto SendCommand([FromBody] CommandDTO commandDTO)
         {
-            webContext.Log.WriteLine($"!!!cnlNum={commandDTO.CnlNum} cmdVal={commandDTO.CmdVal} isHex={commandDTO.IsHex} cmdData={commandDTO.CmdData}");
-            return Dto.Success();
+            try
+            {
+                int cnlNum = commandDTO.CnlNum;
+                string errMsg;
+
+                if (!webContext.AppConfig.GeneralOptions.EnableCommands ||
+                    !pluginContext.Options.CommandApi)
+                {
+                    errMsg = WebPhrases.CommandsDisabled;
+                }
+                else if (webContext.BaseDataSet.CnlTable.GetItem(cnlNum) is not Cnl cnl)
+                {
+                    errMsg = string.Format(WebPhrases.CnlNotFound, cnlNum);
+                }
+                else if (!cnl.IsOutput())
+                {
+                    errMsg = string.Format(WebPhrases.CnlNotOutput, cnlNum);
+                }
+                else if (!userContext.Rights.GetRightByObj(cnl.ObjNum ?? 0).Control)
+                {
+                    errMsg = WebPhrases.AccessDenied;
+                }
+                else
+                {
+                    webContext.Log.WriteAction(WebPhrases.SendCommand, cnlNum, User.GetUsername());
+                    clientAccessor.ScadaClient.SendCommand(new TeleCommand
+                    {
+                        UserID = User.GetUserID(),
+                        CnlNum = cnlNum,
+                        CmdVal = commandDTO.CmdVal,
+                        CmdData = commandDTO.IsHex
+                            ? ScadaUtils.HexToBytes(commandDTO.CmdData, true, true)
+                            : TeleCommand.StringToCmdData(commandDTO.CmdData)
+                    }, out CommandResult commandResult);
+
+                    if (commandResult.IsSuccessful)
+                        return Dto.Success();
+                    else
+                        errMsg = commandResult.ErrorMessage;
+                }
+
+                return Dto.Fail(errMsg);
+            }
+            catch (Exception ex)
+            {
+                webContext.Log.WriteError(ex.BuildErrorMessage(WebPhrases.ErrorInWebApi, nameof(SendCommand)));
+                return Dto.Fail(ex.Message);
+            }
         }
     }
 }

@@ -31,21 +31,21 @@ namespace Scada.Web.Plugins.PlgMain.Code
         public static void Init()
         {
             LocaleDict dict = Locale.GetDictionary("Scada.Web.Plugins.PlgMain.Areas.Main.Pages.TableView");
-            TableViewTitle = dict["TableViewTitle"];
-            PrevDate = dict["PrevDate"];
-            SelDate = dict["SelDate"];
-            MinusOneDay = dict["MinusOneDay"];
-            ItemColumn = dict["ItemColumn"];
-            CurrentColumn = dict["CurrentColumn"];
-            CnlTip = dict["CnlTip"];
-            DeviceTip = dict["DeviceTip"];
-            ObjTip = dict["ObjTip"];
-            QuantityTip = dict["QuantityTip"];
-            UnitTip = dict["UnitTip"];
-            SendCommandTip = dict["SendCommandTip"];
+            TableViewTitle = dict[nameof(TableViewTitle)];
+            PrevDate = dict[nameof(PrevDate)];
+            SelDate = dict[nameof(SelDate)];
+            MinusOneDay = dict[nameof(MinusOneDay)];
+            ItemColumn = dict[nameof(ItemColumn)];
+            CurrentColumn = dict[nameof(CurrentColumn)];
+            CnlTip = dict[nameof(CnlTip)];
+            DeviceTip = dict[nameof(DeviceTip)];
+            ObjTip = dict[nameof(ObjTip)];
+            QuantityTip = dict[nameof(QuantityTip)];
+            UnitTip = dict[nameof(UnitTip)];
+            SendCommandTip = dict[nameof(SendCommandTip)];
 
             dict = Locale.GetDictionary("Scada.Web.Plugins.PlgMain.Code.EventWindowSpec");
-            EventWindowTitle = dict["EventWindowTitle"];
+            EventWindowTitle = dict[nameof(EventWindowTitle)];
         }
     }
 }

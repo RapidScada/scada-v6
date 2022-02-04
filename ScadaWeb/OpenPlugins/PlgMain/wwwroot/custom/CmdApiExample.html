@@ -13,6 +13,10 @@
             margin: 5px 0;
             width: 300px;
         }
+
+        .group {
+            margin-bottom: 20px;
+        }
     </style>
 
     <script src="../lib/jquery/dist/jquery.min.js"></script>
@@ -27,12 +31,13 @@
                 const CNL_NUM = 104;
                 let cmdVal = $("#txtCmdVal").val();
                 let cmdData = $("#txtCmdData").val();
+                $("#txtResult").val("Sending...");
 
                 mainApi.sendCommand(CNL_NUM, cmdVal, false, cmdData, function (dto) {
                     if (dto.ok) {
-                        alert("Command sent successfully.");
+                        $("#txtResult").val("Command sent successfully.");
                     } else {
-                        alert("Error sending command.");
+                        $("#txtResult").val("Error sending command: " + dto.msg);
                     }
                 });
             });
@@ -41,10 +46,16 @@
 </head>
 <body>
     <h1>Command API Example</h1>
-    <div>Command value:</div>
-    <div><input id="txtCmdVal" type="number" autocomplete="off" value="0" /></div>
-    <div>Command data:</div>
-    <div><textarea id="txtCmdData"></textarea></div>
-    <div><button id="btnSend">Send</button></div>
+    <div class="group">
+        <div>Command value:</div>
+        <div><input id="txtCmdVal" type="number" autocomplete="off" value="0" /></div>
+        <div>Command data:</div>
+        <div><textarea id="txtCmdData" rows="5"></textarea></div>
+        <div><button id="btnSend">Send</button></div>
+    </div>
+    <div class="group">
+        <div>Result:</div>
+        <div><textarea id="txtResult" rows="5"></textarea></div>
+    </div>
 </body>
 </html>

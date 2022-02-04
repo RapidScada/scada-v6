@@ -2,7 +2,6 @@
 <PlgMainDictionaries>
   <Dictionary key="Scada.Web.Plugins.PlgMain.Areas.Main.Pages.Command">
     <Phrase key="PageTitle">Команда</Phrase>
-    <Phrase key="OutCnlNotFound">Канал {0} не найден среди выходных каналов.</Phrase>
     <Phrase key="CommandSent">Команда отправлена.</Phrase>
     <Phrase key="CmdParseError">Ошибка при разборе команды</Phrase>
     <Phrase key="CnlRow">Канал:</Phrase>

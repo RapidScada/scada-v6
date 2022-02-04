@@ -2,7 +2,6 @@
 <PlgMainDictionaries>
   <Dictionary key="Scada.Web.Plugins.PlgMain.Areas.Main.Pages.Command">
     <Phrase key="PageTitle">Command</Phrase>
-    <Phrase key="OutCnlNotFound">Channel {0} not found among output channels.</Phrase>
     <Phrase key="CommandSent">Command sent.</Phrase>
     <Phrase key="CmdParseError">Error parsing command</Phrase>
     <Phrase key="CnlRow">Channel:</Phrase>

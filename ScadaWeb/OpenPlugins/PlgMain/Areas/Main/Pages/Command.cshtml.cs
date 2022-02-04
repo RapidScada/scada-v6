@@ -71,20 +71,27 @@ namespace Scada.Web.Plugins.PlgMain.Areas.Main.Pages
 
         private Cnl GetCnl(int cnlNum, out Right right)
         {
-            Cnl cnl = webContext.BaseDataSet.CnlTable.GetItem(cnlNum);
-
-            if (cnl == null || !cnl.IsOutput())
+            if (!webContext.AppConfig.GeneralOptions.EnableCommands)
             {
-                HasError = true;
-                Message = string.Format(dict.OutCnlNotFound, cnl);
-                right = Right.Empty;
-                return null;
+                Message = WebPhrases.CommandsDisabled;
+            }
+            else if (webContext.BaseDataSet.CnlTable.GetItem(cnlNum) is not Cnl cnl)
+            {
+                Message = string.Format(WebPhrases.CnlNotFound, cnlNum);
+            }
+            else if (!cnl.IsOutput())
+            {
+                Message = string.Format(WebPhrases.CnlNotOutput, cnlNum);
             }
             else
             {
                 right = userContext.Rights.GetRightByObj(cnl.ObjNum ?? 0);
                 return cnl;
             }
+
+            HasError = true;
+            right = Right.Empty;
+            return null;
         }
 
         private bool CheckPassword()
@@ -161,6 +168,7 @@ namespace Scada.Web.Plugins.PlgMain.Areas.Main.Pages
         {
             try
             {
+                webContext.Log.WriteAction(WebPhrases.SendCommand, command.CnlNum, User.GetUsername());
                 clientAccessor.ScadaClient.SendCommand(command, out CommandResult result);
 
                 if (result.IsSuccessful)
