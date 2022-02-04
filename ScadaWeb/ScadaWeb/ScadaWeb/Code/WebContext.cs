@@ -281,15 +281,25 @@ namespace Scada.Web.Code
         /// </summary>
         private PluginHolder InitPlugins(WebConfig webConfig)
         {
-            PluginHolder pluginHolder = new() { Log = Log };
+            PluginHolder curPluginHolder = PluginHolder;
+            PluginHolder newPluginHolder = new() { Log = Log };
 
             foreach (string pluginCode in webConfig.PluginCodes)
             {
-                if (PluginFactory.GetPluginLogic(AppDirs.ExeDir, pluginCode, this,
-                    out PluginLogic pluginLogic, out string message))
+                if (curPluginHolder.GetPlugin(pluginCode, out PluginLogic pluginLogic))
                 {
+                    // add existing plugin
+                    Log.WriteAction(Locale.IsRussian ?
+                        "Плагин {0} использован повторно" :
+                        "Plugin {0} reused", pluginCode);
+                    newPluginHolder.AddPlugin(pluginLogic);
+                }
+                else if (PluginFactory.GetPluginLogic(AppDirs.ExeDir, pluginCode, this, 
+                    out pluginLogic, out string message))
+                {
+                    // add new plugin
                     Log.WriteAction(message);
-                    pluginHolder.AddPlugin(pluginLogic);
+                    newPluginHolder.AddPlugin(pluginLogic);
                 }
                 else
                 {
@@ -297,8 +307,8 @@ namespace Scada.Web.Code
                 }
             }
 
-            pluginHolder.DefineFeaturedPlugins(webConfig.PluginAssignment);
-            return pluginHolder;
+            newPluginHolder.DefineFeaturedPlugins(webConfig.PluginAssignment);
+            return newPluginHolder;
         }
 
         /// <summary>
