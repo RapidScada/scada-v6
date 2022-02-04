@@ -77,6 +77,10 @@
   <Dictionary key="Scada.Web.Plugins">
     <Phrase key="LoadPluginConfigError">Error loading plugin configuration</Phrase>
     <Phrase key="SavePluginConfigError">Error saving plugin configuration</Phrase>
+    <Phrase key="CnlNotFound">Channel {0} not found.</Phrase>
+    <Phrase key="CnlNotOutput">Channel {0} is not an output.</Phrase>
+    <Phrase key="CommandsDisabled">Commands disabled.</Phrase>
+    <Phrase key="SendCommand">Send command to channel {0} by {1}</Phrase>
   </Dictionary>
   <Dictionary key="Scada.Web.TreeView.MenuItem">
     <Phrase key="ReportsMenuItem">Reports</Phrase>

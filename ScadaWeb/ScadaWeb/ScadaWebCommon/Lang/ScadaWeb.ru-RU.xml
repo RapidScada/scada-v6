@@ -76,6 +76,10 @@
   <Dictionary key="Scada.Web.Plugins">
     <Phrase key="LoadPluginConfigError">Ошибка при загрузке конфигурации плагина</Phrase>
     <Phrase key="SavePluginConfigError">Ошибка при сохранении конфигурации плагина</Phrase>
+    <Phrase key="CnlNotFound">Канал {0} не найден.</Phrase>
+    <Phrase key="CnlNotOutput">Канал {0} не является выходным.</Phrase>
+    <Phrase key="CommandsDisabled">Команды отключены.</Phrase>
+    <Phrase key="SendCommand">Отправка команды на канал {0} пользователем {1}</Phrase>
   </Dictionary>
   <Dictionary key="Scada.Web.TreeView.MenuItem">
     <Phrase key="ReportsMenuItem">Отчёты</Phrase>

@@ -20,7 +20,7 @@
  * 
  * Author   : Mikhail Shiryaev
  * Created  : 2016
- * Modified : 2021
+ * Modified : 2022
  */
 
 #pragma warning disable 1591 // Missing XML comment for publicly visible type or member
@@ -58,6 +58,10 @@ namespace Scada.Web.Lang
         // Scada.Web.Plugins
         public static string LoadPluginConfigError { get; private set; }
         public static string SavePluginConfigError { get; private set; }
+        public static string CnlNotFound { get; private set; }
+        public static string CnlNotOutput { get; private set; }
+        public static string CommandsDisabled { get; private set; }
+        public static string SendCommand { get; private set; }
 
         // Scada.Web.TreeView.MenuItem
         public static string ReportsMenuItem { get; private set; }
@@ -102,6 +106,10 @@ namespace Scada.Web.Lang
             dict = Locale.GetDictionary("Scada.Web.Plugins");
             LoadPluginConfigError = dict["LoadPluginConfigError"];
             SavePluginConfigError = dict["SavePluginConfigError"];
+            CnlNotFound = dict["CnlNotFound"];
+            CnlNotOutput = dict["CnlNotOutput"];
+            CommandsDisabled = dict["CommandsDisabled"];
+            SendCommand = dict["SendCommand"];
 
             dict = Locale.GetDictionary("Scada.Web.TreeView.MenuItem");
             ReportsMenuItem = dict["ReportsMenuItem"];
