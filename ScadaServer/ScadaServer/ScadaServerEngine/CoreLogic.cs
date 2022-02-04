@@ -1444,7 +1444,7 @@ namespace Scada.Server.Engine
                 int userID = command.UserID;
                 Log.WriteAction(Locale.IsRussian ?
                     "Команда на канал {0} от пользователя с ид. {1}" :
-                    "Command to the channel {0} from the user with ID {1}", cnlNum, userID);
+                    "Command to channel {0} from user with ID {1}", cnlNum, userID);
 
                 if (!ConfigBase.UserTable.Items.TryGetValue(userID, out User user))
                 {
