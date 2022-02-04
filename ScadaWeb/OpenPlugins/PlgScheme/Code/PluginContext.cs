@@ -64,6 +64,8 @@ namespace Scada.Web.Plugins.PlgScheme.Code
                 "Извлечение компонентов схем из установленных плагинов" :
                 "Retrieve scheme components from the installed plugins");
 
+            CompManager.ClearComponents();
+
             foreach (PluginLogic pluginLogic in plugins)
             {
                 try

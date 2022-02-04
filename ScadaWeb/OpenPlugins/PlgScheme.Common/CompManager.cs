@@ -69,17 +69,6 @@ namespace Scada.Web.Plugins.PlgScheme
 
 
         /// <summary>
-        /// Очистить словари
-        /// </summary>
-        private void ClearDicts()
-        {
-            allSpecs.Clear();
-            factsByPrefix.Clear();
-            specsByType.Clear();
-            LoadErrors.Clear();
-        }
-
-        /// <summary>
         /// Проверить, что тип компонента относится к стандартным типам.
         /// </summary>
         private static bool TypeIsStrandard(Type compType)
@@ -88,6 +77,16 @@ namespace Scada.Web.Plugins.PlgScheme
                 compType == typeof(StaticPicture) || compType == typeof(DynamicPicture);
         }
 
+        /// <summary>
+        /// Очистить компоненты.
+        /// </summary>
+        public void ClearComponents()
+        {
+            allSpecs.Clear();
+            factsByPrefix.Clear();
+            specsByType.Clear();
+            LoadErrors.Clear();
+        }
 
         /// <summary>
         /// Добавить компоненты в словари.
@@ -136,7 +135,7 @@ namespace Scada.Web.Plugins.PlgScheme
                         "Загрузка компонентов из файлов" :
                         "Load components from files");
 
-                    ClearDicts();
+                    ClearComponents();
 
                     foreach (FileInfo fileInfo in new DirectoryInfo(appDirs.ExeDir)
                         .EnumerateFiles(CompLibMask, SearchOption.TopDirectoryOnly))
