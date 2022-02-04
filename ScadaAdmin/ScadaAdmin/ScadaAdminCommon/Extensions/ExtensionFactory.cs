@@ -20,7 +20,7 @@
  * 
  * Author   : Mikhail Shiryaev
  * Created  : 2021
- * Modified : 2021
+ * Modified : 2022
  */
 
 using Scada.Lang;
@@ -54,8 +54,8 @@ namespace Scada.Admin.Extensions
                     extensionLogic = (ExtensionLogic)Activator.CreateInstance(type, adminContext);
 
                     message = string.Format(Locale.IsRussian ?
-                        "Загружено расширение {0} {1} из файла {2}" :
-                        "Loaded extension {0} {1} from file {2}",
+                        "Расширение {0} {1} загружено из файла {2}" :
+                        "Extension {0} {1} loaded from file {2}",
                         extensionCode, assembly.GetName().Version, fileName);
                     return true;
                 }

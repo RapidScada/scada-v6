@@ -20,7 +20,7 @@
  * 
  * Author   : Mikhail Shiryaev
  * Created  : 2018
- * Modified : 2020
+ * Modified : 2022
  */
 
 using Scada.Lang;
@@ -54,8 +54,8 @@ namespace Scada.Server.Modules
                     moduleLogic = (ModuleLogic)Activator.CreateInstance(type, serverContext);
 
                     message = string.Format(Locale.IsRussian ?
-                        "Загружен модуль {0} {1} из файла {2}" :
-                        "Loaded module {0} {1} from file {2}",
+                        "Модуль {0} {1} загружен из файла {2}" :
+                        "Module {0} {1} loaded from file {2}",
                         moduleCode, assembly.GetName().Version, fileName);
                     return true;
                 }

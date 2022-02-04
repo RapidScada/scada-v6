@@ -20,7 +20,7 @@
  * 
  * Author   : Mikhail Shiryaev
  * Created  : 2021
- * Modified : 2021
+ * Modified : 2022
  */
 
 using Scada.Lang;
@@ -54,8 +54,8 @@ namespace Scada.Storages
                     storageLogic = (StorageLogic)Activator.CreateInstance(type, storageContext);
 
                     message = string.Format(Locale.IsRussian ?
-                        "Загружено хранилище {0} {1} из файла {2}" :
-                        "Loaded storage {0} {1} from file {2}",
+                        "Хранилище {0} {1} загружено из файла {2}" :
+                        "Storage {0} {1} loaded from file {2}",
                         storageCode, assembly.GetName().Version, fileName);
                     return true;
                 }

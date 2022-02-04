@@ -20,7 +20,7 @@
  * 
  * Author   : Mikhail Shiryaev
  * Created  : 2021
- * Modified : 2021
+ * Modified : 2022
  */
 
 using Scada.Lang;
@@ -55,8 +55,8 @@ namespace Scada.Web.Plugins
                     pluginLogic = (PluginLogic)Activator.CreateInstance(type, webContext);
 
                     message = string.Format(Locale.IsRussian ?
-                        "Загружен плагин {0} {1} из файла {2}" :
-                        "Loaded plugin {0} {1} from file {2}",
+                        "Плагин {0} {1} загружен из файла {2}" :
+                        "Plugin {0} {1} loaded from file {2}",
                         pluginCode, assembly.GetName().Version, fileName);
                     return true;
                 }
