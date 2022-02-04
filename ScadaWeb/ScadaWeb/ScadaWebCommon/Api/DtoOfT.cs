@@ -16,53 +16,50 @@
  * 
  * Product  : Rapid SCADA
  * Module   : ScadaWebCommon
- * Summary  : Represents a data transfer object that carries a method result from the server side to a client
+ * Summary  : Represents a data transfer object that carries data of the specified type from the server side to a client
  * 
  * Author   : Mikhail Shiryaev
- * Created  : 2016
+ * Created  : 2022
  * Modified : 2022
  */
 
 namespace Scada.Web.Api
 {
     /// <summary>
-    /// Represents a data transfer object that carries a method result from the server side to a client.
-    /// <para>Представляет объект, передающий результат метода со стороны сервера клиенту.</para>
+    /// Represents a data transfer object that carries data of the specified type from the server side to a client.
+    /// <para>Представляет объект, передающий данные заданного типа со стороны сервера клиенту.</para>
     /// </summary>
-    public class Dto
+    public class Dto<TData> : Dto
     {
         /// <summary>
-        /// Gets or sets a value indicating whether the request is successful.
+        /// Gets or sets the data to transfer.
         /// </summary>
-        public bool Ok { get; set; }
-
-        /// <summary>
-        /// Gets or sets the message.
-        /// </summary>
-        public string Msg { get; set; }
+        public TData Data { get; set; }
 
 
         /// <summary>
         /// Creates a new data transfer object with the successfull result.
         /// </summary>
-        public static Dto Success()
+        public static Dto<TData> Success(TData data)
         {
-            return new Dto
+            return new Dto<TData>
             {
                 Ok = true,
-                Msg = ""
+                Msg = "",
+                Data = data
             };
         }
 
         /// <summary>
         /// Creates a new data transfer object with the failed result.
         /// </summary>
-        public static Dto Fail(string msg)
+        public static new Dto<TData> Fail(string msg)
         {
-            return new Dto
+            return new Dto<TData>
             {
                 Ok = false,
-                Msg = msg
+                Msg = msg,
+                Data = default
             };
         }
     }
