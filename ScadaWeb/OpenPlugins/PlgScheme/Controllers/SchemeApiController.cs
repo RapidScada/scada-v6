@@ -125,15 +125,33 @@ namespace Scada.Web.Plugins.PlgScheme.Controllers
             {
                 if (viewLoader.GetView(viewID, out SchemeView schemeView, out string errMsg))
                 {
-                    if (webContext.AppConfig.GeneralOptions.EnableCommands &&
+                    if (!webContext.AppConfig.GeneralOptions.EnableCommands)
+                    {
+                        errMsg = WebPhrases.CommandsDisabled;
+                    }
+                    else if (webContext.BaseDataSet.CnlTable.GetItem(ctrlCnlNum) is not Cnl cnl)
+                    {
+                        errMsg = string.Format(WebPhrases.CnlNotFound, ctrlCnlNum);
+                    }
+                    else if (!cnl.IsOutput())
+                    {
+                        errMsg = string.Format(WebPhrases.CnlNotOutput, ctrlCnlNum);
+                    }
+                    else if (!(userContext.Rights.GetRightByObj(cnl.ObjNum ?? 0).Control &&
                         userContext.Rights.GetRightByView(schemeView.ViewEntity).Control &&
                         schemeView.Components.TryGetValue(componentID, out BaseComponent component) &&
                         component is IDynamicComponent dynamicComponent &&
                         dynamicComponent.Action == Actions.SendCommandNow &&
-                        dynamicComponent.CtrlCnlNum == ctrlCnlNum)
+                        dynamicComponent.CtrlCnlNum == ctrlCnlNum))
                     {
+                        errMsg = WebPhrases.AccessDenied;
+                    }
+                    else
+                    {
+                        webContext.Log.WriteAction(WebPhrases.SendCommand, ctrlCnlNum, User.GetUsername());
                         clientAccessor.ScadaClient.SendCommand(new TeleCommand
                         {
+                            UserID = User.GetUserID(),
                             CnlNum = ctrlCnlNum,
                             CmdVal = cmdVal
                         }, out CommandResult commandResult);
@@ -142,10 +160,6 @@ namespace Scada.Web.Plugins.PlgScheme.Controllers
                             return Dto<bool>.Success(true);
                         else
                             errMsg = commandResult.ErrorMessage;
-                    }
-                    else
-                    {
-                        errMsg = WebPhrases.AccessDenied;
                     }
                 }
 
