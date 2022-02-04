@@ -614,11 +614,10 @@ namespace Scada.Web.Plugins.PlgMain.Controllers
         /// Sends the telecontrol command.
         /// </summary>
         [HttpPost]
-        public Dto<bool> SendCommand(int cnlNum, double cmdVal, bool isHex, string cmdData)
+        public Dto SendCommand([FromBody] CommandDTO commandDTO)
         {
-            // TODO: Dto<void>
-            webContext.Log.WriteLine($"!!!{cnlNum} {cmdVal} {isHex} {cmdData}");
-            return Dto<bool>.Success(true);
+            webContext.Log.WriteLine($"!!!cnlNum={commandDTO.CnlNum} cmdVal={commandDTO.CmdVal} isHex={commandDTO.IsHex} cmdData={commandDTO.CmdData}");
+            return Dto.Success();
         }
     }
 }

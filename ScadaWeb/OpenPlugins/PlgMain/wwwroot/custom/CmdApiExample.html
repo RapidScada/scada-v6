@@ -1,0 +1,50 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <title>Command API Example</title>
+
+    <style type="text/css">
+        body {
+            margin: 20px;
+        }
+
+        input, textarea {
+            margin: 5px 0;
+            width: 300px;
+        }
+    </style>
+
+    <script src="../lib/jquery/dist/jquery.min.js"></script>
+    <script src="../plugins/Main/js/main-api.js"></script>
+
+    <script type="text/javascript">
+        $(document).ready(function () {
+            let mainApi = new MainApi();
+            mainApi.rootPath = "../";
+
+            $("#btnSend").click(function () {
+                const CNL_NUM = 104;
+                let cmdVal = $("#txtCmdVal").val();
+                let cmdData = $("#txtCmdData").val();
+
+                mainApi.sendCommand(CNL_NUM, cmdVal, false, cmdData, function (dto) {
+                    if (dto.ok) {
+                        alert("Command sent successfully.");
+                    } else {
+                        alert("Error sending command.");
+                    }
+                });
+            });
+        });
+    </script>
+</head>
+<body>
+    <h1>Command API Example</h1>
+    <div>Command value:</div>
+    <div><input id="txtCmdVal" type="number" autocomplete="off" value="0" /></div>
+    <div>Command data:</div>
+    <div><textarea id="txtCmdData"></textarea></div>
+    <div><button id="btnSend">Send</button></div>
+</body>
+</html>

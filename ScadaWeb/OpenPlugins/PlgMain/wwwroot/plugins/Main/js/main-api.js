@@ -173,6 +173,25 @@ class MainApi {
             .catch(error => this._doCallback(callback, Dto.fail(error.message), "loadView"));
     }
 
+    // Sends the telecontrol command.
+    sendCommand(cnlNum, cmdVal, isHex, cmdData, callback) {
+        fetch(this.rootPath + "Api/Main/SendCommand", {
+            method: "POST",
+            body: JSON.stringify({
+                cnlNum: cnlNum,
+                cmdVal: cmdVal,
+                isHex: isHex,
+                cmdData: cmdData
+            }),
+            headers: {
+                "Content-Type": "application/json"
+            }
+        })
+            .then(response => response.ok ? response.json() : Dto.fail(response.statusText))
+            .then(data => this._doCallback(callback, data, "sendCommand"))
+            .catch(error => this._doCallback(callback, Dto.fail(error.message), "sendCommand"));
+    }
+
     // Creates a map of current data records accessed by channel number.
     mapCurData(curData) {
         let map = new Map();
