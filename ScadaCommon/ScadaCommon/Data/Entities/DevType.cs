@@ -31,7 +31,7 @@ namespace Scada.Data.Entities
 {
     /// <summary>
     /// Represents a device type as an entity of the configuration database.
-    /// <para>Представляет тип КП как сущность базы конфигурации.</para>
+    /// <para>Представляет тип устройство как сущность базы конфигурации.</para>
     /// </summary>
     [Serializable]
     public class DevType

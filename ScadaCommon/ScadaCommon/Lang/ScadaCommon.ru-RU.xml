@@ -33,8 +33,8 @@
     <Phrase key="CnlTypeTable">Типы каналов</Phrase>
     <Phrase key="CommLineTable">Линии связи</Phrase>
     <Phrase key="DataTypeTable">Типы данных</Phrase>
-    <Phrase key="DeviceTable">КП</Phrase>
-    <Phrase key="DevTypeTable">Типы КП</Phrase>
+    <Phrase key="DeviceTable">Устройства</Phrase>
+    <Phrase key="DevTypeTable">Типы устройств</Phrase>
     <Phrase key="FormatTable">Форматы</Phrase>
     <Phrase key="LimTable">Границы</Phrase>
     <Phrase key="ObjTable">Объекты</Phrase>
