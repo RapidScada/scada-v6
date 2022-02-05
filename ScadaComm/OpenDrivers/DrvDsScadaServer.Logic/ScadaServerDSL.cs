@@ -10,6 +10,7 @@ using Scada.Data.Models;
 using Scada.Data.Tables;
 using Scada.Lang;
 using Scada.Log;
+using Scada.Protocol;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -192,9 +193,15 @@ namespace Scada.Comm.Drivers.DrvDsScadaServer.Logic
                     try
                     {
                         if (utcNow - queueItem.CreationTime > maxCurDataAge)
-                            scadaClient.WriteHistoricalData(deviceSlice.ArchiveMask, slice, deviceSlice.DeviceNum, true);
+                        {
+                            scadaClient.WriteHistoricalData(deviceSlice.ArchiveMask, slice, 
+                                deviceSlice.DeviceNum, WriteFlags.EnableAll);
+                        }
                         else
-                            scadaClient.WriteCurrentData(slice.CnlNums, slice.CnlData, deviceSlice.DeviceNum, true);
+                        {
+                            scadaClient.WriteCurrentData(slice.CnlNums, slice.CnlData, 
+                                deviceSlice.DeviceNum, WriteFlags.EnableAll);
+                        }
                     }
                     catch (Exception ex)
                     {
@@ -254,7 +261,8 @@ namespace Scada.Comm.Drivers.DrvDsScadaServer.Logic
                 {
                     try
                     {
-                        scadaClient.WriteHistoricalData(deviceSlice.DeviceNum, slice, deviceSlice.ArchiveMask, true);
+                        scadaClient.WriteHistoricalData(deviceSlice.ArchiveMask, slice,
+                            deviceSlice.DeviceNum, WriteFlags.EnableAll);
                         CallDataSent(deviceSlice);
                     }
                     catch (Exception ex)
