@@ -43,7 +43,7 @@ namespace Scada.Comm.Drivers.DrvOpcUa.View
             {
                 return Locale.IsRussian ?
                     "Взаимодействует с контроллерами по спецификации OPC UA.\n" +
-                    "Команды ТУ определяются конфигурацией КП." :
+                    "Команды ТУ определяются конфигурацией устройства." :
 
                     "Interacts with controllers according to the OPC UA specification.\n" +
                     "Commands are defined by device configuration.";

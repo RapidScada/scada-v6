@@ -12,8 +12,8 @@ using System.Windows.Forms;
 namespace Scada.Comm.Drivers.DrvModbus.View.Forms
 {
     /// <summary>
-    /// Device and communication line properties form
-    /// <para>Форма настройки свойств КП и линии связи</para>
+    /// Represents a form for configuring device and communication line properties.
+    /// <para>Представляет форму для настройки свойств устройства и линии связи.</para>
     /// </summary>
     public partial class FrmDeviceProps : Form
     {

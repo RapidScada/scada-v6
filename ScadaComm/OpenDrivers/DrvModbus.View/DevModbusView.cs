@@ -17,7 +17,7 @@ namespace Scada.Comm.Drivers.DrvModbus.View
 {
     /// <summary>
     /// Implements the device user interface.
-    /// <para>Реализует пользовательский интерфейс КП.</para>
+    /// <para>Реализует пользовательский интерфейс устройства.</para>
     /// </summary>
     public class DevModbusView : DeviceView
     {

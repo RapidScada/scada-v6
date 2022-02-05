@@ -9,8 +9,8 @@
     <Phrase key="btnCreateConfigWin.ToolTip">Создать файл конфигурации для Windows</Phrase>
     <Phrase key="btnCreateConfigLinux.ToolTip">Создать файл конфигурации для Linux</Phrase>
     <Phrase key="btnBrowseConfig.ToolTip">Обзор</Phrase>
-    <Phrase key="lblDeviceFilter">Фильтр КП</Phrase>
-    <Phrase key="btnSelectDevices.ToolTip">Выбрать КП</Phrase>
+    <Phrase key="lblDeviceFilter">Фильтр устройств</Phrase>
+    <Phrase key="btnSelectDevices.ToolTip">Выбрать устройство</Phrase>
     <Phrase key="btnOK">OK</Phrase>
     <Phrase key="btnCancel">Отмена</Phrase>
     <Phrase key="ConfigDirRequired">Файл конфигурации должен располагаться внутри {0}</Phrase>

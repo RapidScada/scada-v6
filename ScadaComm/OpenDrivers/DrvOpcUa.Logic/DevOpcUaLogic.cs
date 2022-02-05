@@ -18,7 +18,7 @@ namespace Scada.Comm.Drivers.DrvOpcUa.Logic
 {
     /// <summary>
     /// Implements the device logic.
-    /// <para>Реализует логику КП.</para>
+    /// <para>Реализует логику устройства.</para>
     /// </summary>
     internal class DevOpcUaLogic : DeviceLogic
     {
@@ -297,7 +297,7 @@ namespace Scada.Comm.Drivers.DrvOpcUa.Logic
                     subscrByID.TryGetValue(e.Subscription.Id, out SubscriptionTag subscriptionTag))
                 {
                     Log.WriteLine(Locale.IsRussian ?
-                        "{0} КП {1}. Обработка новых данных. Подписка: {2}" :
+                        "{0} Устройство {1}. Обработка новых данных. Подписка: {2}" :
                         "{0} Device {1}. Process new data. Subscription: {2}",
                         LastSessionTime.ToLocalTime().ToLocalizedString(), DeviceNum, e.Subscription.DisplayName);
                     ProcessDataChanges(subscriptionTag, e.NotificationMessage);
@@ -658,7 +658,7 @@ namespace Scada.Comm.Drivers.DrvOpcUa.Logic
                 opcDeviceConfig = null;
                 Log.WriteLine(errMsg);
                 Log.WriteLine(Locale.IsRussian ?
-                    "Взаимодействие с OPC-сервером невозможно, т.к. конфигурация КП не загружена" :
+                    "Взаимодействие с OPC-сервером невозможно, т.к. конфигурация устройства не загружена" :
                     "Interaction with OPC server is impossible because device configuration is not loaded");
             }
         }

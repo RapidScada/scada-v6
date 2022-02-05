@@ -38,7 +38,7 @@
     <Phrase key="lblHost">Удалённый хост</Phrase>
     <Phrase key="pbHostHint.ToolTip">Удалённое DNS-имя или IP-адрес при использовании общего соединения.</Phrase>
     <Phrase key="lblTcpPort">Удалённый TCP-порт</Phrase>
-    <Phrase key="pbTcpPortHint.ToolTip">В режиме индивидуального соединения используется как TCP-порт по умолчанию, если не указан порт для КП.&#13;&#10;В режиме общего соединения параметр  обязателен.&#13;&#10;Порт 502 используется Modbus TCP по умолчанию.</Phrase>
+    <Phrase key="pbTcpPortHint.ToolTip">В режиме индивидуального соединения используется как TCP-порт по умолчанию, если не указан порт для устройства.&#13;&#10;В режиме общего соединения параметр  обязателен.&#13;&#10;Порт 502 используется Modbus TCP по умолчанию.</Phrase>
     <Phrase key="lblReconnectAfter">Переподключение, с</Phrase>
     <Phrase key="pbReconnectAfterHint.ToolTip">Задаёт интервал времени для повторного подключения после неудачной попытки.</Phrase>
     <Phrase key="lblStayConnected">Оставаться на связи</Phrase>
@@ -56,11 +56,11 @@
     <Phrase key="cbConnectionMode.Items[0]">Индивидуальное</Phrase>
     <Phrase key="cbConnectionMode.Items[1]">Общее</Phrase>
     <Phrase key="pbConnectionModeHint.ToolTip">Индивидуальное - Коммуникатор устанавливает отдельное TCP-соединение с каждым устройством.&#13;&#10;Общее - Коммуникатор устанавливает одно общее соединение для всех устройств на линии связи.&#13;&#10;Общее соединение используется, например, если устройства подключены через шлюз Ethernet-Serial.</Phrase>
-    <Phrase key="lblDeviceMapping">Сопоставление КП</Phrase>
+    <Phrase key="lblDeviceMapping">Сопоставление устройств</Phrase>
     <Phrase key="cbDeviceMapping.Items[0]">По IP-адресу</Phrase>
     <Phrase key="cbDeviceMapping.Items[1]">По первому пакету</Phrase>
     <Phrase key="cbDeviceMapping.Items[2]">Определяется драйвером</Phrase>
-    <Phrase key="pbDeviceMappingHint.ToolTip">Способ привязки нового входящего соединения к КП:&#13;&#10;По IP-адресу - удалённый IP-адрес устройства совпадает со строковым адресом КП.&#13;&#10;По первому пакету - первый полученный от устройства пакет содержит строковый адрес КП.&#13;&#10;Определяется драйвером - алгоритм реализован в драйвере КП.</Phrase>
+    <Phrase key="pbDeviceMappingHint.ToolTip">Способ привязки нового входящего соединения к устройству:&#13;&#10;По IP-адресу - удалённый IP-адрес устройства совпадает со строковым адресом.&#13;&#10;По первому пакету - первый полученный от устройства пакет содержит строковый адрес.&#13;&#10;Определяется драйвером - алгоритм реализован в драйвере устройства.</Phrase>
     <Phrase key="gbConnection">Соединение</Phrase>
     <Phrase key="lblTcpPort">Локальный TCP-порт</Phrase>
     <Phrase key="pbTcpPortHint.ToolTip">Локальный TCP-порт для входящих соединений.&#13;&#10;Входящие соединения должны быть разрешены брандмауэром.</Phrase>
@@ -74,10 +74,10 @@
     <Phrase key="gbMode">Режим работы</Phrase>
     <Phrase key="lblBehavior">Поведение</Phrase>
     <Phrase key="pbBehaviorHint.ToolTip">Master - Коммуникатор отправляет запрос устройству и получает ответ.&#13;&#10;Slave - Коммуникатор пассивно ожидает данные от устройства.</Phrase>
-    <Phrase key="lblDeviceMapping">Сопоставление КП</Phrase>
+    <Phrase key="lblDeviceMapping">Сопоставление устройств</Phrase>
     <Phrase key="cbDeviceMapping.Items[0]">По IP-адресу</Phrase>
     <Phrase key="cbDeviceMapping.Items[1]">Определяется драйвером</Phrase>
-    <Phrase key="pbDeviceMappingHint.ToolTip">Способ привязки нового входящего соединения к КП:&#13;&#10;По IP-адресу - удалённый IP-адрес устройства совпадает со строковым адресом КП.&#13;&#10;Определяется драйвером - алгоритм реализован в драйвере КП.</Phrase>
+    <Phrase key="pbDeviceMappingHint.ToolTip">Способ привязки нового входящего соединения к устройству:&#13;&#10;По IP-адресу - удалённый IP-адрес устройства совпадает со строковым адресом.&#13;&#10;Определяется драйвером - алгоритм реализован в драйвере устройства.</Phrase>
     <Phrase key="gbConnection">Соединение</Phrase>
     <Phrase key="lblLocalUdpPort">Локальный UDP-порт</Phrase>
     <Phrase key="pbLocalUdpPortHint.ToolTip">Локальный UDP-порт для входящих соединений.&#13;&#10;Входящие соединения должны быть разрешены брандмауэром.</Phrase>

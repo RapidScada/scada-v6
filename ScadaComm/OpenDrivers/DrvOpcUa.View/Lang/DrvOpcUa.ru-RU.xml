@@ -29,7 +29,7 @@
     <Phrase key="lblPublishingInterval">Интервал публикации</Phrase>
   </Dictionary>
   <Dictionary key="Scada.Comm.Drivers.DrvOpcUa.View.Forms.FrmConfig">
-    <Phrase key="this">Свойства КП {0} - OPC UA</Phrase>
+    <Phrase key="this">Свойства устройства {0} - OPC UA</Phrase>
     <Phrase key="gbConnection">Соединение</Phrase>
     <Phrase key="lblServerUrl">Адрес сервера</Phrase>
     <Phrase key="btnConnect.ToolTip">Соединиться с сервером</Phrase>
@@ -37,7 +37,7 @@
     <Phrase key="btnSecurityOptions.ToolTip">Настройки безопасности</Phrase>
     <Phrase key="gbServerBrowse">Обзор сервера</Phrase>
     <Phrase key="btnViewAttrs.ToolTip">Просмотреть атрибуты</Phrase>
-    <Phrase key="gbDevice">Конфигурация КП</Phrase>
+    <Phrase key="gbDevice">Конфигурация устройства</Phrase>
     <Phrase key="btnAddItem.ToolTip">Добавить выбранный элемент</Phrase>
     <Phrase key="btnAddSubscription.ToolTip">Добавить подписку</Phrase>
     <Phrase key="btnMoveUpItem.ToolTip">Переместить вверх</Phrase>

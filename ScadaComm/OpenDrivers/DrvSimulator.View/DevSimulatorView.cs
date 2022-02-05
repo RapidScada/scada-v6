@@ -9,7 +9,7 @@ namespace Scada.Comm.Drivers.DrvSimulator.View
 {
     /// <summary>
     /// Implements the device user interface.
-    /// <para>Реализует пользовательский интерфейс КП.</para>
+    /// <para>Реализует пользовательский интерфейс устройства.</para>
     /// </summary>
     internal class DevSimulatorView : DeviceView
     {

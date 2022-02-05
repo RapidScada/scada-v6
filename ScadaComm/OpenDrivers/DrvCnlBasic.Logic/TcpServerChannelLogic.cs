@@ -207,7 +207,7 @@ namespace Scada.Comm.Drivers.DrvCnlBasic.Logic
             foreach (DeviceLogic deviceLogic in devices)
             {
                 Log.WriteAction(Locale.IsRussian ?
-                    "КП {0} привязан к клиенту {1}" :
+                    "Устройство {0} привязано к клиенту {1}" :
                     "The device {0} is bound to the client {1}",
                     deviceLogic.Title, conn.RemoteAddress);
 
@@ -442,14 +442,14 @@ namespace Scada.Comm.Drivers.DrvCnlBasic.Logic
                         else
                         {
                             sb.Append(Locale.IsRussian ?
-                                "Все КП привязаны" :
+                                "Все устройства привязаны" :
                                 "All devices are bound");
                         }
                     }
                     else
                     {
-                        sb.Append(Locale.IsRussian ? 
-                            "Привязанные КП отсутствуют" : 
+                        sb.Append(Locale.IsRussian ?
+                            "Привязанные устройства отсутствуют" : 
                             "No bound devices");
                     }
 

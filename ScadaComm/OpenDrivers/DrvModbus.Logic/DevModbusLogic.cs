@@ -15,7 +15,7 @@ namespace Scada.Comm.Drivers.DrvModbus.Logic
 {
     /// <summary>
     /// Implements the device logic.
-    /// <para>Реализует логику КП.</para>
+    /// <para>Реализует логику устройства.</para>
     /// </summary>
     public class DevModbusLogic : DeviceLogic
     {

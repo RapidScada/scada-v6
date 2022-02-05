@@ -16,7 +16,7 @@
     <Phrase key="lblMaxCurDataAge">Текущие данные как исторические, с</Phrase>
     <Phrase key="lblDataLifetime">Время жизни данных в очереди, с</Phrase>
     <Phrase key="lblClientLogEnabled">Журнал клиента включен</Phrase>
-    <Phrase key="lblDeviceFilter">Фильтр КП</Phrase>
+    <Phrase key="lblDeviceFilter">Фильтр устройств</Phrase>
     <Phrase key="btnSelectDevices">Выбрать...</Phrase>
     <Phrase key="btnManageConn">Соединения</Phrase>
     <Phrase key="btnOK">OK</Phrase>

@@ -5,7 +5,7 @@ namespace Scada.Comm.Drivers.DrvOpcUa.View
 {
     /// <summary>
     /// Specifies the types of updating the device configuration tree.
-    /// <para>Задаёт типы обновления дерева конфигурации КП.</para>
+    /// <para>Задаёт типы обновления дерева конфигурации устройства.</para>
     /// </summary>
     [Flags]
     public enum TreeUpdateTypes

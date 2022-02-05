@@ -14,7 +14,7 @@ namespace Scada.Comm.Drivers.DrvTester.Logic
 {
     /// <summary>
     /// Implements the device logic.
-    /// <para>Реализует логику КП.</para>
+    /// <para>Реализует логику устройства.</para>
     /// </summary>
     internal class DevTesterLogic : DeviceLogic
     {

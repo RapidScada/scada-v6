@@ -8,7 +8,7 @@ namespace Scada.Comm.Drivers.DrvOpcUa.Config
 {
     /// <summary>
     /// Represents options for editing a device configuration.
-    /// <para>Представляет параметры редактирования конфигурации КП.</para>
+    /// <para>Представляет параметры редактирования конфигурации устройства.</para>
     /// </summary>
     public class EditingOptions
     {

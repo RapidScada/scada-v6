@@ -73,10 +73,10 @@
     <Phrase key="lblGrElemCnt">Количество элементов</Phrase>
   </Dictionary>
   <Dictionary key="Scada.Comm.Drivers.DrvModbus.View.Forms.FrmDeviceProps">
-    <Phrase key="this">Свойства КП {0}</Phrase>
+    <Phrase key="this">Свойства устройства {0}</Phrase>
     <Phrase key="gbCommLine">Линия связи</Phrase>
     <Phrase key="lblTransMode">Протокол</Phrase>
-    <Phrase key="gbDevice">КП</Phrase>
+    <Phrase key="gbDevice">Устройство</Phrase>
     <Phrase key="lblTemplateFileName">Шаблон устройства</Phrase>
     <Phrase key="btnBrowseTemplate">Обзор...</Phrase>
     <Phrase key="btnCreateTemplate">Создать</Phrase>
