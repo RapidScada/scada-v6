@@ -17,7 +17,7 @@ namespace Scada.Admin.Extensions.ExtCommConfig.Controls
 {
     /// <summary>
     /// Represents a control for selecting a device when creating channels.
-    /// <para>Представляет элемент управления для выбора КП при создании каналов.</para>
+    /// <para>Представляет элемент управления для выбора устройства при создании каналов.</para>
     /// </summary>
     public partial class CtrlCnlCreate1 : UserControl
     {

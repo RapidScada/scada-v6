@@ -20,7 +20,7 @@ namespace Scada.Admin.Extensions.ExtCommConfig.Forms
 {
     /// <summary>
     /// Represents a form for adding a device.
-    /// <para>Представляет форму для добавления КП.</para>
+    /// <para>Представляет форму для добавления устройства.</para>
     /// </summary>
     public partial class FrmDeviceAdd : Form
     {

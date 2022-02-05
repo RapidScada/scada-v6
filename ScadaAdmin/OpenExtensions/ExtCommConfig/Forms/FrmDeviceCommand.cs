@@ -17,7 +17,7 @@ namespace Scada.Admin.Extensions.ExtCommConfig.Forms
 {
     /// <summary>
     /// Represents a form for sending commands to a device.
-    /// <para>Представляет форму для отправки команд КП.</para>
+    /// <para>Представляет форму для отправки команд устройству.</para>
     /// </summary>
     public partial class FrmDeviceCommand : Form
     {

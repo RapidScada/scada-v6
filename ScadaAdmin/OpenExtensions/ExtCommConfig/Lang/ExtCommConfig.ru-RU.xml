@@ -10,24 +10,24 @@
     <Phrase key="LogsNode">Журналы</Phrase>
   </Dictionary>
   <Dictionary key="Scada.Admin.Extensions.ExtCommConfig.Code.ExtensionUtils">
-    <Phrase key="DeviceNotSupported">Драйвер не поддерживает создание КП.</Phrase>
-    <Phrase key="UnableCreateDeviceView">Невозможно создать пользовательский интерфейс КП.</Phrase>
-    <Phrase key="NoDeviceProperties">КП не предоставляет окно свойств.</Phrase>
+    <Phrase key="DeviceNotSupported">Драйвер не поддерживает создание устройств.</Phrase>
+    <Phrase key="UnableCreateDeviceView">Невозможно создать пользовательский интерфейс устройства.</Phrase>
+    <Phrase key="NoDeviceProperties">Устройство не предоставляет окно свойств.</Phrase>
   </Dictionary>
   <Dictionary key="Scada.Admin.Extensions.ExtCommConfig.Controls.CtrlCnlCreate1">
     <Phrase key="lblCommLine">Линия связи</Phrase>
-    <Phrase key="lblDevice">КП</Phrase>
+    <Phrase key="lblDevice">Устройство</Phrase>
     <Phrase key="AllCommLines">&lt;Все линии связи&gt;</Phrase>
     <Phrase key="DeviceInfo">Драйвер: {0}&#13;&#10;Экземпляр: {1}&#13;&#10;Каналы: {2}</Phrase>
-    <Phrase key="DeviceNotFound">КП не найден в Коммуникаторе.</Phrase>
-    <Phrase key="NoDeviceSelected">КП не выбран.</Phrase>
+    <Phrase key="DeviceNotFound">Устройство не найдено в Коммуникаторе.</Phrase>
+    <Phrase key="NoDeviceSelected">Устройство не выбрано.</Phrase>
   </Dictionary>
   <Dictionary key="Scada.Admin.Extensions.ExtCommConfig.Controls.CtrlCnlCreate2">
-    <Phrase key="lblDevice">КП</Phrase>
+    <Phrase key="lblDevice">Устройство</Phrase>
     <Phrase key="lblObj">Объект</Phrase>
   </Dictionary>
   <Dictionary key="Scada.Admin.Extensions.ExtCommConfig.Controls.CtrlCnlCreate3">
-    <Phrase key="lblDevice">КП</Phrase>
+    <Phrase key="lblDevice">Устройство</Phrase>
     <Phrase key="gbCnlNums">Номера каналов</Phrase>
     <Phrase key="lblStartCnlNum">Начальный</Phrase>
     <Phrase key="lblEndCnlNum">Конечный</Phrase>
@@ -37,10 +37,10 @@
   <Dictionary key="Scada.Admin.Extensions.ExtCommConfig.Controls.CtrlExtensionMenu">
     <Phrase key="miWizards">Мастеры</Phrase>
     <Phrase key="miAddLine">Добавить линию...</Phrase>
-    <Phrase key="miAddDevice">Добавить КП...</Phrase>
+    <Phrase key="miAddDevice">Добавить устройств...</Phrase>
     <Phrase key="miCreateChannels">Создать каналы...</Phrase>
     <Phrase key="btnAddLine.ToolTip">Добавить линию</Phrase>
-    <Phrase key="btnAddDevice.ToolTip">Добавить КП</Phrase>
+    <Phrase key="btnAddDevice.ToolTip">Добавить устройство</Phrase>
     <Phrase key="btnCreateChannels.ToolTip">Создать каналы</Phrase>
     <Phrase key="miLineSync">Сихронизировать...</Phrase>
     <Phrase key="miLineAdd">Добавить линию</Phrase>
@@ -67,7 +67,7 @@
     <Phrase key="lblReqRetries">Количество попыток запроса при ошибке</Phrase>
     <Phrase key="lblCycleDelay">Задержка после цикла опроса, мс</Phrase>
     <Phrase key="lblCmdEnabled">Команды разрешены</Phrase>
-    <Phrase key="lblPollAfterCmd">Опрос КП после команды</Phrase>
+    <Phrase key="lblPollAfterCmd">Опрос устройства после команды</Phrase>
     <Phrase key="lblDetailedLog">Подробный журнал</Phrase>
     <Phrase key="gbChannel">Канал связи</Phrase>
     <Phrase key="lblChannelType">Тип</Phrase>
@@ -109,7 +109,7 @@
     <Phrase key="colTime">Время</Phrase>
     <Phrase key="colPeriod">Период</Phrase>
     <Phrase key="colCmdLine">Командная строка</Phrase>
-    <Phrase key="gbSelectedDevice">Выбранный КП</Phrase>
+    <Phrase key="gbSelectedDevice">Выбранное устройство</Phrase>
     <Phrase key="chkActive">Активен</Phrase>
     <Phrase key="chkPollOnCmd">Опрос только по команде</Phrase>
     <Phrase key="chkIsBound">Привязан к базе конфигурации</Phrase>
@@ -126,16 +126,16 @@
     <Phrase key="lblCustomOptions">Параметры</Phrase>
     <Phrase key="btnDeviceProperties">Свойства</Phrase>
     <Phrase key="btnResetPollingOptions">Сброс</Phrase>
-    <Phrase key="btnResetPollingOptions.ToolTip">Установить параметры опроса КП по умолчанию</Phrase>
+    <Phrase key="btnResetPollingOptions.ToolTip">Установить параметры опроса устройства по умолчанию</Phrase>
   </Dictionary>
   <Dictionary key="Scada.Admin.Extensions.ExtCommConfig.Controls.CtrlSync1">
     <Phrase key="lblSyncDirection">Выберите направление синхронизации:</Phrase>
     <Phrase key="rbBaseToComm">Из базы конфигурации в Коммуникатор</Phrase>
     <Phrase key="rbCommToBase">Из Коммуникатора в базу конфигурации</Phrase>
-    <Phrase key="lblInfo">Отсутствующие линии и КП будут созданы.&#13;&#10;Существующие линии и КП будут обновлены.&#13;&#10;&#13;&#10;Затрагиваемые свойства:&#13;&#10;- Наименование линии связи&#13;&#10;- Наименование КП&#13;&#10;- Драйвер КП&#13;&#10;- Адрес КП</Phrase>
+    <Phrase key="lblInfo">Отсутствующие линии и устройства будут созданы.&#13;&#10;Существующие линии и устройства будут обновлены.&#13;&#10;&#13;&#10;Затрагиваемые свойства:&#13;&#10;- Наименование линии связи&#13;&#10;- Наименование устройства&#13;&#10;- Драйвер устройства&#13;&#10;- Адрес устройства</Phrase>
   </Dictionary>
   <Dictionary key="Scada.Admin.Extensions.ExtCommConfig.Controls.CtrlSync2">
-    <Phrase key="lblSelect">Выберите линии и КП для синхронизации:</Phrase>
+    <Phrase key="lblSelect">Выберите линии и устройства для синхронизации:</Phrase>
   </Dictionary>
   <Dictionary key="Scada.Admin.Extensions.ExtCommConfig.Forms.FrmCnlCreate">
     <Phrase key="this">Создание каналов</Phrase>
@@ -144,7 +144,7 @@
     <Phrase key="btnNext">Далее &gt;</Phrase>
     <Phrase key="btnCreate">Создать </Phrase>
     <Phrase key="btnCancel">Отмена</Phrase>
-    <Phrase key="CreateCnlsStep1">Шаг 1 из 3: Выберите КП</Phrase>
+    <Phrase key="CreateCnlsStep1">Шаг 1 из 3: Выберите устройство</Phrase>
     <Phrase key="CreateCnlsStep2">Шаг 2 из 3: Выберите объект вновь созданных каналов</Phrase>
     <Phrase key="CreateCnlsStep3">Шаг 3 из 3: Назначьте номера каналов</Phrase>
     <Phrase key="CreateCnlsCompleted">Создание каналов завершено успешно.&#13;&#10;{0} channel(s) added.</Phrase>
@@ -163,7 +163,7 @@
   <Dictionary key="Scada.Admin.Extensions.ExtCommConfig.Forms.FrmCommLogs">
     <Phrase key="AppFilter">Приложение</Phrase>
     <Phrase key="LinesFilter">Линии связи</Phrase>
-    <Phrase key="DevicesFilter">КП</Phrase>
+    <Phrase key="DevicesFilter">Устройства</Phrase>
   </Dictionary>
   <Dictionary key="Scada.Admin.Extensions.ExtCommConfig.Forms.FrmDataSources">
     <Phrase key="this">Источники данных</Phrase>
@@ -192,23 +192,23 @@
     <Phrase key="NoDataSourceProperties">Источник данных не предоставляет окно свойств.</Phrase>
   </Dictionary>
   <Dictionary key="Scada.Admin.Extensions.ExtCommConfig.Forms.FrmDeviceAdd">
-    <Phrase key="this">Добавление КП</Phrase>
-    <Phrase key="gbDevice">КП</Phrase>
+    <Phrase key="this">Добавление устройства</Phrase>
+    <Phrase key="gbDevice">Устройство</Phrase>
     <Phrase key="lblDeviceNum">Номер</Phrase>
     <Phrase key="lblName">Наименование</Phrase>
     <Phrase key="lblCode">Код</Phrase>
-    <Phrase key="lblDevType">Тип КП</Phrase>
+    <Phrase key="lblDevType">Тип устройства</Phrase>
     <Phrase key="lblNumAddress">Числовой адрес</Phrase>
     <Phrase key="lblStrAddress">Строковый адрес или имя сервера</Phrase>
     <Phrase key="lblCommLine">Линия связи</Phrase>
     <Phrase key="lblDescr">Описание</Phrase>
     <Phrase key="gbComm">Коммуникатор</Phrase>
-    <Phrase key="chkAddToComm">Добавить КП в Коммуникатор</Phrase>
+    <Phrase key="chkAddToComm">Добавить устройство в Коммуникатор</Phrase>
     <Phrase key="lblInstance">Экземпляр</Phrase>
     <Phrase key="btnOK">OK</Phrase>
     <Phrase key="btnCancel">Отмена</Phrase>
-    <Phrase key="DeviceExistsInConfigBase">КП с таким номером уже существует в базе конфигурации.</Phrase>
-    <Phrase key="DeviceExistsInLineConfig">КП с таким номером уже существует в конфигурации линии связи.</Phrase>
+    <Phrase key="DeviceExistsInConfigBase">Устройство с таким номером уже существует в базе конфигурации.</Phrase>
+    <Phrase key="DeviceExistsInLineConfig">Устройство с таким номером уже существует в конфигурации линии связи.</Phrase>
     <Phrase key="LineNotFoundInCommConfig">Линия связи не найдена в конфигурации Коммуникатора.</Phrase>
     <Phrase key="ChooseLine">Выберите линию связи.</Phrase>
   </Dictionary>
@@ -225,7 +225,7 @@
     <Phrase key="btnClose">Закрыть</Phrase>
   </Dictionary>
   <Dictionary key="Scada.Admin.Extensions.ExtCommConfig.Forms.FrmDeviceData">
-    <Phrase key="this">КП {0}</Phrase>
+    <Phrase key="this">Устройство {0}</Phrase>
     <Phrase key="btnDeviceProperties">Свойства</Phrase>
     <Phrase key="btnSendCommand">Команда</Phrase>
   </Dictionary>
@@ -240,7 +240,7 @@
     <Phrase key="lblMultiplicity">Кратность</Phrase>
     <Phrase key="lblShift">Смещение</Phrase>
     <Phrase key="lblGap">Промежуток</Phrase>
-    <Phrase key="chkPrependDeviceName">Добавлять наименование КП</Phrase>
+    <Phrase key="chkPrependDeviceName">Добавлять наименование устройства</Phrase>
     <Phrase key="btnOK">OK</Phrase>
     <Phrase key="btnCancel">Отмена</Phrase>
   </Dictionary>
@@ -248,8 +248,8 @@
     <Phrase key="this">Основные параметры</Phrase>
     <Phrase key="gbGeneralOptions">Основные параметры</Phrase>
     <Phrase key="lblIsBound">Приложение привязано к базе конфигурации</Phrase>
-    <Phrase key="lblSendModifiedData">Передавать только изменившиеся данные тегов КП</Phrase>
-    <Phrase key="lblSendAllDataPeriod">Период передачи данных всех тегов КП, с</Phrase>
+    <Phrase key="lblSendModifiedData">Передавать только изменившиеся данные тегов устройства</Phrase>
+    <Phrase key="lblSendAllDataPeriod">Период передачи данных всех тегов устройства, с</Phrase>
     <Phrase key="lblEnableCommands">Разрешить команды телеуправления</Phrase>
     <Phrase key="lblEnableFileCommands">Считывать команды телеуправления из файлов</Phrase>
     <Phrase key="lblMaxLogSize">Максимальный размер файла журнала, МБ</Phrase>
@@ -271,7 +271,7 @@
   <Dictionary key="Scada.Admin.Extensions.ExtCommConfig.Forms.FrmLineConfig">
     <Phrase key="lbTabs.Items[0]">Основные</Phrase>
     <Phrase key="lbTabs.Items[1]">Пользовательские</Phrase>
-    <Phrase key="lbTabs.Items[2]">Опрос КП</Phrase>
+    <Phrase key="lbTabs.Items[2]">Опрос устройства</Phrase>
     <Phrase key="LineConfigTitle">Параметры линии {0}</Phrase>
   </Dictionary>
   <Dictionary key="Scada.Admin.Extensions.ExtCommConfig.Forms.FrmLineStats">
@@ -281,7 +281,7 @@
     <Phrase key="LineStatsTitle">Статистика линии {0}</Phrase>
   </Dictionary>
   <Dictionary key="Scada.Admin.Extensions.ExtCommConfig.Forms.FrmSync">
-    <Phrase key="this">Синхронизация линий и КП</Phrase>
+    <Phrase key="this">Синхронизация линий и устройств</Phrase>
     <Phrase key="btnNext">Далее</Phrase>
     <Phrase key="btnSync">Выполнить</Phrase>
     <Phrase key="btnCancel">Отмена</Phrase>

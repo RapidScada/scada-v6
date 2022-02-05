@@ -1,7 +1,7 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <ExtProjectToolsDictionaries>
   <Dictionary key="Scada.Admin.Extensions.ExtProjectTools.Code.ChannelMap">
-    <Phrase key="MapByDeviceTitle">Каналы по КП</Phrase>
+    <Phrase key="MapByDeviceTitle">Каналы по устройствам</Phrase>
     <Phrase key="MapByObjectTitle">Каналы по объектам</Phrase>
     <Phrase key="ChannelsCaption">Каналы : </Phrase>
     <Phrase key="NoChannels">Каналы отсутствуют</Phrase>
@@ -19,7 +19,7 @@
   <Dictionary key="Scada.Admin.Extensions.ExtProjectTools.Controls.CtrlMainMenu">
     <Phrase key="miProjectTools">Инструменты проекта</Phrase>
     <Phrase key="miCloneChannels">Клонировать каналы...</Phrase>
-    <Phrase key="miChannelMapByDevice">Карта каналов по КП</Phrase>
+    <Phrase key="miChannelMapByDevice">Карта каналов по устройствам</Phrase>
     <Phrase key="miChannelMapByObject">Карта каналов по объектам</Phrase>
     <Phrase key="miCheckIntegrity">Проверить целостность</Phrase>
     <Phrase key="miImportTable">Импортировать таблицу...</Phrase>
@@ -35,7 +35,7 @@
     <Phrase key="lblDestEndNum">Конечный</Phrase>
     <Phrase key="gbOptions">Параметры</Phrase>
     <Phrase key="lblReplaceObj">Замена объекта</Phrase>
-    <Phrase key="lblReplaceDevice">Замена КП</Phrase>
+    <Phrase key="lblReplaceDevice">Замена устройства</Phrase>
     <Phrase key="chkUpdateFormulas">Обновить номера каналов в формулах</Phrase>
     <Phrase key="btnClone">Клонировать</Phrase>
     <Phrase key="btnClose">Закрыть</Phrase>

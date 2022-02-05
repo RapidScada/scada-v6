@@ -7,13 +7,13 @@
     <Phrase key="btnMoveUpItem.ToolTip">Переместить элемент вверх</Phrase>
     <Phrase key="btnMoveDownItem.ToolTip">Переместить элемент вниз</Phrase>
     <Phrase key="btnDeleteItem.ToolTip">Удалить выбранные элементы</Phrase>
-    <Phrase key="lblHint">Нажмите Enter или дважды щелкните узел, чтобы добавить его в таблицу. Щелкните правой кнопкой мыши узел КП, чтобы отобразить контекстное меню.</Phrase>
+    <Phrase key="lblHint">Нажмите Enter или дважды щелкните узел, чтобы добавить его в таблицу. Щелкните правой кнопкой мыши узел устройства, чтобы отобразить контекстное меню.</Phrase>
     <Phrase key="colCnlNum">Канал</Phrase>
-    <Phrase key="colDeviceNum">КП</Phrase>
+    <Phrase key="colDeviceNum">Устройство</Phrase>
     <Phrase key="colAutoText">Авто текст</Phrase>
     <Phrase key="colText">Текст</Phrase>
     <Phrase key="colHidden">Скрыть</Phrase>
-    <Phrase key="miDeviceAddDevice">Добавить КП</Phrase>
+    <Phrase key="miDeviceAddDevice">Добавить устройство</Phrase>
     <Phrase key="miDeviceAddAllChannels">Добавить все каналы</Phrase>
   </Dictionary>
 </ExtTableEditorDictionaries>

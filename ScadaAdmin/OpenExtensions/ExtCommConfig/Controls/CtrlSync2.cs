@@ -16,7 +16,7 @@ namespace Scada.Admin.Extensions.ExtCommConfig.Controls
 {
     /// <summary>
     /// Represents a control for selecting synchronized communication lines and devices.
-    /// <para>Представляет элемент управления для выбора синхронизируемых линий связи и КП.</para>
+    /// <para>Представляет элемент управления для выбора синхронизируемых линий связи и устройств.</para>
     /// </summary>
     public partial class CtrlSync2 : UserControl
     {

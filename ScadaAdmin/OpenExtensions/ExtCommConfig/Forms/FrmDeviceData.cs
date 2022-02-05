@@ -19,7 +19,7 @@ namespace Scada.Admin.Extensions.ExtCommConfig.Forms
 {
     /// <summary>
     /// Represents a form for displaying device data.
-    /// <para>Представляет форму для отображения данных КП.</para>
+    /// <para>Представляет форму для отображения данных устройства.</para>
     /// </summary>
     public partial class FrmDeviceData : Form, IChildForm
     {
