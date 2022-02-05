@@ -30,7 +30,7 @@ namespace Scada.Comm.Devices
 {
     /// <summary>
     /// Represents a device tag.
-    /// <para>Представляет тег КП.</para>
+    /// <para>Представляет тег устройства.</para>
     /// </summary>
     public class DeviceTag
     {

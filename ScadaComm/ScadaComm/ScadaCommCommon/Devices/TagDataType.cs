@@ -29,7 +29,7 @@ namespace Scada.Comm.Devices
 {
     /// <summary>
     /// Specifies the data types of the device tags.
-    /// <para>Задает типы данных тегов КП.</para>
+    /// <para>Задает типы данных тегов устройства.</para>
     /// </summary>
     /// <remarks>Corresponds to Scada.Data.Const.DataTypeID.</remarks>
     public enum TagDataType

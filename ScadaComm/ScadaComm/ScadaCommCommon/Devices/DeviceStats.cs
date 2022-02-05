@@ -27,7 +27,7 @@ namespace Scada.Comm.Devices
 {
     /// <summary>
     /// Represents device statistics.
-    /// <para>Представляет статистику КП.</para>
+    /// <para>Представляет статистику устройства.</para>
     /// </summary>
     public class DeviceStats
     {

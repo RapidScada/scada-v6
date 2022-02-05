@@ -30,7 +30,7 @@ namespace Scada.Comm.Devices
 {
     /// <summary>
     /// Represents an event created by a device driver.
-    /// <para>Представляет событие, созданное драйвером КП.</para>
+    /// <para>Представляет событие, созданное драйвером устройства.</para>
     /// </summary>
     public class DeviceEvent : Event
     {

@@ -29,7 +29,7 @@ namespace Scada.Comm.Devices
 {
     /// <summary>
     /// Specifies the format types of the device tags.
-    /// <para>Задает форматы тегов КП.</para>
+    /// <para>Задает форматы тегов устройства.</para>
     /// </summary>
     public enum TagFormatType
     {

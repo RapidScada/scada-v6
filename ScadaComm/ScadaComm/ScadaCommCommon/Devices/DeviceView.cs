@@ -32,7 +32,7 @@ namespace Scada.Comm.Devices
 {
     /// <summary>
     /// Represents the base class for device user interface.
-    /// <para>Представляет базовый класс пользовательского интерфейса КП.</para>
+    /// <para>Представляет базовый класс пользовательского интерфейса устройства.</para>
     /// </summary>
     public abstract class DeviceView : LibraryView
     {

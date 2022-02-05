@@ -122,7 +122,7 @@ namespace Scada.Comm.Channels
                 if (!deviceLogic.CheckBehaviorSupport(Behavior))
                 {
                     throw new ScadaException(Locale.IsRussian ?
-                        "Поведение {0} канала связи не поддерживается КП {1}." :
+                        "Поведение {0} канала связи не поддерживается устройством {1}." :
                         "{0} behavior of the communication channel is not supported by the device {1}",
                         Behavior, deviceLogic.Title);
                 }
@@ -131,7 +131,7 @@ namespace Scada.Comm.Channels
             if (Behavior == ChannelBehavior.Slave && deviceTypeNames.Count > 1)
             {
                 Log.WriteWarning(Locale.IsRussian ?
-                    "Не рекомендуется использовать КП разных типов на одной линии связи" :
+                    "Не рекомендуется использовать устройства разных типов на одной линии связи" :
                     "It is not recommended to use devices of different types on the same communication line");
             }
         }
@@ -161,7 +161,7 @@ namespace Scada.Comm.Channels
             catch (Exception ex)
             {
                 Log.WriteError(ex, Locale.IsRussian ?
-                    "Ошибка при приёме входящего запроса КП {0}" :
+                    "Ошибка при приёме входящего запроса для устройства {0}" :
                     "Error receiving incoming request for the device {0}", deviceLogic.Title);
                 return false;
             }
@@ -200,7 +200,7 @@ namespace Scada.Comm.Channels
             catch (Exception ex)
             {
                 Log.WriteError(ex, Locale.IsRussian ?
-                    "Ошибка при обработке входящего запроса КП {0}" :
+                    "Ошибка при обработке входящего запроса для устройства {0}" :
                     "Error processing incoming request for the device {0}", deviceLogic.Title);
                 return false;
             }

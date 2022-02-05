@@ -33,7 +33,7 @@ namespace Scada.Comm.Devices
 {
     /// <summary>
     /// Represents device data for display.
-    /// <para>Представляет данные КП для отображения.</para>
+    /// <para>Представляет данные устройства для отображения.</para>
     /// </summary>
     internal class DeviceDataView
     {
@@ -555,7 +555,7 @@ namespace Scada.Comm.Devices
             else
             {
                 sb.AppendLine(Locale.IsRussian ?
-                    "Теги КП отсутствуют" :
+                    "Теги устройства отсутствуют" :
                     "No device tags");
             }
         }

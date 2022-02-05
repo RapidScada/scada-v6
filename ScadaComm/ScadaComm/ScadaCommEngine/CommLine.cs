@@ -209,7 +209,7 @@ namespace Scada.Comm.Engine
             else
             {
                 errMsg = Locale.IsRussian ?
-                    "Работа линии связи невозможна из-за отсутствия КП" :
+                    "Работа линии связи невозможна из-за отсутствия устройств" :
                     "Communication line execution is impossible due to lack of devices";
                 return false;
             }
@@ -329,7 +329,7 @@ namespace Scada.Comm.Engine
                         {
                             Log.WriteLine();
                             Log.WriteAction(string.Format(Locale.IsRussian ?
-                                "Невозможно отправить команду КП {0}, т.к. соединение не установлено" :
+                                "Невозможно отправить команду устройству {0}, т.к. соединение не установлено" :
                                 "Unable to send command to the device {0} because connection is not established",
                                 deviceLogic.Title));
                         }
@@ -367,7 +367,7 @@ namespace Scada.Comm.Engine
                             {
                                 Log.WriteLine();
                                 Log.WriteAction(string.Format(Locale.IsRussian ?
-                                    "Невозможно выполнить сеанс связи с КП {0}, т.к. соединение не установлено" :
+                                    "Невозможно выполнить сеанс связи с устройством {0}, т.к. соединение не установлено" :
                                     "Unable to communicate with the device {0} because connection is not established",
                                     deviceLogic.Title));
                             }
@@ -442,18 +442,18 @@ namespace Scada.Comm.Engine
                     if (utcNow - cmd.CreationTime > ScadaUtils.CommandLifetime)
                     {
                         Log.WriteError(Locale.IsRussian ?
-                            "Устаревшая команда для КП {0} отклонена" :
+                            "Устаревшая команда для устройства {0} отклонена" :
                             "Outdated command to the device {0} is rejected", cmd.DeviceNum);
                     }
                     else if (!deviceMap.TryGetValue(cmd.DeviceNum, out deviceWrapper))
                     {
                         Log.WriteError(Locale.IsRussian ?
-                            "Команда с недопустимым КП {0}, отклонена" :
+                            "Команда с недопустимым устройством {0}, отклонена" :
                             "Command with invalid device {0} is rejected", cmd.DeviceNum);
                     } else if (!deviceWrapper.DeviceLogic.CanSendCommands)
                     {
                         Log.WriteError(Locale.IsRussian ?
-                            "КП {0} не поддерживает отправку команд" :
+                            "Устройство {0} не поддерживает отправку команд" :
                             "The device {0} does not support sending commands");
                     }
                     else
@@ -598,7 +598,7 @@ namespace Scada.Comm.Engine
                 {
                     sb.Append("Статус      : ").AppendLine(lineStatus.ToString(true));
                     sb.Append("Канал связи : ").AppendLine(channel.ChannelLogic.StatusText);
-                    deviceHeader = $"КП ({devices.Count})";
+                    deviceHeader = $"Устройства ({devices.Count})";
                 }
                 else
                 {
@@ -631,7 +631,7 @@ namespace Scada.Comm.Engine
                 }
                 else
                 {
-                    sb.AppendLine(Locale.IsRussian ? "КП нет" : "No devices");
+                    sb.AppendLine(Locale.IsRussian ? "Устройств нет" : "No devices");
                 }
 
                 lastInfoLength = sb.Length;

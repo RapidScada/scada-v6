@@ -84,7 +84,7 @@ namespace Scada.Comm.Lang
             {
                 ErrorInDriver = "Ошибка при вызове метода {0} драйвера {1}";
                 ErrorInChannel = "Ошибка при вызове метода {0} канала связи {1}";
-                ErrorInDevice = "Ошибка при вызове метода {0} КП {1}";
+                ErrorInDevice = "Ошибка при вызове метода {0} устройства {1}";
                 ErrorInDataSource = "Ошибка при вызове метода {0} источника данных {1}";
 
                 DataSourceMessage = "Источник данных {0}: {1}";
@@ -96,7 +96,7 @@ namespace Scada.Comm.Lang
                 ReadLinesError = "Ошибка при считывании строк";
                 WriteDataError = "Ошибка при записи данных";
                 WriteLineError = "Ошибка при записи строки";
-                UnableFindDevice = "Не удалось найти ни одного КП с адресом {0}";
+                UnableFindDevice = "Не удалось найти ни одного устройства с адресом {0}";
 
                 ResponseOK = "OK";
                 ResponseError = "Ошибка связи";

@@ -202,7 +202,7 @@ namespace Scada.Comm.Engine
             catch (Exception ex)
             {
                 log.WriteError(ex, Locale.IsRussian ?
-                    "Ошибка при записи в файл информации о работе КП {0}" :
+                    "Ошибка при записи в файл информации о работе устройства {0}" :
                     "Error writing device {0} information to the file", DeviceLogic.Title);
             }
         }

@@ -29,7 +29,7 @@ namespace Scada.Comm.Devices
 {
     /// <summary>
     /// Represents a group of device tags.
-    /// <para>Представляет группу тегов КП.</para>
+    /// <para>Представляет группу тегов устройства.</para>
     /// </summary>
     public class TagGroup
     {

@@ -1,9 +1,9 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <ScadaCommDictionaries>
   <Dictionary key="Scada.Comm.Devices">
-    <Phrase key="LoadDeviceConfigError">Ошибка при загрузке конфигурации КП</Phrase>
-    <Phrase key="SaveDeviceConfigError">Ошибка при сохранении конфигурации КП</Phrase>
-    <Phrase key="SaveDeviceConfigConfirm">Конфигурация КП была изменена. Сохранить изменения?</Phrase>
+    <Phrase key="LoadDeviceConfigError">Ошибка при загрузке конфигурации устройства</Phrase>
+    <Phrase key="SaveDeviceConfigError">Ошибка при сохранении конфигурации устройства</Phrase>
+    <Phrase key="SaveDeviceConfigConfirm">Конфигурация устройства была изменена. Сохранить изменения?</Phrase>
   </Dictionary>
   <Dictionary key="Scada.Comm.Drivers">
     <Phrase key="LoadDriverConfigError">Ошибка при загрузке конфигурации драйвера</Phrase>

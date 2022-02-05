@@ -34,7 +34,7 @@ namespace Scada.Comm.Devices
 {
     /// <summary>
     /// Represents device data.
-    /// <para>Представляет данные КП.</para>
+    /// <para>Представляет данные устройства.</para>
     /// </summary>
     /// <remarks>The class is thread safe.</remarks>
     public class DeviceData

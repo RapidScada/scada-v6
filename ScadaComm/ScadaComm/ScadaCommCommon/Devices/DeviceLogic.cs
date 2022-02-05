@@ -42,7 +42,7 @@ namespace Scada.Comm.Devices
 {
     /// <summary>
     /// Represents the base class for device logic.
-    /// <para>Представляет базовый класс логики КП.</para>
+    /// <para>Представляет базовый класс логики устройства.</para>
     /// </summary>
     public abstract class DeviceLogic
     {
@@ -405,7 +405,7 @@ namespace Scada.Comm.Devices
 
             Log.WriteLine();
             Log.WriteAction(Locale.IsRussian ?
-                "Сеанс связи с КП {0}" :
+                "Сеанс связи с устройством {0}" :
                 "Session with the device {0}", Title);
         }
 
@@ -420,7 +420,7 @@ namespace Scada.Comm.Devices
 
             Log.WriteLine();
             Log.WriteAction(Locale.IsRussian ?
-                "Команда КП {0}" :
+                "Команда устройству {0}" :
                 "Command to the device {0}", Title);
         }
 

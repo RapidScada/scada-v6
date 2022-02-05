@@ -34,7 +34,7 @@ namespace Scada.Comm.Channels
 {
     /// <summary>
     /// Represents the base class for device connection.
-    /// <para>Представляет базовый класс соединения с КП.</para>
+    /// <para>Представляет базовый класс соединения с устройством.</para>
     /// </summary>
     public abstract class Connection
     {

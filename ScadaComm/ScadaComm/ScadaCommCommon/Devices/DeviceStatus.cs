@@ -29,7 +29,7 @@ namespace Scada.Comm.Devices
 {
     /// <summary>
     /// Specifies the device statuses.
-    /// <para>Определяет статусы КП.</para>
+    /// <para>Определяет статусы устройства.</para>
     /// </summary>
     public enum DeviceStatus
     {

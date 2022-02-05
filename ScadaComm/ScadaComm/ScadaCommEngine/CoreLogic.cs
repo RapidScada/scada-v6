@@ -888,7 +888,7 @@ namespace Scada.Comm.Engine
                 else
                 {
                     Log.WriteAction(Locale.IsRussian ?
-                        "Команда с ид. {0} на КП {1} от источника {2}" :
+                        "Команда с ид. {0} на устройство {1} от источника {2}" :
                         "Command with ID {0} to the device {1} from the source {2}",
                         cmd.CommandID, cmd.DeviceNum, source);
 

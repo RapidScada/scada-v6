@@ -31,7 +31,7 @@ namespace Scada.Comm.Channels
 {
     /// <summary>
     /// Represents a dictionary that groups devices by string address.
-    /// <para>Представляет словарь, в котором КП группируются по строковому адресу.</para>
+    /// <para>Представляет словарь, в котором устройства группируются по строковому адресу.</para>
     /// </summary>
     public class DeviceDictionary
     {
