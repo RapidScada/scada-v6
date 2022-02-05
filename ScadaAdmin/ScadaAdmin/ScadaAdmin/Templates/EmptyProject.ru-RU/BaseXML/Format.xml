@@ -175,7 +175,7 @@
   </Format>
   <Format>
     <FormatID>26</FormatID>
-    <Name>Статус КП</Name>
+    <Name>Статус устройства</Name>
     <Code>DeviceStatus</Code>
     <IsNumber>false</IsNumber>
     <IsEnum>true</IsEnum>

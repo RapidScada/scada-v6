@@ -29,7 +29,7 @@
     <Phrase key="DataLen">Длина данных</Phrase>
     <Phrase key="CnlTypeID">Тип канала</Phrase>
     <Phrase key="ObjNum">Объект</Phrase>
-    <Phrase key="DeviceNum">КП</Phrase>
+    <Phrase key="DeviceNum">Устройство</Phrase>
     <Phrase key="TagNum">Номер тега</Phrase>
     <Phrase key="TagCode">Код тега</Phrase>
     <Phrase key="FormulaEnabled">Формула вкл.</Phrase>
@@ -76,7 +76,7 @@
     <Phrase key="DeviceNum">Номер</Phrase>
     <Phrase key="Name">Наименование</Phrase>
     <Phrase key="Code">Код</Phrase>
-    <Phrase key="DevTypeID">Тип КП</Phrase>
+    <Phrase key="DevTypeID">Тип устройства</Phrase>
     <Phrase key="NumAddress">Числовой адрес</Phrase>
     <Phrase key="StrAddress">Строковый адрес</Phrase>
     <Phrase key="CommLineNum">Линия связи</Phrase>
@@ -194,8 +194,8 @@
     <Phrase key="CommNode">Коммуникатор</Phrase>
     <Phrase key="WebNode">Вебстанция</Phrase>
     <Phrase key="AppConfigNode">Конфигурационные файлы</Phrase>
-    <Phrase key="DeviceFilter">КП {0}</Phrase>
-    <Phrase key="EmptyDeviceFilter">Пустой КП</Phrase>
+    <Phrase key="DeviceFilter">Устройство {0}</Phrase>
+    <Phrase key="EmptyDeviceFilter">Пустое устройство</Phrase>
   </Dictionary>
   <Dictionary key="Scada.Admin.App.Controls.Deployment.CtrlProfileSelector">
     <Phrase key="gbInstance">Экземпляр</Phrase>
@@ -410,7 +410,7 @@
     <Phrase key="lblDataLen">Длина данных</Phrase>
     <Phrase key="lblCnlType">Тип канала</Phrase>
     <Phrase key="lblObj">Объект</Phrase>
-    <Phrase key="lblDevice">КП</Phrase>
+    <Phrase key="lblDevice">Устройство</Phrase>
     <Phrase key="lblTagNum">Номер тега</Phrase>
     <Phrase key="lblTagCode">Код тега</Phrase>
     <Phrase key="chkFormulaEnabled">Формула</Phrase>
@@ -658,7 +658,7 @@
     <Phrase key="RestartNamedService">Перезапуск службы {0}</Phrase>
     <Phrase key="ServiceCommandCompleted">Команда управления службой выполнена успешно</Phrase>
     <Phrase key="ServiceCommandFailed">Команда управления службой не выполнена</Phrase>
-    <Phrase key="EmptyDevice">Пустой КП</Phrase>
+    <Phrase key="EmptyDevice">Пустое устройство</Phrase>
     <Phrase key="EmptyObject">Пустой объект</Phrase>
   </Dictionary>
   <Dictionary key="Scada.Admin.Forms.FrmLogs">
