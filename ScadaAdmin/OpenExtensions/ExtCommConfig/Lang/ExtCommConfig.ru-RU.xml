@@ -96,9 +96,9 @@
     <Phrase key="btnCopyDevice">Копировать</Phrase>
     <Phrase key="btnPasteDevice">Вставить</Phrase>
     <Phrase key="colOrder">№ п/п</Phrase>
-    <Phrase key="colActive">Активен</Phrase>
+    <Phrase key="colActive">Активно</Phrase>
     <Phrase key="colPollOnCmd">Опрос по команде</Phrase>
-    <Phrase key="colIsBound">Привязан</Phrase>
+    <Phrase key="colIsBound">Привязано</Phrase>
     <Phrase key="colNumber">Номер</Phrase>
     <Phrase key="colName">Наименование</Phrase>
     <Phrase key="colDriver">Драйвер</Phrase>
@@ -110,9 +110,9 @@
     <Phrase key="colPeriod">Период</Phrase>
     <Phrase key="colCmdLine">Командная строка</Phrase>
     <Phrase key="gbSelectedDevice">Выбранное устройство</Phrase>
-    <Phrase key="chkActive">Активен</Phrase>
+    <Phrase key="chkActive">Активно</Phrase>
     <Phrase key="chkPollOnCmd">Опрос только по команде</Phrase>
-    <Phrase key="chkIsBound">Привязан к базе конфигурации</Phrase>
+    <Phrase key="chkIsBound">Привязано к базе конфигурации</Phrase>
     <Phrase key="lblDeviceNum">Номер</Phrase>
     <Phrase key="lblName">Наименование</Phrase>
     <Phrase key="lblDriver">Драйвер</Phrase>
