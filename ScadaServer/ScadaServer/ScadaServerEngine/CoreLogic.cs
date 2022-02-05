@@ -30,6 +30,7 @@ using Scada.Data.Models;
 using Scada.Data.Tables;
 using Scada.Lang;
 using Scada.Log;
+using Scada.Protocol;
 using Scada.Server.Archives;
 using Scada.Server.Config;
 using Scada.Server.Lang;
@@ -1224,7 +1225,7 @@ namespace Scada.Server.Engine
         /// <summary>
         /// Writes the current data.
         /// </summary>
-        public void WriteCurrentData(int[] cnlNums, CnlData[] cnlData, int deviceNum, bool applyFormulas)
+        public void WriteCurrentData(int[] cnlNums, CnlData[] cnlData, int deviceNum, WriteFlags writeFlags)
         {
             if (cnlNums == null)
                 throw new ArgumentNullException(nameof(cnlNums));
@@ -1239,6 +1240,8 @@ namespace Scada.Server.Engine
 
                 DateTime utcNow = DateTime.UtcNow;
                 curData.Timestamp = utcNow;
+                bool applyFormulas = writeFlags.HasFlag(WriteFlags.ApplyFormulas);
+                bool enableEvents = writeFlags.HasFlag(WriteFlags.EnableEvents);
 
                 for (int i = 0, cnlCnt = cnlNums.Length; i < cnlCnt; i++)
                 {
@@ -1252,7 +1255,7 @@ namespace Scada.Server.Engine
                             cnlData[i] = newCnlData;
                         }
 
-                        curData.SetCurCnlData(cnlTag, newCnlData, utcNow);
+                        curData.SetCurCnlData(cnlTag, newCnlData, utcNow, enableEvents);
                     }
                 }
             }
@@ -1273,7 +1276,7 @@ namespace Scada.Server.Engine
         /// <summary>
         /// Writes the historical data.
         /// </summary>
-        public void WriteHistoricalData(int archiveMask, Slice slice, int deviceNum, bool applyFormulas)
+        public void WriteHistoricalData(int archiveMask, Slice slice, int deviceNum, WriteFlags writeFlags)
         {
             if (slice == null)
                 throw new ArgumentNullException(nameof(slice));
@@ -1295,6 +1298,9 @@ namespace Scada.Server.Engine
                     cnlTags.TryGetValue(slice.CnlNums[i], out CnlTag cnlTag);
                     sliceCnlTags[i] = cnlTag;
                 }
+
+                // write to archives
+                bool applyFormulas = writeFlags.HasFlag(WriteFlags.ApplyFormulas);
 
                 for (int archiveBit = 0; archiveBit < ServerUtils.MaxArchiveCount; archiveBit++)
                 {
@@ -1376,7 +1382,9 @@ namespace Scada.Server.Engine
 
             try
             {
-                ev.EventID = ScadaUtils.GenerateUniqueID(ev.Timestamp);
+                if (ev.EventID <= 0)
+                    ev.EventID = ScadaUtils.GenerateUniqueID(ev.Timestamp);
+
                 Cnl cnl = null;
 
                 if (ev.CnlNum > 0)
@@ -1530,11 +1538,13 @@ namespace Scada.Server.Engine
         /// <summary>
         /// Handles the changes of the current channel data.
         /// </summary>
-        void ICnlDataChangeHandler.HandleCurDataChanged(CnlTag cnlTag, ref CnlData cnlData, CnlData prevCnlData, 
-            CnlData prevCnlDataDef, DateTime timestamp, DateTime prevTimestamp)
+        void ICnlDataChangeHandler.HandleCurDataChanged(CnlTag cnlTag, ref CnlData cnlData, 
+            CnlData prevCnlData, CnlData prevCnlDataDef, bool enableEvents)
         {
             UpdateCnlStatus(cnlTag, ref cnlData, prevCnlData);
-            GenerateEvent(cnlTag, cnlData, prevCnlData, prevCnlDataDef);
+
+            if (enableEvents)
+                GenerateEvent(cnlTag, cnlData, prevCnlData, prevCnlDataDef);
         }
     }
 }

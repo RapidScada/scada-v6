@@ -20,7 +20,7 @@
  * 
  * Author   : Mikhail Shiryaev
  * Created  : 2020
- * Modified : 2021
+ * Modified : 2022
  */
 
 using Scada.Data.Models;
@@ -110,16 +110,14 @@ namespace Scada.Server.Engine
         /// <summary>
         /// Sets the current channel data.
         /// </summary>
-        public void SetCurCnlData(CnlTag cnlTag, CnlData cnlData, DateTime nowDT)
+        public void SetCurCnlData(CnlTag cnlTag, CnlData cnlData, DateTime nowDT, bool enableEvents = true)
         {
             int cnlIndex = cnlTag.Index;
-            DateTime prevTimestamp = Timestamps[cnlIndex];
             CnlData prevCnlData = CnlData[cnlIndex];
             CnlData prevCnlDataDef = prevCnlData.IsDefined ? prevCnlData : PrevCnlDataDef[cnlIndex];
-            cnlDataChangeHandler.HandleCurDataChanged(cnlTag, ref cnlData, prevCnlData, 
-                prevCnlDataDef, nowDT, prevTimestamp);
+            cnlDataChangeHandler.HandleCurDataChanged(cnlTag, ref cnlData, prevCnlData, prevCnlDataDef, enableEvents);
 
-            PrevTimestamps[cnlIndex] = prevTimestamp;
+            PrevTimestamps[cnlIndex] = Timestamps[cnlIndex];
             PrevCnlData[cnlIndex] = prevCnlData;
 
             if (prevCnlData.IsDefined)

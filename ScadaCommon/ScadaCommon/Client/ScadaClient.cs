@@ -20,7 +20,7 @@
  * 
  * Author   : Mikhail Shiryaev
  * Created  : 2020
- * Modified : 2021
+ * Modified : 2022
  */
 
 using Scada.Data.Adapters;
@@ -399,7 +399,7 @@ namespace Scada.Client
         /// <summary>
         /// Writes the current data.
         /// </summary>
-        public void WriteCurrentData(int[] cnlNums, CnlData[] cnlData, int deviceNum, bool applyFormulas)
+        public void WriteCurrentData(int[] cnlNums, CnlData[] cnlData, int deviceNum, WriteFlags writeFlags)
         {
             if (cnlNums == null)
                 throw new ArgumentNullException(nameof(cnlNums));
@@ -422,7 +422,7 @@ namespace Scada.Client
 
             index += cnlCnt * 14;
             CopyInt32(deviceNum, outBuf, ref index);
-            CopyBool(applyFormulas, outBuf, ref index);
+            CopyByte((byte)writeFlags, outBuf, ref index);
             request.BufferLength = index;
             SendRequest(request);
             ReceiveResponse(request);
@@ -431,7 +431,7 @@ namespace Scada.Client
         /// <summary>
         /// Writes the historical data.
         /// </summary>
-        public void WriteHistoricalData(int archiveMask, Slice slice, int deviceNum, bool applyFormulas)
+        public void WriteHistoricalData(int archiveMask, Slice slice, int deviceNum, WriteFlags writeFlags)
         {
             if (slice == null)
                 throw new ArgumentNullException(nameof(slice));
@@ -454,7 +454,7 @@ namespace Scada.Client
 
             index += cnlCnt * 14;
             CopyInt32(deviceNum, outBuf, ref index);
-            CopyBool(applyFormulas, outBuf, ref index);
+            CopyByte((byte)writeFlags, outBuf, ref index);
             request.BufferLength = index;
             SendRequest(request);
             ReceiveResponse(request);

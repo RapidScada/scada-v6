@@ -20,13 +20,14 @@
  * 
  * Author   : Mikhail Shiryaev
  * Created  : 2020
- * Modified : 2021
+ * Modified : 2022
  */
 
 using Scada.Config;
 using Scada.Data.Models;
 using Scada.Data.Tables;
 using Scada.Log;
+using Scada.Protocol;
 using Scada.Server.Config;
 using Scada.Storages;
 using System;
@@ -134,12 +135,12 @@ namespace Scada.Server.Modules
         /// <summary>
         /// Writes the current data of the specified channels.
         /// </summary>
-        void WriteCurrentData(int[] cnlNums, CnlData[] cnlData, int deviceNum, bool applyFormulas);
+        void WriteCurrentData(int[] cnlNums, CnlData[] cnlData, int deviceNum, WriteFlags writeFlags);
 
         /// <summary>
         /// Writes the historical data.
         /// </summary>
-        void WriteHistoricalData(int archiveMask, Slice slice, int deviceNum, bool applyFormulas);
+        void WriteHistoricalData(int archiveMask, Slice slice, int deviceNum, WriteFlags writeFlags);
 
         /// <summary>
         /// Writes the event.

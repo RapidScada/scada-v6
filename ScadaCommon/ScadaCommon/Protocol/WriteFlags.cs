@@ -15,29 +15,43 @@
  * 
  * 
  * Product  : Rapid SCADA
- * Module   : ScadaServerEngine
- * Summary  : Defines functionality to handle channel data changes
+ * Module   : ScadaCommon
+ * Summary  : Specifies the writing data flags
  * 
  * Author   : Mikhail Shiryaev
- * Created  : 2020
+ * Created  : 2022
  * Modified : 2022
  */
 
-using Scada.Data.Models;
 using System;
 
-namespace Scada.Server.Engine
+namespace Scada.Protocol
 {
     /// <summary>
-    /// Defines functionality to handle channel data changes.
-    /// <para>Определяет функциональность для обработки изменений данных каналов.</para>
+    /// Specifies the writing data flags.
+    /// <para>Задаёт флаги записи данных.</para>
     /// </summary>
-    internal interface ICnlDataChangeHandler
+    [Flags]
+    public enum WriteFlags : byte
     {
         /// <summary>
-        /// Handles the changes of the current channel data.
+        /// Just write actual sent channel data.
         /// </summary>
-        void HandleCurDataChanged(CnlTag cnlTag, ref CnlData cnlData,
-            CnlData prevCnlData, CnlData prevCnlDataDef, bool enableEvents);
+        None = 0,
+
+        /// <summary>
+        /// Apply channel formulas.
+        /// </summary>
+        ApplyFormulas = 1,
+
+        /// <summary>
+        /// Enable channel events for a particular write operation.
+        /// </summary>
+        EnableEvents = 2,
+
+        /// <summary>
+        /// Enable all flags.
+        /// </summary>
+        EnableAll = ApplyFormulas | EnableEvents
     }
 }

@@ -20,13 +20,14 @@
  * 
  * Author   : Mikhail Shiryaev
  * Created  : 2020
- * Modified : 2021
+ * Modified : 2022
  */
 
 using Scada.Config;
 using Scada.Data.Models;
 using Scada.Data.Tables;
 using Scada.Log;
+using Scada.Protocol;
 using Scada.Server.Config;
 using Scada.Server.Modules;
 using Scada.Storages;
@@ -175,23 +176,26 @@ namespace Scada.Server.Engine
         /// </summary>
         public void WriteCurrentData(int cnlNum, CnlData cnlData)
         {
-            coreLogic.WriteCurrentData(new int[] { cnlNum }, new CnlData[] { cnlData }, 0, true);
+            coreLogic.WriteCurrentData(
+                new int[] { cnlNum }, 
+                new CnlData[] { cnlData }, 
+                0, WriteFlags.EnableAll);
         }
 
         /// <summary>
         /// Writes the current data of the specified channels.
         /// </summary>
-        public void WriteCurrentData(int[] cnlNums, CnlData[] cnlData, int deviceNum, bool applyFormulas)
+        public void WriteCurrentData(int[] cnlNums, CnlData[] cnlData, int deviceNum, WriteFlags writeFlags)
         {
-            coreLogic.WriteCurrentData(cnlNums, cnlData, deviceNum, applyFormulas);
+            coreLogic.WriteCurrentData(cnlNums, cnlData, deviceNum, writeFlags);
         }
 
         /// <summary>
         /// Writes the historical data.
         /// </summary>
-        public void WriteHistoricalData(int archiveMask, Slice slice, int deviceNum, bool applyFormulas)
+        public void WriteHistoricalData(int archiveMask, Slice slice, int deviceNum, WriteFlags writeFlags)
         {
-            coreLogic.WriteHistoricalData(archiveMask, slice, deviceNum, applyFormulas);
+            coreLogic.WriteHistoricalData(archiveMask, slice, deviceNum, writeFlags);
         }
 
         /// <summary>

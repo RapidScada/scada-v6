@@ -20,7 +20,7 @@
  * 
  * Author   : Mikhail Shiryaev
  * Created  : 2020
- * Modified : 2021
+ * Modified : 2022
  */
 
 using Scada.Data.Adapters;
@@ -230,8 +230,8 @@ namespace Scada.Server.Engine
 
             index += cnlCnt * 14;
             int deviceNum = GetInt32(buffer, ref index);
-            bool applyFormulas = buffer[index] > 0;
-            coreLogic.WriteCurrentData(cnlNums, cnlData, deviceNum, applyFormulas);
+            WriteFlags writeFlags = (WriteFlags)buffer[index];
+            coreLogic.WriteCurrentData(cnlNums, cnlData, deviceNum, writeFlags);
 
             response = new ResponsePacket(request, client.OutBuf);
         }
@@ -256,8 +256,8 @@ namespace Scada.Server.Engine
 
             index += cnlCnt * 14;
             int deviceNum = GetInt32(buffer, ref index);
-            bool applyFormulas = buffer[index] > 0;
-            coreLogic.WriteHistoricalData(archiveMask, slice, deviceNum, applyFormulas);
+            WriteFlags writeFlags = (WriteFlags)buffer[index];
+            coreLogic.WriteHistoricalData(archiveMask, slice, deviceNum, writeFlags);
 
             response = new ResponsePacket(request, client.OutBuf);
         }
