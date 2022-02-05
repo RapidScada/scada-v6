@@ -6,7 +6,7 @@
     <Phrase key="CmdParseError">Ошибка при разборе команды</Phrase>
     <Phrase key="CnlRow">Канал:</Phrase>
     <Phrase key="ObjRow">Объект:</Phrase>
-    <Phrase key="DevRow">КП:</Phrase>
+    <Phrase key="DevRow">Устройство:</Phrase>
     <Phrase key="lblPassword">Пароль</Phrase>
     <Phrase key="lblCmdDec">Значение команды</Phrase>
     <Phrase key="lblCmdHex">Значение команды (16-ричное число)</Phrase>
@@ -22,7 +22,7 @@
     <Phrase key="EventAcknowledged">Событие квитировано.</Phrase>
     <Phrase key="TimeRow">Дата и время:</Phrase>
     <Phrase key="ObjRow">Объект:</Phrase>
-    <Phrase key="DevRow">КП:</Phrase>
+    <Phrase key="DevRow">Устройство:</Phrase>
     <Phrase key="CnlRow">Канал:</Phrase>
     <Phrase key="DescrRow">Описание:</Phrase>
     <Phrase key="SevRow">Серьёзность:</Phrase>
@@ -34,7 +34,7 @@
   <Dictionary key="Scada.Web.Plugins.PlgMain.Areas.Main.Pages.Events">
     <Phrase key="TimeCol">Дата и время</Phrase>
     <Phrase key="ObjCol">Объект</Phrase>
-    <Phrase key="DevCol">КП</Phrase>
+    <Phrase key="DevCol">Устройство</Phrase>
     <Phrase key="CnlCol">Канал</Phrase>
     <Phrase key="DescrCol">Описание</Phrase>
     <Phrase key="SevCol">Серьёзность</Phrase>
@@ -57,7 +57,7 @@
     <Phrase key="ItemColumn">Элемент</Phrase>
     <Phrase key="CurrentColumn">Текущие</Phrase>
     <Phrase key="CnlTip">Канал</Phrase>
-    <Phrase key="DeviceTip">КП</Phrase>
+    <Phrase key="DeviceTip">Устройство</Phrase>
     <Phrase key="ObjTip">Объект</Phrase>
     <Phrase key="QuantityTip">Величина</Phrase>
     <Phrase key="UnitTip">Размерность</Phrase>
