@@ -85,7 +85,7 @@ namespace Scada.Comm.Drivers.DrvDsScadaServer.View.Forms
             numMaxCurDataAge.SetValue(options.MaxCurDataAge);
             numDataLifetime.SetValue(options.DataLifetime);
             chkClientLogEnabled.Checked = options.ClientLogEnabled;
-            txtDeviceFilter.Text = options.DeviceFilter.ToShortString();
+            txtDeviceFilter.Text = options.DeviceFilter.ToRangeString();
         }
 
         /// <summary>
@@ -139,7 +139,7 @@ namespace Scada.Comm.Drivers.DrvDsScadaServer.View.Forms
             FrmEntitySelect frmEntitySelect = new(baseDataSet.DeviceTable) { SelectedIDs = deviceNums };
 
             if (frmEntitySelect.ShowDialog() == DialogResult.OK)
-                txtDeviceFilter.Text = frmEntitySelect.SelectedIDs.ToShortString();
+                txtDeviceFilter.Text = frmEntitySelect.SelectedIDs.ToRangeString();
         }
 
         private void btnManageConn_Click(object sender, EventArgs e)

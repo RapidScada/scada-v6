@@ -1,5 +1,5 @@
 ﻿/*
- * Copyright 2021 Mikhail Shiryaev
+ * Copyright 2022 Rapid Software LLC
  * 
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -20,18 +20,16 @@
  * 
  * Author   : Mikhail Shiryaev
  * Created  : 2018
- * Modified : 2021
+ * Modified : 2022
  */
 
 using Scada.Admin.App.Code;
-using Scada.Admin.App.Forms.Deployment;
 using Scada.Admin.Deployment;
 using Scada.Admin.Project;
 using Scada.Agent;
 using Scada.Forms;
 using System;
 using System.Collections.Generic;
-using System.ComponentModel;
 using System.Windows.Forms;
 
 namespace Scada.Admin.App.Controls.Deployment
@@ -143,7 +141,7 @@ namespace Scada.Admin.App.Controls.Deployment
                 chkRestartServer.Checked = uploadOptions.RestartServer;
                 chkRestartComm.Checked = uploadOptions.RestartComm;
                 chkRestartWeb.Checked = uploadOptions.RestartWeb;
-                txtObjFilter.Text = uploadOptions.ObjectFilter.ToShortString();
+                txtObjFilter.Text = uploadOptions.ObjectFilter.ToRangeString();
             }
 
             changing = false;
@@ -212,7 +210,7 @@ namespace Scada.Admin.App.Controls.Deployment
                 FrmEntitySelect frmEntitySelect = new(configBase.ObjTable) { SelectedIDs = objNums };
 
                 if (frmEntitySelect.ShowDialog() == DialogResult.OK)
-                    txtObjFilter.Text = frmEntitySelect.SelectedIDs.ToShortString();
+                    txtObjFilter.Text = frmEntitySelect.SelectedIDs.ToRangeString();
             }
         }
     }

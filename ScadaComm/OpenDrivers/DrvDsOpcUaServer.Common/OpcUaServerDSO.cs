@@ -62,7 +62,7 @@ namespace Scada.Comm.Drivers.DrvDsOpcUaServer
             options["Username"] = Username;
             options["Password"] = ScadaUtils.Encrypt(Password);
             options["ConfigFileName"] = ConfigFileName;
-            options["DeviceFilter"] = DeviceFilter.ToShortString();
+            options["DeviceFilter"] = DeviceFilter.ToRangeString();
         }
     }
 }

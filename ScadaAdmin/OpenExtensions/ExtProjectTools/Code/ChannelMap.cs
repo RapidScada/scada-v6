@@ -53,7 +53,7 @@ namespace Scada.Admin.Extensions.ExtProjectTools.Code
         private static void WriteCnls(StreamWriter writer, TableIndex index, int indexKey)
         {
             writer.WriteLine(index.ItemGroups.TryGetValue(indexKey, out SortedDictionary<int, object> group) 
-                ? group.Keys.ToShortString() 
+                ? group.Keys.ToRangeString() 
                 : ExtensionPhrases.NoChannels);
         }
 

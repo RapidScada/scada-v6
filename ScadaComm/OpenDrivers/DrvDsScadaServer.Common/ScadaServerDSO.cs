@@ -76,7 +76,7 @@ namespace Scada.Comm.Drivers.DrvDsScadaServer
             options["MaxCurDataAge"] = MaxCurDataAge.ToString();
             options["DataLifetime"] = DataLifetime.ToString();
             options["ClientLogEnabled"] = ClientLogEnabled.ToLowerString();
-            options["DeviceFilter"] = DeviceFilter.ToShortString();
+            options["DeviceFilter"] = DeviceFilter.ToRangeString();
         }
     }
 }
