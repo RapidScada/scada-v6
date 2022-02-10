@@ -163,7 +163,7 @@ namespace Scada.Web.Plugins.PlgChart
         {
             // HttpUtility.JavaScriptStringEncode() is skipped for performance
             double chartVal = cnlData.Stat > 0 ? cnlData.Val : double.NaN;
-            CnlDataFormatted cnlDataFormatted = formatter.FormatCnlData(cnlData, cnl);
+            CnlDataFormatted cnlDataFormatted = formatter.FormatCnlData(cnlData, cnl, false);
 
             return (new StringBuilder("[")
                 .Append(double.IsNaN(chartVal) ? "NaN" : chartVal.ToString(CultureInfo.InvariantCulture))

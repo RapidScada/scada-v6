@@ -187,7 +187,7 @@ namespace Scada.Web.Plugins.PlgMain.Controllers
                     records[i] = new CurDataRecord
                     {
                         D = new CurDataPoint(cnlNum, cnlData),
-                        Df = formatter.FormatCnlData(cnlData, cnlNum)
+                        Df = formatter.FormatCnlData(cnlData, cnlNum, false)
                     };
                 }
             }
@@ -245,7 +245,7 @@ namespace Scada.Web.Plugins.PlgMain.Controllers
                         records.Add(new HistDataRecord
                         {
                             D = cnlData,
-                            Df = formatter.FormatCnlData(cnlData, cnl)
+                            Df = formatter.FormatCnlData(cnlData, cnl, false)
                         });
                     }
                 }

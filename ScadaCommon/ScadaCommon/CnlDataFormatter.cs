@@ -20,7 +20,7 @@
  * 
  * Author   : Mikhail Shiryaev
  * Created  : 2016
- * Modified : 2021
+ * Modified : 2022
  */
 
 using Scada.Data.Const;
@@ -205,10 +205,11 @@ namespace Scada
         /// <summary>
         /// Formats the channel data according to the specified data type and format.
         /// </summary>
-        public CnlDataFormatted FormatCnlData(CnlData cnlData, int dataTypeID, int formatID)
+        public CnlDataFormatted FormatCnlData(CnlData cnlData, int dataTypeID, int formatID, int unitID)
         {
             CnlDataFormatted cnlDataFormatted = new CnlDataFormatted();
             Format format = formatID > 0 ? baseDataSet.FormatTable.GetItem(formatID) : null;
+            Unit unit = unitID > 0 ? baseDataSet.UnitTable.GetItem(unitID) : null;
             EnumFormat enumFormat = null;
 
             if (format != null && format.IsEnum)
@@ -229,6 +230,9 @@ namespace Scada
                     cnlDataFormatted.DispVal = FormatDate(cnlData.Val, dataTypeID, format.Frmt);
                 else // format.IsString or not specified
                     cnlDataFormatted.DispVal = FormatByDataType(cnlData.Val, dataTypeID);
+
+                if (!string.IsNullOrEmpty(unit?.Name))
+                    cnlDataFormatted.DispVal += " " + unit.Name;
             }
             catch
             {
@@ -261,17 +265,20 @@ namespace Scada
         /// <summary>
         /// Formats the channel data according to the channel properties.
         /// </summary>
-        public CnlDataFormatted FormatCnlData(CnlData cnlData, Cnl cnl)
+        public CnlDataFormatted FormatCnlData(CnlData cnlData, Cnl cnl, bool appendUnit)
         {
-            return FormatCnlData(cnlData, cnl?.DataTypeID ?? DataTypeID.Double, cnl?.FormatID ?? 0);
+            return FormatCnlData(cnlData, 
+                cnl?.DataTypeID ?? DataTypeID.Double, 
+                cnl?.FormatID ?? 0, 
+                appendUnit ? cnl?.UnitID ?? 0 : 0);
         }
 
         /// <summary>
         /// Formats the channel data according to the channel properties.
         /// </summary>
-        public CnlDataFormatted FormatCnlData(CnlData cnlData, int cnlNum)
+        public CnlDataFormatted FormatCnlData(CnlData cnlData, int cnlNum, bool appendUnit)
         {
-            return FormatCnlData(cnlData, cnlNum > 0 ? baseDataSet.CnlTable.GetItem(cnlNum) : null);
+            return FormatCnlData(cnlData, cnlNum > 0 ? baseDataSet.CnlTable.GetItem(cnlNum) : null, appendUnit);
         }
 
         /// <summary>
@@ -313,7 +320,7 @@ namespace Scada
                 // Command Value, Data. Custom text
                 sbDescr.Append(CommonPhrases.CommandDescrPrefix);
                 dataFormatted = FormatCnlData(new CnlData(ev.CnlVal, CnlStatusID.Defined), 
-                    DataTypeID.Double, cnl?.FormatID ?? 0);
+                    DataTypeID.Double, cnl?.FormatID ?? 0, cnl?.UnitID ?? 0);
 
                 if (ev.CnlStat > 0)
                     sbDescr.Append(dataFormatted.DispVal);
@@ -330,7 +337,7 @@ namespace Scada
             else
             {
                 // Status, Value. Custom text
-                dataFormatted = FormatCnlData(new CnlData(ev.CnlVal, ev.CnlStat), cnl);
+                dataFormatted = FormatCnlData(new CnlData(ev.CnlVal, ev.CnlStat), cnl, true);
 
                 if (ev.TextFormat == EventTextFormat.Full || ev.TextFormat == EventTextFormat.AutoText)
                 {
