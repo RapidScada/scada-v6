@@ -7,7 +7,7 @@
     <Phrase key="WebAppName">Webstation</Phrase>
     <Phrase key="WebsiteUrl">https://rapidscada.org</Phrase>
     <Phrase key="UnhandledException">Unhandled exception</Phrase>
-    <Phrase key="ExecutionImpossible">Normal program execution is impossible</Phrase>
+    <Phrase key="ExecutionImpossible">Normal execution is impossible</Phrase>
     <Phrase key="StartLogic">Start logic processing</Phrase>
     <Phrase key="LogicAlreadyStarted">Logic processing is already started</Phrase>
     <Phrase key="StartLogicError">Error starting logic processing</Phrase>

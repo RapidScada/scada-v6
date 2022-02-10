@@ -7,7 +7,7 @@
     <Phrase key="WebAppName">Вебстанция</Phrase>
     <Phrase key="WebsiteUrl">https://rapidscada.ru</Phrase>
     <Phrase key="UnhandledException">Необработанное исключение</Phrase>
-    <Phrase key="ExecutionImpossible">Нормальная работа программы невозможна</Phrase>
+    <Phrase key="ExecutionImpossible">Нормальная работа невозможна</Phrase>
     <Phrase key="StartLogic">Запуск обработки логики</Phrase>
     <Phrase key="LogicAlreadyStarted">Обработка логики уже запущена</Phrase>
     <Phrase key="StartLogicError">Ошибка при запуске обработки логики</Phrase>

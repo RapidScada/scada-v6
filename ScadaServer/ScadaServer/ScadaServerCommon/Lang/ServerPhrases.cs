@@ -20,7 +20,7 @@
  * 
  * Author   : Mikhail Shiryaev
  * Created  : 2020
- * Modified : 2021
+ * Modified : 2022
  */
 
 #pragma warning disable 1591 // Missing XML comment for publicly visible type or member
@@ -66,6 +66,8 @@ namespace Scada.Server.Lang
         public static string AckEventNotFound { get; private set; }
 
         // Modules
+        public static string StartModule { get; private set; }
+        public static string StopModule { get; private set; }
         public static string ModuleMessage { get; private set; }
         public static string ReadDbError { get; private set; }
         public static string WriteDbError { get; private set; }
@@ -112,6 +114,8 @@ namespace Scada.Server.Lang
                 AckEventCompleted = "Квитирование события с ид. {0} успешно завершено за {1} мс";
                 AckEventNotFound = "Квитируемое событие с ид. {0} не найдено";
 
+                StartModule = "Модуль {0} {1} запущен";
+                StopModule = "Модуль {0} остановлен";
                 ModuleMessage = "Модуль {0}: {1}";
                 ReadDbError = "Ошибка при чтении из базы данных";
                 WriteDbError = "Ошибка при записи в базу данных";
@@ -146,6 +150,8 @@ namespace Scada.Server.Lang
                 AckEventCompleted = "Acknowledging an event with ID {0} completed successfully in {1} ms";
                 AckEventNotFound = "Acknowledged event with ID {0} not found";
 
+                StartModule = "Module {0} {1} started";
+                StopModule = "Module {0} is stopped";
                 ModuleMessage = "Module {0}: {1}";
                 ReadDbError = "Error reading from database";
                 WriteDbError = "Error writing to database";
