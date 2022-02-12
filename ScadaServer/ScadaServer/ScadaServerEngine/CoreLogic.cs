@@ -673,11 +673,21 @@ namespace Scada.Server.Engine
 
                 if (commandItem.Result.IsSuccessful)
                 {
-                    listener.EnqueueCommand(commandItem.Command);
                     GenerateEvent(commandItem.OutCnlTag, commandItem.Command);
-                    Log.WriteAction(Locale.IsRussian ?
-                        "Команда поставлена в очередь на отправку клиентам" :
-                        "Command is queued to be sent to clients");
+
+                    if (commandItem.Result.TransmitToClients)
+                    {
+                        listener.EnqueueCommand(commandItem.Command);
+                        Log.WriteAction(Locale.IsRussian ?
+                            "Команда поставлена в очередь на отправку клиентам" :
+                            "Command is queued to be sent to clients");
+                    }
+                    else
+                    {
+                        Log.WriteAction(Locale.IsRussian ?
+                            "Отправка команды клиентам отменена" :
+                            "Sending command to clients canceled");
+                    }
                 }
                 else
                 {

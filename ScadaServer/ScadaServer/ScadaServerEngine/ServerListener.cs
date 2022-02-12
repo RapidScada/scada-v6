@@ -408,6 +408,7 @@ namespace Scada.Server.Engine
             index = ArgumentIndex;
             CopyInt64(command.CommandID, buffer, ref index);
             CopyBool(commandResult.IsSuccessful, buffer, ref index);
+            CopyBool(commandResult.TransmitToClients, buffer, ref index);
             CopyString(commandResult.ErrorMessage, buffer, ref index);
             response.BufferLength = index;
         }

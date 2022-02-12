@@ -583,6 +583,7 @@ namespace Scada.Client
             commandResult = new CommandResult
             {
                 IsSuccessful = GetBool(inBuf, ref index),
+                TransmitToClients = GetBool(inBuf, ref index),
                 ErrorMessage = GetString(inBuf, ref index)
             };
 

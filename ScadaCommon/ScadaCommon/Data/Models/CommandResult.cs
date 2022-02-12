@@ -20,7 +20,7 @@
  * 
  * Author   : Mikhail Shiryaev
  * Created  : 2020
- * Modified : 2020
+ * Modified : 2022
  */
 
 namespace Scada.Data.Models
@@ -35,9 +35,8 @@ namespace Scada.Data.Models
         /// Initializes a new instance of the class.
         /// </summary>
         public CommandResult()
+            : this(false)
         {
-            IsSuccessful = false;
-            ErrorMessage = "";
         }
 
         /// <summary>
@@ -46,6 +45,7 @@ namespace Scada.Data.Models
         public CommandResult(bool isSuccessful)
         {
             IsSuccessful = isSuccessful;
+            TransmitToClients = true;
             ErrorMessage = "";
         }
 
@@ -54,6 +54,11 @@ namespace Scada.Data.Models
         /// Gets or sets a value indicating whether the command is processed successfully.
         /// </summary>
         public bool IsSuccessful { get; set; }
+
+        /// <summary>
+        /// Gets or sets a value indicating whether to transmit the command to the connected clients.
+        /// </summary>
+        public bool TransmitToClients { get; set; }
 
         /// <summary>
         /// Gets or sets the error message.
