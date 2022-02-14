@@ -20,13 +20,14 @@
  * 
  * Author   : Mikhail Shiryaev
  * Created  : 2013
- * Modified : 2021
+ * Modified : 2022
  */
 
 using Scada.Data.Models;
 using Scada.Log;
 using Scada.Server.Archives;
 using Scada.Server.Config;
+using Scada.Storages;
 using System;
 
 namespace Scada.Server.Modules
@@ -44,6 +45,7 @@ namespace Scada.Server.Modules
         {
             ServerContext = serverContext ?? throw new ArgumentNullException(nameof(serverContext));
             AppDirs = serverContext.AppDirs;
+            Storage = serverContext.Storage;
             Log = serverContext.Log;
         }
 
@@ -57,6 +59,11 @@ namespace Scada.Server.Modules
         /// Gets the application directories.
         /// </summary>
         protected ServerDirs AppDirs { get; }
+
+        /// <summary>
+        /// Gets the application storage.
+        /// </summary>
+        public IStorage Storage { get; }
 
         /// <summary>
         /// Gets or sets the module log.
