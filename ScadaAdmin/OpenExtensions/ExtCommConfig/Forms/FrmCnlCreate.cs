@@ -175,6 +175,8 @@ namespace Scada.Admin.Extensions.ExtCommConfig.Forms
                     FormatID = GetEntityID(dictIndexes.FormatByCode, cnlPrototype.FormatCode),
                     QuantityID = GetEntityID(dictIndexes.QuantityByCode, cnlPrototype.QuantityCode),
                     UnitID = GetEntityID(dictIndexes.UnitByCode, cnlPrototype.UnitCode),
+                    LimID = null,
+                    ArchiveMask = cnlPrototype.ArchiveMask,
                     EventMask = cnlPrototype.EventMask
                 });
 
