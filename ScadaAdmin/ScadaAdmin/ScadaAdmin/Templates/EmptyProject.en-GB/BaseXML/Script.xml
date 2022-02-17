@@ -85,6 +85,20 @@ public long UnixTime()
 {
     return new DateTimeOffset(DateTime.UtcNow).ToUnixTimeSeconds();
 }
+
+// Converts the specified date and time to a channel value of Double type.
+// Преобразует указанные дату и время в значение канала типа Double.
+public double EncodeDate(DateTime dateTime)
+{
+  return dateTime.ToOADate();
+}
+
+// Converts the channel value to a date and time.
+// Преобразует значение канала в дату и время.
+public DateTime DecodeDate(double val)
+{
+  return DateTime.FromOADate(val);
+}
 </Source>
   </Script>
   <Script>
