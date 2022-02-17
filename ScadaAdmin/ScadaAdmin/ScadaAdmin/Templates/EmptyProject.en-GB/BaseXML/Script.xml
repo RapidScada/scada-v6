@@ -289,6 +289,80 @@ public double CountPulse(int cnlNum)
 </Source>
   </Script>
   <Script>
+    <ScriptID>8</ScriptID>
+    <Name>Calendar</Name>
+    <Source>// The functions below use the server's timezone.
+// Функции ниже используют временную зону сервера.
+
+protected Dictionary&lt;int, DateTime&gt; HourStartByCnl = new Dictionary&lt;int, DateTime&gt;();
+protected Dictionary&lt;int, DateTime&gt; DayStartByCnl = new Dictionary&lt;int, DateTime&gt;();
+protected Dictionary&lt;int, DateTime&gt; MonthStartByCnl = new Dictionary&lt;int, DateTime&gt;();
+
+// Indicates that a new hour has started. The result is true once for each channel.
+// Указывает, что начался новый час. Результат равен true один раз для каждого канала.
+public bool HourStarted()
+{
+    if (!IsCurrent)
+        return false;
+
+    DateTime serverDT = Timestamp.ToLocalTime();
+
+    if (serverDT.Minute == 0 &amp;&amp; serverDT.Second &gt;= 30 &amp;&amp;
+        (!HourStartByCnl.TryGetValue(CnlNum, out DateTime startDT) || startDT.Hour != serverDT.Hour ))
+    {
+        HourStartByCnl[CnlNum] = serverDT;
+        return true;
+    }
+    else
+    {
+        return false;
+    }
+}
+
+// Indicates that a new day has started. The result is true once for each channel.
+// Указывает, что начался новый день. Результат равен true один раз для каждого канала.
+public bool DayStarted()
+{
+    if (!IsCurrent)
+        return false;
+
+    DateTime serverDT = Timestamp.ToLocalTime();
+
+    if (serverDT.Hour == 0 &amp;&amp; serverDT.Minute &gt; 0 &amp;&amp;
+        (!DayStartByCnl.TryGetValue(CnlNum, out DateTime startDT) || startDT.Date &lt; serverDT.Date))
+    {
+        DayStartByCnl[CnlNum] = serverDT;
+        return true;
+    }
+    else
+    {
+        return false;
+    }
+}
+
+// Indicates that a new month has started. The result is true once for each channel.
+// Указывает, что начался новый месяц. Результат равен true один раз для каждого канала.
+public bool MonthStarted()
+{
+    if (!IsCurrent)
+        return false;
+
+    DateTime serverDT = Timestamp.ToLocalTime();
+
+    if (serverDT.Day == 1 &amp;&amp; serverDT.Hour == 0 &amp;&amp; serverDT.Minute &gt; 0 &amp;&amp;
+        (!MonthStartByCnl.TryGetValue(CnlNum, out DateTime startDT) || startDT.Date &lt; serverDT.Date))
+    {
+        MonthStartByCnl[CnlNum] = serverDT;
+        return true;
+    }
+    else
+    {
+        return false;
+    }
+}
+</Source>
+  </Script>
+  <Script>
     <ScriptID>101</ScriptID>
     <Name>Custom script</Name>
     <Source />
