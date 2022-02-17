@@ -12,39 +12,26 @@ namespace Scada.Forms
     /// </summary>
     public partial class FrmOptions : Form
     {
-        private object options; // the options to edit
-
-
         /// <summary>
         /// Initializes a new instance of the class.
         /// </summary>
         public FrmOptions()
         {
             InitializeComponent();
-            options = null;
+            Options = null;
         }
 
 
         /// <summary>
         /// Gets or sets the options to edit.
         /// </summary>
-        public object Options
-        {
-            get
-            {
-                return options;
-            }
-            set
-            {
-                options = value;
-            }
-        }
+        public object Options { get; set; }
 
 
         private void FrmOptions_Load(object sender, EventArgs e)
         {
             FormTranslator.Translate(this, GetType().FullName);
-            propertyGrid.SelectedObject = options;
+            propertyGrid.SelectedObject = Options;
         }
 
         private void btnOK_Click(object sender, EventArgs e)
