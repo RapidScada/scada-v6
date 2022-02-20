@@ -20,7 +20,7 @@
  * 
  * Author   : Mikhail Shiryaev
  * Created  : 2021
- * Modified : 2021
+ * Modified : 2022
  */
 
 using Scada.Lang;
@@ -34,6 +34,7 @@ namespace Scada.Config
     /// Represents the base class for configurations.
     /// <para>Представляет базовый класс конфигураций.</para>
     /// </summary>
+    [Serializable]
     public abstract class BaseConfig : IConfig
     {
         /// <summary>
