@@ -162,11 +162,10 @@ namespace Scada.Comm.Drivers.DrvOpcUa.View.Forms
         /// </summary>
         private static TreeNode CreateSubscriptionNode(SubscriptionConfig subscriptionConfig)
         {
-            TreeNode subscriptionNode = TreeViewExtensions.CreateNode(
+            return TreeViewExtensions.CreateNode(
                 GetDisplayName(subscriptionConfig.DisplayName, DriverPhrases.UnnamedSubscription), 
-                ImageKey.FolderClosed);
-            subscriptionNode.Tag = subscriptionConfig;
-            return subscriptionNode;
+                ImageKey.FolderClosed,
+                subscriptionConfig);
         }
 
         /// <summary>
@@ -174,11 +173,10 @@ namespace Scada.Comm.Drivers.DrvOpcUa.View.Forms
         /// </summary>
         private static TreeNode CreateItemNode(ItemConfig itemConfig)
         {
-            TreeNode itemNode = TreeViewExtensions.CreateNode(
+            return TreeViewExtensions.CreateNode(
                 GetDisplayName(itemConfig.DisplayName, DriverPhrases.UnnamedItem), 
-                ImageKey.Variable);
-            itemNode.Tag = itemConfig;
-            return itemNode;
+                ImageKey.Variable,
+                itemConfig);
         }
 
         /// <summary>
@@ -186,11 +184,10 @@ namespace Scada.Comm.Drivers.DrvOpcUa.View.Forms
         /// </summary>
         private static TreeNode CreateCommandNode(CommandConfig commandConfig)
         {
-            TreeNode commandNode = TreeViewExtensions.CreateNode(
+            return TreeViewExtensions.CreateNode(
                 GetDisplayName(commandConfig.DisplayName, DriverPhrases.UnnamedCommand), 
-                ImageKey.Command);
-            commandNode.Tag = commandConfig;
-            return commandNode;
+                ImageKey.Command,
+                commandConfig);
         }
 
         /// <summary>
