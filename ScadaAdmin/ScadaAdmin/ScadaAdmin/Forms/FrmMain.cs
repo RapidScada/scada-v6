@@ -132,8 +132,11 @@ namespace Scada.Admin.App.Forms
         /// </summary>
         private void LocalizeForm()
         {
-            FormTranslator.Translate(this, GetType().FullName, null,
-                cmsProject, cmsCnlTable, cmsDirectory, cmsFileItem, cmsInstance, cmsApp);
+            FormTranslator.Translate(this, GetType().FullName, new FormTranslatorOptions
+            {
+                ContextMenus = new ContextMenuStrip[] { 
+                    cmsProject, cmsCnlTable, cmsDirectory, cmsFileItem, cmsInstance, cmsApp }
+            });
             Text = AppPhrases.EmptyTitle;
             wctrlMain.MessageText = AppPhrases.WelcomeMessage;
             ofdProject.SetFilter(AppPhrases.ProjectFileFilter);

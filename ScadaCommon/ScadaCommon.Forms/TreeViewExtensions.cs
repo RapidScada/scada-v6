@@ -26,26 +26,20 @@ namespace Scada.Forms
         /// <summary>
         /// Creates a new tree node.
         /// </summary>
-        public static TreeNode CreateNode(string text, string imageKey, bool expand = false)
+        public static TreeNode CreateNode(string text, string imageKey, object tag = null)
         {
-            TreeNode node = new(text);
+            TreeNode node = new(text) { Tag = tag };
             node.SetImageKey(imageKey);
-
-            if (expand)
-                node.Expand();
-
             return node;
         }
 
         /// <summary>
         /// Creates a new tree node based on the specified tag.
         /// </summary>
-        public static TreeNode CreateNode(object tag, string imageKey, bool expand = false)
+        public static TreeNode CreateNode(object tag, string imageKey)
         {
             ArgumentNullException.ThrowIfNull(tag, nameof(tag));
-            TreeNode node = CreateNode(tag.ToString(), imageKey, expand);
-            node.Tag = tag;
-            return node;
+            return CreateNode(tag.ToString(), imageKey, tag);
         }
 
         /// <summary>

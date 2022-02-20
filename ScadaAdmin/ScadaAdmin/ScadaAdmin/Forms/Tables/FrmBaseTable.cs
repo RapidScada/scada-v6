@@ -20,7 +20,7 @@
  * 
  * Author   : Mikhail Shiryaev
  * Created  : 2018
- * Modified : 2021
+ * Modified : 2022
  */
 
 using Scada.Admin.App.Code;
@@ -748,7 +748,8 @@ namespace Scada.Admin.App.Forms.Tables
 
         private void FrmBaseTable_Load(object sender, EventArgs e)
         {
-            FormTranslator.Translate(this, GetType().FullName, null, cmsTable);
+            FormTranslator.Translate(this, GetType().FullName, 
+                new FormTranslatorOptions { ContextMenus = new ContextMenuStrip[] { cmsTable } });
 
             if (lblCount.Text.Contains("{0}"))
                 bindingNavigator.CountItemFormat = lblCount.Text;
