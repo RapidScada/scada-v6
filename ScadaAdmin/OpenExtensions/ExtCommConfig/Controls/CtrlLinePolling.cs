@@ -1,24 +1,17 @@
 ﻿// Copyright (c) Rapid Software LLC. All rights reserved.
 // Licensed under the Apache License, Version 2.0. See License.txt in the project root for license information.
 
+using Scada.Admin.Extensions.ExtCommConfig.Code;
+using Scada.Admin.Project;
+using Scada.Comm.Config;
+using Scada.Comm.Devices;
+using Scada.Config;
+using Scada.Forms;
+using Scada.Lang;
 using System;
 using System.Collections.Generic;
-using System.ComponentModel;
-using System.Drawing;
-using System.Data;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows.Forms;
-using Scada.Comm.Devices;
 using System.IO;
-using Scada.Comm.Config;
-using Scada.Lang;
-using Scada.Forms;
-using Scada.Admin.Project;
-using Scada.Admin.Extensions.ExtCommConfig.Code;
-using Scada.Comm.Drivers;
-using Scada.Config;
+using System.Windows.Forms;
 
 namespace Scada.Admin.Extensions.ExtCommConfig.Controls
 {
@@ -340,7 +333,7 @@ namespace Scada.Admin.Extensions.ExtCommConfig.Controls
 
         private void CtrlLineReqSequence_Load(object sender, EventArgs e)
         {
-            FormTranslator.Translate(this, GetType().FullName, toolTip);
+            FormTranslator.Translate(this, GetType().FullName, new FormTranslatorOptions { ToolTip = toolTip });
             SetControlsEnabled();
             btnPasteDevice.Enabled = false;
         }
