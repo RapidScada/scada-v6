@@ -564,7 +564,10 @@ namespace Scada.Comm.Drivers.DrvModbus.View.Forms
         private void FrmDevTemplate_Load(object sender, EventArgs e)
         {
             // translate form
-            FormTranslator.Translate(this, GetType().FullName, null, cmsTree);
+            FormTranslator.Translate(this, GetType().FullName, new FormTranslatorOptions 
+            { 
+                ContextMenus = new ContextMenuStrip[] { cmsTree }
+            });
             FormTranslator.Translate(ctrlElemGroup, ctrlElemGroup.GetType().FullName);
             FormTranslator.Translate(ctrlElem, ctrlElem.GetType().FullName);
             FormTranslator.Translate(ctrlCmd, ctrlCmd.GetType().FullName);

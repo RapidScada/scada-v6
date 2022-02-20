@@ -645,7 +645,7 @@ namespace Scada.Comm.Drivers.DrvOpcUa.View.Forms
         private void FrmConfig_Load(object sender, EventArgs e)
         {
             // translate form
-            FormTranslator.Translate(this, GetType().FullName, toolTip);
+            FormTranslator.Translate(this, GetType().FullName, new FormTranslatorOptions { ToolTip = toolTip });
             FormTranslator.Translate(ctrlSubscription, ctrlSubscription.GetType().FullName);
             FormTranslator.Translate(ctrlItem, ctrlItem.GetType().FullName);
             FormTranslator.Translate(ctrlCommand, ctrlCommand.GetType().FullName);

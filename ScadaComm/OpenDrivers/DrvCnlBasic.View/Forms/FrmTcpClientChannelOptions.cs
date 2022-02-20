@@ -83,7 +83,7 @@ namespace Scada.Comm.Drivers.DrvCnlBasic.View.Forms
 
         private void FrmCommTcpClientProps_Load(object sender, EventArgs e)
         {
-            FormTranslator.Translate(this, GetType().FullName, toolTip);
+            FormTranslator.Translate(this, GetType().FullName, new FormTranslatorOptions { ToolTip = toolTip });
             OptionsToControls();
         }
 
