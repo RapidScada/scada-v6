@@ -16,10 +16,16 @@ namespace Scada.Forms
     public static class FormTranslator
     {
         /// <summary>
+        /// The default translator options.
+        /// </summary>
+        private static readonly FormTranslatorOptions DefaultOptions = new();
+
+
+        /// <summary>
         /// Recursively translates controls.
         /// </summary>
-        private static void Translate(ICollection controls, ToolTip toolTip, 
-            Dictionary<string, ControlPhrases> controlDict)
+        private static void Translate(ICollection controls, Dictionary<string, ControlPhrases> controlDict,
+            FormTranslatorOptions options)
         {
             if (controls == null)
                 return;
@@ -30,6 +36,10 @@ namespace Scada.Forms
 
                 if (elem is Control control)
                 {
+                    // skip user controls
+                    if (options.SkipUserControls && elem is UserControl)
+                        continue;
+
                     // process regular control
                     if (!string.IsNullOrEmpty(control.Name) /*some controls do not have a name*/ &&
                         controlDict.TryGetValue(control.Name, out controlPhrases))
@@ -37,8 +47,8 @@ namespace Scada.Forms
                         if (controlPhrases.Text != null)
                             control.Text = controlPhrases.Text;
 
-                        if (controlPhrases.ToolTip != null && toolTip != null)
-                            toolTip.SetToolTip(control, controlPhrases.ToolTip);
+                        if (controlPhrases.ToolTip != null && options.ToolTip != null)
+                            options.ToolTip.SetToolTip(control, controlPhrases.ToolTip);
 
                         if (controlPhrases.Items != null)
                         {
@@ -77,25 +87,25 @@ namespace Scada.Forms
                     // process nested elements
                     if (elem is MenuStrip menuStrip)
                     {
-                        Translate(menuStrip.Items, toolTip, controlDict);
+                        Translate(menuStrip.Items, controlDict, options);
                     }
                     else if (elem is ToolStrip toolStrip)
                     {
-                        Translate(toolStrip.Items, toolTip, controlDict);
+                        Translate(toolStrip.Items, controlDict, options);
                     }
                     else if (elem is DataGridView dataGridView)
                     {
-                        Translate(dataGridView.Columns, toolTip, controlDict);
+                        Translate(dataGridView.Columns, controlDict, options);
                     }
                     else if (elem is ListView listView)
                     {
-                        Translate(listView.Columns, toolTip, controlDict);
-                        Translate(listView.Groups, toolTip, controlDict);
+                        Translate(listView.Columns, controlDict, options);
+                        Translate(listView.Groups, controlDict, options);
                     }
 
                     // process child controls
                     if (control.HasChildren)
-                        Translate(control.Controls, toolTip, controlDict);
+                        Translate(control.Controls, controlDict, options);
                 }
                 else
                 {
@@ -113,7 +123,7 @@ namespace Scada.Forms
 
                         // submenu
                         if (elem is ToolStripDropDownItem dropDownItem && dropDownItem.HasDropDownItems)
-                            Translate(dropDownItem.DropDownItems, toolTip, controlDict);
+                            Translate(dropDownItem.DropDownItems, controlDict, options);
                     }
                     else if (elem is DataGridViewColumn column)
                     {
@@ -137,11 +147,11 @@ namespace Scada.Forms
         /// <summary>
         /// Translates the form using the specified dictionary.
         /// </summary>
-        public static void Translate(Form form, string dictName, 
-            ToolTip toolTip = null, params ContextMenuStrip[] contextMenus)
+        public static void Translate(Form form, string dictName, FormTranslatorOptions options = null)
         {
             if (form != null && Locale.Dictionaries.TryGetValue(dictName, out LocaleDict localeDict))
             {
+                options ??= DefaultOptions;
                 Dictionary<string, ControlPhrases> controlDict = ControlPhrases.GetControlDict(localeDict);
 
                 // translate form title
@@ -149,27 +159,27 @@ namespace Scada.Forms
                     form.Text = controlPhrases.Title;
 
                 // translate controls
-                Translate(form.Controls, toolTip, controlDict);
+                Translate(form.Controls, controlDict, options);
 
                 // translate context menus
-                if (contextMenus != null)
-                    Translate(contextMenus, null, controlDict);
+                if (options.ContextMenus != null)
+                    Translate(options.ContextMenus, controlDict, options);
             }
         }
 
         /// <summary>
         /// Translates the control using the specified dictionary.
         /// </summary>
-        public static void Translate(Control control, string dictName, 
-            ToolTip toolTip = null, params ContextMenuStrip[] contextMenus)
+        public static void Translate(Control control, string dictName, FormTranslatorOptions options = null)
         {
             if (control != null && Locale.Dictionaries.TryGetValue(dictName, out LocaleDict localeDict))
             {
+                options ??= DefaultOptions;
                 Dictionary<string, ControlPhrases> controlDict = ControlPhrases.GetControlDict(localeDict);
-                Translate(new Control[] { control }, toolTip, controlDict);
+                Translate(new Control[] { control }, controlDict, options);
 
-                if (contextMenus != null)
-                    Translate(contextMenus, null, controlDict);
+                if (options.ContextMenus != null)
+                    Translate(options.ContextMenus, controlDict, options);
             }
         }
     }
