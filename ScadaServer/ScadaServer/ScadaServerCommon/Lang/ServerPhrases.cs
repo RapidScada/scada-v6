@@ -78,6 +78,11 @@ namespace Scada.Server.Lang
         public static string HistoricalArchiveKind { get; private set; }
         public static string EventsArchiveKind { get; private set; }
 
+        // Scada.Comm.Modules
+        public static string LoadModuleConfigError { get; private set; }
+        public static string SaveModuleConfigError { get; private set; }
+        public static string SaveModuleConfigConfirm { get; private set; }
+
         // Scada.Server.Engine.CoreLogic
         public static string CommandSentBy { get; private set; }
 
@@ -163,6 +168,11 @@ namespace Scada.Server.Lang
             CurrentArchiveKind = dict.GetPhrase("CurrentArchiveKind");
             HistoricalArchiveKind = dict.GetPhrase("HistoricalArchiveKind");
             EventsArchiveKind = dict.GetPhrase("EventsArchiveKind");
+
+            dict = Locale.GetDictionary("Scada.Server.Modules");
+            LoadModuleConfigError = dict.GetPhrase("LoadModuleConfigError");
+            SaveModuleConfigError = dict.GetPhrase("SaveModuleConfigError");
+            SaveModuleConfigConfirm = dict.GetPhrase("SaveModuleConfigConfirm");
 
             dict = Locale.GetDictionary("Scada.Server.Engine.CoreLogic");
             CommandSentBy = dict.GetPhrase("CommandSentBy");

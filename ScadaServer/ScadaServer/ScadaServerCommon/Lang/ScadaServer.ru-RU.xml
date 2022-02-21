@@ -6,6 +6,11 @@
     <Phrase key="HistoricalArchiveKind">Исторический</Phrase>
     <Phrase key="EventsArchiveKind">События</Phrase>
   </Dictionary>
+  <Dictionary key="Scada.Server.Modules">
+    <Phrase key="LoadModuleConfigError">Ошибка при загрузке конфигурации модуля</Phrase>
+    <Phrase key="SaveModuleConfigError">Ошибка при сохранении конфигурации модуля</Phrase>
+    <Phrase key="SaveModuleConfigConfirm">Конфигурация модуля была изменена. Сохранить изменения?</Phrase>
+  </Dictionary>
   <Dictionary key="Scada.Server.Engine.CoreLogic">
     <Phrase key="CommandSentBy">Отправлена {0}</Phrase>
   </Dictionary>
