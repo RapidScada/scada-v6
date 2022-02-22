@@ -481,5 +481,23 @@ namespace Scada
         {
             return args.FirstOrDefault(s => !string.IsNullOrEmpty(s));
         }
+
+        /// <summary>
+        /// Recursively sets the parent for each child object.
+        /// </summary>
+        public static void RestoreHierarchy(this ITreeNode treeNode)
+        {
+            if (treeNode.Children != null)
+            {
+                foreach (object child in treeNode.Children)
+                {
+                    if (child is ITreeNode childNode)
+                    {
+                        childNode.Parent = treeNode;
+                        RestoreHierarchy(childNode);
+                    }
+                }
+            }
+        }
     }
 }
