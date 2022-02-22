@@ -19,6 +19,10 @@ namespace Scada.Forms
         /// The default translator options.
         /// </summary>
         private static readonly FormTranslatorOptions DefaultOptions = new();
+        /// <summary>
+        /// The default translator options for translating controls.
+        /// </summary>
+        private static readonly FormTranslatorOptions DefaultOptionsForControls = new() { SkipUserControls = false };
 
 
         /// <summary>
@@ -174,7 +178,7 @@ namespace Scada.Forms
         {
             if (control != null && Locale.Dictionaries.TryGetValue(dictName, out LocaleDict localeDict))
             {
-                options ??= DefaultOptions;
+                options ??= DefaultOptionsForControls;
                 Dictionary<string, ControlPhrases> controlDict = ControlPhrases.GetControlDict(localeDict);
                 Translate(new Control[] { control }, controlDict, options);
 
