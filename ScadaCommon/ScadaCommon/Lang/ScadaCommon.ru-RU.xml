@@ -117,6 +117,19 @@
     <Phrase key="lblPassword">Пароль</Phrase>
     <Phrase key="chkConnectionString">Строка соединения</Phrase>
   </Dictionary>
+  <Dictionary key="Scada.Forms.FrmCnlSelect">
+    <Phrase key="this">Выбор каналов</Phrase>
+    <Phrase key="lblFilter">Фильтр</Phrase>
+    <Phrase key="btnApplyFilter">Применить</Phrase>
+    <Phrase key="lblObj">Объект</Phrase>
+    <Phrase key="lblDevice">Устройство</Phrase>
+    <Phrase key="chkOnlySelected">Показывать только выбранные строки</Phrase>
+    <Phrase key="colSelected">Выбор</Phrase>
+    <Phrase key="colCnlNum">Номер</Phrase>
+    <Phrase key="colName">Наименование</Phrase>
+    <Phrase key="btnSelect">Выбрать</Phrase>
+    <Phrase key="btnCancel">Отмена</Phrase>
+  </Dictionary>
   <Dictionary key="Scada.Forms.FrmEntitySelect">
     <Phrase key="this">Выбор из таблицы {0}</Phrase>
     <Phrase key="lblFilter">Фильтр</Phrase>

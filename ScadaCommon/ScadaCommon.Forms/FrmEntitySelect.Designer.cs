@@ -83,7 +83,7 @@ namespace Scada.Forms
             this.chkOnlySelected.TabIndex = 3;
             this.chkOnlySelected.Text = "Show only selected rows";
             this.chkOnlySelected.UseVisualStyleBackColor = true;
-            this.chkOnlySelected.CheckedChanged += new System.EventHandler(this.chkOnlySelected_CheckedChanged);
+            this.chkOnlySelected.CheckedChanged += new System.EventHandler(this.btnApplyFilter_Click);
             // 
             // dataGridView
             // 

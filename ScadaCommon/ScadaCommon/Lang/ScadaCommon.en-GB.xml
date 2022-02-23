@@ -117,6 +117,19 @@
     <Phrase key="lblPassword">Password</Phrase>
     <Phrase key="chkConnectionString">Connection string</Phrase>
   </Dictionary>
+  <Dictionary key="Scada.Forms.FrmCnlSelect">
+    <Phrase key="this">Select Channels</Phrase>
+    <Phrase key="lblFilter">Filter</Phrase>
+    <Phrase key="btnApplyFilter">Apply</Phrase>
+    <Phrase key="lblObj">Object</Phrase>
+    <Phrase key="lblDevice">Device</Phrase>
+    <Phrase key="chkOnlySelected">Show only selected rows</Phrase>
+    <Phrase key="colSelected">Selected</Phrase>
+    <Phrase key="colCnlNum">Number</Phrase>
+    <Phrase key="colName">Name</Phrase>
+    <Phrase key="btnSelect">Select</Phrase>
+    <Phrase key="btnCancel">Cancel</Phrase>
+  </Dictionary>
   <Dictionary key="Scada.Forms.FrmEntitySelect">
     <Phrase key="this">Select from {0}</Phrase>
     <Phrase key="lblFilter">Filter</Phrase>
