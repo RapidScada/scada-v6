@@ -3,11 +3,11 @@
 
 using System;
 
-namespace Scada.Comm.Drivers.DrvModbus.View
+namespace Scada.Forms
 {
     /// <summary>
-    /// Specifies the types of updating the device template tree.
-    /// <para>Задаёт типы обновления дерева шаблона устройства.</para>
+    /// Specifies the update types of tree nodes.
+    /// <para>Задаёт типы обновления узлов дерева.</para>
     /// </summary>
     [Flags]
     public enum TreeUpdateTypes
@@ -35,6 +35,11 @@ namespace Scada.Comm.Drivers.DrvModbus.View
         /// <summary>
         /// Number of child nodes changed.
         /// </summary>
-        ChildCount = 8
+        ChildCount = 8,
+
+        /// <summary>
+        /// Update tag numbers.
+        /// </summary>
+        UpdateTagNums = 16
     }
 }
