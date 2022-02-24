@@ -41,6 +41,7 @@
             this.pnlTopLeft = new System.Windows.Forms.Panel();
             this.lblUnusedModules = new System.Windows.Forms.Label();
             this.pnlTopRight = new System.Windows.Forms.Panel();
+            this.btnRegister = new System.Windows.Forms.Button();
             this.lblActiveModules = new System.Windows.Forms.Label();
             this.tableLayoutPanel.SuspendLayout();
             this.pnlTopLeft.SuspendLayout();
@@ -52,19 +53,19 @@
             this.txtDescr.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.txtDescr.Font = new System.Drawing.Font("Consolas", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
-            this.txtDescr.Location = new System.Drawing.Point(12, 299);
+            this.txtDescr.Location = new System.Drawing.Point(12, 319);
             this.txtDescr.Multiline = true;
             this.txtDescr.Name = "txtDescr";
             this.txtDescr.ReadOnly = true;
             this.txtDescr.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
-            this.txtDescr.Size = new System.Drawing.Size(710, 200);
+            this.txtDescr.Size = new System.Drawing.Size(810, 200);
             this.txtDescr.TabIndex = 2;
             // 
             // lblDescr
             // 
             this.lblDescr.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
             this.lblDescr.AutoSize = true;
-            this.lblDescr.Location = new System.Drawing.Point(9, 281);
+            this.lblDescr.Location = new System.Drawing.Point(9, 301);
             this.lblDescr.Name = "lblDescr";
             this.lblDescr.Size = new System.Drawing.Size(67, 15);
             this.lblDescr.TabIndex = 1;
@@ -126,11 +127,11 @@
             this.lbActiveModules.HorizontalScrollbar = true;
             this.lbActiveModules.IntegralHeight = false;
             this.lbActiveModules.ItemHeight = 15;
-            this.lbActiveModules.Location = new System.Drawing.Point(358, 47);
+            this.lbActiveModules.Location = new System.Drawing.Point(408, 47);
             this.lbActiveModules.Margin = new System.Windows.Forms.Padding(3, 0, 0, 0);
             this.lbActiveModules.MultiColumn = true;
             this.lbActiveModules.Name = "lbActiveModules";
-            this.lbActiveModules.Size = new System.Drawing.Size(352, 212);
+            this.lbActiveModules.Size = new System.Drawing.Size(402, 232);
             this.lbActiveModules.TabIndex = 3;
             this.lbActiveModules.SelectedIndexChanged += new System.EventHandler(this.lbActiveModules_SelectedIndexChanged);
             this.lbActiveModules.DoubleClick += new System.EventHandler(this.lbActiveModules_DoubleClick);
@@ -152,7 +153,7 @@
             this.tableLayoutPanel.RowCount = 2;
             this.tableLayoutPanel.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 47F));
             this.tableLayoutPanel.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
-            this.tableLayoutPanel.Size = new System.Drawing.Size(710, 259);
+            this.tableLayoutPanel.Size = new System.Drawing.Size(810, 279);
             this.tableLayoutPanel.TabIndex = 0;
             // 
             // lbUnusedModules
@@ -165,7 +166,7 @@
             this.lbUnusedModules.Margin = new System.Windows.Forms.Padding(0, 0, 3, 0);
             this.lbUnusedModules.MultiColumn = true;
             this.lbUnusedModules.Name = "lbUnusedModules";
-            this.lbUnusedModules.Size = new System.Drawing.Size(352, 212);
+            this.lbUnusedModules.Size = new System.Drawing.Size(402, 232);
             this.lbUnusedModules.Sorted = true;
             this.lbUnusedModules.TabIndex = 1;
             this.lbUnusedModules.SelectedIndexChanged += new System.EventHandler(this.lbUnusedModules_SelectedIndexChanged);
@@ -179,7 +180,7 @@
             this.pnlTopLeft.Location = new System.Drawing.Point(0, 0);
             this.pnlTopLeft.Margin = new System.Windows.Forms.Padding(0, 0, 3, 0);
             this.pnlTopLeft.Name = "pnlTopLeft";
-            this.pnlTopLeft.Size = new System.Drawing.Size(352, 47);
+            this.pnlTopLeft.Size = new System.Drawing.Size(402, 47);
             this.pnlTopLeft.TabIndex = 0;
             // 
             // lblUnusedModules
@@ -193,17 +194,27 @@
             // 
             // pnlTopRight
             // 
+            this.pnlTopRight.Controls.Add(this.btnRegister);
             this.pnlTopRight.Controls.Add(this.lblActiveModules);
             this.pnlTopRight.Controls.Add(this.btnDeactivate);
             this.pnlTopRight.Controls.Add(this.btnProperties);
             this.pnlTopRight.Controls.Add(this.btnMoveUp);
             this.pnlTopRight.Controls.Add(this.btnMoveDown);
             this.pnlTopRight.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.pnlTopRight.Location = new System.Drawing.Point(358, 0);
+            this.pnlTopRight.Location = new System.Drawing.Point(408, 0);
             this.pnlTopRight.Margin = new System.Windows.Forms.Padding(3, 0, 0, 0);
             this.pnlTopRight.Name = "pnlTopRight";
-            this.pnlTopRight.Size = new System.Drawing.Size(352, 47);
+            this.pnlTopRight.Size = new System.Drawing.Size(402, 47);
             this.pnlTopRight.TabIndex = 1;
+            // 
+            // btnRegister
+            // 
+            this.btnRegister.Location = new System.Drawing.Point(344, 18);
+            this.btnRegister.Name = "btnRegister";
+            this.btnRegister.Size = new System.Drawing.Size(90, 23);
+            this.btnRegister.TabIndex = 5;
+            this.btnRegister.Text = "Register";
+            this.btnRegister.UseVisualStyleBackColor = true;
             // 
             // lblActiveModules
             // 
@@ -218,7 +229,7 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(734, 511);
+            this.ClientSize = new System.Drawing.Size(834, 531);
             this.Controls.Add(this.tableLayoutPanel);
             this.Controls.Add(this.txtDescr);
             this.Controls.Add(this.lblDescr);
@@ -251,5 +262,6 @@
         private System.Windows.Forms.Panel pnlTopRight;
         private System.Windows.Forms.Label lblUnusedModules;
         private System.Windows.Forms.Label lblActiveModules;
+        private System.Windows.Forms.Button btnRegister;
     }
 }

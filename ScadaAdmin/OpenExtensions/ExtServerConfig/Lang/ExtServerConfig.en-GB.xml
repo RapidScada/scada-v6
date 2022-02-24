@@ -55,6 +55,7 @@
     <Phrase key="btnMoveUp">Move Up</Phrase>
     <Phrase key="btnMoveDown">Move Down</Phrase>
     <Phrase key="btnProperties">Properties</Phrase>
+    <Phrase key="btnRegister">Register</Phrase>
     <Phrase key="lblDescr">Description</Phrase>
   </Dictionary>
   <Dictionary key="Scada.Admin.Extensions.ExtServerConfig.Forms.FrmServerLogs">

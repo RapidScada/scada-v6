@@ -195,6 +195,7 @@ namespace Scada.Admin.Extensions.ExtServerConfig.Forms
                 btnMoveUp.Enabled = lbActiveModules.SelectedIndex > 0;
                 btnMoveDown.Enabled = lbActiveModules.SelectedIndex < lbActiveModules.Items.Count - 1;
                 btnProperties.Enabled = moduleItem.ModuleView != null && moduleItem.ModuleView.CanShowProperties;
+                btnRegister.Visible = moduleItem.ModuleView != null && moduleItem.ModuleView.RequireRegistration;
             }
             else
             {
@@ -202,6 +203,7 @@ namespace Scada.Admin.Extensions.ExtServerConfig.Forms
                 btnMoveUp.Enabled = false;
                 btnMoveDown.Enabled = false;
                 btnProperties.Enabled = false;
+                btnRegister.Visible = false;
             }
         }
 
