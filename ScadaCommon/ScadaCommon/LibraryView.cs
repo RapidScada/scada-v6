@@ -20,7 +20,7 @@
  * 
  * Author   : Mikhail Shiryaev
  * Created  : 2020
- * Modified : 2021
+ * Modified : 2022
  */
 
 using Scada.Agent;
@@ -45,12 +45,14 @@ namespace Scada
             AppDirs = null;
             AgentClient = null;
             CanShowProperties = false;
+            RequireRegistration = false;
         }
 
         /// <summary>
         /// Initializes a new instance of the class.
         /// </summary>
         public LibraryView(LibraryView parentView)
+            : this()
         {
             if (parentView == null)
                 throw new ArgumentNullException(nameof(parentView));
@@ -81,6 +83,11 @@ namespace Scada
         /// Gets a value indicating whether the module can show a properties dialog box.
         /// </summary>
         public bool CanShowProperties { get; protected set; }
+
+        /// <summary>
+        /// Gets a value indicating whether library registration is required.
+        /// </summary>
+        public bool RequireRegistration { get; protected set; }
 
 
         /// <summary>
