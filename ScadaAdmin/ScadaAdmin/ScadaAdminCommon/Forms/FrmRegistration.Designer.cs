@@ -71,7 +71,7 @@
             // 
             this.btnCopyCompCode.Location = new System.Drawing.Point(12, 187);
             this.btnCopyCompCode.Name = "btnCopyCompCode";
-            this.btnCopyCompCode.Size = new System.Drawing.Size(80, 23);
+            this.btnCopyCompCode.Size = new System.Drawing.Size(90, 23);
             this.btnCopyCompCode.TabIndex = 4;
             this.btnCopyCompCode.Text = "Copy";
             this.btnCopyCompCode.UseVisualStyleBackColor = true;
@@ -116,7 +116,7 @@
             // 
             this.btnPasteRegKey.Location = new System.Drawing.Point(12, 292);
             this.btnPasteRegKey.Name = "btnPasteRegKey";
-            this.btnPasteRegKey.Size = new System.Drawing.Size(80, 23);
+            this.btnPasteRegKey.Size = new System.Drawing.Size(90, 23);
             this.btnPasteRegKey.TabIndex = 8;
             this.btnPasteRegKey.Text = "Paste";
             this.btnPasteRegKey.UseVisualStyleBackColor = true;
@@ -201,9 +201,9 @@
             // 
             // btnRefreshCompCode
             // 
-            this.btnRefreshCompCode.Location = new System.Drawing.Point(98, 187);
+            this.btnRefreshCompCode.Location = new System.Drawing.Point(108, 187);
             this.btnRefreshCompCode.Name = "btnRefreshCompCode";
-            this.btnRefreshCompCode.Size = new System.Drawing.Size(80, 23);
+            this.btnRefreshCompCode.Size = new System.Drawing.Size(90, 23);
             this.btnRefreshCompCode.TabIndex = 15;
             this.btnRefreshCompCode.Text = "Refresh";
             this.btnRefreshCompCode.UseVisualStyleBackColor = true;
