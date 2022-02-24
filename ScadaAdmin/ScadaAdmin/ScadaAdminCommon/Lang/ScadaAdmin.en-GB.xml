@@ -672,13 +672,17 @@
     <Phrase key="lblProductName">Product name</Phrase>
     <Phrase key="lblCompCode">Computer code</Phrase>
     <Phrase key="btnCopyCompCode">Copy</Phrase>
+    <Phrase key="btnRefreshCompCode">Refresh</Phrase>
     <Phrase key="lblCompCodeInfo">If the code is missing, upload the configuration and restart the services.</Phrase>
     <Phrase key="lblRegKey">Registration key</Phrase>
     <Phrase key="btnPasteRegKey">Paste</Phrase>
+    <Phrase key="lblRegKeyInfo">Key verification result is written in the application or module log.</Phrase>
     <Phrase key="llblGetPermanentKey">Get permanent key</Phrase>
     <Phrase key="llblGetTrialKey">Get trial key</Phrase>
     <Phrase key="btnSave">Save</Phrase>
     <Phrase key="btnCancel">Cancel</Phrase>
+    <Phrase key="LoadRegKeyError">Error loading registration key</Phrase>
+    <Phrase key="SaveRegKeyError">Error saving registration key</Phrase>
   </Dictionary>
   <Dictionary key="Scada.Admin.Project">
     <Phrase key="CreateAppConfigError">Error creating configuration of the {0} application</Phrase>

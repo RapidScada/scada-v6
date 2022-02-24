@@ -20,7 +20,7 @@
  * 
  * Author   : Mikhail Shiryaev
  * Created  : 2018
- * Modified : 2021
+ * Modified : 2022
  */
 
 #pragma warning disable CS1591 // Missing XML comment for publicly visible type or member
@@ -65,6 +65,10 @@ namespace Scada.Admin.Lang
 
         // Scada.Admin.Forms.FrmLogs
         public static string AllFilesFilter { get; private set; }
+
+        // Scada.Admin.Forms.FrmRegistration
+        public static string LoadRegKeyError { get; private set; }
+        public static string SaveRegKeyError { get; private set; }
 
         // Scada.Admin.Project
         public static string CreateAppConfigError { get; private set; }
@@ -134,6 +138,10 @@ namespace Scada.Admin.Lang
 
             dict = Locale.GetDictionary("Scada.Admin.Forms.FrmLogs");
             AllFilesFilter = dict["AllFilesFilter"];
+
+            dict = Locale.GetDictionary("Scada.Admin.Forms.FrmRegistration");
+            LoadRegKeyError = dict["LoadRegKeyError"];
+            SaveRegKeyError = dict["SaveRegKeyError"];
 
             dict = Locale.GetDictionary("Scada.Admin.Project");
             CreateAppConfigError = dict["CreateAppConfigError"];

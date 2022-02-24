@@ -2,6 +2,7 @@
 // Licensed under the Apache License, Version 2.0. See License.txt in the project root for license information.
 
 using Scada.Admin.Extensions.ExtServerConfig.Code;
+using Scada.Admin.Forms;
 using Scada.Admin.Project;
 using Scada.Forms;
 using Scada.Server.Config;
@@ -315,6 +316,18 @@ namespace Scada.Admin.Extensions.ExtServerConfig.Forms
             {
                 lbActiveModules.Focus();
                 moduleItem.ModuleView.ShowProperties();
+            }
+        }
+
+        private void btnRegister_Click(object sender, EventArgs e)
+        {
+            // show registration form for the selected module
+            if (lbActiveModules.SelectedItem is ModuleItem moduleItem &&
+                moduleItem.ModuleView != null && moduleItem.ModuleView.RequireRegistration)
+            {
+                lbActiveModules.Focus();
+                new FrmRegistration(adminContext, serverApp, 
+                    moduleItem.ModuleView.ProductCode, moduleItem.ModuleView.Name).ShowDialog();
             }
         }
 
