@@ -46,6 +46,7 @@ namespace Scada
             AgentClient = null;
             CanShowProperties = false;
             RequireRegistration = false;
+            ProductCode = "";
         }
 
         /// <summary>
@@ -88,6 +89,11 @@ namespace Scada
         /// Gets a value indicating whether library registration is required.
         /// </summary>
         public bool RequireRegistration { get; protected set; }
+
+        /// <summary>
+        /// Gets the product code for registration.
+        /// </summary>
+        public string ProductCode { get; protected set; }
 
 
         /// <summary>
