@@ -219,6 +219,9 @@ namespace Scada.Server.Engine
             else
             {
                 // pass command directly to clients
+                DateTime utcNow = DateTime.UtcNow;
+                command.CommandID = ScadaUtils.GenerateUniqueID(utcNow);
+                command.CreationTime = utcNow;
                 listener.EnqueueCommand(command);
                 commandResult = new CommandResult(true);
             }
