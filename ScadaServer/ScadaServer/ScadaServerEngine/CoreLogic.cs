@@ -590,7 +590,8 @@ namespace Scada.Server.Engine
                     if (cnlData.IsDefined && cnlData.Stat != CnlStatusID.Unreliable &&
                         (nowDT - curData.Timestamps[cnlTag.Index]).TotalSeconds > unrelIfInactive)
                     {
-                        curData.SetCurCnlData(cnlTag, new CnlData(cnlData.Val, CnlStatusID.Unreliable), nowDT);
+                        CnlData unrelCnlData = new CnlData(cnlData.Val, CnlStatusID.Unreliable);
+                        curData.SetCurCnlData(cnlTag, ref unrelCnlData, nowDT);
                     }
                 }
 
@@ -611,7 +612,7 @@ namespace Scada.Server.Engine
                 foreach (CnlTag cnlTag in calcCnlTags)
                 {
                     CnlData newCnlData = calc.CalcCnlData(cnlTag, CnlData.Zero);
-                    curData.SetCurCnlData(cnlTag, newCnlData, nowDT);
+                    curData.SetCurCnlData(cnlTag, ref newCnlData, nowDT);
                 }
             }
             finally
@@ -1257,15 +1258,16 @@ namespace Scada.Server.Engine
                 {
                     if (cnlTags.TryGetValue(cnlNums[i], out CnlTag cnlTag))
                     {
-                        CnlData newCnlData = cnlData[i];
-
                         if (applyFormulas && cnlTag.Cnl.FormulaEnabled && cnlTag.Cnl.IsInput())
                         {
-                            newCnlData = calc.CalcCnlData(cnlTag, newCnlData);
+                            CnlData newCnlData = calc.CalcCnlData(cnlTag, cnlData[i]);
+                            curData.SetCurCnlData(cnlTag, ref newCnlData, utcNow, enableEvents);
                             cnlData[i] = newCnlData;
                         }
-
-                        curData.SetCurCnlData(cnlTag, newCnlData, utcNow, enableEvents);
+                        else
+                        {
+                            curData.SetCurCnlData(cnlTag, ref cnlData[i], utcNow, enableEvents);
+                        }
                     }
                 }
             }

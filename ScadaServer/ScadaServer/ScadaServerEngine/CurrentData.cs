@@ -110,7 +110,7 @@ namespace Scada.Server.Engine
         /// <summary>
         /// Sets the current channel data.
         /// </summary>
-        public void SetCurCnlData(CnlTag cnlTag, CnlData cnlData, DateTime nowDT, bool enableEvents = true)
+        public void SetCurCnlData(CnlTag cnlTag, ref CnlData cnlData, DateTime nowDT, bool enableEvents = true)
         {
             int cnlIndex = cnlTag.Index;
             CnlData prevCnlData = CnlData[cnlIndex];
@@ -200,7 +200,7 @@ namespace Scada.Server.Engine
         void ICalcContext.SetCnlData(int cnlNum, CnlData cnlData)
         {
             if (cnlTags.TryGetValue(cnlNum, out CnlTag cnlTag))
-                SetCurCnlData(cnlTag, cnlData, Timestamp);
+                SetCurCnlData(cnlTag, ref cnlData, Timestamp);
         }
     }
 }
