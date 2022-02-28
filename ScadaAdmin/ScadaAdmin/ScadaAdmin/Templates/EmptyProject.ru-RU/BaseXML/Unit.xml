@@ -241,6 +241,12 @@
     <Descr>Физическая атмосфера</Descr>
   </Unit>
   <Unit>
+    <UnitID>76</UnitID>
+    <Name>мм рт.ст.</Name>
+    <Code>mmHg</Code>
+    <Descr>Миллиметр ртутного столба</Descr>
+  </Unit>
+  <Unit>
     <UnitID>81</UnitID>
     <Name>м³</Name>
     <Code>m3</Code>

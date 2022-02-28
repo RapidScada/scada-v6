@@ -241,6 +241,12 @@
     <Descr>Standard atmosphere</Descr>
   </Unit>
   <Unit>
+    <UnitID>76</UnitID>
+    <Name>mmHg</Name>
+    <Code>mmHg</Code>
+    <Descr>Millimetre of mercury</Descr>
+  </Unit>
+  <Unit>
     <UnitID>81</UnitID>
     <Name>m³</Name>
     <Code>m3</Code>
