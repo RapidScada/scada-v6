@@ -329,9 +329,12 @@ namespace Scada.Web.Code
 
                 if (!serverIsReady)
                 {
-                    throw new ScadaException(Locale.IsRussian ?
+                    scadaClient.TerminateSession();
+                    Log.WriteError(Locale.IsRussian ?
                         "Сервер не готов" :
                         "Server is not ready");
+                    baseDataSet = null;
+                    return false;
                 }
             }
             catch (Exception ex)
@@ -357,7 +360,6 @@ namespace Scada.Web.Code
                 }
 
                 tableName = CommonPhrases.UndefinedTable;
-                scadaClient.TerminateSession();
                 PostprocessBase(baseDataSet);
                 Log.WriteAction(Locale.IsRussian ?
                     "База конфигурации получена успешно" :
@@ -371,6 +373,10 @@ namespace Scada.Web.Code
                     "Error receiving the configuration database, the {0} table", tableName);
                 baseDataSet = null;
                 return false;
+            }
+            finally
+            {
+                scadaClient.TerminateSession();
             }
         }
 
