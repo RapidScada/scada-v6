@@ -557,15 +557,42 @@ namespace Scada.Comm.Drivers.DrvDsScadaServer.Logic
                 return false;
             }
 
+            log.WriteAction(CommPhrases.DataSourceMessage, Code, Locale.IsRussian ?
+                "Приём базы конфигурации" :
+                "Receive the configuration database");
+
+            // check connection
+            ScadaClient localClient = new ScadaClient(connOptions);
+
+            try
+            {
+                localClient.GetStatus(out bool serverIsReady, out bool userIsLoggedIn);
+
+                if (!serverIsReady)
+                {
+                    localClient.TerminateSession();
+                    log.WriteError(CommPhrases.DataSourceMessage, Code, Locale.IsRussian ?
+                        "Сервер не готов" :
+                        "Server is not ready");
+                    baseDataSet = null;
+                    return false;
+                }
+            }
+            catch (Exception ex)
+            {
+                log.WriteError(ex.BuildErrorMessage(CommPhrases.DataSourceMessage, Code, Locale.IsRussian ?
+                    "Ошибка при проверке соединения с сервером" :
+                    "Error checking server connection"));
+                baseDataSet = null;
+                return false;
+            }
+
+            // receive tables
             string tableName = CommonPhrases.UndefinedTable;
 
             try
             {
-                log.WriteAction(CommPhrases.DataSourceMessage, Code, Locale.IsRussian ?
-                    "Приём базы конфигурации" :
-                    "Receive the configuration database");
 
-                ScadaClient localClient = new ScadaClient(connOptions);
                 baseDataSet = new BaseDataSet();
 
                 foreach (IBaseTable baseTable in baseDataSet.AllTables)
@@ -574,7 +601,6 @@ namespace Scada.Comm.Drivers.DrvDsScadaServer.Logic
                     localClient.DownloadBaseTable(baseTable);
                 }
 
-                localClient.TerminateSession();
                 log.WriteAction(CommPhrases.DataSourceMessage, Code, Locale.IsRussian ?
                     "База конфигурации получена успешно" :
                     "The configuration database has been received successfully");
@@ -587,6 +613,10 @@ namespace Scada.Comm.Drivers.DrvDsScadaServer.Logic
                     "Error receiving the configuration database, the {0} table", tableName));
                 baseDataSet = null;
                 return false;
+            }
+            finally
+            {
+                localClient.TerminateSession();
             }
         }
 
