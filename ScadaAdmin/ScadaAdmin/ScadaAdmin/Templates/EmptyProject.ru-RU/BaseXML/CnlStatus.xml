@@ -63,8 +63,8 @@
   <CnlStatus>
     <CnlStatusID>12</CnlStatusID>
     <Name>Занижение</Name>
-    <MainColor>Cyan</MainColor>
-    <SecondColor>Cyan</SecondColor>
+    <MainColor>DeepSkyBlue</MainColor>
+    <SecondColor>DeepSkyBlue</SecondColor>
     <BackColor>Cyan</BackColor>
     <Severity>250</Severity>
     <AckRequired>true</AckRequired>
