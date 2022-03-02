@@ -106,7 +106,7 @@ namespace Scada.Data.Tables
         public string Title { get; set; }
 
         /// <summary>
-        /// Gets the short file name of the table.
+        /// Gets the short file name of the table in XML format.
         /// </summary>
         public string FileName
         {
