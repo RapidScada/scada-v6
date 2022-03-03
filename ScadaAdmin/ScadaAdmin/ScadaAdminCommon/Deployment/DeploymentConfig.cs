@@ -20,7 +20,7 @@
  * 
  * Author   : Mikhail Shiryaev
  * Created  : 2018
- * Modified : 2021
+ * Modified : 2022
  */
 
 using Scada.Admin.Lang;
@@ -85,7 +85,7 @@ namespace Scada.Admin.Deployment
 
                 foreach (XmlNode profileNode in xmlDoc.DocumentElement.SelectNodes("DeploymentProfile"))
                 {
-                    DeploymentProfile profile = new DeploymentProfile();
+                    DeploymentProfile profile = new();
                     profile.LoadFromXml(profileNode);
                     Profiles[profile.Name] = profile;
                 }
@@ -113,7 +113,7 @@ namespace Scada.Admin.Deployment
                 XmlDeclaration xmlDecl = xmlDoc.CreateXmlDeclaration("1.0", "utf-8", null);
                 xmlDoc.AppendChild(xmlDecl);
 
-                XmlElement rootElem = xmlDoc.CreateElement("DeploymentSettings");
+                XmlElement rootElem = xmlDoc.CreateElement("DeploymentConfig");
                 xmlDoc.AppendChild(rootElem);
 
                 foreach (DeploymentProfile profile in Profiles.Values)

@@ -1,5 +1,5 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<DeploymentSettings>
+<DeploymentConfig>
   <DeploymentProfile>
     <InstanceID>1</InstanceID>
     <Name>Default Profile</Name>
@@ -46,4 +46,4 @@
       <ObjectFilter />
     </UploadOptions>
   </DeploymentProfile>
-</DeploymentSettings>
+</DeploymentConfig>
