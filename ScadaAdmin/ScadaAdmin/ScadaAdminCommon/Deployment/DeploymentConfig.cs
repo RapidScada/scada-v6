@@ -109,7 +109,6 @@ namespace Scada.Admin.Deployment
             try
             {
                 XmlDocument xmlDoc = new();
-
                 XmlDeclaration xmlDecl = xmlDoc.CreateXmlDeclaration("1.0", "utf-8", null);
                 xmlDoc.AppendChild(xmlDecl);
 
