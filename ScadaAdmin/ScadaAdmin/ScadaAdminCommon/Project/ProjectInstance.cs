@@ -20,7 +20,7 @@
  * 
  * Author   : Mikhail Shiryaev
  * Created  : 2018
- * Modified : 2021
+ * Modified : 2022
  */
 
 using Scada.Admin.Lang;
@@ -139,7 +139,7 @@ namespace Scada.Admin.Project
             if (xmlNode == null)
                 throw new ArgumentNullException(nameof(xmlNode));
 
-            ID = xmlNode.GetChildAsInt("ID");
+            ID = xmlNode.GetChildAsInt("ID", 1);
             Name = xmlNode.GetChildAsString("Name");
 
             if (xmlNode.SelectSingleNode("ServerApp") is XmlElement serverAppElem)

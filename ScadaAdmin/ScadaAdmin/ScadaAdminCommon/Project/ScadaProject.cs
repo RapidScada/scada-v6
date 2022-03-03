@@ -20,7 +20,7 @@
  * 
  * Author   : Mikhail Shiryaev
  * Created  : 2018
- * Modified : 2021
+ * Modified : 2022
  */
 
 using Scada.Admin.Deployment;
@@ -217,7 +217,7 @@ namespace Scada.Admin.Project
                     instance.LoadFromXml(instanceNode);
                     instance.InstanceDir = Path.Combine(projectDir, "Instances", instance.Name);
 
-                    if (instanceIDs.Add(instance.ID)) // check uniqueness
+                    if (instance.ID > 0 && instanceIDs.Add(instance.ID)) // check uniqueness
                         Instances.Add(instance);
                 }
             }
