@@ -233,6 +233,7 @@
     <Phrase key="this">Драйверы</Phrase>
     <Phrase key="lblDrivers">Доступные драйверы:</Phrase>
     <Phrase key="btnProperties">Свойства</Phrase>
+    <Phrase key="btnRegister">Регистрация</Phrase>
     <Phrase key="lblDescr">Описание</Phrase>
   </Dictionary>
   <Dictionary key="Scada.Admin.Extensions.ExtCommConfig.Forms.FrmExtensionOptions">

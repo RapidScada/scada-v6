@@ -33,6 +33,7 @@
             this.lbDrivers = new System.Windows.Forms.ListBox();
             this.lblDrivers = new System.Windows.Forms.Label();
             this.btnProperties = new System.Windows.Forms.Button();
+            this.btnRegister = new System.Windows.Forms.Button();
             this.SuspendLayout();
             // 
             // txtDescr
@@ -46,7 +47,7 @@
             this.txtDescr.ReadOnly = true;
             this.txtDescr.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
             this.txtDescr.Size = new System.Drawing.Size(660, 200);
-            this.txtDescr.TabIndex = 4;
+            this.txtDescr.TabIndex = 5;
             // 
             // lblDescr
             // 
@@ -55,7 +56,7 @@
             this.lblDescr.Location = new System.Drawing.Point(9, 281);
             this.lblDescr.Name = "lblDescr";
             this.lblDescr.Size = new System.Drawing.Size(67, 15);
-            this.lblDescr.TabIndex = 3;
+            this.lblDescr.TabIndex = 4;
             this.lblDescr.Text = "Description";
             // 
             // lbDrivers
@@ -70,7 +71,7 @@
             this.lbDrivers.MultiColumn = true;
             this.lbDrivers.Name = "lbDrivers";
             this.lbDrivers.Size = new System.Drawing.Size(660, 212);
-            this.lbDrivers.TabIndex = 2;
+            this.lbDrivers.TabIndex = 3;
             this.lbDrivers.SelectedIndexChanged += new System.EventHandler(this.lbDrivers_SelectedIndexChanged);
             this.lbDrivers.DoubleClick += new System.EventHandler(this.lbDrivers_DoubleClick);
             // 
@@ -93,6 +94,16 @@
             this.btnProperties.UseVisualStyleBackColor = true;
             this.btnProperties.Click += new System.EventHandler(this.btnProperties_Click);
             // 
+            // btnRegister
+            // 
+            this.btnRegister.Location = new System.Drawing.Point(118, 27);
+            this.btnRegister.Name = "btnRegister";
+            this.btnRegister.Size = new System.Drawing.Size(100, 23);
+            this.btnRegister.TabIndex = 2;
+            this.btnRegister.Text = "Register";
+            this.btnRegister.UseVisualStyleBackColor = true;
+            this.btnRegister.Click += new System.EventHandler(this.btnRegister_Click);
+            // 
             // FrmDrivers
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
@@ -101,6 +112,7 @@
             this.Controls.Add(this.txtDescr);
             this.Controls.Add(this.lblDescr);
             this.Controls.Add(this.lbDrivers);
+            this.Controls.Add(this.btnRegister);
             this.Controls.Add(this.btnProperties);
             this.Controls.Add(this.lblDrivers);
             this.Name = "FrmDrivers";
@@ -118,5 +130,6 @@
         private System.Windows.Forms.ListBox lbDrivers;
         private System.Windows.Forms.Label lblDrivers;
         private System.Windows.Forms.Button btnProperties;
+        private System.Windows.Forms.Button btnRegister;
     }
 }

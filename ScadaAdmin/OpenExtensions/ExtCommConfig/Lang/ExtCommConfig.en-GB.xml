@@ -233,6 +233,7 @@
     <Phrase key="this">Drivers</Phrase>
     <Phrase key="lblDrivers">Available drivers:</Phrase>
     <Phrase key="btnProperties">Properties</Phrase>
+    <Phrase key="btnRegister">Register</Phrase>
     <Phrase key="lblDescr">Description</Phrase>
   </Dictionary>
   <Dictionary key="Scada.Admin.Extensions.ExtCommConfig.Forms.FrmExtensionOptions">

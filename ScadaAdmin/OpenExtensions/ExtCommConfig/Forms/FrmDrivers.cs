@@ -2,6 +2,7 @@
 // Licensed under the Apache License, Version 2.0. See License.txt in the project root for license information.
 
 using Scada.Admin.Extensions.ExtCommConfig.Code;
+using Scada.Admin.Forms;
 using Scada.Admin.Project;
 using Scada.Comm.Config;
 using Scada.Comm.Drivers;
@@ -121,12 +122,20 @@ namespace Scada.Admin.Extensions.ExtCommConfig.Forms
         }
 
         /// <summary>
-        /// Enables or disables the Properties button.
+        /// Enables or disables the buttons.
         /// </summary>
-        private void SetButtonEnabled()
+        private void SetButtonsEnabled()
         {
-            btnProperties.Enabled = lbDrivers.SelectedItem is DriverItem driverItem &&
-                driverItem.DriverView != null && driverItem.DriverView.CanShowProperties;
+            if (lbDrivers.SelectedItem is DriverItem driverItem)
+            {
+                btnProperties.Enabled = driverItem.DriverView != null && driverItem.DriverView.CanShowProperties;
+                btnRegister.Visible = driverItem.DriverView != null && driverItem.DriverView.RequireRegistration;
+            }
+            else
+            {
+                btnProperties.Enabled = false;
+                btnRegister.Visible = false;
+            }
         }
 
         /// <summary>
@@ -158,7 +167,7 @@ namespace Scada.Admin.Extensions.ExtCommConfig.Forms
         {
             FormTranslator.Translate(this, GetType().FullName);
             FillDriverList();
-            SetButtonEnabled();
+            SetButtonsEnabled();
         }
 
         private void btnProperties_Click(object sender, EventArgs e)
@@ -172,6 +181,18 @@ namespace Scada.Admin.Extensions.ExtCommConfig.Forms
             }
         }
 
+        private void btnRegister_Click(object sender, EventArgs e)
+        {
+            // show registration form for the selected driver
+            if (lbDrivers.SelectedItem is DriverItem driverItem &&
+                driverItem.DriverView != null && driverItem.DriverView.RequireRegistration)
+            {
+                lbDrivers.Focus();
+                new FrmRegistration(adminContext, commApp,
+                    driverItem.DriverView.ProductCode, driverItem.DriverView.Name).ShowDialog();
+            }
+        }
+
         private void lbDrivers_SelectedIndexChanged(object sender, EventArgs e)
         {
             // display driver description
@@ -181,7 +202,7 @@ namespace Scada.Admin.Extensions.ExtCommConfig.Forms
                 txtDescr.Text = driverItem.Descr;
             }
 
-            SetButtonEnabled();
+            SetButtonsEnabled();
         }
 
         private void lbDrivers_DoubleClick(object sender, EventArgs e)
