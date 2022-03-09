@@ -679,8 +679,10 @@ namespace Scada.Comm.Drivers.DrvOpcUa.View.Forms
                             e.Cancel = true;
                         }
                         break;
+
                     case DialogResult.No:
                         break;
+
                     default:
                         e.Cancel = true;
                         break;
