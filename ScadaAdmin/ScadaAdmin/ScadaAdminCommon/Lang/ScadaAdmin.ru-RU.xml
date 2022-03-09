@@ -188,7 +188,7 @@
     <Phrase key="BaseNode">База конфигурации</Phrase>
     <Phrase key="PrimaryTablesNode">Основные таблицы</Phrase>
     <Phrase key="SecondaryTablesNode">Вспомогательные таблицы</Phrase>
-    <Phrase key="ViewsNode">Интерфейс</Phrase>
+    <Phrase key="ViewsNode">Представления</Phrase>
     <Phrase key="InstancesNode">Экземпляры</Phrase>
     <Phrase key="ServerNode">Сервер</Phrase>
     <Phrase key="CommNode">Коммуникатор</Phrase>
