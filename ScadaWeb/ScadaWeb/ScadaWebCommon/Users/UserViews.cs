@@ -20,7 +20,7 @@
  * 
  * Author   : Mikhail Shiryaev
  * Created  : 2016
- * Modified : 2021
+ * Modified : 2022
  */
 
 using Scada.Data.Entities;
@@ -226,7 +226,7 @@ namespace Scada.Web.Users
                         userRights.GetRightByObj(viewEntity.ObjNum ?? 0).View &&
                         CreateBranch(viewEntity) is ViewNode branchRootNode)
                     {
-                        MergeViewNodes(ViewNodes, new List<ViewNode>() { branchRootNode }, 0);
+                        MergeViewNodes(ViewNodes, new List<ViewNode> { branchRootNode }, 0);
                     }
                 }
             }

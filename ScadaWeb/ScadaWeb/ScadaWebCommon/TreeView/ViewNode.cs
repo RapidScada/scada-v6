@@ -152,24 +152,29 @@ namespace Scada.Web.TreeView
         public int CompareTo(ViewNode other)
         {
             if (other == null)
+            {
                 return 1;
+            }
+            else if (IsEmpty)
+            {
+                return string.Compare(ShortPath, other.ShortPath, StringComparison.OrdinalIgnoreCase);
+            }
+            else
+            {
+                int compareResult = SortOrder.CompareTo(other.SortOrder);
+                if (compareResult != 0)
+                    return compareResult;
 
-            if (IsEmpty && string.Equals(ShortPath, other.ShortPath, StringComparison.OrdinalIgnoreCase))
-                return 0;
+                compareResult = ViewID.CompareTo(other.ViewID);
+                if (compareResult != 0)
+                    return compareResult;
 
-            int compareResult = SortOrder.CompareTo(other.SortOrder);
-            if (compareResult != 0)
-                return compareResult;
+                compareResult = string.Compare(Text, other.Text, StringComparison.OrdinalIgnoreCase);
+                if (compareResult != 0)
+                    return compareResult;
 
-            compareResult = ViewID.CompareTo(other.ViewID);
-            if (compareResult != 0)
-                return compareResult;
-
-            compareResult = string.Compare(Text, other.Text, StringComparison.OrdinalIgnoreCase);
-            if (compareResult != 0)
-                return compareResult;
-
-            return string.Compare(Url, other.Url, StringComparison.OrdinalIgnoreCase);
+                return string.Compare(Url, other.Url, StringComparison.OrdinalIgnoreCase);
+            }
         }
     }
 }
