@@ -159,6 +159,7 @@
             // 
             // txtCmdData
             // 
+            this.txtCmdData.AcceptsReturn = true;
             this.txtCmdData.Location = new System.Drawing.Point(12, 125);
             this.txtCmdData.Multiline = true;
             this.txtCmdData.Name = "txtCmdData";
