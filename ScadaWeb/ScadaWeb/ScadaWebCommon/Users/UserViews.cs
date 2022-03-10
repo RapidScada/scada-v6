@@ -126,7 +126,7 @@ namespace Scada.Web.Users
         /// <summary>
         /// Merges the view nodes recursively.
         /// </summary>
-        protected void MergeViewNodes(List<ViewNode> existingNodes, List<ViewNode> addedNodes, int level)
+        protected static void MergeViewNodes(List<ViewNode> existingNodes, List<ViewNode> addedNodes, int level)
         {
             if (addedNodes == null)
                 return;
@@ -136,40 +136,63 @@ namespace Scada.Web.Users
             foreach (ViewNode addedNode in addedNodes)
             {
                 addedNode.Level = level;
-                int ind = existingNodes.BinarySearch(addedNode);
+                int nodeIndex = addedNode.IsEmpty ? FindViewNodeByPath(existingNodes, addedNode.ShortPath) : -1;
 
-                if (ind >= 0)
+                if (nodeIndex < 0)
+                    nodeIndex = existingNodes.BinarySearch(addedNode);
+
+                if (nodeIndex >= 0)
                 {
                     // merge
-                    ViewNode existingItem = existingNodes[ind];
+                    if (addedNode.ChildNodes.Count > 0)
+                    {
+                        ViewNode existingNode = existingNodes[nodeIndex];
 
-                    if (existingItem.ChildNodes.Count > 0 && addedNode.ChildNodes.Count > 0)
-                    {
-                        // add child nodes recursively
-                        MergeViewNodes(existingItem.ChildNodes, addedNode.ChildNodes, level + 1);
-                    }
-                    else
-                    {
-                        // simply add child nodes
-                        addedNode.ChildNodes.Sort();
-                        existingItem.ChildNodes.AddRange(addedNode.ChildNodes);
-                        SetViewNodeLevels(addedNode.ChildNodes, level + 1);
+                        if (existingNode.ChildNodes.Count > 0)
+                        {
+                            // add child nodes recursively
+                            MergeViewNodes(existingNode.ChildNodes, addedNode.ChildNodes, level + 1);
+                        }
+                        else
+                        {
+                            // simply add child nodes
+                            addedNode.ChildNodes.Sort();
+                            existingNode.ChildNodes.AddRange(addedNode.ChildNodes);
+                            SetViewNodeLevels(addedNode.ChildNodes, level + 1);
+                        }
                     }
                 }
                 else
                 {
                     // insert the view node and its child nodes
                     addedNode.ChildNodes.Sort();
-                    existingNodes.Insert(~ind, addedNode);
+                    existingNodes.Insert(~nodeIndex, addedNode);
                     SetViewNodeLevels(addedNode.ChildNodes, level + 1);
                 }
             }
         }
 
         /// <summary>
+        /// Finds a node by the specified short path.
+        /// </summary>
+        protected static int FindViewNodeByPath(List<ViewNode> nodes, string shortPath)
+        {
+            if (nodes != null)
+            {
+                for (int i = 0, cnt = nodes.Count; i < cnt; i++)
+                {
+                    if (string.Equals(nodes[i].ShortPath, shortPath, StringComparison.OrdinalIgnoreCase))
+                        return i;
+                }
+            }
+
+            return -1;
+        }
+
+        /// <summary>
         /// Sets the nesting levels of the view nodes recursively.
         /// </summary>
-        protected void SetViewNodeLevels(List<ViewNode> nodes, int level)
+        protected static void SetViewNodeLevels(List<ViewNode> nodes, int level)
         {
             if (nodes != null)
             {
@@ -184,20 +207,20 @@ namespace Scada.Web.Users
         /// <summary>
         /// Finds a non-empty view node recursively.
         /// </summary>
-        protected ViewNode FindNonEmptyViewNode(List<ViewNode> viewNodes)
+        protected static ViewNode FindNonEmptyViewNode(List<ViewNode> nodes)
         {
-            if (viewNodes != null)
+            if (nodes != null)
             {
-                foreach (ViewNode viewNode in viewNodes)
+                foreach (ViewNode node in nodes)
                 {
-                    if (viewNode.IsEmpty)
+                    if (node.IsEmpty)
                     {
-                        if (FindNonEmptyViewNode(viewNode.ChildNodes) is ViewNode node)
-                            return node;
+                        if (FindNonEmptyViewNode(node.ChildNodes) is ViewNode childNode)
+                            return childNode;
                     }
                     else
                     {
-                        return viewNode;
+                        return node;
                     }
                 }
             }

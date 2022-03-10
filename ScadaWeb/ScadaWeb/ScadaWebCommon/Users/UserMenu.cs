@@ -20,7 +20,7 @@
  * 
  * Author   : Mikhail Shiryaev
  * Created  : 2016
- * Modified : 2021
+ * Modified : 2022
  */
 
 using Scada.Data.Entities;
@@ -59,7 +59,7 @@ namespace Scada.Web.Users
         /// <summary>
         /// Merges the menu items recursively.
         /// </summary>
-        protected void MergeMenuItems(List<MenuItem> existingItems, List<MenuItem> addedItems, int level)
+        protected static void MergeMenuItems(List<MenuItem> existingItems, List<MenuItem> addedItems, int level)
         {
             if (addedItems == null)
                 return;
@@ -102,7 +102,7 @@ namespace Scada.Web.Users
         /// <summary>
         /// Sets the nesting levels of the menu items recursively.
         /// </summary>
-        protected void SetMenuItemLevels(List<MenuItem> items, int level)
+        protected static void SetMenuItemLevels(List<MenuItem> items, int level)
         {
             if (items != null)
             {

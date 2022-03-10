@@ -20,7 +20,7 @@
  * 
  * Author   : Mikhail Shiryaev
  * Created  : 2016
- * Modified : 2021
+ * Modified : 2022
  */
 
 using System;
@@ -152,29 +152,21 @@ namespace Scada.Web.TreeView
         public int CompareTo(ViewNode other)
         {
             if (other == null)
-            {
                 return 1;
-            }
-            else if (IsEmpty)
-            {
-                return string.Compare(ShortPath, other.ShortPath, StringComparison.OrdinalIgnoreCase);
-            }
-            else
-            {
-                int compareResult = SortOrder.CompareTo(other.SortOrder);
-                if (compareResult != 0)
-                    return compareResult;
 
-                compareResult = ViewID.CompareTo(other.ViewID);
-                if (compareResult != 0)
-                    return compareResult;
+            int compareResult = SortOrder.CompareTo(other.SortOrder);
+            if (compareResult != 0)
+                return compareResult;
 
-                compareResult = string.Compare(Text, other.Text, StringComparison.OrdinalIgnoreCase);
-                if (compareResult != 0)
-                    return compareResult;
+            compareResult = ViewID.CompareTo(other.ViewID);
+            if (compareResult != 0)
+                return compareResult;
 
-                return string.Compare(Url, other.Url, StringComparison.OrdinalIgnoreCase);
-            }
+            compareResult = string.Compare(Text, other.Text, StringComparison.OrdinalIgnoreCase);
+            if (compareResult != 0)
+                return compareResult;
+
+            return string.Compare(Url, other.Url, StringComparison.OrdinalIgnoreCase);
         }
     }
 }
