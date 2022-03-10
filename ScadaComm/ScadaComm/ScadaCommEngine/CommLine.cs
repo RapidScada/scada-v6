@@ -20,7 +20,7 @@
  * 
  * Author   : Mikhail Shiryaev
  * Created  : 2006
- * Modified : 2021
+ * Modified : 2022
  */
 
 using Scada.Comm.Channels;
@@ -257,6 +257,7 @@ namespace Scada.Comm.Engine
                 WriteInfo();
                 WriteDeviceInfo();
 
+                Log.WriteLine();
                 Log.WriteAction(Locale.IsRussian ?
                     "Линия связи {0} остановлена" :
                     "Communication line {0} is stopped", Title);
@@ -441,20 +442,24 @@ namespace Scada.Comm.Engine
                 {
                     if (utcNow - cmd.CreationTime > ScadaUtils.CommandLifetime)
                     {
+                        Log.WriteLine();
                         Log.WriteError(Locale.IsRussian ?
                             "Устаревшая команда для устройства {0} отклонена" :
                             "Outdated command to the device {0} is rejected", cmd.DeviceNum);
                     }
                     else if (!deviceMap.TryGetValue(cmd.DeviceNum, out deviceWrapper))
                     {
+                        Log.WriteLine();
                         Log.WriteError(Locale.IsRussian ?
                             "Команда с недопустимым устройством {0}, отклонена" :
                             "Command with invalid device {0} is rejected", cmd.DeviceNum);
-                    } else if (!deviceWrapper.DeviceLogic.CanSendCommands)
+                    } 
+                    else if (!deviceWrapper.DeviceLogic.CanSendCommands)
                     {
+                        Log.WriteLine();
                         Log.WriteError(Locale.IsRussian ?
                             "Устройство {0} не поддерживает отправку команд" :
-                            "The device {0} does not support sending commands");
+                            "The device {0} does not support sending commands", cmd.DeviceNum);
                     }
                     else
                     {
