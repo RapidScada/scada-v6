@@ -54,13 +54,10 @@
     <Phrase key="FileNotFound">File not found.</Phrase>
     <Phrase key="NamedFileNotFound">File {0} not found.</Phrase>
     <Phrase key="DirectoryNotExists">Directory does not exist.</Phrase>
-    <Phrase key="StateFileNotExists">State file is missing or outdated</Phrase>
     <Phrase key="PathNotSupported">Path not supported.</Phrase>
     <Phrase key="InvalidFileFormat">Invalid file format.</Phrase>
     <Phrase key="LoadConfigError">Error loading configuration</Phrase>
     <Phrase key="SaveConfigError">Error saving configuration</Phrase>
-    <Phrase key="LoadStateError">Error loading state</Phrase>
-    <Phrase key="SaveStateError">Error saving state</Phrase>
     <Phrase key="LoadViewError">Error loading view</Phrase>
     <Phrase key="SaveViewError">Error saving view</Phrase>
   </Dictionary>
