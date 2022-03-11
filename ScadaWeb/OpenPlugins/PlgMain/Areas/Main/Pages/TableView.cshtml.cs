@@ -93,7 +93,7 @@ namespace Scada.Web.Plugins.PlgMain.Areas.Main.Pages
             }
             else
             {
-                Archive archive = webContext.BaseDataSet.ArchiveTable.SelectFirst(
+                Archive archive = webContext.ConfigBase.ArchiveTable.SelectFirst(
                     new TableFilter("Code", pluginContext.Options.TableArchiveCode));
                 return archive == null ? Data.Const.ArchiveBit.Unknown : archive.Bit;
             }
@@ -138,7 +138,7 @@ namespace Scada.Web.Plugins.PlgMain.Areas.Main.Pages
         private string GetQuantityIconUrl(Cnl cnl)
         {
             string icon = cnl?.QuantityID == null ? 
-                "" : webContext.BaseDataSet.QuantityTable.GetItem(cnl.QuantityID.Value).Icon;
+                "" : webContext.ConfigBase.QuantityTable.GetItem(cnl.QuantityID.Value).Icon;
 
             if (string.IsNullOrEmpty(icon))
                 icon = "item.png";
@@ -167,25 +167,25 @@ namespace Scada.Web.Plugins.PlgMain.Areas.Main.Pages
                 }
             }
 
-            if (deviceNum > 0 && webContext.BaseDataSet.DeviceTable.GetItem(deviceNum) is Device device)
+            if (deviceNum > 0 && webContext.ConfigBase.DeviceTable.GetItem(deviceNum) is Device device)
             {
                 sbHtml.Append("<br>").Append(PluginPhrases.DeviceTip).Append(": [")
                     .Append(device.DeviceNum).Append("] ").Append(HttpUtility.HtmlEncode(device.Name));
             }
 
-            if (objNum > 0 && webContext.BaseDataSet.ObjTable.GetItem(objNum) is Obj obj)
+            if (objNum > 0 && webContext.ConfigBase.ObjTable.GetItem(objNum) is Obj obj)
             {
                 sbHtml.Append("<br>").Append(PluginPhrases.ObjTip).Append(": [")
                     .Append(obj.ObjNum).Append("] ").Append(HttpUtility.HtmlEncode(obj.Name));
             }
 
-            if (quantityID > 0 && webContext.BaseDataSet.QuantityTable.GetItem(quantityID) is Quantity quantity)
+            if (quantityID > 0 && webContext.ConfigBase.QuantityTable.GetItem(quantityID) is Quantity quantity)
             {
                 sbHtml.Append("<br>").Append(PluginPhrases.QuantityTip).Append(": ")
                     .Append(HttpUtility.HtmlEncode(quantity.Name));
             }
 
-            if (unitID > 0 && webContext.BaseDataSet.UnitTable.GetItem(unitID) is Unit unit)
+            if (unitID > 0 && webContext.ConfigBase.UnitTable.GetItem(unitID) is Unit unit)
             {
                 sbHtml.Append("<br>").Append(PluginPhrases.UnitTip).Append(": ")
                     .Append(HttpUtility.HtmlEncode(unit.Name));

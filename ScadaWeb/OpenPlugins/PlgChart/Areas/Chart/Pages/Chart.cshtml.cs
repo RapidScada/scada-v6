@@ -61,7 +61,7 @@ namespace Scada.Web.Plugins.PlgChart.Areas.Chart.Pages
             }
             else
             {
-                Archive archive = webContext.BaseDataSet.ArchiveTable.SelectFirst(
+                Archive archive = webContext.ConfigBase.ArchiveTable.SelectFirst(
                     new TableFilter("Code", pluginOptions.ChartArchiveCode));
                 return archive == null ? ArchiveBit.Unknown : archive.Bit;
             }
@@ -75,7 +75,7 @@ namespace Scada.Web.Plugins.PlgChart.Areas.Chart.Pages
             PluginOptions pluginOptions = new(webContext.AppConfig.GetOptions("Chart"));
 
             // prepare chart data
-            ChartDataBuilder chartDataBuilder = new(webContext.BaseDataSet, clientAccessor.ScadaClient,
+            ChartDataBuilder chartDataBuilder = new(webContext.ConfigBase, clientAccessor.ScadaClient,
                 new ChartDataBuilder.Options
                 {
                     CnlNums = new int[] { cnlNum },
@@ -91,7 +91,7 @@ namespace Scada.Web.Plugins.PlgChart.Areas.Chart.Pages
             dynamic dict = Locale.GetDictionary("Scada.Web.Plugins.PlgChart.Areas.Chart.Pages.Chart");
             ViewData["Title"] = string.Format(dict.Title, cnlNum);
             string chartTitle = string.Format("[{0}] {1}, {2}", cnlNum, 
-                webContext.BaseDataSet.CnlTable.GetItem(cnlNum)?.Name,
+                webContext.ConfigBase.CnlTable.GetItem(cnlNum)?.Name,
                 userContext.ConvertTimeFromUtc(utcStartDate).ToLocalizedDateString());
             string chartStatus = dict.Generated + userContext.ConvertTimeFromUtc(DateTime.UtcNow).ToLocalizedString();
 

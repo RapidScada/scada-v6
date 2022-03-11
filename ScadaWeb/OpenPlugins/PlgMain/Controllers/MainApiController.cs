@@ -6,7 +6,6 @@ using Microsoft.Extensions.Caching.Memory;
 using Scada.Data.Entities;
 using Scada.Data.Models;
 using Scada.Data.Tables;
-using Scada.Lang;
 using Scada.Web.Api;
 using Scada.Web.Authorization;
 using Scada.Web.Lang;
@@ -67,7 +66,7 @@ namespace Scada.Web.Plugins.PlgMain.Controllers
 
             foreach (int cnlNum in cnlNums)
             {
-                Cnl cnl = webContext.BaseDataSet.CnlTable.GetItem(cnlNum);
+                Cnl cnl = webContext.ConfigBase.CnlTable.GetItem(cnlNum);
 
                 if (cnl == null || cnl.ObjNum == null)
                     throw new AccessDeniedException(); // no rights on undefined channel or object
@@ -118,7 +117,7 @@ namespace Scada.Web.Plugins.PlgMain.Controllers
         /// </summary>
         private CnlDataFormatter CreateFormatter()
         {
-            return new CnlDataFormatter(webContext.BaseDataSet, webContext.Enums, userContext.TimeZone);
+            return new CnlDataFormatter(webContext.ConfigBase, webContext.ConfigBase.Enums, userContext.TimeZone);
         }
 
         /// <summary>
@@ -235,7 +234,7 @@ namespace Scada.Web.Plugins.PlgMain.Controllers
                 for (int cnlIdx = 0; cnlIdx < cnlCnt; cnlIdx++)
                 {
                     int cnlNum = cnlNums[cnlIdx];
-                    Cnl cnl = webContext.BaseDataSet.CnlTable.GetItem(cnlNum);
+                    Cnl cnl = webContext.ConfigBase.CnlTable.GetItem(cnlNum);
                     HistData.RecordList records = trends[cnlIdx] = new(pointCount);
                     TrendBundle.CnlDataList cnlDataList = trendBundle.Trends[cnlIdx];
 
@@ -629,7 +628,7 @@ namespace Scada.Web.Plugins.PlgMain.Controllers
                 {
                     errMsg = WebPhrases.CommandsDisabled;
                 }
-                else if (webContext.BaseDataSet.CnlTable.GetItem(cnlNum) is not Cnl cnl)
+                else if (webContext.ConfigBase.CnlTable.GetItem(cnlNum) is not Cnl cnl)
                 {
                     errMsg = string.Format(WebPhrases.CnlNotFound, cnlNum);
                 }

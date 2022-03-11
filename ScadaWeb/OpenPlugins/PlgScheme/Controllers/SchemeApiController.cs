@@ -51,7 +51,7 @@ namespace Scada.Web.Plugins.PlgScheme.Controllers
                 if (viewLoader.GetView(viewID, out SchemeView schemeView, out string errMsg))
                 {
                     DocumentPacket documentPacket = new(schemeView);
-                    documentPacket.FillCnlProps(webContext.BaseDataSet);
+                    documentPacket.FillCnlProps(webContext.ConfigBase);
                     return Dto<DocumentPacket>.Success(documentPacket);
                 }
                 else
@@ -129,7 +129,7 @@ namespace Scada.Web.Plugins.PlgScheme.Controllers
                     {
                         errMsg = WebPhrases.CommandsDisabled;
                     }
-                    else if (webContext.BaseDataSet.CnlTable.GetItem(ctrlCnlNum) is not Cnl cnl)
+                    else if (webContext.ConfigBase.CnlTable.GetItem(ctrlCnlNum) is not Cnl cnl)
                     {
                         errMsg = string.Format(WebPhrases.CnlNotFound, ctrlCnlNum);
                     }

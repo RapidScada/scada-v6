@@ -69,8 +69,8 @@ namespace Scada.Web.Plugins.PlgMain.Areas.Main.Pages
 
         private EventFormatted FormatEvent(Event ev)
         {
-            CnlDataFormatter dataFormatter = new(webContext.BaseDataSet, webContext.Enums, userContext.TimeZone);
-            return dataFormatter.FormatEvent(ev);
+            return new CnlDataFormatter(webContext.ConfigBase, webContext.ConfigBase.Enums, userContext.TimeZone)
+                .FormatEvent(ev);
         }
 
         public IActionResult OnGet(int archiveBit, long eventID)
