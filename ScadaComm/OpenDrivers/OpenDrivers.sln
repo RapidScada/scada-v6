@@ -66,7 +66,7 @@ Project("{D954291E-2A0B-460D-934E-DC6B0785DB48}") = "DrvTester.Shared", "DrvTest
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "DrvMqtt", "DrvMqtt", "{B9143ECA-C319-4A0C-855A-384C34B0DB74}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DrvMqtt.Logic", "DrvMqtt.Logic\DrvMqtt.Logic.csproj", "{3048E478-F79A-4726-A826-3C737F030C65}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DrvMqtt.Logic", "DrvMqtt.Logic\DrvMqtt.Logic.csproj", "{3048E478-F79A-4726-A826-3C737F030C65}"
 EndProject
 Global
 	GlobalSection(SharedMSBuildProjectFiles) = preSolution
