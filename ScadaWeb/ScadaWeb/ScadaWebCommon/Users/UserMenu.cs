@@ -59,7 +59,7 @@ namespace Scada.Web.Users
         /// <summary>
         /// Merges the menu items recursively.
         /// </summary>
-        protected static void MergeMenuItems(List<MenuItem> existingItems, List<MenuItem> addedItems, int level)
+        private static void MergeMenuItems(List<MenuItem> existingItems, List<MenuItem> addedItems, int level)
         {
             if (addedItems == null)
                 return;
@@ -102,7 +102,7 @@ namespace Scada.Web.Users
         /// <summary>
         /// Sets the nesting levels of the menu items recursively.
         /// </summary>
-        protected static void SetMenuItemLevels(List<MenuItem> items, int level)
+        private static void SetMenuItemLevels(List<MenuItem> items, int level)
         {
             if (items != null)
             {

@@ -75,7 +75,7 @@ namespace Scada.Web.Code
             }
 
             // find view
-            viewEntity = webContext.BaseDataSet.ViewTable.GetItem(viewID);
+            viewEntity = webContext.ConfigBase.ViewTable.GetItem(viewID);
 
             if (viewEntity == null)
             {
@@ -138,7 +138,7 @@ namespace Scada.Web.Code
                 }
 
                 view.Build();
-                view.Bind(webContext.BaseDataSet);
+                view.Bind(webContext.ConfigBase);
                 return view;
             }
             catch (Exception ex)

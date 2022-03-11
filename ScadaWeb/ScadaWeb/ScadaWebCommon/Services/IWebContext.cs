@@ -20,7 +20,7 @@
  * 
  * Author   : Mikhail Shiryaev
  * Created  : 2021
- * Modified : 2021
+ * Modified : 2022
  */
 
 using Scada.Client;
@@ -79,17 +79,7 @@ namespace Scada.Web.Services
         /// <summary>
         /// Gets the cached configuration database.
         /// </summary>
-        BaseDataSet BaseDataSet { get; }
-
-        /// <summary>
-        /// Gets the access rights.
-        /// </summary>
-        RightMatrix RightMatrix { get; }
-
-        /// <summary>
-        /// Gets the enumerations.
-        /// </summary>
-        EnumDict Enums { get; }
+        ConfigBase ConfigBase { get; }
 
         /// <summary>
         /// Gets the client pool.

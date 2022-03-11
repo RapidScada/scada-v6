@@ -20,7 +20,7 @@
  * 
  * Author   : Mikhail Shiryaev
  * Created  : 2015
- * Modified : 2021
+ * Modified : 2022
  */
 
 using Scada.Data.Entities;
@@ -50,7 +50,7 @@ namespace Scada.Web.Users
         /// <summary>
         /// Gets or sets rights accessed by object.
         /// </summary>
-        protected RightMatrix.RightByObj RightByObj { get; set; }
+        private RightMatrix.RightByObj RightByObj { get; set; }
 
         /// <summary>
         /// Gets the role ID.
@@ -86,7 +86,7 @@ namespace Scada.Web.Users
         /// <summary>
         /// Sets the default values.
         /// </summary>
-        protected void SetToDefault()
+        private void SetToDefault()
         {
             RightByObj = null;
             RoleID = Data.Const.RoleID.Disabled;
@@ -100,7 +100,7 @@ namespace Scada.Web.Users
         /// <summary>
         /// Defines the rights according to the user role.
         /// </summary>
-        protected void DefineRightsByRole(int roleID)
+        private void DefineRightsByRole(int roleID)
         {
             SetToDefault();
             RoleID = roleID;

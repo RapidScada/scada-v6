@@ -54,7 +54,7 @@ namespace Scada.Web.Users
         /// <summary>
         /// Gets or sets the web application context for the current initialization operation.
         /// </summary>
-        protected IWebContext WebContext { get; set; }
+        private IWebContext WebContext { get; set; }
 
         /// <summary>
         /// Gets the root view nodes, which can contain child nodes.
@@ -65,7 +65,7 @@ namespace Scada.Web.Users
         /// <summary>
         /// Creates a branch of view nodes corresponding to the view path.
         /// </summary>
-        protected ViewNode CreateBranch(View viewEntity)
+        private ViewNode CreateBranch(View viewEntity)
         {
             // split view path
             BaseView.ParsePath(viewEntity, out string[] pathParts, out string nodeText);
@@ -100,7 +100,7 @@ namespace Scada.Web.Users
         /// <summary>
         /// Creates a view node.
         /// </summary>
-        protected ViewNode CreateViewNode(View viewEntity, string text, string shortPath)
+        private ViewNode CreateViewNode(View viewEntity, string text, string shortPath)
         {
             int viewID = viewEntity.ViewID;
 
@@ -126,20 +126,15 @@ namespace Scada.Web.Users
         /// <summary>
         /// Merges the view nodes recursively.
         /// </summary>
-        protected static void MergeViewNodes(List<ViewNode> existingNodes, List<ViewNode> addedNodes, int level)
+        private static void MergeViewNodes(List<ViewNode> existingNodes, List<ViewNode> addedNodes, int level)
         {
             if (addedNodes == null)
                 return;
 
-            addedNodes.Sort();
-
             foreach (ViewNode addedNode in addedNodes)
             {
                 addedNode.Level = level;
-                int nodeIndex = addedNode.IsEmpty ? FindViewNodeByPath(existingNodes, addedNode.ShortPath) : -1;
-
-                if (nodeIndex < 0)
-                    nodeIndex = existingNodes.BinarySearch(addedNode);
+                int nodeIndex = addedNode.ViewID > 0 ? -1 : FindViewNodeByPath(existingNodes, addedNode.ShortPath);
 
                 if (nodeIndex >= 0)
                 {
@@ -156,7 +151,6 @@ namespace Scada.Web.Users
                         else
                         {
                             // simply add child nodes
-                            addedNode.ChildNodes.Sort();
                             existingNode.ChildNodes.AddRange(addedNode.ChildNodes);
                             SetViewNodeLevels(addedNode.ChildNodes, level + 1);
                         }
@@ -164,9 +158,8 @@ namespace Scada.Web.Users
                 }
                 else
                 {
-                    // insert the view node and its child nodes
-                    addedNode.ChildNodes.Sort();
-                    existingNodes.Insert(~nodeIndex, addedNode);
+                    // add view node and its child nodes
+                    existingNodes.Add(addedNode);
                     SetViewNodeLevels(addedNode.ChildNodes, level + 1);
                 }
             }
@@ -175,11 +168,12 @@ namespace Scada.Web.Users
         /// <summary>
         /// Finds a node by the specified short path.
         /// </summary>
-        protected static int FindViewNodeByPath(List<ViewNode> nodes, string shortPath)
+        private static int FindViewNodeByPath(List<ViewNode> nodes, string shortPath)
         {
             if (nodes != null)
             {
-                for (int i = 0, cnt = nodes.Count; i < cnt; i++)
+                // search from end
+                for (int i = nodes.Count - 1; i >= 0; i--)
                 {
                     if (string.Equals(nodes[i].ShortPath, shortPath, StringComparison.OrdinalIgnoreCase))
                         return i;
@@ -192,7 +186,7 @@ namespace Scada.Web.Users
         /// <summary>
         /// Sets the nesting levels of the view nodes recursively.
         /// </summary>
-        protected static void SetViewNodeLevels(List<ViewNode> nodes, int level)
+        private static void SetViewNodeLevels(List<ViewNode> nodes, int level)
         {
             if (nodes != null)
             {
@@ -207,7 +201,7 @@ namespace Scada.Web.Users
         /// <summary>
         /// Finds a non-empty view node recursively.
         /// </summary>
-        protected static ViewNode FindNonEmptyViewNode(List<ViewNode> nodes)
+        private static ViewNode FindNonEmptyViewNode(List<ViewNode> nodes)
         {
             if (nodes != null)
             {
@@ -243,7 +237,7 @@ namespace Scada.Web.Users
             {
                 WebContext = webContext;
 
-                foreach (View viewEntity in webContext.BaseDataSet.ViewTable.EnumerateItems())
+                foreach (View viewEntity in webContext.ConfigBase.SortedViews)
                 {
                     if (!viewEntity.Hidden &&
                         userRights.GetRightByObj(viewEntity.ObjNum ?? 0).View &&

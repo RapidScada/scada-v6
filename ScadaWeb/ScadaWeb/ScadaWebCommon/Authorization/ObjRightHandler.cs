@@ -76,7 +76,7 @@ namespace Scada.Web.Authorization
 
                     foreach (int cnlNum in cnlNums)
                     {
-                        Cnl cnl = webContext.BaseDataSet.CnlTable.GetItem(cnlNum);
+                        Cnl cnl = webContext.ConfigBase.CnlTable.GetItem(cnlNum);
 
                         if (cnl == null || cnl.ObjNum == null)
                             accessAllowed = false; // no rights on undefined channel or object

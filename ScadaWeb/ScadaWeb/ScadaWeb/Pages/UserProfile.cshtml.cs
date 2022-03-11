@@ -62,7 +62,7 @@ namespace Scada.Web.Pages
             else if (!userContext.Rights.Full)
                 return Forbid();
             else
-                userEntity = webContext.BaseDataSet.UserTable.GetItem(UserID);
+                userEntity = webContext.ConfigBase.UserTable.GetItem(UserID);
 
             // get user properties
             if (userEntity == null)
@@ -73,7 +73,7 @@ namespace Scada.Web.Pages
             else
             {
                 Username = userEntity.Name;
-                Data.Entities.Role roleEntity = webContext.BaseDataSet.RoleTable.GetItem(userEntity.RoleID);
+                Data.Entities.Role roleEntity = webContext.ConfigBase.RoleTable.GetItem(userEntity.RoleID);
                 RoleName = roleEntity == null ? "" : roleEntity.Name;
             }
 

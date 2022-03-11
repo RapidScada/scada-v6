@@ -27,7 +27,6 @@ using Scada.Client;
 using Scada.Config;
 using Scada.Data.Const;
 using Scada.Data.Entities;
-using Scada.Data.Models;
 using Scada.Data.Tables;
 using Scada.Lang;
 using Scada.Log;
@@ -88,9 +87,7 @@ namespace Scada.Web.Code
             AppConfig = new WebConfig();
             AppDirs = new WebDirs();
             Log = LogStub.Instance;
-            BaseDataSet = new BaseDataSet();
-            RightMatrix = new RightMatrix();
-            Enums = new EnumDict();
+            ConfigBase = new ConfigBase();
             ClientPool = new ScadaClientPool();
             PluginHolder = new PluginHolder();
             CacheExpirationTokenSource = new CancellationTokenSource();
@@ -137,17 +134,7 @@ namespace Scada.Web.Code
         /// <summary>
         /// Gets the cached configuration database.
         /// </summary>
-        public BaseDataSet BaseDataSet { get; private set; }
-
-        /// <summary>
-        /// Gets the access rights.
-        /// </summary>
-        public RightMatrix RightMatrix { get; private set; }
-
-        /// <summary>
-        /// Gets the enumerations.
-        /// </summary>
-        public EnumDict Enums { get; private set; }
+        public ConfigBase ConfigBase { get; private set; }
 
         /// <summary>
         /// Gets the client pool.
@@ -314,7 +301,7 @@ namespace Scada.Web.Code
         /// <summary>
         /// Reads the configuration database.
         /// </summary>
-        private bool ReadBase(out BaseDataSet baseDataSet)
+        private bool ReadBase(out ConfigBase configBase)
         {
             Log.WriteAction(Locale.IsRussian ?
                 "Приём базы конфигурации" :
@@ -333,7 +320,7 @@ namespace Scada.Web.Code
                     Log.WriteError(Locale.IsRussian ?
                         "Сервер не готов" :
                         "Server is not ready");
-                    baseDataSet = null;
+                    configBase = null;
                     return false;
                 }
             }
@@ -342,7 +329,7 @@ namespace Scada.Web.Code
                 Log.WriteError(ex.BuildErrorMessage(Locale.IsRussian ?
                     "Ошибка при проверке соединения с сервером" :
                     "Error checking server connection"));
-                baseDataSet = null;
+                configBase = null;
                 return false;
             }
 
@@ -351,16 +338,16 @@ namespace Scada.Web.Code
 
             try
             {
-                baseDataSet = new BaseDataSet();
+                configBase = new ConfigBase();
 
-                foreach (IBaseTable baseTable in baseDataSet.AllTables)
+                foreach (IBaseTable baseTable in configBase.AllTables)
                 {
                     tableName = baseTable.Name;
                     scadaClient.DownloadBaseTable(baseTable);
                 }
 
                 tableName = CommonPhrases.UndefinedTable;
-                PostprocessBase(baseDataSet);
+                PostprocessBase(configBase);
                 Log.WriteAction(Locale.IsRussian ?
                     "База конфигурации получена успешно" :
                     "The configuration database has been received successfully");
@@ -371,7 +358,7 @@ namespace Scada.Web.Code
                 Log.WriteError(ex, Locale.IsRussian ?
                     "Ошибка при приёме базы конфигурации, таблица {0}" :
                     "Error receiving the configuration database, the {0} table", tableName);
-                baseDataSet = null;
+                configBase = null;
                 return false;
             }
             finally
@@ -383,12 +370,12 @@ namespace Scada.Web.Code
         /// <summary>
         /// Post-processes the received configuration database.
         /// </summary>
-        private static void PostprocessBase(BaseDataSet baseDataSet)
+        private static void PostprocessBase(ConfigBase configBase)
         {
             // duplicate channels for arrays and strings
             List<Cnl> duplicatedCnls = new();
 
-            foreach (Cnl cnl in baseDataSet.CnlTable.Enumerate())
+            foreach (Cnl cnl in configBase.CnlTable.Enumerate())
             {
                 if (cnl.IsArray() && cnl.IsArchivable())
                 {
@@ -414,7 +401,10 @@ namespace Scada.Web.Code
                 }
             }
 
-            duplicatedCnls.ForEach(cnl => baseDataSet.CnlTable.AddItem(cnl));
+            duplicatedCnls.ForEach(cnl => configBase.CnlTable.AddItem(cnl));
+
+            // initializes data set
+            configBase.Init();
         }
 
         /// <summary>
@@ -458,11 +448,9 @@ namespace Scada.Web.Code
                             {
                                 readBaseDT = utcNow;
 
-                                if (ReadBase(out BaseDataSet baseDataSet))
+                                if (ReadBase(out ConfigBase configBase))
                                 {
-                                    BaseDataSet = baseDataSet;
-                                    RightMatrix = new RightMatrix(baseDataSet);
-                                    Enums = new EnumDict(baseDataSet);
+                                    ConfigBase = configBase;
                                     IsReadyToLogin = true;
 
                                     if (IsReady)
@@ -641,7 +629,7 @@ namespace Scada.Web.Code
             }
             else
             {
-                ViewType viewType = BaseDataSet.ViewTypeTable.GetItem(viewEntity.ViewTypeID.Value);
+                ViewType viewType = ConfigBase.ViewTypeTable.GetItem(viewEntity.ViewTypeID.Value);
                 return viewType == null ? null : PluginHolder.GetViewSpecByCode(viewType.Code);
             }
         }

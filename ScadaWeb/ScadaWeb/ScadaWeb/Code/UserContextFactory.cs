@@ -46,7 +46,7 @@ namespace Scada.Web.Code
         /// </summary>
         private static UserContext CreateUserContext(int userID, IWebContext webContext)
         {
-            User userEntity = webContext.BaseDataSet.UserTable.GetItem(userID) ?? 
+            User userEntity = webContext.ConfigBase.UserTable.GetItem(userID) ?? 
                 webContext.PluginHolder.FindUser(userID);
 
             if (userEntity == null)
@@ -59,7 +59,7 @@ namespace Scada.Web.Code
             else
             {
                 UserContext userContext = new() { UserEntity = userEntity };
-                userContext.Rights.Init(webContext.RightMatrix, userEntity.RoleID);
+                userContext.Rights.Init(webContext.ConfigBase.RightMatrix, userEntity.RoleID);
                 userContext.Menu.Init(webContext, userEntity, userContext.Rights);
                 userContext.Views.Init(webContext, userContext.Rights);
 
