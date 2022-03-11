@@ -77,7 +77,7 @@ namespace Scada.Web
 
 
         /// <summary>
-        /// Initializes the data set based on the configuration database tables.
+        /// Initializes data objects based on the configuration database tables.
         /// </summary>
         public void Init()
         {

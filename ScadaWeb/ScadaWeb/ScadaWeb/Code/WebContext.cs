@@ -403,7 +403,7 @@ namespace Scada.Web.Code
 
             duplicatedCnls.ForEach(cnl => configBase.CnlTable.AddItem(cnl));
 
-            // initializes data set
+            // initialize data objects
             configBase.Init();
         }
 
