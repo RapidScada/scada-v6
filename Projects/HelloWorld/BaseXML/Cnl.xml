@@ -74,7 +74,7 @@
     <UnitID xsi:nil="true" />
     <LimID xsi:nil="true" />
     <ArchiveMask xsi:nil="true" />
-    <EventMask>5</EventMask>
+    <EventMask>37</EventMask>
   </Cnl>
   <Cnl>
     <CnlNum>105</CnlNum>
@@ -93,7 +93,7 @@
     <UnitID>44</UnitID>
     <LimID xsi:nil="true" />
     <ArchiveMask xsi:nil="true" />
-    <EventMask>5</EventMask>
+    <EventMask>37</EventMask>
   </Cnl>
   <Cnl>
     <CnlNum>106</CnlNum>
