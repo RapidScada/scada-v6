@@ -849,11 +849,28 @@ namespace Scada.Comm.Engine
             // create devices
             foreach (DeviceConfig deviceConfig in lineConfig.DevicePolling)
             {
-                if (deviceConfig.Active && !coreLogic.DeviceExists(deviceConfig.DeviceNum) &&
-                    driverHolder.GetDriver(deviceConfig.Driver, out DriverLogic driverLogic))
+                if (deviceConfig.Active && !coreLogic.DeviceExists(deviceConfig.DeviceNum))
                 {
-                    DeviceLogic deviceLogic = driverLogic.CreateDevice(commLine, deviceConfig);
-                    commLine.AddDevice(deviceLogic);
+                    if (driverHolder.GetDriver(deviceConfig.Driver, out DriverLogic driverLogic))
+                    {
+                        DeviceLogic deviceLogic = driverLogic.CreateDevice(commLine, deviceConfig);
+
+                        if (deviceLogic == null)
+                        {
+                            throw new ScadaException(Locale.IsRussian ?
+                                "Не удалось создать устройство {0}." :
+                                "Unable to create device {0}.", CommUtils.GetDeviceTitle(deviceConfig));
+                        }
+
+                        commLine.AddDevice(deviceLogic);
+                    }
+                    else
+                    {
+                        throw new ScadaException(Locale.IsRussian ?
+                            "Драйвер {0} для устройства {1} не найден." :
+                            "Driver {0} for device {1} not found.",
+                            deviceConfig.Driver, CommUtils.GetDeviceTitle(deviceConfig));
+                    }
                 }
             }
 
