@@ -9,7 +9,7 @@
       <Username></Username>
       <Password></Password>
       <Timeout>10000</Timeout>
-      <ProtocolVersion>V311</ProtocolVersion>
+      <ProtocolVersion>0</ProtocolVersion>
     </Connection>
   </Connections>
 </DrvMqtt>

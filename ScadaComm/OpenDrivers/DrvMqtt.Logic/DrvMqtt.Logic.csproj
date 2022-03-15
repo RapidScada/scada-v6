@@ -29,4 +29,6 @@
     </Reference>
   </ItemGroup>
 
+  <Import Project="..\DrvMqtt.Shared\DrvMqtt.Shared.projitems" Label="Shared" />
+
 </Project>

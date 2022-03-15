@@ -13,7 +13,11 @@
     <Content Include="$(MSBuildThisFileDirectory)Config\DrvMqtt_001.xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="$(MSBuildThisFileDirectory)Config\CommandConfig.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Config\MqttConnectionOptions.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Config\ProtocolVersion.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Config\MqttDeviceConfig.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Config\MqttDriverConfig.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Config\SubscriptionConfig.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)DriverUtils.cs" />
   </ItemGroup>
 </Project>

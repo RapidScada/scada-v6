@@ -2,8 +2,8 @@
 <MqttDeviceConfig>
   <Connection>MqttConn1</Connection>
   <Subscriptions>
-    <Subscription topic="/myparam1" displayName="MyParam1" cmdCode="myparam1" readOnly="false" qosLevel="0" />
-    <Subscription topic="/myparam2" displayName="MyParam2" cmdCode="myparam2" readOnly="true" qosLevel="0" useJS="true" jsFileName="MyParam2.js">
+    <Subscription topic="/myparam1" displayName="MyParam1" tagCode="myparam1" readOnly="false" qosLevel="0" />
+    <Subscription topic="/myparam2" displayName="MyParam2" tagCode="myparam2" readOnly="true" qosLevel="0" jsEnabled="true" jsFileName="MyParam2.js">
       <SubItem>Item1</SubItem>
       <SubItem>Item2</SubItem>
     </Subscription>
