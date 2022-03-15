@@ -8,6 +8,9 @@ using MQTTnet.Client.Options;
 using MQTTnet.Client.Subscribing;
 using Scada.Comm.Config;
 using Scada.Comm.Devices;
+using Scada.Comm.Drivers.DrvMqtt.Config;
+using Scada.Data.Models;
+using Scada.Lang;
 
 namespace Scada.Comm.Drivers.DrvMqtt.Logic
 {
@@ -17,15 +20,20 @@ namespace Scada.Comm.Drivers.DrvMqtt.Logic
     /// </summary>
     internal class DevMqttLogic : DeviceLogic
     {
+        private readonly MqttDriverConfig driverConfig; // the driver configuration
+        private MqttDeviceConfig mqttDeviceConfig;      // the device configuration
         private IMqttClient mqttClient;
 
 
         /// <summary>
         /// Initializes a new instance of the class.
         /// </summary>
-        public DevMqttLogic(ICommContext commContext, ILineContext lineContext, DeviceConfig deviceConfig)
-            : base(commContext, lineContext, deviceConfig)
+        public DevMqttLogic(ICommContext commContext, ILineContext lineContext, DeviceConfig deviceConfig,
+            MqttDriverConfig driverConfig) : base(commContext, lineContext, deviceConfig)
         {
+            this.driverConfig = driverConfig ?? throw new ArgumentNullException(nameof(driverConfig));
+            mqttDeviceConfig = null;
+
             ConnectionRequired = false;
         }
 
@@ -35,6 +43,22 @@ namespace Scada.Comm.Drivers.DrvMqtt.Logic
         /// </summary>
         public override void OnCommLineStart()
         {
+            mqttDeviceConfig = new MqttDeviceConfig();
+
+            if (mqttDeviceConfig.Load(Storage, MqttDeviceConfig.GetFileName(DeviceNum), out string errMsg))
+            {
+                //InitCmdMaps();
+            }
+            else
+            {
+                mqttDeviceConfig = null;
+                Log.WriteLine(errMsg);
+                Log.WriteLine(Locale.IsRussian ?
+                    "Взаимодействие с MQTT-брокером невозможно, т.к. конфигурация устройства не загружена" :
+                    "Interaction with MQTT broker is impossible because device configuration is not loaded");
+            }
+
+            // ---
             MqttFactory mqttFactory = new();
             mqttClient = mqttFactory.CreateMqttClient();
 
@@ -74,12 +98,28 @@ namespace Scada.Comm.Drivers.DrvMqtt.Logic
         }
 
         /// <summary>
+        /// Initializes the device tags.
+        /// </summary>
+        public override void InitDeviceTags()
+        {
+
+        }
+
+        /// <summary>
         /// Performs a communication session.
         /// </summary>
         public override void Session()
         {
             //base.Session();
             //FinishSession();
+        }
+
+        /// <summary>
+        /// Sends the telecontrol command.
+        /// </summary>
+        public override void SendCommand(TeleCommand cmd)
+        {
+
         }
     }
 }

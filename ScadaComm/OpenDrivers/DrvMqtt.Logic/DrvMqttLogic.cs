@@ -3,6 +3,9 @@
 
 using Scada.Comm.Config;
 using Scada.Comm.Devices;
+using Scada.Comm.Drivers.DrvMqtt.Config;
+using Scada.Comm.Lang;
+using Scada.Storages;
 
 namespace Scada.Comm.Drivers.DrvMqtt.Logic
 {
@@ -12,13 +15,18 @@ namespace Scada.Comm.Drivers.DrvMqtt.Logic
     /// </summary>
     public class DrvMqttLogic : DriverLogic
     {
+        private readonly MqttDriverConfig driverConfig; // the driver configuration
+
+
         /// <summary>
         /// Initializes a new instance of the class.
         /// </summary>
         public DrvMqttLogic(ICommContext commContext)
             : base(commContext)
         {
+            driverConfig = new MqttDriverConfig();
         }
+
 
         /// <summary>
         /// Gets the driver code.
@@ -27,16 +35,29 @@ namespace Scada.Comm.Drivers.DrvMqtt.Logic
         {
             get
             {
-                return "DrvMqtt";
+                return DriverUtils.DriverCode;
             }
         }
+
 
         /// <summary>
         /// Creates a new device.
         /// </summary>
         public override DeviceLogic CreateDevice(ILineContext lineContext, DeviceConfig deviceConfig)
         {
-            return new DevMqttLogic(CommContext, lineContext, deviceConfig);
+            return new DevMqttLogic(CommContext, lineContext, deviceConfig, driverConfig);
+        }
+
+        /// <summary>
+        /// Performs actions when starting the service.
+        /// </summary>
+        public override void OnServiceStart()
+        {
+            if (CommContext.Storage.GetFileInfo(DataCategory.Config, MqttDriverConfig.DefaultFileName).Exists &&
+                !driverConfig.Load(CommContext.Storage, MqttDriverConfig.DefaultFileName, out string errMsg))
+            {
+                Log.WriteError(CommPhrases.DriverMessage, Code, errMsg);
+            }
         }
     }
 }

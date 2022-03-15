@@ -676,6 +676,9 @@ namespace Scada.Comm.Drivers.DrvOpcUa.Logic
         /// </summary>
         public override void InitDeviceTags()
         {
+            if (opcDeviceConfig == null)
+                return;
+
             foreach (SubscriptionConfig subscriptionConfig in opcDeviceConfig.Subscriptions)
             {
                 TagGroup tagGroup = new TagGroup(subscriptionConfig.DisplayName);
