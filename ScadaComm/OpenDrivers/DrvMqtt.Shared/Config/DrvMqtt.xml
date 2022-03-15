@@ -1,0 +1,15 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<DrvMqtt>
+  <Connections>
+    <Connection>
+      <Name>MqttConn1</Name>
+      <Server>broker.mqtt-dashboard.com</Server>
+      <Port>1883</Port>
+      <ClientID></ClientID>
+      <Username></Username>
+      <Password></Password>
+      <Timeout>10000</Timeout>
+      <ProtocolVersion>V311</ProtocolVersion>
+    </Connection>
+  </Connections>
+</DrvMqtt>
