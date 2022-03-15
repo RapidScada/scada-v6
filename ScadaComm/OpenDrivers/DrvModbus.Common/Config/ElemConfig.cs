@@ -46,12 +46,12 @@ namespace Scada.Comm.Drivers.DrvModbus.Config
         public string ByteOrder { get; set; }
 
         /// <summary>
-        /// Gets a value indicating whether the element is read only.
+        /// Gets or sets a value indicating whether the element is read only.
         /// </summary>
         public bool ReadOnly { get; set; }
 
         /// <summary>
-        /// Gets a value indicating whether the element represents a bit mask.
+        /// Gets or sets a value indicating whether the element represents a bit mask.
         /// </summary>
         public bool IsBitMask { get; set; }
 
