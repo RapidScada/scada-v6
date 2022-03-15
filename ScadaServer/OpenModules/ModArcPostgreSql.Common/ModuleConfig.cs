@@ -21,15 +21,6 @@ namespace Scada.Server.Modules.ModArcPostgreSql
 
 
         /// <summary>
-        /// Initializes a new instance of the class.
-        /// </summary>
-        public ModuleConfig()
-        {
-            SetToDefault();
-        }
-
-
-        /// <summary>
         /// Gets the connection options accessed by connection name.
         /// </summary>
         public SortedList<string, DbConnectionOptions> Connections { get; private set; }
