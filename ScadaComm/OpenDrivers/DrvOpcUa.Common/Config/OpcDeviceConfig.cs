@@ -135,7 +135,7 @@ namespace Scada.Comm.Drivers.DrvOpcUa.Config
         /// </summary>
         public static string GetFileName(int deviceNum)
         {
-            return $"DrvOpcUa_{deviceNum:D3}.xml";
+            return $"{DriverUtils.DriverCode}_{deviceNum:D3}.xml";
         }
     }
 }
