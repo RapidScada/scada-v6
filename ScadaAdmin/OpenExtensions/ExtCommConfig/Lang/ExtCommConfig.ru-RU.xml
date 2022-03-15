@@ -272,7 +272,7 @@
   <Dictionary key="Scada.Admin.Extensions.ExtCommConfig.Forms.FrmLineConfig">
     <Phrase key="lbTabs.Items[0]">Основные</Phrase>
     <Phrase key="lbTabs.Items[1]">Пользовательские</Phrase>
-    <Phrase key="lbTabs.Items[2]">Опрос устройства</Phrase>
+    <Phrase key="lbTabs.Items[2]">Опрос устройств</Phrase>
     <Phrase key="LineConfigTitle">Параметры линии {0}</Phrase>
   </Dictionary>
   <Dictionary key="Scada.Admin.Extensions.ExtCommConfig.Forms.FrmLineStats">
