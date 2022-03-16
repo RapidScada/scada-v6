@@ -20,9 +20,10 @@
  * 
  * Author   : Mikhail Shiryaev
  * Created  : 2020
- * Modified : 2021
+ * Modified : 2022
  */
 
+using Scada.Comm.Channels;
 using Scada.Comm.Config;
 using Scada.Comm.Devices;
 using Scada.Data.Models;
@@ -62,6 +63,11 @@ namespace Scada.Comm.Drivers
         /// Gets the shared data of the communication line.
         /// </summary>
         IDictionary<string, object> SharedData { get; }
+
+        /// <summary>
+        /// Get the communication channel.
+        /// </summary>
+        ChannelLogic Channel { get; }
 
 
         /// <summary>

@@ -141,6 +141,17 @@ namespace Scada.Comm.Engine
         public IDictionary<string, object> SharedData { get; private set; }
 
         /// <summary>
+        /// Get the communication channel.
+        /// </summary>
+        public ChannelLogic Channel
+        {
+            get
+            {
+                return channel?.ChannelLogic;
+            }
+        }
+
+        /// <summary>
         /// Gets the current communication line status.
         /// </summary>
         public ServiceStatus LineStatus

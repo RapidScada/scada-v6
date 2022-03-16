@@ -20,7 +20,7 @@
  * 
  * Author   : Mikhail Shiryaev
  * Created  : 2020
- * Modified : 2020
+ * Modified : 2022
  */
 
 namespace Scada.Comm.Channels
@@ -31,6 +31,11 @@ namespace Scada.Comm.Channels
     /// </summary>
     public enum ChannelBehavior
     {
+        /// <summary>
+        /// Non-standard behavior.
+        /// </summary>
+        Unknown,
+
         /// <summary>
         /// Cyclically requests data.
         /// </summary>
