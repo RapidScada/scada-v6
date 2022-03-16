@@ -10,6 +10,7 @@ using Scada.Forms;
 using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 using System.Windows.Forms;
 
 namespace Scada.Admin.Extensions.ExtCommConfig.Controls
@@ -120,7 +121,11 @@ namespace Scada.Admin.Extensions.ExtCommConfig.Controls
             {
                 cbChannelType.BeginUpdate();
                 cbChannelType.Items.Clear();
-                sharedChannelTypes.ForEach(item => cbChannelType.Items.Add(item));
+
+                foreach (ChannelTypeItem item in sharedChannelTypes.OrderBy(x => x.IsEmpty ? "" : x.TypeName))
+                {
+                    cbChannelType.Items.Add(item);
+                }
             }
             finally
             {
