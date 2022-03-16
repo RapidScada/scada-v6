@@ -70,16 +70,24 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DrvMqtt.Logic", "DrvMqtt.Lo
 EndProject
 Project("{D954291E-2A0B-460D-934E-DC6B0785DB48}") = "DrvMqtt.Shared", "DrvMqtt.Shared\DrvMqtt.Shared.shproj", "{EE6CDC81-87D5-4B07-B5A5-ED57ABAF95A6}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DrvMqtt.Common", "DrvMqtt.Common\DrvMqtt.Common.csproj", "{CBAFF7CC-46F3-4EFC-9CF4-9B9BFB04D0ED}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DrvCnlMqtt.Logic", "DrvCnlMqtt.Logic\DrvCnlMqtt.Logic.csproj", "{F78BEA00-969E-44D4-ABF0-ECD039910261}"
+EndProject
+Project("{D954291E-2A0B-460D-934E-DC6B0785DB48}") = "DrvCnlMqtt.Shared", "DrvCnlMqtt.Shared\DrvCnlMqtt.Shared.shproj", "{4A5DB4DE-023E-4FB9-9982-143827BEFEB3}"
+EndProject
 Global
 	GlobalSection(SharedMSBuildProjectFiles) = preSolution
 		DrvTester.Shared\DrvTester.Shared.projitems*{1a325222-6683-4d81-8293-ac5bd4c8d3ba}*SharedItemsImports = 13
 		DrvMqtt.Shared\DrvMqtt.Shared.projitems*{3048e478-f79a-4726-a826-3c737f030c65}*SharedItemsImports = 5
 		DrvSimulator.Shared\DrvSimulator.Shared.projitems*{459d0b20-51a9-4aa8-8ccc-9f5b34a74029}*SharedItemsImports = 13
 		DrvSimulator.Shared\DrvSimulator.Shared.projitems*{48043839-37e7-40ae-92e2-a31a79204cf5}*SharedItemsImports = 5
+		DrvCnlMqtt.Shared\DrvCnlMqtt.Shared.projitems*{4a5db4de-023e-4fb9-9982-143827befeb3}*SharedItemsImports = 13
 		DrvSimulator.Shared\DrvSimulator.Shared.projitems*{8f1c993e-1a67-494a-a5b9-9aedaa8feb9c}*SharedItemsImports = 5
 		DrvTester.Shared\DrvTester.Shared.projitems*{b7f37122-5eb4-4cf6-b7e9-79e6d0e2083d}*SharedItemsImports = 5
 		DrvTester.Shared\DrvTester.Shared.projitems*{edaf9a96-07da-4a2d-ab7c-b299378f4433}*SharedItemsImports = 5
 		DrvMqtt.Shared\DrvMqtt.Shared.projitems*{ee6cdc81-87d5-4b07-b5a5-ed57abaf95a6}*SharedItemsImports = 13
+		DrvCnlMqtt.Shared\DrvCnlMqtt.Shared.projitems*{f78bea00-969e-44d4-abf0-ecd039910261}*SharedItemsImports = 5
 	EndGlobalSection
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -166,6 +174,14 @@ Global
 		{3048E478-F79A-4726-A826-3C737F030C65}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{3048E478-F79A-4726-A826-3C737F030C65}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{3048E478-F79A-4726-A826-3C737F030C65}.Release|Any CPU.Build.0 = Release|Any CPU
+		{CBAFF7CC-46F3-4EFC-9CF4-9B9BFB04D0ED}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{CBAFF7CC-46F3-4EFC-9CF4-9B9BFB04D0ED}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{CBAFF7CC-46F3-4EFC-9CF4-9B9BFB04D0ED}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{CBAFF7CC-46F3-4EFC-9CF4-9B9BFB04D0ED}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F78BEA00-969E-44D4-ABF0-ECD039910261}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F78BEA00-969E-44D4-ABF0-ECD039910261}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F78BEA00-969E-44D4-ABF0-ECD039910261}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F78BEA00-969E-44D4-ABF0-ECD039910261}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -194,6 +210,9 @@ Global
 		{1A325222-6683-4D81-8293-AC5BD4C8D3BA} = {910F529C-3F58-4452-94BB-A421C13B5B7B}
 		{3048E478-F79A-4726-A826-3C737F030C65} = {B9143ECA-C319-4A0C-855A-384C34B0DB74}
 		{EE6CDC81-87D5-4B07-B5A5-ED57ABAF95A6} = {B9143ECA-C319-4A0C-855A-384C34B0DB74}
+		{CBAFF7CC-46F3-4EFC-9CF4-9B9BFB04D0ED} = {B9143ECA-C319-4A0C-855A-384C34B0DB74}
+		{F78BEA00-969E-44D4-ABF0-ECD039910261} = {B9143ECA-C319-4A0C-855A-384C34B0DB74}
+		{4A5DB4DE-023E-4FB9-9982-143827BEFEB3} = {B9143ECA-C319-4A0C-855A-384C34B0DB74}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {961AA4C1-5D08-4B24-AE6B-99F3AB1A7AEF}
