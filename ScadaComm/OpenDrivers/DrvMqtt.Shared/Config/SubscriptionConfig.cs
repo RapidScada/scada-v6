@@ -48,7 +48,7 @@ namespace Scada.Comm.Drivers.DrvMqtt.Config
         public bool ReadOnly { get; set; }
 
         /// <summary>
-        /// Gets or sets the quality of service level for publishing.
+        /// Gets or sets the quality of service level.
         /// </summary>
         public int QosLevel { get; set; }
 
