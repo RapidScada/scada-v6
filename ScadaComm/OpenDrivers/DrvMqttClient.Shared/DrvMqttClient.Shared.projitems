@@ -9,14 +9,11 @@
     <Import_RootNamespace>Scada.Comm.Drivers.DrvMqttClient</Import_RootNamespace>
   </PropertyGroup>
   <ItemGroup>
-    <Content Include="$(MSBuildThisFileDirectory)Config\DrvMqtt.xml" />
-    <Content Include="$(MSBuildThisFileDirectory)Config\DrvMqtt_001.xml" />
+    <Content Include="$(MSBuildThisFileDirectory)Config\DrvMqttClient_001.xml" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="$(MSBuildThisFileDirectory)Config\CommandConfig.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Config\MqttConnectionOptions.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Config\MqttDeviceConfig.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Config\MqttDriverConfig.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Config\MqttClientDeviceConfig.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Config\SubscriptionConfig.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)DriverUtils.cs" />
   </ItemGroup>

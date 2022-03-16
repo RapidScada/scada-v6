@@ -11,7 +11,7 @@ namespace Scada.Comm.Drivers.DrvMqttClient.Config
     /// Represents a configuration of an MQTT device.
     /// <para>Представляет конфигурацию устройства MQTT.</para>
     /// </summary>
-    internal class MqttDeviceConfig : BaseConfig
+    internal class MqttClientDeviceConfig : BaseConfig
     {
         /// <summary>
         /// Gets or sets the connection name.
@@ -79,7 +79,7 @@ namespace Scada.Comm.Drivers.DrvMqttClient.Config
             XmlDeclaration xmlDecl = xmlDoc.CreateXmlDeclaration("1.0", "utf-8", null);
             xmlDoc.AppendChild(xmlDecl);
 
-            XmlElement rootElem = xmlDoc.CreateElement("MqttDeviceConfig");
+            XmlElement rootElem = xmlDoc.CreateElement("MqttClientDeviceConfig");
             xmlDoc.AppendChild(rootElem);
 
             rootElem.AppendElem("Connection", Connection);

@@ -25,7 +25,7 @@ namespace Scada.Comm.Drivers.DrvCnlBasic.View
         }
 
         /// <summary>
-        /// Shows a modal dialog box for communication channel properties.
+        /// Shows a modal dialog box for editing communication channel properties.
         /// </summary>
         public override bool ShowProperties()
         {

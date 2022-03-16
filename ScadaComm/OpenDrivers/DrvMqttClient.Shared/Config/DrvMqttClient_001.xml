@@ -1,6 +1,5 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
-<MqttDeviceConfig>
-  <Connection>MqttConn1</Connection>
+<MqttClientDeviceConfig>
   <Subscriptions>
     <Subscription topic="/myparam1" displayName="MyParam1" tagCode="myparam1" readOnly="false" qosLevel="0" />
     <Subscription topic="/myparam2" displayName="MyParam2" tagCode="myparam2" readOnly="true" qosLevel="0" jsEnabled="true" jsFileName="MyParam2.js">
@@ -11,4 +10,4 @@
   <Commands>
     <Command topic="/mycmd1" displayName="MyCmd1" cmdCode="mycmd1" qosLevel="0" />
   </Commands>
-</MqttDeviceConfig>
+</MqttClientDeviceConfig>

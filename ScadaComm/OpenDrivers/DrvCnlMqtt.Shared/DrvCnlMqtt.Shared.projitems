@@ -9,5 +9,8 @@
     <Import_RootNamespace>Scada.Comm.Drivers.DrvCnlMqtt</Import_RootNamespace>
   </PropertyGroup>
   <ItemGroup>
+    <Compile Include="$(MSBuildThisFileDirectory)DriverUtils.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)MqttClientChannelOptions.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)ProtocolVersion.cs" />
   </ItemGroup>
 </Project>

@@ -20,19 +20,17 @@ namespace Scada.Comm.Drivers.DrvMqttClient.Logic
     /// </summary>
     internal class DevMqttClientLogic : DeviceLogic
     {
-        private readonly MqttDriverConfig driverConfig; // the driver configuration
-        private MqttDeviceConfig mqttDeviceConfig;      // the device configuration
+        private MqttClientDeviceConfig config; // the device configuration
         private IMqttClient mqttClient;
 
 
         /// <summary>
         /// Initializes a new instance of the class.
         /// </summary>
-        public DevMqttClientLogic(ICommContext commContext, ILineContext lineContext, DeviceConfig deviceConfig,
-            MqttDriverConfig driverConfig) : base(commContext, lineContext, deviceConfig)
+        public DevMqttClientLogic(ICommContext commContext, ILineContext lineContext, DeviceConfig deviceConfig)
+            : base(commContext, lineContext, deviceConfig)
         {
-            this.driverConfig = driverConfig ?? throw new ArgumentNullException(nameof(driverConfig));
-            mqttDeviceConfig = null;
+            config = null;
 
             ConnectionRequired = false;
         }
@@ -43,15 +41,15 @@ namespace Scada.Comm.Drivers.DrvMqttClient.Logic
         /// </summary>
         public override void OnCommLineStart()
         {
-            mqttDeviceConfig = new MqttDeviceConfig();
+            config = new MqttClientDeviceConfig();
 
-            if (mqttDeviceConfig.Load(Storage, MqttDeviceConfig.GetFileName(DeviceNum), out string errMsg))
+            if (config.Load(Storage, MqttClientDeviceConfig.GetFileName(DeviceNum), out string errMsg))
             {
                 //InitCmdMaps();
             }
             else
             {
-                mqttDeviceConfig = null;
+                config = null;
                 Log.WriteLine(errMsg);
                 Log.WriteLine(Locale.IsRussian ?
                     "Взаимодействие с MQTT-брокером невозможно, т.к. конфигурация устройства не загружена" :
