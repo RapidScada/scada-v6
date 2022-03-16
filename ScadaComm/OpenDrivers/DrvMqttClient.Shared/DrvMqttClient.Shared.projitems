@@ -6,7 +6,7 @@
     <SharedGUID>ee6cdc81-87d5-4b07-b5a5-ed57abaf95a6</SharedGUID>
   </PropertyGroup>
   <PropertyGroup Label="Configuration">
-    <Import_RootNamespace>Scada.Comm.Drivers.DrvMqtt</Import_RootNamespace>
+    <Import_RootNamespace>Scada.Comm.Drivers.DrvMqttClient</Import_RootNamespace>
   </PropertyGroup>
   <ItemGroup>
     <Content Include="$(MSBuildThisFileDirectory)Config\DrvMqtt.xml" />

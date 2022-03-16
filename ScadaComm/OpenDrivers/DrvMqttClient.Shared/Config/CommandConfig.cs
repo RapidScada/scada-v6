@@ -3,7 +3,7 @@
 
 using System.Xml;
 
-namespace Scada.Comm.Drivers.DrvMqtt.Config
+namespace Scada.Comm.Drivers.DrvMqttClient.Config
 {
     /// <summary>
     /// Represents a command configuration.

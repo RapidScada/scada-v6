@@ -8,17 +8,17 @@ using MQTTnet.Client.Options;
 using MQTTnet.Client.Subscribing;
 using Scada.Comm.Config;
 using Scada.Comm.Devices;
-using Scada.Comm.Drivers.DrvMqtt.Config;
+using Scada.Comm.Drivers.DrvMqttClient.Config;
 using Scada.Data.Models;
 using Scada.Lang;
 
-namespace Scada.Comm.Drivers.DrvMqtt.Logic
+namespace Scada.Comm.Drivers.DrvMqttClient.Logic
 {
     /// <summary>
     /// Implements the device logic.
     /// <para>Реализует логику устройства.</para>
     /// </summary>
-    internal class DevMqttLogic : DeviceLogic
+    internal class DevMqttClientLogic : DeviceLogic
     {
         private readonly MqttDriverConfig driverConfig; // the driver configuration
         private MqttDeviceConfig mqttDeviceConfig;      // the device configuration
@@ -28,7 +28,7 @@ namespace Scada.Comm.Drivers.DrvMqtt.Logic
         /// <summary>
         /// Initializes a new instance of the class.
         /// </summary>
-        public DevMqttLogic(ICommContext commContext, ILineContext lineContext, DeviceConfig deviceConfig,
+        public DevMqttClientLogic(ICommContext commContext, ILineContext lineContext, DeviceConfig deviceConfig,
             MqttDriverConfig driverConfig) : base(commContext, lineContext, deviceConfig)
         {
             this.driverConfig = driverConfig ?? throw new ArgumentNullException(nameof(driverConfig));
@@ -64,7 +64,7 @@ namespace Scada.Comm.Drivers.DrvMqtt.Logic
 
             mqttClient.UseApplicationMessageReceivedHandler(e =>
             {
-                Log.WriteLine("!!! Application message = " + e.ApplicationMessage.Topic + ", " + 
+                Log.WriteLine("!!! Application message = " + e.ApplicationMessage.Topic + ", " +
                     e.ApplicationMessage.ConvertPayloadToString());
             });
 

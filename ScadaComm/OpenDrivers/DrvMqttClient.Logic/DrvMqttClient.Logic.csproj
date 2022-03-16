@@ -4,7 +4,7 @@
     <TargetFramework>net6.0</TargetFramework>
     <ImplicitUsings>enable</ImplicitUsings>
     <Nullable>disable</Nullable>
-    <RootNamespace>Scada.Comm.Drivers.DrvMqtt.Logic</RootNamespace>
+    <RootNamespace>Scada.Comm.Drivers.DrvMqttClient.Logic</RootNamespace>
     <Version>6.0.0</Version>
     <Authors>Mikhail Shiryaev</Authors>
     <Company>Rapid Software LLC</Company>
@@ -29,6 +29,6 @@
     </Reference>
   </ItemGroup>
 
-  <Import Project="..\DrvMqtt.Shared\DrvMqtt.Shared.projitems" Label="Shared" />
+  <Import Project="..\DrvMqttClient.Shared\DrvMqttClient.Shared.projitems" Label="Shared" />
 
 </Project>

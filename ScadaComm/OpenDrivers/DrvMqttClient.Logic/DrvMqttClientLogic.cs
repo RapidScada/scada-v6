@@ -3,17 +3,17 @@
 
 using Scada.Comm.Config;
 using Scada.Comm.Devices;
-using Scada.Comm.Drivers.DrvMqtt.Config;
+using Scada.Comm.Drivers.DrvMqttClient.Config;
 using Scada.Comm.Lang;
 using Scada.Storages;
 
-namespace Scada.Comm.Drivers.DrvMqtt.Logic
+namespace Scada.Comm.Drivers.DrvMqttClient.Logic
 {
     /// <summary>
     /// Implements the driver logic.
     /// <para>Реализует логику драйвера.</para>
     /// </summary>
-    public class DrvMqttLogic : DriverLogic
+    public class DrvMqttClientLogic : DriverLogic
     {
         private readonly MqttDriverConfig driverConfig; // the driver configuration
 
@@ -21,7 +21,7 @@ namespace Scada.Comm.Drivers.DrvMqtt.Logic
         /// <summary>
         /// Initializes a new instance of the class.
         /// </summary>
-        public DrvMqttLogic(ICommContext commContext)
+        public DrvMqttClientLogic(ICommContext commContext)
             : base(commContext)
         {
             driverConfig = new MqttDriverConfig();
@@ -45,7 +45,7 @@ namespace Scada.Comm.Drivers.DrvMqtt.Logic
         /// </summary>
         public override DeviceLogic CreateDevice(ILineContext lineContext, DeviceConfig deviceConfig)
         {
-            return new DevMqttLogic(CommContext, lineContext, deviceConfig, driverConfig);
+            return new DevMqttClientLogic(CommContext, lineContext, deviceConfig, driverConfig);
         }
 
         /// <summary>
