@@ -1,11 +1,6 @@
 ﻿// Copyright (c) Rapid Software LLC. All rights reserved.
 // Licensed under the Apache License, Version 2.0. See License.txt in the project root for license information.
 
-using MQTTnet;
-using MQTTnet.Client;
-using MQTTnet.Client.Connecting;
-using MQTTnet.Client.Options;
-using MQTTnet.Client.Subscribing;
 using Scada.Comm.Config;
 using Scada.Comm.Devices;
 using Scada.Comm.Drivers.DrvMqttClient.Config;
@@ -21,7 +16,6 @@ namespace Scada.Comm.Drivers.DrvMqttClient.Logic
     internal class DevMqttClientLogic : DeviceLogic
     {
         private MqttClientDeviceConfig config; // the device configuration
-        private IMqttClient mqttClient;
 
 
         /// <summary>
@@ -31,7 +25,6 @@ namespace Scada.Comm.Drivers.DrvMqttClient.Logic
             : base(commContext, lineContext, deviceConfig)
         {
             config = null;
-
             ConnectionRequired = false;
         }
 
@@ -55,32 +48,6 @@ namespace Scada.Comm.Drivers.DrvMqttClient.Logic
                     "Взаимодействие с MQTT-брокером невозможно, т.к. конфигурация устройства не загружена" :
                     "Interaction with MQTT broker is impossible because device configuration is not loaded");
             }
-
-            // ---
-            MqttFactory mqttFactory = new();
-            mqttClient = mqttFactory.CreateMqttClient();
-
-            mqttClient.UseApplicationMessageReceivedHandler(e =>
-            {
-                Log.WriteLine("!!! Application message = " + e.ApplicationMessage.Topic + ", " +
-                    e.ApplicationMessage.ConvertPayloadToString());
-            });
-
-            IMqttClientOptions mqttClientOptions = new MqttClientOptionsBuilder()
-                .WithTcpServer("broker.mqtt-dashboard.com")
-                .WithClientId("rapidscada")
-                .Build();
-
-            Task<MqttClientConnectResult> connectTask = mqttClient.ConnectAsync(mqttClientOptions, CancellationToken.None);
-            connectTask.Wait();
-            Log.WriteLine("!!! Connect result = " + connectTask.Result);
-
-            MqttClientSubscribeOptions mqttSubscribeOptions = mqttFactory.CreateSubscribeOptionsBuilder()
-                .WithTopicFilter(f => { f.WithTopic("/myparam1"); })
-                .Build();
-
-            mqttClient.SubscribeAsync(mqttSubscribeOptions, CancellationToken.None).Wait();
-            Log.WriteLine("!!! MQTT client subscribed to topic.");
         }
 
         /// <summary>
@@ -88,11 +55,6 @@ namespace Scada.Comm.Drivers.DrvMqttClient.Logic
         /// </summary>
         public override void OnCommLineTerminate()
         {
-            if (mqttClient != null)
-            {
-                mqttClient.DisconnectAsync().Wait();
-                mqttClient.Dispose();
-            }
         }
 
         /// <summary>
