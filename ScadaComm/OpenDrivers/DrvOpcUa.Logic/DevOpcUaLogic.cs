@@ -296,10 +296,10 @@ namespace Scada.Comm.Drivers.DrvOpcUa.Logic
                 if (subscrByID != null &&
                     subscrByID.TryGetValue(e.Subscription.Id, out SubscriptionTag subscriptionTag))
                 {
-                    Log.WriteLine(Locale.IsRussian ?
-                        "{0} Устройство {1}. Обработка новых данных. Подписка: {2}" :
-                        "{0} Device {1}. Process new data. Subscription: {2}",
-                        LastSessionTime.ToLocalTime().ToLocalizedString(), DeviceNum, e.Subscription.DisplayName);
+                    Log.WriteAction(Locale.IsRussian ?
+                        "Устройство {0}. Обработка новых данных. Подписка: {1}" :
+                        "Device {0}. Process new data. Subscription: {1}",
+                        DeviceNum, e.Subscription.DisplayName);
                     ProcessDataChanges(subscriptionTag, e.NotificationMessage);
                     ProcessEvents(e.NotificationMessage);
                     LastRequestOK = true;
