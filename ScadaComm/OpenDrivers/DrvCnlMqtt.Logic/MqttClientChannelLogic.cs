@@ -10,9 +10,9 @@ using MQTTnet.Formatter;
 using Scada.Comm.Channels;
 using Scada.Comm.Config;
 using Scada.Comm.Devices;
+using Scada.Comm.Drivers.DrvMqtt;
 using Scada.Comm.Lang;
 using Scada.Lang;
-using System.Text;
 
 namespace Scada.Comm.Drivers.DrvCnlMqtt.Logic
 {
@@ -20,19 +20,21 @@ namespace Scada.Comm.Drivers.DrvCnlMqtt.Logic
     /// Implements the MQTT client channel logic.
     /// <para>Реализует логику канала MQTT-клиент.</para>
     /// </summary>
-    internal class MqttClientChannelLogic : ChannelLogic
+    internal class MqttClientChannelLogic : ChannelLogic, IMqttClientChannel
     {
         /// <summary>
-        /// The number of bytes used for payload preview text.
+        /// The number of characters to preview message content.
         /// </summary>
-        private const int PayloadPreviewLength = 20;
+        private const int MessagePreviewLength = 20;
         /// <summary>
         /// The delay before reconnect.
         /// </summary>
         private static readonly TimeSpan ReconnectDelay = TimeSpan.FromSeconds(5);
 
-        private readonly MqttClientChannelOptions options; // the channel options
-        private readonly MqttFactory mqttFactory;          // creates MQTT objects
+        private readonly MqttClientChannelOptions options;       // the channel options
+        private readonly MqttFactory mqttFactory;                // creates MQTT objects
+        private readonly List<SubscriptionRecord> subscriptions; // the subscriptions added by devices
+
         private IMqttClient mqttClient;                    // interacts with an MQTT broker
         private IMqttClientOptions mqttClientOptions;      // the connection options
         private DateTime connAttemptDT;                    // the timestamp of a connection attempt
@@ -46,6 +48,7 @@ namespace Scada.Comm.Drivers.DrvCnlMqtt.Logic
         {
             options = new MqttClientChannelOptions(channelConfig.CustomOptions);
             mqttFactory = new MqttFactory();
+            subscriptions = new List<SubscriptionRecord>();
 
             mqttClient = null;
             mqttClientOptions = null;
@@ -74,12 +77,27 @@ namespace Scada.Comm.Drivers.DrvCnlMqtt.Logic
         /// </summary>
         private void MqttClient_ApplicationMessageReceived(MqttApplicationMessageReceivedEventArgs e)
         {
-            Log.WriteLine();
-            Log.WriteAction("{0} {1} = {2}", CommPhrases.ReceiveNotation,
-                e.ApplicationMessage.Topic, GetPayloadPreview(e.ApplicationMessage.Payload));
-            Log.WriteLine(Locale.IsRussian ?
-                "Подписанные устройства: ..." :
-                "Subscribed devices: ...");
+            try
+            {
+                ReceivedMessage message = new()
+                {
+                    Topic = e.ApplicationMessage.Topic,
+                    Content = e.ApplicationMessage.ConvertPayloadToString() ?? ""
+                };
+
+                Log.WriteLine();
+                Log.WriteAction("{0} {1} = {2}", CommPhrases.ReceiveNotation, 
+                    message.Topic, message.Content.GetPreview(MessagePreviewLength));
+                Log.WriteLine(Locale.IsRussian ?
+                    "Подписанные устройства: ..." :
+                    "Subscribed devices: ...");
+            }
+            catch (Exception ex)
+            {
+                Log.WriteError(ex, Locale.IsRussian ?
+                    "Ошибка при обработке полученного сообщения" :
+                    "Error handling the received message");
+            }
         }
 
         /// <summary>
@@ -193,7 +211,7 @@ namespace Scada.Comm.Drivers.DrvCnlMqtt.Logic
         }
 
         /// <summary>
-        /// Subscribes to the topics.
+        /// Subscribes to the topics previously added by devices.
         /// </summary>
         private void Subscribe()
         {
@@ -204,17 +222,21 @@ namespace Scada.Comm.Drivers.DrvCnlMqtt.Logic
                     "Подписка на топики" :
                     "Subscribe to topic");
 
-                MqttTopicFilter[] topicFilters = new MqttTopicFilter[]
+                if (subscriptions.Count > 0)
                 {
-                    new MqttTopicFilter { Topic = "/myparam1" },
-                    new MqttTopicFilter { Topic = "/myparam2" },
-                };
+                    MqttTopicFilter[] topicFilters = subscriptions.Select(s => s.TopicFilter).ToArray();
+                    mqttClient.SubscribeAsync(topicFilters).Wait();
 
-                mqttClient.SubscribeAsync(topicFilters).Wait();
-
-                Log.WriteLine(Locale.IsRussian ?
-                    "Подписка выполнена успешно" :
-                    "Subscribed successfully");
+                    Log.WriteLine(Locale.IsRussian ?
+                        "Подписка выполнена успешно. Количество топиков: {0}" :
+                        "Subscribed successfully. Topic count: {0}", topicFilters.Length);
+                }
+                else
+                {
+                    Log.WriteLine(Locale.IsRussian ?
+                        "Топики отсутствуют" :
+                        "Topics missing");
+                }
             }
             catch (Exception ex)
             {
@@ -225,16 +247,12 @@ namespace Scada.Comm.Drivers.DrvCnlMqtt.Logic
         }
 
         /// <summary>
-        /// Gets the beginning of the payload text.
+        /// Subscribes to the topic.
         /// </summary>
-        private static string GetPayloadPreview(byte[] payload)
+        void IMqttClientChannel.Subscribe(SubscriptionRecord subscriptionRecord)
         {
-            if (payload == null || payload.Length == 0)
-                return "";
-
-            return payload.Length <= PayloadPreviewLength
-                ? Encoding.UTF8.GetString(payload)
-                : Encoding.UTF8.GetString(payload, 0, PayloadPreviewLength) + "...";
+            ArgumentNullException.ThrowIfNull(subscriptionRecord, nameof(subscriptionRecord));
+            subscriptions.Add(subscriptionRecord);
         }
 
 

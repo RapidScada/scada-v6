@@ -20,7 +20,7 @@
  * 
  * Author   : Mikhail Shiryaev
  * Created  : 2007
- * Modified : 2021
+ * Modified : 2022
  */
 
 using Scada.Lang;
@@ -480,6 +480,19 @@ namespace Scada
         public static string FirstNonEmpty(params string[] args)
         {
             return args.FirstOrDefault(s => !string.IsNullOrEmpty(s));
+        }
+
+        /// <summary>
+        /// Gets the beginning of the string that does not exceed the specified length.
+        /// </summary>
+        public static string GetPreview(this string s, int maxLength)
+        {
+            if (s == null)
+                return "";
+            else if (s.Length <= maxLength)
+                return s;
+            else
+                return s.Substring(0, maxLength) + "...";
         }
 
         /// <summary>
