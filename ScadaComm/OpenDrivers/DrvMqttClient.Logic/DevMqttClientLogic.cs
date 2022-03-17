@@ -4,6 +4,7 @@
 using Scada.Comm.Config;
 using Scada.Comm.Devices;
 using Scada.Comm.Drivers.DrvMqttClient.Config;
+using Scada.Comm.Lang;
 using Scada.Data.Models;
 using Scada.Lang;
 
@@ -15,7 +16,7 @@ namespace Scada.Comm.Drivers.DrvMqttClient.Logic
     /// </summary>
     internal class DevMqttClientLogic : DeviceLogic
     {
-        private MqttClientDeviceConfig config; // the device configuration
+        private readonly MqttClientDeviceConfig config; // the device configuration
 
 
         /// <summary>
@@ -24,7 +25,7 @@ namespace Scada.Comm.Drivers.DrvMqttClient.Logic
         public DevMqttClientLogic(ICommContext commContext, ILineContext lineContext, DeviceConfig deviceConfig)
             : base(commContext, lineContext, deviceConfig)
         {
-            config = null;
+            config = new MqttClientDeviceConfig();
             ConnectionRequired = false;
         }
 
@@ -34,19 +35,13 @@ namespace Scada.Comm.Drivers.DrvMqttClient.Logic
         /// </summary>
         public override void OnCommLineStart()
         {
-            config = new MqttClientDeviceConfig();
-
             if (config.Load(Storage, MqttClientDeviceConfig.GetFileName(DeviceNum), out string errMsg))
             {
                 //InitCmdMaps();
             }
             else
             {
-                config = null;
-                Log.WriteLine(errMsg);
-                Log.WriteLine(Locale.IsRussian ?
-                    "Взаимодействие с MQTT-брокером невозможно, т.к. конфигурация устройства не загружена" :
-                    "Interaction with MQTT broker is impossible because device configuration is not loaded");
+                Log.WriteLine(CommPhrases.DeviceMessage, Title, errMsg);
             }
         }
 
