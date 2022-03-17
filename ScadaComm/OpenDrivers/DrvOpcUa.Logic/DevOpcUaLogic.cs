@@ -66,7 +66,7 @@ namespace Scada.Comm.Drivers.DrvOpcUa.Logic
         private readonly object opcLock;                      // synchronizes communication with OPC server
         private OpcDeviceConfig opcDeviceConfig;              // the device configuration
         private bool connected;                               // connection with OPC server is established
-        private DateTime connAttemptDT;                       // the time stamp of a connection attempt
+        private DateTime connAttemptDT;                       // the timestamp of a connection attempt
         private Session opcSession;                           // the OPC session
         private SessionReconnectHandler reconnectHandler;     // the object needed to reconnect
         private Dictionary<uint, SubscriptionTag> subscrByID; // the subscription tags accessed by IDs
@@ -719,17 +719,17 @@ namespace Scada.Comm.Drivers.DrvOpcUa.Logic
             {
                 base.Session();
 
-                // delay before connection
+                // delay before connecting
                 DateTime utcNow = DateTime.UtcNow;
-                TimeSpan connectionDelay = ReconnectDelay - (utcNow - connAttemptDT);
+                TimeSpan connectDelay = ReconnectDelay - (utcNow - connAttemptDT);
 
-                if (connectionDelay > TimeSpan.Zero)
+                if (connectDelay > TimeSpan.Zero)
                 {
                     Log.WriteLine(Locale.IsRussian ?
                         "Задержка перед соединением {0} с" :
-                        "Delay before connection {0} sec", 
-                        connectionDelay.TotalSeconds.ToString("N1"));
-                    Thread.Sleep(connectionDelay);
+                        "Delay before connecting {0} sec", 
+                        connectDelay.TotalSeconds.ToString("N1"));
+                    Thread.Sleep(connectDelay);
                 }
 
                 // connect to OPC server and create subscriptions
