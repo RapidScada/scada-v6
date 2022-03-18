@@ -31,9 +31,17 @@ namespace Scada.Comm.Drivers.DrvMqttClient.Logic
             public DeviceTag DeviceTag { get; init; }
         }
 
+        /// <summary>
+        /// The default data lifetime in seconds. Zero means no lifetime is used.
+        /// </summary>
+        private const int DefautDataLifetime = 0;
+
         private readonly MqttClientDeviceConfig config;               // the device configuration
         private readonly Dictionary<string, CommandConfig> cmdByCode; // the commands accessed by code
-        private IMqttClientChannel mqttClientChannel;                 // the communication channel reference
+        private IMqttClientChannel mqttClientChannel; // the communication channel reference
+        private TimeSpan dataLifetime;                // specifies when tag values should be invalidated
+        private bool useDataLifetime;                 // indicates that lifetime is used
+        private DateTime[] updateTimestamps;          // the update timestamps by device tag
 
 
         /// <summary>
@@ -45,6 +53,9 @@ namespace Scada.Comm.Drivers.DrvMqttClient.Logic
             config = new MqttClientDeviceConfig();
             cmdByCode = new Dictionary<string, CommandConfig>();
             mqttClientChannel = null;
+            dataLifetime = TimeSpan.Zero;
+            useDataLifetime = false;
+            updateTimestamps = null;
 
             CanSendCommands = true;
             ConnectionRequired = false;
@@ -103,6 +114,23 @@ namespace Scada.Comm.Drivers.DrvMqttClient.Logic
         }
 
         /// <summary>
+        /// Invalidates device tags that have not been updated for longer than the data lifetime.
+        /// </summary>
+        private void InvalidateOutdatedData()
+        {
+            DateTime utcNow = DateTime.UtcNow;
+
+            for (int i = 0, len = updateTimestamps.Length; i < len; i++)
+            {
+                if (utcNow - updateTimestamps[i] > dataLifetime)
+                {
+                    DeviceData.Invalidate(i);
+                    updateTimestamps[i] = utcNow;
+                }
+            }
+        }
+
+        /// <summary>
         /// Creates a message to be published according to the command.
         /// </summary>
         private static MqttApplicationMessage CreateMessage(TeleCommand cmd, CommandConfig cmdConfig, out string valStr)
@@ -113,15 +141,19 @@ namespace Scada.Comm.Drivers.DrvMqttClient.Logic
                 QualityOfServiceLevel = (MqttQualityOfServiceLevel)cmdConfig.QosLevel
             };
 
-            if (cmd.CmdData == null)
+            if (!double.IsNaN(cmd.CmdVal))
+            {
+                valStr = cmd.CmdVal.ToString(NumberFormatInfo.InvariantInfo);
+                message.Payload = Encoding.UTF8.GetBytes(valStr);
+            }
+            else if (cmd.CmdData != null)
             {
                 valStr = Locale.IsRussian ? "<данные>" : "<data>";
                 message.Payload = cmd.CmdData;
             }
             else
             {
-                valStr = cmd.CmdVal.ToString(NumberFormatInfo.InvariantInfo);
-                message.Payload = Encoding.UTF8.GetBytes(valStr);
+                valStr = "null";
             }
 
             return message;
@@ -132,20 +164,44 @@ namespace Scada.Comm.Drivers.DrvMqttClient.Logic
         /// </summary>
         void ISubscriber.HandleReceivedMessage(ReceivedMessage message)
         {
-            if (message.AuxData is SubscriptionTag subscriptionTag)
+            try
             {
-                if (subscriptionTag.SubscriptionConfig.JsEnabled)
-                {
+                LastSessionTime = DateTime.UtcNow;
 
-                }
-                else if (ScadaUtils.TryParseDouble(message.Content, out double val))
+                if (message.AuxData is SubscriptionTag subscriptionTag)
                 {
-                    DeviceData.Set(subscriptionTag.DeviceTag.Index, val);
+                    int tagIndex = subscriptionTag.DeviceTag.Index;
+
+                    if (subscriptionTag.SubscriptionConfig.JsEnabled)
+                    {
+
+                    }
+                    else if (ScadaUtils.TryParseDouble(message.Content, out double val))
+                    {
+                        DeviceData.Set(tagIndex, val);
+                        updateTimestamps[tagIndex] = LastSessionTime;
+                    }
+                    else
+                    {
+                        DeviceData.Invalidate(subscriptionTag.DeviceTag.Index);
+                        updateTimestamps[tagIndex] = LastSessionTime;
+                    }
+
+                    LastRequestOK = true;
                 }
                 else
                 {
-                    DeviceData.Invalidate(subscriptionTag.DeviceTag.Index);
+                    LastRequestOK = false;
                 }
+            }
+            catch (Exception ex)
+            {
+                Log.WriteLine(CommPhrases.ErrorPrefix + ex.Message);
+                LastRequestOK = false;
+            }
+            finally
+            {
+                FinishSession();
             }
         }
 
@@ -155,6 +211,10 @@ namespace Scada.Comm.Drivers.DrvMqttClient.Logic
         /// </summary>
         public override void OnCommLineStart()
         {
+            dataLifetime = TimeSpan.FromSeconds(
+                LineContext.LineConfig.CustomOptions.GetValueAsInt("DataLifetime", DefautDataLifetime));
+            useDataLifetime = dataLifetime > TimeSpan.Zero;
+
             if (!config.Load(Storage, MqttClientDeviceConfig.GetFileName(DeviceNum), out string errMsg))
                 Log.WriteLine(CommPhrases.DeviceMessage, Title, errMsg);
 
@@ -185,6 +245,7 @@ namespace Scada.Comm.Drivers.DrvMqttClient.Logic
             }
 
             DeviceTags.AddGroup(tagGroup);
+            updateTimestamps = new DateTime[tagGroup.DeviceTags.Count];
         }
 
         /// <summary>
@@ -192,8 +253,14 @@ namespace Scada.Comm.Drivers.DrvMqttClient.Logic
         /// </summary>
         public override void Session()
         {
-            //base.Session();
-            //FinishSession();
+            if (useDataLifetime)
+                InvalidateOutdatedData();
+
+            if (mqttClientChannel == null || !mqttClientChannel.IsConnected)
+                DeviceStatus = DeviceStatus.Error;
+
+            if (PollingOptions.Delay > 0)
+                Thread.Sleep(PollingOptions.Delay);
         }
 
         /// <summary>
