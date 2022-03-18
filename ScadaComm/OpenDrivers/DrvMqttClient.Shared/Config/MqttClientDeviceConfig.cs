@@ -14,9 +14,9 @@ namespace Scada.Comm.Drivers.DrvMqttClient.Config
     internal class MqttClientDeviceConfig : BaseConfig
     {
         /// <summary>
-        /// Gets or sets the connection name.
+        /// Gets the device options.
         /// </summary>
-        public string Connection { get; set; }
+        public DeviceOptions DeviceOptions { get; private set; }
 
         /// <summary>
         /// Gets the subscriptions.
@@ -34,7 +34,7 @@ namespace Scada.Comm.Drivers.DrvMqttClient.Config
         /// </summary>
         protected override void SetToDefault()
         {
-            Connection = "";
+            DeviceOptions = new DeviceOptions();
             Subscriptions = new List<SubscriptionConfig>();
             Commands = new List<CommandConfig>();
         }
@@ -47,7 +47,9 @@ namespace Scada.Comm.Drivers.DrvMqttClient.Config
             XmlDocument xmlDoc = new();
             xmlDoc.Load(reader);
             XmlElement rootElem = xmlDoc.DocumentElement;
-            Connection = rootElem.GetChildAsString("Connection");
+
+            if (rootElem.SelectSingleNode("DeviceOptions") is XmlNode deviceOptionsNode)
+                DeviceOptions.LoadFromXml(deviceOptionsNode);
 
             if (rootElem.SelectSingleNode("Subscriptions") is XmlNode subscriptionsNode)
             {
@@ -82,7 +84,7 @@ namespace Scada.Comm.Drivers.DrvMqttClient.Config
             XmlElement rootElem = xmlDoc.CreateElement("MqttClientDeviceConfig");
             xmlDoc.AppendChild(rootElem);
 
-            rootElem.AppendElem("Connection", Connection);
+            DeviceOptions.SaveToXml(rootElem.AppendElem("DeviceOptions"));
             XmlElement subscriptionsElem = rootElem.AppendElem("Subscriptions");
             XmlElement commandsElem = rootElem.AppendElem("Commands");
 

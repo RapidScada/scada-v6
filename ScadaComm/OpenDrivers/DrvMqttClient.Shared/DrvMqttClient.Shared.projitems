@@ -13,6 +13,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="$(MSBuildThisFileDirectory)Config\CommandConfig.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Config\DeviceOptions.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Config\MqttClientDeviceConfig.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Config\SubscriptionConfig.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)DriverUtils.cs" />

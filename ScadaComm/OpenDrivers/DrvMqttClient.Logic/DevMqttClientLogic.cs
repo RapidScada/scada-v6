@@ -2,8 +2,6 @@
 // Licensed under the Apache License, Version 2.0. See License.txt in the project root for license information.
 
 using Jint;
-using Jint.Native;
-using Jint.Native.Array;
 using MQTTnet;
 using MQTTnet.Client.Publishing;
 using MQTTnet.Protocol;
@@ -112,7 +110,7 @@ namespace Scada.Comm.Drivers.DrvMqttClient.Logic
                 Subscriber = this,
                 TopicFilter = new MqttTopicFilter
                 {
-                    Topic = subscriptionConfig.Topic,
+                    Topic = config.DeviceOptions.RootTopic + subscriptionConfig.Topic,
                     QualityOfServiceLevel = (MqttQualityOfServiceLevel)subscriptionConfig.QosLevel
                 },
                 AuxData = new SubscriptionTag
@@ -126,20 +124,32 @@ namespace Scada.Comm.Drivers.DrvMqttClient.Logic
         }
 
         /// <summary>
-        /// Invalidates device tags that have not been updated for longer than the data lifetime.
+        /// Creates a message to be published according to the command.
         /// </summary>
-        private void InvalidateOutdatedData()
+        private MqttApplicationMessage CreateMessage(TeleCommand cmd, CommandConfig cmdConfig, out string valStr)
         {
-            DateTime utcNow = DateTime.UtcNow;
-
-            for (int i = 0, len = updateTimestamps.Length; i < len; i++)
+            MqttApplicationMessage message = new()
             {
-                if (utcNow - updateTimestamps[i] > dataLifetime)
-                {
-                    DeviceData.Invalidate(i);
-                    updateTimestamps[i] = utcNow;
-                }
+                Topic = config.DeviceOptions.RootTopic + cmdConfig.Topic,
+                QualityOfServiceLevel = (MqttQualityOfServiceLevel)cmdConfig.QosLevel
+            };
+
+            if (!double.IsNaN(cmd.CmdVal))
+            {
+                valStr = cmd.CmdVal.ToString(NumberFormatInfo.InvariantInfo);
+                message.Payload = Encoding.UTF8.GetBytes(valStr);
             }
+            else if (cmd.CmdData != null)
+            {
+                valStr = Locale.IsRussian ? "<данные>" : "<data>";
+                message.Payload = cmd.CmdData;
+            }
+            else
+            {
+                valStr = "null";
+            }
+
+            return message;
         }
 
         /// <summary>
@@ -151,7 +161,8 @@ namespace Scada.Comm.Drivers.DrvMqttClient.Logic
             if (jsEngine == null)
             {
                 jsEngine = new Engine()
-                    .SetValue("log", new Action<string>(s => Log.WriteLine(s)));
+                    .SetValue("log", new Action<string>(s => Log.WriteLine(s)))
+                    .SetValue("setValue", new Action<int, double>((i, x) => { subscriptionTag.JsValues[i] = x; }));
             }
 
             // load source code
@@ -167,17 +178,14 @@ namespace Scada.Comm.Drivers.DrvMqttClient.Logic
             if (subscriptionTag.JsValues == null)
                 subscriptionTag.JsValues = new double[tagCount];
 
-            double[] tagValues = subscriptionTag.JsValues;
-
             for (int i = 0; i < tagCount; i++)
             {
-                tagValues[i] = double.NaN;
+                subscriptionTag.JsValues[i] = double.NaN;
             }
 
             // set script variables
             jsEngine.SetValue("topic", message.Topic);
             jsEngine.SetValue("payload", message.Payload);
-            jsEngine.SetValue("setValue", new Action<int, double>((i, x) => { tagValues[i] = x; }));
 
             try
             {
@@ -188,7 +196,7 @@ namespace Scada.Comm.Drivers.DrvMqttClient.Logic
                 for (int i = 0; i < tagCount; i++)
                 {
                     int tagIndex = subscriptionTag.TagIndex + i;
-                    double tagValue = tagValues[i];
+                    double tagValue = subscriptionTag.JsValues[i];
 
                     if (double.IsNaN(tagValue))
                         DeviceData.Invalidate(tagIndex);
@@ -213,32 +221,20 @@ namespace Scada.Comm.Drivers.DrvMqttClient.Logic
         }
 
         /// <summary>
-        /// Creates a message to be published according to the command.
+        /// Invalidates device tags that have not been updated for longer than the data lifetime.
         /// </summary>
-        private static MqttApplicationMessage CreateMessage(TeleCommand cmd, CommandConfig cmdConfig, out string valStr)
+        private void InvalidateOutdatedData()
         {
-            MqttApplicationMessage message = new()
-            {
-                Topic = cmdConfig.Topic,
-                QualityOfServiceLevel = (MqttQualityOfServiceLevel)cmdConfig.QosLevel
-            };
+            DateTime utcNow = DateTime.UtcNow;
 
-            if (!double.IsNaN(cmd.CmdVal))
+            for (int i = 0, len = updateTimestamps.Length; i < len; i++)
             {
-                valStr = cmd.CmdVal.ToString(NumberFormatInfo.InvariantInfo);
-                message.Payload = Encoding.UTF8.GetBytes(valStr);
+                if (utcNow - updateTimestamps[i] > dataLifetime)
+                {
+                    DeviceData.Invalidate(i);
+                    updateTimestamps[i] = utcNow;
+                }
             }
-            else if (cmd.CmdData != null)
-            {
-                valStr = Locale.IsRussian ? "<данные>" : "<data>";
-                message.Payload = cmd.CmdData;
-            }
-            else
-            {
-                valStr = "null";
-            }
-
-            return message;
         }
 
         /// <summary>
