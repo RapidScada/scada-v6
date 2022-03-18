@@ -1,6 +1,9 @@
 ﻿// Copyright (c) Rapid Software LLC. All rights reserved.
 // Licensed under the Apache License, Version 2.0. See License.txt in the project root for license information.
 
+using Jint;
+using Jint.Native;
+using Jint.Native.Array;
 using MQTTnet;
 using MQTTnet.Client.Publishing;
 using MQTTnet.Protocol;
@@ -29,6 +32,9 @@ namespace Scada.Comm.Drivers.DrvMqttClient.Logic
         {
             public SubscriptionConfig SubscriptionConfig { get; init; }
             public DeviceTag DeviceTag { get; init; }
+            public int TagIndex => DeviceTag.Index;
+            public string JsSource { get; set; }
+            public double[] JsValues { get; set; }
         }
 
         /// <summary>
@@ -38,7 +44,9 @@ namespace Scada.Comm.Drivers.DrvMqttClient.Logic
 
         private readonly MqttClientDeviceConfig config;               // the device configuration
         private readonly Dictionary<string, CommandConfig> cmdByCode; // the commands accessed by code
+
         private IMqttClientChannel mqttClientChannel; // the communication channel reference
+        private Engine jsEngine;                      // executes JavaScript
         private TimeSpan dataLifetime;                // specifies when tag values should be invalidated
         private bool useDataLifetime;                 // indicates that lifetime is used
         private DateTime[] updateTimestamps;          // the update timestamps by device tag
@@ -52,7 +60,9 @@ namespace Scada.Comm.Drivers.DrvMqttClient.Logic
         {
             config = new MqttClientDeviceConfig();
             cmdByCode = new Dictionary<string, CommandConfig>();
+
             mqttClientChannel = null;
+            jsEngine = null;
             dataLifetime = TimeSpan.Zero;
             useDataLifetime = false;
             updateTimestamps = null;
@@ -108,7 +118,9 @@ namespace Scada.Comm.Drivers.DrvMqttClient.Logic
                 AuxData = new SubscriptionTag
                 {
                     SubscriptionConfig = subscriptionConfig,
-                    DeviceTag = deviceTag
+                    DeviceTag = deviceTag,
+                    JsSource = null,
+                    JsValues = null
                 }
             });
         }
@@ -127,6 +139,76 @@ namespace Scada.Comm.Drivers.DrvMqttClient.Logic
                     DeviceData.Invalidate(i);
                     updateTimestamps[i] = utcNow;
                 }
+            }
+        }
+
+        /// <summary>
+        /// Executes the JavaScript corresponding to the received message.
+        /// </summary>
+        private void ExecuteJavaScript(ReceivedMessage message, SubscriptionTag subscriptionTag)
+        {
+            // initialize engine
+            if (jsEngine == null)
+            {
+                jsEngine = new Engine()
+                    .SetValue("log", new Action<string>(s => Log.WriteLine(s)));
+            }
+
+            // load source code
+            if (subscriptionTag.JsSource == null)
+            {
+                subscriptionTag.JsSource =
+                    Storage.ReadText(Storages.DataCategory.Config, subscriptionTag.SubscriptionConfig.JsFileName);
+            }
+
+            // initialize tag data
+            int tagCount = Math.Max(1, subscriptionTag.SubscriptionConfig.SubItems.Count);
+
+            if (subscriptionTag.JsValues == null)
+                subscriptionTag.JsValues = new double[tagCount];
+
+            double[] tagValues = subscriptionTag.JsValues;
+
+            for (int i = 0; i < tagCount; i++)
+            {
+                tagValues[i] = double.NaN;
+            }
+
+            // set script variables
+            jsEngine.SetValue("topic", message.Topic);
+            jsEngine.SetValue("payload", message.Payload);
+            jsEngine.SetValue("setValue", new Action<int, double>((i, x) => { tagValues[i] = x; }));
+
+            try
+            {
+                // execute script
+                jsEngine.Execute(subscriptionTag.JsSource);
+
+                // get tag values
+                for (int i = 0; i < tagCount; i++)
+                {
+                    int tagIndex = subscriptionTag.TagIndex + i;
+                    double tagValue = tagValues[i];
+
+                    if (double.IsNaN(tagValue))
+                        DeviceData.Invalidate(tagIndex);
+                    else
+                        DeviceData.Set(tagIndex, tagValue);
+
+                    updateTimestamps[tagIndex] = LastSessionTime;
+                }
+            }
+            catch
+            {
+                // invalidate tag values
+                for (int i = 0; i < tagCount; i++)
+                {
+                    int tagIndex = subscriptionTag.TagIndex + i;
+                    DeviceData.Invalidate(tagIndex);
+                    updateTimestamps[tagIndex] = LastSessionTime;
+                }
+
+                throw;
             }
         }
 
@@ -170,21 +252,18 @@ namespace Scada.Comm.Drivers.DrvMqttClient.Logic
 
                 if (message.AuxData is SubscriptionTag subscriptionTag)
                 {
-                    int tagIndex = subscriptionTag.DeviceTag.Index;
-
                     if (subscriptionTag.SubscriptionConfig.JsEnabled)
                     {
-
-                    }
-                    else if (ScadaUtils.TryParseDouble(message.Content, out double val))
-                    {
-                        DeviceData.Set(tagIndex, val);
-                        updateTimestamps[tagIndex] = LastSessionTime;
+                        ExecuteJavaScript(message, subscriptionTag);
                     }
                     else
                     {
-                        DeviceData.Invalidate(subscriptionTag.DeviceTag.Index);
-                        updateTimestamps[tagIndex] = LastSessionTime;
+                        if (ScadaUtils.TryParseDouble(message.Payload, out double val))
+                            DeviceData.Set(subscriptionTag.TagIndex, val);
+                        else
+                            DeviceData.Invalidate(subscriptionTag.TagIndex);
+
+                        updateTimestamps[subscriptionTag.TagIndex] = LastSessionTime;
                     }
 
                     LastRequestOK = true;
@@ -240,8 +319,24 @@ namespace Scada.Comm.Drivers.DrvMqttClient.Logic
 
             foreach (SubscriptionConfig subscriptionConfig in config.Subscriptions)
             {
-                DeviceTag deviceTag = tagGroup.AddTag(subscriptionConfig.TagCode, subscriptionConfig.DisplayName);
-                CreateSubscription(subscriptionConfig, deviceTag);
+                if (subscriptionConfig.JsEnabled && subscriptionConfig.SubItems.Count > 0)
+                {
+                    for (int i = 0, cnt = subscriptionConfig.SubItems.Count; i < cnt; i++)
+                    {
+                        string suffix = "." + subscriptionConfig.SubItems[i];
+                        DeviceTag deviceTag = tagGroup.AddTag(
+                            subscriptionConfig.TagCode + suffix, 
+                            subscriptionConfig.DisplayName + suffix);
+
+                        if (i == 0)
+                            CreateSubscription(subscriptionConfig, deviceTag);
+                    }
+                }
+                else
+                {
+                    DeviceTag deviceTag = tagGroup.AddTag(subscriptionConfig.TagCode, subscriptionConfig.DisplayName);
+                    CreateSubscription(subscriptionConfig, deviceTag);
+                }
             }
 
             DeviceTags.AddGroup(tagGroup);

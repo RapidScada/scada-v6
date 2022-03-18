@@ -17,4 +17,7 @@
     <Compile Include="$(MSBuildThisFileDirectory)Config\SubscriptionConfig.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)DriverUtils.cs" />
   </ItemGroup>
+  <ItemGroup>
+    <None Include="$(MSBuildThisFileDirectory)Config\MyParam2.js" />
+  </ItemGroup>
 </Project>

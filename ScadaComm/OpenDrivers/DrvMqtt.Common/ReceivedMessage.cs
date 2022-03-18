@@ -15,9 +15,9 @@ namespace Scada.Comm.Drivers.DrvMqtt
         public string Topic { get; init; }
 
         /// <summary>
-        /// Gets the message content.
+        /// Gets the message payload as a string.
         /// </summary>
-        public string Content { get; init; }
+        public string Payload { get; init; }
 
         /// <summary>
         /// Gets or sets the auxiliary data associated with the topic, originally provided by the subscriber.

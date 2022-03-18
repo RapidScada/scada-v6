@@ -51,7 +51,7 @@ namespace Scada.Comm.Drivers.DrvCnlMqtt.Logic
         }
 
         /// <summary>
-        /// The number of characters to preview message content.
+        /// The number of characters to preview message.
         /// </summary>
         private const int MessagePreviewLength = 20;
         /// <summary>
@@ -110,12 +110,12 @@ namespace Scada.Comm.Drivers.DrvCnlMqtt.Logic
                 ReceivedMessage message = new()
                 {
                     Topic = e.ApplicationMessage.Topic,
-                    Content = e.ApplicationMessage.ConvertPayloadToString() ?? ""
+                    Payload = e.ApplicationMessage.ConvertPayloadToString() ?? ""
                 };
 
                 Log.WriteLine();
                 Log.WriteAction("{0} {1} = {2}", CommPhrases.ReceiveNotation, 
-                    message.Topic, message.Content.GetPreview(MessagePreviewLength));
+                    message.Topic, message.Payload.GetPreview(MessagePreviewLength));
 
                 if (topicTags.TryGetValue(message.Topic, out TopicTag topicTag))
                 {
