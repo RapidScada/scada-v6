@@ -1,5 +1,8 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <MqttClientDeviceConfig>
+  <DeviceOptions>
+    <RootTopic></RootTopic>
+  </DeviceOptions>
   <Subscriptions>
     <Subscription topic="/myparam1" displayName="MyParam1" tagCode="myparam1" readOnly="false" qosLevel="0" />
     <Subscription topic="/myparam2" displayName="MyParam2" tagCode="myparam2" readOnly="true" qosLevel="0" jsEnabled="true" jsFileName="MyParam2.js">

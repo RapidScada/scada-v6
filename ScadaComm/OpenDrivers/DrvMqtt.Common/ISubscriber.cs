@@ -10,6 +10,11 @@ namespace Scada.Comm.Drivers.DrvMqtt
     public interface ISubscriber
     {
         /// <summary>
+        /// Gets the device number.
+        /// </summary>
+        public int DeviceNum { get; }
+
+        /// <summary>
         /// Handles the received message.
         /// </summary>
         void HandleReceivedMessage(ReceivedMessage message);
