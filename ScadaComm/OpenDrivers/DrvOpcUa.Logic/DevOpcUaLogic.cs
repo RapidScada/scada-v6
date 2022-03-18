@@ -96,7 +96,7 @@ namespace Scada.Comm.Drivers.DrvOpcUa.Logic
 
 
         /// <summary>
-        /// Initializes a command maps.
+        /// Initializes command maps.
         /// </summary>
         private void InitCmdMaps()
         {
@@ -118,7 +118,8 @@ namespace Scada.Comm.Drivers.DrvOpcUa.Logic
             {
                 foreach (ItemConfig itemConfig in subscriptionConfig.Items)
                 {
-                    if (itemConfig.Active && !string.IsNullOrEmpty(itemConfig.TagCode) && 
+                    if (itemConfig.Active && 
+                        !string.IsNullOrEmpty(itemConfig.TagCode) && 
                         !cmdByCode.ContainsKey(itemConfig.TagCode))
                     {
                         // created command based on item, having empty data type
