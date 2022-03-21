@@ -5,6 +5,10 @@ using System.Xml;
 
 namespace Scada.Comm.Drivers.DrvMqttClient.Config
 {
+    /// <summary>
+    /// Represents device options.
+    /// <para>Представляет параметры устройства.</para>
+    /// </summary>
     internal class DeviceOptions
     {
         /// <summary>

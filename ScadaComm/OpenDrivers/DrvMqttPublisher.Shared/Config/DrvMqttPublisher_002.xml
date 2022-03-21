@@ -1,0 +1,16 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<MqttPublisherDeviceConfig>
+  <DeviceOptions>
+    <RootTopic>rapidscada/</RootTopic>
+    <UndefinedValue>NaN</UndefinedValue>
+    <!-- Format example { "Val": @val, "Stat": @stat }
+         Empty format equals to @val -->
+    <PublishFormat></PublishFormat>
+    <PublishOnChange>true</PublishOnChange>
+    <PublishPeriod>60</PublishPeriod>
+  </DeviceOptions>
+  <Items>
+    <Item cnlNum="101" topic="cnl101" publish="true" subscribe="false" qosLevel="0" retain="false" />
+    <Item cnlNum="105" topic="cnl105" publish="true" subscribe="true" qosLevel="0" retain="false" />
+  </Items>
+</MqttPublisherDeviceConfig>

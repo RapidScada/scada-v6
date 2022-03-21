@@ -4,13 +4,13 @@
     <RootTopic></RootTopic>
   </DeviceOptions>
   <Subscriptions>
-    <Subscription topic="/myparam1" displayName="MyParam1" tagCode="myparam1" readOnly="false" qosLevel="0" />
-    <Subscription topic="/myparam2" displayName="MyParam2" tagCode="myparam2" readOnly="true" qosLevel="0" jsEnabled="true" jsFileName="MyParam2.js">
+    <Subscription topic="myparam1" displayName="MyParam1" tagCode="myparam1" readOnly="false" qosLevel="0" />
+    <Subscription topic="myparam2" displayName="MyParam2" tagCode="myparam2" readOnly="true" qosLevel="0" jsEnabled="true" jsFileName="MyParam2.js">
       <SubItem>Item1</SubItem>
       <SubItem>Item2</SubItem>
     </Subscription>
   </Subscriptions>
   <Commands>
-    <Command topic="/mycmd1" displayName="MyCmd1" cmdCode="mycmd1" qosLevel="0" />
+    <Command topic="mycmd1" displayName="MyCmd1" cmdCode="mycmd1" qosLevel="0" />
   </Commands>
 </MqttClientDeviceConfig>

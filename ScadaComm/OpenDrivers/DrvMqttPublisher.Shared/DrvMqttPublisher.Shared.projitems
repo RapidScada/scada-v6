@@ -9,5 +9,12 @@
     <Import_RootNamespace>Scada.Comm.Drivers.DrvMqttPublisher</Import_RootNamespace>
   </PropertyGroup>
   <ItemGroup>
+    <Content Include="$(MSBuildThisFileDirectory)Config\DrvMqttPublisher_002.xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="$(MSBuildThisFileDirectory)Config\DeviceOptions.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Config\ItemConfig.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Config\MqttPublisherDeviceConfig.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)DriverUtils.cs" />
   </ItemGroup>
 </Project>

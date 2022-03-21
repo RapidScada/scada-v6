@@ -5,13 +5,13 @@ using Scada.Comm.Lang;
 using Scada.Config;
 using System.Xml;
 
-namespace Scada.Comm.Drivers.DrvMqttClient.Config
+namespace Scada.Comm.Drivers.DrvMqttPublisher.Config
 {
     /// <summary>
-    /// Represents a configuration of an MQTT client device.
-    /// <para>Представляет конфигурацию устройства MQTT-клиент.</para>
+    /// Represents a configuration of an MQTT publisher device.
+    /// <para>Представляет конфигурацию устройства для публикации данных с помощью MQTT.</para>
     /// </summary>
-    internal class MqttClientDeviceConfig : BaseConfig
+    internal class MqttPublisherDeviceConfig : BaseConfig
     {
         /// <summary>
         /// Gets the device options.
@@ -19,14 +19,9 @@ namespace Scada.Comm.Drivers.DrvMqttClient.Config
         public DeviceOptions DeviceOptions { get; private set; }
 
         /// <summary>
-        /// Gets the subscriptions.
+        /// Gets the items.
         /// </summary>
-        public List<SubscriptionConfig> Subscriptions { get; private set; }
-
-        /// <summary>
-        /// Gets the commands.
-        /// </summary>
-        public List<CommandConfig> Commands { get; private set; }
+        public List<ItemConfig> Items { get; private set; }
 
 
         /// <summary>
@@ -35,8 +30,7 @@ namespace Scada.Comm.Drivers.DrvMqttClient.Config
         protected override void SetToDefault()
         {
             DeviceOptions = new DeviceOptions();
-            Subscriptions = new List<SubscriptionConfig>();
-            Commands = new List<CommandConfig>();
+            Items = new List<ItemConfig>();
         }
 
         /// <summary>
@@ -51,23 +45,13 @@ namespace Scada.Comm.Drivers.DrvMqttClient.Config
             if (rootElem.SelectSingleNode("DeviceOptions") is XmlNode deviceOptionsNode)
                 DeviceOptions.LoadFromXml(deviceOptionsNode);
 
-            if (rootElem.SelectSingleNode("Subscriptions") is XmlNode subscriptionsNode)
+            if (rootElem.SelectSingleNode("Items") is XmlNode itemsNode)
             {
-                foreach (XmlElement subscriptionElem in subscriptionsNode.SelectNodes("Subscription"))
+                foreach (XmlElement itemElem in itemsNode.SelectNodes("Item"))
                 {
-                    SubscriptionConfig subscriptionConfig = new();
-                    subscriptionConfig.LoadFromXml(subscriptionElem);
-                    Subscriptions.Add(subscriptionConfig);
-                }
-            }
-
-            if (rootElem.SelectSingleNode("Commands") is XmlNode commandsNode)
-            {
-                foreach (XmlElement commandElem in commandsNode.SelectNodes("Command"))
-                {
-                    CommandConfig commandConfig = new();
-                    commandConfig.LoadFromXml(commandElem);
-                    Commands.Add(commandConfig);
+                    ItemConfig itemConfig = new();
+                    itemConfig.LoadFromXml(itemElem);
+                    Items.Add(itemConfig);
                 }
             }
         }
@@ -81,21 +65,15 @@ namespace Scada.Comm.Drivers.DrvMqttClient.Config
             XmlDeclaration xmlDecl = xmlDoc.CreateXmlDeclaration("1.0", "utf-8", null);
             xmlDoc.AppendChild(xmlDecl);
 
-            XmlElement rootElem = xmlDoc.CreateElement("MqttClientDeviceConfig");
+            XmlElement rootElem = xmlDoc.CreateElement("MqttPublisherDeviceConfig");
             xmlDoc.AppendChild(rootElem);
 
             DeviceOptions.SaveToXml(rootElem.AppendElem("DeviceOptions"));
-            XmlElement subscriptionsElem = rootElem.AppendElem("Subscriptions");
-            XmlElement commandsElem = rootElem.AppendElem("Commands");
+            XmlElement itemsElem = rootElem.AppendElem("Items");
 
-            foreach (SubscriptionConfig subscriptionConfig in Subscriptions)
+            foreach (ItemConfig itemConfig in Items)
             {
-                subscriptionConfig.SaveToXml(subscriptionsElem.AppendElem("Subscription"));
-            }
-
-            foreach (CommandConfig commandConfig in Commands)
-            {
-                commandConfig.SaveToXml(commandsElem.AppendElem("Command"));
+                itemConfig.SaveToXml(itemsElem.AppendElem("Item"));
             }
 
             xmlDoc.Save(writer);
