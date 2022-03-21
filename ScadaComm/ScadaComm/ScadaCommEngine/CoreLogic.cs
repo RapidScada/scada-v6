@@ -20,7 +20,7 @@
  * 
  * Author   : Mikhail Shiryaev
  * Created  : 2020
- * Modified : 2021
+ * Modified : 2022
  */
 
 using Scada.Comm.Config;
@@ -912,7 +912,8 @@ namespace Scada.Comm.Engine
             if (deviceSlice == null)
                 throw new ArgumentNullException(nameof(deviceSlice));
 
-            dataSourceHolder.WriteCurrentData(deviceSlice);
+            if (!deviceSlice.IsEmpty)
+                dataSourceHolder.WriteCurrentData(deviceSlice);
         }
 
         /// <summary>
@@ -923,7 +924,8 @@ namespace Scada.Comm.Engine
             if (deviceSlice == null)
                 throw new ArgumentNullException(nameof(deviceSlice));
 
-            dataSourceHolder.WriteHistoricalData(deviceSlice);
+            if (!deviceSlice.IsEmpty)
+                dataSourceHolder.WriteHistoricalData(deviceSlice);
         }
 
         /// <summary>

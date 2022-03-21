@@ -20,7 +20,7 @@
  * 
  * Author   : Mikhail Shiryaev
  * Created  : 2020
- * Modified : 2021
+ * Modified : 2022
  */
 
 using Scada.Data.Models;
@@ -34,6 +34,12 @@ namespace Scada.Comm.Devices
     /// </summary>
     public class DeviceSlice
     {
+        /// <summary>
+        /// Specifies an empty slice.
+        /// </summary>
+        public static readonly DeviceSlice Empty = new DeviceSlice(DateTime.MinValue, 0, 0);
+
+
         /// <summary>
         /// Represents a method that executes when a slice is sent successfully or unsuccessfully.
         /// </summary>
@@ -95,5 +101,10 @@ namespace Scada.Comm.Devices
         /// Gets or sets the method that is executed when the slice could not be sent.
         /// </summary>
         public DataSentDelegate FailedToSendCallback { get; set; }
+
+        /// <summary>
+        /// Gets a value indicating whether this slice is empty.
+        /// </summary>
+        public bool IsEmpty => DeviceTags.Length == 0;
     }
 }

@@ -716,6 +716,9 @@ namespace Scada.Comm.Devices
         /// </summary>
         public DeviceSlice GetCurrentData()
         {
+            if (deviceTags.Count == 0)
+                return DeviceSlice.Empty;
+
             lock (curDataLock)
             {
                 DeviceSlice deviceSlice = new DeviceSlice(DateTime.UtcNow, deviceTags.Count, rawData.Length)
@@ -762,6 +765,9 @@ namespace Scada.Comm.Devices
                         dataLength += deviceTag.DataLength;
                     }
                 }
+
+                if (tagCount == 0)
+                    return DeviceSlice.Empty;
 
                 DeviceSlice deviceSlice = new DeviceSlice(DateTime.UtcNow, tagCount, dataLength)
                 {
