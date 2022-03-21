@@ -912,8 +912,7 @@ namespace Scada.Comm.Engine
             if (deviceSlice == null)
                 throw new ArgumentNullException(nameof(deviceSlice));
 
-            if (!deviceSlice.IsEmpty)
-                dataSourceHolder.WriteCurrentData(deviceSlice);
+            dataSourceHolder.WriteCurrentData(deviceSlice);
         }
 
         /// <summary>
@@ -924,8 +923,7 @@ namespace Scada.Comm.Engine
             if (deviceSlice == null)
                 throw new ArgumentNullException(nameof(deviceSlice));
 
-            if (!deviceSlice.IsEmpty)
-                dataSourceHolder.WriteHistoricalData(deviceSlice);
+            dataSourceHolder.WriteHistoricalData(deviceSlice);
         }
 
         /// <summary>

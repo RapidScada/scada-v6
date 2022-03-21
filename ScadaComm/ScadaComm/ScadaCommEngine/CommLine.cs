@@ -581,14 +581,16 @@ namespace Scada.Comm.Engine
         private void TransferDeviceData(DeviceLogic deviceLogic, bool allData)
         {
             DeviceData deviceData = deviceLogic.DeviceData;
+            DeviceSlice currentSlice = allData 
+                ? deviceData.GetCurrentData() 
+                : deviceData.GetModifiedData();
 
-            coreLogic.EnqueueCurrentData(allData ? 
-                deviceData.GetCurrentData() : 
-                deviceData.GetModifiedData());
+            if (!currentSlice.IsEmpty)
+                coreLogic.EnqueueCurrentData(currentSlice);
 
-            while (deviceData.DequeueSlice(out DeviceSlice deviceSlice))
+            while (deviceData.DequeueSlice(out DeviceSlice historicalSlice))
             {
-                coreLogic.EnqueueHistoricalData(deviceSlice);
+                coreLogic.EnqueueHistoricalData(historicalSlice);
             }
 
             while (deviceData.DequeueEvent(out DeviceEvent deviceEvent))
