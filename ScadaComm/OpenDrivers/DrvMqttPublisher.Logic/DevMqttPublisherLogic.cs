@@ -167,6 +167,7 @@ namespace Scada.Comm.Drivers.DrvMqttPublisher.Logic
                 Retain = itemConfig.Retain
             };
 
+            // TODO: format channel data
             valStr = cnlData.Val.ToString();
             message.Payload = Encoding.UTF8.GetBytes(valStr);
             return message;
