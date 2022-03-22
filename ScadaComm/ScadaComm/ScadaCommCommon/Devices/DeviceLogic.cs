@@ -395,13 +395,23 @@ namespace Scada.Comm.Devices
         {
             DeviceData.Init(DeviceTags);
         }
-        
+
         /// <summary>
         /// Sets the current data to undefined.
         /// </summary>
         public virtual void InvalidateData()
         {
             DeviceData.Invalidate();
+        }
+
+        /// <summary>
+        /// Gets a slice of the current data to transfer.
+        /// </summary>
+        public virtual DeviceSlice GetCurrentData(bool allData)
+        {
+            return allData 
+                ? DeviceData.GetCurrentData() 
+                : DeviceData.GetModifiedData();
         }
 
         /// <summary>

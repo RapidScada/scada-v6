@@ -64,8 +64,6 @@ namespace Scada.Comm.Devices
             deviceTags = null;
             modifiedFlags = null;
             rawData = null;
-
-            DisableCurrentData = false;
         }
 
 
@@ -100,11 +98,6 @@ namespace Scada.Comm.Devices
                 SetCnlData(deviceTag.Index, 0, value);
             }
         }
-
-        /// <summary>
-        /// Gets or sets a value indicating whether the current data should not be transferred.
-        /// </summary>
-        public bool DisableCurrentData { get; set; }
 
 
         /// <summary>
@@ -723,7 +716,7 @@ namespace Scada.Comm.Devices
         /// </summary>
         public DeviceSlice GetCurrentData()
         {
-            if (deviceTags.Count == 0 || DisableCurrentData)
+            if (deviceTags.Count == 0)
                 return DeviceSlice.Empty;
 
             lock (curDataLock)
@@ -759,7 +752,7 @@ namespace Scada.Comm.Devices
         /// </summary>
         public DeviceSlice GetModifiedData()
         {
-            if (deviceTags.Count == 0 || DisableCurrentData)
+            if (deviceTags.Count == 0)
                 return DeviceSlice.Empty;
 
             lock (curDataLock)
