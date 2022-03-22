@@ -20,7 +20,7 @@
  * 
  * Author   : Mikhail Shiryaev
  * Created  : 2020
- * Modified : 2021
+ * Modified : 2022
  */
 
 using System.Collections;
@@ -45,21 +45,13 @@ namespace Scada.Comm.Devices
         {
             deviceTags = new List<DeviceTag>();
             tagByCode = new Dictionary<string, DeviceTag>();
+
             TagGroups = new List<TagGroup>();
             FlattenGroups = false;
+            UseStatusTag = true;
             StatusTag = null;
         }
 
-
-        /// <summary>
-        /// Gets the tag groups.
-        /// </summary>
-        public List<TagGroup> TagGroups { get; }
-
-        /// <summary>
-        /// Gets or sets a value indicating whether to flatten the tag groups for display.
-        /// </summary>
-        public bool FlattenGroups { get; set; }
 
         /// <summary>
         /// Gets the device tag at the specified index, or throws an exception if the specified index is out of range.
@@ -82,6 +74,21 @@ namespace Scada.Comm.Devices
                 return tagByCode[code];
             }
         }
+
+        /// <summary>
+        /// Gets the tag groups.
+        /// </summary>
+        public List<TagGroup> TagGroups { get; }
+
+        /// <summary>
+        /// Gets or sets a value indicating whether to flatten the tag groups for display.
+        /// </summary>
+        public bool FlattenGroups { get; set; }
+
+        /// <summary>
+        /// Gets or sets a value indicating whether a special status tag should be added automatically.
+        /// </summary>
+        public bool UseStatusTag { get; set; }
 
         /// <summary>
         /// Gets the tag corresponding to the device status.

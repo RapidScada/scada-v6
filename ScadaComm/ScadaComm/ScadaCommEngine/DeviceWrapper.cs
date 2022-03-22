@@ -20,7 +20,7 @@
  * 
  * Author   : Mikhail Shiryaev
  * Created  : 2020
- * Modified : 2020
+ * Modified : 2022
  */
 
 using Scada.Comm.Devices;
@@ -103,7 +103,9 @@ namespace Scada.Comm.Engine
             try
             {
                 DeviceLogic.InitDeviceTags();
-                DeviceLogic.DeviceTags.AddStatusTag();
+
+                if (DeviceLogic.DeviceTags.UseStatusTag)
+                    DeviceLogic.DeviceTags.AddStatusTag();
             }
             catch (Exception ex)
             {
