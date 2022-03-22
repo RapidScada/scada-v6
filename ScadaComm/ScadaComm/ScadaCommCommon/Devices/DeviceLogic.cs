@@ -20,7 +20,7 @@
  * 
  * Author   : Mikhail Shiryaev
  * Created  : 2006
- * Modified : 2021
+ * Modified : 2022
  */
 
 using Scada.Comm.Channels;
@@ -308,6 +308,15 @@ namespace Scada.Comm.Devices
             }
 
             DeviceData.SetStatusTag(DeviceStatus);
+        }
+
+        /// <summary>
+        /// Suspends for the delay specified in the polling options.
+        /// </summary>
+        protected void SleepPollingDelay()
+        {
+            if (PollingOptions.Delay > 0)
+                Thread.Sleep(PollingOptions.Delay);
         }
 
         /// <summary>

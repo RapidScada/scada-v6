@@ -739,7 +739,7 @@ namespace Scada.Comm.Drivers.DrvOpcUa.Logic
                 DeviceStatus = connected && CreateSubscriptions() ? DeviceStatus.Normal : DeviceStatus.Error;
             }
 
-            Thread.Sleep(PollingOptions.Delay);
+            SleepPollingDelay();
         }
 
         /// <summary>

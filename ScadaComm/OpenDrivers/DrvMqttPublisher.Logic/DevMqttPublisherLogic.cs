@@ -28,6 +28,7 @@ namespace Scada.Comm.Drivers.DrvMqttPublisher.Logic
         private readonly ScadaClient scadaClient;                // interacts with the Server service
         private readonly Dictionary<int, DeviceTag> tagByCnlNum; // the device tags accessed by channel number
 
+        private bool fatalError;                      // normal operation is impossible
         private IMqttClientChannel mqttClientChannel; // the communication channel reference
         private int[] publishCnlNums;                 // the numbers of the published channels
         private string[] publishTopics;               // the published topics according to the channels
@@ -47,6 +48,7 @@ namespace Scada.Comm.Drivers.DrvMqttPublisher.Logic
             scadaClient = new ScadaClient(commContext.AppConfig.ConnectionOptions);
             tagByCnlNum = new Dictionary<int, DeviceTag>();
 
+            fatalError = false;
             mqttClientChannel = null;
             publishCnlNums = null;
             publishTopics = null;
@@ -72,15 +74,6 @@ namespace Scada.Comm.Drivers.DrvMqttPublisher.Logic
 
             allItems = false;
             return config.DeviceOptions.PublishOnChange;
-        }
-
-        /// <summary>
-        /// Suspends for the delay specified in the polling options.
-        /// </summary>
-        private void SleepPollingDelay()
-        {
-            if (PollingOptions.Delay > 0)
-                Thread.Sleep(PollingOptions.Delay);
         }
 
         /// <summary>
@@ -231,7 +224,10 @@ namespace Scada.Comm.Drivers.DrvMqttPublisher.Logic
         public override void OnCommLineStart()
         {
             if (!config.Load(Storage, MqttPublisherDeviceConfig.GetFileName(DeviceNum), out string errMsg))
+            {
+                fatalError = true;
                 Log.WriteLine(CommPhrases.DeviceMessage, Title, errMsg);
+            }
 
             publishPeriod = TimeSpan.FromSeconds(config.DeviceOptions.PublishPeriod);
             usePublishPeriod = publishPeriod > TimeSpan.Zero;
@@ -242,6 +238,7 @@ namespace Scada.Comm.Drivers.DrvMqttPublisher.Logic
             }
             else
             {
+                fatalError = true;
                 Log.WriteLine(CommPhrases.DeviceMessage, Title, Locale.IsRussian ?
                     "Требуется канал связи MQTT-клиент" :
                     "MQTT client communication channel required");
@@ -318,6 +315,13 @@ namespace Scada.Comm.Drivers.DrvMqttPublisher.Logic
         /// </summary>
         public override void Session()
         {
+            if (fatalError)
+            {
+                SleepPollingDelay();
+                LastRequestOK = false;
+                return;
+            }
+            
             if (!RequestToServerNeeded(out bool allItems))
             {
                 SleepPollingDelay();

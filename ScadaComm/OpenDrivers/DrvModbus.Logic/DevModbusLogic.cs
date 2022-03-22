@@ -345,7 +345,7 @@ namespace Scada.Comm.Drivers.DrvModbus.Logic
                 Log.WriteLine(Locale.IsRussian ?
                     "Невозможно опросить устройство, потому что модель устройства не определена" :
                     "Unable to poll the device because device model is undefined");
-                Thread.Sleep(PollingOptions.Delay);
+                SleepPollingDelay();
                 LastRequestOK = false;
             }
             else if (deviceModel.ElemGroups.Count > 0)
@@ -395,7 +395,7 @@ namespace Scada.Comm.Drivers.DrvModbus.Logic
                 Log.WriteLine(Locale.IsRussian ?
                     "Отсутствуют элементы для запроса" :
                     "No elements to request");
-                Thread.Sleep(PollingOptions.Delay);
+                SleepPollingDelay();
             }
 
             FinishSession();

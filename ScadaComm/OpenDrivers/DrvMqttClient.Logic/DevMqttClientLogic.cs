@@ -350,8 +350,7 @@ namespace Scada.Comm.Drivers.DrvMqttClient.Logic
             if (mqttClientChannel == null || !mqttClientChannel.IsConnected)
                 DeviceStatus = DeviceStatus.Error;
 
-            if (PollingOptions.Delay > 0)
-                Thread.Sleep(PollingOptions.Delay);
+            SleepPollingDelay();
         }
 
         /// <summary>
