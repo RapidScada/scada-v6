@@ -336,6 +336,7 @@ namespace Scada.Comm.Drivers.DrvMqttClient.Logic
             }
 
             DeviceTags.AddGroup(tagGroup);
+            DeviceTags.FlattenGroups = true;
             updateTimestamps = new DateTime[tagGroup.DeviceTags.Count];
         }
 

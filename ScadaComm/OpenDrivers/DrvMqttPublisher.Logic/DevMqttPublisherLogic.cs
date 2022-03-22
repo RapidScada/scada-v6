@@ -31,7 +31,6 @@ namespace Scada.Comm.Drivers.DrvMqttPublisher.Logic
         private bool fatalError;                      // normal operation is impossible
         private IMqttClientChannel mqttClientChannel; // the communication channel reference
         private int[] publishCnlNums;                 // the numbers of the published channels
-        private string[] publishTopics;               // the published topics according to the channels
         private long cnlListID;                       // the cached channel list ID
         private DateTime curDataTimestamp;            // the timestamp of the last received current data
         private TimeSpan publishPeriod;               // the publishing period for all device items
@@ -51,7 +50,6 @@ namespace Scada.Comm.Drivers.DrvMqttPublisher.Logic
             fatalError = false;
             mqttClientChannel = null;
             publishCnlNums = null;
-            publishTopics = null;
             cnlListID = 0;
             curDataTimestamp = DateTime.MinValue;
             publishPeriod = TimeSpan.Zero;
@@ -243,6 +241,9 @@ namespace Scada.Comm.Drivers.DrvMqttPublisher.Logic
                     "Требуется канал связи MQTT-клиент" :
                     "MQTT client communication channel required");
             }
+
+            if (fatalError)
+                DeviceStatus = DeviceStatus.Error;
         }
 
         /// <summary>
@@ -289,8 +290,9 @@ namespace Scada.Comm.Drivers.DrvMqttPublisher.Logic
             }
 
             DeviceTags.AddGroup(tagGroup);
+            DeviceTags.FlattenGroups = true;
+            DeviceTags.UseStatusTag = false;
             publishCnlNums = cnlNumList.ToArray();
-            publishTopics = topicList.ToArray();
         }
 
         /// <summary>
@@ -302,12 +304,11 @@ namespace Scada.Comm.Drivers.DrvMqttPublisher.Logic
         }
 
         /// <summary>
-        /// Initializes the device data.
+        /// Gets a slice of the current data to transfer.
         /// </summary>
-        public override void InitDeviceData()
+        public override DeviceSlice GetCurrentData(bool allData)
         {
-            base.InitDeviceData();
-            DeviceData.DisableCurrentData = true;
+            return DeviceSlice.Empty;
         }
 
         /// <summary>
@@ -315,41 +316,23 @@ namespace Scada.Comm.Drivers.DrvMqttPublisher.Logic
         /// </summary>
         public override void Session()
         {
-            if (fatalError)
-            {
-                SleepPollingDelay();
-                LastRequestOK = false;
-                return;
-            }
-            
-            if (!RequestToServerNeeded(out bool allItems))
+            if (fatalError || !RequestToServerNeeded(out bool allItems) || publishCnlNums.Length == 0)
             {
                 SleepPollingDelay();
                 return;
             }
 
             base.Session();
-            LastRequestOK = false;
 
-            if (publishCnlNums == null || publishCnlNums.Length == 0)
+            try
             {
-                Log.WriteLine(Locale.IsRussian ?
-                    "{0}Отсутствуют публикуемые каналы" :
-                    "{0}Published channels missing", CommPhrases.ErrorPrefix);
+                RequestCurrentData();
+                LastRequestOK = PublishCurrentData(allItems);
             }
-            else
+            catch (Exception ex)
             {
-                try
-                {
-                    RequestCurrentData();
-
-                    if (PublishCurrentData(allItems))
-                        LastRequestOK = true;
-                }
-                catch (Exception ex)
-                {
-                    Log.WriteLine(CommPhrases.ErrorPrefix + ex.Message);
-                }
+                LastRequestOK = false;
+                Log.WriteLine(CommPhrases.ErrorPrefix + ex.Message);
             }
 
             SleepPollingDelay();
