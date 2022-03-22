@@ -391,7 +391,7 @@ namespace Scada.Comm.Drivers.DrvMqttClient.Logic
                         Log.WriteLine(CommPhrases.ErrorPrefix + result.ReasonCode);
                     }
                 }
-                catch (ScadaException ex)
+                catch (Exception ex)
                 {
                     Log.WriteLine(CommPhrases.ErrorPrefix + ex.Message);
                 }
