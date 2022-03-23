@@ -67,6 +67,7 @@ namespace Scada.Comm.Lang
 
         // Drivers
         public static string DriverMessage { get; private set; }
+        public static string SharedObject { get; private set; }
 
         // Scada.Comm.Devices
         public static string LoadDeviceConfigError { get; private set; }
@@ -110,6 +111,7 @@ namespace Scada.Comm.Lang
                 On = "Вкл";
 
                 DriverMessage = "Драйвер {0}: {1}";
+                SharedObject = "<Объект>";
             }
             else
             {
@@ -140,6 +142,7 @@ namespace Scada.Comm.Lang
                 On = "On";
 
                 DriverMessage = "Driver {0}: {1}";
+                SharedObject = "<Object>";
             }
 
 
