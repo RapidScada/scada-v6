@@ -20,6 +20,11 @@ namespace Scada.Comm.Drivers.DrvMqtt
         public string Payload { get; init; }
 
         /// <summary>
+        /// Gets the message payload.
+        /// </summary>
+        public byte[] PayloadData { get; init; }
+
+        /// <summary>
         /// Gets or sets the auxiliary data associated with the topic, originally provided by the subscriber.
         /// </summary>
         public object AuxData { get; set; }

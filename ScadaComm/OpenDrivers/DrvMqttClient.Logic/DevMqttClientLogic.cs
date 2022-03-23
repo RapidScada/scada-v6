@@ -101,9 +101,9 @@ namespace Scada.Comm.Drivers.DrvMqttClient.Logic
         }
 
         /// <summary>
-        /// Creates a subscription for the device tag.
+        /// Subscribes to the device tag.
         /// </summary>
-        private void CreateSubscription(SubscriptionConfig subscriptionConfig, DeviceTag deviceTag)
+        private void Subscribe(SubscriptionConfig subscriptionConfig, DeviceTag deviceTag)
         {
             mqttClientChannel.Subscribe(new SubscriptionRecord
             {
@@ -325,13 +325,13 @@ namespace Scada.Comm.Drivers.DrvMqttClient.Logic
                             subscriptionConfig.DisplayName + suffix);
 
                         if (i == 0)
-                            CreateSubscription(subscriptionConfig, deviceTag);
+                            Subscribe(subscriptionConfig, deviceTag);
                     }
                 }
                 else
                 {
                     DeviceTag deviceTag = tagGroup.AddTag(subscriptionConfig.TagCode, subscriptionConfig.DisplayName);
-                    CreateSubscription(subscriptionConfig, deviceTag);
+                    Subscribe(subscriptionConfig, deviceTag);
                 }
             }
 

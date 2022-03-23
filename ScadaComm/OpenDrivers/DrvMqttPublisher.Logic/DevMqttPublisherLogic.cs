@@ -14,6 +14,7 @@ using Scada.Data.Entities;
 using Scada.Data.Models;
 using Scada.Data.Tables;
 using Scada.Lang;
+using System.Globalization;
 using System.Text;
 
 namespace Scada.Comm.Drivers.DrvMqttPublisher.Logic
@@ -24,12 +25,31 @@ namespace Scada.Comm.Drivers.DrvMqttPublisher.Logic
     /// </summary>
     internal class DevMqttPublisherLogic : DeviceLogic, ISubscriber
     {
+        /// <summary>
+        /// Specifies the variables to use in messages.
+        /// </summary>
+        private static class MessageVar
+        {
+            public const string Value = "@val";
+            public const string Status = "@stat";
+        }
+
+        /// <summary>
+        /// Contains publisher data common to a communication line.
+        /// </summary>
+        private class MqttPublisherLineData
+        {
+            public ScadaClient ScadaClient { get; init; }
+            public Queue<TeleCommand> CommandQueue { get; init; }
+            public override string ToString() => CommPhrases.SharedObject;
+        }
+
         private readonly MqttPublisherDeviceConfig config;       // the device configuration
-        private readonly ScadaClient scadaClient;                // interacts with the Server service
         private readonly Dictionary<int, DeviceTag> tagByCnlNum; // the device tags accessed by channel number
 
         private bool fatalError;                      // normal operation is impossible
         private IMqttClientChannel mqttClientChannel; // the communication channel reference
+        private MqttPublisherLineData lineData;       // data common to the communication line
         private int[] publishCnlNums;                 // the numbers of the published channels
         private long cnlListID;                       // the cached channel list ID
         private DateTime curDataTimestamp;            // the timestamp of the last received current data
@@ -44,11 +64,11 @@ namespace Scada.Comm.Drivers.DrvMqttPublisher.Logic
             : base(commContext, lineContext, deviceConfig)
         {
             config = new MqttPublisherDeviceConfig();
-            scadaClient = new ScadaClient(commContext.AppConfig.ConnectionOptions);
             tagByCnlNum = new Dictionary<int, DeviceTag>();
 
             fatalError = false;
             mqttClientChannel = null;
+            lineData = null;
             publishCnlNums = null;
             cnlListID = 0;
             curDataTimestamp = DateTime.MinValue;
@@ -58,6 +78,28 @@ namespace Scada.Comm.Drivers.DrvMqttPublisher.Logic
             ConnectionRequired = false;
         }
 
+
+        /// <summary>
+        /// Initializes publisher data common to the communication line.
+        /// </summary>
+        private void InitLineData()
+        {
+            if (LineContext.SharedData.TryGetValue(nameof(MqttPublisherLineData), out object obj) &&
+                obj is MqttPublisherLineData data)
+            {
+                lineData = data;
+            }
+            else
+            {
+                lineData = new MqttPublisherLineData
+                {
+                    ScadaClient = new ScadaClient(CommContext.AppConfig.ConnectionOptions),
+                    CommandQueue = new Queue<TeleCommand>()
+                };
+
+                LineContext.SharedData[nameof(MqttPublisherLineData)] = lineData;
+            }
+        }
 
         /// <summary>
         /// Checks if is it time to make a request to Server.
@@ -85,8 +127,8 @@ namespace Scada.Comm.Drivers.DrvMqttPublisher.Logic
                 "Reques current data");
 
             CnlData[] cnlDataArr = cnlListID > 0
-                ? scadaClient.GetCurrentData(ref cnlListID)
-                : scadaClient.GetCurrentData(publishCnlNums, true, out cnlListID);
+                ? lineData.ScadaClient.GetCurrentData(ref cnlListID)
+                : lineData.ScadaClient.GetCurrentData(publishCnlNums, true, out cnlListID);
 
             Log.WriteLine(CommPhrases.ResponseOK);
             curDataTimestamp = LastSessionTime;
@@ -130,8 +172,8 @@ namespace Scada.Comm.Drivers.DrvMqttPublisher.Logic
                     if (deviceSlice.DeviceTags[i].Aux is ItemConfig itemConfig)
                     {
                         MqttApplicationMessage message = CreateMessage(itemConfig, deviceSlice.CnlData[i],
-                            out string valStr);
-                        Log.WriteLine("{0} {1} = {2}", CommPhrases.SendNotation, itemConfig.Topic, valStr);
+                            out string payloadStr);
+                        Log.WriteLine("{0} {1} = {2}", CommPhrases.SendNotation, itemConfig.Topic, payloadStr);
                         MqttClientPublishResult result = mqttClientChannel.Publish(message);
 
                         if (result.ReasonCode != MqttClientPublishReasonCode.Success)
@@ -156,9 +198,74 @@ namespace Scada.Comm.Drivers.DrvMqttPublisher.Logic
         }
 
         /// <summary>
-        /// 
+        /// Dequeues and sends commands to Server.
         /// </summary>
-        private MqttApplicationMessage CreateMessage(ItemConfig itemConfig, CnlData cnlData, out string valStr)
+        private bool SendCommands()
+        {
+            // define user ID
+            if (lineData.ScadaClient.UserID == 0)
+            {
+                lineData.ScadaClient.GetStatus(out _, out bool userIsLoggedIn);
+
+                if (!userIsLoggedIn)
+                {
+                    Log.WriteLine(Locale.IsRussian ?
+                        "Отправка команд невозможна, потому что пользователь не вошел в систему" :
+                        "Unable to send commands because user is not logged in");
+                    return false;
+                }
+            }
+
+            // send commands
+            bool sendOK = true;
+
+            lock (lineData.CommandQueue)
+            {
+                while (lineData.CommandQueue.TryDequeue(out TeleCommand cmd))
+                {
+                    Log.WriteAction(Locale.IsRussian ?
+                        "Отправка команды на канал {0}" :
+                        "Send command to channel {0}", cmd.CnlNum);
+
+                    cmd.UserID = lineData.ScadaClient.UserID;
+                    lineData.ScadaClient.SendCommand(cmd, out CommandResult result);
+
+                    if (result.IsSuccessful)
+                    {
+                        Log.WriteLine(CommPhrases.ResponseOK);
+                    }
+                    else
+                    {
+                        Log.WriteLine(result.ErrorMessage);
+                        sendOK = false;
+                    }
+                }
+            }
+
+            return sendOK;
+        }
+        
+        /// <summary>
+        /// Subscribes to the device tag.
+        /// </summary>
+        private void Subscribe(ItemConfig itemConfig, DeviceTag deviceTag)
+        {
+            mqttClientChannel.Subscribe(new SubscriptionRecord
+            {
+                Subscriber = this,
+                TopicFilter = new MqttTopicFilter
+                {
+                    Topic = config.DeviceOptions.RootTopic + itemConfig.Topic,
+                    QualityOfServiceLevel = (MqttQualityOfServiceLevel)itemConfig.QosLevel
+                },
+                AuxData = deviceTag
+            });
+        }
+
+        /// <summary>
+        /// Creates a message to publish channel data.
+        /// </summary>
+        private MqttApplicationMessage CreateMessage(ItemConfig itemConfig, CnlData cnlData, out string payloadStr)
         {
             MqttApplicationMessage message = new()
             {
@@ -167,9 +274,21 @@ namespace Scada.Comm.Drivers.DrvMqttPublisher.Logic
                 Retain = itemConfig.Retain
             };
 
-            // TODO: format channel data
-            valStr = cnlData.Val.ToString();
-            message.Payload = Encoding.UTF8.GetBytes(valStr);
+            if (string.IsNullOrEmpty(config.DeviceOptions.PublishFormat))
+            {
+                payloadStr = cnlData.IsUndefined
+                    ? config.DeviceOptions.UndefinedValue
+                    : cnlData.Val.ToString(NumberFormatInfo.InvariantInfo);
+            }
+            else
+            {
+                string valStr = cnlData.Val.ToString(NumberFormatInfo.InvariantInfo);
+                payloadStr = config.DeviceOptions.PublishFormat
+                    .Replace(MessageVar.Value, valStr, StringComparison.Ordinal)
+                    .Replace(MessageVar.Status, cnlData.Stat.ToString(), StringComparison.Ordinal);
+            }
+
+            message.Payload = Encoding.UTF8.GetBytes(payloadStr);
             return message;
         }
 
@@ -178,42 +297,27 @@ namespace Scada.Comm.Drivers.DrvMqttPublisher.Logic
         /// </summary>
         void ISubscriber.HandleReceivedMessage(ReceivedMessage message)
         {
-            /*try
+            if (!fatalError &&
+                message.AuxData is DeviceTag deviceTag &&
+                deviceTag.Aux is ItemConfig itemConfig)
             {
-                LastSessionTime = DateTime.UtcNow;
-
-                if (message.AuxData is SubscriptionTag subscriptionTag)
+                // create command
+                TeleCommand cmd = new()
                 {
-                    if (subscriptionTag.SubscriptionConfig.JsEnabled)
-                    {
-                        ExecuteJavaScript(message, subscriptionTag);
-                    }
-                    else
-                    {
-                        if (ScadaUtils.TryParseDouble(message.Payload, out double val))
-                            DeviceData.Set(subscriptionTag.TagIndex, val);
-                        else
-                            DeviceData.Invalidate(subscriptionTag.TagIndex);
+                    CnlNum = itemConfig.CnlNum
+                };
 
-                        updateTimestamps[subscriptionTag.TagIndex] = LastSessionTime;
-                    }
-
-                    LastRequestOK = true;
-                }
+                if (ScadaUtils.TryParseDouble(message.Payload, out double cmdVal))
+                    cmd.CmdVal = cmdVal;
                 else
+                    cmd.CmdData = message.PayloadData;
+
+                // enqueue command
+                lock (lineData.CommandQueue)
                 {
-                    LastRequestOK = false;
+                    lineData.CommandQueue.Enqueue(cmd);
                 }
             }
-            catch (Exception ex)
-            {
-                Log.WriteLine(CommPhrases.ErrorPrefix + ex.Message);
-                LastRequestOK = false;
-            }
-            finally
-            {
-                FinishSession();
-            }*/
         }
 
 
@@ -243,6 +347,8 @@ namespace Scada.Comm.Drivers.DrvMqttPublisher.Logic
                     "MQTT client communication channel required");
             }
 
+            InitLineData();
+
             if (fatalError)
                 DeviceStatus = DeviceStatus.Error;
         }
@@ -258,7 +364,6 @@ namespace Scada.Comm.Drivers.DrvMqttPublisher.Logic
             int itemCnt = config.Items.Count;
             List<int> cnlNumList = new(itemCnt);
             HashSet<int> cnlNumSet = new(itemCnt);
-            List<string> topicList = new(itemCnt);
 
             foreach (ItemConfig itemConfig in config.Items)
             {
@@ -267,12 +372,6 @@ namespace Scada.Comm.Drivers.DrvMqttPublisher.Logic
 
                 if (cnlNum > 0 && cnlNumSet.Add(cnlNum))
                 {
-                    if (itemConfig.Publish)
-                    {
-                        cnlNumList.Add(cnlNum);
-                        topicList.Add(itemConfig.Topic);
-                    }
-
                     if (cnlTable?.GetItem(cnlNum) is Cnl cnl)
                     {
                         deviceTag = tagGroup.AddTag("", cnl.Name);
@@ -287,6 +386,12 @@ namespace Scada.Comm.Drivers.DrvMqttPublisher.Logic
 
                     deviceTag.Aux = itemConfig;
                     tagByCnlNum.Add(cnlNum, deviceTag);
+
+                    if (itemConfig.Publish)
+                        cnlNumList.Add(cnlNum);
+
+                    if (itemConfig.Subscribe)
+                        Subscribe(itemConfig, deviceTag);
                 }
             }
 
@@ -317,23 +422,43 @@ namespace Scada.Comm.Drivers.DrvMqttPublisher.Logic
         /// </summary>
         public override void Session()
         {
-            if (fatalError || !RequestToServerNeeded(out bool allItems) || publishCnlNums.Length == 0)
+            // check fatal error
+            if (fatalError)
             {
                 SleepPollingDelay();
                 return;
             }
 
+            // check if data should be sent or received
+            bool publishNeeded = RequestToServerNeeded(out bool allItems) && publishCnlNums.Length > 0;
+            bool commandsExist = lineData.CommandQueue.Count > 0;
+
+            if (!publishNeeded && !commandsExist)
+            {
+                SleepPollingDelay();
+                return;
+            }
+
+            // publish data and send commands
             base.Session();
 
             try
             {
-                RequestCurrentData();
-                LastRequestOK = PublishCurrentData(allItems);
+                if (publishNeeded)
+                {
+                    RequestCurrentData();
+
+                    if (!PublishCurrentData(allItems))
+                        LastRequestOK = false;
+                }
+
+                if (commandsExist && !SendCommands())
+                    LastRequestOK = false;
             }
             catch (Exception ex)
             {
-                LastRequestOK = false;
                 Log.WriteLine(CommPhrases.ErrorPrefix + ex.Message);
+                LastRequestOK = false;
             }
 
             SleepPollingDelay();
