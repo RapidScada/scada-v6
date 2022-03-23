@@ -13,6 +13,11 @@ namespace Scada.Comm.Drivers.DrvDsMqtt.Logic
     public class DrvDsMqttLogic : DriverLogic
     {
         /// <summary>
+        /// The driver code.
+        /// </summary>
+        public const string DriverCode = "DrvDsMqttLogic";
+
+        /// <summary>
         /// Initializes a new instance of the class.
         /// </summary>
         public DrvDsMqttLogic(ICommContext commContext)
@@ -27,7 +32,7 @@ namespace Scada.Comm.Drivers.DrvDsMqtt.Logic
         {
             get
             {
-                return "DrvDsMqttLogic";
+                return DriverCode;
             }
         }
 
