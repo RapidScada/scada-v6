@@ -20,7 +20,7 @@ namespace Scada.Comm.Drivers.DrvMqtt
         public string Payload { get; init; }
 
         /// <summary>
-        /// Gets the message payload.
+        /// Gets the message payload as an array of bytes.
         /// </summary>
         public byte[] PayloadData { get; init; }
 

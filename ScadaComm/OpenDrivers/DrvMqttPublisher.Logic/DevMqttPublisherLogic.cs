@@ -223,7 +223,7 @@ namespace Scada.Comm.Drivers.DrvMqttPublisher.Logic
             {
                 while (lineData.CommandQueue.TryDequeue(out TeleCommand cmd))
                 {
-                    Log.WriteAction(Locale.IsRussian ?
+                    Log.WriteLine(Locale.IsRussian ?
                         "Отправка команды на канал {0}" :
                         "Send command to channel {0}", cmd.CnlNum);
 

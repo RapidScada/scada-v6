@@ -62,6 +62,7 @@ namespace Scada.Comm.Drivers.DrvCnlMqtt.Logic
         private readonly MqttClientChannelOptions options;       // the channel options
         private readonly MqttFactory mqttFactory;                // creates MQTT objects
         private readonly Dictionary<string, TopicTag> topicTags; // the topic metdata accessed by topic name
+        private readonly object sessionLock;                     // synchronizes sessions and incoming messages
 
         private IMqttClient mqttClient;                    // interacts with an MQTT broker
         private IMqttClientOptions mqttClientOptions;      // the connection options
@@ -77,6 +78,7 @@ namespace Scada.Comm.Drivers.DrvCnlMqtt.Logic
             options = new MqttClientChannelOptions(channelConfig.CustomOptions);
             mqttFactory = new MqttFactory();
             topicTags = new Dictionary<string, TopicTag>();
+            sessionLock = new object();
 
             mqttClient = null;
             mqttClientOptions = null;
@@ -107,6 +109,8 @@ namespace Scada.Comm.Drivers.DrvCnlMqtt.Logic
         {
             try
             {
+                Monitor.Enter(sessionLock);
+
                 ReceivedMessage message = new()
                 {
                     Topic = e.ApplicationMessage.Topic,
@@ -140,6 +144,10 @@ namespace Scada.Comm.Drivers.DrvCnlMqtt.Logic
                 Log.WriteError(ex, Locale.IsRussian ?
                     "Ошибка при обработке полученного сообщения. Топик: {0}" :
                     "Error handling the received message. Topic: {0}", e?.ApplicationMessage?.Topic);
+            }
+            finally
+            {
+                Monitor.Exit(sessionLock);
             }
         }
 
@@ -372,6 +380,15 @@ namespace Scada.Comm.Drivers.DrvCnlMqtt.Logic
         public override void BeforeSession(DeviceLogic deviceLogic)
         {
             ReconnectIfRequired();
+            Monitor.Enter(sessionLock);
+        }
+
+        /// <summary>
+        /// Performs actions after polling the specified device.
+        /// </summary>
+        public override void AfterSession(DeviceLogic deviceLogic)
+        {
+            Monitor.Exit(sessionLock);
         }
     }
 }
