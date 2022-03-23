@@ -55,7 +55,7 @@ namespace Scada.Comm.Drivers.DrvCnlMqtt.View
         {
             get
             {
-                return new ChannelTypeName[] { new ChannelTypeName(DriverUtils.ChannelTypeCode, Locale.IsRussian ?
+                return new ChannelTypeName[] { new ChannelTypeName("MqttClient", Locale.IsRussian ?
                     "MQTT-клиент" : 
                     "MQTT client") };
             }
@@ -67,7 +67,7 @@ namespace Scada.Comm.Drivers.DrvCnlMqtt.View
         /// </summary>
         public override void LoadDictionaries()
         {
-            if (!Locale.LoadDictionaries(AppDirs.LangDir, DriverUtils.DriverCode, out string errMsg))
+            if (!Locale.LoadDictionaries(AppDirs.LangDir, "DrvCnlMqtt", out string errMsg))
                 ScadaUiUtils.ShowError(errMsg);
         }
 

@@ -1,15 +1,16 @@
 ﻿// Copyright (c) Rapid Software LLC. All rights reserved.
 // Licensed under the Apache License, Version 2.0. See License.txt in the project root for license information.
 
+using MQTTnet.Formatter;
 using Scada.Config;
 
-namespace Scada.Comm.Drivers.DrvCnlMqtt
+namespace Scada.Comm.Drivers.DrvMqtt
 {
     /// <summary>
     /// Represents options for connecting to an MQTT broker.
     /// <para>Представляет параметры подключения к MQTT-брокеру.</para>
     /// </summary>
-    internal class MqttClientChannelOptions
+    public class MqttClientChannelOptions
     {
         /// <summary>
         /// Initializes a new instance of the class.
@@ -22,7 +23,7 @@ namespace Scada.Comm.Drivers.DrvCnlMqtt
             Username = options.GetValueAsString("Username");
             Password = ScadaUtils.Decrypt(options.GetValueAsString("Password"));
             Timeout = options.GetValueAsInt("Timeout", 10000);
-            ProtocolVersion = options.GetValueAsEnum("ProtocolVersion", ProtocolVersion.Unknown);
+            ProtocolVersion = options.GetValueAsEnum("ProtocolVersion", MqttProtocolVersion.Unknown);
         }
 
 
@@ -59,7 +60,7 @@ namespace Scada.Comm.Drivers.DrvCnlMqtt
         /// <summary>
         /// Gets or sets the protocol version.
         /// </summary>
-        public ProtocolVersion ProtocolVersion { get; set; }
+        public MqttProtocolVersion ProtocolVersion { get; set; }
 
 
         /// <summary>

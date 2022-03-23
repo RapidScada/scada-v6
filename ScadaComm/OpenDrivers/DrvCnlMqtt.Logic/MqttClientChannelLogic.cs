@@ -168,8 +168,8 @@ namespace Scada.Comm.Drivers.DrvCnlMqtt.Logic
             if (options.Timeout > 0)
                 builder.WithCommunicationTimeout(TimeSpan.FromMilliseconds(options.Timeout));
 
-            if (options.ProtocolVersion > ProtocolVersion.Unknown)
-                builder.WithProtocolVersion((MqttProtocolVersion)options.ProtocolVersion);
+            if (options.ProtocolVersion > MqttProtocolVersion.Unknown)
+                builder.WithProtocolVersion(options.ProtocolVersion);
 
             mqttClientOptions = builder.Build();
         }

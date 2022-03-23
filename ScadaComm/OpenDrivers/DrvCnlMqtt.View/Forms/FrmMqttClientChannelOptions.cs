@@ -1,7 +1,9 @@
 ﻿// Copyright (c) Rapid Software LLC. All rights reserved.
 // Licensed under the Apache License, Version 2.0. See License.txt in the project root for license information.
 
+using MQTTnet.Formatter;
 using Scada.Comm.Config;
+using Scada.Comm.Drivers.DrvMqtt;
 using Scada.Forms;
 using Scada.Lang;
 using System.Text;
@@ -61,7 +63,7 @@ namespace Scada.Comm.Drivers.DrvCnlMqtt.View.Forms
             options.Username = txtUsername.Text;
             options.Password = txtPassword.Text;
             options.Timeout = Convert.ToInt32(numTimeout.Value);
-            options.ProtocolVersion = (ProtocolVersion)cbProtocolVersion.SelectedIndex;
+            options.ProtocolVersion = (MqttProtocolVersion)cbProtocolVersion.SelectedIndex;
 
             options.AddToOptionList(channelConfig.CustomOptions);
         }

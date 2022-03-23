@@ -27,7 +27,7 @@ namespace Scada.Comm.Drivers.DrvCnlMqtt.Logic
         {
             get
             {
-                return DriverUtils.DriverCode;
+                return "DrvCnlMqtt";
             }
         }
 
@@ -36,7 +36,7 @@ namespace Scada.Comm.Drivers.DrvCnlMqtt.Logic
         /// </summary>
         public override ChannelLogic CreateChannel(ILineContext lineContext, ChannelConfig channelConfig)
         {
-            return channelConfig.TypeCode == DriverUtils.ChannelTypeCode
+            return channelConfig.TypeCode == "MqttClient"
                 ? new MqttClientChannelLogic(lineContext, channelConfig)
                 : null;
         }
