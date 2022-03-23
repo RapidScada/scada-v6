@@ -183,11 +183,20 @@ namespace Scada.Admin.App.Forms.Tools
         /// </summary>
         private void ControlsToConfig()
         {
+            // get extensions
             config.ExtensionCodes.Clear();
 
             foreach (ExtentionItem item in lbActiveExt.Items)
             {
                 config.ExtensionCodes.Add(item.ExtentionCode);
+            }
+
+            // get file associations
+            config.FileAssociations.Clear();
+
+            foreach (ListViewItem item in lvAssoc.Items)
+            {
+                config.FileAssociations[item.SubItems[0].Text] = item.SubItems[1].Text;
             }
         }
 
