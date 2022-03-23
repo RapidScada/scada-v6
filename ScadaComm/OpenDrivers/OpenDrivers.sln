@@ -78,9 +78,11 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DrvMqttClient.Logic", "DrvM
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DrvCnlMqtt.View", "DrvCnlMqtt.View\DrvCnlMqtt.View.csproj", "{EEBB70D1-CC83-4698-B905-3249F7ECB2FE}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DrvMqttPublisher.Logic", "DrvMqttPublisher.Logic\DrvMqttPublisher.Logic.csproj", "{0D66317C-3CBF-4788-AC99-282423215DEA}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DrvMqttPublisher.Logic", "DrvMqttPublisher.Logic\DrvMqttPublisher.Logic.csproj", "{0D66317C-3CBF-4788-AC99-282423215DEA}"
 EndProject
 Project("{D954291E-2A0B-460D-934E-DC6B0785DB48}") = "DrvMqttPublisher.Shared", "DrvMqttPublisher.Shared\DrvMqttPublisher.Shared.shproj", "{B4923372-4BAA-4B51-995E-01AE7ADBCBD7}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DrvDsMqtt.Logic", "DrvDsMqtt.Logic\DrvDsMqtt.Logic.csproj", "{3F133C20-7E0E-4B31-8438-CAC9DBC27E2F}"
 EndProject
 Global
 	GlobalSection(SharedMSBuildProjectFiles) = preSolution
@@ -199,6 +201,10 @@ Global
 		{0D66317C-3CBF-4788-AC99-282423215DEA}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{0D66317C-3CBF-4788-AC99-282423215DEA}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{0D66317C-3CBF-4788-AC99-282423215DEA}.Release|Any CPU.Build.0 = Release|Any CPU
+		{3F133C20-7E0E-4B31-8438-CAC9DBC27E2F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{3F133C20-7E0E-4B31-8438-CAC9DBC27E2F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{3F133C20-7E0E-4B31-8438-CAC9DBC27E2F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{3F133C20-7E0E-4B31-8438-CAC9DBC27E2F}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -233,6 +239,7 @@ Global
 		{EEBB70D1-CC83-4698-B905-3249F7ECB2FE} = {B9143ECA-C319-4A0C-855A-384C34B0DB74}
 		{0D66317C-3CBF-4788-AC99-282423215DEA} = {B9143ECA-C319-4A0C-855A-384C34B0DB74}
 		{B4923372-4BAA-4B51-995E-01AE7ADBCBD7} = {B9143ECA-C319-4A0C-855A-384C34B0DB74}
+		{3F133C20-7E0E-4B31-8438-CAC9DBC27E2F} = {B9143ECA-C319-4A0C-855A-384C34B0DB74}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {961AA4C1-5D08-4B24-AE6B-99F3AB1A7AEF}
