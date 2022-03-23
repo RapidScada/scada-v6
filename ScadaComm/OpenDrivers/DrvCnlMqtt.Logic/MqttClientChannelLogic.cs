@@ -59,14 +59,14 @@ namespace Scada.Comm.Drivers.DrvCnlMqtt.Logic
         /// </summary>
         private static readonly TimeSpan ReconnectDelay = TimeSpan.FromSeconds(5);
 
-        private readonly MqttClientChannelOptions options;       // the channel options
-        private readonly MqttFactory mqttFactory;                // creates MQTT objects
-        private readonly Dictionary<string, TopicTag> topicTags; // the topic metdata accessed by topic name
-        private readonly object sessionLock;                     // synchronizes sessions and incoming messages
+        private readonly MqttFactory mqttFactory;                 // creates MQTT objects
+        private readonly MqttConnectionOptions connectionOptions; // the connection options
+        private readonly IMqttClientOptions clientOptions;        // the client options
+        private readonly Dictionary<string, TopicTag> topicTags;  // the topic metadata accessed by topic name
+        private readonly object sessionLock;                      // synchronizes sessions and incoming messages
 
-        private IMqttClient mqttClient;                    // interacts with an MQTT broker
-        private IMqttClientOptions mqttClientOptions;      // the connection options
-        private DateTime connAttemptDT;                    // the timestamp of a connection attempt
+        private IMqttClient mqttClient; // interacts with an MQTT broker
+        private DateTime connAttemptDT; // the timestamp of a connection attempt
 
 
         /// <summary>
@@ -75,13 +75,13 @@ namespace Scada.Comm.Drivers.DrvCnlMqtt.Logic
         public MqttClientChannelLogic(ILineContext lineContext, ChannelConfig channelConfig)
             : base(lineContext, channelConfig)
         {
-            options = new MqttClientChannelOptions(channelConfig.CustomOptions);
             mqttFactory = new MqttFactory();
+            connectionOptions = new MqttConnectionOptions(channelConfig.CustomOptions);
+            clientOptions = connectionOptions.ToMqttClientOptions();
             topicTags = new Dictionary<string, TopicTag>();
             sessionLock = new object();
 
             mqttClient = null;
-            mqttClientOptions = null;
             connAttemptDT = DateTime.MinValue;
         }
 
@@ -152,29 +152,6 @@ namespace Scada.Comm.Drivers.DrvCnlMqtt.Logic
         }
 
         /// <summary>
-        /// Initializes the MQTT client options.
-        /// </summary>
-        private void InitClientOptions()
-        {
-            MqttClientOptionsBuilder builder = new MqttClientOptionsBuilder()
-                .WithTcpServer(options.Server, options.Port > 0 ? options.Port : null);
-
-            if (!string.IsNullOrEmpty(options.ClientID))
-                builder.WithClientId(options.ClientID);
-
-            if (!string.IsNullOrEmpty(options.Username))
-                builder.WithCredentials(options.Username, options.Password);
-
-            if (options.Timeout > 0)
-                builder.WithCommunicationTimeout(TimeSpan.FromMilliseconds(options.Timeout));
-
-            if (options.ProtocolVersion > MqttProtocolVersion.Unknown)
-                builder.WithProtocolVersion(options.ProtocolVersion);
-
-            mqttClientOptions = builder.Build();
-        }
-
-        /// <summary>
         /// Reconnects the MQTT client to the MQTT broker if it is disconnected.
         /// </summary>
         private void ReconnectIfRequired()
@@ -209,11 +186,11 @@ namespace Scada.Comm.Drivers.DrvCnlMqtt.Logic
                 Log.WriteAction(Locale.IsRussian ?
                     "Соединение с {0}:{1}" :
                     "Connect to {0}:{1}",
-                    options.Server, options.Port);
+                    connectionOptions.Server, connectionOptions.Port);
 
                 connAttemptDT = DateTime.UtcNow;
                 MqttClientConnectResultCode resultCode = 
-                    mqttClient.ConnectAsync(mqttClientOptions, CancellationToken.None).Result.ResultCode;
+                    mqttClient.ConnectAsync(clientOptions, CancellationToken.None).Result.ResultCode;
 
                 if (resultCode == MqttClientConnectResultCode.Success)
                 {
@@ -250,7 +227,7 @@ namespace Scada.Comm.Drivers.DrvCnlMqtt.Logic
                 Log.WriteAction(Locale.IsRussian ?
                     "Отключение от {0}:{1}" :
                     "Disconnect from {0}:{1}",
-                    options.Server, options.Port);
+                    connectionOptions.Server, connectionOptions.Port);
                 mqttClient.DisconnectAsync().Wait();
             }
             catch (Exception ex)
@@ -349,7 +326,6 @@ namespace Scada.Comm.Drivers.DrvCnlMqtt.Logic
             mqttClient.UseConnectedHandler(MqttClient_Connected);
             mqttClient.UseDisconnectedHandler(MqttClient_Disconnected);
             mqttClient.UseApplicationMessageReceivedHandler(MqttClient_ApplicationMessageReceived);
-            InitClientOptions();
         }
 
         /// <summary>

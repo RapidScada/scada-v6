@@ -16,8 +16,8 @@ namespace Scada.Comm.Drivers.DrvCnlMqtt.View.Forms
     /// </summary>
     public partial class FrmMqttClientChannelOptions : Form
     {
-        private readonly ChannelConfig channelConfig;      // the communication channel configuration
-        private readonly MqttClientChannelOptions options; // the communication channel options
+        private readonly ChannelConfig channelConfig;   // the communication channel configuration
+        private readonly MqttConnectionOptions options; // the connection options
 
         /// <summary>
         /// Initializes a new instance of the class.
@@ -34,7 +34,7 @@ namespace Scada.Comm.Drivers.DrvCnlMqtt.View.Forms
             : this()
         {
             this.channelConfig = channelConfig ?? throw new ArgumentNullException(nameof(channelConfig));
-            options = new MqttClientChannelOptions(channelConfig.CustomOptions);
+            options = new MqttConnectionOptions(channelConfig.CustomOptions);
         }
 
 

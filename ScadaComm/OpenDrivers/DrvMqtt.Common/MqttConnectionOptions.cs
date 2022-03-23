@@ -1,6 +1,7 @@
 ﻿// Copyright (c) Rapid Software LLC. All rights reserved.
 // Licensed under the Apache License, Version 2.0. See License.txt in the project root for license information.
 
+using MQTTnet.Client.Options;
 using MQTTnet.Formatter;
 using Scada.Config;
 
@@ -10,12 +11,12 @@ namespace Scada.Comm.Drivers.DrvMqtt
     /// Represents options for connecting to an MQTT broker.
     /// <para>Представляет параметры подключения к MQTT-брокеру.</para>
     /// </summary>
-    public class MqttClientChannelOptions
+    public class MqttConnectionOptions
     {
         /// <summary>
         /// Initializes a new instance of the class.
         /// </summary>
-        public MqttClientChannelOptions(OptionList options)
+        public MqttConnectionOptions(OptionList options)
         {
             Server = options.GetValueAsString("Server");
             Port = options.GetValueAsInt("Port", 1883);
@@ -76,6 +77,29 @@ namespace Scada.Comm.Drivers.DrvMqtt
             options["Password"] = ScadaUtils.Encrypt(Password);
             options["Timeout"] = Timeout.ToString();
             options["ProtocolVersion"] = ProtocolVersion.ToString();
+        }
+
+        /// <summary>
+        /// Converts the connection options to client options.
+        /// </summary>
+        public IMqttClientOptions ToMqttClientOptions()
+        {
+            MqttClientOptionsBuilder builder = new MqttClientOptionsBuilder()
+                .WithTcpServer(Server, Port > 0 ? Port : null);
+
+            if (!string.IsNullOrEmpty(ClientID))
+                builder.WithClientId(ClientID);
+
+            if (!string.IsNullOrEmpty(Username))
+                builder.WithCredentials(Username, Password);
+
+            if (Timeout > 0)
+                builder.WithCommunicationTimeout(TimeSpan.FromMilliseconds(Timeout));
+
+            if (ProtocolVersion > MqttProtocolVersion.Unknown)
+                builder.WithProtocolVersion(ProtocolVersion);
+
+            return builder.Build();
         }
     }
 }
