@@ -17,10 +17,10 @@ namespace Scada.Comm.Drivers.DrvDsMqtt.Logic
     /// </summary>
     internal class MqttDSL : DataSourceLogic
     {
-        private readonly MqttFactory mqttFactory;                 // creates MQTT objects
-        private readonly MqttConnectionOptions connectionOptions; // the connection options
-        private readonly IMqttClientOptions clientOptions;        // the client options
+        private readonly MqttDSO dsOptions;                       // the data source options
         private readonly ILog dsLog;                              // the data source log
+        private readonly MqttFactory mqttFactory;                 // creates MQTT objects
+        private readonly IMqttClientOptions clientOptions;        // the client options
 
         /// <summary>
         /// Initializes a new instance of the class.
@@ -28,10 +28,10 @@ namespace Scada.Comm.Drivers.DrvDsMqtt.Logic
         public MqttDSL(ICommContext commContext, DataSourceConfig dataSourceConfig)
             : base(commContext, dataSourceConfig)
         {
+            dsOptions = new MqttDSO(dataSourceConfig.CustomOptions);
+            dsLog = CreateLog(DriverUtils.DriverCode);
             mqttFactory = new MqttFactory();
-            connectionOptions = new MqttConnectionOptions(dataSourceConfig.CustomOptions);
-            clientOptions = connectionOptions.ToMqttClientOptions();
-            dsLog = CreateLog(DrvDsMqttLogic.DriverCode);
+            clientOptions = dsOptions.ConnectionOptions.ToMqttClientOptions();
         }
 
 

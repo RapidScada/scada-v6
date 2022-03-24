@@ -67,9 +67,11 @@ namespace Scada.Comm.Drivers.DrvMqtt
         /// <summary>
         /// Adds the options to the list.
         /// </summary>
-        public void AddToOptionList(OptionList options)
+        public void AddToOptionList(OptionList options, bool clearList = true)
         {
-            options.Clear();
+            if (clearList)
+                options.Clear();
+
             options["Server"] = Server;
             options["Port"] = Port.ToString();
             options["ClientID"] = ClientID;

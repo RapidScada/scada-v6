@@ -30,7 +30,7 @@ namespace Scada.Comm.Drivers.DrvDsMqtt.View
         {
             get
             {
-                return Locale.IsRussian ? "Сервер OPC UA" : "OPC UA Server";
+                return Locale.IsRussian ? "Источник данных MQTT" : "MQTT Data Source";
             }
         }
 

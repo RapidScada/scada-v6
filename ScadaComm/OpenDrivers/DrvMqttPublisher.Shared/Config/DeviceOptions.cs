@@ -1,6 +1,7 @@
 ﻿// Copyright (c) Rapid Software LLC. All rights reserved.
 // Licensed under the Apache License, Version 2.0. See License.txt in the project root for license information.
 
+using Scada.Comm.Drivers.DrvMqtt;
 using System.Xml;
 
 namespace Scada.Comm.Drivers.DrvMqttPublisher.Config
@@ -9,7 +10,7 @@ namespace Scada.Comm.Drivers.DrvMqttPublisher.Config
     /// Represents device options.
     /// <para>Представляет параметры устройства.</para>
     /// </summary>
-    internal class DeviceOptions
+    internal class DeviceOptions : IPublishOptions
     {
         /// <summary>
         /// Gets or sets the root topic used as a prefix for all device topics.

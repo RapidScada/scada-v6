@@ -80,16 +80,21 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DrvMqttPublisher.Logic", "D
 EndProject
 Project("{D954291E-2A0B-460D-934E-DC6B0785DB48}") = "DrvMqttPublisher.Shared", "DrvMqttPublisher.Shared\DrvMqttPublisher.Shared.shproj", "{B4923372-4BAA-4B51-995E-01AE7ADBCBD7}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DrvDsMqtt.Logic", "DrvDsMqtt.Logic\DrvDsMqtt.Logic.csproj", "{3F133C20-7E0E-4B31-8438-CAC9DBC27E2F}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DrvDsMqtt.Logic", "DrvDsMqtt.Logic\DrvDsMqtt.Logic.csproj", "{3F133C20-7E0E-4B31-8438-CAC9DBC27E2F}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DrvDsMqtt.View", "DrvDsMqtt.View\DrvDsMqtt.View.csproj", "{2DEA42B9-127E-41FB-921B-356C4E290A8C}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DrvDsMqtt.View", "DrvDsMqtt.View\DrvDsMqtt.View.csproj", "{2DEA42B9-127E-41FB-921B-356C4E290A8C}"
+EndProject
+Project("{D954291E-2A0B-460D-934E-DC6B0785DB48}") = "DrvDsMqtt.Shared", "DrvDsMqtt.Shared\DrvDsMqtt.Shared.shproj", "{709169F9-0F33-4E14-9FD1-AA9C3D5ED4AA}"
 EndProject
 Global
 	GlobalSection(SharedMSBuildProjectFiles) = preSolution
 		DrvMqttPublisher.Shared\DrvMqttPublisher.Shared.projitems*{0d66317c-3cbf-4788-ac99-282423215dea}*SharedItemsImports = 5
 		DrvTester.Shared\DrvTester.Shared.projitems*{1a325222-6683-4d81-8293-ac5bd4c8d3ba}*SharedItemsImports = 13
+		DrvDsMqtt.Shared\DrvDsMqtt.Shared.projitems*{2dea42b9-127e-41fb-921b-356c4e290a8c}*SharedItemsImports = 5
+		DrvDsMqtt.Shared\DrvDsMqtt.Shared.projitems*{3f133c20-7e0e-4b31-8438-cac9dbc27e2f}*SharedItemsImports = 5
 		DrvSimulator.Shared\DrvSimulator.Shared.projitems*{459d0b20-51a9-4aa8-8ccc-9f5b34a74029}*SharedItemsImports = 13
 		DrvSimulator.Shared\DrvSimulator.Shared.projitems*{48043839-37e7-40ae-92e2-a31a79204cf5}*SharedItemsImports = 5
+		DrvDsMqtt.Shared\DrvDsMqtt.Shared.projitems*{709169f9-0f33-4e14-9fd1-aa9c3d5ed4aa}*SharedItemsImports = 13
 		DrvSimulator.Shared\DrvSimulator.Shared.projitems*{8f1c993e-1a67-494a-a5b9-9aedaa8feb9c}*SharedItemsImports = 5
 		DrvMqttClient.Shared\DrvMqttClient.Shared.projitems*{a4c6f42d-60e4-4034-a147-c2a502aa9d35}*SharedItemsImports = 5
 		DrvMqttPublisher.Shared\DrvMqttPublisher.Shared.projitems*{b4923372-4baa-4b51-995e-01ae7adbcbd7}*SharedItemsImports = 13
@@ -241,6 +246,7 @@ Global
 		{B4923372-4BAA-4B51-995E-01AE7ADBCBD7} = {B9143ECA-C319-4A0C-855A-384C34B0DB74}
 		{3F133C20-7E0E-4B31-8438-CAC9DBC27E2F} = {B9143ECA-C319-4A0C-855A-384C34B0DB74}
 		{2DEA42B9-127E-41FB-921B-356C4E290A8C} = {B9143ECA-C319-4A0C-855A-384C34B0DB74}
+		{709169F9-0F33-4E14-9FD1-AA9C3D5ED4AA} = {B9143ECA-C319-4A0C-855A-384C34B0DB74}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {961AA4C1-5D08-4B24-AE6B-99F3AB1A7AEF}
