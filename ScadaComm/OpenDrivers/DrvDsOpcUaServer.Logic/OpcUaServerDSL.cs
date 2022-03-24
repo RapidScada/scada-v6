@@ -132,7 +132,9 @@ namespace Scada.Comm.Drivers.DrvDsOpcUaServer.Logic
         {
             await opcApp.Start(opcServer);
 
-            StringBuilder sbStartInfo = new StringBuilder("OPC UA server started");
+            StringBuilder sbStartInfo = new StringBuilder(Locale.IsRussian ? 
+                "Сервер OPC UA запущен" :
+                "OPC UA server started");
             EndpointDescriptionCollection endpoints = opcServer.GetEndpoints();
 
             if (endpoints.Count > 0)
@@ -169,7 +171,9 @@ namespace Scada.Comm.Drivers.DrvDsOpcUaServer.Logic
             if (opcServer != null)
             {
                 opcServer.Stop();
-                dsLog.WriteAction("OPC UA server stopped");
+                dsLog.WriteAction(Locale.IsRussian ?
+                    "Сервер OPC UA остановлен" :
+                    "OPC UA server stopped");
             }
         }
 
