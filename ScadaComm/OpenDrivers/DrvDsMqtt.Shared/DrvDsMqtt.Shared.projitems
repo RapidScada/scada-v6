@@ -9,6 +9,7 @@
     <Import_RootNamespace>Scada.Comm.Drivers.DrvDsMqtt</Import_RootNamespace>
   </PropertyGroup>
   <ItemGroup>
+    <Compile Include="$(MSBuildThisFileDirectory)DriverUtils.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)MqttDSO.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)PublishOptions.cs" />
   </ItemGroup>
