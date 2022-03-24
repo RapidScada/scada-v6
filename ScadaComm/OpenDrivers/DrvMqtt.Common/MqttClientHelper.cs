@@ -5,6 +5,8 @@ using MQTTnet;
 using MQTTnet.Client;
 using MQTTnet.Client.Connecting;
 using MQTTnet.Client.Options;
+using MQTTnet.Client.Publishing;
+using MQTTnet.Client.Subscribing;
 using Scada.Lang;
 using Scada.Log;
 
@@ -47,9 +49,14 @@ namespace Scada.Comm.Drivers.DrvMqtt
         /// </summary>
         public IMqttClient Client => mqttClient;
 
+        /// <summary>
+        /// Gets a value indicating whether the MQTT client is connected to an MQTT broker.
+        /// </summary>
+        public bool IsConnected => mqttClient.IsConnected;
+
 
         /// <summary>
-        /// Connects the MQTT client to the MQTT broker.
+        /// Connects to the MQTT broker.
         /// </summary>
         public bool Connect()
         {
@@ -105,7 +112,7 @@ namespace Scada.Comm.Drivers.DrvMqtt
         }
 
         /// <summary>
-        /// Connects the MQTT client from the MQTT broker.
+        /// Disconnects from the MQTT broker.
         /// </summary>
         public void Disconnect()
         {
@@ -127,7 +134,7 @@ namespace Scada.Comm.Drivers.DrvMqtt
         }
 
         /// <summary>
-        /// Disconnects and disposes the client.
+        /// Disconnects and disposes the MQTT client.
         /// </summary>
         public void Close()
         {
@@ -135,6 +142,34 @@ namespace Scada.Comm.Drivers.DrvMqtt
                 Disconnect();
 
             mqttClient.Dispose();
+        }
+
+        /// <summary>
+        /// Subscribes to the topics.
+        /// </summary>
+        public MqttClientSubscribeResult Subscribe(params MqttTopicFilter[] topicFilters)
+        {
+            ArgumentNullException.ThrowIfNull(topicFilters, nameof(topicFilters));
+            return mqttClient.SubscribeAsync(topicFilters).Result;
+        }
+
+        /// <summary>
+        /// Publishes the message.
+        /// </summary>
+        public MqttClientPublishResult Publish(MqttApplicationMessage message)
+        {
+            ArgumentNullException.ThrowIfNull(message, nameof(message));
+            return mqttClient.PublishAsync(message).Result;
+        }
+
+        /// <summary>
+        /// Gets the current connection state as a string.
+        /// </summary>
+        public string GetConnectionState(bool isRussian)
+        {
+            return isRussian
+                ? (mqttClient.IsConnected ? "соединение не установлено" : "соединение установлено")
+                : (mqttClient.IsConnected ? "Connected" : "Disconnected");
         }
     }
 }

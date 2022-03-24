@@ -697,7 +697,7 @@ namespace Scada.Comm.Drivers.DrvDsScadaServer.Logic
         }
 
         /// <summary>
-        /// Appends information about the queue to the string builder.
+        /// Appends information about the data source to the string builder.
         /// </summary>
         public override void AppendInfo(StringBuilder sb)
         {

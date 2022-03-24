@@ -17,9 +17,15 @@ namespace Scada.Comm.Drivers.DrvDsMqtt
         /// </summary>
         public PublishOptions(OptionList options)
         {
-            RootTopic = options.GetValueAsString("RootTopic", "Communicator");
+            RootTopic = options.GetValueAsString("RootTopic", "Communicator/");
             UndefinedValue = options.GetValueAsString("UndefinedValue", "NaN");
             PublishFormat = options.GetValueAsString("PublishFormat");
+            Retain = options.GetValueAsBool("Retain");
+            MaxQueueSize = options.GetValueAsInt("MaxQueueSize", 1000);
+            DataLifetime = options.GetValueAsInt("DataLifetime", 60);
+            DetailedLog = options.GetValueAsBool("DetailedLog");
+            DeviceFilter = new List<int>();
+            DeviceFilter.AddRange(ScadaUtils.ParseRange(options.GetValueAsString("DeviceFilter"), true, true));
         }
 
 
@@ -38,6 +44,31 @@ namespace Scada.Comm.Drivers.DrvDsMqtt
         /// </summary>
         public string PublishFormat { get; set; }
 
+        /// <summary>
+        /// Gets or sets a value indicating whether to set the retained flag when publishing.
+        /// </summary>
+        public bool Retain { get; set; }
+
+        /// <summary>
+        /// Gets or sets the maximum queue size.
+        /// </summary>
+        public int MaxQueueSize { get; set; }
+
+        /// <summary>
+        /// Gets or sets the data lifetime in the queue, in seconds.
+        /// </summary>
+        public int DataLifetime { get; set; }
+        
+        /// <summary>
+        /// Gets or sets a value indicating whether to write detailed information to the log.
+        /// </summary>
+        public bool DetailedLog { get; set; }
+
+        /// <summary>
+        /// Gets the device IDs that filter data sent to the server.
+        /// </summary>
+        public List<int> DeviceFilter { get; private set; }
+
 
         /// <summary>
         /// Adds the options to the list.
@@ -50,6 +81,11 @@ namespace Scada.Comm.Drivers.DrvDsMqtt
             options["RootTopic"] = RootTopic;
             options["UndefinedValue"] = UndefinedValue;
             options["PublishFormat"] = PublishFormat;
+            options["Retain"] = Retain.ToString();
+            options["MaxQueueSize"] = MaxQueueSize.ToString();
+            options["DataLifetime"] = DataLifetime.ToString();
+            options["DetailedLog"] = DetailedLog.ToString();
+            options["DeviceFilter"] = DeviceFilter.ToRangeString();
         }
     }
 }

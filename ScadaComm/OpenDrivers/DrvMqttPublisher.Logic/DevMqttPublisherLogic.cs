@@ -26,15 +26,6 @@ namespace Scada.Comm.Drivers.DrvMqttPublisher.Logic
     internal class DevMqttPublisherLogic : DeviceLogic, ISubscriber
     {
         /// <summary>
-        /// Specifies the variables to use in messages.
-        /// </summary>
-        private static class MessageVar
-        {
-            public const string Value = "@val";
-            public const string Status = "@stat";
-        }
-
-        /// <summary>
         /// Contains publisher data common to a communication line.
         /// </summary>
         private class MqttPublisherLineData

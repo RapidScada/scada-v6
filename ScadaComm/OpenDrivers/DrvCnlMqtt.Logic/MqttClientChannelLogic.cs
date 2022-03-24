@@ -49,23 +49,9 @@ namespace Scada.Comm.Drivers.DrvCnlMqtt.Logic
             }
         }
 
-        /// <summary>
-        /// The number of characters to preview message.
-        /// </summary>
-        private const int MessagePreviewLength = 20;
-        /// <summary>
-        /// The delay before reconnect.
-        /// </summary>
-        private static readonly TimeSpan ReconnectDelay = TimeSpan.FromSeconds(5);
-
-        private readonly MqttFactory mqttFactory;                 // creates MQTT objects
-        private readonly MqttConnectionOptions connectionOptions; // the connection options
-        private readonly IMqttClientOptions clientOptions;        // the client options
+        private readonly MqttClientHelper mqttClientHelper;       // encapsulates an MQTT client
         private readonly Dictionary<string, TopicTag> topicTags;  // the topic metadata accessed by topic name
         private readonly object sessionLock;                      // synchronizes sessions and incoming messages
-
-        private IMqttClient mqttClient; // interacts with an MQTT broker
-        private DateTime connAttemptDT; // the timestamp of a connection attempt
 
 
         /// <summary>
@@ -74,16 +60,57 @@ namespace Scada.Comm.Drivers.DrvCnlMqtt.Logic
         public MqttClientChannelLogic(ILineContext lineContext, ChannelConfig channelConfig)
             : base(lineContext, channelConfig)
         {
-            mqttFactory = new MqttFactory();
-            connectionOptions = new MqttConnectionOptions(channelConfig.CustomOptions);
-            clientOptions = connectionOptions.ToMqttClientOptions();
+            mqttClientHelper = new MqttClientHelper(new MqttConnectionOptions(channelConfig.CustomOptions), Log);
             topicTags = new Dictionary<string, TopicTag>();
             sessionLock = new object();
-
-            mqttClient = null;
-            connAttemptDT = DateTime.MinValue;
         }
 
+
+        /// <summary>
+        /// Reconnects the MQTT client to the MQTT broker if it is disconnected.
+        /// </summary>
+        private void ReconnectIfRequired()
+        {
+            if (!mqttClientHelper.IsConnected && mqttClientHelper.Connect())
+                Subscribe();
+        }
+
+        /// <summary>
+        /// Subscribes to the topics previously added by devices.
+        /// </summary>
+        private void Subscribe()
+        {
+            try
+            {
+                Log.WriteLine();
+                Log.WriteAction(Locale.IsRussian ?
+                    "Подписка на топики" :
+                    "Subscribe to topic");
+
+                if (topicTags.Count > 0)
+                {
+                    MqttTopicFilter[] topicFilters = topicTags.Select(kvp => kvp.Value.TopicFilter)
+                        .OrderBy(filter => filter.Topic).ToArray();
+                    mqttClientHelper.Subscribe(topicFilters);
+
+                    Log.WriteLine(Locale.IsRussian ?
+                        "Подписка выполнена успешно. Количество топиков: {0}" :
+                        "Subscribed successfully. Topic count: {0}", topicFilters.Length);
+                }
+                else
+                {
+                    Log.WriteLine(Locale.IsRussian ?
+                        "Топики отсутствуют" :
+                        "Topics missing");
+                }
+            }
+            catch (Exception ex)
+            {
+                Log.WriteError(Locale.IsRussian ?
+                    "Ошибка при подписке на топики: {0}" :
+                    "Error subscribing to topics: {0}", ex.Message);
+            }
+        }
 
         /// <summary>
         /// Handles a client connected event.
@@ -118,8 +145,8 @@ namespace Scada.Comm.Drivers.DrvCnlMqtt.Logic
                 };
 
                 Log.WriteLine();
-                Log.WriteAction("{0} {1} = {2}", CommPhrases.ReceiveNotation, 
-                    message.Topic, message.Payload.GetPreview(MessagePreviewLength));
+                Log.WriteAction("{0} {1} = {2}", CommPhrases.ReceiveNotation,
+                    message.Topic, message.Payload.GetPreview(MqttUtils.MessagePreviewLength));
 
                 if (topicTags.TryGetValue(message.Topic, out TopicTag topicTag))
                 {
@@ -150,135 +177,11 @@ namespace Scada.Comm.Drivers.DrvCnlMqtt.Logic
             }
         }
 
-        /// <summary>
-        /// Reconnects the MQTT client to the MQTT broker if it is disconnected.
-        /// </summary>
-        private void ReconnectIfRequired()
-        {
-            if (!mqttClient.IsConnected && Connect())
-                Subscribe();
-        }
-
-        /// <summary>
-        /// Connects the MQTT client to the MQTT broker.
-        /// </summary>
-        private bool Connect()
-        {
-            try
-            {
-                Log.WriteLine();
-
-                // delay before connecting
-                DateTime utcNow = DateTime.UtcNow;
-                TimeSpan connectDelay = ReconnectDelay - (utcNow - connAttemptDT);
-
-                if (connectDelay > TimeSpan.Zero)
-                {
-                    Log.WriteAction(Locale.IsRussian ?
-                        "Задержка перед соединением {0} с" :
-                        "Delay before connecting {0} sec",
-                        connectDelay.TotalSeconds.ToString("N1"));
-                    Thread.Sleep(connectDelay);
-                }
-
-                // connect to MQTT broker
-                Log.WriteAction(Locale.IsRussian ?
-                    "Соединение с {0}:{1}" :
-                    "Connect to {0}:{1}",
-                    connectionOptions.Server, connectionOptions.Port);
-
-                connAttemptDT = DateTime.UtcNow;
-                MqttClientConnectResultCode resultCode = 
-                    mqttClient.ConnectAsync(clientOptions, CancellationToken.None).Result.ResultCode;
-
-                if (resultCode == MqttClientConnectResultCode.Success)
-                {
-                    Log.WriteLine(Locale.IsRussian ?
-                        "Соединение установлено успешно" :
-                        "Connected successfully");
-                    return true;
-                }
-                else
-                {
-                    Log.WriteLine(Locale.IsRussian ?
-                        "Не удалось установить соединение: {0}" :
-                        "Unable to connect: {0}", resultCode);
-                    return false;
-                }
-            }
-            catch (Exception ex)
-            {
-                Log.WriteError(Locale.IsRussian ?
-                    "Ошибка при установке соединения: {0}" :
-                    "Error connecting: {0}", ex.Message);
-                return false;
-            }
-        }
-
-        /// <summary>
-        /// Connects the MQTT client from the MQTT broker.
-        /// </summary>
-        private void Disconnect()
-        {
-            try
-            {
-                Log.WriteLine();
-                Log.WriteAction(Locale.IsRussian ?
-                    "Отключение от {0}:{1}" :
-                    "Disconnect from {0}:{1}",
-                    connectionOptions.Server, connectionOptions.Port);
-                mqttClient.DisconnectAsync().Wait();
-            }
-            catch (Exception ex)
-            {
-                Log.WriteError(Locale.IsRussian ?
-                    "Ошибка при отключении: {0}" :
-                    "Error disconnecting: {0}", ex.Message);
-            }
-        }
-
-        /// <summary>
-        /// Subscribes to the topics previously added by devices.
-        /// </summary>
-        private void Subscribe()
-        {
-            try
-            {
-                Log.WriteLine();
-                Log.WriteAction(Locale.IsRussian ?
-                    "Подписка на топики" :
-                    "Subscribe to topic");
-
-                if (topicTags.Count > 0)
-                {
-                    MqttTopicFilter[] topicFilters = topicTags.Select(kvp => kvp.Value.TopicFilter)
-                        .OrderBy(filter => filter.Topic).ToArray();
-                    mqttClient.SubscribeAsync(topicFilters).Wait();
-
-                    Log.WriteLine(Locale.IsRussian ?
-                        "Подписка выполнена успешно. Количество топиков: {0}" :
-                        "Subscribed successfully. Topic count: {0}", topicFilters.Length);
-                }
-                else
-                {
-                    Log.WriteLine(Locale.IsRussian ?
-                        "Топики отсутствуют" :
-                        "Topics missing");
-                }
-            }
-            catch (Exception ex)
-            {
-                Log.WriteError(Locale.IsRussian ?
-                    "Ошибка при подписке на топики: {0}" :
-                    "Error subscribing to topics: {0}", ex.Message);
-            }
-        }
-
 
         /// <summary>
         /// Gets a value indicating whether the MQTT client is connected to an MQTT broker.
         /// </summary>
-        bool IMqttClientChannel.IsConnected => mqttClient != null && mqttClient.IsConnected;
+        bool IMqttClientChannel.IsConnected => mqttClientHelper.IsConnected;
 
         /// <summary>
         /// Subscribes to the topic.
@@ -309,10 +212,7 @@ namespace Scada.Comm.Drivers.DrvCnlMqtt.Logic
         /// </summary>
         MqttClientPublishResult IMqttClientChannel.Publish(MqttApplicationMessage message)
         {
-            if (mqttClient == null)
-                throw new ScadaException("MQTT client must not be null.");
-
-            return mqttClient.PublishAsync(message).Result;
+            return mqttClientHelper.Publish(message);
         }
 
 
@@ -321,10 +221,9 @@ namespace Scada.Comm.Drivers.DrvCnlMqtt.Logic
         /// </summary>
         public override void MakeReady()
         {
-            mqttClient = mqttFactory.CreateMqttClient();
-            mqttClient.UseConnectedHandler(MqttClient_Connected);
-            mqttClient.UseDisconnectedHandler(MqttClient_Disconnected);
-            mqttClient.UseApplicationMessageReceivedHandler(MqttClient_ApplicationMessageReceived);
+            mqttClientHelper.Client.UseConnectedHandler(MqttClient_Connected);
+            mqttClientHelper.Client.UseDisconnectedHandler(MqttClient_Disconnected);
+            mqttClientHelper.Client.UseApplicationMessageReceivedHandler(MqttClient_ApplicationMessageReceived);
         }
 
         /// <summary>
@@ -339,14 +238,7 @@ namespace Scada.Comm.Drivers.DrvCnlMqtt.Logic
         /// </summary>
         public override void Stop()
         {
-            if (mqttClient != null)
-            {
-                if (mqttClient.IsConnected)
-                    Disconnect();
-
-                mqttClient.Dispose();
-                mqttClient = null;
-            }
+            mqttClientHelper.Close();
         }
 
         /// <summary>
