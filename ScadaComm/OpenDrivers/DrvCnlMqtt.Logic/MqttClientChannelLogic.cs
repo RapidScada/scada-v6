@@ -5,7 +5,6 @@ using MQTTnet;
 using MQTTnet.Client;
 using MQTTnet.Client.Connecting;
 using MQTTnet.Client.Disconnecting;
-using MQTTnet.Client.Options;
 using MQTTnet.Client.Publishing;
 using Scada.Comm.Channels;
 using Scada.Comm.Config;
