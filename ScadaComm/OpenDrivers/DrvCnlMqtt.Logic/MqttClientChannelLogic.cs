@@ -48,9 +48,9 @@ namespace Scada.Comm.Drivers.DrvCnlMqtt.Logic
             }
         }
 
-        private readonly MqttClientHelper mqttClientHelper;       // encapsulates an MQTT client
-        private readonly Dictionary<string, TopicTag> topicTags;  // the topic metadata accessed by topic name
-        private readonly object sessionLock;                      // synchronizes sessions and incoming messages
+        private readonly MqttClientHelper mqttClientHelper;      // encapsulates an MQTT client
+        private readonly Dictionary<string, TopicTag> topicTags; // the topic metadata accessed by topic name
+        private readonly object sessionLock;                     // synchronizes sessions and incoming messages
 
 
         /// <summary>
