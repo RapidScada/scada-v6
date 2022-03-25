@@ -163,7 +163,7 @@ namespace Scada.Comm.Drivers.DrvDsMqtt.Logic
                 mqttClientHelper.Subscribe(new MqttTopicFilter
                 {
                     Topic = commandTopic,
-                    QualityOfServiceLevel = MqttQualityOfServiceLevel.AtMostOnce
+                    QualityOfServiceLevel = MqttQualityOfServiceLevel.ExactlyOnce
                 });
             }
             catch (Exception ex)
@@ -236,7 +236,7 @@ namespace Scada.Comm.Drivers.DrvDsMqtt.Logic
                             {
                                 Topic = topic,
                                 Payload = Encoding.UTF8.GetBytes(payloadStr),
-                                QualityOfServiceLevel = MqttQualityOfServiceLevel.AtMostOnce,
+                                QualityOfServiceLevel = (MqttQualityOfServiceLevel)dsOptions.PublishOptions.QosLevel,
                                 Retain = dsOptions.PublishOptions.Retain
                             };
 
@@ -306,9 +306,7 @@ namespace Scada.Comm.Drivers.DrvDsMqtt.Logic
 
             return formatIsEmpty
                 ? valStr
-                : dsOptions.PublishOptions.PublishFormat
-                    .Replace(MessageVar.Value, valStr, StringComparison.Ordinal)
-                    .Replace(MessageVar.Status, stat.ToString(), StringComparison.Ordinal);
+                : MqttUtils.FormatPayload(dsOptions.PublishOptions.PublishFormat, valStr, stat);
         }
 
         /// <summary>

@@ -37,7 +37,7 @@ namespace Scada.Comm.Drivers.DrvMqttPublisher.Config
         public int QosLevel { get; set; } = 0;
 
         /// <summary>
-        /// Gets or sets a value indicating whether to set the retained flag when the item published.
+        /// Gets or sets a value indicating whether to set the retained flag when publishing.
         /// </summary>
         public bool Retain { get; set; } = false;
         

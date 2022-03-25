@@ -274,9 +274,7 @@ namespace Scada.Comm.Drivers.DrvMqttPublisher.Logic
             else
             {
                 string valStr = cnlData.Val.ToString(NumberFormatInfo.InvariantInfo);
-                payloadStr = config.DeviceOptions.PublishFormat
-                    .Replace(MessageVar.Value, valStr, StringComparison.Ordinal)
-                    .Replace(MessageVar.Status, cnlData.Stat.ToString(), StringComparison.Ordinal);
+                payloadStr = MqttUtils.FormatPayload(config.DeviceOptions.PublishFormat, valStr, cnlData.Stat);
             }
 
             message.Payload = Encoding.UTF8.GetBytes(payloadStr);

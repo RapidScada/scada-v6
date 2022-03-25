@@ -13,5 +13,15 @@ namespace Scada.Comm.Drivers.DrvMqtt
         /// The number of characters to preview message.
         /// </summary>
         public const int MessagePreviewLength = 20;
+
+        /// <summary>
+        /// Formats the specified value and status to publish.
+        /// </summary>
+        public static string FormatPayload(string format, string value, int status)
+        {
+            return format
+                .Replace(MessageVar.Value, value, StringComparison.Ordinal)
+                .Replace(MessageVar.Status, status.ToString(), StringComparison.Ordinal);
+        }
     }
 }

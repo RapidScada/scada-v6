@@ -10,7 +10,7 @@ namespace Scada.Comm.Drivers.DrvDsMqtt
     /// Represents publishing options.
     /// <para>Представляет параметры публикации.</para>
     /// </summary>
-    internal class PublishOptions : IPublishOptions
+    internal class PublishOptions
     {
         /// <summary>
         /// Initializes a new instance of the class.
@@ -20,6 +20,7 @@ namespace Scada.Comm.Drivers.DrvDsMqtt
             RootTopic = options.GetValueAsString("RootTopic", "Communicator/");
             UndefinedValue = options.GetValueAsString("UndefinedValue", "NaN");
             PublishFormat = options.GetValueAsString("PublishFormat");
+            QosLevel = options.GetValueAsInt("QosLevel");
             Retain = options.GetValueAsBool("Retain");
             MaxQueueSize = options.GetValueAsInt("MaxQueueSize", 1000);
             DataLifetime = options.GetValueAsInt("DataLifetime", 60);
@@ -43,9 +44,14 @@ namespace Scada.Comm.Drivers.DrvDsMqtt
         /// Gets or sets the format of published channel data.
         /// </summary>
         public string PublishFormat { get; set; }
+        
+        /// <summary>
+        /// Gets or sets the quality of service level.
+        /// </summary>
+        public int QosLevel { get; set; }
 
         /// <summary>
-        /// Gets or sets a value indicating whether to set the retained flag when publishing.
+        /// Gets or sets a value indicating whether to set the retained flag.
         /// </summary>
         public bool Retain { get; set; }
 
@@ -81,6 +87,7 @@ namespace Scada.Comm.Drivers.DrvDsMqtt
             options["RootTopic"] = RootTopic;
             options["UndefinedValue"] = UndefinedValue;
             options["PublishFormat"] = PublishFormat;
+            options["QosLevel"] = QosLevel.ToString();
             options["Retain"] = Retain.ToString();
             options["MaxQueueSize"] = MaxQueueSize.ToString();
             options["DataLifetime"] = DataLifetime.ToString();

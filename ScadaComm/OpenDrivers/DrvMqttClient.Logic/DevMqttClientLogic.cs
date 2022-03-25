@@ -94,7 +94,8 @@ namespace Scada.Comm.Drivers.DrvMqttClient.Logic
                         Topic = subscriptionConfig.Topic,
                         DisplayName = subscriptionConfig.DisplayName,
                         CmdCode = subscriptionConfig.TagCode,
-                        QosLevel = subscriptionConfig.QosLevel
+                        QosLevel = subscriptionConfig.QosLevel,
+                        Retain = subscriptionConfig.Retain
                     });
                 }
             }
@@ -131,7 +132,8 @@ namespace Scada.Comm.Drivers.DrvMqttClient.Logic
             MqttApplicationMessage message = new()
             {
                 Topic = config.DeviceOptions.RootTopic + cmdConfig.Topic,
-                QualityOfServiceLevel = (MqttQualityOfServiceLevel)cmdConfig.QosLevel
+                QualityOfServiceLevel = (MqttQualityOfServiceLevel)cmdConfig.QosLevel,
+                Retain = cmdConfig.Retain
             };
 
             if (!double.IsNaN(cmd.CmdVal))

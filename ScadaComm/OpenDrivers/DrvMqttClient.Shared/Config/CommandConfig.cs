@@ -20,6 +20,7 @@ namespace Scada.Comm.Drivers.DrvMqttClient.Config
             DisplayName = "";
             CmdCode = "";
             QosLevel = 0;
+            Retain = false;
         }
 
 
@@ -43,6 +44,11 @@ namespace Scada.Comm.Drivers.DrvMqttClient.Config
         /// </summary>
         public int QosLevel { get; set; }
 
+        /// <summary>
+        /// Gets or sets a value indicating whether to set the retained flag.
+        /// </summary>
+        public bool Retain { get; set; }
+
 
         /// <summary>
         /// Loads the configuration from the XML node.
@@ -54,6 +60,7 @@ namespace Scada.Comm.Drivers.DrvMqttClient.Config
             DisplayName = xmlElem.GetAttrAsString("displayName");
             CmdCode = xmlElem.GetAttrAsString("cmdCode");
             QosLevel = xmlElem.GetAttrAsInt("qosLevel");
+            Retain = xmlElem.GetAttrAsBool("retain");
         }
 
         /// <summary>
@@ -66,6 +73,7 @@ namespace Scada.Comm.Drivers.DrvMqttClient.Config
             xmlElem.SetAttribute("displayName", DisplayName);
             xmlElem.SetAttribute("cmdCode", CmdCode);
             xmlElem.SetAttribute("qosLevel", QosLevel);
+            xmlElem.SetAttribute("retain", Retain);
         }
     }
 }
