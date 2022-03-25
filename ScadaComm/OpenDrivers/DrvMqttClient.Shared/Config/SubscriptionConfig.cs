@@ -9,34 +9,20 @@ namespace Scada.Comm.Drivers.DrvMqttClient.Config
     /// Represents a subscription configuration.
     /// <para>Представляет конфигурацию подписки.</para>
     /// </summary>
-    internal class SubscriptionConfig
+    internal class SubscriptionConfig : BaseItemConfig
     {
         /// <summary>
         /// Initializes a new instance of the class.
         /// </summary>
         public SubscriptionConfig()
         {
-            Topic = "";
-            DisplayName = "";
             TagCode = "";
             ReadOnly = false;
-            QosLevel = 0;
-            Retain = false;
             JsEnabled = false;
             JsFileName = "";
             SubItems = new List<string>();
         }
 
-
-        /// <summary>
-        /// Gets or sets the MQTT topic.
-        /// </summary>
-        public string Topic { get; set; }
-
-        /// <summary>
-        /// Gets or sets the display name.
-        /// </summary>
-        public string DisplayName { get; set; }
 
         /// <summary>
         /// Gets or sets the tag code associated with the topic.
@@ -47,16 +33,6 @@ namespace Scada.Comm.Drivers.DrvMqttClient.Config
         /// Gets or sets a value indicating whether the topic is read only.
         /// </summary>
         public bool ReadOnly { get; set; }
-
-        /// <summary>
-        /// Gets or sets the quality of service level.
-        /// </summary>
-        public int QosLevel { get; set; }
-
-        /// <summary>
-        /// Gets or sets a value indicating whether to set the retained flag when publishing.
-        /// </summary>
-        public bool Retain { get; set; }
 
         /// <summary>
         /// Gets or sets a value indicating whether to execute JavaScript when a message is received.
@@ -77,15 +53,11 @@ namespace Scada.Comm.Drivers.DrvMqttClient.Config
         /// <summary>
         /// Loads the configuration from the XML node.
         /// </summary>
-        public void LoadFromXml(XmlElement xmlElem)
+        public override void LoadFromXml(XmlElement xmlElem)
         {
-            ArgumentNullException.ThrowIfNull(xmlElem, nameof(xmlElem));
-            Topic = xmlElem.GetAttrAsString("topic");
-            DisplayName = xmlElem.GetAttrAsString("displayName");
+            base.LoadFromXml(xmlElem);
             TagCode = xmlElem.GetAttrAsString("tagCode");
             ReadOnly = xmlElem.GetAttrAsBool("readOnly");
-            QosLevel = xmlElem.GetAttrAsInt("qosLevel");
-            Retain = xmlElem.GetAttrAsBool("retain");
             JsEnabled = xmlElem.GetAttrAsBool("jsEnabled");
             JsFileName = xmlElem.GetAttrAsString("jsFileName");
 
@@ -98,15 +70,11 @@ namespace Scada.Comm.Drivers.DrvMqttClient.Config
         /// <summary>
         /// Saves the configuration into the XML node.
         /// </summary>
-        public void SaveToXml(XmlElement xmlElem)
+        public override void SaveToXml(XmlElement xmlElem)
         {
-            ArgumentNullException.ThrowIfNull(xmlElem, nameof(xmlElem));
-            xmlElem.SetAttribute("topic", Topic);
-            xmlElem.SetAttribute("displayName", DisplayName);
+            base.SaveToXml(xmlElem);
             xmlElem.SetAttribute("tagCode", TagCode);
             xmlElem.SetAttribute("readOnly", ReadOnly);
-            xmlElem.SetAttribute("qosLevel", QosLevel);
-            xmlElem.SetAttribute("retain", Retain);
             xmlElem.SetAttribute("jsEnabled", JsEnabled);
             xmlElem.SetAttribute("jsFileName", JsFileName);
 

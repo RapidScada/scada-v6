@@ -12,6 +12,7 @@
     <Content Include="$(MSBuildThisFileDirectory)Config\DrvMqttClient_001.xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="$(MSBuildThisFileDirectory)Config\BaseItemConfig.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Config\CommandConfig.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Config\DeviceOptions.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Config\MqttClientDeviceConfig.cs" />
