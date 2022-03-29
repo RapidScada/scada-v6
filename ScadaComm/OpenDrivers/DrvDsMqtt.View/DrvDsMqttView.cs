@@ -64,7 +64,7 @@ namespace Scada.Comm.Drivers.DrvDsMqtt.View
         /// </summary>
         public override DataSourceView CreateDataSourceView(DataSourceConfig dataSourceConfig)
         {
-            return null;// new OpcUaServerDSV(this, dataSourceConfig);
+            return new MqttDSV(this, dataSourceConfig);
         }
     }
 }

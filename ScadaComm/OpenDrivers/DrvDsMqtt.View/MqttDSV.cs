@@ -3,6 +3,7 @@
 
 using Scada.Comm.Config;
 using Scada.Comm.DataSources;
+using Scada.Comm.Drivers.DrvDsMqtt.View.Forms;
 
 namespace Scada.Comm.Drivers.DrvDsMqtt.View
 {
@@ -26,8 +27,7 @@ namespace Scada.Comm.Drivers.DrvDsMqtt.View
         /// </summary>
         public override bool ShowProperties()
         {
-            return false;
-            //return new FrmOpcUaServerDSO(BaseDataSet, AppDirs, DataSourceConfig).ShowDialog() == DialogResult.OK;
+            return new FrmMqttDSO(BaseDataSet, DataSourceConfig).ShowDialog() == DialogResult.OK;
         }
     }
 }
