@@ -108,7 +108,7 @@
             this.pageConnectionOptions.Location = new System.Drawing.Point(4, 24);
             this.pageConnectionOptions.Name = "pageConnectionOptions";
             this.pageConnectionOptions.Padding = new System.Windows.Forms.Padding(5);
-            this.pageConnectionOptions.Size = new System.Drawing.Size(376, 381);
+            this.pageConnectionOptions.Size = new System.Drawing.Size(376, 296);
             this.pageConnectionOptions.TabIndex = 0;
             this.pageConnectionOptions.Text = "Connection";
             this.pageConnectionOptions.UseVisualStyleBackColor = true;
@@ -295,15 +295,16 @@
             this.btnSelectDevices.Location = new System.Drawing.Point(345, 265);
             this.btnSelectDevices.Name = "btnSelectDevices";
             this.btnSelectDevices.Size = new System.Drawing.Size(23, 23);
-            this.btnSelectDevices.TabIndex = 22;
+            this.btnSelectDevices.TabIndex = 19;
             this.btnSelectDevices.UseVisualStyleBackColor = true;
+            this.btnSelectDevices.Click += new System.EventHandler(this.btnSelectDevices_Click);
             // 
             // txtDeviceFilter
             // 
             this.txtDeviceFilter.Location = new System.Drawing.Point(168, 265);
             this.txtDeviceFilter.Name = "txtDeviceFilter";
             this.txtDeviceFilter.Size = new System.Drawing.Size(171, 23);
-            this.txtDeviceFilter.TabIndex = 21;
+            this.txtDeviceFilter.TabIndex = 18;
             // 
             // lblDeviceFilter
             // 
@@ -311,7 +312,7 @@
             this.lblDeviceFilter.Location = new System.Drawing.Point(8, 269);
             this.lblDeviceFilter.Name = "lblDeviceFilter";
             this.lblDeviceFilter.Size = new System.Drawing.Size(69, 15);
-            this.lblDeviceFilter.TabIndex = 20;
+            this.lblDeviceFilter.TabIndex = 17;
             this.lblDeviceFilter.Text = "Device filter";
             // 
             // chkDetailedLog
@@ -320,7 +321,7 @@
             this.chkDetailedLog.Location = new System.Drawing.Point(261, 240);
             this.chkDetailedLog.Name = "chkDetailedLog";
             this.chkDetailedLog.Size = new System.Drawing.Size(15, 14);
-            this.chkDetailedLog.TabIndex = 18;
+            this.chkDetailedLog.TabIndex = 16;
             this.chkDetailedLog.UseVisualStyleBackColor = true;
             // 
             // lblDetailedLog
@@ -329,7 +330,7 @@
             this.lblDetailedLog.Location = new System.Drawing.Point(8, 240);
             this.lblDetailedLog.Name = "lblDetailedLog";
             this.lblDetailedLog.Size = new System.Drawing.Size(70, 15);
-            this.lblDetailedLog.TabIndex = 17;
+            this.lblDetailedLog.TabIndex = 15;
             this.lblDetailedLog.Text = "Detailed log";
             // 
             // numDataLifetime
@@ -342,7 +343,7 @@
             0});
             this.numDataLifetime.Name = "numDataLifetime";
             this.numDataLifetime.Size = new System.Drawing.Size(200, 23);
-            this.numDataLifetime.TabIndex = 16;
+            this.numDataLifetime.TabIndex = 14;
             // 
             // lblDataLifetime
             // 
@@ -350,7 +351,7 @@
             this.lblDataLifetime.Location = new System.Drawing.Point(8, 211);
             this.lblDataLifetime.Name = "lblDataLifetime";
             this.lblDataLifetime.Size = new System.Drawing.Size(146, 15);
-            this.lblDataLifetime.TabIndex = 15;
+            this.lblDataLifetime.TabIndex = 13;
             this.lblDataLifetime.Text = "Data lifetime in queue, sec";
             // 
             // numMaxQueueSize
@@ -363,7 +364,7 @@
             0});
             this.numMaxQueueSize.Name = "numMaxQueueSize";
             this.numMaxQueueSize.Size = new System.Drawing.Size(200, 23);
-            this.numMaxQueueSize.TabIndex = 14;
+            this.numMaxQueueSize.TabIndex = 12;
             // 
             // lblMaxQueueSize
             // 
@@ -371,7 +372,7 @@
             this.lblMaxQueueSize.Location = new System.Drawing.Point(8, 182);
             this.lblMaxQueueSize.Name = "lblMaxQueueSize";
             this.lblMaxQueueSize.Size = new System.Drawing.Size(120, 15);
-            this.lblMaxQueueSize.TabIndex = 13;
+            this.lblMaxQueueSize.TabIndex = 11;
             this.lblMaxQueueSize.Text = "Maximum queue size";
             // 
             // chkRetain
@@ -380,7 +381,7 @@
             this.chkRetain.Location = new System.Drawing.Point(261, 153);
             this.chkRetain.Name = "chkRetain";
             this.chkRetain.Size = new System.Drawing.Size(15, 14);
-            this.chkRetain.TabIndex = 11;
+            this.chkRetain.TabIndex = 10;
             this.chkRetain.UseVisualStyleBackColor = true;
             // 
             // lblRetain
@@ -389,7 +390,7 @@
             this.lblRetain.Location = new System.Drawing.Point(8, 153);
             this.lblRetain.Name = "lblRetain";
             this.lblRetain.Size = new System.Drawing.Size(40, 15);
-            this.lblRetain.TabIndex = 10;
+            this.lblRetain.TabIndex = 9;
             this.lblRetain.Text = "Retain";
             // 
             // cbQosLevel
@@ -403,7 +404,7 @@
             this.cbQosLevel.Location = new System.Drawing.Point(168, 120);
             this.cbQosLevel.Name = "cbQosLevel";
             this.cbQosLevel.Size = new System.Drawing.Size(200, 23);
-            this.cbQosLevel.TabIndex = 9;
+            this.cbQosLevel.TabIndex = 8;
             // 
             // lblQosLevel
             // 
@@ -411,7 +412,7 @@
             this.lblQosLevel.Location = new System.Drawing.Point(8, 124);
             this.lblQosLevel.Name = "lblQosLevel";
             this.lblQosLevel.Size = new System.Drawing.Size(125, 15);
-            this.lblQosLevel.TabIndex = 8;
+            this.lblQosLevel.TabIndex = 7;
             this.lblQosLevel.Text = "Quality of service level";
             // 
             // lblFormatExample
@@ -421,7 +422,7 @@
             this.lblFormatExample.Location = new System.Drawing.Point(168, 92);
             this.lblFormatExample.Name = "lblFormatExample";
             this.lblFormatExample.Size = new System.Drawing.Size(150, 15);
-            this.lblFormatExample.TabIndex = 7;
+            this.lblFormatExample.TabIndex = 6;
             this.lblFormatExample.Text = "{ \"Val\": @val, \"Stat\": @stat }";
             // 
             // txtPublishFormat
@@ -501,6 +502,7 @@
             this.btnOK.TabIndex = 0;
             this.btnOK.Text = "OK";
             this.btnOK.UseVisualStyleBackColor = true;
+            this.btnOK.Click += new System.EventHandler(this.btnOK_Click);
             // 
             // FrmMqttDSO
             // 
