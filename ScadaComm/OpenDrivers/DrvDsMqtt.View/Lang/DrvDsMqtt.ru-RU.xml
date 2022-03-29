@@ -1,0 +1,33 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<DrvDsMqttDictionaries>
+  <Dictionary key="Scada.Comm.Drivers.DrvDsMqtt.View.Forms.FrmMqttDSO">
+    <Phrase key="this">Параметры источника данных</Phrase>
+    <Phrase key="pageConnectionOptions">Соединение</Phrase>
+    <Phrase key="lblServer">Сервер</Phrase>
+    <Phrase key="lblPort">TCP-порт</Phrase>
+    <Phrase key="lblClientID">Идентификатор клиента</Phrase>
+    <Phrase key="lblUsername">Имя пользователя</Phrase>
+    <Phrase key="lblPassword">Пароль</Phrase>
+    <Phrase key="lblTimeout">Таймаут, мс</Phrase>
+    <Phrase key="lblProtocolVersion">Версия протокола</Phrase>
+    <Phrase key="cbProtocolVersion.Items[0]">По умолчанию</Phrase>
+    <Phrase key="cbProtocolVersion.Items[1]">3.1</Phrase>
+    <Phrase key="cbProtocolVersion.Items[2]">3.1.1</Phrase>
+    <Phrase key="cbProtocolVersion.Items[3]">5.0</Phrase>
+    <Phrase key="pagePublishOptions">Публикация</Phrase>
+    <Phrase key="lblRootTopic">Корневой топик</Phrase>
+    <Phrase key="lblUndefinedValue">Неопределённое значние</Phrase>
+    <Phrase key="lblPublishFormat">Формат публикации</Phrase>
+    <Phrase key="lblQosLevel">Уровень качества сервиса</Phrase>
+    <Phrase key="cbQosLevel.Items[0]">Не более одного раза (0)</Phrase>
+    <Phrase key="cbQosLevel.Items[1]">Хотя бы один раз (1)</Phrase>
+    <Phrase key="cbQosLevel.Items[2]">Ровно один раз (2)</Phrase>
+    <Phrase key="lblRetain">Удерживать значение</Phrase>
+    <Phrase key="lblMaxQueueSize">Макс. размер очереди</Phrase>
+    <Phrase key="lblDataLifetime">Время жизни в очереди, с</Phrase>
+    <Phrase key="lblDetailedLog">Детальный журнал</Phrase>
+    <Phrase key="lblDeviceFilter">Фильтр устройств</Phrase>
+    <Phrase key="btnOK">OK</Phrase>
+    <Phrase key="btnCancel">Отмена</Phrase>
+  </Dictionary>
+</DrvDsMqttDictionaries>

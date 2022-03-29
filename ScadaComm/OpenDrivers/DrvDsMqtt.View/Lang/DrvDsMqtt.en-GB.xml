@@ -1,0 +1,33 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<DrvDsMqttDictionaries>
+  <Dictionary key="Scada.Comm.Drivers.DrvDsMqtt.View.Forms.FrmMqttDSO">
+    <Phrase key="this">Data Source Options</Phrase>
+    <Phrase key="pageConnectionOptions">Connection</Phrase>
+    <Phrase key="lblServer">Server</Phrase>
+    <Phrase key="lblPort">TCP port</Phrase>
+    <Phrase key="lblClientID">Client ID</Phrase>
+    <Phrase key="lblUsername">Username</Phrase>
+    <Phrase key="lblPassword">Password</Phrase>
+    <Phrase key="lblTimeout">Timeout, ms</Phrase>
+    <Phrase key="lblProtocolVersion">Protocol version</Phrase>
+    <Phrase key="cbProtocolVersion.Items[0]">Default</Phrase>
+    <Phrase key="cbProtocolVersion.Items[1]">3.1</Phrase>
+    <Phrase key="cbProtocolVersion.Items[2]">3.1.1</Phrase>
+    <Phrase key="cbProtocolVersion.Items[3]">5.0</Phrase>
+    <Phrase key="pagePublishOptions">Publishing</Phrase>
+    <Phrase key="lblRootTopic">Root topic</Phrase>
+    <Phrase key="lblUndefinedValue">Undefined value</Phrase>
+    <Phrase key="lblPublishFormat">Publish format</Phrase>
+    <Phrase key="lblQosLevel">Quality of service level</Phrase>
+    <Phrase key="cbQosLevel.Items[0]">At most once (0)</Phrase>
+    <Phrase key="cbQosLevel.Items[1]">At least once (1)</Phrase>
+    <Phrase key="cbQosLevel.Items[2]">Exactly once (2)</Phrase>
+    <Phrase key="lblRetain">Retain</Phrase>
+    <Phrase key="lblMaxQueueSize">Maximum queue size</Phrase>
+    <Phrase key="lblDataLifetime">Data lifetime in queue, sec</Phrase>
+    <Phrase key="lblDetailedLog">Detailed log</Phrase>
+    <Phrase key="lblDeviceFilter">Device filter</Phrase>
+    <Phrase key="btnOK">OK</Phrase>
+    <Phrase key="btnCancel">Cancel</Phrase>
+  </Dictionary>
+</DrvDsMqttDictionaries>

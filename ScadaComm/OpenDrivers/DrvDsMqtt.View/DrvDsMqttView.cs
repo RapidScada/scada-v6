@@ -3,6 +3,7 @@
 
 using Scada.Comm.Config;
 using Scada.Comm.DataSources;
+using Scada.Forms;
 using Scada.Lang;
 
 namespace Scada.Comm.Drivers.DrvDsMqtt.View
@@ -53,10 +54,8 @@ namespace Scada.Comm.Drivers.DrvDsMqtt.View
         /// </summary>
         public override void LoadDictionaries()
         {
-            /*if (!Locale.LoadDictionaries(AppDirs.LangDir, DriverUtils.DriverCode, out string errMsg))
+            if (!Locale.LoadDictionaries(AppDirs.LangDir, DriverUtils.DriverCode, out string errMsg))
                 ScadaUiUtils.ShowError(errMsg);
-
-            DriverPhrases.Init();*/
         }
 
         /// <summary>
