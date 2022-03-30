@@ -237,7 +237,7 @@
     <Phrase key="lblDescr">Описание</Phrase>
   </Dictionary>
   <Dictionary key="Scada.Admin.Extensions.ExtCommConfig.Forms.FrmExtensionOptions">
-    <Phrase key="this">Параметры расширения</Phrase>
+    <Phrase key="this">Параметры расширения - Параметры создания каналов</Phrase>
     <Phrase key="lblMultiplicity">Кратность</Phrase>
     <Phrase key="lblShift">Смещение</Phrase>
     <Phrase key="lblGap">Промежуток</Phrase>

@@ -192,7 +192,7 @@
             this.Name = "FrmExtensionOptions";
             this.ShowInTaskbar = false;
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
-            this.Text = "Extension Options";
+            this.Text = "Extension Options - Channel creation options";
             this.Load += new System.EventHandler(this.FrmExtensionOptions_Load);
             ((System.ComponentModel.ISupportInitialize)(this.numMultiplicity)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.numShift)).EndInit();

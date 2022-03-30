@@ -237,7 +237,7 @@
     <Phrase key="lblDescr">Description</Phrase>
   </Dictionary>
   <Dictionary key="Scada.Admin.Extensions.ExtCommConfig.Forms.FrmExtensionOptions">
-    <Phrase key="this">Extension Options</Phrase>
+    <Phrase key="this">Extension Options - Channel creation options</Phrase>
     <Phrase key="lblMultiplicity">Multiplicity</Phrase>
     <Phrase key="lblShift">Shift</Phrase>
     <Phrase key="lblGap">Gap</Phrase>
