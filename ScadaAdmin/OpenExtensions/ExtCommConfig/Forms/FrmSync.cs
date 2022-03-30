@@ -240,6 +240,8 @@ namespace Scada.Admin.Extensions.ExtCommConfig.Forms
                         });
                     }
 
+                    commLineTable.Modified = true;
+
                     // devices
                     foreach (TreeNode deviceNode in lineNode.Nodes)
                     {
@@ -271,6 +273,8 @@ namespace Scada.Admin.Extensions.ExtCommConfig.Forms
                                     CommLineNum = lineConfig.CommLineNum
                                 });
                             }
+
+                            deviceTable.Modified = true;
                         }
                     }
                 }
