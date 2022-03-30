@@ -21,8 +21,8 @@ using WinControl;
 namespace Scada.Admin.Extensions.ExtCommConfig.Controls
 {
     /// <summary>
-    /// Represents a control that contains menus of the extension.
-    /// <para>Представляет элемент управления, содержащий меню расширения.</para>
+    /// Represents a control that provides extension menus.
+    /// <para>Представляет элемент управления, предоставляющий меню расширения.</para>
     /// </summary>
     public partial class CtrlExtensionMenu : UserControl
     {

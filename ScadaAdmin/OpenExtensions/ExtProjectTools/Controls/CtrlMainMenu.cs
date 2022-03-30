@@ -4,7 +4,6 @@
 using Scada.Admin.Extensions.ExtProjectTools.Code;
 using Scada.Admin.Extensions.ExtProjectTools.Forms;
 using Scada.Data.Entities;
-using Scada.Forms;
 using System;
 using System.IO;
 using System.Windows.Forms;

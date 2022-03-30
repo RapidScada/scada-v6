@@ -37,7 +37,7 @@
   <Dictionary key="Scada.Admin.Extensions.ExtCommConfig.Controls.CtrlExtensionMenu">
     <Phrase key="miWizards">Мастеры</Phrase>
     <Phrase key="miAddLine">Добавить линию...</Phrase>
-    <Phrase key="miAddDevice">Добавить устройств...</Phrase>
+    <Phrase key="miAddDevice">Добавить устройство...</Phrase>
     <Phrase key="miCreateChannels">Создать каналы...</Phrase>
     <Phrase key="btnAddLine.ToolTip">Добавить линию</Phrase>
     <Phrase key="btnAddDevice.ToolTip">Добавить устройство</Phrase>

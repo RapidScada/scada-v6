@@ -1,0 +1,8 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ExtWirenBoardDictionaries>
+  <Dictionary key="Scada.Admin.Extensions.ExtWirenBoard.Controls.CtrlExtensionMenu">
+    <Phrase key="miWirenBoard">Wiren Board</Phrase>
+    <Phrase key="miCreateConfig">Создать конфигурацию...</Phrase>
+    <Phrase key="btnCreateConfig.ToolTip">Создать конфигурацию проекта для Wiren Board</Phrase>
+  </Dictionary>
+</ExtWirenBoardDictionaries>
