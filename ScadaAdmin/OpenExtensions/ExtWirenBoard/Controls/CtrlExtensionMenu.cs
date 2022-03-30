@@ -1,6 +1,10 @@
 ﻿// Copyright (c) Rapid Software LLC. All rights reserved.
 // Licensed under the Apache License, Version 2.0. See License.txt in the project root for license information.
 
+using Scada.Admin.Extensions.ExtWirenBoard.Code;
+using Scada.Admin.Extensions.ExtWirenBoard.Forms;
+using Scada.Data.Entities;
+
 namespace Scada.Admin.Extensions.ExtWirenBoard.Controls
 {
     /// <summary>
@@ -9,7 +13,8 @@ namespace Scada.Admin.Extensions.ExtWirenBoard.Controls
     /// </summary>
     public partial class CtrlExtensionMenu : UserControl
     {
-        private readonly IAdminContext adminContext; // the Administrator context
+        private readonly IAdminContext adminContext;      // the Administrator context
+        private readonly RecentSelection recentSelection; // the recently selected parameters
 
 
         /// <summary>
@@ -27,6 +32,8 @@ namespace Scada.Admin.Extensions.ExtWirenBoard.Controls
             : this()
         {
             this.adminContext = adminContext ?? throw new ArgumentNullException(nameof(adminContext));
+            recentSelection = new RecentSelection();
+
             SetMenuItemsEnabled();
             adminContext.CurrentProjectChanged += AdminContext_CurrentProjectChanged;
         }
@@ -62,16 +69,21 @@ namespace Scada.Admin.Extensions.ExtWirenBoard.Controls
         private void AdminContext_CurrentProjectChanged(object sender, EventArgs e)
         {
             SetMenuItemsEnabled();
+            recentSelection.Reset();
         }
 
         private void miCreateConfig_Click(object sender, EventArgs e)
         {
             if (adminContext.CurrentProject != null)
             {
-                /*FrmCnlCreate frmCnlCreate = new(adminContext, adminContext.CurrentProject, recentSelection);
+                FrmWirenBoardWizard frmWirenBoardWizard = new(adminContext, adminContext.CurrentProject, recentSelection);
 
-                if (frmCnlCreate.ShowDialog() == DialogResult.OK)
-                    adminContext.MainForm.RefreshBaseTables(typeof(Cnl));*/
+                if (frmWirenBoardWizard.ShowDialog() == DialogResult.OK)
+                {
+                    adminContext.MainForm.RefreshBaseTables(typeof(Device));
+                    adminContext.MainForm.RefreshBaseTables(typeof(Cnl));
+                    // TODO: update explorer and line config form
+                }
             }
         }
     }
