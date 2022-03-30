@@ -1,0 +1,16 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net6.0-windows</TargetFramework>
+    <Nullable>disable</Nullable>
+    <UseWindowsForms>true</UseWindowsForms>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <RootNamespace>Scada.Admin.Extensions.ExtWirenBoard</RootNamespace>
+    <Version>6.0.0</Version>
+    <Authors>Mikhail Shiryaev</Authors>
+    <Company>Rapid Software LLC</Company>
+    <Product>Rapid SCADA</Product>
+    <Copyright>Copyright © 2022</Copyright>
+  </PropertyGroup>
+
+</Project>

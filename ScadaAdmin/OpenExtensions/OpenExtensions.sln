@@ -20,7 +20,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ExtDepAgent", "ExtDepAgent\
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ExtTableEditor", "ExtTableEditor\ExtTableEditor.csproj", "{B549EDCE-494E-40FE-B127-5B7501922D8D}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ExtWebConfig", "ExtWebConfig\ExtWebConfig.csproj", "{A90C3DC7-93DA-4B08-B850-F9E87ED9470F}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ExtWebConfig", "ExtWebConfig\ExtWebConfig.csproj", "{A90C3DC7-93DA-4B08-B850-F9E87ED9470F}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ExtWirenBoard", "ExtWirenBoard\ExtWirenBoard.csproj", "{B0168F59-79F5-4211-911A-1F035155327C}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -56,6 +58,10 @@ Global
 		{A90C3DC7-93DA-4B08-B850-F9E87ED9470F}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{A90C3DC7-93DA-4B08-B850-F9E87ED9470F}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{A90C3DC7-93DA-4B08-B850-F9E87ED9470F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B0168F59-79F5-4211-911A-1F035155327C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B0168F59-79F5-4211-911A-1F035155327C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B0168F59-79F5-4211-911A-1F035155327C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B0168F59-79F5-4211-911A-1F035155327C}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
