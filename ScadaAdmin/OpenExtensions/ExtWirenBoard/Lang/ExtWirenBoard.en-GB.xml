@@ -5,4 +5,25 @@
     <Phrase key="miCreateConfig">Create Configuration...</Phrase>
     <Phrase key="btnCreateConfig.ToolTip">Create project configuration for Wiren Board</Phrase>
   </Dictionary>
+  <Dictionary key="Scada.Admin.Extensions.ExtWirenBoard.Controls.CtrlLineSelect">
+    <Phrase key="lblInstance">Instance</Phrase>
+    <Phrase key="lblLine">Communication line</Phrase>
+    <Phrase key="lblWirenBoardIP">Wiren Board IP address</Phrase>
+    <Phrase key="CommLineRequired">Please choose a communication line.</Phrase>
+    <Phrase key="MqttLineRequired">The channel type of the selected line must be MQTT client.</Phrase>
+    <Phrase key="WirenBoardIpRequired">Wiren Board IP address is required.</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Admin.Extensions.ExtWirenBoard.Forms.FrmWirenBoardWizard">
+    <Phrase key="this">Wiren Board</Phrase>
+    <Phrase key="btnBack">&lt; Back</Phrase>
+    <Phrase key="btnNext">Next &gt;</Phrase>
+    <Phrase key="btnCreate">Create</Phrase>
+    <Phrase key="btnCancel">Cancel</Phrase>
+    <Phrase key="Step1Descr">Step 1 of 5: Select Communication Line</Phrase>
+    <Phrase key=""></Phrase>
+    <Phrase key=""></Phrase>
+    <Phrase key=""></Phrase>
+    <Phrase key=""></Phrase>
+    <Phrase key=""></Phrase>
+  </Dictionary>
 </ExtWirenBoardDictionaries>

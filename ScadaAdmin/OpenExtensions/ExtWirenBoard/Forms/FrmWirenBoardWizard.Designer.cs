@@ -77,6 +77,7 @@
             this.btnNext.TabIndex = 2;
             this.btnNext.Text = "Next >";
             this.btnNext.UseVisualStyleBackColor = true;
+            this.btnNext.Click += new System.EventHandler(this.btnNext_Click);
             // 
             // btnCreate
             // 
@@ -87,6 +88,7 @@
             this.btnCreate.TabIndex = 3;
             this.btnCreate.Text = "Create";
             this.btnCreate.UseVisualStyleBackColor = true;
+            this.btnCreate.Click += new System.EventHandler(this.btnCreate_Click);
             // 
             // btnBack
             // 
@@ -97,6 +99,7 @@
             this.btnBack.TabIndex = 2;
             this.btnBack.Text = "< Back";
             this.btnBack.UseVisualStyleBackColor = true;
+            this.btnBack.Click += new System.EventHandler(this.btnBack_Click);
             // 
             // lblStep
             // 

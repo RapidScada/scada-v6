@@ -1,6 +1,7 @@
 ﻿// Copyright (c) Rapid Software LLC. All rights reserved.
 // Licensed under the Apache License, Version 2.0. See License.txt in the project root for license information.
 
+using Scada.Admin.Extensions.ExtWirenBoard.Code;
 using Scada.Admin.Extensions.ExtWirenBoard.Controls;
 using Scada.Admin.Lang;
 using Scada.Forms;
@@ -88,7 +89,7 @@ namespace Scada.Admin.Extensions.ExtWirenBoard
             if (!Locale.LoadDictionaries(AdminContext.AppDirs.LangDir, Code, out string errMsg))
                 AdminContext.ErrLog.WriteError(AdminPhrases.ExtensionMessage, Code, errMsg);
 
-            //ExtensionPhrases.Init();
+            ExtensionPhrases.Init();
         }
 
         /// <summary>

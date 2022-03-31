@@ -56,6 +56,7 @@
             this.cbInstance.Name = "cbInstance";
             this.cbInstance.Size = new System.Drawing.Size(476, 23);
             this.cbInstance.TabIndex = 1;
+            this.cbInstance.SelectedIndexChanged += new System.EventHandler(this.cbInstance_SelectedIndexChanged);
             // 
             // lblLine
             // 
@@ -77,15 +78,16 @@
             this.cbLine.Name = "cbLine";
             this.cbLine.Size = new System.Drawing.Size(476, 23);
             this.cbLine.TabIndex = 3;
+            this.cbLine.SelectedIndexChanged += new System.EventHandler(this.cbLine_SelectedIndexChanged);
             // 
             // lblWirenBoardIP
             // 
             this.lblWirenBoardIP.AutoSize = true;
             this.lblWirenBoardIP.Location = new System.Drawing.Point(9, 111);
             this.lblWirenBoardIP.Name = "lblWirenBoardIP";
-            this.lblWirenBoardIP.Size = new System.Drawing.Size(125, 15);
+            this.lblWirenBoardIP.Size = new System.Drawing.Size(128, 15);
             this.lblWirenBoardIP.TabIndex = 4;
-            this.lblWirenBoardIP.Text = "WirenBoard IP address";
+            this.lblWirenBoardIP.Text = "Wiren Board IP address";
             // 
             // txtWirenBoardIP
             // 
@@ -109,6 +111,7 @@
             this.Name = "CtrlLineSelect";
             this.Padding = new System.Windows.Forms.Padding(9);
             this.Size = new System.Drawing.Size(500, 200);
+            this.Load += new System.EventHandler(this.CtrlLineSelect_Load);
             this.ResumeLayout(false);
             this.PerformLayout();
 
