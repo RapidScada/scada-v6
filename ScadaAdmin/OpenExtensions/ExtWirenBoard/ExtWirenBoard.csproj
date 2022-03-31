@@ -14,6 +14,9 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Reference Include="DrvMqtt.Common">
+      <HintPath>..\..\..\ScadaComm\OpenDrivers\DrvMqtt.Common\bin\Release\net6.0\DrvMqtt.Common.dll</HintPath>
+    </Reference>
     <Reference Include="ScadaAdminCommon">
       <HintPath>..\..\ScadaAdmin\ScadaAdminCommon\bin\Release\net6.0-windows\ScadaAdminCommon.dll</HintPath>
     </Reference>

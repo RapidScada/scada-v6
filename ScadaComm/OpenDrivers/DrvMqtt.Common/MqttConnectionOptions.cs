@@ -16,6 +16,20 @@ namespace Scada.Comm.Drivers.DrvMqtt
         /// <summary>
         /// Initializes a new instance of the class.
         /// </summary>
+        public MqttConnectionOptions()
+        {
+            Server = "";
+            Port = 1883;
+            ClientID = "";
+            Username = "";
+            Password = "";
+            Timeout = 10000;
+            ProtocolVersion = MqttProtocolVersion.Unknown;
+        }
+
+        /// <summary>
+        /// Initializes a new instance of the class.
+        /// </summary>
         public MqttConnectionOptions(OptionList options)
         {
             Server = options.GetValueAsString("Server");

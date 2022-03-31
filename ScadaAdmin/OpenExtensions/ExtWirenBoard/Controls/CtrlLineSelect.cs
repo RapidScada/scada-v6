@@ -4,6 +4,7 @@
 using Scada.Admin.Extensions.ExtWirenBoard.Code;
 using Scada.Admin.Project;
 using Scada.Comm.Config;
+using Scada.Comm.Drivers.DrvMqtt;
 using Scada.Forms;
 using System.Data;
 
@@ -43,6 +44,12 @@ namespace Scada.Admin.Extensions.ExtWirenBoard.Controls
             this.project = project ?? throw new ArgumentNullException(nameof(project));
             this.recentSelection = recentSelection ?? throw new ArgumentNullException(nameof(recentSelection));
         }
+
+
+        /// <summary>
+        /// Gets the selected communication line.
+        /// </summary>
+        public LineConfig Line => cbLine.SelectedItem as LineConfig;
 
 
         /// <summary>
@@ -166,6 +173,16 @@ namespace Scada.Admin.Extensions.ExtWirenBoard.Controls
             }
 
             return true;
+        }
+
+        /// <summary>
+        /// Gets the MQTT connection options.
+        /// </summary>
+        public MqttConnectionOptions GetMqttConnectionOptions()
+        {
+            return cbLine.SelectedItem is LineConfig line
+                ? new(line.Channel.CustomOptions) { Server = txtWirenBoardIP.Text }
+                : new MqttConnectionOptions();
         }
 
 

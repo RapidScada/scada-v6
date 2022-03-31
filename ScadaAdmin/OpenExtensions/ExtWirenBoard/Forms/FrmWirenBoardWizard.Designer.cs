@@ -49,8 +49,8 @@
             // pnlBottom
             // 
             this.pnlBottom.Controls.Add(this.btnCancel);
-            this.pnlBottom.Controls.Add(this.btnNext);
             this.pnlBottom.Controls.Add(this.btnCreate);
+            this.pnlBottom.Controls.Add(this.btnNext);
             this.pnlBottom.Controls.Add(this.btnBack);
             this.pnlBottom.Dock = System.Windows.Forms.DockStyle.Bottom;
             this.pnlBottom.Location = new System.Drawing.Point(0, 420);
@@ -64,7 +64,7 @@
             this.btnCancel.Location = new System.Drawing.Point(497, 6);
             this.btnCancel.Name = "btnCancel";
             this.btnCancel.Size = new System.Drawing.Size(75, 23);
-            this.btnCancel.TabIndex = 2;
+            this.btnCancel.TabIndex = 3;
             this.btnCancel.Text = "Cancel";
             this.btnCancel.UseVisualStyleBackColor = true;
             // 
@@ -74,7 +74,7 @@
             this.btnNext.Location = new System.Drawing.Point(416, 6);
             this.btnNext.Name = "btnNext";
             this.btnNext.Size = new System.Drawing.Size(75, 23);
-            this.btnNext.TabIndex = 2;
+            this.btnNext.TabIndex = 1;
             this.btnNext.Text = "Next >";
             this.btnNext.UseVisualStyleBackColor = true;
             this.btnNext.Click += new System.EventHandler(this.btnNext_Click);
@@ -85,7 +85,7 @@
             this.btnCreate.Location = new System.Drawing.Point(416, 6);
             this.btnCreate.Name = "btnCreate";
             this.btnCreate.Size = new System.Drawing.Size(75, 23);
-            this.btnCreate.TabIndex = 3;
+            this.btnCreate.TabIndex = 2;
             this.btnCreate.Text = "Create";
             this.btnCreate.UseVisualStyleBackColor = true;
             this.btnCreate.Click += new System.EventHandler(this.btnCreate_Click);
@@ -96,7 +96,7 @@
             this.btnBack.Location = new System.Drawing.Point(335, 6);
             this.btnBack.Name = "btnBack";
             this.btnBack.Size = new System.Drawing.Size(75, 23);
-            this.btnBack.TabIndex = 2;
+            this.btnBack.TabIndex = 0;
             this.btnBack.Text = "< Back";
             this.btnBack.UseVisualStyleBackColor = true;
             this.btnBack.Click += new System.EventHandler(this.btnBack_Click);
