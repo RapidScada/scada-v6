@@ -226,13 +226,6 @@ namespace Scada.Comm.Drivers.DrvCnlMqtt.Logic
         }
 
         /// <summary>
-        /// Starts the communication channel.
-        /// </summary>
-        public override void Start()
-        {
-        }
-
-        /// <summary>
         /// Stops the communication channel.
         /// </summary>
         public override void Stop()
