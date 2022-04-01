@@ -5,6 +5,7 @@ using MQTTnet;
 using MQTTnet.Client;
 using MQTTnet.Client.Connecting;
 using MQTTnet.Client.Subscribing;
+using Scada.Admin.Extensions.ExtWirenBoard.Code.Models;
 using Scada.Comm.Drivers.DrvMqtt;
 using Scada.Forms;
 using Scada.Lang;
@@ -49,6 +50,7 @@ namespace Scada.Admin.Extensions.ExtWirenBoard.Code
             stopReading = false;
 
             ReadResult = false;
+            WirenBoardModel = new WirenBoardModel();
         }
 
 
@@ -56,6 +58,11 @@ namespace Scada.Admin.Extensions.ExtWirenBoard.Code
         /// Gets the result of a read operation.
         /// </summary>
         public bool ReadResult { get; private set; }
+
+        /// <summary>
+        /// Gets the information about the Wiren Board.
+        /// </summary>
+        public WirenBoardModel WirenBoardModel { get; }
 
 
         /// <summary>
@@ -109,10 +116,19 @@ namespace Scada.Admin.Extensions.ExtWirenBoard.Code
                         }
                     }
 
-                    logHelper.WriteSuccess(Locale.IsRussian ?
-                        "Чтение топиков завершено успешно" :
-                        "Reading topics completed successfully");
-                    ReadResult = true;
+                    if (WirenBoardModel.Devices.Count > 0)
+                    {
+                        logHelper.WriteSuccess(Locale.IsRussian ?
+                            "Чтение топиков завершено успешно" :
+                            "Reading topics completed successfully");
+                        ReadResult = true;
+                    }
+                    else
+                    {
+                        logHelper.WriteError(Locale.IsRussian ?
+                            "Подключенные устройства не найдены" :
+                            "Connected devices not found");
+                    }
                 }
                 else
                 {
@@ -173,16 +189,23 @@ namespace Scada.Admin.Extensions.ExtWirenBoard.Code
         /// </summary>
         private void MqttClient_ApplicationMessageReceived(MqttApplicationMessageReceivedEventArgs e)
         {
+            if (stopReading)
+                return;
+
             try
             {
                 lock (mqttLock)
                 {
                     messageDT = DateTime.UtcNow;
+                    string topic = e.ApplicationMessage.Topic;
+                    string payload = e.ApplicationMessage.ConvertPayloadToString();
+                    logHelper.WriteMessage(string.Format("{0} {1}", topic, payload));
 
-                    logHelper.WriteMessage(string.Format("{0} {1}",
-                        e.ApplicationMessage.Topic, e.ApplicationMessage.ConvertPayloadToString()));
-
-                    if (!e.ApplicationMessage.Retain)
+                    if (e.ApplicationMessage.Retain)
+                    {
+                        WirenBoardModel.AddTopic(topic, payload);
+                    }
+                    else
                     {
                         stopReading = true;
                         logHelper.WriteMessage(Locale.IsRussian ?
