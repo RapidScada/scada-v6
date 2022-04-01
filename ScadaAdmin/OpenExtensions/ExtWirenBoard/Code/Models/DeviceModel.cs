@@ -11,7 +11,7 @@ namespace Scada.Admin.Extensions.ExtWirenBoard.Code.Models
     /// </summary>
     internal class DeviceModel
     {
-        private readonly Dictionary<string, ControlMeta> controlByCode; // the device controls accessed by code
+        private readonly Dictionary<string, ControlModel> controlByCode; // the device controls accessed by code
 
 
         /// <summary>
@@ -19,10 +19,10 @@ namespace Scada.Admin.Extensions.ExtWirenBoard.Code.Models
         /// </summary>
         public DeviceModel(string code)
         {
-            controlByCode = new Dictionary<string, ControlMeta>();
+            controlByCode = new Dictionary<string, ControlModel>();
             Code = code ?? throw new ArgumentNullException(nameof(code));
             Meta = new DeviceMeta { Name = code };
-            Controls = new List<ControlMeta>();
+            Controls = new List<ControlModel>();
         }
 
 
@@ -39,48 +39,32 @@ namespace Scada.Admin.Extensions.ExtWirenBoard.Code.Models
         /// <summary>
         /// Gets the device controls.
         /// </summary>
-        public List<ControlMeta> Controls { get; }
+        public List<ControlModel> Controls { get; }
 
 
         /// <summary>
         /// Updates the device information.
         /// </summary>
-        public void UpdateDeviceMeta(DeviceMeta deviceMeta)
+        public void UpdateMeta(DeviceMeta deviceMeta)
         {
             Meta = deviceMeta ?? throw new ArgumentNullException(nameof(deviceMeta));
         }
 
         /// <summary>
-        /// Updates the control information.
-        /// </summary>
-        public void UpdateControlMeta(string controlCode, ControlMeta controlMeta)
-        {
-            if (controlByCode.ContainsKey(controlCode))
-            {
-                controlByCode[controlCode] = controlMeta;
-            }
-            else
-            {
-                Controls.Add(controlMeta);
-                controlByCode.Add(controlCode, controlMeta);
-            }
-        }
-
-        /// <summary>
         /// Gets the existing control meta, or adds a new one if not found.
         /// </summary>
-        public ControlMeta GetOrAddControl(string deviceCode)
+        public ControlModel GetOrAddControl(string controlCode)
         {
-            if (controlByCode.TryGetValue(deviceCode, out ControlMeta controlMeta))
+            if (controlByCode.TryGetValue(controlCode, out ControlModel controlModel))
             {
-                return controlMeta;
+                return controlModel;
             }
             else
             {
-                controlMeta = new ControlMeta();
-                Controls.Add(controlMeta);
-                controlByCode.Add(deviceCode, controlMeta);
-                return controlMeta;
+                controlModel = new ControlModel(controlCode);
+                Controls.Add(controlModel);
+                controlByCode.Add(controlCode, controlModel);
+                return controlModel;
             }
         }
     }

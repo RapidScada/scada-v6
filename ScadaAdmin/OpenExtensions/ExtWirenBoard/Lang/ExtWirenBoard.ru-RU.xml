@@ -21,5 +21,6 @@
     <Phrase key="btnCancel">Отмена</Phrase>
     <Phrase key="Step1Descr">Шаг 1 из 5: Выбор линии связи</Phrase>
     <Phrase key="Step2Descr">Шаг 2 из 5: Чтение топиков из Wiren Board</Phrase>
+    <Phrase key="Step3Descr">Шаг 3 из 5: Выбор устройств и элементов для импорта</Phrase>
   </Dictionary>
 </ExtWirenBoardDictionaries>

@@ -40,22 +40,23 @@ namespace Scada.Admin.Extensions.ExtWirenBoard.Code.Models
         {
             if (!string.IsNullOrEmpty(deviceCode))
             {
-                DeviceModel device = GetOrAddDevice(deviceCode);
+                DeviceModel deviceModel = GetOrAddDevice(deviceCode);
 
                 if (topicParts.Length == 3 && payload.StartsWith('{'))
                 {
                     DeviceMeta deviceMeta = JsonSerializer.Deserialize<DeviceMeta>(payload);
                     deviceMeta.Name = deviceMeta.Title?.En ?? deviceCode;
-                    device.UpdateDeviceMeta(deviceMeta);
+                    deviceModel.UpdateMeta(deviceMeta);
                 }
                 else if (topicParts.Length == 4)
                 {
+                    DeviceMeta deviceMeta = deviceModel.Meta;
                     string propName = topicParts[3];
 
                     if (propName == "driver")
-                        device.Meta.Driver = payload;
+                        deviceMeta.Driver = payload;
                     else if (propName == "name")
-                        device.Meta.Name = payload;
+                        deviceMeta.Name = payload;
                 }
             }
         }
@@ -68,17 +69,18 @@ namespace Scada.Admin.Extensions.ExtWirenBoard.Code.Models
             if (!string.IsNullOrEmpty(deviceCode) &&
                 !string.IsNullOrEmpty(controlCode))
             {
-                DeviceModel device = GetOrAddDevice(deviceCode);
+                DeviceModel deviceModel = GetOrAddDevice(deviceCode);
+                ControlModel controlModel = deviceModel.GetOrAddControl(controlCode);
 
                 if (topicParts.Length == 5 && payload.StartsWith('{'))
                 {
                     ControlMeta controlMeta = JsonSerializer.Deserialize<ControlMeta>(payload);
                     controlMeta.Name = controlMeta.Title?.En ?? controlCode;
-                    device.UpdateControlMeta(controlCode, controlMeta);
+                    controlModel.UpdateMeta(controlMeta);
                 }
                 else if (topicParts.Length == 6)
                 {
-                    ControlMeta controlMeta = device.GetOrAddControl(deviceCode);
+                    ControlMeta controlMeta = controlModel.Meta;
                     string propName = topicParts[5];
 
                     if (propName == "type")

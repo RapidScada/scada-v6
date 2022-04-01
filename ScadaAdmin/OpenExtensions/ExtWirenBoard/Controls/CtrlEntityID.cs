@@ -10,7 +10,7 @@ using System.Windows.Forms;
 
 namespace Scada.Admin.Extensions.ExtWirenBoard.Controls
 {
-    public partial class CtrlEntityID : UserControl
+    internal partial class CtrlEntityID : UserControl
     {
         public CtrlEntityID()
         {

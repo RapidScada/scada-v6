@@ -14,7 +14,7 @@ namespace Scada.Admin.Extensions.ExtWirenBoard.Controls
     /// Represents a control for selecting a communication line.
     /// <para>Представляет элемент управления для выбора линии связи.</para>
     /// </summary>
-    public partial class CtrlLineSelect : UserControl
+    internal partial class CtrlLineSelect : UserControl
     {
         /// <summary>
         /// The required channel type of a selected communication line.

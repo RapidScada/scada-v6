@@ -11,7 +11,7 @@ namespace Scada.Admin.Extensions.ExtWirenBoard.Controls
     /// Represents a control that provides extension menus.
     /// <para>Представляет элемент управления, предоставляющий меню расширения.</para>
     /// </summary>
-    public partial class CtrlExtensionMenu : UserControl
+    internal partial class CtrlExtensionMenu : UserControl
     {
         private readonly IAdminContext adminContext;      // the Administrator context
         private readonly RecentSelection recentSelection; // the recently selected parameters

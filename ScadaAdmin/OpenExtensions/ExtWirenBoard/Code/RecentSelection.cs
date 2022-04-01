@@ -7,7 +7,7 @@ namespace Scada.Admin.Extensions.ExtWirenBoard.Code
     /// Represents ecently selected parameters.
     /// <para>Представляет недавно выбранные параметры.</para>
     /// </summary>
-    public class RecentSelection
+    internal class RecentSelection
     {
         /// <summary>
         /// Initializes a new instance of the class.
