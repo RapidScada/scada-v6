@@ -13,8 +13,8 @@ namespace Scada.Forms
     /// </summary>
     public class RichTextBoxHelper
     {
-        private readonly Action<string> writeMessageAction; // wraps the WriteMessage method
-        private readonly Action<string> writeErrorAction;   // wraps the WriteError method
+        private readonly Action<string> writeMessageAction;
+        private readonly Action<string, Color> writeColoredMessageAction;
 
 
         /// <summary>
@@ -23,7 +23,7 @@ namespace Scada.Forms
         public RichTextBoxHelper(RichTextBox richTextBox)
         {
             writeMessageAction = s => WriteMessage(s);
-            writeErrorAction = s => WriteError(s);
+            writeColoredMessageAction = (s, c) => WriteMessage(s, c);
 
             RichTextBox = richTextBox ?? throw new ArgumentNullException(nameof(richTextBox));
             SuccessColor = Color.Green;
@@ -70,14 +70,14 @@ namespace Scada.Forms
         /// <summary>
         /// Writes the message with the specified text color.
         /// </summary>
-        public void WriteColoredMessage(string text, Color color)
+        public void WriteMessage(string text, Color color)
         {
             if (RichTextBox.IsDisposed)
                 return;
 
             if (RichTextBox.InvokeRequired)
             {
-                RichTextBox.Invoke(writeErrorAction, text);
+                RichTextBox.Invoke(writeColoredMessageAction, text, color);
             }
             else
             {
@@ -96,7 +96,7 @@ namespace Scada.Forms
         /// </summary>
         public void WriteSuccess(string text)
         {
-            WriteColoredMessage(text, SuccessColor);
+            WriteMessage(text, SuccessColor);
         }
 
         /// <summary>
@@ -104,7 +104,7 @@ namespace Scada.Forms
         /// </summary>
         public void WriteError(string text)
         {
-            WriteColoredMessage(text, ErrorColor);
+            WriteMessage(text, ErrorColor);
         }
 
         /// <summary>
