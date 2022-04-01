@@ -41,8 +41,10 @@ namespace Scada.Admin.Extensions.ExtWirenBoard.Forms
         private readonly CtrlLog ctrlLog;
         private readonly CtrlTopicTree ctrlTopicTree;
         private readonly CtrlEntityID ctrlEntityID;
+        private readonly RichTextBoxHelper logHelper;
 
-        private Step step; // the current waizard step
+        private Step step;               // the current waizard step
+        private TopicReader topicReader; // reads Wiren Board topics
 
 
         /// <summary>
@@ -72,6 +74,7 @@ namespace Scada.Admin.Extensions.ExtWirenBoard.Forms
             ctrlLog = new CtrlLog { Dock = DockStyle.Fill, Visible = false };
             ctrlTopicTree = new CtrlTopicTree { Dock = DockStyle.Fill, Visible = false };
             ctrlEntityID = new CtrlEntityID { Dock = DockStyle.Fill, Visible = false };
+            logHelper = new RichTextBoxHelper(ctrlLog.RichTextBox);
 
             pnlMain.Controls.Add(ctrlLineSelect);
             pnlMain.Controls.Add(ctrlLog);
@@ -79,6 +82,7 @@ namespace Scada.Admin.Extensions.ExtWirenBoard.Forms
             pnlMain.Controls.Add(ctrlEntityID);
 
             step = Step.SelectLine;
+            topicReader = null;
         }
 
 
@@ -109,7 +113,9 @@ namespace Scada.Admin.Extensions.ExtWirenBoard.Forms
             ctrlTopicTree.Visible = false;
             ctrlEntityID.Visible = false;
             btnBack.Visible = false;
+            btnBack.Enabled = true;
             btnNext.Visible = false;
+            btnNext.Enabled = true;
             btnCreate.Visible = false;
 
             switch (step)
@@ -117,15 +123,27 @@ namespace Scada.Admin.Extensions.ExtWirenBoard.Forms
                 case Step.SelectLine:
                     lblStep.Text = ExtensionPhrases.Step1Descr;
                     ctrlLineSelect.Visible = true;
-                    btnNext.Visible = true;
                     ctrlLineSelect.SetFocus();
+                    btnNext.Visible = true;
                     break;
 
                 case Step.ReadTopics:
                     lblStep.Text = ExtensionPhrases.Step2Descr;
                     ctrlLog.Visible = true;
+                    ctrlLog.SetFocus();
+                    logHelper.Clear();
                     btnBack.Visible = true;
                     btnNext.Visible = true;
+
+                    // start reading topics
+                    if (stepOffset == StepOffset.Next)
+                    {
+                        btnBack.Enabled = false;
+                        btnNext.Enabled = false;
+                        topicReader = new TopicReader(ctrlLineSelect.GetMqttConnectionOptions(), logHelper);
+                        topicReader.Completed += TopicReader_Completed;
+                        topicReader.Start();
+                    }
                     break;
 
                 case Step.SelectTopics:
@@ -140,6 +158,12 @@ namespace Scada.Admin.Extensions.ExtWirenBoard.Forms
         }
 
 
+        private void TopicReader_Completed(object sender, EventArgs e)
+        {
+            btnBack.Enabled = true;
+            btnNext.Enabled = ((TopicReader)sender).ReadResult;
+        }
+
         private void FrmWirenBoardWizard_Load(object sender, EventArgs e)
         {
             FormTranslator.Translate(this, GetType().FullName);
@@ -149,6 +173,11 @@ namespace Scada.Admin.Extensions.ExtWirenBoard.Forms
             FormTranslator.Translate(ctrlEntityID, ctrlEntityID.GetType().FullName);
 
             MakeStep(StepOffset.None);
+        }
+
+        private void FrmWirenBoardWizard_FormClosing(object sender, FormClosingEventArgs e)
+        {
+            topicReader?.Break();
         }
 
         private void btnBack_Click(object sender, EventArgs e)
