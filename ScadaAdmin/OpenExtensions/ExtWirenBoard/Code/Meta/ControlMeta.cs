@@ -13,9 +13,9 @@ namespace Scada.Admin.Extensions.ExtWirenBoard.Code.Meta
 
         public string Units { get; set; }
 
-        public double Max { get; set; }
-
         public double Min { get; set; }
+
+        public double Max { get; set; }
 
         public double Precision { get; set; }
 

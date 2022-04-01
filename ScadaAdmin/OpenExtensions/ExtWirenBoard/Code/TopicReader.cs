@@ -203,7 +203,8 @@ namespace Scada.Admin.Extensions.ExtWirenBoard.Code
 
                     if (e.ApplicationMessage.Retain)
                     {
-                        WirenBoardModel.AddTopic(topic, payload);
+                        if (!WirenBoardModel.AddTopic(topic, payload, out string errMsg))
+                            logHelper.WriteError(errMsg);
                     }
                     else
                     {
