@@ -14,6 +14,12 @@ namespace Scada.Admin.Extensions.ExtWirenBoard.Code.Models
     /// </summary>
     internal class WirenBoardModel
     {
+        /// <summary>
+        /// Specifies how to parse JSON.
+        /// </summary>
+        private static readonly JsonSerializerOptions JsonSerializerOptions = 
+            new() { PropertyNameCaseInsensitive = true };
+
         private readonly Dictionary<string, DeviceModel> deviceByCode; // the device models accessed by code
 
 
@@ -44,8 +50,8 @@ namespace Scada.Admin.Extensions.ExtWirenBoard.Code.Models
 
                 if (topicParts.Length == 3 && payload.StartsWith('{'))
                 {
-                    DeviceMeta deviceMeta = JsonSerializer.Deserialize<DeviceMeta>(payload);
-                    deviceMeta.Name = deviceMeta.Title?.En ?? deviceCode;
+                    DeviceMeta deviceMeta = JsonSerializer.Deserialize<DeviceMeta>(payload, JsonSerializerOptions);
+                    deviceMeta.Name = deviceMeta.Title.En ?? deviceCode;
                     deviceModel.UpdateMeta(deviceMeta);
                 }
                 else if (topicParts.Length == 4)
@@ -75,7 +81,7 @@ namespace Scada.Admin.Extensions.ExtWirenBoard.Code.Models
                 if (topicParts.Length == 5 && payload.StartsWith('{'))
                 {
                     ControlMeta controlMeta = JsonSerializer.Deserialize<ControlMeta>(payload);
-                    controlMeta.Name = controlMeta.Title?.En ?? controlCode;
+                    controlMeta.Name = controlMeta.Title.En ?? controlCode;
                     controlModel.UpdateMeta(controlMeta);
                 }
                 else if (topicParts.Length == 6)

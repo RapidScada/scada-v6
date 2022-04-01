@@ -133,17 +133,14 @@ namespace Scada.Admin.Extensions.ExtWirenBoard.Forms
                     ctrlLog.SetFocus();
                     logHelper.Clear();
                     btnBack.Visible = true;
+                    btnBack.Enabled = false;
                     btnNext.Visible = true;
+                    btnNext.Enabled = false;
 
                     // start reading topics
-                    if (stepOffset == StepOffset.Next)
-                    {
-                        btnBack.Enabled = false;
-                        btnNext.Enabled = false;
-                        topicReader = new TopicReader(ctrlLineSelect.GetMqttConnectionOptions(), logHelper);
-                        topicReader.Completed += TopicReader_Completed;
-                        topicReader.Start();
-                    }
+                    topicReader = new TopicReader(ctrlLineSelect.GetMqttConnectionOptions(), logHelper);
+                    topicReader.Completed += TopicReader_Completed;
+                    topicReader.Start();
                     break;
 
                 case Step.SelectDevices:

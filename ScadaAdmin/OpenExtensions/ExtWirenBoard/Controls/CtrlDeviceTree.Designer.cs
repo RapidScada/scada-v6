@@ -51,7 +51,9 @@
             this.treeView.Name = "treeView";
             this.treeView.SelectedImageIndex = 0;
             this.treeView.Size = new System.Drawing.Size(232, 241);
-            this.treeView.TabIndex = 0;
+            this.treeView.TabIndex = 2;
+            this.treeView.AfterSelect += new System.Windows.Forms.TreeViewEventHandler(this.treeView_AfterSelect);
+            this.treeView.NodeMouseClick += new System.Windows.Forms.TreeNodeMouseClickEventHandler(this.treeView_NodeMouseClick);
             // 
             // ilTree
             // 
@@ -86,7 +88,7 @@
             this.propertyGrid.Location = new System.Drawing.Point(241, 32);
             this.propertyGrid.Name = "propertyGrid";
             this.propertyGrid.Size = new System.Drawing.Size(232, 241);
-            this.propertyGrid.TabIndex = 1;
+            this.propertyGrid.TabIndex = 3;
             this.propertyGrid.ToolbarVisible = false;
             // 
             // pnlTopLeft
@@ -97,7 +99,7 @@
             this.pnlTopLeft.Location = new System.Drawing.Point(3, 3);
             this.pnlTopLeft.Name = "pnlTopLeft";
             this.pnlTopLeft.Size = new System.Drawing.Size(232, 23);
-            this.pnlTopLeft.TabIndex = 0;
+            this.pnlTopLeft.TabIndex = 1;
             // 
             // btnSelectNone
             // 

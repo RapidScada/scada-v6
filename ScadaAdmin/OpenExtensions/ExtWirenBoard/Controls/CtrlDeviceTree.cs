@@ -49,8 +49,12 @@ namespace Scada.Admin.Extensions.ExtWirenBoard.Controls
                     foreach (ControlModel controlModel in deviceModel.Controls)
                     {
                         TreeNode controlNode = TreeViewExtensions.CreateNode(controlModel.Code, "elem.png", controlModel);
+                        controlNode.Checked = true;
                         deviceNode.Nodes.Add(controlNode);
                     }
+
+                    if (deviceNode.Nodes.Count > 0)
+                        deviceNode.Checked = true;
                 }
 
                 if (treeView.Nodes.Count > 0)
@@ -60,6 +64,24 @@ namespace Scada.Admin.Extensions.ExtWirenBoard.Controls
             {
                 treeView.EndUpdate();
             }
+        }
+
+
+        private void treeView_AfterSelect(object sender, TreeViewEventArgs e)
+        {
+            object tag = treeView.SelectedNode?.Tag;
+
+            if (tag is DeviceModel deviceModel)
+                propertyGrid.SelectedObject = deviceModel.Meta;
+            else if (tag is ControlModel controlModel)
+                propertyGrid.SelectedObject = controlModel.Meta;
+            else
+                propertyGrid.SelectedObject = null;
+        }
+
+        private void treeView_NodeMouseClick(object sender, TreeNodeMouseClickEventArgs e)
+        {
+
         }
     }
 }
