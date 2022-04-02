@@ -9,7 +9,7 @@ namespace Scada.Comm.Drivers.DrvMqttClient.Config
     /// Represents an item configuration, common to subscription and command.
     /// <para>Представляет конфигурацию элемента, общую для подписки и команды.</para>
     /// </summary>
-    internal class BaseItemConfig
+    public class BaseItemConfig
     {
         /// <summary>
         /// Initializes a new instance of the class.

@@ -70,8 +70,6 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DrvMqtt.Common", "DrvMqtt.C
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DrvCnlMqtt.Logic", "DrvCnlMqtt.Logic\DrvCnlMqtt.Logic.csproj", "{F78BEA00-969E-44D4-ABF0-ECD039910261}"
 EndProject
-Project("{D954291E-2A0B-460D-934E-DC6B0785DB48}") = "DrvMqttClient.Shared", "DrvMqttClient.Shared\DrvMqttClient.Shared.shproj", "{EE6CDC81-87D5-4B07-B5A5-ED57ABAF95A6}"
-EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DrvMqttClient.Logic", "DrvMqttClient.Logic\DrvMqttClient.Logic.csproj", "{A4C6F42D-60E4-4034-A147-C2A502AA9D35}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DrvCnlMqtt.View", "DrvCnlMqtt.View\DrvCnlMqtt.View.csproj", "{EEBB70D1-CC83-4698-B905-3249F7ECB2FE}"
@@ -86,6 +84,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DrvDsMqtt.View", "DrvDsMqtt
 EndProject
 Project("{D954291E-2A0B-460D-934E-DC6B0785DB48}") = "DrvDsMqtt.Shared", "DrvDsMqtt.Shared\DrvDsMqtt.Shared.shproj", "{709169F9-0F33-4E14-9FD1-AA9C3D5ED4AA}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DrvMqttClient.Common", "DrvMqttClient.Common\DrvMqttClient.Common.csproj", "{87DD4D79-9BB4-4F15-98AE-464378B1613E}"
+EndProject
 Global
 	GlobalSection(SharedMSBuildProjectFiles) = preSolution
 		DrvMqttPublisher.Shared\DrvMqttPublisher.Shared.projitems*{0d66317c-3cbf-4788-ac99-282423215dea}*SharedItemsImports = 5
@@ -96,11 +96,9 @@ Global
 		DrvSimulator.Shared\DrvSimulator.Shared.projitems*{48043839-37e7-40ae-92e2-a31a79204cf5}*SharedItemsImports = 5
 		DrvDsMqtt.Shared\DrvDsMqtt.Shared.projitems*{709169f9-0f33-4e14-9fd1-aa9c3d5ed4aa}*SharedItemsImports = 13
 		DrvSimulator.Shared\DrvSimulator.Shared.projitems*{8f1c993e-1a67-494a-a5b9-9aedaa8feb9c}*SharedItemsImports = 5
-		DrvMqttClient.Shared\DrvMqttClient.Shared.projitems*{a4c6f42d-60e4-4034-a147-c2a502aa9d35}*SharedItemsImports = 5
 		DrvMqttPublisher.Shared\DrvMqttPublisher.Shared.projitems*{b4923372-4baa-4b51-995e-01ae7adbcbd7}*SharedItemsImports = 13
 		DrvTester.Shared\DrvTester.Shared.projitems*{b7f37122-5eb4-4cf6-b7e9-79e6d0e2083d}*SharedItemsImports = 5
 		DrvTester.Shared\DrvTester.Shared.projitems*{edaf9a96-07da-4a2d-ab7c-b299378f4433}*SharedItemsImports = 5
-		DrvMqttClient.Shared\DrvMqttClient.Shared.projitems*{ee6cdc81-87d5-4b07-b5a5-ed57abaf95a6}*SharedItemsImports = 13
 	EndGlobalSection
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -211,6 +209,10 @@ Global
 		{2DEA42B9-127E-41FB-921B-356C4E290A8C}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{2DEA42B9-127E-41FB-921B-356C4E290A8C}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{2DEA42B9-127E-41FB-921B-356C4E290A8C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{87DD4D79-9BB4-4F15-98AE-464378B1613E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{87DD4D79-9BB4-4F15-98AE-464378B1613E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{87DD4D79-9BB4-4F15-98AE-464378B1613E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{87DD4D79-9BB4-4F15-98AE-464378B1613E}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -239,7 +241,6 @@ Global
 		{1A325222-6683-4D81-8293-AC5BD4C8D3BA} = {910F529C-3F58-4452-94BB-A421C13B5B7B}
 		{CBAFF7CC-46F3-4EFC-9CF4-9B9BFB04D0ED} = {B9143ECA-C319-4A0C-855A-384C34B0DB74}
 		{F78BEA00-969E-44D4-ABF0-ECD039910261} = {B9143ECA-C319-4A0C-855A-384C34B0DB74}
-		{EE6CDC81-87D5-4B07-B5A5-ED57ABAF95A6} = {B9143ECA-C319-4A0C-855A-384C34B0DB74}
 		{A4C6F42D-60E4-4034-A147-C2A502AA9D35} = {B9143ECA-C319-4A0C-855A-384C34B0DB74}
 		{EEBB70D1-CC83-4698-B905-3249F7ECB2FE} = {B9143ECA-C319-4A0C-855A-384C34B0DB74}
 		{0D66317C-3CBF-4788-AC99-282423215DEA} = {B9143ECA-C319-4A0C-855A-384C34B0DB74}
@@ -247,6 +248,7 @@ Global
 		{3F133C20-7E0E-4B31-8438-CAC9DBC27E2F} = {B9143ECA-C319-4A0C-855A-384C34B0DB74}
 		{2DEA42B9-127E-41FB-921B-356C4E290A8C} = {B9143ECA-C319-4A0C-855A-384C34B0DB74}
 		{709169F9-0F33-4E14-9FD1-AA9C3D5ED4AA} = {B9143ECA-C319-4A0C-855A-384C34B0DB74}
+		{87DD4D79-9BB4-4F15-98AE-464378B1613E} = {B9143ECA-C319-4A0C-855A-384C34B0DB74}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {961AA4C1-5D08-4B24-AE6B-99F3AB1A7AEF}

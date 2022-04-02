@@ -11,7 +11,7 @@ namespace Scada.Comm.Drivers.DrvMqttClient.Config
     /// Represents a configuration of an MQTT client device.
     /// <para>Представляет конфигурацию устройства MQTT-клиент.</para>
     /// </summary>
-    internal class MqttClientDeviceConfig : BaseConfig
+    public class MqttClientDeviceConfig : BaseConfig
     {
         /// <summary>
         /// Gets the device options.

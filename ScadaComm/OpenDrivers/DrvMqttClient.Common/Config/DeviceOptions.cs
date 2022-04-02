@@ -9,7 +9,7 @@ namespace Scada.Comm.Drivers.DrvMqttClient.Config
     /// Represents device options.
     /// <para>Представляет параметры устройства.</para>
     /// </summary>
-    internal class DeviceOptions
+    public class DeviceOptions
     {
         /// <summary>
         /// Gets or sets the root topic used as a prefix for all device topics.

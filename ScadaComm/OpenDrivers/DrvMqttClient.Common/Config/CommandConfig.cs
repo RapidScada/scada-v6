@@ -9,7 +9,7 @@ namespace Scada.Comm.Drivers.DrvMqttClient.Config
     /// Represents a command configuration.
     /// <para>Представляет конфигурацию команды.</para>
     /// </summary>
-    internal class CommandConfig : BaseItemConfig
+    public class CommandConfig : BaseItemConfig
     {
         /// <summary>
         /// Initializes a new instance of the class.
