@@ -63,6 +63,8 @@ namespace Scada.Admin.Extensions.ExtWirenBoard.Controls
 
                 if (treeView.Nodes.Count > 0)
                     treeView.SelectedNode = treeView.Nodes[0];
+
+                treeView.CollapseAll();
             }
             finally
             {
