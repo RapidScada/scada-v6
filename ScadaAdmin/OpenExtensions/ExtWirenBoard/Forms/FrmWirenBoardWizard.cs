@@ -26,7 +26,7 @@ namespace Scada.Admin.Extensions.ExtWirenBoard.Forms
         /// <summary>
         /// Specifies the wizard steps.
         /// </summary>
-        private enum Step { SelectLine, ReadTopics, SelectDevices, SetEntityIDs, ValidateIDs }
+        private enum Step { SelectLine, ReadTopics, SelectDevices, SetEntityIDs, CheckConfig }
 
         /// <summary>
         /// Specifies the step offsets.
@@ -73,7 +73,7 @@ namespace Scada.Admin.Extensions.ExtWirenBoard.Forms
 
             ctrlLog = new CtrlLog { Dock = DockStyle.Fill, Visible = false };
             ctrlDeviceTree = new CtrlDeviceTree { Dock = DockStyle.Fill, Visible = false };
-            ctrlEntityID = new CtrlEntityID { Dock = DockStyle.Fill, Visible = false };
+            ctrlEntityID = new CtrlEntityID(adminContext, project) { Dock = DockStyle.Fill, Visible = false };
             logHelper = new RichTextBoxHelper(ctrlLog.RichTextBox);
 
             pnlMain.Controls.Add(ctrlLineSelect);
@@ -106,16 +106,16 @@ namespace Scada.Admin.Extensions.ExtWirenBoard.Forms
         {
             if (stepOffset == StepOffset.Back && step > Step.SelectLine)
                 step--;
-            if (stepOffset == StepOffset.Next && step < Step.ValidateIDs)
+            if (stepOffset == StepOffset.Next && step < Step.CheckConfig)
                 step++;
 
             ctrlLineSelect.Visible = false;
             ctrlLog.Visible = false;
             ctrlDeviceTree.Visible = false;
             ctrlEntityID.Visible = false;
-            btnBack.Visible = false;
+            btnBack.Visible = true;
             btnBack.Enabled = true;
-            btnNext.Visible = false;
+            btnNext.Visible = true;
             btnNext.Enabled = true;
             btnCreate.Visible = false;
 
@@ -125,7 +125,7 @@ namespace Scada.Admin.Extensions.ExtWirenBoard.Forms
                     lblStep.Text = ExtensionPhrases.Step1Descr;
                     ctrlLineSelect.Visible = true;
                     ctrlLineSelect.SetFocus();
-                    btnNext.Visible = true;
+                    btnBack.Visible = false;
                     break;
 
                 case Step.ReadTopics:
@@ -134,9 +134,7 @@ namespace Scada.Admin.Extensions.ExtWirenBoard.Forms
                     ctrlLog.Visible = true;
                     ctrlLog.SetFocus();
                     logHelper.Clear();
-                    btnBack.Visible = true;
                     btnBack.Enabled = false;
-                    btnNext.Visible = true;
                     btnNext.Enabled = false;
 
                     // start reading topics
@@ -148,16 +146,25 @@ namespace Scada.Admin.Extensions.ExtWirenBoard.Forms
                 case Step.SelectDevices:
                     lblStep.Text = ExtensionPhrases.Step3Descr;
                     ctrlDeviceTree.Visible = true;
-                    ctrlDeviceTree.ShowModel(topicReader.WirenBoardModel);
                     ctrlDeviceTree.SetFocus();
-                    btnBack.Visible = true;
-                    btnNext.Visible = true;
+
+                    if (stepOffset == StepOffset.Next)
+                        ctrlDeviceTree.ShowModel(topicReader.WirenBoardModel);
                     break;
 
                 case Step.SetEntityIDs:
+                    lblStep.Text = ExtensionPhrases.Step4Descr;
+                    ctrlEntityID.Visible = true;
+                    ctrlEntityID.SetFocus();
+
+                    if (stepOffset == StepOffset.Next)
+                        ctrlEntityID.AssignIDs();
                     break;
 
-                case Step.ValidateIDs:
+                case Step.CheckConfig:
+                    lblStep.Text = ExtensionPhrases.Step5Descr;
+                    btnNext.Visible = false;
+                    btnCreate.Visible = true;
                     break;
             }
         }

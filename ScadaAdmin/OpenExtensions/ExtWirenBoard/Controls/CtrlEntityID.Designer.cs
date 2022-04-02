@@ -110,6 +110,7 @@
             this.btnCnlMap.TabIndex = 5;
             this.btnCnlMap.Text = "Map";
             this.btnCnlMap.UseVisualStyleBackColor = true;
+            this.btnCnlMap.Click += new System.EventHandler(this.btnCnlMap_Click);
             // 
             // btnDeviceMap
             // 
@@ -119,6 +120,7 @@
             this.btnDeviceMap.TabIndex = 2;
             this.btnDeviceMap.Text = "Map";
             this.btnDeviceMap.UseVisualStyleBackColor = true;
+            this.btnDeviceMap.Click += new System.EventHandler(this.btnDeviceMap_Click);
             // 
             // CtrlEntityID
             // 

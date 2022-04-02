@@ -5,6 +5,12 @@
     <Phrase key="btnSelectNone">Select None</Phrase>
     <Phrase key="SelectDevice">Please select at least one device.</Phrase>
   </Dictionary>
+  <Dictionary key="Scada.Admin.Extensions.ExtWirenBoard.Controls.CtrlEntityID">
+    <Phrase key="lblStartDeviceNum">Starting device number</Phrase>
+    <Phrase key="btnDeviceMap">Map</Phrase>
+    <Phrase key="lblStartCnlNum">Starting channel number</Phrase>
+    <Phrase key="btnCnlMap">Map</Phrase>
+  </Dictionary>
   <Dictionary key="Scada.Admin.Extensions.ExtWirenBoard.Controls.CtrlExtensionMenu">
     <Phrase key="miWirenBoard">Wiren Board</Phrase>
     <Phrase key="miCreateConfig">Create Configuration...</Phrase>
@@ -27,8 +33,8 @@
     <Phrase key="Step1Descr">Step 1 of 5: Select Communication Line</Phrase>
     <Phrase key="Step2Descr">Step 2 of 5: Read Topics from Wiren Board</Phrase>
     <Phrase key="Step3Descr">Step 3 of 5: Select Devices and Controls for Import</Phrase>
-    <Phrase key=""></Phrase>
-    <Phrase key=""></Phrase>
+    <Phrase key="Step4Descr">Step 4 of 5: Set IDs for Configuration Database</Phrase>
+    <Phrase key="Step5Descr">Step 5 of 5: Check Configuration Being Created</Phrase>
     <Phrase key=""></Phrase>
   </Dictionary>
 </ExtWirenBoardDictionaries>
