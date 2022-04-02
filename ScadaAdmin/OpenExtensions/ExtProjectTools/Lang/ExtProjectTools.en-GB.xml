@@ -5,7 +5,14 @@
     <Phrase key="MapByObjectTitle">Channels by Object</Phrase>
     <Phrase key="ChannelsCaption">Channels : </Phrase>
     <Phrase key="NoChannels">No channels</Phrase>
-    <Phrase key="GenerateMapError">Error generating channel map</Phrase>
+    <Phrase key="GenerateChannelMapError">Error generating channel map</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Admin.Extensions.ExtProjectTools.Code.DeviceMap">
+    <Phrase key="DeviceMapTitle">Devices by Communication Line</Phrase>
+    <Phrase key="DevicesCaption">Devices : </Phrase>
+    <Phrase key="NoDevices">No devices</Phrase>
+    <Phrase key="EmptyCommLine">Empty communication line</Phrase>
+    <Phrase key="GenerateDeviceMapError">Error generating device map</Phrase>
   </Dictionary>
   <Dictionary key="Scada.Admin.Extensions.ExtProjectTools.Code.IntegrityCheck">
     <Phrase key="IntegrityCheckTitle">Integrity Check</Phrase>
@@ -21,6 +28,7 @@
     <Phrase key="miCloneChannels">Clone Channels...</Phrase>
     <Phrase key="miChannelMapByDevice">Channel Map by Device</Phrase>
     <Phrase key="miChannelMapByObject">Channel Map by Object</Phrase>
+    <Phrase key="miDeviceMap">Device Map</Phrase>
     <Phrase key="miCheckIntegrity">Check Integrity</Phrase>
     <Phrase key="miImportTable">Import Table...</Phrase>
     <Phrase key="miExportTable">Export Table...</Phrase>

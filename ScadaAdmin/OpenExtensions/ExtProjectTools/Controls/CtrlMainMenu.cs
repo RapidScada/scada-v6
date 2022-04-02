@@ -78,6 +78,18 @@ namespace Scada.Admin.Extensions.ExtProjectTools.Controls
             }
         }
 
+        /// <summary>
+        /// Generates a device map.
+        /// </summary>
+        private void GenerateDeviceMap()
+        {
+            if (adminContext.CurrentProject != null)
+            {
+                new DeviceMap(adminContext.ErrLog, adminContext.CurrentProject.ConfigBase)
+                    .Generate(Path.Combine(adminContext.AppDirs.LogDir, DeviceMap.MapFileName));
+            }
+        }
+
         private void AdminContext_CurrentProjectChanged(object sender, EventArgs e)
         {
             SetMenuItemsEnabled();
@@ -85,8 +97,10 @@ namespace Scada.Admin.Extensions.ExtProjectTools.Controls
 
         private void AdminContext_MessageToExtension(object sender, MessageEventArgs e)
         {
-            if (e.Message == "ExtProjectTools.GenerateChannelMap")
+            if (e.Message == KnownExtensionMessage.GenerateChannelMap)
                 GenerateChannelMap((bool)e.Arguments["GroupByDevices"]);
+            else if (e.Message == KnownExtensionMessage.GenerateDeviceMap)
+                GenerateDeviceMap();
         }
 
         private void miCloneChannels_Click(object sender, EventArgs e)
@@ -105,6 +119,11 @@ namespace Scada.Admin.Extensions.ExtProjectTools.Controls
         private void miChannelMap_Click(object sender, EventArgs e)
         {
             GenerateChannelMap(sender == miChannelMapByDevice);
+        }
+
+        private void miDeviceMap_Click(object sender, EventArgs e)
+        {
+            GenerateDeviceMap();
         }
 
         private void miCheckIntegrity_Click(object sender, EventArgs e)

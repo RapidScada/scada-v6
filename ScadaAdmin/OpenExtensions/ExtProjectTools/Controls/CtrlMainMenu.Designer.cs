@@ -39,6 +39,7 @@ namespace Scada.Admin.Extensions.ExtProjectTools.Controls
             this.miSep = new System.Windows.Forms.ToolStripSeparator();
             this.miImportTable = new System.Windows.Forms.ToolStripMenuItem();
             this.miExportTable = new System.Windows.Forms.ToolStripMenuItem();
+            this.miDeviceMap = new System.Windows.Forms.ToolStripMenuItem();
             this.menuStrip.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -65,6 +66,7 @@ namespace Scada.Admin.Extensions.ExtProjectTools.Controls
             this.miCloneChannels,
             this.miChannelMapByDevice,
             this.miChannelMapByObject,
+            this.miDeviceMap,
             this.miCheckIntegrity,
             this.miSep,
             this.miImportTable,
@@ -120,6 +122,13 @@ namespace Scada.Admin.Extensions.ExtProjectTools.Controls
             this.miExportTable.Text = "Export Table...";
             this.miExportTable.Click += new System.EventHandler(this.miExportTable_Click);
             // 
+            // miDeviceMap
+            // 
+            this.miDeviceMap.Name = "miDeviceMap";
+            this.miDeviceMap.Size = new System.Drawing.Size(199, 22);
+            this.miDeviceMap.Text = "Device Map";
+            this.miDeviceMap.Click += new System.EventHandler(this.miDeviceMap_Click);
+            // 
             // CtrlMainMenu
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
@@ -144,5 +153,6 @@ namespace Scada.Admin.Extensions.ExtProjectTools.Controls
         private System.Windows.Forms.ToolStripMenuItem miImportTable;
         private System.Windows.Forms.ToolStripMenuItem miExportTable;
         private System.Windows.Forms.ToolStripMenuItem miChannelMapByObject;
+        private System.Windows.Forms.ToolStripMenuItem miDeviceMap;
     }
 }

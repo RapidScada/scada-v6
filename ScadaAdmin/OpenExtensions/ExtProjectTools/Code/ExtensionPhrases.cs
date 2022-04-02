@@ -16,8 +16,14 @@ namespace Scada.Admin.Extensions.ExtProjectTools.Code
         public static string MapByObjectTitle { get; private set; }
         public static string ChannelsCaption { get; private set; }
         public static string NoChannels { get; private set; }
-        public static string GenerateMapError { get; private set; }
+        public static string GenerateChannelMapError { get; private set; }
 
+        // Scada.Admin.Extensions.ExtProjectTools.Code.DeviceMap
+        public static string DeviceMapTitle { get; private set; }
+        public static string DevicesCaption { get; private set; }
+        public static string NoDevices { get; private set; }
+        public static string EmptyCommLine { get; private set; }
+        public static string GenerateDeviceMapError { get; private set; }
 
         // Scada.Admin.Extensions.ExtProjectTools.Code.IntegrityCheck
         public static string IntegrityCheckTitle { get; private set; }
@@ -49,7 +55,14 @@ namespace Scada.Admin.Extensions.ExtProjectTools.Code
             MapByObjectTitle = dict["MapByObjectTitle"];
             ChannelsCaption = dict["ChannelsCaption"];
             NoChannels = dict["NoChannels"];
-            GenerateMapError = dict["GenerateMapError"];
+            GenerateChannelMapError = dict["GenerateChannelMapError"];
+
+            dict = Locale.GetDictionary("Scada.Admin.Extensions.ExtProjectTools.Code.DeviceMap");
+            DeviceMapTitle = dict["DeviceMapTitle"];
+            DevicesCaption = dict["DevicesCaption"];
+            NoDevices = dict["NoDevices"];
+            EmptyCommLine = dict["EmptyCommLine"];
+            GenerateDeviceMapError = dict["GenerateDeviceMapError"];
 
             dict = Locale.GetDictionary("Scada.Admin.Extensions.ExtProjectTools.Code.IntegrityCheck");
             IntegrityCheckTitle = dict["IntegrityCheckTitle"];

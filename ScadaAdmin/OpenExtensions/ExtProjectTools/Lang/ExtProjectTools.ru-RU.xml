@@ -5,7 +5,14 @@
     <Phrase key="MapByObjectTitle">Каналы по объектам</Phrase>
     <Phrase key="ChannelsCaption">Каналы : </Phrase>
     <Phrase key="NoChannels">Каналы отсутствуют</Phrase>
-    <Phrase key="GenerateMapError">Ошибка при генерации карты каналов</Phrase>
+    <Phrase key="GenerateChannelMapError">Ошибка при генерации карты каналов</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Admin.Extensions.ExtProjectTools.Code.DeviceMap">
+    <Phrase key="DeviceMapTitle">Устройства по линиям связи</Phrase>
+    <Phrase key="DevicesCaption">Устройства : </Phrase>
+    <Phrase key="NoDevices">Устройства отсутствуют</Phrase>
+    <Phrase key="EmptyCommLine">Пустая линия связи</Phrase>
+    <Phrase key="GenerateDeviceMapError">Ошибка при генерации карты устройств</Phrase>
   </Dictionary>
   <Dictionary key="Scada.Admin.Extensions.ExtProjectTools.Code.IntegrityCheck">
     <Phrase key="IntegrityCheckTitle">Проверка целостности</Phrase>
@@ -21,6 +28,7 @@
     <Phrase key="miCloneChannels">Клонировать каналы...</Phrase>
     <Phrase key="miChannelMapByDevice">Карта каналов по устройствам</Phrase>
     <Phrase key="miChannelMapByObject">Карта каналов по объектам</Phrase>
+    <Phrase key="miDeviceMap">Карта устройств</Phrase>
     <Phrase key="miCheckIntegrity">Проверить целостность</Phrase>
     <Phrase key="miImportTable">Импортировать таблицу...</Phrase>
     <Phrase key="miExportTable">Экспортировать таблицу...</Phrase>
