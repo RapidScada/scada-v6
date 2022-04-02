@@ -43,8 +43,9 @@ namespace Scada.Admin.Extensions.ExtWirenBoard.Forms
         private readonly CtrlEntityID ctrlEntityID;
         private readonly RichTextBoxHelper logHelper;
 
-        private Step step;               // the current waizard step
-        private TopicReader topicReader; // reads Wiren Board topics
+        private Step step;                   // the current waizard step
+        private TopicReader topicReader;     // reads Wiren Board topics
+        private ConfigBuilder configBuilder; // builds a project configuration
 
 
         /// <summary>
@@ -83,6 +84,7 @@ namespace Scada.Admin.Extensions.ExtWirenBoard.Forms
 
             step = Step.SelectLine;
             topicReader = null;
+            configBuilder = null;
         }
 
 
@@ -163,8 +165,17 @@ namespace Scada.Admin.Extensions.ExtWirenBoard.Forms
 
                 case Step.CheckConfig:
                     lblStep.Text = ExtensionPhrases.Step5Descr;
+                    ctrlLog.Visible = true;
+                    ctrlLog.SetFocus();
+                    logHelper.Clear();
                     btnNext.Visible = false;
                     btnCreate.Visible = true;
+
+                    // build project configuration
+                    configBuilder = new ConfigBuilder(project, logHelper);
+                    configBuilder.Build(ctrlDeviceTree.GetSelectedDevices(), ctrlLineSelect.Line.CommLineNum, 
+                        ctrlEntityID.StartDeviceNum, ctrlEntityID.StartCnlNum);
+                    btnCreate.Enabled = configBuilder.BuildResult;
                     break;
             }
         }

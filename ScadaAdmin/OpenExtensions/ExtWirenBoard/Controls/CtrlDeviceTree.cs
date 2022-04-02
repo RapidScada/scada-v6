@@ -85,6 +85,31 @@ namespace Scada.Admin.Extensions.ExtWirenBoard.Controls
             return false;
         }
 
+        /// <summary>
+        /// Gets the selected devices and controls.
+        /// </summary>
+        public List<DeviceModel> GetSelectedDevices()
+        {
+            List<DeviceModel> selectedDevices = new(treeView.Nodes.Count);
+
+            foreach (TreeNode deviceNode in treeView.Nodes)
+            {
+                if (deviceNode.Checked && deviceNode.Tag is DeviceModel deviceModel)
+                {
+                    DeviceModel newDeviceModel = new(deviceModel.Code, deviceModel.Meta);
+                    selectedDevices.Add(newDeviceModel);
+
+                    foreach (TreeNode controlNode in deviceNode.Nodes)
+                    {
+                        if (controlNode.Checked && controlNode.Tag is ControlModel controlModel)
+                            newDeviceModel.Controls.Add(controlModel);
+                    }
+                }
+            }
+
+            return selectedDevices;
+        }
+
 
         private void btnSelectAll_Click(object sender, EventArgs e)
         {

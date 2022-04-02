@@ -18,10 +18,18 @@ namespace Scada.Admin.Extensions.ExtWirenBoard.Code.Models
         /// Initializes a new instance of the class.
         /// </summary>
         public DeviceModel(string code)
+            : this(code, new DeviceMeta { Name = code })
+        {
+        }
+
+        /// <summary>
+        /// Initializes a new instance of the class.
+        /// </summary>
+        public DeviceModel(string code, DeviceMeta deviceMeta)
         {
             controlByCode = new Dictionary<string, ControlModel>();
             Code = code ?? throw new ArgumentNullException(nameof(code));
-            Meta = new DeviceMeta { Name = code };
+            Meta = deviceMeta ?? throw new ArgumentNullException(nameof(deviceMeta));
             Controls = new List<ControlModel>();
         }
 

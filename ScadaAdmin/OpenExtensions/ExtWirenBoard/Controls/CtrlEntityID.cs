@@ -1,6 +1,7 @@
 ﻿// Copyright (c) Rapid Software LLC. All rights reserved.
 // Licensed under the Apache License, Version 2.0. See License.txt in the project root for license information.
 
+using Scada.Admin.Extensions.ExtWirenBoard.Code;
 using Scada.Admin.Project;
 
 namespace Scada.Admin.Extensions.ExtWirenBoard.Controls
@@ -40,9 +41,9 @@ namespace Scada.Admin.Extensions.ExtWirenBoard.Controls
         public int StartDeviceNum => Convert.ToInt32(numStartDeviceNum.Value);
 
         /// <summary>
-        /// Gets the adjusted starting channel number.
+        /// Gets the starting channel number.
         /// </summary>
-        public int StartCnlNum => AdjustCnlNum(Convert.ToInt32(numStartCnlNum.Value));
+        public int StartCnlNum => Convert.ToInt32(numStartCnlNum.Value);
 
 
         /// <summary>
@@ -59,15 +60,9 @@ namespace Scada.Admin.Extensions.ExtWirenBoard.Controls
         public void AssignIDs()
         {
             numStartDeviceNum.Value = project.ConfigBase.DeviceTable.GetNextPk();
-            numStartCnlNum.Value = AdjustCnlNum(project.ConfigBase.CnlTable.GetNextPk());
-        }
-
-        /// <summary>
-        /// 
-        /// </summary>
-        public static int AdjustCnlNum(int cnlNum)
-        {
-            return cnlNum;
+            int nextCnlNum = project.ConfigBase.CnlTable.GetNextPk();
+            numStartCnlNum.Value = ConfigBuilder.AdjustCnlNum(
+                adminContext.AppConfig.ChannelNumberingOptions, nextCnlNum - 1, nextCnlNum);
         }
 
 
