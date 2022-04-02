@@ -55,18 +55,32 @@
             this.lblInfo = new System.Windows.Forms.Label();
             this.btnCancel = new System.Windows.Forms.Button();
             this.btnOK = new System.Windows.Forms.Button();
+            this.pageCnlNum = new System.Windows.Forms.TabPage();
+            this.chkPrependDeviceName = new System.Windows.Forms.CheckBox();
+            this.numGap = new System.Windows.Forms.NumericUpDown();
+            this.lblGap = new System.Windows.Forms.Label();
+            this.numShift = new System.Windows.Forms.NumericUpDown();
+            this.lblShift = new System.Windows.Forms.Label();
+            this.lblExplanation = new System.Windows.Forms.Label();
+            this.numMultiplicity = new System.Windows.Forms.NumericUpDown();
+            this.lblMultiplicity = new System.Windows.Forms.Label();
             this.tabControl.SuspendLayout();
             this.pageExt.SuspendLayout();
             this.pageFileAssoc.SuspendLayout();
             this.pnlBottom.SuspendLayout();
             this.pnlInfo.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pbInfo)).BeginInit();
+            this.pageCnlNum.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.numGap)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.numShift)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.numMultiplicity)).BeginInit();
             this.SuspendLayout();
             // 
             // tabControl
             // 
             this.tabControl.Controls.Add(this.pageExt);
             this.tabControl.Controls.Add(this.pageFileAssoc);
+            this.tabControl.Controls.Add(this.pageCnlNum);
             this.tabControl.Dock = System.Windows.Forms.DockStyle.Fill;
             this.tabControl.Location = new System.Drawing.Point(0, 0);
             this.tabControl.Name = "tabControl";
@@ -351,6 +365,131 @@
             this.btnOK.UseVisualStyleBackColor = true;
             this.btnOK.Click += new System.EventHandler(this.btnOK_Click);
             // 
+            // pageCnlNum
+            // 
+            this.pageCnlNum.Controls.Add(this.chkPrependDeviceName);
+            this.pageCnlNum.Controls.Add(this.numGap);
+            this.pageCnlNum.Controls.Add(this.lblGap);
+            this.pageCnlNum.Controls.Add(this.numShift);
+            this.pageCnlNum.Controls.Add(this.lblShift);
+            this.pageCnlNum.Controls.Add(this.lblExplanation);
+            this.pageCnlNum.Controls.Add(this.numMultiplicity);
+            this.pageCnlNum.Controls.Add(this.lblMultiplicity);
+            this.pageCnlNum.Location = new System.Drawing.Point(4, 24);
+            this.pageCnlNum.Name = "pageCnlNum";
+            this.pageCnlNum.Padding = new System.Windows.Forms.Padding(5);
+            this.pageCnlNum.Size = new System.Drawing.Size(676, 442);
+            this.pageCnlNum.TabIndex = 2;
+            this.pageCnlNum.Text = "Channel Numbering";
+            this.pageCnlNum.UseVisualStyleBackColor = true;
+            // 
+            // chkPrependDeviceName
+            // 
+            this.chkPrependDeviceName.AutoSize = true;
+            this.chkPrependDeviceName.Location = new System.Drawing.Point(8, 96);
+            this.chkPrependDeviceName.Name = "chkPrependDeviceName";
+            this.chkPrependDeviceName.Size = new System.Drawing.Size(140, 19);
+            this.chkPrependDeviceName.TabIndex = 7;
+            this.chkPrependDeviceName.Text = "Prepend device name";
+            this.chkPrependDeviceName.UseVisualStyleBackColor = true;
+            // 
+            // numGap
+            // 
+            this.numGap.Location = new System.Drawing.Point(8, 67);
+            this.numGap.Maximum = new decimal(new int[] {
+            10000,
+            0,
+            0,
+            0});
+            this.numGap.Name = "numGap";
+            this.numGap.Size = new System.Drawing.Size(150, 23);
+            this.numGap.TabIndex = 6;
+            this.numGap.Value = new decimal(new int[] {
+            10,
+            0,
+            0,
+            0});
+            // 
+            // lblGap
+            // 
+            this.lblGap.AutoSize = true;
+            this.lblGap.Location = new System.Drawing.Point(5, 49);
+            this.lblGap.Name = "lblGap";
+            this.lblGap.Size = new System.Drawing.Size(28, 15);
+            this.lblGap.TabIndex = 5;
+            this.lblGap.Text = "Gap";
+            // 
+            // numShift
+            // 
+            this.numShift.Location = new System.Drawing.Point(218, 23);
+            this.numShift.Maximum = new decimal(new int[] {
+            10000,
+            0,
+            0,
+            0});
+            this.numShift.Name = "numShift";
+            this.numShift.Size = new System.Drawing.Size(150, 23);
+            this.numShift.TabIndex = 4;
+            this.numShift.Value = new decimal(new int[] {
+            1,
+            0,
+            0,
+            0});
+            // 
+            // lblShift
+            // 
+            this.lblShift.AutoSize = true;
+            this.lblShift.Location = new System.Drawing.Point(215, 5);
+            this.lblShift.Name = "lblShift";
+            this.lblShift.Size = new System.Drawing.Size(31, 15);
+            this.lblShift.TabIndex = 3;
+            this.lblShift.Text = "Shift";
+            // 
+            // lblExplanation
+            // 
+            this.lblExplanation.AutoSize = true;
+            this.lblExplanation.Location = new System.Drawing.Point(164, 27);
+            this.lblExplanation.Name = "lblExplanation";
+            this.lblExplanation.Size = new System.Drawing.Size(38, 15);
+            this.lblExplanation.TabIndex = 2;
+            this.lblExplanation.Text = "× N +";
+            // 
+            // numMultiplicity
+            // 
+            this.numMultiplicity.Increment = new decimal(new int[] {
+            10,
+            0,
+            0,
+            0});
+            this.numMultiplicity.Location = new System.Drawing.Point(8, 23);
+            this.numMultiplicity.Maximum = new decimal(new int[] {
+            10000,
+            0,
+            0,
+            0});
+            this.numMultiplicity.Minimum = new decimal(new int[] {
+            1,
+            0,
+            0,
+            0});
+            this.numMultiplicity.Name = "numMultiplicity";
+            this.numMultiplicity.Size = new System.Drawing.Size(150, 23);
+            this.numMultiplicity.TabIndex = 1;
+            this.numMultiplicity.Value = new decimal(new int[] {
+            100,
+            0,
+            0,
+            0});
+            // 
+            // lblMultiplicity
+            // 
+            this.lblMultiplicity.AutoSize = true;
+            this.lblMultiplicity.Location = new System.Drawing.Point(5, 5);
+            this.lblMultiplicity.Name = "lblMultiplicity";
+            this.lblMultiplicity.Size = new System.Drawing.Size(67, 15);
+            this.lblMultiplicity.TabIndex = 0;
+            this.lblMultiplicity.Text = "Multiplicity";
+            // 
             // FrmConfig
             // 
             this.AcceptButton = this.btnOK;
@@ -376,6 +515,11 @@
             this.pnlInfo.ResumeLayout(false);
             this.pnlInfo.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pbInfo)).EndInit();
+            this.pageCnlNum.ResumeLayout(false);
+            this.pageCnlNum.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.numGap)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.numShift)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.numMultiplicity)).EndInit();
             this.ResumeLayout(false);
 
         }
@@ -409,5 +553,14 @@
         private System.Windows.Forms.Panel pnlInfo;
         private System.Windows.Forms.PictureBox pbInfo;
         private System.Windows.Forms.Label lblInfo;
+        private System.Windows.Forms.TabPage pageCnlNum;
+        private System.Windows.Forms.CheckBox chkPrependDeviceName;
+        private System.Windows.Forms.NumericUpDown numGap;
+        private System.Windows.Forms.Label lblGap;
+        private System.Windows.Forms.NumericUpDown numShift;
+        private System.Windows.Forms.Label lblShift;
+        private System.Windows.Forms.Label lblExplanation;
+        private System.Windows.Forms.NumericUpDown numMultiplicity;
+        private System.Windows.Forms.Label lblMultiplicity;
     }
 }

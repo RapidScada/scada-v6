@@ -468,6 +468,11 @@
     <Phrase key="btnRegisterProjectExt">Регистр. .rsproj</Phrase>
     <Phrase key="colExt">Расширение файла</Phrase>
     <Phrase key="colPath">Путь к исполняемому файлу</Phrase>
+    <Phrase key="pageCnlNum">Нумерация каналов</Phrase>
+    <Phrase key="lblMultiplicity">Кратность</Phrase>
+    <Phrase key="lblShift">Смещение</Phrase>
+    <Phrase key="lblGap">Промежуток</Phrase>
+    <Phrase key="chkPrependDeviceName">Добавлять наименование устройства</Phrase>
     <Phrase key="lblInfo">Изменения вступят в силу после перезапуска приложения.</Phrase>
     <Phrase key="btnOK">OK</Phrase>
     <Phrase key="btnCancel">Отмена</Phrase>

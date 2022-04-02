@@ -468,6 +468,11 @@
     <Phrase key="btnRegisterProjectExt">Register .rsproj</Phrase>
     <Phrase key="colExt">File Extenstion</Phrase>
     <Phrase key="colPath">Executable Path</Phrase>
+    <Phrase key="pageCnlNum">Channel Numbering</Phrase>
+    <Phrase key="lblMultiplicity">Multiplicity</Phrase>
+    <Phrase key="lblShift">Shift</Phrase>
+    <Phrase key="lblGap">Gap</Phrase>
+    <Phrase key="chkPrependDeviceName">Prepend device name</Phrase>
     <Phrase key="lblInfo">Changes will take effect after restarting the application.</Phrase>
     <Phrase key="btnOK">OK</Phrase>
     <Phrase key="btnCancel">Cancel</Phrase>

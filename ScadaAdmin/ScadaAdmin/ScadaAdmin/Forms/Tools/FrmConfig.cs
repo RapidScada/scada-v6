@@ -133,7 +133,7 @@ namespace Scada.Admin.App.Forms.Tools
         /// </summary>
         private void ConfigToControls()
         {
-            // fill active extensions
+            // active extensions
             try
             {
                 lbActiveExt.BeginUpdate();
@@ -158,7 +158,7 @@ namespace Scada.Admin.App.Forms.Tools
                 lbActiveExt.EndUpdate();
             }
 
-            // fill file associations
+            // file associations
             try
             {
                 lvAssoc.BeginUpdate();
@@ -176,6 +176,13 @@ namespace Scada.Admin.App.Forms.Tools
             {
                 lvAssoc.EndUpdate();
             }
+
+            // channel numbering
+            ChannelNumberingOptions options = config.ChannelNumberingOptions;
+            numMultiplicity.SetValue(options.Multiplicity);
+            numShift.SetValue(options.Shift);
+            numGap.SetValue(options.Gap);
+            chkPrependDeviceName.Checked = options.PrependDeviceName;
         }
 
         /// <summary>
@@ -183,7 +190,7 @@ namespace Scada.Admin.App.Forms.Tools
         /// </summary>
         private void ControlsToConfig()
         {
-            // get extensions
+            // active extensions
             config.ExtensionCodes.Clear();
 
             foreach (ExtentionItem item in lbActiveExt.Items)
@@ -191,13 +198,20 @@ namespace Scada.Admin.App.Forms.Tools
                 config.ExtensionCodes.Add(item.ExtentionCode);
             }
 
-            // get file associations
+            // file associations
             config.FileAssociations.Clear();
 
             foreach (ListViewItem item in lvAssoc.Items)
             {
                 config.FileAssociations[item.SubItems[0].Text] = item.SubItems[1].Text;
             }
+
+            // channel numbering
+            ChannelNumberingOptions options = config.ChannelNumberingOptions;
+            options.Multiplicity = Convert.ToInt32(numMultiplicity.Value);
+            options.Shift = Convert.ToInt32(numShift.Value);
+            options.Gap = Convert.ToInt32(numGap.Value);
+            options.PrependDeviceName = chkPrependDeviceName.Checked;
         }
 
         /// <summary>

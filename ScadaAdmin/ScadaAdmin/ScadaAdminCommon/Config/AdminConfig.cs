@@ -65,6 +65,11 @@ namespace Scada.Admin.Config
         public SortedList<string, string> FileAssociations { get; private set; }
 
         /// <summary>
+        /// Gets the channel numbering options.
+        /// </summary>
+        public ChannelNumberingOptions ChannelNumberingOptions { get; private set; }
+
+        /// <summary>
         /// Gets the groups of custom options.
         /// </summary>
         public SortedList<string, OptionList> CustomOptions { get; private set; }
@@ -77,6 +82,7 @@ namespace Scada.Admin.Config
         {
             ExtensionCodes = new List<string>();
             FileAssociations = new SortedList<string, string>();
+            ChannelNumberingOptions = new ChannelNumberingOptions();
             CustomOptions = new SortedList<string, OptionList>();
         }
 
@@ -140,6 +146,9 @@ namespace Scada.Admin.Config
                     }
                 }
 
+                if (rootElem.SelectSingleNode("ChannelNumberingOptions") is XmlNode channelNumberingOptionsNode)
+                    ChannelNumberingOptions.LoadFromXml(channelNumberingOptionsNode);
+
                 if (rootElem.SelectSingleNode("CustomOptions") is XmlNode customOptionsNode)
                 {
                     foreach (XmlElement optionGroupElem in customOptionsNode.SelectNodes("OptionGroup"))
@@ -187,6 +196,8 @@ namespace Scada.Admin.Config
                     associationElem.SetAttribute("ext", pair.Key);
                     associationElem.SetAttribute("path", pair.Value);
                 }
+
+                ChannelNumberingOptions.SaveToXml(rootElem.AppendElem("ChannelNumberingOptions"));
 
                 XmlElement customOptionsElem = rootElem.AppendElem("CustomOptions");
                 foreach (KeyValuePair<string, OptionList> pair in CustomOptions)
