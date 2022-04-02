@@ -133,7 +133,7 @@ namespace Scada.Admin.Extensions.ExtCommConfig.Controls
             // send message to generate map
             adminContext.MessageToExtensions(new MessageEventArgs
             {
-                Message = "ExtProjectTools.GenerateChannelMap",
+                Message = KnownExtensionMessage.GenerateChannelMap,
                 Arguments = new Dictionary<string, object> { { "GroupByDevices", true } }
             });
         }
