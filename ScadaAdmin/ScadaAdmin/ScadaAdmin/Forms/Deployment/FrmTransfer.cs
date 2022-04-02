@@ -20,7 +20,7 @@
  * 
  * Author   : Mikhail Shiryaev
  * Created  : 2021
- * Modified : 2021
+ * Modified : 2022
  */
 
 using Scada.Admin.App.Code;
@@ -30,7 +30,6 @@ using Scada.Admin.Project;
 using Scada.Forms;
 using System;
 using System.Diagnostics;
-using System.Drawing;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Forms;
@@ -48,11 +47,10 @@ namespace Scada.Admin.App.Forms.Deployment
         private readonly ProjectInstance instance;   // the affected instance
         private readonly DeploymentProfile profile;  // the deployment profile
 
-        private readonly Action<string> writeMessageAction;    // wraps the WriteMessage method
-        private readonly Action<string> writeErrorAction;      // wraps the WriteError method
         private readonly Action<bool> setCancelEnabledAction;  // wraps the SetCancelEnabled method
         private readonly Action<double> setProgressAction;     // wraps the SetProgress method
         private readonly Action<bool, double> setResultAction; // wraps the SetResult method
+        private readonly RichTextBoxHelper logHelper;          // writes to the log text box
 
         private ExtensionLogic extensionLogic;       // the extension that implements transfer
         private bool uploadMode;                     // determines whether to upload or download
@@ -80,11 +78,10 @@ namespace Scada.Admin.App.Forms.Deployment
             this.instance = instance ?? throw new ArgumentNullException(nameof(instance));
             this.profile = profile ?? throw new ArgumentNullException(nameof(profile));
 
-            writeMessageAction = s => WriteMessage(s);
-            writeErrorAction = s => WriteError(s);
             setCancelEnabledAction = b => SetCancelEnabled(b);
             setProgressAction = d => SetProgress(d);
             setResultAction = (b, d) => SetResult(b, d);
+            logHelper = new RichTextBoxHelper(txtLog);
 
             extensionLogic = null;
             uploadMode = false;
@@ -281,15 +278,7 @@ namespace Scada.Admin.App.Forms.Deployment
         /// </summary>
         public void WriteMessage(string text)
         {
-            if (InvokeRequired)
-            {
-                Invoke(writeMessageAction, text);
-            }
-            else
-            {
-                txtLog.AppendText(text);
-                txtLog.AppendText(Environment.NewLine);
-            }
+            logHelper.WriteMessage(text);
         }
 
         /// <summary>
@@ -297,20 +286,7 @@ namespace Scada.Admin.App.Forms.Deployment
         /// </summary>
         public void WriteError(string text)
         {
-            if (InvokeRequired)
-            {
-                Invoke(writeErrorAction, text);
-            }
-            else
-            {
-                txtLog.SelectionStart = txtLog.TextLength;
-                txtLog.SelectionLength = 0;
-
-                txtLog.SelectionColor = Color.FromKnownColor(KnownColor.Red);
-                txtLog.AppendText(text);
-                txtLog.AppendText(Environment.NewLine);
-                txtLog.SelectionColor = txtLog.ForeColor;
-            }
+            logHelper.WriteError(text);
         }
 
         /// <summary>
@@ -318,7 +294,7 @@ namespace Scada.Admin.App.Forms.Deployment
         /// </summary>
         public void WriteLine()
         {
-            WriteMessage("");
+            logHelper.WriteLine();
         }
 
 
