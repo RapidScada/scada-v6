@@ -35,9 +35,7 @@ namespace Scada.Admin.Extensions.ExtWirenBoard.Code
             this.logHelper = logHelper ?? throw new ArgumentNullException(nameof(logHelper));
             
             BuildResult = false;
-            DeviceEntities = new List<Device>();
-            DeviceConfigs = new List<DeviceConfig>();
-            Cnls = new List<Cnl>();
+            DeviceConfigs = new List<DeviceConfigEntry>();
         }
 
 
@@ -47,19 +45,9 @@ namespace Scada.Admin.Extensions.ExtWirenBoard.Code
         public bool BuildResult { get; private set; }
 
         /// <summary>
-        /// Gets the devices created for the configuration database.
+        /// Gets the created configuration of the devices.
         /// </summary>
-        public List<Device> DeviceEntities { get; }
-
-        /// <summary>
-        /// Gets the devices created for the Communicator configuration.
-        /// </summary>
-        public List<DeviceConfig> DeviceConfigs { get; }
-
-        /// <summary>
-        /// Gets the channels created for the configuration database.
-        /// </summary>
-        public List<Cnl> Cnls { get; }
+        public List<DeviceConfigEntry> DeviceConfigs { get; }
 
 
         /// <summary>
@@ -88,29 +76,29 @@ namespace Scada.Admin.Extensions.ExtWirenBoard.Code
                 {
                     if (deviceModel.Controls.Count > 0)
                     {
-                        // add device
-                        DeviceEntities.Add(new Device
-                        {
-                            DeviceNum = deviceNum,
-                            Name = deviceModel.Meta.Name,
-                            Code = deviceModel.Code,
-                            DevTypeID = deviceTypeID,
-                            CommLineNum = commLineNum
-                        });
-
-                        DeviceConfigs.Add(new DeviceConfig
-                        {
-                            DeviceNum = deviceNum,
-                            Name = deviceModel.Meta.Name,
-                            Driver = MqttDriverName
-                        });
-
                         logHelper.WriteMessage(string.Format(Locale.IsRussian ?
                             "Устройство [{0}] {1}" :
                             "Device [{0}] {1}", deviceNum, deviceModel.Meta.Name));
+
+                        DeviceConfigEntry entry = new();
+                        DeviceConfigs.Add(entry);
+
+                        // device entity
+                        Device deviceEntity = entry.DeviceEntity;
+                        deviceEntity.DeviceNum = deviceNum;
+                        deviceEntity.Name = deviceModel.Meta.Name;
+                        deviceEntity.Code = deviceModel.Code;
+                        deviceEntity.DevTypeID = deviceTypeID;
+                        deviceEntity.CommLineNum = commLineNum;
+
+                        // device configuration
+                        DeviceConfig deviceConfig = entry.DeviceConfig;
+                        deviceConfig.DeviceNum = deviceNum;
+                        deviceConfig.Name = deviceModel.Meta.Name;
+                        deviceConfig.Driver = MqttDriverName;
                         deviceNum++;
 
-                        // add channels
+                        // channels
                         foreach (ControlModel controlModel in deviceModel.Controls)
                         {
 
@@ -120,7 +108,7 @@ namespace Scada.Admin.Extensions.ExtWirenBoard.Code
                     }
                 }
 
-                BuildResult = DeviceEntities.Count > 0;
+                BuildResult = DeviceConfigs.Count > 0;
             }
             catch (Exception ex)
             {
