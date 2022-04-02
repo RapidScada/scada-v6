@@ -14,9 +14,10 @@ namespace Scada.Admin.Extensions.ExtWirenBoard.Code.Models
         /// <summary>
         /// Initializes a new instance of the class.
         /// </summary>
-        public ControlModel(string code)
+        public ControlModel(string code, string topic)
         {
             Code = code ?? throw new ArgumentNullException(nameof(code));
+            Topic = topic ?? throw new ArgumentNullException(nameof(topic));
             Meta = new ControlMeta { Name = code };
         }
 
@@ -25,6 +26,11 @@ namespace Scada.Admin.Extensions.ExtWirenBoard.Code.Models
         /// Gets the device code.
         /// </summary>
         public string Code { get; }
+
+        /// <summary>
+        /// Gets the control topic.
+        /// </summary>
+        public string Topic { get; }
 
         /// <summary>
         /// Gets the information associated with the control.

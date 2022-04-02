@@ -2,6 +2,7 @@
 // Licensed under the Apache License, Version 2.0. See License.txt in the project root for license information.
 
 using Scada.Comm.Config;
+using Scada.Comm.Drivers.DrvMqttClient.Config;
 using Scada.Data.Entities;
 
 namespace Scada.Admin.Extensions.ExtWirenBoard.Code
@@ -19,22 +20,28 @@ namespace Scada.Admin.Extensions.ExtWirenBoard.Code
         {
             DeviceEntity = new Device();
             DeviceConfig = new DeviceConfig();
+            MqttDeviceConfig = new MqttClientDeviceConfig();
             Cnls = new List<Cnl>();
         }
 
 
         /// <summary>
-        /// Gets the device created for the configuration database.
+        /// Gets the device entity for the configuration database.
         /// </summary>
         public Device DeviceEntity { get; }
 
         /// <summary>
-        /// Gets the device created for the Communicator configuration.
+        /// Gets the general device configuration for Communicator.
         /// </summary>
         public DeviceConfig DeviceConfig { get; }
 
         /// <summary>
-        /// Gets the channels created for the configuration database.
+        /// Gets the MQTT device configuration for Communicator.
+        /// </summary>
+        public MqttClientDeviceConfig MqttDeviceConfig { get; }
+
+        /// <summary>
+        /// Gets the channels for the configuration database.
         /// </summary>
         public List<Cnl> Cnls { get; }
     }

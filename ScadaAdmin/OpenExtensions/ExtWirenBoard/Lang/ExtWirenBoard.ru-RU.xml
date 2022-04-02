@@ -35,5 +35,7 @@
     <Phrase key="Step3Descr">Шаг 3 из 5: Выбор устройств и элементов для импорта</Phrase>
     <Phrase key="Step4Descr">Шаг 4 из 5: Установка идентификаторов для базы конфигурации</Phrase>
     <Phrase key="Step5Descr">Шаг 5 из 5: Проверка создаваемой конфигурации</Phrase>
+    <Phrase key="CreateConfigCompleted">Конфигурация создана успешно</Phrase>
+    <Phrase key="CreateConfigError">Ошибка при создании конфигурации</Phrase>
   </Dictionary>
 </ExtWirenBoardDictionaries>

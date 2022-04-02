@@ -60,9 +60,8 @@ namespace Scada.Admin.Extensions.ExtWirenBoard.Controls
         public void AssignIDs()
         {
             numStartDeviceNum.Value = project.ConfigBase.DeviceTable.GetNextPk();
-            int nextCnlNum = project.ConfigBase.CnlTable.GetNextPk();
-            numStartCnlNum.Value = ConfigBuilder.AdjustCnlNum(
-                adminContext.AppConfig.ChannelNumberingOptions, nextCnlNum - 1, nextCnlNum);
+            numStartCnlNum.Value = ConfigBuilder.AdjustCnlNum(adminContext.AppConfig.ChannelNumberingOptions, 
+                project.ConfigBase.CnlTable.GetNextPk());
         }
 
 

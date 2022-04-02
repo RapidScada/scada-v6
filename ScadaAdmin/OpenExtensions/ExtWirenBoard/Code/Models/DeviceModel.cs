@@ -29,6 +29,7 @@ namespace Scada.Admin.Extensions.ExtWirenBoard.Code.Models
         {
             controlByCode = new Dictionary<string, ControlModel>();
             Code = code ?? throw new ArgumentNullException(nameof(code));
+            Topic = "/devices/" + code;
             Meta = deviceMeta ?? throw new ArgumentNullException(nameof(deviceMeta));
             Controls = new List<ControlModel>();
         }
@@ -38,6 +39,11 @@ namespace Scada.Admin.Extensions.ExtWirenBoard.Code.Models
         /// Gets the device code.
         /// </summary>
         public string Code { get; }
+
+        /// <summary>
+        /// Gets the device topic.
+        /// </summary>
+        public string Topic { get; }
 
         /// <summary>
         /// Gets the information associated with the device.
@@ -69,7 +75,7 @@ namespace Scada.Admin.Extensions.ExtWirenBoard.Code.Models
             }
             else
             {
-                controlModel = new ControlModel(controlCode);
+                controlModel = new ControlModel(controlCode, Topic + "/controls/" + controlCode);
                 Controls.Add(controlModel);
                 controlByCode.Add(controlCode, controlModel);
                 return controlModel;

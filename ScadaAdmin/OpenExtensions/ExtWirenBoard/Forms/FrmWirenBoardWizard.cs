@@ -4,6 +4,7 @@
 using Scada.Admin.Extensions.ExtWirenBoard.Code;
 using Scada.Admin.Extensions.ExtWirenBoard.Controls;
 using Scada.Admin.Project;
+using Scada.Comm.Drivers.DrvMqttClient.Config;
 using Scada.Forms;
 using System;
 using System.Collections.Generic;
@@ -172,12 +173,71 @@ namespace Scada.Admin.Extensions.ExtWirenBoard.Forms
                     btnCreate.Visible = true;
 
                     // build project configuration
-                    configBuilder = new ConfigBuilder(project, logHelper);
+                    configBuilder = new ConfigBuilder(adminContext, project, logHelper);
                     configBuilder.Build(ctrlDeviceTree.GetSelectedDevices(), ctrlLineSelect.Line.CommLineNum, 
                         ctrlEntityID.StartDeviceNum, ctrlEntityID.StartCnlNum);
                     btnCreate.Enabled = configBuilder.BuildResult;
                     break;
             }
+        }
+
+        /// <summary>
+        /// Creates a project configuration.
+        /// </summary>
+        private bool CreateConfig()
+        {
+            try
+            {
+                if (configBuilder != null && ctrlLineSelect.Instance != null && ctrlLineSelect.Line != null)
+                {
+                    if (CreateScript())
+                        project.ConfigBase.ScriptTable.Modified = true;
+
+                    string commConfigDir = ctrlLineSelect.Instance.CommApp.ConfigDir;
+                    CreateJsHandler(commConfigDir);
+
+                    project.ConfigBase.DeviceTable.Modified = true;
+                    project.ConfigBase.CnlTable.Modified = true;
+
+                    foreach (DeviceConfigEntry entry in configBuilder.DeviceConfigs)
+                    {
+                        project.ConfigBase.DeviceTable.AddItem(entry.DeviceEntity);
+                        entry.Cnls.ForEach(cnl => project.ConfigBase.CnlTable.AddItem(cnl));
+                        ctrlLineSelect.Line.DevicePolling.Add(entry.DeviceConfig);
+                        string fileName = Path.Combine(commConfigDir, 
+                            MqttClientDeviceConfig.GetFileName(entry.DeviceConfig.DeviceNum));
+
+                        if (!entry.MqttDeviceConfig.Save(fileName, out string errMsg))
+                            throw new ScadaException(errMsg);
+                    }
+
+                    ScadaUiUtils.ShowInfo(ExtensionPhrases.CreateConfigCompleted);
+                    return true;
+                }
+
+                return false;
+            }
+            catch (Exception ex)
+            {
+                adminContext.ErrLog.HandleError(ex, ExtensionPhrases.CreateConfigError);
+                return false;
+            }
+        }
+
+        /// <summary>
+        /// Creates the necessary script in the configuration database.
+        /// </summary>
+        private bool CreateScript()
+        {
+            return false;
+        }
+
+        /// <summary>
+        /// Creates a JavaScript file to handle MQTT subscriptions.
+        /// </summary>
+        private void CreateJsHandler(string commConfigDir)
+        {
+
         }
 
 
@@ -216,7 +276,8 @@ namespace Scada.Admin.Extensions.ExtWirenBoard.Forms
 
         private void btnCreate_Click(object sender, EventArgs e)
         {
-
+            if (CreateConfig())
+                DialogResult = DialogResult.OK;
         }
     }
 }

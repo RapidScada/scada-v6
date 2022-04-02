@@ -35,6 +35,7 @@
     <Phrase key="Step3Descr">Step 3 of 5: Select Devices and Controls for Import</Phrase>
     <Phrase key="Step4Descr">Step 4 of 5: Set IDs for Configuration Database</Phrase>
     <Phrase key="Step5Descr">Step 5 of 5: Check Configuration Being Created</Phrase>
-    <Phrase key=""></Phrase>
+    <Phrase key="CreateConfigCompleted">Configuration created successfully</Phrase>
+    <Phrase key="CreateConfigError">Error creating configuration</Phrase>
   </Dictionary>
 </ExtWirenBoardDictionaries>

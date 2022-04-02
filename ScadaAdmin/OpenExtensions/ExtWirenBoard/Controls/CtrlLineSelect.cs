@@ -47,6 +47,11 @@ namespace Scada.Admin.Extensions.ExtWirenBoard.Controls
 
 
         /// <summary>
+        /// Gets the selected instance.
+        /// </summary>
+        public ProjectInstance Instance => cbInstance.SelectedItem as ProjectInstance;
+
+        /// <summary>
         /// Gets the selected communication line.
         /// </summary>
         public LineConfig Line => cbLine.SelectedItem as LineConfig;

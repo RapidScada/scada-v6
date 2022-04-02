@@ -25,6 +25,8 @@ namespace Scada.Admin.Extensions.ExtWirenBoard.Code
         public static string Step3Descr { get; private set; }
         public static string Step4Descr { get; private set; }
         public static string Step5Descr { get; private set; }
+        public static string CreateConfigCompleted { get; private set; }
+        public static string CreateConfigError { get; private set; }
 
 
         public static void Init()
@@ -43,6 +45,8 @@ namespace Scada.Admin.Extensions.ExtWirenBoard.Code
             Step3Descr = dict[nameof(Step3Descr)];
             Step4Descr = dict[nameof(Step4Descr)];
             Step5Descr = dict[nameof(Step5Descr)];
+            CreateConfigCompleted = dict[nameof(CreateConfigCompleted)];
+            CreateConfigError = dict[nameof(CreateConfigError)];
         }
     }
 }
