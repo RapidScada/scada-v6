@@ -27,6 +27,7 @@ namespace Scada.Forms
 
             RichTextBox = richTextBox ?? throw new ArgumentNullException(nameof(richTextBox));
             SuccessColor = Color.Green;
+            WarningColor = Color.Orange;
             ErrorColor = Color.Red;
         }
 
@@ -40,6 +41,11 @@ namespace Scada.Forms
         /// Gets or sets the color to display successful messages.
         /// </summary>
         public Color SuccessColor { get; set; }
+
+        /// <summary>
+        /// Gets or sets the color to display warnings.
+        /// </summary>
+        public Color WarningColor { get; set; }
 
         /// <summary>
         /// Gets or sets the color to display errors.
@@ -97,6 +103,14 @@ namespace Scada.Forms
         public void WriteSuccess(string text)
         {
             WriteMessage(text, SuccessColor);
+        }
+
+        /// <summary>
+        /// Writes the warning message.
+        /// </summary>
+        public void WriteWarning(string text)
+        {
+            WriteMessage(text, WarningColor);
         }
 
         /// <summary>
