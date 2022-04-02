@@ -94,6 +94,7 @@ namespace Scada.Admin.Extensions.ExtWirenBoard.Forms
             return step switch
             {
                 Step.SelectLine => ctrlLineSelect.ValidateControl(),
+                Step.SelectDevices => ctrlDeviceTree.ValidateControl(),
                 _ => true
             };
         }
@@ -129,6 +130,7 @@ namespace Scada.Admin.Extensions.ExtWirenBoard.Forms
 
                 case Step.ReadTopics:
                     lblStep.Text = ExtensionPhrases.Step2Descr;
+                    ctrlLineSelect.RememberRecentSelection();
                     ctrlLog.Visible = true;
                     ctrlLog.SetFocus();
                     logHelper.Clear();

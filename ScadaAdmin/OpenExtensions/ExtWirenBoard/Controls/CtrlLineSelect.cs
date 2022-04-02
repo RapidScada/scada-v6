@@ -176,6 +176,16 @@ namespace Scada.Admin.Extensions.ExtWirenBoard.Controls
         }
 
         /// <summary>
+        /// Remembers the selected values.
+        /// </summary>
+        public void RememberRecentSelection()
+        {
+            recentSelection.InstanceName = cbInstance.Text;
+            recentSelection.CommLineNum = cbLine.SelectedValue is int commLineNum ? commLineNum : 0;
+            recentSelection.WirenBoardIP = txtWirenBoardIP.Text;
+        }
+
+        /// <summary>
         /// Gets the MQTT connection options.
         /// </summary>
         public MqttConnectionOptions GetMqttConnectionOptions()

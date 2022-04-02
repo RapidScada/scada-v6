@@ -1,7 +1,9 @@
 ﻿// Copyright (c) Rapid Software LLC. All rights reserved.
 // Licensed under the Apache License, Version 2.0. See License.txt in the project root for license information.
 
+using Scada.Admin.Extensions.ExtWirenBoard.Code;
 using Scada.Admin.Extensions.ExtWirenBoard.Code.Models;
+using Scada.Admin.Extensions.ExtWirenBoard.Properties;
 using Scada.Forms;
 
 namespace Scada.Admin.Extensions.ExtWirenBoard.Controls
@@ -18,6 +20,9 @@ namespace Scada.Admin.Extensions.ExtWirenBoard.Controls
         public CtrlDeviceTree()
         {
             InitializeComponent();
+
+            ilTree.Images.Add("device.png", Resources.device);
+            ilTree.Images.Add("elem.png", Resources.elem);
         }
 
 
@@ -49,7 +54,6 @@ namespace Scada.Admin.Extensions.ExtWirenBoard.Controls
                     foreach (ControlModel controlModel in deviceModel.Controls)
                     {
                         TreeNode controlNode = TreeViewExtensions.CreateNode(controlModel.Code, "elem.png", controlModel);
-                        controlNode.Checked = true;
                         deviceNode.Nodes.Add(controlNode);
                     }
 
@@ -66,6 +70,37 @@ namespace Scada.Admin.Extensions.ExtWirenBoard.Controls
             }
         }
 
+        /// <summary>
+        /// Validates the control.
+        /// </summary>
+        public bool ValidateControl()
+        {
+            foreach (TreeNode deviceNode in treeView.Nodes)
+            {
+                if (deviceNode.Checked)
+                    return true;
+            }
+
+            ScadaUiUtils.ShowError(ExtensionPhrases.SelectDevice);
+            return false;
+        }
+
+
+        private void btnSelectAll_Click(object sender, EventArgs e)
+        {
+            foreach (TreeNode deviceNode in treeView.Nodes)
+            {
+                deviceNode.Checked = true;
+            }
+        }
+
+        private void btnSelectNone_Click(object sender, EventArgs e)
+        {
+            foreach (TreeNode deviceNode in treeView.Nodes)
+            {
+                deviceNode.Checked = false;
+            }
+        }
 
         private void treeView_AfterSelect(object sender, TreeViewEventArgs e)
         {
@@ -79,9 +114,26 @@ namespace Scada.Admin.Extensions.ExtWirenBoard.Controls
                 propertyGrid.SelectedObject = null;
         }
 
-        private void treeView_NodeMouseClick(object sender, TreeNodeMouseClickEventArgs e)
+        private void treeView_AfterCheck(object sender, TreeViewEventArgs e)
         {
+            treeView.AfterCheck -= treeView_AfterCheck;
+            TreeNode node = e.Node;
+            bool isChecked = node.Checked;
 
+            // select parent node
+            if (node.Parent != null && isChecked)
+                node.Parent.Checked = true;
+
+            // select child nodes
+            foreach (TreeNode childNode in node.Nodes)
+            {
+                childNode.Checked = isChecked;
+            }
+
+            if (isChecked)
+                node.Expand();
+
+            treeView.AfterCheck += treeView_AfterCheck;
         }
     }
 }

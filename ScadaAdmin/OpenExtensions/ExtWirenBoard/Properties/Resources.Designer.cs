@@ -63,6 +63,26 @@ namespace Scada.Admin.Extensions.ExtWirenBoard.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
+        internal static System.Drawing.Bitmap device {
+            get {
+                object obj = ResourceManager.GetObject("device", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap elem {
+            get {
+                object obj = ResourceManager.GetObject("elem", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
         internal static System.Drawing.Bitmap wb {
             get {
                 object obj = ResourceManager.GetObject("wb", resourceCulture);

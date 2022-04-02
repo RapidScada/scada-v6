@@ -1,5 +1,10 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <ExtWirenBoardDictionaries>
+  <Dictionary key="Scada.Admin.Extensions.ExtWirenBoard.Controls.CtrlDeviceTree">
+    <Phrase key="btnSelectAll">Выбрать все</Phrase>
+    <Phrase key="btnSelectNone">Снять выбор</Phrase>
+    <Phrase key="SelectDevice">Выберите хотя бы одно устройство.</Phrase>
+  </Dictionary>
   <Dictionary key="Scada.Admin.Extensions.ExtWirenBoard.Controls.CtrlExtensionMenu">
     <Phrase key="miWirenBoard">Wiren Board</Phrase>
     <Phrase key="miCreateConfig">Создать конфигурацию...</Phrase>

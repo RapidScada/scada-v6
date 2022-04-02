@@ -11,6 +11,9 @@ namespace Scada.Admin.Extensions.ExtWirenBoard.Code
     /// </summary>
     internal class ExtensionPhrases
     {
+        // Scada.Admin.Extensions.ExtWirenBoard.Controls.CtrlDeviceTree
+        public static string SelectDevice { get; private set; }
+
         // Scada.Admin.Extensions.ExtWirenBoard.Controls.CtrlLineSelect
         public static string CommLineRequired { get; private set; }
         public static string MqttLineRequired { get; private set; }
@@ -26,7 +29,10 @@ namespace Scada.Admin.Extensions.ExtWirenBoard.Code
 
         public static void Init()
         {
-            LocaleDict dict = Locale.GetDictionary("Scada.Admin.Extensions.ExtWirenBoard.Controls.CtrlLineSelect");
+            LocaleDict dict = Locale.GetDictionary("Scada.Admin.Extensions.ExtWirenBoard.Controls.CtrlDeviceTree");
+            SelectDevice = dict[nameof(SelectDevice)];
+
+            dict = Locale.GetDictionary("Scada.Admin.Extensions.ExtWirenBoard.Controls.CtrlLineSelect");
             CommLineRequired = dict[nameof(CommLineRequired)];
             MqttLineRequired = dict[nameof(MqttLineRequired)];
             WirenBoardIpRequired = dict[nameof(WirenBoardIpRequired)];

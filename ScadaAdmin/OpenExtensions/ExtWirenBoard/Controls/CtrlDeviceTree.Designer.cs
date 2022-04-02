@@ -29,7 +29,6 @@
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
-            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(CtrlDeviceTree));
             this.treeView = new System.Windows.Forms.TreeView();
             this.ilTree = new System.Windows.Forms.ImageList(this.components);
             this.tableLayoutPanel = new System.Windows.Forms.TableLayoutPanel();
@@ -52,16 +51,14 @@
             this.treeView.SelectedImageIndex = 0;
             this.treeView.Size = new System.Drawing.Size(232, 241);
             this.treeView.TabIndex = 2;
+            this.treeView.AfterCheck += new System.Windows.Forms.TreeViewEventHandler(this.treeView_AfterCheck);
             this.treeView.AfterSelect += new System.Windows.Forms.TreeViewEventHandler(this.treeView_AfterSelect);
-            this.treeView.NodeMouseClick += new System.Windows.Forms.TreeNodeMouseClickEventHandler(this.treeView_NodeMouseClick);
             // 
             // ilTree
             // 
             this.ilTree.ColorDepth = System.Windows.Forms.ColorDepth.Depth32Bit;
-            this.ilTree.ImageStream = ((System.Windows.Forms.ImageListStreamer)(resources.GetObject("ilTree.ImageStream")));
+            this.ilTree.ImageSize = new System.Drawing.Size(16, 16);
             this.ilTree.TransparentColor = System.Drawing.Color.Transparent;
-            this.ilTree.Images.SetKeyName(0, "device.png");
-            this.ilTree.Images.SetKeyName(1, "elem.png");
             // 
             // tableLayoutPanel
             // 
@@ -103,21 +100,23 @@
             // 
             // btnSelectNone
             // 
-            this.btnSelectNone.Location = new System.Drawing.Point(86, 0);
+            this.btnSelectNone.Location = new System.Drawing.Point(96, 0);
             this.btnSelectNone.Name = "btnSelectNone";
-            this.btnSelectNone.Size = new System.Drawing.Size(80, 23);
+            this.btnSelectNone.Size = new System.Drawing.Size(90, 23);
             this.btnSelectNone.TabIndex = 1;
             this.btnSelectNone.Text = "Select None";
             this.btnSelectNone.UseVisualStyleBackColor = true;
+            this.btnSelectNone.Click += new System.EventHandler(this.btnSelectNone_Click);
             // 
             // btnSelectAll
             // 
             this.btnSelectAll.Location = new System.Drawing.Point(0, 0);
             this.btnSelectAll.Name = "btnSelectAll";
-            this.btnSelectAll.Size = new System.Drawing.Size(80, 23);
+            this.btnSelectAll.Size = new System.Drawing.Size(90, 23);
             this.btnSelectAll.TabIndex = 0;
             this.btnSelectAll.Text = "Select All";
             this.btnSelectAll.UseVisualStyleBackColor = true;
+            this.btnSelectAll.Click += new System.EventHandler(this.btnSelectAll_Click);
             // 
             // CtrlDeviceTree
             // 
