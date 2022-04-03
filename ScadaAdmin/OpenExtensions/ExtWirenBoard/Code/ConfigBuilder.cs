@@ -8,6 +8,7 @@ using Scada.Comm.Config;
 using Scada.Comm.Drivers.DrvMqttClient.Config;
 using Scada.Data.Const;
 using Scada.Data.Entities;
+using Scada.Data.Models;
 using Scada.Forms;
 using Scada.Lang;
 
@@ -23,6 +24,11 @@ namespace Scada.Admin.Extensions.ExtWirenBoard.Code
         /// The name of the driver for the devices being created.
         /// </summary>
         private const string MqttDriverName = "DrvMqttClient";
+        /// <summary>
+        /// The event mask for the channels being created.
+        /// </summary>
+        private static readonly int ControlEventMask = 
+            new EventMask { Enabled = true, StatusChange = true, Command = true }.Value;
 
         private readonly IAdminContext adminContext;  // the Administrator context
         private readonly ScadaProject project;        // the project under development
@@ -58,7 +64,7 @@ namespace Scada.Admin.Extensions.ExtWirenBoard.Code
         /// Builds the channels.
         /// </summary>
         private static void BuildCnls(DeviceConfigEntry entry, DeviceModel deviceModel,
-            int deviceNum, ref int cnlNum)
+            int? objNum, int deviceNum, ref int cnlNum)
         {
             // device error
             entry.Cnls.Add(new Cnl
@@ -67,7 +73,7 @@ namespace Scada.Admin.Extensions.ExtWirenBoard.Code
                 Active = true,
                 Name = deviceModel.Meta.Name + " Error",
                 CnlTypeID = CnlTypeID.Input,
-                ObjNum = null, // TODO: object
+                ObjNum = objNum,
                 DeviceNum = deviceNum,
                 TagCode = deviceModel.Code + "_error"
             });
@@ -77,9 +83,8 @@ namespace Scada.Admin.Extensions.ExtWirenBoard.Code
         /// Builds the channels.
         /// </summary>
         private static void BuildCnls(DeviceConfigEntry entry, ControlModel controlModel, 
-            ChannelNumberingOptions options, int deviceNum, ref int cnlNum)
+            ChannelNumberingOptions options, int? objNum, int deviceNum, ref int cnlNum)
         {
-            bool readOnly = controlModel.Meta.ReadOnly;
             string namePrefix = options.PrependDeviceName ? entry.DeviceEntity.Name + " - " : "";
             int? formatID = null;
             int? quantityID = null;
@@ -91,8 +96,8 @@ namespace Scada.Admin.Extensions.ExtWirenBoard.Code
                 CnlNum = cnlNum++,
                 Active = true,
                 Name = namePrefix + controlModel.Meta.Name + " Last",
-                CnlTypeID = readOnly ? CnlTypeID.Input : CnlTypeID.InputOutput,
-                ObjNum = null, // TODO: object
+                CnlTypeID = CnlTypeID.Input,
+                ObjNum = objNum,
                 DeviceNum = deviceNum,
                 TagCode = controlModel.Code,
                 FormatID = formatID,
@@ -107,7 +112,7 @@ namespace Scada.Admin.Extensions.ExtWirenBoard.Code
                 Active = true,
                 Name = namePrefix + controlModel.Meta.Name + " Error",
                 CnlTypeID = CnlTypeID.Input,
-                ObjNum = null, // TODO: object
+                ObjNum = objNum,
                 DeviceNum = deviceNum,
                 TagCode = controlModel.Code + "_error"
             });
@@ -118,8 +123,8 @@ namespace Scada.Admin.Extensions.ExtWirenBoard.Code
                 CnlNum = cnlNum++,
                 Active = true,
                 Name = namePrefix + controlModel.Meta.Name,
-                CnlTypeID = readOnly ? CnlTypeID.Calculated : CnlTypeID.CalculatedOutput,
-                ObjNum = null, // TODO: object
+                CnlTypeID = controlModel.Meta.ReadOnly ? CnlTypeID.Calculated : CnlTypeID.CalculatedOutput,
+                ObjNum = objNum,
                 DeviceNum = deviceNum,
                 TagCode = controlModel.Code,
                 FormulaEnabled = true,
@@ -127,7 +132,7 @@ namespace Scada.Admin.Extensions.ExtWirenBoard.Code
                 FormatID = formatID,
                 QuantityID = quantityID,
                 UnitID = unitID,
-                EventMask = null // TODO: mask
+                EventMask = ControlEventMask
             });
         }
         
@@ -186,7 +191,8 @@ namespace Scada.Admin.Extensions.ExtWirenBoard.Code
         /// <summary>
         /// Builds a project configuration.
         /// </summary>
-        public void Build(List<DeviceModel> selectedDevices, int commLineNum, int startDeviceNum, int startCnlNum)
+        public void Build(List<DeviceModel> selectedDevices, int commLineNum, 
+            int startDeviceNum, int startCnlNum, int? objNum)
         {
             ArgumentNullException.ThrowIfNull(selectedDevices, nameof(selectedDevices));
 
@@ -229,12 +235,12 @@ namespace Scada.Admin.Extensions.ExtWirenBoard.Code
                         deviceConfig.Driver = MqttDriverName;
 
                         // channels and subscriptions
-                        BuildCnls(entry, deviceModel, deviceNum, ref cnlNum);
+                        BuildCnls(entry, deviceModel, objNum, deviceNum, ref cnlNum);
                         BuildMqttDeviceConfig(entry, deviceModel);
 
                         foreach (ControlModel controlModel in deviceModel.Controls)
                         {
-                            BuildCnls(entry, controlModel, options, deviceNum, ref cnlNum);
+                            BuildCnls(entry, controlModel, options, objNum, deviceNum, ref cnlNum);
                             BuildMqttDeviceConfig(entry, controlModel);
                         }
 

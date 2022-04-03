@@ -34,6 +34,8 @@
             this.numStartDeviceNum = new System.Windows.Forms.NumericUpDown();
             this.btnCnlMap = new System.Windows.Forms.Button();
             this.btnDeviceMap = new System.Windows.Forms.Button();
+            this.lblObj = new System.Windows.Forms.Label();
+            this.cbObj = new System.Windows.Forms.ComboBox();
             ((System.ComponentModel.ISupportInitialize)(this.numStartCnlNum)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.numStartDeviceNum)).BeginInit();
             this.SuspendLayout();
@@ -122,10 +124,30 @@
             this.btnDeviceMap.UseVisualStyleBackColor = true;
             this.btnDeviceMap.Click += new System.EventHandler(this.btnDeviceMap_Click);
             // 
+            // lblObj
+            // 
+            this.lblObj.AutoSize = true;
+            this.lblObj.Location = new System.Drawing.Point(9, 111);
+            this.lblObj.Name = "lblObj";
+            this.lblObj.Size = new System.Drawing.Size(42, 15);
+            this.lblObj.TabIndex = 6;
+            this.lblObj.Text = "Object";
+            // 
+            // cbObj
+            // 
+            this.cbObj.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.cbObj.FormattingEnabled = true;
+            this.cbObj.Location = new System.Drawing.Point(12, 129);
+            this.cbObj.Name = "cbObj";
+            this.cbObj.Size = new System.Drawing.Size(200, 23);
+            this.cbObj.TabIndex = 7;
+            // 
             // CtrlEntityID
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.Controls.Add(this.cbObj);
+            this.Controls.Add(this.lblObj);
             this.Controls.Add(this.btnDeviceMap);
             this.Controls.Add(this.numStartCnlNum);
             this.Controls.Add(this.lblStartCnlNum);
@@ -135,6 +157,7 @@
             this.Name = "CtrlEntityID";
             this.Padding = new System.Windows.Forms.Padding(9);
             this.Size = new System.Drawing.Size(500, 200);
+            this.Load += new System.EventHandler(this.CtrlEntityID_Load);
             ((System.ComponentModel.ISupportInitialize)(this.numStartCnlNum)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.numStartDeviceNum)).EndInit();
             this.ResumeLayout(false);
@@ -150,5 +173,7 @@
         private NumericUpDown numStartDeviceNum;
         private Button btnCnlMap;
         private Button btnDeviceMap;
+        private Label lblObj;
+        private ComboBox cbObj;
     }
 }

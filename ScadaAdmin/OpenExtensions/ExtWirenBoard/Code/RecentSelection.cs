@@ -33,6 +33,11 @@ namespace Scada.Admin.Extensions.ExtWirenBoard.Code
         /// </summary>
         public string WirenBoardIP { get; set; }
 
+        /// <summary>
+        /// Gets or sets the object number.
+        /// </summary>
+        public int ObjNum { get; set; }
+
 
         /// <summary>
         /// Resets the selected parameters.
@@ -42,6 +47,7 @@ namespace Scada.Admin.Extensions.ExtWirenBoard.Code
             InstanceName = "";
             CommLineNum = 0;
             WirenBoardIP = "";
+            ObjNum = 0;
         }
     }
 }

@@ -67,27 +67,39 @@ namespace Scada.Admin.Extensions.ExtWirenBoard.Forms
             this.project = project ?? throw new ArgumentNullException(nameof(project));
             this.recentSelection = recentSelection ?? throw new ArgumentNullException(nameof(recentSelection));
 
-            ctrlLineSelect = new CtrlLineSelect(adminContext, project, recentSelection) 
-            { 
-                Dock = DockStyle.Fill, 
-                Visible = false 
-            };
-
-            ctrlLog = new CtrlLog { Dock = DockStyle.Fill, Visible = false };
-            ctrlDeviceTree = new CtrlDeviceTree { Dock = DockStyle.Fill, Visible = false };
-            ctrlEntityID = new CtrlEntityID(adminContext, project) { Dock = DockStyle.Fill, Visible = false };
+            ctrlLineSelect = new CtrlLineSelect(adminContext, project, recentSelection);
+            ctrlLog = new CtrlLog();
+            ctrlDeviceTree = new CtrlDeviceTree();
+            ctrlEntityID = new CtrlEntityID(adminContext, project, recentSelection);
             logHelper = new RichTextBoxHelper(ctrlLog.RichTextBox);
-
-            pnlMain.Controls.Add(ctrlLineSelect);
-            pnlMain.Controls.Add(ctrlLog);
-            pnlMain.Controls.Add(ctrlDeviceTree);
-            pnlMain.Controls.Add(ctrlEntityID);
+            AddUserControls();
 
             step = Step.SelectLine;
             topicReader = null;
             configBuilder = null;
         }
 
+
+        /// <summary>
+        /// Adds the user controls to the form.
+        /// </summary>
+        private void AddUserControls()
+        {
+            ctrlLineSelect.Dock = DockStyle.Fill;
+            ctrlLog.Dock = DockStyle.Fill;
+            ctrlDeviceTree.Dock = DockStyle.Fill;
+            ctrlEntityID.Dock = DockStyle.Fill;
+
+            ctrlLineSelect.Visible = false;
+            ctrlLog.Visible = false;
+            ctrlDeviceTree.Visible = false;
+            ctrlEntityID.Visible = false;
+
+            pnlMain.Controls.Add(ctrlLineSelect);
+            pnlMain.Controls.Add(ctrlLog);
+            pnlMain.Controls.Add(ctrlDeviceTree);
+            pnlMain.Controls.Add(ctrlEntityID);
+        }
 
         /// <summary>
         /// Validates the current step.
@@ -166,6 +178,7 @@ namespace Scada.Admin.Extensions.ExtWirenBoard.Forms
 
                 case Step.CheckConfig:
                     lblStep.Text = ExtensionPhrases.Step5Descr;
+                    ctrlEntityID.RememberRecentSelection();
                     ctrlLog.Visible = true;
                     ctrlLog.SetFocus();
                     logHelper.Clear();
@@ -174,8 +187,8 @@ namespace Scada.Admin.Extensions.ExtWirenBoard.Forms
 
                     // build project configuration
                     configBuilder = new ConfigBuilder(adminContext, project, logHelper);
-                    configBuilder.Build(ctrlDeviceTree.GetSelectedDevices(), ctrlLineSelect.Line.CommLineNum, 
-                        ctrlEntityID.StartDeviceNum, ctrlEntityID.StartCnlNum);
+                    configBuilder.Build(ctrlDeviceTree.GetSelectedDevices(), ctrlLineSelect.Line.CommLineNum,
+                        ctrlEntityID.StartDeviceNum, ctrlEntityID.StartCnlNum, ctrlEntityID.ObjNum);
                     btnCreate.Enabled = configBuilder.BuildResult;
                     break;
             }

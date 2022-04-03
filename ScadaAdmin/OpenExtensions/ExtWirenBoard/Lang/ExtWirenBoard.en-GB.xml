@@ -10,6 +10,7 @@
     <Phrase key="btnDeviceMap">Map</Phrase>
     <Phrase key="lblStartCnlNum">Starting channel number</Phrase>
     <Phrase key="btnCnlMap">Map</Phrase>
+    <Phrase key="lblObj">Object</Phrase>
   </Dictionary>
   <Dictionary key="Scada.Admin.Extensions.ExtWirenBoard.Controls.CtrlExtensionMenu">
     <Phrase key="miWirenBoard">Wiren Board</Phrase>

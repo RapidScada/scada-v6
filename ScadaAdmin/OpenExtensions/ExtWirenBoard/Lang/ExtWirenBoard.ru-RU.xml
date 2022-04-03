@@ -10,6 +10,7 @@
     <Phrase key="btnDeviceMap">Карта</Phrase>
     <Phrase key="lblStartCnlNum">Начальный номер канала</Phrase>
     <Phrase key="btnCnlMap">Карта</Phrase>
+    <Phrase key="lblObj">Объект</Phrase>
   </Dictionary>
   <Dictionary key="Scada.Admin.Extensions.ExtWirenBoard.Controls.CtrlExtensionMenu">
     <Phrase key="miWirenBoard">Wiren Board</Phrase>

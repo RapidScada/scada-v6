@@ -60,7 +60,7 @@ namespace Scada.Admin.Extensions.ExtCommConfig.Controls
 
 
         /// <summary>
-        /// Fills the combo box with the device types.
+        /// Fills the combo box with the objects.
         /// </summary>
         private void FillObjectList()
         {

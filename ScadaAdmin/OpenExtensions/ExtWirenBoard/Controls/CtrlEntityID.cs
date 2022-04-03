@@ -3,6 +3,7 @@
 
 using Scada.Admin.Extensions.ExtWirenBoard.Code;
 using Scada.Admin.Project;
+using Scada.Data.Entities;
 
 namespace Scada.Admin.Extensions.ExtWirenBoard.Controls
 {
@@ -12,8 +13,9 @@ namespace Scada.Admin.Extensions.ExtWirenBoard.Controls
     /// </summary>
     internal partial class CtrlEntityID : UserControl
     {
-        private readonly IAdminContext adminContext; // the Administrator context
-        private readonly ScadaProject project;       // the project under development
+        private readonly IAdminContext adminContext;      // the Administrator context
+        private readonly ScadaProject project;            // the project under development
+        private readonly RecentSelection recentSelection; // the recently selected parameters
 
 
         /// <summary>
@@ -27,11 +29,12 @@ namespace Scada.Admin.Extensions.ExtWirenBoard.Controls
         /// <summary>
         /// Initializes a new instance of the class.
         /// </summary>
-        public CtrlEntityID(IAdminContext adminContext, ScadaProject project)
+        public CtrlEntityID(IAdminContext adminContext, ScadaProject project, RecentSelection recentSelection)
             : this()
         {
             this.adminContext = adminContext ?? throw new ArgumentNullException(nameof(adminContext));
             this.project = project ?? throw new ArgumentNullException(nameof(project));
+            this.recentSelection = recentSelection ?? throw new ArgumentNullException(nameof(recentSelection));
         }
 
 
@@ -45,6 +48,28 @@ namespace Scada.Admin.Extensions.ExtWirenBoard.Controls
         /// </summary>
         public int StartCnlNum => Convert.ToInt32(numStartCnlNum.Value);
 
+        /// <summary>
+        /// Gets the selected object number.
+        /// </summary>
+        public int? ObjNum => cbObj.SelectedValue is int objNum && objNum > 0 ? objNum : null;
+
+
+        /// <summary>
+        /// Fills the combo box with the objects.
+        /// </summary>
+        private void FillObjectList()
+        {
+            List<Obj> objs = new(project.ConfigBase.ObjTable.ItemCount + 1);
+            objs.Add(new Obj { ObjNum = 0, Name = " " });
+            objs.AddRange(project.ConfigBase.ObjTable.Enumerate().OrderBy(obj => obj.Name));
+
+            cbObj.ValueMember = "ObjNum";
+            cbObj.DisplayMember = "Name";
+            cbObj.DataSource = objs;
+
+            try { cbObj.SelectedValue = recentSelection.ObjNum; }
+            catch { cbObj.SelectedValue = 0; }
+        }
 
         /// <summary>
         /// Sets the input focus.
@@ -64,6 +89,19 @@ namespace Scada.Admin.Extensions.ExtWirenBoard.Controls
                 project.ConfigBase.CnlTable.GetNextPk());
         }
 
+        /// <summary>
+        /// Remembers the selected values.
+        /// </summary>
+        public void RememberRecentSelection()
+        {
+            recentSelection.ObjNum = cbObj.SelectedValue is int objNum ? objNum : 0;
+        }
+
+
+        private void CtrlEntityID_Load(object sender, EventArgs e)
+        {
+            FillObjectList();
+        }
 
         private void btnDeviceMap_Click(object sender, EventArgs e)
         {
