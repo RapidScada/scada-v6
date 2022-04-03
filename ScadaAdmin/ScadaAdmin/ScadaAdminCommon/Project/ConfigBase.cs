@@ -24,6 +24,7 @@
  */
 
 using Scada.Admin.Lang;
+using Scada.Data.Entities;
 using Scada.Data.Models;
 using Scada.Data.Tables;
 using System;
@@ -87,6 +88,31 @@ namespace Scada.Admin.Project
             {
                 return AllTables.Any(t => t.Modified);
             }
+        }
+
+
+        /// <summary>
+        /// Gets the format with the specified code, or null if it not found.
+        /// </summary>
+        public Format GetFormatByCode(string code)
+        {
+            return null;
+        }
+
+        /// <summary>
+        /// Gets the quantity with the specified code, or null if it not found.
+        /// </summary>
+        public Quantity GetQuantityByCode(string code)
+        {
+            return null;
+        }
+
+        /// <summary>
+        /// Gets the quantity with the specified code, or null if it not found.
+        /// </summary>
+        public Unit GetUnitByCode(string code)
+        {
+            return null;
         }
 
 
