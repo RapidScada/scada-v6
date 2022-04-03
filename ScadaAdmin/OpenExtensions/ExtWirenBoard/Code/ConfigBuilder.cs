@@ -2,6 +2,7 @@
 // Licensed under the Apache License, Version 2.0. See License.txt in the project root for license information.
 
 using Scada.Admin.Config;
+using Scada.Admin.Extensions.ExtWirenBoard.Code.Meta;
 using Scada.Admin.Extensions.ExtWirenBoard.Code.Models;
 using Scada.Admin.Project;
 using Scada.Comm.Config;
@@ -82,20 +83,21 @@ namespace Scada.Admin.Extensions.ExtWirenBoard.Code
         /// <summary>
         /// Builds the channels.
         /// </summary>
-        private static void BuildCnls(DeviceConfigEntry entry, ControlModel controlModel, 
+        private void BuildCnls(DeviceConfigEntry entry, ControlModel controlModel, 
             ChannelNumberingOptions options, int? objNum, int deviceNum, ref int cnlNum)
         {
             string namePrefix = options.PrependDeviceName ? entry.DeviceEntity.Name + " - " : "";
-            int? formatID = null;
-            int? quantityID = null;
-            int? unitID = null;
+            ControlMeta controlMeta = controlModel.Meta;
+            int? formatID = GetFormatID(controlMeta);
+            int? quantityID = GetQuantityID(controlMeta);
+            int? unitID = GetUnitID(controlMeta);
 
             // control value
             entry.Cnls.Add(new Cnl
             {
                 CnlNum = cnlNum++,
                 Active = true,
-                Name = namePrefix + controlModel.Meta.Name + " Last",
+                Name = namePrefix + controlMeta.Name + " Last",
                 CnlTypeID = CnlTypeID.Input,
                 ObjNum = objNum,
                 DeviceNum = deviceNum,
@@ -110,7 +112,7 @@ namespace Scada.Admin.Extensions.ExtWirenBoard.Code
             {
                 CnlNum = cnlNum++,
                 Active = true,
-                Name = namePrefix + controlModel.Meta.Name + " Error",
+                Name = namePrefix + controlMeta.Name + " Error",
                 CnlTypeID = CnlTypeID.Input,
                 ObjNum = objNum,
                 DeviceNum = deviceNum,
@@ -122,8 +124,8 @@ namespace Scada.Admin.Extensions.ExtWirenBoard.Code
             {
                 CnlNum = cnlNum++,
                 Active = true,
-                Name = namePrefix + controlModel.Meta.Name,
-                CnlTypeID = controlModel.Meta.ReadOnly ? CnlTypeID.Calculated : CnlTypeID.CalculatedOutput,
+                Name = namePrefix + controlMeta.Name,
+                CnlTypeID = controlMeta.ReadOnly ? CnlTypeID.Calculated : CnlTypeID.CalculatedOutput,
                 ObjNum = objNum,
                 DeviceNum = deviceNum,
                 TagCode = controlModel.Code,
@@ -135,7 +137,49 @@ namespace Scada.Admin.Extensions.ExtWirenBoard.Code
                 EventMask = ControlEventMask
             });
         }
-        
+
+        /// <summary>
+        /// Gets the control format.
+        /// </summary>
+        private int? GetFormatID(ControlMeta controlMeta)
+        {
+            Format format = controlMeta.Type switch
+            {
+                "pushbutton" => project.ConfigBase.GetFormatByCode(FormatCode.Execute),
+                "switch" => project.ConfigBase.GetFormatByCode(FormatCode.OffOn),
+                _ => null
+            };
+            return format?.FormatID;
+        }
+
+        /// <summary>
+        /// Gets the control quantity.
+        /// </summary>
+        private int? GetQuantityID(ControlMeta controlMeta)
+        {
+            Quantity quantity = controlMeta.Type switch
+            {
+                "temperature" => project.ConfigBase.GetQuantityByCode(QuantityCode.Temperature),
+                "voltage" => project.ConfigBase.GetQuantityByCode(QuantityCode.Voltage),
+                _ => null
+            };
+            return quantity?.QuantityID;
+        }
+
+        /// <summary>
+        /// Gets the control unit.
+        /// </summary>
+        private int? GetUnitID(ControlMeta controlMeta)
+        {
+            Unit unit = controlMeta.Type switch
+            {
+                "temperature" => project.ConfigBase.GetUnitByCode(UnitCode.Celsius),
+                "voltage" => project.ConfigBase.GetUnitByCode(UnitCode.Volt),
+                _ => null
+            };
+            return unit?.UnitID;
+        }
+
         /// <summary>
         /// Builds the MQTT device configuration.
         /// </summary>
