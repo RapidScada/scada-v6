@@ -34,12 +34,16 @@ using System.Xml.Serialization;
 namespace Scada.Data.Tables
 {
     /// <summary>
-    /// Represents the table of the configuration database.
+    /// Represents a table of the configuration database.
     /// <para>Представляет таблицу базы конфигурации.</para>
     /// </summary>
     /// <remarks>Reading is thread safe, writing requires synchronization.</remarks>
     public class BaseTable<T> : IBaseTable
     {
+        /// <summary>
+        /// The collection of item properties.
+        /// </summary>
+        protected readonly PropertyDescriptorCollection itemProps;
         /// <summary>
         /// The primary key of the table.
         /// </summary>
@@ -55,11 +59,13 @@ namespace Scada.Data.Tables
         /// </summary>
         public BaseTable(string primaryKey, string title)
         {
+            itemProps = TypeDescriptor.GetProperties(typeof(T));
+
             Name = ItemType.Name;
             PrimaryKey = primaryKey;
             Title = title;
             Items = new SortedDictionary<int, T>();
-            Indexes = new Dictionary<string, TableIndex>();
+            Indexes = new Dictionary<string, ITableIndex>();
             DependsOn = new List<TableRelation>();
             Dependent = new List<TableRelation>();
             Modified = false;
@@ -87,16 +93,16 @@ namespace Scada.Data.Tables
                 if (string.IsNullOrEmpty(value))
                     throw new ArgumentException("Primary key must not be empty.");
 
-                PropertyDescriptor prop = TypeDescriptor.GetProperties(typeof(T))[value];
+                PropertyDescriptor pkProp = itemProps[value];
 
-                if (prop == null)
+                if (pkProp == null)
                     throw new ArgumentException("Primary key property not found.");
 
-                if (prop.PropertyType != typeof(int))
+                if (pkProp.PropertyType != typeof(int))
                     throw new ArgumentException("Primary key must be an integer.");
 
                 primaryKey = value;
-                primaryKeyProp = prop;
+                primaryKeyProp = pkProp;
             }
         }
 
@@ -158,7 +164,7 @@ namespace Scada.Data.Tables
         /// <summary>
         /// Gets the table indexes accessed by column name.
         /// </summary>
-        public Dictionary<string, TableIndex> Indexes { get; }
+        public Dictionary<string, ITableIndex> Indexes { get; }
 
         /// <summary>
         /// Gets the tables that this table depends on (foreign keys).
@@ -188,7 +194,7 @@ namespace Scada.Data.Tables
         {
             if (IndexesEnabled)
             {
-                foreach (TableIndex index in Indexes.Values)
+                foreach (ITableIndex index in Indexes.Values)
                 {
                     lock (index)
                     {
@@ -206,7 +212,7 @@ namespace Scada.Data.Tables
         {
             if (IndexesEnabled && Items.TryGetValue(key, out T item))
             {
-                foreach (TableIndex index in Indexes.Values)
+                foreach (ITableIndex index in Indexes.Values)
                 {
                     lock (index)
                     {
@@ -271,7 +277,7 @@ namespace Scada.Data.Tables
         {
             Items.Clear();
 
-            foreach (TableIndex index in Indexes.Values)
+            foreach (ITableIndex index in Indexes.Values)
             {
                 index.Reset();
             }
@@ -312,9 +318,16 @@ namespace Scada.Data.Tables
         /// <summary>
         /// Adds a new index.
         /// </summary>
-        public TableIndex AddIndex(string columnName)
+        public ITableIndex AddIndex(string columnName)
         {
-            TableIndex index = new TableIndex(columnName, ItemType);
+            PropertyDescriptor colProp = itemProps[columnName];
+
+            if (colProp == null)
+                throw new ArgumentException("Column property not found.");
+
+            Type indexType = typeof(TableIndex<,>);
+            Type constructedType = indexType.MakeGenericType(colProp.PropertyType, typeof(T));
+            ITableIndex index = (ITableIndex)Activator.CreateInstance(constructedType, columnName);
             Indexes.Add(columnName, index);
             return index;
         }
@@ -322,7 +335,7 @@ namespace Scada.Data.Tables
         /// <summary>
         /// Gets an index by the column name, populating it if necessary.
         /// </summary>
-        public bool TryGetIndex(string columnName, out TableIndex index)
+        public bool TryGetIndex(string columnName, out ITableIndex index)
         {
             if (Indexes.TryGetValue(columnName, out index))
             {
@@ -383,16 +396,14 @@ namespace Scada.Data.Tables
                 throw new ArgumentNullException(nameof(filter));
 
             // find the property used by the filter
-            PropertyDescriptor filterProp = TypeDescriptor.GetProperties(ItemType)[filter.ColumnName];
+            PropertyDescriptor filterProp = itemProps[filter.ColumnName];
             if (filterProp == null)
                 throw new ArgumentException("The filter property not found.");
 
             // get the matched items
-            if (TryGetIndex(filter.ColumnName, out TableIndex index))
+            if (TryGetIndex(filter.ColumnName, out ITableIndex index))
             {
-                int indexKey = filter.Argument == null ? 0 : (int)filter.Argument;
-
-                foreach (object item in index.SelectItems(indexKey))
+                foreach (object item in index.SelectItems(filter.Argument))
                 {
                     yield return item;
                 }
@@ -403,12 +414,11 @@ namespace Scada.Data.Tables
             }
             else
             {
-                object filterArg = filter.Argument;
-
                 foreach (T item in Items.Values)
                 {
                     object propVal = filterProp.GetValue(item);
-                    if (Equals(propVal, filterArg))
+
+                    if (Equals(propVal, filter.Argument))
                         yield return item;
                 }
             }

@@ -73,7 +73,7 @@ namespace Scada.Data.Tables
         /// <summary>
         /// Gets the table indexes accessed by column name.
         /// </summary>
-        Dictionary<string, TableIndex> Indexes { get; }
+        Dictionary<string, ITableIndex> Indexes { get; }
 
         /// <summary>
         /// Gets the tables that this table depends on (foreign keys).
@@ -139,12 +139,12 @@ namespace Scada.Data.Tables
         /// <summary>
         /// Adds a new index.
         /// </summary>
-        TableIndex AddIndex(string columnName);
+        ITableIndex AddIndex(string columnName);
 
         /// <summary>
         /// Gets an index by the column name, populating it if necessary.
         /// </summary>
-        bool TryGetIndex(string columnName, out TableIndex index);
+        bool TryGetIndex(string columnName, out ITableIndex index);
 
         /// <summary>
         /// Returns an enumerable collection of the table primary keys.

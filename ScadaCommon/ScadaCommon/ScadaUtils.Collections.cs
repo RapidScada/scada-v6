@@ -235,7 +235,7 @@ namespace Scada
         /// Converts the collection to a short string representation using range format.
         /// </summary>
         /// <remarks>Example: 1-5, 10</remarks>
-        public static string ToRangeString(this ICollection<int> collection)
+        public static string ToRangeString(this IEnumerable<int> collection)
         {
             if (collection == null)
                 throw new ArgumentNullException(nameof(collection));
@@ -282,7 +282,7 @@ namespace Scada
         /// <summary>
         /// Converts the collection to a long string representation.
         /// </summary>
-        public static string ToLongString(this ICollection<int> collection)
+        public static string ToLongString(this IEnumerable<int> collection)
         {
             return collection == null ? "" : string.Join(DisplayArraySeparator, collection);
         }
