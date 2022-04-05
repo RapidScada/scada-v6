@@ -27,6 +27,7 @@ using Scada.Admin.Lang;
 using Scada.Data.Entities;
 using Scada.Data.Models;
 using Scada.Data.Tables;
+using Scada.Lang;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -66,6 +67,7 @@ namespace Scada.Admin.Project
         {
             BaseDir = "";
             Loaded = false;
+            AddIndexes();
         }
 
 
@@ -92,11 +94,46 @@ namespace Scada.Admin.Project
 
 
         /// <summary>
+        /// Adds the necessary indexes to the tables.
+        /// </summary>
+        private void AddIndexes()
+        {
+            FormatTable.AddIndex("Code");
+            QuantityTable.AddIndex("Code");
+            UnitTable.AddIndex("Code");
+        }
+
+        /// <summary>
+        /// Gets the item with the specified code from the table.
+        /// </summary>
+        private static T GetItemByCode<T>(IBaseTable baseTable, string code)
+        {
+            if (string.IsNullOrEmpty(code))
+            {
+                return default;
+            }
+            else if (baseTable.TryGetIndex("Code", out ITableIndex index))
+            {
+                foreach (object item in index.SelectItems(code))
+                {
+                    return (T)item;
+                }
+
+                return default;
+            }
+            else
+            {
+                throw new ScadaException(CommonPhrases.IndexNotFound);
+            }
+        }
+
+
+        /// <summary>
         /// Gets the format with the specified code, or null if it not found.
         /// </summary>
         public Format GetFormatByCode(string code)
         {
-            return null;
+            return GetItemByCode<Format>(FormatTable, code);
         }
 
         /// <summary>
@@ -104,7 +141,7 @@ namespace Scada.Admin.Project
         /// </summary>
         public Quantity GetQuantityByCode(string code)
         {
-            return null;
+            return GetItemByCode<Quantity>(QuantityTable, code);
         }
 
         /// <summary>
@@ -112,7 +149,7 @@ namespace Scada.Admin.Project
         /// </summary>
         public Unit GetUnitByCode(string code)
         {
-            return null;
+            return GetItemByCode<Unit>(UnitTable, code);
         }
 
 

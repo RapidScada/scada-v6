@@ -50,10 +50,11 @@ namespace Scada.Admin.Extensions.ExtProjectTools.Code
         /// <summary>
         /// Writes channels having the specified index key.
         /// </summary>
-        private static void WriteCnls(StreamWriter writer, TableIndex index, int indexKey)
+        private static void WriteCnls(StreamWriter writer, ITableIndex index, int indexKey)
         {
-            writer.WriteLine(index.ItemGroups.TryGetValue(indexKey, out SortedDictionary<int, object> group) 
-                ? ExtensionPhrases.ChannelsCaption + group.Keys.ToRangeString() 
+            List<int> keys = new(index.SelectItemKeys(indexKey));
+            writer.WriteLine(keys.Count > 0
+                ? ExtensionPhrases.ChannelsCaption + keys.ToRangeString() 
                 : ExtensionPhrases.NoChannels);
         }
 
@@ -72,7 +73,7 @@ namespace Scada.Admin.Extensions.ExtProjectTools.Code
                     writer.WriteLine(title);
                     writer.WriteLine(new string('-', title.Length));
 
-                    if (configBase.CnlTable.TryGetIndex(indexedColumn, out TableIndex tableIndex))
+                    if (configBase.CnlTable.TryGetIndex(indexedColumn, out ITableIndex tableIndex))
                     {
                         if (GroupByDevices)
                         {

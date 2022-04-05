@@ -59,9 +59,9 @@ namespace Scada.Admin.Extensions.ExtProjectTools.Code
 
                         foreach (TableRelation relation in baseTable.Dependent)
                         {
-                            if (relation.ChildTable.TryGetIndex(relation.ChildColumn, out TableIndex index))
+                            if (relation.ChildTable.TryGetIndex(relation.ChildColumn, out ITableIndex index))
                             {
-                                foreach (int indexKey in index.ItemGroups.Keys)
+                                foreach (int indexKey in index.EnumerateIndexKeys())
                                 {
                                     // if index.AllowNull then 0 means NULL, otherwise 0 is 0
                                     if (indexKey != 0 || !index.AllowNull)

@@ -287,7 +287,7 @@ namespace Scada.Admin.App.Forms.Tables
         {
             foreach (TableRelation relation in baseTable.Dependent)
             {
-                if (relation.ChildTable.TryGetIndex(relation.ChildColumn, out TableIndex index) &&
+                if (relation.ChildTable.TryGetIndex(relation.ChildColumn, out ITableIndex index) &&
                     index.IndexKeyExists(key))
                 {
                     errMsg = string.Format(AppPhrases.KeyReferenced, relation.ChildTable.Title);

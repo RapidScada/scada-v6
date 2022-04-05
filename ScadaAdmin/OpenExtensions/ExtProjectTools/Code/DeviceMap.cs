@@ -44,10 +44,11 @@ namespace Scada.Admin.Extensions.ExtProjectTools.Code
         /// <summary>
         /// Writes channels having the specified index key.
         /// </summary>
-        private static void WriteDevices(StreamWriter writer, TableIndex index, int indexKey)
+        private static void WriteDevices(StreamWriter writer, ITableIndex index, int indexKey)
         {
-            writer.WriteLine(index.ItemGroups.TryGetValue(indexKey, out SortedDictionary<int, object> group)
-                ? ExtensionPhrases.DevicesCaption + group.Keys.ToRangeString()
+            List<int> keys = new(index.SelectItemKeys(indexKey));
+            writer.WriteLine(keys.Count > 0
+                ? ExtensionPhrases.DevicesCaption + keys.ToRangeString()
                 : ExtensionPhrases.NoDevices);
         }
 
@@ -63,7 +64,7 @@ namespace Scada.Admin.Extensions.ExtProjectTools.Code
                     writer.WriteLine(ExtensionPhrases.DeviceMapTitle);
                     writer.WriteLine(new string('-', ExtensionPhrases.DeviceMapTitle.Length));
 
-                    if (configBase.DeviceTable.TryGetIndex("CommLineNum", out TableIndex tableIndex))
+                    if (configBase.DeviceTable.TryGetIndex("CommLineNum", out ITableIndex tableIndex))
                     {
                         foreach (CommLine commLine in configBase.CommLineTable.EnumerateItems())
                         {
