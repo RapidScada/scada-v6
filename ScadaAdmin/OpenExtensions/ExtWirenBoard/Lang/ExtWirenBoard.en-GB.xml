@@ -26,7 +26,7 @@
     <Phrase key="WirenBoardIpRequired">Wiren Board IP address is required.</Phrase>
   </Dictionary>
   <Dictionary key="Scada.Admin.Extensions.ExtWirenBoard.Forms.FrmWirenBoardWizard">
-    <Phrase key="this">Wiren Board</Phrase>
+    <Phrase key="this">Project configuration wizard for Wiren Board</Phrase>
     <Phrase key="btnBack">&lt; Back</Phrase>
     <Phrase key="btnNext">Next &gt;</Phrase>
     <Phrase key="btnCreate">Create</Phrase>

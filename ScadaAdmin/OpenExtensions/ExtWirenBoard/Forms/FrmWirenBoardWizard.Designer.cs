@@ -128,7 +128,7 @@
             this.ShowIcon = false;
             this.ShowInTaskbar = false;
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
-            this.Text = "Wiren Board";
+            this.Text = "Project configuration wizard for Wiren Board";
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.FrmWirenBoardWizard_FormClosing);
             this.Load += new System.EventHandler(this.FrmWirenBoardWizard_Load);
             this.pnlBottom.ResumeLayout(false);
