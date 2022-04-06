@@ -84,7 +84,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DrvDsMqtt.View", "DrvDsMqtt
 EndProject
 Project("{D954291E-2A0B-460D-934E-DC6B0785DB48}") = "DrvDsMqtt.Shared", "DrvDsMqtt.Shared\DrvDsMqtt.Shared.shproj", "{709169F9-0F33-4E14-9FD1-AA9C3D5ED4AA}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DrvMqttClient.Common", "DrvMqttClient.Common\DrvMqttClient.Common.csproj", "{87DD4D79-9BB4-4F15-98AE-464378B1613E}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DrvMqttClient.Common", "DrvMqttClient.Common\DrvMqttClient.Common.csproj", "{87DD4D79-9BB4-4F15-98AE-464378B1613E}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DrvMqttClient.View", "DrvMqttClient.View\DrvMqttClient.View.csproj", "{C1CC1C89-F786-4D2E-B45C-8FFCBC9C22C1}"
 EndProject
 Global
 	GlobalSection(SharedMSBuildProjectFiles) = preSolution
@@ -213,6 +215,10 @@ Global
 		{87DD4D79-9BB4-4F15-98AE-464378B1613E}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{87DD4D79-9BB4-4F15-98AE-464378B1613E}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{87DD4D79-9BB4-4F15-98AE-464378B1613E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C1CC1C89-F786-4D2E-B45C-8FFCBC9C22C1}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C1CC1C89-F786-4D2E-B45C-8FFCBC9C22C1}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C1CC1C89-F786-4D2E-B45C-8FFCBC9C22C1}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C1CC1C89-F786-4D2E-B45C-8FFCBC9C22C1}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -249,6 +255,7 @@ Global
 		{2DEA42B9-127E-41FB-921B-356C4E290A8C} = {B9143ECA-C319-4A0C-855A-384C34B0DB74}
 		{709169F9-0F33-4E14-9FD1-AA9C3D5ED4AA} = {B9143ECA-C319-4A0C-855A-384C34B0DB74}
 		{87DD4D79-9BB4-4F15-98AE-464378B1613E} = {B9143ECA-C319-4A0C-855A-384C34B0DB74}
+		{C1CC1C89-F786-4D2E-B45C-8FFCBC9C22C1} = {B9143ECA-C319-4A0C-855A-384C34B0DB74}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {961AA4C1-5D08-4B24-AE6B-99F3AB1A7AEF}
