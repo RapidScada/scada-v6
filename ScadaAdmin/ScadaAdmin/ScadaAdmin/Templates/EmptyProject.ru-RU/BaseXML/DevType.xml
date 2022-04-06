@@ -205,6 +205,18 @@
     <Descr>Предназначен для проверки каналов связи</Descr>
   </DevType>
   <DevType>
+    <DevTypeID>235</DevTypeID>
+    <Name>MQTT-клиент</Name>
+    <Driver>DrvMqttClient</Driver>
+    <Descr>Получает данные устройств от MQTT-брокера и публикует команды</Descr>
+  </DevType>
+  <DevType>
+    <DevTypeID>236</DevTypeID>
+    <Name>MQTT-издатель</Name>
+    <Driver>DrvMqttPublisher</Driver>
+    <Descr>Транслирует данные каналов на MQTT-брокер и принимает команды</Descr>
+  </DevType>
+  <DevType>
     <DevTypeID>1001</DevTypeID>
     <Name>Пользовательский драйвер</Name>
     <Descr>Добавляйте пользовательские элементы, начиная с этой строки</Descr>

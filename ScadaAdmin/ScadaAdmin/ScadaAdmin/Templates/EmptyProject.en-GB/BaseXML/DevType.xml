@@ -205,6 +205,18 @@
     <Descr>Designed for testing communication channels</Descr>
   </DevType>
   <DevType>
+    <DevTypeID>235</DevTypeID>
+    <Name>MQTT Client</Name>
+    <Driver>DrvMqttClient</Driver>
+    <Descr>Receives device data from MQTT broker and publishes commands</Descr>
+  </DevType>
+  <DevType>
+    <DevTypeID>236</DevTypeID>
+    <Name>MQTT Publisher</Name>
+    <Driver>DrvMqttPublisher</Driver>
+    <Descr>Transmits channel data to MQTT broker and receives commands</Descr>
+  </DevType>
+  <DevType>
     <DevTypeID>1001</DevTypeID>
     <Name>Custom driver</Name>
     <Descr>Add custom items starting from this row</Descr>
