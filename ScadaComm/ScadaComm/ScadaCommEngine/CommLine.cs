@@ -183,6 +183,7 @@ namespace Scada.Comm.Engine
             {
                 DeviceWrapper deviceWrapper = new DeviceWrapper(deviceLogic, Log)
                 {
+                    DeviceIndex = devices.Count,
                     InfoFileName = Path.Combine(coreLogic.AppDirs.LogDir,
                         CommUtils.GetDeviceLogFileName(deviceLogic.DeviceNum, ".txt"))
                 };
@@ -304,15 +305,15 @@ namespace Scada.Comm.Engine
         private void LineCycle()
         {
             int cycleDelay = Math.Max(MinCycleDelay, LineConfig.LineOptions.CycleDelay);
-            int deviceCnt = devices.Count;
+            int deviceCount = devices.Count;
             int deviceIndex = 0;
             int requiredSessionCnt = 0;
             int actualSessionCnt = 0;
             bool skipUnableMsg = false;
-            TimeSpan sendAllDataPeriod = TimeSpan.FromSeconds(coreLogic.AppConfig.GeneralOptions.SendAllDataPeriod);
-            bool sendAllDataAlways = !coreLogic.AppConfig.GeneralOptions.SendModifiedData;
-            bool sendAllDataWithPeriod = sendAllDataPeriod > TimeSpan.Zero;
-            DateTime sendAllDataDT = DateTime.MinValue;
+            TimeSpan sendAllPeriod = TimeSpan.FromSeconds(coreLogic.AppConfig.GeneralOptions.SendAllDataPeriod);
+            bool sendAllAlways = !coreLogic.AppConfig.GeneralOptions.SendModifiedData;
+            bool sendAllWithPeriod = sendAllPeriod > TimeSpan.Zero;
+            DateTime[] sendAllDT = new DateTime[deviceCount];
             DateTime writeInfoDT = DateTime.MinValue;
 
             while (!terminated)
@@ -352,12 +353,16 @@ namespace Scada.Comm.Engine
                     // session
                     deviceWrapper = SelectDevice(ref deviceIndex, out bool hasPriority);
                     deviceLogic = deviceWrapper.DeviceLogic;
-                    bool sendAllData = false;
-                    
-                    if (sendAllDataAlways || sendAllDataWithPeriod && (utcNow - sendAllDataDT >= sendAllDataPeriod))
+                    bool sendAll = false;
+
+                    if (sendAllAlways)
                     {
-                        sendAllData = true;
-                        sendAllDataDT = utcNow;
+                        sendAll = true;
+                    }
+                    else if (sendAllWithPeriod && (utcNow - sendAllDT[deviceWrapper.DeviceIndex] >= sendAllPeriod))
+                    {
+                        sendAll = true;
+                        sendAllDT[deviceWrapper.DeviceIndex] = utcNow;
                     }
 
                     if (hasPriority || CheckSessionIsRequired(deviceLogic, utcNow))
@@ -386,9 +391,9 @@ namespace Scada.Comm.Engine
                         }
 
                         channel.AfterSession(deviceLogic);
-                        TransferDeviceData(deviceLogic, sendAllData);
+                        TransferDeviceData(deviceLogic, sendAll);
                     }
-                    else if (sendAllData)
+                    else if (sendAll)
                     {
                         TransferDeviceData(deviceLogic, true);
                     }
@@ -401,7 +406,7 @@ namespace Scada.Comm.Engine
                         WriteDeviceInfo();
                     }
 
-                    if (deviceIndex >= deviceCnt)
+                    if (deviceIndex >= deviceCount)
                     {
                         // line cycle ended
                         if (actualSessionCnt > 0)
