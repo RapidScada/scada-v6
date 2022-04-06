@@ -89,5 +89,29 @@ namespace Scada.Admin.Extensions.ExtWirenBoard.Properties {
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to log(&quot;Get Wiren Board error from topic: &quot; + topic);
+        ///
+        ///if (payload) {
+        ///   if (payload === &apos;r&apos;) {
+        ///      setValue(0, 1); // read error
+        ///   } else if (payload === &apos;w&apos;) {
+        ///      setValue(0, 2); // write error
+        ///   } else if (payload === &apos;p&apos;) {
+        ///      setValue(0, 3); // read period miss
+        ///   } else {
+        ///      setValue(0, 4); // unknown error
+        ///   }
+        ///} else {
+        ///    setValue(0, 0); // no error
+        ///}
+        ///.
+        /// </summary>
+        internal static string wb_error {
+            get {
+                return ResourceManager.GetString("wb_error", resourceCulture);
+            }
+        }
     }
 }

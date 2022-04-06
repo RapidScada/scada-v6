@@ -5,6 +5,8 @@ using Scada.Admin.Extensions.ExtWirenBoard.Code;
 using Scada.Admin.Extensions.ExtWirenBoard.Controls;
 using Scada.Admin.Project;
 using Scada.Comm.Drivers.DrvMqttClient.Config;
+using Scada.Data.Entities;
+using Scada.Data.Tables;
 using Scada.Forms;
 using System;
 using System.Collections.Generic;
@@ -36,7 +38,6 @@ namespace Scada.Admin.Extensions.ExtWirenBoard.Forms
 
         private readonly IAdminContext adminContext;      // the Administrator context
         private readonly ScadaProject project;            // the project under development
-        private readonly RecentSelection recentSelection; // the recently selected parameters
 
         private readonly CtrlLineSelect ctrlLineSelect;
         private readonly CtrlLog ctrlLog;
@@ -65,7 +66,6 @@ namespace Scada.Admin.Extensions.ExtWirenBoard.Forms
         {
             this.adminContext = adminContext ?? throw new ArgumentNullException(nameof(adminContext));
             this.project = project ?? throw new ArgumentNullException(nameof(project));
-            this.recentSelection = recentSelection ?? throw new ArgumentNullException(nameof(recentSelection));
 
             ctrlLineSelect = new CtrlLineSelect(adminContext, project, recentSelection);
             ctrlLog = new CtrlLog();
@@ -203,10 +203,8 @@ namespace Scada.Admin.Extensions.ExtWirenBoard.Forms
             {
                 if (configBuilder != null && ctrlLineSelect.Instance != null && ctrlLineSelect.Line != null)
                 {
-                    if (CreateScript())
-                        project.ConfigBase.ScriptTable.Modified = true;
-
                     string commConfigDir = ctrlLineSelect.Instance.CommApp.ConfigDir;
+                    CreateScript();
                     CreateJsHandler(commConfigDir);
 
                     project.ConfigBase.DeviceTable.Modified = true;
@@ -240,17 +238,30 @@ namespace Scada.Admin.Extensions.ExtWirenBoard.Forms
         /// <summary>
         /// Creates the necessary script in the configuration database.
         /// </summary>
-        private bool CreateScript()
+        private void CreateScript()
         {
-            return false;
+            if (project.ConfigBase.ScriptTable.SelectFirst(
+                new TableFilter("Name", ProjectScript.CsScriptName)) == null)
+            {
+                project.ConfigBase.ScriptTable.AddItem(new Script
+                {
+                    ScriptID = project.ConfigBase.ScriptTable.GetNextPk(),
+                    Name = ProjectScript.CsScriptName,
+                    Source = ProjectScript.CsScriptSource
+                });
+                project.ConfigBase.ScriptTable.Modified = true;
+            }
         }
 
         /// <summary>
         /// Creates a JavaScript file to handle MQTT subscriptions.
         /// </summary>
-        private void CreateJsHandler(string commConfigDir)
+        private static void CreateJsHandler(string commConfigDir)
         {
+            string fileName = Path.Combine(commConfigDir, ProjectScript.JsFileName);
 
+            if (!File.Exists(fileName))
+                File.WriteAllText(fileName, ProjectScript.JsSource);
         }
 
 
