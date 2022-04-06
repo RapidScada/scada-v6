@@ -284,7 +284,8 @@ namespace Scada.Server.Engine
             // channel tags for archiving
             foreach (CnlTag cnlTag in cnlTags.Values)
             {
-                if (cnlClassNames.TryGetValue(cnlTag.Cnl.CnlNum, out string className))
+                if (cnlClassNames.TryGetValue(cnlTag.Cnl.CnlNum, out string className) &&
+                    !string.IsNullOrEmpty(cnlTag.Cnl.InFormula))
                 {
                     CalcEngine calcEngine = GetCalcEngine(className);
                     cnlTag.CalcEngine = calcEngine;
@@ -296,7 +297,8 @@ namespace Scada.Server.Engine
             // channel tags for sending commands
             foreach (OutCnlTag outCnlTag in outCnlTags.Values)
             {
-                if (cnlClassNames.TryGetValue(outCnlTag.Cnl.CnlNum, out string className))
+                if (cnlClassNames.TryGetValue(outCnlTag.Cnl.CnlNum, out string className) &&
+                    !string.IsNullOrEmpty(outCnlTag.Cnl.OutFormula))
                 {
                     CalcEngine calcEngine = GetCalcEngine(className);
                     outCnlTag.CalcEngine = calcEngine;

@@ -1029,7 +1029,12 @@ namespace Scada.Server.Engine
                 }
 
                 // stop logic processing
-                if (thread != null)
+                if (thread == null)
+                {
+                    serviceStatus = ServiceStatus.Terminated;
+                    WriteInfo();
+                }
+                else
                 {
                     terminated = true;
                     serviceStatus = ServiceStatus.Terminating;
