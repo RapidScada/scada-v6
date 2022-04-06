@@ -236,15 +236,6 @@
     <Phrase key="btnRegister">Регистрация</Phrase>
     <Phrase key="lblDescr">Описание</Phrase>
   </Dictionary>
-  <Dictionary key="Scada.Admin.Extensions.ExtCommConfig.Forms.FrmExtensionOptions">
-    <Phrase key="this">Параметры расширения - Параметры создания каналов</Phrase>
-    <Phrase key="lblMultiplicity">Кратность</Phrase>
-    <Phrase key="lblShift">Смещение</Phrase>
-    <Phrase key="lblGap">Промежуток</Phrase>
-    <Phrase key="chkPrependDeviceName">Добавлять наименование устройства</Phrase>
-    <Phrase key="btnOK">OK</Phrase>
-    <Phrase key="btnCancel">Отмена</Phrase>
-  </Dictionary>
   <Dictionary key="Scada.Admin.Extensions.ExtCommConfig.Forms.FrmGeneralOptions">
     <Phrase key="this">Основные параметры</Phrase>
     <Phrase key="gbGeneralOptions">Основные параметры</Phrase>

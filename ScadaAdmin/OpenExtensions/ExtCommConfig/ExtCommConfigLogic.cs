@@ -1,14 +1,11 @@
 ﻿// Copyright (c) Rapid Software LLC. All rights reserved.
 // Licensed under the Apache License, Version 2.0. See License.txt in the project root for license information.
 
-using Scada.Admin.Config;
 using Scada.Admin.Extensions.ExtCommConfig.Code;
 using Scada.Admin.Extensions.ExtCommConfig.Controls;
-using Scada.Admin.Extensions.ExtCommConfig.Forms;
 using Scada.Admin.Extensions.ExtCommConfig.Properties;
 using Scada.Admin.Lang;
 using Scada.Admin.Project;
-using Scada.Config;
 using Scada.Forms;
 using Scada.Lang;
 using System.Collections.Generic;
@@ -29,7 +26,6 @@ namespace Scada.Admin.Extensions.ExtCommConfig
         public ExtCommConfigLogic(IAdminContext adminContext)
             : base(adminContext)
         {
-            CanShowProperties = true;
         }
 
 
@@ -101,14 +97,6 @@ namespace Scada.Admin.Extensions.ExtCommConfig
                 AdminContext.ErrLog.WriteError(AdminPhrases.ExtensionMessage, Code, errMsg);
 
             ExtensionPhrases.Init();
-        }
-
-        /// <summary>
-        /// Shows a modal dialog box for editing extension properties.
-        /// </summary>
-        public override void ShowProperties(AdminConfig adminConfig)
-        {
-            new FrmExtensionOptions(adminConfig.GetOptions(ChannelWizardOptions.GroupName, true)).ShowDialog();
         }
 
         /// <summary>

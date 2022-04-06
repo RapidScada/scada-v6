@@ -1,7 +1,7 @@
 ﻿// Copyright (c) Rapid Software LLC. All rights reserved.
 // Licensed under the Apache License, Version 2.0. See License.txt in the project root for license information.
 
-using Scada.Admin.Extensions.ExtCommConfig.Code;
+using Scada.Admin.Config;
 using Scada.Admin.Project;
 using Scada.Forms;
 using System;
@@ -16,11 +16,10 @@ namespace Scada.Admin.Extensions.ExtCommConfig.Controls
     /// </summary>
     public partial class CtrlCnlCreate3 : UserControl
     {
-        private IAdminContext adminContext;   // the Administrator context
-        private ScadaProject project;         // the project under development
-        private ChannelWizardOptions options; // the channel wizard options
-        private int lastStartCnlNum;          // the last calculated start channel number
-        private int lastCnlCnt;               // the last specified number of channels
+        private IAdminContext adminContext; // the Administrator context
+        private ScadaProject project;       // the project under development
+        private int lastStartCnlNum;        // the last calculated start channel number
+        private int lastCnlCnt;             // the last specified number of channels
 
 
         /// <summary>
@@ -58,6 +57,7 @@ namespace Scada.Admin.Extensions.ExtCommConfig.Controls
         /// </summary>
         private bool CalcStartCnlNum(int cnlCnt, out int startCnlNum)
         {
+            ChannelNumberingOptions options = adminContext.AppConfig.ChannelNumberingOptions;
             startCnlNum = options.Multiplicity + options.Shift;
             int prevCnlNum = 0;
 
@@ -80,11 +80,10 @@ namespace Scada.Admin.Extensions.ExtCommConfig.Controls
         /// <summary>
         /// Initializes the control.
         /// </summary>
-        public void Init(IAdminContext adminContext, ScadaProject project, ChannelWizardOptions options)
+        public void Init(IAdminContext adminContext, ScadaProject project)
         {
             this.adminContext = adminContext ?? throw new ArgumentNullException(nameof(adminContext));
             this.project = project ?? throw new ArgumentNullException(nameof(project));
-            this.options = options ?? throw new ArgumentNullException(nameof(options));
             lastStartCnlNum = 1;
             lastCnlCnt = 0;
         }

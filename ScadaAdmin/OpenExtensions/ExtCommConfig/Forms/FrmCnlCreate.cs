@@ -21,7 +21,6 @@ namespace Scada.Admin.Extensions.ExtCommConfig.Forms
         private readonly IAdminContext adminContext;      // the Administrator context
         private readonly ScadaProject project;            // the project under development
         private readonly RecentSelection recentSelection; // the recently selected objects
-        private readonly ChannelWizardOptions options;    // the channel wizard options
         private int step;                                 // the current step of the wizard
 
 
@@ -42,7 +41,6 @@ namespace Scada.Admin.Extensions.ExtCommConfig.Forms
             this.adminContext = adminContext ?? throw new ArgumentNullException(nameof(adminContext));
             this.project = project ?? throw new ArgumentNullException(nameof(project));
             this.recentSelection = recentSelection ?? throw new ArgumentNullException(nameof(recentSelection));
-            options = new ChannelWizardOptions(adminContext.AppConfig.GetOptions(ChannelWizardOptions.GroupName));
             step = 1;
         }
 
@@ -116,7 +114,8 @@ namespace Scada.Admin.Extensions.ExtCommConfig.Forms
         {
             List<Cnl> cnls = new();
             int cnlNum = ctrlCnlCreate3.StartCnlNum;
-            string namePrefix = options.PrependDeviceName ? ctrlCnlCreate1.SelectedDevice.Name + " - " : "";
+            string namePrefix = adminContext.AppConfig.ChannelNumberingOptions.PrependDeviceName ? 
+                ctrlCnlCreate1.SelectedDevice.Name + " - " : "";
             int? objNum = ctrlCnlCreate2.ObjNum;
             int deviceNum = ctrlCnlCreate1.SelectedDevice.DeviceNum;
 
@@ -179,7 +178,7 @@ namespace Scada.Admin.Extensions.ExtCommConfig.Forms
 
             ctrlCnlCreate1.Init(adminContext, project, recentSelection);
             ctrlCnlCreate2.Init(project, recentSelection);
-            ctrlCnlCreate3.Init(adminContext, project, options);
+            ctrlCnlCreate3.Init(adminContext, project);
             ApplyStep(0);
         }
 
