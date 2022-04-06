@@ -25,6 +25,7 @@
 
 using Scada.Data.Entities;
 using Scada.Data.Tables;
+using Scada.Lang;
 using System;
 using System.Collections.Generic;
 
@@ -157,15 +158,15 @@ namespace Scada.Data.Models
             // initialize rights matrix
             Matrix = new Dictionary<int, RightByObj>(baseDataSet.RoleTable.ItemCount);
 
-            // create indexes
-            ITableIndex roleRef_childRoleIndex = new TableIndex<int, RoleRef>("ChildRoleID");
-            roleRef_childRoleIndex.AddRangeToIndex(baseDataSet.RoleRefTable.Items);
+            // get indexes
+            if (!baseDataSet.RoleRefTable.TryGetIndex("ChildRoleID", out ITableIndex roleRef_childRoleIndex))
+                throw new ScadaException(CommonPhrases.IndexNotFound);
 
-            ITableIndex objRight_roleIndex = new TableIndex<int, ObjRight>("RoleID");
-            objRight_roleIndex.AddRangeToIndex(baseDataSet.ObjRightTable.Items);
+            if (!baseDataSet.ObjRightTable.TryGetIndex("RoleID", out ITableIndex objRight_roleIndex))
+                throw new ScadaException(CommonPhrases.IndexNotFound);
 
-            ITableIndex obj_parentObjIndex = new TableIndex<int, Obj>("ParentObjNum");
-            obj_parentObjIndex.AddRangeToIndex(baseDataSet.ObjTable.Items);
+            if (!baseDataSet.ObjTable.TryGetIndex("ParentObjNum", out ITableIndex obj_parentObjIndex))
+                throw new ScadaException(CommonPhrases.IndexNotFound);
 
             // fill rights
             foreach (Role role in baseDataSet.RoleTable.EnumerateItems())
