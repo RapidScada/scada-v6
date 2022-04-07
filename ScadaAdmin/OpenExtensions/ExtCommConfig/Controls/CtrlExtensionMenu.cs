@@ -134,27 +134,16 @@ namespace Scada.Admin.Extensions.ExtCommConfig.Controls
         /// </summary>
         private void UpdateLineNode(string instanceName, int commLineNum)
         {
-            if (adminContext.MainForm.ProjectNodes.InstancesNode is TreeNode instancesNode)
+            if (adminContext.MainForm.FindInstanceNode(instanceName, out _) is TreeNode instanceNode &&
+                instanceNode.FindFirst(CommNodeType.Lines) is TreeNode linesNode)
             {
-                foreach (TreeNode instanceNode in instancesNode.Nodes)
+                foreach (TreeNode lineNode in linesNode.Nodes)
                 {
-                    if (instanceNode.GetRelatedObject() is ProjectInstance projectInstance &&
-                        projectInstance.Name == instanceName)
+                    if (lineNode.GetRelatedObject() is LineConfig lineConfig &&
+                        lineConfig.CommLineNum == commLineNum)
                     {
-                        if (instancesNode.FindFirst(CommNodeType.Lines) is TreeNode linesNode)
-                        {
-                            foreach (TreeNode lineNode in linesNode.Nodes)
-                            {
-                                if (lineNode.GetRelatedObject() is LineConfig lineConfig &&
-                                    lineConfig.CommLineNum == commLineNum)
-                                {
-                                    adminContext.MainForm.CloseChildForms(lineNode, false);
-                                    new TreeViewBuilder(adminContext, this).UpdateLineNode(lineNode);
-                                    break;
-                                }
-                            }
-                        }
-
+                        adminContext.MainForm.CloseChildForms(lineNode, false);
+                        new TreeViewBuilder(adminContext, this).UpdateLineNode(lineNode);
                         break;
                     }
                 }
