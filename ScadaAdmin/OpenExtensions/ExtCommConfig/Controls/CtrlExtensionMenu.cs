@@ -134,8 +134,8 @@ namespace Scada.Admin.Extensions.ExtCommConfig.Controls
         /// </summary>
         private void UpdateLineNode(string instanceName, int commLineNum)
         {
-            if (adminContext.MainForm.FindInstanceNode(instanceName, out _) is TreeNode instanceNode &&
-                instanceNode.FindFirst(CommNodeType.Lines) is TreeNode linesNode)
+            if (adminContext.MainForm.FindInstanceNode(instanceName, out bool justPrepared) is TreeNode instanceNode &&
+                !justPrepared && instanceNode.FindFirst(CommNodeType.Lines) is TreeNode linesNode)
             {
                 foreach (TreeNode lineNode in linesNode.Nodes)
                 {
