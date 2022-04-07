@@ -20,7 +20,7 @@
  * 
  * Author   : Mikhail Shiryaev
  * Created  : 2020
- * Modified : 2021
+ * Modified : 2022
  */
 
 using Scada.Data.Entities;
@@ -170,7 +170,7 @@ namespace Scada.Comm.Devices
         /// </summary>
         public override string ToString()
         {
-            return string.IsNullOrEmpty(Code) ? Code : TagNum.ToString();
+            return string.IsNullOrEmpty(Code) ? TagNum.ToString() : Code;
         }
     }
 }
