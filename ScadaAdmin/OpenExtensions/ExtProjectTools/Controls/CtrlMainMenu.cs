@@ -112,7 +112,7 @@ namespace Scada.Admin.Extensions.ExtProjectTools.Controls
                 frmCnlClone.ShowDialog();
 
                 if (frmCnlClone.ChannelsCloned)
-                    adminContext.MainForm.RefreshBaseTables(typeof(Cnl));
+                    adminContext.MainForm.RefreshBaseTables(typeof(Cnl), true);
             }
         }
 
@@ -147,7 +147,7 @@ namespace Scada.Admin.Extensions.ExtProjectTools.Controls
                 };
 
                 if (frmTableImport.ShowDialog() == DialogResult.OK)
-                    adminContext.MainForm.RefreshBaseTables(frmTableImport.SelectedItemType);
+                    adminContext.MainForm.RefreshBaseTables(frmTableImport.SelectedItemType, true);
             }
         }
 
