@@ -4,6 +4,7 @@
 using Scada.Admin.Extensions.ExtWirenBoard.Code;
 using Scada.Admin.Extensions.ExtWirenBoard.Controls;
 using Scada.Admin.Project;
+using Scada.Comm.Config;
 using Scada.Comm.Drivers.DrvMqttClient.Config;
 using Scada.Data.Entities;
 using Scada.Data.Tables;
@@ -78,6 +79,17 @@ namespace Scada.Admin.Extensions.ExtWirenBoard.Forms
             topicReader = null;
             configBuilder = null;
         }
+
+
+        /// <summary>
+        /// Gets the selected instance.
+        /// </summary>
+        public ProjectInstance Instance => ctrlLineSelect.Instance;
+
+        /// <summary>
+        /// Gets the selected communication line.
+        /// </summary>
+        public LineConfig Line => ctrlLineSelect.Line;
 
 
         /// <summary>

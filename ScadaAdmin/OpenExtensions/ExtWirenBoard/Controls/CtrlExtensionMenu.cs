@@ -3,7 +3,9 @@
 
 using Scada.Admin.Extensions.ExtWirenBoard.Code;
 using Scada.Admin.Extensions.ExtWirenBoard.Forms;
+using Scada.Admin.Project;
 using Scada.Data.Entities;
+using Scada.Forms;
 
 namespace Scada.Admin.Extensions.ExtWirenBoard.Controls
 {
@@ -65,6 +67,15 @@ namespace Scada.Admin.Extensions.ExtWirenBoard.Controls
             return new ToolStripItem[] { btnCreateConfig };
         }
 
+        /// <summary>
+        /// Saves the Communicator configuration.
+        /// </summary>
+        private void SaveCommConfig(CommApp commApp)
+        {
+            if (!commApp.SaveConfig(out string errMsg))
+                adminContext.ErrLog.HandleError(errMsg);
+        }
+
 
         private void AdminContext_CurrentProjectChanged(object sender, EventArgs e)
         {
@@ -80,9 +91,21 @@ namespace Scada.Admin.Extensions.ExtWirenBoard.Controls
 
                 if (frmWirenBoardWizard.ShowDialog() == DialogResult.OK)
                 {
-                    adminContext.MainForm.RefreshBaseTables(typeof(Device));
-                    adminContext.MainForm.RefreshBaseTables(typeof(Cnl));
-                    // TODO: update explorer and line config form
+                    adminContext.MainForm.RefreshBaseTables(typeof(Device), true);
+                    adminContext.MainForm.RefreshBaseTables(typeof(Cnl), true);
+                    adminContext.MainForm.RefreshBaseTables(typeof(Script), true);
+
+                    adminContext.MessageToExtensions(new MessageEventArgs
+                    {
+                        Message = KnownExtensionMessage.UpdateLineNode,
+                        Arguments = new Dictionary<string, object> 
+                        { 
+                            { "InstanceName", frmWirenBoardWizard.Instance.Name },
+                            { "CommLineNum", frmWirenBoardWizard.Line.CommLineNum }
+                        }
+                    });
+
+                    SaveCommConfig(frmWirenBoardWizard.Instance.CommApp);
                 }
             }
         }
