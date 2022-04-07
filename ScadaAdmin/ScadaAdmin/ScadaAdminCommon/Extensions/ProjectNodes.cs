@@ -16,34 +16,41 @@
  * 
  * Product  : Rapid SCADA
  * Module   : ScadaAdminCommon
- * Summary  : Specifies the messages sent and received by the Administrator application
+ * Summary  : Contains the main nodes of the project explorer tree
  * 
  * Author   : Mikhail Shiryaev
  * Created  : 2022
  * Modified : 2022
  */
 
+using System.Windows.Forms;
+
 namespace Scada.Admin.Extensions
 {
     /// <summary>
-    /// Specifies the known messages sent and received by extensions.
-    /// <para>Задает известные сообщения, отправляемые и принимаемые расширениями.</para>
+    /// Contains the main nodes of the project explorer tree.
+    /// <para>Содержит основные узлы дерева проводника проекта.</para>
     /// </summary>
-    public static class KnownExtensionMessage
+    public class ProjectNodes
     {
         /// <summary>
-        /// Calls the Project Tools extension to generate a channel map.
+        /// Gets the project node.
         /// </summary>
-        public const string GenerateChannelMap = "ExtProjectTools.GenerateChannelMap";
+        public TreeNode ProjectNode { get; init; }
 
         /// <summary>
-        /// Calls the Project Tools extension to generate a device map.
+        /// Gets the configuration database node.
         /// </summary>
-        public const string GenerateDeviceMap = "ExtProjectTools.GenerateDeviceMap";
+        public TreeNode BaseNode { get; init; }
 
         /// <summary>
-        /// Calls the Communicator Configurator extension to update the communication line node.
+        /// Gets the views node.
         /// </summary>
-        public const string UpdateLineNode = "ExtCommConfig.UpdateLineNode";
+        public TreeNode ViewsNode { get; init; }
+
+        /// <summary>
+        /// Gets the instances node.
+        /// </summary>
+        public TreeNode InstancesNode { get; init; }
     }
 }

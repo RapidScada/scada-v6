@@ -35,6 +35,7 @@ using Scada.Agent;
 using Scada.Agent.Client;
 using Scada.Comm.Config;
 using Scada.Data.Entities;
+using Scada.Data.Tables;
 using Scada.Forms;
 using Scada.Lang;
 using Scada.Log;
@@ -58,6 +59,7 @@ namespace Scada.Admin.App.Forms
     {
         private readonly AppData appData;                 // the common data of the application
         private readonly ExplorerBuilder explorerBuilder; // the object to manipulate the explorer tree
+        private ProjectNodes projectNodes;                // the main project tree nodes
         private FrmStartPage frmStartPage;                // the start page
         private bool preventNodeExpand;                   // prevent a tree node from expanding or collapsing
 
@@ -81,6 +83,7 @@ namespace Scada.Admin.App.Forms
             explorerBuilder = new ExplorerBuilder(appData, tvExplorer, new ContextMenus {
                 ProjectMenu = cmsProject, CnlTableMenu = cmsCnlTable, DirectoryMenu = cmsDirectory,
                 FileItemMenu = cmsFileItem, InstanceMenu = cmsInstance, AppMenu = cmsApp });
+            projectNodes = null;
             frmStartPage = null;
             preventNodeExpand = false;
         }
@@ -120,6 +123,27 @@ namespace Scada.Admin.App.Forms
         /// Gets the selected node of the explorer tree.
         /// </summary>
         TreeNode IMainForm.SelectedNode => tvExplorer.SelectedNode;
+
+        /// <summary>
+        /// Gets the main project tree nodes.
+        /// </summary>
+        ProjectNodes IMainForm.ProjectNodes
+        {
+            get
+            {
+                projectNodes ??= Project == null
+                    ? new ProjectNodes()
+                    : new ProjectNodes
+                    {
+                        ProjectNode = explorerBuilder.ProjectNode,
+                        BaseNode = explorerBuilder.BaseNode,
+                        ViewsNode = explorerBuilder.ViewsNode,
+                        InstancesNode = explorerBuilder.InstancesNode
+                    };
+
+                return projectNodes;
+            }
+        }
 
         /// <summary>
         /// Gets the item type of the configuration database table of the active child form.
@@ -715,6 +739,7 @@ namespace Scada.Admin.App.Forms
                     wctrlMain.MessageText = AppPhrases.SelectItemMessage;
                     SetMenuItemsEnabled();
                     explorerBuilder.CreateNodes(Project);
+                    projectNodes = null;
                 }
                 else
                 {
@@ -752,6 +777,7 @@ namespace Scada.Admin.App.Forms
                 wctrlMain.MessageText = AppPhrases.SelectItemMessage;
                 SetMenuItemsEnabled();
                 explorerBuilder.CreateNodes(Project);
+                projectNodes = null;
             }
         }
 
@@ -796,6 +822,7 @@ namespace Scada.Admin.App.Forms
                     wctrlMain.MessageText = AppPhrases.WelcomeMessage;
                     SetMenuItemsEnabled();
                     tvExplorer.Nodes.Clear();
+                    projectNodes = null;
                     ShowStatus(null);
                     return true;
                 }
@@ -913,13 +940,29 @@ namespace Scada.Admin.App.Forms
         /// <summary>
         /// Refreshes child forms that contains a configuration database table with the specified item type.
         /// </summary>
-        public void RefreshBaseTables(Type itemType)
+        public void RefreshBaseTables(Type itemType, bool saveChanges)
         {
+            // save table
+            bool tableSaved = false;
+
+            if (saveChanges && Project != null && 
+                Project.ConfigBase.GetTable(itemType) is IBaseTable baseTable && baseTable.Modified)
+            {
+                if (Project.ConfigBase.SaveTable(baseTable, out string errMsg))
+                    tableSaved = true;
+                else
+                    appData.ErrLog.HandleError(errMsg);
+            }
+
+            // refresh child forms
             foreach (Form form in wctrlMain.Forms)
             {
                 if (form is FrmBaseTable frmBaseTable && frmBaseTable.ItemType == itemType)
                     frmBaseTable.ChildFormTag.SendMessage(this, AdminMessage.RefreshData);
             }
+
+            if (tableSaved)
+                DisableSaveAll();
         }
 
         /// <summary>

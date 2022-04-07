@@ -152,6 +152,20 @@ namespace Scada.Admin.Project
             return GetItemByCode<Unit>(UnitTable, code);
         }
 
+        /// <summary>
+        /// Gets the table of the configuration database by the specified item type.
+        /// </summary>
+        public IBaseTable GetTable(Type itemType)
+        {
+            foreach (IBaseTable baseTable in AllTables)
+            {
+                if (baseTable.ItemType == itemType)
+                    return baseTable;
+            }
+
+            return null;
+        }
+
 
         /// <summary>
         /// Loads the configuration database if needed.
