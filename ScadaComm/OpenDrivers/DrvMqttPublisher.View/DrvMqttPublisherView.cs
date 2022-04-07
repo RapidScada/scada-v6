@@ -1,6 +1,8 @@
 ﻿// Copyright (c) Rapid Software LLC. All rights reserved.
 // Licensed under the Apache License, Version 2.0. See License.txt in the project root for license information.
 
+using Scada.Comm.Config;
+using Scada.Comm.Devices;
 using Scada.Lang;
 
 namespace Scada.Comm.Drivers.DrvMqttPublisher.View
@@ -11,6 +13,15 @@ namespace Scada.Comm.Drivers.DrvMqttPublisher.View
     /// </summary>
     public class DrvMqttPublisherView : DriverView
     {
+        /// <summary>
+        /// Initializes a new instance of the class.
+        /// </summary>
+        public DrvMqttPublisherView()
+        {
+            CanCreateDevice = true;
+        }
+
+
         /// <summary>
         /// Gets the driver name.
         /// </summary>
@@ -33,6 +44,15 @@ namespace Scada.Comm.Drivers.DrvMqttPublisher.View
                     "Транслирует данные каналов на MQTT-брокер и принимает команды." :
                     "Transmits channel data to MQTT broker and receives commands.";
             }
+        }
+
+
+        /// <summary>
+        /// Creates a new device user interface.
+        /// </summary>
+        public override DeviceView CreateDeviceView(LineConfig lineConfig, DeviceConfig deviceConfig)
+        {
+            return new DevMqttPublisherView(this, lineConfig, deviceConfig);
         }
     }
 }
