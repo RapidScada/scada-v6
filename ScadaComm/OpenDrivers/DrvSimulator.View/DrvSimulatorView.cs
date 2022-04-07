@@ -44,12 +44,16 @@ namespace Scada.Comm.Drivers.DrvSimulator.View
                     "Симулирует значения тегов.\n\n" +
                     "Команды ТУ:\n" +
                     "4, DO - установить состояние реле;\n" +
-                    "5, AO - установить аналоговый выход." :
+                    "5, AO - установить аналоговый выход;\n" +
+                    "Hist - создать исторические данные;\n" +
+                    "Event - создать событие." :
 
                     "Simulates tag values.\n\n" +
                     "Commands:\n" +
                     "4, DO - set relay state;\n" +
-                    "5, AO - set analog output.";
+                    "5, AO - set analog output;\n" +
+                    "Hist - create historical data;\n" +
+                    "Event - create event.";
             }
         }
 

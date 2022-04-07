@@ -136,6 +136,29 @@ namespace Scada.Comm.Drivers.DrvSimulator.Logic
                     "Set the analog output to {0}", cmd.CmdVal);
                 DeviceData.Set(TagCode.AO, cmd.CmdVal);
             }
+            else if (cmd.CmdCode == "Hist")
+            {
+                // demonstrate how to create a historical data slice
+                DateTime now = DateTime.UtcNow;
+                DeviceSlice deviceSlice = new DeviceSlice(
+                    new DateTime(now.Year, now.Month, now.Day, now.Hour, now.Minute, 0, DateTimeKind.Utc),
+                    1, 1);
+                deviceSlice.DeviceTags[0] = DeviceTags[TagCode.Sin];
+                deviceSlice.CnlData[0] = new CnlData(cmd.CmdVal, CnlStatusID.Defined);
+                deviceSlice.Descr = "Demo slice";
+                DeviceData.EnqueueSlice(deviceSlice);
+            }
+            else if (cmd.CmdCode == "Event")
+            {
+                // demonstrate how to create an event
+                DeviceData.EnqueueEvent(new DeviceEvent(DeviceTags[TagCode.Sin])
+                {
+                    Timestamp = DateTime.UtcNow,
+                    CnlVal = cmd.CmdVal,
+                    CnlStat = CnlStatusID.Defined,
+                    Descr = "Demo event"
+                });
+            }
             else
             {
                 LastRequestOK = false;
