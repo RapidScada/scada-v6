@@ -59,7 +59,6 @@ namespace Scada.Admin.App.Forms
     {
         private readonly AppData appData;                 // the common data of the application
         private readonly ExplorerBuilder explorerBuilder; // the object to manipulate the explorer tree
-        private ProjectNodes projectNodes;                // the main project tree nodes
         private FrmStartPage frmStartPage;                // the start page
         private bool preventNodeExpand;                   // prevent a tree node from expanding or collapsing
 
@@ -83,7 +82,6 @@ namespace Scada.Admin.App.Forms
             explorerBuilder = new ExplorerBuilder(appData, tvExplorer, new ContextMenus {
                 ProjectMenu = cmsProject, CnlTableMenu = cmsCnlTable, DirectoryMenu = cmsDirectory,
                 FileItemMenu = cmsFileItem, InstanceMenu = cmsInstance, AppMenu = cmsApp });
-            projectNodes = null;
             frmStartPage = null;
             preventNodeExpand = false;
         }
@@ -123,27 +121,6 @@ namespace Scada.Admin.App.Forms
         /// Gets the selected node of the explorer tree.
         /// </summary>
         TreeNode IMainForm.SelectedNode => tvExplorer.SelectedNode;
-
-        /// <summary>
-        /// Gets the main project tree nodes.
-        /// </summary>
-        ProjectNodes IMainForm.ProjectNodes
-        {
-            get
-            {
-                projectNodes ??= Project == null
-                    ? new ProjectNodes()
-                    : new ProjectNodes
-                    {
-                        ProjectNode = explorerBuilder.ProjectNode,
-                        BaseNode = explorerBuilder.BaseNode,
-                        ViewsNode = explorerBuilder.ViewsNode,
-                        InstancesNode = explorerBuilder.InstancesNode
-                    };
-
-                return projectNodes;
-            }
-        }
 
         /// <summary>
         /// Gets the item type of the configuration database table of the active child form.
@@ -739,7 +716,6 @@ namespace Scada.Admin.App.Forms
                     wctrlMain.MessageText = AppPhrases.SelectItemMessage;
                     SetMenuItemsEnabled();
                     explorerBuilder.CreateNodes(Project);
-                    projectNodes = null;
                 }
                 else
                 {
@@ -777,7 +753,6 @@ namespace Scada.Admin.App.Forms
                 wctrlMain.MessageText = AppPhrases.SelectItemMessage;
                 SetMenuItemsEnabled();
                 explorerBuilder.CreateNodes(Project);
-                projectNodes = null;
             }
         }
 
@@ -822,7 +797,6 @@ namespace Scada.Admin.App.Forms
                     wctrlMain.MessageText = AppPhrases.WelcomeMessage;
                     SetMenuItemsEnabled();
                     tvExplorer.Nodes.Clear();
-                    projectNodes = null;
                     ShowStatus(null);
                     return true;
                 }

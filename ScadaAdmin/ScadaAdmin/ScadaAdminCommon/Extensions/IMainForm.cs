@@ -46,11 +46,6 @@ namespace Scada.Admin.Extensions
         TreeNode SelectedNode { get; }
 
         /// <summary>
-        /// Gets the main project tree nodes.
-        /// </summary>
-        ProjectNodes ProjectNodes { get; }
-
-        /// <summary>
         /// Gets the item type of the configuration database table of the active child form.
         /// </summary>
         Type ActiveBaseTable { get; }
