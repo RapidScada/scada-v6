@@ -358,6 +358,13 @@ namespace Scada.Comm.Drivers.DrvDsScadaServer.Logic
 
                 foreach (DeviceTag deviceTag in srcSlice.DeviceTags)
                 {
+                    if (deviceTag == null)
+                    {
+                        throw new ScadaException(Locale.IsRussian ?
+                            "Неопределенные теги в срезе не допускаются." :
+                            "Undefined tags are not allowed in a slice.");
+                    }
+
                     if (deviceTag.Cnl != null)
                     {
                         int tagDataLength = deviceTag.DataLength;
