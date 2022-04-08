@@ -2,13 +2,6 @@
 // Licensed under the Apache License, Version 2.0. See License.txt in the project root for license information.
 
 using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 
 namespace Scada.Forms.Forms
@@ -33,6 +26,12 @@ namespace Scada.Forms.Forms
         public FrmModuleConfig(ModuleConfigProvider moduleConfigProvider)
             : this()
         {
+        }
+
+
+        private void FrmModuleConfig_Load(object sender, EventArgs e)
+        {
+            FormTranslator.Translate(this, GetType().FullName);
         }
     }
 }
