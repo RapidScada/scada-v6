@@ -33,6 +33,8 @@
             this.btnAdd = new System.Windows.Forms.ToolStripButton();
             this.btnAddWithChoice = new System.Windows.Forms.ToolStripDropDownButton();
             this.btnMoveUp = new System.Windows.Forms.ToolStripButton();
+            this.btnMoveDown = new System.Windows.Forms.ToolStripButton();
+            this.btnDelete = new System.Windows.Forms.ToolStripButton();
             this.pnlBottom = new System.Windows.Forms.Panel();
             this.btnSave = new System.Windows.Forms.Button();
             this.btnClose = new System.Windows.Forms.Button();
@@ -40,8 +42,6 @@
             this.tableLayoutPanel = new System.Windows.Forms.TableLayoutPanel();
             this.treeView = new System.Windows.Forms.TreeView();
             this.propertyGrid = new System.Windows.Forms.PropertyGrid();
-            this.btnMoveDown = new System.Windows.Forms.ToolStripButton();
-            this.btnDelete = new System.Windows.Forms.ToolStripButton();
             this.toolStrip.SuspendLayout();
             this.pnlBottom.SuspendLayout();
             this.tableLayoutPanel.SuspendLayout();
@@ -88,6 +88,24 @@
             this.btnMoveUp.Size = new System.Drawing.Size(23, 22);
             this.btnMoveUp.ToolTipText = "Move Up";
             // 
+            // btnMoveDown
+            // 
+            this.btnMoveDown.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            this.btnMoveDown.Image = ((System.Drawing.Image)(resources.GetObject("btnMoveDown.Image")));
+            this.btnMoveDown.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.btnMoveDown.Name = "btnMoveDown";
+            this.btnMoveDown.Size = new System.Drawing.Size(23, 22);
+            this.btnMoveDown.ToolTipText = "Move Down";
+            // 
+            // btnDelete
+            // 
+            this.btnDelete.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            this.btnDelete.Image = ((System.Drawing.Image)(resources.GetObject("btnDelete.Image")));
+            this.btnDelete.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.btnDelete.Name = "btnDelete";
+            this.btnDelete.Size = new System.Drawing.Size(23, 22);
+            this.btnDelete.ToolTipText = "Delete";
+            // 
             // pnlBottom
             // 
             this.pnlBottom.Controls.Add(this.btnSave);
@@ -101,6 +119,7 @@
             // 
             // btnSave
             // 
+            this.btnSave.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.btnSave.Location = new System.Drawing.Point(485, 10);
             this.btnSave.Name = "btnSave";
             this.btnSave.Size = new System.Drawing.Size(75, 23);
@@ -110,6 +129,7 @@
             // 
             // btnClose
             // 
+            this.btnClose.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.btnClose.Location = new System.Drawing.Point(647, 10);
             this.btnClose.Name = "btnClose";
             this.btnClose.Size = new System.Drawing.Size(75, 23);
@@ -119,6 +139,7 @@
             // 
             // btnCancel
             // 
+            this.btnCancel.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.btnCancel.Location = new System.Drawing.Point(566, 10);
             this.btnCancel.Name = "btnCancel";
             this.btnCancel.Size = new System.Drawing.Size(75, 23);
@@ -157,28 +178,11 @@
             this.propertyGrid.Size = new System.Drawing.Size(435, 465);
             this.propertyGrid.TabIndex = 1;
             // 
-            // btnMoveDown
-            // 
-            this.btnMoveDown.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-            this.btnMoveDown.Image = ((System.Drawing.Image)(resources.GetObject("btnMoveDown.Image")));
-            this.btnMoveDown.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.btnMoveDown.Name = "btnMoveDown";
-            this.btnMoveDown.Size = new System.Drawing.Size(23, 22);
-            this.btnMoveDown.ToolTipText = "Move Down";
-            // 
-            // btnDelete
-            // 
-            this.btnDelete.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-            this.btnDelete.Image = ((System.Drawing.Image)(resources.GetObject("btnDelete.Image")));
-            this.btnDelete.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.btnDelete.Name = "btnDelete";
-            this.btnDelete.Size = new System.Drawing.Size(23, 22);
-            this.btnDelete.ToolTipText = "Delete";
-            // 
             // FrmModuleConfig
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.CancelButton = this.btnClose;
             this.ClientSize = new System.Drawing.Size(734, 541);
             this.Controls.Add(this.tableLayoutPanel);
             this.Controls.Add(this.pnlBottom);
