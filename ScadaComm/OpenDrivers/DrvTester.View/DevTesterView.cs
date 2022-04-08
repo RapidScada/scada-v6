@@ -22,15 +22,6 @@ namespace Scada.Comm.Drivers.DrvTester.View
             CanShowProperties = true;
         }
 
-        /// <summary>
-        /// Gets the default polling options for the device.
-        /// </summary>
-        public override PollingOptions GetPollingOptions()
-        {
-            PollingOptions pollingOptions = PollingOptions.CreateDefault();
-            new TesterOptions().AddToOptionList(pollingOptions.CustomOptions);
-            return pollingOptions;
-        }
 
         /// <summary>
         /// Shows a modal dialog box for editing device properties.
@@ -49,6 +40,16 @@ namespace Scada.Comm.Drivers.DrvTester.View
             {
                 return false;
             }
+        }
+
+        /// <summary>
+        /// Gets the default polling options for the device.
+        /// </summary>
+        public override PollingOptions GetPollingOptions()
+        {
+            PollingOptions pollingOptions = PollingOptions.CreateDefault();
+            new TesterOptions().AddToOptionList(pollingOptions.CustomOptions);
+            return pollingOptions;
         }
     }
 }
