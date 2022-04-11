@@ -81,5 +81,19 @@
         <Device active="true" isBound="true" number="20" name="Relays &amp; FETs" driver="DrvMqttClient" numAddress="0" strAddress="" pollOnCmd="false" timeout="0" delay="0" time="00:00:00" period="00:00:00" cmdLine="" />
       </DevicePolling>
     </Line>
+    <Line active="true" isBound="true" number="3" name="Telegram Line">
+      <LineOptions>
+        <ReqRetries>3</ReqRetries>
+        <CycleDelay>0</CycleDelay>
+        <CmdEnabled>true</CmdEnabled>
+        <PollAfterCmd>true</PollAfterCmd>
+        <DetailedLog>true</DetailedLog>
+      </LineOptions>
+      <Channel type="" driver="" />
+      <CustomOptions />
+      <DevicePolling>
+        <Device active="true" isBound="true" number="31" name="Telegram Sender" driver="DrvTelegram" numAddress="0" strAddress="" pollOnCmd="false" timeout="10000" delay="200" time="00:00:00" period="00:00:00" cmdLine="" />
+      </DevicePolling>
+    </Line>
   </Lines>
 </ScadaCommConfig>

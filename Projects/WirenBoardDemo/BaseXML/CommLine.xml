@@ -10,4 +10,9 @@
     <Name>WB Line</Name>
     <Descr />
   </CommLine>
+  <CommLine>
+    <CommLineNum>3</CommLineNum>
+    <Name>Telegram Line</Name>
+    <Descr />
+  </CommLine>
 </ArrayOfCommLine>

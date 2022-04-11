@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<TelegramDeviceConfig>
+  <BotToken>xxx</BotToken>
+  <Subscriptions>
+    <Subscription chatID="-701200758" name="RS_WB_Demo_Group" />
+  </Subscriptions>
+</TelegramDeviceConfig>

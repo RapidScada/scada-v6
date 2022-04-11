@@ -1,5 +1,5 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<SchemeView title="" xmlns:basic="urn:rapidscada:scheme:basic">
+<SchemeView title="WB 7 Scheme" xmlns:basic="urn:rapidscada:scheme:basic">
   <Scheme>
     <Version>5.3.1.1</Version>
     <Size>
@@ -16,7 +16,7 @@
       <Underline>false</Underline>
     </Font>
     <ForeColor>Black</ForeColor>
-    <Title />
+    <Title>WB 7 Scheme</Title>
     <CnlFilter />
   </Scheme>
   <Components>

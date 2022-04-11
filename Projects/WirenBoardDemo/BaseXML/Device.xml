@@ -90,4 +90,14 @@
     <NumAddress xsi:nil="true" />
     <CommLineNum>2</CommLineNum>
   </Device>
+  <Device>
+    <DeviceNum>31</DeviceNum>
+    <Name>Telegram Sender</Name>
+    <Code />
+    <DevTypeID>224</DevTypeID>
+    <NumAddress xsi:nil="true" />
+    <StrAddress />
+    <CommLineNum>3</CommLineNum>
+    <Descr />
+  </Device>
 </ArrayOfDevice>
