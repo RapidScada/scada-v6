@@ -10,7 +10,7 @@
       <ServerApp enabled="true" />
       <CommApp enabled="true" />
       <WebApp enabled="true" />
-      <DeploymentProfile>Default Profile</DeploymentProfile>
+      <DeploymentProfile>WB7 Profile</DeploymentProfile>
     </Instance>
   </Instances>
 </ScadaProject>
