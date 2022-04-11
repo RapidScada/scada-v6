@@ -395,7 +395,7 @@
     <DeviceNum>12</DeviceNum>
     <TagNum xsi:nil="true" />
     <FormulaEnabled>true</FormulaEnabled>
-    <OutFormula>1</OutFormula>
+    <OutFormula>Val(304) &gt; 0 ? double.NaN : 1</OutFormula>
     <FormatID>25</FormatID>
     <QuantityID xsi:nil="true" />
     <UnitID xsi:nil="true" />
