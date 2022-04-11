@@ -320,7 +320,7 @@
       <Action>SendCommandNow</Action>
       <Conditions />
       <InCnlNum>0</InCnlNum>
-      <CtrlCnlNum>1</CtrlCnlNum>
+      <CtrlCnlNum>311</CtrlCnlNum>
     </DynamicPicture>
     <StaticText>
       <BackColor />

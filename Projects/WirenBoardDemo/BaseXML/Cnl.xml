@@ -385,6 +385,25 @@
     <EventMask>81</EventMask>
   </Cnl>
   <Cnl>
+    <CnlNum>311</CnlNum>
+    <Active>true</Active>
+    <Name>Buzzer - Play Melody</Name>
+    <DataTypeID xsi:nil="true" />
+    <DataLen xsi:nil="true" />
+    <CnlTypeID>5</CnlTypeID>
+    <ObjNum>2</ObjNum>
+    <DeviceNum>12</DeviceNum>
+    <TagNum xsi:nil="true" />
+    <FormulaEnabled>true</FormulaEnabled>
+    <OutFormula>1</OutFormula>
+    <FormatID>25</FormatID>
+    <QuantityID xsi:nil="true" />
+    <UnitID xsi:nil="true" />
+    <LimID xsi:nil="true" />
+    <ArchiveMask xsi:nil="true" />
+    <EventMask>65</EventMask>
+  </Cnl>
+  <Cnl>
     <CnlNum>401</CnlNum>
     <Active>true</Active>
     <Name>Network Error</Name>
