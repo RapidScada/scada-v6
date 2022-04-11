@@ -282,6 +282,7 @@ $(document).ready(function () {
     var divSchWrapper = $("#divSchWrapper");
     scheme = new scada.scheme.Scheme();
     scheme.schemeEnv = scada.scheme.env;
+    scheme.serviceUrl = viewHub.appEnv.rootPath + "Api/Scheme/";
     scheme.parentDomElem = divSchWrapper;
 
     // setup user interface
