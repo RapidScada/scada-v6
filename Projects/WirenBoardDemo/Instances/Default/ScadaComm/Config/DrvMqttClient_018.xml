@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<MqttClientDeviceConfig>
+  <DeviceOptions>
+    <RootTopic />
+  </DeviceOptions>
+  <Subscriptions>
+    <Subscription topic="/devices/knx/meta/error" displayName="knx Error" qosLevel="0" retain="false" tagCode="knx_error" readOnly="false" jsEnabled="true" jsFileName="wb_error.js" />
+    <Subscription topic="/devices/knx/controls/data" displayName="data" qosLevel="0" retain="false" tagCode="data" readOnly="false" jsEnabled="false" jsFileName="" />
+    <Subscription topic="/devices/knx/controls/data/meta/error" displayName="data Error" qosLevel="0" retain="false" tagCode="data_error" readOnly="false" jsEnabled="true" jsFileName="wb_error.js" />
+  </Subscriptions>
+  <Commands>
+    <Command topic="/devices/knx/controls/data/on" displayName="data" qosLevel="0" retain="false" cmdCode="data" />
+  </Commands>
+</MqttClientDeviceConfig>

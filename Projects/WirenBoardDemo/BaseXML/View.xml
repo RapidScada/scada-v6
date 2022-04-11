@@ -1,0 +1,57 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ArrayOfView xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+  <View>
+    <ViewID>1</ViewID>
+    <Path>HelloWorld\</Path>
+    <ViewTypeID xsi:nil="true" />
+    <Title>Hello World</Title>
+    <Ord xsi:nil="true" />
+    <Hidden>false</Hidden>
+    <ObjNum>1</ObjNum>
+  </View>
+  <View>
+    <ViewID>2</ViewID>
+    <Path>HelloWorld\Simulator.tbl</Path>
+    <ViewTypeID xsi:nil="true" />
+    <Title>Simulator</Title>
+    <Ord xsi:nil="true" />
+    <Hidden>false</Hidden>
+    <ObjNum>1</ObjNum>
+  </View>
+  <View>
+    <ViewID>11</ViewID>
+    <Path>WirenBoard\</Path>
+    <ViewTypeID xsi:nil="true" />
+    <Title>Wiren Board</Title>
+    <Ord xsi:nil="true" />
+    <Hidden>false</Hidden>
+    <ObjNum>2</ObjNum>
+  </View>
+  <View>
+    <ViewID>12</ViewID>
+    <Path>WirenBoard\WbCalc.tbl</Path>
+    <ViewTypeID xsi:nil="true" />
+    <Title>WB 7</Title>
+    <Ord xsi:nil="true" />
+    <Hidden>false</Hidden>
+    <ObjNum>2</ObjNum>
+  </View>
+  <View>
+    <ViewID>13</ViewID>
+    <Path>WirenBoard\WbAll.tbl</Path>
+    <ViewTypeID xsi:nil="true" />
+    <Title>WB 7 All</Title>
+    <Ord xsi:nil="true" />
+    <Hidden>false</Hidden>
+    <ObjNum>2</ObjNum>
+  </View>
+  <View>
+    <ViewID>14</ViewID>
+    <Path>WirenBoard\WbScheme.sch</Path>
+    <ViewTypeID xsi:nil="true" />
+    <Title>WB 7 Scheme</Title>
+    <Ord xsi:nil="true" />
+    <Hidden>false</Hidden>
+    <ObjNum>2</ObjNum>
+  </View>
+</ArrayOfView>

@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScadaCommConfig>
+  <GeneralOptions>
+    <IsBound>true</IsBound>
+    <SendModifiedData>true</SendModifiedData>
+    <SendAllDataPeriod>60</SendAllDataPeriod>
+    <EnableCommands>true</EnableCommands>
+    <EnableFileCommands>true</EnableFileCommands>
+    <MaxLogSize>1</MaxLogSize>
+  </GeneralOptions>
+  <ConnectionOptions>
+    <Name>Default Connection</Name>
+    <Host>localhost</Host>
+    <Port>10000</Port>
+    <Username>ScadaComm</Username>
+    <Password>B9D0F030265751578B00E9801C69320C</Password>
+    <Timeout>10000</Timeout>
+    <SecretKey>0E063D581B1DB27B8E984993DED65CE99284A706756C706C7F3B12C44BD55D4D</SecretKey>
+  </ConnectionOptions>
+  <DataSources>
+    <DataSource active="true" code="ScadaServer" name="Server Data Source" driver="DrvDsScadaServer">
+      <Option name="ClientLogEnabled" value="false" />
+      <Option name="Connection" value="" />
+      <Option name="DataLifetime" value="3600" />
+      <Option name="DeviceFilter" value="" />
+      <Option name="MaxCurDataAge" value="60" />
+      <Option name="MaxQueueSize" value="1000" />
+      <Option name="UseDefaultConn" value="true" />
+    </DataSource>
+    <DataSource active="false" code="OpcUaServer" name="OPC UA Server" driver="DrvDsOpcUaServer">
+      <Option name="AutoAccept" value="false" />
+      <Option name="ConfigFileName" value="" />
+      <Option name="DeviceFilter" value="" />
+      <Option name="Password" value="B9D0F030265751578B00E9801C69320C" />
+      <Option name="Username" value="opc" />
+    </DataSource>
+  </DataSources>
+  <Lines>
+    <Line active="true" isBound="true" number="1" name="My Line">
+      <LineOptions>
+        <ReqRetries>3</ReqRetries>
+        <CycleDelay>0</CycleDelay>
+        <CmdEnabled>true</CmdEnabled>
+        <PollAfterCmd>true</PollAfterCmd>
+        <DetailedLog>true</DetailedLog>
+      </LineOptions>
+      <Channel type="" driver="" />
+      <CustomOptions />
+      <DevicePolling>
+        <Device active="true" isBound="true" number="1" name="Simulator" driver="DrvSimulator" numAddress="0" strAddress="" pollOnCmd="false" timeout="0" delay="1000" time="00:00:00" period="00:00:00" cmdLine="" />
+      </DevicePolling>
+    </Line>
+    <Line active="true" isBound="true" number="2" name="WB Line">
+      <LineOptions>
+        <ReqRetries>3</ReqRetries>
+        <CycleDelay>0</CycleDelay>
+        <CmdEnabled>true</CmdEnabled>
+        <PollAfterCmd>true</PollAfterCmd>
+        <DetailedLog>true</DetailedLog>
+      </LineOptions>
+      <Channel type="MqttClient" driver="DrvCnlMqtt">
+        <Option name="ClientID" value="" />
+        <Option name="Password" value="C8080E774B59B0C6694063BDE2428352" />
+        <Option name="Port" value="1883" />
+        <Option name="ProtocolVersion" value="Unknown" />
+        <Option name="Server" value="192.168.1.33" />
+        <Option name="Timeout" value="10000" />
+        <Option name="Username" value="" />
+      </Channel>
+      <CustomOptions />
+      <DevicePolling>
+        <Device active="true" isBound="true" number="11" name="Rule Engine Settings" driver="DrvMqttClient" numAddress="0" strAddress="" pollOnCmd="false" timeout="0" delay="0" time="00:00:00" period="00:00:00" cmdLine="" />
+        <Device active="true" isBound="true" number="12" name="Buzzer" driver="DrvMqttClient" numAddress="0" strAddress="" pollOnCmd="false" timeout="0" delay="0" time="00:00:00" period="00:00:00" cmdLine="" />
+        <Device active="true" isBound="true" number="13" name="Network" driver="DrvMqttClient" numAddress="0" strAddress="" pollOnCmd="false" timeout="0" delay="0" time="00:00:00" period="00:00:00" cmdLine="" />
+        <Device active="true" isBound="true" number="14" name="Power status" driver="DrvMqttClient" numAddress="0" strAddress="" pollOnCmd="false" timeout="0" delay="0" time="00:00:00" period="00:00:00" cmdLine="" />
+        <Device active="true" isBound="true" number="15" name="HW Monitor" driver="DrvMqttClient" numAddress="0" strAddress="" pollOnCmd="false" timeout="0" delay="0" time="00:00:00" period="00:00:00" cmdLine="" />
+        <Device active="true" isBound="true" number="16" name="System" driver="DrvMqttClient" numAddress="0" strAddress="" pollOnCmd="false" timeout="0" delay="0" time="00:00:00" period="00:00:00" cmdLine="" />
+        <Device active="true" isBound="true" number="17" name="Alarms" driver="DrvMqttClient" numAddress="0" strAddress="" pollOnCmd="false" timeout="0" delay="0" time="00:00:00" period="00:00:00" cmdLine="" />
+        <Device active="true" isBound="true" number="18" name="knx" driver="DrvMqttClient" numAddress="0" strAddress="" pollOnCmd="false" timeout="0" delay="0" time="00:00:00" period="00:00:00" cmdLine="" />
+        <Device active="true" isBound="true" number="19" name="ADCs" driver="DrvMqttClient" numAddress="0" strAddress="" pollOnCmd="false" timeout="0" delay="0" time="00:00:00" period="00:00:00" cmdLine="" />
+        <Device active="true" isBound="true" number="20" name="Relays &amp; FETs" driver="DrvMqttClient" numAddress="0" strAddress="" pollOnCmd="false" timeout="0" delay="0" time="00:00:00" period="00:00:00" cmdLine="" />
+      </DevicePolling>
+    </Line>
+  </Lines>
+</ScadaCommConfig>

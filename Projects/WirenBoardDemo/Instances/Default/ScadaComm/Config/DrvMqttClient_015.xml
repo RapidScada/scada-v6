@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<MqttClientDeviceConfig>
+  <DeviceOptions>
+    <RootTopic />
+  </DeviceOptions>
+  <Subscriptions>
+    <Subscription topic="/devices/hwmon/meta/error" displayName="HW Monitor Error" qosLevel="0" retain="false" tagCode="hwmon_error" readOnly="false" jsEnabled="true" jsFileName="wb_error.js" />
+    <Subscription topic="/devices/hwmon/controls/Board Temperature" displayName="Board Temperature" qosLevel="0" retain="false" tagCode="Board Temperature" readOnly="false" jsEnabled="false" jsFileName="" />
+    <Subscription topic="/devices/hwmon/controls/Board Temperature/meta/error" displayName="Board Temperature Error" qosLevel="0" retain="false" tagCode="Board Temperature_error" readOnly="false" jsEnabled="true" jsFileName="wb_error.js" />
+    <Subscription topic="/devices/hwmon/controls/CPU Temperature" displayName="CPU Temperature" qosLevel="0" retain="false" tagCode="CPU Temperature" readOnly="false" jsEnabled="false" jsFileName="" />
+    <Subscription topic="/devices/hwmon/controls/CPU Temperature/meta/error" displayName="CPU Temperature Error" qosLevel="0" retain="false" tagCode="CPU Temperature_error" readOnly="false" jsEnabled="true" jsFileName="wb_error.js" />
+  </Subscriptions>
+  <Commands />
+</MqttClientDeviceConfig>

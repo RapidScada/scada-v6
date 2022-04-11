@@ -1,0 +1,65 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ScadaWebConfig>
+  <GeneralOptions>
+    <DefaultCulture></DefaultCulture>
+    <DefaultTimeZone></DefaultTimeZone>
+    <DefaultStartPage></DefaultStartPage>
+    <EnableCommands>true</EnableCommands>
+    <ShareStats>true</ShareStats>
+    <MaxLogSize>1</MaxLogSize>
+  </GeneralOptions>
+  <ConnectionOptions>
+    <Host>localhost</Host>
+    <Port>10000</Port>
+    <Username>ScadaWeb</Username>
+    <Password>B9D0F030265751578B00E9801C69320C</Password>
+    <Timeout>10000</Timeout>
+    <SecretKey>0E063D581B1DB27B8E984993DED65CE99284A706756C706C7F3B12C44BD55D4D</SecretKey>
+  </ConnectionOptions>
+  <LoginOptions>
+    <RequireCaptcha>false</RequireCaptcha>
+    <AllowRememberMe>true</AllowRememberMe>
+    <RememberMeExpires>30</RememberMeExpires>
+    <AutoLoginUsername></AutoLoginUsername>
+    <AutoLoginPassword></AutoLoginPassword>
+  </LoginOptions>
+  <DisplayOptions>
+    <ShowHeader>true</ShowHeader>
+    <ShowMainMenu>true</ShowMainMenu>
+    <ShowViewExplorer>true</ShowViewExplorer>
+    <RefreshRate>1000</RefreshRate>
+  </DisplayOptions>
+  <Plugins>
+    <Plugin code="PlgChart" />
+    <Plugin code="PlgMain" />
+    <Plugin code="PlgScheme" />
+    <Plugin code="PlgSchBasicComp" />
+  </Plugins>
+  <PluginAssignment>
+    <ChartFeature>PlgChart</ChartFeature>
+    <CommandFeature>PlgMain</CommandFeature>
+    <EventAckFeature>PlgMain</EventAckFeature>
+    <UserManagementFeature></UserManagementFeature>
+    <NotificationFeature></NotificationFeature>
+  </PluginAssignment>
+  <CustomOptions>
+    <OptionGroup name="Chart">
+      <Option name="ChartArchiveCode" value="Min" />
+      <Option name="GapBetweenPoints" value="90" />
+    </OptionGroup>
+    <OptionGroup name="Main">
+      <Option name="TableArchiveCode" value="Hour" />
+      <Option name="TablePeriod" value="60" />
+      <Option name="EventArchiveCode" value="Events" />
+      <Option name="EventCount" value="100" />
+      <Option name="EventDepth" value="2" />
+      <Option name="CommandPassword" value="false" />
+    </OptionGroup>
+    <OptionGroup name="Scheme">
+      <!-- ScaleType: Numeric | FitScreen | FitWidth -->
+      <Option name="ScaleType" value="Numeric" />
+      <Option name="ScaleValue" value="100" />
+      <Option name="RememberScale" value="true" />
+    </OptionGroup>
+  </CustomOptions>
+</ScadaWebConfig>

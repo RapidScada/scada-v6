@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<MqttClientDeviceConfig>
+  <DeviceOptions>
+    <RootTopic />
+  </DeviceOptions>
+  <Subscriptions>
+    <Subscription topic="/devices/wbrules/meta/error" displayName="Rule Engine Settings Error" qosLevel="0" retain="false" tagCode="wbrules_error" readOnly="false" jsEnabled="true" jsFileName="wb_error.js" />
+    <Subscription topic="/devices/wbrules/controls/Rule debugging" displayName="Rule debugging" qosLevel="0" retain="false" tagCode="Rule debugging" readOnly="false" jsEnabled="false" jsFileName="" />
+    <Subscription topic="/devices/wbrules/controls/Rule debugging/meta/error" displayName="Rule debugging Error" qosLevel="0" retain="false" tagCode="Rule debugging_error" readOnly="false" jsEnabled="true" jsFileName="wb_error.js" />
+  </Subscriptions>
+  <Commands>
+    <Command topic="/devices/wbrules/controls/Rule debugging/on" displayName="Rule debugging" qosLevel="0" retain="false" cmdCode="Rule debugging" />
+  </Commands>
+</MqttClientDeviceConfig>

@@ -1,0 +1,13 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TableView>
+  <Item deviceNum="11" autoText="true" />
+  <Item deviceNum="12" autoText="true" />
+  <Item deviceNum="13" autoText="true" />
+  <Item deviceNum="14" autoText="true" />
+  <Item deviceNum="15" autoText="true" />
+  <Item deviceNum="16" autoText="true" />
+  <Item deviceNum="17" autoText="true" />
+  <Item deviceNum="18" autoText="true" />
+  <Item deviceNum="19" autoText="true" />
+  <Item deviceNum="20" autoText="true" />
+</TableView>

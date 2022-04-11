@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<MqttClientDeviceConfig>
+  <DeviceOptions>
+    <RootTopic />
+  </DeviceOptions>
+  <Subscriptions>
+    <Subscription topic="/devices/alarms/meta/error" displayName="Alarms Error" qosLevel="0" retain="false" tagCode="alarms_error" readOnly="false" jsEnabled="true" jsFileName="wb_error.js" />
+    <Subscription topic="/devices/alarms/controls/log" displayName="log" qosLevel="0" retain="false" tagCode="log" readOnly="false" jsEnabled="false" jsFileName="" />
+    <Subscription topic="/devices/alarms/controls/log/meta/error" displayName="log Error" qosLevel="0" retain="false" tagCode="log_error" readOnly="false" jsEnabled="true" jsFileName="wb_error.js" />
+  </Subscriptions>
+  <Commands />
+</MqttClientDeviceConfig>

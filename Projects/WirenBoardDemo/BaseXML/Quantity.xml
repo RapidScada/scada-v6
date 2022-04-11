@@ -1,0 +1,205 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ArrayOfQuantity xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+  <Quantity>
+    <QuantityID>1</QuantityID>
+    <Name>Length</Name>
+    <Code>l</Code>
+    <Icon>l_.png</Icon>
+    <Descr>Basic physical quantities https://en.wikipedia.org/wiki/List_of_physical_quantities</Descr>
+  </Quantity>
+  <Quantity>
+    <QuantityID>2</QuantityID>
+    <Name>Mass</Name>
+    <Code>m</Code>
+    <Icon>m_.png</Icon>
+    <Descr />
+  </Quantity>
+  <Quantity>
+    <QuantityID>3</QuantityID>
+    <Name>Time</Name>
+    <Code>t</Code>
+    <Icon>time.png</Icon>
+    <Descr />
+  </Quantity>
+  <Quantity>
+    <QuantityID>4</QuantityID>
+    <Name>Temperature</Name>
+    <Code>T</Code>
+    <Icon>temp.png</Icon>
+    <Descr />
+  </Quantity>
+  <Quantity>
+    <QuantityID>5</QuantityID>
+    <Name>Velocity</Name>
+    <Code>v</Code>
+    <Icon>v_.png</Icon>
+  </Quantity>
+  <Quantity>
+    <QuantityID>6</QuantityID>
+    <Name>Acceleration</Name>
+    <Code>a</Code>
+    <Icon>a_.png</Icon>
+  </Quantity>
+  <Quantity>
+    <QuantityID>11</QuantityID>
+    <Name>State</Name>
+    <Code>State</Code>
+    <Icon>lamp.png</Icon>
+    <Descr>States</Descr>
+  </Quantity>
+  <Quantity>
+    <QuantityID>12</QuantityID>
+    <Name>Relay state</Name>
+    <Code>RelayState</Code>
+    <Icon>switch.png</Icon>
+    <Descr />
+  </Quantity>
+  <Quantity>
+    <QuantityID>13</QuantityID>
+    <Name>Security alarm state</Name>
+    <Code>SecState</Code>
+    <Icon>key.png</Icon>
+    <Descr />
+  </Quantity>
+  <Quantity>
+    <QuantityID>14</QuantityID>
+    <Name>Fire alarm state</Name>
+    <Code>FireState</Code>
+    <Icon>fire.png</Icon>
+    <Descr />
+  </Quantity>
+  <Quantity>
+    <QuantityID>15</QuantityID>
+    <Name>Connection state</Name>
+    <Code>ConnState</Code>
+    <Icon>conn.png</Icon>
+    <Descr />
+  </Quantity>
+  <Quantity>
+    <QuantityID>21</QuantityID>
+    <Name>Voltage</Name>
+    <Code>V</Code>
+    <Icon>v.png</Icon>
+    <Descr>Electrical quantities https://en.wikipedia.org/wiki/AC_power</Descr>
+  </Quantity>
+  <Quantity>
+    <QuantityID>22</QuantityID>
+    <Name>Current</Name>
+    <Code>I</Code>
+    <Icon>i.png</Icon>
+    <Descr />
+  </Quantity>
+  <Quantity>
+    <QuantityID>23</QuantityID>
+    <Name>Power</Name>
+    <Code>Power</Code>
+    <Icon>p.png</Icon>
+    <Descr />
+  </Quantity>
+  <Quantity>
+    <QuantityID>24</QuantityID>
+    <Name>Active power</Name>
+    <Code>P</Code>
+    <Icon>p.png</Icon>
+  </Quantity>
+  <Quantity>
+    <QuantityID>25</QuantityID>
+    <Name>Reactive power</Name>
+    <Code>Q</Code>
+    <Icon>q.png</Icon>
+    <Descr />
+  </Quantity>
+  <Quantity>
+    <QuantityID>26</QuantityID>
+    <Name>Complex power</Name>
+    <Code>S</Code>
+    <Icon>s.png</Icon>
+    <Descr />
+  </Quantity>
+  <Quantity>
+    <QuantityID>27</QuantityID>
+    <Name>Apparent power</Name>
+    <Code>|S|</Code>
+    <Icon>s.png</Icon>
+  </Quantity>
+  <Quantity>
+    <QuantityID>28</QuantityID>
+    <Name>Energy consumption</Name>
+    <Code>E</Code>
+    <Icon>e.png</Icon>
+  </Quantity>
+  <Quantity>
+    <QuantityID>29</QuantityID>
+    <Name>Active power consumption</Name>
+    <Code>Ea</Code>
+    <Icon>e.png</Icon>
+    <Descr />
+  </Quantity>
+  <Quantity>
+    <QuantityID>30</QuantityID>
+    <Name>Reactive power consumption</Name>
+    <Code>Er</Code>
+    <Icon>e.png</Icon>
+    <Descr />
+  </Quantity>
+  <Quantity>
+    <QuantityID>31</QuantityID>
+    <Name>Frequency</Name>
+    <Code>f</Code>
+    <Icon>f_.png</Icon>
+    <Descr />
+  </Quantity>
+  <Quantity>
+    <QuantityID>32</QuantityID>
+    <Name>Power factor</Name>
+    <Code>cos</Code>
+    <Icon>phi.png</Icon>
+    <Descr />
+  </Quantity>
+  <Quantity>
+    <QuantityID>41</QuantityID>
+    <Name>Pressure</Name>
+    <Code>p</Code>
+    <Icon>p_.png</Icon>
+    <Descr>Liquids and gases</Descr>
+  </Quantity>
+  <Quantity>
+    <QuantityID>42</QuantityID>
+    <Name>Volume</Name>
+    <Code>Vol</Code>
+    <Icon>v.png</Icon>
+    <Descr />
+  </Quantity>
+  <Quantity>
+    <QuantityID>43</QuantityID>
+    <Name>Density</Name>
+    <Code>Density</Code>
+    <Icon>rho.png</Icon>
+  </Quantity>
+  <Quantity>
+    <QuantityID>44</QuantityID>
+    <Name>Volumetric flow rate</Name>
+    <Code>FlowRate</Code>
+    <Icon>q.png</Icon>
+    <Descr />
+  </Quantity>
+  <Quantity>
+    <QuantityID>45</QuantityID>
+    <Name>Heat</Name>
+    <Code>Heat</Code>
+    <Icon>q.png</Icon>
+    <Descr />
+  </Quantity>
+  <Quantity>
+    <QuantityID>46</QuantityID>
+    <Name>Humidity</Name>
+    <Code>Hum</Code>
+    <Icon>drop.png</Icon>
+    <Descr />
+  </Quantity>
+  <Quantity>
+    <QuantityID>101</QuantityID>
+    <Name>Custom quantity</Name>
+    <Descr>Add custom items starting from this row</Descr>
+  </Quantity>
+</ArrayOfQuantity>

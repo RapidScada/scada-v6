@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<MqttClientDeviceConfig>
+  <DeviceOptions>
+    <RootTopic />
+  </DeviceOptions>
+  <Subscriptions>
+    <Subscription topic="/devices/power_status/meta/error" displayName="Power status Error" qosLevel="0" retain="false" tagCode="power_status_error" readOnly="false" jsEnabled="true" jsFileName="wb_error.js" />
+    <Subscription topic="/devices/power_status/controls/Vin" displayName="Vin" qosLevel="0" retain="false" tagCode="Vin" readOnly="false" jsEnabled="false" jsFileName="" />
+    <Subscription topic="/devices/power_status/controls/Vin/meta/error" displayName="Vin Error" qosLevel="0" retain="false" tagCode="Vin_error" readOnly="false" jsEnabled="true" jsFileName="wb_error.js" />
+    <Subscription topic="/devices/power_status/controls/working on battery" displayName="working on battery" qosLevel="0" retain="false" tagCode="working on battery" readOnly="false" jsEnabled="false" jsFileName="" />
+    <Subscription topic="/devices/power_status/controls/working on battery/meta/error" displayName="working on battery Error" qosLevel="0" retain="false" tagCode="working on battery_error" readOnly="false" jsEnabled="true" jsFileName="wb_error.js" />
+  </Subscriptions>
+  <Commands />
+</MqttClientDeviceConfig>

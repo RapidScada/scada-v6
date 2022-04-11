@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<MqttClientDeviceConfig>
+  <DeviceOptions>
+    <RootTopic />
+  </DeviceOptions>
+  <Subscriptions>
+    <Subscription topic="/devices/wb-adc/meta/error" displayName="ADCs Error" qosLevel="0" retain="false" tagCode="wb-adc_error" readOnly="false" jsEnabled="true" jsFileName="wb_error.js" />
+    <Subscription topic="/devices/wb-adc/controls/A1" displayName="A1" qosLevel="0" retain="false" tagCode="A1" readOnly="false" jsEnabled="false" jsFileName="" />
+    <Subscription topic="/devices/wb-adc/controls/A1/meta/error" displayName="A1 Error" qosLevel="0" retain="false" tagCode="A1_error" readOnly="false" jsEnabled="true" jsFileName="wb_error.js" />
+    <Subscription topic="/devices/wb-adc/controls/A2" displayName="A2" qosLevel="0" retain="false" tagCode="A2" readOnly="false" jsEnabled="false" jsFileName="" />
+    <Subscription topic="/devices/wb-adc/controls/A2/meta/error" displayName="A2 Error" qosLevel="0" retain="false" tagCode="A2_error" readOnly="false" jsEnabled="true" jsFileName="wb_error.js" />
+    <Subscription topic="/devices/wb-adc/controls/A3" displayName="A3" qosLevel="0" retain="false" tagCode="A3" readOnly="false" jsEnabled="false" jsFileName="" />
+    <Subscription topic="/devices/wb-adc/controls/A3/meta/error" displayName="A3 Error" qosLevel="0" retain="false" tagCode="A3_error" readOnly="false" jsEnabled="true" jsFileName="wb_error.js" />
+    <Subscription topic="/devices/wb-adc/controls/Vin" displayName="Vin" qosLevel="0" retain="false" tagCode="Vin" readOnly="false" jsEnabled="false" jsFileName="" />
+    <Subscription topic="/devices/wb-adc/controls/Vin/meta/error" displayName="Vin Error" qosLevel="0" retain="false" tagCode="Vin_error" readOnly="false" jsEnabled="true" jsFileName="wb_error.js" />
+  </Subscriptions>
+  <Commands />
+</MqttClientDeviceConfig>

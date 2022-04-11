@@ -1,0 +1,31 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ArrayOfUser xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+  <User>
+    <UserID>1</UserID>
+    <Enabled>true</Enabled>
+    <Name>ScadaWeb</Name>
+    <Password>B17E4E8B1A2A41B7AE884BC5265D37C5</Password>
+    <RoleID>4</RoleID>
+  </User>
+  <User>
+    <UserID>2</UserID>
+    <Enabled>true</Enabled>
+    <Name>ScadaComm</Name>
+    <Password>F9A226BC671CB198C7D83ADEA0B1F2B8</Password>
+    <RoleID>4</RoleID>
+  </User>
+  <User>
+    <UserID>11</UserID>
+    <Enabled>true</Enabled>
+    <Name>admin</Name>
+    <Password>1BE2E31C3FAC53701DC7BE55D1891B52</Password>
+    <RoleID>1</RoleID>
+  </User>
+  <User>
+    <UserID>12</UserID>
+    <Enabled>true</Enabled>
+    <Name>guest</Name>
+    <Password>D353B3161AC1FFC43C79CE23FAE333EF</Password>
+    <RoleID>3</RoleID>
+  </User>
+</ArrayOfUser>

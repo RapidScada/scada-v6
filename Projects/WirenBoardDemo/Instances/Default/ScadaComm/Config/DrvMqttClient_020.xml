@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+<MqttClientDeviceConfig>
+  <DeviceOptions>
+    <RootTopic />
+  </DeviceOptions>
+  <Subscriptions>
+    <Subscription topic="/devices/wb-gpio/meta/error" displayName="Relays &amp; FETs Error" qosLevel="0" retain="false" tagCode="wb-gpio_error" readOnly="false" jsEnabled="true" jsFileName="wb_error.js" />
+    <Subscription topic="/devices/wb-gpio/controls/A1_OUT" displayName="A1_OUT" qosLevel="0" retain="false" tagCode="A1_OUT" readOnly="false" jsEnabled="false" jsFileName="" />
+    <Subscription topic="/devices/wb-gpio/controls/A1_OUT/meta/error" displayName="A1_OUT Error" qosLevel="0" retain="false" tagCode="A1_OUT_error" readOnly="false" jsEnabled="true" jsFileName="wb_error.js" />
+    <Subscription topic="/devices/wb-gpio/controls/A2_OUT" displayName="A2_OUT" qosLevel="0" retain="false" tagCode="A2_OUT" readOnly="false" jsEnabled="false" jsFileName="" />
+    <Subscription topic="/devices/wb-gpio/controls/A2_OUT/meta/error" displayName="A2_OUT Error" qosLevel="0" retain="false" tagCode="A2_OUT_error" readOnly="false" jsEnabled="true" jsFileName="wb_error.js" />
+    <Subscription topic="/devices/wb-gpio/controls/A3_OUT" displayName="A3_OUT" qosLevel="0" retain="false" tagCode="A3_OUT" readOnly="false" jsEnabled="false" jsFileName="" />
+    <Subscription topic="/devices/wb-gpio/controls/A3_OUT/meta/error" displayName="A3_OUT Error" qosLevel="0" retain="false" tagCode="A3_OUT_error" readOnly="false" jsEnabled="true" jsFileName="wb_error.js" />
+    <Subscription topic="/devices/wb-gpio/controls/D1_OUT" displayName="D1_OUT" qosLevel="0" retain="false" tagCode="D1_OUT" readOnly="false" jsEnabled="false" jsFileName="" />
+    <Subscription topic="/devices/wb-gpio/controls/D1_OUT/meta/error" displayName="D1_OUT Error" qosLevel="0" retain="false" tagCode="D1_OUT_error" readOnly="false" jsEnabled="true" jsFileName="wb_error.js" />
+    <Subscription topic="/devices/wb-gpio/controls/A1_IN" displayName="A1_IN" qosLevel="0" retain="false" tagCode="A1_IN" readOnly="false" jsEnabled="false" jsFileName="" />
+    <Subscription topic="/devices/wb-gpio/controls/A1_IN/meta/error" displayName="A1_IN Error" qosLevel="0" retain="false" tagCode="A1_IN_error" readOnly="false" jsEnabled="true" jsFileName="wb_error.js" />
+    <Subscription topic="/devices/wb-gpio/controls/A2_IN" displayName="A2_IN" qosLevel="0" retain="false" tagCode="A2_IN" readOnly="false" jsEnabled="false" jsFileName="" />
+    <Subscription topic="/devices/wb-gpio/controls/A2_IN/meta/error" displayName="A2_IN Error" qosLevel="0" retain="false" tagCode="A2_IN_error" readOnly="false" jsEnabled="true" jsFileName="wb_error.js" />
+    <Subscription topic="/devices/wb-gpio/controls/A3_IN" displayName="A3_IN" qosLevel="0" retain="false" tagCode="A3_IN" readOnly="false" jsEnabled="false" jsFileName="" />
+    <Subscription topic="/devices/wb-gpio/controls/A3_IN/meta/error" displayName="A3_IN Error" qosLevel="0" retain="false" tagCode="A3_IN_error" readOnly="false" jsEnabled="true" jsFileName="wb_error.js" />
+    <Subscription topic="/devices/wb-gpio/controls/5V_OUT" displayName="5V_OUT" qosLevel="0" retain="false" tagCode="5V_OUT" readOnly="false" jsEnabled="false" jsFileName="" />
+    <Subscription topic="/devices/wb-gpio/controls/5V_OUT/meta/error" displayName="5V_OUT Error" qosLevel="0" retain="false" tagCode="5V_OUT_error" readOnly="false" jsEnabled="true" jsFileName="wb_error.js" />
+    <Subscription topic="/devices/wb-gpio/controls/V_OUT" displayName="V_OUT" qosLevel="0" retain="false" tagCode="V_OUT" readOnly="false" jsEnabled="false" jsFileName="" />
+    <Subscription topic="/devices/wb-gpio/controls/V_OUT/meta/error" displayName="V_OUT Error" qosLevel="0" retain="false" tagCode="V_OUT_error" readOnly="false" jsEnabled="true" jsFileName="wb_error.js" />
+    <Subscription topic="/devices/wb-gpio/controls/D1_IN" displayName="D1_IN" qosLevel="0" retain="false" tagCode="D1_IN" readOnly="false" jsEnabled="false" jsFileName="" />
+    <Subscription topic="/devices/wb-gpio/controls/D1_IN/meta/error" displayName="D1_IN Error" qosLevel="0" retain="false" tagCode="D1_IN_error" readOnly="false" jsEnabled="true" jsFileName="wb_error.js" />
+  </Subscriptions>
+  <Commands>
+    <Command topic="/devices/wb-gpio/controls/A1_OUT/on" displayName="A1_OUT" qosLevel="0" retain="false" cmdCode="A1_OUT" />
+    <Command topic="/devices/wb-gpio/controls/A2_OUT/on" displayName="A2_OUT" qosLevel="0" retain="false" cmdCode="A2_OUT" />
+    <Command topic="/devices/wb-gpio/controls/A3_OUT/on" displayName="A3_OUT" qosLevel="0" retain="false" cmdCode="A3_OUT" />
+    <Command topic="/devices/wb-gpio/controls/D1_OUT/on" displayName="D1_OUT" qosLevel="0" retain="false" cmdCode="D1_OUT" />
+    <Command topic="/devices/wb-gpio/controls/5V_OUT/on" displayName="5V_OUT" qosLevel="0" retain="false" cmdCode="5V_OUT" />
+    <Command topic="/devices/wb-gpio/controls/V_OUT/on" displayName="V_OUT" qosLevel="0" retain="false" cmdCode="V_OUT" />
+  </Commands>
+</MqttClientDeviceConfig>

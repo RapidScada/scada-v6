@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<MqttClientDeviceConfig>
+  <DeviceOptions>
+    <RootTopic />
+  </DeviceOptions>
+  <Subscriptions>
+    <Subscription topic="/devices/network/meta/error" displayName="Network Error" qosLevel="0" retain="false" tagCode="network_error" readOnly="false" jsEnabled="true" jsFileName="wb_error.js" />
+    <Subscription topic="/devices/network/controls/Ethernet 2 IP" displayName="Ethernet 2 IP" qosLevel="0" retain="false" tagCode="Ethernet 2 IP" readOnly="false" jsEnabled="false" jsFileName="" />
+    <Subscription topic="/devices/network/controls/Ethernet 2 IP/meta/error" displayName="Ethernet 2 IP Error" qosLevel="0" retain="false" tagCode="Ethernet 2 IP_error" readOnly="false" jsEnabled="true" jsFileName="wb_error.js" />
+    <Subscription topic="/devices/network/controls/Ethernet IP" displayName="Ethernet IP" qosLevel="0" retain="false" tagCode="Ethernet IP" readOnly="false" jsEnabled="false" jsFileName="" />
+    <Subscription topic="/devices/network/controls/Ethernet IP/meta/error" displayName="Ethernet IP Error" qosLevel="0" retain="false" tagCode="Ethernet IP_error" readOnly="false" jsEnabled="true" jsFileName="wb_error.js" />
+    <Subscription topic="/devices/network/controls/GPRS IP" displayName="GPRS IP" qosLevel="0" retain="false" tagCode="GPRS IP" readOnly="false" jsEnabled="false" jsFileName="" />
+    <Subscription topic="/devices/network/controls/GPRS IP/meta/error" displayName="GPRS IP Error" qosLevel="0" retain="false" tagCode="GPRS IP_error" readOnly="false" jsEnabled="true" jsFileName="wb_error.js" />
+    <Subscription topic="/devices/network/controls/Wi-Fi 2 IP" displayName="Wi-Fi 2 IP" qosLevel="0" retain="false" tagCode="Wi-Fi 2 IP" readOnly="false" jsEnabled="false" jsFileName="" />
+    <Subscription topic="/devices/network/controls/Wi-Fi 2 IP/meta/error" displayName="Wi-Fi 2 IP Error" qosLevel="0" retain="false" tagCode="Wi-Fi 2 IP_error" readOnly="false" jsEnabled="true" jsFileName="wb_error.js" />
+    <Subscription topic="/devices/network/controls/Wi-Fi IP" displayName="Wi-Fi IP" qosLevel="0" retain="false" tagCode="Wi-Fi IP" readOnly="false" jsEnabled="false" jsFileName="" />
+    <Subscription topic="/devices/network/controls/Wi-Fi IP/meta/error" displayName="Wi-Fi IP Error" qosLevel="0" retain="false" tagCode="Wi-Fi IP_error" readOnly="false" jsEnabled="true" jsFileName="wb_error.js" />
+  </Subscriptions>
+  <Commands />
+</MqttClientDeviceConfig>

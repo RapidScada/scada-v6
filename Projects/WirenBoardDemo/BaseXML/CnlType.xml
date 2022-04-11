@@ -1,0 +1,28 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ArrayOfCnlType xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+  <CnlType>
+    <CnlTypeID>1</CnlTypeID>
+    <Name>Input</Name>
+    <Descr>Channel values are read from a device</Descr>
+  </CnlType>
+  <CnlType>
+    <CnlTypeID>2</CnlTypeID>
+    <Name>Input/output</Name>
+    <Descr>Channel values can be read and written</Descr>
+  </CnlType>
+  <CnlType>
+    <CnlTypeID>3</CnlTypeID>
+    <Name>Calculated</Name>
+    <Descr>Channel values are calculated using a formula</Descr>
+  </CnlType>
+  <CnlType>
+    <CnlTypeID>4</CnlTypeID>
+    <Name>Calculated/output</Name>
+    <Descr>Channel values are calculated and can be written</Descr>
+  </CnlType>
+  <CnlType>
+    <CnlTypeID>5</CnlTypeID>
+    <Name>Output</Name>
+    <Descr>Channel defines a telecontrol command</Descr>
+  </CnlType>
+</ArrayOfCnlType>

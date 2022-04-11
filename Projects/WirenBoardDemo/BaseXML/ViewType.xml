@@ -1,0 +1,46 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ArrayOfViewType xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+  <ViewType>
+    <ViewTypeID>1</ViewTypeID>
+    <Name>Table view</Name>
+    <Code>TableView</Code>
+    <FileExt>tbl</FileExt>
+  </ViewType>
+  <ViewType>
+    <ViewTypeID>2</ViewTypeID>
+    <Name>Scheme view</Name>
+    <Code>SchemeView</Code>
+    <FileExt>sch</FileExt>
+    <Descr />
+  </ViewType>
+  <ViewType>
+    <ViewTypeID>3</ViewTypeID>
+    <Name>Web page view</Name>
+    <Code>WebPageView</Code>
+  </ViewType>
+  <ViewType>
+    <ViewTypeID>4</ViewTypeID>
+    <Name>Dashboard view</Name>
+    <Code>DashboardView</Code>
+    <FileExt>dash</FileExt>
+    <Descr>Requires Dashboard Plugin</Descr>
+  </ViewType>
+  <ViewType>
+    <ViewTypeID>5</ViewTypeID>
+    <Name>Map view</Name>
+    <Code>MapView</Code>
+    <FileExt>map</FileExt>
+    <Descr>Requires Map Plugin</Descr>
+  </ViewType>
+  <ViewType>
+    <ViewTypeID>6</ViewTypeID>
+    <Name>Elastic report</Name>
+    <Code>ElasticRep</Code>
+    <Descr>Requires Elastic Report Plugin</Descr>
+  </ViewType>
+  <ViewType>
+    <ViewTypeID>101</ViewTypeID>
+    <Name>Custom view</Name>
+    <Descr>Add custom items starting from this row</Descr>
+  </ViewType>
+</ArrayOfViewType>

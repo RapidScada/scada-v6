@@ -1,0 +1,2569 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ArrayOfCnl xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+  <Cnl>
+    <CnlNum>101</CnlNum>
+    <Active>true</Active>
+    <Name>Simulator - Sine</Name>
+    <DataTypeID xsi:nil="true" />
+    <DataLen xsi:nil="true" />
+    <CnlTypeID>1</CnlTypeID>
+    <ObjNum>1</ObjNum>
+    <DeviceNum>1</DeviceNum>
+    <TagNum xsi:nil="true" />
+    <TagCode>Sin</TagCode>
+    <FormulaEnabled>false</FormulaEnabled>
+    <FormatID xsi:nil="true" />
+    <QuantityID xsi:nil="true" />
+    <UnitID xsi:nil="true" />
+    <LimID xsi:nil="true" />
+    <ArchiveMask xsi:nil="true" />
+    <EventMask xsi:nil="true" />
+  </Cnl>
+  <Cnl>
+    <CnlNum>102</CnlNum>
+    <Active>true</Active>
+    <Name>Simulator - Square</Name>
+    <DataTypeID xsi:nil="true" />
+    <DataLen xsi:nil="true" />
+    <CnlTypeID>1</CnlTypeID>
+    <ObjNum>1</ObjNum>
+    <DeviceNum>1</DeviceNum>
+    <TagNum xsi:nil="true" />
+    <TagCode>Sqr</TagCode>
+    <FormulaEnabled>false</FormulaEnabled>
+    <FormatID>21</FormatID>
+    <QuantityID xsi:nil="true" />
+    <UnitID xsi:nil="true" />
+    <LimID xsi:nil="true" />
+    <ArchiveMask xsi:nil="true" />
+    <EventMask xsi:nil="true" />
+  </Cnl>
+  <Cnl>
+    <CnlNum>103</CnlNum>
+    <Active>true</Active>
+    <Name>Simulator - Triangle</Name>
+    <DataTypeID xsi:nil="true" />
+    <DataLen xsi:nil="true" />
+    <CnlTypeID>1</CnlTypeID>
+    <ObjNum>1</ObjNum>
+    <DeviceNum>1</DeviceNum>
+    <TagNum xsi:nil="true" />
+    <TagCode>Tri</TagCode>
+    <FormulaEnabled>false</FormulaEnabled>
+    <FormatID xsi:nil="true" />
+    <QuantityID xsi:nil="true" />
+    <UnitID xsi:nil="true" />
+    <LimID xsi:nil="true" />
+    <ArchiveMask xsi:nil="true" />
+    <EventMask xsi:nil="true" />
+  </Cnl>
+  <Cnl>
+    <CnlNum>104</CnlNum>
+    <Active>true</Active>
+    <Name>Simulator - Relay State</Name>
+    <DataTypeID xsi:nil="true" />
+    <DataLen xsi:nil="true" />
+    <CnlTypeID>2</CnlTypeID>
+    <ObjNum>1</ObjNum>
+    <DeviceNum>1</DeviceNum>
+    <TagNum xsi:nil="true" />
+    <TagCode>DO</TagCode>
+    <FormulaEnabled>false</FormulaEnabled>
+    <FormatID>21</FormatID>
+    <QuantityID>12</QuantityID>
+    <UnitID xsi:nil="true" />
+    <LimID xsi:nil="true" />
+    <ArchiveMask xsi:nil="true" />
+    <EventMask>37</EventMask>
+  </Cnl>
+  <Cnl>
+    <CnlNum>105</CnlNum>
+    <Active>true</Active>
+    <Name>Simulator - Analog Output</Name>
+    <DataTypeID xsi:nil="true" />
+    <DataLen xsi:nil="true" />
+    <CnlTypeID>2</CnlTypeID>
+    <ObjNum>1</ObjNum>
+    <DeviceNum>1</DeviceNum>
+    <TagNum xsi:nil="true" />
+    <TagCode>AO</TagCode>
+    <FormulaEnabled>false</FormulaEnabled>
+    <FormatID xsi:nil="true" />
+    <QuantityID>22</QuantityID>
+    <UnitID>44</UnitID>
+    <LimID xsi:nil="true" />
+    <ArchiveMask xsi:nil="true" />
+    <EventMask>37</EventMask>
+  </Cnl>
+  <Cnl>
+    <CnlNum>106</CnlNum>
+    <Active>true</Active>
+    <Name>Simulator - Array</Name>
+    <DataTypeID xsi:nil="true" />
+    <DataLen>3</DataLen>
+    <CnlTypeID>1</CnlTypeID>
+    <ObjNum>1</ObjNum>
+    <DeviceNum>1</DeviceNum>
+    <TagNum xsi:nil="true" />
+    <TagCode>RA</TagCode>
+    <FormulaEnabled>false</FormulaEnabled>
+    <FormatID xsi:nil="true" />
+    <QuantityID xsi:nil="true" />
+    <UnitID xsi:nil="true" />
+    <LimID xsi:nil="true" />
+    <ArchiveMask xsi:nil="true" />
+    <EventMask xsi:nil="true" />
+  </Cnl>
+  <Cnl>
+    <CnlNum>201</CnlNum>
+    <Active>true</Active>
+    <Name>Rule Engine Settings Error</Name>
+    <DataTypeID xsi:nil="true" />
+    <DataLen xsi:nil="true" />
+    <CnlTypeID>1</CnlTypeID>
+    <ObjNum>2</ObjNum>
+    <DeviceNum>11</DeviceNum>
+    <TagNum xsi:nil="true" />
+    <TagCode>wbrules_error</TagCode>
+    <FormulaEnabled>false</FormulaEnabled>
+    <FormatID xsi:nil="true" />
+    <QuantityID xsi:nil="true" />
+    <UnitID xsi:nil="true" />
+    <LimID xsi:nil="true" />
+    <ArchiveMask xsi:nil="true" />
+    <EventMask xsi:nil="true" />
+  </Cnl>
+  <Cnl>
+    <CnlNum>202</CnlNum>
+    <Active>true</Active>
+    <Name>Rule Engine Settings - Rule debugging Last</Name>
+    <DataTypeID xsi:nil="true" />
+    <DataLen xsi:nil="true" />
+    <CnlTypeID>1</CnlTypeID>
+    <ObjNum>2</ObjNum>
+    <DeviceNum>11</DeviceNum>
+    <TagNum xsi:nil="true" />
+    <TagCode>Rule debugging</TagCode>
+    <FormulaEnabled>false</FormulaEnabled>
+    <FormatID>21</FormatID>
+    <QuantityID xsi:nil="true" />
+    <UnitID xsi:nil="true" />
+    <LimID xsi:nil="true" />
+    <ArchiveMask xsi:nil="true" />
+    <EventMask xsi:nil="true" />
+  </Cnl>
+  <Cnl>
+    <CnlNum>203</CnlNum>
+    <Active>true</Active>
+    <Name>Rule Engine Settings - Rule debugging Error</Name>
+    <DataTypeID xsi:nil="true" />
+    <DataLen xsi:nil="true" />
+    <CnlTypeID>1</CnlTypeID>
+    <ObjNum>2</ObjNum>
+    <DeviceNum>11</DeviceNum>
+    <TagNum xsi:nil="true" />
+    <TagCode>Rule debugging_error</TagCode>
+    <FormulaEnabled>false</FormulaEnabled>
+    <FormatID xsi:nil="true" />
+    <QuantityID xsi:nil="true" />
+    <UnitID xsi:nil="true" />
+    <LimID xsi:nil="true" />
+    <ArchiveMask xsi:nil="true" />
+    <EventMask xsi:nil="true" />
+  </Cnl>
+  <Cnl>
+    <CnlNum>204</CnlNum>
+    <Active>true</Active>
+    <Name>Rule Engine Settings - Rule debugging</Name>
+    <DataTypeID xsi:nil="true" />
+    <DataLen xsi:nil="true" />
+    <CnlTypeID>4</CnlTypeID>
+    <ObjNum>2</ObjNum>
+    <DeviceNum>11</DeviceNum>
+    <TagNum xsi:nil="true" />
+    <TagCode>Rule debugging</TagCode>
+    <FormulaEnabled>true</FormulaEnabled>
+    <InFormula>WB_CalcControl()</InFormula>
+    <FormatID>21</FormatID>
+    <QuantityID xsi:nil="true" />
+    <UnitID xsi:nil="true" />
+    <LimID xsi:nil="true" />
+    <ArchiveMask xsi:nil="true" />
+    <EventMask>81</EventMask>
+  </Cnl>
+  <Cnl>
+    <CnlNum>301</CnlNum>
+    <Active>true</Active>
+    <Name>Buzzer Error</Name>
+    <DataTypeID xsi:nil="true" />
+    <DataLen xsi:nil="true" />
+    <CnlTypeID>1</CnlTypeID>
+    <ObjNum>2</ObjNum>
+    <DeviceNum>12</DeviceNum>
+    <TagNum xsi:nil="true" />
+    <TagCode>buzzer_error</TagCode>
+    <FormulaEnabled>false</FormulaEnabled>
+    <FormatID xsi:nil="true" />
+    <QuantityID xsi:nil="true" />
+    <UnitID xsi:nil="true" />
+    <LimID xsi:nil="true" />
+    <ArchiveMask xsi:nil="true" />
+    <EventMask xsi:nil="true" />
+  </Cnl>
+  <Cnl>
+    <CnlNum>302</CnlNum>
+    <Active>true</Active>
+    <Name>Buzzer - enabled Last</Name>
+    <DataTypeID xsi:nil="true" />
+    <DataLen xsi:nil="true" />
+    <CnlTypeID>1</CnlTypeID>
+    <ObjNum>2</ObjNum>
+    <DeviceNum>12</DeviceNum>
+    <TagNum xsi:nil="true" />
+    <TagCode>enabled</TagCode>
+    <FormulaEnabled>false</FormulaEnabled>
+    <FormatID>21</FormatID>
+    <QuantityID xsi:nil="true" />
+    <UnitID xsi:nil="true" />
+    <LimID xsi:nil="true" />
+    <ArchiveMask xsi:nil="true" />
+    <EventMask xsi:nil="true" />
+  </Cnl>
+  <Cnl>
+    <CnlNum>303</CnlNum>
+    <Active>true</Active>
+    <Name>Buzzer - enabled Error</Name>
+    <DataTypeID xsi:nil="true" />
+    <DataLen xsi:nil="true" />
+    <CnlTypeID>1</CnlTypeID>
+    <ObjNum>2</ObjNum>
+    <DeviceNum>12</DeviceNum>
+    <TagNum xsi:nil="true" />
+    <TagCode>enabled_error</TagCode>
+    <FormulaEnabled>false</FormulaEnabled>
+    <FormatID xsi:nil="true" />
+    <QuantityID xsi:nil="true" />
+    <UnitID xsi:nil="true" />
+    <LimID xsi:nil="true" />
+    <ArchiveMask xsi:nil="true" />
+    <EventMask xsi:nil="true" />
+  </Cnl>
+  <Cnl>
+    <CnlNum>304</CnlNum>
+    <Active>true</Active>
+    <Name>Buzzer - enabled</Name>
+    <DataTypeID xsi:nil="true" />
+    <DataLen xsi:nil="true" />
+    <CnlTypeID>4</CnlTypeID>
+    <ObjNum>2</ObjNum>
+    <DeviceNum>12</DeviceNum>
+    <TagNum xsi:nil="true" />
+    <TagCode>enabled</TagCode>
+    <FormulaEnabled>true</FormulaEnabled>
+    <InFormula>WB_CalcControl()</InFormula>
+    <FormatID>21</FormatID>
+    <QuantityID xsi:nil="true" />
+    <UnitID xsi:nil="true" />
+    <LimID xsi:nil="true" />
+    <ArchiveMask xsi:nil="true" />
+    <EventMask>81</EventMask>
+  </Cnl>
+  <Cnl>
+    <CnlNum>305</CnlNum>
+    <Active>true</Active>
+    <Name>Buzzer - frequency Last</Name>
+    <DataTypeID xsi:nil="true" />
+    <DataLen xsi:nil="true" />
+    <CnlTypeID>1</CnlTypeID>
+    <ObjNum>2</ObjNum>
+    <DeviceNum>12</DeviceNum>
+    <TagNum xsi:nil="true" />
+    <TagCode>frequency</TagCode>
+    <FormulaEnabled>false</FormulaEnabled>
+    <FormatID xsi:nil="true" />
+    <QuantityID xsi:nil="true" />
+    <UnitID xsi:nil="true" />
+    <LimID xsi:nil="true" />
+    <ArchiveMask xsi:nil="true" />
+    <EventMask xsi:nil="true" />
+  </Cnl>
+  <Cnl>
+    <CnlNum>306</CnlNum>
+    <Active>true</Active>
+    <Name>Buzzer - frequency Error</Name>
+    <DataTypeID xsi:nil="true" />
+    <DataLen xsi:nil="true" />
+    <CnlTypeID>1</CnlTypeID>
+    <ObjNum>2</ObjNum>
+    <DeviceNum>12</DeviceNum>
+    <TagNum xsi:nil="true" />
+    <TagCode>frequency_error</TagCode>
+    <FormulaEnabled>false</FormulaEnabled>
+    <FormatID xsi:nil="true" />
+    <QuantityID xsi:nil="true" />
+    <UnitID xsi:nil="true" />
+    <LimID xsi:nil="true" />
+    <ArchiveMask xsi:nil="true" />
+    <EventMask xsi:nil="true" />
+  </Cnl>
+  <Cnl>
+    <CnlNum>307</CnlNum>
+    <Active>true</Active>
+    <Name>Buzzer - frequency</Name>
+    <DataTypeID xsi:nil="true" />
+    <DataLen xsi:nil="true" />
+    <CnlTypeID>4</CnlTypeID>
+    <ObjNum>2</ObjNum>
+    <DeviceNum>12</DeviceNum>
+    <TagNum xsi:nil="true" />
+    <TagCode>frequency</TagCode>
+    <FormulaEnabled>true</FormulaEnabled>
+    <InFormula>WB_CalcControl()</InFormula>
+    <FormatID>2</FormatID>
+    <QuantityID xsi:nil="true" />
+    <UnitID xsi:nil="true" />
+    <LimID xsi:nil="true" />
+    <ArchiveMask xsi:nil="true" />
+    <EventMask>81</EventMask>
+  </Cnl>
+  <Cnl>
+    <CnlNum>308</CnlNum>
+    <Active>true</Active>
+    <Name>Buzzer - volume Last</Name>
+    <DataTypeID xsi:nil="true" />
+    <DataLen xsi:nil="true" />
+    <CnlTypeID>1</CnlTypeID>
+    <ObjNum>2</ObjNum>
+    <DeviceNum>12</DeviceNum>
+    <TagNum xsi:nil="true" />
+    <TagCode>volume</TagCode>
+    <FormulaEnabled>false</FormulaEnabled>
+    <FormatID xsi:nil="true" />
+    <QuantityID xsi:nil="true" />
+    <UnitID xsi:nil="true" />
+    <LimID xsi:nil="true" />
+    <ArchiveMask xsi:nil="true" />
+    <EventMask xsi:nil="true" />
+  </Cnl>
+  <Cnl>
+    <CnlNum>309</CnlNum>
+    <Active>true</Active>
+    <Name>Buzzer - volume Error</Name>
+    <DataTypeID xsi:nil="true" />
+    <DataLen xsi:nil="true" />
+    <CnlTypeID>1</CnlTypeID>
+    <ObjNum>2</ObjNum>
+    <DeviceNum>12</DeviceNum>
+    <TagNum xsi:nil="true" />
+    <TagCode>volume_error</TagCode>
+    <FormulaEnabled>false</FormulaEnabled>
+    <FormatID xsi:nil="true" />
+    <QuantityID xsi:nil="true" />
+    <UnitID xsi:nil="true" />
+    <LimID xsi:nil="true" />
+    <ArchiveMask xsi:nil="true" />
+    <EventMask xsi:nil="true" />
+  </Cnl>
+  <Cnl>
+    <CnlNum>310</CnlNum>
+    <Active>true</Active>
+    <Name>Buzzer - volume</Name>
+    <DataTypeID xsi:nil="true" />
+    <DataLen xsi:nil="true" />
+    <CnlTypeID>4</CnlTypeID>
+    <ObjNum>2</ObjNum>
+    <DeviceNum>12</DeviceNum>
+    <TagNum xsi:nil="true" />
+    <TagCode>volume</TagCode>
+    <FormulaEnabled>true</FormulaEnabled>
+    <InFormula>WB_CalcControl()</InFormula>
+    <FormatID>2</FormatID>
+    <QuantityID xsi:nil="true" />
+    <UnitID xsi:nil="true" />
+    <LimID xsi:nil="true" />
+    <ArchiveMask xsi:nil="true" />
+    <EventMask>81</EventMask>
+  </Cnl>
+  <Cnl>
+    <CnlNum>401</CnlNum>
+    <Active>true</Active>
+    <Name>Network Error</Name>
+    <DataTypeID xsi:nil="true" />
+    <DataLen xsi:nil="true" />
+    <CnlTypeID>1</CnlTypeID>
+    <ObjNum>2</ObjNum>
+    <DeviceNum>13</DeviceNum>
+    <TagNum xsi:nil="true" />
+    <TagCode>network_error</TagCode>
+    <FormulaEnabled>false</FormulaEnabled>
+    <FormatID xsi:nil="true" />
+    <QuantityID xsi:nil="true" />
+    <UnitID xsi:nil="true" />
+    <LimID xsi:nil="true" />
+    <ArchiveMask xsi:nil="true" />
+    <EventMask xsi:nil="true" />
+  </Cnl>
+  <Cnl>
+    <CnlNum>402</CnlNum>
+    <Active>true</Active>
+    <Name>Network - Ethernet 2 IP Last</Name>
+    <DataTypeID xsi:nil="true" />
+    <DataLen xsi:nil="true" />
+    <CnlTypeID>1</CnlTypeID>
+    <ObjNum>2</ObjNum>
+    <DeviceNum>13</DeviceNum>
+    <TagNum xsi:nil="true" />
+    <TagCode>Ethernet 2 IP</TagCode>
+    <FormulaEnabled>false</FormulaEnabled>
+    <FormatID xsi:nil="true" />
+    <QuantityID xsi:nil="true" />
+    <UnitID xsi:nil="true" />
+    <LimID xsi:nil="true" />
+    <ArchiveMask xsi:nil="true" />
+    <EventMask xsi:nil="true" />
+  </Cnl>
+  <Cnl>
+    <CnlNum>403</CnlNum>
+    <Active>true</Active>
+    <Name>Network - Ethernet 2 IP Error</Name>
+    <DataTypeID xsi:nil="true" />
+    <DataLen xsi:nil="true" />
+    <CnlTypeID>1</CnlTypeID>
+    <ObjNum>2</ObjNum>
+    <DeviceNum>13</DeviceNum>
+    <TagNum xsi:nil="true" />
+    <TagCode>Ethernet 2 IP_error</TagCode>
+    <FormulaEnabled>false</FormulaEnabled>
+    <FormatID xsi:nil="true" />
+    <QuantityID xsi:nil="true" />
+    <UnitID xsi:nil="true" />
+    <LimID xsi:nil="true" />
+    <ArchiveMask xsi:nil="true" />
+    <EventMask xsi:nil="true" />
+  </Cnl>
+  <Cnl>
+    <CnlNum>404</CnlNum>
+    <Active>true</Active>
+    <Name>Network - Ethernet 2 IP</Name>
+    <DataTypeID xsi:nil="true" />
+    <DataLen xsi:nil="true" />
+    <CnlTypeID>3</CnlTypeID>
+    <ObjNum>2</ObjNum>
+    <DeviceNum>13</DeviceNum>
+    <TagNum xsi:nil="true" />
+    <TagCode>Ethernet 2 IP</TagCode>
+    <FormulaEnabled>true</FormulaEnabled>
+    <InFormula>WB_CalcControl()</InFormula>
+    <FormatID xsi:nil="true" />
+    <QuantityID xsi:nil="true" />
+    <UnitID xsi:nil="true" />
+    <LimID xsi:nil="true" />
+    <ArchiveMask xsi:nil="true" />
+    <EventMask>81</EventMask>
+  </Cnl>
+  <Cnl>
+    <CnlNum>405</CnlNum>
+    <Active>true</Active>
+    <Name>Network - Ethernet IP Last</Name>
+    <DataTypeID xsi:nil="true" />
+    <DataLen xsi:nil="true" />
+    <CnlTypeID>1</CnlTypeID>
+    <ObjNum>2</ObjNum>
+    <DeviceNum>13</DeviceNum>
+    <TagNum xsi:nil="true" />
+    <TagCode>Ethernet IP</TagCode>
+    <FormulaEnabled>false</FormulaEnabled>
+    <FormatID xsi:nil="true" />
+    <QuantityID xsi:nil="true" />
+    <UnitID xsi:nil="true" />
+    <LimID xsi:nil="true" />
+    <ArchiveMask xsi:nil="true" />
+    <EventMask xsi:nil="true" />
+  </Cnl>
+  <Cnl>
+    <CnlNum>406</CnlNum>
+    <Active>true</Active>
+    <Name>Network - Ethernet IP Error</Name>
+    <DataTypeID xsi:nil="true" />
+    <DataLen xsi:nil="true" />
+    <CnlTypeID>1</CnlTypeID>
+    <ObjNum>2</ObjNum>
+    <DeviceNum>13</DeviceNum>
+    <TagNum xsi:nil="true" />
+    <TagCode>Ethernet IP_error</TagCode>
+    <FormulaEnabled>false</FormulaEnabled>
+    <FormatID xsi:nil="true" />
+    <QuantityID xsi:nil="true" />
+    <UnitID xsi:nil="true" />
+    <LimID xsi:nil="true" />
+    <ArchiveMask xsi:nil="true" />
+    <EventMask xsi:nil="true" />
+  </Cnl>
+  <Cnl>
+    <CnlNum>407</CnlNum>
+    <Active>true</Active>
+    <Name>Network - Ethernet IP</Name>
+    <DataTypeID xsi:nil="true" />
+    <DataLen xsi:nil="true" />
+    <CnlTypeID>3</CnlTypeID>
+    <ObjNum>2</ObjNum>
+    <DeviceNum>13</DeviceNum>
+    <TagNum xsi:nil="true" />
+    <TagCode>Ethernet IP</TagCode>
+    <FormulaEnabled>true</FormulaEnabled>
+    <InFormula>WB_CalcControl()</InFormula>
+    <FormatID xsi:nil="true" />
+    <QuantityID xsi:nil="true" />
+    <UnitID xsi:nil="true" />
+    <LimID xsi:nil="true" />
+    <ArchiveMask xsi:nil="true" />
+    <EventMask>81</EventMask>
+  </Cnl>
+  <Cnl>
+    <CnlNum>408</CnlNum>
+    <Active>true</Active>
+    <Name>Network - GPRS IP Last</Name>
+    <DataTypeID xsi:nil="true" />
+    <DataLen xsi:nil="true" />
+    <CnlTypeID>1</CnlTypeID>
+    <ObjNum>2</ObjNum>
+    <DeviceNum>13</DeviceNum>
+    <TagNum xsi:nil="true" />
+    <TagCode>GPRS IP</TagCode>
+    <FormulaEnabled>false</FormulaEnabled>
+    <FormatID xsi:nil="true" />
+    <QuantityID xsi:nil="true" />
+    <UnitID xsi:nil="true" />
+    <LimID xsi:nil="true" />
+    <ArchiveMask xsi:nil="true" />
+    <EventMask xsi:nil="true" />
+  </Cnl>
+  <Cnl>
+    <CnlNum>409</CnlNum>
+    <Active>true</Active>
+    <Name>Network - GPRS IP Error</Name>
+    <DataTypeID xsi:nil="true" />
+    <DataLen xsi:nil="true" />
+    <CnlTypeID>1</CnlTypeID>
+    <ObjNum>2</ObjNum>
+    <DeviceNum>13</DeviceNum>
+    <TagNum xsi:nil="true" />
+    <TagCode>GPRS IP_error</TagCode>
+    <FormulaEnabled>false</FormulaEnabled>
+    <FormatID xsi:nil="true" />
+    <QuantityID xsi:nil="true" />
+    <UnitID xsi:nil="true" />
+    <LimID xsi:nil="true" />
+    <ArchiveMask xsi:nil="true" />
+    <EventMask xsi:nil="true" />
+  </Cnl>
+  <Cnl>
+    <CnlNum>410</CnlNum>
+    <Active>true</Active>
+    <Name>Network - GPRS IP</Name>
+    <DataTypeID xsi:nil="true" />
+    <DataLen xsi:nil="true" />
+    <CnlTypeID>3</CnlTypeID>
+    <ObjNum>2</ObjNum>
+    <DeviceNum>13</DeviceNum>
+    <TagNum xsi:nil="true" />
+    <TagCode>GPRS IP</TagCode>
+    <FormulaEnabled>true</FormulaEnabled>
+    <InFormula>WB_CalcControl()</InFormula>
+    <FormatID xsi:nil="true" />
+    <QuantityID xsi:nil="true" />
+    <UnitID xsi:nil="true" />
+    <LimID xsi:nil="true" />
+    <ArchiveMask xsi:nil="true" />
+    <EventMask>81</EventMask>
+  </Cnl>
+  <Cnl>
+    <CnlNum>411</CnlNum>
+    <Active>true</Active>
+    <Name>Network - Wi-Fi 2 IP Last</Name>
+    <DataTypeID xsi:nil="true" />
+    <DataLen xsi:nil="true" />
+    <CnlTypeID>1</CnlTypeID>
+    <ObjNum>2</ObjNum>
+    <DeviceNum>13</DeviceNum>
+    <TagNum xsi:nil="true" />
+    <TagCode>Wi-Fi 2 IP</TagCode>
+    <FormulaEnabled>false</FormulaEnabled>
+    <FormatID xsi:nil="true" />
+    <QuantityID xsi:nil="true" />
+    <UnitID xsi:nil="true" />
+    <LimID xsi:nil="true" />
+    <ArchiveMask xsi:nil="true" />
+    <EventMask xsi:nil="true" />
+  </Cnl>
+  <Cnl>
+    <CnlNum>412</CnlNum>
+    <Active>true</Active>
+    <Name>Network - Wi-Fi 2 IP Error</Name>
+    <DataTypeID xsi:nil="true" />
+    <DataLen xsi:nil="true" />
+    <CnlTypeID>1</CnlTypeID>
+    <ObjNum>2</ObjNum>
+    <DeviceNum>13</DeviceNum>
+    <TagNum xsi:nil="true" />
+    <TagCode>Wi-Fi 2 IP_error</TagCode>
+    <FormulaEnabled>false</FormulaEnabled>
+    <FormatID xsi:nil="true" />
+    <QuantityID xsi:nil="true" />
+    <UnitID xsi:nil="true" />
+    <LimID xsi:nil="true" />
+    <ArchiveMask xsi:nil="true" />
+    <EventMask xsi:nil="true" />
+  </Cnl>
+  <Cnl>
+    <CnlNum>413</CnlNum>
+    <Active>true</Active>
+    <Name>Network - Wi-Fi 2 IP</Name>
+    <DataTypeID xsi:nil="true" />
+    <DataLen xsi:nil="true" />
+    <CnlTypeID>3</CnlTypeID>
+    <ObjNum>2</ObjNum>
+    <DeviceNum>13</DeviceNum>
+    <TagNum xsi:nil="true" />
+    <TagCode>Wi-Fi 2 IP</TagCode>
+    <FormulaEnabled>true</FormulaEnabled>
+    <InFormula>WB_CalcControl()</InFormula>
+    <FormatID xsi:nil="true" />
+    <QuantityID xsi:nil="true" />
+    <UnitID xsi:nil="true" />
+    <LimID xsi:nil="true" />
+    <ArchiveMask xsi:nil="true" />
+    <EventMask>81</EventMask>
+  </Cnl>
+  <Cnl>
+    <CnlNum>414</CnlNum>
+    <Active>true</Active>
+    <Name>Network - Wi-Fi IP Last</Name>
+    <DataTypeID xsi:nil="true" />
+    <DataLen xsi:nil="true" />
+    <CnlTypeID>1</CnlTypeID>
+    <ObjNum>2</ObjNum>
+    <DeviceNum>13</DeviceNum>
+    <TagNum xsi:nil="true" />
+    <TagCode>Wi-Fi IP</TagCode>
+    <FormulaEnabled>false</FormulaEnabled>
+    <FormatID xsi:nil="true" />
+    <QuantityID xsi:nil="true" />
+    <UnitID xsi:nil="true" />
+    <LimID xsi:nil="true" />
+    <ArchiveMask xsi:nil="true" />
+    <EventMask xsi:nil="true" />
+  </Cnl>
+  <Cnl>
+    <CnlNum>415</CnlNum>
+    <Active>true</Active>
+    <Name>Network - Wi-Fi IP Error</Name>
+    <DataTypeID xsi:nil="true" />
+    <DataLen xsi:nil="true" />
+    <CnlTypeID>1</CnlTypeID>
+    <ObjNum>2</ObjNum>
+    <DeviceNum>13</DeviceNum>
+    <TagNum xsi:nil="true" />
+    <TagCode>Wi-Fi IP_error</TagCode>
+    <FormulaEnabled>false</FormulaEnabled>
+    <FormatID xsi:nil="true" />
+    <QuantityID xsi:nil="true" />
+    <UnitID xsi:nil="true" />
+    <LimID xsi:nil="true" />
+    <ArchiveMask xsi:nil="true" />
+    <EventMask xsi:nil="true" />
+  </Cnl>
+  <Cnl>
+    <CnlNum>416</CnlNum>
+    <Active>true</Active>
+    <Name>Network - Wi-Fi IP</Name>
+    <DataTypeID xsi:nil="true" />
+    <DataLen xsi:nil="true" />
+    <CnlTypeID>3</CnlTypeID>
+    <ObjNum>2</ObjNum>
+    <DeviceNum>13</DeviceNum>
+    <TagNum xsi:nil="true" />
+    <TagCode>Wi-Fi IP</TagCode>
+    <FormulaEnabled>true</FormulaEnabled>
+    <InFormula>WB_CalcControl()</InFormula>
+    <FormatID xsi:nil="true" />
+    <QuantityID xsi:nil="true" />
+    <UnitID xsi:nil="true" />
+    <LimID xsi:nil="true" />
+    <ArchiveMask xsi:nil="true" />
+    <EventMask>81</EventMask>
+  </Cnl>
+  <Cnl>
+    <CnlNum>501</CnlNum>
+    <Active>true</Active>
+    <Name>Power status Error</Name>
+    <DataTypeID xsi:nil="true" />
+    <DataLen xsi:nil="true" />
+    <CnlTypeID>1</CnlTypeID>
+    <ObjNum>2</ObjNum>
+    <DeviceNum>14</DeviceNum>
+    <TagNum xsi:nil="true" />
+    <TagCode>power_status_error</TagCode>
+    <FormulaEnabled>false</FormulaEnabled>
+    <FormatID xsi:nil="true" />
+    <QuantityID xsi:nil="true" />
+    <UnitID xsi:nil="true" />
+    <LimID xsi:nil="true" />
+    <ArchiveMask xsi:nil="true" />
+    <EventMask xsi:nil="true" />
+  </Cnl>
+  <Cnl>
+    <CnlNum>502</CnlNum>
+    <Active>true</Active>
+    <Name>Power status - Vin Last</Name>
+    <DataTypeID xsi:nil="true" />
+    <DataLen xsi:nil="true" />
+    <CnlTypeID>1</CnlTypeID>
+    <ObjNum>2</ObjNum>
+    <DeviceNum>14</DeviceNum>
+    <TagNum xsi:nil="true" />
+    <TagCode>Vin</TagCode>
+    <FormulaEnabled>false</FormulaEnabled>
+    <FormatID xsi:nil="true" />
+    <QuantityID>21</QuantityID>
+    <UnitID>41</UnitID>
+    <LimID xsi:nil="true" />
+    <ArchiveMask xsi:nil="true" />
+    <EventMask xsi:nil="true" />
+  </Cnl>
+  <Cnl>
+    <CnlNum>503</CnlNum>
+    <Active>true</Active>
+    <Name>Power status - Vin Error</Name>
+    <DataTypeID xsi:nil="true" />
+    <DataLen xsi:nil="true" />
+    <CnlTypeID>1</CnlTypeID>
+    <ObjNum>2</ObjNum>
+    <DeviceNum>14</DeviceNum>
+    <TagNum xsi:nil="true" />
+    <TagCode>Vin_error</TagCode>
+    <FormulaEnabled>false</FormulaEnabled>
+    <FormatID xsi:nil="true" />
+    <QuantityID xsi:nil="true" />
+    <UnitID xsi:nil="true" />
+    <LimID xsi:nil="true" />
+    <ArchiveMask xsi:nil="true" />
+    <EventMask xsi:nil="true" />
+  </Cnl>
+  <Cnl>
+    <CnlNum>504</CnlNum>
+    <Active>true</Active>
+    <Name>Power status - Vin</Name>
+    <DataTypeID xsi:nil="true" />
+    <DataLen xsi:nil="true" />
+    <CnlTypeID>3</CnlTypeID>
+    <ObjNum>2</ObjNum>
+    <DeviceNum>14</DeviceNum>
+    <TagNum xsi:nil="true" />
+    <TagCode>Vin</TagCode>
+    <FormulaEnabled>true</FormulaEnabled>
+    <InFormula>WB_CalcControl()</InFormula>
+    <FormatID>3</FormatID>
+    <QuantityID>21</QuantityID>
+    <UnitID>41</UnitID>
+    <LimID xsi:nil="true" />
+    <ArchiveMask xsi:nil="true" />
+    <EventMask>81</EventMask>
+  </Cnl>
+  <Cnl>
+    <CnlNum>505</CnlNum>
+    <Active>true</Active>
+    <Name>Power status - working on battery Last</Name>
+    <DataTypeID xsi:nil="true" />
+    <DataLen xsi:nil="true" />
+    <CnlTypeID>1</CnlTypeID>
+    <ObjNum>2</ObjNum>
+    <DeviceNum>14</DeviceNum>
+    <TagNum xsi:nil="true" />
+    <TagCode>working on battery</TagCode>
+    <FormulaEnabled>false</FormulaEnabled>
+    <FormatID>21</FormatID>
+    <QuantityID xsi:nil="true" />
+    <UnitID xsi:nil="true" />
+    <LimID xsi:nil="true" />
+    <ArchiveMask xsi:nil="true" />
+    <EventMask xsi:nil="true" />
+  </Cnl>
+  <Cnl>
+    <CnlNum>506</CnlNum>
+    <Active>true</Active>
+    <Name>Power status - working on battery Error</Name>
+    <DataTypeID xsi:nil="true" />
+    <DataLen xsi:nil="true" />
+    <CnlTypeID>1</CnlTypeID>
+    <ObjNum>2</ObjNum>
+    <DeviceNum>14</DeviceNum>
+    <TagNum xsi:nil="true" />
+    <TagCode>working on battery_error</TagCode>
+    <FormulaEnabled>false</FormulaEnabled>
+    <FormatID xsi:nil="true" />
+    <QuantityID xsi:nil="true" />
+    <UnitID xsi:nil="true" />
+    <LimID xsi:nil="true" />
+    <ArchiveMask xsi:nil="true" />
+    <EventMask xsi:nil="true" />
+  </Cnl>
+  <Cnl>
+    <CnlNum>507</CnlNum>
+    <Active>true</Active>
+    <Name>Power status - working on battery</Name>
+    <DataTypeID xsi:nil="true" />
+    <DataLen xsi:nil="true" />
+    <CnlTypeID>3</CnlTypeID>
+    <ObjNum>2</ObjNum>
+    <DeviceNum>14</DeviceNum>
+    <TagNum xsi:nil="true" />
+    <TagCode>working on battery</TagCode>
+    <FormulaEnabled>true</FormulaEnabled>
+    <InFormula>WB_CalcControl()</InFormula>
+    <FormatID>21</FormatID>
+    <QuantityID xsi:nil="true" />
+    <UnitID xsi:nil="true" />
+    <LimID xsi:nil="true" />
+    <ArchiveMask xsi:nil="true" />
+    <EventMask>81</EventMask>
+  </Cnl>
+  <Cnl>
+    <CnlNum>601</CnlNum>
+    <Active>true</Active>
+    <Name>HW Monitor Error</Name>
+    <DataTypeID xsi:nil="true" />
+    <DataLen xsi:nil="true" />
+    <CnlTypeID>1</CnlTypeID>
+    <ObjNum>2</ObjNum>
+    <DeviceNum>15</DeviceNum>
+    <TagNum xsi:nil="true" />
+    <TagCode>hwmon_error</TagCode>
+    <FormulaEnabled>false</FormulaEnabled>
+    <FormatID xsi:nil="true" />
+    <QuantityID xsi:nil="true" />
+    <UnitID xsi:nil="true" />
+    <LimID xsi:nil="true" />
+    <ArchiveMask xsi:nil="true" />
+    <EventMask xsi:nil="true" />
+  </Cnl>
+  <Cnl>
+    <CnlNum>602</CnlNum>
+    <Active>true</Active>
+    <Name>HW Monitor - Board Temperature Last</Name>
+    <DataTypeID xsi:nil="true" />
+    <DataLen xsi:nil="true" />
+    <CnlTypeID>1</CnlTypeID>
+    <ObjNum>2</ObjNum>
+    <DeviceNum>15</DeviceNum>
+    <TagNum xsi:nil="true" />
+    <TagCode>Board Temperature</TagCode>
+    <FormulaEnabled>false</FormulaEnabled>
+    <FormatID xsi:nil="true" />
+    <QuantityID>4</QuantityID>
+    <UnitID>22</UnitID>
+    <LimID xsi:nil="true" />
+    <ArchiveMask xsi:nil="true" />
+    <EventMask xsi:nil="true" />
+  </Cnl>
+  <Cnl>
+    <CnlNum>603</CnlNum>
+    <Active>true</Active>
+    <Name>HW Monitor - Board Temperature Error</Name>
+    <DataTypeID xsi:nil="true" />
+    <DataLen xsi:nil="true" />
+    <CnlTypeID>1</CnlTypeID>
+    <ObjNum>2</ObjNum>
+    <DeviceNum>15</DeviceNum>
+    <TagNum xsi:nil="true" />
+    <TagCode>Board Temperature_error</TagCode>
+    <FormulaEnabled>false</FormulaEnabled>
+    <FormatID xsi:nil="true" />
+    <QuantityID xsi:nil="true" />
+    <UnitID xsi:nil="true" />
+    <LimID xsi:nil="true" />
+    <ArchiveMask xsi:nil="true" />
+    <EventMask xsi:nil="true" />
+  </Cnl>
+  <Cnl>
+    <CnlNum>604</CnlNum>
+    <Active>true</Active>
+    <Name>HW Monitor - Board Temperature</Name>
+    <DataTypeID xsi:nil="true" />
+    <DataLen xsi:nil="true" />
+    <CnlTypeID>3</CnlTypeID>
+    <ObjNum>2</ObjNum>
+    <DeviceNum>15</DeviceNum>
+    <TagNum xsi:nil="true" />
+    <TagCode>Board Temperature</TagCode>
+    <FormulaEnabled>true</FormulaEnabled>
+    <InFormula>WB_CalcControl()</InFormula>
+    <FormatID>3</FormatID>
+    <QuantityID>4</QuantityID>
+    <UnitID>22</UnitID>
+    <LimID xsi:nil="true" />
+    <ArchiveMask xsi:nil="true" />
+    <EventMask>81</EventMask>
+  </Cnl>
+  <Cnl>
+    <CnlNum>605</CnlNum>
+    <Active>true</Active>
+    <Name>HW Monitor - CPU Temperature Last</Name>
+    <DataTypeID xsi:nil="true" />
+    <DataLen xsi:nil="true" />
+    <CnlTypeID>1</CnlTypeID>
+    <ObjNum>2</ObjNum>
+    <DeviceNum>15</DeviceNum>
+    <TagNum xsi:nil="true" />
+    <TagCode>CPU Temperature</TagCode>
+    <FormulaEnabled>false</FormulaEnabled>
+    <FormatID xsi:nil="true" />
+    <QuantityID>4</QuantityID>
+    <UnitID>22</UnitID>
+    <LimID xsi:nil="true" />
+    <ArchiveMask xsi:nil="true" />
+    <EventMask xsi:nil="true" />
+  </Cnl>
+  <Cnl>
+    <CnlNum>606</CnlNum>
+    <Active>true</Active>
+    <Name>HW Monitor - CPU Temperature Error</Name>
+    <DataTypeID xsi:nil="true" />
+    <DataLen xsi:nil="true" />
+    <CnlTypeID>1</CnlTypeID>
+    <ObjNum>2</ObjNum>
+    <DeviceNum>15</DeviceNum>
+    <TagNum xsi:nil="true" />
+    <TagCode>CPU Temperature_error</TagCode>
+    <FormulaEnabled>false</FormulaEnabled>
+    <FormatID xsi:nil="true" />
+    <QuantityID xsi:nil="true" />
+    <UnitID xsi:nil="true" />
+    <LimID xsi:nil="true" />
+    <ArchiveMask xsi:nil="true" />
+    <EventMask xsi:nil="true" />
+  </Cnl>
+  <Cnl>
+    <CnlNum>607</CnlNum>
+    <Active>true</Active>
+    <Name>HW Monitor - CPU Temperature</Name>
+    <DataTypeID xsi:nil="true" />
+    <DataLen xsi:nil="true" />
+    <CnlTypeID>3</CnlTypeID>
+    <ObjNum>2</ObjNum>
+    <DeviceNum>15</DeviceNum>
+    <TagNum xsi:nil="true" />
+    <TagCode>CPU Temperature</TagCode>
+    <FormulaEnabled>true</FormulaEnabled>
+    <InFormula>WB_CalcControl()</InFormula>
+    <FormatID>3</FormatID>
+    <QuantityID>4</QuantityID>
+    <UnitID>22</UnitID>
+    <LimID xsi:nil="true" />
+    <ArchiveMask xsi:nil="true" />
+    <EventMask>81</EventMask>
+  </Cnl>
+  <Cnl>
+    <CnlNum>701</CnlNum>
+    <Active>true</Active>
+    <Name>System Error</Name>
+    <DataTypeID xsi:nil="true" />
+    <DataLen xsi:nil="true" />
+    <CnlTypeID>1</CnlTypeID>
+    <ObjNum>2</ObjNum>
+    <DeviceNum>16</DeviceNum>
+    <TagNum xsi:nil="true" />
+    <TagCode>system_error</TagCode>
+    <FormulaEnabled>false</FormulaEnabled>
+    <FormatID xsi:nil="true" />
+    <QuantityID xsi:nil="true" />
+    <UnitID xsi:nil="true" />
+    <LimID xsi:nil="true" />
+    <ArchiveMask xsi:nil="true" />
+    <EventMask xsi:nil="true" />
+  </Cnl>
+  <Cnl>
+    <CnlNum>702</CnlNum>
+    <Active>true</Active>
+    <Name>System - Batch No Last</Name>
+    <DataTypeID xsi:nil="true" />
+    <DataLen xsi:nil="true" />
+    <CnlTypeID>1</CnlTypeID>
+    <ObjNum>2</ObjNum>
+    <DeviceNum>16</DeviceNum>
+    <TagNum xsi:nil="true" />
+    <TagCode>Batch No</TagCode>
+    <FormulaEnabled>false</FormulaEnabled>
+    <FormatID xsi:nil="true" />
+    <QuantityID xsi:nil="true" />
+    <UnitID xsi:nil="true" />
+    <LimID xsi:nil="true" />
+    <ArchiveMask xsi:nil="true" />
+    <EventMask xsi:nil="true" />
+  </Cnl>
+  <Cnl>
+    <CnlNum>703</CnlNum>
+    <Active>true</Active>
+    <Name>System - Batch No Error</Name>
+    <DataTypeID xsi:nil="true" />
+    <DataLen xsi:nil="true" />
+    <CnlTypeID>1</CnlTypeID>
+    <ObjNum>2</ObjNum>
+    <DeviceNum>16</DeviceNum>
+    <TagNum xsi:nil="true" />
+    <TagCode>Batch No_error</TagCode>
+    <FormulaEnabled>false</FormulaEnabled>
+    <FormatID xsi:nil="true" />
+    <QuantityID xsi:nil="true" />
+    <UnitID xsi:nil="true" />
+    <LimID xsi:nil="true" />
+    <ArchiveMask xsi:nil="true" />
+    <EventMask xsi:nil="true" />
+  </Cnl>
+  <Cnl>
+    <CnlNum>704</CnlNum>
+    <Active>true</Active>
+    <Name>System - Batch No</Name>
+    <DataTypeID xsi:nil="true" />
+    <DataLen xsi:nil="true" />
+    <CnlTypeID>3</CnlTypeID>
+    <ObjNum>2</ObjNum>
+    <DeviceNum>16</DeviceNum>
+    <TagNum xsi:nil="true" />
+    <TagCode>Batch No</TagCode>
+    <FormulaEnabled>true</FormulaEnabled>
+    <InFormula>WB_CalcControl()</InFormula>
+    <FormatID xsi:nil="true" />
+    <QuantityID xsi:nil="true" />
+    <UnitID xsi:nil="true" />
+    <LimID xsi:nil="true" />
+    <ArchiveMask xsi:nil="true" />
+    <EventMask>81</EventMask>
+  </Cnl>
+  <Cnl>
+    <CnlNum>705</CnlNum>
+    <Active>true</Active>
+    <Name>System - Current uptime Last</Name>
+    <DataTypeID xsi:nil="true" />
+    <DataLen xsi:nil="true" />
+    <CnlTypeID>1</CnlTypeID>
+    <ObjNum>2</ObjNum>
+    <DeviceNum>16</DeviceNum>
+    <TagNum xsi:nil="true" />
+    <TagCode>Current uptime</TagCode>
+    <FormulaEnabled>false</FormulaEnabled>
+    <FormatID xsi:nil="true" />
+    <QuantityID xsi:nil="true" />
+    <UnitID xsi:nil="true" />
+    <LimID xsi:nil="true" />
+    <ArchiveMask xsi:nil="true" />
+    <EventMask xsi:nil="true" />
+  </Cnl>
+  <Cnl>
+    <CnlNum>706</CnlNum>
+    <Active>true</Active>
+    <Name>System - Current uptime Error</Name>
+    <DataTypeID xsi:nil="true" />
+    <DataLen xsi:nil="true" />
+    <CnlTypeID>1</CnlTypeID>
+    <ObjNum>2</ObjNum>
+    <DeviceNum>16</DeviceNum>
+    <TagNum xsi:nil="true" />
+    <TagCode>Current uptime_error</TagCode>
+    <FormulaEnabled>false</FormulaEnabled>
+    <FormatID xsi:nil="true" />
+    <QuantityID xsi:nil="true" />
+    <UnitID xsi:nil="true" />
+    <LimID xsi:nil="true" />
+    <ArchiveMask xsi:nil="true" />
+    <EventMask xsi:nil="true" />
+  </Cnl>
+  <Cnl>
+    <CnlNum>707</CnlNum>
+    <Active>true</Active>
+    <Name>System - Current uptime</Name>
+    <DataTypeID xsi:nil="true" />
+    <DataLen xsi:nil="true" />
+    <CnlTypeID>3</CnlTypeID>
+    <ObjNum>2</ObjNum>
+    <DeviceNum>16</DeviceNum>
+    <TagNum xsi:nil="true" />
+    <TagCode>Current uptime</TagCode>
+    <FormulaEnabled>true</FormulaEnabled>
+    <InFormula>WB_CalcControl()</InFormula>
+    <FormatID xsi:nil="true" />
+    <QuantityID xsi:nil="true" />
+    <UnitID xsi:nil="true" />
+    <LimID xsi:nil="true" />
+    <ArchiveMask xsi:nil="true" />
+    <EventMask>81</EventMask>
+  </Cnl>
+  <Cnl>
+    <CnlNum>708</CnlNum>
+    <Active>true</Active>
+    <Name>System - DTS Version Last</Name>
+    <DataTypeID xsi:nil="true" />
+    <DataLen xsi:nil="true" />
+    <CnlTypeID>1</CnlTypeID>
+    <ObjNum>2</ObjNum>
+    <DeviceNum>16</DeviceNum>
+    <TagNum xsi:nil="true" />
+    <TagCode>DTS Version</TagCode>
+    <FormulaEnabled>false</FormulaEnabled>
+    <FormatID xsi:nil="true" />
+    <QuantityID xsi:nil="true" />
+    <UnitID xsi:nil="true" />
+    <LimID xsi:nil="true" />
+    <ArchiveMask xsi:nil="true" />
+    <EventMask xsi:nil="true" />
+  </Cnl>
+  <Cnl>
+    <CnlNum>709</CnlNum>
+    <Active>true</Active>
+    <Name>System - DTS Version Error</Name>
+    <DataTypeID xsi:nil="true" />
+    <DataLen xsi:nil="true" />
+    <CnlTypeID>1</CnlTypeID>
+    <ObjNum>2</ObjNum>
+    <DeviceNum>16</DeviceNum>
+    <TagNum xsi:nil="true" />
+    <TagCode>DTS Version_error</TagCode>
+    <FormulaEnabled>false</FormulaEnabled>
+    <FormatID xsi:nil="true" />
+    <QuantityID xsi:nil="true" />
+    <UnitID xsi:nil="true" />
+    <LimID xsi:nil="true" />
+    <ArchiveMask xsi:nil="true" />
+    <EventMask xsi:nil="true" />
+  </Cnl>
+  <Cnl>
+    <CnlNum>710</CnlNum>
+    <Active>true</Active>
+    <Name>System - DTS Version</Name>
+    <DataTypeID xsi:nil="true" />
+    <DataLen xsi:nil="true" />
+    <CnlTypeID>3</CnlTypeID>
+    <ObjNum>2</ObjNum>
+    <DeviceNum>16</DeviceNum>
+    <TagNum xsi:nil="true" />
+    <TagCode>DTS Version</TagCode>
+    <FormulaEnabled>true</FormulaEnabled>
+    <InFormula>WB_CalcControl()</InFormula>
+    <FormatID xsi:nil="true" />
+    <QuantityID xsi:nil="true" />
+    <UnitID xsi:nil="true" />
+    <LimID xsi:nil="true" />
+    <ArchiveMask xsi:nil="true" />
+    <EventMask>81</EventMask>
+  </Cnl>
+  <Cnl>
+    <CnlNum>711</CnlNum>
+    <Active>true</Active>
+    <Name>System - HW Revision Last</Name>
+    <DataTypeID xsi:nil="true" />
+    <DataLen xsi:nil="true" />
+    <CnlTypeID>1</CnlTypeID>
+    <ObjNum>2</ObjNum>
+    <DeviceNum>16</DeviceNum>
+    <TagNum xsi:nil="true" />
+    <TagCode>HW Revision</TagCode>
+    <FormulaEnabled>false</FormulaEnabled>
+    <FormatID xsi:nil="true" />
+    <QuantityID xsi:nil="true" />
+    <UnitID xsi:nil="true" />
+    <LimID xsi:nil="true" />
+    <ArchiveMask xsi:nil="true" />
+    <EventMask xsi:nil="true" />
+  </Cnl>
+  <Cnl>
+    <CnlNum>712</CnlNum>
+    <Active>true</Active>
+    <Name>System - HW Revision Error</Name>
+    <DataTypeID xsi:nil="true" />
+    <DataLen xsi:nil="true" />
+    <CnlTypeID>1</CnlTypeID>
+    <ObjNum>2</ObjNum>
+    <DeviceNum>16</DeviceNum>
+    <TagNum xsi:nil="true" />
+    <TagCode>HW Revision_error</TagCode>
+    <FormulaEnabled>false</FormulaEnabled>
+    <FormatID xsi:nil="true" />
+    <QuantityID xsi:nil="true" />
+    <UnitID xsi:nil="true" />
+    <LimID xsi:nil="true" />
+    <ArchiveMask xsi:nil="true" />
+    <EventMask xsi:nil="true" />
+  </Cnl>
+  <Cnl>
+    <CnlNum>713</CnlNum>
+    <Active>true</Active>
+    <Name>System - HW Revision</Name>
+    <DataTypeID xsi:nil="true" />
+    <DataLen xsi:nil="true" />
+    <CnlTypeID>3</CnlTypeID>
+    <ObjNum>2</ObjNum>
+    <DeviceNum>16</DeviceNum>
+    <TagNum xsi:nil="true" />
+    <TagCode>HW Revision</TagCode>
+    <FormulaEnabled>true</FormulaEnabled>
+    <InFormula>WB_CalcControl()</InFormula>
+    <FormatID xsi:nil="true" />
+    <QuantityID xsi:nil="true" />
+    <UnitID xsi:nil="true" />
+    <LimID xsi:nil="true" />
+    <ArchiveMask xsi:nil="true" />
+    <EventMask>81</EventMask>
+  </Cnl>
+  <Cnl>
+    <CnlNum>714</CnlNum>
+    <Active>true</Active>
+    <Name>System - Manufacturing Date Last</Name>
+    <DataTypeID xsi:nil="true" />
+    <DataLen xsi:nil="true" />
+    <CnlTypeID>1</CnlTypeID>
+    <ObjNum>2</ObjNum>
+    <DeviceNum>16</DeviceNum>
+    <TagNum xsi:nil="true" />
+    <TagCode>Manufacturing Date</TagCode>
+    <FormulaEnabled>false</FormulaEnabled>
+    <FormatID xsi:nil="true" />
+    <QuantityID xsi:nil="true" />
+    <UnitID xsi:nil="true" />
+    <LimID xsi:nil="true" />
+    <ArchiveMask xsi:nil="true" />
+    <EventMask xsi:nil="true" />
+  </Cnl>
+  <Cnl>
+    <CnlNum>715</CnlNum>
+    <Active>true</Active>
+    <Name>System - Manufacturing Date Error</Name>
+    <DataTypeID xsi:nil="true" />
+    <DataLen xsi:nil="true" />
+    <CnlTypeID>1</CnlTypeID>
+    <ObjNum>2</ObjNum>
+    <DeviceNum>16</DeviceNum>
+    <TagNum xsi:nil="true" />
+    <TagCode>Manufacturing Date_error</TagCode>
+    <FormulaEnabled>false</FormulaEnabled>
+    <FormatID xsi:nil="true" />
+    <QuantityID xsi:nil="true" />
+    <UnitID xsi:nil="true" />
+    <LimID xsi:nil="true" />
+    <ArchiveMask xsi:nil="true" />
+    <EventMask xsi:nil="true" />
+  </Cnl>
+  <Cnl>
+    <CnlNum>716</CnlNum>
+    <Active>true</Active>
+    <Name>System - Manufacturing Date</Name>
+    <DataTypeID xsi:nil="true" />
+    <DataLen xsi:nil="true" />
+    <CnlTypeID>3</CnlTypeID>
+    <ObjNum>2</ObjNum>
+    <DeviceNum>16</DeviceNum>
+    <TagNum xsi:nil="true" />
+    <TagCode>Manufacturing Date</TagCode>
+    <FormulaEnabled>true</FormulaEnabled>
+    <InFormula>WB_CalcControl()</InFormula>
+    <FormatID xsi:nil="true" />
+    <QuantityID xsi:nil="true" />
+    <UnitID xsi:nil="true" />
+    <LimID xsi:nil="true" />
+    <ArchiveMask xsi:nil="true" />
+    <EventMask>81</EventMask>
+  </Cnl>
+  <Cnl>
+    <CnlNum>717</CnlNum>
+    <Active>true</Active>
+    <Name>System - Reboot Last</Name>
+    <DataTypeID xsi:nil="true" />
+    <DataLen xsi:nil="true" />
+    <CnlTypeID>1</CnlTypeID>
+    <ObjNum>2</ObjNum>
+    <DeviceNum>16</DeviceNum>
+    <TagNum xsi:nil="true" />
+    <TagCode>Reboot</TagCode>
+    <FormulaEnabled>false</FormulaEnabled>
+    <FormatID>25</FormatID>
+    <QuantityID xsi:nil="true" />
+    <UnitID xsi:nil="true" />
+    <LimID xsi:nil="true" />
+    <ArchiveMask xsi:nil="true" />
+    <EventMask xsi:nil="true" />
+  </Cnl>
+  <Cnl>
+    <CnlNum>718</CnlNum>
+    <Active>true</Active>
+    <Name>System - Reboot Error</Name>
+    <DataTypeID xsi:nil="true" />
+    <DataLen xsi:nil="true" />
+    <CnlTypeID>1</CnlTypeID>
+    <ObjNum>2</ObjNum>
+    <DeviceNum>16</DeviceNum>
+    <TagNum xsi:nil="true" />
+    <TagCode>Reboot_error</TagCode>
+    <FormulaEnabled>false</FormulaEnabled>
+    <FormatID xsi:nil="true" />
+    <QuantityID xsi:nil="true" />
+    <UnitID xsi:nil="true" />
+    <LimID xsi:nil="true" />
+    <ArchiveMask xsi:nil="true" />
+    <EventMask xsi:nil="true" />
+  </Cnl>
+  <Cnl>
+    <CnlNum>719</CnlNum>
+    <Active>true</Active>
+    <Name>System - Reboot</Name>
+    <DataTypeID xsi:nil="true" />
+    <DataLen xsi:nil="true" />
+    <CnlTypeID>4</CnlTypeID>
+    <ObjNum>2</ObjNum>
+    <DeviceNum>16</DeviceNum>
+    <TagNum xsi:nil="true" />
+    <TagCode>Reboot</TagCode>
+    <FormulaEnabled>true</FormulaEnabled>
+    <InFormula>WB_CalcControl()</InFormula>
+    <FormatID>25</FormatID>
+    <QuantityID xsi:nil="true" />
+    <UnitID xsi:nil="true" />
+    <LimID xsi:nil="true" />
+    <ArchiveMask xsi:nil="true" />
+    <EventMask>81</EventMask>
+  </Cnl>
+  <Cnl>
+    <CnlNum>720</CnlNum>
+    <Active>true</Active>
+    <Name>System - Release name Last</Name>
+    <DataTypeID xsi:nil="true" />
+    <DataLen xsi:nil="true" />
+    <CnlTypeID>1</CnlTypeID>
+    <ObjNum>2</ObjNum>
+    <DeviceNum>16</DeviceNum>
+    <TagNum xsi:nil="true" />
+    <TagCode>Release name</TagCode>
+    <FormulaEnabled>false</FormulaEnabled>
+    <FormatID xsi:nil="true" />
+    <QuantityID xsi:nil="true" />
+    <UnitID xsi:nil="true" />
+    <LimID xsi:nil="true" />
+    <ArchiveMask xsi:nil="true" />
+    <EventMask xsi:nil="true" />
+  </Cnl>
+  <Cnl>
+    <CnlNum>721</CnlNum>
+    <Active>true</Active>
+    <Name>System - Release name Error</Name>
+    <DataTypeID xsi:nil="true" />
+    <DataLen xsi:nil="true" />
+    <CnlTypeID>1</CnlTypeID>
+    <ObjNum>2</ObjNum>
+    <DeviceNum>16</DeviceNum>
+    <TagNum xsi:nil="true" />
+    <TagCode>Release name_error</TagCode>
+    <FormulaEnabled>false</FormulaEnabled>
+    <FormatID xsi:nil="true" />
+    <QuantityID xsi:nil="true" />
+    <UnitID xsi:nil="true" />
+    <LimID xsi:nil="true" />
+    <ArchiveMask xsi:nil="true" />
+    <EventMask xsi:nil="true" />
+  </Cnl>
+  <Cnl>
+    <CnlNum>722</CnlNum>
+    <Active>true</Active>
+    <Name>System - Release name</Name>
+    <DataTypeID xsi:nil="true" />
+    <DataLen xsi:nil="true" />
+    <CnlTypeID>3</CnlTypeID>
+    <ObjNum>2</ObjNum>
+    <DeviceNum>16</DeviceNum>
+    <TagNum xsi:nil="true" />
+    <TagCode>Release name</TagCode>
+    <FormulaEnabled>true</FormulaEnabled>
+    <InFormula>WB_CalcControl()</InFormula>
+    <FormatID xsi:nil="true" />
+    <QuantityID xsi:nil="true" />
+    <UnitID xsi:nil="true" />
+    <LimID xsi:nil="true" />
+    <ArchiveMask xsi:nil="true" />
+    <EventMask>81</EventMask>
+  </Cnl>
+  <Cnl>
+    <CnlNum>723</CnlNum>
+    <Active>true</Active>
+    <Name>System - Release suite Last</Name>
+    <DataTypeID xsi:nil="true" />
+    <DataLen xsi:nil="true" />
+    <CnlTypeID>1</CnlTypeID>
+    <ObjNum>2</ObjNum>
+    <DeviceNum>16</DeviceNum>
+    <TagNum xsi:nil="true" />
+    <TagCode>Release suite</TagCode>
+    <FormulaEnabled>false</FormulaEnabled>
+    <FormatID xsi:nil="true" />
+    <QuantityID xsi:nil="true" />
+    <UnitID xsi:nil="true" />
+    <LimID xsi:nil="true" />
+    <ArchiveMask xsi:nil="true" />
+    <EventMask xsi:nil="true" />
+  </Cnl>
+  <Cnl>
+    <CnlNum>724</CnlNum>
+    <Active>true</Active>
+    <Name>System - Release suite Error</Name>
+    <DataTypeID xsi:nil="true" />
+    <DataLen xsi:nil="true" />
+    <CnlTypeID>1</CnlTypeID>
+    <ObjNum>2</ObjNum>
+    <DeviceNum>16</DeviceNum>
+    <TagNum xsi:nil="true" />
+    <TagCode>Release suite_error</TagCode>
+    <FormulaEnabled>false</FormulaEnabled>
+    <FormatID xsi:nil="true" />
+    <QuantityID xsi:nil="true" />
+    <UnitID xsi:nil="true" />
+    <LimID xsi:nil="true" />
+    <ArchiveMask xsi:nil="true" />
+    <EventMask xsi:nil="true" />
+  </Cnl>
+  <Cnl>
+    <CnlNum>725</CnlNum>
+    <Active>true</Active>
+    <Name>System - Release suite</Name>
+    <DataTypeID xsi:nil="true" />
+    <DataLen xsi:nil="true" />
+    <CnlTypeID>3</CnlTypeID>
+    <ObjNum>2</ObjNum>
+    <DeviceNum>16</DeviceNum>
+    <TagNum xsi:nil="true" />
+    <TagCode>Release suite</TagCode>
+    <FormulaEnabled>true</FormulaEnabled>
+    <InFormula>WB_CalcControl()</InFormula>
+    <FormatID xsi:nil="true" />
+    <QuantityID xsi:nil="true" />
+    <UnitID xsi:nil="true" />
+    <LimID xsi:nil="true" />
+    <ArchiveMask xsi:nil="true" />
+    <EventMask>81</EventMask>
+  </Cnl>
+  <Cnl>
+    <CnlNum>726</CnlNum>
+    <Active>true</Active>
+    <Name>System - Short SN Last</Name>
+    <DataTypeID xsi:nil="true" />
+    <DataLen xsi:nil="true" />
+    <CnlTypeID>1</CnlTypeID>
+    <ObjNum>2</ObjNum>
+    <DeviceNum>16</DeviceNum>
+    <TagNum xsi:nil="true" />
+    <TagCode>Short SN</TagCode>
+    <FormulaEnabled>false</FormulaEnabled>
+    <FormatID xsi:nil="true" />
+    <QuantityID xsi:nil="true" />
+    <UnitID xsi:nil="true" />
+    <LimID xsi:nil="true" />
+    <ArchiveMask xsi:nil="true" />
+    <EventMask xsi:nil="true" />
+  </Cnl>
+  <Cnl>
+    <CnlNum>727</CnlNum>
+    <Active>true</Active>
+    <Name>System - Short SN Error</Name>
+    <DataTypeID xsi:nil="true" />
+    <DataLen xsi:nil="true" />
+    <CnlTypeID>1</CnlTypeID>
+    <ObjNum>2</ObjNum>
+    <DeviceNum>16</DeviceNum>
+    <TagNum xsi:nil="true" />
+    <TagCode>Short SN_error</TagCode>
+    <FormulaEnabled>false</FormulaEnabled>
+    <FormatID xsi:nil="true" />
+    <QuantityID xsi:nil="true" />
+    <UnitID xsi:nil="true" />
+    <LimID xsi:nil="true" />
+    <ArchiveMask xsi:nil="true" />
+    <EventMask xsi:nil="true" />
+  </Cnl>
+  <Cnl>
+    <CnlNum>728</CnlNum>
+    <Active>true</Active>
+    <Name>System - Short SN</Name>
+    <DataTypeID xsi:nil="true" />
+    <DataLen xsi:nil="true" />
+    <CnlTypeID>3</CnlTypeID>
+    <ObjNum>2</ObjNum>
+    <DeviceNum>16</DeviceNum>
+    <TagNum xsi:nil="true" />
+    <TagCode>Short SN</TagCode>
+    <FormulaEnabled>true</FormulaEnabled>
+    <InFormula>WB_CalcControl()</InFormula>
+    <FormatID xsi:nil="true" />
+    <QuantityID xsi:nil="true" />
+    <UnitID xsi:nil="true" />
+    <LimID xsi:nil="true" />
+    <ArchiveMask xsi:nil="true" />
+    <EventMask>81</EventMask>
+  </Cnl>
+  <Cnl>
+    <CnlNum>729</CnlNum>
+    <Active>true</Active>
+    <Name>System - Temperature Grade Last</Name>
+    <DataTypeID xsi:nil="true" />
+    <DataLen xsi:nil="true" />
+    <CnlTypeID>1</CnlTypeID>
+    <ObjNum>2</ObjNum>
+    <DeviceNum>16</DeviceNum>
+    <TagNum xsi:nil="true" />
+    <TagCode>Temperature Grade</TagCode>
+    <FormulaEnabled>false</FormulaEnabled>
+    <FormatID xsi:nil="true" />
+    <QuantityID xsi:nil="true" />
+    <UnitID xsi:nil="true" />
+    <LimID xsi:nil="true" />
+    <ArchiveMask xsi:nil="true" />
+    <EventMask xsi:nil="true" />
+  </Cnl>
+  <Cnl>
+    <CnlNum>730</CnlNum>
+    <Active>true</Active>
+    <Name>System - Temperature Grade Error</Name>
+    <DataTypeID xsi:nil="true" />
+    <DataLen xsi:nil="true" />
+    <CnlTypeID>1</CnlTypeID>
+    <ObjNum>2</ObjNum>
+    <DeviceNum>16</DeviceNum>
+    <TagNum xsi:nil="true" />
+    <TagCode>Temperature Grade_error</TagCode>
+    <FormulaEnabled>false</FormulaEnabled>
+    <FormatID xsi:nil="true" />
+    <QuantityID xsi:nil="true" />
+    <UnitID xsi:nil="true" />
+    <LimID xsi:nil="true" />
+    <ArchiveMask xsi:nil="true" />
+    <EventMask xsi:nil="true" />
+  </Cnl>
+  <Cnl>
+    <CnlNum>731</CnlNum>
+    <Active>true</Active>
+    <Name>System - Temperature Grade</Name>
+    <DataTypeID xsi:nil="true" />
+    <DataLen xsi:nil="true" />
+    <CnlTypeID>3</CnlTypeID>
+    <ObjNum>2</ObjNum>
+    <DeviceNum>16</DeviceNum>
+    <TagNum xsi:nil="true" />
+    <TagCode>Temperature Grade</TagCode>
+    <FormulaEnabled>true</FormulaEnabled>
+    <InFormula>WB_CalcControl()</InFormula>
+    <FormatID xsi:nil="true" />
+    <QuantityID xsi:nil="true" />
+    <UnitID xsi:nil="true" />
+    <LimID xsi:nil="true" />
+    <ArchiveMask xsi:nil="true" />
+    <EventMask>81</EventMask>
+  </Cnl>
+  <Cnl>
+    <CnlNum>801</CnlNum>
+    <Active>true</Active>
+    <Name>Alarms Error</Name>
+    <DataTypeID xsi:nil="true" />
+    <DataLen xsi:nil="true" />
+    <CnlTypeID>1</CnlTypeID>
+    <ObjNum>2</ObjNum>
+    <DeviceNum>17</DeviceNum>
+    <TagNum xsi:nil="true" />
+    <TagCode>alarms_error</TagCode>
+    <FormulaEnabled>false</FormulaEnabled>
+    <FormatID xsi:nil="true" />
+    <QuantityID xsi:nil="true" />
+    <UnitID xsi:nil="true" />
+    <LimID xsi:nil="true" />
+    <ArchiveMask xsi:nil="true" />
+    <EventMask xsi:nil="true" />
+  </Cnl>
+  <Cnl>
+    <CnlNum>802</CnlNum>
+    <Active>true</Active>
+    <Name>Alarms - log Last</Name>
+    <DataTypeID xsi:nil="true" />
+    <DataLen xsi:nil="true" />
+    <CnlTypeID>1</CnlTypeID>
+    <ObjNum>2</ObjNum>
+    <DeviceNum>17</DeviceNum>
+    <TagNum xsi:nil="true" />
+    <TagCode>log</TagCode>
+    <FormulaEnabled>false</FormulaEnabled>
+    <FormatID xsi:nil="true" />
+    <QuantityID xsi:nil="true" />
+    <UnitID xsi:nil="true" />
+    <LimID xsi:nil="true" />
+    <ArchiveMask xsi:nil="true" />
+    <EventMask xsi:nil="true" />
+  </Cnl>
+  <Cnl>
+    <CnlNum>803</CnlNum>
+    <Active>true</Active>
+    <Name>Alarms - log Error</Name>
+    <DataTypeID xsi:nil="true" />
+    <DataLen xsi:nil="true" />
+    <CnlTypeID>1</CnlTypeID>
+    <ObjNum>2</ObjNum>
+    <DeviceNum>17</DeviceNum>
+    <TagNum xsi:nil="true" />
+    <TagCode>log_error</TagCode>
+    <FormulaEnabled>false</FormulaEnabled>
+    <FormatID xsi:nil="true" />
+    <QuantityID xsi:nil="true" />
+    <UnitID xsi:nil="true" />
+    <LimID xsi:nil="true" />
+    <ArchiveMask xsi:nil="true" />
+    <EventMask xsi:nil="true" />
+  </Cnl>
+  <Cnl>
+    <CnlNum>804</CnlNum>
+    <Active>true</Active>
+    <Name>Alarms - log</Name>
+    <DataTypeID xsi:nil="true" />
+    <DataLen xsi:nil="true" />
+    <CnlTypeID>3</CnlTypeID>
+    <ObjNum>2</ObjNum>
+    <DeviceNum>17</DeviceNum>
+    <TagNum xsi:nil="true" />
+    <TagCode>log</TagCode>
+    <FormulaEnabled>true</FormulaEnabled>
+    <InFormula>WB_CalcControl()</InFormula>
+    <FormatID xsi:nil="true" />
+    <QuantityID xsi:nil="true" />
+    <UnitID xsi:nil="true" />
+    <LimID xsi:nil="true" />
+    <ArchiveMask xsi:nil="true" />
+    <EventMask>81</EventMask>
+  </Cnl>
+  <Cnl>
+    <CnlNum>901</CnlNum>
+    <Active>true</Active>
+    <Name>knx Error</Name>
+    <DataTypeID xsi:nil="true" />
+    <DataLen xsi:nil="true" />
+    <CnlTypeID>1</CnlTypeID>
+    <ObjNum>2</ObjNum>
+    <DeviceNum>18</DeviceNum>
+    <TagNum xsi:nil="true" />
+    <TagCode>knx_error</TagCode>
+    <FormulaEnabled>false</FormulaEnabled>
+    <FormatID xsi:nil="true" />
+    <QuantityID xsi:nil="true" />
+    <UnitID xsi:nil="true" />
+    <LimID xsi:nil="true" />
+    <ArchiveMask xsi:nil="true" />
+    <EventMask xsi:nil="true" />
+  </Cnl>
+  <Cnl>
+    <CnlNum>902</CnlNum>
+    <Active>true</Active>
+    <Name>knx - data Last</Name>
+    <DataTypeID xsi:nil="true" />
+    <DataLen xsi:nil="true" />
+    <CnlTypeID>1</CnlTypeID>
+    <ObjNum>2</ObjNum>
+    <DeviceNum>18</DeviceNum>
+    <TagNum xsi:nil="true" />
+    <TagCode>data</TagCode>
+    <FormulaEnabled>false</FormulaEnabled>
+    <FormatID xsi:nil="true" />
+    <QuantityID xsi:nil="true" />
+    <UnitID xsi:nil="true" />
+    <LimID xsi:nil="true" />
+    <ArchiveMask xsi:nil="true" />
+    <EventMask xsi:nil="true" />
+  </Cnl>
+  <Cnl>
+    <CnlNum>903</CnlNum>
+    <Active>true</Active>
+    <Name>knx - data Error</Name>
+    <DataTypeID xsi:nil="true" />
+    <DataLen xsi:nil="true" />
+    <CnlTypeID>1</CnlTypeID>
+    <ObjNum>2</ObjNum>
+    <DeviceNum>18</DeviceNum>
+    <TagNum xsi:nil="true" />
+    <TagCode>data_error</TagCode>
+    <FormulaEnabled>false</FormulaEnabled>
+    <FormatID xsi:nil="true" />
+    <QuantityID xsi:nil="true" />
+    <UnitID xsi:nil="true" />
+    <LimID xsi:nil="true" />
+    <ArchiveMask xsi:nil="true" />
+    <EventMask xsi:nil="true" />
+  </Cnl>
+  <Cnl>
+    <CnlNum>904</CnlNum>
+    <Active>true</Active>
+    <Name>knx - data</Name>
+    <DataTypeID xsi:nil="true" />
+    <DataLen xsi:nil="true" />
+    <CnlTypeID>4</CnlTypeID>
+    <ObjNum>2</ObjNum>
+    <DeviceNum>18</DeviceNum>
+    <TagNum xsi:nil="true" />
+    <TagCode>data</TagCode>
+    <FormulaEnabled>true</FormulaEnabled>
+    <InFormula>WB_CalcControl()</InFormula>
+    <FormatID xsi:nil="true" />
+    <QuantityID xsi:nil="true" />
+    <UnitID xsi:nil="true" />
+    <LimID xsi:nil="true" />
+    <ArchiveMask xsi:nil="true" />
+    <EventMask>81</EventMask>
+  </Cnl>
+  <Cnl>
+    <CnlNum>1001</CnlNum>
+    <Active>true</Active>
+    <Name>ADCs Error</Name>
+    <DataTypeID xsi:nil="true" />
+    <DataLen xsi:nil="true" />
+    <CnlTypeID>1</CnlTypeID>
+    <ObjNum>2</ObjNum>
+    <DeviceNum>19</DeviceNum>
+    <TagNum xsi:nil="true" />
+    <TagCode>wb-adc_error</TagCode>
+    <FormulaEnabled>false</FormulaEnabled>
+    <FormatID xsi:nil="true" />
+    <QuantityID xsi:nil="true" />
+    <UnitID xsi:nil="true" />
+    <LimID xsi:nil="true" />
+    <ArchiveMask xsi:nil="true" />
+    <EventMask xsi:nil="true" />
+  </Cnl>
+  <Cnl>
+    <CnlNum>1002</CnlNum>
+    <Active>true</Active>
+    <Name>ADCs - A1 Last</Name>
+    <DataTypeID xsi:nil="true" />
+    <DataLen xsi:nil="true" />
+    <CnlTypeID>1</CnlTypeID>
+    <ObjNum>2</ObjNum>
+    <DeviceNum>19</DeviceNum>
+    <TagNum xsi:nil="true" />
+    <TagCode>A1</TagCode>
+    <FormulaEnabled>false</FormulaEnabled>
+    <FormatID xsi:nil="true" />
+    <QuantityID>21</QuantityID>
+    <UnitID>41</UnitID>
+    <LimID xsi:nil="true" />
+    <ArchiveMask xsi:nil="true" />
+    <EventMask xsi:nil="true" />
+  </Cnl>
+  <Cnl>
+    <CnlNum>1003</CnlNum>
+    <Active>true</Active>
+    <Name>ADCs - A1 Error</Name>
+    <DataTypeID xsi:nil="true" />
+    <DataLen xsi:nil="true" />
+    <CnlTypeID>1</CnlTypeID>
+    <ObjNum>2</ObjNum>
+    <DeviceNum>19</DeviceNum>
+    <TagNum xsi:nil="true" />
+    <TagCode>A1_error</TagCode>
+    <FormulaEnabled>false</FormulaEnabled>
+    <FormatID xsi:nil="true" />
+    <QuantityID xsi:nil="true" />
+    <UnitID xsi:nil="true" />
+    <LimID xsi:nil="true" />
+    <ArchiveMask xsi:nil="true" />
+    <EventMask xsi:nil="true" />
+  </Cnl>
+  <Cnl>
+    <CnlNum>1004</CnlNum>
+    <Active>true</Active>
+    <Name>ADCs - A1</Name>
+    <DataTypeID xsi:nil="true" />
+    <DataLen xsi:nil="true" />
+    <CnlTypeID>3</CnlTypeID>
+    <ObjNum>2</ObjNum>
+    <DeviceNum>19</DeviceNum>
+    <TagNum xsi:nil="true" />
+    <TagCode>A1</TagCode>
+    <FormulaEnabled>true</FormulaEnabled>
+    <InFormula>WB_CalcControl()</InFormula>
+    <FormatID>3</FormatID>
+    <QuantityID>21</QuantityID>
+    <UnitID>41</UnitID>
+    <LimID xsi:nil="true" />
+    <ArchiveMask xsi:nil="true" />
+    <EventMask>81</EventMask>
+  </Cnl>
+  <Cnl>
+    <CnlNum>1005</CnlNum>
+    <Active>true</Active>
+    <Name>ADCs - A2 Last</Name>
+    <DataTypeID xsi:nil="true" />
+    <DataLen xsi:nil="true" />
+    <CnlTypeID>1</CnlTypeID>
+    <ObjNum>2</ObjNum>
+    <DeviceNum>19</DeviceNum>
+    <TagNum xsi:nil="true" />
+    <TagCode>A2</TagCode>
+    <FormulaEnabled>false</FormulaEnabled>
+    <FormatID xsi:nil="true" />
+    <QuantityID>21</QuantityID>
+    <UnitID>41</UnitID>
+    <LimID xsi:nil="true" />
+    <ArchiveMask xsi:nil="true" />
+    <EventMask xsi:nil="true" />
+  </Cnl>
+  <Cnl>
+    <CnlNum>1006</CnlNum>
+    <Active>true</Active>
+    <Name>ADCs - A2 Error</Name>
+    <DataTypeID xsi:nil="true" />
+    <DataLen xsi:nil="true" />
+    <CnlTypeID>1</CnlTypeID>
+    <ObjNum>2</ObjNum>
+    <DeviceNum>19</DeviceNum>
+    <TagNum xsi:nil="true" />
+    <TagCode>A2_error</TagCode>
+    <FormulaEnabled>false</FormulaEnabled>
+    <FormatID xsi:nil="true" />
+    <QuantityID xsi:nil="true" />
+    <UnitID xsi:nil="true" />
+    <LimID xsi:nil="true" />
+    <ArchiveMask xsi:nil="true" />
+    <EventMask xsi:nil="true" />
+  </Cnl>
+  <Cnl>
+    <CnlNum>1007</CnlNum>
+    <Active>true</Active>
+    <Name>ADCs - A2</Name>
+    <DataTypeID xsi:nil="true" />
+    <DataLen xsi:nil="true" />
+    <CnlTypeID>3</CnlTypeID>
+    <ObjNum>2</ObjNum>
+    <DeviceNum>19</DeviceNum>
+    <TagNum xsi:nil="true" />
+    <TagCode>A2</TagCode>
+    <FormulaEnabled>true</FormulaEnabled>
+    <InFormula>WB_CalcControl()</InFormula>
+    <FormatID>3</FormatID>
+    <QuantityID>21</QuantityID>
+    <UnitID>41</UnitID>
+    <LimID xsi:nil="true" />
+    <ArchiveMask xsi:nil="true" />
+    <EventMask>81</EventMask>
+  </Cnl>
+  <Cnl>
+    <CnlNum>1008</CnlNum>
+    <Active>true</Active>
+    <Name>ADCs - A3 Last</Name>
+    <DataTypeID xsi:nil="true" />
+    <DataLen xsi:nil="true" />
+    <CnlTypeID>1</CnlTypeID>
+    <ObjNum>2</ObjNum>
+    <DeviceNum>19</DeviceNum>
+    <TagNum xsi:nil="true" />
+    <TagCode>A3</TagCode>
+    <FormulaEnabled>false</FormulaEnabled>
+    <FormatID xsi:nil="true" />
+    <QuantityID>21</QuantityID>
+    <UnitID>41</UnitID>
+    <LimID xsi:nil="true" />
+    <ArchiveMask xsi:nil="true" />
+    <EventMask xsi:nil="true" />
+  </Cnl>
+  <Cnl>
+    <CnlNum>1009</CnlNum>
+    <Active>true</Active>
+    <Name>ADCs - A3 Error</Name>
+    <DataTypeID xsi:nil="true" />
+    <DataLen xsi:nil="true" />
+    <CnlTypeID>1</CnlTypeID>
+    <ObjNum>2</ObjNum>
+    <DeviceNum>19</DeviceNum>
+    <TagNum xsi:nil="true" />
+    <TagCode>A3_error</TagCode>
+    <FormulaEnabled>false</FormulaEnabled>
+    <FormatID xsi:nil="true" />
+    <QuantityID xsi:nil="true" />
+    <UnitID xsi:nil="true" />
+    <LimID xsi:nil="true" />
+    <ArchiveMask xsi:nil="true" />
+    <EventMask xsi:nil="true" />
+  </Cnl>
+  <Cnl>
+    <CnlNum>1010</CnlNum>
+    <Active>true</Active>
+    <Name>ADCs - A3</Name>
+    <DataTypeID xsi:nil="true" />
+    <DataLen xsi:nil="true" />
+    <CnlTypeID>3</CnlTypeID>
+    <ObjNum>2</ObjNum>
+    <DeviceNum>19</DeviceNum>
+    <TagNum xsi:nil="true" />
+    <TagCode>A3</TagCode>
+    <FormulaEnabled>true</FormulaEnabled>
+    <InFormula>WB_CalcControl()</InFormula>
+    <FormatID>3</FormatID>
+    <QuantityID>21</QuantityID>
+    <UnitID>41</UnitID>
+    <LimID xsi:nil="true" />
+    <ArchiveMask xsi:nil="true" />
+    <EventMask>81</EventMask>
+  </Cnl>
+  <Cnl>
+    <CnlNum>1011</CnlNum>
+    <Active>true</Active>
+    <Name>ADCs - Vin Last</Name>
+    <DataTypeID xsi:nil="true" />
+    <DataLen xsi:nil="true" />
+    <CnlTypeID>1</CnlTypeID>
+    <ObjNum>2</ObjNum>
+    <DeviceNum>19</DeviceNum>
+    <TagNum xsi:nil="true" />
+    <TagCode>Vin</TagCode>
+    <FormulaEnabled>false</FormulaEnabled>
+    <FormatID xsi:nil="true" />
+    <QuantityID>21</QuantityID>
+    <UnitID>41</UnitID>
+    <LimID xsi:nil="true" />
+    <ArchiveMask xsi:nil="true" />
+    <EventMask xsi:nil="true" />
+  </Cnl>
+  <Cnl>
+    <CnlNum>1012</CnlNum>
+    <Active>true</Active>
+    <Name>ADCs - Vin Error</Name>
+    <DataTypeID xsi:nil="true" />
+    <DataLen xsi:nil="true" />
+    <CnlTypeID>1</CnlTypeID>
+    <ObjNum>2</ObjNum>
+    <DeviceNum>19</DeviceNum>
+    <TagNum xsi:nil="true" />
+    <TagCode>Vin_error</TagCode>
+    <FormulaEnabled>false</FormulaEnabled>
+    <FormatID xsi:nil="true" />
+    <QuantityID xsi:nil="true" />
+    <UnitID xsi:nil="true" />
+    <LimID xsi:nil="true" />
+    <ArchiveMask xsi:nil="true" />
+    <EventMask xsi:nil="true" />
+  </Cnl>
+  <Cnl>
+    <CnlNum>1013</CnlNum>
+    <Active>true</Active>
+    <Name>ADCs - Vin</Name>
+    <DataTypeID xsi:nil="true" />
+    <DataLen xsi:nil="true" />
+    <CnlTypeID>3</CnlTypeID>
+    <ObjNum>2</ObjNum>
+    <DeviceNum>19</DeviceNum>
+    <TagNum xsi:nil="true" />
+    <TagCode>Vin</TagCode>
+    <FormulaEnabled>true</FormulaEnabled>
+    <InFormula>WB_CalcControl()</InFormula>
+    <FormatID>3</FormatID>
+    <QuantityID>21</QuantityID>
+    <UnitID>41</UnitID>
+    <LimID xsi:nil="true" />
+    <ArchiveMask xsi:nil="true" />
+    <EventMask>81</EventMask>
+  </Cnl>
+  <Cnl>
+    <CnlNum>1101</CnlNum>
+    <Active>true</Active>
+    <Name>Relays &amp; FETs Error</Name>
+    <DataTypeID xsi:nil="true" />
+    <DataLen xsi:nil="true" />
+    <CnlTypeID>1</CnlTypeID>
+    <ObjNum>2</ObjNum>
+    <DeviceNum>20</DeviceNum>
+    <TagNum xsi:nil="true" />
+    <TagCode>wb-gpio_error</TagCode>
+    <FormulaEnabled>false</FormulaEnabled>
+    <FormatID xsi:nil="true" />
+    <QuantityID xsi:nil="true" />
+    <UnitID xsi:nil="true" />
+    <LimID xsi:nil="true" />
+    <ArchiveMask xsi:nil="true" />
+    <EventMask xsi:nil="true" />
+  </Cnl>
+  <Cnl>
+    <CnlNum>1102</CnlNum>
+    <Active>true</Active>
+    <Name>Relays &amp; FETs - A1_OUT Last</Name>
+    <DataTypeID xsi:nil="true" />
+    <DataLen xsi:nil="true" />
+    <CnlTypeID>1</CnlTypeID>
+    <ObjNum>2</ObjNum>
+    <DeviceNum>20</DeviceNum>
+    <TagNum xsi:nil="true" />
+    <TagCode>A1_OUT</TagCode>
+    <FormulaEnabled>false</FormulaEnabled>
+    <FormatID>21</FormatID>
+    <QuantityID xsi:nil="true" />
+    <UnitID xsi:nil="true" />
+    <LimID xsi:nil="true" />
+    <ArchiveMask xsi:nil="true" />
+    <EventMask xsi:nil="true" />
+  </Cnl>
+  <Cnl>
+    <CnlNum>1103</CnlNum>
+    <Active>true</Active>
+    <Name>Relays &amp; FETs - A1_OUT Error</Name>
+    <DataTypeID xsi:nil="true" />
+    <DataLen xsi:nil="true" />
+    <CnlTypeID>1</CnlTypeID>
+    <ObjNum>2</ObjNum>
+    <DeviceNum>20</DeviceNum>
+    <TagNum xsi:nil="true" />
+    <TagCode>A1_OUT_error</TagCode>
+    <FormulaEnabled>false</FormulaEnabled>
+    <FormatID xsi:nil="true" />
+    <QuantityID xsi:nil="true" />
+    <UnitID xsi:nil="true" />
+    <LimID xsi:nil="true" />
+    <ArchiveMask xsi:nil="true" />
+    <EventMask xsi:nil="true" />
+  </Cnl>
+  <Cnl>
+    <CnlNum>1104</CnlNum>
+    <Active>true</Active>
+    <Name>Relays &amp; FETs - A1_OUT</Name>
+    <DataTypeID xsi:nil="true" />
+    <DataLen xsi:nil="true" />
+    <CnlTypeID>4</CnlTypeID>
+    <ObjNum>2</ObjNum>
+    <DeviceNum>20</DeviceNum>
+    <TagNum xsi:nil="true" />
+    <TagCode>A1_OUT</TagCode>
+    <FormulaEnabled>true</FormulaEnabled>
+    <InFormula>WB_CalcControl()</InFormula>
+    <FormatID>21</FormatID>
+    <QuantityID xsi:nil="true" />
+    <UnitID xsi:nil="true" />
+    <LimID xsi:nil="true" />
+    <ArchiveMask xsi:nil="true" />
+    <EventMask>81</EventMask>
+  </Cnl>
+  <Cnl>
+    <CnlNum>1105</CnlNum>
+    <Active>true</Active>
+    <Name>Relays &amp; FETs - A2_OUT Last</Name>
+    <DataTypeID xsi:nil="true" />
+    <DataLen xsi:nil="true" />
+    <CnlTypeID>1</CnlTypeID>
+    <ObjNum>2</ObjNum>
+    <DeviceNum>20</DeviceNum>
+    <TagNum xsi:nil="true" />
+    <TagCode>A2_OUT</TagCode>
+    <FormulaEnabled>false</FormulaEnabled>
+    <FormatID>21</FormatID>
+    <QuantityID xsi:nil="true" />
+    <UnitID xsi:nil="true" />
+    <LimID xsi:nil="true" />
+    <ArchiveMask xsi:nil="true" />
+    <EventMask xsi:nil="true" />
+  </Cnl>
+  <Cnl>
+    <CnlNum>1106</CnlNum>
+    <Active>true</Active>
+    <Name>Relays &amp; FETs - A2_OUT Error</Name>
+    <DataTypeID xsi:nil="true" />
+    <DataLen xsi:nil="true" />
+    <CnlTypeID>1</CnlTypeID>
+    <ObjNum>2</ObjNum>
+    <DeviceNum>20</DeviceNum>
+    <TagNum xsi:nil="true" />
+    <TagCode>A2_OUT_error</TagCode>
+    <FormulaEnabled>false</FormulaEnabled>
+    <FormatID xsi:nil="true" />
+    <QuantityID xsi:nil="true" />
+    <UnitID xsi:nil="true" />
+    <LimID xsi:nil="true" />
+    <ArchiveMask xsi:nil="true" />
+    <EventMask xsi:nil="true" />
+  </Cnl>
+  <Cnl>
+    <CnlNum>1107</CnlNum>
+    <Active>true</Active>
+    <Name>Relays &amp; FETs - A2_OUT</Name>
+    <DataTypeID xsi:nil="true" />
+    <DataLen xsi:nil="true" />
+    <CnlTypeID>4</CnlTypeID>
+    <ObjNum>2</ObjNum>
+    <DeviceNum>20</DeviceNum>
+    <TagNum xsi:nil="true" />
+    <TagCode>A2_OUT</TagCode>
+    <FormulaEnabled>true</FormulaEnabled>
+    <InFormula>WB_CalcControl()</InFormula>
+    <FormatID>21</FormatID>
+    <QuantityID xsi:nil="true" />
+    <UnitID xsi:nil="true" />
+    <LimID xsi:nil="true" />
+    <ArchiveMask xsi:nil="true" />
+    <EventMask>81</EventMask>
+  </Cnl>
+  <Cnl>
+    <CnlNum>1108</CnlNum>
+    <Active>true</Active>
+    <Name>Relays &amp; FETs - A3_OUT Last</Name>
+    <DataTypeID xsi:nil="true" />
+    <DataLen xsi:nil="true" />
+    <CnlTypeID>1</CnlTypeID>
+    <ObjNum>2</ObjNum>
+    <DeviceNum>20</DeviceNum>
+    <TagNum xsi:nil="true" />
+    <TagCode>A3_OUT</TagCode>
+    <FormulaEnabled>false</FormulaEnabled>
+    <FormatID>21</FormatID>
+    <QuantityID xsi:nil="true" />
+    <UnitID xsi:nil="true" />
+    <LimID xsi:nil="true" />
+    <ArchiveMask xsi:nil="true" />
+    <EventMask xsi:nil="true" />
+  </Cnl>
+  <Cnl>
+    <CnlNum>1109</CnlNum>
+    <Active>true</Active>
+    <Name>Relays &amp; FETs - A3_OUT Error</Name>
+    <DataTypeID xsi:nil="true" />
+    <DataLen xsi:nil="true" />
+    <CnlTypeID>1</CnlTypeID>
+    <ObjNum>2</ObjNum>
+    <DeviceNum>20</DeviceNum>
+    <TagNum xsi:nil="true" />
+    <TagCode>A3_OUT_error</TagCode>
+    <FormulaEnabled>false</FormulaEnabled>
+    <FormatID xsi:nil="true" />
+    <QuantityID xsi:nil="true" />
+    <UnitID xsi:nil="true" />
+    <LimID xsi:nil="true" />
+    <ArchiveMask xsi:nil="true" />
+    <EventMask xsi:nil="true" />
+  </Cnl>
+  <Cnl>
+    <CnlNum>1110</CnlNum>
+    <Active>true</Active>
+    <Name>Relays &amp; FETs - A3_OUT</Name>
+    <DataTypeID xsi:nil="true" />
+    <DataLen xsi:nil="true" />
+    <CnlTypeID>4</CnlTypeID>
+    <ObjNum>2</ObjNum>
+    <DeviceNum>20</DeviceNum>
+    <TagNum xsi:nil="true" />
+    <TagCode>A3_OUT</TagCode>
+    <FormulaEnabled>true</FormulaEnabled>
+    <InFormula>WB_CalcControl()</InFormula>
+    <FormatID>21</FormatID>
+    <QuantityID xsi:nil="true" />
+    <UnitID xsi:nil="true" />
+    <LimID xsi:nil="true" />
+    <ArchiveMask xsi:nil="true" />
+    <EventMask>81</EventMask>
+  </Cnl>
+  <Cnl>
+    <CnlNum>1111</CnlNum>
+    <Active>true</Active>
+    <Name>Relays &amp; FETs - D1_OUT Last</Name>
+    <DataTypeID xsi:nil="true" />
+    <DataLen xsi:nil="true" />
+    <CnlTypeID>1</CnlTypeID>
+    <ObjNum>2</ObjNum>
+    <DeviceNum>20</DeviceNum>
+    <TagNum xsi:nil="true" />
+    <TagCode>D1_OUT</TagCode>
+    <FormulaEnabled>false</FormulaEnabled>
+    <FormatID>21</FormatID>
+    <QuantityID xsi:nil="true" />
+    <UnitID xsi:nil="true" />
+    <LimID xsi:nil="true" />
+    <ArchiveMask xsi:nil="true" />
+    <EventMask xsi:nil="true" />
+  </Cnl>
+  <Cnl>
+    <CnlNum>1112</CnlNum>
+    <Active>true</Active>
+    <Name>Relays &amp; FETs - D1_OUT Error</Name>
+    <DataTypeID xsi:nil="true" />
+    <DataLen xsi:nil="true" />
+    <CnlTypeID>1</CnlTypeID>
+    <ObjNum>2</ObjNum>
+    <DeviceNum>20</DeviceNum>
+    <TagNum xsi:nil="true" />
+    <TagCode>D1_OUT_error</TagCode>
+    <FormulaEnabled>false</FormulaEnabled>
+    <FormatID xsi:nil="true" />
+    <QuantityID xsi:nil="true" />
+    <UnitID xsi:nil="true" />
+    <LimID xsi:nil="true" />
+    <ArchiveMask xsi:nil="true" />
+    <EventMask xsi:nil="true" />
+  </Cnl>
+  <Cnl>
+    <CnlNum>1113</CnlNum>
+    <Active>true</Active>
+    <Name>Relays &amp; FETs - D1_OUT</Name>
+    <DataTypeID xsi:nil="true" />
+    <DataLen xsi:nil="true" />
+    <CnlTypeID>4</CnlTypeID>
+    <ObjNum>2</ObjNum>
+    <DeviceNum>20</DeviceNum>
+    <TagNum xsi:nil="true" />
+    <TagCode>D1_OUT</TagCode>
+    <FormulaEnabled>true</FormulaEnabled>
+    <InFormula>WB_CalcControl()</InFormula>
+    <FormatID>21</FormatID>
+    <QuantityID xsi:nil="true" />
+    <UnitID xsi:nil="true" />
+    <LimID xsi:nil="true" />
+    <ArchiveMask xsi:nil="true" />
+    <EventMask>81</EventMask>
+  </Cnl>
+  <Cnl>
+    <CnlNum>1114</CnlNum>
+    <Active>true</Active>
+    <Name>Relays &amp; FETs - A1_IN Last</Name>
+    <DataTypeID xsi:nil="true" />
+    <DataLen xsi:nil="true" />
+    <CnlTypeID>1</CnlTypeID>
+    <ObjNum>2</ObjNum>
+    <DeviceNum>20</DeviceNum>
+    <TagNum xsi:nil="true" />
+    <TagCode>A1_IN</TagCode>
+    <FormulaEnabled>false</FormulaEnabled>
+    <FormatID>21</FormatID>
+    <QuantityID xsi:nil="true" />
+    <UnitID xsi:nil="true" />
+    <LimID xsi:nil="true" />
+    <ArchiveMask xsi:nil="true" />
+    <EventMask xsi:nil="true" />
+  </Cnl>
+  <Cnl>
+    <CnlNum>1115</CnlNum>
+    <Active>true</Active>
+    <Name>Relays &amp; FETs - A1_IN Error</Name>
+    <DataTypeID xsi:nil="true" />
+    <DataLen xsi:nil="true" />
+    <CnlTypeID>1</CnlTypeID>
+    <ObjNum>2</ObjNum>
+    <DeviceNum>20</DeviceNum>
+    <TagNum xsi:nil="true" />
+    <TagCode>A1_IN_error</TagCode>
+    <FormulaEnabled>false</FormulaEnabled>
+    <FormatID xsi:nil="true" />
+    <QuantityID xsi:nil="true" />
+    <UnitID xsi:nil="true" />
+    <LimID xsi:nil="true" />
+    <ArchiveMask xsi:nil="true" />
+    <EventMask xsi:nil="true" />
+  </Cnl>
+  <Cnl>
+    <CnlNum>1116</CnlNum>
+    <Active>true</Active>
+    <Name>Relays &amp; FETs - A1_IN</Name>
+    <DataTypeID xsi:nil="true" />
+    <DataLen xsi:nil="true" />
+    <CnlTypeID>3</CnlTypeID>
+    <ObjNum>2</ObjNum>
+    <DeviceNum>20</DeviceNum>
+    <TagNum xsi:nil="true" />
+    <TagCode>A1_IN</TagCode>
+    <FormulaEnabled>true</FormulaEnabled>
+    <InFormula>WB_CalcControl()</InFormula>
+    <FormatID>21</FormatID>
+    <QuantityID xsi:nil="true" />
+    <UnitID xsi:nil="true" />
+    <LimID xsi:nil="true" />
+    <ArchiveMask xsi:nil="true" />
+    <EventMask>81</EventMask>
+  </Cnl>
+  <Cnl>
+    <CnlNum>1117</CnlNum>
+    <Active>true</Active>
+    <Name>Relays &amp; FETs - A2_IN Last</Name>
+    <DataTypeID xsi:nil="true" />
+    <DataLen xsi:nil="true" />
+    <CnlTypeID>1</CnlTypeID>
+    <ObjNum>2</ObjNum>
+    <DeviceNum>20</DeviceNum>
+    <TagNum xsi:nil="true" />
+    <TagCode>A2_IN</TagCode>
+    <FormulaEnabled>false</FormulaEnabled>
+    <FormatID>21</FormatID>
+    <QuantityID xsi:nil="true" />
+    <UnitID xsi:nil="true" />
+    <LimID xsi:nil="true" />
+    <ArchiveMask xsi:nil="true" />
+    <EventMask xsi:nil="true" />
+  </Cnl>
+  <Cnl>
+    <CnlNum>1118</CnlNum>
+    <Active>true</Active>
+    <Name>Relays &amp; FETs - A2_IN Error</Name>
+    <DataTypeID xsi:nil="true" />
+    <DataLen xsi:nil="true" />
+    <CnlTypeID>1</CnlTypeID>
+    <ObjNum>2</ObjNum>
+    <DeviceNum>20</DeviceNum>
+    <TagNum xsi:nil="true" />
+    <TagCode>A2_IN_error</TagCode>
+    <FormulaEnabled>false</FormulaEnabled>
+    <FormatID xsi:nil="true" />
+    <QuantityID xsi:nil="true" />
+    <UnitID xsi:nil="true" />
+    <LimID xsi:nil="true" />
+    <ArchiveMask xsi:nil="true" />
+    <EventMask xsi:nil="true" />
+  </Cnl>
+  <Cnl>
+    <CnlNum>1119</CnlNum>
+    <Active>true</Active>
+    <Name>Relays &amp; FETs - A2_IN</Name>
+    <DataTypeID xsi:nil="true" />
+    <DataLen xsi:nil="true" />
+    <CnlTypeID>3</CnlTypeID>
+    <ObjNum>2</ObjNum>
+    <DeviceNum>20</DeviceNum>
+    <TagNum xsi:nil="true" />
+    <TagCode>A2_IN</TagCode>
+    <FormulaEnabled>true</FormulaEnabled>
+    <InFormula>WB_CalcControl()</InFormula>
+    <FormatID>21</FormatID>
+    <QuantityID xsi:nil="true" />
+    <UnitID xsi:nil="true" />
+    <LimID xsi:nil="true" />
+    <ArchiveMask xsi:nil="true" />
+    <EventMask>81</EventMask>
+  </Cnl>
+  <Cnl>
+    <CnlNum>1120</CnlNum>
+    <Active>true</Active>
+    <Name>Relays &amp; FETs - A3_IN Last</Name>
+    <DataTypeID xsi:nil="true" />
+    <DataLen xsi:nil="true" />
+    <CnlTypeID>1</CnlTypeID>
+    <ObjNum>2</ObjNum>
+    <DeviceNum>20</DeviceNum>
+    <TagNum xsi:nil="true" />
+    <TagCode>A3_IN</TagCode>
+    <FormulaEnabled>false</FormulaEnabled>
+    <FormatID>21</FormatID>
+    <QuantityID xsi:nil="true" />
+    <UnitID xsi:nil="true" />
+    <LimID xsi:nil="true" />
+    <ArchiveMask xsi:nil="true" />
+    <EventMask xsi:nil="true" />
+  </Cnl>
+  <Cnl>
+    <CnlNum>1121</CnlNum>
+    <Active>true</Active>
+    <Name>Relays &amp; FETs - A3_IN Error</Name>
+    <DataTypeID xsi:nil="true" />
+    <DataLen xsi:nil="true" />
+    <CnlTypeID>1</CnlTypeID>
+    <ObjNum>2</ObjNum>
+    <DeviceNum>20</DeviceNum>
+    <TagNum xsi:nil="true" />
+    <TagCode>A3_IN_error</TagCode>
+    <FormulaEnabled>false</FormulaEnabled>
+    <FormatID xsi:nil="true" />
+    <QuantityID xsi:nil="true" />
+    <UnitID xsi:nil="true" />
+    <LimID xsi:nil="true" />
+    <ArchiveMask xsi:nil="true" />
+    <EventMask xsi:nil="true" />
+  </Cnl>
+  <Cnl>
+    <CnlNum>1122</CnlNum>
+    <Active>true</Active>
+    <Name>Relays &amp; FETs - A3_IN</Name>
+    <DataTypeID xsi:nil="true" />
+    <DataLen xsi:nil="true" />
+    <CnlTypeID>3</CnlTypeID>
+    <ObjNum>2</ObjNum>
+    <DeviceNum>20</DeviceNum>
+    <TagNum xsi:nil="true" />
+    <TagCode>A3_IN</TagCode>
+    <FormulaEnabled>true</FormulaEnabled>
+    <InFormula>WB_CalcControl()</InFormula>
+    <FormatID>21</FormatID>
+    <QuantityID xsi:nil="true" />
+    <UnitID xsi:nil="true" />
+    <LimID xsi:nil="true" />
+    <ArchiveMask xsi:nil="true" />
+    <EventMask>81</EventMask>
+  </Cnl>
+  <Cnl>
+    <CnlNum>1123</CnlNum>
+    <Active>true</Active>
+    <Name>Relays &amp; FETs - 5V_OUT Last</Name>
+    <DataTypeID xsi:nil="true" />
+    <DataLen xsi:nil="true" />
+    <CnlTypeID>1</CnlTypeID>
+    <ObjNum>2</ObjNum>
+    <DeviceNum>20</DeviceNum>
+    <TagNum xsi:nil="true" />
+    <TagCode>5V_OUT</TagCode>
+    <FormulaEnabled>false</FormulaEnabled>
+    <FormatID>21</FormatID>
+    <QuantityID xsi:nil="true" />
+    <UnitID xsi:nil="true" />
+    <LimID xsi:nil="true" />
+    <ArchiveMask xsi:nil="true" />
+    <EventMask xsi:nil="true" />
+  </Cnl>
+  <Cnl>
+    <CnlNum>1124</CnlNum>
+    <Active>true</Active>
+    <Name>Relays &amp; FETs - 5V_OUT Error</Name>
+    <DataTypeID xsi:nil="true" />
+    <DataLen xsi:nil="true" />
+    <CnlTypeID>1</CnlTypeID>
+    <ObjNum>2</ObjNum>
+    <DeviceNum>20</DeviceNum>
+    <TagNum xsi:nil="true" />
+    <TagCode>5V_OUT_error</TagCode>
+    <FormulaEnabled>false</FormulaEnabled>
+    <FormatID xsi:nil="true" />
+    <QuantityID xsi:nil="true" />
+    <UnitID xsi:nil="true" />
+    <LimID xsi:nil="true" />
+    <ArchiveMask xsi:nil="true" />
+    <EventMask xsi:nil="true" />
+  </Cnl>
+  <Cnl>
+    <CnlNum>1125</CnlNum>
+    <Active>true</Active>
+    <Name>Relays &amp; FETs - 5V_OUT</Name>
+    <DataTypeID xsi:nil="true" />
+    <DataLen xsi:nil="true" />
+    <CnlTypeID>4</CnlTypeID>
+    <ObjNum>2</ObjNum>
+    <DeviceNum>20</DeviceNum>
+    <TagNum xsi:nil="true" />
+    <TagCode>5V_OUT</TagCode>
+    <FormulaEnabled>true</FormulaEnabled>
+    <InFormula>WB_CalcControl()</InFormula>
+    <FormatID>21</FormatID>
+    <QuantityID xsi:nil="true" />
+    <UnitID xsi:nil="true" />
+    <LimID xsi:nil="true" />
+    <ArchiveMask xsi:nil="true" />
+    <EventMask>81</EventMask>
+  </Cnl>
+  <Cnl>
+    <CnlNum>1126</CnlNum>
+    <Active>true</Active>
+    <Name>Relays &amp; FETs - V_OUT Last</Name>
+    <DataTypeID xsi:nil="true" />
+    <DataLen xsi:nil="true" />
+    <CnlTypeID>1</CnlTypeID>
+    <ObjNum>2</ObjNum>
+    <DeviceNum>20</DeviceNum>
+    <TagNum xsi:nil="true" />
+    <TagCode>V_OUT</TagCode>
+    <FormulaEnabled>false</FormulaEnabled>
+    <FormatID>21</FormatID>
+    <QuantityID xsi:nil="true" />
+    <UnitID xsi:nil="true" />
+    <LimID xsi:nil="true" />
+    <ArchiveMask xsi:nil="true" />
+    <EventMask xsi:nil="true" />
+  </Cnl>
+  <Cnl>
+    <CnlNum>1127</CnlNum>
+    <Active>true</Active>
+    <Name>Relays &amp; FETs - V_OUT Error</Name>
+    <DataTypeID xsi:nil="true" />
+    <DataLen xsi:nil="true" />
+    <CnlTypeID>1</CnlTypeID>
+    <ObjNum>2</ObjNum>
+    <DeviceNum>20</DeviceNum>
+    <TagNum xsi:nil="true" />
+    <TagCode>V_OUT_error</TagCode>
+    <FormulaEnabled>false</FormulaEnabled>
+    <FormatID xsi:nil="true" />
+    <QuantityID xsi:nil="true" />
+    <UnitID xsi:nil="true" />
+    <LimID xsi:nil="true" />
+    <ArchiveMask xsi:nil="true" />
+    <EventMask xsi:nil="true" />
+  </Cnl>
+  <Cnl>
+    <CnlNum>1128</CnlNum>
+    <Active>true</Active>
+    <Name>Relays &amp; FETs - V_OUT</Name>
+    <DataTypeID xsi:nil="true" />
+    <DataLen xsi:nil="true" />
+    <CnlTypeID>4</CnlTypeID>
+    <ObjNum>2</ObjNum>
+    <DeviceNum>20</DeviceNum>
+    <TagNum xsi:nil="true" />
+    <TagCode>V_OUT</TagCode>
+    <FormulaEnabled>true</FormulaEnabled>
+    <InFormula>WB_CalcControl()</InFormula>
+    <FormatID>21</FormatID>
+    <QuantityID xsi:nil="true" />
+    <UnitID xsi:nil="true" />
+    <LimID xsi:nil="true" />
+    <ArchiveMask xsi:nil="true" />
+    <EventMask>81</EventMask>
+  </Cnl>
+  <Cnl>
+    <CnlNum>1129</CnlNum>
+    <Active>true</Active>
+    <Name>Relays &amp; FETs - D1_IN Last</Name>
+    <DataTypeID xsi:nil="true" />
+    <DataLen xsi:nil="true" />
+    <CnlTypeID>1</CnlTypeID>
+    <ObjNum>2</ObjNum>
+    <DeviceNum>20</DeviceNum>
+    <TagNum xsi:nil="true" />
+    <TagCode>D1_IN</TagCode>
+    <FormulaEnabled>false</FormulaEnabled>
+    <FormatID>21</FormatID>
+    <QuantityID xsi:nil="true" />
+    <UnitID xsi:nil="true" />
+    <LimID xsi:nil="true" />
+    <ArchiveMask xsi:nil="true" />
+    <EventMask xsi:nil="true" />
+  </Cnl>
+  <Cnl>
+    <CnlNum>1130</CnlNum>
+    <Active>true</Active>
+    <Name>Relays &amp; FETs - D1_IN Error</Name>
+    <DataTypeID xsi:nil="true" />
+    <DataLen xsi:nil="true" />
+    <CnlTypeID>1</CnlTypeID>
+    <ObjNum>2</ObjNum>
+    <DeviceNum>20</DeviceNum>
+    <TagNum xsi:nil="true" />
+    <TagCode>D1_IN_error</TagCode>
+    <FormulaEnabled>false</FormulaEnabled>
+    <FormatID xsi:nil="true" />
+    <QuantityID xsi:nil="true" />
+    <UnitID xsi:nil="true" />
+    <LimID xsi:nil="true" />
+    <ArchiveMask xsi:nil="true" />
+    <EventMask xsi:nil="true" />
+  </Cnl>
+  <Cnl>
+    <CnlNum>1131</CnlNum>
+    <Active>true</Active>
+    <Name>Relays &amp; FETs - D1_IN</Name>
+    <DataTypeID xsi:nil="true" />
+    <DataLen xsi:nil="true" />
+    <CnlTypeID>3</CnlTypeID>
+    <ObjNum>2</ObjNum>
+    <DeviceNum>20</DeviceNum>
+    <TagNum xsi:nil="true" />
+    <TagCode>D1_IN</TagCode>
+    <FormulaEnabled>true</FormulaEnabled>
+    <InFormula>WB_CalcControl()</InFormula>
+    <FormatID>21</FormatID>
+    <QuantityID xsi:nil="true" />
+    <UnitID xsi:nil="true" />
+    <LimID xsi:nil="true" />
+    <ArchiveMask xsi:nil="true" />
+    <EventMask>81</EventMask>
+  </Cnl>
+</ArrayOfCnl>

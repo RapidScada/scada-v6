@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<MqttClientDeviceConfig>
+  <DeviceOptions>
+    <RootTopic />
+  </DeviceOptions>
+  <Subscriptions>
+    <Subscription topic="/devices/buzzer/meta/error" displayName="Buzzer Error" qosLevel="0" retain="false" tagCode="buzzer_error" readOnly="false" jsEnabled="true" jsFileName="wb_error.js" />
+    <Subscription topic="/devices/buzzer/controls/enabled" displayName="enabled" qosLevel="0" retain="false" tagCode="enabled" readOnly="false" jsEnabled="false" jsFileName="" />
+    <Subscription topic="/devices/buzzer/controls/enabled/meta/error" displayName="enabled Error" qosLevel="0" retain="false" tagCode="enabled_error" readOnly="false" jsEnabled="true" jsFileName="wb_error.js" />
+    <Subscription topic="/devices/buzzer/controls/frequency" displayName="frequency" qosLevel="0" retain="false" tagCode="frequency" readOnly="false" jsEnabled="false" jsFileName="" />
+    <Subscription topic="/devices/buzzer/controls/frequency/meta/error" displayName="frequency Error" qosLevel="0" retain="false" tagCode="frequency_error" readOnly="false" jsEnabled="true" jsFileName="wb_error.js" />
+    <Subscription topic="/devices/buzzer/controls/volume" displayName="volume" qosLevel="0" retain="false" tagCode="volume" readOnly="false" jsEnabled="false" jsFileName="" />
+    <Subscription topic="/devices/buzzer/controls/volume/meta/error" displayName="volume Error" qosLevel="0" retain="false" tagCode="volume_error" readOnly="false" jsEnabled="true" jsFileName="wb_error.js" />
+  </Subscriptions>
+  <Commands>
+    <Command topic="/devices/buzzer/controls/enabled/on" displayName="enabled" qosLevel="0" retain="false" cmdCode="enabled" />
+    <Command topic="/devices/buzzer/controls/frequency/on" displayName="frequency" qosLevel="0" retain="false" cmdCode="frequency" />
+    <Command topic="/devices/buzzer/controls/volume/on" displayName="volume" qosLevel="0" retain="false" cmdCode="volume" />
+  </Commands>
+</MqttClientDeviceConfig>

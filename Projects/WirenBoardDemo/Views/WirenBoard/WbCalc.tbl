@@ -1,0 +1,52 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TableView>
+  <Item>Rule Engine Settings</Item>
+  <Item cnlNum="204" autoText="true" />
+  <Item>Buzzer</Item>
+  <Item cnlNum="304" autoText="true" />
+  <Item cnlNum="307" autoText="true" />
+  <Item cnlNum="310" autoText="true" />
+  <Item>Network</Item>
+  <Item cnlNum="404" autoText="true" />
+  <Item cnlNum="407" autoText="true" />
+  <Item cnlNum="410" autoText="true" />
+  <Item cnlNum="413" autoText="true" />
+  <Item cnlNum="416" autoText="true" />
+  <Item>Power status</Item>
+  <Item cnlNum="504" autoText="true" />
+  <Item cnlNum="507" autoText="true" />
+  <Item>HW Monitor</Item>
+  <Item cnlNum="604" autoText="true" />
+  <Item cnlNum="607" autoText="true" />
+  <Item>System</Item>
+  <Item cnlNum="704" autoText="true" />
+  <Item cnlNum="707" autoText="true" />
+  <Item cnlNum="710" autoText="true" />
+  <Item cnlNum="713" autoText="true" />
+  <Item cnlNum="716" autoText="true" />
+  <Item cnlNum="719" autoText="true" />
+  <Item cnlNum="722" autoText="true" />
+  <Item cnlNum="725" autoText="true" />
+  <Item cnlNum="728" autoText="true" />
+  <Item cnlNum="731" autoText="true" />
+  <Item>Alarms</Item>
+  <Item cnlNum="804" autoText="true" />
+  <Item>knx</Item>
+  <Item cnlNum="904" autoText="true" />
+  <Item>ADCs</Item>
+  <Item cnlNum="1004" autoText="true" />
+  <Item cnlNum="1007" autoText="true" />
+  <Item cnlNum="1010" autoText="true" />
+  <Item cnlNum="1013" autoText="true" />
+  <Item>Relays &amp; FETs</Item>
+  <Item cnlNum="1104" autoText="true" />
+  <Item cnlNum="1107" autoText="true" />
+  <Item cnlNum="1110" autoText="true" />
+  <Item cnlNum="1113" autoText="true" />
+  <Item cnlNum="1116" autoText="true" />
+  <Item cnlNum="1119" autoText="true" />
+  <Item cnlNum="1122" autoText="true" />
+  <Item cnlNum="1125" autoText="true" />
+  <Item cnlNum="1128" autoText="true" />
+  <Item cnlNum="1131" autoText="true" />
+</TableView>

@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<MqttClientDeviceConfig>
+  <DeviceOptions>
+    <RootTopic />
+  </DeviceOptions>
+  <Subscriptions>
+    <Subscription topic="/devices/system/meta/error" displayName="System Error" qosLevel="0" retain="false" tagCode="system_error" readOnly="false" jsEnabled="true" jsFileName="wb_error.js" />
+    <Subscription topic="/devices/system/controls/Batch No" displayName="Batch No" qosLevel="0" retain="false" tagCode="Batch No" readOnly="false" jsEnabled="false" jsFileName="" />
+    <Subscription topic="/devices/system/controls/Batch No/meta/error" displayName="Batch No Error" qosLevel="0" retain="false" tagCode="Batch No_error" readOnly="false" jsEnabled="true" jsFileName="wb_error.js" />
+    <Subscription topic="/devices/system/controls/Current uptime" displayName="Current uptime" qosLevel="0" retain="false" tagCode="Current uptime" readOnly="false" jsEnabled="false" jsFileName="" />
+    <Subscription topic="/devices/system/controls/Current uptime/meta/error" displayName="Current uptime Error" qosLevel="0" retain="false" tagCode="Current uptime_error" readOnly="false" jsEnabled="true" jsFileName="wb_error.js" />
+    <Subscription topic="/devices/system/controls/DTS Version" displayName="DTS Version" qosLevel="0" retain="false" tagCode="DTS Version" readOnly="false" jsEnabled="false" jsFileName="" />
+    <Subscription topic="/devices/system/controls/DTS Version/meta/error" displayName="DTS Version Error" qosLevel="0" retain="false" tagCode="DTS Version_error" readOnly="false" jsEnabled="true" jsFileName="wb_error.js" />
+    <Subscription topic="/devices/system/controls/HW Revision" displayName="HW Revision" qosLevel="0" retain="false" tagCode="HW Revision" readOnly="false" jsEnabled="false" jsFileName="" />
+    <Subscription topic="/devices/system/controls/HW Revision/meta/error" displayName="HW Revision Error" qosLevel="0" retain="false" tagCode="HW Revision_error" readOnly="false" jsEnabled="true" jsFileName="wb_error.js" />
+    <Subscription topic="/devices/system/controls/Manufacturing Date" displayName="Manufacturing Date" qosLevel="0" retain="false" tagCode="Manufacturing Date" readOnly="false" jsEnabled="false" jsFileName="" />
+    <Subscription topic="/devices/system/controls/Manufacturing Date/meta/error" displayName="Manufacturing Date Error" qosLevel="0" retain="false" tagCode="Manufacturing Date_error" readOnly="false" jsEnabled="true" jsFileName="wb_error.js" />
+    <Subscription topic="/devices/system/controls/Reboot" displayName="Reboot" qosLevel="0" retain="false" tagCode="Reboot" readOnly="false" jsEnabled="false" jsFileName="" />
+    <Subscription topic="/devices/system/controls/Reboot/meta/error" displayName="Reboot Error" qosLevel="0" retain="false" tagCode="Reboot_error" readOnly="false" jsEnabled="true" jsFileName="wb_error.js" />
+    <Subscription topic="/devices/system/controls/Release name" displayName="Release name" qosLevel="0" retain="false" tagCode="Release name" readOnly="false" jsEnabled="false" jsFileName="" />
+    <Subscription topic="/devices/system/controls/Release name/meta/error" displayName="Release name Error" qosLevel="0" retain="false" tagCode="Release name_error" readOnly="false" jsEnabled="true" jsFileName="wb_error.js" />
+    <Subscription topic="/devices/system/controls/Release suite" displayName="Release suite" qosLevel="0" retain="false" tagCode="Release suite" readOnly="false" jsEnabled="false" jsFileName="" />
+    <Subscription topic="/devices/system/controls/Release suite/meta/error" displayName="Release suite Error" qosLevel="0" retain="false" tagCode="Release suite_error" readOnly="false" jsEnabled="true" jsFileName="wb_error.js" />
+    <Subscription topic="/devices/system/controls/Short SN" displayName="Short SN" qosLevel="0" retain="false" tagCode="Short SN" readOnly="false" jsEnabled="false" jsFileName="" />
+    <Subscription topic="/devices/system/controls/Short SN/meta/error" displayName="Short SN Error" qosLevel="0" retain="false" tagCode="Short SN_error" readOnly="false" jsEnabled="true" jsFileName="wb_error.js" />
+    <Subscription topic="/devices/system/controls/Temperature Grade" displayName="Temperature Grade" qosLevel="0" retain="false" tagCode="Temperature Grade" readOnly="false" jsEnabled="false" jsFileName="" />
+    <Subscription topic="/devices/system/controls/Temperature Grade/meta/error" displayName="Temperature Grade Error" qosLevel="0" retain="false" tagCode="Temperature Grade_error" readOnly="false" jsEnabled="true" jsFileName="wb_error.js" />
+  </Subscriptions>
+  <Commands>
+    <Command topic="/devices/system/controls/Reboot/on" displayName="Reboot" qosLevel="0" retain="false" cmdCode="Reboot" />
+  </Commands>
+</MqttClientDeviceConfig>

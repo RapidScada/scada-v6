@@ -1,0 +1,137 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ArrayOfCnlStatus xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+  <CnlStatus>
+    <CnlStatusID>0</CnlStatusID>
+    <Name>Undefined</Name>
+    <MainColor>Black</MainColor>
+    <SecondColor>Gray</SecondColor>
+    <BackColor>Silver</BackColor>
+    <Severity>500</Severity>
+    <AckRequired>false</AckRequired>
+    <Descr>Channel value is undefined</Descr>
+  </CnlStatus>
+  <CnlStatus>
+    <CnlStatusID>1</CnlStatusID>
+    <Name>Defined</Name>
+    <MainColor>Black</MainColor>
+    <SecondColor>Gray</SecondColor>
+    <BackColor>Silver</BackColor>
+    <Severity>750</Severity>
+    <AckRequired>false</AckRequired>
+    <Descr>Channel value is defined</Descr>
+  </CnlStatus>
+  <CnlStatus>
+    <CnlStatusID>2</CnlStatusID>
+    <Name>Archival</Name>
+    <MainColor>Purple</MainColor>
+    <SecondColor>Purple</SecondColor>
+    <BackColor>Orchid</BackColor>
+    <Severity xsi:nil="true" />
+    <AckRequired>false</AckRequired>
+    <Descr>Channel value has been received as archival</Descr>
+  </CnlStatus>
+  <CnlStatus>
+    <CnlStatusID>3</CnlStatusID>
+    <Name>Formula error</Name>
+    <MainColor>Silver</MainColor>
+    <SecondColor>Silver</SecondColor>
+    <BackColor>Silver</BackColor>
+    <Severity>250</Severity>
+    <AckRequired>false</AckRequired>
+    <Descr>Error calculating channel value using a formula</Descr>
+  </CnlStatus>
+  <CnlStatus>
+    <CnlStatusID>4</CnlStatusID>
+    <Name>Unreliable</Name>
+    <MainColor>Silver</MainColor>
+    <SecondColor>Silver</SecondColor>
+    <BackColor>Silver</BackColor>
+    <Severity>750</Severity>
+    <AckRequired>false</AckRequired>
+    <Descr>Channel value is defined but unreliable</Descr>
+  </CnlStatus>
+  <CnlStatus>
+    <CnlStatusID>11</CnlStatusID>
+    <Name>Extremely low</Name>
+    <MainColor>Blue</MainColor>
+    <SecondColor>Blue</SecondColor>
+    <BackColor>DodgerBlue</BackColor>
+    <Severity>1</Severity>
+    <AckRequired>true</AckRequired>
+    <Descr>Channel value is less than the LoLo limit</Descr>
+  </CnlStatus>
+  <CnlStatus>
+    <CnlStatusID>12</CnlStatusID>
+    <Name>Low</Name>
+    <MainColor>DeepSkyBlue</MainColor>
+    <SecondColor>DeepSkyBlue</SecondColor>
+    <BackColor>Cyan</BackColor>
+    <Severity>250</Severity>
+    <AckRequired>true</AckRequired>
+    <Descr>Channel value is less than the lower limit</Descr>
+  </CnlStatus>
+  <CnlStatus>
+    <CnlStatusID>13</CnlStatusID>
+    <Name>Normal</Name>
+    <MainColor>Black</MainColor>
+    <SecondColor>Black</SecondColor>
+    <BackColor>LightGreen</BackColor>
+    <Severity>500</Severity>
+    <AckRequired>false</AckRequired>
+    <Descr>Channel value is inside the limits</Descr>
+  </CnlStatus>
+  <CnlStatus>
+    <CnlStatusID>14</CnlStatusID>
+    <Name>High</Name>
+    <MainColor>Orange</MainColor>
+    <SecondColor>Orange</SecondColor>
+    <BackColor>Wheat</BackColor>
+    <Severity>250</Severity>
+    <AckRequired>true</AckRequired>
+    <Descr>Channel value is greater than the upper limit</Descr>
+  </CnlStatus>
+  <CnlStatus>
+    <CnlStatusID>15</CnlStatusID>
+    <Name>Extremely high</Name>
+    <MainColor>Red</MainColor>
+    <SecondColor>Red</SecondColor>
+    <BackColor>LightCoral</BackColor>
+    <Severity>1</Severity>
+    <AckRequired>true</AckRequired>
+    <Descr>Channel value is greater than the HiHi limit</Descr>
+  </CnlStatus>
+  <CnlStatus>
+    <CnlStatusID>21</CnlStatusID>
+    <Name>Good</Name>
+    <MainColor>Green</MainColor>
+    <SecondColor>Green</SecondColor>
+    <BackColor>LightGreen</BackColor>
+    <Severity>750</Severity>
+    <AckRequired>false</AckRequired>
+  </CnlStatus>
+  <CnlStatus>
+    <CnlStatusID>22</CnlStatusID>
+    <Name>Warning</Name>
+    <MainColor>Orange</MainColor>
+    <SecondColor>Orange</SecondColor>
+    <BackColor>Wheat</BackColor>
+    <Severity>500</Severity>
+    <AckRequired>true</AckRequired>
+  </CnlStatus>
+  <CnlStatus>
+    <CnlStatusID>23</CnlStatusID>
+    <Name>Error</Name>
+    <MainColor>Red</MainColor>
+    <SecondColor>Red</SecondColor>
+    <BackColor>LightCoral</BackColor>
+    <Severity>250</Severity>
+    <AckRequired>true</AckRequired>
+  </CnlStatus>
+  <CnlStatus>
+    <CnlStatusID>101</CnlStatusID>
+    <Name>Custom status</Name>
+    <Severity xsi:nil="true" />
+    <AckRequired>false</AckRequired>
+    <Descr>Add custom items starting from this row</Descr>
+  </CnlStatus>
+</ArrayOfCnlStatus>

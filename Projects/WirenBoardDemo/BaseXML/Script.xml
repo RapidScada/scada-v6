@@ -1,0 +1,383 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ArrayOfScript xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+  <Script>
+    <ScriptID>1</ScriptID>
+    <Name>Server methods</Name>
+    <Source>public override void InitScripts()
+{
+    // Put your initialization code here
+    // Поместите сюда код инициализации
+}
+
+public override void FinalizeScripts()
+{
+    // Put your finalization code here
+    // Поместите сюда код завершения работы
+}
+</Source>
+  </Script>
+  <Script>
+    <ScriptID>2</ScriptID>
+    <Name>Bit operations</Name>
+    <Source>// Returns the n-th bit of the specified value.
+// Возвращает бит n значения val.
+public double GetBit(double val, int n)
+{
+    ulong ulVal = (ulong)val;
+    return (ulVal &gt;&gt; n) &amp; 1ul;
+}
+
+// Returns a channel data consists of the n-th bit of the value and the channel status.
+// Возвращает данные канала, состоящие из бита n значения и статуса канала.
+public CnlData GetBit(CnlData cnlData, int n)
+{
+    return NewData(GetBit(cnlData.Val, n), cnlData.Stat);
+}
+
+// Sets the n-th bit of the specified value.
+// Устанавливает бит n значения val.
+public double SetBit(double val, int n, double isOn)
+{
+    ulong ulVal = (ulong)val;
+    return isOn &gt; 0 ? ulVal | (1ul &lt;&lt; n) : ulVal &amp; ~(1ul &lt;&lt; n);
+}
+
+// Returns the n-th byte of the specified value.
+// Возвращает байт n значения val.
+double GetByte(double val, int n)
+{
+    UInt64 uintVal = (UInt64)val;
+    return (uintVal &gt;&gt; (n * 8)) &amp; 0xFF;
+}
+</Source>
+  </Script>
+  <Script>
+    <ScriptID>3</ScriptID>
+    <Name>Channel data</Name>
+    <Source>// Returns channel data relative to the current channel.
+// Возвращает данные канала относительно текущего канала.
+public CnlData DataRel(int cnlNumOffset)
+{
+  return Data(CnlNum + cnlNumOffset);
+}
+</Source>
+  </Script>
+  <Script>
+    <ScriptID>4</ScriptID>
+    <Name>Date and time</Name>
+    <Source>// Gets the current date and time as a floating-point number using the server time zone.
+// Получает текущую дату и время в виде числа с плавающей точкой, используя часовой пояс сервера.
+public double Now()
+{
+    return DateTime.Now.ToOADate();
+}
+
+// Gets the current date and time as a floating-point number using the universal time zone.
+// Получает текущую дату и время в виде числа с плавающей точкой, используя универсальный часовой пояс.
+public double UtcNow()
+{
+    return DateTime.UtcNow.ToOADate();
+}
+
+// Gets the current Unix time, the number of seconds that have elapsed since the Unix epoch.
+// Получает текущее время Unix, количество секунд, прошедших с момента 1970-01-01 0:00:00 (UTC).
+public long UnixTime()
+{
+    return new DateTimeOffset(DateTime.UtcNow).ToUnixTimeSeconds();
+}
+
+// Converts the specified date and time to a channel value of Double type.
+// Преобразует указанные дату и время в значение канала типа Double.
+public double EncodeDate(DateTime dateTime)
+{
+  return dateTime.ToOADate();
+}
+
+// Converts the channel value to a date and time.
+// Преобразует значение канала в дату и время.
+public DateTime DecodeDate(double val)
+{
+  return DateTime.FromOADate(val);
+}
+</Source>
+  </Script>
+  <Script>
+    <ScriptID>5</ScriptID>
+    <Name>Strings</Name>
+    <Source>// Converts an ASCII string, up to 8 characters long, to a floating point number.
+// Преобразует строку в кодировке ASCII, длиной до 8 символов, в число с плавающей точкой.
+public double EncodeAscii(string s)
+{
+    byte[] buf = new byte[8];
+    int len = Math.Min(8, s.Length);
+    Encoding.ASCII.GetBytes(s, 0, len, buf, 0);
+    return BitConverter.ToDouble(buf, 0);
+}
+
+// Converts a Unicode string, up to 4 characters long, to a floating point number.
+// Преобразует строку в кодировке Unicode, длиной до 4 символов, в число с плавающей точкой.
+public double EncodeUnicode(string s)
+{
+    byte[] buf = new byte[8];
+    int len = Math.Min(4, s.Length);
+    Encoding.Unicode.GetBytes(s, 0, len, buf, 0);
+    return BitConverter.ToDouble(buf, 0);
+}
+
+// Converts the specified value to an ASCII string up to 8 characters long.
+// Преобразует заданное значение в строку ASCII длиной до 8 символов.
+public string DecodeAscii(double val)
+{
+    byte[] buf = BitConverter.GetBytes(val);
+    return Encoding.ASCII.GetString(buf).TrimEnd((char)0);
+}
+
+// Converts the specified value to an Unicode string up to 4 characters long.
+// Преобразует заданное значение в строку Unicode длиной до 4 символов.
+public string DecodeUnicode(double val)
+{
+    byte[] buf = BitConverter.GetBytes(val);
+    return Encoding.Unicode.GetString(buf).TrimEnd((char)0);
+}
+
+// Extracts a substring with bounds checking.
+// Извлекает подстроку с проверкой границ.
+public string Substring(string s, int startIndex, int length)
+{
+    if (string.IsNullOrEmpty(s))
+        return "";
+
+    if (startIndex &lt; 0)
+        startIndex = 0;
+
+    if (startIndex + length &gt; s.Length)
+        length = s.Length - startIndex;
+
+    return s.Substring(startIndex, length);
+}
+
+// The string values accessed by channel number.
+// Строковые значения, доступные по номеру канала.
+protected Dictionary&lt;int, string&gt; StringBuffers = new Dictionary&lt;int, string&gt;();
+
+// Splits a string provided by the specified function to store by several channels.
+// Разделяет строку, предоставляемую заданной функцией, для хранения несколькими каналами.
+protected string SplitString(Func&lt;string&gt; getStringFunc, int partLength)
+{
+    int arrIdx = ArrIdx;
+    string strBuf = "";
+
+    if (arrIdx == 0)
+    {
+        strBuf = getStringFunc == null ? "" : getStringFunc();
+        StringBuffers[CnlNum] = strBuf;
+    }
+    else if (Channel != null)
+    {
+        StringBuffers.TryGetValue(Channel.CnlNum, out strBuf);
+    }
+
+    return Substring(strBuf, arrIdx * partLength, partLength);
+}
+
+// Splits an ASCII string to store by several channels.
+// Разделяет строку ASCII для хранения несколькими каналами.
+public string SplitAscii(Func&lt;string&gt; getStringFunc)
+{
+    return SplitString(getStringFunc, 8);
+}
+
+// Splits an Unicode string to store by several channels.
+// Разделяет строку Unicode для хранения несколькими каналами.
+public string SplitUnicode(Func&lt;string&gt; getStringFunc)
+{
+    return SplitString(getStringFunc, 4);
+}
+</Source>
+  </Script>
+  <Script>
+    <ScriptID>6</ScriptID>
+    <Name>Timers</Name>
+    <Source>// The timestamps of the next channel calculation accessed by channel number.
+// Временные метки следующего вычисления канала, доступные по номеру канала.
+protected Dictionary&lt;int, DateTime&gt; NextCalcTimes = new Dictionary&lt;int, DateTime&gt;();
+
+// Truncates the timestamp to the specified resolution.
+// Обрезает временную метку до указанного разрешения.
+protected DateTime TruncateDT(DateTime timestamp, long resolution)
+{
+    return new DateTime(timestamp.Ticks - (timestamp.Ticks % resolution), timestamp.Kind);
+}
+
+// Executes the specified function if the period has elapsed.
+// Выполняет указанную функцию, если период истек.
+protected CnlData EveryPeriod(Func&lt;CnlData&gt; getDataFunc, long period, long execSpan)
+{
+    if (!IsCurrent)
+        return Data();
+
+    DateTime nextCalcTime = NextCalcTimes.TryGetValue(CnlNum, out DateTime dt) ? 
+        dt : DateTime.MinValue;
+
+    if (nextCalcTime &lt;= Timestamp)
+    {
+        NextCalcTimes[CnlNum] = TruncateDT(Timestamp, period).AddTicks(period);
+
+        if (Timestamp &lt; nextCalcTime.AddTicks(execSpan))
+            return getDataFunc == null ? CnlData.Empty : getDataFunc();
+    }
+
+    return Data();
+}
+
+// Gets a channel data with a value returned by the specified function, and the defined status.
+// Получает данные канала со значением, возвращаемым указанной функцией, и определенным статусом.
+protected CnlData GetDefinedData(Func&lt;double&gt; getValFunc)
+{
+    return getValFunc == null ? CnlData.Empty : NewData(getValFunc(), CnlStatusID.Defined);
+}
+
+// Executes the specified function every second.
+// Выполняет указанную функцию каждую секунду.
+public CnlData EverySec(Func&lt;CnlData&gt; getDataFunc)
+{
+    return EveryPeriod(getDataFunc, TimeSpan.TicksPerSecond, TimeSpan.TicksPerMillisecond * 500);
+}
+
+public CnlData EverySec(Func&lt;double&gt; getValFunc)
+{
+    return EverySec(() =&gt; GetDefinedData(getValFunc));
+}
+
+// Executes the specified function every minute.
+// Выполняет указанную функцию каждую минуту.
+public CnlData EveryMin(Func&lt;CnlData&gt; getDataFunc)
+{
+    return EveryPeriod(getDataFunc, TimeSpan.TicksPerMinute, TimeSpan.TicksPerSecond * 10);
+}
+
+public CnlData EveryMin(Func&lt;double&gt; getValFunc)
+{
+    return EveryMin(() =&gt; GetDefinedData(getValFunc));
+}
+
+// Executes the specified function every hour.
+// Выполняет указанную функцию каждый час.
+public CnlData EveryHour(Func&lt;CnlData&gt; getDataFunc)
+{
+    return EveryPeriod(getDataFunc, TimeSpan.TicksPerHour, TimeSpan.TicksPerMinute);
+}
+
+public CnlData EveryHour(Func&lt;double&gt; getValFunc)
+{
+    return EveryHour(() =&gt; GetDefinedData(getValFunc));
+}
+</Source>
+  </Script>
+  <Script>
+    <ScriptID>7</ScriptID>
+    <Name>Counters</Name>
+    <Source>// Counts a pulse of the specified channel.
+// Подсчитывает импульс заданного канала.
+public double CountPulse(int cnlNum)
+{
+    CnlData cnlData = Data(cnlNum);
+    CnlData prevCnlData = PrevData(cnlNum);
+    return cnlData.IsDefined &amp;&amp; prevCnlData.IsDefined &amp;&amp; cnlData.Val &gt; 0 &amp;&amp; prevCnlData.Val &lt;= 0 ? 
+        Val() + 1 : Val();
+}
+</Source>
+  </Script>
+  <Script>
+    <ScriptID>8</ScriptID>
+    <Name>Calendar</Name>
+    <Source>// The functions below use the server's timezone.
+// Функции ниже используют временную зону сервера.
+
+protected Dictionary&lt;int, DateTime&gt; HourStartByCnl = new Dictionary&lt;int, DateTime&gt;();
+protected Dictionary&lt;int, DateTime&gt; DayStartByCnl = new Dictionary&lt;int, DateTime&gt;();
+protected Dictionary&lt;int, DateTime&gt; MonthStartByCnl = new Dictionary&lt;int, DateTime&gt;();
+
+// Indicates that a new hour has started. The result is true once for each channel.
+// Указывает, что начался новый час. Результат равен true один раз для каждого канала.
+public bool HourStarted()
+{
+    if (!IsCurrent)
+        return false;
+
+    DateTime nowDT = Timestamp.ToLocalTime();
+
+    if (nowDT.Minute == 0 &amp;&amp; nowDT.Second &gt;= 30 &amp;&amp;
+        (!HourStartByCnl.TryGetValue(CnlNum, out DateTime startDT) || startDT.Hour != nowDT.Hour ))
+    {
+        HourStartByCnl[CnlNum] = nowDT;
+        return true;
+    }
+    else
+    {
+        return false;
+    }
+}
+
+// Indicates that a new day has started. The result is true once for each channel.
+// Указывает, что начался новый день. Результат равен true один раз для каждого канала.
+public bool DayStarted()
+{
+    if (!IsCurrent)
+        return false;
+
+    DateTime nowDT = Timestamp.ToLocalTime();
+
+    if (nowDT.Hour == 0 &amp;&amp; nowDT.Minute &gt; 0 &amp;&amp;
+        (!DayStartByCnl.TryGetValue(CnlNum, out DateTime startDT) || startDT.Date &lt; nowDT.Date))
+    {
+        DayStartByCnl[CnlNum] = nowDT;
+        return true;
+    }
+    else
+    {
+        return false;
+    }
+}
+
+// Indicates that a new month has started. The result is true once for each channel.
+// Указывает, что начался новый месяц. Результат равен true один раз для каждого канала.
+public bool MonthStarted()
+{
+    if (!IsCurrent)
+        return false;
+
+    DateTime nowDT = Timestamp.ToLocalTime();
+
+    if (nowDT.Day == 1 &amp;&amp; nowDT.Hour == 0 &amp;&amp; nowDT.Minute &gt; 0 &amp;&amp;
+        (!MonthStartByCnl.TryGetValue(CnlNum, out DateTime startDT) || startDT.Date &lt; nowDT.Date))
+    {
+        MonthStartByCnl[CnlNum] = nowDT;
+        return true;
+    }
+    else
+    {
+        return false;
+    }
+}
+</Source>
+  </Script>
+  <Script>
+    <ScriptID>101</ScriptID>
+    <Name>Custom script</Name>
+    <Source />
+    <Descr>Add custom items starting from this row</Descr>
+  </Script>
+  <Script>
+    <ScriptID>102</ScriptID>
+    <Name>Wiren Board</Name>
+    <Source>public CnlData WB_CalcControl()
+{
+  CnlData lastData = Data(CnlNum - 2);
+  CnlData errorData = Data(CnlNum - 1);
+  return lastData.IsDefined &amp;&amp; errorData.IsDefined &amp;&amp; errorData.Val &gt; 0 
+    ? NewData(lastData.Val, CnlStatusID.Unreliable)
+    : lastData;
+}</Source>
+  </Script>
+</ArrayOfScript>
