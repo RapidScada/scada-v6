@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ModAutoControl>
+  <GeneralOptions>
+    <UserName>admin</UserName>
+  </GeneralOptions>
+  <TrGroups>
+    <TrGroup active="true" name="Main Group">
+      <Trigger id="1" active="true" name="WB Events" type="EvTrigger">
+        <EvTriggerProps>
+          <ChkCnlNum>false</ChkCnlNum>
+          <CnlNum>0</CnlNum>
+          <ChkObjNum>true</ChkObjNum>
+          <ObjNum>2</ObjNum>
+          <ChkDeviceNum>false</ChkDeviceNum>
+          <DeviceNum>0</DeviceNum>
+          <ChkNewCnlVal>false</ChkNewCnlVal>
+          <NewCnlValCond>
+            <CompareOperator1>LessThan</CompareOperator1>
+            <CompareArgument1>0</CompareArgument1>
+            <LogicalOperator>None</LogicalOperator>
+            <CompareOperator2>LessThan</CompareOperator2>
+            <CompareArgument2>0</CompareArgument2>
+          </NewCnlValCond>
+          <ChkCnlStat>false</ChkCnlStat>
+          <NewCnlStat>0</NewCnlStat>
+          <ChkSeverity>false</ChkSeverity>
+          <MinSeverity>0</MinSeverity>
+          <MaxSeverity>0</MaxSeverity>
+          <TextCompareOper>None</TextCompareOper>
+          <Text />
+          <DataCompareOper>None</DataCompareOper>
+          <Data />
+        </EvTriggerProps>
+        <Commands>
+          <Command>
+            <CnlNum>0</CnlNum>
+            <DeviceNum>31</DeviceNum>
+            <CmdNum>0</CmdNum>
+            <CmdCode>Notif</CmdCode>
+            <Delay>0</Delay>
+            <SendOnFiring>true</SendOnFiring>
+            <SendOnNorm>false</SendOnNorm>
+            <CopyCmdVal>false</CopyCmdVal>
+            <EditMode>Str</EditMode>
+            <CmdDataStr>RS_WB_Demo_Group; Wiren Board event:
+Time = {EvTime}
+Object = {EvObj}
+Device = {EvDev}
+Channel = {EvCnl}
+Text = {EvText}</CmdDataStr>
+          </Command>
+        </Commands>
+      </Trigger>
+    </TrGroup>
+  </TrGroups>
+</ModAutoControl>
