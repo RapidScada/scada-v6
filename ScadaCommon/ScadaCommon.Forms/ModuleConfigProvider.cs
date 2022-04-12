@@ -1,11 +1,8 @@
 ﻿// Copyright (c) Rapid Software LLC. All rights reserved.
 // Licensed under the Apache License, Version 2.0. See License.txt in the project root for license information.
 
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using Scada.Config;
+using System.IO;
 
 namespace Scada.Forms
 {
@@ -15,5 +12,80 @@ namespace Scada.Forms
     /// </summary>
     public abstract class ModuleConfigProvider
     {
+        /// <summary>
+        /// Initializes a new instance of the class.
+        /// </summary>
+        public ModuleConfigProvider()
+        {
+            ConfigFileName = "";
+            Config = null;
+            ConfigCopy = null;
+        }
+
+
+        /// <summary>
+        /// Gets or sets the configuration file name.
+        /// </summary>
+        protected string ConfigFileName { get; set; }
+
+        /// <summary>
+        /// Gets or sets the module configuration.
+        /// </summary>
+        protected BaseConfig Config { get; set; }
+
+        /// <summary>
+        /// Gets or sets the copy of the module configuration.
+        /// </summary>
+        protected BaseConfig ConfigCopy { get; set; }
+
+
+        /// <summary>
+        /// Loads the configuration.
+        /// </summary>
+        public virtual bool LoadConfig(out string errMsg)
+        {
+            if (Config != null && File.Exists(ConfigFileName))
+            {
+                return Config.Load(ConfigFileName, out errMsg);
+            }
+            else
+            {
+                errMsg = "";
+                return true;
+            }
+        }
+
+        /// <summary>
+        /// Saves the configuration.
+        /// </summary>
+        public virtual bool SaveConfig(out string errMsg)
+        {
+            if (Config == null)
+            {
+                errMsg = "";
+                return true;
+            }
+            else
+            {
+                return Config.Save(ConfigFileName, out errMsg);
+            }
+        }
+
+        /// <summary>
+        /// Stores a configuration copy.
+        /// </summary>
+        public virtual void BackupConfig()
+        {
+            ConfigCopy = Config?.DeepClone();
+        }
+
+        /// <summary>
+        /// Restores a configuration from the copy.
+        /// </summary>
+        public virtual void RestoreConfig()
+        {
+            Config = ConfigCopy;
+            ConfigCopy = Config?.DeepClone();
+        }
     }
 }
