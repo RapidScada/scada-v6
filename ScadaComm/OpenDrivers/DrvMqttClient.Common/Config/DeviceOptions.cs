@@ -9,6 +9,7 @@ namespace Scada.Comm.Drivers.DrvMqttClient.Config
     /// Represents device options.
     /// <para>Представляет параметры устройства.</para>
     /// </summary>
+    [Serializable]
     public class DeviceOptions
     {
         /// <summary>

@@ -28,7 +28,7 @@ namespace Scada.Comm.Drivers.DrvMqttClient.View
         /// </summary>
         public override bool ShowProperties()
         {
-            new FrmModuleConfig(null).ShowDialog();
+            new FrmModuleConfig(new MqttClientConfigProvider(AppDirs.ConfigDir, DeviceNum)).ShowDialog();
             return false;
         }
 
