@@ -58,6 +58,7 @@
     <Phrase key="InvalidFileFormat">Invalid file format.</Phrase>
     <Phrase key="LoadConfigError">Error loading configuration</Phrase>
     <Phrase key="SaveConfigError">Error saving configuration</Phrase>
+    <Phrase key="SaveConfigConfirm">Configuration has been modified. Save the changes?</Phrase>
     <Phrase key="LoadViewError">Error loading view</Phrase>
     <Phrase key="SaveViewError">Error saving view</Phrase>
   </Dictionary>

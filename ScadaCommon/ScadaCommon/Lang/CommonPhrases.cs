@@ -20,7 +20,7 @@
  * 
  * Author   : Mikhail Shiryaev
  * Created  : 2015
- * Modified : 2021
+ * Modified : 2022
  */
 
 #pragma warning disable 1591 // Missing XML comment for publicly visible type or member
@@ -91,6 +91,7 @@ namespace Scada.Lang
         public static string InvalidFileFormat { get; private set; }
         public static string LoadConfigError { get; private set; }
         public static string SaveConfigError { get; private set; }
+        public static string SaveConfigConfirm { get; private set; }
         public static string LoadViewError { get; private set; }
         public static string SaveViewError { get; private set; }
 
@@ -208,6 +209,7 @@ namespace Scada.Lang
             InvalidFileFormat = dict["InvalidFileFormat"];
             LoadConfigError = dict["LoadConfigError"];
             SaveConfigError = dict["SaveConfigError"];
+            SaveConfigConfirm = dict["SaveConfigConfirm"];
             LoadViewError = dict["LoadViewError"];
             SaveViewError = dict["SaveViewError"];
 

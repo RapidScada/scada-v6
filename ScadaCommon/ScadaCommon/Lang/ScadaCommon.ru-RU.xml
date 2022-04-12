@@ -58,6 +58,7 @@
     <Phrase key="InvalidFileFormat">Некорректный формат файла.</Phrase>
     <Phrase key="LoadConfigError">Ошибка при загрузке конфигурации</Phrase>
     <Phrase key="SaveConfigError">Ошибка при сохранении конфигурации</Phrase>
+    <Phrase key="SaveConfigConfirm">Конфигурация была изменена. Сохранить изменения?</Phrase>
     <Phrase key="LoadViewError">Ошибка при загрузке представления</Phrase>
     <Phrase key="SaveViewError">Ошибка при сохранении представления</Phrase>
   </Dictionary>
