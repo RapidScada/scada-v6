@@ -28,7 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
-            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(FrmModuleConfig));
+            this.components = new System.ComponentModel.Container();
             this.toolStrip = new System.Windows.Forms.ToolStrip();
             this.btnAdd = new System.Windows.Forms.ToolStripButton();
             this.btnAddWithChoice = new System.Windows.Forms.ToolStripDropDownButton();
@@ -41,6 +41,7 @@
             this.btnCancel = new System.Windows.Forms.Button();
             this.tableLayoutPanel = new System.Windows.Forms.TableLayoutPanel();
             this.treeView = new System.Windows.Forms.TreeView();
+            this.ilTree = new System.Windows.Forms.ImageList(this.components);
             this.propertyGrid = new System.Windows.Forms.PropertyGrid();
             this.toolStrip.SuspendLayout();
             this.pnlBottom.SuspendLayout();
@@ -64,7 +65,7 @@
             // btnAdd
             // 
             this.btnAdd.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-            this.btnAdd.Image = ((System.Drawing.Image)(resources.GetObject("btnAdd.Image")));
+            this.btnAdd.Image = global::Scada.Forms.Properties.Resources.add;
             this.btnAdd.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.btnAdd.Name = "btnAdd";
             this.btnAdd.Size = new System.Drawing.Size(23, 22);
@@ -74,7 +75,7 @@
             // btnAddWithChoice
             // 
             this.btnAddWithChoice.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-            this.btnAddWithChoice.Image = ((System.Drawing.Image)(resources.GetObject("btnAddWithChoice.Image")));
+            this.btnAddWithChoice.Image = global::Scada.Forms.Properties.Resources.add;
             this.btnAddWithChoice.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.btnAddWithChoice.Name = "btnAddWithChoice";
             this.btnAddWithChoice.Size = new System.Drawing.Size(29, 22);
@@ -83,7 +84,7 @@
             // btnMoveUp
             // 
             this.btnMoveUp.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-            this.btnMoveUp.Image = ((System.Drawing.Image)(resources.GetObject("btnMoveUp.Image")));
+            this.btnMoveUp.Image = global::Scada.Forms.Properties.Resources.move_up;
             this.btnMoveUp.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.btnMoveUp.Name = "btnMoveUp";
             this.btnMoveUp.Size = new System.Drawing.Size(23, 22);
@@ -93,7 +94,7 @@
             // btnMoveDown
             // 
             this.btnMoveDown.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-            this.btnMoveDown.Image = ((System.Drawing.Image)(resources.GetObject("btnMoveDown.Image")));
+            this.btnMoveDown.Image = global::Scada.Forms.Properties.Resources.move_down;
             this.btnMoveDown.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.btnMoveDown.Name = "btnMoveDown";
             this.btnMoveDown.Size = new System.Drawing.Size(23, 22);
@@ -103,7 +104,7 @@
             // btnDelete
             // 
             this.btnDelete.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-            this.btnDelete.Image = ((System.Drawing.Image)(resources.GetObject("btnDelete.Image")));
+            this.btnDelete.Image = global::Scada.Forms.Properties.Resources.delete;
             this.btnDelete.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.btnDelete.Name = "btnDelete";
             this.btnDelete.Size = new System.Drawing.Size(23, 22);
@@ -171,10 +172,20 @@
             // treeView
             // 
             this.treeView.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.treeView.ImageIndex = 0;
+            this.treeView.ImageList = this.ilTree;
             this.treeView.Location = new System.Drawing.Point(3, 3);
             this.treeView.Name = "treeView";
+            this.treeView.SelectedImageIndex = 0;
             this.treeView.Size = new System.Drawing.Size(287, 465);
             this.treeView.TabIndex = 0;
+            this.treeView.AfterSelect += new System.Windows.Forms.TreeViewEventHandler(this.treeView_AfterSelect);
+            // 
+            // ilTree
+            // 
+            this.ilTree.ColorDepth = System.Windows.Forms.ColorDepth.Depth32Bit;
+            this.ilTree.ImageSize = new System.Drawing.Size(16, 16);
+            this.ilTree.TransparentColor = System.Drawing.Color.Transparent;
             // 
             // propertyGrid
             // 
@@ -226,5 +237,6 @@
         private System.Windows.Forms.ToolStripDropDownButton btnAddWithChoice;
         private System.Windows.Forms.ToolStripButton btnMoveDown;
         private System.Windows.Forms.ToolStripButton btnDelete;
+        private System.Windows.Forms.ImageList ilTree;
     }
 }

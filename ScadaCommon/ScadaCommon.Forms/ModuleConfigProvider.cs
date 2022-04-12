@@ -2,7 +2,10 @@
 // Licensed under the Apache License, Version 2.0. See License.txt in the project root for license information.
 
 using Scada.Config;
+using System.Collections.Generic;
+using System.Drawing;
 using System.IO;
+using System.Windows.Forms;
 
 namespace Scada.Forms
 {
@@ -86,6 +89,22 @@ namespace Scada.Forms
         {
             Config = ConfigCopy;
             ConfigCopy = Config?.DeepClone();
+        }
+
+        /// <summary>
+        /// Gets images used by the configuration tree.
+        /// </summary>
+        public virtual Dictionary<string, Image> GetTreeViewImages()
+        {
+            return null;
+        }
+
+        /// <summary>
+        /// Gets tree nodes to add to the configuration tree.
+        /// </summary>
+        public virtual TreeNode[] GetTreeNodes()
+        {
+            return null;
         }
     }
 }

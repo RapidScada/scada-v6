@@ -3,6 +3,8 @@
 
 using Scada.Lang;
 using System;
+using System.Collections.Generic;
+using System.Drawing;
 using System.Windows.Forms;
 
 namespace Scada.Forms.Forms
@@ -54,6 +56,57 @@ namespace Scada.Forms.Forms
         }
 
 
+        /// <summary>
+        /// Takes the tree view and loads them into an image list.
+        /// </summary>
+        private void TakeTreeViewImages()
+        {
+            Dictionary<string, Image> images = configProvider.GetTreeViewImages();
+
+            if (images != null)
+            {
+                foreach (KeyValuePair<string, Image> pair in images)
+                {
+                    ilTree.Images.Add(pair.Key, pair.Value);
+                }
+            }
+        }
+
+        /// <summary>
+        /// Fills the tree view.
+        /// </summary>
+        private void FillTreeView()
+        {
+            try
+            {
+                treeView.BeginUpdate();
+                treeView.Nodes.Clear();
+                TreeNode[] treeNodes = configProvider.GetTreeNodes();
+
+                if (treeNodes != null)
+                {
+                    foreach (TreeNode treeNode in treeNodes)
+                    {
+                        treeView.Nodes.Add(treeNode);
+                    }
+                }
+
+                if (treeView.Nodes.Count > 0)
+                {
+                    treeView.SelectedNode = treeView.Nodes[0];
+                }
+                else
+                {
+                    //SetButtonsEnabled();
+                }
+            }
+            finally
+            {
+                treeView.EndUpdate();
+            }
+        }
+
+
         private void FrmModuleConfig_Load(object sender, EventArgs e)
         {
             FormTranslator.Translate(this, GetType().FullName);
@@ -63,6 +116,9 @@ namespace Scada.Forms.Forms
 
             configProvider.BackupConfig();
             Modified = false;
+
+            TakeTreeViewImages();
+            FillTreeView();
         }
 
         private void FrmModuleConfig_FormClosing(object sender, FormClosingEventArgs e)
@@ -113,6 +169,11 @@ namespace Scada.Forms.Forms
 
         }
 
+        private void treeView_AfterSelect(object sender, TreeViewEventArgs e)
+        {
+            propertyGrid.SelectedObject = treeView.SelectedNode?.Tag;
+            //SetButtonsEnabled();
+        }
 
         private void btnSave_Click(object sender, EventArgs e)
         {
@@ -125,6 +186,7 @@ namespace Scada.Forms.Forms
         private void btnCancel_Click(object sender, EventArgs e)
         {
             configProvider.RestoreConfig();
+            FillTreeView();
             Modified = false;
         }
     }
