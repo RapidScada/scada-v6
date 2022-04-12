@@ -21,5 +21,42 @@ namespace Scada.Comm.Drivers.DrvMqttClient.View
             ConfigFileName = Path.Combine(configDir, MqttClientDeviceConfig.GetFileName(deviceNum));
             Config = new MqttClientDeviceConfig();
         }
+
+
+        /// <summary>
+        /// Gets the device configuration.
+        /// </summary>
+        public MqttClientDeviceConfig DeviceConfig => Config as MqttClientDeviceConfig;
+
+
+        /// <summary>
+        /// Gets images used by the configuration tree.
+        /// </summary>
+        public override Dictionary<string, Image> GetTreeViewImages()
+        {
+            return null;
+        }
+
+        /// <summary>
+        /// Gets tree nodes to add to the configuration tree.
+        /// </summary>
+        public override TreeNode[] GetTreeNodes()
+        {
+            TreeNode optionsNode = TreeViewExtensions.CreateNode("Options", "", DeviceConfig.DeviceOptions);
+            TreeNode subscriptionsNode = TreeViewExtensions.CreateNode("Subscriptions", "");
+            TreeNode commandsNode = TreeViewExtensions.CreateNode("Commands", "");
+
+            foreach (SubscriptionConfig subscription in DeviceConfig.Subscriptions)
+            {
+                subscriptionsNode.Nodes.Add(TreeViewExtensions.CreateNode(subscription.DisplayName, "", subscription));
+            }
+
+            foreach (CommandConfig command in DeviceConfig.Commands)
+            {
+                commandsNode.Nodes.Add(TreeViewExtensions.CreateNode(command.DisplayName, "", command));
+            }
+
+            return new TreeNode[] { optionsNode, subscriptionsNode, commandsNode };
+        }
     }
 }
