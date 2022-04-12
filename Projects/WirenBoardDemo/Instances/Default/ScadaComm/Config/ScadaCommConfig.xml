@@ -63,7 +63,7 @@
         <Option name="Password" value="C8080E774B59B0C6694063BDE2428352" />
         <Option name="Port" value="1883" />
         <Option name="ProtocolVersion" value="Unknown" />
-        <Option name="Server" value="192.168.1.33" />
+        <Option name="Server" value="127.0.0.1" />
         <Option name="Timeout" value="10000" />
         <Option name="Username" value="" />
       </Channel>
