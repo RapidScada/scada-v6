@@ -670,7 +670,8 @@ namespace Scada.Server.Engine
                         break;
                 }
 
-                moduleHolder.OnCommand(commandItem.Command, commandItem.Result);
+                if (commandItem.Result.IsSuccessful)
+                    moduleHolder.OnCommand(commandItem.Command, commandItem.Result);
 
                 if (commandItem.Result.IsSuccessful)
                 {
