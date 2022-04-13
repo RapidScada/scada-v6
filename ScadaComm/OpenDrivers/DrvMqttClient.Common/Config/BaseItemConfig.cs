@@ -1,6 +1,8 @@
 ﻿// Copyright (c) Rapid Software LLC. All rights reserved.
 // Licensed under the Apache License, Version 2.0. See License.txt in the project root for license information.
 
+using System.Collections;
+using System.ComponentModel;
 using System.Xml;
 
 namespace Scada.Comm.Drivers.DrvMqttClient.Config
@@ -10,7 +12,7 @@ namespace Scada.Comm.Drivers.DrvMqttClient.Config
     /// <para>Представляет конфигурацию элемента, общую для подписки и команды.</para>
     /// </summary>
     [Serializable]
-    public class BaseItemConfig
+    public class BaseItemConfig : ITreeNode
     {
         /// <summary>
         /// Initializes a new instance of the class.
@@ -21,6 +23,7 @@ namespace Scada.Comm.Drivers.DrvMqttClient.Config
             DisplayName = "";
             QosLevel = 0;
             Retain = false;
+            Parent = null;
         }
 
 
@@ -43,6 +46,18 @@ namespace Scada.Comm.Drivers.DrvMqttClient.Config
         /// Gets or sets a value indicating whether to set the retained flag when publishing.
         /// </summary>
         public bool Retain { get; set; }
+
+        /// <summary>
+        /// Gets or sets the parent tree node.
+        /// </summary>
+        [Browsable(false)]
+        public ITreeNode Parent { get; set; }
+
+        /// <summary>
+        /// Gets the child tree nodes.
+        /// </summary>
+        [Browsable(false)]
+        public IList Children => null;
 
 
         /// <summary>
