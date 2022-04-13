@@ -2,6 +2,7 @@
 // Licensed under the Apache License, Version 2.0. See License.txt in the project root for license information.
 
 using Scada.Comm.Drivers.DrvMqttClient.Config;
+using Scada.Comm.Drivers.DrvMqttClient.View.Properties;
 using Scada.Forms;
 
 namespace Scada.Comm.Drivers.DrvMqttClient.View
@@ -10,8 +11,21 @@ namespace Scada.Comm.Drivers.DrvMqttClient.View
     /// Represents an intermediary between a module configuration and a configuration form.
     /// <para>Представляет посредника между конфигурацией модуля и формой конфигурации.</para>
     /// </summary>
-    internal class MqttClientConfigProvider : ModuleConfigProvider
+    internal class MqttClientConfigProvider : ConfigProvider
     {
+        /// <summary>
+        /// Specifies the image keys for the configuration tree.
+        /// </summary>
+        private static class ImageKey
+        {
+            public const string Cmd = "cmd.png";
+            public const string Elem = "elem.png";
+            public const string FolderClosed = "folder_closed.png";
+            public const string FolderOpen = "folder_open.png";
+            public const string Options = "options.png";
+        }
+
+
         /// <summary>
         /// Initializes a new instance of the class.
         /// </summary>
@@ -34,7 +48,14 @@ namespace Scada.Comm.Drivers.DrvMqttClient.View
         /// </summary>
         public override Dictionary<string, Image> GetTreeViewImages()
         {
-            return null;
+            return new Dictionary<string, Image>
+            {
+                { ImageKey.Cmd, Resources.cmd },
+                { ImageKey.Elem, Resources.elem },
+                { ImageKey.FolderClosed, Resources.folder_closed },
+                { ImageKey.FolderOpen, Resources.folder_open },
+                { ImageKey.Options, Resources.options }
+            };
         }
 
         /// <summary>
@@ -42,18 +63,19 @@ namespace Scada.Comm.Drivers.DrvMqttClient.View
         /// </summary>
         public override TreeNode[] GetTreeNodes()
         {
-            TreeNode optionsNode = TreeViewExtensions.CreateNode("Options", "", DeviceConfig.DeviceOptions);
-            TreeNode subscriptionsNode = TreeViewExtensions.CreateNode("Subscriptions", "");
-            TreeNode commandsNode = TreeViewExtensions.CreateNode("Commands", "");
+            TreeNode optionsNode = TreeViewExtensions.CreateNode("Options", ImageKey.Options, DeviceConfig.DeviceOptions);
+            TreeNode subscriptionsNode = TreeViewExtensions.CreateNode("Subscriptions", ImageKey.FolderClosed);
+            TreeNode commandsNode = TreeViewExtensions.CreateNode("Commands", ImageKey.FolderClosed);
 
             foreach (SubscriptionConfig subscription in DeviceConfig.Subscriptions)
             {
-                subscriptionsNode.Nodes.Add(TreeViewExtensions.CreateNode(subscription.DisplayName, "", subscription));
+                subscriptionsNode.Nodes.Add(
+                    TreeViewExtensions.CreateNode(subscription.DisplayName, ImageKey.Elem, subscription));
             }
 
             foreach (CommandConfig command in DeviceConfig.Commands)
             {
-                commandsNode.Nodes.Add(TreeViewExtensions.CreateNode(command.DisplayName, "", command));
+                commandsNode.Nodes.Add(TreeViewExtensions.CreateNode(command.DisplayName, ImageKey.Cmd, command));
             }
 
             return new TreeNode[] { optionsNode, subscriptionsNode, commandsNode };
