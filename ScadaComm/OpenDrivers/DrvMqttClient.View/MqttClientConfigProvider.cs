@@ -137,27 +137,12 @@ namespace Scada.Comm.Drivers.DrvMqttClient.View
         }
 
         /// <summary>
-        /// Determines if the selected item can be moved up.
+        /// Determines if the specified action can be performed.
         /// </summary>
-        public override bool AllowMoveUp(TreeNode selectedNode)
+        public override bool AllowAction(ConfigAction action, object button, TreeNode selectedNode)
         {
-            return selectedNode?.Tag is BaseItemConfig && base.AllowMoveUp(selectedNode);
-        }
-
-        /// <summary>
-        /// Determines if the selected item can be moved down.
-        /// </summary>
-        public override bool AllowMoveDown(TreeNode selectedNode)
-        {
-            return selectedNode?.Tag is BaseItemConfig && base.AllowMoveDown(selectedNode);
-        }
-
-        /// <summary>
-        /// Determines if the selected item can be deleted.
-        /// </summary>
-        public override bool AllowDelete(TreeNode selectedNode)
-        {
-            return selectedNode?.Tag is BaseItemConfig;
+            return base.AllowAction(action, button, selectedNode) &&
+                (action == ConfigAction.Add || selectedNode?.Tag is BaseItemConfig);
         }
 
         /// <summary>
