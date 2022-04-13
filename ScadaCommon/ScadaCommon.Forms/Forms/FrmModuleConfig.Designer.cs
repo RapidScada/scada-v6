@@ -41,10 +41,10 @@
             this.btnCancel = new System.Windows.Forms.Button();
             this.tableLayoutPanel = new System.Windows.Forms.TableLayoutPanel();
             this.treeView = new System.Windows.Forms.TreeView();
-            this.ilTree = new System.Windows.Forms.ImageList(this.components);
-            this.propertyGrid = new System.Windows.Forms.PropertyGrid();
             this.cmsTree = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.miCollapseAll = new System.Windows.Forms.ToolStripMenuItem();
+            this.ilTree = new System.Windows.Forms.ImageList(this.components);
+            this.propertyGrid = new System.Windows.Forms.PropertyGrid();
             this.toolStrip.SuspendLayout();
             this.pnlBottom.SuspendLayout();
             this.tableLayoutPanel.SuspendLayout();
@@ -176,6 +176,7 @@
             // 
             this.treeView.ContextMenuStrip = this.cmsTree;
             this.treeView.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.treeView.HideSelection = false;
             this.treeView.ImageIndex = 0;
             this.treeView.ImageList = this.ilTree;
             this.treeView.Location = new System.Drawing.Point(3, 3);
@@ -186,6 +187,21 @@
             this.treeView.AfterCollapse += new System.Windows.Forms.TreeViewEventHandler(this.treeView_AfterCollapse);
             this.treeView.AfterExpand += new System.Windows.Forms.TreeViewEventHandler(this.treeView_AfterExpand);
             this.treeView.AfterSelect += new System.Windows.Forms.TreeViewEventHandler(this.treeView_AfterSelect);
+            // 
+            // cmsTree
+            // 
+            this.cmsTree.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.miCollapseAll});
+            this.cmsTree.Name = "cmsTree";
+            this.cmsTree.Size = new System.Drawing.Size(137, 26);
+            // 
+            // miCollapseAll
+            // 
+            this.miCollapseAll.Image = global::Scada.Forms.Properties.Resources.collapse_all;
+            this.miCollapseAll.Name = "miCollapseAll";
+            this.miCollapseAll.Size = new System.Drawing.Size(136, 22);
+            this.miCollapseAll.Text = "Collapse All";
+            this.miCollapseAll.Click += new System.EventHandler(this.miCollapseAll_Click);
             // 
             // ilTree
             // 
@@ -200,21 +216,6 @@
             this.propertyGrid.Name = "propertyGrid";
             this.propertyGrid.Size = new System.Drawing.Size(435, 465);
             this.propertyGrid.TabIndex = 1;
-            // 
-            // cmsTree
-            // 
-            this.cmsTree.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.miCollapseAll});
-            this.cmsTree.Name = "cmsTree";
-            this.cmsTree.Size = new System.Drawing.Size(181, 48);
-            this.cmsTree.Opening += new System.ComponentModel.CancelEventHandler(this.cmsTree_Opening);
-            // 
-            // miCollapseAll
-            // 
-            this.miCollapseAll.Image = global::Scada.Forms.Properties.Resources.collapse_all;
-            this.miCollapseAll.Name = "miCollapseAll";
-            this.miCollapseAll.Size = new System.Drawing.Size(136, 22);
-            this.miCollapseAll.Text = "Collapse All";
             // 
             // FrmModuleConfig
             // 

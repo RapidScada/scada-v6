@@ -109,7 +109,8 @@ namespace Scada.Forms.Forms
 
         private void FrmModuleConfig_Load(object sender, EventArgs e)
         {
-            FormTranslator.Translate(this, GetType().FullName);
+            FormTranslator.Translate(this, GetType().FullName, 
+                new FormTranslatorOptions { ContextMenus = new ContextMenuStrip[] { cmsTree } });
 
             if (!configProvider.LoadConfig(out string errMsg))
                 ScadaUiUtils.ShowError(errMsg);
@@ -156,17 +157,26 @@ namespace Scada.Forms.Forms
 
         private void btnMoveUp_Click(object sender, EventArgs e)
         {
-
+            treeView.MoveUpSelectedNode(TreeNodeBehavior.WithinParent);
+            Modified = true;
         }
 
         private void btnMoveDown_Click(object sender, EventArgs e)
         {
-
+            treeView.MoveDownSelectedNode(TreeNodeBehavior.WithinParent);
+            Modified = true;
         }
 
         private void btnDelete_Click(object sender, EventArgs e)
         {
+            treeView.RemoveSelectedNode();
+            Modified = true;
 
+            if (treeView.Nodes.Count == 0)
+            {
+                //SetButtonsEnabled();
+                propertyGrid.SelectedObject = null;
+            }
         }
 
 
@@ -186,7 +196,7 @@ namespace Scada.Forms.Forms
             e.Node.SetImageKey(configProvider.ChooseNodeImage(e.Node, false));
         }
 
-        private void cmsTree_Opening(object sender, System.ComponentModel.CancelEventArgs e)
+        private void miCollapseAll_Click(object sender, EventArgs e)
         {
             treeView.CollapseAll();
         }

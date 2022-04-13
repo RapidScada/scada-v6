@@ -90,6 +90,9 @@ namespace Scada.Forms
         {
             Config = ConfigCopy;
             ConfigCopy = Config?.DeepClone();
+
+            if (Config is ITreeNode treeNode)
+                treeNode.RestoreHierarchy();
         }
 
         /// <summary>
