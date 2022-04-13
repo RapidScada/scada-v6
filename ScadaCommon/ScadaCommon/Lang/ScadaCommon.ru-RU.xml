@@ -144,7 +144,6 @@
   <Dictionary key="Scada.Forms.Forms.FrmModuleConfig">
     <Phrase key="this">Конфигурация модуля</Phrase>
     <Phrase key="btnAdd.ToolTip">Добавить</Phrase>
-    <Phrase key="btnAddWithChoice.ToolTip">Выбрать добавляемый объект</Phrase>
     <Phrase key="btnMoveUp.ToolTip">Переместить вверх</Phrase>
     <Phrase key="btnMoveDown.ToolTip">Переместить вниз</Phrase>
     <Phrase key="btnDelete.ToolTip">Удалить</Phrase>

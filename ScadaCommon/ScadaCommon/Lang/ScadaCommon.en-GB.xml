@@ -144,7 +144,6 @@
   <Dictionary key="Scada.Forms.Forms.FrmModuleConfig">
     <Phrase key="this">Module Configuration</Phrase>
     <Phrase key="btnAdd.ToolTip">Add</Phrase>
-    <Phrase key="btnAddWithChoice.ToolTip">Select Object to Add</Phrase>
     <Phrase key="btnMoveUp.ToolTip">Move Up</Phrase>
     <Phrase key="btnMoveDown.ToolTip">Move Down</Phrase>
     <Phrase key="btnDelete.ToolTip">Delete</Phrase>

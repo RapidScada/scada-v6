@@ -2,7 +2,6 @@
 // Licensed under the Apache License, Version 2.0. See License.txt in the project root for license information.
 
 using Scada.Config;
-using System;
 using System.Collections.Generic;
 using System.Drawing;
 using System.IO;
@@ -21,10 +20,13 @@ namespace Scada.Forms
         /// </summary>
         public ConfigProvider()
         {
-            FormTitle = "";
             ConfigFileName = "";
             Config = null;
             ConfigCopy = null;
+            FormTitle = "";
+            GridToolbarVisible = true;
+            GridHelpVisible = true;
+            GridSort = PropertySort.CategorizedAlphabetical;
         }
 
 
@@ -43,11 +45,25 @@ namespace Scada.Forms
         /// </summary>
         protected BaseConfig ConfigCopy { get; set; }
 
-
         /// <summary>
         /// Get the title of the configuration form.
         /// </summary>
         public string FormTitle { get; protected set; }
+
+        /// <summary>
+        /// Gets a value indicating whether the property grid toolbar is visible.
+        /// </summary>
+        public bool GridToolbarVisible { get; protected set; }
+
+        /// <summary>
+        /// Gets a value indicating whether to show the description panel of the property grid.
+        /// </summary>
+        public bool GridHelpVisible { get; protected set; }
+
+        /// <summary>
+        /// Gets the type of property grid sorting.
+        /// </summary>
+        public PropertySort GridSort { get; protected set; }
 
 
         /// <summary>
@@ -174,16 +190,19 @@ namespace Scada.Forms
         }
 
         /// <summary>
-        /// Selects a node image key corresponding to the specified object.
+        /// Gets an image key for the specified object.
         /// </summary>
-        public virtual string ChooseNodeImage(TreeNode treeNode, bool expanded = false)
+        public virtual string GetNodeImage(object obj, bool expanded = false)
         {
-            ArgumentNullException.ThrowIfNull(treeNode, nameof(treeNode));
+            return "";
+        }
 
-            if (treeNode.ImageKey.StartsWith("folder_"))
-                return expanded ? "folder_open.png" : "folder_closed.png";
-            else
-                return treeNode.ImageKey;
+        /// <summary>
+        /// Gets a tree node text for the specified object.
+        /// </summary>
+        public virtual string GetNodeText(object obj)
+        {
+            return obj == null ? "" : obj.ToString();
         }
 
         /// <summary>

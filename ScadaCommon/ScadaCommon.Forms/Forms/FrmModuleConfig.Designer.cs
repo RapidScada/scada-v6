@@ -82,7 +82,6 @@
             this.btnAddWithChoice.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.btnAddWithChoice.Name = "btnAddWithChoice";
             this.btnAddWithChoice.Size = new System.Drawing.Size(29, 22);
-            this.btnAddWithChoice.ToolTipText = "Select Object to Add";
             // 
             // btnMoveUp
             // 
@@ -216,6 +215,7 @@
             this.propertyGrid.Name = "propertyGrid";
             this.propertyGrid.Size = new System.Drawing.Size(435, 465);
             this.propertyGrid.TabIndex = 1;
+            this.propertyGrid.PropertyValueChanged += new System.Windows.Forms.PropertyValueChangedEventHandler(this.propertyGrid_PropertyValueChanged);
             // 
             // FrmModuleConfig
             // 

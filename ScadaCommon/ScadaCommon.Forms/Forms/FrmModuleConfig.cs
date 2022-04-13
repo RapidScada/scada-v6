@@ -167,6 +167,10 @@ namespace Scada.Forms.Forms
             if (!string.IsNullOrEmpty(configProvider.FormTitle))
                 Text = configProvider.FormTitle;
 
+            propertyGrid.ToolbarVisible = configProvider.GridToolbarVisible;
+            propertyGrid.HelpVisible = configProvider.GridHelpVisible;
+            propertyGrid.PropertySort = configProvider.GridSort;
+
             if (!configProvider.LoadConfig(out string errMsg))
                 ScadaUiUtils.ShowError(errMsg);
 
@@ -245,12 +249,18 @@ namespace Scada.Forms.Forms
 
         private void treeView_AfterExpand(object sender, TreeViewEventArgs e)
         {
-            e.Node.SetImageKey(configProvider.ChooseNodeImage(e.Node, true));
+            string nodeImage = configProvider.GetNodeImage(configProvider.GetSelectedObject(e.Node), true);
+
+            if (!string.IsNullOrEmpty(nodeImage))
+                e.Node.SetImageKey(nodeImage);
         }
 
         private void treeView_AfterCollapse(object sender, TreeViewEventArgs e)
         {
-            e.Node.SetImageKey(configProvider.ChooseNodeImage(e.Node, false));
+            string nodeImage = configProvider.GetNodeImage(configProvider.GetSelectedObject(e.Node), false);
+
+            if (!string.IsNullOrEmpty(nodeImage))
+                e.Node.SetImageKey(nodeImage);
         }
 
         private void miCollapseAll_Click(object sender, EventArgs e)
@@ -258,6 +268,22 @@ namespace Scada.Forms.Forms
             treeView.CollapseAll();
         }
 
+        private void propertyGrid_PropertyValueChanged(object s, PropertyValueChangedEventArgs e)
+        {
+            if (treeView.SelectedNode is TreeNode selectedNode)
+            {
+                string nodeImage = configProvider.GetNodeImage(propertyGrid.SelectedObject, selectedNode.IsExpanded);
+                string nodeText = configProvider.GetNodeText(propertyGrid.SelectedObject);
+
+                if (!string.IsNullOrEmpty(nodeImage))
+                    selectedNode.SetImageKey(nodeImage);
+
+                if (selectedNode.Text != nodeText)
+                    selectedNode.Text = nodeText;
+            }
+
+            Modified = true;
+        }
 
         private void btnSave_Click(object sender, EventArgs e)
         {
