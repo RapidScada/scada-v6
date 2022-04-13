@@ -2,6 +2,7 @@
 // Licensed under the Apache License, Version 2.0. See License.txt in the project root for license information.
 
 using Scada.Config;
+using System;
 using System.Collections.Generic;
 using System.Drawing;
 using System.IO;
@@ -10,15 +11,15 @@ using System.Windows.Forms;
 namespace Scada.Forms
 {
     /// <summary>
-    /// Represents an intermediary between a module configuration and a configuration form.
-    /// <para>Представляет посредника между конфигурацией модуля и формой конфигурации.</para>
+    /// Represents an intermediary between a configuration and a configuration form.
+    /// <para>Представляет посредника между конфигурацией и формой конфигурации.</para>
     /// </summary>
-    public abstract class ModuleConfigProvider
+    public abstract class ConfigProvider
     {
         /// <summary>
         /// Initializes a new instance of the class.
         /// </summary>
-        public ModuleConfigProvider()
+        public ConfigProvider()
         {
             ConfigFileName = "";
             Config = null;
@@ -105,6 +106,19 @@ namespace Scada.Forms
         public virtual TreeNode[] GetTreeNodes()
         {
             return null;
+        }
+
+        /// <summary>
+        /// Selects a node image key corresponding to the specified object.
+        /// </summary>
+        public virtual string ChooseNodeImage(TreeNode treeNode, bool expanded = false)
+        {
+            ArgumentNullException.ThrowIfNull(treeNode, nameof(treeNode));
+
+            if (treeNode.ImageKey.StartsWith("folder_"))
+                return expanded ? "folder_open.png" : "folder_closed.png";
+            else
+                return treeNode.ImageKey;
         }
     }
 }

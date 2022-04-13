@@ -43,9 +43,12 @@
             this.treeView = new System.Windows.Forms.TreeView();
             this.ilTree = new System.Windows.Forms.ImageList(this.components);
             this.propertyGrid = new System.Windows.Forms.PropertyGrid();
+            this.cmsTree = new System.Windows.Forms.ContextMenuStrip(this.components);
+            this.miCollapseAll = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStrip.SuspendLayout();
             this.pnlBottom.SuspendLayout();
             this.tableLayoutPanel.SuspendLayout();
+            this.cmsTree.SuspendLayout();
             this.SuspendLayout();
             // 
             // toolStrip
@@ -171,6 +174,7 @@
             // 
             // treeView
             // 
+            this.treeView.ContextMenuStrip = this.cmsTree;
             this.treeView.Dock = System.Windows.Forms.DockStyle.Fill;
             this.treeView.ImageIndex = 0;
             this.treeView.ImageList = this.ilTree;
@@ -179,6 +183,8 @@
             this.treeView.SelectedImageIndex = 0;
             this.treeView.Size = new System.Drawing.Size(287, 465);
             this.treeView.TabIndex = 0;
+            this.treeView.AfterCollapse += new System.Windows.Forms.TreeViewEventHandler(this.treeView_AfterCollapse);
+            this.treeView.AfterExpand += new System.Windows.Forms.TreeViewEventHandler(this.treeView_AfterExpand);
             this.treeView.AfterSelect += new System.Windows.Forms.TreeViewEventHandler(this.treeView_AfterSelect);
             // 
             // ilTree
@@ -194,6 +200,21 @@
             this.propertyGrid.Name = "propertyGrid";
             this.propertyGrid.Size = new System.Drawing.Size(435, 465);
             this.propertyGrid.TabIndex = 1;
+            // 
+            // cmsTree
+            // 
+            this.cmsTree.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.miCollapseAll});
+            this.cmsTree.Name = "cmsTree";
+            this.cmsTree.Size = new System.Drawing.Size(181, 48);
+            this.cmsTree.Opening += new System.ComponentModel.CancelEventHandler(this.cmsTree_Opening);
+            // 
+            // miCollapseAll
+            // 
+            this.miCollapseAll.Image = global::Scada.Forms.Properties.Resources.collapse_all;
+            this.miCollapseAll.Name = "miCollapseAll";
+            this.miCollapseAll.Size = new System.Drawing.Size(136, 22);
+            this.miCollapseAll.Text = "Collapse All";
             // 
             // FrmModuleConfig
             // 
@@ -217,6 +238,7 @@
             this.toolStrip.PerformLayout();
             this.pnlBottom.ResumeLayout(false);
             this.tableLayoutPanel.ResumeLayout(false);
+            this.cmsTree.ResumeLayout(false);
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -238,5 +260,7 @@
         private System.Windows.Forms.ToolStripButton btnMoveDown;
         private System.Windows.Forms.ToolStripButton btnDelete;
         private System.Windows.Forms.ImageList ilTree;
+        private System.Windows.Forms.ContextMenuStrip cmsTree;
+        private System.Windows.Forms.ToolStripMenuItem miCollapseAll;
     }
 }

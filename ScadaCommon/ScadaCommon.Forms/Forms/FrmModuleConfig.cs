@@ -15,8 +15,8 @@ namespace Scada.Forms.Forms
     /// </summary>
     public partial class FrmModuleConfig : Form
     {
-        private readonly ModuleConfigProvider configProvider; // provides access to the module configuration
-        private bool modified; // indicates that the module configuration is modified
+        private readonly ConfigProvider configProvider; // provides access to the module configuration
+        private bool modified;                          // indicates that the module configuration is modified
 
 
         /// <summary>
@@ -30,7 +30,7 @@ namespace Scada.Forms.Forms
         /// <summary>
         /// Initializes a new instance of the class.
         /// </summary>
-        public FrmModuleConfig(ModuleConfigProvider configProvider)
+        public FrmModuleConfig(ConfigProvider configProvider)
             : this()
         {
             this.configProvider = configProvider ?? throw new ArgumentNullException(nameof(configProvider));
@@ -169,11 +169,28 @@ namespace Scada.Forms.Forms
 
         }
 
+
         private void treeView_AfterSelect(object sender, TreeViewEventArgs e)
         {
             propertyGrid.SelectedObject = treeView.SelectedNode?.Tag;
             //SetButtonsEnabled();
         }
+
+        private void treeView_AfterExpand(object sender, TreeViewEventArgs e)
+        {
+            e.Node.SetImageKey(configProvider.ChooseNodeImage(e.Node, true));
+        }
+
+        private void treeView_AfterCollapse(object sender, TreeViewEventArgs e)
+        {
+            e.Node.SetImageKey(configProvider.ChooseNodeImage(e.Node, false));
+        }
+
+        private void cmsTree_Opening(object sender, System.ComponentModel.CancelEventArgs e)
+        {
+            treeView.CollapseAll();
+        }
+
 
         private void btnSave_Click(object sender, EventArgs e)
         {

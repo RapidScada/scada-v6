@@ -141,6 +141,18 @@
     <Phrase key="btnSelect">Выбрать</Phrase>
     <Phrase key="btnCancel">Отмена</Phrase>
   </Dictionary>
+  <Dictionary key="Scada.Forms.Forms.FrmModuleConfig">
+    <Phrase key="this">Конфигурация модуля</Phrase>
+    <Phrase key="btnAdd.ToolTip">Добавить</Phrase>
+    <Phrase key="btnAddWithChoice.ToolTip">Выбрать добавляемый объект</Phrase>
+    <Phrase key="btnMoveUp.ToolTip">Переместить вверх</Phrase>
+    <Phrase key="btnMoveDown.ToolTip">Переместить вниз</Phrase>
+    <Phrase key="btnDelete.ToolTip">Удалить</Phrase>
+    <Phrase key="btnSave">Сохранить</Phrase>
+    <Phrase key="btnCancel">Отмена</Phrase>
+    <Phrase key="btnClose">Закрыть</Phrase>
+    <Phrase key="miCollapseAll">Свернуть все</Phrase>
+  </Dictionary>
   <Dictionary key="Scada.Forms.FrmOptions">
     <Phrase key="this">Параметры</Phrase>
     <Phrase key="btnOK">OK</Phrase>
