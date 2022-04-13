@@ -22,12 +22,12 @@ namespace Scada.Comm.Drivers.DrvMqttClient.Config
         /// <summary>
         /// Gets the subscriptions.
         /// </summary>
-        public List<SubscriptionConfig> Subscriptions { get; private set; }
+        public SubscriptionList Subscriptions { get; private set; }
 
         /// <summary>
         /// Gets the commands.
         /// </summary>
-        public List<CommandConfig> Commands { get; private set; }
+        public CommandList Commands { get; private set; }
 
 
         /// <summary>
@@ -36,8 +36,8 @@ namespace Scada.Comm.Drivers.DrvMqttClient.Config
         protected override void SetToDefault()
         {
             DeviceOptions = new DeviceOptions();
-            Subscriptions = new List<SubscriptionConfig>();
-            Commands = new List<CommandConfig>();
+            Subscriptions = new SubscriptionList();
+            Commands = new CommandList();
         }
 
         /// <summary>
@@ -56,7 +56,7 @@ namespace Scada.Comm.Drivers.DrvMqttClient.Config
             {
                 foreach (XmlElement subscriptionElem in subscriptionsNode.SelectNodes("Subscription"))
                 {
-                    SubscriptionConfig subscriptionConfig = new();
+                    SubscriptionConfig subscriptionConfig = new() { Parent = Subscriptions };
                     subscriptionConfig.LoadFromXml(subscriptionElem);
                     Subscriptions.Add(subscriptionConfig);
                 }
@@ -66,7 +66,7 @@ namespace Scada.Comm.Drivers.DrvMqttClient.Config
             {
                 foreach (XmlElement commandElem in commandsNode.SelectNodes("Command"))
                 {
-                    CommandConfig commandConfig = new();
+                    CommandConfig commandConfig = new() { Parent = Commands };
                     commandConfig.LoadFromXml(commandElem);
                     Commands.Add(commandConfig);
                 }

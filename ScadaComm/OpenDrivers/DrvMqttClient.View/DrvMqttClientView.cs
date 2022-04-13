@@ -3,6 +3,7 @@
 
 using Scada.Comm.Config;
 using Scada.Comm.Devices;
+using Scada.Forms;
 using Scada.Lang;
 
 namespace Scada.Comm.Drivers.DrvMqttClient.View
@@ -46,6 +47,17 @@ namespace Scada.Comm.Drivers.DrvMqttClient.View
             }
         }
 
+
+        /// <summary>
+        /// Loads language dictionaries.
+        /// </summary>
+        public override void LoadDictionaries()
+        {
+            if (!Locale.LoadDictionaries(AppDirs.LangDir, DriverUtils.DriverCode, out string errMsg))
+                ScadaUiUtils.ShowError(errMsg);
+
+            DriverPhrases.Init();
+        }
 
         /// <summary>
         /// Creates a new device user interface.

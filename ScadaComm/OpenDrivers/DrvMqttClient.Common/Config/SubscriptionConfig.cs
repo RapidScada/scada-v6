@@ -1,6 +1,7 @@
 ﻿// Copyright (c) Rapid Software LLC. All rights reserved.
 // Licensed under the Apache License, Version 2.0. See License.txt in the project root for license information.
 
+using System.Collections;
 using System.Xml;
 
 namespace Scada.Comm.Drivers.DrvMqttClient.Config
@@ -10,8 +11,15 @@ namespace Scada.Comm.Drivers.DrvMqttClient.Config
     /// <para>Представляет конфигурацию подписки.</para>
     /// </summary>
     [Serializable]
-    public class SubscriptionConfig : BaseItemConfig
+    public class SubscriptionConfig : BaseItemConfig, ITreeNode
     {
+        /// <summary>
+        /// The parent list containing this subscription.
+        /// </summary>
+        [NonSerialized]
+        private SubscriptionList parentList;
+
+
         /// <summary>
         /// Initializes a new instance of the class.
         /// </summary>
@@ -22,6 +30,7 @@ namespace Scada.Comm.Drivers.DrvMqttClient.Config
             JsEnabled = false;
             JsFileName = "";
             SubItems = new List<string>();
+            Parent = null;
         }
 
 
@@ -49,8 +58,34 @@ namespace Scada.Comm.Drivers.DrvMqttClient.Config
         /// Gets the subitems that represent multiple device tags for the topic.
         /// </summary>
         public List<string> SubItems { get; private set; }
-        
-        
+
+        /// <summary>
+        /// Gets or sets the parent tree node.
+        /// </summary>
+        public ITreeNode Parent
+        {
+            get
+            {
+                return parentList;
+            }
+            set
+            {
+                parentList = value == null ? null : (SubscriptionList)value;
+            }
+        }
+
+        /// <summary>
+        /// Gets the child tree nodes.
+        /// </summary>
+        public IList Children
+        {
+            get
+            {
+                return null;
+            }
+        }
+
+
         /// <summary>
         /// Loads the configuration from the XML node.
         /// </summary>

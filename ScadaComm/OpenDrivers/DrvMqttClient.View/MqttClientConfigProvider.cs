@@ -44,6 +44,16 @@ namespace Scada.Comm.Drivers.DrvMqttClient.View
 
 
         /// <summary>
+        /// Restores a configuration from the copy.
+        /// </summary>
+        public override void RestoreConfig()
+        {
+            base.RestoreConfig();
+            DeviceConfig.Subscriptions.RestoreHierarchy();
+            DeviceConfig.Commands.RestoreHierarchy();
+        }
+
+        /// <summary>
         /// Gets images used by the configuration tree.
         /// </summary>
         public override Dictionary<string, Image> GetTreeViewImages()
@@ -63,9 +73,12 @@ namespace Scada.Comm.Drivers.DrvMqttClient.View
         /// </summary>
         public override TreeNode[] GetTreeNodes()
         {
-            TreeNode optionsNode = TreeViewExtensions.CreateNode("Options", ImageKey.Options, DeviceConfig.DeviceOptions);
-            TreeNode subscriptionsNode = TreeViewExtensions.CreateNode("Subscriptions", ImageKey.FolderClosed);
-            TreeNode commandsNode = TreeViewExtensions.CreateNode("Commands", ImageKey.FolderClosed);
+            TreeNode optionsNode = TreeViewExtensions.CreateNode(
+                DriverPhrases.OptionsNode, ImageKey.Options, DeviceConfig.DeviceOptions);
+            TreeNode subscriptionsNode = TreeViewExtensions.CreateNode(
+                DriverPhrases.SubscriptionsNode, ImageKey.FolderClosed);
+            TreeNode commandsNode = TreeViewExtensions.CreateNode(
+                DriverPhrases.CommandsNode, ImageKey.FolderClosed);
 
             foreach (SubscriptionConfig subscription in DeviceConfig.Subscriptions)
             {
