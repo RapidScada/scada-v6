@@ -1,5 +1,6 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <ScadaDictionaries>
+  <!-- ScadaCommon.dll -->
   <Dictionary key="Scada.Application">
     <Phrase key="ProductName">Rapid SCADA</Phrase>
     <Phrase key="ServerAppName">Сервер</Phrase>
@@ -93,6 +94,11 @@
     <Phrase key="UnnamedConnection">&lt;Безымянное соединение&gt;</Phrase>
     <Phrase key="XmlFileFilter">Файлы XML (*.xml)|*.xml|Все файлы (*.*)|*.*</Phrase>
   </Dictionary>
+  <Dictionary key="Scada.CnlDataFormatter">
+    <Phrase key="CommandDescrPrefix">Команда: </Phrase>
+    <Phrase key="StatusFormat">Статус {0}</Phrase>
+  </Dictionary>
+  <!-- ScadaCommon.Forms.dll -->
   <Dictionary key="Scada.Forms.CtrlClientConnection">
     <Phrase key="gbConnectionOptions">Параметры соединения</Phrase>
     <Phrase key="lblName">Наименование</Phrase>
@@ -156,9 +162,5 @@
     <Phrase key="this">Параметры</Phrase>
     <Phrase key="btnOK">OK</Phrase>
     <Phrase key="btnCancel">Отмена</Phrase>
-  </Dictionary>
-  <Dictionary key="Scada.CnlDataFormatter">
-    <Phrase key="CommandDescrPrefix">Команда: </Phrase>
-    <Phrase key="StatusFormat">Статус {0}</Phrase>
   </Dictionary>
 </ScadaDictionaries>

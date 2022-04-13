@@ -48,7 +48,10 @@ namespace Scada.Forms
         public static void SetImageKey(this TreeNode treeNode, string imageKey)
         {
             if (treeNode.ImageKey != imageKey)
-                treeNode.ImageKey = treeNode.SelectedImageKey = imageKey;
+                treeNode.ImageKey = imageKey;
+
+            if (treeNode.SelectedImageKey != imageKey)
+                treeNode.SelectedImageKey = imageKey;
         }
 
         /// <summary>

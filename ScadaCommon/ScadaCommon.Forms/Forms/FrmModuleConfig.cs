@@ -137,10 +137,10 @@ namespace Scada.Forms.Forms
         private void SetButtonsEnabled()
         {
             TreeNode selectedNode = treeView.SelectedNode;
-            btnAdd.Enabled = configProvider.AllowAdd(selectedNode);
-            btnMoveUp.Enabled = configProvider.AllowMoveUp(selectedNode);
-            btnMoveDown.Enabled = configProvider.AllowMoveDown(selectedNode);
-            btnDelete.Enabled = configProvider.AllowDelete(selectedNode);
+            btnAdd.Enabled = configProvider.AllowAction(ConfigAction.Add, btnAdd, selectedNode);
+            btnMoveUp.Enabled = configProvider.AllowAction(ConfigAction.MoveUp, btnMoveUp, selectedNode);
+            btnMoveDown.Enabled = configProvider.AllowAction(ConfigAction.MoveDown, btnMoveDown, selectedNode);
+            btnDelete.Enabled = configProvider.AllowAction(ConfigAction.Delete, btnDelete, selectedNode);
 
             if (btnAddWithChoice.Visible)
             {
@@ -148,7 +148,7 @@ namespace Scada.Forms.Forms
 
                 foreach (ToolStripItem item in btnAddWithChoice.DropDownItems)
                 {
-                    item.Enabled = configProvider.AllowAdd(selectedNode, item);
+                    item.Enabled = configProvider.AllowAction(ConfigAction.Add, item, selectedNode);
 
                     if (item.Enabled)
                         anyItemEnabled = true;

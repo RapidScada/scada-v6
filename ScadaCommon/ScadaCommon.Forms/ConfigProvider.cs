@@ -134,43 +134,22 @@ namespace Scada.Forms
         }
 
         /// <summary>
-        /// Determines if a new item can be added.
+        /// Determines if the specified action can be performed.
         /// </summary>
-        public virtual bool AllowAdd(TreeNode selectedNode, object button)
+        public virtual bool AllowAction(ConfigAction action, object button, TreeNode selectedNode)
         {
-            return true;
-        }
+            return action switch
+            {
+                ConfigAction.MoveUp => 
+                    TreeViewExtensions.MoveUpIsEnabled(selectedNode, TreeNodeBehavior.WithinParent),
 
-        /// <summary>
-        /// Determines if a new item can be added.
-        /// </summary>
-        public virtual bool AllowAdd(TreeNode selectedNode)
-        {
-            return true;
-        }
+                ConfigAction.MoveDown => 
+                    TreeViewExtensions.MoveDownIsEnabled(selectedNode, TreeNodeBehavior.WithinParent),
 
-        /// <summary>
-        /// Determines if the selected item can be moved up.
-        /// </summary>
-        public virtual bool AllowMoveUp(TreeNode selectedNode)
-        {
-            return TreeViewExtensions.MoveUpIsEnabled(selectedNode, TreeNodeBehavior.WithinParent);
-        }
+                ConfigAction.Delete => selectedNode != null,
 
-        /// <summary>
-        /// Determines if the selected item can be moved down.
-        /// </summary>
-        public virtual bool AllowMoveDown(TreeNode selectedNode)
-        {
-            return TreeViewExtensions.MoveDownIsEnabled(selectedNode, TreeNodeBehavior.WithinParent);
-        }
-
-        /// <summary>
-        /// Determines if the selected item can be deleted.
-        /// </summary>
-        public virtual bool AllowDelete(TreeNode selectedNode)
-        {
-            return selectedNode != null;
+                _ => true
+            };
         }
 
         /// <summary>
