@@ -2,9 +2,13 @@
 <DrvMqttClientDictionaries>
   <Dictionary key="Scada.Comm.Drivers.DrvMqttClient.View.MqttClientConfigProvider">
     <Phrase key="FormTitle">Device {0} Properties - MQTT Client</Phrase>
+    <Phrase key="AddSubscriptionButton">Add Subscription</Phrase>
+    <Phrase key="AddCommandButton">Add Command</Phrase>
     <Phrase key="OptionsNode">Options</Phrase>
     <Phrase key="SubscriptionsNode">Subscriptions</Phrase>
     <Phrase key="CommandsNode">Commands</Phrase>
+    <Phrase key="UnnamedSubscription">&lt;Unnamed Subscription&gt;</Phrase>
+    <Phrase key="UnnamedCommand">&lt;Unnamed Command&gt;</Phrase>
     <Phrase key=""></Phrase>
   </Dictionary>
 </DrvMqttClientDictionaries>

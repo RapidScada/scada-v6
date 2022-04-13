@@ -2,9 +2,12 @@
 <DrvMqttClientDictionaries>
   <Dictionary key="Scada.Comm.Drivers.DrvMqttClient.View.MqttClientConfigProvider">
     <Phrase key="FormTitle">Свойства устройства {0} - MQTT-клиент</Phrase>
+    <Phrase key="AddSubscriptionButton">Добавить подписку</Phrase>
+    <Phrase key="AddCommandButton">Добавить команду</Phrase>
     <Phrase key="OptionsNode">Параметры</Phrase>
     <Phrase key="SubscriptionsNode">Подписки</Phrase>
     <Phrase key="CommandsNode">Команды</Phrase>
-    <Phrase key=""></Phrase>
+    <Phrase key="UnnamedSubscription">&lt;Безымянная подписка&gt;</Phrase>
+    <Phrase key="UnnamedCommand">&lt;Безымянная команда&gt;</Phrase>
   </Dictionary>
 </DrvMqttClientDictionaries>

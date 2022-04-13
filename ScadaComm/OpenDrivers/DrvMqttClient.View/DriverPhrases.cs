@@ -12,18 +12,26 @@ namespace Scada.Comm.Drivers.DrvMqttClient.View
     public static class DriverPhrases
     {
         // Scada.Comm.Drivers.DrvMqttClient.View.MqttClientConfigProvider
+        public static string AddSubscriptionButton { get; private set; }
+        public static string AddCommandButton { get; private set; }
         public static string FormTitle { get; private set; }
         public static string OptionsNode { get; private set; }
         public static string SubscriptionsNode { get; private set; }
         public static string CommandsNode { get; private set; }
+        public static string UnnamedSubscription { get; private set; }
+        public static string UnnamedCommand { get; private set; }
 
         public static void Init()
         {
             LocaleDict dict = Locale.GetDictionary("Scada.Comm.Drivers.DrvMqttClient.View.MqttClientConfigProvider");
+            AddSubscriptionButton = dict[nameof(AddSubscriptionButton)];
+            AddCommandButton = dict[nameof(AddCommandButton)];
             FormTitle = dict[nameof(FormTitle)];
             OptionsNode = dict[nameof(OptionsNode)];
             SubscriptionsNode = dict[nameof(SubscriptionsNode)];
             CommandsNode = dict[nameof(CommandsNode)];
+            UnnamedSubscription = dict[nameof(UnnamedSubscription)];
+            UnnamedCommand = dict[nameof(UnnamedCommand)];
         }
     }
 }

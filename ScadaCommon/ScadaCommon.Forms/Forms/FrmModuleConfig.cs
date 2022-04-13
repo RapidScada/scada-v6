@@ -57,6 +57,35 @@ namespace Scada.Forms.Forms
 
 
         /// <summary>
+        /// Adds buttons to the toolbar.
+        /// </summary>
+        private void AddToolButtons()
+        {
+            btnAdd.Visible = false;
+            btnAddWithChoice.Visible = false;
+            ToolStripItem[] buttons = configProvider.GetAddButtons();
+
+            if (buttons != null)
+            {
+                if (buttons.Length > 1)
+                {
+                    btnAddWithChoice.Visible = true;
+                    btnAddWithChoice.DropDownItems.AddRange(buttons);
+                }
+                else if (buttons.Length > 0)
+                {
+                    btnAdd.Visible = true;
+                    btnAdd.ToolTipText = buttons[0].Text;
+                }
+
+                foreach (ToolStripItem button in buttons)
+                {
+                    button.Click += btnAdd_Click;
+                }
+            }
+        }
+
+        /// <summary>
         /// Takes the tree view and loads them into an image list.
         /// </summary>
         private void TakeTreeViewImages()
@@ -92,17 +121,40 @@ namespace Scada.Forms.Forms
                 }
 
                 if (treeView.Nodes.Count > 0)
-                {
                     treeView.SelectedNode = treeView.Nodes[0];
-                }
                 else
-                {
-                    //SetButtonsEnabled();
-                }
+                    SetButtonsEnabled();
             }
             finally
             {
                 treeView.EndUpdate();
+            }
+        }
+
+        /// <summary>
+        /// Enables or disables the toolbar buttons.
+        /// </summary>
+        private void SetButtonsEnabled()
+        {
+            TreeNode selectedNode = treeView.SelectedNode;
+            btnAdd.Enabled = configProvider.AllowAdd(selectedNode);
+            btnMoveUp.Enabled = configProvider.AllowMoveUp(selectedNode);
+            btnMoveDown.Enabled = configProvider.AllowMoveDown(selectedNode);
+            btnDelete.Enabled = configProvider.AllowDelete(selectedNode);
+
+            if (btnAddWithChoice.Visible)
+            {
+                bool anyItemEnabled = false;
+
+                foreach (ToolStripItem item in btnAddWithChoice.DropDownItems)
+                {
+                    item.Enabled = configProvider.AllowAdd(selectedNode, item);
+
+                    if (item.Enabled)
+                        anyItemEnabled = true;
+                }
+
+                btnAddWithChoice.Enabled = anyItemEnabled;
             }
         }
 
@@ -121,6 +173,7 @@ namespace Scada.Forms.Forms
             configProvider.BackupConfig();
             Modified = false;
 
+            AddToolButtons();
             TakeTreeViewImages();
             FillTreeView();
         }
@@ -155,7 +208,8 @@ namespace Scada.Forms.Forms
 
         private void btnAdd_Click(object sender, EventArgs e)
         {
-
+            configProvider.HandleAddButtonClick(sender, treeView);
+            Modified = true;
         }
 
         private void btnMoveUp_Click(object sender, EventArgs e)
@@ -177,7 +231,7 @@ namespace Scada.Forms.Forms
 
             if (treeView.Nodes.Count == 0)
             {
-                //SetButtonsEnabled();
+                SetButtonsEnabled();
                 propertyGrid.SelectedObject = null;
             }
         }
@@ -185,8 +239,8 @@ namespace Scada.Forms.Forms
 
         private void treeView_AfterSelect(object sender, TreeViewEventArgs e)
         {
-            propertyGrid.SelectedObject = treeView.SelectedNode?.Tag;
-            //SetButtonsEnabled();
+            propertyGrid.SelectedObject = configProvider.GetSelectedObject(treeView.SelectedNode);
+            SetButtonsEnabled();
         }
 
         private void treeView_AfterExpand(object sender, TreeViewEventArgs e)

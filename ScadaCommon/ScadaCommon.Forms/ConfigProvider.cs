@@ -103,6 +103,61 @@ namespace Scada.Forms
         }
 
         /// <summary>
+        /// Gets toolbar buttons for adding new items.
+        /// </summary>
+        public virtual ToolStripItem[] GetAddButtons()
+        {
+            return null;
+        }
+
+        /// <summary>
+        /// Handles a click on the add item button.
+        /// </summary>
+        public virtual void HandleAddButtonClick(object button, TreeView treeView)
+        {
+        }
+
+        /// <summary>
+        /// Determines if a new item can be added.
+        /// </summary>
+        public virtual bool AllowAdd(TreeNode selectedNode, object button)
+        {
+            return true;
+        }
+
+        /// <summary>
+        /// Determines if a new item can be added.
+        /// </summary>
+        public virtual bool AllowAdd(TreeNode selectedNode)
+        {
+            return true;
+        }
+
+        /// <summary>
+        /// Determines if the selected item can be moved up.
+        /// </summary>
+        public virtual bool AllowMoveUp(TreeNode selectedNode)
+        {
+            return TreeViewExtensions.MoveUpIsEnabled(selectedNode, TreeNodeBehavior.WithinParent);
+        }
+
+        /// <summary>
+        /// Determines if the selected item can be moved down.
+        /// </summary>
+        public virtual bool AllowMoveDown(TreeNode selectedNode)
+        {
+            return TreeViewExtensions.MoveDownIsEnabled(selectedNode, TreeNodeBehavior.WithinParent);
+        }
+
+        /// <summary>
+        /// Determines if the selected item can be deleted.
+        /// </summary>
+        public virtual bool AllowDelete(TreeNode selectedNode)
+        {
+            return selectedNode != null;
+        }
+
+        /// <summary>
         /// Gets images used by the configuration tree.
         /// </summary>
         public virtual Dictionary<string, Image> GetTreeViewImages()
@@ -129,6 +184,14 @@ namespace Scada.Forms
                 return expanded ? "folder_open.png" : "folder_closed.png";
             else
                 return treeNode.ImageKey;
+        }
+
+        /// <summary>
+        /// Gets a selected object for editing its properties.
+        /// </summary>
+        public virtual object GetSelectedObject(TreeNode selectedNode)
+        {
+            return selectedNode?.Tag;
         }
     }
 }
