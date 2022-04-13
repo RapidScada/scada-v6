@@ -1,6 +1,7 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <DrvMqttClientDictionaries>
   <Dictionary key="Scada.Comm.Drivers.DrvMqttClient.View.MqttClientConfigProvider">
+    <Phrase key="FormTitle">Свойства устройства {0} - MQTT-клиент</Phrase>
     <Phrase key="OptionsNode">Параметры</Phrase>
     <Phrase key="SubscriptionsNode">Подписки</Phrase>
     <Phrase key="CommandsNode">Команды</Phrase>

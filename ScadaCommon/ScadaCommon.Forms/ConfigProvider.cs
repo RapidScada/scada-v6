@@ -21,6 +21,7 @@ namespace Scada.Forms
         /// </summary>
         public ConfigProvider()
         {
+            FormTitle = "";
             ConfigFileName = "";
             Config = null;
             ConfigCopy = null;
@@ -41,6 +42,12 @@ namespace Scada.Forms
         /// Gets or sets the copy of the module configuration.
         /// </summary>
         protected BaseConfig ConfigCopy { get; set; }
+
+
+        /// <summary>
+        /// Get the title of the configuration form.
+        /// </summary>
+        public string FormTitle { get; protected set; }
 
 
         /// <summary>

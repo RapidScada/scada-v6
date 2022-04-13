@@ -112,6 +112,9 @@ namespace Scada.Forms.Forms
             FormTranslator.Translate(this, GetType().FullName, 
                 new FormTranslatorOptions { ContextMenus = new ContextMenuStrip[] { cmsTree } });
 
+            if (!string.IsNullOrEmpty(configProvider.FormTitle))
+                Text = configProvider.FormTitle;
+
             if (!configProvider.LoadConfig(out string errMsg))
                 ScadaUiUtils.ShowError(errMsg);
 
