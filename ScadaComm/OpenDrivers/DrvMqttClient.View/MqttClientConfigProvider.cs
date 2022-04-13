@@ -44,9 +44,10 @@ namespace Scada.Comm.Drivers.DrvMqttClient.View
             subscriptionsNode = null;
             commandsNode = null;
 
-            FormTitle = string.Format(DriverPhrases.FormTitle, deviceNum);
             ConfigFileName = Path.Combine(configDir, MqttClientDeviceConfig.GetFileName(deviceNum));
             Config = new MqttClientDeviceConfig();
+            FormTitle = string.Format(DriverPhrases.FormTitle, deviceNum);
+            GridToolbarVisible = false;
         }
 
 
@@ -61,11 +62,7 @@ namespace Scada.Comm.Drivers.DrvMqttClient.View
         /// </summary>
         private static TreeNode CreateSubscriptionNode(SubscriptionConfig subscription)
         {
-            return TreeViewExtensions.CreateNode(
-                string.IsNullOrEmpty(subscription.DisplayName) 
-                    ? DriverPhrases.UnnamedSubscription 
-                    : subscription.DisplayName,
-                ImageKey.Elem, subscription);
+            return TreeViewExtensions.CreateNode(GetSubscriptionNodeText(subscription), ImageKey.Elem, subscription);
         }
 
         /// <summary>
@@ -73,11 +70,27 @@ namespace Scada.Comm.Drivers.DrvMqttClient.View
         /// </summary>
         private static TreeNode CreateCommandNode(CommandConfig command)
         {
-            return TreeViewExtensions.CreateNode(
-                string.IsNullOrEmpty(command.DisplayName)
-                    ? DriverPhrases.UnnamedCommand
-                    : command.DisplayName,
-                ImageKey.Cmd, command);
+            return TreeViewExtensions.CreateNode(GetCommandNodeText(command), ImageKey.Cmd, command);
+        }
+
+        /// <summary>
+        /// Gets a text for the subscription tree node.
+        /// </summary>
+        private static string GetSubscriptionNodeText(SubscriptionConfig subscription)
+        {
+            return string.IsNullOrEmpty(subscription.DisplayName)
+                ? DriverPhrases.UnnamedSubscription
+                : subscription.DisplayName;
+        }
+
+        /// <summary>
+        /// Gets a text for the command tree node.
+        /// </summary>
+        private static string GetCommandNodeText(CommandConfig command)
+        {
+            return string.IsNullOrEmpty(command.DisplayName)
+                ? DriverPhrases.UnnamedCommand
+                : command.DisplayName;
         }
 
 
@@ -185,6 +198,32 @@ namespace Scada.Comm.Drivers.DrvMqttClient.View
             }
 
             return new TreeNode[] { optionsNode, subscriptionsNode, commandsNode };
+        }
+
+        /// <summary>
+        /// Gets an image key for the specified object.
+        /// </summary>
+        public override string GetNodeImage(object obj, bool expanded = false)
+        {
+            if (obj is IList)
+                return expanded ? ImageKey.FolderOpen : ImageKey.FolderClosed;
+            else
+                return "";
+        }
+
+        /// <summary>
+        /// Gets a tree node text for the specified object.
+        /// </summary>
+        public override string GetNodeText(object obj)
+        {
+            if (obj is DeviceOptions)
+                return DriverPhrases.OptionsNode;
+            else if (obj is SubscriptionConfig subscription)
+                return GetSubscriptionNodeText(subscription);
+            else if (obj is CommandConfig command)
+                return GetCommandNodeText(command);
+            else
+                return base.GetNodeText(obj);
         }
 
         /// <summary>
