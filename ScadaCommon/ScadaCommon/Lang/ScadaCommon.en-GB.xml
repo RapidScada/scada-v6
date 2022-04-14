@@ -94,6 +94,12 @@
     <Phrase key="UnnamedConnection">&lt;Unnamed Connection&gt;</Phrase>
     <Phrase key="XmlFileFilter">XML Files (*.xml)|*.xml|All Files (*.*)|*.*</Phrase>
   </Dictionary>
+  <Dictionary key="Scada.ComponentModel">
+    <Phrase key="TrueValue">Yes</Phrase>
+    <Phrase key="FalseValue">No</Phrase>
+    <Phrase key="EmptyValue">(None)</Phrase>
+    <Phrase key="CollectionValue">(Collection)</Phrase>
+  </Dictionary>
   <Dictionary key="Scada.CnlDataFormatter">
     <Phrase key="CommandDescrPrefix">Command: </Phrase>
     <Phrase key="StatusFormat">Status {0}</Phrase>

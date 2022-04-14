@@ -126,6 +126,12 @@ namespace Scada.Lang
         public static string UnnamedConnection { get; private set; }
         public static string XmlFileFilter { get; private set; }
 
+        // Scada.ComponentModel
+        public static string TrueValue { get; private set; }
+        public static string FalseValue { get; private set; }
+        public static string EmptyValue { get; private set; }
+        public static string CollectionValue { get; private set; }
+
         // Scada.CnlDataFormatter
         public static string CommandDescrPrefix { get; private set; }
         public static string StatusFormat { get; private set; }
@@ -243,6 +249,12 @@ namespace Scada.Lang
             NewConnection = dict["NewConnection"];
             UnnamedConnection = dict["UnnamedConnection"];
             XmlFileFilter = dict["XmlFileFilter"];
+
+            dict = Locale.GetDictionary("Scada.ComponentModel");
+            TrueValue = dict["TrueValue"];
+            FalseValue = dict["FalseValue"];
+            EmptyValue = dict["EmptyValue"];
+            CollectionValue = dict["CollectionValue"];
 
             dict = Locale.GetDictionary("Scada.CnlDataFormatter");
             CommandDescrPrefix = dict["CommandDescrPrefix"];

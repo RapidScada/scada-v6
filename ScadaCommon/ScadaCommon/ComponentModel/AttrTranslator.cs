@@ -29,7 +29,7 @@ using System.Collections.Generic;
 using NCM = System.ComponentModel;
 using SCM = Scada.ComponentModel;
 
-namespace Scada.Scheme.Model.PropertyGrid
+namespace Scada.ComponentModel
 {
     /// <summary>
     /// Translates property attributes.

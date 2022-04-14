@@ -94,6 +94,12 @@
     <Phrase key="UnnamedConnection">&lt;Безымянное соединение&gt;</Phrase>
     <Phrase key="XmlFileFilter">Файлы XML (*.xml)|*.xml|Все файлы (*.*)|*.*</Phrase>
   </Dictionary>
+  <Dictionary key="Scada.ComponentModel">
+    <Phrase key="TrueValue">Да</Phrase>
+    <Phrase key="FalseValue">Нет</Phrase>
+    <Phrase key="EmptyValue">(Нет)</Phrase>
+    <Phrase key="CollectionValue">(Коллекция)</Phrase>
+  </Dictionary>
   <Dictionary key="Scada.CnlDataFormatter">
     <Phrase key="CommandDescrPrefix">Команда: </Phrase>
     <Phrase key="StatusFormat">Статус {0}</Phrase>
