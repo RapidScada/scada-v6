@@ -17,12 +17,12 @@
   <Dictionary key="Scada.Comm.Drivers.DrvMqttClient.Config.CommandConfig">
     <Phrase key="CmdCode.DisplayName">Код команды</Phrase>
     <Phrase key="CmdCode.Category">Основные параметры</Phrase>
-    <Phrase key="CmdCode.Description">Код команды, связанный с топиком.</Phrase>
+    <Phrase key="CmdCode.Description">Код команды, связанной с топиком.</Phrase>
   </Dictionary>
   <Dictionary key="Scada.Comm.Drivers.DrvMqttClient.Config.SubscriptionConfig">
     <Phrase key="TagCode.DisplayName">Код тега</Phrase>
     <Phrase key="TagCode.Category">Основные параметры</Phrase>
-    <Phrase key="TagCode.Description">Код тега, связанный с топиком.</Phrase>
+    <Phrase key="TagCode.Description">Код тега, связанного с топиком.</Phrase>
     <Phrase key="ReadOnly.DisplayName">Только чтение</Phrase>
     <Phrase key="ReadOnly.Category">Основные параметры</Phrase>
     <Phrase key="ReadOnly.Description">Значение, указывающее, доступен ли топик только для чтения.</Phrase>
