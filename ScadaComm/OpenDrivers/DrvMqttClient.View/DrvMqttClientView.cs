@@ -4,9 +4,9 @@
 using Scada.Comm.Config;
 using Scada.Comm.Devices;
 using Scada.Comm.Drivers.DrvMqttClient.Config;
+using Scada.ComponentModel;
 using Scada.Forms;
 using Scada.Lang;
-using Scada.Scheme.Model.PropertyGrid;
 
 namespace Scada.Comm.Drivers.DrvMqttClient.View
 {

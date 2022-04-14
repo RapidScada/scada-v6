@@ -3,6 +3,7 @@
 
 using Scada.ComponentModel;
 using System.Xml;
+using NCM = System.ComponentModel;
 
 namespace Scada.Comm.Drivers.DrvMqttClient.Config
 {
@@ -36,13 +37,13 @@ namespace Scada.Comm.Drivers.DrvMqttClient.Config
         /// <summary>
         /// Gets or sets a value indicating whether the topic is read only.
         /// </summary>
-        [DisplayName, Category, Description]
+        [DisplayName, Category, Description, NCM.TypeConverter(typeof(BooleanConverter))]
         public bool ReadOnly { get; set; }
 
         /// <summary>
         /// Gets or sets a value indicating whether to execute JavaScript when a message is received.
         /// </summary>
-        [DisplayName, Category, Description]
+        [DisplayName, Category, Description, NCM.TypeConverter(typeof(BooleanConverter))]
         public bool JsEnabled { get; set; }
 
         /// <summary>
@@ -54,7 +55,7 @@ namespace Scada.Comm.Drivers.DrvMqttClient.Config
         /// <summary>
         /// Gets the subitems that represent multiple device tags for the topic.
         /// </summary>
-        [DisplayName, Category, Description]
+        [DisplayName, Category, Description, NCM.TypeConverter(typeof(CollectionConverter))]
         public List<string> SubItems { get; private set; }
 
 
