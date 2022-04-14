@@ -36,7 +36,7 @@ namespace Scada.Server.Modules.ModArcPostgreSql.View.Forms
             this.gbConnList = new System.Windows.Forms.GroupBox();
             this.lvConn = new System.Windows.Forms.ListView();
             this.colName = new System.Windows.Forms.ColumnHeader();
-            this.ctrlDbConnection = new Scada.Forms.CtrlDbConnection();
+            this.ctrlDbConnection = new Scada.Forms.Controls.CtrlDbConnection();
             this.gbConnList.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -160,6 +160,6 @@ namespace Scada.Server.Modules.ModArcPostgreSql.View.Forms
         private System.Windows.Forms.GroupBox gbConnList;
         private System.Windows.Forms.ListView lvConn;
         private System.Windows.Forms.ColumnHeader colName;
-        private Scada.Forms.CtrlDbConnection ctrlDbConnection;
+        private Scada.Forms.Controls.CtrlDbConnection ctrlDbConnection;
     }
 }
