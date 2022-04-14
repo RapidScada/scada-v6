@@ -247,17 +247,9 @@ namespace Scada.Forms.Forms
             SetButtonsEnabled();
         }
 
-        private void treeView_AfterExpand(object sender, TreeViewEventArgs e)
+        private void treeView_AfterCollapseExpand(object sender, TreeViewEventArgs e)
         {
-            string nodeImage = configProvider.GetNodeImage(configProvider.GetSelectedObject(e.Node), true);
-
-            if (!string.IsNullOrEmpty(nodeImage))
-                e.Node.SetImageKey(nodeImage);
-        }
-
-        private void treeView_AfterCollapse(object sender, TreeViewEventArgs e)
-        {
-            string nodeImage = configProvider.GetNodeImage(configProvider.GetSelectedObject(e.Node), false);
+            string nodeImage = configProvider.GetNodeImage(e.Node);
 
             if (!string.IsNullOrEmpty(nodeImage))
                 e.Node.SetImageKey(nodeImage);

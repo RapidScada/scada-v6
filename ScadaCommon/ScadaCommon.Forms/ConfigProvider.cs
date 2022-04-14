@@ -169,9 +169,18 @@ namespace Scada.Forms
         }
 
         /// <summary>
+        /// Gets an image key for the specified tree node.
+        /// </summary>
+        /// <remarks>An empty string keeps the node image unchanged.</remarks>
+        public virtual string GetNodeImage(TreeNode treeNode)
+        {
+            return treeNode == null ? "" : GetNodeImage(treeNode.Tag, treeNode.IsExpanded);
+        }
+
+        /// <summary>
         /// Gets an image key for the specified object.
         /// </summary>
-        public virtual string GetNodeImage(object obj, bool expanded = false)
+        public virtual string GetNodeImage(object obj, bool expanded)
         {
             return "";
         }
