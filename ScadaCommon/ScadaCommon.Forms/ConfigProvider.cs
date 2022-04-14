@@ -24,7 +24,7 @@ namespace Scada.Forms
             Config = null;
             ConfigCopy = null;
             FormTitle = "";
-            GridToolbarVisible = true;
+            GridToolbarVisible = false;
             GridHelpVisible = true;
             GridSort = PropertySort.CategorizedAlphabetical;
         }
