@@ -184,12 +184,12 @@ namespace Scada.Comm.Drivers.DrvMqttClient.View
         }
 
         /// <summary>
-        /// Gets an image key for the specified object.
+        /// Gets an image key for the specified tree node.
         /// </summary>
-        public override string GetNodeImage(object obj, bool expanded = false)
+        public override string GetNodeImage(TreeNode treeNode)
         {
-            if (obj is IList)
-                return expanded ? ImageKey.FolderOpen : ImageKey.FolderClosed;
+            if (treeNode?.Tag is IList)
+                return treeNode.IsExpanded ? ImageKey.FolderOpen : ImageKey.FolderClosed;
             else
                 return "";
         }
