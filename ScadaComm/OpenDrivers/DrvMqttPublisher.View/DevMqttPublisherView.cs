@@ -3,6 +3,7 @@
 
 using Scada.Comm.Config;
 using Scada.Comm.Devices;
+using Scada.Forms.Forms;
 
 namespace Scada.Comm.Drivers.DrvMqttPublisher.View
 {
@@ -18,8 +19,18 @@ namespace Scada.Comm.Drivers.DrvMqttPublisher.View
         public DevMqttPublisherView(DriverView parentView, LineConfig lineConfig, DeviceConfig deviceConfig)
             : base(parentView, lineConfig, deviceConfig)
         {
+            CanShowProperties = true;
         }
 
+
+        /// <summary>
+        /// Shows a modal dialog box for editing device properties.
+        /// </summary>
+        public override bool ShowProperties()
+        {
+            new FrmModuleConfig(new MqttPublisherConfigProvider(AppDirs.ConfigDir, DeviceNum)).ShowDialog();
+            return false;
+        }
 
         /// <summary>
         /// Gets the default polling options for the device.

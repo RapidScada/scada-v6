@@ -1,0 +1,10 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<DrvMqttPublisherDictionaries>
+  <Dictionary key="Scada.Comm.Drivers.DrvMqttClient.View.MqttClientConfigProvider">
+    <Phrase key="FormTitle">Device {0} Properties - MQTT Publisher</Phrase>
+    <Phrase key="AddItemButton">Add Item</Phrase>
+    <Phrase key="OptionsNode">Options</Phrase>
+    <Phrase key="ItemsNode">Items</Phrase>
+    <Phrase key="UnnamedItem">&lt;Unnamed Item&gt;</Phrase>
+  </Dictionary>
+</DrvMqttPublisherDictionaries>
