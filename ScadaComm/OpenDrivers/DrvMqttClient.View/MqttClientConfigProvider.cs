@@ -47,7 +47,6 @@ namespace Scada.Comm.Drivers.DrvMqttClient.View
             ConfigFileName = Path.Combine(configDir, MqttClientDeviceConfig.GetFileName(deviceNum));
             Config = new MqttClientDeviceConfig();
             FormTitle = string.Format(DriverPhrases.FormTitle, deviceNum);
-            GridToolbarVisible = false;
         }
 
 
