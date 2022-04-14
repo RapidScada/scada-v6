@@ -11,7 +11,7 @@ namespace Scada.Comm.Drivers.DrvMqttPublisher.View
     /// </summary>
     public static class DriverPhrases
     {
-        // Scada.Comm.Drivers.DrvMqttClient.View.MqttClientConfigProvider
+        // Scada.Comm.Drivers.DrvMqttPublisher.View.MqttPublisherConfigProvider
         public static string FormTitle { get; private set; }
         public static string AddItemButton { get; private set; }
         public static string OptionsNode { get; private set; }
@@ -20,7 +20,7 @@ namespace Scada.Comm.Drivers.DrvMqttPublisher.View
 
         public static void Init()
         {
-            LocaleDict dict = Locale.GetDictionary("Scada.Comm.Drivers.DrvMqttClient.View.MqttClientConfigProvider");
+            LocaleDict dict = Locale.GetDictionary("Scada.Comm.Drivers.DrvMqttPublisher.View.MqttPublisherConfigProvider");
             FormTitle = dict[nameof(FormTitle)];
             AddItemButton = dict[nameof(AddItemButton)];
             OptionsNode = dict[nameof(OptionsNode)];

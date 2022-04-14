@@ -1,6 +1,43 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <DrvMqttPublisherDictionaries>
-  <Dictionary key="Scada.Comm.Drivers.DrvMqttClient.View.MqttClientConfigProvider">
+  <Dictionary key="Scada.Comm.Drivers.DrvMqttPublisher.Config.DeviceOptions">
+    <Phrase key="RootTopic.DisplayName">Корневой топик</Phrase>
+    <Phrase key="RootTopic.Category">Основные параметры</Phrase>
+    <Phrase key="RootTopic.Description">Корневой топик, используемый в качестве префикса для всех топиков устройства.</Phrase>
+    <Phrase key="UndefinedValue.DisplayName">Неопределённое значение</Phrase>
+    <Phrase key="UndefinedValue.Category">Основные параметры</Phrase>
+    <Phrase key="UndefinedValue.Description">Данные для отправки, если значение канала не определено.</Phrase>
+    <Phrase key="PublishFormat.DisplayName">Формат публикации</Phrase>
+    <Phrase key="PublishFormat.Category">Основные параметры</Phrase>
+    <Phrase key="PublishFormat.Description">Формат публикуемых данных канала.&#13;&#10;Пример формата: { "Val": @val, "Stat": @stat }&#13;&#10;Пустой формат эквивалентен @val</Phrase>
+    <Phrase key="PublishOnChange.DisplayName">Публиковать по изменению</Phrase>
+    <Phrase key="PublishOnChange.Category">Основные параметры</Phrase>
+    <Phrase key="PublishOnChange.Description">Значение, указывающее, отправлять ли данные канала при изменении.</Phrase>
+    <Phrase key="PublishPeriod.DisplayName">Период публикации</Phrase>
+    <Phrase key="PublishPeriod.Category">Основные параметры</Phrase>
+    <Phrase key="PublishPeriod.Description">Период публикации всех элементов устройства, секунд.</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Comm.Drivers.DrvMqttPublisher.Config.ItemConfig">
+    <Phrase key="CnlNum.DisplayName">Номер канала</Phrase>
+    <Phrase key="CnlNum.Category">Основные параметры</Phrase>
+    <Phrase key="CnlNum.Description">Номер публикуемого канала.</Phrase>
+    <Phrase key="Topic.DisplayName">Топик</Phrase>
+    <Phrase key="Topic.Category">Основные параметры</Phrase>
+    <Phrase key="Topic.Description">MQTT-топик.</Phrase>
+    <Phrase key="Publish.DisplayName">Публиковать</Phrase>
+    <Phrase key="Publish.Category">Основные параметры</Phrase>
+    <Phrase key="Publish.Description">Значение, указывающее, используется ли элемент для публикации значений канала.</Phrase>
+    <Phrase key="Subscribe.DisplayName">Подписаться</Phrase>
+    <Phrase key="Subscribe.Category">Основные параметры</Phrase>
+    <Phrase key="Subscribe.Description">Значение, указывающее, используется ли элемент для получения команд.</Phrase>
+    <Phrase key="QosLevel.DisplayName">Уровень качества (QoS)</Phrase>
+    <Phrase key="QosLevel.Category">Протокол</Phrase>
+    <Phrase key="QosLevel.Description">Уровень качества обслуживания: 0 - не более одного раза, 1 - один раз или больше, 2 - ровно один раз.</Phrase>
+    <Phrase key="Retain.DisplayName">Удержание (Retain)</Phrase>
+    <Phrase key="Retain.Category">Протокол</Phrase>
+    <Phrase key="Retain.Description">Значение, указывающее, следует ли устанавливать флаг удержания при публикации.</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Comm.Drivers.DrvMqttPublisher.View.MqttPublisherConfigProvider">
     <Phrase key="FormTitle">Свойства устройства {0} - MQTT-издатель</Phrase>
     <Phrase key="AddItemButton">Добавить элемент</Phrase>
     <Phrase key="OptionsNode">Параметры</Phrase>

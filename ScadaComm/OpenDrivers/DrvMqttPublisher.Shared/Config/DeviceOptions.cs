@@ -33,7 +33,7 @@ namespace Scada.Comm.Drivers.DrvMqttPublisher.Config
         public string PublishFormat { get; set; } = "";
 
         /// <summary>
-        /// Gets or sets a value whether to send channel data when changed.
+        /// Gets or sets a value indicating whether to send channel data when changed.
         /// </summary>
         [DisplayName, Category, Description, NCM.TypeConverter(typeof(BooleanConverter))]
         public bool PublishOnChange { get; set; } = true;

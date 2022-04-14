@@ -16,7 +16,7 @@ namespace Scada.Comm.Drivers.DrvMqttPublisher.Config
     internal class ItemConfig : ITreeNode
     {
         /// <summary>
-        /// Gets or sets the channel number.
+        /// Gets or sets the number of the published channel.
         /// </summary>
         [DisplayName, Category, Description]
         public int CnlNum { get; set; } = 0;
