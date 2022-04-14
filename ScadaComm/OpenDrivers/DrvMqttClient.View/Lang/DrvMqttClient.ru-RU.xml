@@ -17,7 +17,24 @@
   <Dictionary key="Scada.Comm.Drivers.DrvMqttClient.Config.CommandConfig">
     <Phrase key="CmdCode.DisplayName">Код команды</Phrase>
     <Phrase key="CmdCode.Category">Основные параметры</Phrase>
-    <Phrase key="CmdCode.Description">Код команды устройства.</Phrase>
+    <Phrase key="CmdCode.Description">Код команды, связанный с топиком.</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Comm.Drivers.DrvMqttClient.Config.SubscriptionConfig">
+    <Phrase key="TagCode.DisplayName">Код тега</Phrase>
+    <Phrase key="TagCode.Category">Основные параметры</Phrase>
+    <Phrase key="TagCode.Description">Код тега, связанный с топиком.</Phrase>
+    <Phrase key="ReadOnly.DisplayName">Только чтение</Phrase>
+    <Phrase key="ReadOnly.Category">Основные параметры</Phrase>
+    <Phrase key="ReadOnly.Description">Значение, указывающее, доступен ли топик только для чтения.</Phrase>
+    <Phrase key="JsEnabled.DisplayName">JavaScript включен</Phrase>
+    <Phrase key="JsEnabled.Category">Дополнительные параметры</Phrase>
+    <Phrase key="JsEnabled.Description">Значение, указывающее, следует ли выполнять JavaScript при получении сообщения.</Phrase>
+    <Phrase key="JsFileName.DisplayName">JavaScript файл</Phrase>
+    <Phrase key="JsFileName.Category">Дополнительные параметры</Phrase>
+    <Phrase key="JsFileName.Description">Имя файла JavaScript относительно директории конфигурации Коммуникатора.</Phrase>
+    <Phrase key="SubItems.DisplayName">Дочерние элементы</Phrase>
+    <Phrase key="SubItems.Category">Дополнительные параметры</Phrase>
+    <Phrase key="SubItems.Description">Дочерние элементы, представляющие несколько тегов устройств для топика.</Phrase>
   </Dictionary>
   <Dictionary key="Scada.Comm.Drivers.DrvMqttClient.Config.DeviceOptions">
     <Phrase key="RootTopic.DisplayName">Корневой топик</Phrase>

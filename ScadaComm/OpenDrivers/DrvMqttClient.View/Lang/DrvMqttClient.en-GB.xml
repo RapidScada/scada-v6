@@ -17,12 +17,24 @@
   <Dictionary key="Scada.Comm.Drivers.DrvMqttClient.Config.CommandConfig">
     <Phrase key="CmdCode.DisplayName">Command code</Phrase>
     <Phrase key="CmdCode.Category">Main Parameters</Phrase>
-    <Phrase key="CmdCode.Description">The command code of the device.</Phrase>
+    <Phrase key="CmdCode.Description">The command code associated with the topic.</Phrase>
   </Dictionary>
   <Dictionary key="Scada.Comm.Drivers.DrvMqttClient.Config.SubscriptionConfig">
-    <Phrase key=".DisplayName"></Phrase>
-    <Phrase key=".Category"></Phrase>
-    <Phrase key=".Description"></Phrase>
+    <Phrase key="TagCode.DisplayName">Tag code</Phrase>
+    <Phrase key="TagCode.Category">Main Parameters</Phrase>
+    <Phrase key="TagCode.Description">The tag code associated with the topic.</Phrase>
+    <Phrase key="ReadOnly.DisplayName">Read only</Phrase>
+    <Phrase key="ReadOnly.Category">Main Parameters</Phrase>
+    <Phrase key="ReadOnly.Description">A value indicating whether the topic is read only.</Phrase>
+    <Phrase key="JsEnabled.DisplayName">JavaScript enabled</Phrase>
+    <Phrase key="JsEnabled.Category">Advanced Parameters</Phrase>
+    <Phrase key="JsEnabled.Description">A value indicating whether to execute JavaScript when a message is received.</Phrase>
+    <Phrase key="JsFileName.DisplayName">JavaScript file name</Phrase>
+    <Phrase key="JsFileName.Category">Advanced Parameters</Phrase>
+    <Phrase key="JsFileName.Description">The JavaScript file name relative to the Communicator configuration directory.</Phrase>
+    <Phrase key="SubItems.DisplayName">Sub items</Phrase>
+    <Phrase key="SubItems.Category">Advanced Parameters</Phrase>
+    <Phrase key="SubItems.Description">The subitems that represent multiple device tags for the topic.</Phrase>
   </Dictionary>
   <Dictionary key="Scada.Comm.Drivers.DrvMqttClient.Config.DeviceOptions">
     <Phrase key="RootTopic.DisplayName">Root topic</Phrase>

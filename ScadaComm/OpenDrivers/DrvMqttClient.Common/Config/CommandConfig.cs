@@ -24,7 +24,7 @@ namespace Scada.Comm.Drivers.DrvMqttClient.Config
 
 
         /// <summary>
-        /// Gets or sets the command code.
+        /// Gets or sets the command code associated with the topic.
         /// </summary>
         [DisplayName, Category, Description]
         public string CmdCode { get; set; }
