@@ -2,8 +2,9 @@
 // Licensed under the Apache License, Version 2.0. See License.txt in the project root for license information.
 
 using System.Collections;
-using System.ComponentModel;
 using System.Xml;
+using NCM = System.ComponentModel;
+using SCM = Scada.ComponentModel;
 
 namespace Scada.Comm.Drivers.DrvMqttClient.Config
 {
@@ -30,33 +31,37 @@ namespace Scada.Comm.Drivers.DrvMqttClient.Config
         /// <summary>
         /// Gets or sets the MQTT topic.
         /// </summary>
+        [SCM.DisplayName, SCM.Category, SCM.Description]
         public string Topic { get; set; }
 
         /// <summary>
         /// Gets or sets the display name.
         /// </summary>
+        [SCM.DisplayName, SCM.Category, SCM.Description]
         public string DisplayName { get; set; }
 
         /// <summary>
         /// Gets or sets the quality of service level.
         /// </summary>
+        [SCM.DisplayName, SCM.Category, SCM.Description]
         public int QosLevel { get; set; }
 
         /// <summary>
         /// Gets or sets a value indicating whether to set the retained flag when publishing.
         /// </summary>
+        [SCM.DisplayName, SCM.Category, SCM.Description]
         public bool Retain { get; set; }
 
         /// <summary>
         /// Gets or sets the parent tree node.
         /// </summary>
-        [Browsable(false)]
+        [NCM.Browsable(false)]
         public ITreeNode Parent { get; set; }
 
         /// <summary>
         /// Gets the child tree nodes.
         /// </summary>
-        [Browsable(false)]
+        [NCM.Browsable(false)]
         public IList Children => null;
 
 

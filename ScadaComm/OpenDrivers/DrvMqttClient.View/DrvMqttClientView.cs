@@ -3,8 +3,10 @@
 
 using Scada.Comm.Config;
 using Scada.Comm.Devices;
+using Scada.Comm.Drivers.DrvMqttClient.Config;
 using Scada.Forms;
 using Scada.Lang;
+using Scada.Scheme.Model.PropertyGrid;
 
 namespace Scada.Comm.Drivers.DrvMqttClient.View
 {
@@ -57,6 +59,10 @@ namespace Scada.Comm.Drivers.DrvMqttClient.View
                 ScadaUiUtils.ShowError(errMsg);
 
             DriverPhrases.Init();
+            AttrTranslator.Translate(typeof(DeviceOptions));
+            AttrTranslator.Translate(typeof(BaseItemConfig));
+            AttrTranslator.Translate(typeof(SubscriptionConfig));
+            AttrTranslator.Translate(typeof(CommandConfig));
         }
 
         /// <summary>

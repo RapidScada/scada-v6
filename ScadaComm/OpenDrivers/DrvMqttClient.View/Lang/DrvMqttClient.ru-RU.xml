@@ -1,5 +1,29 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <DrvMqttClientDictionaries>
+  <Dictionary key="Scada.Comm.Drivers.DrvMqttClient.Config.BaseItemConfig">
+    <Phrase key="Topic.DisplayName">Топик</Phrase>
+    <Phrase key="Topic.Category">Основные параметры</Phrase>
+    <Phrase key="Topic.Description">MQTT-топик.</Phrase>
+    <Phrase key="DisplayName.DisplayName">Отображаемое имя</Phrase>
+    <Phrase key="DisplayName.Category">Основные параметры</Phrase>
+    <Phrase key="DisplayName.Description">Отображаемое наименование тега устройства.</Phrase>
+    <Phrase key="QosLevel.DisplayName">Уровень качества (QoS)</Phrase>
+    <Phrase key="QosLevel.Category">Протокол</Phrase>
+    <Phrase key="QosLevel.Description">Уровень качества обслуживания: 0 - не более одного раза, 1 - один раз или больше, 2 - ровно один раз.</Phrase>
+    <Phrase key="Retain.DisplayName">Удержание (Retain)</Phrase>
+    <Phrase key="Retain.Category">Протокол</Phrase>
+    <Phrase key="Retain.Description">Значение, указывающее, следует ли устанавливать флаг удержания при публикации.</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Comm.Drivers.DrvMqttClient.Config.CommandConfig">
+    <Phrase key="CmdCode.DisplayName">Код команды</Phrase>
+    <Phrase key="CmdCode.Category">Основные параметры</Phrase>
+    <Phrase key="CmdCode.Description">Код команды устройства.</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Comm.Drivers.DrvMqttClient.Config.DeviceOptions">
+    <Phrase key="RootTopic.DisplayName">Корневой топик</Phrase>
+    <Phrase key="RootTopic.Category">Основные параметры</Phrase>
+    <Phrase key="RootTopic.Description">Корневой топик, используемый в качестве префикса для всех топиков устройства.</Phrase>
+  </Dictionary>
   <Dictionary key="Scada.Comm.Drivers.DrvMqttClient.View.MqttClientConfigProvider">
     <Phrase key="FormTitle">Свойства устройства {0} - MQTT-клиент</Phrase>
     <Phrase key="AddSubscriptionButton">Добавить подписку</Phrase>

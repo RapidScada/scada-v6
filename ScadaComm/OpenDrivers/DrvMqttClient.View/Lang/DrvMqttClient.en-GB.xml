@@ -1,5 +1,34 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <DrvMqttClientDictionaries>
+  <Dictionary key="Scada.Comm.Drivers.DrvMqttClient.Config.BaseItemConfig">
+    <Phrase key="Topic.DisplayName">Topic</Phrase>
+    <Phrase key="Topic.Category">Main Parameters</Phrase>
+    <Phrase key="Topic.Description">The MQTT topic.</Phrase>
+    <Phrase key="DisplayName.DisplayName">Display name</Phrase>
+    <Phrase key="DisplayName.Category">Main Parameters</Phrase>
+    <Phrase key="DisplayName.Description">The display name of the device tag.</Phrase>
+    <Phrase key="QosLevel.DisplayName">QoS level</Phrase>
+    <Phrase key="QosLevel.Category">Protocol</Phrase>
+    <Phrase key="QosLevel.Description">The quality of service level: 0 - at most once, 1 - at least once, 2 - exactly once.</Phrase>
+    <Phrase key="Retain.DisplayName">Retain</Phrase>
+    <Phrase key="Retain.Category">Protocol</Phrase>
+    <Phrase key="Retain.Description">A value indicating whether to set the retained flag when publishing.</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Comm.Drivers.DrvMqttClient.Config.CommandConfig">
+    <Phrase key="CmdCode.DisplayName">Command code</Phrase>
+    <Phrase key="CmdCode.Category">Main Parameters</Phrase>
+    <Phrase key="CmdCode.Description">The command code of the device.</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Comm.Drivers.DrvMqttClient.Config.SubscriptionConfig">
+    <Phrase key=".DisplayName"></Phrase>
+    <Phrase key=".Category"></Phrase>
+    <Phrase key=".Description"></Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Comm.Drivers.DrvMqttClient.Config.DeviceOptions">
+    <Phrase key="RootTopic.DisplayName">Root topic</Phrase>
+    <Phrase key="RootTopic.Category">Main Parameters</Phrase>
+    <Phrase key="RootTopic.Description">The root topic used as a prefix for all device topics.</Phrase>
+  </Dictionary>
   <Dictionary key="Scada.Comm.Drivers.DrvMqttClient.View.MqttClientConfigProvider">
     <Phrase key="FormTitle">Device {0} Properties - MQTT Client</Phrase>
     <Phrase key="AddSubscriptionButton">Add Subscription</Phrase>
@@ -9,6 +38,5 @@
     <Phrase key="CommandsNode">Commands</Phrase>
     <Phrase key="UnnamedSubscription">&lt;Unnamed Subscription&gt;</Phrase>
     <Phrase key="UnnamedCommand">&lt;Unnamed Command&gt;</Phrase>
-    <Phrase key=""></Phrase>
   </Dictionary>
 </DrvMqttClientDictionaries>

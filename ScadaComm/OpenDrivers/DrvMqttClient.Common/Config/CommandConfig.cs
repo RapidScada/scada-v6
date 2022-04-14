@@ -1,6 +1,7 @@
 ﻿// Copyright (c) Rapid Software LLC. All rights reserved.
 // Licensed under the Apache License, Version 2.0. See License.txt in the project root for license information.
 
+using Scada.ComponentModel;
 using System.Xml;
 
 namespace Scada.Comm.Drivers.DrvMqttClient.Config
@@ -25,6 +26,7 @@ namespace Scada.Comm.Drivers.DrvMqttClient.Config
         /// <summary>
         /// Gets or sets the command code.
         /// </summary>
+        [DisplayName, Category, Description]
         public string CmdCode { get; set; }
 
 

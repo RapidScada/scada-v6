@@ -1,6 +1,7 @@
 ﻿// Copyright (c) Rapid Software LLC. All rights reserved.
 // Licensed under the Apache License, Version 2.0. See License.txt in the project root for license information.
 
+using Scada.ComponentModel;
 using System.Xml;
 
 namespace Scada.Comm.Drivers.DrvMqttClient.Config
@@ -29,26 +30,31 @@ namespace Scada.Comm.Drivers.DrvMqttClient.Config
         /// <summary>
         /// Gets or sets the tag code associated with the topic.
         /// </summary>
+        [DisplayName, Category, Description]
         public string TagCode { get; set; }
 
         /// <summary>
         /// Gets or sets a value indicating whether the topic is read only.
         /// </summary>
+        [DisplayName, Category, Description]
         public bool ReadOnly { get; set; }
 
         /// <summary>
         /// Gets or sets a value indicating whether to execute JavaScript when a message is received.
         /// </summary>
+        [DisplayName, Category, Description]
         public bool JsEnabled { get; set; }
 
         /// <summary>
         /// Gets or sets the JavaScript file name.
         /// </summary>
+        [DisplayName, Category, Description]
         public string JsFileName { get; set; }
 
         /// <summary>
         /// Gets the subitems that represent multiple device tags for the topic.
         /// </summary>
+        [DisplayName, Category, Description]
         public List<string> SubItems { get; private set; }
 
 
