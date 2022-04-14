@@ -16,7 +16,7 @@ namespace Scada.Comm.Drivers.DrvMqttPublisher.View
         public static string AddItemButton { get; private set; }
         public static string OptionsNode { get; private set; }
         public static string ItemsNode { get; private set; }
-        public static string UnnamedItem { get; private set; }
+        public static string ItemNodeFormat { get; private set; }
 
         public static void Init()
         {
@@ -25,7 +25,7 @@ namespace Scada.Comm.Drivers.DrvMqttPublisher.View
             AddItemButton = dict[nameof(AddItemButton)];
             OptionsNode = dict[nameof(OptionsNode)];
             ItemsNode = dict[nameof(ItemsNode)];
-            UnnamedItem = dict[nameof(UnnamedItem)];
+            ItemNodeFormat = dict[nameof(ItemNodeFormat)];
         }
     }
 }

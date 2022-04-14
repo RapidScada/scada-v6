@@ -15,6 +15,7 @@
     <Compile Include="$(MSBuildThisFileDirectory)Config\DeviceOptions.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Config\ItemConfig.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Config\MqttPublisherDeviceConfig.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Config\ItemList.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)DriverUtils.cs" />
   </ItemGroup>
 </Project>

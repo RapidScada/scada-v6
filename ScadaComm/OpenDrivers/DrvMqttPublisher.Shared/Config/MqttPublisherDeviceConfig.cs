@@ -11,6 +11,7 @@ namespace Scada.Comm.Drivers.DrvMqttPublisher.Config
     /// Represents a configuration of an MQTT publisher device.
     /// <para>Представляет конфигурацию устройства для публикации данных с помощью MQTT.</para>
     /// </summary>
+    [Serializable]
     internal class MqttPublisherDeviceConfig : BaseConfig
     {
         /// <summary>
@@ -21,7 +22,7 @@ namespace Scada.Comm.Drivers.DrvMqttPublisher.Config
         /// <summary>
         /// Gets the items.
         /// </summary>
-        public List<ItemConfig> Items { get; private set; }
+        public ItemList Items { get; private set; }
 
 
         /// <summary>
@@ -30,7 +31,7 @@ namespace Scada.Comm.Drivers.DrvMqttPublisher.Config
         protected override void SetToDefault()
         {
             DeviceOptions = new DeviceOptions();
-            Items = new List<ItemConfig>();
+            Items = new ItemList();
         }
 
         /// <summary>
@@ -49,7 +50,7 @@ namespace Scada.Comm.Drivers.DrvMqttPublisher.Config
             {
                 foreach (XmlElement itemElem in itemsNode.SelectNodes("Item"))
                 {
-                    ItemConfig itemConfig = new();
+                    ItemConfig itemConfig = new() { Parent = Items };
                     itemConfig.LoadFromXml(itemElem);
                     Items.Add(itemConfig);
                 }

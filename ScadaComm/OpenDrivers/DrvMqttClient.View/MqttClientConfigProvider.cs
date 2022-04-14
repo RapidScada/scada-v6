@@ -26,7 +26,6 @@ namespace Scada.Comm.Drivers.DrvMqttClient.View
             public const string Options = "options.png";
         }
 
-
         private ToolStripMenuItem btnAddSubscription;
         private ToolStripMenuItem btnAddCommand;
         private TreeNode subscriptionsNode;

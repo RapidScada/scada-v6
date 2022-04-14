@@ -5,6 +5,6 @@
     <Phrase key="AddItemButton">Add Item</Phrase>
     <Phrase key="OptionsNode">Options</Phrase>
     <Phrase key="ItemsNode">Items</Phrase>
-    <Phrase key="UnnamedItem">&lt;Unnamed Item&gt;</Phrase>
+    <Phrase key="ItemNodeFormat">Channel {0}</Phrase>
   </Dictionary>
 </DrvMqttPublisherDictionaries>

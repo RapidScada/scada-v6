@@ -1,8 +1,9 @@
 ﻿// Copyright (c) Rapid Software LLC. All rights reserved.
 // Licensed under the Apache License, Version 2.0. See License.txt in the project root for license information.
 
-using Scada.Comm.Drivers.DrvMqtt;
+using Scada.ComponentModel;
 using System.Xml;
+using NCM = System.ComponentModel;
 
 namespace Scada.Comm.Drivers.DrvMqttPublisher.Config
 {
@@ -10,31 +11,37 @@ namespace Scada.Comm.Drivers.DrvMqttPublisher.Config
     /// Represents device options.
     /// <para>Представляет параметры устройства.</para>
     /// </summary>
+    [Serializable]
     internal class DeviceOptions
     {
         /// <summary>
         /// Gets or sets the root topic used as a prefix for all device topics.
         /// </summary>
+        [DisplayName, Category, Description]
         public string RootTopic { get; set; } = "";
 
         /// <summary>
         /// Gets or sets the payload to send if channel value is undefined.
         /// </summary>
+        [DisplayName, Category, Description]
         public string UndefinedValue { get; set; } = "NaN";
 
         /// <summary>
         /// Gets or sets the format of published channel data.
         /// </summary>
+        [DisplayName, Category, Description]
         public string PublishFormat { get; set; } = "";
 
         /// <summary>
         /// Gets or sets a value whether to send channel data when changed.
         /// </summary>
+        [DisplayName, Category, Description, NCM.TypeConverter(typeof(BooleanConverter))]
         public bool PublishOnChange { get; set; } = true;
 
         /// <summary>
         /// Gets or sets the publishing period for all device items, sec.
         /// </summary>
+        [DisplayName, Category, Description]
         public int PublishPeriod { get; set; } = 60;
 
 

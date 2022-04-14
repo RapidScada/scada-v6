@@ -5,6 +5,6 @@
     <Phrase key="AddItemButton">Добавить элемент</Phrase>
     <Phrase key="OptionsNode">Параметры</Phrase>
     <Phrase key="ItemsNode">Элементы</Phrase>
-    <Phrase key="UnnamedItem">&lt;Безымянный элемент&gt;</Phrase>
+    <Phrase key="ItemNodeFormat">Канал {0}</Phrase>
   </Dictionary>
 </DrvMqttPublisherDictionaries>
