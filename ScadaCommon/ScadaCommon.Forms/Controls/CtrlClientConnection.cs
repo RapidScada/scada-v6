@@ -9,7 +9,7 @@ using System.Drawing;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
-namespace Scada.Forms
+namespace Scada.Forms.Controls
 {
     /// <summary>
     /// Represents a control for editing client connection options.

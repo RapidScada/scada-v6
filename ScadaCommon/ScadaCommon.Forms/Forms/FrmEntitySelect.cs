@@ -3,8 +3,7 @@
 
 #pragma warning disable CA1806 // Do not ignore method results
 
-using Scada.Data.Entities;
-using Scada.Data.Models;
+using Scada.Data.Tables;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -12,13 +11,13 @@ using System.Data;
 using System.Linq;
 using System.Windows.Forms;
 
-namespace Scada.Forms
+namespace Scada.Forms.Forms
 {
     /// <summary>
-    /// Represents a form for selecting channels of the configuration database.
-    /// <para>Представляет форму для выбора каналов базы конфигурации.</para>
+    /// Represents a form for selecting entities of the configuration database.
+    /// <para>Представляет форму для выбора сущностей базы конфигурации.</para>
     /// </summary>
-    public partial class FrmCnlSelect : Form
+    public partial class FrmEntitySelect : Form
     {
         /// <summary>
         /// Represents an item that can be selected.
@@ -29,26 +28,44 @@ namespace Scada.Forms
             private bool selected;
 
             public bool Selected
-            {
-                get
-                {
-                    return selected;
-                }
-                set
-                {
-                    selected = value;
-                    PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(Selected)));
-                }
+            { 
+                get 
+                { 
+                    return selected; 
+                } 
+                set 
+                { 
+                    selected = value; 
+                    PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(Selected))); 
+                } 
             }
-            public int CnlNum { get; set; }
+            public int ID { get; set; }
             public string Name { get; set; }
-            public int ObjNum { get; set; }
-            public int DeviceNum { get; set; }
+            public string Code { get; set; }
+            public string Descr { get; set; }
 
             public event PropertyChangedEventHandler PropertyChanged;
         }
 
-        private readonly BaseDataSet baseDataSet;              // the configuration database cache
+        /// <summary>
+        /// Contains item property descriptors.
+        /// <para>Содержит дескрипторы свойств элемента.</para>
+        /// </summary>
+        private struct ItemProps
+        {
+            public ItemProps(Type itemType)
+            {
+                PropertyDescriptorCollection props = TypeDescriptor.GetProperties(itemType);
+                NameProp = props.Find("Name", false);
+                CodeProp = props.Find("Code", false);
+                DescrProp = props.Find("Descr", false);
+            }
+            public PropertyDescriptor NameProp { get; }
+            public PropertyDescriptor CodeProp { get; }
+            public PropertyDescriptor DescrProp { get; }
+        }
+
+        private readonly IBaseTable baseTable;                 // the table containing entities to select
         private BindingList<SelectableItem> items;             // the items to select
         private Dictionary<int, SelectableItem> selectedItems; // the selected items
 
@@ -56,7 +73,7 @@ namespace Scada.Forms
         /// <summary>
         /// Initializes a new instance of the class.
         /// </summary>
-        private FrmCnlSelect()
+        private FrmEntitySelect()
         {
             InitializeComponent();
         }
@@ -64,33 +81,33 @@ namespace Scada.Forms
         /// <summary>
         /// Initializes a new instance of the class.
         /// </summary>
-        public FrmCnlSelect(BaseDataSet baseDataSet)
+        public FrmEntitySelect(IBaseTable baseTable)
             : this()
         {
-            this.baseDataSet = baseDataSet ?? throw new ArgumentNullException(nameof(baseDataSet));
+            this.baseTable = baseTable ?? throw new ArgumentNullException(nameof(baseTable));
             items = null;
             selectedItems = null;
 
             MultiSelect = true;
-            SelectedCnlNums = null;
-            SelectedCnlNum = 0;
+            SelectedIDs = null;
+            SelectedID = 0;
         }
 
 
         /// <summary>
-        /// Gets or sets a value indicating whether multiple channels can be selected.
+        /// Gets or sets a value indicating whether multiple items can be selected.
         /// </summary>
         public bool MultiSelect { get; set; }
 
         /// <summary>
-        /// Gets or sets the selected channel numbers.
+        /// Gets or sets the IDs of the selected entities.
         /// </summary>
-        public ICollection<int> SelectedCnlNums { get; set; }
+        public ICollection<int> SelectedIDs { get; set; }
 
         /// <summary>
-        /// Gets or sets the single selected channel number.
+        /// Gets or sets the ID of the single selected entity.
         /// </summary>
-        public int SelectedCnlNum { get; set; }
+        public int SelectedID { get; set; }
 
 
         /// <summary>
@@ -98,66 +115,51 @@ namespace Scada.Forms
         /// </summary>
         private void FillTable()
         {
-            // get selected channel numbers
-            HashSet<int> selectedIdSet = MultiSelect && SelectedCnlNums != null
-                ? new HashSet<int>(SelectedCnlNums)
+            // get selected IDs
+            HashSet<int> selectedIdSet = MultiSelect && SelectedIDs != null
+                ? new HashSet<int>(SelectedIDs)
                 : new HashSet<int>();
 
-            if (!MultiSelect && SelectedCnlNum > 0)
-                selectedIdSet.Add(SelectedCnlNum);
+            if (!MultiSelect && SelectedID > 0)
+                selectedIdSet.Add(SelectedID);
 
             // prepare table data
+            ItemProps srcProps = new(baseTable.ItemType);
+            ItemProps destProps = new(typeof(SelectableItem));
+            bool nameExists = srcProps.NameProp != null;
+            bool codeExists = srcProps.CodeProp != null;
+            bool descrExists = srcProps.DescrProp != null;
+
             items = new BindingList<SelectableItem>();
             selectedItems = new Dictionary<int, SelectableItem>();
 
-            foreach (Cnl srcItem in baseDataSet.CnlTable.EnumerateItems())
+            foreach (object srcItem in baseTable.EnumerateItems())
             {
-                SelectableItem item = new() 
-                {
-                    Selected = selectedIdSet.Contains(srcItem.CnlNum),
-                    CnlNum = srcItem.CnlNum,
-                    Name = srcItem.Name,
-                    ObjNum = srcItem.ObjNum ?? 0,
-                    DeviceNum = srcItem.DeviceNum ?? 0
-                };
+                SelectableItem item = new() { ID = baseTable.GetPkValue(srcItem) };
+                item.Selected = selectedIdSet.Contains(item.ID);
+
+                if (nameExists)
+                    destProps.NameProp.SetValue(item, srcProps.NameProp.GetValue(srcItem));
+
+                if (codeExists)
+                    destProps.CodeProp.SetValue(item, srcProps.CodeProp.GetValue(srcItem));
+
+                if (descrExists)
+                    destProps.DescrProp.SetValue(item, srcProps.DescrProp.GetValue(srcItem));
 
                 item.PropertyChanged += Item_PropertyChanged;
                 items.Add(item);
 
                 if (item.Selected)
-                    selectedItems[item.CnlNum] = item;
+                    selectedItems[item.ID] = item;
             }
 
             // display data
-            dataGridView.AutoGenerateColumns = false;
+            colName.Visible = nameExists;
+            colCode.Visible = codeExists;
+            colDescr.Visible = descrExists;
             dataGridView.DataSource = items;
             dataGridView.AutoSizeColumns();
-        }
-
-        /// <summary>
-        /// Prepares the filter combo boxes.
-        /// </summary>
-        private void PrepareFilter()
-        {
-            // object filter
-            List<Obj> objs = new(baseDataSet.ObjTable.ItemCount + 1);
-            objs.Add(new Obj { ObjNum = 0, Name = " " });
-            objs.AddRange(baseDataSet.ObjTable.Enumerate().OrderBy(obj => obj.Name));
-
-            cbObj.ValueMember = "ObjNum";
-            cbObj.DisplayMember = "Name";
-            cbObj.DataSource = objs;
-            cbObj.SelectedIndexChanged += btnApplyFilter_Click;
-
-            // device filter
-            List<Device> devices = new(baseDataSet.DeviceTable.ItemCount + 1);
-            devices.Add(new Device { DeviceNum = 0, Name = " " });
-            devices.AddRange(baseDataSet.DeviceTable.Enumerate().OrderBy(device => device.Name));
-
-            cbDevice.ValueMember = "DeviceNum";
-            cbDevice.DisplayMember = "Name";
-            cbDevice.DataSource = devices;
-            cbDevice.SelectedIndexChanged += btnApplyFilter_Click;
         }
 
         /// <summary>
@@ -166,18 +168,17 @@ namespace Scada.Forms
         private void ApplyFilter()
         {
             string filterText = txtFilter.Text.Trim();
-            int objNum = (int)cbObj.SelectedValue;
-            int deviceNum = (int)cbDevice.SelectedValue;
             bool onlySelected = chkOnlySelected.Checked;
 
-            if (filterText != "" || objNum > 0 || deviceNum > 0)
+            if (filterText != "")
             {
-                int.TryParse(filterText, out int cnlNum);
+                int.TryParse(filterText, out int id);
                 IEnumerable<SelectableItem> filteredItems = items.Where(item =>
-                    (objNum <= 0 || item.ObjNum == objNum) &&
-                    (deviceNum <= 0 || item.DeviceNum == deviceNum) &&
                     (!onlySelected || item.Selected) &&
-                    (item.CnlNum == cnlNum || StringContains(item.Name, filterText)));
+                    (item.ID == id ||
+                    StringContains(item.Name, filterText) ||
+                    StringContains(item.Code, filterText) ||
+                    StringContains(item.Descr, filterText)));
                 dataGridView.DataSource = new BindingList<SelectableItem>(filteredItems.ToList());
             }
             else if (onlySelected)
@@ -199,10 +200,10 @@ namespace Scada.Forms
         }
 
 
-        private void FrmCnlSelect_Load(object sender, EventArgs e)
+        private void FrmEntitySelect_Load(object sender, EventArgs e)
         {
             FormTranslator.Translate(this, GetType().FullName);
-            PrepareFilter();
+            Text = string.Format(Text, baseTable.Title);
             FillTable();
         }
 
@@ -210,18 +211,18 @@ namespace Scada.Forms
         {
             if (sender is SelectableItem changedItem)
             {
-                // update selected channels
+                // update selected IDs
                 if (changedItem.Selected)
-                    selectedItems[changedItem.CnlNum] = changedItem;
+                    selectedItems[changedItem.ID] = changedItem;
                 else
-                    selectedItems.Remove(changedItem.CnlNum);
+                    selectedItems.Remove(changedItem.ID);
 
-                // deselect other channels
+                // deselect other items
                 if (!MultiSelect && changedItem.Selected)
                 {
                     foreach (SelectableItem item in selectedItems.Values.ToList()) // make copy of values
                     {
-                        if (item.CnlNum != changedItem.CnlNum)
+                        if (item.ID != changedItem.ID)
                             item.Selected = false;
                     }
                 }
@@ -246,9 +247,9 @@ namespace Scada.Forms
 
         private void btnSelect_Click(object sender, EventArgs e)
         {
-            // get the selected channel numbers
-            SelectedCnlNums = selectedItems.Keys.ToList();
-            SelectedCnlNum = SelectedCnlNums.FirstOrDefault();
+            // get IDs of the selected items
+            SelectedIDs = selectedItems.Keys.ToList();
+            SelectedID = SelectedIDs.FirstOrDefault();
             DialogResult = DialogResult.OK;
         }
     }

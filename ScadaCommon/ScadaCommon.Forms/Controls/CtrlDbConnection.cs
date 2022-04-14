@@ -6,7 +6,7 @@ using System;
 using System.ComponentModel;
 using System.Windows.Forms;
 
-namespace Scada.Forms
+namespace Scada.Forms.Controls
 {
     /// <summary>
     /// Represents a control for editing database connection options.

@@ -4,7 +4,7 @@
 using System;
 using System.Windows.Forms;
 
-namespace Scada.Forms
+namespace Scada.Forms.Forms
 {
     /// <summary>
     /// Represents a form for editing options.

@@ -1,5 +1,5 @@
 ﻿
-namespace Scada.Forms
+namespace Scada.Forms.Controls
 {
     partial class CtrlClientConnection
     {

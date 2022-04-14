@@ -1,4 +1,4 @@
-﻿namespace Scada.Forms
+﻿namespace Scada.Forms.Forms
 {
     partial class FrmCnlSelect
     {
