@@ -41,7 +41,7 @@
             this.lblSendModifiedData = new System.Windows.Forms.Label();
             this.chkIsBound = new System.Windows.Forms.CheckBox();
             this.lblIsBound = new System.Windows.Forms.Label();
-            this.ctrlClientConnection = new Scada.Forms.CtrlClientConnection();
+            this.ctrlClientConnection = new Scada.Forms.Controls.CtrlClientConnection();
             this.gbGeneralOptions.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.numMaxLogSize)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.numSendAllDataPeriod)).BeginInit();
@@ -238,6 +238,6 @@
         private System.Windows.Forms.Label lblEnableCommands;
         private System.Windows.Forms.CheckBox chkEnableFileCommands;
         private System.Windows.Forms.Label lblEnableFileCommands;
-        private Scada.Forms.CtrlClientConnection ctrlClientConnection;
+        private Scada.Forms.Controls.CtrlClientConnection ctrlClientConnection;
     }
 }
