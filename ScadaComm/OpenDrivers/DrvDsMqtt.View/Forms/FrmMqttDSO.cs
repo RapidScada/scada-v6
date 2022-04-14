@@ -6,6 +6,7 @@ using Scada.Comm.Config;
 using Scada.Comm.Drivers.DrvMqtt;
 using Scada.Data.Models;
 using Scada.Forms;
+using Scada.Forms.Forms;
 using Scada.Lang;
 using System.Text;
 

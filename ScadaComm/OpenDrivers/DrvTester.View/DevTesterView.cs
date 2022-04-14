@@ -3,7 +3,7 @@
 
 using Scada.Comm.Config;
 using Scada.Comm.Devices;
-using Scada.Forms;
+using Scada.Forms.Forms;
 
 namespace Scada.Comm.Drivers.DrvTester.View
 {
