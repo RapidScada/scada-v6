@@ -39,10 +39,10 @@ namespace Scada.Admin.App.Forms.Deployment
             this.lblName = new System.Windows.Forms.Label();
             this.pageAgentConnection = new System.Windows.Forms.TabPage();
             this.chkAgentEnabled = new System.Windows.Forms.CheckBox();
-            this.ctrlAgentConnection = new Scada.Forms.CtrlClientConnection();
+            this.ctrlAgentConnection = new Scada.Forms.Controls.CtrlClientConnection();
             this.pageDbConnection = new System.Windows.Forms.TabPage();
             this.chkDbEnabled = new System.Windows.Forms.CheckBox();
-            this.ctrlDbConnection = new Scada.Forms.CtrlDbConnection();
+            this.ctrlDbConnection = new Scada.Forms.Controls.CtrlDbConnection();
             this.btnOK = new System.Windows.Forms.Button();
             this.btnCancel = new System.Windows.Forms.Button();
             this.pnlBottom = new System.Windows.Forms.Panel();
@@ -273,9 +273,9 @@ namespace Scada.Admin.App.Forms.Deployment
         private System.Windows.Forms.Button btnOK;
         private System.Windows.Forms.Button btnCancel;
         private System.Windows.Forms.CheckBox chkAgentEnabled;
-        private Scada.Forms.CtrlClientConnection ctrlAgentConnection;
+        private Scada.Forms.Controls.CtrlClientConnection ctrlAgentConnection;
         private System.Windows.Forms.CheckBox chkDbEnabled;
-        private Scada.Forms.CtrlDbConnection ctrlDbConnection;
+        private Scada.Forms.Controls.CtrlDbConnection ctrlDbConnection;
         private System.Windows.Forms.Panel pnlBottom;
     }
 }
