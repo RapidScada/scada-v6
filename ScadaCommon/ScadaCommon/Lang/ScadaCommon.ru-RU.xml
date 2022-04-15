@@ -105,7 +105,7 @@
     <Phrase key="StatusFormat">Статус {0}</Phrase>
   </Dictionary>
   <!-- ScadaCommon.Forms.dll -->
-  <Dictionary key="Scada.Forms.CtrlClientConnection">
+  <Dictionary key="Scada.Forms.Controls.CtrlClientConnection">
     <Phrase key="gbConnectionOptions">Параметры соединения</Phrase>
     <Phrase key="lblName">Наименование</Phrase>
     <Phrase key="lblHost">Сервер</Phrase>
@@ -117,7 +117,7 @@
     <Phrase key="lblSecretKey">Секретный ключ</Phrase>
     <Phrase key="btnPaste">Вставить</Phrase>
   </Dictionary>
-  <Dictionary key="Scada.Forms.CtrlDbConnection">
+  <Dictionary key="Scada.Forms.Controls.CtrlDbConnection">
     <Phrase key="gbConnectionOptions">Параметры соединения</Phrase>
     <Phrase key="lblName">Наименование</Phrase>
     <Phrase key="lblDbms">СУБД</Phrase>
@@ -127,7 +127,7 @@
     <Phrase key="lblPassword">Пароль</Phrase>
     <Phrase key="chkConnectionString">Строка соединения</Phrase>
   </Dictionary>
-  <Dictionary key="Scada.Forms.FrmCnlSelect">
+  <Dictionary key="Scada.Forms.Forms.FrmCnlSelect">
     <Phrase key="this">Выбор каналов</Phrase>
     <Phrase key="lblFilter">Фильтр</Phrase>
     <Phrase key="btnApplyFilter">Применить</Phrase>
@@ -140,7 +140,7 @@
     <Phrase key="btnSelect">Выбрать</Phrase>
     <Phrase key="btnCancel">Отмена</Phrase>
   </Dictionary>
-  <Dictionary key="Scada.Forms.FrmEntitySelect">
+  <Dictionary key="Scada.Forms.Forms.FrmEntitySelect">
     <Phrase key="this">Выбор из таблицы {0}</Phrase>
     <Phrase key="lblFilter">Фильтр</Phrase>
     <Phrase key="btnApplyFilter">Применить</Phrase>
@@ -164,7 +164,7 @@
     <Phrase key="btnClose">Закрыть</Phrase>
     <Phrase key="miCollapseAll">Свернуть все</Phrase>
   </Dictionary>
-  <Dictionary key="Scada.Forms.FrmOptions">
+  <Dictionary key="Scada.Forms.Forms.FrmOptions">
     <Phrase key="this">Параметры</Phrase>
     <Phrase key="btnOK">OK</Phrase>
     <Phrase key="btnCancel">Отмена</Phrase>

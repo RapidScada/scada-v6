@@ -105,7 +105,7 @@
     <Phrase key="StatusFormat">Status {0}</Phrase>
   </Dictionary>
   <!-- ScadaCommon.Forms.dll -->
-  <Dictionary key="Scada.Forms.CtrlClientConnection">
+  <Dictionary key="Scada.Forms.Controls.CtrlClientConnection">
     <Phrase key="gbConnectionOptions">Connection Options</Phrase>
     <Phrase key="lblName">Name</Phrase>
     <Phrase key="lblHost">Host</Phrase>
@@ -117,7 +117,7 @@
     <Phrase key="lblSecretKey">Secret key</Phrase>
     <Phrase key="btnPaste">Paste</Phrase>
   </Dictionary>
-  <Dictionary key="Scada.Forms.CtrlDbConnection">
+  <Dictionary key="Scada.Forms.Controls.CtrlDbConnection">
     <Phrase key="gbConnectionOptions">Connection Options</Phrase>
     <Phrase key="lblName">Name</Phrase>
     <Phrase key="lblDbms">DBMS</Phrase>
@@ -127,7 +127,7 @@
     <Phrase key="lblPassword">Password</Phrase>
     <Phrase key="chkConnectionString">Connection string</Phrase>
   </Dictionary>
-  <Dictionary key="Scada.Forms.FrmCnlSelect">
+  <Dictionary key="Scada.Forms.Forms.FrmCnlSelect">
     <Phrase key="this">Select Channels</Phrase>
     <Phrase key="lblFilter">Filter</Phrase>
     <Phrase key="btnApplyFilter">Apply</Phrase>
@@ -140,7 +140,7 @@
     <Phrase key="btnSelect">Select</Phrase>
     <Phrase key="btnCancel">Cancel</Phrase>
   </Dictionary>
-  <Dictionary key="Scada.Forms.FrmEntitySelect">
+  <Dictionary key="Scada.Forms.Forms.FrmEntitySelect">
     <Phrase key="this">Select from {0}</Phrase>
     <Phrase key="lblFilter">Filter</Phrase>
     <Phrase key="btnApplyFilter">Apply</Phrase>
@@ -164,7 +164,7 @@
     <Phrase key="btnClose">Close</Phrase>
     <Phrase key="miCollapseAll">Collapse All</Phrase>
   </Dictionary>
-  <Dictionary key="Scada.Forms.FrmOptions">
+  <Dictionary key="Scada.Forms.Forms.FrmOptions">
     <Phrase key="this">Options</Phrase>
     <Phrase key="btnOK">OK</Phrase>
     <Phrase key="btnCancel">Cancel</Phrase>
