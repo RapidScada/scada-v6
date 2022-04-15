@@ -54,7 +54,7 @@ namespace Scada.Comm.Config
         /// <summary>
         /// Gets the short name of the device configuration file.
         /// </summary>
-        protected static string GetFileName(string driverCode, int deviceNum)
+        public static string GetFileName(string driverCode, int deviceNum)
         {
             return $"{driverCode}_{deviceNum:D3}.xml";
         }
