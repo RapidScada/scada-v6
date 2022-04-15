@@ -74,7 +74,7 @@
             this.pnlBottom.Controls.Add(this.btnSave);
             this.pnlBottom.Controls.Add(this.btnAddressBook);
             this.pnlBottom.Dock = System.Windows.Forms.DockStyle.Bottom;
-            this.pnlBottom.Location = new System.Drawing.Point(0, 300);
+            this.pnlBottom.Location = new System.Drawing.Point(0, 320);
             this.pnlBottom.Name = "pnlBottom";
             this.pnlBottom.Size = new System.Drawing.Size(484, 41);
             this.pnlBottom.TabIndex = 1;
@@ -120,7 +120,7 @@
             this.tabControl.Location = new System.Drawing.Point(0, 0);
             this.tabControl.Name = "tabControl";
             this.tabControl.SelectedIndex = 0;
-            this.tabControl.Size = new System.Drawing.Size(484, 300);
+            this.tabControl.Size = new System.Drawing.Size(484, 320);
             this.tabControl.TabIndex = 0;
             // 
             // pageGeneral
@@ -131,10 +131,10 @@
             this.pageGeneral.Controls.Add(this.lblUri);
             this.pageGeneral.Controls.Add(this.cbMethod);
             this.pageGeneral.Controls.Add(this.lblMethod);
-            this.pageGeneral.Location = new System.Drawing.Point(4, 22);
+            this.pageGeneral.Location = new System.Drawing.Point(4, 24);
             this.pageGeneral.Name = "pageGeneral";
-            this.pageGeneral.Padding = new System.Windows.Forms.Padding(3);
-            this.pageGeneral.Size = new System.Drawing.Size(476, 274);
+            this.pageGeneral.Padding = new System.Windows.Forms.Padding(5);
+            this.pageGeneral.Size = new System.Drawing.Size(476, 292);
             this.pageGeneral.TabIndex = 0;
             this.pageGeneral.Text = "General";
             this.pageGeneral.UseVisualStyleBackColor = true;
@@ -148,63 +148,63 @@
             this.gbParam.Controls.Add(this.txtParamBegin);
             this.gbParam.Controls.Add(this.lblParamBegin);
             this.gbParam.Controls.Add(this.chkParamEnabled);
-            this.gbParam.Location = new System.Drawing.Point(6, 190);
+            this.gbParam.Location = new System.Drawing.Point(8, 197);
             this.gbParam.Name = "gbParam";
             this.gbParam.Padding = new System.Windows.Forms.Padding(10, 3, 10, 10);
-            this.gbParam.Size = new System.Drawing.Size(464, 78);
+            this.gbParam.Size = new System.Drawing.Size(460, 87);
             this.gbParam.TabIndex = 5;
             this.gbParam.TabStop = false;
             this.gbParam.Text = "Parameters";
             // 
             // txtAddrSep
             // 
-            this.txtAddrSep.Location = new System.Drawing.Point(220, 45);
+            this.txtAddrSep.Location = new System.Drawing.Point(250, 51);
             this.txtAddrSep.Name = "txtAddrSep";
-            this.txtAddrSep.Size = new System.Drawing.Size(50, 20);
+            this.txtAddrSep.Size = new System.Drawing.Size(50, 23);
             this.txtAddrSep.TabIndex = 6;
             this.txtAddrSep.TextChanged += new System.EventHandler(this.control_Changed);
             // 
             // lblAddrSep
             // 
-            this.lblAddrSep.Location = new System.Drawing.Point(144, 49);
+            this.lblAddrSep.Location = new System.Drawing.Point(164, 51);
             this.lblAddrSep.Name = "lblAddrSep";
-            this.lblAddrSep.Size = new System.Drawing.Size(70, 13);
+            this.lblAddrSep.Size = new System.Drawing.Size(80, 23);
             this.lblAddrSep.TabIndex = 5;
             this.lblAddrSep.Text = "Separator";
             this.lblAddrSep.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             // 
             // txtParamEnd
             // 
-            this.txtParamEnd.Location = new System.Drawing.Point(352, 19);
+            this.txtParamEnd.Location = new System.Drawing.Point(397, 22);
             this.txtParamEnd.MaxLength = 1;
             this.txtParamEnd.Name = "txtParamEnd";
-            this.txtParamEnd.Size = new System.Drawing.Size(50, 20);
+            this.txtParamEnd.Size = new System.Drawing.Size(50, 23);
             this.txtParamEnd.TabIndex = 4;
             this.txtParamEnd.TextChanged += new System.EventHandler(this.control_Changed);
             // 
             // lblParamEnd
             // 
-            this.lblParamEnd.Location = new System.Drawing.Point(276, 23);
+            this.lblParamEnd.Location = new System.Drawing.Point(311, 22);
             this.lblParamEnd.Name = "lblParamEnd";
-            this.lblParamEnd.Size = new System.Drawing.Size(70, 13);
+            this.lblParamEnd.Size = new System.Drawing.Size(80, 23);
             this.lblParamEnd.TabIndex = 3;
             this.lblParamEnd.Text = "End";
             this.lblParamEnd.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             // 
             // txtParamBegin
             // 
-            this.txtParamBegin.Location = new System.Drawing.Point(220, 19);
+            this.txtParamBegin.Location = new System.Drawing.Point(250, 22);
             this.txtParamBegin.MaxLength = 1;
             this.txtParamBegin.Name = "txtParamBegin";
-            this.txtParamBegin.Size = new System.Drawing.Size(50, 20);
+            this.txtParamBegin.Size = new System.Drawing.Size(50, 23);
             this.txtParamBegin.TabIndex = 2;
             this.txtParamBegin.TextChanged += new System.EventHandler(this.control_Changed);
             // 
             // lblParamBegin
             // 
-            this.lblParamBegin.Location = new System.Drawing.Point(144, 23);
+            this.lblParamBegin.Location = new System.Drawing.Point(164, 22);
             this.lblParamBegin.Name = "lblParamBegin";
-            this.lblParamBegin.Size = new System.Drawing.Size(70, 13);
+            this.lblParamBegin.Size = new System.Drawing.Size(80, 23);
             this.lblParamBegin.TabIndex = 1;
             this.lblParamBegin.Text = "Begin";
             this.lblParamBegin.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
@@ -212,9 +212,9 @@
             // chkParamEnabled
             // 
             this.chkParamEnabled.AutoSize = true;
-            this.chkParamEnabled.Location = new System.Drawing.Point(13, 21);
+            this.chkParamEnabled.Location = new System.Drawing.Point(13, 24);
             this.chkParamEnabled.Name = "chkParamEnabled";
-            this.chkParamEnabled.Size = new System.Drawing.Size(120, 17);
+            this.chkParamEnabled.Size = new System.Drawing.Size(130, 19);
             this.chkParamEnabled.TabIndex = 0;
             this.chkParamEnabled.Text = "Parameters enabled";
             this.chkParamEnabled.UseVisualStyleBackColor = true;
@@ -224,28 +224,28 @@
             // 
             this.lblUriHint.AutoSize = true;
             this.lblUriHint.ForeColor = System.Drawing.SystemColors.GrayText;
-            this.lblUriHint.Location = new System.Drawing.Point(3, 164);
+            this.lblUriHint.Location = new System.Drawing.Point(5, 169);
             this.lblUriHint.Name = "lblUriHint";
-            this.lblUriHint.Size = new System.Drawing.Size(308, 13);
+            this.lblUriHint.Size = new System.Drawing.Size(346, 15);
             this.lblUriHint.TabIndex = 4;
             this.lblUriHint.Text = "May contain parameters, for example {phone}, {email} and {text}";
             // 
             // txtUri
             // 
-            this.txtUri.Location = new System.Drawing.Point(6, 59);
+            this.txtUri.Location = new System.Drawing.Point(8, 67);
             this.txtUri.Multiline = true;
             this.txtUri.Name = "txtUri";
             this.txtUri.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
-            this.txtUri.Size = new System.Drawing.Size(464, 102);
+            this.txtUri.Size = new System.Drawing.Size(460, 99);
             this.txtUri.TabIndex = 3;
             this.txtUri.TextChanged += new System.EventHandler(this.control_Changed);
             // 
             // lblUri
             // 
             this.lblUri.AutoSize = true;
-            this.lblUri.Location = new System.Drawing.Point(3, 43);
+            this.lblUri.Location = new System.Drawing.Point(8, 49);
             this.lblUri.Name = "lblUri";
-            this.lblUri.Size = new System.Drawing.Size(26, 13);
+            this.lblUri.Size = new System.Drawing.Size(25, 15);
             this.lblUri.TabIndex = 2;
             this.lblUri.Text = "URI";
             // 
@@ -256,28 +256,28 @@
             this.cbMethod.Items.AddRange(new object[] {
             "GET",
             "POST"});
-            this.cbMethod.Location = new System.Drawing.Point(6, 19);
+            this.cbMethod.Location = new System.Drawing.Point(8, 23);
             this.cbMethod.Name = "cbMethod";
-            this.cbMethod.Size = new System.Drawing.Size(120, 21);
+            this.cbMethod.Size = new System.Drawing.Size(120, 23);
             this.cbMethod.TabIndex = 1;
             this.cbMethod.SelectedIndexChanged += new System.EventHandler(this.control_Changed);
             // 
             // lblMethod
             // 
             this.lblMethod.AutoSize = true;
-            this.lblMethod.Location = new System.Drawing.Point(3, 3);
+            this.lblMethod.Location = new System.Drawing.Point(5, 5);
             this.lblMethod.Name = "lblMethod";
-            this.lblMethod.Size = new System.Drawing.Size(43, 13);
+            this.lblMethod.Size = new System.Drawing.Size(49, 15);
             this.lblMethod.TabIndex = 0;
             this.lblMethod.Text = "Method";
             // 
             // pageHeaders
             // 
             this.pageHeaders.Controls.Add(this.dgvHeaders);
-            this.pageHeaders.Location = new System.Drawing.Point(4, 22);
+            this.pageHeaders.Location = new System.Drawing.Point(4, 24);
             this.pageHeaders.Name = "pageHeaders";
-            this.pageHeaders.Padding = new System.Windows.Forms.Padding(3);
-            this.pageHeaders.Size = new System.Drawing.Size(476, 274);
+            this.pageHeaders.Padding = new System.Windows.Forms.Padding(5);
+            this.pageHeaders.Size = new System.Drawing.Size(476, 292);
             this.pageHeaders.TabIndex = 1;
             this.pageHeaders.Text = "Headers";
             this.pageHeaders.UseVisualStyleBackColor = true;
@@ -288,9 +288,9 @@
             this.dgvHeaders.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
             this.colName,
             this.colValue});
-            this.dgvHeaders.Location = new System.Drawing.Point(6, 6);
+            this.dgvHeaders.Location = new System.Drawing.Point(8, 8);
             this.dgvHeaders.Name = "dgvHeaders";
-            this.dgvHeaders.Size = new System.Drawing.Size(464, 262);
+            this.dgvHeaders.Size = new System.Drawing.Size(460, 276);
             this.dgvHeaders.TabIndex = 0;
             this.dgvHeaders.CellValueChanged += new System.Windows.Forms.DataGridViewCellEventHandler(this.dgvHeaders_CellValueChanged);
             this.dgvHeaders.UserDeletedRow += new System.Windows.Forms.DataGridViewRowEventHandler(this.dgvHeaders_UserDeletedRow);
@@ -318,10 +318,10 @@
             this.pageContent.Controls.Add(this.lblContentEscaping);
             this.pageContent.Controls.Add(this.cbContentType);
             this.pageContent.Controls.Add(this.lblContentType);
-            this.pageContent.Location = new System.Drawing.Point(4, 22);
+            this.pageContent.Location = new System.Drawing.Point(4, 24);
             this.pageContent.Name = "pageContent";
-            this.pageContent.Padding = new System.Windows.Forms.Padding(3);
-            this.pageContent.Size = new System.Drawing.Size(476, 274);
+            this.pageContent.Padding = new System.Windows.Forms.Padding(5);
+            this.pageContent.Size = new System.Drawing.Size(476, 292);
             this.pageContent.TabIndex = 2;
             this.pageContent.Text = "Content";
             this.pageContent.UseVisualStyleBackColor = true;
@@ -330,28 +330,28 @@
             // 
             this.lblContentHint.AutoSize = true;
             this.lblContentHint.ForeColor = System.Drawing.SystemColors.GrayText;
-            this.lblContentHint.Location = new System.Drawing.Point(3, 258);
+            this.lblContentHint.Location = new System.Drawing.Point(5, 272);
             this.lblContentHint.Name = "lblContentHint";
-            this.lblContentHint.Size = new System.Drawing.Size(308, 13);
+            this.lblContentHint.Size = new System.Drawing.Size(346, 15);
             this.lblContentHint.TabIndex = 6;
             this.lblContentHint.Text = "May contain parameters, for example {phone}, {email} and {text}";
             // 
             // txtContent
             // 
-            this.txtContent.Location = new System.Drawing.Point(6, 59);
+            this.txtContent.Location = new System.Drawing.Point(8, 67);
             this.txtContent.Multiline = true;
             this.txtContent.Name = "txtContent";
             this.txtContent.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
-            this.txtContent.Size = new System.Drawing.Size(464, 196);
+            this.txtContent.Size = new System.Drawing.Size(460, 202);
             this.txtContent.TabIndex = 5;
             this.txtContent.TextChanged += new System.EventHandler(this.control_Changed);
             // 
             // lblContent
             // 
             this.lblContent.AutoSize = true;
-            this.lblContent.Location = new System.Drawing.Point(3, 43);
+            this.lblContent.Location = new System.Drawing.Point(5, 49);
             this.lblContent.Name = "lblContent";
-            this.lblContent.Size = new System.Drawing.Size(31, 13);
+            this.lblContent.Size = new System.Drawing.Size(34, 15);
             this.lblContent.TabIndex = 4;
             this.lblContent.Text = "Body";
             // 
@@ -363,18 +363,18 @@
             "None",
             "URL",
             "JSON"});
-            this.cbContentEscaping.Location = new System.Drawing.Point(350, 19);
+            this.cbContentEscaping.Location = new System.Drawing.Point(348, 23);
             this.cbContentEscaping.Name = "cbContentEscaping";
-            this.cbContentEscaping.Size = new System.Drawing.Size(120, 21);
+            this.cbContentEscaping.Size = new System.Drawing.Size(120, 23);
             this.cbContentEscaping.TabIndex = 3;
             this.cbContentEscaping.SelectedIndexChanged += new System.EventHandler(this.control_Changed);
             // 
             // lblContentEscaping
             // 
             this.lblContentEscaping.AutoSize = true;
-            this.lblContentEscaping.Location = new System.Drawing.Point(347, 3);
+            this.lblContentEscaping.Location = new System.Drawing.Point(345, 5);
             this.lblContentEscaping.Name = "lblContentEscaping";
-            this.lblContentEscaping.Size = new System.Drawing.Size(51, 13);
+            this.lblContentEscaping.Size = new System.Drawing.Size(54, 15);
             this.lblContentEscaping.TabIndex = 2;
             this.lblContentEscaping.Text = "Escaping";
             // 
@@ -385,18 +385,18 @@
             "text/plain",
             "application/json",
             "application/json-rpc"});
-            this.cbContentType.Location = new System.Drawing.Point(6, 19);
+            this.cbContentType.Location = new System.Drawing.Point(8, 23);
             this.cbContentType.Name = "cbContentType";
-            this.cbContentType.Size = new System.Drawing.Size(338, 21);
+            this.cbContentType.Size = new System.Drawing.Size(334, 23);
             this.cbContentType.TabIndex = 1;
             this.cbContentType.TextChanged += new System.EventHandler(this.control_Changed);
             // 
             // lblContentType
             // 
             this.lblContentType.AutoSize = true;
-            this.lblContentType.Location = new System.Drawing.Point(3, 3);
+            this.lblContentType.Location = new System.Drawing.Point(5, 5);
             this.lblContentType.Name = "lblContentType";
-            this.lblContentType.Size = new System.Drawing.Size(67, 13);
+            this.lblContentType.Size = new System.Drawing.Size(76, 15);
             this.lblContentType.TabIndex = 0;
             this.lblContentType.Text = "Content type";
             // 
@@ -405,7 +405,7 @@
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.CancelButton = this.btnClose;
-            this.ClientSize = new System.Drawing.Size(484, 341);
+            this.ClientSize = new System.Drawing.Size(484, 361);
             this.Controls.Add(this.tabControl);
             this.Controls.Add(this.pnlBottom);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedDialog;
@@ -414,7 +414,7 @@
             this.Name = "FrmConfig";
             this.ShowInTaskbar = false;
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
-            this.Text = "HTTP Notifications - Device {0} Properties";
+            this.Text = "Device {0} Properties - HTTP Notifications";
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.FrmConfig_FormClosing);
             this.Load += new System.EventHandler(this.FrmConfig_Load);
             this.pnlBottom.ResumeLayout(false);

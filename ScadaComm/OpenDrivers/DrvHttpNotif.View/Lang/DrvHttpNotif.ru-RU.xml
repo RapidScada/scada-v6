@@ -1,7 +1,7 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <DrvHttpNotifDictionaries>
   <Dictionary key="Scada.Comm.Drivers.DrvHttpNotif.View.Forms.FrmConfig">
-    <Phrase key="this">HTTP-уведомления - Свойства КП {0}</Phrase>
+    <Phrase key="this">Свойства устройства {0} - HTTP-уведомления</Phrase>
     <Phrase key="pageGeneral">Основные</Phrase>
     <Phrase key="lblMethod">Метод</Phrase>
     <Phrase key="lblUri">URI</Phrase>

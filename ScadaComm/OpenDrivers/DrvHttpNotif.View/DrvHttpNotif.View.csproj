@@ -28,6 +28,15 @@
     </Reference>
   </ItemGroup>
 
+  <ItemGroup>
+    <None Update="Lang\DrvHttpNotif.en-GB.xml">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="Lang\DrvHttpNotif.ru-RU.xml">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
+
   <Import Project="..\DrvHttpNotif.Shared\DrvHttpNotif.Shared.projitems" Label="Shared" />
   
 </Project>
