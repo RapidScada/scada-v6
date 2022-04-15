@@ -119,7 +119,7 @@ namespace Scada.Comm
         }
 
         /// <summary>
-        /// Gets the name of the communication line log file.
+        /// Gets the short name of the communication line log file.
         /// </summary>
         public static string GetLineLogFileName(int commLineNum, string extenstion)
         {
@@ -127,7 +127,7 @@ namespace Scada.Comm
         }
 
         /// <summary>
-        /// Gets the name of the device log file.
+        /// Gets the short name of the device log file.
         /// </summary>
         public static string GetDeviceLogFileName(int deviceNum, string extenstion)
         {

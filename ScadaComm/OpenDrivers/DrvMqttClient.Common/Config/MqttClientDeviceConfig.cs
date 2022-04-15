@@ -1,8 +1,7 @@
 ﻿// Copyright (c) Rapid Software LLC. All rights reserved.
 // Licensed under the Apache License, Version 2.0. See License.txt in the project root for license information.
 
-using Scada.Comm.Lang;
-using Scada.Config;
+using Scada.Comm.Config;
 using System.Xml;
 
 namespace Scada.Comm.Drivers.DrvMqttClient.Config
@@ -12,7 +11,7 @@ namespace Scada.Comm.Drivers.DrvMqttClient.Config
     /// <para>Представляет конфигурацию устройства MQTT-клиент.</para>
     /// </summary>
     [Serializable]
-    public class MqttClientDeviceConfig : BaseConfig
+    public class MqttClientDeviceConfig : CustomDeviceConfig
     {
         /// <summary>
         /// Gets the device options.
@@ -103,27 +102,11 @@ namespace Scada.Comm.Drivers.DrvMqttClient.Config
         }
 
         /// <summary>
-        /// Builds an error message for the load operation.
-        /// </summary>
-        protected override string BuildLoadErrorMessage(Exception ex)
-        {
-            return ex.BuildErrorMessage(CommPhrases.LoadDeviceConfigError);
-        }
-
-        /// <summary>
-        /// Builds an error message for the save operation.
-        /// </summary>
-        protected override string BuildSaveErrorMessage(Exception ex)
-        {
-            return ex.BuildErrorMessage(CommPhrases.SaveDeviceConfigError);
-        }
-
-        /// <summary>
         /// Gets the short name of the device configuration file.
         /// </summary>
         public static string GetFileName(int deviceNum)
         {
-            return $"{DriverUtils.DriverCode}_{deviceNum:D3}.xml";
+            return GetFileName(DriverUtils.DriverCode, deviceNum);
         }
     }
 }
