@@ -62,6 +62,14 @@ namespace Scada.Admin.Extensions.ExtCommConfig.Code
         }
 
         /// <summary>
+        /// Resets the driver view cache.
+        /// </summary>
+        public static void ResetDriverViewCache()
+        {
+            driverViewCache.Clear();
+        }
+
+        /// <summary>
         /// Gets a new instance of the module user interface.
         /// </summary>
         public static bool GetDriverView(IAdminContext adminContext, CommApp commApp, string driverCode,
