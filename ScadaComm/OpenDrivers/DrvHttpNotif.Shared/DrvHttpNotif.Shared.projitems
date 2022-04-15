@@ -9,11 +9,13 @@
     <Import_RootNamespace>Scada.Comm.Drivers.DrvHttpNotif</Import_RootNamespace>
   </PropertyGroup>
   <ItemGroup>
+    <Compile Include="$(MSBuildThisFileDirectory)CnlPrototypeFactory.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Config\NotifDeviceConfig.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Config\EscapingMethod.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Config\Header.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Config\RequestMethod.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)DriverUtils.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)TagCode.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="$(MSBuildThisFileDirectory)Config\DrvHttpNotif_001.xml" />

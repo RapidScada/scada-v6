@@ -46,30 +46,7 @@ namespace Scada.Comm.Drivers.DrvHttpNotif.View
         /// </summary>
         public override ICollection<CnlPrototype> GetCnlPrototypes()
         {
-            return new CnlPrototype[]
-            {
-                new CnlPrototype
-                {
-                    Name = "Notifications", //DriverPhrases.NotifTagName,
-                    CnlTypeID = CnlTypeID.InputOutput,
-                    TagCode = "Notif", //DriverUtils.NotifTagCode,
-                    FormatCode = FormatCode.N0
-                },
-                new CnlPrototype
-                {
-                    Name = "Requests",
-                    CnlTypeID = CnlTypeID.InputOutput,
-                    TagCode = "Request",
-                    FormatCode = FormatCode.N0
-                },
-                new CnlPrototype
-                {
-                    Name = "Response status",
-                    CnlTypeID = CnlTypeID.Input,
-                    TagCode = "Response",
-                    FormatCode = FormatCode.N0
-                }
-            };
+            return CnlPrototypeFactory.GetCnlPrototypeGroups().GetCnlPrototypes();
         }
     }
 }
