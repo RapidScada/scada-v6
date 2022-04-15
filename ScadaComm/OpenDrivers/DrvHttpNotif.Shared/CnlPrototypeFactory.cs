@@ -17,9 +17,8 @@ namespace Scada.Comm.Drivers.DrvHttpNotif
         /// <summary>
         /// Gets the grouped channel prototypes.
         /// </summary>
-        public static List<CnlPrototypeGroup> GetCnlPrototypeGroups()
+        public static CnlPrototypeGroup GetCnlPrototypeGroup()
         {
-            List<CnlPrototypeGroup> groups = new List<CnlPrototypeGroup>();
             CnlPrototypeGroup group = new CnlPrototypeGroup();
             
             group.CnlPrototypes.Add(new CnlPrototype
@@ -46,8 +45,7 @@ namespace Scada.Comm.Drivers.DrvHttpNotif
                 FormatCode = FormatCode.N0
             });
 
-            groups.Add(group);
-            return groups;
+            return group;
         }
     }
 }

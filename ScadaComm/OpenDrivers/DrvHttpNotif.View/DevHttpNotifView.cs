@@ -46,7 +46,7 @@ namespace Scada.Comm.Drivers.DrvHttpNotif.View
         /// </summary>
         public override ICollection<CnlPrototype> GetCnlPrototypes()
         {
-            return CnlPrototypeFactory.GetCnlPrototypeGroups().GetCnlPrototypes();
+            return CnlPrototypeFactory.GetCnlPrototypeGroup().CnlPrototypes;
         }
     }
 }
