@@ -179,5 +179,13 @@ namespace Scada.Comm.Drivers.DrvHttpNotif.Config
         {
             ParamEnd = string.IsNullOrEmpty(s) ? DefaultParamEnd : s[0];
         }
+
+        /// <summary>
+        /// Gets the short name of the device configuration file.
+        /// </summary>
+        public static string GetFileName(int deviceNum)
+        {
+            return GetFileName(DriverUtils.DriverCode, deviceNum);
+        }
     }
 }
