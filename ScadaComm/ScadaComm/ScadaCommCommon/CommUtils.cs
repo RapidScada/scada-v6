@@ -26,6 +26,8 @@
 using Scada.Comm.Config;
 using Scada.Comm.Devices;
 using Scada.Data.Entities;
+using System.Collections.Generic;
+using System.Linq;
 using System.Text;
 
 namespace Scada.Comm
@@ -166,6 +168,14 @@ namespace Scada.Comm
             }
 
             return true;
+        }
+
+        /// <summary>
+        /// Gets a flatten list of the channel prototypes.
+        /// </summary>
+        public static List<CnlPrototype> GetCnlPrototypes(this List<CnlPrototypeGroup> cnlPrototypeGroups)
+        {
+            return cnlPrototypeGroups.SelectMany(group => group.CnlPrototypes).ToList();
         }
     }
 }
