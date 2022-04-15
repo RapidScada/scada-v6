@@ -13,5 +13,9 @@
     <Compile Include="$(MSBuildThisFileDirectory)Config\EscapingMethod.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Config\Header.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Config\RequestMethod.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)DriverUtils.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="$(MSBuildThisFileDirectory)Config\DrvHttpNotif_001.xml" />
   </ItemGroup>
 </Project>
