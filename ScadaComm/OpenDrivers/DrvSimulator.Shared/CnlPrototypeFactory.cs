@@ -4,7 +4,6 @@
 using Scada.Comm.Devices;
 using Scada.Data.Const;
 using System.Collections.Generic;
-using System.Linq;
 
 namespace Scada.Comm.Drivers.DrvSimulator
 {
@@ -52,14 +51,6 @@ namespace Scada.Comm.Drivers.DrvSimulator
             groups.Add(group);
 
             return groups;
-        }
-
-        /// <summary>
-        /// Gets a flatten list of the channel prototypes.
-        /// </summary>
-        public static List<CnlPrototype> GetCnlPrototypes()
-        {
-            return GetCnlPrototypeGroups().SelectMany(group => group.CnlPrototypes).ToList();
         }
     }
 }
