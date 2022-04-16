@@ -25,8 +25,8 @@ namespace Scada.Comm.Drivers.DrvOpcUa.View.Forms
         {
             public const string Command = "cmd.png";
             public const string Empty = "empty.png";
-            public const string FolderOpen = "folder_open.png";
             public const string FolderClosed = "folder_closed.png";
+            public const string FolderOpen = "folder_open.png";
             public const string Method = "method.png";
             public const string Object = "obj.png";
             public const string Variable = "variable.png";
