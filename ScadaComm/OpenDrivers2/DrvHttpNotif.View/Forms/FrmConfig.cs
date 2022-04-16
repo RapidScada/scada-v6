@@ -1,6 +1,7 @@
 ﻿// Copyright (c) Rapid Software LLC. All rights reserved.
 // Licensed under the Apache License, Version 2.0. See License.txt in the project root for license information.
 
+using Scada.AB.Forms;
 using Scada.Comm.Drivers.DrvHttpNotif.Config;
 using Scada.Comm.Lang;
 using Scada.Forms;
@@ -162,7 +163,7 @@ namespace Scada.Comm.Drivers.DrvHttpNotif.View.Forms
 
         private void btnAddressBook_Click(object sender, EventArgs e)
         {
-            //FrmAddressBook.ShowDialog(appDirs);
+            new FrmAddressBook(appDirs).ShowDialog();
         }
 
         private void btnSave_Click(object sender, EventArgs e)

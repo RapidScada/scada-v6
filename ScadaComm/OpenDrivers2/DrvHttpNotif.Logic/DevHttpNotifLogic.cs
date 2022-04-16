@@ -344,7 +344,7 @@ namespace Scada.Comm.Drivers.DrvHttpNotif.Logic
                 notifDeviceConfig.Uri = PollingOptions.CmdLine;
             }
 
-            // initialize variables if the configuration is valid
+            // initialize variables if configuration is valid
             if (ValidateDeviceConfig(out errMsg))
             {
                 if (notifDeviceConfig.ParamEnabled)
