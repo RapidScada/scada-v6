@@ -20,7 +20,7 @@
  * 
  * Author   : Mikhail Shiryaev
  * Created  : 2015
- * Modified : 2021
+ * Modified : 2022
  */
 
 using Scada.Lang;
@@ -141,6 +141,32 @@ namespace Scada.Data.Models
         public string GetCmdDataString()
         {
             return CmdDataToString(CmdData);
+        }
+        
+        /// <summary>
+        /// Retrieves arguments from the command data.
+        /// </summary>
+        public Dictionary<string, string> GetCmdDataArgs()
+        {
+            // command exmaple:
+            // argument1 = val1
+            // argument2 = val2
+            Dictionary<string, string> args = new Dictionary<string, string>();
+
+            foreach (string line in CmdDataToString(CmdData).Split('\n'))
+            {
+                int operIdx = line.IndexOf('=');
+
+                if (operIdx > 0)
+                {
+                    string name = line.Substring(0, operIdx).Trim();
+
+                    if (name != "")
+                        args[name] = line.Substring(operIdx + 1).Trim();
+                }
+            }
+
+            return args;
         }
 
         /// <summary>
