@@ -7,7 +7,20 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AddressBook", "AddressBook\
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "AddressBookProjects", "AddressBookProjects", "{E9F74C43-BFD8-4A0F-8640-F2A152B95927}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "DrvHttpNotif", "DrvHttpNotif", "{586C53FB-2938-4587-8234-6FDB1BA3F8E1}"
+EndProject
+Project("{D954291E-2A0B-460D-934E-DC6B0785DB48}") = "DrvHttpNotif.Shared", "DrvHttpNotif.Shared\DrvHttpNotif.Shared.shproj", "{B9F18976-DCB3-4895-BE6E-3EBA9129A370}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DrvHttpNotif.Logic", "DrvHttpNotif.Logic\DrvHttpNotif.Logic.csproj", "{111A85FB-E7B0-417C-8857-7D0B88A5F050}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DrvHttpNotif.View", "DrvHttpNotif.View\DrvHttpNotif.View.csproj", "{F14824B7-4208-4314-A543-184E1573E1C9}"
+EndProject
 Global
+	GlobalSection(SharedMSBuildProjectFiles) = preSolution
+		DrvHttpNotif.Shared\DrvHttpNotif.Shared.projitems*{111a85fb-e7b0-417c-8857-7d0b88a5f050}*SharedItemsImports = 5
+		DrvHttpNotif.Shared\DrvHttpNotif.Shared.projitems*{b9f18976-dcb3-4895-be6e-3eba9129a370}*SharedItemsImports = 13
+		DrvHttpNotif.Shared\DrvHttpNotif.Shared.projitems*{f14824b7-4208-4314-a543-184e1573e1c9}*SharedItemsImports = 5
+	EndGlobalSection
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
 		Release|Any CPU = Release|Any CPU
@@ -17,12 +30,23 @@ Global
 		{0C6AAB8D-784A-4E43-AEF7-91A1E89FFA0B}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{0C6AAB8D-784A-4E43-AEF7-91A1E89FFA0B}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{0C6AAB8D-784A-4E43-AEF7-91A1E89FFA0B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{111A85FB-E7B0-417C-8857-7D0B88A5F050}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{111A85FB-E7B0-417C-8857-7D0B88A5F050}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{111A85FB-E7B0-417C-8857-7D0B88A5F050}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{111A85FB-E7B0-417C-8857-7D0B88A5F050}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F14824B7-4208-4314-A543-184E1573E1C9}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F14824B7-4208-4314-A543-184E1573E1C9}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F14824B7-4208-4314-A543-184E1573E1C9}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F14824B7-4208-4314-A543-184E1573E1C9}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
 		{0C6AAB8D-784A-4E43-AEF7-91A1E89FFA0B} = {E9F74C43-BFD8-4A0F-8640-F2A152B95927}
+		{B9F18976-DCB3-4895-BE6E-3EBA9129A370} = {586C53FB-2938-4587-8234-6FDB1BA3F8E1}
+		{111A85FB-E7B0-417C-8857-7D0B88A5F050} = {586C53FB-2938-4587-8234-6FDB1BA3F8E1}
+		{F14824B7-4208-4314-A543-184E1573E1C9} = {586C53FB-2938-4587-8234-6FDB1BA3F8E1}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {621E3959-3A13-41B5-A559-AA02854D93A0}

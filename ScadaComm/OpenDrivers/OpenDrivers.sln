@@ -90,14 +90,6 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DrvMqttClient.View", "DrvMq
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DrvMqttPublisher.View", "DrvMqttPublisher.View\DrvMqttPublisher.View.csproj", "{27244692-5102-434B-AC9E-E69C4EC95C8A}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "DrvHttpNotif", "DrvHttpNotif", "{93413907-4E3B-4410-B965-9936396B751B}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DrvHttpNotif.Logic", "DrvHttpNotif.Logic\DrvHttpNotif.Logic.csproj", "{5B27FAAC-AA01-48FC-9A43-5EC341F9D376}"
-EndProject
-Project("{D954291E-2A0B-460D-934E-DC6B0785DB48}") = "DrvHttpNotif.Shared", "DrvHttpNotif.Shared\DrvHttpNotif.Shared.shproj", "{B9F18976-DCB3-4895-BE6E-3EBA9129A370}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DrvHttpNotif.View", "DrvHttpNotif.View\DrvHttpNotif.View.csproj", "{A4775902-1AAB-4B57-A033-402448A727D5}"
-EndProject
 Global
 	GlobalSection(SharedMSBuildProjectFiles) = preSolution
 		DrvMqttPublisher.Shared\DrvMqttPublisher.Shared.projitems*{0d66317c-3cbf-4788-ac99-282423215dea}*SharedItemsImports = 5
@@ -107,13 +99,10 @@ Global
 		DrvDsMqtt.Shared\DrvDsMqtt.Shared.projitems*{3f133c20-7e0e-4b31-8438-cac9dbc27e2f}*SharedItemsImports = 5
 		DrvSimulator.Shared\DrvSimulator.Shared.projitems*{459d0b20-51a9-4aa8-8ccc-9f5b34a74029}*SharedItemsImports = 13
 		DrvSimulator.Shared\DrvSimulator.Shared.projitems*{48043839-37e7-40ae-92e2-a31a79204cf5}*SharedItemsImports = 5
-		DrvHttpNotif.Shared\DrvHttpNotif.Shared.projitems*{5b27faac-aa01-48fc-9a43-5ec341f9d376}*SharedItemsImports = 5
 		DrvDsMqtt.Shared\DrvDsMqtt.Shared.projitems*{709169f9-0f33-4e14-9fd1-aa9c3d5ed4aa}*SharedItemsImports = 13
 		DrvSimulator.Shared\DrvSimulator.Shared.projitems*{8f1c993e-1a67-494a-a5b9-9aedaa8feb9c}*SharedItemsImports = 5
-		DrvHttpNotif.Shared\DrvHttpNotif.Shared.projitems*{a4775902-1aab-4b57-a033-402448a727d5}*SharedItemsImports = 5
 		DrvMqttPublisher.Shared\DrvMqttPublisher.Shared.projitems*{b4923372-4baa-4b51-995e-01ae7adbcbd7}*SharedItemsImports = 13
 		DrvTester.Shared\DrvTester.Shared.projitems*{b7f37122-5eb4-4cf6-b7e9-79e6d0e2083d}*SharedItemsImports = 5
-		DrvHttpNotif.Shared\DrvHttpNotif.Shared.projitems*{b9f18976-dcb3-4895-be6e-3eba9129a370}*SharedItemsImports = 13
 		DrvTester.Shared\DrvTester.Shared.projitems*{edaf9a96-07da-4a2d-ab7c-b299378f4433}*SharedItemsImports = 5
 	EndGlobalSection
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -237,14 +226,6 @@ Global
 		{27244692-5102-434B-AC9E-E69C4EC95C8A}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{27244692-5102-434B-AC9E-E69C4EC95C8A}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{27244692-5102-434B-AC9E-E69C4EC95C8A}.Release|Any CPU.Build.0 = Release|Any CPU
-		{5B27FAAC-AA01-48FC-9A43-5EC341F9D376}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{5B27FAAC-AA01-48FC-9A43-5EC341F9D376}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{5B27FAAC-AA01-48FC-9A43-5EC341F9D376}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{5B27FAAC-AA01-48FC-9A43-5EC341F9D376}.Release|Any CPU.Build.0 = Release|Any CPU
-		{A4775902-1AAB-4B57-A033-402448A727D5}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{A4775902-1AAB-4B57-A033-402448A727D5}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{A4775902-1AAB-4B57-A033-402448A727D5}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{A4775902-1AAB-4B57-A033-402448A727D5}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -283,9 +264,6 @@ Global
 		{87DD4D79-9BB4-4F15-98AE-464378B1613E} = {B9143ECA-C319-4A0C-855A-384C34B0DB74}
 		{C1CC1C89-F786-4D2E-B45C-8FFCBC9C22C1} = {B9143ECA-C319-4A0C-855A-384C34B0DB74}
 		{27244692-5102-434B-AC9E-E69C4EC95C8A} = {B9143ECA-C319-4A0C-855A-384C34B0DB74}
-		{5B27FAAC-AA01-48FC-9A43-5EC341F9D376} = {93413907-4E3B-4410-B965-9936396B751B}
-		{B9F18976-DCB3-4895-BE6E-3EBA9129A370} = {93413907-4E3B-4410-B965-9936396B751B}
-		{A4775902-1AAB-4B57-A033-402448A727D5} = {93413907-4E3B-4410-B965-9936396B751B}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {961AA4C1-5D08-4B24-AE6B-99F3AB1A7AEF}
