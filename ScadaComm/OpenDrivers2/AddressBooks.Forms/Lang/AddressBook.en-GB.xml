@@ -21,6 +21,6 @@
     <Phrase key="EmailExists">The contact already contains the specified email.</Phrase>
     <Phrase key="IncorrectEmail">Email is incorrect.</Phrase>
     <Phrase key="EmptyValueNotAllowed">Empty value is not allowed.</Phrase>
-    <Phrase key="SavePhonebookConfirm">The address book has been modified. Save the changes?</Phrase>
+    <Phrase key="SaveAddressBookConfirm">The address book has been modified. Save the changes?</Phrase>
   </Dictionary>
 </AddressBookDictionaries>

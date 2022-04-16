@@ -15,7 +15,12 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DrvHttpNotif.Logic", "DrvHt
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DrvHttpNotif.View", "DrvHttpNotif.View\DrvHttpNotif.View.csproj", "{F14824B7-4208-4314-A543-184E1573E1C9}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AddressBooks.Forms", "AddressBooks.Forms\AddressBooks.Forms.csproj", "{24F5A3B9-9079-4FD2-BF13-A9DC3683070A}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AddressBooks.Forms", "AddressBooks.Forms\AddressBooks.Forms.csproj", "{24F5A3B9-9079-4FD2-BF13-A9DC3683070A}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{DD702476-90C3-446F-91BF-2E0D142FACC5}"
+	ProjectSection(SolutionItems) = preProject
+		.editorconfig = .editorconfig
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SharedMSBuildProjectFiles) = preSolution

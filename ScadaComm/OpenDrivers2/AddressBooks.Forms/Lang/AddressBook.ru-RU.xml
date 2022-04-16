@@ -21,6 +21,6 @@
     <Phrase key="EmailExists">Контакт уже содержит данный адрес электронной почты.</Phrase>
     <Phrase key="IncorrectEmail">Некорректный адрес электронной почты.</Phrase>
     <Phrase key="EmptyValueNotAllowed">Значение не может быть пустым.</Phrase>
-    <Phrase key="SavePhonebookConfirm">Адресная книга была изменена. Сохранить изменения?</Phrase>
+    <Phrase key="SaveAddressBookConfirm">Адресная книга была изменена. Сохранить изменения?</Phrase>
   </Dictionary>
 </AddressBookDictionaries>

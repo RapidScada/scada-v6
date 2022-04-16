@@ -9,7 +9,7 @@ namespace Scada.AB.Forms.Lang
     /// The phrases used by the address book.
     /// <para>Фразы, используемые адресной книгой.</para>
     /// </summary>
-    public class AddressBookPhrases
+    internal class AddressBookPhrases
     {
         // Scada.AB.Forms.FrmAddressBook
         public static string AddressBookNode { get; private set; }
@@ -23,7 +23,7 @@ namespace Scada.AB.Forms.Lang
         public static string EmailExists { get; private set; }
         public static string IncorrectEmail { get; private set; }
         public static string EmptyValueNotAllowed { get; private set; }
-        public static string SavePhonebookConfirm { get; private set; }
+        public static string SaveAddressBookConfirm { get; private set; }
 
         public static void Init()
         {
@@ -39,7 +39,7 @@ namespace Scada.AB.Forms.Lang
             EmailExists = dict[nameof(EmailExists)];
             IncorrectEmail = dict[nameof(IncorrectEmail)];
             EmptyValueNotAllowed = dict[nameof(EmptyValueNotAllowed)];
-            SavePhonebookConfirm = dict[nameof(SavePhonebookConfirm)];
+            SaveAddressBookConfirm = dict[nameof(SaveAddressBookConfirm)];
         }
     }
 }
