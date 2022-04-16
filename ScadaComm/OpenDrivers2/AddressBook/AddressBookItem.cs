@@ -4,7 +4,7 @@
 using System;
 using System.Collections;
 
-namespace Scada.AddressBook
+namespace Scada.AB
 {
     /// <summary>
     /// Represents the base class for an address book item.

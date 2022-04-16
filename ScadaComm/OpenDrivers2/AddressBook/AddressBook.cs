@@ -8,7 +8,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Xml;
 
-namespace Scada.AddressBook
+namespace Scada.AB
 {
     /// <summary>
     /// Represents an address book.

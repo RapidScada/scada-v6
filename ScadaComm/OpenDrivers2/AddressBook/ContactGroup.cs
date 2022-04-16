@@ -3,7 +3,7 @@
 
 using System.Collections.Generic;
 
-namespace Scada.AddressBook
+namespace Scada.AB
 {
     /// <summary>
     /// Represents a contact group.
