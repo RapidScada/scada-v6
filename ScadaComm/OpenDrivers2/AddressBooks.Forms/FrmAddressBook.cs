@@ -92,12 +92,12 @@ namespace Scada.AB.Forms
                     ScadaUiUtils.ShowError(errMsg);
 
                 AddressBookPhrases.Init();
-                rootNode.Text = AddressBookPhrases.AddressBookNode;
             }
 
             FormTranslator.Translate(this, GetType().FullName);
+            rootNode.Text = AddressBookPhrases.AddressBookNode;
         }
-        
+
         /// <summary>
         /// Takes the tree view and loads them into an image list.
         /// </summary>
@@ -137,13 +137,11 @@ namespace Scada.AB.Forms
         }
 
         /// <summary>
-        /// Создать узел дерева для группы контактов
+        /// Creates a node that represents the specified contact group.
         /// </summary>
-        private TreeNode CreateContactGroupNode(ContactGroup contactGroup)
+        private static TreeNode CreateContactGroupNode(ContactGroup contactGroup)
         {
-            string imageKey = contactGroup.Contacts.Count > 0 ? "folder_open.png" : "folder_closed.png";
-            TreeNode contactGroupNode = TreeViewExtensions.CreateNode(contactGroup, imageKey);
-            contactGroupNode.Expand();
+            TreeNode contactGroupNode = TreeViewExtensions.CreateNode(contactGroup, ImageKey.FolderClosed);
 
             foreach (Contact contact in contactGroup.Contacts)
             {
@@ -154,12 +152,11 @@ namespace Scada.AB.Forms
         }
 
         /// <summary>
-        /// Создать узел дерева для контакта
+        /// Creates a node that represents the specified contact.
         /// </summary>
-        private TreeNode CreateContactNode(Contact contact)
+        private static TreeNode CreateContactNode(Contact contact)
         {
-            TreeNode contactNode = TreeViewExtensions.CreateNode(contact, "contact.png");
-            contactNode.Expand();
+            TreeNode contactNode = TreeViewExtensions.CreateNode(contact, ImageKey.Contact);
 
             foreach (AddressBookItem contactItem in contact.ContactItems)
             {
@@ -173,25 +170,25 @@ namespace Scada.AB.Forms
         }
 
         /// <summary>
-        /// Создать узел дерева для телефонного номера
+        /// Creates a node that represents the specified phone number.
         /// </summary>
-        private TreeNode CreatePhoneNumberNode(PhoneNumber phoneNumber)
+        private static TreeNode CreatePhoneNumberNode(PhoneNumber phoneNumber)
         {
-            return TreeViewExtensions.CreateNode(phoneNumber, "phone.png");
+            return TreeViewExtensions.CreateNode(phoneNumber, ImageKey.Phone);
         }
 
         /// <summary>
-        /// Создать узел дерева для адреса электронной почты
+        /// Creates a node that represents the specified email.
         /// </summary>
-        private TreeNode CreateEmailNode(Email email)
+        private static TreeNode CreateEmailNode(Email email)
         {
-            return TreeViewExtensions.CreateNode(email, "email.png");
+            return TreeViewExtensions.CreateNode(email, ImageKey.Email);
         }
 
         /// <summary>
-        /// Найти индекс вставки элемента для сохранения упорядоченности списка
+        /// Finds the index to insert an element keeping the list sort order.
         /// </summary>
-        private int FindInsertIndex<T>(List<T> list, int currentIndex, out bool duplicated)
+        private static int FindInsertIndex<T>(List<T> list, int currentIndex, out bool duplicated)
         {
             if (list.Count <= 1)
             {
@@ -220,19 +217,11 @@ namespace Scada.AB.Forms
         }
 
         /// <summary>
-        /// Проверить корректность формата адреса электронной почты
+        /// Validates the email.
         /// </summary>
-        private bool CheckEmail(string email)
+        private static bool ValidateEmail(string email)
         {
-            try
-            {
-                MailAddress m = new MailAddress(email);
-                return true;
-            }
-            catch
-            {
-                return false;
-            }
+            return MailAddress.TryCreate(email, out _);
         }
 
         /// <summary>
@@ -301,7 +290,7 @@ namespace Scada.AB.Forms
 
         private void btnAddContactGroup_Click(object sender, EventArgs e)
         {
-            // добавление группы контактов
+            // add contact group
             ContactGroup contactGroup = new(AddressBookPhrases.NewContactGroup);
             TreeNode contactGroupNode = CreateContactGroupNode(contactGroup);
 
@@ -312,7 +301,7 @@ namespace Scada.AB.Forms
 
         private void btnAddContact_Click(object sender, EventArgs e)
         {
-            // добавление контакта
+            // add contact
             if (treeView.SelectedNode?.FindClosest(typeof(ContactGroup)) is TreeNode contactGroupNode)
             {
                 Contact contact = new(AddressBookPhrases.NewContact);
@@ -326,7 +315,7 @@ namespace Scada.AB.Forms
 
         private void btnAddPhoneNumber_Click(object sender, EventArgs e)
         {
-            // добавление телефонного номера
+            // add phone number
             if (treeView.SelectedNode?.FindClosest(typeof(Contact)) is TreeNode contactNode)
             {
                 PhoneNumber phoneNumber = new(AddressBookPhrases.NewPhoneNumber);
@@ -340,7 +329,7 @@ namespace Scada.AB.Forms
 
         private void btnAddEmail_Click(object sender, EventArgs e)
         {
-            // добавление адреса электронной почты
+            // add email
             if (treeView.SelectedNode?.FindClosest(typeof(Contact)) is TreeNode contactNode)
             {
                 Email email = new(AddressBookPhrases.NewEmail);
@@ -354,7 +343,7 @@ namespace Scada.AB.Forms
 
         private void btnEdit_Click(object sender, EventArgs e)
         {
-            // переключение режима редактирования узла дерева
+            // switch editing mode of the selected node
             if (treeView.SelectedNode is TreeNode selectedNode)
             {
                 if (selectedNode.IsEditing)
@@ -366,7 +355,7 @@ namespace Scada.AB.Forms
 
         private void btnDelete_Click(object sender, EventArgs e)
         {
-            // удаление выбранного объекта
+            // delete the selected item
             if (treeView.GetSelectedObject() is AddressBookItem)
             {
                 treeView.RemoveSelectedNode();
@@ -377,35 +366,34 @@ namespace Scada.AB.Forms
 
         private void treeView_AfterSelect(object sender, TreeViewEventArgs e)
         {
-            // установка доступности кнопок
             SetButtonsEnabled();
         }
 
         private void treeView_BeforeExpand(object sender, TreeViewCancelEventArgs e)
         {
-            // установить иконку, если группа была развёрнута
+            // show open folder icon
             if (e.Node.Tag is ContactGroup)
-                e.Node.SetImageKey("folder_open.png");
+                e.Node.SetImageKey(ImageKey.FolderOpen);
         }
 
         private void treeView_BeforeCollapse(object sender, TreeViewCancelEventArgs e)
         {
-            // установить иконку, если группа была свёрнута
+            // show closed folder icon
             if (e.Node.Tag is ContactGroup)
-                e.Node.SetImageKey("folder_closed.png");
+                e.Node.SetImageKey(ImageKey.FolderClosed);
         }
 
         private void treeView_BeforeLabelEdit(object sender, NodeLabelEditEventArgs e)
         {
-            // запрет редактирования корневого узла дерева
+            // cancel editing the root node
             if (e.Node == rootNode)
                 e.CancelEdit = true;
         }
 
         private void treeView_AfterLabelEdit(object sender, NodeLabelEditEventArgs e)
         {
-            // получение изменений после завершения редактирования узла
-            if (e.Label != null /*редактирование отменено*/ &&
+            // retrieve changes after node editing
+            if (e.Label != null /*editing not canceled*/ &&
                 e.Node.Tag as AddressBookItem is AddressBookItem bookItem)
             {
                 string oldVal = bookItem.Value;
@@ -419,10 +407,10 @@ namespace Scada.AB.Forms
                 }
                 else if (!oldVal.Equals(newVal, StringComparison.Ordinal))
                 {
-                    // установка нового значения
+                    // set new item value
                     bookItem.Value = newVal;
 
-                    // определение нового индекса узла, чтобы сохранить упорядоченность, и проверка значения
+                    // define insertion index and validate value
                     IList list = bookItem.Parent.Children;
                     int curInd = e.Node.Index;
                     int newInd = curInd;
@@ -432,12 +420,14 @@ namespace Scada.AB.Forms
                     if (bookItem is ContactGroup)
                     {
                         newInd = FindInsertIndex((List<ContactGroup>)list, curInd, out duplicated);
+
                         if (duplicated)
                             errMsg = AddressBookPhrases.ContactGroupExists;
                     }
                     else if (bookItem is Contact)
                     {
                         newInd = FindInsertIndex((List<Contact>)list, curInd, out duplicated);
+
                         if (duplicated)
                             errMsg = AddressBookPhrases.ContactExists;
                     }
@@ -454,14 +444,15 @@ namespace Scada.AB.Forms
                         {
                             if (duplicated)
                                 errMsg = AddressBookPhrases.EmailExists;
-                            if (!CheckEmail(newVal))
+
+                            if (!ValidateEmail(newVal))
                                 errMsg = AddressBookPhrases.IncorrectEmail;
                         }
                     }
 
                     if (errMsg != "")
                     {
-                        // возврат старого значения
+                        // revert old value
                         bookItem.Value = newVal;
                         e.CancelEdit = true;
                         ScadaUiUtils.ShowError(errMsg);
@@ -469,7 +460,7 @@ namespace Scada.AB.Forms
                     }
                     else if (newInd != curInd)
                     {
-                        // перемещение узла, чтобы сохранить упорядоченность
+                        // move node to keep sort order
                         BeginInvoke(new Action(() => { treeView.MoveSelectedNode(newInd); }));
                     }
 
