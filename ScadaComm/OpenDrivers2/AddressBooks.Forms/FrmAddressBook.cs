@@ -2,6 +2,7 @@
 // Licensed under the Apache License, Version 2.0. See License.txt in the project root for license information.
 
 using Scada.AB.Forms.Lang;
+using Scada.AB.Forms.Properties;
 using Scada.Forms;
 using Scada.Lang;
 using System.Collections;
@@ -15,6 +16,19 @@ namespace Scada.AB.Forms
     /// </summary>
     public partial class FrmAddressBook : Form
     {
+        /// <summary>
+        /// Specifies the image keys.
+        /// </summary>
+        private static class ImageKey
+        {
+            public const string Book = "book.png";
+            public const string Contact = "contact.png";
+            public const string Email = "email.png";
+            public const string FolderClosed = "folder_closed.png";
+            public const string FolderOpen = "folder_open.png";
+            public const string Phone = "phone.png";
+        }
+
         private static bool dictLoaded = false;   // indicates that the address book dictionary is loaded
 
         private readonly AppDirs appDirs;         // the application directories
@@ -83,11 +97,25 @@ namespace Scada.AB.Forms
 
             FormTranslator.Translate(this, GetType().FullName);
         }
+        
+        /// <summary>
+        /// Takes the tree view and loads them into an image list.
+        /// </summary>
+        private void TakeTreeViewImages()
+        {
+            // loading images from resources instead of storing in image list prevents them from corruption
+            imageList.Images.Add(ImageKey.Book, Resources.book);
+            imageList.Images.Add(ImageKey.Contact, Resources.contact);
+            imageList.Images.Add(ImageKey.Email, Resources.email);
+            imageList.Images.Add(ImageKey.FolderClosed, Resources.folder_closed);
+            imageList.Images.Add(ImageKey.FolderOpen, Resources.folder_open);
+            imageList.Images.Add(ImageKey.Phone, Resources.phone);
+        }
 
         /// <summary>
-        /// Построить дерево адресной книги
+        /// Fills the tree view according to the address book content.
         /// </summary>
-        private void BuildTree()
+        private void FillTree()
         {
             try
             {
@@ -98,8 +126,6 @@ namespace Scada.AB.Forms
                 {
                     rootNode.Nodes.Add(CreateContactGroupNode(contactGroup));
                 }
-
-                rootNode.Expand();
 
                 if (rootNode.Nodes.Count > 0)
                     treeView.SelectedNode = rootNode.Nodes[0];
@@ -194,7 +220,23 @@ namespace Scada.AB.Forms
         }
 
         /// <summary>
-        /// Установить доступность кнопок
+        /// Проверить корректность формата адреса электронной почты
+        /// </summary>
+        private bool CheckEmail(string email)
+        {
+            try
+            {
+                MailAddress m = new MailAddress(email);
+                return true;
+            }
+            catch
+            {
+                return false;
+            }
+        }
+
+        /// <summary>
+        /// Enables or disables the buttons.
         /// </summary>
         private void SetButtonsEnabled()
         {
@@ -215,22 +257,6 @@ namespace Scada.AB.Forms
             }
         }
 
-        /// <summary>
-        /// Проверить корректность формата адреса электронной почты
-        /// </summary>
-        private bool CheckEmail(string email)
-        {
-            try
-            {
-                MailAddress m = new MailAddress(email);
-                return true;
-            }
-            catch
-            {
-                return false;
-            }
-        }
-
 
         private void FrmAddressBook_Load(object sender, EventArgs e)
         {
@@ -240,7 +266,8 @@ namespace Scada.AB.Forms
                 ScadaUiUtils.ShowError(errMsg);
 
             Modified = false;
-            BuildTree();
+            TakeTreeViewImages();
+            FillTree();
             SetButtonsEnabled();
         }
 

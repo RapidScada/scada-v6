@@ -29,8 +29,7 @@
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
-            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(FrmAddressBook));
-            System.Windows.Forms.TreeNode treeNode1 = new System.Windows.Forms.TreeNode("Адресная книга");
+            System.Windows.Forms.TreeNode treeNode1 = new System.Windows.Forms.TreeNode("Address Book");
             this.pnlBottom = new System.Windows.Forms.Panel();
             this.btnClose = new System.Windows.Forms.Button();
             this.btnSave = new System.Windows.Forms.Button();
@@ -53,10 +52,10 @@
             this.pnlBottom.Controls.Add(this.btnClose);
             this.pnlBottom.Controls.Add(this.btnSave);
             this.pnlBottom.Dock = System.Windows.Forms.DockStyle.Bottom;
-            this.pnlBottom.Location = new System.Drawing.Point(0, 421);
+            this.pnlBottom.Location = new System.Drawing.Point(0, 420);
             this.pnlBottom.Name = "pnlBottom";
             this.pnlBottom.Size = new System.Drawing.Size(334, 41);
-            this.pnlBottom.TabIndex = 1;
+            this.pnlBottom.TabIndex = 2;
             // 
             // btnClose
             // 
@@ -66,7 +65,7 @@
             this.btnClose.Name = "btnClose";
             this.btnClose.Size = new System.Drawing.Size(75, 23);
             this.btnClose.TabIndex = 1;
-            this.btnClose.Text = "Закрыть";
+            this.btnClose.Text = "Close";
             this.btnClose.UseVisualStyleBackColor = true;
             // 
             // btnSave
@@ -76,7 +75,7 @@
             this.btnSave.Name = "btnSave";
             this.btnSave.Size = new System.Drawing.Size(75, 23);
             this.btnSave.TabIndex = 0;
-            this.btnSave.Text = "Сохранить";
+            this.btnSave.Text = "Save";
             this.btnSave.UseVisualStyleBackColor = true;
             this.btnSave.Click += new System.EventHandler(this.btnSave_Click);
             // 
@@ -93,13 +92,13 @@
             this.toolStrip.Location = new System.Drawing.Point(0, 0);
             this.toolStrip.Name = "toolStrip";
             this.toolStrip.Size = new System.Drawing.Size(334, 25);
-            this.toolStrip.TabIndex = 2;
+            this.toolStrip.TabIndex = 0;
             this.toolStrip.Text = "toolStrip1";
             // 
             // btnAddContactGroup
             // 
             this.btnAddContactGroup.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-            this.btnAddContactGroup.Image = ((System.Drawing.Image)(resources.GetObject("btnAddContactGroup.Image")));
+            this.btnAddContactGroup.Image = global::Scada.AB.Forms.Properties.Resources.folder_add;
             this.btnAddContactGroup.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.btnAddContactGroup.Name = "btnAddContactGroup";
             this.btnAddContactGroup.Size = new System.Drawing.Size(23, 22);
@@ -109,7 +108,7 @@
             // btnAddContact
             // 
             this.btnAddContact.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-            this.btnAddContact.Image = ((System.Drawing.Image)(resources.GetObject("btnAddContact.Image")));
+            this.btnAddContact.Image = global::Scada.AB.Forms.Properties.Resources.contact;
             this.btnAddContact.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.btnAddContact.Name = "btnAddContact";
             this.btnAddContact.Size = new System.Drawing.Size(23, 22);
@@ -119,7 +118,7 @@
             // btnAddPhoneNumber
             // 
             this.btnAddPhoneNumber.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-            this.btnAddPhoneNumber.Image = ((System.Drawing.Image)(resources.GetObject("btnAddPhoneNumber.Image")));
+            this.btnAddPhoneNumber.Image = global::Scada.AB.Forms.Properties.Resources.phone;
             this.btnAddPhoneNumber.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.btnAddPhoneNumber.Name = "btnAddPhoneNumber";
             this.btnAddPhoneNumber.Size = new System.Drawing.Size(23, 22);
@@ -129,7 +128,7 @@
             // btnAddEmail
             // 
             this.btnAddEmail.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-            this.btnAddEmail.Image = ((System.Drawing.Image)(resources.GetObject("btnAddEmail.Image")));
+            this.btnAddEmail.Image = global::Scada.AB.Forms.Properties.Resources.email;
             this.btnAddEmail.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.btnAddEmail.Name = "btnAddEmail";
             this.btnAddEmail.Size = new System.Drawing.Size(23, 22);
@@ -144,7 +143,7 @@
             // btnEdit
             // 
             this.btnEdit.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-            this.btnEdit.Image = ((System.Drawing.Image)(resources.GetObject("btnEdit.Image")));
+            this.btnEdit.Image = global::Scada.AB.Forms.Properties.Resources.edit;
             this.btnEdit.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.btnEdit.Name = "btnEdit";
             this.btnEdit.Size = new System.Drawing.Size(23, 22);
@@ -154,7 +153,7 @@
             // btnDelete
             // 
             this.btnDelete.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-            this.btnDelete.Image = ((System.Drawing.Image)(resources.GetObject("btnDelete.Image")));
+            this.btnDelete.Image = global::Scada.AB.Forms.Properties.Resources.delete;
             this.btnDelete.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.btnDelete.Name = "btnDelete";
             this.btnDelete.Size = new System.Drawing.Size(23, 22);
@@ -173,13 +172,13 @@
             treeNode1.ImageKey = "book.png";
             treeNode1.Name = "rootNode";
             treeNode1.SelectedImageKey = "book.png";
-            treeNode1.Text = "Адресная книга";
+            treeNode1.Text = "Address Book";
             this.treeView.Nodes.AddRange(new System.Windows.Forms.TreeNode[] {
             treeNode1});
             this.treeView.SelectedImageIndex = 0;
             this.treeView.ShowRootLines = false;
-            this.treeView.Size = new System.Drawing.Size(334, 396);
-            this.treeView.TabIndex = 3;
+            this.treeView.Size = new System.Drawing.Size(334, 395);
+            this.treeView.TabIndex = 1;
             this.treeView.BeforeLabelEdit += new System.Windows.Forms.NodeLabelEditEventHandler(this.treeView_BeforeLabelEdit);
             this.treeView.AfterLabelEdit += new System.Windows.Forms.NodeLabelEditEventHandler(this.treeView_AfterLabelEdit);
             this.treeView.BeforeCollapse += new System.Windows.Forms.TreeViewCancelEventHandler(this.treeView_BeforeCollapse);
@@ -188,21 +187,16 @@
             // 
             // imageList
             // 
-            this.imageList.ImageStream = ((System.Windows.Forms.ImageListStreamer)(resources.GetObject("imageList.ImageStream")));
+            this.imageList.ColorDepth = System.Windows.Forms.ColorDepth.Depth32Bit;
+            this.imageList.ImageSize = new System.Drawing.Size(16, 16);
             this.imageList.TransparentColor = System.Drawing.Color.Transparent;
-            this.imageList.Images.SetKeyName(0, "book.png");
-            this.imageList.Images.SetKeyName(1, "folder_closed.png");
-            this.imageList.Images.SetKeyName(2, "folder_open.png");
-            this.imageList.Images.SetKeyName(3, "contact.png");
-            this.imageList.Images.SetKeyName(4, "phone.png");
-            this.imageList.Images.SetKeyName(5, "email.png");
             // 
             // FrmAddressBook
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.CancelButton = this.btnClose;
-            this.ClientSize = new System.Drawing.Size(334, 462);
+            this.ClientSize = new System.Drawing.Size(334, 461);
             this.Controls.Add(this.treeView);
             this.Controls.Add(this.toolStrip);
             this.Controls.Add(this.pnlBottom);
@@ -213,7 +207,7 @@
             this.ShowIcon = false;
             this.ShowInTaskbar = false;
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
-            this.Text = "Адресная книга";
+            this.Text = "Address Book";
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.FrmAddressBook_FormClosing);
             this.Load += new System.EventHandler(this.FrmAddressBook_Load);
             this.pnlBottom.ResumeLayout(false);
