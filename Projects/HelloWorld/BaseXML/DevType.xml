@@ -134,7 +134,7 @@
   </DevType>
   <DevType>
     <DevTypeID>223</DevTypeID>
-    <Name>HTTP Notification</Name>
+    <Name>HTTP Notifications</Name>
     <Driver>DrvHttpNotif</Driver>
     <Descr>Sends notifications via HTTP requests</Descr>
   </DevType>
