@@ -1,0 +1,26 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<AddressBookDictionaries>
+  <Dictionary key="Scada.AB.Forms.FrmAddressBook">
+    <Phrase key="this">Адресная книга</Phrase>
+    <Phrase key="btnAddContactGroup.ToolTip">Добавить группу контактов</Phrase>
+    <Phrase key="btnAddContact.ToolTip">Добавить контакт</Phrase>
+    <Phrase key="btnAddPhoneNumber.ToolTip">Добавить телефонный номер</Phrase>
+    <Phrase key="btnAddEmail.ToolTip">Добавить адрес электронной почты</Phrase>
+    <Phrase key="btnEdit.ToolTip">Редактировать</Phrase>
+    <Phrase key="btnDelete.ToolTip">Удалить</Phrase>
+    <Phrase key="btnSave">Сохранить</Phrase>
+    <Phrase key="btnClose">Закрыть</Phrase>
+    <Phrase key="AddressBookNode">Адресная книга</Phrase>
+    <Phrase key="NewContactGroup">Новая группа</Phrase>
+    <Phrase key="NewContact">Новый контакт</Phrase>
+    <Phrase key="NewPhoneNumber">Новый тел. номер</Phrase>
+    <Phrase key="NewEmail">Новый эл. адрес</Phrase>
+    <Phrase key="ContactGroupExists">Группа контактов уже существует.</Phrase>
+    <Phrase key="ContactExists">Контакт уже существует в группе.</Phrase>
+    <Phrase key="PhoneNumberExists">Контакт уже содержит данный адрес электронной почты.</Phrase>
+    <Phrase key="EmailExists">Контакт уже содержит данный адрес электронной почты.</Phrase>
+    <Phrase key="IncorrectEmail">Некорректный адрес электронной почты.</Phrase>
+    <Phrase key="EmptyValueNotAllowed">Значение не может быть пустым.</Phrase>
+    <Phrase key="SavePhonebookConfirm">Адресная книга была изменена. Сохранить изменения?</Phrase>
+  </Dictionary>
+</AddressBookDictionaries>
