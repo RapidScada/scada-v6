@@ -4,7 +4,6 @@
 using Scada.Comm.Config;
 using Scada.Comm.Devices;
 using Scada.Comm.Drivers.DrvHttpNotif.View.Forms;
-using Scada.Data.Const;
 
 namespace Scada.Comm.Drivers.DrvHttpNotif.View
 {
