@@ -359,8 +359,6 @@ namespace Scada.Comm.Drivers.DrvHttpNotif.Logic
                 }
 
                 addressBook = AddressBookUtils.GetOrLoad(LineContext.SharedData, Storage, Log);
-                DeviceData.Set(TagCode.Notif, 0);   // reset notification counter
-                DeviceData.Set(TagCode.Request, 0); // reset request counter
                 isReady = true;
                 flagLoggingRequired = true;
             }
@@ -376,6 +374,25 @@ namespace Scada.Comm.Drivers.DrvHttpNotif.Logic
         public override void InitDeviceTags()
         {
             DeviceTags.AddGroup(CnlPrototypeFactory.GetCnlPrototypeGroup().ToTagGroup());
+        }
+
+        /// <summary>
+        /// Initializes the device data.
+        /// </summary>
+        public override void InitDeviceData()
+        {
+            base.InitDeviceData();
+
+            // reset counters
+            DeviceData.Set(TagCode.Notif, 0);
+            DeviceData.Set(TagCode.Request, 0);
+
+            // set device status
+            if (isReady)
+            {
+                DeviceStatus = DeviceStatus.Normal;
+                DeviceData.SetStatusTag(DeviceStatus);
+            }
         }
 
         /// <summary>
