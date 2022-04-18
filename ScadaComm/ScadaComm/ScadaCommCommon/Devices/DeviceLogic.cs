@@ -469,7 +469,7 @@ namespace Scada.Comm.Devices
 
             string TimeToStringRu(DateTime dateTime)
             {
-                return dateTime > DateTime.MinValue ? dateTime.ToLocalTime().ToLocalizedString() : "неопределено";
+                return dateTime > DateTime.MinValue ? dateTime.ToLocalTime().ToLocalizedString() : "не определено";
             };
 
             string TimeToStringEn(DateTime dateTime)
@@ -485,7 +485,7 @@ namespace Scada.Comm.Devices
             if (Locale.IsRussian)
             {
                 sb.Append("Драйвер       : ").AppendLine(DriverName);
-                sb.Append("Состояние     : ").AppendLine(DeviceStatus.ToString(true));
+                sb.Append("Статус        : ").AppendLine(DeviceStatus.ToString(true));
                 sb.Append("Время сеанса  : ").AppendLine(TimeToStringRu(LastSessionTime));
                 sb.Append("Время команды : ").AppendLine(TimeToStringRu(LastCommandTime));
                 sb.AppendLine();
