@@ -14,7 +14,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\AddressBooks.Forms\AddressBooks.Forms.csproj" />
+    <ProjectReference Include="..\AddressBook.Forms\AddressBook.Forms.csproj" />
     <ProjectReference Include="..\AddressBook\AddressBook.csproj" />
   </ItemGroup>
 
