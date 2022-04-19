@@ -19,7 +19,7 @@ namespace Scada.Comm.Drivers.DrvHttpNotif.View.Forms
         private readonly AppDirs appDirs;          // the application directories
         private readonly int deviceNum;            // the device number
         private readonly NotifDeviceConfig config; // the device configuration
-        private string configFileName;             // the configuration file name
+        private readonly string configFileName;    // the configuration file name
         private bool modified;                     // the configuration was modified
 
 
@@ -40,7 +40,7 @@ namespace Scada.Comm.Drivers.DrvHttpNotif.View.Forms
             this.appDirs = appDirs ?? throw new ArgumentNullException(nameof(appDirs));
             this.deviceNum = deviceNum;
             config = new NotifDeviceConfig();
-            configFileName = "";
+            configFileName = Path.Combine(appDirs.ConfigDir, NotifDeviceConfig.GetFileName(deviceNum));
             modified = false;
         }
 
@@ -108,8 +108,6 @@ namespace Scada.Comm.Drivers.DrvHttpNotif.View.Forms
             Text = string.Format(Text, deviceNum);
 
             // load configuration
-            configFileName = Path.Combine(appDirs.ConfigDir, NotifDeviceConfig.GetFileName(deviceNum));
-
             if (File.Exists(configFileName) && !config.Load(configFileName, out string errMsg))
                 ScadaUiUtils.ShowError(errMsg);
 
@@ -168,10 +166,10 @@ namespace Scada.Comm.Drivers.DrvHttpNotif.View.Forms
 
         private void btnSave_Click(object sender, EventArgs e)
         {
-            // retrieve the configuration
+            // retrieve configuration
             ControlsToConfig();
 
-            // save the configuration
+            // save configuration
             if (config.Save(configFileName, out string errMsg))
                 Modified = false;
             else

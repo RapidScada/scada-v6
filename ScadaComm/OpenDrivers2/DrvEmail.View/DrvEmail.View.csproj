@@ -33,6 +33,15 @@
     </Reference>
   </ItemGroup>
 
+  <ItemGroup>
+    <None Update="Lang\DrvEmail.en-GB.xml">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="Lang\DrvEmail.ru-RU.xml">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
+
   <Import Project="..\DrvEmail.Shared\DrvEmail.Shared.projitems" Label="Shared" />
   
 </Project>
