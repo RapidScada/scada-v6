@@ -9,5 +9,7 @@
     <Import_RootNamespace>Scada.Comm.Drivers.DrvEmail</Import_RootNamespace>
   </PropertyGroup>
   <ItemGroup>
+    <Compile Include="$(MSBuildThisFileDirectory)DriverUtils.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)EmailDeviceConfig.cs" />
   </ItemGroup>
 </Project>
