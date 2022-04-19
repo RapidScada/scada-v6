@@ -45,14 +45,14 @@ namespace Scada.Comm.Drivers.DrvHttpNotif.Logic
         /// </summary>
         private const int ResponseDisplayLenght = 100;
 
-        private readonly Stopwatch stopwatch;        // measures the time of operations
-        private NotifDeviceConfig notifDeviceConfig; // the device configuration
-        private AddressBook addressBook;             // the address book shared for the communication line
-        private ParamString paramUri;                // the parametrized request URI
-        private ParamString paramContent;            // the parametrized request content
-        private HttpClient httpClient;               // sends HTTP requests
-        private bool isReady;                        // indicates that the device is ready to send requests
-        private bool flagLoggingRequired;            // logging of the ready flag is required
+        private readonly Stopwatch stopwatch;      // measures the time of operations
+        private readonly NotifDeviceConfig config; // the device configuration
+        private AddressBook addressBook;           // the address book shared for the communication line
+        private ParamString paramUri;              // the parametrized request URI
+        private ParamString paramContent;          // the parametrized request content
+        private HttpClient httpClient;             // sends HTTP requests
+        private bool isReady;                      // indicates that the device is ready to send requests
+        private bool loggingFlag;                  // indicates that a ready message should be logged
 
 
         /// <summary>
@@ -65,13 +65,13 @@ namespace Scada.Comm.Drivers.DrvHttpNotif.Logic
             ConnectionRequired = false;
 
             stopwatch = new Stopwatch();
-            notifDeviceConfig = null;
+            config = new NotifDeviceConfig();
             addressBook = null;
             paramUri = null;
             paramContent = null;
             httpClient = null;
             isReady = false;
-            flagLoggingRequired = false;
+            loggingFlag = false;
         }
 
 
@@ -80,7 +80,7 @@ namespace Scada.Comm.Drivers.DrvHttpNotif.Logic
         /// </summary>
         private bool ValidateDeviceConfig(out string errMsg)
         {
-            if (string.IsNullOrEmpty(notifDeviceConfig.Uri))
+            if (string.IsNullOrEmpty(config.Uri))
             {
                 errMsg = string.Format(Locale.IsRussian ?
                     "Ошибка: {0}: URI не может быть пустым." :
@@ -91,7 +91,7 @@ namespace Scada.Comm.Drivers.DrvHttpNotif.Logic
             {
                 try
                 {
-                    Uri uri = new Uri(notifDeviceConfig.Uri);
+                    Uri uri = new Uri(config.Uri);
                 }
                 catch
                 {
@@ -204,10 +204,10 @@ namespace Scada.Comm.Drivers.DrvHttpNotif.Logic
                 }
 
                 if (!args.ContainsKey(ParamName.Phone))
-                    args.Add(ParamName.Phone, string.Join(notifDeviceConfig.AddrSep, phoneNumbers));
+                    args.Add(ParamName.Phone, string.Join(config.AddrSep, phoneNumbers));
 
                 if (!args.ContainsKey(ParamName.Email))
-                    args.Add(ParamName.Email, string.Join(notifDeviceConfig.AddrSep, emails));
+                    args.Add(ParamName.Email, string.Join(config.AddrSep, emails));
             }
         }
 
@@ -223,7 +223,7 @@ namespace Scada.Comm.Drivers.DrvHttpNotif.Logic
                 {
                     httpClient = new HttpClient();
 
-                    foreach (Header header in notifDeviceConfig.Headers)
+                    foreach (Header header in config.Headers)
                     {
                         if (!string.IsNullOrEmpty(header.Name))
                             httpClient.DefaultRequestHeaders.Add(header.Name, header.Value);
@@ -232,20 +232,20 @@ namespace Scada.Comm.Drivers.DrvHttpNotif.Logic
 
                 // create request
                 paramUri?.ResetParams(args, EscapingMethod.EncodeUrl);
-                paramContent?.ResetParams(args, notifDeviceConfig.ContentEscaping);
+                paramContent?.ResetParams(args, config.ContentEscaping);
 
-                string uri = paramUri == null ? notifDeviceConfig.Uri : paramUri.ToString();
-                string content = paramContent == null ? notifDeviceConfig.Content : paramContent.ToString();
+                string uri = paramUri == null ? config.Uri : paramUri.ToString();
+                string content = paramContent == null ? config.Content : paramContent.ToString();
 
                 request = new HttpRequestMessage(
-                    notifDeviceConfig.Method == RequestMethod.Post ? HttpMethod.Post : HttpMethod.Get,
+                    config.Method == RequestMethod.Post ? HttpMethod.Post : HttpMethod.Get,
                     uri);
 
-                if (notifDeviceConfig.Method == RequestMethod.Post)
+                if (config.Method == RequestMethod.Post)
                 {
-                    request.Content = string.IsNullOrEmpty(notifDeviceConfig.ContentType) ?
+                    request.Content = string.IsNullOrEmpty(config.ContentType) ?
                         new StringContent(content, Encoding.UTF8) :
-                        new StringContent(content, Encoding.UTF8, notifDeviceConfig.ContentType);
+                        new StringContent(content, Encoding.UTF8, config.ContentType);
                 }
 
                 return true;
@@ -326,31 +326,30 @@ namespace Scada.Comm.Drivers.DrvHttpNotif.Logic
         public override void OnCommLineStart()
         {
             isReady = false;
-            flagLoggingRequired = false;
+            loggingFlag = false;
 
             // load device configuration
-            notifDeviceConfig = new NotifDeviceConfig();
             string fileName = NotifDeviceConfig.GetFileName(DeviceNum);
             string errMsg;
 
             if (Storage.GetFileInfo(DataCategory.Config, fileName).Exists)
             {
-                if (!notifDeviceConfig.Load(Storage, fileName, out errMsg))
+                if (!config.Load(Storage, fileName, out errMsg))
                     Log.WriteLine(errMsg);
             }
             else
             {
                 // get URI from command line for backward compatibility
-                notifDeviceConfig.Uri = PollingOptions.CmdLine;
+                config.Uri = PollingOptions.CmdLine;
             }
 
             // initialize variables if configuration is valid
             if (ValidateDeviceConfig(out errMsg))
             {
-                if (notifDeviceConfig.ParamEnabled)
+                if (config.ParamEnabled)
                 {
-                    paramUri = new ParamString(notifDeviceConfig.Uri, notifDeviceConfig.ParamBegin, notifDeviceConfig.ParamEnd);
-                    paramContent = new ParamString(notifDeviceConfig.Content, notifDeviceConfig.ParamBegin, notifDeviceConfig.ParamEnd);
+                    paramUri = new ParamString(config.Uri, config.ParamBegin, config.ParamEnd);
+                    paramContent = new ParamString(config.Content, config.ParamBegin, config.ParamEnd);
                 }
                 else
                 {
@@ -360,7 +359,7 @@ namespace Scada.Comm.Drivers.DrvHttpNotif.Logic
 
                 addressBook = AddressBookUtils.GetOrLoad(LineContext.SharedData, Storage, Log);
                 isReady = true;
-                flagLoggingRequired = true;
+                loggingFlag = true;
             }
             else
             {
@@ -400,9 +399,9 @@ namespace Scada.Comm.Drivers.DrvHttpNotif.Logic
         /// </summary>
         public override void Session()
         {
-            if (flagLoggingRequired)
+            if (loggingFlag)
             {
-                flagLoggingRequired = false;
+                loggingFlag = false;
                 Log.WriteLine();
                 WriteReadyFlag();
             }
@@ -453,7 +452,7 @@ namespace Scada.Comm.Drivers.DrvHttpNotif.Logic
                     Log.WriteLine(CommPhrases.InvalidCommand);
                 }
 
-                flagLoggingRequired = true;
+                loggingFlag = true;
             }
             else
             {
