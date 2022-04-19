@@ -335,10 +335,8 @@ namespace Scada.Comm.Drivers.DrvEmail.Logic
 
                 if (cmdCode != "" && TryGetMessage(cmd, withAttachments, out MailMessage message))
                 {
-                    if (SendMessage(message, cmdCode))
-                        LastRequestOK = true;
-
-                    SleepPollingDelay(); // slow down posting
+                    LastRequestOK = SendMessage(message, cmdCode);
+                    FinishRequest();
                 }
                 else
                 {

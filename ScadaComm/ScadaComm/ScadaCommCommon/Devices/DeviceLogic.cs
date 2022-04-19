@@ -254,8 +254,7 @@ namespace Scada.Comm.Devices
         /// </summary>
         protected void FinishRequest()
         {
-            Thread.Sleep(PollingOptions.Delay);
-
+            SleepPollingDelay();
             DeviceStats.RequestCount++;
 
             if (!LastRequestOK)
