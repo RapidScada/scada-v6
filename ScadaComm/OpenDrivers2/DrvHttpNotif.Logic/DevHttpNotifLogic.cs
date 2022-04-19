@@ -107,9 +107,9 @@ namespace Scada.Comm.Drivers.DrvHttpNotif.Logic
         }
 
         /// <summary>
-        /// Writes the ready flag to the log.
+        /// Writes the readiness status to the log.
         /// </summary>
-        private void WriteReadyFlag()
+        private void WriteReadyStatus()
         {
             if (isReady)
             {
@@ -120,8 +120,8 @@ namespace Scada.Comm.Drivers.DrvHttpNotif.Logic
             else
             {
                 Log.WriteLine(Locale.IsRussian ?
-                    "Ошибка: {0} не может отправлять уведомления" :
-                    "Error: {0} unable to send notifications", Title);
+                    "{0}{1} не может отправлять письма" :
+                    "{0}{1} unable to send emails", CommPhrases.ErrorPrefix, Title);
             }
         }
 
@@ -403,7 +403,7 @@ namespace Scada.Comm.Drivers.DrvHttpNotif.Logic
             {
                 loggingFlag = false;
                 Log.WriteLine();
-                WriteReadyFlag();
+                WriteReadyStatus();
             }
 
             SleepPollingDelay();
@@ -456,7 +456,7 @@ namespace Scada.Comm.Drivers.DrvHttpNotif.Logic
             }
             else
             {
-                WriteReadyFlag();
+                WriteReadyStatus();
             }
 
             FinishCommand();
