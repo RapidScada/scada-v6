@@ -20,7 +20,7 @@
  * 
  * Author   : Mikhail Shiryaev
  * Created  : 2020
- * Modified : 2021
+ * Modified : 2022
  */
 
 using Scada.Data.Const;
@@ -267,7 +267,7 @@ namespace Scada.Comm.Devices
                                 return FormatEnum((int)doubleVal);
 
                             case TagFormatType.Date:
-                                DateTime dt = DateTime.FromOADate(doubleVal);
+                                DateTime dt = DateTime.FromOADate(doubleVal).ToLocalTime();
                                 return string.IsNullOrEmpty(tagFormat.Format) 
                                     ? dt.ToLocalizedString() 
                                     : dt.ToString(tagFormat.Format);
