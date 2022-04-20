@@ -32,11 +32,6 @@ namespace Scada.Comm.Channels
     public enum ChannelBehavior
     {
         /// <summary>
-        /// Non-standard behavior.
-        /// </summary>
-        Unknown,
-
-        /// <summary>
         /// Cyclically requests data.
         /// </summary>
         Master,
@@ -44,6 +39,11 @@ namespace Scada.Comm.Channels
         /// <summary>
         /// Waits for data.
         /// </summary>
-        Slave
+        Slave,
+
+        /// <summary>
+        /// Non-standard behavior.
+        /// </summary>
+        Mixed
     }
 }
