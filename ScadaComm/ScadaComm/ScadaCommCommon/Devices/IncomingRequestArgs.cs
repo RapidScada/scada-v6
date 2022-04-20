@@ -20,7 +20,7 @@
  * 
  * Author   : Mikhail Shiryaev
  * Created  : 2020
- * Modified : 2020
+ * Modified : 2022
  */
 
 using System.Collections.Generic;
@@ -73,6 +73,14 @@ namespace Scada.Comm.Devices
             TargetDevices.Clear();
             NextDevice = false;
             Tag = null;
+        }
+
+        /// <summary>
+        /// Gets the first target device, or null if there are no devices.
+        /// </summary>
+        public DeviceLogic GetFirstDevice()
+        {
+            return TargetDevices.Count > 0 ? TargetDevices[0] : null;
         }
     }
 }
