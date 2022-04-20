@@ -261,7 +261,7 @@ namespace Scada.Comm.Drivers.DrvCnlBasic.Logic
                     BindByRequest(conn);
                 }
             }
-            else // ChannelBehavior.Slave
+            else if (Behavior == ChannelBehavior.Slave)
             {
                 if (options.ConnectionMode == ConnectionMode.Individual)
                 {
@@ -388,7 +388,7 @@ namespace Scada.Comm.Drivers.DrvCnlBasic.Logic
                     if (deviceLogic.DeviceStatus == DeviceStatus.Error && currentConn.Connected)
                         currentConn.ClearNetStream(inBuf);
                 }
-                else
+                else if (Behavior == ChannelBehavior.Slave)
                 {
                     Monitor.Exit(currentConn.SyncRoot);
                 }
