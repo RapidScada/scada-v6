@@ -1,33 +1,38 @@
 ﻿body a, body a:active, body a:focus, body a:visited {
   color: #0073aa;
   outline: 0;
-  text-decoration: none; }
-
+  text-decoration: none;
+}
 body a:hover {
   color: #00a0d2;
   outline: 0;
-  text-decoration: none; }
+  text-decoration: none;
+}
 
 .link-colored a, .link-colored a:active, .link-colored a:focus, .link-colored a:visited {
   color: #0073aa;
   outline: 0;
-  text-decoration: none; }
-
+  text-decoration: none;
+}
 .link-colored a:hover {
   color: #00a0d2;
   outline: 0;
-  text-decoration: none; }
+  text-decoration: none;
+}
 
 .link-no-decor a, .link-no-decor a:active, .link-no-decor a:focus, .link-no-decor a:hover, .link-no-decor a:visited {
   color: inherit;
   outline: 0;
-  text-decoration: none; }
+  text-decoration: none;
+}
 
 .hidden {
-  display: none !important; }
+  display: none !important;
+}
 
 .box-center {
   display: flex;
   align-items: center;
   justify-content: center;
-  height: 100%; }
+  height: 100%;
+}

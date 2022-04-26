@@ -20,6 +20,7 @@
     <Phrase key="spanNotifBtn_ToolTip">Показать/скрыть уведомления</Phrase>
     <Phrase key="spanProfileBtn_ToolTip">Профиль пользователя</Phrase>
     <Phrase key="spanLogoutBtn">Выйти</Phrase>
+    <Phrase key="spanLogoutBtn_ToolTip">Выйти</Phrase>
     <Phrase key="spanFullscreenBtn_ToolTip">На весь экран</Phrase>
     <Phrase key="spanExitFullscreenBtn_ToolTip">Нормальный вид</Phrase>
     <Phrase key="divMainMenuTab">Главное меню</Phrase>

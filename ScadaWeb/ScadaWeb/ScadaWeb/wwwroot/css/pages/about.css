@@ -1,5 +1,7 @@
 ﻿#divContainer {
-  font-family: "Open Sans", sans-serif; }
-  #divContainer span {
-    position: relative;
-    top: -1.5rem; }
+  font-family: "Open Sans", sans-serif;
+}
+#divContainer span {
+  position: relative;
+  top: -1.5rem;
+}
