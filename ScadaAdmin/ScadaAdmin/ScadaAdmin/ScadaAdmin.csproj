@@ -151,6 +151,9 @@
     <None Update="Templates\EmptyProject.en-GB\BaseXML\ViewType.xml">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
+    <None Update="Templates\EmptyProject.en-GB\Deployment.xml">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
     <None Update="Templates\EmptyProject.ru-RU\BaseXML\Archive.xml">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>

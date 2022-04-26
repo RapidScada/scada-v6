@@ -1,0 +1,49 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<DeploymentConfig>
+  <DeploymentProfile>
+    <InstanceID>1</InstanceID>
+    <Name>Default Profile</Name>
+    <Extension>ExtDepAgent</Extension>
+    <WebUrl />
+    <AgentEnabled>true</AgentEnabled>
+    <DbEnabled>false</DbEnabled>
+    <AgentConnectionOptions>
+      <Host>localhost</Host>
+      <Port>10002</Port>
+      <Username>ScadaAdmin</Username>
+      <Password>B9D0F030265751578B00E9801C69320C</Password>
+      <Instance>Default</Instance>
+      <Timeout>10000</Timeout>
+      <SecretKey>0E063D581B1DB27B8E984993DED65CE99284A706756C706C7F3B12C44BD55D4D</SecretKey>
+    </AgentConnectionOptions>
+    <DbConnectionOptions>
+      <Name />
+      <DBMS />
+      <Server />
+      <Database />
+      <Username />
+      <Password />
+      <ConnectionString />
+    </DbConnectionOptions>
+    <DownloadOptions>
+      <IncludeBase>true</IncludeBase>
+      <IncludeInterface>true</IncludeInterface>
+      <IncludeServer>true</IncludeServer>
+      <IncludeComm>true</IncludeComm>
+      <IncludeWeb>true</IncludeWeb>
+      <IgnoreRegKeys>false</IgnoreRegKeys>
+    </DownloadOptions>
+    <UploadOptions>
+      <IncludeBase>true</IncludeBase>
+      <IncludeInterface>true</IncludeInterface>
+      <IncludeServer>true</IncludeServer>
+      <IncludeComm>true</IncludeComm>
+      <IncludeWeb>true</IncludeWeb>
+      <IgnoreRegKeys>false</IgnoreRegKeys>
+      <RestartServer>true</RestartServer>
+      <RestartComm>true</RestartComm>
+      <RestartWeb>true</RestartWeb>
+      <ObjectFilter />
+    </UploadOptions>
+  </DeploymentProfile>
+</DeploymentConfig>
