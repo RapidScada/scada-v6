@@ -10,7 +10,7 @@
 
 // Common
 $title-font-family: "Open Sans", sans-serif;
-$awesome-font-family: "Font Awesome 5 Free";
+$awesome-font-family: "Font Awesome 6 Free";
 
 $link-fore-color: #0073aa;
 $link-hover-fore-color: #00a0d2;
@@ -44,5 +44,5 @@ $content-back-color: $gray-100;
 $content-fore-color: $gray-900;
 
 // Z-indexes
-// The values below take into account Bootstrap z-indexes https://getbootstrap.com/docs/5.0/layout/z-index/
+// The values below take into account Bootstrap z-indexes https://getbootstrap.com/docs/5.1/layout/z-index/
 $zindex-notif: 2000; // used by the notification panel
