@@ -275,7 +275,7 @@ namespace Scada
         /// </summary>
         public static string ToLowerString(this bool b)
         {
-            return b.ToString().ToLowerInvariant();
+            return b ? "true" : "false";
         }
 
         /// <summary>
