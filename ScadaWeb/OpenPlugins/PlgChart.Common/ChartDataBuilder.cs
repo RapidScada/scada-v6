@@ -18,48 +18,10 @@ namespace Scada.Web.Plugins.PlgChart
     /// </summary>
     public class ChartDataBuilder
     {
-        /// <summary>
-        /// Represents data builder options.
-        /// </summary>
-        public class Options
-        {
-            /// <summary>
-            /// Gets or sets the channel numbers.
-            /// </summary>
-            public int[] CnlNums { get; set; }
-
-            /// <summary>
-            /// Gets or sets the chart time range.
-            /// </summary>
-            public TimeRange TimeRange { get; set; }
-
-            /// <summary>
-            /// Gets or sets the bit number of the chart data archive.
-            /// </summary>
-            public int ArchiveBit { get; set; }
-            
-            /// <summary>
-            /// Gets or sets the user's time zone.
-            /// </summary>
-            public TimeZoneInfo TimeZone { get; set; }
-
-            /// <summary>
-            /// Validates the options.
-            /// </summary>
-            public void Validate()
-            {
-                if (CnlNums == null)
-                    throw new ScadaException("CnlNums must not be null.");
-                if (TimeZone == null)
-                    throw new ScadaException("TimeZone must not be null.");
-            }
-        }
-
-
-        private readonly BaseDataSet baseDataSet;    // the configuration database
-        private readonly ScadaClient scadaClient;    // interacts with the server
-        private readonly Options options;            // the builder options
-        private readonly CnlDataFormatter formatter; // formats channel data
+        private readonly BaseDataSet baseDataSet;         // the configuration database
+        private readonly ScadaClient scadaClient;         // interacts with the server
+        private readonly ChartDataBuilderOptions options; // the builder options
+        private readonly CnlDataFormatter formatter;      // formats channel data
 
         protected Cnl[] cnls;              // the channels of the chart
         protected Trend singleTrend;       // the chart data if only one channel is used in the chart
@@ -69,7 +31,7 @@ namespace Scada.Web.Plugins.PlgChart
         /// <summary>
         /// Initializes a new instance of the class.
         /// </summary>
-        public ChartDataBuilder(BaseDataSet baseDataSet, ScadaClient scadaClient, Options options)
+        public ChartDataBuilder(BaseDataSet baseDataSet, ScadaClient scadaClient, ChartDataBuilderOptions options)
         {
             this.baseDataSet = baseDataSet ?? throw new ArgumentNullException(nameof(baseDataSet));
             this.scadaClient = scadaClient ?? throw new ArgumentNullException(nameof(scadaClient));

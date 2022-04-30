@@ -76,7 +76,7 @@ namespace Scada.Web.Plugins.PlgChart.Areas.Chart.Pages
 
             // prepare chart data
             ChartDataBuilder chartDataBuilder = new(webContext.ConfigBase, clientAccessor.ScadaClient,
-                new ChartDataBuilder.Options
+                new ChartDataBuilderOptions
                 {
                     CnlNums = new int[] { cnlNum },
                     TimeRange = new TimeRange(utcStartDate, utcStartDate.AddDays(1.0), false),
