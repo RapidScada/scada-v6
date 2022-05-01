@@ -144,7 +144,7 @@ namespace Scada.Web.Code
         /// <summary>
         /// Gets the object containing plugins.
         /// </summary>
-        public PluginHolder PluginHolder { get; private set; }
+        public PluginHolder PluginHolder { get; }
 
         /// <summary>
         /// Gets the source object that can send expiration notification to the memory cache.
