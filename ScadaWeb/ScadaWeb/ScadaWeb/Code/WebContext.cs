@@ -209,23 +209,6 @@ namespace Scada.Web.Code
         }
 
         /// <summary>
-        /// Updates the application culture according to the configuration.
-        /// </summary>
-        private void UpdateCulture()
-        {
-            string cultureName = ScadaUtils.FirstNonEmpty(
-                InstanceConfig.Culture,
-                AppConfig.GeneralOptions.DefaultCulture,
-                Locale.DefaultCulture.Name);
-
-            if (Locale.Culture.Name != cultureName)
-            {
-                Locale.SetCulture(cultureName);
-                LocalizeApp();
-            }
-        }
-
-        /// <summary>
         /// Initializes the application storage.
         /// </summary>
         private bool InitStorage()
@@ -252,7 +235,7 @@ namespace Scada.Web.Code
                 if (Log is LogFile logFile)
                     logFile.CapacityMB = webConfig.GeneralOptions.MaxLogSize;
 
-                UpdateCulture();
+                UpdateCulture(webConfig);
                 return true;
             }
             else
@@ -264,38 +247,55 @@ namespace Scada.Web.Code
         }
 
         /// <summary>
+        /// Updates the application culture according to the configuration.
+        /// </summary>
+        private void UpdateCulture(WebConfig webConfig)
+        {
+            string cultureName = ScadaUtils.FirstNonEmpty(
+                InstanceConfig.Culture,
+                webConfig.GeneralOptions.DefaultCulture,
+                Locale.DefaultCulture.Name);
+
+            if (Locale.Culture.Name != cultureName)
+            {
+                Locale.SetCulture(cultureName);
+                LocalizeApp();
+            }
+        }
+
+        /// <summary>
         /// Initializes plugins.
         /// </summary>
-        private PluginHolder InitPlugins(WebConfig webConfig)
+        private void InitPlugins()
         {
-            PluginHolder curPluginHolder = PluginHolder;
-            PluginHolder newPluginHolder = new() { Log = Log };
-
-            foreach (string pluginCode in webConfig.PluginCodes)
+            if (pluginsReady)
             {
-                if (curPluginHolder.GetPlugin(pluginCode, out PluginLogic pluginLogic))
+                Log.WriteInfo(Locale.IsRussian ?
+                    "Плагины добавляются один раз при запуске приложения" :
+                    "Plugins are added once at application startup");
+            }
+            else
+            {
+                PluginHolder.Log = Log;
+
+                foreach (string pluginCode in AppConfig.PluginCodes)
                 {
-                    // add existing plugin
-                    Log.WriteAction(Locale.IsRussian ?
-                        "Плагин {0} использован повторно" :
-                        "Plugin {0} reused", pluginCode);
-                    newPluginHolder.AddPlugin(pluginLogic);
-                }
-                else if (PluginFactory.GetPluginLogic(AppDirs.ExeDir, pluginCode, this, 
-                    out pluginLogic, out string message))
-                {
-                    // add new plugin
-                    Log.WriteAction(message);
-                    newPluginHolder.AddPlugin(pluginLogic);
-                }
-                else
-                {
-                    Log.WriteError(message);
+                    if (PluginFactory.GetPluginLogic(AppDirs.ExeDir, pluginCode, this, 
+                        out PluginLogic pluginLogic, out string message))
+                    {
+                        Log.WriteAction(message);
+                        PluginHolder.AddPlugin(pluginLogic);
+                    }
+                    else
+                    {
+                        Log.WriteError(message);
+                    }
                 }
             }
 
-            newPluginHolder.DefineFeaturedPlugins(webConfig.PluginAssignment);
-            return newPluginHolder;
+            PluginHolder.DefineFeaturedPlugins(AppConfig.PluginAssignment);
+            PluginHolder.LoadDictionaries();
+            PluginHolder.LoadConfig();
         }
 
         /// <summary>
@@ -432,9 +432,7 @@ namespace Scada.Web.Code
                             if (LoadAppConfig(out WebConfig webConfig))
                             {
                                 AppConfig = webConfig;
-                                PluginHolder = InitPlugins(webConfig);
-                                PluginHolder.LoadDictionaries();
-                                PluginHolder.LoadConfig();
+                                InitPlugins();
                             }
 
                             pluginsReady = true;
@@ -547,11 +545,10 @@ namespace Scada.Web.Code
             };
 
             Log.WriteBreak();
-            LocalizeApp();
-
             Log.WriteAction(Locale.IsRussian ?
                 "Вебстанция {0} запущена" :
                 "Webstation {0} started", WebUtils.AppVersion);
+            LocalizeApp();
 
             if (InitStorage())
             {
