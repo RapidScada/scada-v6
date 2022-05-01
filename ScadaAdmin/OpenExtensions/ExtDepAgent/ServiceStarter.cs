@@ -82,15 +82,19 @@ namespace Scada.Admin.Extensions
                 (uploadOptions.IncludeBase || uploadOptions.IncludeServer);
             bool restartComm = uploadOptions.RestartComm && 
                 (uploadOptions.IncludeBase || uploadOptions.IncludeComm);
-            bool restartWeb = uploadOptions.RestartWeb && 
-                (uploadOptions.IncludeBase || uploadOptions.IncludeView || uploadOptions.IncludeWeb);
+            bool smoothRestartWeb = uploadOptions.RestartWeb && !uploadOptions.IncludeWeb &&
+                (uploadOptions.IncludeBase || uploadOptions.IncludeView);
+            bool fullRestartWeb = uploadOptions.RestartWeb && uploadOptions.IncludeWeb;
 
-            if (restartServer || restartComm || restartWeb)
+            if (restartServer || restartComm || smoothRestartWeb || fullRestartWeb)
             {
                 transferControl.WriteLine();
 
                 if (restartComm)
                     ControlService(ServiceApp.Comm, ServiceCommand.Stop);
+
+                if (fullRestartWeb)
+                    ControlService(ServiceApp.Web, ServiceCommand.Stop);
 
                 if (restartServer)
                     ControlService(ServiceApp.Server, ServiceCommand.Restart);
@@ -98,8 +102,11 @@ namespace Scada.Admin.Extensions
                 if (restartComm)
                     ControlService(ServiceApp.Comm, ServiceCommand.Start);
 
-                if (restartWeb)
+                if (smoothRestartWeb)
                     ControlService(ServiceApp.Web, ServiceCommand.Restart);
+
+                if (fullRestartWeb)
+                    ControlService(ServiceApp.Web, ServiceCommand.Start);
             }
 
             progressTracker.TaskIndex++;
