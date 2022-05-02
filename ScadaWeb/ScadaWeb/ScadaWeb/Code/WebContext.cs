@@ -453,7 +453,7 @@ namespace Scada.Web.Code
 
                                     if (IsReady)
                                     {
-                                        ResetCacheExpirationToken(); // after reading the configuration database
+                                        ResetCache(); // after reading the configuration database
                                         Log.WriteInfo(Locale.IsRussian ?
                                             "Приложение готово к входу пользователей" :
                                             "The application is ready for user login");
@@ -505,27 +505,6 @@ namespace Scada.Web.Code
                 Log.WriteError(ex, Locale.IsRussian ?
                     "Ошибка при остановке обновления конфигурации" :
                     "Error stopping configuration update");
-            }
-        }
-
-        /// <summary>
-        /// Cancels and renews the cache expiration token.
-        /// </summary>
-        private void ResetCacheExpirationToken()
-        {
-            try
-            {
-                CacheExpirationTokenSource.Cancel();
-            }
-            catch (Exception ex)
-            {
-                Log.WriteError(ex, Locale.IsRussian ?
-                    "Ошибка при очистке кэша" :
-                    "Error clearing memory cache");
-            }
-            finally
-            {
-                CacheExpirationTokenSource = new CancellationTokenSource();
             }
         }
 
@@ -665,10 +644,24 @@ namespace Scada.Web.Code
         {
             if (configThread != null && !terminated)
             {
-                Log.WriteAction(Locale.IsRussian ?
-                    "Очистка кэша" :
-                    "Reset memory cache");
-                ResetCacheExpirationToken();
+                try
+                {
+                    Log.WriteAction(Locale.IsRussian ?
+                        "Очистка кэша" :
+                        "Reset memory cache");
+                    CacheExpirationTokenSource.Cancel();
+                    PluginHolder.ResetCache();
+                }
+                catch (Exception ex)
+                {
+                    Log.WriteError(ex, Locale.IsRussian ?
+                        "Ошибка при очистке кэша" :
+                        "Error clearing memory cache");
+                }
+                finally
+                {
+                    CacheExpirationTokenSource = new CancellationTokenSource();
+                }
             }
         }
     }

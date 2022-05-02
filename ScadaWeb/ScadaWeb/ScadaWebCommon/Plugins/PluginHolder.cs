@@ -20,7 +20,7 @@
  * 
  * Author   : Mikhail Shiryaev
  * Created  : 2021
- * Modified : 2021
+ * Modified : 2022
  */
 
 using Microsoft.AspNetCore.Mvc.Filters;
@@ -329,6 +329,27 @@ namespace Scada.Web.Plugins
                     catch (Exception ex)
                     {
                         log.WriteError(ex, WebPhrases.ErrorInPlugin, nameof(LoadConfig), pluginLogic.Code);
+                    }
+                }
+            }
+        }
+
+        /// <summary>
+        /// Calls the ResetCache method of the plugins.
+        /// </summary>
+        public void ResetCache()
+        {
+            lock (pluginLock)
+            {
+                foreach (PluginLogic pluginLogic in plugins)
+                {
+                    try
+                    {
+                        pluginLogic.ResetCache();
+                    }
+                    catch (Exception ex)
+                    {
+                        log.WriteError(ex, WebPhrases.ErrorInPlugin, nameof(ResetCache), pluginLogic.Code);
                     }
                 }
             }

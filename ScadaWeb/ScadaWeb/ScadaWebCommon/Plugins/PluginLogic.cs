@@ -112,6 +112,13 @@ namespace Scada.Web.Plugins
         public virtual void LoadConfig()
         {
         }
+        
+        /// <summary>
+        /// Resets the plugin cache.
+        /// </summary>
+        public virtual void ResetCache()
+        {
+        }
 
         /// <summary>
         /// Adds request processing filters.
