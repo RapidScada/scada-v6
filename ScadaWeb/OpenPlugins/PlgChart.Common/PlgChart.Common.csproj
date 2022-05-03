@@ -3,6 +3,7 @@
   <PropertyGroup>
     <TargetFramework>net6.0</TargetFramework>
     <RootNamespace>Scada.Web.Plugins.PlgChart</RootNamespace>
+    <GenerateDocumentationFile>True</GenerateDocumentationFile>
     <Version>6.0.0</Version>
     <Authors>Mikhail Shiryaev</Authors>
     <Company>Rapid Software LLC</Company>

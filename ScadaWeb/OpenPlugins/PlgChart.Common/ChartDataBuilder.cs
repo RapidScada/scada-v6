@@ -23,9 +23,9 @@ namespace Scada.Web.Plugins.PlgChart
         private readonly ChartDataBuilderOptions options; // the builder options
         private readonly CnlDataFormatter formatter;      // formats channel data
 
-        protected Cnl[] cnls;              // the channels of the chart
-        protected Trend singleTrend;       // the chart data if only one channel is used in the chart
-        protected TrendBundle trendBundle; // the chart data of many channels
+        private Cnl[] cnls;              // the channels of the chart
+        private Trend singleTrend;       // the chart data if only one channel is used in the chart
+        private TrendBundle trendBundle; // the chart data of many channels
 
 
         /// <summary>
