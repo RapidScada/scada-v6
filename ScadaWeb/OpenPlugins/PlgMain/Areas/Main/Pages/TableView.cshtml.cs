@@ -3,7 +3,6 @@
 
 using Microsoft.AspNetCore.Html;
 using Microsoft.AspNetCore.Mvc.RazorPages;
-using Scada.Data.Const;
 using Scada.Data.Entities;
 using Scada.Data.Tables;
 using Scada.Lang;
