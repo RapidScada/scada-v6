@@ -113,6 +113,15 @@
         "build/pdfmake.min.js.map",
         "build/vfs_fonts.js"
       ]
+    },
+    {
+      "library": "hammerjs@2.0.8",
+      "destination": "wwwroot/lib/hammerjs/",
+      "files": [
+        "hammer.min.js",
+        "hammer.js",
+        "hammer.min.js.map"
+      ]
     }
   ]
 }
