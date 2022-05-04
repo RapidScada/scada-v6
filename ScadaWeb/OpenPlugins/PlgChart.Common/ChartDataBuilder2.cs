@@ -62,8 +62,8 @@ namespace Scada.Web.Plugins.PlgChart
                 .Append(timestamp.Year.ToString("D4")).Append('-')
                 .Append(timestamp.Month.ToString("D2")).Append('-')
                 .Append(timestamp.Day.ToString("D2")).Append('T')
-                .Append(timestamp.Hour.ToString("D2")).Append('-')
-                .Append(timestamp.Minute.ToString("D2")).Append('-')
+                .Append(timestamp.Hour.ToString("D2")).Append(':')
+                .Append(timestamp.Minute.ToString("D2")).Append(':')
                 .Append(timestamp.Second.ToString("D2")).Append('\'');
         }
 
@@ -282,7 +282,7 @@ namespace Scada.Web.Plugins.PlgChart
             {
                 stringBuilder.Append("hourMap.set(").Append(GetMilliseconds(curHour)).Append(", ");
                 AppendLocalTime(stringBuilder, curHour);
-                stringBuilder.AppendLine("');");
+                stringBuilder.AppendLine(");");
                 curHour = curHour.AddHours(1);
             }
 
@@ -317,7 +317,7 @@ namespace Scada.Web.Plugins.PlgChart
                         HttpUtility.JavaScriptStringEncode(GetQuantityName(cnl))).AppendLine()
                     .Append(trendName).AppendFormat(".unitName = '{0}';",
                         HttpUtility.JavaScriptStringEncode(GetUnitName(cnl))).AppendLine()
-                    .Append(trendName).Append(".trendPoints = ");
+                    .Append(trendName).Append(".points = ");
 
                 if (singleTrend == null)
                     AppendTrendPoints(stringBuilder, trendBundle, i);
