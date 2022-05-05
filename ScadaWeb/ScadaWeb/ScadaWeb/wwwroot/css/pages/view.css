@@ -4,16 +4,12 @@
 .splitter.hor {
   height: 10px;
   cursor: row-resize;
-}
-.splitter.hor.show {
-  display: block !important;
+  display: block;
 }
 .splitter.vert {
   width: 10px;
   cursor: col-resize;
-}
-.splitter.vert.show {
-  display: inline-block !important;
+  display: inline-block;
 }
 .splitter.splitter-active {
   background-color: #adb5bd;

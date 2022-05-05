@@ -10,19 +10,13 @@ $splitter-width: 10px;
     &.hor {
         height: $splitter-width;
         cursor: row-resize;
-
-        &.show {
-            display: block !important;
-        }
+        display: block;
     }
 
     &.vert {
         width: $splitter-width;
         cursor: col-resize;
-
-        &.show {
-            display: inline-block !important;
-        }
+        display: inline-block;
     }
 
     &.splitter-active {
