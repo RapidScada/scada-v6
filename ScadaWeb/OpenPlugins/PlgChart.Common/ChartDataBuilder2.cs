@@ -288,7 +288,7 @@ namespace Scada.Web.Plugins.PlgChart
 
             stringBuilder.AppendLine();
 
-            // chart data
+            // time points
             stringBuilder
                 .AppendLine("var chartData = new scada.chart.ChartData();")
                 .Append("chartData.timePoints = ");
@@ -299,6 +299,8 @@ namespace Scada.Web.Plugins.PlgChart
                 AppendTimestamps(stringBuilder, singleTrend);
 
             stringBuilder.AppendLine(";").AppendLine();
+
+            // trends
             StringBuilder sbTrends = new("chartData.trends = [");
 
             for (int i = 0, cnlCnt = cnls.Length; i < cnlCnt; i++)
@@ -329,6 +331,19 @@ namespace Scada.Web.Plugins.PlgChart
 
             sbTrends.AppendLine("];");
             stringBuilder.Append(sbTrends).AppendLine();
+
+            // channel statuses
+            stringBuilder.AppendLine("var statusMap = chartData.cnlStatusMap;");
+
+            foreach (CnlStatus cnlStatus in baseDataSet.CnlStatusTable.Enumerate())
+            {
+                stringBuilder.AppendFormat("statusMap.set({0}, new scada.chart.CnlStatus({0}, '{1}', '{2}'));",
+                    cnlStatus.CnlStatusID,
+                    HttpUtility.JavaScriptStringEncode(cnlStatus.Name),
+                    HttpUtility.JavaScriptStringEncode(cnlStatus.MainColor)).AppendLine();
+            }
+
+            stringBuilder.AppendLine();
         }
     }
 }
