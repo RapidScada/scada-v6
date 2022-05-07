@@ -33,6 +33,7 @@ namespace Scada.Comm.Config
     /// Represents a configuration of a custom device.
     /// <para>Представляет конфигурацию пользовательского устройства.</para>
     /// </summary>
+    [Serializable]
     public abstract class CustomDeviceConfig : BaseConfig
     {
         /// <summary>
