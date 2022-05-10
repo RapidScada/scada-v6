@@ -51,7 +51,7 @@ namespace Scada.Web.Plugins.PlgChart.Areas.Chart.Pages
                 new ChartDataBuilderOptions
                 {
                     CnlNums = new int[] { cnlNum },
-                    TimeRange = ChartUtils.GetTimeRange(utcStartDate, 1),
+                    TimeRange = ChartUtils.GetTimeRange(utcStartDate, 1, true),
                     ArchiveBit = ChartUtils.FindArchiveBit(webContext.ConfigBase, pluginOptions.ChartArchiveCode),
                     TimeZone = userContext.TimeZone
                 });

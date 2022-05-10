@@ -80,7 +80,7 @@ namespace Scada.Web.Plugins.PlgChart
 
                 foreach (DateTime timestamp in trendBundle.Timestamps)
                 {
-                    stringBuilder.Append('[').Append(GetMilliseconds(timestamp)).Append(", ");
+                    stringBuilder.Append('[').Append(timestamp.GetUnixMilliseconds()).Append(", ");
                     AppendLocalTime(stringBuilder, timestamp);
                     stringBuilder.Append("], ");
 
@@ -108,7 +108,7 @@ namespace Scada.Web.Plugins.PlgChart
 
                 foreach (TrendPoint point in trend.Points)
                 {
-                    stringBuilder.Append('[').Append(GetMilliseconds(point.Timestamp)).Append(", ");
+                    stringBuilder.Append('[').Append(point.Timestamp.GetUnixMilliseconds()).Append(", ");
                     AppendLocalTime(stringBuilder, point.Timestamp);
                     stringBuilder.Append("], ");
 
@@ -209,14 +209,6 @@ namespace Scada.Web.Plugins.PlgChart
             return unit?.Name ?? "";
         }
 
-        /// <summary>
-        /// Gets the number of milliseconds since 1970-01-01.
-        /// </summary>
-        private static long GetMilliseconds(DateTime timestamp)
-        {
-            return new DateTimeOffset(timestamp).ToUnixTimeMilliseconds();
-        }
-
 
         /// <summary>
         /// Fills the channel array.
@@ -234,10 +226,19 @@ namespace Scada.Web.Plugins.PlgChart
         }
 
         /// <summary>
-        /// Fills chart data for the normalized start date.
+        /// Fills chart data for the time range specified in the options.
         /// </summary>
         public void FillData()
         {
+            FillData(options.TimeRange);
+        }
+
+        /// <summary>
+        /// Fills chart data for the time range specified as an argument.
+        /// </summary>
+        public void FillData(TimeRange timeRange)
+        {
+            ArgumentNullException.ThrowIfNull(timeRange, nameof(timeRange));
             singleTrend = null;
             trendBundle = null;
             int cnlCnt = options.CnlNums.Length;
@@ -269,8 +270,8 @@ namespace Scada.Web.Plugins.PlgChart
             DateTime t2 = options.TimeRange.EndTime;
             stringBuilder
                 .AppendLine("var timeRange = new scada.chart.TimeRange();")
-                .AppendFormat("timeRange.startTime = {0};", GetMilliseconds(t1)).AppendLine()
-                .AppendFormat("timeRange.endTime = {0};", GetMilliseconds(t2)).AppendLine()
+                .AppendFormat("timeRange.startTime = {0};", t1.GetUnixMilliseconds()).AppendLine()
+                .AppendFormat("timeRange.endTime = {0};", t2.GetUnixMilliseconds()).AppendLine()
                 .AppendLine()
                 .AppendLine("var hourMap = timeRange.hourMap;");
 
@@ -280,7 +281,7 @@ namespace Scada.Web.Plugins.PlgChart
 
             while (curHour <= endHour)
             {
-                stringBuilder.Append("hourMap.set(").Append(GetMilliseconds(curHour)).Append(", ");
+                stringBuilder.Append("hourMap.set(").Append(curHour.GetUnixMilliseconds()).Append(", ");
                 AppendLocalTime(stringBuilder, curHour);
                 stringBuilder.AppendLine(");");
                 curHour = curHour.AddHours(1);

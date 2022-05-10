@@ -33,13 +33,13 @@ namespace Scada.Web.Plugins.PlgChart
         /// <summary>
         /// Gets the chart time range.
         /// </summary>
-        public static TimeRange GetTimeRange(DateTime startDate, int periodInDays)
+        public static TimeRange GetTimeRange(DateTime startDate, int periodInDays, bool endInclusive)
         {
             return periodInDays switch
             {
-                > 0     => new TimeRange(startDate, startDate.AddDays(periodInDays), false),
-                0 or -1 => new TimeRange(startDate, startDate.AddDays(1), false),
-                _       => new TimeRange(startDate.AddDays(periodInDays + 1), startDate.AddDays(1), false)
+                > 0     => new TimeRange(startDate, startDate.AddDays(periodInDays), endInclusive),
+                0 or -1 => new TimeRange(startDate, startDate.AddDays(1), endInclusive),
+                _       => new TimeRange(startDate.AddDays(periodInDays + 1), startDate.AddDays(1), endInclusive)
             };
         }
 
