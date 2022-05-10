@@ -226,6 +226,14 @@ namespace Scada
         }
 
         /// <summary>
+        /// Gets the number of milliseconds since 1970-01-01.
+        /// </summary>
+        public static long GetUnixMilliseconds(this DateTime dateTime)
+        {
+            return new DateTimeOffset(dateTime).ToUnixTimeMilliseconds();
+        }
+
+        /// <summary>
         /// Gets the application name.
         /// </summary>
         public static string GetAppName(ServiceApp serviceApp)
