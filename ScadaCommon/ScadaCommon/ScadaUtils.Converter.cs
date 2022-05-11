@@ -226,6 +226,14 @@ namespace Scada
         }
 
         /// <summary>
+        /// Converts the number of milliseconds to a date and time.
+        /// </summary>
+        public static DateTime MillisecondsToTime(long milliseconds)
+        {
+            return DateTimeOffset.FromUnixTimeMilliseconds(milliseconds).UtcDateTime;
+        }
+
+        /// <summary>
         /// Gets the number of milliseconds since 1970-01-01.
         /// </summary>
         public static long GetUnixMilliseconds(this DateTime dateTime)
