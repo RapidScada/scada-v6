@@ -16,28 +16,28 @@
  * 
  * Product  : Rapid SCADA
  * Module   : ScadaWebCommon
- * Summary  : Represents an exception raised when the user cannot access services
+ * Summary  : Represents an exception raised in web API classes and usually does not require logging
  * 
  * Author   : Mikhail Shiryaev
- * Created  : 2021
+ * Created  : 2022
  * Modified : 2022
  */
 
-using Scada.Web.Lang;
+using System;
 
 namespace Scada.Web.Authorization
 {
     /// <summary>
-    /// Represents an exception raised when the user cannot access services.
-    /// <para>Представляет исключение, возникающее, когда пользователь не может получить доступ к службам.</para>
+    /// Represents an exception raised in web API classes and usually does not require logging.
+    /// <para>Представляет исключение, возникающее в классах веб API и обычно не требующее записи в журнал.</para>
     /// </summary>
-    public class AccessDeniedException : ApiException
+    public class ApiException : Exception
     {
         /// <summary>
         /// Initializes a new instance of the class.
         /// </summary>
-        public AccessDeniedException() 
-            : base(WebPhrases.AccessDenied)
+        public ApiException(string message) 
+            : base(message)
         {
         }
     }
