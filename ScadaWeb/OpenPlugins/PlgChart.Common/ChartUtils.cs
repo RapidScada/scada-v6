@@ -16,6 +16,12 @@ namespace Scada.Web.Plugins.PlgChart
     public static class ChartUtils
     {
         /// <summary>
+        /// Formats local date and time to use in JavaScript.
+        /// </summary>
+        public const string LocalTimeFormat = "yyyy'-'MM'-'dd'T'HH':'mm':'ss";
+
+
+        /// <summary>
         /// Gets the chart start date as UTC.
         /// </summary>
         public static DateTime GetUtcStartDate(DateTime startDate, TimeZoneInfo timeZone)

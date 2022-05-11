@@ -58,13 +58,7 @@ namespace Scada.Web.Plugins.PlgChart
             if (timestamp.Kind == DateTimeKind.Utc)
                 timestamp = TimeZoneInfo.ConvertTimeFromUtc(timestamp, options.TimeZone);
 
-            stringBuilder.Append('\'')
-                .Append(timestamp.Year.ToString("D4")).Append('-')
-                .Append(timestamp.Month.ToString("D2")).Append('-')
-                .Append(timestamp.Day.ToString("D2")).Append('T')
-                .Append(timestamp.Hour.ToString("D2")).Append(':')
-                .Append(timestamp.Minute.ToString("D2")).Append(':')
-                .Append(timestamp.Second.ToString("D2")).Append('\'');
+            stringBuilder.Append(timestamp.ToString(ChartUtils.LocalTimeFormat));
         }
 
         /// <summary>
