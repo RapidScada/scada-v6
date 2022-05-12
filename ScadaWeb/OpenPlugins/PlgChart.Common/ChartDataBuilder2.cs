@@ -58,7 +58,7 @@ namespace Scada.Web.Plugins.PlgChart
             if (timestamp.Kind == DateTimeKind.Utc)
                 timestamp = TimeZoneInfo.ConvertTimeFromUtc(timestamp, options.TimeZone);
 
-            stringBuilder.Append(timestamp.ToString(ChartUtils.LocalTimeFormat));
+            stringBuilder.Append('\'').Append(timestamp.ToString(ChartUtils.LocalTimeFormat)).Append('\'');
         }
 
         /// <summary>
@@ -181,8 +181,8 @@ namespace Scada.Web.Plugins.PlgChart
                 .Append('[')
                 .Append(cnlData.Stat > 0 && !double.IsNaN(cnlData.Val) ? 
                     cnlData.Val.ToString(CultureInfo.InvariantCulture) : "NaN").Append(", ")
-                .Append(cnlData.Stat).Append(", \"")
-                .Append(cnlDataFormatted.DispVal).Append("\"], ");
+                .Append(cnlData.Stat).Append(", '")
+                .Append(cnlDataFormatted.DispVal).Append("'], ");
         }
 
         /// <summary>
@@ -240,9 +240,9 @@ namespace Scada.Web.Plugins.PlgChart
             try
             {
                 if (cnlCnt == 1)
-                    singleTrend = scadaClient.GetTrend(options.ArchiveBit, options.TimeRange, options.CnlNums[0]);
+                    singleTrend = scadaClient.GetTrend(options.ArchiveBit, timeRange, options.CnlNums[0]);
                 else if (cnlCnt > 1)
-                    trendBundle = scadaClient.GetTrends(options.ArchiveBit, options.TimeRange, options.CnlNums);
+                    trendBundle = scadaClient.GetTrends(options.ArchiveBit, timeRange, options.CnlNums);
             }
             catch (Exception ex)
             {

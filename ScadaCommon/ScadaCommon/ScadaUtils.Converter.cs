@@ -19,6 +19,19 @@ namespace Scada
         private static readonly NumberFormatInfo CommaNfi = new NumberFormatInfo { NumberDecimalSeparator = "," };
 
         /// <summary>
+        /// The number of milliseconds in 1 minute.
+        /// </summary>
+        public const int MsPerMin = 60 * 1000;
+        /// <summary>
+        /// The number of milliseconds in 1 hour.
+        /// </summary>
+        public const int MsPerHour = 60 * MsPerMin;
+        /// <summary>
+        /// The number of milliseconds in 1 day.
+        /// </summary>
+        public const int MsPerDay = 24 * MsPerMin;
+
+        /// <summary>
         /// The service status names in English.
         /// </summary>
         private static readonly string[] ServiceStatusNamesEn = 
