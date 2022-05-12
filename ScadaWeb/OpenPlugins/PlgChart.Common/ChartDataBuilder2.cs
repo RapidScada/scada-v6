@@ -179,8 +179,8 @@ namespace Scada.Web.Plugins.PlgChart
             CnlDataFormatted cnlDataFormatted = formatter.FormatCnlData(cnlData, cnl, false);
             stringBuilder
                 .Append('[')
-                .Append(cnlData.Stat > 0 && !double.IsNaN(cnlData.Val) ? 
-                    cnlData.Val.ToString(CultureInfo.InvariantCulture) : "NaN").Append(", ")
+                .Append(double.IsNaN(cnlData.Val) ? "0" : cnlData.Val.ToString(CultureInfo.InvariantCulture))
+                .Append(", ")
                 .Append(cnlData.Stat).Append(", '")
                 .Append(cnlDataFormatted.DispVal).Append("'], ");
         }
