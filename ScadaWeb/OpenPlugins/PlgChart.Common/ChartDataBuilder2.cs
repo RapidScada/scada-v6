@@ -51,17 +51,6 @@ namespace Scada.Web.Plugins.PlgChart
 
 
         /// <summary>
-        /// Appends the timestamp converted to local time to the string builder.
-        /// </summary>
-        private void AppendLocalTime(StringBuilder stringBuilder, DateTime timestamp)
-        {
-            if (timestamp.Kind == DateTimeKind.Utc)
-                timestamp = TimeZoneInfo.ConvertTimeFromUtc(timestamp, options.TimeZone);
-
-            stringBuilder.Append('\'').Append(timestamp.ToString(ChartUtils.LocalTimeFormat)).Append('\'');
-        }
-
-        /// <summary>
         /// Appends the timestamps of the trend bundle to the string builder.
         /// </summary>
         private void AppendTimestamps(StringBuilder stringBuilder, TrendBundle trendBundle)
@@ -74,9 +63,9 @@ namespace Scada.Web.Plugins.PlgChart
 
                 foreach (DateTime timestamp in trendBundle.Timestamps)
                 {
-                    stringBuilder.Append('[').Append(timestamp.GetUnixMilliseconds()).Append(", ");
-                    AppendLocalTime(stringBuilder, timestamp);
-                    stringBuilder.Append("], ");
+                    TimePoint.Append(stringBuilder,
+                        timestamp.GetUnixMilliseconds(),
+                        timestamp.ToLocalTimeString(options.TimeZone));
 
                     if (++counter == ItemsPerLine)
                     {
@@ -100,11 +89,11 @@ namespace Scada.Web.Plugins.PlgChart
             {
                 int counter = 0;
 
-                foreach (TrendPoint point in trend.Points)
+                foreach (Data.Models.TrendPoint point in trend.Points)
                 {
-                    stringBuilder.Append('[').Append(point.Timestamp.GetUnixMilliseconds()).Append(", ");
-                    AppendLocalTime(stringBuilder, point.Timestamp);
-                    stringBuilder.Append("], ");
+                    TimePoint.Append(stringBuilder,
+                        point.Timestamp.GetUnixMilliseconds(),
+                        point.Timestamp.ToLocalTimeString(options.TimeZone));
 
                     if (++counter == ItemsPerLine)
                     {
@@ -131,7 +120,8 @@ namespace Scada.Web.Plugins.PlgChart
 
                 foreach (CnlData cnlData in trendBundle.Trends[trendIndex])
                 {
-                    AppendTrendPoint(stringBuilder, cnlData, cnl);
+                    CnlDataFormatted cnlDataFormatted = formatter.FormatCnlData(cnlData, cnl, false);
+                    TrendPoint.Append(stringBuilder, cnlData, cnlDataFormatted.DispVal);
 
                     if (++counter == ItemsPerLine)
                     {
@@ -155,9 +145,11 @@ namespace Scada.Web.Plugins.PlgChart
             {
                 int counter = 0;
 
-                foreach (TrendPoint point in trend.Points)
+                foreach (Data.Models.TrendPoint point in trend.Points)
                 {
-                    AppendTrendPoint(stringBuilder, new CnlData(point.Val, point.Stat), cnl);
+                    CnlData cnlData = new(point.Val, point.Stat);
+                    CnlDataFormatted cnlDataFormatted = formatter.FormatCnlData(cnlData, cnl, false);
+                    TrendPoint.Append(stringBuilder, cnlData, cnlDataFormatted.DispVal);
 
                     if (++counter == ItemsPerLine)
                     {
@@ -168,21 +160,6 @@ namespace Scada.Web.Plugins.PlgChart
             }
 
             stringBuilder.Append(']');
-        }
-
-        /// <summary>
-        /// Appends the trend point to the string builder.
-        /// </summary>
-        private void AppendTrendPoint(StringBuilder stringBuilder, CnlData cnlData, Cnl cnl)
-        {
-            // HttpUtility.JavaScriptStringEncode() is skipped for performance
-            CnlDataFormatted cnlDataFormatted = formatter.FormatCnlData(cnlData, cnl, false);
-            stringBuilder
-                .Append('[')
-                .Append(double.IsNaN(cnlData.Val) ? "0" : cnlData.Val.ToString(CultureInfo.InvariantCulture))
-                .Append(", ")
-                .Append(cnlData.Stat).Append(", '")
-                .Append(cnlDataFormatted.DispVal).Append("'], ");
         }
 
         /// <summary>
@@ -275,9 +252,9 @@ namespace Scada.Web.Plugins.PlgChart
 
             while (curHour <= endHour)
             {
-                stringBuilder.Append("hourMap.set(").Append(curHour.GetUnixMilliseconds()).Append(", ");
-                AppendLocalTime(stringBuilder, curHour);
-                stringBuilder.AppendLine(");");
+                stringBuilder.Append("hourMap.set(")
+                    .Append(curHour.GetUnixMilliseconds()).Append(", '")
+                    .Append(curHour.ToLocalTimeString(options.TimeZone)).AppendLine("');");
                 curHour = curHour.AddHours(1);
             }
 

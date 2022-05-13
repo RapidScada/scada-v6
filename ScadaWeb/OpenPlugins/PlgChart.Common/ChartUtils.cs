@@ -50,6 +50,17 @@ namespace Scada.Web.Plugins.PlgChart
         }
 
         /// <summary>
+        /// Converts the specified value to a local time string.
+        /// </summary>
+        public static string ToLocalTimeString(this DateTime dateTime, TimeZoneInfo timeZone)
+        {
+            if (dateTime.Kind == DateTimeKind.Utc)
+                dateTime = TimeZoneInfo.ConvertTimeFromUtc(dateTime, timeZone);
+
+            return dateTime.ToString(LocalTimeFormat);
+        }
+
+        /// <summary>
         /// Gets the chart archive bit from the configuration database.
         /// </summary>
         public static int FindArchiveBit(BaseDataSet configBase, string archiveCode)

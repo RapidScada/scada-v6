@@ -81,7 +81,7 @@ namespace Scada.Web.Plugins.PlgChart
             {
                 string unitName = GetUnitName(cnl);
 
-                foreach (TrendPoint point in trend.Points)
+                foreach (Data.Models.TrendPoint point in trend.Points)
                 {
                     sbTrendPoints
                         .Append(TrendPointToJs(new CnlData(point.Val, point.Stat), cnl, unitName))
@@ -148,7 +148,7 @@ namespace Scada.Web.Plugins.PlgChart
 
             if (trend != null)
             {
-                foreach (TrendPoint point in trend.Points)
+                foreach (Data.Models.TrendPoint point in trend.Points)
                 {
                     sbTimestamps.Append(EncodeTimestamp(point.Timestamp)).Append(", ");
                 }
