@@ -40,6 +40,11 @@ class ScadaUtils {
         return new Date().toLocaleTimeString("en-GB");
     }
 
+    // Gets the number of days in the specified month and year. Month is between 0 and 11.
+    static daysInMonth(year, month) {
+        return new Date(year, month + 1, 0).getDate();
+    }
+
     // Switches browser to full screen mode.
     static requestFullscreen() {
         if (document.documentElement.requestFullscreen) {
