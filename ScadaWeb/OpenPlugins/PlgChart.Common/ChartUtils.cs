@@ -19,6 +19,10 @@ namespace Scada.Web.Plugins.PlgChart
         /// Formats local date and time to use in JavaScript.
         /// </summary>
         public const string LocalTimeFormat = "yyyy'-'MM'-'dd'T'HH':'mm':'ss";
+        /// <summary>
+        /// Formats local date to use in JavaScript.
+        /// </summary>
+        public const string LocalDateFormat = "yyyy'-'MM'-'dd";
 
 
         /// <summary>
@@ -58,6 +62,17 @@ namespace Scada.Web.Plugins.PlgChart
                 dateTime = TimeZoneInfo.ConvertTimeFromUtc(dateTime, timeZone);
 
             return dateTime.ToString(LocalTimeFormat);
+        }
+
+        /// <summary>
+        /// Converts the specified value to a local date string.
+        /// </summary>
+        public static string ToLocalDateString(this DateTime dateTime, TimeZoneInfo timeZone)
+        {
+            if (dateTime.Kind == DateTimeKind.Utc)
+                dateTime = TimeZoneInfo.ConvertTimeFromUtc(dateTime, timeZone);
+
+            return dateTime.ToString(LocalDateFormat);
         }
 
         /// <summary>
