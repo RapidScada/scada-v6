@@ -6,6 +6,7 @@
     dynamic dict = Locale.GetDictionary("Scada.Web.Plugins.PlgMain.Areas.Main.Pages.Command");
     ViewBag.Title = dict.PageTitle;
 
+    var messageNotEmpty = !string.IsNullOrEmpty(Model.Message);
     var pwdExtraClass = Model.PwdIsInvalid ? "is-invalid" : "";
     var cmdExtraClass = Model.CmdIsInvalid ? "is-invalid" : "";
 }
@@ -18,13 +19,13 @@
     <script src="~/js/components/modal.js" asp-append-version="true"></script>
     <script src="~/plugins/Main/js/command.js" asp-append-version="true"></script>
     <script>
-        hideExecBtn = @(Model.Input == CommandModel.InputType.Enum ? "true" : "false");
-        updateHeight = @(string.IsNullOrEmpty(Model.Message) ? "false" : "true");
-        closeModal = @(Model.CloseModal ? "true" : "false");
+        hideExecBtn = @((Model.Input == CommandModel.InputType.Enum).ToLowerString());
+        updateHeight = @messageNotEmpty.ToLowerString();
+        closeModal = @Model.CloseModal.ToLowerString();
     </script>
 }
 
-@if (!string.IsNullOrEmpty(Model.Message))
+@if (messageNotEmpty)
 {
     var alertClass = Model.HasError ? "alert-danger" : "alert-success";
     <div class="alert @alertClass">@Model.Message</div>
@@ -122,6 +123,6 @@
             </div>
         }
 
-        <button type="submit" id="btnSubmit" class="hidden">Submit</button>
+        <button type="submit" id="btnSubmit" class="rs-modal-submit hidden">Submit</button>
     </form>
 }

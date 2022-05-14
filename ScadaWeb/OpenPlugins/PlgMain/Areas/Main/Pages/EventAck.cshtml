@@ -14,8 +14,8 @@
     <script src="~/js/components/modal.js" asp-append-version="true"></script>
     <script src="~/plugins/Main/js/event-ack.js" asp-append-version="true"></script>
     <script>
-        ackAllowed = @(Model.AckAllowed ? "true" : "false");
-        closeModal = @(Model.CloseModal ? "true" : "false");
+        ackAllowed = @Model.AckAllowed.ToLowerString();
+        closeModal = @Model.CloseModal.ToLowerString();
     </script>
 }
 
@@ -48,7 +48,7 @@
     if (Model.AckAllowed)
     {
         <div class="alert alert-primary">@dict.AckTip</div>
-        <form method="post"><button type="submit" id="btnSubmit" class="hidden">Submit</button></form>
+        <form method="post"><button type="submit" class="rs-modal-submit hidden">Submit</button></form>
     }
 
     <table id="tblEvent" class="table-main" data-color="@Model.EventF.Color">

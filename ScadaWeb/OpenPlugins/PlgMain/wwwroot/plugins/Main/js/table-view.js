@@ -21,7 +21,7 @@ class HistColMeta {
     }
 }
 
-// The variables below are set from TableView.cshtml
+// The variables below are set in TableView.cshtml
 var viewID = 0;
 
 const START_TIME_KEY = "TableView.StartTime";

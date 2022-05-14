@@ -1,6 +1,6 @@
 ﻿// Depends on jquery, scada-common.js, view-hub.js, main-api.js, table-common.js
 
-// The variables below are set from Events.cshtml
+// The variables below are set in Events.cshtml
 var phrases = {};
 
 // Specifies the severity levels.

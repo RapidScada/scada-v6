@@ -1,4 +1,4 @@
-﻿// The variables below are set from EventAck.cshtml
+﻿// The variables below are in from EventAck.cshtml
 var ackAllowed = false;
 var closeModal = false;
 
@@ -25,11 +25,4 @@ $(document).ready(function () {
             modalManager.closeModal(window, true);
         }, CLOSE_TIMEOUT)
     }
-
-    // submit the form on OK button click
-    $(window).on(ScadaEventType.MODAL_BTN_CLICK, function (event, buttonValue) {
-        if (buttonValue === ModalButton.OK) {
-            $("#btnSubmit").click();
-        }
-    });
 });

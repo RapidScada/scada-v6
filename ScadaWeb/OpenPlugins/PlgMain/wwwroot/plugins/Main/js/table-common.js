@@ -1,4 +1,4 @@
-﻿// The variables below are set from *.cshtml
+﻿// The variables below are set in *.cshtml
 var archiveBit = -1;
 var pluginOptions = {
     refreshRate: 1000,

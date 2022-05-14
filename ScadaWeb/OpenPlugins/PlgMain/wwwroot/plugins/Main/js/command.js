@@ -1,4 +1,4 @@
-﻿// The variables below are set from Command.cshtml
+﻿// The variables below are set in Command.cshtml
 var hideExecBtn = false;
 var updateHeight = false;
 var closeModal = false;
@@ -24,13 +24,6 @@ $(document).ready(function () {
             modalManager.closeModal(window, true);
         }, CLOSE_TIMEOUT)
     }
-
-    // submit the form on Execute button click
-    $(window).on(ScadaEventType.MODAL_BTN_CLICK, function (event, buttonValue) {
-        if (buttonValue === ModalButton.EXEC) {
-            $("#btnSubmit").click();
-        }
-    });
 
     // send enumeration command
     $("#divEnum button").click(function () {
