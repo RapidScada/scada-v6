@@ -28,6 +28,16 @@ class ModalOptions {
     }
 }
 
+// Describes modal dialog behavior after postback.
+class ModalPostbackArgs {
+    closeModal = false;
+    closeDelay = 0;
+    modalResult = false;
+    resultArgs = null;
+    updateHeight = false;
+    growOnly = false;
+}
+
 // Specifies the modal phrases.
 // Can be changed by a page script.
 var modalPhrases = {};
@@ -35,6 +45,39 @@ var modalPhrases = {};
 // Manages modal dialogs.
 class ModalManager {
     static MAX_TITLE_LEN = 50;
+
+    // Sets up the modal document.
+    _setupModalDoc(modalWnd, modalElem) {
+        const thisObj = this;
+        let modalDoc = modalWnd.$(modalWnd.document);
+
+        modalDoc.ready(function () {
+            // prevent scrollbars from appearing because of margins
+            modalDoc.find("body").css("overflow", "hidden");
+
+            // remove the modal on press the Escape key
+            modalDoc
+                .off("keydown.rs.modal")
+                .on("keydown.rs.modal", function (event) {
+                    if (event.which === 27 /*Escape*/) {
+                        ModalManager._getModalObject(modalElem).hide();
+                    }
+                });
+
+            // handles the modal postback
+            if (modalWnd.modalPostbackArgs) {
+                let postbackArgs = modalWnd.modalPostbackArgs;
+
+                if (postbackArgs.closeModal) {
+                    setTimeout(function () {
+                        thisObj.closeModal(modalWnd, postbackArgs.modalResult, postbackArgs.resultArgs);
+                    }, postbackArgs.closeDelay);
+                } else if (postbackArgs.updateHeight) {
+                    thisObj.updateModalHeight(modalWnd, postbackArgs.growOnly);
+                }
+            }
+        });
+    }
 
     // Builds an HTML markup of a modal dialog footer buttons.
     static _buildButtonsHtml(buttons) {
@@ -44,9 +87,15 @@ class ModalManager {
             let subclass = btn === ModalButton.OK || btn === ModalButton.YES
                 ? "btn-primary"
                 : (btn === ModalButton.EXEC ? "btn-danger" : "btn-secondary");
-            let dismiss = btn === ModalButton.CANCEL || btn === ModalButton.CLOSE ? "data-bs-dismiss='modal'" : "";
-            let caption = modalPhrases[btn] || btn;
+            let dismiss = "";
 
+            if (btn === ModalButton.CANCEL || btn === ModalButton.CLOSE) {
+                dismiss = "data-bs-dismiss='modal'";
+            } else {
+                subclass += " rs-btn-submit";
+            }
+
+            let caption = modalPhrases[btn] || btn;
             html += `<button type='button' class='btn ${subclass}' data-rs-value='${btn}' ${dismiss}>${caption}</button>`;
         }
 
@@ -92,6 +141,8 @@ class ModalManager {
     // Opens the modal dialog containing the specified page.
     // opt_callback is a function (result, args)
     showModal(url, opt_options, opt_callback) {
+        const thisObj = this;
+
         // create temporary overlay to prevent user activity
         let tempOverlay = $("<div class='rs-modal-overlay'></div>");
         $("body").append(tempOverlay);
@@ -137,30 +188,14 @@ class ModalManager {
         modalBody.append(modalFrame);
         $("body").append(modalElem);
 
-        // create a function that hides the modal on press Escape key
-        let modalObj = ModalManager._getModalObject(modalElem);
-        let hideModalOnEscapeFunc = function (event) {
-            if (event.which === 27 /*Escape*/) {
-                modalObj.hide();
-            }
-        };
-
         // load the frame
         modalFrame
             .on("load", function () {
-                // setup modal document
+                // setup the modal document
                 let frameWnd = modalFrame[0].contentWindow;
-                if (ScadaUtils.checkAccessToFrame(frameWnd) && frameWnd.$) {
-                    let jqFrameDoc = frameWnd.$(frameWnd.document);
-                    jqFrameDoc.ready(function () {
-                        // prevent scrollbars from appearing because of margins
-                        jqFrameDoc.find("body").css("overflow", "hidden");
 
-                        // remove the modal on press Escape key in the frame
-                        jqFrameDoc
-                            .off("keydown.rs.modal", hideModalOnEscapeFunc)
-                            .on("keydown.rs.modal", hideModalOnEscapeFunc);
-                    });
+                if (ScadaUtils.checkAccessToFrame(frameWnd) && frameWnd.$) {
+                    thisObj._setupModalDoc(frameWnd, modalElem);
                 }
             })
             .one("load", function () {
@@ -189,10 +224,17 @@ class ModalManager {
                     // set the modal title
                     modalElem.find(".modal-title").text(ModalManager._truncateTitle(frameWnd.document.title));
 
-                    // raise event on modal button click
+                    // handle button click
                     modalElem.find(".modal-footer button").click(function () {
+                        // raise event
                         let buttonValue = $(this).data("rs-value");
                         frameWnd.$(frameWnd).trigger(ScadaEventType.MODAL_BTN_CLICK, buttonValue);
+
+                        // submit the modal
+                        if ($(this).hasClass("rs-btn-submit")) {
+                            frameBody.find("form .rs-modal-value").val(buttonValue);
+                            frameBody.find("form .rs-modal-submit").click();
+                        }
                     });
                 } else {
                     // set the modal title
@@ -224,7 +266,7 @@ class ModalManager {
                         $(this).remove();
                     });
 
-                modalObj.show();
+                ModalManager._getModalObject(modalElem).show();
             })
             .attr("src", url);
     }

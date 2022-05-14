@@ -166,10 +166,12 @@ namespace Scada.Web
         /// <summary>
         /// Converts the specified object to a JavaScript object.
         /// </summary>
-        public static HtmlString ObjectToJs(object obj)
+        public static HtmlString ToJs(this object obj)
         {
-            return new HtmlString(string.Format("JSON.parse('{0}')",
-                HttpUtility.JavaScriptStringEncode(JsonSerializer.Serialize(obj, JsonOptions))));
+            return obj == null
+                ? new HtmlString("null")
+                : new HtmlString(string.Format("JSON.parse('{0}')", 
+                    HttpUtility.JavaScriptStringEncode(JsonSerializer.Serialize(obj, JsonOptions))));
         }
 
         /// <summary>
