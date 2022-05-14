@@ -27,7 +27,7 @@
     <script>
         viewID = @Model.ViewID;
         controlRight = @Model.ControlRight.ToLowerString();
-        schemeOptions = @WebUtils.ObjectToJs(pluginContext.Options);
+        schemeOptions = @pluginContext.Options.ToJs();
     </script>
 
     @foreach (var url in pluginContext.CompManager.GetAllScripts(PluginRoot))

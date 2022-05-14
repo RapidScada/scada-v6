@@ -18,7 +18,7 @@
     <script>
         viewID = @Model.ViewID;
         archiveBit = @Model.ArchiveBit;
-        pluginOptions = @WebUtils.ObjectToJs(pluginContext.Options);
+        pluginOptions = @pluginContext.Options.ToJs();
     </script>
 }
 

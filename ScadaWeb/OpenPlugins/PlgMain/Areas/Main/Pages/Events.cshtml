@@ -23,7 +23,7 @@
     <script src="~/plugins/Main/js/events.js" asp-append-version="true"></script>
     <script>
         archiveBit = @Model.ArchiveBit;
-        pluginOptions = @WebUtils.ObjectToJs(pluginContext.Options);
+        pluginOptions = @pluginContext.Options.ToJs();
         phrases = @WebUtils.DictionaryToJs("Scada.Web.Plugins.PlgMain.Areas.Main.Pages.Events.Js");
     </script>
 }
