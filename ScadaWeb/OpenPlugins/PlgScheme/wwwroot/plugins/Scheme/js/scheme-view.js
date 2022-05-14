@@ -21,7 +21,7 @@ var mainApi = new MainApi();
 // Identifies the error badge display timeout
 var errorTimeoutID = 0;
 
-// The variables below are set from SchemeView.cshtml
+// The variables below are set in SchemeView.cshtml
 // View ID
 var viewID = 0;
 // View control right
