@@ -148,11 +148,15 @@ class ModalManager {
         // load the frame
         modalFrame
             .on("load", function () {
-                // remove the modal on press Escape key in the frame
+                // setup modal document
                 let frameWnd = modalFrame[0].contentWindow;
                 if (ScadaUtils.checkAccessToFrame(frameWnd) && frameWnd.$) {
                     let jqFrameDoc = frameWnd.$(frameWnd.document);
                     jqFrameDoc.ready(function () {
+                        // prevent scrollbars from appearing because of margins
+                        jqFrameDoc.find("body").css("overflow", "hidden");
+
+                        // remove the modal on press Escape key in the frame
                         jqFrameDoc
                             .off("keydown.rs.modal", hideModalOnEscapeFunc)
                             .on("keydown.rs.modal", hideModalOnEscapeFunc);
@@ -181,7 +185,6 @@ class ModalManager {
                     let modalPaddings = parseInt(modalBody.css("padding-left")) + parseInt(modalBody.css("padding-right"));
                     modalElem.find(".modal-content").css("min-width", frameWidth + modalPaddings);
                     modalFrame.css("height", options.height || frameHeight);
-                    frameBody.css("overflow", "hidden");
 
                     // set the modal title
                     modalElem.find(".modal-title").text(ModalManager._truncateTitle(frameWnd.document.title));
@@ -269,18 +272,7 @@ class ModalManager {
         let newHeight = frameBody.outerHeight(true);
 
         if (!opt_growOnly || newHeight > frame.height()) {
-
-            //let iosScrollFix = ScadaUtils.iOS;
-            //if (iosScrollFix) {
-            //    modalElem.css("overflow-y", "hidden");
-            //}
-
             frame.css("height", newHeight);
-
-            //if (iosScrollFix) {
-            //    modalElem.css("overflow-y", "");
-            //}
-
             let modalElem = frame.closest(".modal");
             ModalManager._getModalObject(modalElem).handleUpdate();
         }
