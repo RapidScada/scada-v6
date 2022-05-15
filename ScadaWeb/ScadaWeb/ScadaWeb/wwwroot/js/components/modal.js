@@ -1,7 +1,7 @@
 ﻿// Contains classes: ModalButton, ModalSize, ModalOptions, ModalManager
 // Depends on jquery, bootstrap, scada-common.js
 
-// Specifies the buttons available for a modal dialog.
+// Specifies the modal dialog buttons.
 class ModalButton {
     static OK = "Ok";
     static YES = "Yes";
@@ -32,8 +32,7 @@ class ModalOptions {
 class ModalPostbackArgs {
     closeModal = false;
     closeDelay = 0;
-    modalResult = false;
-    resultArgs = null;
+    modalResult = null;
     updateHeight = false;
     growOnly = false;
 }
@@ -70,7 +69,7 @@ class ModalManager {
 
                 if (postbackArgs.closeModal) {
                     setTimeout(function () {
-                        thisObj.closeModal(modalWnd, postbackArgs.modalResult, postbackArgs.resultArgs);
+                        thisObj.closeModal(modalWnd, postbackArgs.modalResult);
                     }, postbackArgs.closeDelay);
                 } else if (postbackArgs.updateHeight) {
                     thisObj.updateModalHeight(modalWnd, postbackArgs.growOnly);
@@ -139,7 +138,7 @@ class ModalManager {
     }
 
     // Opens the modal dialog containing the specified page.
-    // opt_callback is a function (result, args)
+    // opt_callback is a function (result)
     showModal(url, opt_options, opt_callback) {
         const thisObj = this;
 
@@ -175,7 +174,7 @@ class ModalManager {
         if (opt_callback) {
             modalElem
                 .data("rs-callback", opt_callback)
-                .data("rs-result", false);
+                .data("rs-result", null);
         }
 
         // create a frame
@@ -260,7 +259,7 @@ class ModalManager {
                     .on('hidden.bs.modal', function () {
                         let callback = $(this).data("rs-callback");
                         if (typeof callback === "function") {
-                            callback($(this).data("rs-result"), $(this).data("rs-args"));
+                            callback($(this).data("rs-result"));
                         }
 
                         $(this).remove();
@@ -272,17 +271,16 @@ class ModalManager {
     }
 
     // Closes the modal dialog with the specified result.
-    closeModal(modalWnd, result, args) {
-        let modalElem = this.setResult(modalWnd, result, args);
+    closeModal(modalWnd, result) {
+        let modalElem = this.setResult(modalWnd, result);
         ModalManager._getModalObject(modalElem).hide();
     }
 
     // Sets the result of the modal dialog, keeping it open. Returns a jQuery object represents the modal dialog.
-    setResult(modalWnd, result, args) {
+    setResult(modalWnd, result) {
         return $(modalWnd.frameElement)
             .closest(".modal")
-            .data("rs-result", result)
-            .data("rs-args", args);
+            .data("rs-result", result);
     }
 
     // Sets the title of the modal dialog.

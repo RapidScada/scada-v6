@@ -23,7 +23,7 @@
  * Modified : 2022
  */
 
-namespace Scada.Web
+namespace Scada.Web.Components
 {
     /// <summary>
     /// Describes modal dialog behavior after postback.
@@ -38,8 +38,7 @@ namespace Scada.Web
         {
             CloseModal = false;
             CloseDelay = 0;
-            ModalResult = false;
-            ResultArgs = null;
+            ModalResult = null;
             UpdateHeight = false;
             GrowOnly = false;
         }
@@ -58,12 +57,7 @@ namespace Scada.Web
         /// <summary>
         /// Gets or sets the result of the modal dialog.
         /// </summary>
-        public bool ModalResult { get; set; }
-
-        /// <summary>
-        /// Gets or sets the result arguments.
-        /// </summary>
-        public object ResultArgs { get; set; }
+        public object ModalResult { get; set; }
 
         /// <summary>
         /// Gets or sets a value indicating whether to update the height of the modal dialog.
