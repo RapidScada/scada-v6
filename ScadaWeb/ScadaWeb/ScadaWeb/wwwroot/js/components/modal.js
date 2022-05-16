@@ -44,7 +44,6 @@ var modalPhrases = {};
 // Manages modal dialogs.
 class ModalManager {
     static MAX_TITLE_LEN = 50;
-    static FRAME_EXTRA_HEIGHT = 5;
 
     // Sets up the modal document.
     _setupModalDoc(modalWnd, modalElem) {
@@ -219,7 +218,7 @@ class ModalManager {
                     // set the modal size
                     let modalPaddings = parseInt(modalBody.css("padding-left")) + parseInt(modalBody.css("padding-right"));
                     modalElem.find(".modal-content").css("min-width", frameWidth + modalPaddings);
-                    modalFrame.css("height", options.height || frameHeight + ModalManager.FRAME_EXTRA_HEIGHT);
+                    modalFrame.css("height", options.height || frameHeight);
 
                     // set the modal title
                     modalElem.find(".modal-title").text(ModalManager._truncateTitle(frameWnd.document.title));
@@ -251,7 +250,7 @@ class ModalManager {
                     .on('shown.bs.modal', function () {
                         // update the modal height
                         if (frameAccessible && !options.height) {
-                            modalFrame.css("height", frameBody.outerHeight(true) + ModalManager.FRAME_EXTRA_HEIGHT);
+                            modalFrame.css("height", frameBody.outerHeight(true));
                         }
 
                         tempOverlay.remove();
@@ -310,7 +309,7 @@ class ModalManager {
     updateModalHeight(modalWnd, opt_growOnly) {
         let frame = $(modalWnd.frameElement);
         let frameBody = frame.contents().find("body");
-        let newHeight = frameBody.outerHeight(true) + ModalManager.FRAME_EXTRA_HEIGHT;
+        let newHeight = frameBody.outerHeight(true);
 
         if (!opt_growOnly || newHeight > frame.height()) {
             frame.css("height", newHeight);
