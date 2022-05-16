@@ -44,6 +44,7 @@ var modalPhrases = {};
 // Manages modal dialogs.
 class ModalManager {
     static MAX_TITLE_LEN = 50;
+    static FRAME_PADDING = 5;
 
     // Sets up the modal document.
     _setupModalDoc(modalWnd, modalElem) {
@@ -51,8 +52,10 @@ class ModalManager {
         let modalDoc = modalWnd.$(modalWnd.document);
 
         modalDoc.ready(function () {
-            // prevent scrollbars from appearing because of margins
-            modalDoc.find("body").css("overflow", "hidden");
+            modalDoc.find("body").css({
+                "overflow": "hidden", // prevent scrollbars from appearing because of margins
+                "padding": ModalManager.FRAME_PADDING // provide space for Bootstrap effects
+            });
 
             // remove the modal on press the Escape key
             modalDoc
