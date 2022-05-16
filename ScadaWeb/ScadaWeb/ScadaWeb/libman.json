@@ -122,6 +122,11 @@
         "hammer.js",
         "hammer.min.js.map"
       ]
+    },
+    {
+      "provider": "cdnjs",
+      "library": "FileSaver.js@2.0.5",
+      "destination": "wwwroot/lib/filesaverjs"
     }
   ]
 }
