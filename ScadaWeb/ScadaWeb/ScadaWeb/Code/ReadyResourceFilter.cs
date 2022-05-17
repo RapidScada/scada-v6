@@ -20,7 +20,7 @@
  * 
  * Author   : Mikhail Shiryaev
  * Created  : 2021
- * Modified : 2021
+ * Modified : 2022
  */
 
 using Microsoft.AspNetCore.Http;
@@ -34,21 +34,16 @@ namespace Scada.Web.Code
     /// Represents a filter that checks if the application is ready for operating.
     /// <para>Представляет фильтр, проверяющий, готово ли приложение к работе.</para>
     /// </summary>
-    public class CheckReadyPageFilter : IPageFilter
+    public class ReadyResourceFilter : IResourceFilter
     {
         private readonly IWebContext webContext;
 
-        public CheckReadyPageFilter(IWebContext webContext)
+        public ReadyResourceFilter(IWebContext webContext)
         {
             this.webContext = webContext;
         }
 
-        public void OnPageHandlerSelected(PageHandlerSelectedContext context)
-        {
-            // do nothing
-        }
-
-        public void OnPageHandlerExecuting(PageHandlerExecutingContext context)
+        public void OnResourceExecuting(ResourceExecutingContext context)
         {
             if (!webContext.IsReady)
             {
@@ -63,7 +58,7 @@ namespace Scada.Web.Code
             }
         }
 
-        public void OnPageHandlerExecuted(PageHandlerExecutedContext context)
+        public void OnResourceExecuted(ResourceExecutedContext context)
         {
             // do nothing
         }

@@ -117,7 +117,7 @@ namespace Scada.Web
                 })
                 .AddMvcOptions(options =>
                 {
-                    options.Filters.Add(typeof(CheckReadyPageFilter));
+                    options.Filters.Add(typeof(ReadyResourceFilter));
                     WebContext.PluginHolder.AddFilters(options.Filters);
                 })
                 .ConfigureApplicationPartManager(ConfigureApplicationParts);
