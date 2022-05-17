@@ -131,7 +131,7 @@ namespace Scada.Web
                 {
                     sbJs.Append(pair.Key)
                         .Append(": '")
-                        .Append(HttpUtility.JavaScriptStringEncode(pair.Value))
+                        .Append(pair.Value.JsEncode())
                         .AppendLine("',");
                 }
             }
@@ -157,8 +157,8 @@ namespace Scada.Web
                 .AppendLine("{")
                 .AppendLine("isStub: false,")
                 .AppendLine($"rootPath: '{urlHelper.Content("~/")}',")
-                .AppendLine($"locale: '{HttpUtility.JavaScriptStringEncode(Locale.Culture.Name)}',")
-                .AppendLine($"productName: '{HttpUtility.JavaScriptStringEncode(CommonPhrases.ProductName)}'")
+                .AppendLine($"locale: '{Locale.Culture.Name.JsEncode()}',")
+                .AppendLine($"productName: '{CommonPhrases.ProductName.JsEncode()}'")
                 .Append('}')
                 .ToString());
         }
@@ -171,7 +171,15 @@ namespace Scada.Web
             return obj == null
                 ? new HtmlString("null")
                 : new HtmlString(string.Format("JSON.parse('{0}')", 
-                    HttpUtility.JavaScriptStringEncode(JsonSerializer.Serialize(obj, JsonOptions))));
+                    JsonSerializer.Serialize(obj, JsonOptions).JsEncode()));
+        }
+
+        /// <summary>
+        /// Encodes a string to be inserted in JavaScript.
+        /// </summary>
+        public static string JsEncode(this string s)
+        {
+            return HttpUtility.JavaScriptStringEncode(s);
         }
 
         /// <summary>

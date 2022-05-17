@@ -123,7 +123,7 @@ namespace Scada.Web.Plugins.PlgChart
         /// </summary>
         private string TrendPointToJs(CnlData cnlData, Cnl cnl, string unitName)
         {
-            // HttpUtility.JavaScriptStringEncode() is skipped for performance
+            // JavaScript encoding is skipped for performance
             double chartVal = cnlData.Stat > 0 ? cnlData.Val : double.NaN;
             CnlDataFormatted cnlDataFormatted = formatter.FormatCnlData(cnlData, cnl, false);
 
@@ -254,11 +254,10 @@ namespace Scada.Web.Plugins.PlgChart
                 stringBuilder
                     .Append("var ").Append(trendName).AppendLine(" = new scada.chart.Trend();")
                     .Append(trendName).AppendFormat(".cnlNum = {0};", cnl.CnlNum).AppendLine()
-                    .Append(trendName).AppendFormat(".cnlName = '{0}';",
-                        HttpUtility.JavaScriptStringEncode(cnl.Name)).AppendLine()
+                    .Append(trendName).AppendFormat(".cnlName = '{0}';", cnl.Name.JsEncode()).AppendLine()
                     .Append(trendName).AppendFormat(".quantityID = {0};", cnl.QuantityID ?? 0).AppendLine()
-                    .Append(trendName).AppendFormat(".quantityName = '{0}';",
-                        HttpUtility.JavaScriptStringEncode(GetQuantityName(cnl))).AppendLine()
+                    .Append(trendName).AppendFormat(".quantityName = '{0}';", 
+                        GetQuantityName(cnl).JsEncode()).AppendLine()
                     .Append(trendName).AppendFormat(".trendPoints = {0};",
                         isSingle ? GetTrendPointsJs(singleTrend, cnl) : GetTrendPointsJs(trendBundle, i))
                     .AppendLine()

@@ -284,13 +284,11 @@ namespace Scada.Web.Plugins.PlgChart
                 stringBuilder
                     .Append("var ").Append(trendName).AppendLine(" = new scada.chart.Trend();")
                     .Append(trendName).AppendFormat(".cnlNum = {0};", cnl.CnlNum).AppendLine()
-                    .Append(trendName).AppendFormat(".cnlName = '{0}';",
-                        HttpUtility.JavaScriptStringEncode(cnl.Name)).AppendLine()
+                    .Append(trendName).AppendFormat(".cnlName = '{0}';", cnl.Name.JsEncode()).AppendLine()
                     .Append(trendName).AppendFormat(".quantityID = {0};", cnl.QuantityID ?? 0).AppendLine()
-                    .Append(trendName).AppendFormat(".quantityName = '{0}';",
-                        HttpUtility.JavaScriptStringEncode(GetQuantityName(cnl))).AppendLine()
-                    .Append(trendName).AppendFormat(".unitName = '{0}';",
-                        HttpUtility.JavaScriptStringEncode(GetUnitName(cnl))).AppendLine()
+                    .Append(trendName).AppendFormat(".quantityName = '{0}';", 
+                        GetQuantityName(cnl).JsEncode()).AppendLine()
+                    .Append(trendName).AppendFormat(".unitName = '{0}';", GetUnitName(cnl).JsEncode()).AppendLine()
                     .Append(trendName).Append(".points = ");
 
                 if (singleTrend == null)
@@ -309,10 +307,10 @@ namespace Scada.Web.Plugins.PlgChart
 
             foreach (CnlStatus cnlStatus in baseDataSet.CnlStatusTable.Enumerate())
             {
-                stringBuilder.AppendFormat("statusMap.set({0}, new scada.chart.CnlStatus({0}, '{1}', '{2}'));",
-                    cnlStatus.CnlStatusID,
-                    HttpUtility.JavaScriptStringEncode(cnlStatus.Name),
-                    HttpUtility.JavaScriptStringEncode(cnlStatus.MainColor)).AppendLine();
+                stringBuilder
+                    .AppendFormat("statusMap.set({0}, new scada.chart.CnlStatus({0}, '{1}', '{2}'));",
+                        cnlStatus.CnlStatusID, cnlStatus.Name.JsEncode(), cnlStatus.MainColor.JsEncode())
+                    .AppendLine();
             }
 
             stringBuilder.AppendLine();

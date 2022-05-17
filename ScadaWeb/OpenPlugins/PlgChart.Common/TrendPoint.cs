@@ -48,7 +48,7 @@ namespace Scada.Web.Plugins.PlgChart
         /// </summary>
         public static void Append(StringBuilder stringBuilder, CnlData cnlData, string text)
         {
-            // HttpUtility.JavaScriptStringEncode() is skipped for performance
+            // JavaScript encoding is skipped for performance
             stringBuilder
                 .Append('[')
                 .Append(double.IsNaN(cnlData.Val) ? "0" : cnlData.Val.ToString(CultureInfo.InvariantCulture))

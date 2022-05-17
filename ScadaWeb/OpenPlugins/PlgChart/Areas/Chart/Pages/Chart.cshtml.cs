@@ -74,8 +74,8 @@ namespace Scada.Web.Plugins.PlgChart.Areas.Chart.Pages
             sbChartData
                 .AppendFormat("var locale = '{0}';", Locale.Culture.Name).AppendLine()
                 .AppendFormat("var gapBetweenPoints = {0};", pluginOptions.GapBetweenPoints).AppendLine()
-                .AppendFormat("var chartTitle = '{0}';", HttpUtility.JavaScriptStringEncode(chartTitle)).AppendLine()
-                .AppendFormat("var chartStatus = '{0}';", HttpUtility.JavaScriptStringEncode(chartStatus)).AppendLine()
+                .AppendFormat("var chartTitle = '{0}';", chartTitle.JsEncode()).AppendLine()
+                .AppendFormat("var chartStatus = '{0}';", chartStatus.JsEncode()).AppendLine()
                 .AppendLine();
 
             ChartDataHtml = new HtmlString(sbChartData.ToString());
