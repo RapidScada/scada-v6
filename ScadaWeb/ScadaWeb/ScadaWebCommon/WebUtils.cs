@@ -175,6 +175,14 @@ namespace Scada.Web
         }
 
         /// <summary>
+        /// Encodes a string to be inserted in HTML and replaces newlines.
+        /// </summary>
+        public static HtmlString HtmlEncodeWithBreak(this string s)
+        {
+            return new HtmlString(HttpUtility.HtmlEncode(s).Replace("\n", "<br />"));
+        }
+
+        /// <summary>
         /// Encodes a string to be inserted in JavaScript.
         /// </summary>
         public static string JsEncode(this string s)
