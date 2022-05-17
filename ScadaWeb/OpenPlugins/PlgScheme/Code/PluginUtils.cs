@@ -7,7 +7,7 @@ namespace Scada.Web.Plugins.PlgScheme.Code
     /// The class provides helper methods for the plugin.
     /// <para>Класс, предоставляющий вспомогательные методы для плагина.</para>
     /// </summary>
-    public static class PluginUtils
+    internal static class PluginUtils
     {
         /// <summary>
         /// The plugin code.
