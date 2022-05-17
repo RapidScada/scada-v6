@@ -20,9 +20,10 @@
  * 
  * Author   : Mikhail Shiryaev
  * Created  : 2021
- * Modified : 2021
+ * Modified : 2022
  */
 
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 
 namespace Scada.Web.Pages
@@ -33,6 +34,9 @@ namespace Scada.Web.Pages
     /// </summary>
     public class AccessDeniedModel : PageModel
     {
+        [TempData]
+        public string ErrorMessage { get; set; }
+
         public void OnGet()
         {
         }
