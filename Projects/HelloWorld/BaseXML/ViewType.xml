@@ -20,20 +20,26 @@
   </ViewType>
   <ViewType>
     <ViewTypeID>4</ViewTypeID>
+    <Name>Chart Pro view</Name>
+    <Code>ChartProView</Code>
+    <Descr>Requires Chart Pro Plugin</Descr>
+  </ViewType>
+  <ViewType>
+    <ViewTypeID>5</ViewTypeID>
     <Name>Dashboard view</Name>
     <Code>DashboardView</Code>
     <FileExt>dash</FileExt>
     <Descr>Requires Dashboard Plugin</Descr>
   </ViewType>
   <ViewType>
-    <ViewTypeID>5</ViewTypeID>
+    <ViewTypeID>6</ViewTypeID>
     <Name>Map view</Name>
     <Code>MapView</Code>
     <FileExt>map</FileExt>
     <Descr>Requires Map Plugin</Descr>
   </ViewType>
   <ViewType>
-    <ViewTypeID>6</ViewTypeID>
+    <ViewTypeID>7</ViewTypeID>
     <Name>Elastic report</Name>
     <Code>ElasticRep</Code>
     <Descr>Requires Elastic Report Plugin</Descr>

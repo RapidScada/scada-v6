@@ -20,20 +20,27 @@
   </ViewType>
   <ViewType>
     <ViewTypeID>4</ViewTypeID>
+    <Name>График Про</Name>
+    <Code>ChartProView</Code>
+    <FileExt>dash</FileExt>
+    <Descr>Требуется плагин Графики Про</Descr>
+  </ViewType>
+  <ViewType>
+    <ViewTypeID>5</ViewTypeID>
     <Name>Дэшборд</Name>
     <Code>DashboardView</Code>
     <FileExt>dash</FileExt>
     <Descr>Требуется плагин Дэшборды</Descr>
   </ViewType>
   <ViewType>
-    <ViewTypeID>5</ViewTypeID>
+    <ViewTypeID>6</ViewTypeID>
     <Name>Карта</Name>
     <Code>MapView</Code>
     <FileExt>map</FileExt>
     <Descr>Требуется плагин Карты</Descr>
   </ViewType>
   <ViewType>
-    <ViewTypeID>6</ViewTypeID>
+    <ViewTypeID>7</ViewTypeID>
     <Name>Гибкий отчёт</Name>
     <Code>ElasticRep</Code>
     <Descr>Требуется плагин Гибкий отчёт</Descr>
