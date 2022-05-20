@@ -20,7 +20,7 @@
  * 
  * Author   : Mikhail Shiryaev
  * Created  : 2011
- * Modified : 2021
+ * Modified : 2022
  */
 
 using Scada.Data.Entities;
@@ -72,7 +72,7 @@ namespace Scada.Data.Models
         /// <summary>
         /// Gets a value indicating whether to download a view from the server.
         /// </summary>
-        public bool StoredOnServer { get; }
+        public bool StoredOnServer { get; protected set; }
 
         /// <summary>
         /// Gets the view arguments.
