@@ -12,11 +12,6 @@ EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ScadaWebCommon.Subset", "ScadaWebCommon.Subset\ScadaWebCommon.Subset.csproj", "{E7FEC001-D5B7-41A0-BD8D-FB8A3F4BDE51}"
 EndProject
 Global
-	GlobalSection(SharedMSBuildProjectFiles) = preSolution
-		ScadaWebCommon.Shared\ScadaWebCommon.Shared.projitems*{5a665a6e-40b7-44b3-91ed-9bb9e1f89482}*SharedItemsImports = 13
-		ScadaWebCommon.Shared\ScadaWebCommon.Shared.projitems*{8821e004-f69e-41b1-8255-fcfe56ceda10}*SharedItemsImports = 5
-		ScadaWebCommon.Shared\ScadaWebCommon.Shared.projitems*{e7fec001-d5b7-41a0-bd8d-fb8a3f4bde51}*SharedItemsImports = 5
-	EndGlobalSection
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
 		Release|Any CPU = Release|Any CPU
@@ -40,5 +35,10 @@ Global
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {00CC6B59-D3CF-4723-9276-0B4179B69306}
+	EndGlobalSection
+	GlobalSection(SharedMSBuildProjectFiles) = preSolution
+		ScadaWebCommon.Shared\ScadaWebCommon.Shared.projitems*{5a665a6e-40b7-44b3-91ed-9bb9e1f89482}*SharedItemsImports = 13
+		ScadaWebCommon.Shared\ScadaWebCommon.Shared.projitems*{8821e004-f69e-41b1-8255-fcfe56ceda10}*SharedItemsImports = 5
+		ScadaWebCommon.Shared\ScadaWebCommon.Shared.projitems*{e7fec001-d5b7-41a0-bd8d-fb8a3f4bde51}*SharedItemsImports = 5
 	EndGlobalSection
 EndGlobal

@@ -1,5 +1,7 @@
-﻿// Provides data exchange between view frame and data window frame.
+﻿// Contains classes: ViewHub
 // Depends on scada-common.js
+
+// Provides data exchange between view frame and data window frame.
 class ViewHub {
     constructor(mainWindow, appEnv, modalManager) {
         // The reference to the main window object.

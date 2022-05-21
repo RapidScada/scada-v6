@@ -9,6 +9,10 @@ class ModalButton {
     static EXEC = "Execute";
     static CANCEL = "Cancel";
     static CLOSE = "Close";
+
+    static OK_CANCEL = [ModalButton.OK, ModalButton.CANCEL];
+    static YES_NO_CANCEL = [ModalButton.YES, ModalButton.NO, ModalButton.CANCEL];
+    static EXEC_CLOSE = [ModalButton.EXEC, ModalButton.CLOSE];
 };
 
 // Specifies the sizes of a modal dialog.
