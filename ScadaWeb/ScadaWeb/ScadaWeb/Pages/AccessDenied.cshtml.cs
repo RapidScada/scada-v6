@@ -1,27 +1,5 @@
-/*
- * Copyright 2022 Rapid Software LLC
- * 
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- * 
- *     http://www.apache.org/licenses/LICENSE-2.0
- * 
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
- * 
- * 
- * Product  : Rapid SCADA
- * Module   : Webstation Application
- * Summary  : Represents a page containing an insufficient rights message
- * 
- * Author   : Mikhail Shiryaev
- * Created  : 2021
- * Modified : 2022
- */
+п»ї// Copyright (c) Rapid Software LLC. All rights reserved.
+// Licensed under the Apache License, Version 2.0. See License.txt in the project root for license information.
 
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
@@ -30,7 +8,7 @@ namespace Scada.Web.Pages
 {
     /// <summary>
     /// Represents a page containing an insufficient rights message.
-    /// <para>Представляет страницу, которая содержит сообщение об отсутствии прав доступа.</para>
+    /// <para>РџСЂРµРґСЃС‚Р°РІР»СЏРµС‚ СЃС‚СЂР°РЅРёС†Сѓ, РєРѕС‚РѕСЂР°СЏ СЃРѕРґРµСЂР¶РёС‚ СЃРѕРѕР±С‰РµРЅРёРµ РѕР± РѕС‚СЃСѓС‚СЃС‚РІРёРё РїСЂР°РІ РґРѕСЃС‚СѓРїР°.</para>
     /// </summary>
     public class AccessDeniedModel : PageModel
     {
