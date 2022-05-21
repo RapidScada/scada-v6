@@ -6,4 +6,56 @@
     ViewBag.Title = dict.PageTitle;
 }
 
-<h1>Select Channels</h1>
+@section Scripts {
+    <script>
+        var modalPostbackArgs = @Model.PostbackArgs.ToJs();
+    </script>
+}
+
+<form method="post">
+    <div class="mb-3">
+        <label id="lblObj" for="selObj" class="form-label">@dict.lblObj</label>
+        <select id="selObj" class="form-select" asp-for="ObjNum" asp-items="Model.ObjList"></select>
+    </div>
+    <div class="mb-3 form-check">
+        <input type="checkbox" id="chkOnlySelected" class="form-check-input" />
+        <label id="lblOnlySelected" class="form-check-label" for="chkOnlySelected">Show only selected channels</label>
+    </div>
+
+    <table class="table table-hover table-sm">
+        <thead>
+            <tr>
+                <th>Selected</th>
+                <th>Number</th>
+                <th>Name</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var cnl in Model.SelectedCnls)
+            {
+                <tr>
+                    <td><input type="checkbox" class="form-check-input" /></td>
+                    <td>@cnl.CnlNum</td>
+                    <td>@cnl.Name</td>
+                </tr>
+            }
+        </tbody>
+    </table>
+
+    <nav>
+        <ul class="pagination">
+            <li class="page-item"><a class="page-link" href="#">&laquo;</a></li>
+            <li class="page-item"><a class="page-link" href="#">1</a></li>
+            <li class="page-item disabled"><a class="page-link" href="#">...</a></li>
+            <li class="page-item"><a class="page-link" href="#">4</a></li>
+            <li class="page-item active"><a class="page-link" href="#">5</a></li>
+            <li class="page-item"><a class="page-link" href="#">6</a></li>
+            <li class="page-item disabled"><a class="page-link" href="#">...</a></li>
+            <li class="page-item"><a class="page-link" href="#">9</a></li>
+            <li class="page-item"><a class="page-link" href="#">&raquo;</a></li>
+        </ul>
+    </nav>
+
+    <input type="hidden" id="hidSelectedCnlNums" asp-for="SelectedCnlNums" />
+    <button type="submit" class="rs-modal-submit hidden">Submit</button>
+</form>

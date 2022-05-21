@@ -47,6 +47,10 @@
     <Phrase key="PageTitle">Доступ запрещен</Phrase>
     <Phrase key="ErrorMessage">У вас недостаточно прав для доступа к запрошенному ресурсу.</Phrase>
   </Dictionary>
+  <Dictionary key="Scada.Web.Pages.CnlSelect">
+    <Phrase key="PageTitle">Выбор каналов</Phrase>
+    <Phrase key="lblObj">Объект</Phrase>
+  </Dictionary>
   <Dictionary key="Scada.Web.Pages.Error">
     <Phrase key="PageTitle">Ошибка</Phrase>
     <Phrase key="ErrorMessage">При обработке вашего запроса произошла ошибка.</Phrase>
