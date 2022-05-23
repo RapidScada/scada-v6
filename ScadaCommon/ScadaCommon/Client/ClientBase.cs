@@ -42,7 +42,7 @@ namespace Scada.Client
     /// <para>Представляет базовый класс TCP-клиентов, которые взаимодействуют с сервером.</para>
     /// </summary>
     /// <remarks>The class is not thread safe.</remarks>
-    public abstract class BaseClient
+    public abstract class ClientBase
     {
         /// <summary>
         /// The maximum number of packet bytes to write to the communication log.
@@ -91,7 +91,7 @@ namespace Scada.Client
         /// <summary>
         /// Initializes a new instance of the class.
         /// </summary>
-        public BaseClient(ConnectionOptions connectionOptions)
+        public ClientBase(ConnectionOptions connectionOptions)
         {
             inBuf = new byte[BufferLenght];
             outBuf = new byte[BufferLenght];

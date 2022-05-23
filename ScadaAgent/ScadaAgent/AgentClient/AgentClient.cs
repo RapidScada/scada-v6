@@ -20,7 +20,7 @@
  * 
  * Author   : Mikhail Shiryaev
  * Created  : 2021
- * Modified : 2021
+ * Modified : 2022
  */
 
 using Scada.Client;
@@ -41,7 +41,7 @@ namespace Scada.Agent.Client
     /// Represents a TCP client which interacts with the Agent service.
     /// <para>Представляет TCP-клиента, который взаимодействует со службой Агента.</para>
     /// </summary>
-    public class AgentClient : BaseClient, IAgentClient
+    public class AgentClient : ClientBase, IAgentClient
     {
         /// <summary>
         /// Initializes a new instance of the class.

@@ -40,7 +40,7 @@ namespace Scada.Client
     /// Represents a TCP client which interacts with the Server service.
     /// <para>Представляет TCP-клиента, который взаимодействует со службой Сервера.</para>
     /// </summary>
-    public class ScadaClient : BaseClient
+    public class ScadaClient : ClientBase
     {
         /// <summary>
         /// The ID of the last command received.

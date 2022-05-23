@@ -20,7 +20,7 @@
  * 
  * Author   : Mikhail Shiryaev
  * Created  : 2021
- * Modified : 2021
+ * Modified : 2022
  */
 
 using Scada.Client;
@@ -34,7 +34,7 @@ namespace Scada.Agent.Engine
     /// Represents a client for reverse Agent connection.
     /// <para>Представляет клиента для обратного подключения Агента.</para>
     /// </summary>
-    internal class ReverseClient : BaseClient
+    internal class ReverseClient : ClientBase
     {
         /// <summary>
         /// The period when reconnection is allowed.
