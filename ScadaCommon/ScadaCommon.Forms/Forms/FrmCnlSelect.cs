@@ -48,7 +48,7 @@ namespace Scada.Forms.Forms
             public event PropertyChangedEventHandler PropertyChanged;
         }
 
-        private readonly ConfigDataset configDataset;          // the configuration database cache
+        private readonly ConfigDataset configDataset;          // the configuration database
         private BindingList<SelectableItem> items;             // the items to select
         private Dictionary<int, SelectableItem> selectedItems; // the selected items
 

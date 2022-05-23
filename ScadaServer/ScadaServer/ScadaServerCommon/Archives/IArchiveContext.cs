@@ -58,7 +58,7 @@ namespace Scada.Server.Archives
         ILog Log { get; }
 
         /// <summary>
-        /// Gets the configuration database cache.
+        /// Gets the cached configuration database.
         /// </summary>
         ConfigDataset ConfigDataset { get; }
 

@@ -65,7 +65,7 @@ namespace Scada
 
 
         /// <summary>
-        /// Gets or sets the configuration database cache.
+        /// Gets or sets the cached configuration database.
         /// </summary>
         public ConfigDataset ConfigDataset { get; set; }
 
