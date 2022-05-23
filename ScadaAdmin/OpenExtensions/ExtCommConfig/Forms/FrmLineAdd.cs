@@ -137,7 +137,7 @@ namespace Scada.Admin.Extensions.ExtCommConfig.Forms
 
             if (project.ConfigDatabase.CommLineTable.PkExists(commLineNum))
             {
-                ScadaUiUtils.ShowError(ExtensionPhrases.LineExistsInConfigBase);
+                ScadaUiUtils.ShowError(ExtensionPhrases.LineExistsInConfigDatabase);
                 return false;
             }
 

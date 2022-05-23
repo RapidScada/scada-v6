@@ -398,7 +398,7 @@
     <Phrase key="lblDeadband">Зона нечувств.</Phrase>
     <Phrase key="btnOK">OK</Phrase>
     <Phrase key="btnCancel">Отмена</Phrase>
-    <Phrase key="LimExistsInConfigBase">Граница с таким идентификатором уже существует в базе конфигурации.</Phrase>
+    <Phrase key="LimExistsInConfigDatabase">Граница с таким идентификатором уже существует в базе конфигурации.</Phrase>
     <Phrase key="DefaultLimName">Граница для канала {0}</Phrase>
   </Dictionary>
   <Dictionary key="Scada.Admin.App.Forms.Tables.FrmCnl">
@@ -606,7 +606,7 @@
     <Phrase key="DirectoryAlreadyExists">Директория уже существует.</Phrase>
     <Phrase key="FileAlreadyExists">Файл уже существует.</Phrase>
     <Phrase key="InstanceAlreadyExists">Экземпляр с таким наименованием уже существует.</Phrase>
-    <Phrase key="SaveConfigBaseConfirm">База конфигурации была изменена. Сохранить изменения?</Phrase>
+    <Phrase key="SaveConfigDatabaseConfirm">База конфигурации была изменена. Сохранить изменения?</Phrase>
     <Phrase key="DeviceNotFoundInComm">Устройство не найдено в Коммуникаторе.</Phrase>
     <Phrase key="WebUrlNotSet">Адрес Вебстанции не задан в профиле развёртывания или некорректен.</Phrase>
     <Phrase key="ReopenProject">Изменения вступят в силу после повторного открытия проекта.</Phrase>
@@ -694,8 +694,8 @@
     <Phrase key="DeleteAppConfigError">Ошибка при удалении конфигурации приложения {0}</Phrase>
   </Dictionary>
   <Dictionary key="Scada.Admin.Project.ConfigDatabase">
-    <Phrase key="LoadConfigBaseError">Ошибка при загрузке базы конфигурации</Phrase>
-    <Phrase key="SaveConfigBaseError">Ошибка при сохранении базы конфигурации</Phrase>
+    <Phrase key="LoadConfigDatabaseError">Ошибка при загрузке базы конфигурации</Phrase>
+    <Phrase key="SaveConfigDatabaseError">Ошибка при сохранении базы конфигурации</Phrase>
     <Phrase key="LoadBaseTableError">Ошибка при загрузке таблицы {0}</Phrase>
     <Phrase key="SaveBaseTableError">Ошибка при сохранении таблицы {0}</Phrase>
   </Dictionary>

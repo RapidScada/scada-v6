@@ -202,7 +202,7 @@ namespace Scada.Admin.Project
             }
             catch (Exception ex)
             {
-                errMsg = ex.BuildErrorMessage(AdminPhrases.LoadConfigBaseError);
+                errMsg = ex.BuildErrorMessage(AdminPhrases.LoadConfigDatabaseError);
                 return false;
             }
         }
@@ -238,7 +238,7 @@ namespace Scada.Admin.Project
             }
             catch (Exception ex)
             {
-                errMsg = ex.BuildErrorMessage(AdminPhrases.SaveConfigBaseError);
+                errMsg = ex.BuildErrorMessage(AdminPhrases.SaveConfigDatabaseError);
                 return false;
             }
         }

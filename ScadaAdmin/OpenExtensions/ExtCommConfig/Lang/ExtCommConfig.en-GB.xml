@@ -207,7 +207,7 @@
     <Phrase key="lblInstance">Instance</Phrase>
     <Phrase key="btnOK">OK</Phrase>
     <Phrase key="btnCancel">Cancel</Phrase>
-    <Phrase key="DeviceExistsInConfigBase">A device with the same number already exists in the configuration database.</Phrase>
+    <Phrase key="DeviceExistsInConfigDatabase">A device with the same number already exists in the configuration database.</Phrase>
     <Phrase key="DeviceExistsInLineConfig">A device with the same number already exists in the communication line configuration.</Phrase>
     <Phrase key="LineNotFoundInCommConfig">The communication line not found in the Communicator configuration.</Phrase>
     <Phrase key="ChooseLine">Please choose a communication line.</Phrase>
@@ -257,7 +257,7 @@
     <Phrase key="lblInstance">Instance</Phrase>
     <Phrase key="btnOK">OK</Phrase>
     <Phrase key="btnCancel">Cancel</Phrase>
-    <Phrase key="LineExistsInConfigBase">A communication line with the same number already exists in the configuration database.</Phrase>
+    <Phrase key="LineExistsInConfigDatabase">A communication line with the same number already exists in the configuration database.</Phrase>
     <Phrase key="LineExistsInCommConfig">A communication line with the same number already exists in the Communicator configuration.</Phrase>
   </Dictionary>
   <Dictionary key="Scada.Admin.Extensions.ExtCommConfig.Forms.FrmLineConfig">

@@ -30,10 +30,10 @@ namespace Scada.Admin.Extensions.ExtProjectTools.Code
         /// <summary>
         /// Initializes a new instance of the class.
         /// </summary>
-        public IntegrityCheck(ILog log, ConfigDatabase configBase)
+        public IntegrityCheck(ILog log, ConfigDatabase configDatabase)
         {
             this.log = log ?? throw new ArgumentNullException(nameof(log));
-            this.configDatabase = configBase ?? throw new ArgumentNullException(nameof(configBase));
+            this.configDatabase = configDatabase ?? throw new ArgumentNullException(nameof(configDatabase));
         }
 
         /// <summary>

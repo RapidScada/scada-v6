@@ -190,7 +190,7 @@ namespace Scada.Admin.Extensions.ExtCommConfig.Forms
             // check that device does not exist in the configuration database
             if (project.ConfigDatabase.DeviceTable.PkExists(deviceNum))
             {
-                ScadaUiUtils.ShowError(ExtensionPhrases.DeviceExistsInConfigBase);
+                ScadaUiUtils.ShowError(ExtensionPhrases.DeviceExistsInConfigDatabase);
                 return false;
             }
 

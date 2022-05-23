@@ -659,7 +659,7 @@ namespace Scada.Admin.App.Forms
         /// <summary>
         /// Loads the configuration database.
         /// </summary>
-        private void LoadConfigBase()
+        private void LoadConfigDatabase()
         {
             if (!Project.ConfigDatabase.Load(out string errMsg))
                 Log.HandleError(errMsg);
@@ -668,7 +668,7 @@ namespace Scada.Admin.App.Forms
         /// <summary>
         /// Saves the configuration database.
         /// </summary>
-        private bool SaveConfigBase()
+        private bool SaveConfigDatabase()
         {
             if (Project.ConfigDatabase.Save(out string errMsg))
             {
@@ -692,7 +692,7 @@ namespace Scada.Admin.App.Forms
                     childForm.Save();
             }
 
-            SaveConfigBase();
+            SaveConfigDatabase();
         }
 
         /// <summary>
@@ -711,7 +711,7 @@ namespace Scada.Admin.App.Forms
                 {
                     appData.State.AddRecentProject(newProject.FileName);
                     appData.CurrentProject = newProject;
-                    LoadConfigBase();
+                    LoadConfigDatabase();
                     Text = string.Format(AppPhrases.ProjectTitle, Project.Name);
                     wctrlMain.MessageText = AppPhrases.SelectItemMessage;
                     SetMenuItemsEnabled();
@@ -748,7 +748,7 @@ namespace Scada.Admin.App.Forms
                 else
                     Log.HandleError(errMsg);
 
-                LoadConfigBase();
+                LoadConfigDatabase();
                 Text = string.Format(AppPhrases.ProjectTitle, Project.Name);
                 wctrlMain.MessageText = AppPhrases.SelectItemMessage;
                 SetMenuItemsEnabled();
@@ -772,11 +772,11 @@ namespace Scada.Admin.App.Forms
 
                 if (!cancel && Project.ConfigDatabase.Modified)
                 {
-                    switch (MessageBox.Show(AppPhrases.SaveConfigBaseConfirm,
+                    switch (MessageBox.Show(AppPhrases.SaveConfigDatabaseConfirm,
                         CommonPhrases.QuestionCaption, MessageBoxButtons.YesNoCancel, MessageBoxIcon.Question))
                     {
                         case DialogResult.Yes:
-                            cancel = !SaveConfigBase();
+                            cancel = !SaveConfigDatabase();
                             break;
                         case DialogResult.No:
                             break;
@@ -1271,7 +1271,7 @@ namespace Scada.Admin.App.Forms
                 if (frmDownloadConfig.BaseModified)
                 {
                     CloseChildForms(explorerBuilder.BaseNode, false);
-                    SaveConfigBase();
+                    SaveConfigDatabase();
                 }
 
                 if (frmDownloadConfig.ViewModified && 

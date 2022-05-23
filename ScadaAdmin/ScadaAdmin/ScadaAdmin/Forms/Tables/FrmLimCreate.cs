@@ -121,7 +121,7 @@ namespace Scada.Admin.App.Forms.Tables
         {
             if (configDatabase.LimTable.PkExists(Convert.ToInt32(numLimID.Value)))
             {
-                ScadaUiUtils.ShowError(AppPhrases.LimExistsInConfigBase);
+                ScadaUiUtils.ShowError(AppPhrases.LimExistsInConfigDatabase);
                 return false;
             }
 

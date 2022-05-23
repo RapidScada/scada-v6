@@ -207,7 +207,7 @@
     <Phrase key="lblInstance">Экземпляр</Phrase>
     <Phrase key="btnOK">OK</Phrase>
     <Phrase key="btnCancel">Отмена</Phrase>
-    <Phrase key="DeviceExistsInConfigBase">Устройство с таким номером уже существует в базе конфигурации.</Phrase>
+    <Phrase key="DeviceExistsInConfigDatabase">Устройство с таким номером уже существует в базе конфигурации.</Phrase>
     <Phrase key="DeviceExistsInLineConfig">Устройство с таким номером уже существует в конфигурации линии связи.</Phrase>
     <Phrase key="LineNotFoundInCommConfig">Линия связи не найдена в конфигурации Коммуникатора.</Phrase>
     <Phrase key="ChooseLine">Выберите линию связи.</Phrase>
@@ -257,7 +257,7 @@
     <Phrase key="lblInstance">Экземпляр</Phrase>
     <Phrase key="btnOK">OK</Phrase>
     <Phrase key="btnCancel">Отмена</Phrase>
-    <Phrase key="LineExistsInConfigBase">Линия связи с таким номером уже существует в базе конфигурации.</Phrase>
+    <Phrase key="LineExistsInConfigDatabase">Линия связи с таким номером уже существует в базе конфигурации.</Phrase>
     <Phrase key="LineExistsInCommConfig">Линия связи с таким номером уже существует в конфигурации Коммуникатора.</Phrase>
   </Dictionary>
   <Dictionary key="Scada.Admin.Extensions.ExtCommConfig.Forms.FrmLineConfig">
