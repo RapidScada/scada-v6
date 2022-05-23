@@ -15,8 +15,8 @@
  * 
  * 
  * Product  : Rapid SCADA
- * Module   : ScadaServerEngine
- * Summary  : Represents a configuration database
+ * Module   : ScadaServerCommon
+ * Summary  : Represents a cached configuration database for the Server application
  * 
  * Author   : Mikhail Shiryaev
  * Created  : 2021
@@ -28,13 +28,13 @@ using Scada.Data.Tables;
 using System;
 using System.Collections.Generic;
 
-namespace Scada.Server.Engine
+namespace Scada.Server
 {
     /// <summary>
-    /// Represents a configuration database.
-    /// <para>Представляет базу конфигурации.</para>
+    /// Represents a cached configuration database for the Server application.
+    /// <para>Представляет кэшированную базу конфигурации для приложения Сервер.</para>
     /// </summary>
-    internal class ConfigDatabase : ConfigDataset
+    public class ConfigDatabase : ConfigDataset
     {
         /// <summary>
         /// Initializes a new instance of the class.

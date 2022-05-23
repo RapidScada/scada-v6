@@ -24,7 +24,6 @@
  */
 
 using Scada.Config;
-using Scada.Data.Models;
 using Scada.Log;
 using Scada.Server.Archives;
 using Scada.Server.Config;
@@ -74,7 +73,7 @@ namespace Scada.Server.Engine
         /// <summary>
         /// Gets the cached configuration database.
         /// </summary>
-        public ConfigDataset ConfigDataset => coreLogic.ConfigDatabase;
+        public ConfigDatabase ConfigDatabase => coreLogic.ConfigDatabase;
 
         /// <summary>
         /// Gets the application level shared data.
