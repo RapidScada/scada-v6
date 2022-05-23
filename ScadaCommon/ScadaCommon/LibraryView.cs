@@ -41,7 +41,7 @@ namespace Scada
         /// </summary>
         public LibraryView()
         {
-            BaseDataSet = null;
+            ConfigDataset = null;
             AppDirs = null;
             AgentClient = null;
             CanShowProperties = false;
@@ -58,7 +58,7 @@ namespace Scada
             if (parentView == null)
                 throw new ArgumentNullException(nameof(parentView));
 
-            BaseDataSet = parentView.BaseDataSet;
+            ConfigDataset = parentView.ConfigDataset;
             AppDirs = parentView.AppDirs;
             AgentClient = parentView.AgentClient;
         }
@@ -67,7 +67,7 @@ namespace Scada
         /// <summary>
         /// Gets or sets the configuration database cache.
         /// </summary>
-        public ConfigDataset BaseDataSet { get; set; }
+        public ConfigDataset ConfigDataset { get; set; }
 
         /// <summary>
         /// Gets or sets the application directories.

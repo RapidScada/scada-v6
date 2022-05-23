@@ -60,9 +60,9 @@ namespace Scada.Data.Models
         /// <summary>
         /// Initializes a new instance of the class.
         /// </summary>
-        public RightMatrix(ConfigDataset baseDataSet)
+        public RightMatrix(ConfigDataset configDataset)
         {
-            Init(baseDataSet);
+            Init(configDataset);
         }
 
 
@@ -150,26 +150,26 @@ namespace Scada.Data.Models
         /// <summary>
         /// Initializes the access rights.
         /// </summary>
-        public void Init(ConfigDataset baseDataSet)
+        public void Init(ConfigDataset configDataset)
         {
-            if (baseDataSet == null)
-                throw new ArgumentNullException(nameof(baseDataSet));
+            if (configDataset == null)
+                throw new ArgumentNullException(nameof(configDataset));
 
             // initialize rights matrix
-            Matrix = new Dictionary<int, RightByObj>(baseDataSet.RoleTable.ItemCount);
+            Matrix = new Dictionary<int, RightByObj>(configDataset.RoleTable.ItemCount);
 
             // get indexes
-            if (!baseDataSet.RoleRefTable.TryGetIndex("ChildRoleID", out ITableIndex roleRef_childRoleIndex))
+            if (!configDataset.RoleRefTable.TryGetIndex("ChildRoleID", out ITableIndex roleRef_childRoleIndex))
                 throw new ScadaException(CommonPhrases.IndexNotFound);
 
-            if (!baseDataSet.ObjRightTable.TryGetIndex("RoleID", out ITableIndex objRight_roleIndex))
+            if (!configDataset.ObjRightTable.TryGetIndex("RoleID", out ITableIndex objRight_roleIndex))
                 throw new ScadaException(CommonPhrases.IndexNotFound);
 
-            if (!baseDataSet.ObjTable.TryGetIndex("ParentObjNum", out ITableIndex obj_parentObjIndex))
+            if (!configDataset.ObjTable.TryGetIndex("ParentObjNum", out ITableIndex obj_parentObjIndex))
                 throw new ScadaException(CommonPhrases.IndexNotFound);
 
             // fill rights
-            foreach (Role role in baseDataSet.RoleTable.EnumerateItems())
+            foreach (Role role in configDataset.RoleTable.EnumerateItems())
             {
                 int roleID = role.RoleID;
                 RightByObj rightByObj = new RightByObj();

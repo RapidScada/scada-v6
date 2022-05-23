@@ -26,10 +26,8 @@
 using Scada.Data.Const;
 using Scada.Data.Entities;
 using Scada.Data.Models;
-using Scada.Data.Tables;
 using Scada.Lang;
 using System;
-using System.Collections.Generic;
 using System.Globalization;
 using System.Text;
 
@@ -61,7 +59,7 @@ namespace Scada
         /// <summary>
         /// The configuration database.
         /// </summary>
-        protected readonly ConfigDataset baseDataSet;
+        protected readonly ConfigDataset configDataset;
         /// <summary>
         /// The enumeration dictionary.
         /// </summary>
@@ -75,26 +73,26 @@ namespace Scada
         /// <summary>
         /// Initializes a new instance of the class.
         /// </summary>
-        public CnlDataFormatter(ConfigDataset baseDataSet)
-            : this(baseDataSet, new EnumDict(baseDataSet), TimeZoneInfo.Local)
+        public CnlDataFormatter(ConfigDataset configDataset)
+            : this(configDataset, new EnumDict(configDataset), TimeZoneInfo.Local)
         {
         }
 
         /// <summary>
         /// Initializes a new instance of the class.
         /// </summary>
-        public CnlDataFormatter(ConfigDataset baseDataSet, EnumDict enums)
-            : this(baseDataSet, enums, TimeZoneInfo.Local)
+        public CnlDataFormatter(ConfigDataset configDataset, EnumDict enums)
+            : this(configDataset, enums, TimeZoneInfo.Local)
         {
         }
 
         /// <summary>
         /// Initializes a new instance of the class.
         /// </summary>
-        public CnlDataFormatter(ConfigDataset baseDataSet, EnumDict enums, TimeZoneInfo timeZone)
+        public CnlDataFormatter(ConfigDataset configDataset, EnumDict enums, TimeZoneInfo timeZone)
         {
             culture = Locale.Culture;
-            this.baseDataSet = baseDataSet ?? throw new ArgumentNullException(nameof(baseDataSet));
+            this.configDataset = configDataset ?? throw new ArgumentNullException(nameof(configDataset));
             this.enums = enums ?? throw new ArgumentNullException(nameof(enums));
             this.timeZone = timeZone ?? throw new ArgumentNullException(nameof(timeZone));
         }
@@ -208,8 +206,8 @@ namespace Scada
         public CnlDataFormatted FormatCnlData(CnlData cnlData, int dataTypeID, int formatID, int unitID)
         {
             CnlDataFormatted cnlDataFormatted = new CnlDataFormatted();
-            Format format = formatID > 0 ? baseDataSet.FormatTable.GetItem(formatID) : null;
-            Unit unit = unitID > 0 ? baseDataSet.UnitTable.GetItem(unitID) : null;
+            Format format = formatID > 0 ? configDataset.FormatTable.GetItem(formatID) : null;
+            Unit unit = unitID > 0 ? configDataset.UnitTable.GetItem(unitID) : null;
             EnumFormat enumFormat = null;
 
             if (format != null && format.IsEnum)
@@ -243,7 +241,7 @@ namespace Scada
             try
             {
                 // color determined by status
-                CnlStatus cnlStatus = baseDataSet.CnlStatusTable.GetItem(cnlData.Stat);
+                CnlStatus cnlStatus = configDataset.CnlStatusTable.GetItem(cnlData.Stat);
                 cnlDataFormatted.SetColors(cnlStatus);
 
                 // color determined by value
@@ -278,7 +276,7 @@ namespace Scada
         /// </summary>
         public CnlDataFormatted FormatCnlData(CnlData cnlData, int cnlNum, bool appendUnit)
         {
-            return FormatCnlData(cnlData, cnlNum > 0 ? baseDataSet.CnlTable.GetItem(cnlNum) : null, appendUnit);
+            return FormatCnlData(cnlData, cnlNum > 0 ? configDataset.CnlTable.GetItem(cnlNum) : null, appendUnit);
         }
 
         /// <summary>
@@ -296,18 +294,18 @@ namespace Scada
 
             // object
             if (ev.ObjNum > 0)
-                eventFormatted.Obj = baseDataSet.ObjTable.GetItem(ev.ObjNum)?.Name ?? "";
+                eventFormatted.Obj = configDataset.ObjTable.GetItem(ev.ObjNum)?.Name ?? "";
 
             // device
             if (ev.DeviceNum > 0)
-                eventFormatted.Dev = baseDataSet.DeviceTable.GetItem(ev.DeviceNum)?.Name ?? "";
+                eventFormatted.Dev = configDataset.DeviceTable.GetItem(ev.DeviceNum)?.Name ?? "";
 
             // channel
             Cnl cnl = null;
 
             if (ev.CnlNum > 0)
             {
-                cnl = baseDataSet.CnlTable.GetItem(ev.CnlNum);
+                cnl = configDataset.CnlTable.GetItem(ev.CnlNum);
                 eventFormatted.Cnl = cnl?.Name ?? "";
             }
 
@@ -341,7 +339,7 @@ namespace Scada
 
                 if (ev.TextFormat == EventTextFormat.Full || ev.TextFormat == EventTextFormat.AutoText)
                 {
-                    string statusName = baseDataSet.CnlStatusTable.GetItem(ev.CnlStat)?.Name ??
+                    string statusName = configDataset.CnlStatusTable.GetItem(ev.CnlStat)?.Name ??
                         string.Format(CommonPhrases.StatusFormat, ev.CnlStat);
                     sbDescr.Append(statusName).Append(", ").Append(dataFormatted.DispVal);
                 }
@@ -385,7 +383,7 @@ namespace Scada
             if (ev.Ack)
             {
                 eventFormatted.Ack = string.Join(", ",
-                    baseDataSet.UserTable.GetItem(ev.AckUserID)?.Name ?? "",
+                    configDataset.UserTable.GetItem(ev.AckUserID)?.Name ?? "",
                     TimeZoneInfo.ConvertTimeFromUtc(ev.AckTimestamp, timeZone));
             }
 

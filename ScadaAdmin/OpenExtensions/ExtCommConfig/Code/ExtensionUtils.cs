@@ -86,7 +86,7 @@ namespace Scada.Admin.Extensions.ExtCommConfig.Code
             }
             else if (DriverFactory.GetDriverView(adminContext.AppDirs.LibDir, driverCode, out driverView, out message))
             {
-                driverView.BaseDataSet = adminContext.CurrentProject.ConfigBase;
+                driverView.ConfigDataset = adminContext.CurrentProject.ConfigBase;
                 driverView.AppDirs = adminContext.AppDirs.CreateDirsForView(commApp.ConfigDir);
                 driverView.AgentClient = adminContext.MainForm.GetAgentClient(false);
                 driverView.AppConfig = commApp.AppConfig;

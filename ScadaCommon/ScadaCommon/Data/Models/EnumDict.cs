@@ -20,7 +20,7 @@
  * 
  * Author   : Mikhail Shiryaev
  * Created  : 2021
- * Modified : 2021
+ * Modified : 2022
  */
 
 using Scada.Data.Entities;
@@ -46,22 +46,22 @@ namespace Scada.Data.Models
         /// <summary>
         /// Initializes a new instance of the class.
         /// </summary>
-        public EnumDict(ConfigDataset baseDataSet)
+        public EnumDict(ConfigDataset configDataset)
             : base()
         {
-            Init(baseDataSet);
+            Init(configDataset);
         }
 
 
         /// <summary>
         /// Initializes the enumerations.
         /// </summary>
-        public void Init(ConfigDataset baseDataSet)
+        public void Init(ConfigDataset configDataset)
         {
-            if (baseDataSet == null)
-                throw new ArgumentNullException(nameof(baseDataSet));
+            if (configDataset == null)
+                throw new ArgumentNullException(nameof(configDataset));
 
-            foreach (Format format in baseDataSet.FormatTable.EnumerateItems())
+            foreach (Format format in configDataset.FormatTable.EnumerateItems())
             {
                 if (format.IsEnum)
                     Add(format.FormatID, EnumFormat.Parse(format));

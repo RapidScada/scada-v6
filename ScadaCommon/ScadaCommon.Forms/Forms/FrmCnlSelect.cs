@@ -48,7 +48,7 @@ namespace Scada.Forms.Forms
             public event PropertyChangedEventHandler PropertyChanged;
         }
 
-        private readonly ConfigDataset baseDataSet;              // the configuration database cache
+        private readonly ConfigDataset configDataset;          // the configuration database cache
         private BindingList<SelectableItem> items;             // the items to select
         private Dictionary<int, SelectableItem> selectedItems; // the selected items
 
@@ -64,10 +64,10 @@ namespace Scada.Forms.Forms
         /// <summary>
         /// Initializes a new instance of the class.
         /// </summary>
-        public FrmCnlSelect(ConfigDataset baseDataSet)
+        public FrmCnlSelect(ConfigDataset configDataset)
             : this()
         {
-            this.baseDataSet = baseDataSet ?? throw new ArgumentNullException(nameof(baseDataSet));
+            this.configDataset = configDataset ?? throw new ArgumentNullException(nameof(configDataset));
             items = null;
             selectedItems = null;
 
@@ -110,7 +110,7 @@ namespace Scada.Forms.Forms
             items = new BindingList<SelectableItem>();
             selectedItems = new Dictionary<int, SelectableItem>();
 
-            foreach (Cnl srcItem in baseDataSet.CnlTable.EnumerateItems())
+            foreach (Cnl srcItem in configDataset.CnlTable.EnumerateItems())
             {
                 SelectableItem item = new() 
                 {
@@ -140,9 +140,9 @@ namespace Scada.Forms.Forms
         private void PrepareFilter()
         {
             // object filter
-            List<Obj> objs = new(baseDataSet.ObjTable.ItemCount + 1);
+            List<Obj> objs = new(configDataset.ObjTable.ItemCount + 1);
             objs.Add(new Obj { ObjNum = 0, Name = " " });
-            objs.AddRange(baseDataSet.ObjTable.Enumerate().OrderBy(obj => obj.Name));
+            objs.AddRange(configDataset.ObjTable.Enumerate().OrderBy(obj => obj.Name));
 
             cbObj.ValueMember = "ObjNum";
             cbObj.DisplayMember = "Name";
@@ -150,9 +150,9 @@ namespace Scada.Forms.Forms
             cbObj.SelectedIndexChanged += btnApplyFilter_Click;
 
             // device filter
-            List<Device> devices = new(baseDataSet.DeviceTable.ItemCount + 1);
+            List<Device> devices = new(configDataset.DeviceTable.ItemCount + 1);
             devices.Add(new Device { DeviceNum = 0, Name = " " });
-            devices.AddRange(baseDataSet.DeviceTable.Enumerate().OrderBy(device => device.Name));
+            devices.AddRange(configDataset.DeviceTable.Enumerate().OrderBy(device => device.Name));
 
             cbDevice.ValueMember = "DeviceNum";
             cbDevice.DisplayMember = "Name";

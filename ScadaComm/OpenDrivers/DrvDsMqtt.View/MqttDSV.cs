@@ -27,7 +27,7 @@ namespace Scada.Comm.Drivers.DrvDsMqtt.View
         /// </summary>
         public override bool ShowProperties()
         {
-            return new FrmMqttDSO(BaseDataSet, DataSourceConfig).ShowDialog() == DialogResult.OK;
+            return new FrmMqttDSO(ConfigDataset, DataSourceConfig).ShowDialog() == DialogResult.OK;
         }
     }
 }
