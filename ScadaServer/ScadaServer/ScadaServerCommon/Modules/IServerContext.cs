@@ -67,7 +67,7 @@ namespace Scada.Server.Modules
         ILog Log { get; }
 
         /// <summary>
-        /// Gets the cached configuration database.
+        /// Gets the configuration database cache.
         /// </summary>
         ConfigDataset ConfigDataset { get; }
 
