@@ -32,7 +32,7 @@ namespace Scada.Admin.App.Code
     internal static class ExplorerNodeType
     {
         public const string Project = nameof(Project);
-        public const string Base = nameof(Base);
+        public const string ConfigDatabase = nameof(ConfigDatabase);
         public const string BaseTable = nameof(BaseTable);
         public const string Views = nameof(Views);
         public const string Instances = nameof(Instances);

@@ -61,7 +61,7 @@ namespace Scada.Admin.App.Code
             project = null;
 
             ProjectNode = null;
-            BaseNode = null;
+            ConfigDatabaseNode = null;
             BaseTableNodes = null;
             ViewsNode = null;
             InstancesNode = null;
@@ -76,7 +76,7 @@ namespace Scada.Admin.App.Code
         /// <summary>
         /// Gets the configuration database node.
         /// </summary>
-        public TreeNode BaseNode { get; private set; }
+        public TreeNode ConfigDatabaseNode { get; private set; }
 
         /// <summary>
         /// Gets the configuration database table nodes accesed by table name (item type name).
@@ -97,10 +97,10 @@ namespace Scada.Admin.App.Code
         /// <summary>
         /// Creates a node that represents the configuration database.
         /// </summary>
-        private TreeNode CreateBaseNode(ConfigDatabase configDatabase)
+        private TreeNode CreateConfigDatabaseNode(ConfigDatabase configDatabase)
         {
-            TreeNode baseNode = TreeViewExtensions.CreateNode(AppPhrases.BaseNode, "database.png");
-            baseNode.Tag = new TreeNodeTag(project.ConfigDatabase, ExplorerNodeType.Base);
+            TreeNode configDatabaseNode = TreeViewExtensions.CreateNode(AppPhrases.ConfigDatabaseNode, "database.png");
+            configDatabaseNode.Tag = new TreeNodeTag(project.ConfigDatabase, ExplorerNodeType.ConfigDatabase);
 
             // primary tables sorted in the order they are configured
             TreeNode primaryNode = TreeViewExtensions.CreateNode(AppPhrases.PrimaryTablesNode, "folder_closed.png");
@@ -119,7 +119,7 @@ namespace Scada.Admin.App.Code
             primaryNode.Nodes.Add(CreateBaseTableNode(configDatabase.RoleRefTable));
             primaryNode.Nodes.Add(CreateBaseTableNode(configDatabase.ObjRightTable));
             primaryNode.Nodes.Add(CreateBaseTableNode(configDatabase.UserTable));
-            baseNode.Nodes.Add(primaryNode);
+            configDatabaseNode.Nodes.Add(primaryNode);
 
             // secondary tables in alphabetical order
             TreeNode secondaryNode = TreeViewExtensions.CreateNode(AppPhrases.SecondaryTablesNode, "folder_closed.png");
@@ -142,8 +142,8 @@ namespace Scada.Admin.App.Code
                 secondaryNode.Nodes.Add(tableNode);
             }
 
-            baseNode.Nodes.Add(secondaryNode);
-            return baseNode;
+            configDatabaseNode.Nodes.Add(secondaryNode);
+            return configDatabaseNode;
         }
 
         /// <summary>
@@ -289,7 +289,7 @@ namespace Scada.Admin.App.Code
         {
             this.project = project ?? throw new ArgumentNullException(nameof(project));
             ProjectNode = null;
-            BaseNode = null;
+            ConfigDatabaseNode = null;
             BaseTableNodes = new Dictionary<string, TreeNode>();
             ViewsNode = null;
             InstancesNode = null;
@@ -306,8 +306,8 @@ namespace Scada.Admin.App.Code
                 treeView.Nodes.Add(ProjectNode);
 
                 // configuration database node
-                BaseNode = CreateBaseNode(project.ConfigDatabase);
-                ProjectNode.Nodes.Add(BaseNode);
+                ConfigDatabaseNode = CreateConfigDatabaseNode(project.ConfigDatabase);
+                ProjectNode.Nodes.Add(ConfigDatabaseNode);
 
                 // views node
                 ViewsNode = TreeViewExtensions.CreateNode(AppPhrases.ViewsNode, "views.png");

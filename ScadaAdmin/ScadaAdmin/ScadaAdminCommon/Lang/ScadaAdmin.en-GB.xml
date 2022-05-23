@@ -185,7 +185,7 @@
     <Phrase key="Descr">Description</Phrase>
   </Dictionary>
   <Dictionary key="Scada.Admin.App.Code.ExplorerBuilder">
-    <Phrase key="BaseNode">Configuration Database</Phrase>
+    <Phrase key="ConfigDatabaseNode">Configuration Database</Phrase>
     <Phrase key="PrimaryTablesNode">Primary Tables</Phrase>
     <Phrase key="SecondaryTablesNode">Secondary Tables</Phrase>
     <Phrase key="ViewsNode">Views</Phrase>

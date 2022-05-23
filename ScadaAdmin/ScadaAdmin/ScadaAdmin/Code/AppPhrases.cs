@@ -47,7 +47,7 @@ namespace Scada.Admin.App.Code
         public static string CommandEvent { get; private set; }
 
         // Scada.Admin.App.Code.ExplorerBuilder
-        public static string BaseNode { get; private set; }
+        public static string ConfigDatabaseNode { get; private set; }
         public static string PrimaryTablesNode { get; private set; }
         public static string SecondaryTablesNode { get; private set; }
         public static string ViewsNode { get; private set; }
@@ -203,7 +203,7 @@ namespace Scada.Admin.App.Code
             CommandEvent = dict["CommandEvent"];
 
             dict = Locale.GetDictionary("Scada.Admin.App.Code.ExplorerBuilder");
-            BaseNode = dict["BaseNode"];
+            ConfigDatabaseNode = dict["ConfigDatabaseNode"];
             PrimaryTablesNode = dict["PrimaryTablesNode"];
             SecondaryTablesNode = dict["SecondaryTablesNode"];
             ViewsNode = dict["ViewsNode"];

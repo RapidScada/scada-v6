@@ -185,7 +185,7 @@
     <Phrase key="Descr">Описание</Phrase>
   </Dictionary>
   <Dictionary key="Scada.Admin.App.Code.ExplorerBuilder">
-    <Phrase key="BaseNode">База конфигурации</Phrase>
+    <Phrase key="ConfigDatabaseNode">База конфигурации</Phrase>
     <Phrase key="PrimaryTablesNode">Основные таблицы</Phrase>
     <Phrase key="SecondaryTablesNode">Вспомогательные таблицы</Phrase>
     <Phrase key="ViewsNode">Представления</Phrase>

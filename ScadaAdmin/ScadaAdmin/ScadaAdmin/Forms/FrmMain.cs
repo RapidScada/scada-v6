@@ -1270,7 +1270,7 @@ namespace Scada.Admin.App.Forms
 
                 if (frmDownloadConfig.BaseModified)
                 {
-                    CloseChildForms(explorerBuilder.BaseNode, false);
+                    CloseChildForms(explorerBuilder.ConfigDatabaseNode, false);
                     SaveConfigDatabase();
                 }
 
