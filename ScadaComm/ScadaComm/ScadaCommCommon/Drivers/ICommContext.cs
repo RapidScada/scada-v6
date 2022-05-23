@@ -62,7 +62,7 @@ namespace Scada.Comm.Drivers
         /// Gets the cached configuration database.
         /// </summary>
         /// <remarks>Can be null.</remarks>
-        ConfigDataset ConfigDataset { get; }
+        ConfigDatabase ConfigDatabase { get; }
 
         /// <summary>
         /// Gets the application level shared data.

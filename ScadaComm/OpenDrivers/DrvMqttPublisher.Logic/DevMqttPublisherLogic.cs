@@ -348,7 +348,7 @@ namespace Scada.Comm.Drivers.DrvMqttPublisher.Logic
         public override void InitDeviceTags()
         {
             TagGroup tagGroup = new();
-            BaseTable<Cnl> cnlTable = CommContext.ConfigDataset?.CnlTable;
+            BaseTable<Cnl> cnlTable = CommContext.ConfigDatabase?.CnlTable;
 
             int itemCnt = config.Items.Count;
             List<int> cnlNumList = new(itemCnt);

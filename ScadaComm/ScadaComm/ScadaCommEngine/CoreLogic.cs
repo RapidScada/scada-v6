@@ -101,7 +101,7 @@ namespace Scada.Comm.Engine
             AppDirs = appDirs ?? throw new ArgumentNullException(nameof(appDirs));
             Storage = storage ?? throw new ArgumentNullException(nameof(storage));
             Log = log ?? throw new ArgumentNullException(nameof(log));
-            ConfigDataset = null;
+            ConfigDatabase = null;
             SharedData = null;
 
             infoFileName = Path.Combine(appDirs.LogDir, CommUtils.InfoFileName);
@@ -147,7 +147,7 @@ namespace Scada.Comm.Engine
         /// <summary>
         /// Gets the configuration database.
         /// </summary>
-        public ConfigDataset ConfigDataset { get; private set; }
+        public ConfigDatabase ConfigDatabase { get; private set; }
 
         /// <summary>
         /// Gets the application level shared data.
@@ -166,7 +166,7 @@ namespace Scada.Comm.Engine
             serviceStatus = ServiceStatus.Starting;
             WriteInfo();
 
-            ConfigDataset = null;
+            ConfigDatabase = null;
             SharedData = new ConcurrentDictionary<string, object>();
 
             commLines = new List<CommLine>(AppConfig.Lines.Count);
@@ -287,9 +287,9 @@ namespace Scada.Comm.Engine
                                 {
                                     readBaseDT = utcNow;
 
-                                    if (dataSourceHolder.ReadConfigDatabase(out ConfigDataset configDataset))
+                                    if (dataSourceHolder.ReadConfigDatabase(out ConfigDatabase configDatabase))
                                     {
-                                        ConfigDataset = configDataset;
+                                        ConfigDatabase = configDatabase;
                                         executionStep = ExecutionStep.StartLines;
                                         serviceStatus = ServiceStatus.Normal;
                                     }
@@ -579,8 +579,8 @@ namespace Scada.Comm.Engine
                             "Запуск линии связи {0}" :
                             "Start communication line {0}", commLine.Title);
 
-                        if (dataSourceHolder.ReadConfigDatabase(out ConfigDataset configDataset))
-                            ConfigDataset = configDataset;
+                        if (dataSourceHolder.ReadConfigDatabase(out ConfigDatabase configDatabase))
+                            ConfigDatabase = configDatabase;
 
                         if (!commLine.Start())
                         {
