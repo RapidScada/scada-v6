@@ -137,7 +137,7 @@ namespace Scada.Admin.App.Forms.Tables
         /// </summary>
         private void LoadTableData()
         {
-            if (!project.ConfigBase.Load(out string errMsg))
+            if (!project.ConfigDatabase.Load(out string errMsg))
                 appData.ErrLog.HandleError(errMsg);
 
             // save the existing filter
@@ -161,7 +161,7 @@ namespace Scada.Admin.App.Forms.Tables
 
             // create grid columns
             dataGridView.Columns.Clear();
-            dataGridView.Columns.AddRange(ColumnBuilder.CreateColumns(project.ConfigBase, baseTable.ItemType));
+            dataGridView.Columns.AddRange(ColumnBuilder.CreateColumns(project.ConfigDatabase, baseTable.ItemType));
 
             // set default values
             foreach (DataGridViewColumn column in dataGridView.Columns)
@@ -467,7 +467,7 @@ namespace Scada.Admin.App.Forms.Tables
                 Form form = null;
 
                 if (baseTable.ItemType == typeof(Cnl))
-                    form = new FrmCnl(dataGridView, project.ConfigBase);
+                    form = new FrmCnl(dataGridView, project.ConfigDatabase);
 
                 if (form != null && form.ShowDialog() == DialogResult.OK)
                     EndEdit();
@@ -739,7 +739,7 @@ namespace Scada.Admin.App.Forms.Tables
         /// </summary>
         public void Save()
         {
-            if (project.ConfigBase.SaveTable(baseTable, out string errMsg))
+            if (project.ConfigDatabase.SaveTable(baseTable, out string errMsg))
                 ChildFormTag.Modified = false;
             else
                 appData.ErrLog.HandleError(errMsg);

@@ -58,7 +58,7 @@ namespace Scada.Lang
         public static string SendCommandError { get; private set; }
         public static string AgentDisabled { get; private set; }
 
-        // Scada.ConfigBase
+        // Scada.ConfigDatabase
         public static string UndefinedTable { get; private set; }
         public static string ArchiveTable { get; private set; }
         public static string CnlTable { get; private set; }
@@ -182,7 +182,7 @@ namespace Scada.Lang
             SendCommandError = dict["SendCommandError"];
             AgentDisabled = dict["AgentDisabled"];
 
-            dict = Locale.GetDictionary("Scada.ConfigBase");
+            dict = Locale.GetDictionary("Scada.ConfigDatabase");
             UndefinedTable = dict["UndefinedTable"];
             ArchiveTable = dict["ArchiveTable"];
             CnlTable = dict["CnlTable"];

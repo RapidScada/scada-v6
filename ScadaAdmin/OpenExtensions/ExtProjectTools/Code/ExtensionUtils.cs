@@ -32,7 +32,7 @@ namespace Scada.Admin.Extensions.ExtProjectTools.Code
         /// <summary>
         /// Fills the combo box with the tables.
         /// </summary>
-        public static void FillTableList(ComboBox comboBox, ConfigBase configBase, Type selectedItemType)
+        public static void FillTableList(ComboBox comboBox, ConfigDatabase configDatabase, Type selectedItemType)
         {
             try
             {
@@ -40,7 +40,7 @@ namespace Scada.Admin.Extensions.ExtProjectTools.Code
                 int selectedIndex = 0;
                 int index = 0;
 
-                foreach (IBaseTable baseTable in configBase.AllTables.OrderBy(t => t.Title))
+                foreach (IBaseTable baseTable in configDatabase.AllTables.OrderBy(t => t.Title))
                 {
                     if (baseTable.ItemType == selectedItemType)
                         selectedIndex = index;

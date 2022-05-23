@@ -41,8 +41,8 @@ namespace Scada.Admin.App.Controls.Deployment
     /// </summary>
     public partial class CtrlTransferOptions : UserControl
     {
-        private ConfigBase configBase; // the configuration database
-        private bool changing;         // controls are being changed programmatically
+        private ConfigDatabase configDatabase; // the configuration database
+        private bool changing;                 // controls are being changed programmatically
 
 
         /// <summary>
@@ -51,7 +51,7 @@ namespace Scada.Admin.App.Controls.Deployment
         public CtrlTransferOptions()
         {
             InitializeComponent();
-            configBase = null;
+            configDatabase = null;
             changing = false;
         }
 
@@ -94,9 +94,9 @@ namespace Scada.Admin.App.Controls.Deployment
         /// <summary>
         /// Initializes the control.
         /// </summary>
-        public void Init(ConfigBase configBase, bool upload)
+        public void Init(ConfigDatabase configDatabase, bool upload)
         {
-            this.configBase = configBase;
+            this.configDatabase = configDatabase;
             SetUploadOptionsVisible(upload);
         }
 
@@ -205,10 +205,10 @@ namespace Scada.Admin.App.Controls.Deployment
         private void btnSelectObj_Click(object sender, EventArgs e)
         {
             // show a dialog to select objects
-            if (configBase != null)
+            if (configDatabase != null)
             {
                 ScadaUtils.ParseRange(txtObjFilter.Text, true, false, out IList<int> objNums);
-                FrmEntitySelect frmEntitySelect = new(configBase.ObjTable) { SelectedIDs = objNums };
+                FrmEntitySelect frmEntitySelect = new(configDatabase.ObjTable) { SelectedIDs = objNums };
 
                 if (frmEntitySelect.ShowDialog() == DialogResult.OK)
                     txtObjFilter.Text = frmEntitySelect.SelectedIDs.ToRangeString();

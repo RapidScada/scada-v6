@@ -57,9 +57,9 @@ namespace Scada.Admin.Extensions.ExtDepPostgreSql
             transferControl.ThrowIfCancellationRequested();
             transferControl.WriteLine();
             transferControl.WriteMessage(AdminPhrases.DownloadBase);
-            progressTracker.SubtaskCount = project.ConfigBase.AllTables.Length;
+            progressTracker.SubtaskCount = project.ConfigDatabase.AllTables.Length;
 
-            foreach (IBaseTable baseTable in project.ConfigBase.AllTables)
+            foreach (IBaseTable baseTable in project.ConfigDatabase.AllTables)
             {
                 transferControl.ThrowIfCancellationRequested();
                 transferControl.WriteMessage(string.Format(ExtensionPhrases.DownloadTable, baseTable.Name));

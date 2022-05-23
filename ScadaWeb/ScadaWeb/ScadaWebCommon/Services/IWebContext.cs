@@ -79,7 +79,7 @@ namespace Scada.Web.Services
         /// <summary>
         /// Gets the cached configuration database.
         /// </summary>
-        ConfigBase ConfigBase { get; }
+        ConfigDatabase ConfigDatabase { get; }
 
         /// <summary>
         /// Gets the client pool.

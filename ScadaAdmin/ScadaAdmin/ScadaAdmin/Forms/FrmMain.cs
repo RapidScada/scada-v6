@@ -258,7 +258,7 @@ namespace Scada.Admin.App.Forms
         /// </summary>
         private void DisableSaveAll()
         {
-            if (miFileSaveAll.Enabled && !Project.ConfigBase.Modified)
+            if (miFileSaveAll.Enabled && !Project.ConfigDatabase.Modified)
             {
                 bool saveAllEnabled = false;
 
@@ -661,7 +661,7 @@ namespace Scada.Admin.App.Forms
         /// </summary>
         private void LoadConfigBase()
         {
-            if (!Project.ConfigBase.Load(out string errMsg))
+            if (!Project.ConfigDatabase.Load(out string errMsg))
                 Log.HandleError(errMsg);
         }
 
@@ -670,7 +670,7 @@ namespace Scada.Admin.App.Forms
         /// </summary>
         private bool SaveConfigBase()
         {
-            if (Project.ConfigBase.Save(out string errMsg))
+            if (Project.ConfigDatabase.Save(out string errMsg))
             {
                 return true;
             }
@@ -770,7 +770,7 @@ namespace Scada.Admin.App.Forms
                 PrepareToCloseAll();
                 wctrlMain.CloseAllForms(out bool cancel);
 
-                if (!cancel && Project.ConfigBase.Modified)
+                if (!cancel && Project.ConfigDatabase.Modified)
                 {
                     switch (MessageBox.Show(AppPhrases.SaveConfigBaseConfirm,
                         CommonPhrases.QuestionCaption, MessageBoxButtons.YesNoCancel, MessageBoxIcon.Question))
@@ -920,9 +920,9 @@ namespace Scada.Admin.App.Forms
             bool tableSaved = false;
 
             if (saveChanges && Project != null && 
-                Project.ConfigBase.GetTable(itemType) is IBaseTable baseTable && baseTable.Modified)
+                Project.ConfigDatabase.GetTable(itemType) is IBaseTable baseTable && baseTable.Modified)
             {
-                if (Project.ConfigBase.SaveTable(baseTable, out string errMsg))
+                if (Project.ConfigDatabase.SaveTable(baseTable, out string errMsg))
                     tableSaved = true;
                 else
                     appData.ErrLog.HandleError(errMsg);
@@ -1474,9 +1474,9 @@ namespace Scada.Admin.App.Forms
             // refresh channel table subnodes
             if (Project != null)
             {
-                TreeNode cnlTableNode = explorerBuilder.BaseTableNodes[Project.ConfigBase.CnlTable.Name];
+                TreeNode cnlTableNode = explorerBuilder.BaseTableNodes[Project.ConfigDatabase.CnlTable.Name];
                 CloseChildForms(cnlTableNode, true, true);
-                explorerBuilder.FillCnlTableNode(cnlTableNode, Project.ConfigBase);
+                explorerBuilder.FillCnlTableNode(cnlTableNode, Project.ConfigDatabase);
             }
         }
 

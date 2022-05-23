@@ -97,44 +97,44 @@ namespace Scada.Admin.App.Code
         /// <summary>
         /// Creates a node that represents the configuration database.
         /// </summary>
-        private TreeNode CreateBaseNode(ConfigBase configBase)
+        private TreeNode CreateBaseNode(ConfigDatabase configDatabase)
         {
             TreeNode baseNode = TreeViewExtensions.CreateNode(AppPhrases.BaseNode, "database.png");
-            baseNode.Tag = new TreeNodeTag(project.ConfigBase, ExplorerNodeType.Base);
+            baseNode.Tag = new TreeNodeTag(project.ConfigDatabase, ExplorerNodeType.Base);
 
             // primary tables sorted in the order they are configured
             TreeNode primaryNode = TreeViewExtensions.CreateNode(AppPhrases.PrimaryTablesNode, "folder_closed.png");
-            primaryNode.Nodes.Add(CreateBaseTableNode(configBase.ObjTable));
-            primaryNode.Nodes.Add(CreateBaseTableNode(configBase.CommLineTable));
-            primaryNode.Nodes.Add(CreateBaseTableNode(configBase.DeviceTable));
+            primaryNode.Nodes.Add(CreateBaseTableNode(configDatabase.ObjTable));
+            primaryNode.Nodes.Add(CreateBaseTableNode(configDatabase.CommLineTable));
+            primaryNode.Nodes.Add(CreateBaseTableNode(configDatabase.DeviceTable));
 
-            TreeNode cnlTableNode = CreateBaseTableNode(configBase.CnlTable);
+            TreeNode cnlTableNode = CreateBaseTableNode(configDatabase.CnlTable);
             cnlTableNode.ContextMenuStrip = contextMenus.CnlTableMenu;
             primaryNode.Nodes.Add(cnlTableNode);
-            FillCnlTableNodeInternal(cnlTableNode, configBase);
+            FillCnlTableNodeInternal(cnlTableNode, configDatabase);
 
-            primaryNode.Nodes.Add(CreateBaseTableNode(configBase.LimTable));
-            primaryNode.Nodes.Add(CreateBaseTableNode(configBase.ViewTable));
-            primaryNode.Nodes.Add(CreateBaseTableNode(configBase.RoleTable));
-            primaryNode.Nodes.Add(CreateBaseTableNode(configBase.RoleRefTable));
-            primaryNode.Nodes.Add(CreateBaseTableNode(configBase.ObjRightTable));
-            primaryNode.Nodes.Add(CreateBaseTableNode(configBase.UserTable));
+            primaryNode.Nodes.Add(CreateBaseTableNode(configDatabase.LimTable));
+            primaryNode.Nodes.Add(CreateBaseTableNode(configDatabase.ViewTable));
+            primaryNode.Nodes.Add(CreateBaseTableNode(configDatabase.RoleTable));
+            primaryNode.Nodes.Add(CreateBaseTableNode(configDatabase.RoleRefTable));
+            primaryNode.Nodes.Add(CreateBaseTableNode(configDatabase.ObjRightTable));
+            primaryNode.Nodes.Add(CreateBaseTableNode(configDatabase.UserTable));
             baseNode.Nodes.Add(primaryNode);
 
             // secondary tables in alphabetical order
             TreeNode secondaryNode = TreeViewExtensions.CreateNode(AppPhrases.SecondaryTablesNode, "folder_closed.png");
             SortedList<string, TreeNode> secondaryNodes = new()
             {
-                { configBase.ArchiveTable.Title, CreateBaseTableNode(configBase.ArchiveTable) },
-                { configBase.CnlStatusTable.Title, CreateBaseTableNode(configBase.CnlStatusTable) },
-                { configBase.CnlTypeTable.Title, CreateBaseTableNode(configBase.CnlTypeTable) },
-                { configBase.DataTypeTable.Title, CreateBaseTableNode(configBase.DataTypeTable) },
-                { configBase.DevTypeTable.Title, CreateBaseTableNode(configBase.DevTypeTable) },
-                { configBase.FormatTable.Title, CreateBaseTableNode(configBase.FormatTable) },
-                { configBase.QuantityTable.Title, CreateBaseTableNode(configBase.QuantityTable) },
-                { configBase.ScriptTable.Title, CreateBaseTableNode(configBase.ScriptTable) },
-                { configBase.UnitTable.Title, CreateBaseTableNode(configBase.UnitTable) },
-                { configBase.ViewTypeTable.Title, CreateBaseTableNode(configBase.ViewTypeTable) }
+                { configDatabase.ArchiveTable.Title, CreateBaseTableNode(configDatabase.ArchiveTable) },
+                { configDatabase.CnlStatusTable.Title, CreateBaseTableNode(configDatabase.CnlStatusTable) },
+                { configDatabase.CnlTypeTable.Title, CreateBaseTableNode(configDatabase.CnlTypeTable) },
+                { configDatabase.DataTypeTable.Title, CreateBaseTableNode(configDatabase.DataTypeTable) },
+                { configDatabase.DevTypeTable.Title, CreateBaseTableNode(configDatabase.DevTypeTable) },
+                { configDatabase.FormatTable.Title, CreateBaseTableNode(configDatabase.FormatTable) },
+                { configDatabase.QuantityTable.Title, CreateBaseTableNode(configDatabase.QuantityTable) },
+                { configDatabase.ScriptTable.Title, CreateBaseTableNode(configDatabase.ScriptTable) },
+                { configDatabase.UnitTable.Title, CreateBaseTableNode(configDatabase.UnitTable) },
+                { configDatabase.ViewTypeTable.Title, CreateBaseTableNode(configDatabase.ViewTypeTable) }
             };
 
             foreach (TreeNode tableNode in secondaryNodes.Values)
@@ -174,20 +174,20 @@ namespace Scada.Admin.App.Code
         /// <summary>
         /// Fills the channel table nodes.
         /// </summary>
-        private void FillCnlTableNodeInternal(TreeNode cnlTableNode, ConfigBase configBase)
+        private void FillCnlTableNodeInternal(TreeNode cnlTableNode, ConfigDatabase configDatabase)
         {
-            foreach (Device device in configBase.DeviceTable.EnumerateItems())
+            foreach (Device device in configDatabase.DeviceTable.EnumerateItems())
             {
                 string nodeText = string.Format(CommonPhrases.EntityCaption, device.DeviceNum, device.Name);
                 TreeNode cnlsByDeviceNode = TreeViewExtensions.CreateNode(nodeText, "table.png");
                 cnlsByDeviceNode.ContextMenuStrip = contextMenus.CnlTableMenu;
-                cnlsByDeviceNode.Tag = CreateBaseTableTag(configBase.CnlTable, CreateFilterByDevice(device));
+                cnlsByDeviceNode.Tag = CreateBaseTableTag(configDatabase.CnlTable, CreateFilterByDevice(device));
                 cnlTableNode.Nodes.Add(cnlsByDeviceNode);
             }
 
             TreeNode cnlsEmptyDeviceNode = TreeViewExtensions.CreateNode(AdminPhrases.EmptyDevice, "table.png");
             cnlsEmptyDeviceNode.ContextMenuStrip = contextMenus.CnlTableMenu;
-            cnlsEmptyDeviceNode.Tag = CreateBaseTableTag(configBase.CnlTable, CreateFilterByDevice(null));
+            cnlsEmptyDeviceNode.Tag = CreateBaseTableTag(configDatabase.CnlTable, CreateFilterByDevice(null));
             cnlTableNode.Nodes.Add(cnlsEmptyDeviceNode);
         }
 
@@ -306,7 +306,7 @@ namespace Scada.Admin.App.Code
                 treeView.Nodes.Add(ProjectNode);
 
                 // configuration database node
-                BaseNode = CreateBaseNode(project.ConfigBase);
+                BaseNode = CreateBaseNode(project.ConfigDatabase);
                 ProjectNode.Nodes.Add(BaseNode);
 
                 // views node
@@ -347,13 +347,13 @@ namespace Scada.Admin.App.Code
         /// <summary>
         /// Fills the channel table node, creating child nodes.
         /// </summary>
-        public void FillCnlTableNode(TreeNode cnlTableNode, ConfigBase configBase)
+        public void FillCnlTableNode(TreeNode cnlTableNode, ConfigDatabase configDatabase)
         {
             try
             {
                 treeView.BeginUpdate();
                 cnlTableNode.Nodes.Clear();
-                FillCnlTableNodeInternal(cnlTableNode, configBase);
+                FillCnlTableNodeInternal(cnlTableNode, configDatabase);
             }
             finally
             {

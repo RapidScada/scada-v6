@@ -45,7 +45,7 @@ namespace Scada.Web.Pages
         {
             foreach (int cnlNum in cnlNums)
             {
-                if (webContext.ConfigBase.CnlTable.GetItem(cnlNum) is Cnl cnl)
+                if (webContext.ConfigDatabase.CnlTable.GetItem(cnlNum) is Cnl cnl)
                     SelectedCnls.Add(cnl);
             }
         }

@@ -40,7 +40,7 @@ namespace Scada.Admin.App.Forms.Tables
     /// </summary>
     public partial class FrmLimCreate : Form
     {
-        private readonly ConfigBase configBase;
+        private readonly ConfigDatabase configDatabase;
 
 
         /// <summary>
@@ -54,16 +54,16 @@ namespace Scada.Admin.App.Forms.Tables
         /// <summary>
         /// Initializes a new instance of the class.
         /// </summary>
-        public FrmLimCreate(ConfigBase configBase)
+        public FrmLimCreate(ConfigDatabase configDatabase)
             : this()
         {
-            this.configBase = configBase ?? throw new ArgumentNullException(nameof(configBase));
+            this.configDatabase = configDatabase ?? throw new ArgumentNullException(nameof(configDatabase));
 
             CnlNum = 0;
             LimEntity = null;
 
-            numLimID.Value = configBase.LimTable.GetNextPk();
-            numLimID.Maximum = ConfigBase.MaxID;
+            numLimID.Value = configDatabase.LimTable.GetNextPk();
+            numLimID.Maximum = ConfigDatabase.MaxID;
         }
 
 
@@ -119,7 +119,7 @@ namespace Scada.Admin.App.Forms.Tables
         /// </summary>
         private bool CheckFeasibility()
         {
-            if (configBase.LimTable.PkExists(Convert.ToInt32(numLimID.Value)))
+            if (configDatabase.LimTable.PkExists(Convert.ToInt32(numLimID.Value)))
             {
                 ScadaUiUtils.ShowError(AppPhrases.LimExistsInConfigBase);
                 return false;

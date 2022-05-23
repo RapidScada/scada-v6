@@ -21,8 +21,8 @@ namespace Scada.Admin.Extensions.ExtProjectTools.Forms
     /// </summary>
     public partial class FrmTableImport : Form
     {
-        private readonly ILog log;              // the application log
-        private readonly ConfigBase configBase; // the configuration database
+        private readonly ILog log;                      // the application log
+        private readonly ConfigDatabase configDatabase; // the configuration database
 
 
         /// <summary>
@@ -36,11 +36,11 @@ namespace Scada.Admin.Extensions.ExtProjectTools.Forms
         /// <summary>
         /// Initializes a new instance of the class.
         /// </summary>
-        public FrmTableImport(ILog log, ConfigBase configBase)
+        public FrmTableImport(ILog log, ConfigDatabase configDatabase)
             : this()
         {
             this.log = log ?? throw new ArgumentNullException(nameof(log));
-            this.configBase = configBase ?? throw new ArgumentNullException(nameof(configBase));
+            this.configDatabase = configDatabase ?? throw new ArgumentNullException(nameof(configDatabase));
             SelectedItemType = null;
         }
 
@@ -63,7 +63,7 @@ namespace Scada.Admin.Extensions.ExtProjectTools.Forms
         {
             get
             {
-                return chkSrcEndID.Checked ? Convert.ToInt32(numSrcEndID.Value) : ConfigBase.MaxID;
+                return chkSrcEndID.Checked ? Convert.ToInt32(numSrcEndID.Value) : ConfigDatabase.MaxID;
             }
         }
 
@@ -136,7 +136,7 @@ namespace Scada.Admin.Extensions.ExtProjectTools.Forms
                 }
 
                 // copy data from source table to destination
-                ExtensionUtils.NormalizeIdRange(0, ConfigBase.MaxID,
+                ExtensionUtils.NormalizeIdRange(0, ConfigDatabase.MaxID,
                     ref srcStartID, ref srcEndID, destStartID, out int idOffset);
                 int affectedRows = 0;
 
@@ -180,7 +180,7 @@ namespace Scada.Admin.Extensions.ExtProjectTools.Forms
         {
             FormTranslator.Translate(this, GetType().FullName);
             openFileDialog.SetFilter(ExtensionPhrases.ImportTableFilter);
-            ExtensionUtils.FillTableList(cbTable, configBase, SelectedItemType);
+            ExtensionUtils.FillTableList(cbTable, configDatabase, SelectedItemType);
         }
 
         private void btnBrowse_Click(object sender, EventArgs e)

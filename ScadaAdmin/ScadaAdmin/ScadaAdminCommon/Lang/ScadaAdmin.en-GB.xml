@@ -693,7 +693,7 @@
     <Phrase key="CreateAppConfigError">Error creating configuration of the {0} application</Phrase>
     <Phrase key="DeleteAppConfigError">Error deleting configuration of the {0} application</Phrase>
   </Dictionary>
-  <Dictionary key="Scada.Admin.Project.ConfigBase">
+  <Dictionary key="Scada.Admin.Project.ConfigDatabase">
     <Phrase key="LoadConfigBaseError">Error loading the configuration database</Phrase>
     <Phrase key="SaveConfigBaseError">Error saving the configuration database</Phrase>
     <Phrase key="LoadBaseTableError">Error loading the {0} table</Phrase>

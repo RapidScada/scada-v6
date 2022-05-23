@@ -61,7 +61,7 @@ namespace Scada.Admin.Extensions.ExtCommConfig.Controls
             startCnlNum = options.Multiplicity + options.Shift;
             int prevCnlNum = 0;
 
-            foreach (int cnlNum in project.ConfigBase.CnlTable.EnumerateKeys())
+            foreach (int cnlNum in project.ConfigDatabase.CnlTable.EnumerateKeys())
             {
                 if (prevCnlNum < startCnlNum && startCnlNum <= cnlNum)
                 {

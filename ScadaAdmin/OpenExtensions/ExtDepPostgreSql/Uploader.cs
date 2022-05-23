@@ -122,9 +122,9 @@ namespace Scada.Admin.Extensions.ExtDepPostgreSql
             try
             {
                 trans = conn.BeginTransaction();
-                progressTracker.SubtaskCount = project.ConfigBase.AllTables.Length;
+                progressTracker.SubtaskCount = project.ConfigDatabase.AllTables.Length;
 
-                foreach (IBaseTable baseTable in project.ConfigBase.AllTables)
+                foreach (IBaseTable baseTable in project.ConfigDatabase.AllTables)
                 {
                     transferControl.ThrowIfCancellationRequested();
                     transferControl.WriteMessage(string.Format(ExtensionPhrases.DeleteTable, baseTable.Name));
@@ -157,9 +157,9 @@ namespace Scada.Admin.Extensions.ExtDepPostgreSql
             try
             {
                 trans = conn.BeginTransaction();
-                progressTracker.SubtaskCount = project.ConfigBase.AllTables.Length;
+                progressTracker.SubtaskCount = project.ConfigDatabase.AllTables.Length;
 
-                foreach (IBaseTable baseTable in project.ConfigBase.AllTables)
+                foreach (IBaseTable baseTable in project.ConfigDatabase.AllTables)
                 {
                     transferControl.ThrowIfCancellationRequested();
                     transferControl.WriteMessage(string.Format(ExtensionPhrases.CreateTable, baseTable.Name));
@@ -252,9 +252,9 @@ namespace Scada.Admin.Extensions.ExtDepPostgreSql
             try
             {
                 trans = conn.BeginTransaction();
-                progressTracker.SubtaskCount = project.ConfigBase.AllTables.Length;
+                progressTracker.SubtaskCount = project.ConfigDatabase.AllTables.Length;
 
-                foreach (IBaseTable baseTable in project.ConfigBase.AllTables)
+                foreach (IBaseTable baseTable in project.ConfigDatabase.AllTables)
                 {
                     transferControl.ThrowIfCancellationRequested();
                     transferControl.WriteMessage(string.Format(ExtensionPhrases.CreateTableFKs, baseTable.Name));
@@ -353,7 +353,7 @@ namespace Scada.Admin.Extensions.ExtDepPostgreSql
                 List<FileInfo> fileInfoList = new();
                 HashSet<string> pathSet = new(); // ensures uniqueness
 
-                foreach (View view in SelectItems(project.ConfigBase.ViewTable, uploadOptions.ObjectFilter))
+                foreach (View view in SelectItems(project.ConfigDatabase.ViewTable, uploadOptions.ObjectFilter))
                 {
                     if (pathSet.Add(view.Path))
                     {

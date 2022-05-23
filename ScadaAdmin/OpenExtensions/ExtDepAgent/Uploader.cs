@@ -104,7 +104,7 @@ namespace Scada.Admin.Extensions.ExtDepAgent
                     transferControl.ThrowIfCancellationRequested();
                     transferControl.WriteMessage(ExtensionPhrases.CompressBase);
 
-                    foreach (IBaseTable srcTable in project.ConfigBase.AllTables)
+                    foreach (IBaseTable srcTable in project.ConfigDatabase.AllTables)
                     {
                         transferControl.ThrowIfCancellationRequested();
 
@@ -135,7 +135,7 @@ namespace Scada.Admin.Extensions.ExtDepAgent
 
                     if (filterByObj)
                     {
-                        PackFiles(zipArchive, project.Views.ViewDir, GetFilteredViews(project.ConfigBase.ViewTable, 
+                        PackFiles(zipArchive, project.Views.ViewDir, GetFilteredViews(project.ConfigDatabase.ViewTable, 
                             project.Views.ViewDir, uploadOptions.ObjectFilter), "Views/");
                     }
                     else

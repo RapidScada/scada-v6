@@ -26,7 +26,7 @@
     <Phrase key="SendCommandError">Ошибка при отправке команды</Phrase>
     <Phrase key="AgentDisabled">Агент отключен.</Phrase>
   </Dictionary>
-  <Dictionary key="Scada.ConfigBase">
+  <Dictionary key="Scada.ConfigDatabase">
     <Phrase key="UndefinedTable">Неопределённая</Phrase>
     <Phrase key="ArchiveTable">Архивы</Phrase>
     <Phrase key="CnlTable">Каналы</Phrase>

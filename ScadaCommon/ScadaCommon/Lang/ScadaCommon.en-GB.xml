@@ -26,7 +26,7 @@
     <Phrase key="SendCommandError">Error sending command</Phrase>
     <Phrase key="AgentDisabled">Agent is disabled.</Phrase>
   </Dictionary>
-  <Dictionary key="Scada.ConfigBase">
+  <Dictionary key="Scada.ConfigDatabase">
     <Phrase key="UndefinedTable">Undefined</Phrase>
     <Phrase key="ArchiveTable">Archives</Phrase>
     <Phrase key="CnlTable">Channels</Phrase>

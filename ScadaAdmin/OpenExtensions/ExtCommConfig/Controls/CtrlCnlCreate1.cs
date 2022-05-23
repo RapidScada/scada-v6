@@ -70,9 +70,9 @@ namespace Scada.Admin.Extensions.ExtCommConfig.Controls
         /// </summary>
         private void ScanCommSettings()
         {
-            deviceItems = new Dictionary<int, DeviceItem>(project.ConfigBase.DeviceTable.ItemCount);
+            deviceItems = new Dictionary<int, DeviceItem>(project.ConfigDatabase.DeviceTable.ItemCount);
 
-            foreach (Device deviceEntity in project.ConfigBase.DeviceTable.Enumerate())
+            foreach (Device deviceEntity in project.ConfigDatabase.DeviceTable.Enumerate())
             {
                 deviceItems.Add(deviceEntity.DeviceNum, new DeviceItem { DeviceEntity = deviceEntity });
             }
@@ -101,9 +101,9 @@ namespace Scada.Admin.Extensions.ExtCommConfig.Controls
         /// </summary>
         private void FillCommLineList()
         {
-            List<CommLine> commLines = new(project.ConfigBase.CommLineTable.ItemCount + 1);
+            List<CommLine> commLines = new(project.ConfigDatabase.CommLineTable.ItemCount + 1);
             commLines.Add(new CommLine { CommLineNum = 0, Name = ExtensionPhrases.AllCommLines });
-            commLines.AddRange(project.ConfigBase.CommLineTable.Enumerate().OrderBy(line => line.Name));
+            commLines.AddRange(project.ConfigDatabase.CommLineTable.Enumerate().OrderBy(line => line.Name));
             cbCommLine.DataSource = commLines;
 
             try { cbCommLine.SelectedValue = recentSelection.CommLineNum; }
@@ -153,8 +153,8 @@ namespace Scada.Admin.Extensions.ExtCommConfig.Controls
             // filter devices by selected communication line
             int commLineNum = (int)cbCommLine.SelectedValue;
             IEnumerable<Device> devices = commLineNum > 0 
-                ? project.ConfigBase.DeviceTable.Select(new TableFilter("CommLineNum", commLineNum), true)
-                : project.ConfigBase.DeviceTable.Enumerate();
+                ? project.ConfigDatabase.DeviceTable.Select(new TableFilter("CommLineNum", commLineNum), true)
+                : project.ConfigDatabase.DeviceTable.Enumerate();
             cbDevice.DataSource = devices.OrderBy(device => device.Name).ToList();
 
             try { cbDevice.SelectedValue = recentSelection.DeviceNum; }

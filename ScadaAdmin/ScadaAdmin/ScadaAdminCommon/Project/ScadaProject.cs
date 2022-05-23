@@ -79,7 +79,7 @@ namespace Scada.Admin.Project
                 if (string.IsNullOrEmpty(fileName))
                 {
                     Name = DefaultName;
-                    ConfigBase.BaseDir = "";
+                    ConfigDatabase.BaseDir = "";
                     Views.ViewDir = "";
                     Instances.ForEach(i => i.InstanceDir = "");
                     DeploymentConfig.FileName = "";
@@ -88,7 +88,7 @@ namespace Scada.Admin.Project
                 {
                     Name = Path.GetFileNameWithoutExtension(fileName);
                     string projectDir = Path.GetDirectoryName(fileName);
-                    ConfigBase.BaseDir = ScadaUtils.NormalDir(Path.Combine(projectDir, "BaseXML"));
+                    ConfigDatabase.BaseDir = ScadaUtils.NormalDir(Path.Combine(projectDir, "BaseXML"));
                     Views.ViewDir = ScadaUtils.NormalDir(Path.Combine(projectDir, "Views"));
                     Instances.ForEach(i => i.InstanceDir = Path.Combine(projectDir, "Instances", i.Name));
                     DeploymentConfig.FileName = Path.Combine(projectDir, DeploymentConfig.DefaultFileName);
@@ -120,7 +120,7 @@ namespace Scada.Admin.Project
         /// <summary>
         /// Gets the configuration database.
         /// </summary>
-        public ConfigBase ConfigBase { get; private set; }
+        public ConfigDatabase ConfigDatabase { get; private set; }
 
         /// <summary>
         /// Gets the metadata of the views.
@@ -148,7 +148,7 @@ namespace Scada.Admin.Project
             Name = DefaultName;
             Version = ProjectVersion.Default;
             Description = "";
-            ConfigBase = new ConfigBase();
+            ConfigDatabase = new ConfigDatabase();
             Views = new ProjectViews();
             Instances = new List<ProjectInstance>();
             DeploymentConfig = new DeploymentConfig();
@@ -436,7 +436,7 @@ namespace Scada.Admin.Project
                 project.Save(project.FileName);
 
                 // create necessary directories
-                Directory.CreateDirectory(project.ConfigBase.BaseDir);
+                Directory.CreateDirectory(project.ConfigDatabase.BaseDir);
                 Directory.CreateDirectory(project.Views.ViewDir);
 
                 errMsg = "";

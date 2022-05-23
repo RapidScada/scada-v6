@@ -97,7 +97,7 @@ namespace Scada.Admin.App.Forms.Deployment
             FormTranslator.Translate(ctrlProfileSelector, ctrlProfileSelector.GetType().FullName);
             FormTranslator.Translate(ctrlTransferOptions, ctrlTransferOptions.GetType().FullName);
 
-            ctrlTransferOptions.Init(project.ConfigBase, true);
+            ctrlTransferOptions.Init(project.ConfigDatabase, true);
             ctrlProfileSelector.Init(appData, project.DeploymentConfig, instance);
 
             if (ctrlProfileSelector.SelectedProfile != null)

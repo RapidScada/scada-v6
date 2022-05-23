@@ -64,9 +64,9 @@ namespace Scada.Admin.Extensions.ExtCommConfig.Controls
         /// </summary>
         private void FillObjectList()
         {
-            List<Obj> objs = new(project.ConfigBase.ObjTable.ItemCount + 1);
+            List<Obj> objs = new(project.ConfigDatabase.ObjTable.ItemCount + 1);
             objs.Add(new Obj { ObjNum = 0, Name = " " });
-            objs.AddRange(project.ConfigBase.ObjTable.Enumerate().OrderBy(obj => obj.Name));
+            objs.AddRange(project.ConfigDatabase.ObjTable.Enumerate().OrderBy(obj => obj.Name));
             cbObj.DataSource = objs;
 
             try { cbObj.SelectedValue = recentSelection.ObjNum; }

@@ -693,7 +693,7 @@
     <Phrase key="CreateAppConfigError">Ошибка при создании конфигурации приложения {0}</Phrase>
     <Phrase key="DeleteAppConfigError">Ошибка при удалении конфигурации приложения {0}</Phrase>
   </Dictionary>
-  <Dictionary key="Scada.Admin.Project.ConfigBase">
+  <Dictionary key="Scada.Admin.Project.ConfigDatabase">
     <Phrase key="LoadConfigBaseError">Ошибка при загрузке базы конфигурации</Phrase>
     <Phrase key="SaveConfigBaseError">Ошибка при сохранении базы конфигурации</Phrase>
     <Phrase key="LoadBaseTableError">Ошибка при загрузке таблицы {0}</Phrase>

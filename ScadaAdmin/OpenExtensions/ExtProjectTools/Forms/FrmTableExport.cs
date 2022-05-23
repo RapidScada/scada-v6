@@ -21,8 +21,8 @@ namespace Scada.Admin.Extensions.ExtProjectTools.Forms
     /// </summary>
     public partial class FrmTableExport : Form
     {
-        private readonly ILog log;              // the application log
-        private readonly ConfigBase configBase; // the configuration database
+        private readonly ILog log;                      // the application log
+        private readonly ConfigDatabase configDatabase; // the configuration database
 
 
         /// <summary>
@@ -36,11 +36,11 @@ namespace Scada.Admin.Extensions.ExtProjectTools.Forms
         /// <summary>
         /// Initializes a new instance of the class.
         /// </summary>
-        public FrmTableExport(ILog log, ConfigBase configBase)
+        public FrmTableExport(ILog log, ConfigDatabase configDatabase)
             : this()
         {
             this.log = log ?? throw new ArgumentNullException(nameof(log));
-            this.configBase = configBase ?? throw new ArgumentNullException(nameof(configBase));
+            this.configDatabase = configDatabase ?? throw new ArgumentNullException(nameof(configDatabase));
             SelectedItemType = null;
         }
 
@@ -63,7 +63,7 @@ namespace Scada.Admin.Extensions.ExtProjectTools.Forms
         {
             get
             {
-                return chkEndID.Checked ? Convert.ToInt32(numEndID.Value) : ConfigBase.MaxID;
+                return chkEndID.Checked ? Convert.ToInt32(numEndID.Value) : ConfigDatabase.MaxID;
             }
         }
 
@@ -102,7 +102,7 @@ namespace Scada.Admin.Extensions.ExtProjectTools.Forms
                 // filter table
                 IBaseTable filteredTable;
 
-                if (0 < startID || endID < ConfigBase.MaxID)
+                if (0 < startID || endID < ConfigDatabase.MaxID)
                 {
                     filteredTable = BaseTableFactory.GetBaseTable(baseTable);
 
@@ -158,7 +158,7 @@ namespace Scada.Admin.Extensions.ExtProjectTools.Forms
         {
             FormTranslator.Translate(this, GetType().FullName);
             saveFileDialog.SetFilter(ExtensionPhrases.ExportTableFilter);
-            ExtensionUtils.FillTableList(cbTable, configBase, SelectedItemType);
+            ExtensionUtils.FillTableList(cbTable, configDatabase, SelectedItemType);
             cbFormat.SelectedIndex = 0;
         }
 

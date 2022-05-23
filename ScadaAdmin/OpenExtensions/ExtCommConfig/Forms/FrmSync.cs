@@ -193,13 +193,13 @@ namespace Scada.Admin.Extensions.ExtCommConfig.Forms
                             {
                                 // update existing device
                                 CommConfigConverter.CopyDeviceProps(device, deviceConfig, 
-                                    project.ConfigBase.DevTypeTable);
+                                    project.ConfigDatabase.DevTypeTable);
                             }
                             else
                             {
                                 // add new device
                                 deviceConfig = CommConfigConverter.CreateDeviceConfig(device, 
-                                    project.ConfigBase.DevTypeTable);
+                                    project.ConfigDatabase.DevTypeTable);
                                 deviceConfig.Parent = lineConfig;
                                 SetPollingOptions(deviceConfig);
                                 lineConfig.DevicePolling.Insert(insertIndex, deviceConfig);
@@ -216,9 +216,9 @@ namespace Scada.Admin.Extensions.ExtCommConfig.Forms
         /// </summary>
         private void ImportToBase(List<TreeNode> selectedLineNodes)
         {
-            BaseTable<CommLine> commLineTable = project.ConfigBase.CommLineTable;
-            BaseTable<Device> deviceTable = project.ConfigBase.DeviceTable;
-            BaseTable<DevType> devTypeTable = project.ConfigBase.DevTypeTable;
+            BaseTable<CommLine> commLineTable = project.ConfigDatabase.CommLineTable;
+            BaseTable<Device> deviceTable = project.ConfigDatabase.DeviceTable;
+            BaseTable<DevType> devTypeTable = project.ConfigDatabase.DevTypeTable;
 
             foreach (TreeNode lineNode in selectedLineNodes)
             {
@@ -297,7 +297,7 @@ namespace Scada.Admin.Extensions.ExtCommConfig.Forms
             btnSync.Visible = true;
 
             if (BaseToComm)
-                ctrlSync2.FillTreeView(project.ConfigBase, SelectedLineNum);
+                ctrlSync2.FillTreeView(project.ConfigDatabase, SelectedLineNum);
             else
                 ctrlSync2.FillTreeView(commConfig, SelectedLineNum);
         }

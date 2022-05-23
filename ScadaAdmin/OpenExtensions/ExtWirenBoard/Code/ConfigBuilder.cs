@@ -145,8 +145,8 @@ namespace Scada.Admin.Extensions.ExtWirenBoard.Code
         {
             Format format = controlMeta.Type switch
             {
-                "pushbutton" => project.ConfigBase.GetFormatByCode(FormatCode.Execute),
-                "switch" => project.ConfigBase.GetFormatByCode(FormatCode.OffOn),
+                "pushbutton" => project.ConfigDatabase.GetFormatByCode(FormatCode.Execute),
+                "switch" => project.ConfigDatabase.GetFormatByCode(FormatCode.OffOn),
                 _ => null
             };
             return format?.FormatID;
@@ -159,8 +159,8 @@ namespace Scada.Admin.Extensions.ExtWirenBoard.Code
         {
             Quantity quantity = controlMeta.Type switch
             {
-                "temperature" => project.ConfigBase.GetQuantityByCode(QuantityCode.Temperature),
-                "voltage" => project.ConfigBase.GetQuantityByCode(QuantityCode.Voltage),
+                "temperature" => project.ConfigDatabase.GetQuantityByCode(QuantityCode.Temperature),
+                "voltage" => project.ConfigDatabase.GetQuantityByCode(QuantityCode.Voltage),
                 _ => null
             };
             return quantity?.QuantityID;
@@ -173,8 +173,8 @@ namespace Scada.Admin.Extensions.ExtWirenBoard.Code
         {
             Unit unit = controlMeta.Type switch
             {
-                "temperature" => project.ConfigBase.GetUnitByCode(UnitCode.Celsius),
-                "voltage" => project.ConfigBase.GetUnitByCode(UnitCode.Volt),
+                "temperature" => project.ConfigDatabase.GetUnitByCode(UnitCode.Celsius),
+                "voltage" => project.ConfigDatabase.GetUnitByCode(UnitCode.Volt),
                 _ => null
             };
             return unit?.UnitID;
@@ -245,7 +245,7 @@ namespace Scada.Admin.Extensions.ExtWirenBoard.Code
                 ChannelNumberingOptions options = adminContext.AppConfig.ChannelNumberingOptions;
                 int deviceNum = startDeviceNum;
                 int cnlNum = startCnlNum;
-                int? deviceTypeID = project.ConfigBase.DevTypeTable.Enumerate()
+                int? deviceTypeID = project.ConfigDatabase.DevTypeTable.Enumerate()
                     .Where(devType => devType.Driver == MqttDriverName).FirstOrDefault()?.DevTypeID;
 
                 if (deviceTypeID == null)

@@ -24,16 +24,16 @@ namespace Scada.Admin.Extensions.ExtProjectTools.Code
         /// </summary>
         public const string OutputFileName = "ScadaAdmin_IntegrityCheck.txt";
 
-        private readonly ILog log;              // the application log
-        private readonly ConfigBase configBase; // the configuration database
+        private readonly ILog log;                      // the application log
+        private readonly ConfigDatabase configDatabase; // the configuration database
 
         /// <summary>
         /// Initializes a new instance of the class.
         /// </summary>
-        public IntegrityCheck(ILog log, ConfigBase configBase)
+        public IntegrityCheck(ILog log, ConfigDatabase configBase)
         {
             this.log = log ?? throw new ArgumentNullException(nameof(log));
-            this.configBase = configBase ?? throw new ArgumentNullException(nameof(configBase));
+            this.configDatabase = configBase ?? throw new ArgumentNullException(nameof(configBase));
         }
 
         /// <summary>
@@ -49,7 +49,7 @@ namespace Scada.Admin.Extensions.ExtProjectTools.Code
                     writer.WriteLine(new string('-', ExtensionPhrases.IntegrityCheckTitle.Length));
                     bool hasErrors = false;
 
-                    foreach (IBaseTable baseTable in configBase.AllTables)
+                    foreach (IBaseTable baseTable in configDatabase.AllTables)
                     {
                         writer.Write(baseTable.Title);
                         writer.Write("...");

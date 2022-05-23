@@ -26,17 +26,17 @@ namespace Scada.Admin.Extensions.ExtProjectTools.Code
         /// </summary>
         public const string MapFileName = "ScadaAdmin_ChannelMap.txt";
 
-        private readonly ILog log;              // the application log
-        private readonly ConfigBase configBase; // the configuration database
+        private readonly ILog log;                      // the application log
+        private readonly ConfigDatabase configDatabase; // the configuration database
 
 
         /// <summary>
         /// Initializes a new instance of the class.
         /// </summary>
-        public ChannelMap(ILog log, ConfigBase configBase)
+        public ChannelMap(ILog log, ConfigDatabase configDatabase)
         {
             this.log = log ?? throw new ArgumentNullException(nameof(log));
-            this.configBase = configBase ?? throw new ArgumentNullException(nameof(configBase));
+            this.configDatabase = configDatabase ?? throw new ArgumentNullException(nameof(configDatabase));
             GroupByDevices = true;
         }
 
@@ -73,11 +73,11 @@ namespace Scada.Admin.Extensions.ExtProjectTools.Code
                     writer.WriteLine(title);
                     writer.WriteLine(new string('-', title.Length));
 
-                    if (configBase.CnlTable.TryGetIndex(indexedColumn, out ITableIndex tableIndex))
+                    if (configDatabase.CnlTable.TryGetIndex(indexedColumn, out ITableIndex tableIndex))
                     {
                         if (GroupByDevices)
                         {
-                            foreach (Device device in configBase.DeviceTable.EnumerateItems())
+                            foreach (Device device in configDatabase.DeviceTable.EnumerateItems())
                             {
                                 writer.WriteLine(string.Format(CommonPhrases.EntityCaption, 
                                     device.DeviceNum, device.Name));
@@ -89,7 +89,7 @@ namespace Scada.Admin.Extensions.ExtProjectTools.Code
                         }
                         else
                         {
-                            foreach (Obj obj in configBase.ObjTable.EnumerateItems())
+                            foreach (Obj obj in configDatabase.ObjTable.EnumerateItems())
                             {
                                 writer.WriteLine(string.Format(CommonPhrases.EntityCaption, obj.ObjNum, obj.Name));
                                 WriteCnls(writer, tableIndex, obj.ObjNum);

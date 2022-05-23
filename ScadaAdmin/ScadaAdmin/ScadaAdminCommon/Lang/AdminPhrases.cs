@@ -74,7 +74,7 @@ namespace Scada.Admin.Lang
         public static string CreateAppConfigError { get; private set; }
         public static string DeleteAppConfigError { get; private set; }
 
-        // Scada.Admin.Project.ConfigBase
+        // Scada.Admin.Project.ConfigDatabase
         public static string LoadConfigBaseError { get; private set; }
         public static string SaveConfigBaseError { get; private set; }
         public static string LoadBaseTableError { get; private set; }
@@ -147,7 +147,7 @@ namespace Scada.Admin.Lang
             CreateAppConfigError = dict["CreateAppConfigError"];
             DeleteAppConfigError = dict["DeleteAppConfigError"];
 
-            dict = Locale.GetDictionary("Scada.Admin.Project.ConfigBase");
+            dict = Locale.GetDictionary("Scada.Admin.Project.ConfigDatabase");
             LoadConfigBaseError = dict["LoadConfigBaseError"];
             SaveConfigBaseError = dict["SaveConfigBaseError"];
             LoadBaseTableError = dict["LoadBaseTableError"];

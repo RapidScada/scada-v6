@@ -44,7 +44,7 @@ namespace Scada.Admin.Extensions.ExtCommConfig.Forms
             Instance = null;
             LineConfig = null;
 
-            numCommLineNum.Maximum = ConfigBase.MaxID;
+            numCommLineNum.Maximum = ConfigDatabase.MaxID;
             txtName.MaxLength = ExtensionUtils.NameLength;
             txtDescr.MaxLength = ExtensionUtils.DescrLength;
         }
@@ -100,8 +100,8 @@ namespace Scada.Admin.Extensions.ExtCommConfig.Forms
         {
             if (recentSelection.CommLineNum > 0)
                 numCommLineNum.SetValue(recentSelection.CommLineNum + 1);
-            else if (project.ConfigBase.CommLineTable.ItemCount > 0)
-                numCommLineNum.SetValue(project.ConfigBase.CommLineTable.GetNextPk());
+            else if (project.ConfigDatabase.CommLineTable.ItemCount > 0)
+                numCommLineNum.SetValue(project.ConfigDatabase.CommLineTable.GetNextPk());
         }
 
         /// <summary>
@@ -135,7 +135,7 @@ namespace Scada.Admin.Extensions.ExtCommConfig.Forms
         {
             int commLineNum = Convert.ToInt32(numCommLineNum.Value);
 
-            if (project.ConfigBase.CommLineTable.PkExists(commLineNum))
+            if (project.ConfigDatabase.CommLineTable.PkExists(commLineNum))
             {
                 ScadaUiUtils.ShowError(ExtensionPhrases.LineExistsInConfigBase);
                 return false;
@@ -182,8 +182,8 @@ namespace Scada.Admin.Extensions.ExtCommConfig.Forms
                 };
 
                 // add line to the configuration database
-                project.ConfigBase.CommLineTable.AddItem(commLineEntity);
-                project.ConfigBase.CommLineTable.Modified = true;
+                project.ConfigDatabase.CommLineTable.AddItem(commLineEntity);
+                project.ConfigDatabase.CommLineTable.Modified = true;
 
                 // add line to Communicator configuration
                 if (chkAddToComm.Checked && cbInstance.SelectedItem is ProjectInstance instance)

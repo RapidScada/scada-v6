@@ -56,8 +56,8 @@ namespace Scada.Admin.App.Code
 
             if (kind == ColumnKind.PrimaryKey)
             {
-                Minimum = ConfigBase.MinID;
-                Maximum = ConfigBase.MaxID;
+                Minimum = ConfigDatabase.MinID;
+                Maximum = ConfigDatabase.MaxID;
             }
         }
 

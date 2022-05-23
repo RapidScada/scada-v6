@@ -70,7 +70,7 @@ namespace Scada.Admin.Extensions.ExtProjectTools.Controls
         {
             if (adminContext.CurrentProject != null)
             {
-                new ChannelMap(adminContext.ErrLog, adminContext.CurrentProject.ConfigBase)
+                new ChannelMap(adminContext.ErrLog, adminContext.CurrentProject.ConfigDatabase)
                 {
                     GroupByDevices = groupByDevices
                 }
@@ -85,7 +85,7 @@ namespace Scada.Admin.Extensions.ExtProjectTools.Controls
         {
             if (adminContext.CurrentProject != null)
             {
-                new DeviceMap(adminContext.ErrLog, adminContext.CurrentProject.ConfigBase)
+                new DeviceMap(adminContext.ErrLog, adminContext.CurrentProject.ConfigDatabase)
                     .Generate(Path.Combine(adminContext.AppDirs.LogDir, DeviceMap.MapFileName));
             }
         }
@@ -108,7 +108,7 @@ namespace Scada.Admin.Extensions.ExtProjectTools.Controls
             // clone channels
             if (adminContext.CurrentProject != null)
             {
-                FrmCnlClone frmCnlClone = new(adminContext, adminContext.CurrentProject.ConfigBase);
+                FrmCnlClone frmCnlClone = new(adminContext, adminContext.CurrentProject.ConfigDatabase);
                 frmCnlClone.ShowDialog();
 
                 if (frmCnlClone.ChannelsCloned)
@@ -131,7 +131,7 @@ namespace Scada.Admin.Extensions.ExtProjectTools.Controls
             // check integrity
             if (adminContext.CurrentProject != null)
             {
-                new IntegrityCheck(adminContext.ErrLog, adminContext.CurrentProject.ConfigBase)
+                new IntegrityCheck(adminContext.ErrLog, adminContext.CurrentProject.ConfigDatabase)
                     .Execute(Path.Combine(adminContext.AppDirs.LogDir, IntegrityCheck.OutputFileName));
             }
         }
@@ -141,7 +141,7 @@ namespace Scada.Admin.Extensions.ExtProjectTools.Controls
             // import table
             if (adminContext.CurrentProject != null)
             {
-                FrmTableImport frmTableImport = new(adminContext.ErrLog, adminContext.CurrentProject.ConfigBase)
+                FrmTableImport frmTableImport = new(adminContext.ErrLog, adminContext.CurrentProject.ConfigDatabase)
                 {
                     SelectedItemType = adminContext.MainForm.ActiveBaseTable
                 };
@@ -156,7 +156,7 @@ namespace Scada.Admin.Extensions.ExtProjectTools.Controls
             // export table
             if (adminContext.CurrentProject != null)
             {
-                new FrmTableExport(adminContext.ErrLog, adminContext.CurrentProject.ConfigBase)
+                new FrmTableExport(adminContext.ErrLog, adminContext.CurrentProject.ConfigDatabase)
                 {
                     SelectedItemType = adminContext.MainForm.ActiveBaseTable
                 }

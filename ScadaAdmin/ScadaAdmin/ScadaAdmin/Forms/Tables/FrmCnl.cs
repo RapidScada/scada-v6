@@ -44,7 +44,7 @@ namespace Scada.Admin.App.Forms.Tables
     public partial class FrmCnl : Form
     {
         private readonly DataGridView dataGridView;
-        private readonly ConfigBase configBase;
+        private readonly ConfigDatabase configDatabase;
 
 
         /// <summary>
@@ -58,11 +58,11 @@ namespace Scada.Admin.App.Forms.Tables
         /// <summary>
         /// Initializes a new instance of the class.
         /// </summary>
-        public FrmCnl(DataGridView dataGridView, ConfigBase configBase)
+        public FrmCnl(DataGridView dataGridView, ConfigDatabase configDatabase)
             : this()
         {
             this.dataGridView = dataGridView ?? throw new ArgumentNullException(nameof(dataGridView));
-            this.configBase = configBase ?? throw new ArgumentNullException(nameof(configBase));
+            this.configDatabase = configDatabase ?? throw new ArgumentNullException(nameof(configDatabase));
         }
 
 
@@ -132,9 +132,9 @@ namespace Scada.Admin.App.Forms.Tables
             StringBuilder sbError = new();
 
             if (!(int.TryParse(txtCnlNum.Text, out int cnlNum) &&
-                ConfigBase.MinID <= cnlNum && cnlNum <= ConfigBase.MaxID))
+                ConfigDatabase.MinID <= cnlNum && cnlNum <= ConfigDatabase.MaxID))
             {
-                sbError.AppendError(lblCnlNum, CommonPhrases.IntegerInRangeRequired, ConfigBase.MinID, ConfigBase.MaxID);
+                sbError.AppendError(lblCnlNum, CommonPhrases.IntegerInRangeRequired, ConfigDatabase.MinID, ConfigDatabase.MaxID);
             }
 
             int dataLen = -1;
@@ -275,13 +275,13 @@ namespace Scada.Admin.App.Forms.Tables
         {
             // create new limit
             int.TryParse(txtCnlNum.Text, out int cnlNum);
-            FrmLimCreate frmLimCreate = new(configBase) { CnlNum = cnlNum };
+            FrmLimCreate frmLimCreate = new(configDatabase) { CnlNum = cnlNum };
 
             if (frmLimCreate.ShowDialog() == DialogResult.OK)
             {
                 // add limit to the configuration database
                 Lim lim = frmLimCreate.LimEntity;
-                configBase.LimTable.AddItem(lim);
+                configDatabase.LimTable.AddItem(lim);
 
                 // add combo box item
                 if (cbLim.DataSource is DataTable limTable)

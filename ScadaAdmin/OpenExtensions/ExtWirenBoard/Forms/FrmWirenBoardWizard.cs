@@ -219,13 +219,13 @@ namespace Scada.Admin.Extensions.ExtWirenBoard.Forms
                     CreateScript();
                     CreateJsHandler(commConfigDir);
 
-                    project.ConfigBase.DeviceTable.Modified = true;
-                    project.ConfigBase.CnlTable.Modified = true;
+                    project.ConfigDatabase.DeviceTable.Modified = true;
+                    project.ConfigDatabase.CnlTable.Modified = true;
 
                     foreach (DeviceConfigEntry entry in configBuilder.DeviceConfigs)
                     {
-                        project.ConfigBase.DeviceTable.AddItem(entry.DeviceEntity);
-                        entry.Cnls.ForEach(cnl => project.ConfigBase.CnlTable.AddItem(cnl));
+                        project.ConfigDatabase.DeviceTable.AddItem(entry.DeviceEntity);
+                        entry.Cnls.ForEach(cnl => project.ConfigDatabase.CnlTable.AddItem(cnl));
                         ctrlLineSelect.Line.DevicePolling.Add(entry.DeviceConfig);
                         string fileName = Path.Combine(commConfigDir, 
                             MqttClientDeviceConfig.GetFileName(entry.DeviceConfig.DeviceNum));
@@ -252,16 +252,16 @@ namespace Scada.Admin.Extensions.ExtWirenBoard.Forms
         /// </summary>
         private void CreateScript()
         {
-            if (project.ConfigBase.ScriptTable.SelectFirst(
+            if (project.ConfigDatabase.ScriptTable.SelectFirst(
                 new TableFilter("Name", ProjectScript.CsScriptName)) == null)
             {
-                project.ConfigBase.ScriptTable.AddItem(new Script
+                project.ConfigDatabase.ScriptTable.AddItem(new Script
                 {
-                    ScriptID = project.ConfigBase.ScriptTable.GetNextPk(),
+                    ScriptID = project.ConfigDatabase.ScriptTable.GetNextPk(),
                     Name = ProjectScript.CsScriptName,
                     Source = ProjectScript.CsScriptSource
                 });
-                project.ConfigBase.ScriptTable.Modified = true;
+                project.ConfigDatabase.ScriptTable.Modified = true;
             }
         }
 

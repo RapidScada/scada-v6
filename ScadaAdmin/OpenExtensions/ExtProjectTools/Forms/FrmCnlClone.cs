@@ -30,8 +30,8 @@ namespace Scada.Admin.Extensions.ExtProjectTools.Forms
         /// </summary>
         private static readonly char[] ArgumentEnds = { ')', ',' };
 
-        private readonly IAdminContext adminContext; // the Administrator context
-        private readonly ConfigBase configBase;      // the configuration database
+        private readonly IAdminContext adminContext;    // the Administrator context
+        private readonly ConfigDatabase configDatabase; // the configuration database
 
 
         /// <summary>
@@ -45,11 +45,11 @@ namespace Scada.Admin.Extensions.ExtProjectTools.Forms
         /// <summary>
         /// Initializes a new instance of the class.
         /// </summary>
-        public FrmCnlClone(IAdminContext adminContext, ConfigBase configBase)
+        public FrmCnlClone(IAdminContext adminContext, ConfigDatabase configDatabase)
             : this()
         {
             this.adminContext = adminContext ?? throw new ArgumentNullException(nameof(adminContext));
-            this.configBase = configBase ?? throw new ArgumentNullException(nameof(configBase));
+            this.configDatabase = configDatabase ?? throw new ArgumentNullException(nameof(configDatabase));
             ChannelsCloned = false;
         }
 
@@ -65,10 +65,10 @@ namespace Scada.Admin.Extensions.ExtProjectTools.Forms
         /// </summary>
         private void FillObjList()
         {
-            List<Obj> objList = new(configBase.ObjTable.ItemCount + 2);
+            List<Obj> objList = new(configDatabase.ObjTable.ItemCount + 2);
             objList.Add(new Obj { ObjNum = -1, Name = ExtensionPhrases.KeepUnchanged });
             objList.Add(new Obj { ObjNum = 0, Name = " " });
-            objList.AddRange(configBase.ObjTable.Enumerate().OrderBy(obj => obj.Name));
+            objList.AddRange(configDatabase.ObjTable.Enumerate().OrderBy(obj => obj.Name));
 
             cbReplaceObj.ValueMember = "ObjNum";
             cbReplaceObj.DisplayMember = "Name";
@@ -81,10 +81,10 @@ namespace Scada.Admin.Extensions.ExtProjectTools.Forms
         /// </summary>
         private void FillDeviceList()
         {
-            List<Device> deviceList = new(configBase.DeviceTable.ItemCount + 2);
+            List<Device> deviceList = new(configDatabase.DeviceTable.ItemCount + 2);
             deviceList.Add(new Device { DeviceNum = -1, Name = ExtensionPhrases.KeepUnchanged });
             deviceList.Add(new Device { DeviceNum = 0, Name = " " });
-            deviceList.AddRange(configBase.DeviceTable.Enumerate().OrderBy(obj => obj.Name));
+            deviceList.AddRange(configDatabase.DeviceTable.Enumerate().OrderBy(obj => obj.Name));
 
             cbReplaceDevice.ValueMember = "DeviceNum";
             cbReplaceDevice.DisplayMember = "Name";
@@ -108,13 +108,13 @@ namespace Scada.Admin.Extensions.ExtProjectTools.Forms
         {
             try
             {
-                BaseTable<Cnl> cnlTable = configBase.CnlTable;
+                BaseTable<Cnl> cnlTable = configDatabase.CnlTable;
                 int affectedRows = 0;
 
                 if (srcStartNum <= srcEndNum)
                 {
                     // create new channels
-                    ExtensionUtils.NormalizeIdRange(ConfigBase.MinID, ConfigBase.MaxID, 
+                    ExtensionUtils.NormalizeIdRange(ConfigDatabase.MinID, ConfigDatabase.MaxID, 
                         ref srcStartNum, ref srcEndNum, destStartNum, out int numOffset);
                     List<Cnl> cnlsToAdd = new(srcEndNum - srcStartNum + 1);
 

@@ -20,11 +20,11 @@ namespace Scada.Admin.Extensions.ExtTableEditor.Forms
     /// </summary>
     public partial class FrmTableEditor : Form, IChildForm
     {
-        private readonly IAdminContext adminContext; // the Administrator context
-        private readonly ConfigBase configBase;      // the configuration database of the current project
-        private readonly TableView tableView;        // the table view being edited
-        private string fileName;                     // the full name of the edited file
-        private bool preventNodeExpand;              // prevent a tree node from expanding or collapsing
+        private readonly IAdminContext adminContext;    // the Administrator context
+        private readonly ConfigDatabase configDatabase; // the configuration database of the current project
+        private readonly TableView tableView;           // the table view being edited
+        private string fileName;                        // the full name of the edited file
+        private bool preventNodeExpand;                 // prevent a tree node from expanding or collapsing
 
 
         /// <summary>
@@ -43,7 +43,7 @@ namespace Scada.Admin.Extensions.ExtTableEditor.Forms
             : this()
         {
             this.adminContext = adminContext ?? throw new ArgumentNullException(nameof(adminContext));
-            configBase = adminContext.CurrentProject?.ConfigBase ?? 
+            configDatabase = adminContext.CurrentProject?.ConfigDatabase ?? 
                 throw new ScadaException("Configuration database must not be null.");
             tableView = new TableView(new Data.Entities.View());
             this.fileName = fileName ?? throw new ArgumentNullException(nameof(fileName));
@@ -78,7 +78,7 @@ namespace Scada.Admin.Extensions.ExtTableEditor.Forms
                 treeView.BeginUpdate();
                 treeView.Nodes.Clear();
 
-                foreach (Device device in configBase.DeviceTable.EnumerateItems())
+                foreach (Device device in configDatabase.DeviceTable.EnumerateItems())
                 {
                     string nodeText = string.Format(CommonPhrases.EntityCaption, device.DeviceNum, device.Name);
                     TreeNode deviceNode = TreeViewExtensions.CreateNode(nodeText, "device.png");
@@ -110,7 +110,7 @@ namespace Scada.Admin.Extensions.ExtTableEditor.Forms
                 treeView.BeginUpdate();
                 deviceNode.Nodes.Clear();
 
-                foreach (Cnl cnl in configBase.CnlTable.SelectItems(
+                foreach (Cnl cnl in configDatabase.CnlTable.SelectItems(
                     new TableFilter("DeviceNum", device.DeviceNum), true))
                 {
                     string nodeText = string.Format(CommonPhrases.EntityCaption, cnl.CnlNum, cnl.Name);
@@ -163,12 +163,12 @@ namespace Scada.Admin.Extensions.ExtTableEditor.Forms
                 {
                     if (item.CnlNum > 0)
                     {
-                        if (configBase.CnlTable.GetItem(item.CnlNum) is Cnl cnl)
+                        if (configDatabase.CnlTable.GetItem(item.CnlNum) is Cnl cnl)
                             item.Text = cnl.Name;
                     }
                     else if (item.DeviceNum > 0)
                     {
-                        if (configBase.DeviceTable.GetItem(item.DeviceNum) is Device device)
+                        if (configDatabase.DeviceTable.GetItem(item.DeviceNum) is Device device)
                             item.Text = device.Name;
                     }
                 }
@@ -216,7 +216,7 @@ namespace Scada.Admin.Extensions.ExtTableEditor.Forms
                 }
                 else if (!(int.TryParse(cellVal, out int intVal) && 0 <= intVal && intVal <= ushort.MaxValue))
                 {
-                    errMsg = string.Format(CommonPhrases.IntegerInRangeRequired, 0, ConfigBase.MaxID);
+                    errMsg = string.Format(CommonPhrases.IntegerInRangeRequired, 0, ConfigDatabase.MaxID);
                 }
             }
 

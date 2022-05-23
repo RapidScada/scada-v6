@@ -237,7 +237,7 @@ namespace Scada.Web.Users
             {
                 WebContext = webContext;
 
-                foreach (View viewEntity in webContext.ConfigBase.SortedViews)
+                foreach (View viewEntity in webContext.ConfigDatabase.SortedViews)
                 {
                     if (!viewEntity.Hidden &&
                         userRights.GetRightByObj(viewEntity.ObjNum ?? 0).View &&

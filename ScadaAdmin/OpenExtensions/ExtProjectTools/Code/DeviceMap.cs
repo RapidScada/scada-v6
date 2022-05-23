@@ -27,17 +27,17 @@ namespace Scada.Admin.Extensions.ExtProjectTools.Code
         /// </summary>
         public const string MapFileName = "ScadaAdmin_DeviceMap.txt";
 
-        private readonly ILog log;              // the application log
-        private readonly ConfigBase configBase; // the configuration database
+        private readonly ILog log;                      // the application log
+        private readonly ConfigDatabase configDatabase; // the configuration database
 
 
         /// <summary>
         /// Initializes a new instance of the class.
         /// </summary>
-        public DeviceMap(ILog log, ConfigBase configBase)
+        public DeviceMap(ILog log, ConfigDatabase configDatabase)
         {
             this.log = log ?? throw new ArgumentNullException(nameof(log));
-            this.configBase = configBase ?? throw new ArgumentNullException(nameof(configBase));
+            this.configDatabase = configDatabase ?? throw new ArgumentNullException(nameof(configDatabase));
         }
 
 
@@ -64,9 +64,9 @@ namespace Scada.Admin.Extensions.ExtProjectTools.Code
                     writer.WriteLine(ExtensionPhrases.DeviceMapTitle);
                     writer.WriteLine(new string('-', ExtensionPhrases.DeviceMapTitle.Length));
 
-                    if (configBase.DeviceTable.TryGetIndex("CommLineNum", out ITableIndex tableIndex))
+                    if (configDatabase.DeviceTable.TryGetIndex("CommLineNum", out ITableIndex tableIndex))
                     {
-                        foreach (CommLine commLine in configBase.CommLineTable.EnumerateItems())
+                        foreach (CommLine commLine in configDatabase.CommLineTable.EnumerateItems())
                         {
                             writer.WriteLine(string.Format(CommonPhrases.EntityCaption,
                                 commLine.CommLineNum, commLine.Name));

@@ -51,7 +51,7 @@ namespace Scada.Admin.Extensions.ExtCommConfig.Forms
             DeviceConfig = null;
             LineConfig = null;
 
-            numDeviceNum.Maximum = ConfigBase.MaxID;
+            numDeviceNum.Maximum = ConfigDatabase.MaxID;
             txtName.MaxLength = ExtensionUtils.NameLength;
             txtStrAddress.MaxLength = ExtensionUtils.DefaultLength;
             txtDescr.MaxLength = ExtensionUtils.DescrLength;
@@ -90,9 +90,9 @@ namespace Scada.Admin.Extensions.ExtCommConfig.Forms
         /// </summary>
         private void FillDevTypeList()
         {
-            List<DevType> devTypes = new(project.ConfigBase.DevTypeTable.ItemCount + 1);
+            List<DevType> devTypes = new(project.ConfigDatabase.DevTypeTable.ItemCount + 1);
             devTypes.Add(new DevType { DevTypeID = 0, Name = " " });
-            devTypes.AddRange(project.ConfigBase.DevTypeTable.Enumerate().OrderBy(dt => dt.Name));
+            devTypes.AddRange(project.ConfigDatabase.DevTypeTable.Enumerate().OrderBy(dt => dt.Name));
 
             cbDevType.ValueMember = "DevTypeID";
             cbDevType.DisplayMember = "Name";
@@ -107,9 +107,9 @@ namespace Scada.Admin.Extensions.ExtCommConfig.Forms
         /// </summary>
         private void FillCommLineList()
         {
-            List<CommLine> commLines = new(project.ConfigBase.CommLineTable.ItemCount + 1);
+            List<CommLine> commLines = new(project.ConfigDatabase.CommLineTable.ItemCount + 1);
             commLines.Add(new CommLine { CommLineNum = 0, Name = " " });
-            commLines.AddRange(project.ConfigBase.CommLineTable.Enumerate().OrderBy(line => line.Name));
+            commLines.AddRange(project.ConfigDatabase.CommLineTable.Enumerate().OrderBy(line => line.Name));
 
             cbCommLine.ValueMember = "CommLineNum";
             cbCommLine.DisplayMember = "Name";
@@ -147,8 +147,8 @@ namespace Scada.Admin.Extensions.ExtCommConfig.Forms
         {
             if (recentSelection.DeviceNum > 0)
                 numDeviceNum.SetValue(recentSelection.DeviceNum + 1);
-            else if (project.ConfigBase.DeviceTable.ItemCount > 0)
-                numDeviceNum.SetValue(project.ConfigBase.DeviceTable.GetNextPk());
+            else if (project.ConfigDatabase.DeviceTable.ItemCount > 0)
+                numDeviceNum.SetValue(project.ConfigDatabase.DeviceTable.GetNextPk());
         }
 
         /// <summary>
@@ -188,7 +188,7 @@ namespace Scada.Admin.Extensions.ExtCommConfig.Forms
             int commLineNum = (int)cbCommLine.SelectedValue;
 
             // check that device does not exist in the configuration database
-            if (project.ConfigBase.DeviceTable.PkExists(deviceNum))
+            if (project.ConfigDatabase.DeviceTable.PkExists(deviceNum))
             {
                 ScadaUiUtils.ShowError(ExtensionPhrases.DeviceExistsInConfigBase);
                 return false;
@@ -289,8 +289,8 @@ namespace Scada.Admin.Extensions.ExtCommConfig.Forms
                 };
 
                 // add device to the configuration database
-                project.ConfigBase.DeviceTable.AddItem(deviceEntity);
-                project.ConfigBase.DeviceTable.Modified = true;
+                project.ConfigDatabase.DeviceTable.AddItem(deviceEntity);
+                project.ConfigDatabase.DeviceTable.Modified = true;
 
                 // add device to Communicator configuration
                 if (chkAddToComm.Checked && cbInstance.SelectedItem is ProjectInstance instance)
@@ -301,7 +301,7 @@ namespace Scada.Admin.Extensions.ExtCommConfig.Forms
                     if (instance.CommApp.Enabled && lineConfig != null)
                     {
                         DeviceConfig = CommConfigConverter.CreateDeviceConfig(deviceEntity, 
-                            project.ConfigBase.DevTypeTable);
+                            project.ConfigDatabase.DevTypeTable);
                         DeviceConfig.Parent = lineConfig;
                         lineConfig.DevicePolling.Add(DeviceConfig);
                         LineConfig = lineConfig;

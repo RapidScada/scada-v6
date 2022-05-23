@@ -136,16 +136,16 @@ namespace Scada.Admin.Extensions.ExtCommConfig.Forms
                     FormulaEnabled = cnlPrototype.FormulaEnabled,
                     InFormula = cnlPrototype.InFormula,
                     OutFormula = cnlPrototype.OutFormula,
-                    FormatID = project.ConfigBase.GetFormatByCode(cnlPrototype.FormatCode)?.FormatID,
-                    QuantityID = project.ConfigBase.GetQuantityByCode(cnlPrototype.QuantityCode)?.QuantityID,
-                    UnitID = project.ConfigBase.GetUnitByCode(cnlPrototype.UnitCode)?.UnitID,
+                    FormatID = project.ConfigDatabase.GetFormatByCode(cnlPrototype.FormatCode)?.FormatID,
+                    QuantityID = project.ConfigDatabase.GetQuantityByCode(cnlPrototype.QuantityCode)?.QuantityID,
+                    UnitID = project.ConfigDatabase.GetUnitByCode(cnlPrototype.UnitCode)?.UnitID,
                     LimID = null,
                     ArchiveMask = cnlPrototype.ArchiveMask,
                     EventMask = cnlPrototype.EventMask
                 });
 
                 int dataLength = cnlPrototype.GetDataLength();
-                if (cnlNum > ConfigBase.MaxID - dataLength)
+                if (cnlNum > ConfigDatabase.MaxID - dataLength)
                     break;
                 cnlNum += dataLength;
             }
@@ -160,8 +160,8 @@ namespace Scada.Admin.Extensions.ExtCommConfig.Forms
         {
             if (cnls.Count > 0)
             {
-                cnls.ForEach(cnl => project.ConfigBase.CnlTable.AddItem(cnl));
-                project.ConfigBase.CnlTable.Modified = true;
+                cnls.ForEach(cnl => project.ConfigDatabase.CnlTable.AddItem(cnl));
+                project.ConfigDatabase.CnlTable.Modified = true;
             }
 
             if (!silent)

@@ -192,7 +192,7 @@ namespace Scada.Admin.App.Code
                 NewTextBoxColumn("Name", new ColumnOptions(ColumnLength.Name)),
                 NewTextBoxColumn("Code", new ColumnOptions(ColumnLength.Code)),
                 NewCheckBoxColumn("IsDefault"),
-                NewTextBoxColumn("Bit", new ColumnOptions(ConfigBase.MinBit, ConfigBase.MaxBit)),
+                NewTextBoxColumn("Bit", new ColumnOptions(ConfigDatabase.MinBit, ConfigDatabase.MaxBit)),
                 NewTextBoxColumn("Descr", new ColumnOptions(ColumnLength.Description))
             });
         }
@@ -200,30 +200,30 @@ namespace Scada.Admin.App.Code
         /// <summary>
         /// Creates columns for the channel table.
         /// </summary>
-        private static DataGridViewColumn[] CreateCnlTableColumns(ConfigBase configBase)
+        private static DataGridViewColumn[] CreateCnlTableColumns(ConfigDatabase configDatabase)
         {
             return TranslateHeaders("CnlTable", new DataGridViewColumn[]
             {
                 NewTextBoxColumn("CnlNum", new ColumnOptions(ColumnKind.PrimaryKey)),
                 NewCheckBoxColumn("Active", new ColumnOptions { DefaultValue = true }),
                 NewTextBoxColumn("Name", new ColumnOptions(ColumnLength.Name)),
-                NewComboBoxColumn("DataTypeID", "Name", configBase.DataTypeTable, true),
+                NewComboBoxColumn("DataTypeID", "Name", configDatabase.DataTypeTable, true),
                 NewTextBoxColumn("DataLen"),
-                NewComboBoxColumn("CnlTypeID", "Name", configBase.CnlTypeTable, false, false,
+                NewComboBoxColumn("CnlTypeID", "Name", configDatabase.CnlTypeTable, false, false,
                     new ColumnOptions { DefaultValue = CnlTypeID.Input }),
-                NewComboBoxColumn("ObjNum","Name", configBase.ObjTable, true),
-                NewComboBoxColumn("DeviceNum", "Name", configBase.DeviceTable, true),
+                NewComboBoxColumn("ObjNum","Name", configDatabase.ObjTable, true),
+                NewComboBoxColumn("DeviceNum", "Name", configDatabase.DeviceTable, true),
                 NewTextBoxColumn("TagNum"),
                 NewTextBoxColumn("TagCode", new ColumnOptions(ColumnLength.Code)),
                 NewCheckBoxColumn("FormulaEnabled"),
                 NewTextBoxColumn("InFormula", new ColumnOptions(ColumnLength.Default)),
                 NewTextBoxColumn("OutFormula", new ColumnOptions(ColumnLength.Default)),
-                NewComboBoxColumn("FormatID", "Name", configBase.FormatTable, true),
-                NewComboBoxColumn("QuantityID", "Name", configBase.QuantityTable, true),
-                NewComboBoxColumn("UnitID", "Name", configBase.UnitTable, true),
-                NewComboBoxColumn("LimID", "Name", configBase.LimTable, true),
+                NewComboBoxColumn("FormatID", "Name", configDatabase.FormatTable, true),
+                NewComboBoxColumn("QuantityID", "Name", configDatabase.QuantityTable, true),
+                NewComboBoxColumn("UnitID", "Name", configDatabase.UnitTable, true),
+                NewComboBoxColumn("LimID", "Name", configDatabase.LimTable, true),
                 NewTextBoxColumn("ArchiveMask", new ColumnOptions(ColumnKind.BitMask)
-                    { DataSource = AppUtils.GetArchiveBits(configBase.ArchiveTable) }),
+                    { DataSource = AppUtils.GetArchiveBits(configDatabase.ArchiveTable) }),
                 NewButtonColumn("ArchiveMask"),
                 NewTextBoxColumn("EventMask", new ColumnOptions(ColumnKind.BitMask)
                     { DataSource = AppUtils.GetEventBits() }),
@@ -238,7 +238,7 @@ namespace Scada.Admin.App.Code
         {
             return TranslateHeaders("CnlStatusTable", new DataGridViewColumn[]
             {
-                NewTextBoxColumn("CnlStatusID", new ColumnOptions(ColumnKind.PrimaryKey, 0, ConfigBase.MaxID)),
+                NewTextBoxColumn("CnlStatusID", new ColumnOptions(ColumnKind.PrimaryKey, 0, ConfigDatabase.MaxID)),
                 NewTextBoxColumn("Name", new ColumnOptions(ColumnLength.Name)),
                 NewTextBoxColumn("MainColor", new ColumnOptions(ColumnKind.Color, ColumnLength.Default)),
                 NewButtonColumn("MainColor"),
@@ -285,7 +285,7 @@ namespace Scada.Admin.App.Code
         {
             return TranslateHeaders("DataTypeTable", new DataGridViewColumn[]
             {
-                NewTextBoxColumn("DataTypeID", new ColumnOptions(ColumnKind.PrimaryKey, 0, ConfigBase.MaxID)),
+                NewTextBoxColumn("DataTypeID", new ColumnOptions(ColumnKind.PrimaryKey, 0, ConfigDatabase.MaxID)),
                 NewTextBoxColumn("Name", new ColumnOptions(ColumnLength.Name)),
                 NewTextBoxColumn("Descr", new ColumnOptions(ColumnLength.Description))
             });
@@ -294,17 +294,17 @@ namespace Scada.Admin.App.Code
         /// <summary>
         /// Creates columns for the devices table.
         /// </summary>
-        private static DataGridViewColumn[] CreateDeviceTableColumns(ConfigBase configBase)
+        private static DataGridViewColumn[] CreateDeviceTableColumns(ConfigDatabase configDatabase)
         {
             return TranslateHeaders("DeviceTable", new DataGridViewColumn[]
             {
                 NewTextBoxColumn("DeviceNum", new ColumnOptions(ColumnKind.PrimaryKey)),
                 NewTextBoxColumn("Name", new ColumnOptions(ColumnLength.Name)),
                 NewTextBoxColumn("Code", new ColumnOptions(ColumnLength.Code)),
-                NewComboBoxColumn("DevTypeID", "Name", configBase.DevTypeTable, true),
+                NewComboBoxColumn("DevTypeID", "Name", configDatabase.DevTypeTable, true),
                 NewTextBoxColumn("NumAddress"),
                 NewTextBoxColumn("StrAddress", new ColumnOptions(ColumnLength.Default)),
-                NewComboBoxColumn("CommLineNum", "Name", configBase.CommLineTable, true),
+                NewComboBoxColumn("CommLineNum", "Name", configDatabase.CommLineTable, true),
                 NewTextBoxColumn("Descr", new ColumnOptions(ColumnLength.Description))
             });
         }
@@ -365,14 +365,14 @@ namespace Scada.Admin.App.Code
         /// <summary>
         /// Creates columns for the object table.
         /// </summary>
-        private static DataGridViewColumn[] CreateObjTableColumns(ConfigBase configBase)
+        private static DataGridViewColumn[] CreateObjTableColumns(ConfigDatabase configDatabase)
         {
             return TranslateHeaders("ObjTable", new DataGridViewColumn[]
             {
                 NewTextBoxColumn("ObjNum", new ColumnOptions(ColumnKind.PrimaryKey)),
                 NewTextBoxColumn("Code", new ColumnOptions(ColumnLength.Code)),
                 NewTextBoxColumn("Name", new ColumnOptions(ColumnLength.Name)),
-                NewComboBoxColumn("ParentObjNum", "ObjNum", "Name", configBase.ObjTable, true),
+                NewComboBoxColumn("ParentObjNum", "ObjNum", "Name", configDatabase.ObjTable, true),
                 NewTextBoxColumn("Descr", new ColumnOptions(ColumnLength.Description))
             });
         }
@@ -380,13 +380,13 @@ namespace Scada.Admin.App.Code
         /// <summary>
         /// Creates columns for the object right table.
         /// </summary>
-        private static DataGridViewColumn[] CreateObjRightTableColumns(ConfigBase configBase)
+        private static DataGridViewColumn[] CreateObjRightTableColumns(ConfigDatabase configDatabase)
         {
             return TranslateHeaders("ObjRightTable", new DataGridViewColumn[]
             {
                 NewTextBoxColumn("ObjRightID", new ColumnOptions(ColumnKind.PrimaryKey)),
-                NewComboBoxColumn("ObjNum","Name", configBase.ObjTable),
-                NewComboBoxColumn("RoleID", "Name", configBase.RoleTable),
+                NewComboBoxColumn("ObjNum","Name", configDatabase.ObjTable),
+                NewComboBoxColumn("RoleID", "Name", configDatabase.RoleTable),
                 NewCheckBoxColumn("View"),
                 NewCheckBoxColumn("Control")
             });
@@ -414,7 +414,7 @@ namespace Scada.Admin.App.Code
         {
             return TranslateHeaders("RoleTable", new DataGridViewColumn[]
             {
-                NewTextBoxColumn("RoleID", new ColumnOptions(ColumnKind.PrimaryKey, 0, ConfigBase.MaxID)),
+                NewTextBoxColumn("RoleID", new ColumnOptions(ColumnKind.PrimaryKey, 0, ConfigDatabase.MaxID)),
                 NewTextBoxColumn("Name", new ColumnOptions(ColumnLength.Name)),
                 NewTextBoxColumn("Code", new ColumnOptions(ColumnLength.Code)),
                 NewTextBoxColumn("Descr", new ColumnOptions(ColumnLength.Description))
@@ -424,13 +424,13 @@ namespace Scada.Admin.App.Code
         /// <summary>
         /// Creates columns for the role inheritance table.
         /// </summary>
-        private static DataGridViewColumn[] CreateRoleRefTableColumns(ConfigBase configBase)
+        private static DataGridViewColumn[] CreateRoleRefTableColumns(ConfigDatabase configDatabase)
         {
             return TranslateHeaders("RoleRefTable", new DataGridViewColumn[]
             {
                 NewTextBoxColumn("RoleRefID", new ColumnOptions(ColumnKind.PrimaryKey)),
-                NewComboBoxColumn("ParentRoleID", "RoleID", "Name", configBase.RoleTable),
-                NewComboBoxColumn("ChildRoleID", "RoleID", "Name", configBase.RoleTable)
+                NewComboBoxColumn("ParentRoleID", "RoleID", "Name", configDatabase.RoleTable),
+                NewComboBoxColumn("ChildRoleID", "RoleID", "Name", configDatabase.RoleTable)
             });
         }
 
@@ -466,7 +466,7 @@ namespace Scada.Admin.App.Code
         /// <summary>
         /// Creates columns for the user table.
         /// </summary>
-        private static DataGridViewColumn[] CreateUserTableColumns(ConfigBase configBase)
+        private static DataGridViewColumn[] CreateUserTableColumns(ConfigDatabase configDatabase)
         {
             return TranslateHeaders("UserTable", new DataGridViewColumn[]
             {
@@ -475,7 +475,7 @@ namespace Scada.Admin.App.Code
                 NewTextBoxColumn("Name", new ColumnOptions(ColumnLength.Name)),
                 NewTextBoxColumn("Password", new ColumnOptions(ColumnKind.Password, ColumnLength.Password)),
                 NewButtonColumn("Password"),
-                NewComboBoxColumn("RoleID", "Name", configBase.RoleTable, false, false, 
+                NewComboBoxColumn("RoleID", "Name", configDatabase.RoleTable, false, false, 
                     new ColumnOptions { DefaultValue = RoleID.Disabled }),
                 NewTextBoxColumn("Descr", new ColumnOptions(ColumnLength.Description))
             });
@@ -484,7 +484,7 @@ namespace Scada.Admin.App.Code
         /// <summary>
         /// Creates columns for the view table.
         /// </summary>
-        private static DataGridViewColumn[] CreateViewTableColumns(ConfigBase configBase)
+        private static DataGridViewColumn[] CreateViewTableColumns(ConfigDatabase configDatabase)
         {
             return TranslateHeaders("ViewTable", new DataGridViewColumn[]
             {
@@ -492,8 +492,8 @@ namespace Scada.Admin.App.Code
                 NewTextBoxColumn("Path", new ColumnOptions(ColumnKind.Path, ColumnLength.Long)),
                 NewButtonColumn("Path", new ColumnOptions(ColumnKind.SelectFolderButton)),
                 NewButtonColumn("Path", new ColumnOptions(ColumnKind.SelectFileButton)),
-                NewComboBoxColumn("ViewTypeID", "Name", configBase.ViewTypeTable, true),
-                NewComboBoxColumn("ObjNum","Name", configBase.ObjTable, true),
+                NewComboBoxColumn("ViewTypeID", "Name", configDatabase.ViewTypeTable, true),
+                NewComboBoxColumn("ObjNum","Name", configDatabase.ObjTable, true),
                 NewTextBoxColumn("Args", new ColumnOptions(ColumnLength.Default)),
                 NewTextBoxColumn("Title", new ColumnOptions(ColumnLength.Long)),
                 NewTextBoxColumn("Ord"),
@@ -520,15 +520,15 @@ namespace Scada.Admin.App.Code
         /// <summary>
         /// Creates columns for the specified table
         /// </summary>
-        public static DataGridViewColumn[] CreateColumns(ConfigBase configBase, Type itemType)
+        public static DataGridViewColumn[] CreateColumns(ConfigDatabase configDatabase, Type itemType)
         {
-            if (configBase == null)
-                throw new ArgumentNullException(nameof(configBase));
+            if (configDatabase == null)
+                throw new ArgumentNullException(nameof(configDatabase));
 
             if (itemType == typeof(Archive))
                 return CreateArchiveTableColumns();
             else if (itemType == typeof(Cnl))
-                return CreateCnlTableColumns(configBase);
+                return CreateCnlTableColumns(configDatabase);
             else if (itemType == typeof(CnlStatus))
                 return CreateCnlStatusTableColumns();
             else if (itemType == typeof(CnlType))
@@ -538,7 +538,7 @@ namespace Scada.Admin.App.Code
             else if (itemType == typeof(DataType))
                 return CreateDataTypeTableColumns();
             else if (itemType == typeof(Device))
-                return CreateDeviceTableColumns(configBase);
+                return CreateDeviceTableColumns(configDatabase);
             else if (itemType == typeof(DevType))
                 return CreateDevTypeTableColumns();
             else if (itemType == typeof(Format))
@@ -546,23 +546,23 @@ namespace Scada.Admin.App.Code
             else if (itemType == typeof(Lim))
                 return CreateLimTableColumns();
             else if (itemType == typeof(Obj))
-                return CreateObjTableColumns(configBase);
+                return CreateObjTableColumns(configDatabase);
             else if (itemType == typeof(ObjRight))
-                return CreateObjRightTableColumns(configBase);
+                return CreateObjRightTableColumns(configDatabase);
             else if (itemType == typeof(Quantity))
                 return CreateQuantityTableColumns();
             else if (itemType == typeof(Role))
                 return CreateRoleTableColumns();
             else if (itemType == typeof(RoleRef))
-                return CreateRoleRefTableColumns(configBase);
+                return CreateRoleRefTableColumns(configDatabase);
             else if (itemType == typeof(Script))
                 return CreateScriptTableColumns();
             else if (itemType == typeof(Unit))
                 return CreateUnitTableColumns();
             else if (itemType == typeof(User))
-                return CreateUserTableColumns(configBase);
+                return CreateUserTableColumns(configDatabase);
             else if (itemType == typeof(Data.Entities.View))
-                return CreateViewTableColumns(configBase);
+                return CreateViewTableColumns(configDatabase);
             else if (itemType == typeof(ViewType))
                 return CreateViewTypeTableColumns();
             else

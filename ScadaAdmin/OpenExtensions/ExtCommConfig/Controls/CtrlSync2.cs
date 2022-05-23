@@ -32,23 +32,23 @@ namespace Scada.Admin.Extensions.ExtCommConfig.Controls
         /// <summary>
         /// Fills the tree view according to the configuration database.
         /// </summary>
-        public void FillTreeView(ConfigBase configBase, int selectedLineNum)
+        public void FillTreeView(ConfigDatabase configDatabase, int selectedLineNum)
         {
-            ArgumentNullException.ThrowIfNull(configBase, nameof(configBase));
+            ArgumentNullException.ThrowIfNull(configDatabase, nameof(configDatabase));
 
             try
             {
                 treeView.BeginUpdate();
                 treeView.Nodes.Clear();
 
-                foreach (CommLine commLine in configBase.CommLineTable.Enumerate())
+                foreach (CommLine commLine in configDatabase.CommLineTable.Enumerate())
                 {
                     TreeNode lineNode = new(CommUtils.GetLineTitle(commLine))
                     {
                         Tag = new TreeNodeTag(commLine, CommNodeType.Line)
                     };
 
-                    foreach (Device device in configBase.DeviceTable.Select(
+                    foreach (Device device in configDatabase.DeviceTable.Select(
                         new TableFilter("CommLineNum", commLine.CommLineNum), true))
                     {
                         lineNode.Nodes.Add(new TreeNode(CommUtils.GetDeviceTitle(device))

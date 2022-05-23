@@ -86,7 +86,7 @@ namespace Scada.Admin.Extensions.ExtDepAgent
             agentClient.DownloadConfig(tempFileName, TopFolder.Base);
             ExtractArchive(tempFileName, extractDir, false);
 
-            foreach (IBaseTable baseTable in project.ConfigBase.AllTables)
+            foreach (IBaseTable baseTable in project.ConfigDatabase.AllTables)
             {
                 transferControl.ThrowIfCancellationRequested();
                 transferControl.WriteMessage(string.Format(ExtensionPhrases.ImportTable, baseTable.Name));

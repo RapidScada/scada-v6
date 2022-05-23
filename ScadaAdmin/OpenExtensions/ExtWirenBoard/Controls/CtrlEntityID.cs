@@ -59,9 +59,9 @@ namespace Scada.Admin.Extensions.ExtWirenBoard.Controls
         /// </summary>
         private void FillObjectList()
         {
-            List<Obj> objs = new(project.ConfigBase.ObjTable.ItemCount + 1);
+            List<Obj> objs = new(project.ConfigDatabase.ObjTable.ItemCount + 1);
             objs.Add(new Obj { ObjNum = 0, Name = " " });
-            objs.AddRange(project.ConfigBase.ObjTable.Enumerate().OrderBy(obj => obj.Name));
+            objs.AddRange(project.ConfigDatabase.ObjTable.Enumerate().OrderBy(obj => obj.Name));
 
             cbObj.ValueMember = "ObjNum";
             cbObj.DisplayMember = "Name";
@@ -84,9 +84,9 @@ namespace Scada.Admin.Extensions.ExtWirenBoard.Controls
         /// </summary>
         public void AssignIDs()
         {
-            numStartDeviceNum.Value = project.ConfigBase.DeviceTable.GetNextPk();
+            numStartDeviceNum.Value = project.ConfigDatabase.DeviceTable.GetNextPk();
             numStartCnlNum.Value = ConfigBuilder.AdjustCnlNum(adminContext.AppConfig.ChannelNumberingOptions, 
-                project.ConfigBase.CnlTable.GetNextPk());
+                project.ConfigDatabase.CnlTable.GetNextPk());
         }
 
         /// <summary>
