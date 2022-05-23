@@ -166,7 +166,7 @@ namespace Scada.Web.Plugins
         /// <summary>
         /// Prepares the specified view provided by the plugin.
         /// </summary>
-        public virtual void PrepareView(BaseView view)
+        public virtual void PrepareView(ViewBase view)
         {
         }
     }

@@ -16,7 +16,7 @@ namespace Scada.Web.Plugins.PlgMain
     /// Represents a table view.
     /// <para>Представляет табличное представление.</para>
     /// </summary>
-    public class TableView : BaseView
+    public class TableView : ViewBase
     {
         /// <summary>
         /// Initializes a new instance of the class.

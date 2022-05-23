@@ -35,7 +35,7 @@ namespace Scada.Data.Models
     /// Represents the base class for views.
     /// <para>Представляет базовый класс представлений.</para>
     /// </summary>
-    public abstract class BaseView
+    public abstract class ViewBase
     {
         /// <summary>
         /// The view path separator.
@@ -46,7 +46,7 @@ namespace Scada.Data.Models
         /// <summary>
         /// Initializes a new instance of the class.
         /// </summary>
-        public BaseView(View viewEntity)
+        public ViewBase(View viewEntity)
         {
             ViewEntity = viewEntity ?? throw new ArgumentNullException(nameof(viewEntity));
             ViewStamp = ScadaUtils.GenerateUniqueID();

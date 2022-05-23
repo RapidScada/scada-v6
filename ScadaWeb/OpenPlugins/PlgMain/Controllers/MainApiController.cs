@@ -148,7 +148,7 @@ namespace Scada.Web.Plugins.PlgMain.Controllers
         /// <summary>
         /// Gets the filter to request events by view.
         /// </summary>
-        private static DataFilter GetEventFilter(int limit, BaseView view)
+        private static DataFilter GetEventFilter(int limit, ViewBase view)
         {
             DataFilter dataFilter = GetEventFilter(limit);
             dataFilter.RequireAll = false;
@@ -379,7 +379,7 @@ namespace Scada.Web.Plugins.PlgMain.Controllers
         {
             try
             {
-                if (viewLoader.GetView(viewID, out BaseView view, out string errMsg))
+                if (viewLoader.GetView(viewID, out ViewBase view, out string errMsg))
                 {
                     CurData curData = memoryCache.GetOrCreate(PluginUtils.GetCacheKey("CurData", viewID), entry =>
                     {
@@ -434,7 +434,7 @@ namespace Scada.Web.Plugins.PlgMain.Controllers
         {
             try
             {
-                if (viewLoader.GetViewFromCache(viewID, out BaseView view, out string errMsg))
+                if (viewLoader.GetViewFromCache(viewID, out ViewBase view, out string errMsg))
                 {
                     TimeRange timeRange = CreateTimeRange(startTime, endTime, endInclusive);
                     HistData histData = memoryCache.GetOrCreate(
@@ -555,7 +555,7 @@ namespace Scada.Web.Plugins.PlgMain.Controllers
         {
             try
             {
-                if (viewLoader.GetViewFromCache(viewID, out BaseView view, out string errMsg))
+                if (viewLoader.GetViewFromCache(viewID, out ViewBase view, out string errMsg))
                 {
                     EventPacket eventPacket = memoryCache.GetOrCreate(
                         PluginUtils.GetCacheKey("LastEventsByView", archiveBit, period, limit, viewID),
@@ -607,7 +607,7 @@ namespace Scada.Web.Plugins.PlgMain.Controllers
         /// </summary>
         public Dto<string> LoadView(int viewID)
         {
-            return viewLoader.GetView(viewID, out BaseView view, out string errMsg)
+            return viewLoader.GetView(viewID, out ViewBase view, out string errMsg)
                 ? Dto<string>.Success(view.GetType().Name)
                 : Dto<string>.Fail(errMsg);
         }

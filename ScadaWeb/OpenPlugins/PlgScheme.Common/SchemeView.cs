@@ -17,7 +17,7 @@ namespace Scada.Web.Plugins.PlgScheme
     /// Represents a scheme view.
     /// <para>Представляет схему.</para>
     /// </summary>
-    public class SchemeView : BaseView
+    public class SchemeView : ViewBase
     {
         /// <summary>
         /// Manages the scheme components.

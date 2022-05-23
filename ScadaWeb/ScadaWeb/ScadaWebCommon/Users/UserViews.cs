@@ -68,7 +68,7 @@ namespace Scada.Web.Users
         private ViewNode CreateBranch(View viewEntity)
         {
             // split view path
-            BaseView.ParsePath(viewEntity, out string[] pathParts, out string nodeText);
+            ViewBase.ParsePath(viewEntity, out string[] pathParts, out string nodeText);
 
             if (string.IsNullOrEmpty(nodeText))
                 return null;

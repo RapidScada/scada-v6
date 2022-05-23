@@ -42,11 +42,11 @@ namespace Scada.Web.Services
         /// <summary>
         /// Gets a view from the server or cache.
         /// </summary>
-        bool GetView<T>(int viewID, out T view, out string errMsg) where T : BaseView;
+        bool GetView<T>(int viewID, out T view, out string errMsg) where T : ViewBase;
 
         /// <summary>
         /// Gets a view from the cache.
         /// </summary>
-        bool GetViewFromCache(int viewID, out BaseView view, out string errMsg);
+        bool GetViewFromCache(int viewID, out ViewBase view, out string errMsg);
     }
 }

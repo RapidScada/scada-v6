@@ -120,11 +120,11 @@ namespace Scada.Web.Code
         /// <summary>
         /// Creates and loads the specified view.
         /// </summary>
-        private BaseView GetView(View viewEntity, Type viewType)
+        private ViewBase GetView(View viewEntity, Type viewType)
         {
             try
             {
-                BaseView view = (BaseView)Activator.CreateInstance(viewType, viewEntity);
+                ViewBase view = (ViewBase)Activator.CreateInstance(viewType, viewEntity);
 
                 if (webContext.PluginHolder.GetPluginByViewType(viewType, out PluginLogic pluginLogic))
                     pluginLogic.PrepareView(view);
@@ -154,7 +154,7 @@ namespace Scada.Web.Code
         /// <summary>
         /// Loads the specified view from the application storage.
         /// </summary>
-        private void LoadViewFromStorage(BaseView view, string path)
+        private void LoadViewFromStorage(ViewBase view, string path)
         {
             // load view
             using (BinaryReader reader = webContext.Storage.OpenBinary(DataCategory.View, path))
@@ -179,7 +179,7 @@ namespace Scada.Web.Code
         /// <summary>
         /// Loads the specified view from the server.
         /// </summary>
-        private void LoadViewFromServer(BaseView view, string path)
+        private void LoadViewFromServer(ViewBase view, string path)
         {
             // load view
             using (MemoryStream memoryStream = new())
@@ -225,7 +225,7 @@ namespace Scada.Web.Code
         /// <summary>
         /// Gets a view from the server or cache.
         /// </summary>
-        public bool GetView<T>(int viewID, out T view, out string errMsg) where T : BaseView
+        public bool GetView<T>(int viewID, out T view, out string errMsg) where T : ViewBase
         {
             if (!ValidateView(viewID, out View viewEntity, out errMsg))
             {
@@ -235,7 +235,7 @@ namespace Scada.Web.Code
 
             Type viewType = typeof(T);
 
-            if (viewType == typeof(BaseView))
+            if (viewType == typeof(ViewBase))
             {
                 if (GetViewSpec(viewEntity, out ViewSpec viewSpec, out errMsg))
                 {
@@ -250,11 +250,11 @@ namespace Scada.Web.Code
 
             view = (T)memoryCache.GetOrCreate(WebUtils.GetViewCacheKey(viewID), entry =>
             {
-                BaseView baseView = GetView(viewEntity, viewType);
-                entry.SetSlidingExpiration(baseView == null ? 
+                ViewBase viewBase = GetView(viewEntity, viewType);
+                entry.SetSlidingExpiration(viewBase == null ? 
                     WebUtils.ErrorCacheExpiration : WebUtils.ViewCacheExpiration);
                 entry.AddExpirationToken(webContext);
-                return baseView;
+                return viewBase;
             });
 
             if (view == null)
@@ -271,7 +271,7 @@ namespace Scada.Web.Code
         /// <summary>
         /// Gets a view from the cache.
         /// </summary>
-        public bool GetViewFromCache(int viewID, out BaseView view, out string errMsg)
+        public bool GetViewFromCache(int viewID, out ViewBase view, out string errMsg)
         {
             if (!ValidateView(viewID, out _, out errMsg))
             {

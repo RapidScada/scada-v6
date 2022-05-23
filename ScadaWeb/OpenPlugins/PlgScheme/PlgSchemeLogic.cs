@@ -74,7 +74,7 @@ namespace Scada.Web.Plugins.PlgScheme
         /// <summary>
         /// Prepares the specified view provided by the plugin.
         /// </summary>
-        public override void PrepareView(BaseView view)
+        public override void PrepareView(ViewBase view)
         {
             if (view is SchemeView schemeView)
                 schemeView.CompManager = pluginContext.CompManager;
