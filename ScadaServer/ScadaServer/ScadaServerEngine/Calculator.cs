@@ -311,11 +311,11 @@ namespace Scada.Server.Engine
         /// <summary>
         /// Compiles the scripts and formulas.
         /// </summary>
-        public bool CompileScripts(BaseDataSet baseDataSet, 
+        public bool CompileScripts(ConfigDataset configDataset, 
             Dictionary<int, CnlTag> cnlTags, Dictionary<int, OutCnlTag> outCnlTags)
         {
-            if (baseDataSet == null)
-                throw new ArgumentNullException(nameof(baseDataSet));
+            if (configDataset == null)
+                throw new ArgumentNullException(nameof(configDataset));
             if (cnlTags == null)
                 throw new ArgumentNullException(nameof(cnlTags));
             if (outCnlTags == null)
@@ -327,7 +327,7 @@ namespace Scada.Server.Engine
                     "Компиляция исходного кода скриптов и формул" :
                     "Compile the source code of scripts and formulas");
 
-                string sourceCode = GenerateSourceCode(baseDataSet.CnlTable, baseDataSet.ScriptTable, 
+                string sourceCode = GenerateSourceCode(configDataset.CnlTable, configDataset.ScriptTable, 
                     out Dictionary<int, string> cnlClassNames);
                 SaveSourceCode(sourceCode, out string sourceCodeFileName);
                 Compilation compilation = PrepareCompilation(sourceCode);

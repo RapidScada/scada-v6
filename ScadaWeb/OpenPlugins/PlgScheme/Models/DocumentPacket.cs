@@ -47,18 +47,18 @@ namespace Scada.Web.Plugins.PlgScheme.Models
         /// <summary>
         /// Fills the channel properties.
         /// </summary>
-        public void FillCnlProps(BaseDataSet baseDataSet)
+        public void FillCnlProps(ConfigDataset configDataset)
         {
-            ArgumentNullException.ThrowIfNull(baseDataSet, nameof(baseDataSet));
+            ArgumentNullException.ThrowIfNull(configDataset, nameof(configDataset));
 
             if (SchemeDoc?.SchemeView == null)
                 throw new InvalidOperationException("Scheme view must not be null.");
 
             foreach (int cnlNum in SchemeDoc.SchemeView.CnlNumList)
             {
-                if (baseDataSet.CnlTable.GetItem(cnlNum) is Cnl cnl)
+                if (configDataset.CnlTable.GetItem(cnlNum) is Cnl cnl)
                 {
-                    CnlProps.Add(new CnlProps(cnl, baseDataSet));
+                    CnlProps.Add(new CnlProps(cnl, configDataset));
                 }
             }
         }

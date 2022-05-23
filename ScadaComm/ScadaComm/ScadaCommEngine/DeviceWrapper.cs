@@ -122,12 +122,12 @@ namespace Scada.Comm.Engine
         /// <summary>
         /// Calls the BindDeviceTags method of the device.
         /// </summary>
-        public void BindDeviceTags(BaseDataSet baseDataSet)
+        public void BindDeviceTags(ConfigDataset configDataset)
         {
             try
             {
-                if (DeviceLogic.IsBound && baseDataSet != null)
-                    DeviceLogic.BindDeviceTags(baseDataSet);
+                if (DeviceLogic.IsBound && configDataset != null)
+                    DeviceLogic.BindDeviceTags(configDataset);
             }
             catch (Exception ex)
             {

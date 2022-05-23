@@ -69,7 +69,7 @@ namespace Scada.Server.Modules
         /// <summary>
         /// Gets the cached configuration database.
         /// </summary>
-        BaseDataSet BaseDataSet { get; }
+        ConfigDataset ConfigDataset { get; }
 
         /// <summary>
         /// Gets the active channel numbers for archiving.

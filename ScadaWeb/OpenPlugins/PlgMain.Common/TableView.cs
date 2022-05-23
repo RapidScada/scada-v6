@@ -95,7 +95,7 @@ namespace Scada.Web.Plugins.PlgMain
         /// <summary>
         /// Binds the view to the configuration database.
         /// </summary>
-        public override void Bind(BaseDataSet baseDataSet)
+        public override void Bind(ConfigDataset configDataset)
         {
             List<TableItem> initialItems = Items;
             Items = new List<TableItem>();
@@ -105,7 +105,7 @@ namespace Scada.Web.Plugins.PlgMain
                 if (item.CnlNum > 0)
                 {
                     // update item according to channel
-                    Cnl cnl = baseDataSet.CnlTable.GetItem(item.CnlNum);
+                    Cnl cnl = configDataset.CnlTable.GetItem(item.CnlNum);
 
                     if (cnl != null)
                     {
@@ -135,7 +135,7 @@ namespace Scada.Web.Plugins.PlgMain
                                 Hidden = hidden,
                                 AutoText = item.AutoText,
                                 Text = item.Text + "[" + i + "]",
-                                Cnl = baseDataSet.CnlTable.GetItem(newCnlNum)
+                                Cnl = configDataset.CnlTable.GetItem(newCnlNum)
                             });
                         }
                     }
@@ -144,7 +144,7 @@ namespace Scada.Web.Plugins.PlgMain
                 {
                     AddItem(item);
                 }
-                else if (baseDataSet.DeviceTable.GetItem(item.DeviceNum) is Device device)
+                else if (configDataset.DeviceTable.GetItem(item.DeviceNum) is Device device)
                 {
                     // create item for device title
                     AddItem(new TableItem
@@ -159,7 +159,7 @@ namespace Scada.Web.Plugins.PlgMain
                     int hiddenCnlNum = 0;
 
                     foreach (Cnl cnl in 
-                        baseDataSet.CnlTable.Select(new TableFilter("DeviceNum", item.DeviceNum), true))
+                        configDataset.CnlTable.Select(new TableFilter("DeviceNum", item.DeviceNum), true))
                     {
                         AddItem(new TableItem
                         {

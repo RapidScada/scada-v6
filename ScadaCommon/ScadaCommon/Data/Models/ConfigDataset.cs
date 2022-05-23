@@ -20,7 +20,7 @@
  * 
  * Author   : Mikhail Shiryaev
  * Created  : 2020
- * Modified : 2020
+ * Modified : 2022
  */
 
 using Scada.Data.Entities;
@@ -33,12 +33,12 @@ namespace Scada.Data.Models
     /// Represents an in-memory cache of the configuration database.
     /// <para>Представляет кэш базы конфигурации.</para>
     /// </summary>
-    public class BaseDataSet
+    public class ConfigDataset
     {
         /// <summary>
         /// Initializes a new instance of the class.
         /// </summary>
-        public BaseDataSet()
+        public ConfigDataset()
         {
             CreateAllTables();
             AddRelations();

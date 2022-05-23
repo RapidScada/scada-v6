@@ -61,7 +61,7 @@ namespace Scada
         /// <summary>
         /// The configuration database.
         /// </summary>
-        protected readonly BaseDataSet baseDataSet;
+        protected readonly ConfigDataset baseDataSet;
         /// <summary>
         /// The enumeration dictionary.
         /// </summary>
@@ -75,7 +75,7 @@ namespace Scada
         /// <summary>
         /// Initializes a new instance of the class.
         /// </summary>
-        public CnlDataFormatter(BaseDataSet baseDataSet)
+        public CnlDataFormatter(ConfigDataset baseDataSet)
             : this(baseDataSet, new EnumDict(baseDataSet), TimeZoneInfo.Local)
         {
         }
@@ -83,7 +83,7 @@ namespace Scada
         /// <summary>
         /// Initializes a new instance of the class.
         /// </summary>
-        public CnlDataFormatter(BaseDataSet baseDataSet, EnumDict enums)
+        public CnlDataFormatter(ConfigDataset baseDataSet, EnumDict enums)
             : this(baseDataSet, enums, TimeZoneInfo.Local)
         {
         }
@@ -91,7 +91,7 @@ namespace Scada
         /// <summary>
         /// Initializes a new instance of the class.
         /// </summary>
-        public CnlDataFormatter(BaseDataSet baseDataSet, EnumDict enums, TimeZoneInfo timeZone)
+        public CnlDataFormatter(ConfigDataset baseDataSet, EnumDict enums, TimeZoneInfo timeZone)
         {
             culture = Locale.Culture;
             this.baseDataSet = baseDataSet ?? throw new ArgumentNullException(nameof(baseDataSet));

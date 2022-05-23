@@ -242,7 +242,7 @@ namespace Scada.Comm.Engine
                     deviceWrapper.InitDeviceTags();
 
                     if (LineConfig.IsBound)
-                        deviceWrapper.BindDeviceTags(coreLogic.BaseDataSet);
+                        deviceWrapper.BindDeviceTags(coreLogic.ConfigDataset);
 
                     deviceWrapper.InitDeviceData();
                 }

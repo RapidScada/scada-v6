@@ -23,7 +23,7 @@ namespace Scada.Web.Plugins.PlgChart
         /// </summary>
         private const int ItemsPerLine = 100;
 
-        private readonly BaseDataSet baseDataSet;         // the configuration database
+        private readonly ConfigDataset configDataset;     // the configuration database
         private readonly ScadaClient scadaClient;         // interacts with the server
         private readonly ChartDataBuilderOptions options; // the builder options
         private readonly CnlDataFormatter formatter;      // formats channel data
@@ -36,13 +36,13 @@ namespace Scada.Web.Plugins.PlgChart
         /// <summary>
         /// Initializes a new instance of the class.
         /// </summary>
-        public ChartDataBuilder2(BaseDataSet baseDataSet, ScadaClient scadaClient, ChartDataBuilderOptions options)
+        public ChartDataBuilder2(ConfigDataset configDataset, ScadaClient scadaClient, ChartDataBuilderOptions options)
         {
-            this.baseDataSet = baseDataSet ?? throw new ArgumentNullException(nameof(baseDataSet));
+            this.configDataset = configDataset ?? throw new ArgumentNullException(nameof(configDataset));
             this.scadaClient = scadaClient ?? throw new ArgumentNullException(nameof(scadaClient));
             this.options = options ?? throw new ArgumentNullException(nameof(options));
             options.Validate();
-            formatter = new CnlDataFormatter(baseDataSet);
+            formatter = new CnlDataFormatter(configDataset);
 
             cnls = Array.Empty<Cnl>();
             singleTrend = null;
@@ -167,7 +167,7 @@ namespace Scada.Web.Plugins.PlgChart
         /// </summary>
         private string GetQuantityName(Cnl cnl)
         {
-            Quantity quantity = cnl.QuantityID == null ? null : baseDataSet.QuantityTable.GetItem(cnl.QuantityID.Value);
+            Quantity quantity = cnl.QuantityID == null ? null : configDataset.QuantityTable.GetItem(cnl.QuantityID.Value);
             return quantity?.Name ?? "";
         }
 
@@ -176,7 +176,7 @@ namespace Scada.Web.Plugins.PlgChart
         /// </summary>
         private string GetUnitName(Cnl cnl)
         {
-            Unit unit = cnl.UnitID == null ? null : baseDataSet.UnitTable.GetItem(cnl.UnitID.Value);
+            Unit unit = cnl.UnitID == null ? null : configDataset.UnitTable.GetItem(cnl.UnitID.Value);
             return unit?.Name ?? "";
         }
 
@@ -192,7 +192,7 @@ namespace Scada.Web.Plugins.PlgChart
             for (int i = 0; i < cnlCnt; i++)
             {
                 int cnlNum = options.CnlNums[i];
-                cnls[i] = baseDataSet.CnlTable.GetItem(cnlNum) ?? new Cnl { CnlNum = cnlNum };
+                cnls[i] = configDataset.CnlTable.GetItem(cnlNum) ?? new Cnl { CnlNum = cnlNum };
             }
         }
 
@@ -305,7 +305,7 @@ namespace Scada.Web.Plugins.PlgChart
             // channel statuses
             stringBuilder.AppendLine("var statusMap = chartData.cnlStatusMap;");
 
-            foreach (CnlStatus cnlStatus in baseDataSet.CnlStatusTable.Enumerate())
+            foreach (CnlStatus cnlStatus in configDataset.CnlStatusTable.Enumerate())
             {
                 stringBuilder
                     .AppendFormat("statusMap.set({0}, new scada.chart.CnlStatus({0}, '{1}', '{2}'));",

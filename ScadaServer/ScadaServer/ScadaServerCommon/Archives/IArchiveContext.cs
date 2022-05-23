@@ -20,7 +20,7 @@
  * 
  * Author   : Mikhail Shiryaev
  * Created  : 2020
- * Modified : 2021
+ * Modified : 2022
  */
 
 using Scada.Config;
@@ -60,7 +60,7 @@ namespace Scada.Server.Archives
         /// <summary>
         /// Gets the configuration database cache.
         /// </summary>
-        BaseDataSet BaseDataSet { get; }
+        ConfigDataset ConfigDataset { get; }
 
         /// <summary>
         /// Gets the application level shared data.

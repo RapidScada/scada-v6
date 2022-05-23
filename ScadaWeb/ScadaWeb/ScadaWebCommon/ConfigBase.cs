@@ -33,7 +33,7 @@ namespace Scada.Web
     /// Represents a cached configuration database for the web application.
     /// <para>Представляет кэшированную базу конфигурации для веб-приложения.</para>
     /// </summary>
-    public class ConfigBase : BaseDataSet
+    public class ConfigBase : ConfigDataset
     {
         /// <summary>
         /// Defines a method that compares two views by ordinal number and ID.

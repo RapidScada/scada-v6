@@ -39,7 +39,7 @@ namespace Scada.Admin.Project
     /// Represents a configuration database of a project.
     /// <para>Представляет базу конфигурации проекта.</para>
     /// </summary>
-    public class ConfigBase : BaseDataSet
+    public class ConfigBase : ConfigDataset
     {
         /// <summary>
         /// The minimum ID value.

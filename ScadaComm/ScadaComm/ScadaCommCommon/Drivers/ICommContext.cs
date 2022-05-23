@@ -20,7 +20,7 @@
  * 
  * Author   : Mikhail Shiryaev
  * Created  : 2020
- * Modified : 2021
+ * Modified : 2022
  */
 
 using Scada.Comm.Config;
@@ -62,7 +62,7 @@ namespace Scada.Comm.Drivers
         /// Gets the cached configuration database.
         /// </summary>
         /// <remarks>Can be null.</remarks>
-        BaseDataSet BaseDataSet { get; }
+        ConfigDataset ConfigDataset { get; }
 
         /// <summary>
         /// Gets the application level shared data.

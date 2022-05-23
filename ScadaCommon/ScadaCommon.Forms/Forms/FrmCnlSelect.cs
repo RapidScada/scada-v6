@@ -48,7 +48,7 @@ namespace Scada.Forms.Forms
             public event PropertyChangedEventHandler PropertyChanged;
         }
 
-        private readonly BaseDataSet baseDataSet;              // the configuration database cache
+        private readonly ConfigDataset baseDataSet;              // the configuration database cache
         private BindingList<SelectableItem> items;             // the items to select
         private Dictionary<int, SelectableItem> selectedItems; // the selected items
 
@@ -64,7 +64,7 @@ namespace Scada.Forms.Forms
         /// <summary>
         /// Initializes a new instance of the class.
         /// </summary>
-        public FrmCnlSelect(BaseDataSet baseDataSet)
+        public FrmCnlSelect(ConfigDataset baseDataSet)
             : this()
         {
             this.baseDataSet = baseDataSet ?? throw new ArgumentNullException(nameof(baseDataSet));

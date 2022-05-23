@@ -13,14 +13,14 @@ namespace Scada.Web.Plugins.PlgScheme.Models
     /// </summary>
     public class CnlProps
     {
-        public CnlProps(Cnl cnl, BaseDataSet baseDataSet)
+        public CnlProps(Cnl cnl, ConfigDataset configDataset)
         {
             ArgumentNullException.ThrowIfNull(cnl, nameof(cnl));
-            ArgumentNullException.ThrowIfNull(baseDataSet, nameof(baseDataSet));
+            ArgumentNullException.ThrowIfNull(configDataset, nameof(configDataset));
 
             CnlNum = cnl.CnlNum;
             JoinLen = cnl.IsString() ? cnl.GetDataLength() : 1;
-            Unit = cnl.UnitID.HasValue ? baseDataSet.UnitTable.GetItem(cnl.UnitID.Value)?.Name : null;
+            Unit = cnl.UnitID.HasValue ? configDataset.UnitTable.GetItem(cnl.UnitID.Value)?.Name : null;
         }
 
         public int CnlNum { get; set; }

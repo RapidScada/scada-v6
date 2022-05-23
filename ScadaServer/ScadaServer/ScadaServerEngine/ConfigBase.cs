@@ -20,7 +20,7 @@
  * 
  * Author   : Mikhail Shiryaev
  * Created  : 2021
- * Modified : 2021
+ * Modified : 2022
  */
 
 using Scada.Data.Models;
@@ -34,7 +34,7 @@ namespace Scada.Server.Engine
     /// Represents a configuration database.
     /// <para>Представляет базу конфигурации.</para>
     /// </summary>
-    internal class ConfigBase : BaseDataSet
+    internal class ConfigBase : ConfigDataset
     {
         /// <summary>
         /// Initializes a new instance of the class.

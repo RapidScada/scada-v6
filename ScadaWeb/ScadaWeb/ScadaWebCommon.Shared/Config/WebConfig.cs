@@ -25,8 +25,6 @@
 
 using Scada.Client;
 using Scada.Config;
-using Scada.Lang;
-using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Xml;

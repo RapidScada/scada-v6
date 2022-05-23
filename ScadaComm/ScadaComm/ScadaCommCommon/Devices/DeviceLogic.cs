@@ -357,9 +357,9 @@ namespace Scada.Comm.Devices
         /// <summary>
         /// Binds the device tags to the configuration database.
         /// </summary>
-        public virtual void BindDeviceTags(BaseDataSet baseDataSet)
+        public virtual void BindDeviceTags(ConfigDataset configDataset)
         {
-            foreach (Cnl cnl in baseDataSet.CnlTable.SelectItems(new TableFilter("DeviceNum", DeviceNum), true))
+            foreach (Cnl cnl in configDataset.CnlTable.SelectItems(new TableFilter("DeviceNum", DeviceNum), true))
             {
                 if (cnl.Active && cnl.IsInput())
                 {

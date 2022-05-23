@@ -206,7 +206,7 @@ namespace Scada.Data.Models
         /// <summary>
         /// Binds the view to the configuration database.
         /// </summary>
-        public virtual void Bind(BaseDataSet baseDataSet)
+        public virtual void Bind(ConfigDataset baseDataSet)
         {
         }
 

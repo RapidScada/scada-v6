@@ -46,7 +46,7 @@ namespace Scada.Data.Models
         /// <summary>
         /// Initializes a new instance of the class.
         /// </summary>
-        public EnumDict(BaseDataSet baseDataSet)
+        public EnumDict(ConfigDataset baseDataSet)
             : base()
         {
             Init(baseDataSet);
@@ -56,7 +56,7 @@ namespace Scada.Data.Models
         /// <summary>
         /// Initializes the enumerations.
         /// </summary>
-        public void Init(BaseDataSet baseDataSet)
+        public void Init(ConfigDataset baseDataSet)
         {
             if (baseDataSet == null)
                 throw new ArgumentNullException(nameof(baseDataSet));

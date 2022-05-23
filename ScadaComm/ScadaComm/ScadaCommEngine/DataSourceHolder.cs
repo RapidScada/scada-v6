@@ -193,7 +193,7 @@ namespace Scada.Comm.Engine
         /// <summary>
         /// Calls the ReadBase method of the data sources.
         /// </summary>
-        public bool ReadBase(out BaseDataSet baseDataSet)
+        public bool ReadBase(out ConfigDataset configDataset)
         {
             foreach (DataSourceLogic dataSourceLogic in dataSources)
             {
@@ -201,7 +201,7 @@ namespace Scada.Comm.Engine
                 {
                     if (dataSourceLogic.IsReady)
                     {
-                        if (dataSourceLogic.ReadBase(out baseDataSet))
+                        if (dataSourceLogic.ReadBase(out configDataset))
                             return true;
                     }
                 }
@@ -211,7 +211,7 @@ namespace Scada.Comm.Engine
                 }
             }
 
-            baseDataSet = null;
+            configDataset = null;
             return false;
         }
 

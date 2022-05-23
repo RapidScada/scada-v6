@@ -101,7 +101,7 @@ namespace Scada.Comm.Engine
             AppDirs = appDirs ?? throw new ArgumentNullException(nameof(appDirs));
             Storage = storage ?? throw new ArgumentNullException(nameof(storage));
             Log = log ?? throw new ArgumentNullException(nameof(log));
-            BaseDataSet = null;
+            ConfigDataset = null;
             SharedData = null;
 
             infoFileName = Path.Combine(appDirs.LogDir, CommUtils.InfoFileName);
@@ -147,7 +147,7 @@ namespace Scada.Comm.Engine
         /// <summary>
         /// Gets the configuration database.
         /// </summary>
-        public BaseDataSet BaseDataSet { get; private set; }
+        public ConfigDataset ConfigDataset { get; private set; }
 
         /// <summary>
         /// Gets the application level shared data.
@@ -166,7 +166,7 @@ namespace Scada.Comm.Engine
             serviceStatus = ServiceStatus.Starting;
             WriteInfo();
 
-            BaseDataSet = null;
+            ConfigDataset = null;
             SharedData = new ConcurrentDictionary<string, object>();
 
             commLines = new List<CommLine>(AppConfig.Lines.Count);
@@ -287,9 +287,9 @@ namespace Scada.Comm.Engine
                                 {
                                     readBaseDT = utcNow;
 
-                                    if (dataSourceHolder.ReadBase(out BaseDataSet baseDataSet))
+                                    if (dataSourceHolder.ReadBase(out ConfigDataset configDataset))
                                     {
-                                        BaseDataSet = baseDataSet;
+                                        ConfigDataset = configDataset;
                                         executionStep = ExecutionStep.StartLines;
                                         serviceStatus = ServiceStatus.Normal;
                                     }
@@ -579,8 +579,8 @@ namespace Scada.Comm.Engine
                             "Запуск линии связи {0}" :
                             "Start communication line {0}", commLine.Title);
 
-                        if (dataSourceHolder.ReadBase(out BaseDataSet baseDataSet))
-                            BaseDataSet = baseDataSet;
+                        if (dataSourceHolder.ReadBase(out ConfigDataset configDataset))
+                            ConfigDataset = configDataset;
 
                         if (!commLine.Start())
                         {

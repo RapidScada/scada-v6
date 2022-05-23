@@ -60,7 +60,7 @@ namespace Scada.Data.Models
         /// <summary>
         /// Initializes a new instance of the class.
         /// </summary>
-        public RightMatrix(BaseDataSet baseDataSet)
+        public RightMatrix(ConfigDataset baseDataSet)
         {
             Init(baseDataSet);
         }
@@ -150,7 +150,7 @@ namespace Scada.Data.Models
         /// <summary>
         /// Initializes the access rights.
         /// </summary>
-        public void Init(BaseDataSet baseDataSet)
+        public void Init(ConfigDataset baseDataSet)
         {
             if (baseDataSet == null)
                 throw new ArgumentNullException(nameof(baseDataSet));

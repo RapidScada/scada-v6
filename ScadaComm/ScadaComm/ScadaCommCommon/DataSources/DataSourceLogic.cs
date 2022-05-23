@@ -129,9 +129,9 @@ namespace Scada.Comm.DataSources
         /// <summary>
         /// Reads the configuration database.
         /// </summary>
-        public virtual bool ReadBase(out BaseDataSet baseDataSet)
+        public virtual bool ReadBase(out ConfigDataset configDataset)
         {
-            baseDataSet = null;
+            configDataset = null;
             return false;
         }
 

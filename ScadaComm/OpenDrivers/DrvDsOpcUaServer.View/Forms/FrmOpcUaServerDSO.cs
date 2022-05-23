@@ -19,7 +19,7 @@ namespace Scada.Comm.Drivers.DrvDsOpcUaServer.View.Forms
     /// </summary>
     public partial class FrmOpcUaServerDSO : Form
     {
-        private readonly BaseDataSet baseDataSet;           // the configuration database
+        private readonly ConfigDataset configDataset;       // the configuration database
         private readonly AppDirs appDirs;                   // the application directories
         private readonly DataSourceConfig dataSourceConfig; // the data source configuration
         private readonly OpcUaServerDSO options;            // the data source options
@@ -36,10 +36,10 @@ namespace Scada.Comm.Drivers.DrvDsOpcUaServer.View.Forms
         /// <summary>
         /// Initializes a new instance of the class.
         /// </summary>
-        public FrmOpcUaServerDSO(BaseDataSet baseDataSet, AppDirs appDirs, DataSourceConfig dataSourceConfig)
+        public FrmOpcUaServerDSO(ConfigDataset configDataset, AppDirs appDirs, DataSourceConfig dataSourceConfig)
             : this()
         {
-            this.baseDataSet = baseDataSet ?? throw new ArgumentNullException(nameof(baseDataSet));
+            this.configDataset = configDataset ?? throw new ArgumentNullException(nameof(configDataset));
             this.appDirs = appDirs ?? throw new ArgumentNullException(nameof(appDirs));
             this.dataSourceConfig = dataSourceConfig ?? throw new ArgumentNullException(nameof(dataSourceConfig));
             options = new OpcUaServerDSO(dataSourceConfig.CustomOptions);
@@ -151,7 +151,7 @@ namespace Scada.Comm.Drivers.DrvDsOpcUaServer.View.Forms
         {
             // show dialog to select devices
             ScadaUtils.ParseRange(txtDeviceFilter.Text, true, true, out IList<int> deviceNums);
-            FrmEntitySelect frmEntitySelect = new(baseDataSet.DeviceTable) { SelectedIDs = deviceNums };
+            FrmEntitySelect frmEntitySelect = new(configDataset.DeviceTable) { SelectedIDs = deviceNums };
 
             if (frmEntitySelect.ShowDialog() == DialogResult.OK)
                 txtDeviceFilter.Text = frmEntitySelect.SelectedIDs.ToRangeString();

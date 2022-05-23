@@ -78,7 +78,7 @@ namespace Scada.Web.Plugins.PlgChart
         /// <summary>
         /// Gets the chart archive bit from the configuration database.
         /// </summary>
-        public static int FindArchiveBit(BaseDataSet configBase, string archiveCode)
+        public static int FindArchiveBit(ConfigDataset configBase, string archiveCode)
         {
             if (string.IsNullOrEmpty(archiveCode))
                 return ArchiveBit.Minute;

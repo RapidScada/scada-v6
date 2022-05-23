@@ -555,12 +555,12 @@ namespace Scada.Comm.Drivers.DrvDsScadaServer.Logic
         /// <summary>
         /// Reads the configuration database.
         /// </summary>
-        public override bool ReadBase(out BaseDataSet baseDataSet)
+        public override bool ReadBase(out ConfigDataset configDataset)
         {
             // do not read the configuration database from the server that likely contains partial data
             if (deviceFilter != null)
             {
-                baseDataSet = null;
+                configDataset = null;
                 return false;
             }
 
@@ -581,7 +581,7 @@ namespace Scada.Comm.Drivers.DrvDsScadaServer.Logic
                     log.WriteError(CommPhrases.DataSourceMessage, Code, Locale.IsRussian ?
                         "Сервер не готов" :
                         "Server is not ready");
-                    baseDataSet = null;
+                    configDataset = null;
                     return false;
                 }
             }
@@ -590,7 +590,7 @@ namespace Scada.Comm.Drivers.DrvDsScadaServer.Logic
                 log.WriteError(ex.BuildErrorMessage(CommPhrases.DataSourceMessage, Code, Locale.IsRussian ?
                     "Ошибка при проверке соединения с сервером" :
                     "Error checking server connection"));
-                baseDataSet = null;
+                configDataset = null;
                 return false;
             }
 
@@ -600,9 +600,9 @@ namespace Scada.Comm.Drivers.DrvDsScadaServer.Logic
             try
             {
 
-                baseDataSet = new BaseDataSet();
+                configDataset = new ConfigDataset();
 
-                foreach (IBaseTable baseTable in baseDataSet.AllTables)
+                foreach (IBaseTable baseTable in configDataset.AllTables)
                 {
                     tableName = baseTable.Name;
                     localClient.DownloadBaseTable(baseTable);
@@ -618,7 +618,7 @@ namespace Scada.Comm.Drivers.DrvDsScadaServer.Logic
                 log.WriteError(ex, CommPhrases.DataSourceMessage, Code, string.Format(Locale.IsRussian ?
                     "Ошибка при приёме базы конфигурации, таблица {0}" :
                     "Error receiving the configuration database, the {0} table", tableName));
-                baseDataSet = null;
+                configDataset = null;
                 return false;
             }
             finally
