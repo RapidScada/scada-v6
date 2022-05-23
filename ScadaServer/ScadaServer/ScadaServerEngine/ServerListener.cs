@@ -548,7 +548,7 @@ namespace Scada.Server.Engine
         /// </summary>
         protected override string GetRoleName(ConnectedClient client)
         {
-            Role role = client == null ? null : coreLogic.ConfigBase.RoleTable.GetItem(client.RoleID);
+            Role role = client == null ? null : coreLogic.ConfigDatabase.RoleTable.GetItem(client.RoleID);
             return role == null ? "" : role.Name;
         }
 
@@ -633,11 +633,11 @@ namespace Scada.Server.Engine
             switch (path.TopFolder)
             {
                 case TopFolder.Base:
-                    return coreLogic.ConfigBase.TableMap.ContainsKey(path.Path)
+                    return coreLogic.ConfigDatabase.TableMap.ContainsKey(path.Path)
                         ? new ShortFileInfo
                         {
                             Exists = true,
-                            LastWriteTime = coreLogic.ConfigBase.BaseTimestamp,
+                            LastWriteTime = coreLogic.ConfigDatabase.BaseTimestamp,
                             Length = 0
                         }
                         : ShortFileInfo.FileNotExists;
@@ -658,7 +658,7 @@ namespace Scada.Server.Engine
             switch (path.TopFolder)
             {
                 case TopFolder.Base:
-                    if (coreLogic.ConfigBase.TableMap.TryGetValue(path.Path, out IBaseTable baseTable))
+                    if (coreLogic.ConfigDatabase.TableMap.TryGetValue(path.Path, out IBaseTable baseTable))
                     {
                         BaseTableAdapter adapter = new BaseTableAdapter { Stream = new MemoryStream() };
                         adapter.Update(baseTable);

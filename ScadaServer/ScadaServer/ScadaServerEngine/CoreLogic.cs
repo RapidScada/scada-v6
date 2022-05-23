@@ -112,7 +112,7 @@ namespace Scada.Server.Engine
             AppDirs = appDirs ?? throw new ArgumentNullException(nameof(appDirs));
             Storage = storage ?? throw new ArgumentNullException(nameof(storage));
             Log = log ?? throw new ArgumentNullException(nameof(log));
-            ConfigBase = null;
+            ConfigDatabase = null;
             SharedData = null;
 
             infoFileName = Path.Combine(appDirs.LogDir, ServerUtils.InfoFileName);
@@ -169,7 +169,7 @@ namespace Scada.Server.Engine
         /// <summary>
         /// Gets the configuration database.
         /// </summary>
-        public ConfigBase ConfigBase { get; private set; }
+        public ConfigDatabase ConfigDatabase { get; private set; }
 
         /// <summary>
         /// Gets the active channel numbers for archiving.
@@ -237,9 +237,9 @@ namespace Scada.Server.Engine
 
             try
             {
-                ConfigBase = new ConfigBase();
+                ConfigDatabase = new ConfigDatabase();
 
-                foreach (IBaseTable baseTable in ConfigBase.AllTables)
+                foreach (IBaseTable baseTable in ConfigDatabase.AllTables)
                 {
                     Storage.ReadBaseTable(baseTable);
                 }
@@ -297,12 +297,12 @@ namespace Scada.Server.Engine
                     outCnlTags.Add(cnl.CnlNum, new OutCnlTag(cnl));
             }
 
-            foreach (Cnl cnl in ConfigBase.CnlTable.EnumerateItems())
+            foreach (Cnl cnl in ConfigDatabase.CnlTable.EnumerateItems())
             {
                 if (cnl.Active && cnl.CnlNum >= cnlNum)
                 {
                     cnlNum = cnl.CnlNum;
-                    Lim lim = cnl.LimID.HasValue ? ConfigBase.LimTable.GetItem(cnl.LimID.Value) : null;
+                    Lim lim = cnl.LimID.HasValue ? ConfigDatabase.LimTable.GetItem(cnl.LimID.Value) : null;
                     AddCnlTag(cnl, lim);
                     AddOutCnlTag(cnl);
 
@@ -348,9 +348,9 @@ namespace Scada.Server.Engine
         /// </summary>
         private void InitUsers()
         {
-            users = new Dictionary<string, User>(ConfigBase.UserTable.ItemCount);
+            users = new Dictionary<string, User>(ConfigDatabase.UserTable.ItemCount);
 
-            foreach (User user in ConfigBase.UserTable.EnumerateItems())
+            foreach (User user in ConfigDatabase.UserTable.EnumerateItems())
             {
                 users[user.Name.ToLowerInvariant()] = user;
             }
@@ -362,7 +362,7 @@ namespace Scada.Server.Engine
         private void InitRightMatrix()
         {
             rightMatrix = new ServerRightMatrix();
-            rightMatrix.Init(ConfigBase);
+            rightMatrix.Init(ConfigDatabase);
         }
 
         /// <summary>
@@ -371,7 +371,7 @@ namespace Scada.Server.Engine
         private bool InitCalculator()
         {
             calc = new Calculator(AppDirs, Log);
-            return calc.CompileScripts(ConfigBase, cnlTags, outCnlTags);
+            return calc.CompileScripts(ConfigDatabase, cnlTags, outCnlTags);
         }
 
         /// <summary>
@@ -404,7 +404,7 @@ namespace Scada.Server.Engine
             // create map of archives accessed by code
             Dictionary<string, Archive> arcByCode = new Dictionary<string, Archive>();
 
-            foreach (Archive archive in ConfigBase.ArchiveTable.EnumerateItems())
+            foreach (Archive archive in ConfigDatabase.ArchiveTable.EnumerateItems())
             {
                 if (!string.IsNullOrEmpty(archive.Code))
                 {
@@ -915,7 +915,7 @@ namespace Scada.Server.Engine
                     eventMask.StatusChange && StatusChanged() ||
                     eventMask.CnlUndefined && UndefinedChanged())
                 {
-                    CnlStatus cnlStatus = ConfigBase.CnlStatusTable.GetItem(cnlData.Stat);
+                    CnlStatus cnlStatus = ConfigDatabase.CnlStatusTable.GetItem(cnlData.Stat);
                     DateTime utcNow = DateTime.UtcNow;
 
                     EnqueueEvent(cnl.ArchiveMask ?? ArchiveMask.Default, new Event
@@ -946,7 +946,7 @@ namespace Scada.Server.Engine
             if (eventMask.Enabled && eventMask.Command)
             {
                 DateTime utcNow = DateTime.UtcNow;
-                string userName = ConfigBase.UserTable.GetItem(command.UserID)?.Name;
+                string userName = ConfigDatabase.UserTable.GetItem(command.UserID)?.Name;
 
                 EnqueueEvent(ArchiveMask.Default, new Event
                 {
@@ -1422,7 +1422,7 @@ namespace Scada.Server.Engine
                     if (ev.DeviceNum <= 0)
                         ev.DeviceNum = cnl.DeviceNum ?? 0;
 
-                    if (ConfigBase.CnlStatusTable.GetItem(ev.CnlStat) is CnlStatus cnlStatus)
+                    if (ConfigDatabase.CnlStatusTable.GetItem(ev.CnlStat) is CnlStatus cnlStatus)
                     {
                         if (ev.Severity <= 0)
                             ev.Severity = cnlStatus.Severity ?? 0;
@@ -1472,7 +1472,7 @@ namespace Scada.Server.Engine
                     "Команда на канал {0} от пользователя с ид. {1}" :
                     "Command to channel {0} from user with ID {1}", cnlNum, userID);
 
-                if (!ConfigBase.UserTable.Items.TryGetValue(userID, out User user))
+                if (!ConfigDatabase.UserTable.Items.TryGetValue(userID, out User user))
                 {
                     commandResult.ErrorMessage = string.Format(Locale.IsRussian ?
                         "Пользователь {0} не найден" :

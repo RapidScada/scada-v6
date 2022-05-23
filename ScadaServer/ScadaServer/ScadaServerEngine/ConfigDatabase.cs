@@ -34,12 +34,12 @@ namespace Scada.Server.Engine
     /// Represents a configuration database.
     /// <para>Представляет базу конфигурации.</para>
     /// </summary>
-    internal class ConfigBase : ConfigDataset
+    internal class ConfigDatabase : ConfigDataset
     {
         /// <summary>
         /// Initializes a new instance of the class.
         /// </summary>
-        public ConfigBase()
+        public ConfigDatabase()
             : base()
         {
             BaseTimestamp = DateTime.UtcNow;
