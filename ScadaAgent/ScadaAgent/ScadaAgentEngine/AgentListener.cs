@@ -44,7 +44,7 @@ namespace Scada.Agent.Engine
     /// Represents a TCP listener which waits for client connections.
     /// <para>Представляет TCP-прослушиватель, который ожидает подключения клиентов.</para>
     /// </summary>
-    internal class AgentListener : BaseListener
+    internal class AgentListener : ListenerBase
     {
         /// <summary>
         /// Consolidates clients of a proxy instance.

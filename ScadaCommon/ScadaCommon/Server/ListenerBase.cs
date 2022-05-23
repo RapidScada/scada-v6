@@ -20,7 +20,7 @@
  * 
  * Author   : Mikhail Shiryaev
  * Created  : 2020
- * Modified : 2021
+ * Modified : 2022
  */
 
 using Scada.Lang;
@@ -44,7 +44,7 @@ namespace Scada.Server
     /// Represents the base class for TCP listeners which waits for client connections.
     /// <para>Представляет базовый класс TCP-прослушивателей, которые ожидают подключения клиентов.</para>
     /// </summary>
-    public abstract class BaseListener
+    public abstract class ListenerBase
     {
         /// <summary>
         /// The maximum number of client sessions.
@@ -109,7 +109,7 @@ namespace Scada.Server
         /// <summary>
         /// Initializes a new instance of the class.
         /// </summary>
-        public BaseListener(ListenerOptions listenerOptions, ILog log)
+        public ListenerBase(ListenerOptions listenerOptions, ILog log)
         {
             this.listenerOptions = listenerOptions ?? throw new ArgumentNullException(nameof(listenerOptions));
             this.log = log ?? throw new ArgumentNullException(nameof(log));

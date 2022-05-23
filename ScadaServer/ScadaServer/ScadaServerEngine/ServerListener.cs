@@ -44,7 +44,7 @@ namespace Scada.Server.Engine
     /// Represents a TCP listener which waits for client connections.
     /// <para>Представляет TCP-прослушиватель, который ожидает подключения клиентов.</para>
     /// </summary>
-    internal class ServerListener : BaseListener
+    internal class ServerListener : ListenerBase
     {
         /// <summary>
         /// The maximum number of events in one block.
