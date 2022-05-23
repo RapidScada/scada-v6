@@ -555,7 +555,7 @@ namespace Scada.Comm.Drivers.DrvDsScadaServer.Logic
         /// <summary>
         /// Reads the configuration database.
         /// </summary>
-        public override bool ReadBase(out ConfigDataset configDataset)
+        public override bool ReadConfigDatabase(out ConfigDataset configDataset)
         {
             // do not read the configuration database from the server that likely contains partial data
             if (deviceFilter != null)

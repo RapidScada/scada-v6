@@ -204,7 +204,7 @@ namespace Scada.Server.Engine
             serviceStatus = ServiceStatus.Starting;
             WriteInfo();
 
-            if (!ReadBase())
+            if (!ReadConfigDatabase())
                 return false;
 
             InitCnlTags();
@@ -229,9 +229,9 @@ namespace Scada.Server.Engine
         }
 
         /// <summary>
-        /// Reads the configuration database from files.
+        /// Reads the configuration database from the storage.
         /// </summary>
-        private bool ReadBase()
+        private bool ReadConfigDatabase()
         {
             string tableName = Locale.IsRussian ? "неопределена" : "undefined";
 

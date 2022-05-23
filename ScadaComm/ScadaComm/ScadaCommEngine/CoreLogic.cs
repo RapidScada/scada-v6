@@ -287,7 +287,7 @@ namespace Scada.Comm.Engine
                                 {
                                     readBaseDT = utcNow;
 
-                                    if (dataSourceHolder.ReadBase(out ConfigDataset configDataset))
+                                    if (dataSourceHolder.ReadConfigDatabase(out ConfigDataset configDataset))
                                     {
                                         ConfigDataset = configDataset;
                                         executionStep = ExecutionStep.StartLines;
@@ -579,7 +579,7 @@ namespace Scada.Comm.Engine
                             "Запуск линии связи {0}" :
                             "Start communication line {0}", commLine.Title);
 
-                        if (dataSourceHolder.ReadBase(out ConfigDataset configDataset))
+                        if (dataSourceHolder.ReadConfigDatabase(out ConfigDataset configDataset))
                             ConfigDataset = configDataset;
 
                         if (!commLine.Start())
