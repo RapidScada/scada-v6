@@ -20,7 +20,7 @@
  * 
  * Author   : Mikhail Shiryaev
  * Created  : 2016
- * Modified : 2020
+ * Modified : 2022
  */
 
 using Scada.Svc;
@@ -33,7 +33,7 @@ namespace Scada.Server.Svc
     /// <para>Инсталлятор службы.</para>
     /// </summary>
     [RunInstaller(true)]
-    public class SvcInstaller : BaseSvcInstaller
+    public class SvcInstaller : SvcInstallerBase
     {
         /// <summary>
         /// Initializes a new instance of the class.

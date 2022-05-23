@@ -20,7 +20,7 @@
  * 
  * Author   : Mikhail Shiryaev
  * Created  : 2016
- * Modified : 2021
+ * Modified : 2022
  */
 
 using Scada.Lang;
@@ -33,7 +33,7 @@ namespace Scada.Svc
     /// The base class for Windows service installer.
     /// <para>Базовый класс установщика службы Windows.</para>
     /// </summary>
-    public abstract class BaseSvcInstaller : Installer
+    public abstract class SvcInstallerBase : Installer
     {
         /// <summary>
         /// Initializes the service installer.
