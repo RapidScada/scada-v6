@@ -16,7 +16,7 @@ namespace Scada.Web.Plugins.PlgScheme.Model
     /// <remarks>Stores the properties of the component that failed to load
     /// <para>Сохраняет свойства компонента, который не удалось загрузить</para></remarks>
     [Serializable]
-    public sealed class UnknownComponent : BaseComponent
+    public sealed class UnknownComponent : ComponentBase
     {
         /// <summary>
         /// Получить или установить XML-узел, содержащий свойства компонента

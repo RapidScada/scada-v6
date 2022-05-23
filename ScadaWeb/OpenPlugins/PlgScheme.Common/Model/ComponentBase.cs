@@ -17,7 +17,7 @@ namespace Scada.Web.Plugins.PlgScheme.Model
     /// <para>Базовый класс компонента схемы.</para>
     /// </summary>
     [Serializable]
-    public abstract class BaseComponent : IObservableItem, ISchemeViewAvailable
+    public abstract class ComponentBase : IObservableItem, ISchemeViewAvailable
     {
         /// <summary>
         /// Макс. длина произвольного текста в отображаемом имени.
@@ -39,7 +39,7 @@ namespace Scada.Web.Plugins.PlgScheme.Model
         /// <summary>
         /// Конструктор
         /// </summary>
-        public BaseComponent()
+        public ComponentBase()
         {
             schemeView = null;
             serBinder = null;
@@ -255,9 +255,9 @@ namespace Scada.Web.Plugins.PlgScheme.Model
         /// <summary>
         /// Клонировать объект.
         /// </summary>
-        public virtual BaseComponent Clone()
+        public virtual ComponentBase Clone()
         {
-            BaseComponent clonedComponent = ScadaUtils.DeepClone(this, serBinder);
+            ComponentBase clonedComponent = ScadaUtils.DeepClone(this, serBinder);
             clonedComponent.schemeView = SchemeView;
             clonedComponent.serBinder = serBinder;
             clonedComponent.ItemChanged += ItemChanged;

@@ -15,7 +15,7 @@ namespace Scada.Web.Plugins.PlgSchBasicComp.Code
     /// <para>Компонент схемы, представляющий тумблер</para>
     /// </summary>
     [Serializable]
-    public class Toggle : BaseComponent, IDynamicComponent
+    public class Toggle : ComponentBase, IDynamicComponent
     {
         /// <summary>
         /// Размер по умолчанию

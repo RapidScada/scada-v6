@@ -161,7 +161,7 @@ namespace Scada.Web.Plugins.PlgScheme.Model
         /// <summary>
         /// Клонировать объект
         /// </summary>
-        public override BaseComponent Clone()
+        public override ComponentBase Clone()
         {
             DynamicPicture clonedComponent = (DynamicPicture)base.Clone();
 

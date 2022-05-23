@@ -15,7 +15,7 @@ namespace Scada.Web.Plugins.PlgSchBasicComp.Code
     /// <para>Компонент схемы, представляющий кнопку</para>
     /// </summary>
     [Serializable]
-    public class Button : BaseComponent, IDynamicComponent
+    public class Button : ComponentBase, IDynamicComponent
     {
         /// <summary>
         /// Размер кнопки по умолчанию

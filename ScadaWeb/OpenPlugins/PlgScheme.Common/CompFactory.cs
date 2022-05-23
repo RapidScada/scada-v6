@@ -25,6 +25,6 @@ namespace Scada.Web.Plugins.PlgScheme
         /// <summary>
         /// Создать компонент схемы
         /// </summary>
-        public abstract BaseComponent CreateComponent(string typeName, bool nameIsShort);
+        public abstract ComponentBase CreateComponent(string typeName, bool nameIsShort);
     }
 }

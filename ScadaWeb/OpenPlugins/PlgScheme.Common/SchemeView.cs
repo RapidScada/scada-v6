@@ -48,7 +48,7 @@ namespace Scada.Web.Plugins.PlgScheme
             templateBindings = null;
 
             SchemeDoc = new SchemeDocument { SchemeView = this } ;
-            Components = new SortedList<int, BaseComponent>();
+            Components = new SortedList<int, ComponentBase>();
             LoadErrors = new List<string>();
         }
 
@@ -76,7 +76,7 @@ namespace Scada.Web.Plugins.PlgScheme
         /// <summary>
         /// Gets the scheme components accessed by component ID.
         /// </summary>
-        public SortedList<int, BaseComponent> Components { get; protected set; }
+        public SortedList<int, ComponentBase> Components { get; protected set; }
 
         /// <summary>
         /// Gets the errors occurred during download.
@@ -143,7 +143,7 @@ namespace Scada.Web.Plugins.PlgScheme
                 foreach (XmlNode compNode in componentsNode.ChildNodes)
                 {
                     // create component
-                    BaseComponent component = CompManager.CreateComponent(compNode, out string errMsg);
+                    ComponentBase component = CompManager.CreateComponent(compNode, out string errMsg);
 
                     if (component == null)
                     {
@@ -205,7 +205,7 @@ namespace Scada.Web.Plugins.PlgScheme
             // update channels in components
             SortedDictionary<int, ComponentBinding> componentBindings = templateBindings?.ComponentBindings;
 
-            foreach (BaseComponent component in Components.Values)
+            foreach (ComponentBase component in Components.Values)
             {
                 if (component is IDynamicComponent dynamicComponent)
                 {
@@ -237,7 +237,7 @@ namespace Scada.Web.Plugins.PlgScheme
                 : templateBindings.TitleCompID;
 
             if (titleCompID > 0 &&
-                Components.TryGetValue(titleCompID, out BaseComponent titleComponent) &&
+                Components.TryGetValue(titleCompID, out ComponentBase titleComponent) &&
                 titleComponent is StaticText staticText)
             {
                 staticText.Text = Title;
@@ -300,7 +300,7 @@ namespace Scada.Web.Plugins.PlgScheme
                 XmlElement componentsElem = xmlDoc.CreateElement("Components");
                 rootElem.AppendChild(componentsElem);
 
-                foreach (BaseComponent component in Components.Values)
+                foreach (ComponentBase component in Components.Values)
                 {
                     if (component is UnknownComponent unknownComponent)
                     {

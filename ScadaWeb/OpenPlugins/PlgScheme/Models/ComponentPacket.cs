@@ -38,7 +38,7 @@ namespace Scada.Web.Plugins.PlgScheme.Models
         /// <summary>
         /// Копировать заданные компоненты в объект для передачи данных.
         /// </summary>
-        public void CopyComponents(IList<BaseComponent> srcComponents, int startIndex, int count)
+        public void CopyComponents(IList<ComponentBase> srcComponents, int startIndex, int count)
         {
             int srcCnt = srcComponents.Count;
             EndOfComponents = startIndex + count >= srcCnt;

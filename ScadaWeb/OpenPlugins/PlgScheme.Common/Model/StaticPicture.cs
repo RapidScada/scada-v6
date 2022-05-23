@@ -14,7 +14,7 @@ namespace Scada.Web.Plugins.PlgScheme.Model
     /// <para>Компонент схемы, представляющий статический рисунок</para>
     /// </summary>
     [Serializable]
-    public class StaticPicture : BaseComponent
+    public class StaticPicture : ComponentBase
     {
         /// <summary>
         /// Конструктор

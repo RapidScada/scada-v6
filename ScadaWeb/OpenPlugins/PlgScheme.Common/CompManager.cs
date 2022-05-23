@@ -188,7 +188,7 @@ namespace Scada.Web.Plugins.PlgScheme
         /// <summary>
         /// Создать компонент на основе XML-узла.
         /// </summary>
-        public BaseComponent CreateComponent(XmlNode compNode, out string errMsg)
+        public ComponentBase CreateComponent(XmlNode compNode, out string errMsg)
         {
             if (compNode == null)
                 throw new ArgumentNullException(nameof(compNode));
@@ -218,7 +218,7 @@ namespace Scada.Web.Plugins.PlgScheme
                     }
                     else if (factsByPrefix.TryGetValue(xmlPrefix, out CompFactory compFactory))
                     {
-                        BaseComponent comp = compFactory.CreateComponent(localName, true);
+                        ComponentBase comp = compFactory.CreateComponent(localName, true);
                         if (comp == null)
                             errMsg = string.Format(SchemePhrases.UnableCreateComponent, nodeName);
                         return comp;
@@ -243,7 +243,7 @@ namespace Scada.Web.Plugins.PlgScheme
         /// <summary>
         /// Создать компонент заданного типа.
         /// </summary>
-        public BaseComponent CreateComponent(string compTypeName)
+        public ComponentBase CreateComponent(string compTypeName)
         {
             try
             {
@@ -251,11 +251,11 @@ namespace Scada.Web.Plugins.PlgScheme
                 {
                     if (StandardCompTypes.TryGetValue(compTypeName, out Type compType))
                     {
-                        return (BaseComponent)Activator.CreateInstance(compType);
+                        return (ComponentBase)Activator.CreateInstance(compType);
                     }
                     else if (specsByType.TryGetValue(compTypeName, out CompLibSpec compLibSpec))
                     {
-                        BaseComponent comp = compLibSpec.CompFactory.CreateComponent(compTypeName, false);
+                        ComponentBase comp = compLibSpec.CompFactory.CreateComponent(compTypeName, false);
 
                         if (comp == null)
                         {

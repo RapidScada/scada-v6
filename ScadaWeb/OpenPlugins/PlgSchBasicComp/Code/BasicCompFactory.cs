@@ -15,7 +15,7 @@ namespace Scada.Web.Plugins.PlgSchBasicComp.Code
         /// <summary>
         /// Создать компонент схемы.
         /// </summary>
-        public override BaseComponent CreateComponent(string typeName, bool nameIsShort)
+        public override ComponentBase CreateComponent(string typeName, bool nameIsShort)
         {
             if (NameEquals("Button", typeof(Button).FullName, typeName, nameIsShort))
                 return new Button();

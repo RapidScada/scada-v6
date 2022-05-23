@@ -15,7 +15,7 @@ namespace Scada.Web.Plugins.PlgScheme.Model
     /// <para>Компонент схемы, представляющий статическую надпись</para>
     /// </summary>
     [Serializable]
-    public class StaticText : BaseComponent
+    public class StaticText : ComponentBase
     {
         /// <summary>
         /// Текст надписи по умолчанию

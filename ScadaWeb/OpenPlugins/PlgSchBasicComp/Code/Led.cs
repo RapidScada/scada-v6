@@ -14,7 +14,7 @@ namespace Scada.Web.Plugins.PlgSchBasicComp.Code
     /// <para>Компонент схемы, представляющий светодиод.</para>
     /// </summary>
     [Serializable]
-    public class Led : BaseComponent, IDynamicComponent
+    public class Led : ComponentBase, IDynamicComponent
     {
         /// <summary>
         /// Размер по умолчанию.
@@ -163,7 +163,7 @@ namespace Scada.Web.Plugins.PlgSchBasicComp.Code
         /// <summary>
         /// Клонировать объект.
         /// </summary>
-        public override BaseComponent Clone()
+        public override ComponentBase Clone()
         {
             Led clonedComponent = (Led)base.Clone();
 

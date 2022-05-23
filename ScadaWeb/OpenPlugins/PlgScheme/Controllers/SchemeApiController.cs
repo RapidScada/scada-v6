@@ -139,7 +139,7 @@ namespace Scada.Web.Plugins.PlgScheme.Controllers
                     }
                     else if (!(userContext.Rights.GetRightByObj(cnl.ObjNum ?? 0).Control &&
                         userContext.Rights.GetRightByView(schemeView.ViewEntity).Control &&
-                        schemeView.Components.TryGetValue(componentID, out BaseComponent component) &&
+                        schemeView.Components.TryGetValue(componentID, out ComponentBase component) &&
                         component is IDynamicComponent dynamicComponent &&
                         dynamicComponent.Action == Actions.SendCommandNow &&
                         dynamicComponent.CtrlCnlNum == ctrlCnlNum))
