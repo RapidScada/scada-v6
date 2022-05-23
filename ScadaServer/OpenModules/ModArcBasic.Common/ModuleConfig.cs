@@ -11,7 +11,7 @@ namespace Scada.Server.Modules.ModArcBasic
     /// Represents a module configuration.
     /// <para>Представляет конфигурацию модуля.</para>
     /// </summary>
-    public class ModuleConfig : BaseConfig
+    public class ModuleConfig : ConfigBase
     {
         /// <summary>
         /// The default configuration file name.

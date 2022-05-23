@@ -14,7 +14,7 @@ namespace Scada.AB
     /// Represents an address book.
     /// <para>Представляет адресную книгу.</para>
     /// </summary>
-    public class AddressBook : BaseConfig, ITreeNode
+    public class AddressBook : ConfigBase, ITreeNode
     {
         /// <summary>
         /// Gets the default file name of the address book.

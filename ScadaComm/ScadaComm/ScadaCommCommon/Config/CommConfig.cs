@@ -40,7 +40,7 @@ namespace Scada.Comm.Config
     /// <para>Представляет конфигурацию Коммуникатора.</para>
     /// </summary>
     [Serializable]
-    public class CommConfig : BaseConfig, ITreeNode
+    public class CommConfig : ConfigBase, ITreeNode
     {
         /// <summary>
         /// The default configuration file name.

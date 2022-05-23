@@ -13,7 +13,7 @@ namespace Scada.Comm.Drivers.DrvModbus.Config
     /// Represents a device template.
     /// <para>Представляет шаблон устройства.</para>
     /// </summary>
-    public class DeviceTemplate : BaseConfig
+    public class DeviceTemplate : ConfigBase
     {
         /// <summary>
         /// Gets the device template options.

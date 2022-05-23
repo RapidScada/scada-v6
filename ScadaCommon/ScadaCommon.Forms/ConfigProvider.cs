@@ -38,12 +38,12 @@ namespace Scada.Forms
         /// <summary>
         /// Gets or sets the module configuration.
         /// </summary>
-        protected BaseConfig Config { get; set; }
+        protected ConfigBase Config { get; set; }
 
         /// <summary>
         /// Gets or sets the copy of the module configuration.
         /// </summary>
-        protected BaseConfig ConfigCopy { get; set; }
+        protected ConfigBase ConfigCopy { get; set; }
 
         /// <summary>
         /// Get the title of the configuration form.

@@ -36,7 +36,7 @@ namespace Scada.Server.Config
     /// <para>Представляет конфигурацию Сервера.</para>
     /// </summary>
     [Serializable]
-    public class ServerConfig : BaseConfig
+    public class ServerConfig : ConfigBase
     {
         /// <summary>
         /// The default configuration file name.

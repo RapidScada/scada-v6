@@ -34,7 +34,7 @@ namespace Scada.Comm.Config
     /// <para>Представляет конфигурацию пользовательского устройства.</para>
     /// </summary>
     [Serializable]
-    public abstract class CustomDeviceConfig : BaseConfig
+    public abstract class CustomDeviceConfig : ConfigBase
     {
         /// <summary>
         /// Builds an error message for the load operation.

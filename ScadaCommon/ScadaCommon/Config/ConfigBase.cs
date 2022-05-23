@@ -35,12 +35,12 @@ namespace Scada.Config
     /// <para>Представляет базовый класс конфигураций.</para>
     /// </summary>
     [Serializable]
-    public abstract class BaseConfig : IConfig
+    public abstract class ConfigBase : IConfig
     {
         /// <summary>
         /// Initializes a new instance of the class.
         /// </summary>
-        public BaseConfig()
+        public ConfigBase()
         {
             SetToDefault();
         }

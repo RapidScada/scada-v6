@@ -13,7 +13,7 @@ namespace Scada.Comm.Drivers.DrvDsScadaServer
     /// Represents a driver configuration.
     /// <para>Представляет конфигурацию драйвера.</para>
     /// </summary>
-    public class DriverConfig : BaseConfig
+    public class DriverConfig : ConfigBase
     {
         /// <summary>
         /// The default configuration file name.
