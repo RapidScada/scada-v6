@@ -74,7 +74,7 @@ namespace Scada.Web.Plugins.PlgMain.Areas.Main.Pages
             {
                 Message = WebPhrases.CommandsDisabled;
             }
-            else if (webContext.ConfigBase.CnlTable.GetItem(cnlNum) is not Cnl cnl)
+            else if (webContext.ConfigDatabase.CnlTable.GetItem(cnlNum) is not Cnl cnl)
             {
                 Message = string.Format(WebPhrases.CnlNotFound, cnlNum);
             }
@@ -201,14 +201,14 @@ namespace Scada.Web.Plugins.PlgMain.Areas.Main.Pages
                 return Forbid();
 
             if (Cnl.ObjNum != null)
-                Obj = webContext.ConfigBase.ObjTable.GetItem(Cnl.ObjNum.Value);
+                Obj = webContext.ConfigDatabase.ObjTable.GetItem(Cnl.ObjNum.Value);
 
             if (Cnl.DeviceNum != null)
-                Device = webContext.ConfigBase.DeviceTable.GetItem(Cnl.DeviceNum.Value);
+                Device = webContext.ConfigDatabase.DeviceTable.GetItem(Cnl.DeviceNum.Value);
 
             if (Cnl.FormatID != null)
             {
-                Format = webContext.ConfigBase.FormatTable.GetItem(Cnl.FormatID.Value);
+                Format = webContext.ConfigDatabase.FormatTable.GetItem(Cnl.FormatID.Value);
 
                 if (Format != null)
                 {

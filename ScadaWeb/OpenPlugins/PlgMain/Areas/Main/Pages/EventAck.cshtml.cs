@@ -69,7 +69,8 @@ namespace Scada.Web.Plugins.PlgMain.Areas.Main.Pages
 
         private EventFormatted FormatEvent(Event ev)
         {
-            return new CnlDataFormatter(webContext.ConfigBase, webContext.ConfigBase.Enums, userContext.TimeZone)
+            return new CnlDataFormatter(
+                webContext.ConfigDatabase, webContext.ConfigDatabase.Enums, userContext.TimeZone)
                 .FormatEvent(ev);
         }
 

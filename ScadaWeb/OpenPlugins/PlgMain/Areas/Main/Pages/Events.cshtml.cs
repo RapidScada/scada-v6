@@ -37,7 +37,7 @@ namespace Scada.Web.Plugins.PlgMain.Areas.Main.Pages
             }
             else
             {
-                Archive archive = webContext.ConfigBase.ArchiveTable.SelectFirst(
+                Archive archive = webContext.ConfigDatabase.ArchiveTable.SelectFirst(
                     new TableFilter("Code", pluginContext.Options.EventArchiveCode));
                 return archive == null ? Data.Const.ArchiveBit.Unknown : archive.Bit;
             }
