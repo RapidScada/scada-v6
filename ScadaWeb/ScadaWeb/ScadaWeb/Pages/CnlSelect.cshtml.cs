@@ -36,10 +36,16 @@ namespace Scada.Web.Pages
 
         [BindProperty]
         public int ObjNum { get; set; }
-
+        [BindProperty]
+        public bool OnlySelected { get; set; }
         [BindProperty]
         public List<int> SelectedCnlNums { get; set; }
 
+
+        private void FillObjList()
+        {
+
+        }
 
         public void OnGet(IdList cnlNums)
         {
@@ -48,6 +54,11 @@ namespace Scada.Web.Pages
                 if (webContext.ConfigDatabase.CnlTable.GetItem(cnlNum) is Cnl cnl)
                     SelectedCnls.Add(cnl);
             }
+        }
+
+        public void OnPost()
+        {
+
         }
     }
 }

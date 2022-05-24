@@ -27,7 +27,7 @@ using Scada.Data.Entities;
 using Scada.Data.Models;
 using System.Collections.Generic;
 
-namespace Scada.Web
+namespace Scada.Web.Models
 {
     /// <summary>
     /// Represents a cached configuration database for the web application.

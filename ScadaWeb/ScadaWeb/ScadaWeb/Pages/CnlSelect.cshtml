@@ -18,7 +18,7 @@
         <select id="selObj" class="form-select" asp-for="ObjNum" asp-items="Model.ObjList"></select>
     </div>
     <div class="mb-3 form-check">
-        <input type="checkbox" id="chkOnlySelected" class="form-check-input" />
+        <input type="checkbox" id="chkOnlySelected" class="form-check-input" asp-for="OnlySelected" />
         <label id="lblOnlySelected" class="form-check-label" for="chkOnlySelected">Show only selected channels</label>
     </div>
 
