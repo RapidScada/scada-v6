@@ -24,28 +24,30 @@
  */
 
 using Scada.Data.Entities;
+using Scada.Lang;
 using System;
+using System.Text;
 
-namespace Scada.Web.Models
+namespace Scada.Web.Users
 {
     /// <summary>
     /// Represents an object item that is available to a user.
     /// <para>Представляет элемент объекта, доступный пользователю.</para>
     /// </summary>
-    public class ObjItem
+    public class ObjectItem
     {
-        /// <summary>
-        /// The prefix indicating an item level.
-        /// </summary>
-        public const string LevelPrefix = "--";
-
-
         /// <summary>
         /// Initializes a new instance of the class.
         /// </summary>
-        public ObjItem(Obj obj, int level)
+        public ObjectItem(Obj obj, int level)
         {
             ArgumentNullException.ThrowIfNull(obj, nameof(obj));
+            ObjNum = obj.ObjNum;
+            Text = new StringBuilder()
+                .Append('-', level * 2)
+                .Append(' ')
+                .AppendFormat(CommonPhrases.EntityCaption, obj.ObjNum, obj.Name)
+                .ToString();
             Level = level;
         }
 
@@ -59,7 +61,6 @@ namespace Scada.Web.Models
         /// Gets the item text.
         /// </summary>
         public string Text { get; }
-
 
         /// <summary>
         /// Gets the nesting level.

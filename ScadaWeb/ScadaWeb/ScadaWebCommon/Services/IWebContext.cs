@@ -30,7 +30,6 @@ using Scada.Data.Models;
 using Scada.Log;
 using Scada.Storages;
 using Scada.Web.Config;
-using Scada.Web.Models;
 using Scada.Web.Plugins;
 using System.Threading;
 

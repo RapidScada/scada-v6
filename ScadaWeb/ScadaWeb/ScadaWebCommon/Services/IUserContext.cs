@@ -20,7 +20,7 @@
  * 
  * Author   : Mikhail Shiryaev
  * Created  : 2021
- * Modified : 2021
+ * Modified : 2022
  */
 
 using Scada.Data.Entities;
@@ -44,6 +44,11 @@ namespace Scada.Web.Services
         /// Gets the user access rights.
         /// </summary>
         UserRights Rights { get; }
+
+        /// <summary>
+        /// Gets the objects available to the user.
+        /// </summary>
+        UserObjects Objects { get; }
 
         /// <summary>
         /// Gets the main menu items available to the user.

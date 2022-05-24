@@ -63,6 +63,7 @@ namespace Scada.Web.Code
         {
             UserEntity = EmptyUser;
             Rights = new UserRights();
+            Objects = new UserObjects();
             Menu = new UserMenu();
             Views = new UserViews();
             TimeZone = TimeZoneInfo.Local;
@@ -78,6 +79,11 @@ namespace Scada.Web.Code
         /// Gets the user access rights.
         /// </summary>
         public UserRights Rights { get; }
+
+        /// <summary>
+        /// Gets the objects available to the user.
+        /// </summary>
+        public UserObjects Objects { get; }
 
         /// <summary>
         /// Gets the main menu items available to the user.

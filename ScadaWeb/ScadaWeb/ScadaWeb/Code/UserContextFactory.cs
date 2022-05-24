@@ -20,7 +20,7 @@
  * 
  * Author   : Mikhail Shiryaev
  * Created  : 2021
- * Modified : 2021
+ * Modified : 2022
  */
 
 using Microsoft.AspNetCore.Http;
@@ -60,6 +60,7 @@ namespace Scada.Web.Code
             {
                 UserContext userContext = new() { UserEntity = userEntity };
                 userContext.Rights.Init(webContext.ConfigDatabase.RightMatrix, userEntity.RoleID);
+                userContext.Objects.Init(webContext.ConfigDatabase.ObjTable, userContext.Rights);
                 userContext.Menu.Init(webContext, userEntity, userContext.Rights);
                 userContext.Views.Init(webContext, userContext.Rights);
 
