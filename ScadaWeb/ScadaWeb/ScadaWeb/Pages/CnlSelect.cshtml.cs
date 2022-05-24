@@ -10,6 +10,7 @@ using Scada.Web.Api;
 using Scada.Web.Authorization;
 using Scada.Web.Components;
 using Scada.Web.Services;
+using Scada.Web.Users;
 using System.Collections.Generic;
 
 namespace Scada.Web.Pages
@@ -22,11 +23,13 @@ namespace Scada.Web.Pages
     public class CnlSelectModel : PageModel
     {
         private readonly IWebContext webContext;
+        private readonly IUserContext userContext;
 
 
-        public CnlSelectModel(IWebContext webContext)
+        public CnlSelectModel(IWebContext webContext, IUserContext userContext)
         {
             this.webContext = webContext;
+            this.userContext = userContext;
         }
 
 
@@ -44,11 +47,22 @@ namespace Scada.Web.Pages
 
         private void FillObjList()
         {
+            ObjList.Add(new SelectListItem("-- Select an object --", "0"));
 
+            foreach (ObjectItem objectItem in userContext.Objects)
+            {
+                ObjList.Add(new SelectListItem(
+                    objectItem.Text, 
+                    objectItem.ObjNum.ToString()));
+            }
         }
 
         public void OnGet(IdList cnlNums)
         {
+            ObjNum = 0;
+            OnlySelected = true;
+            FillObjList();
+
             foreach (int cnlNum in cnlNums)
             {
                 if (webContext.ConfigDatabase.CnlTable.GetItem(cnlNum) is Cnl cnl)
@@ -58,7 +72,7 @@ namespace Scada.Web.Pages
 
         public void OnPost()
         {
-
+            FillObjList();
         }
     }
 }

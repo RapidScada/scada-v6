@@ -43,12 +43,20 @@ namespace Scada.Web.Users
         {
             ArgumentNullException.ThrowIfNull(obj, nameof(obj));
             ObjNum = obj.ObjNum;
-            Text = new StringBuilder()
-                .Append('-', level * 2)
-                .Append(' ')
-                .AppendFormat(CommonPhrases.EntityCaption, obj.ObjNum, obj.Name)
-                .ToString();
             Level = level;
+
+            if (level > 0)
+            {
+                Text = new StringBuilder()
+                    .Append('-', level * 2)
+                    .Append(' ')
+                    .AppendFormat(CommonPhrases.EntityCaption, obj.ObjNum, obj.Name)
+                    .ToString();
+            }
+            else
+            {
+                Text = string.Format(CommonPhrases.EntityCaption, obj.ObjNum, obj.Name);
+            }
         }
 
 

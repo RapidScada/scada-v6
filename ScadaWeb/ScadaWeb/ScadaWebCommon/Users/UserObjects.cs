@@ -68,7 +68,7 @@ namespace Scada.Web.Users
 
                 foreach (Obj obj in objTable.Enumerate())
                 {
-                    if (userRights.GetRightByObj(obj.ObjNum).View)
+                    if (obj.ParentObjNum == null && userRights.GetRightByObj(obj.ObjNum).View)
                     {
                         Add(new ObjectItem(obj, 0));
                         AddChildObjects(parentObjIndex, userRights, obj.ObjNum, 0);
