@@ -28,7 +28,7 @@ $(document).ready(function () {
     // send enumeration command
     $("#divEnum button").click(function () {
         $("#hidCmdEnum").val($(this).data("cmdval"));
-        $("#btnSubmit").click();
+        $("form:first").submit();
     });
 
     // reset invalid state
