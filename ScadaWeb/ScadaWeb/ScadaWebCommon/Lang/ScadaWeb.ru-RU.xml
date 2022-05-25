@@ -50,6 +50,10 @@
   <Dictionary key="Scada.Web.Pages.CnlSelect">
     <Phrase key="PageTitle">Выбор каналов</Phrase>
     <Phrase key="lblObj">Объект</Phrase>
+    <Phrase key="lblOnlySelected">Показывать только выбранные каналы</Phrase>
+    <Phrase key="SelectObjectItem">-- Выберите объект --</Phrase>
+    <Phrase key="FilterRequired">Укажите фильтр, пожалуйста</Phrase>
+    <Phrase key="NoChannels">Каналы, удовлетворяющие фильтру, отсутствуют</Phrase>
   </Dictionary>
   <Dictionary key="Scada.Web.Pages.Error">
     <Phrase key="PageTitle">Ошибка</Phrase>

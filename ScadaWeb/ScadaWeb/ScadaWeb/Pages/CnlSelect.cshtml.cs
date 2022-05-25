@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Scada.Data.Entities;
 using Scada.Data.Tables;
+using Scada.Lang;
 using Scada.Web.Api;
 using Scada.Web.Authorization;
 using Scada.Web.Components;
@@ -35,18 +36,21 @@ namespace Scada.Web.Pages
 
         private readonly IWebContext webContext;
         private readonly IUserContext userContext;
+        private readonly dynamic dict;
 
 
         public CnlSelectModel(IWebContext webContext, IUserContext userContext)
         {
             this.webContext = webContext;
             this.userContext = userContext;
+            dict = Locale.GetDictionary("Scada.Web.Pages.CnlSelect");
         }
 
 
         public ModalPostbackArgs PostbackArgs { get; private set; } = null;
         public List<SelectListItem> ObjList { get; private set; } = new();
         public List<ChannelItem> ChannelItems { get; private set; } = new();
+        public bool FilterIsEmpty => !(ObjNum > 0 || OnlySelected);
 
         [BindProperty]
         public int ObjNum { get; set; }
@@ -58,7 +62,7 @@ namespace Scada.Web.Pages
 
         private void FillObjList()
         {
-            ObjList.Add(new SelectListItem("-- Select an object --", "0"));
+            ObjList.Add(new SelectListItem(dict.SelectObjectItem, "0"));
 
             foreach (ObjectItem objectItem in userContext.Objects)
             {
@@ -128,7 +132,24 @@ namespace Scada.Web.Pages
 
         public void OnPostSelect()
         {
-            PostbackArgs = new ModalPostbackArgs { CloseModal = true };
+            // validate selected channel numbers
+            SortedSet<int> selectedCnlNums = new();
+
+            foreach (int cnlNum in ScadaUtils.ParseIntArray(SelectedCnlNums))
+            {
+                if (webContext.ConfigDatabase.CnlTable.GetItem(cnlNum) is Cnl cnl &&
+                    userContext.Rights.GetRightByObj(cnl.ObjNum).View)
+                {
+                    selectedCnlNums.Add(cnlNum);
+                }
+            }
+
+            // create modal dialog result
+            PostbackArgs = new ModalPostbackArgs 
+            { 
+                CloseModal = true,
+                ModalResult = new { CnlNums = selectedCnlNums.ToLongString() }
+            };
         }
     }
 }

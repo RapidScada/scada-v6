@@ -20,7 +20,7 @@
     </div>
     <div class="mb-3 form-check">
         <input type="checkbox" id="chkOnlySelected" class="form-check-input" asp-for="OnlySelected" />
-        <label id="lblOnlySelected" class="form-check-label" for="chkOnlySelected">Show only selected channels</label>
+        <label id="lblOnlySelected" class="form-check-label" for="chkOnlySelected">@dict.lblOnlySelected</label>
     </div>
 
     @if (Model.ChannelItems.Count > 0)
@@ -58,9 +58,9 @@
             </ul>
         </nav>
     }
-    else
+    else if (Model.PostbackArgs == null || !Model.PostbackArgs.CloseModal)
     {
-        <div class="alert alert-warning">No channels matching the filter</div>        
+        <div class="alert alert-warning">@(Model.FilterIsEmpty ? dict.FilterRequired : dict.NoChannels)</div>
     }
 
     <input type="hidden" id="hidSelectedCnlNums" asp-for="SelectedCnlNums" />
