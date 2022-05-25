@@ -61,6 +61,9 @@ class ModalManager {
                 "padding": ModalManager.FRAME_PADDING // provide space for Bootstrap effects
             });
 
+            // set the modal title
+            modalElem.find(".modal-title").text(ModalManager._truncateTitle(modalWnd.document.title));
+
             // remove the modal on press the Escape key
             modalDoc
                 .off("keydown.rs.modal")
@@ -83,6 +86,19 @@ class ModalManager {
                 }
             }
         });
+    }
+
+    // Submits the modal form.
+    _submitModal(modalWnd, modalValue) {
+        let modalForm = modalWnd.$("form:first");
+        let submitElem = modalForm.find(".rs-modal-submit");
+        modalForm.find(".rs-modal-value").val(modalValue);
+
+        if (submitElem.length > 0) {
+            submitElem.click();
+        } else {
+            modalForm.submit();
+        }
     }
 
     // Builds an HTML markup of a modal dialog footer buttons.
@@ -227,9 +243,6 @@ class ModalManager {
                     modalElem.find(".modal-content").css("min-width", frameWidth + modalPaddings);
                     modalFrame.css("height", options.height || frameHeight);
 
-                    // set the modal title
-                    modalElem.find(".modal-title").text(ModalManager._truncateTitle(frameWnd.document.title));
-
                     // handle button click
                     modalElem.find(".modal-footer button").click(function () {
                         // raise event
@@ -238,15 +251,7 @@ class ModalManager {
 
                         // submit the modal
                         if ($(this).hasClass("rs-btn-submit")) {
-                            let modalForm = frameBody.find("form:first");
-                            let submitElem = modalForm.find(".rs-modal-submit");
-                            modalForm.find(".rs-modal-value").val(buttonValue);
-
-                            if (submitElem.length > 0) {
-                                submitElem.click();
-                            } else {
-                                modalForm.submit();
-                            }
+                            thisObj._submitModal(frameWnd, buttonValue);
                         }
                     });
                 } else {
