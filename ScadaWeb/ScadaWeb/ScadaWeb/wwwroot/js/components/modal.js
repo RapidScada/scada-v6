@@ -238,8 +238,15 @@ class ModalManager {
 
                         // submit the modal
                         if ($(this).hasClass("rs-btn-submit")) {
-                            frameBody.find("form .rs-modal-value").val(buttonValue);
-                            frameBody.find("form .rs-modal-submit").click();
+                            let modalForm = frameBody.find("form:first");
+                            let submitElem = modalForm.find(".rs-modal-submit");
+                            modalForm.find(".rs-modal-value").val(buttonValue);
+
+                            if (submitElem.length > 0) {
+                                submitElem.click();
+                            } else {
+                                modalForm.submit();
+                            }
                         }
                     });
                 } else {
