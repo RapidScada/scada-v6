@@ -6,11 +6,13 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Scada.Data.Entities;
+using Scada.Data.Tables;
 using Scada.Web.Api;
 using Scada.Web.Authorization;
 using Scada.Web.Components;
 using Scada.Web.Services;
 using Scada.Web.Users;
+using System;
 using System.Collections.Generic;
 
 namespace Scada.Web.Pages
@@ -22,6 +24,15 @@ namespace Scada.Web.Pages
     [Authorize(Policy = PolicyName.Restricted)]
     public class CnlSelectModel : PageModel
     {
+        /// <summary>
+        /// Represents an item that corresponds to a selectable channel.
+        /// </summary>
+        public class ChannelItem
+        {
+            public bool Selected { get; set; }
+            public Cnl Cnl { get; set; }
+        }
+
         private readonly IWebContext webContext;
         private readonly IUserContext userContext;
 
@@ -35,14 +46,14 @@ namespace Scada.Web.Pages
 
         public ModalPostbackArgs PostbackArgs { get; private set; } = null;
         public List<SelectListItem> ObjList { get; private set; } = new();
-        public List<Cnl> SelectedCnls { get; private set; } = new();
+        public List<ChannelItem> ChannelItems { get; private set; } = new();
 
         [BindProperty]
         public int ObjNum { get; set; }
         [BindProperty]
         public bool OnlySelected { get; set; }
         [BindProperty]
-        public List<int> SelectedCnlNums { get; set; }
+        public string SelectedCnlNums { get; set; }
 
 
         private void FillObjList()
@@ -57,22 +68,67 @@ namespace Scada.Web.Pages
             }
         }
 
+        private void FillChannelItems()
+        {
+            if (ObjNum > 0)
+            {
+                if (userContext.Rights.GetRightByObj(ObjNum).View)
+                {
+                    // select channels by object number
+                    HashSet<int> selectedCnlNums = ScadaUtils.ParseIntSet(SelectedCnlNums);
+
+                    foreach (Cnl cnl in webContext.ConfigDatabase.CnlTable.Select(new TableFilter("ObjNum", ObjNum), true))
+                    {
+                        ChannelItems.Add(new ChannelItem
+                        {
+                            Selected = selectedCnlNums.Contains(cnl.CnlNum),
+                            Cnl = cnl
+                        });
+                    }
+                }
+            }
+            else if (OnlySelected)
+            {
+                // get selected channels
+                int[] selectedCnlNums = ScadaUtils.ParseIntArray(SelectedCnlNums);
+                Array.Sort(selectedCnlNums);
+
+                foreach (int cnlNum in selectedCnlNums)
+                {
+                    if (webContext.ConfigDatabase.CnlTable.GetItem(cnlNum) is Cnl cnl &&
+                        userContext.Rights.GetRightByObj(cnl.ObjNum).View)
+                    {
+                        ChannelItems.Add(new ChannelItem
+                        {
+                            Selected = true,
+                            Cnl = cnl
+                        });
+                    }
+                }
+            }
+        }
+
+
         public void OnGet(IdList cnlNums)
         {
             ObjNum = 0;
             OnlySelected = true;
-            FillObjList();
+            SelectedCnlNums = cnlNums.ToLongString();
 
-            foreach (int cnlNum in cnlNums)
-            {
-                if (webContext.ConfigDatabase.CnlTable.GetItem(cnlNum) is Cnl cnl)
-                    SelectedCnls.Add(cnl);
-            }
+            FillObjList();
+            FillChannelItems();
         }
 
         public void OnPost()
         {
             FillObjList();
+            FillChannelItems();
+            PostbackArgs = new ModalPostbackArgs { UpdateHeight = true };
+        }
+
+        public void OnPostSelect()
+        {
+            PostbackArgs = new ModalPostbackArgs { CloseModal = true };
         }
     }
 }

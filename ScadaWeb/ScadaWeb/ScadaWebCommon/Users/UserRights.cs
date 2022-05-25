@@ -161,7 +161,7 @@ namespace Scada.Web.Users
         /// <summary>
         /// Gets the access rights on the specified object.
         /// </summary>
-        public Right GetRightByObj(int objID)
+        public Right GetRightByObj(int? objID)
         {
             if (RoleIsBuiltIn)
             {
@@ -169,7 +169,7 @@ namespace Scada.Web.Users
             }
             else
             {
-                return objID > 0 && RightByObj != null && RightByObj.TryGetValue(objID, out Right right)
+                return objID > 0 && RightByObj != null && RightByObj.TryGetValue(objID.Value, out Right right)
                     ? right
                     : Right.Empty;
             }
@@ -180,7 +180,7 @@ namespace Scada.Web.Users
         /// </summary>
         public Right GetRightByView(View viewEntity)
         {
-            return GetRightByObj(viewEntity?.ObjNum ?? 0);
+            return GetRightByObj(viewEntity?.ObjNum);
         }
 
         /// <summary>

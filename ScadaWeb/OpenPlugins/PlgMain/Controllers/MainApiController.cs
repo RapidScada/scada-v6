@@ -68,10 +68,10 @@ namespace Scada.Web.Plugins.PlgMain.Controllers
             {
                 Cnl cnl = webContext.ConfigDatabase.CnlTable.GetItem(cnlNum);
 
-                if (cnl == null || cnl.ObjNum == null)
-                    throw new AccessDeniedException(); // no rights on undefined channel or object
+                if (cnl == null)
+                    throw new AccessDeniedException(); // no rights on undefined channel
 
-                if (!userContext.Rights.GetRightByObj(cnl.ObjNum.Value).View)
+                if (!userContext.Rights.GetRightByObj(cnl.ObjNum).View)
                     throw new AccessDeniedException();
             }
         }
@@ -636,7 +636,7 @@ namespace Scada.Web.Plugins.PlgMain.Controllers
                 {
                     errMsg = string.Format(WebPhrases.CnlNotOutput, cnlNum);
                 }
-                else if (!userContext.Rights.GetRightByObj(cnl.ObjNum ?? 0).Control)
+                else if (!userContext.Rights.GetRightByObj(cnl.ObjNum).Control)
                 {
                     errMsg = WebPhrases.AccessDenied;
                 }

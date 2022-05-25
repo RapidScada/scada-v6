@@ -7,6 +7,7 @@
 }
 
 @section Scripts {
+    <script src="~/js/pages/cnl-select.js" asp-append-version="true"></script>
     <script>
         var modalPostbackArgs = @Model.PostbackArgs.ToJs();
     </script>
@@ -22,40 +23,46 @@
         <label id="lblOnlySelected" class="form-check-label" for="chkOnlySelected">Show only selected channels</label>
     </div>
 
-    <table class="table table-hover table-sm">
-        <thead>
-            <tr>
-                <th>Selected</th>
-                <th>Number</th>
-                <th>Name</th>
-            </tr>
-        </thead>
-        <tbody>
-            @foreach (var cnl in Model.SelectedCnls)
-            {
+    @if (Model.ChannelItems.Count > 0)
+    {
+        <table id="tblCnl" class="table table-hover table-sm">
+            <thead>
                 <tr>
-                    <td><input type="checkbox" class="form-check-input" /></td>
-                    <td>@cnl.CnlNum</td>
-                    <td>@cnl.Name</td>
+                    <th>Selected</th>
+                    <th>Number</th>
+                    <th>Name</th>
                 </tr>
-            }
-        </tbody>
-    </table>
-
-    <nav>
-        <ul class="pagination">
-            <li class="page-item"><a class="page-link" href="#">&laquo;</a></li>
-            <li class="page-item"><a class="page-link" href="#">1</a></li>
-            <li class="page-item disabled"><a class="page-link" href="#">...</a></li>
-            <li class="page-item"><a class="page-link" href="#">4</a></li>
-            <li class="page-item active"><a class="page-link" href="#">5</a></li>
-            <li class="page-item"><a class="page-link" href="#">6</a></li>
-            <li class="page-item disabled"><a class="page-link" href="#">...</a></li>
-            <li class="page-item"><a class="page-link" href="#">9</a></li>
-            <li class="page-item"><a class="page-link" href="#">&raquo;</a></li>
-        </ul>
-    </nav>
+            </thead>
+            <tbody>
+                @foreach (var item in Model.ChannelItems)
+                {
+                    <tr>
+                        <td><input type="checkbox" class="form-check-input chk-sel" data-cnlnum="@item.Cnl.CnlNum" checked="@item.Selected" /></td>
+                        <td>@item.Cnl.CnlNum</td>
+                        <td>@item.Cnl.Name</td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+        <nav>
+            <ul class="pagination">
+                <li class="page-item"><a class="page-link" href="#">&laquo;</a></li>
+                <li class="page-item"><a class="page-link" href="#">1</a></li>
+                <li class="page-item disabled"><a class="page-link" href="#">...</a></li>
+                <li class="page-item"><a class="page-link" href="#">4</a></li>
+                <li class="page-item active"><a class="page-link" href="#">5</a></li>
+                <li class="page-item"><a class="page-link" href="#">6</a></li>
+                <li class="page-item disabled"><a class="page-link" href="#">...</a></li>
+                <li class="page-item"><a class="page-link" href="#">9</a></li>
+                <li class="page-item"><a class="page-link" href="#">&raquo;</a></li>
+            </ul>
+        </nav>
+    }
+    else
+    {
+        <div class="alert alert-warning">No channels matching the filter</div>        
+    }
 
     <input type="hidden" id="hidSelectedCnlNums" asp-for="SelectedCnlNums" />
-    <button type="submit" class="rs-modal-submit hidden">Submit</button>
+    <button type="submit" class="rs-modal-submit hidden" asp-page-handler="Select">Select</button>
 </form>

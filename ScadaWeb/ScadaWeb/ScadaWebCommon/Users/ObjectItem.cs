@@ -31,8 +31,8 @@ using System.Text;
 namespace Scada.Web.Users
 {
     /// <summary>
-    /// Represents an object item that is available to a user.
-    /// <para>Представляет элемент объекта, доступный пользователю.</para>
+    /// Represents an item that corresponds to an object available to a user.
+    /// <para>Представляет элемент, который соответствует объекту, доступному пользователю.</para>
     /// </summary>
     public class ObjectItem
     {

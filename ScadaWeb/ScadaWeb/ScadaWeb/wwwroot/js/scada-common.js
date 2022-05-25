@@ -135,6 +135,16 @@ class ScadaUtils {
         let lang = opt_locale || navigator.language.toLowerCase();
         return lang === "ru" || lang.startsWith("ru");
     }
+
+    // Converts the string to an array of integers.
+    static parseIntArray(s) {
+        return s ? s.split(",").map(x => parseInt(x)) : [];
+    }
+
+    // Converts the string to a set of integers.
+    static parseIntSet(s) {
+        return new Set(ScadaUtils.parseIntArray(s));
+    }
 }
 
 // Specifies event types.

@@ -137,7 +137,7 @@ namespace Scada.Web.Plugins.PlgScheme.Controllers
                     {
                         errMsg = string.Format(WebPhrases.CnlNotOutput, ctrlCnlNum);
                     }
-                    else if (!(userContext.Rights.GetRightByObj(cnl.ObjNum ?? 0).Control &&
+                    else if (!(userContext.Rights.GetRightByObj(cnl.ObjNum).Control &&
                         userContext.Rights.GetRightByView(schemeView.ViewEntity).Control &&
                         schemeView.Components.TryGetValue(componentID, out ComponentBase component) &&
                         component is IDynamicComponent dynamicComponent &&

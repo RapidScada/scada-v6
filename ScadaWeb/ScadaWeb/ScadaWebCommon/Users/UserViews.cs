@@ -240,7 +240,7 @@ namespace Scada.Web.Users
                 foreach (View viewEntity in webContext.ConfigDatabase.SortedViews)
                 {
                     if (!viewEntity.Hidden &&
-                        userRights.GetRightByObj(viewEntity.ObjNum ?? 0).View &&
+                        userRights.GetRightByObj(viewEntity.ObjNum).View &&
                         CreateBranch(viewEntity) is ViewNode branchRootNode)
                     {
                         MergeViewNodes(ViewNodes, new List<ViewNode> { branchRootNode }, 0);

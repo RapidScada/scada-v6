@@ -84,7 +84,7 @@ namespace Scada.Web.Plugins.PlgMain.Areas.Main.Pages
             }
             else
             {
-                right = userContext.Rights.GetRightByObj(cnl.ObjNum ?? 0);
+                right = userContext.Rights.GetRightByObj(cnl.ObjNum);
                 return cnl;
             }
 
