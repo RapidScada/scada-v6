@@ -35,7 +35,7 @@ namespace Scada.Web.TreeView
 {
     /// <summary>
     /// Renders tree view HTML.
-    /// <para>Формирует HTML код дерева.</para>
+    /// <para>Формирует HTML-код дерева.</para>
     /// </summary>
     public class TreeViewRenderer
     {
