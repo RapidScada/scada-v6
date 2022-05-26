@@ -5,6 +5,7 @@
     Layout = "_BasicLayout";
     dynamic dict = Locale.GetDictionary("Scada.Web.Plugins.PlgMain.Areas.Main.Pages.Command");
     ViewBag.Title = dict.PageTitle;
+    ViewBag.BodyCssClass = "modal-page";
 
     var messageNotEmpty = !string.IsNullOrEmpty(Model.Message);
     var pwdExtraClass = Model.PwdIsInvalid ? "is-invalid" : "";
