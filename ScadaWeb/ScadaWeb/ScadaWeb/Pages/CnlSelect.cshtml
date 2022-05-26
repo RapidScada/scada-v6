@@ -8,6 +8,7 @@
 }
 
 @section Scripts {
+    <script src="~/js/components/pager.js" asp-append-version="true"></script>
     <script src="~/js/pages/cnl-select.js" asp-append-version="true"></script>
     <script>
         var modalPostbackArgs = @Model.PostbackArgs.ToJs();
@@ -24,7 +25,7 @@
         <label id="lblOnlySelected" class="form-check-label" for="chkOnlySelected">@dict.lblOnlySelected</label>
     </div>
 
-    @if (Model.ChannelItems.Count > 0)
+    @if (Model.ChannelItems.TotalItems > 0)
     {
         <table id="tblCnl" class="table table-hover table-sm">
             <thead>
@@ -45,7 +46,7 @@
                 }
             </tbody>
         </table>
-        <pager page-index="0" total-pages="10"></pager>
+        <pager id="pgrCnl" asp-for="PageIndex" page-count="Model.ChannelItems.PageCount"></pager>
         <!--<nav>
             <ul class="pagination">
                 <li class="page-item"><a class="page-link" href="#">&laquo;</a></li>

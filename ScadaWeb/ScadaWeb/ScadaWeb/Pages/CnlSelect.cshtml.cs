@@ -49,7 +49,7 @@ namespace Scada.Web.Pages
 
         public ModalPostbackArgs PostbackArgs { get; private set; } = null;
         public List<SelectListItem> ObjList { get; private set; } = new();
-        public List<ChannelItem> ChannelItems { get; private set; } = new();
+        public PaginatedList<ChannelItem> ChannelItems { get; private set; } = new();
         public bool FilterIsEmpty => !(ObjNum > 0 || OnlySelected);
 
         [BindProperty]
@@ -58,6 +58,8 @@ namespace Scada.Web.Pages
         public bool OnlySelected { get; set; }
         [BindProperty]
         public string SelectedCnlNums { get; set; }
+        [BindProperty]
+        public int PageIndex { get; set; }
 
 
         private void FillObjList()
@@ -74,6 +76,8 @@ namespace Scada.Web.Pages
 
         private void FillChannelItems()
         {
+            List<ChannelItem> allChannelItems = new();
+
             if (ObjNum > 0)
             {
                 if (userContext.Rights.GetRightByObj(ObjNum).View)
@@ -83,7 +87,7 @@ namespace Scada.Web.Pages
 
                     foreach (Cnl cnl in webContext.ConfigDatabase.CnlTable.Select(new TableFilter("ObjNum", ObjNum), true))
                     {
-                        ChannelItems.Add(new ChannelItem
+                        allChannelItems.Add(new ChannelItem
                         {
                             Selected = selectedCnlNums.Contains(cnl.CnlNum),
                             Cnl = cnl
@@ -102,7 +106,7 @@ namespace Scada.Web.Pages
                     if (webContext.ConfigDatabase.CnlTable.GetItem(cnlNum) is Cnl cnl &&
                         userContext.Rights.GetRightByObj(cnl.ObjNum).View)
                     {
-                        ChannelItems.Add(new ChannelItem
+                        allChannelItems.Add(new ChannelItem
                         {
                             Selected = true,
                             Cnl = cnl
@@ -110,6 +114,9 @@ namespace Scada.Web.Pages
                     }
                 }
             }
+
+            ChannelItems.Fill(allChannelItems, PageIndex);
+            PageIndex = ChannelItems.PageIndex; // corrected page index
         }
 
 

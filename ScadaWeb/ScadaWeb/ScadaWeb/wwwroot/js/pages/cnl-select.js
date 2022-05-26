@@ -1,10 +1,14 @@
 ﻿$(document).ready(function () {
+    let pager = new Pager("pgrCnl");
+
     $("#selObj").change(function () {
+        pager.reset();
         $("#chkOnlySelected").prop("checked", false);
         $("form:first").submit();
     });
 
     $("#chkOnlySelected").change(function () {
+        pager.reset();
         $("#selObj").val("0");
         $("form:first").submit();
     });
