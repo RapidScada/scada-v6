@@ -48,35 +48,30 @@ var modalPhrases = {};
 // Manages modal dialogs.
 class ModalManager {
     static MAX_TITLE_LEN = 50;
-    static FRAME_PADDING = 5;
 
     // Sets up the modal document.
-    _setupModalDoc(modalWnd, modalElem) {
+    _setupModalDoc(modalWnd) {
         const thisObj = this;
         let modalDoc = modalWnd.$(modalWnd.document);
 
         modalDoc.ready(function () {
-            modalDoc.find("body").css({
-                "overflow": "hidden", // prevent scrollbars from appearing because of margins
-                "padding": ModalManager.FRAME_PADDING // provide space for Bootstrap effects
-            });
-
             // set the modal title
-            modalElem.find(".modal-title").text(ModalManager._truncateTitle(modalWnd.document.title));
+            thisObj.setTitle(modalWnd, modalWnd.document.title);
 
             // remove the modal on press the Escape key
             modalDoc
                 .off("keydown.rs.modal")
                 .on("keydown.rs.modal", function (event) {
                     if (event.which === 27 /*Escape*/) {
+                        let modalElem = ModalManager._getModalElem(modalWnd);
                         ModalManager._getModalObject(modalElem).hide();
                     }
                 });
 
             // handles the modal postback
-            if (modalWnd.modalPostbackArgs) {
-                let postbackArgs = modalWnd.modalPostbackArgs;
+            let postbackArgs = modalWnd.modalPostbackArgs;
 
+            if (postbackArgs) {
                 if (postbackArgs.closeModal) {
                     setTimeout(function () {
                         thisObj.closeModal(modalWnd, postbackArgs.modalResult);
@@ -88,16 +83,45 @@ class ModalManager {
         });
     }
 
+    // Finds an existing manager instance.
+    static _findInstance() {
+        let wnd = window;
+
+        while (wnd) {
+            if (wnd.modalManager) {
+                return wnd.modalManager;
+            }
+
+            wnd = wnd === window.top ? null : wnd.parent;
+        }
+
+        return null;
+    }
+
+    // Gets the window object of the frame contained in the specified modal element.
+    static _getModalWnd(modalElem) {
+        return modalElem.find("iframe:first")[0].contentWindow;
+    }
+
+    // Gets a bootstrap modal instance associated with the jQuery object.
+    static _getModalObject(modalElem) {
+        return bootstrap.Modal.getOrCreateInstance(modalElem[0]);
+    }
+
+    // Gets the modal element that contains the specified window object.
+    static _getModalElem(modalWnd) {
+        return $(modalWnd.frameElement).closest(".modal");
+    }
+
     // Submits the modal form.
-    _submitModal(modalWnd, modalValue) {
-        let modalForm = modalWnd.$("form:first");
-        let submitElem = modalForm.find(".rs-modal-submit");
-        modalForm.find(".rs-modal-value").val(modalValue);
+    static _submitModal(modalWnd, modalValue) {
+        modalWnd.$(".rs-modal-value:first").val(modalValue);
+        let submitElem = modalWnd.$(".rs-modal-submit:first");
 
         if (submitElem.length > 0) {
             submitElem.click();
         } else {
-            modalForm.submit();
+            modalWnd.$("form:first").submit();
         }
     }
 
@@ -126,33 +150,13 @@ class ModalManager {
 
     // Finds a modal button by its value.
     static _findButton(modalWnd, buttonValue) {
-        return $(modalWnd.frameElement).closest(".modal")
+        return ModalManager._getModalElem(modalWnd)
             .find(".modal-footer button[data-rs-value='" + buttonValue + "']");
-    }
-
-    // Gets a bootstrap modal instance associated with the jQuery object.
-    static _getModalObject(modalElem) {
-        return bootstrap.Modal.getOrCreateInstance(modalElem[0]);
     }
 
     // Truncates the title if it is too long.
     static _truncateTitle(s) {
         return s.length <= ModalManager.MAX_TITLE_LEN ? s : s.substr(0, ModalManager.MAX_TITLE_LEN) + "…";
-    }
-
-    // Finds an existing manager instance.
-    static _findInstance() {
-        let wnd = window;
-
-        while (wnd) {
-            if (wnd.modalManager) {
-                return wnd.modalManager;
-            }
-
-            wnd = wnd === window.top ? null : wnd.parent;
-        }
-
-        return null;
     }
 
     // Determines if the specified window is a modal dialog.
@@ -210,14 +214,52 @@ class ModalManager {
         modalBody.append(modalFrame);
         $("body").append(modalElem);
 
+        // bind events to the modal
+        modalElem
+            .on('shown.bs.modal', function () {
+                // update the modal height
+                let frameWnd = ModalManager._getModalWnd(modalElem);
+                if (ScadaUtils.checkAccessToFrame(frameWnd, true) && !options.height) {
+                    let frameBody = frameWnd.$("body");
+                    modalFrame.css("height", frameBody.outerHeight(true));
+                }
+
+                tempOverlay.remove();
+                modalFrame.focus();
+            })
+            .on('hidden.bs.modal', function () {
+                let callback = $(this).data("rs-callback");
+
+                if (typeof callback === "function") {
+                    callback($(this).data("rs-result"));
+                }
+
+                $(this).remove();
+            });
+
+        modalElem.find(".modal-footer button").click(function () {
+            // raise event
+            let buttonValue = $(this).data("rs-value");
+            let frameWnd = ModalManager._getModalWnd(modalElem);
+            frameWnd.$(frameWnd).trigger(ScadaEventType.MODAL_BTN_CLICK, buttonValue);
+
+            // submit the modal
+            if ($(this).hasClass("rs-btn-submit")) {
+                ModalManager._submitModal(frameWnd, buttonValue);
+            }
+        });
+
         // load the frame
         modalFrame
             .on("load", function () {
-                // setup the modal document
-                let frameWnd = modalFrame[0].contentWindow;
+                let frameWnd = ModalManager._getModalWnd(modalElem);
 
-                if (ScadaUtils.checkAccessToFrame(frameWnd) && frameWnd.$) {
-                    thisObj._setupModalDoc(frameWnd, modalElem);
+                if (ScadaUtils.checkAccessToFrame(frameWnd, true)) {
+                    // setup the modal document
+                    thisObj._setupModalDoc(frameWnd);
+                } else {
+                    // set the modal title
+                    modalElem.find(".modal-title").text(url);
                 }
             })
             .one("load", function () {
@@ -228,62 +270,12 @@ class ModalManager {
                     "opacity": 1.0
                 });
 
-                let frameWnd = modalFrame[0].contentWindow;
-                let frameAccessible = ScadaUtils.checkAccessToFrame(frameWnd);
-                let frameBody = $();
-
-                if (frameAccessible && frameWnd.$) {
-                    // get the actual frame size
-                    frameBody = modalFrame.contents().find("body");
-                    let frameWidth = frameBody.outerWidth(true);
-                    let frameHeight = frameBody.outerHeight(true);
-
-                    // set the modal size
-                    let modalPaddings = parseInt(modalBody.css("padding-left")) + parseInt(modalBody.css("padding-right"));
-                    modalElem.find(".modal-content").css("min-width", frameWidth + modalPaddings);
-                    modalFrame.css("height", options.height || frameHeight);
-
-                    // handle button click
-                    modalElem.find(".modal-footer button").click(function () {
-                        // raise event
-                        let buttonValue = $(this).data("rs-value");
-                        frameWnd.$(frameWnd).trigger(ScadaEventType.MODAL_BTN_CLICK, buttonValue);
-
-                        // submit the modal
-                        if ($(this).hasClass("rs-btn-submit")) {
-                            thisObj._submitModal(frameWnd, buttonValue);
-                        }
-                    });
-                } else {
-                    // set the modal title
-                    modalElem.find(".modal-title").text(url);
-
-                    // set the modal height
-                    if (options.height) {
-                        modalFrame.css("height", options.height);
-                    }
+                // set the modal height if specified
+                if (options.height) {
+                    modalFrame.css("height", options.height);
                 }
 
                 // display the modal
-                modalElem
-                    .on('shown.bs.modal', function () {
-                        // update the modal height
-                        if (frameAccessible && !options.height) {
-                            modalFrame.css("height", frameBody.outerHeight(true));
-                        }
-
-                        tempOverlay.remove();
-                        modalFrame.focus();
-                    })
-                    .on('hidden.bs.modal', function () {
-                        let callback = $(this).data("rs-callback");
-                        if (typeof callback === "function") {
-                            callback($(this).data("rs-result"));
-                        }
-
-                        $(this).remove();
-                    });
-
                 ModalManager._getModalObject(modalElem).show();
             })
             .attr("src", url);
@@ -297,14 +289,14 @@ class ModalManager {
 
     // Sets the result of the modal dialog, keeping it open. Returns a jQuery object represents the modal dialog.
     setResult(modalWnd, result) {
-        return $(modalWnd.frameElement)
-            .closest(".modal")
+        return ModalManager._getModalElem(modalWnd)
             .data("rs-result", result);
     }
 
     // Sets the title of the modal dialog.
     setTitle(modalWnd, title) {
-        $(modalWnd.frameElement).closest(".modal").find(".modal-title")
+        ModalManager._getModalElem(modalWnd)
+            .find(".modal-title")
             .text(ModalManager._truncateTitle(title));
     }
 
@@ -332,7 +324,7 @@ class ModalManager {
 
         if (!opt_growOnly || newHeight > frame.height()) {
             frame.css("height", newHeight);
-            let modalElem = frame.closest(".modal");
+            let modalElem = ModalManager._getModalElem(modalWnd);
             ModalManager._getModalObject(modalElem).handleUpdate();
         }
     }

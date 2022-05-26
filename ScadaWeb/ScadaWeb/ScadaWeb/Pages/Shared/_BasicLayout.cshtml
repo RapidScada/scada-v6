@@ -18,7 +18,7 @@
     <script src="~/js/scada-common.js" asp-append-version="true"></script>
     @RenderSection("Scripts", required: false)
 </head>
-<body>
+<body class="@ViewBag.BodyCssClass">
     @RenderBody()
 </body>
 </html>

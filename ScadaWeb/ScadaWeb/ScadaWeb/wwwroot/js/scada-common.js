@@ -122,9 +122,9 @@ class ScadaUtils {
     }
 
     // Checks that the frame is accessible due to the browser security.
-    static checkAccessToFrame(frameWnd) {
+    static checkAccessToFrame(frameWnd, opt_requireJq) {
         try {
-            return frameWnd.document !== null;
+            return frameWnd.document !== null && (!opt_requireJq || frameWnd.$);
         } catch (ex) {
             return false;
         }

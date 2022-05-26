@@ -3,6 +3,11 @@
 
 body {
     @include link-colored;
+
+    &.modal-page {
+        overflow: hidden;
+        padding: $spacer * 0.25;
+    }
 }
 
 .link-colored {

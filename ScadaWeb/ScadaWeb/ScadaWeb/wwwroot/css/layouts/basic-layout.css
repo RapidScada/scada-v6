@@ -8,6 +8,10 @@ body a:hover {
   outline: 0;
   text-decoration: none;
 }
+body.modal-page {
+  overflow: hidden;
+  padding: 0.25rem;
+}
 
 .link-colored a, .link-colored a:active, .link-colored a:focus, .link-colored a:visited {
   color: #0073aa;
