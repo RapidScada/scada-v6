@@ -1,10 +1,10 @@
 ﻿// The variables below must be defined in Chart.cshtml
-// object timeRange
-// object chartData
-// string locale
-// int gapBetweenPoints
-// string chartTitle
-// string chartStatus
+// timeRange
+// chartData
+// chartTitle
+// chartStatus
+// locale
+// gapBetweenPoints
 
 // Sets the chart width and height.
 function updateLayout() {
@@ -15,21 +15,18 @@ function updateLayout() {
 
 $(document).ready(function () {
     // chart parameters must be defined in Chart.cshtml
-    var chart = new scada.chart.Chart("divChart");
-    chart.displayOptions.locale = locale;
-    chart.displayOptions.gapBetweenPoints = gapBetweenPoints;
-    chart.iOS = false;
+    let chart = new scada.chart.Chart("divChart");
+    chart.controlOptions.chartTitle = chartTitle;
+    chart.controlOptions.chartStatus = chartStatus;
+    chart.controlOptions.locale = locale;
+    chart.controlOptions.gapBetweenPoints = gapBetweenPoints;
     chart.timeRange = timeRange;
     chart.chartData = chartData;
     chart.buildDom();
-    chart.showTitle(chartTitle);
-    chart.showStatus(chartStatus);
 
-    setTimeout(function () {
-        updateLayout();
-        chart.draw();
-        chart.bindHintEvents();
-    }, 0); // timeout is needed to open chart in a popup window in Firefox
+    updateLayout();
+    chart.draw();
+    chart.bindHintEvents();
 
     $(window).resize(function () {
         updateLayout();

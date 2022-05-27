@@ -17,48 +17,76 @@
     </style>
     <script type="text/javascript" src="../lib/jquery/dist/jquery.min.js"></script>
     <script type="text/javascript" src="../js/scada-common.js"></script>
+    <script type="text/javascript" src="../plugins/Chart/js/chart-prereq.js"></script>
     <script type="text/javascript" src="../plugins/Chart/js/chart.js"></script>
     <script type="text/javascript">
         $(document).ready(function () {
-            let displayOptions = new scada.chart.DisplayOptions();
-            displayOptions.locale = "en-US";
-            displayOptions.gapBetweenPoints = 6 * 3600; // 6 hours
+            let controlOptions = new scada.chart.ControlOptions();
+            controlOptions.chartTitle = "Chart Test";
+            controlOptions.chartStatus = "Status message";
+            controlOptions.hasError = false;
+            controlOptions.locale = "en-US";
+            controlOptions.gapBetweenPoints = 6 * 3600 * 1000; // 6 hours
 
-            let startDate = 44400;
+            // time range, UTC+3, Moscow time zone
             let timeRange = new scada.chart.TimeRange();
-            timeRange.startTime = startDate;
-            timeRange.endTime = startDate + 2;
+            timeRange.startTime = Date.UTC(2022, 3, 30, 21, 0, 0);
+            timeRange.endTime = Date.UTC(2022, 4, 2, 21, 0, 0);
 
+            let hourMap = timeRange.hourMap;
+            hourMap.set(Date.UTC(2022, 03, 30, 21, 0, 0), "2022-05-01T00:00:00");
+            hourMap.set(Date.UTC(2022, 04, 01, 03, 0, 0), "2022-05-01T06:00:00");
+            hourMap.set(Date.UTC(2022, 04, 01, 09, 0, 0), "2022-05-01T12:00:00");
+            hourMap.set(Date.UTC(2022, 04, 01, 15, 0, 0), "2022-05-01T18:00:00");
+            hourMap.set(Date.UTC(2022, 04, 01, 21, 0, 0), "2022-05-02T00:00:00");
+            hourMap.set(Date.UTC(2022, 04, 02, 03, 0, 0), "2022-05-02T06:00:00");
+            hourMap.set(Date.UTC(2022, 04, 02, 09, 0, 0), "2022-05-02T12:00:00");
+            hourMap.set(Date.UTC(2022, 04, 02, 15, 0, 0), "2022-05-02T18:00:00");
+            hourMap.set(Date.UTC(2022, 04, 02, 21, 0, 0), "2022-05-03T00:00:00");
+
+            // time points
+            let chartData = new scada.chart.ChartData();
+            chartData.timePoints = [
+                [Date.UTC(2022, 03, 30, 21, 0, 0), "2022-05-01T00:00:00"],
+                [Date.UTC(2022, 04, 01, 03, 0, 0), "2022-05-01T06:00:00"],
+                [Date.UTC(2022, 04, 01, 09, 0, 0), "2022-05-01T12:00:00"],
+                [Date.UTC(2022, 04, 01, 15, 0, 0), "2022-05-01T18:00:00"],
+                [Date.UTC(2022, 04, 01, 21, 0, 0), "2022-05-02T00:00:00"],
+                [Date.UTC(2022, 04, 02, 03, 0, 0), "2022-05-02T06:00:00"],
+                [Date.UTC(2022, 04, 02, 09, 0, 0), "2022-05-02T12:00:00"],
+                [Date.UTC(2022, 04, 02, 15, 0, 0), "2022-05-02T18:00:00"],
+                [Date.UTC(2022, 04, 02, 21, 0, 0), "2022-05-03T00:00:00"]];
+
+            // trends
             let trend1 = new scada.chart.Trend();
             trend1.cnlNum = 1;
             trend1.cnlName = "Channel 1";
             trend1.quantityID = 1;
-            trend1.quantityName = 'Voltage, V';
-            trend1.trendPoints =
-                [[0, "0", "0 V", "#ff0000"], [4, "4", "4 V", "green"], [5, "5", "5 V", ""],
-                [2.5, "2,5", "2,5 V", ""], [2.5, "2,5", "2,5 V", ""], [7, "7", "7 V", ""],
-                [7.5, "7.5", "7.5 V", ""], [6.7, "6,7", "6,7 V", ""], [8, "8", "8 V", ""]];
+            trend1.quantityName = "Voltage";
+            trend1.unitName = "V";
+            trend1.points =
+                [[0, 12, "0"], [1, 12, "1"], [5, 1, "5"], [2.5, 1, "2,5"],
+                [2.5, 1, "2,5"], [7, 14, "7"], [7.5, 14, "7.5"], [6.7, 1, "6,7"], [8, 14, "8"]];
 
             let trend2 = new scada.chart.Trend();
             trend2.cnlNum = 2;
             trend2.cnlName = "Channel 2";
-            trend2.trendPoints =
-                [[3, "Three", "Three", ""], [0, "Zero", "Zero", ""], [Number.NaN, "---", "---", ""],
-                [1, "One", "One", ""], [2, "Two", "Two", ""], [5, "Five", "Five", ""],
-                [4, "Four", "Four", ""], [5, "Five", "Five", ""], [3, "Three", "Three", ""]];
-
-            let chartData = new scada.chart.ChartData();
-            chartData.timePoints = [startDate + 0, startDate + 0.25, startDate + 0.5, startDate + 0.75,
-                startDate + 1, startDate + 1.25, startDate + 1.5, startDate + 1.75, startDate + 2];
+            trend2.points =
+                [[3, 1, "Three"], [0, 1, "Zero"], [0, 0, "---"], [1, 1, "One"],
+                [2, 1, "Two"], [5, 1, "Five"], [4, 1, "Four"], [5, 1, "Five"], [3, 1, "Three"]];
             chartData.trends = [trend1, trend2];
 
+            // channel statuses
+            chartData.cnlStatusMap.set(0, new scada.chart.CnlStatus(0, "Undefined", "Black"));
+            chartData.cnlStatusMap.set(1, new scada.chart.CnlStatus(1, "Defined", "Black"));
+            chartData.cnlStatusMap.set(12, new scada.chart.CnlStatus(12, "Low", "DeepSkyBlue"));
+            chartData.cnlStatusMap.set(14, new scada.chart.CnlStatus(14, "High", "Orange"));
+
             let chart = new scada.chart.Chart("divChart");
-            chart.displayOptions = displayOptions;
+            chart.controlOptions = controlOptions;
             chart.timeRange = timeRange;
             chart.chartData = chartData;
             chart.buildDom();
-            chart.showTitle("Chart Test");
-            chart.showStatus("Status message");
             chart.draw();
             chart.bindHintEvents();
 

@@ -4,10 +4,6 @@
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Html;
 using Microsoft.AspNetCore.Mvc.RazorPages;
-using Scada.Data.Const;
-using Scada.Data.Entities;
-using Scada.Data.Models;
-using Scada.Data.Tables;
 using Scada.Lang;
 using Scada.Web.Api;
 using Scada.Web.Authorization;
@@ -15,7 +11,6 @@ using Scada.Web.Plugins.PlgChart.Code;
 using Scada.Web.Services;
 using System;
 using System.Text;
-using System.Web;
 
 namespace Scada.Web.Plugins.PlgChart.Areas.Chart.Pages
 {
@@ -47,7 +42,7 @@ namespace Scada.Web.Plugins.PlgChart.Areas.Chart.Pages
             PluginOptions pluginOptions = new(webContext.AppConfig.GetOptions("Chart"));
 
             // prepare chart data
-            ChartDataBuilder chartDataBuilder = new(webContext.ConfigDatabase, clientAccessor.ScadaClient,
+            ChartDataBuilder2 chartDataBuilder = new(webContext.ConfigDatabase, clientAccessor.ScadaClient,
                 new ChartDataBuilderOptions
                 {
                     CnlNums = new int[] { cnlNum },
@@ -72,10 +67,10 @@ namespace Scada.Web.Plugins.PlgChart.Areas.Chart.Pages
             chartDataBuilder.ToJs(sbChartData);
 
             sbChartData
-                .AppendFormat("var locale = '{0}';", Locale.Culture.Name).AppendLine()
-                .AppendFormat("var gapBetweenPoints = {0};", pluginOptions.GapBetweenPoints).AppendLine()
                 .AppendFormat("var chartTitle = '{0}';", chartTitle.JsEncode()).AppendLine()
                 .AppendFormat("var chartStatus = '{0}';", chartStatus.JsEncode()).AppendLine()
+                .AppendFormat("var locale = '{0}';", Locale.Culture.Name).AppendLine()
+                .AppendFormat("var gapBetweenPoints = {0};", pluginOptions.GapBetweenPoints * 1000).AppendLine()
                 .AppendLine();
 
             ChartDataHtml = new HtmlString(sbChartData.ToString());
