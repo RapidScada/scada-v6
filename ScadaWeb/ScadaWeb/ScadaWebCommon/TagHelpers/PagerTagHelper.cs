@@ -84,8 +84,9 @@ namespace Scada.Web.TagHelpers
         {
             ArgumentNullException.ThrowIfNull(context, nameof(context));
             ArgumentNullException.ThrowIfNull(output, nameof(output));
+            int pageIndex = GetPageIndex();
 
-            if (PageCount <= 1)
+            if (pageIndex == 0 && PageCount <= 1)
             {
                 output.SuppressOutput();
                 return;
@@ -93,18 +94,27 @@ namespace Scada.Web.TagHelpers
 
             output.TagName = "nav";
             output.AddClass("rs-pager", HtmlEncoder.Default);
-
-            int pageIndex = GetPageIndex();
             output.PreContent
                 .AppendFormat("<input type=\"hidden\" name=\"{0}\" value=\"{1}\" />", GetElementName(), pageIndex)
                 .AppendHtml("<ul class=\"pagination\">");
 
             for (int i = 0; i < PageCount; i++)
             {
-                // <li class="page-item active"><a class="page-link" href="#">1</a></li>
-                output.Content
-                    .AppendHtml($"<li class=\"page-item{(i == pageIndex ? " active" : "")}\">")
-                    .AppendHtml($"<a class=\"page-link\" href=\"#\" data-page=\"{i}\">{i + 1}</a></li>");
+                if (i == pageIndex)
+                {
+                    // <li class="page-item active"><span class="page-link">1</span></li>
+                    output.Content
+                        .AppendHtml("<li class=\"page-item active\">")
+                        .AppendHtml($"<span class=\"page-link\">{i + 1}</span></li>");
+                }
+                else
+                {
+
+                    // <li class="page-item"><a class="page-link" href="#" data-page="0">1</a></li>
+                    output.Content
+                        .AppendHtml($"<li class=\"page-item\">")
+                        .AppendHtml($"<a class=\"page-link\" href=\"#\" data-page=\"{i}\">{i + 1}</a></li>");
+                }
             }
 
             output.PostContent.SetHtmlContent("</ul>");

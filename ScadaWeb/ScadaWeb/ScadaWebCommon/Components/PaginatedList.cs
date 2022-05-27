@@ -119,14 +119,14 @@ namespace Scada.Web.Components
         public void Fill(IEnumerable<T> source, int pageIndex)
         {
             ArgumentNullException.ThrowIfNull(source, nameof(source));
-            List<T> items = source
+            int totalItems = source.Count();
+            IEnumerable<T> items = source
                 .Skip(pageIndex * PageSize)
-                .Take(PageSize)
-                .ToList();
+                .Take(PageSize);
 
             PageIndex = pageIndex;
-            PageCount = CalculatePageCount(items.Count);
-            TotalItems = items.Count;
+            PageCount = CalculatePageCount(totalItems);
+            TotalItems = totalItems;
             AddRange(items);
         }
     }

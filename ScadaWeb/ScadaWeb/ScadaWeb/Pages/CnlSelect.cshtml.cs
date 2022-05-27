@@ -116,7 +116,6 @@ namespace Scada.Web.Pages
             }
 
             ChannelItems.Fill(allChannelItems, PageIndex);
-            PageIndex = ChannelItems.PageIndex; // corrected page index
         }
 
 
