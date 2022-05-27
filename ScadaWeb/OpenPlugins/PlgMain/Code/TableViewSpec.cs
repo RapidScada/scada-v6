@@ -14,7 +14,7 @@ namespace Scada.Web.Plugins.PlgMain.Code
         /// <summary>
         /// Gets the view type code.
         /// </summary>
-        public override string TypeCode => "TableView";
+        public override string TypeCode => nameof(TableView);
 
         /// <summary>
         /// Gets the extension of view files.

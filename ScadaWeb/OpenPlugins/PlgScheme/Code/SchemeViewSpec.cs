@@ -14,7 +14,7 @@ namespace Scada.Web.Plugins.PlgScheme.Code
         /// <summary>
         /// Gets the view type code.
         /// </summary>
-        public override string TypeCode => "SchemeView";
+        public override string TypeCode => nameof(SchemeView);
 
         /// <summary>
         /// Gets the extension of view files.

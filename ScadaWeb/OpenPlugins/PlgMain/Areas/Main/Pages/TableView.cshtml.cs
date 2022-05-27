@@ -60,10 +60,10 @@ namespace Scada.Web.Plugins.PlgMain.Areas.Main.Pages
 
 
         public bool ViewError => !string.IsNullOrEmpty(ErrorMessage);
-        public string ErrorMessage { get; set; }
-        public int ViewID { get; set; }
-        public int ArchiveBit { get; set; }
-        public string LocalDate { get; set; }
+        public string ErrorMessage { get; private set; }
+        public int ViewID { get; private set; }
+        public int ArchiveBit { get; private set; }
+        public string LocalDate { get; private set; }
 
 
         private void LoadView(int? id, string localDate)
