@@ -98,17 +98,24 @@ namespace Scada.Web.TagHelpers
 
             while (leftPart.Count + rightPart.Count < maxPartsCount)
             {
+                bool pageAdded = false;
+
                 if (leftPage >= 1)
                 {
                     leftPart.Add(leftPage);
                     leftPage--;
+                    pageAdded = true;
                 }
 
                 if (rightPage <= pageCount)
                 {
                     rightPart.Add(rightPage);
                     rightPage++;
+                    pageAdded = true;
                 }
+
+                if (!pageAdded)
+                    break;
             }
 
             int[] pageNumbers = new int[leftPart.Count + rightPart.Count + 1];
