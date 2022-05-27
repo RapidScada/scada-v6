@@ -6,9 +6,7 @@ using Scada.Data.Entities;
 using Scada.Data.Models;
 using Scada.Lang;
 using System;
-using System.Globalization;
 using System.Text;
-using System.Web;
 
 namespace Scada.Web.Plugins.PlgChart
 {
@@ -16,7 +14,7 @@ namespace Scada.Web.Plugins.PlgChart
     /// Builds a JavaScript representation of chart properties and data.
     /// <para>Строит JavaScript-представление свойств и данных графика.</para>
     /// </summary>
-    public class ChartDataBuilder2
+    public class ChartDataBuilder
     {
         /// <summary>
         /// The number of array elements in a JavaScript string.
@@ -36,7 +34,7 @@ namespace Scada.Web.Plugins.PlgChart
         /// <summary>
         /// Initializes a new instance of the class.
         /// </summary>
-        public ChartDataBuilder2(ConfigDataset configDataset, ScadaClient scadaClient, ChartDataBuilderOptions options)
+        public ChartDataBuilder(ConfigDataset configDataset, ScadaClient scadaClient, ChartDataBuilderOptions options)
         {
             this.configDataset = configDataset ?? throw new ArgumentNullException(nameof(configDataset));
             this.scadaClient = scadaClient ?? throw new ArgumentNullException(nameof(scadaClient));

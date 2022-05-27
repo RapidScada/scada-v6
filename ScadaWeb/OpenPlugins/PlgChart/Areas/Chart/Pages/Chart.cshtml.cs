@@ -42,7 +42,7 @@ namespace Scada.Web.Plugins.PlgChart.Areas.Chart.Pages
             PluginOptions pluginOptions = new(webContext.AppConfig.GetOptions("Chart"));
 
             // prepare chart data
-            ChartDataBuilder2 chartDataBuilder = new(webContext.ConfigDatabase, clientAccessor.ScadaClient,
+            ChartDataBuilder chartDataBuilder = new(webContext.ConfigDatabase, clientAccessor.ScadaClient,
                 new ChartDataBuilderOptions
                 {
                     CnlNums = new int[] { cnlNum },
