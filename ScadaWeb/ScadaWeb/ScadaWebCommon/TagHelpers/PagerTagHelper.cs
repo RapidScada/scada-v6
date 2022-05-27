@@ -27,6 +27,7 @@ using Microsoft.AspNetCore.Mvc.TagHelpers;
 using Microsoft.AspNetCore.Mvc.ViewFeatures;
 using Microsoft.AspNetCore.Razor.TagHelpers;
 using System;
+using System.Collections.Generic;
 using System.Text.Encodings.Web;
 
 namespace Scada.Web.TagHelpers
@@ -39,6 +40,12 @@ namespace Scada.Web.TagHelpers
     [HtmlTargetElement("pager", Attributes = "page-index, page-count")]
     public class PagerTagHelper : TagHelper
     {
+        /// <summary>
+        /// The number of pages displayed by a pager, not including the Previous and Next buttons.
+        /// </summary>
+        private const int DisplayPageCount = 9;
+
+
         /// <summary>
         /// Gets or sets the expression to be evaluated against the current model.
         /// </summary>
@@ -78,6 +85,64 @@ namespace Scada.Web.TagHelpers
         }
 
         /// <summary>
+        /// Gets an array that contains page numbers.
+        /// </summary>
+        private static int[] GetPageNumbers(int activePage, int pageCount)
+        {
+            // [1][.][4][5][6][.][9]
+            List<int> leftPart = new();
+            List<int> rightPart = new();
+            int leftPage = activePage - 1;
+            int rightPage = activePage + 1;
+            int maxPartsCount = DisplayPageCount - 1;
+
+            while (leftPart.Count + rightPart.Count < maxPartsCount)
+            {
+                if (leftPage >= 1)
+                {
+                    leftPart.Add(leftPage);
+                    leftPage--;
+                }
+
+                if (rightPage <= pageCount)
+                {
+                    rightPart.Add(rightPage);
+                    rightPage++;
+                }
+            }
+
+            int[] pageNumbers = new int[leftPart.Count + rightPart.Count + 1];
+            int pageNumIdx = 0;
+
+            for (int i = leftPart.Count - 1; i >= 0; i--)
+            {
+                pageNumbers[pageNumIdx++] = leftPart[i];
+            }
+
+            pageNumbers[pageNumIdx++] = activePage;
+
+            for (int i = 0; i < rightPart.Count; i++)
+            {
+                pageNumbers[pageNumIdx++] = rightPart[i];
+            }
+
+            if (pageNumbers[0] != 1 && pageNumbers[0] != activePage)
+            {
+                pageNumbers[0] = 1;
+                pageNumbers[1] = 0;
+            }
+
+            if (pageNumbers[^1] != pageCount && pageNumbers[^1] != activePage)
+            {
+                pageNumbers[^1] = pageCount;
+                pageNumbers[^2] = 0;
+            }
+
+            return pageNumbers;
+        }
+
+
+        /// <summary>
         /// Renders HTML.
         /// </summary>
         public override void Process(TagHelperContext context, TagHelperOutput output)
@@ -98,23 +163,60 @@ namespace Scada.Web.TagHelpers
                 .AppendFormat("<input type=\"hidden\" name=\"{0}\" value=\"{1}\" />", GetElementName(), pageIndex)
                 .AppendHtml("<ul class=\"pagination\">");
 
-            for (int i = 0; i < PageCount; i++)
+            int activePage = pageIndex + 1;
+            int[] pageNumbers = GetPageNumbers(activePage, PageCount);
+
+            // previous page
+            if (activePage > 1)
             {
-                if (i == pageIndex)
+                output.Content
+                    .AppendHtml("<li class=\"page-item\"><a class=\"page-link\" href=\"#\" ")
+                    .AppendHtml($"data-page=\"{activePage - 2}\">&laquo;</a></li>");
+            }
+            else
+            {
+                output.Content
+                    .AppendHtml("<li class=\"page-item disabled\"><span class=\"page-link\">&laquo;</span></li>");
+            }
+
+            // pages numbers
+            for (int i = 0; i < pageNumbers.Length; i++)
+            {
+                int pageNumber = pageNumbers[i];
+
+                if (pageNumber <= 0)
+                {
+                    // <li class="page-item disabled"><span class="page-link">...</span></li>
+                    output.Content
+                        .AppendHtml("<li class=\"page-item disabled\"><span class=\"page-link\">...</span></li>");
+                }
+                else if (pageNumber == activePage)
                 {
                     // <li class="page-item active"><span class="page-link">1</span></li>
                     output.Content
                         .AppendHtml("<li class=\"page-item active\">")
-                        .AppendHtml($"<span class=\"page-link\">{i + 1}</span></li>");
+                        .AppendHtml($"<span class=\"page-link\">{pageNumber}</span></li>");
                 }
                 else
                 {
-
                     // <li class="page-item"><a class="page-link" href="#" data-page="0">1</a></li>
                     output.Content
-                        .AppendHtml($"<li class=\"page-item\">")
-                        .AppendHtml($"<a class=\"page-link\" href=\"#\" data-page=\"{i}\">{i + 1}</a></li>");
+                        .AppendHtml("<li class=\"page-item\"><a class=\"page-link\" href=\"#\" ")
+                        .AppendHtml($"data-page=\"{pageNumber - 1}\">{pageNumber}</a></li>");
                 }
+            }
+
+            // next page
+            if (activePage < PageCount)
+            {
+                output.Content
+                    .AppendHtml("<li class=\"page-item\"><a class=\"page-link\" href=\"#\" ")
+                    .AppendHtml($"data-page=\"{activePage}\">&raquo;</a></li>");
+            }
+            else
+            {
+                output.Content
+                    .AppendHtml("<li class=\"page-item disabled\"><span class=\"page-link\">&raquo;</span></li>");
             }
 
             output.PostContent.SetHtmlContent("</ul>");
