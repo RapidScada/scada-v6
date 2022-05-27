@@ -1,9 +1,7 @@
 ﻿@page "{id:int?}"
-@model LandingModel
+@model Scada.Web.Plugins.PlgWebPage.Areas.WebPage.Pages.LandingModel
 @{
     Layout = "_BasicLayout";
-    dynamic dict = Locale.GetDictionary("Scada.Web.Plugins.PlgWebPage.Areas.Main.Pages.Landing");
-    ViewBag.Title = dict.PageTitle;
 }
 
 @section Scripts {
@@ -30,10 +28,10 @@
 
             let h = $(window).height();
             $("div.box-center").outerHeight(h);
+            $("#iSpinner").removeClass("hidden"); // avoid flicker
 
             if (redirectUrl) {
                 let url = replaceLocalhost(redirectUrl);
-                $("body").addClass("loading");
                 console.log("Redirect to " + url)
                 setTimeout(function () { location.href = url }, REDIRECT_DELAY);
             } else {
@@ -46,12 +44,12 @@
 @if (string.IsNullOrEmpty(@Model.ErrorMessage))
 {
     <div class="box-center fs-2 text-secondary">
-        <p>@dict.PageTitle</p>
+        <i id="iSpinner" class="fa-solid fa-spinner fa-spin-pulse fa-3x hidden"></i>
     </div>
 }
 else
 {
     <div class="box-center fs-2 text-danger">
-        <p>@Model.ErrorMessage</p>
+        @Model.ErrorMessage
     </div>
 }

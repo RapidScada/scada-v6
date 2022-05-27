@@ -35,6 +35,8 @@ namespace Scada.Web.Plugins.PlgWebPage.Areas.WebPage.Pages
 
             if (viewLoader.GetView(viewID, out WebPageView webPageView, out string errMsg))
             {
+                ViewData["Title"] = webPageView.Title;
+
                 if (string.IsNullOrEmpty(webPageView.ViewEntity.Args))
                     ErrorMessage = dict.UrlIsEmpty;
                 else
@@ -42,6 +44,7 @@ namespace Scada.Web.Plugins.PlgWebPage.Areas.WebPage.Pages
             }
             else
             {
+                ViewData["Title"] = string.Format(dict.PageTitle, viewID);
                 ErrorMessage = errMsg;
             }
         }
