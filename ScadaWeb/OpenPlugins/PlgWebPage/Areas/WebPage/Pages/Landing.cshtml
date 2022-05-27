@@ -1,0 +1,57 @@
+﻿@page "{id:int?}"
+@model LandingModel
+@{
+    Layout = "_BasicLayout";
+    dynamic dict = Locale.GetDictionary("Scada.Web.Plugins.PlgWebPage.Areas.Main.Pages.Landing");
+    ViewBag.Title = dict.PageTitle;
+}
+
+@section Scripts {
+    <script>
+        var redirectUrl = "@Model.RedirectUrl";
+
+        function replaceLocalhost(url) {
+            let urlLo = url.toLowerCase();
+
+            if (urlLo.startsWith("http://localhost") ||
+                urlLo.startsWith("https://localhost") &&
+                location.hostname.toLowerCase() !== "localhost") {
+
+                let urlObj = new URL(url);
+                urlObj.hostname = location.hostname;
+                return urlObj.href;
+            }
+
+            return url;
+        }
+
+        $(document).ready(function () {
+            const REDIRECT_DELAY = 500;
+
+            let h = $(window).height();
+            $("div.box-center").outerHeight(h);
+
+            if (redirectUrl) {
+                let url = replaceLocalhost(redirectUrl);
+                $("body").addClass("loading");
+                console.log("Redirect to " + url)
+                setTimeout(function () { location.href = url }, REDIRECT_DELAY);
+            } else {
+                console.error("Redirect URL is empty");
+            }
+        });
+    </script>
+}
+
+@if (string.IsNullOrEmpty(@Model.ErrorMessage))
+{
+    <div class="box-center fs-2 text-secondary">
+        <p>@dict.PageTitle</p>
+    </div>
+}
+else
+{
+    <div class="box-center fs-2 text-danger">
+        <p>@Model.ErrorMessage</p>
+    </div>
+}

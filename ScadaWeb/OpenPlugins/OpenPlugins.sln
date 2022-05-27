@@ -21,7 +21,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PlgScheme.Common", "PlgSche
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PlgScheme", "PlgScheme\PlgScheme.csproj", "{276855A0-2D48-4DD9-AF63-A5B38EC88DD6}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PlgSchBasicComp", "PlgSchBasicComp\PlgSchBasicComp.csproj", "{FD3DEB6D-C6D7-4654-BB5C-B8BC0C97B4AC}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PlgSchBasicComp", "PlgSchBasicComp\PlgSchBasicComp.csproj", "{FD3DEB6D-C6D7-4654-BB5C-B8BC0C97B4AC}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PlgWebPage", "PlgWebPage\PlgWebPage.csproj", "{C85CD47D-4492-4229-8D28-8579B063365A}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -57,6 +59,10 @@ Global
 		{FD3DEB6D-C6D7-4654-BB5C-B8BC0C97B4AC}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{FD3DEB6D-C6D7-4654-BB5C-B8BC0C97B4AC}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{FD3DEB6D-C6D7-4654-BB5C-B8BC0C97B4AC}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C85CD47D-4492-4229-8D28-8579B063365A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C85CD47D-4492-4229-8D28-8579B063365A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C85CD47D-4492-4229-8D28-8579B063365A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C85CD47D-4492-4229-8D28-8579B063365A}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
