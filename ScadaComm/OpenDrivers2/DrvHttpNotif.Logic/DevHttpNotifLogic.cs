@@ -223,7 +223,7 @@ namespace Scada.Comm.Drivers.DrvHttpNotif.Logic
                 // initialize HTTP client
                 if (httpClient == null)
                 {
-                    httpClient = new HttpClient();
+                    httpClient = new HttpClient { Timeout = TimeSpan.FromSeconds(PollingOptions.Timeout) };
 
                     foreach (Header header in config.Headers)
                     {
@@ -373,6 +373,14 @@ namespace Scada.Comm.Drivers.DrvHttpNotif.Logic
             {
                 Log.WriteLine(errMsg);
             }
+        }
+
+        /// <summary>
+        /// Performs actions when terminating a communication line.
+        /// </summary>
+        public override void OnCommLineTerminate()
+        {
+            httpClient?.Dispose();
         }
 
         /// <summary>
