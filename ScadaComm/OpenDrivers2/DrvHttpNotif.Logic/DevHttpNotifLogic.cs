@@ -216,6 +216,8 @@ namespace Scada.Comm.Drivers.DrvHttpNotif.Logic
         /// </summary>
         private bool CreateRequest(Dictionary<string, string> args, out HttpRequestMessage request)
         {
+            request = null;
+
             try
             {
                 // initialize HTTP client
@@ -255,7 +257,9 @@ namespace Scada.Comm.Drivers.DrvHttpNotif.Logic
                 Log.WriteLine(Locale.IsRussian ?
                     "Ошибка при создании запроса: {0}" :
                     "Error creating request: {0}", ex.Message);
+                httpClient?.Dispose();
                 httpClient = null;
+                request?.Dispose();
                 request = null;
                 return false;
             }
@@ -274,10 +278,14 @@ namespace Scada.Comm.Drivers.DrvHttpNotif.Logic
                     "Send request:");
                 Log.WriteLine(request.RequestUri.ToString());
 
+                HttpStatusCode responseStatus;
+                string responseContent;
                 stopwatch.Restart();
-                HttpResponseMessage response = httpClient.SendAsync(request).Result;
-                HttpStatusCode responseStatus = response.StatusCode;
-                string responseContent = response.Content.ReadAsStringAsync().Result;
+                using (HttpResponseMessage response = httpClient.SendAsync(request).Result)
+                {
+                    responseStatus = response.StatusCode;
+                    responseContent = response.Content.ReadAsStringAsync().Result;
+                }
                 stopwatch.Stop();
 
                 // output response to log
@@ -445,6 +453,8 @@ namespace Scada.Comm.Drivers.DrvHttpNotif.Logic
                             FinishRequest();
                             tryNum++;
                         }
+
+                        request.Dispose();
                     }
                 }
                 else
