@@ -287,6 +287,17 @@ namespace Scada.Web.Plugins.PlgMain.Controllers
 
 
         /// <summary>
+        /// Logins to the web application.
+        /// </summary>
+        //[HttpPost, AllowAnonymous]
+        //public Dto Login([FromBody] CredentialsDTO credentialsDTO)
+        //{
+        //    webContext.Log.WriteLine("!!!Login {0}, {1}", credentialsDTO?.Username, credentialsDTO?.Password);
+        //    LoginAsync("admin", 11, 1).Wait();
+        //    return Dto.Success();
+        //}
+
+        /// <summary>
         /// Gets the current data without formatting.
         /// </summary>
         public Dto<IEnumerable<CurDataPoint>> GetCurData(IdList cnlNums)
