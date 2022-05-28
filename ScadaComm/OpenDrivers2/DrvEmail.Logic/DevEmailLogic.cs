@@ -140,10 +140,9 @@ namespace Scada.Comm.Drivers.DrvEmail.Logic
                         foreach (string s in cmdDataStr.Substring(sepIdx3 + 1).Split(FileSep))
                         {
                             string fileName = s.Trim();
-                            if (File.Exists(fileName))
-                            {
+
+                            if (fileName != "")
                                 fileNameList.Add(fileName);
-                            }
                         }
 
                         if (fileNameList.Count > 0)
@@ -207,7 +206,16 @@ namespace Scada.Comm.Drivers.DrvEmail.Logic
                 {
                     foreach (string fileName in fileNames)
                     {
-                        message.Attachments.Add(new Attachment(fileName));
+                        if (File.Exists(fileName))
+                        {
+                            message.Attachments.Add(new Attachment(fileName));
+                        }
+                        else
+                        {
+                            Log.WriteLine(Locale.IsRussian ?
+                                "{0}Файл {1} не найден" :
+                                "{0}File {1} not found", CommPhrases.ErrorPrefix, fileName);
+                        }
                     }
                 }
 
@@ -227,7 +235,7 @@ namespace Scada.Comm.Drivers.DrvEmail.Logic
             try
             {
                 smtpClient.Send(message);
-                DeviceData.Add(TagCode.Mail, 1);
+                DeviceData.Add(tagCode, 1);
 
                 Log.WriteLine(Locale.IsRussian ?
                     "Письмо отправлено на {0}" :
