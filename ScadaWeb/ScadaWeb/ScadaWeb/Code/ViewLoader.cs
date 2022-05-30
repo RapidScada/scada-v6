@@ -15,7 +15,7 @@
  * 
  * 
  * Product  : Rapid SCADA
- * Module   : ScadaWebCommon
+ * Module   : Webstation Application
  * Summary  : Loads views available to the current user
  * 
  * Author   : Mikhail Shiryaev

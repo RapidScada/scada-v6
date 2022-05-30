@@ -20,7 +20,7 @@
  * 
  * Author   : Mikhail Shiryaev
  * Created  : 2021
- * Modified : 2021
+ * Modified : 2022
  */
 
 using Microsoft.AspNetCore.Authentication.Cookies;
@@ -164,7 +164,8 @@ namespace Scada.Web
                 .AddScoped(UserContextFactory.GetUserContext)
                 .AddScoped<IClientAccessor, ClientAccessor>()
                 .AddScoped<IViewLoader, ViewLoader>()
-                .AddScoped<IAuthorizationHandler, ObjRightHandler>();
+                .AddScoped<IAuthorizationHandler, ObjRightHandler>()
+                .AddTransient<ILoginService, LoginService>();
 
             WebContext.PluginHolder.AddServices(services);
         }

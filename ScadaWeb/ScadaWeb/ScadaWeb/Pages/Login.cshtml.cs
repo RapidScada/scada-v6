@@ -2,7 +2,6 @@
 // Licensed under the Apache License, Version 2.0. See License.txt in the project root for license information.
 
 using Microsoft.AspNetCore.Authentication;
-using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Html;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -10,13 +9,9 @@ using Microsoft.AspNetCore.Mvc.RazorPages;
 using Scada.Lang;
 using Scada.Web.Code;
 using Scada.Web.Config;
-using Scada.Web.Lang;
-using Scada.Web.Plugins;
 using Scada.Web.Services;
 using Scada.Web.Users;
 using System;
-using System.Collections.Generic;
-using System.Security.Claims;
 using System.Threading.Tasks;
 
 namespace Scada.Web.Pages
@@ -31,14 +26,14 @@ namespace Scada.Web.Pages
         private const string CaptchaSessionKey = "ScadaWeb.CaptchaCode";
 
         private readonly IWebContext webContext;
-        private readonly IClientAccessor clientAccessor;
+        private readonly ILoginService loginService;
         private readonly dynamic dict;
 
 
-        public LoginModel(IWebContext webContext, IClientAccessor clientAccessor)
+        public LoginModel(IWebContext webContext, ILoginService loginService)
         {
             this.webContext = webContext;
-            this.clientAccessor = clientAccessor;
+            this.loginService = loginService;
             dict = Locale.GetDictionary("Scada.Web.Pages.Login");
         }
 
@@ -87,93 +82,24 @@ namespace Scada.Web.Pages
             }
         }
 
-        private async Task<IActionResult> ValidateUserAsync(string returnUrl)
+        private async Task<IActionResult> LoginAsync(string returnUrl)
         {
-            bool userIsValid = false;
-            int userID = 0;
-            int roleID = 0;
-            string errMsg;
-            string friendlyError;
+            SimpleResult result = await loginService.LoginAsync(Username, Password, RememberMe);
 
-            // check user by server
-            try
+            if (result.Ok)
             {
-                userIsValid = clientAccessor.ScadaClient
-                    .ValidateUser(Username, Password, out userID, out roleID, out errMsg);
-                friendlyError = errMsg;
-            }
-            catch (Exception ex)
-            {
-                errMsg = ex.Message;
-                friendlyError = WebPhrases.ClientError;
-            }
-
-            // check user by plugins
-            UserLoginArgs userLoginArgs = new()
-            {
-                Username = Username,
-                UserID = userID,
-                RoleID = roleID,
-                SessionID = HttpContext.Session.Id,
-                RemoteIP = HttpContext.Connection.RemoteIpAddress?.ToString(),
-                UserIsValid = userIsValid,
-                ErrorMessage = errMsg,
-                FriendlyError = friendlyError
-            };
-
-            webContext.PluginHolder.OnUserLogin(userLoginArgs);
-
-            // show login result
-            if (userLoginArgs.UserIsValid)
-            {
-                await LoginAsync(Username, userID, roleID);
-                webContext.Log.WriteAction(Locale.IsRussian ?
-                    "Пользователь {0} вошёл в систему {0}, IP {1}" :
-                    "User {0} is logged in, IP {1}",
-                    Username, userLoginArgs.RemoteIP);
-                return RedirectToStartPage(returnUrl, userID);
+                return RedirectToStartPage(returnUrl);
             }
             else
             {
-                webContext.Log.WriteError(Locale.IsRussian ?
-                    "Неудачная попытка входа в систему пользователя {0}, IP {1}: {2}" :
-                    "Unsuccessful login attempt for user {0}, IP {1}: {2}",
-                    Username, userLoginArgs.RemoteIP, userLoginArgs.ErrorMessage);
-                ModelState.AddModelError(string.Empty, userLoginArgs.FriendlyError);
+                ModelState.AddModelError(string.Empty, result.Msg);
                 return Page();
             }
         }
 
-        private async Task LoginAsync(string username, int userID, int roleID)
+        private IActionResult RedirectToStartPage(string returnUrl)
         {
-            var claims = new List<Claim>
-            {
-                new Claim(ClaimTypes.Name, username),
-                new Claim(ClaimTypes.NameIdentifier, userID.ToString(), ClaimValueTypes.Integer),
-                new Claim(ClaimTypes.Role, roleID.ToString(), ClaimValueTypes.Integer)
-            };
-
-            var claimsIdentity = new ClaimsIdentity(
-                claims, CookieAuthenticationDefaults.AuthenticationScheme);
-
-            var authProperties = new AuthenticationProperties();
-            LoginOptions loginOptions = webContext.AppConfig.LoginOptions;
-
-            if (loginOptions.AllowRememberMe && RememberMe)
-            {
-                authProperties.IsPersistent = true;
-                authProperties.ExpiresUtc = DateTime.UtcNow.AddDays(loginOptions.RememberMeExpires);
-            }
-
-            await HttpContext.SignInAsync(
-                CookieAuthenticationDefaults.AuthenticationScheme,
-                new ClaimsPrincipal(claimsIdentity),
-                authProperties);
-        }
-
-        private IActionResult RedirectToStartPage(string returnUrl, int userID)
-        {
-            UserConfig userConfig = webContext.PluginHolder.GetUserConfig(userID);
+            UserConfig userConfig = webContext.PluginHolder.GetUserConfig(User.GetUserID());
             string url = Url.Content(ScadaUtils.FirstNonEmpty(
                 returnUrl,
                 userConfig?.StartPage,
@@ -197,7 +123,7 @@ namespace Scada.Web.Pages
 
             // already logged in
             if (isReady && User.IsAuthenticated())
-                return RedirectToStartPage(returnUrl, User.GetUserID());
+                return RedirectToStartPage(returnUrl);
 
             // auto login
             if (!string.IsNullOrEmpty(loginOptions.AutoLoginUsername))
@@ -207,7 +133,7 @@ namespace Scada.Web.Pages
                 RememberMe = loginOptions.AllowRememberMe;
 
                 if (isReady && !JustLogout)
-                    return await ValidateUserAsync(returnUrl);
+                    return await LoginAsync(returnUrl);
             }
 
             // normal login
@@ -220,7 +146,7 @@ namespace Scada.Web.Pages
             ValidateCaptcha();
 
             return ModelState.IsValid
-                ? await ValidateUserAsync(returnUrl)
+                ? await LoginAsync(returnUrl)
                 : Page();
         }
     }

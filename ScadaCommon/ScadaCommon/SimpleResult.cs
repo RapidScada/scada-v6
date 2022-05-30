@@ -15,28 +15,39 @@
  * 
  * 
  * Product  : Rapid SCADA
- * Module   : ScadaWebCommon
- * Summary  : Represents a data transfer object that carries a method result from the server side to a client
+ * Module   : ScadaCommon
+ * Summary  : Represents a result of a method or action
  * 
  * Author   : Mikhail Shiryaev
- * Created  : 2016
+ * Created  : 2022
  * Modified : 2022
  */
 
-namespace Scada.Web.Api
+namespace Scada
 {
     /// <summary>
-    /// Represents a data transfer object that carries a method result from the server side to a client.
-    /// <para>Представляет объект, передающий результат метода со стороны сервера клиенту.</para>
+    /// Represents a result of a method or action.
+    /// <para>Представляет результат метода или действия.</para>
     /// </summary>
-    public class Dto : SimpleResult
+    public class SimpleResult
     {
         /// <summary>
-        /// Creates a new data transfer object with the successfull result.
+        /// Gets or sets a value indicating whether the result is successful.
         /// </summary>
-        public static new Dto Success()
+        public bool Ok { get; set; }
+
+        /// <summary>
+        /// Gets or sets the message.
+        /// </summary>
+        public string Msg { get; set; }
+
+
+        /// <summary>
+        /// Creates a successfull result.
+        /// </summary>
+        public static SimpleResult Success()
         {
-            return new Dto
+            return new SimpleResult
             {
                 Ok = true,
                 Msg = ""
@@ -44,11 +55,11 @@ namespace Scada.Web.Api
         }
 
         /// <summary>
-        /// Creates a new data transfer object with the failed result.
+        /// Creates a failed result.
         /// </summary>
-        public static new Dto Fail(string msg)
+        public static SimpleResult Fail(string msg)
         {
-            return new Dto
+            return new SimpleResult
             {
                 Ok = false,
                 Msg = msg
