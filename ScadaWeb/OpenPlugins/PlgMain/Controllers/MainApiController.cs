@@ -21,7 +21,7 @@ namespace Scada.Web.Plugins.PlgMain.Controllers
 {
     /// <summary>
     /// Represents the plugin's web API.
-    /// <para>Представляет веб API плагина.</para>
+    /// <para>Представляет веб-API плагина.</para>
     /// </summary>
     /// <remarks>Note that double.NaN cannot be converted to JSON.</remarks>
     [ApiController]
@@ -285,17 +285,6 @@ namespace Scada.Web.Plugins.PlgMain.Controllers
             };
         }
 
-
-        /// <summary>
-        /// Logins to the web application.
-        /// </summary>
-        //[HttpPost, AllowAnonymous]
-        //public Dto Login([FromBody] CredentialsDTO credentialsDTO)
-        //{
-        //    webContext.Log.WriteLine("!!!Login {0}, {1}", credentialsDTO?.Username, credentialsDTO?.Password);
-        //    LoginAsync("admin", 11, 1).Wait();
-        //    return Dto.Success();
-        //}
 
         /// <summary>
         /// Gets the current data without formatting.
@@ -635,7 +624,7 @@ namespace Scada.Web.Plugins.PlgMain.Controllers
                 string errMsg;
 
                 if (!webContext.AppConfig.GeneralOptions.EnableCommands ||
-                    !pluginContext.Options.CommandApi)
+                    !pluginContext.Options.AllowCommandApi)
                 {
                     errMsg = WebPhrases.CommandsDisabled;
                 }
