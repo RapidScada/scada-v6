@@ -23,6 +23,8 @@
  * Modified : 2022
  */
 
+using System;
+
 namespace Scada.Web.Api
 {
     /// <summary>
@@ -31,6 +33,25 @@ namespace Scada.Web.Api
     /// </summary>
     public class Dto : SimpleResult
     {
+        /// <summary>
+        /// Initializes a new instance of the class.
+        /// </summary>
+        public Dto()
+            : base()
+        {
+        }
+
+        /// <summary>
+        /// Initializes a new instance of the class.
+        /// </summary>
+        public Dto(SimpleResult simpleResult)
+        {
+            ArgumentNullException.ThrowIfNull(simpleResult, nameof(simpleResult));
+            Ok = simpleResult.Ok;
+            Msg = simpleResult.Msg;
+        }
+
+
         /// <summary>
         /// Creates a new data transfer object with the successfull result.
         /// </summary>

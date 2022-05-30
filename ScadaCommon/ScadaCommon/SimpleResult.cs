@@ -32,6 +32,16 @@ namespace Scada
     public class SimpleResult
     {
         /// <summary>
+        /// Initializes a new instance of the class.
+        /// </summary>
+        public SimpleResult()
+        {
+            Ok = false;
+            Msg = "";
+        }
+
+
+        /// <summary>
         /// Gets or sets a value indicating whether the result is successful.
         /// </summary>
         public bool Ok { get; set; }
