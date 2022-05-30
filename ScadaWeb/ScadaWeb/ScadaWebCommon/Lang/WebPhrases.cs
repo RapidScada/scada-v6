@@ -62,6 +62,7 @@ namespace Scada.Web.Lang
         public static string CnlNotOutput { get; private set; }
         public static string CommandsDisabled { get; private set; }
         public static string SendCommand { get; private set; }
+        public static string ActionNotAllowed { get; private set; }
 
         // Scada.Web.TreeView.MenuItem
         public static string ReportsMenuItem { get; private set; }
@@ -77,7 +78,7 @@ namespace Scada.Web.Lang
             if (Locale.IsRussian)
             {
                 ErrorInPlugin = "Ошибка при вызове метода {0} плагина {1}";
-                ErrorInWebApi = "Ошибка при вызове метода веб API {0}";
+                ErrorInWebApi = "Ошибка при вызове метода веб-API {0}";
                 PluginMessage = "Плагин {0}: {1}";
             }
             else
@@ -110,6 +111,7 @@ namespace Scada.Web.Lang
             CnlNotOutput = dict["CnlNotOutput"];
             CommandsDisabled = dict["CommandsDisabled"];
             SendCommand = dict["SendCommand"];
+            ActionNotAllowed = dict["ActionNotAllowed"];
 
             dict = Locale.GetDictionary("Scada.Web.TreeView.MenuItem");
             ReportsMenuItem = dict["ReportsMenuItem"];
