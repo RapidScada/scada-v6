@@ -54,7 +54,8 @@
       <Option name="EventArchiveCode" value="Events" />
       <Option name="EventCount" value="100" />
       <Option name="EventDepth" value="2" />
-      <Option name="CommandPassword" value="false" />
+      <Option name="AllowCommandApi" value="false" />
+      <Option name="AllowAuthApi" value="false" />
     </OptionGroup>
     <OptionGroup name="Scheme">
       <!-- ScaleType: Numeric | FitScreen | FitWidth -->
