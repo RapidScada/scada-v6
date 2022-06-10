@@ -27,7 +27,7 @@ using Scada.Config;
 using Scada.Server.Lang;
 using System;
 
-namespace Scada.Server.Config
+namespace Scada.Server.Modules
 {
     /// <summary>
     /// Provides a base class for module configuration.
