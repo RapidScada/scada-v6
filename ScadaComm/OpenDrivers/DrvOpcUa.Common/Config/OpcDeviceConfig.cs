@@ -1,7 +1,7 @@
 ﻿// Copyright (c) Rapid Software LLC. All rights reserved.
 // Licensed under the Apache License, Version 2.0. See License.txt in the project root for license information.
 
-using Scada.Comm.Config;
+using Scada.Comm.Devices;
 using System.Collections.Generic;
 using System.IO;
 using System.Xml;
@@ -12,7 +12,7 @@ namespace Scada.Comm.Drivers.DrvOpcUa.Config
     /// Represents a configuration of an OPC UA device.
     /// <para>Представляет конфигурацию устройства OPC UA.</para>
     /// </summary>
-    public class OpcDeviceConfig : CustomDeviceConfig
+    public class OpcDeviceConfig : DeviceConfigBase
     {
         /// <summary>
         /// Gets the connection options.

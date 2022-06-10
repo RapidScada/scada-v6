@@ -1,9 +1,7 @@
 ﻿// Copyright (c) Rapid Software LLC. All rights reserved.
 // Licensed under the Apache License, Version 2.0. See License.txt in the project root for license information.
 
-using Scada.Comm.Config;
-using Scada.Comm.Lang;
-using Scada.Config;
+using Scada.Comm.Devices;
 using System.Xml;
 
 namespace Scada.Comm.Drivers.DrvMqttPublisher.Config
@@ -13,7 +11,7 @@ namespace Scada.Comm.Drivers.DrvMqttPublisher.Config
     /// <para>Представляет конфигурацию устройства для публикации данных с помощью MQTT.</para>
     /// </summary>
     [Serializable]
-    internal class MqttPublisherDeviceConfig : CustomDeviceConfig
+    internal class MqttPublisherDeviceConfig : DeviceConfigBase
     {
         /// <summary>
         /// Gets the device options.

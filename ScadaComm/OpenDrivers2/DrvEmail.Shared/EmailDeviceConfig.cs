@@ -1,7 +1,7 @@
 ﻿// Copyright (c) Rapid Software LLC. All rights reserved.
 // Licensed under the Apache License, Version 2.0. See License.txt in the project root for license information.
 
-using Scada.Comm.Config;
+using Scada.Comm.Devices;
 using System.IO;
 using System.Xml;
 
@@ -11,7 +11,7 @@ namespace Scada.Comm.Drivers.DrvEmail
     /// Represents a device configuration.
     /// <para>Представляет конфигурацию КП.</para>
     /// </summary>
-    internal class EmailDeviceConfig : CustomDeviceConfig
+    internal class EmailDeviceConfig : DeviceConfigBase
     {
         /// <summary>
         /// Gets or sets the server name or IP address.

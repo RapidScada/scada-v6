@@ -1,7 +1,7 @@
 ﻿// Copyright (c) Rapid Software LLC. All rights reserved.
 // Licensed under the Apache License, Version 2.0. See License.txt in the project root for license information.
 
-using Scada.Comm.Config;
+using Scada.Comm.Devices;
 using System.Collections.Generic;
 using System.IO;
 using System.Xml;
@@ -12,7 +12,7 @@ namespace Scada.Comm.Drivers.DrvHttpNotif.Config
     /// Represents a device configuration.
     /// <para>Представляет конфигурацию КП.</para>
     /// </summary>
-    internal class NotifDeviceConfig : CustomDeviceConfig
+    internal class NotifDeviceConfig : DeviceConfigBase
     {
         /// <summary>
         /// The default character that marks the beginning of a parameter.

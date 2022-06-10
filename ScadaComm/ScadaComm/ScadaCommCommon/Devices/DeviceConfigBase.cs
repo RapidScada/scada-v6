@@ -16,7 +16,7 @@
  * 
  * Product  : Rapid SCADA
  * Module   : ScadaCommCommon
- * Summary  : Represents a configuration of a custom device
+ * Summary  : Provides a base class for custom device configuration
  * 
  * Author   : Mikhail Shiryaev
  * Created  : 2022
@@ -27,14 +27,14 @@ using Scada.Comm.Lang;
 using Scada.Config;
 using System;
 
-namespace Scada.Comm.Config
+namespace Scada.Comm.Devices
 {
     /// <summary>
-    /// Represents a configuration of a custom device.
-    /// <para>Представляет конфигурацию пользовательского устройства.</para>
+    /// Provides a base class for custom device configuration.
+    /// <para>Предоставляет базовый класс для пользовательский конфигурации устройства.</para>
     /// </summary>
     [Serializable]
-    public abstract class CustomDeviceConfig : ConfigBase
+    public abstract class DeviceConfigBase : ConfigBase
     {
         /// <summary>
         /// Builds an error message for the load operation.
