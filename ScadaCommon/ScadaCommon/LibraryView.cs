@@ -95,6 +95,17 @@ namespace Scada
         /// </summary>
         public string ProductCode { get; protected set; }
 
+        /// <summary>
+        /// Gets the library version.
+        /// </summary>
+        public virtual string Version
+        {
+            get
+            {
+                return GetType().Assembly.GetName().Version.ToString();
+            }
+        }
+
 
         /// <summary>
         /// Loads language dictionaries.

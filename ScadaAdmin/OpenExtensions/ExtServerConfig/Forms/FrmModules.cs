@@ -215,7 +215,7 @@ namespace Scada.Admin.Extensions.ExtServerConfig.Forms
         {
             string title = string.Format("{0} {1}",
                 moduleView.Name,
-                moduleView.GetType().Assembly.GetName().Version);
+                moduleView.Version);
 
             return new StringBuilder()
                 .AppendLine(title)

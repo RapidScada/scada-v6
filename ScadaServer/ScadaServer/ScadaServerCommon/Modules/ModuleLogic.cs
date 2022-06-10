@@ -76,6 +76,17 @@ namespace Scada.Server.Modules
         public abstract string Code { get; }
 
         /// <summary>
+        /// Gets the module version.
+        /// </summary>
+        public virtual string Version
+        {
+            get
+            {
+                return GetType().Assembly.GetName().Version.ToString();
+            }
+        }
+
+        /// <summary>
         /// Gets the module purposes.
         /// </summary>
         public virtual ModulePurposes ModulePurposes

@@ -145,7 +145,7 @@ namespace Scada.Admin.Extensions.ExtCommConfig.Forms
         {
             string title = string.Format("{0} {1}",
                 driverView.Name,
-                driverView.GetType().Assembly.GetName().Version);
+                driverView.Version);
 
             return new StringBuilder()
                 .AppendLine(title)
