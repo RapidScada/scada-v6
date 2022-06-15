@@ -20,7 +20,7 @@
  * 
  * Author   : Mikhail Shiryaev
  * Created  : 2020
- * Modified : 2021
+ * Modified : 2022
  */
 
 using Scada.Data.Models;
@@ -572,7 +572,7 @@ namespace Scada.Comm.Devices
             {
                 sb.AppendLine();
                 sb.AppendLine(Locale.IsRussian ?
-                    "Недавние архивные данные" :
+                    "Недавние исторические данные" :
                     "Recent Historical Data");
 
                 lock (slices)

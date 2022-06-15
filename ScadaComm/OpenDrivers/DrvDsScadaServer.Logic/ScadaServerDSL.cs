@@ -251,7 +251,7 @@ namespace Scada.Comm.Drivers.DrvDsScadaServer.Logic
                 if (DateTime.UtcNow - queueItem.CreationTime > dataLifetime)
                 {
                     log.WriteError(CommPhrases.DataSourceMessage, Code, Locale.IsRussian ?
-                        "Устаревшие архивные данные удалены из очереди" :
+                        "Устаревшие исторические данные удалены из очереди" :
                         "Outdated historical data removed from the queue");
 
                     histDataSkipped++;
@@ -664,7 +664,7 @@ namespace Scada.Comm.Drivers.DrvDsScadaServer.Logic
                     else
                     {
                         log.WriteError(CommPhrases.DataSourceMessage, Code, string.Format(Locale.IsRussian ?
-                            "Невозможно добавить архивные данные в очередь. Максимальный размер очереди {0} превышен" :
+                            "Невозможно добавить исторические данные в очередь. Максимальный размер очереди {0} превышен" :
                             "Unable to enqueue historical data. The maximum size of the queue {0} is exceeded",
                             maxQueueSize));
 
