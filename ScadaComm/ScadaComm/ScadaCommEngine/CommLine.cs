@@ -605,7 +605,7 @@ namespace Scada.Comm.Engine
         }
 
         /// <summary>
-        /// Writes application information to the file.
+        /// Writes communication line information to the file.
         /// </summary>
         private void WriteInfo()
         {
