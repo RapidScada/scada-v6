@@ -168,7 +168,7 @@ namespace Scada.Server.Modules
         /// <summary>
         /// Performs actions when acknowledging an event.
         /// </summary>
-        public virtual void OnEventAck(long eventID, DateTime timestamp, int userID)
+        public virtual void OnEventAck(EventAck eventAck)
         {
         }
 

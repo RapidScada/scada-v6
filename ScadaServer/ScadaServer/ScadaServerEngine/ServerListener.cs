@@ -375,10 +375,12 @@ namespace Scada.Server.Engine
         {
             byte[] buffer = request.Buffer;
             int index = ArgumentIndex;
-            long eventID = GetInt64(buffer, ref index);
-            DateTime timestamp = GetTime(buffer, ref index);
-            int userID = GetInt32(buffer, ref index);
-            coreLogic.AckEvent(eventID, timestamp, userID);
+            coreLogic.AckEvent(new EventAck
+            {
+                EventID = GetInt64(buffer, ref index),
+                Timestamp = GetTime(buffer, ref index),
+                UserID = GetInt32(buffer, ref index)
+            });
             response = new ResponsePacket(request, client.OutBuf);
         }
 

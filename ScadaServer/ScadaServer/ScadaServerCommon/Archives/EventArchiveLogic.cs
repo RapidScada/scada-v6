@@ -20,13 +20,12 @@
  * 
  * Author   : Mikhail Shiryaev
  * Created  : 2020
- * Modified : 2020
+ * Modified : 2022
  */
 
 using Scada.Data.Models;
 using Scada.Data.Tables;
 using Scada.Server.Config;
-using System;
 using System.Collections.Generic;
 
 namespace Scada.Server.Archives
@@ -64,6 +63,6 @@ namespace Scada.Server.Archives
         /// <summary>
         /// Acknowledges the event.
         /// </summary>
-        public abstract void AckEvent(long eventID, DateTime timestamp, int userID);
+        public abstract void AckEvent(EventAck eventAck);
     }
 }

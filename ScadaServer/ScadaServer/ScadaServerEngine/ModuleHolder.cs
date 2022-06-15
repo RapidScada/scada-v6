@@ -20,7 +20,7 @@
  * 
  * Author   : Mikhail Shiryaev
  * Created  : 2020
- * Modified : 2021
+ * Modified : 2022
  */
 
 using Scada.Data.Models;
@@ -259,7 +259,7 @@ namespace Scada.Server.Engine
         /// <summary>
         /// Calls the OnEventAck method of the modules.
         /// </summary>
-        public void OnEventAck(long eventID, DateTime timestamp, int userID)
+        public void OnEventAck(EventAck eventAck)
         {
             lock (moduleLock)
             {
@@ -267,7 +267,7 @@ namespace Scada.Server.Engine
                 {
                     try
                     {
-                        moduleLogic.OnEventAck(eventID, timestamp, userID);
+                        moduleLogic.OnEventAck(eventAck);
                     }
                     catch (Exception ex)
                     {

@@ -20,7 +20,7 @@
  * 
  * Author   : Mikhail Shiryaev
  * Created  : 2020
- * Modified : 2021
+ * Modified : 2022
  */
 
 using Scada.Data.Entities;
@@ -663,7 +663,7 @@ namespace Scada.Server.Engine
         /// <summary>
         /// Acknowledges the event.
         /// </summary>
-        public void AckEvent(long eventID, DateTime timestamp, int userID)
+        public void AckEvent(EventAck eventAck)
         {
             foreach (EventArchiveLogic archiveLogic in eventArchives)
             {
@@ -672,7 +672,7 @@ namespace Scada.Server.Engine
                     try
                     {
                         archiveLogic.Lock();
-                        archiveLogic.AckEvent(eventID, timestamp, userID);
+                        archiveLogic.AckEvent(eventAck);
                         archiveLogic.LastWriteTime = DateTime.UtcNow;
                     }
                     catch (Exception ex)

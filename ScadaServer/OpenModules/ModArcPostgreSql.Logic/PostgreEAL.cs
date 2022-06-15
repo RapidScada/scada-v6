@@ -377,7 +377,7 @@ namespace Scada.Server.Modules.ModArcPostgreSql.Logic
         /// <summary>
         /// Acknowledges the event.
         /// </summary>
-        public override void AckEvent(long eventID, DateTime timestamp, int userID)
+        public override void AckEvent(EventAck eventAck)
         {
             try
             {
@@ -388,20 +388,25 @@ namespace Scada.Server.Modules.ModArcPostgreSql.Logic
                     "SET ack = true, ack_timestamp = @ackTimestamp, ack_user_id = @ackUserID " +
                     "WHERE event_id = @eventID AND @startTime <= time_stamp AND time_stamp < @endTime";
 
-                DateTime eventTime = ScadaUtils.RetrieveTimeFromID(eventID);
+                DateTime eventTime = ScadaUtils.RetrieveTimeFromID(eventAck.EventID);
                 NpgsqlCommand cmd = new NpgsqlCommand(sql, conn);
-                cmd.Parameters.AddWithValue("ackTimestamp", timestamp);
-                cmd.Parameters.AddWithValue("ackUserID", userID);
-                cmd.Parameters.AddWithValue("eventID", eventID);
+                cmd.Parameters.AddWithValue("ackTimestamp", eventAck.Timestamp);
+                cmd.Parameters.AddWithValue("ackUserID", eventAck.UserID);
+                cmd.Parameters.AddWithValue("eventID", eventAck.EventID);
                 cmd.Parameters.AddWithValue("startTime", eventTime);
                 cmd.Parameters.AddWithValue("endTime", eventTime.AddSeconds(1.0));
                 int rowsAffected = cmd.ExecuteNonQuery();
                 stopwatch.Stop();
 
                 if (rowsAffected > 0)
-                    arcLog?.WriteAction(ServerPhrases.AckEventCompleted, eventID, stopwatch.ElapsedMilliseconds);
+                {
+                    arcLog?.WriteAction(ServerPhrases.AckEventCompleted, eventAck.EventID, 
+                        stopwatch.ElapsedMilliseconds);
+                }
                 else
-                    arcLog?.WriteAction(ServerPhrases.AckEventNotFound, eventID);
+                {
+                    arcLog?.WriteAction(ServerPhrases.AckEventNotFound, eventAck.EventID);
+                }
             }
             finally
             {

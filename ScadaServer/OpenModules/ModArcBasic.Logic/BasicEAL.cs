@@ -263,17 +263,17 @@ namespace Scada.Server.Modules.ModArcBasic.Logic
         /// <summary>
         /// Acknowledges the event.
         /// </summary>
-        public override void AckEvent(long eventID, DateTime timestamp, int userID)
+        public override void AckEvent(EventAck eventAck)
         {
-            EventTable eventTable = GetEventTable(ScadaUtils.RetrieveTimeFromID(eventID));
-            Event ev = eventTable.GetEventByID(eventID);
+            EventTable eventTable = GetEventTable(ScadaUtils.RetrieveTimeFromID(eventAck.EventID));
+            Event ev = eventTable.GetEventByID(eventAck.EventID);
 
             if (ev != null)
             {
                 stopwatch.Restart();
                 ev.Ack = true;
-                ev.AckTimestamp = timestamp;
-                ev.AckUserID = userID;
+                ev.AckTimestamp = eventAck.Timestamp;
+                ev.AckUserID = eventAck.UserID;
 
                 adapter.FileName = eventTable.FileName;
                 adapter.WriteEventAck(ev);

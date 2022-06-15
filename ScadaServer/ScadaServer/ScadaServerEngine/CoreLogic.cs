@@ -1445,13 +1445,16 @@ namespace Scada.Server.Engine
         /// <summary>
         /// Acknowledges the event.
         /// </summary>
-        public void AckEvent(long eventID, DateTime timestamp, int userID)
+        public void AckEvent(EventAck eventAck)
         {
+            if (eventAck == null)
+                throw new ArgumentNullException(nameof(eventAck));
+
             Log.WriteAction(Locale.IsRussian ?
                 "Квитирование события с ид. {0}" :
-                "Acknowledge event with ID {0}", eventID);
-            moduleHolder.OnEventAck(eventID, timestamp, userID);
-            archiveHolder.AckEvent(eventID, timestamp, userID);
+                "Acknowledge event with ID {0}", eventAck.EventID);
+            moduleHolder.OnEventAck(eventAck);
+            archiveHolder.AckEvent(eventAck);
         }
 
         /// <summary>
