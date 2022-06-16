@@ -268,7 +268,7 @@ namespace Scada.Comm.Drivers.DrvDsScadaServer.Logic
                     catch (Exception ex)
                     {
                         log.WriteError(ex, CommPhrases.DataSourceMessage, Code, Locale.IsRussian ?
-                            "Ошибка при передаче архивных данных" :
+                            "Ошибка при передаче исторических данных" :
                             "Error transferring historical data");
 
                         // return the unsent slice to the queue
@@ -715,19 +715,19 @@ namespace Scada.Comm.Drivers.DrvDsScadaServer.Logic
             if (Locale.IsRussian)
             {
                 if (scadaClient == null)
-                    sb.Append("Соединение              : не используется").AppendLine();
+                    sb.Append("Соединение                  : не используется").AppendLine();
                 else
-                    sb.Append("Соединение              : ").AppendLine(scadaClient.ClientState.ToString(true));
+                    sb.Append("Соединение                  : ").AppendLine(scadaClient.ClientState.ToString(true));
 
-                sb.Append("Очередь текущих данных  : ")
+                sb.Append("Очередь текущих данных      : ")
                     .Append(curDataQueue.Count).Append(" из ").Append(maxQueueSize)
                     .Append(", пропущено ").Append(curDataSkipped).AppendLine();
 
-                sb.Append("Очередь архивных данных : ")
+                sb.Append("Очередь исторических данных : ")
                     .Append(histDataQueue.Count).Append(" из ").Append(maxQueueSize)
                     .Append(", пропущено ").Append(histDataSkipped).AppendLine();
 
-                sb.Append("Очередь событий         : ")
+                sb.Append("Очередь событий             : ")
                     .Append(eventQueue.Count).Append(" из ").Append(maxQueueSize)
                     .Append(", пропущено ").Append(eventSkipped).AppendLine();
             }
