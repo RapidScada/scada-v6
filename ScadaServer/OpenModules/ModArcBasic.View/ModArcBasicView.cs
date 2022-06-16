@@ -32,7 +32,9 @@ namespace Scada.Server.Modules.ModArcBasic.View
         {
             get
             {
-                return Locale.IsRussian ? "Базовый архив" : "Basic Archive";
+                return Locale.IsRussian ? 
+                    "Базовый архив" : 
+                    "Basic Archive";
             }
         }
 
