@@ -32,7 +32,9 @@ namespace Scada.Comm.Drivers.DrvMqttPublisher.View
         {
             get
             {
-                return Locale.IsRussian ? "MQTT-издатель" : "MQTT Publisher";
+                return Locale.IsRussian ? 
+                    "MQTT-издатель" : 
+                    "MQTT Publisher";
             }
         }
 

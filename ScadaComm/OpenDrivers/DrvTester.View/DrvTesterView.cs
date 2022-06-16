@@ -29,7 +29,9 @@ namespace Scada.Comm.Drivers.DrvTester.View
         {
             get
             {
-                return Locale.IsRussian ? "Тестер каналов связи" : "Communication Channel Tester";
+                return Locale.IsRussian ? 
+                    "Тестер каналов связи" : 
+                    "Communication Channel Tester";
             }
         }
 

@@ -3,7 +3,6 @@
 
 using Scada.Comm.Channels;
 using Scada.Comm.Config;
-using Scada.Comm.Drivers.DrvCnlBasic.View.Forms;
 using Scada.Forms;
 using Scada.Lang;
 using System.Collections.Generic;
@@ -33,7 +32,9 @@ namespace Scada.Comm.Drivers.DrvCnlBasic.View
         {
             get
             {
-                return Locale.IsRussian ? "Основные каналы связи" : "Basic Communication Channels";
+                return Locale.IsRussian ? 
+                    "Основные каналы связи" : 
+                    "Basic Communication Channels";
             }
         }
 

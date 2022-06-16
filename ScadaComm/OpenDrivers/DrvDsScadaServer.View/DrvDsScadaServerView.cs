@@ -34,7 +34,9 @@ namespace Scada.Comm.Drivers.DrvDsScadaServer.View
         {
             get
             {
-                return Locale.IsRussian ? "Источник данных Сервер" : "Server Data Source";
+                return Locale.IsRussian ? 
+                    "Источник данных Сервер" : 
+                    "Server Data Source";
             }
         }
 

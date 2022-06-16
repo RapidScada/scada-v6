@@ -31,7 +31,9 @@ namespace Scada.Comm.Drivers.DrvDsMqtt.View
         {
             get
             {
-                return Locale.IsRussian ? "Источник данных MQTT" : "MQTT Data Source";
+                return Locale.IsRussian ? 
+                    "Источник данных MQTT" : 
+                    "MQTT Data Source";
             }
         }
 
