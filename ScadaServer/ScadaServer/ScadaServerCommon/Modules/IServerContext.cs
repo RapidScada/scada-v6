@@ -73,9 +73,9 @@ namespace Scada.Server.Modules
         ConfigDatabase ConfigDatabase { get; }
 
         /// <summary>
-        /// Gets the active channel numbers for archiving.
+        /// Gets the channels organized in categories.
         /// </summary>
-        int[] CnlNums { get; }
+        ClassifiedChannels Cnls { get; }
 
         /// <summary>
         /// Gets the application level shared data.

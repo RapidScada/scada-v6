@@ -40,6 +40,7 @@ using System;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 using System.Text;
 using System.Threading;
 
@@ -113,6 +114,7 @@ namespace Scada.Server.Engine
             Storage = storage ?? throw new ArgumentNullException(nameof(storage));
             Log = log ?? throw new ArgumentNullException(nameof(log));
             ConfigDatabase = null;
+            Cnls = null;
             SharedData = null;
 
             infoFileName = Path.Combine(appDirs.LogDir, ServerUtils.InfoFileName);
@@ -172,9 +174,9 @@ namespace Scada.Server.Engine
         public ConfigDatabase ConfigDatabase { get; private set; }
 
         /// <summary>
-        /// Gets the active channel numbers for archiving.
+        /// Gets the channels organized in categories.
         /// </summary>
-        public int[] CnlNums => curData?.CnlNums;
+        public ClassifiedChannels Cnls { get; private set; }
 
         /// <summary>
         /// Gets the application level shared data.
@@ -316,6 +318,14 @@ namespace Scada.Server.Engine
                     }
                 }
             }
+
+            Cnls = new ClassifiedChannels
+            {
+                ArcCnls = cnlTags.Select(pair => pair.Value.Cnl).ToDictionary(tag => tag.CnlNum),
+                OutCnls = outCnlTags.Select(pair => pair.Value.Cnl).ToDictionary(tag => tag.CnlNum),
+                MeasCnls = measCnlTags.Select(tag => tag.Cnl).ToDictionary(tag => tag.CnlNum),
+                CalcCnls = calcCnlTags.Select(tag => tag.Cnl).ToDictionary(tag => tag.CnlNum)
+            };
 
             // find channel indexes for limits
             int FindIndex(double? n)

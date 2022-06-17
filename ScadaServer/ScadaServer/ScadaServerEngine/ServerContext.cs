@@ -90,9 +90,9 @@ namespace Scada.Server.Engine
         public ConfigDatabase ConfigDatabase => coreLogic.ConfigDatabase;
 
         /// <summary>
-        /// Gets the active channel numbers for archiving.
+        /// Gets the channels organized in categories.
         /// </summary>
-        public int[] CnlNums => coreLogic.CnlNums;
+        public ClassifiedChannels Cnls => coreLogic.Cnls;
 
         /// <summary>
         /// Gets the application level shared data.

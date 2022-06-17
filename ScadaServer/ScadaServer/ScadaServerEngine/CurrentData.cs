@@ -54,7 +54,7 @@ namespace Scada.Server.Engine
 
             cnlDataCopy = null;
             Timestamp = DateTime.MinValue;
-            CnlNums = cnlTags.Select(t => t.Value.CnlNum).ToArray();
+            CnlNums = cnlTags.Keys.ToArray();
 
             int cnlCnt = cnlTags.Count;
             CnlData = new CnlData[cnlCnt];
