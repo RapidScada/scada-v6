@@ -1132,16 +1132,15 @@ namespace Scada.Server.Engine
         }
 
         /// <summary>
-        /// Gets the current data of the specified channel.
+        /// Gets the current data of the specified channel of the certain kind.
         /// </summary>
-        public CnlData GetCurrentData(int cnlNum)
+        public CnlData GetCurrentData(int cnlNum, CurrentDataKind kind)
         {
             try
             {
                 lock (curData)
                 {
-                    if (cnlTags.TryGetValue(cnlNum, out CnlTag cnlTag))
-                        return curData.CnlData[cnlTag.Index];
+                    return curData.GetCurrentData(cnlNum, kind);
                 }
             }
             catch (Exception ex)
@@ -1149,9 +1148,8 @@ namespace Scada.Server.Engine
                 Log.WriteError(ex, Locale.IsRussian ?
                     "Ошибка при получении текущих данных канала" :
                     "Error getting current data of the channel");
+                return CnlData.Empty;
             }
-
-            return CnlData.Empty;
         }
 
         /// <summary>

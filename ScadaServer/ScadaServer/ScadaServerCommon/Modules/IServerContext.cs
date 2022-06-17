@@ -28,6 +28,7 @@ using Scada.Data.Models;
 using Scada.Data.Tables;
 using Scada.Log;
 using Scada.Protocol;
+using Scada.Server.Archives;
 using Scada.Server.Config;
 using Scada.Storages;
 using System;
@@ -86,6 +87,11 @@ namespace Scada.Server.Modules
         /// Gets the current data of the specified channel.
         /// </summary>
         CnlData GetCurrentData(int cnlNum);
+
+        /// <summary>
+        /// Gets the current data of the specified channel of the certain kind.
+        /// </summary>
+        CnlData GetCurrentData(int cnlNum, CurrentDataKind kind);
 
         /// <summary>
         /// Gets the current data of the specified channels.
