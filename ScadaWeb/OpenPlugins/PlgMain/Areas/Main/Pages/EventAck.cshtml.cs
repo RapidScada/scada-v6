@@ -102,7 +102,12 @@ namespace Scada.Web.Plugins.PlgMain.Areas.Main.Pages
             try
             {
                 // acknowledge event
-                clientAccessor.ScadaClient.AckEvent(eventID, DateTime.UtcNow, User.GetUserID());
+                clientAccessor.ScadaClient.AckEvent(new EventAck
+                {
+                    EventID = eventID,
+                    Timestamp = DateTime.UtcNow, 
+                    UserID = User.GetUserID()
+                });
                 Message = dict.EventAcknowledged;
                 CloseModal = true;
             }

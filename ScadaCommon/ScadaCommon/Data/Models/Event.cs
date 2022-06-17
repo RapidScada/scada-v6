@@ -20,7 +20,7 @@
  * 
  * Author   : Mikhail Shiryaev
  * Created  : 2020
- * Modified : 2020
+ * Modified : 2022
  */
 
 using System;
@@ -31,6 +31,7 @@ namespace Scada.Data.Models
     /// Represents an automated system event.
     /// <para>Представляет событие автоматизированной системы.</para>
     /// </summary>
+    [Serializable]
     public class Event
     {
         /// <summary>

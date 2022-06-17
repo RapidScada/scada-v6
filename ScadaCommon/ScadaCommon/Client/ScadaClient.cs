@@ -545,15 +545,18 @@ namespace Scada.Client
         /// <summary>
         /// Acknowledges the event.
         /// </summary>
-        public void AckEvent(long eventID, DateTime timestamp, int userID)
+        public void AckEvent(EventAck eventAck)
         {
+            if (eventAck == null)
+                throw new ArgumentNullException(nameof(eventAck));
+
             RestoreConnection();
 
             DataPacket request = CreateRequest(FunctionID.AckEvent);
             int index = ArgumentIndex;
-            CopyInt64(eventID, outBuf, ref index);
-            CopyTime(timestamp, outBuf, ref index);
-            CopyInt32(userID, outBuf, ref index);
+            CopyInt64(eventAck.EventID, outBuf, ref index);
+            CopyTime(eventAck.Timestamp, outBuf, ref index);
+            CopyInt32(eventAck.UserID, outBuf, ref index);
             request.BufferLength = index;
 
             SendRequest(request);

@@ -31,6 +31,7 @@ namespace Scada.Data.Models
     /// Contains information about an event acknowledgement.
     /// <para>Содержит информацию о подтверждении события.</para>
     /// </summary>
+    [Serializable]
     public class EventAck
     {
         /// <summary>
