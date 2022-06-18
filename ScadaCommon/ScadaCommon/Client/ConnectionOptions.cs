@@ -20,7 +20,7 @@
  * 
  * Author   : Mikhail Shiryaev
  * Created  : 2020
- * Modified : 2021
+ * Modified : 2022
  */
 
 using Scada.Lang;
@@ -100,6 +100,19 @@ namespace Scada.Client
         /// <remarks>If null, password is not encrypted.</remarks>
         public byte[] SecretKey { get; set; }
 
+        /// <summary>
+        /// Gets a value indicating whether the host is local.
+        /// </summary>
+        public bool IsLocal
+        {
+            get
+            {
+                return 
+                    string.Equals(Host, "localhost", StringComparison.OrdinalIgnoreCase) ||
+                    string.Equals(Host, "127.0.0.1", StringComparison.Ordinal);
+            }
+        }
+
 
         /// <summary>
         /// Loads the options from the XML node.
@@ -172,7 +185,7 @@ namespace Scada.Client
         }
 
         /// <summary>
-        /// Determines whether two specified objects have the same value.
+        /// Determines whether two specified connection options have the same value.
         /// </summary>
         public static bool Equals(ConnectionOptions a, ConnectionOptions b)
         {
@@ -195,6 +208,26 @@ namespace Scada.Client
                     a.Instance == b.Instance &&
                     a.Timeout == b.Timeout &&
                     ScadaUtils.SequenceEqual(a.SecretKey, b.SecretKey);
+            }
+        }
+
+        /// <summary>
+        /// Determines whether two specified connection options have the same origin, i.e. host and port.
+        /// </summary>
+        public static bool OriginEquals(ConnectionOptions a, ConnectionOptions b)
+        {
+            if (a == b)
+            {
+                return true;
+            }
+            else if (a == null || b == null)
+            {
+                return false;
+            }
+            else
+            {
+                return a.Port == b.Port &&
+                    (a.IsLocal && b.IsLocal || string.Equals(a.Host, b.Host, StringComparison.OrdinalIgnoreCase));
             }
         }
     }
