@@ -34,6 +34,10 @@ namespace Scada.Comm.Drivers.DrvDsScadaServer.Logic
         /// </summary>
         private const int BundleSize = 10;
         /// <summary>
+        /// The maximum number of commands received in one iteration.
+        /// </summary>
+        private const int MaxCommandCount = 100;
+        /// <summary>
         /// The delay in case of a data transfer error, ms.
         /// </summary>
         private const int ErrorDelay = 1000;
@@ -115,14 +119,13 @@ namespace Scada.Comm.Drivers.DrvDsScadaServer.Logic
         {
             try
             {
-                const int MaxCommandCount = 100;
-                int commandCount = 0;
+                int cmdCnt = 0;
 
                 while (scadaClient.GetCommand() is TeleCommand cmd)
                 {
                     CommContext.SendCommand(cmd, Code);
 
-                    if (++commandCount == MaxCommandCount)
+                    if (++cmdCnt == MaxCommandCount)
                         break;
                 }
             }
