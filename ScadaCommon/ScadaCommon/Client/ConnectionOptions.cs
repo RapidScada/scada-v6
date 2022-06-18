@@ -210,25 +210,5 @@ namespace Scada.Client
                     ScadaUtils.SequenceEqual(a.SecretKey, b.SecretKey);
             }
         }
-
-        /// <summary>
-        /// Determines whether two specified connection options have the same origin, i.e. host and port.
-        /// </summary>
-        public static bool OriginEquals(ConnectionOptions a, ConnectionOptions b)
-        {
-            if (a == b)
-            {
-                return true;
-            }
-            else if (a == null || b == null)
-            {
-                return false;
-            }
-            else
-            {
-                return a.Port == b.Port &&
-                    (a.IsLocal && b.IsLocal || string.Equals(a.Host, b.Host, StringComparison.OrdinalIgnoreCase));
-            }
-        }
     }
 }
