@@ -20,7 +20,7 @@
  * 
  * Author   : Mikhail Shiryaev
  * Created  : 2020
- * Modified : 2020
+ * Modified : 2022
  */
 
 using Scada.Data.Models;
@@ -38,11 +38,6 @@ namespace Scada.Server.Archives
         /// Gets the current timestamp.
         /// </summary>
         DateTime Timestamp { get; }
-
-        /// <summary>
-        /// Gets the channel numbers.
-        /// </summary>
-        int[] CnlNums { get; }
 
         /// <summary>
         /// Gets the current channel data.

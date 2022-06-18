@@ -86,8 +86,8 @@ namespace Scada.Server.Engine
         private ServiceStatus serviceStatus;     // the current service status
         private int lastInfoLength;              // the last info text length
 
-        private Dictionary<int, CnlTag> cnlTags;       // the channel tags for archiving
-        private Dictionary<int, OutCnlTag> outCnlTags; // the output channel tags for sending commands
+        private Dictionary<int, CnlTag> cnlTags;       // the channel tags for archiving, not sorted
+        private Dictionary<int, OutCnlTag> outCnlTags; // the channel tags for sending commands, not sorted
         private List<CnlTag> measCnlTags;        // the channel tags measured by devices
         private List<CnlTag> calcCnlTags;        // the channel tags of the calculated type
         private Dictionary<string, User> users;  // the users accessed by name
@@ -209,7 +209,7 @@ namespace Scada.Server.Engine
             if (!ReadConfigDatabase())
                 return false;
 
-            InitCnlTags();
+            InitChannels();
             InitUsers();
             InitRightMatrix();
 
@@ -263,40 +263,54 @@ namespace Scada.Server.Engine
         /// <summary>
         /// Initializes metadata about the channels.
         /// </summary>
-        private void InitCnlTags()
+        private void InitChannels()
         {
-            // create channel tags
+            // create collections of channels and channel tags
+            Cnls = new ClassifiedChannels();
             cnlTags = new Dictionary<int, CnlTag>();
             outCnlTags = new Dictionary<int, OutCnlTag>();
             measCnlTags = new List<CnlTag>();
             calcCnlTags = new List<CnlTag>();
             List<CnlTag> limTags = new List<CnlTag>();
-            int index = 0;
+            int cnlIdx = 0;
             int cnlNum = 0;
 
-            // add new channel tag to collections
-            void AddCnlTag(Cnl cnl, Lim lim)
+            // add archivable channel to collections
+            void AddCnl(Cnl cnl, Lim lim)
             {
                 if (cnl.IsArchivable())
                 {
-                    CnlTag cnlTag = new CnlTag(index++, cnlNum, cnl, lim);
-                    cnlTags.Add(cnlNum++, cnlTag);
+                    Cnls.ArcCnls.Add(cnlNum, cnl);
+                    CnlTag cnlTag = new CnlTag(cnlIdx, cnlNum, cnl, lim);
+                    cnlTags.Add(cnlNum, cnlTag);
 
                     if (cnl.IsInput())
+                    {
+                        Cnls.MeasCnls.Add(cnlNum, cnl);
                         measCnlTags.Add(cnlTag);
+                    }
                     else if (cnl.IsCalculated())
+                    {
+                        Cnls.CalcCnls.Add(cnlNum, cnl);
                         calcCnlTags.Add(cnlTag);
+                    }
 
                     if (lim != null && lim.IsBoundToCnl)
                         limTags.Add(cnlTag);
+
+                    cnlIdx++;
+                    cnlNum++;
                 }
             }
 
-            // add new output channel tag
-            void AddOutCnlTag(Cnl cnl)
+            // add output channel to collections
+            void AddOutCnl(Cnl cnl)
             {
                 if (cnl.IsOutput())
+                {
+                    Cnls.OutCnls.Add(cnl.CnlNum, cnl);
                     outCnlTags.Add(cnl.CnlNum, new OutCnlTag(cnl));
+                }
             }
 
             foreach (Cnl cnl in ConfigDatabase.CnlTable.EnumerateItems())
@@ -305,27 +319,19 @@ namespace Scada.Server.Engine
                 {
                     cnlNum = cnl.CnlNum;
                     Lim lim = cnl.LimID.HasValue ? ConfigDatabase.LimTable.GetItem(cnl.LimID.Value) : null;
-                    AddCnlTag(cnl, lim);
-                    AddOutCnlTag(cnl);
+                    AddCnl(cnl, lim);
+                    AddOutCnl(cnl);
 
                     // add channel tags if one channel row defines multiple channels
                     if (cnl.IsArray())
                     {
                         for (int i = 1, len = cnl.DataLen.Value; i < len; i++)
                         {
-                            AddCnlTag(cnl, lim);
+                            AddCnl(cnl, lim);
                         }
                     }
                 }
             }
-
-            Cnls = new ClassifiedChannels
-            {
-                ArcCnls = cnlTags.Select(pair => pair.Value.Cnl).ToDictionary(tag => tag.CnlNum),
-                OutCnls = outCnlTags.Select(pair => pair.Value.Cnl).ToDictionary(tag => tag.CnlNum),
-                MeasCnls = measCnlTags.Select(tag => tag.Cnl).ToDictionary(tag => tag.CnlNum),
-                CalcCnls = calcCnlTags.Select(tag => tag.Cnl).ToDictionary(tag => tag.CnlNum)
-            };
 
             // find channel indexes for limits
             int FindIndex(double? n)
@@ -473,26 +479,24 @@ namespace Scada.Server.Engine
         }
 
         /// <summary>
-        /// Gets the channel numbers processed by the archive.
+        /// Gets the sorted channel numbers processed by the archive.
         /// </summary>
         private int[] GetProcessedCnls(Archive archive)
         {
-            List<int> cnlNums = new List<int>(cnlTags.Count);
-            bool isDefault = archive.IsDefault;
-            int archiveBit = archive.Bit;
+            List<int> cnlNums = new List<int>();
 
-            foreach (CnlTag cnlTag in cnlTags.Values)
+            foreach (KeyValuePair<int, Cnl> pair in Cnls.ArcCnls)
             {
-                int? archiveMask = cnlTag.Cnl.ArchiveMask;
+                int? archiveMask = pair.Value.ArchiveMask;
 
                 if (archiveMask.HasValue)
                 {
-                    if (archiveMask.Value.BitIsSet(archiveBit))
-                        cnlNums.Add(cnlTag.CnlNum);
+                    if (archiveMask.Value.BitIsSet(archive.Bit))
+                        cnlNums.Add(pair.Key);
                 }
-                else if (isDefault)
+                else if (archive.IsDefault)
                 {
-                    cnlNums.Add(cnlTag.CnlNum);
+                    cnlNums.Add(pair.Key);
                 }
             }
 

@@ -36,23 +36,35 @@ namespace Scada.Server.Modules
     public class ClassifiedChannels
     {
         /// <summary>
-        /// Gets or sets the archivable channels.
+        /// Initializes a new instance of the class.
         /// </summary>
-        public Dictionary<int, Cnl> ArcCnls { get; set; }
+        public ClassifiedChannels()
+        {
+            ArcCnls = new SortedList<int, Cnl>();
+            OutCnls = new SortedList<int, Cnl>();
+            MeasCnls = new SortedList<int, Cnl>();
+            CalcCnls = new SortedList<int, Cnl>();
+        }
+
 
         /// <summary>
-        /// Gets or sets the output channels.
+        /// Gets the archivable channels.
         /// </summary>
-        public Dictionary<int, Cnl> OutCnls { get; set; }
+        public SortedList<int, Cnl> ArcCnls { get; }
 
         /// <summary>
-        /// Gets or sets the channels measured by devices.
+        /// Gets the output channels.
         /// </summary>
-        public Dictionary<int, Cnl> MeasCnls { get; set; }
+        public SortedList<int, Cnl> OutCnls { get; }
 
         /// <summary>
-        /// Gets or sets the channels of the calculated type.
+        /// Gets the channels measured by devices.
         /// </summary>
-        public Dictionary<int, Cnl> CalcCnls { get; set; }
+        public SortedList<int, Cnl> MeasCnls { get; }
+
+        /// <summary>
+        /// Gets the channels of the calculated type.
+        /// </summary>
+        public SortedList<int, Cnl> CalcCnls { get; }
     }
 }

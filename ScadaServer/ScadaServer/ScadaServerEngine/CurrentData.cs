@@ -54,7 +54,6 @@ namespace Scada.Server.Engine
 
             cnlDataCopy = null;
             Timestamp = DateTime.MinValue;
-            CnlNums = cnlTags.Keys.ToArray();
 
             int cnlCnt = cnlTags.Count;
             CnlData = new CnlData[cnlCnt];
@@ -69,11 +68,6 @@ namespace Scada.Server.Engine
         /// Gets or sets the current timestamp (UTC).
         /// </summary>
         public DateTime Timestamp { get; set; }
-
-        /// <summary>
-        /// Gets the channel numbers for archiving.
-        /// </summary>
-        public int[] CnlNums { get; }
 
         /// <summary>
         /// Gets the current channel data.
@@ -164,7 +158,9 @@ namespace Scada.Server.Engine
         /// </summary>
         int ICurrentData.GetCnlIndex(int cnlNum)
         {
-            return cnlTags.TryGetValue(cnlNum, out CnlTag cnlTag) ? cnlTag.Index : -1;
+            return cnlTags.TryGetValue(cnlNum, out CnlTag cnlTag) 
+                ? cnlTag.Index 
+                : -1;
         }
 
         /// <summary>
