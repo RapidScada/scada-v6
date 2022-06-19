@@ -141,6 +141,17 @@ namespace Scada.Data.Models
         /// </summary>
         public int RecursionLevel { get; set; }
 
+        /// <summary>
+        /// Gets a value indicating whether the command should be processed by an application.
+        /// </summary>
+        public bool IsAddressedToApp
+        {
+            get
+            {
+                return AddressedToApp(CmdCode);
+            }
+        }
+
 
         /// <summary>
         /// Gets a string corresponding to the command data.
@@ -349,7 +360,7 @@ namespace Scada.Data.Models
         /// <summary>
         /// Determines whether the specified command should be processed by an application.
         /// </summary>
-        public static bool IsAddressedToApp(string cmdCode)
+        public static bool AddressedToApp(string cmdCode)
         {
             return cmdCode.StartsWith("App.", StringComparison.Ordinal);
         }

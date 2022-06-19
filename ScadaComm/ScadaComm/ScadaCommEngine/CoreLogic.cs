@@ -852,7 +852,7 @@ namespace Scada.Comm.Engine
                         "Outdated command with ID {0} from the source {1} is rejected",
                         cmd.CommandID, source);
                 }
-                else if (TeleCommand.IsAddressedToApp(cmd.CmdCode))
+                else if (TeleCommand.AddressedToApp(cmd.CmdCode))
                 {
                     Log.WriteAction(Locale.IsRussian ?
                         "Команда приложению {0} с ид. {1} от источника {2}" :
