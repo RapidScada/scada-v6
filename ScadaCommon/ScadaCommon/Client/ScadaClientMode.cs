@@ -49,9 +49,9 @@ namespace Scada.Client
         /// <summary>
         /// Initializes a new instance of the structure.
         /// </summary>
-        public ScadaClientMode(int? value)
+        public ScadaClientMode(int value)
         {
-            Value = value ?? 0;
+            Value = value;
         }
 
 
