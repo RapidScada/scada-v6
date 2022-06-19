@@ -530,7 +530,7 @@ namespace Scada.Comm.Drivers.DrvDsScadaServer.Logic
         /// </summary>
         public override void Start()
         {
-            scadaClient = new ScadaClient(connOptions);
+            scadaClient = new ScadaClient(connOptions) { ClientMode = ScadaClientMode.IncomingCommands };
 
             if (options.ClientLogEnabled)
                 scadaClient.CommLog = CreateClientLog();

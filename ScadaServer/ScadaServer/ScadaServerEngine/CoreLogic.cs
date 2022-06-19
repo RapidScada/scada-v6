@@ -98,8 +98,8 @@ namespace Scada.Server.Engine
         private ServerCache serverCache;         // the server level cache
         private ServerListener listener;         // the TCP listener
         private CurrentData curData;             // the current channel data
-        private Queue<EventItem> events;         // the just created events
-        private Queue<CommandItem> commands;     // the preprocessed commands that have not yet been sent
+        private Queue<EventItem> eventQueue;     // the just created events
+        private Queue<CommandItem> commandQueue; // the preprocessed commands that have not yet been sent
 
 
         /// <summary>
@@ -138,8 +138,8 @@ namespace Scada.Server.Engine
             serverCache = null;
             listener = null;
             curData = null;
-            events = null;
-            commands = null;
+            eventQueue = null;
+            commandQueue = null;
         }
 
 
@@ -222,8 +222,8 @@ namespace Scada.Server.Engine
             serverCache = new ServerCache();
             listener = new ServerListener(this, archiveHolder, serverCache);
             curData = new CurrentData(this, cnlTags);
-            events = new Queue<EventItem>();
-            commands = new Queue<CommandItem>();
+            eventQueue = new Queue<EventItem>();
+            commandQueue = new Queue<CommandItem>();
 
             InitModules();
             InitArchives();
@@ -645,11 +645,11 @@ namespace Scada.Server.Engine
                 EventItem eventItem;
                 Event ev;
 
-                lock (events)
+                lock (eventQueue)
                 {
-                    if (events.Count > 0)
+                    if (eventQueue.Count > 0)
                     {
-                        eventItem = events.Dequeue();
+                        eventItem = eventQueue.Dequeue();
                         ev = eventItem.Event;
                     }
                     else
@@ -676,10 +676,10 @@ namespace Scada.Server.Engine
             {
                 CommandItem commandItem;
 
-                lock (commands)
+                lock (commandQueue)
                 {
-                    if (commands.Count > 0)
-                        commandItem = commands.Dequeue();
+                    if (commandQueue.Count > 0)
+                        commandItem = commandQueue.Dequeue();
                     else
                         break;
                 }
@@ -983,9 +983,9 @@ namespace Scada.Server.Engine
         /// </summary>
         private void EnqueueEvent(int archiveMask, Event ev)
         {
-            lock (events)
+            lock (eventQueue)
             {
-                events.Enqueue(new EventItem { ArchiveMask = archiveMask, Event = ev });
+                eventQueue.Enqueue(new EventItem { ArchiveMask = archiveMask, Event = ev });
             }
         }
 
@@ -1547,9 +1547,9 @@ namespace Scada.Server.Engine
                             Monitor.Exit(curData);
                         }
 
-                        lock (commands)
+                        lock (commandQueue)
                         {
-                            commands.Enqueue(new CommandItem
+                            commandQueue.Enqueue(new CommandItem
                             {
                                 OutCnlTag = outCnlTag,
                                 Command = command,

@@ -35,8 +35,8 @@ namespace Scada.Server.Engine
     /// </summary>
     internal class ClientTag
     {
-        private readonly Queue<TeleCommand> commands; // the command queue
-        private bool commandsDisabled; // receiving commands is disabled for the client
+        private readonly Queue<TeleCommand> commandQueue;
+        private bool commandsEnabled;
 
 
         /// <summary>
@@ -44,30 +44,30 @@ namespace Scada.Server.Engine
         /// </summary>
         public ClientTag()
         {
-            commands = new Queue<TeleCommand>();
-            commandsDisabled = true;
+            commandQueue = new Queue<TeleCommand>();
+            commandsEnabled = false;
         }
 
 
         /// <summary>
-        /// Gets or sets a value indicating whether the client cannot receive commands from the server.
+        /// Gets or sets a value indicating whether the client can receive commands from the server.
         /// </summary>
-        public bool CommandsDisabled
+        public bool CommandsEnabled
         {
             get
             {
-                return commandsDisabled;
+                return commandsEnabled;
             }
             set
             {
-                commandsDisabled = value;
+                commandsEnabled = value;
 
-                if (commandsDisabled)
+                if (!commandsEnabled)
                 {
-                    lock (commands)
+                    lock (commandQueue)
                     {
-                        commands.Clear();
-                        commands.TrimExcess();
+                        commandQueue.Clear();
+                        commandQueue.TrimExcess();
                     }
                 }
             }
@@ -81,9 +81,9 @@ namespace Scada.Server.Engine
         {
             DateTime utcNow = DateTime.UtcNow;
 
-            while (commands.Count > 0 && utcNow - commands.Peek().CreationTime > ScadaUtils.CommandLifetime)
+            while (commandQueue.Count > 0 && utcNow - commandQueue.Peek().CreationTime > ScadaUtils.CommandLifetime)
             {
-                commands.Dequeue();
+                commandQueue.Dequeue();
             }
         }
 
@@ -92,12 +92,12 @@ namespace Scada.Server.Engine
         /// </summary>
         public void AddCommand(TeleCommand command)
         {
-            if (!commandsDisabled)
+            if (commandsEnabled)
             {
-                lock (commands)
+                lock (commandQueue)
                 {
                     RemoveOutdatedCommands();
-                    commands.Enqueue(command);
+                    commandQueue.Enqueue(command);
                 }
             }
         }
@@ -107,16 +107,16 @@ namespace Scada.Server.Engine
         /// </summary>
         public TeleCommand GetCommand(long commandToRemove)
         {
-            lock (commands)
+            lock (commandQueue)
             {
-                if (commands.Count > 0)
+                if (commandQueue.Count > 0)
                 {
                     // remove the specified command
-                    if (commandToRemove > 0 && commands.Count > 0 && commands.Peek().CommandID == commandToRemove)
-                        commands.Dequeue();
+                    if (commandToRemove > 0 && commandQueue.Count > 0 && commandQueue.Peek().CommandID == commandToRemove)
+                        commandQueue.Dequeue();
 
                     RemoveOutdatedCommands();
-                    return commands.Count > 0 ? commands.Peek() : null;
+                    return commandQueue.Count > 0 ? commandQueue.Peek() : null;
                 }
                 else
                 {

@@ -546,7 +546,7 @@ namespace Scada.Server.Engine
         /// </summary>
         protected override void UpdateClientMode(ConnectedClient client, int clientMode)
         {
-            GetClientTag(client).CommandsDisabled = new ScadaClientMode(clientMode).DisableInputCommands;
+            GetClientTag(client).CommandsEnabled = new ScadaClientMode(clientMode).EnableIncomingCommands;
         }
 
         /// <summary>

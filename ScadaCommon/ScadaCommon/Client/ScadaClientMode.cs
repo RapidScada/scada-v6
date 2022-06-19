@@ -32,18 +32,18 @@ namespace Scada.Client
     public struct ScadaClientMode
     {
         /// <summary>
-        /// The bit to disable input commands.
+        /// The bit to enable incoming commands.
         /// </summary>
-        private const int DisableInputCommandsBit = 0;
+        private const int EnableIncomingCommandsBit = 0;
 
         /// <summary>
         /// The default client mode.
         /// </summary>
         public const int Default = 0;
         /// <summary>
-        /// The client mode with disabled input commands.
+        /// The client mode with enabled incoming commands.
         /// </summary>
-        public const int NoCommands = 0x0000_0001;
+        public const int IncomingCommands = 0x0000_0001;
 
 
         /// <summary>
@@ -61,17 +61,17 @@ namespace Scada.Client
         public int Value { get; private set; }
 
         /// <summary>
-        /// Gets or sets a value indicating whether a client cannot receive commands from the server.
+        /// Gets or sets a value indicating whether a client can receive commands from the server.
         /// </summary>
-        public bool DisableInputCommands
+        public bool EnableIncomingCommands
         {
             get
             {
-                return Value.BitIsSet(DisableInputCommandsBit);
+                return Value.BitIsSet(EnableIncomingCommandsBit);
             }
             set
             {
-                Value = Value.SetBit(DisableInputCommandsBit, value);
+                Value = Value.SetBit(EnableIncomingCommandsBit, value);
             }
         }
     }

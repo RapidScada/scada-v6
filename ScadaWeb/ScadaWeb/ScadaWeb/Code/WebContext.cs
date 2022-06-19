@@ -88,7 +88,7 @@ namespace Scada.Web.Code
             AppDirs = new WebDirs();
             Log = LogStub.Instance;
             ConfigDatabase = new ConfigDatabase();
-            ClientPool = new ScadaClientPool { ClientMode = ScadaClientMode.NoCommands };
+            ClientPool = new ScadaClientPool();
             PluginHolder = new PluginHolder();
             CacheExpirationTokenSource = new CancellationTokenSource();
 
