@@ -1027,7 +1027,10 @@ namespace Scada.Server.Engine
         {
             lock (eventQueue)
             {
-                eventQueue.Enqueue(new EventItem { ArchiveMask = archiveMask, Event = ev });
+                eventQueue.Enqueue(new EventItem {
+                    ArchiveMask = archiveMask, 
+                    Event = ev 
+                });
             }
         }
 
