@@ -134,7 +134,7 @@ namespace Scada.Forms
         }
 
         /// <summary>
-        /// Determines if the specified action can be performed.
+        /// Determines whether the specified action can be performed.
         /// </summary>
         public virtual bool AllowAction(ConfigAction action, object button, TreeNode selectedNode)
         {

@@ -135,7 +135,7 @@ namespace Scada.Comm.Drivers.DrvMqttClient.View
         }
 
         /// <summary>
-        /// Determines if the specified action can be performed.
+        /// Determines whether the specified action can be performed.
         /// </summary>
         public override bool AllowAction(ConfigAction action, object button, TreeNode selectedNode)
         {
