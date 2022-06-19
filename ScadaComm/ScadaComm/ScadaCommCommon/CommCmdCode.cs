@@ -25,6 +25,8 @@
 
 #pragma warning disable 1591 // Missing XML comment for publicly visible type or member
 
+using System;
+
 namespace Scada.Comm
 {
     /// <summary>
@@ -37,5 +39,10 @@ namespace Scada.Comm
         public const string StopLine = "App.Comm.StopLine";
         public const string RestartLine = "App.Comm.RestartLine";
         public const string PollDevice = "App.Comm.PollDevice";
+
+        public static bool AddressedToComm(string cmdCode)
+        {
+            return cmdCode.StartsWith("App.Comm.", StringComparison.Ordinal);
+        }
     }
 }

@@ -852,37 +852,40 @@ namespace Scada.Comm.Engine
                         "Outdated command with ID {0} from the source {1} is rejected",
                         cmd.CommandID, source);
                 }
-                else if (TeleCommand.AddressedToApp(cmd.CmdCode))
+                else if (cmd.IsAddressedToApp)
                 {
                     Log.WriteAction(Locale.IsRussian ?
                         "Команда приложению {0} с ид. {1} от источника {2}" :
                         "Application command {0} with ID {1} from the source {2}",
                         cmd.CmdCode, cmd.CommandID, source);
 
-                    switch (cmd.CmdCode)
+                    if (CommCmdCode.AddressedToComm(cmd.CmdCode))
                     {
-                        case CommCmdCode.StartLine:
-                            StartLine((int)cmd.CmdVal);
-                            break;
+                        switch (cmd.CmdCode)
+                        {
+                            case CommCmdCode.StartLine:
+                                StartLine((int)cmd.CmdVal);
+                                break;
 
-                        case CommCmdCode.StopLine:
-                            StopLine((int)cmd.CmdVal);
-                            break;
+                            case CommCmdCode.StopLine:
+                                StopLine((int)cmd.CmdVal);
+                                break;
 
-                        case CommCmdCode.RestartLine:
-                            RestartLine((int)cmd.CmdVal);
-                            break;
+                            case CommCmdCode.RestartLine:
+                                RestartLine((int)cmd.CmdVal);
+                                break;
 
-                        case CommCmdCode.PollDevice:
-                            if (GetDeviceLine(cmd.DeviceNum, out CommLine commLine))
-                                commLine.PollWithPriority(cmd.DeviceNum);
-                            break;
+                            case CommCmdCode.PollDevice:
+                                if (GetDeviceLine(cmd.DeviceNum, out CommLine commLine))
+                                    commLine.PollWithPriority(cmd.DeviceNum);
+                                break;
 
-                        default:
-                            Log.WriteError(Locale.IsRussian ?
-                                "Неизвестная команда" :
-                                "Unknown command");
-                            break;
+                            default:
+                                Log.WriteError(Locale.IsRussian ?
+                                    "Неизвестная команда" :
+                                    "Unknown command");
+                                break;
+                        }
                     }
                 }
                 else
