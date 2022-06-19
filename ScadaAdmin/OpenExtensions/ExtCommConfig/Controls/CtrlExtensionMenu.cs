@@ -411,11 +411,11 @@ namespace Scada.Admin.Extensions.ExtCommConfig.Controls
                     };
 
                     if (sender == miLineStart)
-                        cmd.CmdCode = CommCommands.StartLine;
+                        cmd.CmdCode = CommCmdCode.StartLine;
                     else if (sender == miLineStop)
-                        cmd.CmdCode = CommCommands.StopLine;
+                        cmd.CmdCode = CommCmdCode.StopLine;
                     else
-                        cmd.CmdCode = CommCommands.RestartLine;
+                        cmd.CmdCode = CommCmdCode.RestartLine;
 
                     if (ExtensionUtils.SendCommand(adminContext, agentClient, cmd))
                         ScadaUiUtils.ShowInfo(CommonPhrases.CommandSent);
@@ -474,7 +474,7 @@ namespace Scada.Admin.Extensions.ExtCommConfig.Controls
                     {
                         CreationTime = DateTime.UtcNow,
                         DeviceNum = deviceConfig.DeviceNum,
-                        CmdCode = CommCommands.PollDevice
+                        CmdCode = CommCmdCode.PollDevice
                     }))
                     {
                         ScadaUiUtils.ShowInfo(CommonPhrases.CommandSent);

@@ -852,7 +852,7 @@ namespace Scada.Comm.Engine
                         "Outdated command with ID {0} from the source {1} is rejected",
                         cmd.CommandID, source);
                 }
-                else if (CommCommands.IsAddressedToApp(cmd.CmdCode))
+                else if (TeleCommand.IsAddressedToApp(cmd.CmdCode))
                 {
                     Log.WriteAction(Locale.IsRussian ?
                         "Команда приложению {0} с ид. {1} от источника {2}" :
@@ -861,19 +861,19 @@ namespace Scada.Comm.Engine
 
                     switch (cmd.CmdCode)
                     {
-                        case CommCommands.StartLine:
+                        case CommCmdCode.StartLine:
                             StartLine((int)cmd.CmdVal);
                             break;
 
-                        case CommCommands.StopLine:
+                        case CommCmdCode.StopLine:
                             StopLine((int)cmd.CmdVal);
                             break;
 
-                        case CommCommands.RestartLine:
+                        case CommCmdCode.RestartLine:
                             RestartLine((int)cmd.CmdVal);
                             break;
 
-                        case CommCommands.PollDevice:
+                        case CommCmdCode.PollDevice:
                             if (GetDeviceLine(cmd.DeviceNum, out CommLine commLine))
                                 commLine.PollWithPriority(cmd.DeviceNum);
                             break;

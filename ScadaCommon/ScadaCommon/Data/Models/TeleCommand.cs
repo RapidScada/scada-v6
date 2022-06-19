@@ -345,5 +345,13 @@ namespace Scada.Data.Models
         {
             return s == null ? new byte[0] : Encoding.UTF8.GetBytes(s);
         }
+
+        /// <summary>
+        /// Determines whether the specified command should be processed by an application.
+        /// </summary>
+        public static bool IsAddressedToApp(string cmdCode)
+        {
+            return cmdCode.StartsWith("App.", StringComparison.Ordinal);
+        }
     }
 }

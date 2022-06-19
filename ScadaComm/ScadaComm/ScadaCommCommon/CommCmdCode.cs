@@ -16,33 +16,26 @@
  * 
  * Product  : Rapid SCADA
  * Module   : ScadaCommCommon
- * Summary  : Specifies the application commands supported by Communicator
+ * Summary  : Specifies the application command codes supported by Communicator
  * 
  * Author   : Mikhail Shiryaev
  * Created  : 2020
- * Modified : 2021
+ * Modified : 2022
  */
 
 #pragma warning disable 1591 // Missing XML comment for publicly visible type or member
 
-using System;
-
 namespace Scada.Comm
 {
     /// <summary>
-    /// Specifies the application commands supported by Communicator.
-    /// <para>Задает команды приложения, поддерживаемые Коммуникатором.</para>
+    /// Specifies the application command codes supported by Communicator.
+    /// <para>Задаёт коды команд приложения, поддерживаемые Коммуникатором.</para>
     /// </summary>
-    public static class CommCommands
+    public static class CommCmdCode
     {
-        public const string StartLine = "Comm.StartLine";
-        public const string StopLine = "Comm.StopLine";
-        public const string RestartLine = "Comm.RestartLine";
-        public const string PollDevice = "Comm.PollDevice";
-
-        public static bool IsAddressedToApp(string cmdCode)
-        {
-            return cmdCode.StartsWith("Comm.", StringComparison.Ordinal);
-        }
+        public const string StartLine = "App.Comm.StartLine";
+        public const string StopLine = "App.Comm.StopLine";
+        public const string RestartLine = "App.Comm.RestartLine";
+        public const string PollDevice = "App.Comm.PollDevice";
     }
 }
