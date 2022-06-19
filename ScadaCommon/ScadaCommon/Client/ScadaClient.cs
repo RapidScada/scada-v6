@@ -55,14 +55,7 @@ namespace Scada.Client
             : base(connectionOptions)
         {
             lastCommandID = 0;
-            AccessKey = "";
         }
-
-
-        /// <summary>
-        /// Gets or sets the access key used by a client pool.
-        /// </summary>
-        protected internal string AccessKey { get; set; }
 
 
         /// <summary>

@@ -20,7 +20,7 @@
  * 
  * Author   : Mikhail Shiryaev
  * Created  : 2020
- * Modified : 2021
+ * Modified : 2022
  */
 
 using Scada.Lang;
@@ -105,6 +105,7 @@ namespace Scada.Client
             ConnectionOptions = connectionOptions ?? throw new ArgumentNullException(nameof(connectionOptions));
             CommLog = null;
             ClientState = ClientState.Disconnected;
+            ClientID = ScadaUtils.GenerateUniqueID();
             SessionID = 0;
             ServerName = "";
             UserID = 0;
@@ -148,6 +149,11 @@ namespace Scada.Client
                 return responseDT;
             }
         }
+
+        /// <summary>
+        /// Gets the ID of the current client object.
+        /// </summary>
+        public long ClientID { get; }
 
         /// <summary>
         /// Gets the session ID.

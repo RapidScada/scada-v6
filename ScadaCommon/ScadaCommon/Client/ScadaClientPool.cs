@@ -20,7 +20,7 @@
  * 
  * Author   : Mikhail Shiryaev
  * Created  : 2021
- * Modified : 2021
+ * Modified : 2022
  */
 
 using Scada.Lang;
@@ -44,7 +44,7 @@ namespace Scada.Client
             private readonly ConnectionOptions connectionOptions;
             private readonly int capacity;
             private readonly List<ScadaClient> availableClients;
-            private readonly Dictionary<string, ScadaClient> usedClients;
+            private readonly Dictionary<long, ScadaClient> usedClients;
 
 
             /// <summary>
@@ -55,7 +55,7 @@ namespace Scada.Client
                 this.connectionOptions = connectionOptions ?? throw new ArgumentNullException(nameof(connectionOptions));
                 this.capacity = capacity;
                 availableClients = new List<ScadaClient>();
-                usedClients = new Dictionary<string, ScadaClient>();
+                usedClients = new Dictionary<long, ScadaClient>();
                 LastAccessTime = DateTime.UtcNow;
             }
 
@@ -73,7 +73,7 @@ namespace Scada.Client
             {
                 if (availableClients.Count + usedClients.Count < capacity)
                 {
-                    return new ScadaClient(connectionOptions) { AccessKey = Guid.NewGuid().ToString() };
+                    return new ScadaClient(connectionOptions);
                 }
                 else
                 {
@@ -106,7 +106,7 @@ namespace Scada.Client
                         ? PopClient()
                         : CreateClient();
 
-                    usedClients[scadaClient.AccessKey] = scadaClient;
+                    usedClients[scadaClient.ClientID] = scadaClient;
                     return scadaClient;
                 }
             }
@@ -120,7 +120,7 @@ namespace Scada.Client
                 {
                     LastAccessTime = nowDT;
 
-                    if (!string.IsNullOrEmpty(client?.AccessKey) && usedClients.Remove(client.AccessKey))
+                    if (usedClients.Remove(client.ClientID))
                         availableClients.Add(client);
                 }
             }
