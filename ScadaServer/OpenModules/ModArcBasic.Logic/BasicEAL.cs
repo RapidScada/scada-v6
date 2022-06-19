@@ -247,17 +247,17 @@ namespace Scada.Server.Modules.ModArcBasic.Logic
         public override void WriteEvent(Event ev)
         {
             EventTable eventTable = GetEventTable(ev.Timestamp);
+            stopwatch.Restart();
+            adapter.FileName = eventTable.FileName;
 
             if (eventTable.AddEvent(ev))
-            {
-                stopwatch.Restart();
-                adapter.FileName = eventTable.FileName;
-                adapter.AppendEvent(ev);
-                eventTable.LastWriteTime = File.GetLastWriteTimeUtc(eventTable.FileName);
+                adapter.AppendEvent(ev); // write new event
+            else if (ev.Ack)
+                adapter.WriteEventAck(ev); // update acknowledgement
 
-                stopwatch.Stop();
-                arcLog?.WriteAction(ServerPhrases.WritingEventCompleted, stopwatch.ElapsedMilliseconds);
-            }
+            eventTable.LastWriteTime = File.GetLastWriteTimeUtc(eventTable.FileName);
+            stopwatch.Stop();
+            arcLog?.WriteAction(ServerPhrases.WritingEventCompleted, stopwatch.ElapsedMilliseconds);
         }
 
         /// <summary>
