@@ -887,6 +887,12 @@ namespace Scada.Comm.Engine
                                 break;
                         }
                     }
+                    else
+                    {
+                        Log.WriteAction(Locale.IsRussian ?
+                            "Команда игнорирована" :
+                            "Command ignored");
+                    }
                 }
                 else
                 {
