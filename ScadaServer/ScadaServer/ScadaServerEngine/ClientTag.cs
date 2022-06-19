@@ -20,7 +20,7 @@
  * 
  * Author   : Mikhail Shiryaev
  * Created  : 2020
- * Modified : 2020
+ * Modified : 2022
  */
 
 using Scada.Data.Models;
@@ -36,7 +36,7 @@ namespace Scada.Server.Engine
     internal class ClientTag
     {
         private readonly Queue<TeleCommand> commands; // the command queue
-        private bool commandsDisabled; // getting commands is disabled for the client
+        private bool commandsDisabled; // receiving commands is disabled for the client
 
 
         /// <summary>
@@ -45,7 +45,32 @@ namespace Scada.Server.Engine
         public ClientTag()
         {
             commands = new Queue<TeleCommand>();
-            commandsDisabled = false;
+            commandsDisabled = true;
+        }
+
+
+        /// <summary>
+        /// Gets or sets a value indicating whether the client cannot receive commands from the server.
+        /// </summary>
+        public bool CommandsDisabled
+        {
+            get
+            {
+                return commandsDisabled;
+            }
+            set
+            {
+                commandsDisabled = value;
+
+                if (commandsDisabled)
+                {
+                    lock (commands)
+                    {
+                        commands.Clear();
+                        commands.TrimExcess();
+                    }
+                }
+            }
         }
 
 
@@ -55,6 +80,7 @@ namespace Scada.Server.Engine
         private void RemoveOutdatedCommands()
         {
             DateTime utcNow = DateTime.UtcNow;
+
             while (commands.Count > 0 && utcNow - commands.Peek().CreationTime > ScadaUtils.CommandLifetime)
             {
                 commands.Dequeue();
@@ -97,27 +123,6 @@ namespace Scada.Server.Engine
                     return null;
                 }
             }
-        }
-
-        /// <summary>
-        /// Disables getting commands for the client.
-        /// </summary>
-        public void DisableGettingCommands()
-        {
-            lock (commands)
-            {
-                commandsDisabled = true;
-                commands.Clear();
-                commands.TrimExcess();
-            }
-        }
-
-        /// <summary>
-        /// Returns a string that represents the current object.
-        /// </summary>
-        public override string ToString()
-        {
-            return "";
         }
     }
 }

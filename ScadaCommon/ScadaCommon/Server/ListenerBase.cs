@@ -559,6 +559,7 @@ namespace Scada.Server
             string username = GetString(buffer, ref index);
             string encryptedPassword = GetString(buffer, ref index);
             string instance = GetString(buffer, ref index);
+            int clientMode = GetInt32(buffer, ref index);
 
             buffer = client.OutBuf;
             response = new ResponsePacket(request, buffer);
@@ -572,6 +573,8 @@ namespace Scada.Server
                 CopyInt32(userID, buffer, ref index);
                 CopyInt32(roleID, buffer, ref index);
                 CopyString("", buffer, ref index);
+
+                UpdateClientMode(client, clientMode);
             }
             else
             {
@@ -985,6 +988,13 @@ namespace Scada.Server
             roleID = 0;
             errMsg = "";
             return true;
+        }
+
+        /// <summary>
+        /// Updates the client mode.
+        /// </summary>
+        protected virtual void UpdateClientMode(ConnectedClient client, int clientMode)
+        {
         }
 
         /// <summary>

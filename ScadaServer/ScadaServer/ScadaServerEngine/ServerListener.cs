@@ -23,6 +23,7 @@
  * Modified : 2022
  */
 
+using Scada.Client;
 using Scada.Data.Adapters;
 using Scada.Data.Const;
 using Scada.Data.Entities;
@@ -375,12 +376,18 @@ namespace Scada.Server.Engine
         {
             byte[] buffer = request.Buffer;
             int index = ArgumentIndex;
-            coreLogic.AckEvent(new EventAck
+
+            EventAck eventAck = new EventAck
             {
                 EventID = GetInt64(buffer, ref index),
                 Timestamp = GetTime(buffer, ref index),
                 UserID = GetInt32(buffer, ref index)
-            });
+            };
+
+            if (eventAck.UserID <= 0)
+                eventAck.UserID = client.UserID;
+
+            coreLogic.AckEvent(eventAck);
             response = new ResponsePacket(request, client.OutBuf);
         }
 
@@ -394,6 +401,7 @@ namespace Scada.Server.Engine
 
             TeleCommand command = new TeleCommand
             {
+                ClientName = client.Username,
                 UserID = GetInt32(buffer, ref index),
                 CnlNum = GetInt32(buffer, ref index),
                 CmdVal = GetDouble(buffer, ref index),
@@ -447,18 +455,6 @@ namespace Scada.Server.Engine
             }
 
             response.BufferLength = index;
-        }
-
-        /// <summary>
-        /// Disables getting commands for the client.
-        /// </summary>
-        private void DisableGettingCommands(ConnectedClient client, DataPacket request, out ResponsePacket response)
-        {
-            log.WriteAction(Locale.IsRussian ?
-                "Отключение получения команд для пользователя {1}" :
-                "Disable getting commands for the user {1}", client.Username);
-            GetClientTag(client).DisableGettingCommands();
-            response = new ResponsePacket(request, client.OutBuf);
         }
 
 
@@ -546,6 +542,14 @@ namespace Scada.Server.Engine
         }
 
         /// <summary>
+        /// Updates the client mode.
+        /// </summary>
+        protected override void UpdateClientMode(ConnectedClient client, int clientMode)
+        {
+            GetClientTag(client).CommandsDisabled = new ScadaClientMode(clientMode).DisableInputCommands;
+        }
+
+        /// <summary>
         /// Gets the role name of the connected client.
         /// </summary>
         protected override string GetRoleName(ConnectedClient client)
@@ -617,10 +621,6 @@ namespace Scada.Server.Engine
                     GetCommand(client, request, out response);
                     break;
 
-                case FunctionID.DisableGettingCommands:
-                    DisableGettingCommands(client, request, out response);
-                    break;
-
                 default:
                     handled = false;
                     break;
@@ -688,7 +688,14 @@ namespace Scada.Server.Engine
         {
             foreach (KeyValuePair<long, ConnectedClient> pair in clients)
             {
-                GetClientTag(pair.Value).AddCommand(command);
+                ConnectedClient client = pair.Value;
+
+                // add a command to send if it was not delivered by the same client
+                if (string.IsNullOrEmpty(command.ClientName) ||
+                    !string.Equals(command.ClientName, client.Username, StringComparison.OrdinalIgnoreCase))
+                {
+                    GetClientTag(client).AddCommand(command);
+                }
             }
         }
     }

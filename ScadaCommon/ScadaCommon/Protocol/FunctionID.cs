@@ -20,7 +20,7 @@
  * 
  * Author   : Mikhail Shiryaev
  * Created  : 2020
- * Modified : 2021
+ * Modified : 2022
  */
 
 #pragma warning disable 1591 // Missing XML comment for publicly visible type or member
@@ -60,7 +60,6 @@ namespace Scada.Protocol
 
         public const ushort SendCommand = 0x0401;
         public const ushort GetCommand = 0x0402;
-        public const ushort DisableGettingCommands = 0x0403;
 
         public const ushort AgentHeartbeat = 0x0501;
         public const ushort GetServiceStatus = 0x0502;
@@ -90,7 +89,6 @@ namespace Scada.Protocol
             { AckEvent, nameof(AckEvent) },
             { SendCommand, nameof(SendCommand) },
             { GetCommand, nameof(GetCommand) },
-            { DisableGettingCommands, nameof(DisableGettingCommands) },
             { AgentHeartbeat, nameof(AgentHeartbeat) },
             { GetServiceStatus, nameof(GetServiceStatus) },
             { ControlService, nameof(ControlService) },

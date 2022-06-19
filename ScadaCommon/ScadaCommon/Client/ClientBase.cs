@@ -103,9 +103,10 @@ namespace Scada.Client
             responseDT = DateTime.MinValue;
 
             ConnectionOptions = connectionOptions ?? throw new ArgumentNullException(nameof(connectionOptions));
+            ClientID = ScadaUtils.GenerateUniqueID();
+            ClientMode = 0;
             CommLog = null;
             ClientState = ClientState.Disconnected;
-            ClientID = ScadaUtils.GenerateUniqueID();
             SessionID = 0;
             ServerName = "";
             UserID = 0;
@@ -117,6 +118,16 @@ namespace Scada.Client
         /// Gets the connection options.
         /// </summary>
         public ConnectionOptions ConnectionOptions { get; }
+
+        /// <summary>
+        /// Gets the ID of the current client object.
+        /// </summary>
+        public long ClientID { get; }
+
+        /// <summary>
+        /// Gets or sets the application dependent client mode.
+        /// </summary>
+        public int ClientMode { get; set; }
 
         /// <summary>
         /// Gets the sets the detailed communication log.
@@ -149,11 +160,6 @@ namespace Scada.Client
                 return responseDT;
             }
         }
-
-        /// <summary>
-        /// Gets the ID of the current client object.
-        /// </summary>
-        public long ClientID { get; }
 
         /// <summary>
         /// Gets the session ID.
@@ -516,6 +522,7 @@ namespace Scada.Client
             CopyString(username, outBuf, ref index);
             CopyString(EncryptPassword(password, SessionID, ConnectionOptions.SecretKey), outBuf, ref index);
             CopyString(ConnectionOptions.Instance, outBuf, ref index);
+            CopyInt32(ClientMode, outBuf, ref index);
             request.BufferLength = index;
             SendRequest(request);
 

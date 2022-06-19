@@ -45,6 +45,7 @@ namespace Scada.Data.Models
         {
             CommandID = 0;
             CreationTime = DateTime.MinValue;
+            ClientName = "";
             UserID = 0;
             CnlNum = 0;
             ObjNum = 0;
@@ -88,6 +89,12 @@ namespace Scada.Data.Models
         /// Gets or sets the creation time of the command (UTC).
         /// </summary>
         public DateTime CreationTime { get; set; }
+
+        /// <summary>
+        /// Gets or sets the name of the client delivered the command.
+        /// </summary>
+        /// <remarks>Used to avoid receiving own commands.</remarks>
+        public string ClientName { get; set; }
 
         /// <summary>
         /// Gets or sets the ID of the user who is sending the command.
@@ -200,6 +207,9 @@ namespace Scada.Data.Models
                             case "CreationTime":
                                 CreationTime = DateTime.Parse(value, DateTimeFormatInfo.InvariantInfo);
                                 break;
+                            case "ClientName":
+                                ClientName = value;
+                                break;
                             case "UserID":
                                 UserID = int.Parse(value);
                                 break;
@@ -276,6 +286,7 @@ namespace Scada.Data.Models
                 .AppendLine("[TeleCommand]")
                 .Append("CommandID=").AppendLine(CommandID.ToString())
                 .Append("CreationTime=").AppendLine(CreationTime.ToString(DateTimeFormatInfo.InvariantInfo))
+                .Append("ClientName=").AppendLine(ClientName)
                 .Append("UserID=").AppendLine(UserID.ToString())
                 .Append("CnlNum=").AppendLine(CnlNum.ToString())
                 .Append("ObjNum=").AppendLine(ObjNum.ToString())

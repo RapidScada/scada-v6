@@ -20,7 +20,7 @@
  * 
  * Author   : Mikhail Shiryaev
  * Created  : 2021
- * Modified : 2021
+ * Modified : 2022
  */
 
 using Scada.Client;
@@ -88,7 +88,7 @@ namespace Scada.Web.Code
             AppDirs = new WebDirs();
             Log = LogStub.Instance;
             ConfigDatabase = new ConfigDatabase();
-            ClientPool = new ScadaClientPool();
+            ClientPool = new ScadaClientPool { ClientMode = ScadaClientMode.NoCommands };
             PluginHolder = new PluginHolder();
             CacheExpirationTokenSource = new CancellationTokenSource();
 

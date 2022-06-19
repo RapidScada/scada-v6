@@ -624,16 +624,5 @@ namespace Scada.Client
                 return null;
             }
         }
-
-        /// <summary>
-        /// Disables getting commands for the client.
-        /// </summary>
-        public void DisableGettingCommands()
-        {
-            RestoreConnection();
-            DataPacket request = CreateRequest(FunctionID.DisableGettingCommands, 10);
-            SendRequest(request);
-            ReceiveResponse(request);
-        }
     }
 }

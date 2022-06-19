@@ -43,6 +43,7 @@ namespace Scada.Client
         {
             private readonly ConnectionOptions connectionOptions;
             private readonly int capacity;
+            private readonly int clientMode;
             private readonly List<ScadaClient> availableClients;
             private readonly Dictionary<long, ScadaClient> usedClients;
 
@@ -50,10 +51,11 @@ namespace Scada.Client
             /// <summary>
             /// Initializes a new instance of the class.
             /// </summary>
-            public ClientGroup(ConnectionOptions connectionOptions, int capacity)
+            public ClientGroup(ConnectionOptions connectionOptions, int capacity, int clientMode)
             {
                 this.connectionOptions = connectionOptions ?? throw new ArgumentNullException(nameof(connectionOptions));
                 this.capacity = capacity;
+                this.clientMode = clientMode;
                 availableClients = new List<ScadaClient>();
                 usedClients = new Dictionary<long, ScadaClient>();
                 LastAccessTime = DateTime.UtcNow;
@@ -73,7 +75,7 @@ namespace Scada.Client
             {
                 if (availableClients.Count + usedClients.Count < capacity)
                 {
-                    return new ScadaClient(connectionOptions);
+                    return new ScadaClient(connectionOptions) { ClientMode = clientMode };
                 }
                 else
                 {
@@ -233,6 +235,7 @@ namespace Scada.Client
             clientGroups = new Dictionary<string, ClientGroup>();
             lastCleanupTime = DateTime.UtcNow;
             Capacity = capacity;
+            ClientMode = 0;
         }
 
 
@@ -240,6 +243,11 @@ namespace Scada.Client
         /// Gets the maximum number of clients, having the same connection options, that can be stored in the pool.
         /// </summary>
         public int Capacity { get; }
+        
+        /// <summary>
+        /// Gets or sets the client mode for all clients in the pool.
+        /// </summary>
+        public int ClientMode { get; set; }
 
         /// <summary>
         /// Gets the number of clients that currently exist.
@@ -315,7 +323,7 @@ namespace Scada.Client
             {
                 if (!clientGroups.TryGetValue(optionsKey, out clientGroup))
                 {
-                    clientGroup = new ClientGroup(connectionOptions, Capacity);
+                    clientGroup = new ClientGroup(connectionOptions, Capacity, ClientMode);
                     clientGroups.Add(optionsKey, clientGroup);
                 }
             }
