@@ -689,7 +689,8 @@ namespace Scada.Server.Engine
 
                 if (commandItem.Result.IsSuccessful)
                 {
-                    GenerateEvent(commandItem.OutCnlTag, commandItem.Command);
+                    if (commandItem.OutCnlTag != null)
+                        GenerateEvent(commandItem.OutCnlTag, commandItem.Command);
 
                     if (commandItem.Result.TransmitToClients)
                     {
@@ -974,6 +975,47 @@ namespace Scada.Server.Engine
                     TextFormat = EventTextFormat.Command,
                     Text = string.Format(ServerPhrases.CommandSentBy, userName),
                     Data = command.CmdData
+                });
+            }
+        }
+
+        /// <summary>
+        /// Acknowledges the event and generates a command if specified.
+        /// </summary>
+        private void AckEvent(EventAck eventAck, bool generateAckCmd)
+        {
+            Log.WriteAction(Locale.IsRussian ?
+                "Квитирование события с ид. {0}" :
+                "Acknowledge event with ID {0}", eventAck.EventID);
+            moduleHolder.OnEventAck(eventAck);
+            archiveHolder.AckEvent(eventAck);
+
+            if (generateAckCmd)
+            {
+                DateTime utcNow = DateTime.UtcNow;
+                listener.EnqueueCommand(new TeleCommand
+                {
+                    CommandID = ScadaUtils.GenerateUniqueID(utcNow),
+                    CreationTime = utcNow,
+                    UserID = eventAck.UserID,
+                    CmdCode = ServerCmdCode.AckEvent,
+                    CmdVal = BitConverter.Int64BitsToDouble(eventAck.EventID)
+                });
+            }
+        }
+
+        /// <summary>
+        /// Adds the command to the queue.
+        /// </summary>
+        private void EnqueueCommand(OutCnlTag outCnlTag, TeleCommand command, CommandResult commandResult)
+        {
+            lock (commandQueue)
+            {
+                commandQueue.Enqueue(new CommandItem
+                {
+                    OutCnlTag = outCnlTag,
+                    Command = command,
+                    Result = commandResult
                 });
             }
         }
@@ -1462,11 +1504,7 @@ namespace Scada.Server.Engine
             if (eventAck == null)
                 throw new ArgumentNullException(nameof(eventAck));
 
-            Log.WriteAction(Locale.IsRussian ?
-                "Квитирование события с ид. {0}" :
-                "Acknowledge event with ID {0}", eventAck.EventID);
-            moduleHolder.OnEventAck(eventAck);
-            archiveHolder.AckEvent(eventAck);
+            AckEvent(eventAck, AppConfig.GeneralOptions.GenerateAckCmd);
         }
 
         /// <summary>
@@ -1493,6 +1531,27 @@ namespace Scada.Server.Engine
                         "Пользователь {0} не найден" :
                         "User {0} not found", userID);
                     Log.WriteError(commandResult.ErrorMessage);
+                }
+                else if (ServerCmdCode.AddressedToServer(command.CmdCode))
+                {
+                    if (command.CmdCode == ServerCmdCode.AckEvent)
+                    {
+                        AckEvent(new EventAck
+                        {
+                            EventID = BitConverter.DoubleToInt64Bits(command.CmdVal),
+                            Timestamp = DateTime.UtcNow,
+                            UserID = userID
+                        }, false);
+
+                        EnqueueCommand(null, command, commandResult);
+                    }
+                    else
+                    {
+                        commandResult.ErrorMessage = string.Format(Locale.IsRussian ?
+                            "Неизвестная команда приложению Сервер" :
+                            "Unknown command to the Server application");
+                        Log.WriteError(commandResult.ErrorMessage);
+                    }
                 }
                 else if (!outCnlTags.TryGetValue(cnlNum, out OutCnlTag outCnlTag))
                 {
@@ -1547,15 +1606,7 @@ namespace Scada.Server.Engine
                             Monitor.Exit(curData);
                         }
 
-                        lock (commandQueue)
-                        {
-                            commandQueue.Enqueue(new CommandItem
-                            {
-                                OutCnlTag = outCnlTag,
-                                Command = command,
-                                Result = commandResult
-                            });
-                        }
+                        EnqueueCommand(outCnlTag, command, commandResult);
                     }
                 }
             }

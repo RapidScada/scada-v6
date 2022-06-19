@@ -2,6 +2,7 @@
 <ScadaServerConfig>
   <GeneralOptions>
     <UnrelIfInactive>300</UnrelIfInactive>
+    <GenerateAckCmd>false</GenerateAckCmd>
     <MaxLogSize>1</MaxLogSize>
   </GeneralOptions>
   <ListenerOptions>
