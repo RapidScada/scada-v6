@@ -36,6 +36,7 @@ namespace Scada.Data.Models
     /// Represents a telecontrol command.
     /// <para>Представляет команду телеуправления (ТУ).</para>
     /// </summary>
+    [Serializable]
     public class TeleCommand
     {
         /// <summary>

@@ -32,6 +32,7 @@ namespace Scada.Data.Models
     /// Represents channel data.
     /// <para>Представляет данные канала.</para>
     /// </summary>
+    [Serializable]
     public struct CnlData
     {
         /// <summary>
