@@ -625,8 +625,11 @@ namespace Scada.Server.Engine
 
                 foreach (CnlTag cnlTag in calcCnlTags)
                 {
-                    CnlData newCnlData = calc.CalcCnlData(cnlTag, CnlData.Zero);
-                    curData.SetCurCnlData(cnlTag, ref newCnlData, nowDT);
+                    if (cnlTag.Cnl.FormulaEnabled)
+                    {
+                        CnlData newCnlData = calc.CalcCnlData(cnlTag, CnlData.Zero);
+                        curData.SetCurCnlData(cnlTag, ref newCnlData, nowDT);
+                    }
                 }
             }
             finally
