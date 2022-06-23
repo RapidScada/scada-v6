@@ -625,7 +625,7 @@ namespace Scada.Server.Engine
 
                 foreach (CnlTag cnlTag in calcCnlTags)
                 {
-                    if (cnlTag.Cnl.FormulaEnabled)
+                    if (cnlTag.InFormulaEnabled)
                     {
                         CnlData newCnlData = calc.CalcCnlData(cnlTag, CnlData.Zero);
                         curData.SetCurCnlData(cnlTag, ref newCnlData, nowDT);
@@ -1322,16 +1322,11 @@ namespace Scada.Server.Engine
                 {
                     if (cnlTags.TryGetValue(slice.CnlNums[i], out CnlTag cnlTag))
                     {
-                        if (applyFormulas && cnlTag.Cnl.FormulaEnabled && cnlTag.Cnl.IsInput())
-                        {
-                            CnlData newCnlData = calc.CalcCnlData(cnlTag, slice.CnlData[i]);
-                            curData.SetCurCnlData(cnlTag, ref newCnlData, utcNow, enableEvents);
-                            slice.CnlData[i] = newCnlData;
-                        }
-                        else
-                        {
-                            curData.SetCurCnlData(cnlTag, ref slice.CnlData[i], utcNow, enableEvents);
-                        }
+                        CnlData cnlData = applyFormulas && cnlTag.InFormulaEnabled && cnlTag.Cnl.IsInput()
+                            ? calc.CalcCnlData(cnlTag, slice.CnlData[i])
+                            : slice.CnlData[i];
+                        curData.SetCurCnlData(cnlTag, ref cnlData, utcNow, enableEvents);
+                        slice.CnlData[i] = cnlData;
                     }
                 }
             }
@@ -1396,21 +1391,19 @@ namespace Scada.Server.Engine
                             {
                                 if (sliceCnlTags[i] is CnlTag cnlTag)
                                 {
-                                    CnlData initialCnlData = cnlDataCopy[i];
-                                    CnlData newCnlData = applyFormulas && cnlTag.Cnl.FormulaEnabled && cnlTag.Cnl.IsInput()
-                                        ? calc.CalcCnlData(cnlTag, initialCnlData)
-                                        : initialCnlData;
-
-                                    UpdateCnlStatus(archiveLogic, timestamp, cnlTag, ref newCnlData);
-                                    slice.CnlData[i] = newCnlData;
-                                    archiveLogic.WriteCnlData(timestamp, cnlTag.CnlNum, newCnlData);
+                                    CnlData cnlData = applyFormulas && cnlTag.InFormulaEnabled && cnlTag.Cnl.IsInput()
+                                        ? calc.CalcCnlData(cnlTag, cnlDataCopy[i])
+                                        : cnlDataCopy[i];
+                                    UpdateCnlStatus(archiveLogic, timestamp, cnlTag, ref cnlData);
+                                    slice.CnlData[i] = cnlData;
+                                    archiveLogic.WriteCnlData(timestamp, cnlTag.CnlNum, cnlData);
                                 }
                             }
 
                             // calculate channels of the calculated type
                             foreach (CnlTag cnlTag in calcCnlTags)
                             {
-                                if (cnlTag.Cnl.FormulaEnabled)
+                                if (cnlTag.InFormulaEnabled)
                                 {
                                     CnlData arcCnlData = archiveLogic.GetCnlData(timestamp, cnlTag.CnlNum);
                                     CnlData newCnlData = calc.CalcCnlData(cnlTag, arcCnlData);

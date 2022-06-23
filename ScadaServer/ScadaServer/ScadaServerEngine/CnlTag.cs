@@ -20,7 +20,7 @@
  * 
  * Author   : Mikhail Shiryaev
  * Created  : 2020
- * Modified : 2021
+ * Modified : 2022
  */
 
 using Scada.Data.Entities;
@@ -107,5 +107,10 @@ namespace Scada.Server.Engine
         /// Gets or sets the function that calculates channel data.
         /// </summary>
         public Func<CnlData> CalcCnlDataFunc { get; set; }
+
+        /// <summary>
+        /// Gets a value indicating whether the input channel has an enabled and non-empty input formula.
+        /// </summary>
+        public bool InFormulaEnabled => CalcCnlDataFunc != null;
     }
 }
