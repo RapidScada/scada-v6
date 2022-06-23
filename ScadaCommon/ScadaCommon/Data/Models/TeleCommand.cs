@@ -363,7 +363,7 @@ namespace Scada.Data.Models
         /// </summary>
         public static bool AddressedToApp(string cmdCode)
         {
-            return cmdCode.StartsWith("App.", StringComparison.Ordinal);
+            return cmdCode != null && cmdCode.StartsWith("App.", StringComparison.Ordinal);
         }
     }
 }
