@@ -132,7 +132,7 @@ namespace Scada.Server.Modules
         /// Performs actions after receiving and before processing new current data.
         /// </summary>
         /// <remarks>In general, channel numbers are not sorted.</remarks>
-        public virtual void OnCurrentDataProcessing(int[] cnlNums, CnlData[] cnlData, int deviceNum)
+        public virtual void OnCurrentDataProcessing(Slice slice, int deviceNum)
         {
         }
 
@@ -140,7 +140,7 @@ namespace Scada.Server.Modules
         /// Performs actions after receiving and processing new current data.
         /// </summary>
         /// <remarks>In general, channel numbers are not sorted.</remarks>
-        public virtual void OnCurrentDataProcessed(int[] cnlNums, CnlData[] cnlData, int deviceNum)
+        public virtual void OnCurrentDataProcessed(Slice slice, int deviceNum)
         {
         }
 

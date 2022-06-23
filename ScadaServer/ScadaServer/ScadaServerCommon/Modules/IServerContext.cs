@@ -141,7 +141,7 @@ namespace Scada.Server.Modules
         /// <summary>
         /// Writes the current data of the specified channels.
         /// </summary>
-        void WriteCurrentData(int[] cnlNums, CnlData[] cnlData, int deviceNum, WriteFlags writeFlags);
+        void WriteCurrentData(Slice slice, int deviceNum, WriteFlags writeFlags);
 
         /// <summary>
         /// Writes the historical data.

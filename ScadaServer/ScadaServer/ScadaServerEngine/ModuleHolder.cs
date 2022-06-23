@@ -150,7 +150,7 @@ namespace Scada.Server.Engine
         /// <summary>
         /// Calls the OnCurrentDataProcessing method of the modules.
         /// </summary>
-        public void OnCurrentDataProcessing(int[] cnlNums, CnlData[] cnlData, int deviceNum)
+        public void OnCurrentDataProcessing(Slice slice, int deviceNum)
         {
             lock (moduleLock)
             {
@@ -158,7 +158,7 @@ namespace Scada.Server.Engine
                 {
                     try
                     {
-                        moduleLogic.OnCurrentDataProcessing(cnlNums, cnlData, deviceNum);
+                        moduleLogic.OnCurrentDataProcessing(slice, deviceNum);
                     }
                     catch (Exception ex)
                     {
@@ -172,7 +172,7 @@ namespace Scada.Server.Engine
         /// <summary>
         /// Calls the OnCurrentDataProcessed method of the modules.
         /// </summary>
-        public void OnCurrentDataProcessed(int[] cnlNums, CnlData[] cnlData, int deviceNum)
+        public void OnCurrentDataProcessed(Slice slice, int deviceNum)
         {
             lock (moduleLock)
             {
@@ -180,7 +180,7 @@ namespace Scada.Server.Engine
                 {
                     try
                     {
-                        moduleLogic.OnCurrentDataProcessed(cnlNums, cnlData, deviceNum);
+                        moduleLogic.OnCurrentDataProcessed(slice, deviceNum);
                     }
                     catch (Exception ex)
                     {

@@ -186,17 +186,16 @@ namespace Scada.Server.Engine
         public void WriteCurrentData(int cnlNum, CnlData cnlData)
         {
             coreLogic.WriteCurrentData(
-                new int[] { cnlNum }, 
-                new CnlData[] { cnlData }, 
+                new Slice(DateTime.MinValue, new int[] { cnlNum }, new CnlData[] { cnlData }),
                 0, WriteFlags.EnableAll);
         }
 
         /// <summary>
         /// Writes the current data of the specified channels.
         /// </summary>
-        public void WriteCurrentData(int[] cnlNums, CnlData[] cnlData, int deviceNum, WriteFlags writeFlags)
+        public void WriteCurrentData(Slice slice, int deviceNum, WriteFlags writeFlags)
         {
-            coreLogic.WriteCurrentData(cnlNums, cnlData, deviceNum, writeFlags);
+            coreLogic.WriteCurrentData(slice, deviceNum, writeFlags);
         }
 
         /// <summary>
