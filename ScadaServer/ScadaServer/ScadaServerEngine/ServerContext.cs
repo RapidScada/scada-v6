@@ -219,7 +219,7 @@ namespace Scada.Server.Engine
         /// </summary>
         public void SendCommand(TeleCommand command, out CommandResult commandResult)
         {
-            if (command.CnlNum > 0)
+            if (command.CnlNum > 0 || ServerCmdCode.AddressedToServer(command.CmdCode))
             {
                 // validate and send command
                 coreLogic.SendCommand(command, out commandResult);
