@@ -42,7 +42,7 @@ namespace Scada.Comm
 
         public static bool AddressedToComm(string cmdCode)
         {
-            return cmdCode.StartsWith("App.Comm.", StringComparison.Ordinal);
+            return cmdCode != null && cmdCode.StartsWith("App.Comm.", StringComparison.Ordinal);
         }
     }
 }
