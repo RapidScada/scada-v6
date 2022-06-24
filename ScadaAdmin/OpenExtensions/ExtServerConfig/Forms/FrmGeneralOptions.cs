@@ -63,6 +63,7 @@ namespace Scada.Admin.Extensions.ExtServerConfig.Forms
             // general options
             GeneralOptions generalOptions = serverConfig.GeneralOptions;
             numUnrelIfInactive.SetValue(generalOptions.UnrelIfInactive);
+            chkGenerateAckCmd.Checked = generalOptions.GenerateAckCmd;
             numMaxLogSize.SetValue(generalOptions.MaxLogSize);
 
             // listener options
@@ -82,6 +83,7 @@ namespace Scada.Admin.Extensions.ExtServerConfig.Forms
             // general options
             GeneralOptions generalOptions = serverConfig.GeneralOptions;
             generalOptions.UnrelIfInactive = decimal.ToInt32(numUnrelIfInactive.Value);
+            generalOptions.GenerateAckCmd = chkGenerateAckCmd.Checked;
             generalOptions.MaxLogSize = decimal.ToInt32(numMaxLogSize.Value);
 
             // listener options

@@ -38,6 +38,7 @@
     <Phrase key="this">Основные параметры</Phrase>
     <Phrase key="gbGeneralOptions">Основные параметры</Phrase>
     <Phrase key="lblUnrelIfInactive">Канал помечается как недействительный при неактивности, с</Phrase>
+    <Phrase key="lblGenerateAckCmd">Генерировать команду при квитировании события</Phrase>
     <Phrase key="lblMaxLogSize">Максимальный размер файла журнала, МБ</Phrase>
     <Phrase key="gbListenerOptions">Прослушиватель</Phrase>
     <Phrase key="lblPort">TCP-порт</Phrase>

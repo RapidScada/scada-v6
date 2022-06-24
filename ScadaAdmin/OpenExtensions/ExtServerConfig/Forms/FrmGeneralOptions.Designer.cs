@@ -40,6 +40,8 @@
             this.gbGeneralOptions = new System.Windows.Forms.GroupBox();
             this.numMaxLogSize = new System.Windows.Forms.NumericUpDown();
             this.lblMaxLogSize = new System.Windows.Forms.Label();
+            this.chkGenerateAckCmd = new System.Windows.Forms.CheckBox();
+            this.lblGenerateAckCmd = new System.Windows.Forms.Label();
             this.numUnrelIfInactive = new System.Windows.Forms.NumericUpDown();
             this.lblUnrelIfInactive = new System.Windows.Forms.Label();
             this.folderBrowserDialog = new System.Windows.Forms.FolderBrowserDialog();
@@ -61,7 +63,7 @@
             this.gbListenerOptions.Controls.Add(this.lblTimeout);
             this.gbListenerOptions.Controls.Add(this.numPort);
             this.gbListenerOptions.Controls.Add(this.lblPort);
-            this.gbListenerOptions.Location = new System.Drawing.Point(12, 105);
+            this.gbListenerOptions.Location = new System.Drawing.Point(12, 134);
             this.gbListenerOptions.Name = "gbListenerOptions";
             this.gbListenerOptions.Padding = new System.Windows.Forms.Padding(10, 3, 10, 10);
             this.gbListenerOptions.Size = new System.Drawing.Size(500, 167);
@@ -178,19 +180,21 @@
             // 
             this.gbGeneralOptions.Controls.Add(this.numMaxLogSize);
             this.gbGeneralOptions.Controls.Add(this.lblMaxLogSize);
+            this.gbGeneralOptions.Controls.Add(this.chkGenerateAckCmd);
+            this.gbGeneralOptions.Controls.Add(this.lblGenerateAckCmd);
             this.gbGeneralOptions.Controls.Add(this.numUnrelIfInactive);
             this.gbGeneralOptions.Controls.Add(this.lblUnrelIfInactive);
             this.gbGeneralOptions.Location = new System.Drawing.Point(12, 12);
             this.gbGeneralOptions.Name = "gbGeneralOptions";
             this.gbGeneralOptions.Padding = new System.Windows.Forms.Padding(10, 3, 10, 10);
-            this.gbGeneralOptions.Size = new System.Drawing.Size(500, 87);
+            this.gbGeneralOptions.Size = new System.Drawing.Size(500, 116);
             this.gbGeneralOptions.TabIndex = 0;
             this.gbGeneralOptions.TabStop = false;
             this.gbGeneralOptions.Text = "General Options";
             // 
             // numMaxLogSize
             // 
-            this.numMaxLogSize.Location = new System.Drawing.Point(387, 51);
+            this.numMaxLogSize.Location = new System.Drawing.Point(387, 80);
             this.numMaxLogSize.Minimum = new decimal(new int[] {
             1,
             0,
@@ -198,7 +202,7 @@
             0});
             this.numMaxLogSize.Name = "numMaxLogSize";
             this.numMaxLogSize.Size = new System.Drawing.Size(100, 23);
-            this.numMaxLogSize.TabIndex = 3;
+            this.numMaxLogSize.TabIndex = 5;
             this.numMaxLogSize.Value = new decimal(new int[] {
             1,
             0,
@@ -209,11 +213,30 @@
             // lblMaxLogSize
             // 
             this.lblMaxLogSize.AutoSize = true;
-            this.lblMaxLogSize.Location = new System.Drawing.Point(10, 55);
+            this.lblMaxLogSize.Location = new System.Drawing.Point(10, 84);
             this.lblMaxLogSize.Name = "lblMaxLogSize";
             this.lblMaxLogSize.Size = new System.Drawing.Size(147, 15);
-            this.lblMaxLogSize.TabIndex = 2;
+            this.lblMaxLogSize.TabIndex = 4;
             this.lblMaxLogSize.Text = "Maximum log file size, MB";
+            // 
+            // chkGenerateAckCmd
+            // 
+            this.chkGenerateAckCmd.AutoSize = true;
+            this.chkGenerateAckCmd.Location = new System.Drawing.Point(430, 55);
+            this.chkGenerateAckCmd.Name = "chkGenerateAckCmd";
+            this.chkGenerateAckCmd.Size = new System.Drawing.Size(15, 14);
+            this.chkGenerateAckCmd.TabIndex = 3;
+            this.chkGenerateAckCmd.UseVisualStyleBackColor = true;
+            this.chkGenerateAckCmd.CheckedChanged += new System.EventHandler(this.control_Changed);
+            // 
+            // lblGenerateAckCmd
+            // 
+            this.lblGenerateAckCmd.AutoSize = true;
+            this.lblGenerateAckCmd.Location = new System.Drawing.Point(10, 55);
+            this.lblGenerateAckCmd.Name = "lblGenerateAckCmd";
+            this.lblGenerateAckCmd.Size = new System.Drawing.Size(267, 15);
+            this.lblGenerateAckCmd.TabIndex = 2;
+            this.lblGenerateAckCmd.Text = "Generate command when event is acknowledged";
             // 
             // numUnrelIfInactive
             // 
@@ -284,5 +307,7 @@
         private System.Windows.Forms.Label lblSecretKey;
         private System.Windows.Forms.Button btnGenerateKey;
         private System.Windows.Forms.Button btnCopyKey;
+        private System.Windows.Forms.CheckBox chkGenerateAckCmd;
+        private System.Windows.Forms.Label lblGenerateAckCmd;
     }
 }

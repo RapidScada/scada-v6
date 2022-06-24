@@ -38,6 +38,7 @@
     <Phrase key="this">General Options</Phrase>
     <Phrase key="gbGeneralOptions">General Options</Phrase>
     <Phrase key="lblUnrelIfInactive">Channel is marked as unreliable if inactive, sec</Phrase>
+    <Phrase key="lblGenerateAckCmd">Generate command when event is acknowledged</Phrase>
     <Phrase key="lblMaxLogSize">Maximum log file size, MB</Phrase>
     <Phrase key="gbListenerOptions">Listener Options</Phrase>
     <Phrase key="lblPort">TCP port</Phrase>
