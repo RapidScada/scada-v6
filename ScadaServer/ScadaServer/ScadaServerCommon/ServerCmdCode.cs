@@ -39,7 +39,7 @@ namespace Scada.Server
 
         public static bool AddressedToServer(string cmdCode)
         {
-            return cmdCode.StartsWith("App.Server.", StringComparison.Ordinal);
+            return cmdCode != null && cmdCode.StartsWith("App.Server.", StringComparison.Ordinal);
         }
     }
 }

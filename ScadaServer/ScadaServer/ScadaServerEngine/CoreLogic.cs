@@ -692,8 +692,7 @@ namespace Scada.Server.Engine
 
                 if (commandItem.Result.IsSuccessful)
                 {
-                    if (commandItem.OutCnlTag != null)
-                        GenerateEvent(commandItem.OutCnlTag, commandItem.Command);
+                    GenerateEvent(commandItem.OutCnlTag, commandItem.Command);
 
                     if (commandItem.Result.TransmitToClients)
                     {
@@ -983,31 +982,6 @@ namespace Scada.Server.Engine
         }
 
         /// <summary>
-        /// Acknowledges the event and generates a command if specified.
-        /// </summary>
-        private void AckEvent(EventAck eventAck, bool generateAckCmd)
-        {
-            Log.WriteAction(Locale.IsRussian ?
-                "Квитирование события с ид. {0}" :
-                "Acknowledge event with ID {0}", eventAck.EventID);
-            moduleHolder.OnEventAck(eventAck);
-            archiveHolder.AckEvent(eventAck);
-
-            if (generateAckCmd)
-            {
-                DateTime utcNow = DateTime.UtcNow;
-                listener.EnqueueCommand(new TeleCommand
-                {
-                    CommandID = ScadaUtils.GenerateUniqueID(utcNow),
-                    CreationTime = utcNow,
-                    UserID = eventAck.UserID,
-                    CmdCode = ServerCmdCode.AckEvent,
-                    CmdVal = BitConverter.Int64BitsToDouble(eventAck.EventID)
-                });
-            }
-        }
-
-        /// <summary>
         /// Adds the command to the queue.
         /// </summary>
         private void EnqueueCommand(OutCnlTag outCnlTag, TeleCommand command, CommandResult commandResult)
@@ -1030,7 +1004,8 @@ namespace Scada.Server.Engine
         {
             lock (eventQueue)
             {
-                eventQueue.Enqueue(new EventItem {
+                eventQueue.Enqueue(new EventItem 
+                {
                     ArchiveMask = archiveMask, 
                     Event = ev 
                 });
@@ -1495,14 +1470,41 @@ namespace Scada.Server.Engine
         }
 
         /// <summary>
-        /// Acknowledges the event.
+        /// Acknowledges the event using the default arguments.
         /// </summary>
         public void AckEvent(EventAck eventAck)
+        {
+            AckEvent(eventAck, true, AppConfig.GeneralOptions.GenerateAckCmd);
+        }
+
+        /// <summary>
+        /// Acknowledges the event.
+        /// </summary>
+        public void AckEvent(EventAck eventAck, bool useModules, bool generateAckCmd)
         {
             if (eventAck == null)
                 throw new ArgumentNullException(nameof(eventAck));
 
-            AckEvent(eventAck, AppConfig.GeneralOptions.GenerateAckCmd);
+            Log.WriteAction(Locale.IsRussian ?
+                "Квитирование события с ид. {0}" :
+                "Acknowledge event with ID {0}", eventAck.EventID);
+
+            if (useModules)
+                moduleHolder.OnEventAck(eventAck);
+
+            archiveHolder.AckEvent(eventAck);
+
+            if (generateAckCmd)
+            {
+                listener.EnqueueCommand(new TeleCommand
+                {
+                    CommandID = ScadaUtils.GenerateUniqueID(eventAck.Timestamp),
+                    CreationTime = eventAck.Timestamp,
+                    UserID = eventAck.UserID,
+                    CmdCode = ServerCmdCode.AckEvent,
+                    CmdVal = BitConverter.Int64BitsToDouble(eventAck.EventID)
+                });
+            }
         }
 
         /// <summary>
@@ -1529,27 +1531,6 @@ namespace Scada.Server.Engine
                         "Пользователь {0} не найден" :
                         "User {0} not found", userID);
                     Log.WriteError(commandResult.ErrorMessage);
-                }
-                else if (ServerCmdCode.AddressedToServer(command.CmdCode))
-                {
-                    if (command.CmdCode == ServerCmdCode.AckEvent)
-                    {
-                        AckEvent(new EventAck
-                        {
-                            EventID = BitConverter.DoubleToInt64Bits(command.CmdVal),
-                            Timestamp = DateTime.UtcNow,
-                            UserID = userID
-                        }, false);
-
-                        EnqueueCommand(null, command, commandResult);
-                    }
-                    else
-                    {
-                        commandResult.ErrorMessage = string.Format(Locale.IsRussian ?
-                            "Неизвестная команда приложению Сервер" :
-                            "Unknown command to the Server application");
-                        Log.WriteError(commandResult.ErrorMessage);
-                    }
                 }
                 else if (!outCnlTags.TryGetValue(cnlNum, out OutCnlTag outCnlTag))
                 {

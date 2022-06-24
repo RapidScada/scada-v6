@@ -219,17 +219,33 @@ namespace Scada.Server.Engine
         /// </summary>
         public void SendCommand(TeleCommand command, out CommandResult commandResult)
         {
-            if (command.CnlNum > 0 || ServerCmdCode.AddressedToServer(command.CmdCode))
+            if (command.CnlNum > 0)
             {
                 // validate and send command
                 coreLogic.SendCommand(command, out commandResult);
             }
             else
             {
+                // process acknowledgment command that can only be sent by module
+                if (command.CmdCode == ServerCmdCode.AckEvent)
+                {
+                    coreLogic.AckEvent(new EventAck
+                    {
+                        EventID = BitConverter.DoubleToInt64Bits(command.CmdVal),
+                        Timestamp = command.CreationTime,
+                        UserID = command.UserID
+                    }, false, false);
+                }
+
+                // set command ID and creation time
+                if (command.CommandID <= 0)
+                {
+                    DateTime utcNow = DateTime.UtcNow;
+                    command.CommandID = ScadaUtils.GenerateUniqueID(utcNow);
+                    command.CreationTime = utcNow;
+                }
+
                 // pass command directly to clients
-                DateTime utcNow = DateTime.UtcNow;
-                command.CommandID = ScadaUtils.GenerateUniqueID(utcNow);
-                command.CreationTime = utcNow;
                 listener.EnqueueCommand(command);
                 commandResult = new CommandResult(true);
             }
