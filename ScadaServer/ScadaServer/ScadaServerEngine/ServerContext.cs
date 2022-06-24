@@ -213,16 +213,24 @@ namespace Scada.Server.Engine
         {
             coreLogic.WriteEvent(archiveMask, ev);
         }
+        
+        /// <summary>
+        /// Sends the telecontrol command.
+        /// </summary>
+        public void SendCommand(TeleCommand command)
+        {
+            SendCommand(command, WriteFlags.EnableAll, out _);
+        }
 
         /// <summary>
         /// Sends the telecontrol command.
         /// </summary>
-        public void SendCommand(TeleCommand command, out CommandResult commandResult)
+        public void SendCommand(TeleCommand command, WriteFlags writeFlags, out CommandResult commandResult)
         {
             if (command.CnlNum > 0)
             {
                 // validate and send command
-                coreLogic.SendCommand(command, out commandResult);
+                coreLogic.SendCommand(command, writeFlags, out commandResult);
             }
             else
             {

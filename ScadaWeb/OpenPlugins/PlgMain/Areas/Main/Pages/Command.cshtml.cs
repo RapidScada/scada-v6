@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Mvc.RazorPages;
 using Scada.Data.Entities;
 using Scada.Data.Models;
 using Scada.Lang;
+using Scada.Protocol;
 using Scada.Web.Lang;
 using Scada.Web.Plugins.PlgMain.Code;
 using Scada.Web.Services;
@@ -168,7 +169,7 @@ namespace Scada.Web.Plugins.PlgMain.Areas.Main.Pages
             try
             {
                 webContext.Log.WriteAction(WebPhrases.SendCommand, command.CnlNum, User.GetUsername());
-                clientAccessor.ScadaClient.SendCommand(command, out CommandResult result);
+                clientAccessor.ScadaClient.SendCommand(command, WriteFlags.EnableAll, out CommandResult result);
 
                 if (result.IsSuccessful)
                 {

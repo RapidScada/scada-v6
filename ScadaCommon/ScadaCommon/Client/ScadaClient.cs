@@ -559,7 +559,7 @@ namespace Scada.Client
         /// <summary>
         /// Sends the telecontrol command.
         /// </summary>
-        public void SendCommand(TeleCommand command, out CommandResult commandResult)
+        public void SendCommand(TeleCommand command, WriteFlags writeFlags, out CommandResult commandResult)
         {
             RestoreConnection();
 
@@ -569,6 +569,7 @@ namespace Scada.Client
             CopyInt32(command.CnlNum, outBuf, ref index);
             CopyDouble(command.CmdVal, outBuf, ref index);
             CopyByteArray(command.CmdData, outBuf, ref index);
+            CopyByte((byte)writeFlags, outBuf, ref index);
             request.BufferLength = index;
             SendRequest(request);
 

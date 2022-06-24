@@ -411,7 +411,8 @@ namespace Scada.Server.Engine
             if (command.UserID <= 0)
                 command.UserID = client.UserID;
 
-            coreLogic.SendCommand(command, out CommandResult commandResult);
+            WriteFlags writeFlags = (WriteFlags)buffer[index];
+            coreLogic.SendCommand(command, writeFlags, out CommandResult commandResult);
 
             buffer = client.OutBuf;
             response = new ResponsePacket(request, buffer);

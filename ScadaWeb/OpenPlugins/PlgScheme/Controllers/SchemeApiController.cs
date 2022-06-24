@@ -4,6 +4,7 @@
 using Microsoft.AspNetCore.Mvc;
 using Scada.Data.Entities;
 using Scada.Data.Models;
+using Scada.Protocol;
 using Scada.Web.Api;
 using Scada.Web.Lang;
 using Scada.Web.Plugins.PlgScheme.Model;
@@ -154,7 +155,7 @@ namespace Scada.Web.Plugins.PlgScheme.Controllers
                             UserID = User.GetUserID(),
                             CnlNum = ctrlCnlNum,
                             CmdVal = cmdVal
-                        }, out CommandResult commandResult);
+                        }, WriteFlags.EnableAll, out CommandResult commandResult);
 
                         if (commandResult.IsSuccessful)
                             return Dto<bool>.Success(true);

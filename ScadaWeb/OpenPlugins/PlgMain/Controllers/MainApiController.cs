@@ -6,6 +6,7 @@ using Microsoft.Extensions.Caching.Memory;
 using Scada.Data.Entities;
 using Scada.Data.Models;
 using Scada.Data.Tables;
+using Scada.Protocol;
 using Scada.Web.Api;
 using Scada.Web.Authorization;
 using Scada.Web.Lang;
@@ -651,7 +652,7 @@ namespace Scada.Web.Plugins.PlgMain.Controllers
                         CmdData = commandDTO.IsHex
                             ? ScadaUtils.HexToBytes(commandDTO.CmdData, true, true)
                             : TeleCommand.StringToCmdData(commandDTO.CmdData)
-                    }, out CommandResult commandResult);
+                    }, WriteFlags.EnableAll, out CommandResult commandResult);
 
                     if (commandResult.IsSuccessful)
                         return Dto.Success();

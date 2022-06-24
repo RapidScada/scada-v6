@@ -156,6 +156,11 @@ namespace Scada.Server.Modules
         /// <summary>
         /// Sends the telecontrol command.
         /// </summary>
-        void SendCommand(TeleCommand command, out CommandResult commandResult);
+        void SendCommand(TeleCommand command);
+
+        /// <summary>
+        /// Sends the telecontrol command.
+        /// </summary>
+        void SendCommand(TeleCommand command, WriteFlags writeFlags, out CommandResult commandResult);
     }
 }

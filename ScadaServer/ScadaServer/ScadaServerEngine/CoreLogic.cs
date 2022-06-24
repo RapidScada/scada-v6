@@ -68,6 +68,7 @@ namespace Scada.Server.Engine
         {
             public OutCnlTag OutCnlTag { get; set; }
             public TeleCommand Command { get; set; }
+            public WriteFlags WriteFlags { get; set; }
             public CommandResult Result { get; set; }
         }
 
@@ -692,7 +693,8 @@ namespace Scada.Server.Engine
 
                 if (commandItem.Result.IsSuccessful)
                 {
-                    GenerateEvent(commandItem.OutCnlTag, commandItem.Command);
+                    if (commandItem.WriteFlags.HasFlag(WriteFlags.EnableEvents))
+                        GenerateEvent(commandItem.OutCnlTag, commandItem.Command);
 
                     if (commandItem.Result.TransmitToClients)
                     {
@@ -984,7 +986,8 @@ namespace Scada.Server.Engine
         /// <summary>
         /// Adds the command to the queue.
         /// </summary>
-        private void EnqueueCommand(OutCnlTag outCnlTag, TeleCommand command, CommandResult commandResult)
+        private void EnqueueCommand(OutCnlTag outCnlTag, TeleCommand command, WriteFlags writeFlags, 
+            CommandResult commandResult)
         {
             lock (commandQueue)
             {
@@ -992,6 +995,7 @@ namespace Scada.Server.Engine
                 {
                     OutCnlTag = outCnlTag,
                     Command = command,
+                    WriteFlags = writeFlags,
                     Result = commandResult
                 });
             }
@@ -1510,7 +1514,7 @@ namespace Scada.Server.Engine
         /// <summary>
         /// Sends the telecontrol command.
         /// </summary>
-        public void SendCommand(TeleCommand command, out CommandResult commandResult)
+        public void SendCommand(TeleCommand command, WriteFlags writeFlags, out CommandResult commandResult)
         {
             if (command == null)
                 throw new ArgumentNullException(nameof(command));
@@ -1567,7 +1571,11 @@ namespace Scada.Server.Engine
                             calc.BeginCalculation(curData);
                             curData.Timestamp = command.CreationTime;
 
-                            if (calc.CalcCmdData(outCnlTag, command.CmdVal, command.CmdData, 
+                            if (!writeFlags.HasFlag(WriteFlags.ApplyFormulas))
+                            {
+                                commandResult.IsSuccessful = true;
+                            }
+                            else if (calc.CalcCmdData(outCnlTag, command.CmdVal, command.CmdData, 
                                 out double cmdVal, out byte[] cmdData, out string errMsg))
                             {
                                 commandResult.IsSuccessful = true;
@@ -1585,7 +1593,7 @@ namespace Scada.Server.Engine
                             Monitor.Exit(curData);
                         }
 
-                        EnqueueCommand(outCnlTag, command, commandResult);
+                        EnqueueCommand(outCnlTag, command, writeFlags, commandResult);
                     }
                 }
             }
