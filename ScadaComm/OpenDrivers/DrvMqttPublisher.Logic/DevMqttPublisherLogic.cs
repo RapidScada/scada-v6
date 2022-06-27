@@ -14,6 +14,7 @@ using Scada.Data.Entities;
 using Scada.Data.Models;
 using Scada.Data.Tables;
 using Scada.Lang;
+using Scada.Protocol;
 using System.Globalization;
 using System.Text;
 
@@ -219,7 +220,7 @@ namespace Scada.Comm.Drivers.DrvMqttPublisher.Logic
                         "Send command to channel {0}", cmd.CnlNum);
 
                     cmd.UserID = lineData.ScadaClient.UserID;
-                    lineData.ScadaClient.SendCommand(cmd, out CommandResult result);
+                    lineData.ScadaClient.SendCommand(cmd, WriteFlags.EnableAll, out CommandResult result);
 
                     if (result.IsSuccessful)
                     {
