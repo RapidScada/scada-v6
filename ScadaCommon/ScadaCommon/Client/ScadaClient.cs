@@ -422,6 +422,17 @@ namespace Scada.Client
         }
 
         /// <summary>
+        /// Writes the current data.
+        /// </summary>
+        public void WriteCurrentData(Slice slice, int deviceNum, WriteFlags writeFlags)
+        {
+            if (slice == null)
+                throw new ArgumentNullException(nameof(slice));
+
+            WriteCurrentData(slice.CnlNums, slice.CnlData, deviceNum, writeFlags);
+        }
+
+        /// <summary>
         /// Writes the historical data.
         /// </summary>
         public void WriteHistoricalData(int archiveMask, Slice slice, int deviceNum, WriteFlags writeFlags)

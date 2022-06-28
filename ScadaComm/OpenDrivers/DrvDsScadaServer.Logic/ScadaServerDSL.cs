@@ -202,8 +202,7 @@ namespace Scada.Comm.Drivers.DrvDsScadaServer.Logic
                         }
                         else
                         {
-                            scadaClient.WriteCurrentData(slice.CnlNums, slice.CnlData, 
-                                deviceSlice.DeviceNum, WriteFlags.EnableAll);
+                            scadaClient.WriteCurrentData(slice, deviceSlice.DeviceNum, WriteFlags.EnableAll);
                         }
                     }
                     catch (Exception ex)
