@@ -232,7 +232,7 @@ namespace Scada.Server.Engine
             index += cnlCnt * 14;
             int deviceNum = GetInt32(buffer, ref index);
             WriteFlags writeFlags = (WriteFlags)buffer[index];
-            coreLogic.WriteCurrentData(new Slice(DateTime.MinValue, cnlNums, cnlData), deviceNum, writeFlags);
+            coreLogic.WriteCurrentData(new Slice(DateTime.UtcNow, cnlNums, cnlData), deviceNum, writeFlags);
 
             response = new ResponsePacket(request, client.OutBuf);
         }
