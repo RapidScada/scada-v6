@@ -89,6 +89,9 @@ namespace Scada.Config
         /// </summary>
         public bool Load(IStorage storage, string fileName, out string errMsg)
         {
+            if (storage == null)
+                throw new ArgumentNullException(nameof(storage));
+
             try
             {
                 SetToDefault();
