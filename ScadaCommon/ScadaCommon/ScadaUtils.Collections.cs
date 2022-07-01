@@ -90,6 +90,32 @@ namespace Scada
         }
 
         /// <summary>
+        /// Gets the value associated with the specified key as a date and time.
+        /// </summary>
+        public static DateTime GetValueAsDateTime(this IDictionary<string, string> dictionary,
+            string key, DateTime defaultValue)
+        {
+            try
+            {
+                return dictionary.TryGetValue(key, out string valStr) ?
+                    DateTime.Parse(valStr, DateTimeFormatInfo.InvariantInfo) : defaultValue;
+            }
+            catch (FormatException)
+            {
+                throw NewFormatException(key);
+            }
+        }
+
+        /// <summary>
+        /// Gets the value associated with the specified key as a date and time.
+        /// </summary>
+        public static DateTime GetValueAsDateTime(this IDictionary<string, string> dictionary, 
+            string key, DateTimeKind kind)
+        {
+            return DateTime.SpecifyKind(dictionary.GetValueAsDateTime(key, DateTime.MinValue), kind);
+        }
+
+        /// <summary>
         /// Gets the child XML node value as an enumeration element.
         /// </summary>
         public static T GetValueAsEnum<T>(this IDictionary<string, string> dictionary,
