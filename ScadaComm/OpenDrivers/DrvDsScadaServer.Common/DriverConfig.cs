@@ -72,7 +72,7 @@ namespace Scada.Comm.Drivers.DrvDsScadaServer
             XmlDeclaration xmlDecl = xmlDoc.CreateXmlDeclaration("1.0", "utf-8", null);
             xmlDoc.AppendChild(xmlDecl);
 
-            XmlElement rootElem = xmlDoc.CreateElement("ModArcPostgreSql");
+            XmlElement rootElem = xmlDoc.CreateElement("DrvDsScadaServer");
             xmlDoc.AppendChild(rootElem);
 
             XmlElement connectionsElem = rootElem.AppendElem("Connections");
