@@ -124,5 +124,14 @@ namespace Scada.Server.Engine
                 }
             }
         }
+
+        /// <summary>
+        /// Returns a string that represents the current object.
+        /// </summary>
+        /// <remarks>This value is included in the client information.</remarks>
+        public override string ToString()
+        {
+            return "";
+        }
     }
 }
