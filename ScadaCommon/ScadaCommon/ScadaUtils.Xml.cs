@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Globalization;
+using System.Text;
 using System.Xml;
 
 namespace Scada
@@ -403,6 +404,23 @@ namespace Scada
             {
                 throw NewFormatException(attrName);
             }
+        }
+
+
+        /// <summary>
+        /// Gets formatted XML from the XML document.
+        /// </summary>
+        public static string GetFormattedXml(this XmlDocument xmlDoc)
+        {
+            StringBuilder sbXml = new StringBuilder();
+            XmlWriterSettings settings = new XmlWriterSettings { Indent = true };
+
+            using (XmlWriter writer = XmlWriter.Create(sbXml, settings))
+            {
+                xmlDoc.Save(writer);
+            }
+
+            return sbXml.ToString();
         }
     }
 }
