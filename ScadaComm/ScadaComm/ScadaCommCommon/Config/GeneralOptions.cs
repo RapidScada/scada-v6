@@ -20,7 +20,7 @@
  * 
  * Author   : Mikhail Shiryaev
  * Created  : 2020
- * Modified : 2021
+ * Modified : 2022
  */
 
 using Scada.Log;
@@ -45,6 +45,7 @@ namespace Scada.Comm.Config
             SendAllDataPeriod = 60;
             EnableCommands = true;
             EnableFileCommands = true;
+            StartLinesOnCommand = false;
             MaxLogSize = LogFile.DefaultCapacityMB;
         }
 
@@ -75,6 +76,11 @@ namespace Scada.Comm.Config
         public bool EnableFileCommands { get; set; }
 
         /// <summary>
+        /// Gets or sets a value indicating whether communication lines start when an appropriate command is received.
+        /// </summary>
+        public bool StartLinesOnCommand { get; set; }
+
+        /// <summary>
         /// Gets or sets the maximum log file size, megabytes.
         /// </summary>
         public int MaxLogSize { get; set; }
@@ -93,6 +99,7 @@ namespace Scada.Comm.Config
             SendAllDataPeriod = xmlNode.GetChildAsInt("SendAllDataPeriod", SendAllDataPeriod);
             EnableCommands = xmlNode.GetChildAsBool("EnableCommands", EnableCommands);
             EnableFileCommands = xmlNode.GetChildAsBool("EnableFileCommands", EnableFileCommands);
+            StartLinesOnCommand = xmlNode.GetChildAsBool("StartLinesOnCommand", StartLinesOnCommand);
             MaxLogSize = xmlNode.GetChildAsInt("MaxLogSize", MaxLogSize);
         }
 
@@ -109,6 +116,7 @@ namespace Scada.Comm.Config
             xmlElem.AppendElem("SendAllDataPeriod", SendAllDataPeriod);
             xmlElem.AppendElem("EnableCommands", EnableCommands);
             xmlElem.AppendElem("EnableFileCommands", EnableFileCommands);
+            xmlElem.AppendElem("StartLinesOnCommand", StartLinesOnCommand);
             xmlElem.AppendElem("MaxLogSize", MaxLogSize);
         }
     }

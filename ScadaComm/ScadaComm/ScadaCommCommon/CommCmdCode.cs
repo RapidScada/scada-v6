@@ -38,6 +38,8 @@ namespace Scada.Comm
         public const string StartLine = "App.Comm.StartLine";
         public const string StopLine = "App.Comm.StopLine";
         public const string RestartLine = "App.Comm.RestartLine";
+        public const string StartAllLines = "App.Comm.StartAllLines";
+        public const string StopAllLines = "App.Comm.StopAllLines";
         public const string PollDevice = "App.Comm.PollDevice";
 
         public static bool AddressedToComm(string cmdCode)
