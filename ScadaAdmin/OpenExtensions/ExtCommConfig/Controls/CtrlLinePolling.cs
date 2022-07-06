@@ -385,9 +385,15 @@ namespace Scada.Admin.Extensions.ExtCommConfig.Controls
         {
             // paste the copied device
             if (deviceClipboard == null)
+            {
                 lvDevicePolling.Focus();
+            }
             else
-                AddDeviceItem(deviceClipboard.DeepClone());
+            {
+                DeviceConfig deviceConfig = deviceClipboard.DeepClone();
+                deviceConfig.Parent = lineConfig;
+                AddDeviceItem(deviceConfig);
+            }
         }
 
         private void lvDevicePolling_SelectedIndexChanged(object sender, EventArgs e)
