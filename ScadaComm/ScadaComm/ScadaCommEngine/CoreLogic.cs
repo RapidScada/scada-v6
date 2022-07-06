@@ -484,15 +484,13 @@ namespace Scada.Comm.Engine
 
                 foreach (LineConfig lineConfig in AppConfig.Lines)
                 {
-                    if (lineConfig.Active)
+                    if (lineConfig.Active &&
+                        CreateLine(lineConfig) is CommLine commLine && 
+                        !commLine.Start())
                     {
-                        if (CreateLine(lineConfig) is CommLine commLine && 
-                            !commLine.Start())
-                        {
-                            Log.WriteError(Locale.IsRussian ?
-                                "Не удалось запустить линию связи {0}" :
-                                "Failed to start communication line {0}", commLine.Title);
-                        }
+                        Log.WriteError(Locale.IsRussian ?
+                            "Не удалось запустить линию связи {0}" :
+                            "Failed to start communication line {0}", commLine.Title);
                     }
                 }
             }
