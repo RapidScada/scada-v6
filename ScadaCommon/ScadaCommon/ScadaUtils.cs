@@ -52,6 +52,10 @@ namespace Scada
         /// </summary>
         public const int ThreadWait = 10000;
         /// <summary>
+        /// The delay in case of an operation error, ms.
+        /// </summary>
+        public const int ErrorDelay = 1000;
+        /// <summary>
         /// The ending of a registration key file name.
         /// </summary>
         public const string RegFileSuffix = "_Reg.xml";

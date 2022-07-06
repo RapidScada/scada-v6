@@ -160,6 +160,16 @@ namespace Scada.Comm.Engine
             {
                 return lineStatus;
             }
+            private set
+            {
+                if (lineStatus != value)
+                {
+                    lineStatus = value;
+
+                    if (lineStatus == ServiceStatus.Terminated)
+                        Terminated?.Invoke(this, EventArgs.Empty);
+                }
+            }
         }
 
         /// <summary>
@@ -169,7 +179,7 @@ namespace Scada.Comm.Engine
         {
             get
             {
-                return lineStatus == ServiceStatus.Terminated;
+                return LineStatus == ServiceStatus.Terminated;
             }
         }
 
@@ -208,7 +218,7 @@ namespace Scada.Comm.Engine
         private bool Prepare(out string errMsg)
         {
             terminated = false;
-            lineStatus = ServiceStatus.Starting;
+            LineStatus = ServiceStatus.Starting;
             SharedData = new ConcurrentDictionary<string, object>();
             WriteInfo();
             WriteDeviceInfo();
@@ -254,7 +264,7 @@ namespace Scada.Comm.Engine
                         "Detailed log is disabled");
                 }
 
-                lineStatus = ServiceStatus.Normal;
+                LineStatus = ServiceStatus.Normal;
                 LineCycle();
             }
             catch (Exception ex)
@@ -265,7 +275,7 @@ namespace Scada.Comm.Engine
             {
                 devices.ForEach(d => d.OnCommLineTerminate());
                 channel.Stop();
-                lineStatus = ServiceStatus.Terminated;
+                LineStatus = ServiceStatus.Terminated;
                 WriteInfo();
                 WriteDeviceInfo();
 
@@ -619,13 +629,13 @@ namespace Scada.Comm.Engine
 
                 if (Locale.IsRussian)
                 {
-                    sb.Append("Статус      : ").AppendLine(lineStatus.ToString(true));
+                    sb.Append("Статус      : ").AppendLine(LineStatus.ToString(true));
                     sb.Append("Канал связи : ").AppendLine(channel.ChannelLogic.StatusText);
                     deviceHeader = $"Устройства ({devices.Count})";
                 }
                 else
                 {
-                    sb.Append("Status                : ").AppendLine(lineStatus.ToString(false));
+                    sb.Append("Status                : ").AppendLine(LineStatus.ToString(false));
                     sb.Append("Communication channel : ").AppendLine(channel.ChannelLogic.StatusText);
                     deviceHeader = $"Devices ({devices.Count})";
                 }
@@ -726,7 +736,7 @@ namespace Scada.Comm.Engine
             {
                 if (thread == null)
                 {
-                    lineStatus = ServiceStatus.Error;
+                    LineStatus = ServiceStatus.Error;
                     WriteInfo();
                 }
             }
@@ -741,13 +751,13 @@ namespace Scada.Comm.Engine
             {
                 if (thread == null)
                 {
-                    lineStatus = ServiceStatus.Terminated;
+                    LineStatus = ServiceStatus.Terminated;
                     WriteInfo();
                 }
                 else
                 {
                     terminated = true;
-                    lineStatus = ServiceStatus.Terminating;
+                    LineStatus = ServiceStatus.Terminating;
                     devices.ForEach(d => d.DeviceLogic.Terminate());
                 }
             }
@@ -897,5 +907,11 @@ namespace Scada.Comm.Engine
 
             return commLine;
         }
+
+
+        /// <summary>
+        /// Occurs when the communication line is terminated.
+        /// </summary>
+        public event EventHandler Terminated;
     }
 }

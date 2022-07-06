@@ -20,16 +20,14 @@
  * 
  * Author   : Mikhail Shiryaev
  * Created  : 2020
- * Modified : 2021
+ * Modified : 2022
  */
 
 using Scada.Data.Models;
 using Scada.Lang;
 using Scada.Log;
 using System;
-using System.Collections.Generic;
 using System.IO;
-using System.Text;
 using System.Threading;
 
 namespace Scada.Comm.Engine
@@ -96,7 +94,7 @@ namespace Scada.Comm.Engine
                             {
                                 if (cmd.Load(fileName, out string errMsg))
                                 {
-                                    coreLogic.ProcessCommand(cmd, fileName);
+                                    coreLogic.EnqueueCommand(cmd, fileName);
                                     File.Delete(fileName);
                                 }
                                 else
