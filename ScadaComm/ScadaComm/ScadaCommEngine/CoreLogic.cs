@@ -417,34 +417,35 @@ namespace Scada.Comm.Engine
         }
 
         /// <summary>
-        /// Creates a communication line and adds it to the lists.
+        /// Creates a communication line if it does not exists, and adds it to the lists.
         /// </summary>
         private CommLine CreateLine(LineConfig lineConfig)
         {
-            try
+            lock (commLineLock)
             {
-                CommLine commLine = CommLine.Create(lineConfig, this, driverHolder);
-                commLine.Terminated += CommLine_Terminated;
-                commLines.Add(commLine);
-                commLineMap.Add(lineConfig.CommLineNum, commLine);
-
-                foreach (DeviceLogic deviceLogic in commLine.SelectDevices())
+                if (commLineMap.ContainsKey(lineConfig.CommLineNum))
                 {
-                    // only one device instance is possible
-                    deviceMap.Add(deviceLogic.DeviceNum, new DeviceItem(deviceLogic, commLine));
+                    Log.WriteError(Locale.IsRussian ?
+                        "Линия связи {0} уже создана" :
+                        "Communication line {0} already created", lineConfig.CommLineNum);
+                    return null;
                 }
+                else
+                {
+                    CommLine commLine = CommLine.Create(lineConfig, this, driverHolder);
+                    commLine.Terminated += CommLine_Terminated;
+                    commLines.Add(commLine);
+                    commLineMap.Add(lineConfig.CommLineNum, commLine);
 
-                if (maxLineTitleLength < commLine.Title.Length)
-                    maxLineTitleLength = commLine.Title.Length;
+                    foreach (DeviceLogic deviceLogic in commLine.SelectDevices())
+                    {
+                        // only one device instance is possible
+                        deviceMap.Add(deviceLogic.DeviceNum, new DeviceItem(deviceLogic, commLine));
+                    }
 
-                return commLine;
-            }
-            catch (Exception ex)
-            {
-                Log.WriteError(ex, Locale.IsRussian ?
-                    "Ошибка при создании линии связи {0}" :
-                    "Error creating communication line {0}", lineConfig.Title);
-                return null;
+                    maxLineTitleLength = -1; // reset max length
+                    return commLine;
+                }
             }
         }
 
@@ -480,29 +481,13 @@ namespace Scada.Comm.Engine
                 Log.WriteAction(Locale.IsRussian ?
                     "Запуск линий связи" :
                     "Start communication lines");
-                maxLineTitleLength = 0;
 
                 foreach (LineConfig lineConfig in AppConfig.Lines)
                 {
                     if (lineConfig.Active)
                     {
-                        CommLine commLine = null;
-
-                        lock (commLineLock)
-                        {
-                            if (commLineMap.ContainsKey(lineConfig.CommLineNum))
-                            {
-                                Log.WriteError(Locale.IsRussian ?
-                                    "Линия связи {0} уже создана" :
-                                    "Communication line {0} already created", lineConfig.CommLineNum);
-                            }
-                            else
-                            {
-                                commLine = CreateLine(lineConfig);
-                            }
-                        }
-
-                        if (commLine != null && !commLine.Start())
+                        if (CreateLine(lineConfig) is CommLine commLine && 
+                            !commLine.Start())
                         {
                             Log.WriteError(Locale.IsRussian ?
                                 "Не удалось запустить линию связи {0}" :
@@ -610,30 +595,20 @@ namespace Scada.Comm.Engine
                         "Невозможно запустить линию связи {0}, потому что она не активна" :
                         "Unable to start communication line {0} because it is inactive", lineConfig.Title);
                 }
-                else
+                else if (CreateLine(lineConfig) is CommLine commLine)
                 {
-                    CommLine commLine;
+                    Log.WriteAction(Locale.IsRussian ?
+                        "Запуск линии связи {0}" :
+                        "Start communication line {0}", commLine.Title);
 
-                    lock (commLineLock)
+                    if (dataSourceHolder.ReadConfigDatabase(out ConfigDatabase configDatabase))
+                        ConfigDatabase = configDatabase;
+
+                    if (!commLine.Start())
                     {
-                        commLine = commLineMap.ContainsKey(lineConfig.CommLineNum) ? null : CreateLine(lineConfig);
-                    }
-
-                    if (commLine != null)
-                    {
-                        Log.WriteAction(Locale.IsRussian ?
-                            "Запуск линии связи {0}" :
-                            "Start communication line {0}", commLine.Title);
-
-                        if (dataSourceHolder.ReadConfigDatabase(out ConfigDatabase configDatabase))
-                            ConfigDatabase = configDatabase;
-
-                        if (!commLine.Start())
-                        {
-                            Log.WriteError(Locale.IsRussian ?
-                                "Не удалось запустить линию связи {0}" :
-                                "Failed to start communication line {0}", commLine.Title);
-                        }
+                        Log.WriteError(Locale.IsRussian ?
+                            "Не удалось запустить линию связи {0}" :
+                            "Failed to start communication line {0}", commLine.Title);
                     }
                 }
             }
@@ -979,15 +954,15 @@ namespace Scada.Comm.Engine
                 else if (DateTime.UtcNow - cmd.CreationTime > ScadaUtils.CommandLifetime)
                 {
                     Log.WriteError(Locale.IsRussian ?
-                        "Устаревшая команда с ид. {0} от источника {1} отклонена" :
-                        "Outdated command with ID {0} from the source {1} is rejected",
+                        "Устаревшая команда с ид. {0} от {1} отклонена" :
+                        "Outdated command with ID {0} from {1} is rejected",
                         cmd.CommandID, source);
                 }
                 else if (cmd.IsAddressedToApp)
                 {
                     Log.WriteAction(Locale.IsRussian ?
-                        "Команда приложению {0} с ид. {1} от источника {2}" :
-                        "Application command {0} with ID {1} from the source {2}",
+                        "Команда приложению {0} с ид. {1} от {2}" :
+                        "Application command {0} with ID {1} from {2}",
                         cmd.CmdCode, cmd.CommandID, source);
 
                     if (CommCmdCode.AddressedToComm(cmd.CmdCode))
@@ -1007,8 +982,8 @@ namespace Scada.Comm.Engine
                 else
                 {
                     Log.WriteAction(Locale.IsRussian ?
-                        "Команда с ид. {0} на устройство {1} от источника {2}" :
-                        "Command with ID {0} to the device {1} from the source {2}",
+                        "Команда с ид. {0} на устройство {1} от {2}" :
+                        "Command with ID {0} to the device {1} from {2}",
                         cmd.CommandID, cmd.DeviceNum, source);
 
                     if (GetDeviceLine(cmd.DeviceNum, out CommLine commLine))
