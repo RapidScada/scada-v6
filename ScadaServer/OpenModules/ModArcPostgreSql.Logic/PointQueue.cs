@@ -119,7 +119,7 @@ namespace Scada.Server.Modules.ModArcPostgreSql.Logic
         /// </summary>
         public void EnqueuePoint(int cnlNum, DateTime timestamp, CnlData cnlData)
         {
-            lock (dataQueue)
+            lock (SyncRoot)
             {
                 dataQueue.Enqueue(new CnlDataPoint(cnlNum, timestamp, cnlData));
             }
@@ -155,7 +155,7 @@ namespace Scada.Server.Modules.ModArcPostgreSql.Logic
                     // retrieve a data point from the queue
                     CnlDataPoint point;
 
-                    lock (dataQueue)
+                    lock (SyncRoot)
                     {
                         if (dataQueue.Count > 0)
                             point = dataQueue.Dequeue();
@@ -174,7 +174,7 @@ namespace Scada.Server.Modules.ModArcPostgreSql.Logic
                         // return the unwritten data point to the queue
                         if (ReturnOnError)
                         {
-                            lock (dataQueue)
+                            lock (SyncRoot)
                             {
                                 dataQueue.Enqueue(point);
                             }
@@ -224,7 +224,7 @@ namespace Scada.Server.Modules.ModArcPostgreSql.Logic
                 command.Connection = Connection;
                 command.Transaction = trans;
 
-                lock (dataQueue)
+                lock (SyncRoot)
                 {
                     while (dataQueue.Count > 0)
                     {
@@ -257,7 +257,7 @@ namespace Scada.Server.Modules.ModArcPostgreSql.Logic
         {
             int lostCnt = 0;
 
-            lock (dataQueue)
+            lock (SyncRoot)
             {
                 while (dataQueue.Count > MaxQueueSize)
                 {
