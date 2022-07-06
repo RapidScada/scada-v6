@@ -68,6 +68,7 @@ namespace Scada.Admin.Extensions.ExtCommConfig.Forms
             numSendAllDataPeriod.SetValue(generalOptions.SendAllDataPeriod);
             chkEnableCommands.Checked = generalOptions.EnableCommands;
             chkEnableFileCommands.Checked = generalOptions.EnableFileCommands;
+            chkStartLinesOnCommand.Checked = generalOptions.StartLinesOnCommand;
             numMaxLogSize.SetValue(generalOptions.MaxLogSize);
 
             ctrlClientConnection.ConnectionOptions = commConfig.ConnectionOptions.DeepClone();
@@ -85,6 +86,7 @@ namespace Scada.Admin.Extensions.ExtCommConfig.Forms
             generalOptions.SendAllDataPeriod = decimal.ToInt32(numSendAllDataPeriod.Value);
             generalOptions.EnableCommands = chkEnableCommands.Checked;
             generalOptions.EnableFileCommands = chkEnableFileCommands.Checked;
+            generalOptions.StartLinesOnCommand = chkStartLinesOnCommand.Checked;
             generalOptions.MaxLogSize = decimal.ToInt32(numMaxLogSize.Value);
 
             ctrlClientConnection.ConnectionOptions.CopyTo(commConfig.ConnectionOptions);

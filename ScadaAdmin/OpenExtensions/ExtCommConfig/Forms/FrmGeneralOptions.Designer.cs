@@ -31,6 +31,8 @@
             this.gbGeneralOptions = new System.Windows.Forms.GroupBox();
             this.numMaxLogSize = new System.Windows.Forms.NumericUpDown();
             this.lblMaxLogSize = new System.Windows.Forms.Label();
+            this.chkStartLinesOnCommand = new System.Windows.Forms.CheckBox();
+            this.lblStartLinesOnCommand = new System.Windows.Forms.Label();
             this.chkEnableFileCommands = new System.Windows.Forms.CheckBox();
             this.lblEnableFileCommands = new System.Windows.Forms.Label();
             this.chkEnableCommands = new System.Windows.Forms.CheckBox();
@@ -51,6 +53,8 @@
             // 
             this.gbGeneralOptions.Controls.Add(this.numMaxLogSize);
             this.gbGeneralOptions.Controls.Add(this.lblMaxLogSize);
+            this.gbGeneralOptions.Controls.Add(this.chkStartLinesOnCommand);
+            this.gbGeneralOptions.Controls.Add(this.lblStartLinesOnCommand);
             this.gbGeneralOptions.Controls.Add(this.chkEnableFileCommands);
             this.gbGeneralOptions.Controls.Add(this.lblEnableFileCommands);
             this.gbGeneralOptions.Controls.Add(this.chkEnableCommands);
@@ -64,14 +68,14 @@
             this.gbGeneralOptions.Location = new System.Drawing.Point(12, 12);
             this.gbGeneralOptions.Name = "gbGeneralOptions";
             this.gbGeneralOptions.Padding = new System.Windows.Forms.Padding(10, 3, 10, 10);
-            this.gbGeneralOptions.Size = new System.Drawing.Size(500, 203);
+            this.gbGeneralOptions.Size = new System.Drawing.Size(500, 232);
             this.gbGeneralOptions.TabIndex = 0;
             this.gbGeneralOptions.TabStop = false;
             this.gbGeneralOptions.Text = "General Options";
             // 
             // numMaxLogSize
             // 
-            this.numMaxLogSize.Location = new System.Drawing.Point(387, 167);
+            this.numMaxLogSize.Location = new System.Drawing.Point(387, 196);
             this.numMaxLogSize.Minimum = new decimal(new int[] {
             1,
             0,
@@ -79,7 +83,7 @@
             0});
             this.numMaxLogSize.Name = "numMaxLogSize";
             this.numMaxLogSize.Size = new System.Drawing.Size(100, 23);
-            this.numMaxLogSize.TabIndex = 11;
+            this.numMaxLogSize.TabIndex = 13;
             this.numMaxLogSize.Value = new decimal(new int[] {
             1,
             0,
@@ -90,11 +94,30 @@
             // lblMaxLogSize
             // 
             this.lblMaxLogSize.AutoSize = true;
-            this.lblMaxLogSize.Location = new System.Drawing.Point(17, 171);
+            this.lblMaxLogSize.Location = new System.Drawing.Point(17, 200);
             this.lblMaxLogSize.Name = "lblMaxLogSize";
             this.lblMaxLogSize.Size = new System.Drawing.Size(147, 15);
-            this.lblMaxLogSize.TabIndex = 10;
+            this.lblMaxLogSize.TabIndex = 12;
             this.lblMaxLogSize.Text = "Maximum log file size, MB";
+            // 
+            // chkStartLinesOnCommand
+            // 
+            this.chkStartLinesOnCommand.AutoSize = true;
+            this.chkStartLinesOnCommand.Location = new System.Drawing.Point(430, 171);
+            this.chkStartLinesOnCommand.Name = "chkStartLinesOnCommand";
+            this.chkStartLinesOnCommand.Size = new System.Drawing.Size(15, 14);
+            this.chkStartLinesOnCommand.TabIndex = 11;
+            this.chkStartLinesOnCommand.UseVisualStyleBackColor = true;
+            this.chkStartLinesOnCommand.CheckedChanged += new System.EventHandler(this.control_Changed);
+            // 
+            // lblStartLinesOnCommand
+            // 
+            this.lblStartLinesOnCommand.AutoSize = true;
+            this.lblStartLinesOnCommand.Location = new System.Drawing.Point(17, 171);
+            this.lblStartLinesOnCommand.Name = "lblStartLinesOnCommand";
+            this.lblStartLinesOnCommand.Size = new System.Drawing.Size(221, 15);
+            this.lblStartLinesOnCommand.TabIndex = 10;
+            this.lblStartLinesOnCommand.Text = "Start communication lines on command";
             // 
             // chkEnableFileCommands
             // 
@@ -198,7 +221,7 @@
             // 
             this.ctrlClientConnection.ConnectionOptions = null;
             this.ctrlClientConnection.InstanceEnabled = false;
-            this.ctrlClientConnection.Location = new System.Drawing.Point(12, 221);
+            this.ctrlClientConnection.Location = new System.Drawing.Point(12, 250);
             this.ctrlClientConnection.Name = "ctrlClientConnection";
             this.ctrlClientConnection.NameEnabled = false;
             this.ctrlClientConnection.Size = new System.Drawing.Size(500, 366);
@@ -209,7 +232,7 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(684, 611);
+            this.ClientSize = new System.Drawing.Size(684, 631);
             this.Controls.Add(this.ctrlClientConnection);
             this.Controls.Add(this.gbGeneralOptions);
             this.Name = "FrmGeneralOptions";
@@ -239,5 +262,7 @@
         private System.Windows.Forms.CheckBox chkEnableFileCommands;
         private System.Windows.Forms.Label lblEnableFileCommands;
         private Scada.Forms.Controls.CtrlClientConnection ctrlClientConnection;
+        private System.Windows.Forms.CheckBox chkStartLinesOnCommand;
+        private System.Windows.Forms.Label lblStartLinesOnCommand;
     }
 }

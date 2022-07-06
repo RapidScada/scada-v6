@@ -244,6 +244,7 @@
     <Phrase key="lblSendAllDataPeriod">Период передачи данных всех тегов устройства, с</Phrase>
     <Phrase key="lblEnableCommands">Разрешить команды телеуправления</Phrase>
     <Phrase key="lblEnableFileCommands">Считывать команды телеуправления из файлов</Phrase>
+    <Phrase key="lblStartLinesOnCommand">Запускать линии связи по команде</Phrase>
     <Phrase key="lblMaxLogSize">Максимальный размер файла журнала, МБ</Phrase>
   </Dictionary>
   <Dictionary key="Scada.Admin.Extensions.ExtCommConfig.Forms.FrmLineAdd">

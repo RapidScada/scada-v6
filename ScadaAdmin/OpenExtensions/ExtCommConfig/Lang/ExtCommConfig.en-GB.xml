@@ -244,6 +244,7 @@
     <Phrase key="lblSendAllDataPeriod">Period of sending data of all device tags, sec</Phrase>
     <Phrase key="lblEnableCommands">Enable telecontrol commands</Phrase>
     <Phrase key="lblEnableFileCommands">Read telecontrol commands from files</Phrase>
+    <Phrase key="lblStartLinesOnCommand">Start communication lines on command</Phrase>
     <Phrase key="lblMaxLogSize">Maximum log file size, MB</Phrase>
   </Dictionary>
   <Dictionary key="Scada.Admin.Extensions.ExtCommConfig.Forms.FrmLineAdd">
