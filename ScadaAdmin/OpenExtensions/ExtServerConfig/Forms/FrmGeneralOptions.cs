@@ -1,13 +1,17 @@
 ﻿// Copyright (c) Rapid Software LLC. All rights reserved.
 // Licensed under the Apache License, Version 2.0. See License.txt in the project root for license information.
 
+using Scada.Admin.Extensions.ExtServerConfig.Code;
 using Scada.Admin.Project;
 using Scada.Forms;
+using Scada.Forms.Forms;
 using Scada.Lang;
 using Scada.Log;
 using Scada.Server;
 using Scada.Server.Config;
 using System;
+using System.Collections.Generic;
+using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using WinControl;
@@ -20,10 +24,10 @@ namespace Scada.Admin.Extensions.ExtServerConfig.Forms
     /// </summary>
     public partial class FrmGeneralOptions : Form, IChildForm
     {
-        private readonly ILog log;                  // the application log
-        private readonly ServerApp serverApp;       // the Server application in a project
-        private readonly ServerConfig serverConfig; // the Server configuration
-        private bool changing;                      // controls are being changed programmatically
+        private readonly IAdminContext adminContext; // the Administrator context
+        private readonly ServerApp serverApp;        // the Server application in a project
+        private readonly ServerConfig serverConfig;  // the Server configuration
+        private bool changing;                       // controls are being changed programmatically
 
 
         /// <summary>
@@ -37,10 +41,10 @@ namespace Scada.Admin.Extensions.ExtServerConfig.Forms
         /// <summary>
         /// Initializes a new instance of the class.
         /// </summary>
-        public FrmGeneralOptions(ILog log, ServerApp serverApp)
+        public FrmGeneralOptions(IAdminContext adminContext, ServerApp serverApp)
             : this()
         {
-            this.log = log ?? throw new ArgumentNullException(nameof(log));
+            this.adminContext = adminContext ?? throw new ArgumentNullException(nameof(adminContext));
             this.serverApp = serverApp ?? throw new ArgumentNullException(nameof(serverApp));
             serverConfig = serverApp.AppConfig;
             changing = false;
@@ -65,6 +69,8 @@ namespace Scada.Admin.Extensions.ExtServerConfig.Forms
             numUnrelIfInactive.SetValue(generalOptions.UnrelIfInactive);
             chkGenerateAckCmd.Checked = generalOptions.GenerateAckCmd;
             numMaxLogSize.SetValue(generalOptions.MaxLogSize);
+            chkDisableFormulas.Checked = generalOptions.DisableFormulas;
+            txtEnableFormulasObjNums.Text = generalOptions.EnableFormulasObjNums.ToRangeString();
 
             // listener options
             ListenerOptions listenerOptions = serverConfig.ListenerOptions;
@@ -85,6 +91,8 @@ namespace Scada.Admin.Extensions.ExtServerConfig.Forms
             generalOptions.UnrelIfInactive = decimal.ToInt32(numUnrelIfInactive.Value);
             generalOptions.GenerateAckCmd = chkGenerateAckCmd.Checked;
             generalOptions.MaxLogSize = decimal.ToInt32(numMaxLogSize.Value);
+            generalOptions.DisableFormulas = chkDisableFormulas.Checked;
+            generalOptions.EnableFormulasObjNums = ScadaUtils.ParseRange(txtEnableFormulasObjNums.Text, true, true);
 
             // listener options
             ListenerOptions listenerOptions = serverConfig.ListenerOptions;
@@ -98,13 +106,23 @@ namespace Scada.Admin.Extensions.ExtServerConfig.Forms
         /// </summary>
         private bool ValidateControls()
         {
+            StringBuilder sbError = new();
+
+            if (!ScadaUtils.ParseRange(txtEnableFormulasObjNums.Text, true, true, out _))
+                sbError.AppendLine(ExtensionPhrases.InvalidObjectRange);
+
             if (!ScadaUtils.HexToBytes(txtSecretKey.Text.Trim(), out _))
+                sbError.AppendLine(CommonPhrases.InvalidSecretKey);
+
+            if (sbError.Length > 0)
             {
-                ScadaUiUtils.ShowError(CommonPhrases.InvalidSecretKey);
+                ScadaUiUtils.ShowError(CommonPhrases.CorrectErrors + Environment.NewLine + sbError);
                 return false;
             }
-
-            return true;
+            else
+            {
+                return true;
+            }
         }
 
         /// <summary>
@@ -119,7 +137,7 @@ namespace Scada.Admin.Extensions.ExtServerConfig.Forms
                 if (serverApp.SaveConfig(out string errMsg))
                     ChildFormTag.Modified = false;
                 else
-                    log.HandleError(errMsg);
+                    adminContext.ErrLog.HandleError(errMsg);
             }
         }
 
@@ -134,6 +152,33 @@ namespace Scada.Admin.Extensions.ExtServerConfig.Forms
         {
             if (!changing)
                 ChildFormTag.Modified = true;
+        }
+
+        private void chkDisableFormulas_CheckedChanged(object sender, EventArgs e)
+        {
+            txtEnableFormulasObjNums.Enabled = chkDisableFormulas.Checked;
+
+            if (!changing)
+                ChildFormTag.Modified = true;
+        }
+
+        private void btnSelectObjects_Click(object sender, EventArgs e)
+        {
+            // show a dialog to select objects
+            if (adminContext.CurrentProject != null)
+            {
+                ScadaUtils.ParseRange(txtEnableFormulasObjNums.Text, true, false, out IList<int> objNums);
+                FrmEntitySelect frmEntitySelect = new(adminContext.CurrentProject.ConfigDatabase.ObjTable)
+                {
+                    SelectedIDs = objNums
+                };
+
+                if (frmEntitySelect.ShowDialog() == DialogResult.OK)
+                {
+                    chkDisableFormulas.Checked = true;
+                    txtEnableFormulasObjNums.Text = frmEntitySelect.SelectedIDs.ToRangeString();
+                }
+            }
         }
 
         private void txtSecretKey_Enter(object sender, EventArgs e)

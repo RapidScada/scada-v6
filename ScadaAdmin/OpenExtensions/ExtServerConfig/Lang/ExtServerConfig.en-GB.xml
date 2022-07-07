@@ -40,12 +40,15 @@
     <Phrase key="lblUnrelIfInactive">Channel is marked as unreliable if inactive, sec</Phrase>
     <Phrase key="lblGenerateAckCmd">Generate command when event is acknowledged</Phrase>
     <Phrase key="lblMaxLogSize">Maximum log file size, MB</Phrase>
+    <Phrase key="lblDisableFormulas">Disable channel formulas, except for channels belonging to objects</Phrase>
+    <Phrase key="btnSelectObjects">Select...</Phrase>
     <Phrase key="gbListenerOptions">Listener Options</Phrase>
     <Phrase key="lblPort">TCP port</Phrase>
     <Phrase key="lblTimeout">Timeout, ms</Phrase>
     <Phrase key="lblSecretKey">Secret key</Phrase>
     <Phrase key="btnGenerateKey">Generate</Phrase>
     <Phrase key="btnCopyKey">Copy</Phrase>
+    <Phrase key="InvalidObjectRange">Invalid object range.</Phrase>
   </Dictionary>
   <Dictionary key="Scada.Admin.Extensions.ExtServerConfig.Forms.FrmModules">
     <Phrase key="this">Modules</Phrase>

@@ -38,6 +38,10 @@
             this.numPort = new System.Windows.Forms.NumericUpDown();
             this.lblPort = new System.Windows.Forms.Label();
             this.gbGeneralOptions = new System.Windows.Forms.GroupBox();
+            this.btnSelectObjects = new System.Windows.Forms.Button();
+            this.txtEnableFormulasObjNums = new System.Windows.Forms.TextBox();
+            this.chkDisableFormulas = new System.Windows.Forms.CheckBox();
+            this.lblDisableFormulas = new System.Windows.Forms.Label();
             this.numMaxLogSize = new System.Windows.Forms.NumericUpDown();
             this.lblMaxLogSize = new System.Windows.Forms.Label();
             this.chkGenerateAckCmd = new System.Windows.Forms.CheckBox();
@@ -63,7 +67,7 @@
             this.gbListenerOptions.Controls.Add(this.lblTimeout);
             this.gbListenerOptions.Controls.Add(this.numPort);
             this.gbListenerOptions.Controls.Add(this.lblPort);
-            this.gbListenerOptions.Location = new System.Drawing.Point(12, 134);
+            this.gbListenerOptions.Location = new System.Drawing.Point(12, 185);
             this.gbListenerOptions.Name = "gbListenerOptions";
             this.gbListenerOptions.Padding = new System.Windows.Forms.Padding(10, 3, 10, 10);
             this.gbListenerOptions.Size = new System.Drawing.Size(500, 167);
@@ -178,6 +182,10 @@
             // 
             // gbGeneralOptions
             // 
+            this.gbGeneralOptions.Controls.Add(this.btnSelectObjects);
+            this.gbGeneralOptions.Controls.Add(this.txtEnableFormulasObjNums);
+            this.gbGeneralOptions.Controls.Add(this.chkDisableFormulas);
+            this.gbGeneralOptions.Controls.Add(this.lblDisableFormulas);
             this.gbGeneralOptions.Controls.Add(this.numMaxLogSize);
             this.gbGeneralOptions.Controls.Add(this.lblMaxLogSize);
             this.gbGeneralOptions.Controls.Add(this.chkGenerateAckCmd);
@@ -187,10 +195,48 @@
             this.gbGeneralOptions.Location = new System.Drawing.Point(12, 12);
             this.gbGeneralOptions.Name = "gbGeneralOptions";
             this.gbGeneralOptions.Padding = new System.Windows.Forms.Padding(10, 3, 10, 10);
-            this.gbGeneralOptions.Size = new System.Drawing.Size(500, 116);
+            this.gbGeneralOptions.Size = new System.Drawing.Size(500, 167);
             this.gbGeneralOptions.TabIndex = 0;
             this.gbGeneralOptions.TabStop = false;
             this.gbGeneralOptions.Text = "General Options";
+            // 
+            // btnSelectObjects
+            // 
+            this.btnSelectObjects.Location = new System.Drawing.Point(387, 131);
+            this.btnSelectObjects.Name = "btnSelectObjects";
+            this.btnSelectObjects.Size = new System.Drawing.Size(100, 23);
+            this.btnSelectObjects.TabIndex = 9;
+            this.btnSelectObjects.Text = "Select...";
+            this.btnSelectObjects.UseVisualStyleBackColor = true;
+            this.btnSelectObjects.Click += new System.EventHandler(this.btnSelectObjects_Click);
+            // 
+            // txtEnableFormulasObjNums
+            // 
+            this.txtEnableFormulasObjNums.Enabled = false;
+            this.txtEnableFormulasObjNums.Location = new System.Drawing.Point(34, 131);
+            this.txtEnableFormulasObjNums.Name = "txtEnableFormulasObjNums";
+            this.txtEnableFormulasObjNums.Size = new System.Drawing.Size(347, 23);
+            this.txtEnableFormulasObjNums.TabIndex = 8;
+            this.txtEnableFormulasObjNums.TextChanged += new System.EventHandler(this.control_Changed);
+            // 
+            // chkDisableFormulas
+            // 
+            this.chkDisableFormulas.AutoSize = true;
+            this.chkDisableFormulas.Location = new System.Drawing.Point(13, 135);
+            this.chkDisableFormulas.Name = "chkDisableFormulas";
+            this.chkDisableFormulas.Size = new System.Drawing.Size(15, 14);
+            this.chkDisableFormulas.TabIndex = 7;
+            this.chkDisableFormulas.UseVisualStyleBackColor = true;
+            this.chkDisableFormulas.CheckedChanged += new System.EventHandler(this.chkDisableFormulas_CheckedChanged);
+            // 
+            // lblDisableFormulas
+            // 
+            this.lblDisableFormulas.AutoSize = true;
+            this.lblDisableFormulas.Location = new System.Drawing.Point(10, 113);
+            this.lblDisableFormulas.Name = "lblDisableFormulas";
+            this.lblDisableFormulas.Size = new System.Drawing.Size(361, 15);
+            this.lblDisableFormulas.TabIndex = 6;
+            this.lblDisableFormulas.Text = "Disable channel formulas, except for channels belonging to objects";
             // 
             // numMaxLogSize
             // 
@@ -309,5 +355,9 @@
         private System.Windows.Forms.Button btnCopyKey;
         private System.Windows.Forms.CheckBox chkGenerateAckCmd;
         private System.Windows.Forms.Label lblGenerateAckCmd;
+        private System.Windows.Forms.Button btnSelectObjects;
+        private System.Windows.Forms.TextBox txtEnableFormulasObjNums;
+        private System.Windows.Forms.CheckBox chkDisableFormulas;
+        private System.Windows.Forms.Label lblDisableFormulas;
     }
 }

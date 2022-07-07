@@ -23,6 +23,9 @@ namespace Scada.Admin.Extensions.ExtServerConfig.Code
         public static string UnableCreateArchiveView { get; private set; }
         public static string NoArchiveProperties { get; private set; }
 
+        // Scada.Admin.Extensions.ExtServerConfig.Forms.FrmGeneralOptions
+        public static string InvalidObjectRange { get; private set; }
+
         // Scada.Admin.Extensions.ExtServerConfig.Forms.FrmServerLogs
         public static string AppFilter { get; private set; }
         public static string ModulesFilter { get; private set; }
@@ -40,6 +43,9 @@ namespace Scada.Admin.Extensions.ExtServerConfig.Code
             ArchiveNotSupported = dict["ArchiveNotSupported"];
             UnableCreateArchiveView = dict["UnableCreateArchiveView"];
             NoArchiveProperties = dict["NoArchiveProperties"];
+
+            dict = Locale.GetDictionary("Scada.Admin.Extensions.ExtServerConfig.Forms.FrmGeneralOptions");
+            InvalidObjectRange = dict["InvalidObjectRange"];
 
             dict = Locale.GetDictionary("Scada.Admin.Extensions.ExtServerConfig.Forms.FrmServerLogs");
             AppFilter = dict["AppFilter"];
