@@ -317,8 +317,6 @@ namespace Scada.Server.Engine
         {
             if (configDataset == null)
                 throw new ArgumentNullException(nameof(configDataset));
-            if (enableFormulasObjNums == null)
-                throw new ArgumentNullException(nameof(enableFormulasObjNums));
             if (cnlTags == null)
                 throw new ArgumentNullException(nameof(cnlTags));
             if (outCnlTags == null)
