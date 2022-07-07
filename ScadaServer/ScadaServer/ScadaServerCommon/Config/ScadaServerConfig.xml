@@ -3,6 +3,8 @@
   <GeneralOptions>
     <UnrelIfInactive>300</UnrelIfInactive>
     <GenerateAckCmd>false</GenerateAckCmd>
+    <DisableFormulas>false</DisableFormulas>
+    <EnableFormulasObjNums></EnableFormulasObjNums>
     <MaxLogSize>1</MaxLogSize>
   </GeneralOptions>
   <ListenerOptions>

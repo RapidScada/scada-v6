@@ -82,7 +82,7 @@ namespace Scada.Server.Engine
         /// Generates the source code to compile.
         /// </summary>
         private string GenerateSourceCode(BaseTable<Cnl> cnlTable, BaseTable<Script> scriptTable,
-            out Dictionary<int, string> cnlClassNames)
+            HashSet<int> enableFormulasObjNums, out Dictionary<int, string> cnlClassNames)
         {
             cnlClassNames = new Dictionary<int, string>();
 
@@ -132,7 +132,8 @@ namespace Scada.Server.Engine
             // add formulas
             foreach (Cnl cnl in cnlTable.EnumerateItems())
             {
-                if (cnl.Active && cnl.FormulaEnabled)
+                if (cnl.Active && cnl.FormulaEnabled && (enableFormulasObjNums == null || 
+                    cnl.ObjNum.HasValue && enableFormulasObjNums.Contains(cnl.ObjNum.Value)))
                 {
                     bool inFormulaExists = !string.IsNullOrEmpty(cnl.InFormula);
                     bool outFormulaExists = !string.IsNullOrEmpty(cnl.OutFormula);
@@ -311,11 +312,13 @@ namespace Scada.Server.Engine
         /// <summary>
         /// Compiles the scripts and formulas.
         /// </summary>
-        public bool CompileScripts(ConfigDataset configDataset, 
+        public bool CompileScripts(ConfigDataset configDataset, HashSet<int> enableFormulasObjNums,
             Dictionary<int, CnlTag> cnlTags, Dictionary<int, OutCnlTag> outCnlTags)
         {
             if (configDataset == null)
                 throw new ArgumentNullException(nameof(configDataset));
+            if (enableFormulasObjNums == null)
+                throw new ArgumentNullException(nameof(enableFormulasObjNums));
             if (cnlTags == null)
                 throw new ArgumentNullException(nameof(cnlTags));
             if (outCnlTags == null)
@@ -327,8 +330,8 @@ namespace Scada.Server.Engine
                     "Компиляция исходного кода скриптов и формул" :
                     "Compile the source code of scripts and formulas");
 
-                string sourceCode = GenerateSourceCode(configDataset.CnlTable, configDataset.ScriptTable, 
-                    out Dictionary<int, string> cnlClassNames);
+                string sourceCode = GenerateSourceCode(configDataset.CnlTable, configDataset.ScriptTable,
+                    enableFormulasObjNums, out Dictionary<int, string> cnlClassNames);
                 SaveSourceCode(sourceCode, out string sourceCodeFileName);
                 Compilation compilation = PrepareCompilation(sourceCode);
 

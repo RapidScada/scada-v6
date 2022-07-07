@@ -25,6 +25,7 @@
 
 using Scada.Log;
 using System;
+using System.Collections.Generic;
 using System.Xml;
 
 namespace Scada.Server.Config
@@ -36,6 +37,9 @@ namespace Scada.Server.Config
     [Serializable]
     public class GeneralOptions
     {
+        private ICollection<int> enableFormulasObjNums;
+
+
         /// <summary>
         /// Initializes a new instance of the class.
         /// </summary>
@@ -43,6 +47,8 @@ namespace Scada.Server.Config
         {
             UnrelIfInactive = 300;
             GenerateAckCmd = false;
+            DisableFormulas = false;
+            EnableFormulasObjNums = Array.Empty<int>();
             MaxLogSize = LogFile.DefaultCapacityMB;
         }
 
@@ -56,6 +62,27 @@ namespace Scada.Server.Config
         /// Gets or sets a value indicating whether to generate a command when an event is acknowledged.
         /// </summary>
         public bool GenerateAckCmd { get; set; }
+
+        /// <summary>
+        /// Gets or sets a value indicating whether channel formula calculation is disabled.
+        /// </summary>
+        public bool DisableFormulas { get; set; }
+
+        /// <summary>
+        /// Gets the object numbers of the channels for which formulas are enabled, 
+        /// even though formulas are generally disabled.
+        /// </summary>
+        public ICollection<int> EnableFormulasObjNums
+        {
+            get
+            {
+                return enableFormulasObjNums;
+            }
+            set
+            {
+                enableFormulasObjNums = value ?? throw new ArgumentNullException(nameof(value));
+            }
+        }
 
         /// <summary>
         /// Gets or sets the maximum log file size, megabytes.
@@ -73,6 +100,9 @@ namespace Scada.Server.Config
 
             UnrelIfInactive = xmlNode.GetChildAsInt("UnrelIfInactive", UnrelIfInactive);
             GenerateAckCmd = xmlNode.GetChildAsBool("GenerateAckCmd", GenerateAckCmd);
+            DisableFormulas = xmlNode.GetChildAsBool("DisableFormulas", DisableFormulas);
+            EnableFormulasObjNums = ScadaUtils.ParseRange(
+                xmlNode.GetChildAsString("EnableFormulasObjNums"), true, true);
             MaxLogSize = xmlNode.GetChildAsInt("MaxLogSize", MaxLogSize);
         }
 
@@ -86,6 +116,8 @@ namespace Scada.Server.Config
 
             xmlElem.AppendElem("UnrelIfInactive", UnrelIfInactive);
             xmlElem.AppendElem("GenerateAckCmd", GenerateAckCmd);
+            xmlElem.AppendElem("DisableFormulas", DisableFormulas);
+            xmlElem.AppendElem("EnableFormulasObjNums", EnableFormulasObjNums.ToRangeString());
             xmlElem.AppendElem("MaxLogSize", MaxLogSize);
         }
     }

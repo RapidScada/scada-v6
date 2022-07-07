@@ -387,8 +387,10 @@ namespace Scada.Server.Engine
         /// </summary>
         private bool InitCalculator()
         {
+            HashSet<int> enableFormulasObjNums = AppConfig.GeneralOptions.DisableFormulas ?
+                new HashSet<int>(AppConfig.GeneralOptions.EnableFormulasObjNums) : null;
             calc = new Calculator(AppDirs, Log);
-            return calc.CompileScripts(ConfigDatabase, cnlTags, outCnlTags);
+            return calc.CompileScripts(ConfigDatabase, enableFormulasObjNums, cnlTags, outCnlTags);
         }
 
         /// <summary>
