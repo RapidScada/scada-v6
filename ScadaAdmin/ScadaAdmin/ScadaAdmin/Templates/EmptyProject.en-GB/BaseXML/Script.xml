@@ -60,6 +60,13 @@ public CnlData DataRel(int cnlNumOffset)
 {
   return Data(CnlNum + cnlNumOffset);
 }
+
+// Sets the current channel data according to the command value.
+// Устанавливает текущие данные канала в соответствии со значением команды.
+public double SetData()
+{
+  return SetData(CnlNum, CmdVal, 1);
+}
 </Source>
   </Script>
   <Script>
