@@ -1296,6 +1296,10 @@ namespace Scada.Server.Engine
 
                 DateTime utcNow = DateTime.UtcNow;
                 curData.Timestamp = utcNow;
+
+                if (slice.Timestamp == DateTime.MinValue)
+                    slice.Timestamp = utcNow;
+
                 bool applyFormulas = writeFlags.HasFlag(WriteFlags.ApplyFormulas);
                 bool enableEvents = writeFlags.HasFlag(WriteFlags.EnableEvents);
 
