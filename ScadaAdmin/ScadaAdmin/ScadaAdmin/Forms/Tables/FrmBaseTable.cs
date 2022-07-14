@@ -917,7 +917,8 @@ namespace Scada.Admin.App.Forms.Tables
 
         private void dataGridView_CellMouseDoubleClick(object sender, DataGridViewCellMouseEventArgs e)
         {
-            ShowPropertiesForm();
+            if (e.RowIndex > 0)
+                ShowPropertiesForm();
         }
 
         private void dataGridView_DataError(object sender, DataGridViewDataErrorEventArgs e)
