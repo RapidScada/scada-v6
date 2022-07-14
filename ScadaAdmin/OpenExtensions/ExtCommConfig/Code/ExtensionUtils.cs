@@ -11,7 +11,6 @@ using Scada.Data.Models;
 using Scada.Forms;
 using Scada.Lang;
 using System;
-using System.Collections.Generic;
 using System.Windows.Forms;
 using WinControl;
 
@@ -38,12 +37,6 @@ namespace Scada.Admin.Extensions.ExtCommConfig.Code
 
 
         /// <summary>
-        /// The driver view cache.
-        /// </summary>
-        private static readonly Dictionary<string, DriverView> driverViewCache = new();
-
-
-        /// <summary>
         /// Gets or sets the control that contains the menus.
         /// </summary>
         public static CtrlExtensionMenu MenuControl { get; set; } = null;
@@ -62,14 +55,6 @@ namespace Scada.Admin.Extensions.ExtCommConfig.Code
         }
 
         /// <summary>
-        /// Resets the driver view cache.
-        /// </summary>
-        public static void ResetDriverViewCache()
-        {
-            driverViewCache.Clear();
-        }
-
-        /// <summary>
         /// Gets a new instance of the module user interface.
         /// </summary>
         public static bool GetDriverView(IAdminContext adminContext, CommApp commApp, string driverCode,
@@ -78,20 +63,13 @@ namespace Scada.Admin.Extensions.ExtCommConfig.Code
             ArgumentNullException.ThrowIfNull(adminContext, nameof(adminContext));
             ArgumentNullException.ThrowIfNull(commApp, nameof(commApp));
 
-            if (driverViewCache.TryGetValue(driverCode, out driverView))
-            {
-                driverView.AgentClient = adminContext.MainForm.GetAgentClient(false);
-                message = "Driver view has been retrieved from the cache.";
-                return true;
-            }
-            else if (DriverFactory.GetDriverView(adminContext.AppDirs.LibDir, driverCode, out driverView, out message))
+            if (DriverFactory.GetDriverView(adminContext.AppDirs.LibDir, driverCode, out driverView, out message))
             {
                 driverView.ConfigDataset = adminContext.CurrentProject.ConfigDatabase;
                 driverView.AppDirs = adminContext.AppDirs.CreateDirsForView(commApp.ConfigDir);
                 driverView.AgentClient = adminContext.MainForm.GetAgentClient(false);
                 driverView.AppConfig = commApp.AppConfig;
                 driverView.LoadDictionaries();
-                driverViewCache.Add(driverCode, driverView);
                 return true;
             }
             else

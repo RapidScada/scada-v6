@@ -184,7 +184,6 @@ namespace Scada.Admin.Extensions.ExtCommConfig.Controls
 
         private void AdminContext_CurrentProjectChanged(object sender, EventArgs e)
         {
-            ExtensionUtils.ResetDriverViewCache();
             SetMenuItemsEnabled();
             recentSelection.Reset();
         }
