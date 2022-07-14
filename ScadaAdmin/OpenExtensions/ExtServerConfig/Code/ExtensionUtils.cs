@@ -19,10 +19,8 @@ namespace Scada.Admin.Extensions.ExtServerConfig.Code
         public static bool GetModuleView(IAdminContext adminContext, ServerApp serverApp, string moduleCode,
             out ModuleView moduleView, out string message)
         {
-            if (adminContext == null)
-                throw new ArgumentNullException(nameof(adminContext));
-            if (serverApp == null)
-                throw new ArgumentNullException(nameof(serverApp));
+            ArgumentNullException.ThrowIfNull(adminContext, nameof(adminContext));
+            ArgumentNullException.ThrowIfNull(serverApp, nameof(serverApp));
 
             if (ModuleFactory.GetModuleView(adminContext.AppDirs.LibDir, moduleCode, out moduleView, out message))
             {
