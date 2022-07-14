@@ -79,7 +79,7 @@
     <QuantityID>21</QuantityID>
     <Name>Напряжение</Name>
     <Code>V</Code>
-    <Icon>v.png</Icon>
+    <Icon>u.png</Icon>
     <Descr>Электрические величины https://en.wikipedia.org/wiki/AC_power</Descr>
   </Quantity>
   <Quantity>
