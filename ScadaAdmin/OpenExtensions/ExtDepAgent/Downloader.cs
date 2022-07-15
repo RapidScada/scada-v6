@@ -272,17 +272,17 @@ namespace Scada.Admin.Extensions.ExtDepAgent
                 else
                     progressTracker.SkipTask();
 
-                if (downloadOptions.IncludeServer)
+                if (downloadOptions.IncludeServer && instance.ServerApp.Enabled)
                     DownloadAppConfig(instance.ServerApp);
                 else
                     progressTracker.SkipTask();
 
-                if (downloadOptions.IncludeComm)
+                if (downloadOptions.IncludeComm && instance.CommApp.Enabled)
                     DownloadAppConfig(instance.CommApp);
                 else
                     progressTracker.SkipTask();
 
-                if (downloadOptions.IncludeWeb)
+                if (downloadOptions.IncludeWeb && instance.WebApp.Enabled)
                     DownloadAppConfig(instance.WebApp);
                 else
                     progressTracker.SkipTask();

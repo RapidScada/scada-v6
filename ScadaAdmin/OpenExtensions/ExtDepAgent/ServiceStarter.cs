@@ -3,6 +3,7 @@
 
 using Scada.Admin.Deployment;
 using Scada.Admin.Lang;
+using Scada.Admin.Project;
 using Scada.Agent;
 using Scada.Lang;
 using System;
@@ -17,6 +18,7 @@ namespace Scada.Admin.Extensions
     internal class ServiceStarter
     {
         private readonly IAgentClient agentClient;
+        private readonly ProjectInstance instance;
         private readonly UploadOptions uploadOptions;
         private readonly ITransferControl transferControl;
         private readonly ProgressTracker progressTracker;
@@ -25,10 +27,12 @@ namespace Scada.Admin.Extensions
         /// <summary>
         /// Initializes a new instance of the class.
         /// </summary>
-        public ServiceStarter(IAgentClient agentClient, UploadOptions uploadOptions, 
+        public ServiceStarter(IAgentClient agentClient, 
+            ProjectInstance instance, UploadOptions uploadOptions,
             ITransferControl transferControl, ProgressTracker progressTracker)
         {
             this.agentClient = agentClient ?? throw new ArgumentNullException(nameof(agentClient));
+            this.instance = instance ?? throw new ArgumentNullException(nameof(instance));
             this.uploadOptions = uploadOptions ?? throw new ArgumentNullException(nameof(uploadOptions));
             this.transferControl = transferControl ?? throw new ArgumentNullException(nameof(transferControl));
             this.progressTracker = progressTracker ?? throw new ArgumentNullException(nameof(progressTracker));
@@ -78,13 +82,13 @@ namespace Scada.Admin.Extensions
         /// </summary>
         public void RestartServices()
         {
-            bool restartServer = uploadOptions.RestartServer && 
+            bool restartServer = instance.ServerApp.Enabled && uploadOptions.RestartServer &&
                 (uploadOptions.IncludeBase || uploadOptions.IncludeServer);
-            bool restartComm = uploadOptions.RestartComm && 
+            bool restartComm = instance.CommApp.Enabled && uploadOptions.RestartComm && 
                 (uploadOptions.IncludeBase || uploadOptions.IncludeComm);
-            bool smoothRestartWeb = uploadOptions.RestartWeb && !uploadOptions.IncludeWeb &&
-                (uploadOptions.IncludeBase || uploadOptions.IncludeView);
-            bool fullRestartWeb = uploadOptions.RestartWeb && uploadOptions.IncludeWeb;
+            bool smoothRestartWeb = instance.WebApp.Enabled && uploadOptions.RestartWeb && 
+                !uploadOptions.IncludeWeb && (uploadOptions.IncludeBase || uploadOptions.IncludeView);
+            bool fullRestartWeb = instance.WebApp.Enabled && uploadOptions.RestartWeb && uploadOptions.IncludeWeb;
 
             if (restartServer || restartComm || smoothRestartWeb || fullRestartWeb)
             {

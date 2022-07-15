@@ -316,7 +316,7 @@ namespace Scada.Admin.Extensions.ExtDepAgent
                 CompressConfig(tempFileName);
                 TransferConfig(tempFileName, agentClient);
 
-                new ServiceStarter(agentClient, uploadOptions, transferControl, progressTracker)
+                new ServiceStarter(agentClient, instance, uploadOptions, transferControl, progressTracker)
                     .SetProcessTimeout(profile.AgentConnectionOptions.Timeout)
                     .RestartServices();
 
