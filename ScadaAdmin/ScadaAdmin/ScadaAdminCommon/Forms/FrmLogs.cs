@@ -32,6 +32,7 @@ using Scada.Protocol;
 using System;
 using System.Collections.Generic;
 using System.Drawing;
+using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Windows.Forms;
@@ -63,6 +64,11 @@ namespace Scada.Admin.Forms
             /// </summary>
             public override string ToString() => Name;
         }
+
+        /// <summary>
+        /// The file extensions that should be displayed in full.
+        /// </summary>
+        private static readonly HashSet<string> ShowFullExtensions = new() { ".txt", ".cs" };
 
         private readonly IAdminContext adminContext; // the Administrator context
         private readonly RemoteLogBox logBox;        // updates log
@@ -169,8 +175,9 @@ namespace Scada.Admin.Forms
         /// </summary>
         private void UpdateLogPath()
         {
-            logBox.LogPath = new RelativePath(ServiceApp, AppFolder.Log, 
-                lbFiles.SelectedItem == null ? "" : lbFiles.SelectedItem.ToString());
+            string path = lbFiles.SelectedItem == null ? "" : lbFiles.SelectedItem.ToString();
+            logBox.LogPath = new RelativePath(ServiceApp, AppFolder.Log, path);
+            logBox.FullLogView = ShowFullExtensions.Contains(Path.GetExtension(path));
             SetFirstLine();
         }
 
