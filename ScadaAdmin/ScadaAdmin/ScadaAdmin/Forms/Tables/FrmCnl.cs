@@ -282,6 +282,7 @@ namespace Scada.Admin.App.Forms.Tables
                 // add limit to the configuration database
                 Lim lim = frmLimCreate.LimEntity;
                 configDatabase.LimTable.AddItem(lim);
+                configDatabase.LimTable.Modified = true;
 
                 // add combo box item
                 if (cbLim.DataSource is DataTable limTable)
