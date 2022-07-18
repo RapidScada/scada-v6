@@ -27,7 +27,6 @@ using Scada.Data.Models;
 using Scada.Server.Archives;
 using System;
 using System.Collections.Generic;
-using System.Linq;
 
 namespace Scada.Server.Engine
 {
@@ -37,18 +36,24 @@ namespace Scada.Server.Engine
     /// </summary>
     internal class CurrentData : ICurrentData, ICalcContext
     {
-        private readonly ICnlDataChangeHandler cnlDataChangeHandler; // handles data changes
-        private readonly Dictionary<int, CnlTag> cnlTags;            // the channel tags for archiving
+        /// <summary>
+        /// Represents a method that executes when the current data is changing.
+        /// </summary>
+        public delegate void DataChangingDelegate(CnlTag cnlTag, ref CnlData cnlData, 
+            CnlData prevCnlData, CnlData prevCnlDataDef, bool enableEvents);
+
+        private readonly DataChangingDelegate dataChangingHandler; // handles data changes
+        private readonly Dictionary<int, CnlTag> cnlTags;          // the channel tags for archiving
 
 
         /// <summary>
         /// Initializes a new instance of the class.
         /// </summary>
-        public CurrentData(ICnlDataChangeHandler cnlDataChangeHandler, Dictionary<int, CnlTag> cnlTags)
+        public CurrentData(DataChangingDelegate dataChangingHandler, Dictionary<int, CnlTag> cnlTags)
         {
-            this.cnlDataChangeHandler = cnlDataChangeHandler ?? 
-                throw new ArgumentNullException(nameof(cnlDataChangeHandler));
-            this.cnlTags = cnlTags ?? 
+            this.dataChangingHandler = dataChangingHandler ??
+                throw new ArgumentNullException(nameof(dataChangingHandler));
+            this.cnlTags = cnlTags ??
                 throw new ArgumentNullException(nameof(cnlTags));
 
             Timestamp = DateTime.MinValue;
@@ -97,7 +102,6 @@ namespace Scada.Server.Engine
         bool ICalcContext.IsCurrent => true;
 
 
-
         /// <summary>
         /// Gets the current data of the specified channel of the certain kind.
         /// </summary>
@@ -129,7 +133,7 @@ namespace Scada.Server.Engine
             int cnlIndex = cnlTag.Index;
             CnlData prevCnlData = CnlData[cnlIndex];
             CnlData prevCnlDataDef = prevCnlData.IsDefined ? prevCnlData : PrevCnlDataDef[cnlIndex];
-            cnlDataChangeHandler.HandleCurDataChanged(cnlTag, ref cnlData, prevCnlData, prevCnlDataDef, enableEvents);
+            dataChangingHandler(cnlTag, ref cnlData, prevCnlData, prevCnlDataDef, enableEvents);
 
             PrevTimestamps[cnlIndex] = Timestamps[cnlIndex];
             PrevCnlData[cnlIndex] = prevCnlData;

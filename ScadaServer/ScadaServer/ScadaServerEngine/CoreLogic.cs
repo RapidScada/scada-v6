@@ -50,7 +50,7 @@ namespace Scada.Server.Engine
     /// Implements the core Server logic.
     /// <para>Реализует основную логику Сервера.</para>
     /// </summary>
-    internal class CoreLogic : ICnlDataChangeHandler
+    internal class CoreLogic
     {
         /// <summary>
         /// Represents an event to be written to archives.
@@ -222,7 +222,7 @@ namespace Scada.Server.Engine
             archiveHolder = new ArchiveHolder(Log);
             serverCache = new ServerCache();
             listener = new ServerListener(this, archiveHolder, serverCache);
-            curData = new CurrentData(this, cnlTags);
+            curData = new CurrentData(HandleCurDataChanging, cnlTags);
             eventQueue = new Queue<EventItem>();
             commandQueue = new Queue<CommandItem>();
 
@@ -784,6 +784,18 @@ namespace Scada.Server.Engine
             {
                 Log.WriteError(ex, CommonPhrases.WriteInfoError);
             }
+        }
+
+        /// <summary>
+        /// Handles a change of the current channel data.
+        /// </summary>
+        private void HandleCurDataChanging(CnlTag cnlTag, ref CnlData cnlData,
+            CnlData prevCnlData, CnlData prevCnlDataDef, bool enableEvents)
+        {
+            UpdateCnlStatus(cnlTag, ref cnlData, prevCnlData);
+
+            if (enableEvents)
+                GenerateEvent(cnlTag, cnlData, prevCnlData, prevCnlDataDef);
         }
 
         /// <summary>
@@ -1609,18 +1621,6 @@ namespace Scada.Server.Engine
                     "Ошибка при отправке команды" :
                     "Error sending command");
             }
-        }
-
-        /// <summary>
-        /// Handles the changes of the current channel data.
-        /// </summary>
-        void ICnlDataChangeHandler.HandleCurDataChanged(CnlTag cnlTag, ref CnlData cnlData, 
-            CnlData prevCnlData, CnlData prevCnlDataDef, bool enableEvents)
-        {
-            UpdateCnlStatus(cnlTag, ref cnlData, prevCnlData);
-
-            if (enableEvents)
-                GenerateEvent(cnlTag, cnlData, prevCnlData, prevCnlDataDef);
         }
     }
 }
