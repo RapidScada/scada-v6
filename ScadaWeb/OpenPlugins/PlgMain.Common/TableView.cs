@@ -161,17 +161,20 @@ namespace Scada.Web.Plugins.PlgMain
                     foreach (Cnl cnl in 
                         configDataset.CnlTable.Select(new TableFilter("DeviceNum", item.DeviceNum), true))
                     {
-                        AddItem(new TableItem
+                        if (cnl.Active)
                         {
-                            CnlNum = cnl.CnlNum,
-                            Hidden = item.Hidden || cnl.CnlNum <= hiddenCnlNum,
-                            AutoText = true,
-                            Text = TrimDeviceName(device.Name, cnl.Name),
-                            Cnl = cnl
-                        });
+                            AddItem(new TableItem
+                            {
+                                CnlNum = cnl.CnlNum,
+                                Hidden = item.Hidden || cnl.CnlNum <= hiddenCnlNum,
+                                AutoText = true,
+                                Text = TrimDeviceName(device.Name, cnl.Name),
+                                Cnl = cnl
+                            });
 
-                        if (cnl.IsArray() && cnl.IsString())
-                            hiddenCnlNum = cnl.CnlNum + cnl.DataLen.Value - 1;
+                            if (cnl.IsArray() && cnl.IsString())
+                                hiddenCnlNum = cnl.CnlNum + cnl.DataLen.Value - 1;
+                        }
                     }
                 }
             }
