@@ -74,6 +74,7 @@
     <Phrase key="lblUserID">Идентификатор:</Phrase>
     <Phrase key="lblUsername">Имя пользователя:</Phrase>
     <Phrase key="lblRole">Роль:</Phrase>
+    <Phrase key="lblTimeZone">Часовой пояс:</Phrase>
   </Dictionary>
   <Dictionary key="Scada.Web.Pages.View">
     <Phrase key="PageTitle">Представление</Phrase>

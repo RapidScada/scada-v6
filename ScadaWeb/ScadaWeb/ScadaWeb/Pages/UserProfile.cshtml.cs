@@ -3,6 +3,7 @@
 
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
+using Scada.Lang;
 using Scada.Web.Lang;
 using Scada.Web.Services;
 
@@ -26,6 +27,7 @@ namespace Scada.Web.Pages
         public int UserID { get; set; }
         public string Username { get; set; }
         public string RoleName { get; set; }
+        public string TimeZone { get; set; }
 
         public IActionResult OnGet(int? id)
         {
@@ -47,12 +49,14 @@ namespace Scada.Web.Pages
             {
                 Username = WebPhrases.UnknownUsername;
                 RoleName = "";
+                TimeZone = "";
             }
             else
             {
                 Username = userEntity.Name;
                 Data.Entities.Role roleEntity = webContext.ConfigDatabase.RoleTable.GetItem(userEntity.RoleID);
                 RoleName = roleEntity == null ? "" : roleEntity.Name;
+                TimeZone = UserID == currentUserID ? userContext.TimeZone.DisplayName : CommonPhrases.UndefinedSign;
             }
 
             return Page();

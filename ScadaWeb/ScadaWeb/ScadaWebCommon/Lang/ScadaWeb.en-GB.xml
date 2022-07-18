@@ -74,6 +74,7 @@
     <Phrase key="lblUserID">User ID:</Phrase>
     <Phrase key="lblUsername">Username:</Phrase>
     <Phrase key="lblRole">Role:</Phrase>
+    <Phrase key="lblTimeZone">Time zone:</Phrase>
   </Dictionary>
   <Dictionary key="Scada.Web.Pages.View">
     <Phrase key="PageTitle">View</Phrase>
