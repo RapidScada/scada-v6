@@ -121,6 +121,7 @@
                   <label id="lblHex" class="form-check-label" for="rbHex">@dict.lblHex</label>
                 </div>
                 <textarea id="txtCmdData" class="form-control @cmdExtraClass" rows="3" asp-for="CmdData"></textarea>
+                <div class="form-text">@Model.Format.Descr</div>
             </div>
         }
     </form>
