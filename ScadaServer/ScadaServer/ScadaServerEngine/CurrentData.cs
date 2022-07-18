@@ -39,7 +39,6 @@ namespace Scada.Server.Engine
     {
         private readonly ICnlDataChangeHandler cnlDataChangeHandler; // handles data changes
         private readonly Dictionary<int, CnlTag> cnlTags;            // the channel tags for archiving
-        private CnlData[] cnlDataCopy;                               // the copy of channel data
 
 
         /// <summary>
@@ -52,9 +51,7 @@ namespace Scada.Server.Engine
             this.cnlTags = cnlTags ?? 
                 throw new ArgumentNullException(nameof(cnlTags));
 
-            cnlDataCopy = null;
             Timestamp = DateTime.MinValue;
-
             int cnlCnt = cnlTags.Count;
             CnlData = new CnlData[cnlCnt];
             PrevCnlData = new CnlData[cnlCnt];
@@ -65,7 +62,7 @@ namespace Scada.Server.Engine
 
 
         /// <summary>
-        /// Gets or sets the current timestamp (UTC).
+        /// Gets or sets the timestamp of the processed data (UTC).
         /// </summary>
         public DateTime Timestamp { get; set; }
 
@@ -127,7 +124,7 @@ namespace Scada.Server.Engine
         /// <summary>
         /// Sets the current channel data.
         /// </summary>
-        public void SetCurCnlData(CnlTag cnlTag, ref CnlData cnlData, DateTime nowDT, bool enableEvents = true)
+        public void SetCurrentData(CnlTag cnlTag, ref CnlData cnlData, DateTime timestamp, bool enableEvents = true)
         {
             int cnlIndex = cnlTag.Index;
             CnlData prevCnlData = CnlData[cnlIndex];
@@ -140,17 +137,8 @@ namespace Scada.Server.Engine
             if (prevCnlData.IsDefined)
                 PrevCnlDataDef[cnlIndex] = prevCnlData;
 
-            Timestamps[cnlIndex] = nowDT;
+            Timestamps[cnlIndex] = timestamp;
             CnlData[cnlIndex] = cnlData;
-        }
-
-        /// <summary>
-        /// Prepares the instance for a new iteration of data processing.
-        /// </summary>
-        public void PrepareIteration(DateTime nowDT)
-        {
-            cnlDataCopy = null;
-            Timestamp = nowDT;
         }
 
         /// <summary>
@@ -161,16 +149,6 @@ namespace Scada.Server.Engine
             return cnlTags.TryGetValue(cnlNum, out CnlTag cnlTag) 
                 ? cnlTag.Index 
                 : -1;
-        }
-
-        /// <summary>
-        /// Creates a copy of the channel data.
-        /// </summary>
-        CnlData[] ICurrentData.CloneCnlData()
-        {
-            if (cnlDataCopy == null)
-                cnlDataCopy = (CnlData[])CnlData.Clone();
-            return cnlDataCopy;
         }
 
         /// <summary>
@@ -219,7 +197,7 @@ namespace Scada.Server.Engine
         void ICalcContext.SetCnlData(int cnlNum, CnlData cnlData)
         {
             if (cnlTags.TryGetValue(cnlNum, out CnlTag cnlTag))
-                SetCurCnlData(cnlTag, ref cnlData, Timestamp);
+                SetCurrentData(cnlTag, ref cnlData, Timestamp);
         }
     }
 }

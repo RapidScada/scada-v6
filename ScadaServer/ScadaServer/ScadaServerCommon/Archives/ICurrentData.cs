@@ -35,7 +35,7 @@ namespace Scada.Server.Archives
     public interface ICurrentData
     {
         /// <summary>
-        /// Gets the current timestamp.
+        /// Gets the timestamp of the processed data (UTC).
         /// </summary>
         DateTime Timestamp { get; }
 
@@ -64,11 +64,5 @@ namespace Scada.Server.Archives
         /// Gets the index of the specified channel, or -1 if the channel not found.
         /// </summary>
         int GetCnlIndex(int cnlNum);
-
-        /// <summary>
-        /// Creates a copy of the channel data.
-        /// </summary>
-        /// <remarks>Use this method to avoid blocking the current data instance in case of long processing.</remarks>
-        CnlData[] CloneCnlData();
     }
 }

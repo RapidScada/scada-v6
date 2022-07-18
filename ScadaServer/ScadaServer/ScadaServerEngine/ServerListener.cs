@@ -219,20 +219,20 @@ namespace Scada.Server.Engine
         {
             byte[] buffer = request.Buffer;
             int index = ArgumentIndex;
+            DateTime timestamp = GetTime(buffer, ref index);
             int cnlCnt = GetInt32(buffer, ref index);
-            int[] cnlNums = new int[cnlCnt];
-            CnlData[] cnlData = new CnlData[cnlCnt];
+            Slice slice = new Slice(timestamp, cnlCnt);
 
             for (int i = 0, idx1 = index, idx2 = idx1 + cnlCnt * 4; i < cnlCnt; i++)
             {
-                cnlNums[i] = GetInt32(buffer, ref idx1);
-                cnlData[i] = GetCnlData(buffer, ref idx2);
+                slice.CnlNums[i] = GetInt32(buffer, ref idx1);
+                slice.CnlData[i] = GetCnlData(buffer, ref idx2);
             }
 
             index += cnlCnt * 14;
             int deviceNum = GetInt32(buffer, ref index);
             WriteFlags writeFlags = (WriteFlags)buffer[index];
-            coreLogic.WriteCurrentData(new Slice(DateTime.MinValue, cnlNums, cnlData), deviceNum, writeFlags);
+            coreLogic.WriteCurrentData(slice, deviceNum, writeFlags);
 
             response = new ResponsePacket(request, client.OutBuf);
         }

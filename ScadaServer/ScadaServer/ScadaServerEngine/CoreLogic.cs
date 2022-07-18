@@ -531,7 +531,7 @@ namespace Scada.Server.Engine
                         lock (curData)
                         {
                             // prepare current data for new iteration
-                            curData.PrepareIteration(utcNow);
+                            curData.Timestamp = utcNow;
 
                             // check channel activity
                             CheckActivity(ref checkActivityTagIndex, utcNow);
@@ -582,6 +582,7 @@ namespace Scada.Server.Engine
             {
                 WriteInfo();
                 calc.FinalizeScripts();
+                curData.Timestamp = DateTime.UtcNow;
                 archiveHolder.WriteCurrentData(curData);
                 archiveHolder.Close();
                 moduleHolder.OnServiceStop();
@@ -608,7 +609,7 @@ namespace Scada.Server.Engine
                         (nowDT - curData.Timestamps[cnlTag.Index]).TotalSeconds > unrelIfInactive)
                     {
                         CnlData unrelCnlData = new CnlData(cnlData.Val, CnlStatusID.Unreliable);
-                        curData.SetCurCnlData(cnlTag, ref unrelCnlData, nowDT);
+                        curData.SetCurrentData(cnlTag, ref unrelCnlData, nowDT);
                     }
                 }
 
@@ -631,7 +632,7 @@ namespace Scada.Server.Engine
                     if (cnlTag.InFormulaEnabled)
                     {
                         CnlData newCnlData = calc.CalcCnlData(cnlTag, CnlData.Zero);
-                        curData.SetCurCnlData(cnlTag, ref newCnlData, nowDT);
+                        curData.SetCurrentData(cnlTag, ref newCnlData, nowDT);
                     }
                 }
             }
@@ -1294,12 +1295,10 @@ namespace Scada.Server.Engine
                 Monitor.Enter(curData);
                 calc.BeginCalculation(curData);
 
-                DateTime utcNow = DateTime.UtcNow;
-                curData.Timestamp = utcNow;
-
                 if (slice.Timestamp == DateTime.MinValue)
-                    slice.Timestamp = utcNow;
+                    slice.Timestamp = DateTime.UtcNow;
 
+                curData.Timestamp = slice.Timestamp;
                 bool applyFormulas = writeFlags.HasFlag(WriteFlags.ApplyFormulas);
                 bool enableEvents = writeFlags.HasFlag(WriteFlags.EnableEvents);
 
@@ -1310,7 +1309,7 @@ namespace Scada.Server.Engine
                         CnlData cnlData = applyFormulas && cnlTag.InFormulaEnabled && cnlTag.Cnl.IsInput()
                             ? calc.CalcCnlData(cnlTag, slice.CnlData[i])
                             : slice.CnlData[i];
-                        curData.SetCurCnlData(cnlTag, ref cnlData, utcNow, enableEvents);
+                        curData.SetCurrentData(cnlTag, ref cnlData, slice.Timestamp, enableEvents);
                         slice.CnlData[i] = cnlData;
                     }
                 }

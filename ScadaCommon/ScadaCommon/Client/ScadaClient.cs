@@ -392,24 +392,23 @@ namespace Scada.Client
         /// <summary>
         /// Writes the current data.
         /// </summary>
-        public void WriteCurrentData(int[] cnlNums, CnlData[] cnlData, int deviceNum, WriteFlags writeFlags)
+        public void WriteCurrentData(Slice slice, int deviceNum, WriteFlags writeFlags)
         {
-            if (cnlNums == null)
-                throw new ArgumentNullException(nameof(cnlNums));
-            if (cnlData == null)
-                throw new ArgumentNullException(nameof(cnlData));
+            if (slice == null)
+                throw new ArgumentNullException(nameof(slice));
 
             RestoreConnection();
 
             DataPacket request = CreateRequest(FunctionID.WriteCurrentData);
             int index = ArgumentIndex;
-            int cnlCnt = cnlNums.Length;
+            CopyTime(slice.Timestamp, outBuf, ref index);
+            int cnlCnt = slice.CnlNums.Length;
             CopyInt32(cnlCnt, outBuf, ref index);
 
             for (int i = 0, idx1 = index, idx2 = index + cnlCnt * 4; i < cnlCnt; i++)
             {
-                CnlData cnlDataElem = cnlData[i];
-                CopyInt32(cnlNums[i], outBuf, ref idx1);
+                CnlData cnlDataElem = slice.CnlData[i];
+                CopyInt32(slice.CnlNums[i], outBuf, ref idx1);
                 CopyCnlData(cnlDataElem, outBuf, ref idx2);
             }
 
@@ -419,17 +418,6 @@ namespace Scada.Client
             request.BufferLength = index;
             SendRequest(request);
             ReceiveResponse(request);
-        }
-
-        /// <summary>
-        /// Writes the current data.
-        /// </summary>
-        public void WriteCurrentData(Slice slice, int deviceNum, WriteFlags writeFlags)
-        {
-            if (slice == null)
-                throw new ArgumentNullException(nameof(slice));
-
-            WriteCurrentData(slice.CnlNums, slice.CnlData, deviceNum, writeFlags);
         }
 
         /// <summary>
