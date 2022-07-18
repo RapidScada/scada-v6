@@ -40,6 +40,7 @@ else
                     @Model.RenderOptionGroup(dict.SelDate, true, TableViewModel.SelectOption.Last)
                 </select></span>@*
             *@<span class="toolbar-group"><span id="spanPrintBtn" class="tool-btn"><i class="fas fa-print"></i></span></span>@*
+            *@<span id="spanLoadingBadge" class="badge bg-info hidden">@dict.spanLoadingBadge</span>@*
             *@<span id="spanErrorBadge" class="badge bg-danger hidden">@dict.spanErrorBadge</span>
         </div>
         <div id="divTableWrapper" class="table-wrapper">@Model.RenderTableView()</div>

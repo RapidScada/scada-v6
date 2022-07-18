@@ -50,6 +50,7 @@ function prepare() {
     initTooltips();
     bindEvents();
     updateLayout();
+    showLoadingBadge();
     startUpdatingCurData();
     setTimeout(startUpdatingHistData, UPDATE_HIST_DATA_OFFSET);
 }
@@ -205,6 +206,14 @@ function updateLayout() {
     $("#divTableWrapper").outerHeight(h);
 };
 
+function showLoadingBadge() {
+    $("#spanLoadingBadge").removeClass("hidden");
+}
+
+function hideLoadingBadge() {
+    $("#spanLoadingBadge").addClass("hidden");
+}
+
 function startUpdatingCurData() {
     updateCurData(function () {
         setTimeout(startUpdatingCurData, pluginOptions.refreshRate);
@@ -247,6 +256,7 @@ function undateHistData(callback) {
                             showErrorBadge();
                         }
 
+                        hideLoadingBadge();
                         callback();
                     });
                 } else {

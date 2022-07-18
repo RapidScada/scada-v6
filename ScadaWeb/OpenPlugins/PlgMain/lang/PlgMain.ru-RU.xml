@@ -62,6 +62,7 @@
     <Phrase key="QuantityTip">Величина</Phrase>
     <Phrase key="UnitTip">Размерность</Phrase>
     <Phrase key="SendCommandTip">Отправить команду</Phrase>
+    <Phrase key="spanLoadingBadge">Загрузка...</Phrase>
     <Phrase key="spanErrorBadge">Ошибка</Phrase>
   </Dictionary>
   <Dictionary key="Scada.Web.Plugins.PlgMain.Code.EventWindowSpec">
