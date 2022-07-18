@@ -222,7 +222,7 @@ namespace Scada.Server.Engine
             archiveHolder = new ArchiveHolder(Log);
             serverCache = new ServerCache();
             listener = new ServerListener(this, archiveHolder, serverCache);
-            curData = new CurrentData(HandleCurDataChanging, cnlTags);
+            curData = new CurrentData(cnlTags, HandleCurDataChanging);
             eventQueue = new Queue<EventItem>();
             commandQueue = new Queue<CommandItem>();
 

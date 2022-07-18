@@ -42,19 +42,19 @@ namespace Scada.Server.Engine
         public delegate void DataChangingDelegate(CnlTag cnlTag, ref CnlData cnlData, 
             CnlData prevCnlData, CnlData prevCnlDataDef, bool enableEvents);
 
-        private readonly DataChangingDelegate dataChangingHandler; // handles data changes
         private readonly Dictionary<int, CnlTag> cnlTags;          // the channel tags for archiving
+        private readonly DataChangingDelegate dataChangingHandler; // handles data changes
 
 
         /// <summary>
         /// Initializes a new instance of the class.
         /// </summary>
-        public CurrentData(DataChangingDelegate dataChangingHandler, Dictionary<int, CnlTag> cnlTags)
+        public CurrentData(Dictionary<int, CnlTag> cnlTags, DataChangingDelegate dataChangingHandler)
         {
-            this.dataChangingHandler = dataChangingHandler ??
-                throw new ArgumentNullException(nameof(dataChangingHandler));
             this.cnlTags = cnlTags ??
                 throw new ArgumentNullException(nameof(cnlTags));
+            this.dataChangingHandler = dataChangingHandler ??
+                throw new ArgumentNullException(nameof(dataChangingHandler));
 
             Timestamp = DateTime.MinValue;
             int cnlCnt = cnlTags.Count;
