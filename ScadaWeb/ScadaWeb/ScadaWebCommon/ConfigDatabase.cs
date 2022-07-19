@@ -96,18 +96,11 @@ namespace Scada.Web
         public int FindArchiveBit(string archiveCode, int defaultArchiveBit)
         {
             if (string.IsNullOrEmpty(archiveCode))
-            {
                 return defaultArchiveBit;
-            }
-            else if (ArchiveTable.SelectFirst(new TableFilter("Code", archiveCode))
-                is Archive archive)
-            {
+            else if (ArchiveTable.SelectFirst(new TableFilter("Code", archiveCode)) is Archive archive)
                 return archive.Bit;
-            }
             else
-            {
                 return ArchiveBit.Unknown;
-            }
         }
     }
 }
