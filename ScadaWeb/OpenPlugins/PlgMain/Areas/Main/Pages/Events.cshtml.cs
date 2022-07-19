@@ -25,27 +25,12 @@ namespace Scada.Web.Plugins.PlgMain.Areas.Main.Pages
             this.pluginContext = pluginContext;
         }
 
-
         public int ArchiveBit { get; set; }
-
-
-        private int FindArchiveBit()
-        {
-            if (string.IsNullOrEmpty(pluginContext.Options.EventArchiveCode))
-            {
-                return Data.Const.ArchiveBit.Event;
-            }
-            else
-            {
-                Archive archive = webContext.ConfigDatabase.ArchiveTable.SelectFirst(
-                    new TableFilter("Code", pluginContext.Options.EventArchiveCode));
-                return archive == null ? Data.Const.ArchiveBit.Unknown : archive.Bit;
-            }
-        }
 
         public void OnGet()
         {
-            ArchiveBit = FindArchiveBit();
+            ArchiveBit = webContext.ConfigDatabase.FindArchiveBit(
+                pluginContext.Options.EventArchiveCode, Data.Const.ArchiveBit.Event);
         }
     }
 }

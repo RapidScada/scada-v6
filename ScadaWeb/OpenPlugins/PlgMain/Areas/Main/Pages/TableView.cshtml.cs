@@ -73,7 +73,8 @@ namespace Scada.Web.Plugins.PlgMain.Areas.Main.Pages
             if (viewLoader.GetView(ViewID, out tableView, out string errMsg))
             {
                 TableOptions tableOptions = GetTableOptions();
-                ArchiveBit = FindArchiveBit(tableOptions.ArchiveCode);
+                ArchiveBit = webContext.ConfigDatabase.FindArchiveBit(
+                    tableOptions.ArchiveCode, Data.Const.ArchiveBit.Hourly);
                 ChartArgs = tableOptions.ChartArgs;
 
                 DateTime selectedDate = DateTime.TryParse(localDate, out DateTime dateTime)
@@ -107,20 +108,6 @@ namespace Scada.Web.Plugins.PlgMain.Areas.Main.Pages
             else
             {
                 return tableView.Options;
-            }
-        }
-
-        private int FindArchiveBit(string archiveCode)
-        {
-            if (string.IsNullOrEmpty(archiveCode))
-            {
-                return Data.Const.ArchiveBit.Hourly;
-            }
-            else
-            {
-                Archive archive = webContext.ConfigDatabase.ArchiveTable.SelectFirst(
-                    new TableFilter("Code", archiveCode));
-                return archive == null ? Data.Const.ArchiveBit.Unknown : archive.Bit;
             }
         }
 

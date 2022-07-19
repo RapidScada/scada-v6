@@ -4,6 +4,7 @@
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Html;
 using Microsoft.AspNetCore.Mvc.RazorPages;
+using Scada.Data.Const;
 using Scada.Lang;
 using Scada.Web.Api;
 using Scada.Web.Authorization;
@@ -47,7 +48,8 @@ namespace Scada.Web.Plugins.PlgChart.Areas.Chart.Pages
                 {
                     CnlNums = new int[] { cnlNum },
                     TimeRange = ChartUtils.GetTimeRange(utcStartDate, 1, true),
-                    ArchiveBit = ChartUtils.FindArchiveBit(webContext.ConfigDatabase, pluginOptions.ChartArchiveCode),
+                    ArchiveBit = webContext.ConfigDatabase.FindArchiveBit(
+                        pluginOptions.ChartArchiveCode, ArchiveBit.Minute),
                     TimeZone = userContext.TimeZone
                 });
 

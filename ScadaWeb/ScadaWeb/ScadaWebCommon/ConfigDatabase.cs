@@ -23,8 +23,10 @@
  * Modified : 2022
  */
 
+using Scada.Data.Const;
 using Scada.Data.Entities;
 using Scada.Data.Models;
+using Scada.Data.Tables;
 using System.Collections.Generic;
 
 namespace Scada.Web
@@ -86,6 +88,26 @@ namespace Scada.Web
 
             SortedViews.AddRange(ViewTable.Enumerate());
             SortedViews.Sort(new ViewComparer());
+        }
+        
+        /// <summary>
+        /// Finds an archive bit by the specified archive code.
+        /// </summary>
+        public int FindArchiveBit(string archiveCode, int defaultArchiveBit)
+        {
+            if (string.IsNullOrEmpty(archiveCode))
+            {
+                return defaultArchiveBit;
+            }
+            else if (ArchiveTable.SelectFirst(new TableFilter("Code", archiveCode))
+                is Archive archive)
+            {
+                return archive.Bit;
+            }
+            else
+            {
+                return ArchiveBit.Unknown;
+            }
         }
     }
 }

@@ -74,18 +74,5 @@ namespace Scada.Web.Plugins.PlgChart
 
             return dateTime.ToString(LocalDateFormat);
         }
-
-        /// <summary>
-        /// Gets the chart archive bit from the configuration database.
-        /// </summary>
-        public static int FindArchiveBit(ConfigDataset configDataset, string archiveCode)
-        {
-            if (string.IsNullOrEmpty(archiveCode))
-                return ArchiveBit.Minute;
-            else if (configDataset.ArchiveTable.SelectFirst(new TableFilter("Code", archiveCode)) is Archive archive)
-                return archive.Bit;
-            else
-                return ArchiveBit.Unknown;
-        }
     }
 }
