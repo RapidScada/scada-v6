@@ -62,7 +62,7 @@ namespace Scada.Web.Plugins.PlgMain.Areas.Main.Pages
         public string ErrorMessage { get; private set; } = "";
         public int ViewID { get; private set; } = 0;
         public int ArchiveBit { get; private set; } = 0;
-        public string ChartArgs { get; private set; } = "";
+        public HtmlString ChartArgs { get; private set; } = HtmlString.Empty;
         public string LocalDate { get; private set; } = "";
 
 
@@ -75,7 +75,7 @@ namespace Scada.Web.Plugins.PlgMain.Areas.Main.Pages
                 TableOptions tableOptions = GetTableOptions();
                 ArchiveBit = webContext.ConfigDatabase.FindArchiveBit(
                     tableOptions.ArchiveCode, Data.Const.ArchiveBit.Hourly);
-                ChartArgs = tableOptions.ChartArgs;
+                ChartArgs = new HtmlString(tableOptions.ChartArgs);
 
                 DateTime selectedDate = DateTime.TryParse(localDate, out DateTime dateTime)
                     ? dateTime.Date
