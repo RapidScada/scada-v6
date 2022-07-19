@@ -1,11 +1,19 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <TableView>
-  <Item>Simulator</Item>
-  <Item cnlNum="101">Sine</Item>
-  <Item cnlNum="102" autoText="true" />
-  <Item cnlNum="103" hidden="true" />
-  <Item />
-  <Item deviceNum="1">My Device</Item>
-  <Item deviceNum="2" autoText="true" />
-  <Item deviceNum="3" hidden="true" />
+  <TableOptions>
+    <UseDefault>false</UseDefault>
+    <ArchiveCode>Hour</ArchiveCode>
+    <Period>60</Period>
+    <ChartArgs></ChartArgs>
+  </TableOptions>
+  <TableItems>
+    <Item>Simulator</Item>
+    <Item cnlNum="101">Sine</Item>
+    <Item cnlNum="102" autoText="true" />
+    <Item cnlNum="103" hidden="true" />
+    <Item />
+    <Item deviceNum="1">My Device</Item>
+    <Item deviceNum="2" autoText="true" />
+    <Item deviceNum="3" hidden="true" />
+  </TableItems>
 </TableView>

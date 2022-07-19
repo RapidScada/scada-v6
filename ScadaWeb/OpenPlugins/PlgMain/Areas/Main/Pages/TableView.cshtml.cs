@@ -42,7 +42,6 @@ namespace Scada.Web.Plugins.PlgMain.Areas.Main.Pages
         private readonly IViewLoader viewLoader;
         private readonly PluginContext pluginContext;
 
-        private DateTime selectedDate;
         private List<ColumnMeta> columnMetas1;
         private List<ColumnMeta> columnMetas2;
         private List<ColumnMeta> allColumnMetas;
@@ -60,51 +59,80 @@ namespace Scada.Web.Plugins.PlgMain.Areas.Main.Pages
 
 
         public bool ViewError => !string.IsNullOrEmpty(ErrorMessage);
-        public string ErrorMessage { get; private set; }
-        public int ViewID { get; private set; }
-        public int ArchiveBit { get; private set; }
-        public string LocalDate { get; private set; }
+        public string ErrorMessage { get; private set; } = "";
+        public int ViewID { get; private set; } = 0;
+        public int ArchiveBit { get; private set; } = 0;
+        public string ChartArgs { get; private set; } = "";
+        public string LocalDate { get; private set; } = "";
 
 
         private void LoadView(int? id, string localDate)
         {
             ViewID = id ?? userContext.Views.GetFirstViewID() ?? 0;
-            ArchiveBit = FindArchiveBit();
 
-            selectedDate = DateTime.TryParse(localDate, out DateTime dateTime)
-                ? dateTime.Date
-                : userContext.ConvertTimeFromUtc(DateTime.UtcNow).Date;
-            LocalDate = selectedDate.ToString(WebUtils.InputDateFormat);
-            InitColumnMetas();
+            if (viewLoader.GetView(ViewID, out tableView, out string errMsg))
+            {
+                TableOptions tableOptions = GetTableOptions();
+                ArchiveBit = FindArchiveBit(tableOptions.ArchiveCode);
+                ChartArgs = tableOptions.ChartArgs;
 
-            viewLoader.GetView(ViewID, out tableView, out string errMsg);
-            ErrorMessage = errMsg;
+                DateTime selectedDate = DateTime.TryParse(localDate, out DateTime dateTime)
+                    ? dateTime.Date
+                    : userContext.ConvertTimeFromUtc(DateTime.UtcNow).Date;
+                LocalDate = selectedDate.ToString(WebUtils.InputDateFormat);
+                InitColumnMetas(selectedDate, tableOptions.Period);
+            }
+            else
+            {
+                ErrorMessage = errMsg;
+            }
+
             ViewData["Title"] = tableView == null 
                 ? string.Format(PluginPhrases.TableViewTitle, ViewID) 
                 : tableView.Title;
         }
 
-        private int FindArchiveBit()
+        private TableOptions GetTableOptions()
         {
-            if (string.IsNullOrEmpty(pluginContext.Options.TableArchiveCode))
+            if (tableView == null || tableView.Options.UseDefault)
+            {
+                return new TableOptions
+                {
+                    UseDefault = true,
+                    ArchiveCode = pluginContext.Options.TableArchiveCode,
+                    Period = pluginContext.Options.TablePeriod,
+                    ChartArgs = ""
+                };
+            }
+            else
+            {
+                return tableView.Options;
+            }
+        }
+
+        private int FindArchiveBit(string archiveCode)
+        {
+            if (string.IsNullOrEmpty(archiveCode))
             {
                 return Data.Const.ArchiveBit.Hourly;
             }
             else
             {
                 Archive archive = webContext.ConfigDatabase.ArchiveTable.SelectFirst(
-                    new TableFilter("Code", pluginContext.Options.TableArchiveCode));
+                    new TableFilter("Code", archiveCode));
                 return archive == null ? Data.Const.ArchiveBit.Unknown : archive.Bit;
             }
         }
 
-        private void InitColumnMetas()
+        private void InitColumnMetas(DateTime selectedDate, int tablePeriod)
         {
             columnMetas1 = new List<ColumnMeta>();
             columnMetas2 = new List<ColumnMeta>();
             allColumnMetas = new List<ColumnMeta>();
 
-            int tablePeriod = pluginContext.Options.TablePeriod > 0 ? pluginContext.Options.TablePeriod : 60;
+            if (tablePeriod <= 0)
+                tablePeriod = TableOptions.DefaultPeriod;
+
             DateTime utcSelectedDate = userContext.ConvertTimeToUtc(selectedDate);
             DateTime utcPrevDate = userContext.ConvertTimeToUtc(selectedDate.AddDays(-1));
             DateTime utcNextDate = userContext.ConvertTimeToUtc(selectedDate.AddDays(1));

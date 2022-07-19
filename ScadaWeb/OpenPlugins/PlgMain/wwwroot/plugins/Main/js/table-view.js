@@ -23,6 +23,7 @@ class HistColMeta {
 
 // The variables below are set in TableView.cshtml
 var viewID = 0;
+var chartArgs = "";
 
 const START_TIME_KEY = "TableView.StartTime";
 const END_TIME_KEY = "TableView.EndTime";
@@ -189,7 +190,7 @@ function bindEvents() {
         // show chart
         let cnlNum = $(this).closest(".row-item").attr("data-cnlnum");
         let startDate = $("#localDate").val();
-        viewHub.features.chart.show(cnlNum, startDate);
+        viewHub.features.chart.show(cnlNum, startDate, chartArgs);
     });
 
     $(".item-cmd").click(function () {

@@ -24,13 +24,19 @@ namespace Scada.Web.Plugins.PlgMain
         public TableView(View viewEntity)
             : base(viewEntity)
         {
+            Options = new TableOptions();
             Items = new List<TableItem>();
             VisibleItems = new List<TableItem>();
         }
 
 
         /// <summary>
-        /// Gets the table items.
+        /// Gets the table view options.
+        /// </summary>
+        public TableOptions Options { get; }
+
+        /// <summary>
+        /// Gets the table view items.
         /// </summary>
         public List<TableItem> Items { get; protected set; }
 
@@ -73,6 +79,9 @@ namespace Scada.Web.Plugins.PlgMain
             xmlDoc.Load(stream);
             XmlElement rootElem = xmlDoc.DocumentElement;
 
+            if (rootElem.SelectSingleNode("TableOptions") is XmlNode tableOptionsNode)
+                Options.LoadFromXml(tableOptionsNode);
+
             void CreateItem(XmlElement xmlElem)
             {
                 TableItem item = new();
@@ -80,9 +89,12 @@ namespace Scada.Web.Plugins.PlgMain
                 Items.Add(item);
             }
 
-            foreach (XmlElement itemElem in rootElem.SelectNodes("Item"))
+            if (rootElem.SelectSingleNode("TableItems") is XmlNode tableItemsNode)
             {
-                CreateItem(itemElem);
+                foreach (XmlElement itemElem in tableItemsNode.SelectNodes("Item"))
+                {
+                    CreateItem(itemElem);
+                }
             }
 
             // load old format
@@ -213,10 +225,12 @@ namespace Scada.Web.Plugins.PlgMain
                 XmlElement rootElem = xmlDoc.CreateElement("TableView");
                 xmlDoc.AppendChild(rootElem);
 
+                Options.SaveToXml(rootElem.AppendElem("TableOptions"));
+
+                XmlElement tableItemsElem = rootElem.AppendElem("TableItems");
                 foreach (TableItem item in Items)
                 {
-                    XmlElement itemElem = rootElem.AppendElem("Item");
-                    item.SaveToXml(itemElem);
+                    item.SaveToXml(tableItemsElem.AppendElem("Item"));
                 }
 
                 xmlDoc.Save(fileName);
