@@ -216,11 +216,6 @@ class BaseChartFeature {
         this.appEnv = appEnv;
     }
 
-    // Builds an URL to open a chart.
-    _buildChartUrl(path, cnlNums, startDate, args) {
-        return appEnv.rootPath + path + "?cnlNums=" + cnlNums + "&startDate=" + startDate + (args ? "&" + args : "");
-    }
-
     // Shows a chart.
     // cnlNums is a string containing a range of integers,
     // startDate is a string in the YYYY-MM-DD format,
