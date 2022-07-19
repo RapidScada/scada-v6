@@ -3,7 +3,8 @@
         super(appEnv);
     }
 
-    show(cnlNums, startDate) {
-        window.open(appEnv.rootPath + `Chart/Chart?cnlNums=${cnlNums}&startDate=${startDate}`);
+    show(cnlNums, startDate, args) {
+        window.open(appEnv.rootPath + `Chart/Chart?cnlNums=${cnlNums}&startDate=${startDate}` +
+            (args ? "&" + args : ""));
     }
 }
