@@ -177,6 +177,7 @@ namespace Scada.Forms.Forms
             colName.Visible = nameExists;
             colCode.Visible = codeExists;
             colDescr.Visible = descrExists;
+            dataGridView.AutoGenerateColumns = false;
             dataGridView.DataSource = items;
             dataGridView.AutoSizeColumns();
         }
