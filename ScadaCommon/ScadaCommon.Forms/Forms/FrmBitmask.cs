@@ -1,11 +1,10 @@
 ﻿// Copyright (c) Rapid Software LLC. All rights reserved.
 // Licensed under the Apache License, Version 2.0. See License.txt in the project root for license information.
 
-using Scada.Forms;
 using System;
 using System.Windows.Forms;
 
-namespace Scada.Admin.App.Forms.Tables
+namespace Scada.Forms.Forms
 {
     /// <summary>
     /// Represents a form for editing a bitmask.

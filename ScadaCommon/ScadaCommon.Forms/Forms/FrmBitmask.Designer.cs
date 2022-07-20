@@ -1,5 +1,5 @@
 ﻿
-namespace Scada.Admin.App.Forms.Tables
+namespace Scada.Forms.Forms
 {
     partial class FrmBitmask
     {
