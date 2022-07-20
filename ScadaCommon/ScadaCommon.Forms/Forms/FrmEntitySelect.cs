@@ -39,6 +39,7 @@ namespace Scada.Forms.Forms
                     PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(Selected))); 
                 } 
             }
+            public object SourceItem { get; set; }
             public int ID { get; set; }
             public string Name { get; set; }
             public string Code { get; set; }
@@ -91,6 +92,8 @@ namespace Scada.Forms.Forms
             MultiSelect = true;
             SelectedIDs = null;
             SelectedID = 0;
+            SelectedItems = null;
+            SelectedItem = null;
         }
 
 
@@ -108,6 +111,16 @@ namespace Scada.Forms.Forms
         /// Gets or sets the ID of the single selected entity.
         /// </summary>
         public int SelectedID { get; set; }
+
+        /// <summary>
+        /// Gets the selected entities.
+        /// </summary>
+        public ICollection<object> SelectedItems { get; private set; }
+
+        /// <summary>
+        /// Gets the single selected entity.
+        /// </summary>
+        public object SelectedItem { get; private set; }
 
 
         /// <summary>
@@ -135,8 +148,14 @@ namespace Scada.Forms.Forms
 
             foreach (object srcItem in baseTable.EnumerateItems())
             {
-                SelectableItem item = new() { ID = baseTable.GetPkValue(srcItem) };
-                item.Selected = selectedIdSet.Contains(item.ID);
+                int itemID = baseTable.GetPkValue(srcItem);
+
+                SelectableItem item = new() 
+                {
+                    Selected = selectedIdSet.Contains(itemID),
+                    SourceItem = srcItem,
+                    ID = itemID
+                };
 
                 if (nameExists)
                     destProps.NameProp.SetValue(item, srcProps.NameProp.GetValue(srcItem));
@@ -247,9 +266,11 @@ namespace Scada.Forms.Forms
 
         private void btnSelect_Click(object sender, EventArgs e)
         {
-            // get IDs of the selected items
+            // get the selected IDs and items
             SelectedIDs = selectedItems.Keys.ToList();
             SelectedID = SelectedIDs.FirstOrDefault();
+            SelectedItems = selectedItems.Select(pair => pair.Value.SourceItem).ToList();
+            SelectedItem = SelectedItems.FirstOrDefault();
             DialogResult = DialogResult.OK;
         }
     }
