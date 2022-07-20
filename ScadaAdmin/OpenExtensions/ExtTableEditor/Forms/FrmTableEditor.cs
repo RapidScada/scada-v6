@@ -443,6 +443,11 @@ namespace Scada.Admin.Extensions.ExtTableEditor.Forms
             ChildFormTag.Modified = true;
         }
 
+        private void btnTableOptions_Click(object sender, EventArgs e)
+        {
+
+        }
+
 
         private void cmsDevice_Opening(object sender, CancelEventArgs e)
         {

@@ -7,6 +7,7 @@
     <Phrase key="btnMoveUpItem.ToolTip">Move Item Up</Phrase>
     <Phrase key="btnMoveDownItem.ToolTip">Move Item Down</Phrase>
     <Phrase key="btnDeleteItem.ToolTip">Delete Selected Items</Phrase>
+    <Phrase key="btnTableOptions.ToolTip">Table View Options</Phrase>
     <Phrase key="lblHint">Press Enter or double-click a node to add it to the table. Right-click a device node to display the context menu.</Phrase>
     <Phrase key="colCnlNum">Channel</Phrase>
     <Phrase key="colDeviceNum">Device</Phrase>

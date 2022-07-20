@@ -30,8 +30,8 @@
         {
             this.components = new System.ComponentModel.Container();
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle3 = new System.Windows.Forms.DataGridViewCellStyle();
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle2 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle3 = new System.Windows.Forms.DataGridViewCellStyle();
             this.pnlLeft = new System.Windows.Forms.Panel();
             this.treeView = new System.Windows.Forms.TreeView();
             this.ilTree = new System.Windows.Forms.ImageList(this.components);
@@ -54,6 +54,8 @@
             this.cmsDevice = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.miDeviceAddDevice = new System.Windows.Forms.ToolStripMenuItem();
             this.miDeviceAddAllChannels = new System.Windows.Forms.ToolStripMenuItem();
+            this.btnTableOptions = new System.Windows.Forms.ToolStripButton();
+            this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
             this.pnlLeft.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.bindingSource)).BeginInit();
@@ -121,12 +123,6 @@
             // 
             this.dataGridView.AutoGenerateColumns = false;
             dataGridViewCellStyle1.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
-            dataGridViewCellStyle1.BackColor = System.Drawing.SystemColors.Control;
-            dataGridViewCellStyle1.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
-            dataGridViewCellStyle1.ForeColor = System.Drawing.SystemColors.WindowText;
-            dataGridViewCellStyle1.SelectionBackColor = System.Drawing.SystemColors.Highlight;
-            dataGridViewCellStyle1.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
-            dataGridViewCellStyle1.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
             this.dataGridView.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle1;
             this.dataGridView.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.dataGridView.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
@@ -136,14 +132,8 @@
             this.colText,
             this.colHidden});
             this.dataGridView.DataSource = this.bindingSource;
-            dataGridViewCellStyle3.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
-            dataGridViewCellStyle3.BackColor = System.Drawing.SystemColors.Window;
-            dataGridViewCellStyle3.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
-            dataGridViewCellStyle3.ForeColor = System.Drawing.SystemColors.ControlText;
-            dataGridViewCellStyle3.SelectionBackColor = System.Drawing.SystemColors.Highlight;
-            dataGridViewCellStyle3.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
-            dataGridViewCellStyle3.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
-            this.dataGridView.DefaultCellStyle = dataGridViewCellStyle3;
+            dataGridViewCellStyle2.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
+            this.dataGridView.DefaultCellStyle = dataGridViewCellStyle2;
             this.dataGridView.Dock = System.Windows.Forms.DockStyle.Fill;
             this.dataGridView.Location = new System.Drawing.Point(303, 25);
             this.dataGridView.Name = "dataGridView";
@@ -179,8 +169,8 @@
             // colText
             // 
             this.colText.DataPropertyName = "Text";
-            dataGridViewCellStyle2.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
-            this.colText.DefaultCellStyle = dataGridViewCellStyle2;
+            dataGridViewCellStyle3.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+            this.colText.DefaultCellStyle = dataGridViewCellStyle3;
             this.colText.HeaderText = "Text";
             this.colText.Name = "colText";
             this.colText.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
@@ -204,7 +194,9 @@
             this.btnAddEmptyItem,
             this.btnMoveUpItem,
             this.btnMoveDownItem,
-            this.btnDeleteItem});
+            this.btnDeleteItem,
+            this.toolStripSeparator1,
+            this.btnTableOptions});
             this.toolStrip.Location = new System.Drawing.Point(0, 0);
             this.toolStrip.Name = "toolStrip";
             this.toolStrip.Size = new System.Drawing.Size(734, 25);
@@ -293,6 +285,21 @@
             this.miDeviceAddAllChannels.Text = "Add All Channels";
             this.miDeviceAddAllChannels.Click += new System.EventHandler(this.miDeviceAddAllChannels_Click);
             // 
+            // btnTableOptions
+            // 
+            this.btnTableOptions.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            this.btnTableOptions.Image = global::Scada.Admin.Extensions.ExtTableEditor.Properties.Resources.options;
+            this.btnTableOptions.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.btnTableOptions.Name = "btnTableOptions";
+            this.btnTableOptions.Size = new System.Drawing.Size(23, 22);
+            this.btnTableOptions.ToolTipText = "Table View Options";
+            this.btnTableOptions.Click += new System.EventHandler(this.btnTableOptions_Click);
+            // 
+            // toolStripSeparator1
+            // 
+            this.toolStripSeparator1.Name = "toolStripSeparator1";
+            this.toolStripSeparator1.Size = new System.Drawing.Size(6, 25);
+            // 
             // FrmTableEditor
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
@@ -340,5 +347,7 @@
         private ImageList ilTree;
         private ToolStripMenuItem miDeviceAddDevice;
         private ToolStripMenuItem miDeviceAddAllChannels;
+        private ToolStripButton btnTableOptions;
+        private ToolStripSeparator toolStripSeparator1;
     }
 }
