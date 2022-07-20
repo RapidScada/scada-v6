@@ -35,15 +35,15 @@ namespace Scada.Web.Plugins.PlgChart.Areas.Chart.Pages
 
         public HtmlString ChartDataHtml { get; private set; }
 
-        public void OnGet(IdList cnlNums, DateTime startDate, string arc, int? gap)
+        public void OnGet(IdList cnlNums, DateTime startDate, string archive, int? gap)
         {
             // get request parameters and plugin options
             int cnlNum = cnlNums != null && cnlNums.Count > 0 ? cnlNums[0] : 0;
             DateTime utcStartDate = ChartUtils.GetUtcStartDate(startDate, userContext.TimeZone);
             PluginOptions pluginOptions = new(webContext.AppConfig.GetOptions("Chart"));
 
-            if (!string.IsNullOrEmpty(arc))
-                pluginOptions.ChartArchiveCode = arc;
+            if (!string.IsNullOrEmpty(archive))
+                pluginOptions.ChartArchiveCode = archive;
 
             if (gap.HasValue)
                 pluginOptions.GapBetweenPoints = gap.Value;
