@@ -105,6 +105,11 @@
     <Phrase key="StatusFormat">Status {0}</Phrase>
   </Dictionary>
   <!-- ScadaCommon.Forms.dll -->
+  <Dictionary key="Scada.Forms.Controls.CtrlBitmask">
+    <Phrase key="lblMaskValue">Decimal value</Phrase>
+    <Phrase key="btnResetMask">Reset</Phrase>
+    <Phrase key="lblMaskBits">Bits</Phrase>
+  </Dictionary>
   <Dictionary key="Scada.Forms.Controls.CtrlClientConnection">
     <Phrase key="gbConnectionOptions">Connection Options</Phrase>
     <Phrase key="lblName">Name</Phrase>
@@ -126,6 +131,11 @@
     <Phrase key="lblUsername">Username</Phrase>
     <Phrase key="lblPassword">Password</Phrase>
     <Phrase key="chkConnectionString">Connection string</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Forms.Forms.FrmBitmask">
+    <Phrase key="this">Bit Mask</Phrase>
+    <Phrase key="btnOK">OK</Phrase>
+    <Phrase key="btnCancel">Cancel</Phrase>
   </Dictionary>
   <Dictionary key="Scada.Forms.Forms.FrmCnlSelect">
     <Phrase key="this">Select Channels</Phrase>
@@ -168,5 +178,14 @@
     <Phrase key="this">Options</Phrase>
     <Phrase key="btnOK">OK</Phrase>
     <Phrase key="btnCancel">Cancel</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Forms.BitItemCollection">
+    <Phrase key="EventEnabled">Event enabled</Phrase>
+    <Phrase key="EventBeep">Event beep</Phrase>
+    <Phrase key="DataChangeEvent">Channel data has changed</Phrase>
+    <Phrase key="ValueChangeEvent">Channel value has changed</Phrase>
+    <Phrase key="StatusChangeEvent">Channel status has changed</Phrase>
+    <Phrase key="CnlUndefinedEvent">Channel is undefined</Phrase>
+    <Phrase key="CommandEvent">Command has been sent</Phrase>
   </Dictionary>
 </ScadaDictionaries>

@@ -105,6 +105,11 @@
     <Phrase key="StatusFormat">Статус {0}</Phrase>
   </Dictionary>
   <!-- ScadaCommon.Forms.dll -->
+  <Dictionary key="Scada.Forms.Controls.CtrlBitmask">
+    <Phrase key="lblMaskValue">Десятичное значение</Phrase>
+    <Phrase key="btnResetMask">Сбросить</Phrase>
+    <Phrase key="lblMaskBits">Побитно</Phrase>
+  </Dictionary>
   <Dictionary key="Scada.Forms.Controls.CtrlClientConnection">
     <Phrase key="gbConnectionOptions">Параметры соединения</Phrase>
     <Phrase key="lblName">Наименование</Phrase>
@@ -126,6 +131,11 @@
     <Phrase key="lblUsername">Имя пользователя</Phrase>
     <Phrase key="lblPassword">Пароль</Phrase>
     <Phrase key="chkConnectionString">Строка соединения</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Forms.Forms.FrmBitmask">
+    <Phrase key="this">Битовая маска</Phrase>
+    <Phrase key="btnOK">OK</Phrase>
+    <Phrase key="btnCancel">Отмена</Phrase>
   </Dictionary>
   <Dictionary key="Scada.Forms.Forms.FrmCnlSelect">
     <Phrase key="this">Выбор каналов</Phrase>
@@ -168,5 +178,14 @@
     <Phrase key="this">Параметры</Phrase>
     <Phrase key="btnOK">OK</Phrase>
     <Phrase key="btnCancel">Отмена</Phrase>
+  </Dictionary>
+  <Dictionary key="Scada.Forms.BitItemCollection">
+    <Phrase key="EventEnabled">События разрешены</Phrase>
+    <Phrase key="EventBeep">Звук события</Phrase>
+    <Phrase key="DataChangeEvent">Данные канала изменились</Phrase>
+    <Phrase key="ValueChangeEvent">Значение канала изменилось</Phrase>
+    <Phrase key="StatusChangeEvent">Статус канала изменился</Phrase>
+    <Phrase key="CnlUndefinedEvent">Канал не определён</Phrase>
+    <Phrase key="CommandEvent">Команда отправлена</Phrase>
   </Dictionary>
 </ScadaDictionaries>
