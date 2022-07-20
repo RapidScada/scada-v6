@@ -17,4 +17,14 @@
     <Phrase key="miDeviceAddDevice">Add Device</Phrase>
     <Phrase key="miDeviceAddAllChannels">Add All Channels</Phrase>
   </Dictionary>
+  <Dictionary key="Scada.Admin.Extensions.ExtTableEditor.Forms.FrmTableOptions">
+    <Phrase key="this">Table View Options</Phrase>
+    <Phrase key="chkUseDefault">Use default options</Phrase>
+    <Phrase key="lblArchiveCode">Archive code</Phrase>
+    <Phrase key="btnSelectArchiveCode">Select...</Phrase>
+    <Phrase key="lblPeriod">Table period, min</Phrase>
+    <Phrase key="lblChartArgs">Chart arguments</Phrase>
+    <Phrase key="btnOK">OK</Phrase>
+    <Phrase key="btnCancel">Cancel</Phrase>
+  </Dictionary>
 </ExtTableEditorDictionaries>

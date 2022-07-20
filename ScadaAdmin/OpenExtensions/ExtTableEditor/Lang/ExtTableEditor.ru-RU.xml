@@ -17,4 +17,14 @@
     <Phrase key="miDeviceAddDevice">Добавить устройство</Phrase>
     <Phrase key="miDeviceAddAllChannels">Добавить все каналы</Phrase>
   </Dictionary>
+  <Dictionary key="Scada.Admin.Extensions.ExtTableEditor.Forms.FrmTableOptions">
+    <Phrase key="this">Параметры табличного представления</Phrase>
+    <Phrase key="chkUseDefault">Использовать параметры по умолчанию</Phrase>
+    <Phrase key="lblArchiveCode">Код архива</Phrase>
+    <Phrase key="btnSelectArchiveCode">Выбрать...</Phrase>
+    <Phrase key="lblPeriod">Период таблицы, мин.</Phrase>
+    <Phrase key="lblChartArgs">Аргументы графика</Phrase>
+    <Phrase key="btnOK">OK</Phrase>
+    <Phrase key="btnCancel">Отмена</Phrase>
+  </Dictionary>
 </ExtTableEditorDictionaries>

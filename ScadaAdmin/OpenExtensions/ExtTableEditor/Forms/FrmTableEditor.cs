@@ -445,7 +445,9 @@ namespace Scada.Admin.Extensions.ExtTableEditor.Forms
 
         private void btnTableOptions_Click(object sender, EventArgs e)
         {
-            new FrmTableOptions().ShowDialog();
+            // show table view options
+            if (new FrmTableOptions(tableView.Options, configDatabase).ShowDialog() == DialogResult.OK)
+                ChildFormTag.Modified = true;
         }
 
 

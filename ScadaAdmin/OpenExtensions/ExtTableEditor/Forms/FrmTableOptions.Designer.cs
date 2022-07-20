@@ -129,6 +129,7 @@
             this.btnSelectArchiveCode.TabIndex = 2;
             this.btnSelectArchiveCode.Text = "Select...";
             this.btnSelectArchiveCode.UseVisualStyleBackColor = true;
+            this.btnSelectArchiveCode.Click += new System.EventHandler(this.btnSelectArchiveCode_Click);
             // 
             // btnOK
             // 
@@ -138,6 +139,7 @@
             this.btnOK.TabIndex = 2;
             this.btnOK.Text = "OK";
             this.btnOK.UseVisualStyleBackColor = true;
+            this.btnOK.Click += new System.EventHandler(this.btnOK_Click);
             // 
             // btnCancel
             // 
@@ -181,6 +183,7 @@
             this.ShowInTaskbar = false;
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
             this.Text = "Table View Options";
+            this.Load += new System.EventHandler(this.FrmTableOptions_Load);
             ((System.ComponentModel.ISupportInitialize)(this.numPeriod)).EndInit();
             this.pnlOptions.ResumeLayout(false);
             this.pnlOptions.PerformLayout();
