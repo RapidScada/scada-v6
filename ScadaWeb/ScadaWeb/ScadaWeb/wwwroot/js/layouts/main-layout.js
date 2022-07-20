@@ -37,15 +37,16 @@ var mainLayout = {
                 if (typeof viewPage !== "undefined") {
                     let viewID = parseInt(node.data("viewid"));
                     let viewFrameUrl = node.data("viewframeurl");
+                    let viewPageUrl = node.attr("href");
 
-                    if (viewID > 0 && viewFrameUrl) {
+                    if (viewID > 0 && viewFrameUrl && viewPageUrl) {
                         // hide the left panel on mobile devices
                         if (ScadaUtils.isSmallScreen) {
                             thisObj._hideLeftPanel(false);
                         }
 
                         // load view frame
-                        viewPage.loadView(viewID, viewFrameUrl);
+                        viewPage.loadView(viewID, viewFrameUrl, viewPageUrl);
                         result.handled = true;
                     }
                 }

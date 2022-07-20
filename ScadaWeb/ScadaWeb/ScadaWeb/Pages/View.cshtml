@@ -15,6 +15,7 @@
     <script src="~/js/components/splitter.js" asp-append-version="true"></script>
     <script src="~/js/pages/view.js" asp-append-version="true"></script>
     <script>
+        viewPage.pageIsEmpty = @Model.ViewError.ToLowerString();
         viewPage.initialViewID = @Model.ViewID;
         viewPage.initialViewFrameUrl = "@Model.ViewFrameUrl";
     </script>

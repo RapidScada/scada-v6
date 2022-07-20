@@ -9,6 +9,7 @@ var viewPage = {
     _DEFAULT_DATA_WINDOW_HEIGHT: 100,
 
     _initialPageTitle: document.title,
+    pageIsEmpty: false,
     initialViewID: 0,
     initialViewFrameUrl: "",
 
@@ -153,7 +154,7 @@ var viewPage = {
             this._getOuterHeight("divDataWindow") - this._getOuterHeight("divBottomPanel"));
     },
 
-    loadView(viewID, viewFrameUrl, opt_notWriteHistory, opt_notReloadDataWindow) {
+    loadViewFrame: function (viewID, viewFrameUrl, writeHistory, reloadDataWindow) {
         console.log(`${ScadaUtils.getCurrentTime()} Load view ${viewID} from ${viewFrameUrl}`);
         viewHub.viewID = viewID;
 
@@ -161,7 +162,7 @@ var viewPage = {
         let historyState = null;
         let historyUrl = "";
 
-        if (!opt_notWriteHistory) {
+        if (writeHistory) {
             historyState = { viewID: viewID, viewFrameUrl: viewFrameUrl };
             historyUrl = viewHub.getViewUrl(viewID);
             history.pushState(historyState, "", historyUrl);
@@ -187,14 +188,26 @@ var viewPage = {
         });
 
         // reload data window
-        if (!opt_notReloadDataWindow) {
+        if (!reloadDataWindow) {
             this._reloadDataWindow();
+        }
+    },
+
+    loadView: function (viewID, viewFrameUrl, viewPageUrl) {
+        if (viewPage.pageIsEmpty) {
+            // reload entire page
+            location.href = viewPageUrl;
+        } else {
+            // reload view frame
+            this.loadViewFrame(viewID, viewFrameUrl, true, true);
         }
     }
 };
 
 $(document).ready(function () {
-    viewPage.prepare();
-    viewPage.updateLayout();
-    viewPage.loadView(viewPage.initialViewID, viewPage.initialViewFrameUrl, true, true);
+    if (!viewPage.pageIsEmpty) {
+        viewPage.prepare();
+        viewPage.updateLayout();
+        viewPage.loadViewFrame(viewPage.initialViewID, viewPage.initialViewFrameUrl, false, false);
+    }
 });
