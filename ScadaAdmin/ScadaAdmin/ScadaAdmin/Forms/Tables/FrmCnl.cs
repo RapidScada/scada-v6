@@ -24,11 +24,11 @@
  */
 
 using Scada.Admin.App.Code;
-using Scada.Admin.App.Controls.Tables;
 using Scada.Admin.Project;
 using Scada.Data.Entities;
 using Scada.Data.Tables;
 using Scada.Forms;
+using Scada.Forms.Controls;
 using Scada.Lang;
 using System;
 using System.Data;
@@ -187,17 +187,17 @@ namespace Scada.Admin.App.Forms.Tables
         /// <summary>
         /// Sets the bit mask value according to the cell value.
         /// </summary>
-        private static void SetValue(CtrlBitMask ctrlBitMask, DataGridViewCell cell)
+        private static void SetValue(CtrlBitmask ctrlBitmask, DataGridViewCell cell)
         {
             if (cell == null)
                 throw new ArgumentNullException(nameof(cell));
 
-            ctrlBitMask.MaskValue = cell.Value is int intVal ? intVal : 0;
+            ctrlBitmask.MaskValue = cell.Value is int intVal ? intVal : 0;
 
             if (cell.OwningColumn.Tag is ColumnOptions columnOptions)
-                ctrlBitMask.MaskBits = columnOptions.DataSource;
+                ctrlBitmask.MaskBits = columnOptions.DataSource;
 
-            ctrlBitMask.ShowMask();
+            ctrlBitmask.ShowMask();
         }
 
 

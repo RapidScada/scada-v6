@@ -28,6 +28,7 @@ using Scada.Admin.Project;
 using Scada.Data.Entities;
 using Scada.Data.Tables;
 using Scada.Forms;
+using Scada.Forms.Forms;
 using Scada.Lang;
 using System;
 using System.Data;
@@ -486,15 +487,15 @@ namespace Scada.Admin.App.Forms.Tables
             if (dataKind == ColumnKind.BitMask)
             {
                 // set bit mask
-                FrmBitMask frmBitMask = new()
+                FrmBitmask frmBitmask = new()
                 {
                     MaskValue = cellValue is int intVal ? intVal : 0,
                     MaskBits = dataColumnOptions.DataSource
                 };
 
-                if (frmBitMask.ShowDialog() == DialogResult.OK)
+                if (frmBitmask.ShowDialog() == DialogResult.OK)
                 {
-                    cellValue = frmBitMask.MaskValue > 0 ? frmBitMask.MaskValue : DBNull.Value;
+                    cellValue = frmBitmask.MaskValue > 0 ? frmBitmask.MaskValue : DBNull.Value;
                     return true;
                 }
             }

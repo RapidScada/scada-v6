@@ -37,15 +37,6 @@ namespace Scada.Admin.App.Code
         public static string LoadAppStateError { get; private set; }
         public static string SaveAppStateError { get; private set; }
 
-        // Scada.Admin.App.Code.AppUtils
-        public static string EventEnabled { get; private set; }
-        public static string EventBeep { get; private set; }
-        public static string DataChangeEvent { get; private set; }
-        public static string ValueChangeEvent { get; private set; }
-        public static string StatusChangeEvent { get; private set; }
-        public static string CnlUndefinedEvent { get; private set; }
-        public static string CommandEvent { get; private set; }
-
         // Scada.Admin.App.Code.ExplorerBuilder
         public static string ConfigDatabaseNode { get; private set; }
         public static string PrimaryTablesNode { get; private set; }
@@ -192,15 +183,6 @@ namespace Scada.Admin.App.Code
             LocaleDict dict = Locale.GetDictionary("Scada.Admin.App.Code.AppState");
             LoadAppStateError = dict["LoadAppStateError"];
             SaveAppStateError = dict["SaveAppStateError"];
-
-            dict = Locale.GetDictionary("Scada.Admin.App.Code.AppUtils");
-            EventEnabled = dict["EventEnabled"];
-            EventBeep = dict["EventBeep"];
-            DataChangeEvent = dict["DataChangeEvent"];
-            ValueChangeEvent = dict["ValueChangeEvent"];
-            StatusChangeEvent = dict["StatusChangeEvent"];
-            CnlUndefinedEvent = dict["CnlUndefinedEvent"];
-            CommandEvent = dict["CommandEvent"];
 
             dict = Locale.GetDictionary("Scada.Admin.App.Code.ExplorerBuilder");
             ConfigDatabaseNode = dict["ConfigDatabaseNode"];

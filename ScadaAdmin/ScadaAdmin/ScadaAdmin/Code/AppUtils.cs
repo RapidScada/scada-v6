@@ -23,13 +23,8 @@
  * Modified : 2022
  */
 
-using Scada.Data.Const;
-using Scada.Data.Entities;
-using Scada.Data.Tables;
 using System;
-using System.Collections.Generic;
 using System.IO;
-using System.Text;
 using System.Windows.Forms;
 
 namespace Scada.Admin.App.Code
@@ -57,41 +52,6 @@ namespace Scada.Admin.App.Code
         /// </summary>
         public const string SupportRuUrl = "https://forum.rapidscada.ru/";
 
-
-        /// <summary>
-        /// Gets a list of archive bits.
-        /// </summary>
-        public static List<BitItem> GetArchiveBits(BaseTable<Archive> archiveTable)
-        {
-            if (archiveTable == null)
-                throw new ArgumentNullException(nameof(archiveTable));
-
-            List<BitItem> archiveBits = new();
-
-            foreach (Archive archive in archiveTable.EnumerateItems())
-            {
-                archiveBits.Add(new BitItem(archive.Bit, archive.Name));
-            }
-
-            return archiveBits;
-        }
-
-        /// <summary>
-        /// Gets a list of event bits.
-        /// </summary>
-        public static List<BitItem> GetEventBits()
-        {
-            return new List<BitItem>
-            {
-                new BitItem(EventBit.Enabled, AppPhrases.EventEnabled),
-                new BitItem(EventBit.Beep, AppPhrases.EventBeep),
-                new BitItem(EventBit.DataChange, AppPhrases.DataChangeEvent),
-                new BitItem(EventBit.ValueChange, AppPhrases.ValueChangeEvent),
-                new BitItem(EventBit.StatusChange, AppPhrases.StatusChangeEvent),
-                new BitItem(EventBit.CnlUndefined, AppPhrases.CnlUndefinedEvent),
-                new BitItem(EventBit.Command, AppPhrases.CommandEvent)
-            };
-        }
 
         /// <summary>
         /// Sets the check box state according to the cell value.

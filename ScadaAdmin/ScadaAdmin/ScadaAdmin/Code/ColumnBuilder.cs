@@ -20,13 +20,14 @@
  * 
  * Author   : Mikhail Shiryaev
  * Created  : 2018
- * Modified : 2019
+ * Modified : 2022
  */
 
 using Scada.Admin.Project;
 using Scada.Data.Const;
 using Scada.Data.Entities;
 using Scada.Data.Tables;
+using Scada.Forms;
 using Scada.Lang;
 using System;
 using System.Data;
@@ -223,10 +224,10 @@ namespace Scada.Admin.App.Code
                 NewComboBoxColumn("UnitID", "Name", configDatabase.UnitTable, true),
                 NewComboBoxColumn("LimID", "Name", configDatabase.LimTable, true),
                 NewTextBoxColumn("ArchiveMask", new ColumnOptions(ColumnKind.BitMask)
-                    { DataSource = AppUtils.GetArchiveBits(configDatabase.ArchiveTable) }),
+                    { DataSource = BitItemCollection.Create(configDatabase.ArchiveTable) }),
                 NewButtonColumn("ArchiveMask"),
                 NewTextBoxColumn("EventMask", new ColumnOptions(ColumnKind.BitMask)
-                    { DataSource = AppUtils.GetEventBits() }),
+                    { DataSource = BitItemCollection.CreateFromEvents() }),
                 NewButtonColumn("EventMask")
             });
         }

@@ -79,9 +79,9 @@ namespace Scada.Admin.App.Forms.Tables
             this.cbLim = new System.Windows.Forms.ComboBox();
             this.lblLim = new System.Windows.Forms.Label();
             this.pageArchives = new System.Windows.Forms.TabPage();
-            this.bmArchive = new Scada.Admin.App.Controls.Tables.CtrlBitMask();
+            this.bmArchive = new Scada.Forms.Controls.CtrlBitmask();
             this.pageEvents = new System.Windows.Forms.TabPage();
-            this.bmEvent = new Scada.Admin.App.Controls.Tables.CtrlBitMask();
+            this.bmEvent = new Scada.Forms.Controls.CtrlBitmask();
             this.pnlBottom = new System.Windows.Forms.Panel();
             this.btnCancel = new System.Windows.Forms.Button();
             this.btnOK = new System.Windows.Forms.Button();
@@ -715,8 +715,8 @@ namespace Scada.Admin.App.Forms.Tables
         private System.Windows.Forms.ComboBox cbQuantity;
         private System.Windows.Forms.ComboBox cbUnit;
         private System.Windows.Forms.Label lblUnit;
-        private Controls.Tables.CtrlBitMask bmArchive;
-        private Controls.Tables.CtrlBitMask bmEvent;
+        private Scada.Forms.Controls.CtrlBitmask bmArchive;
+        private Scada.Forms.Controls.CtrlBitmask bmEvent;
         private System.Windows.Forms.Label lblInFormula;
         private System.Windows.Forms.TextBox txtOutFormula;
         private System.Windows.Forms.Label lblOutFormula;
