@@ -445,7 +445,7 @@ namespace Scada.Admin.Extensions.ExtTableEditor.Forms
 
         private void btnTableOptions_Click(object sender, EventArgs e)
         {
-
+            new FrmTableOptions().ShowDialog();
         }
 
 
