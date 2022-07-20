@@ -43,10 +43,10 @@ var viewPage = {
                 let historyState = event.originalEvent.state;
 
                 if (historyState) {
-                    thisObj.loadView(historyState.viewID, historyState.viewFrameUrl, true);
+                    thisObj.loadViewFrame(historyState.viewID, historyState.viewFrameUrl, false, true);
                     mainLayout.selectView(historyState.viewID);
                 } else {
-                    thisObj.loadView(thisObj.initialViewID, thisObj.initialViewFrameUrl, true);
+                    thisObj.loadViewFrame(thisObj.initialViewID, thisObj.initialViewFrameUrl, false, true);
                     mainLayout.selectView(thisObj.initialViewID);
                 }
             });
