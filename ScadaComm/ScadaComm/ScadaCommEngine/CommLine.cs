@@ -99,7 +99,7 @@ namespace Scada.Comm.Engine
             maxDeviceTitleLength = 0;
             channel = null;
 
-            Title = CommUtils.GetLineTitle(lineConfig);
+            Title = lineConfig.Title;
             SharedData = null;
             Log = new LogFile(LogFormat.Simple)
             {
@@ -887,7 +887,7 @@ namespace Scada.Comm.Engine
                         {
                             throw new ScadaException(Locale.IsRussian ?
                                 "Не удалось создать устройство {0}." :
-                                "Unable to create device {0}.", CommUtils.GetDeviceTitle(deviceConfig));
+                                "Unable to create device {0}.", deviceConfig.Title);
                         }
 
                         commLine.AddDevice(deviceLogic);
@@ -897,7 +897,7 @@ namespace Scada.Comm.Engine
                         throw new ScadaException(Locale.IsRussian ?
                             "Драйвер {0} для устройства {1} не найден." :
                             "Driver {0} for device {1} not found.",
-                            deviceConfig.Driver, CommUtils.GetDeviceTitle(deviceConfig));
+                            deviceConfig.Driver, deviceConfig.Title);
                     }
                 }
             }

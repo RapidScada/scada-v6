@@ -421,31 +421,41 @@ namespace Scada.Comm.Engine
         /// </summary>
         private CommLine CreateLine(LineConfig lineConfig)
         {
-            lock (commLineLock)
+            try
             {
-                if (commLineMap.ContainsKey(lineConfig.CommLineNum))
+                lock (commLineLock)
                 {
-                    Log.WriteError(Locale.IsRussian ?
-                        "Линия связи {0} уже создана" :
-                        "Communication line {0} already created", lineConfig.CommLineNum);
-                    return null;
-                }
-                else
-                {
-                    CommLine commLine = CommLine.Create(lineConfig, this, driverHolder);
-                    commLine.Terminated += CommLine_Terminated;
-                    commLines.Add(commLine);
-                    commLineMap.Add(lineConfig.CommLineNum, commLine);
-
-                    foreach (DeviceLogic deviceLogic in commLine.SelectDevices())
+                    if (commLineMap.ContainsKey(lineConfig.CommLineNum))
                     {
-                        // only one device instance is possible
-                        deviceMap.Add(deviceLogic.DeviceNum, new DeviceItem(deviceLogic, commLine));
+                        Log.WriteError(Locale.IsRussian ?
+                            "Линия связи {0} уже создана" :
+                            "Communication line {0} already created", lineConfig.Title);
+                        return null;
                     }
+                    else
+                    {
+                        CommLine commLine = CommLine.Create(lineConfig, this, driverHolder);
+                        commLine.Terminated += CommLine_Terminated;
+                        commLines.Add(commLine);
+                        commLineMap.Add(lineConfig.CommLineNum, commLine);
 
-                    maxLineTitleLength = -1; // reset max length
-                    return commLine;
+                        foreach (DeviceLogic deviceLogic in commLine.SelectDevices())
+                        {
+                            // only one device instance is possible
+                            deviceMap.Add(deviceLogic.DeviceNum, new DeviceItem(deviceLogic, commLine));
+                        }
+
+                        maxLineTitleLength = -1; // reset max length
+                        return commLine;
+                    }
                 }
+            }
+            catch (Exception ex)
+            {
+                Log.WriteError(Locale.IsRussian ?
+                    "Ошибка при создании линий связи {0}: {1}" :
+                    "Error creating communication line {0}: {1}", lineConfig.Title, ex.Message);
+                return null;
             }
         }
 

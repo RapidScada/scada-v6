@@ -20,7 +20,7 @@
  * 
  * Author   : Mikhail Shiryaev
  * Created  : 2020
- * Modified : 2021
+ * Modified : 2022
  */
 
 using System;
@@ -79,6 +79,17 @@ namespace Scada.Comm.Config
         /// Gets or sets the device name.
         /// </summary>
         public string Name { get; set; }
+
+        /// <summary>
+        /// Gets the device title.
+        /// </summary>
+        public string Title
+        {
+            get
+            {
+                return CommUtils.GetDeviceTitle(DeviceNum, Name);
+            }
+        }
 
         /// <summary>
         /// Gets or sets the code of the driver that implements the device protocol.
