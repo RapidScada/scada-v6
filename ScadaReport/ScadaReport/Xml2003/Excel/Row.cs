@@ -4,13 +4,13 @@
 using System.Globalization;
 using System.Xml;
 
-namespace Scada.Report.Excel2003
+namespace Scada.Report.Xml2003.Excel
 {
     /// <summary>
     /// Represents a row of Excel table.
     /// <para>Представляет строку таблицы Excel.</para>
     /// </summary>
-    internal class Row
+    public class Row
     {
         /// <summary>
         /// Ссылка на XML-узел, соответствующий строке таблицы Excel.

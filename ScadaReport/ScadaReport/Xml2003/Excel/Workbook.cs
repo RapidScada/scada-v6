@@ -3,13 +3,13 @@
 
 using System.Xml;
 
-namespace Scada.Report.Excel2003
+namespace Scada.Report.Xml2003.Excel
 {
     /// <summary>
     /// Represents an Excel workbook.
     /// <para>Представляет книгу Excel.</para>
     /// </summary>
-    internal class Workbook
+    public class Workbook
     {
         /// <summary>
         /// Ссылка на XML-узел, соответствующий книге Excel.

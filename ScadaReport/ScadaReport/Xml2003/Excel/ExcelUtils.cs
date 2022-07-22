@@ -3,7 +3,7 @@
 
 using System.Xml;
 
-namespace Scada.Report.Excel2003
+namespace Scada.Report.Xml2003.Excel
 {
     /// <summary>
     /// The class provides helper methods for manipulating an Excel workbook.

@@ -1,13 +1,13 @@
 ﻿// Copyright (c) Rapid Software LLC. All rights reserved.
 // Licensed under the Apache License, Version 2.0. See License.txt in the project root for license information.
 
-namespace Scada.Report.Excel2003
+namespace Scada.Report.Xml2003.Excel
 {
     /// <summary>
     /// Specifies the namespaces that are used in SpreadsheetML.
     /// <para>Задаёт пространства имён, которые используются в SpreadsheetML.</para>
     /// </summary>
-    internal static class XmlNamespaces
+    public static class XmlNamespaces
     {
         /// <summary>
         /// xmlns

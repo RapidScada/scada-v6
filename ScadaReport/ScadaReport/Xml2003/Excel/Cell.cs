@@ -3,20 +3,26 @@
 
 using System.Xml;
 
-namespace Scada.Report.Excel2003
+namespace Scada.Report.Xml2003.Excel
 {
     /// <summary>
     /// Represents a cell of Excel table row.
     /// <para>Представляет ячейку строки таблицы Excel.</para>
     /// </summary>
-    internal class Cell
+    public class Cell
     {
         /// <summary>
         /// Specifies the cell data types.
         /// </summary>
         public static class DataTypes
         {
+            /// <summary>
+            /// The string data type.
+            /// </summary>
             public const string String = "String";
+            /// <summary>
+            /// The number data type.
+            /// </summary>
             public const string Number = "Number";
         }
 
