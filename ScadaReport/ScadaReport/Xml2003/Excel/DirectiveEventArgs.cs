@@ -15,7 +15,7 @@ namespace Scada.Report.Xml2003.Excel
         public ProcessingStage Stage { get; init; }
 
         /// <summary>
-        /// Gets the Excel cell.
+        /// Gets the Excel cell that contains the directive.
         /// </summary>
         public Cell Cell { get; init; }
 

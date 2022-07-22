@@ -2,6 +2,7 @@
 // Licensed under the Apache License, Version 2.0. See License.txt in the project root for license information.
 
 using System.Xml;
+using System.Xml.Linq;
 
 namespace Scada.Report.Xml2003.Excel
 {
@@ -11,6 +12,12 @@ namespace Scada.Report.Xml2003.Excel
     /// </summary>
     internal static class ExcelUtils
     {
+        /// <summary>
+        /// The line break symbol used by Excel.
+        /// </summary>
+        public const string ExcelLineBreak = "&#10;";
+
+
         /// <summary>
         /// Gets the value of the XML node attribute.
         /// </summary>
@@ -49,6 +56,28 @@ namespace Scada.Report.Xml2003.Excel
                 {
                     xmlAttr.Value = value;
                 }
+            }
+        }
+
+        /// <summary>
+        /// Sets the XML node text to a string, which may contain line breaks.
+        /// </summary>
+        public static void SetNodeTextWithBreak(XmlNode xmlNode, object text, string lineBreak = "\n")
+        {
+            string textStr = text?.ToString();
+
+            if (string.IsNullOrEmpty(textStr))
+            {
+                xmlNode.InnerText = "";
+            }
+            else
+            {
+                string[] parts = textStr.Split(lineBreak, StringSplitOptions.None);
+
+                if (parts.Length <= 1)
+                    xmlNode.InnerText = textStr;
+                else
+                    xmlNode.InnerXml = string.Join(ExcelLineBreak, parts.Select(s => new XText(s).ToString()));
             }
         }
     }

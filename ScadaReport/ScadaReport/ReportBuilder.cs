@@ -1,20 +1,25 @@
 ﻿// Copyright (c) Rapid Software LLC. All rights reserved.
 // Licensed under the Apache License, Version 2.0. See License.txt in the project root for license information.
 
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
 namespace Scada.Report
 {
     /// <summary>
-    /// Represents the base class for building reports.
-    /// <para>Представляет базовый класс для постоения отчётов.</para>
+    /// Represents the base class for building Rapid SCADA reports.
+    /// <para>Представляет базовый класс для постоения отчётов Rapid SCADA.</para>
     /// </summary>
-    /// <remarks>The class has no dependencies on Rapid SCADA.</remarks>
     public abstract class ReportBuilder
     {
+        /// <summary>
+        /// Initializes a new instance of the class.
+        /// </summary>
+        public ReportBuilder(IReportContext reportContext)
+        {
+            ReportContext = reportContext ?? throw new ArgumentNullException(nameof(reportContext));
+        }
+
+        /// <summary>
+        /// Gets the report context.
+        /// </summary>
+        protected IReportContext ReportContext { get; }
     }
 }

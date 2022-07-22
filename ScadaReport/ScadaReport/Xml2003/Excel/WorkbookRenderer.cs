@@ -1,7 +1,6 @@
 ﻿// Copyright (c) Rapid Software LLC. All rights reserved.
 // Licensed under the Apache License, Version 2.0. See License.txt in the project root for license information.
 
-using System.Text;
 using System.Xml;
 
 namespace Scada.Report.Xml2003.Excel
@@ -13,11 +12,7 @@ namespace Scada.Report.Xml2003.Excel
     public class WorkbookRenderer
     {
         /// <summary>
-        /// Обозначение перехода на новую строку в SpreadsheetML.
-        /// </summary>
-        protected const string Break = "&#10;";
-        /// <summary>
-        /// Имя XML-элемента в шаблоне, который может содержать директивы преобразований.
+        /// The name of an XML element that can contain a report directive.
         /// </summary>
         protected const string DirectiveElem = "Data";
 
@@ -42,10 +37,6 @@ namespace Scada.Report.Xml2003.Excel
         /// The processed cell of the row.
         /// </summary>
         protected Cell processedCell;
-        /// <summary>
-        /// Indicates that the text of XML nodes contains line breaks.
-        /// </summary>
-        protected bool textBroken;
 
 
         /// <summary>
@@ -70,11 +61,11 @@ namespace Scada.Report.Xml2003.Excel
 
 
         /// <summary>
-        /// Найти директиву в строке, получить её значение и остаток строки.
+        /// Finds the specified directive in the string, provides the directive value and the rest of the string.
         /// </summary>
         protected static bool FindDirective(string s, string name, out string val, out string rest)
         {
-            // "name=val", вместо '=' может быть любой символ
+            // "name=val", instead of '=' can be any character
             int valStartInd = name.Length + 1;
 
             if (valStartInd <= s.Length && s.StartsWith(name, StringComparison.Ordinal))
@@ -112,46 +103,9 @@ namespace Scada.Report.Xml2003.Excel
             processedTable = null;
             processedRow = null;
             processedCell = null;
-            textBroken = false;
 
             XmlDoc = null;
             Workbook = null;
-        }
-
-        /// <summary>
-        /// Установить XML-узлу текст, содержащий переносы строк, разбив при необходимости элемент на несколько.
-        /// </summary>
-        protected void SetNodeTextWithBreak(XmlNode xmlNode, string text, string textBreak)
-        {
-            if (text == null)
-                text = "";
-            xmlNode.InnerText = text.Replace(textBreak, Break);
-            textBroken = true;
-        }
-
-        /// <summary>
-        /// Установить XML-узлу текст, содержащий переносы строк, разбив при необходимости элемент на несколько.
-        /// </summary>
-        protected void SetNodeTextWithBreak(XmlNode xmlNode, object text, string textBreak)
-        {
-            string textStr = text == null ? "" : text.ToString();
-            SetNodeTextWithBreak(xmlNode, textStr, textBreak);
-        }
-
-        /// <summary>
-        /// Установить XML-узлу текст, содержащий переносы строк "\n", разбив при необходимости элемент на несколько.
-        /// </summary>
-        protected void SetNodeTextWithBreak(XmlNode xmlNode, string text)
-        {
-            SetNodeTextWithBreak(xmlNode, text, "\n");
-        }
-
-        /// <summary>
-        /// Установить XML-узлу текст, содержащий переносы строк "\n", разбив при необходимости элемент на несколько.
-        /// </summary>
-        protected void SetNodeTextWithBreak(XmlNode xmlNode, object text)
-        {
-            SetNodeTextWithBreak(xmlNode, text, "\n");
         }
 
 
@@ -218,29 +172,31 @@ namespace Scada.Report.Xml2003.Excel
         }
 
         /// <summary>
-        /// Найти и обработать директивы, которые могут содержаться в заданной ячейке
+        /// Finds and processes directives of the specified cell.
         /// </summary>
-        protected virtual void FindDirectives(Cell cell)
+        protected void FindDirectives(Cell cell)
         {
             if (cell.DataNode is XmlNode dataNode)
             {
-                if (FindDirective(dataNode.InnerText, ReportDirectives.RepRow, out string attrVal, out string rest))
+                if (FindDirective(dataNode.InnerText, ReportDirectives.RepRow, out string val, out string rest))
                 {
                     dataNode.InnerText = rest;
                     DirectiveFound?.Invoke(this, new DirectiveEventArgs
                     {
+                        Stage = stage,
                         Cell = cell,
                         DirectiveName = ReportDirectives.RepRow,
-                        DirectiveValue = attrVal
+                        DirectiveValue = val
                     });
                 }
-                else if (FindDirective(dataNode.InnerText, ReportDirectives.RepVal, out attrVal, out _))
+                else if (FindDirective(dataNode.InnerText, ReportDirectives.RepVal, out val, out _))
                 {
                     DirectiveFound?.Invoke(this, new DirectiveEventArgs
                     {
+                        Stage = stage,
                         Cell = cell,
                         DirectiveName = ReportDirectives.RepVal,
-                        DirectiveValue = attrVal
+                        DirectiveValue = val
                     });
                 }
             }
@@ -272,20 +228,7 @@ namespace Scada.Report.Xml2003.Excel
             stage = ProcessingStage.Completed;
 
             // write report to output stream
-            if (textBroken)
-            {
-                StringWriter stringWriter = new();
-                XmlDoc.Save(stringWriter);
-                string xmlText = stringWriter.GetStringBuilder()
-                    .Replace("encoding=\"utf-16\"", "encoding=\"utf-8\"")
-                    .Replace("&amp;#10", "&#10").ToString();
-                byte[] bytes = Encoding.UTF8.GetBytes(xmlText);
-                outStream.Write(bytes, 0, bytes.Length);
-            }
-            else
-            {
-                XmlDoc.Save(outStream);
-            }
+            XmlDoc.Save(outStream);
         }
 
         /// <summary>
