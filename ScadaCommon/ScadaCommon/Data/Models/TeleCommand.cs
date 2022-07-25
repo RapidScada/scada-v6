@@ -165,27 +165,12 @@ namespace Scada.Data.Models
         /// <summary>
         /// Retrieves arguments from the command data.
         /// </summary>
-        public Dictionary<string, string> GetCmdDataArgs()
+        public IDictionary<string, string> GetCmdDataArgs()
         {
             // command exmaple:
             // argument1 = val1
             // argument2 = val2
-            Dictionary<string, string> args = new Dictionary<string, string>();
-
-            foreach (string line in CmdDataToString(CmdData).Split('\n'))
-            {
-                int operIdx = line.IndexOf('=');
-
-                if (operIdx > 0)
-                {
-                    string name = line.Substring(0, operIdx).Trim();
-
-                    if (name != "")
-                        args[name] = line.Substring(operIdx + 1).Trim();
-                }
-            }
-
-            return args;
+            return ScadaUtils.ParseArgs(CmdDataToString(CmdData));
         }
 
         /// <summary>

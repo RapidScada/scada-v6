@@ -128,7 +128,7 @@ namespace Scada.Comm.Drivers.DrvHttpNotif.Logic
         /// <summary>
         /// Gets notification arguments from the command.
         /// </summary>
-        private Dictionary<string, string> GetNotifArgs(TeleCommand cmd)
+        private IDictionary<string, string> GetNotifArgs(TeleCommand cmd)
         {
             string cmdDataStr = cmd.GetCmdDataString();
             int sepInd = cmdDataStr.IndexOf(CmdSep);
@@ -153,17 +153,17 @@ namespace Scada.Comm.Drivers.DrvHttpNotif.Logic
         /// <summary>
         /// Gets request arguments from the command.
         /// </summary>
-        private Dictionary<string, string> GetRequestArgs(TeleCommand cmd)
+        private IDictionary<string, string> GetRequestArgs(TeleCommand cmd)
         {
-            Dictionary<string, string> args = cmd.GetCmdDataArgs();
+            IDictionary<string, string> args = cmd.GetCmdDataArgs();
             AddContactDetails(args);
             return args;
         }
 
         /// <summary>
-        /// Adds the contact phones and emails.
+        /// Adds the contact phones and emails to the arguments.
         /// </summary>
-        private void AddContactDetails(Dictionary<string, string> args)
+        private void AddContactDetails(IDictionary<string, string> args)
         {
             if (args.TryGetValue(ParamName.Address, out string address) &&
                 !(args.ContainsKey(ParamName.Phone) && args.ContainsKey(ParamName.Email)))
@@ -214,7 +214,7 @@ namespace Scada.Comm.Drivers.DrvHttpNotif.Logic
         /// <summary>
         /// Creates a request for sending a notification.
         /// </summary>
-        private bool CreateRequest(Dictionary<string, string> args, out HttpRequestMessage request)
+        private bool CreateRequest(IDictionary<string, string> args, out HttpRequestMessage request)
         {
             request = null;
 
@@ -436,7 +436,7 @@ namespace Scada.Comm.Drivers.DrvHttpNotif.Logic
             if (isReady)
             {
                 string cmdCode = "";
-                Dictionary<string, string> args = null;
+                IDictionary<string, string> args = null;
 
                 if (cmd.CmdCode == TagCode.Notif || cmd.CmdNum == 1)
                 {

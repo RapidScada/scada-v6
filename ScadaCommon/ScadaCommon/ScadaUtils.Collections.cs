@@ -30,6 +30,32 @@ namespace Scada
         private const char RangeDash = '-';
 
 
+        /// <summary>
+        /// Retrieves arguments from the specified string.
+        /// </summary>
+        public static IDictionary<string, string> ParseArgs(string s, char separator = '\n')
+        {
+            // string exmaple:
+            // argument1 = val1
+            // argument2 = val2
+            Dictionary<string, string> args = new Dictionary<string, string>();
+            string[] parts = (s ?? "").Split(separator);
+
+            foreach (string line in parts)
+            {
+                int operIdx = line.IndexOf('=');
+
+                if (operIdx > 0)
+                {
+                    string name = line.Substring(0, operIdx).Trim();
+
+                    if (name != "")
+                        args[name] = line.Substring(operIdx + 1).Trim();
+                }
+            }
+
+            return args;
+        }
 
         /// <summary>
         /// Gets the value associated with the specified key as a string.
