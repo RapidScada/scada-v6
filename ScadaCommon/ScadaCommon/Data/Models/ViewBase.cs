@@ -77,7 +77,7 @@ namespace Scada.Data.Models
         /// <summary>
         /// Gets the view arguments.
         /// </summary>
-        public Dictionary<string, string> Args { get; }
+        public IDictionary<string, string> Args { get; }
 
         /// <summary>
         /// Gets the view title.
@@ -103,36 +103,9 @@ namespace Scada.Data.Models
         /// <summary>
         /// Parses the view arguments.
         /// </summary>
-        protected virtual Dictionary<string, string> ParseArgs()
+        protected virtual IDictionary<string, string> ParseArgs()
         {
-            Dictionary<string, string> args = new Dictionary<string, string>();
-
-            if (!string.IsNullOrEmpty(ViewEntity.Args))
-            {
-                string[] parts = ViewEntity.Args.Split('&');
-
-                foreach (string part in parts)
-                {
-                    string key;
-                    string val;
-                    int idx = part.IndexOf("=");
-
-                    if (idx >= 0)
-                    {
-                        key = part.Substring(0, idx).Trim();
-                        val = part.Substring(idx + 1).Trim();
-                    }
-                    else
-                    {
-                        key = part.Trim();
-                        val = "";
-                    }
-
-                    args[key] = val;
-                }
-            }
-
-            return args;
+            return ScadaUtils.ParseArgs(ViewEntity.Args, '&');
         }
 
         /// <summary>

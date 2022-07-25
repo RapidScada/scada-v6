@@ -41,17 +41,24 @@ namespace Scada
             Dictionary<string, string> args = new Dictionary<string, string>();
             string[] parts = (s ?? "").Split(separator);
 
-            foreach (string line in parts)
+            foreach (string part in parts)
             {
-                int operIdx = line.IndexOf('=');
+                string key;
+                string val;
+                int idx = part.IndexOf("=");
 
-                if (operIdx > 0)
+                if (idx >= 0)
                 {
-                    string name = line.Substring(0, operIdx).Trim();
-
-                    if (name != "")
-                        args[name] = line.Substring(operIdx + 1).Trim();
+                    key = part.Substring(0, idx).Trim();
+                    val = part.Substring(idx + 1).Trim();
                 }
+                else
+                {
+                    key = part.Trim();
+                    val = "";
+                }
+
+                args[key] = val;
             }
 
             return args;
