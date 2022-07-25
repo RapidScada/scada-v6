@@ -1,7 +1,9 @@
 ﻿// Copyright (c) Rapid Software LLC. All rights reserved.
 // Licensed under the Apache License, Version 2.0. See License.txt in the project root for license information.
 
-namespace Scada.Report.Xml2003.Excel
+using System.Xml;
+
+namespace Scada.Report.Xml2003
 {
     /// <summary>
     /// Provides data for report events that contain a directive.
@@ -15,11 +17,6 @@ namespace Scada.Report.Xml2003.Excel
         public ProcessingStage Stage { get; init; }
 
         /// <summary>
-        /// Gets the Excel cell that contains the directive.
-        /// </summary>
-        public Cell Cell { get; init; }
-
-        /// <summary>
         /// Gets the directive name.
         /// </summary>
         public string DirectiveName { get; init; }
@@ -28,5 +25,10 @@ namespace Scada.Report.Xml2003.Excel
         /// Gets the directive value.
         /// </summary>
         public string DirectiveValue { get; init; }
+
+        /// <summary>
+        /// Gets the XML node that contains the directive.
+        /// </summary>
+        public XmlNode Node { get; init; }
     }
 }

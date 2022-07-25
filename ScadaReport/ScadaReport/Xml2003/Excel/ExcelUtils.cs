@@ -64,6 +64,7 @@ namespace Scada.Report.Xml2003.Excel
         /// </summary>
         public static void SetNodeTextWithBreak(XmlNode xmlNode, object text, string lineBreak = "\n")
         {
+            ArgumentNullException.ThrowIfNull(xmlNode, nameof(xmlNode));
             string textStr = text?.ToString();
 
             if (string.IsNullOrEmpty(textStr))
