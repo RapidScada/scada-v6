@@ -21,5 +21,10 @@ namespace Scada.Report
         /// Gets the report context.
         /// </summary>
         protected IReportContext ReportContext { get; }
+
+        /// <summary>
+        /// Generates a report to the output stream.
+        /// </summary>
+        public abstract void Generate(ReportArgs args, Stream outStream);
     }
 }
