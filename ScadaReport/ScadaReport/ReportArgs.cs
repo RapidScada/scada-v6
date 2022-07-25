@@ -17,7 +17,7 @@ namespace Scada.Report
             StartDT = DateTime.MinValue;
             EndDT = DateTime.MinValue;
             Format = OutputFormat.Default;
-            CustomArgs = null;
+            CustomArgs = new Dictionary<string, string>();
         }
 
 
@@ -37,8 +37,8 @@ namespace Scada.Report
         public OutputFormat Format { get; set; }
 
         /// <summary>
-        /// Gets or sets the custom report arguments.
+        /// Gets the custom report arguments.
         /// </summary>
-        public IDictionary<string, string> CustomArgs { get; set; }
+        public IDictionary<string, string> CustomArgs { get; }
     }
 }
