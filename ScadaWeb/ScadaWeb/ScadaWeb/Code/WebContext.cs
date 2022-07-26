@@ -478,6 +478,7 @@ namespace Scada.Web.Code
                     Log.WriteError(ex, Locale.IsRussian ?
                         "Ошибка при обновлении конфигурации" :
                         "Error updating configuration");
+                    Thread.Sleep(ScadaUtils.ErrorDelay);
                 }
                 finally
                 {

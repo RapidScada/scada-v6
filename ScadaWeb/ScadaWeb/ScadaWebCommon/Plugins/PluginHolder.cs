@@ -26,6 +26,7 @@
 using Microsoft.AspNetCore.Mvc.Filters;
 using Microsoft.Extensions.DependencyInjection;
 using Scada.Data.Entities;
+using Scada.Lang;
 using Scada.Log;
 using Scada.Web.Config;
 using Scada.Web.Lang;
@@ -96,7 +97,12 @@ namespace Scada.Web.Plugins
             ArgumentNullException.ThrowIfNull(pluginLogic, nameof(pluginLogic));
 
             if (pluginMap.ContainsKey(pluginLogic.Code))
-                throw new ScadaException("Plugin already exists.");
+            {
+                log.WriteError(Locale.IsRussian ?
+                    "Невозможно добавить плагин с кодом {0}. Он уже существует." :
+                    "Unable to add plugin with code {0}. It already exists.", pluginLogic.Code);
+                return;
+            }
 
             plugins.Add(pluginLogic);
             pluginMap.Add(pluginLogic.Code, pluginLogic);
