@@ -69,6 +69,10 @@
     <Phrase key="lblRememberMe">Remember me</Phrase>
     <Phrase key="btnLogin">Login</Phrase>
   </Dictionary>
+  <Dictionary key="Scada.Web.Pages.Reports">
+    <Phrase key="PageTitle">Reports</Phrase>
+    <Phrase key="NoReports">No reports available.</Phrase>
+  </Dictionary>
   <Dictionary key="Scada.Web.Pages.UserProfile">
     <Phrase key="PageTitle">User Profile</Phrase>
     <Phrase key="lblUserID">User ID:</Phrase>

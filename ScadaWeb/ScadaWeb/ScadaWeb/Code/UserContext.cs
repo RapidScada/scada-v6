@@ -65,6 +65,7 @@ namespace Scada.Web.Code
             Rights = new UserRights();
             Objects = new UserObjects();
             Menu = new UserMenu();
+            Reports = new UserReports();
             Views = new UserViews();
             TimeZone = TimeZoneInfo.Local;
         }

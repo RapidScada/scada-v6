@@ -20,7 +20,7 @@
  * 
  * Author   : Mikhail Shiryaev
  * Created  : 2021
- * Modified : 2021
+ * Modified : 2022
  */
 
 #pragma warning disable 1591 // Missing XML comment for publicly visible type or member
@@ -42,6 +42,7 @@ namespace Scada.Web
         public const string IndexPage = "/Index";
         public const string LoginPage = "/Login";
         public const string LogoutPage = "/Logout";
+        public const string ReportsPage = "/Reports";
         public const string DefaultStartPage = "/View";
 
         public static string GetViewPath(int viewID)

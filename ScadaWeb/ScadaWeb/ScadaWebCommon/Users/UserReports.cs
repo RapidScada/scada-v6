@@ -27,7 +27,9 @@ using Scada.Data.Entities;
 using Scada.Lang;
 using Scada.Web.Plugins;
 using Scada.Web.Services;
+using Scada.Web.TreeView;
 using System;
+using System.Collections.Generic;
 
 namespace Scada.Web.Users
 {
@@ -60,6 +62,26 @@ namespace Scada.Web.Users
                     "Ошибка при инициализации отчётов пользователя" :
                     "Error initializing user reports");
             }
+        }
+
+        /// <summary>
+        /// Flattens the report hierarchy.
+        /// </summary>
+        public List<MenuItem> ToFlatList()
+        {
+            List<MenuItem> reportItems = new();
+
+            void AddItems(List<MenuItem> items)
+            {
+                foreach (MenuItem menuItem in MenuItems)
+                {
+                    reportItems.Add(menuItem);
+                    AddItems(menuItem.Subitems);
+                }
+            }
+
+            AddItems(MenuItems);
+            return reportItems;
         }
     }
 }

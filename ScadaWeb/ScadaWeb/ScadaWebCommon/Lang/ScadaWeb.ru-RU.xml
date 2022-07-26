@@ -69,6 +69,10 @@
     <Phrase key="lblRememberMe">Запомнить меня</Phrase>
     <Phrase key="btnLogin">Войти</Phrase>
   </Dictionary>
+  <Dictionary key="Scada.Web.Pages.Reports">
+    <Phrase key="PageTitle">Отчёты</Phrase>
+    <Phrase key="NoReports">Доступные отчёты отсутствуют.</Phrase>
+  </Dictionary>
   <Dictionary key="Scada.Web.Pages.UserProfile">
     <Phrase key="PageTitle">Профиль пользователя</Phrase>
     <Phrase key="lblUserID">Идентификатор:</Phrase>

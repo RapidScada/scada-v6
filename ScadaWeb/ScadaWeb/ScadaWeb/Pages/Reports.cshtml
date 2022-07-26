@@ -1,0 +1,23 @@
+﻿@page
+@inject IUserContext userContext
+@model ReportsModel
+@{
+    Layout = "_MainLayout";
+    dynamic dict = Locale.GetDictionary("Scada.Web.Pages.Reports");
+    ViewBag.Title = dict.PageTitle;
+    var reportItems = userContext.Reports.ToFlatList();
+}
+
+<h1>@dict.PageTitle</h1>
+
+@if (reportItems.Count > 0)
+{
+    foreach (var reportItem in reportItems)
+    {
+        <div><a href="@reportItem.Url">@reportItem.Text</a></div>
+    }
+}
+else
+{
+    <div>@dict.NoReports</div>
+}
