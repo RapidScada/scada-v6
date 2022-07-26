@@ -73,7 +73,7 @@ namespace Scada.Web.Users
 
             void AddItems(List<MenuItem> items)
             {
-                foreach (MenuItem menuItem in MenuItems)
+                foreach (MenuItem menuItem in items)
                 {
                     reportItems.Add(menuItem);
                     AddItems(menuItem.Subitems);
