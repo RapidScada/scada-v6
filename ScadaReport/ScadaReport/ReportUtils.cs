@@ -12,11 +12,11 @@ namespace Scada.Report
         /// <summary>
         /// Gets the actual report start date.
         /// </summary>
-        public static DateTime GetStartDate(RelativeStartDate startDate, DateTime currentDate)
+        public static DateTime GetStartDate(RelativeDate startDate, DateTime currentDate)
         {
             return startDate switch
             {
-                RelativeStartDate.Yesterday => currentDate.AddDays(-1.0).Date,
+                RelativeDate.Yesterday => currentDate.AddDays(-1.0).Date,
                 _ => currentDate.Date,
             };
         }

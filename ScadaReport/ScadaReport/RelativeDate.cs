@@ -6,10 +6,10 @@
 namespace Scada.Report
 {
     /// <summary>
-    /// Specifies the relative report start dates.
-    /// <para>Задает относительные даты начала отчёта.</para>
+    /// Specifies the relative report dates.
+    /// <para>Задает относительные даты отчёта.</para>
     /// </summary>
-    public enum RelativeStartDate
+    public enum RelativeDate
     {
         Today,
         Yesterday
