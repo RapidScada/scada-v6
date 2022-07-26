@@ -32,7 +32,7 @@ namespace Scada.Web.Plugins.PlgDataReport
         /// </summary>
         public override List<MenuItem> GetUserReports(User user, UserRights userRights)
         {
-            MenuItem headerItem = new() { Text = "General Reports", SortOrder = MenuItemSortOrder.First };
+            MenuItem headerItem = new() { Text = "General Reports" };
             headerItem.Subitems.Add(new MenuItem { Text = "Data report", Url = "~/DataReport/DataRep", SortOrder = 0 });
             headerItem.Subitems.Add(new MenuItem { Text = "Event report", Url = "~/DataReport/EventRep", SortOrder = 1 });
             return new List<MenuItem> { headerItem };
