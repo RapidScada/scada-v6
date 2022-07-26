@@ -2,13 +2,10 @@
 // Licensed under the Apache License, Version 2.0. See License.txt in the project root for license information.
 
 using Microsoft.Extensions.DependencyInjection;
-using Scada.Data.Entities;
 using Scada.Lang;
 using Scada.Web.Lang;
 using Scada.Web.Plugins.PlgMain.Code;
 using Scada.Web.Services;
-using Scada.Web.TreeView;
-using Scada.Web.Users;
 using System.Collections.Generic;
 
 namespace Scada.Web.Plugins.PlgMain
@@ -82,18 +79,6 @@ namespace Scada.Web.Plugins.PlgMain
         public override void AddServices(IServiceCollection services)
         {
             services.AddSingleton(pluginContext);
-        }
-
-        /// <summary>
-        /// Gets menu items available for the specified user.
-        /// </summary>
-        public override List<MenuItem> GetUserMenuItems(User user, UserRights userRights)
-        {
-            /*MenuItem reportsItem = MenuItem.FromKnownMenuItem(KnownMenuItem.Reports);
-            reportsItem.Subitems.Add(new MenuItem { Text = "Data report", Url = "~/Main/DataRep", SortOrder = 0 });
-            reportsItem.Subitems.Add(new MenuItem { Text = "Event report", Url = "~/Main/EventRep", SortOrder = 1 });
-            return new List<MenuItem>() { reportsItem };*/
-            return null;
         }
     }
 }
