@@ -62,6 +62,7 @@ namespace Scada.Web.Code
                 userContext.Rights.Init(webContext.ConfigDatabase.RightMatrix, userEntity.RoleID);
                 userContext.Objects.Init(webContext.ConfigDatabase.ObjTable, userContext.Rights);
                 userContext.Menu.Init(webContext, userEntity, userContext.Rights);
+                userContext.Reports.Init(webContext, userEntity, userContext.Rights);
                 userContext.Views.Init(webContext, userContext.Rights);
 
                 UserConfig userConfig = webContext.PluginHolder.GetUserConfig(userID);

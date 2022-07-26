@@ -20,7 +20,7 @@
  * 
  * Author   : Mikhail Shiryaev
  * Created  : 2021
- * Modified : 2021
+ * Modified : 2022
  */
 
 using Scada.Data.Const;
@@ -89,6 +89,11 @@ namespace Scada.Web.Code
         /// Gets the main menu items available to the user.
         /// </summary>
         public UserMenu Menu { get; }
+
+        /// <summary>
+        /// Gets the reports available to the user.
+        /// </summary>
+        public UserReports Reports { get; }
 
         /// <summary>
         /// Gets the view explorer nodes available to the user.

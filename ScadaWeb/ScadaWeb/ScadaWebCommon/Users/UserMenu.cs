@@ -24,9 +24,7 @@
  */
 
 using Scada.Data.Entities;
-using Scada.Data.Models;
 using Scada.Lang;
-using Scada.Log;
 using Scada.Web.Plugins;
 using Scada.Web.Services;
 using Scada.Web.TreeView;
@@ -59,7 +57,7 @@ namespace Scada.Web.Users
         /// <summary>
         /// Merges the menu items recursively.
         /// </summary>
-        private static void MergeMenuItems(List<MenuItem> existingItems, List<MenuItem> addedItems, int level)
+        protected static void MergeMenuItems(List<MenuItem> existingItems, List<MenuItem> addedItems, int level)
         {
             if (addedItems == null)
                 return;
@@ -102,7 +100,7 @@ namespace Scada.Web.Users
         /// <summary>
         /// Sets the nesting levels of the menu items recursively.
         /// </summary>
-        private static void SetMenuItemLevels(List<MenuItem> items, int level)
+        protected static void SetMenuItemLevels(List<MenuItem> items, int level)
         {
             if (items != null)
             {
@@ -118,14 +116,11 @@ namespace Scada.Web.Users
         /// <summary>
         /// Initializes the user menu.
         /// </summary>
-        public void Init(IWebContext webContext, User user, UserRights userRights)
+        public virtual void Init(IWebContext webContext, User user, UserRights userRights)
         {
-            if (webContext == null)
-                throw new ArgumentNullException(nameof(webContext));
-            if (user == null)
-                throw new ArgumentNullException(nameof(user));
-            if (userRights == null)
-                throw new ArgumentNullException(nameof(userRights));
+            ArgumentNullException.ThrowIfNull(webContext, nameof(webContext));
+            ArgumentNullException.ThrowIfNull(user, nameof(user));
+            ArgumentNullException.ThrowIfNull(userRights, nameof(userRights));
 
             try
             {
@@ -137,7 +132,11 @@ namespace Scada.Web.Users
                 }
 
                 // add default menu items
-                MergeMenuItems(MenuItems, new List<MenuItem>() { MenuItem.FromKnownMenuItem(KnownMenuItem.About) }, 0);
+                MergeMenuItems(MenuItems, new List<MenuItem>
+                {
+                    MenuItem.FromKnownMenuItem(KnownMenuItem.Reports),
+                    MenuItem.FromKnownMenuItem(KnownMenuItem.About)
+                }, 0);
             }
             catch (Exception ex)
             {

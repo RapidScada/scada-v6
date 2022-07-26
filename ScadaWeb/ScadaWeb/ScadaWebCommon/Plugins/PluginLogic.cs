@@ -20,7 +20,7 @@
  * 
  * Author   : Mikhail Shiryaev
  * Created  : 2021
- * Modified : 2021
+ * Modified : 2022
  */
 
 using Microsoft.AspNetCore.Mvc.Filters;
@@ -159,6 +159,14 @@ namespace Scada.Web.Plugins
         /// Gets menu items available for the specified user.
         /// </summary>
         public virtual List<MenuItem> GetUserMenuItems(User user, UserRights userRights)
+        {
+            return null;
+        }
+
+        /// <summary>
+        /// Gets reports available for the specified user.
+        /// </summary>
+        public virtual List<MenuItem> GetUserReports(User user, UserRights userRights)
         {
             return null;
         }

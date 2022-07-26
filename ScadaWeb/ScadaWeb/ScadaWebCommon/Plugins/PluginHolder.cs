@@ -93,8 +93,7 @@ namespace Scada.Web.Plugins
         /// </summary>
         public void AddPlugin(PluginLogic pluginLogic)
         {
-            if (pluginLogic == null)
-                throw new ArgumentNullException(nameof(pluginLogic));
+            ArgumentNullException.ThrowIfNull(pluginLogic, nameof(pluginLogic));
 
             if (pluginMap.ContainsKey(pluginLogic.Code))
                 throw new ScadaException("Plugin already exists.");
@@ -176,8 +175,7 @@ namespace Scada.Web.Plugins
         /// </summary>
         public void DefineFeaturedPlugins(PluginAssignment pluginAssignment)
         {
-            if (pluginAssignment == null)
-                throw new ArgumentNullException(nameof(pluginAssignment));
+            ArgumentNullException.ThrowIfNull(pluginAssignment, nameof(pluginAssignment));
 
             FeaturedPlugins.ChartPlugin = GetPlugin(pluginAssignment.ChartFeature);
             FeaturedPlugins.CommandPlugin = GetPlugin(pluginAssignment.CommandFeature);
@@ -465,8 +463,7 @@ namespace Scada.Web.Plugins
         /// </summary>
         public List<MenuItem> GetUserMenuItems(PluginLogic pluginLogic, User user, UserRights userRights)
         {
-            if (pluginLogic == null)
-                throw new ArgumentNullException(nameof(pluginLogic));
+            ArgumentNullException.ThrowIfNull(pluginLogic, nameof(pluginLogic));
 
             lock (pluginLock)
             {
@@ -477,6 +474,27 @@ namespace Scada.Web.Plugins
                 catch (Exception ex)
                 {
                     log.WriteError(ex, WebPhrases.ErrorInPlugin, nameof(GetUserMenuItems), pluginLogic.Code);
+                    return null;
+                }
+            }
+        }
+
+        /// <summary>
+        /// Calls the GetUserReports method of the specified plugin.
+        /// </summary>
+        public List<MenuItem> GetUserReports(PluginLogic pluginLogic, User user, UserRights userRights)
+        {
+            ArgumentNullException.ThrowIfNull(pluginLogic, nameof(pluginLogic));
+
+            lock (pluginLock)
+            {
+                try
+                {
+                    return pluginLogic.GetUserReports(user, userRights);
+                }
+                catch (Exception ex)
+                {
+                    log.WriteError(ex, WebPhrases.ErrorInPlugin, nameof(GetUserReports), pluginLogic.Code);
                     return null;
                 }
             }

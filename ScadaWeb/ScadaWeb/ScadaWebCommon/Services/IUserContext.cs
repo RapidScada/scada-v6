@@ -56,6 +56,11 @@ namespace Scada.Web.Services
         UserMenu Menu { get; }
 
         /// <summary>
+        /// Gets the reports available to the user.
+        /// </summary>
+        UserReports Reports { get; }
+
+        /// <summary>
         /// Gets the view explorer nodes available to the user.
         /// </summary>
         UserViews Views { get; }
