@@ -1,4 +1,4 @@
-// Copyright (c) Rapid Software LLC. All rights reserved.
+п»ї// Copyright (c) Rapid Software LLC. All rights reserved.
 // Licensed under the Apache License, Version 2.0. See License.txt in the project root for license information.
 
 using Microsoft.AspNetCore.Mvc;
@@ -10,14 +10,13 @@ using Scada.Protocol;
 using Scada.Web.Lang;
 using Scada.Web.Plugins.PlgMain.Code;
 using Scada.Web.Services;
-using System;
 using System.Globalization;
 
 namespace Scada.Web.Plugins.PlgMain.Areas.Main.Pages
 {
     /// <summary>
     /// Represents a page for sending a telecontrol command.
-    /// <para>Представляет страницу для отправки команды ТУ.</para>
+    /// <para>РџСЂРµРґСЃС‚Р°РІР»СЏРµС‚ СЃС‚СЂР°РЅРёС†Сѓ РґР»СЏ РѕС‚РїСЂР°РІРєРё РєРѕРјР°РЅРґС‹ РўРЈ.</para>
     /// </summary>
     public class CommandModel : PageModel
     {

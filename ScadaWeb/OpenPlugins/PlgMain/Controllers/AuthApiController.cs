@@ -8,8 +8,6 @@ using Scada.Web.Lang;
 using Scada.Web.Plugins.PlgMain.Code;
 using Scada.Web.Plugins.PlgMain.Models;
 using Scada.Web.Services;
-using System;
-using System.Threading.Tasks;
 
 namespace Scada.Web.Plugins.PlgMain.Controllers
 {

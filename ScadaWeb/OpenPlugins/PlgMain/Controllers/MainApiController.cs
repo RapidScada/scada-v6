@@ -14,9 +14,6 @@ using Scada.Web.Plugins.PlgMain.Code;
 using Scada.Web.Plugins.PlgMain.Models;
 using Scada.Web.Services;
 using Scada.Web.Users;
-using System;
-using System.Collections.Generic;
-using System.Linq;
 
 namespace Scada.Web.Plugins.PlgMain.Controllers
 {

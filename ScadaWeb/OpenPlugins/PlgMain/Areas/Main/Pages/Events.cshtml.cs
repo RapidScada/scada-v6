@@ -1,9 +1,7 @@
-// Copyright (c) Rapid Software LLC. All rights reserved.
+п»ї// Copyright (c) Rapid Software LLC. All rights reserved.
 // Licensed under the Apache License, Version 2.0. See License.txt in the project root for license information.
 
 using Microsoft.AspNetCore.Mvc.RazorPages;
-using Scada.Data.Entities;
-using Scada.Data.Tables;
 using Scada.Web.Plugins.PlgMain.Code;
 using Scada.Web.Services;
 
@@ -11,7 +9,7 @@ namespace Scada.Web.Plugins.PlgMain.Areas.Main.Pages
 {
     /// <summary>
     /// Represents a page that contains a list of events.
-    /// <para>Представляет страницу, содержащую список событий.</para>
+    /// <para>РџСЂРµРґСЃС‚Р°РІР»СЏРµС‚ СЃС‚СЂР°РЅРёС†Сѓ, СЃРѕРґРµСЂР¶Р°С‰СѓСЋ СЃРїРёСЃРѕРє СЃРѕР±С‹С‚РёР№.</para>
     /// </summary>
     public class EventsModel : PageModel
     {

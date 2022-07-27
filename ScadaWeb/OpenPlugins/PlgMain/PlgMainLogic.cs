@@ -6,7 +6,6 @@ using Scada.Lang;
 using Scada.Web.Lang;
 using Scada.Web.Plugins.PlgMain.Code;
 using Scada.Web.Services;
-using System.Collections.Generic;
 
 namespace Scada.Web.Plugins.PlgMain
 {

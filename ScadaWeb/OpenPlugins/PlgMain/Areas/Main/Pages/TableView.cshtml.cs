@@ -1,15 +1,12 @@
-// Copyright (c) Rapid Software LLC. All rights reserved.
+п»ї// Copyright (c) Rapid Software LLC. All rights reserved.
 // Licensed under the Apache License, Version 2.0. See License.txt in the project root for license information.
 
 using Microsoft.AspNetCore.Html;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Scada.Data.Entities;
-using Scada.Data.Tables;
 using Scada.Lang;
 using Scada.Web.Plugins.PlgMain.Code;
 using Scada.Web.Services;
-using System;
-using System.Collections.Generic;
 using System.Text;
 using System.Web;
 
@@ -17,7 +14,7 @@ namespace Scada.Web.Plugins.PlgMain.Areas.Main.Pages
 {
     /// <summary>
     /// Represents a table view page.
-    /// <para>Представляет страницу табличного представления.</para>
+    /// <para>РџСЂРµРґСЃС‚Р°РІР»СЏРµС‚ СЃС‚СЂР°РЅРёС†Сѓ С‚Р°Р±Р»РёС‡РЅРѕРіРѕ РїСЂРµРґСЃС‚Р°РІР»РµРЅРёСЏ.</para>
     /// </summary>
     public class TableViewModel : PageModel
     {
