@@ -2,7 +2,8 @@
 // Licensed under the Apache License, Version 2.0. See License.txt in the project root for license information.
 
 using Microsoft.AspNetCore.Mvc;
-using System.IO;
+using Scada.Report;
+using Scada.Web.Plugins.PlgMain.Code;
 
 namespace Scada.Web.Plugins.PlgMain.Controllers
 {
@@ -27,8 +28,22 @@ namespace Scada.Web.Plugins.PlgMain.Controllers
         /// </summary>
         public IActionResult PrintEvents(int viewID)
         {
-            string filePath = @"C:\SCADA\ScadaWeb\wwwroot\images\gear.png";
-            return PhysicalFile(filePath, "application/octet-stream", Path.GetFileName(filePath));
+            MemoryStream stream = new();
+
+            try
+            {
+                EventWorkbookBuilder builder = new();
+                builder.Build(stream);
+                stream.Position = 0;
+            }
+            catch
+            {
+                stream.Dispose();
+                throw;
+            }
+
+            return File(stream, "application/octet-stream", 
+                ReportUtils.BuildFileName("Events", OutputFormat.OpenXml));
         }
     }
 }

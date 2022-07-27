@@ -97,5 +97,27 @@ namespace Scada.Report
                     startDate.AddDays(period - 1);
             }
         }
+
+        /// <summary>
+        /// Builds a report file name to save or download.
+        /// </summary>
+        public static string BuildFileName(string prefix, OutputFormat format)
+        {
+            return prefix + "_" + DateTime.Now.ToString("yyyy-MM-dd_HH-mm-ss") + format.GetExtension();
+        }
+
+        /// <summary>
+        /// Gets the file extension, including the period, according to the output format.
+        /// </summary>
+        public static string GetExtension(this OutputFormat format)
+        {
+            return format switch
+            {
+                OutputFormat.Pdf => ".pdf",
+                OutputFormat.Xml2003 => ".xml",
+                OutputFormat.OpenXml => ".xlsx",
+                _ => ""
+            };
+        }
     }
 }
