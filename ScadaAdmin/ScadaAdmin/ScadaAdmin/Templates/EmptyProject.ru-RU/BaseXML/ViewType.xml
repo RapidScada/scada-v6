@@ -5,13 +5,14 @@
     <Name>Таблица</Name>
     <Code>TableView</Code>
     <FileExt>tbl</FileExt>
+    <Descr>Требуется плагин Основной</Descr>
   </ViewType>
   <ViewType>
     <ViewTypeID>2</ViewTypeID>
     <Name>Мнемосхема</Name>
     <Code>SchemeView</Code>
     <FileExt>sch</FileExt>
-    <Descr />
+    <Descr>Требуется плагин Схемы</Descr>
   </ViewType>
   <ViewType>
     <ViewTypeID>3</ViewTypeID>
@@ -38,12 +39,6 @@
     <Code>MapView</Code>
     <FileExt>map</FileExt>
     <Descr>Требуется плагин Карты</Descr>
-  </ViewType>
-  <ViewType>
-    <ViewTypeID>7</ViewTypeID>
-    <Name>Гибкий отчёт</Name>
-    <Code>ElasticRep</Code>
-    <Descr>Требуется плагин Гибкий отчёт</Descr>
   </ViewType>
   <ViewType>
     <ViewTypeID>101</ViewTypeID>

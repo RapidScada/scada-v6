@@ -5,18 +5,20 @@
     <Name>Table view</Name>
     <Code>TableView</Code>
     <FileExt>tbl</FileExt>
+    <Descr>Requires Main Plugin</Descr>
   </ViewType>
   <ViewType>
     <ViewTypeID>2</ViewTypeID>
     <Name>Scheme view</Name>
     <Code>SchemeView</Code>
     <FileExt>sch</FileExt>
-    <Descr />
+    <Descr>Requires Scheme Plugin</Descr>
   </ViewType>
   <ViewType>
     <ViewTypeID>3</ViewTypeID>
     <Name>Web page view</Name>
     <Code>WebPageView</Code>
+    <Descr>Requires Web Page Plugin</Descr>
   </ViewType>
   <ViewType>
     <ViewTypeID>4</ViewTypeID>
@@ -37,12 +39,6 @@
     <Code>MapView</Code>
     <FileExt>map</FileExt>
     <Descr>Requires Map Plugin</Descr>
-  </ViewType>
-  <ViewType>
-    <ViewTypeID>7</ViewTypeID>
-    <Name>Elastic report</Name>
-    <Code>ElasticRep</Code>
-    <Descr>Requires Elastic Report Plugin</Descr>
   </ViewType>
   <ViewType>
     <ViewTypeID>101</ViewTypeID>
