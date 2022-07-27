@@ -10,7 +10,6 @@ using Scada.Web.Api;
 using Scada.Web.Authorization;
 using Scada.Web.Plugins.PlgChart.Code;
 using Scada.Web.Services;
-using System;
 using System.Text;
 
 namespace Scada.Web.Plugins.PlgChart.Areas.Chart.Pages
