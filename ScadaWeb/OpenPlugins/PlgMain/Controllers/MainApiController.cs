@@ -149,7 +149,6 @@ namespace Scada.Web.Plugins.PlgMain.Controllers
         private static DataFilter GetEventFilter(int limit, ViewBase view)
         {
             DataFilter dataFilter = GetEventFilter(limit);
-            dataFilter.RequireAll = false;
             dataFilter.AddCondition("CnlNum", FilterOperator.In, view.CnlNumList);
             return dataFilter;
         }
