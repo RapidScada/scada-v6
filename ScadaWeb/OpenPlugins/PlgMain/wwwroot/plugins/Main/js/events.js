@@ -77,7 +77,10 @@ function bindEvents() {
     });
 
     $("#spanPrintBtn").click(function () {
-        developmentAlert();
+        // generate Excel workbook
+        location = allEvents
+            ? "Print/PrintAllEvents"
+            : "Print/PrintEventsByView?viewID=" + viewHub.viewID;
     });
 
     $("#tblEvents").click(function (event) {

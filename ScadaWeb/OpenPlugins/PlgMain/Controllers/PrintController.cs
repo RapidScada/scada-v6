@@ -1,9 +1,15 @@
 ﻿// Copyright (c) Rapid Software LLC. All rights reserved.
 // Licensed under the Apache License, Version 2.0. See License.txt in the project root for license information.
 
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Scada.Data.Models;
+using Scada.Data.Tables;
 using Scada.Report;
+using Scada.Web.Authorization;
 using Scada.Web.Plugins.PlgMain.Code;
+using Scada.Web.Services;
+using System.Net.Mime;
 
 namespace Scada.Web.Plugins.PlgMain.Controllers
 {
@@ -11,9 +17,56 @@ namespace Scada.Web.Plugins.PlgMain.Controllers
     /// Represents a controller for printing table views and events.
     /// <para>Представляет контроллер для печати табличных представлений и событий.</para>
     /// </summary>
+    [Authorize(Policy = PolicyName.Restricted)]
     [Route("Main/Print/[action]")]
     public class PrintController : Controller
     {
+        private readonly IWebContext webContext;
+        private readonly IUserContext userContext;
+        private readonly IClientAccessor clientAccessor;
+        private readonly IViewLoader viewLoader;
+        private readonly string templateDir;
+
+
+        /// <summary>
+        /// Initializes a new instance of the class.
+        /// </summary>
+        public PrintController(IWebContext webContext, IUserContext userContext, IClientAccessor clientAccessor, 
+            IViewLoader viewLoader)
+        {
+            this.webContext = webContext;
+            this.userContext = userContext;
+            this.clientAccessor = clientAccessor;
+            this.viewLoader = viewLoader;
+            templateDir = Path.Combine(webContext.AppDirs.ExeDir, "wwwroot", "plugins", "Main", "templates");
+        }
+
+
+        /// <summary>
+        /// Prints events matching the specified filter to an Excel workbook.
+        /// </summary>
+        private Stream PrintEvents(DataFilter eventFilter)
+        {
+            MemoryStream stream = new();
+
+            try
+            {
+                EventWorkbookBuilder builder = new(webContext.ConfigDatabase, clientAccessor.ScadaClient, templateDir)
+                { 
+                    EventFilter = eventFilter 
+                };
+                builder.Build(stream);
+                stream.Position = 0;
+            }
+            catch
+            {
+                stream.Dispose();
+                throw;
+            }
+
+            return stream;
+        }
+
         /// <summary>
         /// Prints the specified table view to an Excel workbook.
         /// </summary>
@@ -24,26 +77,30 @@ namespace Scada.Web.Plugins.PlgMain.Controllers
         }
 
         /// <summary>
-        /// Prints events filtered by the specified view ID to an Excel workbook.
+        /// Prints last events filtered by the specified view ID to an Excel workbook.
         /// </summary>
-        public IActionResult PrintEvents(int viewID)
+        public IActionResult PrintEventsByView(int viewID)
         {
-            MemoryStream stream = new();
+            if (!viewLoader.GetView(viewID, out ViewBase view, out string errMsg))
+                throw new ScadaException(errMsg);
 
-            try
-            {
-                EventWorkbookBuilder builder = new();
-                builder.Build(stream);
-                stream.Position = 0;
-            }
-            catch
-            {
-                stream.Dispose();
-                throw;
-            }
+            DataFilter eventFilter = null;
 
-            return File(stream, "application/octet-stream", 
-                ReportUtils.BuildFileName("Events", OutputFormat.OpenXml));
+            return File(
+                PrintEvents(eventFilter),
+                MediaTypeNames.Application.Octet,
+                ReportUtils.BuildFileName("Events", OutputFormat.Xml2003));
+        }
+
+        /// <summary>
+        /// Prints all last events to an Excel workbook.
+        /// </summary>
+        public IActionResult PrintAllEvents()
+        {
+            return File(
+                PrintEvents(null),
+                MediaTypeNames.Application.Octet,
+                ReportUtils.BuildFileName("Events", OutputFormat.Xml2003));
         }
     }
 }

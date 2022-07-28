@@ -20,7 +20,7 @@
  * 
  * Author   : Mikhail Shiryaev
  * Created  : 2021
- * Modified : 2021
+ * Modified : 2022
  */
 
 using Microsoft.AspNetCore.Authorization;
@@ -43,6 +43,7 @@ namespace Scada.Web.Authorization
         private readonly IUserContext userContext;
         private readonly IHttpContextAccessor httpContextAccessor;
 
+
         /// <summary>
         /// Initializes a new instance of the class.
         /// </summary>
@@ -52,6 +53,40 @@ namespace Scada.Web.Authorization
             this.webContext = webContext ?? throw new ArgumentNullException(nameof(webContext));
             this.userContext = userContext ?? throw new ArgumentNullException(nameof(userContext));
             this.httpContextAccessor = httpContextAccessor ?? throw new ArgumentNullException(nameof(httpContextAccessor));
+        }
+
+
+        /// <summary>
+        /// Checks channel access rights.
+        /// </summary>
+        private bool CheckChannelAccess(string cnlNumsStr)
+        {
+            if (!string.IsNullOrEmpty(cnlNumsStr))
+            {
+                IList<int> cnlNums = ScadaUtils.ParseRange(cnlNumsStr, true, true);
+
+                foreach (int cnlNum in cnlNums)
+                {
+                    Cnl cnl = webContext.ConfigDatabase.CnlTable.GetItem(cnlNum);
+
+                    if (cnl == null)
+                        return false; // no rights on undefined channel
+                    else if (!userContext.Rights.GetRightByObj(cnl.ObjNum).View)
+                        return false;
+                }
+            }
+
+            return true;
+        }
+
+        /// <summary>
+        /// Checks view access rights.
+        /// </summary>
+        private bool CheckViewAccess(string viewIdStr)
+        {
+            return int.TryParse(viewIdStr, out int viewID) &&
+                webContext.ConfigDatabase.ViewTable.GetItem(viewID) is View view &&
+                userContext.Rights.GetRightByObj(view.ObjNum).View;
         }
 
         /// <summary>
@@ -65,28 +100,14 @@ namespace Scada.Web.Authorization
             {
                 accessAllowed = true;
             }
-            else if (httpContextAccessor.HttpContext is HttpContext httpContext)
+            else if (httpContextAccessor.HttpContext != null)
             {
-                accessAllowed = true;
-                string cnlNumsStr = httpContext.Request.Query["cnlNums"];
+                IQueryCollection query = httpContextAccessor.HttpContext.Request.Query;
+                bool cnlNumsOK = !query.ContainsKey("cnlNums") || CheckChannelAccess(query["cnlNums"]);
+                bool viewIdOK = !query.ContainsKey("viewID") || CheckViewAccess(query["viewID"]);
 
-                if (!string.IsNullOrEmpty(cnlNumsStr))
-                {
-                    IList<int> cnlNums = ScadaUtils.ParseRange(cnlNumsStr, true, true);
-
-                    foreach (int cnlNum in cnlNums)
-                    {
-                        Cnl cnl = webContext.ConfigDatabase.CnlTable.GetItem(cnlNum);
-
-                        if (cnl == null)
-                            accessAllowed = false; // no rights on undefined channel
-                        else if (!userContext.Rights.GetRightByObj(cnl.ObjNum).View)
-                            accessAllowed = false;
-
-                        if (!accessAllowed)
-                            break;
-                    }
-                }
+                if (cnlNumsOK && viewIdOK)
+                    accessAllowed = true;
             }
 
             if (accessAllowed)
