@@ -5,7 +5,6 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Caching.Memory;
 using Scada.Data.Entities;
 using Scada.Data.Models;
-using Scada.Data.Tables;
 using Scada.Protocol;
 using Scada.Web.Api;
 using Scada.Web.Authorization;
@@ -119,41 +118,6 @@ namespace Scada.Web.Plugins.PlgMain.Controllers
         }
 
         /// <summary>
-        /// Gets the filter to request limited number of events.
-        /// </summary>
-        private static DataFilter GetEventFilter(int limit)
-        {
-            return new DataFilter(typeof(Event)) 
-            {
-                Limit = limit,
-                OriginBegin = false
-            };
-        }
-
-        /// <summary>
-        /// Gets the filter to request events by available objects.
-        /// </summary>
-        private static DataFilter GetEventFilter(int limit, UserRights rights)
-        {
-            DataFilter dataFilter = GetEventFilter(limit);
-
-            if (!rights.ViewAll)
-                dataFilter.AddCondition("ObjNum", FilterOperator.In, rights.GetAvailableObjs().ToList());
-
-            return dataFilter;
-        }
-
-        /// <summary>
-        /// Gets the filter to request events by view.
-        /// </summary>
-        private static DataFilter GetEventFilter(int limit, ViewBase view)
-        {
-            DataFilter dataFilter = GetEventFilter(limit);
-            dataFilter.AddCondition("CnlNum", FilterOperator.In, view.CnlNumList);
-            return dataFilter;
-        }
-
-        /// <summary>
         /// Requests the current data from the server.
         /// </summary>
         private CurData RequestCurData(IList<int> cnlNums, long cnlListID, bool useCache)
@@ -254,7 +218,7 @@ namespace Scada.Web.Plugins.PlgMain.Controllers
         /// Requests events from the server.
         /// </summary>
         private EventPacket RequestEvents(int archiveBit, TimeRange timeRange, 
-            DataFilter filter, long filterID, bool useCache)
+            EventFilter filter, long filterID, bool useCache)
         {
             List<Event> events = filterID > 0
                 ? clientAccessor.ScadaClient.GetEvents(archiveBit, timeRange, ref filterID)
@@ -499,7 +463,7 @@ namespace Scada.Web.Plugins.PlgMain.Controllers
                     entry =>
                     {
                         entry.SetAbsoluteExpiration(DataCacheExpiration);
-                        return RequestEvents(archiveBit, CreateTimeRange(period), GetEventFilter(limit), 0, false);
+                        return RequestEvents(archiveBit, CreateTimeRange(period), new EventFilter(limit), 0, false);
                     });
 
                 return Dto<EventPacket>.Success(eventPacket);
@@ -530,7 +494,7 @@ namespace Scada.Web.Plugins.PlgMain.Controllers
                 EventPacket eventPacket = memoryCache.GetOrCreate(cacheKey, entry =>
                 {
                     entry.SetAbsoluteExpiration(DataCacheExpiration);
-                    DataFilter filter = filterID > 0 ? null : GetEventFilter(limit, rights);
+                    EventFilter filter = filterID > 0 ? null : new EventFilter(limit, rights);
                     return RequestEvents(archiveBit, CreateTimeRange(period), filter, filterID, true);
                 });
 
@@ -559,7 +523,7 @@ namespace Scada.Web.Plugins.PlgMain.Controllers
                         entry =>
                         {
                             entry.SetAbsoluteExpiration(DataCacheExpiration);
-                            DataFilter filter = filterID > 0 ? null : GetEventFilter(limit, view);
+                            EventFilter filter = filterID > 0 ? null : new EventFilter(limit, view);
                             return RequestEvents(archiveBit, CreateTimeRange(period), filter, filterID, true);
                         });
 

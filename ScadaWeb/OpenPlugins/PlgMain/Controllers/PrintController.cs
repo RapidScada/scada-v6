@@ -4,7 +4,6 @@
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Scada.Data.Models;
-using Scada.Data.Tables;
 using Scada.Report;
 using Scada.Web.Authorization;
 using Scada.Web.Plugins.PlgMain.Code;
@@ -45,17 +44,14 @@ namespace Scada.Web.Plugins.PlgMain.Controllers
         /// <summary>
         /// Prints events matching the specified filter to an Excel workbook.
         /// </summary>
-        private Stream PrintEvents(DataFilter eventFilter)
+        private Stream PrintEvents(EventFilter filter)
         {
             MemoryStream stream = new();
 
             try
             {
-                EventWorkbookBuilder builder = new(webContext.ConfigDatabase, clientAccessor.ScadaClient, templateDir)
-                { 
-                    EventFilter = eventFilter 
-                };
-                builder.Build(stream);
+                EventWorkbookBuilder builder = new(webContext.ConfigDatabase, clientAccessor.ScadaClient, templateDir);
+                builder.Build(filter, stream);
                 stream.Position = 0;
             }
             catch
@@ -84,10 +80,8 @@ namespace Scada.Web.Plugins.PlgMain.Controllers
             if (!viewLoader.GetView(viewID, out ViewBase view, out string errMsg))
                 throw new ScadaException(errMsg);
 
-            DataFilter eventFilter = null;
-
             return File(
-                PrintEvents(eventFilter),
+                PrintEvents(new EventFilter(100, view)), // TODO: report arguments: event count, archive bit
                 MediaTypeNames.Application.Octet,
                 ReportUtils.BuildFileName("Events", OutputFormat.Xml2003));
         }
@@ -98,7 +92,7 @@ namespace Scada.Web.Plugins.PlgMain.Controllers
         public IActionResult PrintAllEvents()
         {
             return File(
-                PrintEvents(null),
+                PrintEvents(new EventFilter(100)),
                 MediaTypeNames.Application.Octet,
                 ReportUtils.BuildFileName("Events", OutputFormat.Xml2003));
         }

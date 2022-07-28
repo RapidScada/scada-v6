@@ -2,7 +2,6 @@
 // Licensed under the Apache License, Version 2.0. See License.txt in the project root for license information.
 
 using Scada.Client;
-using Scada.Data.Tables;
 using Scada.Report.Xml2003.Excel;
 
 namespace Scada.Web.Plugins.PlgMain.Code
@@ -39,16 +38,12 @@ namespace Scada.Web.Plugins.PlgMain.Code
 
 
         /// <summary>
-        /// Gets or sets the event filter.
-        /// </summary>
-        public DataFilter EventFilter { get; set; }
-
-
-        /// <summary>
         /// Builds a workbook to the output stream.
         /// </summary>
-        public void Build(Stream outStream)
+        public void Build(EventFilter filter, Stream outStream)
         {
+            ArgumentNullException.ThrowIfNull(filter, nameof(filter));
+            ArgumentNullException.ThrowIfNull(outStream, nameof(outStream));
             renderer.Render(templateFilePath, outStream);
         }
     }
