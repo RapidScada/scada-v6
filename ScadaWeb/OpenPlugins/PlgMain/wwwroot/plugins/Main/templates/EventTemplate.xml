@@ -6,20 +6,20 @@
  xmlns:ss="urn:schemas-microsoft-com:office:spreadsheet"
  xmlns:html="http://www.w3.org/TR/REC-html40">
  <DocumentProperties xmlns="urn:schemas-microsoft-com:office:office">
-   <Author>Rapid SCADA</Author>
-   <LastAuthor>Rapid SCADA</LastAuthor>
-   <Created>2006-08-29T09:50:54Z</Created>
-  <Version>14.00</Version>
+  <Author>Rapid SCADA</Author>
+  <LastAuthor>Rapid SCADA</LastAuthor>
+  <Created>2006-08-29T09:50:54Z</Created>
+  <Version>16.00</Version>
  </DocumentProperties>
  <OfficeDocumentSettings xmlns="urn:schemas-microsoft-com:office:office">
   <DownloadComponents/>
-  <LocationOfComponents HRef="file:///G:\"/>
+  <LocationOfComponents HRef="file:///G:/"/>
  </OfficeDocumentSettings>
  <ExcelWorkbook xmlns="urn:schemas-microsoft-com:office:excel">
-  <WindowHeight>11760</WindowHeight>
-  <WindowWidth>15195</WindowWidth>
-  <WindowTopX>480</WindowTopX>
-  <WindowTopY>120</WindowTopY>
+  <WindowHeight>25095</WindowHeight>
+  <WindowWidth>32767</WindowWidth>
+  <WindowTopX>32767</WindowTopX>
+  <WindowTopY>32767</WindowTopY>
   <ProtectStructure>False</ProtectStructure>
   <ProtectWindows>False</ProtectWindows>
  </ExcelWorkbook>
@@ -34,7 +34,7 @@
   </Style>
   <Style ss:ID="s62">
    <Alignment ss:Vertical="Bottom"/>
-   <Font ss:FontName="Arial" x:CharSet="204" ss:Size="18"/>
+   <Font ss:FontName="Arial" x:CharSet="204" x:Family="Swiss" ss:Size="14"/>
   </Style>
   <Style ss:ID="s63">
    <Alignment ss:Horizontal="Center" ss:Vertical="Center"/>
@@ -44,7 +44,7 @@
     <Border ss:Position="Right" ss:LineStyle="Continuous" ss:Weight="1"/>
     <Border ss:Position="Top" ss:LineStyle="Continuous" ss:Weight="1"/>
    </Borders>
-   <Font ss:FontName="Arial" x:CharSet="204" ss:Size="12" ss:Bold="1"/>
+   <Font ss:FontName="Arial" x:CharSet="204" x:Family="Swiss" ss:Bold="1"/>
    <Interior ss:Color="#C0C0C0" ss:Pattern="Solid"/>
   </Style>
   <Style ss:ID="s64">
@@ -55,10 +55,9 @@
     <Border ss:Position="Right" ss:LineStyle="Continuous" ss:Weight="1"/>
     <Border ss:Position="Top" ss:LineStyle="Continuous" ss:Weight="1"/>
    </Borders>
-   <NumberFormat/>
   </Style>
   <Style ss:ID="s65">
-   <Alignment ss:Horizontal="Center" ss:Vertical="Center"/>
+   <Alignment ss:Horizontal="Left" ss:Vertical="Center"/>
    <Borders>
     <Border ss:Position="Bottom" ss:LineStyle="Continuous" ss:Weight="1"/>
     <Border ss:Position="Left" ss:LineStyle="Continuous" ss:Weight="1"/>
@@ -74,40 +73,59 @@
     <Border ss:Position="Right" ss:LineStyle="Continuous" ss:Weight="1"/>
     <Border ss:Position="Top" ss:LineStyle="Continuous" ss:Weight="1"/>
    </Borders>
+   <Font ss:FontName="Arial" x:CharSet="204" x:Family="Swiss"/>
+  </Style>
+  <Style ss:ID="s67">
+   <Alignment ss:Horizontal="Center" ss:Vertical="Center"/>
+   <Borders>
+    <Border ss:Position="Bottom" ss:LineStyle="Continuous" ss:Weight="1"/>
+    <Border ss:Position="Left" ss:LineStyle="Continuous" ss:Weight="1"/>
+    <Border ss:Position="Right" ss:LineStyle="Continuous" ss:Weight="1"/>
+    <Border ss:Position="Top" ss:LineStyle="Continuous" ss:Weight="1"/>
+   </Borders>
+   <Font ss:FontName="Arial" x:CharSet="204" x:Family="Swiss"/>
   </Style>
  </Styles>
  <Worksheet ss:Name="Events">
-  <Table ss:ExpandedColumnCount="7" ss:ExpandedRowCount="5" x:FullColumns="1"
+  <Table ss:ExpandedColumnCount="7" ss:ExpandedRowCount="7" x:FullColumns="1"
    x:FullRows="1">
-   <Column ss:AutoFitWidth="0" ss:Width="56.25"/>
    <Column ss:AutoFitWidth="0" ss:Width="108.75"/>
    <Column ss:AutoFitWidth="0" ss:Width="161.25" ss:Span="1"/>
-   <Column ss:Index="5" ss:AutoFitWidth="0" ss:Width="213.75"/>
-   <Column ss:AutoFitWidth="0" ss:Width="423.75"/>
-   <Column ss:AutoFitWidth="0" ss:Width="56.25"/>
+   <Column ss:Index="4" ss:AutoFitWidth="0" ss:Width="213.75"/>
+   <Column ss:AutoFitWidth="0" ss:Width="266.25"/>
+   <Column ss:AutoFitWidth="0" ss:Width="108.75" ss:Span="1"/>
    <Row ss:AutoFitHeight="0" ss:Height="19.5">
     <Cell ss:StyleID="s62"><Data ss:Type="String">repVal=Title</Data></Cell>
    </Row>
    <Row>
+    <Cell><Data ss:Type="String">repVal=GenCaption</Data></Cell>
     <Cell><Data ss:Type="String">repVal=Gen</Data></Cell>
    </Row>
-   <Row ss:Index="4" ss:AutoFitHeight="0" ss:Height="15.75">
-    <Cell ss:StyleID="s63"><Data ss:Type="String">repVal=NumCol</Data></Cell>
-    <Cell ss:StyleID="s63"><Data ss:Type="String">repVal=TimeCol</Data></Cell>
-    <Cell ss:StyleID="s63"><Data ss:Type="String">repVal=ObjCol</Data></Cell>
-    <Cell ss:StyleID="s63"><Data ss:Type="String">repVal=DevCol</Data></Cell>
-    <Cell ss:StyleID="s63"><Data ss:Type="String">repVal=CnlCol</Data></Cell>
-    <Cell ss:StyleID="s63"><Data ss:Type="String">repVal=TextCol</Data></Cell>
-    <Cell ss:StyleID="s63"><Data ss:Type="String">repVal=AckCol</Data></Cell>
+   <Row>
+    <Cell><Data ss:Type="String">repVal=FilterCaption</Data></Cell>
+    <Cell><Data ss:Type="String">repVal=Filter</Data></Cell>
    </Row>
    <Row>
-    <Cell ss:StyleID="s64"><Data ss:Type="String">repRow=Event repVal=Num</Data></Cell>
-    <Cell ss:StyleID="s65"><Data ss:Type="String">repVal=Time</Data></Cell>
-    <Cell ss:StyleID="s66"><Data ss:Type="String">repVal=Obj</Data></Cell>
-    <Cell ss:StyleID="s66"><Data ss:Type="String">repVal=Dev</Data></Cell>
-    <Cell ss:StyleID="s66"><Data ss:Type="String">repVal=Cnl</Data></Cell>
-    <Cell ss:StyleID="s66"><Data ss:Type="String">repVal=Text</Data></Cell>
-    <Cell ss:StyleID="s65"><Data ss:Type="String">repVal=Ack</Data></Cell>
+    <Cell><Data ss:Type="String">repVal=TzCaption</Data></Cell>
+    <Cell><Data ss:Type="String">repVal=Tz</Data></Cell>
+   </Row>
+   <Row ss:Index="6" ss:AutoFitHeight="0" ss:Height="15.75">
+    <Cell ss:StyleID="s63"><Data ss:Type="String">repVal=TimeHdr</Data></Cell>
+    <Cell ss:StyleID="s63"><Data ss:Type="String">repVal=ObjHdr</Data></Cell>
+    <Cell ss:StyleID="s63"><Data ss:Type="String">repVal=DevHdr</Data></Cell>
+    <Cell ss:StyleID="s63"><Data ss:Type="String">repVal=CnlCol</Data></Cell>
+    <Cell ss:StyleID="s63"><Data ss:Type="String">repVal=DescrHdr</Data></Cell>
+    <Cell ss:StyleID="s63"><Data ss:Type="String">repVal=SevHdr</Data></Cell>
+    <Cell ss:StyleID="s63"><Data ss:Type="String">repVal=AckHdr</Data></Cell>
+   </Row>
+   <Row>
+    <Cell ss:StyleID="s64"><Data ss:Type="String">repVal=Time</Data></Cell>
+    <Cell ss:StyleID="s65"><Data ss:Type="String">repVal=Obj</Data></Cell>
+    <Cell ss:StyleID="s65"><Data ss:Type="String">repVal=Dev</Data></Cell>
+    <Cell ss:StyleID="s65"><Data ss:Type="String">repVal=Cnl</Data></Cell>
+    <Cell ss:StyleID="s66"><Data ss:Type="String">repVal=Descr</Data></Cell>
+    <Cell ss:StyleID="s67"><Data ss:Type="String">repVal=Sev</Data></Cell>
+    <Cell ss:StyleID="s64"><Data ss:Type="String">repVal=Ack</Data></Cell>
    </Row>
   </Table>
   <WorksheetOptions xmlns="urn:schemas-microsoft-com:office:excel">
@@ -125,14 +143,13 @@
     <PaperSizeIndex>9</PaperSizeIndex>
     <Scale>69</Scale>
     <HorizontalResolution>600</HorizontalResolution>
-    <VerticalResolution>0</VerticalResolution>
+    <VerticalResolution>600</VerticalResolution>
    </Print>
-   <Zoom>75</Zoom>
    <Selected/>
    <FreezePanes/>
    <FrozenNoSplit/>
-   <SplitHorizontal>4</SplitHorizontal>
-   <TopRowBottomPane>4</TopRowBottomPane>
+   <SplitHorizontal>6</SplitHorizontal>
+   <TopRowBottomPane>6</TopRowBottomPane>
    <ActivePane>2</ActivePane>
    <Panes>
     <Pane>
