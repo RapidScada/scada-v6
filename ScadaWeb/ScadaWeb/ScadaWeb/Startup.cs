@@ -145,6 +145,8 @@ namespace Scada.Web
                 {
                     options.AddPolicy(PolicyName.Administrators, policy =>
                         policy.RequireClaim(ClaimTypes.Role, RoleID.Administrator.ToString()));
+                    options.AddPolicy(PolicyName.RequireViewAll, policy =>
+                        policy.Requirements.Add(new ViewAllRequirement()));
                     options.AddPolicy(PolicyName.Restricted, policy =>
                         policy.Requirements.Add(new ObjRightRequirement()));
                 });
@@ -164,6 +166,7 @@ namespace Scada.Web
                 .AddScoped(UserContextFactory.GetUserContext)
                 .AddScoped<IClientAccessor, ClientAccessor>()
                 .AddScoped<IViewLoader, ViewLoader>()
+                .AddScoped<IAuthorizationHandler, ViewAllHandler>()
                 .AddScoped<IAuthorizationHandler, ObjRightHandler>()
                 .AddTransient<ILoginService, LoginService>();
 

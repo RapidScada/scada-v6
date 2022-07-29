@@ -16,34 +16,22 @@
  * 
  * Product  : Rapid SCADA
  * Module   : ScadaWebCommon
- * Summary  : Specifies the authorization policy names
+ * Summary  : Represents a requirement to have rights to view data of any object
  * 
  * Author   : Mikhail Shiryaev
- * Created  : 2021
+ * Created  : 2022
  * Modified : 2022
  */
+
+using Microsoft.AspNetCore.Authorization;
 
 namespace Scada.Web.Authorization
 {
     /// <summary>
-    /// Specifies the authorization policy names.
-    /// <para>Задает имена политик авторизации.</para>
+    /// Represents a requirement to have rights to view data of any object.
+    /// <para>Представляет требование иметь права на просмотр данных любого объекта.</para>
     /// </summary>
-    public static class PolicyName
+    public class ViewAllRequirement : IAuthorizationRequirement
     {
-        /// <summary>
-        /// Only administrators are allowed.
-        /// </summary>
-        public const string Administrators = nameof(Administrators);
-
-        /// <summary>
-        /// Users must have rights to view data of any object.
-        /// </summary>
-        public const string RequireViewAll = nameof(RequireViewAll);
-
-        /// <summary>
-        /// User access is restricted according to their rights specified in the configuration database.
-        /// </summary>
-        public const string Restricted = nameof(Restricted);
     }
 }
