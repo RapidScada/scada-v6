@@ -56,7 +56,9 @@ namespace Scada.Web.Plugins.PlgMain.Controllers
                     {
                         ArchiveCode = pluginContext.Options.EventArchiveCode,
                         EventCount = pluginContext.Options.EventCount,
-                        View = view
+                        EventDepth = pluginContext.Options.EventDepth,
+                        View = view,
+                        TimeZone = userContext.TimeZone
                     }, 
                     stream);
 

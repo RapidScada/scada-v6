@@ -16,8 +16,8 @@
   <LocationOfComponents HRef="file:///G:/"/>
  </OfficeDocumentSettings>
  <ExcelWorkbook xmlns="urn:schemas-microsoft-com:office:excel">
-  <WindowHeight>25095</WindowHeight>
-  <WindowWidth>32767</WindowWidth>
+  <WindowHeight>11265</WindowHeight>
+  <WindowWidth>28800</WindowWidth>
   <WindowTopX>32767</WindowTopX>
   <WindowTopY>32767</WindowTopY>
   <ProtectStructure>False</ProtectStructure>
@@ -114,16 +114,16 @@
     <Cell><Data ss:Type="String">repVal=Tz</Data></Cell>
    </Row>
    <Row ss:Index="7" ss:AutoFitHeight="0" ss:Height="15.75">
-    <Cell ss:StyleID="s63"><Data ss:Type="String">repVal=TimeHdr</Data></Cell>
-    <Cell ss:StyleID="s63"><Data ss:Type="String">repVal=ObjHdr</Data></Cell>
-    <Cell ss:StyleID="s63"><Data ss:Type="String">repVal=DevHdr</Data></Cell>
+    <Cell ss:StyleID="s63"><Data ss:Type="String">repVal=TimeCol</Data></Cell>
+    <Cell ss:StyleID="s63"><Data ss:Type="String">repVal=ObjCol</Data></Cell>
+    <Cell ss:StyleID="s63"><Data ss:Type="String">repVal=DevCol</Data></Cell>
     <Cell ss:StyleID="s63"><Data ss:Type="String">repVal=CnlCol</Data></Cell>
-    <Cell ss:StyleID="s63"><Data ss:Type="String">repVal=DescrHdr</Data></Cell>
-    <Cell ss:StyleID="s63"><Data ss:Type="String">repVal=SevHdr</Data></Cell>
-    <Cell ss:StyleID="s63"><Data ss:Type="String">repVal=AckHdr</Data></Cell>
+    <Cell ss:StyleID="s63"><Data ss:Type="String">repVal=DescrCol</Data></Cell>
+    <Cell ss:StyleID="s63"><Data ss:Type="String">repVal=SevCol</Data></Cell>
+    <Cell ss:StyleID="s63"><Data ss:Type="String">repVal=AckCol</Data></Cell>
    </Row>
    <Row>
-    <Cell ss:StyleID="s64"><Data ss:Type="String">repVal=Time</Data></Cell>
+    <Cell ss:StyleID="s64"><Data ss:Type="String">repRow=Event repVal=Time</Data></Cell>
     <Cell ss:StyleID="s65"><Data ss:Type="String">repVal=Obj</Data></Cell>
     <Cell ss:StyleID="s65"><Data ss:Type="String">repVal=Dev</Data></Cell>
     <Cell ss:StyleID="s65"><Data ss:Type="String">repVal=Cnl</Data></Cell>

@@ -22,8 +22,18 @@ namespace Scada.Web.Plugins.PlgMain.Code
         public int EventCount { get; init; }
 
         /// <summary>
+        /// Gets the number of days to receive events.
+        /// </summary>
+        public int EventDepth { get; init; }
+
+        /// <summary>
         /// Gets the view to filter events.
         /// </summary>
         public ViewBase View { get; init; }
+
+        /// <summary>
+        /// Gets the user's time zone.
+        /// </summary>
+        public TimeZoneInfo TimeZone { get; init; }
     }
 }
