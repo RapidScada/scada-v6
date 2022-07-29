@@ -5,7 +5,7 @@
     ViewBag.Title = dict.PageTitle;
 }
 
-<div class="container">
+<div class="container text-center">
     <h1 class="text-danger">@dict.PageTitle</h1>
     <p>@WebUtils.HtmlEncodeWithBreak(Model.ErrorMessage ?? dict.ErrorMessage)</p>        
 </div>
