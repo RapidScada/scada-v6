@@ -32,17 +32,15 @@ namespace Scada.Web.Plugins.PlgMain.Code
             this.scadaClient = scadaClient ?? throw new ArgumentNullException(nameof(scadaClient));
             templateFilePath = Path.Combine(templateDir, TemplateFileName);
             renderer = new WorkbookRenderer();
-
-            EventFilter = null;
         }
 
 
         /// <summary>
         /// Builds a workbook to the output stream.
         /// </summary>
-        public void Build(EventFilter filter, Stream outStream)
+        public void Build(EventWorkbookArgs args, Stream outStream)
         {
-            ArgumentNullException.ThrowIfNull(filter, nameof(filter));
+            ArgumentNullException.ThrowIfNull(args, nameof(args));
             ArgumentNullException.ThrowIfNull(outStream, nameof(outStream));
             renderer.Render(templateFilePath, outStream);
         }
