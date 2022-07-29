@@ -87,7 +87,7 @@
   </Style>
  </Styles>
  <Worksheet ss:Name="Events">
-  <Table ss:ExpandedColumnCount="7" ss:ExpandedRowCount="7" x:FullColumns="1"
+  <Table ss:ExpandedColumnCount="7" ss:ExpandedRowCount="8" x:FullColumns="1"
    x:FullRows="1">
    <Column ss:AutoFitWidth="0" ss:Width="108.75"/>
    <Column ss:AutoFitWidth="0" ss:Width="161.25" ss:Span="1"/>
@@ -102,6 +102,10 @@
     <Cell><Data ss:Type="String">repVal=Gen</Data></Cell>
    </Row>
    <Row>
+    <Cell><Data ss:Type="String">repVal=ArcCaption</Data></Cell>
+    <Cell><Data ss:Type="String">repVal=Arc</Data></Cell>
+   </Row>
+   <Row>
     <Cell><Data ss:Type="String">repVal=FilterCaption</Data></Cell>
     <Cell><Data ss:Type="String">repVal=Filter</Data></Cell>
    </Row>
@@ -109,7 +113,7 @@
     <Cell><Data ss:Type="String">repVal=TzCaption</Data></Cell>
     <Cell><Data ss:Type="String">repVal=Tz</Data></Cell>
    </Row>
-   <Row ss:Index="6" ss:AutoFitHeight="0" ss:Height="15.75">
+   <Row ss:Index="7" ss:AutoFitHeight="0" ss:Height="15.75">
     <Cell ss:StyleID="s63"><Data ss:Type="String">repVal=TimeHdr</Data></Cell>
     <Cell ss:StyleID="s63"><Data ss:Type="String">repVal=ObjHdr</Data></Cell>
     <Cell ss:StyleID="s63"><Data ss:Type="String">repVal=DevHdr</Data></Cell>
@@ -148,8 +152,8 @@
    <Selected/>
    <FreezePanes/>
    <FrozenNoSplit/>
-   <SplitHorizontal>6</SplitHorizontal>
-   <TopRowBottomPane>6</TopRowBottomPane>
+   <SplitHorizontal>7</SplitHorizontal>
+   <TopRowBottomPane>7</TopRowBottomPane>
    <ActivePane>2</ActivePane>
    <Panes>
     <Pane>
