@@ -42,6 +42,7 @@
     <Phrase key="EventInfo">Last {0} events in {1} hours</Phrase>
     <Phrase key="spanAllEventsBtn">All Events</Phrase>
     <Phrase key="spanEventsByViewBtn">Events by View</Phrase>
+    <Phrase key="spanPrintBtn_ToolTip">Export events</Phrase>
     <Phrase key="spanErrorBadge">Error</Phrase>
   </Dictionary>
   <Dictionary key="Scada.Web.Plugins.PlgMain.Areas.Main.Pages.Events.Js">
@@ -62,6 +63,7 @@
     <Phrase key="QuantityTip">Quantity</Phrase>
     <Phrase key="UnitTip">Unit</Phrase>
     <Phrase key="SendCommandTip">Send Command</Phrase>
+    <Phrase key="spanPrintBtn_ToolTip">Export table view</Phrase>
     <Phrase key="spanLoadingBadge">Loading...</Phrase>
     <Phrase key="spanErrorBadge">Error</Phrase>
   </Dictionary>

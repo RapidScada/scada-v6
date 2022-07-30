@@ -42,6 +42,7 @@
     <Phrase key="EventInfo">Последние {0} событий за {1} ч</Phrase>
     <Phrase key="spanAllEventsBtn">Все события</Phrase>
     <Phrase key="spanEventsByViewBtn">По представлению</Phrase>
+    <Phrase key="spanPrintBtn_ToolTip">Экпортировать события</Phrase>
     <Phrase key="spanErrorBadge">Ошибка</Phrase>
   </Dictionary>
   <Dictionary key="Scada.Web.Plugins.PlgMain.Areas.Main.Pages.Events.Js">
@@ -62,6 +63,7 @@
     <Phrase key="QuantityTip">Величина</Phrase>
     <Phrase key="UnitTip">Размерность</Phrase>
     <Phrase key="SendCommandTip">Отправить команду</Phrase>
+    <Phrase key="spanPrintBtn_ToolTip">Экпортировать табличное представление</Phrase>
     <Phrase key="spanLoadingBadge">Загрузка...</Phrase>
     <Phrase key="spanErrorBadge">Ошибка</Phrase>
   </Dictionary>
