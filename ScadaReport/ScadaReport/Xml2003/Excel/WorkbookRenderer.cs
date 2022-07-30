@@ -135,7 +135,7 @@ namespace Scada.Report.Xml2003.Excel
         {
             void InvokeDirectiveFound(string dirName, string dirVal)
             {
-                OnDirectiveFound(new ExcelDirectiveEventArgs
+                DirectiveFound?.Invoke(this, new ExcelDirectiveEventArgs
                 {
                     Stage = Stage,
                     DirectiveName = dirName,
@@ -181,5 +181,11 @@ namespace Scada.Report.Xml2003.Excel
                 FindDirectives(cell);
             }
         }
+
+
+        /// <summary>
+        /// Occurs when a report directive is found.
+        /// </summary>
+        public new event EventHandler<ExcelDirectiveEventArgs> DirectiveFound;
     }
 }
