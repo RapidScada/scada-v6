@@ -68,4 +68,20 @@
   <Dictionary key="Scada.Web.Plugins.PlgMain.Code.EventWindowSpec">
     <Phrase key="EventWindowTitle">События</Phrase>
   </Dictionary>
+  <Dictionary key="Scada.Web.Plugins.PlgMain.Code.EventWorkbookBuilder">
+    <Phrase key="TitleFormat">Последние {0} событий за {1} ч</Phrase>
+    <Phrase key="GenCaption">Получено:</Phrase>
+    <Phrase key="ArcCaption">Архив:</Phrase>
+    <Phrase key="FilterCaption">Фильтр:</Phrase>
+    <Phrase key="AllEventsFilter">Все события</Phrase>
+    <Phrase key="TzCaption">Часовой пояс:</Phrase>
+    <Phrase key="TimeCol">Дата и время</Phrase>
+    <Phrase key="ObjCol">Объект</Phrase>
+    <Phrase key="DevCol">Устройство</Phrase>
+    <Phrase key="CnlCol">Канал</Phrase>
+    <Phrase key="DescrCol">Описание</Phrase>
+    <Phrase key="SevCol">Серьёзность</Phrase>
+    <Phrase key="AckCol">Квитирование</Phrase>
+    <Phrase key="WorksheetName">События</Phrase>
+  </Dictionary>
 </PlgMainDictionaries>

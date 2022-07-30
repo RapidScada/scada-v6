@@ -93,7 +93,7 @@
    <Column ss:AutoFitWidth="0" ss:Width="161.25" ss:Span="1"/>
    <Column ss:Index="4" ss:AutoFitWidth="0" ss:Width="213.75"/>
    <Column ss:AutoFitWidth="0" ss:Width="266.25"/>
-   <Column ss:AutoFitWidth="0" ss:Width="108.75" ss:Span="1"/>
+   <Column ss:AutoFitWidth="0" ss:Width="161.25" ss:Span="1"/>
    <Row ss:AutoFitHeight="0" ss:Height="19.5">
     <Cell ss:StyleID="s62"><Data ss:Type="String">repVal=Title</Data></Cell>
    </Row>

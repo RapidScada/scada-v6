@@ -35,5 +35,15 @@ namespace Scada.Web.Plugins.PlgMain.Code
         /// Gets the user's time zone.
         /// </summary>
         public TimeZoneInfo TimeZone { get; init; }
+
+
+        /// <summary>
+        /// Validates the arguments, raises an exception on failure.
+        /// </summary>
+        public void Validate()
+        {
+            if (TimeZone == null)
+                throw new ScadaException("Time zone must not be null.");
+        }
     }
 }

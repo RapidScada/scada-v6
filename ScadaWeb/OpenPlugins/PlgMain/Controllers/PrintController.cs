@@ -45,23 +45,23 @@ namespace Scada.Web.Plugins.PlgMain.Controllers
         /// <summary>
         /// Prints events filtered by view to an Excel workbook.
         /// </summary>
-        private Stream PrintEvents(ViewBase view)
+        private Stream PrintEvents(ViewBase view, out DateTime generateTime)
         {
             MemoryStream stream = new();
 
             try
             {
-                new EventWorkbookBuilder(webContext.ConfigDatabase, clientAccessor.ScadaClient, templateDir)
-                    .Build(new EventWorkbookArgs
-                    {
-                        ArchiveCode = pluginContext.Options.EventArchiveCode,
-                        EventCount = pluginContext.Options.EventCount,
-                        EventDepth = pluginContext.Options.EventDepth,
-                        View = view,
-                        TimeZone = userContext.TimeZone
-                    }, 
-                    stream);
+                EventWorkbookBuilder builder = new(webContext.ConfigDatabase, clientAccessor.ScadaClient, templateDir);
+                builder.Generate(new EventWorkbookArgs
+                {
+                    ArchiveCode = pluginContext.Options.EventArchiveCode,
+                    EventCount = pluginContext.Options.EventCount,
+                    EventDepth = pluginContext.Options.EventDepth,
+                    View = view,
+                    TimeZone = userContext.TimeZone
+                }, stream);
 
+                generateTime = builder.GenerateTime;
                 stream.Position = 0;
             }
             catch
@@ -93,9 +93,9 @@ namespace Scada.Web.Plugins.PlgMain.Controllers
                 throw new ScadaException(errMsg);
 
             return File(
-                PrintEvents(view),
+                PrintEvents(view, out DateTime generateTime),
                 MediaTypeNames.Application.Octet,
-                ReportUtils.BuildFileName("Events", OutputFormat.Xml2003));
+                ReportUtils.BuildFileName("Events", generateTime, OutputFormat.Xml2003));
         }
 
         /// <summary>
@@ -105,9 +105,9 @@ namespace Scada.Web.Plugins.PlgMain.Controllers
         public IActionResult PrintAllEvents()
         {
             return File(
-                PrintEvents(null),
+                PrintEvents(null, out DateTime generateTime),
                 MediaTypeNames.Application.Octet,
-                ReportUtils.BuildFileName("Events", OutputFormat.Xml2003));
+                ReportUtils.BuildFileName("Events", generateTime, OutputFormat.Xml2003));
         }
     }
 }
