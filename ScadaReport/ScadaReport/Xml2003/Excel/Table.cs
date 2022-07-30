@@ -94,7 +94,7 @@ namespace Scada.Report.Xml2003.Excel
         /// <summary>
         /// Удалить атрибуты XML-узла таблицы, необходимые для корректного отображения книги Excel.
         /// </summary>
-        public void RemoveTableNodeAttrs()
+        public void RemoveUnwantedAttrs()
         {
             node.Attributes.RemoveNamedItem("ss:ExpandedColumnCount");
             node.Attributes.RemoveNamedItem("ss:ExpandedRowCount");

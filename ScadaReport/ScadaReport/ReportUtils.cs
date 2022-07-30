@@ -101,9 +101,11 @@ namespace Scada.Report
         /// <summary>
         /// Builds a report file name to save or download.
         /// </summary>
-        public static string BuildFileName(string prefix, OutputFormat format)
+        public static string BuildFileName(string prefix, DateTime generateTime, OutputFormat format)
         {
-            return prefix + "_" + DateTime.Now.ToString("yyyy-MM-dd_HH-mm-ss") + format.GetExtension();
+            return prefix + "_" +
+                generateTime.ToLocalTime().ToString("yyyy-MM-dd_HH-mm-ss") + 
+                format.GetExtension();
         }
 
         /// <summary>
