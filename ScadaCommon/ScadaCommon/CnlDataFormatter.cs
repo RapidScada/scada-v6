@@ -383,8 +383,8 @@ namespace Scada
             if (ev.Ack)
             {
                 eventFormatted.Ack = string.Join(", ",
-                    configDataset.UserTable.GetItem(ev.AckUserID)?.Name ?? "",
-                    TimeZoneInfo.ConvertTimeFromUtc(ev.AckTimestamp, timeZone));
+                    configDataset.UserTable.GetItem(ev.AckUserID)?.Name,
+                    TimeZoneInfo.ConvertTimeFromUtc(ev.AckTimestamp, timeZone).ToLocalizedString());
             }
 
             // color
