@@ -40,7 +40,7 @@ else
                 </select> - <select id="selEndTime">
                     @Model.RenderOptionGroup(dict.SelDate, true, TableViewModel.SelectOption.Last)
                 </select></span>@*
-            *@<span class="toolbar-group"><span id="spanPrintBtn" class="tool-btn" title="@dict.spanPrintBtn_ToolTip"><i class="fas fa-print"></i></span></span>@*
+            *@<span class="toolbar-group"><span id="spanPrintBtn" class="tool-btn" data-bs-toggle="tooltip" data-bs-placement="bottom" title="@dict.spanPrintBtn_ToolTip"><i class="fas fa-print"></i></span></span>@*
             *@<span id="spanLoadingBadge" class="badge bg-info hidden">@dict.spanLoadingBadge</span>@*
             *@<span id="spanErrorBadge" class="badge bg-danger hidden">@dict.spanErrorBadge</span>
         </div>

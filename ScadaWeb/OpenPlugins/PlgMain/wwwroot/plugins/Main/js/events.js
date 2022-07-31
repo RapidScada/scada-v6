@@ -48,6 +48,7 @@ function restoreFilter() {
 }
 
 function initTooltips() {
+    new bootstrap.Tooltip(document.getElementById("spanPrintBtn"));
     new bootstrap.Tooltip(document.getElementById("spanInfoBtn"));
 };
 
