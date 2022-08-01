@@ -40,7 +40,7 @@ namespace Scada.Web.Plugins.PlgMain.Code
         public string TableArchiveCode { get; set; }
 
         /// <summary>
-        /// Gets or sets the time period of table view columns.
+        /// Gets or sets the time period of table view columns, in minutes.
         /// </summary>
         public int TablePeriod { get; set; }
 

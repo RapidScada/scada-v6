@@ -13,7 +13,7 @@ namespace Scada.Web.Plugins.PlgMain
     public class TableOptions
     {
         /// <summary>
-        /// The default period of the table view columns, min.
+        /// The default period of the table view columns, in minutes.
         /// </summary>
         public const int DefaultPeriod = 60;
 
@@ -41,7 +41,7 @@ namespace Scada.Web.Plugins.PlgMain
         public string ArchiveCode { get; set; }
 
         /// <summary>
-        /// Gets or sets the time period of the table view columns.
+        /// Gets or sets the time period of the table view columns, in minutes.
         /// </summary>
         public int Period { get; set; }
 
