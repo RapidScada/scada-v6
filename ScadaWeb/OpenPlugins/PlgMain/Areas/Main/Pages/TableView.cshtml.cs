@@ -69,7 +69,7 @@ namespace Scada.Web.Plugins.PlgMain.Areas.Main.Pages
 
             if (viewLoader.GetView(ViewID, out tableView, out string errMsg))
             {
-                TableOptions tableOptions = GetTableOptions();
+                TableOptions tableOptions = pluginContext.GetTableOptions(tableView);
                 ArchiveBit = webContext.ConfigDatabase.FindArchiveBit(
                     tableOptions.ArchiveCode, Data.Const.ArchiveBit.Hourly);
                 ChartArgs = new HtmlString(tableOptions.ChartArgs);
@@ -88,24 +88,6 @@ namespace Scada.Web.Plugins.PlgMain.Areas.Main.Pages
             ViewData["Title"] = tableView == null 
                 ? string.Format(PluginPhrases.TableViewTitle, ViewID) 
                 : tableView.Title;
-        }
-
-        private TableOptions GetTableOptions()
-        {
-            if (tableView == null || tableView.Options.UseDefault)
-            {
-                return new TableOptions
-                {
-                    UseDefault = true,
-                    ArchiveCode = pluginContext.Options.TableArchiveCode,
-                    Period = pluginContext.Options.TablePeriod,
-                    ChartArgs = ""
-                };
-            }
-            else
-            {
-                return tableView.Options;
-            }
         }
 
         private void InitColumnMetas(DateTime selectedDate, int tablePeriod)

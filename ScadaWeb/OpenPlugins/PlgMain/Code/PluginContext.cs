@@ -20,10 +20,12 @@ namespace Scada.Web.Plugins.PlgMain.Code
             Options = new PluginOptions(new OptionList());
         }
 
+
         /// <summary>
         /// Gets or sets the plugin options.
         /// </summary>
         public PluginOptions Options { get; private set; }
+
 
         /// <summary>
         /// Loads the plugin options.
@@ -34,6 +36,27 @@ namespace Scada.Web.Plugins.PlgMain.Code
             {
                 RefreshRate = webConfig.DisplayOptions.RefreshRate
             };
+        }
+
+        /// <summary>
+        /// Gets the options of the specified table view, or the default options.
+        /// </summary>
+        public TableOptions GetTableOptions(TableView tableView)
+        {
+            if (tableView == null || tableView.Options.UseDefault)
+            {
+                return new TableOptions
+                {
+                    UseDefault = true,
+                    ArchiveCode = Options.TableArchiveCode,
+                    Period = Options.TablePeriod,
+                    ChartArgs = ""
+                };
+            }
+            else
+            {
+                return tableView.Options;
+            }
         }
     }
 }

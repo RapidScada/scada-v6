@@ -79,8 +79,36 @@ namespace Scada.Web.Plugins.PlgMain.Controllers
         [Authorize(Policy = PolicyName.Restricted)]
         public IActionResult PrintTableView(int viewID, DateTime startTime, DateTime endTime)
         {
-            string filePath = @"C:\SCADA\ScadaWeb\wwwroot\images\gear.png";
-            return PhysicalFile(filePath, "application/octet-stream", Path.GetFileName(filePath));
+            if (!viewLoader.GetView(viewID, out TableView tableView, out string errMsg))
+                throw new ScadaException(errMsg);
+
+            MemoryStream stream = new();
+            DateTime generateTime;
+
+            try
+            {
+                TableWorkbookBuilder builder = new(webContext.ConfigDatabase, clientAccessor.ScadaClient, templateDir);
+                builder.Generate(new TableWorkbookArgs
+                {
+                    TableView = tableView,
+                    TableOptions = pluginContext.GetTableOptions(tableView),
+                    TimeRange = new TimeRange(startTime, endTime, true),
+                    TimeZone = userContext.TimeZone
+                }, stream);
+
+                generateTime = builder.GenerateTime;
+                stream.Position = 0;
+            }
+            catch
+            {
+                stream.Dispose();
+                throw;
+            }
+
+            return File(
+                stream,
+                MediaTypeNames.Application.Octet,
+                ReportUtils.BuildFileName("TableView", generateTime, OutputFormat.Xml2003));
         }
 
         /// <summary>
