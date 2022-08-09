@@ -21,11 +21,3 @@ function showErrorBadge() {
         errorTimeoutID = 0;
     }, ERROR_DISPLAY_DURATION);
 }
-
-function developmentAlert() {
-    if (ScadaUtils.isRussian()) {
-        alert("Функция в разработке.");
-    } else {
-        alert("Feature in development.")
-    }
-}

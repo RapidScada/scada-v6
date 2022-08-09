@@ -43,6 +43,9 @@ namespace Scada.Web.Plugins.PlgMain.Code
             if (TableOptions == null)
                 throw new ScadaException("Table view options must not be null.");
 
+            if (TimeRange.StartTime > TimeRange.EndTime)
+                throw new ScadaException("Invalid time range.");
+
             if (TimeZone == null)
                 throw new ScadaException("Time zone must not be null.");
         }

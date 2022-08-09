@@ -86,4 +86,12 @@
     <Phrase key="AckCol">Квитирование</Phrase>
     <Phrase key="WorksheetName">События</Phrase>
   </Dictionary>
+  <Dictionary key="Scada.Web.Plugins.PlgMain.Code.TableWorkbookBuilder">
+    <Phrase key="TitleFormat">{0}, {1} - {2}</Phrase>
+    <Phrase key="GenCaption">Получено:</Phrase>
+    <Phrase key="ArcCaption">Архив:</Phrase>
+    <Phrase key="TzCaption">Часовой пояс:</Phrase>
+    <Phrase key="ItemCol">Элемент</Phrase>
+    <Phrase key="WorksheetName">Табличное представление</Phrase>
+  </Dictionary>
 </PlgMainDictionaries>

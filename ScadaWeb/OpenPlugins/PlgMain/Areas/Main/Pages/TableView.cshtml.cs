@@ -19,7 +19,7 @@ namespace Scada.Web.Plugins.PlgMain.Areas.Main.Pages
     public class TableViewModel : PageModel
     {
         /// <summary>
-        /// Represents meta information about a column.
+        /// Represents metadata about a column.
         /// </summary>
         private class ColumnMeta
         {

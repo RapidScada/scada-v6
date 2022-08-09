@@ -183,7 +183,9 @@ function bindEvents() {
     });
 
     $("#spanPrintBtn").click(function () {
-        developmentAlert();
+        // generate Excel workbook
+        location = "../Print/PrintTableView?viewID=" + viewID +
+            "&startTime=" + timeRange.startTime + "&endTime=" + timeRange.endTime;
     });
 
     $(".item-link").click(function () {
