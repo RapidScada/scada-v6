@@ -258,7 +258,7 @@ namespace Scada.Web.Plugins.PlgMain.Code
                                 CnlDataFormatted cnlDataF = formatter.FormatCnlData(cnlData, itemCnl, false);
                                 dataCell.Text = cnlDataF.DispVal;
 
-                                if (double.TryParse(cnlDataF.DispVal, NumberStyles.Float, CultureInfo.InvariantCulture, out _))
+                                if (formatter.LastResultInfo.IsFloat)
                                     dataCell.SetNumberType();
 
                                 if (cnlDataF.Colors.Length > 0)
