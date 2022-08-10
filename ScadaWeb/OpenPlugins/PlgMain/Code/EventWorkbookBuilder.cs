@@ -184,6 +184,9 @@ namespace Scada.Web.Plugins.PlgMain.Code
                     cellText = currentEventF.Sev;
                 else if (e.DirectiveValue == "Ack")
                     cellText = currentEventF.Ack;
+
+                if (!string.IsNullOrEmpty(currentEventF.Color))
+                    renderer.Workbook.SetColor(e.Cell.Node, null, currentEventF.Color);
             }
 
             if (cellText != null)
