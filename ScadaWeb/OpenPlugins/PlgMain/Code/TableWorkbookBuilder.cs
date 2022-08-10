@@ -8,6 +8,7 @@ using Scada.Data.Tables;
 using Scada.Lang;
 using Scada.Report.Xml2003;
 using Scada.Report.Xml2003.Excel;
+using System.Globalization;
 using System.Xml;
 
 namespace Scada.Web.Plugins.PlgMain.Code
@@ -33,6 +34,10 @@ namespace Scada.Web.Plugins.PlgMain.Code
         /// The workbook template file name.
         /// </summary>
         private const string TemplateFileName = "TableViewTemplate.xml";
+        /// <summary>
+        /// Indicates a column for further data writing.
+        /// </summary>
+        private const string NextTimeSymbol = "*";
 
         private readonly ConfigDatabase configDatabase;
         private readonly ScadaClient scadaClient;
@@ -42,8 +47,6 @@ namespace Scada.Web.Plugins.PlgMain.Code
 
         private TableWorkbookArgs workbookArgs;
         private Archive archiveEntity;
-        private Row headerRow;
-        private Row itemRowTemplate;
         private Cell dataColCellTemplate;
         private Cell dataCellTemplate;
         private TableItem currentTableItem;
@@ -65,8 +68,6 @@ namespace Scada.Web.Plugins.PlgMain.Code
 
             workbookArgs = null;
             archiveEntity = null;
-            headerRow = null;
-            itemRowTemplate = null;
             dataColCellTemplate = null;
             dataCellTemplate = null;
             currentTableItem = null;
@@ -185,15 +186,12 @@ namespace Scada.Web.Plugins.PlgMain.Code
 
         private void Renderer_BeforeProcessing(object sender, XmlDocument e)
         {
-            itemRowTemplate = null;
             GenerateTime = DateTime.UtcNow;
         }
 
         private void Renderer_AfterProcessing(object sender, XmlDocument e)
         {
-            if (headerRow != null && 
-                itemRowTemplate != null &&
-                dataColCellTemplate != null &&
+            if (dataColCellTemplate != null &&
                 dataCellTemplate != null)
             {
                 // prepare data
@@ -201,15 +199,19 @@ namespace Scada.Web.Plugins.PlgMain.Code
                     archiveEntity.Bit, workbookArgs.TimeRange, workbookArgs.TableView.CnlNumList.ToArray());
                 Dictionary<int, int> cnlNumMap = MapCnlNums(trendBundle);
                 List<ColumnMeta> columnMetas = GetColumnMetas(trendBundle);
-                CnlDataFormatter formatter = new(configDatabase, configDatabase.Enums, workbookArgs.TimeZone);
+                CnlDataFormatter formatter = new(configDatabase, configDatabase.Enums, workbookArgs.TimeZone)
+                {
+                    Culture = CultureInfo.InvariantCulture
+                };
 
                 // modify workbook
-                Table table = headerRow.ParentTable;
+                Table table = dataColCellTemplate.ParentRow.ParentTable;
                 table.RemoveUnwantedAttrs();
                 table.ParentWorksheet.Name = dict.WorksheetName;
                 table.Columns.Last().Span = columnMetas.Count - 1;
 
                 // header row
+                Row headerRow = dataColCellTemplate.ParentRow;
                 int cellIndex = headerRow.Cells.IndexOf(dataColCellTemplate);
                 headerRow.RemoveCell(cellIndex);
                 bool showDate = columnMetas.First().ShortDate != columnMetas.Last().ShortDate;
@@ -224,6 +226,7 @@ namespace Scada.Web.Plugins.PlgMain.Code
                 }
 
                 // table view items
+                Row itemRowTemplate = dataCellTemplate.ParentRow;
                 cellIndex = itemRowTemplate.Cells.IndexOf(dataCellTemplate);
                 itemRowTemplate.RemoveCell(cellIndex);
 
@@ -239,23 +242,43 @@ namespace Scada.Web.Plugins.PlgMain.Code
                     TrendBundle.CnlDataList trend = cnlNumMap.TryGetValue(tableItem.CnlNum, out int cnlIdx)
                         ? trendBundle.Trends[cnlIdx] 
                         : null;
+                    Cnl itemCnl = tableItem.Cnl;
+                    bool showVal = trend != null && itemCnl != null && itemCnl.IsArchivable();
+                    ColumnMeta prevColumnMeta = null;
 
                     foreach (ColumnMeta columnMeta in columnMetas)
                     {
                         Cell dataCell = dataCellTemplate.Clone();
 
-                        if (trend == null || columnMeta.PointIndex < 0)
+                        if (showVal)
                         {
-                            dataCell.Text = "";
+                            if (columnMeta.PointIndex >= 0)
+                            {
+                                CnlData cnlData = trend[columnMeta.PointIndex];
+                                CnlDataFormatted cnlDataF = formatter.FormatCnlData(cnlData, itemCnl, false);
+                                dataCell.Text = cnlDataF.DispVal;
+
+                                if (double.TryParse(cnlDataF.DispVal, NumberStyles.Float, CultureInfo.InvariantCulture, out _))
+                                    dataCell.SetNumberType();
+
+                                if (cnlDataF.Colors.Length > 0)
+                                    renderer.Workbook.SetColor(dataCell.Node, null, cnlDataF.Colors[0]);
+                            }
+                            else
+                            {
+                                dataCell.Text = prevColumnMeta != null && 
+                                    prevColumnMeta.UtcTime < GenerateTime && GenerateTime <= columnMeta.UtcTime
+                                    ? NextTimeSymbol 
+                                    : "";
+                            }
                         }
                         else
                         {
-                            CnlData cnlData = trend[columnMeta.PointIndex];
-                            CnlDataFormatted cnlDataF = formatter.FormatCnlData(cnlData, tableItem.Cnl, false);
-                            dataCell.Text = cnlDataF.DispVal;
+                            dataCell.Text = "";
                         }
 
                         itemRow.AppendCell(dataCell);
+                        prevColumnMeta = columnMeta;
                     }
 
                     table.AppendRow(itemRow);
@@ -269,14 +292,7 @@ namespace Scada.Web.Plugins.PlgMain.Code
 
             if (e.Stage == ProcessingStage.Processing)
             {
-                if (e.DirectiveName == ReportDirectives.RepRow)
-                {
-                    if (e.DirectiveValue == "Header")
-                        headerRow = e.Cell.ParentRow;
-                    else if (e.DirectiveValue == "Item")
-                        itemRowTemplate = e.Cell.ParentRow;
-                }
-                else if (e.DirectiveValue == "Title")
+                if (e.DirectiveValue == "Title")
                     cellText = GetTitle();
                 else if (e.DirectiveValue == "GenCaption")
                     cellText = dict.GenCaption;

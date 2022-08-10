@@ -328,7 +328,7 @@ function showHistData(data) {
                     }
 
                     displayCell(cellMeta, record, subrecords);
-                } else if (isNext && cellMeta.cnlNum > 0) {
+                } else if (isNext && cellMeta.showVal > 0) {
                     cellMeta.cellElem.text(NEXT_TIME_SYMBOL).css(DEFAULT_CELL_COLOR);
                 } else {
                     displayCell(cellMeta, null, null);

@@ -102,11 +102,11 @@
     <Cell><Data ss:Type="String">repVal=Tz</Data></Cell>
    </Row>
    <Row ss:Index="6" ss:AutoFitHeight="0" ss:Height="15.75" ss:StyleID="s63">
-    <Cell ss:MergeAcross="1" ss:StyleID="m2518249857584"><Data ss:Type="String">repRow=Header repVal=ItemCol</Data></Cell>
+    <Cell ss:MergeAcross="1" ss:StyleID="m2518249857584"><Data ss:Type="String">repVal=ItemCol</Data></Cell>
     <Cell ss:StyleID="s71"><Data ss:Type="String">repVal=DataCol</Data></Cell>
    </Row>
    <Row ss:AutoFitHeight="0" ss:Height="15.75" ss:StyleID="s63">
-    <Cell ss:MergeAcross="1" ss:StyleID="m2518249857604"><Data ss:Type="String">repRow=Item repVal=Name</Data></Cell>
+    <Cell ss:MergeAcross="1" ss:StyleID="m2518249857604"><Data ss:Type="String">repVal=Name</Data></Cell>
     <Cell ss:StyleID="s69"><Data ss:Type="String">repVal=Data</Data></Cell>
    </Row>
   </Table>
