@@ -78,7 +78,7 @@ namespace Scada.Report.Xml2003.Excel
             set
             {
                 index = value;
-                ExcelUtils.SetAttribute(node, "Index", XmlNamespaces.ss, index <= 0 ? null : index.ToString(), true);
+                ExcelUtils.SetAttribute(node, "Index", XmlNamespaces.Ss, index <= 0 ? null : index.ToString(), true);
             }
         }
 
@@ -111,7 +111,7 @@ namespace Scada.Report.Xml2003.Excel
             }
             set
             {
-                ExcelUtils.SetAttribute(node, "Span", XmlNamespaces.ss, value < 1 ? "" : value.ToString(), true);
+                ExcelUtils.SetAttribute(node, "Span", XmlNamespaces.Ss, value < 1 ? "" : value.ToString(), true);
             }
         }
 
@@ -133,8 +133,8 @@ namespace Scada.Report.Xml2003.Excel
         /// </summary>
         public static void SetColumnWidth(XmlNode columnNode, double width)
         {
-            ExcelUtils.SetAttribute(columnNode, "AutoFitWidth", XmlNamespaces.ss, "0");
-            ExcelUtils.SetAttribute(columnNode, "Width", XmlNamespaces.ss,
+            ExcelUtils.SetAttribute(columnNode, "AutoFitWidth", XmlNamespaces.Ss, "0");
+            ExcelUtils.SetAttribute(columnNode, "Width", XmlNamespaces.Ss,
                 width > 0 ? width.ToString(NumberFormatInfo.InvariantInfo) : "", true);
         }
     }

@@ -172,17 +172,24 @@ namespace Scada.Report.Xml2003.Excel
         public void SetColor(XmlNode targetNode, string backColor, string fontColor)
         {
             XmlDocument xmlDoc = targetNode.OwnerDocument;
-            string namespaceURI = targetNode.NamespaceURI;
+            XmlNamespaceManager nsmgr = new(new NameTable());
+            nsmgr.AddNamespace("report", XmlNamespaces.Default);
 
             XmlAttribute styleAttr = targetNode.Attributes["ss:StyleID"];
+            string oldStyleID;
+
             if (styleAttr == null)
             {
-                styleAttr = xmlDoc.CreateAttribute("ss:StyleID");
+                styleAttr = xmlDoc.CreateAttribute("ss", "StyleID", targetNode.NamespaceURI);
                 targetNode.Attributes.Append(styleAttr);
+                oldStyleID = "";
+            }
+            else
+            {
+                oldStyleID = styleAttr.Value;
             }
 
-            string oldStyleID = styleAttr == null ? "" : styleAttr.Value;
-            string newStyleID = oldStyleID + "_" +
+            string newStyleID = (oldStyleID == "" ? "CustomStyle" : oldStyleID) + "_" +
                 (string.IsNullOrEmpty(backColor) ? "none" : backColor) + "_" +
                 (string.IsNullOrEmpty(fontColor) ? "none" : fontColor);
 
@@ -195,58 +202,54 @@ namespace Scada.Report.Xml2003.Excel
             {
                 // create a new style
                 Style newStyle;
-                if (styleAttr == null)
+
+                if (styles.TryGetValue(oldStyleID, out Style oldStyle))
                 {
-                    XmlNode newStyleNode = xmlDoc.CreateNode(XmlNodeType.Element, "Style", namespaceURI);
-                    newStyleNode.Attributes.Append(xmlDoc.CreateAttribute("ss", "ID", namespaceURI));
-                    newStyle = new Style(newStyleNode);
+                    newStyle = oldStyle.Clone();
                 }
                 else
                 {
-                    newStyle = styles[oldStyleID].Clone();
+                    XmlNode newStyleNode = xmlDoc.CreateElement("Style", XmlNamespaces.Default);
+                    newStyleNode.Attributes.Append(xmlDoc.CreateAttribute("ss", "ID", XmlNamespaces.Default));
+                    newStyle = new Style(newStyleNode);
                 }
+
                 newStyle.ID = newStyleID;
 
                 // set background color of the style
                 if (!string.IsNullOrEmpty(backColor))
                 {
-                    XmlNode interNode = newStyle.Node.SelectSingleNode("Interior");
-                    if (interNode == null)
+                    XmlNode interiorNode = newStyle.Node.SelectSingleNode("report:Interior", nsmgr);
+
+                    if (interiorNode == null)
                     {
-                        interNode = xmlDoc.CreateNode(XmlNodeType.Element, "Interior", namespaceURI);
-                        newStyle.Node.AppendChild(interNode);
-                    }
-                    else
-                    {
-                        interNode.Attributes.RemoveNamedItem("ss:Color");
-                        interNode.Attributes.RemoveNamedItem("ss:Pattern");
+                        interiorNode = xmlDoc.CreateElement("Interior", XmlNamespaces.Default);
+                        newStyle.Node.AppendChild(interiorNode);
                     }
 
-                    XmlAttribute xmlAttr = xmlDoc.CreateAttribute("ss", "Color", namespaceURI);
-                    xmlAttr.Value = backColor;
-                    interNode.Attributes.Append(xmlAttr);
-                    xmlAttr = xmlDoc.CreateAttribute("ss", "Pattern", namespaceURI);
-                    xmlAttr.Value = "Solid";
-                    interNode.Attributes.Append(xmlAttr);
+                    XmlAttribute colorAttr = xmlDoc.CreateAttribute("ss", "Color", XmlNamespaces.Default);
+                    colorAttr.Value = backColor;
+                    interiorNode.Attributes.Append(colorAttr);
+
+                    XmlAttribute patternAttr = xmlDoc.CreateAttribute("ss", "Pattern", XmlNamespaces.Default);
+                    patternAttr.Value = "Solid";
+                    interiorNode.Attributes.Append(patternAttr);
                 }
 
                 // set font color of the style
                 if (!string.IsNullOrEmpty(fontColor))
                 {
-                    XmlNode fontNode = newStyle.Node.SelectSingleNode("Font");
+                    XmlNode fontNode = newStyle.Node.SelectSingleNode("report:Font", nsmgr);
+
                     if (fontNode == null)
                     {
-                        fontNode = xmlDoc.CreateNode(XmlNodeType.Element, "Font", namespaceURI);
+                        fontNode = xmlDoc.CreateElement("Font", XmlNamespaces.Default);
                         newStyle.Node.AppendChild(fontNode);
                     }
-                    else
-                    {
-                        fontNode.Attributes.RemoveNamedItem("ss:Color");
-                    }
 
-                    XmlAttribute xmlAttr = xmlDoc.CreateAttribute("ss", "Color", namespaceURI);
-                    xmlAttr.Value = fontColor;
-                    fontNode.Attributes.Append(xmlAttr);
+                    XmlAttribute colorAttr = xmlDoc.CreateAttribute("ss", "Color", XmlNamespaces.Default);
+                    colorAttr.Value = fontColor;
+                    fontNode.Attributes.Append(colorAttr);
                 }
 
                 // set the new style to the node and add the style to the workbook

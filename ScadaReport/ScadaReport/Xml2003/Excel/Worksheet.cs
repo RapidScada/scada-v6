@@ -101,17 +101,15 @@ namespace Scada.Report.Xml2003.Excel
 
 
         /// <summary>
-        /// Установить горизонтальный разделитель области прокрутки.
+        /// Split the worksheet into panes horizontally.
         /// </summary>
         public void SplitHorizontal(int rowIndex)
         {
             XmlDocument xmlDoc = node.OwnerDocument;
-            XmlNamespaceManager nsmgr = new(xmlDoc.NameTable);
-            nsmgr.AddNamespace("report", XmlNamespaces.x);
+            XmlNamespaceManager nsmgr = new(new NameTable());
+            nsmgr.AddNamespace("report", XmlNamespaces.X);
 
-            XmlNode optionsNode = node.SelectSingleNode("report:WorksheetOptions", nsmgr);
-
-            if (optionsNode != null)
+            if (node.SelectSingleNode("report:WorksheetOptions", nsmgr) is XmlNode optionsNode)
             {
                 string rowIndexStr = rowIndex.ToString();
 
@@ -134,9 +132,8 @@ namespace Scada.Report.Xml2003.Excel
         }
 
         /// <summary>
-        /// Клонировать лист
+        /// Clones the worksheet.
         /// </summary>
-        /// <returns>Копия листа</returns>
         public Worksheet Clone()
         {
             XmlNode nodeClone = node.CloneNode(false);

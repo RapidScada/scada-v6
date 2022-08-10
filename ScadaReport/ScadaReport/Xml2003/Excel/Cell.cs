@@ -112,7 +112,7 @@ namespace Scada.Report.Xml2003.Excel
             set
             {
                 index = value;
-                ExcelUtils.SetAttribute(node, "Index", XmlNamespaces.ss, index <= 0 ? null : index.ToString(), true);
+                ExcelUtils.SetAttribute(node, "Index", XmlNamespaces.Ss, index <= 0 ? null : index.ToString(), true);
             }
         }
 
@@ -127,7 +127,7 @@ namespace Scada.Report.Xml2003.Excel
             }
             set
             {
-                ExcelUtils.SetAttribute(dataNode, "Type", XmlNamespaces.ss,
+                ExcelUtils.SetAttribute(dataNode, "Type", XmlNamespaces.Ss,
                     string.IsNullOrEmpty(value) ? DataTypes.String : value);
             }
         }
@@ -159,7 +159,7 @@ namespace Scada.Report.Xml2003.Excel
             }
             set
             {
-                ExcelUtils.SetAttribute(node, "Formula", XmlNamespaces.ss, value, true);
+                ExcelUtils.SetAttribute(node, "Formula", XmlNamespaces.Ss, value, true);
             }
         }
 
@@ -174,7 +174,7 @@ namespace Scada.Report.Xml2003.Excel
             }
             set
             {
-                ExcelUtils.SetAttribute(node, "StyleID", XmlNamespaces.ss, value, true);
+                ExcelUtils.SetAttribute(node, "StyleID", XmlNamespaces.Ss, value, true);
             }
         }
 
@@ -190,7 +190,7 @@ namespace Scada.Report.Xml2003.Excel
             }
             set
             {
-                ExcelUtils.SetAttribute(node, "MergeAcross", XmlNamespaces.ss, value < 1 ? "" : value.ToString(), true);
+                ExcelUtils.SetAttribute(node, "MergeAcross", XmlNamespaces.Ss, value < 1 ? "" : value.ToString(), true);
             }
         }
 
@@ -206,7 +206,7 @@ namespace Scada.Report.Xml2003.Excel
             }
             set
             {
-                ExcelUtils.SetAttribute(node, "MergeDown", XmlNamespaces.ss, value < 1 ? "" : value.ToString(), true);
+                ExcelUtils.SetAttribute(node, "MergeDown", XmlNamespaces.Ss, value < 1 ? "" : value.ToString(), true);
             }
         }
 

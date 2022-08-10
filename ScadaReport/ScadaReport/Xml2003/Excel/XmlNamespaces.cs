@@ -12,26 +12,26 @@ namespace Scada.Report.Xml2003.Excel
         /// <summary>
         /// xmlns
         /// </summary>
-        public const string noprefix = "urn:schemas-microsoft-com:office:spreadsheet";
+        public const string Default = "urn:schemas-microsoft-com:office:spreadsheet";
 
         /// <summary>
         /// xmlns:o
         /// </summary>
-        public const string o = "urn:schemas-microsoft-com:office:office";
+        public const string O = "urn:schemas-microsoft-com:office:office";
 
         /// <summary>
         /// xmlns:x
         /// </summary>
-        public const string x = "urn:schemas-microsoft-com:office:excel";
+        public const string X = "urn:schemas-microsoft-com:office:excel";
 
         /// <summary>
         /// xmlns:ss
         /// </summary>
-        public const string ss = "urn:schemas-microsoft-com:office:spreadsheet";
+        public const string Ss = "urn:schemas-microsoft-com:office:spreadsheet";
 
         /// <summary>
         /// xmlns:html
         /// </summary>
-        public const string html = "http://www.w3.org/TR/REC-html40";
+        public const string Html = "http://www.w3.org/TR/REC-html40";
     }
 }

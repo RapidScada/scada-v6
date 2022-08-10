@@ -179,8 +179,8 @@ namespace Scada.Report.Xml2003.Excel
         /// </summary>
         public static void SetRowHeight(XmlNode rowNode, double height)
         {
-            ExcelUtils.SetAttribute(rowNode, "AutoFitHeight", XmlNamespaces.ss, "0");
-            ExcelUtils.SetAttribute(rowNode, "Height", XmlNamespaces.ss,
+            ExcelUtils.SetAttribute(rowNode, "AutoFitHeight", XmlNamespaces.Ss, "0");
+            ExcelUtils.SetAttribute(rowNode, "Height", XmlNamespaces.Ss,
                 height > 0 ? height.ToString(NumberFormatInfo.InvariantInfo) : "", true);
         }
     }
