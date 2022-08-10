@@ -53,10 +53,6 @@ namespace Scada
         public const int DataDisplayLength = 8;
 
         /// <summary>
-        /// The culture for formatting values.
-        /// </summary>
-        protected readonly CultureInfo culture;
-        /// <summary>
         /// The configuration database.
         /// </summary>
         protected readonly ConfigDataset configDataset;
@@ -68,6 +64,10 @@ namespace Scada
         /// The user's time zone.
         /// </summary>
         protected readonly TimeZoneInfo timeZone;
+        /// <summary>
+        /// The culture for formatting values.
+        /// </summary>
+        protected CultureInfo culture;
 
 
         /// <summary>
@@ -91,10 +91,26 @@ namespace Scada
         /// </summary>
         public CnlDataFormatter(ConfigDataset configDataset, EnumDict enums, TimeZoneInfo timeZone)
         {
-            culture = Locale.Culture;
             this.configDataset = configDataset ?? throw new ArgumentNullException(nameof(configDataset));
             this.enums = enums ?? throw new ArgumentNullException(nameof(enums));
             this.timeZone = timeZone ?? throw new ArgumentNullException(nameof(timeZone));
+            culture = Locale.Culture;
+        }
+
+
+        /// <summary>
+        /// Gets or sets the culture for formatting values.
+        /// </summary>
+        public CultureInfo Culture
+        {
+            get
+            {
+                return culture;
+            }
+            set
+            {
+                culture = value ?? Locale.Culture;
+            }
         }
 
 
