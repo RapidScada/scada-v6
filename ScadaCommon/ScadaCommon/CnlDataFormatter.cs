@@ -40,6 +40,29 @@ namespace Scada
     public class CnlDataFormatter
     {
         /// <summary>
+        /// Provides information about formatting result.
+        /// </summary>
+        public class ResultInfo
+        {
+            /// <summary>
+            /// Gets a value indicating whether the result is a float number.
+            /// </summary>
+            public bool IsFloat { get; set; }
+            /// <summary>
+            /// Gets a value indicating whether the result is a hexadecimal number.
+            /// </summary>
+            public bool IsHex { get; set; }
+            /// <summary>
+            /// Resets the information.
+            /// </summary>
+            internal void Reset()
+            {
+                IsFloat = false;
+                IsHex = false;
+            }
+        }
+
+        /// <summary>
         /// The default number format.
         /// </summary>
         public const string DefaultFormat = "N3";
@@ -94,7 +117,9 @@ namespace Scada
             this.configDataset = configDataset ?? throw new ArgumentNullException(nameof(configDataset));
             this.enums = enums ?? throw new ArgumentNullException(nameof(enums));
             this.timeZone = timeZone ?? throw new ArgumentNullException(nameof(timeZone));
-            culture = Locale.Culture;
+
+            Culture = Locale.Culture;
+            LastResultInfo = new ResultInfo();
         }
 
 
@@ -113,6 +138,11 @@ namespace Scada
             }
         }
 
+        /// <summary>
+        /// Gets the information about the last formatting.
+        /// </summary>
+        public ResultInfo LastResultInfo { get; }
+
 
         /// <summary>
         /// Determines whether the specified format represents a hexadecimal number.
@@ -130,9 +160,11 @@ namespace Scada
             switch (dataTypeID)
             {
                 case DataTypeID.Double:
+                    LastResultInfo.IsFloat = true;
                     return cnlVal.ToString(DefaultFormat, culture);
 
                 case DataTypeID.Int64:
+                    LastResultInfo.IsFloat = true;
                     return CnlDataConverter.DoubleToInt64(cnlVal).ToString(culture);
 
                 case DataTypeID.ASCII:
@@ -154,13 +186,30 @@ namespace Scada
             switch (dataTypeID)
             {
                 case DataTypeID.Double:
-                    return FormatIsHex(format)
-                        ? ((int)cnlVal).ToString(format, culture) + 'h'
-                        : cnlVal.ToString(format, culture);
+                    if (FormatIsHex(format))
+                    {
+                        LastResultInfo.IsHex = true;
+                        return ((int)cnlVal).ToString(format, culture) + 'h';
+                    }
+                    else
+                    {
+                        LastResultInfo.IsFloat = true;
+                        return cnlVal.ToString(format, culture);
+                    }
 
                 case DataTypeID.Int64:
                     string s = CnlDataConverter.DoubleToInt64(cnlVal).ToString(format, culture);
-                    return FormatIsHex(format) ? s + 'h' : s;
+
+                    if (FormatIsHex(format))
+                    {
+                        LastResultInfo.IsHex = true;
+                        return s + 'h';
+                    }
+                    else
+                    {
+                        LastResultInfo.IsFloat = true;
+                        return s;
+                    }
 
                 default:
                     return FormatError;
@@ -221,6 +270,7 @@ namespace Scada
         /// </summary>
         public CnlDataFormatted FormatCnlData(CnlData cnlData, int dataTypeID, int formatID, int unitID)
         {
+            LastResultInfo.Reset();
             CnlDataFormatted cnlDataFormatted = new CnlDataFormatted();
             Format format = formatID > 0 ? configDataset.FormatTable.GetItem(formatID) : null;
             Unit unit = unitID > 0 ? configDataset.UnitTable.GetItem(unitID) : null;
