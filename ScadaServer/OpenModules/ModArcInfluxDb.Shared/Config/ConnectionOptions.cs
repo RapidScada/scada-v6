@@ -1,20 +1,9 @@
-﻿/*
- * Copyright 2020 Mikhail Shiryaev
- * All rights reserved
- * 
- * Product  : Rapid SCADA
- * Module   : ModArcInfluxDb
- * Summary  : Represents options for connecting to InfluxDB server
- * 
- * Author   : Mikhail Shiryaev
- * Created  : 2020
- * Modified : 2020
- */
+﻿// Copyright (c) Rapid Software LLC. All rights reserved.
+// Licensed under the Apache License, Version 2.0. See License.txt in the project root for license information.
 
-using System;
 using System.Xml;
 
-namespace Scada.Server.Modules.ModArcInfluxDb.Logic.Config
+namespace Scada.Server.Modules.ModArcInfluxDb.Config
 {
     /// <summary>
     /// Represents options for connecting to InfluxDB server.
@@ -78,9 +67,7 @@ namespace Scada.Server.Modules.ModArcInfluxDb.Logic.Config
         /// </summary>
         public void LoadFromXml(XmlNode xmlNode)
         {
-            if (xmlNode == null)
-                throw new ArgumentNullException(nameof(xmlNode));
-
+            ArgumentNullException.ThrowIfNull(xmlNode, nameof(xmlNode));
             Name = xmlNode.GetChildAsString("Name");
             Url = xmlNode.GetChildAsString("Url");
             Token = xmlNode.GetChildAsString("Token");

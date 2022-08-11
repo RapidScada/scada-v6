@@ -29,4 +29,6 @@
     </Reference>
   </ItemGroup>
 
+  <Import Project="..\ModArcInfluxDb.Shared\ModArcInfluxDb.Shared.projitems" Label="Shared" />
+
 </Project>

@@ -1,17 +1,7 @@
-﻿/*
- * Copyright 2020 Mikhail Shiryaev
- * All rights reserved
- * 
- * Product  : Rapid SCADA
- * Module   : ModArcInfluxDb
- * Summary  : The class provides helper methods for the module
- * 
- * Author   : Mikhail Shiryaev
- * Created  : 2020
- * Modified : 2020
- */
+﻿// Copyright (c) Rapid Software LLC. All rights reserved.
+// Licensed under the Apache License, Version 2.0. See License.txt in the project root for license information.
 
-namespace Scada.Server.Modules.ModArcInfluxDb.Logic
+namespace Scada.Server.Modules.ModArcInfluxDb
 {
     /// <summary>
     /// The class provides helper methods for the module.

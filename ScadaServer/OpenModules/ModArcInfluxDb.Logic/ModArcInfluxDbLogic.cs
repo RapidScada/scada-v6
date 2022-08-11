@@ -1,20 +1,10 @@
-﻿/*
- * Copyright 2021 Mikhail Shiryaev
- * All rights reserved
- * 
- * Product  : Rapid SCADA
- * Module   : ModArcInfluxDb
- * Summary  : Implements the server module logic
- * 
- * Author   : Mikhail Shiryaev
- * Created  : 2020
- * Modified : 2021
- */
+﻿// Copyright (c) Rapid Software LLC. All rights reserved.
+// Licensed under the Apache License, Version 2.0. See License.txt in the project root for license information.
 
 using Scada.Server.Archives;
 using Scada.Server.Config;
 using Scada.Server.Lang;
-using Scada.Server.Modules.ModArcInfluxDb.Logic.Config;
+using Scada.Server.Modules.ModArcInfluxDb.Config;
 
 namespace Scada.Server.Modules.ModArcInfluxDb.Logic
 {

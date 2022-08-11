@@ -1,15 +1,5 @@
-﻿/*
- * Copyright 2020 Mikhail Shiryaev
- * All rights reserved
- * 
- * Product  : Rapid SCADA
- * Module   : ModArcInfluxDb
- * Summary  : Implements the historical data archive logic
- * 
- * Author   : Mikhail Shiryaev
- * Created  : 2020
- * Modified : 2021
- */
+﻿// Copyright (c) Rapid Software LLC. All rights reserved.
+// Licensed under the Apache License, Version 2.0. See License.txt in the project root for license information.
 
 using InfluxDB.Client;
 using InfluxDB.Client.Api.Domain;
@@ -22,7 +12,7 @@ using Scada.Log;
 using Scada.Server.Archives;
 using Scada.Server.Config;
 using Scada.Server.Lang;
-using Scada.Server.Modules.ModArcInfluxDb.Logic.Config;
+using Scada.Server.Modules.ModArcInfluxDb.Config;
 using System.Diagnostics;
 using System.Text;
 

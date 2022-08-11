@@ -1,5 +1,6 @@
 ﻿// Copyright (c) Rapid Software LLC. All rights reserved.
 
+using Scada.Forms;
 using Scada.Lang;
 using Scada.Server.Archives;
 using Scada.Server.Config;
@@ -53,8 +54,8 @@ namespace Scada.Server.Modules.ModArcInfluxDb.View
         /// </summary>
         public override void LoadDictionaries()
         {
-            //if (!Locale.LoadDictionaries(AppDirs.LangDir, ModuleUtils.ModuleCode, out string errMsg))
-            //    ScadaUiUtils.ShowError(errMsg);
+            if (!Locale.LoadDictionaries(AppDirs.LangDir, ModuleUtils.ModuleCode, out string errMsg))
+                ScadaUiUtils.ShowError(errMsg);
         }
 
         /// <summary>

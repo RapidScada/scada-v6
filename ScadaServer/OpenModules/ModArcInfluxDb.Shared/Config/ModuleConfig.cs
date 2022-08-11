@@ -1,24 +1,10 @@
-﻿/*
- * Copyright 2020 Mikhail Shiryaev
- * All rights reserved
- * 
- * Product  : Rapid SCADA
- * Module   : ModArcInfluxDb
- * Summary  : Represents a module configuration
- * 
- * Author   : Mikhail Shiryaev
- * Created  : 2020
- * Modified : 2020
- */
+﻿// Copyright (c) Rapid Software LLC. All rights reserved.
+// Licensed under the Apache License, Version 2.0. See License.txt in the project root for license information.
 
 using Scada.Lang;
-using Scada.Server.Lang;
-using System;
-using System.Collections.Generic;
-using System.IO;
 using System.Xml;
 
-namespace Scada.Server.Modules.ModArcInfluxDb.Logic.Config
+namespace Scada.Server.Modules.ModArcInfluxDb.Config
 {
     /// <summary>
     /// Represents a module configuration.
@@ -67,14 +53,14 @@ namespace Scada.Server.Modules.ModArcInfluxDb.Logic.Config
                 if (!File.Exists(fileName))
                     throw new FileNotFoundException(string.Format(CommonPhrases.NamedFileNotFound, fileName));
 
-                XmlDocument xmlDoc = new XmlDocument();
+                XmlDocument xmlDoc = new();
                 xmlDoc.Load(fileName);
 
                 if (xmlDoc.DocumentElement.SelectSingleNode("Connections") is XmlNode connectionsNode)
                 {
                     foreach (XmlNode connectionNode in connectionsNode.SelectNodes("Connection"))
                     {
-                        ConnectionOptions connectionOptions = new ConnectionOptions();
+                        ConnectionOptions connectionOptions = new();
                         connectionOptions.LoadFromXml(connectionNode);
                         Connections[connectionOptions.Name] = connectionOptions;
                     }
