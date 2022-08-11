@@ -46,7 +46,7 @@ namespace Scada.Server.Modules.ModArcPostgreSql.View
             get
             {
                 return Locale.IsRussian ?
-                    "Модуль предоставляет архивирование данных в базу данных PostgreSQL." :
+                    "Модуль обеспечивает архивирование данных в базу данных PostgreSQL." :
                     "The module provides data archiving into PostgreSQL database.";
             }
         }
