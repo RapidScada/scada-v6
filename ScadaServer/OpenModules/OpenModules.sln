@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio Version 16
-VisualStudioVersion = 16.0.31624.102
+# Visual Studio Version 17
+VisualStudioVersion = 17.3.32804.467
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ModArcBasic.Logic", "ModArcBasic.Logic\ModArcBasic.Logic.csproj", "{FA95FF45-2423-429A-95CB-1DC43B941103}"
 EndProject
@@ -18,11 +18,17 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "ModArcPostgreSql", "ModArcPostgreSql", "{F75EF551-E701-4F57-8081-03CC0593DDE4}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ModArcPostgreSql.Common", "ModArcPostgreSql.Common\ModArcPostgreSql.Common.csproj", "{AD4B8A66-8A3F-4191-87D7-1786212377F2}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ModArcPostgreSql.Common", "ModArcPostgreSql.Common\ModArcPostgreSql.Common.csproj", "{AD4B8A66-8A3F-4191-87D7-1786212377F2}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ModArcPostgreSql.Logic", "ModArcPostgreSql.Logic\ModArcPostgreSql.Logic.csproj", "{7507228F-FA68-4B0C-B19F-4FDAEF8C610F}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ModArcPostgreSql.Logic", "ModArcPostgreSql.Logic\ModArcPostgreSql.Logic.csproj", "{7507228F-FA68-4B0C-B19F-4FDAEF8C610F}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ModArcPostgreSql.View", "ModArcPostgreSql.View\ModArcPostgreSql.View.csproj", "{521FA33E-475B-4146-AE34-BC21451C87CD}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ModArcPostgreSql.View", "ModArcPostgreSql.View\ModArcPostgreSql.View.csproj", "{521FA33E-475B-4146-AE34-BC21451C87CD}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "ModArcInfluxDb", "ModArcInfluxDb", "{7A29ADF0-E44D-444B-BF92-9AB356609818}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ModArcInfluxDb.Logic", "ModArcInfluxDb.Logic\ModArcInfluxDb.Logic.csproj", "{3CADF547-5954-4762-8C75-7307209F0918}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ModArcInfluxDb.View", "ModArcInfluxDb.View\ModArcInfluxDb.View.csproj", "{1BE54F9E-A904-4B5D-913A-1F54D1650EC1}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -54,6 +60,14 @@ Global
 		{521FA33E-475B-4146-AE34-BC21451C87CD}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{521FA33E-475B-4146-AE34-BC21451C87CD}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{521FA33E-475B-4146-AE34-BC21451C87CD}.Release|Any CPU.Build.0 = Release|Any CPU
+		{3CADF547-5954-4762-8C75-7307209F0918}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{3CADF547-5954-4762-8C75-7307209F0918}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{3CADF547-5954-4762-8C75-7307209F0918}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{3CADF547-5954-4762-8C75-7307209F0918}.Release|Any CPU.Build.0 = Release|Any CPU
+		{1BE54F9E-A904-4B5D-913A-1F54D1650EC1}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{1BE54F9E-A904-4B5D-913A-1F54D1650EC1}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{1BE54F9E-A904-4B5D-913A-1F54D1650EC1}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{1BE54F9E-A904-4B5D-913A-1F54D1650EC1}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -65,6 +79,8 @@ Global
 		{AD4B8A66-8A3F-4191-87D7-1786212377F2} = {F75EF551-E701-4F57-8081-03CC0593DDE4}
 		{7507228F-FA68-4B0C-B19F-4FDAEF8C610F} = {F75EF551-E701-4F57-8081-03CC0593DDE4}
 		{521FA33E-475B-4146-AE34-BC21451C87CD} = {F75EF551-E701-4F57-8081-03CC0593DDE4}
+		{3CADF547-5954-4762-8C75-7307209F0918} = {7A29ADF0-E44D-444B-BF92-9AB356609818}
+		{1BE54F9E-A904-4B5D-913A-1F54D1650EC1} = {7A29ADF0-E44D-444B-BF92-9AB356609818}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {445C5594-E01F-4CCB-A364-EDAA6E5C2B15}

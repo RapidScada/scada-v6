@@ -1,0 +1,14 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ModArcInfluxDb>
+  <Connections>
+    <Connection>
+      <Name>InfluxConn</Name>
+      <Url>https://us-central1-1.gcp.cloud2.influxdata.com</Url>
+      <Token>0000</Token>
+      <Username />
+      <Password />
+      <Bucket>My Bucket</Bucket>
+      <Org>My Organization</Org>
+    </Connection>
+  </Connections>
+</ModArcInfluxDb>
