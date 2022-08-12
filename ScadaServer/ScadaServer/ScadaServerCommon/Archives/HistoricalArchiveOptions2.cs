@@ -40,7 +40,6 @@ namespace Scada.Server.Archives
         public HistoricalArchiveOptions2(OptionList options)
             : base(options)
         {
-            CanWriteOnChange = true;
             IsPeriodic = options.GetValueAsBool("IsPeriodic", true);
             WriteWithPeriod = options.GetValueAsBool("WriteWithPeriod", true);
             WritingPeriod = options.GetValueAsInt("WritingPeriod", 1);
@@ -52,11 +51,6 @@ namespace Scada.Server.Archives
             Retention = options.GetValueAsInt("Retention", 365);
         }
 
-
-        /// <summary>
-        /// Gets or sets a value indicating whether writing data on change is supported by the archive.
-        /// </summary>
-        protected bool CanWriteOnChange { get; set; }
 
         /// <summary>
         /// Gets or sets a value indicating whether the archive contains only periodic data.
@@ -120,7 +114,7 @@ namespace Scada.Server.Archives
                 options["PullToPeriod"] = PullToPeriod.ToString();
                 options["Retention"] = Retention.ToString();
 
-                if (CanWriteOnChange)
+                if (!IsPeriodic)
                 {
                     options["WriteOnChange"] = WriteOnChange.ToLowerString();
                     options["Deadband"] = Deadband.ToString(NumberFormatInfo.InvariantInfo);
