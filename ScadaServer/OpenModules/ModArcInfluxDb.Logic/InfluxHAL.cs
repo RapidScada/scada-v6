@@ -74,7 +74,7 @@ namespace Scada.Server.Modules.ModArcInfluxDb.Logic
             appLog = archiveContext.Log;
             arcLog = archiveOptions.LogEnabled ? CreateLog(ModuleUtils.ModuleCode) : null;
             stopwatch = new Stopwatch();
-            writingPeriod = GetPeriodInSec(archiveOptions.WritingPeriod, archiveOptions.WritingUnit);
+            writingPeriod = GetPeriodInSec(archiveOptions.WritingPeriod, archiveOptions.PeriodUnit);
 
             connOptions = null;
             client = null;
@@ -253,6 +253,23 @@ namespace Scada.Server.Modules.ModArcInfluxDb.Logic
         }
 
         /// <summary>
+        /// Initializes the previous channel data.
+        /// </summary>
+        private void InitPrevCnlData(ICurrentData curData)
+        {
+            if (archiveOptions.WriteOnChange && prevCnlData != null)
+            {
+                int cnlCnt = CnlNums.Length;
+                prevCnlData = new CnlData[cnlCnt];
+
+                for (int i = 0; i < cnlCnt; i++)
+                {
+                    prevCnlData[i] = curData.CnlData[cnlIndexes[i]];
+                }
+            }
+        }
+
+        /// <summary>
         /// Gets channel data from the first record of the table if it has the specified timestamp.
         /// </summary>
         private static bool GetCnlData(FluxTable table, long timeMs, out int cnlNum, out CnlData cnlData)
@@ -327,15 +344,11 @@ namespace Scada.Server.Modules.ModArcInfluxDb.Logic
             writeApi.EventHandler += WriteApi_EventHandler;
             queryApi = client.GetQueryApi();
 
-            if (archiveOptions.WritingMode == WritingMode.AutoWithPeriod)
-            {
+            if (archiveOptions.WriteWithPeriod)
                 nextWriteTime = GetNextWriteTime(DateTime.UtcNow, writingPeriod);
-            }
-            else if (archiveOptions.WritingMode == WritingMode.AutoOnChange)
-            {
-                prevCnlData = new CnlData[CnlNums.Length];
-                appLog.WriteWarning(ServerPhrases.ArchiveMessage, Code, ServerPhrases.WritingModeIsSlow);
-            }
+
+            if (archiveOptions.WriteOnChange)
+                appLog.WriteWarning(ServerPhrases.ArchiveMessage, Code, ServerPhrases.WritingOnChangeIsSlow);
         }
 
         /// <summary>
@@ -466,57 +479,48 @@ namespace Scada.Server.Modules.ModArcInfluxDb.Logic
         /// <summary>
         /// Processes new data.
         /// </summary>
-        /// <remarks>Returns true if the data has been written to the archive.</remarks>
         public override bool ProcessData(ICurrentData curData)
         {
             // InfluxDB client supports batch writing, so no queue implementation is required
             // https://github.com/influxdata/influxdb-client-csharp/tree/master/Client#writes
             // https://docs.influxdata.com/influxdb/v2.0/write-data/best-practices/optimize-writes/
 
-            if (archiveOptions.WritingMode == WritingMode.AutoWithPeriod)
+            if (archiveOptions.WriteWithPeriod && nextWriteTime <= curData.Timestamp)
             {
-                if (nextWriteTime <= curData.Timestamp)
+                DateTime writeTime = GetClosestWriteTime(curData.Timestamp, writingPeriod);
+                nextWriteTime = writeTime.AddSeconds(writingPeriod);
+
+                stopwatch.Restart();
+                InitCnlIndexes(curData, ref cnlIndexes);
+                InitPrevCnlData(curData);
+                WriteFlag(writeTime);
+                int cnlCnt = CnlNums.Length;
+
+                for (int i = 0; i < cnlCnt; i++)
                 {
-                    DateTime writeTime = GetClosestWriteTime(curData.Timestamp, writingPeriod);
-                    nextWriteTime = writeTime.AddSeconds(writingPeriod);
-
-                    stopwatch.Restart();
-                    InitCnlIndexes(curData, ref cnlIndexes);
-                    WriteFlag(writeTime);
-                    int cnlCnt = CnlNums.Length;
-
-                    for (int i = 0; i < cnlCnt; i++)
-                    {
-                        WritePoint(writeTime, CnlNums[i], curData.CnlData[cnlIndexes[i]]);
-                    }
-
-                    stopwatch.Stop();
-                    arcLog?.WriteAction(ServerPhrases.WritingPointsCompleted, cnlCnt, stopwatch.ElapsedMilliseconds);
-                    return true;
+                    WritePoint(writeTime, CnlNums[i], curData.CnlData[cnlIndexes[i]]);
                 }
+
+                stopwatch.Stop();
+                arcLog?.WriteAction(ServerPhrases.WritingPointsCompleted, cnlCnt, stopwatch.ElapsedMilliseconds);
+                return true;
             }
-            else if (archiveOptions.WritingMode == WritingMode.AutoOnChange)
+            else if (archiveOptions.WriteOnChange)
             {
                 stopwatch.Restart();
                 int changesCnt = 0;
-                bool firstTime = cnlIndexes == null;
+                bool justInited = prevCnlData == null;
                 InitCnlIndexes(curData, ref cnlIndexes);
+                InitPrevCnlData(curData);
 
-                if (firstTime)
+                if (!justInited)
                 {
-                    // do not write data for the first time
-                    for (int i = 0, cnlCnt = CnlNums.Length; i < cnlCnt; i++)
-                    {
-                        prevCnlData[i] = curData.CnlData[cnlIndexes[i]];
-                    }
-                }
-                else
-                {
+                    // do not compare data right after initialization
                     for (int i = 0, cnlCnt = CnlNums.Length; i < cnlCnt; i++)
                     {
                         CnlData curCnlData = curData.CnlData[cnlIndexes[i]];
 
-                        if (prevCnlData[i] != curCnlData)
+                        if (prevCnlData[i] != curCnlData) // TODO: use deadband
                         {
                             prevCnlData[i] = curCnlData;
                             WritePoint(curData.Timestamp, CnlNums[i], curCnlData);
@@ -546,18 +550,15 @@ namespace Scada.Server.Modules.ModArcInfluxDb.Logic
         /// </summary>
         public override bool AcceptData(ref DateTime timestamp)
         {
-            if (archiveOptions.WritingMode == WritingMode.AutoOnChange ||
-                archiveOptions.WritingMode == WritingMode.OnDemand)
+            if (archiveOptions.IsPeriodic)
             {
-                return true;
-            }
-            else if (archiveOptions.PullToPeriod > 0)
-            {
-                return PullTimeToPeriod(ref timestamp, writingPeriod, archiveOptions.PullToPeriod);
+                return archiveOptions.PullToPeriod > 0
+                    ? PullTimeToPeriod(ref timestamp, writingPeriod, archiveOptions.PullToPeriod)
+                    : TimeIsMultipleOfPeriod(timestamp, writingPeriod);
             }
             else
             {
-                return TimeIsMultipleOfPeriod(timestamp, writingPeriod);
+                return true;
             }
         }
 
