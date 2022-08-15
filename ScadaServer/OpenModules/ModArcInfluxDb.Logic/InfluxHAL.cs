@@ -45,12 +45,12 @@ namespace Scada.Server.Modules.ModArcInfluxDb.Logic
         /// </summary>
         private const string TimeFormat = "yyyy'-'MM'-'dd'T'HH':'mm':'ss'.'fffK";
 
-        private readonly ModuleConfig moduleConfig;     // the module configuration
-        private readonly ArchiveOptions archiveOptions; // the archive options
-        private readonly ILog appLog;                   // the application log
-        private readonly ILog arcLog;                   // the archive log
-        private readonly Stopwatch stopwatch;           // measures the time of operations
-        private readonly int writingPeriod;             // the writing period in seconds
+        private readonly ModuleConfig moduleConfig; // the module configuration
+        private readonly InfluxHAO archiveOptions;  // the archive options
+        private readonly ILog appLog;               // the application log
+        private readonly ILog arcLog;               // the archive log
+        private readonly Stopwatch stopwatch;       // measures the time of operations
+        private readonly int writingPeriod;         // the writing period in seconds
 
         private ConnectionOptions connOptions; // the database connection options
         private InfluxDBClient client;         // the InfluxDB client
@@ -70,7 +70,7 @@ namespace Scada.Server.Modules.ModArcInfluxDb.Logic
             ModuleConfig moduleConfig) : base(archiveContext, archiveConfig, cnlNums)
         {
             this.moduleConfig = moduleConfig ?? throw new ArgumentNullException(nameof(moduleConfig));
-            archiveOptions = new ArchiveOptions(archiveConfig.CustomOptions);
+            archiveOptions = new InfluxHAO(archiveConfig.CustomOptions);
             appLog = archiveContext.Log;
             arcLog = archiveOptions.LogEnabled ? CreateLog(ModuleUtils.ModuleCode) : null;
             stopwatch = new Stopwatch();
@@ -178,13 +178,13 @@ namespace Scada.Server.Modules.ModArcInfluxDb.Logic
         {
             string startTimeStr = startTime.ToString(TimeFormat);
             string endTimeStr = endTime.AddSeconds(1.0).ToString(TimeFormat);
-            StringBuilder sbCnlNums = new StringBuilder();
+            StringBuilder sbCnlNums = new();
 
             for (int i = 0, cnt = cnlNums.Length; i < cnt; i++)
             {
                 if (i > 0)
                     sbCnlNums.Append(" or ");
-                sbCnlNums.Append($"r[\"{CnlNumTag}\"] == \"").Append(cnlNums[i]).Append("\"");
+                sbCnlNums.Append($"r[\"{CnlNumTag}\"] == \"").Append(cnlNums[i]).Append('"');
             }
 
             return
@@ -215,64 +215,6 @@ namespace Scada.Server.Modules.ModArcInfluxDb.Logic
                 $"|> filter(fn: (r) => " +
                 $"  r[\"_measurement\"] == \"{Code}\" and " +
                 $"  r[\"_field\"] == \"{AvailField}\")";
-        }
-
-        /// <summary>
-        /// Gets channel data from the first record of the table if it has the specified timestamp.
-        /// </summary>
-        private bool GetCnlData(FluxTable table, long timeMs, out int cnlNum, out CnlData cnlData)
-        {
-            if (table.Records.Count > 0 &&
-                table.Records[0] is FluxRecord record &&
-                record.GetTime() is Instant instant &&
-                instant.ToUnixTimeMilliseconds() == timeMs)
-            {
-                cnlNum = Convert.ToInt32(record.GetValueByKey(CnlNumTag));
-                cnlData = new CnlData(
-                    Convert.ToDouble(record.GetValueByKey(ValField)),
-                    Convert.ToInt32(record.GetValueByKey(StatField)));
-                return true;
-            }
-            else
-            {
-                cnlNum = 0;
-                cnlData = CnlData.Empty;
-                return false;
-            }
-        }
-
-        /// <summary>
-        /// Processes the records.
-        /// </summary>
-        private void ProcessRecords(List<FluxRecord> records, TimeRange timeRange, 
-            Action<DateTime, FluxRecord> processFunc)
-        {
-            // by default records are sorted by time (except using groups)
-            DateTime startTime = timeRange.StartTime;
-            DateTime endTime = timeRange.EndTime;
-
-            foreach (FluxRecord record in records)
-            {
-                if (record.GetTime() is Instant instant)
-                {
-                    DateTime timestamp = instant.ToDateTimeUtc();
-
-                    // skip points having timestamp less than start
-                    if (timestamp < startTime)
-                        continue;
-
-                    if (timestamp < endTime || timestamp == endTime && timeRange.EndInclusive)
-                    {
-                        // process the record
-                        processFunc(timestamp, record);
-                    }
-                    else
-                    {
-                        // stop iterating if end is reached
-                        break;
-                    }
-                }
-            }
         }
 
         /// <summary>
@@ -308,6 +250,64 @@ namespace Scada.Server.Modules.ModArcInfluxDb.Logic
             arcLog?.WriteAction(ServerPhrases.ReadingTrendCompleted,
                 trendBundle.Timestamps.Count, stopwatch.ElapsedMilliseconds);
             return trendBundle;
+        }
+
+        /// <summary>
+        /// Gets channel data from the first record of the table if it has the specified timestamp.
+        /// </summary>
+        private static bool GetCnlData(FluxTable table, long timeMs, out int cnlNum, out CnlData cnlData)
+        {
+            if (table.Records.Count > 0 &&
+                table.Records[0] is FluxRecord record &&
+                record.GetTime() is Instant instant &&
+                instant.ToUnixTimeMilliseconds() == timeMs)
+            {
+                cnlNum = Convert.ToInt32(record.GetValueByKey(CnlNumTag));
+                cnlData = new CnlData(
+                    Convert.ToDouble(record.GetValueByKey(ValField)),
+                    Convert.ToInt32(record.GetValueByKey(StatField)));
+                return true;
+            }
+            else
+            {
+                cnlNum = 0;
+                cnlData = CnlData.Empty;
+                return false;
+            }
+        }
+
+        /// <summary>
+        /// Processes the records.
+        /// </summary>
+        private static void ProcessRecords(List<FluxRecord> records, TimeRange timeRange, 
+            Action<DateTime, FluxRecord> processFunc)
+        {
+            // by default records are sorted by time (except using groups)
+            DateTime startTime = timeRange.StartTime;
+            DateTime endTime = timeRange.EndTime;
+
+            foreach (FluxRecord record in records)
+            {
+                if (record.GetTime() is Instant instant)
+                {
+                    DateTime timestamp = instant.ToDateTimeUtc();
+
+                    // skip points having timestamp less than start
+                    if (timestamp < startTime)
+                        continue;
+
+                    if (timestamp < endTime || timestamp == endTime && timeRange.EndInclusive)
+                    {
+                        // process the record
+                        processFunc(timestamp, record);
+                    }
+                    else
+                    {
+                        // stop iterating if end is reached
+                        break;
+                    }
+                }
+            }
         }
 
 
@@ -428,7 +428,7 @@ namespace Scada.Server.Modules.ModArcInfluxDb.Logic
             string flux = GetCnlDataFlux(timestamp, timestamp, cnlNums);
             List<FluxTable> tables = queryApi.QueryAsync(flux, connOptions.Org).Result;
 
-            Slice slice = new Slice(timestamp, cnlNums);
+            Slice slice = new(timestamp, cnlNums);
             long timeMs = new DateTimeOffset(timestamp).ToUnixTimeMilliseconds();
             Dictionary<int, int> cnlIndexes = GetCnlIndexes(cnlNums);
 

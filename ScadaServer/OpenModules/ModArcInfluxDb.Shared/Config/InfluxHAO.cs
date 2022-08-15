@@ -10,12 +10,12 @@ namespace Scada.Server.Modules.ModArcInfluxDb.Config
     /// Represents options of a historical data archive.
     /// <para>Представляет параметры архива исторических данных.</para>
     /// </summary>
-    internal class ArchiveOptions : HistoricalArchiveOptions
+    internal class InfluxHAO : HistoricalArchiveOptions
     {
         /// <summary>
         /// Initializes a new instance of the class.
         /// </summary>
-        public ArchiveOptions(OptionList options)
+        public InfluxHAO(OptionList options)
             : base(options)
         {
             Connection = options.GetValueAsString("Connection");

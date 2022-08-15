@@ -9,7 +9,7 @@
     <Import_RootNamespace>Scada.Server.Modules.ModArcInfluxDb</Import_RootNamespace>
   </PropertyGroup>
   <ItemGroup>
-    <Compile Include="$(MSBuildThisFileDirectory)Config\ArchiveOptions.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Config\InfluxHAO.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Config\ConnectionOptions.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Config\ModuleConfig.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)ModuleUtils.cs" />
