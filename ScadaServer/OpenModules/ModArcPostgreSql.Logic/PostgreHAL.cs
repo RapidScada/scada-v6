@@ -257,7 +257,7 @@ namespace Scada.Server.Modules.ModArcPostgreSql.Logic
             else if (archiveOptions.WritingMode == WritingMode.AutoOnChange)
             {
                 prevCnlData = new CnlData[CnlNums.Length];
-                appLog.WriteWarning(ServerPhrases.ArchiveMessage, Code, ServerPhrases.WritingModeIsSlow);
+                appLog.WriteWarning(ServerPhrases.ArchiveMessage, Code, ServerPhrases.WritingOnChangeIsSlow);
             }
 
             // start thread for writing data
@@ -486,7 +486,6 @@ namespace Scada.Server.Modules.ModArcPostgreSql.Logic
         /// <summary>
         /// Processes new data.
         /// </summary>
-        /// <remarks>Returns true if the data has been written to the archive.</remarks>
         public override bool ProcessData(ICurrentData curData)
         {
             if (archiveOptions.WritingMode == WritingMode.AutoWithPeriod)
@@ -564,7 +563,6 @@ namespace Scada.Server.Modules.ModArcPostgreSql.Logic
         /// <summary>
         /// Accepts or rejects data with the specified timestamp.
         /// </summary>
-        /// <remarks>The timestamp can be adjusted by the archive.</remarks>
         public override bool AcceptData(ref DateTime timestamp)
         {
             if (archiveOptions.WritingMode == WritingMode.AutoOnChange ||
