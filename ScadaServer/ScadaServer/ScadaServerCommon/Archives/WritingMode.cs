@@ -23,12 +23,15 @@
  * Modified : 2020
  */
 
+using System;
+
 namespace Scada.Server.Archives
 {
     /// <summary>
     /// Specifies the data writing modes.
     /// <para>Задает режимы записи данных.</para>
     /// </summary>
+    [Obsolete]
     public enum WritingMode
     {
         /// <summary>
