@@ -44,7 +44,7 @@ namespace Scada.Server.Lang
         public static string NullResultNotAllowed { get; private set; }
         public static string InvalidWritingPeriod { get; private set; }
         public static string WritingModeNotSupported { get; private set; }
-        public static string WritingModeIsSlow { get; private set; }
+        public static string WritingOnChangeIsSlow { get; private set; }
         public static string DeleteOutdatedData { get; private set; }
         public static string ReadingTrendsCompleted { get; private set; }
         public static string ReadingTrendCompleted { get; private set; }
@@ -102,7 +102,7 @@ namespace Scada.Server.Lang
                 NullResultNotAllowed = "Результат метода не может быть null.";
                 InvalidWritingPeriod = "Период записи должен быть положительным.";
                 WritingModeNotSupported = "Режим записи не поддерживается архивом {0}.";
-                WritingModeIsSlow = "Выбранный режим записи может снизить производительность";
+                WritingOnChangeIsSlow = "Запись данных по изменению может снизить производительность";
                 DeleteOutdatedData = "Удаление устаревших данных из архива {0}, которые старше {1}";
                 ReadingTrendsCompleted = "Чтение трендов длины {0} успешно завершено за {1} мс";
                 ReadingTrendCompleted = "Чтение тренда длины {0} успешно завершено за {1} мс";
@@ -142,7 +142,7 @@ namespace Scada.Server.Lang
                 NullResultNotAllowed = "Method result must not be null.";
                 InvalidWritingPeriod = "Writing period must be positive.";
                 WritingModeNotSupported = "Writing mode is not supported by the {0} archive.";
-                WritingModeIsSlow = "The selected writing mode may decrease performance";
+                WritingOnChangeIsSlow = "Writing data on change can degrade performance";
                 DeleteOutdatedData = "Delete outdated data from the {0} archive older than {1}";
                 ReadingTrendsCompleted = "Reading trends of length {0} completed successfully in {1} ms";
                 ReadingTrendCompleted = "Reading a trend of length {0} completed successfully in {1} ms";

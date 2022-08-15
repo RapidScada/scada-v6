@@ -40,17 +40,32 @@ namespace Scada.Server.Archives
         public HistoricalArchiveOptions2(OptionList options)
             : base(options)
         {
+            Retention = options.GetValueAsInt("Retention", 365);
             IsPeriodic = options.GetValueAsBool("IsPeriodic", true);
             WriteWithPeriod = options.GetValueAsBool("WriteWithPeriod", true);
             WritingPeriod = options.GetValueAsInt("WritingPeriod", 1);
             PeriodUnit = options.GetValueAsEnum("PeriodUnit", TimeUnit.Minute);
             PullToPeriod = options.GetValueAsInt("PullToPeriod", 0);
-            WriteOnChange = options.GetValueAsBool("WriteOnChange", false);
-            Deadband = options.GetValueAsDouble("Deadband", 0);
-            DeadbandUnit = options.GetValueAsEnum("DeadbandUnit", DeadbandUnit.Absolute);
-            Retention = options.GetValueAsInt("Retention", 365);
+
+            if (IsPeriodic)
+            {
+                WriteOnChange = false;
+                Deadband = 0;
+                DeadbandUnit = DeadbandUnit.Absolute;
+            }
+            else
+            {
+                WriteOnChange = options.GetValueAsBool("WriteOnChange", false);
+                Deadband = options.GetValueAsDouble("Deadband", 0);
+                DeadbandUnit = options.GetValueAsEnum("DeadbandUnit", DeadbandUnit.Absolute);
+            }
         }
 
+
+        /// <summary>
+        /// Gets or sets the duration of time that the archive retains data, days.
+        /// </summary>
+        public int Retention { get; set; }
 
         /// <summary>
         /// Gets or sets a value indicating whether the archive contains only periodic data.
@@ -92,11 +107,6 @@ namespace Scada.Server.Archives
         /// </summary>
         public DeadbandUnit DeadbandUnit { get; set; }
 
-        /// <summary>
-        /// Gets or sets the duration of time that the archive retains data, days.
-        /// </summary>
-        public int Retention { get; set; }
-
 
         /// <summary>
         /// Adds the options to the list.
@@ -107,12 +117,12 @@ namespace Scada.Server.Archives
 
             if (!ReadOnly)
             {
+                options["Retention"] = Retention.ToString();
                 options["IsPeriodic"] = IsPeriodic.ToLowerString();
                 options["WriteWithPeriod"] = WriteWithPeriod.ToLowerString();
                 options["WritingPeriod"] = WritingPeriod.ToString();
                 options["PeriodUnit"] = PeriodUnit.ToString();
                 options["PullToPeriod"] = PullToPeriod.ToString();
-                options["Retention"] = Retention.ToString();
 
                 if (!IsPeriodic)
                 {
