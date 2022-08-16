@@ -74,6 +74,48 @@ namespace Scada.Server.Archives
         }
 
         /// <summary>
+        /// Gets the time period in seconds.
+        /// </summary>
+        protected int GetPeriodInSec(int period, TimeUnit timeUnit)
+        {
+            switch (timeUnit)
+            {
+                case TimeUnit.Minute:
+                    return period * 60;
+                case TimeUnit.Hour:
+                    return period * 3600;
+                default: // TimeUnit.Second
+                    return period;
+            }
+        }
+
+        /// <summary>
+        /// Checks that the timestamp is a multiple of the period.
+        /// </summary>
+        protected bool TimeIsMultipleOfPeriod(DateTime timestamp, int period)
+        {
+            return period > 0 && (int)Math.Round(timestamp.TimeOfDay.TotalMilliseconds) % (period * 1000) == 0;
+        }
+
+        /// <summary>
+        /// Pulls a timestamp to the closest periodic timestamp within the specified range.
+        /// </summary>
+        protected bool PullTimeToPeriod(ref DateTime timestamp, int period, int pullingRange)
+        {
+            DateTime closestTime = GetClosestWriteTime(timestamp, period);
+
+            if ((timestamp - closestTime).TotalSeconds <= pullingRange)
+            {
+                timestamp = closestTime;
+                return true;
+            }
+            else
+            {
+                return false;
+            }
+        }
+
+        /// <summary>
         /// Determines whether two CnlData instances are the same.
         /// </summary>
         protected bool CnlDataEquals1(CnlData x, CnlData y)
