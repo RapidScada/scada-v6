@@ -51,15 +51,16 @@ namespace Scada.Server.Modules.ModArcInfluxDb.Logic
         private readonly ILog arcLog;               // the archive log
         private readonly Stopwatch stopwatch;       // measures the time of operations
         private readonly int writingPeriod;         // the writing period in seconds
+        private readonly CnlDataEqualsDelegate cnlDataEqualsFunc; // the function for comparing channel data
 
-        private ConnectionOptions connOptions; // the database connection options
-        private InfluxDBClient client;         // the InfluxDB client
-        private WriteApi writeApi;             // writes to the database
-        private QueryApi queryApi;             // reads from the database
-        private DateTime nextWriteTime;        // the next time to write data to the archive
-        private int[] cnlIndexes;              // the channel mapping indexes
-        private CnlData[] prevCnlData;         // the previous channel data
-        private DateTime updateTime;           // the timestamp of the current update operation
+        private ConnectionOptions connOptions;      // the database connection options
+        private InfluxDBClient client;              // the InfluxDB client
+        private WriteApi writeApi;                  // writes to the database
+        private QueryApi queryApi;                  // reads from the database
+        private DateTime nextWriteTime;             // the next time to write data to the archive
+        private int[] cnlIndexes;                   // the channel mapping indexes
+        private CnlData[] prevCnlData;              // the previous channel data
+        private DateTime updateTime;                // the timestamp of the current update operation
         private Dictionary<int, CnlData> updatedCnlData; // holds recently updated channel data
 
 
@@ -75,6 +76,7 @@ namespace Scada.Server.Modules.ModArcInfluxDb.Logic
             arcLog = archiveOptions.LogEnabled ? CreateLog(ModuleUtils.ModuleCode) : null;
             stopwatch = new Stopwatch();
             writingPeriod = GetPeriodInSec(archiveOptions.WritingPeriod, archiveOptions.PeriodUnit);
+            cnlDataEqualsFunc = SelectCnlDataEquals();
 
             connOptions = null;
             client = null;
@@ -86,6 +88,12 @@ namespace Scada.Server.Modules.ModArcInfluxDb.Logic
             updateTime = DateTime.MinValue;
             updatedCnlData = null;
         }
+
+
+        /// <summary>
+        /// Gets the archive options.
+        /// </summary>
+        protected override HistoricalArchiveOptions2 ArchiveOptions => archiveOptions;
 
 
         /// <summary>
@@ -515,12 +523,11 @@ namespace Scada.Server.Modules.ModArcInfluxDb.Logic
 
                 if (!justInited)
                 {
-                    // do not compare data right after initialization
                     for (int i = 0, cnlCnt = CnlNums.Length; i < cnlCnt; i++)
                     {
                         CnlData curCnlData = curData.CnlData[cnlIndexes[i]];
 
-                        if (prevCnlData[i] != curCnlData) // TODO: use deadband
+                        if (!cnlDataEqualsFunc(prevCnlData[i], curCnlData))
                         {
                             prevCnlData[i] = curCnlData;
                             WritePoint(curData.Timestamp, CnlNums[i], curCnlData);

@@ -37,12 +37,24 @@ namespace Scada.Server.Archives
     public abstract class HistoricalArchiveLogic : ArchiveLogic
     {
         /// <summary>
+        /// Represents a method that determines whether two CnlData instances are the same.
+        /// </summary>
+        protected delegate bool CnlDataEqualsDelegate(CnlData x, CnlData y);
+
+
+        /// <summary>
         /// Initializes a new instance of the class.
         /// </summary>
         public HistoricalArchiveLogic(IArchiveContext archiveContext, ArchiveConfig archiveConfig, int[] cnlNums)
             : base(archiveContext, archiveConfig, cnlNums)
         {
         }
+
+
+        /// <summary>
+        /// Gets the archive options.
+        /// </summary>
+        protected virtual HistoricalArchiveOptions2 ArchiveOptions => null;
 
 
         /// <summary>
@@ -59,6 +71,52 @@ namespace Scada.Server.Archives
             }
 
             return TrendHelper.MergeTrends(trends);
+        }
+
+        /// <summary>
+        /// Determines whether two CnlData instances are the same.
+        /// </summary>
+        protected bool CnlDataEquals1(CnlData x, CnlData y)
+        {
+            return x == y;
+        }
+
+        /// <summary>
+        /// Determines whether two CnlData instances are considered the same, 
+        /// comparing absolute values and taking into account a deadband.
+        /// </summary>
+        protected bool CnlDataEquals2(CnlData x, CnlData y)
+        {
+            return ArchiveOptions != null && x.Stat == y.Stat && (
+                x.Val.Equals(y.Val) || 
+                Math.Abs(x.Val - y.Val) <= ArchiveOptions.Deadband);
+        }
+
+        /// <summary>
+        /// Determines whether two CnlData instances are considered the same,
+        /// comparing the ratio of values and taking into account a deadband.
+        /// </summary>
+        protected bool CnlDataEquals3(CnlData x, CnlData y)
+        {
+            return ArchiveOptions != null && x.Stat == y.Stat && (
+                x.Val.Equals(y.Val) ||
+                x.Val != 0 && Math.Abs((x.Val - y.Val) / x.Val / 100) <= ArchiveOptions.Deadband);
+        }
+
+        /// <summary>
+        /// Selects a method for comparing channel data depending on the archive options.
+        /// </summary>
+        protected CnlDataEqualsDelegate SelectCnlDataEquals()
+        {
+            if (ArchiveOptions == null)
+                throw new InvalidOperationException("ArchiveOptions must not be null.");
+
+            if (ArchiveOptions.Deadband <= 0)
+                return CnlDataEquals1;
+            else if (ArchiveOptions.DeadbandUnit == DeadbandUnit.Absolute)
+                return CnlDataEquals2;
+            else
+                return CnlDataEquals3;
         }
 
         /// <summary>
