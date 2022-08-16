@@ -352,11 +352,14 @@ namespace Scada.Server.Modules.ModArcInfluxDb.Logic
             writeApi.EventHandler += WriteApi_EventHandler;
             queryApi = client.GetQueryApi();
 
-            if (archiveOptions.WriteWithPeriod)
-                nextWriteTime = GetNextWriteTime(DateTime.UtcNow, writingPeriod);
+            if (!archiveOptions.ReadOnly)
+            {
+                if (archiveOptions.WriteWithPeriod)
+                    nextWriteTime = GetNextWriteTime(DateTime.UtcNow, writingPeriod);
 
-            if (archiveOptions.WriteOnChange)
-                appLog.WriteWarning(ServerPhrases.ArchiveMessage, Code, ServerPhrases.WritingOnChangeIsSlow);
+                if (archiveOptions.WriteOnChange)
+                    appLog.WriteWarning(ServerPhrases.ArchiveMessage, Code, ServerPhrases.WritingOnChangeIsSlow);
+            }
         }
 
         /// <summary>
@@ -493,7 +496,11 @@ namespace Scada.Server.Modules.ModArcInfluxDb.Logic
             // https://github.com/influxdata/influxdb-client-csharp/tree/master/Client#writes
             // https://docs.influxdata.com/influxdb/v2.0/write-data/best-practices/optimize-writes/
 
-            if (archiveOptions.WriteWithPeriod && nextWriteTime <= curData.Timestamp)
+            if (archiveOptions.ReadOnly)
+            {
+                // do nothing
+            }
+            else if (archiveOptions.WriteWithPeriod && nextWriteTime <= curData.Timestamp)
             {
                 DateTime writeTime = GetClosestWriteTime(curData.Timestamp, writingPeriod);
                 nextWriteTime = writeTime.AddSeconds(writingPeriod);
@@ -557,7 +564,11 @@ namespace Scada.Server.Modules.ModArcInfluxDb.Logic
         /// </summary>
         public override bool AcceptData(ref DateTime timestamp)
         {
-            if (archiveOptions.IsPeriodic)
+            if (archiveOptions.ReadOnly)
+            {
+                return false;
+            }
+            else if (archiveOptions.IsPeriodic)
             {
                 return archiveOptions.PullToPeriod > 0
                     ? PullTimeToPeriod(ref timestamp, writingPeriod, archiveOptions.PullToPeriod)
@@ -596,10 +607,13 @@ namespace Scada.Server.Modules.ModArcInfluxDb.Logic
         /// </summary>
         public override void WriteCnlData(DateTime timestamp, int cnlNum, CnlData cnlData)
         {
-            WritePoint(timestamp, cnlNum, cnlData);
+            if (!archiveOptions.ReadOnly)
+            {
+                WritePoint(timestamp, cnlNum, cnlData);
 
-            if (updatedCnlData != null)
-                updatedCnlData[cnlNum] = cnlData;
+                if (updatedCnlData != null)
+                    updatedCnlData[cnlNum] = cnlData;
+            }
         }
     }
 }
