@@ -266,5 +266,13 @@ namespace Scada
         {
             return Array.Empty<string>();
         }
+
+        /// <summary>
+        /// Gets the directories to search for assemblies.
+        /// </summary>
+        public virtual string[] GetProbingDirs()
+        {
+            return new string[] { ExeDir };
+        }
     }
 }
