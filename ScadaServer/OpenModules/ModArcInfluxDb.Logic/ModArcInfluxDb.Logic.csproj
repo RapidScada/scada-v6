@@ -4,6 +4,7 @@
     <TargetFramework>net6.0</TargetFramework>
     <ImplicitUsings>enable</ImplicitUsings>
     <Nullable>disable</Nullable>
+    <EnableDynamicLoading>true</EnableDynamicLoading>
     <RootNamespace>Scada.Server.Modules.ModArcInfluxDb.Logic</RootNamespace>
     <Authors>Mikhail Shiryaev</Authors>
     <Company>Rapid Software LLC</Company>
