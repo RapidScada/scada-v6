@@ -265,7 +265,7 @@ namespace Scada.Server.Modules.ModArcInfluxDb.Logic
         /// </summary>
         private void InitPrevCnlData(ICurrentData curData)
         {
-            if (archiveOptions.WriteOnChange && prevCnlData != null)
+            if (archiveOptions.WriteOnChange && prevCnlData == null)
             {
                 int cnlCnt = CnlNums.Length;
                 prevCnlData = new CnlData[cnlCnt];
