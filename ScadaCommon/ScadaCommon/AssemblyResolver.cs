@@ -23,6 +23,7 @@
  * Modified : 2022
  */
 
+using Scada.Lang;
 using System;
 using System.IO;
 using System.Reflection;
@@ -80,9 +81,17 @@ namespace Scada
             {
                 string shortFileName = assemblyName.Substring(0, commaIdx) + ".dll";
 
+                // search in the directory of the requesting assembly
+                if (LoadAssembly(shortFileName, Path.GetDirectoryName(requestingAssembly.Location))
+                    is Assembly assembly)
+                {
+                    return assembly;
+                }
+
+                // search in the probing directories
                 foreach (string probingDir in ProbingDirs)
                 {
-                    Assembly assembly =
+                    assembly =
                         LoadAssembly(shortFileName, probingDir) ??
                         LoadAssembly(shortFileName, Path.Combine(probingDir, requestingAssembly.GetName().Name));
 
