@@ -20,7 +20,7 @@
  * 
  * Author   : Mikhail Shiryaev
  * Created  : 2015
- * Modified : 2021
+ * Modified : 2022
  */
 
 using Scada.Config;
@@ -41,9 +41,10 @@ namespace Scada.Server.Engine
     /// </summary>
     public class Manager
     {
-        private ILog log;                      // the application log
-        private StorageWrapper storageWrapper; // contains the application storage
-        private CoreLogic coreLogic;           // the Server logic instance
+        private ILog log;                          // the application log
+        private StorageWrapper storageWrapper;     // contains the application storage
+        private CoreLogic coreLogic;               // the Server logic instance
+        private AssemblyResolver assemblyResolver; // searches for assemblies
 
 
         /// <summary>
@@ -54,8 +55,10 @@ namespace Scada.Server.Engine
             log = LogStub.Instance;
             storageWrapper = null;
             coreLogic = null;
+            assemblyResolver = null;
             AppDirs = new ServerDirs();
-            AppDomain.CurrentDomain.UnhandledException += OnUnhandledException;
+            AppDomain.CurrentDomain.UnhandledException += CurrentDomain_OnUnhandledException;
+            AppDomain.CurrentDomain.AssemblyResolve += CurrentDomain_AssemblyResolve;
         }
 
 
@@ -84,9 +87,27 @@ namespace Scada.Server.Engine
         /// <summary>
         /// Writes information about the unhandled exception to the log.
         /// </summary>
-        private void OnUnhandledException(object sender, UnhandledExceptionEventArgs args)
+        private void CurrentDomain_OnUnhandledException(object sender, UnhandledExceptionEventArgs args)
         {
             log.WriteError(args.ExceptionObject as Exception, CommonPhrases.UnhandledException);
+        }
+
+        /// <summary>
+        /// Handles an AssemblyResolve event of the current application domain.
+        /// </summary>
+        private Assembly CurrentDomain_AssemblyResolve(object sender, ResolveEventArgs args)
+        {
+            Assembly assembly = assemblyResolver?.Resolve(args.Name, args.RequestingAssembly);
+
+            if (assembly == null)
+            {
+                log.WriteError(Locale.IsRussian ?
+                    "Резолвер не смог найти сборку '{0}'{1}   запрошенную '{2}'" :
+                    "Resolver could not find assembly '{0}'{1}   requested by '{2}'", 
+                    args.Name, Environment.NewLine, args.RequestingAssembly.FullName);
+            }
+
+            return assembly;
         }
 
 
@@ -146,6 +167,7 @@ namespace Scada.Server.Engine
                 // start service
                 logFile.CapacityMB = appConfig.GeneralOptions.MaxLogSize;
                 coreLogic = new CoreLogic(instanceConfig, appConfig, AppDirs, storageWrapper.Storage, log);
+                assemblyResolver = new AssemblyResolver(AppDirs.GetProbingDirs());
 
                 if (coreLogic.StartProcessing())
                     return true;

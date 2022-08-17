@@ -20,7 +20,7 @@
  * 
  * Author   : Mikhail Shiryaev
  * Created  : 2015
- * Modified : 2021
+ * Modified : 2022
  */
 
 namespace Scada.Server
@@ -62,6 +62,14 @@ namespace Scada.Server
         public override string[] GetRequiredDirs()
         {
             return new string[] { LangDir, LogDir, ModDir };
+        }
+
+        /// <summary>
+        /// Gets the directories to search for assemblies.
+        /// </summary>
+        public override string[] GetProbingDirs()
+        {
+            return new string[] { ExeDir, ModDir };
         }
     }
 }
