@@ -257,6 +257,7 @@ namespace Scada.Server.Modules.ModArcBasic.Logic
                 adapter.WriteEventAck(ev); // update acknowledgement
 
             eventTable.LastWriteTime = File.GetLastWriteTimeUtc(eventTable.FileName);
+            LastWriteTime = eventTable.LastWriteTime;
             stopwatch.Stop();
             arcLog?.WriteAction(ServerPhrases.WritingEventCompleted, stopwatch.ElapsedMilliseconds);
         }
@@ -279,6 +280,7 @@ namespace Scada.Server.Modules.ModArcBasic.Logic
                 adapter.FileName = eventTable.FileName;
                 adapter.WriteEventAck(ev);
                 eventTable.LastWriteTime = File.GetLastWriteTimeUtc(eventTable.FileName);
+                LastWriteTime = eventTable.LastWriteTime;
 
                 stopwatch.Stop();
                 arcLog?.WriteAction(ServerPhrases.AckEventCompleted, stopwatch.ElapsedMilliseconds);

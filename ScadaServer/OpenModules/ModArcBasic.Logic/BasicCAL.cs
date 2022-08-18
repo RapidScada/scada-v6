@@ -106,6 +106,7 @@ namespace Scada.Server.Modules.ModArcBasic.Logic
             InitCnlIndexes(curData, ref cnlIndexes);
             CopyCnlData(curData, slice, cnlIndexes);
             adapter.WriteSingleSlice(slice);
+            LastWriteTime = curData.Timestamp;
 
             stopwatch.Stop();
             arcLog?.WriteAction(ServerPhrases.WritingSliceCompleted,
@@ -115,17 +116,12 @@ namespace Scada.Server.Modules.ModArcBasic.Logic
         /// <summary>
         /// Processes new data.
         /// </summary>
-        public override bool ProcessData(ICurrentData curData)
+        public override void ProcessData(ICurrentData curData)
         {
             if (nextWriteTime <= curData.Timestamp)
             {
                 nextWriteTime = GetNextWriteTime(curData.Timestamp, options.FlushPeriod);
                 WriteData(curData);
-                return true;
-            }
-            else
-            {
-                return false;
             }
         }
     }

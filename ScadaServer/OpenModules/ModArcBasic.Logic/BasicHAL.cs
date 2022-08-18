@@ -402,7 +402,7 @@ namespace Scada.Server.Modules.ModArcBasic.Logic
         /// <summary>
         /// Processes new data.
         /// </summary>
-        public override bool ProcessData(ICurrentData curData)
+        public override void ProcessData(ICurrentData curData)
         {
             if (options.WriteWithPeriod && nextWriteTime <= curData.Timestamp)
             {
@@ -415,15 +415,11 @@ namespace Scada.Server.Modules.ModArcBasic.Logic
                 CopyCnlData(curData, slice, cnlIndexes);
                 slice.Timestamp = writeTime;
                 adapter.WriteSlice(trendTable, slice);
+                LastWriteTime = curData.Timestamp;
 
                 stopwatch.Stop();
                 arcLog?.WriteAction(ServerPhrases.WritingSliceCompleted,
                     slice.CnlNums.Length, stopwatch.ElapsedMilliseconds);
-                return true;
-            }
-            else
-            {
-                return false;
             }
         }
 
@@ -451,6 +447,7 @@ namespace Scada.Server.Modules.ModArcBasic.Logic
         /// </summary>
         public override void EndUpdate(DateTime timestamp, int deviceNum)
         {
+            LastWriteTime = DateTime.UtcNow;
             updatedTable = null;
             stopwatch.Stop();
             arcLog?.WriteAction(ServerPhrases.UpdateCompleted, stopwatch.ElapsedMilliseconds);
