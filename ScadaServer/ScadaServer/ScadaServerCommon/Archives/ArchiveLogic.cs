@@ -20,7 +20,7 @@
  * 
  * Author   : Mikhail Shiryaev
  * Created  : 2020
- * Modified : 2021
+ * Modified : 2022
  */
 
 using Scada.Data.Models;
@@ -48,10 +48,10 @@ namespace Scada.Server.Archives
             ArchiveContext = archiveContext ?? throw new ArgumentNullException(nameof(archiveContext));
             ArchiveConfig = archiveConfig ?? throw new ArgumentNullException(nameof(archiveConfig));
             CnlNums = cnlNums ?? throw new ArgumentNullException(nameof(cnlNums));
+            LastWriteTime = DateTime.MinValue;
             Code = archiveConfig.Code;
             Title = ServerUtils.GetArchiveTitle(Code, archiveConfig.Name);
             IsReady = false;
-            LastWriteTime = DateTime.MinValue;
             LastCleanupTime = DateTime.MinValue;
             CleanupPeriod = TimeSpan.FromDays(1);
         }
@@ -74,6 +74,11 @@ namespace Scada.Server.Archives
         protected int[] CnlNums { get; }
 
         /// <summary>
+        /// Gets or sets the time (UTC) when the archive was last written to.
+        /// </summary>
+        protected DateTime LastWriteTime { get; set; }
+
+        /// <summary>
         /// Gets the archive code.
         /// </summary>
         public string Code { get; }
@@ -87,11 +92,6 @@ namespace Scada.Server.Archives
         /// Gets or sets a value indicating whether the archive is ready for reading and writing.
         /// </summary>
         public bool IsReady { get; set; }
-
-        /// <summary>
-        /// Gets or sets the time (UTC) when the archive was last written to.
-        /// </summary>
-        public DateTime LastWriteTime { get; set; }
 
         /// <summary>
         /// Gets or sets the time (UTC) when the archive was last cleaned up.
@@ -251,6 +251,14 @@ namespace Scada.Server.Archives
         /// </summary>
         public virtual void Close()
         {
+        }
+
+        /// <summary>
+        /// Gets the time (UTC) when the archive was last written to.
+        /// </summary>
+        public virtual DateTime GetLastWriteTime()
+        {
+            return LastWriteTime;
         }
 
         /// <summary>

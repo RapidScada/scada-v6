@@ -20,7 +20,7 @@
  * 
  * Author   : Mikhail Shiryaev
  * Created  : 2020
- * Modified : 2021
+ * Modified : 2022
  */
 
 using Scada.Data.Models;
@@ -208,7 +208,7 @@ namespace Scada.Server.Archives
         /// Processes new data.
         /// </summary>
         /// <remarks>Returns true if the data has been written to the archive.</remarks>
-        public abstract bool ProcessData(ICurrentData curData);
+        public abstract void ProcessData(ICurrentData curData);
 
         /// <summary>
         /// Accepts or rejects data with the specified timestamp.

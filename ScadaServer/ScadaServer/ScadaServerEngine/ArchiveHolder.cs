@@ -243,6 +243,31 @@ namespace Scada.Server.Engine
         }
 
         /// <summary>
+        /// Gets the time (UTC) when the archive was last written to.
+        /// </summary>
+        public DateTime GetLastWriteTime(int archiveBit)
+        {
+            if (GetArchive(archiveBit, out ArchiveLogic archiveLogic))
+            {
+                try
+                {
+                    archiveLogic.Lock();
+                    return archiveLogic.GetLastWriteTime();
+                }
+                catch (Exception ex)
+                {
+                    log.WriteError(ex, ServerPhrases.ErrorInArchive, nameof(GetLastWriteTime), archiveLogic.Code);
+                }
+                finally
+                {
+                    Unlock(archiveLogic);
+                }
+            }
+
+            return DateTime.MinValue;
+        }
+
+        /// <summary>
         /// Calls the DeleteOutdatedData method of the archives.
         /// </summary>
         public void DeleteOutdatedData()
@@ -265,7 +290,7 @@ namespace Scada.Server.Engine
                     }
                     catch (Exception ex)
                     {
-                        log.WriteError(ex, ServerPhrases.ErrorInArchive, 
+                        log.WriteError(ex, ServerPhrases.ErrorInArchive,
                             nameof(DeleteOutdatedData), archiveLogic.Code);
                     }
                     finally
@@ -295,8 +320,7 @@ namespace Scada.Server.Engine
                     }
                     catch (Exception ex)
                     {
-                        log.WriteError(ex, ServerPhrases.ErrorInArchive, 
-                            nameof(ReadCurrentData), archiveLogic.Code);
+                        log.WriteError(ex, ServerPhrases.ErrorInArchive, nameof(ReadCurrentData), archiveLogic.Code);
                     }
                     finally
                     {
@@ -323,12 +347,10 @@ namespace Scada.Server.Engine
                     {
                         archiveLogic.Lock();
                         archiveLogic.WriteData(curData);
-                        archiveLogic.LastWriteTime = curData.Timestamp;
                     }
                     catch (Exception ex)
                     {
-                        log.WriteError(ex, ServerPhrases.ErrorInArchive, 
-                            nameof(WriteCurrentData), archiveLogic.Code);
+                        log.WriteError(ex, ServerPhrases.ErrorInArchive, nameof(WriteCurrentData), archiveLogic.Code);
                     }
                     finally
                     {
@@ -350,8 +372,7 @@ namespace Scada.Server.Engine
                     try
                     {
                         archiveLogic.Lock();
-                        if (archiveLogic.ProcessData(curData))
-                            archiveLogic.LastWriteTime = curData.Timestamp;
+                        archiveLogic.ProcessData(curData);
                     }
                     catch (Exception ex)
                     {
@@ -371,8 +392,7 @@ namespace Scada.Server.Engine
                     try
                     {
                         archiveLogic.Lock();
-                        if (archiveLogic.ProcessData(curData))
-                            archiveLogic.LastWriteTime = curData.Timestamp;
+                        archiveLogic.ProcessData(curData);
                     }
                     catch (Exception ex)
                     {
@@ -395,7 +415,6 @@ namespace Scada.Server.Engine
             {
                 archiveLogic.Lock();
                 archiveLogic.EndUpdate(timestamp, deviceNum);
-                archiveLogic.LastWriteTime = DateTime.UtcNow;
             }
             catch (Exception ex)
             {
@@ -542,29 +561,6 @@ namespace Scada.Server.Engine
         }
 
         /// <summary>
-        /// Gets the time (UTC) when the archive was last written to.
-        /// </summary>
-        public DateTime GetLastWriteTime(int archiveBit)
-        {
-            if (GetArchive(archiveBit, out ArchiveLogic archiveLogic))
-            {
-                try
-                {
-                    archiveLogic.Lock();
-                    return archiveLogic.LastWriteTime;
-                }
-                finally
-                {
-                    Unlock(archiveLogic);
-                }
-            }
-            else
-            {
-                return DateTime.MinValue;
-            }
-        }
-
-        /// <summary>
         /// Gets the event by ID.
         /// </summary>
         public Event GetEventByID(int archiveBit, long eventID)
@@ -627,7 +623,6 @@ namespace Scada.Server.Engine
                 {
                     archiveLogic.Lock();
                     archiveLogic.WriteEvent(ev);
-                    archiveLogic.LastWriteTime = DateTime.UtcNow;
                 }
                 catch (Exception ex)
                 {
@@ -673,7 +668,6 @@ namespace Scada.Server.Engine
                     {
                         archiveLogic.Lock();
                         archiveLogic.AckEvent(eventAck);
-                        archiveLogic.LastWriteTime = DateTime.UtcNow;
                     }
                     catch (Exception ex)
                     {
