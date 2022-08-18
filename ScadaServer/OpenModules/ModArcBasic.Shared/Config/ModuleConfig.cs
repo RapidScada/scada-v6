@@ -1,17 +1,16 @@
 ﻿// Copyright (c) Rapid Software LLC. All rights reserved.
 // Licensed under the Apache License, Version 2.0. See License.txt in the project root for license information.
 
-using Scada.Config;
 using System.IO;
 using System.Xml;
 
-namespace Scada.Server.Modules.ModArcBasic
+namespace Scada.Server.Modules.ModArcBasic.Config
 {
     /// <summary>
     /// Represents a module configuration.
     /// <para>Представляет конфигурацию модуля.</para>
     /// </summary>
-    public class ModuleConfig : ConfigBase
+    public class ModuleConfig : ModuleConfigBase
     {
         /// <summary>
         /// The default configuration file name.

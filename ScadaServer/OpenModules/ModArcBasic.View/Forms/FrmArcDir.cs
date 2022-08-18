@@ -2,9 +2,7 @@
 // Licensed under the Apache License, Version 2.0. See License.txt in the project root for license information.
 
 using Scada.Forms;
-using System;
-using System.IO;
-using System.Windows.Forms;
+using Scada.Server.Modules.ModArcBasic.Config;
 
 namespace Scada.Server.Modules.ModArcBasic.View.Forms
 {

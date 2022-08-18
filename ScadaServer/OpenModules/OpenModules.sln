@@ -9,8 +9,6 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "ModArcBasic", "ModArcBasic"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ModArcBasic.View", "ModArcBasic.View\ModArcBasic.View.csproj", "{0178284C-E0A2-4940-A388-AA38616464B7}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ModArcBasic.Common", "ModArcBasic.Common\ModArcBasic.Common.csproj", "{DD111A5F-B27C-428A-B6AC-F943B9BAA9E5}"
-EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{9E7F5E77-D745-4C99-8CFF-493F9DD0E1D6}"
 	ProjectSection(SolutionItems) = preProject
 		.editorconfig = .editorconfig
@@ -32,6 +30,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ModArcInfluxDb.View", "ModA
 EndProject
 Project("{D954291E-2A0B-460D-934E-DC6B0785DB48}") = "ModArcInfluxDb.Shared", "ModArcInfluxDb.Shared\ModArcInfluxDb.Shared.shproj", "{D8446593-C47E-4EFC-A5D0-163F407AE4FC}"
 EndProject
+Project("{D954291E-2A0B-460D-934E-DC6B0785DB48}") = "ModArcBasic.Shared", "ModArcBasic.Shared\ModArcBasic.Shared.shproj", "{F38C6C8A-8213-45B9-8BC8-130338134310}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -46,10 +46,6 @@ Global
 		{0178284C-E0A2-4940-A388-AA38616464B7}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{0178284C-E0A2-4940-A388-AA38616464B7}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{0178284C-E0A2-4940-A388-AA38616464B7}.Release|Any CPU.Build.0 = Release|Any CPU
-		{DD111A5F-B27C-428A-B6AC-F943B9BAA9E5}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{DD111A5F-B27C-428A-B6AC-F943B9BAA9E5}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{DD111A5F-B27C-428A-B6AC-F943B9BAA9E5}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{DD111A5F-B27C-428A-B6AC-F943B9BAA9E5}.Release|Any CPU.Build.0 = Release|Any CPU
 		{AD4B8A66-8A3F-4191-87D7-1786212377F2}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{AD4B8A66-8A3F-4191-87D7-1786212377F2}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{AD4B8A66-8A3F-4191-87D7-1786212377F2}.Release|Any CPU.ActiveCfg = Release|Any CPU
@@ -77,20 +73,23 @@ Global
 	GlobalSection(NestedProjects) = preSolution
 		{FA95FF45-2423-429A-95CB-1DC43B941103} = {2D5EE196-52F9-4E19-8FD8-CF4FCD92CD1B}
 		{0178284C-E0A2-4940-A388-AA38616464B7} = {2D5EE196-52F9-4E19-8FD8-CF4FCD92CD1B}
-		{DD111A5F-B27C-428A-B6AC-F943B9BAA9E5} = {2D5EE196-52F9-4E19-8FD8-CF4FCD92CD1B}
 		{AD4B8A66-8A3F-4191-87D7-1786212377F2} = {F75EF551-E701-4F57-8081-03CC0593DDE4}
 		{7507228F-FA68-4B0C-B19F-4FDAEF8C610F} = {F75EF551-E701-4F57-8081-03CC0593DDE4}
 		{521FA33E-475B-4146-AE34-BC21451C87CD} = {F75EF551-E701-4F57-8081-03CC0593DDE4}
 		{3CADF547-5954-4762-8C75-7307209F0918} = {7A29ADF0-E44D-444B-BF92-9AB356609818}
 		{1BE54F9E-A904-4B5D-913A-1F54D1650EC1} = {7A29ADF0-E44D-444B-BF92-9AB356609818}
 		{D8446593-C47E-4EFC-A5D0-163F407AE4FC} = {7A29ADF0-E44D-444B-BF92-9AB356609818}
+		{F38C6C8A-8213-45B9-8BC8-130338134310} = {2D5EE196-52F9-4E19-8FD8-CF4FCD92CD1B}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {445C5594-E01F-4CCB-A364-EDAA6E5C2B15}
 	EndGlobalSection
 	GlobalSection(SharedMSBuildProjectFiles) = preSolution
+		ModArcBasic.Shared\ModArcBasic.Shared.projitems*{0178284c-e0a2-4940-a388-aa38616464b7}*SharedItemsImports = 5
 		ModArcInfluxDb.Shared\ModArcInfluxDb.Shared.projitems*{1be54f9e-a904-4b5d-913a-1f54d1650ec1}*SharedItemsImports = 5
 		ModArcInfluxDb.Shared\ModArcInfluxDb.Shared.projitems*{3cadf547-5954-4762-8c75-7307209f0918}*SharedItemsImports = 5
 		ModArcInfluxDb.Shared\ModArcInfluxDb.Shared.projitems*{d8446593-c47e-4efc-a5d0-163f407ae4fc}*SharedItemsImports = 13
+		ModArcBasic.Shared\ModArcBasic.Shared.projitems*{f38c6c8a-8213-45b9-8bc8-130338134310}*SharedItemsImports = 13
+		ModArcBasic.Shared\ModArcBasic.Shared.projitems*{fa95ff45-2423-429a-95cb-1dc43b941103}*SharedItemsImports = 5
 	EndGlobalSection
 EndGlobal

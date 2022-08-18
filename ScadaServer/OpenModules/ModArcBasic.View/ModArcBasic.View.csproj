@@ -3,6 +3,8 @@
   <PropertyGroup>
     <TargetFramework>net6.0-windows</TargetFramework>
     <UseWindowsForms>true</UseWindowsForms>
+    <Nullable>disable</Nullable>
+    <ImplicitUsings>enable</ImplicitUsings>
     <RootNamespace>Scada.Server.Modules.ModArcBasic.View</RootNamespace>
     <Version>6.0.0</Version>
     <Authors>Mikhail Shiryaev</Authors>
@@ -10,10 +12,6 @@
     <Product>Rapid SCADA</Product>
     <Copyright>Copyright © 2022</Copyright>
   </PropertyGroup>
-
-  <ItemGroup>
-    <ProjectReference Include="..\ModArcBasic.Common\ModArcBasic.Common.csproj" />
-  </ItemGroup>
 
   <ItemGroup>
     <Reference Include="ScadaCommon">
@@ -59,5 +57,7 @@
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
   </ItemGroup>
+
+  <Import Project="..\ModArcBasic.Shared\ModArcBasic.Shared.projitems" Label="Shared" />
 
 </Project>

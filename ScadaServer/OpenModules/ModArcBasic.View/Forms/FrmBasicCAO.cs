@@ -3,8 +3,7 @@
 
 using Scada.Forms;
 using Scada.Server.Config;
-using System;
-using System.Windows.Forms;
+using Scada.Server.Modules.ModArcBasic.Config;
 
 namespace Scada.Server.Modules.ModArcBasic.View.Forms
 {

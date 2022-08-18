@@ -4,7 +4,7 @@
 using Scada.Config;
 using Scada.Server.Archives;
 
-namespace Scada.Server.Modules.ModArcBasic
+namespace Scada.Server.Modules.ModArcBasic.Config
 {
     /// <summary>
     /// Represents options of a current data archive.
