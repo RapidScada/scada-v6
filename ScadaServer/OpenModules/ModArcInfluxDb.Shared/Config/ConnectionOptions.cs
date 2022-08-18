@@ -76,5 +76,21 @@ namespace Scada.Server.Modules.ModArcInfluxDb.Config
             Bucket = xmlNode.GetChildAsString("Bucket");
             Org = xmlNode.GetChildAsString("Org");
         }
+
+        /// <summary>
+        /// Saves the options into the XML node.
+        /// </summary>
+        public void SaveToXml(XmlElement xmlElem)
+        {
+            ArgumentNullException.ThrowIfNull(xmlElem, nameof(xmlElem));
+
+            xmlElem.AppendElem("Name", Name);
+            xmlElem.AppendElem("Url", Url);
+            xmlElem.AppendElem("Token", Token);
+            xmlElem.AppendElem("Username", Username);
+            xmlElem.AppendElem("Password", ScadaUtils.Encrypt(Password));
+            xmlElem.AppendElem("Bucket", Bucket);
+            xmlElem.AppendElem("Org", Org);
+        }
     }
 }
