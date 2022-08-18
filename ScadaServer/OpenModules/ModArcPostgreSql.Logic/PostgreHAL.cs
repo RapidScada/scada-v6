@@ -21,14 +21,15 @@ namespace Scada.Server.Modules.ModArcPostgreSql.Logic
     /// </summary>
     internal class PostgreHAL : HistoricalArchiveLogic
     {
-        private readonly ModuleConfig moduleConfig;     // the module configuration
-        private readonly PostgreHAO archiveOptions;     // the archive options
-        private readonly ILog appLog;                   // the application log
-        private readonly ILog arcLog;                   // the archive log
-        private readonly Stopwatch stopwatch;           // measures the time of operations
-        private readonly QueryBuilder queryBuilder;     // builds SQL requests
-        private readonly PointQueue pointQueue;         // contains data points for writing
-        private readonly int writingPeriod;             // the writing period in seconds
+        private readonly ModuleConfig moduleConfig; // the module configuration
+        private readonly PostgreHAO options;        // the archive options
+        private readonly ILog appLog;               // the application log
+        private readonly ILog arcLog;               // the archive log
+        private readonly Stopwatch stopwatch;       // measures the time of operations
+        private readonly QueryBuilder queryBuilder; // builds SQL requests
+        private readonly PointQueue pointQueue;     // contains data points for writing
+        private readonly int writingPeriod;         // the writing period in seconds
+        private readonly CnlDataEqualsDelegate cnlDataEqualsFunc; // the function for comparing channel data
 
         private bool hasError;            // the archive is in error state
         private NpgsqlConnection conn;    // the database connection
@@ -48,19 +49,22 @@ namespace Scada.Server.Modules.ModArcPostgreSql.Logic
             ModuleConfig moduleConfig) : base(archiveContext, archiveConfig, cnlNums)
         {
             this.moduleConfig = moduleConfig ?? throw new ArgumentNullException(nameof(moduleConfig));
-            archiveOptions = new PostgreHAO(archiveConfig.CustomOptions);
+            options = new PostgreHAO(archiveConfig.CustomOptions);
             appLog = archiveContext.Log;
-            arcLog = archiveOptions.LogEnabled ? CreateLog(ModuleUtils.ModuleCode) : null;
+            arcLog = options.LogEnabled ? CreateLog(ModuleUtils.ModuleCode) : null;
             stopwatch = new Stopwatch();
             queryBuilder = new QueryBuilder(Code);
-            pointQueue = new PointQueue(FixQueueSize(), queryBuilder.InsertHistoricalDataQuery)
-            {
-                ReturnOnError = true,
-                ArchiveCode = Code,
-                AppLog = appLog,
-                ArcLog = arcLog
-            };
-            writingPeriod = GetPeriodInSec(archiveOptions.WritingPeriod, archiveOptions.WritingUnit);
+            pointQueue = options.ReadOnly
+                ? null
+                : new PointQueue(FixQueueSize(), queryBuilder.InsertHistoricalDataQuery)
+                {
+                    ReturnOnError = true,
+                    ArchiveCode = Code,
+                    AppLog = appLog,
+                    ArcLog = arcLog
+                };
+            writingPeriod = GetPeriodInSec(options.WritingPeriod, options.PeriodUnit);
+            cnlDataEqualsFunc = SelectCnlDataEquals();
 
             hasError = false;
             conn = null;
@@ -81,8 +85,7 @@ namespace Scada.Server.Modules.ModArcPostgreSql.Logic
         {
             get
             {
-                return DbUtils.GetStatusText(IsReady, hasError || pointQueue.HasError,
-                    pointQueue.Count, pointQueue.MaxQueueSize);
+                return DbUtils.GetStatusText(IsReady, hasError, pointQueue);
             }
         }
 
@@ -93,7 +96,7 @@ namespace Scada.Server.Modules.ModArcPostgreSql.Logic
         private int FixQueueSize()
         {
             int recommendedSize = Math.Max(CnlNums.Length * 2, DbUtils.MinQueueSize);
-            return Math.Max(archiveOptions.MaxQueueSize, recommendedSize);
+            return Math.Max(options.MaxQueueSize, recommendedSize);
         }
 
         /// <summary>
@@ -105,11 +108,11 @@ namespace Scada.Server.Modules.ModArcPostgreSql.Logic
             {
                 conn.Open();
 
-                NpgsqlCommand cmd = new NpgsqlCommand(queryBuilder.CreateSchemaQuery, conn);
-                cmd.ExecuteNonQuery();
+                NpgsqlCommand cmd1 = new(queryBuilder.CreateSchemaQuery, conn);
+                cmd1.ExecuteNonQuery();
 
-                cmd = new NpgsqlCommand(queryBuilder.CreateHistoricalTableQuery, conn);
-                cmd.ExecuteNonQuery();
+                NpgsqlCommand cmd2 = new(queryBuilder.CreateHistoricalTableQuery, conn);
+                cmd2.ExecuteNonQuery();
             }
             finally
             {
@@ -127,7 +130,7 @@ namespace Scada.Server.Modules.ModArcPostgreSql.Logic
                 stopwatch.Restart();
                 conn.Open();
                 DbUtils.CreatePartition(conn, queryBuilder.HistoricalTable, 
-                    today, archiveOptions.PartitionSize, out string partitionName);
+                    today, options.PartitionSize, out string partitionName);
                 stopwatch.Stop();
 
                 hasError = false;
@@ -165,7 +168,7 @@ namespace Scada.Server.Modules.ModArcPostgreSql.Logic
                 stopwatch.Restart();
                 conn.Open();
 
-                TrendBundle trendBundle = new TrendBundle(cnlNums, 0);
+                TrendBundle trendBundle = new(cnlNums, 0);
                 TrendBundle.CnlDataList trend = trendBundle.Trends[0];
                 NpgsqlCommand cmd = CreateTrendCommand(timeRange, cnlNums[0]);
                 NpgsqlDataReader reader = cmd.ExecuteReader();
@@ -199,7 +202,7 @@ namespace Scada.Server.Modules.ModArcPostgreSql.Logic
                 $"SELECT DISTINCT time_stamp, val, stat FROM {queryBuilder.HistoricalTable} " +
                 $"WHERE cnl_num = @cnlNum AND @startTime <= time_stamp AND time_stamp {endOper} @endTime " +
                 $"ORDER BY time_stamp";
-            NpgsqlCommand cmd = new NpgsqlCommand(sql, conn);
+            NpgsqlCommand cmd = new(sql, conn);
             cmd.Parameters.AddWithValue("cnlNum", cnlNum);
             cmd.Parameters.Add("startTime", NpgsqlDbType.TimestampTz).Value = timeRange.StartTime;
             cmd.Parameters.Add("endTime", NpgsqlDbType.TimestampTz).Value = timeRange.EndTime;
@@ -207,7 +210,7 @@ namespace Scada.Server.Modules.ModArcPostgreSql.Logic
         }
 
         /// <summary>
-        /// Operating cycle running in a separate thread.
+        /// Writing loop running in a separate thread.
         /// </summary>
         private void Execute()
         {
@@ -237,30 +240,28 @@ namespace Scada.Server.Modules.ModArcPostgreSql.Logic
         public override void MakeReady()
         {
             // prepare database
-            DbConnectionOptions connOptions = archiveOptions.UseStorageConn
+            DbConnectionOptions connOptions = options.UseStorageConn
                 ? DbUtils.GetConnectionOptions(ArchiveContext.InstanceConfig)
-                : DbUtils.GetConnectionOptions(moduleConfig, archiveOptions.Connection);
-
+                : DbUtils.GetConnectionOptions(moduleConfig, options.Connection);
             conn = DbUtils.CreateDbConnection(connOptions);
-            pointQueue.Connection = DbUtils.CreateDbConnection(connOptions); // a new connection for the queue
-            CreateDbEntities();
-            CreatePartition(DateTime.UtcNow, true);
 
-            // initialize fields depending on the writing mode
-            if (archiveOptions.WritingMode == WritingMode.AutoWithPeriod)
+            if (!options.ReadOnly)
             {
-                nextWriteTime = GetNextWriteTime(DateTime.UtcNow, writingPeriod);
-            }
-            else if (archiveOptions.WritingMode == WritingMode.AutoOnChange)
-            {
-                prevCnlData = new CnlData[CnlNums.Length];
-                appLog.WriteWarning(ServerPhrases.ArchiveMessage, Code, ServerPhrases.WritingOnChangeIsSlow);
-            }
+                pointQueue.Connection = DbUtils.CreateDbConnection(connOptions); // a new connection for the queue
+                CreateDbEntities();
+                CreatePartition(DateTime.UtcNow, true);
 
-            // start thread for writing data
-            terminated = false;
-            thread = new Thread(Execute);
-            thread.Start();
+                if (options.WriteWithPeriod)
+                    nextWriteTime = GetNextWriteTime(DateTime.UtcNow, writingPeriod);
+
+                if (options.WriteOnChange)
+                    appLog.WriteWarning(ServerPhrases.ArchiveMessage, Code, ServerPhrases.WritingOnChangeIsSlow);
+
+                // start thread for writing data
+                terminated = false;
+                thread = new Thread(Execute);
+                thread.Start();
+            }
         }
 
         /// <summary>
@@ -275,7 +276,7 @@ namespace Scada.Server.Modules.ModArcPostgreSql.Logic
                 thread = null;
             }
 
-            if (pointQueue.Connection != null)
+            if (pointQueue?.Connection != null)
             {
                 pointQueue.FlushPoints();
                 pointQueue.Connection.Dispose();
@@ -294,7 +295,10 @@ namespace Scada.Server.Modules.ModArcPostgreSql.Logic
         /// </summary>
         public override void DeleteOutdatedData()
         {
-            DateTime minDT = DateTime.UtcNow.AddDays(-archiveOptions.Retention);
+            if (options.ReadOnly)
+                return;
+
+            DateTime minDT = DateTime.UtcNow.AddDays(-options.Retention);
             appLog.WriteAction(ServerPhrases.DeleteOutdatedData, Code, minDT.ToLocalizedDateString());
 
             try
@@ -343,7 +347,7 @@ namespace Scada.Server.Modules.ModArcPostgreSql.Logic
                 stopwatch.Restart();
                 conn.Open();
 
-                Trend trend = new Trend(cnlNum, 0);
+                Trend trend = new(cnlNum, 0);
                 NpgsqlCommand cmd = CreateTrendCommand(timeRange, cnlNum);
                 NpgsqlDataReader reader = cmd.ExecuteReader();
 
@@ -375,14 +379,14 @@ namespace Scada.Server.Modules.ModArcPostgreSql.Logic
             {
                 stopwatch.Restart();
                 conn.Open();
-                List<DateTime> timestamps = new List<DateTime>();
+                List<DateTime> timestamps = new();
 
                 string endOper = timeRange.EndInclusive ? "<=" : "<";
                 string sql = 
                     $"SELECT DISTINCT time_stamp FROM {queryBuilder.HistoricalTable} " +
                     $"WHERE @startTime <= time_stamp AND time_stamp {endOper} @endTime " +
                     $"ORDER BY time_stamp";
-                NpgsqlCommand cmd = new NpgsqlCommand(sql, conn);
+                NpgsqlCommand cmd = new(sql, conn);
                 cmd.Parameters.Add("startTime", NpgsqlDbType.TimestampTz).Value = timeRange.StartTime;
                 cmd.Parameters.Add("endTime", NpgsqlDbType.TimestampTz).Value = timeRange.EndTime;
                 NpgsqlDataReader reader = cmd.ExecuteReader();
@@ -413,13 +417,13 @@ namespace Scada.Server.Modules.ModArcPostgreSql.Logic
                 stopwatch.Restart();
                 conn.Open();
 
-                Slice slice = new Slice(timestamp, cnlNums);
+                Slice slice = new(timestamp, cnlNums);
                 Dictionary<int, int> cnlIndexes = GetCnlIndexes(cnlNums);
 
                 string sql = 
                     $"SELECT cnl_num, val, stat FROM {queryBuilder.HistoricalTable} " +
                     $"WHERE cnl_num IN ({string.Join(",", cnlNums)}) AND time_stamp = @timestamp ";
-                NpgsqlCommand cmd = new NpgsqlCommand(sql, conn);
+                NpgsqlCommand cmd = new(sql, conn);
                 cmd.Parameters.AddWithValue("timestamp", timestamp);
                 NpgsqlDataReader reader = cmd.ExecuteReader();
 
@@ -465,7 +469,7 @@ namespace Scada.Server.Modules.ModArcPostgreSql.Logic
 
                 string sql = $"SELECT val, stat FROM {queryBuilder.HistoricalTable} " + 
                     "WHERE cnl_num = @cnlNum AND time_stamp = @timestamp";
-                NpgsqlCommand cmd = new NpgsqlCommand(sql, conn);
+                NpgsqlCommand cmd = new(sql, conn);
                 cmd.Parameters.AddWithValue("cnlNum", cnlNum);
                 cmd.Parameters.AddWithValue("timestamp", timestamp);
                 NpgsqlDataReader reader = cmd.ExecuteReader(CommandBehavior.SingleRow);
@@ -485,56 +489,51 @@ namespace Scada.Server.Modules.ModArcPostgreSql.Logic
         /// </summary>
         public override bool ProcessData(ICurrentData curData)
         {
-            if (archiveOptions.WritingMode == WritingMode.AutoWithPeriod)
+            if (options.ReadOnly)
             {
-                if (nextWriteTime <= curData.Timestamp)
-                {
-                    DateTime writeTime = GetClosestWriteTime(curData.Timestamp, writingPeriod);
-                    nextWriteTime = writeTime.AddSeconds(writingPeriod);
-
-                    stopwatch.Restart();
-                    InitCnlIndexes(curData, ref cnlIndexes);
-                    int cnlCnt = CnlNums.Length;
-
-                    lock (pointQueue.SyncRoot)
-                    {
-                        for (int i = 0; i < cnlCnt; i++)
-                        {
-                            pointQueue.EnqueueWithoutLock(CnlNums[i], writeTime, curData.CnlData[cnlIndexes[i]]);
-                        }
-                    }
-
-                    pointQueue.RemoveExcessPoints();
-                    stopwatch.Stop();
-                    arcLog?.WriteAction(ServerPhrases.QueueingPointsCompleted, cnlCnt, stopwatch.ElapsedMilliseconds);
-                    return true;
-                }
+                // do nothing
             }
-            else if (archiveOptions.WritingMode == WritingMode.AutoOnChange)
+            else if (options.WriteWithPeriod && nextWriteTime <= curData.Timestamp)
+            {
+                DateTime writeTime = GetClosestWriteTime(curData.Timestamp, writingPeriod);
+                nextWriteTime = writeTime.AddSeconds(writingPeriod);
+
+                stopwatch.Restart();
+                InitCnlIndexes(curData, ref cnlIndexes);
+                InitPrevCnlData(curData, cnlIndexes, ref prevCnlData);
+                int cnlCnt = CnlNums.Length;
+
+                lock (pointQueue.SyncRoot)
+                {
+                    for (int i = 0; i < cnlCnt; i++)
+                    {
+                        pointQueue.EnqueueWithoutLock(CnlNums[i], writeTime, curData.CnlData[cnlIndexes[i]]);
+                    }
+                }
+
+                pointQueue.RemoveExcessPoints();
+                stopwatch.Stop();
+                arcLog?.WriteAction(ServerPhrases.QueueingPointsCompleted, cnlCnt, stopwatch.ElapsedMilliseconds);
+                return true;
+            }
+            else if (options.WriteOnChange)
             {
                 stopwatch.Restart();
                 int changesCnt = 0;
-                bool firstTime = cnlIndexes == null;
+                bool justInited = prevCnlData == null;
                 InitCnlIndexes(curData, ref cnlIndexes);
+                InitPrevCnlData(curData, cnlIndexes, ref prevCnlData);
 
-                if (firstTime)
-                {
-                    // do not write data for the first time
-                    for (int i = 0, cnlCnt = CnlNums.Length; i < cnlCnt; i++)
-                    {
-                        prevCnlData[i] = curData.CnlData[cnlIndexes[i]];
-                    }
-                }
-                else
+                if (!justInited)
                 {
                     for (int i = 0, cnlCnt = CnlNums.Length; i < cnlCnt; i++)
                     {
                         CnlData curCnlData = curData.CnlData[cnlIndexes[i]];
 
-                        if (prevCnlData[i] != curCnlData)
+                        if (!cnlDataEqualsFunc(prevCnlData[i], curCnlData))
                         {
-                            pointQueue.EnqueuePoint(CnlNums[i], curData.Timestamp, curCnlData);
                             prevCnlData[i] = curCnlData;
+                            pointQueue.EnqueuePoint(CnlNums[i], curData.Timestamp, curCnlData);
                             changesCnt++;
                         }
                     }
@@ -544,7 +543,7 @@ namespace Scada.Server.Modules.ModArcPostgreSql.Logic
                 {
                     pointQueue.RemoveExcessPoints();
                     stopwatch.Stop();
-                    arcLog?.WriteAction(ServerPhrases.QueueingPointsCompleted, 
+                    arcLog?.WriteAction(ServerPhrases.QueueingPointsCompleted,
                         changesCnt, stopwatch.ElapsedMilliseconds);
                     return true;
                 }
@@ -562,18 +561,19 @@ namespace Scada.Server.Modules.ModArcPostgreSql.Logic
         /// </summary>
         public override bool AcceptData(ref DateTime timestamp)
         {
-            if (archiveOptions.WritingMode == WritingMode.AutoOnChange ||
-                archiveOptions.WritingMode == WritingMode.OnDemand)
+            if (options.ReadOnly)
             {
-                return true;
+                return false;
             }
-            else if (archiveOptions.PullToPeriod > 0)
+            else if (options.IsPeriodic)
             {
-                return PullTimeToPeriod(ref timestamp, writingPeriod, archiveOptions.PullToPeriod);
+                return options.PullToPeriod > 0
+                    ? PullTimeToPeriod(ref timestamp, writingPeriod, options.PullToPeriod)
+                    : TimeIsMultipleOfPeriod(timestamp, writingPeriod);
             }
             else
             {
-                return TimeIsMultipleOfPeriod(timestamp, writingPeriod);
+                return true;
             }
         }
 
@@ -603,10 +603,13 @@ namespace Scada.Server.Modules.ModArcPostgreSql.Logic
         /// </summary>
         public override void WriteCnlData(DateTime timestamp, int cnlNum, CnlData cnlData)
         {
-            pointQueue.EnqueuePoint(cnlNum, timestamp, cnlData);
+            if (!options.ReadOnly)
+            {
+                pointQueue.EnqueuePoint(cnlNum, timestamp, cnlData);
 
-            if (updatedCnlData != null)
-                updatedCnlData[cnlNum] = cnlData;
+                if (updatedCnlData != null)
+                    updatedCnlData[cnlNum] = cnlData;
+            }
         }
     }
 }

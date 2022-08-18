@@ -46,8 +46,8 @@ namespace Scada.Server.Modules.ModArcPostgreSql.View.Forms
         {
             // general options
             numWritingPeriod.SetValue(options.WritingPeriod);
-            cbWritingMode.SelectedIndex = (int)options.WritingMode;
-            cbWritingUnit.SelectedIndex = (int)options.WritingUnit;
+            //cbWritingMode.SelectedIndex = (int)options.WritingMode;
+            //cbWritingUnit.SelectedIndex = (int)options.WritingUnit;
             numPullToPeriod.SetValue(options.PullToPeriod);
             numRetention.SetValue(options.Retention);
             chkLogEnabled.Checked = options.LogEnabled;
@@ -66,8 +66,8 @@ namespace Scada.Server.Modules.ModArcPostgreSql.View.Forms
         {
             // general options
             options.WritingPeriod = Convert.ToInt32(numWritingPeriod.Value);
-            options.WritingMode = (WritingMode)cbWritingMode.SelectedIndex;
-            options.WritingUnit = (TimeUnit)cbWritingUnit.SelectedIndex;
+            //options.WritingMode = (WritingMode)cbWritingMode.SelectedIndex;
+            //options.WritingUnit = (TimeUnit)cbWritingUnit.SelectedIndex;
             options.PullToPeriod = Convert.ToInt32(numPullToPeriod.Value);
             options.Retention = Convert.ToInt32(numRetention.Value);
             options.LogEnabled = chkLogEnabled.Checked;

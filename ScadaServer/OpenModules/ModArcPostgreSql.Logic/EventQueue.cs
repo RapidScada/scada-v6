@@ -13,7 +13,7 @@ namespace Scada.Server.Modules.ModArcPostgreSql.Logic
     /// Represents a queue for writing events to a database.
     /// <para>Представляет очередь для записи событий в базу данных.</para>
     /// </summary>
-    internal class EventQueue
+    internal class EventQueue : IDataQueue
     {
         private readonly Queue<Event> eventQueue; // contains events for writing
         private readonly NpgsqlCommand command;   // writes an event

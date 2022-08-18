@@ -13,7 +13,7 @@ namespace Scada.Server.Modules.ModArcPostgreSql.Logic
     /// Represents a queue for writing data points to a database.
     /// <para>Представляет очередь для записи точек данных в базу данных.</para>
     /// </summary>
-    internal class PointQueue
+    internal class PointQueue : IDataQueue
     {
         private readonly Queue<CnlDataPoint> dataQueue;  // contains data points for writing
         private readonly NpgsqlCommand command;          // writes a data point

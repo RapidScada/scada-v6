@@ -69,7 +69,7 @@ namespace Scada.Server.Modules.ModArcPostgreSql.Logic
             if (instanceConfig.Storages.TryGetValue(StorageCode, out XmlElement storageElem) &&
                 storageElem.SelectSingleNode("Connection") is XmlNode connectionNode)
             {
-                DbConnectionOptions connOptions = new DbConnectionOptions();
+                DbConnectionOptions connOptions = new();
                 connOptions.LoadFromXml(connectionNode);
                 return connOptions;
             }
@@ -140,8 +140,8 @@ namespace Scada.Server.Modules.ModArcPostgreSql.Logic
         {
             string sql = "SELECT inhrelid::regclass::varchar AS child FROM pg_catalog.pg_inherits " +
                 $"WHERE inhparent = '{tableName}'::regclass";
-            NpgsqlCommand cmd = new NpgsqlCommand(sql, conn);
-            List<string> partitionsToDelete = new List<string>();
+            NpgsqlCommand cmd = new(sql, conn);
+            List<string> partitionsToDelete = new();
 
             using (NpgsqlDataReader reader = cmd.ExecuteReader())
             {
@@ -151,7 +151,7 @@ namespace Scada.Server.Modules.ModArcPostgreSql.Logic
                     int endDateIndex = partitionName.LastIndexOf('_');
 
                     if (partitionName.StartsWith(tableName) && endDateIndex > 0 &&
-                        ParsePartitionDate(partitionName.Substring(endDateIndex + 1), out DateTime endDate) &&
+                        ParsePartitionDate(partitionName[(endDateIndex + 1)..], out DateTime endDate) &&
                         endDate < minDT)
                     {
                         partitionsToDelete.Add(partitionName);
@@ -184,21 +184,33 @@ namespace Scada.Server.Modules.ModArcPostgreSql.Logic
         /// <summary>
         /// Gets the archive status as text.
         /// </summary>
-        public static string GetStatusText(bool isReady, bool hasError, int queueCount, int maxQueueSize)
+        public static string GetStatusText(bool isReady, bool hasError, IDataQueue dataQueue)
         {
             if (isReady)
             {
-                return Locale.IsRussian ?
-                    (hasError ? "ошибка" : "готовность") +
-                    $", заполнение очереди {queueCount}/{maxQueueSize}" :
-                    (hasError ? "Error" : "Ready") +
-                    $". Queue fullness is {queueCount}/{maxQueueSize}";
+                hasError |= dataQueue != null && dataQueue.HasError;
+                string readyText = Locale.IsRussian
+                    ? (hasError ? "ошибка" : "готовность")
+                    : (hasError ? "Error" : "Ready");
+
+                if (dataQueue == null)
+                {
+                    return Locale.IsRussian
+                        ? readyText + ", только чтение"
+                        : readyText + ". Read only";
+                }
+                else
+                {
+                    return Locale.IsRussian 
+                        ? readyText + $", заполнение очереди {dataQueue.Count}/{dataQueue.MaxQueueSize}" 
+                        : readyText + $". Queue fullness is {dataQueue.Count}/{dataQueue.MaxQueueSize}";
+                }
             }
             else
             {
-                return Locale.IsRussian ?
-                    "не готов" :
-                    "Not Ready";
+                return Locale.IsRussian 
+                    ? "не готов" 
+                    : "Not Ready";
             }
         }
     }
