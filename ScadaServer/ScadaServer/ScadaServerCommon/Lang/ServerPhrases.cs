@@ -47,6 +47,7 @@ namespace Scada.Server.Lang
         public static string WritingOnChangeNotSupported { get; private set; }
         public static string WritingOnChangeIsSlow { get; private set; }
         public static string DeleteOutdatedData { get; private set; }
+        public static string ReadingWriteTimeCompleted { get; private set; }
         public static string ReadingTrendsCompleted { get; private set; }
         public static string ReadingTrendCompleted { get; private set; }
         public static string ReadingTimestampsCompleted { get; private set; }
@@ -106,6 +107,7 @@ namespace Scada.Server.Lang
                 WritingOnChangeNotSupported = "Архив не поддерживает запись данных по изменению.";
                 WritingOnChangeIsSlow = "Запись данных по изменению может снизить производительность";
                 DeleteOutdatedData = "Удаление устаревших данных из архива {0}, которые старше {1}";
+                ReadingWriteTimeCompleted = "Чтение времени последней записи успешно завершено за {0} мс";
                 ReadingTrendsCompleted = "Чтение трендов длины {0} успешно завершено за {1} мс";
                 ReadingTrendCompleted = "Чтение тренда длины {0} успешно завершено за {1} мс";
                 ReadingTimestampsCompleted = "Чтение меток времени длины {0} успешно завершено за {1} мс";
@@ -147,6 +149,7 @@ namespace Scada.Server.Lang
                 WritingOnChangeNotSupported = "Archive does not support writing data on change.";
                 WritingOnChangeIsSlow = "Writing data on change can degrade performance";
                 DeleteOutdatedData = "Delete outdated data from the {0} archive older than {1}";
+                ReadingWriteTimeCompleted = "Reading last write time completed successfully in {0} ms";
                 ReadingTrendsCompleted = "Reading trends of length {0} completed successfully in {1} ms";
                 ReadingTrendCompleted = "Reading a trend of length {0} completed successfully in {1} ms";
                 ReadingTimestampsCompleted = "Reading timestamps of length {0} completed successfully in {1} ms";
