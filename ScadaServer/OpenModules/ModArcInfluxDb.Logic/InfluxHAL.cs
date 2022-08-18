@@ -477,7 +477,7 @@ namespace Scada.Server.Modules.ModArcInfluxDb.Logic
         {
             // InfluxDB client supports batch writing, so no queue implementation is required
             // https://github.com/influxdata/influxdb-client-csharp/tree/master/Client#writes
-            // https://docs.influxdata.com/influxdb/v2.0/write-data/best-practices/optimize-writes/
+            // https://docs.influxdata.com/influxdb/v2.3/write-data/best-practices/optimize-writes/
 
             if (options.ReadOnly)
             {
