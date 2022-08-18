@@ -492,7 +492,7 @@ namespace Scada.Server.Modules.ModArcPostgreSql.Logic
         /// <summary>
         /// Processes new data.
         /// </summary>
-        public override bool ProcessData(ICurrentData curData)
+        public override void ProcessData(ICurrentData curData)
         {
             if (options.ReadOnly)
             {
@@ -519,7 +519,6 @@ namespace Scada.Server.Modules.ModArcPostgreSql.Logic
                 pointQueue.RemoveExcessPoints();
                 stopwatch.Stop();
                 arcLog?.WriteAction(ServerPhrases.QueueingPointsCompleted, cnlCnt, stopwatch.ElapsedMilliseconds);
-                return true;
             }
             else if (options.WriteOnChange)
             {
@@ -550,15 +549,12 @@ namespace Scada.Server.Modules.ModArcPostgreSql.Logic
                     stopwatch.Stop();
                     arcLog?.WriteAction(ServerPhrases.QueueingPointsCompleted,
                         changesCnt, stopwatch.ElapsedMilliseconds);
-                    return true;
                 }
                 else
                 {
                     stopwatch.Stop();
                 }
             }
-
-            return false;
         }
 
         /// <summary>

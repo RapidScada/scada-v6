@@ -268,17 +268,12 @@ namespace Scada.Server.Modules.ModArcPostgreSql.Logic
         /// <summary>
         /// Processes new data.
         /// </summary>
-        public override bool ProcessData(ICurrentData curData)
+        public override void ProcessData(ICurrentData curData)
         {
             if (!options.ReadOnly && nextWriteTime <= curData.Timestamp)
             {
                 nextWriteTime = GetNextWriteTime(curData.Timestamp, options.FlushPeriod);
                 WriteData(curData);
-                return true;
-            }
-            else
-            {
-                return false;
             }
         }
     }
