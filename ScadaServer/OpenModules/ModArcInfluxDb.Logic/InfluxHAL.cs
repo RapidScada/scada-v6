@@ -473,7 +473,7 @@ namespace Scada.Server.Modules.ModArcInfluxDb.Logic
         /// <summary>
         /// Processes new data.
         /// </summary>
-        public override bool ProcessData(ICurrentData curData)
+        public override void ProcessData(ICurrentData curData)
         {
             // InfluxDB client supports batch writing, so no queue implementation is required
             // https://github.com/influxdata/influxdb-client-csharp/tree/master/Client#writes
@@ -501,7 +501,6 @@ namespace Scada.Server.Modules.ModArcInfluxDb.Logic
 
                 stopwatch.Stop();
                 arcLog?.WriteAction(ServerPhrases.WritingPointsCompleted, cnlCnt, stopwatch.ElapsedMilliseconds);
-                return true;
             }
             else if (options.WriteOnChange)
             {
@@ -531,15 +530,12 @@ namespace Scada.Server.Modules.ModArcInfluxDb.Logic
                     WriteFlag(curData.Timestamp);
                     stopwatch.Stop();
                     arcLog?.WriteAction(ServerPhrases.WritingPointsCompleted, changesCnt, stopwatch.ElapsedMilliseconds);
-                    return true;
                 }
                 else
                 {
                     stopwatch.Stop();
                 }
             }
-
-            return false;
         }
 
         /// <summary>
