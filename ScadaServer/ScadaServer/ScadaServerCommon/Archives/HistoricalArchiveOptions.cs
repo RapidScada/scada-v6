@@ -32,12 +32,12 @@ namespace Scada.Server.Archives
     /// Represents options of a historical data archive.
     /// <para>Представляет параметры архива исторических данных.</para>
     /// </summary>
-    public abstract class HistoricalArchiveOptions2 : ArchiveOptions
+    public abstract class HistoricalArchiveOptions : ArchiveOptions
     {
         /// <summary>
         /// Initializes a new instance of the class.
         /// </summary>
-        public HistoricalArchiveOptions2(OptionList options)
+        public HistoricalArchiveOptions(OptionList options)
             : base(options)
         {
             Retention = options.GetValueAsInt("Retention", 365);

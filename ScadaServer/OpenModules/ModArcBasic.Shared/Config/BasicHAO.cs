@@ -10,7 +10,7 @@ namespace Scada.Server.Modules.ModArcBasic.Config
     /// Represents options of a historical data archive.
     /// <para>Представляет параметры архива исторических данных.</para>
     /// </summary>
-    internal class BasicHAO : HistoricalArchiveOptions2
+    internal class BasicHAO : HistoricalArchiveOptions
     {
         /// <summary>
         /// Initializes a new instance of the class.

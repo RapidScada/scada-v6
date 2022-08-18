@@ -89,6 +89,11 @@ namespace Scada.Server.Modules.ModArcPostgreSql.Logic
             }
         }
 
+        /// <summary>
+        /// Gets the archive options.
+        /// </summary>
+        protected override HistoricalArchiveOptions ArchiveOptions => options;
+
 
         /// <summary>
         /// Checks and corrects the size of the data queue.

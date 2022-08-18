@@ -54,7 +54,7 @@ namespace Scada.Server.Archives
         /// <summary>
         /// Gets the archive options.
         /// </summary>
-        protected virtual HistoricalArchiveOptions2 ArchiveOptions => null;
+        protected virtual HistoricalArchiveOptions ArchiveOptions => null;
 
 
         /// <summary>

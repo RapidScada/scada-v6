@@ -93,7 +93,7 @@ namespace Scada.Server.Modules.ModArcInfluxDb.Logic
         /// <summary>
         /// Gets the archive options.
         /// </summary>
-        protected override HistoricalArchiveOptions2 ArchiveOptions => options;
+        protected override HistoricalArchiveOptions ArchiveOptions => options;
 
 
         /// <summary>
