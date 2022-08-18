@@ -60,7 +60,7 @@ namespace Scada.Server.Modules.ModArcBasic.Logic
         {
             adapter.FileName = Path.Combine(moduleConfig.SelectArcDir(options.UseCopyDir), Code, CurDataFileName);
             Directory.CreateDirectory(Path.GetDirectoryName(adapter.FileName));
-            nextWriteTime = GetNextWriteTime(DateTime.UtcNow, options.WritingPeriod);
+            nextWriteTime = GetNextWriteTime(DateTime.UtcNow, options.FlushPeriod);
         }
 
         /// <summary>
@@ -118,7 +118,7 @@ namespace Scada.Server.Modules.ModArcBasic.Logic
         {
             if (nextWriteTime <= curData.Timestamp)
             {
-                nextWriteTime = GetNextWriteTime(curData.Timestamp, options.WritingPeriod);
+                nextWriteTime = GetNextWriteTime(curData.Timestamp, options.FlushPeriod);
                 WriteData(curData);
                 return true;
             }

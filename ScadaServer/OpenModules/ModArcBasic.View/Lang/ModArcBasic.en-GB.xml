@@ -15,7 +15,7 @@
   </Dictionary>
   <Dictionary key="Scada.Server.Modules.ModArcBasic.View.Forms.FrmBasicCAO">
     <Phrase key="this">Current Archive Options</Phrase>
-    <Phrase key="lblWritingPeriod">Period of saving to disk, sec</Phrase>
+    <Phrase key="lblFlushPeriod">Period of saving to disk, sec</Phrase>
     <Phrase key="lblLogEnabled">Log enabled</Phrase>
     <Phrase key="lblUseCopyDir">Write to copy directory</Phrase>
     <Phrase key="btnShowDir">Directories</Phrase>

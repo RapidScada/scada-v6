@@ -44,7 +44,7 @@ namespace Scada.Server.Modules.ModArcBasic.View.Forms
         /// </summary>
         private void OptionsToControls()
         {
-            numWritingPeriod.SetValue(options.WritingPeriod);
+            numFlushPeriod.SetValue(options.FlushPeriod);
             chkLogEnabled.Checked = options.LogEnabled;
             chkUseCopyDir.Checked = options.UseCopyDir;
         }
@@ -54,7 +54,7 @@ namespace Scada.Server.Modules.ModArcBasic.View.Forms
         /// </summary>
         private void ControlsToOptions()
         {
-            options.WritingPeriod = Convert.ToInt32(numWritingPeriod.Value);
+            options.FlushPeriod = Convert.ToInt32(numFlushPeriod.Value);
             options.LogEnabled = chkLogEnabled.Checked;
             options.UseCopyDir = chkUseCopyDir.Checked;
             options.AddToOptionList(archiveConfig.CustomOptions);

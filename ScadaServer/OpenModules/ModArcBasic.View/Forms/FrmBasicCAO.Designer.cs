@@ -30,8 +30,8 @@ namespace Scada.Server.Modules.ModArcBasic.View.Forms
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
-            this.lblWritingPeriod = new System.Windows.Forms.Label();
-            this.numWritingPeriod = new System.Windows.Forms.NumericUpDown();
+            this.lblFlushPeriod = new System.Windows.Forms.Label();
+            this.numFlushPeriod = new System.Windows.Forms.NumericUpDown();
             this.lblLogEnabled = new System.Windows.Forms.Label();
             this.chkLogEnabled = new System.Windows.Forms.CheckBox();
             this.lblUseCopyDir = new System.Windows.Forms.Label();
@@ -40,35 +40,35 @@ namespace Scada.Server.Modules.ModArcBasic.View.Forms
             this.btnCancel = new System.Windows.Forms.Button();
             this.toolTip = new System.Windows.Forms.ToolTip(this.components);
             this.btnShowDir = new System.Windows.Forms.Button();
-            ((System.ComponentModel.ISupportInitialize)(this.numWritingPeriod)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.numFlushPeriod)).BeginInit();
             this.SuspendLayout();
             // 
             // lblWritingPeriod
             // 
-            this.lblWritingPeriod.AutoSize = true;
-            this.lblWritingPeriod.Location = new System.Drawing.Point(12, 16);
-            this.lblWritingPeriod.Name = "lblWritingPeriod";
-            this.lblWritingPeriod.Size = new System.Drawing.Size(153, 15);
-            this.lblWritingPeriod.TabIndex = 0;
-            this.lblWritingPeriod.Text = "Period of saving to disk, sec";
+            this.lblFlushPeriod.AutoSize = true;
+            this.lblFlushPeriod.Location = new System.Drawing.Point(12, 16);
+            this.lblFlushPeriod.Name = "lblWritingPeriod";
+            this.lblFlushPeriod.Size = new System.Drawing.Size(153, 15);
+            this.lblFlushPeriod.TabIndex = 0;
+            this.lblFlushPeriod.Text = "Period of saving to disk, sec";
             // 
             // numWritingPeriod
             // 
-            this.numWritingPeriod.Location = new System.Drawing.Point(272, 12);
-            this.numWritingPeriod.Maximum = new decimal(new int[] {
+            this.numFlushPeriod.Location = new System.Drawing.Point(272, 12);
+            this.numFlushPeriod.Maximum = new decimal(new int[] {
             3600,
             0,
             0,
             0});
-            this.numWritingPeriod.Minimum = new decimal(new int[] {
+            this.numFlushPeriod.Minimum = new decimal(new int[] {
             1,
             0,
             0,
             0});
-            this.numWritingPeriod.Name = "numWritingPeriod";
-            this.numWritingPeriod.Size = new System.Drawing.Size(100, 23);
-            this.numWritingPeriod.TabIndex = 1;
-            this.numWritingPeriod.Value = new decimal(new int[] {
+            this.numFlushPeriod.Name = "numWritingPeriod";
+            this.numFlushPeriod.Size = new System.Drawing.Size(100, 23);
+            this.numFlushPeriod.TabIndex = 1;
+            this.numFlushPeriod.Value = new decimal(new int[] {
             1,
             0,
             0,
@@ -153,8 +153,8 @@ namespace Scada.Server.Modules.ModArcBasic.View.Forms
             this.Controls.Add(this.lblUseCopyDir);
             this.Controls.Add(this.chkLogEnabled);
             this.Controls.Add(this.lblLogEnabled);
-            this.Controls.Add(this.numWritingPeriod);
-            this.Controls.Add(this.lblWritingPeriod);
+            this.Controls.Add(this.numFlushPeriod);
+            this.Controls.Add(this.lblFlushPeriod);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedDialog;
             this.MaximizeBox = false;
             this.MinimizeBox = false;
@@ -163,15 +163,15 @@ namespace Scada.Server.Modules.ModArcBasic.View.Forms
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
             this.Text = "Current Archive Options";
             this.Load += new System.EventHandler(this.FrmHAO_Load);
-            ((System.ComponentModel.ISupportInitialize)(this.numWritingPeriod)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.numFlushPeriod)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
         }
 
         #endregion
-        private System.Windows.Forms.Label lblWritingPeriod;
-        private System.Windows.Forms.NumericUpDown numWritingPeriod;
+        private System.Windows.Forms.Label lblFlushPeriod;
+        private System.Windows.Forms.NumericUpDown numFlushPeriod;
         private System.Windows.Forms.Label lblLogEnabled;
         private System.Windows.Forms.CheckBox chkLogEnabled;
         private System.Windows.Forms.Label lblUseCopyDir;
