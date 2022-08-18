@@ -2,10 +2,8 @@
 // Licensed under the Apache License, Version 2.0. See License.txt in the project root for license information.
 
 using Scada.Forms;
+using Scada.Server.Modules.ModArcPostgreSql.Config;
 using Scada.Server.Modules.ModArcPostgreSql.View.Forms;
-using System.IO;
-using System.Linq;
-using System.Windows.Forms;
 
 namespace Scada.Server.Modules.ModArcPostgreSql.View
 {

@@ -5,11 +5,7 @@ using Npgsql;
 using Scada.Config;
 using Scada.Forms;
 using Scada.Lang;
-using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using System.Windows.Forms;
+using Scada.Server.Modules.ModArcPostgreSql.Config;
 
 namespace Scada.Server.Modules.ModArcPostgreSql.View.Forms
 {

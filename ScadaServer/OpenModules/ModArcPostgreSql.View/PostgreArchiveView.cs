@@ -4,7 +4,6 @@
 using Scada.Server.Archives;
 using Scada.Server.Config;
 using Scada.Server.Modules.ModArcPostgreSql.View.Forms;
-using System.Windows.Forms;
 
 namespace Scada.Server.Modules.ModArcPostgreSql.View
 {

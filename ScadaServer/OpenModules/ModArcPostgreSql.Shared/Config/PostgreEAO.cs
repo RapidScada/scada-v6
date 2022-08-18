@@ -4,13 +4,13 @@
 using Scada.Config;
 using Scada.Server.Archives;
 
-namespace Scada.Server.Modules.ModArcPostgreSql
+namespace Scada.Server.Modules.ModArcPostgreSql.Config
 {
     /// <summary>
     /// Represents options of an event archive.
     /// <para>Представляет параметры архива событий.</para>
     /// </summary>
-    public class PostgreEAO : EventArchiveOptions
+    internal class PostgreEAO : EventArchiveOptions
     {
         /// <summary>
         /// Initializes a new instance of the class.

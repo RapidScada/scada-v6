@@ -4,6 +4,7 @@
 using Scada.Server.Archives;
 using Scada.Server.Config;
 using Scada.Server.Lang;
+using Scada.Server.Modules.ModArcPostgreSql.Config;
 using Scada.Storages;
 
 namespace Scada.Server.Modules.ModArcPostgreSql.Logic

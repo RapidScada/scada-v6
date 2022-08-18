@@ -5,15 +5,12 @@ using Npgsql;
 using NpgsqlTypes;
 using Scada.Config;
 using Scada.Data.Models;
-using Scada.Lang;
 using Scada.Log;
 using Scada.Server.Archives;
 using Scada.Server.Config;
 using Scada.Server.Lang;
-using System;
-using System.Collections.Generic;
+using Scada.Server.Modules.ModArcPostgreSql.Config;
 using System.Diagnostics;
-using System.Threading;
 
 namespace Scada.Server.Modules.ModArcPostgreSql.Logic
 {

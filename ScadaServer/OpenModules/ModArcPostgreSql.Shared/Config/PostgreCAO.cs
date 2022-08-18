@@ -4,13 +4,13 @@
 using Scada.Config;
 using Scada.Server.Archives;
 
-namespace Scada.Server.Modules.ModArcPostgreSql
+namespace Scada.Server.Modules.ModArcPostgreSql.Config
 {
     /// <summary>
     /// Represents options of a current data archive.
     /// <para>Представляет параметры архива текущих данных.</para>
     /// </summary>
-    public class PostgreCAO : CurrentArchiveOptions
+    internal class PostgreCAO : CurrentArchiveOptions
     {
         /// <summary>
         /// Initializes a new instance of the class.

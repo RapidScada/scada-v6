@@ -3,6 +3,8 @@
   <PropertyGroup>
     <TargetFramework>net6.0-windows</TargetFramework>
     <UseWindowsForms>true</UseWindowsForms>
+    <Nullable>disable</Nullable>
+    <ImplicitUsings>enable</ImplicitUsings>
     <RootNamespace>Scada.Server.Modules.ModArcPostgreSql.View</RootNamespace>
     <Version>6.0.0</Version>
     <Authors>Mikhail Shiryaev</Authors>
@@ -13,10 +15,6 @@
 
   <ItemGroup>
     <PackageReference Include="Npgsql" Version="6.0.6" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <ProjectReference Include="..\ModArcPostgreSql.Common\ModArcPostgreSql.Common.csproj" />
   </ItemGroup>
 
   <ItemGroup>
@@ -51,5 +49,7 @@
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
   </ItemGroup>
+
+  <Import Project="..\ModArcPostgreSql.Shared\ModArcPostgreSql.Shared.projitems" Label="Shared" />
 
 </Project>

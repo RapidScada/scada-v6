@@ -1,0 +1,23 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <MSBuildAllProjects Condition="'$(MSBuildVersion)' == '' Or '$(MSBuildVersion)' &lt; '16.0'">$(MSBuildAllProjects);$(MSBuildThisFileFullPath)</MSBuildAllProjects>
+    <HasSharedItems>true</HasSharedItems>
+    <SharedGUID>eb00b3fe-bab3-4b5b-9598-e246b1b13d0e</SharedGUID>
+  </PropertyGroup>
+  <PropertyGroup Label="Configuration">
+    <Import_RootNamespace>Scada.Server.Modules.ModArcPostgreSql</Import_RootNamespace>
+  </PropertyGroup>
+  <ItemGroup>
+    <Compile Include="$(MSBuildThisFileDirectory)Config\ModuleConfig.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Config\PartitionSize.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Config\PostgreCAO.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Config\PostgreEAO.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Config\PostgreHAO.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)ModulePhrases.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)ModuleUtils.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="$(MSBuildThisFileDirectory)Config\ModArcPostgreSql.xml" />
+  </ItemGroup>
+</Project>

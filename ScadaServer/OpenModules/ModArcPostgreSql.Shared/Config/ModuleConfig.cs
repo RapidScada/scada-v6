@@ -2,17 +2,15 @@
 // Licensed under the Apache License, Version 2.0. See License.txt in the project root for license information.
 
 using Scada.Config;
-using System.Collections.Generic;
-using System.IO;
 using System.Xml;
 
-namespace Scada.Server.Modules.ModArcPostgreSql
+namespace Scada.Server.Modules.ModArcPostgreSql.Config
 {
     /// <summary>
     /// Represents a module configuration.
     /// <para>Представляет конфигурацию модуля.</para>
     /// </summary>
-    public class ModuleConfig : ConfigBase
+    internal class ModuleConfig : ModuleConfigBase
     {
         /// <summary>
         /// The default configuration file name.
@@ -39,14 +37,14 @@ namespace Scada.Server.Modules.ModArcPostgreSql
         /// </summary>
         protected override void Load(TextReader reader)
         {
-            XmlDocument xmlDoc = new XmlDocument();
+            XmlDocument xmlDoc = new();
             xmlDoc.Load(reader);
 
             if (xmlDoc.DocumentElement.SelectSingleNode("Connections") is XmlNode connectionsNode)
             {
                 foreach (XmlNode connectionNode in connectionsNode.SelectNodes("Connection"))
                 {
-                    DbConnectionOptions connectionOptions = new DbConnectionOptions();
+                    DbConnectionOptions connectionOptions = new();
                     connectionOptions.LoadFromXml(connectionNode);
                     Connections[connectionOptions.Name] = connectionOptions;
                 }
@@ -58,7 +56,7 @@ namespace Scada.Server.Modules.ModArcPostgreSql
         /// </summary>
         protected override void Save(TextWriter writer)
         {
-            XmlDocument xmlDoc = new XmlDocument();
+            XmlDocument xmlDoc = new();
             XmlDeclaration xmlDecl = xmlDoc.CreateXmlDeclaration("1.0", "utf-8", null);
             xmlDoc.AppendChild(xmlDecl);
 

@@ -1,21 +1,10 @@
-﻿/*
- * Copyright 2021 Mikhail Shiryaev
- * All rights reserved
- * 
- * Product  : Rapid SCADA
- * Module   : ModArcPostgreSql
- * Summary  : The class provides helper methods for the module
- * 
- * Author   : Mikhail Shiryaev
- * Created  : 2020
- * Modified : 2021
- */
+﻿// Copyright (c) Rapid Software LLC. All rights reserved.
+// Licensed under the Apache License, Version 2.0. See License.txt in the project root for license information.
 
 using Npgsql;
 using Scada.Config;
 using Scada.Lang;
-using System;
-using System.Collections.Generic;
+using Scada.Server.Modules.ModArcPostgreSql.Config;
 using System.Globalization;
 using System.Xml;
 

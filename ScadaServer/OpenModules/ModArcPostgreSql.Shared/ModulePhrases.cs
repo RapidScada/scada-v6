@@ -9,7 +9,7 @@ namespace Scada.Server.Modules.ModArcPostgreSql
     /// The phrases used by the module.
     /// <para>Фразы, используемые модулем.</para>
     /// </summary>
-    public static class ModulePhrases
+    internal static class ModulePhrases
     {
         // Scada.Server.Modules.ModArcPostgreSql.Logic
         public static string CreationPartitionCompleted { get; private set; }
