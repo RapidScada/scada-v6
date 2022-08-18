@@ -355,6 +355,14 @@ namespace Scada.Server.Modules.ModArcInfluxDb.Logic
         }
 
         /// <summary>
+        /// Gets the time (UTC) when the archive was last written to.
+        /// </summary>
+        public override DateTime GetLastWriteTime()
+        {
+            return LastWriteTime; // TODO: GetLastWriteTime
+        }
+
+        /// <summary>
         /// Gets the trends of the specified channels.
         /// </summary>
         public override TrendBundle GetTrends(TimeRange timeRange, int[] cnlNums)
