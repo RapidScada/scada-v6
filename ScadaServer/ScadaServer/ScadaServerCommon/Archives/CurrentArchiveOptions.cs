@@ -23,7 +23,6 @@
  * Modified : 2022
  */
 
-using System;
 using Scada.Config;
 
 namespace Scada.Server.Archives
@@ -32,20 +31,16 @@ namespace Scada.Server.Archives
     /// Represents options of a current data archive.
     /// <para>Представляет параметры архива текущих данных.</para>
     /// </summary>
-    public abstract class CurrentArchiveOptions
+    public abstract class CurrentArchiveOptions : ArchiveOptions
     {
         /// <summary>
         /// Initializes a new instance of the class.
         /// </summary>
         public CurrentArchiveOptions(OptionList options)
+            : base(options)
         {
-            if (options == null)
-                throw new ArgumentNullException(nameof(options));
-
             FlushPeriod = options.GetValueAsInt("FlushPeriod", 30);
-            LogEnabled = options.GetValueAsBool("LogEnabled");
         }
-
 
         /// <summary>
         /// Gets or sets the period for data to be flushed to the store, sec.
@@ -53,19 +48,12 @@ namespace Scada.Server.Archives
         public int FlushPeriod { get; set; }
 
         /// <summary>
-        /// Gets or sets a value indicating whether to write the archive log.
-        /// </summary>
-        public bool LogEnabled { get; set; }
-
-
-        /// <summary>
         /// Adds the options to the list.
         /// </summary>
-        public virtual void AddToOptionList(OptionList options)
+        public override void AddToOptionList(OptionList options)
         {
-            options.Clear();
+            base.AddToOptionList(options);
             options["FlushPeriod"] = FlushPeriod.ToString();
-            options["LogEnabled"] = LogEnabled.ToLowerString();
         }
     }
 }

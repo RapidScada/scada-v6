@@ -24,7 +24,6 @@
  */
 
 using Scada.Config;
-using System;
 
 namespace Scada.Server.Archives
 {
@@ -32,20 +31,16 @@ namespace Scada.Server.Archives
     /// Represents options of an event archive.
     /// <para>Представляет параметры архива событий.</para>
     /// </summary>
-    public abstract class EventArchiveOptions
+    public abstract class EventArchiveOptions : ArchiveOptions
     {
         /// <summary>
         /// Initializes a new instance of the class.
         /// </summary>
         public EventArchiveOptions(OptionList options)
+            : base(options)
         {
-            if (options == null)
-                throw new ArgumentNullException(nameof(options));
-
             Retention = options.GetValueAsInt("Retention", 365);
-            LogEnabled = options.GetValueAsBool("LogEnabled");
         }
-
 
         /// <summary>
         /// Gets or sets the duration of time that the archive retains data, days.
@@ -53,19 +48,12 @@ namespace Scada.Server.Archives
         public int Retention { get; set; }
 
         /// <summary>
-        /// Gets or sets a value indicating whether to write the archive log.
-        /// </summary>
-        public bool LogEnabled { get; set; }
-
-
-        /// <summary>
         /// Adds the options to the list.
         /// </summary>
-        public virtual void AddToOptionList(OptionList options)
+        public override void AddToOptionList(OptionList options)
         {
-            options.Clear();
+            base.AddToOptionList(options);
             options["Retention"] = Retention.ToString();
-            options["LogEnabled"] = LogEnabled.ToLowerString();
         }
     }
 }

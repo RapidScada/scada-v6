@@ -116,6 +116,24 @@ namespace Scada.Server.Archives
         }
 
         /// <summary>
+        /// Initializes the previous channel data.
+        /// </summary>
+        protected void InitPrevCnlData(ICurrentData curData, int[] cnlIndexes, ref CnlData[] prevCnlData)
+        {
+            if (ArchiveOptions != null && ArchiveOptions.WriteOnChange && 
+                cnlIndexes != null && prevCnlData == null)
+            {
+                int cnlCnt = CnlNums.Length;
+                prevCnlData = new CnlData[cnlCnt];
+
+                for (int i = 0; i < cnlCnt; i++)
+                {
+                    prevCnlData[i] = curData.CnlData[cnlIndexes[i]];
+                }
+            }
+        }
+
+        /// <summary>
         /// Determines whether two CnlData instances are the same.
         /// </summary>
         protected bool CnlDataEquals1(CnlData x, CnlData y)
