@@ -261,23 +261,6 @@ namespace Scada.Server.Modules.ModArcInfluxDb.Logic
         }
 
         /// <summary>
-        /// Initializes the previous channel data.
-        /// </summary>
-        private void InitPrevCnlData(ICurrentData curData)
-        {
-            if (options.WriteOnChange && prevCnlData == null)
-            {
-                int cnlCnt = CnlNums.Length;
-                prevCnlData = new CnlData[cnlCnt];
-
-                for (int i = 0; i < cnlCnt; i++)
-                {
-                    prevCnlData[i] = curData.CnlData[cnlIndexes[i]];
-                }
-            }
-        }
-
-        /// <summary>
         /// Gets channel data from the first record of the table if it has the specified timestamp.
         /// </summary>
         private static bool GetCnlData(FluxTable table, long timeMs, out int cnlNum, out CnlData cnlData)
@@ -507,7 +490,7 @@ namespace Scada.Server.Modules.ModArcInfluxDb.Logic
 
                 stopwatch.Restart();
                 InitCnlIndexes(curData, ref cnlIndexes);
-                InitPrevCnlData(curData);
+                InitPrevCnlData(curData, cnlIndexes, ref prevCnlData);
                 WriteFlag(writeTime);
                 int cnlCnt = CnlNums.Length;
 
@@ -526,7 +509,7 @@ namespace Scada.Server.Modules.ModArcInfluxDb.Logic
                 int changesCnt = 0;
                 bool justInited = prevCnlData == null;
                 InitCnlIndexes(curData, ref cnlIndexes);
-                InitPrevCnlData(curData);
+                InitPrevCnlData(curData, cnlIndexes, ref prevCnlData);
 
                 if (!justInited)
                 {
