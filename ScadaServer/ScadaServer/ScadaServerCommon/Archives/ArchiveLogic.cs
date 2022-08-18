@@ -254,18 +254,18 @@ namespace Scada.Server.Archives
         }
 
         /// <summary>
+        /// Deletes the outdated data from the archive.
+        /// </summary>
+        public virtual void DeleteOutdatedData()
+        {
+        }
+
+        /// <summary>
         /// Gets the time (UTC) when the archive was last written to.
         /// </summary>
         public virtual DateTime GetLastWriteTime()
         {
             return LastWriteTime;
-        }
-
-        /// <summary>
-        /// Deletes the outdated data from the archive.
-        /// </summary>
-        public virtual void DeleteOutdatedData()
-        {
         }
     }
 }
