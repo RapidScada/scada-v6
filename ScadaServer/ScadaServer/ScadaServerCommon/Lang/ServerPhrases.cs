@@ -43,7 +43,8 @@ namespace Scada.Server.Lang
         public static string ArchiveMessage { get; private set; }
         public static string NullResultNotAllowed { get; private set; }
         public static string InvalidWritingPeriod { get; private set; }
-        public static string WritingModeNotSupported { get; private set; }
+        public static string ReadOnlyNotSupported { get; private set; }
+        public static string WritingOnChangeNotSupported { get; private set; }
         public static string WritingOnChangeIsSlow { get; private set; }
         public static string DeleteOutdatedData { get; private set; }
         public static string ReadingTrendsCompleted { get; private set; }
@@ -101,7 +102,8 @@ namespace Scada.Server.Lang
                 ArchiveMessage = "Архив {0}: {1}";
                 NullResultNotAllowed = "Результат метода не может быть null.";
                 InvalidWritingPeriod = "Период записи должен быть положительным.";
-                WritingModeNotSupported = "Режим записи не поддерживается архивом {0}.";
+                ReadOnlyNotSupported = "Архив не может быть только для чтения.";
+                WritingOnChangeNotSupported = "Архив не поддерживает запись данных по изменению.";
                 WritingOnChangeIsSlow = "Запись данных по изменению может снизить производительность";
                 DeleteOutdatedData = "Удаление устаревших данных из архива {0}, которые старше {1}";
                 ReadingTrendsCompleted = "Чтение трендов длины {0} успешно завершено за {1} мс";
@@ -141,7 +143,8 @@ namespace Scada.Server.Lang
                 ArchiveMessage = "Archive {0}: {1}";
                 NullResultNotAllowed = "Method result must not be null.";
                 InvalidWritingPeriod = "Writing period must be positive.";
-                WritingModeNotSupported = "Writing mode is not supported by the {0} archive.";
+                ReadOnlyNotSupported = "Archive cannot be read only.";
+                WritingOnChangeNotSupported = "Archive does not support writing data on change.";
                 WritingOnChangeIsSlow = "Writing data on change can degrade performance";
                 DeleteOutdatedData = "Delete outdated data from the {0} archive older than {1}";
                 ReadingTrendsCompleted = "Reading trends of length {0} completed successfully in {1} ms";
