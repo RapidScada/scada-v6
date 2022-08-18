@@ -42,15 +42,15 @@ namespace Scada.Server.Archives
             if (options == null)
                 throw new ArgumentNullException(nameof(options));
 
-            WritingPeriod = options.GetValueAsInt("WritingPeriod", 30);
+            FlushPeriod = options.GetValueAsInt("FlushPeriod", 30);
             LogEnabled = options.GetValueAsBool("LogEnabled");
         }
 
 
         /// <summary>
-        /// Gets or sets the period of writing data to a file, sec.
+        /// Gets or sets the period for data to be flushed to the store, sec.
         /// </summary>
-        public int WritingPeriod { get; set; }
+        public int FlushPeriod { get; set; }
 
         /// <summary>
         /// Gets or sets a value indicating whether to write the archive log.
@@ -64,7 +64,7 @@ namespace Scada.Server.Archives
         public virtual void AddToOptionList(OptionList options)
         {
             options.Clear();
-            options["WritingPeriod"] = WritingPeriod.ToString();
+            options["FlushPeriod"] = FlushPeriod.ToString();
             options["LogEnabled"] = LogEnabled.ToLowerString();
         }
     }
