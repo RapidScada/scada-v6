@@ -163,6 +163,19 @@ namespace Scada.Server.Modules.ModArcPostgreSql.Logic
         }
 
         /// <summary>
+        /// Gets the time (UTC) when the archive was last written to.
+        /// </summary>
+        public static DateTime GetLastWriteTime(NpgsqlConnection conn, string tableName)
+        {
+            string sql = $"SELECT time_stamp FROM {tableName} ORDER BY time_stamp DESC LIMIT 1";
+            NpgsqlCommand cmd = new(sql, conn);
+            object timestampObj = cmd.ExecuteScalar();
+            return timestampObj is DateTime dateTime
+                ? dateTime.ToUniversalTime()
+                : DateTime.MinValue;
+        }
+
+        /// <summary>
         /// Roll backs the transaction safely.
         /// </summary>
         public static void SafeRollback(NpgsqlTransaction trans)

@@ -285,6 +285,26 @@ namespace Scada.Server.Modules.ModArcPostgreSql.Logic
         }
 
         /// <summary>
+        /// Gets the time (UTC) when the archive was last written to.
+        /// </summary>
+        public override DateTime GetLastWriteTime()
+        {
+            try
+            {
+                stopwatch.Restart();
+                conn.Open();
+                DateTime timestamp = DbUtils.GetLastWriteTime(conn, queryBuilder.EventTable);
+                stopwatch.Stop();
+                arcLog?.WriteAction(ServerPhrases.ReadingWriteTimeCompleted, stopwatch.ElapsedMilliseconds);
+                return timestamp;
+            }
+            finally
+            {
+                conn.Close();
+            }
+        }
+
+        /// <summary>
         /// Gets the event by ID.
         /// </summary>
         public override Event GetEventByID(long eventID)
