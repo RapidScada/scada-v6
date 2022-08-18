@@ -91,11 +91,11 @@ namespace Scada.Server.Modules.ModArcPostgreSql.View.Forms
 
         private void cbWritingMode_SelectedIndexChanged(object sender, EventArgs e)
         {
-            WritingMode writingMode = (WritingMode)cbWritingMode.SelectedIndex;
-            lblWritingPeriod.Enabled = numWritingPeriod.Enabled =
-                lblWritingUnit.Enabled = cbWritingUnit.Enabled =
-                lblPullToPeriod.Enabled = numPullToPeriod.Enabled =
-                writingMode == WritingMode.AutoWithPeriod || writingMode == WritingMode.OnDemandWithPeriod;
+            //WritingMode writingMode = (WritingMode)cbWritingMode.SelectedIndex;
+            //lblWritingPeriod.Enabled = numWritingPeriod.Enabled =
+            //    lblWritingUnit.Enabled = cbWritingUnit.Enabled =
+            //    lblPullToPeriod.Enabled = numPullToPeriod.Enabled =
+            //    writingMode == WritingMode.AutoWithPeriod || writingMode == WritingMode.OnDemandWithPeriod;
         }
 
         private void chkUseStorageConn_CheckedChanged(object sender, EventArgs e)
