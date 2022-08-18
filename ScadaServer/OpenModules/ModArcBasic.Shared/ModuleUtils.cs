@@ -9,7 +9,7 @@ namespace Scada.Server.Modules.ModArcBasic
     /// The class provides helper methods for the module.
     /// <para>Класс, предоставляющий вспомогательные методы для модуля.</para>
     /// </summary>
-    public static class ModuleUtils
+    internal static class ModuleUtils
     {
         /// <summary>
         /// The module code.

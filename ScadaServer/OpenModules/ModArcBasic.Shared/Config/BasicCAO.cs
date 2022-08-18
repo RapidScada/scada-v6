@@ -10,7 +10,7 @@ namespace Scada.Server.Modules.ModArcBasic.Config
     /// Represents options of a current data archive.
     /// <para>Представляет параметры архива текущих данных.</para>
     /// </summary>
-    public class BasicCAO : CurrentArchiveOptions
+    internal class BasicCAO : CurrentArchiveOptions
     {
         /// <summary>
         /// Initializes a new instance of the class.

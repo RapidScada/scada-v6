@@ -10,7 +10,7 @@ namespace Scada.Server.Modules.ModArcBasic.Config
     /// Represents options of an event archive.
     /// <para>Представляет параметры архива событий.</para>
     /// </summary>
-    public class BasicEAO : EventArchiveOptions
+    internal class BasicEAO : EventArchiveOptions
     {
         /// <summary>
         /// Initializes a new instance of the class.
