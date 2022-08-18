@@ -4,12 +4,10 @@
 using Scada.Admin.Extensions.ExtCommConfig.Code;
 using Scada.Admin.Lang;
 using Scada.Agent;
-using Scada.Comm;
 using Scada.Comm.Config;
 using Scada.Data.Models;
 using Scada.Forms;
 using Scada.Lang;
-using Scada.Log;
 using System;
 using System.Windows.Forms;
 
@@ -44,7 +42,7 @@ namespace Scada.Admin.Extensions.ExtCommConfig.Forms
             AgentClient = null;
 
             FormTranslator.Translate(this, GetType().FullName);
-            Text = string.Format(Text, CommUtils.GetDeviceTitle(deviceConfig));
+            Text = string.Format(Text, deviceConfig.Title);
             rbNumVal.Checked = true;
         }
 

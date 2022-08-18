@@ -87,14 +87,14 @@ namespace Scada.Admin.Extensions.ExtCommConfig.Controls
 
                 foreach (LineConfig lineConfig in commConfig.Lines)
                 {
-                    TreeNode lineNode = new(CommUtils.GetLineTitle(lineConfig))
+                    TreeNode lineNode = new(lineConfig.Title)
                     {
                         Tag = new TreeNodeTag(lineConfig, CommNodeType.Line)
                     };
 
                     foreach (DeviceConfig deviceConfig in lineConfig.DevicePolling)
                     {
-                        lineNode.Nodes.Add(new TreeNode(CommUtils.GetDeviceTitle(deviceConfig))
+                        lineNode.Nodes.Add(new TreeNode(deviceConfig.Title)
                         {
                             Tag = new TreeNodeTag(deviceConfig, CommNodeType.Device)
                         });

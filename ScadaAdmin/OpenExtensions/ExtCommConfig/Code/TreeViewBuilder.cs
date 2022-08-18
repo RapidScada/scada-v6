@@ -87,7 +87,7 @@ namespace Scada.Admin.Extensions.ExtCommConfig.Code
         /// </summary>
         public TreeNode CreateLineNode(CommApp commApp, LineConfig lineConfig)
         {
-            TreeNode lineNode = TreeViewExtensions.CreateNode(CommUtils.GetLineTitle(lineConfig),
+            TreeNode lineNode = TreeViewExtensions.CreateNode(lineConfig.Title,
                 lineConfig.Active ? ImageKey.Line : ImageKey.LineInactive);
             lineNode.ContextMenuStrip = menuControl.LineMenu;
             lineNode.Tag = new CommNodeTag(commApp, lineConfig, CommNodeType.Line);
@@ -138,7 +138,7 @@ namespace Scada.Admin.Extensions.ExtCommConfig.Code
                 // update line text and image
                 CommNodeTag nodeTag = (CommNodeTag)lineNode.Tag;
                 LineConfig lineConfig = (LineConfig)nodeTag.RelatedObject;
-                lineNode.Text = CommUtils.GetLineTitle(lineConfig);
+                lineNode.Text = lineConfig.Title;
                 lineNode.SetImageKey(lineConfig.Active ? ImageKey.Line : ImageKey.LineInactive);
 
                 // remove existing device nodes
@@ -168,7 +168,7 @@ namespace Scada.Admin.Extensions.ExtCommConfig.Code
             ArgumentNullException.ThrowIfNull(lineNode, nameof(lineNode));
             CommNodeTag nodeTag = (CommNodeTag)lineNode.Tag;
             LineConfig lineConfig = (LineConfig)nodeTag.RelatedObject;
-            lineNode.Text = CommUtils.GetLineTitle(lineConfig);
+            lineNode.Text = lineConfig.Title;
         }
 
         /// <summary>
@@ -176,7 +176,7 @@ namespace Scada.Admin.Extensions.ExtCommConfig.Code
         /// </summary>
         public TreeNode CreateDeviceNode(CommApp commApp, DeviceConfig deviceConfig)
         {
-            return new TreeNode(CommUtils.GetDeviceTitle(deviceConfig))
+            return new TreeNode(deviceConfig.Title)
             {
                 ImageKey = ImageKey.Device,
                 SelectedImageKey = ImageKey.Device,
@@ -197,7 +197,7 @@ namespace Scada.Admin.Extensions.ExtCommConfig.Code
             ArgumentNullException.ThrowIfNull(deviceNode, nameof(deviceNode));
             CommNodeTag nodeTag = (CommNodeTag)deviceNode.Tag;
             DeviceConfig deviceConfig = (DeviceConfig)nodeTag.RelatedObject;
-            deviceNode.Text = CommUtils.GetDeviceTitle(deviceConfig);
+            deviceNode.Text = deviceConfig.Title;
         }
 
         /// <summary>
