@@ -46,7 +46,7 @@ namespace Scada.Server.Modules.ModArcInfluxDb.Logic
         private const string TimeFormat = "yyyy'-'MM'-'dd'T'HH':'mm':'ss'.'fffK";
 
         private readonly ModuleConfig moduleConfig; // the module configuration
-        private readonly InfluxHAO archiveOptions;  // the archive options
+        private readonly InfluxHAO options;         // the archive options
         private readonly ILog appLog;               // the application log
         private readonly ILog arcLog;               // the archive log
         private readonly Stopwatch stopwatch;       // measures the time of operations
@@ -71,11 +71,11 @@ namespace Scada.Server.Modules.ModArcInfluxDb.Logic
             ModuleConfig moduleConfig) : base(archiveContext, archiveConfig, cnlNums)
         {
             this.moduleConfig = moduleConfig ?? throw new ArgumentNullException(nameof(moduleConfig));
-            archiveOptions = new InfluxHAO(archiveConfig.CustomOptions);
+            options = new InfluxHAO(archiveConfig.CustomOptions);
             appLog = archiveContext.Log;
-            arcLog = archiveOptions.LogEnabled ? CreateLog(ModuleUtils.ModuleCode) : null;
+            arcLog = options.LogEnabled ? CreateLog(ModuleUtils.ModuleCode) : null;
             stopwatch = new Stopwatch();
-            writingPeriod = GetPeriodInSec(archiveOptions.WritingPeriod, archiveOptions.PeriodUnit);
+            writingPeriod = GetPeriodInSec(options.WritingPeriod, options.PeriodUnit);
             cnlDataEqualsFunc = SelectCnlDataEquals();
 
             connOptions = null;
@@ -93,7 +93,7 @@ namespace Scada.Server.Modules.ModArcInfluxDb.Logic
         /// <summary>
         /// Gets the archive options.
         /// </summary>
-        protected override HistoricalArchiveOptions2 ArchiveOptions => archiveOptions;
+        protected override HistoricalArchiveOptions2 ArchiveOptions => options;
 
 
         /// <summary>
@@ -265,7 +265,7 @@ namespace Scada.Server.Modules.ModArcInfluxDb.Logic
         /// </summary>
         private void InitPrevCnlData(ICurrentData curData)
         {
-            if (archiveOptions.WriteOnChange && prevCnlData == null)
+            if (options.WriteOnChange && prevCnlData == null)
             {
                 int cnlCnt = CnlNums.Length;
                 prevCnlData = new CnlData[cnlCnt];
@@ -341,8 +341,8 @@ namespace Scada.Server.Modules.ModArcInfluxDb.Logic
         /// </summary>
         public override void MakeReady()
         {
-            if (!moduleConfig.Connections.TryGetValue(archiveOptions.Connection, out connOptions))
-                throw new ScadaException(CommonPhrases.ConnectionNotFound, archiveOptions.Connection);
+            if (!moduleConfig.Connections.TryGetValue(options.Connection, out connOptions))
+                throw new ScadaException(CommonPhrases.ConnectionNotFound, options.Connection);
 
             client = string.IsNullOrEmpty(connOptions.Token) ?
                 InfluxDBClientFactory.Create(connOptions.Url, connOptions.Username, connOptions.Password.ToCharArray()) :
@@ -352,12 +352,12 @@ namespace Scada.Server.Modules.ModArcInfluxDb.Logic
             writeApi.EventHandler += WriteApi_EventHandler;
             queryApi = client.GetQueryApi();
 
-            if (!archiveOptions.ReadOnly)
+            if (!options.ReadOnly)
             {
-                if (archiveOptions.WriteWithPeriod)
+                if (options.WriteWithPeriod)
                     nextWriteTime = GetNextWriteTime(DateTime.UtcNow, writingPeriod);
 
-                if (archiveOptions.WriteOnChange)
+                if (options.WriteOnChange)
                     appLog.WriteWarning(ServerPhrases.ArchiveMessage, Code, ServerPhrases.WritingOnChangeIsSlow);
             }
         }
@@ -496,11 +496,11 @@ namespace Scada.Server.Modules.ModArcInfluxDb.Logic
             // https://github.com/influxdata/influxdb-client-csharp/tree/master/Client#writes
             // https://docs.influxdata.com/influxdb/v2.0/write-data/best-practices/optimize-writes/
 
-            if (archiveOptions.ReadOnly)
+            if (options.ReadOnly)
             {
                 // do nothing
             }
-            else if (archiveOptions.WriteWithPeriod && nextWriteTime <= curData.Timestamp)
+            else if (options.WriteWithPeriod && nextWriteTime <= curData.Timestamp)
             {
                 DateTime writeTime = GetClosestWriteTime(curData.Timestamp, writingPeriod);
                 nextWriteTime = writeTime.AddSeconds(writingPeriod);
@@ -520,7 +520,7 @@ namespace Scada.Server.Modules.ModArcInfluxDb.Logic
                 arcLog?.WriteAction(ServerPhrases.WritingPointsCompleted, cnlCnt, stopwatch.ElapsedMilliseconds);
                 return true;
             }
-            else if (archiveOptions.WriteOnChange)
+            else if (options.WriteOnChange)
             {
                 stopwatch.Restart();
                 int changesCnt = 0;
@@ -564,14 +564,14 @@ namespace Scada.Server.Modules.ModArcInfluxDb.Logic
         /// </summary>
         public override bool AcceptData(ref DateTime timestamp)
         {
-            if (archiveOptions.ReadOnly)
+            if (options.ReadOnly)
             {
                 return false;
             }
-            else if (archiveOptions.IsPeriodic)
+            else if (options.IsPeriodic)
             {
-                return archiveOptions.PullToPeriod > 0
-                    ? PullTimeToPeriod(ref timestamp, writingPeriod, archiveOptions.PullToPeriod)
+                return options.PullToPeriod > 0
+                    ? PullTimeToPeriod(ref timestamp, writingPeriod, options.PullToPeriod)
                     : TimeIsMultipleOfPeriod(timestamp, writingPeriod);
             }
             else
@@ -607,7 +607,7 @@ namespace Scada.Server.Modules.ModArcInfluxDb.Logic
         /// </summary>
         public override void WriteCnlData(DateTime timestamp, int cnlNum, CnlData cnlData)
         {
-            if (!archiveOptions.ReadOnly)
+            if (!options.ReadOnly)
             {
                 WritePoint(timestamp, cnlNum, cnlData);
 
