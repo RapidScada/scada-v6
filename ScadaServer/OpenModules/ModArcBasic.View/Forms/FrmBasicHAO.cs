@@ -45,13 +45,13 @@ namespace Scada.Server.Modules.ModArcBasic.View.Forms
         private void OptionsToControls()
         {
             numWritingPeriod.SetValue(options.WritingPeriod);
-            cbWritingMode.SelectedIndex = options.WritingMode switch
-            {
-                WritingMode.AutoWithPeriod => 0,
-                WritingMode.OnDemandWithPeriod => 1,
-                _ => -1
-            };
-            cbWritingUnit.SelectedIndex = (int)options.WritingUnit;
+            //cbWritingMode.SelectedIndex = options.WritingMode switch
+            //{
+            //    WritingMode.AutoWithPeriod => 0,
+            //    WritingMode.OnDemandWithPeriod => 1,
+            //    _ => -1
+            //};
+            cbWritingUnit.SelectedIndex = (int)options.PeriodUnit;
             numPullToPeriod.SetValue(options.PullToPeriod);
             numRetention.SetValue(options.Retention);
             chkLogEnabled.Checked = options.LogEnabled;
@@ -64,13 +64,13 @@ namespace Scada.Server.Modules.ModArcBasic.View.Forms
         private void ControlsToOptions()
         {
             options.WritingPeriod = Convert.ToInt32(numWritingPeriod.Value);
-            options.WritingMode = cbWritingMode.SelectedIndex switch
-            {
-                0 => WritingMode.AutoWithPeriod,
-                1 => WritingMode.OnDemandWithPeriod,
-                _ => options.WritingMode // no change
-            };
-            options.WritingUnit = (TimeUnit)cbWritingUnit.SelectedIndex;
+            //options.WritingMode = cbWritingMode.SelectedIndex switch
+            //{
+            //    0 => WritingMode.AutoWithPeriod,
+            //    1 => WritingMode.OnDemandWithPeriod,
+            //    _ => options.WritingMode // no change
+            //};
+            options.PeriodUnit = (TimeUnit)cbWritingUnit.SelectedIndex;
             options.PullToPeriod = Convert.ToInt32(numPullToPeriod.Value);
             options.Retention = Convert.ToInt32(numRetention.Value);
             options.LogEnabled = chkLogEnabled.Checked;

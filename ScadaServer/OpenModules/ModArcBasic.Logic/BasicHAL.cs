@@ -58,7 +58,7 @@ namespace Scada.Server.Modules.ModArcBasic.Logic
             };
             tableCache = new MemoryCache<DateTime, TrendTable>(ModuleUtils.CacheExpiration, ModuleUtils.CacheCapacity);
             slice = new Slice(DateTime.MinValue, cnlNums);
-            writingPeriod = GetPeriodInSec(options.WritingPeriod, options.WritingUnit);
+            writingPeriod = GetPeriodInSec(options.WritingPeriod, options.PeriodUnit);
 
             nextWriteTime = DateTime.MinValue;
             cnlIndexes = null;
@@ -73,14 +73,14 @@ namespace Scada.Server.Modules.ModArcBasic.Logic
         /// </summary>
         private void ValidateOptions()
         {
+            if (options.ReadOnly)
+                throw new ScadaException(ServerPhrases.ReadOnlyNotSupported);
+
+            if (options.WriteOnChange)
+                throw new ScadaException(ServerPhrases.WritingOnChangeNotSupported);
+
             if (options.WritingPeriod <= 0)
                 throw new ScadaException(ServerPhrases.InvalidWritingPeriod);
-
-            if (options.WritingMode != WritingMode.AutoWithPeriod &&
-                options.WritingMode != WritingMode.OnDemandWithPeriod)
-            {
-                throw new ScadaException(ServerPhrases.WritingModeNotSupported);
-            }
         }
 
         /// <summary>
@@ -218,7 +218,7 @@ namespace Scada.Server.Modules.ModArcBasic.Logic
             DateTime utcNow = DateTime.UtcNow;
             CheckCurrentTrendTable(utcNow);
 
-            if (options.WritingMode == WritingMode.AutoWithPeriod)
+            if (options.WriteWithPeriod)
                 nextWriteTime = GetNextWriteTime(utcNow, writingPeriod);
         }
 
@@ -404,7 +404,7 @@ namespace Scada.Server.Modules.ModArcBasic.Logic
         /// </summary>
         public override bool ProcessData(ICurrentData curData)
         {
-            if (options.WritingMode == WritingMode.AutoWithPeriod && nextWriteTime <= curData.Timestamp)
+            if (options.WriteWithPeriod && nextWriteTime <= curData.Timestamp)
             {
                 DateTime writeTime = GetClosestWriteTime(curData.Timestamp, writingPeriod);
                 nextWriteTime = writeTime.AddSeconds(writingPeriod);
