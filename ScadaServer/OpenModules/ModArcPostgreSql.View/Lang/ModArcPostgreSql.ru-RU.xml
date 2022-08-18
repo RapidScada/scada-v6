@@ -11,7 +11,7 @@
   <Dictionary key="Scada.Server.Modules.ModArcPostgreSql.View.Forms.FrmPostgreCAO">
     <Phrase key="this">Параметры архива текущих данных</Phrase>
     <Phrase key="gbGeneralOptions">Основные параметры</Phrase>
-    <Phrase key="lblWritingPeriod">Период сохранения в БД, с</Phrase>
+    <Phrase key="lblFlushPeriod">Период сохранения в БД, с</Phrase>
     <Phrase key="lblLogEnabled">Журнал включен</Phrase>
     <Phrase key="gbDbOptions">Параметры базы данных</Phrase>
     <Phrase key="lblUseStorageConn">Соединение хранилища</Phrase>

@@ -45,7 +45,7 @@ namespace Scada.Server.Modules.ModArcPostgreSql.View.Forms
         private void OptionsToControls()
         {
             // general options
-            numWritingPeriod.SetValue(options.WritingPeriod);
+            numFlushPeriod.SetValue(options.FlushPeriod);
             chkLogEnabled.Checked = options.LogEnabled;
 
             // database options
@@ -60,7 +60,7 @@ namespace Scada.Server.Modules.ModArcPostgreSql.View.Forms
         private void ControlsToOptions()
         {
             // general options
-            options.WritingPeriod = Convert.ToInt32(numWritingPeriod.Value);
+            options.FlushPeriod = Convert.ToInt32(numFlushPeriod.Value);
             options.LogEnabled = chkLogEnabled.Checked;
 
             // database options

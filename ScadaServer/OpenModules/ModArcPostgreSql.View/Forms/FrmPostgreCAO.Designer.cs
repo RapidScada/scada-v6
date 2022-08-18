@@ -41,12 +41,12 @@ namespace Scada.Server.Modules.ModArcPostgreSql.View.Forms
             this.gbGeneralOptions = new System.Windows.Forms.GroupBox();
             this.chkLogEnabled = new System.Windows.Forms.CheckBox();
             this.lblLogEnabled = new System.Windows.Forms.Label();
-            this.numWritingPeriod = new System.Windows.Forms.NumericUpDown();
-            this.lblWritingPeriod = new System.Windows.Forms.Label();
+            this.numFlushPeriod = new System.Windows.Forms.NumericUpDown();
+            this.lblFlushPeriod = new System.Windows.Forms.Label();
             this.gbDbOptions = new System.Windows.Forms.GroupBox();
             ((System.ComponentModel.ISupportInitialize)(this.numMaxQueueSize)).BeginInit();
             this.gbGeneralOptions.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.numWritingPeriod)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.numFlushPeriod)).BeginInit();
             this.gbDbOptions.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -140,8 +140,8 @@ namespace Scada.Server.Modules.ModArcPostgreSql.View.Forms
             // 
             this.gbGeneralOptions.Controls.Add(this.chkLogEnabled);
             this.gbGeneralOptions.Controls.Add(this.lblLogEnabled);
-            this.gbGeneralOptions.Controls.Add(this.numWritingPeriod);
-            this.gbGeneralOptions.Controls.Add(this.lblWritingPeriod);
+            this.gbGeneralOptions.Controls.Add(this.numFlushPeriod);
+            this.gbGeneralOptions.Controls.Add(this.lblFlushPeriod);
             this.gbGeneralOptions.Location = new System.Drawing.Point(12, 12);
             this.gbGeneralOptions.Name = "gbGeneralOptions";
             this.gbGeneralOptions.Padding = new System.Windows.Forms.Padding(10, 3, 10, 10);
@@ -168,36 +168,36 @@ namespace Scada.Server.Modules.ModArcPostgreSql.View.Forms
             this.lblLogEnabled.TabIndex = 2;
             this.lblLogEnabled.Text = "Log enabled";
             // 
-            // numWritingPeriod
+            // numFlushPeriod
             // 
-            this.numWritingPeriod.Location = new System.Drawing.Point(197, 22);
-            this.numWritingPeriod.Maximum = new decimal(new int[] {
+            this.numFlushPeriod.Location = new System.Drawing.Point(197, 22);
+            this.numFlushPeriod.Maximum = new decimal(new int[] {
             1000,
             0,
             0,
             0});
-            this.numWritingPeriod.Minimum = new decimal(new int[] {
+            this.numFlushPeriod.Minimum = new decimal(new int[] {
             1,
             0,
             0,
             0});
-            this.numWritingPeriod.Name = "numWritingPeriod";
-            this.numWritingPeriod.Size = new System.Drawing.Size(150, 23);
-            this.numWritingPeriod.TabIndex = 1;
-            this.numWritingPeriod.Value = new decimal(new int[] {
+            this.numFlushPeriod.Name = "numFlushPeriod";
+            this.numFlushPeriod.Size = new System.Drawing.Size(150, 23);
+            this.numFlushPeriod.TabIndex = 1;
+            this.numFlushPeriod.Value = new decimal(new int[] {
             1,
             0,
             0,
             0});
             // 
-            // lblWritingPeriod
+            // lblFlushPeriod
             // 
-            this.lblWritingPeriod.AutoSize = true;
-            this.lblWritingPeriod.Location = new System.Drawing.Point(13, 26);
-            this.lblWritingPeriod.Name = "lblWritingPeriod";
-            this.lblWritingPeriod.Size = new System.Drawing.Size(179, 15);
-            this.lblWritingPeriod.TabIndex = 0;
-            this.lblWritingPeriod.Text = "Period of saving to database, sec";
+            this.lblFlushPeriod.AutoSize = true;
+            this.lblFlushPeriod.Location = new System.Drawing.Point(13, 26);
+            this.lblFlushPeriod.Name = "lblFlushPeriod";
+            this.lblFlushPeriod.Size = new System.Drawing.Size(179, 15);
+            this.lblFlushPeriod.TabIndex = 0;
+            this.lblFlushPeriod.Text = "Period of saving to database, sec";
             // 
             // gbDbOptions
             // 
@@ -238,7 +238,7 @@ namespace Scada.Server.Modules.ModArcPostgreSql.View.Forms
             ((System.ComponentModel.ISupportInitialize)(this.numMaxQueueSize)).EndInit();
             this.gbGeneralOptions.ResumeLayout(false);
             this.gbGeneralOptions.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.numWritingPeriod)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.numFlushPeriod)).EndInit();
             this.gbDbOptions.ResumeLayout(false);
             this.gbDbOptions.PerformLayout();
             this.ResumeLayout(false);
@@ -260,7 +260,7 @@ namespace Scada.Server.Modules.ModArcPostgreSql.View.Forms
         private System.Windows.Forms.GroupBox gbDbOptions;
         private System.Windows.Forms.CheckBox chkLogEnabled;
         private System.Windows.Forms.Label lblLogEnabled;
-        private System.Windows.Forms.NumericUpDown numWritingPeriod;
-        private System.Windows.Forms.Label lblWritingPeriod;
+        private System.Windows.Forms.NumericUpDown numFlushPeriod;
+        private System.Windows.Forms.Label lblFlushPeriod;
     }
 }
