@@ -297,9 +297,22 @@ namespace Scada.Server.Modules.ModArcPostgreSql.Logic
                 stopwatch.Restart();
                 conn.Open();
                 DateTime timestamp = DbUtils.GetLastWriteTime(conn, queryBuilder.EventTable);
+
+                // get the last acknowledge timestamp of the past day
+                string sql = $"SELECT MAX(ack_timestamp) FROM {queryBuilder.EventTable} " + 
+                    "WHERE @startTime <= time_stamp AND time_stamp < @endTime";
+                NpgsqlCommand cmd = new(sql, conn);
+                DateTime utcNow = DateTime.UtcNow;
+                cmd.Parameters.Add("startTime", NpgsqlDbType.TimestampTz).Value = utcNow.AddDays(-1.0);
+                cmd.Parameters.Add("endTime", NpgsqlDbType.TimestampTz).Value = utcNow;
+                object ackTimestampObj = cmd.ExecuteScalar();
+                DateTime ackTimestamp = ackTimestampObj is DateTime dateTime
+                    ? dateTime.ToUniversalTime()
+                    : DateTime.MinValue;
+
                 stopwatch.Stop();
                 arcLog?.WriteAction(ServerPhrases.ReadingWriteTimeCompleted, stopwatch.ElapsedMilliseconds);
-                return timestamp;
+                return ScadaUtils.Max(timestamp, ackTimestamp);
             }
             finally
             {

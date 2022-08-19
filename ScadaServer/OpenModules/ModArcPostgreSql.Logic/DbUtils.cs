@@ -167,7 +167,7 @@ namespace Scada.Server.Modules.ModArcPostgreSql.Logic
         /// </summary>
         public static DateTime GetLastWriteTime(NpgsqlConnection conn, string tableName)
         {
-            string sql = $"SELECT time_stamp FROM {tableName} ORDER BY time_stamp DESC LIMIT 1";
+            string sql = "SELECT MAX(time_stamp) FROM " + tableName;
             NpgsqlCommand cmd = new(sql, conn);
             object timestampObj = cmd.ExecuteScalar();
             return timestampObj is DateTime dateTime
