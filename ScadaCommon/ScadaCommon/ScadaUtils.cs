@@ -434,6 +434,14 @@ namespace Scada
         }
 
         /// <summary>
+        /// Returns the larger of two timestamps.
+        /// </summary>
+        public static DateTime Max(DateTime dateTime1, DateTime dateTime2)
+        {
+            return dateTime1 > dateTime2 ? dateTime1 : dateTime2;
+        }
+
+        /// <summary>
         /// Retrieves the hostname and port number from the specified address string.
         /// </summary>
         public static void RetrieveHostAndPort(string address, int defaultPort, out string host, out int port)

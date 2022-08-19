@@ -171,6 +171,9 @@ namespace Scada.Server.Modules.ModArcPostgreSql.Logic
         /// </summary>
         public override DateTime GetLastWriteTime()
         {
+            if (!options.ReadOnly)
+                return pointQueue.LastCommitTime;
+
             try
             {
                 stopwatch.Restart();

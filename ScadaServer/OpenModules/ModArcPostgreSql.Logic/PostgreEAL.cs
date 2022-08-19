@@ -289,6 +289,9 @@ namespace Scada.Server.Modules.ModArcPostgreSql.Logic
         /// </summary>
         public override DateTime GetLastWriteTime()
         {
+            if (!options.ReadOnly)
+                return ScadaUtils.Max(eventQueue.LastCommitTime, LastWriteTime);
+
             try
             {
                 stopwatch.Restart();
@@ -423,6 +426,7 @@ namespace Scada.Server.Modules.ModArcPostgreSql.Logic
                 cmd.Parameters.AddWithValue("startTime", eventTime);
                 cmd.Parameters.AddWithValue("endTime", eventTime.AddSeconds(1.0));
                 int rowsAffected = cmd.ExecuteNonQuery();
+                LastWriteTime = DateTime.UtcNow;
                 stopwatch.Stop();
 
                 if (rowsAffected > 0)

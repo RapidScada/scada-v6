@@ -197,16 +197,16 @@ namespace Scada.Server.Modules.ModArcPostgreSql.Logic
         /// <summary>
         /// Gets the archive status as text.
         /// </summary>
-        public static string GetStatusText(bool isReady, bool hasError, IDataQueue dataQueue)
+        public static string GetStatusText(bool isReady, bool hasError, QueueBase queue)
         {
             if (isReady)
             {
-                hasError |= dataQueue != null && dataQueue.HasError;
+                hasError |= queue != null && queue.HasError;
                 string readyText = Locale.IsRussian
                     ? (hasError ? "ошибка" : "готовность")
                     : (hasError ? "Error" : "Ready");
 
-                if (dataQueue == null)
+                if (queue == null)
                 {
                     return Locale.IsRussian
                         ? readyText + ", только чтение"
@@ -215,8 +215,8 @@ namespace Scada.Server.Modules.ModArcPostgreSql.Logic
                 else
                 {
                     return Locale.IsRussian 
-                        ? readyText + $", заполнение очереди {dataQueue.Count}/{dataQueue.MaxQueueSize}" 
-                        : readyText + $". Queue fullness is {dataQueue.Count}/{dataQueue.MaxQueueSize}";
+                        ? readyText + $", заполнение очереди {queue.Count}/{queue.MaxQueueSize}" 
+                        : readyText + $". Queue fullness is {queue.Count}/{queue.MaxQueueSize}";
                 }
             }
             else

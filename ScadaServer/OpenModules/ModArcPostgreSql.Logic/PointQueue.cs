@@ -4,7 +4,6 @@
 using Npgsql;
 using NpgsqlTypes;
 using Scada.Data.Models;
-using Scada.Log;
 using Scada.Server.Lang;
 
 namespace Scada.Server.Modules.ModArcPostgreSql.Logic
@@ -13,7 +12,7 @@ namespace Scada.Server.Modules.ModArcPostgreSql.Logic
     /// Represents a queue for writing data points to a database.
     /// <para>Представляет очередь для записи точек данных в базу данных.</para>
     /// </summary>
-    internal class PointQueue : IDataQueue
+    internal class PointQueue : QueueBase
     {
         private readonly Queue<CnlDataPoint> dataQueue;  // contains data points for writing
         private readonly NpgsqlCommand command;          // writes a data point
@@ -27,6 +26,7 @@ namespace Scada.Server.Modules.ModArcPostgreSql.Logic
         /// Initializes a new instance of the class.
         /// </summary>
         public PointQueue(int maxQueueSize, string insertSql)
+            : base(maxQueueSize)
         {
             dataQueue = new Queue<CnlDataPoint>(maxQueueSize);
 
@@ -36,26 +36,14 @@ namespace Scada.Server.Modules.ModArcPostgreSql.Logic
             valParam = command.Parameters.Add("val", NpgsqlDbType.Double);
             statParam = command.Parameters.Add("stat", NpgsqlDbType.Integer);
 
-            MaxQueueSize = maxQueueSize;
-            HasError = false;
             ReturnOnError = false;
         }
 
 
         /// <summary>
-        /// Gets the maximum queue size.
-        /// </summary>
-        public int MaxQueueSize { get; }
-
-        /// <summary>
-        /// Gets a value indicating whether to return points to the queue in case of error.
-        /// </summary>
-        public bool ReturnOnError { get; set; }
-
-        /// <summary>
         /// Gets the current queue size.
         /// </summary>
-        public int Count
+        public override int Count
         {
             get
             {
@@ -64,40 +52,9 @@ namespace Scada.Server.Modules.ModArcPostgreSql.Logic
         }
 
         /// <summary>
-        /// Gets a value indicating whether the queue is in error state.
+        /// Gets a value indicating whether to return points to the queue in case of error.
         /// </summary>
-        public bool HasError { get; private set; }
-
-        /// <summary>
-        /// Gets or sets the archive code.
-        /// </summary>
-        public string ArchiveCode { get; set; }
-
-        /// <summary>
-        /// Gets or sets the application log.
-        /// </summary>
-        public ILog AppLog { get; set; }
-
-        /// <summary>
-        /// Gets or sets the archive log.
-        /// </summary>
-        public ILog ArcLog { get; set; }
-
-        /// <summary>
-        /// Gets or sets the database connection.
-        /// </summary>
-        public NpgsqlConnection Connection { get; set; }
-
-        /// <summary>
-        /// Gets an object that can be used to synchronize access to the queue.
-        /// </summary>
-        public object SyncRoot
-        {
-            get
-            {
-                return this;
-            }
-        }
+        public bool ReturnOnError { get; init; }
 
 
         /// <summary>
@@ -186,6 +143,7 @@ namespace Scada.Server.Modules.ModArcPostgreSql.Logic
 
                 trans.Commit();
                 HasError = false;
+                LastCommitTime = DateTime.UtcNow;
             }
             catch (Exception ex)
             {
@@ -233,6 +191,7 @@ namespace Scada.Server.Modules.ModArcPostgreSql.Logic
                 ArcLog?.WriteInfo(ServerPhrases.QueueBecameEmpty);
                 trans.Commit();
                 HasError = false;
+                LastCommitTime = DateTime.UtcNow;
             }
             catch (Exception ex)
             {

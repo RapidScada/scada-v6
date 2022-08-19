@@ -4,7 +4,6 @@
 using Npgsql;
 using NpgsqlTypes;
 using Scada.Data.Models;
-using Scada.Log;
 using Scada.Server.Lang;
 
 namespace Scada.Server.Modules.ModArcPostgreSql.Logic
@@ -13,7 +12,7 @@ namespace Scada.Server.Modules.ModArcPostgreSql.Logic
     /// Represents a queue for writing events to a database.
     /// <para>Представляет очередь для записи событий в базу данных.</para>
     /// </summary>
-    internal class EventQueue : IDataQueue
+    internal class EventQueue : QueueBase
     {
         private readonly Queue<Event> eventQueue; // contains events for writing
         private readonly NpgsqlCommand command;   // writes an event
@@ -41,6 +40,7 @@ namespace Scada.Server.Modules.ModArcPostgreSql.Logic
         /// Initializes a new instance of the class.
         /// </summary>
         public EventQueue(int maxQueueSize, string insertSql)
+            : base(maxQueueSize)
         {
             eventQueue = new Queue<Event>(maxQueueSize);
 
@@ -63,61 +63,17 @@ namespace Scada.Server.Modules.ModArcPostgreSql.Logic
             textFormatParam = command.Parameters.Add("textFormat", NpgsqlDbType.Integer);
             eventTextParam = command.Parameters.Add("eventText", NpgsqlDbType.Varchar);
             eventDataParam = command.Parameters.Add("eventData", NpgsqlDbType.Bytea);
-
-            MaxQueueSize = maxQueueSize;
-            HasError = false;
         }
 
-
-        /// <summary>
-        /// Gets the maximum queue size.
-        /// </summary>
-        public int MaxQueueSize { get; }
 
         /// <summary>
         /// Gets the current queue size.
         /// </summary>
-        public int Count
+        public override int Count
         {
             get
             {
                 return eventQueue.Count;
-            }
-        }
-
-        /// <summary>
-        /// Gets a value indicating whether the queue is in error state.
-        /// </summary>
-        public bool HasError { get; private set; }
-
-        /// <summary>
-        /// Gets or sets the archive code.
-        /// </summary>
-        public string ArchiveCode { get; set; }
-
-        /// <summary>
-        /// Gets or sets the application log.
-        /// </summary>
-        public ILog AppLog { get; set; }
-
-        /// <summary>
-        /// Gets or sets the archive log.
-        /// </summary>
-        public ILog ArcLog { get; set; }
-
-        /// <summary>
-        /// Gets or sets the database connection.
-        /// </summary>
-        public NpgsqlConnection Connection { get; set; }
-
-        /// <summary>
-        /// Gets an object that can be used to synchronize access to the queue.
-        /// </summary>
-        public object SyncRoot
-        {
-            get
-            {
-                return this;
             }
         }
 
@@ -211,6 +167,7 @@ namespace Scada.Server.Modules.ModArcPostgreSql.Logic
 
                 trans.Commit();
                 HasError = false;
+                LastCommitTime = DateTime.UtcNow;
             }
             catch (Exception ex)
             {
@@ -258,6 +215,7 @@ namespace Scada.Server.Modules.ModArcPostgreSql.Logic
                 ArcLog?.WriteInfo(ServerPhrases.QueueBecameEmpty);
                 trans.Commit();
                 HasError = false;
+                LastCommitTime = DateTime.UtcNow;
             }
             catch (Exception ex)
             {
