@@ -132,6 +132,7 @@ namespace Scada.Server.Modules.ModArcInfluxDb.Logic
         {
             if (e is WriteSuccessEvent)
             {
+                LastWriteTime = DateTime.UtcNow;
                 arcLog?.WriteAction(Locale.IsRussian ?
                     "Успешный ответ от сервера базы данных" :
                     "Successful response from the database server");
@@ -223,6 +224,24 @@ namespace Scada.Server.Modules.ModArcInfluxDb.Logic
                 $"|> filter(fn: (r) => " +
                 $"  r[\"_measurement\"] == \"{Code}\" and " +
                 $"  r[\"_field\"] == \"{AvailField}\")";
+        }
+
+        /// <summary>
+        /// Gets the InfluxDB query to retrieve the latest available timestamp of the day.
+        /// </summary>
+        private string GetLastTimeFlux()
+        {
+            DateTime utcNow = DateTime.UtcNow;
+            string startTimeStr = utcNow.AddDays(-1.0).ToString(TimeFormat);
+            string endTimeStr = utcNow.ToString(TimeFormat);
+
+            return
+                $"from(bucket: \"{connOptions.Bucket}\")" +
+                $"|> range(start: {startTimeStr}, stop: {endTimeStr})" +
+                $"|> filter(fn: (r) => " +
+                $"  r[\"_measurement\"] == \"{Code}\" and " +
+                $"  r[\"_field\"] == \"{AvailField}\")" +
+                $"|> last()";
         }
 
         /// <summary>
@@ -359,7 +378,25 @@ namespace Scada.Server.Modules.ModArcInfluxDb.Logic
         /// </summary>
         public override DateTime GetLastWriteTime()
         {
-            return LastWriteTime; // TODO: GetLastWriteTime
+            if (!options.ReadOnly)
+                return LastWriteTime;
+
+            stopwatch.Restart();
+            string flux = GetLastTimeFlux();
+            List<FluxTable> tables = queryApi.QueryAsync(flux, connOptions.Org).Result;
+            DateTime timestamp = DateTime.MinValue;
+
+            if (tables.Count > 0)
+            {
+                List<FluxRecord> records = tables[0].Records;
+
+                if (records.Count > 0 && records[0].GetTime() is Instant instant)
+                    timestamp = instant.ToDateTimeUtc();
+            }
+
+            stopwatch.Stop();
+            arcLog?.WriteAction(ServerPhrases.ReadingWriteTimeCompleted, stopwatch.ElapsedMilliseconds);
+            return timestamp;
         }
 
         /// <summary>
