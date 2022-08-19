@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio Version 16
-VisualStudioVersion = 16.0.31321.278
+# Visual Studio Version 17
+VisualStudioVersion = 17.3.32804.467
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ScadaServerCommon", "ScadaServerCommon\ScadaServerCommon.csproj", "{3228ABC0-A3F0-4C89-833E-6B0CCD0DF8D5}"
 EndProject
@@ -11,7 +11,9 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ScadaServerSvc", "ScadaServ
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ScadaServerApp", "ScadaServerApp\ScadaServerApp.csproj", "{83027B1A-AEBB-44B9-B2EF-829A98CFE35B}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ScadaServerWkr", "ScadaServerWkr\ScadaServerWkr.csproj", "{ACC570CE-ECEB-4B7F-9566-067D9128C033}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ScadaServerWkr", "ScadaServerWkr\ScadaServerWkr.csproj", "{ACC570CE-ECEB-4B7F-9566-067D9128C033}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ScadaServerCommon.Forms", "ScadaServerCommon.Forms\ScadaServerCommon.Forms.csproj", "{10FACE34-AED6-4071-AAC0-4B2401E27F85}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -39,6 +41,10 @@ Global
 		{ACC570CE-ECEB-4B7F-9566-067D9128C033}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{ACC570CE-ECEB-4B7F-9566-067D9128C033}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{ACC570CE-ECEB-4B7F-9566-067D9128C033}.Release|Any CPU.Build.0 = Release|Any CPU
+		{10FACE34-AED6-4071-AAC0-4B2401E27F85}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{10FACE34-AED6-4071-AAC0-4B2401E27F85}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{10FACE34-AED6-4071-AAC0-4B2401E27F85}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{10FACE34-AED6-4071-AAC0-4B2401E27F85}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
