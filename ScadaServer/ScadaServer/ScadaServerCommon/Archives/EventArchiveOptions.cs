@@ -53,7 +53,9 @@ namespace Scada.Server.Archives
         public override void AddToOptionList(OptionList options)
         {
             base.AddToOptionList(options);
-            options["Retention"] = Retention.ToString();
+
+            if (!ReadOnly)
+                options["Retention"] = Retention.ToString();
         }
     }
 }

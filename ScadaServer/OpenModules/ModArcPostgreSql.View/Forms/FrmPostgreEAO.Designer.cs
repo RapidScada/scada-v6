@@ -29,6 +29,7 @@ namespace Scada.Server.Modules.ModArcPostgreSql.View.Forms
         /// </summary>
         private void InitializeComponent()
         {
+            this.ctrlEventArchiveOptions = new Scada.Server.Forms.Controls.CtrlEventArchiveOptions();
             this.chkUseStorageConn = new System.Windows.Forms.CheckBox();
             this.cbConnection = new System.Windows.Forms.ComboBox();
             this.btnManageConn = new System.Windows.Forms.Button();
@@ -40,22 +41,23 @@ namespace Scada.Server.Modules.ModArcPostgreSql.View.Forms
             this.btnOK = new System.Windows.Forms.Button();
             this.lblUseStorageConn = new System.Windows.Forms.Label();
             this.lblConnection = new System.Windows.Forms.Label();
-            this.gbGeneralOptions = new System.Windows.Forms.GroupBox();
-            this.chkLogEnabled = new System.Windows.Forms.CheckBox();
-            this.lblLogEnabled = new System.Windows.Forms.Label();
-            this.numRetention = new System.Windows.Forms.NumericUpDown();
-            this.lblRetention = new System.Windows.Forms.Label();
             this.gbDbOptions = new System.Windows.Forms.GroupBox();
             ((System.ComponentModel.ISupportInitialize)(this.numMaxQueueSize)).BeginInit();
-            this.gbGeneralOptions.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.numRetention)).BeginInit();
             this.gbDbOptions.SuspendLayout();
             this.SuspendLayout();
+            // 
+            // ctrlEventArchiveOptions
+            // 
+            this.ctrlEventArchiveOptions.ArchiveOptions = null;
+            this.ctrlEventArchiveOptions.Location = new System.Drawing.Point(12, 12);
+            this.ctrlEventArchiveOptions.Name = "ctrlEventArchiveOptions";
+            this.ctrlEventArchiveOptions.Size = new System.Drawing.Size(360, 116);
+            this.ctrlEventArchiveOptions.TabIndex = 0;
             // 
             // chkUseStorageConn
             // 
             this.chkUseStorageConn.AutoSize = true;
-            this.chkUseStorageConn.Location = new System.Drawing.Point(265, 26);
+            this.chkUseStorageConn.Location = new System.Drawing.Point(264, 26);
             this.chkUseStorageConn.Name = "chkUseStorageConn";
             this.chkUseStorageConn.Size = new System.Drawing.Size(15, 14);
             this.chkUseStorageConn.TabIndex = 1;
@@ -65,14 +67,14 @@ namespace Scada.Server.Modules.ModArcPostgreSql.View.Forms
             // cbConnection
             // 
             this.cbConnection.FormattingEnabled = true;
-            this.cbConnection.Location = new System.Drawing.Point(197, 51);
+            this.cbConnection.Location = new System.Drawing.Point(196, 51);
             this.cbConnection.Name = "cbConnection";
-            this.cbConnection.Size = new System.Drawing.Size(150, 23);
+            this.cbConnection.Size = new System.Drawing.Size(151, 23);
             this.cbConnection.TabIndex = 3;
             // 
             // btnManageConn
             // 
-            this.btnManageConn.Location = new System.Drawing.Point(12, 269);
+            this.btnManageConn.Location = new System.Drawing.Point(12, 298);
             this.btnManageConn.Name = "btnManageConn";
             this.btnManageConn.Size = new System.Drawing.Size(140, 23);
             this.btnManageConn.TabIndex = 2;
@@ -91,14 +93,14 @@ namespace Scada.Server.Modules.ModArcPostgreSql.View.Forms
             // 
             // numMaxQueueSize
             // 
-            this.numMaxQueueSize.Location = new System.Drawing.Point(197, 83);
+            this.numMaxQueueSize.Location = new System.Drawing.Point(196, 83);
             this.numMaxQueueSize.Maximum = new decimal(new int[] {
             1000000,
             0,
             0,
             0});
             this.numMaxQueueSize.Name = "numMaxQueueSize";
-            this.numMaxQueueSize.Size = new System.Drawing.Size(150, 23);
+            this.numMaxQueueSize.Size = new System.Drawing.Size(151, 23);
             this.numMaxQueueSize.TabIndex = 5;
             // 
             // lblPartitionSize
@@ -117,14 +119,14 @@ namespace Scada.Server.Modules.ModArcPostgreSql.View.Forms
             this.cbPartitionSize.Items.AddRange(new object[] {
             "One month",
             "One year"});
-            this.cbPartitionSize.Location = new System.Drawing.Point(197, 112);
+            this.cbPartitionSize.Location = new System.Drawing.Point(196, 112);
             this.cbPartitionSize.Name = "cbPartitionSize";
-            this.cbPartitionSize.Size = new System.Drawing.Size(150, 23);
+            this.cbPartitionSize.Size = new System.Drawing.Size(151, 23);
             this.cbPartitionSize.TabIndex = 7;
             // 
             // btnCancel
             // 
-            this.btnCancel.Location = new System.Drawing.Point(297, 269);
+            this.btnCancel.Location = new System.Drawing.Point(297, 298);
             this.btnCancel.Name = "btnCancel";
             this.btnCancel.Size = new System.Drawing.Size(75, 23);
             this.btnCancel.TabIndex = 4;
@@ -133,7 +135,7 @@ namespace Scada.Server.Modules.ModArcPostgreSql.View.Forms
             // 
             // btnOK
             // 
-            this.btnOK.Location = new System.Drawing.Point(217, 269);
+            this.btnOK.Location = new System.Drawing.Point(217, 298);
             this.btnOK.Name = "btnOK";
             this.btnOK.Size = new System.Drawing.Size(75, 23);
             this.btnOK.TabIndex = 3;
@@ -159,69 +161,6 @@ namespace Scada.Server.Modules.ModArcPostgreSql.View.Forms
             this.lblConnection.TabIndex = 2;
             this.lblConnection.Text = "Connection";
             // 
-            // gbGeneralOptions
-            // 
-            this.gbGeneralOptions.Controls.Add(this.chkLogEnabled);
-            this.gbGeneralOptions.Controls.Add(this.lblLogEnabled);
-            this.gbGeneralOptions.Controls.Add(this.numRetention);
-            this.gbGeneralOptions.Controls.Add(this.lblRetention);
-            this.gbGeneralOptions.Location = new System.Drawing.Point(12, 12);
-            this.gbGeneralOptions.Name = "gbGeneralOptions";
-            this.gbGeneralOptions.Padding = new System.Windows.Forms.Padding(10, 3, 10, 10);
-            this.gbGeneralOptions.Size = new System.Drawing.Size(360, 87);
-            this.gbGeneralOptions.TabIndex = 0;
-            this.gbGeneralOptions.TabStop = false;
-            this.gbGeneralOptions.Text = "General Options";
-            // 
-            // chkLogEnabled
-            // 
-            this.chkLogEnabled.AutoSize = true;
-            this.chkLogEnabled.Location = new System.Drawing.Point(265, 55);
-            this.chkLogEnabled.Name = "chkLogEnabled";
-            this.chkLogEnabled.Size = new System.Drawing.Size(15, 14);
-            this.chkLogEnabled.TabIndex = 3;
-            this.chkLogEnabled.UseVisualStyleBackColor = true;
-            // 
-            // lblLogEnabled
-            // 
-            this.lblLogEnabled.AutoSize = true;
-            this.lblLogEnabled.Location = new System.Drawing.Point(13, 55);
-            this.lblLogEnabled.Name = "lblLogEnabled";
-            this.lblLogEnabled.Size = new System.Drawing.Size(72, 15);
-            this.lblLogEnabled.TabIndex = 2;
-            this.lblLogEnabled.Text = "Log enabled";
-            // 
-            // numRetention
-            // 
-            this.numRetention.Location = new System.Drawing.Point(197, 22);
-            this.numRetention.Maximum = new decimal(new int[] {
-            100000,
-            0,
-            0,
-            0});
-            this.numRetention.Minimum = new decimal(new int[] {
-            1,
-            0,
-            0,
-            0});
-            this.numRetention.Name = "numRetention";
-            this.numRetention.Size = new System.Drawing.Size(150, 23);
-            this.numRetention.TabIndex = 1;
-            this.numRetention.Value = new decimal(new int[] {
-            1,
-            0,
-            0,
-            0});
-            // 
-            // lblRetention
-            // 
-            this.lblRetention.AutoSize = true;
-            this.lblRetention.Location = new System.Drawing.Point(13, 26);
-            this.lblRetention.Name = "lblRetention";
-            this.lblRetention.Size = new System.Drawing.Size(125, 15);
-            this.lblRetention.TabIndex = 0;
-            this.lblRetention.Text = "Retention period, days";
-            // 
             // gbDbOptions
             // 
             this.gbDbOptions.Controls.Add(this.cbPartitionSize);
@@ -232,7 +171,7 @@ namespace Scada.Server.Modules.ModArcPostgreSql.View.Forms
             this.gbDbOptions.Controls.Add(this.lblConnection);
             this.gbDbOptions.Controls.Add(this.chkUseStorageConn);
             this.gbDbOptions.Controls.Add(this.lblUseStorageConn);
-            this.gbDbOptions.Location = new System.Drawing.Point(12, 105);
+            this.gbDbOptions.Location = new System.Drawing.Point(12, 134);
             this.gbDbOptions.Name = "gbDbOptions";
             this.gbDbOptions.Padding = new System.Windows.Forms.Padding(10, 3, 10, 10);
             this.gbDbOptions.Size = new System.Drawing.Size(360, 148);
@@ -246,12 +185,12 @@ namespace Scada.Server.Modules.ModArcPostgreSql.View.Forms
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.CancelButton = this.btnCancel;
-            this.ClientSize = new System.Drawing.Size(384, 304);
+            this.ClientSize = new System.Drawing.Size(384, 333);
             this.Controls.Add(this.btnCancel);
             this.Controls.Add(this.btnOK);
             this.Controls.Add(this.btnManageConn);
             this.Controls.Add(this.gbDbOptions);
-            this.Controls.Add(this.gbGeneralOptions);
+            this.Controls.Add(this.ctrlEventArchiveOptions);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedDialog;
             this.MaximizeBox = false;
             this.MinimizeBox = false;
@@ -261,9 +200,6 @@ namespace Scada.Server.Modules.ModArcPostgreSql.View.Forms
             this.Text = "Event Archive Options";
             this.Load += new System.EventHandler(this.FrmPostgreHAO_Load);
             ((System.ComponentModel.ISupportInitialize)(this.numMaxQueueSize)).EndInit();
-            this.gbGeneralOptions.ResumeLayout(false);
-            this.gbGeneralOptions.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.numRetention)).EndInit();
             this.gbDbOptions.ResumeLayout(false);
             this.gbDbOptions.PerformLayout();
             this.ResumeLayout(false);
@@ -283,11 +219,7 @@ namespace Scada.Server.Modules.ModArcPostgreSql.View.Forms
         private System.Windows.Forms.Button btnOK;
         private System.Windows.Forms.Label lblUseStorageConn;
         private System.Windows.Forms.Label lblConnection;
-        private System.Windows.Forms.GroupBox gbGeneralOptions;
         private System.Windows.Forms.GroupBox gbDbOptions;
-        private System.Windows.Forms.CheckBox chkLogEnabled;
-        private System.Windows.Forms.Label lblLogEnabled;
-        private System.Windows.Forms.NumericUpDown numRetention;
-        private System.Windows.Forms.Label lblRetention;
+        private Server.Forms.Controls.CtrlEventArchiveOptions ctrlEventArchiveOptions;
     }
 }

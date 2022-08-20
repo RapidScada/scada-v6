@@ -44,8 +44,7 @@ namespace Scada.Server.Modules.ModArcPostgreSql.View.Forms
         private void OptionsToControls()
         {
             // general options
-            numRetention.SetValue(options.Retention);
-            chkLogEnabled.Checked = options.LogEnabled;
+            ctrlEventArchiveOptions.ArchiveOptions = options;
 
             // database options
             chkUseStorageConn.Checked = options.UseStorageConn;
@@ -60,8 +59,7 @@ namespace Scada.Server.Modules.ModArcPostgreSql.View.Forms
         private void ControlsToOptions()
         {
             // general options
-            options.Retention = Convert.ToInt32(numRetention.Value);
-            options.LogEnabled = chkLogEnabled.Checked;
+            ctrlEventArchiveOptions.ControlsToOptions();
 
             // database options
             options.UseStorageConn = chkUseStorageConn.Checked;
@@ -76,6 +74,8 @@ namespace Scada.Server.Modules.ModArcPostgreSql.View.Forms
         private void FrmPostgreHAO_Load(object sender, EventArgs e)
         {
             FormTranslator.Translate(this, GetType().FullName);
+            FormTranslator.Translate(ctrlEventArchiveOptions, ctrlEventArchiveOptions.GetType().FullName);
+
             OptionsToControls();
             UiUtils.FillConnections(cbConnection, appDirs.ConfigDir);
         }

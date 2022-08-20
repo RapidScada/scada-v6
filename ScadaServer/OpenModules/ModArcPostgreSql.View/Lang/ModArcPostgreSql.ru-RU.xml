@@ -20,9 +20,6 @@
   </Dictionary>
   <Dictionary key="Scada.Server.Modules.ModArcPostgreSql.View.Forms.FrmPostgreEAO">
     <Phrase key="this">Параметры архива событий</Phrase>
-    <Phrase key="gbGeneralOptions">Основные параметры</Phrase>
-    <Phrase key="lblRetention">Период хранения, дней</Phrase>
-    <Phrase key="lblLogEnabled">Журнал включен</Phrase>
     <Phrase key="gbDbOptions">Параметры базы данных</Phrase>
     <Phrase key="lblUseStorageConn">Соединение хранилища</Phrase>
     <Phrase key="lblConnection">Соединение</Phrase>
