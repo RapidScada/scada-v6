@@ -16,6 +16,13 @@
     <Phrase key="CommandSentBy">Sent by {0}</Phrase>
   </Dictionary>
   <!-- ScadaServerCommon.Forms.dll -->
+  <Dictionary key="Scada.Server.Forms.Controls.CtrlCurrentArchiveOptions">
+    <Phrase key="gbOptions">General Options</Phrase>
+    <Phrase key="lblReadOnly">Read only</Phrase>
+    <Phrase key="lblLogEnabled">Log enabled</Phrase>
+    <Phrase key="lblFlushPeriod">Flush period</Phrase>
+    <Phrase key="txtFlushPeriodUnit">Sec</Phrase>
+  </Dictionary>
   <Dictionary key="Scada.Server.Forms.Controls.CtrlHistoricalArchiveOptions">
     <Phrase key="gbOptions">General Options</Phrase>
     <Phrase key="lblReadOnly">Read only</Phrase>
